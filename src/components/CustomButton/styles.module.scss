@@ -1,0 +1,27 @@
+.button {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 10px;
+  flex-shrink: 0;
+  margin: 5px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  background-color: rgba(255, 255, 255, 0.08);
+  transition: 0.2s;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.label {
+  color: var(--primary-color);
+  margin-left: 5px;
+}
+.icon {
+  color: var(--primary-color);
+
+}

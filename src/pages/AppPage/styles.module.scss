@@ -1,0 +1,28 @@
+.appPage {
+  display: flex;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.mainPane {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  flex-shrink: 0;
+  overflow: auto;
+  border-right: solid 1px rgba(255, 255, 255, 0.1);
+  border-left: solid 1px rgba(255, 255, 255, 0.1);
+}
+
+.leftPane {
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: solid 1px rgba(255, 255, 255, 0.1);
+  
+}
+
+.rightPane {
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
