@@ -5,6 +5,7 @@ import { createEffect, createRenderEffect, createSignal, For, on} from 'solid-js
 import { useLocation, useNavigate, useParams } from 'solid-app-router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from '../MessageItem';
+import CustomButton from '../CustomButton';
 
 export default function MessagePane() {
   const params = useParams();
@@ -33,8 +34,7 @@ export default function MessagePane() {
   return (
     <div class={styles.messagePane}>
        <MessageLogArea />
-      {/*
-      <MessageArea /> */}
+      <MessageArea />
     </div>
   );
 }
@@ -84,32 +84,32 @@ const MessageLogArea = () => {
 
 
 
-// function MessageArea() {
-//   const params = useParams();
-//   const location = useLocation();
+function MessageArea() {
+  const params = useParams();
+  const location = useLocation();
 
-//   const [message, setMessage] = createSignal('');
-//   const tabStore = store.tabStore;
+  const [message, setMessage] = createSignal('');
+  const {tabs, channels, messages} = useStore();
 
-//   const onKeyDown = (event: any) => {
-//     if (event.key === "Enter") {
-//       event.preventDefault();
-//       const trimmedMessage = message().trim();
-//       setMessage('')
-//       if (!trimmedMessage) return;
-//       const channel = client.channels.cache[params.channelId!];
-//       tabStore.updateTab(location.pathname!, {opened: true})
-//       store.messageStore.sendMessage(channel, trimmedMessage);
-//     }
-//   }
+  const onKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const trimmedMessage = message().trim();
+      setMessage('')
+      if (!trimmedMessage) return;
+      const channel = channels.get(params.channelId!);
+      tabs.updateTab(location.pathname!, {opened: true})
+      // .sendMessage(channel, trimmedMessage);
+    }
+  }
   
-//   const onChange = (event: any) => {
-//     setMessage(event.target?.value);
-//   }
+  const onInput = (event: any) => {
+    setMessage(event.target?.value);
+  }
 
 
-//   return <div class={styles.messageArea}>
-//     <textarea placeholder='Message' class={styles.textArea} onKeyDown={onKeyDown} onChange={onChange} value={message()}></textarea>
-//     {/* <CustomButton iconName='send' class={styles.button}/> */}
-//   </div>
-// }
+  return <div class={styles.messageArea}>
+    <textarea placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
+    <CustomButton iconName='send' class={styles.button}/>
+  </div>
+}
