@@ -3,19 +3,20 @@ import CustomSuspense from '../../components/CustomSuspense';
 import { lazy, onMount } from 'solid-js';
 // import { client } from '../../common/client';
 // import SidePane from '../../components/SidePane/SidePane';
-// import Tabs from '../../components/Tabs/Tabs';
+import Tabs from '../../components/Tabs';
 
-// const ServerDrawer = lazy(() => import('../../components/ServerDrawer/ServerDrawer'));
+const ServerDrawer = lazy(() => import('../../components/ServerDrawer'));
 // const InboxDrawer = lazy(() => import('../../components/InboxDrawer/InboxDrawer'));
 // const ServerMembersDrawer = lazy(() => import('../../components/ServerMembersDrawer/ServerMembersDrawer'));
 
 // const ServerSettingsPane = lazy(() => import('../../components/ServerSettingsPane/ServerSettingsPane'));
-// const MessagePane = lazy(() => import('../../components/MessagePane/MessagePane'));
+const MessagePane = lazy(() => import('../../components/MessagePane/MessagePane'));
 // const ExploreServerPane = lazy(() => import('../../components/ExploreServerPane/ExploreServerPane'));
 // const ServerSettingsDrawer = lazy(() => import('../../components/ServerSettingsDrawer/ServerSettingsDrawer'));
 
 import { getStorageString, StorageKeys } from '../../common/localStorage';
 import socketClient from '../../chat-api/socketClient';
+import SidePane from '../../components/SidePane';
 
 const DRAWER_WIDTH = 240;
 
@@ -29,7 +30,7 @@ export default function AppPage(props: {routeName?: string}) {
 
   return (
     <div class={styles.appPage}>
-      {/* <SidePane /> */}
+      <SidePane />
       <LeftPane width={DRAWER_WIDTH} routeName={props.routeName} />
       <MainPane routeName={props.routeName}/>
       {props.routeName === "server_messages" && <RightPane width={DRAWER_WIDTH}/>}
@@ -53,18 +54,19 @@ function MainPane (props: {routeName?: string}) {
   })
 
   return <div class={styles.mainPane} ref={mainPaneElement}>
-    {/* <Tabs />
-    {props.routeName === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
+    <Tabs />
     {props.routeName === 'server_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
     {props.routeName === 'inbox_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
+    {/* 
+    {props.routeName === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
     {props.routeName === 'explore_server' && <CustomSuspense><ExploreServerPane /></CustomSuspense>} */}
   </div>
 }
 
 function LeftPane (props: {width: number, routeName?: string}) {
   return <div style={{width: `${props.width}px`}} class={styles.leftPane}>
-    {/* {props.routeName === 'server_settings' && <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>}
     {props.routeName === 'server_messages' && <CustomSuspense><ServerDrawer /></CustomSuspense>}
+    {/* {props.routeName === 'server_settings' && <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>}
     {props.routeName === 'inbox_messages' && <CustomSuspense><InboxDrawer /></CustomSuspense>}
     {props.routeName === 'inbox' && <CustomSuspense><InboxDrawer /></CustomSuspense>} */}
   </div>

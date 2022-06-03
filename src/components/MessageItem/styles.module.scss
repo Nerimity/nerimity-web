@@ -1,0 +1,151 @@
+
+.floatOptions {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  background-color: rgb(53, 53, 53);
+  padding: 2px;
+  border-radius: 4px;
+  top: -25px;
+  right: 10px;
+  display: none;
+  z-index: 1111111;
+  border: solid 1px rgba(255, 255, 255, 0.4);
+  .floatDate {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-right: 5px;
+    border-right: solid 1px rgba(255, 255, 255, 0.4);
+  }
+  .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 4px;
+    padding: 2px;
+    .icon {
+      transition: 0.2s;
+      user-select: none;
+    }
+    &:hover {
+      opacity: 1;
+      background-color: rgb(78, 78, 78);
+      .icon {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+
+
+
+
+.messageItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+  padding-left: 10px;
+  padding-right: 10px;
+  
+  .messageStatus {
+    position: absolute;
+    left: 19px;
+    bottom: 3px;
+  }
+  
+  .messageItemOuterContainer {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+  }
+
+  .messageItemContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    .floatOptions {
+      display: flex;
+    }
+  }
+  .details {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-top: 3px;
+    &:after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 33px;
+      bottom: -18px;
+      width: 1px;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .username {
+      margin-left: 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .date {
+      color: rgba(255, 255, 255, 0.6);
+      margin-left: auto;
+      font-size: 12px;
+    }
+  }
+  .messageContainer {
+    position: relative;
+    display: flex;
+    .content {
+      margin: 3px;
+      margin-bottom: 2px;
+      margin-top: 0;
+      margin-left: 35px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      word-break: break-word;
+    }
+  }
+  &.compact {
+    &:after {
+      content: "";
+      position: absolute;
+      left: 25px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .content {
+      margin: 2px;
+        margin-left: 35px;
+    }
+  }
+  &.animate .messageItemContainer {
+    transform: translateY(100%);
+    animation-name: goUp;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes goUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

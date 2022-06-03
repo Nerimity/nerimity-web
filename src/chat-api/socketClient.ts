@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import env from '../common/env';
 import { ClientEvents, ServerEvents } from './EventNames';
+import { onAuthenticated } from './events/connectionEvents';
 
 
 const socket = io(env.SERVER_URL, { transports: ['websocket'], autoConnect: false});
@@ -19,6 +20,4 @@ socket.on("connect", () => {
   socket.emit(ClientEvents.AUTHENTICATE, {token});
 })
 
-socket.on(ServerEvents.USER_AUTHENTICATED, () => {
-  console.log('[WS] Authenticated.');
-})
+socket.on(ServerEvents.USER_AUTHENTICATED, onAuthenticated);

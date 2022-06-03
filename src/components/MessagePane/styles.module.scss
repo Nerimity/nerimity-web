@@ -1,0 +1,45 @@
+.messagePane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.messageLogArea {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  flex: 1;
+  overflow: auto;
+  height: 100%;
+}
+
+.messageArea {
+  display: flex;
+  align-items: center;
+  .button {
+    padding: 7px;
+    width: 35px;
+    margin-right: 10px;
+  }
+}
+
+.textArea {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  resize: none;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-bottom: solid 2px rgba(255, 255, 255, 0.3);
+  margin: 10px;
+  margin-left: 10px;
+  margin-right: 0;
+  padding: 10px;
+  height: 15px;
+  color: white;
+  outline: none;
+  width: 100%;
+  &:focus {
+    border-bottom: solid 2px var(--primary-color);
+  }
+}
+
