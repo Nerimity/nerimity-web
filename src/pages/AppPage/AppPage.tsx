@@ -12,11 +12,12 @@ const ServerDrawer = lazy(() => import('../../components/ServerDrawer'));
 // const ServerSettingsPane = lazy(() => import('../../components/ServerSettingsPane/ServerSettingsPane'));
 const MessagePane = lazy(() => import('../../components/MessagePane/MessagePane'));
 // const ExploreServerPane = lazy(() => import('../../components/ExploreServerPane/ExploreServerPane'));
-// const ServerSettingsDrawer = lazy(() => import('../../components/ServerSettingsDrawer/ServerSettingsDrawer'));
+const ServerSettingsDrawer = lazy(() => import('../../components/ServerSettingsDrawer/ServerSettingsDrawer'));
 
 import { getStorageString, StorageKeys } from '../../common/localStorage';
 import socketClient from '../../chat-api/socketClient';
 import SidePane from '../../components/SidePane';
+import ServerMembersDrawer from '../../components/ServerMembersDrawer';
 
 const DRAWER_WIDTH = 240;
 
@@ -66,7 +67,8 @@ function MainPane (props: {routeName?: string}) {
 function LeftPane (props: {width: number, routeName?: string}) {
   return <div style={{width: `${props.width}px`}} class={styles.leftPane}>
     {props.routeName === 'server_messages' && <CustomSuspense><ServerDrawer /></CustomSuspense>}
-    {/* {props.routeName === 'server_settings' && <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>}
+    {props.routeName === 'server_settings' && <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>}
+    {/* 
     {props.routeName === 'inbox_messages' && <CustomSuspense><InboxDrawer /></CustomSuspense>}
     {props.routeName === 'inbox' && <CustomSuspense><InboxDrawer /></CustomSuspense>} */}
   </div>
@@ -74,6 +76,6 @@ function LeftPane (props: {width: number, routeName?: string}) {
 
 function RightPane (props: {width: number}) {
   return <div style={{width: `${props.width}px`}} class={styles.rightPane}>
-    {/* <CustomSuspense><ServerMembersDrawer /></CustomSuspense> */}
+    <CustomSuspense><ServerMembersDrawer /></CustomSuspense>
   </div>
 }

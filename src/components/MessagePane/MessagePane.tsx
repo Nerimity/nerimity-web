@@ -60,7 +60,7 @@ const MessageLogArea = () => {
     })
   })
   
-  createRenderEffect(on([() => channelMessages()?.length], () => {
+  createEffect(on([() => channelMessages()?.length], () => {
     if (messageLogElement) {
       messageLogElement.scrollTop = 99999;
     }
@@ -75,7 +75,7 @@ const MessageLogArea = () => {
         <MessageItem
           animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
           message={message}
-          beforeMessage={channelMessages()[i() - 1]}
+          beforeMessage={channelMessages()?.[i() - 1]}
         />
       )}
     </For>
@@ -99,7 +99,7 @@ function MessageArea() {
       if (!trimmedMessage) return;
       const channel = channels.get(params.channelId!);
       tabs.updateTab(location.pathname!, {opened: true})
-      // .sendMessage(channel, trimmedMessage);
+      messages.sendAndStoreMessage(channel._id, trimmedMessage);
     }
   }
   

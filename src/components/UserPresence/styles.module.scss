@@ -1,0 +1,32 @@
+.userPresence {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  &.offline {
+    background-color: #adadad;
+  }
+  &.online {
+    background-color: #78e380;
+  }
+  &.ltp {
+    background-color: #78a5e3;
+  }
+  &.afk {
+    background-color: #e3a878;
+  }
+  &.dnd {
+    background-color: #e37878;
+  }
+}
+
+.value {
+  font-size: 12px;
+  margin-left: 3px;
+  opacity: 0.8;
+}

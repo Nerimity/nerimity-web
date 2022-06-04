@@ -3,7 +3,7 @@ import Icon from "../Icon";
 import { useParams } from 'solid-app-router';
 import { createSignal } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-// import { ContextMenuServer } from '../ContextMenuServer/ContextMenuServer';
+import { ContextMenuServer } from '../ContextMenuServer/ContextMenuServer';
 
 const ServerDrawerHeader =() => {
   const params = useParams();
@@ -17,7 +17,7 @@ const ServerDrawerHeader =() => {
 
   return (
     <div class={styles.header}>
-      {/* <ContextMenuServer onClose={() => setContextPosition(undefined)} position={contextPosition} serverId={serverId} triggerClassName={styles.showMoreIcon} /> */}
+      <ContextMenuServer onClose={() => setContextPosition(undefined)} position={contextPosition()} serverId={params.serverId} triggerClassName={styles.showMoreIcon} />
       <div>{server()?.name}</div>
       <Icon size={18} name='expand_more' class={styles.showMoreIcon} onClick={onClick}  />
     </div>

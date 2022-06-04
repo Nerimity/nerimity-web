@@ -2,7 +2,7 @@ import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  const {account, servers, users, channels} = useStore();
+  const {account, servers, users, channels, serverMembers} = useStore();
   console.log('[WS] Authenticated.');
 
   account.setUser(payload.user);
@@ -21,14 +21,19 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   for (let i = 0; i < payload.serverMembers.length; i++) {
     const serverMember = payload.serverMembers[i];
-    users.set(serverMember.user);
-
+    serverMembers.set(serverMember);
   }
 
   for (let i = 0; i < payload.friends.length; i++) {
     const friend = payload.friends[i];
     users.set(friend.recipient);
   }
+
+  for (let i = 0; i < payload.presences.length; i++) {
+    const presence = payload.presences[i];
+    users.setPresence(presence.userId, presence);   
+  }
+  
 
 
 

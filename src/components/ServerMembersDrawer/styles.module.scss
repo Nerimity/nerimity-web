@@ -1,0 +1,21 @@
+.membersList {
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+  gap: 3px;
+}
+
+.memberItem {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s;
+  .memberInfo {
+    margin-left: 5px;
+  }
+  &:hover {
+    background-color: rgb(50, 50, 50);
+  }
+}

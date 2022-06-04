@@ -9,12 +9,20 @@ export interface RawServer {
 
 
 
+export enum MessageType {
+  CONTENT = 0,
+  JOIN_SERVER = 1,
+  LEAVE_SERVER = 2,
+  KICK_USER = 3,
+  BAN_USER = 4
+}
+
 export interface RawMessage {
   _id: string;
   channel: string;
   content?: string;
   createdBy: RawUser;
-  type: number;
+  type: MessageType;
   createdAt: number;
   editedAt?: number;
 }
