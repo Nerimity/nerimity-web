@@ -3,6 +3,7 @@ import env from '../common/env';
 import { ClientEvents, ServerEvents } from './EventNames';
 import { onAuthenticated } from './events/connectionEvents';
 import { onMessageCreated, onMessageDeleted } from './events/messageEvents';
+import { onUserPresenceUpdate } from './events/userEvents';
 
 
 const socket = io(env.SERVER_URL, { transports: ['websocket'], autoConnect: false});
@@ -23,5 +24,8 @@ socket.on("connect", () => {
 })
 
 socket.on(ServerEvents.USER_AUTHENTICATED, onAuthenticated);
+
+socket.on(ServerEvents.USER_PRESENCE_UPDATE, onUserPresenceUpdate)
+
 socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
 socket.on(ServerEvents.MESSAGE_DELETED, onMessageDeleted);
