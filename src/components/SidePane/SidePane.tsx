@@ -4,7 +4,7 @@ import Avatar from '../Avatar';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { classNames, conditionalClass } from '../../common/classNames';
 
-// import { ContextMenuServer } from '../ContextMenuServer/ContextMenuServer';
+import ContextMenuServer from '../ContextMenuServer';
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams } from 'solid-app-router';
@@ -94,7 +94,7 @@ const  ServerList = () => {
 
 
   return <div class={styles.serverList}>
-    {/* <ContextMenuServer position={contextPosition} onClose={() => setContextPosition(undefined)} serverId={contextServerId} /> */}
+    <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
     <For each={servers.array()}>
       {server => <ServerItem 
         selected={ server._id === params.serverId }

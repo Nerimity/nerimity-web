@@ -9,7 +9,7 @@ const ServerDrawer = lazy(() => import('../../components/ServerDrawer'));
 // const InboxDrawer = lazy(() => import('../../components/InboxDrawer/InboxDrawer'));
 // const ServerMembersDrawer = lazy(() => import('../../components/ServerMembersDrawer/ServerMembersDrawer'));
 
-// const ServerSettingsPane = lazy(() => import('../../components/ServerSettingsPane/ServerSettingsPane'));
+const ServerSettingsPane = lazy(() => import('../../components/ServerSettingsPane'));
 const MessagePane = lazy(() => import('../../components/MessagePane/MessagePane'));
 // const ExploreServerPane = lazy(() => import('../../components/ExploreServerPane/ExploreServerPane'));
 const ServerSettingsDrawer = lazy(() => import('../../components/ServerSettingsDrawer/ServerSettingsDrawer'));
@@ -58,8 +58,8 @@ function MainPane (props: {routeName?: string}) {
     <Tabs />
     {props.routeName === 'server_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
     {props.routeName === 'inbox_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
-    {/* 
     {props.routeName === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
+    {/* 
     {props.routeName === 'explore_server' && <CustomSuspense><ExploreServerPane /></CustomSuspense>} */}
   </div>
 }

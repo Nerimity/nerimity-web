@@ -4,13 +4,13 @@ export interface ServerSetting {
     path: string;
     name: string;
     icon: string;
-    // element: any
+    element: any
 }
 export default {
   invites: {
     path: 'invites',
     name: 'Invites',
     icon: 'mail',
-    // element: lazy(() => import('../components/ServerSettingsInvite/ServerSettingsInvite'))
+    element: lazy(() => import('../components/ServerSettingsInvite/ServerSettingsInvite'))
   }
 } as Record<string, ServerSetting>

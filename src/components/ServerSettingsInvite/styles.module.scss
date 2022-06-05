@@ -1,0 +1,73 @@
+.invitesPane {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+
+.title {
+  font-size: 24px;
+  margin-left: 5px;
+}
+.createInviteButton {
+  align-self: flex-start;
+}
+
+
+.mobile .inviteItem  {
+  .detailsOuter{
+    flex-direction: column;
+    align-items: initial;
+    align-content: center;
+  }
+  .button {
+    margin-left: initial;
+    align-self: flex-start;
+    margin-top: 5px;
+  }
+}
+
+.inviteItem {
+  display: flex;
+  align-items: center;
+
+  margin: 5px;
+  border-radius: 4px;
+  padding: 5px;  
+  background-color: rgba(255, 255, 255, 0.04);
+  
+  .detailsOuter {
+    display: flex;
+    margin-left: 5px;
+    width: 100%;
+  }
+  .otherDetails {
+    margin-top: 3px;
+    margin-left: -3px;
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    .icon {
+      margin-right: 3px;
+      margin-left: 3px;
+    }
+  }
+
+
+  .button {
+    font-size: 14px;
+    padding: 4px;
+    margin: 0;
+    align-self: center;
+  }
+  .copyButton {
+    margin-left: auto;
+    margin-right: 5px;
+  }
+
+  .url {
+    word-break: break-word;
+  }
+
+}
