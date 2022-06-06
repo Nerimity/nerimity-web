@@ -9,6 +9,8 @@ import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams } from 'solid-app-router';
 import { RawServer } from '../../chat-api/RawData';
+import Modal from '../Modal';
+import AddServer from '../AddServer';
 
 
 export default function SidePane () {
@@ -16,7 +18,7 @@ export default function SidePane () {
   return <div class={styles.sidePane}>
     <InboxItem />
     <div class={styles.scrollable}>
-      {/* <Modal show={showAddServerModel} component={() => <AddServer />} /> */}
+      <Modal show={showAddServerModel()} component={() => <AddServer />} />
       <ServerList />
       <Item iconName='add_box' onClick={() => setShowAddServerModel(true)}  />
     </div>
