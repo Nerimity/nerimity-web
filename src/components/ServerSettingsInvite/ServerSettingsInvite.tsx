@@ -7,12 +7,11 @@ import env from '../../common/env';
 import { classNames, conditionalClass } from '../../common/classNames';
 import { formatTimestamp } from '../../common/date';
 import { Icon } from '../Icon/Icon';
-import { Link, useNavigate, useParams } from 'solid-app-router';
+import { Link, useParams } from 'solid-app-router';
 import { createEffect, createSignal, For } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 
 export default function ServerSettingsInvite() {
-  const navigate = useNavigate();
   const params = useParams();
   const {tabs} = useStore();
   const [invites, setInvites] = createSignal<any[]>([]);
@@ -37,7 +36,7 @@ export default function ServerSettingsInvite() {
       serverId: params.serverId!,
       iconName: 'settings',
       path: location.pathname,
-    }, navigate, false);
+    }, false);
   })
 
 

@@ -59,7 +59,7 @@ const TabItem = (props: {tab: Tab}) => {
   
   return (
     <Link href={props.tab.path} class={classNames(styles.tab, conditionalClass(props.tab.opened, styles.opened), conditionalClass(selected(), styles.selected))} onDblClick={onDoubleClick}>
-      {props.tab.iconName && <Icon name={props.tab.iconName} class={classNames(styles.icon, conditionalClass(server || user, styles.hasAvatar))} />}
+      {props.tab.iconName && <Icon name={props.tab.iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
       {server() && <Avatar size={25} hexColor={server().hexColor} />}
       {user() && <Avatar size={25} hexColor={user().hexColor} />}
       <div class={styles.details}>

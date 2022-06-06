@@ -1,0 +1,47 @@
+.banner {
+  display: flex;
+  height: 200px;
+  background-color: rgb(16, 16, 16);
+  border-radius: 4px;
+  margin: 5px;
+  flex-shrink: 0;
+}
+.bannerFloatingItems {
+  display: flex;
+  margin-top: -30px;
+  margin-left: 30px;
+  .details {
+    margin-top: 30px;
+    margin-left: 10px;
+  }
+  .name {
+    font-size: 16px;
+  }
+  .memberCount {
+    opacity: 0.7;
+    font-size: 14px;
+  }
+  .joinButton {
+    text-decoration: none;
+    align-self: center;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 30px;
+  }
+}
+
+.invalidServerPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  .errorMessage {
+    color: var(--alert-color);
+    font-size: 18px;
+  }
+  .message {
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+}

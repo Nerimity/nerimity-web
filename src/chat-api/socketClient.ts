@@ -3,6 +3,7 @@ import env from '../common/env';
 import { ClientEvents, ServerEvents } from './EventNames';
 import { onAuthenticated } from './events/connectionEvents';
 import { onMessageCreated, onMessageDeleted } from './events/messageEvents';
+import { onServerJoined, onServerMemberJoined } from './events/serverEvents';
 import { onUserPresenceUpdate } from './events/userEvents';
 
 
@@ -29,3 +30,6 @@ socket.on(ServerEvents.USER_PRESENCE_UPDATE, onUserPresenceUpdate)
 
 socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
 socket.on(ServerEvents.MESSAGE_DELETED, onMessageDeleted);
+
+socket.on(ServerEvents.SERVER_JOINED, onServerJoined)
+socket.on(ServerEvents.SERVER_MEMBER_JOINED, onServerMemberJoined)

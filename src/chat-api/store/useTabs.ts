@@ -1,4 +1,4 @@
-import { Navigator } from 'solid-app-router';
+import { Navigator, useNavigate } from 'solid-app-router';
 import {createStore} from 'solid-js/store';
 
 
@@ -13,7 +13,6 @@ export interface Tab {
 }
 
 const [tabs, setTabs] = createStore<Tab[]>([]);
-let lastPath: string | null = null;
 
 const isTabOpened = (path: string) => tabs.find(tab => tab.path === path);
 
@@ -25,31 +24,24 @@ const updateTab = (path: string, tab: Partial<Tab>) => {
   }
 }
 
-const selectTab = (path: string, navigate: Navigator) => {
-    const tab = tabs.find(tab => tab.path === path);
-    if (!tab) return;
-
-    if (!lastPath) {
-      lastPath = tab.path;
-      return;
-    }
-
-    if (lastPath === tab.path) return 
-    lastPath = tab.path;
-    navigate(tab.path);
-
-}
 
 const closeTab = (path: string) => {
   setTabs(tabs.filter(tab => tab.path !== path));
 }
 
 
-const openTab = (tab: Omit<Tab, 'opened'>, navigate: Navigator, select = true) => {
+const openTab = (tab: Omit<Tab, 'opened'>, select = true) => {
+
+
+  if (tab.path === location.pathname) {
+    select = false;
+  }
+
+  const navigate = useNavigate();
 
   const tabAlreadyOpened = isTabOpened(tab.path);
   if (tabAlreadyOpened) {
-    select && selectTab(tab.path, navigate);
+    select && navigate(tab.path);
     return;
   };
 
@@ -61,7 +53,7 @@ const openTab = (tab: Omit<Tab, 'opened'>, navigate: Navigator, select = true) =
     setTabs([...tabs, newTab]);
   }
 
-  select && selectTab(tab.path, navigate);
+  select && navigate(tab.path);
 
 }
 
@@ -70,7 +62,6 @@ export default function useTabs() {
   return {
     isTabOpened,
     updateTab,
-    selectTab,
     closeTab,
     openTab,
     array: tabs

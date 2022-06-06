@@ -1,15 +1,14 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '../../common/RouterEndpoints';
 
-import { createEffect, createRenderEffect, createSignal, For, on} from 'solid-js';
-import { useLocation, useNavigate, useParams } from 'solid-app-router';
+import { createEffect, createSignal, For, on} from 'solid-js';
+import { useLocation, useParams } from 'solid-app-router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from '../MessageItem';
 import CustomButton from '../CustomButton';
 
 export default function MessagePane() {
   const params = useParams();
-  const navigate = useNavigate();
   const {channels, tabs} = useStore();
 
   createEffect(() => {
@@ -26,7 +25,7 @@ export default function MessagePane() {
       userId: userId,
       iconName: params.serverId ? 'dns' : 'inbox',
       path: path,
-    }, navigate, false);
+    }, false);
 
   })
 
