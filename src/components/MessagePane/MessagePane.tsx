@@ -17,7 +17,7 @@ export default function MessagePane() {
   
     const path = params.serverId ? RouterEndpoints.SERVER_MESSAGES(params.serverId!, params.channelId!) : RouterEndpoints.INBOX_MESSAGES(params.channelId!);
   
-    const userId = channel.recipients?.[0];
+    const userId = channel.recipient?._id;
     
     tabs.openTab({
       title: channel.name,

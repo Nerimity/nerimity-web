@@ -52,8 +52,14 @@ export interface RawChannel {
   recipients?: RawUser[];
 }
 
+export enum FriendStatus {
+  SENT = 0,
+  PENDING = 1,
+  FRIENDS = 2,
+}
+
 export interface RawFriend {
-  status: number,
+  status: FriendStatus,
   createdAt: number
   user: string;
   recipient: RawUser;

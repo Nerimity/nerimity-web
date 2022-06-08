@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import env from '../common/env';
 import { ClientEvents, ServerEvents } from './EventNames';
 import { onAuthenticated } from './events/connectionEvents';
+import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from './events/friendEvents';
 import { onMessageCreated, onMessageDeleted } from './events/messageEvents';
 import { onServerJoined, onServerMemberJoined } from './events/serverEvents';
 import { onUserPresenceUpdate } from './events/userEvents';
@@ -20,16 +21,24 @@ export default {
 }
 
 
-socket.on("connect", () => {
+socket.on(ServerEvents.CONNECT, () => {
   socket.emit(ClientEvents.AUTHENTICATE, {token});
 })
 
 socket.on(ServerEvents.USER_AUTHENTICATED, onAuthenticated);
 
+
 socket.on(ServerEvents.USER_PRESENCE_UPDATE, onUserPresenceUpdate)
+
+socket.on(ServerEvents.FRIEND_REQUEST_SENT, onFriendRequestSent)
+socket.on(ServerEvents.FRIEND_REQUEST_PENDING, onFriendRequestPending)
+socket.on(ServerEvents.FRIEND_REQUEST_ACCEPTED, onFriendRequestAccepted)
+socket.on(ServerEvents.FRIEND_REMOVED, onFriendRemoved)
+
 
 socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
 socket.on(ServerEvents.MESSAGE_DELETED, onMessageDeleted);
+
 
 socket.on(ServerEvents.SERVER_JOINED, onServerJoined)
 socket.on(ServerEvents.SERVER_MEMBER_JOINED, onServerMemberJoined)

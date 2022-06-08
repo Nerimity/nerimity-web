@@ -1,5 +1,7 @@
 import useAccount from "./useAccount";
 import useChannels from "./useChannels";
+import useFriends from "./useFriends";
+import useInbox from "./useInbox";
 import useMessages from "./useMessages";
 import useServerMembers from "./useServerMembers";
 import useServers from "./useServers";
@@ -14,6 +16,8 @@ export default function useStore() {
   const channels = useChannels();
   const tabs = useTabs();
   const messages = useMessages();
+  const friends = useFriends();
+  const inbox = useInbox();
 
   return {
     account,
@@ -22,6 +26,8 @@ export default function useStore() {
     channels,
     tabs,
     messages,
-    serverMembers
+    serverMembers,
+    friends,
+    inbox
   }
 }

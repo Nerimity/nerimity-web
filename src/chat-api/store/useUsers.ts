@@ -16,6 +16,8 @@ export interface Presence {
 
 export type User = RawUser & {
   presence?: Presence
+  inboxChannelId?: string
+  setInboxChannelId: (this: User, channelId: string) => void;
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
@@ -23,13 +25,15 @@ const [users, setUsers] = createStore<Record<string, User>>({});
 
 const set = (user: RawUser) => {
   if (users[user._id]) return;
-  setUsers({
-    ...users,
-    [user._id]: user
+  setUsers(user._id, {
+    ...user,
+    setInboxChannelId(channelId) {
+      setUsers(this._id, 'inboxChannelId', channelId);
+    }
   });
 }
 
-const get = (serverId: string) => users[serverId]
+const get = (userId: string) => users[userId]
 
 const array = () => Object.values(users);
 
@@ -39,8 +43,8 @@ const setPresence = (userId: string, presence: Presence) => {
     custom: isOffline ? undefined : presence.custom,
     status: presence.status
   });
-
 }
+
 
 export default function useUsers() {
   return {
