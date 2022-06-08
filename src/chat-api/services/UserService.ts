@@ -1,4 +1,5 @@
 import env from "../../common/env";
+import { RawChannel, RawInboxWithoutChannel } from "../RawData";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
@@ -29,5 +30,14 @@ export async function registerRequest(email: string, username: string, password:
       username,
       password
     }
+  });
+}
+
+
+export async function openDMChannelRequest(userId: string) {
+  return request<RawInboxWithoutChannel & {channel: RawChannel}>({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.openUserDMEndpoint(userId),
+    method: 'POST',
+    useToken: true
   });
 }

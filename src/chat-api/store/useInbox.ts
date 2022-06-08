@@ -1,11 +1,9 @@
 import {createStore} from 'solid-js/store';
-import { RawInboxWithoutChannel, RawServer, RawServerMember } from '../RawData';
+import { RawInboxWithoutChannel } from '../RawData';
 import useChannels, { Channel } from './useChannels';
-import useUsers from './useUsers';
 
-const channels = useChannels();
 
-type Inbox = Omit<RawInboxWithoutChannel, 'channel'> & {
+export type Inbox = Omit<RawInboxWithoutChannel, 'channel'> & {
   channelId: string
   channel: Channel,
 }
@@ -15,6 +13,7 @@ const [inbox, setInbox] = createStore<Record<string, Inbox>>({});
 
 
 const set = (item: RawInboxWithoutChannel) => {
+  const channels = useChannels();
   channels.get(item.channel).recipient?.setInboxChannelId(item.channel);
   setInbox({[item.channel]: {
     ...item,

@@ -59,11 +59,11 @@ function separateFriends(friends: Friend[]) {
       requests.push(friend);
       continue;
     }
-    if (user.presence?.status !== UserStatus.OFFLINE) {
-      onlineFriends.push(friend);
+    if (!user.presence?.status) {
+      offlineFriends.push(friend);
       continue;
     }
-    offlineFriends.push(friend);
+    onlineFriends.push(friend);
   }
   return { requests, onlineFriends, offlineFriends };
 }

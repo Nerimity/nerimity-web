@@ -1,5 +1,8 @@
 import {createStore} from 'solid-js/store';
 import { RawUser } from '../RawData';
+import useInbox, { Inbox } from './useInbox';
+import { openDMChannelRequest } from '../services/UserService';
+import useChannels from './useChannels';
 
 export enum UserStatus {
   OFFLINE = 0,
@@ -18,17 +21,25 @@ export type User = RawUser & {
   presence?: Presence
   inboxChannelId?: string
   setInboxChannelId: (this: User, channelId: string) => void;
+  openDM: (this: User) => Promise<void>;
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
 
 
 const set = (user: RawUser) => {
+  const inbox = useInbox();
+  const channels = useChannels();
   if (users[user._id]) return;
   setUsers(user._id, {
     ...user,
     setInboxChannelId(channelId) {
       setUsers(this._id, 'inboxChannelId', channelId);
+    },
+    async openDM() {
+      const rawInbox = await openDMChannelRequest(this._id);
+      channels.set(rawInbox.channel);
+      inbox.set({...rawInbox, channel: rawInbox.channel._id});
     }
   });
 }

@@ -12,7 +12,7 @@ import useStore from "../../chat-api/store/useStore";
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const navigate = useNavigate();
   const params = useParams();
-  const {users, inbox} = useStore();
+  const {inbox} = useStore();
 
 
   const user = () => {
@@ -27,11 +27,11 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
 
 
-  const isFriendRequest = props.friend?.status === FriendStatus.PENDING || props.friend?.status === FriendStatus.SENT;
-  const isSelected = inboxItem() && params.channelId === inboxItem().channelId;
+  const isFriendRequest = () => props.friend?.status === FriendStatus.PENDING || props.friend?.status === FriendStatus.SENT;
+  const isSelected = () => inboxItem() && params.channelId === inboxItem().channelId;
 
-  const showAccept = props.friend?.status === FriendStatus.PENDING;
-  const showDecline = props.friend?.status === FriendStatus.PENDING || props.friend?.status === FriendStatus.SENT;
+  const showAccept = () => props.friend?.status === FriendStatus.PENDING;
+  const showDecline = () => props.friend?.status === FriendStatus.PENDING || props.friend?.status === FriendStatus.SENT;
 
   const onAcceptClick = () => {
     // props.friend?.acceptFriendRequest()
@@ -43,7 +43,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
   const onFriendClick = async () => {
     if (!inboxItem()) {
-      // await user.openDM();
+      await user().openDM();
       if (!inboxItem()) return;
     }
 
@@ -53,12 +53,12 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
 
   return (
-    <div class={classNames(styles.friendItem, conditionalClass(isFriendRequest, styles.requestItem), conditionalClass(isSelected, styles.selected))} onClick={onFriendClick}>
+    <div class={classNames(styles.friendItem, conditionalClass(isFriendRequest(), styles.requestItem), conditionalClass(isSelected(), styles.selected))} onClick={onFriendClick}>
       <Avatar hexColor={user().hexColor} size={25} />
       <div class={styles.username}>{user().username}</div>
       <div class={styles.requestButtons}>
-        {showAccept && <CustomButton class={styles.button} iconName="check" onClick={onAcceptClick} />}
-        {showDecline && <CustomButton class={styles.button} iconName="close" color="var(--alert-color)" onClick={onDeclineClick} />}
+        {showAccept() && <CustomButton class={styles.button} iconName="check" onClick={onAcceptClick} />}
+        {showDecline() && <CustomButton class={styles.button} iconName="close" color="var(--alert-color)" onClick={onDeclineClick} />}
       </div>
       
     </div>
