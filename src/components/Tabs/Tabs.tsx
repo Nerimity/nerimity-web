@@ -33,7 +33,9 @@ const TabItem = (props: {tab: Tab}) => {
   }
 
 
-  const selected = () => location.pathname === props.tab.path;
+  const selected = () => {
+    return location.pathname === props.tab.path;
+  };
 
   const details = () => {
     let subName = null;

@@ -1,5 +1,6 @@
 import {createStore} from 'solid-js/store';
 import { FriendStatus, RawFriend } from '../RawData';
+import { acceptFriendRequest, removeFriend } from '../services/FriendService';
 import useUsers, { User } from './useUsers';
 
 
@@ -8,6 +9,8 @@ const users = useUsers();
 export type Friend = Omit<RawFriend, 'recipient'> & {
   recipientId: string;
   recipient: User;
+  acceptFriendRequest: (this: Friend) => Promise<void>;
+  removeFriend: (this: Friend) => Promise<void>;
 } 
 
 
@@ -21,6 +24,14 @@ const set = (friend: RawFriend) => {
     ...friend, 
     recipientId: friend.recipient._id,
     get recipient() {return users.get(this.recipientId)},
+    async acceptFriendRequest() {
+      await acceptFriendRequest({friendId: this.recipientId});
+      setFriends(this.recipientId, 'status', FriendStatus.FRIENDS);
+    },
+    async removeFriend() {
+      await removeFriend({friendId: this.recipientId});
+      setFriends({[this.recipientId]: undefined})
+    }
   }});
 }
 

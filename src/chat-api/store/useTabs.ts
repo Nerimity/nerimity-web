@@ -30,24 +30,26 @@ const closeTab = (path: string) => {
 }
 
 
-const openTab = (tab: Omit<Tab, 'opened'>, select = true) => {
+const openTab = (tab: Omit<Tab, 'opened'>) => {
 
+  let select = true;
 
   if (tab.path === location.pathname) {
     select = false;
   }
-
+  
   const navigate = useNavigate();
-
+  
   const tabAlreadyOpened = isTabOpened(tab.path);
   if (tabAlreadyOpened) {
     select && navigate(tab.path);
     return;
   };
-
+  
   const unopenedTabIndex = tabs.findIndex(t => !t.opened);
   if (unopenedTabIndex >= 0) {
     setTabs(unopenedTabIndex, {...tab, opened: false});
+
   } else {
     const newTab = {...tab, opened: false};
     setTabs([...tabs, newTab]);

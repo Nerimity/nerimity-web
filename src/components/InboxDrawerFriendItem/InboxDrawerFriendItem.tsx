@@ -34,10 +34,10 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   const showDecline = () => props.friend?.status === FriendStatus.PENDING || props.friend?.status === FriendStatus.SENT;
 
   const onAcceptClick = () => {
-    // props.friend?.acceptFriendRequest()
+    props.friend?.acceptFriendRequest()
   }
   const onDeclineClick = () => {
-    // props.friend?.removeFriend()
+    props.friend?.removeFriend()
   }
 
 

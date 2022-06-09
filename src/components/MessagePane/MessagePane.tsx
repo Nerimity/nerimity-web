@@ -25,7 +25,7 @@ export default function MessagePane() {
       userId: userId,
       iconName: params.serverId ? 'dns' : 'inbox',
       path: path,
-    }, false);
+    });
 
   })
 

@@ -1,5 +1,6 @@
 import {createStore} from 'solid-js/store';
 import { RawChannel } from '../RawData';
+import useAccount from './useAccount';
 import useUsers, { User } from './useUsers';
 
 export type Channel = Omit<RawChannel, 'recipients'> & {
@@ -11,6 +12,7 @@ export type Channel = Omit<RawChannel, 'recipients'> & {
 const [channels, setChannels] = createStore<Record<string, Channel>>({});
 
 const users = useUsers();
+const account = useAccount();
 
 const set = (channel: RawChannel) => {
   const recipientIds = channel.recipients?.map(recipient => {
@@ -23,7 +25,9 @@ const set = (channel: RawChannel) => {
       ...channel,
       recipientIds: recipientIds,
       get recipient() {
-       return users.get(this.recipientIds?.[1]!);
+        const recipientId = this.recipientIds?.find(id => id !== account.user()?._id);
+        if (!recipientId) return undefined;
+        return users.get(recipientId);
       }
     }
   });

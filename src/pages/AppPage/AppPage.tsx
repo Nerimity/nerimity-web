@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import CustomSuspense from '../../components/CustomSuspense';
-import { lazy, onMount } from 'solid-js';
+import { createEffect, lazy, on, onMount } from 'solid-js';
 import Tabs from '../../components/Tabs';
 
 const ServerDrawer = lazy(() => import('../../components/ServerDrawer'));
@@ -15,6 +15,7 @@ import socketClient from '../../chat-api/socketClient';
 import SidePane from '../../components/SidePane';
 import ServerMembersDrawer from '../../components/ServerMembersDrawer';
 import InboxDrawer from '../../components/InboxDrawer/InboxDrawer';
+import { useWindowProperties } from '../../common/useWindowProperties';
 
 const DRAWER_WIDTH = 240;
 
@@ -38,18 +39,16 @@ export default function AppPage(props: {routeName?: string}) {
 }
 
 function MainPane (props: {routeName?: string}) {
+  const windowProperties = useWindowProperties();
   let mainPaneElement: HTMLDivElement | undefined;
 
 
-  onMount(() => {
-    // const mainPaneWidth = mainPaneElement?.clientWidth || 0;
-    // store.windowPropertyStore.updateMainPaneWidth(mainPaneWidth);
-    // const destroy = reaction(() => store.windowPropertyStore.width, () => {
-    //   const mainPaneWidth = mainPaneElement?.clientWidth || 0;
-    //   store.windowPropertyStore.updateMainPaneWidth(mainPaneWidth);
-    // })
-    // return destroy;
-  })
+  createEffect(on(windowProperties.width, () => {
+    if (!mainPaneElement) return;
+    windowProperties.setPaneWidth(mainPaneElement.clientWidth);
+  }))
+  
+
 
   return <div class={styles.mainPane} ref={mainPaneElement}>
     <Tabs />

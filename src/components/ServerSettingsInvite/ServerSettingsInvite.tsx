@@ -10,21 +10,20 @@ import { Icon } from '../Icon/Icon';
 import { Link, useParams } from 'solid-app-router';
 import { createEffect, createSignal, For } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
+import { useWindowProperties } from '../../common/useWindowProperties';
 
 export default function ServerSettingsInvite() {
   const params = useParams();
   const {tabs} = useStore();
+  const windowProperties = useWindowProperties();
   const [invites, setInvites] = createSignal<any[]>([]);
   const [mobileSize, isMobileSize] = createSignal(false);
 
 
-  // useEffect(() => {
-  //   const destroy = autorun(() => {
-  //     const isMobile = store.windowPropertyStore?.mainPaneWidth! < env.MOBILE_WIDTH;
-  //     isMobileSize(isMobile);
-  //   })
-  //   return destroy;
-  // }, [])
+  createEffect(() => {
+    const isMobile = windowProperties.paneWidth()! < env.MOBILE_WIDTH;
+    isMobileSize(isMobile);
+  })
   
   
   createEffect(() => {
@@ -35,8 +34,8 @@ export default function ServerSettingsInvite() {
       title: "Settings - Invites",
       serverId: params.serverId!,
       iconName: 'settings',
-      path: location.pathname,
-    }, false);
+      path: RouterEndpoints.SERVER_SETTINGS_INVITES(params.serverId!),
+    });
   })
 
 
@@ -49,7 +48,7 @@ export default function ServerSettingsInvite() {
 
 
   return (
-    <div class={classNames(styles.invitesPane, conditionalClass(mobileSize, styles.mobile))}>
+    <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server Invites</div>
       <CustomButton label='Create Invite' iconName='add' class={styles.createInviteButton} onClick={onCreateInviteClick} />
       <For each={invites()}>

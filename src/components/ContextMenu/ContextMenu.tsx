@@ -26,7 +26,6 @@ export interface ContextMenuProps {
 
 export default function ContextMenu(props: ContextMenuProps) {
   let contextMenuElement: HTMLDivElement | undefined;
-  // const [position, setPosition] = createSignal<{ top: number, left: number } | undefined>();
 
 
   const handleOutsideClick = (e: any) => {
