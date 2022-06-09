@@ -8,6 +8,7 @@ import { FriendStatus } from "../../chat-api/RawData";
 import { Friend } from "../../chat-api/store/useFriends";
 import { User } from "../../chat-api/store/useUsers";
 import useStore from "../../chat-api/store/useStore";
+import UserPresence from "../UserPresence";
 
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const navigate = useNavigate();
@@ -55,12 +56,14 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   return (
     <div class={classNames(styles.friendItem, conditionalClass(isFriendRequest(), styles.requestItem), conditionalClass(isSelected(), styles.selected))} onClick={onFriendClick}>
       <Avatar hexColor={user().hexColor} size={25} />
-      <div class={styles.username}>{user().username}</div>
+      <div class={styles.details}>
+        <div class={styles.username}>{user().username}</div>
+        <UserPresence userId={user()._id} showOffline={false} />
+      </div>
       <div class={styles.requestButtons}>
         {showAccept() && <CustomButton class={styles.button} iconName="check" onClick={onAcceptClick} />}
         {showDecline() && <CustomButton class={styles.button} iconName="close" color="var(--alert-color)" onClick={onDeclineClick} />}
       </div>
-      
     </div>
   )
 }

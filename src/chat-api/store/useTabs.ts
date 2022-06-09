@@ -1,5 +1,5 @@
 import { Navigator, useNavigate } from 'solid-app-router';
-import {createStore} from 'solid-js/store';
+import {createStore, reconcile} from 'solid-js/store';
 
 
 export interface Tab {
@@ -48,7 +48,7 @@ const openTab = (tab: Omit<Tab, 'opened'>) => {
   
   const unopenedTabIndex = tabs.findIndex(t => !t.opened);
   if (unopenedTabIndex >= 0) {
-    setTabs(unopenedTabIndex, {...tab, opened: false});
+    setTabs(unopenedTabIndex, reconcile({...tab, opened: false}));
 
   } else {
     const newTab = {...tab, opened: false};
