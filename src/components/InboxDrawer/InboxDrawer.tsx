@@ -7,6 +7,8 @@ import FriendItem from '../InboxDrawerFriendItem/InboxDrawerFriendItem';
 import { createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { FriendStatus } from '../../chat-api/RawData';
+import Modal from '../Modal';
+import AddFriend from '../AddFriend';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
   const {friends} = useStore();
@@ -47,6 +49,7 @@ function HeaderItem (props: {name: string, iconName: string, selected: boolean, 
 
 const InboxDrawer = () => {
   const [selectedIndex, setSelectedIndex] = createSignal(getStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, 0));
+  const [showAddFriend, setShowAddFriend] = createSignal(false);
   
   const onTabClick = (index: number) => {
     setStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, index);
@@ -57,8 +60,21 @@ const InboxDrawer = () => {
   return (
     <div class={styles.inboxDrawer}>
       <Header selectedIndex={selectedIndex()} onTabClick={onTabClick} />
-      {selectedIndex() === 0 && <InboxDrawerTab/>}
-      {selectedIndex() === 1 && <InboxDrawerFriends /> }
+      <div class={styles.list}>
+        {selectedIndex() === 0 && <InboxDrawerTab/>}
+        {selectedIndex() === 1 && <InboxDrawerFriends /> }
+      </div>
+      <Modal show={showAddFriend()} component={() => <AddFriend />} />
+      <div class={styles.items}>
+        <div class={styles.item}>
+          <Icon name='note_alt' size={24} />
+          <div>Saved Notes</div>
+        </div>
+        <div class={styles.item} onClick={() => setShowAddFriend(true)}>
+          <Icon name='group_add' size={24} />
+          <div>Add Friend</div>
+        </div>
+      </div>
     </div>
   )
 };

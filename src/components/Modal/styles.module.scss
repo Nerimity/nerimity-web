@@ -16,4 +16,23 @@
   background-color: var(--background-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 4px;
+  overflow: hidden;
+}
+
+.innerContainer {
+  animation: showUp;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
 }

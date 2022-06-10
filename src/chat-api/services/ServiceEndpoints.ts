@@ -1,15 +1,16 @@
 export default {
-  loginEndpoint: () => "/users/login",
-  registerEndpoint: () => "/users/register",
+  login: () => "/users/login",
+  register: () => "/users/register",
 
 
-  serversEndpoint: () => `/servers`,
-  serverInvitesEndpoint: (serverId: string) => `/servers/${serverId}/invites`,
-  serverInviteCodeEndpoint: (inviteCode: string) => `/servers/invites/${inviteCode}`,
+  servers: () => `/servers`,
+  serverInvites: (serverId: string) => `/servers/${serverId}/invites`,
+  serverInviteCode: (inviteCode: string) => `/servers/invites/${inviteCode}`,
 
-  openUserDMEndpoint: (userId: string) => `/users/${userId}/open-channel`,
-  messagesEndpoint: (channelId: string) => `/channels/${channelId}/messages`,
-  messageEndpoint: (channelId: string, messageId: string) => `/channels/${channelId}/messages/${messageId}`,
-  friendsEndpoint: (friendId: string) => `/friends/${friendId}`,
+  openUserDM: (userId: string) => `/users/${userId}/open-channel`,
+  messages: (channelId: string) => `/channels/${channelId}/messages`,
+  message: (channelId: string, messageId: string) => `/channels/${channelId}/messages/${messageId}`,
+  addFriend: () => `/friends/add`,
+  friends: (friendId: string) => `/friends/${friendId}`,
 
 }

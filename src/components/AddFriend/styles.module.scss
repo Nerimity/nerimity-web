@@ -1,0 +1,13 @@
+.addFriendContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  padding: 10px;
+  margin: 20px;
+}

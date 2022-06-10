@@ -9,7 +9,7 @@ import ServiceEndpoints from "./ServiceEndpoints";
 // error returns {path?, message}
 export async function loginRequest(email: string, password: string): Promise<{token: string}> {
   return request({
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.loginEndpoint(),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.login(),
     method: "POST",
     body: {
       email,
@@ -23,7 +23,7 @@ export async function loginRequest(email: string, password: string): Promise<{to
 // error returns {path?, message}
 export async function registerRequest(email: string, username: string, password: string): Promise<{token: string}> {
   return request({
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.registerEndpoint(),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.register(),
     method: "POST",
     body: {
       email,
@@ -36,7 +36,7 @@ export async function registerRequest(email: string, username: string, password:
 
 export async function openDMChannelRequest(userId: string) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
-    url:  env.SERVER_URL + "/api" + ServiceEndpoints.openUserDMEndpoint(userId),
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.openUserDM(userId),
     method: 'POST',
     useToken: true
   });

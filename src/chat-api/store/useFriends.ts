@@ -1,6 +1,6 @@
 import {createStore} from 'solid-js/store';
 import { FriendStatus, RawFriend } from '../RawData';
-import { acceptFriendRequest, removeFriend } from '../services/FriendService';
+import { acceptFriendRequest, removeFriend, addFriend } from '../services/FriendService';
 import useUsers, { User } from './useUsers';
 
 
@@ -45,6 +45,11 @@ const updateStatus = (userId: string, status: FriendStatus) => {
   setFriends(userId, 'status', status);
 }
 
+const sendRequest = async (username: string, tag: string) => {
+  const friend = await  addFriend({username, tag});
+  console.log(friend)
+}
+
 
 const array = () => Object.values(friends);
 
@@ -54,7 +59,8 @@ export default function useFriends() {
     get,
     set,
     delete: deleteFriend,
-    updateStatus
+    updateStatus,
+    sendRequest
   }
 }
 

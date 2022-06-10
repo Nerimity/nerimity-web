@@ -6,7 +6,9 @@ export default function Modal(props: {show: boolean, component: () => JSX.Elemen
     <Show when={props.show}>
       <Portal>
         <div class={styles.background}>
-          <div class={styles.container}>{props.component()}</div>
+          <div class={styles.container}>
+            <div class={styles.innerContainer}>{props.component()}</div>
+          </div>
         </div>
       </Portal>
     </Show>
