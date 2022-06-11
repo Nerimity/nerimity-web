@@ -6,6 +6,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   console.log('[WS] Authenticated.');
 
   account.setUser(payload.user);
+  users.set(payload.user)
 
   for (let i = 0; i < payload.servers.length; i++) {
     const server = payload.servers[i];

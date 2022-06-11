@@ -2,7 +2,6 @@ import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "../../common/classNames";
 import Avatar from "../Avatar/Avatar";
 import CustomButton from "../CustomButton/CustomButton";
-import RouterEndpoints from "../../common/RouterEndpoints";
 import { useNavigate, useParams } from "solid-app-router";
 import { FriendStatus } from "../../chat-api/RawData";
 import { Friend } from "../../chat-api/store/useFriends";
@@ -43,12 +42,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
 
   const onFriendClick = async () => {
-    if (!inboxItem()) {
-      await user().openDM();
-      if (!inboxItem()) return;
-    }
-
-    navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
+    user().openDM(navigate);
   }
   
 

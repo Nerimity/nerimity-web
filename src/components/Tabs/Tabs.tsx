@@ -3,7 +3,7 @@ import { classNames, conditionalClass } from '../../common/classNames';
 import Avatar from '../Avatar/Avatar';
 import { Icon } from '../Icon/Icon';
 import { Link, useLocation } from 'solid-app-router';
-import { For } from 'solid-js';
+import { createEffect, For } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Tab } from '../../chat-api/store/useTabs';
 import UserPresence from '../UserPresence';
@@ -58,7 +58,7 @@ const TabItem = (props: {tab: Tab}) => {
   }
 
   
-  
+
   return (
     <Link href={props.tab.path} class={classNames(styles.tab, conditionalClass(props.tab.opened, styles.opened), conditionalClass(selected(), styles.selected))} onDblClick={onDoubleClick}>
       {props.tab.iconName && <Icon name={props.tab.iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
@@ -67,7 +67,7 @@ const TabItem = (props: {tab: Tab}) => {
       <div class={styles.details}>
         <div class={styles.title}>{details().title}</div>
         {details().subName && <div class={styles.subTitle}>{details().subName}</div>}
-        {user() && <UserPresence userId={user()._id} showOffline={true} />}
+        {user() && <UserPresence userId={user()?._id} showOffline={true} />}
       </div>
       <Icon name="close" size={20} class={styles.closeIcon} />
     </Link>

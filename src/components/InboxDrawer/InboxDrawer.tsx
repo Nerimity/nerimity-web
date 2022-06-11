@@ -4,11 +4,12 @@ import { getStorageNumber, setStorageNumber, StorageKeys } from '../../common/lo
 import InboxDrawerFriends from '../InboxDrawerFriends/InboxDrawerFriends';
 import { classNames, conditionalClass } from '../../common/classNames';
 import FriendItem from '../InboxDrawerFriendItem/InboxDrawerFriendItem';
-import { createSignal, For, Show } from 'solid-js';
+import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '../Modal';
 import AddFriend from '../AddFriend';
+import { useNavigate, useParams } from 'solid-app-router';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
   const {friends} = useStore();
@@ -50,11 +51,25 @@ function HeaderItem (props: {name: string, iconName: string, selected: boolean, 
 const InboxDrawer = () => {
   const [selectedIndex, setSelectedIndex] = createSignal(getStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, 0));
   const [showAddFriend, setShowAddFriend] = createSignal(false);
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const {users, account} = useStore();
   
   const onTabClick = (index: number) => {
     setStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, index);
     setSelectedIndex(index);
   }
+
+  const loggedInUser = () => users.get(account.user()?._id!);
+
+  const onSavedNotesClick = () => {
+    loggedInUser().openDM(navigate);
+  }
+
+  const isSavedNotesSelected = () => {
+    return loggedInUser()?.inboxChannelId && loggedInUser()?.inboxChannelId === params.channelId;
+  };
 
 
   return (
@@ -66,7 +81,7 @@ const InboxDrawer = () => {
       </div>
       <Modal show={showAddFriend()} component={() => <AddFriend />} />
       <div class={styles.items}>
-        <div class={styles.item}>
+        <div class={classNames(styles.item, conditionalClass(isSavedNotesSelected(), styles.selected))} onClick={onSavedNotesClick}>
           <Icon name='note_alt' size={24} />
           <div>Saved Notes</div>
         </div>

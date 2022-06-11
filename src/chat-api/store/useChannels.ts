@@ -26,7 +26,7 @@ const set = (channel: RawChannel) => {
       recipientIds: recipientIds,
       get recipient() {
         const recipientId = this.recipientIds?.find(id => id !== account.user()?._id);
-        if (!recipientId) return undefined;
+        if (!recipientId) return  users.get(this.recipientIds?.[0]!);
         return users.get(recipientId);
       }
     }

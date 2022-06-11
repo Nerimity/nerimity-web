@@ -10,7 +10,7 @@ const UserPresence = (props: {userId: string, showOffline: boolean}) => {
   const {users} = useStore();
   const user = () => users.get(props.userId);
   
-  const statusDetails = () => userStatusDetail(user().presence?.status || 0)
+  const statusDetails = () => userStatusDetail(user()?.presence?.status || 0)
 
   const show = () => {
     if (!props.showOffline && !user().presence?.status) {
