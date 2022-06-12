@@ -2,12 +2,13 @@ import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "../../common/classNames";
 import Avatar from "../Avatar/Avatar";
 import CustomButton from "../CustomButton/CustomButton";
-import { useNavigate, useParams } from "solid-app-router";
+import { Link, useNavigate, useParams } from "solid-app-router";
 import { FriendStatus } from "../../chat-api/RawData";
 import { Friend } from "../../chat-api/store/useFriends";
 import { User } from "../../chat-api/store/useUsers";
 import useStore from "../../chat-api/store/useStore";
 import UserPresence from "../UserPresence";
+import RouterEndpoints from "../../common/RouterEndpoints";
 
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const navigate = useNavigate();
@@ -49,7 +50,9 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
   return (
     <div class={classNames(styles.friendItem, conditionalClass(isFriendRequest(), styles.requestItem), conditionalClass(isSelected(), styles.selected))} onClick={onFriendClick}>
-      <Avatar hexColor={user().hexColor} size={25} />
+      <Link href={RouterEndpoints.PROFILE(user()._id)}>
+        <Avatar hexColor={user().hexColor} size={25} />
+      </Link>
       <div class={styles.details}>
         <div class={styles.username}>{user().username}</div>
         <UserPresence userId={user()._id} showOffline={false} />

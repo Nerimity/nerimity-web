@@ -4,6 +4,8 @@ export default {
   
   SERVER_SETTINGS_INVITES: (serverId: string) => `/app/servers/${serverId}/settings/invites`,
   
+  PROFILE: (userId: string) => `/app/profile/${userId}`,
+
   EXPLORE_SERVER_INVITE: (inviteId: string) => `/app/explore/servers/invites/${inviteId}`,
   EXPLORE_SERVER_INVITE_SHORT: (inviteId: string) => `/i/${inviteId}`,
   

@@ -33,10 +33,12 @@ export function AddFriend() {
     const username = split[0];
     const tag = split[1];
 
-    await friends.sendRequest(username, tag).catch((err) => {
+    await friends.sendRequest(username, tag).then(() => {
+      setSuccess(true);
+    })
+    .catch((err) => {
       setError({message: err.message, path: err.path});
     })
-    setSuccess(true);
     setRequestSent(false);
   }
 

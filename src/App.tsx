@@ -23,6 +23,9 @@ export default function App() {
 
 
       <Route path="app/explore/servers/invites/:inviteId" element={<CustomSuspense><AppPage routeName="explore_server" /></CustomSuspense>} />
+
+      <Route path="app/profile/:userId" element={<CustomSuspense><AppPage routeName="user_profile" /></CustomSuspense>} />
+
       <Route path="i/:inviteId" element={ <InviteRedirect/> } />
 
 

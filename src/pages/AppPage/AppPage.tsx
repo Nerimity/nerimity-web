@@ -4,17 +4,19 @@ import { createEffect, lazy, on, onMount } from 'solid-js';
 import Tabs from '../../components/Tabs';
 
 const ServerDrawer = lazy(() => import('../../components/ServerDrawer'));
+const ServerSettingsDrawer = lazy(() => import('../../components/ServerSettingsDrawer/ServerSettingsDrawer'));
+const InboxDrawer = lazy(() => import('../../components/InboxDrawer/InboxDrawer'));
 
 const ServerSettingsPane = lazy(() => import('../../components/ServerSettingsPane'));
 const MessagePane = lazy(() => import('../../components/MessagePane/MessagePane'));
 const ExploreServerPane = lazy(() => import('../../components/ExploreServerPane'));
-const ServerSettingsDrawer = lazy(() => import('../../components/ServerSettingsDrawer/ServerSettingsDrawer'));
+const ProfilePane = lazy(() => import('../../components/ProfilePane'));
+
 
 import { getStorageString, StorageKeys } from '../../common/localStorage';
 import socketClient from '../../chat-api/socketClient';
 import SidePane from '../../components/SidePane';
 import ServerMembersDrawer from '../../components/ServerMembersDrawer';
-import InboxDrawer from '../../components/InboxDrawer/InboxDrawer';
 import { useWindowProperties } from '../../common/useWindowProperties';
 
 const DRAWER_WIDTH = 240;
@@ -56,6 +58,7 @@ function MainPane (props: {routeName?: string}) {
     {props.routeName === 'inbox_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
     {props.routeName === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
     {props.routeName === 'explore_server' && <CustomSuspense><ExploreServerPane /></CustomSuspense>}
+    {props.routeName === 'user_profile' && <CustomSuspense><ProfilePane /></CustomSuspense>}
   </div>
 }
 

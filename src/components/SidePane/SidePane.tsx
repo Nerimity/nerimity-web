@@ -50,9 +50,11 @@ const UserItem = () => {
 
   return (
     <Show when={account.user()}>
-      <div class={`${styles.item} ${styles.user}`} >
-        <Avatar size={35} hexColor={account.user()?.hexColor!} />
-      </div>
+      <Link href={RouterEndpoints.PROFILE(account.user()?._id!)}>
+        <div class={`${styles.item} ${styles.user}`} >
+          <Avatar size={35} hexColor={account.user()?.hexColor!} />
+        </div>
+      </Link>
     </Show>
   )
 };
