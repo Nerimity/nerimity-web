@@ -1,4 +1,4 @@
-import { createSignal, For, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import { classNames, conditionalClass } from '../../common/classNames';
 import Icon from '../Icon';
 import styles from './styles.module.scss';
@@ -8,25 +8,33 @@ interface Item {
   id: string;
   label?: string;
   icon?: string;
-  onClick?: () => void;
+  onClick?: (item: Item) => void;
   separator?: boolean;
   circleColor?: string;
 }
 
 export interface DropDownProps {
   items: Item[]
+  selectedId?: string
 }
 
 
 export default function DropDown (props: DropDownProps) {
-  const [selectedId, setSelectedId] = createSignal<string | null>(null);
+  const [selectedId, setSelectedId] = createSignal<string | null>(props.selectedId || null);
   const [isOpen, setIsOpen] = createSignal(false);
 
   const selectedItem = () => props.items.find(item => item.id === selectedId());
 
   const onItemClick = (item: Item) => {
+    if (item.id === selectedId()) return;
     setSelectedId(item.id);
+    item.onClick?.(item);
   }
+
+  createEffect(on(() => props.selectedId, () => {
+    setSelectedId(props.selectedId || null);
+  }))
+
 
 
   return (

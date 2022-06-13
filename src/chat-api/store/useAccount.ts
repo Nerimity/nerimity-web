@@ -1,5 +1,6 @@
 import {createStore} from 'solid-js/store';
-import { RawChannel, RawServer, RawUser } from '../RawData';
+import { RawUser } from '../RawData';
+import { updatePresence } from '../services/UserService';
 
 
 interface Account {
@@ -15,9 +16,11 @@ const setUser = (user: RawUser) =>
 
 const user = () => account.user;
 
+
 export default function useAccount() {
   return {
     user,
-    setUser
+    setUser,
+    updatePresence
   }
 }

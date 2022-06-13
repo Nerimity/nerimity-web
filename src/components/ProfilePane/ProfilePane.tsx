@@ -1,9 +1,9 @@
 import { useParams } from 'solid-app-router';
-import { createEffect, on, onMount, Show } from 'solid-js';
+import { createEffect, createSignal, on, onMount, Show } from 'solid-js';
 import { FriendStatus } from '../../chat-api/RawData';
 import useStore from '../../chat-api/store/useStore';
 import RouterEndpoints from '../../common/RouterEndpoints';
-import { UserStatuses } from '../../common/userStatus';
+import { userStatusDetail, UserStatuses } from '../../common/userStatus';
 import Avatar from '../Avatar';
 import CustomButton from '../CustomButton';
 import DropDown from '../DropDown';
@@ -37,13 +37,18 @@ export default function ProfilePane () {
   }))
 
 
-  const DropDownItems = UserStatuses.map(item => {
+  const DropDownItems = UserStatuses.map((item, i) => {
     return {
       circleColor: item.color,
       id: item.id,
       label: item.name,
+      onClick: (item: any) => {
+        account.updatePresence(i);
+      }
     }
   })
+
+  const presenceStatus = () => userStatusDetail(user().presence?.status || 0);
 
   return (
     <Show when={user()}>
@@ -58,7 +63,7 @@ export default function ProfilePane () {
                 <span class={styles.tag}>{`:${user().tag}`}</span>
               </div>
               <Show when={!isMe()}><UserPresence userId={user()._id} showOffline={true} /></Show>
-              <Show when={isMe()}><DropDown items={DropDownItems} /></Show>
+              <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
             </div>
             <Show when={!isMe()}>
               {isFriend() && <CustomButton class={styles.addFriendButton} iconName='mail' label='Message' />}
