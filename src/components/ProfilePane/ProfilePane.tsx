@@ -1,23 +1,49 @@
 import { useParams } from 'solid-app-router';
-import { createEffect, Show } from 'solid-js';
+import { createEffect, on, onMount, Show } from 'solid-js';
 import { FriendStatus } from '../../chat-api/RawData';
 import useStore from '../../chat-api/store/useStore';
+import RouterEndpoints from '../../common/RouterEndpoints';
+import { UserStatuses } from '../../common/userStatus';
 import Avatar from '../Avatar';
 import CustomButton from '../CustomButton';
+import DropDown from '../DropDown';
 import UserPresence from '../UserPresence';
 import styles from './styles.module.scss';
 
 export default function ProfilePane () {
   const params = useParams();
-  const { users, friends } = useStore();
+  const { users, friends, account, tabs } = useStore();
   
   const user = () => users.get(params.userId);
   const friend = () => friends.get(params.userId);
+  
+
+  const isMe = () => account.user()?._id === params.userId;
 
   const friendExists = () => !!friend();
   const isPending = () => friendExists() && friend().status === FriendStatus.PENDING;
   const isSent = () => friendExists() && friend().status === FriendStatus.SENT;
   const isFriend = () => friendExists() && friend().status === FriendStatus.FRIENDS;
+
+
+  createEffect(on(user, () => {
+    if (!user()) return;
+    tabs.openTab({
+      subName: "Profile",
+      title: user().username,
+      iconName: 'person',
+      path: RouterEndpoints.PROFILE(params.userId),
+    })
+  }))
+
+
+  const DropDownItems = UserStatuses.map(item => {
+    return {
+      circleColor: item.color,
+      id: item.id,
+      label: item.name,
+    }
+  })
 
   return (
     <Show when={user()}>
@@ -32,11 +58,14 @@ export default function ProfilePane () {
                 <span class={styles.tag}>{`:${user().tag}`}</span>
               </div>
               <UserPresence userId={user()._id} showOffline={true} />
+              <DropDown items={DropDownItems}  />
             </div>
-            {isFriend() && <CustomButton class={styles.addFriendButton} iconName='mail' label='Message' />}
-            {!friendExists() && <CustomButton class={styles.addFriendButton} iconName='group_add' label='Add Friend' />}
-            {isSent() && <CustomButton class={styles.addFriendButton} iconName='close' label='Pending Request' color='var(--alert-color)' />}
-            {isPending() && <CustomButton class={styles.addFriendButton} iconName='done' label='Accept Request' color='var(--success-color)' />}
+            <Show when={!isMe()}>
+              {isFriend() && <CustomButton class={styles.addFriendButton} iconName='mail' label='Message' />}
+              {!friendExists() && <CustomButton class={styles.addFriendButton} iconName='group_add' label='Add Friend' />}
+              {isSent() && <CustomButton class={styles.addFriendButton} iconName='close' label='Pending Request' color='var(--alert-color)' />}
+              {isPending() && <CustomButton class={styles.addFriendButton} iconName='done' label='Accept Request' color='var(--success-color)' />}
+            </Show>
           </div>
         </div>
       </div>
