@@ -57,8 +57,8 @@ export default function ProfilePane () {
                 <span class={styles.username}>{user().username}</span>
                 <span class={styles.tag}>{`:${user().tag}`}</span>
               </div>
-              <UserPresence userId={user()._id} showOffline={true} />
-              <DropDown items={DropDownItems}  />
+              <Show when={!isMe()}><UserPresence userId={user()._id} showOffline={true} /></Show>
+              <Show when={isMe()}><DropDown items={DropDownItems} /></Show>
             </div>
             <Show when={!isMe()}>
               {isFriend() && <CustomButton class={styles.addFriendButton} iconName='mail' label='Message' />}
