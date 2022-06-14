@@ -11,6 +11,7 @@ import { Link, useLocation, useParams } from 'solid-app-router';
 import { RawServer } from '../../chat-api/RawData';
 import Modal from '../Modal';
 import AddServer from '../AddServer';
+import { userStatusDetail } from '../../common/userStatus';
 
 
 export default function SidePane () {
@@ -46,16 +47,28 @@ function SettingsItem() {
 }
 
 const UserItem = () => {
-  const {account} = useStore();
+  const params = useParams();
+  const {account, users} = useStore();
+
+  const userId = () =>  account.user()?._id;
+  const user = () => users.get(userId()!)
+
+  const isSelected = () => userId() === params.userId;
+
+  const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color
+
+  createEffect(() => {
+    console.log(presenceColor())
+  })
 
   return (
-    <Show when={account.user()}>
-      <Link href={RouterEndpoints.PROFILE(account.user()?._id!)}>
-        <div class={`${styles.item} ${styles.user}`} >
-          <Avatar size={35} hexColor={account.user()?.hexColor!} />
-        </div>
-      </Link>
-    </Show>
+    <Link href={userId() ? RouterEndpoints.PROFILE(userId()!) : "#"}>
+      <div class={`${styles.item} ${styles.user} ${conditionalClass(isSelected(), styles.selected)}`} >
+        {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
+        {presenceColor() && <div class={styles.presence} style={{background: presenceColor()}} />}
+        {!presenceColor() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
+      </div>
+    </Link>
   )
 };
 

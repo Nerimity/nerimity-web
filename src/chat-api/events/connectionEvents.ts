@@ -1,9 +1,12 @@
+import { LocalCacheKey, saveCache } from "../../common/localCache";
 import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
   const {account, servers, users, channels, serverMembers, friends, inbox} = useStore();
   console.log('[WS] Authenticated.');
+
+  saveCache(LocalCacheKey.Account, payload.user);
 
   account.setUser(payload.user);
   users.set(payload.user)

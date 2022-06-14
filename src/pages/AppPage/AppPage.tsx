@@ -18,14 +18,24 @@ import socketClient from '../../chat-api/socketClient';
 import SidePane from '../../components/SidePane';
 import ServerMembersDrawer from '../../components/ServerMembersDrawer';
 import { useWindowProperties } from '../../common/useWindowProperties';
+import { getCache, LocalCacheKey } from '../../common/localCache';
+import useStore from '../../chat-api/store/useStore';
 
+async function loadAllCache () {
+  const {account} = useStore();
+  const user = await getCache(LocalCacheKey.Account)
+  account.setUser(user);
+} 
 const DRAWER_WIDTH = 240;
 
 
 export default function AppPage(props: {routeName?: string}) {
   
   onMount(() => {
-    socketClient.login(getStorageString(StorageKeys.USER_TOKEN, undefined));
+    loadAllCache()
+    setTimeout(() => {
+      socketClient.login(getStorageString(StorageKeys.USER_TOKEN, undefined));
+    }, 1000);
   })
 
 

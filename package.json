@@ -15,6 +15,7 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
+    "idb-keyval": "^6.1.0",
     "material-icons": "^1.11.1",
     "sass": "^1.52.1",
     "socket.io-client": "^4.5.1",

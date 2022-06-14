@@ -2,6 +2,7 @@ import { useParams } from 'solid-app-router';
 import { createEffect, createSignal, on, onMount, Show } from 'solid-js';
 import { FriendStatus } from '../../chat-api/RawData';
 import useStore from '../../chat-api/store/useStore';
+import { User } from '../../chat-api/store/useUsers';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { userStatusDetail, UserStatuses } from '../../common/userStatus';
 import Avatar from '../Avatar';
@@ -14,11 +15,18 @@ export default function ProfilePane () {
   const params = useParams();
   const { users, friends, account, tabs } = useStore();
   
-  const user = () => users.get(params.userId);
+  const isMe = () => account.user()?._id === params.userId;
+
+
+  const user = () => {
+    const user = users.get(params.userId)
+    if (user) return user;
+    if (isMe()) return account.user();
+  };
+
   const friend = () => friends.get(params.userId);
   
 
-  const isMe = () => account.user()?._id === params.userId;
 
   const friendExists = () => !!friend();
   const isPending = () => friendExists() && friend().status === FriendStatus.PENDING;
@@ -30,7 +38,7 @@ export default function ProfilePane () {
     if (!user()) return;
     tabs.openTab({
       subName: "Profile",
-      title: user().username,
+      title: user()!.username,
       iconName: 'person',
       path: RouterEndpoints.PROFILE(params.userId),
     })
@@ -48,7 +56,8 @@ export default function ProfilePane () {
     }
   })
 
-  const presenceStatus = () => userStatusDetail(user().presence?.status || 0);
+  const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
+  
 
   return (
     <Show when={user()}>
@@ -56,13 +65,13 @@ export default function ProfilePane () {
         <div class={styles.topArea}>
           <div class={styles.banner}></div>
           <div class={styles.bannerFloatingItems}>
-            <Avatar hexColor={user().hexColor} size={90} />
+            <Avatar hexColor={user()!.hexColor} size={90} />
             <div class={styles.details}>
               <div class={styles.usernameTag}>
-                <span class={styles.username}>{user().username}</span>
-                <span class={styles.tag}>{`:${user().tag}`}</span>
+                <span class={styles.username}>{user()!.username}</span>
+                <span class={styles.tag}>{`:${user()!.tag}`}</span>
               </div>
-              <Show when={!isMe()}><UserPresence userId={user()._id} showOffline={true} /></Show>
+              <Show when={!isMe()}><UserPresence userId={user()!._id} showOffline={true} /></Show>
               <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
             </div>
             <Show when={!isMe()}>
