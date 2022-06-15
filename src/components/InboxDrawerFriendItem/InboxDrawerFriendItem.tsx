@@ -42,15 +42,16 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   }
 
 
-  const onFriendClick = async () => {
+  const onFriendClick = async (e: any) => {
+    if (e.target.closest(".link")) return;
+    if (e.target.closest("." + styles.button)) return;
     user().openDM(navigate);
   }
-  
 
 
   return (
     <div class={classNames(styles.friendItem, conditionalClass(isFriendRequest(), styles.requestItem), conditionalClass(isSelected(), styles.selected))} onClick={onFriendClick}>
-      <Link href={RouterEndpoints.PROFILE(user()._id)}>
+      <Link href={RouterEndpoints.PROFILE(user()._id)} class="link">
         <Avatar hexColor={user().hexColor} size={25} />
       </Link>
       <div class={styles.details}>
