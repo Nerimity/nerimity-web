@@ -57,9 +57,6 @@ const UserItem = () => {
 
   const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color
 
-  createEffect(() => {
-    console.log(presenceColor())
-  })
 
   return (
     <Link href={userId() ? RouterEndpoints.PROFILE(userId()!) : "#"}>

@@ -1,5 +1,5 @@
-import { Navigator, useNavigate } from 'solid-app-router';
-import {createStore, reconcile} from 'solid-js/store';
+import { useNavigate } from 'solid-app-router';
+import { createStore, reconcile } from 'solid-js/store';
 
 
 export interface Tab {
@@ -9,7 +9,7 @@ export interface Tab {
   subName?: string;
   userId?: string;
   serverId?: string;
-  opened: boolean;
+  isPreview: boolean;
 }
 
 const [tabs, setTabs] = createStore<Tab[]>([]);
@@ -30,7 +30,7 @@ const closeTab = (path: string) => {
 }
 
 
-const openTab = (tab: Omit<Tab, 'opened'>) => {
+const openTab = (tab: Omit<Tab, 'isPreview'>) => {
 
   let select = true;
 
@@ -46,12 +46,12 @@ const openTab = (tab: Omit<Tab, 'opened'>) => {
     return;
   };
   
-  const unopenedTabIndex = tabs.findIndex(t => !t.opened);
-  if (unopenedTabIndex >= 0) {
-    setTabs(unopenedTabIndex, reconcile({...tab, opened: false}));
+  const previewTabIndex = tabs.findIndex(t => t.isPreview);
+  if (previewTabIndex >= 0) {
+    setTabs(previewTabIndex, reconcile({...tab, isPreview: true}));
 
   } else {
-    const newTab = {...tab, opened: false};
+    const newTab = {...tab, isPreview: true};
     setTabs([...tabs, newTab]);
   }
 

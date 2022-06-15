@@ -97,7 +97,7 @@ function MessageArea() {
       setMessage('')
       if (!trimmedMessage) return;
       const channel = channels.get(params.channelId!);
-      tabs.updateTab(location.pathname!, {opened: true})
+      tabs.updateTab(location.pathname!, {isPreview: false})
       messages.sendAndStoreMessage(channel._id, trimmedMessage);
     }
   }
