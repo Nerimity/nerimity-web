@@ -1,3 +1,13 @@
+.profilePane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+}
+.topArea {
+  display: flex;
+  flex-direction: column;
+}
 .banner {
   display: flex;
   height: 200px;
@@ -32,6 +42,45 @@
     margin-left: auto;
     margin-right: 20px;
     margin-top: 30px;
+  }
+}
+
+.content {
+  display: flex;
+  margin-top: 5px;
+  height: 100%;
+}
+.sidePane {
+  flex-shrink: 0;
+  width: 170px;
+  margin-right: 5px;
+  border-right: solid 1px rgba(255, 255, 255, 0.3);
+  .title {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    color: rgba(255, 255, 255, 0.6);
+    .icon {
+      margin-right: 3px;
+    }
+  }
+  .list {
+    .item {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      border-radius: 4px;
+      margin: 4px;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+    .name {
+      margin-left: 5px;
+    }
   }
 }
 

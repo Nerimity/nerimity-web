@@ -1,6 +1,7 @@
-import { useParams } from 'solid-app-router';
-import { createEffect, createSignal, on, onMount, Show } from 'solid-js';
+import { Link, useParams } from 'solid-app-router';
+import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus } from '../../chat-api/RawData';
+import { getUserDetailsRequest, UserDetails } from '../../chat-api/services/UserService';
 import useStore from '../../chat-api/store/useStore';
 import { User } from '../../chat-api/store/useUsers';
 import RouterEndpoints from '../../common/RouterEndpoints';
@@ -8,6 +9,7 @@ import { userStatusDetail, UserStatuses } from '../../common/userStatus';
 import Avatar from '../Avatar';
 import CustomButton from '../CustomButton';
 import DropDown from '../DropDown';
+import Icon from '../Icon';
 import UserPresence from '../UserPresence';
 import styles from './styles.module.scss';
 
@@ -16,6 +18,9 @@ export default function ProfilePane () {
   const { users, friends, account, tabs } = useStore();
   
   const isMe = () => account.user()?._id === params.userId;
+
+  const [userDetails] = createResource(() => params.userId, getUserDetailsRequest);
+ 
 
 
   const user = () => {
@@ -61,7 +66,7 @@ export default function ProfilePane () {
 
   return (
     <Show when={user()}>
-      <div>
+      <div class={styles.profilePane}>
         <div class={styles.topArea}>
           <div class={styles.banner}></div>
           <div class={styles.bannerFloatingItems}>
@@ -82,7 +87,71 @@ export default function ProfilePane () {
             </Show>
           </div>
         </div>
+        <Show when={userDetails()}>
+          <Content user={userDetails()!}  />
+        </Show>
       </div>
     </Show>
   )
 } 
+
+function Content (props: {user: UserDetails}) {
+  return (
+    <div class={styles.content}>
+      <SideBar user={props.user} />
+      WIP
+    </div>
+  )
+}
+
+function SideBar (props: {user: UserDetails}) {
+  return (
+    <div class={styles.sidePane}>
+      <MutualFriendList mutualFriendIds={props.user.mutualFriendIds} />
+      <MutualServerList mutualServerIds={props.user.mutualServerIds} />
+    </div>
+  )
+}
+
+function MutualFriendList(props: {mutualFriendIds: string[]}) {
+  const {users} = useStore();
+  return (
+    <>
+      <div class={styles.title}><Icon name='group' size={14} class={styles.icon} />Mutual Friends</div>
+      <div class={styles.list}>
+        <For each={props.mutualFriendIds}>
+          {(id: string) => {
+            const user = users.get(id);
+            return (
+              <Link href={RouterEndpoints.PROFILE(user._id)} class={styles.item}>
+                <Avatar hexColor={user.hexColor} size={30} />
+                <div class={styles.name}>{user.username}</div>
+              </Link>
+            )
+          }}
+        </For>
+      </div>
+    </>
+  )
+}
+function MutualServerList(props: {mutualServerIds: string[]}) {
+  const {servers} = useStore();
+  return (
+    <>
+      <div class={styles.title}><Icon name='dns' size={14} class={styles.icon} />Mutual Servers</div>
+      <div class={styles.list}>
+        <For each={props.mutualServerIds}>
+          {(id: string) => {
+            const server = servers.get(id);
+            return (
+              <Link href={RouterEndpoints.SERVER_MESSAGES(server._id, server.defaultChannel)} class={styles.item}>
+                <Avatar hexColor={server.hexColor} size={30} />
+                <div class={styles.name}>{server.name}</div>
+              </Link>
+            )
+          }}
+        </For>
+      </div>
+    </>
+  )
+}

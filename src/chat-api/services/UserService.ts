@@ -1,5 +1,5 @@
 import env from "../../common/env";
-import { RawChannel, RawInboxWithoutChannel } from "../RawData";
+import { RawChannel, RawInboxWithoutChannel, RawUser } from "../RawData";
 import { UserStatus } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
@@ -31,6 +31,21 @@ export async function registerRequest(email: string, username: string, password:
       username,
       password
     }
+  });
+}
+
+export interface UserDetails {
+  user: RawUser;
+  mutualFriendIds: string[];
+  mutualServerIds: string[];
+
+}
+
+export async function getUserDetailsRequest(userId: string) {
+  return request<UserDetails>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId),
+    method: "GET",
+    useToken: true
   });
 }
 

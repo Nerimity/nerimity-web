@@ -6,6 +6,8 @@ import { Icon } from '../Icon/Icon';
 import { RawMessage } from '../../chat-api/RawData';
 import { Message, MessageSentStatus } from '../../chat-api/store/useMessages';
 import { deleteMessage } from '../../chat-api/services/MessageService';
+import RouterEndpoints from '../../common/RouterEndpoints';
+import { Link, useNavigate } from 'solid-app-router';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
@@ -26,13 +28,18 @@ function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
 
 
 const MessageItem = (props: { message: Message, beforeMessage: Message, animate?: boolean }) => {
+  const navigate = useNavigate();
 
   const Details = () => (
     <div class={styles.details}>
-      <Avatar hexColor={props.message.createdBy.hexColor} size={30} />
-      <div class={styles.username}>{props.message.createdBy.username}</div>
+      <Link href={RouterEndpoints.PROFILE(props.message.createdBy._id)}>
+        <Avatar hexColor={props.message.createdBy.hexColor} size={30} />
+      </Link>
+      <Link class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy._id)}>
+        {props.message.createdBy.username}
+      </Link>
       <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
-    </div>
+      </div>
   )
 
   const isSameCreator = () => props.beforeMessage?.createdBy?._id === props.message?.createdBy?._id;

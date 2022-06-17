@@ -7,6 +7,8 @@ export default {
   serverInvites: (serverId: string) => `/servers/${serverId}/invites`,
   serverInviteCode: (inviteCode: string) => `/servers/invites/${inviteCode}`,
 
+  user: (userId: string) => `/users/${userId}`,
+
   openUserDM: (userId: string) => `/users/${userId}/open-channel`,
 
   updatePresence: () => `/users/presence`,

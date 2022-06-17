@@ -98,6 +98,11 @@
       margin-left: 5px;
       font-size: 14px;
       font-weight: bold;
+      color: white;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
     }
     .date {
       color: rgba(255, 255, 255, 0.6);
