@@ -4,13 +4,21 @@ import { createStore } from "solid-js/store";
 
 const [windowProperties, setWindowProperties] = createStore({
   width: window.innerWidth,
-  paneWidth: null as null | number
+  paneWidth: null as null | number,
+  hasFocus: document.hasFocus(),
 });
 
 
 
 window.addEventListener("resize", () => {
   setWindowProperties('width', window.innerWidth)
+})
+
+window.addEventListener('focus', () => {
+  setWindowProperties('hasFocus', true)
+})
+window.addEventListener('blur', () => {
+  setWindowProperties('hasFocus', false)
 })
 
 
@@ -23,5 +31,6 @@ export function useWindowProperties() {
     setPaneWidth,
     width: () => windowProperties.width,
     paneWidth: () => windowProperties.paneWidth,
+    hasFocus: () => windowProperties.hasFocus
   }
 }

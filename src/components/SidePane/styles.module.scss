@@ -68,6 +68,9 @@
   &.selected:after {
     background-color: var(--primary-color);
   }  
+  &.hasNotifications:After {
+    background-color: var(--alert-color);
+  }
 }
 
 .user {

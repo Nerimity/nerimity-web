@@ -2,7 +2,7 @@ import { RawChannel, RawServer, RawServerMember } from "../RawData";
 import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServers from "../store/useServers";
-import useUsers from "../store/useUsers";
+
 interface ServerJoinedPayload {
   server: RawServer,
   members: RawServerMember[],
@@ -10,11 +10,11 @@ interface ServerJoinedPayload {
 }
 
 
-const serverMembers = useServerMembers();
-const servers = useServers();
-const channels = useChannels();
 
 export const onServerJoined = (payload: ServerJoinedPayload) => {
+  const serverMembers = useServerMembers();
+  const servers = useServers();
+  const channels = useChannels();
 
 
   servers.set(payload.server);
@@ -39,6 +39,6 @@ interface ServerMemberJoinedPayload {
 
 
 export const onServerMemberJoined = (payload: ServerMemberJoinedPayload) => {
-  console.log(payload.member)
+  const serverMembers = useServerMembers();
   serverMembers.set(payload.member);
 }

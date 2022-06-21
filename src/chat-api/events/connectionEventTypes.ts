@@ -8,6 +8,7 @@ export interface AuthenticatedPayload {
   presences: Presence[];
   friends: RawFriend[];
   inbox: RawInboxWithoutChannel[];
+  lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
 }
 
 

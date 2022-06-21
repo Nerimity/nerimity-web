@@ -8,6 +8,9 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   saveCache(LocalCacheKey.Account, payload.user);
 
+  
+  //emitNotificationDismiss
+
   account.setUser(payload.user);
   users.set(payload.user)
 
@@ -32,7 +35,6 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   for (let i = 0; i < payload.inbox.length; i++) {
     const item = payload.inbox[i];
     inbox.set(item);
-        
   }
 
   for (let i = 0; i < payload.friends.length; i++) {
@@ -45,7 +47,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     users.setPresence(presence.userId, presence);   
   }
   
-
+  for (let channelId in payload.lastSeenServerChannelIds) {
+    const timestamp = payload.lastSeenServerChannelIds[channelId];
+    channels.get(channelId).updateLastSeen(timestamp);
+  }
 
 
 }

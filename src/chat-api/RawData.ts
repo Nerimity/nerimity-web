@@ -50,6 +50,7 @@ export interface RawChannel {
   type: number;
   createdAt: number
   recipients?: RawUser[];
+  lastMessagedAt?: number;
 }
 
 export enum FriendStatus {

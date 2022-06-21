@@ -1,11 +1,15 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '../../common/RouterEndpoints';
 
-import { createEffect, createSignal, For, on} from 'solid-js';
+import { createEffect, createSignal, For, on, onCleanup, onMount} from 'solid-js';
 import { useLocation, useParams } from 'solid-app-router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from '../MessageItem';
 import CustomButton from '../CustomButton';
+import { useWindowProperties } from '../../common/useWindowProperties';
+import { RawMessage } from '../../chat-api/RawData';
+import socketClient from '../../chat-api/socketClient';
+import { ServerEvents } from '../../chat-api/EventNames';
 
 export default function MessagePane() {
   const params = useParams();
@@ -48,22 +52,43 @@ const MessageLogArea = () => {
   const {channels, messages} = useStore();
   const channelMessages = () => messages.getMessagesByChannelId(params.channelId!);
   const [openedTimestamp, setOpenedTimestamp] = createSignal<null | number>(null);
+  const channel = () => channels.get(params.channelId!);
+  const {hasFocus} = useWindowProperties();
 
-  createEffect(() => {
+  createEffect(on(channel ,() => {
     setOpenedTimestamp(null);
-    
-    const channel = channels.get(params.channelId!);
-    if (!channel) return;
-    messages.fetchAndStoreMessages(channel._id).then(() => {
+    if (!channel()) return;
+    messages.fetchAndStoreMessages(channel()._id).then(() => {
       setOpenedTimestamp(Date.now());
+      channel()?.dismissNotification();
     })
-  })
+  }))
   
   createEffect(on([() => channelMessages()?.length], () => {
     if (messageLogElement) {
       messageLogElement.scrollTop = 99999;
     }
   }))
+  
+  createEffect(on(hasFocus, () => {
+    if (hasFocus()) {
+      channel()?.dismissNotification();
+    }
+  }))
+  
+  const onMessage = (message: RawMessage) => {
+    const selectedChannelId = params.channelId;
+    const newMessageChannelId = message.channel;
+    if (selectedChannelId !== newMessageChannelId) return;
+    channel()?.dismissNotification();
+  }
+
+  onMount(() => {
+    socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessage);
+    onCleanup(() => {
+      socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessage);
+    })
+  })
   
 
   

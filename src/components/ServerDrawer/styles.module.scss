@@ -36,6 +36,9 @@
   &.selected:after {
     background-color: var(--primary-color);
   }  
+  &.hasNotifications:after {
+    background-color: var(--alert-color);
+  }
   .channelName {
     margin-left: 5px;
   }

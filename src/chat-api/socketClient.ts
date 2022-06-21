@@ -3,10 +3,10 @@ import env from '../common/env';
 import { ClientEvents, ServerEvents } from './EventNames';
 import { onAuthenticated } from './events/connectionEvents';
 import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from './events/friendEvents';
-import { onInboxOpened } from './events/indexEvents';
+import { onInboxOpened } from './events/inboxEvents';
 import { onMessageCreated, onMessageDeleted } from './events/messageEvents';
 import { onServerJoined, onServerMemberJoined } from './events/serverEvents';
-import { onUserPresenceUpdate } from './events/userEvents';
+import { onNotificationDismissed, onUserPresenceUpdate } from './events/userEvents';
 
 
 const socket = io(env.SERVER_URL, { transports: ['websocket'], autoConnect: false});
@@ -19,6 +19,7 @@ export default {
     socket.connect()
   },
   id: () => socket.id,
+  socket
 }
 
 
@@ -37,6 +38,7 @@ socket.on(ServerEvents.FRIEND_REQUEST_ACCEPTED, onFriendRequestAccepted)
 socket.on(ServerEvents.FRIEND_REMOVED, onFriendRemoved)
 
 socket.on(ServerEvents.INBOX_OPENED, onInboxOpened)
+socket.on(ServerEvents.NOTIFICATION_DISMISSED, onNotificationDismissed)
 
 socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
 socket.on(ServerEvents.MESSAGE_DELETED, onMessageDeleted);

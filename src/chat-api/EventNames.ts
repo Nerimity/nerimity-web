@@ -1,5 +1,6 @@
 export const ClientEvents = {
-  AUTHENTICATE: 'user:authenticate'
+  AUTHENTICATE: 'user:authenticate',
+  NOTIFICATION_DISMISS: 'notification:dismiss',
 }
 
 export const ServerEvents = {
@@ -13,6 +14,7 @@ export const ServerEvents = {
   FRIEND_REQUEST_ACCEPTED: 'friend:request_accepted',
   FRIEND_REMOVED: 'friend:removed',
   INBOX_OPENED: 'inbox:opened',
+  NOTIFICATION_DISMISSED: 'notification:dismissed',
 
   SERVER_JOINED: 'server:joined',
   SERVER_MEMBER_JOINED: 'server:member_joined',

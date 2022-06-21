@@ -37,8 +37,14 @@ const ChannelList = () => {
 function ChannelItem(props: {channel: Channel, selected: boolean}) {
   const { channel } = props;
   if (!channel.server) return null;
+
+  const hasNotifications = () => channel.hasNotifications;
+
+
   return (
-    <Link href={RouterEndpoints.SERVER_MESSAGES(channel.server, channel._id)} class={classNames(styles.channel, conditionalClass(props.selected, styles.selected))}>
+    <Link 
+      href={RouterEndpoints.SERVER_MESSAGES(channel.server, channel._id)}
+      class={classNames(styles.channel, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}>
       <div class={styles.channelName}>{channel.name}</div>
     </Link>
   )

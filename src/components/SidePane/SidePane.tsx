@@ -12,6 +12,7 @@ import { RawServer } from '../../chat-api/RawData';
 import Modal from '../Modal';
 import AddServer from '../AddServer';
 import { userStatusDetail } from '../../common/userStatus';
+import { Server } from '../../chat-api/store/useServers';
 
 
 export default function SidePane () {
@@ -70,15 +71,17 @@ const UserItem = () => {
 };
 
 
-function ServerItem(props: {server: RawServer, selected?: boolean, onContextMenu?: (e: MouseEvent) => void}) {
+function ServerItem(props: {server: Server, selected?: boolean, onContextMenu?: (e: MouseEvent) => void}) {
   const { _id, defaultChannel } = props.server;
+
+  const hasNotifications = () => props.server.hasNotifications;
 
   return (
     <Link
       href={RouterEndpoints.SERVER_MESSAGES(_id, defaultChannel)}
       onContextMenu={props.onContextMenu}
-      class={styles.item}
-      classList={{ [styles.selected]: props.selected }}>
+      class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}
+      >
         <Avatar size={35} hexColor={props.server.hexColor} />
     </Link>
   )
