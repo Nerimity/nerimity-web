@@ -8,6 +8,7 @@ import { Message, MessageSentStatus } from '../../chat-api/store/useMessages';
 import { deleteMessage } from '../../chat-api/services/MessageService';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { Link, useNavigate } from 'solid-app-router';
+import { onCleanup, onMount } from 'solid-js';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
@@ -28,7 +29,11 @@ function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
 
 
 const MessageItem = (props: { message: Message, beforeMessage: Message, animate?: boolean }) => {
-  const navigate = useNavigate();
+
+  onCleanup(() => {
+    console.log("unmount")
+  })
+
 
   const Details = () => (
     <div class={styles.details}>

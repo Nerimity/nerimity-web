@@ -3,6 +3,7 @@ import { MessageType, RawMessage } from '../RawData';
 import { fetchMessages, postMessage } from '../services/MessageService';
 import socketClient from '../socketClient';
 import useAccount from './useAccount';
+import useChannels from './useChannels';
 
 const account = useAccount();
 
@@ -22,14 +23,14 @@ const fetchAndStoreMessages = async (channelId: string) => {
   if (getMessagesByChannelId(channelId)) return;
   const newMessages = await fetchMessages(channelId);
   setMessages({
-    ...messages,
     [channelId]: newMessages
   });
-  return () => getMessagesByChannelId(channelId);
 }
 
 const sendAndStoreMessage = async (channelId: string, content: string) => {
+  const channels = useChannels();
   const tempMessageId = `${Date.now()}-${Math.random()}`;
+  const channel = channels.get(channelId);
 
   const user = account.user();
   if (!user) return;
@@ -59,6 +60,9 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
   }).catch(() => {
     console.log("failed to send message");
   });
+  channel.updateLastSeen(Date.now());
+  channel?.updateLastMessaged?.(message?.createdAt!);
+
   const index = messages[channelId].findIndex(m => m.tempId === tempMessageId);
 
   if (!message) {

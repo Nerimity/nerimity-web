@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '../../common/RouterEndpoints';
 
-import { createEffect, createSignal, For, on, onCleanup, onMount} from 'solid-js';
+import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Show} from 'solid-js';
 import { useLocation, useParams } from 'solid-app-router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from '../MessageItem';
@@ -50,12 +50,17 @@ const MessageLogArea = () => {
   let messageLogElement: undefined | HTMLDivElement;
   const params = useParams();
   const {channels, messages} = useStore();
+
   const channelMessages = () => messages.getMessagesByChannelId(params.channelId!);
   const [openedTimestamp, setOpenedTimestamp] = createSignal<null | number>(null);
+
+  const [unreadMessageId, setUnreadMessageId] = createSignal<null | string>(null);
+  const [unreadLastSeen, setUnreadLastSeen] = createSignal<null | number>(null);
+
   const channel = () => channels.get(params.channelId!);
   const {hasFocus} = useWindowProperties();
 
-  createEffect(on(channel ,() => {
+  createEffect(on(channel, () => {
     setOpenedTimestamp(null);
     if (!channel()) return;
     messages.fetchAndStoreMessages(channel()._id).then(() => {
@@ -64,9 +69,18 @@ const MessageLogArea = () => {
     })
   }))
   
-  createEffect(on([() => channelMessages()?.length], () => {
+  createEffect(on(channelMessages, (messages) => {
+    if (!messages) return;
+    setUnreadMessageId(null);
+    setUnreadLastSeen(null);
+    updateLastReadIndex();
+  }))
+  
+  createEffect(on(() => channelMessages()?.length, () => {
     if (messageLogElement) {
-      messageLogElement.scrollTop = 99999;
+      setTimeout(() => {
+        messageLogElement!.scrollTop = messageLogElement!.scrollHeight;
+      }, 100);
     }
   }))
   
@@ -74,12 +88,19 @@ const MessageLogArea = () => {
     if (hasFocus()) {
       channel()?.dismissNotification();
     }
-  }))
+  }, { defer: true }))
   
   const onMessage = (message: RawMessage) => {
+    if (!channelMessages()) return;
     const selectedChannelId = params.channelId;
     const newMessageChannelId = message.channel;
     if (selectedChannelId !== newMessageChannelId) return;
+    if (!hasFocus()) {
+      if ((channel().lastSeen || null) !== unreadLastSeen()) {
+        setUnreadMessageId(message._id);
+        setUnreadLastSeen(channel().lastSeen || null);
+      };
+    }
     channel()?.dismissNotification();
   }
 
@@ -92,15 +113,35 @@ const MessageLogArea = () => {
   
 
   
+  const updateLastReadIndex = () => {
+    if (!channel().hasNotifications) return;
+
+    const lastRead = channel()?.lastSeen || -1;
+    if (lastRead === -1) {
+      setUnreadMessageId(null);
+      return;
+    };
+    
+    const message = channelMessages()?.find(m => m.createdAt - lastRead >= 0 );
+    setUnreadMessageId(message?._id || null);
+  }
+
+  
 
   return <div class={styles.messageLogArea} ref={messageLogElement} >
     <For each={channelMessages()}>
       {(message, i) => (
-        <MessageItem
-          animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
-          message={message}
-          beforeMessage={channelMessages()?.[i() - 1]}
-        />
+        <>
+          {/* {unreadMessageId() === message._id && <div>Unread</div> } */}
+          <Show when={unreadMessageId() === message._id}>
+            <div>Unread</div>
+          </Show>
+          <MessageItem
+            animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
+            message={message}
+            beforeMessage={channelMessages()?.[i() - 1]}
+          />
+        </>
       )}
     </For>
   </div>

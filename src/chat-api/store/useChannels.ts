@@ -37,9 +37,9 @@ const set = (channel: RawChannel) => {
         return users.get(recipientId);
       },
       get hasNotifications() {
-        const lastMessagedAt = this.lastMessagedAt;
+        const lastMessagedAt = this.lastMessagedAt || 0;
         const lastSeenAt = this.lastSeen;
-        if (!lastMessagedAt || !lastSeenAt) return false;
+        if (!lastSeenAt) return true;
         return lastMessagedAt > lastSeenAt;
       },
       updateLastSeen(timestamp?: number) {
