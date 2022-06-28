@@ -20,6 +20,6 @@
     "sass": "^1.52.1",
     "socket.io-client": "^4.5.1",
     "solid-app-router": "^0.4.1",
-    "solid-js": "^1.4.4"
+    "solid-js": "^1.4.5"
   }
 }

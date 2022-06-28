@@ -30,11 +30,6 @@ function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
 
 const MessageItem = (props: { message: Message, beforeMessage: Message, animate?: boolean }) => {
 
-  onCleanup(() => {
-    console.log("unmount")
-  })
-
-
   const Details = () => (
     <div class={styles.details}>
       <Link href={RouterEndpoints.PROFILE(props.message.createdBy._id)}>
