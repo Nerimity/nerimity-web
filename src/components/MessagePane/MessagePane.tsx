@@ -10,6 +10,7 @@ import { useWindowProperties } from '../../common/useWindowProperties';
 import { RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
+import Icon from '../Icon';
 
 export default function MessagePane() {
   const params = useParams();
@@ -78,9 +79,7 @@ const MessageLogArea = () => {
   
   createEffect(on(() => channelMessages()?.length, () => {
     if (messageLogElement) {
-      setTimeout(() => {
-        messageLogElement!.scrollTop = messageLogElement!.scrollHeight;
-      }, 100);
+      messageLogElement!.scrollTop = messageLogElement!.scrollHeight;
     }
   }))
   
@@ -132,9 +131,8 @@ const MessageLogArea = () => {
     <For each={channelMessages()}>
       {(message, i) => (
         <>
-          {/* {unreadMessageId() === message._id && <div>Unread</div> } */}
           <Show when={unreadMessageId() === message._id}>
-            <div>Unread</div>
+            <UnreadMarker/>
           </Show>
           <MessageItem
             animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
@@ -177,4 +175,15 @@ function MessageArea() {
     <textarea placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
     <CustomButton iconName='send' class={styles.button}/>
   </div>
+}
+
+function UnreadMarker() {
+  return (
+    <div class={styles.unreadMarkerContainer}>
+      <div class={styles.unreadMarker}>
+        <Icon name='mark_chat_unread' class={styles.icon} size={12} />
+        New Messages
+      </div>
+    </div>
+  )
 }
