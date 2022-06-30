@@ -5,8 +5,8 @@ import { RawChannel } from '../RawData';
 import useAccount from './useAccount';
 import useUsers, { User } from './useUsers';
 
-export type Channel = Omit<RawChannel, 'recipients'> & {
-  recipientIds?: string[];
+export type Channel = Omit<RawChannel, 'recipient'> & {
+  recipientId?: string;
   updateLastSeen(this: Channel, timestamp?: number): void;
   updateLastMessaged(this: Channel, timestamp?: number): void;
   dismissNotification(this: Channel, force?: boolean): void;
@@ -22,19 +22,17 @@ const users = useUsers();
 const account = useAccount();
 
 const set = (channel: RawChannel) => {
-  const recipientIds = channel.recipients?.map(recipient => {
-    users.set(recipient);
-    return recipient._id
-  });
+  if (channel.recipient) {
+    users.set(channel.recipient);
+  }
+
   setChannels({
     ...channels,
     [channel._id]: {
       ...channel,
-      recipientIds: recipientIds,
+      recipientId: channel.recipient?._id,
       get recipient() {
-        const recipientId = this.recipientIds?.find(id => id !== account.user()?._id);
-        if (!recipientId) return  users.get(this.recipientIds?.[0]!);
-        return users.get(recipientId);
+        return users.get(this.recipientId!);
       },
       get hasNotifications() {
         const lastMessagedAt = this.lastMessagedAt || 0;

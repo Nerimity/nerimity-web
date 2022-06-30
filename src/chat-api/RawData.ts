@@ -49,7 +49,7 @@ export interface RawChannel {
   server?: string;
   type: number;
   createdAt: number
-  recipients?: RawUser[];
+  recipient?: RawUser;
   lastMessagedAt?: number;
 }
 
