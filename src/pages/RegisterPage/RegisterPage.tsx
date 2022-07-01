@@ -5,6 +5,7 @@ import CustomButton from '../../components/CustomButton';
 import { getStorageString, setStorageString, StorageKeys } from '../../common/localStorage';
 import { Link, useNavigate } from 'solid-app-router';
 import { createSignal, onMount } from 'solid-js';
+import env from '../../common/env';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ export default function RegisterPage() {
 
   return <div class={styles.registerPage}>
     <div class={styles.container}>
-      <div class={styles.title}>Welcome to Nertivia!</div>
+      <div class={styles.title}>Welcome to {env.APP_NAME}</div>
       <CustomInput label='Email' type='email' error={error()} onText={setEmail} />
       <CustomInput label='Username' error={error()} onText={setUsername} />
       <CustomInput label='Password' type='password' error={error()} onText={setPassword} />
