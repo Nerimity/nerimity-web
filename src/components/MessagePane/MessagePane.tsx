@@ -50,7 +50,7 @@ export default function MessagePane() {
 const MessageLogArea = () => {
   let messageLogElement: undefined | HTMLDivElement;
   const params = useParams();
-  const {channels, messages} = useStore();
+  const {channels, messages, account} = useStore();
 
   const channelMessages = () => messages.getMessagesByChannelId(params.channelId!);
   const [openedTimestamp, setOpenedTimestamp] = createSignal<null | number>(null);
@@ -94,6 +94,7 @@ const MessageLogArea = () => {
     const selectedChannelId = params.channelId;
     const newMessageChannelId = message.channel;
     if (selectedChannelId !== newMessageChannelId) return;
+    if (message.createdBy._id === account.user()?._id) return;
     if (!hasFocus()) {
       if ((channel().lastSeen || null) !== unreadLastSeen()) {
         setUnreadMessageId(message._id);
