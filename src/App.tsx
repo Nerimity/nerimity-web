@@ -3,6 +3,7 @@ import { lazy } from 'solid-js';
 import RouterEndpoints from './common/RouterEndpoints';
 import CustomSuspense from './components/CustomSuspense';
 
+const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AppPage = lazy(() => import('./pages/AppPage'));
@@ -11,6 +12,8 @@ const AppPage = lazy(() => import('./pages/AppPage'));
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<CustomSuspense><HomePage /></CustomSuspense>} />
+
       <Route path="app" element={<CustomSuspense><AppPage /></CustomSuspense>} />
 
       <Route path="app/inbox" element={<CustomSuspense><AppPage routeName="inbox" /></CustomSuspense>} />

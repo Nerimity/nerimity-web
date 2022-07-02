@@ -5,6 +5,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { getStorageString, setStorageString, StorageKeys } from '../../common/localStorage';
 import { Link, useNavigate } from 'solid-app-router';
 import { createSignal, onMount } from 'solid-js';
+import PageHeader from '../../components/PageHeader';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function LoginPage() {
   }
 
   return <div class={styles.loginPage}>
+    <PageHeader />
     <div class={styles.container}>
       <div class={styles.title}>Login to continue</div>
       <CustomInput label='Email' type='email' error={error()} onText={setEmail} />

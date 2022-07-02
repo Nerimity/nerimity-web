@@ -6,6 +6,7 @@ import { getStorageString, setStorageString, StorageKeys } from '../../common/lo
 import { Link, useNavigate } from 'solid-app-router';
 import { createSignal, onMount } from 'solid-js';
 import env from '../../common/env';
+import PageHeader from '../../components/PageHeader';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ export default function RegisterPage() {
   }
 
   return <div class={styles.registerPage}>
+    <PageHeader />
     <div class={styles.container}>
       <div class={styles.title}>Welcome to {env.APP_NAME}</div>
       <CustomInput label='Email' type='email' error={error()} onText={setEmail} />
