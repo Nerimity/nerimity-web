@@ -45,11 +45,10 @@ export interface RawServerMember {
 export interface RawChannel {
   name: string
   _id: string;
-  createdBy: string;
+  createdBy?: string;
   server?: string;
   type: number;
   createdAt: number
-  recipient?: RawUser;
   lastMessagedAt?: number;
 }
 
@@ -68,7 +67,8 @@ export interface RawFriend {
 export interface RawInboxWithoutChannel {
   _id: string;
   createdAt: number;
-  user: string;
+  createdBy: string;
   channel: string;
+  recipient: RawUser;
   closed: boolean
 }

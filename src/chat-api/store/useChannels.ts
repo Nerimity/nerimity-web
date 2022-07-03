@@ -6,11 +6,12 @@ import useAccount from './useAccount';
 import useUsers, { User } from './useUsers';
 
 export type Channel = Omit<RawChannel, 'recipient'> & {
-  recipientId?: string;
   updateLastSeen(this: Channel, timestamp?: number): void;
   updateLastMessaged(this: Channel, timestamp?: number): void;
   dismissNotification(this: Channel, force?: boolean): void;
+  setRecipientId(this: Channel, userId: string): void;
   recipient?: User;
+  recipientId?: string;
   lastSeen?: number;
   hasNotifications: boolean;
 }
@@ -22,16 +23,13 @@ const users = useUsers();
 const account = useAccount();
 
 const set = (channel: RawChannel) => {
-  if (channel.recipient) {
-    users.set(channel.recipient);
-  }
+
 
   setChannels({
     ...channels,
     [channel._id]: {
       ...channel,
-      recipientId: channel.recipient?._id,
-      get recipient() {
+      get recipient(): User {
         return users.get(this.recipientId!);
       },
       get hasNotifications() {
@@ -51,6 +49,9 @@ const set = (channel: RawChannel) => {
         if (!hasFocus() && !force) return;
         if (!this.hasNotifications && !force) return;
         dismissChannelNotification(channel._id);
+      },
+      setRecipientId(userId: string) {
+        setChannels(this._id, "recipientId", userId);
       }
     }
   });

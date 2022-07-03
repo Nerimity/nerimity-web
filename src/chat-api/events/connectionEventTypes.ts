@@ -4,11 +4,20 @@ export interface AuthenticatedPayload {
   user: SelfUser;
   servers: RawServer[];
   serverMembers: RawServerMember[];
+  messageMentions: MessageMention[]
   channels: RawChannel[];
   presences: Presence[];
   friends: RawFriend[];
   inbox: RawInboxWithoutChannel[];
   lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
+}
+
+interface MessageMention {
+  mentionedTo: string;
+  count: number;
+  server?: string;
+  channel: string
+  createdAt: number;
 }
 
 

@@ -1,3 +1,4 @@
+import { batch } from "solid-js";
 import { LocalCacheKey, saveCache } from "../../common/localCache";
 import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
@@ -51,6 +52,20 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     const timestamp = payload.lastSeenServerChannelIds[channelId];
     channels.get(channelId).updateLastSeen(timestamp);
   }
+
+  for (let i = 0; i < payload.messageMentions.length; i++) {
+    const mention = payload.messageMentions[i];
+    const channel = channels.get(mention.channel);
+    if (!channel) return;
+    batch(() => {
+      if (!mention.server) {
+        channel.updateLastSeen(mention.createdAt)
+      }
+      channel.recipient?.updateMentionCount(mention.count);
+    })
+  }
+
+
 
 
 }

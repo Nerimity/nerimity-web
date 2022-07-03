@@ -12,9 +12,9 @@ import AddFriend from '../AddFriend';
 import { useNavigate, useParams } from 'solid-app-router';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
-  const {friends} = useStore();
+  const {friends, inbox} = useStore();
 
-  const friendRequests = () =>  friends.array().filter(friend => friend.status === FriendStatus.PENDING);
+  const friendRequests = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING);
 
   return (
     <div class={styles.header}>
@@ -22,6 +22,7 @@ function Header (props: {selectedIndex: number, onTabClick: (index: number) => v
         name='Inbox'
         iconName='inbox'
         selected={props.selectedIndex === 0}
+        notificationCount={inbox.notificationCount()}
         onClick={() => props.onTabClick(0)}
 
       />
