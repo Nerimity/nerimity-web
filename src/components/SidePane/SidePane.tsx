@@ -8,7 +8,7 @@ import ContextMenuServer from '../ContextMenuServer';
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams } from 'solid-app-router';
-import { RawServer } from '../../chat-api/RawData';
+import { FriendStatus, RawServer } from '../../chat-api/RawData';
 import Modal from '../Modal';
 import AddServer from '../AddServer';
 import { userStatusDetail } from '../../common/userStatus';
@@ -34,12 +34,23 @@ export default function SidePane () {
 
 
 function InboxItem() {
+  const {inbox, friends} = useStore();
   const location = useLocation();
   const isSelected = location.pathname.startsWith(RouterEndpoints.INBOX());
+  const notificationCount = () => inbox.notificationCount(); 
+  const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
 
-  return <Link href={RouterEndpoints.INBOX()} class={classNames(styles.item, styles.settingsIcon, conditionalClass(isSelected, styles.selected))} >
+  const count = () => (notificationCount() + friendRequestCount());
+
+  return (
+  <Link 
+      href={RouterEndpoints.INBOX()} class={
+      classNames(styles.item, styles.settingsIcon, conditionalClass(isSelected, styles.selected), conditionalClass(count(), styles.hasNotifications))}
+    >
+    <div class={styles.notificationCount}>{count()}</div>
     <Icon name='all_inbox' />
   </Link>
+  )
 }
 function SettingsItem() {
   return <div class={`${styles.item} ${styles.settingsIcon}`} >
