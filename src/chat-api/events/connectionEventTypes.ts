@@ -13,7 +13,7 @@ export interface AuthenticatedPayload {
 }
 
 interface MessageMention {
-  mentionedTo: string;
+  mentionedBy: string;
   count: number;
   server?: string;
   channel: string

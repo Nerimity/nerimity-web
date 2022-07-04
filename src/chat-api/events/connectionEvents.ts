@@ -56,7 +56,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   for (let i = 0; i < payload.messageMentions.length; i++) {
     const mention = payload.messageMentions[i];
     const channel = channels.get(mention.channel);
-    if (!channel) return;
+    if (!channel) continue;
     batch(() => {
       if (!mention.server) {
         channel.updateLastSeen(mention.createdAt)
