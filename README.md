@@ -12,6 +12,11 @@ Chat App made using SolidJS. Work in progress.
 - [ ] Custom Emojis
 - [ ] Emojis
 - [ ] Markdown
+- [ ] Push Notifications
+- [ ] Mute Notifications
+- [ ] Desktop App
+- [ ] App Settings
+- [ ] Update Account
 - [ ] Delete Account
 - [ ] Delete Server
 - [ ] Delete Server Channels
