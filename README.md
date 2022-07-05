@@ -25,7 +25,7 @@ Chat App made using SolidJS. Work in progress.
 - [ ] Kick/Ban Users From Servers
 - [ ] Block Users
 - [ ] Changelog
-- [ ] Recycle List (Virtual List to improve perfomance)
+- [ ] Recycle List (Virtual List to Improve Performance)
 - [ ] Embeds
 - [ ] Upload Files
 - [ ] Mentions
