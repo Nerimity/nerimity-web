@@ -47,7 +47,7 @@ function InboxItem() {
       href={RouterEndpoints.INBOX()} class={
       classNames(styles.item, styles.settingsIcon, conditionalClass(isSelected, styles.selected), conditionalClass(count(), styles.hasNotifications))}
     >
-    <div class={styles.notificationCount}>{count()}</div>
+    <Show when={count()}><div class={styles.notificationCount}>{count()}</div></Show>
     <Icon name='all_inbox' />
   </Link>
   )

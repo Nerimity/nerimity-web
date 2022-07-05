@@ -56,6 +56,11 @@ function separateFriends(friends: Friend[]) {
     const friend = friends[i];
     const user = friend.recipient
     if (friend.status === FriendStatus.PENDING || friend.status === FriendStatus.SENT) {
+      // move incoming requests to the top.
+      if (friend.status === FriendStatus.PENDING) {
+        requests.unshift(friend);
+        continue;
+      }
       requests.push(friend);
       continue;
     }

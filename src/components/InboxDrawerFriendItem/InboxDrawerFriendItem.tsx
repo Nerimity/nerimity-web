@@ -59,7 +59,8 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
         styles.friendItem, 
         conditionalClass(isFriendRequest(), styles.requestItem),
         conditionalClass(isSelected(), styles.selected),
-        conditionalClass(mentionCount(), styles.hasNotifications)
+        conditionalClass(mentionCount(), styles.hasNotifications),
+        conditionalClass(showAccept(), styles.hasNotifications)
       )} onClick={onFriendClick}>
 
         <Link href={RouterEndpoints.PROFILE(user()._id)} class="link">

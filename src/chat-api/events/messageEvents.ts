@@ -20,7 +20,12 @@ export function onMessageCreated(payload: RawMessage) {
     if (user()?._id === payload.createdBy._id) {
       channel.updateLastSeen(payload.createdAt+1);
     }
-  
+
+    if (channel.recipient) {
+      const mentionCount = (channel.recipient.mentionCount || 0) + 1;
+      channel.recipient.updateMentionCount(mentionCount);
+    }
+
     messages.pushMessage(payload.channel, payload);
   })
 }

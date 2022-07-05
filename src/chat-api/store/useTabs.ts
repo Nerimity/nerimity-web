@@ -30,7 +30,7 @@ const closeTab = (path: string) => {
 }
 
 
-const openTab = (tab: Omit<Tab, 'isPreview'>) => {
+const openTab = (tab: Omit<Tab, 'isPreview'>, opts?: {update?: boolean}) => {
 
   let select = true;
 
@@ -42,6 +42,9 @@ const openTab = (tab: Omit<Tab, 'isPreview'>) => {
   
   const tabAlreadyOpened = isTabOpened(tab.path);
   if (tabAlreadyOpened) {
+    if (opts?.update) {
+      updateTab(tab.path, tab);
+    }
     select && navigate(tab.path);
     return;
   };
