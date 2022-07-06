@@ -4,6 +4,7 @@ import { FriendStatus } from '../../chat-api/RawData';
 import { getUserDetailsRequest, UserDetails } from '../../chat-api/services/UserService';
 import useStore from '../../chat-api/store/useStore';
 import { User } from '../../chat-api/store/useUsers';
+import { getDaysAgo } from '../../common/date';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { userStatusDetail, UserStatuses } from '../../common/userStatus';
 import Avatar from '../Avatar';
@@ -99,10 +100,13 @@ function Content (props: {user: UserDetails}) {
   return (
     <div class={styles.content}>
       <SideBar user={props.user} />
-      WIP
+      <UserBio user={props.user} />
     </div>
   )
 }
+
+
+
 
 function SideBar (props: {user: UserDetails}) {
   return (
@@ -117,14 +121,14 @@ function MutualFriendList(props: {mutualFriendIds: string[]}) {
   const {users} = useStore();
   return (
     <>
-      <div class={styles.title}><Icon name='group' size={14} class={styles.icon} />Mutual Friends</div>
+      <div class={styles.title}><Icon name='group' size={18} class={styles.icon} />Mutual Friends</div>
       <div class={styles.list}>
         <For each={props.mutualFriendIds}>
           {(id: string) => {
             const user = users.get(id);
             return (
               <Link href={RouterEndpoints.PROFILE(user._id)} class={styles.item}>
-                <Avatar hexColor={user.hexColor} size={30} />
+                <Avatar hexColor={user.hexColor} size={20} />
                 <div class={styles.name}>{user.username}</div>
               </Link>
             )
@@ -138,14 +142,14 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
   const {servers} = useStore();
   return (
     <>
-      <div class={styles.title}><Icon name='dns' size={14} class={styles.icon} />Mutual Servers</div>
+      <div class={styles.title}><Icon name='dns' size={18} class={styles.icon} />Mutual Servers</div>
       <div class={styles.list}>
         <For each={props.mutualServerIds}>
           {(id: string) => {
             const server = servers.get(id);
             return (
               <Link href={RouterEndpoints.SERVER_MESSAGES(server._id, server.defaultChannel)} class={styles.item}>
-                <Avatar hexColor={server.hexColor} size={30} />
+                <Avatar hexColor={server.hexColor} size={20} />
                 <div class={styles.name}>{server.name}</div>
               </Link>
             )
@@ -153,5 +157,29 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
         </For>
       </div>
     </>
+  )
+}
+
+
+
+function UserBioItem (props: {icon: string, label: string, value: string}) {
+  return (
+    <div class={styles.userBioItem}>
+      <Icon name={props.icon} size={18} />
+      <div class={styles.label} >{props.label}</div>
+      <div class={styles.value} >{props.value}</div>
+    </div>
+  );
+}
+
+function UserBio (props: {user: UserDetails}) {
+
+  const joinedAt = getDaysAgo(props.user.user.joinedAt!);
+
+
+  return (
+    <div class={styles.userBio}>
+      <UserBioItem icon='event' label='Joined' value={joinedAt} />
+    </div>
   )
 }
