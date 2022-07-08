@@ -1,4 +1,5 @@
 import { useNavigate } from "solid-app-router";
+import { copyToClipboard } from "../../common/clipboard";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "../ContextMenu/ContextMenu";
 
@@ -15,7 +16,7 @@ export function ContextMenuServer (props: Props) {
       {icon: 'mail', label: "Invites", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))},
       {icon: 'settings', label: "Settings", disabled: true},
       {separator: true},
-      {icon: 'copy', label: "Copy ID", disabled: true},
+      {icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},
       {separator: true},
       {icon: 'logout', label: "Leave", alert: true, disabled: true},
     ]} />

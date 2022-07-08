@@ -69,7 +69,7 @@ export default function ProfilePane () {
     <Show when={user()}>
       <div class={styles.profilePane}>
         <div class={styles.topArea}>
-          <div class={styles.banner}></div>
+          <div class={styles.banner} style={{background: user()?.hexColor, filter: "brightness(70%)"}}></div>
           <div class={styles.bannerFloatingItems}>
             <Avatar hexColor={user()!.hexColor} size={90} />
             <div class={styles.details}>
@@ -100,7 +100,7 @@ function Content (props: {user: UserDetails}) {
   return (
     <div class={styles.content}>
       <SideBar user={props.user} />
-      <UserBio user={props.user} />
+      <BioArea user={props.user} />
     </div>
   )
 }
@@ -109,8 +109,13 @@ function Content (props: {user: UserDetails}) {
 
 
 function SideBar (props: {user: UserDetails}) {
+  const joinedAt = getDaysAgo(props.user.user.joinedAt!);
+
+  
   return (
     <div class={styles.sidePane}>
+      <UserBioItem icon='event' label='Joined' value={joinedAt} />
+      <div class={styles.separator}/>
       <MutualFriendList mutualFriendIds={props.user.mutualFriendIds} />
       <MutualServerList mutualServerIds={props.user.mutualServerIds} />
     </div>
@@ -125,12 +130,14 @@ function MutualFriendList(props: {mutualFriendIds: string[]}) {
       <div class={styles.list}>
         <For each={props.mutualFriendIds}>
           {(id: string) => {
-            const user = users.get(id);
+            const user = () => users.get(id);
             return (
-              <Link href={RouterEndpoints.PROFILE(user._id)} class={styles.item}>
-                <Avatar hexColor={user.hexColor} size={20} />
-                <div class={styles.name}>{user.username}</div>
-              </Link>
+              <Show when={user()}>
+                <Link href={RouterEndpoints.PROFILE(user()._id)} class={styles.item}>
+                  <Avatar hexColor={user().hexColor} size={20} />
+                  <div class={styles.name}>{user().username}</div>
+                </Link>
+              </Show>
             )
           }}
         </For>
@@ -146,12 +153,14 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
       <div class={styles.list}>
         <For each={props.mutualServerIds}>
           {(id: string) => {
-            const server = servers.get(id);
+            const server = () => servers.get(id);
             return (
-              <Link href={RouterEndpoints.SERVER_MESSAGES(server._id, server.defaultChannel)} class={styles.item}>
-                <Avatar hexColor={server.hexColor} size={20} />
-                <div class={styles.name}>{server.name}</div>
-              </Link>
+              <Show when={server()}>
+                <Link href={RouterEndpoints.SERVER_MESSAGES(server()._id, server().defaultChannel)} class={styles.item}>
+                  <Avatar hexColor={server().hexColor} size={20} />
+                  <div class={styles.name}>{server().name}</div>
+                </Link>
+              </Show>
             )
           }}
         </For>
@@ -172,14 +181,6 @@ function UserBioItem (props: {icon: string, label: string, value: string}) {
   );
 }
 
-function UserBio (props: {user: UserDetails}) {
-
-  const joinedAt = getDaysAgo(props.user.user.joinedAt!);
-
-
-  return (
-    <div class={styles.userBio}>
-      <UserBioItem icon='event' label='Joined' value={joinedAt} />
-    </div>
-  )
+function BioArea (props: {user: UserDetails}) {
+  return <div class={styles.bioArea}>HTML Bio not implemented yet.</div>
 }

@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import CustomSuspense from '../../components/CustomSuspense';
-import { createEffect, lazy, on, onMount } from 'solid-js';
+import { createEffect, lazy, on, onMount, Show } from 'solid-js';
 import Tabs from '../../components/Tabs';
 
 const ServerDrawer = lazy(() => import('../../components/ServerDrawer'));
@@ -73,13 +73,23 @@ function MainPane (props: {routeName?: string}) {
 }
 
 function LeftPane (props: {width: number, routeName?: string}) {
-  return <div style={{width: `${props.width}px`}} class={styles.leftPane}>
-    {props.routeName === 'server_messages' && <CustomSuspense><ServerDrawer /></CustomSuspense>}
-    {props.routeName === 'server_settings' && <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>}
-    
-    {props.routeName === 'inbox_messages' && <CustomSuspense><InboxDrawer /></CustomSuspense>}
-    {props.routeName === 'inbox' && <CustomSuspense><InboxDrawer /></CustomSuspense>}
-  </div>
+
+  const leftPanes = {
+    server_messages: <CustomSuspense><ServerDrawer /></CustomSuspense>,
+    inbox_messages: <CustomSuspense><InboxDrawer /></CustomSuspense>,
+    server_settings: <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>,
+    inbox: <CustomSuspense><InboxDrawer /></CustomSuspense>,
+  }
+
+  const CurrentPane = () => props.routeName && (leftPanes as any)[props.routeName];
+
+  return (
+    <Show when={CurrentPane()}>
+      <div style={{width: `${props.width}px`}} class={styles.leftPane}>
+        <CurrentPane />
+      </div>
+    </Show>
+  )
 }
 
 function RightPane (props: {width: number}) {

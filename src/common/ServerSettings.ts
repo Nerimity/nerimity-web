@@ -7,6 +7,12 @@ export interface ServerSetting {
     element: any
 }
 export default {
+  general: {
+    path: 'general',
+    name: 'General',
+    icon: 'info',
+    element: lazy(() => import('../components/ServerSettingsGeneral/ServerSettingsGeneral'))
+  },
   invites: {
     path: 'invites',
     name: 'Invites',

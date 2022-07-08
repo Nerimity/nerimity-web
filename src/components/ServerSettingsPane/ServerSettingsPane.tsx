@@ -16,7 +16,7 @@ export default function ServerSettingsPane() {
       <div class={styles.pane}>
         <ServerSettingsHeader />
         <CustomSuspense>
-          {setting().element}
+          {setting()?.element}
         </CustomSuspense>
       </div>
     </Show>
