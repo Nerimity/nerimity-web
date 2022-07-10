@@ -8,19 +8,19 @@ import RouterEndpoints from '../../common/RouterEndpoints';
 
 
 const ServerSettingsHeader = () => {
-  const params = useParams();
+  const {serverId} = useParams();
   const {servers, serverMembers} = useStore();
 
-  const server = () => servers.get(params.serverId!);
+  const server = () => servers.get(serverId!);
 
-  const serverMembersCount = () => serverMembers.array(params.serverId!).length;
+  const serverMembersCount = () => serverMembers.array(serverId!).length;
 
 
 
   return (
     <Show when={server()}>
-      <div class={styles.header}>
-        <Avatar hexColor={server().hexColor} size={80} />
+      <div class={styles.header} style={{background: server()?.hexColor}}>
+        <Avatar hexColor={server().hexColor} size={80} class={styles.avatar} />
         <div class={styles.details}>
           <div class={styles.title}>{server().name}</div>
           <div class={styles.members}>{serverMembersCount()} members</div>

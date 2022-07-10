@@ -1,3 +1,4 @@
+import { classNames, conditionalClass } from '../../common/classNames';
 import styles from './styles.module.scss';
 
 interface Error {message: string, path: string};
@@ -8,6 +9,9 @@ interface Props {
   onText?: (value: string) => void, 
   error?: Error | string
   errorName?: string
+  connectLeft?: boolean
+  connectRight?: boolean
+  class?: string;
 }
 
 
@@ -31,7 +35,12 @@ export default function Input(props: Props) {
 
   const onChange = (event: any) => props.onText?.(event.target.value);
   return (
-    <div class={styles.inputContainer}>
+    <div class={classNames(
+      styles.inputContainer,
+      conditionalClass(props.connectLeft, styles.connectLeft),
+      conditionalClass(props.connectRight, styles.connectRight),
+      props.class
+    )}>
       <div class={styles.label}>{props.label}</div>
         <input onChange={onChange} class={styles.input} type={props.type || "text"} value={props.value || undefined} />
         {error() && <div class={styles.errorMessage}>{error()}</div>}

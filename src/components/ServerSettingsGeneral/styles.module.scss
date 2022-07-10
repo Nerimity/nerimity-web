@@ -6,5 +6,11 @@
 
 .title {
   font-size: 24px;
-  margin-left: 5px;
+}
+
+.usernameAndTag {
+  display: flex;
+}
+.tagInput {
+  width: 60px;
 }

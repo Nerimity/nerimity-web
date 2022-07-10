@@ -13,7 +13,7 @@ import useStore from '../../chat-api/store/useStore';
 import { useWindowProperties } from '../../common/useWindowProperties';
 
 export default function ServerSettingsInvite() {
-  const params = useParams();
+  const {serverId} = useParams();
   const {tabs} = useStore();
   const windowProperties = useWindowProperties();
   const [invites, setInvites] = createSignal<any[]>([]);
@@ -27,22 +27,22 @@ export default function ServerSettingsInvite() {
   
   
   createEffect(() => {
-    getInvites(params.serverId!).then((invites) => setInvites(invites.reverse()));
+    getInvites(serverId!).then((invites) => setInvites(invites.reverse()));
 
 
     tabs.openTab({
       title: "Settings - Invites",
-      serverId: params.serverId!,
+      serverId: serverId!,
       iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_INVITES(params.serverId!),
+      path: RouterEndpoints.SERVER_SETTINGS_INVITES(serverId!),
     });
   })
 
 
 
   const onCreateInviteClick = async () => {
-    await createInvite(params.serverId!);
-    getInvites(params.serverId!).then((invites) => setInvites(invites.reverse()));
+    await createInvite(serverId!);
+    getInvites(serverId!).then((invites) => setInvites(invites.reverse()));
   }
 
 
