@@ -14,7 +14,7 @@ export function ContextMenuServer (props: Props) {
       {icon: 'markunread_mailbox', label: "Mark As Read", disabled: true},
       {separator: true},
       {icon: 'mail', label: "Invites", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))},
-      {icon: 'settings', label: "Settings", disabled: true},
+      {icon: 'settings', label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))},
       {separator: true},
       {icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},
       {separator: true},

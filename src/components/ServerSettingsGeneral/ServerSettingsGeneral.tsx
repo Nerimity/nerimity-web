@@ -7,23 +7,30 @@ import { createEffect, createSignal, For } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import CustomInput from '../CustomInput';
+import DropDown from '../DropDown';
 
 export default function ServerSettingsInvite() {
   const {serverId} = useParams();
-  const {tabs, account} = useStore();
+  const {tabs, servers, channels} = useStore();
   const windowProperties = useWindowProperties();
   const [mobileSize, isMobileSize] = createSignal(false);
 
+  const server = () => servers.get(serverId);
+
+  const dropDownChannels = () => channels.getChannelsByServerId(serverId).map(channel => ({
+    id: channel._id,
+    label: channel.name,
+  }));
+  
+
 
   const [inputFields, setInputFields] = createSignal({
-    username: '',
-    tag: '',
+    name: '',
   })
 
   createEffect(() => {
     setInputFields({
-      username: account.user()?.username || '',
-      tag: account.user()?.tag || '', 
+      name: server()?.name || '',
     })
   })
 
@@ -47,9 +54,9 @@ export default function ServerSettingsInvite() {
     <div class={classNames(styles.generalPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server General</div>
 
-      <div class={styles.usernameAndTag}>  
-        <CustomInput label='Username' value={inputFields().username} onText={(v) => setInputFields({...inputFields(), username: v}) } connectRight={true}  />
-        <CustomInput label='Tag' value={inputFields().tag} onText={(v) => setInputFields({...inputFields(), tag: v}) } connectLeft={true} class={styles.tagInput}  />
+      <div class={styles.form}>
+        <CustomInput label='Server Name' value={inputFields().name} onText={(v) => setInputFields({...inputFields(), name: v}) } />
+        <DropDown items={dropDownChannels()} selectedId={server()?.defaultChannel} />
       </div>
 
     </div>

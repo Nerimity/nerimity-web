@@ -8,7 +8,7 @@ import { classNames, conditionalClass } from '../../common/classNames';
 import { formatTimestamp } from '../../common/date';
 import { Icon } from '../Icon/Icon';
 import { Link, useParams } from 'solid-app-router';
-import { createEffect, createSignal, For } from 'solid-js';
+import { createEffect, createSignal, For, onMount } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { useWindowProperties } from '../../common/useWindowProperties';
 
@@ -25,10 +25,11 @@ export default function ServerSettingsInvite() {
     isMobileSize(isMobile);
   })
   
+  onMount(() => {
+    getInvites(serverId!).then((invites) => setInvites(invites.reverse()));
+  })
   
   createEffect(() => {
-    getInvites(serverId!).then((invites) => setInvites(invites.reverse()));
-
 
     tabs.openTab({
       title: "Settings - Invites",

@@ -8,9 +8,8 @@
   font-size: 24px;
 }
 
-.usernameAndTag {
+.form {
   display: flex;
-}
-.tagInput {
-  width: 60px;
+  flex-direction: column;
+  align-items: flex-start;
 }

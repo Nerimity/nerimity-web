@@ -7,8 +7,11 @@ import ServerSettingsHeader from '../ServerSettingsHeader';
 import { Transition } from 'solid-transition-group';
 
 import "./styles.css"
+import useStore from '../../chat-api/store/useStore';
 export default function ServerSettingsPane() {
   const params = useParams();
+
+  const {servers} = useStore();
 
   const [setting, setSetting] = createSignal<ServerSetting | null>(null);
 
@@ -19,10 +22,11 @@ export default function ServerSettingsPane() {
     }, 200);
   }));
 
+  const server = () => servers.get(params.serverId);
   
   return (
     <Transition name="slide" appear={true}>
-      <Show when={setting()}>
+      <Show when={setting() && server()}>
         <div class={styles.pane}>
           <ServerSettingsHeader />
           <CustomSuspense>
