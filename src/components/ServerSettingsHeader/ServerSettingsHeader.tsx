@@ -8,12 +8,12 @@ import RouterEndpoints from '../../common/RouterEndpoints';
 
 
 const ServerSettingsHeader = () => {
-  const {serverId} = useParams();
+  const params = useParams();
   const {servers, serverMembers} = useStore();
 
-  const server = () => servers.get(serverId!);
+  const server = () => servers.get(params.serverId!);
 
-  const serverMembersCount = () => serverMembers.array(serverId!).length;
+  const serverMembersCount = () => serverMembers.array(params.serverId!).length;
 
 
 

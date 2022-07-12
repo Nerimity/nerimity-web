@@ -56,7 +56,7 @@ export default function ServerSettingsInvite() {
 
       <div class={styles.form}>
         <CustomInput label='Server Name' value={inputFields().name} onText={(v) => setInputFields({...inputFields(), name: v}) } />
-        <DropDown items={dropDownChannels()} selectedId={server()?.defaultChannel} />
+        <DropDown title='Default Channel' items={dropDownChannels()} selectedId={server()?.defaultChannel} />
       </div>
 
     </div>

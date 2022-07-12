@@ -25,16 +25,18 @@ export default function ServerSettingsPane() {
   const server = () => servers.get(params.serverId);
   
   return (
-    <Transition name="slide" appear={true}>
-      <Show when={setting() && server()}>
-        <div class={styles.pane}>
-          <ServerSettingsHeader />
-          <CustomSuspense>
-            {setting()?.element}
-          </CustomSuspense>
-        </div>
-      </Show>
-    </Transition>
+    <Show when={server()}>
+      <div class={styles.pane}>
+        <ServerSettingsHeader />
+        <Transition name="slide" appear={true}>
+          <Show when={setting()}>
+            <CustomSuspense>
+              {setting()?.element}
+            </CustomSuspense>
+          </Show>
+        </Transition>
+      </div>
+    </Show>
   );
 
 }

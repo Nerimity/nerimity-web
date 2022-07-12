@@ -16,6 +16,7 @@ interface Item {
 export interface DropDownProps {
   items: Item[]
   selectedId?: string
+  title?: string
 }
 
 
@@ -39,13 +40,16 @@ export default function DropDown (props: DropDownProps) {
 
   return (
     <div class={styles.dropDown}>
+      <Show when={props.title}>
+        <div class={styles.title}>{props.title}</div>
+      </Show>
       <div class={styles.box} onclick={() => setIsOpen(true)}>
         <ItemTemplate item={selectedItem()} />
         <Icon name='expand_more' class={styles.expandIcon} />
-      </div>
       <Show when={isOpen()}>
         <Popup selectedId={selectedId()}  items={props.items} onClose={() => setIsOpen(false)} onClick={onItemClick}  />
       </Show>
+      </div>
     </div>
   )
 }
