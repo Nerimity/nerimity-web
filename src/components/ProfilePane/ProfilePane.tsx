@@ -99,8 +99,8 @@ export default function ProfilePane () {
 function Content (props: {user: UserDetails}) {
   return (
     <div class={styles.content}>
-      <SideBar user={props.user} />
       <BioArea user={props.user} />
+      <SideBar user={props.user} />
     </div>
   )
 }
@@ -125,7 +125,7 @@ function SideBar (props: {user: UserDetails}) {
 function MutualFriendList(props: {mutualFriendIds: string[]}) {
   const {users} = useStore();
   return (
-    <>
+    <div class={styles.block}>
       <div class={styles.title}><Icon name='group' size={18} class={styles.icon} />Mutual Friends</div>
       <div class={styles.list}>
         <For each={props.mutualFriendIds}>
@@ -142,13 +142,13 @@ function MutualFriendList(props: {mutualFriendIds: string[]}) {
           }}
         </For>
       </div>
-    </>
+    </div>
   )
 }
 function MutualServerList(props: {mutualServerIds: string[]}) {
   const {servers} = useStore();
   return (
-    <>
+    <div class={styles.block}>
       <div class={styles.title}><Icon name='dns' size={18} class={styles.icon} />Mutual Servers</div>
       <div class={styles.list}>
         <For each={props.mutualServerIds}>
@@ -165,7 +165,7 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
           }}
         </For>
       </div>
-    </>
+    </div>
   )
 }
 

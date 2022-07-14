@@ -53,18 +53,24 @@
 }
 .sidePane {
   flex-shrink: 0;
-  width: 170px;
-  margin-right: 5px;
-  margin-left: 10px;
+  width: 200px;
+  margin-right: 10px;
+  margin-left: 5px;
   .title {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    margin-left: 0;
+    margin-top: 5px;
+    margin-left: 5px;
     color: rgba(255, 255, 255, 0.6);
     .icon {
       margin-right: 3px;
     }
+  }
+  .block {
+    background-color: rgba(255, 255, 255, 0.09);
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 4px;
   }
   .list {
     .item {
@@ -90,6 +96,7 @@
 .bioArea {
   display: flex;
   margin-left: 20px;
+  flex: 1;
 }
 
 
