@@ -6,10 +6,31 @@
 
 .title {
   font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.block {
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  padding: 10px;
+  height: 40px;
+  border-radius: 4px;
+  align-items: center;
+  margin-bottom: 5px;
+  .details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 10px;
+  }
+  .description {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+  }
 }

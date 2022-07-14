@@ -1,9 +1,10 @@
+import { Show } from 'solid-js';
 import { classNames, conditionalClass } from '../../common/classNames';
 import styles from './styles.module.scss';
 
 interface Error {message: string, path: string};
 interface Props {
-  label: string, 
+  label?: string, 
   type?: string, 
   value?: string,
   onText?: (value: string) => void, 
@@ -23,7 +24,7 @@ export default function Input(props: Props) {
   
     if (props.error && typeof props.error !== 'string') {
       let errorField = props.errorName || props.label
-      if (errorField.toLowerCase() === props.error.path.toLowerCase()){
+      if (errorField?.toLowerCase() === props.error.path.toLowerCase()){
         error = props.error.message;
       }
     }
@@ -41,7 +42,7 @@ export default function Input(props: Props) {
       conditionalClass(props.connectRight, styles.connectRight),
       props.class
     )}>
-      <div class={styles.label}>{props.label}</div>
+        <Show when={props.label}><div class={styles.label}>{props.label}</div></Show>
         <input onChange={onChange} class={styles.input} type={props.type || "text"} value={props.value || undefined} />
         {error() && <div class={styles.errorMessage}>{error()}</div>}
     </div>

@@ -3,11 +3,12 @@ import RouterEndpoints from '../../common/RouterEndpoints';
 import env from '../../common/env';
 import { classNames, conditionalClass } from '../../common/classNames';
 import { useParams } from 'solid-app-router';
-import { createEffect, createSignal, For } from 'solid-js';
+import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import CustomInput from '../CustomInput';
 import DropDown from '../DropDown';
+import Icon from '../Icon';
 
 export default function ServerSettingsInvite() {
   const {serverId} = useParams();
@@ -53,14 +54,42 @@ export default function ServerSettingsInvite() {
   return (
     <div class={classNames(styles.generalPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server General</div>
+      
 
-      <div class={styles.form}>
-        <CustomInput label='Server Name' value={inputFields().name} onText={(v) => setInputFields({...inputFields(), name: v}) } />
-        <DropDown title='Default Channel' items={dropDownChannels()} selectedId={server()?.defaultChannel} />
-      </div>
+
+      <Block icon='edit' label='Server Name'>
+        <CustomInput value={inputFields().name} onText={(v) => setInputFields({...inputFields(), name: v}) } />
+      </Block>
+      <Block icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
+        <DropDown items={dropDownChannels()} selectedId={server()?.defaultChannel} />
+      </Block>
+
 
     </div>
   )
 }
 
 
+
+interface BlockProps {
+  label: string;
+  icon: string;
+  description?: string;
+  children?: JSX.Element | undefined;
+}
+
+
+
+
+function Block(props: BlockProps) {
+  return (
+    <div class={styles.block}>
+      <Icon name={props.icon} />
+      <div class={styles.details}>
+        <div class={styles.label}>{props.label}</div>
+        <Show when={props.description}><div class={styles.description}>{props.description}</div></Show>
+      </div>
+      {props.children}
+    </div>
+  )
+}
