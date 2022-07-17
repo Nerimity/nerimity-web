@@ -1,0 +1,20 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Testing
+
+# This workflow can be used for pushing to the production server and will only be ran when code is pushed to the main branch
+
+on:
+  push:
+    branches: [ main ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: node:16-alpine3.12
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm build
