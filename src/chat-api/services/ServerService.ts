@@ -1,4 +1,4 @@
-import { request } from "./request";
+import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 import {RawServer} from '../RawData'
 import env from "../../common/env";
