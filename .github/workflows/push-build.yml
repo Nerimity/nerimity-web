@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     container: node:16-alpine3.12
     steps:
-      - name: Build App
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Install NPM dependencies
         run: npm ci
+      - name: Build App
         run: npm run build
       - name: Publish Artifact
         uses: actions/upload-artifact@v3
