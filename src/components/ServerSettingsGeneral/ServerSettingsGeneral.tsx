@@ -9,7 +9,6 @@ import { useWindowProperties } from '../../common/useWindowProperties';
 import CustomInput from '../CustomInput';
 import DropDown from '../DropDown';
 import Icon from '../Icon';
-import { createStore, reconcile } from 'solid-js/store';
 import CustomButton from '../CustomButton';
 import { createUpdatedSignal } from '../../common/createUpdatedSignal';
 
