@@ -36,4 +36,4 @@ jobs:
           prerelease: false
           draft: true
           files: |
-            chat-${{ steps.get_version.outputs.VERSION }}.zip
+            chat-client-${{ steps.get_version.outputs.VERSION }}.zip
