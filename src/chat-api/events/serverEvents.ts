@@ -42,3 +42,17 @@ export const onServerMemberJoined = (payload: ServerMemberJoinedPayload) => {
   const serverMembers = useServerMembers();
   serverMembers.set(payload.member);
 }
+interface ServerUpdated {
+  serverId: string;
+  updated: {
+    name?: string;
+    defaultChannel: string;
+  }
+}
+
+
+export const onServerUpdated = (payload: ServerUpdated) => {
+  const servers = useServers();
+  const server = servers.get(payload.serverId);
+  server.update(payload.updated);
+}
