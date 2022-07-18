@@ -28,7 +28,7 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: dist/
-          dest: chat-${{ steps.get_version.outputs.VERSION }}.zip
+          dest: chat-client-${{ steps.get_version.outputs.VERSION }}.zip
       - name: Publish Draft Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
