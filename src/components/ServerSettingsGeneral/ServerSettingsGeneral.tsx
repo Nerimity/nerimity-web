@@ -28,7 +28,7 @@ export default function ServerSettingsInvite() {
     defaultChannel: server()?.defaultChannel || '',
   })
 
-  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput());
+  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
 
   const dropDownChannels = () => channels.getChannelsByServerId(serverId).map(channel => ({
