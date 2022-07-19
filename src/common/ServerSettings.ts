@@ -13,6 +13,12 @@ export default {
     icon: 'info',
     element: lazy(() => import('../components/ServerSettingsGeneral/ServerSettingsGeneral'))
   },
+  channels: {
+    path: 'channels',
+    name: 'Channels',
+    icon: 'storage',
+    element: lazy(() => import('../components/ServerSettingsGeneral/ServerSettingsGeneral'))
+  },
   invites: {
     path: 'invites',
     name: 'Invites',

@@ -23,6 +23,7 @@ export default function App() {
 
       <Route path="app/servers/:serverId/:channelId" element={<CustomSuspense><AppPage routeName="server_messages" /></CustomSuspense>} />
       <Route path="app/servers/:serverId/settings/:path" element={<CustomSuspense><AppPage routeName="server_settings" /></CustomSuspense>} />
+      <Route path="app/servers/:serverId/settings/channels/:channelId" element={<CustomSuspense><AppPage routeName="server_settings" /></CustomSuspense>} />
 
 
       <Route path="app/explore/servers/invites/:inviteId" element={<CustomSuspense><AppPage routeName="explore_server" /></CustomSuspense>} />
