@@ -4,6 +4,7 @@ export default {
 
 
   servers: () => `/servers`,
+  serverSettings: (serverId: string) => `/servers/${serverId}/settings`,
   serverInvites: (serverId: string) => `/servers/${serverId}/invites`,
   serverInviteCode: (inviteCode: string) => `/servers/invites/${inviteCode}`,
 

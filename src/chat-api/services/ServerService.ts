@@ -12,6 +12,15 @@ export async function getInvites(serverId: string): Promise<any> {
   });
 }
 
+export async function updateServerSettings(serverId: string, update: any): Promise<any> {
+  return request({
+    method: "POST",
+    body: update,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverSettings(serverId),
+    useToken: true
+  });
+}
+
 
 export async function createServer(serverName: string): Promise<RawServer> {
   return request<RawServer>({

@@ -11,6 +11,7 @@ import DropDown from '../DropDown';
 import Icon from '../Icon';
 import CustomButton from '../CustomButton';
 import { createUpdatedSignal } from '../../common/createUpdatedSignal';
+import { updateServerSettings } from '../../chat-api/services/ServerService';
 
 
 
@@ -20,6 +21,7 @@ export default function ServerSettingsInvite() {
   const windowProperties = useWindowProperties();
   const [mobileSize, isMobileSize] = createSignal(false);
   const [requestSent, setRequestSent] = createSignal(false);
+  const [error, setError] = createSignal<null | string>(null);
 
   const server = () => servers.get(serverId);
 
@@ -57,11 +59,17 @@ export default function ServerSettingsInvite() {
 
 
 
-  const onSaveButtonClicked = () => {
+  const onSaveButtonClicked = async () => {
     if (requestSent()) return;
     setRequestSent(true);
-    console.log( updatedInputValues() )
+    setError(null);
+    const values = updatedInputValues();
+    await updateServerSettings(serverId!, values)
+      .catch((err) => setError(err.message))
+      .finally(() => setRequestSent(false));
   }
+
+  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
 
   return (
     <div class={classNames(styles.generalPane, conditionalClass(mobileSize(), styles.mobile))}>
@@ -73,9 +81,9 @@ export default function ServerSettingsInvite() {
       <Block icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
         <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannel} />
       </Block>
-
+      <Show when={error()}><div class={styles.error}>{error()}</div></Show>
       <Show when={Object.keys(updatedInputValues()).length}>
-        <CustomButton iconName='save' label='Save Changes' class={styles.saveButton} onClick={onSaveButtonClicked} />
+        <CustomButton iconName='save' label={requestStatus()} class={styles.saveButton} onClick={onSaveButtonClicked} />
       </Show>
 
     </div>
