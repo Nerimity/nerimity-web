@@ -43,7 +43,7 @@ export default function Input(props: Props) {
       props.class
     )}>
         <Show when={props.label}><div class={styles.label}>{props.label}</div></Show>
-        <input onInput={onChange} class={styles.input} type={props.type || "text"} value={props.value || undefined} />
+        <input onInput={onChange} class={styles.input} type={props.type || "text"} value={props.value || ""} />
         {error() && <div class={styles.errorMessage}>{error()}</div>}
     </div>
 
