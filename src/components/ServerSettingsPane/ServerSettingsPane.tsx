@@ -17,7 +17,7 @@ export default function ServerSettingsPane() {
 
   const [setting, setSetting] = createSignal<ServerSetting | null>(null);
 
-  createEffect(on(() => params.path! && params.serverId, () => {
+  createEffect(on(() => params.path! && params.serverId && params.id, () => {
     setSetting(null);
     setTimeout(() => {
       setSetting(getServeSetting(params.path!, location.pathname) || null);

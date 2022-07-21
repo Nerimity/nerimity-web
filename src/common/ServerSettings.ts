@@ -21,7 +21,7 @@ const serverSettings: ServerSetting[] =  [
     name: 'Channels',
     icon: 'storage',
     hideDrawer: true,
-    element: lazy(() => import('../components/ServerSettingsGeneral/ServerSettingsGeneral'))
+    element: lazy(() => import('../components/ServerSettingsChannel'))
   },
   {
     path: 'channels',

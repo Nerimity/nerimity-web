@@ -66,7 +66,7 @@ function ServerChannelsList () {
     <For each={serverChannels()}>
       {(channel) => {
         const path = RouterEndpoints.SERVER_SETTINGS_CHANNEL(params.serverId, channel._id);
-        const selected = () =>params.channelId === channel._id;
+        const selected = () =>params.id === channel._id;
         return <Item nested={true} icon='storage' label={channel.name} path={path} selected={selected()} />
       }}
     </For>
