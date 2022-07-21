@@ -10,17 +10,17 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^4.6.4",
-    "vite": "^2.9.9",
-    "vite-plugin-solid": "^2.2.6"
+    "typescript": "^4.7.4",
+    "vite": "^3.0.2",
+    "vite-plugin-solid": "^2.3.0"
   },
   "dependencies": {
-    "idb-keyval": "^6.1.0",
-    "material-icons": "^1.11.1",
-    "sass": "^1.52.1",
+    "idb-keyval": "^6.2.0",
+    "material-icons": "^1.11.5",
+    "sass": "^1.53.0",
     "socket.io-client": "^4.5.1",
     "solid-app-router": "^0.4.1",
-    "solid-js": "^1.4.5",
+    "solid-js": "^1.4.7",
     "solid-transition-group": "^0.0.10"
   }
 }
