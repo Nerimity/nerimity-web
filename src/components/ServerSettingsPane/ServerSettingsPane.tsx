@@ -1,8 +1,8 @@
 import styles from './styles.module.scss'
-import ServerSettings, { ServerSetting } from '../../common/ServerSettings';
+import ServerSettings, { getServeSetting, ServerSetting } from '../../common/ServerSettings';
 import CustomSuspense from '../CustomSuspense';
-import { useParams } from 'solid-app-router';
-import { createEffect, createSignal, on, Show } from 'solid-js';
+import { useLocation, useParams } from 'solid-app-router';
+import { createEffect, createSignal, on, onMount, Show } from 'solid-js';
 import ServerSettingsHeader from '../ServerSettingsHeader';
 import { Transition } from 'solid-transition-group';
 
@@ -11,6 +11,8 @@ import useStore from '../../chat-api/store/useStore';
 export default function ServerSettingsPane() {
   const params = useParams();
 
+  const location = useLocation();
+
   const {servers} = useStore();
 
   const [setting, setSetting] = createSignal<ServerSetting | null>(null);
@@ -18,7 +20,7 @@ export default function ServerSettingsPane() {
   createEffect(on(() => params.path! && params.serverId, () => {
     setSetting(null);
     setTimeout(() => {
-      setSetting(ServerSettings[params.path!]);
+      setSetting(getServeSetting(params.path!, location.pathname) || null);
     }, 200);
   }));
 
