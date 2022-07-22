@@ -14,7 +14,7 @@ const serverSettings: ServerSetting[] =  [
     path: 'general',
     name: 'General',
     icon: 'info',
-    element: lazy(() => import('../components/ServerSettingsGeneral/ServerSettingsGeneral'))
+    element: lazy(() => import('../components/ServerSettingsGeneral'))
   },
   {
     pattern: (path: string) => patchMatches(path, 'channels/*'),
@@ -27,7 +27,7 @@ const serverSettings: ServerSetting[] =  [
     path: 'channels',
     name: 'Channels',
     icon: 'storage',
-    element: lazy(() => import('../components/ServerSettingsGeneral/ServerSettingsGeneral'))
+    element: lazy(() => import('../components/ServerSettingsChannels'))
   },
   {
     path: 'invites',

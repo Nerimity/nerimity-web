@@ -1,32 +1,30 @@
 import RouterEndpoints from '../../common/RouterEndpoints';
-import { useParams } from 'solid-app-router';
-import { createEffect,  on,} from 'solid-js';
+import { useLocation, useParams } from 'solid-app-router';
+import { onMount} from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
+
 
 
 
 export default function ServerSettingsChannel() {
   const {serverId, id: channelId} = useParams();
   const { tabs, channels } = useStore();
-
-  const channel = () => channels.get(channelId);
-
+  const location = useLocation();
 
 
-  
-  createEffect(on(channel, () => {
+  onMount(() => {
     tabs.openTab({
-      title: "Settings - " + channel().name,
+      title: "Settings - Channels",
       serverId: serverId!,
       iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channelId),
+      path: RouterEndpoints.SERVER_SETTINGS_CHANNELS(serverId!),
     });
-  }))
+  })
 
 
   return (
     <div>
-      {channel()?.name}
+      Channels
     </div>
   )
 }

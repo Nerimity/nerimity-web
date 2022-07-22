@@ -4,6 +4,7 @@ export default {
   
   SERVER_SETTINGS_GENERAL: (serverId: string) => `/app/servers/${serverId}/settings/general`,
   SERVER_SETTINGS_INVITES: (serverId: string) => `/app/servers/${serverId}/settings/invites`,
+  SERVER_SETTINGS_CHANNELS: (serverId: string) => `/app/servers/${serverId}/settings/channels`,
   SERVER_SETTINGS_CHANNEL: (serverId: string, channelId: string) => `/app/servers/${serverId}/settings/channels/${channelId}`,
   
   PROFILE: (userId: string) => `/app/profile/${userId}`,
