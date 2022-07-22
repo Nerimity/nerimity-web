@@ -69,7 +69,7 @@ const TabItem = (props: {tab: Tab}) => {
         {details().subName && <div class={styles.subTitle}>{details().subName}</div>}
         {user() && <UserPresence userId={user()?._id} showOffline={true} />}
       </div>
-      <Icon name="close" size={20} class={styles.closeIcon} />
+      <Icon name="close" size={14} class={styles.closeIcon} />
     </Link>
   )
 }

@@ -21,7 +21,7 @@ export default function ServerSettingsPane() {
     setSetting(null);
     setTimeout(() => {
       setSetting(getServeSetting(params.path!, location.pathname) || null);
-    }, 200);
+    }, 0);
   }));
 
   const server = () => servers.get(params.serverId);
