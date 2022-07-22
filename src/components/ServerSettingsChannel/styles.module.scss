@@ -1,4 +1,4 @@
-.generalPane {
+.channelPane {
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -20,25 +20,6 @@
   margin-top: 5px;
 }
 
-.block {
-  background: rgba(255, 255, 255, 0.06);
-  display: flex;
-  padding: 10px;
-  height: 40px;
-  border-radius: 4px;
-  align-items: center;
-  margin-bottom: 5px;
-  .details {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-left: 10px;
-  }
-  .description {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
-  }
-}
 .saveButton {
   align-self: flex-end;
 }
