@@ -12,6 +12,7 @@ import Icon from '../Icon';
 import CustomButton from '../CustomButton';
 import { createUpdatedSignal } from '../../common/createUpdatedSignal';
 import { updateServerSettings } from '../../chat-api/services/ServerService';
+import SettingsBlock from '../SettingsBlock';
 
 
 
@@ -75,12 +76,12 @@ export default function ServerSettingsInvite() {
     <div class={classNames(styles.generalPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server General</div>
       
-      <Block icon='edit' label='Server Name'>
+      <SettingsBlock icon='edit' label='Server Name'>
         <CustomInput value={inputValues().name} onText={(v) => setInputValue('name', v) } />
-      </Block>
-      <Block icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
+      </SettingsBlock>
+      <SettingsBlock icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
         <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannel} />
-      </Block>
+      </SettingsBlock>
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
       <Show when={Object.keys(updatedInputValues()).length}>
         <CustomButton iconName='save' label={requestStatus()} class={styles.saveButton} onClick={onSaveButtonClicked} />
@@ -89,30 +90,3 @@ export default function ServerSettingsInvite() {
     </div>
   )
 }
-
-
-
-interface BlockProps {
-  label: string;
-  icon: string;
-  description?: string;
-  children?: JSX.Element | undefined;
-}
-
-
-
-
-function Block(props: BlockProps) {
-  return (
-    <div class={styles.block}>
-      <Icon name={props.icon} />
-      <div class={styles.details}>
-        <div class={styles.label}>{props.label}</div>
-        <Show when={props.description}><div class={styles.description}>{props.description}</div></Show>
-      </div>
-      {props.children}
-    </div>
-  )
-}
-
-
