@@ -33,7 +33,7 @@ const serverSettings: ServerSetting[] =  [
     path: 'invites',
     name: 'Invites',
     icon: 'mail',
-    element: lazy(() => import('../components/ServerSettingsInvite/ServerSettingsInvite'))
+    element: lazy(() => import('../components/ServerSettingsInvite'))
   }
 ]
 
