@@ -1,12 +1,12 @@
 import styles from './styles.module.scss';
-import { classNames, conditionalClass } from '../../common/classNames';
-import Avatar from '../Avatar';
-import Icon from '../Icon';
+import { classNames, conditionalClass } from '@/common/classNames';
+import Avatar from '@/components/ui/avatar';
+import Icon from '@/components/ui/icon';
 import { Link, useLocation } from 'solid-app-router';
 import { For } from 'solid-js';
-import useStore from '../../chat-api/store/useStore';
-import { Tab } from '../../chat-api/store/useTabs';
-import UserPresence from '../UserPresence';
+import useStore from '@/chat-api/store/useStore';
+import { Tab } from '@/chat-api/store/useTabs';
+import UserPresence from '@/components/user-presence';
 
 const TabList = () => {
   const {tabs} = useStore();

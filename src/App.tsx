@@ -1,12 +1,12 @@
 import { Link, Navigate, Route, Routes, useParams } from 'solid-app-router';
 import { lazy } from 'solid-js';
 import RouterEndpoints from './common/RouterEndpoints';
-import CustomSuspense from './components/CustomSuspense';
+import CustomSuspense from './components/custom-suspense';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
-const RegisterPage = lazy(() => import('./pages/RegisterPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const AppPage = lazy(() => import('./pages/AppPage'));
+const HomePage = lazy(() => import('./pages/home'));
+const RegisterPage = lazy(() => import('./pages/register'));
+const LoginPage = lazy(() => import('./pages/login'));
+const AppPage = lazy(() => import('./pages/app'));
 
 
 export default function App() {
