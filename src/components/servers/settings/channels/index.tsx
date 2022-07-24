@@ -1,8 +1,10 @@
+import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useLocation, useParams } from 'solid-app-router';
+import { useParams } from 'solid-app-router';
 import { onMount} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
-
+import SettingsBlock from '@/components/ui/settings-block';
+import Button from '@/components/ui/button';
 
 
 
@@ -22,8 +24,11 @@ export default function ServerSettingsChannel() {
 
 
   return (
-    <div>
-      Channels
+    <div class={styles.channelsPane}>
+      <div class={styles.title}>Channels</div>
+      <SettingsBlock label='Add a new channel' icon='add'>
+        <Button label='Add Channel' />
+      </SettingsBlock>
     </div>
   )
 }

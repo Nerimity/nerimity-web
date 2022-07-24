@@ -11,6 +11,7 @@ import { Link, useParams } from 'solid-app-router';
 import { createEffect, createSignal, For, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
+import SettingsBlock from '@/components/ui/settings-block';
 
 export default function ServerSettingsInvite() {
   const {serverId} = useParams();
@@ -51,7 +52,11 @@ export default function ServerSettingsInvite() {
   return (
     <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server Invites</div>
-      <Button label='Create Invite' iconName='add' class={styles.createInviteButton} onClick={onCreateInviteClick} />
+
+      <SettingsBlock label='Create a new invite' icon='add'>
+        <Button label='Create Invite' onClick={onCreateInviteClick} />
+      </SettingsBlock>
+
       <For each={invites()}>
         {(invite) => (
           <InviteItem invite={invite} />
