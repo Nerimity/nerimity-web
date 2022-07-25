@@ -1,9 +1,10 @@
 import {createStore} from 'solid-js/store';
-import { RawServer, RawServerMember } from '../RawData';
-import useUsers from './useUsers';
+import { RawServerMember } from '../RawData';
+import useUsers, { User } from './useUsers';
 
 export type ServerMember = Omit<RawServerMember, 'user'> & {
-  user: string
+  userId: string
+  user: User
 }
 
 const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember>>>({});
@@ -15,7 +16,13 @@ const set = (member: RawServerMember) => {
   if (!serverMembers[member.server]) {
     setMember(member.server, {});
   }
-  setMember(member.server, member.user._id, {...member, user: member.user._id});
+  setMember(member.server, member.user._id, {
+    ...member,
+    userId: member.user._id,
+    get user() {
+      return users.get(member.user._id);
+    }
+  });
 }
 
 const array = (serverId: string) => Object.values(serverMembers?.[serverId] || []);

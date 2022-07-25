@@ -5,11 +5,11 @@ import { useParams } from 'solid-app-router';
 import useStore from '@/chat-api/store/useStore';
 import { For } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
+import { UserStatus } from '@/chat-api/store/useUsers';
 
 
 const MemberItem = (props: {member: ServerMember}) => {
-  const {users} = useStore();
-  const user = () => users.get(props.member.user); 
+  const user = () => props.member.user; 
 
   return (
     <div class={styles.memberItem}>
@@ -28,13 +28,32 @@ const ServerMembersDrawer = () => {
   const params = useParams();
   const {servers, serverMembers} = useStore();
   const server = () => servers.get(params.serverId!);
-  const members = () => serverMembers.array(server()?._id) || [];
+  
+  const members = () => useCategorizedMembers(server()?._id)
 
   return <div class={styles.membersList}>
-    <For each={members()}>
+    Online
+    <For each={members().onlineMembers()}>
+      {member => <MemberItem  member={member} />}
+    </For>
+    Offline
+    <For each={members().offlineMembers()}>
       {member => <MemberItem  member={member} />}
     </For>
   </div>
 };
+
+
+
+function useCategorizedMembers(serverId: string) {
+  const {servers, serverMembers} = useStore();
+  const server = () => servers.get(serverId!);
+  const members = () => serverMembers.array(server()?._id) || [];
+
+  const onlineMembers = () => members().filter(member => member.user.presence?.status);
+  const offlineMembers = () => members().filter(member => !member.user.presence?.status);
+
+  return {onlineMembers, offlineMembers};
+}
 
 export default ServerMembersDrawer;
