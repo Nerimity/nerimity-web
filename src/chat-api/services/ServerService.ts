@@ -36,6 +36,13 @@ export async function updateServerChannel(serverId: string, channelId: string, u
     useToken: true
   });
 }
+export async function deleteServerChannel(serverId: string, channelId: string): Promise<any> {
+  return request({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannel(serverId, channelId),
+    useToken: true
+  });
+}
 
 
 export async function createServer(serverName: string): Promise<RawServer> {
