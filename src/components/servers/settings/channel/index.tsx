@@ -60,6 +60,9 @@ export default function ServerSettingsChannel() {
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
       </SettingsBlock>
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
+      <SettingsBlock icon='delete' label='Delete this channel' description='This cannot be undone!'>
+        <Button label='Delete Channel' color='var(--alert-color)' />
+      </SettingsBlock>
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button iconName='save' label={requestStatus()} class={styles.saveButton} onClick={onSaveButtonClicked} />
       </Show>
