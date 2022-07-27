@@ -7,12 +7,12 @@ import SettingsBlock from '@/components/ui/settings-block';
 import Button from '@/components/ui/button';
 import { Channel } from '@/chat-api/store/useChannels';
 import Icon from '@/components/ui/icon';
+import { createServerChannel } from '@/chat-api/services/ServerService';
 
 
 
 function ChannelItem( props: {channel: Channel}) {
   const { serverId } = useParams();
-  console.log(props.channel)
 
   const link = RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId, props.channel._id);
 
@@ -29,11 +29,11 @@ function ChannelItem( props: {channel: Channel}) {
 function ChannelList() {
   const { serverId } = useParams();
   const { channels } = useStore();
-  const serverChannels = channels.getChannelsByServerId(serverId)
+  const serverChannels = () => channels.getChannelsByServerId(serverId)
 
   return (
     <div class={styles.channelList}>
-      <For each={serverChannels}>
+      <For each={serverChannels()}>
         {channel => <ChannelItem channel={channel} />}
       </For>
     </div>
@@ -57,12 +57,16 @@ export default function ServerSettingsChannel() {
     });
   })
 
+  const onAddChannelClicked = () => {
+    createServerChannel(serverId!);
+  }
+
 
   return (
     <div class={styles.channelsPane}>
       <div class={styles.title}>Channels</div>
       <SettingsBlock label='Add a new channel' icon='add'>
-        <Button label='Add Channel' />
+        <Button label='Add Channel' onClick={onAddChannelClicked} />
       </SettingsBlock>
       <ChannelList />
     </div>

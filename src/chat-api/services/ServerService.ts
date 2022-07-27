@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {RawServer} from '../RawData'
+import {RawChannel, RawServer} from '../RawData'
 import env from "../../common/env";
 
 
@@ -17,6 +17,14 @@ export async function updateServerSettings(serverId: string, update: any): Promi
     method: "POST",
     body: update,
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverSettings(serverId),
+    useToken: true
+  });
+}
+
+export async function createServerChannel(serverId: string): Promise<RawChannel> {
+  return request({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannels(serverId),
     useToken: true
   });
 }

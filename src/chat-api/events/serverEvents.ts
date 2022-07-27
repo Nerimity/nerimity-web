@@ -56,3 +56,14 @@ export const onServerUpdated = (payload: ServerUpdated) => {
   const server = servers.get(payload.serverId);
   server.update(payload.updated);
 }
+
+
+interface ServerChannelCreated {
+  serverId: string;
+  channel: RawChannel;
+}
+
+export const onServerChannelCreated = (payload: ServerChannelCreated) => {
+  const channels = useChannels();
+  channels.set(payload.channel);
+}
