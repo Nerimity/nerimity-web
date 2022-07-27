@@ -10,6 +10,8 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   updateLastMessaged(this: Channel, timestamp?: number): void;
   dismissNotification(this: Channel, force?: boolean): void;
   setRecipientId(this: Channel, userId: string): void;
+  update: (this: Channel, update: Partial<RawChannel>) => void;
+
   recipient?: User;
   recipientId?: string;
   lastSeen?: number;
@@ -52,6 +54,9 @@ const set = (channel: RawChannel) => {
       },
       setRecipientId(userId: string) {
         setChannels(this._id, "recipientId", userId);
+      },
+      update(update) {
+        setChannels(this._id, update);
       }
     }
   });

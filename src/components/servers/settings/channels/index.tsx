@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useParams } from 'solid-app-router';
-import { For, onMount} from 'solid-js';
+import { Link, useNavigate, useParams } from 'solid-app-router';
+import { createSignal, For, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block';
 import Button from '@/components/ui/button';
@@ -11,14 +11,14 @@ import { createServerChannel } from '@/chat-api/services/ServerService';
 
 
 
-function ChannelItem( props: {channel: Channel}) {
+function ChannelItem(props: { channel: Channel }) {
   const { serverId } = useParams();
 
   const link = RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId, props.channel._id);
 
   return (
     <Link href={link} class={styles.channelItem}>
-      <Icon name='storage' size={18}/>
+      <Icon name='storage' size={18} />
       <div class={styles.name}>{props.channel.name}</div>
       <Icon name='navigate_next' />
     </Link>
@@ -44,8 +44,10 @@ function ChannelList() {
 
 
 export default function ServerSettingsChannel() {
-  const {serverId} = useParams();
+  const { serverId } = useParams();
   const { tabs } = useStore();
+  const navigate = useNavigate();
+  const [channelAddRequestSent, setChannelAddRequestSent] = createSignal(false);
 
 
   onMount(() => {
@@ -57,8 +59,14 @@ export default function ServerSettingsChannel() {
     });
   })
 
-  const onAddChannelClicked = () => {
-    createServerChannel(serverId!);
+  const onAddChannelClicked = async () => {
+    if (channelAddRequestSent()) return;
+    setChannelAddRequestSent(true);
+
+    const channel = await createServerChannel(serverId!)
+      .finally(() => setChannelAddRequestSent(false))
+
+    navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channel._id))
   }
 
 

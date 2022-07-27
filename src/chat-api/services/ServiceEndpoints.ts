@@ -8,6 +8,7 @@ export default {
   serverInvites: (serverId: string) => `/servers/${serverId}/invites`,
   serverInviteCode: (inviteCode: string) => `/servers/invites/${inviteCode}`,
   serverChannels: (serverId: string) => `/servers/${serverId}/channels`,
+  serverChannel: (serverId: string, channelId: string) => `/servers/${serverId}/channels/${channelId}`,
 
   user: (userId: string) => `/users/${userId}`,
 

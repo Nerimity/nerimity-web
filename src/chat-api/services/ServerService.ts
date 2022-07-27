@@ -28,6 +28,14 @@ export async function createServerChannel(serverId: string): Promise<RawChannel>
     useToken: true
   });
 }
+export async function updateServerChannel(serverId: string, channelId: string, update: any): Promise<any> {
+  return request({
+    method: "POST",
+    body: update,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannel(serverId, channelId),
+    useToken: true
+  });
+}
 
 
 export async function createServer(serverName: string): Promise<RawServer> {

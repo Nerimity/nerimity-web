@@ -54,7 +54,7 @@ interface ServerUpdated {
 export const onServerUpdated = (payload: ServerUpdated) => {
   const servers = useServers();
   const server = servers.get(payload.serverId);
-  server.update(payload.updated);
+  server?.update(payload.updated);
 }
 
 
@@ -66,4 +66,20 @@ interface ServerChannelCreated {
 export const onServerChannelCreated = (payload: ServerChannelCreated) => {
   const channels = useChannels();
   channels.set(payload.channel);
+}
+
+interface ServerChannelUpdated {
+  serverId: string;
+  channelId: string;
+  updated: {
+    name?: string;
+  }
+}
+
+
+export const onServerChannelUpdated = (payload: ServerChannelUpdated) => {
+  const channels = useChannels();
+  const channel = channels.get(payload.channelId);
+  console.log(payload);
+  channel?.update(payload.updated);
 }

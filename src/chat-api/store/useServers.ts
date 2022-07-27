@@ -23,7 +23,7 @@ const set = (server: RawServer) =>
         return channels.getChannelsByServerId(server._id).some(channel => channel.hasNotifications)
       },
       update(update) {
-        setServers(server._id, update);
+        setServers(this._id, update);
       }
     }
   });
