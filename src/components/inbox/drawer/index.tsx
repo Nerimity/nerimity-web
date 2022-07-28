@@ -80,7 +80,7 @@ const InboxDrawer = () => {
         {selectedIndex() === 0 && <InboxDrawerTab/>}
         {selectedIndex() === 1 && <InboxDrawerFriends /> }
       </div>
-      <Modal show={showAddFriend()} component={() => <AddFriend />} />
+      <Modal show={showAddFriend()} title="Add Friend" component={() => <AddFriend />} />
       <div class={styles.items}>
         <div class={classNames(styles.item, conditionalClass(isSavedNotesSelected(), styles.selected))} onClick={onSavedNotesClick}>
           <Icon name='note_alt' size={24} />

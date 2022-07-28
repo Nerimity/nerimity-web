@@ -20,7 +20,7 @@ export default function SidePane () {
   return <div class={styles.sidePane}>
     <InboxItem />
     <div class={styles.scrollable}>
-      <Modal show={showAddServerModel()} component={() => <AddServer />} />
+      <Modal show={showAddServerModel()} title="Add Server" component={() => <AddServer />} />
       <ServerList />
       <Item iconName='add_box' onClick={() => setShowAddServerModel(true)}  />
     </div>

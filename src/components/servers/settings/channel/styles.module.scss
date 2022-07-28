@@ -23,3 +23,12 @@
 .saveButton {
   align-self: flex-end;
 }
+
+.deleteConfirmModal {
+  margin-top: 20px;
+  .highlight {
+    background-color: var(--alert-color);
+    padding: 3px;
+    border-radius: 4px;
+  }
+}
