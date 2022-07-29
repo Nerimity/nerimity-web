@@ -1,13 +1,13 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useParams } from 'solid-app-router';
+import { useNavigate, useParams } from 'solid-app-router';
 import { createEffect,  createSignal,  on, Show,} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
-import { updateServerChannel } from '@/chat-api/services/ServerService';
+import { deleteServerChannel, updateServerChannel } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal';
 import { Channel } from '@/chat-api/store/useChannels';
 
@@ -19,6 +19,7 @@ export default function ServerSettingsChannel() {
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
+  const [showDeleteConfirm, setDeleteConfirm] = createSignal(false);
 
   const channel = () => channels.get(channelId);
 
@@ -34,7 +35,7 @@ export default function ServerSettingsChannel() {
   
   createEffect(on(channel, () => {
     tabs.openTab({
-      title: "Settings - " + channel().name,
+      title: "Settings - " + channel()?.name,
       serverId: serverId!,
       iconName: 'settings',
       path: RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channelId),
@@ -47,7 +48,7 @@ export default function ServerSettingsChannel() {
     setSaveRequestSent(true);
     setError(null);
     const values = updatedInputValues();
-    await updateServerChannel(serverId!, channel()._id, values)
+    await updateServerChannel(serverId!, channel()?._id!, values)
       .catch((err) => setError(err.message))
       .finally(() => setSaveRequestSent(false));
   }
@@ -63,9 +64,9 @@ export default function ServerSettingsChannel() {
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
       </SettingsBlock>
       {/* Delete Channel */}
-      <Modal show={true} title={`Delete ${channel().name}`} component={() => <DeleteConfirmModal channel={channel()} />} />
+      <Modal show={showDeleteConfirm() && !!channel()} title={`Delete ${channel()?.name}`} component={() => <DeleteConfirmModal channel={channel()!} />} />
       <SettingsBlock icon='delete' label='Delete this channel' description='This cannot be undone!'>
-        <Button label='Delete Channel' color='var(--alert-color)' />
+        <Button label='Delete Channel' color='var(--alert-color)' onClick={() => setDeleteConfirm(true)} />
       </SettingsBlock>
       {/* Errors & buttons */}
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
@@ -77,11 +78,37 @@ export default function ServerSettingsChannel() {
 }
 
 function DeleteConfirmModal(props: {channel: Channel}) {
+  const [confirmInput, setConfirmInput] = createSignal();
+  const [requestSent, setRequestSent] = createSignal(false);
+  const [error, setError] = createSignal<null | string>(null);
+  const params = useParams();
+  const navigate = useNavigate();
+  const {tabs} = useStore();
+  
+  const onDeleteClick = async () => {
+    setError(null);
+    if (confirmInput() !== props.channel.name) {
+      setError('Please type the channel name to delete this channel.');
+      return;
+    }
+    if (requestSent()) return;
+    setRequestSent(true);
+    deleteServerChannel(props.channel.server!, props.channel._id).then(() => {
+      const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(params.serverId!);
+      tabs.updateTab(location.pathname, {path})
+      navigate(path);
+      
+    }).finally(() => setRequestSent(false));
+  }
+
+  const buttonMessage = () => requestSent() ? 'Deleting...' : `Delete ${props.channel.name}`;
+
+  
   return (
     <div class={styles.deleteConfirmModal}>
       <div>Confirm by typing <span class={styles.highlight}>{props.channel?.name}</span> in the box below.</div>
-      <Input />
-      <Button iconName='delete' label={`Delete ${props.channel?.name}`} color="var(--alert-color)" />
+      <Input error={error()} onText={v => setConfirmInput(v)} />
+      <Button iconName='delete' label={buttonMessage()} color="var(--alert-color)" onClick={onDeleteClick} />
     </div>
   )
 }

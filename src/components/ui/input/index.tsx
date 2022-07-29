@@ -8,7 +8,7 @@ interface Props {
   type?: string, 
   value?: string,
   onText?: (value: string) => void, 
-  error?: Error | string
+  error?: Error | string | null
   errorName?: string
   connectLeft?: boolean
   connectRight?: boolean

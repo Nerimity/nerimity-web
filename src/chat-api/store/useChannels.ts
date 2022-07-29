@@ -19,7 +19,7 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
 }
 
 
-const [channels, setChannels] = createStore<Record<string, Channel>>({});
+const [channels, setChannels] = createStore<Record<string, Channel | undefined>>({});
 
 const users = useUsers();
 const account = useAccount();
@@ -63,18 +63,24 @@ const set = (channel: RawChannel) => {
 }
 
 
+const deleteChannel = (channelId: string) => {
+  setChannels(channelId, undefined);
+}
+
+
 const get = (channelId: string) => {
   return channels[channelId];
 }
 
 const array = () => Object.values(channels);
 
-const getChannelsByServerId = (serverId: string) => array().filter(channel => channel.server === serverId);
+const getChannelsByServerId = (serverId: string) => array().filter(channel => channel?.server === serverId);
 
 export default function useChannels() {
   return {
     array,
     getChannelsByServerId,
+    deleteChannel,
     get,
     set
   }

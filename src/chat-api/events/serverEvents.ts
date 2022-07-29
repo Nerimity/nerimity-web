@@ -80,6 +80,15 @@ interface ServerChannelUpdated {
 export const onServerChannelUpdated = (payload: ServerChannelUpdated) => {
   const channels = useChannels();
   const channel = channels.get(payload.channelId);
-  console.log(payload);
   channel?.update(payload.updated);
+}
+
+interface ServerChannelDeleted {
+  serverId: string;
+  channelId: string;
+}
+
+export const onServerChannelDeleted = (payload: ServerChannelDeleted) => {
+  const channels = useChannels();
+  channels.deleteChannel(payload.channelId);
 }
