@@ -1,5 +1,4 @@
 import styles from './styles.module.scss';
-import Icon from "@/components/ui/icon";
 
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
@@ -43,9 +42,8 @@ export default function AddFriend() {
   }
 
   return <div class={styles.addFriendContainer}>
-    <Icon name="group_add" size={30} class={styles.icon} />
     <Input label='Username & Tag' error={error().message} onText={setUserTag} />
     {success() && <div style="color: var(--success-color)">Friend successfully added!</div>}
-    <Button label='Send Request' iconName='add_circle_outline' onClick={onCreateClick}  />
+    <Button class={styles.button} label='Send Request' iconName='add_circle_outline' onClick={onCreateClick}  />
   </div>
 }

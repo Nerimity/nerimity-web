@@ -1,5 +1,4 @@
 import styles from './styles.module.scss';
-import Icon from "@/components/ui/icon";
 
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
@@ -21,8 +20,7 @@ export default function AddServer() {
   }
 
   return <div class={styles.addServerContainer}>
-    <Icon name="dns" size={30} class={styles.icon} />
     <Input label='Server Name' error={error().message} onText={setName} />
-    <Button label='Create Server' iconName='add_circle_outline' onClick={onCreateClick}  />
+    <Button class={styles.button} label='Create Server' iconName='add_circle_outline' onClick={onCreateClick}  />
   </div>
 }

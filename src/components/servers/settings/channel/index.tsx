@@ -108,7 +108,7 @@ function DeleteConfirmModal(props: {channel: Channel}) {
     <div class={styles.deleteConfirmModal}>
       <div>Confirm by typing <span class={styles.highlight}>{props.channel?.name}</span> in the box below.</div>
       <Input error={error()} onText={v => setConfirmInput(v)} />
-      <Button iconName='delete' label={buttonMessage()} color="var(--alert-color)" onClick={onDeleteClick} />
+      <Button class={styles.button} iconName='delete' label={buttonMessage()} color="var(--alert-color)" onClick={onDeleteClick} />
     </div>
   )
 }
