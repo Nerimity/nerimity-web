@@ -1,18 +1,21 @@
 import { JSX, Show } from 'solid-js';
 import Icon from '@/components/ui/icon';
 import styles from './styles.module.scss';
+import { classNames, conditionalClass } from '@/common/classNames';
 
 interface BlockProps {
   label: string;
   icon: string;
   description?: string;
   children?: JSX.Element | undefined;
+  header?: boolean;
+  class?: string;
 }
 
 
 export default function SettingsBlock(props: BlockProps) {
   return (
-    <div class={styles.block}>
+    <div class={classNames(styles.block, conditionalClass(props.header, styles.header), props.class)}>
       <Icon name={props.icon} />
       <div class={styles.details}>
         <div class={styles.label}>{props.label}</div>

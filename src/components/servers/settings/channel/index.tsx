@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate, useParams } from 'solid-app-router';
-import { createEffect,  createSignal,  on, Show,} from 'solid-js';
+import { createEffect,  createSignal,  For,  on, Show,} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block';
@@ -10,6 +10,8 @@ import Button from '@/components/ui/button';
 import { deleteServerChannel, updateServerChannel } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal';
 import { Channel } from '@/chat-api/store/useChannels';
+import { CHANNEL_PERMISSIONS } from '@/chat-api/Permissions';
+import Checkbox from '@/components/ui/checkbox';
 
 
 
@@ -63,6 +65,17 @@ export default function ServerSettingsChannel() {
       <SettingsBlock icon='edit' label='Channel Name'>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
       </SettingsBlock>
+      <div>
+        <SettingsBlock icon="security" label="Permissions" description="Manage permissions for this channel." header={true} />
+        <For each={Object.values(CHANNEL_PERMISSIONS)}>
+          {(permission) => (
+            <SettingsBlock icon={permission.icon} label={permission.name} description={permission.description} class={styles.permissionItem}>
+              <Checkbox checked={true} />
+            </SettingsBlock>
+          )}
+
+        </For>
+      </div>
       {/* Delete Channel */}
       <Modal show={showDeleteConfirm() && !!channel()} title={`Delete ${channel()?.name}`} component={() => <DeleteConfirmModal channel={channel()!} />} />
       <SettingsBlock icon='delete' label='Delete this channel' description='This cannot be undone!'>

@@ -57,6 +57,8 @@ export default function ServerSettingsInvite() {
         <Button label='Create Invite' onClick={onCreateInviteClick} />
       </SettingsBlock>
 
+
+      <SettingsBlock label='Server Invites' description='Invite your friends to this server.' icon='mail' header={true} />
       <For each={invites()}>
         {(invite) => (
           <InviteItem invite={invite} />

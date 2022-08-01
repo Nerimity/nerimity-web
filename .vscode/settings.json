@@ -23,4 +23,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "emmet.includeLanguages": {
+    "javascriptreact": "html",
+    "typescriptreact": "html",
+  },
 }

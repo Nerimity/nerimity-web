@@ -6,6 +6,11 @@
   border-radius: 4px;
   align-items: center;
   margin-bottom: 5px;
+  &.header {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 1px;
+  }
 }
 .details {
   display: flex;

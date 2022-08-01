@@ -1,0 +1,18 @@
+.checkbox {
+  &.selected .box {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  user-select: none;
+}
+
+.box {
+  border-radius: 4px;
+  transition: 0.2s;
+  color: transparent;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  &:hover {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
