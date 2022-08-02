@@ -1,6 +1,7 @@
 import {createStore} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import {dismissChannelNotification} from '../emits/userEmits';
+import { CHANNEL_PERMISSIONS, getAllPermissions, Permission } from '../Permissions';
 import { RawChannel } from '../RawData';
 import useAccount from './useAccount';
 import useUsers, { User } from './useUsers';
@@ -12,6 +13,7 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   setRecipientId(this: Channel, userId: string): void;
   update: (this: Channel, update: Partial<RawChannel>) => void;
 
+  permissionList: Array<Permission & {hasPerm: boolean}>
   recipient?: User;
   recipientId?: string;
   lastSeen?: number;
@@ -39,6 +41,10 @@ const set = (channel: RawChannel) => {
         const lastSeenAt = this.lastSeen;
         if (!lastSeenAt) return true;
         return lastMessagedAt > lastSeenAt;
+      },
+      get permissionList () {
+        const permissions = this.permissions || 0;
+        return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
       },
       updateLastSeen(timestamp?: number) {
         setChannels(this._id, "lastSeen", timestamp);

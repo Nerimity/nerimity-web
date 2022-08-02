@@ -48,6 +48,7 @@ export interface RawChannel {
   createdBy?: string;
   server?: string;
   type: number;
+  permissions?: number
   createdAt: number
   lastMessagedAt?: number;
 }

@@ -1,10 +1,9 @@
-interface Permission {
-  [key: string]: {
-    name: string;
-    description: string;
-    bit: number;
-    icon: string
-  }
+
+export interface Permission {
+  name: string;
+  description: string;
+  bit: number;
+  icon: string
 }
 
 export const CHANNEL_PERMISSIONS = {
@@ -30,7 +29,7 @@ export const addPermission = (permissions: number, bit: number) => {
   return permissions | bit
 }
 
-export const getAllPermissions = (permissionList: Permission, permissions: number) => {
+export const getAllPermissions = (permissionList: Record<string, Permission>, permissions: number) => {
   return Object.values(permissionList).map(permission => {
     const hasPerm = hasPermission(permissions, permission.bit)
     return {

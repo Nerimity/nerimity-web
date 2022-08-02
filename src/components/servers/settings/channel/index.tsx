@@ -10,7 +10,6 @@ import Button from '@/components/ui/button';
 import { deleteServerChannel, updateServerChannel } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal';
 import { Channel } from '@/chat-api/store/useChannels';
-import { CHANNEL_PERMISSIONS } from '@/chat-api/Permissions';
 import Checkbox from '@/components/ui/checkbox';
 
 
@@ -58,6 +57,8 @@ export default function ServerSettingsChannel() {
 
   const saveRequestStatus = () => saveRequestSent() ? 'Saving...' : 'Save Changes';
 
+  const permissions = () => channel()?.permissionList || [];
+
 
   return (
     <div class={styles.channelPane}>
@@ -67,10 +68,10 @@ export default function ServerSettingsChannel() {
       </SettingsBlock>
       <div>
         <SettingsBlock icon="security" label="Permissions" description="Manage permissions for this channel." header={true} />
-        <For each={Object.values(CHANNEL_PERMISSIONS)}>
+        <For each={ permissions()}>
           {(permission) => (
             <SettingsBlock icon={permission.icon} label={permission.name} description={permission.description} class={styles.permissionItem}>
-              <Checkbox checked={true} />
+              <Checkbox checked={permission.hasPerm} />
             </SettingsBlock>
           )}
 
