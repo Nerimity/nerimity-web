@@ -28,6 +28,9 @@ export const hasPermission = (permissions: number, bit: number) => {
 export const addPermission = (permissions: number, bit: number) => {
   return permissions | bit
 }
+export const removePermission = (permissions: number, bit: number) => {
+  return permissions & ~bit
+}
 
 export const getAllPermissions = (permissionList: Record<string, Permission>, permissions: number) => {
   return Object.values(permissionList).map(permission => {

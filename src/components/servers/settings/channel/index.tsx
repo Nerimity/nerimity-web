@@ -11,6 +11,7 @@ import { deleteServerChannel, updateServerChannel } from '@/chat-api/services/Se
 import Modal from '@/components/ui/modal';
 import { Channel } from '@/chat-api/store/useChannels';
 import Checkbox from '@/components/ui/checkbox';
+import { addPermission, CHANNEL_PERMISSIONS, getAllPermissions, removePermission } from '@/chat-api/Permissions';
 
 
 
@@ -25,12 +26,17 @@ export default function ServerSettingsChannel() {
   const channel = () => channels.get(channelId);
 
 
+
+  
   const defaultInput = () => ({
     name: channel()?.name || '',
+    permissions: channel()?.permissions || 0,
   })
-
+  
+  
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
-
+  
+  const permissions = () => getAllPermissions(CHANNEL_PERMISSIONS, inputValues().permissions);
 
 
   
@@ -57,7 +63,18 @@ export default function ServerSettingsChannel() {
 
   const saveRequestStatus = () => saveRequestSent() ? 'Saving...' : 'Save Changes';
 
-  const permissions = () => channel()?.permissionList || [];
+
+  const onPermissionChanged = (checked: boolean, bit: number) => {
+    let newPermission = inputValues().permissions;
+    if (checked) {
+      newPermission = addPermission(newPermission, bit);
+    }
+    if (!checked) {
+      newPermission = removePermission(newPermission, bit);
+    }
+    setInputValue("permissions", newPermission);
+  }
+
 
 
   return (
@@ -71,7 +88,7 @@ export default function ServerSettingsChannel() {
         <For each={ permissions()}>
           {(permission) => (
             <SettingsBlock icon={permission.icon} label={permission.name} description={permission.description} class={styles.permissionItem}>
-              <Checkbox checked={permission.hasPerm} />
+              <Checkbox checked={permission.hasPerm} onChange={checked => onPermissionChanged(checked, permission.bit, )} />
             </SettingsBlock>
           )}
 
