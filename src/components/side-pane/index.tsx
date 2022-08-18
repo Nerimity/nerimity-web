@@ -62,7 +62,7 @@ const UserItem = () => {
   const params = useParams();
   const {account, users} = useStore();
 
-  const userId = () =>  account.user()?._id;
+  const userId = () =>  account.user()?.id;
   const user = () => users.get(userId()!)
 
   const isSelected = () => userId() === params.userId;
@@ -83,13 +83,13 @@ const UserItem = () => {
 
 
 function ServerItem(props: {server: Server, selected?: boolean, onContextMenu?: (e: MouseEvent) => void}) {
-  const { _id, defaultChannel } = props.server;
+  const { id, defaultChannelId } = props.server;
 
   const hasNotifications = () => props.server.hasNotifications;
 
   return (
     <Link
-      href={RouterEndpoints.SERVER_MESSAGES(_id, defaultChannel)}
+      href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
       onContextMenu={props.onContextMenu}
       class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}
       >
@@ -125,9 +125,9 @@ const  ServerList = () => {
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
     <For each={servers.array()}>
       {server => <ServerItem 
-        selected={ server._id === params.serverId }
+        selected={ server.id === params.serverId }
         server={server}
-        onContextMenu={e => onContextMenu(e, server._id)}
+        onContextMenu={e => onContextMenu(e, server.id)}
       />}
     </For>
 

@@ -24,7 +24,7 @@ const ServerSettingsHeader = () => {
         <div class={styles.details}>
           <div class={styles.title}>{server().name}</div>
           <div class={styles.members}>{serverMembersCount()} members</div>
-          <Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()._id)} class={styles.link} >Edit Server</Link>
+          <Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server().id)} class={styles.link} >Edit Server</Link>
         </div>
       </div>
     </Show>

@@ -16,7 +16,7 @@ const MemberItem = (props: {member: ServerMember}) => {
       <Avatar size={25} hexColor={user().hexColor} />
       <div class={styles.memberInfo}>
         <div class={styles.username}>{user().username}</div>
-        <UserPresence userId={user()._id} showOffline={false} />
+        <UserPresence userId={user().id} showOffline={false} />
       </div>
     </div>
   )
@@ -29,7 +29,7 @@ const ServerMembersDrawer = () => {
   const {servers, serverMembers} = useStore();
   const server = () => servers.get(params.serverId!);
   
-  const members = () => useCategorizedMembers(server()?._id)
+  const members = () => useCategorizedMembers(server()?.id)
 
   return <div class={styles.membersList}>
     Online
@@ -48,7 +48,7 @@ const ServerMembersDrawer = () => {
 function useCategorizedMembers(serverId: string) {
   const {servers, serverMembers} = useStore();
   const server = () => servers.get(serverId!);
-  const members = () => serverMembers.array(server()?._id) || [];
+  const members = () => serverMembers.array(server()?.id) || [];
 
   const onlineMembers = () => members().filter(member => member.user.presence?.status);
   const offlineMembers = () => members().filter(member => !member.user.presence?.status);

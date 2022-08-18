@@ -55,7 +55,7 @@ export default function ServerSettingsChannel() {
     setSaveRequestSent(true);
     setError(null);
     const values = updatedInputValues();
-    await updateServerChannel(serverId!, channel()?._id!, values)
+    await updateServerChannel(serverId!, channel()?.id!, values)
       .catch((err) => setError(err.message))
       .finally(() => setSaveRequestSent(false));
   }
@@ -124,7 +124,7 @@ function DeleteConfirmModal(props: {channel: Channel}) {
     }
     if (requestSent()) return;
     setRequestSent(true);
-    deleteServerChannel(props.channel.server!, props.channel._id).then(() => {
+    deleteServerChannel(props.channel.server!, props.channel.id).then(() => {
       const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(params.serverId!);
       tabs.updateTab(location.pathname, {path})
       navigate(path);

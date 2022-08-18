@@ -27,17 +27,17 @@ export default function ServerSettingsInvite() {
 
   const defaultInput = () => ({
     name: server()?.name || '',
-    defaultChannel: server()?.defaultChannel || '',
+    defaultChannelId: server()?.defaultChannelId || '',
   })
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
 
   const dropDownChannels = () => channels.getChannelsByServerId(serverId).map(channel => ({
-    id: channel._id,
+    id: channel.id,
     label: channel.name,
     onClick: () => {
-      setInputValue('defaultChannel', channel._id);
+      setInputValue('defaultChannelId', channel.id);
     }
   }));
 
@@ -79,7 +79,7 @@ export default function ServerSettingsInvite() {
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
       </SettingsBlock>
       <SettingsBlock icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
-        <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannel} />
+        <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId} />
       </SettingsBlock>
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
       <Show when={Object.keys(updatedInputValues()).length}>

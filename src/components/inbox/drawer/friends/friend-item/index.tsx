@@ -63,12 +63,12 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
         conditionalClass(showAccept(), styles.hasNotifications)
       )} onClick={onFriendClick}>
 
-        <Link href={RouterEndpoints.PROFILE(user()._id)} class="link">
+        <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar hexColor={user().hexColor} size={25} />
         </Link>
         <div class={styles.details}>
           <div class={styles.username}>{user().username}</div>
-          <UserPresence userId={user()._id} showOffline={false} />
+          <UserPresence userId={user().id} showOffline={false} />
         </div>
 
 

@@ -31,7 +31,7 @@ const set = (channel: RawChannel) => {
 
   setChannels({
     ...channels,
-    [channel._id]: {
+    [channel.id]: {
       ...channel,
       get recipient(): User {
         return users.get(this.recipientId!);
@@ -47,22 +47,22 @@ const set = (channel: RawChannel) => {
         return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
       },
       updateLastSeen(timestamp?: number) {
-        setChannels(this._id, "lastSeen", timestamp);
+        setChannels(this.id, "lastSeen", timestamp);
       },
       updateLastMessaged(timestamp?: number) {
-        setChannels(this._id, "lastMessagedAt", timestamp);
+        setChannels(this.id, "lastMessagedAt", timestamp);
       },
       dismissNotification(force = false) {
         const {hasFocus} = useWindowProperties();
         if (!hasFocus() && !force) return;
         if (!this.hasNotifications && !force) return;
-        dismissChannelNotification(channel._id);
+        dismissChannelNotification(channel.id);
       },
       setRecipientId(userId: string) {
-        setChannels(this._id, "recipientId", userId);
+        setChannels(this.id, "recipientId", userId);
       },
       update(update) {
-        setChannels(this._id, update);
+        setChannels(this.id, update);
       }
     }
   });
@@ -80,7 +80,7 @@ const get = (channelId: string) => {
 
 const array = () => Object.values(channels);
 
-const getChannelsByServerId = (serverId: string) => array().filter(channel => channel?.server === serverId);
+const getChannelsByServerId = (serverId: string) => array().filter(channel => channel?.serverId === serverId);
 
 export default function useChannels() {
   return {

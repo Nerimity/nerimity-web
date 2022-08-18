@@ -22,7 +22,7 @@ export default function MessagePane() {
   
     const path = params.serverId ? RouterEndpoints.SERVER_MESSAGES(params.serverId!, params.channelId!) : RouterEndpoints.INBOX_MESSAGES(params.channelId!);
   
-    const userId = channel.recipient?._id;
+    const userId = channel.recipient?.id;
     
     tabs.openTab({
       title: channel.name,
@@ -58,13 +58,13 @@ const MessageLogArea = () => {
   const [unreadMessageId, setUnreadMessageId] = createSignal<null | string>(null);
   const [unreadLastSeen, setUnreadLastSeen] = createSignal<null | number>(null);
 
-  const channel = () => channels.get(params.channelId!);
+  const channel = () => channels.get(params.channelId!)!;
   const {hasFocus} = useWindowProperties();
 
   createEffect(on(channel, () => {
     setOpenedTimestamp(null);
     if (!channel()) return;
-    messages.fetchAndStoreMessages(channel()._id).then(() => {
+    messages.fetchAndStoreMessages(channel().id).then(() => {
       setOpenedTimestamp(Date.now());
       channel()?.dismissNotification();
     })
@@ -92,12 +92,12 @@ const MessageLogArea = () => {
   const onMessage = (message: RawMessage) => {
     if (!channelMessages()) return;
     const selectedChannelId = params.channelId;
-    const newMessageChannelId = message.channel;
+    const newMessageChannelId = message.channelId;
     if (selectedChannelId !== newMessageChannelId) return;
-    if (message.createdBy._id === account.user()?._id) return;
+    if (message.createdBy.id === account.user()?.id) return;
     if (!hasFocus()) {
       if ((channel().lastSeen || null) !== unreadLastSeen()) {
-        setUnreadMessageId(message._id);
+        setUnreadMessageId(message.id);
         setUnreadLastSeen(channel().lastSeen || null);
       };
     }
@@ -123,7 +123,7 @@ const MessageLogArea = () => {
     };
     
     const message = channelMessages()?.find(m => m.createdAt - lastRead >= 0 );
-    setUnreadMessageId(message?._id || null);
+    setUnreadMessageId(message?.id || null);
   }
 
   
@@ -132,7 +132,7 @@ const MessageLogArea = () => {
     <For each={channelMessages()}>
       {(message, i) => (
         <>
-          <Show when={unreadMessageId() === message._id}>
+          <Show when={unreadMessageId() === message.id}>
             <UnreadMarker/>
           </Show>
           <MessageItem
@@ -161,9 +161,9 @@ function MessageArea() {
       const trimmedMessage = message().trim();
       setMessage('')
       if (!trimmedMessage) return;
-      const channel = channels.get(params.channelId!);
+      const channel = channels.get(params.channelId!)!;
       tabs.updateTab(location.pathname!, {isPreview: false})
-      messages.sendAndStoreMessage(channel._id, trimmedMessage);
+      messages.sendAndStoreMessage(channel.id, trimmedMessage);
     }
   }
   

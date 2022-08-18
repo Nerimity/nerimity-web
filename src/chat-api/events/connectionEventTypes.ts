@@ -13,10 +13,10 @@ export interface AuthenticatedPayload {
 }
 
 interface MessageMention {
-  mentionedBy: string;
+  mentionedById: string;
   count: number;
-  server?: string;
-  channel: string
+  serverId?: string;
+  channelId: string
   createdAt: number;
 }
 
@@ -28,7 +28,7 @@ interface Presence {
 }
 
 interface SelfUser {
-  _id: string;
+  id: string;
   username: string;
   hexColor: string;
   avatar?: string;

@@ -13,14 +13,14 @@ const users = useUsers();
 
 const set = (member: RawServerMember) => {
   users.set(member.user);
-  if (!serverMembers[member.server]) {
-    setMember(member.server, {});
+  if (!serverMembers[member.serverId]) {
+    setMember(member.serverId, {});
   }
-  setMember(member.server, member.user._id, {
+  setMember(member.serverId, member.user.id, {
     ...member,
-    userId: member.user._id,
+    userId: member.user.id,
     get user() {
-      return users.get(member.user._id);
+      return users.get(member.user.id);
     }
   });
 }

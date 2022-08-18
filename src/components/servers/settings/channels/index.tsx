@@ -14,7 +14,7 @@ import { createServerChannel } from '@/chat-api/services/ServerService';
 function ChannelItem(props: { channel: Channel }) {
   const { serverId } = useParams();
 
-  const link = RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId, props.channel._id);
+  const link = RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId, props.channel.id);
 
   return (
     <Link href={link} class={styles.channelItem}>
@@ -66,7 +66,7 @@ export default function ServerSettingsChannel() {
     const channel = await createServerChannel(serverId!)
       .finally(() => setChannelAddRequestSent(false))
 
-    navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channel._id))
+    navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channel.id))
   }
 
 

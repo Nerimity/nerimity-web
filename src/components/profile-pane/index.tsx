@@ -18,7 +18,7 @@ export default function ProfilePane () {
   const params = useParams();
   const { users, friends, account, tabs } = useStore();
   
-  const isMe = () => account.user()?._id === params.userId;
+  const isMe = () => account.user()?.id === params.userId;
 
   const [userDetails] = createResource(() => params.userId, getUserDetailsRequest);
  
@@ -77,7 +77,7 @@ export default function ProfilePane () {
                 <span class={styles.username}>{user()!.username}</span>
                 <span class={styles.tag}>{`:${user()!.tag}`}</span>
               </div>
-              <Show when={!isMe()}><UserPresence userId={user()!._id} showOffline={true} /></Show>
+              <Show when={!isMe()}><UserPresence userId={user()!.id} showOffline={true} /></Show>
               <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
             </div>
             <Show when={!isMe()}>
@@ -133,7 +133,7 @@ function MutualFriendList(props: {mutualFriendIds: string[]}) {
             const user = () => users.get(id);
             return (
               <Show when={user()}>
-                <Link href={RouterEndpoints.PROFILE(user()._id)} class={styles.item}>
+                <Link href={RouterEndpoints.PROFILE(user().id)} class={styles.item}>
                   <Avatar hexColor={user().hexColor} size={20} />
                   <div class={styles.name}>{user().username}</div>
                 </Link>
@@ -156,7 +156,7 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
             const server = () => servers.get(id);
             return (
               <Show when={server()}>
-                <Link href={RouterEndpoints.SERVER_MESSAGES(server()._id, server().defaultChannel)} class={styles.item}>
+                <Link href={RouterEndpoints.SERVER_MESSAGES(server().id, server().defaultChannelId)} class={styles.item}>
                   <Avatar hexColor={server().hexColor} size={20} />
                   <div class={styles.name}>{server().name}</div>
                 </Link>

@@ -4,8 +4,7 @@ import useChannels, { Channel } from './useChannels';
 import useUsers from './useUsers';
 
 
-export type Inbox = Omit<RawInboxWithoutChannel, 'channel'> & {
-  channelId: string
+export type Inbox = RawInboxWithoutChannel & {
   channel: Channel,
 }
 
@@ -15,15 +14,16 @@ const [inbox, setInbox] = createStore<Record<string, Inbox>>({});
 
 const set = (item: RawInboxWithoutChannel) => {
   const channels = useChannels();
-  const channel = channels.get(item.channel);
+  const channel = channels.get(item.channelId)!;
   const user = useUsers();
   user.set(item.recipient);
-  channel.setRecipientId(item.recipient._id);
-  channel.recipient?.setInboxChannelId(item.channel);
-  setInbox({[item.channel]: {
+  channel.setRecipientId(item.recipient.id);
+  channel.recipient?.setInboxChannelId(item.channelId);
+  setInbox({[item.channelId]: {
     ...item,
-    channelId: item.channel,
-    get channel() {return channels.get(this.channelId)},
+    get channel() {
+      return channels.get(item.channelId)!
+    },
   }});
 }
 const get = (userId: string) => {

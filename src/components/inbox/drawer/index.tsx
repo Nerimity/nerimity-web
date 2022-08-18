@@ -62,7 +62,7 @@ const InboxDrawer = () => {
     setSelectedIndex(index);
   }
 
-  const loggedInUser = () => users.get(account.user()?._id!);
+  const loggedInUser = () => users.get(account.user()?.id!);
 
   const onSavedNotesClick = () => {
     loggedInUser().openDM(navigate);

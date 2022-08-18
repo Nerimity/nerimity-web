@@ -16,14 +16,14 @@ const [servers, setServers] = createStore<Record<string, Server>>({});
 const set = (server: RawServer) => 
   setServers({
     ...servers,
-    [server._id]: {
+    [server.id]: {
       ...server,
       get hasNotifications() {
         const channels = useChannels();
-        return channels.getChannelsByServerId(server._id).some(channel => channel.hasNotifications)
+        return channels.getChannelsByServerId(server.id).some(channel => channel!.hasNotifications)
       },
       update(update) {
-        setServers(this._id, update);
+        setServers(this.id, update);
       }
     }
   });

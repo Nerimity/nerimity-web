@@ -11,13 +11,13 @@ export function onMessageCreated(payload: RawMessage) {
   const messages = useMessages();
   const channels = useChannels();
   const {user} = useAccount();
-  const channel = channels.get(payload.channel);
+  const channel = channels.get(payload.channelId);
 
 
   batch(() => {
     channel.updateLastMessaged(payload.createdAt);
 
-    if (user()?._id === payload.createdBy._id) {
+    if (user()?.id === payload.createdBy.id) {
       channel.updateLastSeen(payload.createdAt+1);
     }
 
@@ -26,7 +26,7 @@ export function onMessageCreated(payload: RawMessage) {
       channel.recipient.updateMentionCount(mentionCount);
     }
 
-    messages.pushMessage(payload.channel, payload);
+    messages.pushMessage(payload.channelId, payload);
   })
 }
 

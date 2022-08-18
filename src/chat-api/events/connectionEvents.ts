@@ -55,10 +55,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   for (let i = 0; i < payload.messageMentions.length; i++) {
     const mention = payload.messageMentions[i];
-    const channel = channels.get(mention.channel);
+    const channel = channels.get(mention.channelId);
     if (!channel) continue;
     batch(() => {
-      if (!mention.server) {
+      if (!mention.serverId) {
         channel.updateLastSeen(mention.createdAt)
       }
       channel.recipient?.updateMentionCount(mention.count);

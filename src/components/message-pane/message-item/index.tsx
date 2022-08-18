@@ -13,7 +13,7 @@ import { Link } from 'solid-app-router';
 function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
 
   const onDeleteClick = () => {
-    deleteMessage({channelId: props.message.channel, messageId: props.message._id});
+    deleteMessage({channelId: props.message.channelId, messageId: props.message.id});
   }
   
   return (
@@ -31,18 +31,21 @@ const MessageItem = (props: { message: Message, beforeMessage: Message, animate?
 
   const Details = () => (
     <div class={styles.details}>
-      <Link href={RouterEndpoints.PROFILE(props.message.createdBy._id)}>
+      <Link href={RouterEndpoints.PROFILE(props.message.createdBy.id)}>
         <Avatar hexColor={props.message.createdBy.hexColor} size={30} />
       </Link>
-      <Link class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy._id)}>
+      <Link class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)}>
         {props.message.createdBy.username}
       </Link>
       <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
       </div>
   )
 
-  const isSameCreator = () => props.beforeMessage?.createdBy?._id === props.message?.createdBy?._id;
-  const isDateUnderFiveMinutes = () => (props.message?.createdAt - props.beforeMessage?.createdAt) < 300000;
+  const currentTime = new Date(props.message?.createdAt).getTime();
+  const beforeMessageTime = new Date(props.beforeMessage?.createdAt).getTime()
+
+  const isSameCreator = () => props.beforeMessage?.createdBy?.id === props.message?.createdBy?.id;
+  const isDateUnderFiveMinutes = () => (currentTime- beforeMessageTime) < 300000;
 
 
   const isCompact = () => isSameCreator() && isDateUnderFiveMinutes();

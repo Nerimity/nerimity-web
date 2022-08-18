@@ -27,7 +27,7 @@ const ChannelList = () => {
     <div class={styles.channelList}>
       <For each={serverChannels()}>
         {channel => (
-          <ChannelItem channel={channel} selected={params.channelId === channel._id} />
+          <ChannelItem channel={channel} selected={params.channelId === channel.id} />
         )}
       </For>
     </div>
@@ -36,14 +36,14 @@ const ChannelList = () => {
 
 function ChannelItem(props: {channel: Channel, selected: boolean}) {
   const { channel } = props;
-  if (!channel.server) return null;
+  if (!channel.serverId) return null;
 
   const hasNotifications = () => channel.hasNotifications;
 
 
   return (
     <Link 
-      href={RouterEndpoints.SERVER_MESSAGES(channel.server, channel._id)}
+      href={RouterEndpoints.SERVER_MESSAGES(channel.serverId, channel.id)}
       class={classNames(styles.channel, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}>
       <div class={styles.channelName}>{channel.name}</div>
     </Link>
