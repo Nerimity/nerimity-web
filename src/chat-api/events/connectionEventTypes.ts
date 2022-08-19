@@ -9,7 +9,7 @@ export interface AuthenticatedPayload {
   presences: Presence[];
   friends: RawFriend[];
   inbox: RawInboxWithoutChannel[];
-  lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
+  lastSeenServerChannelIds: Record<string, string>; // { [channelId]: timestamp }
 }
 
 interface MessageMention {
@@ -18,7 +18,7 @@ interface MessageMention {
   count: number;
   serverId?: string;
   channelId: string
-  createdAt: number;
+  createdAt: string;
 }
 
 

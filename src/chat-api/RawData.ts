@@ -4,7 +4,7 @@ export interface RawServer {
   hexColor: string;
   defaultChannelId: string;
   createdById: string;
-  createdAt: number;
+  createdAt: string;
 }
 
 
@@ -23,8 +23,8 @@ export interface RawMessage {
   content?: string;
   createdBy: RawUser;
   type: MessageType;
-  createdAt: number;
-  editedAt?: number;
+  createdAt: string;
+  editedAt?: string;
 }
 
 export interface RawUser {
@@ -33,13 +33,13 @@ export interface RawUser {
   username: string;
   hexColor: string;
   tag: string;
-  joinedAt?: number;
+  joinedAt?: string;
 }
 
 export interface RawServerMember {
   serverId: string;
   user: RawUser;
-  joinedAt: number;
+  joinedAt: string;
 }
 
 export interface RawChannel {
@@ -49,8 +49,8 @@ export interface RawChannel {
   serverId?: string;
   type: number;
   permissions?: number
-  createdAt: number
-  lastMessagedAt?: number;
+  createdAt: string
+  lastMessagedAt?: string;
 }
 
 export enum FriendStatus {
@@ -61,7 +61,7 @@ export enum FriendStatus {
 
 export interface RawFriend {
   status: FriendStatus,
-  createdAt: number
+  createdAt: string
   userId: string;
   recipient: RawUser;
 }
