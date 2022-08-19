@@ -1,4 +1,4 @@
-import { RawChannel, RawFriend, RawInboxWithoutChannel, RawServer, RawServerMember } from '../RawData';
+import { RawChannel, RawFriend, RawInboxWithoutChannel, RawServer, RawServerMember, RawUser } from '../RawData';
 
 export interface AuthenticatedPayload {
   user: SelfUser;
@@ -14,6 +14,7 @@ export interface AuthenticatedPayload {
 
 interface MessageMention {
   mentionedById: string;
+  mentionedBy: RawUser;
   count: number;
   serverId?: string;
   channelId: string

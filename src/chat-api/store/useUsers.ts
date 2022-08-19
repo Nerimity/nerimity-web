@@ -25,8 +25,6 @@ export type User = RawUser & {
   inboxChannelId?: string
   setInboxChannelId: (this: User, channelId: string) => void;
   openDM: (this: User, navigate: Navigator) => Promise<void>;
-  updateMentionCount(this: User, count: number): void;
-  mentionCount: number
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
@@ -38,10 +36,6 @@ const set = (user: RawUser) => {
   if (users[user.id]) return;
   setUsers(user.id, {
     ...user,
-    mentionCount: 0,
-    updateMentionCount(count) {
-      setUsers(this.id, "mentionCount", count);
-    },
     setInboxChannelId(channelId) {
       setUsers(this.id, 'inboxChannelId', channelId);
     },

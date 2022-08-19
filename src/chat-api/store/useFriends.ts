@@ -46,8 +46,7 @@ const updateStatus = (userId: string, status: FriendStatus) => {
 }
 
 const sendRequest = async (username: string, tag: string) => {
-  const friend = await  addFriend({username, tag});
-  console.log(friend)
+  const friend = await addFriend({username, tag});
 }
 
 

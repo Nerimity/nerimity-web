@@ -14,7 +14,7 @@ import { Show } from "solid-js";
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const navigate = useNavigate();
   const params = useParams();
-  const {inbox} = useStore();
+  const {inbox, mentions} = useStore();
 
 
   const user = () => {
@@ -49,7 +49,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
     user().openDM(navigate);
   }
 
-  const mentionCount = () => user().mentionCount;
+  const mentionCount = () => mentions.getDmCount(user()!.id);
 
 
 

@@ -4,7 +4,7 @@ import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  const {account, servers, users, channels, serverMembers, friends, inbox} = useStore();
+  const {account, servers, users, channels, serverMembers, friends, inbox, mentions} = useStore();
   console.log('[WS] Authenticated.');
 
   saveCache(LocalCacheKey.Account, payload.user);
@@ -50,18 +50,28 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   
   for (let channelId in payload.lastSeenServerChannelIds) {
     const timestamp = payload.lastSeenServerChannelIds[channelId];
-    channels.get(channelId).updateLastSeen(timestamp);
+    channels.get(channelId)!.updateLastSeen(timestamp);
   }
 
   for (let i = 0; i < payload.messageMentions.length; i++) {
     const mention = payload.messageMentions[i];
     const channel = channels.get(mention.channelId);
-    if (!channel) continue;
     batch(() => {
       if (!mention.serverId) {
-        channel.updateLastSeen(mention.createdAt)
+        channel?.updateLastSeen(mention.createdAt)
       }
-      channel.recipient?.updateMentionCount(mention.count);
+
+      const user = users.get(mention.mentionedById);
+      if (!user) {
+        users.set(mention.mentionedBy);
+      }
+
+      mentions.set({
+        channelId: mention.channelId,
+        userId: mention.mentionedById,
+        count: mention.count
+      });
+
     })
   }
 

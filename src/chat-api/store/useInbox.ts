@@ -1,6 +1,7 @@
 import {createStore} from 'solid-js/store';
 import { RawInboxWithoutChannel } from '../RawData';
 import useChannels, { Channel } from './useChannels';
+import useMention from './useMention';
 import useUsers from './useUsers';
 
 
@@ -33,13 +34,14 @@ const get = (userId: string) => {
 
 const array = () => Object.values(inbox);
 
+const mentions = useMention();
+
 const notificationCount = () => {
   let count = 0;
   for (const item of array()) {
     const user = item.channel.recipient;
-    if (user?.mentionCount) {
-      count += user.mentionCount;
-    }
+    count += mentions.getDmCount?.(user?.id!);
+    
   }
   return count;
 }

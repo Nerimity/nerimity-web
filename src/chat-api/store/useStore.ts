@@ -2,6 +2,7 @@ import useAccount from "./useAccount";
 import useChannels from "./useChannels";
 import useFriends from "./useFriends";
 import useInbox from "./useInbox";
+import useMention from "./useMention";
 import useMessages from "./useMessages";
 import useServerMembers from "./useServerMembers";
 import useServers from "./useServers";
@@ -18,6 +19,7 @@ export default function useStore() {
   const messages = useMessages();
   const friends = useFriends();
   const inbox = useInbox();
+  const mentions = useMention();
 
   return {
     account,
@@ -28,6 +30,7 @@ export default function useStore() {
     messages,
     serverMembers,
     friends,
-    inbox
+    inbox,
+    mentions
   }
 }
