@@ -4,7 +4,7 @@ function pad(num: number) {
 }
 
 // convert timestamp to today at 13:00 or yesterday at 13:00 or date. add zero if single digit
-export function formatTimestamp(timestamp: number) {
+export function formatTimestamp(timestamp: number | string) {
   const date = new Date(timestamp);
   const today = new Date();
   const yesterday = new Date(today.getTime() - 86400000);

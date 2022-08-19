@@ -21,13 +21,12 @@ export function onMessageCreated(payload: RawMessage) {
 
   batch(() => {
 
-    channel?.updateLastMessaged(createdAt);
+    channel?.updateLastMessaged(new Date(payload.createdAt).toString());
 
     if (user()?.id === payload.createdBy.id) {
-      channel?.updateLastSeen(createdAt+1);
-    }
-
-    if (!channel || channel.recipient) {
+      channel?.updateLastSeen(new Date(createdAt+1).toString());
+    } 
+    else if (!channel || channel.recipient) {
       const user = users.get(payload.createdBy.id);
       if (!user) {
         users.set(payload.createdBy);

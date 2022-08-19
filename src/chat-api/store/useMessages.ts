@@ -40,7 +40,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
     tempId: tempMessageId,
     channelId,
     content,
-    createdAt: Date.now(),
+    createdAt: new Date().toString(),
     sentStatus: MessageSentStatus.SENDING,
     type: MessageType.CONTENT,
     createdBy: {
@@ -60,7 +60,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
   }).catch(() => {
     console.log("failed to send message");
   });
-  channel?.updateLastSeen(Date.now());
+  channel?.updateLastSeen(new Date().toString());
   channel?.updateLastMessaged?.(message?.createdAt!);
 
   const index = messages[channelId].findIndex(m => m.tempId === tempMessageId);

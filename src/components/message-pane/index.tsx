@@ -98,7 +98,7 @@ const MessageLogArea = () => {
     if (!hasFocus()) {
       if ((channel().lastSeen || null) !== unreadLastSeen()) {
         setUnreadMessageId(message.id);
-        setUnreadLastSeen(channel().lastSeen || null);
+        setUnreadLastSeen(channel().lastSeen ? new Date(channel().lastSeen!).getTime() : null);
       };
     }
     channel()?.dismissNotification();
@@ -116,13 +116,13 @@ const MessageLogArea = () => {
   const updateLastReadIndex = () => {
     if (!channel().hasNotifications) return;
 
-    const lastRead = channel()?.lastSeen || -1;
+    const lastRead = channel()?.lastSeen ? new Date(channel()?.lastSeen!).getTime() : -1;
     if (lastRead === -1) {
       setUnreadMessageId(null);
       return;
     };
     
-    const message = channelMessages()?.find(m => m.createdAt - lastRead >= 0 );
+    const message = channelMessages()?.find(m => new Date(m.createdAt).getTime() - lastRead >= 0 );
     setUnreadMessageId(message?.id || null);
   }
 
@@ -136,7 +136,7 @@ const MessageLogArea = () => {
             <UnreadMarker/>
           </Show>
           <MessageItem
-            animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
+            animate={!!openedTimestamp() && new Date(message.createdAt).getTime() > openedTimestamp()!}
             message={message}
             beforeMessage={channelMessages()?.[i() - 1]}
           />
