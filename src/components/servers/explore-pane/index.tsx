@@ -70,11 +70,11 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
   const {server} = props;
 
 
-  const cacheServer = () => servers.get(server._id);
+  const cacheServer = () => servers.get(server.id);
 
   createEffect(() => {
     if (joinClicked() && cacheServer()) {
-      navigate(RouterEndpoints.SERVER_MESSAGES(cacheServer()._id, cacheServer().defaultChannel));
+      navigate(RouterEndpoints.SERVER_MESSAGES(cacheServer().id, cacheServer().defaultChannelId));
     }
   })
   
@@ -99,7 +99,7 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
           </div>
           {!cacheServer() && <Button class={styles.joinButton} iconName='login' label='Join Server' onClick={joinServerClick} color="var(--success-color)" />}
           {cacheServer() && (
-            <Link href={RouterEndpoints.SERVER_MESSAGES(server._id, server.defaultChannel)} class={styles.joinButton}>
+            <Link href={RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId)} class={styles.joinButton}>
               <Button iconName='login' label='Visit Server' />
             </Link>
           )}

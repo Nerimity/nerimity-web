@@ -46,7 +46,7 @@ interface ServerUpdated {
   serverId: string;
   updated: {
     name?: string;
-    defaultChannel: string;
+    defaultChannelId: string;
   }
 }
 

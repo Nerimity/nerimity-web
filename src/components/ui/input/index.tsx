@@ -24,7 +24,7 @@ export default function Input(props: Props) {
   
     if (props.error && typeof props.error !== 'string') {
       let errorField = props.errorName || props.label
-      if (errorField?.toLowerCase() === props.error.path.toLowerCase()){
+      if (errorField?.toLowerCase() === props.error.path?.toLowerCase()){
         error = props.error.message;
       }
     }

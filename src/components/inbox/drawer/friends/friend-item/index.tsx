@@ -14,7 +14,7 @@ import { Show } from "solid-js";
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const navigate = useNavigate();
   const params = useParams();
-  const {inbox} = useStore();
+  const {inbox, mentions} = useStore();
 
 
   const user = () => {
@@ -49,7 +49,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
     user().openDM(navigate);
   }
 
-  const mentionCount = () => user().mentionCount;
+  const mentionCount = () => mentions.getDmCount(user()!.id);
 
 
 
@@ -63,12 +63,12 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
         conditionalClass(showAccept(), styles.hasNotifications)
       )} onClick={onFriendClick}>
 
-        <Link href={RouterEndpoints.PROFILE(user()._id)} class="link">
+        <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar hexColor={user().hexColor} size={25} />
         </Link>
         <div class={styles.details}>
           <div class={styles.username}>{user().username}</div>
-          <UserPresence userId={user()._id} showOffline={false} />
+          <UserPresence userId={user().id} showOffline={false} />
         </div>
 
 

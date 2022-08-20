@@ -7,5 +7,5 @@ export const onInboxOpened = (payload: RawInboxWithoutChannel & {channel: RawCha
   const channels = useChannels();
   const inbox = useInbox();
   channels.set(payload.channel);
-  inbox.set({...payload, channel: payload.channel._id});
+  inbox.set({...payload, channelId: payload.channel.id});
 }

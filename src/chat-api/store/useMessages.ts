@@ -36,15 +36,15 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
   if (!user) return;
 
   const localMessage: Message = {
-    _id: "",
+    id: "",
     tempId: tempMessageId,
-    channel: channelId,
+    channelId,
     content,
-    createdAt: Date.now(),
+    createdAt: new Date().toString(),
     sentStatus: MessageSentStatus.SENDING,
     type: MessageType.CONTENT,
     createdBy: {
-      _id: user._id,
+      id: user.id,
       username: user.username,
       tag: user.tag,
       hexColor: user.hexColor,
@@ -60,7 +60,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
   }).catch(() => {
     console.log("failed to send message");
   });
-  channel.updateLastSeen(Date.now());
+  channel?.updateLastSeen(new Date().toString());
   channel?.updateLastMessaged?.(message?.createdAt!);
 
   const index = messages[channelId].findIndex(m => m.tempId === tempMessageId);
@@ -70,8 +70,8 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
     return;
   }
   message.tempId = tempMessageId;
-  setMessages(channelId, index, reconcile(message));
 
+  setMessages(channelId, index, reconcile(message, {key: "tempId"}));
 }
 
 
@@ -84,7 +84,7 @@ const pushMessage = (channelId: string, message: Message) => {
 const locallyRemoveMessage = (channelId: string, messageId: string) => {
   const channelMessages = messages[channelId];
   if (!channelMessages) return;
-  const index = channelMessages.findIndex(m => m._id === messageId);
+  const index = channelMessages.findIndex(m => m.id === messageId);
   if (index === -1) return;
   setMessages(channelId, produce(messages => messages.splice(index, 1)));
 }

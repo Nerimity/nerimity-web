@@ -20,9 +20,9 @@ const [friends, setFriends] = createStore<Record<string, Friend>>({});
 const set = (friend: RawFriend) => {
   users.set(friend.recipient);
 
-  setFriends({[friend.recipient._id]: {
+  setFriends({[friend.recipient.id]: {
     ...friend, 
-    recipientId: friend.recipient._id,
+    recipientId: friend.recipient.id,
     get recipient() {return users.get(this.recipientId)},
     async acceptFriendRequest() {
       await acceptFriendRequest({friendId: this.recipientId});
@@ -46,8 +46,7 @@ const updateStatus = (userId: string, status: FriendStatus) => {
 }
 
 const sendRequest = async (username: string, tag: string) => {
-  const friend = await  addFriend({username, tag});
-  console.log(friend)
+  const friend = await addFriend({username, tag});
 }
 
 
@@ -67,7 +66,7 @@ export default function useFriends() {
 
 
 interface Test {
-  _id: string;
+  id: string;
   recipientId: string;
   test: string
 }

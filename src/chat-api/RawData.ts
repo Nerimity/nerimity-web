@@ -1,10 +1,10 @@
 export interface RawServer {
-  _id: string;
+  id: string;
   name: string;
   hexColor: string;
-  defaultChannel: string;
-  createdBy: string;
-  createdAt: number;
+  defaultChannelId: string;
+  createdById: string;
+  createdAt: string;
 }
 
 
@@ -18,39 +18,39 @@ export enum MessageType {
 }
 
 export interface RawMessage {
-  _id: string;
-  channel: string;
+  id: string;
+  channelId: string;
   content?: string;
   createdBy: RawUser;
   type: MessageType;
-  createdAt: number;
-  editedAt?: number;
+  createdAt: string;
+  editedAt?: string;
 }
 
 export interface RawUser {
-  _id: string;
+  id: string;
   avatar?: string;
   username: string;
   hexColor: string;
   tag: string;
-  joinedAt?: number;
+  joinedAt?: string;
 }
 
 export interface RawServerMember {
-  server: string;
+  serverId: string;
   user: RawUser;
-  joinedAt: number;
+  joinedAt: string;
 }
 
 export interface RawChannel {
   name: string
-  _id: string;
-  createdBy?: string;
-  server?: string;
+  id: string;
+  createdById?: string;
+  serverId?: string;
   type: number;
   permissions?: number
-  createdAt: number
-  lastMessagedAt?: number;
+  createdAt: string
+  lastMessagedAt?: string;
 }
 
 export enum FriendStatus {
@@ -61,15 +61,15 @@ export enum FriendStatus {
 
 export interface RawFriend {
   status: FriendStatus,
-  createdAt: number
-  user: string;
+  createdAt: string
+  userId: string;
   recipient: RawUser;
 }
 export interface RawInboxWithoutChannel {
-  _id: string;
+  id: string;
   createdAt: number;
-  createdBy: string;
-  channel: string;
+  createdById: string;
+  channelId: string;
   recipient: RawUser;
   closed: boolean
 }

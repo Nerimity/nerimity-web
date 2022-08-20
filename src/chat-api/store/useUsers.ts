@@ -25,8 +25,6 @@ export type User = RawUser & {
   inboxChannelId?: string
   setInboxChannelId: (this: User, channelId: string) => void;
   openDM: (this: User, navigate: Navigator) => Promise<void>;
-  updateMentionCount(this: User, count: number): void;
-  mentionCount: number
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
@@ -35,24 +33,20 @@ const [users, setUsers] = createStore<Record<string, User>>({});
 const set = (user: RawUser) => {
   const inbox = useInbox();
   const channels = useChannels();
-  if (users[user._id]) return;
-  setUsers(user._id, {
+  if (users[user.id]) return;
+  setUsers(user.id, {
     ...user,
-    mentionCount: 0,
-    updateMentionCount(count) {
-      setUsers(this._id, "mentionCount", count);
-    },
     setInboxChannelId(channelId) {
-      setUsers(this._id, 'inboxChannelId', channelId);
+      setUsers(this.id, 'inboxChannelId', channelId);
     },
     async openDM(navigate: Navigator) {
       // check if dm already exists
       const inboxItem = () => inbox.get(this.inboxChannelId!);
       if (!inboxItem()) {
-        const rawInbox = await openDMChannelRequest(this._id);
+        const rawInbox = await openDMChannelRequest(this.id);
         channels.set(rawInbox.channel);
-        inbox.set({...rawInbox, channel: rawInbox.channel._id});
-        this.setInboxChannelId(rawInbox.channel._id);
+        inbox.set({...rawInbox, channelId: rawInbox.channel.id});
+        this.setInboxChannelId(rawInbox.channel.id);
       }
       navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
     }
