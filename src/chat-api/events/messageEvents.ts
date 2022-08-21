@@ -21,10 +21,10 @@ export function onMessageCreated(payload: RawMessage) {
 
   batch(() => {
 
-    channel?.updateLastMessaged(new Date(payload.createdAt).toString());
+    channel?.updateLastMessaged(new Date(payload.createdAt).toISOString());
 
     if (user()?.id === payload.createdBy.id) {
-      channel?.updateLastSeen(new Date(createdAt+1).toString());
+      channel?.updateLastSeen(new Date(createdAt+1).toISOString());
     } 
     else if (!channel || channel.recipient) {
       const user = users.get(payload.createdBy.id);
