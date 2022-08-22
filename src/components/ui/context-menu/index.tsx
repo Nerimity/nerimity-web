@@ -12,6 +12,7 @@ interface Item {
   separator?: boolean;
   alert?: boolean
   disabled?: boolean
+  show?: boolean
 }
 
 export interface ContextMenuProps {
@@ -87,10 +88,10 @@ export default function ContextMenu(props: ContextMenuProps) {
           <div class={styles.contextMenuInner}>
             <For each={props.items}>
               {item => (
-                <>
+                <Show when={item.show !== false}>
                   {item.separator && <div class={styles.separator} />}
                   {!item.separator && <Item item={item} />}
-                </>
+                </Show>
               )}
           </For>
           </div>

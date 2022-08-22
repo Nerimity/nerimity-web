@@ -17,8 +17,10 @@ export const ServerEvents = {
   NOTIFICATION_DISMISSED: 'notification:dismissed',
 
   SERVER_JOINED: 'server:joined',
+  SERVER_LEFT: 'server:left',
   SERVER_UPDATED: 'server:updated',
   SERVER_MEMBER_JOINED: 'server:member_joined',
+  SERVER_MEMBER_LEFT: 'server:member_left',
   SERVER_CHANNEL_CREATED: 'server:channel_created',
   SERVER_CHANNEL_UPDATED: 'server:channel_updated',
   SERVER_CHANNEL_DELETED: 'server:channel_deleted',

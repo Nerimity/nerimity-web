@@ -1,3 +1,4 @@
+import { batch } from "solid-js";
 import { RawChannel, RawServer, RawServerMember } from "../RawData";
 import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
@@ -30,6 +31,17 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
   }
 }
 
+export const onServerLeft = (payload: {serverId: string}) => {
+  const serverMembers = useServerMembers();
+  const servers = useServers();
+
+
+  batch(() => {
+    servers.remove(payload.serverId);
+    serverMembers.removeAllServerMembers(payload.serverId);
+  })
+}
+
 
 
 interface ServerMemberJoinedPayload {
@@ -49,6 +61,13 @@ interface ServerUpdated {
     defaultChannelId: string;
   }
 }
+
+
+export const onServerMemberLeft = (payload: {userId: string, serverId: string}) => {
+  const serverMembers = useServerMembers();
+  serverMembers.remove(payload.serverId, payload.userId);
+}
+
 
 
 export const onServerUpdated = (payload: ServerUpdated) => {

@@ -7,7 +7,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   user: User
 }
 
-const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember>>>({});
+const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
 
 const users = useUsers();
 
@@ -25,11 +25,21 @@ const set = (member: RawServerMember) => {
   });
 }
 
+const remove = (serverId: string, userId: string) => {
+  setMember(serverId, userId, undefined);
+}
+
+const removeAllServerMembers = (serverId: string) => {
+  setMember(serverId, undefined);
+}
+
 const array = (serverId: string) => Object.values(serverMembers?.[serverId] || []);
 
 export default function useServerMembers() {
   return {
     array,
-    set
+    set,
+    remove,
+    removeAllServerMembers
   }
 }

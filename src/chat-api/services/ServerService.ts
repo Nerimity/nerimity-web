@@ -16,7 +16,7 @@ export async function updateServerSettings(serverId: string, update: any): Promi
   return request({
     method: "POST",
     body: update,
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverSettings(serverId),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId),
     useToken: true
   });
 }
@@ -58,6 +58,14 @@ export async function createInvite(serverId: string): Promise<any> {
   return request({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInvites(serverId),
+    useToken: true
+  });
+}
+
+export async function deleteServer(serverId: string): Promise<RawServer> {
+  return request({
+    method: "delete",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId),
     useToken: true
   });
 }

@@ -1,13 +1,15 @@
 import { update } from 'idb-keyval';
 import {createStore} from 'solid-js/store';
 import { RawServer } from '../RawData';
+import { deleteServer } from '../services/ServerService';
 import useChannels from './useChannels';
 
 export type Server = RawServer & {
   hasNotifications: boolean;
   update: (this: Server, update: Partial<RawServer>) => void;
+  leave: () => Promise<RawServer>;
 }
-const [servers, setServers] = createStore<Record<string, Server>>({});
+const [servers, setServers] = createStore<Record<string, Server | undefined>>({});
 
 
 
@@ -24,9 +26,17 @@ const set = (server: RawServer) =>
       },
       update(update) {
         setServers(this.id, update);
+      },
+      async leave() {
+        return deleteServer(server.id);
       }
     }
   });
+
+const remove = (serverId: string) => {
+  setServers(serverId, undefined);
+}
+
 
 const get = (serverId: string) => servers[serverId]
 
@@ -36,6 +46,7 @@ export default function useServers() {
   return {
     array,
     get,
-    set
+    set,
+    remove
   }
 }
