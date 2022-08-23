@@ -1,3 +1,4 @@
+import { batch } from 'solid-js';
 import {createStore} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import {dismissChannelNotification} from '../emits/userEmits';
@@ -82,12 +83,25 @@ const array = () => Object.values(channels);
 
 const getChannelsByServerId = (serverId: string) => array().filter(channel => channel?.serverId === serverId);
 
+const removeAllServerChannels = (serverId: string) => {
+  const channelsArr = array();
+  batch(() => {
+    for (let i = 0; i < channelsArr.length; i++) {
+      const channel = channelsArr[i];
+      if (channel?.serverId !== serverId) continue; 
+      deleteChannel(channel.id);
+    }
+  })
+}
+
+
 export default function useChannels() {
   return {
     array,
     getChannelsByServerId,
     deleteChannel,
     get,
-    set
+    set,
+    removeAllServerChannels
   }
 }

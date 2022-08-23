@@ -34,11 +34,12 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
 export const onServerLeft = (payload: {serverId: string}) => {
   const serverMembers = useServerMembers();
   const servers = useServers();
-
+  const channels = useChannels();
 
   batch(() => {
     servers.remove(payload.serverId);
     serverMembers.removeAllServerMembers(payload.serverId);
+    channels.removeAllServerChannels(payload.serverId);
   })
 }
 
