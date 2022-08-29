@@ -7,7 +7,7 @@ import Icon from '@/components/ui/icon';
 
 
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from 'solid-app-router';
+import { Link, useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createSignal, onMount, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 

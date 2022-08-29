@@ -1,3 +1,6 @@
+import RouterEndpoints from '@/common/RouterEndpoints';
+import { runWithContext } from '@/common/runWithContext';
+import { useLocation, useNavigate } from '@solidjs/router';
 import { batch } from 'solid-js';
 import {createStore} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
@@ -5,6 +8,8 @@ import {dismissChannelNotification} from '../emits/userEmits';
 import { CHANNEL_PERMISSIONS, getAllPermissions, Permission } from '../Permissions';
 import { RawChannel } from '../RawData';
 import useAccount from './useAccount';
+import useMessages from './useMessages';
+import useTabs from './useTabs';
 import useUsers, { User } from './useUsers';
 
 export type Channel = Omit<RawChannel, 'recipient'> & {
@@ -70,9 +75,25 @@ const set = (channel: RawChannel) => {
 }
 
 
-const deleteChannel = (channelId: string) => {
-  setChannels(channelId, undefined);
-}
+const deleteChannel = (channelId: string, serverId?: string) => runWithContext(() => {
+  const messages = useMessages();
+  const tabs = useTabs();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const tab = tabs.array.find(tab => tab.channelId === channelId && tab.type == "message_pane");
+
+  
+  if (tab) {
+    const isSelected = tab.path === location.pathname;
+    tabs.closeTab(tab.path);
+    (serverId && isSelected) && navigate(RouterEndpoints.SERVER(serverId));
+  }
+
+  batch(() => {
+    messages.deleteChannelMessages(channelId);
+    setChannels(channelId, undefined);
+  })
+});
 
 
 const get = (channelId: string) => {

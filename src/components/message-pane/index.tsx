@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import RouterEndpoints from '../../common/RouterEndpoints';
 
 import { createEffect, createSignal, For, on, onCleanup, onMount, Show} from 'solid-js';
-import { useLocation, useParams } from 'solid-app-router';
+import { useLocation, useParams } from '@solidjs/router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item';
 import Button from '@/components/ui/button';
@@ -26,7 +26,9 @@ export default function MessagePane() {
     
     tabs.openTab({
       title: channel.name,
+      type: 'message_pane',
       serverId: params.serverId!,
+      channelId: params.channelId!,
       userId: userId,
       iconName: params.serverId ? 'dns' : 'inbox',
       path: path,

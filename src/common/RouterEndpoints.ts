@@ -1,6 +1,7 @@
 export default {
 
   SERVER_MESSAGES: (serverId: string, channelId: string) => `/app/servers/${serverId}/${channelId}`,
+  SERVER: (serverId: string) => `/app/servers/${serverId}`,
   
   SERVER_SETTINGS_GENERAL: (serverId: string) => `/app/servers/${serverId}/settings/general`,
   SERVER_SETTINGS_INVITES: (serverId: string) => `/app/servers/${serverId}/settings/invites`,

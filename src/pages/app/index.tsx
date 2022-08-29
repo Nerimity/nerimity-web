@@ -20,6 +20,7 @@ import ServerMembersDrawer from '@/components/servers/drawer/members';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
+import { setContext } from '@/common/runWithContext';
 
 async function loadAllCache () {
   const {account} = useStore();
@@ -32,7 +33,8 @@ const DRAWER_WIDTH = 240;
 export default function AppPage(props: {routeName?: string}) {
   
   onMount(() => {
-    loadAllCache()
+    loadAllCache();
+    setContext();
     setTimeout(() => {
       socketClient.login(getStorageString(StorageKeys.USER_TOKEN, undefined));
     }, 1000);
@@ -75,6 +77,7 @@ function MainPane (props: {routeName?: string}) {
 function LeftPane (props: {width: number, routeName?: string}) {
 
   const leftPanes = {
+    server: <CustomSuspense><ServerDrawer /></CustomSuspense>,
     server_messages: <CustomSuspense><ServerDrawer /></CustomSuspense>,
     inbox_messages: <CustomSuspense><InboxDrawer /></CustomSuspense>,
     server_settings: <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>,

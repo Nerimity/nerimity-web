@@ -17,7 +17,7 @@ export type Message = RawMessage & {
   sentStatus?: MessageSentStatus;
 }
 
-const [messages, setMessages] = createStore<Record<string, Message[]>>({});
+const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});
 
 const fetchAndStoreMessages = async (channelId: string) => {
   if (getMessagesByChannelId(channelId)) return;
@@ -51,7 +51,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
     },
   };
 
-  setMessages(channelId, messages[channelId].length, localMessage);
+  setMessages(channelId, messages?.[channelId]?.length!, localMessage);
 
   const message: void | Message = await postMessage({
     content,
@@ -65,21 +65,21 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
   channel?.updateLastSeen(new Date().toISOString());
   channel?.updateLastMessaged?.(message?.createdAt!);
 
-  const index = messages[channelId].findIndex(m => m.tempId === tempMessageId);
+  const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
 
   if (!message) {
-    setMessages(channelId, index, 'sentStatus', MessageSentStatus.FAILED);
+    setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
     return;
   }
   message.tempId = tempMessageId;
 
-  setMessages(channelId, index, reconcile(message, {key: "tempId"}));
+  setMessages(channelId, index!, reconcile(message, {key: "tempId"}));
 }
 
 
 const pushMessage = (channelId: string, message: Message) => {
   if (!messages[channelId]) return;
-  setMessages(channelId, messages[channelId].length, message);
+  setMessages(channelId, messages[channelId]?.length!, message);
   
 };
 
@@ -88,13 +88,15 @@ const locallyRemoveMessage = (channelId: string, messageId: string) => {
   if (!channelMessages) return;
   const index = channelMessages.findIndex(m => m.id === messageId);
   if (index === -1) return;
-  setMessages(channelId, produce(messages => messages.splice(index, 1)));
+  setMessages(channelId, produce(messages => messages?.splice(index, 1)));
 }
 
 const get = (channelId: string) => messages[channelId]
 
 
 const getMessagesByChannelId = (channelId: string) => messages[channelId];
+
+const deleteChannelMessages = (channelId: string) => setMessages(channelId, undefined);
 
 export default function useMessages() {
   return {
@@ -103,6 +105,7 @@ export default function useMessages() {
     sendAndStoreMessage,
     locallyRemoveMessage,
     pushMessage,
+    deleteChannelMessages,
     get,
   }
 }

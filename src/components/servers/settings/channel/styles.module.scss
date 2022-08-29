@@ -33,16 +33,3 @@
     border-radius: 0;
   }
 }
-
-.deleteConfirmModal {
-  display: flex;
-  flex-direction: column;
-  .highlight {
-    background-color: var(--alert-color);
-    padding: 3px;
-    border-radius: 4px;
-  }
-  .button {
-    margin-left: auto;
-  }
-}

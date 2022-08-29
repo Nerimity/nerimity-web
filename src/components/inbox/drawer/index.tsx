@@ -9,7 +9,7 @@ import useStore from '@/chat-api/store/useStore';
 import { FriendStatus } from '@/chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddFriend from './add-friend';
-import { useNavigate, useParams } from 'solid-app-router';
+import { useNavigate, useParams } from '@solidjs/router';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
   const {friends, inbox} = useStore();

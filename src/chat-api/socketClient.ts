@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { useParams } from '@solidjs/router';
 import env from '../common/env';
 import { ClientEvents, ServerEvents } from './EventNames';
 import { onAuthenticated } from './events/connectionEvents';

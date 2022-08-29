@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'solid-app-router'
+import { Link, useLocation } from '@solidjs/router'
 import { classNames, conditionalClass } from '@/common/classNames'
 import env from '@/common/env'
 import styles from './styles.module.scss'

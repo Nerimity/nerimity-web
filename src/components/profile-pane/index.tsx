@@ -1,4 +1,4 @@
-import { Link, useParams } from 'solid-app-router';
+import { Link, useParams } from '@solidjs/router';
 import { createEffect, createResource, For, on, Show } from 'solid-js';
 import { FriendStatus } from '@/chat-api/RawData';
 import { getUserDetailsRequest, UserDetails } from '@/chat-api/services/UserService';

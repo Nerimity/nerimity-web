@@ -2,7 +2,7 @@ import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
 import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { useParams } from 'solid-app-router';
+import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
@@ -10,18 +10,22 @@ import Input from '@/components/ui/input';
 import DropDown from '@/components/ui/drop-down';
 import Button from '@/components/ui/button';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
-import { updateServerSettings } from '@/chat-api/services/ServerService';
+import { deleteServer, updateServerSettings } from '@/chat-api/services/ServerService';
 import SettingsBlock from '@/components/ui/settings-block';
+import { Server } from '@/chat-api/store/useServers';
+import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
+import Modal from '@/components/ui/modal';
 
 
 
-export default function ServerSettingsInvite() {
+export default function ServerGeneralSettings() {
   const {serverId} = useParams();
   const {tabs, servers, channels} = useStore();
   const windowProperties = useWindowProperties();
   const [mobileSize, isMobileSize] = createSignal(false);
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
+  const [showDeleteConfirm, setDeleteConfirm] = createSignal(false);
 
   const server = () => servers.get(serverId);
 
@@ -34,10 +38,10 @@ export default function ServerSettingsInvite() {
 
 
   const dropDownChannels = () => channels.getChannelsByServerId(serverId).map(channel => ({
-    id: channel.id,
-    label: channel.name,
+    id: channel!.id,
+    label: channel!.name,
     onClick: () => {
-      setInputValue('defaultChannelId', channel.id);
+      setInputValue('defaultChannelId', channel!.id);
     }
   }));
 
@@ -81,11 +85,38 @@ export default function ServerSettingsInvite() {
       <SettingsBlock icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
         <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId} />
       </SettingsBlock>
+      <Modal show={showDeleteConfirm() && !!server()} title={`Delete ${server()?.name}`} component={() => <ServerDeleteConfirmModal server={server()!} />} />
+      <SettingsBlock icon='delete' label='Delete this server' description='This cannot be undone!'>
+        <Button label='Delete Server' color='var(--alert-color)' onClick={() => setDeleteConfirm(true)} />
+      </SettingsBlock>
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button iconName='save' label={requestStatus()} class={styles.saveButton} onClick={onSaveButtonClicked} />
       </Show>
 
     </div>
+  )
+}
+
+
+function ServerDeleteConfirmModal(props: {server: Server}) {
+  const params = useParams();
+  const navigate = useNavigate();
+  const {tabs} = useStore();
+  const [error, setError] = createSignal<string | null>(null);
+  
+  const onDeleteClick = async () => {
+    setError(null);
+
+    deleteServer(props.server.id)
+      .catch(e => setError(e))
+  }
+
+  return (
+    <DeleteConfirmModal
+      errorMessage={error()}
+      confirmText={props.server.name}
+      onDeleteClick={onDeleteClick}
+    />
   )
 }

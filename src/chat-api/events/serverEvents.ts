@@ -1,8 +1,11 @@
+import { runWithContext } from "@/common/runWithContext";
+import { useNavigate, useParams } from "@solidjs/router";
 import { batch } from "solid-js";
 import { RawChannel, RawServer, RawServerMember } from "../RawData";
 import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServers from "../store/useServers";
+import useTabs from "../store/useTabs";
 
 interface ServerJoinedPayload {
   server: RawServer,
@@ -31,17 +34,18 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
   }
 }
 
-export const onServerLeft = (payload: {serverId: string}) => {
+export const onServerLeft = (payload: {serverId: string}) => runWithContext(() => {
   const serverMembers = useServerMembers();
   const servers = useServers();
   const channels = useChannels();
+
 
   batch(() => {
     servers.remove(payload.serverId);
     serverMembers.removeAllServerMembers(payload.serverId);
     channels.removeAllServerChannels(payload.serverId);
   })
-}
+});
 
 
 
@@ -110,5 +114,6 @@ interface ServerChannelDeleted {
 
 export const onServerChannelDeleted = (payload: ServerChannelDeleted) => {
   const channels = useChannels();
-  channels.deleteChannel(payload.channelId);
-}
+
+  channels.deleteChannel(payload.channelId, payload.serverId);
+};

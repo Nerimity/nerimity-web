@@ -3,7 +3,7 @@ import { RawUser } from '../RawData';
 import useInbox, { Inbox } from './useInbox';
 import { openDMChannelRequest } from '../services/UserService';
 import useChannels from './useChannels';
-import { Navigator } from 'solid-app-router';
+import { Navigator } from '@solidjs/router';
 import RouterEndpoints from '../../common/RouterEndpoints';
 
 

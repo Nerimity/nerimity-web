@@ -7,7 +7,7 @@ import { RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link } from 'solid-app-router';
+import { Link } from '@solidjs/router';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {

@@ -1,12 +1,21 @@
-import { Link, Navigate, Route, Routes, useParams } from 'solid-app-router';
+import { Link, Navigate, Route, Routes, useParams } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import RouterEndpoints from './common/RouterEndpoints';
 import CustomSuspense from './components/custom-suspense';
 
-const HomePage = lazy(() => import('./pages/home'));
-const RegisterPage = lazy(() => import('./pages/register'));
-const LoginPage = lazy(() => import('./pages/login'));
-const AppPage = lazy(() => import('./pages/app'));
+
+
+// TODO: Temporary removed lazy because of this bug: https://github.com/solidjs/solid/issues/1178
+// const HomePage = lazy(() => import('./pages/home'));
+// const RegisterPage = lazy(() => import('./pages/register'));
+// const LoginPage = lazy(() => import('./pages/login'));
+// const AppPage = lazy(() => import('./pages/app'));
+
+import HomePage from './pages/home'
+import RegisterPage from './pages/register'
+import LoginPage from './pages/login'
+import AppPage from './pages/app'
+
 
 
 export default function App() {
@@ -20,6 +29,8 @@ export default function App() {
       <Route path="app/inbox/:channelId" element={<CustomSuspense><AppPage routeName="inbox_messages" /></CustomSuspense>} />
 
 
+
+      <Route path="app/servers/:serverId/" element={<CustomSuspense><AppPage routeName="server" /></CustomSuspense>} />
 
       <Route path="app/servers/:serverId/:channelId" element={<CustomSuspense><AppPage routeName="server_messages" /></CustomSuspense>} />
       <Route path="app/servers/:serverId/settings/:path/:id?" element={<CustomSuspense><AppPage routeName="server_settings" /></CustomSuspense>} />

@@ -1,6 +1,6 @@
 
 import styles from './styles.module.scss';
-import { Link, useParams } from 'solid-app-router';
+import { Link, useParams } from '@solidjs/router';
 import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/avatar';

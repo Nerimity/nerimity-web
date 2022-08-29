@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Avatar from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
-import { Link, useNavigate, useParams } from "solid-app-router";
+import { Link, useNavigate, useParams } from "@solidjs/router";
 import { FriendStatus } from "@/chat-api/RawData";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";

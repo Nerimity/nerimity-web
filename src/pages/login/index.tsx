@@ -3,7 +3,7 @@ import Input from '@/components/ui/input';
 import { loginRequest } from '../../chat-api/services/UserService';
 import Button from '@/components/ui/button';
 import { getStorageString, setStorageString, StorageKeys } from '../../common/localStorage';
-import { Link, useNavigate } from 'solid-app-router';
+import { Link, useNavigate } from '@solidjs/router';
 import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../../components/page-header';
 

@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import { getServeSetting, ServerSetting } from '@/common/ServerSettings';
 import CustomSuspense from '@/components/custom-suspense';
-import { useLocation, useParams } from 'solid-app-router';
+import { useLocation, useParams } from '@solidjs/router';
 import { createEffect, createSignal, on, onMount, Show } from 'solid-js';
 import ServerSettingsHeader from './header';
 import { Transition } from 'solid-transition-group';

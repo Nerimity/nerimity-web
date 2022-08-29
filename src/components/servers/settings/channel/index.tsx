@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useNavigate, useParams } from 'solid-app-router';
+import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect,  createSignal,  For,  on, Show,} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
@@ -12,6 +12,7 @@ import Modal from '@/components/ui/modal';
 import { Channel } from '@/chat-api/store/useChannels';
 import Checkbox from '@/components/ui/checkbox';
 import { addPermission, CHANNEL_PERMISSIONS, getAllPermissions, removePermission } from '@/chat-api/Permissions';
+import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
 
 
 
@@ -95,7 +96,7 @@ export default function ServerSettingsChannel() {
         </For>
       </div>
       {/* Delete Channel */}
-      <Modal show={showDeleteConfirm() && !!channel()} title={`Delete ${channel()?.name}`} component={() => <DeleteConfirmModal channel={channel()!} />} />
+      <Modal show={showDeleteConfirm() && !!channel()} title={`Delete ${channel()?.name}`} component={() => <ChannelDeleteConfirmModal channel={channel()!} />} />
       <SettingsBlock icon='delete' label='Delete this channel' description='This cannot be undone!'>
         <Button label='Delete Channel' color='var(--alert-color)' onClick={() => setDeleteConfirm(true)} />
       </SettingsBlock>
@@ -108,38 +109,28 @@ export default function ServerSettingsChannel() {
   )
 }
 
-function DeleteConfirmModal(props: {channel: Channel}) {
-  const [confirmInput, setConfirmInput] = createSignal();
-  const [requestSent, setRequestSent] = createSignal(false);
-  const [error, setError] = createSignal<null | string>(null);
+function ChannelDeleteConfirmModal(props: {channel: Channel}) {
   const params = useParams();
   const navigate = useNavigate();
   const {tabs} = useStore();
+  const [error, setError] = createSignal<string | null>(null);
   
   const onDeleteClick = async () => {
     setError(null);
-    if (confirmInput() !== props.channel.name) {
-      setError('Please type the channel name to delete this channel.');
-      return;
-    }
-    if (requestSent()) return;
-    setRequestSent(true);
-    deleteServerChannel(props.channel.server!, props.channel.id).then(() => {
+    deleteServerChannel(props.channel?.serverId!, props.channel.id).then(() => {
       const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(params.serverId!);
       tabs.updateTab(location.pathname, {path})
       navigate(path);
-      
-    }).finally(() => setRequestSent(false));
+    }).catch(err => {
+      setError(err.message);
+    })
   }
 
-  const buttonMessage = () => requestSent() ? 'Deleting...' : `Delete ${props.channel.name}`;
-
-  
   return (
-    <div class={styles.deleteConfirmModal}>
-      <div>Confirm by typing <span class={styles.highlight}>{props.channel?.name}</span> in the box below.</div>
-      <Input error={error()} onText={v => setConfirmInput(v)} />
-      <Button class={styles.button} iconName='delete' label={buttonMessage()} color="var(--alert-color)" onClick={onDeleteClick} />
-    </div>
+    <DeleteConfirmModal 
+      errorMessage={error()}
+      confirmText={props.channel.name}
+      onDeleteClick={onDeleteClick}
+    />
   )
 }
