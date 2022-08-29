@@ -115,6 +115,23 @@
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 
+    &.authenticatingIcon {
+      animation-duration: 4s;
+      color: var(--primary-color)
+    }
+
+  }
+  .errorIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: var(--alert-color);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
   }
 }
 

@@ -1,7 +1,7 @@
 import { Link, useParams } from '@solidjs/router';
 import { createEffect, createResource, For, on, Show } from 'solid-js';
 import { FriendStatus } from '@/chat-api/RawData';
-import { getUserDetailsRequest, UserDetails } from '@/chat-api/services/UserService';
+import { getUserDetailsRequest, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
 import { User } from '@/chat-api/store/useUsers';
 import { getDaysAgo } from '../../common/date';
@@ -57,7 +57,7 @@ export default function ProfilePane () {
       id: item.id,
       label: item.name,
       onClick: (item: any) => {
-        account.updatePresence(i);
+        updatePresence(i);
       }
     }
   })
@@ -156,9 +156,9 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
             const server = () => servers.get(id);
             return (
               <Show when={server()}>
-                <Link href={RouterEndpoints.SERVER_MESSAGES(server().id, server().defaultChannelId)} class={styles.item}>
-                  <Avatar hexColor={server().hexColor} size={20} />
-                  <div class={styles.name}>{server().name}</div>
+                <Link href={RouterEndpoints.SERVER_MESSAGES(server()!.id, server()!.defaultChannelId)} class={styles.item}>
+                  <Avatar hexColor={server()!.hexColor} size={20} />
+                  <div class={styles.name}>{server()!.name}</div>
                 </Link>
               </Show>
             )

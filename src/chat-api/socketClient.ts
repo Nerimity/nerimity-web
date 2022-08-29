@@ -1,8 +1,7 @@
 import io from 'socket.io-client';
-import { useParams } from '@solidjs/router';
 import env from '../common/env';
-import { ClientEvents, ServerEvents } from './EventNames';
-import { onAuthenticated } from './events/connectionEvents';
+import { ServerEvents } from './EventNames';
+import { onAuthenticated, onAuthenticateError, onConnect, onDisconnect, onReconnectAttempt } from './events/connectionEvents';
 import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from './events/friendEvents';
 import { onInboxOpened } from './events/inboxEvents';
 import { onMessageCreated, onMessageDeleted } from './events/messageEvents';
@@ -24,9 +23,14 @@ export default {
 }
 
 
-socket.on(ServerEvents.CONNECT, () => {
-  socket.emit(ClientEvents.AUTHENTICATE, {token});
-})
+socket.io.on("reconnect_attempt", onReconnectAttempt)
+
+
+socket.on(ServerEvents.CONNECT, () => onConnect(socket, token))
+
+socket.on(ServerEvents.AUTHENTICATE_ERROR, onAuthenticateError)
+
+socket.on("disconnect", onDisconnect)
 
 socket.on(ServerEvents.USER_AUTHENTICATED, onAuthenticated);
 

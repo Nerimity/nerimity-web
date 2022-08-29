@@ -70,12 +70,25 @@ const UserItem = () => {
   const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color
 
 
+  const isAuthenticated = account.isAuthenticated;
+  const authErrorMessage = account.authenticationError;
+  const isConnected = account.isConnected;
+
+  const isAuthenticating = () => !isAuthenticated() && isConnected();
+
+  const showConnecting = () => !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
+
+
+
+
   return (
     <Link href={userId() ? RouterEndpoints.PROFILE(userId()!) : "#"}>
       <div class={`${styles.item} ${styles.user} ${conditionalClass(isSelected(), styles.selected)}`} >
         {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
-        {presenceColor() && <div class={styles.presence} style={{background: presenceColor()}} />}
-        {!presenceColor() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
+        {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
+        {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
+        {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
+        {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
       </div>
     </Link>
   )

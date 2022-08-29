@@ -1,18 +1,67 @@
+import { Socket } from "socket.io-client";
 import { batch } from "solid-js";
 import { LocalCacheKey, saveCache } from "../../common/localCache";
+import { ClientEvents } from "../EventNames";
+import useAccount from "../store/useAccount";
 import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 
+
+export const onConnect = (socket: Socket, token?: string) => {
+  const account = useAccount();
+  account.setSocketDetails({
+    socketId: socket.id,
+    socketConnected: true,
+    socketAuthenticated: false
+  })
+  socket.emit(ClientEvents.AUTHENTICATE, { token });
+}
+
+export const onDisconnect = () => {
+  const account = useAccount();
+  account.setSocketDetails({
+    socketId: null,
+    socketConnected: false,
+    socketAuthenticated: false
+  })
+}
+
+export const onAuthenticateError = (message: string) => {
+  const account = useAccount();
+  account.setSocketDetails({
+    socketId: null,
+    socketConnected: false,
+    socketAuthenticated: false,
+    authenticationError: message,
+  })
+}
+
+export const onReconnectAttempt = () => {
+  const account = useAccount();
+  account.setSocketDetails({
+    socketId: null,
+    socketConnected: false,
+    socketAuthenticated: false
+  })
+}
+
+
+
+
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  const {account, servers, users, channels, serverMembers, friends, inbox, mentions} = useStore();
+  const { account, servers, users, channels, serverMembers, friends, inbox, mentions } = useStore();
   console.log('[WS] Authenticated.');
 
   saveCache(LocalCacheKey.Account, payload.user);
 
-  
+
   //emitNotificationDismiss
 
   account.setUser(payload.user);
+  account.setSocketDetails({
+    socketConnected: true,
+    socketAuthenticated: true
+  })
   users.set(payload.user)
 
   for (let i = 0; i < payload.servers.length; i++) {
@@ -20,11 +69,11 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     servers.set(server);
   }
 
-  
+
   for (let i = 0; i < payload.channels.length; i++) {
     const channel = payload.channels[i];
     channels.set(channel);
-  } 
+  }
 
 
   for (let i = 0; i < payload.serverMembers.length; i++) {
@@ -45,9 +94,9 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   for (let i = 0; i < payload.presences.length; i++) {
     const presence = payload.presences[i];
-    users.setPresence(presence.userId, presence);   
+    users.setPresence(presence.userId, presence);
   }
-  
+
   for (let channelId in payload.lastSeenServerChannelIds) {
     const timestamp = payload.lastSeenServerChannelIds[channelId];
     channels.get(channelId)!.updateLastSeen(timestamp);

@@ -5,6 +5,8 @@ export const ClientEvents = {
 
 export const ServerEvents = {
   CONNECT: 'connect',
+  AUTHENTICATE_ERROR:'user:authenticate_error',
+
   USER_AUTHENTICATED: 'user:authenticated',
 
   USER_PRESENCE_UPDATE: 'user:presence_update',

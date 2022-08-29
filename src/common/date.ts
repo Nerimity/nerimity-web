@@ -19,7 +19,7 @@ export function formatTimestamp(timestamp: number | string) {
 
 
 // get days ago from timestamp
-export function getDaysAgo(timestamp: number) {
+export function getDaysAgo(timestamp: number | string) {
   const date = new Date(timestamp);
   const rtf = new Intl.RelativeTimeFormat('en', {
     numeric: 'auto',
