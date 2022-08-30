@@ -41,9 +41,9 @@ export interface UserDetails {
 
 }
 
-export async function getUserDetailsRequest(userId: string) {
+export async function getUserDetailsRequest(userId?: string) {
   return request<UserDetails>({
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId || ""),
     method: "GET",
     useToken: true
   });
