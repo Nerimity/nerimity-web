@@ -37,7 +37,7 @@ export default function AppPage(props: {routeName?: string}) {
     setContext();
     setTimeout(() => {
       socketClient.login(getStorageString(StorageKeys.USER_TOKEN, undefined));
-    }, 1000);
+    }, 300);
   })
 
 
