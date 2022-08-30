@@ -12,7 +12,7 @@ const UserPresence = (props: {userId: string, showOffline: boolean}) => {
   const statusDetails = () => userStatusDetail(user()?.presence?.status || 0)
 
   const show = () => {
-    if (!props.showOffline && !user().presence?.status) {
+    if (!props.showOffline && !user()?.presence?.status) {
       return false
     }
   
