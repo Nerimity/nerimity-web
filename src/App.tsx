@@ -5,17 +5,10 @@ import CustomSuspense from './components/custom-suspense';
 
 
 
-// TODO: Temporary removed lazy because of this bug: https://github.com/solidjs/solid/issues/1178
-// const HomePage = lazy(() => import('./pages/home'));
-// const RegisterPage = lazy(() => import('./pages/register'));
-// const LoginPage = lazy(() => import('./pages/login'));
-// const AppPage = lazy(() => import('./pages/app'));
-
-import HomePage from './pages/home'
-import RegisterPage from './pages/register'
-import LoginPage from './pages/login'
-import AppPage from './pages/app'
-
+const HomePage = lazy(() => import('./pages/home'));
+const RegisterPage = lazy(() => import('./pages/register'));
+const LoginPage = lazy(() => import('./pages/login'));
+const AppPage = lazy(() => import('./pages/app'));
 
 
 export default function App() {
