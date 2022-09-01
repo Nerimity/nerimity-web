@@ -27,7 +27,7 @@ export default function PageHeader() {
   return (
     <header class={styles.header}>
       <a href="/" class={styles.title}>{env.APP_NAME}</a>
-      {user() === false && <LoggedOutLinks/>}
+      {user() === null && <LoggedOutLinks/>}
       {user() && <LoggedInLinks user={user() as RawUser}/>}
     </header>
   )
