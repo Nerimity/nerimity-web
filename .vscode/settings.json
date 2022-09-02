@@ -28,4 +28,7 @@
     "javascriptreact": "html",
     "typescriptreact": "html",
   },
+  "cSpell.words": [
+    "solidjs"
+  ],
 }

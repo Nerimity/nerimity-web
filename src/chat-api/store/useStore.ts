@@ -5,6 +5,7 @@ import useInbox from "./useInbox";
 import useMention from "./useMention";
 import useMessages from "./useMessages";
 import useServerMembers from "./useServerMembers";
+import useServerRoles from "./useServerRoles";
 import useServers from "./useServers";
 import useTabs from "./useTabs";
 import useUsers from "./useUsers";
@@ -20,15 +21,17 @@ export default function useStore() {
   const friends = useFriends();
   const inbox = useInbox();
   const mentions = useMention();
+  const serverRoles = useServerRoles();
 
   return {
     account,
     servers,
+    serverMembers,
+    serverRoles,
     users,
     channels,
     tabs,
     messages,
-    serverMembers,
     friends,
     inbox,
     mentions

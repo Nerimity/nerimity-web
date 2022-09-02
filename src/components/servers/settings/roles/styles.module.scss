@@ -1,0 +1,37 @@
+.rolesPane {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+
+.roleList {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.roleItem {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.06);
+  padding: 10px;
+  border-radius: 4px;
+  transition: 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  .name {
+    margin-left: 10px;
+    margin-right: auto;
+    color: white;
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+

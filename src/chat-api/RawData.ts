@@ -43,14 +43,24 @@ export interface RawServerMember {
 }
 
 export interface RawChannel {
-  name: string
   id: string;
+  name: string
   createdById?: string;
   serverId?: string;
   type: number;
   permissions?: number
   createdAt: string
   lastMessagedAt?: string;
+}
+export interface RawServerRole {
+  id: string;
+  name: string
+  order: string;
+  hexColor: string;
+  createdById: string;
+  serverId: string;
+  defaultRole?: boolean
+  botRole?: boolean;
 }
 
 export enum FriendStatus {

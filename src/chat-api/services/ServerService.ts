@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {RawChannel, RawServer} from '../RawData'
+import {RawChannel, RawServer, RawServerRole} from '../RawData'
 import env from "../../common/env";
 
 
@@ -25,6 +25,13 @@ export async function createServerChannel(serverId: string): Promise<RawChannel>
   return request({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannels(serverId),
+    useToken: true
+  });
+}
+export async function createServerRole(serverId: string): Promise<RawServerRole> {
+  return request({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverRoles(serverId),
     useToken: true
   });
 }
