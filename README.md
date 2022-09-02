@@ -18,13 +18,8 @@ Chat App made using SolidJS. Work in progress.
 - [ ] App Settings
 - [ ] Update Account
 - [ ] Delete Account
-- [ ] Delete Server
-- [ ] Delete Server Channels
-- [ ] Update Server Channels
-- [ ] Create New Server Channels
 - [ ] Re-organize Servers
 - [ ] Re-organize Tabs
-- [ ] Close Tabs
 - [ ] Join/Leave/Kick/Ban Messages
 - [ ] Edit Messages
 - [ ] Kick/Ban Users From Servers
@@ -43,9 +38,11 @@ Chat App made using SolidJS. Work in progress.
 - [x] DM & Server Channels
 - [x] DM & Server Notifications
 - [x] User Presence (Online, Offline, etc...)
-
-
-
+- [x] Delete Server
+- [x] Delete Server Channels
+- [x] Update Server Channels
+- [x] Create New Server Channels
+- [x] Close Tabs
 
 ## Usage
 To start a dev server, run these commands below.
