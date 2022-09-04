@@ -1,9 +1,10 @@
 import { runWithContext } from "@/common/runWithContext";
 import { useNavigate, useParams } from "@solidjs/router";
 import { batch } from "solid-js";
-import { RawChannel, RawServer, RawServerMember } from "../RawData";
+import { RawChannel, RawServer, RawServerMember, RawServerRole } from "../RawData";
 import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
+import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
 import useTabs from "../store/useTabs";
 
@@ -11,6 +12,7 @@ interface ServerJoinedPayload {
   server: RawServer,
   members: RawServerMember[],
   channels: RawChannel[],
+  roles: RawServerRole[];
 }
 
 
@@ -19,9 +21,15 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
   const serverMembers = useServerMembers();
   const servers = useServers();
   const channels = useChannels();
+  const roles = useServerRoles();
 
 
   servers.set(payload.server);
+  
+  for (let i = 0; i < payload.roles.length; i++) {
+    const role = payload.roles[i];
+    roles.set(role.serverId, role);
+  }
 
   for (let index = 0; index < payload.channels.length; index++) {
     const channel = payload.channels[index];
@@ -38,12 +46,14 @@ export const onServerLeft = (payload: {serverId: string}) => runWithContext(() =
   const serverMembers = useServerMembers();
   const servers = useServers();
   const channels = useChannels();
+  const roles = useServerRoles();
 
 
   batch(() => {
     servers.remove(payload.serverId);
     serverMembers.removeAllServerMembers(payload.serverId);
     channels.removeAllServerChannels(payload.serverId);
+    roles.deleteAllByServerId(payload.serverId);
   })
 });
 
@@ -117,3 +127,8 @@ export const onServerChannelDeleted = (payload: ServerChannelDeleted) => {
 
   channels.deleteChannel(payload.channelId, payload.serverId);
 };
+
+export const onServerRoleCreated = (createdRole: RawServerRole) => {
+  const serverRoles = useServerRoles();
+  serverRoles.set(createdRole.serverId, createdRole);
+}

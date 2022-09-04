@@ -49,7 +49,7 @@ export const onReconnectAttempt = () => {
 
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  const { account, servers, users, channels, serverMembers, friends, inbox, mentions } = useStore();
+  const { account, servers, users, channels, serverMembers, friends, inbox, mentions, serverRoles } = useStore();
   console.log('[WS] Authenticated.');
 
   saveCache(LocalCacheKey.Account, payload.user);
@@ -63,6 +63,12 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     socketAuthenticated: true
   })
   users.set(payload.user)
+
+
+  for (let i = 0; i < payload.serverRoles.length; i++) {
+    const role = payload.serverRoles[i];
+    serverRoles.set(role.serverId, role);    
+  }
 
   for (let i = 0; i < payload.servers.length; i++) {
     const server = payload.servers[i];
