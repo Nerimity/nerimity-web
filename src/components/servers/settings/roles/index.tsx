@@ -18,7 +18,7 @@ function RoleItem(props: { role: ServerRole }) {
 
   return (
     <Link href={link} class={styles.roleItem}>
-      <Icon name='storage' size={18} />
+      <div class={styles.roleDot} style={{background: props.role.hexColor}} />
       <div class={styles.name}>{props.role.name}</div>
       <Icon name='navigate_next' />
     </Link>

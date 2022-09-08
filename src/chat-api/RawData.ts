@@ -55,9 +55,10 @@ export interface RawChannel {
 export interface RawServerRole {
   id: string;
   name: string
-  order: string;
+  order: number;
   hexColor: string;
   createdById: string;
+  permissions: number;
   serverId: string;
   defaultRole?: boolean
   botRole?: boolean;

@@ -17,6 +17,13 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/general'))
   },
   {
+    pattern: (path: string) => patchMatches(path, 'roles/*'),
+    name: 'roles',
+    icon: 'leaderboard',
+    hideDrawer: true,
+    element: lazy(() => import('@/components/servers/settings/role'))
+  },
+  {
     path: 'roles',
     name: 'Roles',
     icon: 'leaderboard',

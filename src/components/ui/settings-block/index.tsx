@@ -5,7 +5,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 
 interface BlockProps {
   label: string;
-  icon: string;
+  icon?: string;
   description?: string;
   children?: JSX.Element | undefined;
   header?: boolean;
@@ -16,7 +16,7 @@ interface BlockProps {
 export default function SettingsBlock(props: BlockProps) {
   return (
     <div class={classNames(styles.block, conditionalClass(props.header, styles.header), props.class)}>
-      <Icon name={props.icon} />
+      <Icon name={props.icon || "texture"} />
       <div class={styles.details}>
         <div class={styles.label}>{props.label}</div>
         <Show when={props.description}><div class={styles.description}>{props.description}</div></Show>

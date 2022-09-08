@@ -3,7 +3,7 @@ export interface Permission {
   name: string;
   description: string;
   bit: number;
-  icon: string
+  icon?: string
 }
 
 export const CHANNEL_PERMISSIONS = {
@@ -18,6 +18,44 @@ export const CHANNEL_PERMISSIONS = {
     description: 'Enable sending messages in the channel. Server admins can still send messages.',
     bit: 2,
     icon: 'mail'
+  }
+}
+export const ROLE_PERMISSIONS = {
+  ADMIN: {
+    name: 'Admin',
+    description: 'Enables all permissions.',
+    bit: 1,
+    // icon: 'mail'
+  },
+  SEND_MESSAGE: {
+    name: 'Send Message',
+    description: 'Enable sending messages in this server. Server admins can still send messages.',
+    bit: 2,
+    icon: 'mail'
+  },
+  MANAGE_ROLES: {
+    name: 'Manage Roles',
+    description: 'Permission for updating or deleting roles.',
+    // icon: 'mail',
+    bit: 4,
+  },
+  MANAGE_CHANNELS: {
+    name: 'Manage Channels',
+    description: 'Permission for updating or deleting channels.',
+    // icon: 'mail',
+    bit: 8,
+  },
+  KICK: {
+    name: 'Kick',
+    description: 'Permission to kick users',
+    bit: 16,
+    // icon: 'mail'
+  },
+  BAN: {
+    name: 'Ban',
+    description: 'Permission to ban users.',
+    bit: 32,
+    // icon: 'mail'
   }
 }
 

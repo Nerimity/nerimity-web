@@ -1,0 +1,67 @@
+.channelPane {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.error {
+  color: var(--alert-color);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.saveButton {
+  align-self: flex-end;
+}
+
+
+.permissionItem {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  &:not(:last-child) {
+    margin-bottom: 1px;
+    border-radius: 0;
+  }
+}
+
+.permissions {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.colorPicker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 30px;
+  width: 30px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transition: 0.2s;
+  }
+  &:hover:before {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  .icon {
+    position: relative;
+    z-index: 1111;
+  }
+}

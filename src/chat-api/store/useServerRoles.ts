@@ -2,6 +2,7 @@ import { createStore } from "solid-js/store";
 import { RawServerRole } from "../RawData";
 
 export type ServerRole = RawServerRole & {
+  update: (this: ServerRole, update: Partial<RawServerRole>) => void;
 
 }
 
@@ -13,12 +14,20 @@ const set = (serverId: string, role: RawServerRole) =>  {
   if (!serverRoles[serverId]) {
     setServerRoles(serverId, {});
   }
-  setServerRoles(serverId, role.id, role)
+  setServerRoles(serverId, role.id, {
+    ...role,
+    update(update) {
+      setServerRoles(serverId, role.id, update)
+    }
+  })
 }
 
+
 const getAllByServerId = (serverId: string) => {
-  return Object.values(serverRoles[serverId] || {});
+  return Object.values(serverRoles[serverId] || {}).sort((a, b) =>  b.order - a.order);
 }
+
+const get = (serverId: string, roleId: string) => serverRoles[serverId]?.[roleId];
 
 const deleteAllByServerId = (serverId: string) => {
   setServerRoles(serverId, undefined);
@@ -29,6 +38,7 @@ export default function useServerRoles() {
   return {
     set,
     getAllByServerId,
+    get,
     deleteAllByServerId
   }
 }

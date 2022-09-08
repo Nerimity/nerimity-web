@@ -35,6 +35,16 @@ export async function createServerRole(serverId: string): Promise<RawServerRole>
     useToken: true
   });
 }
+
+export async function updateServerRole(serverId: string, roleId: string, update: any): Promise<any> {
+  return request({
+    method: "POST",
+    body: update,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverRole(serverId, roleId),
+    useToken: true
+  });
+}
+
 export async function updateServerChannel(serverId: string, channelId: string, update: any): Promise<any> {
   return request({
     method: "POST",

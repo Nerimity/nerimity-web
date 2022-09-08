@@ -132,3 +132,15 @@ export const onServerRoleCreated = (createdRole: RawServerRole) => {
   const serverRoles = useServerRoles();
   serverRoles.set(createdRole.serverId, createdRole);
 }
+
+
+interface ServerRoleUpdated {
+  serverId: string;
+  roleId: string;
+  updated: Partial<RawServerRole>
+}
+export const onServerRoleUpdated = (payload: ServerRoleUpdated) => {
+  const serverRoles = useServerRoles();
+  const role = serverRoles.get(payload.serverId, payload.roleId);
+  role?.update(payload.updated);
+}

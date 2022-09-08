@@ -25,6 +25,12 @@
   transition: 0.2s;
   cursor: pointer;
   text-decoration: none;
+  .roleDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 8px;
+  }
   .name {
     margin-left: 10px;
     margin-right: auto;
