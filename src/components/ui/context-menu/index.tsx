@@ -104,7 +104,7 @@ export default function ContextMenu(props: ContextMenuProps) {
 function Item(props: {item: Item}) {
   return (
     <div class={classNames(styles.item, conditionalClass(props.item.alert, styles.alert), conditionalClass(props.item.disabled, styles.disabled))} onClick={props.item.onClick}>
-      <Icon name={props.item.icon!} size={18} color={props.item.alert ? 'var(--alert-color)' : undefined}  />
+      <Icon name={props.item.icon || "texture"} size={18} color={props.item.alert ? 'var(--alert-color)' : undefined}  />
       <span class={styles.label} >{props.item.label}</span>
     </div>
   )
