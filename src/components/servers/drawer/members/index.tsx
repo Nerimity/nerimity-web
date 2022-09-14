@@ -38,7 +38,8 @@ const ServerMembersDrawer = () => {
   
   const members = () => useCategorizedMembers(server()!?.id)
 
-  return <div class={styles.membersList}>
+  return (
+    <div class={styles.membersList}>
     Online
     <For each={members().onlineMembers()}>
       {member => <MemberItem  member={member!} />}
@@ -48,6 +49,7 @@ const ServerMembersDrawer = () => {
       {member => <MemberItem  member={member!} />}
     </For>
   </div>
+  )
 };
 
 

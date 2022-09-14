@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { createEffect, For, on, onCleanup, Show } from 'solid-js';
+import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import { classNames, conditionalClass } from '@/common/classNames';
 import Icon from '@/components/ui/icon';
 import { Portal } from 'solid-js/web';
@@ -27,6 +27,7 @@ export interface ContextMenuProps {
 
 export default function ContextMenu(props: ContextMenuProps) {
   let contextMenuElement: HTMLDivElement | undefined;
+  const [pos, setPos] = createSignal({top: "0", left: "0"});
 
 
   const handleOutsideClick = (e: any) => {
@@ -61,6 +62,9 @@ export default function ContextMenu(props: ContextMenuProps) {
     if (!props.position) return;
     if (!contextMenuElement) return;
     // move the context menu to the left if it's off the screen.
+    setTimeout(() => {
+      // console.log(contextMenuElement.getBoundingClientRect().width)
+    }, 100);
     if (props.position.x + contextMenuElement.clientWidth > window.innerWidth) {
       return props.position.x - contextMenuElement.clientWidth + "px";
     }
@@ -77,14 +81,18 @@ export default function ContextMenu(props: ContextMenuProps) {
     return props.position.y + "px";
   }
 
-  const style = () => ({top: top(), left: left()});
+  createEffect(on(() => props.position, () => {
+    setPos({left: left() || "0", top: top() || "0"})
+  }))
+
+
 
  
 
   return (
     <Show when={props.position}>
       <Portal>
-        <div ref={contextMenuElement} class={styles.contextMenu} style={style()}>
+        <div ref={contextMenuElement} class={styles.contextMenu} style={pos()}>
           <div class={styles.contextMenuInner}>
             <For each={props.items}>
               {item => (

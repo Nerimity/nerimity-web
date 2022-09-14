@@ -3,6 +3,7 @@ export interface RawServer {
   name: string;
   hexColor: string;
   defaultChannelId: string;
+  defaultRoleId: string;
   createdById: string;
   createdAt: string;
 }
@@ -40,6 +41,7 @@ export interface RawServerMember {
   serverId: string;
   user: RawUser;
   joinedAt: string;
+  roleIds: string[];
 }
 
 export interface RawChannel {

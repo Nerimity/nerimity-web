@@ -26,6 +26,7 @@ export const ServerEvents = {
 
   SERVER_MEMBER_JOINED: 'server:member_joined',
   SERVER_MEMBER_LEFT: 'server:member_left',
+  SERVER_MEMBER_UPDATED: 'server:member_updated',
   SERVER_CHANNEL_CREATED: 'server:channel_created',
   SERVER_CHANNEL_UPDATED: 'server:channel_updated',
   SERVER_CHANNEL_DELETED: 'server:channel_deleted',

@@ -84,6 +84,21 @@ export const onServerMemberLeft = (payload: {userId: string, serverId: string}) 
 }
 
 
+interface ServerMemberUpdated {
+  serverId: string;
+  userId: string;
+  updated: {
+    roleIds: string[];
+  }
+}
+
+export const onServerMemberUpdated = (payload: ServerMemberUpdated) => {
+  const serverMembers = useServerMembers();
+  const member = serverMembers.get(payload.serverId, payload.userId);
+  member?.update(payload.updated);
+}
+
+
 
 export const onServerUpdated = (payload: ServerUpdated) => {
   const servers = useServers();
