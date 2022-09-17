@@ -1,0 +1,13 @@
+.drawerLayout {
+  display: flex;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+}
+
+.content {
+  display: flex;
+  flex-shrink: 0;
+}

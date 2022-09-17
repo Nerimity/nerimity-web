@@ -21,6 +21,7 @@ import { useWindowProperties } from '@/common/useWindowProperties';
 import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
+import DrawerLayout from '@/components/ui/drawer';
 
 async function loadAllCache () {
   const {account} = useStore();
@@ -40,16 +41,33 @@ export default function AppPage(props: {routeName?: string}) {
     }, 300);
   })
 
-
   return (
-    <div class={styles.appPage}>
-      <SidePane />
-      <LeftPane width={DRAWER_WIDTH} routeName={props.routeName} />
-      <MainPane routeName={props.routeName}/>
-      {props.routeName === "server_messages" && <RightPane width={DRAWER_WIDTH}/>}
-      {props.routeName === "server_settings" && <RightPane width={DRAWER_WIDTH}/>}
-    </div>
+    <DrawerLayout
+      Content={() => <MainPane routeName={props.routeName}/>}
+      RightDrawer={() =>(
+        <>
+        {props.routeName === "server_messages" && <RightPane width={DRAWER_WIDTH}/>}
+        {props.routeName === "server_settings" && <RightPane width={DRAWER_WIDTH}/>}
+        </>
+      ) }
+      LeftDrawer={() => (
+        <>
+        <SidePane />
+        <LeftPane width={DRAWER_WIDTH} routeName={props.routeName} />
+        </>
+      )}
+    />
   )
+
+  // return (
+  //   <div class={styles.appPage}>
+  //     <SidePane />
+  //     <LeftPane width={DRAWER_WIDTH} routeName={props.routeName} />
+  //     <MainPane routeName={props.routeName}/>
+  //     {props.routeName === "server_messages" && <RightPane width={DRAWER_WIDTH}/>}
+  //     {props.routeName === "server_settings" && <RightPane width={DRAWER_WIDTH}/>}
+  //   </div>
+  // )
 }
 
 function MainPane (props: {routeName?: string}) {
@@ -88,7 +106,7 @@ function LeftPane (props: {width: number, routeName?: string}) {
 
   return (
     <Show when={CurrentPane()}>
-      <div style={{width: `${props.width}px`}} class={styles.leftPane}>
+      <div style={{width: `100%`}} class={styles.leftPane}>
         <CurrentPane />
       </div>
     </Show>
@@ -96,7 +114,7 @@ function LeftPane (props: {width: number, routeName?: string}) {
 }
 
 function RightPane (props: {width: number}) {
-  return <div style={{width: `${props.width}px`}} class={styles.rightPane}>
+  return <div style={{width: "100%"}} class={styles.rightPane}>
     <CustomSuspense><ServerMembersDrawer /></CustomSuspense>
   </div>
 }
