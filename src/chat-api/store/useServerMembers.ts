@@ -1,8 +1,8 @@
 import { update } from 'idb-keyval';
-import { mapArray } from 'solid-js';
+import { Accessor, createMemo, mapArray } from 'solid-js';
 import {createStore, reconcile} from 'solid-js/store';
 import { RawServerMember } from '../RawData';
-import { ServerRole } from './useServerRoles';
+import useServerRoles, { ServerRole } from './useServerRoles';
 import useServers from './useServers';
 import useStore from './useStore';
 import useUsers, { User } from './useUsers';
@@ -14,6 +14,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
   roles: () => (ServerRole | undefined)[] ;
   hasRole:  (this: ServerMember, roleId: string) => boolean;
+  roleColor: () => string;
 }
 
 const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
@@ -25,6 +26,8 @@ const set = (member: RawServerMember) => {
   if (!serverMembers[member.serverId]) {
     setMember(member.serverId, {});
   }
+
+  let roleColor: Accessor<any>;
   setMember(member.serverId, {[member.user.id]: {
     ...member,
     userId: member.user.id,
@@ -46,8 +49,22 @@ const set = (member: RawServerMember) => {
       const server = servers.get(member.serverId);
       if (server?.defaultRoleId === roleId) return true;
       return this.roleIds.includes(roleId);
+    },
+    get roleColor() {
+      if (roleColor) return roleColor();
+      roleColor = createMemo(() => {
+        const servers = useServers();
+        const roles = useServerRoles();
+        const sortedRoles = () => this.roles().sort((a, b) => b?.order! - a?.order!);
+        const defaultRoleId = () => servers.get(member.serverId)?.defaultRoleId;
+        const defaultRole = () => roles.get(member.serverId, defaultRoleId()!);
+        return () => sortedRoles()[0]?.hexColor || defaultRole()?.hexColor!;
+      });
+      return roleColor();
     }
   }});
+
+
 }
 
 const remove = (serverId: string, userId: string) => {

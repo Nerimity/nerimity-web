@@ -7,7 +7,9 @@ import { RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link } from '@solidjs/router';
+import { Link, useParams } from '@solidjs/router';
+import useStore from '@/chat-api/store/useStore';
+import { onMount } from 'solid-js';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
@@ -29,16 +31,21 @@ function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
 
 const MessageItem = (props: { message: Message, beforeMessage: Message, animate?: boolean }) => {
 
+  const params = useParams();
+  const {serverMembers} = useStore();
+  const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.message.createdBy.id) : undefined;
+
+
   const Details = () => (
     <div class={styles.details}>
       <Link href={RouterEndpoints.PROFILE(props.message.createdBy.id)}>
         <Avatar hexColor={props.message.createdBy.hexColor} size={30} />
       </Link>
-      <Link class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)}>
+      <Link class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
         {props.message.createdBy.username}
       </Link>
       <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
-      </div>
+    </div>
   )
 
   const currentTime = new Date(props.message?.createdAt).getTime();

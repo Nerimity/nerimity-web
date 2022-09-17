@@ -22,7 +22,7 @@ const MemberItem = (props: {member: ServerMember}) => {
       <ContextMenuServerMember position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <Avatar size={25} hexColor={user().hexColor} />
       <div class={styles.memberInfo}>
-        <div class={styles.username}>{user().username}</div>
+        <div class={styles.username} style={{color: props.member.roleColor()}} >{user().username}</div>
         <UserPresence userId={user().id} showOffline={false} />
       </div>
     </div>

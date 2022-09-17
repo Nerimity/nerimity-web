@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 interface CheckboxProps {
   checked: boolean
   onChange?: (checked: boolean) => void
+  disableLocalUpdate?: boolean
 }
 
 export default function Checkbox (props: CheckboxProps) {
@@ -15,8 +16,9 @@ export default function Checkbox (props: CheckboxProps) {
   ));
 
   const onClick = () => {
-    setChecked(!checked());
-    props.onChange?.(checked());
+    const newState = !checked() 
+    !props.disableLocalUpdate &&  setChecked(newState);
+    props.onChange?.(newState);
   }
 
   return (
