@@ -18,6 +18,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const [startPos, setStartPos] = createSignal({x: 0, y: 0});
   const [xTransform, setXTransform] = createSignal(0);
   const [currentPage, setCurrentPage] = createSignal(1);
+  let startTime = 0;
 
   const {width} = useWindowProperties();
 
@@ -32,14 +33,21 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   };
   const totalWidth = () => (drawerWidth() * 2) + width() 
 
+  const updatePage = () => {
+    if (currentPage() === 0) setXTransform(0);
+    if (currentPage() === 1) setXTransform(setXTransform(-drawerWidth()));
+    if (currentPage() === 2) setXTransform(-totalWidth() - -width());
+  }
+
   createEffect(on(currentPage, () => {
-    setXTransform(-drawerWidth())
+    updatePage();
   }))
 
   const onTouchStart = (event: TouchEvent) => {
     const x = event.touches[0].clientX;
     const y = event.touches[0].clientY;
     setStartPos({x: x - xTransform(), y});
+    startTime = Date.now();
   }
   const onTouchMove = (event: TouchEvent) => {
     const x = event.touches[0].clientX;
@@ -55,7 +63,19 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     }
     setXTransform(touchDistance);
   }
-  const onTouchEnd = () => {
+  const onTouchEnd = (event: TouchEvent) => {
+    const isOnLeftDrawer = xTransform() - -drawerWidth() >= drawerWidth() /2;
+    const isOnRightDrawer = xTransform() - -(totalWidth() - width())<= drawerWidth() /2;
+    const isOnContent = !isOnLeftDrawer && !isOnRightDrawer;
+    
+    
+    if (isOnLeftDrawer) setCurrentPage(0);
+    if (isOnContent) setCurrentPage(1);
+    if (isOnRightDrawer) setCurrentPage(2);
+
+
+    // console.log(xTransform(),  startPos().x)
+
 
   }
   const onScroll = () => {
