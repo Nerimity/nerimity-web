@@ -153,6 +153,7 @@ const MessageLogArea = () => {
 function MessageArea() {
   const params = useParams();
   const location = useLocation();
+  let textAreaEl: undefined | HTMLInputElement;
   const {isMobileAgent} = useWindowProperties();
 
   const [message, setMessage] = createSignal('');
@@ -162,17 +163,18 @@ function MessageArea() {
     if (event.key === "Enter" && !isMobileAgent()) {
       event.preventDefault();
       sendMessage(); 
-
     }
   }
 
   const sendMessage = () => {
+    textAreaEl?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
     tabs.updateTab(location.pathname!, {isPreview: false})
     messages.sendAndStoreMessage(channel.id, trimmedMessage);
+
   }
   
   const onInput = (event: any) => {
@@ -181,7 +183,7 @@ function MessageArea() {
 
 
   return <div class={styles.messageArea}>
-    <textarea placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
+    <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
     <Button iconName='send' onClick={sendMessage} class={styles.button}/>
   </div>
 }
