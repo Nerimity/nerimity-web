@@ -1,13 +1,14 @@
 .drawerLayout {
   display: flex;
   overflow: hidden;
+  flex: 1;
 }
 
 .container {
   display: flex;
+  flex: 1;
 }
 
 .content {
   display: flex;
-  flex-shrink: 0;
 }
