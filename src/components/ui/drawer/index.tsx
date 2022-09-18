@@ -91,6 +91,16 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       pauseTouches = true;
       return;
     }
+    if (target.closest("input[type=text]")) {
+      pauseTouches = true;
+      return;
+    }
+
+    if (target.closest("textarea")) {
+      pauseTouches = true;
+      return;
+    }
+
     pauseTouches = false;
 
     containerEl!.style.transition = "";
@@ -103,7 +113,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const onTouchMove = (event: TouchEvent) => {
     if (pauseTouches) return;
     const x = event.touches[0].clientX;
+    const y = event.touches[0].clientY;
     const touchDistance = x - startPos().x;
+
+    const XDistance = Math.abs(startTransformX() - transformX());
+    const YDistance = Math.abs(y - startPos().y);
+    if (XDistance <= 3 && YDistance >= 7) return updatePage();
+
+
 
     if (currentPage() === 0 && -touchDistance >= drawerWidth() ) {
       return setTransformX(-drawerWidth());
