@@ -31,6 +31,7 @@ export function useWindowProperties() {
     setPaneWidth,
     width: () => windowProperties.width,
     paneWidth: () => windowProperties.paneWidth,
-    hasFocus: () => windowProperties.hasFocus
+    hasFocus: () => windowProperties.hasFocus,
+    isMobileAgent: () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
   }
 }
