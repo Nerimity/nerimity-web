@@ -21,6 +21,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const [transformX, setTransformX] = createSignal(0);
   const [currentPage, setCurrentPage] = createSignal(1);
   let startTime = 0;
+  let pauseTouches = false;
 
   const {width} = useWindowProperties();
 
@@ -84,6 +85,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
 
   const onTouchStart = (event: TouchEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (target.closest("input[type=range]")) {
+      pauseTouches = true;
+      return;
+    }
+    pauseTouches = false;
+
     containerEl!.style.transition = "";
     setStartTransformX(transformX());
     const x = event.touches[0].clientX;
@@ -92,6 +101,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     startTime = Date.now();
   }
   const onTouchMove = (event: TouchEvent) => {
+    if (pauseTouches) return;
     const x = event.touches[0].clientX;
     const touchDistance = x - startPos().x;
 
@@ -118,6 +128,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     setTransformX(touchDistance);
   }
   const onTouchEnd = (event: TouchEvent) => {
+    pauseTouches = false;
     const isOnLeftDrawer = transformX() - -drawerWidth() >= drawerWidth() /2;
     const isOnRightDrawer = transformX() - -(totalWidth() - width())<= drawerWidth() /2;
     const isOnContent = !isOnLeftDrawer && !isOnRightDrawer;
@@ -153,7 +164,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   }
   const onScroll = () => {
-
+    pauseTouches = true;
+    updatePage();
   }
 
 
