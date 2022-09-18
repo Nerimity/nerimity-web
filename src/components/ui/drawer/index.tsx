@@ -110,6 +110,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     setStartPos({x: x - transformX(), y});
     startTime = Date.now();
   }
+
+
+  let ignoreDistance = false;
+
   const onTouchMove = (event: TouchEvent) => {
     if (pauseTouches) return;
     const x = event.touches[0].clientX;
@@ -118,9 +122,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
     const XDistance = Math.abs(startTransformX() - transformX());
     const YDistance = Math.abs(y - startPos().y);
-    if (XDistance <= 3 && YDistance >= 7) return updatePage();
+    if (XDistance <= 3 && YDistance >= 7 && !ignoreDistance) return pauseTouches = true;
 
 
+    ignoreDistance = true;
 
     if (currentPage() === 0 && -touchDistance >= drawerWidth() ) {
       return setTransformX(-drawerWidth());
@@ -145,6 +150,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     setTransformX(touchDistance);
   }
   const onTouchEnd = (event: TouchEvent) => {
+    ignoreDistance = false;
     pauseTouches = false;
     const isOnLeftDrawer = transformX() - -drawerWidth() >= drawerWidth() /2;
     const isOnRightDrawer = transformX() - -(totalWidth() - width())<= drawerWidth() /2;
