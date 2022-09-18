@@ -82,11 +82,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (currentPage() === 2) setTransformX(-totalWidth() - -width());
   }
 
-  createEffect(on(currentPage, () => {
-    updatePage();
-  }))
 
   const onTouchStart = (event: TouchEvent) => {
+    containerEl!.style.transition = "";
     setStartTransformX(transformX());
     const x = event.touches[0].clientX;
     const y = event.touches[0].clientY;
