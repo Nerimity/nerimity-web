@@ -3,7 +3,7 @@ import Avatar from "@/components/ui/avatar";
 import UserPresence from '@/components/user-presence';
 import { useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { createSignal, For } from 'solid-js';
+import { createEffect, createSignal, For, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
 import { UserStatus } from '@/chat-api/store/useUsers';
 import ContextMenuServerMember from '../members/context-menu';
@@ -33,21 +33,39 @@ const MemberItem = (props: {member: ServerMember}) => {
 
 const ServerMembersDrawer = () => {
   const params = useParams();
-  const {servers, serverMembers} = useStore();
+  const {servers, serverMembers, serverRoles} = useStore();
   const server = () => servers.get(params.serverId!);
   
-  const members = () => useCategorizedMembers(server()!?.id)
+
+  const roles = () => serverRoles.getAllByServerId(params.serverId);
+
+  const members = () => serverMembers.array(params.serverId);
+
 
   return (
     <div class={styles.membersList}>
-    Online
+
+    <For each={roles()}>
+      {role => (
+        <Show when={!role.hideRole}>
+          <div class={styles.roleItem}>
+            <div class={styles.roleName}>{role.name}</div>
+            <For each={members()}>
+              {member => <Show when={ (server()?.defaultRoleId === role.id && !member?.unhiddenRole()) ||  member?.unhiddenRole()?.id === role.id}><MemberItem  member={member!} /></Show>}
+            </For>
+          </div>
+        </Show>
+      )}
+    </For>
+
+    {/* Online
     <For each={members().onlineMembers()}>
       {member => <MemberItem  member={member!} />}
     </For>
     Offline
     <For each={members().offlineMembers()}>
       {member => <MemberItem  member={member!} />}
-    </For>
+    </For> */}
   </div>
   )
 };
@@ -55,14 +73,47 @@ const ServerMembersDrawer = () => {
 
 
 function useCategorizedMembers(serverId: string) {
-  const {servers, serverMembers} = useStore();
+
+  const {servers, serverMembers, serverRoles, users} = useStore();
+
+  const roles = () => serverRoles.getAllByServerId(serverId);
+
+
   const server = () => servers.get(serverId!);
-  const members = () => serverMembers.array(server()!?.id) || [];
 
-  const onlineMembers = () => members().filter(member => member!.user.presence?.status);
-  const offlineMembers = () => members().filter(member => !member!.user.presence?.status);
+  const unconsumedMemberIds = serverMembers.array(serverId).map(member => member?.userId!);
 
-  return {onlineMembers, offlineMembers};
+  const roleMembers = roles()
+    .filter(role => !role.hideRole)
+    .map(role => {
+      const memberIds = [...unconsumedMemberIds].filter(memberId => {
+        if (!unconsumedMemberIds.includes(memberId)) return false;
+        const member = serverMembers.get(serverId, memberId);
+        if (!member?.roleIds.includes(role.id)) return false;
+        if (!member.user.presence?.status) return false;
+        unconsumedMemberIds.splice(unconsumedMemberIds.indexOf(memberId), 1);
+        return true;
+      })
+      if (!memberIds.length) return [];
+      return [
+        { title: role.name, id: role.id, count: memberIds.length },
+        ...memberIds,
+      ];
+    }).flat();
+
+    const onlineMembers = [...unconsumedMemberIds].filter(memberId => {
+      const user = users.get(memberId);
+      if (!user.presence?.status) return;
+      unconsumedMemberIds.splice(unconsumedMemberIds.indexOf(memberId), 1);
+      return true;
+    });
+
+    const offlineMembers = unconsumedMemberIds;
+
+  
+
+
+
 }
 
 export default ServerMembersDrawer;

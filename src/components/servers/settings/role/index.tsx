@@ -34,7 +34,8 @@ export default function ServerSettingsRole() {
   const defaultInput = () => ({
     name: role()?.name || '',
     hexColor: role()?.hexColor || "#fff",
-    permissions: role()?.permissions || 0
+    permissions: role()?.permissions || 0,
+    hideRole: role()?.hideRole || false
   })
   
   
@@ -91,12 +92,17 @@ export default function ServerSettingsRole() {
         <ColorPicker color={inputValues().hexColor} />
       </SettingsBlock>
 
+      {/* Hide Role */}
+      <SettingsBlock icon='' label='Hide Role' description='Display members with this role along with all the default members'>
+      <Checkbox checked={inputValues().hideRole} onChange={checked => setInputValue('hideRole', checked)} />
+      </SettingsBlock>
+
       <div class={styles.permissions}>
         <SettingsBlock icon="security" label="Permissions" description="Manage permissions for this role." header={true} />
         <For each={ permissions()}>
           {(permission) => (
             <SettingsBlock icon={permission.icon} label={permission.name} description={permission.description} class={styles.permissionItem}>
-              <Checkbox checked={permission.hasPerm} onChange={checked => onPermissionChanged(checked, permission.bit, )} />
+              <Checkbox checked={permission.hasPerm} onChange={checked => onPermissionChanged(checked, permission.bit)} />
             </SettingsBlock>
           )}
 

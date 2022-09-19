@@ -62,6 +62,7 @@ export interface RawServerRole {
   createdById: string;
   permissions: number;
   serverId: string;
+  hideRole: boolean;
   defaultRole?: boolean
   botRole?: boolean;
 }

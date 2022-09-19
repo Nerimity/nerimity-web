@@ -15,6 +15,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   roles: () => (ServerRole | undefined)[] ;
   hasRole:  (this: ServerMember, roleId: string) => boolean;
   roleColor: () => string;
+  unhiddenRole: () => ServerRole;
 }
 
 const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
@@ -28,6 +29,7 @@ const set = (member: RawServerMember) => {
   }
 
   let roleColor: Accessor<any>;
+  let unhiddenRole: Accessor<any>;
   setMember(member.serverId, {[member.user.id]: {
     ...member,
     userId: member.user.id,
@@ -61,6 +63,14 @@ const set = (member: RawServerMember) => {
         return () => sortedRoles()[0]?.hexColor || defaultRole()?.hexColor!;
       });
       return roleColor();
+    },
+    get unhiddenRole() {
+      if (unhiddenRole) return unhiddenRole();
+      unhiddenRole = createMemo(() => {
+        const sortedRoles = () => this.roles().sort((a, b) => b?.order! - a?.order!);
+        return () => sortedRoles().find(role => !role?.hideRole)
+      });
+      return unhiddenRole();
     }
   }});
 
