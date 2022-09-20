@@ -29,7 +29,7 @@ function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
 
 
 
-const MessageItem = (props: { message: Message, beforeMessage: Message, animate?: boolean }) => {
+const MessageItem = (props: { message: Message, beforeMessage?: Message, animate?: boolean }) => {
 
   const params = useParams();
   const {serverMembers} = useStore();

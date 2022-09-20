@@ -153,14 +153,15 @@ const MessageLogArea = () => {
 function MessageArea() {
   const params = useParams();
   const location = useLocation();
-  let textAreaEl: undefined | HTMLInputElement;
+  let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
 
   const [message, setMessage] = createSignal('');
   const {tabs, channels, messages} = useStore();
 
-  const onKeyDown = (event: any) => {
+  const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Enter" && !isMobileAgent()) {
+      if (event.shiftKey) return;
       event.preventDefault();
       sendMessage(); 
     }

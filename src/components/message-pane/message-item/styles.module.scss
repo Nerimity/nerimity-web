@@ -135,7 +135,8 @@
     }
     .content {
       margin: 2px;
-        margin-left: 35px;
+      margin-left: 35px;
+      white-space: pre-line;
     }
   }
   &.animate .messageItemContainer {
