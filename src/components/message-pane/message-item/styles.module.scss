@@ -85,15 +85,7 @@
     position: relative;
     align-items: center;
     margin-top: 3px;
-    &:after {
-      content: "";
-      position: absolute;
-      left: 15px;
-      top: 33px;
-      bottom: -18px;
-      width: 1px;
-      background-color: rgba(255, 255, 255, 0.2);
-    }
+
     .username {
       margin-left: 5px;
       font-size: 14px;
@@ -121,7 +113,17 @@
       color: rgba(255, 255, 255, 0.8);
       font-size: 14px;
       word-break: break-word;
+      white-space: pre-line;
     }
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    left: 25px;
+    top: 35px;
+    bottom: 0;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
   }
   &.compact {
     &:after {
@@ -136,7 +138,6 @@
     .content {
       margin: 2px;
       margin-left: 35px;
-      white-space: pre-line;
     }
   }
   &.animate .messageItemContainer {
