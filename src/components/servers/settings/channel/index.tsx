@@ -13,16 +13,17 @@ import { Channel } from '@/chat-api/store/useChannels';
 import Checkbox from '@/components/ui/checkbox';
 import { addPermission, CHANNEL_PERMISSIONS, getAllPermissions, removePermission } from '@/chat-api/Permissions';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
+import { useCustomPortal } from '@/components/ui/custom-portal';
 
 
 
 export default function ServerSettingsChannel() {
   const {serverId, id: channelId} = useParams();
   const { tabs, channels } = useStore();
+  const createPortal = useCustomPortal();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
-  const [showDeleteConfirm, setDeleteConfirm] = createSignal(false);
 
   const channel = () => channels.get(channelId);
 
@@ -76,6 +77,10 @@ export default function ServerSettingsChannel() {
     setInputValue("permissions", newPermission);
   }
 
+  const showDeleteConfirmModal = () => {
+    createPortal?.(close => <Modal title={`Delete ${channel()?.name}`} component={() => <ChannelDeleteConfirmModal close={close} channel={channel()!} />} />)
+  }
+
 
 
   return (
@@ -96,9 +101,8 @@ export default function ServerSettingsChannel() {
         </For>
       </div>
       {/* Delete Channel */}
-      <Modal show={showDeleteConfirm() && !!channel()} title={`Delete ${channel()?.name}`} component={() => <ChannelDeleteConfirmModal channel={channel()!} />} />
       <SettingsBlock icon='delete' label='Delete this channel' description='This cannot be undone!'>
-        <Button label='Delete Channel' color='var(--alert-color)' onClick={() => setDeleteConfirm(true)} />
+        <Button label='Delete Channel' color='var(--alert-color)' onClick={showDeleteConfirmModal} />
       </SettingsBlock>
       {/* Errors & buttons */}
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
@@ -109,11 +113,18 @@ export default function ServerSettingsChannel() {
   )
 }
 
-function ChannelDeleteConfirmModal(props: {channel: Channel}) {
+function ChannelDeleteConfirmModal(props: {channel: Channel, close: () => void}) {
   const params = useParams();
   const navigate = useNavigate();
   const {tabs} = useStore();
   const [error, setError] = createSignal<string | null>(null);
+
+  createEffect(() => {
+    if (!props.channel) {
+      props.close();
+    }
+  })
+
   
   const onDeleteClick = async () => {
     setError(null);
@@ -129,7 +140,7 @@ function ChannelDeleteConfirmModal(props: {channel: Channel}) {
   return (
     <DeleteConfirmModal 
       errorMessage={error()}
-      confirmText={props.channel.name}
+      confirmText={props.channel?.name}
       onDeleteClick={onDeleteClick}
     />
   )

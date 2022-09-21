@@ -9,6 +9,7 @@ import Modal from '@/components/ui/modal'
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import Checkbox from "@/components/ui/checkbox";
 import { updateServerMember } from '@/chat-api/services/ServerService';
+import { useCustomPortal } from '@/components/ui/custom-portal';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId: string
   userId: string
@@ -16,23 +17,23 @@ type Props = Omit<ContextMenuProps, 'items'> & {
 
 export default function ContextMenuServerMember(props: Props) {
   const navigate = useNavigate();
-
-  const { account, servers } = useStore();
-
-  const server = () => servers.get(props.serverId!);
-
-  const isServerCreator = () => account.user()?.id === server()?.createdById;
+  const { servers } = useStore();
+  const createPortal = useCustomPortal()
 
 
-  const [roleModal, setRoleModal] = createSignal(false);
+
+
+
+  const onEditRoleClick = () => {
+    createPortal?.(close => <Modal title="Edit Roles" component={() => <RoleModal {...props} />} />)
+  }
 
 
   return (
     <>
-    <Modal show={roleModal()} title="Edit Roles" component={() => <RoleModal {...props} />} />
       <ContextMenu {...props} items={[
         { label: "View Profile" },
-        { label: "Edit Roles", onClick: () => setRoleModal(true) },
+        { label: "Edit Roles", onClick: onEditRoleClick },
         { separator: true },
         { label: "Kick", alert: true },
         { label: "Ban", alert: true },

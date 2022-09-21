@@ -15,6 +15,7 @@ import { addPermission, CHANNEL_PERMISSIONS, getAllPermissions, removePermission
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
 import Icon from '@/components/ui/icon';
+import { useCustomPortal } from '@/components/ui/custom-portal';
 
 
 
@@ -24,7 +25,7 @@ export default function ServerSettingsRole() {
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
-  const [showDeleteConfirm, setDeleteConfirm] = createSignal(false);
+  const createPortal = useCustomPortal();
 
   const role = () => serverRoles.get(serverId, roleId);
 
@@ -80,6 +81,10 @@ export default function ServerSettingsRole() {
     setInputValue("permissions", newPermission);
   }
 
+  const showDeleteConfirm = () => {
+    createPortal?.(close => <Modal title={`Delete ${role()?.name}`} component={() => <RoleDeleteConfirmModal close={close} role={role()!} />} />)
+  }
+
   return (
     <div class={styles.channelPane}>
       {/* Role Name */}
@@ -110,9 +115,8 @@ export default function ServerSettingsRole() {
       </div>
 
       {/* Delete Role */}
-      <Modal show={showDeleteConfirm() && !!role()} title={`Delete ${role()?.name}`} component={() => <ChannelDeleteConfirmModal role={role()!} />} />
       <SettingsBlock icon='delete' label='Delete this role' description='This cannot be undone!'>
-        <Button label='Delete Role' color='var(--alert-color)' onClick={() => setDeleteConfirm(true)} />
+        <Button label='Delete Role' color='var(--alert-color)' onClick={showDeleteConfirm} />
       </SettingsBlock>
       {/* Errors & buttons */}
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
@@ -123,11 +127,17 @@ export default function ServerSettingsRole() {
   )
 }
 
-function ChannelDeleteConfirmModal(props: {role: ServerRole}) {
+function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
   const params = useParams();
   const navigate = useNavigate();
   const {tabs} = useStore();
   const [error, setError] = createSignal<string | null>(null);
+
+  createEffect(() => {
+    if (!props.role) {
+      props.close();
+    }
+  })
   
   const onDeleteClick = async () => {
     setError(null);

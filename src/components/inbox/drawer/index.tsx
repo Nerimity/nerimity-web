@@ -10,6 +10,7 @@ import { FriendStatus } from '@/chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddFriend from './add-friend';
 import { useNavigate, useParams } from '@solidjs/router';
+import { useCustomPortal } from '@/components/ui/custom-portal';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
   const {friends, inbox} = useStore();
@@ -51,9 +52,10 @@ function HeaderItem (props: {name: string, iconName: string, selected: boolean, 
 
 const InboxDrawer = () => {
   const [selectedIndex, setSelectedIndex] = createSignal(getStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, 0));
-  const [showAddFriend, setShowAddFriend] = createSignal(false);
   const navigate = useNavigate();
   const params = useParams();
+
+  const createPortal = useCustomPortal();
 
   const {users, account} = useStore();
   
@@ -72,6 +74,10 @@ const InboxDrawer = () => {
     return loggedInUser()?.inboxChannelId && loggedInUser()?.inboxChannelId === params.channelId;
   };
 
+  const showAddFriendModel = () => {
+    createPortal?.(close => <Modal title="Add Friend" component={() => <AddFriend />} />)
+  }
+
 
   return (
     <div class={styles.inboxDrawer}>
@@ -80,13 +86,13 @@ const InboxDrawer = () => {
         {selectedIndex() === 0 && <InboxDrawerTab/>}
         {selectedIndex() === 1 && <InboxDrawerFriends /> }
       </div>
-      <Modal show={showAddFriend()} title="Add Friend" component={() => <AddFriend />} />
+      
       <div class={styles.items}>
         <div class={classNames(styles.item, conditionalClass(isSavedNotesSelected(), styles.selected))} onClick={onSavedNotesClick}>
           <Icon name='note_alt' size={24} />
           <div>Saved Notes</div>
         </div>
-        <div class={styles.item} onClick={() => setShowAddFriend(true)}>
+        <div class={styles.item} onClick={showAddFriendModel}>
           <Icon name='group_add' size={24} />
           <div>Add Friend</div>
         </div>

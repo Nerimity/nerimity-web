@@ -15,6 +15,7 @@ import SettingsBlock from '@/components/ui/settings-block';
 import { Server } from '@/chat-api/store/useServers';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
 import Modal from '@/components/ui/modal';
+import { useCustomPortal } from '@/components/ui/custom-portal';
 
 
 
@@ -25,7 +26,7 @@ export default function ServerGeneralSettings() {
   const [mobileSize, isMobileSize] = createSignal(false);
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
-  const [showDeleteConfirm, setDeleteConfirm] = createSignal(false);
+  const createPortal = useCustomPortal();
 
   const server = () => servers.get(serverId);
 
@@ -75,6 +76,11 @@ export default function ServerGeneralSettings() {
 
   const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
 
+
+  const showDeleteConfirm = () => {
+    createPortal?.(close => <Modal title={`Delete ${server()?.name}`} component={() => <ServerDeleteConfirmModal close={close} server={server()!} />} />)
+  }
+
   return (
     <div class={classNames(styles.generalPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server General</div>
@@ -85,9 +91,9 @@ export default function ServerGeneralSettings() {
       <SettingsBlock icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
         <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId} />
       </SettingsBlock>
-      <Modal show={showDeleteConfirm() && !!server()} title={`Delete ${server()?.name}`} component={() => <ServerDeleteConfirmModal server={server()!} />} />
+      
       <SettingsBlock icon='delete' label='Delete this server' description='This cannot be undone!'>
-        <Button label='Delete Server' color='var(--alert-color)' onClick={() => setDeleteConfirm(true)} />
+        <Button label='Delete Server' color='var(--alert-color)' onClick={showDeleteConfirm} />
       </SettingsBlock>
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>
       <Show when={Object.keys(updatedInputValues()).length}>
@@ -99,11 +105,17 @@ export default function ServerGeneralSettings() {
 }
 
 
-function ServerDeleteConfirmModal(props: {server: Server}) {
+function ServerDeleteConfirmModal(props: {server: Server, close: () => void;}) {
   const params = useParams();
   const navigate = useNavigate();
   const {tabs} = useStore();
   const [error, setError] = createSignal<string | null>(null);
+
+  createEffect(() => {
+    if (!props.server) {
+      props.close();
+    }
+  })
   
   const onDeleteClick = async () => {
     setError(null);

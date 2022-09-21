@@ -4,18 +4,26 @@ import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import { createServer } from '@/chat-api/services/ServerService';
 import { createSignal } from 'solid-js';
+import { RawServer } from '@/chat-api/RawData';
+import { useNavigate } from '@solidjs/router';
+import RouterEndpoints from '@/common/RouterEndpoints';
 
-export default function AddServer() {
+export default function AddServer(props: {close: () => void}) {
   const [name, setName] = createSignal('');
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal({message: '', path: ''});
+  const navigate = useNavigate();
 
   const onCreateClick = async () => {
     if (requestSent()) return;
     setRequestSent(true);
     setError({message: '', path: ''});
 
-    await createServer(name()).catch(setError);
+    const server = await createServer(name()).catch(setError);
+    if (server) {
+      navigate(RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId))
+      props.close();
+    }
     setRequestSent(false);
   }
 

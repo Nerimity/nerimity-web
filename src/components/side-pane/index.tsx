@@ -13,16 +13,22 @@ import Modal from '@/components/ui/modal';
 import AddServer from './add-server';
 import { userStatusDetail } from '../../common/userStatus';
 import { Server } from '../../chat-api/store/useServers';
+import { useCustomPortal } from '../ui/custom-portal';
 
 
 export default function SidePane () {
+  const createPortal = useCustomPortal();
+  const showAddServerModal = () => {
+    createPortal?.(close => <Modal title="Add Server" component={() => <AddServer close={close} />} />)
+  }
+
   const [showAddServerModel, setShowAddServerModel] = createSignal(false);
   return <div class={styles.sidePane}>
     <InboxItem />
     <div class={styles.scrollable}>
-      <Modal show={showAddServerModel()} title="Add Server" component={() => <AddServer />} />
+      
       <ServerList />
-      <Item iconName='add_box' onClick={() => setShowAddServerModel(true)}  />
+      <Item iconName='add_box' onClick={showAddServerModal}  />
     </div>
     <SettingsItem />
     <UserItem />

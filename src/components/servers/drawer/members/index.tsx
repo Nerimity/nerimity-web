@@ -7,10 +7,12 @@ import { createEffect, createMemo, createSignal, For, mapArray, Show } from 'sol
 import { ServerMember } from '@/chat-api/store/useServerMembers';
 import { UserStatus } from '@/chat-api/store/useUsers';
 import ContextMenuServerMember from '../members/context-menu';
+import { useCustomPortal } from '@/components/ui/custom-portal';
 
 const MemberItem = (props: {member: ServerMember}) => {
   const user = () => props.member.user; 
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
+
 
   const onContextMenu = (event: MouseEvent) => {
     event.preventDefault();
