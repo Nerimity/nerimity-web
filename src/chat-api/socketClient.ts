@@ -5,7 +5,7 @@ import { onAuthenticated, onAuthenticateError, onConnect, onDisconnect, onReconn
 import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from './events/friendEvents';
 import { onInboxOpened } from './events/inboxEvents';
 import { onMessageCreated, onMessageDeleted } from './events/messageEvents';
-import { onServerChannelCreated, onServerChannelDeleted, onServerChannelUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerRoleCreated, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
+import { onServerChannelCreated, onServerChannelDeleted, onServerChannelUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
 import { onNotificationDismissed, onUserPresenceUpdate } from './events/userEvents';
 
 
@@ -55,6 +55,7 @@ socket.on(ServerEvents.SERVER_UPDATED, onServerUpdated)
 
 socket.on(ServerEvents.SERVER_ROLE_CREATED, onServerRoleCreated)
 socket.on(ServerEvents.SERVER_ROLE_UPDATED, onServerRoleUpdated)
+socket.on(ServerEvents.SERVER_ROLE_DELETED, onServerRoleDeleted)
 
 socket.on(ServerEvents.SERVER_MEMBER_JOINED, onServerMemberJoined)
 socket.on(ServerEvents.SERVER_MEMBER_LEFT, onServerMemberLeft)

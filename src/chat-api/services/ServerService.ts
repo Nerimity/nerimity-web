@@ -44,6 +44,13 @@ export async function updateServerRole(serverId: string, roleId: string, update:
     useToken: true
   });
 }
+export async function deleteServerRole(serverId: string, roleId: string): Promise<any> {
+  return request({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverRole(serverId, roleId),
+    useToken: true
+  });
+}
 export async function updateServerMember(serverId: string, userId: string, update: any): Promise<any> {
   return request({
     method: "POST",

@@ -159,3 +159,17 @@ export const onServerRoleUpdated = (payload: ServerRoleUpdated) => {
   const role = serverRoles.get(payload.serverId, payload.roleId);
   role?.update(payload.updated);
 }
+
+export const onServerRoleDeleted = (payload: {serverId: string, roleId: string}) => {
+  const serverRoles = useServerRoles();
+  const serverMembers = useServerMembers();
+  const members = serverMembers.array(payload.serverId)
+  batch((() => {
+    for (let i = 0; i < members.length; i++) {
+      const member = members[i];
+      if (!member?.roleIds.includes(payload.roleId)) continue;
+      member.update({roleIds: member.roleIds.filter(ids => ids !== payload.roleId)})
+    }
+    serverRoles.deleteRole(payload.serverId, payload.roleId);
+  }))
+}

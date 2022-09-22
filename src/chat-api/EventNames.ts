@@ -23,6 +23,8 @@ export const ServerEvents = {
   SERVER_UPDATED: 'server:updated',
   SERVER_ROLE_CREATED: 'server:role_created',
   SERVER_ROLE_UPDATED: 'server:role_updated',
+  SERVER_ROLE_DELETED: 'server:role_deleted',
+
 
   SERVER_MEMBER_JOINED: 'server:member_joined',
   SERVER_MEMBER_LEFT: 'server:member_left',

@@ -7,7 +7,7 @@ import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block';
 import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
-import { deleteServerChannel, updateServerChannel, updateServerRole } from '@/chat-api/services/ServerService';
+import { deleteServerChannel, deleteServerRole, updateServerChannel, updateServerRole } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal';
 import { Channel } from '@/chat-api/store/useChannels';
 import Checkbox from '@/components/ui/checkbox';
@@ -141,8 +141,9 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
   
   const onDeleteClick = async () => {
     setError(null);
-    deleteServerChannel(props.role?.serverId!, props.role.id).then(() => {
-      const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(params.serverId!);
+    const serverId = props.role?.serverId!;
+    deleteServerRole(serverId, props.role.id).then(() => {
+      const path = RouterEndpoints.SERVER_SETTINGS_ROLES(serverId);
       tabs.updateTab(location.pathname, {path})
       navigate(path);
     }).catch(err => {
@@ -153,7 +154,7 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
   return (
     <DeleteConfirmModal 
       errorMessage={error()}
-      confirmText={props.role.name}
+      confirmText={props.role?.name}
       onDeleteClick={onDeleteClick}
     />
   )
