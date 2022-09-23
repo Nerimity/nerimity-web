@@ -86,3 +86,9 @@ export interface RawInboxWithoutChannel {
   recipient: RawUser;
   closed: boolean
 }
+
+export interface RawPresence {
+  userId: string;
+  custom?: string;
+  status: number;
+}

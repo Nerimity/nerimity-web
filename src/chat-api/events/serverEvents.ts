@@ -1,24 +1,27 @@
 import { runWithContext } from "@/common/runWithContext";
 import { useNavigate, useParams } from "@solidjs/router";
 import { batch } from "solid-js";
-import { RawChannel, RawServer, RawServerMember, RawServerRole } from "../RawData";
+import { RawChannel, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
 import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
 import useTabs from "../store/useTabs";
+import useUsers, { Presence } from "../store/useUsers";
 
 interface ServerJoinedPayload {
   server: RawServer,
   members: RawServerMember[],
   channels: RawChannel[],
   roles: RawServerRole[];
+  memberPresences: RawPresence[]
 }
 
 
 
 export const onServerJoined = (payload: ServerJoinedPayload) => {
   const serverMembers = useServerMembers();
+  const users = useUsers();
   const servers = useServers();
   const channels = useChannels();
   const roles = useServerRoles();
@@ -39,6 +42,10 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
   for (let i = 0; i < payload.members.length; i++) {
     const serverMember = payload.members[i];
     serverMembers.set(serverMember);
+  }
+  for (let i = 0; i < payload.memberPresences.length; i++) {
+    const presence = payload.memberPresences[i];
+    users.setPresence(presence.userId, presence);
   }
 }
 
