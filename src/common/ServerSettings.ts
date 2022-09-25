@@ -68,14 +68,13 @@ function pathToSlugs(path: string) {
 
 
 function patchMatches(path: string, pattern: string) {
-  console.log(path, pattern)
   const pathSlugs = pathToSlugs(pattern);
   const currentPathSlugs = pathToSlugs(path);
-
+  
   // remove app/servers/{serverId}/settings
   currentPathSlugs.splice(0, 4);
-
- const doesMatch =  pathSlugs.every((slug, index) => {
+  
+  const doesMatch =  pathSlugs.every((slug, index) => {
     const currentSlug = currentPathSlugs[index];
     if (slug === "*" && currentSlug) {
       return true;
@@ -83,5 +82,6 @@ function patchMatches(path: string, pattern: string) {
       return true;
     }
   });
+  console.log(path, pattern, doesMatch)
   return doesMatch;
 }
