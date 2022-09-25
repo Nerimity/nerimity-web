@@ -18,7 +18,7 @@ const serverSettings: ServerSetting[] =  [
   },
   {
     pattern: (path: string) => patchMatches(path, 'roles/*'),
-    name: 'roles',
+    name: 'Role',
     icon: 'leaderboard',
     hideDrawer: true,
     element: lazy(() => import('@/components/servers/settings/role'))
@@ -31,7 +31,7 @@ const serverSettings: ServerSetting[] =  [
   },
   {
     pattern: (path: string) => patchMatches(path, 'channels/*'),
-    name: 'Channels',
+    name: 'Channel',
     icon: 'storage',
     hideDrawer: true,
     element: lazy(() => import('@/components/servers/settings/channel'))
@@ -82,6 +82,5 @@ function patchMatches(path: string, pattern: string) {
       return true;
     }
   });
-  console.log(path, pattern, doesMatch)
   return doesMatch;
 }
