@@ -1,7 +1,7 @@
 .tabs {
   display: flex;
   background-color: rgba(0, 0, 0, 0.3);
-  height: 40px;
+  height: 45px;
   border-bottom: solid 1px rgba(255, 255, 255, 0.1);
   padding-left: 2px;
   padding-right: 2px;
@@ -19,7 +19,7 @@
   margin: 3px;
   margin-left: 2px;
   margin-right: 2px;
-  padding-left: 5px;
+  padding-left: 10px;
   padding-right: 2px;
   cursor: pointer;
   user-select: none;
@@ -32,39 +32,10 @@
     font-style: normal;
   }
 
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   top: 1px;
-  //   bottom: 1px;
-  //   left: -2.6px;
-  //   right: -4px;
-  //   border-left: solid 1px rgba(255, 255, 255, 0.3);
-  //   pointer-events: none;
-  //   transition: 0.2s;
-  // }
-
-  // &:first-child::after {
-  //   border-left: solid 1px rgba(255, 255, 255, 0.0);
-  // }
-
-  // &.selected {
-  //   &:after {
-  //     border-left: solid 1px rgba(255, 255, 255, 0.0);
-  //   }
-    
-  //   + .tab:after {
-  //     border-left: solid 1px rgba(255, 255, 255, 0.0);
-  //   }
-  // }
-
-
   &:hover {
     background-color: rgba(255, 255, 255, 0.10);
   }
 
-  
-  
   &.selected {
     background-color: rgba(255, 255, 255, 0.15);
     color: white;
@@ -74,7 +45,7 @@
   }
 
   .details {
-    margin-left: 5px;
+    margin-left: 10px;
     overflow: hidden;
   }
 
@@ -94,8 +65,8 @@
     &.hasAvatar {
       position: absolute;
       font-size: 11px;
-      left: 21px;
-      top: 21px;
+      left: 25px;
+      top: 23px;
       text-shadow: 0px 0px 5px black;
     }
   }
@@ -106,8 +77,8 @@
     justify-content: center;
     margin-left: auto;
     flex-shrink: 0;
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     margin-right: 0;
     border-radius: 4px;
     transition: 0.2s;

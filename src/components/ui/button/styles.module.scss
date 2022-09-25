@@ -15,6 +15,10 @@
   &:hover {
     background-color: rgba(255, 255, 255, 0.15);
   }
+
+  :nth-child(2) {
+    margin-left: 5px;
+  }
 }
 
 .label {
@@ -22,5 +26,4 @@
 }
 .icon {
   color: var(--primary-color);
-  margin-right: 5px;
 }
