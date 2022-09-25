@@ -68,6 +68,7 @@ function pathToSlugs(path: string) {
 
 
 function patchMatches(path: string, pattern: string) {
+  console.log(path, pattern)
   const pathSlugs = pathToSlugs(pattern);
   const currentPathSlugs = pathToSlugs(path);
 
