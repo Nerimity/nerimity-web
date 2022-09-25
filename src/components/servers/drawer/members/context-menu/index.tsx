@@ -32,11 +32,11 @@ export default function ContextMenuServerMember(props: Props) {
   return (
     <>
       <ContextMenu {...props} items={[
-        { label: "View Profile" },
-        { label: "Edit Roles", onClick: onEditRoleClick },
+        { label: "View Profile", icon: "person" },
+        { label: "Edit Roles", icon: "leaderboard",onClick: onEditRoleClick },
         { separator: true },
-        { label: "Kick", alert: true },
-        { label: "Ban", alert: true },
+        { label: "Kick", alert: true, icon: "exit_to_app" },
+        { label: "Ban", alert: true, icon: "block" },
         { separator: true },
         { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.userId) },
       ]} />
