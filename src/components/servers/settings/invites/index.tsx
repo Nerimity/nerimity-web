@@ -15,7 +15,7 @@ import SettingsBlock from '@/components/ui/settings-block';
 
 export default function ServerSettingsInvite() {
   const {serverId} = useParams();
-  const {tabs} = useStore();
+  const {header} = useStore();
   const windowProperties = useWindowProperties();
   const [invites, setInvites] = createSignal<any[]>([]);
   const [mobileSize, isMobileSize] = createSignal(false);
@@ -32,11 +32,10 @@ export default function ServerSettingsInvite() {
   
   createEffect(() => {
 
-    tabs.openTab({
+    header.updateHeader({
       title: "Settings - Invites",
       serverId: serverId!,
       iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_INVITES(serverId!),
     });
   })
 

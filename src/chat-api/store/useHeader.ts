@@ -7,15 +7,16 @@ export interface HeaderDetail {
   subName?: string;
   userId?: string;
   serverId?: string;
+  channelId?: string
 }
 
-const [header, setHeader] = createStore<HeaderDetail>({
+const [details, setDetails] = createStore<HeaderDetail>({
   title: 'Loading...',
 });
 
 
 const updateHeader = (header: Partial<HeaderDetail>) => {
-  setHeader(header);
+  setDetails(header);
 }
 
 
@@ -23,6 +24,6 @@ const updateHeader = (header: Partial<HeaderDetail>) => {
 export default function useHeader() {
   return {
     updateHeader,
-    header
+    details
   }
 }

@@ -34,7 +34,7 @@ function ChannelList() {
   return (
     <div class={styles.channelList}>
       <For each={serverChannels()}>
-        {channel => <ChannelItem channel={channel} />}
+        {channel => <ChannelItem channel={channel!} />}
       </For>
     </div>
   )
@@ -45,17 +45,16 @@ function ChannelList() {
 
 export default function ServerSettingsChannel() {
   const { serverId } = useParams();
-  const { tabs } = useStore();
+  const { header } = useStore();
   const navigate = useNavigate();
   const [channelAddRequestSent, setChannelAddRequestSent] = createSignal(false);
 
 
   onMount(() => {
-    tabs.openTab({
+    header.updateHeader({
       title: "Settings - Channels",
       serverId: serverId!,
-      iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_CHANNELS(serverId!),
+      iconName: 'settings'
     });
   })
 

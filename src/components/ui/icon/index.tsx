@@ -2,7 +2,7 @@ import { JSX } from 'solid-js/jsx-runtime';
 import styles from './styles.module.scss';
 
 interface IconProps {
-  name: string;
+  name?: string;
   color?: string;
   size?: number;
   class?: string
@@ -15,7 +15,7 @@ export default function Icon(props: IconProps) {
       class={"material-icons-round " + styles.icon +" " + props.class || "" }
       style={{color: props.color, "font-size": props.size + "px"}}
       onClick={props.onClick}>
-        {props.name}
+        {props.name || 'texture'} 
     </span>
   )
 }

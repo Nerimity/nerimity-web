@@ -1,8 +1,7 @@
 import styles from './styles.module.scss';
-import RouterEndpoints from '../../common/RouterEndpoints';
 
 import { createEffect, createSignal, For, on, onCleanup, onMount, Show} from 'solid-js';
-import { useLocation, useParams } from '@solidjs/router';
+import { useParams } from '@solidjs/router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item';
 import Button from '@/components/ui/button';
@@ -14,25 +13,21 @@ import Icon from '@/components/ui/icon';
 
 export default function MessagePane() {
   const params = useParams();
-  const {channels, tabs} = useStore();
+  const {channels, header} = useStore();
 
   createEffect(() => {
     const channel = channels.get(params.channelId!);
     if (!channel) return;
-  
-    const path = params.serverId ? RouterEndpoints.SERVER_MESSAGES(params.serverId!, params.channelId!) : RouterEndpoints.INBOX_MESSAGES(params.channelId!);
-  
+    
     const userId = channel.recipient?.id;
     
-    tabs.openTab({
+    header.updateHeader({
       title: channel.name,
-      type: 'message_pane',
       serverId: params.serverId!,
       channelId: params.channelId!,
       userId: userId,
       iconName: params.serverId ? 'dns' : 'inbox',
-      path: path,
-    }, {update: true});
+    });
 
   })
 
@@ -152,12 +147,11 @@ const MessageLogArea = () => {
 
 function MessageArea() {
   const params = useParams();
-  const location = useLocation();
   let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
 
   const [message, setMessage] = createSignal('');
-  const {tabs, channels, messages} = useStore();
+  const {channels, messages} = useStore();
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Enter" && !isMobileAgent()) {
@@ -173,7 +167,6 @@ function MessageArea() {
     setMessage('')
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
-    tabs.updateTab(location.pathname!, {isPreview: false})
     messages.sendAndStoreMessage(channel.id, trimmedMessage);
 
   }

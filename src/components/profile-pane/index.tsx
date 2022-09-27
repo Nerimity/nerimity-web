@@ -16,7 +16,7 @@ import styles from './styles.module.scss';
 
 export default function ProfilePane () {
   const params = useParams();
-  const { users, friends, account, tabs } = useStore();
+  const { users, friends, account, header } = useStore();
   
   const isMe = () => account.user()?.id === params.userId;
 
@@ -42,11 +42,10 @@ export default function ProfilePane () {
 
   createEffect(on(user, () => {
     if (!user()) return;
-    tabs.openTab({
+    header.updateHeader({
       subName: "Profile",
       title: user()!.username,
       iconName: 'person',
-      path: RouterEndpoints.PROFILE(params.userId),
     })
   }))
 

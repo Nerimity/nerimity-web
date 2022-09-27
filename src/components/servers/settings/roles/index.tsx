@@ -34,7 +34,7 @@ function RoleList() {
   return (
     <div class={styles.roleList}>
       <For each={roles()}>
-        {role => <RoleItem role={role} />}
+        {role => <RoleItem role={role!} />}
       </For>
     </div>
   )
@@ -45,17 +45,16 @@ function RoleList() {
 
 export default function ServerSettingsRole() {
   const { serverId } = useParams();
-  const { tabs } = useStore();
+  const { header } = useStore();
   const navigate = useNavigate();
   const [roleAddRequestSent, setRoleAddRequestSent] = createSignal(false);
 
 
   onMount(() => {
-    tabs.openTab({
+    header.updateHeader({
       title: "Settings - Roles",
       serverId: serverId!,
       iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_ROLES(serverId!),
     });
   })
 

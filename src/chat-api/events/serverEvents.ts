@@ -6,7 +6,6 @@ import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
-import useTabs from "../store/useTabs";
 import useUsers, { Presence } from "../store/useUsers";
 
 interface ServerJoinedPayload {

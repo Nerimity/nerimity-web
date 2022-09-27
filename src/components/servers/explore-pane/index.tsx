@@ -14,7 +14,7 @@ import useStore from '@/chat-api/store/useStore';
 export default function ExploreServerPane() {
   const params = useParams();
   const navigate = useNavigate();
-  const {tabs} = useStore();
+  const {header} = useStore();
   const [server, setServer] = createSignal<ServerWithMemberCount | null>(null);
   const [error, setError] = createSignal<string | null>(null);
 
@@ -29,9 +29,7 @@ export default function ExploreServerPane() {
   const errorJoinClick = (newCode: string) => {
     if (!newCode) return;
     let newPath = RouterEndpoints.EXPLORE_SERVER_INVITE(newCode);
-    tabs.updateTab(RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!), {
-      path: newPath
-    })
+
     navigate(newPath);
   }
 
@@ -41,8 +39,7 @@ export default function ExploreServerPane() {
   
   onMount(() => {
     setError("");
-    tabs.openTab({
-      path: RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!),
+    header.updateHeader({
       title: "Explore",
       subName: "Join Server",
       iconName: 'explore',
@@ -74,7 +71,7 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
 
   createEffect(() => {
     if (joinClicked() && cacheServer()) {
-      navigate(RouterEndpoints.SERVER_MESSAGES(cacheServer().id, cacheServer().defaultChannelId));
+      navigate(RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId));
     }
   })
   

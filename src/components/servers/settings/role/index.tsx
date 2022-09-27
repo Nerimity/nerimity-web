@@ -21,7 +21,7 @@ import { useCustomPortal } from '@/components/ui/custom-portal';
 
 export default function ServerSettingsRole() {
   const {serverId, id: roleId} = useParams();
-  const { tabs, serverRoles } = useStore();
+  const { header, serverRoles } = useStore();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
@@ -47,11 +47,10 @@ export default function ServerSettingsRole() {
 
   
   createEffect(on(role, () => {
-    tabs.openTab({
+    header.updateHeader({
       title: "Settings - " + role()?.name,
       serverId: serverId!,
       iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_ROLE(serverId!, roleId),
     });
   }))
 
@@ -128,9 +127,7 @@ export default function ServerSettingsRole() {
 }
 
 function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
-  const params = useParams();
   const navigate = useNavigate();
-  const {tabs} = useStore();
   const [error, setError] = createSignal<string | null>(null);
 
   createEffect(() => {
@@ -144,7 +141,6 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
     const serverId = props.role?.serverId!;
     deleteServerRole(serverId, props.role.id).then(() => {
       const path = RouterEndpoints.SERVER_SETTINGS_ROLES(serverId);
-      tabs.updateTab(location.pathname, {path})
       navigate(path);
     }).catch(err => {
       setError(err.message);

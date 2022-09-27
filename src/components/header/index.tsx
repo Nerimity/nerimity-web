@@ -2,10 +2,7 @@ import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
 import Avatar from '@/components/ui/avatar';
 import Icon from '@/components/ui/icon';
-import { Link, useLocation } from '@solidjs/router';
-import { For } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
-import { Tab } from '@/chat-api/store/useTabs';
 import UserPresence from '@/components/user-presence';
 
 
@@ -13,8 +10,11 @@ import UserPresence from '@/components/user-presence';
 
 export default function Header() {
   const {servers, users, header} = useStore();
-  const server = () => servers.get(props.header.serverId!);
-  const user = () => users.get(props.header.userId!);
+
+  const headerDetails = () => header.details
+
+  const server = () => servers.get(headerDetails().serverId!);
+  const user = () => users.get(headerDetails().userId!);
 
   const details = () => {
     let subName = null;
@@ -26,19 +26,19 @@ export default function Header() {
       title = user().username;
     }
   
-    if (props.header.title) {
-      title = props.header.title;
+    if (headerDetails().title) {
+      title = headerDetails().title;
     }
   
-    if (props.header.subName) {
-      subName = props.header.subName;
+    if (headerDetails().subName) {
+      subName = headerDetails().subName;
     }
     return {subName, title};
   }
 
   return (
-    <div class={styles.tab}>
-      {props.header.iconName && <Icon name={props.header.iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
+    <div class={styles.header}>
+      {headerDetails().iconName && <Icon name={headerDetails().iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
       {server() && <Avatar size={25} hexColor={server()!?.hexColor} />}
       {user() && <Avatar size={25} hexColor={user().hexColor} />}
       <div class={styles.details}>
