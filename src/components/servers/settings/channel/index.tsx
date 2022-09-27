@@ -19,7 +19,7 @@ import { useCustomPortal } from '@/components/ui/custom-portal';
 
 export default function ServerSettingsChannel() {
   const {serverId, id: channelId} = useParams();
-  const { tabs, channels } = useStore();
+  const { header, channels } = useStore();
   const createPortal = useCustomPortal();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
@@ -43,11 +43,10 @@ export default function ServerSettingsChannel() {
 
   
   createEffect(on(channel, () => {
-    tabs.openTab({
+    header.updateHeader({
       title: "Settings - " + channel()?.name,
       serverId: serverId!,
       iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channelId),
     });
   }))
 
@@ -116,7 +115,6 @@ export default function ServerSettingsChannel() {
 function ChannelDeleteConfirmModal(props: {channel: Channel, close: () => void}) {
   const params = useParams();
   const navigate = useNavigate();
-  const {tabs} = useStore();
   const [error, setError] = createSignal<string | null>(null);
 
   createEffect(() => {
@@ -130,7 +128,6 @@ function ChannelDeleteConfirmModal(props: {channel: Channel, close: () => void})
     setError(null);
     deleteServerChannel(props.channel?.serverId!, props.channel.id).then(() => {
       const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(params.serverId!);
-      tabs.updateTab(location.pathname, {path})
       navigate(path);
     }).catch(err => {
       setError(err.message);

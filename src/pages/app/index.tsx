@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import CustomSuspense from '@/components/custom-suspense';
 import { createEffect, lazy, on, onMount, Show } from 'solid-js';
-import Tabs from '../../components/Tabs';
+import Header from '../../components/header';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer'));
 const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/drawer'));
@@ -83,7 +83,7 @@ function MainPane (props: {routeName?: string}) {
 
 
   return <div class={styles.mainPane} ref={mainPaneElement}>
-    <Tabs />
+    <Header />
     {props.routeName === 'server_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
     {props.routeName === 'inbox_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
     {props.routeName === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}

@@ -21,7 +21,7 @@ import { useCustomPortal } from '@/components/ui/custom-portal';
 
 export default function ServerGeneralSettings() {
   const {serverId} = useParams();
-  const {tabs, servers, channels} = useStore();
+  const {header, servers, channels} = useStore();
   const windowProperties = useWindowProperties();
   const [mobileSize, isMobileSize] = createSignal(false);
   const [requestSent, setRequestSent] = createSignal(false);
@@ -54,11 +54,10 @@ export default function ServerGeneralSettings() {
   
   
   createEffect(() => {
-    tabs.openTab({
+    header.updateHeader({
       title: "Settings - General",
       serverId: serverId!,
       iconName: 'settings',
-      path: RouterEndpoints.SERVER_SETTINGS_GENERAL(serverId!),
     });
   })
 
@@ -106,9 +105,6 @@ export default function ServerGeneralSettings() {
 
 
 function ServerDeleteConfirmModal(props: {server: Server, close: () => void;}) {
-  const params = useParams();
-  const navigate = useNavigate();
-  const {tabs} = useStore();
   const [error, setError] = createSignal<string | null>(null);
 
   createEffect(() => {

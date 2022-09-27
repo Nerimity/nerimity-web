@@ -1,0 +1,42 @@
+
+
+.header {
+  position: relative;
+  display: flex;
+  height: 45px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  padding-left: 10px;
+  align-items: center;
+  user-select: none;
+  transition: 0.2s;
+}
+
+.details {
+  margin-left: 10px;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 12px;
+  margin-right: 1px;
+}
+
+.subTitle {
+  opacity: 0.6;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+.icon {
+  &.hasAvatar {
+    position: absolute;
+    font-size: 11px;
+    left: 27px;
+    top: 26px;
+    text-shadow: 0px 0px 5px black;
+  }
+}

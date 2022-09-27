@@ -65,7 +65,7 @@ function HeaderLink(props: { icon?: string, href: string, label: string, primary
         conditionalClass(props.primary, styles.primary)
       )}
     >
-      <Icon name={props.icon || ""} class={styles.icon} />
+      {props.icon && <Icon name={props.icon} class={styles.icon} />}
       {props.label}
     </Link>
   )

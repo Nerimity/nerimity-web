@@ -7,7 +7,7 @@ import useMessages from "./useMessages";
 import useServerMembers from "./useServerMembers";
 import useServerRoles from "./useServerRoles";
 import useServers from "./useServers";
-import useTabs from "./useTabs";
+import useHeader from "./useHeader";
 import useUsers from "./useUsers";
 
 export default function useStore() {
@@ -16,7 +16,7 @@ export default function useStore() {
   const servers = useServers();
   const users = useUsers();
   const channels = useChannels();
-  const tabs = useTabs();
+  const header = useHeader();
   const messages = useMessages();
   const friends = useFriends();
   const inbox = useInbox();
@@ -30,7 +30,7 @@ export default function useStore() {
     serverRoles,
     users,
     channels,
-    tabs,
+    header,
     messages,
     friends,
     inbox,

@@ -9,7 +9,6 @@ import { CHANNEL_PERMISSIONS, getAllPermissions, Permission } from '../Permissio
 import { RawChannel } from '../RawData';
 import useAccount from './useAccount';
 import useMessages from './useMessages';
-import useTabs from './useTabs';
 import useUsers, { User } from './useUsers';
 
 export type Channel = Omit<RawChannel, 'recipient'> & {
@@ -30,7 +29,6 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
 const [channels, setChannels] = createStore<Record<string, Channel | undefined>>({});
 
 const users = useUsers();
-const account = useAccount();
 
 const set = (channel: RawChannel) => {
 
@@ -77,17 +75,7 @@ const set = (channel: RawChannel) => {
 
 const deleteChannel = (channelId: string, serverId?: string) => runWithContext(() => {
   const messages = useMessages();
-  const tabs = useTabs();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const tab = tabs.array.find(tab => tab.channelId === channelId && tab.type == "message_pane");
 
-  
-  if (tab) {
-    const isSelected = tab.path === location.pathname;
-    tabs.closeTab(tab.path);
-    (serverId && isSelected) && navigate(RouterEndpoints.SERVER(serverId));
-  }
 
   batch(() => {
     messages.deleteChannelMessages(channelId);
