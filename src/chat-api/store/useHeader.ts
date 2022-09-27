@@ -1,4 +1,4 @@
-import { createStore } from 'solid-js/store';
+import { createSignal } from 'solid-js';
 
 
 export interface HeaderDetail {
@@ -10,12 +10,12 @@ export interface HeaderDetail {
   channelId?: string
 }
 
-const [details, setDetails] = createStore<HeaderDetail>({
+const [details, setDetails] = createSignal<HeaderDetail>({
   title: 'Nothing Selected',
 });
 
 
-const updateHeader = (header: Partial<HeaderDetail>) => {
+const updateHeader = (header: HeaderDetail) => {
   setDetails(header);
 }
 

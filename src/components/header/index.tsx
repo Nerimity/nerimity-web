@@ -11,10 +11,9 @@ import UserPresence from '@/components/user-presence';
 export default function Header() {
   const {servers, users, header} = useStore();
 
-  const headerDetails = () => header.details
 
-  const server = () => servers.get(headerDetails().serverId!);
-  const user = () => users.get(headerDetails().userId!);
+  const server = () => servers.get(header.details().serverId!);
+  const user = () => users.get(header.details().userId!);
 
   const details = () => {
     let subName = null;
@@ -26,19 +25,19 @@ export default function Header() {
       title = user().username;
     }
   
-    if (headerDetails().title) {
-      title = headerDetails().title;
+    if (header.details().title) {
+      title = header.details().title;
     }
   
-    if (headerDetails().subName) {
-      subName = headerDetails().subName;
+    if (header.details().subName) {
+      subName = header.details().subName;
     }
     return {subName, title};
   }
 
   return (
     <div class={styles.header}>
-      {headerDetails().iconName && <Icon name={headerDetails().iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
+      {header.details().iconName && <Icon name={header.details().iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
       {server() && <Avatar size={25} hexColor={server()!?.hexColor} />}
       {user() && <Avatar size={25} hexColor={user().hexColor} />}
       <div class={styles.details}>
