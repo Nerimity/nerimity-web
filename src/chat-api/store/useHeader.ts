@@ -11,7 +11,7 @@ export interface HeaderDetail {
 }
 
 const [details, setDetails] = createStore<HeaderDetail>({
-  title: 'Loading...',
+  title: 'Nothing Selected',
 });
 
 
