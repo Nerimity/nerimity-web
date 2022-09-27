@@ -1,10 +1,7 @@
-import { update } from 'idb-keyval';
-import { batch } from 'solid-js';
 import {createStore} from 'solid-js/store';
 import { RawServer } from '../RawData';
 import { deleteServer } from '../services/ServerService';
 import useChannels from './useChannels';
-import useTabs from './useTabs';
 
 export type Server = RawServer & {
   hasNotifications: boolean;
@@ -35,15 +32,7 @@ const set = (server: RawServer) =>
     }
   });
 
-const remove = (serverId: string) => {
-
-  const tabs = useTabs();
-
-  const serverRelatedTabs = tabs.array.filter(tab => tab.serverId === serverId).map(t => t.path);
-  
-
-  tabs.closeTabs(serverRelatedTabs)
-
+const remove = (serverId: string) => {  
   setServers(serverId, undefined);
 }
 
