@@ -151,7 +151,7 @@ export const onServerChannelDeleted = (payload: ServerChannelDeleted) => {
 
 export const onServerRoleCreated = (createdRole: RawServerRole) => {
   const serverRoles = useServerRoles();
-  serverRoles.set(createdRole.serverId, createdRole);
+  serverRoles.addNewRole(createdRole.serverId, createdRole);
 }
 
 
@@ -169,7 +169,7 @@ export const onServerRoleUpdated = (payload: ServerRoleUpdated) => {
 export const onServerRoleDeleted = (payload: {serverId: string, roleId: string}) => {
   const serverRoles = useServerRoles();
   const serverMembers = useServerMembers();
-  const members = serverMembers.array(payload.serverId)
+  const members = serverMembers.array(payload.serverId);
   batch((() => {
     for (let i = 0; i < members.length; i++) {
       const member = members[i];
