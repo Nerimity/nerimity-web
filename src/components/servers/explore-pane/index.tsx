@@ -8,8 +8,9 @@ import Icon from '@/components/ui/icon';
 
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useNavigate, useParams } from '@solidjs/router';
-import { createEffect, createSignal, onMount, Show } from 'solid-js';
+import { createEffect, createSignal, Match, onMount, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
+import { getStorageString, StorageKeys } from '@/common/localStorage';
 
 export default function ExploreServerPane() {
   const params = useParams();
@@ -84,6 +85,7 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
     })
   }
 
+  const isLoggedIn = getStorageString(StorageKeys.USER_TOKEN, null);
   return (
     <div>
       <div class={styles.topArea}>
@@ -94,12 +96,21 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
             <div class={styles.name}>{server.name}</div>
             <div class={styles.memberCount}>{server.memberCount} members</div>
           </div>
-          {!cacheServer() && <Button class={styles.joinButton} iconName='login' label='Join Server' onClick={joinServerClick} color="var(--success-color)" />}
-          {cacheServer() && (
-            <Link href={RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId)} class={styles.joinButton}>
-              <Button iconName='login' label='Visit Server' />
-            </Link>
-          )}
+          <Switch>
+            <Match when={!isLoggedIn}>
+              <Link href={RouterEndpoints.LOGIN(location.pathname)} class={styles.joinButton}>
+                <Button iconName='login' label='Login To Join' />
+              </Link>
+            </Match>
+            <Match when={cacheServer()}>
+              <Link href={RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId)} class={styles.joinButton}>
+                <Button iconName='login' label='Visit Server' />
+              </Link>
+            </Match>
+            <Match when={!cacheServer()}>
+              <Button class={styles.joinButton} iconName='login' label='Join Server' onClick={joinServerClick} color="var(--success-color)" />
+            </Match>
+          </Switch>
         </div>
       </div>
     </div>

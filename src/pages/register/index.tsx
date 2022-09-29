@@ -3,13 +3,14 @@ import Input from '@/components/ui/input';
 import { registerRequest } from '../../chat-api/services/UserService';
 import Button from '@/components/ui/button';
 import { getStorageString, setStorageString, StorageKeys } from '../../common/localStorage';
-import { Link, useNavigate } from '@solidjs/router';
+import { Link, useLocation, useNavigate } from '@solidjs/router';
 import { createSignal, onMount } from 'solid-js';
 import env from '../../common/env';
 import PageHeader from '../../components/page-header';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal({message: '', path: ''});
   const [email, setEmail] = createSignal('');
@@ -24,6 +25,7 @@ export default function RegisterPage() {
   })
 
   const registerClicked = async () => {
+    const redirectTo = location.query.redirect || "/app"
     if (requestSent()) return;
     setRequestSent(true);
     setError({message: '', path: ''});
@@ -39,7 +41,7 @@ export default function RegisterPage() {
     setRequestSent(false);
     if (!response) return;
     setStorageString(StorageKeys.USER_TOKEN, response.token);
-    navigate('/app')
+    navigate(redirectTo)
   }
 
   return <div class={styles.registerPage}>
