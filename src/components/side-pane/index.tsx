@@ -19,7 +19,7 @@ import { useCustomPortal } from '../ui/custom-portal';
 export default function SidePane () {
   const createPortal = useCustomPortal();
   const showAddServerModal = () => {
-    createPortal?.(close => <Modal title="Add Server" component={() => <AddServer close={close} />} />)
+    createPortal?.(close => <Modal {...close} title="Add Server" component={() => <AddServer close={close} />} />)
   }
 
   const [showAddServerModel, setShowAddServerModel] = createSignal(false);

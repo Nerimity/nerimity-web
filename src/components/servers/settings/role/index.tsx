@@ -81,7 +81,7 @@ export default function ServerSettingsRole() {
   }
 
   const showDeleteConfirm = () => {
-    createPortal?.(close => <Modal title={`Delete ${role()?.name}`} component={() => <RoleDeleteConfirmModal close={close} role={role()!} />} />)
+    createPortal?.(close => <Modal {...close} title={`Delete ${role()?.name}`} component={() => <RoleDeleteConfirmModal close={close} role={role()!} />} />)
   }
 
   return (

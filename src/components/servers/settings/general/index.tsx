@@ -77,7 +77,7 @@ export default function ServerGeneralSettings() {
 
 
   const showDeleteConfirm = () => {
-    createPortal?.(close => <Modal title={`Delete ${server()?.name}`} component={() => <ServerDeleteConfirmModal close={close} server={server()!} />} />)
+    createPortal?.(close => <Modal {...close} title={`Delete ${server()?.name}`} component={() => <ServerDeleteConfirmModal close={close} server={server()!} />} />)
   }
 
   return (

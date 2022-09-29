@@ -25,7 +25,7 @@ export default function ContextMenuServerMember(props: Props) {
 
 
   const onEditRoleClick = () => {
-    createPortal?.(close => <Modal title="Edit Roles" component={() => <RoleModal {...props} />} />)
+    createPortal?.(close => <Modal {...close}  title="Edit Roles" component={() => <RoleModal {...props} />} />)
   }
 
 
@@ -48,11 +48,11 @@ function RoleModal (props: Props) {
   const {serverRoles, servers} = useStore();
   const server = () => servers.get(props.serverId);
   const roles = () => serverRoles.getAllByServerId(props.serverId);
-  const rolesWithoutDefault = () => roles().filter(role => role.id !== server()?.defaultRoleId!);
+  const rolesWithoutDefault = () => roles().filter(role => role!.id !== server()?.defaultRoleId!);
 
   return (
     <For each={rolesWithoutDefault()}>
-      {role => <RoleItem role={role} userId={props.userId} />}
+      {role => <RoleItem role={role!} userId={props.userId} />}
     </For>
   )
 }
