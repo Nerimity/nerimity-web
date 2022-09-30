@@ -28,8 +28,6 @@ async function loadAllCache () {
   const user = await getCache(LocalCacheKey.Account)
   account.setUser(user);
 } 
-const DRAWER_WIDTH = 240;
-
 
 export default function AppPage(props: {routeName?: string}) {
   
@@ -41,33 +39,41 @@ export default function AppPage(props: {routeName?: string}) {
     }, 300);
   })
 
+  const leftPane = () => {
+    switch (props.routeName) {
+      case "server":
+        return () => <CustomSuspense><ServerDrawer /></CustomSuspense>;    
+      case "server_messages":
+        return () => <CustomSuspense><ServerDrawer /></CustomSuspense>;    
+      case "inbox_messages":
+        return () => <CustomSuspense><InboxDrawer /></CustomSuspense>;    
+      case "server_settings":
+        return () => <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>;    
+      case "inbox":
+        return () => <CustomSuspense><InboxDrawer /></CustomSuspense>;    
+      default:
+        return undefined;
+    }
+  }
+
+  const rightPane = () => {
+    switch (props.routeName) {
+      case "server_messages":
+        return () => <CustomSuspense><ServerMembersDrawer /></CustomSuspense>;    
+      case "server_settings":
+        return () => <CustomSuspense><ServerMembersDrawer /></CustomSuspense>;      
+      default:
+        return undefined;
+    }
+  }
+
   return (
     <DrawerLayout
       Content={() => <MainPane routeName={props.routeName}/>}
-      RightDrawer={() =>(
-        <>
-        {props.routeName === "server_messages" && <RightPane width={DRAWER_WIDTH}/>}
-        {props.routeName === "server_settings" && <RightPane width={DRAWER_WIDTH}/>}
-        </>
-      ) }
-      LeftDrawer={() => (
-        <>
-        <SidePane />
-        <LeftPane width={DRAWER_WIDTH} routeName={props.routeName} />
-        </>
-      )}
+      RightDrawer={rightPane}
+      LeftDrawer={leftPane}
     />
   )
-
-  // return (
-  //   <div class={styles.appPage}>
-  //     <SidePane />
-  //     <LeftPane width={DRAWER_WIDTH} routeName={props.routeName} />
-  //     <MainPane routeName={props.routeName}/>
-  //     {props.routeName === "server_messages" && <RightPane width={DRAWER_WIDTH}/>}
-  //     {props.routeName === "server_settings" && <RightPane width={DRAWER_WIDTH}/>}
-  //   </div>
-  // )
 }
 
 function MainPane (props: {routeName?: string}) {
@@ -89,32 +95,5 @@ function MainPane (props: {routeName?: string}) {
     {props.routeName === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
     {props.routeName === 'explore_server' && <CustomSuspense><ExploreServerPane /></CustomSuspense>}
     {props.routeName === 'user_profile' && <CustomSuspense><ProfilePane /></CustomSuspense>}
-  </div>
-}
-
-function LeftPane (props: {width: number, routeName?: string}) {
-
-  const leftPanes = {
-    server: <CustomSuspense><ServerDrawer /></CustomSuspense>,
-    server_messages: <CustomSuspense><ServerDrawer /></CustomSuspense>,
-    inbox_messages: <CustomSuspense><InboxDrawer /></CustomSuspense>,
-    server_settings: <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>,
-    inbox: <CustomSuspense><InboxDrawer /></CustomSuspense>,
-  }
-
-  const CurrentPane = () => props.routeName && (leftPanes as any)[props.routeName];
-
-  return (
-    <Show when={CurrentPane()}>
-      <div style={{width: `100%`}} class={styles.leftPane}>
-        <CurrentPane />
-      </div>
-    </Show>
-  )
-}
-
-function RightPane (props: {width: number}) {
-  return <div style={{width: "100%"}} class={styles.rightPane}>
-    <CustomSuspense><ServerMembersDrawer /></CustomSuspense>
   </div>
 }

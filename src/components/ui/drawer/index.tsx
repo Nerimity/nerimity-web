@@ -1,7 +1,8 @@
 import styles from './styles.module.scss'
 import { useWindowProperties } from '@/common/useWindowProperties';
-import {createEffect, createSignal, JSX, on, onCleanup, onMount} from 'solid-js';
+import {createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount} from 'solid-js';
 import env from '@/common/env';
+import SidePane from '@/components/side-pane';
 
 interface DrawerLayoutProps {
   LeftDrawer: () => JSX.Element;
@@ -26,6 +27,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const {width} = useWindowProperties();
 
   const isMobile = () => width() <= env.MOBILE_WIDTH;
+
+  const hasRightDrawer = createMemo(() => props.RightDrawer());
+  
 
   
   
@@ -135,10 +139,19 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (currentPage() === 2 && -touchDistance <= drawerWidth()) {
       return setTransformX(-drawerWidth());
     }
+
     if (touchDistance >=0) {
       setStartPos({...startPos(), x});
       return setTransformX(0);
     }
+
+
+    
+    if (!hasRightDrawer() && -touchDistance >= drawerWidth() ) {
+      return setTransformX(-drawerWidth());
+    }
+
+
     if (touchDistance <= -totalWidth() + width() ) {
       setStartPos({...startPos(), x: x - transformX()});
       return setTransformX(-totalWidth() + width());
@@ -162,6 +175,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (isOnLeftDrawer) setCurrentPage(0);
     if (isOnContent) setCurrentPage(1);
     if (isOnRightDrawer) setCurrentPage(2);
+
+    if (isOnRightDrawer && !hasRightDrawer()) {
+      setCurrentPage(1);
+    }
 
 
     const distance = startTransformX() - transformX();
@@ -196,9 +213,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   return (
     <div class={styles.drawerLayout}>
       <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px"}}>
-        <div style={{width: drawerWidth() + "px", display: 'flex', "flex-shrink": 0}}><props.LeftDrawer/></div>
+        <div style={{width: drawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
+          <SidePane/>
+          <div class={styles.leftDrawer}><props.LeftDrawer/></div>
+        </div>
         <div class={styles.content} style={{width: isMobile() ? width() + "px" : '100%'}}><props.Content/></div>
-        <div style={{width: isMobile() ? drawerWidth() + "px" : '250px', display: 'flex', "flex-shrink": 0}}><props.RightDrawer/></div>
+        <div style={{width: isMobile() ? drawerWidth() + "px" : '250px', display: 'flex', "flex-shrink": 0}}>
+          <div class={styles.rightPane}><props.RightDrawer/></div>
+        </div>
       </div>
     </div>
   )
