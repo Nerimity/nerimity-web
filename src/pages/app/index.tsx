@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import CustomSuspense from '@/components/custom-suspense';
-import { createEffect, lazy, on, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, lazy, on, onMount, Show } from 'solid-js';
 import Header from '../../components/header';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer'));
@@ -39,7 +39,7 @@ export default function AppPage(props: {routeName?: string}) {
     }, 300);
   })
 
-  const leftPane = () => {
+  const leftPane = createMemo(() => {
     switch (props.routeName) {
       case "server":
         return () => <CustomSuspense><ServerDrawer /></CustomSuspense>;    
@@ -54,9 +54,9 @@ export default function AppPage(props: {routeName?: string}) {
       default:
         return undefined;
     }
-  }
+  });
 
-  const rightPane = () => {
+  const rightPane = createMemo(() => {
     switch (props.routeName) {
       case "server_messages":
         return () => <CustomSuspense><ServerMembersDrawer /></CustomSuspense>;    
@@ -65,7 +65,7 @@ export default function AppPage(props: {routeName?: string}) {
       default:
         return undefined;
     }
-  }
+  });
 
   return (
     <DrawerLayout

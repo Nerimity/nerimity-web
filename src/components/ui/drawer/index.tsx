@@ -27,8 +27,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const {width} = useWindowProperties();
 
   const isMobile = () => width() <= env.MOBILE_WIDTH;
-
-  const hasRightDrawer = createMemo(() => props.RightDrawer());
+  
+  const hasLeftDrawer = () => props.LeftDrawer();
+  const hasRightDrawer = () => props.RightDrawer();
   
 
   
@@ -65,13 +66,20 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
 
   
-  const drawerWidth = () => {
+  const leftDrawerWidth = () => {
+    const dWidth = width() - 60;
+    const MAX_WIDTH =  hasLeftDrawer() ? 300 : 70;
+    if (dWidth > MAX_WIDTH) return MAX_WIDTH;
+    return dWidth;
+  };
+
+  const rightDrawerWidth = () => {
     const dWidth = width() - 60;
     const MAX_WIDTH = 300;
     if (dWidth > MAX_WIDTH) return MAX_WIDTH;
     return dWidth;
   };
-  const totalWidth = () => (drawerWidth() * 2) + width() 
+  const totalWidth = () => (rightDrawerWidth() + leftDrawerWidth()) + width() 
 
   let velocityTimeout: any;
   const updatePage = () => {
@@ -83,7 +91,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       containerEl!.style.transition = "";
     }, 200)  
     if (currentPage() === 0) setTransformX(0);
-    if (currentPage() === 1) setTransformX(-drawerWidth());
+    if (currentPage() === 1) setTransformX(-leftDrawerWidth());
     if (currentPage() === 2) setTransformX(-totalWidth() - -width());
   }
 
@@ -131,13 +139,13 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
     ignoreDistance = true;
 
-    if (currentPage() === 0 && -touchDistance >= drawerWidth() ) {
-      return setTransformX(-drawerWidth());
+    if (currentPage() === 0 && -touchDistance >= rightDrawerWidth() ) {
+      return setTransformX(-rightDrawerWidth());
     }
 
 
-    if (currentPage() === 2 && -touchDistance <= drawerWidth()) {
-      return setTransformX(-drawerWidth());
+    if (currentPage() === 2 && -touchDistance <= rightDrawerWidth()) {
+      return setTransformX(-rightDrawerWidth());
     }
 
     if (touchDistance >=0) {
@@ -146,9 +154,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     }
 
 
+
     
-    if (!hasRightDrawer() && -touchDistance >= drawerWidth() ) {
-      return setTransformX(-drawerWidth());
+    if (!hasRightDrawer() && -touchDistance >= leftDrawerWidth() ) {
+      return setTransformX(-leftDrawerWidth());
     }
 
 
@@ -165,8 +174,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const onTouchEnd = (event: TouchEvent) => {
     ignoreDistance = false;
     pauseTouches = false;
-    const isOnLeftDrawer = transformX() - -drawerWidth() >= drawerWidth() /2;
-    const isOnRightDrawer = transformX() - -(totalWidth() - width())<= drawerWidth() /2;
+    const isOnLeftDrawer = transformX() - -leftDrawerWidth() >= leftDrawerWidth() /2;
+    const isOnRightDrawer = transformX() - -(totalWidth() - width())<= rightDrawerWidth() /2;
     const isOnContent = !isOnLeftDrawer && !isOnRightDrawer;
 
     const beforePage = currentPage();
@@ -213,12 +222,12 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   return (
     <div class={styles.drawerLayout}>
       <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px"}}>
-        <div style={{width: drawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
+        <div style={{width: leftDrawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
           <SidePane/>
-          <div class={styles.leftDrawer}><props.LeftDrawer/></div>
+          {hasLeftDrawer() && <div class={styles.leftDrawer}><props.LeftDrawer/></div>}
         </div>
         <div class={styles.content} style={{width: isMobile() ? width() + "px" : '100%'}}><props.Content/></div>
-        <div style={{width: isMobile() ? drawerWidth() + "px" : '250px', display: 'flex', "flex-shrink": 0}}>
+        <div style={{width: isMobile() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '250px' : '0', display: 'flex', "flex-shrink": 0}}>
           <div class={styles.rightPane}><props.RightDrawer/></div>
         </div>
       </div>
