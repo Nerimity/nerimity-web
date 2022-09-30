@@ -8,7 +8,7 @@ import ContextMenuServer from '@/components/servers/context-menu';
 import { createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams } from '@solidjs/router';
-import { FriendStatus, RawServer } from '../../chat-api/RawData';
+import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddServer from './add-server';
 import { userStatusDetail } from '../../common/userStatus';
@@ -22,7 +22,6 @@ export default function SidePane () {
     createPortal?.(close => <Modal {...close} title="Add Server" component={() => <AddServer close={close} />} />)
   }
 
-  const [showAddServerModel, setShowAddServerModel] = createSignal(false);
   return <div class={styles.sidePane}>
     <InboxItem />
     <div class={styles.scrollable}>
@@ -34,9 +33,6 @@ export default function SidePane () {
     <UserItem />
   </div>
 }
-
-
-
 
 
 function InboxItem() {
