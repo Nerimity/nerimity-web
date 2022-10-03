@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import { useWindowProperties } from '@/common/useWindowProperties';
-import {createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount} from 'solid-js';
+import {Accessor, createContext, createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount, Show, useContext} from 'solid-js';
 import env from '@/common/env';
 import SidePane from '@/components/side-pane';
 
@@ -11,7 +11,15 @@ interface DrawerLayoutProps {
 }
 
 
+interface DrawerContext {
+  currentPage: Accessor<number>
+  hasLeftDrawer: () => boolean
+  hasRightDrawer: () => boolean
+  toggleLeftDrawer: () => void;
+  toggleRightDrawer: () => void;
+}
 
+const DrawerContext = createContext<DrawerContext>();
 
 
 export default function DrawerLayout(props: DrawerLayoutProps) {
@@ -24,22 +32,22 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let startTime = 0;
   let pauseTouches = false;
 
-  const {width} = useWindowProperties();
-
-  const isMobile = () => width() <= env.MOBILE_WIDTH;
-  
-  const hasLeftDrawer = () => props.LeftDrawer();
-  const hasRightDrawer = () => props.RightDrawer();
-  
+  const {width, isMobileWidth} = useWindowProperties();
 
   
+  const hasLeftDrawer = () => !!props.LeftDrawer();
+  const hasRightDrawer = () => !!props.RightDrawer();
   
-  createEffect(on(isMobile, () => {
-    if (isMobile()) {
+
+  
+  
+  createEffect(on(isMobileWidth, () => {
+    if (isMobileWidth()) {
       addEvents();
       updatePage();
     }
-    if (!isMobile()) {
+    if (!isMobileWidth()) {
+      setCurrentPage(1);
       removeEvents();
       setTransformX(0);
     }
@@ -83,7 +91,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   let velocityTimeout: any;
   const updatePage = () => {
-    if (!isMobile()) return;
+    if (!isMobileWidth()) return;
     velocityTimeout && clearTimeout(velocityTimeout);
 
     containerEl!.style.transition = `translate 0.2s`
@@ -218,19 +226,66 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   }
 
 
+  const toggleLeftDrawer = () => {
+    if (currentPage() === 0) {
+      setCurrentPage(1);
+    } else {
+      setCurrentPage(0);
+    }
+    updatePage()
+  }
+
+  const toggleRightDrawer = () => {
+    if (currentPage() === 2) {
+      setCurrentPage(1);
+    } else {
+      setCurrentPage(2);
+    }
+    updatePage()
+  }
+
+
+  const drawer = {
+    currentPage,
+    hasLeftDrawer,
+    hasRightDrawer,
+    toggleLeftDrawer,
+    toggleRightDrawer,
+  }
+
+  const onOpacityClicked = () => {
+    setCurrentPage(1);
+    updatePage();
+  }
+
 
   return (
-    <div class={styles.drawerLayout}>
-      <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px"}}>
-        <div style={{width: leftDrawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
-          <SidePane/>
-          {hasLeftDrawer() && <div class={styles.leftDrawer}><props.LeftDrawer/></div>}
-        </div>
-        <div class={styles.content} style={{width: isMobile() ? width() + "px" : '100%'}}><props.Content/></div>
-        <div style={{width: isMobile() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '250px' : '0', display: 'flex', "flex-shrink": 0}}>
-          <div class={styles.rightPane}><props.RightDrawer/></div>
+    <DrawerContext.Provider value={drawer}>
+      <div class={styles.drawerLayout}>
+        <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px"}}>
+          <div style={{width: leftDrawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
+            <SidePane/>
+            {hasLeftDrawer() && <div class={styles.leftDrawer}><props.LeftDrawer/></div>}
+          </div>
+          <div class={styles.content} style={{width: isMobileWidth() ? width() + "px" : '100%'}}>
+            <div style={{
+              "pointer-events": currentPage() !== 1 ? 'initial' :'none',
+              "opacity": currentPage() !== 1 ? 1 :0,
+            }} class={styles.opacityContent} onclick={onOpacityClicked}/>
+            <props.Content/>
+          </div>
+          <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '250px' : '0', display: 'flex', "flex-shrink": 0}}>
+            <div class={styles.rightPane}><props.RightDrawer/></div>
+          </div>
         </div>
       </div>
-    </div>
+    </DrawerContext.Provider>
   )
+}
+
+
+
+
+export function useDrawer() { 
+  return useContext(DrawerContext)!;
 }

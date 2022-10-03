@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import env from "./env";
 
 
 
@@ -30,6 +31,7 @@ export function useWindowProperties() {
   return {
     setPaneWidth,
     width: () => windowProperties.width,
+    isMobileWidth: ()  => windowProperties.width <= env.MOBILE_WIDTH,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
     isMobileAgent: () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
