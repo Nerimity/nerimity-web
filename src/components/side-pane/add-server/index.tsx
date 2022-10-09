@@ -4,15 +4,13 @@ import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import { createServer } from '@/chat-api/services/ServerService';
 import { createSignal } from 'solid-js';
-import { RawServer } from '@/chat-api/RawData';
-import { useNavigate } from '@solidjs/router';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { navigate } from 'solid-named-router';
 
 export default function AddServer(props: {close: () => void}) {
   const [name, setName] = createSignal('');
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal({message: '', path: ''});
-  const navigate = useNavigate();
 
   const onCreateClick = async () => {
     if (requestSent()) return;

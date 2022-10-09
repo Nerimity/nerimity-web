@@ -1,16 +1,14 @@
-import { useNavigate } from "@solidjs/router";
 import { copyToClipboard } from "@/common/clipboard";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu";
-import { createSignal, onCleanup } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
+import { navigate } from "solid-named-router";
 
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
 }
 
 export default function ContextMenuServer (props: Props) {
-  const navigate = useNavigate();
 
   const {account, servers} = useStore();
 

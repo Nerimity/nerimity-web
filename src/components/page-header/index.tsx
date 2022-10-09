@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@solidjs/router'
+import { Link } from 'solid-named-router'
 import { classNames, conditionalClass } from '@/common/classNames'
 import env from '@/common/env'
 import styles from './styles.module.scss'
@@ -54,11 +54,9 @@ function LoggedOutLinks() {
 
 
 function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean }) {
-  const location = useLocation();
-  const isSelected = () => props.href === location.pathname;
   return (
     <Link
-      href={props.href}
+      to={props.href}
       class={classNames(
         styles.link, 
         // conditionalClass(isSelected(), styles.selected),

@@ -7,7 +7,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu';
 import { createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-import { Link, useLocation, useParams } from '@solidjs/router';
+import { Link, useNamedRoute, useParams } from 'solid-named-router';
 import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddServer from './add-server';
@@ -37,8 +37,8 @@ export default function SidePane () {
 
 function InboxItem() {
   const {inbox, friends} = useStore();
-  const location = useLocation();
-  const isSelected = location.pathname.startsWith(RouterEndpoints.INBOX());
+  const namedRoute = useNamedRoute();
+  const isSelected = namedRoute.pathname.startsWith(RouterEndpoints.INBOX());
   const notificationCount = () => inbox.notificationCount(); 
   const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
 
@@ -46,7 +46,7 @@ function InboxItem() {
 
   return (
   <Link 
-      href={RouterEndpoints.INBOX()} class={
+      to={RouterEndpoints.INBOX()} class={
       classNames(styles.item, styles.settingsIcon, conditionalClass(isSelected, styles.selected), conditionalClass(count(), styles.hasNotifications))}
     >
     <Show when={count()}><div class={styles.notificationCount}>{count()}</div></Show>
@@ -82,9 +82,11 @@ const UserItem = () => {
 
 
 
+  const href = () => userId() ? RouterEndpoints.PROFILE(userId()!) : "#";
+
 
   return (
-    <Link href={userId() ? RouterEndpoints.PROFILE(userId()!) : "#"}>
+    <Link to={href()}>
       <div class={`${styles.item} ${styles.user} ${conditionalClass(isSelected(), styles.selected)}`} >
         {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
         {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
@@ -104,8 +106,8 @@ function ServerItem(props: {server: Server, selected?: boolean, onContextMenu?: 
 
   return (
     <Link
-      href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
-      onContextMenu={props.onContextMenu}
+      to={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
+      // onContextMenu={props.onContextMenu}
       class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}
       >
         <Avatar size={35} hexColor={props.server.hexColor} />

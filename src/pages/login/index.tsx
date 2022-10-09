@@ -3,13 +3,12 @@ import Input from '@/components/ui/input';
 import { loginRequest } from '../../chat-api/services/UserService';
 import Button from '@/components/ui/button';
 import { getStorageString, setStorageString, StorageKeys } from '../../common/localStorage';
-import { Link, useLocation, useNavigate, useParams } from '@solidjs/router';
+import { Link, navigate, useQuery } from 'solid-named-router';
 import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../../components/page-header';
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const query = useQuery();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal({message: '', path: ''});
   const [email, setEmail] = createSignal('');
@@ -22,7 +21,7 @@ export default function LoginPage() {
   })
 
   const loginClicked = async () => {
-    const redirectTo = location.query.redirect || "/app"
+    const redirectTo = query.redirect || "/app"
     if (requestSent()) return;
     setRequestSent(true);
     setError({message: '', path: ''});
@@ -42,7 +41,7 @@ export default function LoginPage() {
       <Input label='Email' type='email' error={error()} onText={setEmail} />
       <Input label='Password' type='password' error={error()} onText={setPassword} />
       <Button iconName='login' label={requestSent() ? 'Logging in...' : 'Login'} onClick={loginClicked} />
-      <Link class={styles.link} href="/register">Create an account instead</Link>
+      <Link class={styles.link} to="/register">Create an account instead</Link>
     </div>
   </div>
 }

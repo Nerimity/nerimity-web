@@ -1,6 +1,5 @@
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { runWithContext } from '@/common/runWithContext';
-import { useLocation, useNavigate } from '@solidjs/router';
 import { batch } from 'solid-js';
 import {createStore} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';

@@ -15,7 +15,6 @@ const ProfilePane = lazy(() => import('@/components/profile-pane'));
 
 import { getStorageString, StorageKeys } from '../../common/localStorage';
 import socketClient from '../../chat-api/socketClient';
-import SidePane from '@/components/side-pane';
 import ServerMembersDrawer from '@/components/servers/drawer/members';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { getCache, LocalCacheKey } from '@/common/localCache';
@@ -70,8 +69,8 @@ export default function AppPage(props: {routeName?: string}) {
   return (
     <DrawerLayout
       Content={() => <MainPane routeName={props.routeName}/>}
-      RightDrawer={rightPane}
       LeftDrawer={leftPane}
+      RightDrawer={rightPane}
     />
   )
 }
