@@ -1,12 +1,11 @@
 import { runWithContext } from "@/common/runWithContext";
-import { useNavigate, useParams } from "@solidjs/router";
 import { batch } from "solid-js";
 import { RawChannel, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
 import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
-import useUsers, { Presence } from "../store/useUsers";
+import useUsers from "../store/useUsers";
 
 interface ServerJoinedPayload {
   server: RawServer,

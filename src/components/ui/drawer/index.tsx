@@ -5,9 +5,9 @@ import env from '@/common/env';
 import SidePane from '@/components/side-pane';
 
 interface DrawerLayoutProps {
-  LeftDrawer: () => JSX.Element;
+  LeftDrawer: JSX.Element;
   Content: () => JSX.Element;
-  RightDrawer: () => JSX.Element;
+  RightDrawer: JSX.Element;
 }
 
 
@@ -35,8 +35,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const {width, isMobileWidth} = useWindowProperties();
 
   
-  const hasLeftDrawer = () => !!props.LeftDrawer();
-  const hasRightDrawer = () => !!props.RightDrawer();
+  const hasLeftDrawer = () => !!props.LeftDrawer;
+  const hasRightDrawer = () => !!props.RightDrawer;
   
 
   
@@ -265,7 +265,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
         <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px"}}>
           <div style={{width: leftDrawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
             <SidePane/>
-            {hasLeftDrawer() && <div class={styles.leftDrawer}><props.LeftDrawer/></div>}
+            {hasLeftDrawer() && <div class={styles.leftDrawer}>{props.LeftDrawer}</div>}
           </div>
           <div class={styles.content} style={{width: isMobileWidth() ? width() + "px" : '100%'}}>
             <div style={{
@@ -275,7 +275,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             <props.Content/>
           </div>
           <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '250px' : '0', display: 'flex', "flex-shrink": 0}}>
-            <div class={styles.rightPane}><props.RightDrawer/></div>
+            <div class={styles.rightPane}>{props.RightDrawer}</div>
           </div>
         </div>
       </div>

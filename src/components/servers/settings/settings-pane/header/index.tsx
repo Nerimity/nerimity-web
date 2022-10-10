@@ -1,6 +1,6 @@
 
 import styles from './styles.module.scss';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useParams } from 'solid-named-router';
 import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/avatar';
@@ -20,11 +20,11 @@ const ServerSettingsHeader = () => {
   return (
     <Show when={server()}>
       <div class={styles.header} style={{background: server()?.hexColor}}>
-        <Avatar hexColor={server().hexColor} size={80} class={styles.avatar} />
+        <Avatar hexColor={server()!.hexColor} size={80} class={styles.avatar} />
         <div class={styles.details}>
-          <div class={styles.title}>{server().name}</div>
+          <div class={styles.title}>{server()!.name}</div>
           <div class={styles.members}>{serverMembersCount()} members</div>
-          <Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server().id)} class={styles.link} >Edit Server</Link>
+          <Link to={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)} class={styles.link} >Edit Server</Link>
         </div>
       </div>
     </Show>

@@ -1,6 +1,4 @@
 import styles from './styles.module.scss'
-import useStore from "@/chat-api/store/useStore";
-import { useNavigate, useParams } from "@solidjs/router";
 import { createEffect, createSignal, on } from "solid-js";
 import Button from '../button';
 import Input from '../input';

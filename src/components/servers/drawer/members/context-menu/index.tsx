@@ -1,9 +1,8 @@
 import styles from './styles.module.scss';
-import { useNavigate } from "@solidjs/router";
+import { navigate } from "solid-named-router";
 import { copyToClipboard } from "@/common/clipboard";
-import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu";
-import { createEffect, createSignal, For, onCleanup, onMount } from "solid-js";
+import { createSignal, For} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import Modal from '@/components/ui/modal'
 import { ServerRole } from "@/chat-api/store/useServerRoles";
@@ -16,7 +15,6 @@ type Props = Omit<ContextMenuProps, 'items'> & {
 }
 
 export default function ContextMenuServerMember(props: Props) {
-  const navigate = useNavigate();
   const { servers } = useStore();
   const createPortal = useCustomPortal()
 

@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Avatar from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
-import { Link, useNavigate, useParams } from "@solidjs/router";
+import { Link, useParams } from "solid-named-router";
 import { FriendStatus } from "@/chat-api/RawData";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
@@ -12,7 +12,6 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { Show } from "solid-js";
 
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
-  const navigate = useNavigate();
   const params = useParams();
   const {inbox, mentions} = useStore();
 
@@ -46,7 +45,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   const onFriendClick = async (e: any) => {
     if (e.target.closest(".link")) return;
     if (e.target.closest("." + styles.button)) return;
-    user().openDM(navigate);
+    user().openDM();
   }
 
   const mentionCount = () => mentions.getDmCount(user()!.id);
@@ -63,7 +62,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
         conditionalClass(showAccept(), styles.hasNotifications)
       )} onClick={onFriendClick}>
 
-        <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
+        <Link to={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar hexColor={user().hexColor} size={25} />
         </Link>
         <div class={styles.details}>

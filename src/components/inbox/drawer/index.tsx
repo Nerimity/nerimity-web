@@ -9,7 +9,7 @@ import useStore from '@/chat-api/store/useStore';
 import { FriendStatus } from '@/chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddFriend from './add-friend';
-import { useNavigate, useParams } from '@solidjs/router';
+import { useParams } from 'solid-named-router';
 import { useCustomPortal } from '@/components/ui/custom-portal';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
@@ -52,7 +52,6 @@ function HeaderItem (props: {name: string, iconName: string, selected: boolean, 
 
 const InboxDrawer = () => {
   const [selectedIndex, setSelectedIndex] = createSignal(getStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, 0));
-  const navigate = useNavigate();
   const params = useParams();
 
   const createPortal = useCustomPortal();
@@ -67,7 +66,7 @@ const InboxDrawer = () => {
   const loggedInUser = () => users.get(account.user()?.id!);
 
   const onSavedNotesClick = () => {
-    loggedInUser().openDM(navigate);
+    loggedInUser().openDM();
   }
 
   const isSavedNotesSelected = () => {

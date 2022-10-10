@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useNavigate, useParams } from '@solidjs/router';
+import { navigate, useParams } from 'solid-named-router';
 import { createEffect,  createSignal,  For,  on, Show,} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
@@ -114,7 +114,6 @@ export default function ServerSettingsChannel() {
 
 function ChannelDeleteConfirmModal(props: {channel: Channel, close: () => void}) {
   const params = useParams();
-  const navigate = useNavigate();
   const [error, setError] = createSignal<string | null>(null);
 
   createEffect(() => {

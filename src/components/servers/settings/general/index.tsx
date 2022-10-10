@@ -2,7 +2,7 @@ import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
 import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { useNavigate, useParams } from '@solidjs/router';
+import { useParams } from 'solid-named-router';
 import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';

@@ -21,6 +21,7 @@ import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout from '@/components/ui/drawer';
+import { useNamedRoute } from 'solid-named-router';
 
 async function loadAllCache () {
   const {account} = useStore();
@@ -29,6 +30,8 @@ async function loadAllCache () {
 } 
 
 export default function AppPage(props: {routeName?: string}) {
+  const namedRoute = useNamedRoute();
+
   
   onMount(() => {
     loadAllCache();
@@ -37,27 +40,25 @@ export default function AppPage(props: {routeName?: string}) {
       socketClient.login(getStorageString(StorageKeys.USER_TOKEN, undefined));
     }, 300);
   })
-
+  
   const leftPane = createMemo(() => {
-    switch (props.routeName) {
+    switch (namedRoute.name) {
       case "server":
-        return () => <CustomSuspense><ServerDrawer /></CustomSuspense>;    
-      case "server_messages":
-        return () => <CustomSuspense><ServerDrawer /></CustomSuspense>;    
-      case "inbox_messages":
+        return () => <CustomSuspense><ServerDrawer /></CustomSuspense>;      
+      case "inbox":
         return () => <CustomSuspense><InboxDrawer /></CustomSuspense>;    
       case "server_settings":
         return () => <CustomSuspense><ServerSettingsDrawer /></CustomSuspense>;    
-      case "inbox":
-        return () => <CustomSuspense><InboxDrawer /></CustomSuspense>;    
       default:
         return undefined;
     }
   });
 
   const rightPane = createMemo(() => {
-    switch (props.routeName) {
-      case "server_messages":
+    const namedRoute = useNamedRoute();
+
+    switch (namedRoute.name) {
+      case "server":
         return () => <CustomSuspense><ServerMembersDrawer /></CustomSuspense>;    
       case "server_settings":
         return () => <CustomSuspense><ServerMembersDrawer /></CustomSuspense>;      
@@ -69,8 +70,8 @@ export default function AppPage(props: {routeName?: string}) {
   return (
     <DrawerLayout
       Content={() => <MainPane routeName={props.routeName}/>}
-      LeftDrawer={leftPane}
-      RightDrawer={rightPane}
+      LeftDrawer={leftPane()}
+      RightDrawer={rightPane()}
     />
   )
 }
@@ -78,6 +79,8 @@ export default function AppPage(props: {routeName?: string}) {
 function MainPane (props: {routeName?: string}) {
   const windowProperties = useWindowProperties();
   let mainPaneElement: HTMLDivElement | undefined;
+  const namedRoute = useNamedRoute();
+
 
 
   createEffect(on(windowProperties.width, () => {
@@ -89,10 +92,10 @@ function MainPane (props: {routeName?: string}) {
 
   return <div class={styles.mainPane} ref={mainPaneElement}>
     <Header />
-    {props.routeName === 'server_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
-    {props.routeName === 'inbox_messages' && <CustomSuspense><MessagePane /></CustomSuspense>}
-    {props.routeName === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
-    {props.routeName === 'explore_server' && <CustomSuspense><ExploreServerPane /></CustomSuspense>}
-    {props.routeName === 'user_profile' && <CustomSuspense><ProfilePane /></CustomSuspense>}
+    {namedRoute.name === 'server' && <CustomSuspense><MessagePane /></CustomSuspense>}
+    {namedRoute.name === 'inbox' && <CustomSuspense><MessagePane /></CustomSuspense>}
+    {namedRoute.name === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
+    {namedRoute.name === 'explore_server' && <CustomSuspense><ExploreServerPane /></CustomSuspense>}
+    {namedRoute.name === 'user_profile' && <CustomSuspense><ProfilePane /></CustomSuspense>}
   </div>
 }

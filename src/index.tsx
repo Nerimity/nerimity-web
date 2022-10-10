@@ -26,7 +26,32 @@ render(() => {
       },
       {
         path: "/app",
-        element: () => <AppPage/>
+        element: () => <AppPage/>,
+
+        routes: [
+          { path: "/" },
+          {
+            path: "/inbox(/:channelId)",
+            name: "inbox"
+          },
+          {
+            path: "/servers(/:serverId)(/:channelId)",
+            name: "server"
+          },
+          // /servers/:serverId/settings/:path/:id?
+          {
+            path: "/servers/:serverId/settings/:path(/:id)",
+            name: "server_settings"
+          },
+          {
+            path: "/profile/:userId",
+            name: "user_profile"
+          },
+          {
+            path: "/explore/servers/invites/:inviteId",
+            name: "explore_server"
+          }
+        ]
       },
       {
         path: '/login',
@@ -53,9 +78,9 @@ render(() => {
 
 
 function InviteRedirect() {
-  const { inviteId } = useParams();
+  const params = useParams();
   onMount(() => {
-    navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(inviteId!))
+    navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!), {replace: true})
   })
   return <div>Redirecting...</div>
 }

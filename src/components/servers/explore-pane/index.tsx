@@ -7,14 +7,13 @@ import Icon from '@/components/ui/icon';
 
 
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from '@solidjs/router';
+import { Link, navigate, useParams } from 'solid-named-router';
 import { createEffect, createSignal, Match, onMount, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { getStorageString, StorageKeys } from '@/common/localStorage';
 
 export default function ExploreServerPane() {
   const params = useParams();
-  const navigate = useNavigate();
   const {header} = useStore();
   const [server, setServer] = createSignal<ServerWithMemberCount | null>(null);
   const [error, setError] = createSignal<string | null>(null);
@@ -62,7 +61,6 @@ export default function ExploreServerPane() {
 
 
 const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string}) => {
-  const navigate = useNavigate();
   const {servers} = useStore();
   let [joinClicked, setJoinClicked] = createSignal(false);
   const {server} = props;
@@ -98,12 +96,12 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
           </div>
           <Switch>
             <Match when={!isLoggedIn}>
-              <Link href={RouterEndpoints.LOGIN(location.pathname)} class={styles.joinButton}>
+              <Link to={RouterEndpoints.LOGIN(location.pathname)} class={styles.joinButton}>
                 <Button iconName='login' label='Login To Join' />
               </Link>
             </Match>
             <Match when={cacheServer()}>
-              <Link href={RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId)} class={styles.joinButton}>
+              <Link to={RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId)} class={styles.joinButton}>
                 <Button iconName='login' label='Visit Server' />
               </Link>
             </Match>

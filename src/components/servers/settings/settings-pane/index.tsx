@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import serverSettings, { getServeSetting, ServerSetting } from '@/common/ServerSettings';
 import CustomSuspense from '@/components/custom-suspense';
-import { useLocation, useParams } from '@solidjs/router';
+import { useNamedRoute, useParams } from 'solid-named-router';
 import { createEffect, createSignal, For, Match, on, onMount, Show, Switch } from 'solid-js';
 import ServerSettingsHeader from './header';
 import { Transition } from 'solid-transition-group';
@@ -11,16 +11,16 @@ import useStore from '@/chat-api/store/useStore';
 export default function ServerSettingsPane() {
   const params = useParams();
 
-  const location = useLocation();
+  const namedRoute = useNamedRoute();
 
   const {servers} = useStore();
 
   const [currentSetting, setCurrentSetting] = createSignal<{setting: ServerSetting, locPath: string} | null>(null);
 
   createEffect(on(() => params.path! && params.serverId && params.id, () => {
-    const setting = getServeSetting(params.path!, location.pathname);
+    const setting = getServeSetting(params.path!, namedRoute.pathname);
     if (!setting) return setCurrentSetting(null);
-    setCurrentSetting({setting, locPath: location.pathname})
+    setCurrentSetting({setting, locPath: namedRoute.pathname})
   }));
 
   const server = () => servers.get(params.serverId);
@@ -34,7 +34,7 @@ export default function ServerSettingsPane() {
 
             <For each={serverSettings}>
               {setting => (
-                <Match when={currentSetting()?.setting === setting && currentSetting()?.locPath === location.pathname}>
+                <Match when={currentSetting()?.setting === setting && currentSetting()?.locPath === namedRoute.pathname}>
                   <div>
                     <CustomSuspense>
                       {setting.element}

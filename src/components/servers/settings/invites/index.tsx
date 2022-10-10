@@ -7,7 +7,7 @@ import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Icon from '@/components/ui/icon';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useParams } from 'solid-named-router';
 import { createEffect, createSignal, For, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
@@ -76,7 +76,7 @@ const InviteItem =(props: {invite: any}) => {
       <Avatar hexColor={props.invite.createdBy.hexColor} size={30} />
       <div class={styles.detailsOuter}>
         <div class={styles.details}>
-          <Link href={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code)} class={styles.url}>{url}</Link>
+          <Link to={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code)} class={styles.url}>{url}</Link>
           <div class={styles.otherDetails}>
             <Icon name='person' size={14} class={styles.icon} />
             {props.invite.createdBy.username}

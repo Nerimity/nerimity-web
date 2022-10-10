@@ -3,8 +3,8 @@ import { RawUser } from '../RawData';
 import useInbox, { Inbox } from './useInbox';
 import { openDMChannelRequest } from '../services/UserService';
 import useChannels from './useChannels';
-import { Navigator } from '@solidjs/router';
 import RouterEndpoints from '../../common/RouterEndpoints';
+import { navigate } from 'solid-named-router';
 
 
 export enum UserStatus {
@@ -24,7 +24,7 @@ export type User = RawUser & {
   presence?: Presence
   inboxChannelId?: string
   setInboxChannelId: (this: User, channelId: string) => void;
-  openDM: (this: User, navigate: Navigator) => Promise<void>;
+  openDM: (this: User) => Promise<void>;
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
@@ -39,7 +39,7 @@ const set = (user: RawUser) => {
     setInboxChannelId(channelId) {
       setUsers(this.id, 'inboxChannelId', channelId);
     },
-    async openDM(navigate: Navigator) {
+    async openDM() {
       // check if dm already exists
       const inboxItem = () => inbox.get(this.inboxChannelId!);
       if (!inboxItem()) {

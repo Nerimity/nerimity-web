@@ -7,7 +7,7 @@ import { RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useParams } from 'solid-named-router';
 import useStore from '@/chat-api/store/useStore';
 import { onMount } from 'solid-js';
 
@@ -38,10 +38,10 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message, animate
 
   const Details = () => (
     <div class={styles.details}>
-      <Link href={RouterEndpoints.PROFILE(props.message.createdBy.id)}>
+      <Link to={RouterEndpoints.PROFILE(props.message.createdBy.id)}>
         <Avatar hexColor={props.message.createdBy.hexColor} size={30} />
       </Link>
-      <Link class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
+      <Link class={styles.username} to={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
         {props.message.createdBy.username}
       </Link>
       <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
@@ -49,7 +49,7 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message, animate
   )
 
   const currentTime = new Date(props.message?.createdAt).getTime();
-  const beforeMessageTime = new Date(props.beforeMessage?.createdAt).getTime()
+  const beforeMessageTime = new Date(props.beforeMessage?.createdAt!).getTime()
 
   const isSameCreator = () => props.beforeMessage?.createdBy?.id === props.message?.createdBy?.id;
   const isDateUnderFiveMinutes = () => (currentTime- beforeMessageTime) < 300000;

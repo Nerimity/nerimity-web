@@ -38,7 +38,7 @@ export default function SidePane () {
 function InboxItem() {
   const {inbox, friends} = useStore();
   const namedRoute = useNamedRoute();
-  const isSelected = namedRoute.pathname.startsWith(RouterEndpoints.INBOX());
+  const isSelected = () => namedRoute.pathname.startsWith(RouterEndpoints.INBOX());
   const notificationCount = () => inbox.notificationCount(); 
   const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
 
@@ -47,7 +47,7 @@ function InboxItem() {
   return (
   <Link 
       to={RouterEndpoints.INBOX()} class={
-      classNames(styles.item, styles.settingsIcon, conditionalClass(isSelected, styles.selected), conditionalClass(count(), styles.hasNotifications))}
+      classNames(styles.item, styles.settingsIcon, conditionalClass(isSelected(), styles.selected), conditionalClass(count(), styles.hasNotifications))}
     >
     <Show when={count()}><div class={styles.notificationCount}>{count()}</div></Show>
     <Icon name='all_inbox' />
@@ -107,7 +107,7 @@ function ServerItem(props: {server: Server, selected?: boolean, onContextMenu?: 
   return (
     <Link
       to={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
-      // onContextMenu={props.onContextMenu}
+      onContextMenu={props.onContextMenu}
       class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}
       >
         <Avatar size={35} hexColor={props.server.hexColor} />

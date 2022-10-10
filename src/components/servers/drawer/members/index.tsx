@@ -1,13 +1,11 @@
 import styles from './styles.module.scss';
 import Avatar from "@/components/ui/avatar";
 import UserPresence from '@/components/user-presence';
-import { useParams } from '@solidjs/router';
+import { useParams } from 'solid-named-router';
 import useStore from '@/chat-api/store/useStore';
-import { createEffect, createMemo, createSignal, For, mapArray, Show } from 'solid-js';
+import { createMemo, createSignal, For, mapArray, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
-import { UserStatus } from '@/chat-api/store/useUsers';
 import ContextMenuServerMember from '../members/context-menu';
-import { useCustomPortal } from '@/components/ui/custom-portal';
 
 const MemberItem = (props: {member: ServerMember}) => {
   const user = () => props.member.user; 
@@ -47,8 +45,8 @@ const ServerMembersDrawer = () => {
 
     const membersInThisRole = () => members().filter(member => {
       if (!member?.user.presence?.status) return false;
-      if (server()?.defaultRoleId === role.id && !member?.unhiddenRole()) return true;
-      if (member?.unhiddenRole()?.id === role.id) return true;
+      if (server()?.defaultRoleId === role!.id && !member?.unhiddenRole()) return true;
+      if (member?.unhiddenRole()?.id === role!.id) return true;
     });
 
     return {role, members: createMemo(() => membersInThisRole())}
@@ -62,9 +60,9 @@ const ServerMembersDrawer = () => {
 
     <For each={roleMembers()}>
       {item => (
-        <Show when={!item.role.hideRole && item.members().length}>
+        <Show when={!item.role!.hideRole && item.members().length}>
           <div class={styles.roleItem}>
-            <div class={styles.roleName}>{item.role.name} ({item.members().length})</div>
+            <div class={styles.roleName}>{item.role!.name} ({item.members().length})</div>
             <For each={item.members()}>
               {member => <MemberItem  member={member!} />}
             </For>
