@@ -5,6 +5,7 @@ interface RequestOpts {
   method: string;
   body?: any;
   useToken?: boolean;
+  notJSON?: boolean;
 }
 
 export async function request<T>(opts: RequestOpts): Promise<T> {
@@ -18,6 +19,7 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
     }
   })
   .catch(err => { throw {message: "Could not connect to server. " + err.message} });
+  if (opts.notJSON) return await response.text() as T;
   if (!response.ok) {
     throw await response.json();
   }

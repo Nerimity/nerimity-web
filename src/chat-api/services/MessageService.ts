@@ -33,6 +33,15 @@ export const postMessage = async (opts: PostMessageOpts) => {
   });
   return data;
 };
+export const postChannelTyping = async (channelId: string) => {
+  const data = await request<RawMessage>({
+    method: 'POST',
+    url: env.SERVER_URL + "/api" + Endpoints.channelTyping(channelId),
+    useToken: true,
+    notJSON: true,
+  });
+  return data;
+};
 
 interface DeleteMessageOpts {
   channelId: string;

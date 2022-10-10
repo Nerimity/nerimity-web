@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 
-import { createEffect, createSignal, For, on, onCleanup, onMount, Show} from 'solid-js';
+import { createEffect, createMemo, createSignal, For, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
+import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from 'solid-named-router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item';
@@ -10,6 +11,7 @@ import { RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon';
+import { postChannelTyping } from '@/chat-api/services/MessageService';
 
 export default function MessagePane() {
   const params = useParams();
@@ -34,7 +36,7 @@ export default function MessagePane() {
 
   return (
     <div class={styles.messagePane}>
-       <MessageLogArea />
+      <MessageLogArea />
       <MessageArea />
     </div>
   );
@@ -153,6 +155,8 @@ function MessageArea() {
   const [message, setMessage] = createSignal('');
   const {channels, messages} = useStore();
 
+  let typingTimeoutId: null | number = null;
+
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Enter" && !isMobileAgent()) {
       if (event.shiftKey) return;
@@ -168,15 +172,23 @@ function MessageArea() {
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
     messages.sendAndStoreMessage(channel.id, trimmedMessage);
-
+    typingTimeoutId && clearTimeout(typingTimeoutId)
+    typingTimeoutId = null;
   }
   
   const onInput = (event: any) => {
     setMessage(event.target?.value);
+    if (typingTimeoutId) return;
+    postChannelTyping(params.channelId);
+    typingTimeoutId = window.setTimeout(() => {
+      typingTimeoutId = null;
+    }, 4000)
+
   }
 
 
   return <div class={styles.messageArea}>
+    <TypingIndicator/>
     <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
     <Button iconName='send' onClick={sendMessage} class={styles.button}/>
   </div>
@@ -190,5 +202,78 @@ function UnreadMarker() {
         New Messages
       </div>
     </div>
+  )
+}
+
+interface TypingPayload {
+  userId: string;
+  channelId: string;
+}
+function TypingIndicator() {
+  const params = useParams<{channelId: string}>();
+  const {users} = useStore();
+
+  const [typingUserIds, setTypingUserIds] = createStore<Record<string, number | undefined>>({})
+
+  const onTyping = (event: TypingPayload) => {
+    if (event.channelId !== params.channelId) return;
+    if (typingUserIds[event.userId]) {
+      clearTimeout(typingUserIds[event.userId]);
+    }
+    const timeoutId = window.setTimeout(() => setTypingUserIds(event.userId, undefined), 5000);
+    setTypingUserIds(event.userId, timeoutId);
+  }
+
+  const onMessageCreated = (event: RawMessage) => {
+    if (event.channelId !== params.channelId) return;
+    const timeoutId = typingUserIds[event.createdBy.id];
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+      setTypingUserIds(event.createdBy.id, undefined);
+    }
+  }
+
+  createEffect(on(() => params.channelId, () => {
+    Object.values(typingUserIds).forEach(timeoutId => 
+      clearTimeout(timeoutId)
+    )
+    setTypingUserIds(reconcile({}));
+  }))
+
+  onMount(() => {
+    socketClient.socket.on(ServerEvents.CHANNEL_TYPING, onTyping)
+    socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated)
+    
+    onCleanup(() => {
+      socketClient.socket.off(ServerEvents.CHANNEL_TYPING, onTyping)
+      socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated)
+    })
+  })
+
+  const typingUsers = createMemo(() => Object.keys(typingUserIds).map(userId => 
+    users.get(userId)
+  ))
+
+
+
+  return (
+    <Show when={typingUsers().length}>
+      <div class={styles.typingIndicator}>
+        <Switch>
+          <Match when={typingUsers().length === 1}>
+            <b>{typingUsers()[0]?.username}</b> is typing...
+          </Match>
+          <Match when={typingUsers().length === 2}>
+            <b>{typingUsers()[0]?.username}</b> and <b>{typingUsers()[1]?.username}</b> are typing...
+          </Match>
+          <Match when={typingUsers().length === 3}>
+            <b>{typingUsers()[0]?.username}</b>, <b>{typingUsers()[1]?.username}</b> and <b>{typingUsers()[2]?.username}</b> are typing...
+          </Match>
+          <Match when={typingUsers().length > 3}>
+            <b>{typingUsers()[0]?.username}</b>, <b>{typingUsers()[1]?.username}</b>,  <b>{typingUsers()[2]?.username}</b> and <b>{typingUsers().length - 3}</b> others are typing...
+          </Match>
+        </Switch>
+      </div>
+    </Show>
   )
 }

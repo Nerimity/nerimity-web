@@ -35,6 +35,7 @@ export const ServerEvents = {
   
 
 
+  CHANNEL_TYPING: 'channel:typing',
   MESSAGE_CREATED: 'message:created',
   MESSAGE_DELETED: 'message:deleted',
 }
