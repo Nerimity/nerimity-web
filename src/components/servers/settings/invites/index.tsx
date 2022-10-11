@@ -12,6 +12,7 @@ import { createEffect, createSignal, For, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import SettingsBlock from '@/components/ui/settings-block';
+import { copyToClipboard } from '@/common/clipboard';
 
 export default function ServerSettingsInvite() {
   const {serverId} = useParams();
@@ -85,7 +86,7 @@ const InviteItem =(props: {invite: any}) => {
             <Icon name='today' size={14} class={styles.icon} />
             {formatTimestamp(props.invite.createdAt)}</div>
         </div>
-        <Button class={classNames(styles.copyButton, styles.button)} label='Copy Link' iconName='copy' />
+        <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label='Copy Link' iconName='copy' />
         <Button class={classNames(styles.deleteButton, styles.button)} label='Delete' iconName='delete' color='var(--alert-color)' />
       </div>
     </div>

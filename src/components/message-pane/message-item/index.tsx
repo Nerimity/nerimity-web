@@ -21,8 +21,8 @@ function FloatOptions(props: { message: RawMessage, isCompact: boolean }) {
   return (
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
-      <div class={styles.item}><Icon name='edit' class={styles.icon} /></div>
-      <div class={styles.item} onClick={onDeleteClick}><Icon name='delete' class={styles.icon} color='var(--alert-color)' /></div>
+      <div class={styles.item}><Icon size={18} name='edit' class={styles.icon} /></div>
+      <div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div>
     </div>
   )
 }
