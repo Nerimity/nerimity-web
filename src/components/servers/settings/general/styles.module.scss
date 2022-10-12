@@ -24,3 +24,12 @@
 .saveButton {
   align-self: flex-end;
 }
+
+.systemMessageItem {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  &:not(:last-child) {
+    margin-bottom: 1px;
+    border-radius: 0;
+  }
+}

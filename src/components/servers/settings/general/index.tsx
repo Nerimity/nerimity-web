@@ -16,6 +16,7 @@ import { Server } from '@/chat-api/store/useServers';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
 import Modal from '@/components/ui/modal';
 import { useCustomPortal } from '@/components/ui/custom-portal';
+import Checkbox from '@/components/ui/checkbox';
 
 
 
@@ -90,6 +91,19 @@ export default function ServerGeneralSettings() {
       <SettingsBlock icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
         <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId} />
       </SettingsBlock>
+
+
+
+        
+        <SettingsBlock icon="wysiwyg" label="System Messages" description="Where and what system messages should appear." header={true}>
+          <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId}  />
+        </SettingsBlock>
+      <div>
+        <SettingsBlock icon="" label="Join Message" description="When a member joins the server." class={styles.systemMessageItem}>
+          <Checkbox checked={true} onChange={() => {}} />
+        </SettingsBlock>
+      </div>
+
       
       <SettingsBlock icon='delete' label='Delete this server' description='This cannot be undone!'>
         <Button label='Delete Server' color='var(--alert-color)' onClick={showDeleteConfirm} />
