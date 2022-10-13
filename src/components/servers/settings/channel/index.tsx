@@ -11,7 +11,7 @@ import { deleteServerChannel, updateServerChannel } from '@/chat-api/services/Se
 import Modal from '@/components/ui/modal';
 import { Channel } from '@/chat-api/store/useChannels';
 import Checkbox from '@/components/ui/checkbox';
-import { addPermission, CHANNEL_PERMISSIONS, getAllPermissions, removePermission } from '@/chat-api/Permissions';
+import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit } from '@/chat-api/Bitwise';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
 import { useCustomPortal } from '@/components/ui/custom-portal';
 
@@ -68,10 +68,10 @@ export default function ServerSettingsChannel() {
   const onPermissionChanged = (checked: boolean, bit: number) => {
     let newPermission = inputValues().permissions;
     if (checked) {
-      newPermission = addPermission(newPermission, bit);
+      newPermission = addBit(newPermission, bit);
     }
     if (!checked) {
-      newPermission = removePermission(newPermission, bit);
+      newPermission = removeBit(newPermission, bit);
     }
     setInputValue("permissions", newPermission);
   }

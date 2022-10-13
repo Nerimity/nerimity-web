@@ -1,5 +1,5 @@
 
-export interface Permission {
+export interface Bitwise {
   name: string;
   description: string;
   bit: number;
@@ -59,20 +59,20 @@ export const ROLE_PERMISSIONS = {
   }
 }
 
-export const hasPermission = (permissions: number, bit: number) => {
+export const hasBit = (permissions: number, bit: number) => {
   return (permissions & bit) === bit
 }
 
-export const addPermission = (permissions: number, bit: number) => {
+export const addBit = (permissions: number, bit: number) => {
   return permissions | bit
 }
-export const removePermission = (permissions: number, bit: number) => {
+export const removeBit = (permissions: number, bit: number) => {
   return permissions & ~bit
 }
 
-export const getAllPermissions = (permissionList: Record<string, Permission>, permissions: number) => {
+export const getAllPermissions = (permissionList: Record<string, Bitwise>, permissions: number) => {
   return Object.values(permissionList).map(permission => {
-    const hasPerm = hasPermission(permissions, permission.bit)
+    const hasPerm = hasBit(permissions, permission.bit)
     return {
       ...permission,
       hasPerm

@@ -34,6 +34,7 @@ export default function ServerGeneralSettings() {
   const defaultInput = () => ({
     name: server()?.name || '',
     defaultChannelId: server()?.defaultChannelId || '',
+    systemChannelId: server()?.systemChannelId || null
   })
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
@@ -46,6 +47,22 @@ export default function ServerGeneralSettings() {
       setInputValue('defaultChannelId', channel!.id);
     }
   }));
+  const dropDownSystemChannels = () => {
+    const list = channels.getChannelsByServerId(serverId).map(channel => ({
+      id: channel!.id,
+      label: channel!.name,
+      onClick: () => {
+        setInputValue('systemChannelId', channel!.id);
+      }
+    }));
+    return [{
+      id: null,
+      label: "None",
+      onClick: () => {
+        setInputValue("systemChannelId", null);
+      }
+    }, ...list]
+  };
 
 
   createEffect(() => {
@@ -95,14 +112,9 @@ export default function ServerGeneralSettings() {
 
 
         
-        <SettingsBlock icon="wysiwyg" label="System Messages" description="Where and what system messages should appear." header={true}>
-          <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId}  />
-        </SettingsBlock>
-      <div>
-        <SettingsBlock icon="" label="Join Message" description="When a member joins the server." class={styles.systemMessageItem}>
-          <Checkbox checked={true} onChange={() => {}} />
-        </SettingsBlock>
-      </div>
+      <SettingsBlock icon="wysiwyg" label="System Messages" description="Where system messages should appear.">
+        <DropDown items={dropDownSystemChannels()} selectedId={inputValues().systemChannelId}  />
+      </SettingsBlock>
 
       
       <SettingsBlock icon='delete' label='Delete this server' description='This cannot be undone!'>

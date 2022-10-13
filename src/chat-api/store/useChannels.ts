@@ -4,9 +4,8 @@ import { batch } from 'solid-js';
 import {createStore} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import {dismissChannelNotification} from '../emits/userEmits';
-import { CHANNEL_PERMISSIONS, getAllPermissions, Permission } from '../Permissions';
+import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise } from '../Bitwise';
 import { RawChannel } from '../RawData';
-import useAccount from './useAccount';
 import useMessages from './useMessages';
 import useUsers, { User } from './useUsers';
 
@@ -17,7 +16,7 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   setRecipientId(this: Channel, userId: string): void;
   update: (this: Channel, update: Partial<RawChannel>) => void;
 
-  permissionList: Array<Permission & {hasPerm: boolean}>
+  permissionList: Array<Bitwise & {hasPerm: boolean}>
   recipient?: User;
   recipientId?: string;
   lastSeen?: string;
