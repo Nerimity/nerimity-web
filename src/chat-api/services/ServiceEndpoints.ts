@@ -12,6 +12,8 @@ export default {
   serverRoles: (serverId: string) => `/servers/${serverId}/roles`,
   serverRole: (serverId: string, roleId: string) => `/servers/${serverId}/roles/${roleId}`,
   serverMember: (serverId: string, userId: string) => `/servers/${serverId}/members/${userId}`,
+  serverMemberKick: (serverId: string, userId: string) => `/servers/${serverId}/members/${userId}/kick`,
+  serverMemberBan: (serverId: string, userId: string) => `/servers/${serverId}/members/${userId}/ban`,
 
   user: (userId: string) => `/users/${userId}`,
 

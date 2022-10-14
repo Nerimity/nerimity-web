@@ -20,6 +20,20 @@ export async function updateServerSettings(serverId: string, update: any): Promi
     useToken: true
   });
 }
+export async function kickServerMember(serverId: string, userId: string): Promise<any> {
+  return request({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverMemberKick(serverId, userId),
+    useToken: true
+  });
+}
+export async function BanServerMember(serverId: string, userId: string): Promise<any> {
+  return request({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverMemberBan(serverId, userId),
+    useToken: true
+  });
+}
 
 export async function createServerChannel(serverId: string): Promise<RawChannel> {
   return request({

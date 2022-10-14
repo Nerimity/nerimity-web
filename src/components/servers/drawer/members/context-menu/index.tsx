@@ -7,23 +7,32 @@ import useStore from "@/chat-api/store/useStore";
 import Modal from '@/components/ui/modal'
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import Checkbox from "@/components/ui/checkbox";
-import { updateServerMember } from '@/chat-api/services/ServerService';
+import { BanServerMember, kickServerMember, updateServerMember } from '@/chat-api/services/ServerService';
 import { useCustomPortal } from '@/components/ui/custom-portal';
+import { ServerMember } from '@/chat-api/store/useServerMembers';
+import Button from '@/components/ui/button';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId: string
   userId: string
 }
 
 export default function ContextMenuServerMember(props: Props) {
-  const { servers } = useStore();
+  const { serverMembers } = useStore();
   const createPortal = useCustomPortal()
 
-
-
+  
+  const member = () => serverMembers.get(props.serverId, props.userId)
 
 
   const onEditRoleClick = () => {
     createPortal?.(close => <Modal {...close}  title="Edit Roles" component={() => <RoleModal {...props} />} />)
+  }
+
+  const onKickClick = () => {
+    createPortal?.(close => <Modal {...close}  title={`Kick ${member()?.user.username}`} component={() => <KickModal close={close} member={member()!} />} />)
+  }
+  const onBanClick = () => {
+    createPortal?.(close => <Modal {...close}  title={`Ban ${member()?.user.username}`} component={() => <BanModal close={close} member={member()!} />} />)
   }
 
 
@@ -31,16 +40,49 @@ export default function ContextMenuServerMember(props: Props) {
     <>
       <ContextMenu {...props} items={[
         { label: "View Profile", icon: "person" },
-        { label: "Edit Roles", icon: "leaderboard",onClick: onEditRoleClick },
+        { label: "Edit Roles", icon: "leaderboard", onClick: onEditRoleClick },
         { separator: true },
-        { label: "Kick", alert: true, icon: "exit_to_app" },
-        { label: "Ban", alert: true, icon: "block" },
+        { label: "Kick", alert: true, icon: "exit_to_app", onClick: onKickClick },
+        { label: "Ban", alert: true, icon: "block", onClick: onBanClick },
         { separator: true },
         { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.userId) },
       ]} />
     </>
   )
 }
+
+function KickModal (props: {member: ServerMember, close: () => void}) {
+  const onKickClick = async () => {
+    await kickServerMember(props.member.serverId, props.member.userId);
+    props.close();
+  }
+  return (
+    <div class={styles.kickModal}>
+      <div>Are you sure you want to kick <b>{props.member?.user?.username || ""}</b>?</div>
+      <div class={styles.buttons}>
+        <Button label='Back' iconName='arrow_back' onClick={props.close}/>
+        <Button label='Kick' iconName='exit_to_app' color='var(--alert-color)' onClick={onKickClick}/>
+      </div>
+    </div>
+  )
+}
+
+function BanModal (props: {member: ServerMember, close: () => void}) {
+  const onBanClick = async () => {
+    await BanServerMember(props.member.serverId, props.member.userId);
+    props.close();
+  }
+  return (
+    <div class={styles.kickModal}>
+      <div>Are you sure you want to ban <b>{props.member?.user?.username || ""}</b>?</div>
+      <div class={styles.buttons}>
+        <Button label='Back' iconName='arrow_back' onClick={props.close}/>
+        <Button label='Ban' iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
+      </div>
+    </div>
+  )
+}
+
 
 function RoleModal (props: Props) {
   const {serverRoles, servers} = useStore();
