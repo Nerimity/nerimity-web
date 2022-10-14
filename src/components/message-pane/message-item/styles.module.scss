@@ -44,7 +44,15 @@
 }
 
 
-
+.systemMessage {
+  margin-left: 3px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.systemMessageAvatar {
+  margin-left: 3px;
+  margin-right: 4px;
+}
 
 
 .messageItem {
@@ -116,19 +124,8 @@
       white-space: pre-line;
     }
   }
-  &:after {
-    content: "";
-    position: absolute;
-    left: 25px;
-    top: 35px;
-    bottom: 0;
-    width: 1px;
-    background-color: rgba(255, 255, 255, 0.2);
-  }
+
   &.compact {
-    &:after {
-      top: 0;
-    }
     .content {
       margin: 2px;
       margin-left: 35px;

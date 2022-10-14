@@ -7,7 +7,7 @@ import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item';
 import Button from '@/components/ui/button';
 import { useWindowProperties } from '../../common/useWindowProperties';
-import { RawMessage } from '../../chat-api/RawData';
+import { MessageType, RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon';
@@ -134,11 +134,13 @@ const MessageLogArea = () => {
           <Show when={unreadMessageId() === message.id}>
             <UnreadMarker/>
           </Show>
-          <MessageItem
-            animate={!!openedTimestamp() && new Date(message.createdAt).getTime() > openedTimestamp()!}
-            message={message}
-            beforeMessage={channelMessages()?.[i() - 1]}
-          />
+
+            <MessageItem
+              animate={!!openedTimestamp() && new Date(message.createdAt).getTime() > openedTimestamp()!}
+              message={message}
+              beforeMessage={ message.type === MessageType.CONTENT && channelMessages()?.[i() - 1]}
+            />
+
         </>
       )}
     </For>
