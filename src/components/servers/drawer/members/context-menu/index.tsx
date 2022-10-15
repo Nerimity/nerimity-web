@@ -11,6 +11,7 @@ import { BanServerMember, kickServerMember, updateServerMember } from '@/chat-ap
 import { useCustomPortal } from '@/components/ui/custom-portal';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
 import Button from '@/components/ui/button';
+import { createStore } from 'solid-js/store';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId: string
   userId: string
@@ -52,8 +53,13 @@ export default function ContextMenuServerMember(props: Props) {
 }
 
 function KickModal (props: {member: ServerMember, close: () => void}) {
+  const [requestSent, setRequestSent] = createSignal(false);
   const onKickClick = async () => {
-    await kickServerMember(props.member.serverId, props.member.userId);
+    if (requestSent()) return;
+    setRequestSent(true);
+    await kickServerMember(props.member.serverId, props.member.userId).finally(() => {
+      setRequestSent(false);
+    })
     props.close();
   }
   return (
@@ -61,15 +67,21 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
       <div>Are you sure you want to kick <b>{props.member?.user?.username || ""}</b>?</div>
       <div class={styles.buttons}>
         <Button label='Back' iconName='arrow_back' onClick={props.close}/>
-        <Button label='Kick' iconName='exit_to_app' color='var(--alert-color)' onClick={onKickClick}/>
+        <Button label={requestSent() ? 'Kicking...' :'Kick'} iconName='exit_to_app' color='var(--alert-color)' onClick={onKickClick}/>
       </div>
     </div>
   )
 }
 
 function BanModal (props: {member: ServerMember, close: () => void}) {
+  const [requestSent, setRequestSent] = createSignal(false);
+
   const onBanClick = async () => {
-    await BanServerMember(props.member.serverId, props.member.userId);
+    if (requestSent()) return;
+    setRequestSent(true);
+    await BanServerMember(props.member.serverId, props.member.userId).finally(() => {
+      setRequestSent(false);
+    });
     props.close();
   }
   return (
@@ -77,7 +89,7 @@ function BanModal (props: {member: ServerMember, close: () => void}) {
       <div>Are you sure you want to ban <b>{props.member?.user?.username || ""}</b>?</div>
       <div class={styles.buttons}>
         <Button label='Back' iconName='arrow_back' onClick={props.close}/>
-        <Button label='Ban' iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
+        <Button label={requestSent() ? 'Banning...' :'Ban'}  iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
       </div>
     </div>
   )
