@@ -1,6 +1,7 @@
 import { update } from 'idb-keyval';
 import { Accessor, createMemo, mapArray } from 'solid-js';
 import {createStore, reconcile} from 'solid-js/store';
+import { addBit, Bitwise } from '../Bitwise';
 import { RawServerMember } from '../RawData';
 import useServerRoles, { ServerRole } from './useServerRoles';
 import useServers from './useServers';
@@ -14,6 +15,8 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
   roles: () => (ServerRole | undefined)[] ;
   hasRole:  (this: ServerMember, roleId: string) => boolean;
+  permissions: number;
+  hasPermission:  (this: ServerMember, bitwise: Bitwise) => boolean | void;
   roleColor: () => string;
   unhiddenRole: () => ServerRole;
 }
@@ -30,6 +33,7 @@ const set = (member: RawServerMember) => {
 
   let roleColor: Accessor<any>;
   let unhiddenRole: Accessor<any>;
+  let permissions: Accessor<any>;
   setMember(member.serverId, {[member.user.id]: {
     ...member,
     userId: member.user.id,
@@ -40,6 +44,8 @@ const set = (member: RawServerMember) => {
       setMember(this.serverId, this.userId, updated);
     },
     get roles(){
+      const servers = useServers();
+      const server = servers.get(member.serverId);
       const roleIds = () => this.roleIds;
       return mapArray(roleIds, id => {
         const {serverRoles} = useStore();
@@ -51,6 +57,30 @@ const set = (member: RawServerMember) => {
       const server = servers.get(member.serverId);
       if (server?.defaultRoleId === roleId) return true;
       return this.roleIds.includes(roleId);
+    },
+    get permissions () {
+      if (permissions) return permissions();
+      permissions = createMemo(() => {
+        const servers = useServers();
+        const roles = useServerRoles();
+        const defaultRoleId = () => servers.get(member.serverId)?.defaultRoleId;
+        const defaultRole = () => roles.get(member.serverId, defaultRoleId()!);
+
+        return () => {
+          let currentPermissions = 0;
+          currentPermissions = addBit(currentPermissions, defaultRole()?.permissions || 0);
+          const rolesArr = this.roles();
+          for (let i = 0; i < rolesArr.length; i++) {
+            const role = rolesArr[i];
+            currentPermissions = addBit(currentPermissions, role?.permissions || 0);
+          }
+          return currentPermissions
+        };
+      });
+      return permissions();
+    },
+    hasPermission(bitwise: Bitwise) {
+      // console.log(this.permissions())
     },
     get roleColor() {
       if (roleColor) return roleColor();

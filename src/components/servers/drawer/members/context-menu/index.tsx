@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import { navigate } from "solid-named-router";
 import { copyToClipboard } from "@/common/clipboard";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu";
-import { createSignal, For} from "solid-js";
+import { createEffect, createSignal, For, onMount} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import Modal from '@/components/ui/modal'
 import { ServerRole } from "@/chat-api/store/useServerRoles";
@@ -22,7 +22,8 @@ export default function ContextMenuServerMember(props: Props) {
   const createPortal = useCustomPortal()
 
   
-  const member = () => serverMembers.get(props.serverId, props.userId)
+  const member = () => serverMembers.get(props.serverId, props.userId);
+
 
 
   const onEditRoleClick = () => {
