@@ -12,18 +12,59 @@ import { useCustomPortal } from '@/components/ui/custom-portal';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
 import Button from '@/components/ui/button';
 import { createStore } from 'solid-js/store';
+import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId: string
   userId: string
 }
 
 export default function ContextMenuServerMember(props: Props) {
-  const { serverMembers } = useStore();
+  const { serverMembers, servers, account } = useStore();
   const createPortal = useCustomPortal()
 
   
   const member = () => serverMembers.get(props.serverId, props.userId);
+  const server = () => servers.get(props.serverId);
 
+
+  // createEffect(() => {
+  //   console.log(member()?.hasPermission(ROLE_PERMISSIONS.BAN))
+  // })
+
+  const adminItems = () => {
+
+    const separator = { separator: true }
+    const kick = { label: "Kick", alert: true, icon: "exit_to_app", onClick: onKickClick };
+    const ban = { label: "Ban", alert: true, icon: "block", onClick: onBanClick };
+
+    const isMemberServerCreator = props.userId === server()?.createdById;
+    if (isMemberServerCreator) return [];
+
+    const clickedOnMyself = props.userId === account.user()?.id;
+    if (clickedOnMyself) return [];
+
+    const AmIServerCreator = server()?.createdById === account.user()?.id;
+
+    if (AmIServerCreator) {
+      return [
+        separator,
+        kick,
+        ban,
+      ]
+    }
+
+    const hasKickPermission = member()?.hasPermission(ROLE_PERMISSIONS.KICK);
+    const hasBanPermission = member()?.hasPermission(ROLE_PERMISSIONS.BAN);
+
+     let createArr = [];
+     if (hasBanPermission || hasKickPermission) {
+      createArr.push(separator);
+     }
+     hasKickPermission && createArr.push(kick)
+     hasBanPermission && createArr.push(ban)
+     return createArr;
+    
+  }
 
 
   const onEditRoleClick = () => {
@@ -43,9 +84,7 @@ export default function ContextMenuServerMember(props: Props) {
       <ContextMenu {...props} items={[
         { label: "View Profile", icon: "person" },
         { label: "Edit Roles", icon: "leaderboard", onClick: onEditRoleClick },
-        { separator: true },
-        { label: "Kick", alert: true, icon: "exit_to_app", onClick: onKickClick },
-        { label: "Ban", alert: true, icon: "block", onClick: onBanClick },
+        ...adminItems(),
         { separator: true },
         { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.userId) },
       ]} />

@@ -1,7 +1,7 @@
 import { update } from 'idb-keyval';
 import { Accessor, createMemo, mapArray } from 'solid-js';
 import {createStore, reconcile} from 'solid-js/store';
-import { addBit, Bitwise } from '../Bitwise';
+import { addBit, Bitwise, hasBit, ROLE_PERMISSIONS } from '../Bitwise';
 import { RawServerMember } from '../RawData';
 import useServerRoles, { ServerRole } from './useServerRoles';
 import useServers from './useServers';
@@ -15,7 +15,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
   roles: () => (ServerRole | undefined)[] ;
   hasRole:  (this: ServerMember, roleId: string) => boolean;
-  permissions: number;
+  permissions: () => number;
   hasPermission:  (this: ServerMember, bitwise: Bitwise) => boolean | void;
   roleColor: () => string;
   unhiddenRole: () => ServerRole;
@@ -79,8 +79,11 @@ const set = (member: RawServerMember) => {
       });
       return permissions();
     },
-    hasPermission(bitwise: Bitwise) {
-      // console.log(this.permissions())
+    hasPermission(bitwise: Bitwise, ignoreAdmin = false) {
+      if (!ignoreAdmin) {
+        if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;
+      }
+      return hasBit(this.permissions(), bitwise.bit)
     },
     get roleColor() {
       if (roleColor) return roleColor();
