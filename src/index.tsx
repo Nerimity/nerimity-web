@@ -26,7 +26,7 @@ render(() => {
       },
       {
         path: "/app",
-        element: () => <AppPage/>,
+        element: () => <CustomSuspense><AppPage/></CustomSuspense>,
 
         routes: [
           { path: "/" },
