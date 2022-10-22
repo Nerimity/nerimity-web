@@ -19,7 +19,7 @@ export default function RegisterPage() {
   
   onMount(() => {
     if (getStorageString(StorageKeys.USER_TOKEN, null)) {
-      navigate('/app');
+      navigate('/app', {replace: true});
     }
   })
 

@@ -16,7 +16,7 @@ export default function LoginPage() {
   
   onMount(() => {
     if (getStorageString(StorageKeys.USER_TOKEN, null)) {
-      navigate('/app');
+      navigate('/app', {replace: true});
     }
   })
 

@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import CustomSuspense from '@/components/custom-suspense';
-import { createEffect, createMemo, lazy, on, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, lazy, on, onCleanup, onMount, Show } from 'solid-js';
 import Header from '../../components/header';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer'));
@@ -39,6 +39,9 @@ export default function AppPage(props: {routeName?: string}) {
     setTimeout(() => {
       socketClient.login(getStorageString(StorageKeys.USER_TOKEN, undefined));
     }, 300);
+  })
+  onCleanup(() => {
+    socketClient.socket.disconnect();
   })
   
   const leftPane = createMemo(() => {

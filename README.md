@@ -1,4 +1,5 @@
 # Chat App - Frontend (SolidJS)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y1FN57Z)
 Chat App made using SolidJS. Work in progress.
 
 ## Repos
