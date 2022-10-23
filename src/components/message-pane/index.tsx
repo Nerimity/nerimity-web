@@ -150,12 +150,20 @@ const MessageLogArea = () => {
 
 
 function MessageArea() {
+  const {input} = useStore();
   const params = useParams();
   let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
 
-  const [message, setMessage] = createSignal('');
   const {channels, messages} = useStore();
+
+  const setMessage = (content: string) => {
+    input.updateContent(params.channelId, content)
+  }
+
+  const channelInput = () => input.getInput(params.channelId);
+  const message = () => channelInput()?.content || '';
+  const editMessageId = () => channelInput()?.editMessageId;
 
   let typingTimeoutId: null | number = null;
 
@@ -191,6 +199,7 @@ function MessageArea() {
 
   return <div class={styles.messageArea}>
     <TypingIndicator/>
+    <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
     <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
     <Button iconName='send' onClick={sendMessage} class={styles.button}/>
   </div>
@@ -277,5 +286,26 @@ function TypingIndicator() {
         </Switch>
       </div>
     </Show>
+  )
+}
+
+
+function EditIndicator(props: {messageId: string}) {
+  const params = useParams<{channelId: string}>();
+  const {messages, input} = useStore();
+
+  const message = () => messages.get(params.channelId)?.find(m => m.id === props.messageId);
+
+  createEffect(() => {    
+    if (!message()) {
+      input.setEditMessageId(params.channelId, undefined);
+    }
+  })
+
+
+  return (
+    <div class={styles.typingIndicator}>
+      {message()?.content}
+    </div>
   )
 }

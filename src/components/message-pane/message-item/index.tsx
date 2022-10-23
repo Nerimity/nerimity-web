@@ -17,11 +17,15 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
   const onDeleteClick = () => {
     deleteMessage({channelId: props.message.channelId, messageId: props.message.id});
   }
+  const onEditClick = () => {
+    const {input} = useStore();
+    input.setEditMessageId(props.message.channelId, props.message.id);
+  }
   
   return (
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
-      <Show when={props.message.type === MessageType.CONTENT} ><div class={styles.item}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
+      <Show when={props.message.type === MessageType.CONTENT} ><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
       <div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div>
     </div>
   )

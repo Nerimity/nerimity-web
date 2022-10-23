@@ -9,6 +9,7 @@ import useServerRoles from "./useServerRoles";
 import useServers from "./useServers";
 import useHeader from "./useHeader";
 import useUsers from "./useUsers";
+import useInput from "./useInput";
 
 export default function useStore() {
   const account = useAccount();
@@ -22,6 +23,7 @@ export default function useStore() {
   const inbox = useInbox();
   const mentions = useMention();
   const serverRoles = useServerRoles();
+  const input = useInput()
 
   return {
     account,
@@ -34,6 +36,7 @@ export default function useStore() {
     messages,
     friends,
     inbox,
-    mentions
+    mentions,
+    input
   }
 }
