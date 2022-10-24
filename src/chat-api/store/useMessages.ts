@@ -1,6 +1,6 @@
 import {createStore, produce, reconcile} from 'solid-js/store';
 import { MessageType, RawMessage } from '../RawData';
-import { fetchMessages, postMessage } from '../services/MessageService';
+import { fetchMessages, postMessage, updateMessage } from '../services/MessageService';
 import socketClient from '../socketClient';
 import useAccount from './useAccount';
 import useChannels from './useChannels';
@@ -26,6 +26,35 @@ const fetchAndStoreMessages = async (channelId: string) => {
     [channelId]: newMessages
   });
 }
+
+
+
+const editAndStoreMessage = async (channelId: string, messageId: string, content: string) => {
+  let messages = get(channelId) || [];
+  let index = messages.findIndex(m => m.id === messageId);
+  if (index < 0) return;
+  if (messages[index].content === content) return;
+  setMessages(channelId, index, {
+    sentStatus: MessageSentStatus.SENDING,
+    content
+  });
+
+  await updateMessage({
+    channelId,
+    messageId,
+    content
+  }).catch(() => {
+    updateLocalMessage({sentStatus: MessageSentStatus.FAILED}, channelId, messageId);
+  })
+}
+
+const updateLocalMessage = async (message: Partial<RawMessage & {sentStatus: MessageSentStatus}>, channelId: string, messageId:string) => {
+  const messages = get(channelId) || [];
+  const index = messages.findIndex(m => m.id === messageId);
+  if (index < 0) return;
+  setMessages(channelId, index, message)
+}
+
 
 const sendAndStoreMessage = async (channelId: string, content: string) => {
   const channels = useChannels();
@@ -102,10 +131,12 @@ export default function useMessages() {
   return {
     getMessagesByChannelId,
     fetchAndStoreMessages,
+    editAndStoreMessage,
     sendAndStoreMessage,
     locallyRemoveMessage,
     pushMessage,
     deleteChannelMessages,
     get,
+    updateLocalMessage
   }
 }

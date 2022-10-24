@@ -151,7 +151,7 @@ const MessageLogArea = () => {
 
 function MessageArea() {
   const {input} = useStore();
-  const params = useParams();
+  const params = useParams<{channelId: string}>();
   let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
 
@@ -167,7 +167,21 @@ function MessageArea() {
 
   let typingTimeoutId: null | number = null;
 
+  createEffect(() => {
+    if (editMessageId()) {
+      textAreaEl?.focus();
+    }
+  })
+
   const onKeyDown = (event: KeyboardEvent) => {
+    if(event.key === "ArrowUp") {
+      const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT);
+      if (msg) {
+        input.setEditMessage(params.channelId, msg);
+        event.preventDefault();
+      }
+      return;
+    }
     if (event.key === "Enter" && !isMobileAgent()) {
       if (event.shiftKey) return;
       event.preventDefault();
@@ -175,13 +189,19 @@ function MessageArea() {
     }
   }
 
+
   const sendMessage = () => {
     textAreaEl?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
-    messages.sendAndStoreMessage(channel.id, trimmedMessage);
+    if (editMessageId()) {
+      messages.editAndStoreMessage(params.channelId, editMessageId()!, trimmedMessage);
+      input.setEditMessage(params.channelId, undefined);
+    } else {
+      messages.sendAndStoreMessage(channel.id, trimmedMessage);
+    }
     typingTimeoutId && clearTimeout(typingTimeoutId)
     typingTimeoutId = null;
   }
@@ -201,7 +221,7 @@ function MessageArea() {
     <TypingIndicator/>
     <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
     <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
-    <Button iconName='send' onClick={sendMessage} class={styles.button}/>
+    <Button iconName={editMessageId() ? 'edit' : 'send'} onClick={sendMessage} class={styles.button}/>
   </div>
 }
 
@@ -298,7 +318,7 @@ function EditIndicator(props: {messageId: string}) {
 
   createEffect(() => {    
     if (!message()) {
-      input.setEditMessageId(params.channelId, undefined);
+      input.setEditMessage(params.channelId, undefined);
     }
   })
 

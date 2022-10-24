@@ -1,5 +1,6 @@
 import {createStore} from 'solid-js/store';
 import useChannels from './useChannels';
+import { Message } from './useMessages';
 
 export type Input = {
   content: string;
@@ -18,12 +19,13 @@ const updateContent = (channelId: string, content: string) => {
 }
 const getInput = (channelId: string) => inputs[channelId] as Input | undefined;
 
-const setEditMessageId = (channelId: string, messageId?: string) => {
+const setEditMessage = (channelId: string, message?: Message) => {
   if (!inputs[channelId]) {
-    setInputs(channelId, {editMessageId: messageId})
+    setInputs(channelId, {editMessageId: message?.id, content: message?.content || ''})
     return
   }
-  setInputs(channelId, 'editMessageId', messageId);
+  setInputs(channelId, 'editMessageId', message?.id);
+  setInputs(channelId, 'content', message?.content || '');
 }
 
 
@@ -31,6 +33,6 @@ export default function useInput() {
   return {
     updateContent,
     getInput,
-    setEditMessageId
+    setEditMessage
   }
 }

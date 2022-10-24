@@ -3,7 +3,7 @@ import { RawMessage } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels from "../store/useChannels";
 import useMention from "../store/useMention";
-import useMessages from "../store/useMessages";
+import useMessages, { MessageSentStatus } from "../store/useMessages";
 import useUsers from "../store/useUsers";
 
 
@@ -43,6 +43,12 @@ export function onMessageCreated(payload: RawMessage) {
     messages.pushMessage(payload.channelId, payload);
   })
 }
+
+export function onMessageUpdated(payload: {channelId: string, messageId: string, updated: Partial<RawMessage>}) {
+  const messages = useMessages();
+  messages.updateLocalMessage({...payload.updated, sentStatus: undefined}, payload.channelId, payload.messageId);
+}
+
 
 export function onMessageDeleted(payload: {channelId: string, messageId: string}) {
   const messages = useMessages();

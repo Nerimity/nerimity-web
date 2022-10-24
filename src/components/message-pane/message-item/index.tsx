@@ -19,7 +19,7 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
   }
   const onEditClick = () => {
     const {input} = useStore();
-    input.setEditMessageId(props.message.channelId, props.message.id);
+    input.setEditMessage(props.message.channelId, props.message);
   }
   
   return (

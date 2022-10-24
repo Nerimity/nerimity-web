@@ -33,6 +33,25 @@ export const postMessage = async (opts: PostMessageOpts) => {
   });
   return data;
 };
+
+interface UpdateMessageOpts {
+  content: string,
+  channelId: string,
+  messageId: string,
+}
+
+export const updateMessage = async (opts: UpdateMessageOpts) => {
+  const data = await request<Partial<{updated: RawMessage}>>({
+    method: 'PATCH',
+    url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId),
+    useToken: true,
+    body: {
+      content: opts.content,
+    }
+  });
+  return data;
+};
+
 export const postChannelTyping = async (channelId: string) => {
   const data = await request<RawMessage>({
     method: 'POST',
