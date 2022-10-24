@@ -17,7 +17,7 @@ export default function AddServer(props: {close: () => void}) {
     setRequestSent(true);
     setError({message: '', path: ''});
 
-    const server = await createServer(name()).catch(setError);
+    const server = await createServer(name()).catch(err => {setError(err)});
     if (server) {
       navigate(RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId))
       props.close();

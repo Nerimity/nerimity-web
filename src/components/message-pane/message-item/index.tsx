@@ -81,6 +81,11 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message | false,
   const isCompact = () => isSameCreator() && isDateUnderFiveMinutes();
 
 
+  const editedAt = () => {
+    if (!props.message.editedAt) return;
+    return "Edited at " + formatTimestamp(props.message.editedAt);
+  }
+
   return (
     <div class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate))}>
       <FloatOptions isCompact={isCompact()} message={props.message} />
@@ -90,6 +95,7 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message | false,
           <div class={styles.messageContainer}>
             {props.message.sentStatus === MessageSentStatus.FAILED && <Icon name='error_outline' size={14} color="var(--alert-color)" class={styles.messageStatus} />}
             {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
+            {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} title={editedAt()} />}
             <div class={styles.content}>{props.message.content}</div>
           </div>
         </div>
