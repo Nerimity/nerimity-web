@@ -19,33 +19,54 @@
   align-items: center;
   position: relative;
   flex-shrink: 0;
-  margin-top: 5px;
+  margin-top: 10px;
   .button {
     padding: 7px;
     width: 35px;
-    margin-right: 10px;
+    margin-right: 5px;
   }
-  .typingIndicator {
-    top: -6px;
-    left: 15px;
+  .cancelEditButton {
+    padding: 7px;
+    width: 35px;
+    margin-left: 5px;
+    margin-right: 0;
+
+  }
+  .floating {
+    top: -14px;
+    left: 10px;
     position: absolute;
     background-color: rgb(53, 53, 53);
     border: solid 1px rgba(255, 255, 255, 0.4);
     border-radius: 4px;
     padding: 3px;
     font-size: 14px;
+    &.editIndicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .editIcon {
+        margin-right: 5px;
+      }
+    }
   }
+}
+
+
+.textareaContainer {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  position: relative;
 }
 
 .textArea {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.4);
   resize: none;
+  margin-left: 5px;
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-bottom: solid 2px rgba(255, 255, 255, 0.3);
-  margin: 10px;
-  margin-left: 10px;
-  margin-right: 0;
   padding: 10px;
   height: 16px;
   color: white;

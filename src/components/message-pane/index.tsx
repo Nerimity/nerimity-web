@@ -12,6 +12,8 @@ import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon';
 import { postChannelTyping } from '@/chat-api/services/MessageService';
+import { className } from 'solid-js/web';
+import { classNames } from '@/common/classNames';
 
 export default function MessagePane() {
   const params = useParams();
@@ -172,8 +174,17 @@ function MessageArea() {
       textAreaEl?.focus();
     }
   })
+  
+  const cancelEdit = () => {
+    input.setEditMessage(params.channelId, undefined);
+    textAreaEl?.focus();
+  };
 
   const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      cancelEdit();
+      return;
+    }
     if(event.key === "ArrowUp") {
       const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT);
       if (msg) {
@@ -198,7 +209,7 @@ function MessageArea() {
     const channel = channels.get(params.channelId!)!;
     if (editMessageId()) {
       messages.editAndStoreMessage(params.channelId, editMessageId()!, trimmedMessage);
-      input.setEditMessage(params.channelId, undefined);
+      cancelEdit();
     } else {
       messages.sendAndStoreMessage(channel.id, trimmedMessage);
     }
@@ -218,9 +229,12 @@ function MessageArea() {
 
 
   return <div class={styles.messageArea}>
-    <TypingIndicator/>
-    <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
-    <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
+    <Show when={editMessageId()}><Button iconName='close' color='var(--alert-color)' onClick={cancelEdit} class={styles.cancelEditButton}/></Show>
+    <div class={styles.textareaContainer}>
+      <TypingIndicator/>
+      <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
+      <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
+    </div>
     <Button iconName={editMessageId() ? 'edit' : 'send'} onClick={sendMessage} class={styles.button}/>
   </div>
 }
@@ -289,7 +303,7 @@ function TypingIndicator() {
 
   return (
     <Show when={typingUsers().length}>
-      <div class={styles.typingIndicator}>
+      <div class={styles.floating}>
         <Switch>
           <Match when={typingUsers().length === 1}>
             <b>{typingUsers()[0]?.username}</b> is typing...
@@ -324,7 +338,8 @@ function EditIndicator(props: {messageId: string}) {
 
 
   return (
-    <div class={styles.typingIndicator}>
+    <div class={classNames(styles.floating, styles.editIndicator)}>
+      <Icon name='edit' size={17} color='var(--primary-color)' class={styles.editIcon} />
       {message()?.content}
     </div>
   )
