@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 
-import { createEffect, createMemo, createSignal, For, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from 'solid-named-router';
 import useStore from '../../chat-api/store/useStore';
@@ -303,7 +303,7 @@ function TypingIndicator() {
 
   return (
     <Show when={typingUsers().length}>
-      <div class={styles.floating}>
+      <Floating>
         <Switch>
           <Match when={typingUsers().length === 1}>
             <b>{typingUsers()[0]?.username}</b> is typing...
@@ -318,7 +318,7 @@ function TypingIndicator() {
             <b>{typingUsers()[0]?.username}</b>, <b>{typingUsers()[1]?.username}</b>,  <b>{typingUsers()[2]?.username}</b> and <b>{typingUsers().length - 3}</b> others are typing...
           </Match>
         </Switch>
-      </div>
+      </Floating>
     </Show>
   )
 }
@@ -337,10 +337,37 @@ function EditIndicator(props: {messageId: string}) {
   })
 
 
+
   return (
-    <div class={classNames(styles.floating, styles.editIndicator)}>
+    <Floating class={styles.editIndicator}>
       <Icon name='edit' size={17} color='var(--primary-color)' class={styles.editIcon} />
       {message()?.content}
+    </Floating>
+  )
+}
+
+function Floating (props: {class?: string, children: JSX.Element}) {
+  let floatingEl: undefined | HTMLDivElement;
+
+  const readjust = () => {
+    if (!floatingEl) return;
+    const height = floatingEl?.clientHeight;
+    floatingEl.style.top = (-height + 5) + 'px';
+  }
+
+  
+  onMount(() => {
+    const observer = new ResizeObserver(readjust)
+    observer.observe(floatingEl!);
+    onCleanup(() => {
+      observer.disconnect()
+    })
+  })
+
+
+  return (
+    <div ref={floatingEl} class={classNames(styles.floating, props.class)}>
+      {props.children}
     </div>
   )
 }
