@@ -5,7 +5,7 @@ import { useParams } from 'solid-named-router';
 import useStore from '@/chat-api/store/useStore';
 import { createMemo, createSignal, For, mapArray, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
-import ContextMenuServerMember from '../members/context-menu';
+import MemberContextMenu from '../../../member-context-menu';
 
 const MemberItem = (props: {member: ServerMember}) => {
   const user = () => props.member.user; 
@@ -19,7 +19,7 @@ const MemberItem = (props: {member: ServerMember}) => {
 
   return (
     <div class={styles.memberItem} oncontextmenu={onContextMenu} >
-      <ContextMenuServerMember position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
+      <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <Avatar size={25} hexColor={user().hexColor} />
       <div class={styles.memberInfo}>
         <div class={styles.username} style={{color: props.member.roleColor()}} >{user().username}</div>

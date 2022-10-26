@@ -13,18 +13,21 @@ import { ServerMember } from '@/chat-api/store/useServerMembers';
 import Button from '@/components/ui/button';
 import { createStore } from 'solid-js/store';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
+import { User } from '@/chat-api/store/useUsers';
+import { RawUser } from '@/chat-api/RawData';
 type Props = Omit<ContextMenuProps, 'items'> & {
-  serverId: string
+  serverId?: string
   userId: string
+  user?: RawUser
 }
 
-export default function ContextMenuServerMember(props: Props) {
+export default function MemberContextMenu(props: Props) {
   const { serverMembers, servers, account } = useStore();
   const createPortal = useCustomPortal()
 
   
-  const member = () => serverMembers.get(props.serverId, props.userId);
-  const server = () => servers.get(props.serverId);
+  const member = () => props.serverId ? serverMembers.get(props.serverId, props.userId) : undefined;
+  const server = () => props.serverId ? servers.get(props.serverId) : undefined;
 
 
   // createEffect(() => {
@@ -32,23 +35,31 @@ export default function ContextMenuServerMember(props: Props) {
   // })
 
   const adminItems = () => {
+    if (!props.serverId) return [];
 
+    const editRoles = { label: "Edit Roles", icon: "leaderboard", onClick: onEditRoleClick };
     const separator = { separator: true }
     const kick = { label: "Kick", alert: true, icon: "exit_to_app", onClick: onKickClick };
     const ban = { label: "Ban", alert: true, icon: "block", onClick: onBanClick };
 
-    const isMemberServerCreator = props.userId === server()?.createdById;
-    if (isMemberServerCreator) return [];
-
-    const clickedOnMyself = props.userId === account.user()?.id;
-    if (clickedOnMyself) return [];
-
     const AmIServerCreator = server()?.createdById === account.user()?.id;
+    const items: any = [];
+    const hasManageRolePermission = AmIServerCreator || member()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES);
+    if (hasManageRolePermission) {
+      items.push(editRoles);
+    }
+
+    const isMemberServerCreator = props.userId === server()?.createdById;
+    if (isMemberServerCreator) return items;
+    const clickedOnMyself = props.userId === account.user()?.id;
+    if (clickedOnMyself) return items;
+
 
     if (AmIServerCreator) {
       return [
+        ...(member() ? [editRoles] : []),
         separator,
-        kick,
+        ...(member() ? [kick] : []),
         ban,
       ]
     }
@@ -75,7 +86,8 @@ export default function ContextMenuServerMember(props: Props) {
     createPortal?.(close => <Modal {...close}  title={`Kick ${member()?.user.username}`} component={() => <KickModal close={close} member={member()!} />} />)
   }
   const onBanClick = () => {
-    createPortal?.(close => <Modal {...close}  title={`Ban ${member()?.user.username}`} component={() => <BanModal close={close} member={member()!} />} />)
+    const user = props.user! || member()?.user
+    createPortal?.(close => <Modal {...close}  title={`Ban ${user.username}`} component={() => <BanModal close={close} user={user} serverId={props.serverId!} />} />)
   }
 
 
@@ -83,7 +95,6 @@ export default function ContextMenuServerMember(props: Props) {
     <>
       <ContextMenu {...props} items={[
         { label: "View Profile", icon: "person" },
-        { label: "Edit Roles", icon: "leaderboard", onClick: onEditRoleClick },
         ...adminItems(),
         { separator: true },
         { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.userId) },
@@ -113,20 +124,20 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
   )
 }
 
-function BanModal (props: {member: ServerMember, close: () => void}) {
+function BanModal (props: {user: RawUser, serverId: string, close: () => void}) {
   const [requestSent, setRequestSent] = createSignal(false);
 
   const onBanClick = async () => {
     if (requestSent()) return;
     setRequestSent(true);
-    await BanServerMember(props.member.serverId, props.member.userId).finally(() => {
+    await BanServerMember(props.serverId, props.user.id).finally(() => {
       setRequestSent(false);
     });
     props.close();
   }
   return (
     <div class={styles.kickModal}>
-      <div>Are you sure you want to ban <b>{props.member?.user?.username || ""}</b>?</div>
+      <div>Are you sure you want to ban <b>{props.user?.username || ""}</b>?</div>
       <div class={styles.buttons}>
         <Button label='Back' iconName='arrow_back' onClick={props.close}/>
         <Button label={requestSent() ? 'Banning...' :'Ban'}  iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
@@ -138,8 +149,8 @@ function BanModal (props: {member: ServerMember, close: () => void}) {
 
 function RoleModal (props: Props) {
   const {serverRoles, servers} = useStore();
-  const server = () => servers.get(props.serverId);
-  const roles = () => serverRoles.getAllByServerId(props.serverId);
+  const server = () => servers.get(props.serverId!);
+  const roles = () => serverRoles.getAllByServerId(props.serverId!);
   const rolesWithoutDefault = () => roles().filter(role => role!.id !== server()?.defaultRoleId!);
 
   return (
