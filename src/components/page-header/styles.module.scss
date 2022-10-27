@@ -26,9 +26,11 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-right: 10px;
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
+  }
+  .titleName {
+    margin-left: 10px;
   }
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
@@ -74,4 +76,9 @@
 
   }
 
+}
+@media (max-width: 500px) {
+  .titleName {
+    display: none;
+  }
 }

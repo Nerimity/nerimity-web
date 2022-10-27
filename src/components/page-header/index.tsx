@@ -1,7 +1,7 @@
+import styles from './styles.module.scss'
 import { Link } from 'solid-named-router'
 import { classNames, conditionalClass } from '@/common/classNames'
 import env from '@/common/env'
-import styles from './styles.module.scss'
 import { getUserDetailsRequest } from '@/chat-api/services/UserService'
 import { createSignal, Match, onMount, Show, Switch } from 'solid-js'
 import { RawUser } from '@/chat-api/RawData'
@@ -33,7 +33,7 @@ export default function PageHeader() {
             <img class={styles.logo} src="/assets/halloween-logo.png" alt="User Avatar" />
           </Match>
         </Switch>
-        {env.APP_NAME}
+        <div class={styles.titleName}>{env.APP_NAME}</div>
       </a>
       {user() === false && <LoggedOutLinks/>}
       {user() && <LoggedInLinks user={user() as RawUser}/>}
