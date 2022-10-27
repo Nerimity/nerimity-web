@@ -3,10 +3,11 @@ import { classNames, conditionalClass } from '@/common/classNames'
 import env from '@/common/env'
 import styles from './styles.module.scss'
 import { getUserDetailsRequest } from '@/chat-api/services/UserService'
-import { createSignal, onMount } from 'solid-js'
+import { createSignal, Match, onMount, Show, Switch } from 'solid-js'
 import { RawUser } from '@/chat-api/RawData'
 import { getStorageString, StorageKeys } from '@/common/localStorage'
 import Icon from '../ui/icon'
+import { isHalloween } from '@/worldEvents'
 export default function PageHeader() {
 
   const [user, setUser] = createSignal<null | false | RawUser>(null);
@@ -27,7 +28,11 @@ export default function PageHeader() {
   return (
     <header class={styles.header}>
       <a href="/" class={styles.title}>
-        <img class={styles.logo} src="/assets/logo.png" alt="User Avatar" />
+        <Switch fallback={<img class={styles.logo} src="/assets/logo.png" alt="User Avatar" />}>
+          <Match when={isHalloween}>
+            <img class={styles.logo} src="/assets/halloween-logo.png" alt="User Avatar" />
+          </Match>
+        </Switch>
         {env.APP_NAME}
       </a>
       {user() === false && <LoggedOutLinks/>}

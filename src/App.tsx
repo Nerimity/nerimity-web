@@ -1,14 +1,12 @@
 import { onMount } from 'solid-js';
 import { RouterView } from 'solid-named-router';
+import { isHalloween } from './worldEvents';
 
 export default function App() {
-  const halloweenStart = 1666652400000;
-  const halloweenEnd = 1667343600000;
-  const now = Date.now();
+
 
   onMount(() => {
-    // check if now is between halloweenStart and halloweenEnd
-    if (now > halloweenStart && now < halloweenEnd) {
+    if (isHalloween) {
       document.documentElement.style.setProperty('--primary-color', '#df6f1a');
     }
   })
