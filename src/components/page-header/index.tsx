@@ -27,7 +27,7 @@ export default function PageHeader() {
   return (
     <header class={styles.header}>
       <a href="/" class={styles.title}>
-        <img class={styles.logo} src="/src/assets/logo.png" alt="User Avatar" />
+        <img class={styles.logo} src="/assets/logo.png" alt="User Avatar" />
         {env.APP_NAME}
       </a>
       {user() === false && <LoggedOutLinks/>}
