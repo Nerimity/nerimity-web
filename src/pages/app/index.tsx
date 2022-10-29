@@ -22,6 +22,7 @@ import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout from '@/components/ui/drawer';
 import { useNamedRoute } from 'solid-named-router';
+import { ModerationPane } from '@/components/moderation-pane';
 
 async function loadAllCache () {
   const {account} = useStore();
@@ -100,5 +101,6 @@ function MainPane (props: {routeName?: string}) {
     {namedRoute.name === "server_settings" && <CustomSuspense><ServerSettingsPane/></CustomSuspense>}
     {namedRoute.name === 'explore_server' && <CustomSuspense><ExploreServerPane /></CustomSuspense>}
     {namedRoute.name === 'user_profile' && <CustomSuspense><ProfilePane /></CustomSuspense>}
+    {namedRoute.name === 'moderation' && <CustomSuspense><ModerationPane /></CustomSuspense>}
   </div>
 }

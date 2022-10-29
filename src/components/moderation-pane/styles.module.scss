@@ -1,0 +1,75 @@
+.moderationPane {
+  display: flex;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.usersPane .list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
+  overflow: auto;
+}
+.ServersPane .list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
+  overflow: auto;
+}
+.user {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 5px;
+  padding-left: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  .details {
+    margin-left: 5px;
+  }
+  .date {
+    font-size: 14px;
+    span {
+      opacity: 0.6;
+    }
+  }
+  &:hover {
+    background-color: rgb(66, 66, 66);
+  }
+}
+.server {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 5px;
+  padding-left: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  .details {
+    margin-left: 5px;
+  }
+  .date {
+    font-size: 14px;
+    span {
+      opacity: 0.6;
+    }
+  }
+  &:hover {
+    background-color: rgb(66, 66, 66);
+  }
+}

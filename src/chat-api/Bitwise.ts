@@ -1,10 +1,21 @@
 
 export interface Bitwise {
   name: string;
-  description: string;
+  description?: string;
   bit: number;
   icon?: string
 }
+
+export const USER_BADGES = {
+  CREATOR: {
+    name: 'Creator',
+    bit: 1
+  },
+  ADMIN: {
+    name: 'Admin',
+    bit: 2
+  }
+};
 
 export const CHANNEL_PERMISSIONS = {
   PRIVATE_CHANNEL: {

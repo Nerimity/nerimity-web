@@ -50,7 +50,11 @@ render(() => {
           {
             path: "/explore/servers/invites/:inviteId",
             name: "explore_server"
-          }
+          },
+          {
+            path: "/moderation",
+            name: "moderation"
+          },
         ]
       },
       {

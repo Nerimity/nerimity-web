@@ -14,6 +14,7 @@ import AddServer from './add-server';
 import { userStatusDetail } from '../../common/userStatus';
 import { Server } from '../../chat-api/store/useServers';
 import { useCustomPortal } from '../ui/custom-portal';
+import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
 
 
 export default function SidePane () {
@@ -58,9 +59,19 @@ function InboxItem() {
 
 
 function ModerationItem() {
-  return <Link to="/moderation" class={styles.item} >
-    <Icon name='security' title='Moderation' />
-  </Link>
+  const namedRoute = useNamedRoute();
+  const {account} = useStore();
+  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit)
+
+  const selected = () => namedRoute.name === "moderation";
+
+  return (
+    <Show when={hasModeratorPerm()}>
+      <Link to="/app/moderation" class={classNames(styles.item, conditionalClass(selected(), styles.selected))} >
+        <Icon name='security' title='Moderation' />
+      </Link>
+    </Show>
+  )
 }
 function SettingsItem() {
   return <div class={styles.item} >

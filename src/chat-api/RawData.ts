@@ -35,6 +35,7 @@ export interface RawUser {
   username: string;
   hexColor: string;
   tag: string;
+  badges: number;
   joinedAt?: string;
 }
 
