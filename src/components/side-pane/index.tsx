@@ -29,6 +29,7 @@ export default function SidePane () {
       <ServerList />
       <Item iconName='add_box' onClick={showAddServerModal}  />
     </div>
+    <ModerationItem />
     <SettingsItem />
     <UserItem />
   </div>
@@ -47,16 +48,23 @@ function InboxItem() {
   return (
   <Link 
       to={RouterEndpoints.INBOX()} class={
-      classNames(styles.item, styles.settingsIcon, conditionalClass(isSelected(), styles.selected), conditionalClass(count(), styles.hasNotifications))}
+      classNames(styles.item, conditionalClass(isSelected(), styles.selected), conditionalClass(count(), styles.hasNotifications))}
     >
     <Show when={count()}><div class={styles.notificationCount}>{count()}</div></Show>
     <Icon name='all_inbox' />
   </Link>
   )
 }
+
+
+function ModerationItem() {
+  return <Link to="/moderation" class={styles.item} >
+    <Icon name='security' title='Moderation' />
+  </Link>
+}
 function SettingsItem() {
-  return <div class={`${styles.item} ${styles.settingsIcon}`} >
-    <Icon name='settings' />
+  return <div class={styles.item} >
+    <Icon name='settings' title='Settings' />
   </div>
 }
 
