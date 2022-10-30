@@ -1,13 +1,15 @@
+import styles from './styles.module.scss'
 import env from '@/common/env'
 import Button from '@/components/ui/button'
 import { Link } from 'solid-named-router'
 import PageHeader from '../../components/page-header'
-import styles from './styles.module.scss'
 export default function HomePage () {
   return (
     <div class={styles.homePage}>
       <PageHeader />
       <Body/>
+
+      <img class={styles.homePageArt} src="./assets/home-page-art.svg" alt=""/>
     </div>
   )
 }

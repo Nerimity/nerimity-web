@@ -8,6 +8,14 @@
   padding-top: 90px;
 }
 
+.homePageArt {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: auto;
+  height: 100%;
+  opacity: 0.02;
+}
 
 
 .topArea {
@@ -35,5 +43,12 @@
         width: 130px;
       }
     }
+  }
+}
+
+@media (orientation: portrait) {
+  .homePageArt  {
+    width: 100%;
+    height: auto;
   }
 }
