@@ -97,9 +97,10 @@ const MessageLogArea = () => {
     if (selectedChannelId !== newMessageChannelId) return;
     if (message.createdBy.id === account.user()?.id) return;
     if (!hasFocus()) {
-      if ((channel().lastSeen || null) !== unreadLastSeen()) {
+      const timestamp = channel().lastSeen ? new Date(channel().lastSeen!).getTime() : null;
+      if (timestamp !== unreadLastSeen()) {
         setUnreadMessageId(message.id);
-        setUnreadLastSeen(channel().lastSeen ? new Date(channel().lastSeen!).getTime() : null);
+        setUnreadLastSeen(timestamp);
       };
     }
     channel()?.dismissNotification();
