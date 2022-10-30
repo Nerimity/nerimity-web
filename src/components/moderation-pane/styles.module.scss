@@ -38,6 +38,11 @@
   border-radius: 4px;
   cursor: pointer;
   transition: 0.2s;
+  text-decoration: none;
+  color: white;
+  .tag {
+    opacity: 0.6;
+  }
   .details {
     margin-left: 5px;
   }
@@ -60,6 +65,8 @@
   border-radius: 4px;
   cursor: pointer;
   transition: 0.2s;
+  text-decoration: none;
+  color: white;
   .details {
     margin-left: 5px;
   }

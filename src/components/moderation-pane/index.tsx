@@ -6,6 +6,7 @@ import { getOnlineUsers, getServers, getUsers } from '@/chat-api/services/Modera
 import { classNames } from '@/common/classNames';
 import Avatar from '../ui/avatar';
 import { formatTimestamp } from '@/common/date';
+import { Link } from 'solid-named-router';
 
 export function ModerationPane() {
   const {account, header} = useStore();
@@ -78,24 +79,26 @@ function User (props: {user: any}) {
 
   const joined = formatTimestamp(props.user.joinedAt);
   return (
-    <div class={styles.user}>
+    <Link to={`/app/moderation/users/${props.user.id}`} class={styles.user}>
       <Avatar hexColor={props.user.hexColor} size={28} />
       <div class={styles.details}>
-        <div>{props.user.username}</div>
+        <div>{props.user.username}<span class={styles.tag}>:{props.user.tag}</span></div>
         <div class={styles.date}><span>Registered</span> {joined}</div>
       </div>
-    </div>
+    </Link>
   )
 }
 function Server (props: {server: any}) {
   const created = formatTimestamp(props.server.createdAt);
+  const createdBy = props.server.createdBy;
   return (
-    <div class={styles.server}>
+    <Link to={`/app/moderation/servers/${props.server.id}`} class={styles.server}>
       <Avatar hexColor={props.server.hexColor} size={28} />
       <div class={styles.details}>
         <div>{props.server.name}</div>
         <div class={styles.date}><span>Created</span> {created}</div>
+        <div class={styles.date}><span>Created By</span> <Link to={`/app/moderation/users/${createdBy.id}`}>{createdBy.username}</Link></div>
       </div>
-    </div>
+    </Link>
   )
 }
