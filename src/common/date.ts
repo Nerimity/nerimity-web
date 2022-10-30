@@ -8,9 +8,9 @@ export function formatTimestamp(timestamp: number | string) {
   const date = new Date(timestamp);
   const today = new Date();
   const yesterday = new Date(today.getTime() - 86400000);
-  if (date.getDate() === today.getDate()) {
+  if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
     return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  } else if (date.getDate() === yesterday.getDate()) {
+  } else if (date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   } else {
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;

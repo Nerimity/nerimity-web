@@ -82,7 +82,10 @@ function User (props: {user: any}) {
     <Link to={`/app/moderation/users/${props.user.id}`} class={styles.user}>
       <Avatar hexColor={props.user.hexColor} size={28} />
       <div class={styles.details}>
-        <div>{props.user.username}<span class={styles.tag}>:{props.user.tag}</span></div>
+        <div>
+          {props.user.username}
+          <span class={styles.tag}>:{props.user.tag}</span>
+        </div>
         <div class={styles.date}><span>Registered</span> {joined}</div>
       </div>
     </Link>
@@ -90,6 +93,7 @@ function User (props: {user: any}) {
 }
 function Server (props: {server: any}) {
   const created = formatTimestamp(props.server.createdAt);
+  console.log(created, props.server.createdAt)
   const createdBy = props.server.createdBy;
   return (
     <Link to={`/app/moderation/servers/${props.server.id}`} class={styles.server}>
@@ -97,7 +101,7 @@ function Server (props: {server: any}) {
       <div class={styles.details}>
         <div>{props.server.name}</div>
         <div class={styles.date}><span>Created</span> {created}</div>
-        <div class={styles.date}><span>Created By</span> <Link to={`/app/moderation/users/${createdBy.id}`}>{createdBy.username}</Link></div>
+        <div class={styles.date}><span>Created By</span> <Link to={`/app/moderation/users/${createdBy.id}`}>{createdBy.username}:{createdBy.tag}</Link></div>
       </div>
     </Link>
   )

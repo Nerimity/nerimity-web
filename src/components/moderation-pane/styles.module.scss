@@ -2,6 +2,11 @@
   display: flex;
   height: 100%;
   overflow-y: auto;
+  gap: 5px;
+  a {
+   text-decoration: none;
+  }
+  padding: 5px;
 }
 
 .pane {
@@ -9,7 +14,6 @@
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
-  margin: 10px;
   padding: 10px;
   width: 250px;
   flex-shrink: 0;
@@ -22,7 +26,7 @@
   margin-top: 10px;
   overflow: auto;
 }
-.ServersPane .list {
+.serversPane .list {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -45,6 +49,9 @@
   }
   .details {
     margin-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .date {
     font-size: 14px;
@@ -69,9 +76,15 @@
   color: white;
   .details {
     margin-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .date {
     font-size: 14px;
+    a:hover {
+      text-decoration: underline;
+    }
     span {
       opacity: 0.6;
     }

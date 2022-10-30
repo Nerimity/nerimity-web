@@ -52,7 +52,7 @@ render(() => {
             name: "explore_server"
           },
           {
-            path: "/moderation",
+            path: "/moderation(/users/:userId)(/servers/:serverId)",
             name: "moderation"
           },
         ]
