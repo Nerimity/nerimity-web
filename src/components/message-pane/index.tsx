@@ -153,7 +153,7 @@ const MessageLogArea = () => {
 
 
 function MessageArea() {
-  const {input} = useStore();
+  const {input, account} = useStore();
   const params = useParams<{channelId: string}>();
   let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
@@ -182,12 +182,13 @@ function MessageArea() {
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
+    const myId = account.user()?.id;
     if (event.key === "Escape") {
       cancelEdit();
       return;
     }
     if(event.key === "ArrowUp") {
-      const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT);
+      const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT && m.createdBy.id === myId);
       if (msg) {
         input.setEditMessage(params.channelId, msg);
         event.preventDefault();
