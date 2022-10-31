@@ -6,11 +6,14 @@ interface RequestOpts {
   body?: any;
   useToken?: boolean;
   notJSON?: boolean;
+  params?: Record<any, any>;
 }
 
 export async function request<T>(opts: RequestOpts): Promise<T> {
   const token = getStorageString(StorageKeys.USER_TOKEN, '' );
-  const response = await fetch(opts.url, {
+  const url = new URL(opts.url);
+  url.search = new URLSearchParams(opts.params || {}).toString();
+  const response = await fetch(url, {
     method: opts.method,
     body: JSON.stringify(opts.body),
     headers: {

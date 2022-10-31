@@ -1,12 +1,14 @@
 import styles from './styles.module.scss'
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
-import { createEffect, createResource, For, Show } from "solid-js";
+import { createEffect, createResource, createSignal, For, on, onMount, Show } from "solid-js";
 import { getOnlineUsers, getServers, getUsers } from '@/chat-api/services/ModerationService';
 import { classNames } from '@/common/classNames';
 import Avatar from '../ui/avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link } from 'solid-named-router';
+import { RawServer, RawUser } from '@/chat-api/RawData';
+import Button from '../ui/button';
 
 export function ModerationPane() {
   const {account, header} = useStore();
@@ -33,8 +35,24 @@ export function ModerationPane() {
 }
 
 function UsersPane() {
+
+  const [users, setUsers] = createSignal<RawUser[]>([]);
+  const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
+  const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
   
-  const [users] = createResource(getUsers);
+  createEffect(on(afterId, async () => {
+    setLoadMoreClicked(true);
+    const newUsers = await getUsers(afterId());
+    setUsers([...users(),  ...newUsers])
+    setLoadMoreClicked(false);
+  }));
+
+  const onLoadMoreClick = () => {
+    const user = users()[users().length - 1];
+    setAfterId(user.id);
+  }
+
+  
   return (
     <div class={classNames(styles.pane, styles.usersPane)}>
       <div class={styles.title}>Registered Users</div>
@@ -42,6 +60,7 @@ function UsersPane() {
         <For each={users()}>
           {user => <User user={user}/>}
         </For>
+        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick}/></Show>
       </div>
     </div>
   )
@@ -62,7 +81,25 @@ function OnlineUsersPane() {
 }
 function ServersPane() {
   
-  const [servers] = createResource(getServers);
+  const [servers, setServers] = createSignal<RawServer[]>([]);
+  const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
+  const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+  
+  
+  
+  createEffect(on(afterId, async () => {
+    setLoadMoreClicked(true);
+    const newServers = await getServers(afterId());
+    setServers([...servers(),  ...newServers])
+    setLoadMoreClicked(false);
+  }));
+
+  const onLoadMoreClick = () => {
+    const server = servers()[servers().length - 1];
+    setAfterId(server.id);
+  }
+
+  
   return (
     <div class={classNames(styles.pane, styles.serversPane)}>
       <div class={styles.title}>Servers</div>
@@ -70,6 +107,7 @@ function ServersPane() {
         <For each={servers()}>
           {server => <Server server={server}/>}
         </For>
+        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick}/></Show>
       </div>
     </div>
   )
