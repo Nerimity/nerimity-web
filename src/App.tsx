@@ -9,7 +9,7 @@ export default function App() {
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {
-      document.documentElement.style.setProperty('--primary-color', '#df6f1a');
+      document.documentElement.style.setProperty('--primary-color', '#d76623');
     }
   })
 

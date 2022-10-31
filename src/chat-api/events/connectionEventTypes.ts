@@ -30,5 +30,6 @@ interface SelfUser {
   username: string;
   hexColor: string;
   avatar?: string;
+  badges: number;
   tag: string;
 }

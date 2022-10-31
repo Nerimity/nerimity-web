@@ -102,10 +102,37 @@ const InboxDrawer = () => {
 
 
 const InboxDrawerTab = () => {
-  const {inbox} = useStore();
+  const {inbox, mentions, channels, users} = useStore();
+
+
+  const mentionUserArray = () => mentions.array().filter(m => {
+    const channel = channels.get(m?.channelId!);
+    return !channel?.serverId
+  }).map(m => users.get(m?.userId!))
+
+  const array = () => {
+    const users = mentionUserArray();
+    const inboxArray = inbox.array().sort((a, b) => {
+      const aTime = new Date(a.channel.lastMessagedAt!).getTime();
+      const bTime = new Date(b.channel.lastMessagedAt!).getTime();
+      return bTime - aTime;
+    });
+
+
+
+    for (let i = 0; i < inboxArray.length; i++) {
+      const inboxItem = inboxArray[i];
+      const alreadyExists = users.find(u => u.id === inboxItem.channel.recipient?.id);
+      if (!alreadyExists) {
+        users.push(inboxItem.channel.recipient!);
+      }
+    }
+    return users;
+  }
+
   return <div>
-    <For each={inbox.array()}>
-      {inboxItem => <FriendItem user={inboxItem.channel.recipient}  />}
+    <For each={array()}>
+      {user => <FriendItem user={user}  />}
     </For>
   </div>
 };
