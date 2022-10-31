@@ -29,11 +29,6 @@ export default function MemberContextMenu(props: Props) {
   const member = () => props.serverId ? serverMembers.get(props.serverId, props.userId) : undefined;
   const server = () => props.serverId ? servers.get(props.serverId) : undefined;
 
-
-  // createEffect(() => {
-  //   console.log(member()?.hasPermission(ROLE_PERMISSIONS.BAN))
-  // })
-
   const adminItems = () => {
     if (!props.serverId) return [];
 

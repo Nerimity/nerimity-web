@@ -62,9 +62,6 @@ export default function ContextMenu(props: ContextMenuProps) {
     if (!props.position) return;
     if (!contextMenuElement) return;
     // move the context menu to the left if it's off the screen.
-    setTimeout(() => {
-      // console.log(contextMenuElement.getBoundingClientRect().width)
-    }, 100);
     if (props.position.x + contextMenuElement.clientWidth > window.innerWidth) {
       return props.position.x - contextMenuElement.clientWidth + "px";
     }

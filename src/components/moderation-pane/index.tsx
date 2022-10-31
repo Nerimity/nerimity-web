@@ -93,7 +93,6 @@ function User (props: {user: any}) {
 }
 function Server (props: {server: any}) {
   const created = formatTimestamp(props.server.createdAt);
-  console.log(created, props.server.createdAt)
   const createdBy = props.server.createdBy;
   return (
     <Link to={`/app/moderation/servers/${props.server.id}`} class={styles.server}>
