@@ -93,7 +93,7 @@ export default function ServerSettingsRole() {
 
       {/* Role Color */}
       <SettingsBlock icon='colorize' label='Role Color'>
-        <ColorPicker color={inputValues().hexColor} />
+        <ColorPicker color={inputValues().hexColor} onChange={v => setInputValue('hexColor', v)} />
       </SettingsBlock>
 
       {/* Hide Role */}
@@ -156,10 +156,20 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
 }
 
 
-function ColorPicker(props: {color: string}) {
+function ColorPicker(props: {color: string, onChange?: (value: string) => void}) {
+  let inputEl: undefined | HTMLInputElement
+
+  const onClicked = () => {
+    inputEl?.click();
+  }
+  const onChange = () => {
+    props.onChange?.(inputEl?.value!)
+  }
+
   return (
-    <div class={styles.colorPicker} style={{background: props.color}}>
+    <div class={styles.colorPicker} style={{background: props.color}} onclick={onClicked}>
       <Icon name='colorize' color='white' size={18} class={styles.icon} />
+      <input style={{position: 'absolute', opacity: 0}} ref={inputEl}  type="color" value={props.color} onchange={onChange} />
     </div>
   )
 }
