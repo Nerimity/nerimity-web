@@ -5,7 +5,7 @@ import RouterEndpoints from '../../common/RouterEndpoints';
 import { classNames, conditionalClass } from '@/common/classNames';
 
 import ContextMenuServer from '@/components/servers/context-menu';
-import { createSignal, For, Show } from 'solid-js';
+import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Link, useNamedRoute, useParams } from 'solid-named-router';
 import { FriendStatus } from '../../chat-api/RawData';
@@ -15,6 +15,7 @@ import { userStatusDetail } from '../../common/userStatus';
 import { Server } from '../../chat-api/store/useServers';
 import { useCustomPortal } from '../ui/custom-portal';
 import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
+import { updateTitleAlert } from '@/common/BrowserTitle';
 
 
 export default function SidePane () {
@@ -38,13 +39,18 @@ export default function SidePane () {
 
 
 function InboxItem() {
-  const {inbox, friends} = useStore();
+  const {inbox, friends, channels} = useStore();
   const namedRoute = useNamedRoute();
   const isSelected = () => namedRoute.pathname.startsWith(RouterEndpoints.INBOX());
   const notificationCount = () => inbox.notificationCount(); 
   const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
 
   const count = () => (notificationCount() + friendRequestCount());
+
+  createEffect(() => {
+    updateTitleAlert(count() || channels.hasNotification() ? true : false);
+  })
+
 
   return (
   <Link 

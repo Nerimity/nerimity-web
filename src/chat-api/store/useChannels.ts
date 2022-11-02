@@ -101,6 +101,10 @@ const removeAllServerChannels = (serverId: string) => {
   })
 }
 
+const hasNotification = () => {
+  return array().find(c => c?.hasNotifications)
+}
+
 
 export default function useChannels() {
   return {
@@ -109,6 +113,7 @@ export default function useChannels() {
     deleteChannel,
     get,
     set,
-    removeAllServerChannels
+    removeAllServerChannels,
+    hasNotification
   }
 }
