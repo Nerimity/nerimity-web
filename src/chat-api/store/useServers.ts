@@ -41,11 +41,17 @@ const get = (serverId: string) => servers[serverId]
 
 const array = () => Object.values(servers);
 
+
+const hasNotifications =  () => {
+  return array().find(s => s?.hasNotifications);
+}
+
 export default function useServers() {
   return {
     array,
     get,
     set,
+    hasNotifications,
     remove
   }
 }

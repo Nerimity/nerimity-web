@@ -39,7 +39,7 @@ export default function SidePane () {
 
 
 function InboxItem() {
-  const {inbox, friends, channels} = useStore();
+  const {inbox, friends, servers} = useStore();
   const namedRoute = useNamedRoute();
   const isSelected = () => namedRoute.pathname.startsWith(RouterEndpoints.INBOX());
   const notificationCount = () => inbox.notificationCount(); 
@@ -48,7 +48,7 @@ function InboxItem() {
   const count = () => (notificationCount() + friendRequestCount());
 
   createEffect(() => {
-    updateTitleAlert(count() || channels.hasNotification() ? true : false);
+    updateTitleAlert(count() || servers.hasNotifications() ? true : false);
   })
 
 
