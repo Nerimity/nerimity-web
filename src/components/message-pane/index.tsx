@@ -173,14 +173,14 @@ function MessageArea() {
   createEffect(() => {
     if (editMessageId()) {
       textAreaEl?.focus();
-      setTimeout(() => adjustHeight());
     }
   })
+
+  createEffect(on(message, () => adjustHeight()));
   
   const cancelEdit = () => {
     input.setEditMessage(params.channelId, undefined);
     textAreaEl?.focus();
-    adjustHeight();
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -210,7 +210,6 @@ function MessageArea() {
     textAreaEl?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
-    adjustHeight();
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
     if (editMessageId()) {
@@ -358,7 +357,7 @@ function EditIndicator(props: {messageId: string}) {
   return (
     <Floating class={styles.editIndicator}>
       <Icon name='edit' size={17} color='var(--primary-color)' class={styles.editIcon} />
-      {message()?.content}
+      <div class={styles.message}>{message()?.content}</div>
     </Floating>
   )
 }
