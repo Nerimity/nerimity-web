@@ -6,22 +6,24 @@ import Endpoints from './ServiceEndpoints';
 
 
 
-export const getServers = async (afterId?: string) => {
+export const getServers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: 'GET',
     params: {
-      ...(afterId ? {after: afterId} : undefined)
+      ...(afterId ? {after: afterId} : undefined),
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/servers",
     useToken: true,
   });
   return data;
 };
-export const getUsers = async (afterId?: string) => {
+export const getUsers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: 'GET',
     params: {
-      ...(afterId ? {after: afterId} : undefined)
+      ...(afterId ? {after: afterId} : undefined),
+      limit
     },
     url: env.SERVER_URL + "/api/moderation/users",
     useToken: true,

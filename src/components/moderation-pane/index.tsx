@@ -35,6 +35,7 @@ export function ModerationPane() {
 }
 
 function UsersPane() {
+  const LIMIT = 30;
 
   const [users, setUsers] = createSignal<RawUser[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
@@ -42,10 +43,10 @@ function UsersPane() {
   
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
-    getUsers(afterId())
+    getUsers(2, afterId())
       .then(newUsers => {
         setUsers([...users(),  ...newUsers])
-        if (newUsers.length) setLoadMoreClicked(false); 
+        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
       })
       .catch(() => setLoadMoreClicked(false))
   }));
@@ -83,6 +84,7 @@ function OnlineUsersPane() {
   )
 }
 function ServersPane() {
+  const LIMIT = 30;
   
   const [servers, setServers] = createSignal<RawServer[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
@@ -92,10 +94,10 @@ function ServersPane() {
   
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
-    getServers(afterId())
+    getServers(LIMIT, afterId())
       .then(newServers => {
         setServers([...servers(),  ...newServers])
-        if (newServers.length) setLoadMoreClicked(false);
+        if (newServers.length >= LIMIT) setLoadMoreClicked(false);
       })
       .catch(() => setLoadMoreClicked(false))
   }));
