@@ -11,24 +11,27 @@ import { RawServer, RawUser } from '@/chat-api/RawData';
 import Button from '../ui/button';
 
 export function ModerationPane() {
-  const {account, header} = useStore();
-  
-  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit)
+  const { account, header } = useStore();
+
+  const [load, setLoad] = createSignal(false);
+
+  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   createEffect(() => {
-    if (!hasModeratorPerm()) return;
+    if (!account.isAuthenticated() || !hasModeratorPerm()) return;
     header.updateHeader({
       title: "Moderation",
       iconName: 'security',
     });
+    setLoad(true);
   })
 
   return (
-    <Show when={hasModeratorPerm()}>
+    <Show when={load()}>
       <div class={styles.moderationPane}>
-        <UsersPane/>
-        <OnlineUsersPane/>
-        <ServersPane/>
+        <UsersPane />
+        <OnlineUsersPane />
+        <ServersPane />
       </div>
     </Show>
   )
@@ -40,12 +43,12 @@ function UsersPane() {
   const [users, setUsers] = createSignal<RawUser[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
-  
+
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
     getUsers(2, afterId())
       .then(newUsers => {
-        setUsers([...users(),  ...newUsers])
+        setUsers([...users(), ...newUsers])
         if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
       })
       .catch(() => setLoadMoreClicked(false))
@@ -56,28 +59,28 @@ function UsersPane() {
     setAfterId(user.id);
   }
 
-  
+
   return (
     <div class={classNames(styles.pane, styles.usersPane)}>
       <div class={styles.title}>Registered Users</div>
       <div class={styles.list}>
         <For each={users()}>
-          {user => <User user={user}/>}
+          {user => <User user={user} />}
         </For>
-        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick}/></Show>
+        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
       </div>
     </div>
   )
 }
 function OnlineUsersPane() {
-  
+
   const [users] = createResource(getOnlineUsers);
   return (
     <div class={classNames(styles.pane, styles.usersPane)}>
       <div class={styles.title}>Online Users</div>
       <div class={styles.list}>
         <For each={users()}>
-          {user => <User user={user}/>}
+          {user => <User user={user} />}
         </For>
       </div>
     </div>
@@ -85,18 +88,18 @@ function OnlineUsersPane() {
 }
 function ServersPane() {
   const LIMIT = 30;
-  
+
   const [servers, setServers] = createSignal<RawServer[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
-  
-  
-  
+
+
+
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
     getServers(LIMIT, afterId())
       .then(newServers => {
-        setServers([...servers(),  ...newServers])
+        setServers([...servers(), ...newServers])
         if (newServers.length >= LIMIT) setLoadMoreClicked(false);
       })
       .catch(() => setLoadMoreClicked(false))
@@ -107,21 +110,21 @@ function ServersPane() {
     setAfterId(server.id);
   }
 
-  
+
   return (
     <div class={classNames(styles.pane, styles.serversPane)}>
       <div class={styles.title}>Servers</div>
       <div class={styles.list}>
         <For each={servers()}>
-          {server => <Server server={server}/>}
+          {server => <Server server={server} />}
         </For>
-        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick}/></Show>
+        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
       </div>
     </div>
   )
 }
 
-function User (props: {user: any}) {
+function User(props: { user: any }) {
 
   const joined = formatTimestamp(props.user.joinedAt);
   return (
@@ -137,7 +140,7 @@ function User (props: {user: any}) {
     </Link>
   )
 }
-function Server (props: {server: any}) {
+function Server(props: { server: any }) {
   const created = formatTimestamp(props.server.createdAt);
   const createdBy = props.server.createdBy;
   return (
