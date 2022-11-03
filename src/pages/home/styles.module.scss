@@ -4,6 +4,7 @@
   width: 100%;
 }
 
+
 .body {
   padding-top: 90px;
 }
@@ -15,6 +16,8 @@
   width: auto;
   height: 100%;
   opacity: 0.02;
+
+  pointer-events: none;
 }
 
 
