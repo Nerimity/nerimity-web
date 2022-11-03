@@ -46,7 +46,7 @@ function UsersPane() {
 
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
-    getUsers(2, afterId())
+    getUsers(LIMIT, afterId())
       .then(newUsers => {
         setUsers([...users(), ...newUsers])
         if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
