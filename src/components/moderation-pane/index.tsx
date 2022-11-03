@@ -42,9 +42,12 @@ function UsersPane() {
   
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
-    const newUsers = await getUsers(afterId());
-    setUsers([...users(),  ...newUsers])
-    setLoadMoreClicked(false);
+    getUsers(afterId())
+      .then(newUsers => {
+        setUsers([...users(),  ...newUsers])
+        if (newUsers.length) setLoadMoreClicked(false); 
+      })
+      .catch(() => setLoadMoreClicked(false))
   }));
 
   const onLoadMoreClick = () => {
@@ -89,9 +92,12 @@ function ServersPane() {
   
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
-    const newServers = await getServers(afterId());
-    setServers([...servers(),  ...newServers])
-    setLoadMoreClicked(false);
+    getServers(afterId())
+      .then(newServers => {
+        setServers([...servers(),  ...newServers])
+        if (newServers.length) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false))
   }));
 
   const onLoadMoreClick = () => {
