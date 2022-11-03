@@ -41,7 +41,6 @@ const set = (channel: RawChannel) => {
       get hasNotifications() {
         const lastMessagedAt = new Date(this.lastMessagedAt!).getTime() || 0;
         const lastSeenAt = new Date(this.lastSeen!).getTime() || 0;
-        console.log(this, lastMessagedAt, lastSeenAt)
         if (!lastSeenAt) return true;
         return lastMessagedAt > lastSeenAt;
       },

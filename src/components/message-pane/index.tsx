@@ -173,12 +173,14 @@ function MessageArea() {
   createEffect(() => {
     if (editMessageId()) {
       textAreaEl?.focus();
+      setTimeout(() => adjustHeight());
     }
   })
   
   const cancelEdit = () => {
     input.setEditMessage(params.channelId, undefined);
     textAreaEl?.focus();
+    adjustHeight();
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -188,6 +190,7 @@ function MessageArea() {
       return;
     }
     if(event.key === "ArrowUp") {
+      if (editMessageId()) return;
       const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT && m.createdBy.id === myId);
       if (msg) {
         input.setEditMessage(params.channelId, msg);
@@ -207,6 +210,7 @@ function MessageArea() {
     textAreaEl?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
+    adjustHeight();
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
     if (editMessageId()) {
@@ -218,8 +222,19 @@ function MessageArea() {
     typingTimeoutId && clearTimeout(typingTimeoutId)
     typingTimeoutId = null;
   }
+
+  const adjustHeight = () => {
+    let MAX_HEIGHT = 100;
+    textAreaEl!.style.height = '0px';
+    let newHeight = (textAreaEl!.scrollHeight - 19);
+    if (newHeight > MAX_HEIGHT) newHeight = MAX_HEIGHT;
+    textAreaEl!.style.height = newHeight + "px";
+    textAreaEl!.scrollTop = textAreaEl!.scrollHeight;
+  }
   
   const onInput = (event: any) => {
+
+    adjustHeight();
     setMessage(event.target?.value);
     if (typingTimeoutId) return;
     postChannelTyping(params.channelId);
