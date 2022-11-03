@@ -67,7 +67,7 @@ function InboxItem() {
 function ModerationItem() {
   const namedRoute = useNamedRoute();
   const {account} = useStore();
-  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit)
+  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   const selected = () => namedRoute.name === "moderation";
 
