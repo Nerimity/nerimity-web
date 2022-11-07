@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { useParams } from '@solidjs/router';
+import { useParams } from '@nerimity/solid-router';
 import { createEffect, createSignal, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';

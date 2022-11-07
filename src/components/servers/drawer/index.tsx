@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import Header from './header';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
 import { For } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';

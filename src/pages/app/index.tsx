@@ -19,7 +19,7 @@ import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout from '@/components/ui/drawer';
-import { Route, Routes } from '@solidjs/router';
+import { Route, Routes } from '@nerimity/solid-router';
 
 async function loadAllCache () {
   const {account} = useStore();

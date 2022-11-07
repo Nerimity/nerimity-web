@@ -1,4 +1,4 @@
-import { Link, useParams } from '@solidjs/router';
+import { Link, useParams } from '@nerimity/solid-router';
 import { createEffect, createResource, For, on, Show } from 'solid-js';
 import { FriendStatus } from '@/chat-api/RawData';
 import { getUserDetailsRequest, updatePresence, UserDetails } from '@/chat-api/services/UserService';

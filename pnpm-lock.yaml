@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@solidjs/router': github:Nerimity/solid-router
+  '@nerimity/solid-router': ^0.4.3
   '@types/node': ^18.7.13
   idb-keyval: ^6.2.0
   material-icons: ^1.11.10
@@ -14,7 +14,7 @@ specifiers:
   vite-plugin-solid: ^2.3.10
 
 dependencies:
-  '@solidjs/router': github.com/Nerimity/solid-router/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8_solid-js@1.6.0
+  '@nerimity/solid-router': 0.4.3_solid-js@1.6.0
   idb-keyval: 6.2.0
   material-icons: 1.12.0
   sass: 1.55.0
@@ -398,6 +398,14 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /@nerimity/solid-router/0.4.3_solid-js@1.6.0:
+    resolution: {integrity: sha512-+jFW5hW4WVS1pX0RzXn9FOW2X2TPsonDFcrYOOgczfnjLlmmM4iT3hl1+YrQxnKcLPHyYemORmwGOIBMBXBIDg==}
+    peerDependencies:
+      solid-js: ^1.5.3
+    dependencies:
+      solid-js: 1.6.0
+    dev: false
 
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
@@ -1114,17 +1122,4 @@ packages:
   /xmlhttprequest-ssl/2.0.0:
     resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
     engines: {node: '>=0.4.0'}
-    dev: false
-
-  github.com/Nerimity/solid-router/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8_solid-js@1.6.0:
-    resolution: {tarball: https://codeload.github.com/Nerimity/solid-router/tar.gz/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8}
-    id: github.com/Nerimity/solid-router/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8
-    name: '@solidjs/router'
-    version: 0.4.3
-    prepare: true
-    requiresBuild: true
-    peerDependencies:
-      solid-js: ^1.5.3
-    dependencies:
-      solid-js: 1.6.0
     dev: false

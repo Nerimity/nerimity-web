@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import ServerDrawerHeader from '@/components/servers/drawer/header';
 import Icon from '@/components/ui/icon';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useParams } from '@nerimity/solid-router';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';

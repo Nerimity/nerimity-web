@@ -9,7 +9,7 @@ import useStore from '@/chat-api/store/useStore';
 import { FriendStatus } from '@/chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddFriend from './add-friend';
-import { useParams } from '@solidjs/router';
+import { useParams } from '@nerimity/solid-router';
 import { useCustomPortal } from '@/components/ui/custom-portal';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {

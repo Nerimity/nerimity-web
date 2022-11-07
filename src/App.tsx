@@ -2,7 +2,7 @@ import { onMount, lazy } from 'solid-js';
 import env from './common/env';
 import { isHalloween } from './worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
-import { Link, Route, Routes, useNavigate, useParams } from '@solidjs/router';
+import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-router';
 
 const HomePage = lazy(() => import('./pages/home'));
 const RegisterPage = lazy(() => import('./pages/register'));

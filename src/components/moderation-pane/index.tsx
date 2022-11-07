@@ -6,7 +6,7 @@ import { getOnlineUsers, getServers, getUsers } from '@/chat-api/services/Modera
 import { classNames } from '@/common/classNames';
 import Avatar from '../ui/avatar';
 import { formatTimestamp } from '@/common/date';
-import { Link } from '@solidjs/router';
+import { Link } from '@nerimity/solid-router';
 import { RawServer, RawUser } from '@/chat-api/RawData';
 import Button from '../ui/button';
 

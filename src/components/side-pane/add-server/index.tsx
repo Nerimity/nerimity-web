@@ -5,7 +5,7 @@ import Button from '@/components/ui/button';
 import { createServer } from '@/chat-api/services/ServerService';
 import { createSignal } from 'solid-js';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useNavigate } from '@solidjs/router';
+import { useNavigate } from '@nerimity/solid-router';
 
 export default function AddServer(props: {close: () => void}) {
   const navigate = useNavigate();

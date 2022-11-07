@@ -7,7 +7,7 @@ import { MessageType, RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
 import { createSignal, onMount, Show } from 'solid-js';
 import MemberContextMenu from '@/components/member-context-menu';

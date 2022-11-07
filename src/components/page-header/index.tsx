@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import { Link } from '@solidjs/router'
+import { Link } from '@nerimity/solid-router'
 import { classNames, conditionalClass } from '@/common/classNames'
 import env from '@/common/env'
 import { getUserDetailsRequest } from '@/chat-api/services/UserService'

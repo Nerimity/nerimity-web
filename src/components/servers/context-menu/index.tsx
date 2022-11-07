@@ -2,7 +2,7 @@ import { copyToClipboard } from "@/common/clipboard";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu";
 import useStore from "@/chat-api/store/useStore";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate } from "@nerimity/solid-router";
 
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string

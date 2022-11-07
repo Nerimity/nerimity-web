@@ -7,7 +7,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu';
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-import { Link, useLocation, useParams, useMatch } from '@solidjs/router';
+import { Link, useLocation, useParams, useMatch } from '@nerimity/solid-router';
 import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddServer from './add-server';
