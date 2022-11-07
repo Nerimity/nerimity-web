@@ -7,7 +7,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu';
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-import { Link, useNamedRoute, useParams } from 'solid-named-router';
+import { Link, useLocation, useParams, useMatch } from '@solidjs/router';
 import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddServer from './add-server';
@@ -40,8 +40,8 @@ export default function SidePane () {
 
 function InboxItem() {
   const {inbox, friends, servers} = useStore();
-  const namedRoute = useNamedRoute();
-  const isSelected = () => namedRoute.pathname.startsWith(RouterEndpoints.INBOX());
+  const location = useLocation();
+  const isSelected = () => location.pathname.startsWith(RouterEndpoints.INBOX());
   const notificationCount = () => inbox.notificationCount(); 
   const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
 
@@ -54,7 +54,7 @@ function InboxItem() {
 
   return (
   <Link 
-      to={RouterEndpoints.INBOX()} class={
+      href={RouterEndpoints.INBOX()} class={
       classNames(styles.item, conditionalClass(isSelected(), styles.selected), conditionalClass(count(), styles.hasNotifications))}
     >
     <Show when={count()}><div class={styles.notificationCount}>{count()}</div></Show>
@@ -65,15 +65,15 @@ function InboxItem() {
 
 
 function ModerationItem() {
-  const namedRoute = useNamedRoute();
+  const location = useLocation();
   const {account} = useStore();
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
-  const selected = () => namedRoute.name === "moderation";
+  const selected = () => location.pathname === "/app/moderation";
 
   return (
     <Show when={hasModeratorPerm()}>
-      <Link to="/app/moderation" class={classNames(styles.item, conditionalClass(selected(), styles.selected))} >
+      <Link href="/app/moderation" class={classNames(styles.item, conditionalClass(selected(), styles.selected))} >
         <Icon name='security' title='Moderation' />
       </Link>
     </Show>
@@ -111,7 +111,7 @@ const UserItem = () => {
 
 
   return (
-    <Link to={href()}>
+    <Link href={href()}>
       <div class={`${styles.item} ${styles.user} ${conditionalClass(isSelected(), styles.selected)}`} >
         {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
         {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
@@ -124,16 +124,19 @@ const UserItem = () => {
 };
 
 
-function ServerItem(props: {server: Server, selected?: boolean, onContextMenu?: (e: MouseEvent) => void}) {
+function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => void}) {
   const { id, defaultChannelId } = props.server;
+  const location = useParams();
 
   const hasNotifications = () => props.server.hasNotifications;
+  const selected = useMatch(() => RouterEndpoints.SERVER(id));
+
 
   return (
     <Link
-      to={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
+      href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
       onContextMenu={props.onContextMenu}
-      class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}
+      class={classNames(styles.item, conditionalClass(selected(), styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}
       >
         <Avatar size={35} hexColor={props.server.hexColor} />
     </Link>
@@ -148,7 +151,6 @@ function Item(props: {iconName: string, selected?: boolean, onClick?: () => void
 
 
 const  ServerList = () => {
-  const params = useParams();
   
   const {servers} = useStore();
 
@@ -167,7 +169,6 @@ const  ServerList = () => {
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
     <For each={servers.array()}>
       {server => <ServerItem 
-        selected={ server?.id === params.serverId }
         server={server!}
         onContextMenu={e => onContextMenu(e, server!.id)}
       />}

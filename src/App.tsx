@@ -1,11 +1,15 @@
-import { onMount } from 'solid-js';
-import { RouterView } from 'solid-named-router';
+import { onMount, lazy } from 'solid-js';
 import env from './common/env';
 import { isHalloween } from './worldEvents';
+import RouterEndpoints from './common/RouterEndpoints';
+import { Link, Route, Routes, useNavigate, useParams } from '@solidjs/router';
+
+const HomePage = lazy(() => import('./pages/home'));
+const RegisterPage = lazy(() => import('./pages/register'));
+const LoginPage = lazy(() => import('./pages/login'));
+const AppPage = lazy(() => import('./pages/app'));
 
 export default function App() {
-
-
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {
@@ -14,7 +18,35 @@ export default function App() {
   })
 
   return (
-    <RouterView />
+    <Routes>
+      <Route path="/" component={HomePage} />
+      <Route path="/app/*" component={AppPage} />
+      <Route path="/login" component={LoginPage} />
+      <Route path="/register" component={RegisterPage} />
+      <Route path="/i/:inviteId" component={InviteRedirect} />
+      <Route path="/*" component={NoMatch} />
+    </Routes>
   )
-
 };
+
+function InviteRedirect() {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  onMount(() => {
+    navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!), {replace: true})
+  })
+
+  return <div>Redirecting...</div>
+}
+
+function NoMatch() {
+  return (
+    <div>
+      <h2>Nothing to see here!</h2>
+      <p>
+        <Link href="/">Go to the home page</Link>
+      </p>
+    </div>
+  );
+}

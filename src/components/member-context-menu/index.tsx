@@ -1,8 +1,7 @@
 import styles from './styles.module.scss';
-import { navigate } from "solid-named-router";
 import { copyToClipboard } from "@/common/clipboard";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu";
-import { createEffect, createSignal, For, onMount} from "solid-js";
+import { createSignal, For} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import Modal from '@/components/ui/modal'
 import { ServerRole } from "@/chat-api/store/useServerRoles";
@@ -11,9 +10,7 @@ import { BanServerMember, kickServerMember, updateServerMember } from '@/chat-ap
 import { useCustomPortal } from '@/components/ui/custom-portal';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
 import Button from '@/components/ui/button';
-import { createStore } from 'solid-js/store';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
-import { User } from '@/chat-api/store/useUsers';
 import { RawUser } from '@/chat-api/RawData';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string

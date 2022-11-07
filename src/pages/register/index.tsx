@@ -3,13 +3,14 @@ import Input from '@/components/ui/input';
 import { registerRequest } from '../../chat-api/services/UserService';
 import Button from '@/components/ui/button';
 import { getStorageString, setStorageString, StorageKeys } from '../../common/localStorage';
-import { Link, useNamedRoute, navigate, useQuery } from 'solid-named-router';
+import { Link, useNavigate, useLocation } from '@solidjs/router';
 import { createSignal, onMount } from 'solid-js';
 import env from '../../common/env';
 import PageHeader from '../../components/page-header';
 
 export default function RegisterPage() {
-  const query = useQuery();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal({message: '', path: ''});
   const [email, setEmail] = createSignal('');
@@ -24,7 +25,7 @@ export default function RegisterPage() {
   })
 
   const registerClicked = async () => {
-    const redirectTo = query.redirect || "/app"
+    const redirectTo = location.query.redirect || "/app"
     if (requestSent()) return;
     setRequestSent(true);
     setError({message: '', path: ''});
@@ -52,7 +53,7 @@ export default function RegisterPage() {
       <Input label='Password' type='password' error={error()} onText={setPassword} />
       <Input label='Confirm Password' type='password' error={error()} onText={setConfirmPassword} />
       <Button iconName='login' label={requestSent() ? 'Registering...' : 'Register'} onClick={registerClicked} />
-      <Link class={styles.link} to="/login">Login Instead</Link>
+      <Link class={styles.link} href="/login">Login Instead</Link>
     </div>
   </div>
 }

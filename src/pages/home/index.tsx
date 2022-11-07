@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import env from '@/common/env'
 import Button from '@/components/ui/button'
-import { Link } from 'solid-named-router'
+import { Link } from '@solidjs/router'
 import PageHeader from '../../components/page-header'
 export default function HomePage () {
   return (
@@ -38,7 +38,7 @@ function DetailsPane() {
       <div class={styles.title}>{env.APP_NAME}</div>
       <div class={styles.slogan}>A modern and sleek chat app.</div>
       <div class={styles.buttons}>
-        <Link to='/register' ><Button iconName='open_in_browser' label='Join Nerimity' primary={true} /></Link>
+        <Link href='/register' ><Button iconName='open_in_browser' label='Join Nerimity' primary={true} /></Link>
         <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label='View GitHub'  /></a>
       </div>
     </div>

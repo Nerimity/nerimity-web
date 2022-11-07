@@ -1,4 +1,4 @@
-import { Link, useParams } from 'solid-named-router';
+import { Link, useParams } from '@solidjs/router';
 import { createEffect, createResource, For, on, Show } from 'solid-js';
 import { FriendStatus } from '@/chat-api/RawData';
 import { getUserDetailsRequest, updatePresence, UserDetails } from '@/chat-api/services/UserService';
@@ -132,7 +132,7 @@ function MutualFriendList(props: {mutualFriendIds: string[]}) {
             const user = () => users.get(id);
             return (
               <Show when={user()}>
-                <Link to={RouterEndpoints.PROFILE(user().id)} class={styles.item}>
+                <Link href={RouterEndpoints.PROFILE(user().id)} class={styles.item}>
                   <Avatar hexColor={user().hexColor} size={20} />
                   <div class={styles.name}>{user().username}</div>
                 </Link>
@@ -155,7 +155,7 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
             const server = () => servers.get(id);
             return (
               <Show when={server()}>
-                <Link to={RouterEndpoints.SERVER_MESSAGES(server()!.id, server()!.defaultChannelId)} class={styles.item}>
+                <Link href={RouterEndpoints.SERVER_MESSAGES(server()!.id, server()!.defaultChannelId)} class={styles.item}>
                   <Avatar hexColor={server()!.hexColor} size={20} />
                   <div class={styles.name}>{server()!.name}</div>
                 </Link>

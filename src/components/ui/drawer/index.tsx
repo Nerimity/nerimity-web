@@ -5,9 +5,9 @@ import env from '@/common/env';
 import SidePane from '@/components/side-pane';
 
 interface DrawerLayoutProps {
-  LeftDrawer: JSX.Element;
+  LeftDrawer: any;
   Content: () => JSX.Element;
-  RightDrawer: JSX.Element;
+  RightDrawer: any;
 }
 
 
@@ -35,8 +35,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const {width, isMobileWidth} = useWindowProperties();
 
   
-  const hasLeftDrawer = () => !!props.LeftDrawer;
-  const hasRightDrawer = () => !!props.RightDrawer;
+  const hasLeftDrawer = () => !!props.LeftDrawer();
+  const hasRightDrawer = () => !!props.RightDrawer();
   
 
   

@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import ServerDrawerHeader from '@/components/servers/drawer/header';
 import Icon from '@/components/ui/icon';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { Link, useParams } from 'solid-named-router';
+import { Link, useParams } from '@solidjs/router';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -49,7 +49,7 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
   };
 
   return (
-    <Link to={href()} class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(props.nested, styles.nested))}>
+    <Link href={href()} class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(props.nested, styles.nested))}>
       <Icon name={props.icon} size={18} />
       <div class={styles.label}>{props.label}</div>
     </Link>

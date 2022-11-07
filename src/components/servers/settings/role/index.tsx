@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { navigate, useParams } from 'solid-named-router';
+import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect,  createSignal,  For,  on, Show,} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
@@ -20,7 +20,7 @@ import { useCustomPortal } from '@/components/ui/custom-portal';
 
 
 export default function ServerSettingsRole() {
-  const {serverId, id: roleId} = useParams();
+  const { serverId, roleId } = useParams();
   const { header, serverRoles } = useStore();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
@@ -29,9 +29,6 @@ export default function ServerSettingsRole() {
 
   const role = () => serverRoles.get(serverId, roleId);
 
-
-
-  
   const defaultInput = () => ({
     name: role()?.name || '',
     hexColor: role()?.hexColor || "#fff",
@@ -41,11 +38,8 @@ export default function ServerSettingsRole() {
   
   
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
-  
   const permissions = () => getAllPermissions(ROLE_PERMISSIONS, inputValues().permissions);
 
-
-  
   createEffect(on(role, () => {
     header.updateHeader({
       title: "Settings - " + role()?.name,
@@ -53,7 +47,6 @@ export default function ServerSettingsRole() {
       iconName: 'settings',
     });
   }))
-
 
   const onSaveButtonClicked = async () => {
     if (saveRequestSent()) return;
@@ -65,9 +58,7 @@ export default function ServerSettingsRole() {
       .finally(() => setSaveRequestSent(false));
   }
 
-
   const saveRequestStatus = () => saveRequestSent() ? 'Saving...' : 'Save Changes';
-
 
   const onPermissionChanged = (checked: boolean, bit: number) => {
     let newPermission = inputValues().permissions;
@@ -128,6 +119,7 @@ export default function ServerSettingsRole() {
 
 function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
   const [error, setError] = createSignal<string | null>(null);
+  const navigate = useNavigate();
 
   createEffect(() => {
     if (!props.role) {
@@ -154,7 +146,6 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
     />
   )
 }
-
 
 function ColorPicker(props: {color: string, onChange?: (value: string) => void}) {
   let inputEl: undefined | HTMLInputElement

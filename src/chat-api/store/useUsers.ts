@@ -4,7 +4,8 @@ import useInbox, { Inbox } from './useInbox';
 import { openDMChannelRequest } from '../services/UserService';
 import useChannels from './useChannels';
 import RouterEndpoints from '../../common/RouterEndpoints';
-import { navigate } from 'solid-named-router';
+import { useNavigate } from '@solidjs/router';
+import { runWithContext } from '@/common/runWithContext';
 
 
 export enum UserStatus {
@@ -30,7 +31,8 @@ export type User = RawUser & {
 const [users, setUsers] = createStore<Record<string, User>>({});
 
 
-const set = (user: RawUser) => {
+const set = (user: RawUser) => runWithContext(() => {
+  const navigate = useNavigate();
   const inbox = useInbox();
   const channels = useChannels();
   if (users[user.id]) return;
@@ -51,7 +53,7 @@ const set = (user: RawUser) => {
       navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
     }
   });
-}
+});
 
 const get = (userId: string) => users[userId]
 

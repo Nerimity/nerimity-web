@@ -1,25 +1,25 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@solidjs/router': github:Nerimity/solid-router
   '@types/node': ^18.7.13
   idb-keyval: ^6.2.0
   material-icons: ^1.11.10
   sass: ^1.54.5
   socket.io-client: ^4.5.1
   solid-js: ^1.6.0
-  solid-named-router: ^0.4.5
   solid-transition-group: ^0.0.11
   typescript: ^4.8.4
   vite: ^3.1.8
   vite-plugin-solid: ^2.3.10
 
 dependencies:
+  '@solidjs/router': github.com/Nerimity/solid-router/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8_solid-js@1.6.0
   idb-keyval: 6.2.0
   material-icons: 1.12.0
   sass: 1.55.0
   socket.io-client: 4.5.3
   solid-js: 1.6.0
-  solid-named-router: 0.4.5_solid-js@1.6.0
   solid-transition-group: 0.0.11_solid-js@1.6.0
 
 devDependencies:
@@ -401,11 +401,6 @@ packages:
 
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
-    dev: false
-
-  /@supertiger/route-parser/0.0.7:
-    resolution: {integrity: sha512-dwCdcBGw8a1wbgOJKJe8okC7fCFR3JOL81AwVjOggYoBNJfz7h8V/zymzOz/9sHStIusx5IZWdIt7RfuQ7QxWA==}
-    engines: {node: '>= 0.9'}
     dev: false
 
   /@types/node/18.11.3:
@@ -991,15 +986,6 @@ packages:
     dependencies:
       csstype: 3.1.1
 
-  /solid-named-router/0.4.5_solid-js@1.6.0:
-    resolution: {integrity: sha512-IPWZimF9qbIjf+xRTyxeTp92FC4lMXkUD0gLWJ636CDCuYerkU5bNev3/hv239Qb47zDdP1EFA7UzxW1gQH0dw==}
-    peerDependencies:
-      solid-js: '>=1.0.0'
-    dependencies:
-      '@supertiger/route-parser': 0.0.7
-      solid-js: 1.6.0
-    dev: false
-
   /solid-refresh/0.4.1_solid-js@1.6.0:
     resolution: {integrity: sha512-v3tD/OXQcUyXLrWjPW1dXZyeWwP7/+GQNs8YTL09GBq+5FguA6IejJWUvJDrLIA4M0ho9/5zK2e9n+uy+4488g==}
     peerDependencies:
@@ -1128,4 +1114,17 @@ packages:
   /xmlhttprequest-ssl/2.0.0:
     resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
     engines: {node: '>=0.4.0'}
+    dev: false
+
+  github.com/Nerimity/solid-router/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8_solid-js@1.6.0:
+    resolution: {tarball: https://codeload.github.com/Nerimity/solid-router/tar.gz/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8}
+    id: github.com/Nerimity/solid-router/3d77336e90e586934fd0f8679fa7a8fdfe7d3ee8
+    name: '@solidjs/router'
+    version: 0.4.3
+    prepare: true
+    requiresBuild: true
+    peerDependencies:
+      solid-js: ^1.5.3
+    dependencies:
+      solid-js: 1.6.0
     dev: false

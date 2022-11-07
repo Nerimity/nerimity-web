@@ -7,7 +7,7 @@ import { MessageType, RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useParams } from 'solid-named-router';
+import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { createSignal, onMount, Show } from 'solid-js';
 import MemberContextMenu from '@/components/member-context-menu';
@@ -65,10 +65,10 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message | false,
   
   const Details = () => (
     <div class={styles.details}>
-      <Link onContextMenu={onMemberContextMenu} to={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={conditionalClass(systemMessage(), styles.systemMessageAvatar)}>
+      <Link onContextMenu={onMemberContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={conditionalClass(systemMessage(), styles.systemMessageAvatar)}>
         <Avatar hexColor={props.message.createdBy.hexColor} size={systemMessage() ? 23 : 30} />
       </Link>
-      <Link onContextMenu={onMemberContextMenu} class={styles.username} to={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
+      <Link onContextMenu={onMemberContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
         {props.message.createdBy.username}
       </Link>
       <Show when={systemMessage()}>

@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import Header from './header';
-import { Link, useParams } from 'solid-named-router';
+import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { For } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';
@@ -43,7 +43,7 @@ function ChannelItem(props: {channel: Channel, selected: boolean}) {
 
   return (
     <Link 
-      to={RouterEndpoints.SERVER_MESSAGES(channel.serverId, channel.id)}
+      href={RouterEndpoints.SERVER_MESSAGES(channel.serverId, channel.id)}
       class={classNames(styles.channel, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}>
       <div class={styles.channelName}>{channel.name}</div>
     </Link>

@@ -4,12 +4,12 @@ import { getStorageNumber, setStorageNumber, StorageKeys } from '@/common/localS
 import InboxDrawerFriends from './friends';
 import { classNames, conditionalClass } from '@/common/classNames';
 import FriendItem from './friends/friend-item';
-import { createSignal, For } from 'solid-js';
+import { createEffect, createSignal, For } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { FriendStatus } from '@/chat-api/RawData';
 import Modal from '@/components/ui/modal';
 import AddFriend from './add-friend';
-import { useParams } from 'solid-named-router';
+import { useParams } from '@solidjs/router';
 import { useCustomPortal } from '@/components/ui/custom-portal';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {

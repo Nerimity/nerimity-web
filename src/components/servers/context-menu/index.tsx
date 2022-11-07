@@ -2,7 +2,7 @@ import { copyToClipboard } from "@/common/clipboard";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu";
 import useStore from "@/chat-api/store/useStore";
-import { navigate } from "solid-named-router";
+import { useNavigate } from "@solidjs/router";
 
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
@@ -10,6 +10,7 @@ type Props = Omit<ContextMenuProps, 'items'> & {
 
 export default function ContextMenuServer (props: Props) {
 
+  const navigate = useNavigate();
   const {account, servers} = useStore();
 
   const server = () => servers.get(props.serverId!);

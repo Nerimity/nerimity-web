@@ -16,12 +16,12 @@
     "vite-plugin-solid": "^2.3.10"
   },
   "dependencies": {
+    "@solidjs/router": "github:Nerimity/solid-router",
     "idb-keyval": "^6.2.0",
     "material-icons": "^1.11.10",
     "sass": "^1.54.5",
     "socket.io-client": "^4.5.1",
     "solid-js": "^1.6.0",
-    "solid-named-router": "^0.4.5",
     "solid-transition-group": "^0.0.11"
   }
 }

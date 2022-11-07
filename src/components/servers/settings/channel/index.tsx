@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { navigate, useParams } from 'solid-named-router';
-import { createEffect,  createSignal,  For,  on, Show,} from 'solid-js';
+import { useNavigate, useParams } from '@solidjs/router';
+import { createEffect,  createSignal,  For,  on, onMount, Show,} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block';
@@ -18,7 +18,7 @@ import { useCustomPortal } from '@/components/ui/custom-portal';
 
 
 export default function ServerSettingsChannel() {
-  const {serverId, id: channelId} = useParams();
+  const {serverId, channelId} = useParams();
   const { header, channels } = useStore();
   const createPortal = useCustomPortal();
 
@@ -26,9 +26,6 @@ export default function ServerSettingsChannel() {
   const [error, setError] = createSignal<null | string>(null);
 
   const channel = () => channels.get(channelId);
-
-
-
   
   const defaultInput = () => ({
     name: channel()?.name || '',
@@ -114,6 +111,7 @@ export default function ServerSettingsChannel() {
 
 function ChannelDeleteConfirmModal(props: {channel: Channel, close: () => void}) {
   const params = useParams();
+  const navigate = useNavigate();
   const [error, setError] = createSignal<string | null>(null);
 
   createEffect(() => {

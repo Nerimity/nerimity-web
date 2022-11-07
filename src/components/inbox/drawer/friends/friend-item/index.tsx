@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Avatar from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
-import { Link, useParams } from "solid-named-router";
+import { Link, useParams } from "@solidjs/router";
 import { FriendStatus } from "@/chat-api/RawData";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
@@ -62,7 +62,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
         conditionalClass(showAccept(), styles.hasNotifications)
       )} onClick={onFriendClick}>
 
-        <Link to={RouterEndpoints.PROFILE(user().id)} class="link">
+        <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar hexColor={user().hexColor} size={25} />
         </Link>
         <div class={styles.details}>

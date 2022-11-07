@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import { Link } from 'solid-named-router'
+import { Link } from '@solidjs/router'
 import { classNames, conditionalClass } from '@/common/classNames'
 import env from '@/common/env'
 import { getUserDetailsRequest } from '@/chat-api/services/UserService'
@@ -64,7 +64,7 @@ function LoggedOutLinks() {
 function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean }) {
   return (
     <Link
-      to={props.href}
+      href={props.href}
       class={classNames(
         styles.link, 
         // conditionalClass(isSelected(), styles.selected),

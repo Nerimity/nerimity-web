@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, navigate, useParams } from 'solid-named-router';
+import { Link, useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block';
@@ -17,7 +17,7 @@ function ChannelItem(props: { channel: Channel }) {
   const link = RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId, props.channel.id);
 
   return (
-    <Link to={link} class={styles.channelItem}>
+    <Link href={link} class={styles.channelItem}>
       <Icon name='storage' size={18} />
       <div class={styles.name}>{props.channel.name}</div>
       <Icon name='navigate_next' />
@@ -47,8 +47,8 @@ export default function ServerSettingsChannel() {
   const { serverId } = useParams();
   const { header } = useStore();
   const [channelAddRequestSent, setChannelAddRequestSent] = createSignal(false);
-
-
+  const navigate = useNavigate();
+  
   onMount(() => {
     header.updateHeader({
       title: "Settings - Channels",

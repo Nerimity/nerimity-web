@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import Avatar from "@/components/ui/avatar";
 import UserPresence from '@/components/user-presence';
-import { useParams } from 'solid-named-router';
+import { useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { createMemo, createSignal, For, mapArray, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';

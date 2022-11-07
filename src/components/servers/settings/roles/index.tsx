@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, navigate, useParams } from 'solid-named-router';
+import { Link, useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block';
@@ -17,7 +17,7 @@ function RoleItem(props: { role: ServerRole }) {
   const link = RouterEndpoints.SERVER_SETTINGS_ROLE(serverId, props.role.id);
 
   return (
-    <Link to={link} class={styles.roleItem}>
+    <Link href={link} class={styles.roleItem}>
       <div class={styles.roleDot} style={{background: props.role.hexColor}} />
       <div class={styles.name}>{props.role.name}</div>
       <Icon name='navigate_next' />
@@ -44,6 +44,7 @@ function RoleList() {
 
 
 export default function ServerSettingsRole() {
+  const navigate = useNavigate();
   const { serverId } = useParams();
   const { header } = useStore();
   const [roleAddRequestSent, setRoleAddRequestSent] = createSignal(false);

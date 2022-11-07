@@ -1,6 +1,6 @@
 
 import styles from './styles.module.scss';
-import { Link, useParams } from 'solid-named-router';
+import { Link, useParams } from '@solidjs/router';
 import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/avatar';
@@ -24,7 +24,7 @@ const ServerSettingsHeader = () => {
         <div class={styles.details}>
           <div class={styles.title}>{server()!.name}</div>
           <div class={styles.members}>{serverMembersCount()} members</div>
-          <Link to={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)} class={styles.link} >Edit Server</Link>
+          <Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)} class={styles.link} >Edit Server</Link>
         </div>
       </div>
     </Show>

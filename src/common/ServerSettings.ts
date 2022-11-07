@@ -19,6 +19,7 @@ const serverSettings: ServerSetting[] =  [
   {
     pattern: (path: string) => patchMatches(path, 'roles/*'),
     name: 'Role',
+    path: 'roles/:roleId',
     icon: 'leaderboard',
     hideDrawer: true,
     element: lazy(() => import('@/components/servers/settings/role'))
@@ -32,6 +33,7 @@ const serverSettings: ServerSetting[] =  [
   {
     pattern: (path: string) => patchMatches(path, 'channels/*'),
     name: 'Channel',
+    path: 'channels/:channelId',
     icon: 'storage',
     hideDrawer: true,
     element: lazy(() => import('@/components/servers/settings/channel'))

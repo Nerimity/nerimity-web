@@ -1,9 +1,8 @@
 import styles from './styles.module.scss'
-import RouterEndpoints from '@/common/RouterEndpoints';
 import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { useParams } from 'solid-named-router';
-import { createEffect, createSignal, JSX, Show } from 'solid-js';
+import { useParams } from '@solidjs/router';
+import { createEffect, createSignal, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import Input from '@/components/ui/input';
@@ -16,9 +15,6 @@ import { Server } from '@/chat-api/store/useServers';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal';
 import Modal from '@/components/ui/modal';
 import { useCustomPortal } from '@/components/ui/custom-portal';
-import Checkbox from '@/components/ui/checkbox';
-
-
 
 export default function ServerGeneralSettings() {
   const {serverId} = useParams();
@@ -47,6 +43,7 @@ export default function ServerGeneralSettings() {
       setInputValue('defaultChannelId', channel!.id);
     }
   }));
+
   const dropDownSystemChannels = () => {
     const list = channels.getChannelsByServerId(serverId).map(channel => ({
       id: channel!.id,
@@ -55,6 +52,7 @@ export default function ServerGeneralSettings() {
         setInputValue('systemChannelId', channel!.id);
       }
     }));
+
     return [{
       id: null,
       label: "None",
@@ -64,12 +62,10 @@ export default function ServerGeneralSettings() {
     }, ...list]
   };
 
-
   createEffect(() => {
     const isMobile = windowProperties.paneWidth()! < env.MOBILE_WIDTH;
     isMobileSize(isMobile);
   })
-  
   
   createEffect(() => {
     header.updateHeader({
@@ -78,8 +74,6 @@ export default function ServerGeneralSettings() {
       iconName: 'settings',
     });
   })
-
-
 
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
