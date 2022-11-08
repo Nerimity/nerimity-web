@@ -1,12 +1,38 @@
-import styles from './styles.module.scss';
 import Input from '@/components/ui/input/Input';
-import { registerRequest } from '../../chat-api/services/UserService';
+import { registerRequest } from '../chat-api/services/UserService';
 import Button from '@/components/ui/button/Button';
-import { getStorageString, setStorageString, StorageKeys } from '../../common/localStorage';
+import { getStorageString, setStorageString, StorageKeys } from '../common/localStorage';
 import { Link, useNavigate, useLocation } from '@nerimity/solid-router';
 import { createSignal, onMount } from 'solid-js';
-import env from '../../common/env';
-import PageHeader from '../../components/page-header/PageHeader';
+import env from '../common/env';
+import PageHeader from '../components/PageHeader';
+import { css, styled } from 'solid-styled-components';
+
+const RegisterPageContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
+
+const Container = styled("div")`
+  width: 300px;
+  margin: auto;
+  padding: 10px;
+`;
+
+const Title = styled("div")`
+  color: var(--primary-color);
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+`;
+
+const linkStyle = css`
+  margin-top: 20px;
+  display: block;
+  text-align: center;
+`;
 
 export default function RegisterPage() {
   const location = useLocation();
@@ -44,17 +70,19 @@ export default function RegisterPage() {
     navigate(redirectTo)
   }
 
-  return <div class={styles.registerPage}>
-    <PageHeader />
-    <div class={styles.container}>
-      <div class={styles.title}>Welcome to {env.APP_NAME}</div>
-      <Input label='Email' type='email' error={error()} onText={setEmail} />
-      <Input label='Username' error={error()} onText={setUsername} />
-      <Input label='Password' type='password' error={error()} onText={setPassword} />
-      <Input label='Confirm Password' type='password' error={error()} onText={setConfirmPassword} />
-      <Button iconName='login' label={requestSent() ? 'Registering...' : 'Register'} onClick={registerClicked} />
-      <Link class={styles.link} href="/login">Login Instead</Link>
-    </div>
-  </div>
+  return (
+    <RegisterPageContainer class="register-page-container">
+      <PageHeader />
+      <Container>
+        <Title>Welcome to {env.APP_NAME}</Title>
+        <Input label='Email' type='email' error={error()} onText={setEmail} />
+        <Input label='Username' error={error()} onText={setUsername} />
+        <Input label='Password' type='password' error={error()} onText={setPassword} />
+        <Input label='Confirm Password' type='password' error={error()} onText={setConfirmPassword} />
+        <Button iconName='login' label={requestSent() ? 'Registering...' : 'Register'} onClick={registerClicked} />
+        <Link class={linkStyle} href="/login">Login Instead</Link>
+      </Container>
+    </RegisterPageContainer>
+  )
 }
 

@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { createInvite, getInvites} from '@/chat-api/services/ServerService';
-import Avatar from '@/components/ui/avatar/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/button/Button';
 import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';

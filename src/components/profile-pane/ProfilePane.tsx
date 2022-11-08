@@ -7,7 +7,7 @@ import { User } from '@/chat-api/store/useUsers';
 import { getDaysAgo } from '../../common/date';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { userStatusDetail, UserStatuses } from '../../common/userStatus';
-import Avatar from '@/components/ui/avatar/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/button/Button';
 import DropDown from '@/components/ui/drop-down/DropDown';
 import Icon from '@/components/ui/icon/Icon';

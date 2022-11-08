@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "@/common/classNames";
-import Avatar from "@/components/ui/avatar/Avatar";
+import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/button/Button";
 import { Link, useParams } from "@nerimity/solid-router";
 import { FriendStatus } from "@/chat-api/RawData";

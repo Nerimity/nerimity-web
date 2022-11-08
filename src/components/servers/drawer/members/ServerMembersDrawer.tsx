@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import Avatar from "@/components/ui/avatar/Avatar";
+import Avatar from "@/components/ui/Avatar";
 import UserPresence from '@/components/user-presence/UserPresence';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';

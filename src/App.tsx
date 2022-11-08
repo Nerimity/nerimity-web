@@ -5,8 +5,8 @@ import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-router';
 
 const HomePage = lazy(() => import('./pages/home/HomePage'));
-const RegisterPage = lazy(() => import('./pages/register/RegisterPage'));
-const LoginPage = lazy(() => import('./pages/login/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AppPage = lazy(() => import('./pages/app/AppPage'));
 
 export default function App() {

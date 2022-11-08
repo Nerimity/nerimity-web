@@ -2,7 +2,7 @@ import styles from './styles.module.scss'
 import env from '@/common/env'
 import Button from '@/components/ui/button/Button'
 import { Link } from '@nerimity/solid-router'
-import PageHeader from '../../components/page-header/PageHeader'
+import PageHeader from '../../components/PageHeader'
 export default function HomePage () {
   return (
     <div class={styles.homePage}>

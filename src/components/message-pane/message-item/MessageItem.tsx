@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
-import Avatar from '@/components/ui/avatar/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
 import { MessageType, RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';

@@ -4,7 +4,7 @@ import useStore from "@/chat-api/store/useStore";
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from "solid-js";
 import { getOnlineUsers, getServers, getUsers } from '@/chat-api/services/ModerationService';
 import { classNames } from '@/common/classNames';
-import Avatar from '../ui/avatar/Avatar';
+import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link } from '@nerimity/solid-router';
 import { RawServer, RawUser } from '@/chat-api/RawData';

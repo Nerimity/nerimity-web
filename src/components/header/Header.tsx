@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
-import Avatar from '@/components/ui/avatar/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
 import useStore from '@/chat-api/store/useStore';
 import UserPresence from '@/components/user-presence/UserPresence';

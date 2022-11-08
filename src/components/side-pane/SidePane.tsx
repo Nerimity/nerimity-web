@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import Icon from '@/components/ui/icon/Icon';
-import Avatar from '@/components/ui/avatar/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { classNames, conditionalClass } from '@/common/classNames';
 

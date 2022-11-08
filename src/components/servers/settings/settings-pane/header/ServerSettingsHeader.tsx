@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { Link, useParams } from '@nerimity/solid-router';
 import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
-import Avatar from '@/components/ui/avatar/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import RouterEndpoints from '@/common/RouterEndpoints';
 
 
