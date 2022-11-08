@@ -14,7 +14,7 @@ const serverSettings: ServerSetting[] =  [
     path: 'general',
     name: 'General',
     icon: 'info',
-    element: lazy(() => import('@/components/servers/settings/general'))
+    element: lazy(() => import('@/components/servers/settings/general/ServerGeneralSettings'))
   },
   {
     pattern: (path: string) => patchMatches(path, 'roles/*'),
@@ -22,13 +22,13 @@ const serverSettings: ServerSetting[] =  [
     path: 'roles/:roleId',
     icon: 'leaderboard',
     hideDrawer: true,
-    element: lazy(() => import('@/components/servers/settings/role'))
+    element: lazy(() => import('@/components/servers/settings/role/ServerSettingsRole'))
   },
   {
     path: 'roles',
     name: 'Roles',
     icon: 'leaderboard',
-    element: lazy(() => import('@/components/servers/settings/roles'))
+    element: lazy(() => import('@/components/servers/settings/roles/ServerSettingsRole'))
   },
   {
     pattern: (path: string) => patchMatches(path, 'channels/*'),
@@ -36,19 +36,19 @@ const serverSettings: ServerSetting[] =  [
     path: 'channels/:channelId',
     icon: 'storage',
     hideDrawer: true,
-    element: lazy(() => import('@/components/servers/settings/channel'))
+    element: lazy(() => import('@/components/servers/settings/channel/ServerSettingsChannel'))
   },
   {
     path: 'channels',
     name: 'Channels',
     icon: 'storage',
-    element: lazy(() => import('@/components/servers/settings/channels'))
+    element: lazy(() => import('@/components/servers/settings/channels/ServerSettingsChannel'))
   },
   {
     path: 'invites',
     name: 'Invites',
     icon: 'mail',
-    element: lazy(() => import('@/components/servers/settings/invites'))
+    element: lazy(() => import('@/components/servers/settings/invites/ServerSettingsInvite'))
   }
 ]
 

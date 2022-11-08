@@ -8,6 +8,7 @@ specifiers:
   sass: ^1.54.5
   socket.io-client: ^4.5.1
   solid-js: ^1.6.0
+  solid-styled-components: ^0.28.5
   solid-transition-group: ^0.0.11
   typescript: ^4.8.4
   vite: ^3.1.8
@@ -20,6 +21,7 @@ dependencies:
   sass: 1.55.0
   socket.io-client: 4.5.3
   solid-js: 1.6.0
+  solid-styled-components: 0.28.5_solid-js@1.6.0
   solid-transition-group: 0.0.11_solid-js@1.6.0
 
 devDependencies:
@@ -802,6 +804,14 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /goober/2.1.11_csstype@3.1.1:
+    resolution: {integrity: sha512-5SS2lmxbhqH0u9ABEWq7WPU69a4i2pYcHeCxqaNq6Cw3mnrF0ghWNM4tEGid4dKy8XNIAUbuThuozDHHKJVh3A==}
+    peerDependencies:
+      csstype: ^3.0.10
+    dependencies:
+      csstype: 3.1.1
+    dev: false
+
   /has-flag/3.0.0:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
     engines: {node: '>=4'}
@@ -1004,6 +1014,16 @@ packages:
       '@babel/types': 7.19.4
       solid-js: 1.6.0
     dev: true
+
+  /solid-styled-components/0.28.5_solid-js@1.6.0:
+    resolution: {integrity: sha512-vwTcdp76wZNnESIzB6rRZ3U55NgcSAQXCiiRIiEFhxTFqT0bEh/warNT1qaRZu4OkAzrBkViOngF35ktI8sc4A==}
+    peerDependencies:
+      solid-js: ^1.4.4
+    dependencies:
+      csstype: 3.1.1
+      goober: 2.1.11_csstype@3.1.1
+      solid-js: 1.6.0
+    dev: false
 
   /solid-transition-group/0.0.11_solid-js@1.6.0:
     resolution: {integrity: sha512-WcMhZvaQKAWfByVgtJuKwR2naXQHG1tJHDvqsC/EyNsoNWRkDu+9AWcwaUWW1kXZ24n17We0IIRe7z4G5dEYRw==}

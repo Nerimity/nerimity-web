@@ -1,13 +1,13 @@
 import { onMount, lazy } from 'solid-js';
 import env from './common/env';
-import { isHalloween } from './worldEvents';
+import { isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-router';
 
-const HomePage = lazy(() => import('./pages/home'));
-const RegisterPage = lazy(() => import('./pages/register'));
-const LoginPage = lazy(() => import('./pages/login'));
-const AppPage = lazy(() => import('./pages/app'));
+const HomePage = lazy(() => import('./pages/home/HomePage'));
+const RegisterPage = lazy(() => import('./pages/register/RegisterPage'));
+const LoginPage = lazy(() => import('./pages/login/LoginPage'));
+const AppPage = lazy(() => import('./pages/app/AppPage'));
 
 export default function App() {
   onMount(() => {
