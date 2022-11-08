@@ -7,27 +7,29 @@ import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/button/Button';
-import { deleteServerChannel, deleteServerRole, updateServerChannel, updateServerRole } from '@/chat-api/services/ServerService';
+import { deleteServerRole, updateServerRole } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal/Modal';
-import { Channel } from '@/chat-api/store/useChannels';
 import Checkbox from '@/components/ui/checkbox/Checkbox';
-import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
+import { addBit, getAllPermissions, removeBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
 import Icon from '@/components/ui/icon/Icon';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 
-
+type RoleParams = {
+  serverId: string;
+  roleId: string;  
+}
 
 export default function ServerSettingsRole() {
-  const { serverId, roleId } = useParams();
+  const params = useParams<RoleParams>();
   const { header, serverRoles } = useStore();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const createPortal = useCustomPortal();
 
-  const role = () => serverRoles.get(serverId, roleId);
+  const role = () => serverRoles.get(params.serverId, params.roleId);
 
   const defaultInput = () => ({
     name: role()?.name || '',
@@ -43,7 +45,7 @@ export default function ServerSettingsRole() {
   createEffect(on(role, () => {
     header.updateHeader({
       title: "Settings - " + role()?.name,
-      serverId: serverId!,
+      serverId: params.serverId!,
       iconName: 'settings',
     });
   }))
@@ -53,7 +55,7 @@ export default function ServerSettingsRole() {
     setSaveRequestSent(true);
     setError(null);
     const values = updatedInputValues();
-    await updateServerRole(serverId!, role()?.id!, values)
+    await updateServerRole(params.serverId!, role()?.id!, values)
       .catch((err) => setError(err.message))
       .finally(() => setSaveRequestSent(false));
   }

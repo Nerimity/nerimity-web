@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate, useParams } from '@nerimity/solid-router';
-import { createEffect,  createSignal,  For,  on, onMount, Show,} from 'solid-js';
+import { createEffect,  createSignal,  For, on, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
@@ -15,17 +15,20 @@ import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit } from '@/cha
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 
-
+type ChannelParams = {
+  serverId: string;
+  channelId: string;  
+}
 
 export default function ServerSettingsChannel() {
-  const {serverId, channelId} = useParams();
+  const params = useParams<ChannelParams>();
   const { header, channels } = useStore();
   const createPortal = useCustomPortal();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
 
-  const channel = () => channels.get(channelId);
+  const channel = () => channels.get(params.channelId);
   
   const defaultInput = () => ({
     name: channel()?.name || '',
@@ -42,7 +45,7 @@ export default function ServerSettingsChannel() {
   createEffect(on(channel, () => {
     header.updateHeader({
       title: "Settings - " + channel()?.name,
-      serverId: serverId!,
+      serverId: params.serverId!,
       iconName: 'settings',
     });
   }))
@@ -53,7 +56,7 @@ export default function ServerSettingsChannel() {
     setSaveRequestSent(true);
     setError(null);
     const values = updatedInputValues();
-    await updateServerChannel(serverId!, channel()?.id!, values)
+    await updateServerChannel(params.serverId!, channel()?.id!, values)
       .catch((err) => setError(err.message))
       .finally(() => setSaveRequestSent(false));
   }

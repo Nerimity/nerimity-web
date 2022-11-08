@@ -49,7 +49,10 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
   };
 
   return (
-    <Link href={href()} class={classNames(styles.item, conditionalClass(props.selected, styles.selected), conditionalClass(props.nested, styles.nested))}>
+    <Link 
+      href={href()}
+      activeClass={styles.selected}
+      class={classNames(styles.item, conditionalClass(props.nested, styles.nested))}>
       <Icon name={props.icon} size={18} />
       <div class={styles.label}>{props.label}</div>
     </Link>
