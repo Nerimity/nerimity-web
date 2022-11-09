@@ -58,7 +58,7 @@ export default function HomePage () {
           <Text class="title" size={60}>{env.APP_NAME}</Text>
           <Text class="slogan" opacity={0.7}>A modern and sleek chat app.</Text>
           <ButtonsContainer class="buttons-container">
-            <Link href='https://github.com/Nerimity/nerimity-web' target="_blank" rel="noopener noreferrer"><Button iconName='open_in_browser' label='Join Nerimity' primary={true} /></Link>
+            <Link href='/register'><Button iconName='open_in_browser' label='Join Nerimity' primary={true} /></Link>
             <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label='View GitHub'  /></a>
           </ButtonsContainer>
         </TopContainer>
