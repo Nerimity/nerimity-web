@@ -1,6 +1,6 @@
 import Input from '@/components/ui/input/Input';
 import { loginRequest } from '../chat-api/services/UserService';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import { getStorageString, setStorageString, StorageKeys } from '../common/localStorage';
 import { Link, useNavigate, useLocation } from '@nerimity/solid-router';
 import { createSignal, onMount } from 'solid-js';

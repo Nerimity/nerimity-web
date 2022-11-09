@@ -8,7 +8,7 @@ import { getDaysAgo } from '../../common/date';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { userStatusDetail, UserStatuses } from '../../common/userStatus';
 import Avatar from '@/components/ui/Avatar';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import DropDown from '@/components/ui/drop-down/DropDown';
 import Icon from '@/components/ui/icon/Icon';
 import UserPresence from '@/components/user-presence/UserPresence';

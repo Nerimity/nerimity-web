@@ -9,7 +9,7 @@ import Checkbox from "@/components/ui/checkbox/Checkbox";
 import { BanServerMember, kickServerMember, updateServerMember } from '@/chat-api/services/ServerService';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { RawUser } from '@/chat-api/RawData';
 type Props = Omit<ContextMenuProps, 'items'> & {

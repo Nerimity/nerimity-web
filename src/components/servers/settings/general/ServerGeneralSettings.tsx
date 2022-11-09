@@ -7,7 +7,7 @@ import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import Input from '@/components/ui/input/Input';
 import DropDown from '@/components/ui/drop-down/DropDown';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import { deleteServer, updateServerSettings } from '@/chat-api/services/ServerService';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';

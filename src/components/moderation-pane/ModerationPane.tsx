@@ -8,7 +8,7 @@ import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link } from '@nerimity/solid-router';
 import { RawServer, RawUser } from '@/chat-api/RawData';
-import Button from '../ui/button/Button';
+import Button from '../ui/Button';
 
 export default function ModerationPane() {
   const { account, header } = useStore();

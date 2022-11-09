@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import { createEffect, createSignal, on } from "solid-js";
-import Button from '../button/Button';
+import Button from '../Button';
 import Input from '../input/Input';
 
 export default function DeleteConfirmModal(props: {confirmText: string, errorMessage?: string | null, onDeleteClick?: () => void}) {

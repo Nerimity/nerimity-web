@@ -5,7 +5,7 @@ import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item/MessageItem';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import { MessageType, RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';

@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from '@nerimity/solid-router';
 import { createSignal, For, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import { Channel } from '@/chat-api/store/useChannels';
 import Icon from '@/components/ui/icon/Icon';
 import { createServerChannel } from '@/chat-api/services/ServerService';

@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 
 import Input from '@/components/ui/input/Input';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import { createSignal } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 

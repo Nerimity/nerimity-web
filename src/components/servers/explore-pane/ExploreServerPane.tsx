@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { joinServerByInviteCode, serverDetailsByInviteCode, ServerWithMemberCount } from "@/chat-api/services/ServerService";
 import Avatar from "@/components/ui/Avatar";
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import Input from '@/components/ui/input/Input';
 import Icon from '@/components/ui/icon/Icon';
 

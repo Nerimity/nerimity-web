@@ -6,7 +6,7 @@ import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Input from '@/components/ui/input/Input';
-import Button from '@/components/ui/button/Button';
+import Button from '@/components/ui/Button';
 import { deleteServerRole, updateServerRole } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal/Modal';
 import Checkbox from '@/components/ui/checkbox/Checkbox';
