@@ -3,7 +3,6 @@ import Icon from '@/components/ui/icon/Icon';
 import Avatar from '@/components/ui/Avatar';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { classNames, conditionalClass } from '@/common/classNames';
-
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
@@ -17,9 +16,9 @@ import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
 import { updateTitleAlert } from '@/common/BrowserTitle';
 
-
 export default function SidePane () {
   const createPortal = useCustomPortal();
+
   const showAddServerModal = () => {
     createPortal?.(close => <Modal {...close} title="Add Server" component={() => <AddServer close={close} />} />)
   }
@@ -27,7 +26,6 @@ export default function SidePane () {
   return <div class={styles.sidePane}>
     <InboxItem />
     <div class={styles.scrollable}>
-      
       <ServerList />
       <Item iconName='add_box' onClick={showAddServerModal}  />
     </div>
@@ -36,7 +34,6 @@ export default function SidePane () {
     <UserItem />
   </div>
 }
-
 
 function InboxItem() {
   const {inbox, friends, servers} = useStore();
@@ -51,7 +48,6 @@ function InboxItem() {
     updateTitleAlert(count() || servers.hasNotifications() ? true : false);
   })
 
-
   return (
   <Link 
       href={RouterEndpoints.INBOX()} class={
@@ -62,7 +58,6 @@ function InboxItem() {
   </Link>
   )
 }
-
 
 function ModerationItem() {
   const {account} = useStore();
@@ -85,39 +80,26 @@ function SettingsItem() {
 }
 
 const UserItem = () => {
-  const params = useParams();
   const {account, users} = useStore();
 
   const userId = () =>  account.user()?.id;
   const user = () => users.get(userId()!)
-
-  const isSelected = () => userId() === params.userId;
-
   const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color
-
 
   const isAuthenticated = account.isAuthenticated;
   const authErrorMessage = account.authenticationError;
   const isConnected = account.isConnected;
 
   const isAuthenticating = () => !isAuthenticated() && isConnected();
-
   const showConnecting = () => !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
-
-
-
   const href = () => userId() ? RouterEndpoints.PROFILE(userId()!) : "#";
-
-
   return (
-    <Link href={href()}>
-      <div class={`${styles.item} ${styles.user} ${conditionalClass(isSelected(), styles.selected)}`} >
-        {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
-        {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
-        {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
-        {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
-        {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
-      </div>
+    <Link href={href()} class={`${styles.item} ${styles.user}`}  activeClass={styles.selected}>
+      {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
+      {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
+      {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
+      {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
+      {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
     </Link>
   )
 };
@@ -125,11 +107,8 @@ const UserItem = () => {
 
 function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => void}) {
   const { id, defaultChannelId } = props.server;
-  const location = useParams();
-
   const hasNotifications = () => props.server.hasNotifications;
   const selected = useMatch(() => RouterEndpoints.SERVER(id));
-
 
   return (
     <Link
@@ -150,19 +129,15 @@ function Item(props: {iconName: string, selected?: boolean, onClick?: () => void
 
 
 const  ServerList = () => {
-  
   const {servers} = useStore();
-
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>();
   const [contextServerId, setContextServerId] = createSignal<string | undefined>();
-
 
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
     setContextServerId(serverId);
     setContextPosition({x: event.clientX, y: event.clientY});
   }
-
 
   return <div class={styles.serverList}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
@@ -172,7 +147,6 @@ const  ServerList = () => {
         onContextMenu={e => onContextMenu(e, server!.id)}
       />}
     </For>
-
   </div>
 };
 
