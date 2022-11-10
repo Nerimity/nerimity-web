@@ -7,7 +7,7 @@ import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-rou
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
-const AppPage = lazy(() => import('./pages/app/AppPage'));
+const AppPage = lazy(() => import('./pages/AppPage'));
 
 export default function App() {
   onMount(() => {

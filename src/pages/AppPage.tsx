@@ -1,6 +1,5 @@
-import styles from './styles.module.scss';
 import { createEffect, lazy, on, onCleanup, onMount} from 'solid-js';
-import Header from '../../components/header/Header';
+import Header from '../components/header/Header';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
 const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/drawer/ServerSettingsDrawer'));
@@ -11,8 +10,8 @@ const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/E
 const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
 const ModerationPane = lazy( () => import("@/components/moderation-pane/ModerationPane"))
 
-import { getStorageString, StorageKeys } from '../../common/localStorage';
-import socketClient from '../../chat-api/socketClient';
+import { getStorageString, StorageKeys } from '../common/localStorage';
+import socketClient from '../chat-api/socketClient';
 import ServerMembersDrawer from '@/components/servers/drawer/members/ServerMembersDrawer';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { getCache, LocalCacheKey } from '@/common/localCache';
@@ -20,6 +19,18 @@ import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout from '@/components/ui/drawer/Drawer';
 import { Route, Routes } from '@nerimity/solid-router';
+import { styled } from 'solid-styled-components';
+
+const MainPaneContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-right: solid 1px rgba(255, 255, 255, 0.1);
+  border-left: solid 1px rgba(255, 255, 255, 0.1);
+`;
 
 async function loadAllCache () {
   const {account} = useStore();
@@ -72,15 +83,17 @@ function MainPane () {
     windowProperties.setPaneWidth(mainPaneElement.clientWidth);
   }))
 
-  return <div class={styles.mainPane} ref={mainPaneElement}>
-    <Header />
-      <Routes>
-      <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
-      <Route path="/servers/:serverId/:channelId" component={MessagePane} />
-      <Route path="/inbox/:channelId" component={MessagePane} />
-      <Route path="/profile/:userId" component={ProfilePane} />
-      <Route path="/moderation/*" component={ModerationPane} />
-      <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
-    </Routes>
-  </div>
+  return (
+    <MainPaneContainer class="main-pane-container" ref={mainPaneElement}>
+      <Header />
+        <Routes>
+        <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
+        <Route path="/servers/:serverId/:channelId" component={MessagePane} />
+        <Route path="/inbox/:channelId" component={MessagePane} />
+        <Route path="/profile/:userId" component={ProfilePane} />
+        <Route path="/moderation/*" component={ModerationPane} />
+        <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
+      </Routes>
+    </MainPaneContainer>
+  )
 }
