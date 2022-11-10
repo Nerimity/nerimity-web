@@ -65,11 +65,10 @@ function InboxItem() {
 
 
 function ModerationItem() {
-  const location = useLocation();
   const {account} = useStore();
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
-  const selected = () => location.pathname === "/app/moderation";
+  const selected = useMatch(() => "/app/moderation");
 
   return (
     <Show when={hasModeratorPerm()}>

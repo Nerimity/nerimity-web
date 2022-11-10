@@ -1,20 +1,82 @@
-import styles from './styles.module.scss'
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from "solid-js";
 import { getOnlineUsers, getServers, getUsers } from '@/chat-api/services/ModerationService';
-import { classNames } from '@/common/classNames';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link } from '@nerimity/solid-router';
 import { RawServer, RawUser } from '@/chat-api/RawData';
 import Button from '../ui/Button';
+import { css, styled } from 'solid-styled-components';
+import Text from '../ui/Text';
+import { FlexRow } from '../ui/Flexbox';
+
+const ModerationPaneContainer = styled("div")`
+  display: flex;
+  height: 100%;
+  overflow-y: auto;
+  gap: 5px;
+  a {
+  text-decoration: none;
+  }
+  padding: 5px;
+`;
+
+const PaneContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px;
+  width: 250px;
+  flex-shrink: 0;
+`;
+
+const ListContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
+  overflow: auto;
+`;
+
+const itemStyles = css`
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 5px;
+  padding-left: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
+  color: white;
+
+  &:hover {
+    background-color: rgb(66, 66, 66);
+  }
+`;
+
+const avatarStyle = css`
+  place-self: start;
+`;
+
+const linkStyle = css`
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const ItemDetailContainer = styled("div")`
+  margin-left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 
 export default function ModerationPane() {
   const { account, header } = useStore();
-
   const [load, setLoad] = createSignal(false);
-
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   createEffect(() => {
@@ -28,18 +90,17 @@ export default function ModerationPane() {
 
   return (
     <Show when={load()}>
-      <div class={styles.moderationPane}>
+      <ModerationPaneContainer class="moderation-pane-container">
         <UsersPane />
         <OnlineUsersPane />
         <ServersPane />
-      </div>
+      </ModerationPaneContainer>
     </Show>
   )
 }
 
 function UsersPane() {
   const LIMIT = 30;
-
   const [users, setUsers] = createSignal<RawUser[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
@@ -59,41 +120,39 @@ function UsersPane() {
     setAfterId(user.id);
   }
 
-
   return (
-    <div class={classNames(styles.pane, styles.usersPane)}>
-      <div class={styles.title}>Registered Users</div>
-      <div class={styles.list}>
+    <PaneContainer class="pane users">
+      <Text>Registered Users</Text>
+      <ListContainer class="list">
         <For each={users()}>
           {user => <User user={user} />}
         </For>
         <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
-      </div>
-    </div>
+      </ListContainer>
+    </PaneContainer>
   )
 }
+
 function OnlineUsersPane() {
 
   const [users] = createResource(getOnlineUsers);
   return (
-    <div class={classNames(styles.pane, styles.usersPane)}>
-      <div class={styles.title}>Online Users</div>
-      <div class={styles.list}>
+    <PaneContainer class="pane users">
+      <Text>Online Users</Text>
+      <ListContainer class="list">
         <For each={users()}>
           {user => <User user={user} />}
         </For>
-      </div>
-    </div>
+      </ListContainer>
+    </PaneContainer>
   )
 }
+
 function ServersPane() {
   const LIMIT = 30;
-
   const [servers, setServers] = createSignal<RawServer[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
-
-
 
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
@@ -110,47 +169,57 @@ function ServersPane() {
     setAfterId(server.id);
   }
 
-
   return (
-    <div class={classNames(styles.pane, styles.serversPane)}>
-      <div class={styles.title}>Servers</div>
-      <div class={styles.list}>
+    <PaneContainer class="pane servers">
+      <Text>Servers</Text>
+      <ListContainer class="list">
         <For each={servers()}>
           {server => <Server server={server} />}
         </For>
         <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
-      </div>
-    </div>
+      </ListContainer>
+    </PaneContainer>
   )
 }
 
 function User(props: { user: any }) {
-
   const joined = formatTimestamp(props.user.joinedAt);
+
   return (
-    <Link href={`/app/moderation/users/${props.user.id}`} class={styles.user}>
-      <Avatar hexColor={props.user.hexColor} size={28} />
-      <div class={styles.details}>
-        <div>
-          {props.user.username}
-          <span class={styles.tag}>:{props.user.tag}</span>
-        </div>
-        <div class={styles.date}><span>Registered</span> {joined}</div>
-      </div>
+    <Link href={`/app/moderation/users/${props.user.id}`} class={itemStyles}>
+      <Avatar class={avatarStyle} hexColor={props.user.hexColor} size={28} />
+      <ItemDetailContainer class="details">
+        <FlexRow>
+          <Text>{props.user.username}</Text>
+          <Text opacity={0.6}>:{props.user.tag}</Text>
+        </FlexRow>
+        <FlexRow gap={3}>
+          <Text size={12} opacity={0.6}>Registered:</Text>
+          <Text size={12}>{joined}</Text>
+        </FlexRow>
+      </ItemDetailContainer>
     </Link>
   )
 }
+
 function Server(props: { server: any }) {
   const created = formatTimestamp(props.server.createdAt);
   const createdBy = props.server.createdBy;
+
   return (
-    <Link href={`/app/moderation/servers/${props.server.id}`} class={styles.server}>
-      <Avatar hexColor={props.server.hexColor} size={28} />
-      <div class={styles.details}>
-        <div>{props.server.name}</div>
-        <div class={styles.date}><span>Created</span> {created}</div>
-        <div class={styles.date}><span>Created By</span> <Link href={`/app/moderation/users/${createdBy.id}`}>{createdBy.username}:{createdBy.tag}</Link></div>
-      </div>
+    <Link href={`/app/moderation/servers/${props.server.id}`} class={itemStyles}>
+      <Avatar class={avatarStyle} hexColor={props.server.hexColor} size={28} />
+      <ItemDetailContainer class="details">
+        <Text>{props.server.name}</Text>
+        <FlexRow gap={3}>
+          <Text size={12} opacity={0.6}>Created:</Text>
+          <Text size={12}>{created}</Text>
+        </FlexRow>
+        <FlexRow gap={3}>
+          <Text size={12} opacity={0.6}>Created By:</Text>
+          <Text size={12}><Link class={linkStyle} href={`/app/moderation/users/${createdBy.id}`}>{createdBy.username}:{createdBy.tag}</Link></Text>
+        </FlexRow>
+      </ItemDetailContainer>
     </Link>
   )
 }
