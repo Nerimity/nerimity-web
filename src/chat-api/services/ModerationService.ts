@@ -18,6 +18,7 @@ export const getServers = async (limit: number, afterId?: string) => {
   });
   return data;
 };
+
 export const getUsers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: 'GET',
@@ -30,6 +31,22 @@ export const getUsers = async (limit: number, afterId?: string) => {
   });
   return data;
 };
+
+export const suspendUsers = async (confirmPassword: string, userIds: string[], days: number, reason?: string) => {
+  const data = await request<any[]>({
+    method: 'post',
+    body: {
+      userIds,
+      days,
+      reason,
+      password: confirmPassword
+    },
+    url: env.SERVER_URL + "/api/moderation/users/suspend",
+    useToken: true,
+  });
+  return data;
+};
+
 export const getOnlineUsers = async () => {
   const data = await request<any[]>({
     method: 'GET',

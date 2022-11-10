@@ -23,7 +23,7 @@ export default function Checkbox (props: CheckboxProps) {
 
   return (
     <div class={styles.checkbox} classList={{[styles.selected]: checked()}} onClick={onClick}>
-      <Icon class={styles.box} name="done" />
+      <Icon size={13} class={styles.box} name="done" />
     </div>
   )
 }

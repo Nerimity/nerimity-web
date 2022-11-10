@@ -1,6 +1,6 @@
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
-import { createEffect, createResource, createSignal, For, on, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
 import { getOnlineUsers, getServers, getUsers } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
@@ -9,7 +9,13 @@ import { RawServer, RawUser } from '@/chat-api/RawData';
 import Button from '../ui/Button';
 import { css, styled } from 'solid-styled-components';
 import Text from '../ui/Text';
-import { FlexRow } from '../ui/Flexbox';
+import { FlexColumn, FlexRow } from '../ui/Flexbox';
+import Checkbox from "../ui/checkbox/Checkbox";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import SuspendUsersModal from "./SuspendUsersModal";
+
+const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
+const isUserSelected = (id: string) => selectedUsers().find(u => u.id === id);
 
 const ModerationPaneContainer = styled("div")`
   display: flex;
@@ -17,9 +23,14 @@ const ModerationPaneContainer = styled("div")`
   overflow-y: auto;
   gap: 5px;
   a {
-  text-decoration: none;
+    text-decoration: none;
   }
   padding: 5px;
+`;
+
+const UserColumn = styled(FlexColumn)`
+  overflow: auto;
+  flex-shrink: 0;
 `;
 
 const PaneContainer = styled("div")`
@@ -32,6 +43,11 @@ const PaneContainer = styled("div")`
   flex-shrink: 0;
 `;
 
+const UserPaneContainer = styled(PaneContainer)`
+  min-height: 250px;
+  flex: 1;
+`;
+  
 const ListContainer = styled("div")`
   display: flex;
   flex-direction: column;
@@ -43,6 +59,7 @@ const ListContainer = styled("div")`
 const itemStyles = css`
   display: flex;
   flex-shrink: 0;
+  gap: 5px;
   align-items: center;
   padding: 5px;
   padding-left: 10px;
@@ -59,6 +76,7 @@ const itemStyles = css`
 
 const avatarStyle = css`
   place-self: start;
+  margin-top: 3px;
 `;
 
 const linkStyle = css`
@@ -68,14 +86,16 @@ const linkStyle = css`
 `;
 
 const ItemDetailContainer = styled("div")`
-  margin-left: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
+const ActionButtons = styled(FlexRow)``;
+
 export default function ModerationPane() {
   const { account, header } = useStore();
+  const createPortal = useCustomPortal();
   const [load, setLoad] = createSignal(false);
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
@@ -88,11 +108,20 @@ export default function ModerationPane() {
     setLoad(true);
   })
 
+  const showSuspendModal = () => {
+    createPortal?.(close => <SuspendUsersModal close={close} users={selectedUsers()} />)
+  }
+
   return (
     <Show when={load()}>
       <ModerationPaneContainer class="moderation-pane-container">
-        <UsersPane />
-        <OnlineUsersPane />
+        <UserColumn class="user-columns" gap={5} >
+          <UsersPane />
+          <OnlineUsersPane />
+          <ActionButtons>
+            <Button onClick={showSuspendModal} label={`Suspend ${selectedUsers().length}`} primary color="var(--alert-color)" />
+          </ActionButtons>
+        </UserColumn>
         <ServersPane />
       </ModerationPaneContainer>
     </Show>
@@ -121,7 +150,7 @@ function UsersPane() {
   }
 
   return (
-    <PaneContainer class="pane users">
+    <UserPaneContainer class="pane users">
       <Text>Registered Users</Text>
       <ListContainer class="list">
         <For each={users()}>
@@ -129,7 +158,7 @@ function UsersPane() {
         </For>
         <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
       </ListContainer>
-    </PaneContainer>
+    </UserPaneContainer>
   )
 }
 
@@ -137,14 +166,14 @@ function OnlineUsersPane() {
 
   const [users] = createResource(getOnlineUsers);
   return (
-    <PaneContainer class="pane users">
+    <UserPaneContainer class="pane users">
       <Text>Online Users</Text>
       <ListContainer class="list">
         <For each={users()}>
           {user => <User user={user} />}
         </For>
       </ListContainer>
-    </PaneContainer>
+    </UserPaneContainer>
   )
 }
 
@@ -185,8 +214,19 @@ function ServersPane() {
 function User(props: { user: any }) {
   const joined = formatTimestamp(props.user.joinedAt);
 
+  const selected = createMemo(() => isUserSelected(props.user.id));
+
+  const onCheckChanged = () => {
+    if (selected()) {
+      setSelectedUsers(selectedUsers().filter(u => u.id !== props.user.id))
+      return;
+    }
+    setSelectedUsers([...selectedUsers(), props.user])
+  }
+
   return (
     <Link href={`/app/moderation/users/${props.user.id}`} class={itemStyles}>
+      <Checkbox checked={selected()} onChange={onCheckChanged} />
       <Avatar class={avatarStyle} hexColor={props.user.hexColor} size={28} />
       <ItemDetailContainer class="details">
         <FlexRow>

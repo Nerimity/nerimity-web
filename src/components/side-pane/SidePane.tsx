@@ -20,7 +20,7 @@ export default function SidePane () {
   const createPortal = useCustomPortal();
 
   const showAddServerModal = () => {
-    createPortal?.(close => <Modal {...close} title="Add Server" component={() => <AddServer close={close} />} />)
+    createPortal?.(close => <Modal {...close} title="Add Server" children={() => <AddServer close={close} />} />)
   }
 
   return <div class={styles.sidePane}>

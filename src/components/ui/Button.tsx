@@ -6,12 +6,13 @@ interface Props {
   color?: string;
   class?: string;
   label?: string; 
+  margin?: number;
   iconName?: string;
   onClick?: () => void;
   primary?: boolean;
 }
 
-const ButtonContainer = styled("div")`
+const ButtonContainer = styled("div")<{margin?: number}>`
   display: flex;
   text-align: center;
   align-items: center;
@@ -19,7 +20,7 @@ const ButtonContainer = styled("div")`
   border-radius: 4px;
   padding: 10px;
   flex-shrink: 0;
-  margin: 5px;
+  margin: ${props => props.margin !== undefined ? props.margin : 5}px;
   color: white;
   cursor: pointer;
   user-select: none;
@@ -45,7 +46,7 @@ export default function Button(props: Props) {
 
 
   return (
-    <ButtonContainer style={style}  class={props.class} onClick={props.onClick}>
+    <ButtonContainer margin={props.margin} style={style}  class={props.class} onClick={props.onClick}>
       { props.iconName && <Icon name={props.iconName} color={props.primary ? 'white' : color} /> }
       { props.label && <Text class='label' color={props.primary ? 'white' : color}>{props.label}</Text> }
     </ButtonContainer>
