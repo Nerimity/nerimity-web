@@ -6,7 +6,7 @@ interface TextProps {
   size?: number;
 }
 
-const Text = styled("div")<TextProps>`
+const Text = styled("span")<TextProps>`
   color: ${props => props.color || "white"};
   font-size: ${props => props.size || "16"}px;
   opacity: ${props => props.opacity || "1"};

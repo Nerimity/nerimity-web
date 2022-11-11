@@ -26,13 +26,13 @@ export const onDisconnect = () => {
   })
 }
 
-export const onAuthenticateError = (message: string) => {
+export const onAuthenticateError = (error: {message: string, data: any}) => {
   const account = useAccount();
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false,
-    authenticationError: message,
+    authenticationError: error,
   })
 }
 

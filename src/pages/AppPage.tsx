@@ -20,6 +20,8 @@ import { setContext } from '@/common/runWithContext';
 import DrawerLayout from '@/components/ui/drawer/Drawer';
 import { Route, Routes } from '@nerimity/solid-router';
 import { styled } from 'solid-styled-components';
+import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
 
 const MainPaneContainer = styled("div")`
   display: flex;
@@ -39,6 +41,10 @@ async function loadAllCache () {
 } 
 
 export default function AppPage() {
+  const {account} = useStore();
+
+  const createPortal = useCustomPortal();
+
   onMount(() => {
     loadAllCache();
     setContext();
@@ -47,8 +53,22 @@ export default function AppPage() {
     }, 300);
   })
 
+  createEffect(on(account.authenticationError, (err) => {
+    if (!err) return;
+    if (!getStorageString(StorageKeys.USER_TOKEN, null)) return;
+    createPortal?.(close => <ConnectionErrorModal close={close} />)
+  }))
+
+
   onCleanup(() => {
     socketClient.socket.disconnect();
+    account.setUser(null);
+    account.setSocketDetails({
+      socketId: null,
+      socketConnected: false,
+      socketAuthenticated: false,
+      authenticationError: null,
+    })
   })
 
   const LeftPane = (

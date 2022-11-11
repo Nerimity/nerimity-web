@@ -15,6 +15,7 @@ import { Server } from '../../chat-api/store/useServers';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
 import { updateTitleAlert } from '@/common/BrowserTitle';
+import { ConnectionErrorModal } from '../ConnectionErrorModal';
 
 export default function SidePane () {
   const createPortal = useCustomPortal();
@@ -81,6 +82,7 @@ function SettingsItem() {
 
 const UserItem = () => {
   const {account, users} = useStore();
+  const createPortal = useCustomPortal();
 
   const userId = () =>  account.user()?.id;
   const user = () => users.get(userId()!)
@@ -93,8 +95,15 @@ const UserItem = () => {
   const isAuthenticating = () => !isAuthenticated() && isConnected();
   const showConnecting = () => !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
   const href = () => userId() ? RouterEndpoints.PROFILE(userId()!) : "#";
+
+  const onClicked = () => {
+    if (authErrorMessage()) {
+      createPortal?.(close => <ConnectionErrorModal close={close} />)
+    }
+  }
+
   return (
-    <Link href={href()} class={`${styles.item} ${styles.user}`}  activeClass={styles.selected}>
+    <Link onclick={onClicked} href={href()} class={`${styles.item} ${styles.user}`}  activeClass={styles.selected}>
       {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
       {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
       {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}

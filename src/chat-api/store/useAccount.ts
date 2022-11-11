@@ -8,7 +8,7 @@ interface Account {
   socketId: string | null,
   socketConnected: boolean,
   socketAuthenticated: boolean,
-  authenticationError: string | null;
+  authenticationError: {message: string, data: any} | null;
 }
 
 
@@ -24,14 +24,14 @@ interface SetSocketDetailsArgs {
   socketId?: string | null,
   socketAuthenticated?: boolean,
   socketConnected?: boolean,
-  authenticationError?: string | null,
+  authenticationError?: {message: string, data: any} | null,
 }
 const setSocketDetails = (details: SetSocketDetailsArgs) => {
   setAccount(details);
 }
 
 
-const setUser = (user: RawUser) => setAccount('user', user);
+const setUser = (user: RawUser | null) => setAccount('user', user);
 
 const user = () => account.user;
 

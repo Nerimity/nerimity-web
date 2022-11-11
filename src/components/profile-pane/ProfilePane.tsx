@@ -1,5 +1,5 @@
 import { Link, useParams } from '@nerimity/solid-router';
-import { createEffect, createResource, For, on, Show } from 'solid-js';
+import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus } from '@/chat-api/RawData';
 import { getUserDetailsRequest, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
@@ -20,8 +20,13 @@ export default function ProfilePane () {
   
   const isMe = () => account.user()?.id === params.userId;
 
-  const [userDetails] = createResource(() => params.userId, getUserDetailsRequest);
- 
+  const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
+
+  createEffect(on(() => params.userId, async (userId) => {
+    setUserDetails(null)
+    const userDetails = await getUserDetailsRequest(userId);
+    setUserDetails(userDetails);
+  }))
 
 
   const user = () => {
