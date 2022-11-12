@@ -113,8 +113,8 @@ const InboxDrawerTab = () => {
   const array = () => {
     const users = mentionUserArray();
     const inboxArray = inbox.array().sort((a, b) => {
-      const aTime = new Date(a.channel.lastMessagedAt!).getTime();
-      const bTime = new Date(b.channel.lastMessagedAt!).getTime();
+      const aTime = a.channel.lastMessagedAt!;
+      const bTime = b.channel.lastMessagedAt!;
       return bTime - aTime;
     });
 

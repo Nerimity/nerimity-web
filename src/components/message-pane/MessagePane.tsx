@@ -97,7 +97,7 @@ const MessageLogArea = () => {
     if (selectedChannelId !== newMessageChannelId) return;
     if (message.createdBy.id === account.user()?.id) return;
     if (!hasFocus()) {
-      const timestamp = channel().lastSeen ? new Date(channel().lastSeen!).getTime() : null;
+      const timestamp = channel().lastSeen!;
       if (timestamp !== unreadLastSeen()) {
         setUnreadMessageId(message.id);
         setUnreadLastSeen(timestamp);
@@ -118,13 +118,13 @@ const MessageLogArea = () => {
   const updateLastReadIndex = () => {
     if (!channel().hasNotifications) return;
 
-    const lastRead = channel()?.lastSeen ? new Date(channel()?.lastSeen!).getTime() : -1;
+    const lastRead = channel()?.lastSeen! || -1;
     if (lastRead === -1) {
       setUnreadMessageId(null);
       return;
     };
     
-    const message = channelMessages()?.find(m => new Date(m.createdAt).getTime() - lastRead >= 0 );
+    const message = channelMessages()?.find(m => m.createdAt - lastRead >= 0 );
     setUnreadMessageId(message?.id || null);
   }
 
@@ -139,7 +139,7 @@ const MessageLogArea = () => {
           </Show>
 
             <MessageItem
-              animate={!!openedTimestamp() && new Date(message.createdAt).getTime() > openedTimestamp()!}
+              animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
               message={message}
               beforeMessage={ message.type === MessageType.CONTENT && channelMessages()?.[i() - 1]}
             />

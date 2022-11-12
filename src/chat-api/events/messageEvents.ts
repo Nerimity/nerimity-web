@@ -16,15 +16,14 @@ export function onMessageCreated(payload: RawMessage) {
   const {user} = useAccount();
   const channel = channels.get(payload.channelId);
 
-  const createdAt = new Date(payload.createdAt).getTime();
 
 
   batch(() => {
 
-    channel?.updateLastMessaged(new Date(payload.createdAt).toISOString());
+    channel?.updateLastMessaged(payload.createdAt);
 
     if (user()?.id === payload.createdBy.id) {
-      channel?.updateLastSeen(new Date(createdAt+1).toISOString());
+      channel?.updateLastSeen(payload.createdAt + 1);
     } 
     else if (!channel || channel.recipient) {
       const user = users.get(payload.createdBy.id);

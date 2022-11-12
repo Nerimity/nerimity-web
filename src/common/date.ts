@@ -4,10 +4,10 @@ function pad(num: number) {
 }
 
 // convert timestamp to today at 13:00 or yesterday at 13:00 or date. add zero if single digit
-export function formatTimestamp(timestamp: number | string) {
+export function formatTimestamp(timestamp: number) {
   const date = new Date(timestamp);
   const today = new Date();
-  const yesterday = new Date(today.getTime() - 86400000);
+  const yesterday = new Date(timestamp - 86400000);
   if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
     return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
   } else if (date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth()) {
@@ -19,14 +19,13 @@ export function formatTimestamp(timestamp: number | string) {
 
 
 // get days ago from timestamp
-export function getDaysAgo(timestamp: number | string) {
-  const date = new Date(timestamp);
+export function getDaysAgo(timestamp: number) {
   const rtf = new Intl.RelativeTimeFormat('en', {
     numeric: 'auto',
   });
   const oneDayInMs = 1000 * 60 * 60 * 24;
   const daysDifference = Math.round(
-    (date.getTime() - new Date().getTime()) / oneDayInMs,
+    (timestamp - Date.now()) / oneDayInMs,
   );
 
   return rtf.format(daysDifference, 'day');

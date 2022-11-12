@@ -19,7 +19,7 @@ interface MessageMention {
   count: number;
   serverId?: string;
   channelId: string
-  createdAt: string;
+  createdAt: number;
 }
 
 

@@ -78,8 +78,8 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message | false,
     </div>
   )
 
-  const currentTime = new Date(props.message?.createdAt).getTime();
-  const beforeMessageTime = props.beforeMessage && new Date(props.beforeMessage?.createdAt!).getTime()
+  const currentTime = props.message?.createdAt;
+  const beforeMessageTime = props.beforeMessage && props.beforeMessage?.createdAt!
 
   const isSameCreator = () => props.beforeMessage && props.beforeMessage?.createdBy?.id === props.message?.createdBy?.id;
   const isDateUnderFiveMinutes = () => beforeMessageTime && (currentTime- beforeMessageTime) < 300000;

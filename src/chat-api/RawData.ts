@@ -6,7 +6,7 @@ export interface RawServer {
   systemChannelId?: string;
   defaultRoleId: string;
   createdById: string;
-  createdAt: string;
+  createdAt: number;
 }
 
 
@@ -25,8 +25,8 @@ export interface RawMessage {
   content?: string;
   createdBy: RawUser;
   type: MessageType;
-  createdAt: string;
-  editedAt?: string;
+  createdAt: number;
+  editedAt?: number;
 }
 
 export interface RawUser {
@@ -36,13 +36,13 @@ export interface RawUser {
   hexColor: string;
   tag: string;
   badges: number;
-  joinedAt?: string;
+  joinedAt?: number;
 }
 
 export interface RawServerMember {
   serverId: string;
   user: RawUser;
-  joinedAt: string;
+  joinedAt: number;
   roleIds: string[];
 }
 
@@ -53,8 +53,8 @@ export interface RawChannel {
   serverId?: string;
   type: number;
   permissions?: number
-  createdAt: string
-  lastMessagedAt?: string;
+  createdAt: number
+  lastMessagedAt?: number;
 }
 export interface RawServerRole {
   id: string;
@@ -76,7 +76,7 @@ export enum FriendStatus {
 
 export interface RawFriend {
   status: FriendStatus,
-  createdAt: string
+  createdAt: number
   userId: string;
   recipient: RawUser;
 }
