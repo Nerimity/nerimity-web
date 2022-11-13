@@ -10,7 +10,7 @@ import Button from '@/components/ui/Button';
 import { deleteServerChannel, updateServerChannel } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal/Modal';
 import { Channel } from '@/chat-api/store/useChannels';
-import Checkbox from '@/components/ui/checkbox/Checkbox';
+import Checkbox from '@/components/ui/Checkbox';
 import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit } from '@/chat-api/Bitwise';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';

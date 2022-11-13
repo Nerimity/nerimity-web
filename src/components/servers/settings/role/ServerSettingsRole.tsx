@@ -9,7 +9,7 @@ import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
 import { deleteServerRole, updateServerRole } from '@/chat-api/services/ServerService';
 import Modal from '@/components/ui/modal/Modal';
-import Checkbox from '@/components/ui/checkbox/Checkbox';
+import Checkbox from '@/components/ui/Checkbox';
 import { addBit, getAllPermissions, removeBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import { ServerRole } from '@/chat-api/store/useServerRoles';

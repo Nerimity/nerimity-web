@@ -10,7 +10,7 @@ import Button from '../ui/Button';
 import { css, styled } from 'solid-styled-components';
 import Text from '../ui/Text';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
-import Checkbox from "../ui/checkbox/Checkbox";
+import Checkbox from "../ui/Checkbox";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import SuspendUsersModal from "./SuspendUsersModal";
 
