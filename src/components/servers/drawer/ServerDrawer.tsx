@@ -7,6 +7,15 @@ import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
 import { For } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';
+import ItemContainer from '@/components/ui/Item';
+import { styled } from 'solid-styled-components';
+import Text from '@/components/ui/Text';
+
+
+const ChannelContainer = styled(ItemContainer)`
+  height: 32px;
+  padding-left: 10px;
+`;
 
 const ServerDrawer = () => {
   return (
@@ -44,8 +53,11 @@ function ChannelItem(props: {channel: Channel, selected: boolean}) {
   return (
     <Link 
       href={RouterEndpoints.SERVER_MESSAGES(channel.serverId, channel.id)}
-      class={classNames(styles.channel, conditionalClass(props.selected, styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}>
-      <div class={styles.channelName}>{channel.name}</div>
+        style={{"text-decoration": "none"}}
+      >
+        <ChannelContainer selected={props.selected} alert={hasNotifications()}>
+          <Text>{channel.name}</Text>
+        </ChannelContainer>
     </Link>
   )
 }

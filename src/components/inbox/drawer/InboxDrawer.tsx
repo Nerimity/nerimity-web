@@ -130,11 +130,11 @@ const InboxDrawerTab = () => {
     return users;
   }
 
-  return <div>
+  return <>
     <For each={array()}>
       {user => <FriendItem user={user}  />}
     </For>
-  </div>
+  </>
 };
 
 

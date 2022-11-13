@@ -8,7 +8,8 @@ const ServerSettingsPane = lazy(() => import('@/components/servers/settings/sett
 const MessagePane = lazy(() => import('@/components/message-pane/MessagePane'));
 const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
 const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
-const ModerationPane = lazy( () => import("@/components/moderation-pane/ModerationPane"))
+const ModerationPane = lazy( () => import("@/components/moderation-pane/ModerationPane"));
+const DashboardPane = lazy( () => import("@/components/DashboardPane"));
 
 import { getStorageString, StorageKeys } from '../common/localStorage';
 import socketClient from '../chat-api/socketClient';
@@ -113,6 +114,7 @@ function MainPane () {
         <Route path="/profile/:userId" component={ProfilePane} />
         <Route path="/moderation/*" component={ModerationPane} />
         <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
+        <Route path="/*" component={DashboardPane} />
       </Routes>
     </MainPaneContainer>
   )

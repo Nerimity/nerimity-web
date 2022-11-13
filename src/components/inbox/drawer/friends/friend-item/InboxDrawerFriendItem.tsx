@@ -10,6 +10,8 @@ import useStore from "@/chat-api/store/useStore";
 import UserPresence from "@/components/user-presence/UserPresence";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Show } from "solid-js";
+import ItemContainer from "@/components/ui/Item";
+import { styled } from "solid-styled-components";
 
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const params = useParams();
@@ -50,17 +52,16 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
   const mentionCount = () => mentions.getDmCount(user()!.id);
 
-
+  const FriendContainer = styled(ItemContainer)`
+    padding-left: 10px;
+    height: 35px;
+    margin-left: 2px;
+    margin-right: 2px;
+  `;
 
   return (
     <Show when={user()}>
-      <div class={classNames(
-        styles.friendItem, 
-        conditionalClass(isFriendRequest(), styles.requestItem),
-        conditionalClass(isSelected(), styles.selected),
-        conditionalClass(mentionCount(), styles.hasNotifications),
-        conditionalClass(showAccept(), styles.hasNotifications)
-      )} onClick={onFriendClick}>
+      <FriendContainer selected={isSelected()} alert={mentionCount() || showAccept()} onClick={onFriendClick}>
 
         <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar hexColor={user().hexColor} size={25} />
@@ -81,7 +82,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
           <div class={styles.notificationCount}>{mentionCount()}</div>
         </Show>
 
-      </div>
+      </FriendContainer>
     </Show>
   )
 }

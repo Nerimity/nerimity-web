@@ -2,11 +2,24 @@ import styles from './styles.module.scss';
 import ServerDrawerHeader from '@/components/servers/drawer/header/ServerDrawerHeader';
 import Icon from '@/components/ui/icon/Icon';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { Link, useParams } from '@nerimity/solid-router';
+import { Link, useMatch, useParams } from '@nerimity/solid-router';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import serverSettings from '@/common/ServerSettings';
+import ItemContainer from '@/components/ui/Item';
+import { styled } from 'solid-styled-components';
+import Text from '@/components/ui/Text';
+
+
+const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
+  height: 32px;
+  gap: 5px;
+  padding-left: ${props => props.nested ? '25px' : '10px'};
+  margin-left: 3px;
+  margin-right: 3px;
+`;
+
 
 export default function ServerSettingsDrawer() {
   return (
@@ -21,7 +34,7 @@ function SettingsList () {
   const params = useParams();
 
   return (
-    <div>
+    <div class={styles.list}>
       <For each={serverSettings}>
         {(setting) => {
           if (setting.hideDrawer) return null;
@@ -48,13 +61,17 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
     return "/app/servers/" + params.serverId + "/settings/" + props.path;
   };
 
+  const selected = useMatch(href)
+
   return (
     <Link 
       href={href()}
-      activeClass={styles.selected}
-      class={classNames(styles.item, conditionalClass(props.nested, styles.nested))}>
-      <Icon name={props.icon} size={18} />
-      <div class={styles.label}>{props.label}</div>
+      style={{"text-decoration": "none"}}
+      >
+        <SettingItemContainer nested={props.nested} selected={selected()}>
+          <Icon name={props.icon} size={18} />
+          <Text class={styles.label}>{props.label}</Text>
+        </SettingItemContainer>
     </Link>
   )
 }

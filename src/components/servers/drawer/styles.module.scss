@@ -3,44 +3,7 @@
 .channelList {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
-}
-
-.channel {
-  display: flex;
-  position: relative;
-  align-items: center;
-  border-radius: 4px;
   margin: 3px;
-  margin-top: 1px;
-  margin-bottom: 2px;
-  padding: 7px;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.6);
-  transition: 0.2s;
-
-  &:hover,
-  &.selected {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: white;
-  }
-  &:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 3px;
-    border-radius: 3px;
-    height: 15px;
-    transition: 0.2s;
-  }  
-  &.selected:after {
-    background-color: var(--primary-color);
-  }  
-  &.hasNotifications:after {
-    background-color: var(--alert-color);
-  }
-  .channelName {
-    margin-left: 5px;
-  }
-
+  margin-top: 10px;
+  gap: 2px;
 }
