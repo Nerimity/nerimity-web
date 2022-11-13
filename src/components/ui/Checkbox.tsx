@@ -25,7 +25,7 @@ const CheckboxContainer = styled("div")`
 
   &:hover .${boxStyle} {
     background: rgba(255,255,255,0.2);
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.3);
   }
 
   &.selected .${boxStyle} {
