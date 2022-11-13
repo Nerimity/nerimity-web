@@ -15,6 +15,17 @@ import Text from '@/components/ui/Text';
 const ChannelContainer = styled(ItemContainer)`
   height: 32px;
   padding-left: 10px;
+
+  
+  .label {
+    opacity: ${props => props.selected ? 1 : 0.6};
+    transition: 0.2s;
+  }
+
+  &:hover .label {
+    opacity: 1;
+  }
+
 `;
 
 const ServerDrawer = () => {
@@ -56,7 +67,7 @@ function ChannelItem(props: {channel: Channel, selected: boolean}) {
         style={{"text-decoration": "none"}}
       >
         <ChannelContainer selected={props.selected} alert={hasNotifications()}>
-          <Text>{channel.name}</Text>
+          <Text class="label">{channel.name}</Text>
         </ChannelContainer>
     </Link>
   )

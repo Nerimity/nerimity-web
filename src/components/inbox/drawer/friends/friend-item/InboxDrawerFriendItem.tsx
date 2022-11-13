@@ -12,6 +12,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { Show } from "solid-js";
 import ItemContainer from "@/components/ui/Item";
 import { styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
 
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const params = useParams();
@@ -55,8 +56,18 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   const FriendContainer = styled(ItemContainer)`
     padding-left: 10px;
     height: 35px;
-    margin-left: 2px;
-    margin-right: 2px;
+    margin-left: 3px;
+    margin-right: 3px;
+
+    .username {
+      opacity: ${props => props.selected ? 1 : 0.6};
+      transition: 0.2s;
+    }
+  
+    &:hover .username {
+      opacity: 1;
+    }
+
   `;
 
   return (
@@ -67,7 +78,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
           <Avatar hexColor={user().hexColor} size={25} />
         </Link>
         <div class={styles.details}>
-          <div class={styles.username}>{user().username}</div>
+          <Text class="username">{user().username}</Text>
           <UserPresence userId={user().id} showOffline={false} />
         </div>
 

@@ -29,12 +29,14 @@ const ItemContainer = styled("div")<ItemContainer>`
     background-color: rgba(255, 255, 255, 0.15);
   }
 
-  ${props => props.selected ? `
-    background-color: rgba(255, 255, 255, 0.2);
-    &:after {
-      background-color: var(--primary-color);
-    } 
-  ` : undefined}
+  && {
+    ${props => props.selected ? `
+      background-color: rgba(255, 255, 255, 0.2);
+      &:after {
+        background-color: var(--primary-color);
+      } 
+    ` : undefined}
+  }
   
   ${props => props.alert ? `
     &:after {
