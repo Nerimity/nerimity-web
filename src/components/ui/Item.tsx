@@ -3,6 +3,7 @@ import { styled } from "solid-styled-components";
 interface ItemContainer {
   selected?: any;
   alert?: any;
+  handlePosition?: "top" | "bottom" | "left" | "right"
 }
 
 const ItemContainer = styled("div")<ItemContainer>`
@@ -18,10 +19,25 @@ const ItemContainer = styled("div")<ItemContainer>`
   &:after {
     content: '';
     position: absolute;
-    left: 0;
     width: 3px;
-    border-radius: 3px;
     height: 15px;
+
+    ${props => props.handlePosition === "left" || !props.handlePosition ? 'left: 0' : undefined};
+    ${props => props.handlePosition === "right" ? 'right: 0' : undefined};
+
+    ${props => props.handlePosition === "top" ? `
+      top: 0;
+      height: 3px;
+      width: 15px;
+    ` : undefined}
+
+    ${props => props.handlePosition === "bottom" ? `
+      bottom: 0;
+      height: 3px;
+      width: 15px;
+    ` : undefined}
+
+    border-radius: 3px;
     transition: 0.2s;
   }  
 
@@ -43,8 +59,6 @@ const ItemContainer = styled("div")<ItemContainer>`
       background-color: var(--alert-color);
     } 
   ` : undefined}
-
-
 `;
 
 export default ItemContainer;

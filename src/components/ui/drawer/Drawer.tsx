@@ -262,7 +262,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   return (
     <DrawerContext.Provider value={drawer}>
       <div class={styles.drawerLayout}>
-        <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px"}}>
+        <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px", overflow: isMobileWidth() ? 'initial' : 'hidden'}}>
           <div style={{width: leftDrawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
             <SidePane/>
             {hasLeftDrawer() && <div class={styles.leftDrawer}>{props.LeftDrawer}</div>}

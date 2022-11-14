@@ -139,9 +139,7 @@ function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => v
   return (
     <Link
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
-      onContextMenu={props.onContextMenu}
-      // class={classNames(styles.item, conditionalClass(selected(), styles.selected), conditionalClass(hasNotifications(), styles.hasNotifications))}
-      >
+      onContextMenu={props.onContextMenu}>
     <SidebarItemContainer alert={hasNotifications()}  selected={selected()}>
       <Avatar size={35} hexColor={props.server.hexColor} />
     </SidebarItemContainer>
