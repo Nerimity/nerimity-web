@@ -48,7 +48,7 @@ export default function Checkbox (props: CheckboxProps) {
   }
 
   return (
-    <CheckboxContainer classList={{selected: checked()}} onClick={onClick}>
+    <CheckboxContainer class={checked() ? 'selected' : ''} onClick={onClick}>
       <Icon size={13} class={boxStyle} name="done" />
     </CheckboxContainer>
   )
