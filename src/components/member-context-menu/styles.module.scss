@@ -1,8 +1,15 @@
-.roleItem {
+
+
+.roleModalContainer {
   display: flex;
-  align-items: center;
-  .label {
-    margin-left: 5px;
+  flex-direction: column;
+  gap: 3px;
+  .roleItem {
+    display: flex;
+    align-items: center;
+    .label {
+      margin-left: 5px;
+    }
   }
 }
 

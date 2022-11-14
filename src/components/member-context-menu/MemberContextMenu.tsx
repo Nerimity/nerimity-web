@@ -146,9 +146,11 @@ function RoleModal (props: Props) {
   const rolesWithoutDefault = () => roles().filter(role => role!.id !== server()?.defaultRoleId!);
 
   return (
-    <For each={rolesWithoutDefault()}>
-      {role => <RoleItem role={role!} userId={props.userId} />}
-    </For>
+    <div class={styles.roleModalContainer}>
+      <For each={rolesWithoutDefault()}>
+        {role => <RoleItem role={role!} userId={props.userId} />}
+      </For>
+    </div>
   )
 }
 
