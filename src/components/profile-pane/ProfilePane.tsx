@@ -60,7 +60,7 @@ export default function ProfilePane () {
       circleColor: item.color,
       id: item.id,
       label: item.name,
-      onClick: (item: any) => {
+      onClick: () => {
         updatePresence(i);
       }
     }

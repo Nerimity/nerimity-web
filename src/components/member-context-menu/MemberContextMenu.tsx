@@ -12,6 +12,8 @@ import { ServerMember } from '@/chat-api/store/useServerMembers';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { RawUser } from '@/chat-api/RawData';
+import { useNavigate } from '@nerimity/solid-router';
+import RouterEndpoints from '@/common/RouterEndpoints';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
   userId: string
@@ -19,9 +21,10 @@ type Props = Omit<ContextMenuProps, 'items'> & {
 }
 
 export default function MemberContextMenu(props: Props) {
-  const { serverMembers, servers, account } = useStore();
+  const { serverMembers, servers, account, users } = useStore();
   const createPortal = useCustomPortal()
 
+  const navigate = useNavigate();
   
   const member = () => props.serverId ? serverMembers.get(props.serverId, props.userId) : undefined;
   const server = () => props.serverId ? servers.get(props.serverId) : undefined;
@@ -86,7 +89,8 @@ export default function MemberContextMenu(props: Props) {
   return (
     <>
       <ContextMenu {...props} items={[
-        { label: "View Profile", icon: "person" },
+        { label: "View Profile", icon: "person", onClick: () => navigate(RouterEndpoints.PROFILE(props.userId)) },
+        { label: "Send Message", icon: "message", onClick: () => users.openDM(props.userId) },
         ...adminItems(),
         { separator: true },
         { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.userId) },

@@ -42,17 +42,26 @@ const set = (user: RawUser) => runWithContext(() => {
       setUsers(this.id, 'inboxChannelId', channelId);
     },
     async openDM() {
-      // check if dm already exists
-      const inboxItem = () => inbox.get(this.inboxChannelId!);
-      if (!inboxItem()) {
-        const rawInbox = await openDMChannelRequest(this.id);
-        channels.set(rawInbox.channel);
-        inbox.set({...rawInbox, channelId: rawInbox.channel.id});
-        this.setInboxChannelId(rawInbox.channel.id);
-      }
-      navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
+      await openDM(this.id)
     }
   });
+});
+
+
+const openDM = async (userId: string) => runWithContext(async () =>{
+  const navigate = useNavigate();
+  const inbox = useInbox();
+  const channels = useChannels();
+  const user = () => get(userId);
+  const inboxItem = () => inbox.get(user()?.inboxChannelId!);
+    // check if dm already exists
+  if (!inboxItem()) {
+    const rawInbox = await openDMChannelRequest(userId);
+    channels.set(rawInbox.channel);
+    inbox.set({...rawInbox, channelId: rawInbox.channel.id});
+    user()?.setInboxChannelId(rawInbox.channel.id);
+  }
+  navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
 });
 
 const get = (userId: string) => users[userId]
@@ -73,6 +82,7 @@ export default function useUsers() {
     array,
     get,
     set,
-    setPresence
+    setPresence,
+    openDM
   }
 }

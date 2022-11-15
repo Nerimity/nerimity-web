@@ -6,6 +6,6 @@ export const setContext = () => {
   ctx = getOwner();
 }
 
-export const runWithContext = (callback: () => void) => {
-  runWithOwner(ctx!, callback)
+export function runWithContext<T>(callback: () => T): T {
+  return runWithOwner(ctx!, callback)
 }
