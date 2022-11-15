@@ -28,7 +28,10 @@ const DashboardPaneContent = styled(FlexColumn)`
 `;
 
 const ServerListContainer = styled(FlexRow)`
-overflow: auto;
+  overflow: auto;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+  padding-top: 5px;
+  padding-bottom: 5px;
 `;
 
 const SidebarItemContainer = styled(ItemContainer)`
