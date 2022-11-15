@@ -76,7 +76,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   
   const leftDrawerWidth = () => {
     const dWidth = width() - 60;
-    const MAX_WIDTH =  hasLeftDrawer() ? 300 : 70;
+    const MAX_WIDTH =  hasLeftDrawer() ? 300 : 65;
     if (dWidth > MAX_WIDTH) return MAX_WIDTH;
     return dWidth;
   };
