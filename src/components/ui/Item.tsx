@@ -1,10 +1,19 @@
-import { styled } from "solid-styled-components";
+import { keyframes, styled } from "solid-styled-components";
 
 interface ItemContainer {
   selected?: any;
   alert?: any;
   handlePosition?: "top" | "bottom" | "left" | "right"
 }
+
+const handleAnimate = keyframes`
+  from {
+    transform: scale(1, 0);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+`;
 
 const ItemContainer = styled("div")<ItemContainer>`
   display: flex;
@@ -49,16 +58,20 @@ const ItemContainer = styled("div")<ItemContainer>`
     ${props => props.selected ? `
       background-color: rgba(255, 255, 255, 0.2);
       &:after {
+        animation: ${handleAnimate} 0.2s ease-in-out;
         background-color: var(--primary-color);
       } 
+      ` : undefined}
+    }
+    
+    && {
+      ${props => props.alert ? `
+      &:after {
+        animation: ${handleAnimate} 0.2s ease-in-out;
+        background-color: var(--alert-color);
+      } 
     ` : undefined}
-  }
-  
-  ${props => props.alert ? `
-    &:after {
-      background-color: var(--alert-color);
-    } 
-  ` : undefined}
+    }
 `;
 
 export default ItemContainer;
