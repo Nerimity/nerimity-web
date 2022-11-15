@@ -27,7 +27,7 @@ const ItemContainer = styled("div")<ItemContainer>`
   display: flex;
   position: relative;
   flex-shrink: 0;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
   user-select: none;

@@ -16,7 +16,7 @@ const HeaderContainer = styled("header")`
   border: solid rgba(255, 255, 255, 0.1) 1px;
   background-color: rgba(67, 67, 67, 0.8);
   backdrop-filter: blur(10px);
-  border-radius: 4px;
+  border-radius: 8px;
   position: fixed;
   inset: 15px;
   z-index: 11111;
@@ -34,9 +34,9 @@ const titleContainerStyle = css`
   color: white;
   text-decoration: none;
   transition: 0.2s;
+  border-radius: 8px;
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
   }
 `;
 
@@ -70,7 +70,7 @@ const LinkContainer = styled("div")<{primary: boolean}>`
   transition: 0.2s;
   color: white;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 8px;
   height: 50px;
   padding-left: 10px;
   padding-right: 15px;
@@ -79,16 +79,18 @@ const LinkContainer = styled("div")<{primary: boolean}>`
     background-color: rgba(255, 255, 255, 0.1);
   }  
 
-  ${props => (
-    props.primary ? `
-      background-color: var(--primary-color);
-      opacity: 0.9;
-      transition: 0.2s;
-      &:hover {
-        opacity: 1;
-      }
-    ` : undefined
-  )}
+  && {
+    ${props => (
+      props.primary ? `
+        background-color: var(--primary-color);
+        opacity: 0.9;
+        transition: 0.2s;
+        &:hover {
+          opacity: 1;
+        }
+      ` : undefined
+    )}
+  }
 
 `;
 

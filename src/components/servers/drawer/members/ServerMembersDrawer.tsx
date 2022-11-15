@@ -30,6 +30,19 @@ const MemberItem = (props: {member: ServerMember}) => {
 };
 
 
+const Header = () => {
+  const params = useParams();
+  const {serverMembers} = useStore();
+
+  const members = () => serverMembers.array(params.serverId);
+  return (
+    <div class={styles.header}>
+      Members ({members().length})
+    </div>
+  )
+  
+}
+
 
 const ServerMembersDrawer = () => {
   const params = useParams();
@@ -56,29 +69,31 @@ const ServerMembersDrawer = () => {
 
 
   return (
-    <div class={styles.membersList}>
+    <div>
+      <Header/>
+      <div class={styles.membersList}>
+        <For each={roleMembers()}>
+          {item => (
+            <Show when={!item.role!.hideRole && item.members().length}>
+              <div class={styles.roleItem}>
+                <div class={styles.roleName}>{item.role!.name} ({item.members().length})</div>
+                <For each={item.members()}>
+                  {member => <MemberItem  member={member!} />}
+                </For>
+              </div>
+            </Show>
+          )}
+        </For>
 
-    <For each={roleMembers()}>
-      {item => (
-        <Show when={!item.role!.hideRole && item.members().length}>
-          <div class={styles.roleItem}>
-            <div class={styles.roleName}>{item.role!.name} ({item.members().length})</div>
-            <For each={item.members()}>
-              {member => <MemberItem  member={member!} />}
-            </For>
-          </div>
-        </Show>
-      )}
-    </For>
-
-    {/* Offline */}
-    <div class={styles.roleItem}>
-      <div class={styles.roleName}>Offline ({offlineMembers().length})</div>
-      <For each={offlineMembers()}>
-        {member => <MemberItem  member={member!} />}
-      </For>
+        {/* Offline */}
+        <div class={styles.roleItem}>
+          <div class={styles.roleName}>Offline ({offlineMembers().length})</div>
+          <For each={offlineMembers()}>
+            {member => <MemberItem  member={member!} />}
+          </For>
+        </div>
+      </div>
     </div>
-  </div>
   )
 };
 

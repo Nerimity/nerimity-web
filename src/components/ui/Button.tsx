@@ -17,7 +17,7 @@ const ButtonContainer = styled("div")<{margin?: number}>`
   text-align: center;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 10px;
   flex-shrink: 0;
   margin: ${props => props.margin !== undefined ? props.margin : 5}px;

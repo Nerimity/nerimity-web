@@ -63,7 +63,7 @@ const itemStyles = css`
   align-items: center;
   padding: 5px;
   padding-left: 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
   text-decoration: none;
