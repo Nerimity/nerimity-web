@@ -1,3 +1,4 @@
+import styles from './styles.module.scss';
 import { Link, useParams } from '@nerimity/solid-router';
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus } from '@/chat-api/RawData';
@@ -12,14 +13,45 @@ import Button from '@/components/ui/Button';
 import DropDown from '@/components/ui/drop-down/DropDown';
 import Icon from '@/components/ui/icon/Icon';
 import UserPresence from '@/components/user-presence/UserPresence';
-import styles from './styles.module.scss';
+import { styled } from 'solid-styled-components';
+import Text from '../ui/Text';
+import { FlexRow } from '../ui/Flexbox';
+import { useWindowProperties } from '@/common/useWindowProperties';
+
+const ActionButtonsContainer = styled(FlexRow)`
+  align-self: center;
+  margin-left: auto;
+  margin-right: 10px;
+  margin-top: 10px;
+`;
+
+const ActionButtonContainer = styled(FlexRow)`
+  align-items: center;
+  border-radius: 8px;
+  padding: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+const ActionButton = (props: {icon?: string, label: string, color?: string}) => {
+  return (
+    <ActionButtonContainer gap={5}>
+      <Icon color={props.color} size={18} name={props.icon} />
+      <Text size={12} opacity={0.9}>{props.label}</Text>
+    </ActionButtonContainer>
+  )
+}
+
 
 export default function ProfilePane () {
   const params = useParams();
   const { users, friends, account, header } = useStore();
-  
+  const {width} = useWindowProperties();
   const isMe = () => account.user()?.id === params.userId;
-
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
 
   createEffect(on(() => params.userId, async (userId) => {
@@ -28,7 +60,6 @@ export default function ProfilePane () {
     setUserDetails(userDetails);
   }))
 
-
   const user = () => {
     const user = users.get(params.userId)
     if (user) return user;
@@ -36,14 +67,7 @@ export default function ProfilePane () {
   };
 
   const friend = () => friends.get(params.userId);
-  
-
-
   const friendExists = () => !!friend();
-  const isPending = () => friendExists() && friend().status === FriendStatus.PENDING;
-  const isSent = () => friendExists() && friend().status === FriendStatus.SENT;
-  const isFriend = () => friendExists() && friend().status === FriendStatus.FRIENDS;
-
 
   createEffect(on(user, () => {
     if (!user()) return;
@@ -53,7 +77,6 @@ export default function ProfilePane () {
       iconName: 'person',
     })
   }))
-
 
   const DropDownItems = UserStatuses.map((item, i) => {
     return {
@@ -67,7 +90,6 @@ export default function ProfilePane () {
   })
 
   const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
-  
 
   return (
     <Show when={user()}>
@@ -84,13 +106,13 @@ export default function ProfilePane () {
               <Show when={!isMe()}><UserPresence userId={user()!.id} showOffline={true} /></Show>
               <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
             </div>
-            <Show when={!isMe()}>
-              {isFriend() && <Button class={styles.addFriendButton} iconName='mail' label='Message' />}
-              {!friendExists() && <Button class={styles.addFriendButton} iconName='group_add' label='Add Friend' />}
-              {isSent() && <Button class={styles.addFriendButton} iconName='close' label='Pending Request' color='var(--alert-color)' />}
-              {isPending() && <Button class={styles.addFriendButton} iconName='done' label='Accept Request' color='var(--success-color)' />}
+            <Show when={!isMe() && width() >= 560}>
+              <ActionButtons/>
             </Show>
           </div>
+          <Show when={!isMe() && width() < 560}>
+            <ActionButtons/>
+          </Show>
         </div>
         <Show when={userDetails()}>
           <Content user={userDetails()!}  />
@@ -99,6 +121,29 @@ export default function ProfilePane () {
     </Show>
   )
 } 
+
+const ActionButtons = () => {
+  const params = useParams();
+  const { friends } = useStore();
+
+  const friend = () => friends.get(params.userId);
+  const friendExists = () => !!friend();
+  const isPending = () => friendExists() && friend().status === FriendStatus.PENDING;
+  const isSent = () => friendExists() && friend().status === FriendStatus.SENT;
+  const isFriend = () => friendExists() && friend().status === FriendStatus.FRIENDS;
+
+  return (
+    <ActionButtonsContainer gap={3}>
+      {isFriend() && <ActionButton icon='person_add_disabled' label='Remove Friend' color='var(--alert-color)' />}
+      {isFriend() && <ActionButton icon='block' label='Block' color='var(--alert-color)' />}
+      {!friendExists() && <ActionButton icon='group_add' label='Add Friend' color='var(--primary-color)'/>}
+      {isSent() && <ActionButton icon='close' label='Pending Request' color='var(--alert-color)' />}
+      {isPending() && <ActionButton icon='done' label='Accept Request' color='var(--success-color)' />}
+      <ActionButton icon='mail' label='Message' color='var(--primary-color)' />
+    </ActionButtonsContainer>
+  )
+}
+
 
 function Content (props: {user: UserDetails}) {
   return (

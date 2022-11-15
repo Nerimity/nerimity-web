@@ -32,9 +32,6 @@ const [users, setUsers] = createStore<Record<string, User>>({});
 
 
 const set = (user: RawUser) => runWithContext(() => {
-  const navigate = useNavigate();
-  const inbox = useInbox();
-  const channels = useChannels();
   if (users[user.id]) return;
   setUsers(user.id, {
     ...user,
