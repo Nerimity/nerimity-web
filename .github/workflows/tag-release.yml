@@ -57,6 +57,5 @@ jobs:
           password: ${{ secrets.PASS }}
           port: 22
           source: "dist/*"
-          target: "var/www/nerimity.com/dist/"
-          strip_components: 1
+          target: "var/www/nerimity.com/"
           overwrite: true
