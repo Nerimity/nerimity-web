@@ -58,3 +58,4 @@ jobs:
           port: 22
           source: "dist/*"
           target: "var/www/nerimity.com/dist/"
+          strip_components: 1
