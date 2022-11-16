@@ -53,10 +53,11 @@ jobs:
             chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
-          SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: ${{ secrets.USER }}
-          TARGET: /var/www/nerimity.com/dist
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          port: 22
+          source: "dist/"
+          target: "/var/www/nerimity.com/dist"
