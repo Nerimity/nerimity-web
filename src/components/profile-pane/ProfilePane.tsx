@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { Link, useParams } from '@nerimity/solid-router';
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
-import { FriendStatus } from '@/chat-api/RawData';
+import { FriendStatus, RawUser } from '@/chat-api/RawData';
 import { getUserDetailsRequest, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
 import { User } from '@/chat-api/store/useUsers';
@@ -17,6 +17,7 @@ import { styled } from 'solid-styled-components';
 import Text from '../ui/Text';
 import { FlexRow } from '../ui/Flexbox';
 import { useWindowProperties } from '@/common/useWindowProperties';
+import { addFriend } from '@/chat-api/services/FriendService';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -37,9 +38,9 @@ const ActionButtonContainer = styled(FlexRow)`
   }
 `;
 
-const ActionButton = (props: {icon?: string, label: string, color?: string}) => {
+const ActionButton = (props: {icon?: string, label: string, color?: string, onClick?: () => void}) => {
   return (
-    <ActionButtonContainer gap={5}>
+    <ActionButtonContainer gap={5} onclick={props.onClick}>
       <Icon color={props.color} size={18} name={props.icon} />
       <Text size={12} opacity={0.9}>{props.label}</Text>
     </ActionButtonContainer>
@@ -107,11 +108,11 @@ export default function ProfilePane () {
               <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
             </div>
             <Show when={!isMe() && width() >= 560}>
-              <ActionButtons/>
+              <ActionButtons user={user()} />
             </Show>
           </div>
           <Show when={!isMe() && width() < 560}>
-            <ActionButtons/>
+            <ActionButtons user={user()} />
           </Show>
         </div>
         <Show when={userDetails()}>
@@ -122,9 +123,9 @@ export default function ProfilePane () {
   )
 } 
 
-const ActionButtons = () => {
-  const params = useParams();
-  const { friends } = useStore();
+const ActionButtons = (props: {user?: RawUser | null}) => {
+  const params = useParams<{userId: string}>();
+  const { friends , users} = useStore();
 
   const friend = () => friends.get(params.userId);
   const friendExists = () => !!friend();
@@ -132,14 +133,35 @@ const ActionButtons = () => {
   const isSent = () => friendExists() && friend().status === FriendStatus.SENT;
   const isFriend = () => friendExists() && friend().status === FriendStatus.FRIENDS;
 
+  const acceptClicked = () => {
+    friend().acceptFriendRequest();
+  }
+  
+  const removeClicked = () => {
+    friend().removeFriend();
+  }
+  
+  const addClicked = () => {
+    if (!props.user) return;
+    addFriend({
+      username: props.user.username,
+      tag: props.user.tag
+    })
+  }
+
+  const onMessageClicked = () => {
+    users.openDM(params.userId);
+  }
+
   return (
     <ActionButtonsContainer gap={3}>
-      {isFriend() && <ActionButton icon='person_add_disabled' label='Remove Friend' color='var(--alert-color)' />}
-      {isFriend() && <ActionButton icon='block' label='Block' color='var(--alert-color)' />}
-      {!friendExists() && <ActionButton icon='group_add' label='Add Friend' color='var(--primary-color)'/>}
-      {isSent() && <ActionButton icon='close' label='Pending Request' color='var(--alert-color)' />}
-      {isPending() && <ActionButton icon='done' label='Accept Request' color='var(--success-color)' />}
-      <ActionButton icon='mail' label='Message' color='var(--primary-color)' />
+      {isFriend() && <ActionButton icon='person_add_disabled' label='Remove Friend' color='var(--alert-color)' onClick={removeClicked} />}
+      {!friendExists() && <ActionButton icon='group_add' label='Add Friend' color='var(--primary-color)' onClick={addClicked} />}
+      {isSent() && <ActionButton icon='close' label='Pending Request' color='var(--alert-color)' onClick={removeClicked} />}
+      {isPending() && <ActionButton icon='done' label='Accept Request' color='var(--success-color)' onClick={acceptClicked}  />}
+      <ActionButton icon='block' label='Block (WIP)' color='var(--alert-color)'/>
+      <ActionButton icon='flag' label='Report (WIP)' color='var(--alert-color)'/>
+      <ActionButton icon='mail' label='Message' color='var(--primary-color)' onClick={onMessageClicked} />
     </ActionButtonsContainer>
   )
 }
