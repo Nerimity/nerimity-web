@@ -60,4 +60,4 @@ jobs:
           password: ${{ secrets.PASS }}
           port: 22
           source: "dist/"
-          target: "/var/www/nerimity.com/dist"
+          target: "var/www/nerimity.com/dist"
