@@ -6,6 +6,12 @@ Chat App made using SolidJS. Work in progress.
 - Chat App - Frontend (You Are Here)
 - [Chat App - Backend](https://github.com/Supertigerr/chat-server)
 
+## Setup
+
+* Fork the repo
+* Rename `example.env` to `.env`
+* Run `npm i` and `npm run dev`
+* Go to http://local.nerimity.com
 
 ## Features Checklist:
 
