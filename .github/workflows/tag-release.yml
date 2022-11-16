@@ -50,12 +50,10 @@ jobs:
             chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
       - name: Deploy to Server
-        uses: appleboy/scp-action@master
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          password: ${{ secrets.PASS }}
-          port: 22
-          source: "dist/*"
-          target: "var/www/nerimity.com/"
-          overwrite: true
+          local: 'dist/'                                                  # Local file path - REQUIRED false - DEFAULT ./
+          remote: 'var/www/nerimity.com/dist/'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
+          host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
+          user: ${{secrets.USER}}                                      # Remote server user - REQUIRED true
+          password: ${{secrets.PASS}}                              # User password - REQUIRED at least one of "password" or "key" 
