@@ -53,7 +53,7 @@ jobs:
             chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v2.1.5
+        uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.KEY }}
           SOURCE: "dist/"
