@@ -1,6 +1,7 @@
 
 export enum StorageKeys {
   USER_TOKEN = 'userToken',
+  SEEN_APP_VERSION = 'seenAppVersion',
   INBOX_DRAWER_SELECTED_INDEX = 'inboxDrawerSelectedIndex'
 }
 

@@ -1,0 +1,30 @@
+import { createSignal } from "solid-js";
+
+const owner = "Nerimity";
+const repo = "nerimity-web";
+
+interface Release {
+  tag_name: string;
+}
+
+async function fetchJson<T>(url: string): Promise<T> {
+  const res = await fetch(url + `?rnd=${Math.random()}`);
+  const json = await res.json();
+  return json;
+}
+
+function getReleases() {
+  const url = `https://api.github.com/repos/${owner}/${repo}/releases`;
+  return fetchJson<Release[]>(url);
+}
+
+function getRelease(releaseId: string) {
+  const url = `https://api.github.com/repos/${owner}/${repo}/releases/${releaseId}`;
+  return fetchJson<Release>(url); 
+}
+
+function getLatestRelease() {
+  const url = `https://api.github.com/repos/${owner}/${repo}/releases/latest`;
+  return fetchJson<Release>(url); 
+}
+

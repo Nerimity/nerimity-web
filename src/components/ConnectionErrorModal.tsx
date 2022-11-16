@@ -2,7 +2,7 @@ import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
 import { useNavigate } from "@nerimity/solid-router";
-import { createEffect, Match, onMount, Show, Switch } from "solid-js";
+import { Match, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "./ui/Button";
 import { FlexRow } from "./ui/Flexbox";
@@ -47,7 +47,7 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
   )
 }
 
-function SuspendMessage({reason, expire}: {reason?: string; expire?: string;}) {
+function SuspendMessage({reason, expire}: {reason?: string; expire?: number;}) {
   return (
     <>
       <Text opacity={0.6}>You are suspended for </Text>
