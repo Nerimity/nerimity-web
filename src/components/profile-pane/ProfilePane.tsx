@@ -24,6 +24,8 @@ const ActionButtonsContainer = styled(FlexRow)`
   margin-left: auto;
   margin-right: 10px;
   margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const ActionButtonContainer = styled(FlexRow)`
@@ -107,11 +109,11 @@ export default function ProfilePane () {
               <Show when={!isMe()}><UserPresence userId={user()!.id} showOffline={true} /></Show>
               <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
             </div>
-            <Show when={!isMe() && width() >= 560}>
+            <Show when={!isMe() && width() >= 700}>
               <ActionButtons user={user()} />
             </Show>
           </div>
-          <Show when={!isMe() && width() < 560}>
+          <Show when={!isMe() && width() < 700}>
             <ActionButtons user={user()} />
           </Show>
         </div>
