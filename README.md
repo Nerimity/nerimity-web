@@ -26,9 +26,6 @@ Chat App made using SolidJS. Work in progress.
 - [ ] Update Account
 - [ ] Delete Account
 - [ ] Re-organize Servers
-- [ ] Join/Leave/Kick/Ban Messages
-- [ ] Edit Messages
-- [ ] Kick/Ban Users From Servers
 - [ ] Block Users
 - [ ] Changelog
 - [ ] Recycle List (Virtual List to Improve Performance)
@@ -39,6 +36,9 @@ Chat App made using SolidJS. Work in progress.
 - [ ] Notification Sounds
 
 ### Completed Features:
+- [x] Join/Leave/Kick/Ban Messages
+- [x] Edit Messages
+- [x] Kick/Ban Users From Servers
 - [x] Login & Register
 - [x] Friends System
 - [x] DM & Server Channels
