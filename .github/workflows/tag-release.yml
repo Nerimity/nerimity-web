@@ -22,11 +22,13 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
-      - name: Install NPM dependencies
-        run: npm ci
+      - name: Install Node.js dependencies
+        run: |
+          npm i -g pnpm
+          pnpm i
 
       - name: Build App
-        run: npm run build
+        run: pnpm run build
         env:
           VITE_APP_NAME: "Nerimity"
           VITE_SERVER_URL: "https://nerimity.com"
