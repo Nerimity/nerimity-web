@@ -49,5 +49,5 @@ const checkForUpdate = async () => {
 }
 
 export function useAppVersion () {
-    return {latestRelease, updateAvailable, showChangelog, checkForUpdate}
+  return {latestRelease, updateAvailable, showChangelog, checkForUpdate}
 }

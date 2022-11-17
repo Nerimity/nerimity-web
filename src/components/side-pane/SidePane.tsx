@@ -25,6 +25,7 @@ import Button from '../ui/Button';
 import Text from '../ui/Text';
 import Marked from '@/common/Marked';
 import { getLatestRelease } from '@/github-api';
+import { formatTimestamp } from '@/common/date';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -206,12 +207,21 @@ const ServerList = () => {
 
 function UpdateModal (props: {close: () => void}) {
   const {latestRelease} = useAppVersion();
+
+  const date = () => {
+    const release = latestRelease();
+    if (!release) return undefined;
+    return formatTimestamp(new Date(release.published_at).getTime())
+  }
+
   return (
     <FlexColumn gap={5}>
-      <Text opacity={0.8}>A new update is available!</Text>
-      <FlexRow style={{height: "300px", "max-width": "500px", overflow: "auto"}}>
+      <FlexColumn style={{"max-height": "300px", "max-width": "500px", overflow: "auto"}}>
+        <Text size={24}>{latestRelease()?.name || ""}</Text>
+        <Text opacity={0.7}>Released at {date() || ""}</Text>
+        <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
         <Marked value={latestRelease()?.body!} />
-      </FlexRow>
+      </FlexColumn>
       <FlexRow style={{"margin-left": "-5px"}}>
         <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)'/>
         <Button iconName='get_app' label='Update Now' onClick={() => location.reload()} primary/>

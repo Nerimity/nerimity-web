@@ -1,11 +1,11 @@
-import { createSignal } from "solid-js";
-
 const owner = "Nerimity";
 const repo = "nerimity-web";
 
 export interface Release {
   tag_name: string;
+  name: string;
   body: string;
+  published_at: string;
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
