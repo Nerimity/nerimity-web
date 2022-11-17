@@ -47,7 +47,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          draft: true
+          draft: false
           files: |
             chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
