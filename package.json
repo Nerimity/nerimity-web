@@ -10,6 +10,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
+    "@types/markdown-it-emoji": "^2.0.2",
     "@types/node": "^18.7.13",
     "typescript": "^4.8.4",
     "vite": "^3.1.8",
@@ -18,6 +20,8 @@
   "dependencies": {
     "@nerimity/solid-router": "^0.4.3",
     "idb-keyval": "^6.2.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-emoji": "^2.0.2",
     "material-icons": "^1.11.10",
     "sass": "^1.54.5",
     "socket.io-client": "^4.5.1",

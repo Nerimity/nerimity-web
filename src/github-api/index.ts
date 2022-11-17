@@ -3,8 +3,9 @@ import { createSignal } from "solid-js";
 const owner = "Nerimity";
 const repo = "nerimity-web";
 
-interface Release {
+export interface Release {
   tag_name: string;
+  body: string;
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -23,7 +24,7 @@ function getRelease(releaseId: string) {
   return fetchJson<Release>(url); 
 }
 
-function getLatestRelease() {
+export function getLatestRelease() {
   const url = `https://api.github.com/repos/${owner}/${repo}/releases/latest`;
   return fetchJson<Release>(url); 
 }

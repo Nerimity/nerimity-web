@@ -23,6 +23,8 @@ import { Route, Routes } from '@nerimity/solid-router';
 import { styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
+import { useAppVersion } from '@/common/useAppVersion';
+import { ChangelogModal } from '@/components/ChangelogModal';
 
 const MainPaneContainer = styled("div")`
   display: flex;
@@ -52,7 +54,16 @@ export default function AppPage() {
     setTimeout(() => {
       socketClient.login(getStorageString(StorageKeys.USER_TOKEN, undefined));
     }, 300);
+    handleChangelog()
   })
+
+  function handleChangelog () {
+    const {showChangelog} = useAppVersion();
+    if (showChangelog()) {
+      createPortal?.(close => <ChangelogModal close={close}/>)
+    }
+  }
+
 
   createEffect(on(account.authenticationError, (err) => {
     if (!err) return;

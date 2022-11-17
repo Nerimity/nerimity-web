@@ -4,7 +4,7 @@ import Avatar from '@/components/ui/Avatar';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
-import { createEffect, createSignal, For, Show } from 'solid-js';
+import { createEffect, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams, useMatch } from '@nerimity/solid-router';
 import { FriendStatus } from '../../chat-api/RawData';
@@ -18,6 +18,13 @@ import { updateTitleAlert } from '@/common/BrowserTitle';
 import { ConnectionErrorModal } from '../ConnectionErrorModal';
 import ItemContainer from '../ui/Item';
 import { styled } from 'solid-styled-components';
+import { useAppVersion } from '@/common/useAppVersion';
+import { useWindowProperties } from '@/common/useWindowProperties';
+import { FlexColumn, FlexRow } from '../ui/Flexbox';
+import Button from '../ui/Button';
+import Text from '../ui/Text';
+import Marked from '@/common/Marked';
+import { getLatestRelease } from '@/github-api';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -41,6 +48,7 @@ export default function SidePane () {
         <Icon name="add_box" size={40} />
       </SidebarItemContainer>
     </div>
+    <UpdateItem/>
     <ModerationItem />
     <SettingsItem />
     <UserItem />
@@ -70,6 +78,32 @@ function InboxItem() {
   )
 }
 
+function UpdateItem() {
+  const checkAfterMS = 600000; // 10 minutes
+  const {checkForUpdate, updateAvailable} = useAppVersion();
+  const createPortal = useCustomPortal();
+  const {hasFocus} = useWindowProperties()
+  let lastChecked = 0;
+
+  createEffect(on(hasFocus, async () => {
+    if (updateAvailable()) return;
+    const now = Date.now();
+    if (now - lastChecked >= checkAfterMS) {
+      lastChecked = now;
+      checkForUpdate();
+    }
+  }))
+
+  const showUpdateModal = () => createPortal?.(close => <Modal title='Update Available'><UpdateModal close={close}/></Modal>)
+
+  return (
+    <Show when={updateAvailable()}>
+      <SidebarItemContainer onclick={showUpdateModal}>
+        <Icon name='get_app' title='Update Available' color="var(--success-color)" />
+      </SidebarItemContainer>
+    </Show>
+  )
+}
 function ModerationItem() {
   const {account} = useStore();
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
@@ -170,3 +204,18 @@ const ServerList = () => {
 };
 
 
+function UpdateModal (props: {close: () => void}) {
+  const {latestRelease} = useAppVersion();
+  return (
+    <FlexColumn gap={5}>
+      <Text opacity={0.8}>A new update is available!</Text>
+      <FlexRow style={{height: "300px", "max-width": "500px", overflow: "auto"}}>
+        <Marked value={latestRelease()?.body!} />
+      </FlexRow>
+      <FlexRow style={{"margin-left": "-5px"}}>
+        <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)'/>
+        <Button iconName='get_app' label='Update Now' onClick={() => location.reload()} primary/>
+      </FlexRow>
+    </FlexColumn>
+  )
+}
