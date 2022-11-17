@@ -12,7 +12,7 @@ const showChangelog = () => {
   if (env.DEV_MODE) {
     return false;
   }
-  const appVersion = env.VITE_APP_VERSION;
+  const appVersion = env.APP_VERSION;
   if (!appVersion) return false;
   const seenVersion = getStorageString(StorageKeys.SEEN_APP_VERSION, undefined);
 
@@ -34,7 +34,7 @@ const checkForUpdate = async () => {
     return;
   }
 
-  const appVersion = env.VITE_APP_VERSION;
+  const appVersion = env.APP_VERSION;
   const latestRelease = await getLatestRelease();
   const latestVersion = latestRelease.tag_name;
   setLatestRelease(latestRelease);

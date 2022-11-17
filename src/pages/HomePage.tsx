@@ -50,6 +50,9 @@ const ButtonsContainer = styled("div")`
 `;
 
 export default function HomePage () {
+  
+  const releaseLink = `https://github.com/Nerimity/nerimity-web/releases/${env.APP_VERSION ? `tag/${env.APP_VERSION}` : '' }`
+
   return (
     <HomePageContainer class="home-page-container">
       <PageHeader />
@@ -57,6 +60,7 @@ export default function HomePage () {
         <TopContainer>
           <Text class="title" size={60}>{env.APP_NAME}</Text>
           <Text class="slogan" opacity={0.7}>A modern and sleek chat app.</Text>
+          <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>
           <ButtonsContainer class="buttons-container">
             <Link href='/register'><Button iconName='open_in_browser' label='Join Nerimity' primary={true} /></Link>
             <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label='View GitHub'  /></a>
