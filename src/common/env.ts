@@ -6,4 +6,3 @@ export default {
   VITE_APP_VERSION: import.meta.env.VITE_APP_VERSION as string | undefined,
   DEV_MODE: import.meta.env.VITE_DEV_MODE === "true",
 }
-console.log(import.meta.env.VITE_APP_VERSION)
