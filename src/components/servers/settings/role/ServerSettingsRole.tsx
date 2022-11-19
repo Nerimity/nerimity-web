@@ -8,7 +8,7 @@ import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
 import { deleteServerRole, updateServerRole } from '@/chat-api/services/ServerService';
-import Modal from '@/components/ui/modal/Modal';
+import Modal from '@/components/ui/Modal';
 import Checkbox from '@/components/ui/Checkbox';
 import { addBit, getAllPermissions, removeBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';

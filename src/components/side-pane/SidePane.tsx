@@ -8,7 +8,7 @@ import { createEffect, createResource, createSignal, For, on, onCleanup, onMount
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams, useMatch } from '@nerimity/solid-router';
 import { FriendStatus } from '../../chat-api/RawData';
-import Modal from '@/components/ui/modal/Modal';
+import Modal from '@/components/ui/Modal';
 import AddServer from './add-server/AddServer';
 import { userStatusDetail } from '../../common/userStatus';
 import { Server } from '../../chat-api/store/useServers';

@@ -6,7 +6,7 @@ import { Match, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "./ui/Button";
 import { FlexRow } from "./ui/Flexbox";
-import Modal from "./ui/modal/Modal"
+import Modal from "./ui/Modal"
 import Text from "./ui/Text";
 
 const ConnectionErrorContainer = styled("div")`

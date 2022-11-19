@@ -7,7 +7,7 @@ import FriendItem from './friends/friend-item/InboxDrawerFriendItem';
 import { createEffect, createSignal, For } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { FriendStatus } from '@/chat-api/RawData';
-import Modal from '@/components/ui/modal/Modal';
+import Modal from '@/components/ui/Modal';
 import AddFriend from './add-friend/AddFriend';
 import { useParams } from '@nerimity/solid-router';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';

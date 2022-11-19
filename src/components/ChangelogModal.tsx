@@ -3,7 +3,7 @@ import Marked from "@/common/Marked";
 import { useAppVersion } from "@/common/useAppVersion";
 import Button from "./ui/Button";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
-import Modal from "./ui/modal/Modal";
+import Modal from "./ui/Modal";
 import Text from "./ui/Text";
 
 export function ChangelogModal (props: {close: () => void}) {

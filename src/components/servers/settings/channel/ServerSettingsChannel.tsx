@@ -8,7 +8,7 @@ import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
 import { deleteServerChannel, updateServerChannel } from '@/chat-api/services/ServerService';
-import Modal from '@/components/ui/modal/Modal';
+import Modal from '@/components/ui/Modal';
 import { Channel } from '@/chat-api/store/useChannels';
 import Checkbox from '@/components/ui/Checkbox';
 import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit } from '@/chat-api/Bitwise';

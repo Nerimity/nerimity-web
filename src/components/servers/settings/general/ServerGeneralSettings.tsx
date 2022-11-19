@@ -13,7 +13,7 @@ import { deleteServer, updateServerSettings } from '@/chat-api/services/ServerSe
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import { Server } from '@/chat-api/store/useServers';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
-import Modal from '@/components/ui/modal/Modal';
+import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 
 export default function ServerGeneralSettings() {
