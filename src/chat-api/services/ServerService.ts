@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {RawChannel, RawServer, RawServerRole} from '../RawData'
+import {RawChannel, RawServer, RawServerRole, RawUser} from '../RawData'
 import env from "../../common/env";
 
 
@@ -29,8 +29,28 @@ export async function kickServerMember(serverId: string, userId: string): Promis
 }
 export async function BanServerMember(serverId: string, userId: string): Promise<any> {
   return request({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverMemberBan(serverId, userId),
+    useToken: true
+  });
+}
+export async function removeBanServerMember(serverId: string, userId: string): Promise<any> {
+  return request({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverMemberBan(serverId, userId),
+    useToken: true
+  });
+}
+
+export interface Ban {
+  serverId: string;
+  user: RawUser;
+}
+
+export async function bannedMembersList(serverId: string): Promise<Ban[]> {
+  return request({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverMemberBan(serverId, ""),
     useToken: true
   });
 }

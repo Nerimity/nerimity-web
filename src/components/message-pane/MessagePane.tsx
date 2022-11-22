@@ -294,6 +294,8 @@ function TypingIndicator() {
     }
   }
 
+  const onMessageUpdated = (evt: any) => onMessageCreated(evt.updated)
+
   createEffect(on(() => params.channelId, () => {
     Object.values(typingUserIds).forEach(timeoutId => 
       clearTimeout(timeoutId)
@@ -304,10 +306,12 @@ function TypingIndicator() {
   onMount(() => {
     socketClient.socket.on(ServerEvents.CHANNEL_TYPING, onTyping)
     socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated)
+    socketClient.socket.on(ServerEvents.MESSAGE_UPDATED, onMessageUpdated)
     
     onCleanup(() => {
       socketClient.socket.off(ServerEvents.CHANNEL_TYPING, onTyping)
       socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated)
+      socketClient.socket.off(ServerEvents.MESSAGE_UPDATED, onMessageUpdated)
     })
   })
 

@@ -45,6 +45,12 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/channels/ServerSettingsChannel'))
   },
   {
+    path: 'bans',
+    name: 'Bans',
+    icon: 'block',
+    element: lazy(() => import('@/components/servers/settings/ServerSettingsBans'))
+  },
+  {
     path: 'invites',
     name: 'Invites',
     icon: 'mail',
