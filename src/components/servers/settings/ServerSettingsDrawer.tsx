@@ -1,7 +1,5 @@
-import styles from './styles.module.scss';
 import ServerDrawerHeader from '@/components/servers/drawer/header/ServerDrawerHeader';
 import Icon from '@/components/ui/icon/Icon';
-import { classNames, conditionalClass } from '@/common/classNames';
 import { Link, useMatch, useParams } from '@nerimity/solid-router';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
@@ -11,6 +9,11 @@ import ItemContainer from '@/components/ui/Item';
 import { styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 
+const SettingsListContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
 
 const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
   height: 32px;
@@ -43,7 +46,7 @@ function SettingsList () {
   const params = useParams();
 
   return (
-    <div class={styles.list}>
+    <SettingsListContainer>
       <For each={serverSettings}>
         {(setting) => {
           if (setting.hideDrawer) return null;
@@ -57,7 +60,7 @@ function SettingsList () {
           )
         }}
       </For>
-    </div>
+    </SettingsListContainer>
   )
 }
 

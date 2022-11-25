@@ -6,7 +6,7 @@ import { getUserDetailsRequest } from '@/chat-api/services/UserService'
 import { RawUser } from '@/chat-api/RawData'
 import { getStorageString, StorageKeys } from '@/common/localStorage'
 import Icon from './ui/icon/Icon'
-import { isHalloween } from '@/common/worldEvents'
+import { appLogoUrl, isChristmas, isHalloween } from '@/common/worldEvents'
 
 
 const HeaderContainer = styled("header")`
@@ -98,7 +98,7 @@ const linkIconStyle = css`
   margin-right: 5px;
 `;
 
-export default function PageHeader() {
+export default function PageHeader(props: {showLogo?: boolean}) {
   const [user, setUser] = createSignal<null | false | RawUser>(null);
 
   onMount(async () => {
@@ -115,11 +115,7 @@ export default function PageHeader() {
   return (
     <HeaderContainer class="header-container">
       <Link href="/" class={titleContainerStyle}>
-        <Switch fallback={<Logo src="/assets/logo.png" alt="User Avatar" />}>
-          <Match when={isHalloween}>
-            <Logo src="/assets/halloween-logo.png" alt="User Avatar" />
-          </Match>
-        </Switch>
+        <Logo src={appLogoUrl()} alt="logo"/>
         <Title>{env.APP_NAME}</Title>
       </Link>
       <Show when={user() === false}><LoggedOutLinks/></Show>

@@ -123,9 +123,17 @@ function ModerationItem() {
 }
 
 function SettingsItem() {
-  return <SidebarItemContainer>
-    <Icon name='settings' title='Settings' />
-  </SidebarItemContainer>
+
+  const selected = useMatch(() => "/app/settings");
+
+
+  return (
+    <Link href="/app/settings/account" style={{"text-decoration": "none"}} >
+      <SidebarItemContainer selected={selected()}>
+        <Icon name='settings' title='Settings' />
+      </SidebarItemContainer>
+    </Link>
+  )
 }
 
 const UserItem = () => {

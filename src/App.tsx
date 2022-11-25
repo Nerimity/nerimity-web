@@ -1,6 +1,6 @@
 import { onMount, lazy } from 'solid-js';
 import env from './common/env';
-import { isHalloween } from './common/worldEvents';
+import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-router';
 
@@ -14,6 +14,9 @@ export default function App() {
     document.title = env.APP_NAME
     if (isHalloween) {
       document.documentElement.style.setProperty('--primary-color', '#d76623');
+    }
+    if (isChristmas) {
+      document.documentElement.style.setProperty('--primary-color', '#34a65f');
     }
   })
 

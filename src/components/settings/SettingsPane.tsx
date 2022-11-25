@@ -1,10 +1,9 @@
-import serverSettings from '@/common/ServerSettings';
-import { Route, Routes, useParams } from '@nerimity/solid-router';
-import {For, Show } from 'solid-js';
-import ServerSettingsHeader from './ServerSettingsHeader';
+import Settings from '@/common/Settings';
+import { Route, Routes } from '@nerimity/solid-router';
+import { For, Show } from 'solid-js';
+import SettingsHeader from './SettingsHeader';
 import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
-
 
 const SettingsPaneContainer = styled("div")`
   display: flex;
@@ -13,17 +12,15 @@ const SettingsPaneContainer = styled("div")`
   height: 100%;
 `;
 
-export default function ServerSettingsPane() {
-  const params = useParams();
-  const {servers} = useStore();
-
-  const server = () => servers.get(params.serverId);
+export default function SettingsPane() {
+  const { account} = useStore();
+  const user = () => account.user();
 
   return (
-    <Show when={server()}>
+    <Show when={user()}>
       <SettingsPaneContainer>
-        <ServerSettingsHeader />
-        <For each={serverSettings}>
+        <SettingsHeader />
+        <For each={Settings}>
           {setting => (
             <Routes>
               {setting.path && <Route path={`/${setting.path}`} component={setting.element} />}

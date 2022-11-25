@@ -1,6 +1,3 @@
-import styles from './styles.module.scss'
-import env from '@/common/env';
-import { classNames, conditionalClass } from '@/common/classNames';
 import { useParams } from '@nerimity/solid-router';
 import { createEffect, createSignal, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
@@ -15,16 +12,22 @@ import { Server } from '@/chat-api/store/useServers';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import Text from '@/components/ui/Text';
+import { css, styled } from 'solid-styled-components';
+
+const Container = styled("div")`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+`;
 
 export default function ServerGeneralSettings() {
   const {serverId} = useParams();
   const {header, servers, channels} = useStore();
   const windowProperties = useWindowProperties();
-  const [mobileSize, isMobileSize] = createSignal(false);
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const createPortal = useCustomPortal();
-
   const server = () => servers.get(serverId);
 
   const defaultInput = () => ({
@@ -34,7 +37,6 @@ export default function ServerGeneralSettings() {
   })
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
-
 
   const dropDownChannels = () => channels.getChannelsByServerId(serverId).map(channel => ({
     id: channel!.id,
@@ -63,11 +65,6 @@ export default function ServerGeneralSettings() {
   };
 
   createEffect(() => {
-    const isMobile = windowProperties.paneWidth()! < env.MOBILE_WIDTH;
-    isMobileSize(isMobile);
-  })
-  
-  createEffect(() => {
     header.updateHeader({
       title: "Settings - General",
       serverId: serverId!,
@@ -87,14 +84,13 @@ export default function ServerGeneralSettings() {
 
   const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
 
-
   const showDeleteConfirm = () => {
     createPortal?.(close => <Modal {...close} title={`Delete ${server()?.name}`} children={() => <ServerDeleteConfirmModal close={close} server={server()!} />} />)
   }
 
   return (
-    <div class={classNames(styles.generalPane, conditionalClass(mobileSize(), styles.mobile))}>
-      <div class={styles.title}>Server General</div>
+    <Container>
+      <Text size={24} style={{"margin-bottom": "10px"}}>Server General</Text>
       
       <SettingsBlock icon='edit' label='Server Name'>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
@@ -102,9 +98,6 @@ export default function ServerGeneralSettings() {
       <SettingsBlock icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
         <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId} />
       </SettingsBlock>
-
-
-
         
       <SettingsBlock icon="wysiwyg" label="System Messages" description="Where system messages should appear.">
         <DropDown items={dropDownSystemChannels()} selectedId={inputValues().systemChannelId}  />
@@ -114,15 +107,15 @@ export default function ServerGeneralSettings() {
       <SettingsBlock icon='delete' label='Delete this server' description='This cannot be undone!'>
         <Button label='Delete Server' color='var(--alert-color)' onClick={showDeleteConfirm} />
       </SettingsBlock>
-      <Show when={error()}><div class={styles.error}>{error()}</div></Show>
-      <Show when={Object.keys(updatedInputValues()).length}>
-        <Button iconName='save' label={requestStatus()} class={styles.saveButton} onClick={onSaveButtonClicked} />
-      </Show>
 
-    </div>
+      <Show when={error()}><Text size={12} color="var(--alert-color)" style={{"margin-top": "5px"}}>{error()}</Text></Show>
+
+      <Show when={Object.keys(updatedInputValues()).length}>
+        <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
+      </Show>
+    </Container>
   )
 }
-
 
 function ServerDeleteConfirmModal(props: {server: Server, close: () => void;}) {
   const [error, setError] = createSignal<string | null>(null);

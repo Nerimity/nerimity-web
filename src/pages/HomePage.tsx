@@ -4,13 +4,16 @@ import { Link } from '@nerimity/solid-router'
 import PageHeader from '../components/PageHeader'
 import { styled } from 'solid-styled-components'
 import Text from '@/components/ui/Text'
+import { appLogoUrl } from '@/common/worldEvents'
 
 const HomePageContainer = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
+
 const Content = styled("div")`
+  display: flex;
   padding-top: 90px;
 `;
 
@@ -49,15 +52,24 @@ const ButtonsContainer = styled("div")`
   }
 `;
 
+const Logo = styled("img")`
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+`;
+
 export default function HomePage () {
   
   const releaseLink = `https://github.com/Nerimity/nerimity-web/releases/${env.APP_VERSION ? `tag/${env.APP_VERSION}` : '' }`
 
   return (
     <HomePageContainer class="home-page-container">
-      <PageHeader />
+      <PageHeader showLogo={false} />
       <Content class='content'>
-        <TopContainer>
+        <TopContainer class='top-container'>
+          <Logo src={appLogoUrl()} alt="logo"/>
           <Text class="title" size={60}>{env.APP_NAME}</Text>
           <Text class="slogan" opacity={0.7}>A modern and sleek chat app.</Text>
           <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>

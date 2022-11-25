@@ -2,9 +2,11 @@ import { createEffect, lazy, on, onCleanup, onMount} from 'solid-js';
 import Header from '../components/header/Header';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
-const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/drawer/ServerSettingsDrawer'));
+const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
 const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
 const ServerSettingsPane = lazy(() => import('@/components/servers/settings/settings-pane/ServerSettingsPane'));
+const SettingsDrawer = lazy(() => import('@/components/settings/SettingsDrawer'));
+const SettingsPane = lazy(() => import('@/components/settings/SettingsPane'));
 const MessagePane = lazy(() => import('@/components/message-pane/MessagePane'));
 const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
 const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
@@ -88,6 +90,7 @@ export default function AppPage() {
       <Route path="/servers/:serverId/settings/:path/*" component={ServerSettingsDrawer}  />
       <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer}  />
       <Route path="/inbox/:channelId?/*" component={InboxDrawer}  />
+      <Route path="/settings/*" component={SettingsDrawer}  />
     </Routes>
   )
 
@@ -119,6 +122,7 @@ function MainPane () {
     <MainPaneContainer class="main-pane-container" ref={mainPaneElement}>
       <Header />
         <Routes>
+        <Route path="/settings/*" component={SettingsPane} />
         <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
         <Route path="/servers/:serverId/:channelId" component={MessagePane} />
         <Route path="/inbox/:channelId" component={MessagePane} />
