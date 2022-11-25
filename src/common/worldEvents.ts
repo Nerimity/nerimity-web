@@ -1,6 +1,39 @@
+interface Event {
+  start: { day: number; month: number; },
+  dayDuration: number
+}
 
-const halloweenStart = 1666652400000;
-const halloweenEnd = 1667516400000;
+const halloween = {
+  start: { day: 25, month: 10 },
+  dayDuration: 9
+}
+const christmas = {
+  start: { day: 23, month: 12 },
+  dayDuration: 13
+}
+
 const now = Date.now();
 
-export const isHalloween = now > halloweenStart && now < halloweenEnd;
+export const isHalloween = isEventActive(halloween);
+export const isChristmas = isEventActive(christmas);
+
+function isEventActive({start, dayDuration}: Event) {
+  const startDate = new Date();
+  startDate.setDate(start.day);
+  startDate.setMonth(start.month - 1);
+  startDate.setHours(0)
+  startDate.setMinutes(0)
+
+  const endDate = new Date(startDate);
+  endDate.setDate(startDate.getDate() + dayDuration);
+  endDate.setHours(23)
+  endDate.setMinutes(59)
+
+  return now > startDate.getTime() && now < endDate.getTime()
+}
+
+export const appLogoUrl = () => {
+  if (isHalloween) return "/assets/halloween-logo.png";
+  if (isChristmas) return "/assets/christmas-logo.png";
+  return "/assets/logo.png";
+} 
