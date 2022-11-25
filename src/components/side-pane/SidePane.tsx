@@ -9,7 +9,7 @@ import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams, useMatch } from '@nerimity/solid-router';
 import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/Modal';
-import AddServer from './add-server/AddServer';
+import AddServer from './add-server/AddServerModal';
 import { userStatusDetail } from '../../common/userStatus';
 import { Server } from '../../chat-api/store/useServers';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
@@ -38,7 +38,7 @@ export default function SidePane () {
   const createPortal = useCustomPortal();
 
   const showAddServerModal = () => {
-    createPortal?.(close => <Modal {...close} title="Add Server" children={() => <AddServer close={close} />} />)
+    createPortal?.(close => <AddServer close={close} />)
   }
 
   return <div class={styles.sidePane}>

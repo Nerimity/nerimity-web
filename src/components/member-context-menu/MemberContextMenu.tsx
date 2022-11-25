@@ -74,15 +74,15 @@ export default function MemberContextMenu(props: Props) {
 
 
   const onEditRoleClick = () => {
-    createPortal?.(close => <Modal {...close}  title="Edit Roles" children={() => <RoleModal {...props} />} />)
+    createPortal?.(close => <Modal close={close}  title="Edit Roles" children={() => <RoleModal {...props} />} />)
   }
 
   const onKickClick = () => {
-    createPortal?.(close => <Modal {...close}  title={`Kick ${member()?.user.username}`} children={() => <KickModal close={close} member={member()!} />} />)
+    createPortal?.(close => <Modal close={close}  title={`Kick ${member()?.user.username}`} children={() => <KickModal close={close} member={member()!} />} />)
   }
   const onBanClick = () => {
     const user = props.user! || member()?.user
-    createPortal?.(close => <Modal {...close}  title={`Ban ${user.username}`} children={() => <BanModal close={close} user={user} serverId={props.serverId!} />} />)
+    createPortal?.(close => <Modal close={close}  title={`Ban ${user.username}`} children={() => <BanModal close={close} user={user} serverId={props.serverId!} />} />)
   }
 
 

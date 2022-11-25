@@ -74,7 +74,7 @@ const InboxDrawer = () => {
   };
 
   const showAddFriendModel = () => {
-    createPortal?.(close => <Modal {...close} title="Add Friend" children={() => <AddFriend />} />)
+    createPortal?.(close => <Modal close={close} title="Add Friend" children={() => <AddFriend />} />)
   }
 
 

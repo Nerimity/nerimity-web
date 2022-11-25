@@ -6,6 +6,8 @@ import { createServer } from '@/chat-api/services/ServerService';
 import { createSignal } from 'solid-js';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate } from '@nerimity/solid-router';
+import Modal from '@/components/ui/Modal';
+import { FlexRow } from '@/components/ui/Flexbox';
 
 export default function AddServer(props: {close: () => void}) {
   const navigate = useNavigate();
@@ -26,8 +28,17 @@ export default function AddServer(props: {close: () => void}) {
     setRequestSent(false);
   }
 
-  return <div class={styles.addServerContainer}>
-    <Input label='Server Name' error={error().message} onText={setName} />
-    <Button class={styles.button} label='Create Server' iconName='add_circle_outline' onClick={onCreateClick}  />
-  </div>
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button iconName='add_circle_outline' label='Create' onClick={onCreateClick}/>
+    </FlexRow>
+  )
+
+  return(
+    <Modal close={props.close} title="Add Server" actionButtons={ActionButtons}>
+      <div class={styles.addServerContainer}>
+        <Input label='Server Name' error={error().message} onText={setName} />
+      </div>
+    </Modal>
+  )
 }

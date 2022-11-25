@@ -77,7 +77,7 @@ export default function ServerSettingsChannel() {
   }
 
   const showDeleteConfirmModal = () => {
-    createPortal?.(close => <Modal {...close} title={`Delete ${channel()?.name}`} children={() => <ChannelDeleteConfirmModal close={close} channel={channel()!} />} />)
+    createPortal?.(close => <Modal close={close} title={`Delete ${channel()?.name}`} children={() => <ChannelDeleteConfirmModal close={close} channel={channel()!} />} />)
   }
 
 
