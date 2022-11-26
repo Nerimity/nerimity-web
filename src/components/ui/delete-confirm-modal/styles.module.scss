@@ -1,6 +1,7 @@
 .deleteConfirmModal {
   display: flex;
   flex-direction: column;
+  max-width: 300px;
   .highlight {
     background-color: var(--alert-color);
     padding: 3px;

@@ -74,7 +74,7 @@ export default function ServerSettingsRole() {
   }
 
   const showDeleteConfirm = () => {
-    createPortal?.(close => <Modal close={close} title={`Delete ${role()?.name}`} children={() => <RoleDeleteConfirmModal close={close} role={role()!} />} />)
+    createPortal?.(close => <RoleDeleteConfirmModal close={close} role={role()!} />)
   }
 
   return (
@@ -141,7 +141,9 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
   }
 
   return (
-    <DeleteConfirmModal 
+    <DeleteConfirmModal
+      close={props.close} 
+      title={`Delete ${props.role?.name}`}
       errorMessage={error()}
       confirmText={props.role?.name}
       onDeleteClick={onDeleteClick}

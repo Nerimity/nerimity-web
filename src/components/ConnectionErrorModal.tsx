@@ -13,11 +13,6 @@ const ConnectionErrorContainer = styled("div")`
   max-width: 250px;
 `;
 
-const ButtonsContainer = styled(FlexRow)`
-  margin-top: 10px;
-  justify-content: flex-end;
-`;
-
 export const ConnectionErrorModal = (props: {close: () => void}) => {
   const { account } = useStore();
   const navigate = useNavigate();
@@ -31,17 +26,22 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
 
   const hasToken = () => getStorageString(StorageKeys.USER_TOKEN, null);
 
+
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button onClick={props.close} label="OK" />
+      <Show when={hasToken()}><Button onClick={logout} label="Logout" color="var(--alert-color)" /></Show>
+    </FlexRow>
+  )
+
+
   return (
-    <Modal title="Connection Error" close={props.close}>
+    <Modal title="Connection Error" close={props.close} actionButtons={ActionButtons}>
       <ConnectionErrorContainer>
         <Switch fallback={() => <Text>{err()?.message}</Text>}>
           <Match when={!hasToken()}><Text>No token provided.</Text></Match>
           <Match when={err()?.data?.type === "suspend"}><SuspendMessage {...err().data} /></Match>
         </Switch>
-        <ButtonsContainer>
-          <Button onClick={props.close} label="OK" />
-          <Show when={hasToken()}><Button onClick={logout} label="Logout" color="var(--alert-color)" /></Show>
-        </ButtonsContainer>
       </ConnectionErrorContainer>
     </Modal>
   )

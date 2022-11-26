@@ -52,8 +52,16 @@ export default function SuspendUsersModal({users, close}: Props) {
       .finally(() => setSuspending(false))
   }
 
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button onClick={onSuspendClicked} margin={0} label={suspending() ? "Suspending..." : "Suspend"} color="var(--alert-color)" primary />
+    </FlexRow>
+  )
+
+
+
   return (
-    <Modal close={close} title={`Suspend ${users.length} User(s)`}>
+    <Modal close={close} title={`Suspend ${users.length} User(s)`} actionButtons={ActionButtons}>
       <SuspendUsersContainer>
         <Input label="Reason" value={reason()} onText={setReason} />
         <FlexRow gap={10}>
@@ -66,7 +74,6 @@ export default function SuspendUsersModal({users, close}: Props) {
           <Text color="var(--alert-color)" size={12}>{error()?.message}</Text>
         </Show>
       </SuspendUsersContainer>
-      <Button onClick={onSuspendClicked} margin={0} label={suspending() ? "Suspending..." : "Suspend"} color="var(--alert-color)" primary />
     </Modal>
   )
 }

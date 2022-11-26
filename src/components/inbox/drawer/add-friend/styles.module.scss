@@ -1,6 +1,8 @@
 .addFriendContainer {
   display: flex;
   flex-direction: column;
+  min-width: 230px;
+  min-height: 100px;
   .button {
     margin-left: auto;
   }

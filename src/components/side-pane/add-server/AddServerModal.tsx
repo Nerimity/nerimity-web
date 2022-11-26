@@ -35,7 +35,7 @@ export default function AddServer(props: {close: () => void}) {
   )
 
   return(
-    <Modal close={props.close} title="Add Server" actionButtons={ActionButtons}>
+    <Modal close={props.close} title="Add Server" icon='dns' actionButtons={ActionButtons}>
       <div class={styles.addServerContainer}>
         <Input label='Server Name' error={error().message} onText={setName} />
       </div>

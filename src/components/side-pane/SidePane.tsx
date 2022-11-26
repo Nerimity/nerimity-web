@@ -95,7 +95,7 @@ function UpdateItem() {
     }
   }))
 
-  const showUpdateModal = () => createPortal?.(close => <Modal title='Update Available'><UpdateModal close={close}/></Modal>)
+  const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close}/>)
 
   return (
     <Show when={updateAvailable()}>
@@ -222,18 +222,22 @@ function UpdateModal (props: {close: () => void}) {
     return formatTimestamp(new Date(release.published_at).getTime())
   }
 
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)'/>
+      <Button iconName='get_app' label='Update Now' onClick={() => location.reload()} primary/>
+    </FlexRow>
+  )
   return (
-    <FlexColumn gap={5}>
-      <FlexColumn style={{"max-height": "300px", "max-width": "500px", overflow: "auto"}}>
-        <Text size={24}>{latestRelease()?.name || ""}</Text>
-        <Text opacity={0.7}>Released at {date() || ""}</Text>
-        <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
-        <Marked value={latestRelease()?.body!} />
+    <Modal title='Update Available' actionButtons={ActionButtons} close={props.close}>
+      <FlexColumn gap={5}>
+        <FlexColumn style={{"max-height": "300px", "max-width": "500px", overflow: "auto"}}>
+          <Text size={24}>{latestRelease()?.name || ""}</Text>
+          <Text opacity={0.7}>Released at {date() || ""}</Text>
+          <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
+          <Marked value={latestRelease()?.body!} />
+        </FlexColumn>
       </FlexColumn>
-      <FlexRow style={{"margin-left": "-5px"}}>
-        <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)'/>
-        <Button iconName='get_app' label='Update Now' onClick={() => location.reload()} primary/>
-      </FlexRow>
-    </FlexColumn>
+    </Modal>
   )
 }

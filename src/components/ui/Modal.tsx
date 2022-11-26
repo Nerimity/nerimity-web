@@ -41,7 +41,9 @@ const ModalContainer = styled("div")`
 const TopBarContainer = styled(FlexRow)`
   align-items: center;
   padding: 10px;
+  height: 30px;
   background: rgba(0,0,0,0.3);
+  flex-shrink: 0;
   margin-bottom: 10px;
 `;
 const closeButtonStyle = css`
@@ -60,6 +62,14 @@ const closeButtonStyle = css`
     opacity: 1;
   }
 `;
+const topBarIconStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+  opacity: 0.7;
+  margin-right: 7px;
+`;
 
 const Body = styled("div")`
   animation: ${showUp};
@@ -77,6 +87,7 @@ const ActionContainer = styled(FlexRow)`
 interface Props {
   children: JSX.Element;
   title: string;
+  icon?: string;
   actionButtons?: JSX.Element;
   close?: () => void;
 }
@@ -93,7 +104,10 @@ export default function Modal(props: Props) {
         <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
           <ModalContainer>
             <TopBarContainer>
-              <Text size={18}>{props.title}</Text>
+              <Show when={props.icon}>
+                <Icon class={topBarIconStyle} onClick={props.close} name={props.icon} size={18} />
+              </Show>
+              <Text size={16}>{props.title}</Text>
               <Show when={props.close}>
                 <Icon class={closeButtonStyle} onClick={props.close} name='close' size={16} />
               </Show>

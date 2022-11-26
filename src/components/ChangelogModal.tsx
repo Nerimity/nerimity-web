@@ -1,8 +1,7 @@
 import { formatTimestamp } from "@/common/date";
 import Marked from "@/common/Marked";
 import { useAppVersion } from "@/common/useAppVersion";
-import Button from "./ui/Button";
-import { FlexColumn, FlexRow } from "./ui/Flexbox";
+import { FlexColumn } from "./ui/Flexbox";
 import Modal from "./ui/Modal";
 import Text from "./ui/Text";
 
@@ -16,7 +15,7 @@ export function ChangelogModal (props: {close: () => void}) {
   }
 
   return (
-    <Modal title="App Updated">
+    <Modal title="App Updated" close={props.close}>
     <FlexColumn gap={5}>
       <FlexColumn style={{"max-height": "300px", "max-width": "500px", overflow: "auto"}}>
         <Text size={24}>{latestRelease()?.name || ""}</Text>
@@ -24,9 +23,6 @@ export function ChangelogModal (props: {close: () => void}) {
         <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
         <Marked value={latestRelease()?.body!} />
       </FlexColumn>
-      <FlexRow style={{"margin-left": "-5px"}}>
-        <Button iconName='done' onClick={props.close} label='Close'/>
-      </FlexRow>
     </FlexColumn>
     </Modal>
   )

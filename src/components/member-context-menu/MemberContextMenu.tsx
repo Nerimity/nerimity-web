@@ -14,6 +14,7 @@ import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { RawUser } from '@/chat-api/RawData';
 import { useNavigate } from '@nerimity/solid-router';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { FlexRow } from '../ui/Flexbox';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
   userId: string
@@ -78,11 +79,11 @@ export default function MemberContextMenu(props: Props) {
   }
 
   const onKickClick = () => {
-    createPortal?.(close => <Modal close={close}  title={`Kick ${member()?.user.username}`} children={() => <KickModal close={close} member={member()!} />} />)
+    createPortal?.(close =>  <KickModal close={close} member={member()!} />)
   }
   const onBanClick = () => {
     const user = props.user! || member()?.user
-    createPortal?.(close => <Modal close={close}  title={`Ban ${user.username}`} children={() => <BanModal close={close} user={user} serverId={props.serverId!} />} />)
+    createPortal?.(close => <BanModal close={close} user={user} serverId={props.serverId!} />)
   }
 
 
@@ -109,14 +110,22 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
     })
     props.close();
   }
+
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button label='Back' iconName='arrow_back' onClick={props.close}/>
+      <Button label={requestSent() ? 'Kicking...' :'Kick'} iconName='exit_to_app' color='var(--alert-color)' onClick={onKickClick}/>
+    </FlexRow>
+  )
+
   return (
-    <div class={styles.kickModal}>
-      <div>Are you sure you want to kick <b>{props.member?.user?.username || ""}</b>?</div>
-      <div class={styles.buttons}>
-        <Button label='Back' iconName='arrow_back' onClick={props.close}/>
-        <Button label={requestSent() ? 'Kicking...' :'Kick'} iconName='exit_to_app' color='var(--alert-color)' onClick={onKickClick}/>
+    <Modal close={props.close} title={`Kick ${props.member?.user.username}`} actionButtons={ActionButtons}>
+      <div class={styles.kickModal}>
+        <div>Are you sure you want to kick <b>{props.member?.user?.username || ""}</b>?</div>
+        <div class={styles.buttons}>
+        </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 
@@ -131,14 +140,24 @@ function BanModal (props: {user: RawUser, serverId: string, close: () => void}) 
     });
     props.close();
   }
+
+
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button label='Back' iconName='arrow_back' onClick={props.close}/>
+      <Button label={requestSent() ? 'Banning...' :'Ban'}  iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
+    </FlexRow>
+  )
+
+
   return (
-    <div class={styles.kickModal}>
-      <div>Are you sure you want to ban <b>{props.user?.username || ""}</b>?</div>
-      <div class={styles.buttons}>
-        <Button label='Back' iconName='arrow_back' onClick={props.close}/>
-        <Button label={requestSent() ? 'Banning...' :'Ban'}  iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
+    <Modal close={props.close} title={`Ban ${props.user.username}`}  actionButtons={ActionButtons}>
+      <div class={styles.kickModal}>
+        <div>Are you sure you want to ban <b>{props.user?.username || ""}</b>?</div>
+        <div class={styles.buttons}>
+        </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 

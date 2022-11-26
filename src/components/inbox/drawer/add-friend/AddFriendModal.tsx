@@ -4,8 +4,10 @@ import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
 import { createSignal } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
+import Modal from '@/components/ui/Modal';
+import { FlexRow } from '@/components/ui/Flexbox';
 
-export default function AddFriend() {
+export default function AddFriendModal(props: {close: () => void}) {
   const {friends} = useStore();
   const [userTag, setUserTag] = createSignal('');
   const [requestSent, setRequestSent] = createSignal(false);
@@ -41,9 +43,19 @@ export default function AddFriend() {
     setRequestSent(false);
   }
 
-  return <div class={styles.addFriendContainer}>
-    <Input label='Username & Tag' error={error().message} onText={setUserTag} />
-    {success() && <div style="color: var(--success-color)">Friend successfully added!</div>}
-    <Button class={styles.button} label='Send Request' iconName='add_circle_outline' onClick={onCreateClick}  />
-  </div>
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button class={styles.button} label='Send Request' iconName='add_circle_outline' onClick={onCreateClick}  />
+    </FlexRow>
+  )
+
+
+  return (
+    <Modal close={props.close} icon="group_add" title="Add Friend" actionButtons={ActionButtons}>
+      <div class={styles.addFriendContainer}>
+        <Input label='Username & Tag' error={error().message} onText={setUserTag} />
+        {success() && <div style="color: var(--success-color)">Friend successfully added!</div>}
+      </div>
+    </Modal>
+  )
 }
