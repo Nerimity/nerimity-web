@@ -7,6 +7,7 @@ import { RawUser } from '@/chat-api/RawData'
 import { getStorageString, StorageKeys } from '@/common/localStorage'
 import Icon from './ui/icon/Icon'
 import { appLogoUrl, isChristmas, isHalloween } from '@/common/worldEvents'
+import { useI18n } from '@solid-primitives/i18n'
 
 
 const HeaderContainer = styled("header")`
@@ -125,19 +126,21 @@ export default function PageHeader(props: {showLogo?: boolean}) {
 }
 
 function LoggedInLinks (props: {user: RawUser}) {
+  const [t] = useI18n();
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='#' label='Account' />
-      <HeaderLink href='/app' label='Open App' primary={true} icon='open_in_browser' />
+      <HeaderLink href='#' label={t('header.accountButton')} />
+      <HeaderLink href='/app' label={t('header.openAppButton')} primary={true} icon='open_in_browser' />
     </NavigationContainer>
   )
 }
 
 function LoggedOutLinks() {
+  const [t] = useI18n();
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='/login' label='Login' icon='login' />
-      <HeaderLink href='/register' label='Join Now' primary={true} icon="add" />
+      <HeaderLink href='/login' label={t('header.loginButton')} icon='login' />
+      <HeaderLink href='/register' label={t('header.joinNowButton')} primary={true} icon="add" />
     </NavigationContainer>
   )
 }

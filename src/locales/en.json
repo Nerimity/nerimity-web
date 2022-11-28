@@ -1,0 +1,13 @@
+{
+  "header": {
+    "accountButton": "Account",
+    "openAppButton": "Open App",
+    "loginButton": "Login",
+    "joinNowButton": "Join Now"
+  },
+  "homePage": {
+    "slogan": "A modern and sleek chat app.",
+    "joinButton": "Join Nerimity",
+    "viewGitHubButton": "View GitHub"
+  }
+}

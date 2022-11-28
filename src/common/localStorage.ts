@@ -2,7 +2,8 @@
 export enum StorageKeys {
   USER_TOKEN = 'userToken',
   SEEN_APP_VERSION = 'seenAppVersion',
-  INBOX_DRAWER_SELECTED_INDEX = 'inboxDrawerSelectedIndex'
+  INBOX_DRAWER_SELECTED_INDEX = 'inboxDrawerSelectedIndex',
+  APP_LANGUAGE = 'appLanguage'
 }
 
 export function getStorageString<T>(key: StorageKeys, defaultValue: T) {

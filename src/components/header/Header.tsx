@@ -16,8 +16,6 @@ export default function Header() {
   const {toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage} = useDrawer();
   const {isMobileWidth} = useWindowProperties();
 
-
-
   const server = () => servers.get(header.details().serverId!);
   const user = () => users.get(header.details().userId!);
 

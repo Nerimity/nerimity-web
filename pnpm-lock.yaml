@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@nerimity/solid-router': ^0.4.3
+  '@solid-primitives/i18n': ^1.1.2
   '@types/markdown-it': ^12.2.3
   '@types/markdown-it-emoji': ^2.0.2
   '@types/node': ^18.7.13
@@ -20,6 +21,7 @@ specifiers:
 
 dependencies:
   '@nerimity/solid-router': 0.4.3_solid-js@1.6.0
+  '@solid-primitives/i18n': 1.1.2_solid-js@1.6.0
   idb-keyval: 6.2.0
   markdown-it: 13.0.1
   markdown-it-emoji: 2.0.2
@@ -419,6 +421,14 @@ packages:
 
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
+    dev: false
+
+  /@solid-primitives/i18n/1.1.2_solid-js@1.6.0:
+    resolution: {integrity: sha512-eLTqmDKorLa99cXrgS4DgTqrk0n/F4rB0YR76A6gr90by5TLE+HSZ0agiZVBIUGs2g5EFeEnLqwxKsM+F5hcJQ==}
+    peerDependencies:
+      solid-js: ^1.5.0
+    dependencies:
+      solid-js: 1.6.0
     dev: false
 
   /@types/linkify-it/3.0.2:

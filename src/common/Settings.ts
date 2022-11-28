@@ -18,7 +18,7 @@ const settings: Setting[] =  [
     path: 'language',
     name: 'Language',
     icon: 'flag',
-    element: lazy(() => import('@/components/servers/settings/ServerGeneralSettings'))
+    element: lazy(() => import('@/components/settings/LanguageSettings'))
   },
 ]
 

@@ -3,6 +3,8 @@ import env from './common/env';
 import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-router';
+import { getCurrentLanguage, getLanguage } from './locales/languages';
+import { useI18n } from '@solid-primitives/i18n';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -10,6 +12,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AppPage = lazy(() => import('./pages/AppPage'));
 
 export default function App() {
+  const [t, {add, locale}] = useI18n();
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {
@@ -18,7 +21,19 @@ export default function App() {
     if (isChristmas) {
       document.documentElement.style.setProperty('--primary-color', '#34a65f');
     }
+    setLanguage();
   })
+
+  const setLanguage = async () => {
+    const key = getCurrentLanguage();
+    if (!key) return;
+    if (key === "en") return;
+    const language = await getLanguage(key);
+    if (!language) return;
+    add(key, language);
+    locale(key);
+  }
+
 
   return (
     <Routes>

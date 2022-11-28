@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@nerimity/solid-router": "^0.4.3",
+    "@solid-primitives/i18n": "^1.1.2",
     "idb-keyval": "^6.2.0",
     "markdown-it": "^13.0.1",
     "markdown-it-emoji": "^2.0.2",
