@@ -1,81 +1,75 @@
-import { useParams } from '@nerimity/solid-router';
-import { createEffect, createSignal, Show } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import { useWindowProperties } from '@/common/useWindowProperties';
-import Input from '@/components/ui/input/Input';
-import DropDown from '@/components/ui/drop-down/DropDown';
-import Button from '@/components/ui/Button';
-import { createUpdatedSignal } from '@/common/createUpdatedSignal';
-import { deleteServer, updateServerSettings } from '@/chat-api/services/ServerService';
-import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
-import { Server } from '@/chat-api/store/useServers';
-import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
-import Modal from '@/components/ui/Modal';
-import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import { createSignal, For} from 'solid-js';
 import Text from '@/components/ui/Text';
-import { css, styled } from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
+import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
+import { useI18n } from '@solid-primitives/i18n';
+import ItemContainer from '../ui/Item';
+import twemoji from 'twemoji';
+import { FlexColumn } from '../ui/Flexbox';
 
 const Container = styled("div")`
   display: flex;
   flex-direction: column;
+  gap: 5px;
   padding: 10px;
 `;
 
+const LanguageItemContainer = styled(ItemContainer)`
+  padding: 5px;
+  gap: 10px;
+  padding-left: 10px;
+`;
+
 export default function LanguageSettings() {
-  const {header, account} = useStore();
-  const [requestSent, setRequestSent] = createSignal(false);
-  const [error, setError] = createSignal<null | string>(null);
 
-  const user = () => account.user();
-
-  const defaultInput = () => ({
-    username: user()?.username || '',
-    tag: user()?.tag || '',
-  })
-
-  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
+  const languagekeys = Object.keys(languages);
 
 
+  const [t, {locale, add}] = useI18n();
 
-  createEffect(() => {
-    header.updateHeader({
-      title: "Settings - Account",
-      iconName: 'settings',
-    });
-  })
 
-  const onSaveButtonClicked = async () => {
-    if (requestSent()) return;
-    setRequestSent(true);
-    setError(null);
-    const values = updatedInputValues();
-    // await updateServerSettings(serverId!, values)
-    //   .catch((err) => setError(err.message))
-    //   .finally(() => setRequestSent(false));
+  const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en");
+
+  const setLanguage = async (key: string) => {
+    if (key !== "en") {
+      const language = await getLanguage(key);
+      if (!language) return;
+      add(key, language);
+    }
+    locale(key);
+    setCurrentLanguage(key);
+    setCurrentLocalLanguage(key);
   }
-
-  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
 
 
   return (
     <Container>
-      <Text size={24} style={{"margin-bottom": "10px"}}>Language Settings</Text>
-      
-      <SettingsBlock icon='edit' label='Username'>
-        <Input value={inputValues().username} onText={(v) => setInputValue('username', v) } />
-      </SettingsBlock>
-
-      <SettingsBlock icon='edit' label='Tag'>
-        <Input class={css`width: 52px;`} value={inputValues().tag} onText={(v) => setInputValue('tag', v) } />
-      </SettingsBlock>
-
-      
-
-      <Show when={error()}><Text size={12} color="var(--alert-color)" style={{"margin-top": "5px"}}>{error()}</Text></Show>
-
-      <Show when={Object.keys(updatedInputValues()).length}>
-        <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
-      </Show>
+      <For each={languagekeys}>
+        {key => <LanguageItem selected={currentLocalLanguage() === key} onClick={() => setLanguage(key)} key={key}/>}
+      </For>
     </Container>
   )
+}
+
+function LanguageItem(props: {key: string, selected: boolean, onClick: () => void}) {
+  const language = (languages as any)[props.key] as Language;
+  
+
+  return (
+    <LanguageItemContainer onclick={props.onClick}  selected={props.selected}>
+      <Emoji val={language.emoji}/>
+      <FlexColumn>
+        <Text>{language.name}</Text>
+        <Text size={12} opacity={0.7}>Contributors: {language.contributors.join(", ")}</Text>
+      </FlexColumn>
+    </LanguageItemContainer>
+  )
+}
+
+function Emoji({val}: {val: string}) {
+  var div = document.createElement('div');
+  div.innerHTML = twemoji.parse(val);
+  const el = div.firstChild as HTMLImageElement;
+  el.style.height = "30px";
+  return el;
 }

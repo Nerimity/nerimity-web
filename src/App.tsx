@@ -12,7 +12,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AppPage = lazy(() => import('./pages/AppPage'));
 
 export default function App() {
-  const [t, {add, locale}] = useI18n();
+  const [t, {add, locale, dict}] = useI18n();
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {

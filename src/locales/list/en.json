@@ -1,0 +1,32 @@
+{
+  "header": {
+    "accountButton": "Account",
+    "openAppButton": "Open App",
+    "loginButton": "Login",
+    "joinNowButton": "Join Now"
+  },
+  "homePage": {
+    "slogan": "A modern and sleek chat app.",
+    "joinButton": "Join Nerimity",
+    "viewGitHubButton": "View GitHub"
+  },
+  "loginPage": {
+    "title": "Login to continue",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "createAccountInstead": "Create an account instead",
+    "logging_in": "Logging in...",
+    "loginButton": "Login"
+  },
+  "registerPage": {
+    "title": "Welcome to {{appName}}",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Register",
+    "registering": "Registering...",
+    "loginInstead": "Login Instead"
+  }
+}

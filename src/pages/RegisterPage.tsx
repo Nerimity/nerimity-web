@@ -7,6 +7,7 @@ import { createSignal, onMount } from 'solid-js';
 import env from '../common/env';
 import PageHeader from '../components/PageHeader';
 import { css, styled } from 'solid-styled-components';
+import { useI18n } from '@solid-primitives/i18n';
 
 const RegisterPageContainer = styled("div")`
   display: flex;
@@ -35,6 +36,7 @@ const linkStyle = css`
 `;
 
 export default function RegisterPage() {
+  const [t] = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
   const [requestSent, setRequestSent] = createSignal(false);
@@ -74,13 +76,13 @@ export default function RegisterPage() {
     <RegisterPageContainer class="register-page-container">
       <PageHeader />
       <Container>
-        <Title>Welcome to {env.APP_NAME}</Title>
-        <Input label='Email' type='email' error={error()} onText={setEmail} />
-        <Input label='Username' error={error()} onText={setUsername} />
-        <Input label='Password' type='password' error={error()} onText={setPassword} />
-        <Input label='Confirm Password' type='password' error={error()} onText={setConfirmPassword} />
-        <Button iconName='login' label={requestSent() ? 'Registering...' : 'Register'} onClick={registerClicked} />
-        <Link class={linkStyle} href="/login">Login Instead</Link>
+        <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
+        <Input label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
+        <Input label={t('registerPage.username')} error={error()} onText={setUsername} />
+        <Input label={t('registerPage.password')} type='password' error={error()} onText={setPassword} />
+        <Input label={t('registerPage.confirmPassword')} type='password' error={error()} onText={setConfirmPassword} />
+        <Button iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
+        <Link class={linkStyle} href="/login">{t('registerPage.loginInstead')}</Link>
       </Container>
     </RegisterPageContainer>
   )

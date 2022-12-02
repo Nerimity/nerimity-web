@@ -6,6 +6,7 @@ import { Link, useNavigate, useLocation } from '@nerimity/solid-router';
 import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../components/PageHeader';
 import { css, styled,  } from 'solid-styled-components';
+import { useI18n } from '@solid-primitives/i18n';
 
 const LoginPageContainer = styled("div")`
   display: flex;
@@ -34,6 +35,7 @@ const linkStyle = css`
 `;
 
 export default function LoginPage() {
+  const [t] = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
   const [requestSent, setRequestSent] = createSignal(false);
@@ -65,11 +67,11 @@ export default function LoginPage() {
     <LoginPageContainer class="login-page-container">
       <PageHeader />
       <Container class='container'>
-        <Title>Login to continue</Title>
-        <Input label='Email' type='email' error={error()} onText={setEmail} />
-        <Input label='Password' type='password' error={error()} onText={setPassword} />
-        <Button iconName='login' label={requestSent() ? 'Logging in...' : 'Login'} onClick={loginClicked} />
-        <Link class={linkStyle} href="/register">Create an account instead</Link>
+        <Title>{t('loginPage.title')}</Title>
+        <Input label={t('loginPage.email')} type='email' error={error()} onText={setEmail} />
+        <Input label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
+        <Button iconName='login' label={requestSent() ? t('loginPage.logging_in') : t('loginPage.loginButton')} onClick={loginClicked} />
+        <Link class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</Link>
       </Container>
     </LoginPageContainer>
   );
