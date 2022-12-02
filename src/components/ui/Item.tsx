@@ -59,12 +59,12 @@ const ItemContainer = styled("div")<ItemContainer>`
   }  
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: hsl(216deg 7% 28% / 40%);
   }
 
   && {
     ${props => props.selected ? `
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: hsl(216deg 7% 28% / 60%);
       &:after {
         animation: ${ (props.handlePosition === "top" || props.handlePosition === "bottom") ? handleTopBottomAnimate : handleLeftBottomAnimate} 0.2s ease-in-out;
         background-color: var(--primary-color);
