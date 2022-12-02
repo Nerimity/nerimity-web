@@ -18,7 +18,7 @@ const DashboardPaneContainer = styled(FlexColumn)`
 
 const DashboardPaneContent = styled(FlexColumn)`
   place-self: stretch;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   padding: 15px;
   flex: 1;
