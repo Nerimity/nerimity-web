@@ -12,10 +12,10 @@
   "devDependencies": {
     "@types/markdown-it": "^12.2.3",
     "@types/markdown-it-emoji": "^2.0.2",
-    "@types/node": "^18.7.13",
-    "typescript": "^4.8.4",
-    "vite": "^3.1.8",
-    "vite-plugin-solid": "^2.3.10"
+    "@types/node": "^18.11.10",
+    "typescript": "^4.9.3",
+    "vite": "^3.2.4",
+    "vite-plugin-solid": "^2.4.0"
   },
   "dependencies": {
     "@nerimity/solid-router": "^0.4.3",
@@ -23,10 +23,10 @@
     "idb-keyval": "^6.2.0",
     "markdown-it": "^13.0.1",
     "markdown-it-emoji": "^2.0.2",
-    "material-icons": "^1.11.10",
-    "sass": "^1.54.5",
-    "socket.io-client": "^4.5.1",
-    "solid-js": "^1.6.0",
+    "material-icons": "^1.12.2",
+    "sass": "^1.56.1",
+    "socket.io-client": "^4.5.4",
+    "solid-js": "^1.6.2",
     "solid-styled-components": "^0.28.5",
     "solid-transition-group": "^0.0.11",
     "twemoji": "^14.0.2"
