@@ -6,7 +6,7 @@ import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFri
 import { onInboxOpened } from './events/inboxEvents';
 import { onMessageCreated, onMessageDeleted, onMessageUpdated } from './events/messageEvents';
 import { onServerChannelCreated, onServerChannelDeleted, onServerChannelUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
-import { onNotificationDismissed, onUserPresenceUpdate } from './events/userEvents';
+import { onNotificationDismissed, onUserPresenceUpdate, onUserUpdated } from './events/userEvents';
 
 
 const socket = io(env.SERVER_URL, { transports: ['websocket'], autoConnect: false});
@@ -27,12 +27,10 @@ socket.io.on("reconnect_attempt", onReconnectAttempt)
 
 
 socket.on(ServerEvents.CONNECT, () => onConnect(socket, token))
-
 socket.on(ServerEvents.AUTHENTICATE_ERROR, onAuthenticateError)
-
 socket.on("disconnect", onDisconnect)
-
 socket.on(ServerEvents.USER_AUTHENTICATED, onAuthenticated);
+socket.on(ServerEvents.USER_UPDATED, onUserUpdated);
 
 
 socket.on(ServerEvents.USER_PRESENCE_UPDATE, onUserPresenceUpdate)

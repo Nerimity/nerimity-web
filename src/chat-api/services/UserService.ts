@@ -65,3 +65,18 @@ export async function updatePresence(status: UserStatus) {
     useToken: true
   });
 }
+
+interface UpdateUserOptions {
+  email?: string;
+  username?: string;
+  tag?: string;
+  password?: string;
+}
+export async function updateUser(body: UpdateUserOptions) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(""),
+    method: 'POST',
+    body,
+    useToken: true
+  });
+}

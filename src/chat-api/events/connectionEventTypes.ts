@@ -10,7 +10,7 @@ export interface AuthenticatedPayload {
   presences: RawPresence[];
   friends: RawFriend[];
   inbox: RawInboxWithoutChannel[];
-  lastSeenServerChannelIds: Record<string, string>; // { [channelId]: timestamp }
+  lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
 }
 
 interface MessageMention {
@@ -25,8 +25,9 @@ interface MessageMention {
 
 
 
-interface SelfUser {
+export interface SelfUser {
   id: string;
+  email: string;
   username: string;
   hexColor: string;
   avatar?: string;

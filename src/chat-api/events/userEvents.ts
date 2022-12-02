@@ -1,7 +1,9 @@
 import { batch } from "solid-js";
 import useChannels from "../store/useChannels";
 import useMention from "../store/useMention";
+import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
+import { SelfUser } from "./connectionEventTypes";
 
 export function onUserPresenceUpdate(payload: {status: UserStatus, userId: string}) {
   const users = useUsers();
@@ -19,4 +21,9 @@ export function onNotificationDismissed(payload: {channelId: string}) {
     }
   })
   
+}
+
+export function onUserUpdated(payload: Partial<SelfUser>) {
+  const {account} = useStore();
+  account.setUser(payload)
 }

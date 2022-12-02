@@ -1,9 +1,10 @@
 import {createStore} from 'solid-js/store';
+import { SelfUser } from '../events/connectionEventTypes';
 import { RawUser } from '../RawData';
 
 
 interface Account {
-  user: RawUser | null,
+  user: SelfUser | null,
 
   socketId: string | null,
   socketConnected: boolean,
@@ -31,7 +32,7 @@ const setSocketDetails = (details: SetSocketDetailsArgs) => {
 }
 
 
-const setUser = (user: RawUser | null) => setAccount('user', user);
+const setUser = (user: Partial<SelfUser> | null) => setAccount('user', user);
 
 const user = () => account.user;
 

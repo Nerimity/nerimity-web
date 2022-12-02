@@ -10,6 +10,9 @@ const SettingsPaneContainer = styled("div")`
   flex-direction: column;
   overflow: auto;
   height: 100%;
+  width: 100%;
+  max-width: 900px;
+  align-self: center;
 `;
 
 export default function SettingsPane() {
