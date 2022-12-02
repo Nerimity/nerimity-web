@@ -10,7 +10,7 @@ Chat App made using SolidJS. Work in progress.
 
 * Fork the repo
 * Rename `example.env` to `.env`
-* Run `npm i` and `npm run dev`
+* Run `pnpm i` and `pnpm run dev`
 * Go to http://local.nerimity.com
 
 ## Features Checklist:

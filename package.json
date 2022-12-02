@@ -30,5 +30,9 @@
     "solid-styled-components": "^0.28.5",
     "solid-transition-group": "^0.0.11",
     "twemoji": "^14.0.2"
+  },
+  "engines": {
+    "npm": "please-use-npm",
+    "pnpm": ">= 1.0.0"
   }
 }
