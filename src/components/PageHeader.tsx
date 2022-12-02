@@ -15,7 +15,7 @@ const HeaderContainer = styled("header")`
   height: 70px;
   flex-shrink: 0;
   border: solid rgba(255, 255, 255, 0.1) 1px;
-  background-color: rgba(67, 67, 67, 0.8);
+  background-color: hsl(216deg 7% 28% / 80%);
   backdrop-filter: blur(10px);
   border-radius: 8px;
   position: fixed;
