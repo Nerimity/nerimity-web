@@ -2,7 +2,7 @@ import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Link, useMatch } from "@nerimity/solid-router";
-import { createSignal, For } from "solid-js";
+import { createEffect, createSignal, For } from "solid-js";
 import { styled } from "solid-styled-components"
 import ContextMenuServer from "./servers/context-menu/ContextMenuServer";
 import Avatar from "./ui/Avatar";
@@ -46,6 +46,13 @@ const SidebarItemContainer = styled(ItemContainer)`
 
 
 export default function DashboardPane() {
+  const {header} = useStore();
+  createEffect(() => {
+    header.updateHeader({
+      title: "Dashboard",
+      iconName: 'dashboard',
+    });
+  })
   return (
     <DashboardPaneContainer>
       <DashboardPaneContent>

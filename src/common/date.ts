@@ -7,10 +7,13 @@ function pad(num: number) {
 export function formatTimestamp(timestamp: number) {
   const date = new Date(timestamp);
   const today = new Date();
-  const yesterday = new Date(timestamp - 86400000);
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
   if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
     return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  } else if (date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth()) {
+  } else if (yesterday.toDateString() === date.toDateString()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   } else {
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
