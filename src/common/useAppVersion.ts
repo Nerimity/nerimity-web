@@ -29,10 +29,10 @@ const showChangelog = () => {
   
 const checkForUpdate = async () => {
   console.log("[UPDATE] Checking...");
-  // if (env.DEV_MODE) {
-  //   console.log("[UPDATE] Skipping (reason: Dev Mode)");
-  //   return;
-  // }
+  if (env.DEV_MODE) {
+    console.log("[UPDATE] Skipping (reason: Dev Mode)");
+    return;
+  }
 
   const appVersion = env.APP_VERSION;
   const latestRelease = await getLatestRelease();
