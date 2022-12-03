@@ -32,7 +32,7 @@
     "twemoji": "^14.0.2"
   },
   "engines": {
-    "npm": "please-use-npm",
+    "npm": "please-use-pnpm",
     "pnpm": ">= 1.0.0"
   }
 }
