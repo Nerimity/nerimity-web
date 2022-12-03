@@ -33,7 +33,7 @@ export default function LanguageSettings() {
     });
   })
 
-  const languagekeys = Object.keys(languages);
+  const languageKeys = Object.keys(languages);
 
 
 
@@ -51,7 +51,7 @@ export default function LanguageSettings() {
 
   return (
     <Container>
-      <For each={languagekeys}>
+      <For each={languageKeys}>
         {key => <LanguageItem selected={currentLocalLanguage() === key} onClick={() => setLanguage(key)} key={key}/>}
       </For>
     </Container>
