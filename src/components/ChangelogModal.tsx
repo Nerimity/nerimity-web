@@ -15,7 +15,7 @@ export function ChangelogModal (props: {close: () => void}) {
   }
 
   return (
-    <Modal title="App Updated" close={props.close}>
+    <Modal title="Changelog" close={props.close}>
     <FlexColumn gap={5}>
       <FlexColumn style={{"max-height": "300px", "max-width": "500px", overflow: "auto"}}>
         <Text size={24}>{latestRelease()?.name || ""}</Text>
