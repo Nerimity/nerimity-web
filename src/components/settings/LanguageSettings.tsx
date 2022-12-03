@@ -1,4 +1,4 @@
-import { createSignal, For} from 'solid-js';
+import { createEffect, createSignal, For} from 'solid-js';
 import Text from '@/components/ui/Text';
 import { styled } from 'solid-styled-components';
 import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
@@ -6,6 +6,7 @@ import { useI18n } from '@solid-primitives/i18n';
 import ItemContainer from '../ui/Item';
 import twemoji from 'twemoji';
 import { FlexColumn } from '../ui/Flexbox';
+import useStore from '@/chat-api/store/useStore';
 
 const Container = styled("div")`
   display: flex;
@@ -21,14 +22,20 @@ const LanguageItemContainer = styled(ItemContainer)`
 `;
 
 export default function LanguageSettings() {
+  const {header} = useStore();
+  const [t, {locale, add}] = useI18n();
+  const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en");
+
+  createEffect(() => {
+    header.updateHeader({
+      title: "Settings - Language",
+      iconName: 'settings',
+    });
+  })
 
   const languagekeys = Object.keys(languages);
 
 
-  const [t, {locale, add}] = useI18n();
-
-
-  const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en");
 
   const setLanguage = async (key: string) => {
     if (key !== "en") {

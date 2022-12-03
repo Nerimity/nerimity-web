@@ -14,24 +14,27 @@ const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding: 5px;
 `;
 
 const DashboardPaneContent = styled(FlexColumn)`
   place-self: stretch;
-  background: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   padding: 15px;
   flex: 1;
   margin: 20px;
-  margin-left: 5%;
-  margin-right: 5%;
+  width: 100%;
+  max-width: 900px;
+  align-self: center;
 `;
 
 const ServerListContainer = styled(FlexRow)`
   overflow: auto;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
   padding-top: 5px;
   padding-bottom: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding-left: 6px;
 `;
 
 const SidebarItemContainer = styled(ItemContainer)`
@@ -47,7 +50,7 @@ export default function DashboardPane() {
     <DashboardPaneContainer>
       <DashboardPaneContent>
 
-        <Text>Servers</Text>
+        <Text style={{"margin-bottom": "5px"}}>Servers</Text>
         <ServerList/>
       </DashboardPaneContent>
 
