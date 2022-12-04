@@ -3,6 +3,7 @@ import { useWindowProperties } from '@/common/useWindowProperties';
 import {Accessor, createContext, createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount, Show, useContext} from 'solid-js';
 import env from '@/common/env';
 import SidePane from '@/components/side-pane/SidePane';
+import { classNames, conditionalClass } from '@/common/classNames';
 
 interface DrawerLayoutProps {
   LeftDrawer: any;
@@ -261,7 +262,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   return (
     <DrawerContext.Provider value={drawer}>
-      <div class={styles.drawerLayout}>
+      <div class={classNames(styles.drawerLayout, conditionalClass(isMobileWidth(), styles.mobile))}>
         <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px", overflow: isMobileWidth() ? 'initial' : 'hidden'}}>
           <div style={{width: leftDrawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
             <SidePane/>

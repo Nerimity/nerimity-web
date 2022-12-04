@@ -22,22 +22,37 @@ import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout from '@/components/ui/drawer/Drawer';
 import { Route, Routes } from '@nerimity/solid-router';
-import { styled } from 'solid-styled-components';
+import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
 import { useAppVersion } from '@/common/useAppVersion';
 import { ChangelogModal } from '@/components/ChangelogModal';
+import { classNames, conditionalClass } from '@/common/classNames';
+
+
+const mobileMainPaneStyles = css`
+  height: 100%;
+  && {
+    margin: 0;
+    border-radius: 0px;
+  }
+`
 
 const MainPaneContainer = styled("div")`
   display: flex;
   flex-direction: column;
-  height: 100%;
   flex: 1;
   flex-shrink: 0;
   overflow: hidden;
-  border-right: solid 1px rgba(255, 255, 255, 0.1);
-  border-left: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin: 5px;
+  margin-left: 0;
+  margin-right: 0;
+  background: rgba(255, 255, 255, 0.05);
+
 `;
+  // border-right: solid 1px rgba(255, 255, 255, 0.1);
+  // border-left: solid 1px rgba(255, 255, 255, 0.1);
 
 async function loadAllCache () {
   const {account} = useStore();
@@ -118,8 +133,10 @@ function MainPane () {
     windowProperties.setPaneWidth(mainPaneElement.clientWidth);
   }))
 
+
+
   return (
-    <MainPaneContainer class="main-pane-container" ref={mainPaneElement}>
+    <MainPaneContainer class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(),  mobileMainPaneStyles))}  ref={mainPaneElement}>
       <Header />
         <Routes>
         <Route path="/settings/*" component={SettingsPane} />
