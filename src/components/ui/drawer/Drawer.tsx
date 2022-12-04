@@ -1,3 +1,4 @@
+/* @refresh reload */
 import styles from './styles.module.scss'
 import { useWindowProperties } from '@/common/useWindowProperties';
 import {Accessor, createContext, createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount, Show, useContext} from 'solid-js';
@@ -264,7 +265,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     <DrawerContext.Provider value={drawer}>
       <div class={classNames(styles.drawerLayout, conditionalClass(isMobileWidth(), styles.mobile))}>
         <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px", overflow: isMobileWidth() ? 'initial' : 'hidden'}}>
-          <div style={{width: leftDrawerWidth() + "px", display: 'flex', "flex-shrink": 0}}>
+          <div style={{width: isMobileWidth() ? leftDrawerWidth() + "px" : hasLeftDrawer() ? "330px" : '65px', display: 'flex', "flex-shrink": 0}}>
             <SidePane/>
             {hasLeftDrawer() && <div class={styles.leftDrawer}>{props.LeftDrawer}</div>}
           </div>

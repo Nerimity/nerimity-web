@@ -3,6 +3,7 @@
   --primary-color: #77a8f3;
   --alert-color:   #eb6e6e;
   --success-color: #78e380;
+  --pane-color: hsl(216deg 8% 15%);
 }
 
 html,

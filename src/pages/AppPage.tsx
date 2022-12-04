@@ -20,7 +20,7 @@ import { useWindowProperties } from '@/common/useWindowProperties';
 import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
-import DrawerLayout from '@/components/ui/drawer/Drawer';
+import DrawerLayout, { useDrawer } from '@/components/ui/drawer/Drawer';
 import { Route, Routes } from '@nerimity/solid-router';
 import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
@@ -38,17 +38,22 @@ const mobileMainPaneStyles = css`
   }
 `
 
-const MainPaneContainer = styled("div")`
+interface MainPaneContainerProps{
+  hasLeftDrawer: boolean,
+  hasRightDrawer: boolean
+}
+
+const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   display: flex;
   flex-direction: column;
   flex: 1;
   flex-shrink: 0;
   overflow: hidden;
   border-radius: 8px;
-  margin: 5px;
-  margin-left: 0;
-  margin-right: 0;
-  background: rgba(255, 255, 255, 0.05);
+  margin: 8px;
+  ${props => props.hasLeftDrawer ? 'margin-left: 0;' : ''}
+  ${props => props.hasRightDrawer ? 'margin-right: 0;' : ''}
+  background: var(--pane-color);
 
 `;
   // border-right: solid 1px rgba(255, 255, 255, 0.1);
@@ -126,6 +131,7 @@ export default function AppPage() {
 
 function MainPane () {
   const windowProperties = useWindowProperties();
+  const {hasRightDrawer, hasLeftDrawer} = useDrawer();
   let mainPaneElement: HTMLDivElement | undefined;
 
   createEffect(on(windowProperties.width, () => {
@@ -135,8 +141,9 @@ function MainPane () {
 
 
 
+
   return (
-    <MainPaneContainer class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(),  mobileMainPaneStyles))}  ref={mainPaneElement}>
+    <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(),  mobileMainPaneStyles))}  ref={mainPaneElement}>
       <Header />
         <Routes>
         <Route path="/settings/*" component={SettingsPane} />
