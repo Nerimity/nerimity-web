@@ -1,5 +1,5 @@
 import type MarkdownIt from "markdown-it";
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
 
 const lazyMarkdownIt = () => import("markdown-it");
 
@@ -17,14 +17,24 @@ async function getMd () {
 
 // Used to parse github readmes.
 export default function Marked(props: {value: string}) {
-  const [html, setHtml] = createSignal("");
+  const [html, setHtml] = createSignal<null | ChildNode>(null);
 
   createEffect(async () => {
     if (!props.value) return;
     const md = await getMd();
     const newHtml = md.render(props.value);
-    setHtml(newHtml)
+
+    var div = document.createElement('div');
+    div.innerHTML = newHtml;
+
+    div.querySelectorAll("a").forEach(element => 
+      element.setAttribute("target", "_blank")
+    )
+
+
+
+    setHtml(div)
   })
 
-  return <div innerHTML={html()} />
+  return <Show when={html()}>{html?.()}</Show>
 }
