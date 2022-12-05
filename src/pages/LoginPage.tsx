@@ -7,12 +7,22 @@ import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../components/PageHeader';
 import { css, styled,  } from 'solid-styled-components';
 import { useI18n } from '@solid-primitives/i18n';
+import { FlexColumn } from '@/components/ui/Flexbox';
 
 const LoginPageContainer = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+`;
+
+const Content = styled(FlexColumn)`
+  background: var(--pane-color);
+  height: 100%;
+  border-radius: 8px;
+  margin: 8px;
+  margin-top: 0;
+  overflow: auto;
 `;
 
 const Container = styled("div")`
@@ -66,13 +76,15 @@ export default function LoginPage() {
   return (
     <LoginPageContainer class="login-page-container">
       <PageHeader />
-      <Container class='container'>
-        <Title>{t('loginPage.title')}</Title>
-        <Input label={t('loginPage.email')} type='email' error={error()} onText={setEmail} />
-        <Input label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
-        <Button iconName='login' label={requestSent() ? t('loginPage.logging_in') : t('loginPage.loginButton')} onClick={loginClicked} />
-        <Link class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</Link>
-      </Container>
+      <Content>
+        <Container class='container'>
+          <Title>{t('loginPage.title')}</Title>
+          <Input label={t('loginPage.email')} type='email' error={error()} onText={setEmail} />
+          <Input label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
+          <Button iconName='login' label={requestSent() ? t('loginPage.logging_in') : t('loginPage.loginButton')} onClick={loginClicked} />
+          <Link class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</Link>
+        </Container>
+      </Content>
     </LoginPageContainer>
   );
 }

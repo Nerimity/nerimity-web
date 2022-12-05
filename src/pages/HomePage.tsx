@@ -15,7 +15,11 @@ const HomePageContainer = styled("div")`
 
 const Content = styled("div")`
   display: flex;
-  padding-top: 90px;
+  background: var(--pane-color);
+  margin: 8px;
+  margin-top: 0;
+  border-radius: 8px;
+  height: 100%;
 `;
 
 const ArtImage = styled("img")`

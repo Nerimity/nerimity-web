@@ -8,12 +8,22 @@ import env from '../common/env';
 import PageHeader from '../components/PageHeader';
 import { css, styled } from 'solid-styled-components';
 import { useI18n } from '@solid-primitives/i18n';
+import { FlexColumn } from '@/components/ui/Flexbox';
 
 const RegisterPageContainer = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+`;
+
+const Content = styled(FlexColumn)`
+  background: var(--pane-color);
+  height: 100%;
+  border-radius: 8px;
+  margin: 8px;
+  margin-top: 0;
+  overflow: auto;
 `;
 
 const Container = styled("div")`
@@ -75,15 +85,17 @@ export default function RegisterPage() {
   return (
     <RegisterPageContainer class="register-page-container">
       <PageHeader />
-      <Container>
-        <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
-        <Input label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
-        <Input label={t('registerPage.username')} error={error()} onText={setUsername} />
-        <Input label={t('registerPage.password')} type='password' error={error()} onText={setPassword} />
-        <Input label={t('registerPage.confirmPassword')} type='password' error={error()} onText={setConfirmPassword} />
-        <Button iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
-        <Link class={linkStyle} href="/login">{t('registerPage.loginInstead')}</Link>
-      </Container>
+      <Content>
+        <Container>
+          <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
+          <Input label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
+          <Input label={t('registerPage.username')} error={error()} onText={setUsername} />
+          <Input label={t('registerPage.password')} type='password' error={error()} onText={setPassword} />
+          <Input label={t('registerPage.confirmPassword')} type='password' error={error()} onText={setConfirmPassword} />
+          <Button iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
+          <Link class={linkStyle} href="/login">{t('registerPage.loginInstead')}</Link>
+        </Container>
+      </Content>
     </RegisterPageContainer>
   )
 }
