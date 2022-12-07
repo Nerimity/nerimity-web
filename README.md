@@ -23,11 +23,9 @@ Chat App made using SolidJS. Work in progress.
 - [ ] Mute Notifications
 - [ ] Desktop App
 - [ ] App Settings
-- [ ] Update Account
 - [ ] Delete Account
 - [ ] Re-organize Servers
 - [ ] Block Users
-- [ ] Changelog
 - [ ] Recycle List (Virtual List to Improve Performance)
 - [ ] Embeds
 - [ ] Upload Files
@@ -48,6 +46,8 @@ Chat App made using SolidJS. Work in progress.
 - [x] Delete Server Channels
 - [x] Update Server Channels
 - [x] Create New Server Channels
+- [x] Update Account
+- [x] Changelog
 
 ## Usage
 To start a dev server, run these commands below.

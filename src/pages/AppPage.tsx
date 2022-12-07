@@ -13,7 +13,7 @@ const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
 const ModerationPane = lazy( () => import("@/components/moderation-pane/ModerationPane"));
 const DashboardPane = lazy( () => import("@/components/DashboardPane"));
 
-import { getStorageString, StorageKeys } from '../common/localStorage';
+import { getStorageString, removeStorage, StorageKeys } from '../common/localStorage';
 import socketClient from '../chat-api/socketClient';
 import ServerMembersDrawer from '@/components/servers/drawer/members/ServerMembersDrawer';
 import { useWindowProperties } from '@/common/useWindowProperties';
@@ -28,6 +28,7 @@ import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
 import { useAppVersion } from '@/common/useAppVersion';
 import { ChangelogModal } from '@/components/ChangelogModal';
 import { classNames, conditionalClass } from '@/common/classNames';
+import { WelcomeModal } from '@/components/WelcomeModal';
 
 
 const mobileMainPaneStyles = css`
@@ -85,6 +86,17 @@ export default function AppPage() {
       createPortal?.(close => <ChangelogModal close={close}/>)
     }
   }
+
+  function handleFirstTime() {
+    let isFirstTime = getStorageString(StorageKeys.FIRST_TIME, false);
+    if (!isFirstTime) return;
+    removeStorage(StorageKeys.FIRST_TIME);
+    createPortal?.(close => <WelcomeModal close={close} />)
+  }
+
+  createEffect(on(account.isAuthenticated, () => {
+    handleFirstTime();
+  }))
 
 
   createEffect(on(account.authenticationError, (err) => {

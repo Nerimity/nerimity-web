@@ -79,6 +79,7 @@ export default function RegisterPage() {
     setRequestSent(false);
     if (!response) return;
     setStorageString(StorageKeys.USER_TOKEN, response.token);
+    setStorageString(StorageKeys.FIRST_TIME, "true");
     navigate(redirectTo)
   }
 

@@ -3,7 +3,8 @@ export enum StorageKeys {
   USER_TOKEN = 'userToken',
   SEEN_APP_VERSION = 'seenAppVersion',
   INBOX_DRAWER_SELECTED_INDEX = 'inboxDrawerSelectedIndex',
-  APP_LANGUAGE = 'appLanguage'
+  APP_LANGUAGE = 'appLanguage',
+  FIRST_TIME = 'firstTime', // After registering, this is set to true.
 }
 
 export function getStorageString<T>(key: StorageKeys, defaultValue: T) {
@@ -24,4 +25,8 @@ export function getStorageNumber<T>(key: StorageKeys, defaultValue: T) {
 
 export function setStorageNumber(key: StorageKeys, value: number) {
     localStorage.setItem(key, value.toString());
+}
+
+export function removeStorage(key: StorageKeys) {
+    localStorage.removeItem(key);
 }

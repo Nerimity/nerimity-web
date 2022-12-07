@@ -1,7 +1,7 @@
 import { JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { css, keyframes, styled } from 'solid-styled-components';
-import { FlexRow } from './Flexbox';
+import { FlexColumn, FlexRow } from './Flexbox';
 import Icon from './icon/Icon';
 import Text from './Text';
 
@@ -31,18 +31,24 @@ const BackgroundContainer = styled("div")`
   z-index: 1111;
 `;
 
-const ModalContainer = styled("div")`
+const ModalContainer = styled(FlexColumn)`
   background-color: var(--background-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   overflow: hidden;
-`;
+
+  
+  `;
+  // @media (max-width: 500px) {
+  //   height: 100%;
+  //   width: 100%;
+  // }
 
 const TopBarContainer = styled(FlexRow)`
   align-items: center;
   padding: 10px;
   height: 30px;
-  background: rgba(0,0,0,0.3);
+  background: var(--pane-color);
   flex-shrink: 0;
   margin-bottom: 10px;
 `;
@@ -77,10 +83,11 @@ const Body = styled("div")`
   animation-fill-mode: forwards;
   padding: 10px;
   padding-top: 0;
+  flex: 1;
 `;
 
 const ActionContainer = styled(FlexRow)`
-  background: rgba(0,0,0,0.3);
+  background: var(--pane-color);
 `;
 
 
@@ -90,19 +97,22 @@ interface Props {
   icon?: string;
   actionButtons?: JSX.Element;
   close?: () => void;
+  ignoreBackgroundClick?: boolean
+  class?: string;
 }
 
 export default function Modal(props: Props) {
   let mouseDownTarget: HTMLDivElement | null = null;
 
   const onBackgroundClick = (event: MouseEvent) => {
+    if (props.ignoreBackgroundClick)return;
     if(mouseDownTarget?.closest("." + ModalContainer.class({}))) return; 
     props.close?.()
   }
   return (
       <Portal>
         <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-          <ModalContainer>
+          <ModalContainer class={props.class}>
             <TopBarContainer>
               <Show when={props.icon}>
                 <Icon class={topBarIconStyle} onClick={props.close} name={props.icon} size={18} />
