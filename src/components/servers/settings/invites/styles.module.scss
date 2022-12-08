@@ -4,6 +4,9 @@
   padding: 10px;
 }
 
+.buttons {
+  margin-left: auto;;
+}
 
 .title {
   font-size: 24px;
@@ -16,7 +19,7 @@
     align-items: initial;
     align-content: center;
   }
-  .button {
+  .buttons {
     margin-left: initial;
     align-self: flex-start;
     margin-top: 5px;
@@ -37,6 +40,10 @@
   &:not(:last-child) {
     border-radius: 0;
     margin-bottom: 1px;
+  }
+  .avatar {
+    align-self: start;
+    margin-top: 4px;
   }
 
   

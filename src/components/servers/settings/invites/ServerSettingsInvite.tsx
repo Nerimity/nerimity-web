@@ -13,19 +13,18 @@ import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import { copyToClipboard } from '@/common/clipboard';
+import { FlexRow } from '@/components/ui/Flexbox';
 
 export default function ServerSettingsInvite() {
   const {serverId} = useParams();
   const {header} = useStore();
   const windowProperties = useWindowProperties();
   const [invites, setInvites] = createSignal<any[]>([]);
-  const [mobileSize, isMobileSize] = createSignal(false);
+
+  const mobileSize = () => windowProperties.paneWidth()! < 550
 
 
-  createEffect(() => {
-    const isMobile = windowProperties.paneWidth()! < env.MOBILE_WIDTH;
-    isMobileSize(isMobile);
-  })
+
   
   onMount(() => {
     getInvites(serverId!).then((invites) => setInvites(invites.reverse()));
@@ -74,7 +73,7 @@ const InviteItem =(props: {invite: any}) => {
 
   return (
     <div class={styles.inviteItem}>
-      <Avatar hexColor={props.invite.createdBy.hexColor} size={30} />
+      <Avatar class={styles.avatar} hexColor={props.invite.createdBy.hexColor} size={30} />
       <div class={styles.detailsOuter}>
         <div class={styles.details}>
           <Link href={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code)} class={styles.url}>{url}</Link>
@@ -86,8 +85,10 @@ const InviteItem =(props: {invite: any}) => {
             <Icon name='today' size={14} class={styles.icon} />
             {formatTimestamp(props.invite.createdAt)}</div>
         </div>
-        <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label='Copy Link' iconName='copy' />
-        <Button class={classNames(styles.deleteButton, styles.button)} label='Delete' iconName='delete' color='var(--alert-color)' />
+        <FlexRow class={styles.buttons}>
+          <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label='Copy Link' iconName='copy' />
+          <Button class={classNames(styles.deleteButton, styles.button)} label='Delete' iconName='delete' color='var(--alert-color)' />
+        </FlexRow>
       </div>
     </div>
   )
