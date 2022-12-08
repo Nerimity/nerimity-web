@@ -1,4 +1,4 @@
-import { set, get } from "idb-keyval";
+import { set, get, clear } from "idb-keyval";
 
 
 export enum LocalCacheKey {
@@ -12,3 +12,4 @@ export function saveCache(name: LocalCacheKey, data: any) {
 export function getCache(name: LocalCacheKey) {
   return get(name);
 }
+export const clearCache = clear;

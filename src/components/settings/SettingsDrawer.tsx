@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useMatch, useParams } from '@nerimity/solid-router';
+import { Link, useMatch, useNavigate, useParams } from '@nerimity/solid-router';
 import { For, JSXElement, Match, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -12,6 +12,8 @@ import env from '@/common/env';
 import { Dynamic } from 'solid-js/web';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { ChangelogModal } from '../ChangelogModal';
+import { clearCache } from '@/common/localCache';
+import socketClient from '@/chat-api/socketClient';
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -49,15 +51,24 @@ const FooterContainer = styled(FlexColumn)`
 `;
 
 function Footer() {
+  const navigate = useNavigate();
   const createPortal = useCustomPortal();
   
   const onChangelogClick = () => createPortal?.(close => <ChangelogModal close={close}/>)
 
+  const onLogoutClick = async () => {
+    socketClient.socket.disconnect();
+    await clearCache();
+    localStorage.clear();
+    navigate("/")
+  }
+
   return (
     <FooterContainer gap={2}>
-      <FooterItem icon="description" label={`Changelog`} subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
+      <FooterItem color="var(--alert-color)" icon="logout" label="Logout" onClick={onLogoutClick}  />
       <FooterItem href="https://ko-fi.com/supertiger" external icon='favorite' label='Support me' />
       <FooterItem href='https://github.com/Nerimity/Nerimity-Web' external icon="code" label='View source' />
+      <FooterItem icon="description" label="Changelog" subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
     </FooterContainer>
   );
 }
@@ -113,6 +124,7 @@ interface FooterItemProps {
   label: string;
   subLabel?: string;
   onClick?: () => void
+  color?: string;
 }
 
 function FooterItem (props: FooterItemProps) {
@@ -120,7 +132,7 @@ function FooterItem (props: FooterItemProps) {
   const Content = () =>  (
     <>
       <SettingItemContainer>
-        <Icon name={props.icon} size={18} />
+        <Icon name={props.icon} color={props.color} size={18} />
         <Text class={css`margin-right: auto;`}>{props.label}</Text>
         <Text size={14} color="rgba(255,255,255,0.4)" class={css`margin-right: 5px;`} >{props.subLabel}</Text>
         <Show when={props.external}>
