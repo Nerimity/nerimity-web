@@ -8,33 +8,38 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Icon from '@/components/ui/icon/Icon';
 import { Link, useParams } from '@nerimity/solid-router';
-import { createEffect, createSignal, For, onMount } from 'solid-js';
+import { createEffect, createSignal, For, onMount, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import { copyToClipboard } from '@/common/clipboard';
 import { FlexRow } from '@/components/ui/Flexbox';
+import Input from '@/components/ui/input/Input';
+import { Notice } from '@/components/ui/Notice';
+import { css } from 'solid-styled-components';
 
 export default function ServerSettingsInvite() {
-  const {serverId} = useParams();
-  const {header} = useStore();
+  const params = useParams<{serverId: string}>();
+  const {header, servers} = useStore();
   const windowProperties = useWindowProperties();
   const [invites, setInvites] = createSignal<any[]>([]);
 
   const mobileSize = () => windowProperties.paneWidth()! < 550
 
+  const server = () => servers.get(params.serverId)
+
 
 
   
   onMount(() => {
-    getInvites(serverId!).then((invites) => setInvites(invites.reverse()));
+    getInvites(params.serverId!).then((invites) => setInvites(invites.reverse()));
   })
   
   createEffect(() => {
 
     header.updateHeader({
       title: "Settings - Invites",
-      serverId: serverId!,
+      serverId: params.serverId!,
       iconName: 'settings',
     });
   })
@@ -42,15 +47,28 @@ export default function ServerSettingsInvite() {
 
 
   const onCreateInviteClick = async () => {
-    await createInvite(serverId!);
-    getInvites(serverId!).then((invites) => setInvites(invites.reverse()));
+    await createInvite(params.serverId!);
+    getInvites(params.serverId!).then((invites) => setInvites(invites.reverse()));
   }
 
+
+  const prefixUrl = env.APP_URL + RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT("");
 
 
   return (
     <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server Invites</div>
+
+      <Show when={!server()?.verified}>
+        <Notice class={css`margin-bottom: 10px;`} type='info' description='Custom invite links are only available for verified servers.'/>
+      </Show>
+
+      <SettingsBlock class={css`&&{position: relative; overflow: hidden; margin-bottom: 30px; ${!server()?.verified ? 'cursor: not-allowed; opacity: 0.6;' : ''} }`} label='Custom Link' icon='link'>
+        <Show when={!server()?.verified}>
+          <div style={{ position: 'absolute', inset: 0, "z-index": 1111}} />
+        </Show>
+        <Input prefix={prefixUrl} />
+      </SettingsBlock>
 
       <SettingsBlock label='Create a new invite' icon='add'>
         <Button label='Create Invite' onClick={onCreateInviteClick} />

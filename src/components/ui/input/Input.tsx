@@ -1,6 +1,9 @@
-import { Show } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import { classNames, conditionalClass } from '@/common/classNames';
 import styles from './styles.module.scss';
+import { styled } from 'solid-styled-components';
+import Text from '../Text';
+import { FlexRow } from '../Flexbox';
 
 interface Error {message: string, path: string};
 interface Props {
@@ -10,15 +13,58 @@ interface Props {
   onText?: (value: string) => void, 
   error?: Error | string | null
   errorName?: string
-  connectLeft?: boolean
-  connectRight?: boolean
   class?: string;
+  prefix?: string;
 }
 
 
+const Base = styled("div")`
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const Label = styled(Text)`
+  margin-bottom: 5px;
+`;
+
+const ErrorLabel = styled(Text)`
+  margin-top: 5px;
+  font-size: 14px;
+`;
+
+
+const CustomInput = styled("input")`
+  outline: none;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  border: none;
+  color: white;
+  padding: 10px;
+`;
+
+const PrefixLabel = styled(Text)`
+  padding-top: 12px;
+  padding-left: 10px;
+  margin-right: -10px;
+`;
+
+const InputContainer = styled(FlexRow)<{focused: boolean}>`
+  position: relative;
+  border-radius: 8px;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.6);
+  border-bottom: solid 2px rgba(255, 255, 255, 0.3);
+  transition: 0.2s;
+  cursor: text;
+  ${props => props.focused ? "border-bottom: solid 2px var(--primary-color);" : ''}
+`;
+
 export default function Input(props: Props) {
-
-
+  let [isFocused, setFocused] = createSignal(false);
+  let inputEl: undefined | HTMLInputElement = undefined;
   const error = () => {
     let error = "";
   
@@ -33,19 +79,21 @@ export default function Input(props: Props) {
     }
     return error;
   }
+  const focus = (event?: MouseEvent) => {
+    event?.preventDefault();
+    inputEl?.focus()
+  }
 
   const onChange = (event: any) => props.onText?.(event.target.value);
   return (
-    <div class={classNames(
-      styles.inputContainer,
-      conditionalClass(props.connectLeft, styles.connectLeft),
-      conditionalClass(props.connectRight, styles.connectRight),
-      props.class
-    )}>
-        <Show when={props.label}><div class={styles.label}>{props.label}</div></Show>
-        <input onInput={onChange} class={styles.input} type={props.type || "text"} value={props.value || ""} />
-        {error() && <div class={styles.errorMessage}>{error()}</div>}
-    </div>
+    <Base class={props.class}>
+      <Show when={props.label}><Label color='rgba(255, 255, 255, 0.8)'>{props.label}</Label></Show>
+      <InputContainer focused={isFocused()}>
+        <Show when={props.prefix}><PrefixLabel opacity={0.6} onmousedown={focus} size={12}>{props.prefix}</PrefixLabel></Show>
+        <CustomInput ref={inputEl} onfocus={() => setFocused(true)} onblur={() => setFocused(false)} onInput={onChange} type={props.type || "text"} value={props.value || ""} />
+      </InputContainer>
+      <Show when={error()}><ErrorLabel color="var(--alert-color)">{error()}</ErrorLabel></Show>
+    </Base>
 
   )
 }
