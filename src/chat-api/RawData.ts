@@ -7,6 +7,7 @@ export interface RawServer {
   defaultRoleId: string;
   createdById: string;
   createdAt: number;
+  verified: boolean;
 }
 
 

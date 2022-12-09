@@ -6,7 +6,8 @@ import Avatar from '@/components/ui/Avatar';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { css, styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
-import { FlexColumn } from '@/components/ui/Flexbox';
+import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
+import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
 
 const HeaderContainer = styled("div")`
   display: flex;
@@ -47,7 +48,10 @@ const ServerSettingsHeader = () => {
       <HeaderContainer style={{background: server()?.hexColor}}>
         <Avatar hexColor={server()!.hexColor} size={80} class={avatarStyles} />
         <DetailsContainer>
-          <Text>{server()!.name}</Text>
+          <FlexRow gap={5}>
+            <Text>{server()!.name}</Text>
+            <Show when={server()?.verified}><ServerVerifiedIcon/></Show>
+          </FlexRow>
           <Text size={14} opacity={0.8}>{serverMembersCount()} members</Text>
           <Text size={14}><Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)}>Edit Server</Link></Text>
         </DetailsContainer>

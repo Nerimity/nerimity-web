@@ -2,8 +2,13 @@
   --background-color: hsl(216deg 9% 8%);
   --primary-color: #77a8f3;
   --alert-color:   #eb6e6e;
+  --warn-color:   #e8a859;
   --success-color: #78e380;
   --pane-color: hsl(216deg 8% 15%);
+  
+  --primary-color-dark: #2d3746;
+  --alert-color-dark:   #3e2626;
+  --warn-color-dark:   #3a3229;
 }
 
 html,

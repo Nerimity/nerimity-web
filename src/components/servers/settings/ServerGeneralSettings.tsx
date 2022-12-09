@@ -10,10 +10,12 @@ import { deleteServer, updateServerSettings } from '@/chat-api/services/ServerSe
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import { Server } from '@/chat-api/store/useServers';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
-import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
+import { FlexRow } from '@/components/ui/Flexbox';
+import Icon from '@/components/ui/icon/Icon';
+import { Notice } from '@/components/ui/Notice';
 
 const Container = styled("div")`
   display: flex;
@@ -22,13 +24,13 @@ const Container = styled("div")`
 `;
 
 export default function ServerGeneralSettings() {
-  const {serverId} = useParams();
+  const params = useParams<{serverId: string}>();
   const {header, servers, channels} = useStore();
   const windowProperties = useWindowProperties();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const createPortal = useCustomPortal();
-  const server = () => servers.get(serverId);
+  const server = () => servers.get(params.serverId);
 
   const defaultInput = () => ({
     name: server()?.name || '',
@@ -38,7 +40,7 @@ export default function ServerGeneralSettings() {
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
-  const dropDownChannels = () => channels.getChannelsByServerId(serverId).map(channel => ({
+  const dropDownChannels = () => channels.getChannelsByServerId(params.serverId).map(channel => ({
     id: channel!.id,
     label: channel!.name,
     onClick: () => {
@@ -47,7 +49,7 @@ export default function ServerGeneralSettings() {
   }));
 
   const dropDownSystemChannels = () => {
-    const list = channels.getChannelsByServerId(serverId).map(channel => ({
+    const list = channels.getChannelsByServerId(params.serverId).map(channel => ({
       id: channel!.id,
       label: channel!.name,
       onClick: () => {
@@ -67,7 +69,7 @@ export default function ServerGeneralSettings() {
   createEffect(() => {
     header.updateHeader({
       title: "Settings - General",
-      serverId: serverId!,
+      serverId: params.serverId!,
       iconName: 'settings',
     });
   })
@@ -77,7 +79,7 @@ export default function ServerGeneralSettings() {
     setRequestSent(true);
     setError(null);
     const values = updatedInputValues();
-    await updateServerSettings(serverId!, values)
+    await updateServerSettings(params.serverId!, values)
       .catch((err) => setError(err.message))
       .finally(() => setRequestSent(false));
   }
@@ -91,6 +93,11 @@ export default function ServerGeneralSettings() {
   return (
     <Container>
       <Text size={24} style={{"margin-bottom": "10px"}}>Server General</Text>
+
+      <Show when={server()?.verified}>
+        <Notice class={css`margin-bottom: 10px;`} type='warn' description="You will lose all of the perks of having your server verified if you rename it."/>
+
+      </Show>
       
       <SettingsBlock icon='edit' label='Server Name'>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
