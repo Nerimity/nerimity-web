@@ -45,7 +45,7 @@ export default function ServerSettingsBans() {
         <Notice type="info" description="Your server is already verified." />
       </Match>
       <Match when={membersNeeded() > 0}>
-        <Notice type="warn" description={`You need ${membersNeeded()} more member(s) to verify your server.`} />
+        <Notice type="warn" description={`You need ${membersNeeded()} more member(s) to apply for a verification.`} />
       </Match>
       <Match when={membersNeeded() <= 0}>
         <Notice type="success" description={`You have enough members to verify your server!`} />
