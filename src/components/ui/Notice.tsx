@@ -26,6 +26,11 @@ const noticeType = {
     color: "var(--primary-color-dark)",
     borderColor: "var(--primary-color)",
     icon: "info"
+  },
+  success: {
+    color: "var(--success-color-dark)",
+    borderColor: "var(--success-color)",
+    icon: "check_circle"
   }
 }
 

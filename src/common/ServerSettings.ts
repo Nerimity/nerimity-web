@@ -52,6 +52,12 @@ const serverSettings: ServerSetting[] =  [
     name: 'Invites',
     icon: 'mail',
     element: lazy(() => import('@/components/servers/settings/invites/ServerSettingsInvite'))
+  },
+  {
+    path: 'verify',
+    name: 'Verify',
+    icon: 'verified',
+    element: lazy(() => import('@/components/servers/settings/ServerVerifySettings'))
   }
 ]
 
