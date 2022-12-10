@@ -21,10 +21,11 @@ import Text from '@/components/ui/Text';
 
 export default function ServerSettingsInvite() {
   const params = useParams<{serverId: string}>();
-  const {header} = useStore();
+  const {header, servers, account} = useStore();
   const windowProperties = useWindowProperties();
   const [invites, setInvites] = createSignal<any[]>([]);
-  const mobileSize = () => windowProperties.paneWidth()! < 550
+  const mobileSize = () => windowProperties.paneWidth()! < 550;
+  const server = () => servers.get(params.serverId);
 
   const fetchInvites = async () => {
     const invites = await getInvites(params.serverId!);
@@ -49,6 +50,9 @@ export default function ServerSettingsInvite() {
     });
   })
 
+  const isServerOwner = () => server()?.createdById === account.user()?.id;
+
+
   const onCreateInviteClick = async () => {
     await createInvite(params.serverId!);
     getInvites(params.serverId!).then((invites) => setInvites(invites.reverse()));
@@ -57,7 +61,7 @@ export default function ServerSettingsInvite() {
   return (
     <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
       <div class={styles.title}>Server Invites</div>
-      <CustomInvite invites={invites()} onUpdate={fetchInvites} />
+      <Show when={isServerOwner()}><CustomInvite invites={invites()} onUpdate={fetchInvites} /></Show>
       <SettingsBlock label='Create a new invite' icon='add'>
         <Button label='Create Invite' onClick={onCreateInviteClick} />
       </SettingsBlock>
@@ -92,6 +96,7 @@ function CustomInvite(props: {invites: any[]; onUpdate: () => void;}) {
   })
 
   const showCustomCodeSaveButton = () => {
+    if (!customInvite() && !customCode().trim().length) return false;
     if (!customInvite() && customCode().trim().length) return true;
     if (customInvite() && customCode().trim() === customInvite().code) return false;
     return true;
