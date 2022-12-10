@@ -49,7 +49,7 @@ export function WelcomeModal (props: {close: () => void}) {
 
 function ServerItem(props: {onClick: () => void;}) {
   return (
-    <Link href="https://nerimity.com/app/explore/servers/invites/R7Y4n" style={{"text-decoration": "none"}} onclick={props.onClick}>
+    <Link href="https://nerimity.com/app/explore/servers/invites/nerimity" style={{"text-decoration": "none"}} onclick={props.onClick}>
       <ItemContainer gap={5} style={{background: "var(--primary-color)"}}>
         <Avatar hexColor="white" size={24} />
         <Text size={16}>Join the official Nerimity server!</Text>

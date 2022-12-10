@@ -128,6 +128,15 @@ export async function createInvite(serverId: string): Promise<any> {
   });
 }
 
+export async function createCustomInvite(code: string, serverId: string): Promise<any> {
+  return request({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInvites(serverId) + "/custom",
+    body: {code},
+    useToken: true
+  });
+}
+
 export async function deleteServer(serverId: string): Promise<RawServer> {
   return request({
     method: "delete",
