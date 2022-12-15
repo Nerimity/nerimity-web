@@ -4,19 +4,20 @@ import Icon from '@/components/ui/icon/Icon';
 import styles from './styles.module.scss';
 
 
-interface Item {
+export interface DropDownItem {
   id: string;
   label?: string;
   icon?: string;
-  onClick?: (item: Item) => void;
+  onClick?: (item: DropDownItem) => void;
   separator?: boolean;
   circleColor?: string;
 }
 
 export interface DropDownProps {
-  items: Item[]
+  items: DropDownItem[]
   selectedId?: string
   title?: string
+  onChange?: (item: DropDownItem) => void;
 }
 
 
@@ -26,9 +27,10 @@ export default function DropDown (props: DropDownProps) {
 
   const selectedItem = () => props.items.find(item => item.id === selectedId());
 
-  const onItemClick = (item: Item) => {
+  const onItemClick = (item: DropDownItem) => {
     if (item.id === selectedId()) return;
     setSelectedId(item.id);
+    props.onChange?.(item);
     item.onClick?.(item);
   }
 
@@ -54,7 +56,7 @@ export default function DropDown (props: DropDownProps) {
   )
 }
 
-function ItemTemplate (props: {item?: Item}) {
+function ItemTemplate (props: {item?: DropDownItem}) {
   return (
     <div class={styles.itemTemplate}>
       <CircleColor color={props.item?.circleColor} />
@@ -71,7 +73,7 @@ function CircleColor(props: {color?: string}) {
 
 
 
-function Popup (props: {items: Item[], selectedId: string | null, onClose: () => void, onClick?: (item: Item) => void}) {
+function Popup (props: {items: DropDownItem[], selectedId: string | null, onClose: () => void, onClick?: (item: DropDownItem) => void}) {
 
   const onDocumentClick = (event: any) => {
     if (event.target.closest("." + styles.popup)) return;
@@ -86,7 +88,7 @@ function Popup (props: {items: Item[], selectedId: string | null, onClose: () =>
     })
   })
 
-  const onItemClick = (item: Item) => {
+  const onItemClick = (item: DropDownItem) => {
     props.onClose();
     props.onClick?.(item);
   }

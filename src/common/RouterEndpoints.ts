@@ -13,6 +13,8 @@ export default {
   SERVER_SETTINGS_ROLES: (serverId: string) => `/app/servers/${serverId}/settings/roles`,
   SERVER_SETTINGS_ROLE: (serverId: string, roleId: string) => `/app/servers/${serverId}/settings/roles/${roleId}`,
   
+  EXPLORE_SERVER: (serverId: string) => `/app/explore/servers/${serverId}`,
+  
   PROFILE: (userId: string) => `/app/profile/${userId}`,
 
   EXPLORE_SERVER_INVITE: (inviteId: string) => `/app/explore/servers/invites/${inviteId}`,

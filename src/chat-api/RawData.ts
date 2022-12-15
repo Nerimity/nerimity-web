@@ -95,3 +95,13 @@ export interface RawPresence {
   custom?: string;
   status: number;
 }
+
+
+export interface RawPublicServer {
+  serverId: string;
+  createdAt: number;
+  description: string;
+  bumpCount: number;
+  lifetimeBumpCount: number;
+  server?: RawServer & {_count: {serverMembers: number}}
+}

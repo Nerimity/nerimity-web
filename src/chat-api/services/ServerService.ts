@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {RawChannel, RawServer, RawServerRole, RawUser} from '../RawData'
+import {RawChannel, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
 import env from "../../common/env";
 
 
@@ -139,7 +139,7 @@ export async function createCustomInvite(code: string, serverId: string): Promis
 
 export async function deleteServer(serverId: string): Promise<RawServer> {
   return request({
-    method: "delete",
+    method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId),
     useToken: true
   });
@@ -160,5 +160,54 @@ export async function serverDetailsByInviteCode(inviteCode: string) {
   return request<ServerWithMemberCount>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInviteCode(inviteCode),
+  });
+}
+
+// Explore
+export async function joinPublicServer(serverId: string) {
+  return request<RawServer>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId) + "/join" ,
+    useToken: true
+  });
+}
+export async function BumpPublicServer(serverId: string) {
+  return request<RawPublicServer>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId) + "/bump" ,
+    useToken: true
+  });
+}
+
+export async function getPublicServer(serverId: string) {
+  return request<RawPublicServer>({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
+    useToken: true,
+  });
+}
+
+export async function getPublicServers(sort: 'most_bumps' | 'most_members' | 'recently_added' | 'recently_bumped', filter: 'all' | 'verified') {
+  return request<RawPublicServer[]>({
+    params: {sort, filter},
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(""),
+    useToken: true,
+  });
+}
+
+export async function updatePublicServer(serverId: string, description: string) {
+  return request<RawPublicServer>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
+    body: {description},
+    useToken: true,
+  });
+}
+export async function deletePublicServer(serverId: string) {
+  return request<RawPublicServer>({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
+    useToken: true,
   });
 }

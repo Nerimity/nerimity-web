@@ -8,7 +8,9 @@ const ServerSettingsPane = lazy(() => import('@/components/servers/settings/sett
 const SettingsDrawer = lazy(() => import('@/components/settings/SettingsDrawer'));
 const SettingsPane = lazy(() => import('@/components/settings/SettingsPane'));
 const MessagePane = lazy(() => import('@/components/message-pane/MessagePane'));
+const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
 const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
+const ExplorePane = lazy(() => import('@/components/explore/ExplorePane'));
 const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
 const ModerationPane = lazy( () => import("@/components/moderation-pane/ModerationPane"));
 const DashboardPane = lazy( () => import("@/components/DashboardPane"));
@@ -120,6 +122,7 @@ export default function AppPage() {
   const LeftPane = (
     <Routes>
       <Route path="/servers/:serverId/settings/:path/*" component={ServerSettingsDrawer}  />
+      <Route path="/explore/*" component={ExploreDrawer}  />
       <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer}  />
       <Route path="/inbox/:channelId?/*" component={InboxDrawer}  />
       <Route path="/settings/*" component={SettingsDrawer}  />
@@ -160,6 +163,7 @@ function MainPane () {
         <Routes>
         <Route path="/settings/*" component={SettingsPane} />
         <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
+        <Route path="/explore/*" component={ExplorePane} />
         <Route path="/servers/:serverId/:channelId" component={MessagePane} />
         <Route path="/inbox/:channelId" component={MessagePane} />
         <Route path="/profile/:userId" component={ProfilePane} />

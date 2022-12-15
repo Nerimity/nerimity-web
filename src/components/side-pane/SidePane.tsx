@@ -43,6 +43,7 @@ export default function SidePane () {
 
   return <div class={styles.sidePane}>
     <InboxItem />
+    <ExploreItem />
     <div class={styles.scrollable}>
       <ServerList />
       <SidebarItemContainer onClick={showAddServerModal} >
@@ -54,6 +55,18 @@ export default function SidePane () {
     <SettingsItem />
     <UserItem />
   </div>
+}
+
+function ExploreItem() {
+  const selected = useMatch(() => "/app/explore");
+
+  return (
+  <Link href={RouterEndpoints.EXPLORE_SERVER("")} style={{"text-decoration": "none"}}>
+      <SidebarItemContainer selected={selected()}>
+        <Icon name='explore' />
+      </SidebarItemContainer>
+  </Link>
+  )
 }
 
 function InboxItem() {

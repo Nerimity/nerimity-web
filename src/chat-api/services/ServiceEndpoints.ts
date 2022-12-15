@@ -15,6 +15,9 @@ export default {
   serverMemberKick: (serverId: string, userId: string) => `/servers/${serverId}/members/${userId}/kick`,
   serverMemberBan: (serverId: string, userId: string) => `/servers/${serverId}/bans/${userId}`,
 
+  exploreServer: (serverId: string) => `/explore/servers/${serverId}`,
+
+
   user: (userId: string) => `/users/${userId}`,
 
   openUserDM: (userId: string) => `/users/${userId}/open-channel`,

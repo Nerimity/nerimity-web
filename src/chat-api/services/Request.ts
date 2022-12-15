@@ -2,7 +2,7 @@ import { getStorageString, StorageKeys } from "../../common/localStorage";
 
 interface RequestOpts {
   url: string;
-  method: string;
+  method: "POST" | "GET" | "PUT" | "PATCH" | "DELETE";
   body?: any;
   useToken?: boolean;
   notJSON?: boolean;

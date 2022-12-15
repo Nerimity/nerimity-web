@@ -54,6 +54,12 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/invites/ServerSettingsInvite'))
   },
   {
+    path: 'publish-server',
+    name: 'Publish Server',
+    icon: 'public',
+    element: lazy(() => import('@/components/servers/settings/PublishServerSettings'))
+  },
+  {
     path: 'verify',
     name: 'Verify',
     icon: 'verified',
