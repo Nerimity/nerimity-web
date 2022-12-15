@@ -7,6 +7,7 @@ import { update } from 'idb-keyval';
 import { createSignal, For, Show } from 'solid-js';
 import { createEffect } from 'solid-js';
 import { css, styled } from 'solid-styled-components';
+import { ServerVerifiedIcon } from '../servers/ServerVerifiedIcon';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 import DropDown, { DropDownItem } from '../ui/drop-down/DropDown';
@@ -130,7 +131,10 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
     <ServerItemContainer gap={15}>
       <Avatar hexColor={server.hexColor} size={80} />
       <FlexColumn gap={1}>
-        <Text size={18}>{server.name}</Text>
+        <FlexRow style={{"align-items": "center"}} gap={5}>
+          <Text size={18}>{server.name}</Text>
+          <Show when={server.verified}><ServerVerifiedIcon /></Show>
+        </FlexRow>
         <MemberContainer gap={5}>
           <Icon name='people' size={17} color="var(--primary-color)"/>
           <Text size={12}>{server._count.serverMembers.toLocaleString()} members</Text>
