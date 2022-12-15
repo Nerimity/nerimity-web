@@ -84,11 +84,30 @@ const ServerItemContainer = styled(FlexRow)`
   border-radius: 8px;
   align-items: center;
   padding-left: 20px;
+
+  @media (max-width: 600px){
+    flex-direction: column;
+    height: 230px;
+    padding-top: 30px;
+    padding-left: 0;
+  }
+
+`;
+
+const DetailsContainer = styled(FlexColumn)`
+
+@media (max-width: 600px){
+  align-self: start;
+  margin-left: 10px;
+}
+
 `;
 
 const MemberContainer = styled(FlexRow)`
   align-items: center;
 `;
+
+
 
 const ButtonsContainer = styled(FlexRow)`
   margin-left: auto;
@@ -130,7 +149,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
   return (
     <ServerItemContainer gap={15}>
       <Avatar hexColor={server.hexColor} size={80} />
-      <FlexColumn gap={1}>
+      <DetailsContainer gap={1}>
         <FlexRow style={{"align-items": "center"}} gap={5}>
           <Text size={18}>{server.name}</Text>
           <Show when={server.verified}><ServerVerifiedIcon /></Show>
@@ -142,7 +161,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
           <Text size={12}>{props.publicServer.lifetimeBumpCount.toLocaleString()} Lifetime bumps</Text>
         </MemberContainer>
           <Text style={{"margin-top": "5px"}} opacity={0.7}>{props.publicServer.description}</Text>
-      </FlexColumn>
+      </DetailsContainer>
 
       <ButtonsContainer>
         <Button onClick={bumpClick} iconName='arrow_upward' label={`Bump (${props.publicServer.bumpCount.toLocaleString()})`}/>
