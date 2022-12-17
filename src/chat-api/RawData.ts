@@ -100,6 +100,7 @@ export interface RawPresence {
 export interface RawPublicServer {
   serverId: string;
   createdAt: number;
+  bumpedAt: number;
   description: string;
   bumpCount: number;
   lifetimeBumpCount: number;

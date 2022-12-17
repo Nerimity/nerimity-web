@@ -131,6 +131,19 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
   }
 
   const bumpClick = () => {
+    // 3 hours to milliseconds
+    const bumpAfter = 3 * 60 * 60 * 1000;
+
+    const millisecondsSinceLastBump = new Date().getTime() - props.publicServer.bumpedAt;
+    const timeLeftMilliseconds = bumpAfter - millisecondsSinceLastBump;
+    const timeLeft = new Date(timeLeftMilliseconds);
+
+    if (timeLeftMilliseconds > 0) {
+      alert(`You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`);
+      return;
+    } 
+
+
     BumpPublicServer(props.publicServer.serverId)
       .then(newPublicServer => {
         props.update(newPublicServer);
