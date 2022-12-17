@@ -17,3 +17,28 @@
 .markup .underline {
   text-decoration: underline;
 }
+
+.markup .code {
+  color: #d0d0d0;
+  background: #3f4856;
+  padding: 1px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.markup blockquote {
+  margin: 0;
+  padding: 0.3rem 0.6rem;
+  border-left: 2px var(--primary-color) solid;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.markup .inline blockquote {
+  padding-block: 0;
+}
+
+.markup .not-implemented {
+  background: var(--alert-color);
+  padding: 1px;
+  border-radius: 4px;
+}
