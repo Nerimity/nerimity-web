@@ -11,6 +11,7 @@ import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
 import { createSignal, onMount, Show } from 'solid-js';
 import MemberContextMenu from '@/components/member-context-menu/MemberContextMenu';
+import { Markup } from '@/components/Markup';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
@@ -104,7 +105,7 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message | false,
             {props.message.sentStatus === MessageSentStatus.FAILED && <Icon name='error_outline' size={14} color="var(--alert-color)" class={styles.messageStatus} />}
             {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
             {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} title={editedAt()} />}
-            <div class={styles.content}>{props.message.content}</div>
+            <div class={styles.content}><Markup text={props.message.content || ''} /></div>
           </div>
         </div>
       </div>

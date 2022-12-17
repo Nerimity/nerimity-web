@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@nerimity/nevula': ^0.5.1
   '@nerimity/solid-router': ^0.4.3
   '@solid-primitives/i18n': ^1.1.2
   '@types/markdown-it': ^12.2.3
@@ -21,6 +22,7 @@ specifiers:
   vite-plugin-solid: ^2.4.0
 
 dependencies:
+  '@nerimity/nevula': 0.5.1
   '@nerimity/solid-router': 0.4.3_solid-js@1.6.2
   '@solid-primitives/i18n': 1.1.2_solid-js@1.6.2
   idb-keyval: 6.2.0
@@ -412,6 +414,10 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /@nerimity/nevula/0.5.1:
+    resolution: {integrity: sha512-Bi+AUUac73YgfQ6azDtcbhnQttRcnHuxL9BOMnfC2r15z3F5qNt+LBttIaci1UrOSW0lQqNc986jOTf0zVweww==}
+    dev: false
 
   /@nerimity/solid-router/0.4.3_solid-js@1.6.2:
     resolution: {integrity: sha512-+jFW5hW4WVS1pX0RzXn9FOW2X2TPsonDFcrYOOgczfnjLlmmM4iT3hl1+YrQxnKcLPHyYemORmwGOIBMBXBIDg==}
