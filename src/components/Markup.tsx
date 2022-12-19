@@ -1,4 +1,8 @@
-import './markup.css';
+import './Markup.scss';
+
+import CodeBlock from './markup/CodeBlock';
+import Spoiler from './markup/Spoiler';
+
 import {
   addTextSpans,
   Entity,
@@ -6,7 +10,7 @@ import {
   Span,
   UnreachableCaseError,
 } from '@nerimity/nevula';
-import { JSXElement } from 'solid-js';
+import { JSXElement, lazy } from 'solid-js';
 
 export interface Props {
   text: string;
@@ -45,6 +49,14 @@ function transformEntity(entity: Entity, ctx: RenderContext) {
     case "code": {
       return <code class={entity.type}>{transformEntities(entity, ctx)}</code>;
     }
+    case "spoiler": {
+      return <Spoiler>{transformEntities(entity, ctx)}</Spoiler>
+    }
+    case "codeblock": {
+      const lang = entity.params.lang;
+      const value = sliceText(ctx, entity.innerSpan);
+      return <CodeBlock value={value} lang={lang} />;
+    }
     case "blockquote": {
       return <blockquote>{transformEntities(entity, ctx)}</blockquote>;
     }
@@ -76,9 +88,8 @@ function transformEntity(entity: Entity, ctx: RenderContext) {
     }
 
     default: {
-      const text = sliceText(ctx, entity.outerSpan);
-      return <span class="not-implemented">Not implemented yet ({entity.type})</span>
-      // throw new UnreachableCaseError(entity as never);
+      // this code should be unreachable
+      return sliceText(ctx, entity.outerSpan);
     }
   }
 }

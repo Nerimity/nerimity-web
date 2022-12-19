@@ -114,6 +114,7 @@
     position: relative;
     display: flex;
     .content {
+      overflow: hidden;
       margin: 3px;
       margin-bottom: 2px;
       margin-top: 0;
