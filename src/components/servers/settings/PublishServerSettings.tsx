@@ -1,6 +1,6 @@
 
 import { RawPublicServer } from "@/chat-api/RawData";
-import { deletePublicServer, getPublicServer, updatePublicServer } from "@/chat-api/services/ServerService";
+import { BumpPublicServer, deletePublicServer, getPublicServer, updatePublicServer } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
@@ -75,7 +75,30 @@ export default function PublishServerSettings() {
     if (publicServer()?.description !== description()) return true;
     return false;
   }
-  
+
+  const bumpClick = () => {
+    // 3 hours to milliseconds
+    const bumpAfter = 3 * 60 * 60 * 1000;
+
+    const millisecondsSinceLastBump = new Date().getTime() - publicServer()!.bumpedAt;
+    const timeLeftMilliseconds = bumpAfter - millisecondsSinceLastBump;
+    const timeLeft = new Date(timeLeftMilliseconds);
+
+    if (timeLeftMilliseconds > 0) {
+      alert(`You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`);
+      return;
+    } 
+
+
+    BumpPublicServer(publicServer()!.serverId)
+      .then(newPublicServer => {
+        setPublicServer(newPublicServer);
+      })
+      .catch((err) => {
+        alert(err.message)
+      })
+  }
+
 
   return (
     <Container>
@@ -84,6 +107,13 @@ export default function PublishServerSettings() {
       <SettingsBlock icon="public" label="Public" description="Make this server public.">
         <Checkbox checked={isPublic()} onChange={v => setIsPublic(v)}/>
       </SettingsBlock>
+
+      <Show when={isPublic() && publicServer()}>
+        <SettingsBlock icon="arrow_upward" label="Bump Server" description="Bump this server to get to the top.">
+          <Button onClick={bumpClick} class={css`margin-right: 0px;`} label={`Bump (${publicServer()?.bumpCount})`} />
+        </SettingsBlock>
+      </Show>
+
       <Show when={isPublic()}>
         <Input value={description()} onText={t => setDescription(t)} type="textarea" height={200} label={`Server Description (${description().length}/${MAX_DESCRIPTION_LENGTH})`} />
       </Show>
