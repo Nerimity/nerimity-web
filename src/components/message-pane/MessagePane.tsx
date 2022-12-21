@@ -14,6 +14,7 @@ import Icon from '@/components/ui/icon/Icon';
 import { postChannelTyping } from '@/chat-api/services/MessageService';
 import { className } from 'solid-js/web';
 import { classNames } from '@/common/classNames';
+import { emojiShortcodeToUnicode } from '@/emoji';
 
 export default function MessagePane() {
   const params = useParams();
@@ -212,11 +213,15 @@ function MessageArea() {
     setMessage('')
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
+
+    const formattedMessage = formatMessage(trimmedMessage);
+
+
     if (editMessageId()) {
-      messages.editAndStoreMessage(params.channelId, editMessageId()!, trimmedMessage);
+      messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
       cancelEdit();
     } else {
-      messages.sendAndStoreMessage(channel.id, trimmedMessage);
+      messages.sendAndStoreMessage(channel.id, formattedMessage);
     }
     typingTimeoutId && clearTimeout(typingTimeoutId)
     typingTimeoutId = null;
@@ -390,4 +395,14 @@ function Floating (props: {class?: string, children: JSX.Element}) {
       {props.children}
     </div>
   )
+}
+
+
+function formatMessage (message: string) {
+  const regex = /:([\w]+):/g;
+
+  return message.replace(regex, val => {
+    const emojiName = val.substring(1, val.length - 1);
+    return emojiShortcodeToUnicode(emojiName) || val;
+  })
 }

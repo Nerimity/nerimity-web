@@ -11,6 +11,8 @@ import {
   UnreachableCaseError,
 } from '@nerimity/nevula';
 import { JSXElement, lazy } from 'solid-js';
+import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
+import { Emoji } from './markup/Emoji';
 
 export interface Props {
   text: string;
@@ -86,8 +88,18 @@ function transformEntity(entity: Entity, ctx: RenderContext) {
       // if(beforeSpan.start === beforeSpan.end && afterSpan.start === afterSpan.end) {}
       return <span class={entity.type}>{transformEntities(entity, ctx)}</span>;
     }
-
+    case 'emoji_name': {
+      const name = sliceText(ctx, entity.innerSpan, { countText: false });
+      const unicode = emojiShortcodeToUnicode(name as unknown as string);
+      if (!unicode) return sliceText(ctx, entity.outerSpan);
+      return <Emoji name={name} url={unicodeToTwemojiUrl(unicode)} />;
+    }
+    case 'emoji': {
+      const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
+      return <Emoji name={emojiUnicodeToShortcode(emoji)} url={unicodeToTwemojiUrl(emoji)} />;
+    }
     default: {
+      console.log(entity.type)
       // this code should be unreachable
       return sliceText(ctx, entity.outerSpan);
     }
