@@ -55,9 +55,10 @@ const set = (channel: RawChannel) => {
         setChannels(this.id, "lastMessagedAt", timestamp);
       },
       dismissNotification(force = false) {
+        if (force) return dismissChannelNotification(channel.id);
         const {hasFocus} = useWindowProperties();
-        if (!hasFocus() && !force) return;
-        if (!this.hasNotifications && !force) return;
+        if (!hasFocus()) return;
+        if (!this.hasNotifications) return;
         dismissChannelNotification(channel.id);
       },
       setRecipientId(userId: string) {
