@@ -27,7 +27,7 @@ export default function MemberContextMenu(props: Props) {
 
   const navigate = useNavigate();
   
-  const member = () => props.serverId ? serverMembers.get(props.serverId, props.userId) : undefined;
+  const member = () => props.serverId ? serverMembers.get(props.serverId, account.user()?.id!) : undefined;
   const server = () => props.serverId ? servers.get(props.serverId) : undefined;
 
   const adminItems = () => {
