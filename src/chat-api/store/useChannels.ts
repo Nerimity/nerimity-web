@@ -8,6 +8,7 @@ import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise } from '../Bitwise';
 import { RawChannel } from '../RawData';
 import useMessages from './useMessages';
 import useUsers, { User } from './useUsers';
+import useStore from './useStore';
 
 export type Channel = Omit<RawChannel, 'recipient'> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -39,6 +40,8 @@ const set = (channel: RawChannel) => {
         return users.get(this.recipientId!);
       },
       get hasNotifications() {
+        const {mentions} = useStore();
+        if (mentions.get(channel.id)?.count) return true; 
         const lastMessagedAt = this.lastMessagedAt! || 0;
         const lastSeenAt = this.lastSeen! || 0;
         if (!lastSeenAt) return true;
