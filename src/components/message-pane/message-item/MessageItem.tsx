@@ -12,12 +12,20 @@ import useStore from '@/chat-api/store/useStore';
 import { createSignal, onMount, Show } from 'solid-js';
 import MemberContextMenu from '@/components/member-context-menu/MemberContextMenu';
 import { Markup } from '@/components/Markup';
+import Modal from '@/components/ui/Modal';
+import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import Text from '@/components/ui/Text';
+import { css, styled } from 'solid-styled-components';
+import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
+import Button from '@/components/ui/Button';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
+  
+  const createPortal = useCustomPortal();
 
   const onDeleteClick = () => {
-    deleteMessage({channelId: props.message.channelId, messageId: props.message.id});
+    createPortal?.(close => <DeleteMessageModal close={close} message={props.message}/>)
   }
   const onEditClick = () => {
     const {input} = useStore();
@@ -34,10 +42,7 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
 }
 
 
-
-
-
-const MessageItem = (props: { message: Message, beforeMessage?: Message | false, animate?: boolean }) => {
+const MessageItem = (props: { class?: string, message: Message, beforeMessage?: Message | false, animate?: boolean, hideFloating?: boolean }) => {
   
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
   const params = useParams();
@@ -95,9 +100,9 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message | false,
   }
 
   return (
-    <div class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate))}>
+    <div class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class)}>
       <MemberContextMenu user={props.message.createdBy} position={contextPosition()} serverId={params.serverId} userId={props.message.createdBy.id} onClose={() => setContextPosition(undefined)} />
-      <FloatOptions isCompact={isCompact()} message={props.message} />
+      <Show when={!props.hideFloating}><FloatOptions isCompact={isCompact()} message={props.message} /></Show>
       <div class={styles.messageItemOuterContainer}>
         <div class={styles.messageItemContainer}>
           {isCompact() ? null : <Details />}
@@ -115,3 +120,51 @@ const MessageItem = (props: { message: Message, beforeMessage?: Message | false,
 
 export default MessageItem;
 
+
+
+
+const DeleteMessageModalContainer = styled(FlexColumn)`
+  overflow: auto;
+`;
+const deleteMessageItemContainerStyles = css`
+  padding-top: 5px;
+  border-radius: 8px;
+  margin-top: 5px;
+  background-color: var(--pane-color);
+  &&{
+    &:hover {
+      background-color: var(--pane-color);
+    }
+
+  }
+`
+
+const deleteMessageModalStyles = css`
+  max-width: 600px;
+  max-height: 600px;
+  overflow: hidden;
+`
+
+function DeleteMessageModal(props: {message: Message, close: () => void}) {
+
+  const onDeleteClick = () => {
+    props.close();
+    deleteMessage({channelId: props.message.channelId, messageId: props.message.id});
+  }
+
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button onClick={props.close} iconName="close" label="Cancel" />
+      <Button onClick={onDeleteClick} iconName="delete" color='var(--alert-color)' label="Delete" />
+    </FlexRow>
+  )
+
+  return (
+    <Modal close={props.close} title='Delete Message?'icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons}>
+      <DeleteMessageModalContainer>
+        <Text>Are you sure you would like to delete this message?</Text>
+          <MessageItem class={deleteMessageItemContainerStyles} hideFloating message={props.message} />
+      </DeleteMessageModalContainer>
+    </Modal>
+  )
+}
