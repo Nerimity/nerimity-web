@@ -77,7 +77,8 @@ const topBarIconStyle = css`
   margin-right: 7px;
 `;
 
-const Body = styled("div")`
+const Body = styled(FlexColumn)`
+  overflow: hidden;
   animation: ${showUp};
   animation-duration: 0.2s;
   animation-fill-mode: forwards;

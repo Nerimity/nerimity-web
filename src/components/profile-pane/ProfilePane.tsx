@@ -18,6 +18,7 @@ import Text from '../ui/Text';
 import { FlexRow } from '../ui/Flexbox';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { addFriend } from '@/chat-api/services/FriendService';
+import { useDrawer } from '../ui/drawer/Drawer';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -53,6 +54,7 @@ const ActionButton = (props: {icon?: string, label: string, color?: string, onCl
 export default function ProfilePane () {
   const params = useParams();
   const { users, friends, account, header } = useStore();
+  const drawer = useDrawer();
   const {width} = useWindowProperties();
   const isMe = () => account.user()?.id === params.userId;
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
@@ -61,6 +63,7 @@ export default function ProfilePane () {
     setUserDetails(null)
     const userDetails = await getUserDetailsRequest(userId);
     setUserDetails(userDetails);
+    drawer.goToMain();
   }))
 
   const user = () => {

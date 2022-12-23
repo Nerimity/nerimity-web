@@ -19,6 +19,7 @@ interface DrawerContext {
   hasRightDrawer: () => boolean
   toggleLeftDrawer: () => void;
   toggleRightDrawer: () => void;
+  goToMain: () => void;
 }
 
 const DrawerContext = createContext<DrawerContext>();
@@ -245,6 +246,13 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     }
     updatePage()
   }
+  
+  const goToMain = () =>  {
+    if (currentPage() !== 1) {
+      setCurrentPage(1);
+    }
+    updatePage();
+  }
 
 
   const drawer = {
@@ -253,6 +261,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     hasRightDrawer,
     toggleLeftDrawer,
     toggleRightDrawer,
+    goToMain,
   }
 
   const onOpacityClicked = () => {
