@@ -3,6 +3,7 @@ import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from 's
 import { classNames, conditionalClass } from '@/common/classNames';
 import Icon from '@/components/ui/icon/Icon';
 import { Portal } from 'solid-js/web';
+import { useWindowProperties } from '@/common/useWindowProperties';
 
 
 interface Item {
@@ -28,6 +29,7 @@ export interface ContextMenuProps {
 export default function ContextMenu(props: ContextMenuProps) {
   let contextMenuElement: HTMLDivElement | undefined;
   const [pos, setPos] = createSignal({top: "0", left: "0"});
+  const {isMobileWidth, hasFocus} = useWindowProperties();
 
 
   const handleOutsideClick = (e: any) => {
@@ -55,6 +57,10 @@ export default function ContextMenu(props: ContextMenuProps) {
       window.removeEventListener('click', handleOutsideClick);
     })
   }))
+
+  createEffect(() => {
+    if (!hasFocus()) props.onClose?.();
+  })
 
 
 
@@ -89,7 +95,7 @@ export default function ContextMenu(props: ContextMenuProps) {
   return (
     <Show when={props.position}>
       <Portal>
-        <div ref={contextMenuElement} class={styles.contextMenu} style={pos()}>
+        <div ref={contextMenuElement} class={classNames(styles.contextMenu, conditionalClass(isMobileWidth(), styles.mobile))} style={isMobileWidth() ? {} : pos()}>
           <div class={styles.contextMenuInner}>
             <For each={props.items}>
               {item => (
