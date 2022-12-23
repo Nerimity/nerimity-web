@@ -1,4 +1,4 @@
-import { createEffect, lazy, on, onCleanup, onMount} from 'solid-js';
+import { createEffect, createSignal, lazy, on, onCleanup, onMount} from 'solid-js';
 import Header from '../components/header/Header';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
@@ -47,11 +47,11 @@ interface MainPaneContainerProps{
 }
 
 const MainPaneContainer = styled("div")<MainPaneContainerProps>`
+  overflow: auto;
   display: flex;
   flex-direction: column;
   flex: 1;
   flex-shrink: 0;
-  overflow: hidden;
   border-radius: 8px;
   margin: 8px;
   ${props => props.hasLeftDrawer ? 'margin-left: 0;' : ''}
@@ -147,25 +147,25 @@ export default function AppPage() {
 function MainPane () {
   const windowProperties = useWindowProperties();
   const {hasRightDrawer, hasLeftDrawer} = useDrawer();
-  let mainPaneElement: HTMLDivElement | undefined;
+  const [mainPaneElement, setMainPaneElement]  = createSignal<HTMLDivElement | undefined>(undefined);
 
   createEffect(on(windowProperties.width, () => {
-    if (!mainPaneElement) return;
-    windowProperties.setPaneWidth(mainPaneElement.clientWidth);
+    if (!mainPaneElement()) return;
+    windowProperties.setPaneWidth(mainPaneElement()?.clientWidth!);
   }))
 
 
 
 
   return (
-    <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(),  mobileMainPaneStyles))}  ref={mainPaneElement}>
+    <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(),  mobileMainPaneStyles))}  ref={setMainPaneElement}>
       <Header />
-        <Routes>
+      <Routes>
         <Route path="/settings/*" component={SettingsPane} />
         <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
         <Route path="/explore/*" component={ExplorePane} />
-        <Route path="/servers/:serverId/:channelId" component={MessagePane} />
-        <Route path="/inbox/:channelId" component={MessagePane} />
+        <Route path="/servers/:serverId/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()}/>} />
+        <Route path="/inbox/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()}/>} />
         <Route path="/profile/:userId" component={ProfilePane} />
         <Route path="/moderation/*" component={ModerationPane} />
         <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />

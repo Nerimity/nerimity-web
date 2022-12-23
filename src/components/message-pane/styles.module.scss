@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: hidden;
 }
 
 .messageLogArea {
@@ -10,27 +9,29 @@
   flex-direction: column;
   padding-top: 30px;
   flex: 1;
-  overflow: auto;
   height: 100%;
 }
 
 .messageArea {
   display: flex;
   align-items: center;
-  position: relative;
+  position: sticky;
+  bottom: 0;
   flex-shrink: 0;
   margin-top: 10px;
+
   .button {
     padding: 7px;
     width: 35px;
     margin-right: 5px;
+    backdrop-filter: blur(20px);
   }
   .cancelEditButton {
     padding: 7px;
     width: 35px;
     margin-left: 5px;
     margin-right: 0;
-
+    backdrop-filter: blur(20px);
   }
   .floating {
     position: absolute;
@@ -41,6 +42,7 @@
     font-size: 14px;
     left: 10px;
     margin-right: 5px;
+    z-index: 11111;
     &.editIndicator {
       word-break: break-word;
       display: flex;
@@ -83,6 +85,7 @@
   height: 16px;
   color: white;
   outline: none;
+  backdrop-filter: blur(20px);
   &:focus {
     border-bottom: solid 2px var(--primary-color);
   }

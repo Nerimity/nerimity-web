@@ -7,7 +7,6 @@ import { styled } from 'solid-styled-components';
 const ExplorePaneContainer = styled("div")`
   display: flex;
   flex-direction: column;
-  overflow: auto;
   height: 100%;
   width: 100%;
   max-width: 900px;

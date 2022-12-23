@@ -15,8 +15,9 @@ import { postChannelTyping } from '@/chat-api/services/MessageService';
 import { className } from 'solid-js/web';
 import { classNames } from '@/common/classNames';
 import { emojiShortcodeToUnicode } from '@/emoji';
+import ModerationPane from '../moderation-pane/ModerationPane';
 
-export default function MessagePane() {
+export default function MessagePane(props: {mainPaneEl?: HTMLDivElement}) {
   const params = useParams();
   const {channels, header} = useStore();
 
@@ -39,7 +40,7 @@ export default function MessagePane() {
 
   return (
     <div class={styles.messagePane}>
-      <MessageLogArea />
+      <MessageLogArea mainPaneEl={props.mainPaneEl} />
       <MessageArea />
     </div>
   );
@@ -49,7 +50,7 @@ export default function MessagePane() {
 
 
 
-const MessageLogArea = () => {
+const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
   let messageLogElement: undefined | HTMLDivElement;
   const params = useParams();
   const {channels, messages, account} = useStore();
@@ -80,8 +81,8 @@ const MessageLogArea = () => {
   }))
   
   createEffect(on(() => channelMessages()?.length, () => {
-    if (messageLogElement) {
-      messageLogElement!.scrollTop = messageLogElement!.scrollHeight;
+    if (props.mainPaneEl) {
+      props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
     }
   }))
   

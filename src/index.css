@@ -44,16 +44,20 @@ a {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background-color: rgba(48, 48, 48, 0.4);
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--primary-color);
+  border-radius: 8px;
+
 }
