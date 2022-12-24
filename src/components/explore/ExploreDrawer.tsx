@@ -6,6 +6,7 @@ import ItemContainer from '@/components/ui/Item';
 import {  styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn } from '../ui/Flexbox';
+import { DrawerHeader } from '../DrawerHeader';
 
 
 
@@ -17,7 +18,6 @@ const ExploreListContainer = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding-top: 5px;
   flex: 1;
   overflow: auto;
 `;
@@ -51,6 +51,7 @@ export default function SettingsDrawer() {
 function ExploreList () {
   return (
     <ExploreListContainer>
+      <DrawerHeader text='Explore' />
       <For each={exploreRoutes}>
         {(setting) => 
           <Item path={setting.path || "#  "} icon={setting.icon} label={setting.name} />

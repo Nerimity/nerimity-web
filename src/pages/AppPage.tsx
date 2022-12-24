@@ -1,5 +1,5 @@
 import { createEffect, createSignal, lazy, on, onCleanup, onMount} from 'solid-js';
-import Header from '../components/header/Header';
+import MainPaneHeader from '../components/main-pane-header/MainPaneHeader';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
 const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
@@ -159,7 +159,7 @@ function MainPane () {
 
   return (
     <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(),  mobileMainPaneStyles))}  ref={setMainPaneElement}>
-      <Header />
+      <MainPaneHeader />
       <Routes>
         <Route path="/settings/*" component={SettingsPane} />
         <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />

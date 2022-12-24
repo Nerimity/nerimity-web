@@ -1,9 +1,14 @@
 
-
+.serverDrawer {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
 .channelList {
   display: flex;
   flex-direction: column;
-  margin: 3px;
-  margin-top: 5px;
   gap: 2px;
+  overflow: auto;
+  padding-bottom: 3px;
 }

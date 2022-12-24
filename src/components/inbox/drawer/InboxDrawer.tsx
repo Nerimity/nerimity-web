@@ -11,6 +11,7 @@ import Modal from '@/components/ui/Modal';
 import { useParams } from '@nerimity/solid-router';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
+import { DrawerHeader } from '@/components/DrawerHeader';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
   const {friends, inbox} = useStore();
@@ -80,8 +81,10 @@ const InboxDrawer = () => {
 
   return (
     <div class={styles.inboxDrawer}>
-      <Header selectedIndex={selectedIndex()} onTabClick={onTabClick} />
       <div class={styles.list}>
+      <DrawerHeader>
+        <Header selectedIndex={selectedIndex()} onTabClick={onTabClick} />
+      </DrawerHeader>
         {selectedIndex() === 0 && <InboxDrawerTab/>}
         {selectedIndex() === 1 && <InboxDrawerFriends /> }
       </div>

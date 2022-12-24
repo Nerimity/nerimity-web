@@ -11,7 +11,7 @@ import { useWindowProperties } from '@/common/useWindowProperties';
 
 
 
-export default function Header() {
+export default function MainPaneHeader() {
   const {servers, users, header} = useStore();
   const {toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage} = useDrawer();
   const {isMobileWidth} = useWindowProperties();

@@ -15,6 +15,8 @@ import Text from '@/components/ui/Text';
 const ChannelContainer = styled(ItemContainer)`
   height: 32px;
   padding-left: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
 
   
   .label {
@@ -31,7 +33,6 @@ const ChannelContainer = styled(ItemContainer)`
 const ServerDrawer = () => {
   return (
     <div class={styles.serverDrawer}>
-      <Header />
       <ChannelList />
     </div>
   )
@@ -45,6 +46,7 @@ const ChannelList = () => {
   const serverChannels = () => channels.getChannelsByServerId(params.serverId);
   return (
     <div class={styles.channelList}>
+      <Header />
       <For each={serverChannels()}>
         {channel => (
           <ChannelItem channel={channel!} selected={params.channelId === channel!.id} />

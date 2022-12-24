@@ -14,6 +14,7 @@ import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { ChangelogModal } from '../ChangelogModal';
 import { clearCache } from '@/common/localCache';
 import socketClient from '@/chat-api/socketClient';
+import { DrawerHeader } from '../DrawerHeader';
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -24,7 +25,6 @@ const SettingsListContainer = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding-top: 5px;
   flex: 1;
   overflow: auto;
 `;
@@ -35,6 +35,9 @@ const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
   padding-left: ${props => props.nested ? '25px' : '10px'};
   margin-left: 3px;
   margin-right: 3px;
+  :first {
+    background-color:red;
+  }
 
   .label {
     opacity: ${props => props.selected ? 1 : 0.6};
@@ -85,8 +88,9 @@ export default function SettingsDrawer() {
 function SettingsList () {
   return (
     <SettingsListContainer>
+      <DrawerHeader text='Settings'/>
       <For each={settings}>
-        {(setting) => 
+        {setting => 
           <Item path={setting.path || "#  "} icon={setting.icon} label={setting.name} />
         }
       </For>
@@ -104,14 +108,11 @@ function Item (props: {path: string, icon: string, label: string, onClick?: () =
   const selected = useMatch(href)
 
   return (
-    <Link 
-      href={href()}
-      style={{"text-decoration": "none"}}
-      >
-        <SettingItemContainer selected={selected()}>
-          <Icon name={props.icon} size={18} />
-          <Text class="label">{props.label}</Text>
-        </SettingItemContainer>
+    <Link href={href()} style={{"text-decoration": "none"}}>
+      <SettingItemContainer selected={selected()}>
+        <Icon name={props.icon} size={18} />
+        <Text class="label">{props.label}</Text>
+      </SettingItemContainer>
     </Link>
   )
 }

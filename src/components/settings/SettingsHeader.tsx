@@ -57,7 +57,7 @@ const SettingsHeader = () => {
             <Text size={14}>•</Text>
             <Text size={14} opacity={0.8}>{friendCount()} friends</Text>
           </FlexRow>
-          <Text size={14}><Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL("server()!.id")}>Manage Account</Link></Text>
+          <Text size={14}><Link href="/app/settings/account">Manage Account</Link></Text>
         </DetailsContainer>
       </HeaderContainer>
     </Show>

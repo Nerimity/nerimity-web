@@ -6,6 +6,7 @@ import useStore from '@/chat-api/store/useStore';
 import { createMemo, createSignal, For, mapArray, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
 import MemberContextMenu from '../../../member-context-menu/MemberContextMenu';
+import { DrawerHeader } from '@/components/DrawerHeader';
 
 const MemberItem = (props: {member: ServerMember}) => {
   const user = () => props.member.user; 
@@ -35,12 +36,7 @@ const Header = () => {
   const {serverMembers} = useStore();
 
   const members = () => serverMembers.array(params.serverId);
-  return (
-    <div class={styles.header}>
-      Members ({members().length})
-    </div>
-  )
-  
+  return (<DrawerHeader text={`Members (${members().length})`}/>);
 }
 
 
@@ -69,29 +65,27 @@ const ServerMembersDrawer = () => {
 
 
   return (
-    <div>
+    <div class={styles.drawerContainer}>
       <Header/>
-      <div class={styles.membersList}>
-        <For each={roleMembers()}>
-          {item => (
-            <Show when={!item.role!.hideRole && item.members().length}>
-              <div class={styles.roleItem}>
-                <div class={styles.roleName}>{item.role!.name} ({item.members().length})</div>
-                <For each={item.members()}>
-                  {member => <MemberItem  member={member!} />}
-                </For>
-              </div>
-            </Show>
-          )}
-        </For>
+      <For each={roleMembers()}>
+        {item => (
+          <Show when={!item.role!.hideRole && item.members().length}>
+            <div class={styles.roleItem}>
+              <div class={styles.roleName}>{item.role!.name} ({item.members().length})</div>
+              <For each={item.members()}>
+                {member => <MemberItem  member={member!} />}
+              </For>
+            </div>
+          </Show>
+        )}
+      </For>
 
-        {/* Offline */}
-        <div class={styles.roleItem}>
-          <div class={styles.roleName}>Offline ({offlineMembers().length})</div>
-          <For each={offlineMembers()}>
-            {member => <MemberItem  member={member!} />}
-          </For>
-        </div>
+      {/* Offline */}
+      <div class={styles.roleItem}>
+        <div class={styles.roleName}>Offline ({offlineMembers().length})</div>
+        <For each={offlineMembers()}>
+          {member => <MemberItem  member={member!} />}
+        </For>
       </div>
     </div>
   )

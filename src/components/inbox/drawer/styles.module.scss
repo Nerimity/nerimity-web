@@ -1,9 +1,9 @@
 .header {
   display: flex;
   align-items: center;
-  margin: 3px;
-  gap: 3px;
   overflow: hidden;
+
+  width: 100%;
   
   .headerItem {
     padding: 7px;
@@ -15,7 +15,6 @@
     color: rgba(255, 255, 255, 0.5);
     transition: 0.2s;
     height: 30px;
-    border-radius: 8px;
     overflow: hidden;
 
     .headerIcon {

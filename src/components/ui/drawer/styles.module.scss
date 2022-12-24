@@ -26,6 +26,8 @@
   overflow: hidden;
 }
 .leftDrawer {
+  display: flex;
+  flex-direction: column;
   background: var(--pane-color);
   margin: 8px;
   border-radius: 8px;
@@ -34,10 +36,13 @@
 }
 
 .rightPane {
+  display: flex;
+  flex-direction: column;
   background: var(--pane-color);
   width: 100%;
   margin: 8px;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 // .mobile .leftDrawer {

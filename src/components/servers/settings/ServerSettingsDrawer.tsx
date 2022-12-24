@@ -13,6 +13,9 @@ const SettingsListContainer = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow: auto;
+  height: 100%;
+  padding-bottom: 3px;
 `;
 
 const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
@@ -35,10 +38,7 @@ const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
 
 export default function ServerSettingsDrawer() {
   return (
-    <div>
-      <ServerDrawerHeader />
-      <SettingsList />
-    </div>
+    <SettingsList />
   )
 }
 
@@ -47,6 +47,7 @@ function SettingsList () {
 
   return (
     <SettingsListContainer>
+      <ServerDrawerHeader />
       <For each={serverSettings}>
         {(setting) => {
           if (setting.hideDrawer) return null;
