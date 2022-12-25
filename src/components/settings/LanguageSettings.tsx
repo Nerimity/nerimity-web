@@ -26,7 +26,7 @@ export default function LanguageSettings() {
   const {header} = useStore();
   const [, actions] = useTransContext();
 
-  const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en");
+  const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en_gb");
 
   createEffect(() => {
     header.updateHeader({
@@ -40,7 +40,8 @@ export default function LanguageSettings() {
 
 
   const setLanguage = async (key: string) => {
-    if (key !== "en") {
+    key = key.replace("-", "_");
+    if (key !== "en_gb") {
       const language = await getLanguage(key);
       if (!language) return;
       actions.addResources(key, "translation", language);
@@ -54,7 +55,7 @@ export default function LanguageSettings() {
   return (
     <Container>
       <For each={languageKeys}>
-        {key => <LanguageItem selected={currentLocalLanguage() === key} onClick={() => setLanguage(key)} key={key}/>}
+        {key => <LanguageItem selected={currentLocalLanguage().replace("_", "-") === key} onClick={() => setLanguage(key)} key={key}/>}
       </For>
     </Container>
   )

@@ -27,7 +27,7 @@ export default function App() {
   const setLanguage = async () => {
     const key = getCurrentLanguage();
     if (!key) return;
-    if (key === "en") return;
+    if (key === "en_gb") return;
     const language = await getLanguage(key);
     if (!language) return;
     actions.addResources(key, "translation", language);

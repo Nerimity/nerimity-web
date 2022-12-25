@@ -5,12 +5,13 @@ import './index.css';
 import App from './App';
 import {CustomPortalProvider} from '@/components/ui/custom-portal/CustomPortal';
 import { Router } from '@nerimity/solid-router';
-import en from '@/locales/list/en.json';
+import en from '@/locales/list/en-gb.json';
 import { TransProvider } from '@mbarzda/solid-i18next';
+
 
 render(() => (
   <Router>
-    <TransProvider options={{ fallbackLng: 'en',  lng: "en", resources: { en: {translation: en} }}}>
+    <TransProvider options={{ fallbackLng: 'en_gb',  lng: "en_gb", resources: { "en_gb": {translation: en} }}}>
       <CustomPortalProvider>
         <App />
       </CustomPortalProvider>

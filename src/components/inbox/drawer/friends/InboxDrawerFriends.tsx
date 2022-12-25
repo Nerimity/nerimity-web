@@ -5,8 +5,10 @@ import { createEffect, createSignal, For, Show, useTransition } from "solid-js";
 import { Friend } from "@/chat-api/store/useFriends";
 import { FriendStatus } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const InboxDrawerFriends = () => {
+  const [t] = useTransContext();
   const [separatedFriends, setSeparatedFriends] = createSignal<ReturnType<typeof separateFriends>>();
   const [pending, startTransition] = useTransition();
   const {friends} = useStore();
@@ -21,16 +23,16 @@ const InboxDrawerFriends = () => {
   return (
     <Show when={separatedFriends()} >
       <div class={styles.inboxDrawerFriends}>
-        <div class={styles.title}>Requests ({separatedFriends()?.requests.length})</div>
+        <div class={styles.title}>{t('inbox.drawer.requests')} ({separatedFriends()?.requests.length})</div>
         <For each={separatedFriends()?.requests}>
           {friend => <FriendItem friend={friend} />}
         </For>
 
-        <div class={styles.title}>Online ({separatedFriends()?.onlineFriends.length})</div>
+        <div class={styles.title}>{t('inbox.drawer.online')} ({separatedFriends()?.onlineFriends.length})</div>
         <For each={separatedFriends()?.onlineFriends}>
           {friend => <FriendItem friend={friend} />}
         </For>
-        <div class={styles.title}>Offline ({separatedFriends()?.offlineFriends.length})</div>
+        <div class={styles.title}>{t('inbox.drawer.offline')} ({separatedFriends()?.offlineFriends.length})</div>
         <For each={separatedFriends()?.offlineFriends}>
           {friend => <FriendItem friend={friend} />}
         </For>

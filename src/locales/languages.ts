@@ -11,21 +11,21 @@ export interface Language {
 // contributors: array of names
 
 export const languages = {
-  en: {
-    name: "English",
+  "en-gb": {
+    name: "British English",
     emoji: "🇬🇧",
     contributors: ["Supertigerr"],
   }
 }
 
 export function getCurrentLanguage() {
-  return getStorageString(StorageKeys.APP_LANGUAGE, null);
+  return getStorageString(StorageKeys.APP_LANGUAGE, null)?.replace("-", "_");
 }
 export function setCurrentLanguage(key: string) {
   return setStorageString(StorageKeys.APP_LANGUAGE, key);
 }
 
 export function getLanguage(key: string) {
-  if (!(languages as any)[key]) return undefined;
-  return import(`./list/${key}.json`);
+  if (!(languages as any)[key.replace("_", "-")]) return undefined;
+  return import(`./list/${key.replace("_", "-")}.json`);
 }

@@ -12,16 +12,18 @@ import { useParams } from '@nerimity/solid-router';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
 import { DrawerHeader } from '@/components/DrawerHeader';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
   const {friends, inbox} = useStore();
+  const [t] = useTransContext();
 
   const friendRequests = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING);
 
   return (
     <div class={styles.header}>
       <HeaderItem
-        name='Inbox'
+        name={t('inbox.drawer.inbox')}
         iconName='inbox'
         selected={props.selectedIndex === 0}
         notificationCount={inbox.notificationCount()}
@@ -29,7 +31,7 @@ function Header (props: {selectedIndex: number, onTabClick: (index: number) => v
 
       />
       <HeaderItem
-        name='Friends'
+        name={t('inbox.drawer.friends')}
         iconName='group'
         selected={props.selectedIndex === 1}
         notificationCount={friendRequests().length}
@@ -52,6 +54,8 @@ function HeaderItem (props: {name: string, iconName: string, selected: boolean, 
 
 
 const InboxDrawer = () => {
+  const [t] = useTransContext();
+
   const [selectedIndex, setSelectedIndex] = createSignal(getStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, 0));
   const params = useParams();
 
@@ -92,11 +96,11 @@ const InboxDrawer = () => {
       <div class={styles.items}>
         <div class={classNames(styles.item, conditionalClass(isSavedNotesSelected(), styles.selected))} onClick={onSavedNotesClick}>
           <Icon name='note_alt' size={24} />
-          <div>Saved Notes</div>
+          <div>{t('inbox.drawer.savedNotes')}</div>
         </div>
         <div class={styles.item} onClick={showAddFriendModel}>
           <Icon name='group_add' size={24} />
-          <div>Add Friend</div>
+          <div>{t('inbox.drawer.addFriend')}</div>
         </div>
       </div>
     </div>

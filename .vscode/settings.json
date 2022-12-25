@@ -35,4 +35,8 @@
     "Shortcodes",
     "solidjs"
   ],
+  "i18n-ally.localesPaths": [
+    "src/locales/list"
+  ],
+  "i18n-ally.sourceLanguage": "en_gb",
 }

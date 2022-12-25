@@ -28,5 +28,17 @@
     "registerButton": "Register",
     "registering": "Registering...",
     "loginInstead": "Login Instead"
+  },
+  "inbox": {
+    "drawer": {
+      "inbox": "Inbox",
+      "friends": "Friends",
+      "requests": "Requests",
+      "online": "Online",
+      "offline": "Offline",
+      "savedNotes": "Saved Notes",
+      "addFriend": "Add Friend"
+    }
   }
+
 }
