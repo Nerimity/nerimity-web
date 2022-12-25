@@ -6,8 +6,8 @@ import { Link, useNavigate, useLocation } from '@nerimity/solid-router';
 import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../components/PageHeader';
 import { css, styled,  } from 'solid-styled-components';
-import { useI18n } from '@solid-primitives/i18n';
 import { FlexColumn } from '@/components/ui/Flexbox';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 const LoginPageContainer = styled("div")`
   display: flex;
@@ -45,7 +45,7 @@ const linkStyle = css`
 `;
 
 export default function LoginPage() {
-  const [t] = useI18n();
+  const [t] = useTransContext();
   const location = useLocation();
   const navigate = useNavigate();
   const [requestSent, setRequestSent] = createSignal(false);

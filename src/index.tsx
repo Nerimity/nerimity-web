@@ -5,17 +5,15 @@ import './index.css';
 import App from './App';
 import {CustomPortalProvider} from '@/components/ui/custom-portal/CustomPortal';
 import { Router } from '@nerimity/solid-router';
-import { createI18nContext, I18nContext } from '@solid-primitives/i18n';
 import en from '@/locales/list/en.json';
-
-const value = createI18nContext({en}, "en");
+import { TransProvider } from '@mbarzda/solid-i18next';
 
 render(() => (
   <Router>
-    <I18nContext.Provider value={value}>
+    <TransProvider options={{ fallbackLng: 'en',  lng: "en", resources: { en: {translation: en} }}}>
       <CustomPortalProvider>
         <App />
       </CustomPortalProvider>
-    </I18nContext.Provider>
+    </TransProvider>
   </Router>
 ), document.getElementById('root') as HTMLElement);

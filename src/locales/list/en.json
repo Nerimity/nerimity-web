@@ -7,7 +7,7 @@
   },
   "homePage": {
     "slogan": "A modern and sleek chat app.",
-    "joinButton": "Join Nerimity",
+    "joinButton": "Join {{appName}}",
     "viewGitHubButton": "View GitHub"
   },
   "loginPage": {

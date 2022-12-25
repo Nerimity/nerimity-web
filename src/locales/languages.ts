@@ -15,12 +15,7 @@ export const languages = {
     name: "English",
     emoji: "🇬🇧",
     contributors: ["Supertigerr"],
-  },
-  // owo: {
-  //   name: "Owo",
-  //   emoji: "😺",
-  //   contributors: ["Supertigerr"],
-  // }
+  }
 }
 
 export function getCurrentLanguage() {

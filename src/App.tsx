@@ -4,7 +4,7 @@ import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-router';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
-import { useI18n } from '@solid-primitives/i18n';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -12,7 +12,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AppPage = lazy(() => import('./pages/AppPage'));
 
 export default function App() {
-  const [t, {add, locale, dict}] = useI18n();
+  const [, actions] = useTransContext();
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {
@@ -30,8 +30,8 @@ export default function App() {
     if (key === "en") return;
     const language = await getLanguage(key);
     if (!language) return;
-    add(key, language);
-    locale(key);
+    actions.addResources(key, "translation", language);
+    actions.changeLanguage(key);
   }
 
 

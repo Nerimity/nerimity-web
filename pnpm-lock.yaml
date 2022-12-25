@@ -1,13 +1,14 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@mbarzda/solid-i18next': ^1.1.8
   '@nerimity/nevula': ^0.5.1
   '@nerimity/solid-router': ^0.4.3
-  '@solid-primitives/i18n': ^1.1.2
   '@types/markdown-it': ^12.2.3
   '@types/markdown-it-emoji': ^2.0.2
   '@types/node': ^18.11.10
   highlight.js: ^11.7.0
+  i18next: ^22.4.6
   idb-keyval: ^6.2.0
   markdown-it: ^13.0.1
   markdown-it-emoji: ^2.0.2
@@ -23,10 +24,11 @@ specifiers:
   vite-plugin-solid: ^2.4.0
 
 dependencies:
+  '@mbarzda/solid-i18next': 1.1.8_36jchuulgwxea6i2zzjq2p7gc4
   '@nerimity/nevula': 0.5.1
   '@nerimity/solid-router': 0.4.3_solid-js@1.6.2
-  '@solid-primitives/i18n': 1.1.2_solid-js@1.6.2
   highlight.js: 11.7.0
+  i18next: 22.4.6
   idb-keyval: 6.2.0
   markdown-it: 13.0.1
   markdown-it-emoji: 2.0.2
@@ -325,6 +327,13 @@ packages:
       - supports-color
     dev: true
 
+  /@babel/runtime/7.20.7:
+    resolution: {integrity: sha512-UF0tvkUtxwAgZ5W/KrkHf0Rn0fdnLDU9ScxBrEVNUprE/MzirjK4MJUX1/BVDv00Sv8cljtukVK1aky++X1SjQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.11
+    dev: false
+
   /@babel/template/7.18.10:
     resolution: {integrity: sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==}
     engines: {node: '>=6.9.0'}
@@ -417,6 +426,16 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@mbarzda/solid-i18next/1.1.8_36jchuulgwxea6i2zzjq2p7gc4:
+    resolution: {integrity: sha512-OZZNYoBDUGY0w1Qn1Xmv4nIwCDP1caJjmYsJl1nBS8JVBO3EYtkfcgxayEBqyl/tJSFITsxMhElnru93EDyZhg==}
+    peerDependencies:
+      i18next: '>=21.x'
+      solid-js: '>=1.5.x'
+    dependencies:
+      i18next: 22.4.6
+      solid-js: 1.6.2
+    dev: false
+
   /@nerimity/nevula/0.5.1:
     resolution: {integrity: sha512-Bi+AUUac73YgfQ6azDtcbhnQttRcnHuxL9BOMnfC2r15z3F5qNt+LBttIaci1UrOSW0lQqNc986jOTf0zVweww==}
     dev: false
@@ -431,14 +450,6 @@ packages:
 
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
-    dev: false
-
-  /@solid-primitives/i18n/1.1.2_solid-js@1.6.2:
-    resolution: {integrity: sha512-eLTqmDKorLa99cXrgS4DgTqrk0n/F4rB0YR76A6gr90by5TLE+HSZ0agiZVBIUGs2g5EFeEnLqwxKsM+F5hcJQ==}
-    peerDependencies:
-      solid-js: ^1.5.0
-    dependencies:
-      solid-js: 1.6.2
     dev: false
 
   /@types/linkify-it/3.0.2:
@@ -904,6 +915,12 @@ packages:
     resolution: {integrity: sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==}
     dev: true
 
+  /i18next/22.4.6:
+    resolution: {integrity: sha512-9Tm1ezxWyzV+306CIDMBbYBitC1jedQyYuuLtIv7oxjp2ohh8eyxP9xytIf+2bbQfhH784IQKPSYp+Zq9+YSbw==}
+    dependencies:
+      '@babel/runtime': 7.20.7
+    dev: false
+
   /idb-keyval/6.2.0:
     resolution: {integrity: sha512-uw+MIyQn2jl3+hroD7hF8J7PUviBU7BPKWw4f/ISf32D4LoGu98yHjrzWWJDASu9QNrX10tCJqk9YY0ClWm8Ng==}
     dependencies:
@@ -1053,6 +1070,10 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+
+  /regenerator-runtime/0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+    dev: false
 
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}

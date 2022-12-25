@@ -7,7 +7,7 @@ import { RawUser } from '@/chat-api/RawData'
 import { getStorageString, StorageKeys } from '@/common/localStorage'
 import Icon from './ui/icon/Icon'
 import { appLogoUrl, isChristmas, isHalloween } from '@/common/worldEvents'
-import { useI18n } from '@solid-primitives/i18n'
+import { useTransContext } from '@mbarzda/solid-i18next'
 
 
 const HeaderContainer = styled("header")`
@@ -119,7 +119,8 @@ export default function PageHeader(props: {showLogo?: boolean}) {
 }
 
 function LoggedInLinks (props: {user: RawUser}) {
-  const [t] = useI18n();
+  const [t] = useTransContext();
+
   return (
     <NavigationContainer class="navigation-container">
       <HeaderLink href='#' label={t('header.accountButton')} />
@@ -129,7 +130,7 @@ function LoggedInLinks (props: {user: RawUser}) {
 }
 
 function LoggedOutLinks() {
-  const [t] = useI18n();
+  const [t] = useTransContext();
   return (
     <NavigationContainer class="navigation-container">
       <HeaderLink href='/login' label={t('header.loginButton')} icon='login' />

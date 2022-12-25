@@ -2,11 +2,12 @@ import { createEffect, createSignal, For} from 'solid-js';
 import Text from '@/components/ui/Text';
 import { styled } from 'solid-styled-components';
 import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
-import { useI18n } from '@solid-primitives/i18n';
+
 import ItemContainer from '../ui/Item';
 import twemoji from 'twemoji';
 import { FlexColumn } from '../ui/Flexbox';
 import useStore from '@/chat-api/store/useStore';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 const Container = styled("div")`
   display: flex;
@@ -23,7 +24,8 @@ const LanguageItemContainer = styled(ItemContainer)`
 
 export default function LanguageSettings() {
   const {header} = useStore();
-  const [t, {locale, add}] = useI18n();
+  const [, actions] = useTransContext();
+
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en");
 
   createEffect(() => {
@@ -41,9 +43,9 @@ export default function LanguageSettings() {
     if (key !== "en") {
       const language = await getLanguage(key);
       if (!language) return;
-      add(key, language);
+      actions.addResources(key, "translation", language);
     }
-    locale(key);
+    actions.changeLanguage(key);
     setCurrentLanguage(key);
     setCurrentLocalLanguage(key);
   }
