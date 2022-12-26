@@ -18,10 +18,12 @@ import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
+import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
-  
+  const params = useParams<{serverId: string}>();
+  const {account, serverMembers} = useStore();
   const createPortal = useCustomPortal();
 
   const onDeleteClick = () => {
@@ -31,12 +33,23 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
     const {input} = useStore();
     input.setEditMessage(props.message.channelId, props.message);
   }
+  const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
+
+  const showDelete = () => {
+    if (account.user()?.id === props.message.createdBy.id) return true;
+    if (!params.serverId) return false;
+
+    const member = serverMembers.get(params.serverId, account.user()?.id!);
+    return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
+  }
+
   
   return (
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
-      <Show when={props.message.type === MessageType.CONTENT} ><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
-      <div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div>
+      <Show when={showEdit()} ><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
+      <Show when={showDelete()}><div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div></Show>
+      <div class={styles.item}><Icon size={18} name='more_vert' class={styles.icon} /></div>
     </div>
   )
 }

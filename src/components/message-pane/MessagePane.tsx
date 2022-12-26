@@ -251,7 +251,7 @@ function MessageArea() {
 
 
   return <div class={styles.messageArea}>
-    <Show when={editMessageId()}><Button iconName='close' color='var(--alert-color)' onClick={cancelEdit} class={styles.cancelEditButton}/></Show>
+    <Show when={editMessageId()}><Button iconName='close' color='var(--alert-color)' onClick={cancelEdit} class={styles.button}/></Show>
     <div class={styles.textareaContainer}>
       <TypingIndicator/>
       <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>

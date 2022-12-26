@@ -1,3 +1,5 @@
+import { classNames } from '@/common/classNames';
+import { useWindowProperties } from '@/common/useWindowProperties';
 import { JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { css, keyframes, styled } from 'solid-styled-components';
@@ -31,18 +33,16 @@ const BackgroundContainer = styled("div")`
   z-index: 1111;
 `;
 
-const ModalContainer = styled(FlexColumn)`
+const ModalContainer = styled(FlexColumn)<{mobile: boolean}>`
   background-color: var(--background-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   overflow: hidden;
+  align-self: ${props => props.mobile ? 'flex-end': 'center'};
+  margin: ${props => props.mobile ? '10px': '0'};
 
   
-  `;
-  // @media (max-width: 500px) {
-  //   height: 100%;
-  //   width: 100%;
-  // }
+`;
 
 const TopBarContainer = styled(FlexRow)`
   align-items: center;
@@ -103,17 +103,19 @@ interface Props {
 }
 
 export default function Modal(props: Props) {
+  const {isMobileWidth} = useWindowProperties();
   let mouseDownTarget: HTMLDivElement | null = null;
+
 
   const onBackgroundClick = (event: MouseEvent) => {
     if (props.ignoreBackgroundClick)return;
-    if(mouseDownTarget?.closest("." + ModalContainer.class({}))) return; 
+    if(mouseDownTarget?.closest(".modal")) return; 
     props.close?.()
   }
   return (
       <Portal>
         <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-          <ModalContainer class={props.class}>
+          <ModalContainer mobile={isMobileWidth()} class={classNames(props.class, 'modal')}>
             <TopBarContainer>
               <Show when={props.icon}>
                 <Icon class={topBarIconStyle} onClick={props.close} name={props.icon} size={18} />

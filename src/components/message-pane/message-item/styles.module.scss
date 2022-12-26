@@ -7,11 +7,11 @@
   padding: 2px;
   border-radius: 8px;
   backdrop-filter: blur(20px);
-  top: -25px;
+  top: -18px;
   right: 10px;
   display: none;
   z-index: 1111111;
-  border: solid 1px rgba(255, 255, 255, 0.1);
+  border: solid 1px rgba(255, 255, 255, 0.2);
   .floatDate {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.6);
@@ -61,12 +61,14 @@
   flex-direction: column;
   position: relative;
   flex-shrink: 0;
-  transition: background-color 0.2s;
   margin-left: 5px;
   margin-right: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 6px;
+
+  padding-top: 3px;
+  padding-bottom: 3px;
   
   .messageStatus {
     position: absolute;
@@ -131,6 +133,9 @@
   }
 
   &.compact {
+    .floatOptions {
+      top: -23px;
+    }
     .content {
       margin: 2px;
       margin-left: 35px;
