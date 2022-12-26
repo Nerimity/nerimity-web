@@ -8,6 +8,7 @@ import serverSettings from '@/common/ServerSettings';
 import ItemContainer from '@/components/ui/Item';
 import { styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 const SettingsListContainer = styled("div")`
   display: flex;
@@ -43,6 +44,7 @@ export default function ServerSettingsDrawer() {
 }
 
 function SettingsList () {
+  const [t] = useTransContext();
   const params = useParams();
 
   return (
@@ -55,7 +57,7 @@ function SettingsList () {
           const isChannels = () => setting.path === "channels";
           return (
             <>
-              <Item path={setting.path || "#  "} icon={setting.icon} label={setting.name} selected={selected()} />
+              <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} selected={selected()} />
               <Show when={isChannels() && selected()}><ServerChannelsList/></Show>
             </>
           )

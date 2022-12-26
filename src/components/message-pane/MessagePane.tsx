@@ -192,7 +192,7 @@ function MessageArea() {
       return;
     }
     if(event.key === "ArrowUp") {
-      if (editMessageId()) return;
+      if (message().trim().length) return;
       const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT && m.createdBy.id === myId);
       if (msg) {
         input.setEditMessage(params.channelId, msg);

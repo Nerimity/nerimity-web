@@ -7,6 +7,7 @@ import {  styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn } from '../ui/Flexbox';
 import { DrawerHeader } from '../DrawerHeader';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 
 
@@ -49,12 +50,13 @@ export default function SettingsDrawer() {
 }
 
 function ExploreList () {
+  const [t] = useTransContext();
   return (
     <ExploreListContainer>
-      <DrawerHeader text='Explore' />
+      <DrawerHeader text={t("explore.drawer.title")} />
       <For each={exploreRoutes}>
         {(setting) => 
-          <Item path={setting.path || "#  "} icon={setting.icon} label={setting.name} />
+          <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} />
         }
       </For>
     </ExploreListContainer>

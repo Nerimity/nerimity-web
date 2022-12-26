@@ -10,7 +10,7 @@ export interface ExploreRoute {
 const exploreRoutes: ExploreRoute[] =  [
   {
     path: 'servers',
-    name: 'Servers',
+    name: 'explore.drawer.servers',
     icon: 'dns',
     element: lazy(() => import('@/components/explore/ExploreServers'))
   },

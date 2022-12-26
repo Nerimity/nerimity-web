@@ -16,7 +16,7 @@
     "password": "Password",
     "login": "Login",
     "createAccountInstead": "Create an account instead",
-    "logging_in": "Logging in...",
+    "loggingIn": "Logging in...",
     "loginButton": "Login"
   },
   "registerPage": {
@@ -31,14 +31,58 @@
   },
   "inbox": {
     "drawer": {
-      "inbox": "Inbox",
-      "friends": "Friends",
       "requests": "Requests",
       "online": "Online",
       "offline": "Offline",
-      "savedNotes": "Saved Notes",
-      "addFriend": "Add Friend"
+      "savedNotesButton": "Saved Notes",
+      "addFriendButton": "Add Friend",
+      "inboxButton": "Inbox",
+      "friendsButton": "Friends"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Explore",
+      "servers": "Servers"
+    },
+    "servers": {
+      "title": "Explore - Servers",
+      "noticeMessage": "A server can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
+      "sortMostBumps": "Most bumps",
+      "sortMostMembers": "Most Members",
+      "sortRecentlyAdded": "Recently added",
+      "sortRecentlyBumped": "Recently bumped",
+      "filterAll": "All",
+      "filterVerified": "Verified",
+      "memberCount": "{{count}} members",
+      "lifetimeBumpCount": "{{count}} lifetime bumps",
+      "visitServerButton": "Visit",
+      "joinServerButton": "Join",
+      "bumpButton": "Bump ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "General",
+        "roles": "Roles",
+        "channels": "Channels",
+        "bans": "Bans",
+        "invites": "Invites",
+        "publishServer": "Publish Server",
+        "verify": "Verify"
+      }
+    } 
+  },
+  "settings": {
+    "drawer": {
+      "title": "Settings",
+      "account": "Account",
+      "language": "Language",
+      "logout": "Logout",
+      "supportMe": "Support Me",
+      "viewSource": "View Source",
+      "changelog": "Changelog"
     }
   }
-
 }

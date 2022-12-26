@@ -11,7 +11,7 @@ export interface ServerSetting {
 const serverSettings: ServerSetting[] =  [
   {
     path: 'general',
-    name: 'General',
+    name: 'servers.settings.drawer.general',
     icon: 'info',
     element: lazy(() => import('@/components/servers/settings/ServerGeneralSettings'))
   },
@@ -23,8 +23,8 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/role/ServerSettingsRole'))
   },
   {
+    name: 'servers.settings.drawer.roles',
     path: 'roles',
-    name: 'Roles',
     icon: 'leaderboard',
     element: lazy(() => import('@/components/servers/settings/roles/ServerSettingsRole'))
   },
@@ -36,14 +36,14 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/channel/ServerSettingsChannel'))
   },
   {
-    path: 'channels',
     name: 'Channels',
+    path: 'servers.settings.drawer.channels',
     icon: 'storage',
     element: lazy(() => import('@/components/servers/settings/channels/ServerSettingsChannel'))
   },
   {
+    name: 'servers.settings.drawer.bans',
     path: 'bans',
-    name: 'Bans',
     icon: 'block',
     element: lazy(() => import('@/components/servers/settings/ServerSettingsBans'))
   },
@@ -54,13 +54,13 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/invites/ServerSettingsInvite'))
   },
   {
+    name: 'servers.settings.drawer.publishServer',
     path: 'publish-server',
-    name: 'Publish Server',
     icon: 'public',
     element: lazy(() => import('@/components/servers/settings/PublishServerSettings'))
   },
   {
-    path: 'verify',
+    path: 'servers.settings.drawer.verify',
     name: 'Verify',
     icon: 'verified',
     element: lazy(() => import('@/components/servers/settings/ServerVerifySettings'))

@@ -15,6 +15,7 @@ import { ChangelogModal } from '../ChangelogModal';
 import { clearCache } from '@/common/localCache';
 import socketClient from '@/chat-api/socketClient';
 import { DrawerHeader } from '../DrawerHeader';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -54,6 +55,7 @@ const FooterContainer = styled(FlexColumn)`
 `;
 
 function Footer() {
+  const [t] = useTransContext();
   const navigate = useNavigate();
   const createPortal = useCustomPortal();
   
@@ -68,10 +70,10 @@ function Footer() {
 
   return (
     <FooterContainer gap={2}>
-      <FooterItem color="var(--alert-color)" icon="logout" label="Logout" onClick={onLogoutClick}  />
-      <FooterItem href="https://ko-fi.com/supertiger" external icon='favorite' label='Support me' />
-      <FooterItem href='https://github.com/Nerimity/Nerimity-Web' external icon="code" label='View source' />
-      <FooterItem icon="description" label="Changelog" subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
+      <FooterItem color="var(--alert-color)" icon="logout" label={t('settings.drawer.logout')} onClick={onLogoutClick}  />
+      <FooterItem href="https://ko-fi.com/supertiger" external icon='favorite' label={t('settings.drawer.supportMe')} />
+      <FooterItem href='https://github.com/Nerimity/Nerimity-Web' external icon="code" label={t('settings.drawer.viewSource')} />
+      <FooterItem icon="description" label={t('settings.drawer.changelog')} subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
     </FooterContainer>
   );
 }
@@ -86,12 +88,13 @@ export default function SettingsDrawer() {
 }
 
 function SettingsList () {
+  const [t] = useTransContext();
   return (
     <SettingsListContainer>
-      <DrawerHeader text='Settings'/>
+      <DrawerHeader text={t('settings.drawer.title')}/>
       <For each={settings}>
         {setting => 
-          <Item path={setting.path || "#  "} icon={setting.icon} label={setting.name} />
+          <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} />
         }
       </For>
     </SettingsListContainer>

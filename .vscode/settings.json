@@ -38,5 +38,7 @@
   "i18n-ally.localesPaths": [
     "src/locales/list"
   ],
-  "i18n-ally.sourceLanguage": "en_gb",
+  "i18n-ally.enabledFrameworks": ["react"],
+  "i18n-ally.sourceLanguage": "en-gb",
+  "i18n-ally.keystyle": "nested",
 }

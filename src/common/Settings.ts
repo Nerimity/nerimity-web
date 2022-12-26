@@ -10,13 +10,13 @@ export interface Setting {
 const settings: Setting[] =  [
   {
     path: 'account',
-    name: 'Account',
+    name: 'settings.drawer.account',
     icon: 'account_circle',
     element: lazy(() => import('@/components/settings/AccountSettings'))
   },
   {
     path: 'language',
-    name: 'Language',
+    name: 'settings.drawer.language',
     icon: 'flag',
     element: lazy(() => import('@/components/settings/LanguageSettings'))
   },

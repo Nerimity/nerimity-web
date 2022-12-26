@@ -81,7 +81,7 @@ export default function LoginPage() {
           <Title>{t('loginPage.title')}</Title>
           <Input label={t('loginPage.email')} type='email' error={error()} onText={setEmail} />
           <Input label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
-          <Button iconName='login' label={requestSent() ? t('loginPage.logging_in') : t('loginPage.loginButton')} onClick={loginClicked} />
+          <Button iconName='login' label={requestSent() ? t('loginPage.loggingIn') : t('loginPage.loginButton')} onClick={loginClicked} />
           <Link class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</Link>
         </Container>
       </Content>

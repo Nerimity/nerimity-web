@@ -23,7 +23,7 @@ function Header (props: {selectedIndex: number, onTabClick: (index: number) => v
   return (
     <div class={styles.header}>
       <HeaderItem
-        name={t('inbox.drawer.inbox')}
+        name={t('inbox.drawer.inboxButton')}
         iconName='inbox'
         selected={props.selectedIndex === 0}
         notificationCount={inbox.notificationCount()}
@@ -31,7 +31,7 @@ function Header (props: {selectedIndex: number, onTabClick: (index: number) => v
 
       />
       <HeaderItem
-        name={t('inbox.drawer.friends')}
+        name={t('inbox.drawer.friendsButton')}
         iconName='group'
         selected={props.selectedIndex === 1}
         notificationCount={friendRequests().length}
@@ -96,11 +96,11 @@ const InboxDrawer = () => {
       <div class={styles.items}>
         <div class={classNames(styles.item, conditionalClass(isSavedNotesSelected(), styles.selected))} onClick={onSavedNotesClick}>
           <Icon name='note_alt' size={24} />
-          <div>{t('inbox.drawer.savedNotes')}</div>
+          <div>{t('inbox.drawer.savedNotesButton')}</div>
         </div>
         <div class={styles.item} onClick={showAddFriendModel}>
           <Icon name='group_add' size={24} />
-          <div>{t('inbox.drawer.addFriend')}</div>
+          <div>{t('inbox.drawer.addFriendButton')}</div>
         </div>
       </div>
     </div>

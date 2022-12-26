@@ -2,6 +2,7 @@ import { RawPublicServer } from '@/chat-api/RawData';
 import { BumpPublicServer, getPublicServers, joinPublicServer } from '@/chat-api/services/ServerService';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { Link, useNavigate } from '@nerimity/solid-router';
 import { update } from 'idb-keyval';
 import { createSignal, For, Show } from 'solid-js';
@@ -24,6 +25,7 @@ const Container = styled("div")`
 `;
 
 export default function LanguageSettings() {
+  const [t] = useTransContext();
   const {header} = useStore();
   const [publicServers, setPublicServers] = createSignal<null | RawPublicServer[]>(null);
   const [query, setQuery] = createSignal({sort: 'most_members', filter: 'verified'})
@@ -31,7 +33,7 @@ export default function LanguageSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Explore - Servers",
+      title: t('explore.servers.title'),
       iconName: 'explore',
     });
   })
@@ -43,15 +45,15 @@ export default function LanguageSettings() {
   })
 
   const sortOpts: DropDownItem[] = [
-    {id:'most_bumps', label: 'Most bumps'},
-    {id:'most_members', label: 'Most members'},
-    {id:'recently_added', label: 'Recently added'},
-    {id:'recently_bumped', label: 'Recently bumped'},
+    {id:'most_bumps', label: t('explore.servers.sortMostBumps')},
+    {id:'most_members', label: t('explore.servers.sortMostMembers')},
+    {id:'recently_added', label: t('explore.servers.sortRecentlyAdded')},
+    {id:'recently_bumped', label: t('explore.servers.sortRecentlyBumped')},
   ];
 
   const filterOpts: DropDownItem[] = [
-    {id:'all', label: 'All'},
-    {id:'verified', label: 'Verified'},
+    {id:'all', label: t('explore.servers.filterAll')},
+    {id:'verified', label: t('explore.servers.filterVerified')},
   ];
 
   const update = (newPublicServer: RawPublicServer, index: number) => {
@@ -67,7 +69,7 @@ export default function LanguageSettings() {
           <DropDown title='Sort' items={sortOpts} selectedId="most_members" onChange={i => setQuery({...query(), sort: i.id})} />
           <DropDown title='Filter' items={filterOpts} selectedId="verified" onChange={i => setQuery({...query(), filter: i.id})} />
         </FlexRow>
-        <Notice class={css`margin-bottom: 10px;`} type='info' description='A server can be bumped once every 3 hours. All bumps reset every Monday at 0:00 UTC.' />
+        <Notice class={css`margin-bottom: 10px;`} type='info' description={t('explore.servers.noticeMessage', {hours: '3', date: 'Monday at 0:00 UTC'})} />
         <For each={publicServers()}>
           {(server, i) => <PublicServerItem update={newServer=> update(newServer, i())} publicServer={server} />}
         </For>
@@ -114,6 +116,7 @@ const ButtonsContainer = styled(FlexRow)`
 `;
 
 function PublicServerItem(props: {publicServer: RawPublicServer, update: (newServer: RawPublicServer) => void}) {
+  const [t] = useTransContext();
   const server = props.publicServer.server!;
   let [joinClicked, setJoinClicked] = createSignal(false);
   const navigate = useNavigate();
@@ -169,17 +172,17 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
         </FlexRow>
         <MemberContainer gap={5}>
           <Icon name='people' size={17} color="var(--primary-color)"/>
-          <Text size={12}>{server._count.serverMembers.toLocaleString()} members</Text>
+          <Text size={12}>{t('explore.servers.memberCount', {count: server._count.serverMembers.toLocaleString()})}</Text>
           <Icon name='arrow_upward' size={17} color="var(--primary-color)"/>
-          <Text size={12}>{props.publicServer.lifetimeBumpCount.toLocaleString()} Lifetime bumps</Text>
+          <Text size={12}>{t('explore.servers.lifetimeBumpCount', {count: props.publicServer.lifetimeBumpCount.toLocaleString()})}</Text>
         </MemberContainer>
           <Text style={{"margin-top": "5px"}} opacity={0.7}>{props.publicServer.description}</Text>
       </DetailsContainer>
 
       <ButtonsContainer>
-        <Button onClick={bumpClick} iconName='arrow_upward' label={`Bump (${props.publicServer.bumpCount.toLocaleString()})`}/>
-        <Show when={cacheServer()}><Link style={{"text-decoration": "none"}} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button iconName='login' label='Visit'/></Link></Show>
-        <Show when={!cacheServer()}><Button onClick={joinServerClick} iconName='login' label='Join'/></Show>
+        <Button onClick={bumpClick} iconName='arrow_upward' label={t('explore.servers.bumpButton', {count: props.publicServer.bumpCount.toLocaleString()})}/>
+        <Show when={cacheServer()}><Link style={{"text-decoration": "none"}} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button iconName='login' label={t('explore.servers.visitServerButton')}/></Link></Show>
+        <Show when={!cacheServer()}><Button onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')}/></Show>
       </ButtonsContainer>
     </ServerItemContainer>
   )
