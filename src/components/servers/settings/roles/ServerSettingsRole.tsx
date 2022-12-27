@@ -71,7 +71,6 @@ export default function ServerSettingsRole() {
 
   return (
     <div class={styles.rolesPane}>
-      <div class={styles.title}>Roles</div>
       <SettingsBlock label='Add a new role' icon='add'>
         <Button label='Add Role' onClick={onAddRoleClicked} />
       </SettingsBlock>

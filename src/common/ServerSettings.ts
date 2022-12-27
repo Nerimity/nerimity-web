@@ -36,10 +36,10 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/channel/ServerSettingsChannel'))
   },
   {
-    name: 'Channels',
-    path: 'servers.settings.drawer.channels',
+    name: 'servers.settings.drawer.channels',
+    path: 'channels',
     icon: 'storage',
-    element: lazy(() => import('@/components/servers/settings/channels/ServerSettingsChannel'))
+    element: lazy(() => import('@/components/servers/settings/channels/ServerSettingsChannels'))
   },
   {
     name: 'servers.settings.drawer.bans',
@@ -49,7 +49,7 @@ const serverSettings: ServerSetting[] =  [
   },
   {
     path: 'invites',
-    name: 'Invites',
+    name: 'servers.settings.drawer.invites',
     icon: 'mail',
     element: lazy(() => import('@/components/servers/settings/invites/ServerSettingsInvite'))
   },
@@ -60,8 +60,8 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/PublishServerSettings'))
   },
   {
-    path: 'servers.settings.drawer.verify',
-    name: 'Verify',
+    path: 'verify',
+    name: 'servers.settings.drawer.verify',
     icon: 'verified',
     element: lazy(() => import('@/components/servers/settings/ServerVerifySettings'))
   }

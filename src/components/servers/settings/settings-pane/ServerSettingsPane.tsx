@@ -4,6 +4,8 @@ import {For, Show } from 'solid-js';
 import ServerSettingsHeader from './ServerSettingsHeader';
 import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
+import Text from '@/components/ui/Text';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 
 const SettingsPaneContainer = styled("div")`
@@ -16,6 +18,7 @@ const SettingsPaneContainer = styled("div")`
 `;
 
 export default function ServerSettingsPane() {
+  const [t] = useTransContext();
   const params = useParams();
   const {servers} = useStore();
 
@@ -28,7 +31,12 @@ export default function ServerSettingsPane() {
         <For each={serverSettings}>
           {setting => (
             <Routes>
-              {setting.path && <Route path={`/${setting.path}`} component={setting.element} />}
+              {setting.path && <Route path={`/${setting.path}`} component={() => (
+                <>
+                  <Text style={{"margin-left": "10px"}}  size={24}>{t(setting.name)}</Text>
+                  {setting.element}
+                </>
+              )} />}
             </Routes>
           )}
         </For>

@@ -57,9 +57,7 @@ export default function AccountSettings() {
 
 
   return (
-    <Container>
-      <Text size={24} style={{"margin-bottom": "10px"}}>Account Settings</Text>
-      
+    <Container>     
       <SettingsBlock icon='edit' label='Email'>
         <Input value={inputValues().email} onText={(v) => setInputValue('email', v) } />
       </SettingsBlock>

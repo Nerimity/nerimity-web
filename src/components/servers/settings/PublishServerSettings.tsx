@@ -102,7 +102,6 @@ export default function PublishServerSettings() {
 
   return (
     <Container>
-      <Text size={24} style={{"margin-bottom": "5px"}}>Publish your server</Text>
       <Text color="rgba(255,255,255,0.6)" style={{"margin-bottom": "10px"}}>Publishing your server will make it be available in the <Link href="/app/explore/servers">explore</Link> page.</Text>
       <SettingsBlock icon="public" label="Public" description="Make this server public.">
         <Checkbox checked={isPublic()} onChange={v => setIsPublic(v)}/>

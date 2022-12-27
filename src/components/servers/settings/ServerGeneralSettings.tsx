@@ -13,9 +13,8 @@ import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfi
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
-import { FlexRow } from '@/components/ui/Flexbox';
-import Icon from '@/components/ui/icon/Icon';
 import { Notice } from '@/components/ui/Notice';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 const Container = styled("div")`
   display: flex;
@@ -24,9 +23,9 @@ const Container = styled("div")`
 `;
 
 export default function ServerGeneralSettings() {
+  const [t] = useTransContext();
   const params = useParams<{serverId: string}>();
   const {header, servers, channels} = useStore();
-  const windowProperties = useWindowProperties();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const createPortal = useCustomPortal();
@@ -84,7 +83,7 @@ export default function ServerGeneralSettings() {
       .finally(() => setRequestSent(false));
   }
 
-  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
+  const requestStatus = () => requestSent() ? t('servers.settings.general.saving') : t('servers.settings.general.saveChangesButton');
 
   const showDeleteConfirm = () => {
     createPortal?.(close => <ServerDeleteConfirmModal close={close} server={server()!} />)
@@ -92,27 +91,26 @@ export default function ServerGeneralSettings() {
 
   return (
     <Container>
-      <Text size={24} style={{"margin-bottom": "10px"}}>Server General</Text>
 
       <Show when={server()?.verified}>
-        <Notice class={css`margin-bottom: 10px;`} type='warn' description="You will lose all of the perks of having your server verified if you rename it."/>
+        <Notice class={css`margin-bottom: 10px;`} type='warn' description={t('servers.settings.general.serverRenameNotice')}/>
 
       </Show>
       
-      <SettingsBlock icon='edit' label='Server Name'>
+      <SettingsBlock icon='edit' label={t('servers.settings.general.serverName')}>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
       </SettingsBlock>
-      <SettingsBlock icon='tag' label='Default Channel' description='New members will be directed to this channel.'>
+      <SettingsBlock icon='tag' label={t('servers.settings.general.defaultChannel')} description={t('servers.settings.general.defaultChannelDescription')}>
         <DropDown items={dropDownChannels()} selectedId={inputValues().defaultChannelId} />
       </SettingsBlock>
         
-      <SettingsBlock icon="wysiwyg" label="System Messages" description="Where system messages should appear.">
+      <SettingsBlock icon="wysiwyg" label={t('servers.settings.general.systemMessages')} description={t('servers.settings.general.systemMessagesDescription')}>
         <DropDown items={dropDownSystemChannels()} selectedId={inputValues().systemChannelId}  />
       </SettingsBlock>
 
       
-      <SettingsBlock icon='delete' label='Delete this server' description='This cannot be undone!'>
-        <Button label='Delete Server' color='var(--alert-color)' onClick={showDeleteConfirm} />
+      <SettingsBlock icon='delete' label={t('servers.settings.general.deleteThisServer')} description={t('servers.settings.general.deleteThisServerDescription')}>
+        <Button label={t('servers.settings.general.deleteServerButton')} color='var(--alert-color)' onClick={showDeleteConfirm} />
       </SettingsBlock>
 
       <Show when={error()}><Text size={12} color="var(--alert-color)" style={{"margin-top": "5px"}}>{error()}</Text></Show>

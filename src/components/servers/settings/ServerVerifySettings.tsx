@@ -38,7 +38,6 @@ export default function ServerSettingsBans() {
 
   return (
     <Container>
-      <Text size={24} style={{"margin-bottom": "10px"}}>Verify your server</Text>
       {/* Notices depending on how many members the server has and if it's verified.  */}
      <Switch>
       <Match when={isVerified()}>

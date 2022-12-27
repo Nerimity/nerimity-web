@@ -71,6 +71,19 @@
         "invites": "Invites",
         "publishServer": "Publish Server",
         "verify": "Verify"
+      },
+      "general": {
+        "serverRenameNotice": "You will lose all of the perks of having your server verified if you rename it.",
+        "serverName": "Server Name",
+        "defaultChannel": "Default Channel",
+        "defaultChannelDescription": "New members will be directed to this channel.",
+        "systemMessages": "System Messages",
+        "systemMessagesDescription": "Where system messages should appear.",
+        "deleteThisServer": "Delete this server",
+        "deleteThisServerDescription": "This cannot be undone!",
+        "deleteServerButton": "Delete Server",
+        "saveChangesButton": "Save Changes",
+        "saving": "Saving..."
       }
     } 
   },

@@ -60,7 +60,6 @@ export default function ServerSettingsInvite() {
 
   return (
     <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
-      <div class={styles.title}>Server Invites</div>
       <Show when={isServerOwner()}><CustomInvite invites={invites()} onUpdate={fetchInvites} /></Show>
       <SettingsBlock label='Create a new invite' icon='add'>
         <Button label='Create Invite' onClick={onCreateInviteClick} />

@@ -70,7 +70,6 @@ export default function ServerSettingsChannel() {
 
   return (
     <div class={styles.channelsPane}>
-      <div class={styles.title}>Channels</div>
       <SettingsBlock label='Add a new channel' icon='add'>
         <Button label='Add Channel' onClick={onAddChannelClicked} />
       </SettingsBlock>
