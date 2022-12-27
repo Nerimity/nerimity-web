@@ -31,7 +31,7 @@ export default function SettingsPane() {
               {setting.path && <Route path={`/${setting.path}`} component={() => (
                 <>
                   <Text style={{"margin-left": "10px"}}  size={24}>{t(setting.name)}</Text>
-                  {setting.element}
+                  <setting.element/>
                 </>
               )} />}
             </Routes>

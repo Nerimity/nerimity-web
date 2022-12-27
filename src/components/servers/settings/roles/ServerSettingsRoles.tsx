@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import Icon from '@/components/ui/icon/Icon';
 import { createServerRole } from '@/chat-api/services/ServerService';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 
 
@@ -44,6 +45,7 @@ function RoleList() {
 
 
 export default function ServerSettingsRole() {
+  const [t] = useTransContext();
   const navigate = useNavigate();
   const { serverId } = useParams();
   const { header } = useStore();
@@ -71,8 +73,8 @@ export default function ServerSettingsRole() {
 
   return (
     <div class={styles.rolesPane}>
-      <SettingsBlock label='Add a new role' icon='add'>
-        <Button label='Add Role' onClick={onAddRoleClicked} />
+      <SettingsBlock label={t('servers.settings.roles.addNewRole')} icon='add'>
+        <Button label={t('servers.settings.roles.addRoleButton')} onClick={onAddRoleClicked} />
       </SettingsBlock>
       <RoleList />
     </div>

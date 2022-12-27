@@ -70,7 +70,9 @@
         "bans": "Bans",
         "invites": "Invites",
         "publishServer": "Publish Server",
-        "verify": "Verify"
+        "verify": "Verify",
+        "role": "Role",
+        "channel": "Channel"
       },
       "general": {
         "serverRenameNotice": "You will lose all of the perks of having your server verified if you rename it.",
@@ -84,8 +86,42 @@
         "deleteServerButton": "Delete Server",
         "saveChangesButton": "Save Changes",
         "saving": "Saving..."
+      },
+      "roles": {
+        "addNewRole": "Add a new role",
+        "addRoleButton": "Add Role"
+      },
+      "role": {
+        "saveChangesButton": "Save Changes",
+        "saving": "Saving...",
+        "roleName": "Role Name",
+        "roleColor": "Role Color",
+        "hideRole": "Hide Role",
+        "hideRoleDescription": "Display members with this role along with all the default members",
+        "permissions": "Permissions",
+        "permissionsDescription": "Manage permissions for this role.",
+        "deleteRoleButton": "Delete this role",
+        "deleteRoleButtonDescription": "This cannot be undone!"
+      },
+      "header": {
+        "editServer": "Edit Server",
+        "serverMemberCount": "{{count}} members"
       }
-    } 
+    },
+    "rolePermissions": {
+      "admin": "Admin",
+      "adminDescription": "Enables all permissions.",
+      "sendMessage": "Send Message",
+      "sendMessageDescription": "Enable sending messages in this server. Server admins can still send messages.",
+      "manageRoles": "Manage Roles",
+      "manageRolesDescription": "Permission for updating or deleting roles.",
+      "manageChannels": "Manage Channels",
+      "manageChannelsDescription": "Permission for updating or deleting channels.",
+      "kick": "Kick",
+      "kickDescription": "Permission to kick users",
+      "ban": "Ban",
+      "banDescription": "Permission to ban users."
+    }
   },
   "settings": {
     "drawer": {

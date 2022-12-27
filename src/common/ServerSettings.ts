@@ -16,8 +16,8 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/ServerGeneralSettings'))
   },
   {
-    name: 'Role',
     path: 'roles/:roleId',
+    name: 'servers.settings.drawer.role',
     icon: 'leaderboard',
     hideDrawer: true,
     element: lazy(() => import('@/components/servers/settings/role/ServerSettingsRole'))
@@ -26,11 +26,11 @@ const serverSettings: ServerSetting[] =  [
     name: 'servers.settings.drawer.roles',
     path: 'roles',
     icon: 'leaderboard',
-    element: lazy(() => import('@/components/servers/settings/roles/ServerSettingsRole'))
+    element: lazy(() => import('@/components/servers/settings/roles/ServerSettingsRoles'))
   },
   {
-    name: 'Channel',
     path: 'channels/:channelId',
+    name: 'servers.settings.drawer.channel',
     icon: 'storage',
     hideDrawer: true,
     element: lazy(() => import('@/components/servers/settings/channel/ServerSettingsChannel'))

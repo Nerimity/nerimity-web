@@ -15,6 +15,7 @@ import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfi
 import { ServerRole } from '@/chat-api/store/useServerRoles';
 import Icon from '@/components/ui/icon/Icon';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 type RoleParams = {
   serverId: string;
@@ -22,6 +23,7 @@ type RoleParams = {
 }
 
 export default function ServerSettingsRole() {
+  const [t] = useTransContext();
   const params = useParams<RoleParams>();
   const { header, serverRoles } = useStore();
 
@@ -36,8 +38,7 @@ export default function ServerSettingsRole() {
     hexColor: role()?.hexColor || "#fff",
     permissions: role()?.permissions || 0,
     hideRole: role()?.hideRole || false
-  })
-  
+  })  
   
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
   const permissions = () => getAllPermissions(ROLE_PERMISSIONS, inputValues().permissions);
@@ -60,7 +61,7 @@ export default function ServerSettingsRole() {
       .finally(() => setSaveRequestSent(false));
   }
 
-  const saveRequestStatus = () => saveRequestSent() ? 'Saving...' : 'Save Changes';
+  const saveRequestStatus = () => saveRequestSent() ? t('servers.settings.role.saving') : t('servers.settings.role.saveChangesButton');
 
   const onPermissionChanged = (checked: boolean, bit: number) => {
     let newPermission = inputValues().permissions;
@@ -80,25 +81,25 @@ export default function ServerSettingsRole() {
   return (
     <div class={styles.channelPane}>
       {/* Role Name */}
-      <SettingsBlock icon='edit' label='Role Name'>
+      <SettingsBlock icon='edit' label={t('servers.settings.role.roleName')}>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
       </SettingsBlock>
 
       {/* Role Color */}
-      <SettingsBlock icon='colorize' label='Role Color'>
+      <SettingsBlock icon='colorize' label={t('servers.settings.role.roleColor')}>
         <ColorPicker color={inputValues().hexColor} onChange={v => setInputValue('hexColor', v)} />
       </SettingsBlock>
 
       {/* Hide Role */}
-      <SettingsBlock icon='' label='Hide Role' description='Display members with this role along with all the default members'>
+      <SettingsBlock icon='' label={t('servers.settings.role.hideRole')} description={t('servers.settings.role.hideRoleDescription')}>
       <Checkbox checked={inputValues().hideRole} onChange={checked => setInputValue('hideRole', checked)} />
       </SettingsBlock>
 
       <div class={styles.permissions}>
-        <SettingsBlock icon="security" label="Permissions" description="Manage permissions for this role." header={true} />
+        <SettingsBlock icon="security" label={t('servers.settings.role.permissions')} description={t('servers.settings.role.permissionsDescription')} header={true} />
         <For each={ permissions()}>
           {(permission) => (
-            <SettingsBlock icon={permission.icon} label={permission.name} description={permission.description} class={styles.permissionItem}>
+            <SettingsBlock icon={permission.icon} label={t(permission.name)} description={t(permission.description)} class={styles.permissionItem}>
               <Checkbox checked={permission.hasPerm} onChange={checked => onPermissionChanged(checked, permission.bit)} />
             </SettingsBlock>
           )}
@@ -107,7 +108,7 @@ export default function ServerSettingsRole() {
       </div>
 
       {/* Delete Role */}
-      <SettingsBlock icon='delete' label='Delete this role' description='This cannot be undone!'>
+      <SettingsBlock icon='delete' label={t('servers.settings.role.deleteRoleButton')} description={t('servers.settings.role.deleteRoleButtonDescription')}>
         <Button label='Delete Role' color='var(--alert-color)' onClick={showDeleteConfirm} />
       </SettingsBlock>
       {/* Errors & buttons */}

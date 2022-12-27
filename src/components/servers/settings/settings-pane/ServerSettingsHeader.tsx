@@ -8,6 +8,7 @@ import { css, styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 const HeaderContainer = styled("div")`
   display: flex;
@@ -38,6 +39,7 @@ const avatarStyles = css`
 `;
 
 const ServerSettingsHeader = () => {
+  const [t] = useTransContext();
   const params = useParams();
   const {servers, serverMembers} = useStore();
   const server = () => servers.get(params.serverId!);
@@ -52,8 +54,8 @@ const ServerSettingsHeader = () => {
             <Text>{server()!.name}</Text>
             <Show when={server()?.verified}><ServerVerifiedIcon/></Show>
           </FlexRow>
-          <Text size={14} opacity={0.8}>{serverMembersCount()} members</Text>
-          <Text size={14}><Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)}>Edit Server</Link></Text>
+          <Text size={14} opacity={0.8}>{t('servers.settings.header.serverMemberCount', {count: serverMembersCount()})}</Text>
+          <Text size={14}><Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)}>{t('servers.settings.header.editServer')}</Link></Text>
         </DetailsContainer>
       </HeaderContainer>
     </Show>
