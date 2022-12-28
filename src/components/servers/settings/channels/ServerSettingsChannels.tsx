@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import { Channel } from '@/chat-api/store/useChannels';
 import Icon from '@/components/ui/icon/Icon';
 import { createServerChannel } from '@/chat-api/services/ServerService';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 
 
@@ -44,6 +45,7 @@ function ChannelList() {
 
 
 export default function ServerSettingsChannel() {
+  const [t] = useTransContext();
   const { serverId } = useParams();
   const { header } = useStore();
   const [channelAddRequestSent, setChannelAddRequestSent] = createSignal(false);
@@ -70,8 +72,8 @@ export default function ServerSettingsChannel() {
 
   return (
     <div class={styles.channelsPane}>
-      <SettingsBlock label='Add a new channel' icon='add'>
-        <Button label='Add Channel' onClick={onAddChannelClicked} />
+      <SettingsBlock label={t('servers.settings.channels.addNewChannel')} icon='add'>
+        <Button label={t('servers.settings.channels.addChannelButton')} onClick={onAddChannelClicked} />
       </SettingsBlock>
       <ChannelList />
     </div>

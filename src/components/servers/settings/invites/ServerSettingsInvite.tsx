@@ -18,8 +18,10 @@ import Input from '@/components/ui/input/Input';
 import { Notice } from '@/components/ui/Notice';
 import { css } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 export default function ServerSettingsInvite() {
+  const [t] = useTransContext();
   const params = useParams<{serverId: string}>();
   const {header, servers, account} = useStore();
   const windowProperties = useWindowProperties();
@@ -61,12 +63,12 @@ export default function ServerSettingsInvite() {
   return (
     <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
       <Show when={isServerOwner()}><CustomInvite invites={invites()} onUpdate={fetchInvites} /></Show>
-      <SettingsBlock label='Create a new invite' icon='add'>
-        <Button label='Create Invite' onClick={onCreateInviteClick} />
+      <SettingsBlock label={t('servers.settings.invites.createANewInvite')} icon='add'>
+        <Button label={t('servers.settings.invites.createInviteButton')} onClick={onCreateInviteClick} />
       </SettingsBlock>
 
 
-      <SettingsBlock label='Server Invites' description='Invite your friends to this server.' icon='mail' header={true} />
+      <SettingsBlock label={t('servers.settings.invites.serverInvites')} description={t('servers.settings.invites.serverInvitesDescription')} icon='mail' header={true} />
       <For each={invites()}>
         {(invite) => (
           <InviteItem invite={invite} />
@@ -79,6 +81,7 @@ export default function ServerSettingsInvite() {
 
 
 function CustomInvite(props: {invites: any[]; onUpdate: () => void;}) {
+  const [t] = useTransContext();
   const params = useParams<{serverId: string}>();
   const {servers} = useStore();
   const server = () => servers.get(params.serverId)
@@ -114,10 +117,10 @@ function CustomInvite(props: {invites: any[]; onUpdate: () => void;}) {
   return (
     <FlexColumn style={{ "margin-bottom": "20px" }}>
     <Show when={!server()?.verified}>
-      <Notice class={css`margin-bottom: 10px;`} type='info' description='Custom invite links are only available for verified servers.'/>
+      <Notice class={css`margin-bottom: 10px;`} type='info' description={t('servers.settings.invites.customInviteVerifiedOnlyNotice')}/>
     </Show>
 
-    <SettingsBlock class={css`&&{position: relative; overflow: hidden; ${!server()?.verified ? 'cursor: not-allowed; opacity: 0.6;' : ''} }`} label='Custom Link' icon='link'>
+    <SettingsBlock class={css`&&{position: relative; overflow: hidden; ${!server()?.verified ? 'cursor: not-allowed; opacity: 0.6;' : ''} }`} label={t('servers.settings.invites.customLink')} icon='link'>
       {/* Overlay to block actions when server is not verified. */}
       <Show when={!server()?.verified}>
         <div style={{ position: 'absolute', inset: 0, "z-index": 1111}} />
@@ -125,7 +128,7 @@ function CustomInvite(props: {invites: any[]; onUpdate: () => void;}) {
       <Input prefix={prefixUrl} onText={t => setCustomCode(t)} value={customCode()} />
     </SettingsBlock>
     <Show when={error()}><Text style={{"align-self": 'end'}} size={12} color="var(--alert-color)">{error()}</Text></Show>
-    <Show when={showCustomCodeSaveButton()} ><Button onClick={createInvite} class={css`align-self: self-end; margin-bottom: -8px;`} label='Save' iconName='save' /></Show>
+    <Show when={showCustomCodeSaveButton()} ><Button onClick={createInvite} class={css`align-self: self-end; margin-bottom: -8px;`} label={t('servers.settings.invites.saveButton')} iconName='save' /></Show>
   </FlexColumn>
   )
 }
@@ -133,6 +136,7 @@ function CustomInvite(props: {invites: any[]; onUpdate: () => void;}) {
 
 
 const InviteItem =(props: {invite: any}) => {
+  const [t] = useTransContext();
   const url = env.APP_URL + RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code);
 
   return (
@@ -150,8 +154,8 @@ const InviteItem =(props: {invite: any}) => {
             {formatTimestamp(props.invite.createdAt)}</div>
         </div>
         <FlexRow class={styles.buttons}>
-          <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label='Copy Link' iconName='copy' />
-          <Button class={classNames(styles.deleteButton, styles.button)} label='Delete' iconName='delete' color='var(--alert-color)' />
+          <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label={t('servers.settings.invites.copyLinkButton')} iconName='copy' />
+          <Button class={classNames(styles.deleteButton, styles.button)} label={t('servers.settings.invites.deleteButton')} iconName='delete' color='var(--alert-color)' />
         </FlexRow>
       </div>
     </div>

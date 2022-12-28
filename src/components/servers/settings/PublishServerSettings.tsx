@@ -7,6 +7,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
+import { useTransContext } from "@mbarzda/solid-i18next";
 import { Link, useParams } from "@nerimity/solid-router";
 import { createEffect, createSignal, Show,} from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -22,6 +23,7 @@ const buttonStyle = css`
 `;
 
 export default function PublishServerSettings() {
+  const [t] = useTransContext();
   const params = useParams<{serverId: string}>();
   const {header} = useStore();
 
@@ -103,12 +105,12 @@ export default function PublishServerSettings() {
   return (
     <Container>
       <Text color="rgba(255,255,255,0.6)" style={{"margin-bottom": "10px"}}>Publishing your server will make it be available in the <Link href="/app/explore/servers">explore</Link> page.</Text>
-      <SettingsBlock icon="public" label="Public" description="Make this server public.">
+      <SettingsBlock icon="public" label={t('servers.settings.publishServer.public')} description={t('servers.settings.publishServer.publicDescription')}>
         <Checkbox checked={isPublic()} onChange={v => setIsPublic(v)}/>
       </SettingsBlock>
 
       <Show when={isPublic() && publicServer()}>
-        <SettingsBlock icon="arrow_upward" label="Bump Server" description="Bump this server to get to the top.">
+        <SettingsBlock icon="arrow_upward" label={t('servers.settings.publishServer.bumpServer')} description={t('servers.settings.publishServer.bumpServerDescription')}>
           <Button onClick={bumpClick} class={css`margin-right: 0px;`} label={`Bump (${publicServer()?.bumpCount})`} />
         </SettingsBlock>
       </Show>
@@ -117,8 +119,8 @@ export default function PublishServerSettings() {
         <Input value={description()} onText={t => setDescription(t)} type="textarea" height={200} label={`Server Description (${description().length}/${MAX_DESCRIPTION_LENGTH})`} />
       </Show>
       <Show when={error()}><Text color="var(--alert-color)">{error()}</Text></Show>
-      <Show when={showPublishButton()}><Button class={buttonStyle} iconName="public" label="Publish" onClick={publish} /></Show>
-      <Show when={!isPublic() && publicServer()}><Button class={buttonStyle} iconName="delete" color="var(--alert-color)" label="Delete server" onClick={deletePublic} /></Show>
+      <Show when={showPublishButton()}><Button class={buttonStyle} iconName="public" label={t('servers.settings.publishServer.publishServerButton')} onClick={publish} /></Show>
+      <Show when={!isPublic() && publicServer()}><Button class={buttonStyle} iconName="delete" color="var(--alert-color)" label={t('servers.settings.publishServer.unpublishServerButton')} onClick={deletePublic} /></Show>
     </Container>
   )
 }

@@ -19,14 +19,14 @@ export const USER_BADGES = {
 
 export const CHANNEL_PERMISSIONS = {
   PRIVATE_CHANNEL: {
-    name: 'Private Channel',
-    description: 'Disable access to the channel. Server admins can still access the channel.',
+    name: 'servers.channelPermissions.privateChannel',
+    description: 'servers.channelPermissions.privateChannelDescription',
     bit: 1,
     icon: 'lock'
   },
   SEND_MESSAGE: {
-    name: 'Send Message',
-    description: 'Enable sending messages in the channel. Server admins can still send messages.',
+    name: 'servers.channelPermissions.sendMessage',
+    description: 'servers.channelPermissions.sendMessageDescription',
     bit: 2,
     icon: 'mail'
   }

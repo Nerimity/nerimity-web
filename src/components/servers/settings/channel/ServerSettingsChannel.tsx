@@ -14,6 +14,7 @@ import Checkbox from '@/components/ui/Checkbox';
 import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit } from '@/chat-api/Bitwise';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import { useTransContext } from '@mbarzda/solid-i18next';
 
 type ChannelParams = {
   serverId: string;
@@ -21,6 +22,7 @@ type ChannelParams = {
 }
 
 export default function ServerSettingsChannel() {
+  const [t] = useTransContext();
   const params = useParams<ChannelParams>();
   const { header, channels } = useStore();
   const createPortal = useCustomPortal();
@@ -62,7 +64,7 @@ export default function ServerSettingsChannel() {
   }
 
 
-  const saveRequestStatus = () => saveRequestSent() ? 'Saving...' : 'Save Changes';
+  const saveRequestStatus = () => saveRequestSent() ? t('servers.settings.channel.saving') : t('servers.settings.channel.saveChangesButton');
 
 
   const onPermissionChanged = (checked: boolean, bit: number) => {
@@ -85,14 +87,14 @@ export default function ServerSettingsChannel() {
   return (
     <div class={styles.channelPane}>
       {/* Channel Name */}
-      <SettingsBlock icon='edit' label='Channel Name'>
+      <SettingsBlock icon='edit' label={t('servers.settings.channel.channelName')}>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
       </SettingsBlock>
       <div>
-        <SettingsBlock icon="security" label="Permissions" description="Manage permissions for this channel." header={true} />
+        <SettingsBlock icon="security" label={t('servers.settings.channel.permissions')} description={t('servers.settings.channel.permissionsDescription')} header={true} />
         <For each={ permissions()}>
           {(permission) => (
-            <SettingsBlock icon={permission.icon} label={permission.name} description={permission.description} class={styles.permissionItem}>
+            <SettingsBlock icon={permission.icon} label={t(permission.name)} description={t(permission.description)} class={styles.permissionItem}>
               <Checkbox checked={permission.hasPerm} onChange={checked => onPermissionChanged(checked, permission.bit, )} />
             </SettingsBlock>
           )}
@@ -100,8 +102,8 @@ export default function ServerSettingsChannel() {
         </For>
       </div>
       {/* Delete Channel */}
-      <SettingsBlock icon='delete' label='Delete this channel' description='This cannot be undone!'>
-        <Button label='Delete Channel' color='var(--alert-color)' onClick={showDeleteConfirmModal} />
+      <SettingsBlock icon='delete' label={t('servers.settings.channel.deleteThisChannel')} description={t('servers.settings.channel.deleteThisChannelDescription')}>
+        <Button label={t('servers.settings.channel.deleteChannelButton')} color='var(--alert-color)' onClick={showDeleteConfirmModal} />
       </SettingsBlock>
       {/* Errors & buttons */}
       <Show when={error()}><div class={styles.error}>{error()}</div></Show>

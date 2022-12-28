@@ -106,6 +106,39 @@
       "header": {
         "editServer": "Edit Server",
         "serverMemberCount": "{{count}} members"
+      },
+      "channels": {
+        "addChannelButton": "Add Channel",
+        "addNewChannel": "Add a new channel"
+      },
+      "channel": {
+        "saving": "Saving...",
+        "saveChangesButton": "Save Changes",
+        "channelName": "Channel Name",
+        "permissions": "Permissions",
+        "permissionsDescription": "Manage permissions for this channel.",
+        "deleteThisChannel": "Delete this channel",
+        "deleteThisChannelDescription": "This cannot be undone!",
+        "deleteChannelButton": "Delete Channel"
+      },
+      "invites": {
+        "createANewInvite": "Create a new invite",
+        "createInviteButton": "Create Invite",
+        "serverInvites": "Server Invites",
+        "serverInvitesDescription": "Invite your friends to this server.",
+        "customInviteVerifiedOnlyNotice": "Custom invite links are only available for verified servers.",
+        "customLink": "Custom Link",
+        "saveButton": "Save",
+        "deleteButton": "Delete",
+        "copyLinkButton": "Copy Link"
+      },
+      "publishServer": {
+        "public": "Public",
+        "publicDescription": "Make this server public.",
+        "bumpServer": "Bump Server",
+        "bumpServerDescription": "Bump this server to get to the top.",
+        "publishServerButton": "Publish server",
+        "unpublishServerButton": "Unpublish server"
       }
     },
     "rolePermissions": {
@@ -121,6 +154,12 @@
       "kickDescription": "Permission to kick users",
       "ban": "Ban",
       "banDescription": "Permission to ban users."
+    },
+    "channelPermissions": {
+      "privateChannel": "Private Channel",
+      "privateChannelDescription": "Disable access to the channel. Server admins can still access the channel.",
+      "sendMessage": "Send Message",
+      "sendMessageDescription": "Enable sending messages in the channel. Server admins can still send messages."
     }
   },
   "settings": {
