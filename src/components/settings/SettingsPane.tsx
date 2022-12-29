@@ -4,7 +4,7 @@ import { For, Show } from 'solid-js';
 import SettingsHeader from './SettingsHeader';
 import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 import Text from '../ui/Text';
 
 const SettingsPaneContainer = styled("div")`

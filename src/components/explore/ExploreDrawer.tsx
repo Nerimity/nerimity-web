@@ -7,7 +7,7 @@ import {  styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn } from '../ui/Flexbox';
 import { DrawerHeader } from '../DrawerHeader';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 
 
 

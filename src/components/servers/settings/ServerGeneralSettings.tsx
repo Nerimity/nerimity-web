@@ -14,7 +14,7 @@ import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
 import { Notice } from '@/components/ui/Notice';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 
 const Container = styled("div")`
   display: flex;

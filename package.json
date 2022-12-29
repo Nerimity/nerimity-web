@@ -18,8 +18,8 @@
     "vite-plugin-solid": "^2.4.0"
   },
   "dependencies": {
-    "@mbarzda/solid-i18next": "^1.1.8",
     "@nerimity/nevula": "^0.5.1",
+    "@nerimity/solid-i18next": "^1.1.9",
     "@nerimity/solid-router": "^0.4.3",
     "highlight.js": "^11.7.0",
     "i18next": "^22.4.6",

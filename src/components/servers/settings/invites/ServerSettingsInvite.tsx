@@ -18,7 +18,7 @@ import Input from '@/components/ui/input/Input';
 import { Notice } from '@/components/ui/Notice';
 import { css } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 
 export default function ServerSettingsInvite() {
   const [t] = useTransContext();

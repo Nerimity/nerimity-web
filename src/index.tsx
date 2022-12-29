@@ -6,7 +6,7 @@ import App from './App';
 import {CustomPortalProvider} from '@/components/ui/custom-portal/CustomPortal';
 import { Router } from '@nerimity/solid-router';
 import en from '@/locales/list/en-gb.json';
-import { TransProvider } from '@mbarzda/solid-i18next';
+import { TransProvider } from '@nerimity/solid-i18next';
 
 
 render(() => (

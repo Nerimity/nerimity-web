@@ -5,7 +5,7 @@ import PageHeader from '../components/PageHeader'
 import { styled } from 'solid-styled-components'
 import Text from '@/components/ui/Text'
 import { appLogoUrl } from '@/common/worldEvents'
-import { useTransContext } from '@mbarzda/solid-i18next'
+import { useTransContext } from '@nerimity/solid-i18next'
 
 const HomePageContainer = styled("div")`
   display: flex;

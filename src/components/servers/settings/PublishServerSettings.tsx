@@ -7,7 +7,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { Trans, useTransContext } from "@nerimity/solid-i18next";
 import { Link, useParams } from "@nerimity/solid-router";
 import { createEffect, createSignal, Show,} from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -104,7 +104,15 @@ export default function PublishServerSettings() {
 
   return (
     <Container>
-      <Text color="rgba(255,255,255,0.6)" style={{"margin-bottom": "10px"}}>Publishing your server will make it be available in the <Link href="/app/explore/servers">explore</Link> page.</Text>
+      <Text color="rgba(255,255,255,0.6)" style={{"margin-bottom": "10px"}}>
+        <Trans key='servers.settings.publishServer.publishNotice'>
+          {data => 
+            <>
+              Publishing your server will make it be available in the <Link href="/app/explore/servers">{data[1]}</Link> page.
+            </>
+          }
+        </Trans>
+      </Text>
       <SettingsBlock icon="public" label={t('servers.settings.publishServer.public')} description={t('servers.settings.publishServer.publicDescription')}>
         <Checkbox checked={isPublic()} onChange={v => setIsPublic(v)}/>
       </SettingsBlock>

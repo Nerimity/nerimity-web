@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import Icon from '@/components/ui/icon/Icon';
 import { createServerRole } from '@/chat-api/services/ServerService';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 
 
 

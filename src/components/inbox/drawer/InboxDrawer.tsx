@@ -12,7 +12,7 @@ import { useParams } from '@nerimity/solid-router';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
 import { DrawerHeader } from '@/components/DrawerHeader';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 
 function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
   const {friends, inbox} = useStore();

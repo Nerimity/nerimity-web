@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@mbarzda/solid-i18next': ^1.1.8
   '@nerimity/nevula': ^0.5.1
+  '@nerimity/solid-i18next': ^1.1.9
   '@nerimity/solid-router': ^0.4.3
   '@types/markdown-it': ^12.2.3
   '@types/markdown-it-emoji': ^2.0.2
@@ -24,8 +24,8 @@ specifiers:
   vite-plugin-solid: ^2.4.0
 
 dependencies:
-  '@mbarzda/solid-i18next': 1.1.8_36jchuulgwxea6i2zzjq2p7gc4
   '@nerimity/nevula': 0.5.1
+  '@nerimity/solid-i18next': 1.1.9_36jchuulgwxea6i2zzjq2p7gc4
   '@nerimity/solid-router': 0.4.3_solid-js@1.6.2
   highlight.js: 11.7.0
   i18next: 22.4.6
@@ -426,18 +426,19 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@mbarzda/solid-i18next/1.1.8_36jchuulgwxea6i2zzjq2p7gc4:
-    resolution: {integrity: sha512-OZZNYoBDUGY0w1Qn1Xmv4nIwCDP1caJjmYsJl1nBS8JVBO3EYtkfcgxayEBqyl/tJSFITsxMhElnru93EDyZhg==}
+  /@nerimity/nevula/0.5.1:
+    resolution: {integrity: sha512-Bi+AUUac73YgfQ6azDtcbhnQttRcnHuxL9BOMnfC2r15z3F5qNt+LBttIaci1UrOSW0lQqNc986jOTf0zVweww==}
+    dev: false
+
+  /@nerimity/solid-i18next/1.1.9_36jchuulgwxea6i2zzjq2p7gc4:
+    resolution: {integrity: sha512-4lMJclcS/2bTrQW9QbP0XUKlpB38lnrqR21GLRvEbRKME9J0buQsq1a2Vu1r4Ia6ewRuvNEgre1Us++VhewG/Q==}
     peerDependencies:
       i18next: '>=21.x'
       solid-js: '>=1.5.x'
     dependencies:
+      html-parse-stringify: 3.0.1
       i18next: 22.4.6
       solid-js: 1.6.2
-    dev: false
-
-  /@nerimity/nevula/0.5.1:
-    resolution: {integrity: sha512-Bi+AUUac73YgfQ6azDtcbhnQttRcnHuxL9BOMnfC2r15z3F5qNt+LBttIaci1UrOSW0lQqNc986jOTf0zVweww==}
     dev: false
 
   /@nerimity/solid-router/0.4.3_solid-js@1.6.2:
@@ -915,6 +916,12 @@ packages:
     resolution: {integrity: sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==}
     dev: true
 
+  /html-parse-stringify/3.0.1:
+    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+    dependencies:
+      void-elements: 3.1.0
+    dev: false
+
   /i18next/22.4.6:
     resolution: {integrity: sha512-9Tm1ezxWyzV+306CIDMBbYBitC1jedQyYuuLtIv7oxjp2ohh8eyxP9xytIf+2bbQfhH784IQKPSYp+Zq9+YSbw==}
     dependencies:
@@ -1297,6 +1304,11 @@ packages:
     dependencies:
       vite: 3.2.4_clvymlzunojxjbv3h6i2warera
     dev: true
+
+  /void-elements/3.1.0:
+    resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /ws/8.2.3:
     resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}

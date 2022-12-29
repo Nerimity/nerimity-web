@@ -14,7 +14,7 @@ import Checkbox from '@/components/ui/Checkbox';
 import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit } from '@/chat-api/Bitwise';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 
 type ChannelParams = {
   serverId: string;

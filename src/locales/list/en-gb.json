@@ -133,6 +133,7 @@
         "copyLinkButton": "Copy Link"
       },
       "publishServer": {
+        "publishNotice": "Publishing your server will make it be available in the <1>explore</1> page.",
         "public": "Public",
         "publicDescription": "Make this server public.",
         "bumpServer": "Bump Server",

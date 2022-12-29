@@ -7,7 +7,7 @@ import ItemContainer from '../ui/Item';
 import twemoji from 'twemoji';
 import { FlexColumn } from '../ui/Flexbox';
 import useStore from '@/chat-api/store/useStore';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 
 const Container = styled("div")`
   display: flex;

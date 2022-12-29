@@ -2,7 +2,7 @@ import { RawPublicServer } from '@/chat-api/RawData';
 import { BumpPublicServer, getPublicServers, joinPublicServer } from '@/chat-api/services/ServerService';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useTransContext } from '@mbarzda/solid-i18next';
+import { useTransContext } from '@nerimity/solid-i18next';
 import { Link, useNavigate } from '@nerimity/solid-router';
 import { update } from 'idb-keyval';
 import { createSignal, For, Show } from 'solid-js';
