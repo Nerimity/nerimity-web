@@ -57,9 +57,9 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
 
   const channelMessages = () => messages.getMessagesByChannelId(params.channelId!);
   const [openedTimestamp, setOpenedTimestamp] = createSignal<null | number>(null);
-
   const [unreadMessageId, setUnreadMessageId] = createSignal<null | string>(null);
   const [unreadLastSeen, setUnreadLastSeen] = createSignal<null | number>(null);
+  const [messagesLoading, setMessagesLoading] = createSignal(true);
 
   const channel = () => channels.get(params.channelId!)!;
   const {hasFocus} = useWindowProperties();
@@ -70,6 +70,7 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     messages.fetchAndStoreMessages(channel().id).then(() => {
       setOpenedTimestamp(Date.now());
       channel()?.dismissNotification();
+      setMessagesLoading(false);
     })
   }))
   
@@ -130,26 +131,61 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     setUnreadMessageId(message?.id || null);
   }
 
-  
+  const loadMore = () => {
+    setMessagesLoading(true);
+    console.log("load more")
+  }
 
-  return <div class={styles.messageLogArea} ref={messageLogElement} >
+
+  return <div class={styles.messageLogArea} ref={messageLogElement}>
+    <Show when={!messagesLoading() && channelMessages()?.length! >= 50}>
+      <ObservePoint height={500} onIntersected={loadMore} position="top" />
+    </Show>
     <For each={channelMessages()}>
       {(message, i) => (
         <>
           <Show when={unreadMessageId() === message.id}>
             <UnreadMarker/>
           </Show>
-
-            <MessageItem
-              animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
-              message={message}
-              beforeMessage={ message.type === MessageType.CONTENT && channelMessages()?.[i() - 1]}
-            />
-
+          <MessageItem
+            animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
+            message={message}
+            beforeMessage={ message.type === MessageType.CONTENT && channelMessages()?.[i() - 1]}
+          />
         </>
       )}
     </For>
   </div>
+}
+
+
+
+interface ObservePointProps {
+  onIntersected: () => void;
+  position: "top" | "bottom"
+  height: number;
+}
+
+function ObservePoint(props: ObservePointProps) {
+  const style: JSX.CSSProperties = props.position === "top" ? ({top: 0, height: props.height + "px"}) : ({bottom: 0, height: props.height + "px"}) 
+  let observerPointRef: HTMLDivElement | undefined;
+
+  const observer = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    if (!entry.isIntersecting) return;
+    props.onIntersected();
+  });
+
+  createEffect(() => {
+    observer.observe(observerPointRef!);
+  })
+  
+  onCleanup(() => {
+    observer?.disconnect();
+  })
+
+
+  return <div style={style} class={styles.observePoint} ref={observerPointRef}/>
 }
 
 
