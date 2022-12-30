@@ -17,9 +17,11 @@ export default function App() {
     document.title = env.APP_NAME
     if (isHalloween) {
       document.documentElement.style.setProperty('--primary-color', '#d76623');
+      document.documentElement.style.setProperty('--primary-color-dark', '#241e1a');
     }
     if (isChristmas) {
       document.documentElement.style.setProperty('--primary-color', '#34a65f');
+      document.documentElement.style.setProperty('--primary-color-dark', '#222c26');
     }
     setLanguage();
   })
