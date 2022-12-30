@@ -5,4 +5,5 @@ export default {
   MOBILE_WIDTH: parseInt(import.meta.env.VITE_MOBILE_WIDTH),
   APP_VERSION: import.meta.env.VITE_APP_VERSION as string | undefined,
   DEV_MODE: import.meta.env.VITE_DEV_MODE === "true",
+  MESSAGE_LIMIT:  parseInt(import.meta.env.VITE_MESSAGE_LIMIT || "50")
 }

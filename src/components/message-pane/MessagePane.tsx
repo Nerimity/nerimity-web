@@ -16,6 +16,7 @@ import { className } from 'solid-js/web';
 import { classNames } from '@/common/classNames';
 import { emojiShortcodeToUnicode } from '@/emoji';
 import ModerationPane from '../moderation-pane/ModerationPane';
+import env from '@/common/env';
 
 export default function MessagePane(props: {mainPaneEl?: HTMLDivElement}) {
   const params = useParams();
@@ -81,8 +82,8 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     updateLastReadIndex();
   }))
   
-  createEffect(on(() => channelMessages()?.length, () => {
-    if (props.mainPaneEl) {
+  createEffect(on(() => channelMessages()?.length, (input, prevInput) => {
+    if (props.mainPaneEl && prevInput === undefined) {
       props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
     }
   }))
@@ -131,14 +132,23 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     setUnreadMessageId(message?.id || null);
   }
 
-  const loadMore = () => {
+  const loadMore = async () => {
+    const mainPaneEl = props.mainPaneEl!
     setMessagesLoading(true);
-    console.log("load more")
+
+    const scrollBottomBefore = mainPaneEl.scrollHeight - mainPaneEl.clientHeight - mainPaneEl.scrollTop;
+    
+    const {hasMore} = await messages.loadMoreAndStoreMessages(params.channelId);
+    const newScrollTop = mainPaneEl.scrollHeight - mainPaneEl.clientHeight - scrollBottomBefore;
+    mainPaneEl.scrollTop = newScrollTop;
+
+    if (!hasMore) return;
+    setMessagesLoading(false);
   }
 
 
   return <div class={styles.messageLogArea} ref={messageLogElement}>
-    <Show when={!messagesLoading() && channelMessages()?.length! >= 50}>
+    <Show when={!messagesLoading() && channelMessages()?.length! >= env.MESSAGE_LIMIT}>
       <ObservePoint height={500} onIntersected={loadMore} position="top" />
     </Show>
     <For each={channelMessages()}>

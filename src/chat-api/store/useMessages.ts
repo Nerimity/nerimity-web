@@ -1,3 +1,4 @@
+import env from '@/common/env';
 import {createStore, produce, reconcile} from 'solid-js/store';
 import { MessageType, RawMessage } from '../RawData';
 import { fetchMessages, postMessage, updateMessage } from '../services/MessageService';
@@ -18,13 +19,23 @@ export type Message = RawMessage & {
 }
 
 const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});
-
 const fetchAndStoreMessages = async (channelId: string) => {
   if (getMessagesByChannelId(channelId)) return;
-  const newMessages = await fetchMessages(channelId);
+  const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT);
   setMessages({
     [channelId]: newMessages
   });
+}
+
+const loadMoreAndStoreMessages = async (channelId: string) => {
+  const channelMessages = messages[channelId]!;
+  const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, channelMessages[0].id);
+  setMessages({
+    [channelId]: [...newMessages, ...channelMessages]
+  });
+  return {
+    hasMore: newMessages.length === env.MESSAGE_LIMIT,
+  }
 }
 
 
@@ -76,6 +87,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
       id: user.id,
       username: user.username,
       tag: user.tag,
+      badges: user.badges,
       hexColor: user.hexColor,
     },
   };
@@ -131,6 +143,7 @@ export default function useMessages() {
   return {
     getMessagesByChannelId,
     fetchAndStoreMessages,
+    loadMoreAndStoreMessages,
     editAndStoreMessage,
     sendAndStoreMessage,
     locallyRemoveMessage,

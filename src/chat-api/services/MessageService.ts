@@ -6,10 +6,11 @@ import Endpoints from './ServiceEndpoints';
 
 
 
-export const fetchMessages = async (channelId: string) => {
+export const fetchMessages = async (channelId: string, limit = 50, afterMessageId?: string) => {
   const data = await request<RawMessage[]>({
     method: 'GET',
     url: env.SERVER_URL + "/api" + Endpoints.messages(channelId),
+    params: {limit, ...(afterMessageId ? {after: afterMessageId}: undefined)},
     useToken: true
   });
   return data;
