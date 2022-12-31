@@ -30,8 +30,8 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
     createPortal?.(close => <DeleteMessageModal close={close} message={props.message}/>)
   }
   const onEditClick = () => {
-    const {input} = useStore();
-    input.setEditMessage(props.message.channelId, props.message);
+    const {channelProperties} = useStore();
+    channelProperties.setEditMessage(props.message.channelId, props.message);
   }
   const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
 
@@ -113,7 +113,7 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
   }
 
   return (
-    <div class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class)}>
+    <div class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
       <MemberContextMenu user={props.message.createdBy} position={contextPosition()} serverId={params.serverId} userId={props.message.createdBy.id} onClose={() => setContextPosition(undefined)} />
       <Show when={!props.hideFloating}><FloatOptions isCompact={isCompact()} message={props.message} /></Show>
       <div class={styles.messageItemOuterContainer}>

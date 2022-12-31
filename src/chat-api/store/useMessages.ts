@@ -27,17 +27,26 @@ const fetchAndStoreMessages = async (channelId: string) => {
   });
 }
 
-const loadMoreAndStoreMessages = async (channelId: string) => {
+const loadMoreAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: {hasMore: boolean}) => void) => {
   const channelMessages = messages[channelId]!;
   const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, channelMessages[0].id);
+  const clamp = sliceEnd([...newMessages, ...channelMessages]);
+  const hasMore = newMessages.length === env.MESSAGE_LIMIT
+
+  beforeSet();
   setMessages({
-    [channelId]: [...newMessages, ...channelMessages]
+    [channelId]: clamp
   });
-  return {
-    hasMore: newMessages.length === env.MESSAGE_LIMIT,
-  }
+  afterSet({ hasMore });
 }
 
+function sliceEnd(arr: any[]) {
+  return arr.slice(0, env.MESSAGE_LIMIT * 3);
+}
+
+function sliceBeginning(arr: any[]) {
+  return arr.slice(-(env.MESSAGE_LIMIT * 3), arr.length);
+}
 
 
 const editAndStoreMessage = async (channelId: string, messageId: string, content: string) => {
@@ -92,7 +101,9 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
     },
   };
 
-  setMessages(channelId, messages?.[channelId]?.length!, localMessage);
+  setMessages({
+    [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
+  })
 
   const message: void | Message = await postMessage({
     content,
@@ -121,7 +132,6 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
 const pushMessage = (channelId: string, message: Message) => {
   if (!messages[channelId]) return;
   setMessages(channelId, messages[channelId]?.length!, message);
-  
 };
 
 const locallyRemoveMessage = (channelId: string, messageId: string) => {

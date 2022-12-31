@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 
-import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
+import { createComputed, createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '../../chat-api/store/useStore';
@@ -42,21 +42,35 @@ export default function MessagePane(props: {mainPaneEl?: HTMLDivElement}) {
   return (
     <div class={styles.messagePane}>
       <MessageLogArea mainPaneEl={props.mainPaneEl} />
-      <MessageArea />
+      <MessageArea mainPaneEl={props.mainPaneEl} />
     </div>
   );
 }
 
 
 
+const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement) => {
 
+  const firstMessageEl = logElement?.querySelector(".messageItem") as HTMLDivElement;
+  let beforeTop: undefined | number;
+
+  const save = () => {
+    beforeTop = firstMessageEl.getBoundingClientRect().top;
+  }
+  const load = () => {
+    const afterTop = firstMessageEl.getBoundingClientRect().top;
+    const difference = afterTop - beforeTop!;
+    scrollElement.scrollTop = scrollElement.scrollTop + difference;
+  }
+  return {save, load};
+}
 
 const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
   let messageLogElement: undefined | HTMLDivElement;
-  const params = useParams();
-  const {channels, messages, account} = useStore();
+  const params = useParams<{channelId: string}>();
+  const {channels, messages, account, channelProperties} = useStore();
 
-  const channelMessages = () => messages.getMessagesByChannelId(params.channelId!);
+  const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
   const [openedTimestamp, setOpenedTimestamp] = createSignal<null | number>(null);
   const [unreadMessageId, setUnreadMessageId] = createSignal<null | string>(null);
   const [unreadLastSeen, setUnreadLastSeen] = createSignal<null | number>(null);
@@ -74,13 +88,34 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
       setMessagesLoading(false);
     })
   }))
+
   
   createEffect(on(channelMessages, (messages) => {
     if (!messages) return;
     setUnreadMessageId(null);
     setUnreadLastSeen(null);
     updateLastReadIndex();
+    props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
+    const channelProperty = channelProperties.get(params.channelId);
+    console.log(channelProperty?.scrollTop)
+    // props.mainPaneEl!.scrollTop = channelProperty?.isScrolledBottom ? props.mainPaneEl!.scrollHeight : channelProperty?.scrollTop!;
+    const channelId = params.channelId;
+
+    
+    onCleanup(() => {
+      channelProperties.setScrollTop(channelId, props.mainPaneEl!.scrollTop)
+    })
   }))
+  
+  const {scrollTop} = createScrollTracker(props.mainPaneEl!);
+
+  createEffect(() => {
+    if (!props.mainPaneEl) return;
+    if (!channelMessages()?.length) return;
+    channelProperties.setScrollTop(params.channelId, scrollTop())
+
+  })
+
   
   createEffect(on(() => channelMessages()?.length, (input, prevInput) => {
     if (props.mainPaneEl && prevInput === undefined) {
@@ -95,6 +130,11 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
   }, { defer: true }))
   
   const onMessage = (message: RawMessage) => {
+
+    if (channelProperties.get(params.channelId)?.isScrolledBottom) {
+      props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
+    }
+
     if (!channelMessages()) return;
     const selectedChannelId = params.channelId;
     const newMessageChannelId = message.channelId;
@@ -132,24 +172,32 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     setUnreadMessageId(message?.id || null);
   }
 
-  const loadMore = async () => {
-    const mainPaneEl = props.mainPaneEl!
+
+
+  const loadMoreTop = async () => {
     setMessagesLoading(true);
-
-    const scrollBottomBefore = mainPaneEl.scrollHeight - mainPaneEl.clientHeight - mainPaneEl.scrollTop;
+    const {save, load} = saveScrollPosition(props.mainPaneEl!, messageLogElement!)
     
-    const {hasMore} = await messages.loadMoreAndStoreMessages(params.channelId);
-    const newScrollTop = mainPaneEl.scrollHeight - mainPaneEl.clientHeight - scrollBottomBefore;
-    mainPaneEl.scrollTop = newScrollTop;
+    const beforeSet = () => {
+      save();
+    }
 
-    if (!hasMore) return;
-    setMessagesLoading(false);
+    const afterSet = ({hasMore}: {hasMore: boolean}) => {
+      load();
+      if (!hasMore) return;
+      setMessagesLoading(false);
+    }
+    messages.loadMoreAndStoreMessages(params.channelId, beforeSet, afterSet);
+  }
+  
+  const onIntersectBottom = (isIntersecting: boolean) => {
+    channelProperties.setScrolledBottom(params.channelId, isIntersecting);
   }
 
 
   return <div class={styles.messageLogArea} ref={messageLogElement}>
     <Show when={!messagesLoading() && channelMessages()?.length! >= env.MESSAGE_LIMIT}>
-      <ObservePoint height={500} onIntersected={loadMore} position="top" />
+      <ObservePoint height="500px" onIntersect={loadMoreTop} position="top" />
     </Show>
     <For each={channelMessages()}>
       {(message, i) => (
@@ -165,25 +213,50 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
         </>
       )}
     </For>
+    <ObservePoint onIntersectChange={onIntersectBottom} height="20px" position="bottom" />
   </div>
 }
 
 
 
+function createScrollTracker(scrollElement: HTMLElement) {
+  const [scrollTop, setScrollTop] = createSignal(scrollElement.scrollTop);
+  let intervalId = window.setInterval(() => {
+    if (scrollElement.scrollTop === scrollTop()) return;
+    setScrollTop(scrollElement.scrollTop);
+  }, 1000)
+
+  onCleanup(() => {
+    clearInterval(intervalId);
+  })
+
+  const currentScrollTop = () => {
+    scrollTop()
+    return scrollElement.scrollTop;
+  }
+
+  return {
+    scrollTop: currentScrollTop
+  }
+}
+
+
 interface ObservePointProps {
-  onIntersected: () => void;
+  onIntersect?: () => void;
+  onIntersectChange?: (isIntersecting: boolean) => void;
   position: "top" | "bottom"
-  height: number;
+  height: string;
 }
 
 function ObservePoint(props: ObservePointProps) {
-  const style: JSX.CSSProperties = props.position === "top" ? ({top: 0, height: props.height + "px"}) : ({bottom: 0, height: props.height + "px"}) 
+  const style: JSX.CSSProperties = props.position === "top" ? ({top: 0, height: props.height}) : ({bottom: 0, height: props.height}) 
   let observerPointRef: HTMLDivElement | undefined;
 
   const observer = new IntersectionObserver(entries => {
     const entry = entries[0];
+    props.onIntersectChange?.(entry.isIntersecting);
     if (!entry.isIntersecting) return;
-    props.onIntersected();
+    props.onIntersect?.();
   });
 
   createEffect(() => {
@@ -198,10 +271,8 @@ function ObservePoint(props: ObservePointProps) {
   return <div style={style} class={styles.observePoint} ref={observerPointRef}/>
 }
 
-
-
-function MessageArea() {
-  const {input, account} = useStore();
+function MessageArea(props: {mainPaneEl?: HTMLDivElement}) {
+  const {channelProperties, account} = useStore();
   const params = useParams<{channelId: string}>();
   let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
@@ -209,12 +280,12 @@ function MessageArea() {
   const {channels, messages} = useStore();
 
   const setMessage = (content: string) => {
-    input.updateContent(params.channelId, content)
+    channelProperties.updateContent(params.channelId, content)
   }
 
-  const channelInput = () => input.getInput(params.channelId);
-  const message = () => channelInput()?.content || '';
-  const editMessageId = () => channelInput()?.editMessageId;
+  const channelProperty = () => channelProperties.get(params.channelId);
+  const message = () => channelProperty()?.content || '';
+  const editMessageId = () => channelProperty()?.editMessageId;
 
   let typingTimeoutId: null | number = null;
 
@@ -227,7 +298,7 @@ function MessageArea() {
   createEffect(on(message, () => adjustHeight()));
   
   const cancelEdit = () => {
-    input.setEditMessage(params.channelId, undefined);
+    channelProperties.setEditMessage(params.channelId, undefined);
     textAreaEl?.focus();
   };
 
@@ -241,7 +312,7 @@ function MessageArea() {
       if (message().trim().length) return;
       const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT && m.createdBy.id === myId);
       if (msg) {
-        input.setEditMessage(params.channelId, msg);
+        channelProperties.setEditMessage(params.channelId, msg);
         event.preventDefault();
       }
       return;
@@ -269,6 +340,7 @@ function MessageArea() {
       cancelEdit();
     } else {
       messages.sendAndStoreMessage(channel.id, formattedMessage);
+      props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
     }
     typingTimeoutId && clearTimeout(typingTimeoutId)
     typingTimeoutId = null;
@@ -284,7 +356,6 @@ function MessageArea() {
   }
   
   const onInput = (event: any) => {
-
     adjustHeight();
     setMessage(event.target?.value);
     if (typingTimeoutId) return;
@@ -292,7 +363,6 @@ function MessageArea() {
     typingTimeoutId = window.setTimeout(() => {
       typingTimeoutId = null;
     }, 4000)
-
   }
 
 
@@ -398,13 +468,13 @@ function TypingIndicator() {
 
 function EditIndicator(props: {messageId: string}) {
   const params = useParams<{channelId: string}>();
-  const {messages, input} = useStore();
+  const {messages, channelProperties} = useStore();
 
   const message = () => messages.get(params.channelId)?.find(m => m.id === props.messageId);
 
   createEffect(() => {    
     if (!message()) {
-      input.setEditMessage(params.channelId, undefined);
+      channelProperties.setEditMessage(params.channelId, undefined);
     }
   })
 
