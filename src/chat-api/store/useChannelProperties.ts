@@ -32,6 +32,9 @@ const setEditMessage = (channelId: string, message?: Message) => {
 
 const setScrollTop = (channelId: string, scrollTop: number) => {
   initIfMissing(channelId);
+  if (scrollTop === 0) {
+    console.log(scrollTop, channelId)
+  }
   const isScrolledBottom = get(channelId)?.isScrolledBottom;
   setChannelProperties(channelId, { scrollTop: !isScrolledBottom ? scrollTop : undefined });
 }

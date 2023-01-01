@@ -4,6 +4,7 @@ specifiers:
   '@nerimity/nevula': ^0.5.1
   '@nerimity/solid-i18next': ^1.1.9
   '@nerimity/solid-router': ^0.4.3
+  '@solid-primitives/keyed': ^1.1.4
   '@types/markdown-it': ^12.2.3
   '@types/markdown-it-emoji': ^2.0.2
   '@types/node': ^18.11.18
@@ -27,6 +28,7 @@ dependencies:
   '@nerimity/nevula': 0.5.1
   '@nerimity/solid-i18next': 1.1.9_gjpibb5xpips4ggmkrhe27nmra
   '@nerimity/solid-router': 0.4.3_solid-js@1.6.6
+  '@solid-primitives/keyed': 1.1.4_solid-js@1.6.6
   highlight.js: 11.7.0
   i18next: 22.4.6
   idb-keyval: 6.2.0
@@ -633,6 +635,14 @@ packages:
 
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
+    dev: false
+
+  /@solid-primitives/keyed/1.1.4_solid-js@1.6.6:
+    resolution: {integrity: sha512-K4DR4qGYOh5pJXgKKWwPjBEsnEBF4Old3zo4ht9wGBEvv3UB82P+zExqJK1lFie+7dYLOkgKD+8iZle1wZSEzg==}
+    peerDependencies:
+      solid-js: ^1.6.0
+    dependencies:
+      solid-js: 1.6.6
     dev: false
 
   /@types/linkify-it/3.0.2:

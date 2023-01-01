@@ -78,17 +78,19 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
 
   const channel = () => channels.get(params.channelId!)!;
   const {hasFocus} = useWindowProperties();
+  const {loadMoreBottom, loadMoreTop, scrollTop, scrolledBottom, forceUpdateScroll} = createScrollTracker(props.mainPaneEl!);
+
 
   createEffect(on(channel, () => {
+    setMessagesLoading(true);
     setOpenedTimestamp(null);
     if (!channel()) return;
     messages.fetchAndStoreMessages(channel().id).then(() => {
       setOpenedTimestamp(Date.now());
       channel()?.dismissNotification();
-      setMessagesLoading(false);
     })
   }))
-
+  
   
   createEffect(on(channelMessages, (messages) => {
     if (!messages) return;
@@ -96,25 +98,11 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     setUnreadLastSeen(null);
     updateLastReadIndex();
     props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
-    const channelProperty = channelProperties.get(params.channelId);
-    console.log(channelProperty?.scrollTop)
-    // props.mainPaneEl!.scrollTop = channelProperty?.isScrolledBottom ? props.mainPaneEl!.scrollHeight : channelProperty?.scrollTop!;
-    const channelId = params.channelId;
+    forceUpdateScroll();
+    setMessagesLoading(false);
 
-    
-    onCleanup(() => {
-      channelProperties.setScrollTop(channelId, props.mainPaneEl!.scrollTop)
-    })
   }))
   
-  const {scrollTop} = createScrollTracker(props.mainPaneEl!);
-
-  createEffect(() => {
-    if (!props.mainPaneEl) return;
-    if (!channelMessages()?.length) return;
-    channelProperties.setScrollTop(params.channelId, scrollTop())
-
-  })
 
   
   createEffect(on(() => channelMessages()?.length, (input, prevInput) => {
@@ -173,8 +161,10 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
   }
 
 
-
-  const loadMoreTop = async () => {
+  createEffect(on([loadMoreTop, messagesLoading], () => {
+    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
+    if (!loadMoreTop()) return;
+    if (messagesLoading()) return;
     setMessagesLoading(true);
     const {save, load} = saveScrollPosition(props.mainPaneEl!, messageLogElement!)
     
@@ -185,20 +175,15 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     const afterSet = ({hasMore}: {hasMore: boolean}) => {
       load();
       if (!hasMore) return;
+      forceUpdateScroll();
       setMessagesLoading(false);
     }
     messages.loadMoreAndStoreMessages(params.channelId, beforeSet, afterSet);
-  }
-  
-  const onIntersectBottom = (isIntersecting: boolean) => {
-    channelProperties.setScrolledBottom(params.channelId, isIntersecting);
-  }
+  }));
+
 
 
   return <div class={styles.messageLogArea} ref={messageLogElement}>
-    <Show when={!messagesLoading() && channelMessages()?.length! >= env.MESSAGE_LIMIT}>
-      <ObservePoint height="500px" onIntersect={loadMoreTop} position="top" />
-    </Show>
     <For each={channelMessages()}>
       {(message, i) => (
         <>
@@ -213,63 +198,41 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
         </>
       )}
     </For>
-    <ObservePoint onIntersectChange={onIntersectBottom} height="20px" position="bottom" />
   </div>
 }
 
 
-
 function createScrollTracker(scrollElement: HTMLElement) {
+  const [loadMoreTop, setLoadMoreTop] = createSignal(false);
+  const [loadMoreBottom, setLoadMoreBottom] = createSignal(true);
+  const [scrolledBottom, setScrolledBottom] = createSignal(true);
   const [scrollTop, setScrollTop] = createSignal(scrollElement.scrollTop);
-  let intervalId = window.setInterval(() => {
-    if (scrollElement.scrollTop === scrollTop()) return;
+
+  const LOAD_MORE_LENGTH = 500;
+  const SCROLLED_BOTTOM_LENGTH = 20;
+
+
+  const onScroll = () => {
+    const scrollBottom = scrollElement.scrollHeight - (scrollElement.scrollTop + scrollElement.clientHeight);
+
+    const isLoadMoreTop = scrollElement.scrollTop <= LOAD_MORE_LENGTH;
+    const isLoadMoreBottom = scrollBottom <= LOAD_MORE_LENGTH;
+    const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH
+    
+    if (loadMoreTop() !== isLoadMoreTop) setLoadMoreTop(isLoadMoreTop);
+    if (loadMoreBottom() !== isLoadMoreBottom) setLoadMoreBottom(isLoadMoreBottom);
+    if (scrolledBottom() !== isScrolledBottom) setScrolledBottom(isScrolledBottom);
     setScrollTop(scrollElement.scrollTop);
-  }, 1000)
-
-  onCleanup(() => {
-    clearInterval(intervalId);
-  })
-
-  const currentScrollTop = () => {
-    scrollTop()
-    return scrollElement.scrollTop;
   }
 
-  return {
-    scrollTop: currentScrollTop
-  }
-}
 
-
-interface ObservePointProps {
-  onIntersect?: () => void;
-  onIntersectChange?: (isIntersecting: boolean) => void;
-  position: "top" | "bottom"
-  height: string;
-}
-
-function ObservePoint(props: ObservePointProps) {
-  const style: JSX.CSSProperties = props.position === "top" ? ({top: 0, height: props.height}) : ({bottom: 0, height: props.height}) 
-  let observerPointRef: HTMLDivElement | undefined;
-
-  const observer = new IntersectionObserver(entries => {
-    const entry = entries[0];
-    props.onIntersectChange?.(entry.isIntersecting);
-    if (!entry.isIntersecting) return;
-    props.onIntersect?.();
-  });
-
-  createEffect(() => {
-    observer.observe(observerPointRef!);
+  onMount(() => {
+    scrollElement.addEventListener("scroll", onScroll, {passive: true});
+    onCleanup(() => scrollElement.removeEventListener("scroll", onScroll));
   })
-  
-  onCleanup(() => {
-    observer?.disconnect();
-  })
-
-
-  return <div style={style} class={styles.observePoint} ref={observerPointRef}/>
+  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdateScroll: onScroll }
 }
+
 
 function MessageArea(props: {mainPaneEl?: HTMLDivElement}) {
   const {channelProperties, account} = useStore();
