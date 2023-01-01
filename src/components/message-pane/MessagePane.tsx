@@ -1,6 +1,5 @@
 import styles from './styles.module.scss';
-
-import { createComputed, createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
+import { batch, createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '../../chat-api/store/useStore';
@@ -12,10 +11,8 @@ import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
 import { postChannelTyping } from '@/chat-api/services/MessageService';
-import { className } from 'solid-js/web';
 import { classNames } from '@/common/classNames';
 import { emojiShortcodeToUnicode } from '@/emoji';
-import ModerationPane from '../moderation-pane/ModerationPane';
 import env from '@/common/env';
 
 export default function MessagePane(props: {mainPaneEl?: HTMLDivElement}) {
@@ -46,8 +43,6 @@ export default function MessagePane(props: {mainPaneEl?: HTMLDivElement}) {
     </div>
   );
 }
-
-
 
 const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement) => {
 
@@ -80,7 +75,6 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
   const {hasFocus} = useWindowProperties();
   const {loadMoreBottom, loadMoreTop, scrollTop, scrolledBottom, forceUpdateScroll} = createScrollTracker(props.mainPaneEl!);
 
-
   createEffect(on(channel, () => {
     setMessagesLoading(true);
     setOpenedTimestamp(null);
@@ -88,21 +82,40 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     messages.fetchAndStoreMessages(channel().id).then(() => {
       setOpenedTimestamp(Date.now());
       channel()?.dismissNotification();
+      const channelProperty = channelProperties.get(params.channelId);
+      if (channelProperty?.isScrolledBottom === undefined || channelProperty?.isScrolledBottom) {
+        props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
+      } else {
+        props.mainPaneEl!.scrollTop = channelProperty?.scrollTop!;
+      }
+      forceUpdateScroll();
+      setMessagesLoading(false);
     })
   }))
   
+  createEffect(on(scrollTop, (value) => {
+    const channelId = params.channelId;
+    channelProperties.setScrollTop(channelId, value)
+  }))
+
+  createEffect(on(scrolledBottom, (value) => {
+    const channelId = params.channelId;
+    channelProperties.setScrolledBottom(channelId, value);
+  }))
+  
+  createEffect(on(scrolledBottom, (value) => {
+    const channelId = params.channelId;
+    channelProperties.setScrolledBottom(channelId, value);
+  }))
   
   createEffect(on(channelMessages, (messages) => {
     if (!messages) return;
     setUnreadMessageId(null);
     setUnreadLastSeen(null);
     updateLastReadIndex();
-    props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
-    forceUpdateScroll();
-    setMessagesLoading(false);
+
 
   }))
-  
 
   
   createEffect(on(() => channelMessages()?.length, (input, prevInput) => {
@@ -160,7 +173,6 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     setUnreadMessageId(message?.id || null);
   }
 
-
   createEffect(on([loadMoreTop, messagesLoading], () => {
     if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
     if (!loadMoreTop()) return;
@@ -181,8 +193,6 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     messages.loadMoreAndStoreMessages(params.channelId, beforeSet, afterSet);
   }));
 
-
-
   return <div class={styles.messageLogArea} ref={messageLogElement}>
     <For each={channelMessages()}>
       {(message, i) => (
@@ -200,7 +210,6 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     </For>
   </div>
 }
-
 
 function createScrollTracker(scrollElement: HTMLElement) {
   const [loadMoreTop, setLoadMoreTop] = createSignal(false);
@@ -232,7 +241,6 @@ function createScrollTracker(scrollElement: HTMLElement) {
   })
   return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdateScroll: onScroll }
 }
-
 
 function MessageArea(props: {mainPaneEl?: HTMLDivElement}) {
   const {channelProperties, account} = useStore();
@@ -287,7 +295,6 @@ function MessageArea(props: {mainPaneEl?: HTMLDivElement}) {
     }
   }
 
-
   const sendMessage = () => {
     textAreaEl?.focus();
     const trimmedMessage = message().trim();
@@ -296,7 +303,6 @@ function MessageArea(props: {mainPaneEl?: HTMLDivElement}) {
     const channel = channels.get(params.channelId!)!;
 
     const formattedMessage = formatMessage(trimmedMessage);
-
 
     if (editMessageId()) {
       messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
@@ -327,7 +333,6 @@ function MessageArea(props: {mainPaneEl?: HTMLDivElement}) {
       typingTimeoutId = null;
     }, 4000)
   }
-
 
   return <div class={styles.messageArea}>
     <Show when={editMessageId()}><Button iconName='close' color='var(--alert-color)' onClick={cancelEdit} class={styles.button}/></Show>
@@ -428,7 +433,6 @@ function TypingIndicator() {
   )
 }
 
-
 function EditIndicator(props: {messageId: string}) {
   const params = useParams<{channelId: string}>();
   const {messages, channelProperties} = useStore();
@@ -476,7 +480,6 @@ function Floating (props: {class?: string, children: JSX.Element}) {
     </div>
   )
 }
-
 
 function formatMessage (message: string) {
   const regex = /:([\w]+):/g;
