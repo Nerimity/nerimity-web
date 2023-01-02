@@ -4,6 +4,7 @@ import { MessageType, RawMessage } from '../RawData';
 import { fetchMessages, postMessage, updateMessage } from '../services/MessageService';
 import socketClient from '../socketClient';
 import useAccount from './useAccount';
+import useChannelProperties from './useChannelProperties';
 import useChannels from './useChannels';
 
 const account = useAccount();
@@ -21,6 +22,11 @@ export type Message = RawMessage & {
 const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});
 const fetchAndStoreMessages = async (channelId: string) => {
   if (getMessagesByChannelId(channelId)) return;
+
+  const channelProperties = useChannelProperties();
+  channelProperties.setMoreTopToLoad(channelId, true);
+  channelProperties.setMoreBottomToLoad(channelId, false);
+
   const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT);
   setMessages({
     [channelId]: newMessages

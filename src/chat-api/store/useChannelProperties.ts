@@ -6,13 +6,20 @@ export type ChannelProperties = {
   editMessageId?: string;
   isScrolledBottom: boolean;
   scrollTop?: number;
+  
+  moreTopToLoad?: boolean;
+  moreBottomToLoad?: boolean;
+
 }
 
 const [properties, setChannelProperties] = createStore<Record<string, ChannelProperties>>({});
 
 const initIfMissing = (channelId: string) => {
   if (properties[channelId]) return;
-  setChannelProperties(channelId, {content: '', isScrolledBottom: false})
+  setChannelProperties(channelId, {
+    content: '',
+    isScrolledBottom: false,
+  })
 }
 
 const updateContent = (channelId: string, content: string) => {
@@ -32,15 +39,20 @@ const setEditMessage = (channelId: string, message?: Message) => {
 
 const setScrollTop = (channelId: string, scrollTop: number) => {
   initIfMissing(channelId);
-  if (scrollTop === 0) {
-    console.log(scrollTop, channelId)
-  }
   const isScrolledBottom = get(channelId)?.isScrolledBottom;
   setChannelProperties(channelId, { scrollTop: !isScrolledBottom ? scrollTop : undefined });
 }
 const setScrolledBottom = (channelId: string, isScrolledBottom: boolean) => {
   initIfMissing(channelId);
   setChannelProperties(channelId, { isScrolledBottom });
+}
+
+const setMoreTopToLoad = (channelId: string, value: boolean) => {
+  setChannelProperties(channelId, { moreTopToLoad: value})
+}
+
+const setMoreBottomToLoad = (channelId: string, value: boolean) => {
+  setChannelProperties(channelId, { moreBottomToLoad: value})
 }
 
 
@@ -50,6 +62,8 @@ export default function useChannelProperties() {
     get,
     setEditMessage,
     setScrollTop,
-    setScrolledBottom
+    setScrolledBottom,
+    setMoreTopToLoad,
+    setMoreBottomToLoad
   }
 }

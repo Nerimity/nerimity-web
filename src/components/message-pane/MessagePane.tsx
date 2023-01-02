@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { batch, createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '../../chat-api/store/useStore';
@@ -93,45 +93,28 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
     })
   }))
   
-  createEffect(on(scrollTop, (value) => {
-    const channelId = params.channelId;
-    channelProperties.setScrollTop(channelId, value)
-  }))
-
-  createEffect(on(scrolledBottom, (value) => {
-    const channelId = params.channelId;
-    channelProperties.setScrolledBottom(channelId, value);
-  }))
-  
-  createEffect(on(scrolledBottom, (value) => {
-    const channelId = params.channelId;
-    channelProperties.setScrolledBottom(channelId, value);
-  }))
-  
   createEffect(on(channelMessages, (messages) => {
     if (!messages) return;
     setUnreadMessageId(null);
     setUnreadLastSeen(null);
     updateLastReadIndex();
 
+    const channelId = params.channelId;
+
+    onCleanup(() => {
+      channelProperties.setScrollTop(channelId, scrollTop())
+      channelProperties.setScrolledBottom(channelId, scrolledBottom());
+    })
 
   }))
 
-  
-  createEffect(on(() => channelMessages()?.length, (input, prevInput) => {
-    if (props.mainPaneEl && prevInput === undefined) {
-      props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
-    }
-  }))
   
   createEffect(on(hasFocus, () => {
-    if (hasFocus()) {
-      channel()?.dismissNotification();
-    }
+    if (!hasFocus()) return;
+    channel()?.dismissNotification();
   }, { defer: true }))
   
   const onMessage = (message: RawMessage) => {
-
     if (channelProperties.get(params.channelId)?.isScrolledBottom) {
       props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
     }
@@ -159,7 +142,6 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
   })
   
 
-  
   const updateLastReadIndex = () => {
     if (!channel().hasNotifications) return;
 
@@ -203,7 +185,7 @@ const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
           <MessageItem
             animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
             message={message}
-            beforeMessage={ message.type === MessageType.CONTENT && channelMessages()?.[i() - 1]}
+            beforeMessage={ message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
           />
         </>
       )}

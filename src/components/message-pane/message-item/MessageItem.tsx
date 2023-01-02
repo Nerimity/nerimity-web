@@ -55,7 +55,7 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
 }
 
 
-const MessageItem = (props: { class?: string, message: Message, beforeMessage?: Message | false, animate?: boolean, hideFloating?: boolean }) => {
+const MessageItem = (props: { class?: string, message: Message, beforeMessage?: Message, animate?: boolean, hideFloating?: boolean }) => {
   
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
   const params = useParams();
@@ -98,10 +98,10 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
   )
 
   const currentTime = props.message?.createdAt;
-  const beforeMessageTime = props.beforeMessage && props.beforeMessage?.createdAt!
+  const beforeMessageTime = () => props.beforeMessage?.createdAt!
 
   const isSameCreator = () => props.beforeMessage && props.beforeMessage?.createdBy?.id === props.message?.createdBy?.id;
-  const isDateUnderFiveMinutes = () => beforeMessageTime && (currentTime- beforeMessageTime) < 300000;
+  const isDateUnderFiveMinutes = () => beforeMessageTime && (currentTime - beforeMessageTime()) < 300000;
 
 
   const isCompact = () => isSameCreator() && isDateUnderFiveMinutes();
