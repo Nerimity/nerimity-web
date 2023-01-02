@@ -13,9 +13,10 @@ import Icon from '@/components/ui/icon/Icon';
 import { postChannelTyping } from '@/chat-api/services/MessageService';
 import { classNames } from '@/common/classNames';
 import { emojiShortcodeToUnicode } from '@/emoji';
-import env from '@/common/env';
+import { Rerun } from '@solid-primitives/keyed';
+import { Message } from '@/chat-api/store/useMessages';
 
-export default function MessagePane(props: {mainPaneEl?: HTMLDivElement}) {
+export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams();
   const {channels, header} = useStore();
 
@@ -37,10 +38,12 @@ export default function MessagePane(props: {mainPaneEl?: HTMLDivElement}) {
 
 
   return (
-    <div class={styles.messagePane}>
-      <MessageLogArea mainPaneEl={props.mainPaneEl} />
-      <MessageArea mainPaneEl={props.mainPaneEl} />
-    </div>
+    <Rerun on={() => params.channelId}>
+      <div class={styles.messagePane}>
+        <MessageLogArea mainPaneEl={props.mainPaneEl} />
+        <MessageArea mainPaneEl={props.mainPaneEl} />
+      </div>
+    </Rerun>
   );
 }
 
@@ -60,137 +63,53 @@ const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivEl
   return {save, load};
 }
 
-const MessageLogArea = (props: {mainPaneEl?: HTMLDivElement}) => {
+const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
+  const {channels, messages, account, channelProperties} = useStore();
   let messageLogElement: undefined | HTMLDivElement;
   const params = useParams<{channelId: string}>();
-  const {channels, messages, account, channelProperties} = useStore();
-
   const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
-  const [openedTimestamp, setOpenedTimestamp] = createSignal<null | number>(null);
-  const [unreadMessageId, setUnreadMessageId] = createSignal<null | string>(null);
-  const [unreadLastSeen, setUnreadLastSeen] = createSignal<null | number>(null);
-  const [messagesLoading, setMessagesLoading] = createSignal(true);
+  let loadedTimestamp: number | undefined;
 
-  const channel = () => channels.get(params.channelId!)!;
-  const {hasFocus} = useWindowProperties();
-  const {loadMoreBottom, loadMoreTop, scrollTop, scrolledBottom, forceUpdateScroll} = createScrollTracker(props.mainPaneEl!);
 
-  createEffect(on(channel, () => {
-    setMessagesLoading(true);
-    setOpenedTimestamp(null);
-    if (!channel()) return;
-    messages.fetchAndStoreMessages(channel().id).then(() => {
-      setOpenedTimestamp(Date.now());
-      channel()?.dismissNotification();
-      const channelProperty = channelProperties.get(params.channelId);
-      if (channelProperty?.isScrolledBottom === undefined || channelProperty?.isScrolledBottom) {
-        props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
-      } else {
-        props.mainPaneEl!.scrollTop = channelProperty?.scrollTop!;
-      }
-      forceUpdateScroll();
-      setMessagesLoading(false);
-    })
-  }))
-  
-  createEffect(on(channelMessages, (messages) => {
-    if (!messages) return;
-    setUnreadMessageId(null);
-    setUnreadLastSeen(null);
-    updateLastReadIndex();
+  const onMessageCreated = (message: Message) => {
+    if (message.channelId !== params.channelId) return;
 
-    const channelId = params.channelId;
-
-    onCleanup(() => {
-      channelProperties.setScrollTop(channelId, scrollTop())
-      channelProperties.setScrolledBottom(channelId, scrolledBottom());
-    })
-
-  }))
-
-  
-  createEffect(on(hasFocus, () => {
-    if (!hasFocus()) return;
-    channel()?.dismissNotification();
-  }, { defer: true }))
-  
-  const onMessage = (message: RawMessage) => {
-    if (channelProperties.get(params.channelId)?.isScrolledBottom) {
-      props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
-    }
-
-    if (!channelMessages()) return;
-    const selectedChannelId = params.channelId;
-    const newMessageChannelId = message.channelId;
-    if (selectedChannelId !== newMessageChannelId) return;
-    if (message.createdBy.id === account.user()?.id) return;
-    if (!hasFocus()) {
-      const timestamp = channel().lastSeen!;
-      if (timestamp !== unreadLastSeen()) {
-        setUnreadMessageId(message.id);
-        setUnreadLastSeen(timestamp);
-      };
-    }
-    channel()?.dismissNotification();
+    console.log(message);
   }
 
-  onMount(() => {
-    socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessage);
+  onMount(async () => {
+    await fetchMessages();
+    props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+
+    socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated)
+    
     onCleanup(() => {
-      socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessage);
+      socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated)
+
     })
   })
   
-
-  const updateLastReadIndex = () => {
-    if (!channel().hasNotifications) return;
-
-    const lastRead = channel()?.lastSeen! || -1;
-    if (lastRead === -1) {
-      setUnreadMessageId(null);
-      return;
-    };
-    
-    const message = channelMessages()?.find(m => m.createdAt - lastRead >= 0 );
-    setUnreadMessageId(message?.id || null);
+  const fetchMessages = async () => {
+    loadedTimestamp = Date.now();
+    if (channelMessages()) return;
+    await messages.fetchAndStoreMessages(params.channelId);  
   }
 
-  createEffect(on([loadMoreTop, messagesLoading], () => {
-    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
-    if (!loadMoreTop()) return;
-    if (messagesLoading()) return;
-    setMessagesLoading(true);
-    const {save, load} = saveScrollPosition(props.mainPaneEl!, messageLogElement!)
-    
-    const beforeSet = () => {
-      save();
-    }
-
-    const afterSet = ({hasMore}: {hasMore: boolean}) => {
-      load();
-      if (!hasMore) return;
-      forceUpdateScroll();
-      setMessagesLoading(false);
-    }
-    messages.loadMoreAndStoreMessages(params.channelId, beforeSet, afterSet);
-  }));
-
-  return <div class={styles.messageLogArea} ref={messageLogElement}>
-    <For each={channelMessages()}>
-      {(message, i) => (
-        <>
-          <Show when={unreadMessageId() === message.id}>
-            <UnreadMarker/>
-          </Show>
-          <MessageItem
-            animate={!!openedTimestamp() && message.createdAt > openedTimestamp()!}
-            message={message}
-            beforeMessage={ message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
-          />
-        </>
-      )}
-    </For>
-  </div>
+  return (
+    <div class={styles.messageLogArea} ref={messageLogElement}>
+      <For each={channelMessages()}>
+        {(message, i) => (
+          <>
+            <MessageItem
+              animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
+              message={message}
+              beforeMessage={ message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
+            />
+          </>
+        )}
+      </For>
+    </div>
+  );
 }
 
 function createScrollTracker(scrollElement: HTMLElement) {
@@ -224,7 +143,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
   return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdateScroll: onScroll }
 }
 
-function MessageArea(props: {mainPaneEl?: HTMLDivElement}) {
+function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
   const {channelProperties, account} = useStore();
   const params = useParams<{channelId: string}>();
   let textAreaEl: undefined | HTMLTextAreaElement;
