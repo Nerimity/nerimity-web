@@ -40,6 +40,36 @@
     margin: 0;
     backdrop-filter: blur(20px);
   }
+
+  .backToBottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    backdrop-filter: blur(20px);
+    background-color: rgba(40, 40, 40, 0.6);
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    
+    border-radius: 8px;
+    min-height: 50px;
+    min-width: 50px;
+    right: -55px;
+    top: -10px;
+    z-index: 11111;
+    top: -60px;
+    cursor: pointer;
+
+    .text {
+      margin-left: 10px;
+      color: var(--alert-color);
+    }
+
+    &:hover {
+      background-color: rgba(58, 58, 58, 0.6);
+    }
+
+  }
+
   .floating {
     position: absolute;
     background-color: rgba(40, 40, 40, 0.6);

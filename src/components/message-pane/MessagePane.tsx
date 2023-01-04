@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
+import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '../../chat-api/store/useStore';
@@ -14,7 +14,9 @@ import { postChannelTyping } from '@/chat-api/services/MessageService';
 import { classNames } from '@/common/classNames';
 import { emojiShortcodeToUnicode } from '@/emoji';
 import { Rerun } from '@solid-primitives/keyed';
-import { Message } from '@/chat-api/store/useMessages';
+import Spinner from '../ui/Spinner';
+import env from '@/common/env';
+import Text from '../ui/Text';
 
 export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams();
@@ -47,16 +49,21 @@ export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   );
 }
 
-const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement) => {
+const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement, element: "first" | "last") => {
 
-  const firstMessageEl = logElement?.querySelector(".messageItem") as HTMLDivElement;
+  let el = logElement?.querySelector(".messageItem") as HTMLDivElement;
+  
+  if (element === "last") {
+    el = logElement.lastElementChild as HTMLDivElement;
+  }
+
   let beforeTop: undefined | number;
 
   const save = () => {
-    beforeTop = firstMessageEl.getBoundingClientRect().top;
+    beforeTop = el.getBoundingClientRect().top;
   }
   const load = () => {
-    const afterTop = firstMessageEl.getBoundingClientRect().top;
+    const afterTop = el.getBoundingClientRect().top;
     const difference = afterTop - beforeTop!;
     scrollElement.scrollTop = scrollElement.scrollTop + difference;
   }
@@ -64,29 +71,111 @@ const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivEl
 }
 
 const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
+  const params = useParams<{channelId: string}>();
+  const {hasFocus} = useWindowProperties();
   const {channels, messages, account, channelProperties} = useStore();
   let messageLogElement: undefined | HTMLDivElement;
-  const params = useParams<{channelId: string}>();
   const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
   let loadedTimestamp: number | undefined;
+  const [unreadMarker, setUnreadMarker] = createStore<{lastSeenAt: number | null, messageId: string | null}>({lastSeenAt: null, messageId: null});
+  
+  const [loadingMessages, setLoadingMessages] = createStore({top: false, bottom: true});
+  const scrollTracker = createScrollTracker(props.mainPaneEl);
+  
+  const channel = () => channels.get(params.channelId!)!;
+
+  const properties = () => channelProperties.get(params.channelId);
 
 
-  const onMessageCreated = (message: Message) => {
-    if (message.channelId !== params.channelId) return;
+  const updateUnreadMarker = (ignoreFocus = false) => {
+    if (!ignoreFocus && hasFocus()) return;
+    const lastSeenAt = channel().lastSeen || -1;
+    const message = channelMessages()?.find(m => m.createdAt - lastSeenAt >= 0 );
+    setUnreadMarker({
+      lastSeenAt,
+      messageId: message?.id || null
+    });
+    if (scrollTracker.scrolledBottom()) {
+      setTimeout(() => {
+        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight; 
+      });
+    }
+  }
+  
+  createEffect(on(() => channelMessages()?.length,(length, prevLength) => {
+    if (!length) return;
+    updateUnreadMarker(prevLength === undefined);
+    if (prevLength === undefined) return;
+    dismissNotification();
+  }))
 
-    console.log(message);
+  createEffect(on(hasFocus, () => {
+    dismissNotification();
+  }, {defer: true}))
+
+  const dismissNotification = () =>{
+    if (!hasFocus()) return;
+    if (!scrollTracker.scrolledBottom()) return;
+    channel()?.dismissNotification();
   }
 
+
+  const onMessageCreated = (message: RawMessage) => {
+    if (message.channelId !== params.channelId) return;
+    if (scrollTracker.scrolledBottom()) {
+      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+    }
+  }
+
+  createEffect(on(channelMessages, (messages, prevMessages) => {
+    if (prevMessages) return; 
+
+    const scrollPosition = () => {
+      if (properties()?.isScrolledBottom === undefined ) return props.mainPaneEl.scrollHeight;
+      if (properties()?.isScrolledBottom) return props.mainPaneEl.scrollHeight;
+      return properties()?.scrollTop!;
+    }
+    props.mainPaneEl.scrollTop = scrollPosition();
+    scrollTracker.forceUpdate();
+
+  setTimeout(() => {
+    setLoadingMessages('bottom', false); 
+  }, 100);
+  }))
+
+  createEffect(on(scrollTracker.scrolledBottom, () => {
+    dismissNotification();
+    channelProperties.setScrolledBottom(params.channelId, scrollTracker.scrolledBottom());
+  }));
+
   onMount(async () => {
-    await fetchMessages();
-    props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+    let authenticated = false;
+    createEffect(on(account.isAuthenticated, async (isAuthenticated) => {
+      if (!isAuthenticated) return;
+      if (authenticated) return;
+      authenticated = true;
+      if (!channelMessages()) {
+        channelProperties.setMoreTopToLoad(params.channelId, true);
+        channelProperties.setMoreBottomToLoad(params.channelId, false);
+      }
 
-    socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated)
+      await fetchMessages();
+
+      dismissNotification();
+    }))
+
+    const channelId = params.channelId;
     
+    socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
     onCleanup(() => {
-      socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated)
-
+      scrollTracker.forceUpdate();
+      batch(() => {
+        channelProperties.setScrolledBottom(channelId, scrollTracker.scrolledBottom());
+        channelProperties.setScrollTop(channelId, scrollTracker.scrollTop());
+      })
+      socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated);
     })
+
   })
   
   const fetchMessages = async () => {
@@ -95,11 +184,65 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     await messages.fetchAndStoreMessages(params.channelId);  
   }
 
+  const areMessagesLoading = () => loadingMessages.top || loadingMessages.bottom;
+
+  // Load more top when scrolled to the top
+  createEffect(on([scrollTracker.loadMoreTop, areMessagesLoading], ([loadMoreTop, alreadyLoading]) => {
+    if (!channelMessages()) return;
+    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
+    if (!properties()?.moreTopToLoad) return;
+    if (alreadyLoading) return;
+    if (!loadMoreTop) return;
+    setLoadingMessages('top', true);
+    const {save, load} = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "first");
+
+    const beforeSet = () => {
+      save();
+    }
+
+    const afterSet = ({hasMore}: {hasMore: boolean}) => {
+      load();
+      channelProperties.setMoreBottomToLoad(params.channelId, true);
+      channelProperties.setMoreTopToLoad(params.channelId, hasMore);
+      scrollTracker.forceUpdate();
+      setLoadingMessages('top', false);
+    }
+    messages.loadMoreTopAndStoreMessages(params.channelId, beforeSet, afterSet);
+  }))
+
+  // Load more bottom when scrolled to the bottom
+  createEffect(on([scrollTracker.loadMoreBottom, areMessagesLoading], ([loadMoreBottom, alreadyLoading]) => {
+    if (!channelMessages()) return;
+    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
+    if (!properties()?.moreBottomToLoad) return;
+    if (alreadyLoading) return;
+    if (!loadMoreBottom) return;
+    setLoadingMessages('bottom', true);
+    const {save, load} = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "last");
+
+    const beforeSet = () => {
+      save();
+    }
+
+    const afterSet = ({hasMore}: {hasMore: boolean}) => {
+      load();
+      channelProperties.setMoreTopToLoad(params.channelId, true);
+      channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
+      scrollTracker.forceUpdate();
+      setLoadingMessages('bottom', false);
+    }
+    messages.loadMoreBottomAndStoreMessages(params.channelId, beforeSet, afterSet);
+  }))
+
+
   return (
     <div class={styles.messageLogArea} ref={messageLogElement}>
       <For each={channelMessages()}>
         {(message, i) => (
           <>
+            <Show when={unreadMarker.messageId === message.id}>
+              <UnreadMarker/>
+            </Show>
             <MessageItem
               animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
               message={message}
@@ -118,7 +261,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
   const [scrolledBottom, setScrolledBottom] = createSignal(true);
   const [scrollTop, setScrollTop] = createSignal(scrollElement.scrollTop);
 
-  const LOAD_MORE_LENGTH = 500;
+  const LOAD_MORE_LENGTH = 300;
   const SCROLLED_BOTTOM_LENGTH = 20;
 
 
@@ -140,7 +283,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
     scrollElement.addEventListener("scroll", onScroll, {passive: true});
     onCleanup(() => scrollElement.removeEventListener("scroll", onScroll));
   })
-  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdateScroll: onScroll }
+  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll }
 }
 
 function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
@@ -182,6 +325,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
     }
     if(event.key === "ArrowUp") {
       if (message().trim().length) return;
+      if (channelProperty()?.moreBottomToLoad) return;
       const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT && m.createdBy.id === myId);
       if (msg) {
         channelProperties.setEditMessage(params.channelId, msg);
@@ -210,7 +354,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
       cancelEdit();
     } else {
       messages.sendAndStoreMessage(channel.id, formattedMessage);
-      props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight;
+      !channelProperty()?.moreBottomToLoad && (props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight);
     }
     typingTimeoutId && clearTimeout(typingTimeoutId)
     typingTimeoutId = null;
@@ -241,6 +385,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
       <TypingIndicator/>
       <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
       <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
+      <BackToBottomButton scrollElement={props.mainPaneEl} />
     </div>
     <Button iconName={editMessageId() ? 'edit' : 'send'} onClick={sendMessage} class={styles.button}/>
   </div>
@@ -389,4 +534,30 @@ function formatMessage (message: string) {
     const emojiName = val.substring(1, val.length - 1);
     return emojiShortcodeToUnicode(emojiName) || val;
   })
+}
+
+function BackToBottomButton(props: {scrollElement: HTMLDivElement}) {
+  const {channelProperties, channels, messages} = useStore();
+  const params = useParams<{channelId: string}>();
+
+  const properties = () => channelProperties.get(params.channelId);
+  const scrolledUp = () => !properties()?.isScrolledBottom || properties()?.moreBottomToLoad;
+
+  const newMessages = createMemo(() => channels.get(params.channelId)?.hasNotifications);
+
+  const onClick = async () => {
+    if (properties()?.moreBottomToLoad) {
+      await messages.fetchAndStoreMessages(params.channelId, true);
+    }
+    props.scrollElement.scrollTop = props.scrollElement.scrollHeight;
+  }
+
+  return (
+    <Show when={scrolledUp()}>
+      <div class={styles.backToBottom} onclick={onClick}>
+        <Show when={newMessages()}><Text class={styles.text}>New messages</Text></Show>
+        <Icon size={34} color={newMessages() ? 'var(--alert-color)' : "var(--primary-color)"} name="expand_more" />
+      </div>
+    </Show>
+  )
 }

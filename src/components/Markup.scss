@@ -44,6 +44,7 @@
   &.no-wrap {
     .content {
       word-break: keep-all;
+      white-space: pre;
       overflow: auto;
     }
   }

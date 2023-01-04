@@ -20,8 +20,8 @@ export type Message = RawMessage & {
 }
 
 const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});
-const fetchAndStoreMessages = async (channelId: string) => {
-  if (getMessagesByChannelId(channelId)) return;
+const fetchAndStoreMessages = async (channelId: string, force = false) => {
+  if (!force && getMessagesByChannelId(channelId)) return;
 
   const channelProperties = useChannelProperties();
   channelProperties.setMoreTopToLoad(channelId, true);
@@ -33,7 +33,7 @@ const fetchAndStoreMessages = async (channelId: string) => {
   });
 }
 
-const loadMoreAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: {hasMore: boolean}) => void) => {
+const loadMoreTopAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: {hasMore: boolean}) => void) => {
   const channelMessages = messages[channelId]!;
   const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, channelMessages[0].id);
   const clamp = sliceEnd([...newMessages, ...channelMessages]);
@@ -46,12 +46,25 @@ const loadMoreAndStoreMessages = async (channelId: string, beforeSet: () => void
   afterSet({ hasMore });
 }
 
+const loadMoreBottomAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: {hasMore: boolean}) => void) => {
+  const channelMessages = messages[channelId]!;
+  const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, undefined, channelMessages[channelMessages.length - 1].id);
+  const clamp = sliceBeginning([...channelMessages, ...newMessages]);
+  const hasMore = newMessages.length === env.MESSAGE_LIMIT
+
+  beforeSet();
+  setMessages({
+    [channelId]: clamp
+  });
+  afterSet({ hasMore });
+}
+
 function sliceEnd(arr: any[]) {
-  return arr.slice(0, env.MESSAGE_LIMIT * 3);
+  return arr.slice(0, env.MESSAGE_LIMIT * 4);
 }
 
 function sliceBeginning(arr: any[]) {
-  return arr.slice(-(env.MESSAGE_LIMIT * 3), arr.length);
+  return arr.slice(-(env.MESSAGE_LIMIT * 4), arr.length);
 }
 
 
@@ -84,6 +97,8 @@ const updateLocalMessage = async (message: Partial<RawMessage & {sentStatus: Mes
 
 const sendAndStoreMessage = async (channelId: string, content: string) => {
   const channels = useChannels();
+  const channelProperties = useChannelProperties();
+  const properties = channelProperties.get(channelId);
   const tempMessageId = `${Date.now()}-${Math.random()}`;
   const channel = channels.get(channelId);
 
@@ -107,7 +122,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
     },
   };
 
-  setMessages({
+  !properties?.moreBottomToLoad && setMessages({
     [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
   })
 
@@ -126,18 +141,22 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
   const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
 
   if (!message) {
-    setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
+    !properties?.moreBottomToLoad && setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
     return;
   }
   message.tempId = tempMessageId;
 
-  setMessages(channelId, index!, reconcile(message, {key: "tempId"}));
+  !properties?.moreBottomToLoad && setMessages(channelId, index!, reconcile(message, {key: "tempId"}));
 }
 
 
 const pushMessage = (channelId: string, message: Message) => {
   if (!messages[channelId]) return;
-  setMessages(channelId, messages[channelId]?.length!, message);
+  const channelProperties = useChannelProperties();
+  const properties = channelProperties.get(channelId);
+  !properties?.moreBottomToLoad && setMessages({
+    [channelId]: sliceBeginning([...messages[channelId]!, message])
+  });
 };
 
 const locallyRemoveMessage = (channelId: string, messageId: string) => {
@@ -159,7 +178,8 @@ export default function useMessages() {
   return {
     getMessagesByChannelId,
     fetchAndStoreMessages,
-    loadMoreAndStoreMessages,
+    loadMoreTopAndStoreMessages,
+    loadMoreBottomAndStoreMessages,
     editAndStoreMessage,
     sendAndStoreMessage,
     locallyRemoveMessage,
