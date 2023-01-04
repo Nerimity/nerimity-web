@@ -42,6 +42,14 @@ jobs:
           files: dist/
           dest: chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
+      - name: Deploy to Server
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          local: 'dist/'                                                  # Local file path - REQUIRED false - DEFAULT ./
+          remote: '/var/www/nerimity.com/'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
+          host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
+          user: ${{secrets.USER}}                                      # Remote server user - REQUIRED true
+          password: ${{secrets.PASS}} 
       - name: Publish Draft Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -51,11 +59,4 @@ jobs:
           files: |
             chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
-      - name: Deploy to Server
-        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
-        with:
-          local: 'dist/'                                                  # Local file path - REQUIRED false - DEFAULT ./
-          remote: '/var/www/nerimity.com/'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
-          host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
-          user: ${{secrets.USER}}                                      # Remote server user - REQUIRED true
-          password: ${{secrets.PASS}}                              # User password - REQUIRED at least one of "password" or "key" 
+                             # User password - REQUIRED at least one of "password" or "key" 
