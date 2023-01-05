@@ -29,6 +29,12 @@ function isEventActive({start, dayDuration}: Event) {
   endDate.setHours(23)
   endDate.setMinutes(59)
 
+
+  if (startDate.getFullYear() !== endDate.getFullYear()) {
+    endDate.setFullYear(startDate.getFullYear())
+    startDate.setFullYear(startDate.getFullYear() - 1)
+  }
+
   return now > startDate.getTime() && now < endDate.getTime()
 }
 
