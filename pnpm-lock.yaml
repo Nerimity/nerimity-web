@@ -4,6 +4,7 @@ specifiers:
   '@nerimity/nevula': ^0.5.1
   '@nerimity/solid-i18next': ^1.1.9
   '@nerimity/solid-router': ^0.4.3
+  '@nerimity/solid-turnstile': ^1.1.0
   '@solid-primitives/keyed': ^1.1.4
   '@types/markdown-it': ^12.2.3
   '@types/markdown-it-emoji': ^2.0.2
@@ -28,6 +29,7 @@ dependencies:
   '@nerimity/nevula': 0.5.1
   '@nerimity/solid-i18next': 1.1.9_gjpibb5xpips4ggmkrhe27nmra
   '@nerimity/solid-router': 0.4.3_solid-js@1.6.6
+  '@nerimity/solid-turnstile': 1.1.0_solid-js@1.6.6
   '@solid-primitives/keyed': 1.1.4_solid-js@1.6.6
   highlight.js: 11.7.0
   i18next: 22.4.6
@@ -629,6 +631,14 @@ packages:
     resolution: {integrity: sha512-+jFW5hW4WVS1pX0RzXn9FOW2X2TPsonDFcrYOOgczfnjLlmmM4iT3hl1+YrQxnKcLPHyYemORmwGOIBMBXBIDg==}
     peerDependencies:
       solid-js: ^1.5.3
+    dependencies:
+      solid-js: 1.6.6
+    dev: false
+
+  /@nerimity/solid-turnstile/1.1.0_solid-js@1.6.6:
+    resolution: {integrity: sha512-YetH2H65ZajytiecDIYMwyv/RgA2Jtzv2M+thuN81yUjzbQJH3CvEBdxVZ7/6wIAMuucuPhY8s23BTM7wpV85Q==}
+    peerDependencies:
+      solid-js: '>=1.0.0'
     dependencies:
       solid-js: 1.6.6
     dev: false

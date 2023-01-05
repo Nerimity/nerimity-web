@@ -22,14 +22,15 @@ export async function loginRequest(email: string, password: string): Promise<{to
 
 // Returns {token}
 // error returns {path?, message}
-export async function registerRequest(email: string, username: string, password: string): Promise<{token: string}> {
+export async function registerRequest(email: string, username: string, password: string, token: string): Promise<{token: string}> {
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.register(),
     method: "POST",
     body: {
       email,
       username,
-      password
+      password,
+      token
     }
   });
 }

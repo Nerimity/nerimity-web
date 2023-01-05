@@ -3,12 +3,14 @@ import { registerRequest } from '../chat-api/services/UserService';
 import Button from '@/components/ui/Button';
 import { getStorageString, setStorageString, StorageKeys } from '../common/localStorage';
 import { Link, useNavigate, useLocation } from '@nerimity/solid-router';
-import { createSignal, onMount } from 'solid-js';
+import { createSignal, onMount, Show } from 'solid-js';
 import env from '../common/env';
 import PageHeader from '../components/PageHeader';
 import { css, styled } from 'solid-styled-components';
 import { FlexColumn } from '@/components/ui/Flexbox';
 import { useTransContext } from '@nerimity/solid-i18next';
+import { Turnstile, TurnstileRef } from '@nerimity/solid-turnstile';
+import Text from '@/components/ui/Text';
 
 const RegisterPageContainer = styled("div")`
   display: flex;
@@ -55,6 +57,8 @@ export default function RegisterPage() {
   const [username, setUsername] = createSignal('');
   const [password, setPassword] = createSignal('');
   const [confirmPassword, setConfirmPassword] = createSignal('');
+  let verifyToken = '';
+  let turnstileRef: TurnstileRef | undefined;
   
   onMount(() => {
     if (getStorageString(StorageKeys.USER_TOKEN, null)) {
@@ -73,8 +77,9 @@ export default function RegisterPage() {
       setRequestSent(false);
       return;
     }
-    const response = await registerRequest(email(), username().trim(), password().trim()).catch(err => {
+    const response = await registerRequest(email(), username().trim(), password().trim(), verifyToken).catch(err => {
       setError({message: err.message, path: err.path});
+      turnstileRef?.reset();
     })
     setRequestSent(false);
     if (!response) return;
@@ -93,6 +98,15 @@ export default function RegisterPage() {
           <Input label={t('registerPage.username')} error={error()} onText={setUsername} />
           <Input label={t('registerPage.password')} type='password' error={error()} onText={setPassword} />
           <Input label={t('registerPage.confirmPassword')} type='password' error={error()} onText={setConfirmPassword} />
+          <Turnstile
+            ref={turnstileRef}
+            sitekey={env.TURNSTILE_SITEKEY}
+            onVerify={(token) => verifyToken = token}
+            autoResetOnExpire={true}
+          />
+          <Show when={error().path === "other" || error().path === "token"}>
+            <Text size={16}  color='var(--alert-color)'>{error().message}</Text>
+          </Show>
           <Button iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
           <Link class={linkStyle} href="/login">{t('registerPage.loginInstead')}</Link>
         </Container>

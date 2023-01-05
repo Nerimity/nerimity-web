@@ -21,6 +21,7 @@
     "@nerimity/nevula": "^0.5.1",
     "@nerimity/solid-i18next": "^1.1.9",
     "@nerimity/solid-router": "^0.4.3",
+    "@nerimity/solid-turnstile": "^1.1.0",
     "@solid-primitives/keyed": "^1.1.4",
     "highlight.js": "^11.7.0",
     "i18next": "^22.4.6",
