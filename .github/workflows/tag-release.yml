@@ -20,7 +20,7 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo "VERSION=::$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
 
       - name: Install Node.js dependencies
         run: |
