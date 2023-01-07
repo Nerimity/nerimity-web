@@ -7,7 +7,7 @@ export interface ServerSetting {
     icon: string;
     requiredRolePermission?: Bitwise,
     hideDrawer?: boolean
-    element: any
+    element: any,
 }
 
 const serverSettings: ServerSetting[] =  [

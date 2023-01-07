@@ -3,6 +3,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import useStore from "@/chat-api/store/useStore";
 import { useNavigate } from "@nerimity/solid-router";
+import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
@@ -11,7 +12,7 @@ type Props = Omit<ContextMenuProps, 'items'> & {
 export default function ContextMenuServer (props: Props) {
 
   const navigate = useNavigate();
-  const {account, servers} = useStore();
+  const {account, servers, serverMembers} = useStore();
 
   const server = () => servers.get(props.serverId!);
 
@@ -22,12 +23,24 @@ export default function ContextMenuServer (props: Props) {
     await server()?.leave();
   }
 
+  const member = () => serverMembers.get(props.serverId!, account.user()?.id!);
+
+  const showSettings = () => {
+    if (isServerCreator()) return true;
+    return Object.values(ROLE_PERMISSIONS).find((p: Bitwise) => {
+      if (!member()?.hasPermission(p)) return false;
+      if (p.showSettings) return true;
+      return false;
+    })
+
+  };
+
   return (
     <ContextMenu {...props} items={[
       {icon: 'markunread_mailbox', label: "Mark As Read", disabled: true},
       {separator: true},
       {icon: 'mail', label: "Invites", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))},
-      {icon: 'settings', label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))},
+      ...(showSettings() ? [{icon: 'settings', label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))}] : []),
       {separator: true},
       {icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},
       {separator: true, show: !isServerCreator()},

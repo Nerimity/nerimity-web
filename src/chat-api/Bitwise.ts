@@ -4,6 +4,7 @@ export interface Bitwise {
   description?: string;
   bit: number;
   icon?: string
+  showSettings?: boolean; // determine should this permission reveal the "settings" option context menu
 }
 
 export const USER_BADGES = {
@@ -31,12 +32,14 @@ export const CHANNEL_PERMISSIONS = {
     icon: 'mail'
   }
 }
+
 export const ROLE_PERMISSIONS = {
   ADMIN: {
     name: 'servers.rolePermissions.admin',
     description: 'servers.rolePermissions.adminDescription',
     bit: 1,
     // icon: 'mail'
+    showSettings: true,
   },
   SEND_MESSAGE: {
     name: 'servers.rolePermissions.sendMessage',
@@ -49,23 +52,27 @@ export const ROLE_PERMISSIONS = {
     description: 'servers.rolePermissions.manageRolesDescription',
     // icon: 'mail',
     bit: 4,
+    showSettings: true,
   },
   MANAGE_CHANNELS: {
     name: 'servers.rolePermissions.manageChannels',
     description: 'servers.rolePermissions.manageChannelsDescription',
     // icon: 'mail',
     bit: 8,
+    showSettings: true,
   },
   KICK: {
     name: 'servers.rolePermissions.kick',
     description: 'servers.rolePermissions.kickDescription',
     bit: 16,
     // icon: 'mail'
+    showSettings: true,
   },
   BAN: {
     name: 'servers.rolePermissions.ban',
     description: 'servers.rolePermissions.banDescription',
     bit: 32,
+    showSettings: true,
     // icon: 'mail'
   }
 }
