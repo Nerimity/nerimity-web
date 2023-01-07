@@ -106,3 +106,13 @@ export interface RawPublicServer {
   lifetimeBumpCount: number;
   server?: RawServer & {_count: {serverMembers: number}}
 }
+
+
+export interface RawPost {
+  id: string;
+  content: string;
+  createdBy: RawUser
+  createdAt: number;
+  likedBy: {id: string}[] // if you liked this post, array will not be empty
+  _count: {likedBy: number}
+}

@@ -1,19 +1,25 @@
+import { RawPost } from "@/chat-api/RawData";
+import { createPost, getPosts } from "@/chat-api/services/PostService";
 import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
+import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Link, useMatch } from "@nerimity/solid-router";
-import { createEffect, createSignal, For } from "solid-js";
-import { styled } from "solid-styled-components"
+import { createEffect, createSignal, For, onMount } from "solid-js";
+import { css, styled } from "solid-styled-components"
+import { Markup } from "./Markup";
+import { PostsArea } from "./PostsArea";
 import ContextMenuServer from "./servers/context-menu/ContextMenuServer";
 import Avatar from "./ui/Avatar";
+import Button from "./ui/Button";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
+import Input from "./ui/input/Input";
 import ItemContainer from "./ui/Item";
 import Text from "./ui/Text";
 
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
-  height: 100%;
   padding: 5px;
 `;
 
@@ -57,10 +63,12 @@ export default function DashboardPane() {
   })
   return (
     <DashboardPaneContainer>
-      <DashboardPaneContent>
+      <DashboardPaneContent gap={10}>
 
-        <Text style={{"margin-bottom": "5px", "margin-left": "15px"}}>Servers</Text>
+        <Text size={18} style={{"margin-left": "15px"}}>Servers</Text>
         <ServerList/>
+        <Text size={18} style={{"margin-left": "15px"}}>Posts</Text>
+        <PostsArea showCreateNew/>
       </DashboardPaneContent>
 
     </DashboardPaneContainer>
@@ -100,9 +108,9 @@ function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => v
     <Link
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
       onContextMenu={props.onContextMenu}>
-    <SidebarItemContainer handlePosition='bottom' alert={hasNotifications()}  selected={selected()}>
-      <Avatar size={35} hexColor={props.server.hexColor} />
-    </SidebarItemContainer>
+      <SidebarItemContainer handlePosition='bottom' alert={hasNotifications()}  selected={selected()}>
+        <Avatar size={35} hexColor={props.server.hexColor} />
+      </SidebarItemContainer>
     </Link>
   )
 }

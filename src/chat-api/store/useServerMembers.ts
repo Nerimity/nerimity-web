@@ -16,7 +16,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   roles: () => (ServerRole | undefined)[] ;
   hasRole:  (this: ServerMember, roleId: string) => boolean;
   permissions: () => number;
-  hasPermission:  (this: ServerMember, bitwise: Bitwise) => boolean | void;
+  hasPermission:  (this: ServerMember, bitwise: Bitwise, ignoreAdmin?: boolean) => boolean | void;
   roleColor: () => string;
   unhiddenRole: () => ServerRole;
 }

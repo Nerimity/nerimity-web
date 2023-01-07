@@ -30,4 +30,12 @@ export default {
   addFriend: () => `/friends/add`,
   friends: (friendId: string) => `/friends/${friendId}`,
 
+  posts: (userId?: string) => {
+    return userId ? `/users/${userId}/posts` : `/posts` 
+  },
+
+  post: (postId: string) => `/posts/${postId}`,
+  likePost: (postId: string) => `/posts/${postId}/like`,
+  unlikePost: (postId: string) => `/posts/${postId}/unlike`
+
 }

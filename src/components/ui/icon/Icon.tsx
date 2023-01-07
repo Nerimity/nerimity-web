@@ -13,7 +13,7 @@ interface IconProps {
 export default function Icon(props: IconProps) {
   return (
     <span
-      class={"material-icons-round " + styles.icon +" " + props.class || "" }
+      class={"icon " + "material-icons-round " + styles.icon +" " + props.class || "" }
       style={{color: props.color, "font-size": props.size + "px"}}
       title={props.title}
       onClick={props.onClick}>

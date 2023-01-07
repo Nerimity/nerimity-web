@@ -19,6 +19,7 @@ import { FlexRow } from '../ui/Flexbox';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { addFriend } from '@/chat-api/services/FriendService';
 import { useDrawer } from '../ui/drawer/Drawer';
+import { PostsArea } from '../PostsArea';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -175,7 +176,7 @@ const ActionButtons = (props: {user?: RawUser | null}) => {
 function Content (props: {user: UserDetails}) {
   return (
     <div class={styles.content}>
-      <BioArea user={props.user} />
+      <PostsContainer user={props.user} />
       <SideBar user={props.user} />
     </div>
   )
@@ -257,6 +258,12 @@ function UserBioItem (props: {icon: string, label: string, value: string}) {
   );
 }
 
-function BioArea (props: {user: UserDetails}) {
-  return <div class={styles.bioArea}>HTML Bio not implemented yet.</div>
+function PostsContainer (props: {user: UserDetails}) {
+  return (
+    <div class={styles.bioArea}>
+      <Show when={props.user}>
+        <PostsArea style={{width: "100%"}} userId={props.user.user.id}/>
+      </Show>
+    </div>
+  )
 }
