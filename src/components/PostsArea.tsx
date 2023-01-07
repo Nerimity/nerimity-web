@@ -132,8 +132,7 @@ function Post(props: {post: RawPost, onUpdate: (updatePost: RawPost) => void}) {
 
 const PostsContainer = styled(FlexColumn)`
   overflow: auto;
-  margin-left: 10px;
-  margin-right: 10px;
+
 `;
 
 export function PostsArea(props: {userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
@@ -161,7 +160,6 @@ export function PostsArea(props: {userId?: string, showCreateNew?: boolean, styl
           <Post post={post} onUpdate={newPost => updatePost(i(), newPost)} />
         )}
       </For>
-    
     </PostsContainer>
   )
 }
