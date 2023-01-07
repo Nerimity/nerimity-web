@@ -460,20 +460,22 @@ function TypingIndicator() {
   return (
     <Show when={typingUsers().length}>
       <Floating>
-        <Switch>
-          <Match when={typingUsers().length === 1}>
-            <b>{typingUsers()[0]?.username}</b> is typing...
-          </Match>
-          <Match when={typingUsers().length === 2}>
-            <b>{typingUsers()[0]?.username}</b> and <b>{typingUsers()[1]?.username}</b> are typing...
-          </Match>
-          <Match when={typingUsers().length === 3}>
-            <b>{typingUsers()[0]?.username}</b>, <b>{typingUsers()[1]?.username}</b> and <b>{typingUsers()[2]?.username}</b> are typing...
-          </Match>
-          <Match when={typingUsers().length > 3}>
-            <b>{typingUsers()[0]?.username}</b>, <b>{typingUsers()[1]?.username}</b>,  <b>{typingUsers()[2]?.username}</b> and <b>{typingUsers().length - 3}</b> others are typing...
-          </Match>
-        </Switch>
+        <Text size={12}>
+          <Switch>
+            <Match when={typingUsers().length === 1}>
+              <strong>{typingUsers()[0]?.username}</strong> is typing...
+            </Match>
+            <Match when={typingUsers().length === 2}>
+              <strong>{typingUsers()[0]?.username}</strong> and <strong>{typingUsers()[1]?.username}</strong> are typing...
+            </Match>
+            <Match when={typingUsers().length === 3}>
+              <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong> and <strong>{typingUsers()[2]?.username}</strong> are typing...
+            </Match>
+            <Match when={typingUsers().length > 3}>
+              <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong>,  <strong>{typingUsers()[2]?.username}</strong> and <strong>{typingUsers().length - 3}</strong> others are typing...
+            </Match>
+          </Switch>
+        </Text>
       </Floating>
     </Show>
   )
@@ -503,11 +505,12 @@ function EditIndicator(props: {messageId: string}) {
 
 function Floating (props: {class?: string, children: JSX.Element}) {
   let floatingEl: undefined | HTMLDivElement;
+  const offset = 8;
 
   const readjust = () => {
     if (!floatingEl) return;
     const height = floatingEl?.clientHeight;
-    floatingEl.style.top = (-height + 5) + 'px';
+    floatingEl.style.top = (-height + offset) + 'px';
   }
 
   
