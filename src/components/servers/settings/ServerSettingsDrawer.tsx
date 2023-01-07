@@ -47,10 +47,15 @@ export default function ServerSettingsDrawer() {
 function SettingsList () {
   const [t] = useTransContext();
   const params = useParams();
-  const {serverMembers, account} = useStore();
+  const {serverMembers, account, servers} = useStore();
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
+  const server = () => servers.get(params.serverId);
 
-  const hasRole = (role?: Bitwise) => !role ? true : member()?.hasPermission(role);
+  const hasPermission = (role?: Bitwise) => {
+    if (!role) return true;
+    if (server()?.createdById === account.user()?.id) return true;
+    return member()?.hasPermission(role)
+  };
 
   return (
     <SettingsListContainer>
@@ -61,7 +66,7 @@ function SettingsList () {
           const selected = () => params.path === setting.path;
           const isChannels = () => setting.path === "channels";
           return (
-            <Show when={hasRole(setting.requiredRole)}>
+            <Show when={hasPermission(setting.requiredRolePermission)}>
               <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} selected={selected()} />
               <Show when={isChannels() && selected()}><ServerChannelsList/></Show>
             </Show>

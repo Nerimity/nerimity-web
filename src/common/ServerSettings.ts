@@ -5,7 +5,7 @@ export interface ServerSetting {
     path?: string;
     name: string;
     icon: string;
-    requiredRole?: Bitwise,
+    requiredRolePermission?: Bitwise,
     hideDrawer?: boolean
     element: any
 }
@@ -15,7 +15,7 @@ const serverSettings: ServerSetting[] =  [
     path: 'general',
     name: 'servers.settings.drawer.general',
     icon: 'info',
-    requiredRole: ROLE_PERMISSIONS.ADMIN,
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(() => import('@/components/servers/settings/ServerGeneralSettings'))
   },
   {
@@ -23,21 +23,21 @@ const serverSettings: ServerSetting[] =  [
     name: 'servers.settings.drawer.role',
     icon: 'leaderboard',
     hideDrawer: true,
-    requiredRole: ROLE_PERMISSIONS.MANAGE_ROLES,
+    requiredRolePermission: ROLE_PERMISSIONS.MANAGE_ROLES,
     element: lazy(() => import('@/components/servers/settings/role/ServerSettingsRole'))
   },
   {
     name: 'servers.settings.drawer.roles',
     path: 'roles',
     icon: 'leaderboard',
-    requiredRole: ROLE_PERMISSIONS.MANAGE_ROLES,
+    requiredRolePermission: ROLE_PERMISSIONS.MANAGE_ROLES,
     element: lazy(() => import('@/components/servers/settings/roles/ServerSettingsRoles'))
   },
   {
     path: 'channels/:channelId',
     name: 'servers.settings.drawer.channel',
     icon: 'storage',
-    requiredRole: ROLE_PERMISSIONS.MANAGE_CHANNELS,
+    requiredRolePermission: ROLE_PERMISSIONS.MANAGE_CHANNELS,
     hideDrawer: true,
     element: lazy(() => import('@/components/servers/settings/channel/ServerSettingsChannel'))
   },
@@ -45,14 +45,14 @@ const serverSettings: ServerSetting[] =  [
     name: 'servers.settings.drawer.channels',
     path: 'channels',
     icon: 'storage',
-    requiredRole: ROLE_PERMISSIONS.MANAGE_CHANNELS,
+    requiredRolePermission: ROLE_PERMISSIONS.MANAGE_CHANNELS,
     element: lazy(() => import('@/components/servers/settings/channels/ServerSettingsChannels'))
   },
   {
     name: 'servers.settings.drawer.bans',
     path: 'bans',
     icon: 'block',
-    requiredRole: ROLE_PERMISSIONS.BAN,
+    requiredRolePermission: ROLE_PERMISSIONS.BAN,
     element: lazy(() => import('@/components/servers/settings/ServerSettingsBans'))
   },
   {
@@ -65,14 +65,14 @@ const serverSettings: ServerSetting[] =  [
     name: 'servers.settings.drawer.publishServer',
     path: 'publish-server',
     icon: 'public',
-    requiredRole: ROLE_PERMISSIONS.ADMIN,
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(() => import('@/components/servers/settings/PublishServerSettings'))
   },
   {
     path: 'verify',
     name: 'servers.settings.drawer.verify',
     icon: 'verified',
-    requiredRole: ROLE_PERMISSIONS.ADMIN,
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(() => import('@/components/servers/settings/ServerVerifySettings'))
   }
 ]
