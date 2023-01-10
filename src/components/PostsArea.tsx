@@ -3,7 +3,7 @@ import { createPost, getCommentPosts, getPost, getPosts, likePost, unlikePost } 
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
-import { createEffect, createSignal, For, JSX, on, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, For, JSX, on, onMount, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
@@ -92,6 +92,7 @@ const postActionStyle = css`
 `;
 
 function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
+  const {posts} = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const createPortal = useCustomPortal();
   const Details = () => (
@@ -104,6 +105,12 @@ function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
 
   const isLikedByMe = () => props.post.likedBy.length;
   const likedIcon = () => isLikedByMe() ? 'favorite' : 'favorite_border'
+
+  const replyingTo = createMemo(() => {
+    if (!props.post.commentToId) return;
+    return posts.cachedPost(props.post.commentToId)
+  })
+
 
   const onLikeClick = async () => {
     if (requestSent()) return;
@@ -133,6 +140,12 @@ function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
 
   return (
     <PostContainer tabIndex="0" onClick={onClick}>
+      <Show when={replyingTo()}>
+        <FlexRow gap={5} style={{"margin-left": "5px", "margin-top": "5px"}}>
+          <Text size={14}>Replying to</Text>
+          <Text size={14} color="var(--primary-color)">{replyingTo()?.createdBy.username}</Text>
+        </FlexRow>
+      </Show>
       <Details/>
       <Text size={14} color="rgba(255,255,255,0.8)" style={{"margin-left": "50px"}}>
         <Markup text={props.post.content} />
@@ -214,7 +227,7 @@ function ViewPostModal (props: { close(): void; postId: string}) {
   }
 
   return (
-    <Modal close={props.close} title="Post" class={css`width: 600px; max-height: 600px; height: 100%;`}>
+    <Modal close={props.close} title="Post" class={css`width: 600px; max-height: 700px; height: 100%;`}>
       <FlexColumn style={{overflow: "auto", height: "100%"}}>
         <Show when={post()}>
           <FlexColumn gap={5}>
@@ -224,7 +237,7 @@ function ViewPostModal (props: { close(): void; postId: string}) {
           <NewPostArea postId={postId()}/>
           </FlexColumn>
           <Text style={{"margin-bottom": "10px", "margin-top": "10px"}}>Replies</Text>
-          <PostsArea postId={post()?.id} />
+          <PostsArea style={{overflow: 'initial'}} postId={post()?.id} />
         </Show>
       </FlexColumn>
     </Modal>

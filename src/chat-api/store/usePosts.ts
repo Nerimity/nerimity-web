@@ -27,8 +27,12 @@ const [state, setState] = createStore<State>({
 export function usePosts() {
   
   const pushPost = (post: RawPost, userId?: string) => {
+    if (post.commentTo) {
+      pushPost(post.commentTo);
+    }
     setState("posts", post.id, {
       ...post,
+      commentTo: undefined, 
       async like() {
         const newPost = await likePost(this.id);
         setState("posts", newPost.id, {...this, ...newPost})
