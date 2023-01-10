@@ -170,7 +170,7 @@ export function PostsArea(props: {postId?: string, userId?: string, showCreateNe
 
 
   return (
-    <PostsContainer gap={5} style={props.style} >
+    <PostsContainer gap={5} style={props.style}>
       <Show when={props.showCreateNew}><NewPostArea/></Show>
       <For each={cachedPosts()}>
         {(post, i) => (
@@ -208,17 +208,19 @@ function ViewPostModal (props: { close(): void; postId: string}) {
   }
 
   return (
-    <Modal close={props.close} title="Post" class={css`width: 600px; height: 800px;`}>
-      <Show when={post()}>
-        <FlexColumn gap={5}>
-          <For each={commentToList()}>
-            {post => <PostItem post={post!} />}
-          </For>
-        <NewPostArea postId={postId()}/>
-        </FlexColumn>
-        <Text style={{"margin-bottom": "10px", "margin-top": "10px"}}>Replies</Text>
-        <PostsArea postId={post()?.id} />
-      </Show>
+    <Modal close={props.close} title="Post" class={css`width: 600px; max-height: 600px; height: 100%;`}>
+      <FlexColumn style={{overflow: "auto", height: "100%"}}>
+        <Show when={post()}>
+          <FlexColumn gap={5}>
+            <For each={commentToList()}>
+              {post => <PostItem post={post!} />}
+            </For>
+          <NewPostArea postId={postId()}/>
+          </FlexColumn>
+          <Text style={{"margin-bottom": "10px", "margin-top": "10px"}}>Replies</Text>
+          <PostsArea postId={post()?.id} />
+        </Show>
+      </FlexColumn>
     </Modal>
   )
 }
