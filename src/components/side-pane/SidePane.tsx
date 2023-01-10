@@ -72,7 +72,13 @@ function ExploreItem() {
 function InboxItem() {
   const {inbox, friends, servers} = useStore();
   const location = useLocation();
-  const isSelected = () => location.pathname.startsWith(RouterEndpoints.INBOX());
+  const isSelected = () => {
+    if (location.pathname === '/app') return true;
+    if (location.pathname.startsWith(RouterEndpoints.INBOX())) return true;
+    if (location.pathname.startsWith('/app/posts')) return true;
+    return false;
+  };
+
   const notificationCount = () => inbox.notificationCount(); 
   const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
 
@@ -83,7 +89,7 @@ function InboxItem() {
   })
 
   return (
-  <Link href={RouterEndpoints.INBOX()} style={{"text-decoration": "none"}}>
+  <Link href='/app' style={{"text-decoration": "none"}}>
       <SidebarItemContainer selected={isSelected()} alert={(count())}>
         <Show when={count()}><div class={styles.notificationCount}>{count()}</div></Show>
         <Icon name='all_inbox' />

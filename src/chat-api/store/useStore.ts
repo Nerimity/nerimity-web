@@ -10,6 +10,8 @@ import useServers from "./useServers";
 import useHeader from "./useHeader";
 import useUsers from "./useUsers";
 import useChannelProperties from "./useChannelProperties";
+import { usePosts } from "./usePosts";
+
 
 export default function useStore() {
   const account = useAccount();
@@ -24,6 +26,8 @@ export default function useStore() {
   const mentions = useMention();
   const serverRoles = useServerRoles();
   const channelProperties = useChannelProperties()
+  const posts = usePosts();
+
 
   return {
     account,
@@ -37,6 +41,7 @@ export default function useStore() {
     friends,
     inbox,
     mentions,
-    channelProperties
+    channelProperties,
+    posts
   }
 }

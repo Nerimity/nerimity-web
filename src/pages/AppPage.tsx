@@ -125,6 +125,7 @@ export default function AppPage() {
       <Route path="/explore/*" component={ExploreDrawer}  />
       <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer}  />
       <Route path="/inbox/:channelId?/*" component={InboxDrawer}  />
+      <Route path="/*" component={InboxDrawer}  />
       <Route path="/settings/*" component={SettingsDrawer}  />
     </Routes>
   )
@@ -164,8 +165,8 @@ function MainPane () {
         <Route path="/settings/*" component={SettingsPane} />
         <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
         <Route path="/explore/*" component={ExplorePane} />
-        <Route path="/servers/:serverId/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()}/>} />
-        <Route path="/inbox/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()}/>} />
+        <Route path="/servers/:serverId/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!}/>} />
+        <Route path="/inbox/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!}/>} />
         <Route path="/profile/:userId" component={ProfilePane} />
         <Route path="/moderation/*" component={ModerationPane} />
         <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />

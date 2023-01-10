@@ -1,15 +1,18 @@
 import { RawPost } from "@/chat-api/RawData";
-import { createPost, getPosts, likePost, unlikePost } from "@/chat-api/services/PostService";
+import { createPost, getCommentPosts, getPost, getPosts, likePost, unlikePost } from "@/chat-api/services/PostService";
+import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
-import { createSignal, For, JSX, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, JSX, on, onMount, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
+import { useCustomPortal } from "./ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Input from "./ui/input/Input";
+import Modal from "./ui/Modal";
 import Text from "./ui/Text";
 
 const NewPostContainer = styled(FlexColumn)`
@@ -29,27 +32,29 @@ const createButtonStyles = css`
 `;
 
 
-function NewPostArea (props: {onPostCreated: (post: RawPost) => void}) {
-
+function NewPostArea (props: {postId?: string}) {
+  const {posts} = useStore();
   const [content, setContent] = createSignal("");
 
   const onCreateClick = async () => {
-    const formattedContent = content().trim();
+    if (props.postId) {
+      posts.cachedPost(props.postId)?.submitReply(content())
+    } else {
+      posts.submitPost(content());
+    }
     setContent("");
-
-    const post = await createPost(formattedContent);
-    props.onPostCreated(post);
   }
 
   return (
     <NewPostContainer>
-      <Input label="Write your post..." onText={setContent} value={content()} type="textarea" height={60} />
-      <Button margin={0} class={createButtonStyles} onClick={onCreateClick} label="Create" iconName="send"  />
+      <Input label={props.postId ? 'Write your reply...' : "Write your post..."} onText={setContent} value={content()} type="textarea" height={60} />
+      <Button margin={0} class={createButtonStyles} onClick={onCreateClick} label={props.postId ? 'Reply' : "Create"} iconName="send"  />
     </NewPostContainer>
   )
 }
 
 const PostContainer = styled(FlexColumn)`
+  scroll-margin-top: 50px;
   padding: 5px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
@@ -57,6 +62,10 @@ const PostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
   padding-left: 6px;
   padding-right: 6px;
+  cursor: pointer;
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+  }
 `;
 
 const PostDetailsContainer = styled(FlexRow)`
@@ -82,8 +91,9 @@ const postActionStyle = css`
   }
 `;
 
-function Post(props: {post: RawPost, onUpdate: (updatePost: RawPost) => void}) {
+function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
   const [requestSent, setRequestSent] = createSignal(false);
+  const createPortal = useCustomPortal();
   const Details = () => (
     <PostDetailsContainer gap={10}>
       <Avatar hexColor={props.post.createdBy.hexColor} size={35} />
@@ -99,27 +109,29 @@ function Post(props: {post: RawPost, onUpdate: (updatePost: RawPost) => void}) {
     if (requestSent()) return;
     setRequestSent(true);
     if (isLikedByMe()) {
-      const newPost = await unlikePost(props.post.id);
-      props.onUpdate(newPost);
+      await props.post.unlike();
       setRequestSent(false);
       return;
     }
-    const newPost = await likePost(props.post.id);
-    props.onUpdate(newPost);
+    await props.post.like();
     setRequestSent(false);
   } 
 
   const Actions = () => (
     <PostActionsContainer>
       <Button margin={2} onClick={onLikeClick} class={postActionStyle} iconName={likedIcon()} label={props.post._count.likedBy.toLocaleString()} />
-      <Button margin={2} class={postActionStyle} iconName="comment" label="0" />
+      <Button margin={2} class={postActionStyle} iconName="comment" label={props.post._count.comments.toLocaleString()} />
       <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" />
       <Button margin={2} class={postActionStyle} iconName="share" />
     </PostActionsContainer>
   );
 
+  const onClick = () => {
+    createPortal?.((close) => <ViewPostModal close={close} postId={props.post.id} />)
+  }
+
   return (
-    <PostContainer>
+    <PostContainer tabIndex="0" onClick={onClick}>
       <Details/>
       <Text size={14} color="rgba(255,255,255,0.8)" style={{"margin-left": "50px"}}>
         <Markup text={props.post.content} />
@@ -135,31 +147,78 @@ const PostsContainer = styled(FlexColumn)`
 
 `;
 
-export function PostsArea(props: {userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
-  const [posts, setPosts] = createStore<RawPost[]>([]);
+export function PostsArea(props: {postId?: string, userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
 
-  onMount(async() => {
-    const fetchedPosts = await getPosts(props.userId);
-    setPosts(fetchedPosts);
+  const {posts} = useStore();
+
+  const cachedPosts = () => {
+    if (props.userId) return posts.cachedUserPosts(props.userId!);
+    return posts.cachedPost(props.postId!)?.cachedComments();
+  };
+
+  onMount(() => {
+    if (props.postId) {
+      posts.cachedPost(props.postId!)?.loadComments();
+      return;
+    }
+    posts.fetchUserPosts(props.userId!)
   })
 
-  const addPost = (post: RawPost) => {
-    setPosts([post, ...posts])
-  }
 
-  const updatePost = (index: number, newPost: RawPost) => {
-    setPosts(index, newPost)
+  const onPostClick = (post: Post) => {
   }
 
 
   return (
-    <PostsContainer gap={5} style={props.style}>
-      <Show when={props.showCreateNew}><NewPostArea onPostCreated={addPost}/></Show>
-      <For each={posts}>
+    <PostsContainer gap={5} style={props.style} >
+      <Show when={props.showCreateNew}><NewPostArea/></Show>
+      <For each={cachedPosts()}>
         {(post, i) => (
-          <Post post={post} onUpdate={newPost => updatePost(i(), newPost)} />
+          <PostItem onClick={onPostClick} post={post} />
         )}
       </For>
     </PostsContainer>
+  )
+}
+
+
+function ViewPostModal (props: { close(): void; postId: string}) {
+  const [postId, setPostId] = createSignal(props.postId);
+
+
+  const {posts} = useStore();
+
+  const post = () => posts.cachedPost(postId());
+
+  const [commentedToIds, setCommentedToIds] = createSignal<string[]>([]);
+  const commentToList = () => commentedToIds().map(postId => posts.cachedPost(postId))
+
+
+  onMount(async () => {
+    const newPost = await getPost(postId());
+    newPost?.loadComments();
+  })
+
+  const getPost = async (postId: string) => {
+    const newPost = await posts.fetchAndPushPost(postId);
+    newPost && setCommentedToIds([newPost.id, ...commentedToIds()]);
+    if (newPost?.commentToId) getPost(newPost.commentToId);
+
+    return newPost;
+  }
+
+  return (
+    <Modal close={props.close} title="Post" class={css`width: 600px; height: 800px;`}>
+      <Show when={post()}>
+        <FlexColumn gap={5}>
+          <For each={commentToList()}>
+            {post => <PostItem post={post!} />}
+          </For>
+        <NewPostArea postId={postId()}/>
+        </FlexColumn>
+        <Text style={{"margin-bottom": "10px", "margin-top": "10px"}}>Replies</Text>
+        <PostsArea postId={post()?.id} />
+      </Show>
+    </Modal>
   )
 }

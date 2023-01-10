@@ -11,13 +11,31 @@ export const getPosts = async (userId?: string) => {
   });
   return data;
 }
+export const getPost = async (postId: string) => {
+  const data = await request<RawPost>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.post(postId),
+    useToken: true,
+  });
+  return data;
+}
+
+export const getCommentPosts = async (postId: string) => {
+  const data = await request<RawPost[]>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.postComments(postId),
+    useToken: true,
+  });
+  return data;
+}
 
 
-export const createPost = async (content: string) => {
+export const createPost = async (content: string, postId?: string) => {
   const data = await request<RawPost>({
     method: 'POST',
     body: {
       content,
+      ...(postId? {postId} : undefined)
     },
     url: env.SERVER_URL + '/api' + ServiceEndpoints.posts(''),
     useToken: true,

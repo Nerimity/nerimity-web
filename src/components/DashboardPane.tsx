@@ -54,7 +54,7 @@ const SidebarItemContainer = styled(ItemContainer)`
 
 
 export default function DashboardPane() {
-  const {header} = useStore();
+  const {header, account} = useStore();
   createEffect(() => {
     header.updateHeader({
       title: "Dashboard",
@@ -68,7 +68,7 @@ export default function DashboardPane() {
         <Text size={18} style={{"margin-left": "15px"}}>Servers</Text>
         <ServerList/>
         <Text size={18} style={{"margin-left": "15px"}}>Posts</Text>
-        <PostsArea style={{"margin-left": "10px", "margin-right": "10px"}} showCreateNew/>
+        <PostsArea userId={account.user()?.id} style={{"margin-left": "10px", "margin-right": "10px"}} showCreateNew/>
       </DashboardPaneContent>
 
     </DashboardPaneContainer>
