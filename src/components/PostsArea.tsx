@@ -126,7 +126,8 @@ function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
     </PostActionsContainer>
   );
 
-  const onClick = () => {
+  const onClick = (event: any) => {
+    if (event.target.closest(".button")) return;
     createPortal?.((close) => <ViewPostModal close={close} postId={props.post.id} />)
   }
 
@@ -147,7 +148,7 @@ const PostsContainer = styled(FlexColumn)`
 
 `;
 
-export function PostsArea(props: {postId?: string, userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
+export function PostsArea(props: { showReplies?: boolean, postId?: string, userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
 
   const {posts} = useStore();
 
@@ -156,12 +157,17 @@ export function PostsArea(props: {postId?: string, userId?: string, showCreateNe
     return posts.cachedPost(props.postId!)?.cachedComments();
   };
 
+  createEffect(() => {
+    if (props.userId) {
+      posts.fetchUserPosts(props.userId!, props.showReplies)
+    }
+  })
+
   onMount(() => {
     if (props.postId) {
       posts.cachedPost(props.postId!)?.loadComments();
       return;
     }
-    posts.fetchUserPosts(props.userId!)
   })
 
 

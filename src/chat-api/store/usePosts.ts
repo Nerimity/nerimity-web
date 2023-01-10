@@ -85,8 +85,9 @@ export function usePosts() {
     pushPost(post, account.user()?.id!);
   }
 
-  const fetchUserPosts = async (userId: string) => {
-    const posts = await getPosts(userId);
+  const fetchUserPosts = async (userId: string, withReplies?: boolean) => {
+    const posts = await getPosts(userId, withReplies);
+    setState("userPostIds", userId, []);
     batch(() => {
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];

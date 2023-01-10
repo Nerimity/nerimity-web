@@ -38,17 +38,17 @@ const ButtonContainer = styled("div")<{margin?: number}>`
 
 export default function Button(props: Props) {
 
-  const color = props.color || "var(--primary-color)";
+  const color = () => props.color || "var(--primary-color)";
 
-  const style = {
-    ...(props.primary ? {"background-color": color} : undefined),
-  }
+  const style = () => ({
+    ...(props.primary ? {"background-color": color()} : undefined),
+  })
 
 
   return (
-    <ButtonContainer margin={props.margin} style={style}  class={props.class} onClick={props.onClick}>
-      { props.iconName && <Icon name={props.iconName} color={props.primary ? 'white' : color} /> }
-      { props.label && <Text class='label' color={props.primary ? 'white' : color}>{props.label}</Text> }
+    <ButtonContainer margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick}>
+      { props.iconName && <Icon name={props.iconName} color={props.primary ? 'white' : color()} /> }
+      { props.label && <Text class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
     </ButtonContainer>
   )
 }

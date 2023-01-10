@@ -259,10 +259,15 @@ function UserBioItem (props: {icon: string, label: string, value: string}) {
 }
 
 function PostsContainer (props: {user: UserDetails}) {
+  const [showReplies, setShowReplies] = createSignal(false);
   return (
     <div class={styles.bioArea}>
+      <FlexRow>
+        <Button primary={!showReplies()} onClick={() => setShowReplies(false)}  label='Posts' />
+        <Button primary={showReplies()} onClick={() => setShowReplies(true)} label='Posts with replies' />
+      </FlexRow>
       <Show when={props.user}>
-        <PostsArea style={{width: "100%"}} userId={props.user.user.id}/>
+        <PostsArea showReplies={showReplies()} style={{width: "100%"}} userId={props.user.user.id}/>
       </Show>
     </div>
   )

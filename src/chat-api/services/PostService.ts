@@ -3,9 +3,12 @@ import { RawPost } from "../RawData";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
-export const getPosts = async (userId?: string) => {
+export const getPosts = async (userId?: string, withReplies = true) => {
   const data = await request<RawPost[]>({
     method: 'GET',
+    params: {
+      ...(withReplies ? {withReplies} : undefined)
+    },
     url: env.SERVER_URL + '/api' + ServiceEndpoints.posts(userId),
     useToken: true,
   });
