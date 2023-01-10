@@ -112,6 +112,7 @@ export interface RawPost {
   id: string;
   content: string;
   commentToId: string;
+  commentTo?: RawPost;
   createdBy: RawUser
   createdAt: number;
   likedBy: {id: string}[] // if you liked this post, array will not be empty

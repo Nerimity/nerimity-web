@@ -262,9 +262,9 @@ function PostsContainer (props: {user: UserDetails}) {
   const [showReplies, setShowReplies] = createSignal(false);
   return (
     <div class={styles.bioArea}>
-      <FlexRow>
-        <Button primary={!showReplies()} onClick={() => setShowReplies(false)}  label='Posts' />
-        <Button primary={showReplies()} onClick={() => setShowReplies(true)} label='Posts with replies' />
+      <FlexRow gap={5} style={{"margin-bottom": "10px"}}>
+        <Button margin={0} primary={!showReplies()} onClick={() => setShowReplies(false)}  label='Posts' />
+        <Button margin={0} primary={showReplies()} onClick={() => setShowReplies(true)} label='Posts with replies' />
       </FlexRow>
       <Show when={props.user}>
         <PostsArea showReplies={showReplies()} style={{width: "100%"}} userId={props.user.user.id}/>
