@@ -33,7 +33,8 @@
     "Nerimity",
     "Shortcode",
     "Shortcodes",
-    "solidjs"
+    "solidjs",
+    "unfollow"
   ],
   "i18n-ally.localesPaths": [
     "src/locales/list"

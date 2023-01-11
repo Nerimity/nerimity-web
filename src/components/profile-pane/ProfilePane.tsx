@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import { Link, useParams } from '@nerimity/solid-router';
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
-import { getUserDetailsRequest, updatePresence, UserDetails } from '@/chat-api/services/UserService';
+import { followUser, getUserDetailsRequest, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
 import { User } from '@/chat-api/store/useUsers';
 import { getDaysAgo } from '../../common/date';
@@ -62,10 +62,14 @@ export default function ProfilePane () {
 
   createEffect(on(() => params.userId, async (userId) => {
     setUserDetails(null)
+    drawer.goToMain();
+    fetchUserDetails(userId)
+  }))
+
+  const fetchUserDetails = async (userId: string) => {
     const userDetails = await getUserDetailsRequest(userId);
     setUserDetails(userDetails);
-    drawer.goToMain();
-  }))
+  }
 
   const user = () => {
     const user = users.get(params.userId)
@@ -110,15 +114,16 @@ export default function ProfilePane () {
                 <span class={styles.username}>{user()!.username}</span>
                 <span class={styles.tag}>{`:${user()!.tag}`}</span>
               </div>
+              <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
               <Show when={!isMe()}><UserPresence userId={user()!.id} showOffline={true} /></Show>
               <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
             </div>
             <Show when={!isMe() && width() >= 700}>
-              <ActionButtons user={user()} />
+              <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
             </Show>
           </div>
           <Show when={!isMe() && width() < 700}>
-            <ActionButtons user={user()} />
+            <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
           </Show>
         </div>
         <Show when={userDetails()}>
@@ -129,7 +134,7 @@ export default function ProfilePane () {
   )
 } 
 
-const ActionButtons = (props: {user?: RawUser | null}) => {
+const ActionButtons = (props: { updateUserDetails(): void, userDetails?: UserDetails | null, user?: RawUser | null}) => {
   const params = useParams<{userId: string}>();
   const { friends , users} = useStore();
 
@@ -159,8 +164,22 @@ const ActionButtons = (props: {user?: RawUser | null}) => {
     users.openDM(params.userId);
   }
 
+  const followClick = async () => {
+    await followUser(params.userId);
+    props.updateUserDetails();
+  }
+
+  const unfollowClick = async () => {
+    await unfollowUser(params.userId);
+    props.updateUserDetails();
+  }
+
+  const isFollowing = () => props.userDetails?.user.followers.length;
+
   return (
     <ActionButtonsContainer gap={3}>
+      {!isFollowing() &&<ActionButton icon='add_circle' label='Follow' onClick={followClick}  color='var(--primary-color)' />}
+      {isFollowing() &&<ActionButton icon='add_circle' label='Unfollow' onClick={unfollowClick}  color='var(--alert-color)' />}
       {isFriend() && <ActionButton icon='person_add_disabled' label='Remove Friend' color='var(--alert-color)' onClick={removeClicked} />}
       {!friendExists() && <ActionButton icon='group_add' label='Add Friend' color='var(--primary-color)' onClick={addClicked} />}
       {isSent() && <ActionButton icon='close' label='Pending Request' color='var(--alert-color)' onClick={removeClicked} />}

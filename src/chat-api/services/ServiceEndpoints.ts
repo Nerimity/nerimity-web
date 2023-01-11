@@ -40,6 +40,10 @@ export default {
 
   post: (postId: string) => `/posts/${postId}`,
   likePost: (postId: string) => `/posts/${postId}/like`,
-  unlikePost: (postId: string) => `/posts/${postId}/unlike`
+  unlikePost: (postId: string) => `/posts/${postId}/unlike`,
+  feedPosts: () => `/posts/feed`,
+
+
+  userFollow: (userId: string) => `/users/${userId}/follow`
 
 }

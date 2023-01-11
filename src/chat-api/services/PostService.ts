@@ -3,6 +3,15 @@ import { RawPost } from "../RawData";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
+export const getFeedPosts = async (userId?: string, withReplies = true) => {
+  const data = await request<RawPost[]>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.feedPosts(),
+    useToken: true,
+  });
+  return data;
+}
+
 export const getPosts = async (userId?: string, withReplies = true) => {
   const data = await request<RawPost[]>({
     method: 'GET',
@@ -14,6 +23,7 @@ export const getPosts = async (userId?: string, withReplies = true) => {
   });
   return data;
 }
+
 export const getPost = async (postId: string) => {
   const data = await request<RawPost>({
     method: 'GET',

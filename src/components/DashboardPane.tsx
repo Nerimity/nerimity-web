@@ -68,7 +68,7 @@ export default function DashboardPane() {
         <Text size={18} style={{"margin-left": "15px"}}>Servers</Text>
         <ServerList/>
         <Text size={18} style={{"margin-left": "15px"}}>Posts</Text>
-        <PostsArea userId={account.user()?.id} style={{"margin-left": "10px", "margin-right": "10px"}} showCreateNew/>
+        <PostsArea showFeed style={{"margin-left": "10px", "margin-right": "10px"}} showCreateNew/>
       </DashboardPaneContent>
 
     </DashboardPaneContainer>

@@ -161,11 +161,12 @@ const PostsContainer = styled(FlexColumn)`
 
 `;
 
-export function PostsArea(props: { showReplies?: boolean, postId?: string, userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
+export function PostsArea(props: { showFeed?: boolean, showReplies?: boolean, postId?: string, userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
 
   const {posts} = useStore();
 
   const cachedPosts = () => {
+    if (props.showFeed) return posts.cachedFeed();
     if (props.userId) return posts.cachedUserPosts(props.userId!);
     return posts.cachedPost(props.postId!)?.cachedComments();
   };
@@ -177,6 +178,10 @@ export function PostsArea(props: { showReplies?: boolean, postId?: string, userI
   })
 
   onMount(() => {
+    if (props.showFeed) {
+      posts.fetchFeed();
+      return;
+    }
     if (props.postId) {
       posts.cachedPost(props.postId!)?.loadComments();
       return;

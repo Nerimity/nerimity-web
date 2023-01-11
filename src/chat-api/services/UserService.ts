@@ -36,7 +36,7 @@ export async function registerRequest(email: string, username: string, password:
 }
 
 export interface UserDetails {
-  user: RawUser;
+  user: RawUser & {_count: {followers: number, following: number}, following: any[], followers: any[]};
   mutualFriendIds: string[];
   mutualServerIds: string[];
 
@@ -78,6 +78,20 @@ export async function updateUser(body: UpdateUserOptions) {
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(""),
     method: 'POST',
     body,
+    useToken: true
+  });
+}
+export async function followUser(userId: string) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.userFollow(userId),
+    method: 'POST',
+    useToken: true
+  });
+}
+export async function unfollowUser(userId: string) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.userFollow(userId),
+    method: 'DELETE',
     useToken: true
   });
 }
