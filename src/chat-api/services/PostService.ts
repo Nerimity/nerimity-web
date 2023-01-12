@@ -1,5 +1,5 @@
 import env from "@/common/env";
-import { RawPost } from "../RawData";
+import { RawPost, RawPostNotification } from "../RawData";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
@@ -37,6 +37,14 @@ export const getCommentPosts = async (postId: string) => {
   const data = await request<RawPost[]>({
     method: 'GET',
     url: env.SERVER_URL + '/api' + ServiceEndpoints.postComments(postId),
+    useToken: true,
+  });
+  return data;
+}
+export const getPostNotifications = async () => {
+  const data = await request<RawPostNotification[]>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.postNotifications(),
     useToken: true,
   });
   return data;

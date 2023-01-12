@@ -1,8 +1,10 @@
-import { RawPost } from "@/chat-api/RawData";
-import { createPost, getCommentPosts, getPost, getPosts, likePost, unlikePost } from "@/chat-api/services/PostService";
+import { PostNotificationType, RawPost, RawPostNotification } from "@/chat-api/RawData";
+import { createPost, getCommentPosts, getPost, getPostNotifications, getPosts, likePost, unlikePost } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { Link } from "@nerimity/solid-router";
 import { createEffect, createMemo, createSignal, For, JSX, on, onMount, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
@@ -11,6 +13,7 @@ import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
 import { useCustomPortal } from "./ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
+import Icon from "./ui/icon/Icon";
 import Input from "./ui/input/Input";
 import Modal from "./ui/Modal";
 import Text from "./ui/Text";
@@ -200,6 +203,102 @@ export function PostsArea(props: { showFeed?: boolean, showReplies?: boolean, po
         {(post, i) => (
           <PostItem onClick={onPostClick} post={post} />
         )}
+      </For>
+    </PostsContainer>
+  )
+}
+
+
+
+function PostNotification (props: {notification: RawPostNotification}) {
+  const {posts} = useStore();
+  const createPortal = useCustomPortal();
+
+
+  const Reply = () => {
+    posts.pushPost(props.notification.post!);
+    const cachedPost = () => posts.cachedPost(props.notification.post?.id!)
+
+    const showPost = () => createPortal?.((close) => <ViewPostModal close={close} postId={props.notification.post?.id!} />)
+
+    return (
+      <FlexRow gap={5} style={{"align-items": 'center'}} onclick={showPost}>
+        <Icon name="reply" color="var(--primary-color)" />
+        <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar hexColor={props.notification.by.hexColor} size={30} /></Link>
+        <FlexColumn gap={2}>
+          <Text size={14}><strong>{props.notification.by.username}</strong> replied to your Post:</Text>
+          <div style={{opacity: 0.6}}><Markup text={cachedPost()?.content!} /></div>
+        </FlexColumn>
+      </FlexRow>
+    )
+  }
+
+  const Followed = () => {
+    return (
+      <Link href={RouterEndpoints.PROFILE(props.notification.by.id)} style={{"text-decoration": 'none'}} >
+        <FlexRow gap={5} style={{"align-items": 'center'}}>
+          <Icon name="add_circle" color="var(--primary-color)" />
+          <Avatar hexColor={props.notification.by.hexColor} size={30} />
+          <FlexColumn gap={2}>
+            <Text size={14}><strong>{props.notification.by.username}</strong> Followed you!</Text>
+          </FlexColumn>
+        </FlexRow>
+      </Link>
+    )
+  }
+
+  const Liked = () => {
+    posts.pushPost(props.notification.post!);
+    const cachedPost = () => posts.cachedPost(props.notification.post?.id!)
+
+    const showPost = () => createPortal?.((close) => <ViewPostModal close={close} postId={props.notification.post?.id!} />)
+
+    return (
+      <FlexRow gap={5} style={{"align-items": 'center'}} onclick={showPost}>
+        <Icon name="favorite" color="var(--primary-color)" />
+        <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar hexColor={props.notification.by.hexColor} size={30} /></Link>
+        <FlexColumn gap={2}>
+          <Text size={14}><strong>{props.notification.by.username}</strong> liked your post!</Text>
+          <div style={{opacity: 0.6}}><Markup text={cachedPost()?.content!} /></div>
+        </FlexColumn>
+      </FlexRow>
+    )
+  }
+
+
+
+
+  return (
+    <PostContainer>
+
+      <Show when={props.notification.type === PostNotificationType.LIKED}>
+        <Liked/>
+      </Show>
+
+      <Show when={props.notification.type === PostNotificationType.FOLLOWED}>
+        <Followed/>
+      </Show>
+
+      <Show when={props.notification.type === PostNotificationType.REPLIED}>
+        <Reply/>
+      </Show>
+      
+    </PostContainer>
+  )
+}
+
+
+export function PostNotificationsArea (props: { style?: JSX.CSSProperties}) {
+  const [notifications, setNotifications] = createSignal<RawPostNotification[]>([]);
+  
+  onMount(async () => {
+    const fetchNotifications = await getPostNotifications();
+    setNotifications(fetchNotifications)
+  })
+  return (
+    <PostsContainer gap={5} style={props.style}>
+      <For each={notifications()}>
+        {notification => <PostNotification notification={notification} />}
       </For>
     </PostsContainer>
   )

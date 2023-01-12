@@ -136,5 +136,5 @@ export function usePosts() {
 
   const cachedPost = (postId: string) => state.posts[postId];
 
-  return {fetchFeed, cachedFeed, cachedPost, fetchUserPosts, cachedUserPosts, submitPost, fetchAndPushPost}
+  return {pushPost, fetchFeed, cachedFeed, cachedPost, fetchUserPosts, cachedUserPosts, submitPost, fetchAndPushPost}
 }

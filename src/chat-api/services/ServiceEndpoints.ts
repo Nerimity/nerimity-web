@@ -38,6 +38,7 @@ export default {
     return `/posts/${postId}/comments`
   },
 
+  postNotifications: () => `/posts/notifications`,
   post: (postId: string) => `/posts/${postId}`,
   likePost: (postId: string) => `/posts/${postId}/like`,
   unlikePost: (postId: string) => `/posts/${postId}/unlike`,

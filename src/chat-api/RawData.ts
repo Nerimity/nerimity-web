@@ -118,3 +118,18 @@ export interface RawPost {
   likedBy: {id: string}[] // if you liked this post, array will not be empty
   _count: {likedBy: number, comments: number}
 }
+
+
+export enum PostNotificationType {
+  LIKED = 0,
+  REPLIED = 1,
+  FOLLOWED = 2
+}
+
+export interface RawPostNotification {
+  id: string,
+  createdAt: number,
+  type: PostNotificationType,
+  by: RawUser,
+  post?: RawPost
+}
