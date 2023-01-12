@@ -1,3 +1,4 @@
+import env from '@/common/env';
 import twemoji from 'twemoji';
 import shortcodeToUnicode from './shortcodes-to-unicode.json';
 import unicodeToShortcode from './unicode-to-shortcodes.json';
@@ -16,6 +17,10 @@ export const unicodeToTwemojiUrl = (unicode: string) => {
   const codePoint = twemoji.convert.toCodePoint(
     unicode.indexOf(U200D) < 0 ? unicode.replace(UFE0Fg, "") : unicode
   );
+
+  if (env.EMOJI_URL) {
+    return `${env.EMOJI_URL}/${codePoint}.svg`
+  }
 
   return `https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`;
 }

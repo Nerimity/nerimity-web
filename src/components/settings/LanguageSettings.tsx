@@ -1,6 +1,6 @@
 import { createEffect, createSignal, For} from 'solid-js';
 import Text from '@/components/ui/Text';
-import { styled } from 'solid-styled-components';
+import { css, styled } from 'solid-styled-components';
 import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
 
 import ItemContainer from '../ui/Item';
@@ -8,6 +8,9 @@ import twemoji from 'twemoji';
 import { FlexColumn } from '../ui/Flexbox';
 import useStore from '@/chat-api/store/useStore';
 import { useTransContext } from '@nerimity/solid-i18next';
+import env from '@/common/env';
+import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
+import { Emoji } from '../markup/Emoji';
 
 const Container = styled("div")`
   display: flex;
@@ -67,7 +70,7 @@ function LanguageItem(props: {key: string, selected: boolean, onClick: () => voi
 
   return (
     <LanguageItemContainer onclick={props.onClick}  selected={props.selected}>
-      <Emoji val={language.emoji}/>
+      <Emoji class={css`height: 30px; width: 30px;`}  name={emojiUnicodeToShortcode(language.emoji)} url={unicodeToTwemojiUrl(language.emoji)} />
       <FlexColumn>
         <Text>{language.name}</Text>
         <Text size={12} opacity={0.7}>Contributors: {language.contributors.join(", ")}</Text>
@@ -76,10 +79,3 @@ function LanguageItem(props: {key: string, selected: boolean, onClick: () => voi
   )
 }
 
-function Emoji({val}: {val: string}) {
-  var div = document.createElement('div');
-  div.innerHTML = twemoji.parse(val);
-  const el = div.firstChild as HTMLImageElement;
-  el.style.height = "30px";
-  return el;
-}

@@ -6,5 +6,6 @@ export default {
   APP_VERSION: import.meta.env.VITE_APP_VERSION as string | undefined,
   DEV_MODE: import.meta.env.VITE_DEV_MODE === "true",
   MESSAGE_LIMIT:  parseInt(import.meta.env.VITE_MESSAGE_LIMIT || "50"),
-  TURNSTILE_SITEKEY: import.meta.env.VITE_TURNSTILE_SITEKEY
+  TURNSTILE_SITEKEY: import.meta.env.VITE_TURNSTILE_SITEKEY,
+  EMOJI_URL: import.meta.env.VITE_EMOJI_URL,
 }
