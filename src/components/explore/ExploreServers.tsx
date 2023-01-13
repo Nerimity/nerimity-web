@@ -82,14 +82,14 @@ export default function LanguageSettings() {
 const ServerItemContainer = styled(FlexRow)`
   padding: 10px;
   background: rgba(255,255,255,0.1);
-  height: 100px;
+  min-height: 100px;
   border-radius: 8px;
   align-items: center;
   padding-left: 20px;
 
   @media (max-width: 600px){
     flex-direction: column;
-    height: 230px;
+    min-height: 230px;
     padding-top: 30px;
     padding-left: 0;
   }
@@ -113,6 +113,7 @@ const MemberContainer = styled(FlexRow)`
 
 const ButtonsContainer = styled(FlexRow)`
   margin-left: auto;
+  flex-shrink: 0;
 `;
 
 function PublicServerItem(props: {publicServer: RawPublicServer, update: (newServer: RawPublicServer) => void}) {
@@ -176,7 +177,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
           <Icon name='arrow_upward' size={17} color="var(--primary-color)"/>
           <Text size={12}>{t('explore.servers.lifetimeBumpCount', {count: props.publicServer.lifetimeBumpCount.toLocaleString()})}</Text>
         </MemberContainer>
-          <Text style={{"margin-top": "5px"}} opacity={0.7}>{props.publicServer.description}</Text>
+          <Text style={{"margin-top": "5px", "word-break": "break-word", "white-space": "pre-line"}} opacity={0.7}>{props.publicServer.description}</Text>
       </DetailsContainer>
 
       <ButtonsContainer>
