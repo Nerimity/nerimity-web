@@ -39,6 +39,8 @@ export default {
   },
 
   postNotifications: () => `/posts/notifications`,
+  postNotificationDismiss: () => `/posts/notifications/dismiss`,
+  postNotificationCount: () => `/posts/notifications/count`,
   post: (postId: string) => `/posts/${postId}`,
   likePost: (postId: string) => `/posts/${postId}/like`,
   unlikePost: (postId: string) => `/posts/${postId}/unlike`,

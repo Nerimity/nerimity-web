@@ -1,4 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
+import { JSXElement } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import Text from './Text';
 
@@ -10,6 +11,7 @@ interface Props {
   iconName?: string;
   onClick?: () => void;
   primary?: boolean;
+  customChildren?: JSXElement
 }
 
 const ButtonContainer = styled("div")<{margin?: number}>`
@@ -49,6 +51,7 @@ export default function Button(props: Props) {
     <ButtonContainer margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick}>
       { props.iconName && <Icon name={props.iconName} color={props.primary ? 'white' : color()} /> }
       { props.label && <Text class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
+      {props.customChildren && props.customChildren}
     </ButtonContainer>
   )
 }

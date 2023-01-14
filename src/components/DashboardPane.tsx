@@ -1,5 +1,5 @@
 import { RawPost } from "@/chat-api/RawData";
-import { createPost, getPostNotifications, getPosts } from "@/chat-api/services/PostService";
+import { createPost, getPostNotificationCount, getPostNotificationDismiss, getPostNotifications, getPosts } from "@/chat-api/services/PostService";
 import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
@@ -76,15 +76,46 @@ export default function DashboardPane() {
 }
 
 
+const NotificationCountContainer = styled(FlexRow)<{selected: boolean}>`
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-color);
+  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+  font-size: 12px;
+  ${props => props.selected ? `
+    background: white;
+    color: var(--primary-color);  
+  ` : ''}
+`;
+
+
 
 function PostsContainer() {
   const [showNotifications, setShowNotifications] = createSignal(false);
+
+  const [notificationCount, setNotificationCount] = createSignal(0);
+  onMount(async() => {
+    const count = await getPostNotificationCount();
+    setNotificationCount(count);
+  })
+
+  const NotificationIndicator = () => {
+    return <Show when={notificationCount()}><NotificationCountContainer selected={showNotifications()}>{notificationCount()}</NotificationCountContainer></Show>
+  }
+
+  createEffect(async () => {
+    if (!showNotifications()) return;
+    await getPostNotificationDismiss()
+    setNotificationCount(0);
+  })
 
   return ( 
     <>
       <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "13px" }}>
         <Button margin={0} primary={!showNotifications()} label='Feed' onClick={() => setShowNotifications(false)} />
-        <Button margin={0} primary={showNotifications()} label='Notifications' onClick={() => setShowNotifications(true)} />
+        <Button margin={0} primary={showNotifications()} label="Notifications" customChildren={NotificationIndicator} onClick={() => setShowNotifications(true)} />
       </FlexRow>
       <Show when={!showNotifications()}><PostsArea showFeed style={{ "margin-left": "10px", "margin-right": "10px" }} showCreateNew /></Show>
       <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "10px", "margin-right": "10px" }}/></Show>

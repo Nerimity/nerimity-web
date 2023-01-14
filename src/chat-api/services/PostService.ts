@@ -49,6 +49,23 @@ export const getPostNotifications = async () => {
   });
   return data;
 }
+export const getPostNotificationCount = async () => {
+  const data = await request<number>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.postNotificationCount(),
+    useToken: true,
+  });
+  return data;
+}
+export const getPostNotificationDismiss = async () => {
+  const data = await request<number>({
+    method: 'POST',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.postNotificationDismiss(),
+    useToken: true,
+    notJSON: true,
+  });
+  return data;
+}
 
 
 export const createPost = async (content: string, postId?: string) => {
