@@ -226,22 +226,26 @@ function PostNotification (props: {notification: RawPostNotification}) {
         <Icon name="reply" color="var(--primary-color)" />
         <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar hexColor={props.notification.by.hexColor} size={30} /></Link>
         <FlexColumn gap={2}>
-          <Text size={14}><strong>{props.notification.by.username}</strong> replied to your Post:</Text>
+          <FlexRow gap={5}  style={{"align-items": 'center'}}>
+            <Text size={14}><strong>{props.notification.by.username}</strong> replied to your Post!</Text>
+            <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
+          </FlexRow>
           <div style={{opacity: 0.6}}><Markup text={cachedPost()?.content!} /></div>
         </FlexColumn>
       </FlexRow>
     )
   }
-
+  
   const Followed = () => {
     return (
       <Link href={RouterEndpoints.PROFILE(props.notification.by.id)} style={{"text-decoration": 'none'}} >
         <FlexRow gap={5} style={{"align-items": 'center'}}>
           <Icon name="add_circle" color="var(--primary-color)" />
           <Avatar hexColor={props.notification.by.hexColor} size={30} />
-          <FlexColumn gap={2}>
-            <Text size={14}><strong>{props.notification.by.username}</strong> Followed you!</Text>
-          </FlexColumn>
+          <FlexRow gap={2} style={{"align-items": 'center'}}>
+            <Text size={14}><strong>{props.notification.by.username}</strong> followed you!</Text>
+            <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
+          </FlexRow>
         </FlexRow>
       </Link>
     )
@@ -258,7 +262,10 @@ function PostNotification (props: {notification: RawPostNotification}) {
         <Icon name="favorite" color="var(--primary-color)" />
         <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar hexColor={props.notification.by.hexColor} size={30} /></Link>
         <FlexColumn gap={2}>
-          <Text size={14}><strong>{props.notification.by.username}</strong> liked your post!</Text>
+          <FlexRow gap={5} style={{"align-items": 'center'}}>
+            <Text size={14}><strong>{props.notification.by.username}</strong> liked your post!</Text>
+            <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
+          </FlexRow>
           <div style={{opacity: 0.6}}><Markup text={cachedPost()?.content!} /></div>
         </FlexColumn>
       </FlexRow>
