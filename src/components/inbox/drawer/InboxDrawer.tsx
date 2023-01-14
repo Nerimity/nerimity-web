@@ -129,7 +129,7 @@ const InboxDrawerTab = () => {
 
     for (let i = 0; i < inboxArray.length; i++) {
       const inboxItem = inboxArray[i];
-      const alreadyExists = users.find(u => u.id === inboxItem.channel.recipient?.id);
+      const alreadyExists = users.find(u => u?.id === inboxItem.channel.recipient?.id);
       if (!alreadyExists) {
         users.push(inboxItem.channel.recipient!);
       }
