@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import Avatar from "@/components/ui/Avatar";
 import UserPresence from '@/components/user-presence/UserPresence';
-import { useParams } from '@nerimity/solid-router';
+import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createMemo, createSignal, For, mapArray, on, onCleanup, onMount, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
@@ -16,12 +16,19 @@ import { getUserDetailsRequest, UserDetails } from '@/chat-api/services/UserServ
 import { PostItem } from '@/components/PostsArea';
 import Icon from '@/components/ui/icon/Icon';
 import { JSX } from 'solid-js';
+import { useWindowProperties } from '@/common/useWindowProperties';
+import Modal from '@/components/ui/Modal';
+import Button from '@/components/ui/Button';
+import Spinner from '@/components/ui/Spinner';
+import RouterEndpoints from '@/common/RouterEndpoints';
 
 const MemberItem = (props: {member: ServerMember}) => {
   const user = () => props.member.user; 
   let elementRef: undefined | HTMLDivElement;
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
   const [hoveringRect, setHoveringRect] = createSignal<undefined | {left: number, top: number}>(undefined);
+  const {isMobileWidth} = useWindowProperties();
+  const {createPortal} = useCustomPortal(); 
 
 
   const onContextMenu = (event: MouseEvent) => {
@@ -30,14 +37,17 @@ const MemberItem = (props: {member: ServerMember}) => {
   }
 
   const onHover = () => {
+    if (isMobileWidth()) return;
     const rect = elementRef?.getBoundingClientRect()!;
     setHoveringRect({left: rect.left, top: rect.top});
   }
+  const onClick = () => {
+    createPortal(close => <MobileFlyout close={close} userId={user().id}/>)
+  }
 
-  // onMount(onHover)
 
   return (
-  <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
+  <div onClick={onClick} onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
     <Show when={hoveringRect()}><ProfileFlyout userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
     <div ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
         <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
@@ -119,7 +129,7 @@ const FlyoutContainer = styled(FlexColumn)`
   position: fixed;
   border-radius: 8px;
   height: 350px;
-  width: 250px;
+  width: 300px;
   padding: 10px;
   background-color: rgba(40, 40, 40, 0.6);
   backdrop-filter: blur(20px);
@@ -161,10 +171,11 @@ const RoleContainer = styled(FlexRow)`
   padding: 3px;
 `;
 
-const ProfileFlyout = (props: {userId: string, left: number, top: number}) => {
+const ProfileFlyout = (props: {close?(): void, userId: string, left?: number, top?: number}) => {
   const params = useParams<{serverId: string}>();
   const {users, serverMembers, posts} = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
+  const {isMobileWidth} = useWindowProperties();
 
   const user = () => users.get(props.userId);
   const member = () => serverMembers.get(params.serverId, props.userId);
@@ -188,8 +199,22 @@ const ProfileFlyout = (props: {userId: string, left: number, top: number}) => {
   const followingCount = () => details()?.user._count.following.toLocaleString()
   const followersCount = () => details()?.user._count.followers.toLocaleString()
 
+  const style = () => ({
+    left: (props.left! - 320) + "px",
+    top: props.top + "px",
+    ...(isMobileWidth() ? {
+      top: 'initial',
+      bottom: "10px",
+      left: "10px",
+      right: "10px",
+      width: "initial",
+      "max-height": "70%",
+      height: 'initial'
+    } : undefined)
+  })
+
   return (
-    <FlyoutContainer style={{left: (props.left - 270) + "px", top: props.top + "px"}}>
+    <FlyoutContainer class="modal" style={style()}>
       <BannerContainer color={user().hexColor}/>
       <FlyoutDetailsContainer>
         <Avatar class={flyoutAvatarStyles} hexColor={user().hexColor} size={60}/>
@@ -209,15 +234,51 @@ const ProfileFlyout = (props: {userId: string, left: number, top: number}) => {
           </For>
         </RolesContainer>
       </Show>
+      <Show when={!details()}><Spinner style={{margin: 'auto'}}  size={50}/></Show>
       <Show when={latestPost()}>
       <FlyoutTitle style={{ "margin-bottom": "5px"}} icon='chat' title='Latest Post'/>
         <PostItem post={latestPost()!}  />
+      </Show>
+      <Show when={details()}>
+        <Link href={RouterEndpoints.PROFILE(props.userId)} style={{"text-decoration": 'none'}}>
+          <Button onClick={props.close} iconName='person' label='View full profile' margin={0} class={css`margin-top: 5px;`} />
+        </Link>
       </Show>
     </FlyoutContainer>
   )
 }
 
+const BackgroundContainer = styled("div")`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1111;
+`;
+function MobileFlyout(props: {userId: string, close: () => void}) {
+  const {isMobileWidth} = useWindowProperties();
+  let mouseDownTarget: HTMLDivElement | null = null;
 
+  const onBackgroundClick = (event: MouseEvent) => {
+    if(mouseDownTarget?.closest(".modal")) return; 
+    props.close?.()
+  }
+
+  createEffect(() => {
+    if (!isMobileWidth()) props.close();
+  })
+  
+  return (
+    <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
+      <ProfileFlyout close={props.close} userId={props.userId}/>
+    </BackgroundContainer>
+  )
+}
 
 
 function FlyoutTitle(props: {style?: JSX.CSSProperties,  icon: string, title: string}){ 
