@@ -64,10 +64,7 @@ export default function DashboardPane() {
   return (
     <DashboardPaneContainer>
       <DashboardPaneContent gap={10}>
-
-        <Text size={18} style={{ "margin-left": "15px" }}>Servers</Text>
         <ServerList />
-        <Text size={18} style={{ "margin-left": "15px" }}>Posts</Text>
         <PostsContainer/>
       </DashboardPaneContent>
 
@@ -113,6 +110,7 @@ function PostsContainer() {
 
   return ( 
     <>
+      <Text size={18} style={{ "margin-left": "15px" }}>Posts</Text>
       <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "13px" }}>
         <Button margin={0} primary={!showNotifications()} label='Feed' onClick={() => setShowNotifications(false)} />
         <Button margin={0} primary={showNotifications()} label="Notifications" customChildren={NotificationIndicator} onClick={() => setShowNotifications(true)} />
@@ -140,15 +138,18 @@ function ServerList() {
   }
 
   return (
-    <ServerListContainer>
-      <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
-      <For each={servers.array()}>
-        {server => <ServerItem
-          server={server!}
-          onContextMenu={e => onContextMenu(e, server!.id)}
-        />}
-      </For>
-    </ServerListContainer>
+    <Show when={servers.array().length}>
+      <Text size={18} style={{ "margin-left": "15px" }}>Servers</Text>
+      <ServerListContainer>
+        <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
+        <For each={servers.array()}>
+          {server => <ServerItem
+            server={server!}
+            onContextMenu={e => onContextMenu(e, server!.id)}
+          />}
+        </For>
+      </ServerListContainer>
+    </Show>
   )
 }
 
