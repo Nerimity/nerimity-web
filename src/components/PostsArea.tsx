@@ -164,7 +164,7 @@ const PostsContainer = styled(FlexColumn)`
 
 `;
 
-export function PostsArea(props: { showFeed?: boolean, showReplies?: boolean, postId?: string, userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
+export function PostsArea(props: { showLiked?: boolean, showFeed?: boolean, showReplies?: boolean, postId?: string, userId?: string, showCreateNew?: boolean, style?: JSX.CSSProperties}) {
 
   const {posts} = useStore();
 
@@ -176,6 +176,9 @@ export function PostsArea(props: { showFeed?: boolean, showReplies?: boolean, po
 
   createEffect(() => {
     if (props.userId) {
+      if (props.showLiked) {
+        return posts.fetchUserLikedPosts(props.userId)
+      }
       posts.fetchUserPosts(props.userId!, props.showReplies)
     }
   })

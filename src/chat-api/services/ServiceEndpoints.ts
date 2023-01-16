@@ -33,6 +33,9 @@ export default {
   posts: (userId?: string) => {
     return userId ? `/users/${userId}/posts` : `/posts` 
   },
+  likedPosts: (userId: string) => {
+    return `/users/${userId}/posts/liked` 
+  },
 
   postComments: (postId: string) => {
     return `/posts/${postId}/comments`

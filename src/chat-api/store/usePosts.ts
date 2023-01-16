@@ -1,7 +1,7 @@
 import { batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import { RawPost } from "../RawData";
-import { createPost, getCommentPosts, getFeedPosts, getPost, getPosts, likePost, unlikePost } from "../services/PostService";
+import { createPost, getCommentPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, unlikePost } from "../services/PostService";
 import useAccount from "./useAccount";
 
 
@@ -106,6 +106,16 @@ export function usePosts() {
       }
     })
   }
+  const fetchUserLikedPosts = async (userId: string) => {
+    const posts = await getPostsLiked(userId);
+    setState("userPostIds", userId, []);
+    batch(() => {
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        pushPost(post, userId);
+      }
+    })
+  }
 
   const cachedUserPosts = (userId: string) => {
     const postIds = state.userPostIds?.[userId];
@@ -136,5 +146,5 @@ export function usePosts() {
 
   const cachedPost = (postId: string) => state.posts[postId];
 
-  return {pushPost, fetchFeed, cachedFeed, cachedPost, fetchUserPosts, cachedUserPosts, submitPost, fetchAndPushPost}
+  return {pushPost, fetchFeed, cachedFeed, cachedPost, fetchUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts}
 }

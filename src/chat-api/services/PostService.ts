@@ -24,6 +24,15 @@ export const getPosts = async (userId?: string, withReplies = true) => {
   return data;
 }
 
+export const getPostsLiked = async (userId: string) => {
+  const data = await request<RawPost[]>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.likedPosts(userId),
+    useToken: true,
+  });
+  return data;
+}
+
 export const getPost = async (postId: string) => {
   const data = await request<RawPost>({
     method: 'GET',

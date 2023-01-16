@@ -278,15 +278,16 @@ function UserBioItem (props: {icon: string, label: string, value: string}) {
 }
 
 function PostsContainer (props: {user: UserDetails}) {
-  const [showReplies, setShowReplies] = createSignal(false);
+  const [currentPage, setCurrentPage] = createSignal(0); // posts | with replies | liked
   return (
     <div class={styles.bioArea}>
       <FlexRow gap={5} style={{"margin-bottom": "10px"}}>
-        <Button margin={0} primary={!showReplies()} onClick={() => setShowReplies(false)}  label='Posts' />
-        <Button margin={0} primary={showReplies()} onClick={() => setShowReplies(true)} label='Posts with replies' />
+        <Button margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)}  label='Posts' />
+        <Button margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label='Posts with replies' />
+        <Button margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label='Liked posts' />
       </FlexRow>
       <Show when={props.user}>
-        <PostsArea showReplies={showReplies()} style={{width: "100%"}} userId={props.user.user.id}/>
+        <PostsArea showLiked={currentPage() === 2} showReplies={currentPage() === 1} style={{width: "100%"}} userId={props.user.user.id}/>
       </Show>
     </div>
   )
