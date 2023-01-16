@@ -57,7 +57,7 @@ const FooterContainer = styled(FlexColumn)`
 function Footer() {
   const [t] = useTransContext();
   const navigate = useNavigate();
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
   
   const onChangelogClick = () => createPortal?.(close => <ChangelogModal close={close}/>)
 

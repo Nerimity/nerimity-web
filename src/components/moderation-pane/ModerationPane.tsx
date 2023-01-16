@@ -95,7 +95,7 @@ const ActionButtons = styled(FlexRow)``;
 
 export default function ModerationPane() {
   const { account, header } = useStore();
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
   const [load, setLoad] = createSignal(false);
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 

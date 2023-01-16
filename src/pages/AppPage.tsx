@@ -71,7 +71,7 @@ async function loadAllCache () {
 export default function AppPage() {
   const {account} = useStore();
 
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
   onMount(() => {
     loadAllCache();

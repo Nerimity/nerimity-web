@@ -24,7 +24,7 @@ import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
   const params = useParams<{serverId: string}>();
   const {account, serverMembers} = useStore();
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
   const onDeleteClick = () => {
     createPortal?.(close => <DeleteMessageModal close={close} message={props.message}/>)

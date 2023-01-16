@@ -59,7 +59,7 @@ const InboxDrawer = () => {
   const [selectedIndex, setSelectedIndex] = createSignal(getStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, 0));
   const params = useParams();
 
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
   const {users, account} = useStore();
   

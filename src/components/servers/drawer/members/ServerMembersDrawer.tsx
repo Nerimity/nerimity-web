@@ -3,14 +3,25 @@ import Avatar from "@/components/ui/Avatar";
 import UserPresence from '@/components/user-presence/UserPresence';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
-import { createMemo, createSignal, For, mapArray, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, mapArray, on, onCleanup, onMount, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
 import MemberContextMenu from '../../../member-context-menu/MemberContextMenu';
 import { DrawerHeader } from '@/components/DrawerHeader';
+import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import { css, styled } from 'solid-styled-components';
+import useUsers from '@/chat-api/store/useUsers';
+import Text from '@/components/ui/Text';
+import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
+import { getUserDetailsRequest, UserDetails } from '@/chat-api/services/UserService';
+import { PostItem } from '@/components/PostsArea';
+import Icon from '@/components/ui/icon/Icon';
+import { JSX } from 'solid-js';
 
 const MemberItem = (props: {member: ServerMember}) => {
   const user = () => props.member.user; 
+  let elementRef: undefined | HTMLDivElement;
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
+  const [hoveringRect, setHoveringRect] = createSignal<undefined | {left: number, top: number}>(undefined);
 
 
   const onContextMenu = (event: MouseEvent) => {
@@ -18,15 +29,25 @@ const MemberItem = (props: {member: ServerMember}) => {
     setContextPosition({x: event.clientX, y: event.clientY});
   }
 
+  const onHover = () => {
+    const rect = elementRef?.getBoundingClientRect()!;
+    setHoveringRect({left: rect.left, top: rect.top});
+  }
+
+  // onMount(onHover)
+
   return (
-    <div class={styles.memberItem} oncontextmenu={onContextMenu} >
-      <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
-      <Avatar size={25} hexColor={user().hexColor} />
-      <div class={styles.memberInfo}>
-        <div class={styles.username} style={{color: props.member.roleColor()}} >{user().username}</div>
-        <UserPresence userId={user().id} showOffline={false} />
+  <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
+    <Show when={hoveringRect()}><ProfileFlyout userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
+    <div ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
+        <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
+        <Avatar size={25} hexColor={user().hexColor} />
+        <div class={styles.memberInfo}>
+          <div class={styles.username} style={{color: props.member.roleColor()}} >{user().username}</div>
+          <UserPresence userId={user().id} showOffline={false} />
+        </div>
       </div>
-    </div>
+  </div>
   )
 };
 
@@ -93,4 +114,121 @@ const ServerMembersDrawer = () => {
 
 
 
+
+const FlyoutContainer = styled(FlexColumn)`
+  position: fixed;
+  border-radius: 8px;
+  height: 350px;
+  width: 250px;
+  padding: 10px;
+  background-color: rgba(40, 40, 40, 0.6);
+  backdrop-filter: blur(20px);
+  border: solid 1px rgba(255, 255, 255, 0.2);
+`
+const BannerContainer = styled("div")<{color: string}>`
+  background: ${props => props.color};
+  filter: brightness(70%);
+  height: 70px;
+  width: 100%;
+  border-radius: 8px;
+`;
+
+const FlyoutDetailsContainer = styled(FlexRow)`
+  position: relative;
+  margin-left: 10px;
+  z-index: 111111111;
+  margin-top: -18px;
+  margin-bottom: 10px;
+`;
+const FlyoutOtherDetailsContainer = styled(FlexColumn)`
+  margin-top: 20px;
+`;
+
+const flyoutAvatarStyles = css`
+  margin-right: 5px;
+`;
+
+const RolesContainer = styled(FlexRow)`
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+`;
+
+const RoleContainer = styled(FlexRow)`
+  background-color: rgba(80, 80, 80, 0.6);
+  border-radius: 8px;
+  padding: 3px;
+`;
+
+const ProfileFlyout = (props: {userId: string, left: number, top: number}) => {
+  const params = useParams<{serverId: string}>();
+  const {users, serverMembers, posts} = useStore();
+  const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
+
+  const user = () => users.get(props.userId);
+  const member = () => serverMembers.get(params.serverId, props.userId);
+
+  onMount(() => {
+    const timeoutId = window.setTimeout(async () => {
+      const details = await getUserDetailsRequest(props.userId);
+      setDetails(details)
+      if (details.latestPost) {
+        posts.pushPost(details.latestPost);
+      }
+    }, 500);
+    onCleanup(() => {
+      window.clearTimeout(timeoutId);
+    })
+  })
+
+  const latestPost = () => posts.cachedPost(details()?.latestPost.id!);
+
+
+  const followingCount = () => details()?.user._count.following.toLocaleString()
+  const followersCount = () => details()?.user._count.followers.toLocaleString()
+
+  return (
+    <FlyoutContainer style={{left: (props.left - 270) + "px", top: props.top + "px"}}>
+      <BannerContainer color={user().hexColor}/>
+      <FlyoutDetailsContainer>
+        <Avatar class={flyoutAvatarStyles} hexColor={user().hexColor} size={60}/>
+        <FlyoutOtherDetailsContainer>
+          <Text>{user().username}</Text>
+          <Show when={details()}>
+            <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
+          </Show>
+          <UserPresence userId={props.userId} showOffline />
+        </FlyoutOtherDetailsContainer>
+      </FlyoutDetailsContainer>
+      <Show when={member()?.roles().length}>
+        <FlyoutTitle style={{"margin-bottom": "5px"}} icon='leaderboard' title='Roles'/>
+        <RolesContainer gap={3}>
+          <For each={member()?.roles()!}>
+            {role => (<RoleContainer><Text color={role?.hexColor} size={14}>{role?.name}</Text></RoleContainer>)}
+          </For>
+        </RolesContainer>
+      </Show>
+      <Show when={latestPost()}>
+      <FlyoutTitle style={{ "margin-bottom": "5px"}} icon='chat' title='Latest Post'/>
+        <PostItem post={latestPost()!}  />
+      </Show>
+    </FlyoutContainer>
+  )
+}
+
+
+
+
+function FlyoutTitle(props: {style?: JSX.CSSProperties,  icon: string, title: string}){ 
+  return (
+    <FlexRow gap={5} style={{...{"align-items": 'center'}, ...props.style}}>
+      <Icon color='var(--primary-color)' name={props.icon} size={14}/>
+      <Text>{props.title}</Text>
+    </FlexRow>
+  )
+}
+
+
+
 export default ServerMembersDrawer;
+
+

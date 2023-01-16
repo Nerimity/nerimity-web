@@ -1,5 +1,5 @@
 import env from "../../common/env";
-import { RawChannel, RawInboxWithoutChannel, RawUser } from "../RawData";
+import { RawChannel, RawInboxWithoutChannel, RawPost, RawUser } from "../RawData";
 import { UserStatus } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
@@ -39,6 +39,7 @@ export interface UserDetails {
   user: RawUser & {_count: {followers: number, following: number}, following: any[], followers: any[]};
   mutualFriendIds: string[];
   mutualServerIds: string[];
+  latestPost: RawPost
 
 }
 

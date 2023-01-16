@@ -25,7 +25,7 @@ export default function ServerSettingsChannel() {
   const [t] = useTransContext();
   const params = useParams<ChannelParams>();
   const { header, channels } = useStore();
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);

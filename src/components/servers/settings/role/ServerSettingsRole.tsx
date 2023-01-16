@@ -29,7 +29,7 @@ export default function ServerSettingsRole() {
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
   const role = () => serverRoles.get(params.serverId, params.roleId);
 

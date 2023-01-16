@@ -23,7 +23,7 @@ type Props = Omit<ContextMenuProps, 'items'> & {
 
 export default function MemberContextMenu(props: Props) {
   const { serverMembers, servers, account, users } = useStore();
-  const createPortal = useCustomPortal()
+  const {createPortal} = useCustomPortal()
 
   const navigate = useNavigate();
   

@@ -35,7 +35,7 @@ const SidebarItemContainer = styled(ItemContainer)`
 `;
 
 export default function SidePane () {
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
   const showAddServerModal = () => {
     createPortal?.(close => <AddServer close={close} />)
@@ -101,7 +101,7 @@ function InboxItem() {
 function UpdateItem() {
   const checkAfterMS = 600000; // 10 minutes
   const {checkForUpdate, updateAvailable} = useAppVersion();
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
   const {hasFocus} = useWindowProperties()
   let lastChecked = 0;
 
@@ -157,7 +157,7 @@ function SettingsItem() {
 
 const UserItem = () => {
   const {account, users} = useStore();
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
   const userId = () =>  account.user()?.id;
   const user = () => users.get(userId()!)

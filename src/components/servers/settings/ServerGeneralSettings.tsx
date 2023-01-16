@@ -28,7 +28,7 @@ export default function ServerGeneralSettings() {
   const {header, servers, channels} = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
   const server = () => servers.get(params.serverId);
 
   const defaultInput = () => ({

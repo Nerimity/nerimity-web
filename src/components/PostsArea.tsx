@@ -94,10 +94,10 @@ const postActionStyle = css`
   }
 `;
 
-function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
+export function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
   const {posts} = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
   const Details = () => (
     <PostDetailsContainer gap={10}>
       <Avatar hexColor={props.post.createdBy.hexColor} size={35} />
@@ -212,7 +212,7 @@ export function PostsArea(props: { showFeed?: boolean, showReplies?: boolean, po
 
 function PostNotification (props: {notification: RawPostNotification}) {
   const {posts} = useStore();
-  const createPortal = useCustomPortal();
+  const {createPortal} = useCustomPortal();
 
 
   const Reply = () => {
