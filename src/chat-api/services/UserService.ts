@@ -36,7 +36,16 @@ export async function registerRequest(email: string, username: string, password:
 }
 
 export interface UserDetails {
-  user: RawUser & {_count: {followers: number, following: number}, following: any[], followers: any[]};
+  user: RawUser & {
+    _count: {
+      followers: number, 
+      following: number
+      likedPosts: number
+      posts: number
+    }, 
+    following: any[], 
+    followers: any[]
+  };
   mutualFriendIds: string[];
   mutualServerIds: string[];
   latestPost: RawPost
