@@ -124,6 +124,7 @@ const FlyoutContainer = styled(FlexColumn)`
   background-color: rgba(40, 40, 40, 0.6);
   backdrop-filter: blur(20px);
   border: solid 1px rgba(255, 255, 255, 0.2);
+  overflow: auto;
 `
 const BannerContainer = styled("div")<{color: string}>`
   background: ${props => props.color};
@@ -131,6 +132,7 @@ const BannerContainer = styled("div")<{color: string}>`
   height: 70px;
   width: 100%;
   border-radius: 8px;
+  flex-shrink: 0;
 `;
 
 const FlyoutDetailsContainer = styled(FlexRow)`
@@ -180,7 +182,7 @@ const ProfileFlyout = (props: {userId: string, left: number, top: number}) => {
     })
   })
 
-  const latestPost = () => posts.cachedPost(details()?.latestPost.id!);
+  const latestPost = () => posts.cachedPost(details()?.latestPost?.id!);
 
 
   const followingCount = () => details()?.user._count.following.toLocaleString()
