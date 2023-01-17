@@ -75,7 +75,7 @@ export default function MemberContextMenu(props: Props) {
 
 
   const onEditRoleClick = () => {
-    createPortal?.(close => <Modal close={close}  title="Edit Roles" children={() => <RoleModal {...props} />} />)
+    createPortal?.(close => <Modal close={close}  title="Edit Roles" children={() => <ServerMemberRoleModal {...props} />} />)
   }
 
   const onKickClick = () => {
@@ -162,7 +162,7 @@ function BanModal (props: {user: RawUser, serverId: string, close: () => void}) 
 }
 
 
-function RoleModal (props: Props) {
+export function ServerMemberRoleModal (props: Props) {
   const {serverRoles, servers} = useStore();
   const server = () => servers.get(props.serverId!);
   const roles = () => serverRoles.getAllByServerId(props.serverId!);

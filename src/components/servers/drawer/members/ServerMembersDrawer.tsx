@@ -5,7 +5,7 @@ import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createMemo, createSignal, For, mapArray, on, onCleanup, onMount, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
-import MemberContextMenu from '../../../member-context-menu/MemberContextMenu';
+import MemberContextMenu, { ServerMemberRoleModal } from '../../../member-context-menu/MemberContextMenu';
 import { DrawerHeader } from '@/components/DrawerHeader';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { css, styled } from 'solid-styled-components';
@@ -23,6 +23,7 @@ import Spinner from '@/components/ui/Spinner';
 import RouterEndpoints from '@/common/RouterEndpoints';
 
 const MemberItem = (props: {member: ServerMember}) => {
+  const params = useParams<{serverId: string}>();
   const user = () => props.member.user; 
   let elementRef: undefined | HTMLDivElement;
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
@@ -42,13 +43,13 @@ const MemberItem = (props: {member: ServerMember}) => {
     setHoveringRect({left: rect.left, top: rect.top});
   }
   const onClick = () => {
-    createPortal(close => <MobileFlyout close={close} userId={user().id}/>)
+    createPortal(close => <MobileFlyout serverId={params.serverId} close={close} userId={user().id}/>)
   }
 
 
   return (
   <div onClick={onClick} onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
-    <Show when={hoveringRect()}><ProfileFlyout userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
+    <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
     <div ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
         <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
         <Avatar size={25} hexColor={user().hexColor} />
@@ -165,20 +166,26 @@ const RolesContainer = styled(FlexRow)`
   flex-wrap: wrap;
 `;
 
-const RoleContainer = styled(FlexRow)`
+const RoleContainer = styled(FlexRow)<{selectable?: boolean}>`
   background-color: rgba(80, 80, 80, 0.6);
   border-radius: 8px;
   padding: 3px;
+  ${props => props.selectable ? `
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(80, 80, 80, 0.8);
+    }
+  ` : ''}
 `;
 
-const ProfileFlyout = (props: {close?(): void, userId: string, left?: number, top?: number}) => {
-  const params = useParams<{serverId: string}>();
+const ProfileFlyout = (props: {close?(): void, userId: string, serverId: string, left?: number, top?: number}) => {
+  const {createPortal} = useCustomPortal();
   const {users, serverMembers, posts} = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
   const {isMobileWidth} = useWindowProperties();
 
   const user = () => users.get(props.userId);
-  const member = () => serverMembers.get(params.serverId, props.userId);
+  const member = () => serverMembers.get(props.serverId, props.userId);
 
   onMount(() => {
     const timeoutId = window.setTimeout(async () => {
@@ -213,6 +220,10 @@ const ProfileFlyout = (props: {close?(): void, userId: string, left?: number, to
     } : undefined)
   })
 
+  const showRoleModal = () => {
+    createPortal?.(close => <Modal close={close}  title="Edit Roles" children={() => <ServerMemberRoleModal userId={member()?.userId!} serverId={member()?.serverId!} />} />)
+  }
+
   return (
     <FlyoutContainer class="modal" style={style()}>
       <BannerContainer color={user().hexColor}/>
@@ -226,12 +237,13 @@ const ProfileFlyout = (props: {close?(): void, userId: string, left?: number, to
           <UserPresence userId={props.userId} showOffline />
         </FlyoutOtherDetailsContainer>
       </FlyoutDetailsContainer>
-      <Show when={member()?.roles().length}>
+      <Show when={member()}>
         <FlyoutTitle style={{"margin-bottom": "5px"}} icon='leaderboard' title='Roles'/>
         <RolesContainer gap={3}>
           <For each={member()?.roles()!}>
             {role => (<RoleContainer><Text color={role?.hexColor} size={14}>{role?.name}</Text></RoleContainer>)}
           </For>
+          <RoleContainer onclick={showRoleModal} selectable><Icon name='add' size={14}/></RoleContainer>
         </RolesContainer>
       </Show>
       <Show when={!details()}><Spinner style={{margin: 'auto'}}  size={50}/></Show>
@@ -260,7 +272,7 @@ const BackgroundContainer = styled("div")`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1111;
 `;
-function MobileFlyout(props: {userId: string, close: () => void}) {
+function MobileFlyout(props: {userId: string, serverId: string, close: () => void}) {
   const {isMobileWidth} = useWindowProperties();
   let mouseDownTarget: HTMLDivElement | null = null;
 
@@ -275,7 +287,7 @@ function MobileFlyout(props: {userId: string, close: () => void}) {
   
   return (
     <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-      <ProfileFlyout close={props.close} userId={props.userId}/>
+      <ProfileFlyout close={props.close} serverId={props.serverId} userId={props.userId}/>
     </BackgroundContainer>
   )
 }
