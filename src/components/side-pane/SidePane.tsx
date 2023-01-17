@@ -24,7 +24,6 @@ import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import Button from '../ui/Button';
 import Text from '../ui/Text';
 import Marked from '@/common/Marked';
-import { getLatestRelease } from '@/github-api';
 import { formatTimestamp } from '@/common/date';
 
 const SidebarItemContainer = styled(ItemContainer)`
