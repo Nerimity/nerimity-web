@@ -136,6 +136,7 @@ const FlyoutContainer = styled(FlexColumn)`
   backdrop-filter: blur(20px);
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
+  z-index: 100111111111110;
 `
 const BannerContainer = styled("div")<{color: string}>`
   background: ${props => props.color};
@@ -182,7 +183,7 @@ const ProfileFlyout = (props: {close?(): void, userId: string, serverId: string,
   const {createPortal} = useCustomPortal();
   const {users, serverMembers, posts} = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
-  const {isMobileWidth} = useWindowProperties();
+  const {isMobileWidth, height} = useWindowProperties();
 
   const user = () => users.get(props.userId);
   const member = () => serverMembers.get(props.serverId, props.userId);
@@ -191,24 +192,30 @@ const ProfileFlyout = (props: {close?(): void, userId: string, serverId: string,
     const timeoutId = window.setTimeout(async () => {
       const details = await getUserDetailsRequest(props.userId);
       setDetails(details)
-      if (details.latestPost) {
-        posts.pushPost(details.latestPost);
-      }
+      posts.pushLatestUserPost(props.userId, details.latestPost)
     }, 500);
     onCleanup(() => {
       window.clearTimeout(timeoutId);
     })
   })
 
-  const latestPost = () => posts.cachedPost(details()?.latestPost?.id!);
+  const latestPost = () => posts.cachedLatestUserPost(props.userId);
 
 
   const followingCount = () => details()?.user._count.following.toLocaleString()
   const followersCount = () => details()?.user._count.followers.toLocaleString()
 
+
+  const HEIGHT = 380;
+  const top = () => {
+    if ((HEIGHT + props.top!) > height()) return height() - HEIGHT;
+    return props.top!;
+  }
+
+
   const style = () => ({
     left: (props.left! - 320) + "px",
-    top: props.top + "px",
+    top: top() + "px",
     ...(isMobileWidth() ? {
       top: 'initial',
       bottom: "10px",
@@ -246,7 +253,7 @@ const ProfileFlyout = (props: {close?(): void, userId: string, serverId: string,
           <RoleContainer onclick={showRoleModal} selectable><Icon name='add' size={14}/></RoleContainer>
         </RolesContainer>
       </Show>
-      <Show when={!details()}><Spinner style={{margin: 'auto'}}  size={50}/></Show>
+      <Show when={!details() && !latestPost()}><Spinner style={{margin: 'auto'}}  size={50}/></Show>
       <Show when={latestPost()}>
       <FlyoutTitle style={{ "margin-bottom": "5px"}} icon='chat' title='Latest Post'/>
         <PostItem post={latestPost()!}  />

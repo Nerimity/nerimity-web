@@ -18,12 +18,14 @@ interface State {
   userPostIds: Record<string, string[] | undefined>; // userPostIds[userId] -> postIds
   posts: Record<string, Post | undefined>
   feedPostIds: string[]
+  latestUserPostIds: Record<string, string>
 }
 
 const [state, setState] = createStore<State>({
   userPostIds: {},
   posts: {},
-  feedPostIds: []
+  feedPostIds: [],
+  latestUserPostIds: {}
 });
 
 export function usePosts() {
@@ -142,9 +144,16 @@ export function usePosts() {
   }
 
   const cachedFeed = () => state.feedPostIds.map(id => state.posts[id] as Post);
-
-
   const cachedPost = (postId: string) => state.posts[postId];
 
-  return {pushPost, fetchFeed, cachedFeed, cachedPost, fetchUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts}
+
+  const pushLatestUserPost = async (userId: string, post: RawPost) => {
+    batch(() => {
+      post && pushPost(post);
+      setState("latestUserPostIds", userId, post?.id);
+    })
+  }
+  const cachedLatestUserPost = (userId: string) => state.posts[state.latestUserPostIds[userId]]
+
+  return {pushPost, fetchFeed, cachedFeed, cachedPost, fetchUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts, pushLatestUserPost, cachedLatestUserPost}
 }

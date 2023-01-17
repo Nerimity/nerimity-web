@@ -5,6 +5,7 @@ import env from "./env";
 
 const [windowProperties, setWindowProperties] = createStore({
   width: window.innerWidth,
+  height: window.innerHeight,
   paneWidth: null as null | number,
   hasFocus: document.hasFocus(),
 });
@@ -13,6 +14,7 @@ const [windowProperties, setWindowProperties] = createStore({
 
 window.addEventListener("resize", () => {
   setWindowProperties('width', window.innerWidth)
+  setWindowProperties('height', window.innerHeight)
 })
 
 window.addEventListener('focus', () => {
@@ -31,6 +33,7 @@ export function useWindowProperties() {
   return {
     setPaneWidth,
     width: () => windowProperties.width,
+    height: () => windowProperties.height,
     isMobileWidth: ()  => windowProperties.width <= env.MOBILE_WIDTH,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
