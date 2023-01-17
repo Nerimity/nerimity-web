@@ -258,7 +258,7 @@ const ProfileFlyout = (props: {close?(): void, userId: string, serverId: string,
       <FlyoutTitle style={{ "margin-bottom": "5px"}} icon='chat' title='Latest Post'/>
         <PostItem post={latestPost()!}  />
       </Show>
-      <Show when={details()}>
+      <Show when={details() || latestPost()}>
         <Link href={RouterEndpoints.PROFILE(props.userId)} style={{"text-decoration": 'none'}}>
           <Button onClick={props.close} iconName='person' label='View full profile' margin={0} class={css`margin-top: 5px;`} />
         </Link>
