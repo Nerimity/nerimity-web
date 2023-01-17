@@ -2,8 +2,10 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-
-  width: 100%;
+  
+  background-color: rgba(255, 255, 255, 0.05);
+  margin: 5px;
+  border-radius: 8px;
   
   .headerItem {
     padding: 7px;
@@ -12,10 +14,10 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: rgba(255, 255, 255, 0.5);
     transition: 0.2s;
     height: 30px;
     overflow: hidden;
+    border-radius: 8px;
 
     .headerIcon {
       margin-right: 5px;
@@ -67,6 +69,9 @@
 .items {
   display: flex;
   background-color: rgba(255, 255, 255, 0.05);
+  margin: 5px;
+  overflow: hidden;
+  border-radius: 8px;
   .item {
     transition: 0.2s;
     display: flex;

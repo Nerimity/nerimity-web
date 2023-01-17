@@ -86,9 +86,7 @@ const InboxDrawer = () => {
   return (
     <div class={styles.inboxDrawer}>
       <div class={styles.list}>
-      <DrawerHeader>
         <Header selectedIndex={selectedIndex()} onTabClick={onTabClick} />
-      </DrawerHeader>
         {selectedIndex() === 0 && <InboxDrawerTab/>}
         {selectedIndex() === 1 && <InboxDrawerFriends /> }
       </div>
