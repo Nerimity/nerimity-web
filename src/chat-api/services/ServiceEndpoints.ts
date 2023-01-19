@@ -10,6 +10,7 @@ export default {
   serverChannels: (serverId: string) => `/servers/${serverId}/channels`,
   serverChannel: (serverId: string, channelId: string) => `/servers/${serverId}/channels/${channelId}`,
   serverRoles: (serverId: string) => `/servers/${serverId}/roles`,
+  serverRolesOrder: (serverId: string) => `/servers/${serverId}/roles/order`,
   serverRole: (serverId: string, roleId: string) => `/servers/${serverId}/roles/${roleId}`,
   serverMember: (serverId: string, userId: string) => `/servers/${serverId}/members/${userId}`,
   serverMemberKick: (serverId: string, userId: string) => `/servers/${serverId}/members/${userId}/kick`,

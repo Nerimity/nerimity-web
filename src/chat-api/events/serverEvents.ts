@@ -165,6 +165,22 @@ export const onServerRoleUpdated = (payload: ServerRoleUpdated) => {
   role?.update(payload.updated);
 }
 
+interface ServerRoleOrderUpdated {
+  serverId: string;
+  roleIds: string[];
+}
+
+export const onServerRoleOrderUpdated = (payload: ServerRoleOrderUpdated) => {
+  const serverRoles = useServerRoles();
+  batch(() => {
+    for (let i = 0; i < payload.roleIds.length; i++) {
+      const roleId = payload.roleIds[i];
+      const role = serverRoles.get(payload.serverId, roleId);
+      role?.update({order: i + 1});
+    }
+  })
+}
+
 export const onServerRoleDeleted = (payload: {serverId: string, roleId: string}) => {
   const serverRoles = useServerRoles();
   const serverMembers = useServerMembers();

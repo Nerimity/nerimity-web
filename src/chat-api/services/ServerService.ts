@@ -78,6 +78,14 @@ export async function updateServerRole(serverId: string, roleId: string, update:
     useToken: true
   });
 }
+export async function updateServerRoleOrder(serverId: string, roleIds: string[]): Promise<any> {
+  return request({
+    method: "POST",
+    body: {roleIds},
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverRolesOrder(serverId),
+    useToken: true
+  });
+}
 export async function deleteServerRole(serverId: string, roleId: string): Promise<any> {
   return request({
     method: "DELETE",

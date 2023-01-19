@@ -5,7 +5,7 @@ import { onAuthenticated, onAuthenticateError, onConnect, onDisconnect, onReconn
 import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from './events/friendEvents';
 import { onInboxOpened } from './events/inboxEvents';
 import { onMessageCreated, onMessageDeleted, onMessageUpdated } from './events/messageEvents';
-import { onServerChannelCreated, onServerChannelDeleted, onServerChannelUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
+import { onServerChannelCreated, onServerChannelDeleted, onServerChannelUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
 import { onNotificationDismissed, onUserPresenceUpdate, onUserUpdated } from './events/userEvents';
 
 
@@ -53,6 +53,7 @@ socket.on(ServerEvents.SERVER_LEFT, onServerLeft)
 socket.on(ServerEvents.SERVER_UPDATED, onServerUpdated)
 
 socket.on(ServerEvents.SERVER_ROLE_CREATED, onServerRoleCreated)
+socket.on(ServerEvents.SERVER_ROLE_ORDER_UPDATED, onServerRoleOrderUpdated)
 socket.on(ServerEvents.SERVER_ROLE_UPDATED, onServerRoleUpdated)
 socket.on(ServerEvents.SERVER_ROLE_DELETED, onServerRoleDeleted)
 

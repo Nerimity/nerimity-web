@@ -31,6 +31,7 @@
     "material-icons": "^1.13.1",
     "sass": "^1.57.1",
     "socket.io-client": "^4.5.4",
+    "solid-dnd-directive": "^0.2.0",
     "solid-js": "^1.6.6",
     "solid-styled-components": "^0.28.5",
     "solid-transition-group": "^0.0.11",

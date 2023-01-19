@@ -1,14 +1,15 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useNavigate, useParams } from '@nerimity/solid-router';
-import { createSignal, For, onMount } from 'solid-js';
+import { createEffect, createSignal, For, JSX, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Button from '@/components/ui/Button';
 import Icon from '@/components/ui/icon/Icon';
-import { createServerRole } from '@/chat-api/services/ServerService';
+import { createServerRole, updateServerRoleOrder } from '@/chat-api/services/ServerService';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
 import { useTransContext } from '@nerimity/solid-i18next';
+import { Draggable } from '@/components/ui/Draggable';
 
 
 
@@ -30,14 +31,24 @@ function RoleItem(props: { role: ServerRole }) {
 function RoleList() {
   const { serverId } = useParams();
   const { serverRoles } = useStore();
-  const roles = () => serverRoles.getAllByServerId(serverId);
+  const roles = () => serverRoles.getAllByServerId(serverId) as ServerRole[];
+
+
+
+
+
+  const onDrop = (items: ServerRole[], revert: () => void) => {
+    const ids = items.map(item => item.id);
+    updateServerRoleOrder(serverId, [...ids].reverse())
+      .catch(() => {
+        revert();
+      })
+  }
 
   return (
-    <div class={styles.roleList}>
-      <For each={roles()}>
-        {role => <RoleItem role={role!} />}
-      </For>
-    </div>
+    <Draggable onDrop={onDrop} class={styles.roleList} items={roles()}>
+      {role => <RoleItem role={role!} />}
+    </Draggable>
   )
 }
 
