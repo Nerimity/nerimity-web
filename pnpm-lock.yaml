@@ -19,6 +19,7 @@ specifiers:
   socket.io-client: ^4.5.4
   solid-dnd-directive: ^0.2.0
   solid-js: ^1.6.6
+  solid-sortablejs: ^2.0.2
   solid-styled-components: ^0.28.5
   solid-transition-group: ^0.0.11
   twemoji: ^14.0.2
@@ -42,6 +43,7 @@ dependencies:
   socket.io-client: 4.5.4
   solid-dnd-directive: 0.2.0_solid-js@1.6.6
   solid-js: 1.6.6
+  solid-sortablejs: 2.0.2_solid-js@1.6.6
   solid-styled-components: 0.28.5_solid-js@1.6.6
   solid-transition-group: 0.0.11_solid-js@1.6.6
   twemoji: 14.0.2
@@ -1197,6 +1199,15 @@ packages:
       solid-js: 1.6.6
     dev: true
 
+  /solid-sortablejs/2.0.2_solid-js@1.6.6:
+    resolution: {integrity: sha512-H5XH1qC/wpfQ/a32wX80IlC91yPq3S85SCPgss/9acU1PncA9e8nMkBZyQ32zoyRBVxy6djt9A2yBeBRwAwa9w==}
+    peerDependencies:
+      solid-js: '>=1.0.0'
+    dependencies:
+      solid-js: 1.6.6
+      sortablejs: 1.15.0
+    dev: false
+
   /solid-styled-components/0.28.5_solid-js@1.6.6:
     resolution: {integrity: sha512-vwTcdp76wZNnESIzB6rRZ3U55NgcSAQXCiiRIiEFhxTFqT0bEh/warNT1qaRZu4OkAzrBkViOngF35ktI8sc4A==}
     peerDependencies:
@@ -1213,6 +1224,10 @@ packages:
       solid-js: ^1.0.0
     dependencies:
       solid-js: 1.6.6
+    dev: false
+
+  /sortablejs/1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
     dev: false
 
   /source-map-js/1.0.2:

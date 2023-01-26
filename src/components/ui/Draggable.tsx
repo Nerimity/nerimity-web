@@ -1,5 +1,5 @@
 import { JSX, createEffect, createSignal, For, onMount } from "solid-js";
-import {dndzone} from "solid-dnd-directive";
+import Sortable from "solid-sortablejs";
 
 interface Props<T> { 
   class?: string
@@ -9,7 +9,7 @@ interface Props<T> {
   onDrop?: (items: T[], revert:() =>  void) => void;
 }
 
-typeof dndzone;
+
 export function Draggable<T>(props: Props<T>) {
   const [items, setItems] = createSignal<T[]>(props.items);
 
@@ -17,12 +17,8 @@ export function Draggable<T>(props: Props<T>) {
     setItems(props.items);
   })
 
-  const handleDndEvent = (e, type: 'consider' | 'finalize') => {
-    const {items: newItems} = e.detail;
-    setItems(newItems);
-    if (type === 'finalize') {
-      props.onDrop(newItems, revert);
-    }
+  const onEnd = () => {
+    props.onDrop?.(items(), revert);
   }
 
   const revert = () =>  {
@@ -32,10 +28,8 @@ export function Draggable<T>(props: Props<T>) {
   props.ref?.({revert});
 
   return (
-    <div class={props.class} use:dndzone={{items}} on:consider={(e) => handleDndEvent(e, 'consider')} on:finalize={(e) => handleDndEvent(e, 'finalize')}>
-      <For each={items()}>
-        {item => props.children(item)}
-      </For>
-    </div>
+    <Sortable class={props.class} delay={200} delayOnTouchOnly idField="id" items={items()} onEnd={onEnd} setItems={setItems}>
+      {item => props.children(item)}
+    </Sortable>
   )
 }
