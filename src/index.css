@@ -61,3 +61,8 @@ a {
   border-radius: 8px;
 
 }
+
+
+#dnd-action-dragged-el {
+  opacity: 0.6 !important;
+}

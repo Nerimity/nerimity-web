@@ -33,4 +33,5 @@ export interface SelfUser {
   avatar?: string;
   badges: number;
   tag: string;
+  orderedServerIds: string[]
 }

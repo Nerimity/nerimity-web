@@ -1,6 +1,7 @@
 import {createStore} from 'solid-js/store';
 import { RawServer } from '../RawData';
 import { deleteServer } from '../services/ServerService';
+import useAccount from './useAccount';
 import useChannels from './useChannels';
 
 export type Server = RawServer & {
@@ -39,7 +40,28 @@ const remove = (serverId: string) => {
 
 const get = (serverId: string) => servers[serverId]
 
-const array = () => Object.values(servers);
+const array = () => Object.values(servers) as Server[];
+
+const orderedArray = () => {
+  const account = useAccount();
+  const serverIdsArray = account.user()?.orderedServerIds;
+  const order: Record<string, number> = {};
+  serverIdsArray?.forEach((a, i) => {order[a] = i})
+  
+  return array()
+    .sort((a, b) => a.createdAt - b.createdAt)
+    .sort((a, b) => {
+      const orderA = order[a.id];
+      const orderB = order[b.id];
+      if (orderA === undefined) {
+        return -1;
+      }
+      if (orderB === undefined) {
+        return 1;
+      }
+      return orderA - orderB;
+    })
+}
 
 
 const hasNotifications =  () => {
@@ -52,6 +74,7 @@ export default function useServers() {
     get,
     set,
     hasNotifications,
+    orderedArray,
     remove
   }
 }

@@ -70,6 +70,15 @@ export async function createServerRole(serverId: string): Promise<RawServerRole>
   });
 }
 
+export async function updateServerOrder(serverIds: string[]): Promise<RawServerRole> {
+  return request({
+    method: "POST",
+    body: {serverIds},
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverOrder(),
+    useToken: true
+  });
+}
+
 export async function updateServerRole(serverId: string, roleId: string, update: any): Promise<any> {
   return request({
     method: "POST",

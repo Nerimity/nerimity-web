@@ -1,6 +1,7 @@
 import { runWithContext } from "@/common/runWithContext";
 import { batch } from "solid-js";
 import { RawChannel, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
+import useAccount from "../store/useAccount";
 import useChannels from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
@@ -109,6 +110,12 @@ export const onServerUpdated = (payload: ServerUpdated) => {
   const servers = useServers();
   const server = servers.get(payload.serverId);
   server?.update(payload.updated);
+}
+export const onServerOrderUpdated = (payload: {serverIds: string[]}) => {
+  const account = useAccount();
+  account.setUser({
+    orderedServerIds: payload.serverIds,
+  })
 }
 
 

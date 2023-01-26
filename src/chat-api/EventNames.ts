@@ -35,7 +35,8 @@ export const ServerEvents = {
   SERVER_CHANNEL_CREATED: 'server:channel_created',
   SERVER_CHANNEL_UPDATED: 'server:channel_updated',
   SERVER_CHANNEL_DELETED: 'server:channel_deleted',
-  
+  SERVER_ORDER_UPDATED: 'server:order_updated',
+
 
 
   CHANNEL_TYPING: 'channel:typing',

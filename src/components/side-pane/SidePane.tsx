@@ -25,6 +25,8 @@ import Button from '../ui/Button';
 import Text from '../ui/Text';
 import Marked from '@/common/Marked';
 import { formatTimestamp } from '@/common/date';
+import { Draggable } from '../ui/Draggable';
+import { updateServerOrder } from '@/chat-api/services/ServerService';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -219,14 +221,19 @@ const ServerList = () => {
     setContextPosition({x: event.clientX, y: event.clientY});
   }
 
-  return <div class={styles.serverList}>
+  const onDrop = (servers: Server[]) => {
+    const serverIds = servers.map(server => server.id);
+    updateServerOrder(serverIds)
+  }
+
+  return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
-    <For each={servers.array()}>
+    <Draggable class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
       {server => <ServerItem 
         server={server!}
         onContextMenu={e => onContextMenu(e, server!.id)}
       />}
-    </For>
+    </Draggable>
   </div>
 };
 
