@@ -10,6 +10,7 @@ import { createServerRole, updateServerRoleOrder } from '@/chat-api/services/Ser
 import { ServerRole } from '@/chat-api/store/useServerRoles';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { Draggable } from '@/components/ui/Draggable';
+import { CustomLink } from '@/components/ui/CustomLink';
 
 
 
@@ -19,11 +20,11 @@ function RoleItem(props: { role: ServerRole }) {
   const link = RouterEndpoints.SERVER_SETTINGS_ROLE(serverId, props.role.id);
 
   return (
-    <Link href={link} class={styles.roleItem}>
+    <CustomLink noContextMenu href={link} class={styles.roleItem}>
       <div class={styles.roleDot} style={{background: props.role.hexColor}} />
       <div class={styles.name}>{props.role.name}</div>
       <Icon name='navigate_next' />
-    </Link>
+    </CustomLink>
   )
 }
 
