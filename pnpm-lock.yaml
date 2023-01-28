@@ -19,7 +19,7 @@ specifiers:
   socket.io-client: ^4.5.4
   solid-dnd-directive: ^0.2.0
   solid-js: ^1.6.6
-  solid-sortablejs: ^2.0.2
+  solid-sortablejs: ^2.0.3
   solid-styled-components: ^0.28.5
   solid-transition-group: ^0.0.11
   twemoji: ^14.0.2
@@ -43,7 +43,7 @@ dependencies:
   socket.io-client: 4.5.4
   solid-dnd-directive: 0.2.0_solid-js@1.6.6
   solid-js: 1.6.6
-  solid-sortablejs: 2.0.2_solid-js@1.6.6
+  solid-sortablejs: 2.0.3_solid-js@1.6.6
   solid-styled-components: 0.28.5_solid-js@1.6.6
   solid-transition-group: 0.0.11_solid-js@1.6.6
   twemoji: 14.0.2
@@ -1199,8 +1199,8 @@ packages:
       solid-js: 1.6.6
     dev: true
 
-  /solid-sortablejs/2.0.2_solid-js@1.6.6:
-    resolution: {integrity: sha512-H5XH1qC/wpfQ/a32wX80IlC91yPq3S85SCPgss/9acU1PncA9e8nMkBZyQ32zoyRBVxy6djt9A2yBeBRwAwa9w==}
+  /solid-sortablejs/2.0.3_solid-js@1.6.6:
+    resolution: {integrity: sha512-VDdK8d4+qMKC6kE50vH5BeXV8uHHmRCBiUz8nOowDBxEQFIFPJRUf2ty6z415cZx17XFwax8GoJBhLROuQRlGg==}
     peerDependencies:
       solid-js: '>=1.0.0'
     dependencies:

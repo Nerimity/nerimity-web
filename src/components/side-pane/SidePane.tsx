@@ -228,7 +228,7 @@ const ServerList = () => {
 
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
-    <Draggable class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
+    <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
       {server => <ServerItem 
         server={server!}
         onContextMenu={e => onContextMenu(e, server!.id)}

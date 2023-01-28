@@ -7,6 +7,7 @@ interface Props<T> {
   children: (item: T) => JSX.Element
   ref?: any
   onDrop?: (items: T[], revert:() =>  void) => void;
+  onStart?: () => void;
 }
 
 
@@ -28,7 +29,7 @@ export function Draggable<T>(props: Props<T>) {
   props.ref?.({revert});
 
   return (
-    <Sortable class={props.class} delay={200} delayOnTouchOnly idField="id" items={items()} onEnd={onEnd} setItems={setItems}>
+    <Sortable onStart={props.onStart} class={props.class} delay={200} delayOnTouchOnly idField="id" items={items()} onEnd={onEnd} setItems={setItems}>
       {item => props.children(item)}
     </Sortable>
   )
