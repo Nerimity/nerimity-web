@@ -13,6 +13,8 @@ import {
 import { JSXElement, lazy } from 'solid-js';
 import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { Emoji } from './markup/Emoji';
+import useChannels from '@/chat-api/store/useChannels';
+import { MentionChannel } from './markup/MentionChannel';
 
 export interface Props {
   text: string;
@@ -34,6 +36,30 @@ const sliceText = (ctx: RenderContext, span: Span, { countText = true } = {}) =>
   }
   return text;
 };
+
+type CustomEntity = Entity & { type: "custom" };
+
+function transformCustomEntity(entity: CustomEntity, ctx: any) {
+  const channels = useChannels();
+  const type = entity.params.type;
+  const expr = sliceText(ctx, entity.innerSpan, { countText: false });
+  switch (type) {
+    case "#": {
+      const channel = channels.get(expr);
+      if (channel && channel.serverId) {
+        ctx.textCount += expr.length;
+        return <MentionChannel channel={channel}/>;
+      }
+      break;
+    }
+    default: {
+      console.warn("Unknown custom entity:", type);
+    }
+  }
+  return <span>{sliceText(ctx, entity.outerSpan)}</span>;
+}
+
+
 
 function transformEntity(entity: Entity, ctx: RenderContext) {
   switch (entity.type) {
@@ -98,10 +124,11 @@ function transformEntity(entity: Entity, ctx: RenderContext) {
       const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
       return <Emoji name={emojiUnicodeToShortcode(emoji)} url={unicodeToTwemojiUrl(emoji)} />;
     }
+    case 'custom': {
+      return transformCustomEntity(entity, ctx);
+    }
     default: {
-      console.log(entity.type)
-      // this code should be unreachable
-      return sliceText(ctx, entity.outerSpan);
+      throw new UnreachableCaseError(entity);
     }
   }
 }
