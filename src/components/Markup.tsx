@@ -15,9 +15,13 @@ import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl }
 import { Emoji } from './markup/Emoji';
 import useChannels from '@/chat-api/store/useChannels';
 import { MentionChannel } from './markup/MentionChannel';
+import useUsers from '@/chat-api/store/useUsers';
+import { MentionUser } from './markup/MentionUser';
+import { Message } from '@/chat-api/store/useMessages';
 
 export interface Props {
   text: string;
+  message?: Message;
 }
 
 type RenderContext = {
@@ -39,8 +43,9 @@ const sliceText = (ctx: RenderContext, span: Span, { countText = true } = {}) =>
 
 type CustomEntity = Entity & { type: "custom" };
 
-function transformCustomEntity(entity: CustomEntity, ctx: any) {
+function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   const channels = useChannels();
+  const users = useUsers();
   const type = entity.params.type;
   const expr = sliceText(ctx, entity.innerSpan, { countText: false });
   switch (type) {
@@ -49,6 +54,15 @@ function transformCustomEntity(entity: CustomEntity, ctx: any) {
       if (channel && channel.serverId) {
         ctx.textCount += expr.length;
         return <MentionChannel channel={channel}/>;
+      }
+      break;
+    }
+    case "@": {
+      const message = ctx.props().message;
+      const user = message?.mentions?.find(u => u.id === expr) || users.get(expr);
+      if (user) {
+        ctx.textCount += expr.length;
+        return <MentionUser user={user}/>;
       }
       break;
     }

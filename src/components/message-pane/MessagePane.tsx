@@ -17,6 +17,10 @@ import { Rerun } from '@solid-primitives/keyed';
 import Spinner from '../ui/Spinner';
 import env from '@/common/env';
 import Text from '../ui/Text';
+import useChannels from '@/chat-api/store/useChannels';
+import { runWithContext } from '@/common/runWithContext';
+import useUsers from '@/chat-api/store/useUsers';
+import useServerMembers from '@/chat-api/store/useServerMembers';
 
 export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams();
@@ -288,7 +292,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
 
 function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
   const {channelProperties, account} = useStore();
-  const params = useParams<{channelId: string}>();
+  const params = useParams<{channelId: string, serverId?: string;}>();
   let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
 
@@ -347,7 +351,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
     if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
 
-    const formattedMessage = formatMessage(trimmedMessage);
+    const formattedMessage = formatMessage(trimmedMessage, params.serverId);
 
     if (editMessageId()) {
       messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
@@ -530,13 +534,45 @@ function Floating (props: {class?: string, children: JSX.Element}) {
   )
 }
 
-function formatMessage (message: string) {
-  const regex = /:([\w]+):/g;
+const emojiRegex = /:([\w]+):/g;
+const channelMentionRegex = /#([^#\n]+)#/g;
+const userMentionRegex = /^@([a-zA-Z0-9 ]+):([a-zA-Z0-9]+)$/;
 
-  return message.replace(regex, val => {
+function formatMessage (message: string, serverId?: string): string {
+
+  const channels = useChannels();
+  const serverMembers = useServerMembers();
+
+  const serverChannels = channels.getChannelsByServerId(serverId!)
+  const members = serverMembers.array(serverId!)
+  let finalString = message;
+  
+  // replace emoji
+  finalString = finalString.replace(emojiRegex, val => {
     const emojiName = val.substring(1, val.length - 1);
     return emojiShortcodeToUnicode(emojiName) || val;
-  })
+  });
+  
+  
+  if (serverId) {
+    // replace user mentions
+    finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
+      const member = members.find(member => member?.user.username === username && member?.user.tag === tag);
+      if (!member) return match;
+      return `[@:${member.user.id}]`;
+    });
+    // replace channel mentions
+    finalString = finalString.replaceAll(channelMentionRegex, ((match, group) => {
+      const channel = serverChannels.find(c => c!.name === group);
+      if (!channel) return match;
+      return `[#:${channel.id}]`
+    }))
+  }
+
+
+  return finalString
+
+
 }
 
 function BackToBottomButton(props: {scrollElement: HTMLDivElement}) {

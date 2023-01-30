@@ -17,6 +17,7 @@ export enum MessageSentStatus {
 export type Message = RawMessage & {
   tempId?: string;
   sentStatus?: MessageSentStatus;
+  
 }
 
 const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});

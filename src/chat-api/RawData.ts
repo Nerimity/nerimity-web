@@ -28,6 +28,7 @@ export interface RawMessage {
   type: MessageType;
   createdAt: number;
   editedAt?: number;
+  mentions?: Array<RawUser>;
 }
 
 export interface RawUser {

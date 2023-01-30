@@ -123,7 +123,7 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
             {props.message.sentStatus === MessageSentStatus.FAILED && <Icon name='error_outline' size={14} color="var(--alert-color)" class={styles.messageStatus} />}
             {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
             {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} title={editedAt()} />}
-            <div class={styles.content}><Markup text={props.message.content || ''} /></div>
+            <div class={styles.content}><Markup message={props.message} text={props.message.content || ''} /></div>
           </div>
         </div>
       </div>
