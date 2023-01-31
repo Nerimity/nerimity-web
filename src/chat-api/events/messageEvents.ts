@@ -30,14 +30,15 @@ export function onMessageCreated(payload: RawMessage) {
       if (!user) {
         users.set(payload.createdBy);
       }
-      const mentionCount = mentions.get(payload.channelId)?.count || 0;
-      mentions.set({
-        channelId: payload.channelId,
-        userId: payload.createdBy.id,
-        count: mentionCount + 1
-      });
-
+      
     }
+    const mentionCount = mentions.get(payload.channelId)?.count || 0;
+    mentions.set({
+      channelId: payload.channelId,
+      userId: payload.createdBy.id,
+      count: mentionCount + 1,
+      serverId: channel?.serverId
+    });
 
     messages.pushMessage(payload.channelId, payload);
   })

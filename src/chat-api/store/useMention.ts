@@ -5,6 +5,7 @@ export type Mention = {
   channelId: string;
   userId: string;
   count: number;
+  serverId?: string;
 }
 
 const [mentions, setMentions] = createStore<Record<string, Mention | undefined>>({});

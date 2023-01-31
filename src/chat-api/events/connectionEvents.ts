@@ -124,7 +124,8 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       mentions.set({
         channelId: mention.channelId,
         userId: mention.mentionedById,
-        count: mention.count
+        count: mention.count,
+        serverId: mention.serverId,
       });
 
     })

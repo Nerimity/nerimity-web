@@ -92,11 +92,20 @@ function InboxItem() {
   return (
   <Link href='/app' style={{"text-decoration": "none"}}>
       <SidebarItemContainer selected={isSelected()} alert={(count())}>
-        <Show when={count()}><div class={styles.notificationCount}>{count()}</div></Show>
+        <NotificationCountBadge count={count()} top={10} right={10} />
         <Icon name='all_inbox' />
       </SidebarItemContainer>
   </Link>
   )
+}
+
+
+function NotificationCountBadge(props: {count: number, top: number, right: number}) {
+  return <Show when={props.count}><div class={styles.notificationCount} style={{
+    top: `${props.top}px`,
+    right: `${props.right}px`,
+  }}>{props.count}</div></Show>
+
 }
 
 function UpdateItem() {
@@ -199,11 +208,13 @@ function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => v
   const hasNotifications = () => props.server.hasNotifications;
   const selected = useMatch(() => RouterEndpoints.SERVER(id));
 
+
   return (
     <Link
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
       onContextMenu={props.onContextMenu}>
     <SidebarItemContainer alert={hasNotifications()}  selected={selected()}>
+      <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
       <Avatar size={35} hexColor={props.server.hexColor} />
     </SidebarItemContainer>
     </Link>
