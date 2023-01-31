@@ -14,7 +14,8 @@ interface Props {
   customChildren?: JSXElement
 }
 
-const ButtonContainer = styled("div")<{margin?: number}>`
+const ButtonContainer = styled("button")<{margin?: number}>`
+  all: unset;
   display: flex;
   text-align: center;
   align-items: center;
@@ -30,6 +31,9 @@ const ButtonContainer = styled("div")<{margin?: number}>`
   background-color: rgba(255, 255, 255, 0.08);
 
   &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  &:focus {
     background-color: rgba(255, 255, 255, 0.15);
   }
 

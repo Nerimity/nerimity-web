@@ -3,6 +3,7 @@
   flex-direction: column;
   max-width: 300px;
   .highlight {
+    display: inline-block;
     background-color: var(--alert-color);
     padding: 3px;
     border-radius: 4px;

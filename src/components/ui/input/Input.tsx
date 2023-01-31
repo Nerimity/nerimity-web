@@ -41,7 +41,6 @@ const CustomInput = styled("input")`
   outline: none;
   background: transparent;
   width: 100%;
-  height: 100%;
   border: none;
   color: white;
   padding: 10px;
