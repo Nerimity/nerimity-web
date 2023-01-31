@@ -133,12 +133,14 @@
   padding-right: 5px;
   margin-top: 1px;
   margin-bottom: 1px;
+  align-items: baseline;
   .type {
     opacity: 0.5;
     margin-right: 5px;
   }
   .avatar {
     margin-right: 5px;
+    align-self: center;
   }
   &:hover {
     background: rgba(0, 0, 0, 0.6);
