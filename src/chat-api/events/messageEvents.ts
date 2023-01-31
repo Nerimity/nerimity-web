@@ -32,13 +32,18 @@ export function onMessageCreated(payload: RawMessage) {
       }
       
     }
-    const mentionCount = mentions.get(payload.channelId)?.count || 0;
-    mentions.set({
-      channelId: payload.channelId,
-      userId: payload.createdBy.id,
-      count: mentionCount + 1,
-      serverId: channel?.serverId
-    });
+    const mentionCount = () => mentions.get(payload.channelId)?.count || 0;
+
+    const isMentioned = () => payload.mentions?.find(u => u.id === user()?.id)
+
+    if (!channel?.serverId || isMentioned()) {
+      mentions.set({
+        channelId: payload.channelId,
+        userId: payload.createdBy.id,
+        count: mentionCount() + 1,
+        serverId: channel?.serverId
+      });
+    }
 
     messages.pushMessage(payload.channelId, payload);
   })
