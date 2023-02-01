@@ -46,7 +46,6 @@ const MemberItem = (props: { member: ServerMember }) => {
     createPortal(close => <MobileFlyout serverId={params.serverId} close={close} userId={user().id} />)
   }
 
-
   return (
     <div onClick={onClick} onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
@@ -243,7 +242,10 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
         <FlyoutDetailsContainer>
           <Avatar class={flyoutAvatarStyles} hexColor={user().hexColor} size={60} />
           <FlyoutOtherDetailsContainer>
-            <Text>{user().username}</Text>
+            <span>
+              <Text>{user().username}</Text>
+              <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
+            </span>
             <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
             <UserPresence userId={props.userId} showOffline />
           </FlyoutOtherDetailsContainer>
@@ -261,8 +263,8 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
           <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='chat' title='Latest Post' />
           <PostItem post={latestPost()!} />
         </Show>
-        <Link href={RouterEndpoints.PROFILE(props.userId)} style={{ "text-decoration": 'none' }}>
-          <Button onClick={props.close} iconName='person' label='View full profile' margin={0} class={css`margin-top: 5px;`} />
+        <Link href={RouterEndpoints.PROFILE(props.userId)} style={{ "text-decoration": 'none', display: 'flex' }}>
+          <Button onClick={props.close} iconName='person' label='View full profile' margin={0} class={css`margin-top: 5px;flex: 1;`} />
         </Link>
       </FlyoutContainer>
     </Show>
