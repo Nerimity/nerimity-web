@@ -25,7 +25,7 @@ const Content = styled(FlexColumn)`
   overflow: auto;
 `;
 
-const Container = styled("div")`
+const Container = styled(FlexColumn)`
   width: 300px;
   margin: auto;
   padding: 10px;
@@ -59,7 +59,8 @@ export default function LoginPage() {
     }
   })
 
-  const loginClicked = async () => {
+  const loginClicked = async (event?: SubmitEvent) => {
+    event?.preventDefault();
     const redirectTo = location.query.redirect || "/app"
     if (requestSent()) return;
     setRequestSent(true);
@@ -78,10 +79,12 @@ export default function LoginPage() {
       <PageHeader />
       <Content>
         <Container class='container'>
-          <Title>{t('loginPage.title')}</Title>
-          <Input label={t('loginPage.email')} type='email' error={error()} onText={setEmail} />
-          <Input label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
-          <Button iconName='login' label={requestSent() ? t('loginPage.loggingIn') : t('loginPage.loginButton')} onClick={loginClicked} />
+          <form action='#' onsubmit={loginClicked}>
+            <Title>{t('loginPage.title')}</Title>
+            <Input label={t('loginPage.email')} type='email' error={error()} onText={setEmail} />
+            <Input label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
+            <Button iconName='login' label={requestSent() ? t('loginPage.loggingIn') : t('loginPage.loginButton')} onClick={loginClicked} />
+          </form>
           <Link class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</Link>
         </Container>
       </Content>

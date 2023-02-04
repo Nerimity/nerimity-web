@@ -28,7 +28,7 @@ const Content = styled(FlexColumn)`
   overflow: auto;
 `;
 
-const Container = styled("div")`
+const Container = styled(FlexColumn)`
   width: 300px;
   margin: auto;
   padding: 10px;
@@ -66,7 +66,8 @@ export default function RegisterPage() {
     }
   })
 
-  const registerClicked = async () => {
+  const registerClicked = async (event?: SubmitEvent) => {
+    event?.preventDefault();
     const redirectTo = location.query.redirect || "/app"
     if (requestSent()) return;
     setRequestSent(true);
@@ -93,6 +94,7 @@ export default function RegisterPage() {
       <PageHeader />
       <Content>
         <Container>
+        <form action='#' onsubmit={registerClicked}>
           <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
           <Input label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
           <Input label={t('registerPage.username')} error={error()} onText={setUsername} />
@@ -108,6 +110,7 @@ export default function RegisterPage() {
             <Text size={16}  color='var(--alert-color)'>{error().message}</Text>
           </Show>
           <Button iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
+          </form>
           <Link class={linkStyle} href="/login">{t('registerPage.loginInstead')}</Link>
         </Container>
       </Content>
