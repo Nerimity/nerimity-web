@@ -31,7 +31,9 @@ const NewPostContainer = styled(FlexColumn)`
 `;
 
 const createButtonStyles = css`
-  align-self: end;
+  &&{
+    align-self: end;
+  }
 `;
 
 
