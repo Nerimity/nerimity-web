@@ -4,7 +4,7 @@ import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { Link } from "@nerimity/solid-router";
+import { Link, useParams, useSearchParams } from "@nerimity/solid-router";
 import { createEffect, createMemo, createSignal, For, JSX, on, onMount, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
@@ -96,10 +96,12 @@ const postActionStyle = css`
   }
 `;
 
-export function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
-  const {posts} = useStore();
+export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post}) {
+  const {posts, account} = useStore();
+  const [searchParams, setSearchParams] = useSearchParams<{postId: string}>()
   const [requestSent, setRequestSent] = createSignal(false);
   const {createPortal} = useCustomPortal();
+  
   const Details = () => (
     <PostDetailsContainer gap={10}>
       <Avatar hexColor={props.post.createdBy.hexColor} size={35} />
@@ -129,33 +131,55 @@ export function PostItem(props: { onClick?: (id: Post) => void; post: Post}) {
     setRequestSent(false);
   } 
 
+  const onDeleteClick = async () => {
+    // await props.post.delete()
+
+      createPortal?.(close => <DeletePostModal close={close} post={props.post}/>)
+    
+  }
+
+  const onClick = (event: any) => {
+    if (props.post.deleted) return;
+    if (event.target.closest(".button")) return;
+    setSearchParams({postId: props.post.id})
+  }
+  onMount(() => {
+  })
+
+  const onCommentClick = () => setSearchParams({postId: props.post.id});
+
   const Actions = () => (
     <PostActionsContainer>
       <Button margin={2} onClick={onLikeClick} class={postActionStyle} iconName={likedIcon()} label={props.post._count.likedBy.toLocaleString()} />
-      <Button margin={2} class={postActionStyle} iconName="comment" label={props.post._count.comments.toLocaleString()} />
+      <Button margin={2} onClick={onCommentClick} class={postActionStyle} iconName="comment" label={props.post._count.comments.toLocaleString()} />
       <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" />
       <Button margin={2} class={postActionStyle} iconName="share" />
+      <Show when={props.post.createdBy.id === account.user()?.id && !props.hideDelete}>
+        <Button onClick={onDeleteClick} margin={2} class={postActionStyle} color="var(--alert-color)" iconName="delete" />
+      </Show>
     </PostActionsContainer>
   );
 
-  const onClick = (event: any) => {
-    if (event.target.closest(".button")) return;
-    createPortal?.((close) => <ViewPostModal close={close} postId={props.post.id} />)
-  }
+
 
   return (
-    <PostContainer tabIndex="0" onClick={onClick}>
-      <Show when={replyingTo()}>
-        <FlexRow gap={5} style={{"margin-left": "5px", "margin-top": "5px"}}>
-          <Text size={14}>Replying to</Text>
-          <Text size={14} color="var(--primary-color)">{replyingTo()?.createdBy.username}</Text>
-        </FlexRow>
+    <PostContainer class={props.class} tabIndex="0" onClick={onClick}>
+      <Show when={props.post.deleted}>
+        <Text style={{"padding": "10px"}}>This post was deleted!</Text>
       </Show>
-      <Details/>
-      <Text size={14} color="rgba(255,255,255,0.8)" style={{"margin-left": "50px"}}>
-        <Markup text={props.post.content} />
-      </Text>
-      <Actions/>
+      <Show when={!props.post.deleted}>
+        <Show when={replyingTo()}>
+          <FlexRow gap={5} style={{"margin-left": "5px", "margin-top": "5px"}}>
+            <Text size={14}>Replying to</Text>
+            <Text size={14} color="var(--primary-color)">{replyingTo()?.createdBy.username}</Text>
+          </FlexRow>
+        </Show>
+        <Details/>
+        <Text size={14} color="rgba(255,255,255,0.8)" style={{"margin-left": "50px"}}>
+          <Markup text={props.post.content} />
+        </Text>
+        <Actions/>
+      </Show>
     </PostContainer>
   )  
 }
@@ -185,7 +209,7 @@ export function PostsArea(props: { showLiked?: boolean, showFeed?: boolean, show
     }
   })
 
-  onMount(() => {
+  createEffect(on(() => props.postId, () => {
     if (props.showFeed) {
       posts.fetchFeed();
       return;
@@ -194,19 +218,14 @@ export function PostsArea(props: { showLiked?: boolean, showFeed?: boolean, show
       posts.cachedPost(props.postId!)?.loadComments();
       return;
     }
-  })
-
-
-  const onPostClick = (post: Post) => {
-  }
-
+  }));
 
   return (
     <PostsContainer gap={5} style={props.style}>
       <Show when={props.showCreateNew}><NewPostArea/></Show>
       <For each={cachedPosts()}>
         {(post, i) => (
-          <PostItem onClick={onPostClick} post={post} />
+          <PostItem post={post} />
         )}
       </For>
     </PostsContainer>
@@ -218,13 +237,13 @@ export function PostsArea(props: { showLiked?: boolean, showFeed?: boolean, show
 function PostNotification (props: {notification: RawPostNotification}) {
   const {posts} = useStore();
   const {createPortal} = useCustomPortal();
-
+  const [,setSearchParams] = useSearchParams<{postId: string}>();
 
   const Reply = () => {
     posts.pushPost(props.notification.post!);
     const cachedPost = () => posts.cachedPost(props.notification.post?.id!)
 
-    const showPost = () => createPortal?.((close) => <ViewPostModal close={close} postId={props.notification.post?.id!} />)
+    const showPost = () => setSearchParams({postId: props.notification.post?.id!})
 
     return (
       <FlexRow gap={5} style={{"align-items": 'center'}} onclick={showPost}>
@@ -260,7 +279,7 @@ function PostNotification (props: {notification: RawPostNotification}) {
     posts.pushPost(props.notification.post!);
     const cachedPost = () => posts.cachedPost(props.notification.post?.id!)
 
-    const showPost = () => createPortal?.((close) => <ViewPostModal close={close} postId={props.notification.post?.id!} />)
+    const showPost = () => setSearchParams({postId: props.notification.post?.id!})
 
     return (
       <FlexRow gap={5} style={{"align-items": 'center'}} onclick={showPost}>
@@ -317,8 +336,10 @@ export function PostNotificationsArea (props: { style?: JSX.CSSProperties}) {
 }
 
 
-function ViewPostModal (props: { close(): void; postId: string}) {
-  const [postId, setPostId] = createSignal(props.postId);
+export function ViewPostModal (props: { close(): void }) {
+  const [searchParams, setSearchParams] = useSearchParams<{postId: string}>();
+
+  const postId = () => searchParams.postId
 
 
   const {posts} = useStore();
@@ -329,10 +350,14 @@ function ViewPostModal (props: { close(): void; postId: string}) {
   const commentToList = () => commentedToIds().map(postId => posts.cachedPost(postId))
 
 
-  onMount(async () => {
-    const newPost = await getPost(postId());
-    newPost?.loadComments();
-  })
+  
+  createEffect(on(() => searchParams.postId, async (postId) => {
+    setCommentedToIds([]);
+    if (!postId) return;
+    const newPost = await getPost(postId);
+    // newPost?.loadComments();
+  }))
+
 
   const getPost = async (postId: string) => {
     const newPost = await posts.fetchAndPushPost(postId);
@@ -342,8 +367,13 @@ function ViewPostModal (props: { close(): void; postId: string}) {
     return newPost;
   }
 
+  const onClose = () => {
+    setSearchParams({postId: undefined})
+    props.close();
+  }
+
   return (
-    <Modal close={props.close} title="Post" class={css`width: 600px; max-height: 700px; height: 100%;`}>
+    <Modal close={onClose} title="Post" class={css`width: 600px; max-height: 700px; height: 100%;`}>
       <FlexColumn style={{overflow: "auto", height: "100%"}}>
         <Show when={post()}>
           <FlexColumn gap={5}>
@@ -356,6 +386,54 @@ function ViewPostModal (props: { close(): void; postId: string}) {
           <PostsArea style={{overflow: 'initial'}} postId={post()?.id} />
         </Show>
       </FlexColumn>
+    </Modal>
+  )
+}
+
+
+
+const DeletePostModalContainer = styled(FlexColumn)`
+  overflow: auto;
+`;
+const deletePostItemContainerStyles = css`
+  padding-top: 5px;
+  border-radius: 8px;
+  margin-top: 5px;
+  background-color: var(--pane-color);
+  &&{
+    &:hover {
+      background-color: var(--pane-color);
+    }
+
+  }
+`
+
+const deletePostModalStyles = css`
+  max-width: 600px;
+  max-height: 600px;
+  overflow: hidden;
+`
+
+function DeletePostModal(props: {post: Post, close: () => void}) {
+
+  const onDeleteClick = () => {
+    props.close();
+    props.post.delete();
+  }
+
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button onClick={props.close} iconName="close" label="Cancel" />
+      <Button onClick={onDeleteClick} iconName="delete" color='var(--alert-color)' label="Delete" />
+    </FlexRow>
+  )
+
+  return (
+    <Modal close={props.close} title='Delete Post?'icon='delete' class={deletePostModalStyles} actionButtons={ActionButtons}>
+      <DeletePostModalContainer>
+        <Text>Are you sure you would like to delete this post?</Text>
+          <PostItem hideDelete class={deletePostItemContainerStyles} post={props.post} />
+      </DeletePostModalContainer>
     </Modal>
   )
 }

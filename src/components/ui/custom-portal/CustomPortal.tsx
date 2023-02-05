@@ -3,7 +3,7 @@ import { createStore, produce } from "solid-js/store";
 import { Portal } from "solid-js/web";
 
 interface Value {
-  createPortal: (element: (close: () => void) => JSX.Element) => number
+  createPortal: (element: (close: () => void) => JSX.Element, id?: string) => number | undefined
   closePortal: (index: number) => void
 }
 
@@ -15,17 +15,19 @@ interface CustomPortalProps {
 
 export function CustomPortalProvider(props: CustomPortalProps) {
 
-  const [elements, setElements] = createStore<((close: () => void) => JSX.Element)[]>([]);
+  const [elements, setElements] = createStore<{element: ((close: () => void) => JSX.Element), id?: string}[]>([]);
 
   
-  const createPortal = (element: (close: () => void) => JSX.Element) => {
-    setElements([...elements, element])
+  const createPortal = (element: (close: () => void) => JSX.Element, id?: string) => {
+    if (id && isPortalOpened(id)) return;
+    setElements([...elements, {element, id}])
     return elements.length - 1;
   }
  
   const closePortal = (index: number) => {
     setElements(produce(elements => elements.splice(index, 1)));
   }
+  const isPortalOpened = (id: string) => elements.find(e => e.id === id) !== undefined;
 
   const value = {
     createPortal,
@@ -36,7 +38,7 @@ export function CustomPortalProvider(props: CustomPortalProps) {
   return (
     <CustomPortalContext.Provider value={value}>
       <div style={{display: 'flex', height: '100%', width: '100%'}}>{props.children}</div>
-      <For each={elements}>{(element, i) => <Portal>{element(() => closePortal(i()))}</Portal>}</For>
+      <For each={elements}>{(item, i) => <Portal>{item.element(() => closePortal(i()))}</Portal>}</For>
     </CustomPortalContext.Provider>
   );
 }

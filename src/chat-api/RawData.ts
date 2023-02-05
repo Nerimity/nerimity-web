@@ -111,7 +111,8 @@ export interface RawPublicServer {
 
 export interface RawPost {
   id: string;
-  content: string;
+  content?: string;
+  deleted: boolean;
   commentToId: string;
   commentTo?: RawPost;
   createdBy: RawUser

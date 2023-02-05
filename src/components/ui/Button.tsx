@@ -9,7 +9,7 @@ interface Props {
   label?: string; 
   margin?: number;
   iconName?: string;
-  onClick?: () => void;
+  onClick?: (event?: MouseEvent) => void;
   primary?: boolean;
   customChildren?: JSXElement
 }

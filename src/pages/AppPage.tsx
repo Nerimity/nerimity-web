@@ -23,7 +23,7 @@ import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout, { useDrawer } from '@/components/ui/drawer/Drawer';
-import { Route, Routes } from '@nerimity/solid-router';
+import { Route, Routes, useSearchParams } from '@nerimity/solid-router';
 import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
@@ -31,6 +31,7 @@ import { useAppVersion } from '@/common/useAppVersion';
 import { ChangelogModal } from '@/components/ChangelogModal';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { WelcomeModal } from '@/components/WelcomeModal';
+import { ViewPostModal } from '@/components/PostsArea';
 
 
 const mobileMainPaneStyles = css`
@@ -70,6 +71,7 @@ async function loadAllCache () {
 
 export default function AppPage() {
   const {account} = useStore();
+  const [searchParams] = useSearchParams<{postId: string}>();
 
   const {createPortal} = useCustomPortal();
 
@@ -107,6 +109,10 @@ export default function AppPage() {
     createPortal?.(close => <ConnectionErrorModal close={close} />)
   }))
 
+  createEffect(on(() => searchParams.postId, (postId) => {
+    if (!postId) return;  
+    createPortal?.((close) => <ViewPostModal close={close} />, "post_modal")
+  }))
 
   onCleanup(() => {
     socketClient.socket.disconnect();

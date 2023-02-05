@@ -41,6 +41,14 @@ export const getPost = async (postId: string) => {
   });
   return data;
 }
+export const deletePost = async (postId: string) => {
+  const data = await request<any>({
+    method: 'DELETE',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.post(postId),
+    useToken: true,
+  });
+  return data;
+}
 
 export const getCommentPosts = async (postId: string) => {
   const data = await request<RawPost[]>({
