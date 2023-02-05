@@ -29,6 +29,7 @@ const ButtonContainer = styled("button")<{margin?: number}>`
   user-select: none;
   transition: 0.2s;
   background-color: rgba(255, 255, 255, 0.08);
+  border: solid 1px rgba(255, 255, 255, 0.03);
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.15);

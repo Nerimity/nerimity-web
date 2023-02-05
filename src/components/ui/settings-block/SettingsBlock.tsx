@@ -1,6 +1,6 @@
+import styles from './styles.module.scss';
 import { JSX, Show } from 'solid-js';
 import Icon from '@/components/ui/icon/Icon';
-import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
 
 interface BlockProps {
