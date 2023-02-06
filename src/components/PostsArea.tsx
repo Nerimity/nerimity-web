@@ -356,8 +356,8 @@ export function ViewPostModal (props: { close(): void }) {
   createEffect(on(() => searchParams.postId, async (postId) => {
     setCommentedToIds([]);
     if (!postId) return;
-    const newPost = await getPost(postId);
-    // newPost?.loadComments();
+    getPost(postId);
+
   }))
 
 
@@ -365,13 +365,11 @@ export function ViewPostModal (props: { close(): void }) {
     const newPost = await posts.fetchAndPushPost(postId);
     newPost && setCommentedToIds([newPost.id, ...commentedToIds()]);
     if (newPost?.commentToId) getPost(newPost.commentToId);
-
     return newPost;
   }
 
   const onClose = () => {
     setSearchParams({postId: undefined})
-    props.close();
   }
 
   return (

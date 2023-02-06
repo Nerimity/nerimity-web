@@ -4,7 +4,8 @@ import { Portal } from "solid-js/web";
 
 interface Value {
   createPortal: (element: (close: () => void) => JSX.Element, id?: string) => number | undefined
-  closePortal: (index: number) => void
+  closePortal: (index: number) => void,
+  closePortalById: (id: string) => void,
 }
 
 const CustomPortalContext = createContext<Value>();
@@ -27,11 +28,16 @@ export function CustomPortalProvider(props: CustomPortalProps) {
   const closePortal = (index: number) => {
     setElements(produce(elements => elements.splice(index, 1)));
   }
+  const closePortalById = (id: string) => {
+    setElements(elements.filter(e => e.id !== id));
+  }
+
   const isPortalOpened = (id: string) => elements.find(e => e.id === id) !== undefined;
 
   const value = {
     createPortal,
-    closePortal
+    closePortal,
+    closePortalById
   }
   
 
