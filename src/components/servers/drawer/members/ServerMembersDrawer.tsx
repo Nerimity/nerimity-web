@@ -21,11 +21,12 @@ import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import Spinner from '@/components/ui/Spinner';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { CustomLink } from '@/components/ui/CustomLink';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
   const user = () => props.member.user;
-  let elementRef: undefined | HTMLDivElement;
+  let elementRef: undefined | HTMLAnchorElement;
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>(undefined);
   const [hoveringRect, setHoveringRect] = createSignal<undefined | { left: number, top: number }>(undefined);
   const { isMobileWidth } = useWindowProperties();
@@ -49,14 +50,14 @@ const MemberItem = (props: { member: ServerMember }) => {
   return (
     <div onClick={onClick} onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
-      <div ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
+      <CustomLink href={RouterEndpoints.PROFILE(props.member.userId)}  ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
         <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
         <Avatar size={25} hexColor={user().hexColor} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
           <UserPresence userId={user().id} showOffline={false} />
         </div>
-      </div>
+      </CustomLink>
     </div>
   )
 };

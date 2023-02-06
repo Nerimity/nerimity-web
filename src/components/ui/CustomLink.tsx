@@ -1,20 +1,25 @@
+import { classNames, conditionalClass } from "@/common/classNames";
 import { AnchorProps, Link } from "@nerimity/solid-router";
-import { JSX } from "solid-js";
+import { css } from "solid-styled-components";
 
 interface CustomLinkProps extends AnchorProps {
   decoration?: boolean;
   noContextMenu?: boolean;
 }
 
-export function CustomLink(props: CustomLinkProps) {
-  const styles: () => JSX.CSSProperties = () => ({
-    ...(!props.decoration ? {"text-decoration": 'none'} : undefined)
-  })
+const noDecoration = css`
+  all: unset;
+  cursor: pointer;
+  &:focus {
+    outline: solid 1px;
+  }
+`;
 
+export function CustomLink(props: CustomLinkProps) {
   const onContextMenu = (event: MouseEvent) => {
     if (!props.noContextMenu) return;
     event.preventDefault();
   }
 
-  return <Link style={styles()} oncontextmenu={onContextMenu} {...props} />
+  return <Link oncontextmenu={onContextMenu} {...props} class={classNames(conditionalClass(!props.decoration, noDecoration), props.class)} />
 }
