@@ -8,8 +8,8 @@ interface CustomLinkProps extends AnchorProps {
 }
 
 const noDecoration = css`
-  all: unset;
-  cursor: pointer;
+  text-decoration: none;
+  color: white;
   &:focus {
     outline: solid 1px;
   }
