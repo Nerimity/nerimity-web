@@ -75,6 +75,7 @@ export default function ProfilePane () {
     const user = users.get(params.userId)
     if (user) return user;
     if (isMe()) return account.user();
+    return userDetails()?.user;
   };
 
   const friend = () => friends.get(params.userId);

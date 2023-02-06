@@ -13,6 +13,8 @@ import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import Checkbox from "../ui/Checkbox";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import SuspendUsersModal from "./SuspendUsersModal";
+import { CustomLink } from "../ui/CustomLink";
+import RouterEndpoints from "@/common/RouterEndpoints";
 
 const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const isUserSelected = (id: string) => selectedUsers().find(u => u.id === id);
@@ -227,7 +229,9 @@ function User(props: { user: any }) {
   return (
     <Link href={`/app/moderation/users/${props.user.id}`} class={itemStyles}>
       <Checkbox checked={selected()} onChange={onCheckChanged} />
-      <Avatar class={avatarStyle} hexColor={props.user.hexColor} size={28} />
+      <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
+        <Avatar class={avatarStyle} hexColor={props.user.hexColor} size={28} />
+      </CustomLink>
       <ItemDetailContainer class="details">
         <FlexRow>
           <Text>{props.user.username}</Text>
