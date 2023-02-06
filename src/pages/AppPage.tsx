@@ -73,7 +73,7 @@ export default function AppPage() {
   const {account} = useStore();
   const [searchParams] = useSearchParams<{postId: string}>();
 
-  const {createPortal} = useCustomPortal();
+  const {createPortal, closePortalById} = useCustomPortal();
 
   onMount(() => {
     loadAllCache();
@@ -109,8 +109,9 @@ export default function AppPage() {
     createPortal?.(close => <ConnectionErrorModal close={close} />)
   }))
 
-  createEffect(on(() => searchParams.postId, (postId) => {
-    if (!postId) return;  
+  createEffect(on(() => searchParams.postId, (postId, oldPostId) => {
+    if (!oldPostId && !postId) return;
+    if (!postId) return closePortalById("post_modal");  
     createPortal?.((close) => <ViewPostModal close={close} />, "post_modal")
   }))
 
