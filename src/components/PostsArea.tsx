@@ -23,6 +23,7 @@ const NewPostContainer = styled(FlexColumn)`
   padding-top: 5px;
   padding-bottom: 5px;
   background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
@@ -62,6 +63,7 @@ const PostContainer = styled(FlexColumn)`
   scroll-margin-top: 50px;
   padding: 5px;
   background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   border-radius: 8px;
   padding-top: 5px;
   padding-bottom: 5px;

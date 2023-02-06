@@ -38,6 +38,7 @@ const ServerListContainer = styled(FlexRow)`
   padding-top: 5px;
   padding-bottom: 5px;
   background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   padding-left: 6px;
   padding-right: 6px;
   border-radius: 8px;

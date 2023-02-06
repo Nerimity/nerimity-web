@@ -81,7 +81,8 @@ export default function LanguageSettings() {
 
 const ServerItemContainer = styled(FlexRow)`
   padding: 10px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
   min-height: 100px;
   border-radius: 8px;
   align-items: center;

@@ -23,6 +23,7 @@ const LanguageItemContainer = styled(ItemContainer)`
   padding: 5px;
   gap: 10px;
   padding-left: 10px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
 `;
 
 export default function LanguageSettings() {
