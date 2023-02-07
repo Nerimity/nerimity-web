@@ -256,7 +256,10 @@ function PostNotification (props: {notification: RawPostNotification}) {
             <Text size={14}><strong>{props.notification.by.username}</strong> replied to your Post!</Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
-          <div style={{opacity: 0.6}}><Markup text={cachedPost()?.content!} /></div>
+          <div style={{opacity: 0.6, "font-size": "14px"}}>
+            <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content!} /></Show>
+            <Show when={cachedPost()?.deleted}>This post was deleted!</Show>
+          </div>
         </FlexColumn>
       </FlexRow>
     )
@@ -292,7 +295,10 @@ function PostNotification (props: {notification: RawPostNotification}) {
             <Text size={14}><strong>{props.notification.by.username}</strong> liked your post!</Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
-          <div style={{opacity: 0.6}}><Markup text={cachedPost()?.content!} /></div>
+          <div style={{opacity: 0.6, "font-size": "14px"}}>
+            <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content!} /></Show>
+            <Show when={cachedPost()?.deleted}>This post was deleted!</Show>
+          </div>
         </FlexColumn>
       </FlexRow>
     )
