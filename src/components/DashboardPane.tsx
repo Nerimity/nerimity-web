@@ -143,7 +143,7 @@ function ServerList() {
       <Text size={18} style={{ "margin-left": "15px" }}>Servers</Text>
       <ServerListContainer>
         <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
-        <For each={servers.array()}>
+        <For each={servers.orderedArray()}>
           {server => <ServerItem
             server={server!}
             onContextMenu={e => onContextMenu(e, server!.id)}
