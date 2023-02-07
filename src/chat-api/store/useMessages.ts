@@ -136,7 +136,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
   });
 
 
-  channel?.updateLastSeen(Date.now());
+  channel?.updateLastSeen(message?.createdAt!);
   channel?.updateLastMessaged?.(message?.createdAt!);
 
   const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);

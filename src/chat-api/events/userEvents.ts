@@ -15,7 +15,7 @@ export function onNotificationDismissed(payload: {channelId: string}) {
   const mentions = useMention();
   const channel = channels.get(payload.channelId);
   batch(() => {
-    channel?.updateLastSeen(Date.now());
+    channel?.updateLastSeen(channel.lastMessagedAt);
     mentions.remove(payload.channelId);
   })
   
