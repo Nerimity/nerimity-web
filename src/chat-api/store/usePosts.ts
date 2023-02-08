@@ -1,7 +1,7 @@
 import { batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import { RawPost } from "../RawData";
-import { createPost, deletePost, getCommentPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, unlikePost } from "../services/PostService";
+import { createPost, deletePost, editPost, getCommentPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, unlikePost } from "../services/PostService";
 import useAccount from "./useAccount";
 
 
@@ -10,6 +10,7 @@ export type Post = RawPost & {
   delete(this: Post): Promise<void>;
   unlike(this: Post): Promise<string>;
   loadComments(this: Post): Promise<any>;
+  editPost(this: Post, content: string): Promise<any>;
   commentIds: string[] | undefined
   cachedComments(this: Post): Post[] | undefined
   submitReply(this: Post, content: string): Promise<any>;
@@ -50,6 +51,10 @@ export function usePosts() {
           const newPost = await unlikePost(this.id);
           setState("posts", newPost.id, {...this, ...newPost})
           return this.id;
+        },
+        async editPost(content: string) {
+          const newPost = await editPost(this.id, content);
+          setState("posts", newPost.id, {...this, ...newPost})
         },
         async loadComments() {
           const comments = await getCommentPosts(this.id);

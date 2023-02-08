@@ -109,6 +109,9 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
       <Avatar hexColor={props.post.createdBy.hexColor} size={35} />
       <Text>{props.post.createdBy.username}</Text>
       <Text style={{"margin-left": "-2px"}} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
+      <Show when={props.post.editedAt}>
+        <Icon name="edit" size={12} title={`Edited at ${formatTimestamp(props.post.editedAt)}`} />
+      </Show>
     </PostDetailsContainer>
   )
 
@@ -133,12 +136,11 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
     setRequestSent(false);
   } 
 
-  const onDeleteClick = async () => {
-    // await props.post.delete()
+  const onDeleteClick = () => 
+    createPortal?.(close => <DeletePostModal close={close} post={props.post}/>)
+  
 
-      createPortal?.(close => <DeletePostModal close={close} post={props.post}/>)
-    
-  }
+  const onEditClicked = () => createPortal?.(close => <EditPostModal close={close} post={props.post}/>)
 
   const onClick = (event: any) => {
     if (props.post.deleted) return;
@@ -156,9 +158,12 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
       <Button margin={2} onClick={onCommentClick} class={postActionStyle} iconName="comment" label={props.post._count.comments.toLocaleString()} />
       <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" />
       <Button margin={2} class={postActionStyle} iconName="share" />
-      <Show when={props.post.createdBy.id === account.user()?.id && !props.hideDelete}>
-        <Button onClick={onDeleteClick} margin={2} class={postActionStyle} color="var(--alert-color)" iconName="delete" />
-      </Show>
+      <FlexRow style={{"margin-left": "auto"}}>
+        <Show when={props.post.createdBy.id === account.user()?.id && !props.hideDelete}>
+          <Button onClick={onEditClicked} margin={2} class={postActionStyle} iconName="edit" />
+          <Button onClick={onDeleteClick} margin={2} class={postActionStyle} color="var(--alert-color)" iconName="delete" />
+        </Show>
+      </FlexRow>
     </PostActionsContainer>
   );
 
@@ -439,6 +444,39 @@ function DeletePostModal(props: {post: Post, close: () => void}) {
       <DeletePostModalContainer>
         <Text>Are you sure you would like to delete this post?</Text>
           <PostItem hideDelete class={deletePostItemContainerStyles} post={props.post} />
+      </DeletePostModalContainer>
+    </Modal>
+  )
+}
+
+
+const editPostModalStyles = css`
+  max-width: 600px;
+  max-height: 600px;
+  width: 100%;
+  overflow: hidden;
+`
+
+
+function EditPostModal(props: {post: Post, close: () => void}) {
+  const [content, setContent] = createSignal(props.post.content || "");
+
+  const onEditClick = () => {
+    props.close();
+    props.post.editPost(content())
+  }
+
+  const ActionButtons = (
+    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button onClick={props.close} color='var(--alert-color)'iconName="close" label="Cancel" />
+      <Button onClick={onEditClick} iconName="edit"label="Edit" />
+    </FlexRow>
+  )
+
+  return (
+    <Modal close={props.close} title='Delete Post?'icon='delete' class={editPostModalStyles} actionButtons={ActionButtons}>
+      <DeletePostModalContainer>
+          <Input height={100}  type="textarea" value={content()} onText={setContent} />
       </DeletePostModalContainer>
     </Modal>
   )

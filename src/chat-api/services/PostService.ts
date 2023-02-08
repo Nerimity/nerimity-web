@@ -1,5 +1,6 @@
 import env from "@/common/env";
 import { RawPost, RawPostNotification } from "../RawData";
+import { Post } from "../store/usePosts";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
@@ -45,6 +46,15 @@ export const deletePost = async (postId: string) => {
   const data = await request<any>({
     method: 'DELETE',
     url: env.SERVER_URL + '/api' + ServiceEndpoints.post(postId),
+    useToken: true,
+  });
+  return data;
+}
+export const editPost = async (postId: string, content: string) => {
+  const data = await request<Post>({
+    method: 'PATCH',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.post(postId),
+    body: { content},
     useToken: true,
   });
   return data;
