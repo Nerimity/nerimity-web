@@ -1,11 +1,13 @@
-import { createEffect, createSignal, on } from 'solid-js';
+import { createEffect, createSignal, on, Show } from 'solid-js';
 import { css, styled } from 'solid-styled-components';
 import Icon from './icon/Icon';
+import Text from './Text';
 
 interface CheckboxProps {
   checked: boolean
   onChange?: (checked: boolean) => void
   disableLocalUpdate?: boolean
+  label?: string
 }
 
 const boxStyle = css`
@@ -19,6 +21,7 @@ const boxStyle = css`
 
 const CheckboxContainer = styled("div")`
   display: flex;
+  gap: 10px;
   align-items: center;
   user-select: none;
   cursor: pointer;
@@ -50,6 +53,9 @@ export default function Checkbox (props: CheckboxProps) {
   return (
     <CheckboxContainer class={checked() ? 'selected' : ''} onClick={onClick}>
       <Icon size={13} class={boxStyle} name="done" />
+      <Show when={props.label}>
+        <Text>{props.label}</Text>
+      </Show>
     </CheckboxContainer>
   )
 }

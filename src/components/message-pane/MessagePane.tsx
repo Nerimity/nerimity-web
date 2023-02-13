@@ -21,6 +21,7 @@ import useChannels from '@/chat-api/store/useChannels';
 import { runWithContext } from '@/common/runWithContext';
 import useUsers from '@/chat-api/store/useUsers';
 import useServerMembers from '@/chat-api/store/useServerMembers';
+import { playMessageNotification } from '@/common/Sound';
 
 export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams();
@@ -38,6 +39,7 @@ export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
       channelId: params.channelId!,
       userId: userId,
       iconName: params.serverId ? 'dns' : 'inbox',
+      id: 'MessagePane'
     });
 
   })
@@ -128,6 +130,12 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     if (message.channelId !== params.channelId) return;
     if (scrollTracker.scrolledBottom()) {
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+    }
+    if (!scrollTracker.scrolledBottom()) {
+      if (message.createdBy.id !== account.user()?.id) {
+        if (!hasFocus()) return;
+        playMessageNotification();
+      }
     }
   }
 
