@@ -101,11 +101,11 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
       lastSeenAt,
       messageId: message?.id || null
     });
-    if (scrollTracker.scrolledBottom()) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (scrollTracker.scrolledBottom()) {
         props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight; 
-      });
-    }
+      }
+    });
   }
   
   createEffect(on(() => channelMessages()?.length,(length, prevLength) => {
