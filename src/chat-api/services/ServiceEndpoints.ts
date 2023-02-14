@@ -42,6 +42,9 @@ export default {
   postComments: (postId: string) => {
     return `/posts/${postId}/comments`
   },
+  postLikes: (postId: string) => {
+    return `/posts/${postId}/likes`
+  },
 
   postNotifications: () => `/posts/notifications`,
   postNotificationDismiss: () => `/posts/notifications/dismiss`,

@@ -15,11 +15,18 @@ const noDecoration = css`
   }
 `;
 
+const decoration = css`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 export function CustomLink(props: CustomLinkProps) {
   const onContextMenu = (event: MouseEvent) => {
     if (!props.noContextMenu) return;
     event.preventDefault();
   }
 
-  return <Link oncontextmenu={onContextMenu} {...props} class={classNames(conditionalClass(!props.decoration, noDecoration), props.class)} />
+  return <Link oncontextmenu={onContextMenu} {...props} class={classNames(conditionalClass(props.decoration, decoration), conditionalClass(!props.decoration, noDecoration), props.class)} />
 }

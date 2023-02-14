@@ -113,8 +113,8 @@ function PostsContainer() {
     <>
       <Text size={18} style={{ "margin-left": "15px" }}>Posts</Text>
       <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "13px" }}>
-        <Button margin={0} primary={!showNotifications()} label='Feed' onClick={() => setShowNotifications(false)} />
-        <Button margin={0} primary={showNotifications()} label="Notifications" customChildren={NotificationIndicator} onClick={() => setShowNotifications(true)} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={!showNotifications()} label='Feed' onClick={() => setShowNotifications(false)} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={showNotifications()} label="Notifications" customChildren={NotificationIndicator} onClick={() => setShowNotifications(true)} />
       </FlexRow>
       <Show when={!showNotifications()}><PostsArea showFeed style={{ "margin-left": "10px", "margin-right": "10px" }} showCreateNew /></Show>
       <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "10px", "margin-right": "10px" }}/></Show>

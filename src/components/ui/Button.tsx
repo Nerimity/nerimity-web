@@ -8,13 +8,16 @@ interface Props {
   class?: string;
   label?: string; 
   margin?: number;
+  padding?: number;
+  iconSize?: number;
+  textSize?: number;
   iconName?: string;
   onClick?: (event?: MouseEvent) => void;
   primary?: boolean;
   customChildren?: JSXElement
 }
 
-const ButtonContainer = styled("button")<{margin?: number}>`
+const ButtonContainer = styled("button")<{padding?: number; margin?: number}>`
   all: unset;
   display: flex;
   text-align: center;
@@ -23,6 +26,7 @@ const ButtonContainer = styled("button")<{margin?: number}>`
   border-radius: 8px;
   padding: 10px;
   flex-shrink: 0;
+  padding: ${props => props.padding !== undefined ? props.padding : 10}px;
   margin: ${props => props.margin !== undefined ? props.margin : 5}px;
   color: white;
   cursor: pointer;
@@ -53,9 +57,9 @@ export default function Button(props: Props) {
 
 
   return (
-    <ButtonContainer margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick}>
-      { props.iconName && <Icon name={props.iconName} color={props.primary ? 'white' : color()} /> }
-      { props.label && <Text class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
+    <ButtonContainer padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick}>
+      { props.iconName && <Icon size={props.iconSize} name={props.iconName} color={props.primary ? 'white' : color()} /> }
+      { props.label && <Text size={props.textSize} class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
       {props.customChildren && props.customChildren}
     </ButtonContainer>
   )

@@ -286,9 +286,9 @@ function PostsContainer (props: {user: UserDetails}) {
   return (
     <div class={styles.bioArea}>
       <FlexRow gap={5} style={{"margin-bottom": "10px"}}>
-        <Button margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)}  label='Posts' />
-        <Button margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={`Posts and replies (${postCount()})`} />
-        <Button margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label={`Liked posts (${likeCount()})`} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)}  label='Posts' />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={`Posts and replies (${postCount()})`} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label={`Liked posts (${likeCount()})`} />
       </FlexRow>
       <Show when={props.user}>
         <PostsArea showLiked={currentPage() === 2} showReplies={currentPage() === 1} style={{width: "100%"}} userId={props.user.user.id}/>

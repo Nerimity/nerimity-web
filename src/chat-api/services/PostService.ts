@@ -1,5 +1,5 @@
 import env from "@/common/env";
-import { RawPost, RawPostNotification } from "../RawData";
+import { RawPost, RawPostNotification, RawUser } from "../RawData";
 import { Post } from "../store/usePosts";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
@@ -68,6 +68,15 @@ export const getCommentPosts = async (postId: string) => {
   });
   return data;
 }
+export const getLikesPosts = async (postId: string) => {
+  const data = await request<RawUser[]>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.postLikes(postId),
+    useToken: true,
+  });
+  return data;
+}
+
 export const getPostNotifications = async () => {
   const data = await request<RawPostNotification[]>({
     method: 'GET',

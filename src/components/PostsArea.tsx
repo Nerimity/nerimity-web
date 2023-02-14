@@ -1,17 +1,18 @@
-import { PostNotificationType, RawPost, RawPostNotification } from "@/chat-api/RawData";
-import { createPost, getCommentPosts, getPost, getPostNotifications, getPosts, likePost, unlikePost } from "@/chat-api/services/PostService";
+import { PostNotificationType, RawPost, RawPostNotification, RawUser } from "@/chat-api/RawData";
+import { createPost, getCommentPosts, getLikesPosts, getPost, getPostNotifications, getPosts, getPostsLiked, likePost, unlikePost } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Link, useParams, useSearchParams } from "@nerimity/solid-router";
-import { createEffect, createMemo, createSignal, For, JSX, on, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, For, JSX, Match, on, onMount, Show, Switch } from "solid-js";
 import { createStore } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
 import { useCustomPortal } from "./ui/custom-portal/CustomPortal";
+import { CustomLink } from "./ui/CustomLink";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Icon from "./ui/icon/Icon";
 import Input from "./ui/input/Input";
@@ -106,8 +107,10 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
   
   const Details = () => (
     <PostDetailsContainer gap={10}>
-      <Avatar hexColor={props.post.createdBy.hexColor} size={35} />
-      <Text>{props.post.createdBy.username}</Text>
+      <CustomLink href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
+        <Avatar hexColor={props.post.createdBy.hexColor} size={35} />
+      </CustomLink>
+      <CustomLink style={{color: 'white'}} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
       <Text style={{"margin-left": "-2px"}} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
       <Show when={props.post.editedAt}>
         <Icon name="edit" size={12} title={`Edited at ${formatTimestamp(props.post.editedAt)}`} />
@@ -178,7 +181,7 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
         <Show when={replyingTo()}>
           <FlexRow gap={5} style={{"margin-left": "5px", "margin-top": "5px"}}>
             <Text size={14}>Replying to</Text>
-            <Text size={14} color="var(--primary-color)">{replyingTo()?.createdBy.username}</Text>
+            <CustomLink decoration style={{"font-size": "14px"}} href={RouterEndpoints.PROFILE(replyingTo()?.createdBy.id!)}>{replyingTo()?.createdBy.username}</CustomLink>
           </FlexRow>
         </Show>
         <Details/>
@@ -189,6 +192,46 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
       </Show>
     </PostContainer>
   )  
+}
+
+
+
+
+const LikedUserContainer = styled(FlexRow)`
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 5px;
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+`;
+
+function LikedUsers(props: {postId: string}) {
+  const [users, setUsers] = createSignal<RawUser[]>([]);
+
+  createEffect(async () => {
+    const newUsers = await getLikesPosts(props.postId);
+    return setUsers(newUsers);
+  })
+
+  return (
+    <FlexColumn gap={3}>
+      <For each={users()}>
+        {user => (
+          <CustomLink href={RouterEndpoints.PROFILE(user.id)}>
+            <LikedUserContainer gap={10}>
+              <Avatar size={20} hexColor={user.hexColor} />
+              <FlexRow>
+                <Text>{user.username}</Text>
+                <Text opacity={0.6}>:{user.tag}</Text>
+              </FlexRow>
+            </LikedUserContainer>
+          </CustomLink>
+        )}
+      </For>
+    </FlexColumn>
+  )
 }
 
 
@@ -230,6 +273,7 @@ export function PostsArea(props: { showLiked?: boolean, showFeed?: boolean, show
   return (
     <PostsContainer gap={5} style={props.style}>
       <Show when={props.showCreateNew}><NewPostArea/></Show>
+      <Show when={props.postId}><NewPostArea postId={props.postId}/></Show>
       <For each={cachedPosts()}>
         {(post, i) => (
           <PostItem post={post} />
@@ -351,6 +395,7 @@ export function PostNotificationsArea (props: { style?: JSX.CSSProperties}) {
 
 export function ViewPostModal (props: { close(): void }) {
   const [searchParams, setSearchParams] = useSearchParams<{postId: string}>();
+  const [selectedTab, setSelectedTab] = createSignal<"comments" | "likes">('comments');
 
   const postId = () => searchParams.postId
 
@@ -366,6 +411,7 @@ export function ViewPostModal (props: { close(): void }) {
   
   createEffect(on(() => searchParams.postId, async (postId) => {
     setCommentedToIds([]);
+    setSelectedTab("comments")
     if (!postId) return;
     getPost(postId);
 
@@ -391,10 +437,15 @@ export function ViewPostModal (props: { close(): void }) {
             <For each={commentToList()}>
               {post => <PostItem post={post!} />}
             </For>
-          <NewPostArea postId={postId()}/>
           </FlexColumn>
-          <Text style={{"margin-bottom": "10px", "margin-top": "10px"}}>Replies</Text>
-          <PostsArea style={{overflow: 'initial'}} postId={post()?.id} />
+          <FlexRow gap={5} style={{"margin-top": "10px","margin-bottom": "10px"}}>
+            <Button onClick={() => setSelectedTab("comments")} padding={5} textSize={14} iconSize={14} margin={0} iconName="comment" primary={selectedTab() === "comments"} label={`Replies (${post()?._count.comments})`}/>
+            <Button onClick={() => setSelectedTab("likes")} padding={5} textSize={14} iconSize={14} margin={0} iconName="favorite" primary={selectedTab() === "likes"}  label={`Liked by (${post()?._count.likedBy})`}/>
+          </FlexRow>
+          <Switch>
+            <Match when={selectedTab() === 'comments'}><PostsArea style={{overflow: 'initial'}} postId={post()?.id} /></Match>
+            <Match when={selectedTab() === 'likes'}><LikedUsers style={{overflow: 'initial'}} postId={post()?.id} /></Match>
+          </Switch>
         </Show>
       </FlexColumn>
     </Modal>
