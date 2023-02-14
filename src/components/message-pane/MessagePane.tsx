@@ -179,7 +179,9 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     const channelId = params.channelId;
     
     socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
+    document.addEventListener("keydown", handleKeyDown);
     onCleanup(() => {
+      document.removeEventListener("keydown", handleKeyDown);
       scrollTracker.forceUpdate();
       batch(() => {
         channelProperties.setScrolledBottom(channelId, scrollTracker.scrolledBottom());
@@ -189,6 +191,19 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     })
 
   })
+
+  // key binds
+  const handleKeyDown = async (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      // scroll to bottom
+      if (properties()?.moreBottomToLoad) {
+        await messages.fetchAndStoreMessages(params.channelId, true);
+      }
+      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+      updateUnreadMarker(true);
+    }
+  }
+
   
   const fetchMessages = async () => {
     loadedTimestamp = Date.now();
@@ -246,6 +261,10 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     messages.loadMoreBottomAndStoreMessages(params.channelId, beforeSet, afterSet);
   }))
 
+  const removeUnreadMarker = () => {
+    updateUnreadMarker(true);
+  }
+
 
   return (
     <div class={styles.messageLogArea} ref={messageLogElement}>
@@ -253,7 +272,7 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
         {(message, i) => (
           <>
             <Show when={unreadMarker.messageId === message.id}>
-              <UnreadMarker/>
+              <UnreadMarker onClick={removeUnreadMarker}/>
             </Show>
             <MessageItem
               animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
@@ -403,12 +422,13 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
   </div>
 }
 
-function UnreadMarker() {
+function UnreadMarker(props: {onClick: () => void}) {
   return (
-    <div class={styles.unreadMarkerContainer}>
+    <div onclick={props.onClick} class={styles.unreadMarkerContainer}>
       <div class={styles.unreadMarker}>
         <Icon name='mark_chat_unread' class={styles.icon} size={12} />
         New Messages
+        <Button class={styles.closeButton} iconName='close' color='white' />
       </div>
     </div>
   )
