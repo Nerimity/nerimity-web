@@ -474,7 +474,7 @@ function EditPostModal(props: {post: Post, close: () => void}) {
   )
 
   return (
-    <Modal close={props.close} title='Delete Post?'icon='delete' class={editPostModalStyles} actionButtons={ActionButtons}>
+    <Modal close={props.close} title='Edit Post' icon='delete' class={editPostModalStyles} actionButtons={ActionButtons}>
       <DeletePostModalContainer>
           <Input height={100}  type="textarea" value={content()} onText={setContent} />
       </DeletePostModalContainer>
