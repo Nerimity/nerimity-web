@@ -14,11 +14,11 @@
     "@types/markdown-it-emoji": "^2.0.2",
     "@types/node": "^18.11.18",
     "typescript": "^4.9.4",
-    "vite": "^4.0.3",
+    "vite": "^4.1.1",
     "vite-plugin-solid": "^2.5.0"
   },
   "dependencies": {
-    "@nerimity/nevula": "^0.5.1",
+    "@nerimity/nevula": "^0.12.1",
     "@nerimity/solid-i18next": "^1.1.9",
     "@nerimity/solid-router": "^0.4.3",
     "@nerimity/solid-turnstile": "^1.1.0",
@@ -32,7 +32,7 @@
     "sass": "^1.57.1",
     "socket.io-client": "^4.5.4",
     "solid-dnd-directive": "^0.2.0",
-    "solid-js": "^1.6.6",
+    "solid-js": "^1.6.11",
     "solid-sortablejs": "^2.0.3",
     "solid-styled-components": "^0.28.5",
     "solid-transition-group": "^0.0.11",
