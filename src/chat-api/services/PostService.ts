@@ -68,8 +68,11 @@ export const getCommentPosts = async (postId: string) => {
   });
   return data;
 }
+
+export interface LikedPost {likedBy: RawUser, createdAt: number};
+
 export const getLikesPosts = async (postId: string) => {
-  const data = await request<RawUser[]>({
+  const data = await request<LikedPost[]>({
     method: 'GET',
     url: env.SERVER_URL + '/api' + ServiceEndpoints.postLikes(postId),
     useToken: true,

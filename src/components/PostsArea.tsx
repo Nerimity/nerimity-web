@@ -1,5 +1,5 @@
 import { PostNotificationType, RawPost, RawPostNotification, RawUser } from "@/chat-api/RawData";
-import { createPost, getCommentPosts, getLikesPosts, getPost, getPostNotifications, getPosts, getPostsLiked, likePost, unlikePost } from "@/chat-api/services/PostService";
+import { createPost, getCommentPosts, getLikesPosts, getPost, getPostNotifications, getPosts, getPostsLiked, LikedPost, likePost, unlikePost } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
@@ -208,7 +208,7 @@ const LikedUserContainer = styled(FlexRow)`
 `;
 
 function LikedUsers(props: {postId: string}) {
-  const [users, setUsers] = createSignal<RawUser[]>([]);
+  const [users, setUsers] = createSignal<LikedPost[]>([]);
 
   createEffect(async () => {
     const newUsers = await getLikesPosts(props.postId);
@@ -221,11 +221,12 @@ function LikedUsers(props: {postId: string}) {
         {user => (
           <CustomLink href={RouterEndpoints.PROFILE(user.id)}>
             <LikedUserContainer gap={10}>
-              <Avatar size={20} hexColor={user.hexColor} />
-              <FlexRow>
-                <Text>{user.username}</Text>
-                <Text opacity={0.6}>:{user.tag}</Text>
+              <Avatar size={20} hexColor={user.likedBy.hexColor} />
+              <FlexRow style={{"margin-right": "auto"}}>
+                <Text>{user.likedBy.username}</Text>
+                <Text opacity={0.6}>:{user.likedBy.tag}</Text>
               </FlexRow>
+              <Text opacity={0.6} size={12}>{formatTimestamp(user.createdAt)}</Text>
             </LikedUserContainer>
           </CustomLink>
         )}
