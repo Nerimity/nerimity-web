@@ -11,7 +11,7 @@ import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
 import { postChannelTyping } from '@/chat-api/services/MessageService';
-import { classNames } from '@/common/classNames';
+import { classNames, conditionalClass } from '@/common/classNames';
 import { emojiShortcodeToUnicode } from '@/emoji';
 import { Rerun } from '@solid-primitives/keyed';
 import Spinner from '../ui/Spinner';
@@ -22,6 +22,7 @@ import { runWithContext } from '@/common/runWithContext';
 import useUsers from '@/chat-api/store/useUsers';
 import useServerMembers from '@/chat-api/store/useServerMembers';
 import { playMessageNotification } from '@/common/Sound';
+import { css } from 'solid-styled-components';
 
 export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams();
@@ -394,7 +395,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
   const adjustHeight = () => {
     let MAX_HEIGHT = 100;
     textAreaEl!.style.height = '0px';
-    let newHeight = (textAreaEl!.scrollHeight - 19);
+    let newHeight = (textAreaEl!.scrollHeight - 24);
     if (newHeight > MAX_HEIGHT) newHeight = MAX_HEIGHT;
     textAreaEl!.style.height = newHeight + "px";
     textAreaEl!.scrollTop = textAreaEl!.scrollHeight;
@@ -410,16 +411,72 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
     }, 4000)
   }
 
-  return <div class={styles.messageArea}>
-    <Show when={editMessageId()}><Button iconName='close' color='var(--alert-color)' onClick={cancelEdit} class={styles.button}/></Show>
-    <div class={styles.textareaContainer}>
-      <TypingIndicator/>
-      <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
-      <textarea ref={textAreaEl} placeholder='Message' class={styles.textArea} onkeydown={onKeyDown} onInput={onInput} value={message()}></textarea>
-      <BackToBottomButton scrollElement={props.mainPaneEl} />
-    </div>
-    <Button iconName={editMessageId() ? 'edit' : 'send'} onClick={sendMessage} class={styles.button}/>
+  return <div class={classNames(styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
+    <TypingIndicator/>
+    <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
+    <CustomTextArea 
+      ref={textAreaEl} 
+      placeholder='Message'  
+      onkeydown={onKeyDown} 
+      onInput={onInput} 
+      value={message()}
+      isEditing={!!editMessageId()}
+      onSendClick={sendMessage}
+      onCancelEditClick={cancelEdit}
+    />
+    <BackToBottomButton scrollElement={props.mainPaneEl} />
   </div>
+}
+
+interface CustomTextAreaProps extends JSX.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  isEditing: boolean;
+  onSendClick: () => void;
+  onCancelEditClick: () => void;
+}
+
+function CustomTextArea(props: CustomTextAreaProps) {
+  let [isFocused, setFocused] = createSignal(false);
+
+
+  return (
+    <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
+      <Show when={props.isEditing}>
+        <Button 
+          onClick={props.onCancelEditClick}
+          class={css`align-self: flex-end;`}
+          iconName='close'
+          color='var(--alert-color)'
+          padding={[8, 15, 8, 15]}
+          margin={3}
+          iconSize={18}
+        />
+      </Show>
+      <textarea 
+        onfocus={() => setFocused(true)}
+        onblur={() => setFocused(false)}
+        {...props}
+        class={styles.textArea}
+      />
+      {/* <Button 
+        class={css`align-self: flex-end;`}
+        onClick={props.onSendClick}
+        iconName="face"
+        padding={[8, 15, 8, 15]}
+        margin={[3,0,3,3]}
+        iconSize={18}
+      /> */}
+      <Button 
+        class={css`align-self: flex-end;`}
+        onClick={props.onSendClick}
+        iconName={props.isEditing ? 'edit' : 'send'}
+        padding={[8, 15, 8, 15]}
+        margin={[3,3,3,3]}
+        iconSize={18}
+      />
+
+    </div>
+  )
+
 }
 
 function UnreadMarker(props: {onClick: () => void}) {

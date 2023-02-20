@@ -7,8 +7,8 @@ interface Props {
   color?: string;
   class?: string;
   label?: string; 
-  margin?: number;
-  padding?: number;
+  margin?: number | number[];
+  padding?: number | number[];
   iconSize?: number;
   textSize?: number;
   iconName?: string;
@@ -17,7 +17,7 @@ interface Props {
   customChildren?: JSXElement
 }
 
-const ButtonContainer = styled("button")<{padding?: number; margin?: number}>`
+const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: number | number[]}>`
   all: unset;
   display: flex;
   text-align: center;
@@ -26,8 +26,12 @@ const ButtonContainer = styled("button")<{padding?: number; margin?: number}>`
   border-radius: 8px;
   padding: 10px;
   flex-shrink: 0;
-  padding: ${props => props.padding !== undefined ? props.padding : 10}px;
-  margin: ${props => props.margin !== undefined ? props.margin : 5}px;
+  padding: ${props => props.padding !== undefined ? 
+    typeof props.padding === "object" ? props.padding.join("px ") : props.padding  
+  : 10}px;
+  margin: ${props => props.margin !== undefined ? 
+    typeof props.margin === "object" ? props.margin.join("px ") : props.margin  
+  : 5}px;
   color: white;
   cursor: pointer;
   user-select: none;
