@@ -43,15 +43,16 @@ const MemberItem = (props: { member: ServerMember }) => {
     const rect = elementRef?.getBoundingClientRect()!;
     setHoveringRect({ left: rect.left, top: rect.top });
   }
-  const onClick = () => {
+  const onClick = (e: MouseEvent) => {
+    if (isMobileWidth()) e.preventDefault();
     createPortal(close => <MobileFlyout serverId={params.serverId} close={close} userId={user().id} />)
   }
 
   return (
-    <div onClick={onClick} onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
+    <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
-      <CustomLink href={RouterEndpoints.PROFILE(props.member.userId)}  ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
-        <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
+      <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
+      <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)}  ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
         <Avatar size={25} hexColor={user().hexColor} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
