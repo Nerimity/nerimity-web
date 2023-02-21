@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@nerimity/nevula': ^0.12.1
+  '@nerimity/solid-emoji-picker': ^0.1.8
   '@nerimity/solid-i18next': ^1.1.9
   '@nerimity/solid-router': ^0.4.3
   '@nerimity/solid-turnstile': ^1.1.0
@@ -29,6 +30,7 @@ specifiers:
 
 dependencies:
   '@nerimity/nevula': 0.12.1
+  '@nerimity/solid-emoji-picker': 0.1.8_solid-js@1.6.11
   '@nerimity/solid-i18next': 1.1.9_g4qn2m3z3lx32aife3vwsivhm4
   '@nerimity/solid-router': 0.4.3_solid-js@1.6.11
   '@nerimity/solid-turnstile': 1.1.0_solid-js@1.6.11
@@ -616,8 +618,26 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@minht11/solid-virtual-container/0.2.1_solid-js@1.6.11:
+    resolution: {integrity: sha512-HvQWx1uE5NWwx9WsN4waFtmyOjhZKMA/3vBf+j3zGsRfi556LCUk4oOmqZcOvIB5nEpHezvuZ8oUlwxigdO3Xg==}
+    peerDependencies:
+      solid-js: '>= 1.0.0'
+    dependencies:
+      solid-js: 1.6.11
+    dev: false
+
   /@nerimity/nevula/0.12.1:
     resolution: {integrity: sha512-ERPtMfR/nQhGbxoSMCl0kiUjNL/jG0BPRTAl07nGkoUcpEiZ/tPP4+nVH3ynAQHlH8K8onL14AjVEciSxTyMXw==}
+    dev: false
+
+  /@nerimity/solid-emoji-picker/0.1.8_solid-js@1.6.11:
+    resolution: {integrity: sha512-PtswvF1X5esVJc9JPs2LAEDoAMV77tGi78seNfuc5jGSqjoPa8BD2lE2YruXRi9W2RLWcrW1WLEtt/n47sVPCw==}
+    peerDependencies:
+      solid-js: ^1.6.0
+    dependencies:
+      '@minht11/solid-virtual-container': 0.2.1_solid-js@1.6.11
+      solid-js: 1.6.11
+      solid-styled-components: 0.28.5_solid-js@1.6.11
     dev: false
 
   /@nerimity/solid-i18next/1.1.9_g4qn2m3z3lx32aife3vwsivhm4:

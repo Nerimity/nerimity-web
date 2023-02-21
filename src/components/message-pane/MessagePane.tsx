@@ -24,6 +24,10 @@ import useServerMembers from '@/chat-api/store/useServerMembers';
 import { playMessageNotification } from '@/common/Sound';
 import { css } from 'solid-styled-components';
 
+import {EmojiPicker} from '@nerimity/solid-emoji-picker'
+import categories from '@/emoji/categories.json';
+import emojis from '@/emoji/emojis.json';
+
 export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams();
   const {channels, header} = useStore();
@@ -323,6 +327,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams<{channelId: string, serverId?: string;}>();
   let textAreaEl: undefined | HTMLTextAreaElement;
   const {isMobileAgent} = useWindowProperties();
+  const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
 
   const {channels, messages} = useStore();
 
@@ -411,9 +416,18 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
     }, 4000)
   }
 
+  const onEmojiPicked = (shortcode: string) => {
+    if (!textAreaEl) return;
+    textAreaEl.focus();
+    textAreaEl.setRangeText(`:${shortcode}: `, textAreaEl.selectionStart, textAreaEl.selectionEnd, "end")
+    setMessage(textAreaEl.value)
+
+  }
+
   return <div class={classNames(styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
     <TypingIndicator/>
     <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
+    <Show when={showEmojiPicker()}><FloatingEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked}/></Show>
     <CustomTextArea 
       ref={textAreaEl} 
       placeholder='Message'  
@@ -423,6 +437,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
       isEditing={!!editMessageId()}
       onSendClick={sendMessage}
       onCancelEditClick={cancelEdit}
+      onEmojiPickerClick={() => setShowEmojiPicker(!showEmojiPicker())}
     />
     <BackToBottomButton scrollElement={props.mainPaneEl} />
   </div>
@@ -431,6 +446,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
 interface CustomTextAreaProps extends JSX.TextareaHTMLAttributes<HTMLTextAreaElement> {
   isEditing: boolean;
   onSendClick: () => void;
+  onEmojiPickerClick: () => void;
   onCancelEditClick: () => void;
 }
 
@@ -443,7 +459,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       <Show when={props.isEditing}>
         <Button 
           onClick={props.onCancelEditClick}
-          class={css`align-self: flex-end;`}
+          class={styles.inputButtons}
           iconName='close'
           color='var(--alert-color)'
           padding={[8, 15, 8, 15]}
@@ -457,16 +473,16 @@ function CustomTextArea(props: CustomTextAreaProps) {
         {...props}
         class={styles.textArea}
       />
-      {/* <Button 
-        class={css`align-self: flex-end;`}
-        onClick={props.onSendClick}
+      <Button 
+        class={classNames(styles.inputButtons, "emojiPickerButton")}
+        onClick={props.onEmojiPickerClick}
         iconName="face"
         padding={[8, 15, 8, 15]}
         margin={[3,0,3,3]}
         iconSize={18}
-      /> */}
+      />
       <Button 
-        class={css`align-self: flex-end;`}
+        class={styles.inputButtons}
         onClick={props.onSendClick}
         iconName={props.isEditing ? 'edit' : 'send'}
         padding={[8, 15, 8, 15]}
@@ -569,6 +585,37 @@ function TypingIndicator() {
     </Show>
   )
 }
+
+
+function FloatingEmojiPicker(props: {close: () => void; onClick: (shortcode: string) => void}) {
+  onMount(() => {
+    document.addEventListener("mousedown", handleClickOutside)
+    onCleanup(() => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    })
+  })
+
+  const handleClickOutside = (e: MouseEvent & {target: any}) => {
+    if(e.target.closest(`.${styles.floatingEmojiPicker}`)) return;
+    if(e.target.closest(`.emojiPickerButton`)) return;
+    props.close();
+  }
+
+
+  return (
+    <Floating class={styles.floatingEmojiPicker}>
+      <EmojiPicker
+        class={styles.emojiPicker}
+        spriteUrl="/assets/emojiSprites.png" 
+        categories={categories} 
+        emojis={emojis}
+        onEmojiClick={(e) => props.onClick(e.short_names[0])}
+        primaryColor='var(--primary-color)'
+      />
+    </Floating>
+  )
+}
+
 
 function EditIndicator(props: {messageId: string}) {
   const params = useParams<{channelId: string}>();
