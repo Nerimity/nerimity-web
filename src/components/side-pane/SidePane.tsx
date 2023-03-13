@@ -168,6 +168,7 @@ function SettingsItem() {
 const UserItem = () => {
   const {account, users} = useStore();
   const {createPortal} = useCustomPortal();
+  const [hovered, setHovered] = createSignal(false)
 
   const userId = () =>  account.user()?.id;
   const user = () => users.get(userId()!)
@@ -192,8 +193,8 @@ const UserItem = () => {
 
   return (
     <Link onclick={onClicked} href={href()} class={styles.user}>
-      <SidebarItemContainer selected={selected()}>
-      {account.user() && <Avatar size={35} hexColor={account.user()?.hexColor!} />}
+      <SidebarItemContainer selected={selected()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+      {account.user() && <Avatar animate={hovered()} size={35} url={account.avatarUrl()} hexColor={account.user()?.hexColor!} />}
       {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
       {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
       {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}

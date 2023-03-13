@@ -4,7 +4,7 @@ import { createEffect, createResource, createSignal, For, on, onMount, Show } fr
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
 import { followUser, getUserDetailsRequest, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
-import { User } from '@/chat-api/store/useUsers';
+import { avatarUrl, User } from '@/chat-api/store/useUsers';
 import { getDaysAgo } from '../../common/date';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { userStatusDetail, UserStatuses } from '../../common/userStatus';
@@ -109,7 +109,7 @@ export default function ProfilePane () {
         <div class={styles.topArea}>
           <div class={styles.banner} style={{background: user()?.hexColor, filter: "brightness(70%)"}}></div>
           <div class={styles.bannerFloatingItems}>
-            <Avatar hexColor={user()!.hexColor} size={90} />
+            <Avatar animate url={avatarUrl(user())} hexColor={user()!.hexColor} size={90} />
             <div class={styles.details}>
               <div class={styles.usernameTag}>
                 <span class={styles.username}>{user()!.username}</span>
@@ -231,7 +231,7 @@ function MutualFriendList(props: {mutualFriendIds: string[]}) {
             return (
               <Show when={user()}>
                 <Link href={RouterEndpoints.PROFILE(user().id)} class={styles.item}>
-                  <Avatar hexColor={user().hexColor} size={20} />
+                  <Avatar url={user().avatarUrl()} hexColor={user().hexColor} size={20} />
                   <div class={styles.name}>{user().username}</div>
                 </Link>
               </Show>

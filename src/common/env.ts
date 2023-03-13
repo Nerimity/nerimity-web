@@ -8,4 +8,5 @@ export default {
   MESSAGE_LIMIT:  parseInt(import.meta.env.VITE_MESSAGE_LIMIT || "50"),
   TURNSTILE_SITEKEY: import.meta.env.VITE_TURNSTILE_SITEKEY,
   EMOJI_URL: import.meta.env.VITE_EMOJI_URL,
+  NERIMITY_CDN: import.meta.env.VITE_NERIMITY_CDN,
 }

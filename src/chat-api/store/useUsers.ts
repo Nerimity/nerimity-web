@@ -6,6 +6,7 @@ import useChannels from './useChannels';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { useNavigate } from '@nerimity/solid-router';
 import { runWithContext } from '@/common/runWithContext';
+import env from '@/common/env';
 
 
 export enum UserStatus {
@@ -21,11 +22,14 @@ export interface Presence {
   status: UserStatus;
 }
 
+export const avatarUrl = (item: {avatar?: string}): string | null => item.avatar ? env.NERIMITY_CDN + item.avatar : null;
+
 export type User = RawUser & {
   presence?: Presence
   inboxChannelId?: string
   setInboxChannelId: (this: User, channelId: string) => void;
   openDM: (this: User) => Promise<void>;
+  avatarUrl(this: User): string | null
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
@@ -40,6 +44,9 @@ const set = (user: RawUser) => runWithContext(() => {
     },
     async openDM() {
       await openDM(this.id)
+    },
+    avatarUrl(){
+      return this?.avatar ? env.NERIMITY_CDN + this?.avatar : null;
     }
   });
 });

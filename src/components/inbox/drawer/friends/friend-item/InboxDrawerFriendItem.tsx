@@ -9,7 +9,7 @@ import { User } from "@/chat-api/store/useUsers";
 import useStore from "@/chat-api/store/useStore";
 import UserPresence from "@/components/user-presence/UserPresence";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { Show } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import ItemContainer from "@/components/ui/Item";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
@@ -17,6 +17,7 @@ import Text from "@/components/ui/Text";
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
   const params = useParams();
   const {inbox, mentions} = useStore();
+  const [hovered, setHovered] = createSignal(false);
 
 
   const user = () => {
@@ -72,10 +73,10 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
   return (
     <Show when={user()}>
-      <FriendContainer selected={isSelected()} alert={mentionCount() || showAccept()} onClick={onFriendClick}>
+      <FriendContainer onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} selected={isSelected()} alert={mentionCount() || showAccept()} onClick={onFriendClick}>
 
         <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
-          <Avatar hexColor={user().hexColor} size={25} />
+          <Avatar animate={hovered()} url={user().avatarUrl()} hexColor={user().hexColor} size={25} />
         </Link>
         <div class={styles.details}>
           <Text class="username">{user().username}</Text>

@@ -34,7 +34,8 @@
     "Shortcode",
     "Shortcodes",
     "solidjs",
-    "unfollow"
+    "unfollow",
+    "webp"
   ],
   "i18n-ally.localesPaths": [
     "src/locales/list"

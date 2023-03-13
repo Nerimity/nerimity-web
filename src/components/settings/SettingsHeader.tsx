@@ -7,6 +7,7 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import { css, styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
+import env from '@/common/env';
 
 const HeaderContainer = styled("div")`
   display: flex;
@@ -36,7 +37,7 @@ const avatarStyles = css`
   z-index: 111;
 `;
 
-const SettingsHeader = () => {
+const SettingsHeader = (props: {headerPreviewDetails: {username?: string, tag?: string, avatar?: any}}) => {
   const {account, servers, friends} = useStore();
   const user = () => account.user();
   const serverCount = () => servers.array().length || "0";
@@ -46,11 +47,11 @@ const SettingsHeader = () => {
   return (
     <Show when={user()}>
       <HeaderContainer style={{background: user()?.hexColor}}>
-        <Avatar hexColor={user()!.hexColor} size={80} class={avatarStyles} />
+        <Avatar animate url={props.headerPreviewDetails.avatar || account.avatarUrl()} hexColor={user()!.hexColor} size={80} class={avatarStyles} />
         <DetailsContainer>
           <FlexRow>
-            <Text>{user()!.username}</Text>
-            <Text opacity={0.7}>:{user()!.tag}</Text>
+            <Text>{props.headerPreviewDetails.username || user()!.username}</Text>
+            <Text opacity={0.7}>:{props.headerPreviewDetails.tag || user()!.tag}</Text>
           </FlexRow>
           <FlexRow gap={5}>
             <Text size={14} opacity={0.8}>{serverCount()} servers</Text>

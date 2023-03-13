@@ -19,6 +19,7 @@ import { css, styled } from 'solid-styled-components';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
+import { avatarUrl } from '@/chat-api/store/useUsers';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
@@ -60,6 +61,7 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
   const params = useParams();
   const {serverMembers} = useStore();
+  const [hovered, setHovered] = createSignal(false);
   const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.message.createdBy.id) : undefined;
 
   const systemMessage = () => {
@@ -85,7 +87,7 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
   const Details = () => (
     <div class={styles.details}>
       <Link onContextMenu={onMemberContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={conditionalClass(systemMessage(), styles.systemMessageAvatar)}>
-        <Avatar hexColor={props.message.createdBy.hexColor} size={systemMessage() ? 23 : 30} />
+        <Avatar animate={hovered()} url={avatarUrl(props.message.createdBy)} hexColor={props.message.createdBy.hexColor} size={systemMessage() ? 23 : 30} />
       </Link>
       <Link onContextMenu={onMemberContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
         {props.message.createdBy.username}
@@ -113,7 +115,7 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
   }
 
   return (
-    <div class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
+    <div onmouseover={() => setHovered(true)} onmouseout={()=>setHovered(false)} class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
       <MemberContextMenu user={props.message.createdBy} position={contextPosition()} serverId={params.serverId} userId={props.message.createdBy.id} onClose={() => setContextPosition(undefined)} />
       <Show when={!props.hideFloating}><FloatOptions isCompact={isCompact()} message={props.message} /></Show>
       <div class={styles.messageItemOuterContainer}>

@@ -53,7 +53,7 @@ const MemberItem = (props: { member: ServerMember }) => {
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)}  ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
-        <Avatar size={25} hexColor={user().hexColor} />
+        <Avatar animate={!!hoveringRect()} size={25} url={user().avatarUrl()} hexColor={user().hexColor} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
           <UserPresence userId={user().id} showOffline={false} />
@@ -242,7 +242,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
       <FlyoutContainer ref={setFlyoutRef} class="modal" style={style()}>
         <BannerContainer color={user().hexColor} />
         <FlyoutDetailsContainer>
-          <Avatar class={flyoutAvatarStyles} hexColor={user().hexColor} size={60} />
+          <Avatar animate url={user().avatarUrl()} class={flyoutAvatarStyles} hexColor={user().hexColor} size={60} />
           <FlyoutOtherDetailsContainer>
             <span>
               <Text>{user().username}</Text>
