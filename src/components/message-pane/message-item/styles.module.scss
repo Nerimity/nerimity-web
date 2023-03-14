@@ -71,9 +71,10 @@
   padding-bottom: 3px;
   
   .messageStatus {
-    position: absolute;
-    left: 19px;
-    bottom: 3px;
+    margin-left: 3px;
+    vertical-align: -2px;
+    cursor: default;
+
   }
   
   .messageItemOuterContainer {
