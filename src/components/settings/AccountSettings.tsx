@@ -55,7 +55,7 @@ export default function AccountSettings(props: {updateHeader: Setter<{username?:
       .then(() => {
         setInputValue("password", '')
         setInputValue("avatar", '')
-
+        props.updateHeader({});
       })
       .catch(err => {
         setError(err.message)
