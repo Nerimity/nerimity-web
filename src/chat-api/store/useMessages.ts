@@ -120,6 +120,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
       tag: user.tag,
       badges: user.badges,
       hexColor: user.hexColor,
+      avatar: user.avatar
     },
   };
 
