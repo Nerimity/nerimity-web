@@ -4,6 +4,7 @@ export interface RawServer {
   hexColor: string;
   defaultChannelId: string;
   systemChannelId?: string;
+  avatar?: string;
   defaultRoleId: string;
   createdById: string;
   createdAt: number;

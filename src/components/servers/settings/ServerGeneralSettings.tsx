@@ -1,5 +1,5 @@
 import { useParams } from '@nerimity/solid-router';
-import { createEffect, createSignal, Show } from 'solid-js';
+import { createEffect, createSignal, onCleanup, Setter, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import Input from '@/components/ui/input/Input';
@@ -15,6 +15,7 @@ import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
 import { Notice } from '@/components/ui/Notice';
 import { useTransContext } from '@nerimity/solid-i18next';
+import FileBrowser, { FileBrowserRef } from '@/components/ui/FileBrowser';
 
 const Container = styled("div")`
   display: flex;
@@ -22,19 +23,22 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function ServerGeneralSettings() {
+export default function ServerGeneralSettings(props: {updateHeader: Setter<{name?: string, avatar?: any}>}) {
   const [t] = useTransContext();
   const params = useParams<{serverId: string}>();
   const {header, servers, channels} = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const {createPortal} = useCustomPortal();
+  const [fileBrowserRef, setFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
+
   const server = () => servers.get(params.serverId);
 
   const defaultInput = () => ({
     name: server()?.name || '',
     defaultChannelId: server()?.defaultChannelId || '',
-    systemChannelId: server()?.systemChannelId || null
+    systemChannelId: server()?.systemChannelId || null,
+    avatar: '',
   })
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
@@ -72,6 +76,9 @@ export default function ServerGeneralSettings() {
       iconName: 'settings',
     });
   })
+  onCleanup(() => {
+    props.updateHeader({});
+  })
 
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
@@ -79,6 +86,10 @@ export default function ServerGeneralSettings() {
     setError(null);
     const values = updatedInputValues();
     await updateServerSettings(params.serverId!, values)
+      .then(() => {
+        setInputValue("avatar", '')
+        props.updateHeader({});
+      })
       .catch((err) => setError(err.message))
       .finally(() => setRequestSent(false));
   }
@@ -87,6 +98,15 @@ export default function ServerGeneralSettings() {
 
   const showDeleteConfirm = () => {
     createPortal?.(close => <ServerDeleteConfirmModal close={close} server={server()!} />)
+  }
+
+
+  const onAvatarPick = (files: string[]) => {
+    if (files[0]) {
+      setInputValue("avatar", files[0])
+      props.updateHeader({avatar: files[0]})
+
+    }
   }
 
   return (
@@ -106,6 +126,14 @@ export default function ServerGeneralSettings() {
         
       <SettingsBlock icon="wysiwyg" label={t('servers.settings.general.systemMessages')} description={t('servers.settings.general.systemMessagesDescription')}>
         <DropDown items={dropDownSystemChannels()} selectedId={inputValues().systemChannelId}  />
+      </SettingsBlock>
+
+      <SettingsBlock icon='wallpaper' label='Avatar'>
+        <FileBrowser accept='images' ref={setFileBrowserRef} base64 onChange={onAvatarPick}/>
+        <Show when={inputValues().avatar}>
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close'  onClick={() => {setInputValue("avatar", ""); props.updateHeader({});}} />
+        </Show>
+        <Button iconSize={18} iconName='attach_file' label='Browse' onClick={fileBrowserRef()?.open} />
       </SettingsBlock>
 
       

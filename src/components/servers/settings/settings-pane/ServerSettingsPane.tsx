@@ -1,6 +1,6 @@
 import serverSettings from '@/common/ServerSettings';
 import { Route, Routes, useParams } from '@nerimity/solid-router';
-import {For, Show } from 'solid-js';
+import {createSignal, For, Show } from 'solid-js';
 import ServerSettingsHeader from './ServerSettingsHeader';
 import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
@@ -22,19 +22,22 @@ export default function ServerSettingsPane() {
   const params = useParams();
   const {servers} = useStore();
 
+  const [updateHeader, setUpdateHeader] = createSignal<{name?: string, avatar?: any}>({});
+
+
   const server = () => servers.get(params.serverId);
 
   return (
     <Show when={server()}>
       <SettingsPaneContainer>
-        <ServerSettingsHeader />
+        <ServerSettingsHeader headerPreviewDetails={updateHeader()}  />
         <For each={serverSettings}>
           {setting => (
             <Routes>
               {setting.path && <Route path={`/${setting.path}`} component={() => (
                 <>
                   <Text style={{"margin-left": "10px"}}  size={24}>{t(setting.name)}</Text>
-                  <setting.element/>
+                  <setting.element updateHeader={setUpdateHeader} />
                 </>
               )} />}
             </Routes>

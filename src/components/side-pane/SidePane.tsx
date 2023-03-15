@@ -216,7 +216,7 @@ function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => v
       onContextMenu={props.onContextMenu}>
     <SidebarItemContainer alert={hasNotifications()}  selected={selected()}>
       <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
-      <Avatar size={35} hexColor={props.server.hexColor} />
+      <Avatar url={props.server.avatarUrl()} size={35} hexColor={props.server.hexColor} />
     </SidebarItemContainer>
     </Link>
   )

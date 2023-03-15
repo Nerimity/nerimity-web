@@ -1,3 +1,4 @@
+import env from '@/common/env';
 import {createStore} from 'solid-js/store';
 import { RawServer } from '../RawData';
 import { deleteServer } from '../services/ServerService';
@@ -10,10 +11,12 @@ export type Server = RawServer & {
   update: (this: Server, update: Partial<RawServer>) => void;
   leave: () => Promise<RawServer>;
   mentionCount: number;
+  avatarUrl(this: Server): string | null
 }
 const [servers, setServers] = createStore<Record<string, Server | undefined>>({});
 
 
+export const avatarUrl = (item: {avatar?: string}): string | null => item.avatar ? env.NERIMITY_CDN + item.avatar : null;
 
 
 
@@ -41,6 +44,9 @@ const set = (server: RawServer) =>
       },
       async leave() {
         return deleteServer(server.id);
+      },
+      avatarUrl(){
+        return this?.avatar ? env.NERIMITY_CDN + this?.avatar : null;
       }
     }
   });

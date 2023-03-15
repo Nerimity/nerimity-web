@@ -38,7 +38,7 @@ const avatarStyles = css`
   z-index: 111;
 `;
 
-const ServerSettingsHeader = () => {
+const ServerSettingsHeader = (props: {headerPreviewDetails: {name?: any, avatar?: any}}) => {
   const [t] = useTransContext();
   const params = useParams();
   const {servers, serverMembers} = useStore();
@@ -48,10 +48,10 @@ const ServerSettingsHeader = () => {
   return (
     <Show when={server()}>
       <HeaderContainer style={{background: server()?.hexColor}}>
-        <Avatar hexColor={server()!.hexColor} size={80} class={avatarStyles} />
+        <Avatar url={props.headerPreviewDetails.avatar || server()!.avatarUrl()} hexColor={server()!.hexColor} size={80} class={avatarStyles} />
         <DetailsContainer>
           <FlexRow gap={5}>
-            <Text>{server()!.name}</Text>
+            <Text>{props.headerPreviewDetails.name || server()!.name}</Text>
             <Show when={server()?.verified}><ServerVerifiedIcon/></Show>
           </FlexRow>
           <Text size={14} opacity={0.8}>{t('servers.settings.header.serverMemberCount', {count: serverMembersCount()})}</Text>

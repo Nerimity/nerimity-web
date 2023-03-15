@@ -1,5 +1,6 @@
 import { RawPublicServer } from '@/chat-api/RawData';
 import { BumpPublicServer, getPublicServers, joinPublicServer } from '@/chat-api/services/ServerService';
+import { avatarUrl } from '@/chat-api/store/useServers';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useTransContext } from '@nerimity/solid-i18next';
@@ -166,7 +167,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
 
   return (
     <ServerItemContainer gap={15}>
-      <Avatar hexColor={server.hexColor} size={80} />
+      <Avatar url={avatarUrl(server)} hexColor={server.hexColor} size={80} />
       <DetailsContainer gap={1}>
         <FlexRow style={{"align-items": "center"}} gap={5}>
           <Text size={18}>{server.name}</Text>
