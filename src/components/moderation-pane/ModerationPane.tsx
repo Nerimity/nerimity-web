@@ -216,6 +216,7 @@ function ServersPane() {
 
 function User(props: { user: any }) {
   const joined = formatTimestamp(props.user.joinedAt);
+  const [hovered, setHovered] = createSignal(false);
 
   const selected = createMemo(() => isUserSelected(props.user.id));
 
@@ -228,10 +229,13 @@ function User(props: { user: any }) {
   }
 
   return (
-    <Link href={`/app/moderation/users/${props.user.id}`} class={itemStyles}>
+    <Link 
+      onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
+      href={`/app/moderation/users/${props.user.id}`}
+      class={itemStyles}>
       <Checkbox checked={selected()} onChange={onCheckChanged} />
       <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
-        <Avatar url={avatarUrl(props.user)}  class={avatarStyle} hexColor={props.user.hexColor} size={28} />
+        <Avatar animate={hovered()} url={avatarUrl(props.user)}  class={avatarStyle} hexColor={props.user.hexColor} size={28} />
       </CustomLink>
       <ItemDetailContainer class="details">
         <FlexRow>
@@ -250,10 +254,15 @@ function User(props: { user: any }) {
 function Server(props: { server: any }) {
   const created = formatTimestamp(props.server.createdAt);
   const createdBy = props.server.createdBy;
+  const [hovered, setHovered] = createSignal(false);
+
 
   return (
-    <Link href={`/app/moderation/servers/${props.server.id}`} class={itemStyles}>
-      <Avatar class={avatarStyle} hexColor={props.server.hexColor} size={28} />
+    <Link 
+      onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
+      href={`/app/moderation/servers/${props.server.id}`}
+      class={itemStyles}>
+      <Avatar animate={hovered()} url={avatarUrl(props.server)} class={avatarStyle} hexColor={props.server.hexColor} size={28} />
       <ItemDetailContainer class="details">
         <Text>{props.server.name}</Text>
         <FlexRow gap={3}>

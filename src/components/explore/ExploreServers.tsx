@@ -122,6 +122,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
   const [t] = useTransContext();
   const server = props.publicServer.server!;
   let [joinClicked, setJoinClicked] = createSignal(false);
+  let [hovered, setHovered] = createSignal(false);
   const navigate = useNavigate();
 
   const {servers} = useStore();
@@ -166,8 +167,8 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
   })
 
   return (
-    <ServerItemContainer gap={15}>
-      <Avatar url={avatarUrl(server)} hexColor={server.hexColor} size={80} />
+    <ServerItemContainer gap={15} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+      <Avatar animate={hovered()} url={avatarUrl(server)} hexColor={server.hexColor} size={80} />
       <DetailsContainer gap={1}>
         <FlexRow style={{"align-items": "center"}} gap={5}>
           <Text size={18}>{server.name}</Text>

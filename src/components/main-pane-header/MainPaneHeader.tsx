@@ -5,7 +5,7 @@ import Icon from '@/components/ui/icon/Icon';
 import useStore from '@/chat-api/store/useStore';
 import UserPresence from '@/components/user-presence/UserPresence';
 import { useDrawer } from '../ui/drawer/Drawer';
-import { Show } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import { useWindowProperties } from '@/common/useWindowProperties';
 
 
@@ -15,6 +15,7 @@ export default function MainPaneHeader() {
   const {servers, users, header} = useStore();
   const {toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage} = useDrawer();
   const {isMobileWidth} = useWindowProperties();
+  const [hovered, setHovered] = createSignal(false);
 
   const server = () => servers.get(header.details().serverId!);
   const user = () => users.get(header.details().userId!);
@@ -42,13 +43,13 @@ export default function MainPaneHeader() {
   
 
   return (
-    <div class={classNames(styles.header, conditionalClass(isMobileWidth(), styles.isMobile))}>
+    <div onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} class={classNames(styles.header, conditionalClass(isMobileWidth(), styles.isMobile))}>
       <Show when={isMobileWidth()}>
         <div class={styles.drawerIcon} onClick={toggleLeftDrawer}><Icon name='menu' /></div>
       </Show>
       {header.details().iconName && <Icon name={header.details().iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
-      {server() && <Avatar size={25} url={server()?.avatarUrl()} hexColor={server()!?.hexColor} />}
-      {user() && <Avatar size={25} url={user()?.avatarUrl()} hexColor={user().hexColor} />}
+      {server() && <Avatar animate={hovered()} size={25} url={server()?.avatarUrl()} hexColor={server()!?.hexColor} />}
+      {user() && <Avatar animate={hovered()} size={25} url={user()?.avatarUrl()} hexColor={user().hexColor} />}
       <div class={styles.details}>
         <div class={styles.title}>{details().title}</div>
         {details().subName && <div class={styles.subTitle}>{details().subName}</div>}

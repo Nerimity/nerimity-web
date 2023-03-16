@@ -48,7 +48,7 @@ const ServerSettingsHeader = (props: {headerPreviewDetails: {name?: any, avatar?
   return (
     <Show when={server()}>
       <HeaderContainer style={{background: server()?.hexColor}}>
-        <Avatar url={props.headerPreviewDetails.avatar || server()!.avatarUrl()} hexColor={server()!.hexColor} size={80} class={avatarStyles} />
+        <Avatar animate url={props.headerPreviewDetails.avatar || server()!.avatarUrl()} hexColor={server()!.hexColor} size={80} class={avatarStyles} />
         <DetailsContainer>
           <FlexRow gap={5}>
             <Text>{props.headerPreviewDetails.name || server()!.name}</Text>

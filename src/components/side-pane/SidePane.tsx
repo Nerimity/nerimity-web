@@ -208,15 +208,17 @@ function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => v
   const { id, defaultChannelId } = props.server;
   const hasNotifications = () => props.server.hasNotifications;
   const selected = useMatch(() => RouterEndpoints.SERVER(id));
+  const [hovered, setHovered] = createSignal(false);
 
 
   return (
     <Link
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
+      onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
     <SidebarItemContainer alert={hasNotifications()}  selected={selected()}>
       <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
-      <Avatar url={props.server.avatarUrl()} size={35} hexColor={props.server.hexColor} />
+      <Avatar animate={hovered()} url={props.server.avatarUrl()} size={35} hexColor={props.server.hexColor} />
     </SidebarItemContainer>
     </Link>
   )
