@@ -11,6 +11,7 @@ import { Link, useNavigate, useParams } from '@nerimity/solid-router';
 import { createEffect, createSignal, Match, onMount, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { getStorageString, StorageKeys } from '@/common/localStorage';
+import { avatarUrl } from '@/chat-api/store/useServers';
 
 export default function ExploreServerPane() {
   const params = useParams();
@@ -89,7 +90,18 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
   return (
     <div>
       <div class={styles.topArea}>
-        <div class={styles.banner}></div>
+      <div 
+            class={styles.banner} 
+            style={{ 
+              ...(server?.avatar ? {
+                "background-image": `url(${avatarUrl(server!) + (server?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
+              } : {
+                background: server?.hexColor
+              }),
+              
+              filter: "brightness(70%)"
+            }}
+          ></div>
         <div class={styles.bannerFloatingItems}>
           {server && <Avatar hexColor={server.hexColor} size={90} />}
           <div class={styles.details}>

@@ -9,7 +9,7 @@ import MemberContextMenu, { ServerMemberRoleModal } from '../../../member-contex
 import { DrawerHeader } from '@/components/DrawerHeader';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { css, styled } from 'solid-styled-components';
-import useUsers from '@/chat-api/store/useUsers';
+import useUsers, { avatarUrl } from '@/chat-api/store/useUsers';
 import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { getUserDetailsRequest, UserDetails } from '@/chat-api/services/UserService';
@@ -138,13 +138,28 @@ const FlyoutContainer = styled(FlexColumn)`
   overflow: auto;
   z-index: 100111111111110;
 `
-const BannerContainer = styled("div") <{ color: string }>`
-  background: ${props => props.color};
+const BannerContainer = styled("div")`
   filter: brightness(70%);
   height: 70px;
   width: 100%;
   border-radius: 8px;
   flex-shrink: 0;
+
+  position: relative;
+  filter: brightness(70%);
+  
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    backdrop-filter: blur(50px);
+    z-index: 111111;
+    inset: 0;
+  }
 `;
 
 const FlyoutDetailsContainer = styled(FlexRow)`
@@ -240,7 +255,16 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
   return (
     <Show when={details()}>
       <FlyoutContainer ref={setFlyoutRef} class="modal" style={style()}>
-        <BannerContainer color={user().hexColor} />
+      <BannerContainer
+         style={{
+            ...(user()?.avatar ? {
+              "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
+            } : {
+              background: user()?.hexColor
+            }),
+            
+          }}
+         />
         <FlyoutDetailsContainer>
           <Avatar animate url={user().avatarUrl()} class={flyoutAvatarStyles} hexColor={user().hexColor} size={60} />
           <FlyoutOtherDetailsContainer>

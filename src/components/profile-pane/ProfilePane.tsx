@@ -107,7 +107,18 @@ export default function ProfilePane () {
     <Show when={user()}>
       <div class={styles.profilePane}>
         <div class={styles.topArea}>
-          <div class={styles.banner} style={{background: user()?.hexColor, filter: "brightness(70%)"}}></div>
+          <div 
+            class={styles.banner} 
+            style={{ 
+              ...(user()?.avatar ? {
+                "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
+              } : {
+                background: user()?.hexColor
+              }),
+              
+              filter: "brightness(70%)"
+            }}
+          ></div>
           <div class={styles.bannerFloatingItems}>
             <Avatar animate url={avatarUrl(user())} hexColor={user()!.hexColor} size={90} />
             <div class={styles.details}>

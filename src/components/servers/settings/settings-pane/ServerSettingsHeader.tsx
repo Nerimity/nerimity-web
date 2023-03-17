@@ -9,8 +9,27 @@ import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
 import { useTransContext } from '@nerimity/solid-i18next';
+import { avatarUrl } from '@/chat-api/store/useServers';
 
+const BannerContainer = styled("div")`
+  position: absolute;
+  inset: 0;
+  filter: brightness(70%);
+  
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    backdrop-filter: blur(50px);
+    z-index: 111111;
+    inset: 0;
+  }
+`;
 const HeaderContainer = styled("div")`
+  position: relative;
   display: flex;
   align-items: center;
   margin: 10px;
@@ -19,13 +38,6 @@ const HeaderContainer = styled("div")`
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-
-  &:after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-  }
 `;
 
 const DetailsContainer = styled(FlexColumn)`
@@ -47,7 +59,17 @@ const ServerSettingsHeader = (props: {headerPreviewDetails: {name?: any, avatar?
 
   return (
     <Show when={server()}>
-      <HeaderContainer style={{background: server()?.hexColor}}>
+      <HeaderContainer>
+      <BannerContainer
+         style={{
+            ...(server()?.avatar ? {
+              "background-image": `url(${avatarUrl(server()!) + (server()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
+            } : {
+              background: server()?.hexColor
+            }),
+            
+          }}
+         />
         <Avatar animate url={props.headerPreviewDetails.avatar || server()!.avatarUrl()} hexColor={server()!.hexColor} size={80} class={avatarStyles} />
         <DetailsContainer>
           <FlexRow gap={5}>

@@ -19,6 +19,20 @@
   border-radius: 8px;
   margin: 5px;
   flex-shrink: 0;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;  
+  overflow: hidden;
+}
+
+.banner::after {
+  content: '';
+  position: absolute;
+  backdrop-filter: blur(50px);
+  z-index: 111111;
+  inset: 0;
 }
 
 .bannerFloatingItems {

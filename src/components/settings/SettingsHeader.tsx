@@ -8,8 +8,28 @@ import { css, styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import env from '@/common/env';
+import { avatarUrl } from '@/chat-api/store/useServers';
 
+
+const BannerContainer = styled("div")`
+  position: absolute;
+  inset: 0;
+  filter: brightness(70%);
+  
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    backdrop-filter: blur(50px);
+    z-index: 111111;
+    inset: 0;
+  }
+`;
 const HeaderContainer = styled("div")`
+  position: relative;
   display: flex;
   align-items: center;
   margin: 10px;
@@ -18,13 +38,6 @@ const HeaderContainer = styled("div")`
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-
-  &:after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-  }
 `;
 
 const DetailsContainer = styled(FlexColumn)`
@@ -46,7 +59,17 @@ const SettingsHeader = (props: {headerPreviewDetails: {username?: string, tag?: 
 
   return (
     <Show when={user()}>
-      <HeaderContainer style={{background: user()?.hexColor}}>
+      <HeaderContainer>
+        <BannerContainer
+         style={{
+            ...(user()?.avatar ? {
+              "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
+            } : {
+              background: user()?.hexColor
+            }),
+            
+          }}
+         />
         <Avatar animate url={props.headerPreviewDetails.avatar || account.avatarUrl()} hexColor={user()!.hexColor} size={80} class={avatarStyles} />
         <DetailsContainer>
           <FlexRow>
