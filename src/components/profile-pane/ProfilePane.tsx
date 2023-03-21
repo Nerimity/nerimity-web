@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import { Link, useParams } from '@nerimity/solid-router';
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
-import { followUser, getUserDetailsRequest, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
+import { followUser, getFollowers, getFollowing, getUserDetailsRequest, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
 import { avatarUrl, User } from '@/chat-api/store/useUsers';
 import { getDaysAgo } from '../../common/date';
@@ -15,11 +15,12 @@ import Icon from '@/components/ui/icon/Icon';
 import UserPresence from '@/components/user-presence/UserPresence';
 import { styled } from 'solid-styled-components';
 import Text from '../ui/Text';
-import { FlexRow } from '../ui/Flexbox';
+import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { addFriend } from '@/chat-api/services/FriendService';
 import { useDrawer } from '../ui/drawer/Drawer';
 import { PostsArea } from '../PostsArea';
+import { CustomLink } from '../ui/CustomLink';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -290,20 +291,81 @@ function UserBioItem (props: {icon: string, label: string, value: string}) {
 }
 
 function PostsContainer (props: {user: UserDetails}) {
-  const [currentPage, setCurrentPage] = createSignal(0); // posts | with replies | liked
+  const [currentPage, setCurrentPage] = createSignal(0); // posts | with replies | liked | Following | Followers
 
   const postCount = () => props.user.user._count.posts.toLocaleString();
   const likeCount  = () => props.user.user._count.likedPosts.toLocaleString();
   return (
     <div class={styles.bioArea}>
-      <FlexRow gap={5} style={{"margin-bottom": "10px"}}>
+      <FlexRow gap={5} style={{"margin-bottom": "10px", "flex-wrap": 'wrap'}}>
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)}  label='Posts' />
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={`Posts and replies (${postCount()})`} />
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label={`Liked posts (${likeCount()})`} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 3} onClick={() => setCurrentPage(3)} label={`Following`} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 4} onClick={() => setCurrentPage(4)} label={`Followers`} />
       </FlexRow>
-      <Show when={props.user}>
+      <Show when={props.user && currentPage() <= 2}>
         <PostsArea showLiked={currentPage() === 2} showReplies={currentPage() === 1} style={{width: "100%"}} userId={props.user.user.id}/>
       </Show>
+      <Show when={props.user && currentPage() === 3}>
+        <FollowingArea userId={props.user.user.id}/>
+      </Show>
+      <Show when={props.user && currentPage() === 4}>
+        <FollowersArea userId={props.user.user.id}/>
+      </Show>
     </div>
+  )
+}
+
+
+function FollowersArea(props: {userId: string}) {
+  const [followers, setFollowers] = createSignal<RawUser[]>([]);
+  onMount(() => {
+    getFollowers(props.userId).then(newFollowers => setFollowers(newFollowers))
+  })
+
+  return (
+    <UsersList users={followers()} />
+  )
+}
+function FollowingArea(props: {userId: string}) {
+  const [following, setFollowing] = createSignal<RawUser[]>([]);
+  onMount(() => {
+    getFollowing(props.userId).then(newFollowing => setFollowing(newFollowing))
+  })
+
+  return (
+    <UsersList users={following()} />
+  )
+}
+
+
+
+
+const UserItemContainer = styled(FlexRow)`
+  align-items: center;
+  padding: 5px;
+  border-radius: 8px;
+  transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+
+function UsersList(props: {users: RawUser[]}) {
+  return (
+    <FlexColumn>
+    <For each={props.users}>
+      {user => (
+        <CustomLink href={RouterEndpoints.PROFILE(user.id)}>
+          <UserItemContainer gap={5}>
+            <Avatar hexColor={user.hexColor} url={avatarUrl(user)} size={20} />
+            <Text>{user.username}</Text>
+          </UserItemContainer>
+        </CustomLink>
+      )}
+    </For>
+  </FlexColumn>
   )
 }

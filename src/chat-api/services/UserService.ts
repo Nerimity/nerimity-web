@@ -60,6 +60,21 @@ export async function getUserDetailsRequest(userId?: string) {
   });
 }
 
+export async function getFollowers(userId?: string) {
+  return request<RawUser[]>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId || "") + "/followers",
+    method: "GET",
+    useToken: true
+  });
+}
+export async function getFollowing(userId?: string) {
+  return request<RawUser[]>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId || "") + "/following",
+    method: "GET",
+    useToken: true
+  });
+}
+
 
 export async function openDMChannelRequest(userId: string) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
