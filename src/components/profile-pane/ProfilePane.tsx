@@ -121,7 +121,7 @@ export default function ProfilePane () {
             }}
           ></div>
           <div class={styles.bannerFloatingItems}>
-            <Avatar animate url={avatarUrl(user())} hexColor={user()!.hexColor} size={90} />
+            <Avatar animate user={user()} size={90} />
             <div class={styles.details}>
               <div class={styles.usernameTag}>
                 <span class={styles.username}>{user()!.username}</span>
@@ -243,7 +243,7 @@ function MutualFriendList(props: {mutualFriendIds: string[]}) {
             return (
               <Show when={user()}>
                 <Link href={RouterEndpoints.PROFILE(user().id)} class={styles.item}>
-                  <Avatar url={user().avatarUrl()} hexColor={user().hexColor} size={20} />
+                  <Avatar user={user()} size={20} />
                   <div class={styles.name}>{user().username}</div>
                 </Link>
               </Show>
@@ -266,7 +266,7 @@ function MutualServerList(props: {mutualServerIds: string[]}) {
             return (
               <Show when={server()}>
                 <Link href={RouterEndpoints.SERVER_MESSAGES(server()!.id, server()!.defaultChannelId)} class={styles.item}>
-                  <Avatar hexColor={server()!.hexColor} size={20} />
+                  <Avatar server={server()} size={20} />
                   <div class={styles.name}>{server()!.name}</div>
                 </Link>
               </Show>
@@ -360,7 +360,7 @@ function UsersList(props: {users: RawUser[]}) {
       {user => (
         <CustomLink href={RouterEndpoints.PROFILE(user.id)}>
           <UserItemContainer gap={5}>
-            <Avatar hexColor={user.hexColor} url={avatarUrl(user)} size={20} />
+            <Avatar user={user} size={20} />
             <Text>{user.username}</Text>
           </UserItemContainer>
         </CustomLink>

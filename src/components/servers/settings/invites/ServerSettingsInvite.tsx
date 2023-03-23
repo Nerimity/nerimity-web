@@ -19,6 +19,7 @@ import { Notice } from '@/components/ui/Notice';
 import { css } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { useTransContext } from '@nerimity/solid-i18next';
+import { avatarUrl } from '@/chat-api/store/useUsers';
 
 export default function ServerSettingsInvite() {
   const [t] = useTransContext();
@@ -141,7 +142,7 @@ const InviteItem =(props: {invite: any}) => {
 
   return (
     <div class={styles.inviteItem}>
-      <Avatar class={styles.avatar} hexColor={props.invite.createdBy.hexColor} size={30} />
+      <Avatar  class={styles.avatar} user={props.invite.createdBy} size={30} />
       <div class={styles.detailsOuter}>
         <div class={styles.details}>
           <Link href={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code)} class={styles.url}>{url}</Link>

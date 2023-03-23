@@ -1,4 +1,5 @@
 import { Ban, bannedMembersList, removeBanServerMember } from "@/chat-api/services/ServerService";
+import { avatarUrl } from "@/chat-api/store/useUsers";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
@@ -79,7 +80,7 @@ function BanItem (props: {ban: Ban, refetch: () => void}) {
   return (
     <BanContainer gap={5}>
       <Link class="ban-link" href={RouterEndpoints.PROFILE(user.id)}>
-        <Avatar hexColor={user.hexColor} size={26}  />
+        <Avatar user={user} size={26}  />
         <Text>{props.ban.user.username}</Text>
       </Link>
       <UnbanButtonContainer gap={5} onclick={onUnbanClick}>

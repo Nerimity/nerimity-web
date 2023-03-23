@@ -56,14 +56,16 @@
 
 
 .user {
+  position: relative;
   .presence {
     flex-shrink: 0;
     width: 15px;
     height: 15px;
     border-radius: 50%;
     position: absolute;
-    bottom: 7px;
-    right: 10px;
+    bottom: 2px;
+    right: 8px;
+    z-index: 1111111111;
   }
   .connectingIcon {
     display: flex;

@@ -80,7 +80,6 @@
   .messageItemOuterContainer {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 
   }
 
@@ -120,6 +119,7 @@
   .messageContainer {
     position: relative;
     display: flex;
+    margin-left: 10px;
     .content {
       overflow: hidden;
       margin: 3px;

@@ -103,7 +103,7 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
             }}
           ></div>
         <div class={styles.bannerFloatingItems}>
-          {server && <Avatar hexColor={server.hexColor} size={90} />}
+          {server && <Avatar server={server} size={90} />}
           <div class={styles.details}>
             <div class={styles.name}>{server.name}</div>
             <div class={styles.memberCount}>{server.memberCount} members</div>

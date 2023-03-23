@@ -168,7 +168,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
 
   return (
     <ServerItemContainer gap={15} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
-      <Avatar animate={hovered()} url={avatarUrl(server)} hexColor={server.hexColor} size={80} />
+      <Avatar animate={hovered()} server={server} size={80} />
       <DetailsContainer gap={1}>
         <FlexRow style={{"align-items": "center"}} gap={5}>
           <Text size={18}>{server.name}</Text>

@@ -235,7 +235,7 @@ function User(props: { user: any }) {
       class={itemStyles}>
       <Checkbox checked={selected()} onChange={onCheckChanged} />
       <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
-        <Avatar animate={hovered()} url={avatarUrl(props.user)}  class={avatarStyle} hexColor={props.user.hexColor} size={28} />
+        <Avatar animate={hovered()} user={props.user} size={28} />
       </CustomLink>
       <ItemDetailContainer class="details">
         <FlexRow>
@@ -262,7 +262,7 @@ function Server(props: { server: any }) {
       onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
       href={`/app/moderation/servers/${props.server.id}`}
       class={itemStyles}>
-      <Avatar animate={hovered()} url={avatarUrl(props.server)} class={avatarStyle} hexColor={props.server.hexColor} size={28} />
+      <Avatar animate={hovered()}  class={avatarStyle} server={props.server} size={28} />
       <ItemDetailContainer class="details">
         <Text>{props.server.name}</Text>
         <FlexRow gap={3}>

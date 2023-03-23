@@ -87,7 +87,7 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
   const Details = () => (
     <div class={styles.details}>
       <Link onContextMenu={onMemberContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={conditionalClass(systemMessage(), styles.systemMessageAvatar)}>
-        <Avatar animate={hovered()} url={avatarUrl(props.message.createdBy)} hexColor={props.message.createdBy.hexColor} size={systemMessage() ? 23 : 30} />
+        <Avatar animate={hovered()} user={props.message.createdBy} size={systemMessage() ? 23 : 40} />
       </Link>
       <Link onContextMenu={onMemberContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
         {props.message.createdBy.username}

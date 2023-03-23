@@ -23,9 +23,10 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
 
 const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
 
-const users = useUsers();
 
 const set = (member: RawServerMember) => {
+  const users = useUsers();
+
   users.set(member.user);
   if (!serverMembers[member.serverId]) {
     setMember(member.serverId, {});

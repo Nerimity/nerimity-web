@@ -4,7 +4,6 @@ import { acceptFriendRequest, removeFriend, addFriend } from '../services/Friend
 import useUsers, { User } from './useUsers';
 
 
-const users = useUsers();
 
 export type Friend = Omit<RawFriend, 'recipient'> & {
   recipientId: string;
@@ -18,6 +17,8 @@ const [friends, setFriends] = createStore<Record<string, Friend>>({});
 
 
 const set = (friend: RawFriend) => {
+  const users = useUsers();
+
   users.set(friend.recipient);
 
   setFriends({[friend.recipient.id]: {

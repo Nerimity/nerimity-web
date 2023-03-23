@@ -194,7 +194,7 @@ const UserItem = () => {
   return (
     <Link onclick={onClicked} href={href()} class={styles.user}>
       <SidebarItemContainer selected={selected()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
-      {account.user() && <Avatar animate={hovered()} size={35} url={account.avatarUrl()} hexColor={account.user()?.hexColor!} />}
+      {account.user() && <Avatar animate={hovered()} size={40} user={account.user()} />}
       {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
       {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
       {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
@@ -218,7 +218,7 @@ function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => v
       onContextMenu={props.onContextMenu}>
     <SidebarItemContainer alert={hasNotifications()}  selected={selected()}>
       <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
-      <Avatar animate={hovered()} url={props.server.avatarUrl()} size={35} hexColor={props.server.hexColor} />
+      <Avatar animate={hovered()}  size={40} server={props.server} />
     </SidebarItemContainer>
     </Link>
   )

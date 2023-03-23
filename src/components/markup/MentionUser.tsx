@@ -10,7 +10,7 @@ export function MentionUser(props: {user: RawUser}) {
     <CustomLink 
     href={RouterEndpoints.PROFILE(props.user.id)} 
     class="mention">
-      <Avatar class="avatar" url={avatarUrl(props.user)} hexColor={props.user.hexColor} size={16} />
+      <Avatar class="avatar" user={props.user} size={16} />
       {props.user.username}
     </CustomLink>
   )

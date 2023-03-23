@@ -27,9 +27,9 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
 
 const [channels, setChannels] = createStore<Record<string, Channel | undefined>>({});
 
-const users = useUsers();
 
 const set = (channel: RawChannel) => {
+  const users = useUsers();
 
 
   setChannels({

@@ -110,7 +110,7 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
   const Details = () => (
     <PostDetailsContainer gap={10}>
       <CustomLink href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
-        <Avatar animate={hovered()} url={avatarUrl(props.post.createdBy)} hexColor={props.post.createdBy.hexColor} size={35} />
+        <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
       </CustomLink>
       <CustomLink style={{color: 'white'}} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
       <Text style={{"margin-left": "-2px"}} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
@@ -223,7 +223,7 @@ function LikedUsers(props: {postId: string}) {
         {user => (
           <CustomLink href={RouterEndpoints.PROFILE(user.id)}>
             <LikedUserContainer gap={10}>
-              <Avatar url={avatarUrl(user.likedBy)} size={20} hexColor={user.likedBy.hexColor} />
+              <Avatar user={user.likedBy} size={20}  />
               <FlexRow style={{"margin-right": "auto"}}>
                 <Text>{user.likedBy.username}</Text>
                 <Text opacity={0.6}>:{user.likedBy.tag}</Text>
@@ -302,7 +302,7 @@ function PostNotification (props: {notification: RawPostNotification}) {
     return (
       <FlexRow gap={5} style={{"align-items": 'center'}} onclick={showPost}>
         <Icon name="reply" color="var(--primary-color)" />
-        <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar url={avatarUrl(props.notification.by)} hexColor={props.notification.by.hexColor} size={30} /></Link>
+        <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar user={props.notification.by} size={30} /></Link>
         <FlexColumn gap={2}>
           <FlexRow gap={5}  style={{"align-items": 'center'}}>
             <Text size={14}><strong>{props.notification.by.username}</strong> replied to your Post!</Text>
@@ -322,7 +322,7 @@ function PostNotification (props: {notification: RawPostNotification}) {
       <Link href={RouterEndpoints.PROFILE(props.notification.by.id)} style={{"text-decoration": 'none'}} >
         <FlexRow gap={5} style={{"align-items": 'center'}}>
           <Icon name="add_circle" color="var(--primary-color)" />
-          <Avatar url={avatarUrl(props.notification.by)} hexColor={props.notification.by.hexColor} size={30} />
+          <Avatar user={props.notification.by} size={30} />
           <FlexRow gap={2} style={{"align-items": 'center'}}>
             <Text size={14}><strong>{props.notification.by.username}</strong> followed you!</Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
@@ -341,7 +341,7 @@ function PostNotification (props: {notification: RawPostNotification}) {
     return (
       <FlexRow gap={5} style={{"align-items": 'center'}} onclick={showPost}>
         <Icon name="favorite" color="var(--primary-color)" />
-        <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar url={avatarUrl(props.notification.by)} hexColor={props.notification.by.hexColor} size={30} /></Link>
+        <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar user={props.notification.by} size={30} /></Link>
         <FlexColumn gap={2}>
           <FlexRow gap={5} style={{"align-items": 'center'}}>
             <Text size={14}><strong>{props.notification.by.username}</strong> liked your post!</Text>

@@ -48,8 +48,8 @@ export default function MainPaneHeader() {
         <div class={styles.drawerIcon} onClick={toggleLeftDrawer}><Icon name='menu' /></div>
       </Show>
       {header.details().iconName && <Icon name={header.details().iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
-      {server() && <Avatar animate={hovered()} size={25} url={server()?.avatarUrl()} hexColor={server()!?.hexColor} />}
-      {user() && <Avatar animate={hovered()} size={25} url={user()?.avatarUrl()} hexColor={user().hexColor} />}
+      {server() && <Avatar animate={hovered()} size={25} server={server()} />}
+      {user() && <Avatar animate={hovered()} size={25} user={user()} />}
       <div class={styles.details}>
         <div class={styles.title}>{details().title}</div>
         {details().subName && <div class={styles.subTitle}>{details().subName}</div>}

@@ -70,7 +70,7 @@ const SettingsHeader = (props: {headerPreviewDetails: {username?: string, tag?: 
             
           }}
          />
-        <Avatar animate url={props.headerPreviewDetails.avatar || account.avatarUrl()} hexColor={user()!.hexColor} size={80} class={avatarStyles} />
+        <Avatar animate url={props.headerPreviewDetails.avatar} user={account.user()} hexColor={user()!.hexColor} size={80} class={avatarStyles} />
         <DetailsContainer>
           <FlexRow>
             <Text>{props.headerPreviewDetails.username || user()!.username}</Text>

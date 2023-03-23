@@ -76,7 +76,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
       <FriendContainer onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} selected={isSelected()} alert={mentionCount() || showAccept()} onClick={onFriendClick}>
 
         <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
-          <Avatar animate={hovered()} url={user().avatarUrl()} hexColor={user().hexColor} size={25} />
+          <Avatar animate={hovered()} user={user()} size={25} />
         </Link>
         <div class={styles.details}>
           <Text class="username">{user().username}</Text>
