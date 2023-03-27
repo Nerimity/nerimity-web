@@ -16,7 +16,7 @@ export type Server = RawServer & {
 const [servers, setServers] = createStore<Record<string, Server | undefined>>({});
 
 
-export const avatarUrl = (item: {avatar?: string}): string | null => item.avatar ? env.NERIMITY_CDN + item.avatar : null;
+export const avatarUrl = (item: {avatar?: string}): string | null => item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
 
 
 

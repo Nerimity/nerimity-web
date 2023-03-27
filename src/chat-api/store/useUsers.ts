@@ -22,7 +22,7 @@ export interface Presence {
   status: UserStatus;
 }
 
-export const avatarUrl = (item: {avatar?: string}): string | null => item.avatar ? env.NERIMITY_CDN + item.avatar : null;
+export const avatarUrl = (item: {avatar?: string}): string | null => item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
 
 export type User = RawUser & {
   presence?: Presence

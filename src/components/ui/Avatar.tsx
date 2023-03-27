@@ -70,7 +70,7 @@ export default function Avatar(props: Props) {
 
   return (
     <AvatarContainer size={props.size} class={classNames("avatar-container", props.class)}>
-      <AvatarBorder size={props.size} hovered={props.animate} badges={serverOrUser().badges}/>
+      <AvatarBorder size={props.size} hovered={props.animate} badges={serverOrUser()?.badges}/>
       <ImageContainer color={url() ? undefined :  serverOrUser().hexColor}>
         <Show when={!url()}><Image src="/assets/profile.png" alt="User Avatar" /></Show>
         <Show when={url()}><Image src={url()!} alt="User Avatar" /></Show>
