@@ -99,12 +99,13 @@ const ServerItemContainer = styled(FlexRow)`
 `;
 
 const DetailsContainer = styled(FlexColumn)`
-
-@media (max-width: 600px){
-  align-self: start;
-  margin-left: 10px;
-}
-
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @media (max-width: 600px){
+    align-self: start;
+    margin-left: 10px;
+  }
 `;
 
 const MemberContainer = styled(FlexRow)`
@@ -117,6 +118,16 @@ const ButtonsContainer = styled(FlexRow)`
   margin-left: auto;
   flex-shrink: 0;
 `;
+const serverNameStyles = css`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+const descriptionStyles = css`
+  margin-top: 5px;
+  word-break: break-word;
+  white-space: pre-line;
+`
 
 function PublicServerItem(props: {publicServer: RawPublicServer, update: (newServer: RawPublicServer) => void}) {
   const [t] = useTransContext();
@@ -171,7 +182,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
       <Avatar animate={hovered()} server={server} size={80} />
       <DetailsContainer gap={1}>
         <FlexRow style={{"align-items": "center"}} gap={5}>
-          <Text size={18}>{server.name}</Text>
+          <Text class={serverNameStyles} size={18}>{server.name}</Text>
           <Show when={server.verified}><ServerVerifiedIcon /></Show>
         </FlexRow>
         <MemberContainer gap={5}>
@@ -180,7 +191,7 @@ function PublicServerItem(props: {publicServer: RawPublicServer, update: (newSer
           <Icon name='arrow_upward' size={17} color="var(--primary-color)"/>
           <Text size={12}>{t('explore.servers.lifetimeBumpCount', {count: props.publicServer.lifetimeBumpCount.toLocaleString()})}</Text>
         </MemberContainer>
-          <Text style={{"margin-top": "5px", "word-break": "break-word", "white-space": "pre-line"}} opacity={0.7}>{props.publicServer.description}</Text>
+          <Text class={descriptionStyles} opacity={0.7}>{props.publicServer.description}</Text>
       </DetailsContainer>
 
       <ButtonsContainer>

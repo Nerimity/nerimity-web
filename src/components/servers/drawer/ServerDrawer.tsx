@@ -22,6 +22,9 @@ const ChannelContainer = styled(ItemContainer)`
   .label {
     opacity: ${props => props.selected ? 1 : 0.6};
     transition: 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &:hover .label {

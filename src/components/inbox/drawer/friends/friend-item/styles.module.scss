@@ -37,4 +37,7 @@
 .details {
   margin-left: 5px;
   margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

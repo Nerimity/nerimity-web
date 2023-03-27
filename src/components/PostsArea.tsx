@@ -99,6 +99,31 @@ const postActionStyle = css`
     font-size: 14px;
   }
 `;
+const postUsernameStyle = css`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const postContentStyles = css`
+  margin-left: 55px;
+  word-break: break-word;
+  white-space: pre-line;
+`
+
+const editIconStyles = css`
+  margin-left: 3px;
+  vertical-align: -2px;
+  color: rgba(255, 255, 255, 0.4);
+`
+
+const ReplyingToContainer = styled("div")`
+  margin-left: 5px;
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post}) {
   const {posts, account} = useStore();
@@ -112,11 +137,9 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
       <CustomLink href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
         <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
       </CustomLink>
-      <CustomLink style={{color: 'white'}} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
-      <Text style={{"margin-left": "-2px"}} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
-      <Show when={props.post.editedAt}>
-        <Icon name="edit" size={12} title={`Edited at ${formatTimestamp(props.post.editedAt)}`} />
-      </Show>
+      <CustomLink class={postUsernameStyle} style={{color: 'white'}} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
+      <Text style={{"margin-left": "auto", "margin-right": "5px", "flex-shrink": 0}} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
+
     </PostDetailsContainer>
   )
 
@@ -181,14 +204,17 @@ export function PostItem(props: { hideDelete?: boolean; class?: string; onClick?
       </Show>
       <Show when={!props.post.deleted}>
         <Show when={replyingTo()}>
-          <FlexRow gap={5} style={{"margin-left": "5px", "margin-top": "5px"}}>
-            <Text size={14}>Replying to</Text>
+          <ReplyingToContainer>
+            <Text size={14} style={{"margin-right": "5px"}}>Replying to</Text>
             <CustomLink decoration style={{"font-size": "14px"}} href={RouterEndpoints.PROFILE(replyingTo()?.createdBy.id!)}>{replyingTo()?.createdBy.username}</CustomLink>
-          </FlexRow>
+          </ReplyingToContainer>
         </Show>
         <Details/>
-        <Text size={14} color="rgba(255,255,255,0.8)" style={{"margin-left": "50px"}}>
+        <Text size={14} color="rgba(255,255,255,0.8)" class={postContentStyles}>
           <Markup text={props.post.content} />
+          <Show when={props.post.editedAt}>
+            <Icon name="edit" class={editIconStyles} size={14} title={`Edited at ${formatTimestamp(props.post.editedAt)}`} />
+          </Show>
         </Text>
         <Actions/>
       </Show>
@@ -287,6 +313,11 @@ export function PostsArea(props: { showLiked?: boolean, showFeed?: boolean, show
 }
 
 
+const notificationUsernameStyles = css`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 function PostNotification (props: {notification: RawPostNotification}) {
   const {posts} = useStore();
@@ -303,9 +334,9 @@ function PostNotification (props: {notification: RawPostNotification}) {
       <FlexRow gap={5} style={{"align-items": 'center'}} onclick={showPost}>
         <Icon name="reply" color="var(--primary-color)" />
         <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar user={props.notification.by} size={30} /></Link>
-        <FlexColumn gap={2}>
-          <FlexRow gap={5}  style={{"align-items": 'center'}}>
-            <Text size={14}><strong>{props.notification.by.username}</strong> replied to your Post!</Text>
+        <FlexColumn gap={2} class={notificationUsernameStyles}>
+          <FlexRow gap={5}  style={{"align-items": 'center'}}  >
+            <Text size={14} class={notificationUsernameStyles}><strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> replied to your Post!</Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
           <div style={{opacity: 0.6, "font-size": "14px"}}>
@@ -323,8 +354,8 @@ function PostNotification (props: {notification: RawPostNotification}) {
         <FlexRow gap={5} style={{"align-items": 'center'}}>
           <Icon name="add_circle" color="var(--primary-color)" />
           <Avatar user={props.notification.by} size={30} />
-          <FlexRow gap={2} style={{"align-items": 'center'}}>
-            <Text size={14}><strong>{props.notification.by.username}</strong> followed you!</Text>
+          <FlexRow gap={2} style={{"align-items": 'center'}} class={notificationUsernameStyles}>
+            <Text size={14} class={notificationUsernameStyles}><strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> followed you!</Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
         </FlexRow>
@@ -344,7 +375,7 @@ function PostNotification (props: {notification: RawPostNotification}) {
         <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar user={props.notification.by} size={30} /></Link>
         <FlexColumn gap={2}>
           <FlexRow gap={5} style={{"align-items": 'center'}}>
-            <Text size={14}><strong>{props.notification.by.username}</strong> liked your post!</Text>
+            <Text size={14} class={notificationUsernameStyles}><strong  class={notificationUsernameStyles}>{props.notification.by.username}</strong> liked your post!</Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
           <div style={{opacity: 0.6, "font-size": "14px"}}>

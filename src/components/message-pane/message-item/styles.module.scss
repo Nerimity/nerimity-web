@@ -106,6 +106,9 @@
       font-weight: bold;
       color: white;
       text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &:hover {
         text-decoration: underline;
       }
@@ -114,6 +117,7 @@
       color: rgba(255, 255, 255, 0.6);
       margin-left: auto;
       font-size: 12px;
+      flex-shrink: 0;
     }
   }
   .messageContainer {
