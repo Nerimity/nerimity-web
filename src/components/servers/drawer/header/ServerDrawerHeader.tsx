@@ -21,7 +21,7 @@ const ServerDrawerHeader =() => {
     <DrawerHeader>
       <div class={styles.headerContainer}>
         <ContextMenuServer onClose={() => setContextPosition(undefined)} position={contextPosition()} serverId={params.serverId} triggerClassName={styles.showMoreIcon} />
-        <div>{server()?.name}</div>
+        <div class={styles.serverName}>{server()?.name}</div>
         <Show when={server()?.verified}><ServerVerifiedIcon/></Show>
         <Icon size={18} name='expand_more' class={styles.showMoreIcon} onClick={onClick}  />
       </div>

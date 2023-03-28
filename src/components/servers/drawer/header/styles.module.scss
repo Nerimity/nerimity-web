@@ -9,6 +9,12 @@
   padding-left: 10px;
   width: 100%;
   flex: 1;
+
+  .serverName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   
   .showMoreIcon {
     margin-left: auto;
