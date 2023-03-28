@@ -103,6 +103,7 @@ const DetailsContainer = styled(FlexColumn)`
   overflow: hidden;
   text-overflow: ellipsis;
   @media (max-width: 600px){
+    width: 100%;
     align-self: start;
     margin-left: 10px;
   }
