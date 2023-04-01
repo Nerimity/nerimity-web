@@ -6,14 +6,14 @@
   align-items: center;
   user-select: none;
   transition: 0.2s;
-  padding-left: 10px;
   width: 100%;
   flex: 1;
-
+  
   .serverName {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-left: 10px;
   }
   
   .showMoreIcon {
