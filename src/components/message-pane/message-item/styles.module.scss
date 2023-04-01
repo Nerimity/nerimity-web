@@ -124,6 +124,7 @@
     position: relative;
     display: flex;
     margin-left: 10px;
+    margin-top: -5px;
     .content {
       overflow: hidden;
       margin: 3px;
@@ -138,11 +139,14 @@
   }
 
   &.compact {
+    .messageContainer {
+      margin-top: 0;
+    }
     .floatOptions {
       top: -23px;
     }
     .content {
-      margin: 2px;
+      margin: 0;
       margin-left: 35px;
     }
   }
