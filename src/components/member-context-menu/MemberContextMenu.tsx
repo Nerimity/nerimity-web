@@ -15,6 +15,7 @@ import { RawUser } from '@/chat-api/RawData';
 import { useNavigate } from '@nerimity/solid-router';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { FlexRow } from '../ui/Flexbox';
+import { classNames, conditionalClass } from '@/common/classNames';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
   userId: string
@@ -190,9 +191,10 @@ function RoleItem (props: {role: ServerRole, userId: string}) {
   const member = () => serverMembers.get(props.role.serverId, props.userId);
   const hasRole = () => member()?.hasRole(props.role.id) || false;
 
-  const onRoleClicked = async (checked: boolean) => {
+  const onRoleClicked = async () => {
     if (requestSent()) return;
     setRequestSent(true);
+    const checked = !hasRole();
     let newRoleIds: string[] = [];
     if (!checked) {
       newRoleIds = member()?.roleIds.filter(roleId => roleId !== props.role.id)!
@@ -204,9 +206,9 @@ function RoleItem (props: {role: ServerRole, userId: string}) {
   }
 
   return (
-    <div class={styles.roleItem}>
-      <Checkbox checked={hasRole()} onChange={onRoleClicked} disableLocalUpdate={true} />
-      <div class={styles.label} style={{color: props.role.hexColor}}>{props.role.name}</div>
+    <div class={classNames(styles.roleItem, conditionalClass(hasRole(), styles.selected))} onclick={onRoleClicked} >
+      <div class={styles.checkbox} style={{background: props.role.hexColor}}></div>
+      <div class={styles.label}>{props.role.name}</div>
     </div>
   )
 }

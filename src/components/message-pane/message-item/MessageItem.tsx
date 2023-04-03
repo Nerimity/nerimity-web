@@ -85,8 +85,8 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
   }
   
   const Details = () => (
-    <div class={styles.details}>
-      <Link onContextMenu={onMemberContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={conditionalClass(systemMessage(), styles.systemMessageAvatar)}>
+    <div class={classNames(styles.details, conditionalClass(systemMessage(), styles.systemMessageDetails))}>
+      <Link onContextMenu={onMemberContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
         <Avatar animate={hovered()} user={props.message.createdBy} size={systemMessage() ? 23 : 40} />
       </Link>
       <Link onContextMenu={onMemberContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
@@ -120,16 +120,17 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
       <Show when={!props.hideFloating}><FloatOptions isCompact={isCompact()} message={props.message} /></Show>
       <div class={styles.messageItemOuterContainer}>
         <div class={styles.messageItemContainer}>
-          {isCompact() ? null : <Details />}
-          <div class={styles.messageContainer}>
-            {props.message.sentStatus === MessageSentStatus.FAILED && <Icon name='error_outline' size={14} color="var(--alert-color)" class={styles.messageStatus} />}
-            {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
-            <div class={styles.content}>
-              <Markup message={props.message} text={props.message.content || ''} />
-              {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} title={editedAt()} />}  
+          <Show when={!isCompact()}><Details /></Show>
+          <Show when={!systemMessage()}>
+            <div class={styles.messageContainer}>
+              {props.message.sentStatus === MessageSentStatus.FAILED && <Icon name='error_outline' size={14} color="var(--alert-color)" class={styles.messageStatus} />}
+              {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
+              <div class={styles.content}>
+                <Markup message={props.message} text={props.message.content || ''} />
+                {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} title={editedAt()} />}  
+              </div>
             </div>
-            
-          </div>
+          </Show>
         </div>
       </div>
     </div>

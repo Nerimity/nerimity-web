@@ -50,10 +50,13 @@
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
 }
-.systemMessageAvatar {
-  margin-left: 3px;
-  margin-right: 4px;
-}
+.systemMessageDetails {
+  margin-bottom: 3px;
+  .avatar {
+    margin-left: 3px;
+    margin-right: 4px;
+  }
+} 
 
 
 .messageItem {
@@ -80,7 +83,6 @@
   .messageItemOuterContainer {
     display: flex;
     flex-direction: column;
-
   }
 
   .messageItemContainer {

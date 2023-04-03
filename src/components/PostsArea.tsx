@@ -109,6 +109,7 @@ const postContentStyles = css`
   margin-left: 55px;
   word-break: break-word;
   white-space: pre-line;
+  margin-top: -5px;
 `
 
 const editIconStyles = css`

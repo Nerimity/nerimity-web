@@ -17,6 +17,7 @@ const boxStyle = css`
   color: transparent;
   transition: 0.2s;
   padding: 3px;
+  border: solid 1px rgba(255,255,255,0.2);
 `;
 
 const CheckboxContainer = styled("div")`

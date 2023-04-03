@@ -4,11 +4,36 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  overflow: auto;
+  max-height: 400px;
+  padding-right: 5px;
+  width: 250px;
   .roleItem {
+    overflow: hidden;
     display: flex;
     align-items: center;
+    height: 30px;
+    flex-shrink: 0;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: 0.2s;
+    border-radius: 6px;
+    user-select: none;
+    .checkbox {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      box-shadow: 1px 0px 5px 0px #00000057;
+    }
     .label {
       margin-left: 5px;
+      display: flex;
+    }
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    &.selected {
+      background-color: var(--primary-color);
     }
   }
 }

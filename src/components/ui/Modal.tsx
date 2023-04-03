@@ -50,7 +50,6 @@ const TopBarContainer = styled(FlexRow)`
   height: 30px;
   background: var(--pane-color);
   flex-shrink: 0;
-  margin-bottom: 10px;
 `;
 const closeButtonStyle = css`
   display: flex;
@@ -82,8 +81,7 @@ const Body = styled(FlexColumn)`
   animation: ${showUp};
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
-  padding: 10px;
-  padding-top: 0;
+  padding: 20px;
   flex: 1;
 `;
 
