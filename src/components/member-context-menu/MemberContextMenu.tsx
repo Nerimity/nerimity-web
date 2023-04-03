@@ -27,7 +27,8 @@ export default function MemberContextMenu(props: Props) {
 
   const navigate = useNavigate();
   
-  const member = () => props.serverId ? serverMembers.get(props.serverId, account.user()?.id!) : undefined;
+  const selfMember = () => props.serverId ? serverMembers.get(props.serverId, account.user()?.id!) : undefined;
+  const member = () => props.serverId ? serverMembers.get(props.serverId, props.userId) : undefined;
   const server = () => props.serverId ? servers.get(props.serverId) : undefined;
 
   const adminItems = () => {
@@ -40,7 +41,7 @@ export default function MemberContextMenu(props: Props) {
 
     const AmIServerCreator = server()?.createdById === account.user()?.id;
     const items: any = [];
-    const hasManageRolePermission = AmIServerCreator || member()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES);
+    const hasManageRolePermission = AmIServerCreator || selfMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES);
     if (hasManageRolePermission) {
       items.push(editRoles);
     }
@@ -60,8 +61,8 @@ export default function MemberContextMenu(props: Props) {
       ]
     }
 
-    const hasKickPermission = member()?.hasPermission(ROLE_PERMISSIONS.KICK);
-    const hasBanPermission = member()?.hasPermission(ROLE_PERMISSIONS.BAN);
+    const hasKickPermission = selfMember()?.hasPermission(ROLE_PERMISSIONS.KICK);
+    const hasBanPermission = selfMember()?.hasPermission(ROLE_PERMISSIONS.BAN);
 
      let createArr = [];
      if (hasBanPermission || hasKickPermission) {
@@ -79,6 +80,7 @@ export default function MemberContextMenu(props: Props) {
   }
 
   const onKickClick = () => {
+    console.log(member())
     createPortal?.(close =>  <KickModal close={close} member={member()!} />)
   }
   const onBanClick = () => {
@@ -131,11 +133,12 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
 
 function BanModal (props: {user: RawUser, serverId: string, close: () => void}) {
   const [requestSent, setRequestSent] = createSignal(false);
+  const [shouldDeleteRecentMessages, setShouldDeleteRecentMessages] = createSignal<boolean>(false);
 
   const onBanClick = async () => {
     if (requestSent()) return;
     setRequestSent(true);
-    await BanServerMember(props.serverId, props.user.id).finally(() => {
+    await BanServerMember(props.serverId, props.user.id, shouldDeleteRecentMessages()).finally(() => {
       setRequestSent(false);
     });
     props.close();
@@ -153,9 +156,12 @@ function BanModal (props: {user: RawUser, serverId: string, close: () => void}) 
   return (
     <Modal close={props.close} title={`Ban ${props.user.username}`}  actionButtons={ActionButtons}>
       <div class={styles.kickModal}>
-        <div>Are you sure you want to ban <b>{props.user?.username || ""}</b>?</div>
-        <div class={styles.buttons}>
-        </div>
+        <div style={{"margin-bottom": "15px"}}>Are you sure you want to ban <b>{props.user?.username || ""}</b>?</div>
+        <Checkbox 
+          checked={shouldDeleteRecentMessages()}
+          onChange={setShouldDeleteRecentMessages}
+          label='Delete messages sent in the past 7 hours.'
+        />
       </div>
     </Modal>
   )

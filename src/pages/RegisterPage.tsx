@@ -106,7 +106,7 @@ export default function RegisterPage() {
             onVerify={(token) => verifyToken = token}
             autoResetOnExpire={true}
           />
-          <Show when={error().path === "other" || error().path === "token"}>
+          <Show when={!error().path || error().path === "other" || error().path === "token"}>
             <Text size={16}  color='var(--alert-color)'>{error().message}</Text>
           </Show>
           <Button iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />

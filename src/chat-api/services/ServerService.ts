@@ -27,10 +27,13 @@ export async function kickServerMember(serverId: string, userId: string): Promis
     useToken: true
   });
 }
-export async function BanServerMember(serverId: string, userId: string): Promise<any> {
+export async function BanServerMember(serverId: string, userId: string, shouldDeleteRecentMessages?: boolean): Promise<any> {
   return request({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverMemberBan(serverId, userId),
+    params: {
+      shouldDeleteRecentMessages // delete messages sent in the last 7 hours.
+    },
     useToken: true
   });
 }
