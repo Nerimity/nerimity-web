@@ -112,7 +112,7 @@ const BasicAvatarBorderContainer = styled("div") <{ size: number, color: string 
   justify-content: center;
   border-radius: 50%;
 
-  border: solid ${props => props.size / 100 * 10}px ${props => props.color};
+  border: solid ${props => props.size / 100 * 8}px ${props => props.color};
 
   left: -${props => props.size / 100 * 5}px;
   top: -${props => props.size / 100 * 5}px;
