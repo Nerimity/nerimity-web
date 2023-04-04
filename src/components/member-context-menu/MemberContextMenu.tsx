@@ -16,6 +16,7 @@ import { useNavigate } from '@nerimity/solid-router';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { FlexRow } from '../ui/Flexbox';
 import { classNames, conditionalClass } from '@/common/classNames';
+import Icon from '../ui/icon/Icon';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
   userId: string
@@ -207,7 +208,9 @@ function RoleItem (props: {role: ServerRole, userId: string}) {
 
   return (
     <div class={classNames(styles.roleItem, conditionalClass(hasRole(), styles.selected))} onclick={onRoleClicked} >
-      <div class={styles.checkbox} style={{background: props.role.hexColor}}></div>
+      <div class={styles.checkbox} style={{background: props.role.hexColor}}>
+        <Icon name='done' size={12} class={styles.icon} />
+      </div>
       <div class={styles.label}>{props.role.name}</div>
     </div>
   )
