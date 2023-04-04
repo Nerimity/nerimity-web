@@ -33,7 +33,7 @@ const BackgroundContainer = styled("div")`
   z-index: 1111;
 `;
 
-const ModalContainer = styled(FlexColumn)<{mobile: boolean}>`
+const ModalContainer = styled(FlexColumn)<{mobile: boolean, maxHeight?: number, maxWidth?: number}>`
   background-color: var(--background-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 8px;
@@ -41,8 +41,27 @@ const ModalContainer = styled(FlexColumn)<{mobile: boolean}>`
   align-self: ${props => props.mobile ? 'flex-end': 'center'};
   margin: ${props => props.mobile ? '10px': '0'};
 
-  
+
+  ${props => (props.maxWidth) ? `
+    max-width: ${props.maxWidth}px;
+    width: 100%;
+  ` : ''}
+
+  ${props => props.maxHeight ? `
+    max-height: ${props.maxHeight}px;
+    height: ${props.mobile ? 'calc(100% - 20px)': '100%'};
+  ` : ''}
+
+  ${props => props.mobile ? `
+    width: 100%;
+    max-width: initial;
+  ` : ''}
+
+
+
 `;
+  // max-height: ${props => props.mobile ? 'calc(100vh - 20px)': '100vh'};
+  // max-width: 100vw;
 
 const TopBarContainer = styled(FlexRow)`
   align-items: center;
@@ -98,6 +117,8 @@ interface Props {
   close?: () => void;
   ignoreBackgroundClick?: boolean
   class?: string;
+  maxHeight?: number;
+  maxWidth?: number;
 }
 
 export default function Modal(props: Props) {
@@ -113,7 +134,7 @@ export default function Modal(props: Props) {
   return (
       <Portal>
         <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-          <ModalContainer mobile={isMobileWidth()} class={classNames(props.class, 'modal')}>
+          <ModalContainer mobile={isMobileWidth()} maxHeight={props.maxHeight} maxWidth={props.maxWidth}  class={classNames(props.class, 'modal')}>
             <TopBarContainer>
               <Show when={props.icon}>
                 <Icon class={topBarIconStyle} onClick={props.close} name={props.icon} size={18} />

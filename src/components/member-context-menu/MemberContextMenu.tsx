@@ -78,7 +78,7 @@ export default function MemberContextMenu(props: Props) {
 
 
   const onEditRoleClick = () => {
-    createPortal?.(close => <Modal close={close}  title="Edit Roles" children={() => <ServerMemberRoleModal {...props} />} />)
+    createPortal?.(close => <Modal maxHeight={500} maxWidth={350} close={close}  title="Edit Roles" children={() => <ServerMemberRoleModal {...props} />} />)
   }
 
   const onKickClick = () => {

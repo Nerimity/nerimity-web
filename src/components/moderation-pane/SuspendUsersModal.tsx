@@ -10,7 +10,7 @@ import Text from "../ui/Text";
 
 
 const SuspendUsersContainer = styled("div")`
-  width: 260px;
+  min-width: 260px;
   margin-bottom: 10px;
 `;
 

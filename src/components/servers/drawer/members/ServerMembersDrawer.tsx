@@ -249,7 +249,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
   })
 
   const showRoleModal = () => {
-    createPortal?.(close => <Modal close={close} title="Edit Roles" children={() => <ServerMemberRoleModal userId={member()?.userId!} serverId={member()?.serverId!} />} />)
+    createPortal?.(close => <Modal maxHeight={500} maxWidth={350} close={close} title="Edit Roles" children={() => <ServerMemberRoleModal userId={member()?.userId!} serverId={member()?.serverId!} />} />)
   }
 
   return (
