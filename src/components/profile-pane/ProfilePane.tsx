@@ -225,7 +225,6 @@ function SideBar(props: { user: UserDetails }) {
   return (
     <div class={styles.sidePane}>
       <UserBioItem icon='event' label='Joined' value={joinedAt} />
-      <div class={styles.separator} />
       <MutualFriendList mutualFriendIds={props.user.mutualFriendIds} />
       <MutualServerList mutualServerIds={props.user.mutualServerIds} />
     </div>
