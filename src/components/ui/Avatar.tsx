@@ -92,7 +92,6 @@ export default function Avatar(props: Props) {
 
 
 function AvatarBorder(props: { size: number, hovered?: boolean, serverOrUser: ServerOrUser }) {
-  console.log(props.serverOrUser.name)
   return (
     <>
       <Show when={props.serverOrUser?.badges === 1}>

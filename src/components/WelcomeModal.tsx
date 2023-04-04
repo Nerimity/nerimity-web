@@ -16,12 +16,19 @@ const modalStyles = css`
 
 const ItemContainer = styled(FlexRow)`
   align-items: center;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
+  min-height: 45px;
+  background: rgba(255,255,255,0.1);
   &:hover {
     opacity: 0.7;
+  }
+  span {
+    margin-left: 5px;
   }
 `;
 
@@ -37,32 +44,59 @@ export function WelcomeModal (props: {close: () => void}) {
 
 
   return (
-    <Modal ignoreBackgroundClick class={modalStyles} title={`Welcome to ${env.APP_NAME}!`} close={props.close} actionButtons={ActionButtons} >
-      <FlexColumn gap={10} style={{"max-height": "400px", "max-width": "900px", height: "100%", flex: "1"}}>
-        <Text>Welcome to {env.APP_NAME}!</Text>
-        <ServerItem onClick={props.close} />
+    <Modal ignoreBackgroundClick class={modalStyles} title={`Welcome to ${env.APP_NAME}!`} actionButtons={ActionButtons} >
+      <FlexColumn gap={8} style={{"max-height": "400px", "max-width": "900px", height: "100%", flex: "1"}}>
+        <Text>Thanks for trying out {env.APP_NAME}!</Text>
+        <EditProfileItem />
+        <ServerItem/>
+        <SourceCodeItem />
         <SupportItem />
       </FlexColumn>
     </Modal>
   )
 }
 
-function ServerItem(props: {onClick: () => void;}) {
+function ServerItem() {
   return (
-    <Link href="https://nerimity.com/app/explore/servers/invites/nerimity" style={{"text-decoration": "none"}} onclick={props.onClick}>
-      <ItemContainer gap={5} style={{background: "var(--primary-color)"}}>
-        <Avatar hexColor="white" size={24} />
-        <Text size={16}>Join the official Nerimity server!</Text>
+    <Link href="/app/explore/servers/invites/nerimity" target="_blank" style={{"text-decoration": "none"}}>
+      <ItemContainer gap={5} >
+        <Icon name="dns" />
+        <Text size={16} style={{flex: 1}} >Join the official Nerimity server!</Text>
+        <Icon name="open_in_new" />
       </ItemContainer>
     </Link>
   );
 }
+
+function EditProfileItem() {
+  return (
+    <Link href="/app/settings/account" target="_blank" style={{"text-decoration": "none"}}>
+      <ItemContainer gap={5} >
+        <Icon name="edit" />
+        <Text size={16} style={{flex: 1}} >Edit my profile</Text>
+        <Icon name="open_in_new" />
+      </ItemContainer>
+    </Link>
+  );
+}
+
 function SupportItem() {
   return (
     <Link href="https://ko-fi.com/supertiger" target="_blank" style={{"text-decoration": "none"}}>
-      <ItemContainer gap={5} style={{background: "var(--alert-color)"}}>
+      <ItemContainer gap={5}>
         <Icon name="favorite" />
         <Text style={{flex: 1}} size={16}>Support me on Ko-fi</Text>
+        <Icon name="open_in_new" />
+      </ItemContainer>
+    </Link>
+  );
+}
+function SourceCodeItem() {
+  return (
+    <Link href="https://github.com/Nerimity" target="_blank" style={{"text-decoration": "none"}}>
+      <ItemContainer gap={5}>
+        <Icon name="code" />
+        <Text style={{flex: 1}} size={16}>Contribute to {env.APP_NAME} on GitHub</Text>
         <Icon name="open_in_new" />
       </ItemContainer>
     </Link>
