@@ -130,7 +130,7 @@ function BasicBorder(props: { size: number, hovered?: boolean, color: string; la
       <Show when={props.hovered}>
         <div style={{
           "pointer-events": 'none',
-          "font-size": props.size / 100 * 18 + "px",
+          "font-size": props.size / 100 * 16 + "px",
           "border-radius": props.size / 100 * 8 + "px",
           bottom: -(props.size / 100 * 15) + "px",
           padding: props.size / 100 * 5 + "px",
