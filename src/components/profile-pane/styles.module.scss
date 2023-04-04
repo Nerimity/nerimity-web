@@ -76,10 +76,10 @@
   margin-right: 10px;
   margin-left: 5px;
   .title {
+    user-select: none;
     display: flex;
     align-items: center;
     margin: 5px;
-    color: rgba(255, 255, 255, 0.6);
     .icon {
       margin-right: 3px;
     }
@@ -90,6 +90,11 @@
     padding: 5px;
     margin-bottom: 5px;
     border-radius: 8px;
+  }
+  .mobileBlock {
+    .title {
+      cursor: pointer;
+    }
   }
   .list {
     .item {
