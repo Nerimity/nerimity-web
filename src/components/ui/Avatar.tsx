@@ -130,13 +130,14 @@ function BasicBorder(props: { size: number, hovered?: boolean, color: string; la
       <Show when={props.hovered}>
         <div style={{
           "pointer-events": 'none',
-          "font-size": props.size / 100 * 16 + "px",
+          "font-size": props.size / 100 * 17 + "px",
           "border-radius": props.size / 100 * 8 + "px",
+          "font-weight": "bold",
           bottom: -(props.size / 100 * 15) + "px",
           padding: props.size / 100 * 5 + "px",
           position: "absolute",
           background: props.color,
-          color: 'black',
+          color: 'rgba(0,0,0,0.7)',
         }}>{props.label}</div>
       </Show>
     </BasicAvatarBorderContainer>
