@@ -30,6 +30,10 @@ const ActionButtonsContainer = styled(FlexRow)`
   margin-top: 10px;
   flex-wrap: wrap;
   justify-content: center;
+
+  &.mobileAction {
+    margin-left: initial;
+  }
 `;
 
 const ActionButtonContainer = styled(FlexRow)`
@@ -109,35 +113,39 @@ export default function ProfilePane() {
     <Show when={user()}>
       <div class={styles.profilePane}>
         <div class={styles.topArea}>
-          <div
-            class={styles.banner}
-            style={{
-              ...(user()?.avatar ? {
-                "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
-              } : {
-                background: user()?.hexColor
-              }),
+          <div class={styles.bannerContainer}>
+            <div class={styles.banner}
+              style={{
+                ...(user()?.avatar ? {
+                  "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
+                } : {
+                  background: user()?.hexColor
+                }),
 
-              filter: "brightness(70%)"
-            }}
-          ></div>
-          <div class={styles.bannerFloatingItems}>
-            <Avatar animate user={user()} size={90} />
+                filter: "brightness(70%) blur(30px)"
+              }}
+            ></div>
+          </div>
+          <div class={styles.informationContainer}>
             <div class={styles.details}>
+              <Avatar animate user={user()!} size={90} />
               <div class={styles.usernameTag}>
                 <span class={styles.username}>{user()!.username}</span>
                 <span class={styles.tag}>{`:${user()!.tag}`}</span>
               </div>
-              <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
               <Show when={!isMe()}><UserPresence userId={user()!.id} showOffline={true} /></Show>
-              <Show when={isMe()}><DropDown items={DropDownItems} selectedId={presenceStatus().id} /></Show>
+              <Show when={isMe()}><DropDown class={styles.dropDown} items={DropDownItems} selectedId={presenceStatus().id} /></Show>
+              <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
             </div>
-            <Show when={!isMe() && width() >= 700}>
-              <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
+            <Show when={!isMe() && width() >= 1000}>
+              <div class={styles.bannerFloatingItems}>
+                <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
+              </div>
             </Show>
           </div>
-          <Show when={!isMe() && width() < 700}>
-            <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
+
+          <Show when={!isMe() && width() < 1000}>
+            <ActionButtons class="mobileAction" updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
           </Show>
         </div>
         <Show when={userDetails()}>
@@ -148,7 +156,7 @@ export default function ProfilePane() {
   )
 }
 
-const ActionButtons = (props: { updateUserDetails(): void, userDetails?: UserDetails | null, user?: RawUser | null }) => {
+const ActionButtons = (props: { class?: string, updateUserDetails(): void, userDetails?: UserDetails | null, user?: RawUser | null }) => {
   const params = useParams<{ userId: string }>();
   const { friends, users } = useStore();
 
@@ -191,7 +199,7 @@ const ActionButtons = (props: { updateUserDetails(): void, userDetails?: UserDet
   const isFollowing = () => props.userDetails?.user.followers.length;
 
   return (
-    <ActionButtonsContainer gap={3}>
+    <ActionButtonsContainer class={props.class} gap={3}>
       {!isFollowing() && <ActionButton icon='add_circle' label='Follow' onClick={followClick} color='var(--primary-color)' />}
       {isFollowing() && <ActionButton icon='add_circle' label='Unfollow' onClick={unfollowClick} color='var(--alert-color)' />}
       {isFriend() && <ActionButton icon='person_add_disabled' label='Remove Friend' color='var(--alert-color)' onClick={removeClicked} />}

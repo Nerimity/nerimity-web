@@ -18,6 +18,7 @@ export interface DropDownProps {
   selectedId?: string
   title?: string
   onChange?: (item: DropDownItem) => void;
+  class?: string;
 }
 
 
@@ -41,7 +42,7 @@ export default function DropDown (props: DropDownProps) {
 
 
   return (
-    <div class={styles.dropDown}>
+    <div class={classNames(styles.dropDown, props.class)} >
       <Show when={props.title}>
         <div class={styles.title}>{props.title}</div>
       </Show>

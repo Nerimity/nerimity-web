@@ -272,8 +272,8 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
               <Text style={{ "overflow-wrap": "anywhere"}}>{user().username}</Text>
               <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
             </span>
-            <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
             <UserPresence userId={props.userId} showOffline />
+            <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
           </FlyoutOtherDetailsContainer>
         </FlyoutDetailsContainer>
         <Show when={member()}>
