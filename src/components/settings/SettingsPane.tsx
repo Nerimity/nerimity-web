@@ -6,6 +6,7 @@ import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
 import { useTransContext } from '@nerimity/solid-i18next';
 import Text from '../ui/Text';
+import { createStore } from 'solid-js/store';
 
 const SettingsPaneContainer = styled("div")`
   display: flex;
@@ -21,12 +22,12 @@ export default function SettingsPane() {
   const { account} = useStore();
   const user = () => account.user();
 
-  const [updateHeader, setUpdateHeader] = createSignal<{username?: string, tag?: string, avatar?: any}>({});
+  const [updateHeader, setUpdateHeader] = createStore<{username?: string, tag?: string, banner?: string, avatar?: any}>({});
 
   return (
     <Show when={user()}>
       <SettingsPaneContainer>
-        <SettingsHeader headerPreviewDetails={updateHeader()} />
+        <SettingsHeader headerPreviewDetails={updateHeader} />
         <For each={Settings}>
           {setting => (
             <Routes>

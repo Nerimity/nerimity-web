@@ -13,31 +13,11 @@
   flex-direction: column;
 }
 
-.bannerContainer {
-  overflow: hidden;
-  margin: 10px;
-  border-radius: 8px;
-  flex-shrink: 0;
-  aspect-ratio: 30/9;
-  max-height: 200px;
-}
-
 .informationContainer {
   position: relative;
   display: flex;
 }
 
-.banner {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  background-color: rgb(16, 16, 16);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  position: relative;  
-  overflow: hidden;
-}
 
 .details {
   margin-left: 30px;

@@ -4,7 +4,7 @@ import { createEffect, createResource, createSignal, For, on, onMount, Show } fr
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
 import { followUser, getFollowers, getFollowing, getUserDetailsRequest, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
-import { avatarUrl, User } from '@/chat-api/store/useUsers';
+import { avatarUrl, bannerUrl, User } from '@/chat-api/store/useUsers';
 import { getDaysAgo } from '../../common/date';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { userStatusDetail, UserStatuses } from '../../common/userStatus';
@@ -22,6 +22,7 @@ import { useDrawer } from '../ui/drawer/Drawer';
 import { PostsArea } from '../PostsArea';
 import { CustomLink } from '../ui/CustomLink';
 import { classNames, conditionalClass } from '@/common/classNames';
+import { Banner } from '../ui/Banner';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -107,25 +108,15 @@ export default function ProfilePane() {
     }
   })
 
+
   const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
+
 
   return (
     <Show when={user()}>
       <div class={styles.profilePane}>
         <div class={styles.topArea}>
-          <div class={styles.bannerContainer}>
-            <div class={styles.banner}
-              style={{
-                ...(user()?.avatar ? {
-                  "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
-                } : {
-                  background: user()?.hexColor
-                }),
-
-                filter: "brightness(70%) blur(30px)"
-              }}
-            ></div>
-          </div>
+          <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
           <div class={styles.informationContainer}>
             <div class={styles.details}>
               <Avatar animate user={user()!} size={90} />

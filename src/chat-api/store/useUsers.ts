@@ -24,12 +24,15 @@ export interface Presence {
 
 export const avatarUrl = (item: {avatar?: string}): string | null => item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
 
+export const bannerUrl = (item: {banner?: string}): string | null => item?.banner ? env.NERIMITY_CDN + item?.banner : null;
+
 export type User = RawUser & {
   presence?: Presence
   inboxChannelId?: string
   setInboxChannelId: (this: User, channelId: string) => void;
   openDM: (this: User) => Promise<void>;
   avatarUrl(this: User): string | null
+  bannerUrl(this: User): string | null
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
@@ -46,7 +49,7 @@ const set = (user: RawUser) => runWithContext(() => {
       await openDM(this.id)
     },
     avatarUrl(){
-      return this?.avatar ? env.NERIMITY_CDN + this?.avatar : null;
+      return this?.banner ? env.NERIMITY_CDN + this?.banner : null;
     }
   });
 });

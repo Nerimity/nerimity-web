@@ -9,7 +9,7 @@ import MemberContextMenu, { ServerMemberRoleModal } from '../../../member-contex
 import { DrawerHeader } from '@/components/DrawerHeader';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { css, styled } from 'solid-styled-components';
-import useUsers, { avatarUrl } from '@/chat-api/store/useUsers';
+import useUsers, { avatarUrl, bannerUrl } from '@/chat-api/store/useUsers';
 import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { getUserDetailsRequest, UserDetails } from '@/chat-api/services/UserService';
@@ -22,6 +22,7 @@ import Button from '@/components/ui/Button';
 import Spinner from '@/components/ui/Spinner';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { CustomLink } from '@/components/ui/CustomLink';
+import { Banner } from '@/components/ui/Banner';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -255,7 +256,8 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
   return (
     <Show when={details()}>
       <FlyoutContainer ref={setFlyoutRef} class="modal" style={style()}>
-      <BannerContainer
+      <Banner maxHeight={200} margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
+      {/* <BannerContainer
          style={{
             ...(user()?.avatar ? {
               "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
@@ -264,7 +266,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
             }),
             
           }}
-         />
+         /> */}
         <FlyoutDetailsContainer>
           <Avatar animate  class={flyoutAvatarStyles} user={user()} size={60} />
           <FlyoutOtherDetailsContainer>

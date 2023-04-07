@@ -31,6 +31,7 @@ export interface SelfUser {
   username: string;
   hexColor: string;
   avatar?: string;
+  banner?: string;
   badges: number;
   tag: string;
   orderedServerIds: string[]

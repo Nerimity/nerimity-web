@@ -35,6 +35,7 @@ export interface RawMessage {
 export interface RawUser {
   id: string;
   avatar?: string;
+  banner?: string;
   username: string;
   hexColor: string;
   tag: string;
