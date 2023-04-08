@@ -174,6 +174,8 @@ const UserItem = () => {
   const { account, users } = useStore();
   const { createPortal } = useCustomPortal();
   const [hovered, setHovered] = createSignal(false)
+  const [modalOpened, setModalOpened] = createSignal(false)
+
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!)
@@ -185,28 +187,24 @@ const UserItem = () => {
 
   const isAuthenticating = () => !isAuthenticated() && isConnected();
   const showConnecting = () => !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
-  const href = () => userId() ? RouterEndpoints.PROFILE(userId()!) : "#";
 
   const onClicked = () => {
     if (authErrorMessage()) {
-      createPortal?.(close => <ConnectionErrorModal close={close} />)
+      return createPortal?.(close => <ConnectionErrorModal close={close} />)
     }
+    setModalOpened(!modalOpened())
   }
-
-  const selected = useMatch(href);
 
   return (
     <>
-      <Link onclick={onClicked} href={href()} class={styles.user}>
-        <SidebarItemContainer selected={selected()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
-          {account.user() && <Avatar animate={hovered()} size={40} user={account.user()} />}
-          {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
-          {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
-          {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
-          {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
-        </SidebarItemContainer>
-      </Link>
-      <Show when={user()}><FloatingUserModal /></Show>
+      <SidebarItemContainer class={styles.user} onclick={onClicked} selected={modalOpened()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+        {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} />}
+        {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
+        {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
+        {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
+        {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
+      </SidebarItemContainer>
+      <Show when={user() && modalOpened()}><FloatingUserModal /></Show>
     </>
   )
 };
@@ -221,12 +219,30 @@ const FloatingUserModalContainer = styled(FlexColumn)`
   width: 300px;
   z-index: 1111111111111;
   height: 350px;
-  background-color: red;
-  border-radius: 8px;
-  background-color: rgba(40, 40, 40, 0.6);
-  backdrop-filter: blur(20px);
-  border: solid 1px rgba(255, 255, 255, 0.2);
   padding: 10px;
+  
+  &:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background-color: rgba(40, 40, 40, 0.6);
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    z-index: -1;
+  }
+  .button {
+    background-color: transparent;
+    border: none;
+    justify-content: initial;
+    &:hover {
+      background-color: rgba(255,255,255, 0.1);
+    }
+    &:last-child {
+      margin-top: auto;
+    }
+  }
+
 `;
 
 
@@ -257,7 +273,7 @@ function FloatingUserModal() {
     return {
       circleColor: item.color,
       id: item.id,
-      label: item.name === "Offline" ? 'Appear as offline' : item.name,
+      label: item.name === "Offline" ? 'Appear As Offline' : item.name,
       onClick: () => {
         updatePresence(i);
       }
@@ -266,7 +282,7 @@ function FloatingUserModal() {
   const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
 
   return (
-    <FloatingUserModalContainer gap={10}>
+    <FloatingUserModalContainer gap={5}>
       <Banner margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
         <BannerContainer>
           <Avatar animate size={60} user={user()} />
@@ -275,15 +291,15 @@ function FloatingUserModal() {
               <Text>{user().username}</Text>
               <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
             </FlexRow>
-            <UserPresence showOffline userId={userId()} />
+            <UserPresence showOffline userId={userId()!} />
           </DetailsContainer>
         </BannerContainer>
       </Banner>
-      <DropDown class={styles.dropDown} items={DropDownItems} selectedId={presenceStatus().id} />
+      <DropDown class={css`margin-bottom: 10px;margin-top: 5px;`} items={DropDownItems} selectedId={presenceStatus().id} />
 
-      <Button  label='Edit Profile' margin={0} />
-      <Button label='Edit Profile' margin={0} />
-      <Button iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
+      <Button iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
+      <Button iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
+      <Button iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
 
     </FloatingUserModalContainer>
   )
