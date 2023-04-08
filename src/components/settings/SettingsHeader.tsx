@@ -28,12 +28,24 @@ const HeaderContainer = styled("div")`
 
 const DetailsContainer = styled(FlexColumn)`
   margin-left: 20px;
+  margin-right: 20px;
   font-size: 18px;
   z-index: 1111;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(20px);
   padding: 10px;
   border-radius: 8px;
+`;
+
+const UsernameTagContainer = styled(FlexRow)`
+  font-size: 16px;
+  margin-bottom: 5px;
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+          line-clamp: 2; 
+  -webkit-box-orient: vertical;
 `;
 
 const avatarStyles = css`
@@ -54,10 +66,10 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
         <HeaderContainer>
           <Avatar animate url={props.headerPreviewDetails.avatar} user={account.user()} hexColor={user()!.hexColor} size={width() <= 500 ? 70 : 100} class={avatarStyles} />
           <DetailsContainer>
-            <FlexRow>
+            <UsernameTagContainer>
               <Text>{props.headerPreviewDetails.username || user()!.username}</Text>
               <Text opacity={0.7}>:{props.headerPreviewDetails.tag || user()!.tag}</Text>
-            </FlexRow>
+            </UsernameTagContainer>
             <FlexRow gap={5}>
               <Text size={14} opacity={0.8}>{serverCount()} servers</Text>
               <Text size={14}>•</Text>

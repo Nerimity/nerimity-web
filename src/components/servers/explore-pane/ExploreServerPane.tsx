@@ -12,11 +12,13 @@ import { createEffect, createSignal, Match, onMount, Show, Switch } from 'solid-
 import useStore from '@/chat-api/store/useStore';
 import { getStorageString, StorageKeys } from '@/common/localStorage';
 import { avatarUrl } from '@/chat-api/store/useServers';
+import { Banner } from '@/components/ui/Banner';
+import { useWindowProperties } from '@/common/useWindowProperties';
 
 export default function ExploreServerPane() {
   const params = useParams();
   const navigate = useNavigate();
-  const {header} = useStore();
+  const { header } = useStore();
   const [server, setServer] = createSignal<ServerWithMemberCount | null>(null);
   const [error, setError] = createSignal<string | null>(null);
 
@@ -38,7 +40,7 @@ export default function ExploreServerPane() {
   createEffect(() => {
     fetchInvite(params.inviteId!);
   })
-  
+
   onMount(() => {
     setError("");
     header.updateHeader({
@@ -53,20 +55,21 @@ export default function ExploreServerPane() {
 
   return (
     <>
-    {!!error() && <InvalidServerPage inviteId={params.inviteId} message={error()!}  onJoinClick={errorJoinClick}/>}
-    {!error() && !server() && <div>Loading...</div>}
-    {(!error() && server()) && <ServerPage server={server()!} inviteCode={params.inviteId}  />}
+      {!!error() && <InvalidServerPage inviteId={params.inviteId} message={error()!} onJoinClick={errorJoinClick} />}
+      {!error() && !server() && <div>Loading...</div>}
+      {(!error() && server()) && <ServerPage server={server()!} inviteCode={params.inviteId} />}
     </>
   );
 
 }
 
 
-const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string}) => {
-  const {servers} = useStore();
+const ServerPage = (props: { server: ServerWithMemberCount, inviteCode?: string }) => {
+  const { servers } = useStore();
   const navigate = useNavigate();
   let [joinClicked, setJoinClicked] = createSignal(false);
-  const {server} = props;
+  const { server } = props;
+  const {width} = useWindowProperties();
 
 
   const cacheServer = () => servers.get(server.id);
@@ -76,7 +79,7 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
       navigate(RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId));
     }
   })
-  
+
   const joinServerClick = () => {
     if (joinClicked()) return;
     if (!props.inviteCode) return;
@@ -88,26 +91,17 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
 
   const isLoggedIn = getStorageString(StorageKeys.USER_TOKEN, null);
   return (
-    <div>
-      <div class={styles.topArea}>
-      <div 
-            class={styles.banner} 
-            style={{ 
-              ...(server?.avatar ? {
-                "background-image": `url(${avatarUrl(server!) + (server?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
-              } : {
-                background: server?.hexColor
-              }),
-              
-              filter: "brightness(70%)"
-            }}
-          ></div>
-        <div class={styles.bannerFloatingItems}>
-          {server && <Avatar server={server} size={90} />}
+
+    <div class={styles.topArea}>
+      <Banner maxHeight={200} animate hexColor={server.hexColor}>
+        <div class={styles.bannerItems}>
+          {server && <Avatar server={server} size={width() <= 1100 ? 70 : 100} />}
           <div class={styles.details}>
             <div class={styles.name}>{server.name}</div>
             <div class={styles.memberCount}>{server.memberCount} members</div>
           </div>
+        </div>
+      </Banner>
           <Switch>
             <Match when={!isLoggedIn}>
               <Link href={RouterEndpoints.LOGIN(location.pathname)} class={styles.joinButton}>
@@ -123,15 +117,14 @@ const ServerPage = (props: {server: ServerWithMemberCount, inviteCode?: string})
               <Button class={styles.joinButton} iconName='login' label='Join Server' onClick={joinServerClick} color="var(--success-color)" />
             </Match>
           </Switch>
-        </div>
-      </div>
     </div>
+
   );
 };
 
 
 
-function InvalidServerPage (props: {message: string, inviteId?: string, onJoinClick?: (newCode: string) => void}) {
+function InvalidServerPage(props: { message: string, inviteId?: string, onJoinClick?: (newCode: string) => void }) {
   const [inviteCode, setInviteCode] = createSignal<string>(props.inviteId || "");
 
   return (
@@ -139,7 +132,7 @@ function InvalidServerPage (props: {message: string, inviteId?: string, onJoinCl
       <Icon name='error' color='var(--alert-color)' size={80} />
       <div class={styles.errorMessage}>{props.message}</div>
       <div class={styles.message}>Please try again later.</div>
-      <Input label='Invite Code'  value={inviteCode()} onText={setInviteCode}  />
+      <Input label='Invite Code' value={inviteCode()} onText={setInviteCode} />
       <Button label='Try Again' iconName='refresh' onClick={() => props.onJoinClick?.(inviteCode())} />
     </div>
   );

@@ -14,25 +14,38 @@
 }
 
 .informationContainer {
-  position: relative;
   display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 30px;
+  position: relative;
 }
 
 
 .details {
-  margin-left: 30px;
-  margin-top: -60px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px);
+  padding: 10px;
+  border-radius: 8px;
+
 }
 
 .usernameTag {
   font-size: 16px;
-  margin-top: 15px;
   margin-bottom: 5px;
   overflow-wrap: anywhere;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+          line-clamp: 2; 
+  -webkit-box-orient: vertical;
 }
 
 .dropDown {
   margin-left: -2px;
+  max-width: 190px;
 }
 
 .tag {

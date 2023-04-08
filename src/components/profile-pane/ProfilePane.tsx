@@ -108,36 +108,27 @@ export default function ProfilePane() {
     }
   })
 
-
   const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
-
 
   return (
     <Show when={user()}>
       <div class={styles.profilePane}>
         <div class={styles.topArea}>
-          <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
-          <div class={styles.informationContainer}>
-            <div class={styles.details}>
-              <Avatar animate user={user()!} size={90} />
-              <div class={styles.usernameTag}>
-                <span class={styles.username}>{user()!.username}</span>
-                <span class={styles.tag}>{`:${user()!.tag}`}</span>
+          <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)}>
+            <div class={styles.informationContainer}>
+              <Avatar animate user={user()!} size={width() <= 500 ? 70 : 100} />
+              <div class={styles.details}>
+                <div class={styles.usernameTag}>
+                  <span class={styles.username}>{user()!.username}</span>
+                  <span class={styles.tag}>{`:${user()!.tag}`}</span>
+                </div>
+                <Show when={!isMe()}><UserPresence userId={user()!.id} showOffline={true} /></Show>
+                <Show when={isMe()}><DropDown class={styles.dropDown} items={DropDownItems} selectedId={presenceStatus().id} /></Show>
+                <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
               </div>
-              <Show when={!isMe()}><UserPresence userId={user()!.id} showOffline={true} /></Show>
-              <Show when={isMe()}><DropDown class={styles.dropDown} items={DropDownItems} selectedId={presenceStatus().id} /></Show>
-              <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
             </div>
-            <Show when={!isMe() && width() >= 1000}>
-              <div class={styles.bannerFloatingItems}>
-                <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
-              </div>
-            </Show>
-          </div>
-
-          <Show when={!isMe() && width() < 1000}>
-            <ActionButtons class="mobileAction" updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
-          </Show>
+          </Banner>
+          <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
         </div>
         <Show when={userDetails()}>
           <Content user={userDetails()!} />
