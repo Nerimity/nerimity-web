@@ -10,14 +10,14 @@ import { Link, useLocation, useParams, useMatch } from '@nerimity/solid-router';
 import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/Modal';
 import AddServer from './add-server/AddServerModal';
-import { userStatusDetail } from '../../common/userStatus';
+import { UserStatuses, userStatusDetail } from '../../common/userStatus';
 import { Server } from '../../chat-api/store/useServers';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
 import { updateTitleAlert } from '@/common/BrowserTitle';
 import { ConnectionErrorModal } from '../ConnectionErrorModal';
 import ItemContainer from '../ui/Item';
-import { styled } from 'solid-styled-components';
+import { css, styled } from 'solid-styled-components';
 import { useAppVersion } from '@/common/useAppVersion';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
@@ -27,6 +27,11 @@ import Marked from '@/common/Marked';
 import { formatTimestamp } from '@/common/date';
 import { Draggable } from '../ui/Draggable';
 import { updateServerOrder } from '@/chat-api/services/ServerService';
+import { Banner } from '../ui/Banner';
+import { User, bannerUrl } from '@/chat-api/store/useUsers';
+import UserPresence from '../user-presence/UserPresence';
+import DropDown from '../ui/drop-down/DropDown';
+import { updatePresence } from '@/chat-api/services/UserService';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -35,8 +40,8 @@ const SidebarItemContainer = styled(ItemContainer)`
   width: 60px;
 `;
 
-export default function SidePane () {
-  const {createPortal} = useCustomPortal();
+export default function SidePane() {
+  const { createPortal } = useCustomPortal();
 
   const showAddServerModal = () => {
     createPortal?.(close => <AddServer close={close} />)
@@ -51,7 +56,7 @@ export default function SidePane () {
         <Icon name="add_box" size={40} />
       </SidebarItemContainer>
     </div>
-    <UpdateItem/>
+    <UpdateItem />
     <ModerationItem />
     <SettingsItem />
     <UserItem />
@@ -62,16 +67,16 @@ function ExploreItem() {
   const selected = useMatch(() => "/app/explore");
 
   return (
-  <Link href={RouterEndpoints.EXPLORE_SERVER("")} style={{"text-decoration": "none"}}>
+    <Link href={RouterEndpoints.EXPLORE_SERVER("")} style={{ "text-decoration": "none" }}>
       <SidebarItemContainer selected={selected()}>
         <Icon name='explore' />
       </SidebarItemContainer>
-  </Link>
+    </Link>
   )
 }
 
 function InboxItem() {
-  const {inbox, friends, servers} = useStore();
+  const { inbox, friends, servers } = useStore();
   const location = useLocation();
   const isSelected = () => {
     if (location.pathname === '/app') return true;
@@ -80,7 +85,7 @@ function InboxItem() {
     return false;
   };
 
-  const notificationCount = () => inbox.notificationCount(); 
+  const notificationCount = () => inbox.notificationCount();
   const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
 
   const count = () => (notificationCount() + friendRequestCount());
@@ -90,17 +95,17 @@ function InboxItem() {
   })
 
   return (
-  <Link href='/app' style={{"text-decoration": "none"}}>
+    <Link href='/app' style={{ "text-decoration": "none" }}>
       <SidebarItemContainer selected={isSelected()} alert={(count())}>
         <NotificationCountBadge count={count()} top={10} right={10} />
         <Icon name='all_inbox' />
       </SidebarItemContainer>
-  </Link>
+    </Link>
   )
 }
 
 
-function NotificationCountBadge(props: {count: number, top: number, right: number}) {
+function NotificationCountBadge(props: { count: number, top: number, right: number }) {
   return <Show when={props.count}><div class={styles.notificationCount} style={{
     top: `${props.top}px`,
     right: `${props.right}px`,
@@ -110,9 +115,9 @@ function NotificationCountBadge(props: {count: number, top: number, right: numbe
 
 function UpdateItem() {
   const checkAfterMS = 600000; // 10 minutes
-  const {checkForUpdate, updateAvailable} = useAppVersion();
-  const {createPortal} = useCustomPortal();
-  const {hasFocus} = useWindowProperties()
+  const { checkForUpdate, updateAvailable } = useAppVersion();
+  const { createPortal } = useCustomPortal();
+  const { hasFocus } = useWindowProperties()
   let lastChecked = 0;
 
   createEffect(on(hasFocus, async () => {
@@ -124,7 +129,7 @@ function UpdateItem() {
     }
   }))
 
-  const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close}/>)
+  const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close} />)
 
   return (
     <Show when={updateAvailable()}>
@@ -135,14 +140,14 @@ function UpdateItem() {
   )
 }
 function ModerationItem() {
-  const {account} = useStore();
+  const { account } = useStore();
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   const selected = useMatch(() => "/app/moderation");
 
   return (
     <Show when={hasModeratorPerm()}>
-      <Link href="/app/moderation" style={{"text-decoration": "none"}} >
+      <Link href="/app/moderation" style={{ "text-decoration": "none" }} >
         <SidebarItemContainer selected={selected()}>
           <Icon name='security' title='Moderation' />
         </SidebarItemContainer>
@@ -157,7 +162,7 @@ function SettingsItem() {
 
 
   return (
-    <Link href="/app/settings/account" style={{"text-decoration": "none"}} >
+    <Link href="/app/settings/account" style={{ "text-decoration": "none" }} >
       <SidebarItemContainer selected={selected()}>
         <Icon name='settings' title='Settings' />
       </SidebarItemContainer>
@@ -166,11 +171,11 @@ function SettingsItem() {
 }
 
 const UserItem = () => {
-  const {account, users} = useStore();
-  const {createPortal} = useCustomPortal();
+  const { account, users } = useStore();
+  const { createPortal } = useCustomPortal();
   const [hovered, setHovered] = createSignal(false)
 
-  const userId = () =>  account.user()?.id;
+  const userId = () => account.user()?.id;
   const user = () => users.get(userId()!)
   const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color
 
@@ -190,21 +195,102 @@ const UserItem = () => {
 
   const selected = useMatch(href);
 
-
   return (
-    <Link onclick={onClicked} href={href()} class={styles.user}>
-      <SidebarItemContainer selected={selected()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
-      {account.user() && <Avatar animate={hovered()} size={40} user={account.user()} />}
-      {!showConnecting() && <div class={styles.presence} style={{background: presenceColor()}} />}
-      {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
-      {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
-      {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
-      </SidebarItemContainer>
-    </Link>
+    <>
+      <Link onclick={onClicked} href={href()} class={styles.user}>
+        <SidebarItemContainer selected={selected()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+          {account.user() && <Avatar animate={hovered()} size={40} user={account.user()} />}
+          {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
+          {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
+          {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
+          {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
+        </SidebarItemContainer>
+      </Link>
+      <Show when={user()}><FloatingUserModal /></Show>
+    </>
   )
 };
 
-function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => void}) {
+
+
+
+const FloatingUserModalContainer = styled(FlexColumn)`
+  position: absolute;
+  left: 67px;
+  bottom: 5px;
+  width: 300px;
+  z-index: 1111111111111;
+  height: 350px;
+  background-color: red;
+  border-radius: 8px;
+  background-color: rgba(40, 40, 40, 0.6);
+  backdrop-filter: blur(20px);
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  padding: 10px;
+`;
+
+
+const BannerContainer = styled(FlexRow)`
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding: 10px;
+`;
+
+const DetailsContainer = styled(FlexColumn)`
+  z-index: 1;
+  margin-left: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(20px);
+  padding: 5px;
+  border-radius: 8px;
+`;
+
+
+function FloatingUserModal() {
+  const { account, users } = useStore();
+
+  const userId = () => account.user()?.id;
+  const user = () => users.get(userId()!);
+
+  const DropDownItems = UserStatuses.map((item, i) => {
+    return {
+      circleColor: item.color,
+      id: item.id,
+      label: item.name === "Offline" ? 'Appear as offline' : item.name,
+      onClick: () => {
+        updatePresence(i);
+      }
+    }
+  })
+  const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
+
+  return (
+    <FloatingUserModalContainer gap={10}>
+      <Banner margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
+        <BannerContainer>
+          <Avatar animate size={60} user={user()} />
+          <DetailsContainer>
+            <FlexRow>
+              <Text>{user().username}</Text>
+              <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
+            </FlexRow>
+            <UserPresence showOffline userId={userId()} />
+          </DetailsContainer>
+        </BannerContainer>
+      </Banner>
+      <DropDown class={styles.dropDown} items={DropDownItems} selectedId={presenceStatus().id} />
+
+      <Button  label='Edit Profile' margin={0} />
+      <Button label='Edit Profile' margin={0} />
+      <Button iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
+
+    </FloatingUserModalContainer>
+  )
+}
+
+
+function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
   const { id, defaultChannelId } = props.server;
   const hasNotifications = () => props.server.hasNotifications;
   const selected = useMatch(() => RouterEndpoints.SERVER(id));
@@ -216,23 +302,23 @@ function ServerItem(props: {server: Server, onContextMenu?: (e: MouseEvent) => v
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
       onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
-    <SidebarItemContainer alert={hasNotifications()}  selected={selected()}>
-      <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
-      <Avatar animate={hovered()}  size={40} server={props.server} />
-    </SidebarItemContainer>
+      <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
+        <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
+        <Avatar animate={hovered()} size={40} server={props.server} />
+      </SidebarItemContainer>
     </Link>
   )
 }
 
 const ServerList = () => {
-  const {servers} = useStore();
-  const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>();
+  const { servers } = useStore();
+  const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>();
   const [contextServerId, setContextServerId] = createSignal<string | undefined>();
 
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
     setContextServerId(serverId);
-    setContextPosition({x: event.clientX, y: event.clientY});
+    setContextPosition({ x: event.clientX, y: event.clientY });
   }
 
   const onDrop = (servers: Server[]) => {
@@ -243,7 +329,7 @@ const ServerList = () => {
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
     <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
-      {server => <ServerItem 
+      {server => <ServerItem
         server={server!}
         onContextMenu={e => onContextMenu(e, server!.id)}
       />}
@@ -252,8 +338,8 @@ const ServerList = () => {
 };
 
 
-function UpdateModal (props: {close: () => void}) {
-  const {latestRelease} = useAppVersion();
+function UpdateModal(props: { close: () => void }) {
+  const { latestRelease } = useAppVersion();
 
   const date = () => {
     const release = latestRelease();
@@ -262,15 +348,15 @@ function UpdateModal (props: {close: () => void}) {
   }
 
   const ActionButtons = (
-    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)'/>
-      <Button iconName='get_app' label='Update Now' onClick={() => location.reload()} primary/>
+    <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)' />
+      <Button iconName='get_app' label='Update Now' onClick={() => location.reload()} primary />
     </FlexRow>
   )
   return (
     <Modal title='Update Available' actionButtons={ActionButtons} close={props.close}>
       <FlexColumn gap={5}>
-        <FlexColumn style={{"max-height": "400px", "max-width": "900px", overflow: "auto"}}>
+        <FlexColumn style={{ "max-height": "400px", "max-width": "900px", overflow: "auto" }}>
           <Text size={24}>{latestRelease()?.name || ""}</Text>
           <Text opacity={0.7}>Released at {date() || ""}</Text>
           <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
