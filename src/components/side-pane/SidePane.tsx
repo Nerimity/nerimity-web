@@ -32,6 +32,9 @@ import { User, bannerUrl } from '@/chat-api/store/useUsers';
 import UserPresence from '../user-presence/UserPresence';
 import DropDown from '../ui/drop-down/DropDown';
 import { updatePresence } from '@/chat-api/services/UserService';
+import { CustomLink } from '../ui/CustomLink';
+import { clearCache } from '@/common/localCache';
+import { useDrawer } from '../ui/drawer/Drawer';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -197,14 +200,14 @@ const UserItem = () => {
 
   return (
     <>
-      <SidebarItemContainer class={styles.user} onclick={onClicked} selected={modalOpened()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+      <SidebarItemContainer class={classNames(styles.user, "sidePaneUser")} onclick={onClicked} selected={modalOpened()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
         {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} />}
         {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
         {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
         {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
         {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
       </SidebarItemContainer>
-      <Show when={user() && modalOpened()}><FloatingUserModal /></Show>
+      <Show when={user() && modalOpened()}><FloatingUserModal close={() => setModalOpened(false)} /></Show>
     </>
   )
 };
@@ -212,14 +215,18 @@ const UserItem = () => {
 
 
 
-const FloatingUserModalContainer = styled(FlexColumn)`
+const FloatingUserModalContainer = styled(FlexColumn)<{mobileWidth: boolean, width: number}>`
   position: absolute;
   left: 67px;
   bottom: 5px;
-  width: 300px;
+  max-width: 300px;
+  width: 100%;
   z-index: 1111111111111;
   height: 350px;
   padding: 10px;
+  ${props => props.mobileWidth ? `
+    width: ${props.width - 92}px;
+  ` : ''}
   
   &:before {
     content: "";
@@ -263,8 +270,10 @@ const DetailsContainer = styled(FlexColumn)`
 `;
 
 
-function FloatingUserModal() {
+function FloatingUserModal(props: {close(): void}) {
   const { account, users } = useStore();
+  const {currentPage} = useDrawer();
+  const {isMobileWidth, width} = useWindowProperties();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
@@ -274,15 +283,45 @@ function FloatingUserModal() {
       circleColor: item.color,
       id: item.id,
       label: item.name === "Offline" ? 'Appear As Offline' : item.name,
-      onClick: () => {
-        updatePresence(i);
+      index: i,
+      onClick: (item: {index: number}) => {
+        updatePresence(item.index);
       }
     }
   })
+  // move invisible to the bottom.
+  DropDownItems.push(DropDownItems.shift()!);
+  
   const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
 
+  const onLogoutClick = async () => {
+    await clearCache();
+    localStorage.clear();
+    location.href = "/"
+  }
+
+  onMount(() => {
+    document.addEventListener("click", onDocClick, {capture: true})
+    onCleanup(() => {
+      document.removeEventListener("click", onDocClick)
+    })
+  })
+
+  createEffect(() => {
+    if (!isMobileWidth()) return;
+    if (currentPage() === 0) return;
+    props.close();
+  })
+
+
+  const onDocClick = (event: any) => {
+    const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(`.sidePaneUser`);
+    if (clickedInside) return;
+    props.close();
+  }
+
   return (
-    <FloatingUserModalContainer gap={5}>
+    <FloatingUserModalContainer class="floatingUserModalContainer" mobileWidth={isMobileWidth()} width={width()} gap={5}>
       <Banner margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
         <BannerContainer>
           <Avatar animate size={60} user={user()} />
@@ -297,9 +336,14 @@ function FloatingUserModal() {
       </Banner>
       <DropDown class={css`margin-bottom: 10px;margin-top: 5px;`} items={DropDownItems} selectedId={presenceStatus().id} />
 
-      <Button iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
-      <Button iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
-      <Button iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
+
+      <CustomLink onclick={props.close} style={{display: "flex", "flex-direction": "column"}} href={RouterEndpoints.PROFILE(userId()!)}>
+        <Button iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
+      </CustomLink>
+      <CustomLink onclick={props.close} style={{display: "flex", "flex-direction": "column"}} href="/app/settings/account">
+        <Button iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
+      </CustomLink>
+      <Button onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
 
     </FloatingUserModalContainer>
   )

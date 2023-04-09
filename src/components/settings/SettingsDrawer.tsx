@@ -62,10 +62,9 @@ function Footer() {
   const onChangelogClick = () => createPortal?.(close => <ChangelogModal close={close}/>)
 
   const onLogoutClick = async () => {
-    socketClient.socket.disconnect();
     await clearCache();
     localStorage.clear();
-    navigate("/")
+    location.href = "/"
   }
 
   return (
