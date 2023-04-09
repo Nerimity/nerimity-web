@@ -11,7 +11,7 @@ import { Link, useNavigate, useParams } from '@nerimity/solid-router';
 import { createEffect, createSignal, Match, onMount, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { getStorageString, StorageKeys } from '@/common/localStorage';
-import { avatarUrl } from '@/chat-api/store/useServers';
+import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
 import { Banner } from '@/components/ui/Banner';
 import { useWindowProperties } from '@/common/useWindowProperties';
 
@@ -93,7 +93,7 @@ const ServerPage = (props: { server: ServerWithMemberCount, inviteCode?: string 
   return (
 
     <div class={styles.topArea}>
-      <Banner maxHeight={200} animate hexColor={server.hexColor}>
+      <Banner maxHeight={200} animate url={bannerUrl(server)} hexColor={server.hexColor}>
         <div class={styles.bannerItems}>
           {server && <Avatar server={server} size={width() <= 1100 ? 70 : 100} />}
           <div class={styles.details}>

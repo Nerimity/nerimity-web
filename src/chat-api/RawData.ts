@@ -5,6 +5,7 @@ export interface RawServer {
   defaultChannelId: string;
   systemChannelId?: string;
   avatar?: string;
+  banner?: string;
   defaultRoleId: string;
   createdById: string;
   createdAt: number;

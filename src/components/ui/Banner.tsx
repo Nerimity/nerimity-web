@@ -7,9 +7,9 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 const BannerContainer = styled(FlexColumn)`
   display: flex;
   position: relative;  
-  flex-shrink: 0;
   aspect-ratio: 30/9;
   border-radius: 8px;
+  flex-shrink: 0;
 `;
   
 const BannerImage = styled("img")`
@@ -34,7 +34,7 @@ const SolidColor = styled("div")<{color: string}>`
 `;
 
 
-export function Banner(props: { margin?: number; hexColor?: string, url?: string | null, maxHeight?: number; animate?: boolean; children?: JSXElement }) {
+export function Banner(props: { class?: string; margin?: number; hexColor?: string, url?: string | null, maxHeight?: number; animate?: boolean; children?: JSXElement }) {
 
   const { hasFocus } = useWindowProperties();
 
@@ -61,7 +61,7 @@ export function Banner(props: { margin?: number; hexColor?: string, url?: string
   }
 
   return (
-    <BannerContainer style={getStyles()}>
+    <BannerContainer class={props.class} style={getStyles()}>
       <Show when={url()}><BannerImage src={url()} alt="Banner"/></Show>
       <Show when={!url()}><SolidColor color={props.hexColor!} /></Show>
       {props.children}

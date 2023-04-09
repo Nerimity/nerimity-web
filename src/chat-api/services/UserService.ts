@@ -95,6 +95,8 @@ export async function updatePresence(status: UserStatus) {
 interface UpdateUserOptions {
   email?: string;
   username?: string;
+  avatar?: string;
+  banner?: string;
   tag?: string;
   password?: string;
 }

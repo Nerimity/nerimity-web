@@ -17,6 +17,7 @@ const [servers, setServers] = createStore<Record<string, Server | undefined>>({}
 
 
 export const avatarUrl = (item: {avatar?: string}): string | null => item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
+export const bannerUrl = (item: {banner?: string}): string | null => item?.banner ? env.NERIMITY_CDN + item?.banner : null;
 
 
 

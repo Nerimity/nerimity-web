@@ -9,7 +9,7 @@ import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
 import { useTransContext } from '@nerimity/solid-i18next';
-import { avatarUrl } from '@/chat-api/store/useServers';
+import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
 import { Banner } from '@/components/ui/Banner';
 import { useWindowProperties } from '@/common/useWindowProperties';
 
@@ -40,7 +40,7 @@ const avatarStyles = css`
   z-index: 111;
 `;
 
-const ServerSettingsHeader = (props: { headerPreviewDetails: { name?: any, avatar?: any } }) => {
+const ServerSettingsHeader = (props: { headerPreviewDetails: { name?: any, avatar?: any, banner?: string } }) => {
   const [t] = useTransContext();
   const params = useParams();
   const { servers, serverMembers } = useStore();
@@ -50,7 +50,7 @@ const ServerSettingsHeader = (props: { headerPreviewDetails: { name?: any, avata
 
   return (
     <Show when={server()}>
-      <Banner maxHeight={200} animate hexColor={server()?.hexColor}>
+      <Banner maxHeight={200} animate url={props.headerPreviewDetails.banner || bannerUrl(server()!)} hexColor={server()?.hexColor}>
         <HeaderContainer>
           <Avatar animate url={props.headerPreviewDetails.avatar} server={server()} size={width() <= 1100 ? 70 : 100} class={avatarStyles} />
           <DetailsContainer>

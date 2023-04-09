@@ -6,7 +6,7 @@ import Input from '@/components/ui/input/Input';
 import DropDown from '@/components/ui/drop-down/DropDown';
 import Button from '@/components/ui/Button';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
-import { deleteServer, updateServerSettings } from '@/chat-api/services/ServerService';
+import { deleteServer, updateServer } from '@/chat-api/services/ServerService';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import { Server } from '@/chat-api/store/useServers';
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
@@ -16,6 +16,7 @@ import { css, styled } from 'solid-styled-components';
 import { Notice } from '@/components/ui/Notice';
 import { useTransContext } from '@nerimity/solid-i18next';
 import FileBrowser, { FileBrowserRef } from '@/components/ui/FileBrowser';
+import { reconcile } from 'solid-js/store';
 
 const Container = styled("div")`
   display: flex;
@@ -23,14 +24,15 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function ServerGeneralSettings(props: {updateHeader: Setter<{name?: string, avatar?: any}>}) {
+export default function ServerGeneralSettings(props: {updateHeader: Setter<{name?: string, avatar?: any, banner?: string}>}) {
   const [t] = useTransContext();
   const params = useParams<{serverId: string}>();
   const {header, servers, channels} = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const {createPortal} = useCustomPortal();
-  const [fileBrowserRef, setFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
+  const [avatarFileBrowserRef, setAvatarFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
+  const [bannerFileBrowserRef, setBannerFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
 
   const server = () => servers.get(params.serverId);
 
@@ -39,6 +41,7 @@ export default function ServerGeneralSettings(props: {updateHeader: Setter<{name
     defaultChannelId: server()?.defaultChannelId || '',
     systemChannelId: server()?.systemChannelId || null,
     avatar: '',
+    banner: '',
   })
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
@@ -77,7 +80,7 @@ export default function ServerGeneralSettings(props: {updateHeader: Setter<{name
     });
   })
   onCleanup(() => {
-    props.updateHeader({});
+    props.updateHeader(reconcile({}));
   })
 
   const onSaveButtonClicked = async () => {
@@ -85,10 +88,11 @@ export default function ServerGeneralSettings(props: {updateHeader: Setter<{name
     setRequestSent(true);
     setError(null);
     const values = updatedInputValues();
-    await updateServerSettings(params.serverId!, values)
+    await updateServer(params.serverId!, values)
       .then(() => {
         setInputValue("avatar", '')
-        props.updateHeader({});
+        setInputValue("banner", '')
+        props.updateHeader(reconcile({}));
       })
       .catch((err) => setError(err.message))
       .finally(() => setRequestSent(false));
@@ -105,7 +109,13 @@ export default function ServerGeneralSettings(props: {updateHeader: Setter<{name
     if (files[0]) {
       setInputValue("avatar", files[0])
       props.updateHeader({avatar: files[0]})
+    }
+  }
 
+  const onBannerPick = (files: string[]) => {
+    if (files[0]) {
+      setInputValue("banner", files[0])
+      props.updateHeader({banner: files[0]})
     }
   }
 
@@ -129,11 +139,19 @@ export default function ServerGeneralSettings(props: {updateHeader: Setter<{name
       </SettingsBlock>
 
       <SettingsBlock icon='wallpaper' label='Avatar'>
-        <FileBrowser accept='images' ref={setFileBrowserRef} base64 onChange={onAvatarPick}/>
+        <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick}/>
         <Show when={inputValues().avatar}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close'  onClick={() => {setInputValue("avatar", ""); props.updateHeader({});}} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close'  onClick={() => {setInputValue("avatar", ""); props.updateHeader({avatar: undefined});}} />
         </Show>
-        <Button iconSize={18} iconName='attach_file' label='Browse' onClick={fileBrowserRef()?.open} />
+        <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
+      </SettingsBlock>
+
+      <SettingsBlock icon='panorama' label='Banner'>
+        <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick}/>
+        <Show when={inputValues().banner}>
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close'  onClick={() => {setInputValue("banner", ""); props.updateHeader({banner: undefined});}} />
+        </Show>
+        <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>
 
       

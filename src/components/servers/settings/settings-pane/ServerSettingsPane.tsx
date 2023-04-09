@@ -6,6 +6,7 @@ import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { useTransContext } from '@nerimity/solid-i18next';
+import { createStore } from 'solid-js/store';
 
 
 const SettingsPaneContainer = styled("div")`
@@ -22,7 +23,7 @@ export default function ServerSettingsPane() {
   const params = useParams();
   const {servers} = useStore();
 
-  const [updateHeader, setUpdateHeader] = createSignal<{name?: string, avatar?: any}>({});
+  const [updateHeader, setUpdateHeader] = createStore<{name?: string, avatar?: any, banner?: string}>({});
 
 
   const server = () => servers.get(params.serverId);
@@ -30,7 +31,7 @@ export default function ServerSettingsPane() {
   return (
     <Show when={server()}>
       <SettingsPaneContainer>
-        <ServerSettingsHeader headerPreviewDetails={updateHeader()}  />
+        <ServerSettingsHeader headerPreviewDetails={updateHeader}  />
         <For each={serverSettings}>
           {setting => (
             <Routes>

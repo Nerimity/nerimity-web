@@ -12,7 +12,7 @@ export async function getInvites(serverId: string): Promise<any> {
   });
 }
 
-export async function updateServerSettings(serverId: string, update: any): Promise<any> {
+export async function updateServer(serverId: string, update: any): Promise<any> {
   return request({
     method: "POST",
     body: update,
