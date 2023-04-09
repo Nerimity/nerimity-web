@@ -12,21 +12,21 @@ const BannerContainer = styled(FlexColumn)`
   flex-shrink: 0;
 `;
   
-const BannerImage = styled("img")`
+const BannerImage = styled("img")<{brightness?: number}>`
   position: absolute;
   inset: 0;
   border-radius: 8px;
-  filter: brightness(70%);
+  filter: brightness(${props => props.brightness === undefined ? "70" : props.brightness }%);
   object-fit: cover;
   height: 100%;
   width: 100%;
 `;
 
-const SolidColor = styled("div")<{color: string}>`
+const SolidColor = styled("div")<{color: string; brightness?: number}>`
   position: absolute;
   inset: 0;
   border-radius: 8px;
-  filter: brightness(70%);
+  filter: brightness(${props => props.brightness === undefined ? "70" : props.brightness }%);
   object-fit: cover;
   height: 100%;
   width: 100%;
@@ -34,7 +34,7 @@ const SolidColor = styled("div")<{color: string}>`
 `;
 
 
-export function Banner(props: { class?: string; margin?: number; hexColor?: string, url?: string | null, maxHeight?: number; animate?: boolean; children?: JSXElement }) {
+export function Banner(props: { brightness?: number; class?: string; margin?: number; hexColor?: string, url?: string | null, maxHeight?: number; animate?: boolean; children?: JSXElement }) {
 
   const { hasFocus } = useWindowProperties();
 
@@ -62,8 +62,8 @@ export function Banner(props: { class?: string; margin?: number; hexColor?: stri
 
   return (
     <BannerContainer class={props.class} style={getStyles()}>
-      <Show when={url()}><BannerImage src={url()} alt="Banner"/></Show>
-      <Show when={!url()}><SolidColor color={props.hexColor!} /></Show>
+      <Show when={url()}><BannerImage brightness={props.brightness} src={url()} alt="Banner"/></Show>
+      <Show when={!url()}><SolidColor brightness={props.brightness} color={props.hexColor!} /></Show>
       {props.children}
     </BannerContainer>
   )

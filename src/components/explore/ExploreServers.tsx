@@ -26,6 +26,12 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
+const GridLayout = styled("div")`
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: repeat(auto-fill,minmax(248px,1fr));
+`;
+
 export default function ExploreServers() {
   const [t] = useTransContext();
   const { header } = useStore();
@@ -72,68 +78,39 @@ export default function ExploreServers() {
           <DropDown title='Filter' items={filterOpts} selectedId="verified" onChange={i => setQuery({ ...query(), filter: i.id })} />
         </FlexRow>
         <Notice class={css`margin-bottom: 10px;`} type='info' description={t('explore.servers.noticeMessage', { hours: '3', date: 'Monday at 0:00 UTC' })} />
-        <For each={publicServers()}>
-          {(server, i) => <PublicServerItem update={newServer => update(newServer, i())} publicServer={server} />}
-        </For>
+        <GridLayout>
+          <For each={publicServers()}>
+            {(server, i) => <PublicServerItem update={newServer => update(newServer, i())} publicServer={server} />}
+          </For>
+        </GridLayout>
       </Show>
     </Container>
   )
 }
 
 
-const ServerItemContainer = styled(FlexRow)`
+const ServerItemContainer = styled(FlexColumn)`
   padding: 10px;
   background: rgba(255,255,255,0.04);
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
-  min-height: 100px;
   border-radius: 8px;
-  align-items: center;
-
-  @media (max-width: 925px){
-    flex-direction: column;
-    gap: 5px;
-  }
-
+  max-height: 300px;
 `;
-
 const DetailsContainer = styled(FlexColumn)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin: 20px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(20px);
-  padding: 10px;
-  border-radius: 8px;
-  @media (max-width: 925px){
-    margin: 10px;
-  }
+  margin-top: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 0;
 `;
 
 const MemberContainer = styled(FlexRow)`
   align-items: center;
-  @media (max-width: 925px){
-    flex-direction: column;
-    align-items: initial;
-  }
 `;
 
-const ButtonsContainer = styled(FlexColumn)`
-  margin-left: auto;
-  flex-shrink: 0;
-
-  @media (max-width: 925px){
-    flex-direction: row;
-  }
-
-`;
 const serverNameStyles = css`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-const descriptionStyles = css`
-  margin-top: 3px;
   word-break: break-word;
   white-space: pre-line;
 
@@ -142,18 +119,32 @@ const descriptionStyles = css`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
 `
+const avatarStyles = css`
+  margin-top: -40px;
+  margin-left: 10px;
+`;
 
-const DetailsOuterContainer = styled(FlexRow)`
-  align-items: center;
-  z-index: 1111;
-  height: 100%;
-  padding-left: 20px;
+const descriptionStyles = css`
+  margin-top: 3px;
+  word-break: break-word;
+  white-space: pre-line;
 
-  @media (max-width: 925px){
-    padding-left: 10px;
-  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  margin-left: 10px;
+  margin-right: 10px;
+
+`;
+
+const ButtonsContainer = styled(FlexRow)`
+  margin-top: auto;
+  padding-top: 5px;
+  margin-left: auto;
+  flex-shrink: 0;
 `;
 
 function PublicServerItem(props: { publicServer: RawPublicServer, update: (newServer: RawPublicServer) => void }) {
@@ -207,35 +198,62 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
 
 
   return (
-    <ServerItemContainer class="serverItemContainer" gap={15} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
-      <Banner margin={0} animate={hovered()} class={css`width: 100%; flex-shrink: initial;`} maxHeight={130} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor}>
-        <DetailsOuterContainer class='DetailsOuterContainer'>
-          <Avatar animate={hovered()} server={server} size={80} />
-          <DetailsContainer class='detailsContainer' gap={1}>
-            <FlexRow style={{ "align-items": "center" }} gap={5}>
-              <Text class={serverNameStyles} size={18}>{server.name}</Text>
-              <Show when={server.verified}><ServerVerifiedIcon /></Show>
-            </FlexRow>
-            <MemberContainer gap={5}>
-              <FlexRow gap={5}>
-                <Icon name='people' size={17} color="var(--primary-color)" />
-                <Text size={12}>{t('explore.servers.memberCount', { count: server._count.serverMembers.toLocaleString() })}</Text>
-              </FlexRow>
-              <FlexRow gap={5}>
-                <Icon name='arrow_upward' size={17} color="var(--primary-color)" />
-                <Text size={12}>{t('explore.servers.lifetimeBumpCount', { count: props.publicServer.lifetimeBumpCount.toLocaleString() })}</Text>
-              </FlexRow>
-            </MemberContainer>
-            <Text class={descriptionStyles} size={14} opacity={0.7}>{props.publicServer.description}</Text>
-          </DetailsContainer>
-        </DetailsOuterContainer>
-      </Banner>
-
+    <ServerItemContainer class="serverItemContainer" onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+      <Banner margin={0} animate={hovered()} class={css`width: 100%; flex-shrink: initial;`} maxHeight={100} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
+      <Avatar class={avatarStyles} animate={hovered()} server={server} size={60} />
+      <DetailsContainer class='detailsContainer' gap={1}>
+        <FlexRow style={{ "align-items": "center" }} gap={5}>
+          <Text class={serverNameStyles} size={18}>{server.name}</Text>
+          <Show when={server.verified}><ServerVerifiedIcon /></Show>
+        </FlexRow>
+        <MemberContainer gap={5}>
+          <FlexRow gap={5}>
+            <Icon name='people' size={17} color="var(--primary-color)" />
+            <Text size={12}>{t('explore.servers.memberCount', { count: server._count.serverMembers.toLocaleString() })}</Text>
+          </FlexRow>
+          <FlexRow gap={5}>
+            <Icon name='arrow_upward' size={17} color="var(--primary-color)" />
+            <Text size={12}>{t('explore.servers.lifetimeBumpCount', { count: props.publicServer.lifetimeBumpCount.toLocaleString() })}</Text>
+          </FlexRow>
+        </MemberContainer>
+      </DetailsContainer>
+      <Text class={descriptionStyles} size={14} opacity={0.7}>{props.publicServer.description}</Text>
       <ButtonsContainer>
+        <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t('explore.servers.bumpButton', { count: props.publicServer.bumpCount.toLocaleString() })} />
         <Show when={cacheServer()}><Link style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></Link></Show>
         <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')} /></Show>
-        <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t('explore.servers.bumpButton', { count: props.publicServer.bumpCount.toLocaleString() })} />
       </ButtonsContainer>
     </ServerItemContainer>
   )
 }
+
+
+// <ServerItemContainer class="serverItemContainer" gap={15} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+// <Banner margin={0} animate={hovered()} class={css`width: 100%; flex-shrink: initial;`} maxHeight={130} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
+// <DetailsOuterContainer class='DetailsOuterContainer'>
+//   <Avatar animate={hovered()} server={server} size={80} />
+//   <DetailsContainer class='detailsContainer' gap={1}>
+//     <FlexRow style={{ "align-items": "center" }} gap={5}>
+//       <Text class={serverNameStyles} size={18}>{server.name}</Text>
+//       <Show when={server.verified}><ServerVerifiedIcon /></Show>
+//     </FlexRow>
+//     <MemberContainer gap={5}>
+//       <FlexRow gap={5}>
+//         <Icon name='people' size={17} color="var(--primary-color)" />
+//         <Text size={12}>{t('explore.servers.memberCount', { count: server._count.serverMembers.toLocaleString() })}</Text>
+//       </FlexRow>
+//       <FlexRow gap={5}>
+//         <Icon name='arrow_upward' size={17} color="var(--primary-color)" />
+//         <Text size={12}>{t('explore.servers.lifetimeBumpCount', { count: props.publicServer.lifetimeBumpCount.toLocaleString() })}</Text>
+//       </FlexRow>
+//     </MemberContainer>
+//     <Text class={descriptionStyles} size={14} opacity={0.7}>{props.publicServer.description}</Text>
+//   </DetailsContainer>
+// </DetailsOuterContainer>
+
+// <ButtonsContainer>
+//   <Show when={cacheServer()}><Link style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></Link></Show>
+//   <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')} /></Show>
+//   <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t('explore.servers.bumpButton', { count: props.publicServer.bumpCount.toLocaleString() })} />
+// </ButtonsContainer>
+// </ServerItemContainer>

@@ -24,9 +24,9 @@ const DrawerHeaderContainer = styled(FlexRow)`
   width: 100%;
 `;
 
-export function DrawerHeader(props: {children?: JSXElement, text?: string}) {
+export function DrawerHeader(props: {children?: JSXElement, class?: string; text?: string}) {
   return (
-    <DrawerHeaderContainer>
+    <DrawerHeaderContainer class={props.class}>
       <Switch fallback={props.children}>
         <Match when={props.text}><Text style={{"margin-left": "10px"}} size={16}>{props.text}</Text></Match>
       </Switch>
