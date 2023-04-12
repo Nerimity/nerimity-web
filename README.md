@@ -1,20 +1,15 @@
-<center><img src="./readme-assets/banner.png" /></center> 
-
-<center>
-<p float="left">
-  <img src="./readme-assets/screenshot1.png" width="32%"/> 
-  <img src="./readme-assets/screenshot2.png" width="32%"/>
-  <img src="./readme-assets/screenshot3.png" width="32%"/>
-</p>
-</center>
-
-
-<center>
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y1FN57Z)
-</center>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/banner.png" />
+</p> 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot1.png" width="32%"/> 
+  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot2.png" width="32%"/>
+  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot3.png" width="32%"/>
+</p> 
 
 # Nerimity Web (SolidJS)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y1FN57Z)
+
 Chat App made using SolidJS. Work in progress.
 
 
