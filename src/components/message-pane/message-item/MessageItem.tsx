@@ -3,7 +3,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawMessage } from '@/chat-api/RawData';
+import { MessageType, RawAttachment, RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -20,6 +20,7 @@ import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { avatarUrl } from '@/chat-api/store/useUsers';
+import { useWindowProperties } from '@/common/useWindowProperties';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
@@ -128,6 +129,7 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
               <div class={styles.content}>
                 <Markup message={props.message} text={props.message.content || ''} />
                 {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} title={editedAt()} />}  
+                <Embeds message={props.message} hovered={hovered()} />
               </div>
             </div>
           </Show>
@@ -138,6 +140,61 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
 };
 
 export default MessageItem;
+
+
+
+function Embeds(props: {message: Message, hovered: boolean}){
+  return (
+    <div>
+      <Show when={props.message.attachments?.[0]}>
+        <ImageEmbed attachment={props.message.attachments?.[0]!} />
+      </Show>
+    </div>
+  )
+}
+
+
+function ImageEmbed(props: {attachment: RawAttachment}) {
+  const {paneWidth, height, hasFocus} = useWindowProperties();
+  const isGif = () => props.attachment.path.endsWith(".gif")
+
+  const url = () => {
+    let url = `https://cdn.nerimity.com/${props.attachment.path}`;
+    if (!isGif()) return url;
+    if (!hasFocus()) url+= "?type=webp"; 
+    return url;
+  }
+
+  const style = () => {
+    const maxWidth = clamp(paneWidth()! - 70, 600)
+    return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, height() / 2)
+  }
+
+  return (
+    <div class={classNames(styles.imageEmbed, conditionalClass(isGif() && !hasFocus(), styles.gif))}>
+      <img src={url()} style={style()} alt="" />
+    </div>
+  )
+}
+
+function clamp(num: number, max: number) {
+  return num >= max ? max : num;
+}
+
+
+function clampImageSize(width: number, height: number, maxWidth: number, maxHeight: number) {
+  const aspectRatio = width / height;
+  if (width > maxWidth) {
+    width = maxWidth;
+    height = width / aspectRatio;
+  }
+  if (height > maxHeight) {
+    height = maxHeight;
+    width = height * aspectRatio;
+  }
+  return { width: width + "px", height: height + "px" };
+}
+
 
 
 

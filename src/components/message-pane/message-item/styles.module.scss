@@ -59,6 +59,27 @@
 } 
 
 
+.imageEmbed {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  img {
+    border-radius: 8px;
+  }
+}
+
+.gif:after {
+  content: "GIF";
+  position: absolute;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 5px;
+  top: 10px;
+  left: 10px;
+}
+
+
 .messageItem {
   display: flex;
   flex-direction: column;

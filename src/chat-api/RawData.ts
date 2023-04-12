@@ -31,6 +31,13 @@ export interface RawMessage {
   createdAt: number;
   editedAt?: number;
   mentions?: Array<RawUser>;
+  attachments?: Array<RawAttachment>
+}
+
+export interface RawAttachment {
+  path: string;
+  width?: number;
+  height?: number;
 }
 
 export interface RawUser {
