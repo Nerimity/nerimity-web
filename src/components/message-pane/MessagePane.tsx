@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch} from 'solid-js';
+import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { useParams } from '@nerimity/solid-router';
 import useStore from '../../chat-api/store/useStore';
@@ -24,23 +24,23 @@ import useServerMembers from '@/chat-api/store/useServerMembers';
 import { playMessageNotification } from '@/common/Sound';
 import { css } from 'solid-styled-components';
 
-import {EmojiPicker} from '@nerimity/solid-emoji-picker'
+import { EmojiPicker } from '@nerimity/solid-emoji-picker'
 import categories from '@/emoji/categories.json';
 import emojis from '@/emoji/emojis.json';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { fileToDataUrl } from '@/common/fileToDataUrl';
 
 
-export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
+export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams();
-  const {channels, header} = useStore();
+  const { channels, header } = useStore();
 
   createEffect(() => {
     const channel = channels.get(params.channelId!);
     if (!channel) return;
-    
+
     const userId = channel.recipient?.id;
-    
+
     header.updateHeader({
       title: channel.name,
       serverId: params.serverId!,
@@ -66,7 +66,7 @@ export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
 const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement, element: "first" | "last") => {
 
   let el = logElement?.querySelector(".messageItem") as HTMLDivElement;
-  
+
   if (element === "last") {
     el = logElement.lastElementChild as HTMLDivElement;
   }
@@ -81,21 +81,21 @@ const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivEl
     const difference = afterTop - beforeTop!;
     scrollElement.scrollTop = scrollElement.scrollTop + difference;
   }
-  return {save, load};
+  return { save, load };
 }
 
-const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
-  const params = useParams<{channelId: string}>();
-  const {hasFocus} = useWindowProperties();
-  const {channels, messages, account, channelProperties} = useStore();
+const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
+  const params = useParams<{ channelId: string }>();
+  const { hasFocus } = useWindowProperties();
+  const { channels, messages, account, channelProperties } = useStore();
   let messageLogElement: undefined | HTMLDivElement;
   const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
   let loadedTimestamp: number | undefined;
-  const [unreadMarker, setUnreadMarker] = createStore<{lastSeenAt: number | null, messageId: string | null}>({lastSeenAt: null, messageId: null});
-  
-  const [loadingMessages, setLoadingMessages] = createStore({top: false, bottom: true});
+  const [unreadMarker, setUnreadMarker] = createStore<{ lastSeenAt: number | null, messageId: string | null }>({ lastSeenAt: null, messageId: null });
+
+  const [loadingMessages, setLoadingMessages] = createStore({ top: false, bottom: true });
   const scrollTracker = createScrollTracker(props.mainPaneEl);
-  
+
   const channel = () => channels.get(params.channelId!)!;
 
   const properties = () => channelProperties.get(params.channelId);
@@ -104,19 +104,19 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
   const updateUnreadMarker = (ignoreFocus = false) => {
     if (!ignoreFocus && hasFocus()) return;
     const lastSeenAt = channel().lastSeen || -1;
-    const message = channelMessages()?.find(m => m.createdAt - lastSeenAt >= 0 );
+    const message = channelMessages()?.find(m => m.createdAt - lastSeenAt >= 0);
     setUnreadMarker({
       lastSeenAt,
       messageId: message?.id || null
     });
     setTimeout(() => {
       if (scrollTracker.scrolledBottom()) {
-        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight; 
+        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
       }
     });
   }
-  
-  createEffect(on(() => channelMessages()?.length,(length, prevLength) => {
+
+  createEffect(on(() => channelMessages()?.length, (length, prevLength) => {
     if (!length) return;
     updateUnreadMarker(prevLength === undefined);
     if (prevLength === undefined) return;
@@ -125,9 +125,9 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
 
   createEffect(on(hasFocus, () => {
     dismissNotification();
-  }, {defer: true}))
+  }, { defer: true }))
 
-  const dismissNotification = () =>{
+  const dismissNotification = () => {
     if (!hasFocus()) return;
     if (!scrollTracker.scrolledBottom()) return;
     channel()?.dismissNotification();
@@ -148,19 +148,19 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
   }
 
   createEffect(on(channelMessages, (messages, prevMessages) => {
-    if (prevMessages) return; 
+    if (prevMessages) return;
 
     const scrollPosition = () => {
-      if (properties()?.isScrolledBottom === undefined ) return props.mainPaneEl.scrollHeight;
+      if (properties()?.isScrolledBottom === undefined) return props.mainPaneEl.scrollHeight;
       if (properties()?.isScrolledBottom) return props.mainPaneEl.scrollHeight;
       return properties()?.scrollTop!;
     }
     props.mainPaneEl.scrollTop = scrollPosition();
     scrollTracker.forceUpdate();
 
-  setTimeout(() => {
-    setLoadingMessages('bottom', false); 
-  }, 100);
+    setTimeout(() => {
+      setLoadingMessages('bottom', false);
+    }, 100);
   }))
 
   createEffect(on(scrollTracker.scrolledBottom, () => {
@@ -185,7 +185,7 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     }))
 
     const channelId = params.channelId;
-    
+
     socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
     document.addEventListener("keydown", handleKeyDown);
     onCleanup(() => {
@@ -212,11 +212,11 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     }
   }
 
-  
+
   const fetchMessages = async () => {
     loadedTimestamp = Date.now();
     if (channelMessages()) return;
-    await messages.fetchAndStoreMessages(params.channelId);  
+    await messages.fetchAndStoreMessages(params.channelId);
   }
 
   const areMessagesLoading = () => loadingMessages.top || loadingMessages.bottom;
@@ -229,13 +229,13 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     if (alreadyLoading) return;
     if (!loadMoreTop) return;
     setLoadingMessages('top', true);
-    const {save, load} = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "first");
+    const { save, load } = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "first");
 
     const beforeSet = () => {
       save();
     }
 
-    const afterSet = ({hasMore}: {hasMore: boolean}) => {
+    const afterSet = ({ hasMore }: { hasMore: boolean }) => {
       load();
       channelProperties.setMoreBottomToLoad(params.channelId, true);
       channelProperties.setMoreTopToLoad(params.channelId, hasMore);
@@ -253,13 +253,13 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
     if (alreadyLoading) return;
     if (!loadMoreBottom) return;
     setLoadingMessages('bottom', true);
-    const {save, load} = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "last");
+    const { save, load } = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "last");
 
     const beforeSet = () => {
       save();
     }
 
-    const afterSet = ({hasMore}: {hasMore: boolean}) => {
+    const afterSet = ({ hasMore }: { hasMore: boolean }) => {
       load();
       channelProperties.setMoreTopToLoad(params.channelId, true);
       channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
@@ -280,12 +280,12 @@ const MessageLogArea = (props: {mainPaneEl: HTMLDivElement}) => {
         {(message, i) => (
           <>
             <Show when={unreadMarker.messageId === message.id}>
-              <UnreadMarker onClick={removeUnreadMarker}/>
+              <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
               animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
               message={message}
-              beforeMessage={ message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
+              beforeMessage={message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
             />
           </>
         )}
@@ -310,7 +310,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
     const isLoadMoreTop = scrollElement.scrollTop <= LOAD_MORE_LENGTH;
     const isLoadMoreBottom = scrollBottom <= LOAD_MORE_LENGTH;
     const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH
-    
+
     if (loadMoreTop() !== isLoadMoreTop) setLoadMoreTop(isLoadMoreTop);
     if (loadMoreBottom() !== isLoadMoreBottom) setLoadMoreBottom(isLoadMoreBottom);
     if (scrolledBottom() !== isScrolledBottom) setScrolledBottom(isScrolledBottom);
@@ -319,20 +319,20 @@ function createScrollTracker(scrollElement: HTMLElement) {
 
 
   onMount(() => {
-    scrollElement.addEventListener("scroll", onScroll, {passive: true});
+    scrollElement.addEventListener("scroll", onScroll, { passive: true });
     onCleanup(() => scrollElement.removeEventListener("scroll", onScroll));
   })
   return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll }
 }
 
-function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
-  const {channelProperties, account} = useStore();
-  const params = useParams<{channelId: string, serverId?: string;}>();
+function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
+  const { channelProperties, account } = useStore();
+  const params = useParams<{ channelId: string, serverId?: string; }>();
   let textAreaEl: undefined | HTMLTextAreaElement;
-  const {isMobileAgent} = useWindowProperties();
+  const { isMobileAgent } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
 
-  const {channels, messages} = useStore();
+  const { channels, messages } = useStore();
 
   const setMessage = (content: string) => {
     channelProperties.updateContent(params.channelId, content)
@@ -351,9 +351,14 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
   })
 
   createEffect(on(message, () => adjustHeight()));
-  
+
   const cancelEdit = () => {
     channelProperties.setEditMessage(params.channelId, undefined);
+    textAreaEl?.focus();
+  };
+
+  const cancelAttachment = () => {
+    channelProperties.setAttachment(params.channelId, undefined);
     textAreaEl?.focus();
   };
 
@@ -361,9 +366,10 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
     const myId = account.user()?.id;
     if (event.key === "Escape") {
       cancelEdit();
+      cancelAttachment();
       return;
     }
-    if(event.key === "ArrowUp") {
+    if (event.key === "ArrowUp") {
       if (message().trim().length) return;
       if (channelProperty()?.moreBottomToLoad) return;
       const msg = [...messages.get(params.channelId) || []].reverse()?.find(m => m.type === MessageType.CONTENT && m.createdBy.id === myId);
@@ -376,7 +382,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
     if (event.key === "Enter" && !isMobileAgent()) {
       if (event.shiftKey) return;
       event.preventDefault();
-      sendMessage(); 
+      sendMessage();
     }
   }
 
@@ -409,7 +415,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
     textAreaEl!.style.height = newHeight + "px";
     textAreaEl!.scrollTop = textAreaEl!.scrollHeight;
   }
-  
+
   const onInput = (event: any) => {
     adjustHeight();
     setMessage(event.target?.value);
@@ -423,21 +429,22 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
   const onEmojiPicked = (shortcode: string) => {
     if (!textAreaEl) return;
     textAreaEl.focus();
+    console.log(textAreaEl)
     textAreaEl.setRangeText(`:${shortcode}: `, textAreaEl.selectionStart, textAreaEl.selectionEnd, "end")
     setMessage(textAreaEl.value)
 
   }
 
   return <div class={classNames(styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
-    <TypingIndicator/>
-    <Show when={channelProperty()?.attachment}><FloatingAttachment/></Show>
-    <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
-    <Show when={showEmojiPicker()}><FloatingEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked}/></Show>
-    <CustomTextArea 
-      ref={textAreaEl} 
-      placeholder='Message'  
-      onkeydown={onKeyDown} 
-      onInput={onInput} 
+    <TypingIndicator />
+    <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
+    <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
+    <Show when={showEmojiPicker()}><FloatingEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
+    <CustomTextArea
+      ref={textAreaEl}
+      placeholder='Message'
+      onkeydown={onKeyDown}
+      onInput={onInput}
       value={message()}
       isEditing={!!editMessageId()}
       onSendClick={sendMessage}
@@ -456,24 +463,33 @@ interface CustomTextAreaProps extends JSX.TextareaHTMLAttributes<HTMLTextAreaEle
 }
 
 function CustomTextArea(props: CustomTextAreaProps) {
-  const params = useParams<{channelId: string, serverId?: string;}>();
+  let textAreaRef: HTMLInputElement | undefined;
+  const params = useParams<{ channelId: string, serverId?: string; }>();
+  
 
   const [isFocused, setFocused] = createSignal(false);
   const [attachmentFileBrowserRef, setAttachmentFileBrowserRef] = createSignal<FileBrowserRef | undefined>(undefined);
 
-  const {channelProperties} = useStore();
+  const { channelProperties } = useStore();
 
   const onFilePicked = (test: FileList) => {
     const file = test.item(0) || undefined;
     channelProperties.setAttachment(params.channelId, file);
+    textAreaRef?.focus();
+  }
+
+  const pickedFile = () => channelProperties.get(params.channelId)?.attachment;
+  const onCancelAttachmentClick = () => {
+    channelProperties.setAttachment(params.channelId, undefined);
+    textAreaRef?.focus();
   }
 
 
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
-      <Show when={!props.isEditing}>
+      <Show when={!props.isEditing && !pickedFile()}>
         <FileBrowser ref={setAttachmentFileBrowserRef} accept='images' onChange={onFilePicked} />
-        <Button 
+        <Button
           onClick={() => attachmentFileBrowserRef()?.open()}
           class={styles.inputButtons}
           iconName='attach_file'
@@ -483,7 +499,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
         />
       </Show>
       <Show when={props.isEditing}>
-        <Button 
+        <Button
           onClick={props.onCancelEditClick}
           class={styles.inputButtons}
           iconName='close'
@@ -493,26 +509,38 @@ function CustomTextArea(props: CustomTextAreaProps) {
           iconSize={18}
         />
       </Show>
-      <textarea 
+      <Show when={pickedFile() && !props.isEditing}>
+        <Button
+          onClick={onCancelAttachmentClick}
+          class={styles.inputButtons}
+          iconName='close'
+          color='var(--alert-color)'
+          padding={[8, 15, 8, 15]}
+          margin={3}
+          iconSize={18}
+        />
+      </Show>
+      <textarea
+        {...props}
+        ref={textAreaRef}
         onfocus={() => setFocused(true)}
         onblur={() => setFocused(false)}
-        {...props}
         class={styles.textArea}
       />
-      <Button 
+      <Button
         class={classNames(styles.inputButtons, "emojiPickerButton")}
         onClick={props.onEmojiPickerClick}
         iconName="face"
         padding={[8, 15, 8, 15]}
-        margin={[3,0,3,3]}
+        margin={[3, 0, 3, 3]}
         iconSize={18}
       />
-      <Button 
+      <Button
         class={styles.inputButtons}
         onClick={props.onSendClick}
         iconName={props.isEditing ? 'edit' : 'send'}
         padding={[8, 15, 8, 15]}
-        margin={[3,3,3,3]}
+        margin={[3, 3, 3, 3]}
         iconSize={18}
       />
 
@@ -521,7 +549,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
 }
 
-function UnreadMarker(props: {onClick: () => void}) {
+function UnreadMarker(props: { onClick: () => void }) {
   return (
     <div onclick={props.onClick} class={styles.unreadMarkerContainer}>
       <div class={styles.unreadMarker}>
@@ -538,8 +566,8 @@ interface TypingPayload {
   channelId: string;
 }
 function TypingIndicator() {
-  const params = useParams<{channelId: string}>();
-  const {users} = useStore();
+  const params = useParams<{ channelId: string }>();
+  const { users } = useStore();
 
   const [typingUserIds, setTypingUserIds] = createStore<Record<string, number | undefined>>({})
 
@@ -564,7 +592,7 @@ function TypingIndicator() {
   const onMessageUpdated = (evt: any) => onMessageCreated(evt.updated)
 
   createEffect(on(() => params.channelId, () => {
-    Object.values(typingUserIds).forEach(timeoutId => 
+    Object.values(typingUserIds).forEach(timeoutId =>
       clearTimeout(timeoutId)
     )
     setTypingUserIds(reconcile({}));
@@ -574,7 +602,7 @@ function TypingIndicator() {
     socketClient.socket.on(ServerEvents.CHANNEL_TYPING, onTyping)
     socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated)
     socketClient.socket.on(ServerEvents.MESSAGE_UPDATED, onMessageUpdated)
-    
+
     onCleanup(() => {
       socketClient.socket.off(ServerEvents.CHANNEL_TYPING, onTyping)
       socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated)
@@ -582,7 +610,7 @@ function TypingIndicator() {
     })
   })
 
-  const typingUsers = createMemo(() => Object.keys(typingUserIds).map(userId => 
+  const typingUsers = createMemo(() => Object.keys(typingUserIds).map(userId =>
     users.get(userId)
   ))
 
@@ -613,7 +641,7 @@ function TypingIndicator() {
 }
 
 
-function FloatingEmojiPicker(props: {close: () => void; onClick: (shortcode: string) => void}) {
+function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
     onCleanup(() => {
@@ -621,9 +649,9 @@ function FloatingEmojiPicker(props: {close: () => void; onClick: (shortcode: str
     })
   })
 
-  const handleClickOutside = (e: MouseEvent & {target: any}) => {
-    if(e.target.closest(`.${styles.floatingEmojiPicker}`)) return;
-    if(e.target.closest(`.emojiPickerButton`)) return;
+  const handleClickOutside = (e: MouseEvent & { target: any }) => {
+    if (e.target.closest(`.${styles.floatingEmojiPicker}`)) return;
+    if (e.target.closest(`.emojiPickerButton`)) return;
     props.close();
   }
 
@@ -632,8 +660,8 @@ function FloatingEmojiPicker(props: {close: () => void; onClick: (shortcode: str
     <Floating class={styles.floatingEmojiPicker}>
       <EmojiPicker
         class={styles.emojiPicker}
-        spriteUrl="/assets/emojiSprites.png" 
-        categories={categories} 
+        spriteUrl="/assets/emojiSprites.png"
+        categories={categories}
         emojis={emojis}
         onEmojiClick={(e) => props.onClick(e.short_names[0])}
         primaryColor='var(--primary-color)'
@@ -643,13 +671,13 @@ function FloatingEmojiPicker(props: {close: () => void; onClick: (shortcode: str
 }
 
 
-function EditIndicator(props: {messageId: string}) {
-  const params = useParams<{channelId: string}>();
-  const {messages, channelProperties} = useStore();
+function EditIndicator(props: { messageId: string }) {
+  const params = useParams<{ channelId: string }>();
+  const { messages, channelProperties } = useStore();
 
   const message = () => messages.get(params.channelId)?.find(m => m.id === props.messageId);
 
-  createEffect(() => {    
+  createEffect(() => {
     if (!message()) {
       channelProperties.setEditMessage(params.channelId, undefined);
     }
@@ -667,8 +695,8 @@ function EditIndicator(props: {messageId: string}) {
 
 
 function FloatingAttachment(props: {}) {
-  const params = useParams<{channelId: string}>();
-  const {channelProperties} = useStore();
+  const params = useParams<{ channelId: string }>();
+  const { channelProperties } = useStore();
   const [dataUrl, setDataUrl] = createSignal<string | undefined>(undefined);
 
   const getAttachmentFile = () => channelProperties.get(params.channelId)?.attachment;
@@ -683,14 +711,15 @@ function FloatingAttachment(props: {}) {
 
   return (
     <Floating class={styles.floatingAttachment}>
-      <img class={styles.attachmentImage} src={dataUrl()} alt=""/>
-      {getAttachmentFile().name}
+      <Icon name='attach_file' size={17} color='var(--primary-color)' class={styles.attachIcon} />
+      <img class={styles.attachmentImage} src={dataUrl()} alt="" />
+      <div class={styles.attachmentFilename}>{getAttachmentFile().name}</div>
     </Floating>
   )
 }
 
 
-function Floating (props: {class?: string, children: JSX.Element}) {
+function Floating(props: { class?: string, children: JSX.Element }) {
   let floatingEl: undefined | HTMLDivElement;
   const offset = 8;
 
@@ -700,7 +729,7 @@ function Floating (props: {class?: string, children: JSX.Element}) {
     floatingEl.style.top = (-height + offset) + 'px';
   }
 
-  
+
   onMount(() => {
     const observer = new ResizeObserver(readjust)
     observer.observe(floatingEl!);
@@ -721,7 +750,7 @@ const emojiRegex = /:([\w]+):/g;
 const channelMentionRegex = /#([^#\n]+)#/g;
 const userMentionRegex = /@([a-zA-Z0-9 ]+):([a-zA-Z0-9]+)/g;
 
-function formatMessage (message: string, serverId?: string): string {
+function formatMessage(message: string, serverId?: string): string {
 
   const channels = useChannels();
   const serverMembers = useServerMembers();
@@ -729,14 +758,14 @@ function formatMessage (message: string, serverId?: string): string {
   const serverChannels = channels.getChannelsByServerId(serverId!)
   const members = serverMembers.array(serverId!)
   let finalString = message;
-  
+
   // replace emoji
   finalString = finalString.replace(emojiRegex, val => {
     const emojiName = val.substring(1, val.length - 1);
     return emojiShortcodeToUnicode(emojiName) || val;
   });
-  
-  
+
+
   if (serverId) {
     // replace user mentions
     finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
@@ -758,9 +787,9 @@ function formatMessage (message: string, serverId?: string): string {
 
 }
 
-function BackToBottomButton(props: {scrollElement: HTMLDivElement}) {
-  const {channelProperties, channels, messages} = useStore();
-  const params = useParams<{channelId: string}>();
+function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
+  const { channelProperties, channels, messages } = useStore();
+  const params = useParams<{ channelId: string }>();
 
   const properties = () => channelProperties.get(params.channelId);
   const scrolledUp = () => !properties()?.isScrolledBottom || properties()?.moreBottomToLoad;

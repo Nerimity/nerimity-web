@@ -120,20 +120,24 @@
       }
     }
 
-
     &.floatingAttachment {
       display: flex;
-      flex-direction: column;
-
+      align-items: center;
     }
 
+    .attachIcon {
+      margin-right: 5px;
+    }
+    .attachmentFilename {
+      word-break: break-all;
+      margin-left: 5px;
+    }
     .attachmentImage {
       aspect-ratio: 16/9;
-      max-width: 200px;
-      max-height: 200px;
-      width: 100%;
-      height: 100%;
       object-fit: contain;
+      flex-shrink: 0;
+      max-width: 50px;
+      max-height: 50px;
       background-color: rgba(0, 0, 0, 0.6);
       border-radius: 6px;
     }
