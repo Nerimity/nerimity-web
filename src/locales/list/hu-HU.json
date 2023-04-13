@@ -1,0 +1,178 @@
+{
+  "header": {
+    "accountButton": "Fiók",
+    "openAppButton": "Alkalmazás Kinyítása",
+    "loginButton": "Bejelentkezés",
+    "joinNowButton": "Csatlakozás"
+  },
+  "homePage": {
+    "slogan": "Egy modern, elegáns chat alkalmazás.",
+    "joinButton": "Csatlakozás {{appName}}-hoz",
+    "viewGitHubButton": "GitHub Adattár Megtekíntése"
+  },
+  "loginPage": {
+    "title": "Jelentkezz be a folytatáshoz",
+    "email": "E-mail",
+    "password": "Jelszó",
+    "login": "Bejelentkezés",
+    "createAccountInstead": "Fiók készítése inkább",
+    "loggingIn": "Bejelentkezés folyamatban...",
+    "loginButton": "Bejelentkezés"
+  },
+  "registerPage": {
+    "title": "Üdvözlünk {{appName}}-n",
+    "email": "E-mail",
+    "username": "Felhasználó Név",
+    "password": "Jelszó",
+    "confirmPassword": "Jelszó Megerősítése",
+    "registerButton": "Regisztrálás",
+    "registering": "Regisztrálás folyamatban...",
+    "loginInstead": "Fiókba belépés inkább"
+  },
+  "inbox": {
+    "drawer": {
+      "requests": "Kérelmek",
+      "online": "Online",
+      "offline": "Offline",
+      "savedNotesButton": "Jegyzetek",
+      "addFriendButton": "Barát Hozzáadása",
+      "inboxButton": "Postaláda",
+      "friendsButton": "Barátok"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Felfedezés",
+      "servers": "Szerverek"
+    },
+    "servers": {
+      "title": "Felfedezés - Szerverek" ,
+      "noticeMessage": "Egy szervert lehet előretolhatsz {{hours}} óránként. Mindegyik előretolás a következő dátumon visszaállítódnak: {{date}}.",
+      "sortMostBumps": "Legtöbb Elöretolás",
+      "sortMostMembers": "Legtöbb Tag",
+      "sortRecentlyAdded": "Nemrég Létrehozott",
+      "sortRecentlyBumped": "Nemrég Elöretolt",
+      "filterAll": "Összes",
+      "filterVerified": "Ellenőrzött",
+      "memberCount": "{{count}} tag",
+      "lifetimeBumpCount": "{{count}} összes elöretolás",
+      "visitServerButton": "Meglátogatás",
+      "joinServerButton": "Csatlakozás",
+      "bumpButton": "Elöretolások: ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "Átlagos",
+        "roles": "Rangok",
+        "channels": "Csatornák",
+        "bans": "Bannok",
+        "invites": "Meghívók",
+        "publishServer": "Szerver Közzetétele",
+        "verify": "Ellenörzés",
+        "role": "Rang",
+        "channel": "Csatorna"
+      },
+      "general": {
+        "serverRenameNotice": "Elveszted az összes ellenörzés által kapott kedvezményt ha átnevezed a szervered.",
+        "serverName": "Szerver Név",
+        "defaultChannel": "Alapértelmezett Csatorna",
+        "defaultChannelDescription": "Az új tagok ide lesznek irányítva.",
+        "systemMessages": "Rendszer Üzenetek",
+        "systemMessagesDescription": "Itt jelennek meg a rendszer üzenetek.",
+        "deleteThisServer": "Szerver törlése",
+        "deleteThisServerDescription": "Ezt nem tudod visszafordítani!",
+        "deleteServerButton": "Szerver törlése",
+        "saveChangesButton": "Cserék mentése",
+        "saving": "Mentés..."
+      },
+      "roles": {
+        "addNewRole": "Új rang hozzáadása",
+        "addRoleButton": "Rang Hozzáadása"
+      },
+      "role": {
+        "saveChangesButton": "Cserék mentése",
+        "saving": "Mentés...",
+        "roleName": "Rang Név",
+        "roleColor": "Rang Szín",
+        "hideRole": "Rang Elrejtése",
+        "hideRoleDescription": "Ezzel a ranggal rendelkező felhasználokat az alapértelmezett tagokkal eggyütt való megjenítése",
+        "permissions": "Engedélyek",
+        "permissionsDescription": "Eme rang engedélyeinek kezelése.",
+        "deleteRoleButton": "Rang törlése",
+        "deleteRoleButtonDescription": "Ezt nem tudod visszafordítani!"
+      },
+      "header": {
+        "editServer": "Szerver Szerkesztése",
+        "serverMemberCount": "{{count}} tag"
+      },
+      "channels": {
+        "addChannelButton": "Csatorna Hozzáadása",
+        "addNewChannel": "Új csatorna hozzáadása"
+      },
+      "channel": {
+        "saving": "Mentés...",
+        "saveChangesButton": "Cserék mentése",
+        "channelName": "Csatorna Neve",
+        "permissions": "Engedélyek",
+        "permissionsDescription": "Eme csatorna engedélyeinek kezelése.",
+        "deleteThisChannel": "Csatorna törlése",
+        "deleteThisChannelDescription": "Ezt nem tudod visszafordítani!",
+        "deleteChannelButton": "Csatorna Törlése"
+      },
+      "invites": {
+        "createANewInvite": "Új meghívó készítése",
+        "createInviteButton": "Meghívó Készítése",
+        "serverInvites": "Szerver Meghívok",
+        "serverInvitesDescription": "Hívd meg a barátaid eme szerverbe.",
+        "customInviteVerifiedOnlyNotice": "Sajátosított linkek csak ellenőrzött szervereknek elérhető.",
+        "customLink": "Sajátosított Link",
+        "saveButton": "Mentés",
+        "deleteButton": "Törlés",
+        "copyLinkButton": "Link Másolása"
+      },
+      "publishServer": {
+        "publishNotice": "Eme szervert ha közzéteszed elérhető lesz a <1>felfedezés</1> lapon.",
+        "public": "Nyilvános",
+        "publicDescription": "Eme szerver nyilvánossá tétele.",
+        "bumpServer": "Szerver Elöretolása",
+        "bumpServerDescription": "Told előre ezt a szervert hogy érje el a toppot.",
+        "publishServerButton": "Szerver Közzetétele",
+        "unpublishServerButton": "Szerver Közzetételének Visszavonása"
+      }
+    },
+    "rolePermissions": {
+      "admin": "Admin",
+      "adminDescription": "Megengedi az összes engedélyt.",
+      "sendMessage": "Üzenet Küldése",
+      "sendMessageDescription": "Megengedi hogy üzenetet lehessen küldeni. Az adminok csak küldhetnek majd.",
+      "manageRoles": "Rangog Kezelése",
+      "manageRolesDescription": "Engedély rangok frissítésének és törlésének.",
+      "manageChannels": "Csatornák Kezelése",
+      "manageChannelsDescription": "Engedély csatornák frissítésének és törlésének.",
+      "kick": "Kirúgás",
+      "kickDescription": "Engedély tagok kirúgásának",
+      "ban": "Ban",
+      "banDescription": "Engedély tagok bannolásának."
+    },
+    "channelPermissions": {
+      "privateChannel": "Privát Csatorna",
+      "privateChannelDescription": "A csatorna elérésének kikapcsolása. Az adminok csak elérhetik majd.",
+      "sendMessage": "Üzenet Küldése",
+      "sendMessageDescription": "Megengedi hogy üzenetet lehessen küldeni eme csatornába. Az adminok csak küldhetnek majd."
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "Beállítások",
+      "account": "Fiók",
+      "language": "Nyelv",
+      "notifications": "Értesítések",
+      "logout": "Kilépés",
+      "supportMe": "Támogass!",
+      "viewSource": "Forráskód Megtekintése",
+      "changelog": "Csere Napló"
+    }
+  }
+}
