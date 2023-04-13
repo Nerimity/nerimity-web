@@ -172,7 +172,7 @@ function ImageEmbed(props: {attachment: RawAttachment}) {
 
   return (
     <div class={classNames(styles.imageEmbed, conditionalClass(isGif() && !hasFocus(), styles.gif))}>
-      <img src={url()} style={style()} alt="" />
+      <img loading="lazy" src={url()} style={style()} alt="" />
     </div>
   )
 }

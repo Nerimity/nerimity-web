@@ -132,6 +132,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
     content,
     channelId,
     socketId: socketClient.id(),
+    attachment: properties?.attachment
   }).catch(() => {
     console.log("failed to send message");
   });

@@ -27,6 +27,9 @@ import { css } from 'solid-styled-components';
 import {EmojiPicker} from '@nerimity/solid-emoji-picker'
 import categories from '@/emoji/categories.json';
 import emojis from '@/emoji/emojis.json';
+import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
+import { fileToDataUrl } from '@/common/fileToDataUrl';
+
 
 export default function MessagePane(props: {mainPaneEl: HTMLDivElement}) {
   const params = useParams();
@@ -391,6 +394,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
       cancelEdit();
     } else {
       messages.sendAndStoreMessage(channel.id, formattedMessage);
+      channelProperties.setAttachment(channel.id, undefined)
       !channelProperty()?.moreBottomToLoad && (props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight);
     }
     typingTimeoutId && clearTimeout(typingTimeoutId)
@@ -426,6 +430,7 @@ function MessageArea(props: {mainPaneEl: HTMLDivElement}) {
 
   return <div class={classNames(styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
     <TypingIndicator/>
+    <Show when={channelProperty()?.attachment}><FloatingAttachment/></Show>
     <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!}/></Show>
     <Show when={showEmojiPicker()}><FloatingEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked}/></Show>
     <CustomTextArea 
@@ -451,11 +456,32 @@ interface CustomTextAreaProps extends JSX.TextareaHTMLAttributes<HTMLTextAreaEle
 }
 
 function CustomTextArea(props: CustomTextAreaProps) {
-  let [isFocused, setFocused] = createSignal(false);
+  const params = useParams<{channelId: string, serverId?: string;}>();
+
+  const [isFocused, setFocused] = createSignal(false);
+  const [attachmentFileBrowserRef, setAttachmentFileBrowserRef] = createSignal<FileBrowserRef | undefined>(undefined);
+
+  const {channelProperties} = useStore();
+
+  const onFilePicked = (test: FileList) => {
+    const file = test.item(0) || undefined;
+    channelProperties.setAttachment(params.channelId, file);
+  }
 
 
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
+      <Show when={!props.isEditing}>
+        <FileBrowser ref={setAttachmentFileBrowserRef} accept='images' onChange={onFilePicked} />
+        <Button 
+          onClick={() => attachmentFileBrowserRef()?.open()}
+          class={styles.inputButtons}
+          iconName='attach_file'
+          padding={[8, 15, 8, 15]}
+          margin={3}
+          iconSize={18}
+        />
+      </Show>
       <Show when={props.isEditing}>
         <Button 
           onClick={props.onCancelEditClick}
@@ -638,6 +664,31 @@ function EditIndicator(props: {messageId: string}) {
     </Floating>
   )
 }
+
+
+function FloatingAttachment(props: {}) {
+  const params = useParams<{channelId: string}>();
+  const {channelProperties} = useStore();
+  const [dataUrl, setDataUrl] = createSignal<string | undefined>(undefined);
+
+  const getAttachmentFile = () => channelProperties.get(params.channelId)?.attachment;
+
+  createEffect(async () => {
+    const file = getAttachmentFile();
+    if (!file) return;
+    const getDataUrl = await fileToDataUrl(file) as string;
+    setDataUrl(getDataUrl)
+  })
+
+
+  return (
+    <Floating class={styles.floatingAttachment}>
+      <img class={styles.attachmentImage} src={dataUrl()} alt=""/>
+      {getAttachmentFile().name}
+    </Floating>
+  )
+}
+
 
 function Floating (props: {class?: string, children: JSX.Element}) {
   let floatingEl: undefined | HTMLDivElement;

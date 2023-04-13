@@ -16,9 +16,9 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
 
   const response = await fetch(url, {
     method: opts.method,
-    body: JSON.stringify(opts.body),
+    body: opts.body instanceof FormData ? opts.body :  JSON.stringify(opts.body),
     headers: {
-      'Content-Type': 'application/json',
+      ...(!(opts.body instanceof FormData) ? {'Content-Type': 'application/json'} : undefined),
       'Authorization': opts.useToken ? token : ''
     }
   })
