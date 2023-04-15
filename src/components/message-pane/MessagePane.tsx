@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
-import { useParams } from '@nerimity/solid-router';
+import { A, useParams } from '@nerimity/solid-router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
@@ -186,10 +186,13 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
 
     const channelId = params.channelId;
 
+    document.addEventListener("paste", onPaste)
+
     socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
     document.addEventListener("keydown", handleKeyDown);
     onCleanup(() => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("paste", onPaste)
       scrollTracker.forceUpdate();
       batch(() => {
         channelProperties.setScrolledBottom(channelId, scrollTracker.scrolledBottom());
@@ -199,6 +202,13 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
     })
 
   })
+
+  const onPaste = (event: ClipboardEvent) => {
+    const file = event.clipboardData?.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image")) return;
+    channelProperties.setAttachment(params.channelId, file);
+  }
 
   // key binds
   const handleKeyDown = async (e: KeyboardEvent) => {
@@ -286,6 +296,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
               animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
               message={message}
               beforeMessage={message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
+              messagePaneEl={props.mainPaneEl}
             />
           </>
         )}
@@ -390,15 +401,16 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
     textAreaEl?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
-    if (!trimmedMessage) return;
     const channel = channels.get(params.channelId!)!;
-
+    
     const formattedMessage = formatMessage(trimmedMessage, params.serverId);
-
+    
     if (editMessageId()) {
+      if (!trimmedMessage) return;
       messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
       cancelEdit();
     } else {
+      if (!trimmedMessage && !channelProperty()?.attachment) return;
       messages.sendAndStoreMessage(channel.id, formattedMessage);
       channelProperties.setAttachment(channel.id, undefined)
       !channelProperty()?.moreBottomToLoad && (props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight);
@@ -429,7 +441,6 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
   const onEmojiPicked = (shortcode: string) => {
     if (!textAreaEl) return;
     textAreaEl.focus();
-    console.log(textAreaEl)
     textAreaEl.setRangeText(`:${shortcode}: `, textAreaEl.selectionStart, textAreaEl.selectionEnd, "end")
     setMessage(textAreaEl.value)
 

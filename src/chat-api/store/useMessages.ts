@@ -17,7 +17,7 @@ export enum MessageSentStatus {
 export type Message = RawMessage & {
   tempId?: string;
   sentStatus?: MessageSentStatus;
-  
+  uploadingAttachment?: File;
 }
 
 const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});
@@ -96,7 +96,7 @@ const updateLocalMessage = async (message: Partial<RawMessage & {sentStatus: Mes
 }
 
 
-const sendAndStoreMessage = async (channelId: string, content: string) => {
+const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const channels = useChannels();
   const channelProperties = useChannelProperties();
   const properties = channelProperties.get(channelId);
@@ -114,6 +114,7 @@ const sendAndStoreMessage = async (channelId: string, content: string) => {
     createdAt: Date.now(),
     sentStatus: MessageSentStatus.SENDING,
     type: MessageType.CONTENT,
+    uploadingAttachment: properties?.attachment,
     createdBy: {
       id: user.id,
       username: user.username,

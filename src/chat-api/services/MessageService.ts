@@ -21,7 +21,7 @@ export const fetchMessages = async (channelId: string, limit = 50, afterMessageI
 };
 
 interface PostMessageOpts {
-  content: string;
+  content?: string;
   channelId: string;
   socketId?: string;
   attachment?: File
@@ -36,7 +36,7 @@ export const postMessage = async (opts: PostMessageOpts) => {
 
   if (opts.attachment) {
     const fd = new FormData();
-    fd.append('content', opts.content);
+    opts.content && fd.append('content', opts.content);
     if (opts.socketId) {
       fd.append('socketId', opts.socketId);
     }
