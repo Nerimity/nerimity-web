@@ -21,20 +21,34 @@ export const fetchMessages = async (channelId: string, limit = 50, afterMessageI
 };
 
 interface PostMessageOpts {
-  content: string;
+  content?: string;
   channelId: string;
   socketId?: string;
+  attachment?: File
 }
 
 export const postMessage = async (opts: PostMessageOpts) => {
+
+  let body: any = {
+    content: opts.content,
+    ...(opts.socketId ? { socketId: opts.socketId } : {}),
+  }
+
+  if (opts.attachment) {
+    const fd = new FormData();
+    opts.content && fd.append('content', opts.content);
+    if (opts.socketId) {
+      fd.append('socketId', opts.socketId);
+    }
+    fd.append('attachment', opts.attachment);
+    body = fd;
+  }
+
   const data = await request<RawMessage>({
     method: 'POST',
     url: env.SERVER_URL + "/api" + Endpoints.messages(opts.channelId),
     useToken: true,
-    body: {
-      content: opts.content,
-      ...(opts.socketId ? { socketId: opts.socketId } : {}),
-    }
+    body
   });
   return data;
 };

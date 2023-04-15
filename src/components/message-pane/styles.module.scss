@@ -69,11 +69,6 @@
     }
 
   }
-
-  &.editing .floating {
-    left: 60px;
-  }
-
   
   .floating {
     position: absolute;
@@ -85,7 +80,7 @@
     padding-left: 8px;
     padding-right: 8px;
     font-size: 14px;
-    left: 10px;
+    left: 60px;
     margin-right: 60px;
     z-index: 11111;
     &.floatingEmojiPicker {
@@ -123,6 +118,28 @@
       .editIcon {
         margin-right: 5px;
       }
+    }
+
+    &.floatingAttachment {
+      display: flex;
+      align-items: center;
+    }
+
+    .attachIcon {
+      margin-right: 5px;
+    }
+    .attachmentFilename {
+      word-break: break-all;
+      margin-left: 5px;
+    }
+    .attachmentImage {
+      aspect-ratio: 16/9;
+      object-fit: contain;
+      flex-shrink: 0;
+      max-width: 50px;
+      max-height: 50px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 6px;
     }
   }
 }

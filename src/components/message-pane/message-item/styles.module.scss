@@ -59,6 +59,28 @@
 } 
 
 
+.imageEmbed {
+  overflow: hidden;
+  position: relative;
+  margin-top: 5px;
+  cursor: pointer;
+  img {
+    border-radius: 8px;
+  }
+}
+
+.gif:after {
+  content: "GIF";
+  position: absolute;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 5px;
+  top: 10px;
+  left: 10px;
+}
+
+
 .messageItem {
   display: flex;
   flex-direction: column;
@@ -75,9 +97,14 @@
   
   .messageStatus {
     margin-left: 3px;
+    top: 2px;
+    position: absolute;
+    cursor: default;
+  }
+  .messageEditStatus {
+    margin-left: 3px;
     vertical-align: -2px;
     cursor: default;
-
   }
   
   .messageItemOuterContainer {

@@ -4,6 +4,9 @@ import { Message } from './useMessages';
 export type ChannelProperties = {
   content: string;
   editMessageId?: string;
+
+  attachment?: File;
+
   isScrolledBottom: boolean;
   scrollTop?: number;
   
@@ -37,6 +40,13 @@ const setEditMessage = (channelId: string, message?: Message) => {
   });
 }
 
+const setAttachment = (channelId: string, file?: File) => {
+  initIfMissing(channelId)
+  setChannelProperties(channelId, {
+    attachment: file
+  });
+}
+
 const setScrollTop = (channelId: string, scrollTop: number) => {
   initIfMissing(channelId);
   const isScrolledBottom = get(channelId)?.isScrolledBottom;
@@ -61,6 +71,7 @@ export default function useChannelProperties() {
     updateContent,
     get,
     setEditMessage,
+    setAttachment,
     setScrollTop,
     setScrolledBottom,
     setMoreTopToLoad,

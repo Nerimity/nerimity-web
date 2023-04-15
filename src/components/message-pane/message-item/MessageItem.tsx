@@ -3,13 +3,13 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawMessage } from '@/chat-api/RawData';
+import { MessageType, RawAttachment, RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useParams } from '@nerimity/solid-router';
+import { Link, useNavigate, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
-import { createSignal, onMount, Show } from 'solid-js';
+import { createEffect, createRenderEffect, createSignal, on, onMount, Show } from 'solid-js';
 import MemberContextMenu from '@/components/member-context-menu/MemberContextMenu';
 import { Markup } from '@/components/Markup';
 import Modal from '@/components/ui/Modal';
@@ -20,6 +20,7 @@ import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { avatarUrl } from '@/chat-api/store/useUsers';
+import { useWindowProperties } from '@/common/useWindowProperties';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
@@ -55,8 +56,16 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
   )
 }
 
+interface MessageItemProps { 
+  class?: string;
+  message: Message;
+  beforeMessage?: Message;
+  animate?: boolean;
+  hideFloating?: boolean;
+  messagePaneEl?: HTMLDivElement;
+ }
 
-const MessageItem = (props: { class?: string, message: Message, beforeMessage?: Message, animate?: boolean, hideFloating?: boolean }) => {
+const MessageItem = (props: MessageItemProps) => {
   
   const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
   const params = useParams();
@@ -83,6 +92,11 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
     event.preventDefault();
     setContextPosition({x: event.clientX, y: event.clientY});
   }
+
+  createEffect(on(() => props.message.attachments, () => {
+    if (!props.messagePaneEl) return;
+    props.messagePaneEl.scrollTop = props.messagePaneEl.scrollHeight;
+  }, {defer: true}))
   
   const Details = () => (
     <div class={classNames(styles.details, conditionalClass(systemMessage(), styles.systemMessageDetails))}>
@@ -127,7 +141,9 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
               {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
               <div class={styles.content}>
                 <Markup message={props.message} text={props.message.content || ''} />
-                {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} title={editedAt()} />}  
+                {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageEditStatus} title={editedAt()} />}  
+                <Embeds message={props.message} hovered={hovered()} />
+                {props.message.uploadingAttachment ? `Uploading ${props.message.uploadingAttachment.name}...` : ''}
               </div>
             </div>
           </Show>
@@ -138,6 +154,106 @@ const MessageItem = (props: { class?: string, message: Message, beforeMessage?: 
 };
 
 export default MessageItem;
+
+
+
+function Embeds(props: {message: Message, hovered: boolean}){
+  return (
+    <div>
+      <Show when={props.message.attachments?.[0]}>
+        <ImageEmbed attachment={props.message.attachments?.[0]!} />
+      </Show>
+    </div>
+  )
+}
+
+
+function ImageEmbed(props: {attachment: RawAttachment}) {
+  const {paneWidth, height, hasFocus} = useWindowProperties();
+  const isGif = () => props.attachment.path.endsWith(".gif")
+  const {createPortal} = useCustomPortal();
+
+  const url = () => {
+    let url = `https://cdn.nerimity.com/${props.attachment.path}`;
+    if (!isGif()) return url;
+    if (!hasFocus()) url+= "?type=webp"; 
+    return url;
+  }
+
+  const style = () => {
+    const maxWidth = clamp(paneWidth()! - 70, 600)
+    return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, height() / 2)
+  }
+
+  const onClicked =() => {
+    createPortal(close => <ImagePreviewModal close={close} url={url()} width={props.attachment.width} height={props.attachment.height} />)
+  }
+
+  return (
+    <div onclick={onClicked} class={classNames(styles.imageEmbed, conditionalClass(isGif() && !hasFocus(), styles.gif))}>
+      <img loading="lazy" src={url()} style={style()} alt="" />
+    </div>
+  )
+}
+
+
+const ImagePreviewContainer = styled(FlexRow)`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  img {
+    border-radius: 8px;
+  }
+`;
+
+
+function ImagePreviewModal(props: {close: () => void, url: string, width?: number, height?: number}) {
+  const {width, height} = useWindowProperties();
+
+  const style = () => {
+    const maxWidth = clamp(width(), width() / 100 * 80);
+    const maxHeight = clamp(height(), height() / 100 * 80);
+    return clampImageSize(props.width!, props.height!, maxWidth, maxHeight)
+  }
+
+  const onClick = (event: any) => {
+    const target = event.target as HTMLDivElement;
+    if (!target.classList.contains("background")) return;
+    props.close()
+  }
+
+  return (
+    <ImagePreviewContainer onclick={onClick} class="background">
+      <img src={props.url} style={style()}></img>
+    </ImagePreviewContainer>
+  )
+}
+
+
+
+function clamp(num: number, max: number) {
+  return num >= max ? max : num;
+}
+
+
+function clampImageSize(width: number, height: number, maxWidth: number, maxHeight: number) {
+  const aspectRatio = width / height;
+  if (width > maxWidth) {
+    width = maxWidth;
+    height = width / aspectRatio;
+  }
+  if (height > maxHeight) {
+    height = maxHeight;
+    width = height * aspectRatio;
+  }
+  return { width: width + "px", height: height + "px" };
+}
+
+
+
 
 
 

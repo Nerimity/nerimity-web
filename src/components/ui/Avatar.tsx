@@ -80,7 +80,7 @@ export default function Avatar(props: Props) {
       <AvatarBorder size={props.size} hovered={props.animate} serverOrUser={serverOrUser()} />
       <ImageContainer color={url() ? undefined : serverOrUser().hexColor}>
         <Show when={!url()}><Image src="/assets/profile.png" alt="User Avatar" /></Show>
-        <Show when={url()}><Image src={url()!} alt="User Avatar" /></Show>
+        <Show when={url()}><Image loading="lazy" src={url()!} alt="User Avatar" /></Show>
       </ImageContainer>
     </AvatarContainer>
   )

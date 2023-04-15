@@ -1,4 +1,4 @@
-import { createEffect, createSignal, lazy, on, onCleanup, onMount} from 'solid-js';
+import { createEffect, createSignal, lazy, on, onCleanup, onMount } from 'solid-js';
 import MainPaneHeader from '../components/main-pane-header/MainPaneHeader';
 
 const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
@@ -12,8 +12,8 @@ const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
 const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
 const ExplorePane = lazy(() => import('@/components/explore/ExplorePane'));
 const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
-const ModerationPane = lazy( () => import("@/components/moderation-pane/ModerationPane"));
-const DashboardPane = lazy( () => import("@/components/DashboardPane"));
+const ModerationPane = lazy(() => import("@/components/moderation-pane/ModerationPane"));
+const DashboardPane = lazy(() => import("@/components/DashboardPane"));
 
 import { getStorageString, removeStorage, StorageKeys } from '../common/localStorage';
 import socketClient from '../chat-api/socketClient';
@@ -42,12 +42,12 @@ const mobileMainPaneStyles = css`
   }
 `
 
-interface MainPaneContainerProps{
+interface MainPaneContainerProps {
   hasLeftDrawer: boolean,
   hasRightDrawer: boolean
 }
 
-const MainPaneContainer = styled("div")<MainPaneContainerProps>`
+const MainPaneContainer = styled("div") <MainPaneContainerProps>`
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -60,20 +60,20 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   background: var(--pane-color);
 
 `;
-  // border-right: solid 1px rgba(255, 255, 255, 0.1);
-  // border-left: solid 1px rgba(255, 255, 255, 0.1);
+// border-right: solid 1px rgba(255, 255, 255, 0.1);
+// border-left: solid 1px rgba(255, 255, 255, 0.1);
 
-async function loadAllCache () {
-  const {account} = useStore();
+async function loadAllCache() {
+  const { account } = useStore();
   const user = await getCache(LocalCacheKey.Account)
   account.setUser(user);
-} 
+}
 
 export default function AppPage() {
-  const {account} = useStore();
-  const [searchParams] = useSearchParams<{postId: string}>();
+  const { account } = useStore();
+  const [searchParams] = useSearchParams<{ postId: string }>();
 
-  const {createPortal, closePortalById} = useCustomPortal();
+  const { createPortal, closePortalById } = useCustomPortal();
 
   onMount(() => {
     loadAllCache();
@@ -84,10 +84,10 @@ export default function AppPage() {
     handleChangelog()
   })
 
-  function handleChangelog () {
-    const {showChangelog} = useAppVersion();
+  function handleChangelog() {
+    const { showChangelog } = useAppVersion();
     if (showChangelog()) {
-      createPortal?.(close => <ChangelogModal close={close}/>)
+      createPortal?.(close => <ChangelogModal close={close} />)
     }
   }
 
@@ -111,7 +111,7 @@ export default function AppPage() {
 
   createEffect(on(() => searchParams.postId, (postId, oldPostId) => {
     if (!oldPostId && !postId) return;
-    if (!postId) return closePortalById("post_modal");  
+    if (!postId) return closePortalById("post_modal");
     createPortal?.((close) => <ViewPostModal close={close} />, "post_modal")
   }))
 
@@ -128,12 +128,12 @@ export default function AppPage() {
 
   const LeftPane = (
     <Routes>
-      <Route path="/servers/:serverId/settings/:path/*" component={ServerSettingsDrawer}  />
-      <Route path="/explore/*" component={ExploreDrawer}  />
-      <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer}  />
-      <Route path="/inbox/:channelId?/*" component={InboxDrawer}  />
-      <Route path="/*" component={InboxDrawer}  />
-      <Route path="/settings/*" component={SettingsDrawer}  />
+      <Route path="/servers/:serverId/settings/:path/*" component={ServerSettingsDrawer} />
+      <Route path="/explore/*" component={ExploreDrawer} />
+      <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer} />
+      <Route path="/inbox/:channelId?/*" component={InboxDrawer} />
+      <Route path="/*" component={InboxDrawer} />
+      <Route path="/settings/*" component={SettingsDrawer} />
     </Routes>
   )
 
@@ -145,35 +145,41 @@ export default function AppPage() {
 
   return (
     <DrawerLayout
-      Content={() => <MainPane/>}
+      Content={() => <MainPane />}
       LeftDrawer={LeftPane}
       RightDrawer={RightPane}
     />
   )
 }
 
-function MainPane () {
+function MainPane() {
   const windowProperties = useWindowProperties();
-  const {hasRightDrawer, hasLeftDrawer} = useDrawer();
-  const [mainPaneElement, setMainPaneElement]  = createSignal<HTMLDivElement | undefined>(undefined);
+  const { hasRightDrawer, hasLeftDrawer } = useDrawer();
+  const [mainPaneElement, setMainPaneElement] = createSignal<HTMLDivElement | undefined>(undefined);
 
-  createEffect(on(windowProperties.width, () => {
-    if (!mainPaneElement()) return;
-    windowProperties.setPaneWidth(mainPaneElement()?.clientWidth!);
-  }))
+  onMount(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      windowProperties.setPaneWidth(entries[0].contentRect.width);
+    });
+    resizeObserver.observe(mainPaneElement()!);
+
+    onCleanup(() => {
+      resizeObserver.disconnect();
+    })
+  })
 
 
 
 
   return (
-    <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(),  mobileMainPaneStyles))}  ref={setMainPaneElement}>
+    <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} ref={setMainPaneElement}>
       <MainPaneHeader />
       <Routes>
         <Route path="/settings/*" component={SettingsPane} />
         <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
         <Route path="/explore/*" component={ExplorePane} />
-        <Route path="/servers/:serverId/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!}/>} />
-        <Route path="/inbox/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!}/>} />
+        <Route path="/servers/:serverId/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!} />} />
+        <Route path="/inbox/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!} />} />
         <Route path="/profile/:userId" component={ProfilePane} />
         <Route path="/moderation/*" component={ModerationPane} />
         <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
