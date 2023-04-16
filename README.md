@@ -20,7 +20,7 @@ Chat App made using SolidJS. Work in progress.
 ## Setup
 
 * Fork the repo
-* Rename `example.env` to `.env`
+* duplicate and rename `example.env` to `.env`
 * Run `pnpm i` and `pnpm run dev`
 * Go to http://local.nerimity.com
 
@@ -60,11 +60,3 @@ Chat App made using SolidJS. Work in progress.
 - [x] Create New Server Channels
 - [x] Update Account
 - [x] Changelog
-
-## Usage
-To start a dev server, run these commands below.
-```js
-npm i
-npm run dev
-
-```
