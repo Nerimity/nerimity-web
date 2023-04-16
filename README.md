@@ -28,23 +28,24 @@ Chat App made using SolidJS. Work in progress.
 
 ### Planned Features:
 - [ ] Custom Emojis
-- [ ] Emojis
-- [ ] Markdown
 - [ ] Push Notifications
 - [ ] Mute Notifications
 - [ ] Desktop App
 - [ ] App Settings
 - [ ] Delete Account
-- [ ] Re-organize Servers
 - [ ] Block Users
 - [ ] Recycle List (Virtual List to Improve Performance)
 - [ ] Embeds
 - [ ] Upload Files
 - [ ] Mentions
-- [ ] Explore Servers, Themes
-- [ ] Notification Sounds
+- [ ] Explore Themes
 
 ### Completed Features:
+- [x] Explore Servers
+- [x] Notification Sounds
+- [x] Re-organize Servers
+- [x] Emojis
+- [x] Markdown
 - [x] Join/Leave/Kick/Ban Messages
 - [x] Edit Messages
 - [x] Kick/Ban Users From Servers
