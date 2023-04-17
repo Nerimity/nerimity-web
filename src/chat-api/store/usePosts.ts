@@ -13,7 +13,7 @@ export type Post = RawPost & {
   editPost(this: Post, content: string): Promise<any>;
   commentIds: string[] | undefined
   cachedComments(this: Post): Post[] | undefined
-  submitReply(this: Post, content: string): Promise<any>;
+  submitReply(this: Post, opts: {content: string, attachment?: File}): Promise<any>;
 }
 
 interface State {
@@ -70,10 +70,10 @@ export function usePosts() {
             }
           })
         },
-        async submitReply(content: string) {
+        async submitReply(opts: {content: string, attachment?: File}) {
           const account = useAccount();
-          const formattedContent = content.trim();
-          const post = await createPost(formattedContent, this.id);
+          const formattedContent = opts.content.trim();
+          const post = await createPost({content: formattedContent, attachment: opts.attachment, replyToPostId: this.id});
           batch(() => {
             if (!this.commentIds) {
               setState("posts", this.id, "commentIds", []);
@@ -97,10 +97,10 @@ export function usePosts() {
     })
   }
 
-  const submitPost = async (content: string) => {
+  const submitPost = async (opts: {content: string, file?: File}) => {
     const account = useAccount();
-    const formattedContent = content.trim();
-    const post = await createPost(formattedContent);
+    const formattedContent = opts.content.trim();
+    const post = await createPost({content: formattedContent, attachment: opts.file});
     pushPost(post, account.user()?.id!);
     setState("feedPostIds", [post.id, ...state.feedPostIds]);
     

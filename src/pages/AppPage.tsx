@@ -32,6 +32,7 @@ import { ChangelogModal } from '@/components/ChangelogModal';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { WelcomeModal } from '@/components/WelcomeModal';
 import { ViewPostModal } from '@/components/PostsArea';
+import { useResizeObserver } from '@/common/useResizeObserver';
 
 
 const mobileMainPaneStyles = css`
@@ -157,15 +158,10 @@ function MainPane() {
   const { hasRightDrawer, hasLeftDrawer } = useDrawer();
   const [mainPaneElement, setMainPaneElement] = createSignal<HTMLDivElement | undefined>(undefined);
 
-  onMount(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      windowProperties.setPaneWidth(entries[0].contentRect.width);
-    });
-    resizeObserver.observe(mainPaneElement()!);
+  const [width] = useResizeObserver(mainPaneElement)
 
-    onCleanup(() => {
-      resizeObserver.disconnect();
-    })
+  createEffect(() => {
+    windowProperties.setPaneWidth(width());
   })
 
 

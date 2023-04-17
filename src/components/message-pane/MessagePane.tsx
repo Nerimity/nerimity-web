@@ -715,7 +715,7 @@ function FloatingAttachment(props: {}) {
   createEffect(async () => {
     const file = getAttachmentFile();
     if (!file) return;
-    const getDataUrl = await fileToDataUrl(file) as string;
+    const getDataUrl = await fileToDataUrl(file);
     setDataUrl(getDataUrl)
   })
 

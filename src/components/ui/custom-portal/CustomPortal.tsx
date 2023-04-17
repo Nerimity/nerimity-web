@@ -6,6 +6,7 @@ interface Value {
   createPortal: (element: (close: () => void) => JSX.Element, id?: string) => number | undefined
   closePortal: (index: number) => void,
   closePortalById: (id: string) => void,
+  isPortalOpened: (id: string) => boolean,
 }
 
 const CustomPortalContext = createContext<Value>();
@@ -37,7 +38,8 @@ export function CustomPortalProvider(props: CustomPortalProps) {
   const value = {
     createPortal,
     closePortal,
-    closePortalById
+    closePortalById,
+    isPortalOpened
   }
   
 

@@ -107,13 +107,28 @@ export const getPostNotificationDismiss = async () => {
 }
 
 
-export const createPost = async (content: string, postId?: string) => {
+export const createPost = async (opts: {content?: string, attachment?: File,  replyToPostId?: string}) => {
+
+  let body: any = {
+    content: opts.content,
+    ...(opts.replyToPostId ? {postId: opts.replyToPostId} : undefined)
+  }
+
+  if (opts.attachment) {
+    const fd = new FormData();
+
+    if (opts.content?.trim()) {
+      fd.append("content", opts.content)
+    }
+    if (opts.replyToPostId) fd.append("postId", opts.replyToPostId);
+    fd.append("attachment", opts.attachment);
+    body = fd;
+  }
+
+
   const data = await request<RawPost>({
     method: 'POST',
-    body: {
-      content,
-      ...(postId? {postId} : undefined)
-    },
+    body,
     url: env.SERVER_URL + '/api' + ServiceEndpoints.posts(''),
     useToken: true,
   });

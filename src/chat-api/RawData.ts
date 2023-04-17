@@ -122,6 +122,7 @@ export interface RawPublicServer {
 export interface RawPost {
   id: string;
   content?: string;
+  attachments?: Array<RawAttachment>;
   deleted: boolean;
   commentToId: string;
   commentTo?: RawPost;

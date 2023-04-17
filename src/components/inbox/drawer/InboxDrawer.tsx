@@ -14,8 +14,8 @@ import AddFriendModal from './add-friend/AddFriendModal';
 import { DrawerHeader } from '@/components/DrawerHeader';
 import { useTransContext } from '@nerimity/solid-i18next';
 
-function Header (props: {selectedIndex: number, onTabClick: (index: number) => void}) {
-  const {friends, inbox} = useStore();
+function Header(props: { selectedIndex: number, onTabClick: (index: number) => void }) {
+  const { friends, inbox } = useStore();
   const [t] = useTransContext();
 
   const friendRequests = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING);
@@ -36,14 +36,14 @@ function Header (props: {selectedIndex: number, onTabClick: (index: number) => v
         selected={props.selectedIndex === 1}
         notificationCount={friendRequests().length}
         onClick={() => props.onTabClick(1)}
-    />
+      />
     </div>
   )
 }
 
-function HeaderItem (props: {name: string, iconName: string, selected: boolean, onClick: () => void, notificationCount?: number}) {
+function HeaderItem(props: { name: string, iconName: string, selected: boolean, onClick: () => void, notificationCount?: number }) {
   return (
-    <div class={classNames(styles.headerItem,  conditionalClass(props.selected, styles.selected))} onClick={props.onClick}>
+    <div class={classNames(styles.headerItem, conditionalClass(props.selected, styles.selected))} onClick={props.onClick}>
       <Icon class={styles.headerIcon} name={props.iconName} size={18} />
       {props.name}
       {!!props.notificationCount && <div class={styles.notificationCount}>{props.notificationCount}</div>}
@@ -59,10 +59,10 @@ const InboxDrawer = () => {
   const [selectedIndex, setSelectedIndex] = createSignal(getStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, 0));
   const params = useParams();
 
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
 
-  const {users, account} = useStore();
-  
+  const { users, account } = useStore();
+
   const onTabClick = (index: number) => {
     setStorageNumber(StorageKeys.INBOX_DRAWER_SELECTED_INDEX, index);
     setSelectedIndex(index);
@@ -85,12 +85,12 @@ const InboxDrawer = () => {
 
   return (
     <div class={styles.inboxDrawer}>
+      <Header selectedIndex={selectedIndex()} onTabClick={onTabClick} />
       <div class={styles.list}>
-        <Header selectedIndex={selectedIndex()} onTabClick={onTabClick} />
-        {selectedIndex() === 0 && <InboxDrawerTab/>}
-        {selectedIndex() === 1 && <InboxDrawerFriends /> }
+        {selectedIndex() === 0 && <InboxDrawerTab />}
+        {selectedIndex() === 1 && <InboxDrawerFriends />}
       </div>
-      
+
       <div class={styles.items}>
         <div class={classNames(styles.item, conditionalClass(isSavedNotesSelected(), styles.selected))} onClick={onSavedNotesClick}>
           <Icon name='note_alt' size={24} />
@@ -107,7 +107,7 @@ const InboxDrawer = () => {
 
 
 const InboxDrawerTab = () => {
-  const {inbox, mentions, channels, users} = useStore();
+  const { inbox, mentions, channels, users } = useStore();
 
 
   const mentionUserArray = () => mentions.array().filter(m => {
@@ -137,7 +137,7 @@ const InboxDrawerTab = () => {
 
   return <>
     <For each={array()}>
-      {user => <FriendItem user={user}  />}
+      {user => <FriendItem user={user} />}
     </For>
   </>
 };
