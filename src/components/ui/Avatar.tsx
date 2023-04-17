@@ -16,6 +16,7 @@ interface Props {
 }
 
 const AvatarContainer = styled("div") <{ size: number }>`
+  user-select: none;
   flex-shrink: 0;
   position: relative;
   width: ${props => props.size}px;
