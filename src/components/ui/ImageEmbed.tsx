@@ -34,8 +34,9 @@ export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: num
   const isGif = () => props.attachment.path.endsWith(".gif")
   const { createPortal } = useCustomPortal();
 
-  const url = () => {
+  const url = (ignoreFocus?: boolean) => {
     let url = `https://cdn.nerimity.com/${props.attachment.path}`;
+    if (ignoreFocus) return url;
     if (!isGif()) return url;
     if (!hasFocus()) url += "?type=webp";
     return url;
@@ -47,7 +48,7 @@ export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: num
   }
 
   const onClicked = () => {
-    createPortal(close => <ImagePreviewModal close={close} url={url()} width={props.attachment.width} height={props.attachment.height} />)
+    createPortal(close => <ImagePreviewModal close={close} url={url(true)} width={props.attachment.width} height={props.attachment.height} />)
   }
 
   return (
