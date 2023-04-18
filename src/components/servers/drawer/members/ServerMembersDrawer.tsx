@@ -66,11 +66,8 @@ const MemberItem = (props: { member: ServerMember }) => {
 
 
 const Header = () => {
-  const params = useParams();
-  const { serverMembers } = useStore();
 
-  const members = () => serverMembers.array(params.serverId);
-  return (<DrawerHeader text={`Members (${members().length})`} />);
+  return (<DrawerHeader text={`Information`} />);
 }
 
 
@@ -78,7 +75,6 @@ const ServerMembersDrawer = () => {
   const params = useParams();
   const { servers, serverMembers, serverRoles } = useStore();
   const server = () => servers.get(params.serverId!);
-
 
   const roles = () => serverRoles.getAllByServerId(params.serverId);
 
@@ -101,6 +97,8 @@ const ServerMembersDrawer = () => {
   return (
     <div class={styles.drawerContainer}>
       <Header />
+      <Banner class={css`margin-left: 5px; margin-right: 5px;`} margin={0} brightness={100} hexColor={server()?.hexColor} url={bannerUrl(server()!)} />
+      <Text style={{"margin-left": "10px"}}>Members ({members().length})</Text>
       <For each={roleMembers()}>
         {item => (
           <Show when={!item.role!.hideRole && item.members().length}>
@@ -139,29 +137,6 @@ const FlyoutContainer = styled(FlexColumn)`
   overflow: auto;
   z-index: 100111111111110;
 `
-const BannerContainer = styled("div")`
-  filter: brightness(70%);
-  height: 70px;
-  width: 100%;
-  border-radius: 8px;
-  flex-shrink: 0;
-
-  position: relative;
-  filter: brightness(70%);
-  
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-
-  &::after {
-    content: '';
-    position: absolute;
-    backdrop-filter: blur(50px);
-    z-index: 111111;
-    inset: 0;
-  }
-`;
 
 const FlyoutDetailsContainer = styled(FlexRow)`
   position: relative;
