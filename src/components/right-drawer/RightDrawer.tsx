@@ -81,8 +81,7 @@ const RightDrawer = () => {
 
   const [showAttachments, setShowAttachments] = createSignal(false);
 
-  createEffect(on([() => params.channelId, () => params.serverId], (now, prev) => {
-    if (now[1] && now[1] === prev?.[1]) return;
+  createEffect(on([() => params.channelId], (now, prev) => {
     setShowAttachments(false);
   }))
 
@@ -164,20 +163,13 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
   const params = useParams<{ serverId?: string; channelId?: string; }>();
   const { channels, servers } = useStore();
 
-  const server = () => servers.get(params.serverId!);
   const channel = () => channels.get(params.channelId!);
 
-  const attachmentCount = () => {
-    const serverCount = server()?._count?.attachments;
-    if (serverCount !== undefined) return serverCount;
-    const channelCount = channel()?._count?.attachments;
-    return channelCount;
-  }
 
   return <>
     <BannerItem />
     <Button
-      label={`Attachments (${attachmentCount() ?? "..."})`}
+      label={`Attachments (${channel()?._count?.attachments ?? "..."})`}
       customChildren={<Icon class={css`margin-left: auto;`} size={16} name='navigate_next' />}
       iconName='attach_file'
       iconSize={16}

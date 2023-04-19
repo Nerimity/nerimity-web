@@ -10,7 +10,6 @@ export interface RawServer {
   createdById: string;
   createdAt: number;
   verified: boolean;
-  _count: {attachments: number}
 }
 
 
