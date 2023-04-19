@@ -31,9 +31,9 @@ const ImageEmbedContainer = styled(FlexRow)`
 
 export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: number, customWidth?: number, customHeight?: number}) {
   const { paneWidth, height, hasFocus } = useWindowProperties();
-  const isGif = () => props.attachment.path.endsWith(".gif")
   const { createPortal } = useCustomPortal();
-
+  
+  const isGif = () => props.attachment.path.endsWith(".gif")
   const url = (ignoreFocus?: boolean) => {
     let url = `https://cdn.nerimity.com/${props.attachment.path}`;
     if (ignoreFocus) return url;
@@ -73,7 +73,7 @@ const ImagePreviewContainer = styled(FlexRow)`
 `;
 
 
-function ImagePreviewModal(props: { close: () => void, url: string, width?: number, height?: number }) {
+export function ImagePreviewModal(props: { close: () => void, url: string, width?: number, height?: number }) {
   const { width, height } = useWindowProperties();
 
   const style = () => {

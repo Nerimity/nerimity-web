@@ -1,5 +1,5 @@
 import env from '../../common/env';
-import { RawMessage } from '../RawData';
+import { RawAttachment, RawMessage } from '../RawData';
 import { request } from './Request';
 import Endpoints from './ServiceEndpoints';
 
@@ -14,6 +14,20 @@ export const fetchMessages = async (channelId: string, limit = 50, afterMessageI
       limit,
       ...(afterMessageId ? {after: afterMessageId}: undefined),
       ...(beforeMessageId ? {before: beforeMessageId}: undefined)
+    },
+    useToken: true
+  });
+  return data;
+};
+
+export const fetchChannelAttachments = async (channelId: string, limit = 50, afterAttachmentId?: string, beforeAttachmentId?: string) => {
+  const data = await request<RawAttachment[]>({
+    method: 'GET',
+    url: env.SERVER_URL + "/api" + Endpoints.channelAttachments(channelId),
+    params: {
+      limit,
+      ...(afterAttachmentId ? {after: afterAttachmentId}: undefined),
+      ...(beforeAttachmentId ? {before: beforeAttachmentId}: undefined)
     },
     useToken: true
   });

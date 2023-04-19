@@ -5,7 +5,7 @@ import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createMemo, createSignal, For, mapArray, on, onCleanup, onMount, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';
-import MemberContextMenu, { ServerMemberRoleModal } from '../../../member-context-menu/MemberContextMenu';
+import MemberContextMenu, { ServerMemberRoleModal } from '../member-context-menu/MemberContextMenu';
 import { DrawerHeader } from '@/components/DrawerHeader';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { css, styled } from 'solid-styled-components';
@@ -23,6 +23,11 @@ import Spinner from '@/components/ui/Spinner';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { CustomLink } from '@/components/ui/CustomLink';
 import { Banner } from '@/components/ui/Banner';
+import { fetchChannelAttachments } from '@/chat-api/services/MessageService';
+import { RawAttachment } from '@/chat-api/RawData';
+import env from '@/common/env';
+import { ImagePreviewModal } from '@/components/ui/ImageEmbed';
+import { classNames, conditionalClass } from '@/common/classNames';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -53,7 +58,7 @@ const MemberItem = (props: { member: ServerMember }) => {
     <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
-      <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)}  ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
+      <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
         <Avatar animate={!!hoveringRect()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
@@ -71,7 +76,138 @@ const Header = () => {
 }
 
 
-const ServerMembersDrawer = () => {
+const RightDrawer = () => {
+  const params = useParams<{ serverId?: string; channelId?: string; }>();
+
+  const [showAttachments, setShowAttachments] = createSignal(false);
+
+  createEffect(on([() => params.channelId, () => params.serverId], (now, prev) => {
+    if (now[1] && now[1] === prev?.[1]) return;
+    setShowAttachments(false);
+  }))
+
+  return (
+    <div class={styles.drawerContainer}>
+      <Header />
+      <Show when={!showAttachments()}><MainDrawer onShowAttachmentClick={() => setShowAttachments(true)} /></Show>
+      <Show when={showAttachments()}><AttachmentDrawer onHideAttachmentClick={() => setShowAttachments(false)} /></Show>
+    </div>
+  )
+};
+
+
+
+const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
+  const params = useParams<{ serverId?: string; channelId?: string; }>();
+
+
+  const [attachments, setAttachments] = createSignal<RawAttachment[]>([]);
+
+  onMount(async () => {
+    const newAttachments = await fetchChannelAttachments(params.channelId!);
+    return setAttachments(newAttachments);
+  })
+
+
+  return (
+    <>
+      <Button
+        label="Back"
+        iconName='navigate_before'
+        iconSize={16}
+        onClick={props.onHideAttachmentClick}
+        class={css`justify-content: start;`}
+        padding={5} />
+      <div class={styles.attachmentList}>
+        <For each={attachments()}>
+          {item => (
+            <AttachmentImage attachment={item} />
+          )}
+        </For>
+      </div>
+    </>
+  )
+}
+
+const AttachmentImage = (props: { attachment: RawAttachment }) => {
+  const { createPortal } = useCustomPortal();
+
+
+
+  const isGif = () => props.attachment.path.endsWith(".gif")
+
+  const url = (ignoreFocus?: boolean) => {
+    let url = `https://cdn.nerimity.com/${props.attachment.path}`;
+    if (ignoreFocus) return url;
+    if (isGif()) return url += "?type=webp";
+    return url;
+  }
+
+  const onClicked = (attachment: RawAttachment) => {
+    createPortal(close => <ImagePreviewModal close={close} url={url(true)} width={attachment.width} height={attachment.height} />)
+  }
+
+  return (
+    <div class={classNames(styles.attachmentImageContainer, conditionalClass(isGif(), styles.gif))}>
+      <img class={styles.attachmentImage}
+        loading="lazy"
+        onClick={() => onClicked(props.attachment)}
+        src={url()}
+      />
+    </div>
+  )
+}
+
+
+
+const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
+  const params = useParams<{ serverId?: string; channelId?: string; }>();
+  const { channels, servers } = useStore();
+
+  const server = () => servers.get(params.serverId!);
+  const channel = () => channels.get(params.channelId!);
+
+  const attachmentCount = () => {
+    const serverCount = server()?._count?.attachments;
+    if (serverCount !== undefined) return serverCount;
+    const channelCount = channel()?._count?.attachments;
+    return channelCount;
+  }
+
+  return <>
+    <BannerItem />
+    <Button
+      label={`Attachments (${attachmentCount() ?? "..."})`}
+      customChildren={<Icon class={css`margin-left: auto;`} size={16} name='navigate_next' />}
+      iconName='attach_file'
+      iconSize={16}
+      onClick={props.onShowAttachmentClick}
+      class={css`justify-content: start;`}
+      padding={5} />
+    <Show when={params.serverId}><ServerDrawer /></Show>
+  </>
+}
+
+
+const BannerItem = () => {
+  const params = useParams<{ serverId?: string; channelId?: string; }>();
+  const { servers, channels } = useStore();
+
+  const server = () => servers.get(params.serverId!);
+
+  const channel = () => channels.get(params.channelId!)?.recipient;
+
+  const bannerData = () => server() || channel() as { hexColor: string, banner?: string; };
+
+  return (
+    <Show when={bannerData()?.banner}>
+      <Banner class={css`margin-left: 5px; margin-right: 5px;`} margin={0} brightness={100} hexColor={bannerData()?.hexColor} url={bannerUrl(bannerData()!)} />
+    </Show>
+  )
+}
+
+
+const ServerDrawer = () => {
   const params = useParams();
   const { servers, serverMembers, serverRoles } = useStore();
   const server = () => servers.get(params.serverId!);
@@ -93,12 +229,9 @@ const ServerMembersDrawer = () => {
 
   const offlineMembers = createMemo(() => members().filter(member => !member?.user.presence?.status))
 
-
   return (
-    <div class={styles.drawerContainer}>
-      <Header />
-      <Banner class={css`margin-left: 5px; margin-right: 5px;`} margin={0} brightness={100} hexColor={server()?.hexColor} url={bannerUrl(server()!)} />
-      <Text style={{"margin-left": "10px"}}>Members ({members().length})</Text>
+    <>
+      <Text style={{ "margin-left": "10px" }}>Members ({members().length})</Text>
       <For each={roleMembers()}>
         {item => (
           <Show when={!item.role!.hideRole && item.members().length}>
@@ -119,9 +252,9 @@ const ServerMembersDrawer = () => {
           {member => <MemberItem member={member!} />}
         </For>
       </div>
-    </div>
+    </>
   )
-};
+}
 
 
 
@@ -206,7 +339,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
     if (isMobileWidth()) return;
     const flyoutHeight = flyoutRef()!.getBoundingClientRect().height;
     let newTop = props.top!;
-    if ((flyoutHeight + props.top!) > height()) newTop =  height() - flyoutHeight;
+    if ((flyoutHeight + props.top!) > height()) newTop = height() - flyoutHeight;
     flyoutRef()!.style.top = newTop + "px";
   })
 
@@ -231,8 +364,8 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
   return (
     <Show when={details()}>
       <FlyoutContainer ref={setFlyoutRef} class="modal" style={style()}>
-      <Banner maxHeight={200} margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
-      {/* <BannerContainer
+        <Banner maxHeight={200} margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
+        {/* <BannerContainer
          style={{
             ...(user()?.avatar ? {
               "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
@@ -243,10 +376,10 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
           }}
          /> */}
         <FlyoutDetailsContainer>
-          <Avatar animate  class={flyoutAvatarStyles} user={user()} size={60} />
+          <Avatar animate class={flyoutAvatarStyles} user={user()} size={60} />
           <FlyoutOtherDetailsContainer>
             <span>
-              <Text style={{ "overflow-wrap": "anywhere"}}>{user().username}</Text>
+              <Text style={{ "overflow-wrap": "anywhere" }}>{user().username}</Text>
               <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
             </span>
             <UserPresence userId={props.userId} showOffline />
@@ -318,6 +451,6 @@ function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: st
 
 
 
-export default ServerMembersDrawer;
+export default RightDrawer;
 
 

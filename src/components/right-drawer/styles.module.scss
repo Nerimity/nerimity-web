@@ -35,6 +35,36 @@
 
 }
 
+
+.attachmentList {
+  gap: 5px;
+  margin: 5px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(65px,1fr));
+  .attachmentImage {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .attachmentImageContainer {
+    position: relative;
+    &.gif:after {
+      content: "GIF";
+      position: absolute;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 3px;
+      top: 3px;
+      font-size: 12px;
+      left: 3px;
+    }
+  }
+}
+
+
 .memberItem {
   display: flex;
   position: relative;

@@ -285,7 +285,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             }} class={styles.opacityContent} onclick={onOpacityClicked}/>
             <props.Content/>
           </div>
-          <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '250px' : '0', display: 'flex', "flex-shrink": 0}}>
+          <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '265px' : '0', display: 'flex', "flex-shrink": 0}}>
             <div class={styles.rightPane}>{props.RightDrawer}</div>
           </div>
         </div>

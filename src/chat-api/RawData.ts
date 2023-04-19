@@ -10,6 +10,7 @@ export interface RawServer {
   createdById: string;
   createdAt: number;
   verified: boolean;
+  _count: {attachments: number}
 }
 
 
@@ -67,6 +68,7 @@ export interface RawChannel {
   permissions?: number
   createdAt: number
   lastMessagedAt?: number;
+  _count?: {attachments: number}
 }
 export interface RawServerRole {
   id: string;
