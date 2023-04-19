@@ -56,6 +56,8 @@ export function Banner(props: { brightness?: number; class?: string; margin?: nu
       styles["max-height"] = props.maxHeight + "px";
     }
 
+    if (props.margin === 0) return styles;
+
     styles.margin = (props.margin === undefined ? 10 : props.margin) + "px";
     return styles;
   }

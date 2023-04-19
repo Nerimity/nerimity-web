@@ -17,7 +17,7 @@ const DashboardPane = lazy(() => import("@/components/DashboardPane"));
 
 import { getStorageString, removeStorage, StorageKeys } from '../common/localStorage';
 import socketClient from '../chat-api/socketClient';
-import ServerMembersDrawer from '@/components/servers/drawer/members/ServerMembersDrawer';
+import RightDrawer from '@/components/right-drawer/RightDrawer';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
@@ -140,7 +140,8 @@ export default function AppPage() {
 
   const RightPane = (
     <Routes>
-      <Route path="/servers/:serverId/*" component={ServerMembersDrawer} />
+      <Route path="/servers/:serverId/:channelId?/*" component={RightDrawer} />
+      <Route path="/inbox/:channelId?/*" component={RightDrawer} />
     </Routes>
   )
 
