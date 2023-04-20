@@ -35,6 +35,8 @@ export interface RawMessage {
 }
 
 export interface RawAttachment {
+  id: string;
+  messageId?: string;
   path: string;
   width?: number;
   height?: number;

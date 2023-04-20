@@ -7,11 +7,14 @@ import { onInboxOpened } from './events/inboxEvents';
 import { onMessageCreated, onMessageDeleted, onMessageUpdated } from './events/messageEvents';
 import { onServerChannelCreated, onServerChannelDeleted, onServerChannelUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
 import { onNotificationDismissed, onUserPresenceUpdate, onUserUpdated } from './events/userEvents';
+import { onCleanup, onMount } from 'solid-js';
 
 
 const socket = io(env.SERVER_URL, { transports: ['websocket'], autoConnect: false});
 
 let token: undefined | string;
+
+type ValueOf<T> = T[keyof T];
 
 export default {
   login: (newToken?: string) => {
@@ -19,7 +22,16 @@ export default {
     socket.connect()
   },
   id: () => socket.id,
-  socket
+  socket,
+
+  useSocketOn: (name: ValueOf<typeof ServerEvents> , event: any) => {
+    onMount(() => {
+      socket.on(name, event);
+      onCleanup(() => {
+        socket.off(name, event);
+      })
+    })
+  }
 }
 
 

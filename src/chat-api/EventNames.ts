@@ -43,4 +43,4 @@ export const ServerEvents = {
   MESSAGE_CREATED: 'message:created',
   MESSAGE_UPDATED: 'message:updated',
   MESSAGE_DELETED: 'message:deleted',
-}
+} as const

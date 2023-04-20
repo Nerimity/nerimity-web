@@ -8,17 +8,19 @@ import useHeader from "../store/useHeader";
 import useMention from "../store/useMention";
 import useMessages, { MessageSentStatus } from "../store/useMessages";
 import useUsers from "../store/useUsers";
+import socketClient from "../socketClient";
 
 
 
-export function onMessageCreated(payload: RawMessage) {
+export function onMessageCreated(payload: {socketId: string, message: RawMessage}) {
+  if (socketClient.id() === payload.socketId) return;
   const header = useHeader();
   const messages = useMessages();
   const channels = useChannels();
   const mentions = useMention();
   const users = useUsers();
   const account = useAccount();
-  const channel = channels.get(payload.channelId);
+  const channel = channels.get(payload.message.channelId);
   const {hasFocus} = useWindowProperties();
 
   const accountUser = account.user();
@@ -26,39 +28,39 @@ export function onMessageCreated(payload: RawMessage) {
 
   batch(() => {
 
-    channel?.updateLastMessaged(payload.createdAt);
+    channel?.updateLastMessaged(payload.message.createdAt);
 
-    if (accountUser?.id === payload.createdBy.id) {
-      channel?.updateLastSeen(payload.createdAt + 1);
+    if (accountUser?.id === payload.message.createdBy.id) {
+      channel?.updateLastSeen(payload.message.createdAt + 1);
     } 
     else if (!channel || channel.recipient) {
-      const user = users.get(payload.createdBy.id);
+      const user = users.get(payload.message.createdBy.id);
       if (!user) {
-        users.set(payload.createdBy);
+        users.set(payload.message.createdBy);
       }
       
     }
-    const mentionCount = () => mentions.get(payload.channelId)?.count || 0;
+    const mentionCount = () => mentions.get(payload.message.channelId)?.count || 0;
 
-    const isMentioned = () => payload.mentions?.find(u => u.id === accountUser?.id)
+    const isMentioned = () => payload.message.mentions?.find(u => u.id === accountUser?.id)
 
     if (!channel?.serverId || isMentioned()) {
       mentions.set({
-        channelId: payload.channelId,
-        userId: payload.createdBy.id,
+        channelId: payload.message.channelId,
+        userId: payload.message.createdBy.id,
         count: mentionCount() + 1,
         serverId: channel?.serverId
       });
     }
 
-    messages.pushMessage(payload.channelId, payload);
+    messages.pushMessage(payload.message.channelId, payload.message);
   })
 
   // only play notifications if: 
   //   it does not have focus (has focus)
   //   channel is not selected (is selected)
-  if (payload.createdBy.id !== accountUser?.id) {
-    const isChannelSelected = header.details().id === "MessagePane" && header.details().channelId === payload.channelId;
+  if (payload.message.createdBy.id !== accountUser?.id) {
+    const isChannelSelected = header.details().id === "MessagePane" && header.details().channelId === payload.message.channelId;
     if (hasFocus() && isChannelSelected) return;
     playMessageNotification();
   }

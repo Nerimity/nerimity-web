@@ -134,13 +134,15 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
   }
 
 
-  const onMessageCreated = (message: RawMessage) => {
-    if (message.channelId !== params.channelId) return;
+  const onMessageCreated = (payload: {socketId: string, message: RawMessage}) => {
+    if (socketClient.id() === payload.socketId) return;
+
+    if (payload.message.channelId !== params.channelId) return;
     if (scrollTracker.scrolledBottom()) {
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
     }
     if (!scrollTracker.scrolledBottom()) {
-      if (message.createdBy.id !== account.user()?.id) {
+      if (payload.message.createdBy.id !== account.user()?.id) {
         if (!hasFocus()) return;
         playMessageNotification();
       }
@@ -591,12 +593,14 @@ function TypingIndicator() {
     setTypingUserIds(event.userId, timeoutId);
   }
 
-  const onMessageCreated = (event: RawMessage) => {
-    if (event.channelId !== params.channelId) return;
-    const timeoutId = typingUserIds[event.createdBy.id];
+  const onMessageCreated = (event: {socketId: string, message: RawMessage}) => {
+    if (socketClient.id() === event.socketId) return;
+
+    if (event.message.channelId !== params.channelId) return;
+    const timeoutId = typingUserIds[event.message.createdBy.id];
     if (timeoutId) {
       clearTimeout(timeoutId)
-      setTypingUserIds(event.createdBy.id, undefined);
+      setTypingUserIds(event.message.createdBy.id, undefined);
     }
   }
 

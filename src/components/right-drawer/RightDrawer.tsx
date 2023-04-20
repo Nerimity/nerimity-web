@@ -24,10 +24,12 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import { CustomLink } from '@/components/ui/CustomLink';
 import { Banner } from '@/components/ui/Banner';
 import { fetchChannelAttachments } from '@/chat-api/services/MessageService';
-import { RawAttachment } from '@/chat-api/RawData';
+import { RawAttachment, RawMessage } from '@/chat-api/RawData';
 import env from '@/common/env';
 import { ImagePreviewModal } from '@/components/ui/ImageEmbed';
 import { classNames, conditionalClass } from '@/common/classNames';
+import socketClient from '@/chat-api/socketClient';
+import { ServerEvents } from '@/chat-api/EventNames';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -78,7 +80,6 @@ const Header = () => {
 
 const RightDrawer = () => {
   const params = useParams<{ serverId?: string; channelId?: string; }>();
-
   const [showAttachments, setShowAttachments] = createSignal(false);
 
   createEffect(on([() => params.channelId], (now, prev) => {
@@ -98,15 +99,46 @@ const RightDrawer = () => {
 
 const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
   const params = useParams<{ serverId?: string; channelId?: string; }>();
-
-
+  const {channels} = useStore();
+  
   const [attachments, setAttachments] = createSignal<RawAttachment[]>([]);
+  
+  const incrAttachments = (channelId: string) => {
+    const channel =  channels.get(channelId);
+
+    const count = (channel?._count?.attachments || 0);
+    channel?.update({_count: {attachments: count + 1 }});
+  }
+  const decrAttachments = (channelId: string) => {
+    const channel =  channels.get(channelId);
+
+    const count = (channel?._count?.attachments || 1);
+    channel?.update({_count: {attachments: count - 1 }});
+  }
 
   onMount(async () => {
     const newAttachments = await fetchChannelAttachments(params.channelId!);
-    return setAttachments(newAttachments);
+    setAttachments(newAttachments);
   })
 
+  const onMessage = (payload: {message: RawMessage}) => {
+    if (payload.message.channelId !== params.channelId) return;
+    const attachment = payload?.message.attachments?.[0];
+    if (!attachment) return;
+    setAttachments([
+      {...attachment, messageId: payload.message.id},
+      ...attachments()
+    ])
+    incrAttachments(params.channelId);
+  }
+  socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage)  
+
+  const onDelete = (payload: {messageId: string, channelId: string}) => {
+    if (payload.channelId !== params.channelId) return;
+    setAttachments(attachments().filter(attachment => attachment.messageId !== payload.messageId))
+    decrAttachments(params.channelId);
+  }
+  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)  
 
   return (
     <>
@@ -163,7 +195,34 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
   const params = useParams<{ serverId?: string; channelId?: string; }>();
   const { channels, servers } = useStore();
 
+
   const channel = () => channels.get(params.channelId!);
+
+  const incrAttachments = (channelId: string) => {
+    const channel = channels.get(channelId);
+    
+    const count = (channel?._count?.attachments || 0);
+    channel?.update({_count: {attachments: count + 1 }});
+  }
+
+  const decrAttachments = (channelId: string) => {
+    const channel = channels.get(channelId);
+
+    const count = (channel?._count?.attachments || 1);
+    channel?.update({_count: {attachments: count - 1 }});
+  }
+
+  const onMessage = (payload: {message: RawMessage}) => {
+    const attachment = payload?.message.attachments?.[0];
+    if (!attachment) return;
+    incrAttachments(payload.message.channelId);
+  }
+  socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage)  
+
+  const onDelete = (payload: {messageId: string, channelId: string}) => {
+    decrAttachments(payload.channelId);
+  }
+  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)  
 
 
   return <>
