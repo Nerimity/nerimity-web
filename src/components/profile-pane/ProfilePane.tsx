@@ -127,7 +127,9 @@ export default function ProfilePane() {
               </div>
             </div>
           </Banner>
-          <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
+          <Show when={!isMe()}>
+            <ActionButtons updateUserDetails={() => fetchUserDetails(params.userId)} userDetails={userDetails()} user={user()} />
+          </Show>
         </div>
         <Show when={userDetails()}>
           <Content user={userDetails()!} />
