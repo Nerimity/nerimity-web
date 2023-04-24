@@ -227,14 +227,16 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
 
   return <>
     <BannerItem />
-    <Button
-      label={`Attachments (${channel()?._count?.attachments ?? "..."})`}
-      customChildren={<Icon class={css`margin-left: auto;`} size={16} name='navigate_next' />}
-      iconName='attach_file'
-      iconSize={16}
-      onClick={props.onShowAttachmentClick}
-      class={css`justify-content: start;`}
-      padding={5} />
+    <Show when={channel()}>
+      <Button
+        label={`Attachments (${channel()?._count?.attachments ?? "..."})`}
+        customChildren={<Icon class={css`margin-left: auto;`} size={16} name='navigate_next' />}
+        iconName='attach_file'
+        iconSize={16}
+        onClick={props.onShowAttachmentClick}
+        class={css`justify-content: start;`}
+        padding={5} />
+    </Show>
     <Show when={params.serverId}><ServerDrawer /></Show>
   </>
 }
