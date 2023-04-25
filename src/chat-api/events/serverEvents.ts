@@ -1,8 +1,8 @@
 import { runWithContext } from "@/common/runWithContext";
-import { batch } from "solid-js";
+import { batch, from } from "solid-js";
 import { RawChannel, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
 import useAccount from "../store/useAccount";
-import useChannels from "../store/useChannels";
+import useChannels, { Channel } from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
@@ -200,4 +200,26 @@ export const onServerRoleDeleted = (payload: {serverId: string, roleId: string})
     }
     serverRoles.deleteRole(payload.serverId, payload.roleId);
   }))
+}
+
+interface ServerChannelOrderUpdatedPayload {
+  serverId: string;
+  updated: {id: string, order: number}[]
+}
+
+
+export const onServerChannelOrderUpdated = (payload: ServerChannelOrderUpdatedPayload) => {
+  const channels = useChannels();
+  const orderedChannels = channels.getSortedChannelsByServerId(payload.serverId);
+
+  batch(() => {
+    for (let i = 0; i < orderedChannels.length; i++) {
+      const channel = orderedChannels[i];
+      channel?.update({order: i + 1});
+    }
+    payload.updated.forEach(updated => {
+      const channel = channels.get(updated.id);
+      channel?.update({order: updated.order});
+    });
+  });
 }

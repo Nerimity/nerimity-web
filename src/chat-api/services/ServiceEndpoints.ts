@@ -11,6 +11,7 @@ export default {
   serverChannel: (serverId: string, channelId: string) => `/servers/${serverId}/channels/${channelId}`,
   serverRoles: (serverId: string) => `/servers/${serverId}/roles`,
   serverRolesOrder: (serverId: string) => `/servers/${serverId}/roles/order`,
+  serverChannelOrder: (serverId: string) => `/servers/${serverId}/channels/order`,
   serverOrder: () => `/servers/order`,
   serverRole: (serverId: string, roleId: string) => `/servers/${serverId}/roles/${roleId}`,
   serverMember: (serverId: string, userId: string) => `/servers/${serverId}/members/${userId}`,

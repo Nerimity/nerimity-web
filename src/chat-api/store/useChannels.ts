@@ -94,6 +94,20 @@ const array = () => Object.values(channels);
 
 const getChannelsByServerId = (serverId: string) => array().filter(channel => channel?.serverId === serverId);
 
+
+// if order field exists, sort by order, else, sort by created date
+const getSortedChannelsByServerId = (serverId: string) => {
+  return getChannelsByServerId(serverId).sort((a, b) => {
+    if (a!.order && b!.order) {
+      return a!.order - b!.order;
+    } else {
+      return a!.createdAt - b!.createdAt;
+    }
+  })
+}
+
+
+
 const removeAllServerChannels = (serverId: string) => {
   const channelsArr = array();
   batch(() => {
@@ -110,6 +124,7 @@ export default function useChannels() {
   return {
     array,
     getChannelsByServerId,
+    getSortedChannelsByServerId,
     deleteChannel,
     get,
     set,

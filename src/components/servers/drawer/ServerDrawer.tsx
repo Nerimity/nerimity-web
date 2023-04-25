@@ -46,11 +46,14 @@ const ServerDrawer = () => {
 const ChannelList = () => {
   const params = useParams();
   const {channels} = useStore();
-  const serverChannels = () => channels.getChannelsByServerId(params.serverId);
+  const sortedServerChannels = () => channels.getSortedChannelsByServerId(params.serverId);
+
+
+
   return (
     <div class={styles.channelList}>
       <Header />
-      <For each={serverChannels()}>
+      <For each={sortedServerChannels()}>
         {channel => (
           <ChannelItem channel={channel!} selected={params.channelId === channel!.id} />
         )}

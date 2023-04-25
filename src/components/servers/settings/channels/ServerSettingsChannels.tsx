@@ -1,14 +1,15 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useNavigate, useParams } from '@nerimity/solid-router';
-import { createSignal, For, onMount } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, on, onMount } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Button from '@/components/ui/Button';
 import { Channel } from '@/chat-api/store/useChannels';
 import Icon from '@/components/ui/icon/Icon';
-import { createServerChannel } from '@/chat-api/services/ServerService';
+import { createServerChannel, updateServerChannelOrder } from '@/chat-api/services/ServerService';
 import { useTransContext } from '@nerimity/solid-i18next';
+import Sortable from 'solid-sortablejs';
 
 
 
@@ -30,18 +31,35 @@ function ChannelItem(props: { channel: Channel }) {
 function ChannelList() {
   const { serverId } = useParams();
   const { channels } = useStore();
-  const serverChannels = () => channels.getChannelsByServerId(serverId)
+  const sortedServerChannels = createMemo(() => channels.getSortedChannelsByServerId(serverId));
+
+  const [temp, setTemp, resetTemp] = createTemporarySignal(sortedServerChannels);
+
+  const setItems = async (newItems: Channel[]) => {
+    setTemp(newItems);
+    const updateOrder = newItems.map((newItem, i) => ({id:  newItem.id, order: i + 1}))
+    const diff = updateOrder.filter((newItem, i) => sortedServerChannels()[i]?.id !== newItem.id);
+    if (!diff.length) return;
+    await updateServerChannelOrder(serverId, diff).finally(() => {
+      resetTemp()
+    })
+  }
 
   return (
-    <div class={styles.channelList}>
-      <For each={serverChannels()}>
-        {channel => <ChannelItem channel={channel!} />}
-      </For>
-    </div>
+    <Sortable class={styles.channelList}  setItems={setItems} items={temp() as unknown as Channel[]} idField="id">
+      {channel => <ChannelItem channel={channel!} />}
+    </Sortable>
   )
 }
 
+function createTemporarySignal<T>(v: () => T) {
+  const [value, setValue] = createSignal(v()); 
+  createEffect(on(v, () => setValue(v)))
 
+  const resetValue = () => setValue(v);
+
+  return [value, setValue, resetValue] as const
+}
 
 
 export default function ServerSettingsChannel() {
@@ -50,7 +68,7 @@ export default function ServerSettingsChannel() {
   const { header } = useStore();
   const [channelAddRequestSent, setChannelAddRequestSent] = createSignal(false);
   const navigate = useNavigate();
-  
+
   onMount(() => {
     header.updateHeader({
       title: "Settings - Channels",

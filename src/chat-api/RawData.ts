@@ -69,6 +69,7 @@ export interface RawChannel {
   permissions?: number
   createdAt: number
   lastMessagedAt?: number;
+  order?: number;
   _count?: {attachments: number}
 }
 export interface RawServerRole {

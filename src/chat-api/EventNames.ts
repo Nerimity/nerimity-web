@@ -25,6 +25,7 @@ export const ServerEvents = {
   SERVER_ROLE_CREATED: 'server:role_created',
   SERVER_ROLE_UPDATED: 'server:role_updated',
   SERVER_ROLE_ORDER_UPDATED: 'server:role_order_updated',
+  SERVER_CHANNEL_ORDER_UPDATED: 'server:channel_order_updated',
 
   SERVER_ROLE_DELETED: 'server:role_deleted',
 

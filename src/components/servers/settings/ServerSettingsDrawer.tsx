@@ -104,10 +104,10 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
 function ServerChannelsList () {
   const params = useParams();
   const {channels} = useStore();
-  const serverChannels = () =>channels.getChannelsByServerId(params.serverId);
+  const sortedServerChannels = () =>channels.getSortedChannelsByServerId(params.serverId);
 
   return (
-    <For each={serverChannels()}>
+    <For each={sortedServerChannels()}>
       {(channel) => {
         const path = RouterEndpoints.SERVER_SETTINGS_CHANNEL(params.serverId, channel!.id);
         const selected = () =>params.id === channel!.id;

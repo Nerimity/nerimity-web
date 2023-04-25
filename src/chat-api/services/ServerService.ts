@@ -82,6 +82,15 @@ export async function updateServerOrder(serverIds: string[]): Promise<RawServerR
   });
 }
 
+export async function updateServerChannelOrder(serverId: string, updated: {id: string, order: number}[]): Promise<RawServerRole> {
+  return request({
+    method: "POST",
+    body: {updated},
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannelOrder(serverId),
+    useToken: true
+  });
+}
+
 export async function updateServerRole(serverId: string, roleId: string, update: any): Promise<any> {
   return request({
     method: "POST",
