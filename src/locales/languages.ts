@@ -14,7 +14,7 @@ export const languages = {
   "en-gb": {
     name: "British English",
     emoji: "🇬🇧",
-    contributors: ["https://github.com/Supertigerr"],
+    contributors: ["https://github.com/SupertigerDev"],
   },
   "hu-hu": {
     name: "Hungarian",
