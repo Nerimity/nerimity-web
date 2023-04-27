@@ -71,9 +71,14 @@ export default function LanguageSettings() {
 function LanguageItem(props: {key: string, selected: boolean, onClick: () => void}) {
   const language = (languages as any)[props.key] as Language;
   
+  const onClick = (event: any) => {
+    const target = event.target as HTMLElement;
+    if (target.tagName === "A") return;
+    props.onClick();
+  }
 
   return (
-    <LanguageItemContainer onclick={props.onClick}  selected={props.selected}>
+    <LanguageItemContainer onclick={onClick}  selected={props.selected}>
       <Emoji class={css`height: 30px; width: 30px;`}  name={emojiUnicodeToShortcode(language.emoji)} url={unicodeToTwemojiUrl(language.emoji)} />
       <FlexColumn>
         <Text>{language.name}</Text>
