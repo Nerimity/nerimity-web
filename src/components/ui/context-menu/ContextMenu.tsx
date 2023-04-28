@@ -6,7 +6,8 @@ import { Portal } from 'solid-js/web';
 import { useWindowProperties } from '@/common/useWindowProperties';
 
 
-interface Item {
+export interface ContextMenuItem {
+  id?: any;
   label?: string;
   icon?: string;
   onClick?: () => void;
@@ -17,13 +18,14 @@ interface Item {
 }
 
 export interface ContextMenuProps {
-  items: Item[]
+  items: ContextMenuItem[]
   onClose?: () => void,
   triggerClassName?: string,
+  onClick?(item: ContextMenuItem): void;
   position?: {
     x: number;
     y: number;
-  }
+  } | null
 }
 
 export default function ContextMenu(props: ContextMenuProps) {
@@ -95,13 +97,14 @@ export default function ContextMenu(props: ContextMenuProps) {
   return (
     <Show when={props.position}>
       <Portal>
+        <Show when={isMobileWidth()}><div class={styles.darkBackground}/></Show>
         <div ref={contextMenuElement} class={classNames(styles.contextMenu, conditionalClass(isMobileWidth(), styles.mobile))} style={isMobileWidth() ? {} : pos()}>
           <div class={styles.contextMenuInner}>
             <For each={props.items}>
               {item => (
                 <Show when={item.show !== false}>
                   {item.separator && <div class={styles.separator} />}
-                  {!item.separator && <Item item={item} />}
+                  {!item.separator && <Item onClick={() => props.onClick?.(item)} item={item} />}
                 </Show>
               )}
           </For>
@@ -112,9 +115,13 @@ export default function ContextMenu(props: ContextMenuProps) {
   )
 }
 
-function Item(props: {item: Item}) {
+function Item(props: {item: ContextMenuItem, onClick?(): void}) {
+  const onClick = () => {
+    props.onClick?.()
+    props.item.onClick?.()
+  }
   return (
-    <div class={classNames(styles.item, conditionalClass(props.item.alert, styles.alert), conditionalClass(props.item.disabled, styles.disabled))} onClick={props.item.onClick}>
+    <div class={classNames(styles.item, conditionalClass(props.item.alert, styles.alert), conditionalClass(props.item.disabled, styles.disabled))} onClick={onClick}>
       <Icon name={props.item.icon || "texture"} size={18} color={props.item.alert ? 'var(--alert-color)' : undefined}  />
       <span class={styles.label} >{props.item.label}</span>
     </div>
