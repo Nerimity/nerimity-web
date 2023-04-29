@@ -5,18 +5,56 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import Header from './header/ServerDrawerHeader';
 import { Link, useParams } from '@nerimity/solid-router';
 import useStore from '@/chat-api/store/useStore';
-import { For } from 'solid-js';
+import { For, Match, Show, Switch, createMemo } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';
 import ItemContainer from '@/components/ui/Item';
-import { styled } from 'solid-styled-components';
+import { css, styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
+import { ChannelType } from '@/chat-api/RawData';
+import Icon from '@/components/ui/icon/Icon';
+import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
+
+
+
+
+const ServerDrawer = () => {
+  return (
+    <div class={styles.serverDrawer}>
+      <Header />
+      <ChannelList />
+    </div>
+  )
+};
+
+
+
+const ChannelList = () => {
+  const params = useParams();
+  const { channels } = useStore();
+  const sortedServerChannels = () => channels.getSortedChannelsByServerId(params.serverId).filter(channel => !channel?.categoryId);
+
+  return (
+    <div class={styles.channelList}>
+      <For each={sortedServerChannels()}>
+        {channel => (
+          <Switch>
+            <Match when={channel!.type === ChannelType.SERVER_TEXT}>
+              <ChannelItem channel={channel!} selected={params.channelId === channel!.id} />
+            </Match>
+            <Match when={channel!.type === ChannelType.CATEGORY}>
+              <CategoryItem channel={channel!} selected={params.channelId === channel!.id} />
+            </Match>
+          </Switch>
+        )}
+      </For>
+    </div>
+  )
+};
 
 
 const ChannelContainer = styled(ItemContainer)`
   height: 32px;
   padding-left: 10px;
-  margin-left: 3px;
-  margin-right: 3px;
 
   
   .label {
@@ -32,51 +70,68 @@ const ChannelContainer = styled(ItemContainer)`
   }
 
 `;
+const CategoryContainer = styled(FlexColumn)`
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 5px;
+  
+  margin-top: 2px;
+  margin-bottom: 2px;
+`
+const CategoryItemContainer = styled(FlexRow)`
+  margin-top: 5px;
+  margin-bottom: 5px;
+`
 
-const ServerDrawer = () => {
-  return (
-    <div class={styles.serverDrawer}>
-      <ChannelList />
-    </div>
-  )
-};
 
 
-
-const ChannelList = () => {
+function CategoryItem(props: { channel: Channel, selected: boolean }) {
   const params = useParams();
-  const {channels} = useStore();
-  const sortedServerChannels = () => channels.getSortedChannelsByServerId(params.serverId);
+  const { channels } = useStore();
 
+
+  const hasNotifications = () => props.channel.hasNotifications;
+
+  const sortedServerChannels = createMemo(() => channels.getSortedChannelsByServerId(params.serverId).filter(channel => channel?.categoryId === props.channel.id));
 
 
   return (
-    <div class={styles.channelList}>
-      <Header />
-      <For each={sortedServerChannels()}>
-        {channel => (
-          <ChannelItem channel={channel!} selected={params.channelId === channel!.id} />
-        )}
-      </For>
-    </div>
-  )
-};
+    <CategoryContainer>
 
-function ChannelItem(props: {channel: Channel, selected: boolean}) {
+      <CategoryItemContainer gap={5}>
+        <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
+        <Text class="label" size={14} opacity={0.6}>{props.channel.name}</Text>
+      </CategoryItemContainer>
+
+      <Show when={sortedServerChannels().length}>
+        <div class={styles.categoryChannelList}>
+          <For each={sortedServerChannels()}>
+            {channel => (
+              <ChannelItem channel={channel!} selected={params.channelId === channel!.id} />
+            )}
+          </For>
+        </div>
+      </Show>
+    </CategoryContainer>
+  )
+}
+
+function ChannelItem(props: { channel: Channel, selected: boolean }) {
   const { channel } = props;
-  if (!channel.serverId) return null;
+
 
   const hasNotifications = () => channel.hasNotifications;
 
 
   return (
-    <Link 
-      href={RouterEndpoints.SERVER_MESSAGES(channel.serverId, channel.id)}
-        style={{"text-decoration": "none"}}
-      >
-        <ChannelContainer selected={props.selected} alert={hasNotifications()}>
-          <Text class="label">{channel.name}</Text>
-        </ChannelContainer>
+    <Link
+      href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
+      style={{ "text-decoration": "none" }}
+    >
+      <ChannelContainer selected={props.selected} alert={hasNotifications()}>
+        <Text class="label">{channel.name}</Text>
+      </ChannelContainer>
     </Link>
   )
 }

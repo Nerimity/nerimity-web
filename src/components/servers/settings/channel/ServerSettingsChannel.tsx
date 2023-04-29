@@ -115,22 +115,18 @@ export default function ServerSettingsChannel() {
 }
 
 function ChannelDeleteConfirmModal(props: {channel: Channel, close: () => void}) {
-  const params = useParams();
   const navigate = useNavigate();
   const [error, setError] = createSignal<string | null>(null);
 
-  createEffect(() => {
-    if (!props.channel) {
-      props.close();
-    }
-  })
 
   
   const onDeleteClick = async () => {
+    const serverId = props.channel.serverId!;
     setError(null);
-    deleteServerChannel(props.channel?.serverId!, props.channel.id).then(() => {
-      const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(params.serverId!);
+    deleteServerChannel(serverId, props.channel.id).then(() => {
+      const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(serverId);
       navigate(path);
+      props.close();
     }).catch(err => {
       setError(err.message);
     })

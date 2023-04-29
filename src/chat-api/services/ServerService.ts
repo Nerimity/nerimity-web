@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {RawChannel, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
+import {ChannelType, RawChannel, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
 import env from "../../common/env";
 
 
@@ -58,10 +58,19 @@ export async function bannedMembersList(serverId: string): Promise<Ban[]> {
   });
 }
 
-export async function createServerChannel(serverId: string): Promise<RawChannel> {
+interface CreateServerChannelOpts {
+  serverId: string
+  name?: string;
+  type?: ChannelType;
+}
+export async function createServerChannel(opts: CreateServerChannelOpts): Promise<RawChannel> {
   return request({
     method: "POST",
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannels(serverId),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannels(opts.serverId),
+    body: {
+      ...(opts.name ? {name: opts.name} : undefined),
+      ...(opts.type ? {type: opts.type} : undefined),
+    },
     useToken: true
   });
 }
@@ -82,10 +91,10 @@ export async function updateServerOrder(serverIds: string[]): Promise<RawServerR
   });
 }
 
-export async function updateServerChannelOrder(serverId: string, updated: {id: string, order: number}[]): Promise<RawServerRole> {
+export async function updateServerChannelOrder(serverId: string, updated: {channelIds: string[], categoryId?: string}): Promise<RawServerRole> {
   return request({
     method: "POST",
-    body: {updated},
+    body: {channelIds: updated.channelIds, categoryId: updated.categoryId},
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannelOrder(serverId),
     useToken: true
   });

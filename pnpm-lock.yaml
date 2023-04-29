@@ -50,8 +50,8 @@ dependencies:
     specifier: ^1.6.11
     version: 1.6.11
   solid-sortablejs:
-    specifier: ^2.0.3
-    version: 2.0.3(solid-js@1.6.11)
+    specifier: ^2.0.9
+    version: 2.0.9(solid-js@1.6.11)
   solid-styled-components:
     specifier: ^0.28.5
     version: 0.28.5(solid-js@1.6.11)
@@ -1243,8 +1243,8 @@ packages:
       solid-js: 1.6.11
     dev: true
 
-  /solid-sortablejs@2.0.3(solid-js@1.6.11):
-    resolution: {integrity: sha512-VDdK8d4+qMKC6kE50vH5BeXV8uHHmRCBiUz8nOowDBxEQFIFPJRUf2ty6z415cZx17XFwax8GoJBhLROuQRlGg==}
+  /solid-sortablejs@2.0.9(solid-js@1.6.11):
+    resolution: {integrity: sha512-XwyxP1gIb7hVTfZdMeqoaB1msbLi5ae3hJRiusjkD81TYTsqWlV8l2jbo0lqvgjarz/oQoDuFHVCkeNa88N7yg==}
     peerDependencies:
       solid-js: '>=1.0.0'
     dependencies:

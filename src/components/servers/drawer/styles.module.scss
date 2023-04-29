@@ -4,11 +4,23 @@
   flex-direction: column;
   overflow: hidden;
   height: 100%;
+  overflow: auto;
 }
+
 .channelList {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-bottom: 5px;
+  padding-top: 3px;
+}
+
+.categoryChannelList {
   display: flex;
   flex-direction: column;
   gap: 2px;
   overflow: auto;
-  padding-bottom: 3px;
 }

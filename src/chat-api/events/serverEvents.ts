@@ -27,7 +27,7 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
 
 
   servers.set(payload.server);
-  
+
   for (let i = 0; i < payload.roles.length; i++) {
     const role = payload.roles[i];
     roles.set(role.serverId, role);
@@ -48,7 +48,7 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
   }
 }
 
-export const onServerLeft = (payload: {serverId: string}) => runWithContext(() => {
+export const onServerLeft = (payload: { serverId: string }) => runWithContext(() => {
   const serverMembers = useServerMembers();
   const servers = useServers();
   const channels = useChannels();
@@ -84,7 +84,7 @@ interface ServerUpdated {
 }
 
 
-export const onServerMemberLeft = (payload: {userId: string, serverId: string}) => {
+export const onServerMemberLeft = (payload: { userId: string, serverId: string }) => {
   const serverMembers = useServerMembers();
   serverMembers.remove(payload.serverId, payload.userId);
 }
@@ -111,7 +111,7 @@ export const onServerUpdated = (payload: ServerUpdated) => {
   const server = servers.get(payload.serverId);
   server?.update(payload.updated);
 }
-export const onServerOrderUpdated = (payload: {serverIds: string[]}) => {
+export const onServerOrderUpdated = (payload: { serverIds: string[] }) => {
   const account = useAccount();
   account.setUser({
     orderedServerIds: payload.serverIds,
@@ -183,12 +183,12 @@ export const onServerRoleOrderUpdated = (payload: ServerRoleOrderUpdated) => {
     for (let i = 0; i < payload.roleIds.length; i++) {
       const roleId = payload.roleIds[i];
       const role = serverRoles.get(payload.serverId, roleId);
-      role?.update({order: i + 1});
+      role?.update({ order: i + 1 });
     }
   })
 }
 
-export const onServerRoleDeleted = (payload: {serverId: string, roleId: string}) => {
+export const onServerRoleDeleted = (payload: { serverId: string, roleId: string }) => {
   const serverRoles = useServerRoles();
   const serverMembers = useServerMembers();
   const members = serverMembers.array(payload.serverId);
@@ -196,7 +196,7 @@ export const onServerRoleDeleted = (payload: {serverId: string, roleId: string})
     for (let i = 0; i < members.length; i++) {
       const member = members[i];
       if (!member?.roleIds.includes(payload.roleId)) continue;
-      member.update({roleIds: member.roleIds.filter(ids => ids !== payload.roleId)})
+      member.update({ roleIds: member.roleIds.filter(ids => ids !== payload.roleId) })
     }
     serverRoles.deleteRole(payload.serverId, payload.roleId);
   }))
@@ -204,7 +204,8 @@ export const onServerRoleDeleted = (payload: {serverId: string, roleId: string})
 
 interface ServerChannelOrderUpdatedPayload {
   serverId: string;
-  updated: {id: string, order: number}[]
+  categoryId?: string;
+  orderedChannelIds: string[];
 }
 
 
@@ -215,11 +216,24 @@ export const onServerChannelOrderUpdated = (payload: ServerChannelOrderUpdatedPa
   batch(() => {
     for (let i = 0; i < orderedChannels.length; i++) {
       const channel = orderedChannels[i];
-      channel?.update({order: i + 1});
+      channel?.update({
+        ...(payload.orderedChannelIds.includes(channel.id) ? { order: payload.orderedChannelIds.indexOf(channel.id) + 1 } : undefined),
+
+        // update or add categoryId
+        ...(
+          payload.categoryId && payload.categoryId !== channel.categoryId && payload.orderedChannelIds.includes(channel.id)
+            ? {
+              categoryId: payload.categoryId
+            } : undefined
+        ),
+        // remove categoryid
+        ...(
+          !payload.categoryId && channel.categoryId && payload.orderedChannelIds.includes(channel.id)
+            ? {
+              categoryId: undefined
+            } : undefined
+        )
+      });
     }
-    payload.updated.forEach(updated => {
-      const channel = channels.get(updated.id);
-      channel?.update({order: updated.order});
-    });
   });
 }

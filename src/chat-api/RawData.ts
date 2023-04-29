@@ -60,12 +60,20 @@ export interface RawServerMember {
   roleIds: string[];
 }
 
+
+export enum ChannelType {
+  DM_TEXT = 0,
+  SERVER_TEXT = 1,
+  CATEGORY = 2,
+}
+
 export interface RawChannel {
   id: string;
+  categoryId?: string;
   name: string
   createdById?: string;
   serverId?: string;
-  type: number;
+  type: ChannelType;
   permissions?: number
   createdAt: number
   lastMessagedAt?: number;

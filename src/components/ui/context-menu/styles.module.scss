@@ -17,6 +17,12 @@
 
 }
 
+.darkBackground {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .contextMenuInner {
   display: flex;
   flex-direction: column;

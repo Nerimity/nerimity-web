@@ -108,8 +108,6 @@
         "serverMemberCount": "{{count}} tag"
       },
       "channels": {
-        "addChannelButton": "Csatorna Hozzáadása",
-        "addNewChannel": "Új csatorna hozzáadása"
       },
       "channel": {
         "saving": "Mentés...",

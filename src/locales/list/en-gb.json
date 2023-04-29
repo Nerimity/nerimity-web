@@ -108,8 +108,8 @@
         "serverMemberCount": "{{count}} members"
       },
       "channels": {
-        "addChannelButton": "Add Channel",
-        "addNewChannel": "Add a new channel"
+        "createButton": "Create",
+        "createNewDescription": "Create a new channel or category"
       },
       "channel": {
         "saving": "Saving...",

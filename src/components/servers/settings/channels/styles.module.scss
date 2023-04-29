@@ -8,24 +8,34 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  min-height: 50px;
+  padding-bottom: 50px;
 }
 
 .channelItem {
   display: flex;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.06);
-  padding: 10px;
-  border-radius: 8px;
-  transition: 0.2s;
-  cursor: pointer;
-  text-decoration: none;
+  flex-direction: column;
+  .container {
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.06);
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+    display: flex;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+  .categoryChannels {
+    margin-left: 35px;
+    margin-top: 3px;
+
+    border: solid 1px rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+  }
   .name {
     margin-left: 10px;
     margin-right: auto;
-    color: white;
-  }
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
   }
 }
 

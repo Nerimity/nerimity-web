@@ -12,7 +12,7 @@ interface Props {
   iconSize?: number;
   textSize?: number;
   iconName?: string;
-  onClick?: (event?: MouseEvent) => void;
+  onClick?: (event: MouseEvent) => void;
   primary?: boolean;
   customChildren?: JSXElement
 }

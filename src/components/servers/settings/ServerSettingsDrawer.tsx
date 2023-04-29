@@ -10,6 +10,7 @@ import { styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { Bitwise } from '@/chat-api/Bitwise';
+import { ChannelType } from '@/chat-api/RawData';
 
 const SettingsListContainer = styled("div")`
   display: flex;
@@ -64,11 +65,11 @@ function SettingsList () {
         {(setting) => {
           if (setting.hideDrawer) return null;
           const selected = () => params.path === setting.path;
-          const isChannels = () => setting.path === "channels";
+          // const isChannels = () => setting.path === "channels";
           return (
             <Show when={hasPermission(setting.requiredRolePermission)}>
               <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} selected={selected()} />
-              <Show when={isChannels() && selected()}><ServerChannelsList/></Show>
+              {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
             </Show>
           )
         }}
@@ -111,7 +112,7 @@ function ServerChannelsList () {
       {(channel) => {
         const path = RouterEndpoints.SERVER_SETTINGS_CHANNEL(params.serverId, channel!.id);
         const selected = () =>params.id === channel!.id;
-        return <Item nested={true} icon='storage' label={channel!.name} path={path} selected={selected()} />
+        return <Item nested={true} icon={channel!.type === ChannelType.CATEGORY ? 'segment' : 'storage'} label={channel!.name} path={path} selected={selected()} />
       }}
     </For>
   )
