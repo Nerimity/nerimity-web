@@ -1,6 +1,6 @@
 import env from '@/common/env';
 import {createStore} from 'solid-js/store';
-import { RawServer } from '../RawData';
+import { ChannelType, RawServer } from '../RawData';
 import { deleteServer } from '../services/ServerService';
 import useAccount from './useAccount';
 import useChannels from './useChannels';
@@ -28,7 +28,7 @@ const set = (server: RawServer) =>
       ...server,
       get hasNotifications() {
         const channels = useChannels();
-        return channels.getChannelsByServerId(server.id).some(channel => channel!.hasNotifications)
+        return channels.getChannelsByServerId(server.id).some(channel => channel!.hasNotifications && channel?.type === ChannelType.SERVER_TEXT)
       },
       get mentionCount() {
         const mention = useMention();
