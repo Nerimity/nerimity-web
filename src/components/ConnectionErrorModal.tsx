@@ -1,7 +1,7 @@
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
-import { useNavigate } from "@nerimity/solid-router";
+import { useNavigate } from "@solidjs/router";
 import { Match, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "./ui/Button";

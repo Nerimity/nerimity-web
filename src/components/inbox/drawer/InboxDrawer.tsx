@@ -8,7 +8,7 @@ import { createEffect, createSignal, For } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { FriendStatus } from '@/chat-api/RawData';
 import Modal from '@/components/ui/Modal';
-import { useParams } from '@nerimity/solid-router';
+import { useParams } from '@solidjs/router';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
 import { DrawerHeader } from '@/components/DrawerHeader';

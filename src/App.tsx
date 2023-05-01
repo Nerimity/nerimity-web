@@ -2,7 +2,7 @@ import { onMount, lazy } from 'solid-js';
 import env from './common/env';
 import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
-import { Link, Route, Routes, useNavigate, useParams } from '@nerimity/solid-router';
+import { Link, Route, Routes, useNavigate, useParams } from '@solidjs/router';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@nerimity/solid-i18next';
 

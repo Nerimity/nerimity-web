@@ -1,5 +1,5 @@
 import serverSettings from '@/common/ServerSettings';
-import { Route, Routes, useParams } from '@nerimity/solid-router';
+import { Route, Routes, useParams } from '@solidjs/router';
 import {createSignal, For, Show } from 'solid-js';
 import ServerSettingsHeader from './ServerSettingsHeader';
 import useStore from '@/chat-api/store/useStore';

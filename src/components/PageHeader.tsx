@@ -1,6 +1,6 @@
 import { createSignal, Match, onMount, Show, Switch } from 'solid-js'
 import { css, styled } from 'solid-styled-components'
-import { Link } from '@nerimity/solid-router'
+import { Link } from '@solidjs/router'
 import env from '@/common/env'
 import { getUserDetailsRequest } from '@/chat-api/services/UserService'
 import { RawUser } from '@/chat-api/RawData'

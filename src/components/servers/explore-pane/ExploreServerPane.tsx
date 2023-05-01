@@ -7,7 +7,7 @@ import Icon from '@/components/ui/icon/Icon';
 
 
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from '@nerimity/solid-router';
+import { Link, useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createSignal, Match, onMount, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { getStorageString, StorageKeys } from '@/common/localStorage';

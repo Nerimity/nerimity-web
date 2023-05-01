@@ -1,6 +1,6 @@
 import env from "@/common/env";
 import { appLogoUrl } from "@/common/worldEvents";
-import { Link } from "@nerimity/solid-router";
+import { Link } from "@solidjs/router";
 import { css, styled } from "solid-styled-components";
 import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";

@@ -4,7 +4,7 @@ import { createEffect, createMemo, createResource, createSignal, For, on, onMoun
 import { getOnlineUsers, getServers, getUsers } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
-import { Link } from '@nerimity/solid-router';
+import { Link } from '@solidjs/router';
 import { RawServer, RawUser } from '@/chat-api/RawData';
 import Button from '../ui/Button';
 import { css, styled } from 'solid-styled-components';

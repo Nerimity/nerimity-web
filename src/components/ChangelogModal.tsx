@@ -1,7 +1,7 @@
 import { formatTimestamp } from "@/common/date";
 import Marked from "@/common/Marked";
 import { useAppVersion } from "@/common/useAppVersion";
-import { Link } from "@nerimity/solid-router";
+import { Link } from "@solidjs/router";
 import Button from "./ui/Button";
 import { FlexColumn } from "./ui/Flexbox";
 import Modal from "./ui/Modal";

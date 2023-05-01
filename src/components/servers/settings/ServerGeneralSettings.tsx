@@ -1,4 +1,4 @@
-import { useParams } from '@nerimity/solid-router';
+import { useParams } from '@solidjs/router';
 import { createEffect, createSignal, onCleanup, Setter, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';

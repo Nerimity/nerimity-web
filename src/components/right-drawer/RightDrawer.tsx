@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import Avatar from "@/components/ui/Avatar";
 import UserPresence from '@/components/user-presence/UserPresence';
-import { Link, useParams } from '@nerimity/solid-router';
+import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createMemo, createSignal, For, mapArray, on, onCleanup, onMount, Show } from 'solid-js';
 import { ServerMember } from '@/chat-api/store/useServerMembers';

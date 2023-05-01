@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
-import { A, useParams } from '@nerimity/solid-router';
+import { A, useParams } from '@solidjs/router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item/MessageItem';
 import Button from '@/components/ui/Button';

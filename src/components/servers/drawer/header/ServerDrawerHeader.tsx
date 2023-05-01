@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import Icon from "@/components/ui/icon/Icon";
-import { useParams } from '@nerimity/solid-router';
+import { useParams } from '@solidjs/router';
 import { createSignal, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';

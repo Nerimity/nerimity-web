@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { Link, useParams } from '@nerimity/solid-router';
+import { Link, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
 import { followUser, getFollowers, getFollowing, getUserDetailsRequest, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';

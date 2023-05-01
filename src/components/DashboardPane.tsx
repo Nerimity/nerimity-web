@@ -4,7 +4,7 @@ import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { Link, useMatch } from "@nerimity/solid-router";
+import { Link } from "@solidjs/router";
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { css, styled } from "solid-styled-components"
 import { Markup } from "./Markup";

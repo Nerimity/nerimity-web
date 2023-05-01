@@ -1,5 +1,5 @@
 import { classNames, conditionalClass } from "@/common/classNames";
-import { AnchorProps, Link } from "@nerimity/solid-router";
+import { AnchorProps, Link } from "@solidjs/router";
 import { css } from "solid-styled-components";
 
 interface CustomLinkProps extends AnchorProps {

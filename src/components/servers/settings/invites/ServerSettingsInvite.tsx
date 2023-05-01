@@ -7,7 +7,7 @@ import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useParams } from '@nerimity/solid-router';
+import { Link, useParams } from '@solidjs/router';
 import { createEffect, createSignal, For, on, onMount, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';

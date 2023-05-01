@@ -1,5 +1,5 @@
 
-import { Link } from '@nerimity/solid-router';
+import { Link } from '@solidjs/router';
 import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/Avatar';

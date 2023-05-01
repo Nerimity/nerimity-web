@@ -4,7 +4,7 @@ import 'material-icons/iconfont/round.scss';
 import './index.css';
 import App from './App';
 import {CustomPortalProvider} from '@/components/ui/custom-portal/CustomPortal';
-import { Router } from '@nerimity/solid-router';
+import { Router } from '@solidjs/router';
 import en from '@/locales/list/en-gb.json';
 import { TransProvider } from '@nerimity/solid-i18next';
 

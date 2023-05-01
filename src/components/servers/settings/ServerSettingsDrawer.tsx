@@ -1,6 +1,6 @@
 import ServerDrawerHeader from '@/components/servers/drawer/header/ServerDrawerHeader';
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useMatch, useParams } from '@nerimity/solid-router';
+import { Link, useMatch, useParams } from '@solidjs/router';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -84,10 +84,10 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
 
   const href = () => {
     if (props.nested) return props.path;
-    return "/app/servers/" + params.serverId + "/settings/" + props.path;
+    return "/app/servers/" + params.serverId + "/settings/" + props.path
   };
 
-  const selected = useMatch(href)
+  const selected = useMatch(() => href() + "/*")
 
   return (
     <Link 

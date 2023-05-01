@@ -5,7 +5,7 @@ import useStore from "@/chat-api/store/useStore";
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { Link, useParams, useSearchParams } from "@nerimity/solid-router";
+import { Link, useParams, useSearchParams } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
 import { createStore } from "solid-js/store";
 import { css, styled } from "solid-styled-components";

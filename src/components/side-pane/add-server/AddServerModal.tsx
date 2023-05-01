@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button';
 import { createServer } from '@/chat-api/services/ServerService';
 import { createSignal } from 'solid-js';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useNavigate } from '@nerimity/solid-router';
+import { useNavigate } from '@solidjs/router';
 import Modal from '@/components/ui/Modal';
 import { FlexRow } from '@/components/ui/Flexbox';
 

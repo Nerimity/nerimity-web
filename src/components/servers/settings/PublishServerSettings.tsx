@@ -8,7 +8,7 @@ import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { Trans, useTransContext } from "@nerimity/solid-i18next";
-import { Link, useParams } from "@nerimity/solid-router";
+import { Link, useParams } from "@solidjs/router";
 import { createEffect, createSignal, Show,} from "solid-js";
 import { css, styled } from "solid-styled-components";
 

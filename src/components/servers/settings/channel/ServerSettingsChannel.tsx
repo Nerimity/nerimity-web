@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useNavigate, useParams } from '@nerimity/solid-router';
+import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect,  createSignal,  For, on, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';

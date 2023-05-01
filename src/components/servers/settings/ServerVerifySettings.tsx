@@ -4,7 +4,7 @@ import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { Notice } from "@/components/ui/Notice";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
-import { useParams } from "@nerimity/solid-router";
+import { useParams } from "@solidjs/router";
 import { createEffect, Match, onMount, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 

@@ -6,7 +6,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { createEffect, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-import { Link, useLocation, useParams, useMatch } from '@nerimity/solid-router';
+import { Link, useLocation, useParams, useMatch } from '@solidjs/router';
 import { FriendStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/Modal';
 import AddServer from './add-server/AddServerModal';
@@ -67,7 +67,7 @@ export default function SidePane() {
 }
 
 function ExploreItem() {
-  const selected = useMatch(() => "/app/explore");
+  const selected = useMatch(() => "/app/explore/*");
 
   return (
     <Link href={RouterEndpoints.EXPLORE_SERVER("")} style={{ "text-decoration": "none" }}>
@@ -146,7 +146,7 @@ function ModerationItem() {
   const { account } = useStore();
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
-  const selected = useMatch(() => "/app/moderation");
+  const selected = useMatch(() => "/app/moderation/*");
 
   return (
     <Show when={hasModeratorPerm()}>
@@ -161,7 +161,7 @@ function ModerationItem() {
 
 function SettingsItem() {
 
-  const selected = useMatch(() => "/app/settings");
+  const selected = useMatch(() => "/app/settings/*");
 
 
   return (
@@ -353,7 +353,7 @@ function FloatingUserModal(props: {close(): void}) {
 function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
   const { id, defaultChannelId } = props.server;
   const hasNotifications = () => props.server.hasNotifications;
-  const selected = useMatch(() => RouterEndpoints.SERVER(id));
+  const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
   const [hovered, setHovered] = createSignal(false);
 
 

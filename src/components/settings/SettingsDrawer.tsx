@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useMatch, useNavigate, useParams } from '@nerimity/solid-router';
+import { Link, useMatch, useNavigate, useParams } from '@solidjs/router';
 import { For, JSXElement, Match, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -107,7 +107,7 @@ function Item (props: {path: string, icon: string, label: string, onClick?: () =
   const href = () => {
     return "/app/settings/" + props.path;
   };
-  const selected = useMatch(href)
+  const selected = useMatch(() => href() + "/*")
 
   return (
     <Link href={href()} style={{"text-decoration": "none"}}>

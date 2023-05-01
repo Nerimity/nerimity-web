@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useMatch } from '@nerimity/solid-router';
+import { Link, useMatch } from '@solidjs/router';
 import { For } from 'solid-js';
 import exploreRoutes from '@/common/exploreRoutes';
 import ItemContainer from '@/components/ui/Item';
@@ -70,7 +70,7 @@ function Item (props: {path: string, icon: string, label: string, onClick?: () =
   const href = () => {
     return "/app/explore/" + props.path;
   };
-  const selected = useMatch(href)
+  const selected = useMatch(() => href() + "/*")
 
   return (
     <Link 

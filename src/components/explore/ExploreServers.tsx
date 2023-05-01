@@ -4,7 +4,7 @@ import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useTransContext } from '@nerimity/solid-i18next';
-import { Link, useNavigate } from '@nerimity/solid-router';
+import { Link, useNavigate } from '@solidjs/router';
 import { update } from 'idb-keyval';
 import { createSignal, For, Show } from 'solid-js';
 import { createEffect } from 'solid-js';

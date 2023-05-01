@@ -23,7 +23,7 @@ import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout, { useDrawer } from '@/components/ui/drawer/Drawer';
-import { Route, Routes, useSearchParams } from '@nerimity/solid-router';
+import { Route, Routes, useSearchParams } from '@solidjs/router';
 import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
