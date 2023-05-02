@@ -85,8 +85,6 @@ export default function ProfilePane() {
     return userDetails()?.user;
   };
 
-  const friend = () => friends.get(params.userId);
-  const friendExists = () => !!friend();
 
   createEffect(on(user, () => {
     if (!user()) return;
@@ -97,18 +95,6 @@ export default function ProfilePane() {
     })
   }))
 
-  const DropDownItems = UserStatuses.map((item, i) => {
-    return {
-      circleColor: item.color,
-      id: item.id,
-      label: item.name,
-      onClick: () => {
-        updatePresence(i);
-      }
-    }
-  })
-
-  const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
 
   return (
     <Show when={user()}>
