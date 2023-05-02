@@ -123,7 +123,9 @@ export default function ProfilePane() {
                   <span class={styles.tag}>{`:${user()!.tag}`}</span>
                 </div>
                 <UserPresence userId={user()!.id} showOffline={true} />
-                <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
+                <Show when={userDetails()}>
+                  <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
+                </Show>
               </div>
             </div>
           </Banner>
