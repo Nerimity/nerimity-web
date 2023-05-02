@@ -6,7 +6,7 @@ import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
 import { useWindowProperties } from '../../common/useWindowProperties';
-import { MessageType, RawMessage } from '../../chat-api/RawData';
+import { ChannelType, MessageType, RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
@@ -17,18 +17,20 @@ import { Rerun } from '@solid-primitives/keyed';
 import Spinner from '../ui/Spinner';
 import env from '@/common/env';
 import Text from '../ui/Text';
-import useChannels from '@/chat-api/store/useChannels';
-import { runWithContext } from '@/common/runWithContext';
-import useUsers from '@/chat-api/store/useUsers';
-import useServerMembers from '@/chat-api/store/useServerMembers';
+import useChannels, { Channel } from '@/chat-api/store/useChannels';
+import useServerMembers, { ServerMember } from '@/chat-api/store/useServerMembers';
 import { playMessageNotification } from '@/common/Sound';
-import { css } from 'solid-styled-components';
 
 import { EmojiPicker } from '@nerimity/solid-emoji-picker'
 import categories from '@/emoji/categories.json';
 import emojis from '@/emoji/emojis.json';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { fileToDataUrl } from '@/common/fileToDataUrl';
+import { matchSorter } from 'match-sorter'
+import ItemContainer from '../ui/Item';
+import { User } from '@/chat-api/store/useUsers';
+import Avatar from '../ui/Avatar';
+import useChannelProperties from '@/chat-api/store/useChannelProperties';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -134,7 +136,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
   }
 
 
-  const onMessageCreated = (payload: {socketId: string, message: RawMessage}) => {
+  const onMessageCreated = (payload: { socketId: string, message: RawMessage }) => {
     if (socketClient.id() === payload.socketId) return;
 
     if (payload.message.channelId !== params.channelId) return;
@@ -341,7 +343,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
 function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
   const { channelProperties, account } = useStore();
   const params = useParams<{ channelId: string, serverId?: string; }>();
-  let textAreaEl: undefined | HTMLTextAreaElement;
+  let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
   const { isMobileAgent } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
 
@@ -359,7 +361,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
 
   createEffect(() => {
     if (editMessageId()) {
-      textAreaEl?.focus();
+      textAreaEl()?.focus();
     }
   })
 
@@ -367,12 +369,12 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
 
   const cancelEdit = () => {
     channelProperties.setEditMessage(params.channelId, undefined);
-    textAreaEl?.focus();
+    textAreaEl()?.focus();
   };
 
   const cancelAttachment = () => {
     channelProperties.setAttachment(params.channelId, undefined);
-    textAreaEl?.focus();
+    textAreaEl()?.focus();
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -400,13 +402,13 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
   }
 
   const sendMessage = () => {
-    textAreaEl?.focus();
+    textAreaEl()?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
     const channel = channels.get(params.channelId!)!;
-    
+
     const formattedMessage = formatMessage(trimmedMessage, params.serverId);
-    
+
     if (editMessageId()) {
       if (!trimmedMessage) return;
       messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
@@ -423,11 +425,11 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
 
   const adjustHeight = () => {
     let MAX_HEIGHT = 100;
-    textAreaEl!.style.height = '0px';
-    let newHeight = (textAreaEl!.scrollHeight - 24);
+    textAreaEl()!.style.height = '0px';
+    let newHeight = (textAreaEl()!.scrollHeight - 24);
     if (newHeight > MAX_HEIGHT) newHeight = MAX_HEIGHT;
-    textAreaEl!.style.height = newHeight + "px";
-    textAreaEl!.scrollTop = textAreaEl!.scrollHeight;
+    textAreaEl()!.style.height = newHeight + "px";
+    textAreaEl()!.scrollTop = textAreaEl()!.scrollHeight;
   }
 
   const onInput = (event: any) => {
@@ -441,20 +443,21 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
   }
 
   const onEmojiPicked = (shortcode: string) => {
-    if (!textAreaEl) return;
-    textAreaEl.focus();
-    textAreaEl.setRangeText(`:${shortcode}: `, textAreaEl.selectionStart, textAreaEl.selectionEnd, "end")
-    setMessage(textAreaEl.value)
+    if (!textAreaEl()) return;
+    textAreaEl()!.focus();
+    textAreaEl()!.setRangeText(`:${shortcode}: `, textAreaEl()!.selectionStart, textAreaEl()!.selectionEnd, "end")
+    setMessage(textAreaEl()!.value)
 
   }
 
   return <div class={classNames(styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
     <TypingIndicator />
+    <FloatingSuggestions textArea={textAreaEl()} />
     <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
     <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
     <Show when={showEmojiPicker()}><FloatingEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
     <CustomTextArea
-      ref={textAreaEl}
+      ref={setTextAreaEl}
       placeholder='Message'
       onkeydown={onKeyDown}
       onInput={onInput}
@@ -478,7 +481,6 @@ interface CustomTextAreaProps extends JSX.TextareaHTMLAttributes<HTMLTextAreaEle
 function CustomTextArea(props: CustomTextAreaProps) {
   let textAreaRef: HTMLInputElement | undefined;
   const params = useParams<{ channelId: string, serverId?: string; }>();
-  
 
   const [isFocused, setFocused] = createSignal(false);
   const [attachmentFileBrowserRef, setAttachmentFileBrowserRef] = createSignal<FileBrowserRef | undefined>(undefined);
@@ -496,7 +498,6 @@ function CustomTextArea(props: CustomTextAreaProps) {
     channelProperties.setAttachment(params.channelId, undefined);
     textAreaRef?.focus();
   }
-
 
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
@@ -538,6 +539,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
         ref={textAreaRef}
         onfocus={() => setFocused(true)}
         onblur={() => setFocused(false)}
+        maxLength={2000}
         class={styles.textArea}
       />
       <Button
@@ -559,7 +561,6 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
     </div>
   )
-
 }
 
 function UnreadMarker(props: { onClick: () => void }) {
@@ -593,7 +594,7 @@ function TypingIndicator() {
     setTypingUserIds(event.userId, timeoutId);
   }
 
-  const onMessageCreated = (event: {socketId: string, message: RawMessage}) => {
+  const onMessageCreated = (event: { socketId: string, message: RawMessage }) => {
     if (socketClient.id() === event.socketId) return;
 
     if (event.message.channelId !== params.channelId) return;
@@ -654,7 +655,6 @@ function TypingIndicator() {
     </Show>
   )
 }
-
 
 function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
   onMount(() => {
@@ -796,10 +796,7 @@ function formatMessage(message: string, serverId?: string): string {
     }))
   }
 
-
   return finalString
-
-
 }
 
 function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
@@ -826,4 +823,129 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
       </div>
     </Show>
   )
+}
+
+function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
+  const { channelProperties } = useStore();
+  const params = useParams<{ serverId?: string, channelId: string }>();
+
+  const [textBefore, setTextBefore] = createSignal("");
+  const [isFocus, setIsFocus] = createSignal(false);
+
+  const content = () => channelProperties.get(params.channelId)?.content || "";
+
+  const onFocus = () => setIsFocus(true);
+  const onBlur = () => setIsFocus(false);
+  createEffect(() => {
+    props.textArea?.addEventListener("focus", onFocus)
+    props.textArea?.addEventListener("blur", onBlur)
+    onCleanup(() => {
+      props.textArea?.removeEventListener("focus", onFocus)
+      props.textArea?.removeEventListener("blur", onBlur)
+    })
+  })
+
+  createEffect(on(content, () => {
+    const textBefore = getTextBeforeCursor(props.textArea);
+    setTextBefore(textBefore);
+  }));
+
+  const suggestChannels = () => textBefore().startsWith("#");
+  const suggestUsers = () => textBefore().startsWith("@");
+
+  return (
+    <Show when={true}>
+      <Switch>
+        <Match when={suggestChannels()}><FloatingChannelSuggestions search={textBefore().substring(1)} textArea={props.textArea} /></Match>
+        <Match when={suggestUsers()}><FloatingUserSuggestions search={textBefore().substring(1)} textArea={props.textArea} /></Match>
+      </Switch>
+    </Show>
+  )
+}
+
+function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
+  const params = useParams<{ serverId?: string, channelId: string }>();
+  const { channels } = useStore();
+
+  const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!).filter(c => c?.type === ChannelType.SERVER_TEXT) as Channel[]);
+  const searchedChannels = () => matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(0, 5);
+
+  const onChannelClick = (channel: Channel) => {
+    if (!props.textArea) return;
+    appendText(params.channelId, props.textArea, props.search, channel.name + "# ")
+  }
+
+  return (
+    <Show when={params.serverId && searchedChannels().length}>
+      <Floating class={styles.floatingChannelSuggestions}>
+        <For each={searchedChannels()}>
+          {channel => <ChannelSuggestionItem onclick={onChannelClick} channel={channel} />}
+        </For>
+      </Floating>
+    </Show>
+  )
+}
+
+function ChannelSuggestionItem(props: { channel: Channel, onclick(channel: Channel): void; }) {
+  return (
+    <ItemContainer onclick={() => props.onclick(props.channel)} class={styles.channelSuggestionItem}>
+      {props.channel.name}
+    </ItemContainer>
+  )
+}
+
+function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
+  const params = useParams<{ serverId?: string, channelId: string }>();
+  const { serverMembers } = useStore();
+
+  const members = createMemo(() => serverMembers.array(params.serverId!) as ServerMember[]);
+
+  const searchedUsers = () => matchSorter(members(), props.search, { keys: ["user.username"] }).slice(0, 5);
+
+  const onUserClick = (user: User) => {
+    if (!props.textArea) return;
+    appendText(params.channelId, props.textArea, props.search, `${user.username}:${user.tag} `)
+  }
+
+  return (
+    <Show when={params.serverId && searchedUsers().length}>
+      <Floating class={styles.floatingUserSuggestions}>
+        <For each={searchedUsers()}>
+          {member => <UserSuggestionItem user={member.user} onclick={onUserClick} />}
+        </For>
+      </Floating>
+    </Show>
+  )
+}
+
+function UserSuggestionItem(props: { user: User, onclick(user: User): void; }) {
+  return (
+    <ItemContainer class={styles.userSuggestionItem} onclick={() => props.onclick(props.user)}>
+      <Avatar user={props.user} size={20} />
+      {props.user.username}
+    </ItemContainer>
+  )
+}
+
+function getTextBeforeCursor(element?: HTMLTextAreaElement) {
+  if (!element) return "";
+  const cursorPosition = element.selectionStart;
+  const textBeforeCursor = element.value.substring(0, cursorPosition);
+  const lastWord = textBeforeCursor.split(/\s+/).reverse()[0];
+  return lastWord;
+}
+
+function appendText(channelId: string, textArea: HTMLTextAreaElement, query: string, name: string) {
+  const channelProperties = useChannelProperties();
+  const content = channelProperties.get(channelId)?.content || "";
+
+  const cursorPosition = textArea.selectionStart!;
+
+  const append = name.substring(query.length);
+  const result = content.slice(0, cursorPosition) + append + content.slice(cursorPosition);
+  channelProperties.updateContent(channelId, result);
+
+  textArea.focus();
+  textArea.selectionStart = cursorPosition + append.length
+  textArea.selectionEnd = cursorPosition + append.length
 }
