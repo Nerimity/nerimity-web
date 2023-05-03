@@ -64,9 +64,13 @@ const ChannelContainer = styled(ItemContainer)`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   &:hover .label {
     opacity: 1;
+  }
+
+  .channelIcon {
+    opacity: 0.2;
+    margin-right: 5px;
   }
 
 `;
@@ -130,6 +134,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
       style={{ "text-decoration": "none" }}
     >
       <ChannelContainer selected={props.selected} alert={hasNotifications()}>
+        <Text class="channelIcon">#</Text>
         <Text class="label">{channel.name}</Text>
       </ChannelContainer>
     </Link>

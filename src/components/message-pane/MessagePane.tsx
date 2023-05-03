@@ -31,6 +31,7 @@ import ItemContainer from '../ui/Item';
 import { User } from '@/chat-api/store/useUsers';
 import Avatar from '../ui/Avatar';
 import useChannelProperties from '@/chat-api/store/useChannelProperties';
+import { text } from 'stream/consumers';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -450,7 +451,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
 
   }
 
-  return <div class={classNames(styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
+  return <div class={classNames("messageArea", styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
     <TypingIndicator />
     <FloatingSuggestions textArea={textAreaEl()} />
     <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
@@ -594,9 +595,7 @@ function TypingIndicator() {
     setTypingUserIds(event.userId, timeoutId);
   }
 
-  const onMessageCreated = (event: { socketId: string, message: RawMessage }) => {
-    if (socketClient.id() === event.socketId) return;
-
+  const onMessageCreated = (event: {message: RawMessage }) => {
     if (event.message.channelId !== params.channelId) return;
     const timeoutId = typingUserIds[event.message.createdBy.id];
     if (timeoutId) {
@@ -605,7 +604,7 @@ function TypingIndicator() {
     }
   }
 
-  const onMessageUpdated = (evt: any) => onMessageCreated(evt.updated)
+  const onMessageUpdated = (evt: any) => onMessageCreated({message: evt.updated})
 
   createEffect(on(() => params.channelId, () => {
     Object.values(typingUserIds).forEach(timeoutId =>
@@ -629,8 +628,6 @@ function TypingIndicator() {
   const typingUsers = createMemo(() => Object.keys(typingUserIds).map(userId =>
     users.get(userId)
   ))
-
-
 
   return (
     <Show when={typingUsers().length}>
@@ -755,14 +752,14 @@ function Floating(props: { class?: string, children: JSX.Element }) {
 
 
   return (
-    <div ref={floatingEl} class={classNames(styles.floating, props.class)}>
+    <div ref={floatingEl} class={classNames("floating", styles.floating, props.class)}>
       {props.children}
     </div>
   )
 }
 
 const emojiRegex = /:([\w]+):/g;
-const channelMentionRegex = /#([^#\n]+)#/g;
+const channelMentionRegex = /#([a-zA-Z]+( [a-zA-Z]+)?)#/g;
 const userMentionRegex = /@([a-zA-Z0-9 ]+):([a-zA-Z0-9]+)/g;
 
 function formatMessage(message: string, serverId?: string): string {
@@ -833,28 +830,43 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const [isFocus, setIsFocus] = createSignal(false);
 
   const content = () => channelProperties.get(params.channelId)?.content || "";
-
   const onFocus = () => setIsFocus(true);
-  const onBlur = () => setIsFocus(false);
+
+  const onClick = (e: any) => {
+     setIsFocus( e.target.closest("." + styles.textArea))
+  };
+
+  const update = () => {
+    if (props.textArea?.selectionStart !== props.textArea?.selectionEnd) return setIsFocus(false)
+    setIsFocus(true);
+    const textBefore = getTextBeforeCursor(props.textArea);
+    setTextBefore(textBefore);
+  }
+
+  const onSelectionChange = () => {
+    if (!isFocus()) return;
+    update();
+  }
+
   createEffect(() => {
     props.textArea?.addEventListener("focus", onFocus)
-    props.textArea?.addEventListener("blur", onBlur)
+    document.addEventListener("click", onClick)
+    document.addEventListener("selectionchange", onSelectionChange)
     onCleanup(() => {
       props.textArea?.removeEventListener("focus", onFocus)
-      props.textArea?.removeEventListener("blur", onBlur)
+      document.removeEventListener("click", onClick)
+      document.removeEventListener("selectionchange", onSelectionChange)
     })
   })
 
-  createEffect(on(content, () => {
-    const textBefore = getTextBeforeCursor(props.textArea);
-    setTextBefore(textBefore);
-  }));
+  createEffect(on(content, update));
+
 
   const suggestChannels = () => textBefore().startsWith("#");
   const suggestUsers = () => textBefore().startsWith("@");
 
   return (
-    <Show when={true}>
+    <Show when={isFocus()}>
       <Switch>
         <Match when={suggestChannels()}><FloatingChannelSuggestions search={textBefore().substring(1)} textArea={props.textArea} /></Match>
         <Match when={suggestUsers()}><FloatingUserSuggestions search={textBefore().substring(1)} textArea={props.textArea} /></Match>
@@ -863,32 +875,90 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   )
 }
 
+function useSelectedSuggestion(length: () => number, textArea: HTMLTextAreaElement, onEnterClick: (i: number) => void) {
+  const [current, setCurrent] = createSignal(0);
+
+  createEffect(() => {
+    textArea.addEventListener("keydown", onKey);
+    onCleanup(() => {
+      textArea.removeEventListener("keydown", onKey);
+    })
+  })
+
+  const next = () => {
+    if (current() + 1 >= length()) {
+      setCurrent(0);
+    } else {
+      setCurrent(current() + 1);
+    }
+  }
+  
+  const previous = () => {
+    if (current() - 1 < 0) {
+      setCurrent(length() - 1);
+    } else {
+      setCurrent(current() - 1);
+    }
+  }
+
+  const onKey = (event: KeyboardEvent) => {
+    if (length())
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      next();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      previous();
+    }
+    if (event.key === "Enter") {
+      event.stopPropagation();
+      event.preventDefault();
+      onEnterClick(current());
+    }
+  }
+
+  return [current, next, previous, setCurrent] as const
+}
+
 function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
   const params = useParams<{ serverId?: string, channelId: string }>();
   const { channels } = useStore();
 
+  
   const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!).filter(c => c?.type === ChannelType.SERVER_TEXT) as Channel[]);
   const searchedChannels = () => matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(0, 5);
-
+  
+  
+  createEffect(on(searchedChannels, () => {
+    setCurrent(0);
+  }))
+  
   const onChannelClick = (channel: Channel) => {
     if (!props.textArea) return;
     appendText(params.channelId, props.textArea, props.search, channel.name + "# ")
   }
+  
+  const onEnterClick = (i: number) => {
+    onChannelClick(searchedChannels()[i]);
+  }
+
+  const [current, ,, setCurrent] = useSelectedSuggestion(() => searchedChannels().length, props.textArea!, onEnterClick)
 
   return (
     <Show when={params.serverId && searchedChannels().length}>
       <Floating class={styles.floatingChannelSuggestions}>
         <For each={searchedChannels()}>
-          {channel => <ChannelSuggestionItem onclick={onChannelClick} channel={channel} />}
+          {(channel, i) => <ChannelSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} onclick={onChannelClick} channel={channel} />}
         </For>
       </Floating>
     </Show>
   )
 }
 
-function ChannelSuggestionItem(props: { channel: Channel, onclick(channel: Channel): void; }) {
+function ChannelSuggestionItem(props: { onHover:() => void; selected: boolean; channel: Channel, onclick(channel: Channel): void; }) {
   return (
-    <ItemContainer onclick={() => props.onclick(props.channel)} class={styles.channelSuggestionItem}>
+    <ItemContainer selected={props.selected} onmouseover={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.channelSuggestionItem}>
+      <span class={styles.channelIcon}>#</span>
       {props.channel.name}
     </ItemContainer>
   )
@@ -902,26 +972,37 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
 
   const searchedUsers = () => matchSorter(members(), props.search, { keys: ["user.username"] }).slice(0, 5);
 
+
+  createEffect(on(searchedUsers, () => {
+    setCurrent(0);
+  }))
+
   const onUserClick = (user: User) => {
     if (!props.textArea) return;
     appendText(params.channelId, props.textArea, props.search, `${user.username}:${user.tag} `)
   }
 
+  const onEnterClick = (i: number) => {
+    onUserClick(searchedUsers()[i].user);
+  }
+  
+  const [current, ,, setCurrent] = useSelectedSuggestion(() => searchedUsers().length, props.textArea!, onEnterClick)
+
   return (
     <Show when={params.serverId && searchedUsers().length}>
       <Floating class={styles.floatingUserSuggestions}>
         <For each={searchedUsers()}>
-          {member => <UserSuggestionItem user={member.user} onclick={onUserClick} />}
+          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={member.user} onclick={onUserClick} />}
         </For>
       </Floating>
     </Show>
   )
 }
 
-function UserSuggestionItem(props: { user: User, onclick(user: User): void; }) {
+function UserSuggestionItem(props: { onHover: () => void; selected: boolean; user: User, onclick(user: User): void; }) {
   return (
-    <ItemContainer class={styles.userSuggestionItem} onclick={() => props.onclick(props.user)}>
-      <Avatar user={props.user} size={20} />
+    <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.userSuggestionItem} onclick={() => props.onclick(props.user)}>
+      <Avatar user={props.user} animate={props.selected} size={15} />
       {props.user.username}
     </ItemContainer>
   )
@@ -940,12 +1021,16 @@ function appendText(channelId: string, textArea: HTMLTextAreaElement, query: str
   const content = channelProperties.get(channelId)?.content || "";
 
   const cursorPosition = textArea.selectionStart!;
+  const removeCurrentQuery = removeByIndex(content, cursorPosition - query.length, query.length);
+  const result = removeCurrentQuery.slice(0, cursorPosition - query.length) + name + removeCurrentQuery.slice(cursorPosition - query.length);
 
-  const append = name.substring(query.length);
-  const result = content.slice(0, cursorPosition) + append + content.slice(cursorPosition);
   channelProperties.updateContent(channelId, result);
 
   textArea.focus();
-  textArea.selectionStart = cursorPosition + append.length
-  textArea.selectionEnd = cursorPosition + append.length
+  textArea.selectionStart = cursorPosition + (name.length - query.length)
+  textArea.selectionEnd = cursorPosition + (name.length - query.length)
+}
+
+function removeByIndex(val: string, index: number, remove: number) {
+  return val.substring(0, index) + val.substring(index + remove);
 }
