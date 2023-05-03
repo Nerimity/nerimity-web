@@ -959,7 +959,8 @@ function ChannelSuggestionItem(props: { onHover:() => void; selected: boolean; c
   return (
     <ItemContainer selected={props.selected} onmouseover={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.channelSuggestionItem}>
       <span class={styles.channelIcon}>#</span>
-      {props.channel.name}
+      
+      <div class={styles.suggestChannelName}>{props.channel.name}</div>
     </ItemContainer>
   )
 }
@@ -1003,7 +1004,7 @@ function UserSuggestionItem(props: { onHover: () => void; selected: boolean; use
   return (
     <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.userSuggestionItem} onclick={() => props.onclick(props.user)}>
       <Avatar user={props.user} animate={props.selected} size={15} />
-      {props.user.username}
+      <div class={styles.suggestUsername}>{props.user.username}</div>
     </ItemContainer>
   )
 }

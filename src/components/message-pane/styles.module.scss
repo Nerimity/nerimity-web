@@ -92,12 +92,19 @@
       gap: 2px;
       padding: 5px;
       z-index: 11111111;
+      right: 60px;
 
       .userSuggestionItem { 
         height: 30px; 
         padding-left: 10px; 
         padding-right: 5px; 
         gap: 5px;
+
+        .suggestUsername {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
 
@@ -107,6 +114,7 @@
       gap: 2px;
       padding: 5px;
       z-index: 11111111;
+      right: 60px;
 
       .channelSuggestionItem { 
         height: 30px; 
@@ -116,6 +124,11 @@
           opacity: 0.5;
           margin-right: 5px;
         }
+      }
+      .suggestChannelName {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
