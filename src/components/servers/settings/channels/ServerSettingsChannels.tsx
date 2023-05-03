@@ -25,7 +25,7 @@ function ChannelItem(props: { channel: Channel }) {
   return (
     <CustomLink href={link} class={styles.channelItem}>
       <div class={styles.container}>
-        <Icon name='textsms' color='rgba(255,255,255,0.6)' size={18} />
+        <div class={styles.channelIcon}>#</div>
         <div class={styles.name}>{props.channel.name}</div>
         <Icon name='navigate_next' />
       </div>

@@ -34,6 +34,9 @@ dependencies:
   markdown-it-emoji:
     specifier: ^2.0.2
     version: 2.0.2
+  match-sorter:
+    specifier: ^6.3.1
+    version: 6.3.1
   material-icons:
     specifier: ^1.13.6
     version: 1.13.6
@@ -2761,6 +2764,13 @@ packages:
       uc.micro: 1.0.6
     dev: false
 
+  /match-sorter@6.3.1:
+    resolution: {integrity: sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==}
+    dependencies:
+      '@babel/runtime': 7.21.5
+      remove-accents: 0.4.2
+    dev: false
+
   /material-icons@1.13.6:
     resolution: {integrity: sha512-I9NjTMwdmq7QECY92ReLqbhWtUZmjlE0eX9UbIHFsSbT7wRp3aj/3ZbuHLFb9w96HG0S4pWbVQjwTQLxyfYyEg==}
     dev: false
@@ -2952,6 +2962,10 @@ packages:
     dependencies:
       jsesc: 0.5.0
     dev: true
+
+  /remove-accents@0.4.2:
+    resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
+    dev: false
 
   /require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
