@@ -12,7 +12,7 @@ import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
 import { postChannelTyping } from '@/chat-api/services/MessageService';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { emojiShortcodeToUnicode } from '@/emoji';
+import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { Rerun } from '@solid-primitives/keyed';
 import Spinner from '../ui/Spinner';
 import env from '@/common/env';
@@ -32,6 +32,8 @@ import { User } from '@/chat-api/store/useUsers';
 import Avatar from '../ui/Avatar';
 import useChannelProperties from '@/chat-api/store/useChannelProperties';
 import { text } from 'stream/consumers';
+import { Emoji } from '../markup/Emoji';
+import { css } from 'solid-styled-components';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -758,7 +760,7 @@ function Floating(props: { class?: string, children: JSX.Element }) {
   )
 }
 
-const emojiRegex = /:([\w]+):/g;
+const emojiRegex = /:[\w+-]+:/g;
 const channelMentionRegex = /#([a-zA-Z]+( [a-zA-Z]+)?)#/g;
 const userMentionRegex = /@([a-zA-Z0-9 ]+):([a-zA-Z0-9]+)/g;
 
@@ -864,12 +866,14 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
 
   const suggestChannels = () => textBefore().startsWith("#");
   const suggestUsers = () => textBefore().startsWith("@");
+  const suggestEmojis = () => textBefore().startsWith(":");
 
   return (
     <Show when={isFocus()}>
       <Switch>
         <Match when={suggestChannels()}><FloatingChannelSuggestions search={textBefore().substring(1)} textArea={props.textArea} /></Match>
         <Match when={suggestUsers()}><FloatingUserSuggestions search={textBefore().substring(1)} textArea={props.textArea} /></Match>
+        <Match when={suggestEmojis()}><FloatingEmojiSuggestions search={textBefore().substring(1)} textArea={props.textArea} /></Match>
       </Switch>
     </Show>
   )
@@ -902,7 +906,7 @@ function useSelectedSuggestion(length: () => number, textArea: HTMLTextAreaEleme
   }
 
   const onKey = (event: KeyboardEvent) => {
-    if (length())
+    if (!length()) return;
     if (event.key === "ArrowDown") {
       event.preventDefault();
       next();
@@ -926,7 +930,7 @@ function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLText
 
   
   const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!).filter(c => c?.type === ChannelType.SERVER_TEXT) as Channel[]);
-  const searchedChannels = () => matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(0, 5);
+  const searchedChannels = () => matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(0, 10);
   
   
   createEffect(on(searchedChannels, () => {
@@ -946,7 +950,7 @@ function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLText
 
   return (
     <Show when={params.serverId && searchedChannels().length}>
-      <Floating class={styles.floatingChannelSuggestions}>
+      <Floating class={styles.floatingSuggestion}>
         <For each={searchedChannels()}>
           {(channel, i) => <ChannelSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} onclick={onChannelClick} channel={channel} />}
         </For>
@@ -957,10 +961,10 @@ function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLText
 
 function ChannelSuggestionItem(props: { onHover:() => void; selected: boolean; channel: Channel, onclick(channel: Channel): void; }) {
   return (
-    <ItemContainer selected={props.selected} onmouseover={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.channelSuggestionItem}>
+    <ItemContainer selected={props.selected} onmouseover={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.suggestionItem}>
       <span class={styles.channelIcon}>#</span>
       
-      <div class={styles.suggestChannelName}>{props.channel.name}</div>
+      <div class={styles.suggestLabel}>{props.channel.name}</div>
     </ItemContainer>
   )
 }
@@ -971,7 +975,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
 
   const members = createMemo(() => serverMembers.array(params.serverId!) as ServerMember[]);
 
-  const searchedUsers = () => matchSorter(members(), props.search, { keys: ["user.username"] }).slice(0, 5);
+  const searchedUsers = () => matchSorter(members(), props.search, { keys: ["user.username"] }).slice(0, 10);
 
 
   createEffect(on(searchedUsers, () => {
@@ -991,7 +995,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
 
   return (
     <Show when={params.serverId && searchedUsers().length}>
-      <Floating class={styles.floatingUserSuggestions}>
+      <Floating class={styles.floatingSuggestion}>
         <For each={searchedUsers()}>
           {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={member.user} onclick={onUserClick} />}
         </For>
@@ -1002,9 +1006,52 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
 
 function UserSuggestionItem(props: { onHover: () => void; selected: boolean; user: User, onclick(user: User): void; }) {
   return (
-    <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.userSuggestionItem} onclick={() => props.onclick(props.user)}>
+    <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.user)}>
       <Avatar user={props.user} animate={props.selected} size={15} />
-      <div class={styles.suggestUsername}>{props.user.username}</div>
+      <div class={styles.suggestLabel}>{props.user.username}</div>
+    </ItemContainer>
+  )
+}
+
+type Emoji = typeof emojis[number];
+
+function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
+  const params = useParams<{ serverId?: string, channelId: string }>();
+
+  const searchedEmojis = () => matchSorter(emojis, props.search, { keys: ["short_names.0"] }).slice(0, 10);
+
+
+  createEffect(on(searchedEmojis, () => {
+    setCurrent(0);
+  }))
+
+  const onItemClick = (emoji: Emoji) => {
+    if (!props.textArea) return;
+    appendText(params.channelId, props.textArea, props.search, `${emoji.short_names[0]}: `)
+  }
+
+  const onEnterClick = (i: number) => {
+    onItemClick(searchedEmojis()[i]);
+  }
+  
+  const [current, ,, setCurrent] = useSelectedSuggestion(() => searchedEmojis().length, props.textArea!, onEnterClick)
+
+  return (
+    <Show when={params.serverId && searchedEmojis().length}>
+      <Floating class={styles.floatingSuggestion}>
+        <For each={searchedEmojis()}>
+          {(emoji, i) => <EmojiSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} emoji={emoji} onclick={onItemClick} />}
+        </For>
+      </Floating>
+    </Show>
+  )
+}
+
+function EmojiSuggestionItem(props: { onHover: () => void; selected: boolean; emoji: Emoji, onclick(emoji: Emoji): void; }) {
+  return (
+    <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.emoji)}>
+      <Emoji class={css`height: 15px; width: 15px;`}  name={emojiUnicodeToShortcode(props.emoji.emoji)} url={unicodeToTwemojiUrl(props.emoji.emoji)} />
+      <div class={styles.suggestLabel}>{props.emoji.short_names[0]}</div>
     </ItemContainer>
   )
 }
