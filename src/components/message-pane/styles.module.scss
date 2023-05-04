@@ -86,7 +86,7 @@
 
 
 
-    &.floatingUserSuggestions {
+    &.floatingSuggestion {
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -94,41 +94,21 @@
       z-index: 11111111;
       right: 60px;
 
-      .userSuggestionItem { 
+      .suggestionItem { 
         height: 30px; 
         padding-left: 10px; 
         padding-right: 5px; 
         gap: 5px;
 
-        .suggestUsername {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-
-    &.floatingChannelSuggestions {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      padding: 5px;
-      z-index: 11111111;
-      right: 60px;
-
-      .channelSuggestionItem { 
-        height: 30px; 
-        padding-left: 10px; 
-        padding-right: 5px; 
         .channelIcon {
           opacity: 0.5;
           margin-right: 5px;
         }
-      }
-      .suggestChannelName {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .suggestLabel {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
 
