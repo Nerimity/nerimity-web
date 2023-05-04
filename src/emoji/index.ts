@@ -1,13 +1,13 @@
 import env from '@/common/env';
 import twemoji from 'twemoji';
-import shortcodeToUnicode from './shortcodes-to-unicode.json';
-import unicodeToShortcode from './unicode-to-shortcodes.json';
+import shortcodesToUnicode from './shortcodes-to-unicode.json';
+import unicodesToShortcode from './unicode-to-shortcodes.json';
 
 export function emojiShortcodeToUnicode(shortcode: string): string {
-  return (shortcodeToUnicode as Record<string, string>)[shortcode];
+  return (shortcodesToUnicode as Record<string, string>)[shortcode];
 }
 export function emojiUnicodeToShortcode(unicode: string): string {
-  return (unicodeToShortcode as Record<string, string>)[unicode];
+  return (unicodesToShortcode as Record<string, string>)[unicode];
 }
 
 const U200D = String.fromCharCode(0x200d);
