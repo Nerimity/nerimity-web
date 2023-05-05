@@ -35,6 +35,7 @@ import { updatePresence } from '@/chat-api/services/UserService';
 import { CustomLink } from '../ui/CustomLink';
 import { clearCache } from '@/common/localCache';
 import { useDrawer } from '../ui/drawer/Drawer';
+import { useRegisterSW } from 'virtual:pwa-register/solid'
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -406,11 +407,13 @@ function UpdateModal(props: { close: () => void }) {
     if (!release) return undefined;
     return formatTimestamp(new Date(release.published_at).getTime())
   }
+  const {updateServiceWorker} = useRegisterSW()
+
 
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)' />
-      <Button iconName='get_app' label='Update Now' onClick={() => location.reload()} primary />
+      <Button iconName='get_app' label='Update Now' onClick={() => updateServiceWorker(true)} primary />
     </FlexRow>
   )
   return (
