@@ -84,6 +84,9 @@ devDependencies:
   vite-plugin-solid:
     specifier: ^2.7.0
     version: 2.7.0(solid-js@1.7.3)(vite@4.3.3)
+  workbox-window:
+    specifier: ^6.5.4
+    version: 6.5.4
 
 packages:
 

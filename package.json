@@ -16,7 +16,8 @@
     "typescript": "^5.0.4",
     "vite": "^4.3.3",
     "vite-plugin-pwa": "^0.14.7",
-    "vite-plugin-solid": "^2.7.0"
+    "vite-plugin-solid": "^2.7.0",
+    "workbox-window": "^6.5.4"
   },
   "dependencies": {
     "@nerimity/nevula": "^0.12.1",
