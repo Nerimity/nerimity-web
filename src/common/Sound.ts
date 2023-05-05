@@ -5,7 +5,7 @@ export const MESSAGE_NOTIFICATION = "message-notification.mp3";
 
 export function playSound(name: string) {
   const audio = new Audio(`/assets/${name}`);
-  audio.volume = 0.3;
+  audio.volume = 0.2;
   audio.play();
 }
 
