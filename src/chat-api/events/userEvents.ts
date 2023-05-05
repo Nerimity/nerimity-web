@@ -22,6 +22,9 @@ export function onNotificationDismissed(payload: {channelId: string}) {
 }
 
 export function onUserUpdated(payload: Partial<SelfUser>) {
-  const {account} = useStore();
+  const {account, users} = useStore();
   account.setUser(payload)
+
+  const user = users.get(account.user()?.id!)
+  user?.update(payload)
 }

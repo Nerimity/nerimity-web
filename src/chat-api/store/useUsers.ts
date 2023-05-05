@@ -33,6 +33,7 @@ export type User = RawUser & {
   openDM: (this: User) => Promise<void>;
   avatarUrl(this: User): string | null
   bannerUrl(this: User): string | null
+  update(this: User, update: Partial<RawUser>): void
 }
 
 const [users, setUsers] = createStore<Record<string, User>>({});
@@ -50,10 +51,12 @@ const set = (user: RawUser) => runWithContext(() => {
     },
     avatarUrl(){
       return this?.banner ? env.NERIMITY_CDN + this?.banner : null;
+    },
+    update(update) {
+      setUsers(this.id, update);
     }
   });
 });
-
 
 const openDM = async (userId: string) => runWithContext(async () =>{
   const navigate = useNavigate();

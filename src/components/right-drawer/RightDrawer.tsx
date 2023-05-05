@@ -358,11 +358,18 @@ const RoleContainer = styled(FlexRow) <{ selectable?: boolean }>`
 
 const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string, left?: number, top?: number }) => {
   const { createPortal } = useCustomPortal();
-  const { users, serverMembers, posts } = useStore();
+  const { users, account, serverMembers, posts } = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
   const { isMobileWidth, height } = useWindowProperties();
+  const isMe = () => account.user()?.id === props.userId;
 
-  const user = () => users.get(props.userId);
+  const user = () => {
+    if (details()) return details()?.user
+    if (isMe()) return account.user();
+    const user = users.get(props.userId)
+    if (user) return user;
+  };
+
   const member = () => serverMembers.get(props.serverId, props.userId);
 
   onMount(() => {
