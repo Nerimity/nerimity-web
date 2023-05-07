@@ -410,10 +410,16 @@ function UpdateModal(props: { close: () => void }) {
   const {updateServiceWorker} = useRegisterSW()
 
 
+  const onUpdateClick = async () => {
+    await updateServiceWorker();
+    location.reload();
+  }
+
+
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)' />
-      <Button iconName='get_app' label='Update Now' onClick={() => updateServiceWorker(true)} primary />
+      <Button iconName='get_app' label='Update Now' onClick={onUpdateClick} primary />
     </FlexRow>
   )
   return (
