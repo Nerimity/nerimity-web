@@ -20,6 +20,7 @@ import { css } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { avatarUrl } from '@/chat-api/store/useUsers';
+import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 
 export default function ServerSettingsInvite() {
   const [t] = useTransContext();
@@ -63,6 +64,10 @@ export default function ServerSettingsInvite() {
 
   return (
     <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
+      <Breadcrumb>
+        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem title={t('servers.settings.drawer.invites')} />
+      </Breadcrumb>
       <Show when={isServerOwner()}><CustomInvite invites={invites()} onUpdate={fetchInvites} /></Show>
       <SettingsBlock label={t('servers.settings.invites.createANewInvite')} icon='add'>
         <Button label={t('servers.settings.invites.createInviteButton')} onClick={onCreateInviteClick} />

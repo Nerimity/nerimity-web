@@ -13,6 +13,7 @@ import Sortable from 'solid-sortablejs';
 import ContextMenu, { ContextMenuProps } from '@/components/ui/context-menu/ContextMenu';
 import { ChannelType } from '@/chat-api/RawData';
 import { CustomLink } from '@/components/ui/CustomLink';
+import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 
 
 
@@ -137,7 +138,7 @@ function createTemporarySignal<T>(v: () => T) {
 export default function ServerSettingsChannel() {
   const [t] = useTransContext();
   const { serverId } = useParams();
-  const { header } = useStore();
+  const { header, servers } = useStore();
   const [channelAddRequestSent, setChannelAddRequestSent] = createSignal(false);
   const navigate = useNavigate();
   const [contextMenuPos, setContextMenuPos] = createSignal<null | { x: number; y: number }>(null);
@@ -166,10 +167,16 @@ export default function ServerSettingsChannel() {
 
     navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channel.id))
   }
-
+  const server = () => servers.get(serverId);
 
   return (
     <div class={styles.channelsPane}>
+
+      <Breadcrumb>
+        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem title={t('servers.settings.drawer.channels')} />
+      </Breadcrumb>
+
       <SettingsBlock label={t('servers.settings.channels.createNewDescription')} icon='add'>
         <Button label={t('servers.settings.channels.createButton')} class='createButton' onClick={onAddChannelClicked} />
         <ContextMenuCreate onClick={item => createChannel(item.id!)} triggerClassName='createButton' onClose={() => setContextMenuPos(null)} position={contextMenuPos()} />

@@ -15,6 +15,7 @@ import { addBit, CHANNEL_PERMISSIONS, getAllPermissions, removeBit } from '@/cha
 import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { useTransContext } from '@nerimity/solid-i18next';
+import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 
 type ChannelParams = {
   serverId: string;
@@ -24,7 +25,7 @@ type ChannelParams = {
 export default function ServerSettingsChannel() {
   const [t] = useTransContext();
   const params = useParams<ChannelParams>();
-  const { header, channels } = useStore();
+  const { header, channels, servers } = useStore();
   const {createPortal} = useCustomPortal();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
@@ -83,9 +84,17 @@ export default function ServerSettingsChannel() {
   }
 
 
+  const server = () => servers.get(params.serverId);
+
 
   return (
     <div class={styles.channelPane}>
+      <Breadcrumb>
+        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem href='../' title={t('servers.settings.drawer.channels')} />
+        <BreadcrumbItem title={channel()?.name} />
+      </Breadcrumb>
+      
       {/* Channel Name */}
       <SettingsBlock icon='edit' label={t('servers.settings.channel.channelName')}>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />

@@ -1,0 +1,72 @@
+import { JSXElement, Show } from "solid-js";
+import { FlexRow } from "./Flexbox";
+import { css, styled } from "solid-styled-components";
+import { CustomLink } from "./CustomLink";
+import { Dynamic } from "solid-js/web";
+import Icon from "./icon/Icon";
+
+interface breadcrumbProps {
+  children: JSXElement
+}
+
+interface breadcrumbItemProps {
+  title?: string;
+  icon?: string;
+  href?: string;
+}
+
+const BreadcrumbContainer = styled(FlexRow)`
+  align-items: center;
+  gap: 19px;
+  margin-bottom: 15px;
+`;
+
+export default function Breadcrumb(props: breadcrumbProps) {
+  return (<BreadcrumbContainer children={props.children} />)
+}
+
+
+const breadcrumbItemStyles = css`
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: 8px;
+  padding: 5px;
+  height: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  color: rgba(255, 255, 255, 0.5);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:hover, &:last-child {
+    color: white;
+  }
+
+  &:last-child {
+    font-weight: bold;
+    &:after {display: none;}
+    &:hover {background-color: transparent;}
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &:after {
+    position: absolute;
+    content: ">";
+    right: -15px;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+  }
+`;
+export function BreadcrumbItem(props: breadcrumbItemProps) {
+  return (
+    <Dynamic class={breadcrumbItemStyles} component={props.href ? CustomLink : 'div'} href={props.href!}>
+      <Show when={props.icon}><Icon class={css`color: inherit;`} style={props.title ? {"margin-right": "5px"} : undefined} size={25} name={props.icon}/></Show>
+      <Show when={props.title}>{props.title}</Show>
+    </Dynamic>
+  )
+}

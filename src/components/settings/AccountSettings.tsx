@@ -9,6 +9,8 @@ import { css, styled } from 'solid-styled-components';
 import { updateUser } from '@/chat-api/services/UserService';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
+import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
+import { t } from 'i18next';
 
 const Container = styled("div")`
   display: flex;
@@ -16,8 +18,8 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function AccountSettings(props: {updateHeader: Setter<{username?: string, banner?: string; tag?: string, avatar?: any}>}) {
-  const {header, account} = useStore();
+export default function AccountSettings(props: { updateHeader: Setter<{ username?: string, banner?: string; tag?: string, avatar?: any }> }) {
+  const { header, account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const [avatarFileBrowserRef, setAvatarFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
@@ -74,57 +76,61 @@ export default function AccountSettings(props: {updateHeader: Setter<{username?:
   const onAvatarPick = (files: string[]) => {
     if (files[0]) {
       setInputValue("avatar", files[0])
-      props.updateHeader({avatar: files[0]})
+      props.updateHeader({ avatar: files[0] })
 
     }
   }
   const onBannerPick = (files: string[]) => {
     if (files[0]) {
       setInputValue("banner", files[0])
-      props.updateHeader({banner: files[0]})
+      props.updateHeader({ banner: files[0] })
 
     }
   }
 
 
   return (
-    <Container>     
+    <Container>
+      <Breadcrumb>
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem title={t('settings.drawer.account')} />
+      </Breadcrumb>
       <SettingsBlock icon='email' label='Email'>
-        <Input value={inputValues().email} onText={(v) => setInputValue('email', v) } />
+        <Input value={inputValues().email} onText={(v) => setInputValue('email', v)} />
       </SettingsBlock>
 
       <SettingsBlock icon='face' label='Username'>
-        <Input value={inputValues().username} onText={(v) => setInputValue('username', v) } />
+        <Input value={inputValues().username} onText={(v) => setInputValue('username', v)} />
       </SettingsBlock>
 
       <SettingsBlock icon='local_offer' label='Tag'>
-        <Input class={css`width: 52px;`} value={inputValues().tag} onText={(v) => setInputValue('tag', v) } />
+        <Input class={css`width: 52px;`} value={inputValues().tag} onText={(v) => setInputValue('tag', v)} />
       </SettingsBlock>
 
       <SettingsBlock icon='wallpaper' label='Avatar'>
-        <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick}/>
+        <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick} />
         <Show when={inputValues().avatar}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close'  onClick={() => {setInputValue("avatar", ""); props.updateHeader({avatar: undefined});}} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); props.updateHeader({ avatar: undefined }); }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
       </SettingsBlock>
 
       <SettingsBlock icon='panorama' label='Banner'>
-        <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick}/>
+        <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick} />
         <Show when={inputValues().banner}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close'  onClick={() => {setInputValue("banner", ""); props.updateHeader({banner: undefined});}} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); props.updateHeader({ banner: undefined }); }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>
 
       <Show when={Object.keys(updatedInputValues()).length}>
         <SettingsBlock icon='password' label='Confirm Password'>
-          <Input type='password' value={inputValues().password} onText={(v) => setInputValue('password', v) } />
+          <Input type='password' value={inputValues().password} onText={(v) => setInputValue('password', v)} />
         </SettingsBlock>
       </Show>
-      
 
-      <Show when={error()}><Text size={12} color="var(--alert-color)" style={{"margin-top": "5px"}}>{error()}</Text></Show>
+
+      <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
       </Show>

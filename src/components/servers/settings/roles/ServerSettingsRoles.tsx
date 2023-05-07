@@ -11,6 +11,7 @@ import { ServerRole } from '@/chat-api/store/useServerRoles';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { Draggable } from '@/components/ui/Draggable';
 import { CustomLink } from '@/components/ui/CustomLink';
+import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 
 
 
@@ -21,7 +22,7 @@ function RoleItem(props: { role: ServerRole }) {
 
   return (
     <CustomLink noContextMenu href={link} class={styles.roleItem}>
-      <div class={styles.roleDot} style={{background: props.role.hexColor}} />
+      <div class={styles.roleDot} style={{ background: props.role.hexColor }} />
       <div class={styles.name}>{props.role.name}</div>
       <Icon name='navigate_next' />
     </CustomLink>
@@ -60,7 +61,7 @@ export default function ServerSettingsRole() {
   const [t] = useTransContext();
   const navigate = useNavigate();
   const { serverId } = useParams();
-  const { header } = useStore();
+  const { header, servers } = useStore();
   const [roleAddRequestSent, setRoleAddRequestSent] = createSignal(false);
 
 
@@ -82,9 +83,15 @@ export default function ServerSettingsRole() {
     navigate(RouterEndpoints.SERVER_SETTINGS_ROLE(serverId!, role.id))
   }
 
+  const server = () => servers.get(serverId);
+
 
   return (
     <div class={styles.rolesPane}>
+      <Breadcrumb>
+        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem title={t('servers.settings.drawer.roles')} />
+      </Breadcrumb>
       <SettingsBlock label={t('servers.settings.roles.addNewRole')} icon='add'>
         <Button label={t('servers.settings.roles.addRoleButton')} onClick={onAddRoleClicked} />
       </SettingsBlock>

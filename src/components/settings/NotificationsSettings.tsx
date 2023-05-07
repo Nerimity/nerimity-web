@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For} from 'solid-js';
+import { createEffect, createSignal, For } from 'solid-js';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
 import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
@@ -13,6 +13,8 @@ import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { Emoji } from '../markup/Emoji';
 import { getStorageBoolean, setStorageBoolean, StorageKeys } from '@/common/localStorage';
 import Checkbox from '../ui/Checkbox';
+import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
+import { t } from 'i18next';
 
 const Container = styled("div")`
   display: flex;
@@ -24,7 +26,7 @@ const Container = styled("div")`
 
 
 export default function NotificationsSettings() {
-  const {header} = useStore();
+  const { header } = useStore();
   const [, actions] = useTransContext();
 
   const [isMuted, setMuted] = createSignal(getStorageBoolean(StorageKeys.ARE_NOTIFICATIONS_MUTED, false));
@@ -44,6 +46,10 @@ export default function NotificationsSettings() {
 
   return (
     <Container>
+      <Breadcrumb>
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem title={t('settings.drawer.notifications')} />
+      </Breadcrumb>
       <Checkbox onChange={onChange} checked={!isMuted()} label="Notification sounds" />
     </Container>
   )

@@ -33,7 +33,6 @@ export default function SettingsPane() {
             <Routes>
               {setting.path && <Route path={`/${setting.path}`} component={() => (
                 <>
-                  <Text style={{"margin-left": "10px"}}  size={24}>{t(setting.name)}</Text>
                   <setting.element updateHeader={setUpdateHeader}/>
                 </>
               )} />}

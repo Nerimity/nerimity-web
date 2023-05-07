@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createEffect,  createSignal,  For,  on, Show,} from 'solid-js';
+import { createEffect, createSignal, For, on, Show, } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
@@ -16,30 +16,32 @@ import { ServerRole } from '@/chat-api/store/useServerRoles';
 import Icon from '@/components/ui/icon/Icon';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { useTransContext } from '@nerimity/solid-i18next';
+import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 
 type RoleParams = {
   serverId: string;
-  roleId: string;  
+  roleId: string;
 }
 
 export default function ServerSettingsRole() {
   const [t] = useTransContext();
   const params = useParams<RoleParams>();
-  const { header, serverRoles } = useStore();
+  const { header, serverRoles, servers } = useStore();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
 
   const role = () => serverRoles.get(params.serverId, params.roleId);
+  const server = () => servers.get(params.serverId);
 
   const defaultInput = () => ({
     name: role()?.name || '',
     hexColor: role()?.hexColor || "#fff",
     permissions: role()?.permissions || 0,
     hideRole: role()?.hideRole || false
-  })  
-  
+  })
+
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
   const permissions = () => getAllPermissions(ROLE_PERMISSIONS, inputValues().permissions);
 
@@ -80,9 +82,14 @@ export default function ServerSettingsRole() {
 
   return (
     <div class={styles.channelPane}>
+      <Breadcrumb>
+      <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem href='../' title={t('servers.settings.drawer.roles')} />
+        <BreadcrumbItem title={role()?.name} />
+      </Breadcrumb>
       {/* Role Name */}
       <SettingsBlock icon='edit' label={t('servers.settings.role.roleName')}>
-        <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
+        <Input value={inputValues().name} onText={(v) => setInputValue('name', v)} />
       </SettingsBlock>
 
       {/* Role Color */}
@@ -92,12 +99,12 @@ export default function ServerSettingsRole() {
 
       {/* Hide Role */}
       <SettingsBlock icon='' label={t('servers.settings.role.hideRole')} description={t('servers.settings.role.hideRoleDescription')}>
-      <Checkbox checked={inputValues().hideRole} onChange={checked => setInputValue('hideRole', checked)} />
+        <Checkbox checked={inputValues().hideRole} onChange={checked => setInputValue('hideRole', checked)} />
       </SettingsBlock>
 
       <div class={styles.permissions}>
         <SettingsBlock icon="security" label={t('servers.settings.role.permissions')} description={t('servers.settings.role.permissionsDescription')} header={true} />
-        <For each={ permissions()}>
+        <For each={permissions()}>
           {(permission) => (
             <SettingsBlock icon={permission.icon} label={t(permission.name)} description={t(permission.description)} class={styles.permissionItem}>
               <Checkbox checked={permission.hasPerm} onChange={checked => onPermissionChanged(checked, permission.bit)} />
@@ -120,7 +127,7 @@ export default function ServerSettingsRole() {
   )
 }
 
-function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
+function RoleDeleteConfirmModal(props: { role: ServerRole, close: () => void }) {
   const [error, setError] = createSignal<string | null>(null);
   const navigate = useNavigate();
 
@@ -129,7 +136,7 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
       props.close();
     }
   })
-  
+
   const onDeleteClick = async () => {
     setError(null);
     const serverId = props.role?.serverId!;
@@ -143,7 +150,7 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
 
   return (
     <DeleteConfirmModal
-      close={props.close} 
+      close={props.close}
       title={`Delete ${props.role?.name}`}
       errorMessage={error()}
       confirmText={props.role?.name}
@@ -152,7 +159,7 @@ function RoleDeleteConfirmModal(props: {role: ServerRole, close: () => void}) {
   )
 }
 
-function ColorPicker(props: {color: string, onChange?: (value: string) => void}) {
+function ColorPicker(props: { color: string, onChange?: (value: string) => void }) {
   let inputEl: undefined | HTMLInputElement
 
   const onClicked = () => {
@@ -163,9 +170,9 @@ function ColorPicker(props: {color: string, onChange?: (value: string) => void})
   }
 
   return (
-    <div class={styles.colorPicker} style={{background: props.color}} onclick={onClicked}>
+    <div class={styles.colorPicker} style={{ background: props.color }} onclick={onClicked}>
       <Icon name='colorize' color='white' size={18} class={styles.icon} />
-      <input style={{position: 'absolute', opacity: 0}} ref={inputEl}  type="color" value={props.color} onchange={onChange} />
+      <input style={{ position: 'absolute', opacity: 0 }} ref={inputEl} type="color" value={props.color} onchange={onChange} />
     </div>
   )
 }

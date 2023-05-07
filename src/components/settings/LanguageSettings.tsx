@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Show} from 'solid-js';
+import { createEffect, createSignal, For, Show } from 'solid-js';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
 import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
@@ -12,6 +12,8 @@ import env from '@/common/env';
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { Emoji } from '../markup/Emoji';
 import { CustomLink } from '../ui/CustomLink';
+import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
+import { t } from 'i18next';
 
 const Container = styled("div")`
   display: flex;
@@ -30,7 +32,7 @@ const LanguageItemContainer = styled(ItemContainer)`
 `;
 
 export default function LanguageSettings() {
-  const {header} = useStore();
+  const { header } = useStore();
   const [, actions] = useTransContext();
 
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en_gb");
@@ -61,16 +63,20 @@ export default function LanguageSettings() {
 
   return (
     <Container>
+      <Breadcrumb>
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem title={t('settings.drawer.language')} />
+      </Breadcrumb>
       <For each={languageKeys}>
-        {key => <LanguageItem selected={currentLocalLanguage().replace("_", "-") === key} onClick={() => setLanguage(key)} key={key}/>}
+        {key => <LanguageItem selected={currentLocalLanguage().replace("_", "-") === key} onClick={() => setLanguage(key)} key={key} />}
       </For>
     </Container>
   )
 }
 
-function LanguageItem(props: {key: string, selected: boolean, onClick: () => void}) {
+function LanguageItem(props: { key: string, selected: boolean, onClick: () => void }) {
   const language = (languages as any)[props.key] as Language;
-  
+
   const onClick = (event: any) => {
     const target = event.target as HTMLElement;
     if (target.tagName === "A") return;
@@ -78,8 +84,8 @@ function LanguageItem(props: {key: string, selected: boolean, onClick: () => voi
   }
 
   return (
-    <LanguageItemContainer onclick={onClick}  selected={props.selected}>
-      <Emoji class={css`height: 30px; width: 30px;`}  name={emojiUnicodeToShortcode(language.emoji)} url={unicodeToTwemojiUrl(language.emoji)} />
+    <LanguageItemContainer onclick={onClick} selected={props.selected}>
+      <Emoji class={css`height: 30px; width: 30px;`} name={emojiUnicodeToShortcode(language.emoji)} url={unicodeToTwemojiUrl(language.emoji)} />
       <FlexColumn>
         <Text>{language.name}</Text>
         <Contributors contributors={language.contributors} />
@@ -92,10 +98,10 @@ const ContributorContainer = styled(FlexRow)`
   font-size: 14px;
 `;
 
-function Contributors(props: {contributors: string[]}) {
+function Contributors(props: { contributors: string[] }) {
   return (
     <FlexRow>
-      <Text size={14} style={{"margin-right": "5px"}}>Contributors:</Text>
+      <Text size={14} style={{ "margin-right": "5px" }}>Contributors:</Text>
       <For each={props.contributors}>
         {(contributor, i) => (
           <ContributorContainer gap={5}>
