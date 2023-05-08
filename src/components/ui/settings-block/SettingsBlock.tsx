@@ -16,10 +16,12 @@ interface BlockProps {
 export default function SettingsBlock(props: BlockProps) {
   return (
     <div class={classNames(styles.block, conditionalClass(props.header, styles.header), props.class)}>
-      <Icon name={props.icon || "texture"} />
-      <div class={styles.details}>
-        <div class={styles.label}>{props.label}</div>
-        <Show when={props.description}><div class={styles.description}>{props.description}</div></Show>
+      <div class={styles.outerContainer}>
+        <Icon name={props.icon || "texture"} />
+        <div class={styles.details}>
+          <div class={styles.label}>{props.label}</div>
+          <Show when={props.description}><div class={styles.description}>{props.description}</div></Show>
+        </div>
       </div>
       {props.children}
     </div>

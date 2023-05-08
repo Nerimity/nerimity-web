@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onCleanup, Setter, Show } from 'solid-js';
+import { createEffect, createSignal, on, onCleanup, onMount, Setter, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
@@ -6,11 +6,13 @@ import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
-import { updateUser } from '@/chat-api/services/UserService';
+import { getUserDetailsRequest, updateUser, UserDetails } from '@/chat-api/services/UserService';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
+import { Route, Routes, useMatch } from '@solidjs/router';
+import { CustomLink } from '../ui/CustomLink';
 
 const Container = styled("div")`
   display: flex;
@@ -18,8 +20,45 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function AccountSettings(props: { updateHeader: Setter<{ username?: string, banner?: string; tag?: string, avatar?: any }> }) {
-  const { header, account } = useStore();
+type UpdateHeader = Setter<{ username?: string, banner?: string; tag?: string, avatar?: any }>;
+
+export default function AccountSettings(props: { updateHeader: UpdateHeader }) {
+  const { header } = useStore();
+
+  createEffect(() => {
+    header.updateHeader({
+      title: "Settings - Account",
+      iconName: 'settings',
+    });
+  })
+
+  onCleanup(() => {
+    props.updateHeader(reconcile({}));
+  })
+
+  const isProfilePage = useMatch(() => "app/settings/account/profile")
+
+  return (
+    <Container>
+      <Breadcrumb>
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem title={t('settings.drawer.account')} href='../account' />
+        <Show when={isProfilePage()}>
+          <BreadcrumbItem title="Profile" />
+        </Show>
+
+      </Breadcrumb>
+
+      <Routes>
+        <Route path="/" element={<EditAccountPage updateHeader={props.updateHeader} />} />
+        <Route path="/profile" element={<EditProfilePage />} />
+      </Routes>
+    </Container>
+  )
+}
+
+function EditAccountPage(props: { updateHeader: UpdateHeader }) {
+  const { account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const [avatarFileBrowserRef, setAvatarFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
@@ -38,18 +77,6 @@ export default function AccountSettings(props: { updateHeader: Setter<{ username
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
-
-
-  createEffect(() => {
-    header.updateHeader({
-      title: "Settings - Account",
-      iconName: 'settings',
-    });
-  })
-
-  onCleanup(() => {
-    props.updateHeader(reconcile({}));
-  })
 
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
@@ -90,11 +117,7 @@ export default function AccountSettings(props: { updateHeader: Setter<{ username
 
 
   return (
-    <Container>
-      <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
-        <BreadcrumbItem title={t('settings.drawer.account')} />
-      </Breadcrumb>
+    <>
       <SettingsBlock icon='email' label='Email'>
         <Input value={inputValues().email} onText={(v) => setInputValue('email', v)} />
       </SettingsBlock>
@@ -123,6 +146,12 @@ export default function AccountSettings(props: { updateHeader: Setter<{ username
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>
 
+      <SettingsBlock icon='info' label='Profile' description='Edit your bio'>
+        <CustomLink href='./profile'>
+          <Button iconSize={18} iconName='edit' label='Edit' />
+        </CustomLink>
+      </SettingsBlock>
+
       <Show when={Object.keys(updatedInputValues()).length}>
         <SettingsBlock icon='password' label='Confirm Password'>
           <Input type='password' value={inputValues().password} onText={(v) => setInputValue('password', v)} />
@@ -134,6 +163,74 @@ export default function AccountSettings(props: { updateHeader: Setter<{ username
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
       </Show>
-    </Container>
+    </>
+  )
+}
+
+
+
+const bioBlockStyles = css`
+  && {
+    height: 210px;
+    align-items: start;
+    flex-direction: column;
+    flex: 0;
+    padding-top: 15px;
+    align-items: stretch;
+  }
+  .inputContainer {
+    margin-left: 30px;
+  }
+  textarea {
+    height: 100px;
+  }
+`;
+
+function EditProfilePage() {
+  const { account } = useStore();
+  const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
+  const [error, setError] = createSignal<null | string>(null);
+  const [requestSent, setRequestSent] = createSignal(false);
+
+  const defaultInput = () => ({
+    bio: userDetails()?.profile?.bio || '',
+  })
+
+  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
+
+  createEffect(on(account.user, (user) => {
+    if (!user) return;
+    getUserDetailsRequest(account.user()?.id).then(setUserDetails)
+  }))
+
+  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
+
+  const onSaveButtonClicked = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+    setError(null);
+    const values = updatedInputValues();
+    await updateUser({
+      bio: values.bio?.trim() || null
+    })
+    .then(() => {
+      setUserDetails(() => ({...userDetails()!, profile: {bio: values.bio}}))
+    })
+    .catch(err => {
+      setError(err.message)
+    })
+    .finally(() => setRequestSent(false))
+  }
+
+  return (
+    <>
+      <SettingsBlock icon='info' label='Bio' class={bioBlockStyles} description='Markup supported'>
+        <Input class='inputContainer' type='textarea' value={inputValues().bio} onText={(v) => setInputValue('bio', v)} />
+      </SettingsBlock>
+      <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
+      <Show when={Object.keys(updatedInputValues()).length}>
+        <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
+      </Show>
+    </>
   )
 }

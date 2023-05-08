@@ -76,6 +76,17 @@
   margin-top: 20px;
   height: 100%;
 }
+
+.bioContainer {
+  display: flex;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.06);
+  white-space: pre-line;
+}
+
 .sidePane {
   flex-shrink: 0;
   width: 200px;
@@ -130,10 +141,10 @@
   }
 }
 
-.bioArea {
+.postsContainer {
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 10px;
   flex: 1;
 
   white-space: nowrap;
@@ -142,7 +153,7 @@
 }
 
 
-.userBioItem {
+.SidePaneItem {
   display: flex;
   font-size: 14px;
   align-items: center;
@@ -167,7 +178,7 @@
     width: initial;
     margin-right: 5px;
   }
-  .bioArea {
+  .postsContainer {
     order: 2;
     margin-left: 10px;
     margin-right: 10px;;

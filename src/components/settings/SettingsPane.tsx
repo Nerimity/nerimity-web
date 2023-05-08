@@ -7,6 +7,7 @@ import { styled } from 'solid-styled-components';
 import { useTransContext } from '@nerimity/solid-i18next';
 import Text from '../ui/Text';
 import { createStore } from 'solid-js/store';
+import settings from '@/common/Settings';
 
 const SettingsPaneContainer = styled("div")`
   display: flex;
@@ -31,7 +32,7 @@ export default function SettingsPane() {
         <For each={Settings}>
           {setting => (
             <Routes>
-              {setting.path && <Route path={`/${setting.path}`} component={() => (
+              {(setting.path || setting.routePath) && <Route path={`/${setting.routePath || setting.path}`} component={() => (
                 <>
                   <setting.element updateHeader={setUpdateHeader}/>
                 </>

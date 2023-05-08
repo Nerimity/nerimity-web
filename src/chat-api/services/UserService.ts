@@ -49,7 +49,11 @@ export interface UserDetails {
   mutualFriendIds: string[];
   mutualServerIds: string[];
   latestPost: RawPost
+  profile?: UserProfile
 
+}
+export interface UserProfile {
+  bio?: string;
 }
 
 export async function getUserDetailsRequest(userId?: string) {
@@ -99,6 +103,7 @@ interface UpdateUserOptions {
   banner?: string;
   tag?: string;
   password?: string;
+  bio?: string | null;
 }
 export async function updateUser(body: UpdateUserOptions) {
   return request({

@@ -2,6 +2,7 @@ import { lazy } from 'solid-js';
 
 export interface Setting {
     path?: string;
+    routePath?: string;
     name: string;
     icon: string;
     element: any
@@ -9,7 +10,8 @@ export interface Setting {
 
 const settings: Setting[] =  [
   {
-    path: 'account',
+    path: 'account/',
+    routePath: 'account/*',
     name: 'settings.drawer.account',
     icon: 'account_circle',
     element: lazy(() => import('@/components/settings/AccountSettings'))

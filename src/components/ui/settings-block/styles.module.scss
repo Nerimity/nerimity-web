@@ -15,6 +15,12 @@
   }
 }
 
+.outerContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-shrink: 0;
+}
 .details {
   display: flex;
   flex-direction: column;

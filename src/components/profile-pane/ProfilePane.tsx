@@ -23,12 +23,14 @@ import { PostsArea } from '../PostsArea';
 import { CustomLink } from '../ui/CustomLink';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { Banner } from '../ui/Banner';
+import { Markup } from '../Markup';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
   margin-left: auto;
   margin-right: 10px;
-  margin-top: 10px;
+  margin-top: 0;
+  margin-bottom: 10px;
   flex-wrap: wrap;
   justify-content: center;
 
@@ -120,6 +122,7 @@ export default function ProfilePane() {
           </Show>
         </div>
         <Show when={userDetails()}>
+          <Show when={userDetails()?.profile?.bio}><BioContainer userDetails={userDetails()!}  /></Show>
           <Content user={userDetails()!} />
         </Show>
       </div>
@@ -195,6 +198,15 @@ function Content(props: { user: UserDetails }) {
 }
 
 
+function BioContainer(props: {userDetails: UserDetails}) {
+  return (
+    <div class={styles.bioContainer}>
+      <Text size={13}><Markup text={props.userDetails.profile.bio!} /></Text>
+    </div>
+  )
+}
+
+
 
 
 function SideBar(props: { user: UserDetails }) {
@@ -203,7 +215,7 @@ function SideBar(props: { user: UserDetails }) {
 
   return (
     <div class={styles.sidePane}>
-      <UserBioItem icon='event' label='Joined' value={joinedAt} />
+      <SidePaneItem icon='event' label='Joined' value={joinedAt} />
       <MutualFriendList mutualFriendIds={props.user.mutualFriendIds} />
       <MutualServerList mutualServerIds={props.user.mutualServerIds} />
     </div>
@@ -281,9 +293,9 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
 
 
 
-function UserBioItem(props: { icon: string, label: string, value: string }) {
+function SidePaneItem(props: { icon: string, label: string, value: string }) {
   return (
-    <div class={styles.userBioItem}>
+    <div class={styles.SidePaneItem}>
       <Icon name={props.icon} size={18} />
       <div class={styles.label}>{props.label}</div>
       <div class={styles.value}>{props.value}</div>
@@ -297,7 +309,7 @@ function PostsContainer(props: { user: UserDetails }) {
   const postCount = () => props.user.user._count.posts.toLocaleString();
   const likeCount = () => props.user.user._count.likedPosts.toLocaleString();
   return (
-    <div class={styles.bioArea}>
+    <div class={styles.postsContainer}>
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": 'wrap' }}>
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)} label='Posts' />
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={`Posts and replies (${postCount()})`} />

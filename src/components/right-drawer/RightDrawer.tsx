@@ -30,6 +30,7 @@ import { ImagePreviewModal } from '@/components/ui/ImageEmbed';
 import { classNames, conditionalClass } from '@/common/classNames';
 import socketClient from '@/chat-api/socketClient';
 import { ServerEvents } from '@/chat-api/EventNames';
+import { Markup } from '../Markup';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -58,6 +59,7 @@ const MemberItem = (props: { member: ServerMember }) => {
 
   return (
     <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
+      {/* <div onMouseEnter={onHover} > */}
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
@@ -99,21 +101,21 @@ const RightDrawer = () => {
 
 const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
   const params = useParams<{ serverId?: string; channelId?: string; }>();
-  const {channels} = useStore();
-  
+  const { channels } = useStore();
+
   const [attachments, setAttachments] = createSignal<RawAttachment[]>([]);
-  
+
   const incrAttachments = (channelId: string) => {
-    const channel =  channels.get(channelId);
+    const channel = channels.get(channelId);
 
     const count = (channel?._count?.attachments || 0);
-    channel?.update({_count: {attachments: count + 1 }});
+    channel?.update({ _count: { attachments: count + 1 } });
   }
   const decrAttachments = (channelId: string) => {
-    const channel =  channels.get(channelId);
+    const channel = channels.get(channelId);
 
     const count = (channel?._count?.attachments || 1);
-    channel?.update({_count: {attachments: count - 1 }});
+    channel?.update({ _count: { attachments: count - 1 } });
   }
 
   onMount(async () => {
@@ -121,24 +123,24 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
     setAttachments(newAttachments);
   })
 
-  const onMessage = (payload: {message: RawMessage}) => {
+  const onMessage = (payload: { message: RawMessage }) => {
     if (payload.message.channelId !== params.channelId) return;
     const attachment = payload?.message.attachments?.[0];
     if (!attachment) return;
     setAttachments([
-      {...attachment, messageId: payload.message.id},
+      { ...attachment, messageId: payload.message.id },
       ...attachments()
     ])
     incrAttachments(params.channelId);
   }
-  socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage)  
+  socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage)
 
-  const onDelete = (payload: {messageId: string, channelId: string}) => {
+  const onDelete = (payload: { messageId: string, channelId: string }) => {
     if (payload.channelId !== params.channelId) return;
     setAttachments(attachments().filter(attachment => attachment.messageId !== payload.messageId))
     decrAttachments(params.channelId);
   }
-  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)  
+  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)
 
   return (
     <>
@@ -200,29 +202,29 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
 
   const incrAttachments = (channelId: string) => {
     const channel = channels.get(channelId);
-    
+
     const count = (channel?._count?.attachments || 0);
-    channel?.update({_count: {attachments: count + 1 }});
+    channel?.update({ _count: { attachments: count + 1 } });
   }
 
   const decrAttachments = (channelId: string) => {
     const channel = channels.get(channelId);
 
     const count = (channel?._count?.attachments || 1);
-    channel?.update({_count: {attachments: count - 1 }});
+    channel?.update({ _count: { attachments: count - 1 } });
   }
 
-  const onMessage = (payload: {message: RawMessage}) => {
+  const onMessage = (payload: { message: RawMessage }) => {
     const attachment = payload?.message.attachments?.[0];
     if (!attachment) return;
     incrAttachments(payload.message.channelId);
   }
-  socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage)  
+  socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage)
 
-  const onDelete = (payload: {messageId: string, channelId: string}) => {
+  const onDelete = (payload: { messageId: string, channelId: string }) => {
     decrAttachments(payload.channelId);
   }
-  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)  
+  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)
 
 
   return <>
@@ -312,17 +314,22 @@ const ServerDrawer = () => {
 
 
 
-const FlyoutContainer = styled(FlexColumn)`
+const FlyoutContainer = styled(FlexRow)`
   position: fixed;
+  z-index: 100111111111110;
+  gap: 10px;
+  align-items: flex-start;
+`
+
+const FlyoutInner = styled(FlexColumn)`
   border-radius: 8px;
-  width: 300px;
   padding: 10px;
   background-color: rgba(40, 40, 40, 0.6);
   backdrop-filter: blur(20px);
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
-  z-index: 100111111111110;
-`
+  width: 300px;
+`;
 
 const FlyoutDetailsContainer = styled(FlexRow)`
   position: relative;
@@ -405,13 +412,14 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
 
 
   const style = () => ({
-    left: (props.left! - 320) + "px",
+    left: (props.left! + (latestPost() ? -653 : -320)) + "px",
     ...(isMobileWidth() ? {
       top: 'initial',
       bottom: "10px",
       left: "10px",
       right: "10px",
       width: "initial",
+      "align-items": "initial",
       "max-height": "70%",
       height: 'initial'
     } : undefined)
@@ -421,47 +429,72 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
     createPortal?.(close => <Modal maxHeight={500} maxWidth={350} close={close} title="Edit Roles" children={() => <ServerMemberRoleModal userId={member()?.userId!} serverId={member()?.serverId!} />} />)
   }
 
+  const ShowFullProfileButton = () => (
+    <Link href={RouterEndpoints.PROFILE(props.userId)} style={{ "text-decoration": 'none', display: 'flex', "margin-top": 'auto' }}>
+      <Button onClick={props.close} iconName='person' label='View full profile' margin={0} class={css`margin-top: 5px;flex: 1;`} />
+    </Link>
+  )
+
+
+  const ProfileArea = () => (
+    <>
+      <Banner maxHeight={200} margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
+      <FlyoutDetailsContainer>
+        <Avatar animate class={flyoutAvatarStyles} user={user()!} size={60} />
+        <FlyoutOtherDetailsContainer>
+          <span>
+            <Text style={{ "overflow-wrap": "anywhere" }}>{user()!.username}</Text>
+            <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
+          </span>
+          <UserPresence userId={props.userId} showOffline />
+          <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
+        </FlyoutOtherDetailsContainer>
+      </FlyoutDetailsContainer>
+      <Show when={details()?.profile?.bio}>
+        <Text size={13}><Markup text={details()?.profile?.bio!} /></Text>
+      </Show>
+      <Show when={member()}>
+        <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
+        <RolesContainer gap={3}>
+          <For each={member()?.roles()!}>
+            {role => (<RoleContainer><Text color={role?.hexColor} size={14}>{role?.name}</Text></RoleContainer>)}
+          </For>
+          <RoleContainer onclick={showRoleModal} selectable><Icon name='add' size={14} /></RoleContainer>
+        </RolesContainer>
+      </Show>
+
+    </>
+  );
+
+  const PostArea = () => (
+    <>
+      <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='chat' title='Latest Post' />
+      <PostItem post={latestPost()!} />
+    </>
+  )
+
   return (
     <Show when={details()}>
       <FlyoutContainer ref={setFlyoutRef} class="modal" style={style()}>
-        <Banner maxHeight={200} margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
-        {/* <BannerContainer
-         style={{
-            ...(user()?.avatar ? {
-              "background-image": `url(${avatarUrl(user()!) + (user()?.avatar?.endsWith(".gif") ? '?type=png' : '')})`,
-            } : {
-              background: user()?.hexColor
-            }),
-            
-          }}
-         /> */}
-        <FlyoutDetailsContainer>
-          <Avatar animate class={flyoutAvatarStyles} user={user()} size={60} />
-          <FlyoutOtherDetailsContainer>
-            <span>
-              <Text style={{ "overflow-wrap": "anywhere" }}>{user().username}</Text>
-              <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
-            </span>
-            <UserPresence userId={props.userId} showOffline />
-            <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
-          </FlyoutOtherDetailsContainer>
-        </FlyoutDetailsContainer>
-        <Show when={member()}>
-          <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
-          <RolesContainer gap={3}>
-            <For each={member()?.roles()!}>
-              {role => (<RoleContainer><Text color={role?.hexColor} size={14}>{role?.name}</Text></RoleContainer>)}
-            </For>
-            <RoleContainer onclick={showRoleModal} selectable><Icon name='add' size={14} /></RoleContainer>
-          </RolesContainer>
+        <Show when={!isMobileWidth()}>
+          <Show when={latestPost()}>
+            <FlyoutInner><PostArea /></FlyoutInner>
+          </Show>
+          <FlyoutInner>
+            <ProfileArea />
+            <ShowFullProfileButton />
+          </FlyoutInner>
         </Show>
-        <Show when={latestPost()}>
-          <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='chat' title='Latest Post' />
-          <PostItem post={latestPost()!} />
+
+        <Show when={isMobileWidth()}>
+          <FlyoutInner style={{ width: 'initial', flex: 1 }}>
+            <ProfileArea />
+            <Show when={latestPost()}>
+              <PostArea />
+            </Show>
+            <ShowFullProfileButton />
+          </FlyoutInner>
         </Show>
-        <Link href={RouterEndpoints.PROFILE(props.userId)} style={{ "text-decoration": 'none', display: 'flex' }}>
-          <Button onClick={props.close} iconName='person' label='View full profile' margin={0} class={css`margin-top: 5px;flex: 1;`} />
-        </Link>
       </FlyoutContainer>
     </Show>
   )
