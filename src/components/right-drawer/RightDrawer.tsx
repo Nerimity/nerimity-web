@@ -58,8 +58,8 @@ const MemberItem = (props: { member: ServerMember }) => {
   }
 
   return (
-    <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
-      {/* <div onMouseEnter={onHover} > */}
+    // <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
+    <div onMouseEnter={onHover} >
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
@@ -349,18 +349,30 @@ const flyoutAvatarStyles = css`
 const RolesContainer = styled(FlexRow)`
   margin-bottom: 10px;
   flex-wrap: wrap;
+  margin-left: 18px;
 `;
 
 const RoleContainer = styled(FlexRow) <{ selectable?: boolean }>`
   background-color: rgba(80, 80, 80, 0.6);
   border-radius: 8px;
-  padding: 3px;
+  padding: 5px;
   ${props => props.selectable ? `
     cursor: pointer;
+    width: 17px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(80, 80, 80, 0.8);
     &:hover {
-      background-color: rgba(80, 80, 80, 0.8);
+      background-color: #5a5a5a;
     }
   ` : ''}
+`;
+
+const BioContainer = styled("div")`
+  margin-left: 18px;
+  background-color: rgba(80, 80, 80, 0.6);
+  padding: 5px;
+  border-radius: 6px;
 `;
 
 const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string, left?: number, top?: number }) => {
@@ -451,10 +463,13 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
         </FlyoutOtherDetailsContainer>
       </FlyoutDetailsContainer>
       <Show when={details()?.profile?.bio}>
-        <Text size={13}><Markup text={details()?.profile?.bio!} /></Text>
+        <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='info' title='Bio' />
+        <BioContainer>
+          <Text size={14}><Markup text={details()?.profile?.bio!} /></Text>
+        </BioContainer>
       </Show>
       <Show when={member()}>
-        <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
+        <FlyoutTitle style={{ "margin-bottom": "5px", "margin-top": "5px" }} icon='leaderboard' title='Roles' />
         <RolesContainer gap={3}>
           <For each={member()?.roles()!}>
             {role => (<RoleContainer><Text color={role?.hexColor} size={14}>{role?.name}</Text></RoleContainer>)}
@@ -535,7 +550,7 @@ function MobileFlyout(props: { userId: string, serverId: string, close: () => vo
 
 function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: string }) {
   return (
-    <FlexRow gap={5} style={{ ...{ "align-items": 'center' }, ...props.style }}>
+    <FlexRow gap={5} style={{ ...{ "align-items": 'center', "font-weight": "bold" }, ...props.style }}>
       <Icon color='var(--primary-color)' name={props.icon} size={14} />
       <Text>{props.title}</Text>
     </FlexRow>
