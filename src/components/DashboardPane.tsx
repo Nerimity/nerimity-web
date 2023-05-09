@@ -44,6 +44,7 @@ const ServerListContainer = styled(FlexRow)`
   border-radius: 8px;
   margin-left: 10px;
   margin-right: 10px;
+  height: 50px;
 `;
 
 const SidebarItemContainer = styled(ItemContainer)`
@@ -65,16 +66,17 @@ export default function DashboardPane() {
   return (
     <DashboardPaneContainer>
       <DashboardPaneContent gap={10}>
-        <ServerList />
-        <PostsContainer/>
+        <Show when={account.user()}>
+          <ServerList />
+          <PostsContainer />
+        </Show>
       </DashboardPaneContent>
-
     </DashboardPaneContainer>
   )
 }
 
 
-const NotificationCountContainer = styled(FlexRow)<{selected: boolean}>`
+const NotificationCountContainer = styled(FlexRow) <{ selected: boolean }>`
   align-items: center;
   justify-content: center;
   background: var(--primary-color);
@@ -94,7 +96,7 @@ function PostsContainer() {
   const [showNotifications, setShowNotifications] = createSignal(false);
 
   const [notificationCount, setNotificationCount] = createSignal(0);
-  onMount(async() => {
+  onMount(async () => {
     const count = await getPostNotificationCount();
     setNotificationCount(count);
   })
@@ -109,7 +111,7 @@ function PostsContainer() {
     setNotificationCount(0);
   })
 
-  return ( 
+  return (
     <>
       <Text size={18} style={{ "margin-left": "15px" }}>Posts</Text>
       <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "13px" }}>
@@ -117,7 +119,7 @@ function PostsContainer() {
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={showNotifications()} label="Notifications" customChildren={NotificationIndicator} onClick={() => setShowNotifications(true)} />
       </FlexRow>
       <Show when={!showNotifications()}><PostsArea showFeed style={{ "margin-left": "10px", "margin-right": "10px" }} showCreateNew /></Show>
-      <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "10px", "margin-right": "10px" }}/></Show>
+      <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "10px", "margin-right": "10px" }} /></Show>
     </>
   )
 
@@ -139,7 +141,7 @@ function ServerList() {
   }
 
   return (
-    <Show when={servers.array().length}>
+    <div>
       <Text size={18} style={{ "margin-left": "15px" }}>Servers</Text>
       <ServerListContainer>
         <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
@@ -150,7 +152,7 @@ function ServerList() {
           />}
         </For>
       </ServerListContainer>
-    </Show>
+    </div>
   )
 }
 
