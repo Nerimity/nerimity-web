@@ -58,8 +58,8 @@ const MemberItem = (props: { member: ServerMember }) => {
   }
 
   return (
-    // <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
-    <div onMouseEnter={onHover} >
+    <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
+    {/* <div onMouseEnter={onHover} > */}
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
