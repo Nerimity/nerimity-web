@@ -28,7 +28,6 @@ import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 
 const NewPostContainer = styled(FlexColumn)`
   overflow: auto;
-  padding-top: 5px;
   padding-bottom: 5px;
   background: rgba(255, 255, 255, 0.06);
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
@@ -40,7 +39,7 @@ const NewPostContainer = styled(FlexColumn)`
 `;
 
 const ButtonsContainer = styled(FlexRow)`
-align-self: end;
+  align-self: end;
 `;
 
 
@@ -83,7 +82,7 @@ function NewPostArea(props: { postId?: string }) {
 
   return (
     <NewPostContainer>
-      <Input label={props.postId ? 'Write your reply...' : "Write your post..."} onText={setContent} value={content()} type="textarea" height={60} />
+      <Input placeholder={props.postId ? 'Reply...' : "Create a post..."} onText={setContent} value={content()} type="textarea" />
       <Show when={attachedFile()}><AttachFileItem cancel={() => setAttachedFile(undefined)} file={attachedFile()!} /></Show>
       <ButtonsContainer gap={5}>
         <FileBrowser accept='images' ref={setFileBrowserRef} onChange={onFilePicked}/>

@@ -1,4 +1,4 @@
-import { createSignal, Show } from 'solid-js';
+import { createEffect, createSignal, on, onMount, Show } from 'solid-js';
 import { classNames, conditionalClass } from '@/common/classNames';
 import styles from './styles.module.scss';
 import { styled } from 'solid-styled-components';
@@ -53,6 +53,7 @@ const CustomTextArea = styled("textarea")`
   border: none;
   color: white;
   padding: 10px;
+  max-height: 200px;
 `;
 
 const PrefixLabel = styled(Text)`
@@ -94,7 +95,20 @@ export default function Input(props: Props) {
     inputEl?.focus()
   }
 
-  const onChange = (event: any) => props.onText?.(event.target.value);
+  createEffect(on(() => props.value, () => {
+    auto_grow();
+  }))
+
+  function auto_grow() {
+    if (inputEl?.tagName !== "TEXTAREA") return;
+    inputEl.style.height = "5px";
+    inputEl.style.height = (inputEl.scrollHeight - 20) + "px";
+  }
+
+  const onChange = (event: any) => {
+    auto_grow()
+    props.onText?.(event.target.value);
+  }
   return (
     <Base class={props.class}>
       <Show when={props.label}><Label color='rgba(255, 255, 255, 0.8)'>{props.label}</Label></Show>
