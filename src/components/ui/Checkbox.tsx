@@ -2,6 +2,7 @@ import { createEffect, createSignal, on, Show } from 'solid-js';
 import { css, styled } from 'solid-styled-components';
 import Icon from './icon/Icon';
 import Text from './Text';
+import { classNames, conditionalClass } from '@/common/classNames';
 
 interface CheckboxProps {
   checked: boolean
@@ -52,7 +53,7 @@ export default function Checkbox (props: CheckboxProps) {
   }
 
   return (
-    <CheckboxContainer class={checked() ? 'selected' : ''} onClick={onClick}>
+    <CheckboxContainer class={ classNames('checkbox', conditionalClass(checked(), 'selected'))} onClick={onClick}>
       <Icon size={13} class={boxStyle} name="done" />
       <Show when={props.label}>
         <Text>{props.label}</Text>
