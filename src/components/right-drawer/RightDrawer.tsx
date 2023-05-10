@@ -373,6 +373,11 @@ const BioContainer = styled("div")`
   background-color: rgba(80, 80, 80, 0.6);
   padding: 5px;
   border-radius: 6px;
+  max-height: 300px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  white-space: pre-line;
 `;
 
 const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string, left?: number, top?: number }) => {
