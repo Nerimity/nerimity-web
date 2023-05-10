@@ -45,6 +45,12 @@ const ServerListContainer = styled(FlexRow)`
   margin-left: 10px;
   margin-right: 10px;
   height: 50px;
+  scroll-behavior: smooth;
+
+
+  &::-webkit-scrollbar {
+  display: none;
+}
 `;
 
 const SidebarItemContainer = styled(ItemContainer)`
@@ -140,10 +146,21 @@ function ServerList() {
     setContextPosition({ x: event.clientX, y: event.clientY });
   }
 
+
+  let serverListEl: undefined | HTMLDivElement;
+  const onWheel = (event: any) => {
+    if (!serverListEl) return;
+    event.preventDefault();
+
+    var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+
+    serverListEl.scrollLeft -= event.wheelDelta
+  }
+
   return (
     <div>
       <Text size={18} style={{ "margin-left": "15px" }}>Servers</Text>
-      <ServerListContainer>
+      <ServerListContainer ref={serverListEl} onwheel={onWheel}>
         <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
         <For each={servers.orderedArray()}>
           {server => <ServerItem
