@@ -171,7 +171,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
 
 const bioBlockStyles = css`
   && {
-    height: 210px;
+    height: initial;
     align-items: start;
     flex-direction: column;
     flex: 0;
@@ -224,7 +224,8 @@ function EditProfilePage() {
 
   return (
     <>
-      <SettingsBlock icon='info' label='Bio' class={bioBlockStyles} description='Markup supported'>
+      <SettingsBlock icon='info' label='Bio' class={bioBlockStyles} description='Multiline and markup support'>
+        <Text size={12} style={{"margin-left": "35px", "margin-top": "5px", "margin-bottom": "-5px"}}>({inputValues().bio.length} / 1000)</Text>
         <Input class='inputContainer' type='textarea' value={inputValues().bio} onText={(v) => setInputValue('bio', v)} />
       </SettingsBlock>
       <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
