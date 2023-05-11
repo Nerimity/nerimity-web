@@ -143,9 +143,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
     if (socketClient.id() === payload.socketId) return;
 
     if (payload.message.channelId !== params.channelId) return;
-    if (scrollTracker.scrolledBottom()) {
-      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
-    }
+
     if (!scrollTracker.scrolledBottom()) {
       if (payload.message.createdBy.id !== account.user()?.id) {
         if (!hasFocus()) return;
@@ -153,6 +151,13 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
       }
     }
   }
+
+
+  createEffect(on(() => channelMessages()?.length, () => {
+    if (scrollTracker.scrolledBottom()) {
+      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+    }
+  }))
 
   createEffect(on(channelMessages, (messages, prevMessages) => {
     if (prevMessages) return;
@@ -929,7 +934,7 @@ function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLText
   const { channels } = useStore();
 
   
-  const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!).filter(c => c?.type === ChannelType.SERVER_TEXT) as Channel[]);
+  const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!, true).filter(c => c?.type === ChannelType.SERVER_TEXT) as Channel[]);
   const searchedChannels = () => matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(0, 10);
   
   

@@ -4,11 +4,13 @@ import { batch } from 'solid-js';
 import {createStore} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import {dismissChannelNotification} from '../emits/userEmits';
-import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise } from '../Bitwise';
+import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIONS } from '../Bitwise';
 import { RawChannel } from '../RawData';
 import useMessages from './useMessages';
 import useUsers, { User } from './useUsers';
 import useStore from './useStore';
+import useServerMembers from './useServerMembers';
+import useAccount from './useAccount';
 
 export type Channel = Omit<RawChannel, 'recipient'> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -30,7 +32,8 @@ const [channels, setChannels] = createStore<Record<string, Channel | undefined>>
 
 const set = (channel: RawChannel) => {
   const users = useUsers();
-
+  const serverMembers = useServerMembers();
+  const account = useAccount();
 
   setChannels({
     ...channels,
@@ -40,6 +43,14 @@ const set = (channel: RawChannel) => {
         return users.get(this.recipientId!);
       },
       get hasNotifications() {
+        const isAdminChannel = () => hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+
+        if (this.serverId && isAdminChannel()) {
+          const member = serverMembers.get(this.serverId, account.user()?.id!);
+          const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN) || member?.amIServerCreator();
+          if (!hasAdminPermission) return false;
+        }
+
         const {mentions} = useStore();
         if (mentions.get(channel.id)?.count) return true; 
         const lastMessagedAt = this.lastMessagedAt! || 0;
@@ -92,12 +103,26 @@ const get = (channelId: string) => {
 
 const array = () => Object.values(channels);
 
-const getChannelsByServerId = (serverId: string) => array().filter(channel => channel?.serverId === serverId);
+const getChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = false) => {
+  if (!hidePrivateIfNoPerm) return array().filter(channel => channel?.serverId === serverId);
+  const serverMembers = useServerMembers();
+  const account = useAccount();
+  const member = serverMembers.get(serverId, account.user()?.id!);
+  const hasAdminPerm = member?.hasPermission(ROLE_PERMISSIONS.ADMIN) || member?.amIServerCreator();
+  if (hasAdminPerm) return array().filter(channel => channel?.serverId === serverId);
+
+
+  return array().filter(channel => {
+    const isServerChannel = channel?.serverId === serverId;
+    const isPrivateChannel = hasBit(channel?.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+    return isServerChannel && !isPrivateChannel;
+  });
+}
 
 
 // if order field exists, sort by order, else, sort by created date
-const getSortedChannelsByServerId = (serverId: string) => {
-  return getChannelsByServerId(serverId).sort((a, b) => {
+const getSortedChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = false) => {
+  return getChannelsByServerId(serverId, hidePrivateIfNoPerm).sort((a, b) => {
     if (a!.order && b!.order) {
       return a!.order - b!.order;
     } else {

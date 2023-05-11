@@ -158,7 +158,8 @@
     }
   }
   &.animate .messageItemContainer {
-    transform: translateY(100%);
+    transform: translateY(30px);
+    opacity: 0;
     animation-name: goUp;
     animation-duration: 0.3s;
     animation-fill-mode: forwards;
@@ -167,9 +168,11 @@
 
 @keyframes goUp {
   from {
-    transform: translateY(100%);
+    transform: translateY(30px);
+    opacity: 0;
   }
   to {
     transform: translateY(0);
+    opacity: 1;
   }
 }

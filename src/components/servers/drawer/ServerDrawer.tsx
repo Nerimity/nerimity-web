@@ -31,7 +31,7 @@ const ServerDrawer = () => {
 const ChannelList = () => {
   const params = useParams();
   const { channels } = useStore();
-  const sortedServerChannels = () => channels.getSortedChannelsByServerId(params.serverId).filter(channel => !channel?.categoryId);
+  const sortedServerChannels = () => channels.getSortedChannelsByServerId(params.serverId, true).filter(channel => !channel?.categoryId);
 
   return (
     <div class={styles.channelList}>
@@ -94,10 +94,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
   const params = useParams();
   const { channels } = useStore();
 
-
-  const hasNotifications = () => props.channel.hasNotifications;
-
-  const sortedServerChannels = createMemo(() => channels.getSortedChannelsByServerId(params.serverId).filter(channel => channel?.categoryId === props.channel.id));
+  const sortedServerChannels = createMemo(() => channels.getSortedChannelsByServerId(params.serverId, true).filter(channel => channel?.categoryId === props.channel.id));
 
 
   return (

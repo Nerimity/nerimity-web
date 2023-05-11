@@ -1,12 +1,13 @@
 import { runWithContext } from "@/common/runWithContext";
 import { batch, from } from "solid-js";
-import { RawChannel, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
+import { ChannelType, RawChannel, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels, { Channel } from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
 import useUsers from "../store/useUsers";
+import { CHANNEL_PERMISSIONS, addBit, hasBit } from "../Bitwise";
 
 interface ServerJoinedPayload {
   server: RawServer,
@@ -134,6 +135,7 @@ interface ServerChannelUpdated {
   channelId: string;
   updated: {
     name?: string;
+    permissions?: number;
   }
 }
 
@@ -141,6 +143,25 @@ interface ServerChannelUpdated {
 export const onServerChannelUpdated = (payload: ServerChannelUpdated) => {
   const channels = useChannels();
   const channel = channels.get(payload.channelId);
+
+  const isCategoryChannel = channel?.type === ChannelType.CATEGORY;
+  const isPrivateCategory = hasBit(payload.updated.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit)
+
+  if (isCategoryChannel && isPrivateCategory) {
+    const serverChannels = channels.getChannelsByServerId(payload.serverId);
+
+    batch(() => {
+      for (let i = 0; i < serverChannels.length; i++) {
+        const channel = serverChannels[i];
+        if (channel?.categoryId !== payload.channelId) continue;
+        channel?.update({
+          permissions: addBit(channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit)
+        })
+      }
+    })
+  }
+
+
   channel?.update(payload.updated);
 }
 
@@ -213,26 +234,42 @@ export const onServerChannelOrderUpdated = (payload: ServerChannelOrderUpdatedPa
   const channels = useChannels();
   const orderedChannels = channels.getSortedChannelsByServerId(payload.serverId);
 
+  const categoryChannel = () => channels.get(payload.categoryId!)!
+  const isPrivateCategory = () => hasBit(categoryChannel().permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+
   batch(() => {
     for (let i = 0; i < orderedChannels.length; i++) {
       const channel = orderedChannels[i];
-      channel?.update({
-        ...(payload.orderedChannelIds.includes(channel.id) ? { order: payload.orderedChannelIds.indexOf(channel.id) + 1 } : undefined),
+      if (!channel) continue;
 
-        // update or add categoryId
-        ...(
-          payload.categoryId && payload.categoryId !== channel.categoryId && payload.orderedChannelIds.includes(channel.id)
-            ? {
-              categoryId: payload.categoryId
-            } : undefined
-        ),
-        // remove categoryid
-        ...(
-          !payload.categoryId && channel.categoryId && payload.orderedChannelIds.includes(channel.id)
-            ? {
-              categoryId: undefined
-            } : undefined
-        )
+      const updateOrder = (payload.orderedChannelIds.includes(channel.id) ? { order: payload.orderedChannelIds.indexOf(channel.id) + 1 } : undefined)
+
+      const updateOrAddCategoryId = (
+        payload.categoryId && payload.categoryId !== channel.categoryId && payload.orderedChannelIds.includes(channel.id)
+          ? {
+            categoryId: payload.categoryId
+          } : undefined
+      )
+
+      const removeCategoryId = (
+        !payload.categoryId && channel.categoryId && payload.orderedChannelIds.includes(channel.id)
+          ? {
+            categoryId: undefined
+          } : undefined
+      )
+
+
+
+
+      const updatePermissions = (payload.orderedChannelIds.includes(channel.id) && payload.categoryId && isPrivateCategory()) ? {
+        permissions: addBit(channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit)
+      } : undefined;
+
+      channel?.update({
+        ...updatePermissions,
+        ...updateOrder,
+        ...updateOrAddCategoryId,
+        ...removeCategoryId
       });
     }
   });

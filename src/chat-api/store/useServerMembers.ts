@@ -7,6 +7,7 @@ import useServerRoles, { ServerRole } from './useServerRoles';
 import useServers from './useServers';
 import useStore from './useStore';
 import useUsers, { User } from './useUsers';
+import useAccount from './useAccount';
 
 
 export type ServerMember = Omit<RawServerMember, 'user'> & {
@@ -19,6 +20,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   hasPermission:  (this: ServerMember, bitwise: Bitwise, ignoreAdmin?: boolean) => boolean | void;
   roleColor: () => string;
   unhiddenRole: () => ServerRole;
+  amIServerCreator: () => boolean;
 }
 
 const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
@@ -85,6 +87,13 @@ const set = (member: RawServerMember) => {
         if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;
       }
       return hasBit(this.permissions(), bitwise.bit)
+    },
+    amIServerCreator() {
+      const servers = useServers();
+      const account = useAccount();
+      const server = servers.get(this.serverId);
+
+      return server!.createdById === account.user()?.id;
     },
     get roleColor() {
       if (roleColor) return roleColor();

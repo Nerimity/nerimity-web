@@ -1,6 +1,6 @@
 import env from '@/common/env';
 import {createStore, produce, reconcile} from 'solid-js/store';
-import { MessageType, RawMessage } from '../RawData';
+import { MessageType, RawMessage, RawUser } from '../RawData';
 import { fetchMessages, postMessage, updateMessage } from '../services/MessageService';
 import socketClient from '../socketClient';
 import useAccount from './useAccount';
@@ -129,13 +129,29 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
   })
 
+
+
   const message: void | Message = await postMessage({
     content,
     channelId,
     socketId: socketClient.id(),
     attachment: properties?.attachment
-  }).catch(() => {
-    console.log("failed to send message");
+  }).catch((err) => {
+    console.log(err);
+    pushMessage(channelId, {
+      channelId: channelId,
+      createdAt: Date.now(),
+      createdBy: {
+        username: 'Nerimity',
+        tag: "owo",
+        badges: 0,
+        hexColor: '0',
+        id: "0",
+      },
+      id: Math.random().toString(),
+      type: MessageType.CONTENT,
+      content: "This message couldn't be sent. Try again later. ```Error\n" + err.message + "```"
+    })
   });
 
 

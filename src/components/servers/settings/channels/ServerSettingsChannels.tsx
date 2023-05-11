@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useNavigate, useParams } from '@solidjs/router';
-import { createEffect, createMemo, createSignal, For, Match, on, onMount, Switch } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, Match, on, onMount, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Button from '@/components/ui/Button';
@@ -14,6 +14,7 @@ import ContextMenu, { ContextMenuProps } from '@/components/ui/context-menu/Cont
 import { ChannelType } from '@/chat-api/RawData';
 import { CustomLink } from '@/components/ui/CustomLink';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
+import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 
 
 
@@ -23,10 +24,15 @@ function ChannelItem(props: { channel: Channel }) {
 
   const link = RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId, props.channel.id);
 
+  const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+
   return (
     <CustomLink href={link} class={styles.channelItem}>
       <div class={styles.container}>
         <div class={styles.channelIcon}>#</div>
+        <Show when={isPrivateChannel()}>
+          <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
+        </Show>
         <div class={styles.name}>{props.channel.name}</div>
         <Icon name='navigate_next' />
       </div>
@@ -60,12 +66,16 @@ function CategoryItem(props: { channel: Channel }) {
     }).finally(resetTemp)
   }
 
+  const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
 
   return (
     <div class={styles.channelItem}>
       <CustomLink href={link} class={styles.container}>
         <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
+        <Show when={isPrivateChannel()}>
+          <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
+        </Show>
         <div class={styles.name}>{props.channel.name}</div>
         <Icon name='navigate_next' />
       </CustomLink>
