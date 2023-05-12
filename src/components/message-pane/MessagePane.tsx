@@ -34,6 +34,7 @@ import useChannelProperties from '@/chat-api/store/useChannelProperties';
 import { text } from 'stream/consumers';
 import { Emoji } from '../markup/Emoji';
 import { css } from 'solid-styled-components';
+import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -602,7 +603,7 @@ function TypingIndicator() {
     setTypingUserIds(event.userId, timeoutId);
   }
 
-  const onMessageCreated = (event: {message: RawMessage }) => {
+  const onMessageCreated = (event: { message: RawMessage }) => {
     if (event.message.channelId !== params.channelId) return;
     const timeoutId = typingUserIds[event.message.createdBy.id];
     if (timeoutId) {
@@ -611,7 +612,7 @@ function TypingIndicator() {
     }
   }
 
-  const onMessageUpdated = (evt: any) => onMessageCreated({message: evt.updated})
+  const onMessageUpdated = (evt: any) => onMessageCreated({ message: evt.updated })
 
   createEffect(on(() => params.channelId, () => {
     Object.values(typingUserIds).forEach(timeoutId =>
@@ -840,7 +841,7 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const onFocus = () => setIsFocus(true);
 
   const onClick = (e: any) => {
-     setIsFocus( e.target.closest("." + styles.textArea))
+    setIsFocus(e.target.closest("." + styles.textArea))
   };
 
   const update = () => {
@@ -901,7 +902,7 @@ function useSelectedSuggestion(length: () => number, textArea: HTMLTextAreaEleme
       setCurrent(current() + 1);
     }
   }
-  
+
   const previous = () => {
     if (current() - 1 < 0) {
       setCurrent(length() - 1);
@@ -933,25 +934,25 @@ function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLText
   const params = useParams<{ serverId?: string, channelId: string }>();
   const { channels } = useStore();
 
-  
+
   const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!, true).filter(c => c?.type === ChannelType.SERVER_TEXT) as Channel[]);
   const searchedChannels = () => matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(0, 10);
-  
-  
+
+
   createEffect(on(searchedChannels, () => {
     setCurrent(0);
   }))
-  
+
   const onChannelClick = (channel: Channel) => {
     if (!props.textArea) return;
     appendText(params.channelId, props.textArea, props.search, channel.name + "# ")
   }
-  
+
   const onEnterClick = (i: number) => {
     onChannelClick(searchedChannels()[i]);
   }
 
-  const [current, ,, setCurrent] = useSelectedSuggestion(() => searchedChannels().length, props.textArea!, onEnterClick)
+  const [current, , , setCurrent] = useSelectedSuggestion(() => searchedChannels().length, props.textArea!, onEnterClick)
 
   return (
     <Show when={params.serverId && searchedChannels().length}>
@@ -964,11 +965,17 @@ function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLText
   )
 }
 
-function ChannelSuggestionItem(props: { onHover:() => void; selected: boolean; channel: Channel, onclick(channel: Channel): void; }) {
+function ChannelSuggestionItem(props: { onHover: () => void; selected: boolean; channel: Channel, onclick(channel: Channel): void; }) {
+
+
+  const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+
   return (
     <ItemContainer selected={props.selected} onmouseover={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.suggestionItem}>
       <span class={styles.channelIcon}>#</span>
-      
+      <Show when={isPrivateChannel()}>
+        <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
+      </Show>
       <div class={styles.suggestLabel}>{props.channel.name}</div>
     </ItemContainer>
   )
@@ -995,8 +1002,8 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   const onEnterClick = (i: number) => {
     onUserClick(searchedUsers()[i].user);
   }
-  
-  const [current, ,, setCurrent] = useSelectedSuggestion(() => searchedUsers().length, props.textArea!, onEnterClick)
+
+  const [current, , , setCurrent] = useSelectedSuggestion(() => searchedUsers().length, props.textArea!, onEnterClick)
 
   return (
     <Show when={params.serverId && searchedUsers().length}>
@@ -1038,8 +1045,8 @@ function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAr
   const onEnterClick = (i: number) => {
     onItemClick(searchedEmojis()[i]);
   }
-  
-  const [current, ,, setCurrent] = useSelectedSuggestion(() => searchedEmojis().length, props.textArea!, onEnterClick)
+
+  const [current, , , setCurrent] = useSelectedSuggestion(() => searchedEmojis().length, props.textArea!, onEnterClick)
 
   return (
     <Show when={params.serverId && searchedEmojis().length}>
@@ -1055,7 +1062,7 @@ function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAr
 function EmojiSuggestionItem(props: { onHover: () => void; selected: boolean; emoji: Emoji, onclick(emoji: Emoji): void; }) {
   return (
     <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.emoji)}>
-      <Emoji class={css`height: 15px; width: 15px;`}  name={emojiUnicodeToShortcode(props.emoji.emoji)} url={unicodeToTwemojiUrl(props.emoji.emoji)} />
+      <Emoji class={css`height: 15px; width: 15px;`} name={emojiUnicodeToShortcode(props.emoji.emoji)} url={unicodeToTwemojiUrl(props.emoji.emoji)} />
       <div class={styles.suggestLabel}>{props.emoji.short_names[0]}</div>
     </ItemContainer>
   )

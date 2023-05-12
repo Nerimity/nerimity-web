@@ -13,6 +13,7 @@ import Text from '@/components/ui/Text';
 import { ChannelType } from '@/chat-api/RawData';
 import Icon from '@/components/ui/icon/Icon';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
+import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 
 
 
@@ -86,6 +87,7 @@ const CategoryContainer = styled(FlexColumn)`
 const CategoryItemContainer = styled(FlexRow)`
   margin-top: 5px;
   margin-bottom: 5px;
+  align-items: center;
 `
 
 
@@ -95,6 +97,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
   const { channels } = useStore();
 
   const sortedServerChannels = createMemo(() => channels.getSortedChannelsByServerId(params.serverId, true).filter(channel => channel?.categoryId === props.channel.id));
+  const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
 
   return (
@@ -102,6 +105,9 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
 
       <CategoryItemContainer gap={5}>
         <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
+        <Show when={isPrivateChannel()}>
+          <Icon name='lock' size={14} style={{opacity: 0.3}}/>
+        </Show>
         <Text class="label" size={14} opacity={0.6}>{props.channel.name}</Text>
       </CategoryItemContainer>
 
@@ -124,6 +130,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
 
   const hasNotifications = () => channel.hasNotifications;
 
+  const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
   return (
     <Link
@@ -132,6 +139,9 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
     >
       <ChannelContainer selected={props.selected} alert={hasNotifications()}>
         <Text class="channelIcon">#</Text>
+        <Show when={isPrivateChannel()}>
+          <Icon name='lock' size={14} style={{opacity: 0.3, "margin-right": "5px"}}/>
+        </Show>
         <Text class="label">{channel.name}</Text>
       </ChannelContainer>
     </Link>
