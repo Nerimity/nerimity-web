@@ -70,7 +70,7 @@ function CategoryItem(props: { channel: Channel }) {
 
 
   return (
-    <div class={styles.channelItem}>
+    <div class={styles.categoryItem}>
       <CustomLink href={link} class={styles.container}>
         <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
         <Show when={isPrivateChannel()}>

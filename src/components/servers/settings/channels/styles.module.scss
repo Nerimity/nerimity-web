@@ -12,16 +12,62 @@
   padding-bottom: 50px;
 }
 
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding-right: 5px;
+
+  .container {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    border-radius: 8px;
+    transition: 0.2s;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .channelIcon {
+      opacity: 0.4;
+    }
+  }
+  .categoryChannels {
+    margin-left: 25px;
+    margin-top: 3px;
+
+    border-radius: 8px;
+    .channelItem .container {
+      margin: 0;
+      background-color: transparent;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+.name {
+  margin-left: 10px;
+  margin-right: auto;
+  font-size: 14px;
+}
+
 .channelItem {
   display: flex;
   flex-direction: column;
   .container {
+    display: flex;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.06);
-    padding: 10px;
+    padding: 5px;
+    padding-left: 10px;
     border-radius: 8px;
     transition: 0.2s;
-    display: flex;
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -35,10 +81,6 @@
 
     border: solid 1px rgba(255, 255, 255, 0.3);
     border-radius: 8px;
-  }
-  .name {
-    margin-left: 10px;
-    margin-right: auto;
   }
 }
 
