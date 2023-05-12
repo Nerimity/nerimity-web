@@ -35,6 +35,7 @@ import { text } from 'stream/consumers';
 import { Emoji } from '../markup/Emoji';
 import { css } from 'solid-styled-components';
 import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
+import useAccount from '@/chat-api/store/useAccount';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -416,7 +417,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
     setMessage('')
     const channel = channels.get(params.channelId!)!;
 
-    const formattedMessage = formatMessage(trimmedMessage, params.serverId);
+    const formattedMessage = formatMessage(trimmedMessage, params.serverId, params.channelId);
 
     if (editMessageId()) {
       if (!trimmedMessage) return;
@@ -770,10 +771,11 @@ const emojiRegex = /:[\w+-]+:/g;
 const channelMentionRegex = /#([a-zA-Z]+( [a-zA-Z]+)?)#/g;
 const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/g;
 
-function formatMessage(message: string, serverId?: string): string {
+function formatMessage(message: string, serverId?: string, channelId?: string): string {
 
   const channels = useChannels();
   const serverMembers = useServerMembers();
+  const account = useAccount();
 
   const serverChannels = channels.getChannelsByServerId(serverId!)
   const members = serverMembers.array(serverId!)
@@ -784,6 +786,19 @@ function formatMessage(message: string, serverId?: string): string {
     const emojiName = val.substring(1, val.length - 1);
     return emojiShortcodeToUnicode(emojiName) || val;
   });
+
+  if (!serverId && channelId) {
+    const channel = channels.get(channelId);
+    const dmUsers = !channel ? [] : [channel?.recipient, account.user()] as User[];
+    // replace user mentions
+    finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
+      if (!dmUsers) return match;
+
+      const user = dmUsers.find(member => member?.username === username && member?.tag === tag);
+      if (!user) return match;
+      return `[@:${user.id}]`;
+    });
+  }
 
 
   if (serverId) {
@@ -983,14 +998,21 @@ function ChannelSuggestionItem(props: { onHover: () => void; selected: boolean; 
 
 function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
   const params = useParams<{ serverId?: string, channelId: string }>();
-  const { serverMembers } = useStore();
+  const { serverMembers, channels, account } = useStore();
 
   const members = createMemo(() => serverMembers.array(params.serverId!) as ServerMember[]);
 
-  const searchedUsers = () => matchSorter(members(), props.search, { keys: ["user.username"] }).slice(0, 10);
+  const searchedServerUsers = () => matchSorter(members(), props.search, { keys: ["user.username"] }).slice(0, 10);
 
 
-  createEffect(on(searchedUsers, () => {
+  const channel = () => channels.get(params.channelId);
+  const DMUsers = () => !channel() ? [] : [channel()?.recipient, account.user()] as User[];
+  const searchedDMUsers = () => matchSorter(DMUsers(), props.search, { keys: ["username"] }).slice(0, 10);
+
+  const searched = () => !params.serverId ? searchedDMUsers() : searchedServerUsers();
+
+
+  createEffect(on(() => props.search, () => {
     setCurrent(0);
   }))
 
@@ -1000,16 +1022,16 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   }
 
   const onEnterClick = (i: number) => {
-    onUserClick(searchedUsers()[i].user);
+    onUserClick((searched()[i] as ServerMember)?.user || searched()[i]);
   }
 
-  const [current, , , setCurrent] = useSelectedSuggestion(() => searchedUsers().length, props.textArea!, onEnterClick)
+  const [current, , , setCurrent] = useSelectedSuggestion(() => searched().length, props.textArea!, onEnterClick)
 
   return (
-    <Show when={params.serverId && searchedUsers().length}>
+    <Show when={searched().length}>
       <Floating class={styles.floatingSuggestion}>
-        <For each={searchedUsers()}>
-          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={member.user} onclick={onUserClick} />}
+        <For each={searched()}>
+          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={(member as ServerMember)?.user || member} onclick={onUserClick} />}
         </For>
       </Floating>
     </Show>
@@ -1028,7 +1050,7 @@ function UserSuggestionItem(props: { onHover: () => void; selected: boolean; use
 type Emoji = typeof emojis[number];
 
 function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
-  const params = useParams<{ serverId?: string, channelId: string }>();
+  const params = useParams<{ channelId: string }>();
 
   const searchedEmojis = () => matchSorter(emojis, props.search, { keys: ["short_names.0"] }).slice(0, 10);
 
@@ -1049,7 +1071,7 @@ function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAr
   const [current, , , setCurrent] = useSelectedSuggestion(() => searchedEmojis().length, props.textArea!, onEnterClick)
 
   return (
-    <Show when={params.serverId && searchedEmojis().length}>
+    <Show when={searchedEmojis().length}>
       <Floating class={styles.floatingSuggestion}>
         <For each={searchedEmojis()}>
           {(emoji, i) => <EmojiSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} emoji={emoji} onclick={onItemClick} />}
