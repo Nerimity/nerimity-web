@@ -48,7 +48,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
-  const dropDownChannels = () => channels.getChannelsByServerId(params.serverId).map(channel => ({
+  const dropDownChannels = () => channels.getSortedChannelsByServerId(params.serverId).filter(c => c?.categoryId).map(channel => ({
     id: channel!.id,
     label: channel!.name,
     onClick: () => {
@@ -57,7 +57,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
   }));
 
   const dropDownSystemChannels = () => {
-    const list = channels.getChannelsByServerId(params.serverId).map(channel => ({
+    const list = channels.getSortedChannelsByServerId(params.serverId).filter(c => c?.categoryId).map(channel => ({
       id: channel!.id,
       label: channel!.name,
       onClick: () => {
