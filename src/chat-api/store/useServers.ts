@@ -5,7 +5,7 @@ import { deleteServer } from '../services/ServerService';
 import useAccount from './useAccount';
 import useChannels from './useChannels';
 import useMention from './useMention';
-import { createEffect, createMemo } from 'solid-js';
+import { createEffect, createMemo, createRoot } from 'solid-js';
 import { emojiShortcodeToUnicode } from '@/emoji';
 
 export type Server = RawServer & {
@@ -88,9 +88,9 @@ const orderedArray = () => {
 const hasNotifications =  () => {
   return array().find(s => s?.hasNotifications);
 }
-const emojis = createMemo(() => array().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat());
+const emojis = createRoot(() => createMemo(() => array().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat()));
 
-const emojisUpdatedDupName = createMemo(() => {
+const emojisUpdatedDupName = createRoot(() => createMemo(() => {
   const uniqueNamedEmojis: RawCustomEmoji[] = [];
   const counts: {[key: string]: number} = {};
   
@@ -105,7 +105,7 @@ const emojisUpdatedDupName = createMemo(() => {
     uniqueNamedEmojis.push({ ...emoji, name: newName });
   }
   return uniqueNamedEmojis;
-});
+}));
 
 export default function useServers() {
   return {
