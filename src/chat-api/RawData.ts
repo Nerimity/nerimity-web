@@ -1,3 +1,4 @@
+
 export interface RawServer {
   id: string;
   name: string;
@@ -10,6 +11,7 @@ export interface RawServer {
   createdById: string;
   createdAt: number;
   verified: boolean;
+  customEmojis: RawCustomEmoji[];
 }
 
 
@@ -80,6 +82,14 @@ export interface RawChannel {
   order?: number;
   _count?: {attachments: number}
 }
+
+export interface RawCustomEmoji {
+  id: string;
+  name:string;
+  gif: boolean;
+  serverId?: string;
+}
+
 export interface RawServerRole {
   id: string;
   name: string

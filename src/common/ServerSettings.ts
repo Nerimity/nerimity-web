@@ -49,6 +49,13 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/channels/ServerSettingsChannels'))
   },
   {
+    path: 'emojis',
+    name: 'servers.settings.drawer.emojis',
+    icon: 'face',
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
+    element: lazy(() => import('@/components/servers/settings/ServerSettingsEmojis'))
+  },
+  {
     name: 'servers.settings.drawer.bans',
     path: 'bans',
     icon: 'block',

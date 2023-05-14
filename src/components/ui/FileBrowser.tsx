@@ -51,7 +51,7 @@ async function filesToBase64(files: FileList) {
 }
 
 
-function getBase64(file: File): Promise<string | undefined> {
+export function getBase64(file: File): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

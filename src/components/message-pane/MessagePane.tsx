@@ -6,7 +6,7 @@ import useStore from '../../chat-api/store/useStore';
 import MessageItem from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
 import { useWindowProperties } from '../../common/useWindowProperties';
-import { ChannelType, MessageType, RawMessage } from '../../chat-api/RawData';
+import { ChannelType, MessageType, RawCustomEmoji, RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
@@ -1051,17 +1051,20 @@ type Emoji = typeof emojis[number];
 
 function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
   const params = useParams<{ channelId: string }>();
+  const {servers} = useStore();
 
-  const searchedEmojis = () => matchSorter(emojis, props.search, { keys: ["short_names.0"] }).slice(0, 10);
+
+  const searchedEmojis = () => matchSorter([...emojis, ...servers.emojisUpdatedDupName()], props.search, { keys: ["short_names.*", "name"] }).slice(0, 10);
+
 
 
   createEffect(on(searchedEmojis, () => {
     setCurrent(0);
   }))
 
-  const onItemClick = (emoji: Emoji) => {
+  const onItemClick = (emoji: Emoji | RawCustomEmoji) => {
     if (!props.textArea) return;
-    appendText(params.channelId, props.textArea, props.search, `${emoji.short_names[0]}: `)
+    appendText(params.channelId, props.textArea, props.search, `${(emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0]}: `)
   }
 
   const onEnterClick = (i: number) => {
@@ -1081,11 +1084,21 @@ function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAr
   )
 }
 
-function EmojiSuggestionItem(props: { onHover: () => void; selected: boolean; emoji: Emoji, onclick(emoji: Emoji): void; }) {
+function EmojiSuggestionItem(props: { onHover: () => void; selected: boolean; emoji: Emoji | RawCustomEmoji, onclick(emoji: Emoji): void; }) {
+  const name = () => (props.emoji as RawCustomEmoji).name || (props.emoji as Emoji).short_names[0];
+  const url = () => {
+    if ((props.emoji as RawCustomEmoji).id) {
+      const emoji = props.emoji as RawCustomEmoji;
+      const extName = emoji.gif ? '.gif' : '.webp'
+      return `https://cdn.nerimity.com/emojis/${emoji.serverId}/${emoji.id}${extName}`
+    }
+    return unicodeToTwemojiUrl((props.emoji as Emoji).emoji)
+
+  }
   return (
     <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.emoji)}>
-      <Emoji class={css`height: 15px; width: 15px;`} name={emojiUnicodeToShortcode(props.emoji.emoji)} url={unicodeToTwemojiUrl(props.emoji.emoji)} />
-      <div class={styles.suggestLabel}>{props.emoji.short_names[0]}</div>
+      <Emoji class={css`height: 15px; width: 15px;`} name={name()} url={url()} />
+      <div class={styles.suggestLabel}>{name()}</div>
     </ItemContainer>
   )
 }

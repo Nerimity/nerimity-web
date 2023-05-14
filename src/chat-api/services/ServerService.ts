@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {ChannelType, RawChannel, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
+import {ChannelType, RawChannel, RawEmoji, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
 import env from "../../common/env";
 
 
@@ -246,6 +246,19 @@ export async function deletePublicServer(serverId: string) {
   return request<RawPublicServer>({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
+    useToken: true,
+  });
+}
+
+
+export async function addServerEmoji(serverId: string, emojiName: string, base64: string) {
+  return request<RawEmoji>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
+    body: {
+      name: emojiName,
+      emoji: base64,
+    },
     useToken: true,
   });
 }

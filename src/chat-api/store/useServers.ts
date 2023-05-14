@@ -1,10 +1,12 @@
 import env from '@/common/env';
 import {createStore} from 'solid-js/store';
-import { ChannelType, RawServer } from '../RawData';
+import { ChannelType, RawCustomEmoji, RawServer } from '../RawData';
 import { deleteServer } from '../services/ServerService';
 import useAccount from './useAccount';
 import useChannels from './useChannels';
 import useMention from './useMention';
+import { createEffect, createMemo } from 'solid-js';
+import { emojiShortcodeToUnicode } from '@/emoji';
 
 export type Server = RawServer & {
   hasNotifications: boolean;
@@ -86,9 +88,29 @@ const orderedArray = () => {
 const hasNotifications =  () => {
   return array().find(s => s?.hasNotifications);
 }
+const emojis = createMemo(() => array().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat());
+
+const emojisUpdatedDupName = createMemo(() => {
+  const uniqueNamedEmojis: RawCustomEmoji[] = [];
+  const counts: {[key: string]: number} = {};
+  
+  for (let i = 0; i < emojis().length; i++) {
+    const emoji = emojis()[i];
+    let count = counts[emoji.name] || 0;
+    const hasEmojiShortcode = emojiShortcodeToUnicode(emoji.name)
+    if (hasEmojiShortcode) count++;
+    const newName = count ? `${emoji.name}-${count}` : emoji.name;
+    if (!hasEmojiShortcode) count++;
+    counts[emoji.name] = count
+    uniqueNamedEmojis.push({ ...emoji, name: newName });
+  }
+  return uniqueNamedEmojis;
+});
 
 export default function useServers() {
   return {
+    emojis,
+    emojisUpdatedDupName,
     array,
     get,
     set,
