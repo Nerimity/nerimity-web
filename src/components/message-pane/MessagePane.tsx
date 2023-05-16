@@ -694,7 +694,7 @@ function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: st
           customElement: url ? undefined : (size) => Avatar({size, server: {...server, verified: false}})
         },
         name: e.name,
-        url: `${env.NERIMITY_CDN}emojis/${e.id}.webp`
+        url: `${env.NERIMITY_CDN}emojis/${e.id}.${e.gif ? 'gif' : 'webp'}`
       }
     }) as CustomEmoji[]
   }
