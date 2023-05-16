@@ -88,7 +88,7 @@ const orderedArray = () => {
 const hasNotifications =  () => {
   return array().find(s => s?.hasNotifications);
 }
-const emojis = createRoot(() => createMemo(() => array().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat()));
+const emojis = createRoot(() => createMemo(() => orderedArray().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat()));
 
 const emojisUpdatedDupName = createRoot(() => createMemo(() => {
   const uniqueNamedEmojis: RawCustomEmoji[] = [];
@@ -107,10 +107,23 @@ const emojisUpdatedDupName = createRoot(() => createMemo(() => {
   return uniqueNamedEmojis;
 }));
 
+
+const customEmojiNamesToEmoji = createRoot(() => createMemo(() => {
+  const obj: {[key: string]: RawCustomEmoji} = {};
+
+  for (let index = 0; index < emojisUpdatedDupName().length; index++) {
+    const emoji = emojisUpdatedDupName()[index];
+    obj[emoji.name] = emoji;   
+  }
+  return obj;
+}));
+
+
 export default function useServers() {
   return {
     emojis,
     emojisUpdatedDupName,
+    customEmojiNamesToEmoji,
     array,
     get,
     set,

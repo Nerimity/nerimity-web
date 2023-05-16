@@ -21,7 +21,7 @@ import useChannels, { Channel } from '@/chat-api/store/useChannels';
 import useServerMembers, { ServerMember } from '@/chat-api/store/useServerMembers';
 import { playMessageNotification } from '@/common/Sound';
 
-import { EmojiPicker } from '@nerimity/solid-emoji-picker'
+import { CustomEmoji, EmojiPicker } from '@nerimity/solid-emoji-picker'
 import categories from '@/emoji/categories.json';
 import emojis from '@/emoji/emojis.json';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
@@ -36,6 +36,7 @@ import { Emoji } from '../markup/Emoji';
 import { css } from 'solid-styled-components';
 import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 import useAccount from '@/chat-api/store/useAccount';
+import useServers, { avatarUrl } from '@/chat-api/store/useServers';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -663,6 +664,8 @@ function TypingIndicator() {
 }
 
 function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
+  const {servers} = useStore();
+  const {paneWidth} = useWindowProperties()
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
     onCleanup(() => {
@@ -676,16 +679,61 @@ function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: st
     props.close();
   }
 
+  createEffect(on(paneWidth, props.close, {defer: true}))
+
+  const customEmojis = () => {
+    return servers.emojisUpdatedDupName().map(e => {
+      const server = servers.get(e.serverId!)!;
+      const url = server.avatarUrl();
+      return { 
+        id: e.id,
+        category: {
+          id: e.serverId,
+          name: server.name,
+          url: url,
+          customElement: url ? undefined : (size) => Avatar({size, server: {...server, verified: false}})
+        },
+        name: e.name,
+        url: `${env.NERIMITY_CDN}emojis/${e.id}.webp`
+      }
+    }) as CustomEmoji[]
+  }
+
+
+  const EmojiPickerStyles = css`
+    .categoriesContainer .customEmojiImage,
+    .title .customEmojiImage {
+      border-radius: 50%;
+    }
+  `;
+
+  const emojiPickerWidth = () => {
+    if (paneWidth()! < 340) {
+      return {row: 4, width: 280}
+    }
+    if (paneWidth()! < 360) {
+      return {row: 5, width: 320}
+    }
+    if (paneWidth()! < 420) {
+      return {row: 6, width: 355}
+    }
+    if (paneWidth()! < 470) {
+      return {row: 7, width: 400}
+    }
+    return {row: 8, width: 450}
+  }
 
   return (
     <Floating class={styles.floatingEmojiPicker}>
       <EmojiPicker
-        class={styles.emojiPicker}
+        class={classNames(styles.emojiPicker, EmojiPickerStyles)}
         spriteUrl="/assets/emojiSprites.png"
-        categories={categories}
         emojis={emojis}
-        onEmojiClick={(e) => props.onClick(e.short_names[0])}
+        customEmojis={customEmojis()}
+        onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
         primaryColor='var(--primary-color)'
+        style={{width: emojiPickerWidth().width + "px"}}
+        maxRow={emojiPickerWidth()?.row}
       />
     </Floating>
   )
@@ -776,6 +824,7 @@ function formatMessage(message: string, serverId?: string, channelId?: string): 
   const channels = useChannels();
   const serverMembers = useServerMembers();
   const account = useAccount();
+  const servers = useServers();
 
   const serverChannels = channels.getChannelsByServerId(serverId!)
   const members = serverMembers.array(serverId!)
@@ -784,7 +833,14 @@ function formatMessage(message: string, serverId?: string, channelId?: string): 
   // replace emoji
   finalString = finalString.replace(emojiRegex, val => {
     const emojiName = val.substring(1, val.length - 1);
-    return emojiShortcodeToUnicode(emojiName) || val;
+    const emojiUnicode = emojiShortcodeToUnicode(emojiName);
+    if (emojiUnicode) return emojiUnicode;
+
+    const customEmoji = servers.customEmojiNamesToEmoji()[emojiName];
+    if (customEmoji) return `[${customEmoji.gif ? 'ace' : 'ce'}:${customEmoji.id}:${emojiName}]`
+
+
+    return val;
   });
 
   if (!serverId && channelId) {
@@ -1090,7 +1146,7 @@ function EmojiSuggestionItem(props: { onHover: () => void; selected: boolean; em
     if ((props.emoji as RawCustomEmoji).id) {
       const emoji = props.emoji as RawCustomEmoji;
       const extName = emoji.gif ? '.gif' : '.webp'
-      return `https://cdn.nerimity.com/emojis/${emoji.serverId}/${emoji.id}${extName}`
+      return `${env.NERIMITY_CDN}emojis/${emoji.id}${extName}`
     }
     return unicodeToTwemojiUrl((props.emoji as Emoji).emoji)
 

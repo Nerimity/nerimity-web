@@ -1,6 +1,6 @@
 import { runWithContext } from "@/common/runWithContext";
 import { batch, from } from "solid-js";
-import { ChannelType, RawChannel, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
+import { ChannelType, RawChannel, RawCustomEmoji, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels, { Channel } from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
@@ -103,6 +103,30 @@ export const onServerMemberUpdated = (payload: ServerMemberUpdated) => {
   const serverMembers = useServerMembers();
   const member = serverMembers.get(payload.serverId, payload.userId);
   member?.update(payload.updated);
+}
+
+export const onServerEmojiAdd = (payload: {serverId: string, emoji: RawCustomEmoji}) => {
+  const servers = useServers();
+  const server = servers.get(payload.serverId);
+  server?.update({
+    customEmojis: [...server.customEmojis, payload.emoji]
+  })
+}
+
+export const onServerEmojiUpdate = (payload: {serverId: string, emojiId: string, name: string}) => {
+  const servers = useServers();
+  const server = servers.get(payload.serverId);
+  server?.update({
+    customEmojis: server.customEmojis.map(e => e.id !== payload.emojiId ? e : {...e, name: payload.name})
+  })
+}
+
+export const onServerEmojiRemove = (payload: {serverId: string, emojiId: string}) => {
+  const servers = useServers();
+  const server = servers.get(payload.serverId);
+  server?.update({
+    customEmojis: server.customEmojis.filter(e => e.id !== payload.emojiId)
+  })
 }
 
 

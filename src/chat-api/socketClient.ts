@@ -5,7 +5,7 @@ import { onAuthenticated, onAuthenticateError, onConnect, onDisconnect, onReconn
 import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from './events/friendEvents';
 import { onInboxOpened } from './events/inboxEvents';
 import { onMessageCreated, onMessageDeleted, onMessageUpdated } from './events/messageEvents';
-import { onServerChannelCreated, onServerChannelDeleted, onServerChannelOrderUpdated, onServerChannelUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
+import { onServerChannelCreated, onServerChannelDeleted, onServerChannelOrderUpdated, onServerChannelUpdated, onServerEmojiAdd, onServerEmojiRemove, onServerEmojiUpdate, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
 import { onNotificationDismissed, onUserPresenceUpdate, onUserUpdated } from './events/userEvents';
 import { onCleanup, onMount } from 'solid-js';
 
@@ -74,6 +74,11 @@ socket.on(ServerEvents.SERVER_ROLE_DELETED, onServerRoleDeleted)
 socket.on(ServerEvents.SERVER_MEMBER_JOINED, onServerMemberJoined)
 socket.on(ServerEvents.SERVER_MEMBER_LEFT, onServerMemberLeft)
 socket.on(ServerEvents.SERVER_MEMBER_UPDATED, onServerMemberUpdated)
+
+socket.on(ServerEvents.SERVER_EMOJI_ADD, onServerEmojiAdd)
+socket.on(ServerEvents.SERVER_EMOJI_UPDATE, onServerEmojiUpdate)
+socket.on(ServerEvents.SERVER_EMOJI_REMOVE, onServerEmojiRemove)
+
 
 socket.on(ServerEvents.SERVER_CHANNEL_CREATED, onServerChannelCreated)
 socket.on(ServerEvents.SERVER_CHANNEL_UPDATED, onServerChannelUpdated)

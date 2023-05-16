@@ -38,6 +38,10 @@ export const ServerEvents = {
   SERVER_CHANNEL_DELETED: 'server:channel_deleted',
   SERVER_ORDER_UPDATED: 'server:order_updated',
 
+  SERVER_EMOJI_ADD: 'server:emoji_add',
+  SERVER_EMOJI_REMOVE: 'server:emoji_remove',
+  SERVER_EMOJI_UPDATE: 'server:emoji_update',
+
 
 
   CHANNEL_TYPING: 'channel:typing',
