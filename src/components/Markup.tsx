@@ -10,7 +10,7 @@ import {
   Span,
   UnreachableCaseError,
 } from '@nerimity/nevula';
-import { JSXElement, lazy } from 'solid-js';
+import { createComputed, createEffect, createMemo, createRenderEffect, JSXElement, lazy, on } from 'solid-js';
 import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { Emoji } from './markup/Emoji';
 import useChannels from '@/chat-api/store/useChannels';
@@ -18,6 +18,8 @@ import { MentionChannel } from './markup/MentionChannel';
 import useUsers from '@/chat-api/store/useUsers';
 import { MentionUser } from './markup/MentionUser';
 import { Message } from '@/chat-api/store/useMessages';
+import env from '@/common/env';
+import { classNames, conditionalClass } from '@/common/classNames';
 
 export interface Props {
   text: string;
@@ -53,7 +55,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       const channel = channels.get(expr);
       if (channel && channel.serverId) {
         ctx.textCount += expr.length;
-        return <MentionChannel channel={channel}/>;
+        return <MentionChannel channel={channel} />;
       }
       break;
     }
@@ -62,9 +64,20 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       const user = message?.mentions?.find(u => u.id === expr) || users.get(expr);
       if (user) {
         ctx.textCount += expr.length;
-        return <MentionUser user={user}/>;
+        return <MentionUser user={user} />;
       }
       break;
+    }
+    case "ace": // animated custom emoji
+    case "ce": { // custom emoji
+      const [id, name] = expr.split(":");
+      ctx.emojiCount += 1;
+      const animated = type === "ace";
+      return <Emoji {...{
+        animated,
+        name,
+        url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"}`
+      }} />
     }
     default: {
       console.warn("Unknown custom entity:", type);
@@ -75,7 +88,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
 
 
 
-function transformEntity(entity: Entity, ctx: RenderContext) {
+function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
   switch (entity.type) {
     case 'text': {
       if (entity.entities.length > 0) {
@@ -108,11 +121,11 @@ function transformEntity(entity: Entity, ctx: RenderContext) {
       let el: JSXElement;
 
       if (color.startsWith("#")) {
-        el = <span style={{color}}>{transformEntities(entity, ctx)}</span>
+        el = <span style={{ color }}>{transformEntities(entity, ctx)}</span>
       } else {
         el = transformEntities(entity, ctx);
       }
-      
+
       if (lastCount !== ctx.textCount) {
         return el;
       } else {
@@ -132,10 +145,12 @@ function transformEntity(entity: Entity, ctx: RenderContext) {
       const name = sliceText(ctx, entity.innerSpan, { countText: false });
       const unicode = emojiShortcodeToUnicode(name as unknown as string);
       if (!unicode) return sliceText(ctx, entity.outerSpan);
+      ctx.emojiCount += 1;
       return <Emoji name={name} url={unicodeToTwemojiUrl(unicode)} />;
     }
     case 'emoji': {
       const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
+      ctx.emojiCount += 1;
       return <Emoji name={emojiUnicodeToShortcode(emoji)} url={unicodeToTwemojiUrl(emoji)} />;
     }
     case 'custom': {
@@ -148,9 +163,16 @@ function transformEntity(entity: Entity, ctx: RenderContext) {
 }
 
 export function Markup(props: Props) {
-  const ctx = { props: () => props, emojiCount: 0, textCount: 0 };
-  const entity = () => addTextSpans(parseMarkup(ctx.props().text));
-  const output = () => transformEntity(entity(), ctx);
+  const _ctx = { props: () => props, emojiCount: 0, textCount: 0 };
 
-  return <span class="markup">{output}</span>;
+  const output = createMemo(on(() => props.text, () => {
+    const entity = addTextSpans(parseMarkup(_ctx.props().text));
+    _ctx.emojiCount = 0;
+    _ctx.textCount = 0;
+    return transformEntity(entity, _ctx);
+  }))
+
+  const ctx = on(output, () => _ctx);
+
+  return <span class={classNames("markup", conditionalClass(ctx().emojiCount <= 5 && ctx().textCount === 0, "largeEmoji"))}>{output()}</span>;
 }

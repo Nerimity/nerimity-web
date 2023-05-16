@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {ChannelType, RawChannel, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
+import {ChannelType, RawChannel, RawCustomEmoji, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
 import env from "../../common/env";
 
 
@@ -246,6 +246,48 @@ export async function deletePublicServer(serverId: string) {
   return request<RawPublicServer>({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
+    useToken: true,
+  });
+}
+
+
+export async function addServerEmoji(serverId: string, emojiName: string, base64: string) {
+  return request<RawCustomEmoji>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
+    body: {
+      name: emojiName,
+      emoji: base64,
+    },
+    useToken: true,
+  });
+}
+
+export type RawCustomEmojiWithCreator = RawCustomEmoji & {uploadedBy: RawUser};
+
+export async function getServerEmojis(serverId: string) {
+  return request<RawCustomEmojiWithCreator[]>({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
+    useToken: true,
+  });
+}
+
+export async function updateServerEmoji(serverId: string, emojiId: string, newName: string) {
+  return request<RawCustomEmoji>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis/" + emojiId,
+    body: {
+      name: newName
+    },
+    useToken: true,
+  });
+}
+export async function deleteServerEmoji(serverId: string, emojiId: string) {
+  return request<void>({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis/" + emojiId,
+    notJSON: true,
     useToken: true,
   });
 }

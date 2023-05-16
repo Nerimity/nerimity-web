@@ -72,7 +72,8 @@
         "publishServer": "Publish Server",
         "verify": "Verify",
         "role": "Role",
-        "channel": "Channel"
+        "channel": "Channel",
+        "emojis": "Emojis"
       },
       "general": {
         "serverRenameNotice": "You will lose all of the perks of having your server verified if you rename it.",
