@@ -28,9 +28,9 @@ const DrawerContext = createContext<DrawerContext>();
 export default function DrawerLayout(props: DrawerLayoutProps) {
 
   let containerEl: HTMLDivElement | undefined = undefined;
-  const [startPos, setStartPos] = createSignal({x: 0, y: 0});
-  const [startTransformX, setStartTransformX] = createSignal(0);
-  const [transformX, setTransformX] = createSignal(0);
+  const startPos = {x: 0, y: 0};
+  let startTransformX = 0;
+  let transformX = 0;
   const [currentPage, setCurrentPage] = createSignal(1);
   let startTime = 0;
   let pauseTouches = false;
@@ -40,6 +40,20 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   
   const hasLeftDrawer = () => !!props.LeftDrawer();
   const hasRightDrawer = () => !!props.RightDrawer();
+
+
+  let transformString: string;
+  let animationFrame: number;
+  const setTransformX = (value: number) => {
+    transformX = value;
+    transformString = "translate3d(" + value + "px, 0, 0)";
+
+    animationFrame && window.cancelAnimationFrame(animationFrame);
+    
+    animationFrame = window.requestAnimationFrame(function() {
+      containerEl!.style.transform = transformString;
+    });
+  }
   
 
   
@@ -62,9 +76,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   }))
 
   const addEvents = () => {
-    window.addEventListener("touchstart", onTouchStart);
-    window.addEventListener("touchmove", onTouchMove);
-    window.addEventListener("touchend", onTouchEnd);
+    window.addEventListener("touchstart", onTouchStart, false);
+    window.addEventListener("touchmove", onTouchMove, false);
+    window.addEventListener("touchend", onTouchEnd, false);
     window.addEventListener("scroll", onScroll, true);
   }
   const removeEvents = () => {
@@ -97,7 +111,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (!isMobileWidth()) return;
     velocityTimeout && clearTimeout(velocityTimeout);
 
-    containerEl!.style.transition = `translate 0.2s`
+    containerEl!.style.transition = `transform 0.2s`
     velocityTimeout = setTimeout(() => {
       containerEl!.style.transition = "";
     }, 200)  
@@ -127,10 +141,11 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     pauseTouches = false;
 
     containerEl!.style.transition = "";
-    setStartTransformX(transformX());
+    startTransformX = transformX;
     const x = event.touches[0].clientX;
     const y = event.touches[0].clientY;
-    setStartPos({x: x - transformX(), y});
+    startPos.x =  x - transformX;
+    startPos.y = y;
     startTime = Date.now();
   }
 
@@ -141,12 +156,11 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (pauseTouches) return;
     const x = event.touches[0].clientX;
     const y = event.touches[0].clientY;
-    const touchDistance = x - startPos().x;
+    const touchDistance = x - startPos.x;
 
-    const XDistance = Math.abs(startTransformX() - transformX());
-    const YDistance = Math.abs(y - startPos().y);
+    const XDistance = Math.abs(startTransformX - transformX);
+    const YDistance = Math.abs(y - startPos.y);
     if (XDistance <= 3 && YDistance >= 7 && !ignoreDistance) return pauseTouches = true;
-
 
     ignoreDistance = true;
 
@@ -154,39 +168,31 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       return setTransformX(-rightDrawerWidth());
     }
 
-
     if (currentPage() === 2 && -touchDistance <= rightDrawerWidth()) {
       return setTransformX(-rightDrawerWidth());
     }
 
     if (touchDistance >=0) {
-      setStartPos({...startPos(), x});
+      startPos.x = x;
       return setTransformX(0);
     }
 
-
-
-    
     if (!hasRightDrawer() && -touchDistance >= leftDrawerWidth() ) {
       return setTransformX(-leftDrawerWidth());
     }
 
-
     if (touchDistance <= -totalWidth() + width() ) {
-      setStartPos({...startPos(), x: x - transformX()});
+      startPos.x = x - transformX
       return setTransformX(-totalWidth() + width());
     }
-
-
-
 
     setTransformX(touchDistance);
   }
   const onTouchEnd = (event: TouchEvent) => {
     ignoreDistance = false;
     pauseTouches = false;
-    const isOnLeftDrawer = transformX() - -leftDrawerWidth() >= leftDrawerWidth() /2;
-    const isOnRightDrawer = transformX() - -(totalWidth() - width())<= rightDrawerWidth() /2;
+    const isOnLeftDrawer = transformX - -leftDrawerWidth() >= leftDrawerWidth() /2;
+    const isOnRightDrawer = transformX - -(totalWidth() - width())<= rightDrawerWidth() /2;
     const isOnContent = !isOnLeftDrawer && !isOnRightDrawer;
 
     const beforePage = currentPage();
@@ -201,7 +207,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     }
 
 
-    const distance = startTransformX() - transformX();
+    const distance = startTransformX - transformX;
     const time = Date.now() - startTime;
     const velocity = Math.abs(distance / time);
 
@@ -273,7 +279,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   return (
     <DrawerContext.Provider value={drawer}>
       <div class={classNames(styles.drawerLayout, conditionalClass(isMobileWidth(), styles.mobile))}>
-        <div ref={containerEl} class={styles.container}  style={{translate: transformX() + "px", overflow: isMobileWidth() ? 'initial' : 'hidden'}}>
+        <div ref={containerEl} class={styles.container}  style={{translate: transformX + "px", overflow: isMobileWidth() ? 'initial' : 'hidden'}}>
           <div style={{width: isMobileWidth() ? leftDrawerWidth() + "px" : hasLeftDrawer() ? "330px" : '65px', display: 'flex', "flex-shrink": 0}}>
             <SidePane/>
             {hasLeftDrawer() && <div class={styles.leftDrawer}>{props.LeftDrawer}</div>}
