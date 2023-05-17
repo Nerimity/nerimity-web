@@ -321,7 +321,7 @@ const FlyoutContainer = styled(FlexRow)`
   align-items: flex-start;
 `
 
-const FlyoutInner = styled(FlexColumn)`
+const FlyoutInner = styled(FlexColumn)<{mobile?: boolean}>`
   border-radius: 8px;
   padding: 10px;
   background-color: rgba(40, 40, 40, 0.6);
@@ -329,6 +329,14 @@ const FlyoutInner = styled(FlexColumn)`
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
   width: 300px;
+
+  ${props => props.mobile ? `
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+  ` : ''}
 `;
 
 const FlyoutDetailsContainer = styled(FlexRow)`
@@ -433,9 +441,9 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
     left: (props.left! + (latestPost() ? -653 : -320)) + "px",
     ...(isMobileWidth() ? {
       top: 'initial',
-      bottom: "10px",
-      left: "10px",
-      right: "10px",
+      bottom: "0",
+      left: "0",
+      right: "0",
       width: "initial",
       "align-items": "initial",
       "max-height": "70%",
@@ -508,7 +516,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
         </Show>
 
         <Show when={isMobileWidth()}>
-          <FlyoutInner style={{ width: 'initial', flex: 1 }}>
+          <FlyoutInner mobile style={{ width: 'initial', flex: 1 }}>
             <ProfileArea />
             <Show when={latestPost()}>
               <PostArea />

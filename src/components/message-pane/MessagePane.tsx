@@ -665,7 +665,7 @@ function TypingIndicator() {
 
 function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
   const {servers} = useStore();
-  const {paneWidth} = useWindowProperties()
+  const {paneWidth, width} = useWindowProperties()
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
     onCleanup(() => {
@@ -679,7 +679,7 @@ function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: st
     props.close();
   }
 
-  createEffect(on(paneWidth, props.close, {defer: true}))
+  createEffect(on(width, props.close, {defer: true}))
 
   const customEmojis = () => {
     return servers.emojisUpdatedDupName().map(e => {

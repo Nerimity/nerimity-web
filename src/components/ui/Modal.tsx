@@ -39,7 +39,6 @@ const ModalContainer = styled(FlexColumn)<{mobile: boolean, maxHeight?: number, 
   border-radius: 8px;
   overflow: hidden;
   align-self: ${props => props.mobile ? 'flex-end': 'center'};
-  margin: ${props => props.mobile ? '10px': '0'};
 
 
   ${props => (props.maxWidth) ? `
@@ -55,6 +54,11 @@ const ModalContainer = styled(FlexColumn)<{mobile: boolean, maxHeight?: number, 
   ${props => props.mobile ? `
     width: 100%;
     max-width: initial;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
   ` : ''}
 
 
@@ -100,7 +104,7 @@ const Body = styled(FlexColumn)`
   animation: ${showUp};
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
-  padding: 20px;
+  padding: 10px;
   flex: 1;
 `;
 
