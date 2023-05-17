@@ -19,6 +19,7 @@ import FileBrowser, { FileBrowserRef } from '@/components/ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { ChannelType } from '@/chat-api/RawData';
 
 const Container = styled("div")`
   display: flex;
@@ -48,7 +49,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
-  const dropDownChannels = () => channels.getSortedChannelsByServerId(params.serverId).filter(c => c?.categoryId).map(channel => ({
+  const dropDownChannels = () => channels.getSortedChannelsByServerId(params.serverId).filter(c => c?.type !== ChannelType.CATEGORY).map(channel => ({
     id: channel!.id,
     label: channel!.name,
     onClick: () => {
@@ -57,7 +58,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
   }));
 
   const dropDownSystemChannels = () => {
-    const list = channels.getSortedChannelsByServerId(params.serverId).filter(c => c?.categoryId).map(channel => ({
+    const list = channels.getSortedChannelsByServerId(params.serverId).filter(c => c?.type !== ChannelType.CATEGORY).map(channel => ({
       id: channel!.id,
       label: channel!.name,
       onClick: () => {
