@@ -80,6 +80,7 @@ export default function ServerSettingsBans() {
         <FileBrowser accept="images" ref={setFileBrowser} onChange={onFilePick} />
         <Button label="Add Emoji" onClick={() => fileBrowser()?.open()} />
       </SettingsBlock>
+        <EmojiCountPane count={emojis().length}/>
       <Show when={emojis()?.length}>
         <For each={emojis()!}>
           {(emoji) => <EmojiItem emoji={emoji} onDelete={deleteEmoji(emoji)} />}
@@ -88,6 +89,22 @@ export default function ServerSettingsBans() {
 
 
     </Container>
+  )
+}
+
+
+const EmojiCountPaneContainer = styled("div")`
+  margin-bottom: 1px;
+  padding: 5px;  
+  background: rgba(255, 255, 255, 0.06);
+  padding-left: 10px;
+`;
+
+const EmojiCountPane = (props: {count: number}) => {
+  return (
+    <EmojiCountPaneContainer>
+      <Text size={13} opacity={0.6}>({props.count}/30)</Text>
+    </EmojiCountPaneContainer>
   )
 }
 
