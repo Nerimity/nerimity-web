@@ -374,6 +374,7 @@ const BioContainer = styled("div")`
   padding: 5px;
   border-radius: 6px;
   max-height: 300px;
+  flex-shrink: 0;
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
