@@ -323,8 +323,8 @@ const FlyoutContainer = styled(FlexRow)`
 
 const FlyoutInner = styled(FlexColumn)<{mobile?: boolean}>`
   border-radius: 8px;
-  padding: 10px;
-  background-color: rgba(40, 40, 40, 0.6);
+  padding: 5px;
+  background-color: rgba(40, 40, 40, 0.8);
   backdrop-filter: blur(20px);
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
@@ -355,18 +355,17 @@ const flyoutAvatarStyles = css`
 `;
 
 const RolesContainer = styled(FlexRow)`
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   flex-wrap: wrap;
-  margin-left: 18px;
 `;
 
 const RoleContainer = styled(FlexRow) <{ selectable?: boolean }>`
   background-color: rgba(80, 80, 80, 0.6);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 5px;
   ${props => props.selectable ? `
     cursor: pointer;
-    width: 17px;
+    width: 14px;
     align-items: center;
     justify-content: center;
     background-color: rgba(80, 80, 80, 0.8);
@@ -377,8 +376,6 @@ const RoleContainer = styled(FlexRow) <{ selectable?: boolean }>`
 `;
 
 const BioContainer = styled("div")`
-  margin-left: 18px;
-  background-color: rgba(80, 80, 80, 0.6);
   padding: 5px;
   border-radius: 6px;
   max-height: 300px;
@@ -387,6 +384,7 @@ const BioContainer = styled("div")`
   white-space: pre-wrap;
   word-break: break-word;
   white-space: pre-line;
+  line-height: 14px;
 `;
 
 const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string, left?: number, top?: number }) => {
@@ -438,7 +436,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
 
 
   const style = () => ({
-    left: (props.left! + (latestPost() ? -653 : -320)) + "px",
+    left: (props.left! + (latestPost() ? -633 : -310)) + "px",
     ...(isMobileWidth() ? {
       top: 'initial',
       bottom: "0",
@@ -476,21 +474,24 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
           <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
         </FlyoutOtherDetailsContainer>
       </FlyoutDetailsContainer>
-      <Show when={details()?.profile?.bio}>
-        <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='info' title='Bio' />
-        <BioContainer>
-          <Text size={14}><Markup text={details()?.profile?.bio!} /></Text>
-        </BioContainer>
-      </Show>
+
       <Show when={member()}>
-        <FlyoutTitle style={{ "margin-bottom": "5px", "margin-top": "5px" }} icon='leaderboard' title='Roles' />
-        <RolesContainer gap={3}>
+        <FlyoutTitle style={{ "margin-bottom": "5px"}} icon='leaderboard' title='Roles' />
+        <RolesContainer gap={2}>
           <For each={member()?.roles()!}>
-            {role => (<RoleContainer><Text color={role?.hexColor} size={14}>{role?.name}</Text></RoleContainer>)}
+            {role => (<RoleContainer><Text color={role?.hexColor} size={12}>{role?.name}</Text></RoleContainer>)}
           </For>
           <RoleContainer onclick={showRoleModal} selectable><Icon name='add' size={14} /></RoleContainer>
         </RolesContainer>
       </Show>
+
+      <Show when={details()?.profile?.bio}>
+        <FlyoutTitle icon='info' title='Bio' />
+        <BioContainer>
+          <Text size={12} color='rgba(255,255,255,0.7)'><Markup text={details()?.profile?.bio!} /></Text>
+        </BioContainer>
+      </Show>
+
 
     </>
   );

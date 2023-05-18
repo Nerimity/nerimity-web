@@ -10,6 +10,7 @@ const ImageEmbedContainer = styled(FlexRow)`
   user-select: none;
   overflow: hidden;
   position: relative;
+  align-self: flex-start;
   margin-top: 5px;
   cursor: pointer;
 
@@ -96,7 +97,7 @@ export function ImagePreviewModal(props: { close: () => void, url: string, width
 }
 
 
-function clamp(num: number, max: number) {
+export function clamp(num: number, max: number) {
   return num >= max ? max : num;
 }
 

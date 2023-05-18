@@ -20,7 +20,7 @@ import Input from "./ui/input/Input";
 import Modal from "./ui/Modal";
 import Text from "./ui/Text";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
-import { ImageEmbed } from "./ui/ImageEmbed";
+import { ImageEmbed, clamp } from "./ui/ImageEmbed";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames } from "@/common/classNames";
 import { useResizeObserver } from "@/common/useResizeObserver";
@@ -131,16 +131,14 @@ function AttachFileItem(props: { file: File, cancel(): void }) {
 
 const PostContainer = styled(FlexColumn)`
   scroll-margin-top: 50px;
-  padding: 5px;
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  padding: 3px;
+
   border-radius: 8px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 6px;
-  padding-right: 6px;
+
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.06);
   &:hover {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.1);
   }
 `;
 
@@ -153,7 +151,7 @@ const PostDetailsContainer = styled(FlexRow)`
 const PostActionsContainer = styled(FlexRow)`
   align-items: center;
   margin-top: 5px;
-  margin-left: 41px;
+  margin-left: 48px;
 `;
 
 const postActionStyle = css`
@@ -173,7 +171,7 @@ const postUsernameStyle = css`
 `
 
 const postContentStyles = css`
-  margin-left: 55px;
+  margin-left: 49px;
   word-break: break-word;
   white-space: pre-line;
   margin-top: -5px;
@@ -200,9 +198,9 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
   const { createPortal } = useCustomPortal();
   const [hovered, setHovered] = createSignal(false);
 
-  
+
   const Details = () => (
-    <PostDetailsContainer gap={10}>
+    <PostDetailsContainer gap={5}>
       <CustomLink href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
         <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
       </CustomLink>
@@ -211,16 +209,16 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 
     </PostDetailsContainer>
   )
-  
+
   const isLikedByMe = () => props.post.likedBy.length;
   const likedIcon = () => isLikedByMe() ? 'favorite' : 'favorite_border'
-  
+
   const replyingTo = createMemo(() => {
     if (!props.post.commentToId) return;
     return posts.cachedPost(props.post.commentToId)
   })
-  
-  
+
+
   const onLikeClick = async () => {
     if (requestSent()) return;
     setRequestSent(true);
@@ -232,13 +230,13 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
     await props.post.like();
     setRequestSent(false);
   }
-  
+
   const onDeleteClick = () =>
   createPortal?.(close => <DeletePostModal close={close} post={props.post} />)
-  
-  
+
+
   const onEditClicked = () => createPortal?.(close => <EditPostModal close={close} post={props.post} />)
-  
+
   let startClickPos = {x: 0, y: 0}
   let textSelected = false
 
@@ -318,7 +316,7 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 const embedStyles = css`
   display: flex;
   flex-direction: column;
-  margin-left: 55px;
+  margin-left: 50px;
   align-items: start;
 `;
 
@@ -326,10 +324,13 @@ const embedStyles = css`
 function Embeds(props: { post: Post, hovered: boolean }) {
   let element: HTMLDivElement | undefined;
   const [width] = useResizeObserver(() => element);
+  const {height} = useWindowProperties();
+
+  const clampedHeight = () => clamp(height(), 600)
   return (
     <div ref={element} class={classNames("embeds", embedStyles)}>
       <Show when={props.post.attachments?.[0]}>
-        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={0} customWidth={width()} />
+        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={0} customHeight={clampedHeight()}  customWidth={width()} />
       </Show>
     </div>
   )
@@ -413,7 +414,7 @@ export function PostsArea(props: { showLiked?: boolean, showFeed?: boolean, show
   }));
 
   return (
-    <PostsContainer gap={5} style={props.style}>
+    <PostsContainer gap={2} style={props.style}>
       <Show when={props.showCreateNew}><NewPostArea /></Show>
       <Show when={props.postId}><NewPostArea postId={props.postId} /></Show>
       <For each={cachedPosts()}>
@@ -578,8 +579,8 @@ export function ViewPostModal(props: { close(): void }) {
   }
 
   return (
-    <Modal close={onClose} title="Post" class={css`width: 800px; max-height: 800px; height: calc(100% - 20px);`}>
-      <FlexColumn style={{ overflow: "auto", height: "100%", "padding-right": "8px" }}>
+    <Modal close={onClose} title="Post" class={css` width: 800px; max-height: 800px; height: calc(100% - 20px);`}>
+      <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
           <FlexColumn gap={5}>
             <For each={commentToList()}>

@@ -20,7 +20,6 @@ import Text from "./ui/Text";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
-  padding: 5px;
 `;
 
 const DashboardPaneContent = styled(FlexColumn)`
@@ -42,8 +41,8 @@ const ServerListContainer = styled(FlexRow)`
   padding-left: 6px;
   padding-right: 6px;
   border-radius: 8px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   height: 50px;
   scroll-behavior: smooth;
 
@@ -118,15 +117,15 @@ function PostsContainer() {
   })
 
   return (
-    <>
-      <Text size={18} style={{ "margin-left": "15px" }}>Posts</Text>
-      <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "13px" }}>
+    <FlexColumn>
+      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px" }}>Posts</Text>
+      <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "5px" }}>
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={!showNotifications()} label='Feed' onClick={() => setShowNotifications(false)} />
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={showNotifications()} label="Notifications" customChildren={NotificationIndicator} onClick={() => setShowNotifications(true)} />
       </FlexRow>
-      <Show when={!showNotifications()}><PostsArea showFeed style={{ "margin-left": "10px", "margin-right": "10px" }} showCreateNew /></Show>
-      <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "10px", "margin-right": "10px" }} /></Show>
-    </>
+      <Show when={!showNotifications()}><PostsArea showFeed style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew /></Show>
+      <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "5px", "margin-right": "5px" }} /></Show>
+    </FlexColumn>
   )
 
 
@@ -158,8 +157,8 @@ function ServerList() {
   }
 
   return (
-    <div>
-      <Text size={18} style={{ "margin-left": "15px" }}>Servers</Text>
+    <FlexColumn>
+      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px" }}>Servers</Text>
       <ServerListContainer ref={serverListEl} onwheel={onWheel}>
         <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
         <For each={servers.orderedArray()}>
@@ -169,7 +168,7 @@ function ServerList() {
           />}
         </For>
       </ServerListContainer>
-    </div>
+    </FlexColumn>
   )
 }
 

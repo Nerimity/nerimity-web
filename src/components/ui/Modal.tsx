@@ -104,7 +104,7 @@ const Body = styled(FlexColumn)`
   animation: ${showUp};
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
-  padding: 10px;
+  padding: 5px;
   flex: 1;
 `;
 
