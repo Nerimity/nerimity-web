@@ -144,14 +144,14 @@ const PostContainer = styled(FlexColumn)`
 
 const PostDetailsContainer = styled(FlexRow)`
   align-items: center;
-  margin-top: 5px;
-  margin-left: 5px;
+  margin-top: 8px;
+  margin-left: 8px;
 `;
 
 const PostActionsContainer = styled(FlexRow)`
   align-items: center;
   margin-top: 5px;
-  margin-left: 48px;
+  margin-left: 54px;
 `;
 
 const postActionStyle = css`
@@ -171,10 +171,10 @@ const postUsernameStyle = css`
 `
 
 const postContentStyles = css`
-  margin-left: 49px;
+  margin-left: 57px;
   word-break: break-word;
   white-space: pre-line;
-  margin-top: -5px;
+  margin-top: -10px;
 `
 
 const editIconStyles = css`
@@ -200,7 +200,7 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 
 
   const Details = () => (
-    <PostDetailsContainer gap={5}>
+    <PostDetailsContainer gap={8}>
       <CustomLink href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
         <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
       </CustomLink>
@@ -316,7 +316,7 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 const embedStyles = css`
   display: flex;
   flex-direction: column;
-  margin-left: 50px;
+  margin-left: 56px;
   align-items: start;
 `;
 
@@ -579,7 +579,7 @@ export function ViewPostModal(props: { close(): void }) {
   }
 
   return (
-    <Modal close={onClose} title="Post" class={css` width: 800px; max-height: 800px; height: calc(100% - 20px);`}>
+    <Modal close={onClose} title="Post" class={css` width: 610px; max-height: 800px; height: calc(100% - 20px);`}>
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
           <FlexColumn gap={5}>

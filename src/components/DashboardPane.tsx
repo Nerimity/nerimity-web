@@ -28,7 +28,7 @@ const DashboardPaneContent = styled(FlexColumn)`
   flex: 1;
   margin: 30px;
   width: 100%;
-  max-width: 900px;
+  max-width: 700px;
   align-self: center;
 `;
 
