@@ -376,9 +376,9 @@ const RoleContainer = styled(FlexRow) <{ selectable?: boolean }>`
 `;
 
 const BioContainer = styled("div")`
-  padding: 5px;
   border-radius: 6px;
   max-height: 300px;
+  margin-bottom: 5px;
   flex-shrink: 0;
   overflow: auto;
   white-space: pre-wrap;
@@ -567,7 +567,7 @@ function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: st
   return (
     <FlexRow gap={5} style={{ ...{ "align-items": 'center', "font-weight": "bold" }, ...props.style }}>
       <Icon color='var(--primary-color)' name={props.icon} size={14} />
-      <Text>{props.title}</Text>
+      <Text size={13}>{props.title}</Text>
     </FlexRow>
   )
 }

@@ -26,7 +26,7 @@ export function ChangelogModal (props: {close: () => void}) {
   return (
     <Modal title="Changelog" close={props.close} actionButtons={ActionButtons} >
       <FlexColumn gap={5}>
-        <FlexColumn style={{"max-height": "400px", "max-width": "900px", overflow: "auto"}}>
+        <FlexColumn style={{"max-height": "400px", "max-width": "600px", overflow: "auto", padding: "5px"}}>
           <Text size={24}>{latestRelease()?.name || ""}</Text>
           <Text opacity={0.7}>Released at {date() || ""}</Text>
           <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
