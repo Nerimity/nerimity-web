@@ -145,7 +145,7 @@ function UpdateItem() {
 }
 function ModerationItem() {
   const { account } = useStore();
-  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.CREATOR.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
+  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   const selected = useMatch(() => "/app/moderation/*");
 
@@ -201,7 +201,7 @@ const UserItem = () => {
 
   return (
     <>
-      <SidebarItemContainer class={classNames(styles.user, "sidePaneUser")} onclick={onClicked} selected={modalOpened()} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+      <SidebarItemContainer class={classNames(styles.user, "sidePaneUser")} onclick={onClicked} selected={modalOpened()} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
         {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} />}
         {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
         {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
@@ -361,7 +361,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
   return (
     <Link
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
-      onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
       <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
         <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />

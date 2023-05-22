@@ -25,6 +25,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { Banner } from '../ui/Banner';
 import { Markup } from '../Markup';
 import { t } from 'i18next';
+import { USER_BADGES, hasBit } from '@/chat-api/Bitwise';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -114,6 +115,7 @@ export default function ProfilePane() {
                 <UserPresence userId={user()!.id} showOffline={true} />
                 <Show when={userDetails()}>
                   <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
+                  <Badges user={userDetails()!} />
                 </Show>
               </div>
             </div>
@@ -123,7 +125,7 @@ export default function ProfilePane() {
           </Show>
         </div>
         <Show when={userDetails()}>
-          <Show when={userDetails()?.profile?.bio}><BioContainer userDetails={userDetails()!}  /></Show>
+          <Show when={userDetails()?.profile?.bio}><BioContainer userDetails={userDetails()!} /></Show>
           <Content user={userDetails()!} />
         </Show>
       </div>
@@ -199,7 +201,7 @@ function Content(props: { user: UserDetails }) {
 }
 
 
-function BioContainer(props: {userDetails: UserDetails}) {
+function BioContainer(props: { userDetails: UserDetails }) {
   return (
     <div class={styles.bioContainer}>
       <Text size={13}><Markup text={props.userDetails.profile.bio!} /></Text>
@@ -232,7 +234,7 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
     <div class={classNames(styles.block, conditionalClass(isMobileWidth(), styles.mobileBlock))}>
       <div class={styles.title} onClick={() => setShow(!show())}>
         <Icon name='group' size={18} class={styles.icon} />
-        <Text size={14} style={{ "margin-right": 'auto' }}>{t('profile.mutualFriends', {count: props.mutualFriendIds.length})}</Text>
+        <Text size={14} style={{ "margin-right": 'auto' }}>{t('profile.mutualFriends', { count: props.mutualFriendIds.length })}</Text>
         <Show when={isMobileWidth()}>
           <Icon size={18} name='expand_more' />
         </Show>
@@ -266,7 +268,7 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
     <div class={classNames(styles.block, conditionalClass(isMobileWidth(), styles.mobileBlock))}>
       <div class={styles.title} onClick={() => setShow(!show())}>
         <Icon name='dns' size={18} class={styles.icon} />
-        <Text size={14} style={{ "margin-right": 'auto' }}>{t('profile.mutualServers', {count: props.mutualServerIds.length})}</Text>
+        <Text size={14} style={{ "margin-right": 'auto' }}>{t('profile.mutualServers', { count: props.mutualServerIds.length })}</Text>
         <Show when={isMobileWidth()}>
           <Icon size={18} name='expand_more' />
         </Show>
@@ -313,8 +315,8 @@ function PostsContainer(props: { user: UserDetails }) {
     <div class={styles.postsContainer}>
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": 'wrap' }}>
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)} label={t('profile.postsTab')} />
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={t('profile.postsAndRepliesTab', {count: postCount()})} />
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label={t('profile.likedPostsTab', {count: likeCount()})} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={t('profile.postsAndRepliesTab', { count: postCount() })} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label={t('profile.likedPostsTab', { count: likeCount() })} />
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 3} onClick={() => setCurrentPage(3)} label={t('profile.followingTab')} />
         <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 4} onClick={() => setCurrentPage(4)} label={t('profile.followersTab')} />
       </FlexRow>
@@ -382,4 +384,47 @@ function UsersList(props: { users: RawUser[] }) {
       </For>
     </FlexColumn>
   )
+}
+
+
+
+type Badge = typeof USER_BADGES.FOUNDER
+
+
+const BadgeContainer = styled("div") <{ color: string }>`
+  background-color: ${props => props.color};
+  border-radius: 4px;
+  padding: 3px;
+  color: rgba(0,0,0,0.7);
+  font-weight: bold;
+  font-size: 12px;
+`;
+
+function Badge(props: { badge: Badge }) {
+  return (
+    <BadgeContainer color={props.badge.color}>{props.badge.name}</BadgeContainer>
+  )
+}
+
+const BadgesContainer = styled(FlexRow)`
+  flex-wrap: wrap;
+  margin-top: 5px;
+`;
+
+function Badges(props: { user: UserDetails }) {
+  const allBadges = Object.values(USER_BADGES);
+
+  // const hasBadges = () => allBadges.filter(badge => hasBit(props.user.user.badges || 0, badge.bit))
+  const hasBadges = () => allBadges.filter(badge => hasBit(4 || 0, badge.bit))
+
+  return (
+    <Show when={hasBadges().length}>
+      <BadgesContainer gap={3}>
+        <For each={hasBadges()}>
+          {badge => <Badge {...{ badge }} />}
+        </For>
+      </BadgesContainer>
+    </Show>
+  )
+
 }

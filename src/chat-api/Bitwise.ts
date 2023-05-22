@@ -8,13 +8,29 @@ export interface Bitwise {
 }
 
 export const USER_BADGES = {
-  CREATOR: {
-    name: 'Creator',
-    bit: 1
+  FOUNDER: {
+    name: 'Founder',
+    bit: 1,
+    description: 'Creator of Nerimity',
+    color: '#6fd894'
   },
   ADMIN: {
     name: 'Admin',
-    bit: 2
+    bit: 2,
+    description: 'Admin of Nerimity',
+    color: '#d8a66f'
+  },
+  CONTRIBUTOR: {
+    name: 'Contributor',
+    description: 'Has helped with this project in some way',
+    bit: 4,
+    color: '#ffffff'
+  },
+  SUPPORTER: {
+    name: 'Supporter',
+    description: 'Has supported this project by donating money',
+    bit: 8,
+    color: '#d86f6f'
   }
 };
 

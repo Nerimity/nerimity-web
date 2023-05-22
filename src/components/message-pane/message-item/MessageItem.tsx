@@ -123,7 +123,7 @@ const MessageItem = (props: MessageItemProps) => {
   }
 
   return (
-    <div onContextMenu={props.onContextMenu} onmouseover={() => setHovered(true)} onmouseout={() => setHovered(false)} class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
+    <div onContextMenu={props.onContextMenu} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
       <Show when={!props.hideFloating}><FloatOptions showContextMenu={props.onContextMenu} isCompact={isCompact()} message={props.message} /></Show>
       <div class={styles.messageItemOuterContainer}>
         <div class={styles.messageItemContainer}>

@@ -3,8 +3,9 @@ import { classNames } from '@/common/classNames';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { read } from 'fs';
 import { createMemo, JSX, Show } from 'solid-js';
-import { styled } from 'solid-styled-components';
+import { keyframes, styled } from 'solid-styled-components';
 import Text from './Text';
+import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
 
 interface Props {
   url?: string | null;
@@ -93,10 +94,13 @@ export default function Avatar(props: Props) {
 
 
 function AvatarBorder(props: { size: number, hovered?: boolean, serverOrUser: ServerOrUser }) {
+
+  const isFounder = () => hasBit(props.serverOrUser.badges || 0, USER_BADGES.FOUNDER.bit)
+
   return (
     <>
-      <Show when={props.serverOrUser?.badges === 1}>
-        <BasicBorder size={props.size} color="#6fd894" label='Founder' hovered={props.hovered} />
+      <Show when={isFounder()}>
+        <BasicBorder size={props.size} color={USER_BADGES.FOUNDER.color} label='Founder' hovered={props.hovered} />
       </Show>
       <Show when={props.serverOrUser?.verified}>
         <BasicBorder size={props.size} color="var(--primary-color)" label='Verified' hovered={props.hovered} />
@@ -124,47 +128,42 @@ const BasicAvatarBorderContainer = styled("div") <{ size: number, color: string 
 
 `;
 
+const rotate = keyframes`
+  0% { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+
+const BasicBorderLabelContainer = styled("div")`
+  pointer-events: none;
+  font-weight: bold;
+  position: absolute;
+  color: rgba(0,0,0,0.7);
+
+  animation: ${ rotate } 0.2s ease-out forwards;
+`;
+
+
+
+
 
 function BasicBorder(props: { size: number, hovered?: boolean, color: string; label: string }) {
   return (
     <BasicAvatarBorderContainer class="basic-border" color={props.color} size={props.size}>
       <Show when={props.hovered}>
-        <div style={{
-          "pointer-events": 'none',
+        <BasicBorderLabelContainer style={{
           "font-size": props.size / 100 * 17 + "px",
           "border-radius": props.size / 100 * 8 + "px",
-          "font-weight": "bold",
           bottom: -(props.size / 100 * 15) + "px",
           padding: props.size / 100 * 5 + "px",
-          position: "absolute",
-          background: props.color,
-          color: 'rgba(0,0,0,0.7)',
-        }}>{props.label}</div>
+          background: props.color
+        }}>{props.label}</BasicBorderLabelContainer>
       </Show>
     </BasicAvatarBorderContainer>
   )
 }
-
-
-
-// const AvatarBorderContainer = styled("div")`
-//   display: flex;
-//   justify-content: center;
-//   position: absolute;
-//   inset: 0;
-
-
-//   border-radius: 50%;
-// `;
-
-
-
-// function AvatarBorder() {
-
-
-//   return (
-//     <AvatarBorderContainer>
-//       <img style={{height: "100%", "z-index": 11111}} src="/assets/founder-border.svg" alt=""/>
-//     </AvatarBorderContainer>
-//   )
-// }

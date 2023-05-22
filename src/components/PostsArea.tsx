@@ -313,7 +313,7 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 
 
   return (
-    <PostContainer class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+    <PostContainer class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Show when={props.post.deleted}>
         <Text style={{ "padding": "10px" }}>{t("posts.postWasDeleted")}</Text>
       </Show>
