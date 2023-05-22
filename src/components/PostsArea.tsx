@@ -25,9 +25,10 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames } from "@/common/classNames";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
+import { EmojiPicker } from "./ui/EmojiPicker";
+import { formatMessage } from "./message-pane/MessagePane";
 
 const NewPostContainer = styled(FlexColumn)`
-  overflow: auto;
   padding-bottom: 5px;
   background: rgba(255, 255, 255, 0.06);
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
@@ -39,9 +40,18 @@ const NewPostContainer = styled(FlexColumn)`
 `;
 
 const ButtonsContainer = styled(FlexRow)`
+  position: relative;
   align-self: end;
 `;
 
+
+
+const EmojiPickerContainer = styled("div")`
+position: absolute;
+top: 50px;
+right: -10px;
+z-index: 111111;
+`;
 
 
 function NewPostArea(props: { postId?: string }) {
@@ -50,6 +60,8 @@ function NewPostArea(props: { postId?: string }) {
   const { isPortalOpened } = useCustomPortal();
   const [attachedFile, setAttachedFile] = createSignal<File | undefined>(undefined);
   const [fileBrowserRef, setFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
+  const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
+  let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
 
 
   onMount(() => {
@@ -71,23 +83,36 @@ function NewPostArea(props: { postId?: string }) {
   }
 
   const onCreateClick = async () => {
+    const formattedContent = formatMessage(content().trim())
     if (props.postId) {
-      posts.cachedPost(props.postId)?.submitReply({ content: content(), attachment: attachedFile() })
+      posts.cachedPost(props.postId)?.submitReply({ content: formattedContent, attachment: attachedFile() })
     } else {
-      posts.submitPost({ content: content(), file: attachedFile() });
+      posts.submitPost({ content: formattedContent, file: attachedFile() });
     }
     setContent("");
     setAttachedFile(undefined);
   }
 
+  const onEmojiPicked = (shortcode: string) => {
+    textAreaEl()!.focus();
+    textAreaEl()!.setRangeText(`:${shortcode}: `, textAreaEl()!.selectionStart, textAreaEl()!.selectionEnd, "end")
+    setContent(textAreaEl()!.value)
+  }
+
   return (
     <NewPostContainer>
-      <Input placeholder={props.postId ? 'Reply...' : "Create a post..."} onText={setContent} value={content()} type="textarea" />
+      <Input ref={setTextAreaEl} placeholder={props.postId ? 'Reply...' : "Create a post..."} onText={setContent} value={content()} type="textarea" />
       <Show when={attachedFile()}><AttachFileItem cancel={() => setAttachedFile(undefined)} file={attachedFile()!} /></Show>
       <ButtonsContainer gap={5}>
-        <FileBrowser accept='images' ref={setFileBrowserRef} onChange={onFilePicked}/>
+        <FileBrowser accept='images' ref={setFileBrowserRef} onChange={onFilePicked} />
         <Button margin={0} padding={5} class={css`width: 20px; height: 20px;`} iconSize={14} onClick={() => fileBrowserRef()?.open()} iconName="attach_file" />
+        <Button margin={0} padding={5} class={classNames("emojiPickerButton", css`width: 20px; height: 20px;`)} iconSize={14} onClick={() => setShowEmojiPicker(!showEmojiPicker())} iconName="face" />
         <Button margin={0} padding={5} iconSize={14} onClick={onCreateClick} label={props.postId ? 'Reply' : "Create"} iconName="send" />
+        <Show when={showEmojiPicker()}>
+          <EmojiPickerContainer>
+            <EmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} />
+          </EmojiPickerContainer>
+        </Show>
       </ButtonsContainer>
     </NewPostContainer>
   )
@@ -232,12 +257,12 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
   }
 
   const onDeleteClick = () =>
-  createPortal?.(close => <DeletePostModal close={close} post={props.post} />)
+    createPortal?.(close => <DeletePostModal close={close} post={props.post} />)
 
 
   const onEditClicked = () => createPortal?.(close => <EditPostModal close={close} post={props.post} />)
 
-  let startClickPos = {x: 0, y: 0}
+  let startClickPos = { x: 0, y: 0 }
   let textSelected = false
 
   const onMouseDown = (event: any) => {
@@ -286,7 +311,7 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 
 
   return (
-    <PostContainer class={props.class} style={{cursor: props.disableClick  ? 'initial' : 'pointer'}} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick}  onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+    <PostContainer class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
       <Show when={props.post.deleted}>
         <Text style={{ "padding": "10px" }}>This post was deleted!</Text>
       </Show>
@@ -324,13 +349,13 @@ const embedStyles = css`
 function Embeds(props: { post: Post, hovered: boolean }) {
   let element: HTMLDivElement | undefined;
   const [width] = useResizeObserver(() => element);
-  const {height} = useWindowProperties();
+  const { height } = useWindowProperties();
 
   const clampedHeight = () => clamp(height(), 600)
   return (
     <div ref={element} class={classNames("embeds", embedStyles)}>
       <Show when={props.post.attachments?.[0]}>
-        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={0} customHeight={clampedHeight()}  customWidth={width()} />
+        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={0} customHeight={clampedHeight()} customWidth={width()} />
       </Show>
     </div>
   )
@@ -454,7 +479,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
           <div style={{ opacity: 0.6, "font-size": "14px" }}>
-            <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content!} /></Show>
+            <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content || ""} /></Show>
             <Show when={cachedPost()?.deleted}>This post was deleted!</Show>
           </div>
         </FlexColumn>
@@ -493,7 +518,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
           <div style={{ opacity: 0.6, "font-size": "14px" }}>
-            <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content!} /></Show>
+            <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content || ""} /></Show>
             <Show when={cachedPost()?.deleted}>This post was deleted!</Show>
           </div>
         </FlexColumn>
@@ -544,7 +569,7 @@ export function PostNotificationsArea(props: { style?: JSX.CSSProperties }) {
 export function ViewPostModal(props: { close(): void }) {
   const [searchParams, setSearchParams] = useSearchParams<{ postId: string }>();
   const [selectedTab, setSelectedTab] = createSignal<"comments" | "likes">('comments');
-  const {paneWidth} = useWindowProperties();
+  const { paneWidth } = useWindowProperties();
 
   const postId = () => searchParams.postId
 
@@ -662,8 +687,9 @@ function EditPostModal(props: { post: Post, close: () => void }) {
   const [content, setContent] = createSignal(props.post.content || "");
 
   const onEditClick = () => {
+    const formattedContent = formatMessage(content().trim())
     props.close();
-    props.post.editPost(content())
+    props.post.editPost(formattedContent)
   }
 
   const ActionButtons = (

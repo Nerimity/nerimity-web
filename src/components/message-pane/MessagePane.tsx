@@ -21,7 +21,7 @@ import useChannels, { Channel } from '@/chat-api/store/useChannels';
 import useServerMembers, { ServerMember } from '@/chat-api/store/useServerMembers';
 import { playMessageNotification } from '@/common/Sound';
 
-import { CustomEmoji, EmojiPicker } from '@nerimity/solid-emoji-picker'
+import { CustomEmoji } from '@nerimity/solid-emoji-picker'
 import categories from '@/emoji/categories.json';
 import emojis from '@/emoji/emojis.json';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
@@ -37,6 +37,7 @@ import { css } from 'solid-styled-components';
 import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 import useAccount from '@/chat-api/store/useAccount';
 import useServers, { avatarUrl } from '@/chat-api/store/useServers';
+import { EmojiPicker } from '../ui/EmojiPicker';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -664,76 +665,12 @@ function TypingIndicator() {
 }
 
 function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
-  const {servers} = useStore();
-  const {paneWidth, width} = useWindowProperties()
-  onMount(() => {
-    document.addEventListener("mousedown", handleClickOutside)
-    onCleanup(() => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    })
-  })
-
-  const handleClickOutside = (e: MouseEvent & { target: any }) => {
-    if (e.target.closest(`.${styles.floatingEmojiPicker}`)) return;
-    if (e.target.closest(`.emojiPickerButton`)) return;
-    props.close();
-  }
-
-  createEffect(on(width, props.close, {defer: true}))
-
-  const customEmojis = () => {
-    return servers.emojisUpdatedDupName().map(e => {
-      const server = servers.get(e.serverId!)!;
-      const url = server.avatarUrl();
-      return { 
-        id: e.id,
-        category: {
-          id: e.serverId,
-          name: server.name,
-          url: url,
-          customElement: url ? undefined : (size) => Avatar({size, server: {...server, verified: false}})
-        },
-        name: e.name,
-        url: `${env.NERIMITY_CDN}emojis/${e.id}.${e.gif ? 'gif' : 'webp'}`
-      }
-    }) as CustomEmoji[]
-  }
-
-
-  const EmojiPickerStyles = css`
-    .categoriesContainer .customEmojiImage,
-    .title .customEmojiImage {
-      border-radius: 50%;
-    }
-  `;
-
-  const emojiPickerWidth = () => {
-    if (paneWidth()! < 340) {
-      return {row: 4, width: 280}
-    }
-    if (paneWidth()! < 360) {
-      return {row: 5, width: 320}
-    }
-    if (paneWidth()! < 420) {
-      return {row: 6, width: 355}
-    }
-    if (paneWidth()! < 470) {
-      return {row: 7, width: 400}
-    }
-    return {row: 8, width: 450}
-  }
 
   return (
     <Floating class={styles.floatingEmojiPicker}>
       <EmojiPicker
-        class={classNames(styles.emojiPicker, EmojiPickerStyles)}
-        spriteUrl="/assets/emojiSprites.png"
-        emojis={emojis}
-        customEmojis={customEmojis()}
-        onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
-        primaryColor='var(--primary-color)'
-        style={{width: emojiPickerWidth().width + "px"}}
-        maxRow={emojiPickerWidth()?.row}
+        onClick={props.onClick}
+        close={props.close}
       />
     </Floating>
   )
@@ -819,7 +756,7 @@ const emojiRegex = /:[\w+-]+:/g;
 const channelMentionRegex = /#([a-zA-Z]+( [a-zA-Z]+)?)#/g;
 const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/g;
 
-function formatMessage(message: string, serverId?: string, channelId?: string): string {
+export function formatMessage(message: string, serverId?: string, channelId?: string): string {
 
   const channels = useChannels();
   const serverMembers = useServerMembers();

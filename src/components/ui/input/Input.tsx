@@ -17,6 +17,7 @@ interface Props {
   height?: number;
   prefix?: string;
   placeholder?: string;
+  ref: (el: HTMLInputElement | HTMLTextAreaElement) => void; 
 }
 
 
@@ -75,7 +76,12 @@ const InputContainer = styled(FlexRow)<{focused: boolean}>`
 
 export default function Input(props: Props) {
   let [isFocused, setFocused] = createSignal(false);
-  let inputEl: undefined | HTMLInputElement = undefined;
+  let inputEl: undefined | HTMLInputElement | HTMLTextAreaElement = undefined;
+
+  onMount(() => {
+    props.ref?.(inputEl as HTMLInputElement | HTMLTextAreaElement);
+  })
+
   const error = () => {
     let error = "";
   
