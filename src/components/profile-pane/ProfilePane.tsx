@@ -26,6 +26,8 @@ import { Banner } from '../ui/Banner';
 import { Markup } from '../Markup';
 import { t } from 'i18next';
 import { USER_BADGES, hasBit } from '@/chat-api/Bitwise';
+import Modal from '../ui/Modal';
+import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -391,18 +393,24 @@ function UsersList(props: { users: RawUser[] }) {
 type Badge = typeof USER_BADGES.FOUNDER
 
 
-const BadgeContainer = styled("div") <{ color: string }>`
+const BadgeContainer = styled("button") <{ color: string }>`
   background-color: ${props => props.color};
   border-radius: 4px;
   padding: 3px;
   color: rgba(0,0,0,0.7);
   font-weight: bold;
   font-size: 12px;
+  border: none;
+  cursor: pointer;
 `;
 
-function Badge(props: { badge: Badge }) {
+function Badge(props: { badge: Badge, user: UserDetails }) {
+  const {createPortal} = useCustomPortal();
+
+  const onClick = () => createPortal(close => <BadgeDetailModal {...props} close={close} />)
+
   return (
-    <BadgeContainer color={props.badge.color}>{props.badge.name}</BadgeContainer>
+    <BadgeContainer {...{onClick}} color={props.badge.color}>{props.badge.name}</BadgeContainer>
   )
 }
 
@@ -414,17 +422,35 @@ const BadgesContainer = styled(FlexRow)`
 function Badges(props: { user: UserDetails }) {
   const allBadges = Object.values(USER_BADGES);
 
-  // const hasBadges = () => allBadges.filter(badge => hasBit(props.user.user.badges || 0, badge.bit))
-  const hasBadges = () => allBadges.filter(badge => hasBit(4 || 0, badge.bit))
+  const hasBadges = () => allBadges.filter(badge => hasBit(props.user.user.badges || 0, badge.bit))
 
   return (
     <Show when={hasBadges().length}>
       <BadgesContainer gap={3}>
         <For each={hasBadges()}>
-          {badge => <Badge {...{ badge }} />}
+          {badge => <Badge {...{ badge }} {...props} />}
         </For>
       </BadgesContainer>
     </Show>
   )
 
+}
+
+
+const BadgeDetailsModalContainer = styled(FlexColumn)`
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  min-width: 250px;
+`;
+
+function BadgeDetailModal(props: {badge: Badge, user: UserDetails, close(): void}) {
+  return (
+    <Modal title={`${props.badge.name} Badge`} close={props.close}>
+      <BadgeDetailsModalContainer  gap={30}>
+        <Avatar user={props.user.user} size={80} animate />
+        <Text>{props.badge.description}</Text>
+      </BadgeDetailsModalContainer>
+    </Modal>
+  )
 }

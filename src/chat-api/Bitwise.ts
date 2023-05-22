@@ -22,13 +22,13 @@ export const USER_BADGES = {
   },
   CONTRIBUTOR: {
     name: 'Contributor',
-    description: 'Has helped with this project in some way',
+    description: 'Helped with this project in some way',
     bit: 4,
     color: '#ffffff'
   },
   SUPPORTER: {
     name: 'Supporter',
-    description: 'Has supported this project by donating money',
+    description: 'Supported this project by donating money',
     bit: 8,
     color: '#d86f6f'
   }
