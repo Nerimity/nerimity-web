@@ -25,15 +25,15 @@ import { ImageEmbed } from '@/components/ui/ImageEmbed';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
-  const params = useParams<{serverId: string}>();
-  const {account, serverMembers} = useStore();
-  const {createPortal} = useCustomPortal();
+  const params = useParams<{ serverId: string }>();
+  const { account, serverMembers } = useStore();
+  const { createPortal } = useCustomPortal();
 
   const onDeleteClick = () => {
-    createPortal?.(close => <DeleteMessageModal close={close} message={props.message}/>)
+    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />)
   }
   const onEditClick = () => {
-    const {channelProperties} = useStore();
+    const { channelProperties } = useStore();
     channelProperties.setEditMessage(props.message.channelId, props.message);
   }
   const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
@@ -46,7 +46,7 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   }
 
-  
+
   return (
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
@@ -57,54 +57,50 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
   )
 }
 
-interface MessageItemProps { 
+interface MessageItemProps {
   class?: string;
   message: Message;
   beforeMessage?: Message;
   animate?: boolean;
   hideFloating?: boolean;
   messagePaneEl?: HTMLDivElement;
- }
+  onContextMenu?: (event: MouseEvent) => void;
+  onUserContextMenu?: (event: MouseEvent) => void
+}
 
 const MessageItem = (props: MessageItemProps) => {
-  
-  const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | undefined>(undefined);
+
   const params = useParams();
-  const {serverMembers} = useStore();
+  const { serverMembers } = useStore();
   const [hovered, setHovered] = createSignal(false);
   const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.message.createdBy.id) : undefined;
 
   const systemMessage = () => {
     switch (props.message.type) {
       case MessageType.JOIN_SERVER:
-        return {icon: "", message: "has joined the server."}
+        return { icon: "", message: "has joined the server." }
       case MessageType.LEAVE_SERVER:
-        return {icon: "", message: "has left the server."}
+        return { icon: "", message: "has left the server." }
       case MessageType.KICK_USER:
-        return {icon: "", message: "has been kicked."}
+        return { icon: "", message: "has been kicked." }
       case MessageType.BAN_USER:
-        return {icon: "", message: "has been banned."}
+        return { icon: "", message: "has been banned." }
       default:
         return undefined;
     }
   }
 
-  const onMemberContextMenu = (event: MouseEvent) => {
-    event.preventDefault();
-    setContextPosition({x: event.clientX, y: event.clientY});
-  }
-
   createEffect(on(() => props.message.attachments, () => {
     if (!props.messagePaneEl) return;
     props.messagePaneEl.scrollTop = props.messagePaneEl.scrollHeight;
-  }, {defer: true}))
-  
+  }, { defer: true }))
+
   const Details = () => (
     <div class={classNames(styles.details, conditionalClass(systemMessage(), styles.systemMessageDetails))}>
-      <Link onContextMenu={onMemberContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
+      <Link onContextMenu={props.onUserContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
         <Avatar animate={hovered()} user={props.message.createdBy} size={systemMessage() ? 23 : 40} />
       </Link>
-      <Link onContextMenu={onMemberContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{color: serverMember()?.roleColor()}}>
+      <Link onContextMenu={props.onUserContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor() }}>
         {props.message.createdBy.username}
       </Link>
       <Show when={systemMessage()}>
@@ -130,8 +126,7 @@ const MessageItem = (props: MessageItemProps) => {
   }
 
   return (
-    <div onmouseover={() => setHovered(true)} onmouseout={()=>setHovered(false)} class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
-      <MemberContextMenu user={props.message.createdBy} position={contextPosition()} serverId={params.serverId} userId={props.message.createdBy.id} onClose={() => setContextPosition(undefined)} />
+    <div onContextMenu={props.onContextMenu} onmouseover={() => setHovered(true)} onmouseout={() => setHovered(false)} class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
       <Show when={!props.hideFloating}><FloatOptions isCompact={isCompact()} message={props.message} /></Show>
       <div class={styles.messageItemOuterContainer}>
         <div class={styles.messageItemContainer}>
@@ -142,7 +137,7 @@ const MessageItem = (props: MessageItemProps) => {
               {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
               <div class={styles.content}>
                 <Markup message={props.message} text={props.message.content || ''} />
-                {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageEditStatus} title={editedAt()} />}  
+                {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageEditStatus} title={editedAt()} />}
                 <Embeds message={props.message} hovered={hovered()} />
                 {props.message.uploadingAttachment ? `Uploading ${props.message.uploadingAttachment.name}...` : ''}
               </div>
@@ -158,7 +153,7 @@ export default MessageItem;
 
 
 
-function Embeds(props: {message: Message, hovered: boolean}){
+function Embeds(props: { message: Message, hovered: boolean }) {
   return (
     <div>
       <Show when={props.message.attachments?.[0]}>
@@ -191,25 +186,25 @@ const deleteMessageModalStyles = css`
   overflow: hidden;
 `
 
-function DeleteMessageModal(props: {message: Message, close: () => void}) {
+export function DeleteMessageModal(props: { message: Message, close: () => void }) {
 
   const onDeleteClick = () => {
     props.close();
-    deleteMessage({channelId: props.message.channelId, messageId: props.message.id});
+    deleteMessage({ channelId: props.message.channelId, messageId: props.message.id });
   }
 
   const ActionButtons = (
-    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
+    <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button onClick={props.close} iconName="close" label="Cancel" />
       <Button onClick={onDeleteClick} iconName="delete" color='var(--alert-color)' label="Delete" />
     </FlexRow>
   )
 
   return (
-    <Modal close={props.close} title='Delete Message?'icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons}>
+    <Modal close={props.close} title='Delete Message?' icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons}>
       <DeleteMessageModalContainer>
         <Text>Are you sure you would like to delete this message?</Text>
-          <MessageItem class={deleteMessageItemContainerStyles} hideFloating message={props.message} />
+        <MessageItem class={deleteMessageItemContainerStyles} hideFloating message={props.message} />
       </DeleteMessageModalContainer>
     </Modal>
   )

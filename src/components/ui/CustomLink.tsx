@@ -24,6 +24,7 @@ const decoration = css`
 
 export function CustomLink(props: CustomLinkProps) {
   const onContextMenu = (event: MouseEvent) => {
+    props.onContextMenu?.(event);
     if (!props.noContextMenu) return;
     event.preventDefault();
   }

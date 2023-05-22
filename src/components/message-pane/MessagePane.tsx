@@ -3,7 +3,7 @@ import { batch, createEffect, createMemo, createRenderEffect, createSignal, For,
 import { createStore, reconcile } from 'solid-js/store';
 import { A, useParams } from '@solidjs/router';
 import useStore from '../../chat-api/store/useStore';
-import MessageItem from './message-item/MessageItem';
+import MessageItem, { DeleteMessageModal } from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import { ChannelType, MessageType, RawCustomEmoji, RawMessage } from '../../chat-api/RawData';
@@ -34,10 +34,15 @@ import useChannelProperties from '@/chat-api/store/useChannelProperties';
 import { text } from 'stream/consumers';
 import { Emoji } from '../markup/Emoji';
 import { css } from 'solid-styled-components';
-import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
+import { CHANNEL_PERMISSIONS, hasBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import useAccount from '@/chat-api/store/useAccount';
 import useServers, { avatarUrl } from '@/chat-api/store/useServers';
 import { EmojiPicker } from '../ui/EmojiPicker';
+import { Message } from '@/chat-api/store/useMessages';
+import ContextMenu, { ContextMenuProps } from '../ui/context-menu/ContextMenu';
+import MemberContextMenu from '../member-context-menu/MemberContextMenu';
+import { copyToClipboard } from '@/common/clipboard';
+import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -94,13 +99,16 @@ const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivEl
 }
 
 const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
-  const params = useParams<{ channelId: string }>();
+  const params = useParams<{ channelId: string, serverId?: string }>();
   const { hasFocus } = useWindowProperties();
   const { channels, messages, account, channelProperties } = useStore();
   let messageLogElement: undefined | HTMLDivElement;
   const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
   let loadedTimestamp: number | undefined;
   const [unreadMarker, setUnreadMarker] = createStore<{ lastSeenAt: number | null, messageId: string | null }>({ lastSeenAt: null, messageId: null });
+
+  const [messageContextDetails, setMessageContextDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
+  const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
 
   const [loadingMessages, setLoadingMessages] = createStore({ top: false, bottom: true });
   const scrollTracker = createScrollTracker(props.mainPaneEl);
@@ -300,8 +308,45 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
   }
 
 
+  const onContextMenu = (event: MouseEvent, message: Message) => {
+    event.preventDefault();
+    setMessageContextDetails({
+      message,
+      position: {
+        x: event.clientX,
+        y: event.clientY
+      }
+    })
+  }
+  const onUserContextMenu = (event: MouseEvent, message: Message) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setUserContextMenuDetails({
+      message,
+      position: {
+        x: event.clientX,
+        y: event.clientY
+      }
+    })
+  }
+
+
   return (
     <div class={styles.messageLogArea} ref={messageLogElement}>
+      <Show when={messageContextDetails()}>
+        <MessageContextMenu
+          {...messageContextDetails()!}
+          onClose={() => setMessageContextDetails(undefined)}
+        />
+      </Show>
+      <Show when={userContextMenuDetails()}>
+        <MemberContextMenu 
+          user={userContextMenuDetails()!.message.createdBy}
+          position={userContextMenuDetails()!.position}
+          serverId={params.serverId} 
+          userId={userContextMenuDetails()!.message.createdBy.id} 
+          onClose={() => setUserContextMenuDetails(undefined)} />
+      </Show>
       <For each={channelMessages()}>
         {(message, i) => (
           <>
@@ -309,6 +354,8 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
+              onContextMenu={(event) => onContextMenu(event, message)}
+              onUserContextMenu={(event) => onUserContextMenu(event, message)}
               animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
               message={message}
               beforeMessage={message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
@@ -1044,7 +1091,7 @@ type Emoji = typeof emojis[number];
 
 function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAreaElement }) {
   const params = useParams<{ channelId: string }>();
-  const {servers} = useStore();
+  const { servers } = useStore();
 
 
   const searchedEmojis = () => matchSorter([...emojis, ...servers.emojisUpdatedDupName()], props.search, { keys: ["short_names.*", "name"] }).slice(0, 10);
@@ -1121,4 +1168,47 @@ function appendText(channelId: string, textArea: HTMLTextAreaElement, query: str
 
 function removeByIndex(val: string, index: number, remove: number) {
   return val.substring(0, index) + val.substring(index + remove);
+}
+
+
+
+type MessageContextMenuProps = Omit<ContextMenuProps, 'items'> & {
+  message: Message
+}
+
+function MessageContextMenu(props: MessageContextMenuProps) {
+  const params = useParams<{serverId?: string;}>();
+  const { createPortal } = useCustomPortal();
+  const {account, serverMembers} = useStore();
+  const onDeleteClick = () => {
+    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />)
+  }
+
+  const onEditClick = () => {
+    const { channelProperties } = useStore();
+    channelProperties.setEditMessage(props.message.channelId, props.message);
+  }
+
+  const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
+
+  const showDelete = () => {
+    if (account.user()?.id === props.message.createdBy.id) return true;
+    if (!params.serverId) return false;
+
+    const member = serverMembers.get(params.serverId, account.user()?.id!);
+    return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
+  }
+
+
+  const hasContent = () => props.message.content;
+
+  return (
+    <ContextMenu {...props} items={[
+      ...(showEdit() ? [{ icon: 'edit', label: "Edit Message", onClick: onEditClick}] : []),
+      ...(showDelete() ? [{ icon: 'delete', label: "Delete Message", onClick: onDeleteClick, alert: true }] : []),
+      ...(showEdit() || showDelete() ? [{separator: true}] : []),
+      ...(hasContent() ? [{ icon: 'copy', label: "Copy Message", onClick: () => copyToClipboard(props.message.content!) }] : []),
+      { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.message.id!) }
+    ]} />
+  )
 }
