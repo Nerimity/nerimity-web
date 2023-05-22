@@ -175,5 +175,70 @@
       "viewSource": "View Source",
       "changelog": "Changelog"
     }
+  },
+  "addFriend": {
+    "usernameAndTag": "Username & Tag"
+  },
+  "userContextMenu": {
+    "viewProfile": "View Profile",
+    "sendMessage": "Send Message",
+    "copyId": "Copy ID",
+    "editRoles": "Edit Roles",
+    "kick": "Kick",
+    "ban": "Ban"
+  },
+  "kickServerMemberModal": {
+    "title": "Kick {{username}}",
+    "kickButton": "Kick",
+    "kicking": "Kicking...",
+    "backButton": "Back",
+    "message": "Are you sure you want to kick <1>username</1>?"
+  },
+  "editServerRolesModal": {
+    "title": "Edit Roles"
+  },
+  "banModal": {
+    "title": "Ban {{username}}?",
+    "message": "Are you sure you want to ban <1>username</1>?",
+    "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
+    "banButton": "Ban",
+    "banning": "Banning..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Edit Message",
+    "deleteMessage": "Delete Message",
+    "copyMessage": "Copy Message",
+    "copyId": "Copy ID"
+  },
+  "profile": {
+    "followButton": "Follow",
+    "unfollowButton": "Unfollow",
+    "removeFriendButton": "Remove Friend",
+    "addFriendButton": "Add Friend",
+    "pendingRequest": "Pending Request",
+    "acceptRequestButton": "Accept Request",
+    "messageButton": "Message",
+    "mutualFriends": "Mutual Friends ({{count}})",
+    "mutualServers": "Mutual Servers ({{count}})",
+    "postsTab": "Posts",
+    "followersTab": "Followers",
+    "followingTab": "Following",
+    "postsAndRepliesTab": "Posts and replies ({{count}})",
+    "likedPostsTab": "Liked Posts ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Are you sure you would like to delete this post?",
+      "cancelButton": "Cancel",
+      "deleteButton": "delete"
+    },
+    "postWasDeleted": "This post was deleted!",
+    "someoneLikedYourPost": "<1>username</1> liked your post!",
+    "someoneFollowedYou": "<1>username</1> followed you!",
+    "someoneRepliedToPost": "<1>username</1> replied to your post!",
+    "createAPostInputPlaceholder": "Create a post...",
+    "replyInputPlaceholder": "Reply...",
+    "replyButton": "Reply",
+    "createButton": "Create"
   }
 }

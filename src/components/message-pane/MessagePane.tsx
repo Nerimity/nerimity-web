@@ -43,6 +43,7 @@ import ContextMenu, { ContextMenuProps } from '../ui/context-menu/ContextMenu';
 import MemberContextMenu from '../member-context-menu/MemberContextMenu';
 import { copyToClipboard } from '@/common/clipboard';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
+import { t } from 'i18next';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -1203,12 +1204,12 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const hasContent = () => props.message.content;
 
   return (
-    <ContextMenu {...props} items={[
-      ...(showEdit() ? [{ icon: 'edit', label: "Edit Message", onClick: onEditClick}] : []),
-      ...(showDelete() ? [{ icon: 'delete', label: "Delete Message", onClick: onDeleteClick, alert: true }] : []),
+    <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
+      ...(showEdit() ? [{ icon: 'edit', label: t('messageContextMenu.editMessage'), onClick: onEditClick}] : []),
+      ...(showDelete() ? [{ icon: 'delete', label: t('messageContextMenu.deleteMessage'), onClick: onDeleteClick, alert: true }] : []),
       ...(showEdit() || showDelete() ? [{separator: true}] : []),
-      ...(hasContent() ? [{ icon: 'copy', label: "Copy Message", onClick: () => copyToClipboard(props.message.content!) }] : []),
-      { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.message.id!) }
+      ...(hasContent() ? [{ icon: 'copy', label: t('messageContextMenu.copyMessage'), onClick: () => copyToClipboard(props.message.content!) }] : []),
+      { icon: 'copy', label: t('messageContextMenu.copyId'), onClick: () => copyToClipboard(props.message.id!) }
     ]} />
   )
 }

@@ -27,6 +27,8 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
+import { t } from "i18next";
+import { Trans } from "@nerimity/solid-i18next";
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -101,13 +103,13 @@ function NewPostArea(props: { postId?: string }) {
 
   return (
     <NewPostContainer>
-      <Input ref={setTextAreaEl} placeholder={props.postId ? 'Reply...' : "Create a post..."} onText={setContent} value={content()} type="textarea" />
+      <Input ref={setTextAreaEl} placeholder={props.postId ? t('posts.replyInputPlaceholder') : t('posts.createAPostInputPlaceholder')} onText={setContent} value={content()} type="textarea" />
       <Show when={attachedFile()}><AttachFileItem cancel={() => setAttachedFile(undefined)} file={attachedFile()!} /></Show>
       <ButtonsContainer gap={5}>
         <FileBrowser accept='images' ref={setFileBrowserRef} onChange={onFilePicked} />
         <Button margin={0} padding={5} class={css`width: 20px; height: 20px;`} iconSize={14} onClick={() => fileBrowserRef()?.open()} iconName="attach_file" />
         <Button margin={0} padding={5} class={classNames("emojiPickerButton", css`width: 20px; height: 20px;`)} iconSize={14} onClick={() => setShowEmojiPicker(!showEmojiPicker())} iconName="face" />
-        <Button margin={0} padding={5} iconSize={14} onClick={onCreateClick} label={props.postId ? 'Reply' : "Create"} iconName="send" />
+        <Button margin={0} padding={5} iconSize={14} onClick={onCreateClick} label={props.postId ? t('posts.replyButton') : t('posts.createButton')} iconName="send" />
         <Show when={showEmojiPicker()}>
           <EmojiPickerContainer>
             <EmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} />
@@ -313,7 +315,7 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
   return (
     <PostContainer class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
       <Show when={props.post.deleted}>
-        <Text style={{ "padding": "10px" }}>This post was deleted!</Text>
+        <Text style={{ "padding": "10px" }}>{t("posts.postWasDeleted")}</Text>
       </Show>
       <Show when={!props.post.deleted}>
         <Show when={replyingTo()}>
@@ -475,12 +477,20 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar user={props.notification.by} size={30} /></Link>
         <FlexColumn gap={2} class={notificationUsernameStyles}>
           <FlexRow gap={5} style={{ "align-items": 'center' }}  >
-            <Text size={14} class={notificationUsernameStyles}><strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> replied to your Post!</Text>
+          <Text size={14} class={notificationUsernameStyles}>
+              <Trans key="posts.someoneRepliedToPost">
+                {() => (
+                  <>
+                    <strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> replied to your post!
+                  </>
+                )}
+              </Trans>
+            </Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
           <div style={{ opacity: 0.6, "font-size": "14px" }}>
             <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content || ""} /></Show>
-            <Show when={cachedPost()?.deleted}>This post was deleted!</Show>
+            <Show when={cachedPost()?.deleted}>{t('posts.postWasDeleted')}</Show>
           </div>
         </FlexColumn>
       </FlexRow>
@@ -494,7 +504,15 @@ function PostNotification(props: { notification: RawPostNotification }) {
           <Icon name="add_circle" color="var(--primary-color)" />
           <Avatar user={props.notification.by} size={30} />
           <FlexRow gap={2} style={{ "align-items": 'center' }} class={notificationUsernameStyles}>
-            <Text size={14} class={notificationUsernameStyles}><strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> followed you!</Text>
+          <Text size={14} class={notificationUsernameStyles}>
+              <Trans key="posts.someoneFollowedYou">
+                {() => (
+                  <>
+                    <strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> followed you!
+                  </>
+                )}
+              </Trans>
+            </Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
         </FlexRow>
@@ -514,12 +532,20 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar user={props.notification.by} size={30} /></Link>
         <FlexColumn gap={2}>
           <FlexRow gap={5} style={{ "align-items": 'center' }}>
-            <Text size={14} class={notificationUsernameStyles}><strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> liked your post!</Text>
+            <Text size={14} class={notificationUsernameStyles}>
+              <Trans key="posts.someoneLikedYourPost">
+                {() => (
+                  <>
+                    <strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> liked your post!
+                  </>
+                )}
+              </Trans>
+            </Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
           </FlexRow>
           <div style={{ opacity: 0.6, "font-size": "14px" }}>
             <Show when={!cachedPost()?.deleted}><Markup text={cachedPost()?.content || ""} /></Show>
-            <Show when={cachedPost()?.deleted}>This post was deleted!</Show>
+            <Show when={cachedPost()?.deleted}>{t('posts.postWasDeleted')}</Show>
           </div>
         </FlexColumn>
       </FlexRow>
@@ -659,15 +685,15 @@ function DeletePostModal(props: { post: Post, close: () => void }) {
 
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button onClick={props.close} iconName="close" label="Cancel" />
-      <Button onClick={onDeleteClick} iconName="delete" color='var(--alert-color)' label="Delete" />
+      <Button onClick={props.close} iconName="close" label={t('posts.deletePostModal.cancelButton')} />
+      <Button onClick={onDeleteClick} iconName={t('posts.deletePostModal.deleteButton')} color='var(--alert-color)' label="Delete" />
     </FlexRow>
   )
 
   return (
     <Modal close={props.close} title='Delete Post?' icon='delete' class={deletePostModalStyles} actionButtons={ActionButtons}>
       <DeletePostModalContainer>
-        <Text>Are you sure you would like to delete this post?</Text>
+        <Text>{t('posts.deletePostModal.message')}</Text>
         <PostItem hideDelete class={deletePostItemContainerStyles} post={props.post} />
       </DeletePostModalContainer>
     </Modal>

@@ -3,14 +3,13 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawAttachment, RawMessage } from '@/chat-api/RawData';
+import { MessageType, RawMessage } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from '@solidjs/router';
+import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { createEffect, createRenderEffect, createSignal, on, onMount, Show } from 'solid-js';
-import MemberContextMenu from '@/components/member-context-menu/MemberContextMenu';
+import { createEffect, createSignal, on, Show } from 'solid-js';
 import { Markup } from '@/components/Markup';
 import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
@@ -19,12 +18,10 @@ import { css, styled } from 'solid-styled-components';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
-import { avatarUrl } from '@/chat-api/store/useUsers';
-import { useWindowProperties } from '@/common/useWindowProperties';
 import { ImageEmbed } from '@/components/ui/ImageEmbed';
 
 
-function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number }) {
+function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number, showContextMenu?: (event: MouseEvent) => void }) {
   const params = useParams<{ serverId: string }>();
   const { account, serverMembers } = useStore();
   const { createPortal } = useCustomPortal();
@@ -52,7 +49,7 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
       <Show when={showEdit()} ><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
       <Show when={showDelete()}><div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div></Show>
-      <div class={styles.item}><Icon size={18} name='more_vert' class={styles.icon} /></div>
+      <div class={classNames("floatingShowMore", styles.item)} onClick={props.showContextMenu}><Icon size={18} name='more_vert' class={styles.icon} /></div>
     </div>
   )
 }
@@ -127,7 +124,7 @@ const MessageItem = (props: MessageItemProps) => {
 
   return (
     <div onContextMenu={props.onContextMenu} onmouseover={() => setHovered(true)} onmouseout={() => setHovered(false)} class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
-      <Show when={!props.hideFloating}><FloatOptions isCompact={isCompact()} message={props.message} /></Show>
+      <Show when={!props.hideFloating}><FloatOptions showContextMenu={props.onContextMenu} isCompact={isCompact()} message={props.message} /></Show>
       <div class={styles.messageItemOuterContainer}>
         <div class={styles.messageItemContainer}>
           <Show when={!isCompact()}><Details /></Show>

@@ -24,6 +24,7 @@ import { CustomLink } from '../ui/CustomLink';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { Banner } from '../ui/Banner';
 import { Markup } from '../Markup';
+import { t } from 'i18next';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -174,15 +175,15 @@ const ActionButtons = (props: { class?: string, updateUserDetails(): void, userD
 
   return (
     <ActionButtonsContainer class={props.class} gap={3}>
-      {!isFollowing() && <ActionButton icon='add_circle' label='Follow' onClick={followClick} color='var(--primary-color)' />}
-      {isFollowing() && <ActionButton icon='add_circle' label='Unfollow' onClick={unfollowClick} color='var(--alert-color)' />}
-      {isFriend() && <ActionButton icon='person_add_disabled' label='Remove Friend' color='var(--alert-color)' onClick={removeClicked} />}
-      {!friendExists() && <ActionButton icon='group_add' label='Add Friend' color='var(--primary-color)' onClick={addClicked} />}
-      {isSent() && <ActionButton icon='close' label='Pending Request' color='var(--alert-color)' onClick={removeClicked} />}
-      {isPending() && <ActionButton icon='done' label='Accept Request' color='var(--success-color)' onClick={acceptClicked} />}
+      {!isFollowing() && <ActionButton icon='add_circle' label={t('profile.followButton')} onClick={followClick} color='var(--primary-color)' />}
+      {isFollowing() && <ActionButton icon='add_circle' label={t('profile.unfollowButton')} onClick={unfollowClick} color='var(--alert-color)' />}
+      {isFriend() && <ActionButton icon='person_add_disabled' label={t('profile.removeFriendButton')} color='var(--alert-color)' onClick={removeClicked} />}
+      {!friendExists() && <ActionButton icon='group_add' label={t('profile.addFriendButton')} color='var(--primary-color)' onClick={addClicked} />}
+      {isSent() && <ActionButton icon='close' label={t('profile.pendingRequest')} color='var(--alert-color)' onClick={removeClicked} />}
+      {isPending() && <ActionButton icon='done' label={t('profile.acceptRequestButton')} color='var(--success-color)' onClick={acceptClicked} />}
       <ActionButton icon='block' label='Block (WIP)' color='var(--alert-color)' />
       <ActionButton icon='flag' label='Report (WIP)' color='var(--alert-color)' />
-      <ActionButton icon='mail' label='Message' color='var(--primary-color)' onClick={onMessageClicked} />
+      <ActionButton icon='mail' label={t('profile.messageButton')} color='var(--primary-color)' onClick={onMessageClicked} />
     </ActionButtonsContainer>
   )
 }
@@ -231,7 +232,7 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
     <div class={classNames(styles.block, conditionalClass(isMobileWidth(), styles.mobileBlock))}>
       <div class={styles.title} onClick={() => setShow(!show())}>
         <Icon name='group' size={18} class={styles.icon} />
-        <Text size={14} style={{ "margin-right": 'auto' }}>Mutual Friends ({props.mutualFriendIds.length})</Text>
+        <Text size={14} style={{ "margin-right": 'auto' }}>{t('profile.mutualFriends', {count: props.mutualFriendIds.length})}</Text>
         <Show when={isMobileWidth()}>
           <Icon size={18} name='expand_more' />
         </Show>
@@ -265,7 +266,7 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
     <div class={classNames(styles.block, conditionalClass(isMobileWidth(), styles.mobileBlock))}>
       <div class={styles.title} onClick={() => setShow(!show())}>
         <Icon name='dns' size={18} class={styles.icon} />
-        <Text size={14} style={{ "margin-right": 'auto' }}>Mutual Servers ({props.mutualServerIds.length})</Text>
+        <Text size={14} style={{ "margin-right": 'auto' }}>{t('profile.mutualServers', {count: props.mutualServerIds.length})}</Text>
         <Show when={isMobileWidth()}>
           <Icon size={18} name='expand_more' />
         </Show>
@@ -311,11 +312,11 @@ function PostsContainer(props: { user: UserDetails }) {
   return (
     <div class={styles.postsContainer}>
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": 'wrap' }}>
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)} label='Posts' />
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={`Posts and replies (${postCount()})`} />
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label={`Liked posts (${likeCount()})`} />
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 3} onClick={() => setCurrentPage(3)} label={`Following`} />
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 4} onClick={() => setCurrentPage(4)} label={`Followers`} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 0} onClick={() => setCurrentPage(0)} label={t('profile.postsTab')} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 1} onClick={() => setCurrentPage(1)} label={t('profile.postsAndRepliesTab', {count: postCount()})} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 2} onClick={() => setCurrentPage(2)} label={t('profile.likedPostsTab', {count: likeCount()})} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 3} onClick={() => setCurrentPage(3)} label={t('profile.followingTab')} />
+        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={currentPage() === 4} onClick={() => setCurrentPage(4)} label={t('profile.followersTab')} />
       </FlexRow>
       <Show when={props.user && currentPage() <= 2}>
         <PostsArea showLiked={currentPage() === 2} showReplies={currentPage() === 1} style={{ width: "100%" }} userId={props.user.user.id} />

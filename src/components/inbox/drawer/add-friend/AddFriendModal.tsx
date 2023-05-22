@@ -6,6 +6,7 @@ import { createSignal } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Modal from '@/components/ui/Modal';
 import { FlexRow } from '@/components/ui/Flexbox';
+import { t } from 'i18next';
 
 export default function AddFriendModal(props: {close: () => void}) {
   const {friends} = useStore();
@@ -53,7 +54,7 @@ export default function AddFriendModal(props: {close: () => void}) {
   return (
     <Modal close={props.close} icon="group_add" title="Add Friend" actionButtons={ActionButtons}>
       <div class={styles.addFriendContainer}>
-        <Input label='Username & Tag' error={error().message} onText={setUserTag} />
+        <Input label={t('addFriend.usernameAndTag')} error={error().message} onText={setUserTag} />
         {success() && <div style="color: var(--success-color)">Friend successfully added!</div>}
       </div>
     </Modal>

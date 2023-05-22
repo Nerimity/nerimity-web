@@ -17,6 +17,8 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import { FlexRow } from '../ui/Flexbox';
 import { classNames, conditionalClass } from '@/common/classNames';
 import Icon from '../ui/icon/Icon';
+import { t,  } from 'i18next';
+import { Trans } from '@nerimity/solid-i18next';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
   userId: string
@@ -36,10 +38,10 @@ export default function MemberContextMenu(props: Props) {
   const adminItems = () => {
     if (!props.serverId) return [];
 
-    const editRoles = { label: "Edit Roles", icon: "leaderboard", onClick: onEditRoleClick };
+    const editRoles = { label: t('userContextMenu.editRoles'), icon: "leaderboard", onClick: onEditRoleClick };
     const separator = { separator: true }
-    const kick = { label: "Kick", alert: true, icon: "exit_to_app", onClick: onKickClick };
-    const ban = { label: "Ban", alert: true, icon: "block", onClick: onBanClick };
+    const kick = { label: t('userContextMenu.kick'), alert: true, icon: "exit_to_app", onClick: onKickClick };
+    const ban = { label: t('userContextMenu.ban'), alert: true, icon: "block", onClick: onBanClick };
 
     const AmIServerCreator = server()?.createdById === account.user()?.id;
     const items: any = [];
@@ -78,11 +80,10 @@ export default function MemberContextMenu(props: Props) {
 
 
   const onEditRoleClick = () => {
-    createPortal?.(close => <Modal maxHeight={500} maxWidth={350} close={close}  title="Edit Roles" children={() => <ServerMemberRoleModal {...props} />} />)
+    createPortal?.(close => <Modal maxHeight={500} maxWidth={350} close={close}  title={t('editServerRolesModal.title')} children={() => <ServerMemberRoleModal {...props} />} />)
   }
 
   const onKickClick = () => {
-    console.log(member())
     createPortal?.(close =>  <KickModal close={close} member={member()!} />)
   }
   const onBanClick = () => {
@@ -94,11 +95,11 @@ export default function MemberContextMenu(props: Props) {
   return (
     <>
       <ContextMenu {...props} items={[
-        { label: "View Profile", icon: "person", onClick: () => navigate(RouterEndpoints.PROFILE(props.userId)) },
-        { label: "Send Message", icon: "message", onClick: () => users.openDM(props.userId) },
+        { label: t('userContextMenu.viewProfile'), icon: "person", onClick: () => navigate(RouterEndpoints.PROFILE(props.userId)) },
+        { label: t('userContextMenu.sendMessage'), icon: "message", onClick: () => users.openDM(props.userId) },
         ...adminItems(),
         { separator: true },
-        { icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.userId) },
+        { icon: 'copy', label: t('userContextMenu.copyId'), onClick: () => copyToClipboard(props.userId) },
       ]} />
     </>
   )
@@ -117,15 +118,21 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
 
   const ActionButtons = (
     <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button label='Back' iconName='arrow_back' onClick={props.close}/>
-      <Button label={requestSent() ? 'Kicking...' :'Kick'} iconName='exit_to_app' color='var(--alert-color)' onClick={onKickClick}/>
+      <Button label={t('kickServerMemberModal.backButton')} iconName='arrow_back' onClick={props.close}/>
+      <Button label={requestSent() ? t('kickServerMemberModal.kicking') :t('kickServerMemberModal.kickButton')} iconName='exit_to_app' color='var(--alert-color)' onClick={onKickClick}/>
     </FlexRow>
   )
 
   return (
-    <Modal close={props.close} title={`Kick ${props.member?.user.username}`} actionButtons={ActionButtons}>
+    <Modal close={props.close} title={t('kickServerMemberModal.title', {username: props.member?.user.username})} actionButtons={ActionButtons}>
       <div class={styles.kickModal}>
-        <div>Are you sure you want to kick <b>{props.member?.user?.username || ""}</b>?</div>
+      <Trans key='kickServerMemberModal.message'>
+          {() =>
+            <>
+              Are you sure you want to kick <b>{props.member?.user.username}</b>?
+            </>
+          }
+        </Trans>
         <div class={styles.buttons}>
         </div>
       </div>
@@ -150,19 +157,27 @@ function BanModal (props: {user: RawUser, serverId: string, close: () => void}) 
   const ActionButtons = (
     <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button label='Back' iconName='arrow_back' onClick={props.close}/>
-      <Button label={requestSent() ? 'Banning...' :'Ban'}  iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
+      <Button label={requestSent() ? t('banModal.banning') :t('banModal.banButton')}  iconName='block' color='var(--alert-color)' onClick={onBanClick}/>
     </FlexRow>
   )
 
 
   return (
-    <Modal close={props.close} title={`Ban ${props.user.username}`}  actionButtons={ActionButtons}>
+    <Modal close={props.close} title={t('banModal.title', {username: props.user.username})}  actionButtons={ActionButtons}>
       <div class={styles.kickModal}>
-        <div style={{"margin-bottom": "15px"}}>Are you sure you want to ban <b>{props.user?.username || ""}</b>?</div>
+        <div style={{"margin-bottom": "15px"}}>
+        <Trans key='banModal.message'>
+          {() =>
+            <>
+              Are you sure you want to ban <b>{props.user.username}</b>?
+            </>
+          }
+        </Trans>
+        </div>
         <Checkbox 
           checked={shouldDeleteRecentMessages()}
           onChange={setShouldDeleteRecentMessages}
-          label='Delete messages sent in the past 7 hours.'
+          label={t('banModal.deletePastMessagesCheckbox')}
         />
       </div>
     </Modal>
