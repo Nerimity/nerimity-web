@@ -1,7 +1,7 @@
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getUsers, updateServer } from '@/chat-api/services/ModerationService';
+import { getOnlineUsers, getServer, getServers, getUser, getUsers, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link, Route, Routes, useParams } from '@solidjs/router';
@@ -124,6 +124,7 @@ export default function ModerationPane() {
       <Routes>
         <Route path="/" element={<ModerationPage />} />
         <Route path="/servers/:serverId" element={<ServerPage />} />
+        <Route path="/users/:userId" element={<UserPage />} />
       </Routes>
 
     </Show>
@@ -363,7 +364,7 @@ function ServerPage() {
     const values = updatedInputValues();
     await updateServer(params.serverId, values)
       .then(() => {
-        setServer(() => ({...server()!, ...values, password: ''}))
+        setServer(() => ({ ...server()!, ...values, password: '' }))
       })
       .catch(err => {
         setError(err.message)
@@ -377,7 +378,7 @@ function ServerPage() {
         <ServerPageInnerContainer>
           <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={200} animate url={bannerUrl(server()!)} hexColor={server()!.hexColor}>
             <ServerBannerContainer>
-              {server && <Avatar server={server()!} size={width() <= 1100 ? 70 : 100} />}
+              {server && <Avatar animate server={server()!} size={width() <= 1100 ? 70 : 100} />}
               <ServerBannerDetails>
                 <div>{server()!.name}</div>
                 <Text opacity={0.7} size={14}>{JSON.stringify(server()!._count.serverMembers)} members</Text>
@@ -404,6 +405,150 @@ function ServerPage() {
           </Show>
         </ServerPageInnerContainer>
       </ServerPageContainer>
+    </Show>
+  )
+}
+
+
+
+const UserPageContainer = styled(FlexColumn)`
+    height: 100%;
+    width: 100%;
+    max-width: 900px;
+    align-self: center;
+    margin-top: 10px;
+`;
+const UserPageInnerContainer = styled(FlexColumn)`
+    margin: 10px;
+`;
+const UserBannerContainer = styled(FlexRow)`
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  height: 100%;
+  z-index: 11111;
+`;
+const UserBannerDetails = styled(FlexColumn)`
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 18px;
+  z-index: 1111;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px);
+  padding: 10px;
+  border-radius: 8px;
+`;
+
+const BadgeItemStyles = css`
+  && {
+    margin: 0;
+    &:not(:last-child) {
+      border-radius: 0;
+    }
+    &:last-child {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+`;
+function UserPage() {
+  const params = useParams<{ userId: string }>();
+  const { width } = useWindowProperties();
+  const [requestSent, setRequestSent] = createSignal(false);
+  const [error, setError] = createSignal<string | null>(null);
+
+
+  const [account, setAccount] = createSignal<ModerationUser | null>(null);
+
+  const user = () => account()?.user;
+
+  const defaultInput = () => ({
+    email: account()?.email || '',
+    username: user()?.username || '',
+    tag: user()?.tag || '',
+    badges: user()?.badges || 0,
+    password: ''
+  })
+
+  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
+
+
+  onMount(() => {
+    getUser(params.userId).then(setAccount)
+  })
+
+  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
+  const onSaveButtonClicked = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+    setError(null);
+    const values = updatedInputValues();
+    await updateUser(params.userId, values)
+      .then(() => {
+        getUser(params.userId).then(setAccount)
+        setInputValue("password", '');
+      })
+      .catch(err => {
+        setInputValue("password", '');
+        setError(err.message)
+      })
+      .finally(() => setRequestSent(false))
+  }
+
+  const onBadgeUpdate = (checked: boolean, bit: number) => {
+    if (checked) {
+      setInputValue('badges', addBit(inputValues().badges, bit))
+      return;
+    }
+    setInputValue('badges', removeBit(inputValues().badges, bit))
+  }
+  return (
+    <Show when={user()}>
+      <UserPageContainer>
+        <UserPageInnerContainer>
+          <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={200} animate url={bannerUrl(user()!)} hexColor={user()!.hexColor}>
+            <UserBannerContainer>
+              {user() && <Avatar animate user={user()!} size={width() <= 1100 ? 70 : 100} />}
+              <UserBannerDetails>
+                <div>{user()!.username}</div>
+              </UserBannerDetails>
+            </UserBannerContainer>
+          </Banner>
+          <Breadcrumb>
+            <BreadcrumbItem href={"../../"} icon='home' title="Moderation" />
+            <BreadcrumbItem title={user()?.username} icon="person" />
+          </Breadcrumb>
+          <SettingsBlock label="Email" icon="email">
+            <Input value={inputValues().email} onText={v => setInputValue('email', v)} />
+          </SettingsBlock>
+          <SettingsBlock label="Username" icon="face">
+            <Input value={inputValues().username} onText={v => setInputValue('username', v)} />
+          </SettingsBlock>
+          <SettingsBlock label="Tag" icon="local_offer">
+            <Input value={inputValues().tag} onText={v => setInputValue('tag', v)} />
+          </SettingsBlock>
+          <SettingsBlock icon="badge" label="Badges" header />
+          <FlexColumn gap={1}>
+            <For each={Object.values(USER_BADGES)} >
+              {badge => (
+                <SettingsBlock class={BadgeItemStyles} label={badge.name} description={badge.description}>
+                  <Checkbox checked={hasBit(inputValues().badges, badge.bit)} onChange={checked => onBadgeUpdate(checked, badge.bit)} />
+                </SettingsBlock>
+              )
+              }
+            </For>
+          </FlexColumn>
+
+          <Show when={Object.keys(updatedInputValues()).length}>
+            <SettingsBlock label="Confirm Admin Password" icon="security" class={css`margin-top: 10px;`}>
+              <Input type="password" value={inputValues().password} onText={v => setInputValue('password', v)} />
+            </SettingsBlock>
+            <Show when={error()}><Text color="var(--alert-color)">{error()}</Text></Show>
+
+            <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
+          </Show>
+        </UserPageInnerContainer>
+      </UserPageContainer>
     </Show>
   )
 }

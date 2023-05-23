@@ -1,6 +1,6 @@
 
 import env from '../../common/env';
-import { RawFriend } from '../RawData';
+import { RawFriend, RawUser } from '../RawData';
 import { request } from './Request';
 import Endpoints from './ServiceEndpoints';
 
@@ -71,6 +71,31 @@ export const getOnlineUsers = async () => {
   const data = await request<any[]>({
     method: 'GET',
     url: env.SERVER_URL + "/api/moderation/online-users",
+    useToken: true,
+  });
+  return data;
+};
+
+
+export interface ModerationUser {
+  email: string;
+  user: RawUser
+}
+
+export const updateUser = async (userId: string, update: {email?: string, username?: string, tag?: string}) => {
+  const data = await request<any[]>({
+    method: 'POST',
+    body: update,
+    url: env.SERVER_URL + `/api/moderation/users/${userId}`,
+    useToken: true,
+  });
+  return data;
+};
+
+export const getUser = async (userId: string) => {
+  const data = await request<ModerationUser>({
+    method: 'GET',
+    url: env.SERVER_URL + `/api/moderation/users/${userId}`,
     useToken: true,
   });
   return data;

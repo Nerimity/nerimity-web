@@ -20,18 +20,18 @@ export const USER_BADGES = {
     description: 'Admin of Nerimity',
     color: '#d8a66f'
   },
+  SUPPORTER: {
+    name: 'Supporter',
+    description: 'Supported this project by donating money',
+    bit: 8,
+    color: '#d86f6f'
+  },
   CONTRIBUTOR: {
     name: 'Contributor',
     description: 'Helped with this project in some way',
     bit: 4,
     color: '#ffffff'
   },
-  SUPPORTER: {
-    name: 'Supporter',
-    description: 'Supported this project by donating money',
-    bit: 8,
-    color: '#d86f6f'
-  }
 };
 
 export const CHANNEL_PERMISSIONS = {

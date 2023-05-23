@@ -17,7 +17,7 @@ interface Props {
   height?: number;
   prefix?: string;
   placeholder?: string;
-  ref: (el: HTMLInputElement | HTMLTextAreaElement) => void; 
+  ref?: (el: HTMLInputElement | HTMLTextAreaElement) => void; 
 }
 
 

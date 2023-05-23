@@ -445,10 +445,14 @@ const BadgeDetailsModalContainer = styled(FlexColumn)`
 `;
 
 function BadgeDetailModal(props: {badge: Badge, user: UserDetails, close(): void}) {
+
+
+  const user = () => ({...props.user.user, badges: props.badge.bit})
+
   return (
     <Modal title={`${props.badge.name} Badge`} close={props.close}>
       <BadgeDetailsModalContainer  gap={30}>
-        <Avatar user={props.user.user} size={80} animate />
+        <Avatar user={user()} size={80} animate />
         <Text>{props.badge.description}</Text>
       </BadgeDetailsModalContainer>
     </Modal>

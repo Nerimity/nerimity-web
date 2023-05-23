@@ -92,15 +92,19 @@ export default function Avatar(props: Props) {
 
 
 
+const badgesArr = Object.values(USER_BADGES);
+console.log(badgesArr)
+
 
 function AvatarBorder(props: { size: number, hovered?: boolean, serverOrUser: ServerOrUser }) {
 
-  const isFounder = () => hasBit(props.serverOrUser.badges || 0, USER_BADGES.FOUNDER.bit)
+
+  const badge = createMemo(() => !props.serverOrUser.badges ? undefined : badgesArr.find(b => hasBit(props.serverOrUser.badges || 0, b.bit)))
 
   return (
     <>
-      <Show when={isFounder()}>
-        <BasicBorder size={props.size} color={USER_BADGES.FOUNDER.color} label='Founder' hovered={props.hovered} />
+      <Show when={badge()}>
+        <BasicBorder size={props.size} color={badge()?.color} label={badge()?.name} hovered={props.hovered} />
       </Show>
       <Show when={props.serverOrUser?.verified}>
         <BasicBorder size={props.size} color="var(--primary-color)" label='Verified' hovered={props.hovered} />
