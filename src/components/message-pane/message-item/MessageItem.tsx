@@ -68,9 +68,11 @@ interface MessageItemProps {
 const MessageItem = (props: MessageItemProps) => {
 
   const params = useParams();
-  const { serverMembers } = useStore();
+  const { serverMembers, servers } = useStore();
   const [hovered, setHovered] = createSignal(false);
   const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.message.createdBy.id) : undefined;
+
+  const isServerCreator = () => params.serverId ? servers.get(params.serverId)?.createdById === props.message.createdBy.id : undefined;
 
   const systemMessage = () => {
     switch (props.message.type) {
@@ -100,6 +102,9 @@ const MessageItem = (props: MessageItemProps) => {
       <Link onContextMenu={props.onUserContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor() }}>
         {props.message.createdBy.username}
       </Link>
+      <Show when={isServerCreator()}>
+        <div class={styles.ownerBadge}>Owner</div>
+      </Show>
       <Show when={systemMessage()}>
         <div class={styles.systemMessage}>{systemMessage()?.message}</div>
       </Show>
