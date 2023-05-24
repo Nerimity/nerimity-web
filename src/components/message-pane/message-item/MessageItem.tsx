@@ -9,7 +9,7 @@ import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { createEffect, createSignal, on, Show } from 'solid-js';
+import { createEffect, createSignal, Match, on, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
 import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
@@ -19,6 +19,8 @@ import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { ImageEmbed } from '@/components/ui/ImageEmbed';
+import { CustomLink } from '@/components/ui/CustomLink';
+import { MentionUser } from '@/components/markup/MentionUser';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number, showContextMenu?: (event: MouseEvent) => void }) {
@@ -74,39 +76,20 @@ const MessageItem = (props: MessageItemProps) => {
 
   const isServerCreator = () => params.serverId ? servers.get(params.serverId)?.createdById === props.message.createdBy.id : undefined;
 
-  const systemMessage = () => {
-    switch (props.message.type) {
-      case MessageType.JOIN_SERVER:
-        return { icon: "", message: "has joined the server." }
-      case MessageType.LEAVE_SERVER:
-        return { icon: "", message: "has left the server." }
-      case MessageType.KICK_USER:
-        return { icon: "", message: "has been kicked." }
-      case MessageType.BAN_USER:
-        return { icon: "", message: "has been banned." }
-      default:
-        return undefined;
-    }
-  }
-
   createEffect(on(() => props.message.attachments, () => {
     if (!props.messagePaneEl) return;
     props.messagePaneEl.scrollTop = props.messagePaneEl.scrollHeight;
   }, { defer: true }))
 
   const Details = () => (
-    <div class={classNames(styles.details, conditionalClass(systemMessage(), styles.systemMessageDetails))}>
-      <Link onContextMenu={props.onUserContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
-        <Avatar animate={hovered()} user={props.message.createdBy} size={systemMessage() ? 23 : 40} />
-      </Link>
-      <Link onContextMenu={props.onUserContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor() }}>
+    <div class={classNames(styles.details)}>
+
+      <CustomLink decoration onContextMenu={props.onUserContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor() }}>
         {props.message.createdBy.username}
-      </Link>
+      </CustomLink>
+      <Show when={isSystemMessage()}><SystemMessage message={props.message} /></Show>
       <Show when={isServerCreator()}>
         <div class={styles.ownerBadge}>Owner</div>
-      </Show>
-      <Show when={systemMessage()}>
-        <div class={styles.systemMessage}>{systemMessage()?.message}</div>
       </Show>
       <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
     </div>
@@ -116,11 +99,61 @@ const MessageItem = (props: MessageItemProps) => {
   const beforeMessageTime = () => props.beforeMessage?.createdAt!
 
   const isSameCreator = () => props.beforeMessage && props.beforeMessage?.createdBy?.id === props.message?.createdBy?.id;
-  const isDateUnderFiveMinutes = () => beforeMessageTime && (currentTime - beforeMessageTime()) < 300000;
+  const isDateUnderFiveMinutes = () => beforeMessageTime() && (currentTime - beforeMessageTime()) < 300000;
+  const isBeforeMessageContent = () => props.beforeMessage && props.beforeMessage.type === MessageType.CONTENT;
 
 
-  const isCompact = () => isSameCreator() && isDateUnderFiveMinutes();
+  const isCompact = () => isSameCreator() && isDateUnderFiveMinutes() && isBeforeMessageContent();
+  const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
 
+
+
+
+  return (
+    <div
+      class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), props.class, "messageItem")}
+      onContextMenu={props.onContextMenu}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <Show when={!props.hideFloating}><FloatOptions showContextMenu={props.onContextMenu} isCompact={isCompact()} message={props.message} /></Show>
+      <Switch>
+        <Match when={isSystemMessage()}>
+          <SystemMessage message={props.message} />
+        </Match>
+        <Match when={!isSystemMessage()}>
+          <Show when={!isCompact()}>
+            <Link onContextMenu={props.onUserContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
+              <Avatar animate={hovered()} user={props.message.createdBy} size={40} />
+            </Link>
+          </Show>
+          <div class={styles.messageInner}>
+            <Show when={!isCompact()}><Details /></Show>
+            <Content message={props.message} hovered={hovered()} />
+          </div>
+        </Match>
+      </Switch>
+    </div>
+  );
+};
+
+
+
+const Content = (props: { message: Message, hovered: boolean }) => {
+  return (
+    <div class={styles.content}>
+      <Markup message={props.message} text={props.message.content || ''} />
+      <SentStatus message={props.message} />
+      <Embeds {...props} />
+      <Show when={props.message.uploadingAttachment}>
+        Uploading {props.message.uploadingAttachment?.name}
+      </Show>
+    </div>
+  )
+}
+
+
+const SentStatus = (props: { message: Message }) => {
 
   const editedAt = () => {
     if (!props.message.editedAt) return;
@@ -128,28 +161,49 @@ const MessageItem = (props: MessageItemProps) => {
   }
 
   return (
-    <div onContextMenu={props.onContextMenu} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), conditionalClass(props.animate, styles.animate), props.class, "messageItem")}>
-      <Show when={!props.hideFloating}><FloatOptions showContextMenu={props.onContextMenu} isCompact={isCompact()} message={props.message} /></Show>
-      <div class={styles.messageItemOuterContainer}>
-        <div class={styles.messageItemContainer}>
-          <Show when={!isCompact()}><Details /></Show>
-          <Show when={!systemMessage()}>
-            <div class={styles.messageContainer}>
-              {props.message.sentStatus === MessageSentStatus.FAILED && <Icon name='error_outline' size={14} color="var(--alert-color)" class={styles.messageStatus} />}
-              {props.message.sentStatus === MessageSentStatus.SENDING && <Icon name='query_builder' size={14} color="rgba(255,255,255,0.4)" class={styles.messageStatus} />}
-              <div class={styles.content}>
-                <Markup message={props.message} text={props.message.content || ''} />
-                {(!props.message.sentStatus && editedAt()) && <Icon name='edit' size={14} color="rgba(255,255,255,0.4)" class={styles.messageEditStatus} title={editedAt()} />}
-                <Embeds message={props.message} hovered={hovered()} />
-                {props.message.uploadingAttachment ? `Uploading ${props.message.uploadingAttachment.name}...` : ''}
-              </div>
-            </div>
-          </Show>
-        </div>
-      </div>
+    <div class={styles.sentStatus}>
+      <Switch>
+        <Match when={props.message.sentStatus === MessageSentStatus.FAILED}>
+          <Icon class={styles.icon} name='error_outline' size={14} color="var(--alert-color)" />
+        </Match>
+        <Match when={props.message.sentStatus === MessageSentStatus.SENDING}>
+          <Icon class={styles.icon} name='query_builder' size={14} color="rgba(255,255,255,0.4)" />
+        </Match>
+        <Match when={editedAt()}>
+          <Icon class={styles.icon} name='edit' size={14} color="rgba(255,255,255,0.4)" title={editedAt()} />
+        </Match>
+      </Switch>
     </div>
-  );
-};
+  )
+}
+
+
+const SystemMessage = (props: { message: Message }) => {
+  const systemMessage = () => {
+    switch (props.message.type) {
+      case MessageType.JOIN_SERVER:
+        return { icon: "login", color: 'var(--primary-color)', message: "has joined the server." }
+      case MessageType.LEAVE_SERVER:
+        return { icon: "logout", color: 'var(--alert-color)', message: "has left the server." }
+      case MessageType.KICK_USER:
+        return { icon: "logout", color: 'var(--alert-color)', message: "has been kicked." }
+      case MessageType.BAN_USER:
+        return { icon: "block", color: 'var(--alert-color)', message: "has been banned." }
+      default:
+        return undefined;
+    }
+  }
+
+  return (
+    <Show when={systemMessage()}>
+      <div class={styles.systemMessage}>
+        <div class={styles.iconContainer}><Icon name={systemMessage()?.icon} color={systemMessage()?.color} /></div>
+        <div class="markup"><MentionUser user={props.message.createdBy} /></div>
+        {systemMessage()?.message}
+      </div>
+    </Show>
+  )
+}
 
 export default MessageItem;
 
@@ -159,7 +213,7 @@ function Embeds(props: { message: Message, hovered: boolean }) {
   return (
     <div>
       <Show when={props.message.attachments?.[0]}>
-        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
+        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-60} />
       </Show>
     </div>
   )

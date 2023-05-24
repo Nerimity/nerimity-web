@@ -46,54 +46,31 @@
 
 
 .systemMessage {
-  margin-left: 3px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
-}
-.systemMessageDetails {
-  margin-bottom: 3px;
-  .avatar {
-    margin-left: 3px;
-    margin-right: 4px;
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
   }
-} 
+}
 
 
 .messageItem {
   display: flex;
-  flex-direction: column;
   position: relative;
   flex-shrink: 0;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
+
+  padding: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
   border-radius: 6px;
-
-  padding-top: 3px;
-  padding-bottom: 3px;
-  
-  .messageStatus {
-    margin-left: 3px;
-    top: 2px;
-    position: absolute;
-    cursor: default;
-  }
-  .messageEditStatus {
-    margin-left: 3px;
-    vertical-align: -2px;
-    cursor: default;
-  }
-  
-  .messageItemOuterContainer {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .messageItemContainer {
-    display: flex;
-    flex-direction: column;
-  }
+  gap: 5px;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);
@@ -101,77 +78,57 @@
       display: flex;
     }
   }
-  .details {
-    display: flex;
-    position: relative;
-    align-items: center;
-    margin-top: 3px;
+}
 
-    .username {
-      margin-left: 5px;
-      font-size: 14px;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    .ownerBadge {
-      font-size: 12px;
-      padding: 2px;
-      margin-left: 5px;
-      background-color: var(--primary-color);
-      border-radius: 4px;
-    }
-    .date {
-      color: rgba(255, 255, 255, 0.6);
-      margin-left: auto;
-      font-size: 12px;
-      flex-shrink: 0;
-    }
-  }
-  .messageContainer {
-    position: relative;
-    display: flex;
-    margin-left: 10px;
-    margin-top: -5px;
-    .content {
-      overflow: hidden;
-      margin: 3px;
-      margin-bottom: 2px;
-      margin-top: 0;
-      margin-left: 35px;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 14px;
-      word-break: break-word;
-      white-space: pre-line;
-    }
-  }
+.messageInner {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 
-  &.compact {
-    .messageContainer {
-      margin-top: 0;
-    }
-    .floatOptions {
-      top: -23px;
-    }
-    .content {
-      margin: 0;
-      margin-left: 35px;
-    }
-  }
-  &.animate .messageItemContainer {
-    transform: translateY(30px);
-    opacity: 0;
-    animation-name: goUp;
-    animation-duration: 0.3s;
-    animation-fill-mode: forwards;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+}
+
+.details .ownerBadge {
+  font-size: 12px;
+  padding: 2px;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+} 
+
+.details .date {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.content {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  word-break: break-word;
+  white-space: pre-line;
+}
+
+.compact {
+  padding-top: 3px;
+  margin-top: 0px;
+  margin-left: 45px;
+}
+
+.sentStatus {
+  display: inline-block;
+  .icon {
+    margin-left: 2px;
+    vertical-align: -2.5px;
   }
 }
+
 
 @keyframes goUp {
   from {
