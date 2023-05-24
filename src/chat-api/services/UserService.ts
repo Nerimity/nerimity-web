@@ -103,10 +103,12 @@ interface UpdateUserOptions {
   banner?: string;
   tag?: string;
   password?: string;
+  newPassword?: string;
   bio?: string | null;
+  socketId?: string;
 }
 export async function updateUser(body: UpdateUserOptions) {
-  return request({
+  return request<{user: any, newToken?: string, }>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(""),
     method: 'POST',
     body,

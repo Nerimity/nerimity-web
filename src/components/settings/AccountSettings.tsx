@@ -13,6 +13,8 @@ import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
 import { Route, Routes, useMatch } from '@solidjs/router';
 import { CustomLink } from '../ui/CustomLink';
+import { getStorageString, setStorageString, StorageKeys } from '@/common/localStorage';
+import socketClient from '@/chat-api/socketClient';
 
 const Container = styled("div")`
   display: flex;
@@ -57,12 +59,27 @@ export default function AccountSettings(props: { updateHeader: UpdateHeader }) {
   )
 }
 
+
+const ChangePasswordButton = styled("button")`
+  color: var(--primary-color);
+  background-color: transparent;
+  border: none;
+  align-self: flex-start;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
 function EditAccountPage(props: { updateHeader: UpdateHeader }) {
   const { account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const [avatarFileBrowserRef, setAvatarFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
   const [bannerFileBrowserRef, setBannerFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
+
+  const [showResetPassword, setShowResetPassword] = createSignal(false);
 
   const user = () => account.user();
 
@@ -71,6 +88,8 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
     username: user()?.username || '',
     tag: user()?.tag || '',
     password: '',
+    newPassword: '',
+    confirmNewPassword: '',
     avatar: '',
     banner: '',
   })
@@ -82,10 +101,27 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
     if (requestSent()) return;
     setRequestSent(true);
     setError(null);
-    const values = updatedInputValues();
+
+    if (updatedInputValues().newPassword) {
+      if (updatedInputValues().newPassword !== updatedInputValues().confirmNewPassword) {
+        setError("Confirm password does not match.")
+        setRequestSent(false);
+        return;
+      }
+    }
+
+
+    const values = {...updatedInputValues(), socketId: socketClient.id(), confirmNewPassword: undefined };
     await updateUser(values)
-      .then(() => {
+      .then((res) => {
+        if (res.newToken) {
+          setStorageString(StorageKeys.USER_TOKEN, res.newToken);
+          socketClient.updateToken(res.newToken);
+        }
+        setShowResetPassword(false)
         setInputValue("password", '')
+        setInputValue("newPassword", '')
+        setInputValue("confirmNewPassword", '')
         setInputValue("avatar", '')
         setInputValue("banner", '')
         props.updateHeader(reconcile({}));
@@ -115,6 +151,11 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
     }
   }
 
+  const onChangePasswordClick = () => {
+    setInputValue("newPassword", '')
+    setInputValue("confirmNewPassword", '')
+    setShowResetPassword(!showResetPassword())
+  }
 
   return (
     <>
@@ -151,6 +192,18 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
           <Button iconSize={18} iconName='edit' label='Edit' />
         </CustomLink>
       </SettingsBlock>
+      <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
+
+
+      <Show when={showResetPassword()}>
+        <SettingsBlock icon='password' label='New Password' description='Changing your password will log you out everywhere else.'>
+          <Input type='password' value={inputValues().newPassword} onText={(v) => setInputValue('newPassword', v)} />
+        </SettingsBlock>
+        <SettingsBlock icon='password' label='Confirm New Password' description='Confirm your new password'>
+          <Input type='password' value={inputValues().confirmNewPassword} onText={(v) => setInputValue('confirmNewPassword', v)} />
+        </SettingsBlock>
+      </Show>
+
 
       <Show when={Object.keys(updatedInputValues()).length}>
         <SettingsBlock icon='password' label='Confirm Password'>
@@ -213,19 +266,19 @@ function EditProfilePage() {
     await updateUser({
       bio: values.bio?.trim() || null
     })
-    .then(() => {
-      setUserDetails(() => ({...userDetails()!, profile: {bio: values.bio}}))
-    })
-    .catch(err => {
-      setError(err.message)
-    })
-    .finally(() => setRequestSent(false))
+      .then(() => {
+        setUserDetails(() => ({ ...userDetails()!, profile: { bio: values.bio } }))
+      })
+      .catch(err => {
+        setError(err.message)
+      })
+      .finally(() => setRequestSent(false))
   }
 
   return (
     <>
       <SettingsBlock icon='info' label='Bio' class={bioBlockStyles} description='Multiline and markup support'>
-        <Text size={12} style={{"margin-left": "35px", "margin-top": "5px", "margin-bottom": "-5px"}}>({inputValues().bio.length} / 1000)</Text>
+        <Text size={12} style={{ "margin-left": "35px", "margin-top": "5px", "margin-bottom": "-5px" }}>({inputValues().bio.length} / 1000)</Text>
         <Input class='inputContainer' type='textarea' value={inputValues().bio} onText={(v) => setInputValue('bio', v)} />
       </SettingsBlock>
       <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>

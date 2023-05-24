@@ -93,7 +93,6 @@ export default function Avatar(props: Props) {
 
 
 const badgesArr = Object.values(USER_BADGES);
-console.log(badgesArr)
 
 
 function AvatarBorder(props: { size: number, hovered?: boolean, serverOrUser: ServerOrUser }) {

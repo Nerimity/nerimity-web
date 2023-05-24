@@ -21,6 +21,7 @@ export default {
     token = newToken;
     socket.connect()
   },
+  updateToken(newToken: string) {token = newToken},
   id: () => socket.id,
   socket,
 
