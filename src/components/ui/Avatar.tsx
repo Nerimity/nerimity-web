@@ -98,7 +98,7 @@ const badgesArr = Object.values(USER_BADGES);
 function AvatarBorder(props: { size: number, hovered?: boolean, serverOrUser: ServerOrUser }) {
 
 
-  const badge = createMemo(() => !props.serverOrUser.badges ? undefined : badgesArr.find(b => hasBit(props.serverOrUser.badges || 0, b.bit)))
+  const badge = createMemo(() => !props.serverOrUser?.badges ? undefined : badgesArr.find(b => hasBit(props.serverOrUser.badges || 0, b.bit)))
 
   return (
     <>
