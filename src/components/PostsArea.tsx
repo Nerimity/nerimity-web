@@ -2,7 +2,7 @@ import { PostNotificationType, RawPost, RawPostNotification, RawUser } from "@/c
 import { createPost, getCommentPosts, getLikesPosts, getPost, getPostNotifications, getPosts, getPostsLiked, LikedPost, likePost, unlikePost } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
-import { avatarUrl } from "@/chat-api/store/useUsers";
+import { User, avatarUrl } from "@/chat-api/store/useUsers";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Link, useParams, useSearchParams } from "@solidjs/router";
@@ -156,9 +156,9 @@ function AttachFileItem(props: { file: File, cancel(): void }) {
 
 
 
-const PostContainer = styled(FlexColumn)`
+const PostOuterConatiner = styled(FlexColumn)`
   scroll-margin-top: 50px;
-  padding: 3px;
+  padding: 10px;
 
   border-radius: 8px;
 
@@ -169,16 +169,17 @@ const PostContainer = styled(FlexColumn)`
   }
 `;
 
+const PostConatiner = styled(FlexRow)`
+  align-items: start;
+`;
+
 const PostDetailsContainer = styled(FlexRow)`
   align-items: center;
-  margin-top: 8px;
-  margin-left: 8px;
 `;
 
 const PostActionsContainer = styled(FlexRow)`
   align-items: center;
   margin-top: 5px;
-  margin-left: 54px;
 `;
 
 const postActionStyle = css`
@@ -197,12 +198,6 @@ const postUsernameStyle = css`
   text-overflow: ellipsis;
 `
 
-const postContentStyles = css`
-  margin-left: 57px;
-  word-break: break-word;
-  white-space: pre-line;
-  margin-top: -10px;
-`
 
 const editIconStyles = css`
   margin-left: 3px;
@@ -211,40 +206,111 @@ const editIconStyles = css`
 `
 
 const ReplyingToContainer = styled("div")`
-  margin-left: 5px;
-  margin-top: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `
 
+
+const PostInnerContainer = styled(FlexColumn)`
+  width: 100%;
+`
+
 export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post }) {
-  const { posts, account } = useStore();
+  const { posts } = useStore();
   const [searchParams, setSearchParams] = useSearchParams<{ postId: string }>()
-  const [requestSent, setRequestSent] = createSignal(false);
-  const { createPortal } = useCustomPortal();
   const [hovered, setHovered] = createSignal(false);
-
-
-  const Details = () => (
-    <PostDetailsContainer gap={8}>
-      <CustomLink href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
-        <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
-      </CustomLink>
-      <CustomLink class={postUsernameStyle} style={{ color: 'white' }} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
-      <Text style={{ "margin-left": "auto", "margin-right": "5px", "flex-shrink": 0 }} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
-
-    </PostDetailsContainer>
-  )
-
-  const isLikedByMe = () => props.post.likedBy.length;
-  const likedIcon = () => isLikedByMe() ? 'favorite' : 'favorite_border'
 
   const replyingTo = createMemo(() => {
     if (!props.post.commentToId) return;
     return posts.cachedPost(props.post.commentToId)
   })
 
+  let startClickPos = { x: 0, y: 0 }
+  let textSelected = false
+
+  const onMouseDown = (event: any) => {
+    startClickPos = {
+      x: event.clientX,
+      y: event.clientY
+    }
+    textSelected = !!window.getSelection()?.toString();
+  }
+
+  const onClick = (event: any) => {
+    if (props.disableClick) return;
+    if (props.post.deleted) return;
+    if (event.target.closest(".button")) return;
+    if (event.target.closest(".imageEmbedContainer")) return;
+    if (startClickPos.x !== event.clientX && startClickPos.y !== event.clientY) {
+      return;
+    }
+    if (textSelected) return;
+    setSearchParams({ postId: props.post.id })
+  }
+
+  return (
+    <PostOuterConatiner gap={10} class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      <Show when={props.post.deleted}>
+        <Text>{t("posts.postWasDeleted")}</Text>
+      </Show>
+      <Show when={!props.post.deleted}>
+        <Show when={replyingTo()}><ReplyTo user={replyingTo()!.createdBy} /></Show>
+        <PostConatiner gap={5}>
+          <Link href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
+            <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
+          </Link>
+          <PostInnerContainer gap={3}>
+            <Details hovered={hovered()} post={props.post} />
+            <Content post={props.post} hovered={hovered()} />
+
+            <Actions hideDelete={props.hideDelete} post={props.post} />
+          </PostInnerContainer>
+        </PostConatiner>
+      </Show>
+    </PostOuterConatiner>
+  )
+}
+
+const Details = (props: { hovered: boolean, post: Post }) => (
+  <PostDetailsContainer gap={5}>
+    <CustomLink class={postUsernameStyle} style={{ color: 'white' }} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
+    <Text style={{"flex-shrink": 0 }} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
+
+  </PostDetailsContainer>
+)
+
+const ContentContainer = styled("div")`
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  word-break: break-word;
+  white-space: pre-line;
+`
+const Content = (props: { post: Post, hovered: boolean }) => {
+  return (
+    <ContentContainer>
+      <Markup text={props.post.content || ""} />
+      <Show when={props.post.editedAt}>
+        <Icon name="edit" class={editIconStyles} size={14} title={`Edited at ${formatTimestamp(props.post.editedAt)}`} />
+      </Show>
+      <Embeds post={props.post} hovered={props.hovered} />
+    </ContentContainer>
+  )
+}
+
+
+
+const Actions = (props: { post: Post, hideDelete?: boolean }) => {
+  const { account } = useStore();
+  const [requestSent, setRequestSent] = createSignal(false);
+  const { createPortal } = useCustomPortal();
+  const [searchParams, setSearchParams] = useSearchParams<{ postId: string }>()
+
+  const onCommentClick = () => setSearchParams({ postId: props.post.id });
+
+  const isLikedByMe = () => props.post.likedBy.length;
+  const likedIcon = () => isLikedByMe() ? 'favorite' : 'favorite_border'
 
   const onLikeClick = async () => {
     if (requestSent()) return;
@@ -264,38 +330,7 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 
   const onEditClicked = () => createPortal?.(close => <EditPostModal close={close} post={props.post} />)
 
-  let startClickPos = { x: 0, y: 0 }
-  let textSelected = false
-
-  const onMouseDown = (event: any) => {
-    startClickPos = {
-      x: event.clientX,
-      y: event.clientY
-    }
-    textSelected = !!window.getSelection()?.toString();
-
-  }
-
-  const onClick = (event: any) => {
-    if (props.disableClick) return;
-    if (props.post.deleted) return;
-    if (event.target.closest(".button")) return;
-    if (event.target.closest(".imageEmbedContainer")) return;
-    if (startClickPos.x !== event.clientX && startClickPos.y !== event.clientY) {
-      return;
-    }
-    if (textSelected) return;
-    setSearchParams({ postId: props.post.id })
-  }
-
-
-
-  onMount(() => {
-  })
-
-  const onCommentClick = () => setSearchParams({ postId: props.post.id });
-
-  const Actions = () => (
+  return (
     <PostActionsContainer>
       <Button margin={2} onClick={onLikeClick} class={postActionStyle} iconName={likedIcon()} label={props.post._count.likedBy.toLocaleString()} />
       <Button margin={2} onClick={onCommentClick} class={postActionStyle} iconName="comment" label={props.post._count.comments.toLocaleString()} />
@@ -308,33 +343,17 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
         </Show>
       </FlexRow>
     </PostActionsContainer>
-  );
+  )
+};
 
 
 
+const ReplyTo = (props: { user: RawUser }) => {
   return (
-    <PostContainer class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <Show when={props.post.deleted}>
-        <Text style={{ "padding": "10px" }}>{t("posts.postWasDeleted")}</Text>
-      </Show>
-      <Show when={!props.post.deleted}>
-        <Show when={replyingTo()}>
-          <ReplyingToContainer>
-            <Text size={14} style={{ "margin-right": "5px" }}>Replying to</Text>
-            <CustomLink decoration style={{ "font-size": "14px" }} href={RouterEndpoints.PROFILE(replyingTo()?.createdBy.id!)}>{replyingTo()?.createdBy.username}</CustomLink>
-          </ReplyingToContainer>
-        </Show>
-        <Details />
-        <Text size={14} color="rgba(255,255,255,0.8)" class={postContentStyles}>
-          <Show when={props.post.content}><Markup text={props.post.content} /></Show>
-          <Show when={props.post.editedAt}>
-            <Icon name="edit" class={editIconStyles} size={14} title={`Edited at ${formatTimestamp(props.post.editedAt)}`} />
-          </Show>
-        </Text>
-        <Embeds post={props.post} hovered={hovered()} />
-        <Actions />
-      </Show>
-    </PostContainer>
+    <ReplyingToContainer>
+      <Text size={14} style={{ "margin-right": "5px" }}>Replying to</Text>
+      <CustomLink decoration style={{ "font-size": "14px" }} href={RouterEndpoints.PROFILE(props.user.id!)}>{props.user.username}</CustomLink>
+    </ReplyingToContainer>
   )
 }
 
@@ -343,21 +362,20 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
 const embedStyles = css`
   display: flex;
   flex-direction: column;
-  margin-left: 56px;
   align-items: start;
 `;
 
 
 function Embeds(props: { post: Post, hovered: boolean }) {
   let element: HTMLDivElement | undefined;
-  const [width] = useResizeObserver(() => element);
+  const [width] = useResizeObserver(() => element?.parentElement?.parentElement?.parentElement);
   const { height } = useWindowProperties();
 
   const clampedHeight = () => clamp(height(), 600)
   return (
     <div ref={element} class={classNames("embeds", embedStyles)}>
       <Show when={props.post.attachments?.[0]}>
-        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={0} customHeight={clampedHeight()} customWidth={width()} />
+        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={-40} customHeight={clampedHeight()} customWidth={width()} />
       </Show>
     </div>
   )
@@ -477,7 +495,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <Link onclick={(e) => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.notification.by.id)}><Avatar user={props.notification.by} size={30} /></Link>
         <FlexColumn gap={2} class={notificationUsernameStyles}>
           <FlexRow gap={5} style={{ "align-items": 'center' }}  >
-          <Text size={14} class={notificationUsernameStyles}>
+            <Text size={14} class={notificationUsernameStyles}>
               <Trans key="posts.someoneRepliedToPost">
                 {() => (
                   <>
@@ -504,7 +522,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
           <Icon name="add_circle" color="var(--primary-color)" />
           <Avatar user={props.notification.by} size={30} />
           <FlexRow gap={2} style={{ "align-items": 'center' }} class={notificationUsernameStyles}>
-          <Text size={14} class={notificationUsernameStyles}>
+            <Text size={14} class={notificationUsernameStyles}>
               <Trans key="posts.someoneFollowedYou">
                 {() => (
                   <>
@@ -556,7 +574,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
 
 
   return (
-    <PostContainer>
+    <PostOuterConatiner>
 
       <Show when={props.notification.type === PostNotificationType.LIKED}>
         <Liked />
@@ -570,7 +588,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <Reply />
       </Show>
 
-    </PostContainer>
+    </PostOuterConatiner>
   )
 }
 
