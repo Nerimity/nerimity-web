@@ -178,12 +178,13 @@ const PostDetailsContainer = styled(FlexRow)`
 `;
 
 const PostActionsContainer = styled(FlexRow)`
-  align-items: center;
-  margin-top: 5px;
+  align-items: stretch;
 `;
 
 const postActionStyle = css`
+  margin: 0;
   background: transparent;
+  min-width: 17px;
   padding: 5px;
   .label {
     font-size: 14px;
@@ -331,12 +332,12 @@ const Actions = (props: { post: Post, hideDelete?: boolean }) => {
   const onEditClicked = () => createPortal?.(close => <EditPostModal close={close} post={props.post} />)
 
   return (
-    <PostActionsContainer>
+    <PostActionsContainer gap={2}>
       <Button margin={2} onClick={onLikeClick} class={postActionStyle} iconName={likedIcon()} label={props.post._count.likedBy.toLocaleString()} />
       <Button margin={2} onClick={onCommentClick} class={postActionStyle} iconName="comment" label={props.post._count.comments.toLocaleString()} />
-      <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" />
-      <Button margin={2} class={postActionStyle} iconName="share" />
-      <FlexRow style={{ "margin-left": "auto" }}>
+      {/* <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" /> */}
+      {/* <Button margin={2} class={postActionStyle} iconName="share" /> */}
+      <FlexRow style={{ "margin-left": "auto" }} gap={2}>
         <Show when={props.post.createdBy.id === account.user()?.id && !props.hideDelete}>
           <Button onClick={onEditClicked} margin={2} class={postActionStyle} iconName="edit" />
           <Button onClick={onDeleteClick} margin={2} class={postActionStyle} color="var(--alert-color)" iconName="delete" />
