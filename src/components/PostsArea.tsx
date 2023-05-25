@@ -3,7 +3,7 @@ import { createPost, getCommentPosts, getLikesPosts, getPost, getPostNotificatio
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { User, avatarUrl } from "@/chat-api/store/useUsers";
-import { formatTimestamp } from "@/common/date";
+import { formatTimestamp, timeSince } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Link, useParams, useSearchParams } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
@@ -156,7 +156,7 @@ function AttachFileItem(props: { file: File, cancel(): void }) {
 
 
 
-const PostOuterConatiner = styled(FlexColumn)`
+const PostOuterContainer = styled(FlexColumn)`
   scroll-margin-top: 50px;
   padding: 10px;
 
@@ -169,7 +169,7 @@ const PostOuterConatiner = styled(FlexColumn)`
   }
 `;
 
-const PostConatiner = styled(FlexRow)`
+const PostContainer = styled(FlexRow)`
   align-items: start;
 `;
 
@@ -218,7 +218,7 @@ const PostInnerContainer = styled(FlexColumn)`
   overflow: hidden;
 `
 
-export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post }) {
+export function PostItem(props: { showFullDate?: boolean; disableClick?: boolean; hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post }) {
   const { posts } = useStore();
   const [searchParams, setSearchParams] = useSearchParams<{ postId: string }>()
   const [hovered, setHovered] = createSignal(false);
@@ -252,32 +252,34 @@ export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; 
   }
 
   return (
-    <PostOuterConatiner gap={10} class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <PostOuterContainer gap={10} class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Show when={props.post.deleted}>
         <Text>{t("posts.postWasDeleted")}</Text>
       </Show>
       <Show when={!props.post.deleted}>
         <Show when={replyingTo()}><ReplyTo user={replyingTo()!.createdBy} /></Show>
-        <PostConatiner gap={5}>
+        <PostContainer gap={5}>
           <Link href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
             <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
           </Link>
           <PostInnerContainer gap={3}>
-            <Details hovered={hovered()} post={props.post} />
+            <Details hovered={hovered()} showFullDate={props.showFullDate} post={props.post} />
             <Content post={props.post} hovered={hovered()} />
 
             <Actions hideDelete={props.hideDelete} post={props.post} />
           </PostInnerContainer>
-        </PostConatiner>
+        </PostContainer>
       </Show>
-    </PostOuterConatiner>
+    </PostOuterContainer>
   )
 }
 
-const Details = (props: { hovered: boolean, post: Post }) => (
+const Details = (props: { showFullDate?: boolean, hovered: boolean, post: Post }) => (
   <PostDetailsContainer gap={5}>
     <CustomLink class={postUsernameStyle} style={{ color: 'white' }} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
-    <Text style={{"flex-shrink": 0 }} size={12} color="rgba(255,255,255,0.5)">{formatTimestamp(props.post.createdAt)}</Text>
+    <Text style={{"flex-shrink": 0 }} title={formatTimestamp(props.post.createdAt)} size={12} color="rgba(255,255,255,0.5)">
+      {(props.showFullDate ? formatTimestamp :  timeSince)(props.post.createdAt)}
+    </Text>
 
   </PostDetailsContainer>
 )
@@ -576,7 +578,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
 
 
   return (
-    <PostOuterConatiner>
+    <PostOuterContainer>
 
       <Show when={props.notification.type === PostNotificationType.LIKED}>
         <Liked />
@@ -590,7 +592,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <Reply />
       </Show>
 
-    </PostOuterConatiner>
+    </PostOuterContainer>
   )
 }
 
@@ -655,7 +657,7 @@ export function ViewPostModal(props: { close(): void }) {
         <Show when={post()}>
           <FlexColumn gap={5}>
             <For each={commentToList()}>
-              {post => <PostItem disableClick post={post!} />}
+              {post => <PostItem showFullDate disableClick post={post!} />}
             </For>
           </FlexColumn>
           <FlexRow gap={5} style={{ "margin-top": "10px", "margin-bottom": "10px" }}>
