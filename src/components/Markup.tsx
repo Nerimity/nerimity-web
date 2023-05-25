@@ -20,6 +20,7 @@ import { MentionUser } from './markup/MentionUser';
 import { Message } from '@/chat-api/store/useMessages';
 import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
+import { Link } from './markup/Link';
 
 export interface Props {
   text: string;
@@ -79,6 +80,15 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"}`
       }} />
     }
+    case "link": {
+      const [url, text] = expr.split("->").map((s) => s.trim());
+
+      if (url && text) {
+        ctx.textCount += text.length;
+        return <Link {...{url, text}} />;
+      }
+      break;
+    }
     default: {
       console.warn("Unknown custom entity:", type);
     }
@@ -99,7 +109,7 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
     }
     case 'link': {
       const url = sliceText(ctx, entity.innerSpan);
-      return <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>;
+      return <Link {...{url}} />;
     }
     case "code": {
       return <code class={entity.type}>{transformEntities(entity, ctx)}</code>;

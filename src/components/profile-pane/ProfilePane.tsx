@@ -75,7 +75,7 @@ export default function ProfilePane() {
 
   createEffect(on(() => params.userId, async (userId) => {
     setUserDetails(null)
-    drawer.goToMain();
+    drawer?.goToMain();
     fetchUserDetails(userId)
   }))
 
