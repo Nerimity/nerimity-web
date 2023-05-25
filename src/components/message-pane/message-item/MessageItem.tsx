@@ -161,19 +161,23 @@ const SentStatus = (props: { message: Message }) => {
   }
 
   return (
-    <div class={styles.sentStatus}>
-      <Switch>
-        <Match when={props.message.sentStatus === MessageSentStatus.FAILED}>
+    <Switch>
+      <Match when={props.message.sentStatus === MessageSentStatus.FAILED}>
+        <div class={styles.sentStatus}>
           <Icon class={styles.icon} name='error_outline' size={14} color="var(--alert-color)" />
-        </Match>
-        <Match when={props.message.sentStatus === MessageSentStatus.SENDING}>
+        </div>
+      </Match>
+      <Match when={props.message.sentStatus === MessageSentStatus.SENDING}>
+        <div class={styles.sentStatus}>
           <Icon class={styles.icon} name='query_builder' size={14} color="rgba(255,255,255,0.4)" />
-        </Match>
-        <Match when={editedAt()}>
+        </div>
+      </Match>
+      <Match when={editedAt()}>
+        <div class={styles.sentStatus}>
           <Icon class={styles.icon} name='edit' size={14} color="rgba(255,255,255,0.4)" title={editedAt()} />
-        </Match>
-      </Switch>
-    </div>
+        </div>
+      </Match>
+    </Switch>
   )
 }
 
@@ -211,7 +215,7 @@ export default MessageItem;
 
 function Embeds(props: { message: Message, hovered: boolean }) {
   return (
-    <div>
+    <div class={styles.embeds}>
       <Show when={props.message.attachments?.[0]}>
         <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-60} />
       </Show>

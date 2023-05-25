@@ -11,7 +11,6 @@ const ImageEmbedContainer = styled(FlexRow)`
   overflow: hidden;
   position: relative;
   align-self: flex-start;
-  margin-top: 5px;
   cursor: pointer;
 
   img {
