@@ -61,7 +61,7 @@
       margin-right: 10px;
     }
 
-    .wrap-button {
+    .button {
       cursor: pointer;
       user-select: none;
       opacity: 0.8;
@@ -72,26 +72,9 @@
         color: var(--primary-color);
         opacity: 1;
       }
-
       &:hover {
         opacity: 1;
         background-color: rgb(71, 71, 71);
-        color: var(--primary-color);
-      }
-    }
-    
-    .copy-button {
-      cursor: pointer;
-      user-select: none;
-      opacity: 0.8;
-      border-radius: 4px;
-      transition: 0.2s;
-      padding: 3px;
-
-      &:hover {
-        opacity: 1;
-        background-color: rgb(71, 71, 71);
-        color: var(--primary-color);
       }
     }
   }

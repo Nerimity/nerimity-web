@@ -215,6 +215,7 @@ const ReplyingToContainer = styled("div")`
 
 const PostInnerContainer = styled(FlexColumn)`
   width: 100%;
+  overflow: hidden;
 `
 
 export function PostItem(props: { disableClick?: boolean; hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post }) {

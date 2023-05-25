@@ -48,8 +48,8 @@ export default function CodeBlock(props: Props) {
     <div class={classNames("code-block", conditionalClass(!wrap(), "no-wrap"))}>
       <div class="header">
         <span class="lang-name">{languageName()|| props.lang || "Text"}</span>
-        <Icon onClick={toggleWrap}  title="Toggle Wrap" name="wrap_text" class={classNames("wrap-button", conditionalClass(wrap(), "active"))} size={16} />
-        <Icon onClick={copy} title="Copy" name="copy" class="copy-button" size={16} />
+        <Icon onClick={toggleWrap}  title="Toggle Wrap" name="wrap_text" class={classNames("button", conditionalClass(wrap(), "active"))} size={16} />
+        <Icon onClick={copy} title="Copy" name="copy" class="button" size={16} />
       </div>
       <div class="content">
         <Show when={languageLoaded()}><code innerHTML={highlighted()} /></Show>
