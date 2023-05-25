@@ -23,12 +23,11 @@ const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: 
   text-align: center;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 6px;
   flex-shrink: 0;
   padding: ${props => props.padding !== undefined ? 
     typeof props.padding === "object" ? props.padding.join("px ") : props.padding  
-  : 10}px;
+  : 5}px;
   margin: ${props => props.margin !== undefined ? 
     typeof props.margin === "object" ? props.margin.join("px ") : props.margin  
   : 5}px;
@@ -63,7 +62,7 @@ export default function Button(props: Props) {
   return (
     <ButtonContainer padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick}>
       { props.iconName && <Icon size={props.iconSize} name={props.iconName} color={props.primary ? 'white' : color()} /> }
-      { props.label && <Text size={props.textSize} class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
+      { props.label && <Text size={props.textSize || 14} class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
       {props.customChildren && props.customChildren}
     </ButtonContainer>
   )
