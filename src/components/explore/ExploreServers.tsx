@@ -18,6 +18,7 @@ import Icon from '../ui/icon/Icon';
 import { Notice } from '../ui/Notice';
 import Text from '../ui/Text';
 import { Banner } from '../ui/Banner';
+import { timeSince } from '@/common/date';
 
 const Container = styled("div")`
   display: flex;
@@ -90,7 +91,7 @@ export default function ExploreServers() {
 
 
 const ServerItemContainer = styled(FlexColumn)`
-  padding: 10px;
+  padding: 5px;
   background: rgba(255,255,255,0.04);
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
   border-radius: 8px;
@@ -101,8 +102,8 @@ const DetailsContainer = styled(FlexColumn)`
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 8px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   margin-bottom: 0;
 `;
 
@@ -135,8 +136,8 @@ const descriptionStyles = css`
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 
 `;
 
@@ -198,7 +199,7 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
 
 
   return (
-    <ServerItemContainer class="serverItemContainer" onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
+    <ServerItemContainer class="serverItemContainer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Banner margin={0} animate={hovered()} class={css`width: 100%; flex-shrink: initial;`} maxHeight={100} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
       <Avatar class={avatarStyles} animate={hovered()} server={server} size={60} />
       <DetailsContainer class='detailsContainer' gap={1}>
@@ -223,37 +224,10 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
         <Show when={cacheServer()}><Link style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></Link></Show>
         <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')} /></Show>
       </ButtonsContainer>
+      <FlexRow style={{"align-items": 'center', "margin-left": "auto", "margin-right": "5px"}} gap={5}>
+        <Icon name='schedule' size={14} color='rgba(255,255,255,0.8)' />
+        <Text size={12} color='rgba(255,255,255,0.6)'>Last bumped {timeSince(props.publicServer.bumpedAt)}</Text>
+      </FlexRow>
     </ServerItemContainer>
   )
 }
-
-
-// <ServerItemContainer class="serverItemContainer" gap={15} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
-// <Banner margin={0} animate={hovered()} class={css`width: 100%; flex-shrink: initial;`} maxHeight={130} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
-// <DetailsOuterContainer class='DetailsOuterContainer'>
-//   <Avatar animate={hovered()} server={server} size={80} />
-//   <DetailsContainer class='detailsContainer' gap={1}>
-//     <FlexRow style={{ "align-items": "center" }} gap={5}>
-//       <Text class={serverNameStyles} size={18}>{server.name}</Text>
-//       <Show when={server.verified}><ServerVerifiedIcon /></Show>
-//     </FlexRow>
-//     <MemberContainer gap={5}>
-//       <FlexRow gap={5}>
-//         <Icon name='people' size={17} color="var(--primary-color)" />
-//         <Text size={12}>{t('explore.servers.memberCount', { count: server._count.serverMembers.toLocaleString() })}</Text>
-//       </FlexRow>
-//       <FlexRow gap={5}>
-//         <Icon name='arrow_upward' size={17} color="var(--primary-color)" />
-//         <Text size={12}>{t('explore.servers.lifetimeBumpCount', { count: props.publicServer.lifetimeBumpCount.toLocaleString() })}</Text>
-//       </FlexRow>
-//     </MemberContainer>
-//     <Text class={descriptionStyles} size={14} opacity={0.7}>{props.publicServer.description}</Text>
-//   </DetailsContainer>
-// </DetailsOuterContainer>
-
-// <ButtonsContainer>
-//   <Show when={cacheServer()}><Link style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></Link></Show>
-//   <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')} /></Show>
-//   <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t('explore.servers.bumpButton', { count: props.publicServer.bumpCount.toLocaleString() })} />
-// </ButtonsContainer>
-// </ServerItemContainer>

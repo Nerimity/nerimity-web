@@ -33,3 +33,18 @@ export function getDaysAgo(timestamp: number) {
 
   return rtf.format(daysDifference, 'day');
 }
+
+export function timeSince(timestamp: number) {
+  let now = new Date();
+  let secondsPast = (now.getTime() - timestamp) / 1000;
+  if (secondsPast < 60) {
+    return 'few seconds ago';
+  }
+  if (secondsPast < 3600) {
+    return Math.round(secondsPast / 60) + ' minutes ago';
+  }
+  if (secondsPast <= 86400) {
+    return Math.round(secondsPast / 3600) + ' hours ago';
+  }
+  return formatTimestamp(timestamp)
+}
