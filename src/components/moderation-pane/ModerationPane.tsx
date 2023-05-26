@@ -451,11 +451,27 @@ const BadgeItemStyles = css`
     }
   }
 `;
+
+
+const ChangePasswordButton = styled("button")`
+  color: var(--primary-color);
+  background-color: transparent;
+  border: none;
+  align-self: flex-start;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
 function UserPage() {
   const params = useParams<{ userId: string }>();
   const { width } = useWindowProperties();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<string | null>(null);
+
+  const [showChangePassword, setShowChangePassword] = createSignal(false);
 
 
   const [account, setAccount] = createSignal<ModerationUser | null>(null);
@@ -467,6 +483,7 @@ function UserPage() {
     username: user()?.username || '',
     tag: user()?.tag || '',
     badges: user()?.badges || 0,
+    newPassword: '',
     password: ''
   })
 
@@ -502,6 +519,13 @@ function UserPage() {
     }
     setInputValue('badges', removeBit(inputValues().badges, bit))
   }
+
+  const onChangePasswordClick = () => {
+    setInputValue("newPassword", '')
+    setShowChangePassword(!showChangePassword())
+  }
+
+
   return (
     <Show when={user()}>
       <UserPageContainer>
@@ -538,6 +562,14 @@ function UserPage() {
               }
             </For>
           </FlexColumn>
+          <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
+
+          <Show when={showChangePassword()}>
+            <SettingsBlock icon='password' label='New Password' description='Changing the password will log them out everywhere.'>
+              <Input type='password' value={inputValues().newPassword} onText={(v) => setInputValue('newPassword', v)} />
+            </SettingsBlock>
+          </Show>
+
 
           <Show when={Object.keys(updatedInputValues()).length}>
             <SettingsBlock label="Confirm Admin Password" icon="security" class={css`margin-top: 10px;`}>
