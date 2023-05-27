@@ -209,9 +209,10 @@ export async function joinPublicServer(serverId: string) {
     useToken: true
   });
 }
-export async function BumpPublicServer(serverId: string) {
+export async function BumpPublicServer(serverId: string, token) {
   return request<RawPublicServer>({
     method: "POST",
+    body: {token},
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId) + "/bump" ,
     useToken: true
   });

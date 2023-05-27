@@ -3,9 +3,11 @@ import { RawPublicServer } from "@/chat-api/RawData";
 import { BumpPublicServer, deletePublicServer, getPublicServer, updatePublicServer } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import { ServerBumpModal } from "@/components/explore/ExploreServers";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
+import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
@@ -33,7 +35,7 @@ export default function PublishServerSettings() {
   const [description, setDescription] = createSignal("");
   const [error, setError] = createSignal<string | null>(null);
   const [isPublic, setIsPublic] = createSignal(false);
-
+  const {createPortal} = useCustomPortal();
 
   const MAX_DESCRIPTION_LENGTH = 150;
   createEffect(() => {
@@ -94,13 +96,9 @@ export default function PublishServerSettings() {
     }
 
 
-    BumpPublicServer(publicServer()!.serverId)
-      .then(newPublicServer => {
-        setPublicServer(newPublicServer);
-      })
-      .catch((err) => {
-        alert(err.message)
-      })
+    return createPortal(close => <ServerBumpModal update={setPublicServer} publicServer={publicServer()!} close={close} />)
+
+
   }
 
   const server =() => servers.get(params.serverId)

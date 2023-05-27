@@ -19,6 +19,10 @@ import { Notice } from '../ui/Notice';
 import Text from '../ui/Text';
 import { Banner } from '../ui/Banner';
 import { timeSince } from '@/common/date';
+import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
+import Modal from '../ui/Modal';
+import { Turnstile, TurnstileRef } from '@nerimity/solid-turnstile';
+import env from '@/common/env';
 
 const Container = styled("div")`
   display: flex;
@@ -155,6 +159,8 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
   const [hovered, setHovered] = createSignal(false);
   const navigate = useNavigate();
 
+  const { createPortal } = useCustomPortal();
+
   const { servers } = useStore();
 
   const cacheServer = () => servers.get(server.id);
@@ -168,6 +174,7 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
   }
 
   const bumpClick = () => {
+
     // 3 hours to milliseconds
     const bumpAfter = 3 * 60 * 60 * 1000;
 
@@ -179,15 +186,7 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
       alert(`You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`);
       return;
     }
-
-
-    BumpPublicServer(props.publicServer.serverId)
-      .then(newPublicServer => {
-        props.update(newPublicServer);
-      })
-      .catch((err) => {
-        alert(err.message)
-      })
+    return createPortal(close => <ServerBumpModal update={props.update} publicServer={props.publicServer} close={close} />)
   }
 
   createEffect(() => {
@@ -224,10 +223,58 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
         <Show when={cacheServer()}><Link style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></Link></Show>
         <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')} /></Show>
       </ButtonsContainer>
-      <FlexRow style={{"align-items": 'center', "margin-left": "auto", "margin-right": "5px"}} gap={5}>
+      <FlexRow style={{ "align-items": 'center', "margin-left": "auto", "margin-right": "5px" }} gap={5}>
         <Icon name='schedule' size={14} color='rgba(255,255,255,0.8)' />
         <Text size={12} color='rgba(255,255,255,0.6)'>Last bumped {timeSince(props.publicServer.bumpedAt)}</Text>
       </FlexRow>
     </ServerItemContainer>
+  )
+}
+
+const ServerBumpModalContainer = styled(FlexRow)`
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+`
+
+export function ServerBumpModal(props: { update(server: RawPublicServer): void; publicServer: RawPublicServer; close(): void; }) {
+  let [verifyToken, setVerifyKey] = createSignal<string | undefined>(undefined);
+  let turnstileRef: TurnstileRef | undefined;
+
+
+  const bumpServer = () => {
+    BumpPublicServer(props.publicServer.serverId, verifyToken())
+      .then(newPublicServer => {
+        props.update(newPublicServer);
+        props.close();
+      })
+      .catch((err) => {
+        setVerifyKey(undefined);
+        alert(err.message)
+        turnstileRef?.reset();
+      })
+  }
+
+  const ActionButtons = (
+    <FlexRow style={{ "justify-content": "flex-end", width: '100%' }}>
+      <Button iconName='close' onClick={props.close} color='var(--alert-color)' label='Back' />
+      <Show when={verifyToken()}>
+        <Button iconName='arrow_upward' label='Bump' onClick={bumpServer} />
+      </Show>
+    </FlexRow>
+  )
+
+
+  return (
+    <Modal title={`Bump ${props.publicServer.server?.name}`} close={props.close} actionButtons={ActionButtons} >
+      <ServerBumpModalContainer>
+        <Turnstile
+          ref={turnstileRef}
+          sitekey={env.TURNSTILE_SITEKEY!}
+          onVerify={setVerifyKey}
+          autoResetOnExpire={true}
+        />
+      </ServerBumpModalContainer>
+    </Modal>
   )
 }
