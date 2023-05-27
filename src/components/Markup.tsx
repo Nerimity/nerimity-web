@@ -21,10 +21,12 @@ import { Message } from '@/chat-api/store/useMessages';
 import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { Link } from './markup/Link';
+import { QuoteMessage, QuoteMessageHidden, QuoteMessageInvalid } from './markup/QuoteMessage';
 
 export interface Props {
   text: string;
   message?: Message;
+  isQuote?: boolean;
 }
 
 type RenderContext = {
@@ -68,6 +70,18 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         return <MentionUser user={user} />;
       }
       break;
+    }
+    case "q": { // quoted messages
+      if (ctx.props().isQuote) {
+        return <QuoteMessageHidden />
+      }
+      const quote = ctx.props().message?.quotedMessages?.find(m => m.id === expr);
+      
+      if (quote) {
+        return <QuoteMessage message={quote} />
+      }
+      
+      return <QuoteMessageInvalid/>
     }
     case "ace": // animated custom emoji
     case "ce": { // custom emoji

@@ -23,7 +23,7 @@ import { CustomLink } from '@/components/ui/CustomLink';
 import { MentionUser } from '@/components/markup/MentionUser';
 
 
-function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number, showContextMenu?: (event: MouseEvent) => void }) {
+function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number, showContextMenu?: (event: MouseEvent) => void, onQuoteClick?(): void; }) {
   const params = useParams<{ serverId: string }>();
   const { account, serverMembers } = useStore();
   const { createPortal } = useCustomPortal();
@@ -45,11 +45,14 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   }
 
+  const showQuote = () => props.message.type === MessageType.CONTENT;
+
 
   return (
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
-      <Show when={showEdit()} ><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
+      <Show when={showQuote()}><div class={styles.item} onclick={props.onQuoteClick}><Icon size={18} name='format_quote' class={styles.icon} /></div></Show>
+      <Show when={showEdit()}><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
       <Show when={showDelete()}><div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div></Show>
       <div class={classNames("floatingShowMore", styles.item)} onClick={props.showContextMenu}><Icon size={18} name='more_vert' class={styles.icon} /></div>
     </div>
@@ -65,6 +68,7 @@ interface MessageItemProps {
   messagePaneEl?: HTMLDivElement;
   onContextMenu?: (event: MouseEvent) => void;
   onUserContextMenu?: (event: MouseEvent) => void
+  onQuoteClick?: () => void
 }
 
 const MessageItem = (props: MessageItemProps) => {
@@ -116,7 +120,7 @@ const MessageItem = (props: MessageItemProps) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Show when={!props.hideFloating}><FloatOptions showContextMenu={props.onContextMenu} isCompact={isCompact()} message={props.message} /></Show>
+      <Show when={!props.hideFloating}><FloatOptions onQuoteClick={props.onQuoteClick} showContextMenu={props.onContextMenu} isCompact={isCompact()} message={props.message} /></Show>
       <Switch>
         <Match when={isSystemMessage()}>
           <SystemMessage message={props.message} />

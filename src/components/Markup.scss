@@ -35,6 +35,44 @@
 }
 
 
+.markup .quoteContainer {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px;
+  gap: 3px;
+  border-radius: 6px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  align-items: start;
+  border-left: 2px var(--primary-color) solid;
+}
+
+.markup .quoteContainer .headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  place-self: stretch;
+}
+
+.markup .quoteContainer .goToMessageButton {
+  align-self: center;
+  margin-left: auto;
+}
+
+.markup .hiddenQuote {
+  display: inline-flex;
+  color: rgba(255,255,255,0.5);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  align-items: baseline;
+}
+
+
 
 .markup .code-block {
   background: rgba(0, 0, 0, 0.6);

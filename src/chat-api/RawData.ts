@@ -34,6 +34,7 @@ export interface RawMessage {
   editedAt?: number;
   mentions?: Array<RawUser>;
   attachments?: Array<RawAttachment>
+  quotedMessages: Partial<RawMessage>[]
 }
 
 export interface RawAttachment {

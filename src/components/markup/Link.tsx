@@ -1,3 +1,4 @@
+import { CustomLink } from "../ui/CustomLink";
 import { DangerousLinkModal } from "../ui/DangerousLinkModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 
@@ -17,6 +18,6 @@ export function Link(props: { url: string, text?: string; }) {
   }
 
   return (
-    <a href={safeUrl()} target="_blank" rel="noopener noreferrer" onClick={onClick}>{props.text || safeUrl()}</a>
+    <CustomLink decoration href={safeUrl()} target="_blank" rel="noopener noreferrer" onClick={onClick}>{props.text || safeUrl()}</CustomLink>
   )
 }

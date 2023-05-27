@@ -49,6 +49,7 @@ import { t } from 'i18next';
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams();
   const { channels, header } = useStore();
+  const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
 
   createEffect(() => {
     const channel = channels.get(params.channelId!);
@@ -71,8 +72,8 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   return (
     <Rerun on={() => params.channelId}>
       <div class={styles.messagePane}>
-        <MessageLogArea mainPaneEl={props.mainPaneEl} />
-        <MessageArea mainPaneEl={props.mainPaneEl} />
+        <MessageLogArea mainPaneEl={props.mainPaneEl} textAreaEl={textAreaEl()} />
+        <MessageArea mainPaneEl={props.mainPaneEl} textAreaRef={setTextAreaEl} />
       </div>
     </Rerun>
   );
@@ -99,7 +100,7 @@ const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivEl
   return { save, load };
 }
 
-const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
+const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
   const params = useParams<{ channelId: string, serverId?: string }>();
   const { hasFocus } = useWindowProperties();
   const { channels, messages, account, channelProperties } = useStore();
@@ -331,12 +332,20 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
     })
   }
 
+  const quoteMessage = (message: Message) => {
+    if (!props.textAreaEl) return;
+    props.textAreaEl!.focus();
+    props.textAreaEl!.setRangeText(`[q:${message.id}]`, props.textAreaEl!.selectionStart, props.textAreaEl.selectionEnd, "end")
+    channelProperties.updateContent(params.channelId, props.textAreaEl.value)
+  }
+
 
   return (
     <div class={styles.messageLogArea} ref={messageLogElement}>
       <Show when={messageContextDetails()}>
         <MessageContextMenu
           {...messageContextDetails()!}
+          quoteMessage={() => quoteMessage(messageContextDetails()?.message!)}
           onClose={() => setMessageContextDetails(undefined)}
         />
       </Show>
@@ -355,6 +364,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement }) => {
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
+              onQuoteClick={() => quoteMessage(message)}
               onContextMenu={(event) => onContextMenu(event, message)}
               onUserContextMenu={(event) => onUserContextMenu(event, message)}
               animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
@@ -400,7 +410,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
   return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll }
 }
 
-function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
+function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: HTMLTextAreaElement):void }) {
   const { channelProperties, account } = useStore();
   const params = useParams<{ channelId: string, serverId?: string; }>();
   let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
@@ -412,6 +422,9 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement }) {
   const setMessage = (content: string) => {
     channelProperties.updateContent(params.channelId, content)
   }
+  createEffect(on(textAreaEl, () => {
+    props.textAreaRef(textAreaEl())
+  }))
 
   const channelProperty = () => channelProperties.get(params.channelId);
   const message = () => channelProperty()?.content || '';
@@ -1175,6 +1188,7 @@ function removeByIndex(val: string, index: number, remove: number) {
 
 type MessageContextMenuProps = Omit<ContextMenuProps, 'items'> & {
   message: Message
+  quoteMessage(): void;
 }
 
 function MessageContextMenu(props: MessageContextMenuProps) {
@@ -1200,14 +1214,18 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   }
 
+  const showQuote = () => props.message.type === MessageType.CONTENT;
+
+
 
   const hasContent = () => props.message.content;
 
   return (
     <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
+      ...(showQuote() ? [{ icon: 'format_quote', label: "Quote Message", onClick: props.quoteMessage}] : []),
       ...(showEdit() ? [{ icon: 'edit', label: t('messageContextMenu.editMessage'), onClick: onEditClick}] : []),
       ...(showDelete() ? [{ icon: 'delete', label: t('messageContextMenu.deleteMessage'), onClick: onDeleteClick, alert: true }] : []),
-      ...(showEdit() || showDelete() ? [{separator: true}] : []),
+      ...(showEdit() || showDelete() || showQuote() ? [{separator: true}] : []),
       ...(hasContent() ? [{ icon: 'copy', label: t('messageContextMenu.copyMessage'), onClick: () => copyToClipboard(props.message.content!) }] : []),
       { icon: 'copy', label: t('messageContextMenu.copyId'), onClick: () => copyToClipboard(props.message.id!) }
     ]} />
