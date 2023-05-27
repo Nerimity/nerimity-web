@@ -27,17 +27,14 @@ Chat App made using SolidJS. Work in progress.
 ## Features Checklist:
 
 ### Planned Features:
-- [ ] Custom Emojis
 - [ ] Push Notifications
 - [ ] Mute Notifications
 - [ ] Desktop App
 - [ ] App Settings
 - [ ] Delete Account
-- [ ] Block Users
 - [ ] Recycle List (Virtual List to Improve Performance)
 - [ ] Embeds
 - [ ] Upload Files
-- [ ] Mentions
 - [ ] Explore Themes
 
 ### Completed Features:
@@ -60,3 +57,6 @@ Chat App made using SolidJS. Work in progress.
 - [x] Create New Server Channels
 - [x] Update Account
 - [x] Changelog
+- [x] Block Users
+- [x] Mentions
+- [x] Custom Emojis
