@@ -78,7 +78,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       const quote = ctx.props().message?.quotedMessages?.find(m => m.id === expr);
       
       if (quote) {
-        return <QuoteMessage message={quote} />
+        return <QuoteMessage message={ctx.props().message} quote={quote} />
       }
       
       return <QuoteMessageInvalid/>
