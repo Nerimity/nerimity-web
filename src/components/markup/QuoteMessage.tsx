@@ -11,6 +11,7 @@ import Button from "../ui/Button";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { reconcile } from "solid-js/store";
+import { formatTimestamp } from "@/common/date";
 
 
 
@@ -27,18 +28,26 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
   
   function onDelete(payload: {channelId: string, messageId: string;}) {
     if (props.quote.id !== payload.messageId) return;
+    
     messages.updateLocalMessage({
       quotedMessages: props.message.quotedMessages.filter(m => m.id !== props.quote.id)
     }, props.message.channelId, props.message.id)
   }
   
   function onUpdate(payload: {channelId: string, messageId: string, updated: Message}) {
+    if (props.quote.id !== payload.messageId) return;
+
     const quotedMessages = [...props.message.quotedMessages];
     const index = quotedMessages.findIndex(q => q.id === props.quote.id);
     quotedMessages[index] = {...quotedMessages[index], ...payload.updated} 
     messages.updateLocalMessage({
       quotedMessages,
     }, props.message.channelId, props.message.id)
+  }
+
+  const editedAt = () => {
+    if (!props.quote.editedAt) return;
+    return "Edited at " + formatTimestamp(props.quote.editedAt);
   }
 
   return (
@@ -61,6 +70,9 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
         <Markup text={props.quote.content || ""} message={props.quote as Message} isQuote />
         <Show when={props.quote.attachments?.length && !props.quote.content}>
           Image
+        </Show>
+        <Show when={editedAt()}>
+          <Icon class="editIcon" name='edit' size={14} color="rgba(255,255,255,0.4)" title={editedAt()} />
         </Show>
       </div>
 
