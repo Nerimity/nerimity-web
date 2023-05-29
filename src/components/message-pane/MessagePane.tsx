@@ -10,7 +10,7 @@ import { ChannelType, MessageType, RawCustomEmoji, RawMessage } from '../../chat
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
-import { postChannelTyping } from '@/chat-api/services/MessageService';
+import { addMessageReaction, postChannelTyping } from '@/chat-api/services/MessageService';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { Rerun } from '@solid-primitives/keyed';
@@ -37,7 +37,7 @@ import { css } from 'solid-styled-components';
 import { CHANNEL_PERMISSIONS, hasBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import useAccount from '@/chat-api/store/useAccount';
 import useServers, { avatarUrl } from '@/chat-api/store/useServers';
-import { EmojiPicker } from '../ui/EmojiPicker';
+import { EmojiPicker, FloatingEmojiPicker } from '../ui/EmojiPicker';
 import { Message } from '@/chat-api/store/useMessages';
 import ContextMenu, { ContextMenuProps } from '../ui/context-menu/ContextMenu';
 import MemberContextMenu from '../member-context-menu/MemberContextMenu';
@@ -101,9 +101,10 @@ const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivEl
 }
 
 const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
+  const {createPortal} = useCustomPortal();
   const params = useParams<{ channelId: string, serverId?: string }>();
   const { hasFocus } = useWindowProperties();
-  const { channels, messages, account, channelProperties } = useStore();
+  const { channels, messages, account, channelProperties, servers } = useStore();
   let messageLogElement: undefined | HTMLDivElement;
   const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
   let loadedTimestamp: number | undefined;
@@ -339,6 +340,28 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     channelProperties.updateContent(params.channelId, props.textAreaEl.value)
   }
 
+  const addReaction = async (shortcode: string, message: Message) => {
+    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
+    const test = await addMessageReaction({
+      channelId: message.channelId,
+      messageId: message.id,
+      name: !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode,
+      emojiId: customEmoji?.id,
+      gif: customEmoji?.gif
+    })
+    console.log(test)
+  }
+
+  const reactionPickerClick = (event: MouseEvent, message: Message) => {
+    createPortal(close => (
+      <FloatingEmojiPicker
+        onClick={shortcode => addReaction(shortcode, message)}
+        close={close}
+        x={event.clientX}
+        y={event.clientY}
+      />
+    ))
+  }
 
   return (
     <div class={styles.messageLogArea} ref={messageLogElement}>
@@ -364,9 +387,10 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
-              onQuoteClick={() => quoteMessage(message)}
-              onContextMenu={(event) => onContextMenu(event, message)}
-              onUserContextMenu={(event) => onUserContextMenu(event, message)}
+              reactionPickerClick={event => reactionPickerClick(event, message)}
+              quoteClick={() => quoteMessage(message)}
+              contextMenu={(event) => onContextMenu(event, message)}
+              userContextMenu={(event) => onUserContextMenu(event, message)}
               animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
               message={message}
               beforeMessage={message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
@@ -528,7 +552,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
     <FloatingSuggestions textArea={textAreaEl()} />
     <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
     <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
-    <Show when={showEmojiPicker()}><FloatingEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
+    <Show when={showEmojiPicker()}><FloatingMessageEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
     <CustomTextArea
       ref={setTextAreaEl}
       placeholder='Message'
@@ -725,10 +749,10 @@ function TypingIndicator() {
   )
 }
 
-function FloatingEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
+function FloatingMessageEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
 
   return (
-    <Floating class={styles.floatingEmojiPicker}>
+    <Floating class={styles.FloatingMessageEmojiPicker}>
       <EmojiPicker
         onClick={props.onClick}
         close={props.close}

@@ -108,3 +108,16 @@ export const deleteMessage = async (opts: DeleteMessageOpts) => {
   });
   return data;
 };
+export const addMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string, gif?: boolean}) => {
+  const data = await request<{message: string}>({
+    method: 'POST',
+    url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions",
+    body: {
+      name: opts.name,
+      emojiId: opts.emojiId,
+      gif: opts.gif,
+    },
+    useToken: true,
+  });
+  return data;
+};
