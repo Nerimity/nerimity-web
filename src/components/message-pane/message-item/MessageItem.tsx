@@ -3,13 +3,13 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawMessage } from '@/chat-api/RawData';
+import { MessageType, RawMessage, RawMessageReaction } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { createEffect, createSignal, Match, on, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, For, Match, on, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
 import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
@@ -21,6 +21,11 @@ import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { ImageEmbed } from '@/components/ui/ImageEmbed';
 import { CustomLink } from '@/components/ui/CustomLink';
 import { MentionUser } from '@/components/markup/MentionUser';
+import { Emoji } from '@/components/markup/Emoji';
+import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
+import { FloatingEmojiPicker } from '@/components/ui/EmojiPicker';
+import env from '@/common/env';
+import { useWindowProperties } from '@/common/useWindowProperties';
 
 
 function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number, showContextMenu?: (event: MouseEvent) => void, onQuoteClick?(): void; }) {
@@ -134,6 +139,7 @@ const MessageItem = (props: MessageItemProps) => {
           <div class={styles.messageInner}>
             <Show when={!isCompact()}><Details /></Show>
             <Content message={props.message} hovered={hovered()} />
+            <Show when={props.message.reactions.length}><Reactions hovered={hovered()} message={props.message} /></Show>
           </div>
         </Match>
       </Switch>
@@ -147,11 +153,11 @@ const Content = (props: { message: Message, hovered: boolean }) => {
   return (
     <div class={styles.content}>
       <Markup message={props.message} text={props.message.content || ''} />
-      <SentStatus message={props.message} />
-      <Embeds {...props} />
       <Show when={props.message.uploadingAttachment}>
         Uploading {props.message.uploadingAttachment?.name}
       </Show>
+      <SentStatus message={props.message} />
+      <Embeds {...props} />
     </div>
   )
 }
@@ -226,6 +232,65 @@ function Embeds(props: { message: Message, hovered: boolean }) {
     </div>
   )
 }
+
+
+
+
+function ReactionItem(props: { reaction: RawMessageReaction }) {
+  const {hasFocus} = useWindowProperties();
+
+  const name = () => props.reaction.emojiId ?  props.reaction.name : emojiUnicodeToShortcode(props.reaction.name)
+
+  const url = () => {
+    if (!props.reaction.emojiId) return unicodeToTwemojiUrl(props.reaction.name);
+    return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${props.reaction.gif ? 'gif' : 'webp'}${props.reaction.gif ? (!hasFocus() ? '?type=webp' : '' ) : ''}`;
+  }
+
+  return (
+    <Button margin={0} padding={3} customChildrenLeft={
+      <div class='markup'>
+        <Emoji class={styles.emoji} name={name()} url={url()} />
+      </div>
+    } class={styles.reactionItem} label={props.reaction.count.toLocaleString()} />
+  )
+}
+
+function AddNewReactionButton() {
+
+  const { createPortal } = useCustomPortal();
+
+  const onClick = (event: MouseEvent) => {
+    createPortal(close => (
+      <FloatingEmojiPicker
+        onClick={(e) => console.log(e)}
+        close={close}
+        x={event.clientX}
+        y={event.clientY}
+      />
+    ))
+  }
+
+  return (
+    <Button onClick={onClick} margin={0} padding={3} class={styles.reactionItem} iconName='add' iconSize={20} />
+  )
+}
+
+
+function Reactions(props: { hovered: boolean, message: Message }) {
+  return (
+    <div class={styles.reactions}>
+      <For each={props.message.reactions}>
+        {reaction => <ReactionItem reaction={reaction} />}
+      </For>
+      <Show when={props.hovered}><AddNewReactionButton /></Show>
+    </div>
+  )
+}
+
+
+
+
+
 
 
 const DeleteMessageModalContainer = styled(FlexColumn)`

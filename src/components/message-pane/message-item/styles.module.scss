@@ -71,7 +71,7 @@
   margin-top: 10px;
   border-radius: 6px;
   gap: 5px;
-
+  align-items: start;
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);
     .floatOptions {
@@ -80,12 +80,26 @@
   }
 }
 
+.reactions {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+.reactionItem {
+  .emoji {
+    height: 1em;
+    width: 1em;
+    vertical-align: -0.17em;
+  }
+  background: transparent;
+  
+}
+
 .messageInner {
   display: flex;
   flex-direction: column;
   gap: 3px;
   overflow: hidden;
-
 }
 
 .details {

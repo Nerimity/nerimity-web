@@ -35,6 +35,16 @@ export interface RawMessage {
   mentions?: Array<RawUser>;
   attachments?: Array<RawAttachment>
   quotedMessages: Partial<RawMessage>[]
+  reactions: RawMessageReaction[]
+}
+
+export interface RawMessageReaction {
+  name: string;
+  emojiId?: string;
+  gif?: boolean;
+
+  reacted: boolean
+  count: number
 }
 
 export interface RawAttachment {
