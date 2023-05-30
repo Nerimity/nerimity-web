@@ -200,6 +200,11 @@ const updateMessageReaction = (channelId: string, messageId: string, reaction: P
   const message = channelMessages[index];
   const reactionIndex = message.reactions.findIndex(r => r.emojiId === reaction.emojiId && r.name === reaction.name)
 
+  if (!reaction.count) {
+    if (reactionIndex >= 0)
+      return setMessages(channelId, index, "reactions", produce(arr => arr.splice(reactionIndex, 1)));
+  }
+
   if (reactionIndex >= 0) {
     return setMessages(channelId, index, "reactions", reactionIndex, reaction);
   }

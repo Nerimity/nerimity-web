@@ -5,7 +5,7 @@ import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
 import { MessageType, RawMessage, RawMessageReaction } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
-import { addMessageReaction, deleteMessage } from '@/chat-api/services/MessageService';
+import { addMessageReaction, deleteMessage, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
@@ -258,6 +258,15 @@ function ReactionItem(props: { reaction: RawMessageReaction, message: Message })
   }
 
   const addReaction = () => {
+    if (props.reaction.reacted) {
+      removeMessageReaction({
+        channelId: props.message.channelId,
+        messageId: props.message.id,
+        name: props.reaction.name,
+        emojiId: props.reaction.emojiId,
+      })
+      return;
+    }
     addMessageReaction({
       channelId: props.message.channelId,
       messageId: props.message.id,
@@ -277,7 +286,7 @@ function ReactionItem(props: { reaction: RawMessageReaction, message: Message })
       onClick={addReaction}
       class={styles.reactionItem}
       label={props.reaction.count.toLocaleString()}
-      textSize={15}
+      textSize={12}
       color={!props.reaction.reacted ? 'white' : undefined}
     />
   )

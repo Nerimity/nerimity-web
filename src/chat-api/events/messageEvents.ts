@@ -101,3 +101,23 @@ export function onMessageReactionAdded(payload: ReactionAddedPayload) {
     ...(reactedByMe? { reacted: true } : undefined)
   })
 }
+interface ReactionRemovedPayload {
+  messageId: string,
+  channelId: string,
+  count: number
+  reactionRemovedByUserId: string,
+  emojiId?: string,
+  name: string,
+}
+
+export function onMessageReactionRemoved(payload: ReactionRemovedPayload) {
+  const messages = useMessages();
+  const account = useAccount();
+  const reactionRemovedByMe = account.user()?.id === payload.reactionRemovedByUserId;
+  messages.updateMessageReaction(payload.channelId, payload.messageId, {
+    count: payload.count,
+    name: payload.name,
+    emojiId: payload.emojiId,
+    ...(reactionRemovedByMe ? { reacted: false } : undefined)
+  })
+}

@@ -4,7 +4,7 @@ import { ServerEvents } from './EventNames';
 import { onAuthenticated, onAuthenticateError, onConnect, onDisconnect, onReconnectAttempt } from './events/connectionEvents';
 import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from './events/friendEvents';
 import { onInboxOpened } from './events/inboxEvents';
-import { onMessageCreated, onMessageDeleted, onMessageReactionAdded, onMessageUpdated } from './events/messageEvents';
+import { onMessageCreated, onMessageDeleted, onMessageReactionAdded, onMessageReactionRemoved, onMessageUpdated } from './events/messageEvents';
 import { onServerChannelCreated, onServerChannelDeleted, onServerChannelOrderUpdated, onServerChannelUpdated, onServerEmojiAdd, onServerEmojiRemove, onServerEmojiUpdate, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
 import { onNotificationDismissed, onUserPresenceUpdate, onUserUpdated } from './events/userEvents';
 import { onCleanup, onMount } from 'solid-js';
@@ -85,3 +85,4 @@ socket.on(ServerEvents.SERVER_CHANNEL_CREATED, onServerChannelCreated)
 socket.on(ServerEvents.SERVER_CHANNEL_UPDATED, onServerChannelUpdated)
 socket.on(ServerEvents.SERVER_CHANNEL_DELETED, onServerChannelDeleted)
 socket.on(ServerEvents.MESSAGE_REACTION_ADDED, onMessageReactionAdded)
+socket.on(ServerEvents.MESSAGE_REACTION_REMOVED, onMessageReactionRemoved)
