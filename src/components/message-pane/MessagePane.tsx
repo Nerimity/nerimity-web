@@ -751,7 +751,7 @@ function TypingIndicator() {
 function FloatingMessageEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
 
   return (
-    <Floating class={styles.FloatingMessageEmojiPicker}>
+    <Floating class={styles.floatingMessageEmojiPicker}>
       <EmojiPicker
         onClick={props.onClick}
         close={props.close}
