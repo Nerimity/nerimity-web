@@ -3,13 +3,13 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawMessage } from '@/chat-api/RawData';
+import { MessageType, RawMessage, RawMessageReaction } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
-import { deleteMessage } from '@/chat-api/services/MessageService';
+import { addMessageReaction, deleteMessage, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { createEffect, createSignal, Match, on, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, For, Match, on, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
 import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
@@ -21,9 +21,23 @@ import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { ImageEmbed } from '@/components/ui/ImageEmbed';
 import { CustomLink } from '@/components/ui/CustomLink';
 import { MentionUser } from '@/components/markup/MentionUser';
+import { Emoji } from '@/components/markup/Emoji';
+import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
+import { FloatingEmojiPicker } from '@/components/ui/EmojiPicker';
+import env from '@/common/env';
+import { useWindowProperties } from '@/common/useWindowProperties';
 
 
-function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number, showContextMenu?: (event: MouseEvent) => void, onQuoteClick?(): void; }) {
+interface FloatingOptionsProps {
+  message: RawMessage,
+  isCompact?: boolean | number,
+  showContextMenu?: (event: MouseEvent) => void,
+  quoteClick?(): void;
+  reactionPickerClick?(event: MouseEvent): void
+}
+
+
+function FloatOptions(props: FloatingOptionsProps) {
   const params = useParams<{ serverId: string }>();
   const { account, serverMembers } = useStore();
   const { createPortal } = useCustomPortal();
@@ -45,13 +59,14 @@ function FloatOptions(props: { message: RawMessage, isCompact?: boolean | number
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   }
 
-  const showQuote = () => props.message.type === MessageType.CONTENT;
+  const isContentType = () => props.message.type === MessageType.CONTENT;
 
 
   return (
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
-      <Show when={showQuote()}><div class={styles.item} onclick={props.onQuoteClick}><Icon size={18} name='format_quote' class={styles.icon} /></div></Show>
+      <Show when={isContentType()}><div class={styles.item} onclick={props.reactionPickerClick}><Icon size={18} name='face' class={styles.icon} /></div></Show>
+      <Show when={isContentType()}><div class={styles.item} onclick={props.quoteClick}><Icon size={18} name='format_quote' class={styles.icon} /></div></Show>
       <Show when={showEdit()}><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
       <Show when={showDelete()}><div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div></Show>
       <div class={classNames("floatingShowMore", styles.item)} onClick={props.showContextMenu}><Icon size={18} name='more_vert' class={styles.icon} /></div>
@@ -66,9 +81,10 @@ interface MessageItemProps {
   animate?: boolean;
   hideFloating?: boolean;
   messagePaneEl?: HTMLDivElement;
-  onContextMenu?: (event: MouseEvent) => void;
-  onUserContextMenu?: (event: MouseEvent) => void
-  onQuoteClick?: () => void
+  contextMenu?: (event: MouseEvent) => void;
+  userContextMenu?: (event: MouseEvent) => void
+  reactionPickerClick?: (event: MouseEvent) => void
+  quoteClick?: () => void
 }
 
 const MessageItem = (props: MessageItemProps) => {
@@ -88,7 +104,7 @@ const MessageItem = (props: MessageItemProps) => {
   const Details = () => (
     <div class={classNames(styles.details)}>
 
-      <CustomLink decoration onContextMenu={props.onUserContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor() }}>
+      <CustomLink decoration onContextMenu={props.userContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor() }}>
         {props.message.createdBy.username}
       </CustomLink>
       <Show when={isSystemMessage()}><SystemMessage message={props.message} /></Show>
@@ -116,24 +132,25 @@ const MessageItem = (props: MessageItemProps) => {
   return (
     <div
       class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), props.class, "messageItem")}
-      onContextMenu={props.onContextMenu}
+      onContextMenu={props.contextMenu}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Show when={!props.hideFloating}><FloatOptions onQuoteClick={props.onQuoteClick} showContextMenu={props.onContextMenu} isCompact={isCompact()} message={props.message} /></Show>
+      <Show when={!props.hideFloating}><FloatOptions reactionPickerClick={props.reactionPickerClick} quoteClick={props.quoteClick} showContextMenu={props.contextMenu} isCompact={isCompact()} message={props.message} /></Show>
       <Switch>
         <Match when={isSystemMessage()}>
           <SystemMessage message={props.message} />
         </Match>
         <Match when={!isSystemMessage()}>
           <Show when={!isCompact()}>
-            <Link onContextMenu={props.onUserContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
+            <Link onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
               <Avatar animate={hovered()} user={props.message.createdBy} size={40} />
             </Link>
           </Show>
           <div class={styles.messageInner}>
             <Show when={!isCompact()}><Details /></Show>
             <Content message={props.message} hovered={hovered()} />
+            <Show when={props.message.reactions?.length}><Reactions reactionPickerClick={props.reactionPickerClick} hovered={hovered()} message={props.message} /></Show>
           </div>
         </Match>
       </Switch>
@@ -147,11 +164,11 @@ const Content = (props: { message: Message, hovered: boolean }) => {
   return (
     <div class={styles.content}>
       <Markup message={props.message} text={props.message.content || ''} />
-      <SentStatus message={props.message} />
-      <Embeds {...props} />
       <Show when={props.message.uploadingAttachment}>
         Uploading {props.message.uploadingAttachment?.name}
       </Show>
+      <SentStatus message={props.message} />
+      <Embeds {...props} />
     </div>
   )
 }
@@ -226,6 +243,77 @@ function Embeds(props: { message: Message, hovered: boolean }) {
     </div>
   )
 }
+
+
+
+
+function ReactionItem(props: { reaction: RawMessageReaction, message: Message }) {
+  const { hasFocus } = useWindowProperties();
+
+  const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name)
+
+  const url = () => {
+    if (!props.reaction.emojiId) return unicodeToTwemojiUrl(props.reaction.name);
+    return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${props.reaction.gif ? 'gif' : 'webp'}${props.reaction.gif ? (!hasFocus() ? '?type=webp' : '') : ''}`;
+  }
+
+  const addReaction = () => {
+    if (props.reaction.reacted) {
+      removeMessageReaction({
+        channelId: props.message.channelId,
+        messageId: props.message.id,
+        name: props.reaction.name,
+        emojiId: props.reaction.emojiId,
+      })
+      return;
+    }
+    addMessageReaction({
+      channelId: props.message.channelId,
+      messageId: props.message.id,
+      name: props.reaction.name,
+      emojiId: props.reaction.emojiId,
+      gif: props.reaction.gif
+    })
+  }
+
+  return (
+    <Button
+      margin={0}
+      padding={[2, 8, 2, 2]}
+      customChildrenLeft={
+        <Emoji class={styles.emoji} name={name()} url={url()} />
+      }
+      onClick={addReaction}
+      class={styles.reactionItem}
+      label={props.reaction.count.toLocaleString()}
+      textSize={12}
+      color={!props.reaction.reacted ? 'white' : undefined}
+    />
+  )
+}
+
+function AddNewReactionButton(props: { onClick?(event: MouseEvent): void }) {
+  return (
+    <Button onClick={props.onClick} margin={0} padding={5} class={styles.reactionItem} iconName='add' iconSize={15} />
+  )
+}
+
+
+function Reactions(props: { hovered: boolean, message: Message, reactionPickerClick?(event: MouseEvent): void }) {
+  return (
+    <div class={styles.reactions}>
+      <For each={props.message.reactions}>
+        {reaction => <ReactionItem message={props.message} reaction={reaction} />}
+      </For>
+      <Show when={props.hovered}><AddNewReactionButton onClick={props.reactionPickerClick} /></Show>
+    </div>
+  )
+}
+
+
+
+
+
 
 
 const DeleteMessageModalContainer = styled(FlexColumn)`

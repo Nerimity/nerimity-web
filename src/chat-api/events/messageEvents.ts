@@ -77,3 +77,47 @@ export function onMessageDeleted(payload: {channelId: string, messageId: string}
   const messages = useMessages();
   messages.locallyRemoveMessage(payload.channelId, payload.messageId);
 }
+
+
+interface ReactionAddedPayload {
+  messageId: string,
+  channelId: string,
+  count: number
+  reactedByUserId: string,
+  emojiId?: string,
+  name: string,
+  gif?: boolean,
+}
+
+export function onMessageReactionAdded(payload: ReactionAddedPayload) {
+  const messages = useMessages();
+  const account = useAccount();
+  const reactedByMe = account.user()?.id === payload.reactedByUserId;
+  messages.updateMessageReaction(payload.channelId, payload.messageId, {
+    count: payload.count,
+    name: payload.name,
+    emojiId: payload.emojiId,
+    gif: payload.gif,
+    ...(reactedByMe? { reacted: true } : undefined)
+  })
+}
+interface ReactionRemovedPayload {
+  messageId: string,
+  channelId: string,
+  count: number
+  reactionRemovedByUserId: string,
+  emojiId?: string,
+  name: string,
+}
+
+export function onMessageReactionRemoved(payload: ReactionRemovedPayload) {
+  const messages = useMessages();
+  const account = useAccount();
+  const reactionRemovedByMe = account.user()?.id === payload.reactionRemovedByUserId;
+  messages.updateMessageReaction(payload.channelId, payload.messageId, {
+    count: payload.count,
+    name: payload.name,
+    emojiId: payload.emojiId,
+    ...(reactionRemovedByMe ? { reacted: false } : undefined)
+  })
+}

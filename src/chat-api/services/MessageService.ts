@@ -108,3 +108,28 @@ export const deleteMessage = async (opts: DeleteMessageOpts) => {
   });
   return data;
 };
+export const addMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string, gif?: boolean}) => {
+  const data = await request<any>({
+    method: 'POST',
+    url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions",
+    body: {
+      name: opts.name,
+      emojiId: opts.emojiId,
+      gif: opts.gif,
+    },
+    useToken: true,
+  });
+  return data;
+};
+export const removeMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string}) => {
+  const data = await request<any>({
+    method: 'POST',
+    url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/remove",
+    body: {
+      name: opts.name,
+      emojiId: opts.emojiId,
+    },
+    useToken: true,
+  });
+  return data;
+};

@@ -1,11 +1,12 @@
 import env from "@/common/env";
 import { CustomEmoji, EmojiPicker as EmojiPickerComponent } from "@nerimity/solid-emoji-picker";
-import { css } from "solid-styled-components";
+import { css, styled } from "solid-styled-components";
 import Avatar from "./Avatar";
-import { createEffect, on, onCleanup, onMount } from "solid-js";
+import { JSX, JSXElement, createEffect, on, onCleanup, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import emojis from '@/emoji/emojis.json';
+import { useResizeObserver } from "@/common/useResizeObserver";
 
 const EmojiPickerStyles = css`
   .categoriesContainer .customEmojiImage,
@@ -74,7 +75,7 @@ export function EmojiPicker(props: { close: () => void; onClick: (shortcode: str
     if (paneWidth()! < 470) {
       return { row: 7, width: 400 }
     }
-    return { row: 8, width: 450 }
+    return { row: 8, width: 430 }
   }
 
   return (
@@ -88,5 +89,72 @@ export function EmojiPicker(props: { close: () => void; onClick: (shortcode: str
       style={{ width: emojiPickerWidth().width + "px" }}
       maxRow={emojiPickerWidth()?.row}
     />
+  )
+}
+
+
+
+export const FloatingEmojiPicker = (props: {x: number, y: number; close: () => void; onClick: (shortcode: string) => void }) => {
+  
+  const onPick = (shortcode: string) => {
+    props.onClick(shortcode);
+    props.close();
+  }
+
+  return (
+    <FloatingInScreen close={props.close} x={props.x} y={props.y}>
+      <EmojiPicker onClick={onPick} close={props.close}/>
+    </FloatingInScreen>
+  )
+}
+
+
+
+
+const FloatingInScreenBGContainer = styled("div")`
+  position: absolute;
+  inset: 0;
+  background-color: #00000078;
+  overflow: hidden;
+`;
+const FloatingContainer = styled("div")`
+  position: absolute;
+`;
+
+
+const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number, y: number}) => {
+  let floatingElementRef: undefined | HTMLDivElement = undefined;
+
+  const [width, height] = useResizeObserver(() => floatingElementRef)
+
+  const styles = () => {
+    let _styles: JSX.CSSProperties = {};
+
+    _styles.top = props.y + "px";
+    _styles.left = props.x + "px";
+
+    // move to the left if it's off the screen.
+    if (props.x + width() > window.innerWidth) {
+      _styles.left = window.innerWidth - width() + "px";
+    }
+
+    // move to the top if it's off the screen.
+    if (props.y + height() > window.innerHeight) {
+      _styles.top = window.innerHeight - height() + "px";
+    }
+    return _styles;
+  }
+
+  const onMouseDown = (event: any) => {
+    if (!event.target.classList.contains("floatingInScreenBGContainer")) return;
+    props.close();
+  }
+
+  return (
+    <FloatingInScreenBGContainer class="floatingInScreenBGContainer" onClick={onMouseDown}>
+      <FloatingContainer ref={floatingElementRef} style={styles()}>
+        {props.children}
+      </FloatingContainer>
+    </FloatingInScreenBGContainer>
   )
 }
