@@ -342,14 +342,13 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
 
   const addReaction = async (shortcode: string, message: Message) => {
     const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
-    const test = await addMessageReaction({
+    await addMessageReaction({
       channelId: message.channelId,
       messageId: message.id,
       name: !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode,
       emojiId: customEmoji?.id,
       gif: customEmoji?.gif
     })
-    console.log(test)
   }
 
   const reactionPickerClick = (event: MouseEvent, message: Message) => {

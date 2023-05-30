@@ -48,4 +48,5 @@ export const ServerEvents = {
   MESSAGE_CREATED: 'message:created',
   MESSAGE_UPDATED: 'message:updated',
   MESSAGE_DELETED: 'message:deleted',
+  MESSAGE_REACTION_ADDED: 'message:reaction_added',
 } as const

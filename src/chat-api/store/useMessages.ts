@@ -1,6 +1,6 @@
 import env from '@/common/env';
-import {createStore, produce, reconcile} from 'solid-js/store';
-import { MessageType, RawMessage, RawUser } from '../RawData';
+import { createStore, produce, reconcile } from 'solid-js/store';
+import { MessageType, RawMessage, RawMessageReaction, RawUser } from '../RawData';
 import { fetchMessages, postMessage, updateMessage } from '../services/MessageService';
 import socketClient from '../socketClient';
 import useAccount from './useAccount';
@@ -34,7 +34,7 @@ const fetchAndStoreMessages = async (channelId: string, force = false) => {
   });
 }
 
-const loadMoreTopAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: {hasMore: boolean}) => void) => {
+const loadMoreTopAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: { hasMore: boolean }) => void) => {
   const channelMessages = messages[channelId]!;
   const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, channelMessages[0].id);
   const clamp = sliceEnd([...newMessages, ...channelMessages]);
@@ -47,7 +47,7 @@ const loadMoreTopAndStoreMessages = async (channelId: string, beforeSet: () => v
   afterSet({ hasMore });
 }
 
-const loadMoreBottomAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: {hasMore: boolean}) => void) => {
+const loadMoreBottomAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: { hasMore: boolean }) => void) => {
   const channelMessages = messages[channelId]!;
   const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, undefined, channelMessages[channelMessages.length - 1].id);
   const clamp = sliceBeginning([...channelMessages, ...newMessages]);
@@ -84,11 +84,11 @@ const editAndStoreMessage = async (channelId: string, messageId: string, content
     messageId,
     content
   }).catch(() => {
-    updateLocalMessage({sentStatus: MessageSentStatus.FAILED}, channelId, messageId);
+    updateLocalMessage({ sentStatus: MessageSentStatus.FAILED }, channelId, messageId);
   })
 }
 
-const updateLocalMessage = async (message: Partial<RawMessage & {sentStatus: MessageSentStatus}>, channelId: string, messageId:string) => {
+const updateLocalMessage = async (message: Partial<RawMessage & { sentStatus: MessageSentStatus }>, channelId: string, messageId: string) => {
   const messages = get(channelId) || [];
   const index = messages.findIndex(m => m.id === messageId);
   if (index < 0) return;
@@ -115,6 +115,8 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     sentStatus: MessageSentStatus.SENDING,
     type: MessageType.CONTENT,
     uploadingAttachment: properties?.attachment,
+    reactions: [],
+    quotedMessages: [],
     createdBy: {
       id: user.id,
       username: user.username,
@@ -148,6 +150,8 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
         hexColor: '0',
         id: "0",
       },
+      reactions: [],
+      quotedMessages: [],
       id: Math.random().toString(),
       type: MessageType.CONTENT,
       content: "This message couldn't be sent. Try again later. ```Error\n" + err.message + "```"
@@ -166,7 +170,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   }
   message.tempId = tempMessageId;
 
-  !properties?.moreBottomToLoad && setMessages(channelId, index!, reconcile(message, {key: "tempId"}));
+  !properties?.moreBottomToLoad && setMessages(channelId, index!, reconcile(message, { key: "tempId" }));
 }
 
 
@@ -185,6 +189,22 @@ const locallyRemoveMessage = (channelId: string, messageId: string) => {
   const index = channelMessages.findIndex(m => m.id === messageId);
   if (index === -1) return;
   setMessages(channelId, produce(messages => messages?.splice(index, 1)));
+}
+
+const updateMessageReaction = (channelId: string, messageId: string, reaction: Partial<RawMessageReaction>) => {
+  const channelMessages = messages[channelId];
+  if (!channelMessages) return;
+  const index = channelMessages.findIndex(m => m.id === messageId);
+  if (index === -1) return;
+
+  const message = channelMessages[index];
+  const reactionIndex = message.reactions.findIndex(r => r.emojiId === reaction.emojiId && r.name === reaction.name)
+
+  if (reactionIndex >= 0) {
+    return setMessages(channelId, index, "reactions", reactionIndex, reaction);
+  }
+
+  setMessages(channelId, index, "reactions", message.reactions.length, reaction);
 }
 
 const get = (channelId: string) => messages[channelId]
@@ -206,6 +226,7 @@ export default function useMessages() {
     pushMessage,
     deleteChannelMessages,
     get,
-    updateLocalMessage
+    updateLocalMessage,
+    updateMessageReaction
   }
 }

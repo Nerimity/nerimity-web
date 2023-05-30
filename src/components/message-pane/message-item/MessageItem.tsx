@@ -5,7 +5,7 @@ import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
 import { MessageType, RawMessage, RawMessageReaction } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
-import { deleteMessage } from '@/chat-api/services/MessageService';
+import { addMessageReaction, deleteMessage } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
@@ -247,7 +247,7 @@ function Embeds(props: { message: Message, hovered: boolean }) {
 
 
 
-function ReactionItem(props: { reaction: RawMessageReaction }) {
+function ReactionItem(props: { reaction: RawMessageReaction, message: Message }) {
   const { hasFocus } = useWindowProperties();
 
   const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name)
@@ -257,18 +257,35 @@ function ReactionItem(props: { reaction: RawMessageReaction }) {
     return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${props.reaction.gif ? 'gif' : 'webp'}${props.reaction.gif ? (!hasFocus() ? '?type=webp' : '') : ''}`;
   }
 
+  const addReaction = () => {
+    addMessageReaction({
+      channelId: props.message.channelId,
+      messageId: props.message.id,
+      name: props.reaction.name,
+      emojiId: props.reaction.emojiId,
+      gif: props.reaction.gif
+    })
+  }
+
   return (
-    <Button margin={0} padding={3} customChildrenLeft={
-      <div class='markup'>
+    <Button
+      margin={0}
+      padding={[2, 8, 2, 2]}
+      customChildrenLeft={
         <Emoji class={styles.emoji} name={name()} url={url()} />
-      </div>
-    } class={styles.reactionItem} label={props.reaction.count.toLocaleString()} />
+      }
+      onClick={addReaction}
+      class={styles.reactionItem}
+      label={props.reaction.count.toLocaleString()}
+      textSize={15}
+      color={!props.reaction.reacted ? 'white' : undefined}
+    />
   )
 }
 
-function AddNewReactionButton(props: {onClick?(event: MouseEvent): void}) {
+function AddNewReactionButton(props: { onClick?(event: MouseEvent): void }) {
   return (
-    <Button onClick={props.onClick} margin={0} padding={3} class={styles.reactionItem} iconName='add' iconSize={20} />
+    <Button onClick={props.onClick} margin={0} padding={5} class={styles.reactionItem} iconName='add' iconSize={15} />
   )
 }
 
@@ -277,7 +294,7 @@ function Reactions(props: { hovered: boolean, message: Message, reactionPickerCl
   return (
     <div class={styles.reactions}>
       <For each={props.message.reactions}>
-        {reaction => <ReactionItem reaction={reaction} />}
+        {reaction => <ReactionItem message={props.message} reaction={reaction} />}
       </For>
       <Show when={props.hovered}><AddNewReactionButton onClick={props.reactionPickerClick} /></Show>
     </div>
