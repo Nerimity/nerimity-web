@@ -964,7 +964,7 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
 
   const suggestChannels = () => textBefore().startsWith("#");
   const suggestUsers = () => textBefore().startsWith("@");
-  const suggestEmojis = () => textBefore().startsWith(":");
+  const suggestEmojis = () => textBefore().startsWith(":") && textBefore().length >= 3;
 
   return (
     <Show when={isFocus()}>
