@@ -21,7 +21,7 @@ import useChannels, { Channel } from '@/chat-api/store/useChannels';
 import useServerMembers, { ServerMember } from '@/chat-api/store/useServerMembers';
 import { playMessageNotification } from '@/common/Sound';
 
-import { CustomEmoji } from '@nerimity/solid-emoji-picker'
+import { addToHistory, CustomEmoji } from '@nerimity/solid-emoji-picker'
 import categories from '@/emoji/categories.json';
 import emojis from '@/emoji/emojis.json';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
@@ -1141,6 +1141,7 @@ function FloatingEmojiSuggestions(props: { search: string, textArea?: HTMLTextAr
 
   const onItemClick = (emoji: Emoji | RawCustomEmoji) => {
     if (!props.textArea) return;
+    addToHistory((emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0], 20)
     appendText(params.channelId, props.textArea, props.search, `${(emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0]}: `)
   }
 
