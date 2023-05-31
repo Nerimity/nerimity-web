@@ -80,7 +80,7 @@ export default function HomePage () {
           <Text class="slogan" opacity={0.7}>{t('homePage.slogan')}</Text>
           <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>
           <ButtonsContainer class="buttons-container">
-            <Link href='/register'><Button iconName='open_in_browser' label={t('homePage.joinButton', {appName: env.APP_NAME})} primary={true} /></Link>
+            <a href='/register'><Button iconName='open_in_browser' label={t('homePage.joinButton', {appName: env.APP_NAME})} primary={true} /></a>
             <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t('homePage.viewGitHubButton')}  /></a>
           </ButtonsContainer>
         </TopContainer>

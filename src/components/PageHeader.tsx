@@ -141,11 +141,11 @@ function LoggedOutLinks() {
 
 function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean }) {
   return (
-    <Link href={props.href} style={{"text-decoration": 'none'}}>
+    <a href={props.href} style={{"text-decoration": 'none'}}>
       <LinkContainer primary={props.primary || false}>
         <Show when={props.icon}><Icon name={props.icon} class={linkIconStyle} /></Show>
         {props.label}
       </LinkContainer>
-    </Link>
+    </a>
   )
 }
