@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@nerimity/nevula": "^0.12.1",
-    "@nerimity/solid-emoji-picker": "^0.4.4",
+    "@nerimity/solid-emoji-picker": "^0.4.5",
     "@nerimity/solid-i18next": "^1.1.9",
     "@nerimity/solid-turnstile": "^1.1.0",
     "@solid-primitives/keyed": "^1.2.0",
