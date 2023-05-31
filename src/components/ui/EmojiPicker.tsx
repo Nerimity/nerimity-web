@@ -26,6 +26,7 @@ const EmojiPickerStyles = css`
     inset: 0;
     backdrop-filter: blur(20px);
     border-radius: 8px;
+    z-index: -1;
 
   }
 
