@@ -16,10 +16,18 @@ const EmojiPickerStyles = css`
 
   max-height: 420px;
   height: 100%;
-  backdrop-filter: blur(20px);
   border: solid 1px rgba(255, 255, 255, 0.2);
   background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(20px);
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+
+  }
 
 `;
 
@@ -87,6 +95,7 @@ export function EmojiPicker(props: { close: () => void; onClick: (shortcode: str
       onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
       primaryColor='var(--primary-color)'
       style={{ width: emojiPickerWidth().width + "px" }}
+      maxRecent={20}
       maxRow={emojiPickerWidth()?.row}
     />
   )
