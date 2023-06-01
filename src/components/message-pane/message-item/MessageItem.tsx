@@ -224,7 +224,10 @@ const SystemMessage = (props: { message: Message }) => {
       <div class={styles.systemMessage}>
         <div class={styles.iconContainer}><Icon name={systemMessage()?.icon} color={systemMessage()?.color} /></div>
         <div class="markup"><MentionUser user={props.message.createdBy} /></div>
-        {systemMessage()?.message}
+        <span>
+          <span>{systemMessage()?.message}</span>
+          <span class={styles.date}>{formatTimestamp(props.message.createdAt)}</span>
+        </span>
       </div>
     </Show>
   )
