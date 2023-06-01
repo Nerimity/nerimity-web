@@ -59,7 +59,7 @@ const MemberItem = (props: { member: ServerMember }) => {
 
   return (
     <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
-    {/* <div onMouseEnter={onHover} > */}
+      {/* <div onMouseEnter={onHover} > */}
       <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
@@ -228,7 +228,10 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
 
 
   return <>
-    <BannerItem />
+    <Show when={!channel()?.recipientId}><BannerItem /></Show>
+    <Show when={channel()?.recipientId}>
+      <ProfileFlyout sidePane userId={channel()?.recipientId!} close={() => { }} />
+    </Show>
     <Show when={channel()}>
       <Button
         label={`Attachments (${channel()?._count?.attachments ?? "..."})`}
@@ -318,10 +321,11 @@ const FlyoutContainer = styled(FlexRow)`
   position: fixed;
   z-index: 100111111111110;
   gap: 10px;
+  width: 350px;
   align-items: flex-start;
 `
 
-const FlyoutInner = styled(FlexColumn)<{mobile?: boolean}>`
+const FlyoutInner = styled(FlexColumn) <{ mobile?: boolean, sidePane?: boolean }>`
   border-radius: 8px;
   padding: 5px;
   background-color: rgba(40, 40, 40, 0.8);
@@ -329,6 +333,7 @@ const FlyoutInner = styled(FlexColumn)<{mobile?: boolean}>`
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
   width: 300px;
+  max-height: 600px;
 
   ${props => props.mobile ? `
     border-bottom-left-radius: 0;
@@ -336,6 +341,17 @@ const FlyoutInner = styled(FlexColumn)<{mobile?: boolean}>`
     border-bottom: none;
     border-left: none;
     border-right: none;
+    max-height: initial;
+  ` : ''}
+  ${props => props.sidePane ? `
+    border-radius: 0;
+    padding: 0;
+    padding: 5px;
+    background-color: transparent;
+    backdrop-filter: none;
+    border: none;
+    padding-top: 0;
+    max-height: initial;
   ` : ''}
 `;
 
@@ -387,11 +403,12 @@ const BioContainer = styled("div")`
   line-height: 14px;
 `;
 
-const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string, left?: number, top?: number }) => {
+const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): void, userId: string, serverId?: string, left?: number, top?: number }) => {
   const { createPortal } = useCustomPortal();
   const { users, account, serverMembers, posts } = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
-  const { isMobileWidth, height } = useWindowProperties();
+  const [hover, setHover] = createSignal(false);
+  const { height } = useWindowProperties();
   const isMe = () => account.user()?.id === props.userId;
 
   const user = () => {
@@ -401,19 +418,20 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
     if (user) return user;
   };
 
-  const member = () => serverMembers.get(props.serverId, props.userId);
+  const member = () => props.serverId && serverMembers.get(props.serverId, props.userId);
 
-  onMount(() => {
+  createEffect(on(() => props.userId, () => {
+    setDetails(undefined);
     const timeoutId = window.setTimeout(async () => {
       const details = await getUserDetailsRequest(props.userId);
       setDetails(details)
       if (!details.latestPost) return;
       posts.pushPost(details.latestPost)
-    }, isMobileWidth() ? 0 : 500);
+    }, props.mobile ? 0 : 500);
     onCleanup(() => {
       window.clearTimeout(timeoutId);
     })
-  })
+  }))
 
   const latestPost = () => posts.cachedPost(details()?.latestPost?.id!);
 
@@ -427,7 +445,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
 
   createEffect(() => {
     if (!flyoutRef()) return;
-    if (isMobileWidth()) return;
+    if (props.mobile) return;
     const flyoutHeight = flyoutRef()!.getBoundingClientRect().height;
     let newTop = props.top!;
     if ((flyoutHeight + props.top!) > height()) newTop = height() - flyoutHeight;
@@ -436,8 +454,8 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
 
 
   const style = () => ({
-    left: (props.left! + (latestPost() ? -633 : -310)) + "px",
-    ...(isMobileWidth() ? {
+    left: (props.left! - 350) + "px",
+    ...(props.mobile ? {
       top: 'initial',
       bottom: "0",
       left: "0",
@@ -446,6 +464,12 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
       "align-items": "initial",
       "max-height": "70%",
       height: 'initial'
+    } : undefined),
+    ...(props.sidePane ? {
+      position: 'relative',
+      width: "initial",
+      height: 'initial',
+      "z-index": 1
     } : undefined)
   })
 
@@ -460,15 +484,20 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
   )
 
 
+
   const ProfileArea = () => (
     <>
-      <Banner maxHeight={200} margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
+      <Banner maxHeight={200} margin={0} animate={!props.sidePane ? true : hover()} hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
       <FlyoutDetailsContainer>
-        <Avatar animate class={flyoutAvatarStyles} user={user()!} size={60} />
+        <CustomLink href={RouterEndpoints.PROFILE(props.userId)}>
+          <Avatar animate class={flyoutAvatarStyles} user={user()!} size={60} />
+        </CustomLink>
         <FlyoutOtherDetailsContainer>
           <span>
-            <Text style={{ "overflow-wrap": "anywhere" }}>{user()!.username}</Text>
-            <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
+            <CustomLink decoration style={{color: 'white'}} href={RouterEndpoints.PROFILE(props.userId)}>
+              <Text style={{ "overflow-wrap": "anywhere" }}>{user()!.username}</Text>
+              <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
+            </CustomLink>
           </span>
           <UserPresence userId={props.userId} showOffline />
           <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
@@ -476,7 +505,7 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
       </FlyoutDetailsContainer>
 
       <Show when={member()}>
-        <FlyoutTitle style={{ "margin-bottom": "5px"}} icon='leaderboard' title='Roles' />
+        <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
         <RolesContainer gap={2}>
           <For each={member()?.roles()!}>
             {role => (<RoleContainer><Text color={role?.hexColor} size={12}>{role?.name}</Text></RoleContainer>)}
@@ -505,26 +534,14 @@ const ProfileFlyout = (props: { close?(): void, userId: string, serverId: string
 
   return (
     <Show when={details()}>
-      <FlyoutContainer ref={setFlyoutRef} class="modal" style={style()}>
-        <Show when={!isMobileWidth()}>
+      <FlyoutContainer onMouseEnter={() => setHover(true)} onMouseLeave={(() => setHover(false))} ref={setFlyoutRef} class="modal" style={style()}>
+        <FlyoutInner sidePane={props.sidePane} style={{ width: 'initial', flex: 1 }}>
+          <ProfileArea />
           <Show when={latestPost()}>
-            <FlyoutInner><PostArea /></FlyoutInner>
+            <PostArea />
           </Show>
-          <FlyoutInner>
-            <ProfileArea />
-            <ShowFullProfileButton />
-          </FlyoutInner>
-        </Show>
-
-        <Show when={isMobileWidth()}>
-          <FlyoutInner mobile style={{ width: 'initial', flex: 1 }}>
-            <ProfileArea />
-            <Show when={latestPost()}>
-              <PostArea />
-            </Show>
-            <ShowFullProfileButton />
-          </FlyoutInner>
-        </Show>
+          <ShowFullProfileButton />
+        </FlyoutInner>
       </FlyoutContainer>
     </Show>
   )
@@ -557,7 +574,7 @@ function MobileFlyout(props: { userId: string, serverId: string, close: () => vo
 
   return (
     <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-      <ProfileFlyout close={props.close} serverId={props.serverId} userId={props.userId} />
+      <ProfileFlyout mobile close={props.close} serverId={props.serverId} userId={props.userId} />
     </BackgroundContainer>
   )
 }

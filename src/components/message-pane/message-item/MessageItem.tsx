@@ -242,7 +242,7 @@ function Embeds(props: { message: Message, hovered: boolean }) {
   return (
     <div class={styles.embeds}>
       <Show when={props.message.attachments?.[0]}>
-        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-60} />
+        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
       </Show>
     </div>
   )

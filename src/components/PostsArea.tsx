@@ -379,7 +379,7 @@ function Embeds(props: { post: Post, hovered: boolean }) {
   return (
     <div ref={element} class={classNames("embeds", embedStyles)}>
       <Show when={props.post.attachments?.[0]}>
-        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={-40} customHeight={clampedHeight()} customWidth={width()} />
+        <ImageEmbed attachment={props.post.attachments?.[0]!} widthOffset={-50} customHeight={clampedHeight()} customWidth={width()} />
       </Show>
     </div>
   )
