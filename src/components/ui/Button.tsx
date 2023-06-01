@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { JSXElement } from 'solid-js';
+import { JSX, JSXElement } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import Text from './Text';
 
@@ -16,6 +16,7 @@ interface Props {
   primary?: boolean;
   customChildren?: JSXElement
   customChildrenLeft?: JSXElement
+  styles?: JSX.CSSProperties
 }
 
 const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: number | number[]}>`
@@ -57,6 +58,7 @@ export default function Button(props: Props) {
 
   const style = () => ({
     ...(props.primary ? {"background-color": color()} : undefined),
+    ...props.styles
   })
 
 

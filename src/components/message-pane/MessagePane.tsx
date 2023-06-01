@@ -111,7 +111,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   const [unreadMarker, setUnreadMarker] = createStore<{ lastSeenAt: number | null, messageId: string | null }>({ lastSeenAt: null, messageId: null });
 
   const [messageContextDetails, setMessageContextDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
-  const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
+  const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position?: { x: number, y: number }, message?: Message } | undefined>({position: undefined, message: undefined});
 
   const [loadingMessages, setLoadingMessages] = createStore({ top: false, bottom: true });
   const scrollTracker = createScrollTracker(props.mainPaneEl);
@@ -341,6 +341,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   }
 
   const addReaction = async (shortcode: string, message: Message) => {
+    props.textAreaEl!.focus();
     const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
     await addMessageReaction({
       channelId: message.channelId,
@@ -371,13 +372,13 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
           onClose={() => setMessageContextDetails(undefined)}
         />
       </Show>
-      <Show when={userContextMenuDetails()}>
+      <Show when={userContextMenuDetails()?.position}>
         <MemberContextMenu 
-          user={userContextMenuDetails()!.message.createdBy}
+          user={userContextMenuDetails()?.message?.createdBy}
           position={userContextMenuDetails()!.position}
           serverId={params.serverId} 
-          userId={userContextMenuDetails()!.message.createdBy.id} 
-          onClose={() => setUserContextMenuDetails(undefined)} />
+          userId={userContextMenuDetails()?.message?.createdBy?.id!} 
+          onClose={() => setUserContextMenuDetails({position: undefined, message: userContextMenuDetails()?.message })} />
       </Show>
       <For each={channelMessages()}>
         {(message, i) => (
@@ -394,6 +395,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
               message={message}
               beforeMessage={message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
               messagePaneEl={props.mainPaneEl}
+              textAreaEl={props.textAreaEl}
             />
           </>
         )}
@@ -437,7 +439,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   const { channelProperties, account } = useStore();
   const params = useParams<{ channelId: string, serverId?: string; }>();
   let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
-  const { isMobileAgent } = useWindowProperties();
+  const { isMobileAgent, paneWidth } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
 
   const { channels, messages } = useStore();
@@ -527,6 +529,10 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
     textAreaEl()!.style.height = newHeight + "px";
     textAreaEl()!.scrollTop = textAreaEl()!.scrollHeight;
   }
+
+  createEffect(on(paneWidth, () => {
+    adjustHeight();
+  }))
 
   const onInput = (event: any) => {
     adjustHeight();

@@ -81,6 +81,7 @@ interface MessageItemProps {
   animate?: boolean;
   hideFloating?: boolean;
   messagePaneEl?: HTMLDivElement;
+  textAreaEl?: HTMLTextAreaElement;
   contextMenu?: (event: MouseEvent) => void;
   userContextMenu?: (event: MouseEvent) => void
   reactionPickerClick?: (event: MouseEvent) => void
@@ -150,7 +151,7 @@ const MessageItem = (props: MessageItemProps) => {
           <div class={styles.messageInner}>
             <Show when={!isCompact()}><Details /></Show>
             <Content message={props.message} hovered={hovered()} />
-            <Show when={props.message.reactions?.length}><Reactions reactionPickerClick={props.reactionPickerClick} hovered={hovered()} message={props.message} /></Show>
+            <Show when={props.message.reactions?.length}><Reactions textAreaEl={props.textAreaEl} reactionPickerClick={props.reactionPickerClick} hovered={hovered()} message={props.message} /></Show>
           </div>
         </Match>
       </Switch>
@@ -250,7 +251,7 @@ function Embeds(props: { message: Message, hovered: boolean }) {
 
 
 
-function ReactionItem(props: { reaction: RawMessageReaction, message: Message }) {
+function ReactionItem(props: { textAreaEl?: HTMLTextAreaElement; reaction: RawMessageReaction, message: Message }) {
   const { hasFocus } = useWindowProperties();
 
   const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name)
@@ -261,6 +262,7 @@ function ReactionItem(props: { reaction: RawMessageReaction, message: Message })
   }
 
   const addReaction = () => {
+    props.textAreaEl?.focus();
     if (props.reaction.reacted) {
       removeMessageReaction({
         channelId: props.message.channelId,
@@ -295,20 +297,25 @@ function ReactionItem(props: { reaction: RawMessageReaction, message: Message })
   )
 }
 
-function AddNewReactionButton(props: { onClick?(event: MouseEvent): void }) {
+function AddNewReactionButton(props: { show?: boolean; onClick?(event: MouseEvent): void }) {
+  const {isMobileAgent} = useWindowProperties();
+  const show = () => {
+    if (isMobileAgent()) return true;
+    if (props.show) return true;
+  }
   return (
-    <Button onClick={props.onClick} margin={0} padding={5} class={styles.reactionItem} iconName='add' iconSize={15} />
+    <Button onClick={props.onClick} margin={0} padding={6} class={styles.reactionItem} styles={{visibility: show() ? 'visible' : 'hidden'}}  iconName='add' iconSize={15} />
   )
 }
 
 
-function Reactions(props: { hovered: boolean, message: Message, reactionPickerClick?(event: MouseEvent): void }) {
+function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement;  message: Message, reactionPickerClick?(event: MouseEvent): void }) {
   return (
     <div class={styles.reactions}>
       <For each={props.message.reactions}>
-        {reaction => <ReactionItem message={props.message} reaction={reaction} />}
+        {reaction => <ReactionItem textAreaEl={props.textAreaEl} message={props.message} reaction={reaction} />}
       </For>
-      <Show when={props.hovered}><AddNewReactionButton onClick={props.reactionPickerClick} /></Show>
+      <AddNewReactionButton show={props.hovered} onClick={props.reactionPickerClick} />
     </div>
   )
 }
