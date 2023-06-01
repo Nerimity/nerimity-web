@@ -5,8 +5,8 @@ dependencies:
     specifier: ^0.12.1
     version: 0.12.1
   '@nerimity/solid-emoji-picker':
-    specifier: ^0.4.5
-    version: 0.4.5(solid-js@1.7.3)
+    specifier: ^0.4.6
+    version: 0.4.6(solid-js@1.7.3)
   '@nerimity/solid-i18next':
     specifier: ^1.1.9
     version: 1.1.9(i18next@22.4.15)(solid-js@1.7.3)
@@ -1568,8 +1568,8 @@ packages:
     resolution: {integrity: sha512-ERPtMfR/nQhGbxoSMCl0kiUjNL/jG0BPRTAl07nGkoUcpEiZ/tPP4+nVH3ynAQHlH8K8onL14AjVEciSxTyMXw==}
     dev: false
 
-  /@nerimity/solid-emoji-picker@0.4.5(solid-js@1.7.3):
-    resolution: {integrity: sha512-twAxOTKiTAafNbiWWBLDqnGaL29vDAe/tmQeNejPhChAolPs8yqWs9t/PtJFbRk4CevHGvQidqDU2OgOtJrKAQ==}
+  /@nerimity/solid-emoji-picker@0.4.6(solid-js@1.7.3):
+    resolution: {integrity: sha512-U1tpxzozaOxPobZDAk/fN6pbxRA677eHtPCDZpTfw7sBCQcZa8JevU4xckxaZRJC4HYMsHAbnZDKB7BSZPVwZg==}
     peerDependencies:
       solid-js: ^1.6.0
     dependencies:
