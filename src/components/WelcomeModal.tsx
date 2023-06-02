@@ -9,9 +9,7 @@ import Icon from "./ui/icon/Icon";
 import Modal from "./ui/Modal";
 import Text from "./ui/Text";
 
-const modalStyles = css`
-  width: 400px;
-`;
+
 
 
 const ItemContainer = styled(FlexRow)`
@@ -44,8 +42,8 @@ export function WelcomeModal (props: {close: () => void}) {
 
 
   return (
-    <Modal ignoreBackgroundClick class={modalStyles} title={`Welcome to ${env.APP_NAME}!`} actionButtons={ActionButtons} >
-      <FlexColumn gap={8} style={{"max-height": "400px", "max-width": "900px", height: "100%", flex: "1"}}>
+    <Modal ignoreBackgroundClick  title={`Welcome to ${env.APP_NAME}!`} maxWidth={600} actionButtons={ActionButtons} >
+      <FlexColumn gap={8} style={{"max-height": "400px", "max-width": "900px", height: "100%", flex: "1", padding: "10px"}}>
         <Text>Thanks for trying out {env.APP_NAME}!</Text>
         <EditProfileItem />
         <ServerItem/>
@@ -58,7 +56,7 @@ export function WelcomeModal (props: {close: () => void}) {
 
 function ServerItem() {
   return (
-    <Link href="/app/explore/servers/invites/nerimity" target="_blank" style={{"text-decoration": "none"}}>
+    <Link href="https://nerimity.com/app/explore/servers/invites/nerimity" target="_blank" style={{"text-decoration": "none"}}>
       <ItemContainer gap={5} >
         <Icon name="dns" />
         <Text size={16} style={{flex: 1}} >Join the official Nerimity server!</Text>

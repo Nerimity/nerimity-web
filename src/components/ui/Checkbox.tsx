@@ -9,6 +9,7 @@ interface CheckboxProps {
   onChange?: (checked: boolean) => void
   disableLocalUpdate?: boolean
   label?: string
+  labelSize?: number
 }
 
 const boxStyle = css`
@@ -56,7 +57,7 @@ export default function Checkbox (props: CheckboxProps) {
     <CheckboxContainer class={ classNames('checkbox', conditionalClass(checked(), 'selected'))} onClick={onClick}>
       <Icon size={13} class={boxStyle} name="done" />
       <Show when={props.label}>
-        <Text>{props.label}</Text>
+        <Text size={props.labelSize}>{props.label}</Text>
       </Show>
     </CheckboxContainer>
   )

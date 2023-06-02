@@ -6,6 +6,8 @@ import { styled } from 'solid-styled-components'
 import Text from '@/components/ui/Text'
 import { appLogoUrl } from '@/common/worldEvents'
 import { useTransContext } from '@nerimity/solid-i18next'
+import { FlexColumn, FlexRow } from '@/components/ui/Flexbox'
+import Icon from '@/components/ui/icon/Icon'
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -15,11 +17,12 @@ const HomePageContainer = styled("div")`
 
 const Content = styled("div")`
   display: flex;
+  flex-direction: column;
   background: var(--pane-color);
   margin: 8px;
   margin-top: 0;
   border-radius: 8px;
-  height: 100%;
+  flex: 1;
 `;
 
 const ArtImage = styled("img")`
@@ -39,9 +42,10 @@ const ArtImage = styled("img")`
 const TopContainer = styled("div")`
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   height: 400px;
-  margin-left: 40px;
+  flex-shrink: 0;
 `;
 
 const ButtonsContainer = styled("div")`
@@ -84,9 +88,63 @@ export default function HomePage () {
             <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t('homePage.viewGitHubButton')}  /></a>
           </ButtonsContainer>
         </TopContainer>
+        <FeatureList/>
       </Content>
       <ArtImage src="./assets/home-page-art.svg" alt=""/>
     </HomePageContainer>
   )
 }
 
+
+
+const FeatureListContainer = styled("div")`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 800px;
+  gap: 10px;
+  column-gap: 20px;
+  align-self: center;
+  margin-top: 100px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(20px);
+  z-index: 1111;
+  margin: 10px;
+
+  @media (max-width: 820px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+function FeatureList() {
+  return (
+    <FeatureListContainer>
+      <Feature icon='gif' label='Free animated avatars & emojis'/>
+      <Feature icon='preview' label='Sleek design'/>
+      <Feature icon='sell' label='Change your tag for free'/>
+      <Feature icon='add' label='Create posts on your profile'/>
+      <Feature icon='dns' label='Create your own community'/>
+      <Feature icon='explore' label='Find new communities'/>
+      <Feature icon='volunteer_activism' label='Runs from donations'/>
+      <Feature icon='code' label='Full source code on GitHub'/>
+    </FeatureListContainer>
+  )
+}
+
+
+const FeatureContainer = styled(FlexRow)`
+  align-items: center;
+`;
+
+function Feature(props: {icon: string, label: string;}) {
+  return (
+    <FeatureContainer gap={10}>
+      <Icon style={{background: 'rgba(255,255,255,0.05)', padding: "10px", "border-radius": "50%"}} name={props.icon} size={26} />
+      <Text style={{"font-weight": "bold"}} size={14} opacity={0.8}>{props.label}</Text>
+    </FeatureContainer>
+  )
+}
