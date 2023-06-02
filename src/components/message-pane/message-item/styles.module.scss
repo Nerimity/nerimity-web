@@ -90,15 +90,22 @@
   gap: 2px;
   flex-wrap: wrap;
 }
-.reactionItem {
+body .reactionItem {
   .emoji {
     height: 1.4em;
     width: 1.4em;
-    vertical-align: -0.17em;
     border-radius: 4px;
     margin-right: 3px;
   }
+
   background: transparent;
+  background-color: rgba(255, 255, 255, 0.05);
+  &.reacted {
+    background-color: rgba(255, 255, 255, 0.16);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.16);
+    }
+  }
   
 }
 

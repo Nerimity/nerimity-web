@@ -289,7 +289,7 @@ function ReactionItem(props: { textAreaEl?: HTMLTextAreaElement; reaction: RawMe
         <Emoji class={styles.emoji} name={name()} url={url()} />
       }
       onClick={addReaction}
-      class={styles.reactionItem}
+      class={classNames(styles.reactionItem, conditionalClass(props.reaction.reacted, styles.reacted))}
       label={props.reaction.count.toLocaleString()}
       textSize={12}
       color={!props.reaction.reacted ? 'white' : undefined}
