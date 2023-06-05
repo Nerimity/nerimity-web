@@ -121,7 +121,7 @@ export default function Input(props: Props) {
       <InputContainer focused={isFocused()}>
         <Show when={props.prefix}><PrefixLabel opacity={0.6} onmousedown={focus} size={12}>{props.prefix}</PrefixLabel></Show>
         <Show when={props.type === "textarea"}><CustomTextArea placeholder={props.placeholder} style={{height: `${props.height}px`}} ref={inputEl} onfocus={() => setFocused(true)} onblur={() => setFocused(false)} onInput={onChange} value={props.value || ""} /></Show>
-        <Show when={props.type !== "textarea"}><CustomInput ref={inputEl} onfocus={() => setFocused(true)} onblur={() => setFocused(false)} onInput={onChange} type={props.type || "text"} value={props.value || ""} /></Show>
+        <Show when={props.type !== "textarea"}><CustomInput placeholder={props.placeholder} ref={inputEl} onfocus={() => setFocused(true)} onblur={() => setFocused(false)} onInput={onChange} type={props.type || "text"} value={props.value || ""} /></Show>
       </InputContainer>
       <Show when={error()}><ErrorLabel color="var(--alert-color)">{error()}</ErrorLabel></Show>
     </Base>
