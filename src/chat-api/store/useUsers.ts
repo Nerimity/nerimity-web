@@ -86,12 +86,14 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
     setUsers(userId, 'presence', undefined)
     return;
   }
-  if (presence.custom === null) presence.custom = undefined;
   if (account.user()?.id === userId) {
     account.setUser({
-      customStatus: presence.custom
+      ...(presence.custom !== undefined ? {
+        customStatus: presence.custom || undefined
+      } : undefined)
     })
   }
+  if (presence.custom === null) presence.custom = undefined;
   setUsers(userId, 'presence', presence);
 }
 
