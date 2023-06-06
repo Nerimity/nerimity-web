@@ -135,6 +135,9 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       return <Spoiler>{transformEntities(entity, ctx)}</Spoiler>
     }
     case "codeblock": {
+      if (ctx.props().inline) {
+        return <code class="code">{sliceText(ctx, entity.innerSpan)}</code>
+      }
       const lang = entity.params.lang;
       const value = sliceText(ctx, entity.innerSpan);
       return <CodeBlock value={value} lang={lang} />;
