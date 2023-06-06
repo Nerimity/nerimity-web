@@ -11,6 +11,7 @@ interface Props {
   type?: string, 
   value?: string,
   onText?: (value: string) => void, 
+  onBlur?(event: FocusEvent): void;
   error?: Error | string | null
   errorName?: string
   class?: string;
@@ -115,13 +116,18 @@ export default function Input(props: Props) {
     auto_grow()
     props.onText?.(event.target.value);
   }
+
+  const onBlur = (event: FocusEvent) => {
+    setFocused(false)
+    props.onBlur?.(event);
+  }
   return (
     <Base class={props.class}>
       <Show when={props.label}><Label color='rgba(255, 255, 255, 0.8)'>{props.label}</Label></Show>
       <InputContainer focused={isFocused()}>
         <Show when={props.prefix}><PrefixLabel opacity={0.6} onmousedown={focus} size={12}>{props.prefix}</PrefixLabel></Show>
         <Show when={props.type === "textarea"}><CustomTextArea placeholder={props.placeholder} style={{height: `${props.height}px`}} ref={inputEl} onfocus={() => setFocused(true)} onblur={() => setFocused(false)} onInput={onChange} value={props.value || ""} /></Show>
-        <Show when={props.type !== "textarea"}><CustomInput ref={inputEl} onfocus={() => setFocused(true)} onblur={() => setFocused(false)} onInput={onChange} type={props.type || "text"} value={props.value || ""} /></Show>
+        <Show when={props.type !== "textarea"}><CustomInput  placeholder={props.placeholder} ref={inputEl} onfocus={() => setFocused(true)} onblur={onBlur} onInput={onChange} type={props.type || "text"} value={props.value || ""} /></Show>
       </InputContainer>
       <Show when={error()}><ErrorLabel color="var(--alert-color)">{error()}</ErrorLabel></Show>
     </Base>

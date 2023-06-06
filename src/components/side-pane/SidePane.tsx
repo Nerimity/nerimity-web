@@ -36,6 +36,7 @@ import { CustomLink } from '../ui/CustomLink';
 import { clearCache } from '@/common/localCache';
 import { useDrawer } from '../ui/drawer/Drawer';
 import { useRegisterSW } from 'virtual:pwa-register/solid'
+import Input from '../ui/input/Input';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -216,29 +217,25 @@ const UserItem = () => {
 
 
 
-const FloatingUserModalContainer = styled(FlexColumn)<{mobileWidth: boolean, width: number}>`
+const FloatingUserModalContainer = styled(FlexColumn) <{ mobileWidth: boolean, width: number }>`
   position: absolute;
   left: 67px;
   bottom: 5px;
   max-width: 300px;
   width: 100%;
   z-index: 1111111111111;
-  height: 350px;
-  padding: 10px;
+  height: 380px;
+  padding: 8px;
   ${props => props.mobileWidth ? `
     width: ${props.width - 92}px;
   ` : ''}
+
+  border-radius: 8px;
+  background-color: var(--pane-color);
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  overflow: auto;
   
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 8px;
-    background-color: rgba(40, 40, 40, 0.6);
-    border: solid 1px rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    z-index: -1;
-  }
+
   .button {
     background-color: transparent;
     border: none;
@@ -271,29 +268,14 @@ const DetailsContainer = styled(FlexColumn)`
 `;
 
 
-function FloatingUserModal(props: {close(): void}) {
+function FloatingUserModal(props: { close(): void }) {
   const { account, users } = useStore();
-  const {currentPage} = useDrawer();
-  const {isMobileWidth, width} = useWindowProperties();
+  const { currentPage } = useDrawer();
+  const { isMobileWidth, width } = useWindowProperties();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
 
-  const DropDownItems = UserStatuses.map((item, i) => {
-    return {
-      circleColor: item.color,
-      id: item.id,
-      label: item.name === "Offline" ? 'Appear As Offline' : item.name,
-      index: i,
-      onClick: (item: {index: number}) => {
-        updatePresence(item.index);
-      }
-    }
-  })
-  // move invisible to the bottom.
-  DropDownItems.push(DropDownItems.shift()!);
-  
-  const presenceStatus = () => userStatusDetail((user() as User)?.presence?.status || 0)
 
   const onLogoutClick = async () => {
     await clearCache();
@@ -302,8 +284,10 @@ function FloatingUserModal(props: {close(): void}) {
   }
 
   onMount(() => {
-    document.addEventListener("click", onDocClick, {capture: true})
+    document.addEventListener("mousedown", onDocMouseDown, { capture: true })
+    document.addEventListener("click", onDocClick, { capture: true })
     onCleanup(() => {
+      document.removeEventListener("mousedown", onDocMouseDown)
       document.removeEventListener("click", onDocClick)
     })
   })
@@ -314,8 +298,13 @@ function FloatingUserModal(props: {close(): void}) {
     props.close();
   })
 
+  let pos = {x: 0, y: 0};
+  const onDocMouseDown = (event: MouseEvent) => {
+    pos = {x: event.x, y: event.y};
+  }
 
   const onDocClick = (event: any) => {
+    if (pos.x !== event.x || pos.y !== event.y) return;
     const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(`.sidePaneUser`);
     if (clickedInside) return;
     props.close();
@@ -335,18 +324,64 @@ function FloatingUserModal(props: {close(): void}) {
           </DetailsContainer>
         </BannerContainer>
       </Banner>
-      <DropDown class={css`margin-bottom: 10px;margin-top: 5px;`} items={DropDownItems} selectedId={presenceStatus().id} />
+      <PresenceDropDown />
+      <CustomStatus/>
 
-
-      <CustomLink onclick={props.close} style={{display: "flex", "flex-direction": "column"}} href={RouterEndpoints.PROFILE(userId()!)}>
+      <CustomLink onclick={props.close} style={{ display: "flex", "flex-direction": "column" }} href={RouterEndpoints.PROFILE(userId()!)}>
         <Button iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
       </CustomLink>
-      <CustomLink onclick={props.close} style={{display: "flex", "flex-direction": "column"}} href="/app/settings/account">
+      <CustomLink onclick={props.close} style={{ display: "flex", "flex-direction": "column" }} href="/app/settings/account">
         <Button iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
       </CustomLink>
       <Button onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
 
     </FloatingUserModalContainer>
+  )
+}
+
+function CustomStatus() {
+  const {account, users} = useStore();
+  const [customStatus, setCustomStatus] = createSignal("");
+
+  createEffect(on(() => account.user()?.customStatus, (custom) => {
+    setCustomStatus(custom || "");
+  }))
+
+  const onBlur = () => {
+    updatePresence({
+      custom: customStatus().trim() ? customStatus() : null
+    })
+  }
+
+  return (
+    <Input class={styles.customStatusInput} label='Custom Status' placeholder='' onBlur={onBlur} onText={setCustomStatus} value={customStatus()}  />
+  )
+}
+
+function PresenceDropDown() {
+  const { account, users } = useStore();
+  const user = () => users.get(account.user()?.id!);
+
+  const DropDownItems = UserStatuses.map((item, i) => {
+    return {
+      circleColor: item.color,
+      id: item.id,
+      label: item.name === "Offline" ? 'Appear As Offline' : item.name,
+      index: i,
+      onClick: (item: { index: number }) => {
+        updatePresence({
+          status: item.index
+        });
+      }
+    }
+  })
+  // move invisible to the bottom.
+  DropDownItems.push(DropDownItems.shift()!);
+
+  const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0)
+
+  return (
+    <DropDown title='Presence' class={styles.presenceDropdown} items={DropDownItems} selectedId={presenceStatus().id} />
   )
 }
 
@@ -407,7 +442,7 @@ function UpdateModal(props: { close: () => void }) {
     if (!release) return undefined;
     return formatTimestamp(new Date(release.published_at).getTime())
   }
-  const {updateServiceWorker} = useRegisterSW()
+  const { updateServiceWorker } = useRegisterSW()
 
 
   const onUpdateClick = async () => {

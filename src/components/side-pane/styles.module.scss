@@ -10,9 +10,16 @@
   gap: 5px;
 }
 
-.serverListContainer {
-
+body .presenceDropdown {
+  margin-top: 0;
+  margin-bottom: 0;
 }
+
+body .customStatusInput {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .serverList {
   display: flex;
   gap: 5px;
