@@ -81,17 +81,17 @@ const array = () => Object.values(users);
 
 const setPresence = (userId: string, presence: Partial<Presence>) => {
   const account = useAccount();
-  const isOffline = presence.status !== undefined && presence.status === UserStatus.OFFLINE;
-  if (isOffline) {
-    setUsers(userId, 'presence', undefined)
-    return;
-  }
   if (account.user()?.id === userId) {
     account.setUser({
       ...(presence.custom !== undefined ? {
         customStatus: presence.custom || undefined
       } : undefined)
     })
+  }
+  const isOffline = presence.status !== undefined && presence.status === UserStatus.OFFLINE;
+  if (isOffline) {
+    setUsers(userId, 'presence', undefined)
+    return;
   }
   if (presence.custom === null) presence.custom = undefined;
   setUsers(userId, 'presence', presence);
