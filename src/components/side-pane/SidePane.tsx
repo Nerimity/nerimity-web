@@ -317,7 +317,7 @@ function FloatingUserModal(props: { close(): void }) {
           </DetailsContainer>
         </BannerContainer>
       </Banner>
-      <PresenseDropDown />
+      <PresenceDropDown />
       <CustomStatus/>
 
       <CustomLink onclick={props.close} style={{ display: "flex", "flex-direction": "column" }} href={RouterEndpoints.PROFILE(userId()!)}>
@@ -338,7 +338,7 @@ function CustomStatus() {
   )
 }
 
-function PresenseDropDown() {
+function PresenceDropDown() {
   const { account, users } = useStore();
   const user = () => users.get(account.user()?.id!);
 
@@ -359,7 +359,7 @@ function PresenseDropDown() {
   const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0)
 
   return (
-    <DropDown title='Presense' class={styles.presenseDropdown} items={DropDownItems} selectedId={presenceStatus().id} />
+    <DropDown title='Presence' class={styles.presenceDropdown} items={DropDownItems} selectedId={presenceStatus().id} />
   )
 }
 
