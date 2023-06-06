@@ -5,9 +5,12 @@ import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
 import { SelfUser } from "./connectionEventTypes";
 
-export function onUserPresenceUpdate(payload: {status: UserStatus, userId: string}) {
+export function onUserPresenceUpdate(payload: {status?: UserStatus, custom?: string; userId: string}) {
   const users = useUsers();
-  users.setPresence(payload.userId, {status: payload.status})
+  users.setPresence(payload.userId, {
+    ...(payload.status !== undefined ? {status: payload.status} : undefined), 
+    ...(payload.custom !== undefined ? {custom: payload.custom} : undefined)  
+  })
 }
 
 export function onNotificationDismissed(payload: {channelId: string}) {

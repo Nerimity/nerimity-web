@@ -25,8 +25,10 @@ import { QuoteMessage, QuoteMessageHidden, QuoteMessageInvalid } from './markup/
 
 export interface Props {
   text: string;
+  inline: boolean;
   message?: Message;
   isQuote?: boolean;
+  animateEmoji?: boolean
 }
 
 type RenderContext = {
@@ -88,10 +90,11 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       const [id, name] = expr.split(":");
       ctx.emojiCount += 1;
       const animated = type === "ace";
+      const shouldAnimate = animated && ctx.props().animateEmoji === false ? '?type=webp' : ''
       return <Emoji {...{
         animated,
         name,
-        url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"}`
+        url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"}${shouldAnimate}`
       }} />
     }
     case "link": {
@@ -198,5 +201,7 @@ export function Markup(props: Props) {
 
   const ctx = on(output, () => _ctx);
 
-  return <span class={classNames("markup", conditionalClass(ctx().emojiCount <= 5 && ctx().textCount === 0, "largeEmoji"))}>{output()}</span>;
+  const largeEmoji = !ctx().props().inline && ctx().emojiCount <= 5 && ctx().textCount === 0;
+
+  return <span class={classNames("markup", conditionalClass(largeEmoji, "largeEmoji"))}>{output()}</span>;
 }

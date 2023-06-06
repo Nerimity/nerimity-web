@@ -284,8 +284,10 @@ function FloatingUserModal(props: { close(): void }) {
   }
 
   onMount(() => {
+    document.addEventListener("mousedown", onDocMouseDown, { capture: true })
     document.addEventListener("click", onDocClick, { capture: true })
     onCleanup(() => {
+      document.removeEventListener("mousedown", onDocMouseDown)
       document.removeEventListener("click", onDocClick)
     })
   })
@@ -296,8 +298,13 @@ function FloatingUserModal(props: { close(): void }) {
     props.close();
   })
 
+  let pos = {x: 0, y: 0};
+  const onDocMouseDown = (event: MouseEvent) => {
+    pos = {x: event.x, y: event.y};
+  }
 
   const onDocClick = (event: any) => {
+    if (pos.x !== event.x || pos.y !== event.y) return;
     const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(`.sidePaneUser`);
     if (clickedInside) return;
     props.close();
@@ -333,8 +340,21 @@ function FloatingUserModal(props: { close(): void }) {
 }
 
 function CustomStatus() {
+  const {account, users} = useStore();
+  const [customStatus, setCustomStatus] = createSignal("");
+
+  createEffect(on(() => account.user()?.customStatus, (custom) => {
+    setCustomStatus(custom || "");
+  }))
+
+  const onBlur = () => {
+    updatePresence({
+      custom: customStatus().trim() ? customStatus() : null
+    })
+  }
+
   return (
-    <Input class={styles.customStatusInput} label='Custom Status' placeholder='' />
+    <Input class={styles.customStatusInput} label='Custom Status' placeholder='' onBlur={onBlur} onText={setCustomStatus} value={customStatus()}  />
   )
 }
 
@@ -349,7 +369,9 @@ function PresenceDropDown() {
       label: item.name === "Offline" ? 'Appear As Offline' : item.name,
       index: i,
       onClick: (item: { index: number }) => {
-        updatePresence(item.index);
+        updatePresence({
+          status: item.index
+        });
       }
     }
   })

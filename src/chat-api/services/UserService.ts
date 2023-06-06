@@ -1,6 +1,6 @@
 import env from "../../common/env";
 import { RawChannel, RawInboxWithoutChannel, RawPost, RawUser } from "../RawData";
-import { UserStatus } from "../store/useUsers";
+import { Presence, UserStatus } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
@@ -87,11 +87,11 @@ export async function openDMChannelRequest(userId: string) {
     useToken: true
   });
 }
-export async function updatePresence(status: UserStatus) {
+export async function updatePresence(presence: Partial<Presence>) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.updatePresence(),
     method: 'POST',
-    body: { status },
+    body: presence,
     useToken: true
   });
 }

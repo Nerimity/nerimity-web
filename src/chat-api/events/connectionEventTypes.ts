@@ -34,5 +34,6 @@ export interface SelfUser {
   banner?: string;
   badges: number;
   tag: string;
+  customStatus?: string;
   orderedServerIds: string[]
 }

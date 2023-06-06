@@ -7,6 +7,7 @@ import RouterEndpoints from '../../common/RouterEndpoints';
 import { useNavigate } from '@solidjs/router';
 import { runWithContext } from '@/common/runWithContext';
 import env from '@/common/env';
+import useAccount from './useAccount';
 
 
 export enum UserStatus {
@@ -18,7 +19,7 @@ export enum UserStatus {
 }
 
 export interface Presence {
-  custom?: string;
+  custom?: string | null;
   status: UserStatus;
 }
 
@@ -78,12 +79,20 @@ const get = (userId: string) => users[userId]
 
 const array = () => Object.values(users);
 
-const setPresence = (userId: string, presence: Presence) => {
-  const isOffline = presence.status === UserStatus.OFFLINE;
-  setUsers(userId, 'presence', {
-    custom: isOffline ? undefined : presence.custom,
-    status: presence.status
-  });
+const setPresence = (userId: string, presence: Partial<Presence>) => {
+  const account = useAccount();
+  const isOffline = presence.status !== undefined && presence.status === UserStatus.OFFLINE;
+  if (isOffline) {
+    setUsers(userId, 'presence', undefined)
+    return;
+  }
+  if (presence.custom === null) presence.custom = undefined;
+  if (account.user()?.id === userId) {
+    account.setUser({
+      customStatus: presence.custom
+    })
+  }
+  setUsers(userId, 'presence', presence);
 }
 
 
