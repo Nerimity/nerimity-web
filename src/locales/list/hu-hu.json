@@ -12,7 +12,6 @@
   },
   "loginPage": {
     "title": "Jelentkezz be a folytatáshoz",
-    "email": "E-mail",
     "password": "Jelszó",
     "login": "Bejelentkezés",
     "createAccountInstead": "Fiók készítése inkább",

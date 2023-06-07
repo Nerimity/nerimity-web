@@ -13,7 +13,7 @@ interface Props {
   onText?: (value: string) => void, 
   onBlur?(event: FocusEvent): void;
   error?: Error | string | null
-  errorName?: string
+  errorName?: string | string[]
   class?: string;
   height?: number;
   prefix?: string;
@@ -84,18 +84,20 @@ export default function Input(props: Props) {
   })
 
   const error = () => {
-    let error = "";
   
     if (props.error && typeof props.error !== 'string') {
       let errorField = props.errorName || props.label
-      if (errorField?.toLowerCase() === props.error.path?.toLowerCase()){
-        error = props.error.message;
+      if (Array.isArray(errorField)) {
+        if (errorField.map(e => e.toLowerCase()).includes(props.error.path.toLowerCase())) {
+          return props.error.message;
+        }
+      } else if (errorField?.toLowerCase() === props.error.path?.toLowerCase()){
+        return props.error.message;
       }
     }
     if (typeof props.error === 'string') {
-      error = props.error;
+      return props.error;
     }
-    return error;
   }
   const focus = (event?: MouseEvent) => {
     event?.preventDefault();

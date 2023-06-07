@@ -9,11 +9,12 @@ import ServiceEndpoints from "./ServiceEndpoints";
 // Returns {token}
 // error returns {path?, message}
 export async function loginRequest(email: string, password: string): Promise<{token: string}> {
+  const isUsernameAndTag = email.includes(":")
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.login(),
     method: "POST",
     body: {
-      email,
+      ...(isUsernameAndTag ? {usernameAndTag: email} : {email}),
       password
     }
   });

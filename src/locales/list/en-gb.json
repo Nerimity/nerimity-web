@@ -12,7 +12,7 @@
   },
   "loginPage": {
     "title": "Login to continue",
-    "email": "Email",
+    "emailOrUsernameAndTag": "Email / username:tag",
     "password": "Password",
     "login": "Login",
     "createAccountInstead": "Create an account instead",
