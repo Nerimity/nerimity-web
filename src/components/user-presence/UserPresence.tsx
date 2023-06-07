@@ -25,7 +25,7 @@ const UserPresence = (props: { userId: string, showOffline: boolean }) => {
 
   const name = () => {
     return <Switch fallback={statusDetails()?.name}>
-      <Match when={user().presence?.custom}><Markup animateEmoji={false} inline text={user().presence?.custom!} /></Match>
+      <Match when={user()?.presence?.custom}><Markup animateEmoji={false} inline text={user().presence?.custom!} /></Match>
     </Switch>;
   }
 
