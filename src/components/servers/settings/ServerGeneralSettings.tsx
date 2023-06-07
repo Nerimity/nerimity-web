@@ -30,7 +30,7 @@ const Container = styled("div")`
 export default function ServerGeneralSettings(props: { updateHeader: Setter<{ name?: string, avatar?: any, banner?: string }> }) {
   const [t] = useTransContext();
   const params = useParams<{ serverId: string }>();
-  const { header, servers, channels } = useStore();
+  const { header, servers, channels, account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
   const { createPortal } = useCustomPortal();
@@ -122,6 +122,8 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
     }
   }
 
+  const isServerCreator = () => account.user()?.id === server()?.createdById;
+
   return (
     <Container>
       <Breadcrumb>
@@ -161,9 +163,12 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
       </SettingsBlock>
 
 
-      <SettingsBlock icon='delete' label={t('servers.settings.general.deleteThisServer')} description={t('servers.settings.general.deleteThisServerDescription')}>
-        <Button label={t('servers.settings.general.deleteServerButton')} color='var(--alert-color)' onClick={showDeleteConfirm} />
-      </SettingsBlock>
+      <Show when={isServerCreator()}>
+        <SettingsBlock icon='delete' label={t('servers.settings.general.deleteThisServer')} description={t('servers.settings.general.deleteThisServerDescription')}>
+          <Button label={t('servers.settings.general.deleteServerButton')} color='var(--alert-color)' onClick={showDeleteConfirm} />
+        </SettingsBlock>
+
+      </Show>
 
       <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
 
