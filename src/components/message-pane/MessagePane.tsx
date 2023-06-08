@@ -549,6 +549,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
     textAreaEl()!.focus();
     textAreaEl()!.setRangeText(`:${shortcode}: `, textAreaEl()!.selectionStart, textAreaEl()!.selectionEnd, "end")
     setMessage(textAreaEl()!.value)
+    setShowEmojiPicker(false);
 
   }
 
