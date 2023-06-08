@@ -20,6 +20,11 @@ export const languages = {
     name: "Hungarian",
     emoji: "🇭🇺",
     contributors: ["https://github.com/andrasdaradici"],
+  },
+  "tr-tr": {
+    name: "Turkish",
+    emoji: "🇹🇷",
+    contributors: ["https://github.com/sutnax", "https://github.com/SwappyFX"],
   }
 }
 
