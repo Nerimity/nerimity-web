@@ -80,7 +80,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
         </Link>
         <div class={styles.details}>
           <Text class="username">{user().username}</Text>
-          <UserPresence userId={user().id} showOffline={false} />
+          <UserPresence userId={user().id} showOffline={false} animate={hovered()} />
         </div>
 
 

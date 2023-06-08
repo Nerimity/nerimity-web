@@ -6,7 +6,7 @@ import useStore from '@/chat-api/store/useStore';
 import { Markup } from '../Markup';
 
 
-const UserPresence = (props: { userId: string, showOffline: boolean }) => {
+const UserPresence = (props: { userId: string, showOffline: boolean, animate?: boolean }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
 
@@ -25,7 +25,7 @@ const UserPresence = (props: { userId: string, showOffline: boolean }) => {
 
   const name = () => {
     return <Switch fallback={statusDetails()?.name}>
-      <Match when={user()?.presence?.custom}><Markup animateEmoji={false} inline text={user().presence?.custom!} /></Match>
+      <Match when={user()?.presence?.custom}><Markup animateEmoji={props.animate} inline text={user().presence?.custom!} /></Match>
     </Switch>;
   }
 

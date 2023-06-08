@@ -320,7 +320,7 @@ function FloatingUserModal(props: { close(): void }) {
               <Text>{user().username}</Text>
               <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
             </FlexRow>
-            <UserPresence showOffline userId={userId()!} />
+            <UserPresence animate showOffline userId={userId()!} />
           </DetailsContainer>
         </BannerContainer>
       </Banner>

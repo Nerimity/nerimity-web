@@ -66,7 +66,7 @@ const MemberItem = (props: { member: ServerMember }) => {
         <Avatar animate={!!hoveringRect()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor }} >{user().username}</div>
-          <UserPresence userId={user().id} showOffline={false} />
+          <UserPresence animate={!!hoveringRect()}  userId={user().id} showOffline={false} />
         </div>
       </CustomLink>
     </div>
@@ -364,6 +364,7 @@ const FlyoutDetailsContainer = styled(FlexRow)`
 `;
 const FlyoutOtherDetailsContainer = styled(FlexColumn)`
   margin-top: 20px;
+  overflow: hidden;
 `;
 
 const flyoutAvatarStyles = css`
@@ -499,7 +500,7 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
               <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
             </CustomLink>
           </span>
-          <UserPresence userId={props.userId} showOffline />
+          <UserPresence animate userId={props.userId} showOffline />
           <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
         </FlyoutOtherDetailsContainer>
       </FlyoutDetailsContainer>

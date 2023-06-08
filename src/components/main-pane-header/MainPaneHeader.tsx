@@ -53,7 +53,7 @@ export default function MainPaneHeader() {
       <div class={styles.details}>
         <div class={styles.title}>{details().title}</div>
         {details().subName && <div class={styles.subTitle}>{details().subName}</div>}
-        {user() && <UserPresence userId={user()?.id} showOffline={true} />}
+        {user() && <UserPresence userId={user()?.id} showOffline={true} animate={hovered()}  />}
       </div>
       <Show when={hasRightDrawer() && isMobileWidth()}>
         <div class={classNames(styles.drawerIcon, styles.right)} onClick={toggleRightDrawer}><Icon name='group' /></div>
