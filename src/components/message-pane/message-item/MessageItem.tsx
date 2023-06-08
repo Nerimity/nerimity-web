@@ -105,7 +105,7 @@ const MessageItem = (props: MessageItemProps) => {
   const Details = () => (
     <div class={classNames(styles.details)}>
 
-      <CustomLink decoration onContextMenu={props.userContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor() }}>
+      <CustomLink decoration onContextMenu={props.userContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor }}>
         {props.message.createdBy.username}
       </CustomLink>
       <Show when={isSystemMessage()}><SystemMessage message={props.message} /></Show>

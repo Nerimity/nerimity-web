@@ -18,7 +18,8 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   hasRole:  (this: ServerMember, roleId: string) => boolean;
   permissions: () => number;
   hasPermission:  (this: ServerMember, bitwise: Bitwise, ignoreAdmin?: boolean) => boolean | void;
-  roleColor: () => string;
+  topRole: () => ServerRole;
+  roleColor: string;
   unhiddenRole: () => ServerRole;
   amIServerCreator: () => boolean;
 }
@@ -34,7 +35,7 @@ const set = (member: RawServerMember) => {
     setMember(member.serverId, {});
   }
 
-  let roleColor: Accessor<any>;
+  let topRole: Accessor<any>;
   let unhiddenRole: Accessor<any>;
   let permissions: Accessor<any>;
   setMember(member.serverId, {[member.user.id]: {
@@ -95,17 +96,20 @@ const set = (member: RawServerMember) => {
 
       return server!.createdById === account.user()?.id;
     },
-    get roleColor() {
-      if (roleColor) return roleColor();
-      roleColor = createMemo(() => {
+    get topRole() {
+      if (topRole) return topRole();
+      topRole = createMemo(() => {
         const servers = useServers();
         const roles = useServerRoles();
         const sortedRoles = () => this.roles().sort((a, b) => b?.order! - a?.order!);
         const defaultRoleId = () => servers.get(member.serverId)?.defaultRoleId;
         const defaultRole = () => roles.get(member.serverId, defaultRoleId()!);
-        return () => sortedRoles()[0]?.hexColor || defaultRole()?.hexColor!;
+        return () => sortedRoles()[0] || defaultRole();
       });
-      return roleColor();
+      return topRole();
+    },
+    get roleColor() {
+      return this.topRole().hexColor;
     },
     get unhiddenRole() {
       if (unhiddenRole) return unhiddenRole();

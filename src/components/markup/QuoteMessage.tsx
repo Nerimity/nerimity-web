@@ -53,10 +53,10 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
   return (
     <div class="quoteContainer" onmouseenter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <div class="headerContainer">
-        <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ color: serverMember()?.roleColor() }}>
+        <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ color: serverMember()?.roleColor }}>
           <Avatar animate={hovered()} user={props.quote.createdBy!} size={18} />
         </CustomLink>
-        <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ "font-size": "16px", color: serverMember()?.roleColor() }}>
+        <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ "font-size": "16px", color: serverMember()?.roleColor }}>
           {props.quote.createdBy!.username}
         </CustomLink>
         {/* <Show when={props.message.channelId === params.channelId}>

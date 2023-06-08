@@ -65,7 +65,7 @@ const MemberItem = (props: { member: ServerMember }) => {
       <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
         <Avatar animate={!!hoveringRect()} size={30} user={user()} />
         <div class={styles.memberInfo}>
-          <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
+          <div class={styles.username} style={{ color: props.member.roleColor }} >{user().username}</div>
           <UserPresence userId={user().id} showOffline={false} />
         </div>
       </CustomLink>

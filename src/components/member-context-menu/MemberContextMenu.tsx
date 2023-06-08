@@ -186,14 +186,25 @@ function BanModal (props: {user: RawUser, serverId: string, close: () => void}) 
 
 
 export function ServerMemberRoleModal (props: Props) {
-  const {serverRoles, servers} = useStore();
+  const {serverRoles, serverMembers, servers, account} = useStore();
   const server = () => servers.get(props.serverId!);
   const roles = () => serverRoles.getAllByServerId(props.serverId!);
-  const rolesWithoutDefault = () => roles().filter(role => role!.id !== server()?.defaultRoleId!);
+
+  const selfMember = () => serverMembers.get(props.serverId!, account.user()?.id!);
+  const selfTopRole = () => selfMember()?.topRole();
+  
+  
+  const rolesThatCanBeApplied = () => roles().filter(role => {
+    if (role!.id === server()?.defaultRoleId!) return false;
+    if (selfMember()?.amIServerCreator()) return true;
+    if (role!.order >= selfTopRole()?.order!) return false;
+
+    return true;
+  });
 
   return (
     <div class={styles.roleModalContainer}>
-      <For each={rolesWithoutDefault()}>
+      <For each={rolesThatCanBeApplied()}>
         {role => <RoleItem role={role!} userId={props.userId} />}
       </For>
     </div>
