@@ -32,9 +32,9 @@ const EmojiPickerStyles = css`
 
 `;
 
-export function EmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
+export function EmojiPicker(props: { heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
   const { servers } = useStore();
-  const { paneWidth, width } = useWindowProperties()
+  const { paneWidth, width, height } = useWindowProperties()
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
     onCleanup(() => {
@@ -95,7 +95,7 @@ export function EmojiPicker(props: { close: () => void; onClick: (shortcode: str
       customEmojis={customEmojis()}
       onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
       primaryColor='var(--primary-color)'
-      style={{ width: emojiPickerWidth().width + "px" }}
+      style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}
       maxRecent={20}
       maxRow={emojiPickerWidth()?.row}
     />

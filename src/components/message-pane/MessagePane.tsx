@@ -762,6 +762,7 @@ function FloatingMessageEmojiPicker(props: { close: () => void; onClick: (shortc
       <EmojiPicker
         onClick={props.onClick}
         close={props.close}
+        heightOffset={-60}
       />
     </Floating>
   )
