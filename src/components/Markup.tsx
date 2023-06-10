@@ -25,7 +25,7 @@ import { QuoteMessage, QuoteMessageHidden, QuoteMessageInvalid } from './markup/
 
 export interface Props {
   text: string;
-  inline: boolean;
+  inline?: boolean;
   message?: Message;
   isQuote?: boolean;
   animateEmoji?: boolean
