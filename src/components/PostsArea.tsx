@@ -252,7 +252,7 @@ export function PostItem(props: { showFullDate?: boolean; disableClick?: boolean
   }
 
   return (
-    <PostOuterContainer gap={10} class={props.class} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <PostOuterContainer gap={10} style={{ cursor: props.disableClick ? 'initial' : 'pointer' }}  class={props.class} tabIndex="0" onMouseDown={onMouseDown} onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Show when={props.post.deleted}>
         <Text>{t("posts.postWasDeleted")}</Text>
       </Show>
@@ -680,21 +680,16 @@ const DeletePostModalContainer = styled(FlexColumn)`
   overflow: auto;
 `;
 const deletePostItemContainerStyles = css`
-  padding-top: 5px;
-  border-radius: 8px;
-  margin-top: 5px;
-  background-color: var(--pane-color);
-  &&{
+  && {
+    background-color: rgba(0,0,0,0.3);
     &:hover {
-      background-color: var(--pane-color);
+      background-color: rgba(0,0,0,0.3);
     }
-
   }
 `
 
 const deletePostModalStyles = css`
-  max-width: 600px;
-  max-height: 600px;
+  max-height: 800px;
   overflow: hidden;
 `
 
@@ -711,9 +706,8 @@ function DeletePostModal(props: { post: Post, close: () => void }) {
       <Button onClick={onDeleteClick} iconName={t('posts.deletePostModal.deleteButton')} color='var(--alert-color)' label="Delete" />
     </FlexRow>
   )
-
   return (
-    <Modal close={props.close} title='Delete Post?' icon='delete' class={deletePostModalStyles} actionButtons={ActionButtons}>
+    <Modal close={props.close} title='Delete Post?' icon='delete' class={deletePostModalStyles} actionButtons={ActionButtons} maxWidth={500}>
       <DeletePostModalContainer>
         <Text>{t('posts.deletePostModal.message')}</Text>
         <PostItem hideDelete class={deletePostItemContainerStyles} post={props.post} />

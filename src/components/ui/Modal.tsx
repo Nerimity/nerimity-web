@@ -34,7 +34,7 @@ const BackgroundContainer = styled("div")`
 `;
 
 const ModalContainer = styled(FlexColumn)<{mobile: boolean, maxHeight?: number, maxWidth?: number}>`
-  background-color: var(--background-color);
+  background-color: var(--pane-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   overflow: hidden;
@@ -71,7 +71,7 @@ const TopBarContainer = styled(FlexRow)`
   align-items: center;
   padding: 10px;
   height: 30px;
-  background: var(--pane-color);
+  background: var(--background-color);
   flex-shrink: 0;
 `;
 const closeButtonStyle = css`
@@ -109,7 +109,7 @@ const Body = styled(FlexColumn)`
 `;
 
 const ActionContainer = styled(FlexRow)`
-  background: var(--pane-color);
+  background: var(--background-color);
 `;
 
 

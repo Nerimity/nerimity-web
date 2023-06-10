@@ -328,23 +328,22 @@ function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; 
 
 const DeleteMessageModalContainer = styled(FlexColumn)`
   overflow: auto;
+  padding: 10px;
 `;
 const deleteMessageItemContainerStyles = css`
   padding-top: 5px;
   border-radius: 8px;
   margin-top: 5px;
-  background-color: var(--pane-color);
+  background-color: rgba(0,0,0,0.3);
   &&{
     &:hover {
-      background-color: var(--pane-color);
+      background-color: rgba(0,0,0,0.3);
     }
-
   }
 `
 
 const deleteMessageModalStyles = css`
-  max-width: 600px;
-  max-height: 600px;
+  max-height: 800px;
   overflow: hidden;
 `
 
@@ -363,7 +362,7 @@ export function DeleteMessageModal(props: { message: Message, close: () => void 
   )
 
   return (
-    <Modal close={props.close} title='Delete Message?' icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons}>
+    <Modal close={props.close} title='Delete Message?' icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons} maxWidth={500}>
       <DeleteMessageModalContainer>
         <Text>Are you sure you would like to delete this message?</Text>
         <MessageItem class={deleteMessageItemContainerStyles} hideFloating message={props.message} />
