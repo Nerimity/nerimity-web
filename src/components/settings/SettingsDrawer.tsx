@@ -16,6 +16,7 @@ import { clearCache } from '@/common/localCache';
 import socketClient from '@/chat-api/socketClient';
 import { DrawerHeader } from '../DrawerHeader';
 import { useTransContext } from '@nerimity/solid-i18next';
+import { t } from 'i18next';
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -30,7 +31,7 @@ const SettingsListContainer = styled("div")`
   overflow: auto;
 `;
 
-const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
+const SettingItemContainer = styled(ItemContainer) <{ nested?: boolean }>`
   height: 32px;
   gap: 5px;
   padding-left: ${props => props.nested ? '25px' : '10px'};
@@ -57,9 +58,9 @@ const FooterContainer = styled(FlexColumn)`
 function Footer() {
   const [t] = useTransContext();
   const navigate = useNavigate();
-  const {createPortal} = useCustomPortal();
-  
-  const onChangelogClick = () => createPortal?.(close => <ChangelogModal close={close}/>)
+  const { createPortal } = useCustomPortal();
+
+  const onChangelogClick = () => createPortal?.(close => <ChangelogModal close={close} />)
 
   const onLogoutClick = async () => {
     await clearCache();
@@ -69,10 +70,10 @@ function Footer() {
 
   return (
     <FooterContainer gap={2}>
-      <FooterItem color="var(--alert-color)" icon="logout" label={t('settings.drawer.logout')} onClick={onLogoutClick}  />
-      <FooterItem href="https://ko-fi.com/supertiger" external icon='favorite' label={t('settings.drawer.supportMe')} />
+      <SupportItem />
       <FooterItem href='https://github.com/Nerimity/Nerimity-Web' external icon="code" label={t('settings.drawer.viewSource')} />
       <FooterItem icon="description" label={t('settings.drawer.changelog')} subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
+      <FooterItem color="var(--alert-color)" icon="logout" label={t('settings.drawer.logout')} onClick={onLogoutClick} />
     </FooterContainer>
   );
 }
@@ -81,18 +82,18 @@ export default function SettingsDrawer() {
   return (
     <DrawerContainer>
       <SettingsList />
-      <Footer/>
+      <Footer />
     </DrawerContainer>
   )
 }
 
-function SettingsList () {
+function SettingsList() {
   const [t] = useTransContext();
   return (
     <SettingsListContainer>
-      <DrawerHeader text={t('settings.drawer.title')}/>
+      <DrawerHeader text={t('settings.drawer.title')} />
       <For each={settings}>
-        {setting => 
+        {setting =>
           <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} />
         }
       </For>
@@ -103,14 +104,14 @@ function SettingsList () {
 
 
 
-function Item (props: {path: string, icon: string, label: string, onClick?: () => void}) {
+function Item(props: { path: string, icon: string, label: string, onClick?: () => void }) {
   const href = () => {
     return "/app/settings/" + props.path;
   };
   const selected = useMatch(() => href() + "/*")
 
   return (
-    <Link href={href()} style={{"text-decoration": "none"}}>
+    <Link href={href()} style={{ "text-decoration": "none" }}>
       <SettingItemContainer selected={selected()}>
         <Icon name={props.icon} size={18} />
         <Text class="label">{props.label}</Text>
@@ -130,9 +131,9 @@ interface FooterItemProps {
   color?: string;
 }
 
-function FooterItem (props: FooterItemProps) {
+function FooterItem(props: FooterItemProps) {
 
-  const Content = () =>  (
+  const Content = () => (
     <>
       <SettingItemContainer>
         <Icon name={props.icon} color={props.color} size={18} />
@@ -147,11 +148,36 @@ function FooterItem (props: FooterItemProps) {
   return (
     <Switch>
       <Match when={props.href}>
-        <Link href={props.href!} target="_blank" rel="noopener noreferrer" style={{"text-decoration": "none"}} children={Content}/>
+        <Link href={props.href!} target="_blank" rel="noopener noreferrer" style={{ "text-decoration": "none" }} children={Content} />
       </Match>
       <Match when={!props.href}>
-        <div children={Content} onclick={props.onClick}/>
+        <div children={Content} onclick={props.onClick} />
       </Match>
     </Switch>
+  )
+}
+
+
+
+function SupportItem() {
+
+  return (
+    <Link
+      href="https://ko-fi.com/supertiger"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ "text-decoration": "none" }}
+    >
+      <SettingItemContainer style={{ background: 'var(--alert-color)', height: 'initial', "padding": "10px" }}>
+        <Icon style={{ "align-self": 'start', "margin-top": "3px" }} name="favorite" size={18} />
+        <div>
+          <Text style={{ "font-weight": 'bold' }}>{t('settings.drawer.supportMe')}</Text>
+          <div>
+            <Text size={12}>Support this project on Ko-fi to get a supporter badge!</Text>
+          </div>
+        </div>
+        <Icon class={css`margin-left: auto;`} style={{ "align-self": 'start', "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
+      </SettingItemContainer>
+    </Link>
   )
 }
