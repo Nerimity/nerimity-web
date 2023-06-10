@@ -96,10 +96,10 @@ export default function RegisterPage() {
         <Container>
         <form action='#' onsubmit={registerClicked}>
           <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
-          <Input label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
-          <Input label={t('registerPage.username')} error={error()} onText={setUsername} />
-          <Input label={t('registerPage.password')} type='password' error={error()} onText={setPassword} />
-          <Input label={t('registerPage.confirmPassword')} type='password' error={error()} onText={setConfirmPassword} />
+          <Input margin={[10, 0, 10, 0]} label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
+          <Input margin={[10, 0, 10, 0]} label={t('registerPage.username')} error={error()} onText={setUsername} />
+          <Input margin={[10, 0, 10, 0]} label={t('registerPage.password')} type='password' error={error()} onText={setPassword} />
+          <Input margin={[10, 0, 10, 0]} label={t('registerPage.confirmPassword')} type='password' error={error()} onText={setConfirmPassword} />
           <Turnstile
             ref={turnstileRef}
             sitekey={env.TURNSTILE_SITEKEY}

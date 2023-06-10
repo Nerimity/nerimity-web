@@ -103,7 +103,7 @@ function NewPostArea(props: { postId?: string }) {
 
   return (
     <NewPostContainer>
-      <Input ref={setTextAreaEl} placeholder={props.postId ? t('posts.replyInputPlaceholder') : t('posts.createAPostInputPlaceholder')} onText={setContent} value={content()} type="textarea" />
+      <Input margin={[10, 0, 10, 0]} ref={setTextAreaEl} placeholder={props.postId ? t('posts.replyInputPlaceholder') : t('posts.createAPostInputPlaceholder')} onText={setContent} value={content()} type="textarea" />
       <Show when={attachedFile()}><AttachFileItem cancel={() => setAttachedFile(undefined)} file={attachedFile()!} /></Show>
       <ButtonsContainer gap={5}>
         <FileBrowser accept='images' ref={setFileBrowserRef} onChange={onFilePicked} />

@@ -19,14 +19,16 @@ interface Props {
   prefix?: string;
   placeholder?: string;
   ref?: (el: HTMLInputElement | HTMLTextAreaElement) => void; 
+  margin?: number | number[]
 }
 
 
-const Base = styled("div")`
+const Base = styled("div")<{margin?: number | number[]}>`
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: ${props => props.margin !== undefined ? 
+    typeof props.margin === "object" ? props.margin.join("px ") : props.margin  
+  : 0}px;
 `;
 
 const Label = styled(Text)`
@@ -124,7 +126,7 @@ export default function Input(props: Props) {
     props.onBlur?.(event);
   }
   return (
-    <Base class={props.class}>
+    <Base margin={props.margin} class={props.class}>
       <Show when={props.label}><Label color='rgba(255, 255, 255, 0.8)'>{props.label}</Label></Show>
       <InputContainer focused={isFocused()}>
         <Show when={props.prefix}><PrefixLabel opacity={0.6} onmousedown={focus} size={12}>{props.prefix}</PrefixLabel></Show>

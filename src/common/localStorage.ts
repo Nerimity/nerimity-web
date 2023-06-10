@@ -6,6 +6,7 @@ export enum StorageKeys {
   APP_LANGUAGE = 'appLanguage',
   FIRST_TIME = 'firstTime', // After registering, this is set to true.
   ARE_NOTIFICATIONS_MUTED = 'areNotificationsMuted',
+  NOTIFICATION_VOLUME = 'notificationVolume',
 }
 
 export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {
