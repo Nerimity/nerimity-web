@@ -24,7 +24,7 @@ export const languages = {
   "tr-tr": {
     name: "Turkish",
     emoji: "🇹🇷",
-    contributors: ["https://github.com/sutnax", "https://github.com/SwappyFX"],
+    contributors: ["https://github.com/sutnax"],
   }
 }
 
