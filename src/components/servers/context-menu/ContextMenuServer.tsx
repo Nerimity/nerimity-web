@@ -4,6 +4,7 @@ import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/Cont
 import useStore from "@/chat-api/store/useStore";
 import { useNavigate } from "@solidjs/router";
 import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
 
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
@@ -12,7 +13,7 @@ type Props = Omit<ContextMenuProps, 'items'> & {
 export default function ContextMenuServer (props: Props) {
 
   const navigate = useNavigate();
-  const {account, servers, serverMembers} = useStore();
+  const {account, servers, serverMembers, channels} = useStore();
 
   const server = () => servers.get(props.serverId!);
 
@@ -35,9 +36,19 @@ export default function ContextMenuServer (props: Props) {
 
   };
 
+  const hasNotifications = () =>  server()?.hasNotifications;
+
+  const dismissNotifications = () => {
+    if (!props.serverId) return;
+    channels.getChannelsByServerId(props.serverId).forEach(c => {
+      if (!c?.hasNotifications) return;
+      return dismissChannelNotification(c.id);
+    })
+  }
+
   return (
     <ContextMenu {...props} items={[
-      {icon: 'markunread_mailbox', label: "Mark As Read", disabled: true},
+      {icon: 'markunread_mailbox', label: "Mark As Read", disabled: !hasNotifications(), onClick: dismissNotifications},
       {separator: true},
       {icon: 'mail', label: "Invites", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))},
       ...(showSettings() ? [{icon: 'settings', label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))}] : []),
