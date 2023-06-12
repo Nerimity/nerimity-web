@@ -110,6 +110,13 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   })
 
   batch(() => {
+    for (let i = 0; i < payload.serverSettings.length; i++) {
+      const serverSetting = payload.serverSettings[i];
+      account.setServerSettings(serverSetting.serverId, serverSetting);
+    }
+  })
+
+  batch(() => {
     for (let channelId in payload.lastSeenServerChannelIds) {
       const timestamp = payload.lastSeenServerChannelIds[channelId];
       channels.get(channelId)!.updateLastSeen(timestamp);

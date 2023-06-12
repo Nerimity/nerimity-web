@@ -1,9 +1,10 @@
 import env from '@/common/env';
 import {createStore} from 'solid-js/store';
 import { SelfUser } from '../events/connectionEventTypes';
-import { RawUser } from '../RawData';
+import { RawServerSettings, RawUser } from '../RawData';
 
 
+type ServerSettings = Omit<RawServerSettings, 'serverId'>;
 interface Account {
   user: SelfUser | null,
 
@@ -11,6 +12,7 @@ interface Account {
   socketConnected: boolean,
   socketAuthenticated: boolean,
   authenticationError: {message: string, data: any} | null;
+  serverSettings: Record<string, ServerSettings>
 }
 
 
@@ -20,7 +22,15 @@ const [account, setAccount] = createStore<Account>({
   socketConnected: false,
   socketAuthenticated: false,
   authenticationError: null,
+  serverSettings: {}
 });
+
+
+const setServerSettings = (serverId: string, setting: Partial<RawServerSettings>) => {
+  setAccount('serverSettings', serverId, {...setting, serverId: undefined});
+}
+
+const getServerSettings = (serverId: string) => account.serverSettings[serverId] as ServerSettings | undefined;
 
 interface SetSocketDetailsArgs {
   socketId?: string | null,
@@ -51,6 +61,8 @@ export default function useAccount() {
     setSocketDetails,
     isConnected,
     isAuthenticated,
-    authenticationError
+    authenticationError,
+    setServerSettings,
+    getServerSettings
   }
 }

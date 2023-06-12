@@ -8,6 +8,8 @@ export const ServerEvents = {
   AUTHENTICATE_ERROR:'user:authenticate_error',
   USER_UPDATED: 'user:updated',
 
+  USER_SERVER_SETTINGS_UPDATE: 'user:server_settings_update',
+
   USER_AUTHENTICATED: 'user:authenticated',
 
   USER_PRESENCE_UPDATE: 'user:presence_update',

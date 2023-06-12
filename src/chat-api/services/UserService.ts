@@ -130,3 +130,17 @@ export async function unfollowUser(userId: string) {
     useToken: true
   });
 }
+
+
+interface UpdateServerSettings {
+  notificationSoundMode: number;
+}
+
+export async function updateServerSettings(serverId: string, update: UpdateServerSettings) {
+  return request({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("servers/") + serverId,
+    method: "POST",
+    useToken: true,
+    body: update
+  });
+}

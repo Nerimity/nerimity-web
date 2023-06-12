@@ -19,6 +19,12 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import('@/components/servers/settings/ServerGeneralSettings'))
   },
   {
+    path: 'notifications',
+    name: 'settings.drawer.notifications',
+    icon: 'notifications',
+    element: lazy(() => import('@/components/servers/settings/ServerNotificationSettings'))
+  },
+  {
     path: 'roles/:roleId',
     name: 'servers.settings.drawer.role',
     icon: 'leaderboard',

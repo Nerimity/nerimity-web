@@ -4,6 +4,7 @@ import useMention from "../store/useMention";
 import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
 import { SelfUser } from "./connectionEventTypes";
+import { RawServerSettings } from "../RawData";
 
 export function onUserPresenceUpdate(payload: {status?: UserStatus, custom?: string; userId: string}) {
   const users = useUsers();
@@ -30,4 +31,9 @@ export function onUserUpdated(payload: Partial<SelfUser>) {
 
   const user = users.get(account.user()?.id!)
   user?.update(payload)
+}
+
+export function onUserServerSettingsUpdate(payload: {serverId: string, updated: Partial<RawServerSettings>}) {
+  const {account} = useStore();
+  account.setServerSettings(payload.serverId, payload.updated)
 }

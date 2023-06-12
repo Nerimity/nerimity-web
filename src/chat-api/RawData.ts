@@ -66,6 +66,17 @@ export interface RawUser {
   joinedAt?: number;
 }
 
+
+export enum ServerNotificationSoundMode {
+  ALL = 0,
+  MENTIONS_ONLY = 1,
+  MUTE = 2,
+}
+export interface RawServerSettings {
+  notificationSoundMode: ServerNotificationSoundMode
+  serverId: string
+}
+
 export interface RawServerMember {
   serverId: string;
   user: RawUser;

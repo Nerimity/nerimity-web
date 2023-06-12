@@ -3,7 +3,10 @@ import { getStorageBoolean, getStorageNumber, StorageKeys } from "./localStorage
 import { useWindowProperties } from "./useWindowProperties";
 import useStore from "@/chat-api/store/useStore";
 import { UserStatus } from "@/chat-api/store/useUsers";
+import { RawMessage, ServerNotificationSoundMode } from "@/chat-api/RawData";
+
 export const MESSAGE_NOTIFICATION = "message-notification.mp3";
+export const MESSAGE_MENTION_NOTIFICATION = "message-notification.mp3";
 
 export function playSound(name: string) {
   const audio = new Audio(`/assets/${name}`);
@@ -12,14 +15,31 @@ export function playSound(name: string) {
 }
 
 
+interface MessageNotificationOpts {
+  force?: boolean
+  message?: RawMessage
+  serverId?: string;
+}
 
-export function playMessageNotification(force = false) {
-  if (force) return playSound(MESSAGE_NOTIFICATION);
-  const {account, users} = useStore();
+export function playMessageNotification(opts?: MessageNotificationOpts) {
+  if (opts?.force) return playSound(MESSAGE_NOTIFICATION);
   if (getStorageBoolean(StorageKeys.ARE_NOTIFICATIONS_MUTED, false)) return;
+  const {account, users} = useStore();
   const userId = account.user()?.id;
   const user = users.get(userId!);
   if (user?.presence?.status === UserStatus.DND) return;
+
+  const notificationSoundMode = !opts?.serverId ? undefined : account.getServerSettings(opts.serverId)?.notificationSoundMode;
+
+  if (notificationSoundMode === ServerNotificationSoundMode.MUTE) return;
+  
+  if (opts?.message) {
+    const mentionedMe = opts.message.mentions?.find(m => m.id === account.user()?.id);
+    if (mentionedMe) {
+      return playSound(MESSAGE_MENTION_NOTIFICATION)
+    }
+  }
+  if (notificationSoundMode === ServerNotificationSoundMode.MENTIONS_ONLY) return;
 
   playSound(MESSAGE_NOTIFICATION);
 }

@@ -48,7 +48,7 @@ export default function NotificationsSettings() {
   const [volume, setVolume] = createSignal(getStorageNumber(StorageKeys.NOTIFICATION_VOLUME, 20));
   const onVolumeChanged = () => {
     setStorageNumber(StorageKeys.NOTIFICATION_VOLUME, volume())
-    playMessageNotification(true);
+    playMessageNotification({force: true});
   }
 
   return (

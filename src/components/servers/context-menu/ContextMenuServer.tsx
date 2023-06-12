@@ -51,6 +51,7 @@ export default function ContextMenuServer (props: Props) {
       {icon: 'markunread_mailbox', label: "Mark As Read", disabled: !hasNotifications(), onClick: dismissNotifications},
       {separator: true},
       {icon: 'mail', label: "Invites", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))},
+      {icon: 'notifications', label: "Notification Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!))},
       ...(showSettings() ? [{icon: 'settings', label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))}] : []),
       {separator: true},
       {icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},

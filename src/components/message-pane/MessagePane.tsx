@@ -162,7 +162,10 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     if (!scrollTracker.scrolledBottom()) {
       if (payload.message.createdBy.id !== account.user()?.id) {
         if (!hasFocus()) return;
-        playMessageNotification();
+        playMessageNotification({
+          message: payload.message,
+          serverId: channel().serverId
+        });
       }
     }
   }

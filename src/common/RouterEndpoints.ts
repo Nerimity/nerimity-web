@@ -8,6 +8,7 @@ export default {
   
   SERVER_SETTINGS_GENERAL: (serverId: string) => `/app/servers/${serverId}/settings/general`,
   SERVER_SETTINGS_INVITES: (serverId: string) => `/app/servers/${serverId}/settings/invites`,
+  SERVER_SETTINGS_NOTIFICATIONS: (serverId: string) => `/app/servers/${serverId}/settings/notifications`,
   SERVER_SETTINGS_CHANNELS: (serverId: string) => `/app/servers/${serverId}/settings/channels`,
   SERVER_SETTINGS_CHANNEL: (serverId: string, channelId: string) => `/app/servers/${serverId}/settings/channels/${channelId}`,
   SERVER_SETTINGS_ROLES: (serverId: string) => `/app/servers/${serverId}/settings/roles`,
