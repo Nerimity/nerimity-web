@@ -1074,7 +1074,7 @@ function ChannelSuggestionItem(props: { onHover: () => void; selected: boolean; 
   const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
   return (
-    <ItemContainer selected={props.selected} onmouseover={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.suggestionItem}>
+    <ItemContainer selected={props.selected} onmousemove={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.suggestionItem}>
       <span class={styles.channelIcon}>#</span>
       <Show when={isPrivateChannel()}>
         <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
@@ -1128,7 +1128,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
 
 function UserSuggestionItem(props: { onHover: () => void; selected: boolean; user: User, onclick(user: User): void; }) {
   return (
-    <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.user)}>
+    <ItemContainer onmousemove={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.user)}>
       <Avatar user={props.user} animate={props.selected} size={15} />
       <div class={styles.suggestLabel}>{props.user.username}</div>
     </ItemContainer>
@@ -1185,7 +1185,7 @@ function EmojiSuggestionItem(props: { onHover: () => void; selected: boolean; em
 
   }
   return (
-    <ItemContainer onmouseover={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.emoji)}>
+    <ItemContainer onmousemove={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.emoji)}>
       <Emoji class={css`height: 15px; width: 15px;`} name={name()} url={url()} />
       <div class={styles.suggestLabel}>{name()}</div>
     </ItemContainer>
