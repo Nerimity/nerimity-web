@@ -10,7 +10,7 @@ export const MESSAGE_MENTION_NOTIFICATION = "message-notification.mp3";
 
 export function playSound(name: string) {
   const audio = new Audio(`/assets/${name}`);
-  audio.volume = getStorageNumber(StorageKeys.NOTIFICATION_VOLUME, 20) / 100;
+  audio.volume = getStorageNumber(StorageKeys.NOTIFICATION_VOLUME, 10) / 100;
   audio.play();
 }
 
