@@ -40,17 +40,20 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
       }
       
     }
+
     const mentionCount = () => mentions.get(payload.message.channelId)?.count || 0;
-
     const isMentioned = () => payload.message.mentions?.find(u => u.id === accountUser?.id)
-
-    if (!channel?.serverId || isMentioned()) {
-      mentions.set({
-        channelId: payload.message.channelId,
-        userId: payload.message.createdBy.id,
-        count: mentionCount() + 1,
-        serverId: channel?.serverId
-      });
+    
+    if (payload.message.createdBy.id !== accountUser?.id) {
+  
+      if (!channel?.serverId || isMentioned()) {
+        mentions.set({
+          channelId: payload.message.channelId,
+          userId: payload.message.createdBy.id,
+          count: mentionCount() + 1,
+          serverId: channel?.serverId
+        });
+      }
     }
 
     messages.pushMessage(payload.message.channelId, payload.message);
