@@ -44,6 +44,7 @@ import MemberContextMenu from '../member-context-menu/MemberContextMenu';
 import { copyToClipboard } from '@/common/clipboard';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { t } from 'i18next';
+import { useScrollToMessageListener } from '@/common/GlobalEvents';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -119,6 +120,37 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   const channel = () => channels.get(params.channelId!)!;
 
   const properties = () => channelProperties.get(params.channelId);
+
+  const scrollToMessageListener = useScrollToMessageListener();
+
+
+  scrollToMessageListener(async (event) => {
+    let messageEl = document.getElementById(`message-${event.messageId}`);
+    if (!messageEl) {
+      await messages.loadAroundAndStoreMessages(channel().id, event.messageId);
+      messageEl = document.getElementById(`message-${event.messageId}`);
+      setTimeout(() => {
+        scrollTracker.setLoadMoreBottom(false);
+        batch(() => {
+          channelProperties.setMoreTopToLoad(params.channelId, true);
+          channelProperties.setMoreBottomToLoad(params.channelId, true);
+          scrollTracker.forceUpdate();
+          setLoadingMessages('bottom', false);
+        })
+      }, 300)
+    };
+    messageEl?.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'center',
+      block: 'center'
+    })
+    if (!messageEl) return;
+    messageEl.style.background = "var(--primary-color-dark)";
+    setTimeout(() => {
+      if (!messageEl) return;
+      messageEl.style.background = "";
+    }, 3000)
+  })
 
 
   const updateUnreadMarker = (ignoreFocus = false) => {
@@ -430,12 +462,11 @@ function createScrollTracker(scrollElement: HTMLElement) {
     setScrollTop(scrollElement.scrollTop);
   }
 
-
   onMount(() => {
     scrollElement.addEventListener("scroll", onScroll, { passive: true });
     onCleanup(() => scrollElement.removeEventListener("scroll", onScroll));
   })
-  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll }
+  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll, setLoadMoreBottom }
 }
 
 function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: HTMLTextAreaElement):void }) {

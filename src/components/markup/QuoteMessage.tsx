@@ -12,6 +12,7 @@ import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { reconcile } from "solid-js/store";
 import { formatTimestamp } from "@/common/date";
+import { emitScrollToMessage } from "@/common/GlobalEvents";
 
 
 
@@ -59,9 +60,9 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
         <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ "font-size": "16px", color: serverMember()?.roleColor }}>
           {props.quote.createdBy!.username}
         </CustomLink>
-        {/* <Show when={props.message.channelId === params.channelId}>
-          <Button class="goToMessageButton" iconName="keyboard_arrow_up" margin={0} padding={4} iconSize={14} />
-        </Show> */}
+        <Show when={props.quote.channelId === params.channelId}>
+          <Button class="goToMessageButton" iconName="keyboard_arrow_up" margin={0} padding={4} iconSize={14} onClick={() => emitScrollToMessage({messageId: props.quote.id!})} />
+        </Show>
       </div>
       <div>
         <Show when={props.quote.attachments?.length}>

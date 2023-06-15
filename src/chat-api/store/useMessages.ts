@@ -28,7 +28,7 @@ const fetchAndStoreMessages = async (channelId: string, force = false) => {
   channelProperties.setMoreTopToLoad(channelId, true);
   channelProperties.setMoreBottomToLoad(channelId, false);
 
-  const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT);
+  const newMessages = await fetchMessages(channelId);
   setMessages({
     [channelId]: newMessages
   });
@@ -36,7 +36,7 @@ const fetchAndStoreMessages = async (channelId: string, force = false) => {
 
 const loadMoreTopAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: { hasMore: boolean }) => void) => {
   const channelMessages = messages[channelId]!;
-  const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, channelMessages[0].id);
+  const newMessages = await fetchMessages(channelId, {beforeMessageId: channelMessages[0].id});
   const clamp = sliceEnd([...newMessages, ...channelMessages]);
   const hasMore = newMessages.length === env.MESSAGE_LIMIT
 
@@ -49,7 +49,7 @@ const loadMoreTopAndStoreMessages = async (channelId: string, beforeSet: () => v
 
 const loadMoreBottomAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: { hasMore: boolean }) => void) => {
   const channelMessages = messages[channelId]!;
-  const newMessages = await fetchMessages(channelId, env.MESSAGE_LIMIT, undefined, channelMessages[channelMessages.length - 1].id);
+  const newMessages = await fetchMessages(channelId, {afterMessageId: channelMessages[channelMessages.length - 1].id});
   const clamp = sliceBeginning([...channelMessages, ...newMessages]);
   const hasMore = newMessages.length === env.MESSAGE_LIMIT
 
@@ -58,6 +58,14 @@ const loadMoreBottomAndStoreMessages = async (channelId: string, beforeSet: () =
     [channelId]: clamp
   });
   afterSet({ hasMore });
+}
+
+const loadAroundAndStoreMessages = async (channelId: string, aroundMessageId: string) => {
+  const newMessages = await fetchMessages(channelId, {aroundMessageId});
+
+  setMessages({
+    [channelId]: newMessages
+  });
 }
 
 function sliceEnd(arr: any[]) {
@@ -224,6 +232,7 @@ export default function useMessages() {
     getMessagesByChannelId,
     fetchAndStoreMessages,
     loadMoreTopAndStoreMessages,
+    loadAroundAndStoreMessages,
     loadMoreBottomAndStoreMessages,
     editAndStoreMessage,
     sendAndStoreMessage,

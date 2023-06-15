@@ -4,16 +4,23 @@ import { request } from './Request';
 import Endpoints from './ServiceEndpoints';
 
 
+interface FetchMessageOpts {
+  limit?: number;
+  beforeMessageId?: string
+  aroundMessageId?: string;
+  afterMessageId?: string
+}
 
 
-export const fetchMessages = async (channelId: string, limit = 50, afterMessageId?: string, beforeMessageId?: string) => {
+export const fetchMessages = async (channelId: string, opts?: FetchMessageOpts) => {
   const data = await request<RawMessage[]>({
     method: 'GET',
     url: env.SERVER_URL + "/api" + Endpoints.messages(channelId),
     params: {
-      limit,
-      ...(afterMessageId ? {after: afterMessageId}: undefined),
-      ...(beforeMessageId ? {before: beforeMessageId}: undefined)
+      limit: opts?.limit || env.MESSAGE_LIMIT,
+      ...(opts?.afterMessageId ? {after: opts.afterMessageId}: undefined),
+      ...(opts?.beforeMessageId ? {before: opts.beforeMessageId}: undefined),
+      ...(opts?.aroundMessageId ? {around: opts.aroundMessageId}: undefined)
     },
     useToken: true
   });

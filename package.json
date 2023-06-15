@@ -26,6 +26,7 @@
     "@nerimity/solid-turnstile": "^1.1.0",
     "@solid-primitives/keyed": "^1.2.0",
     "@solidjs/router": "^0.8.2",
+    "eventemitter3": "^5.0.1",
     "highlight.js": "^11.8.0",
     "i18next": "^22.5.1",
     "idb-keyval": "^6.2.1",

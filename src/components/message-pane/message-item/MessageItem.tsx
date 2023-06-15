@@ -136,6 +136,7 @@ const MessageItem = (props: MessageItemProps) => {
       onContextMenu={props.contextMenu}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      id={`message-${props.message.id}`}
     >
       <Show when={!props.hideFloating}><FloatOptions reactionPickerClick={props.reactionPickerClick} quoteClick={props.quoteClick} showContextMenu={props.contextMenu} isCompact={isCompact()} message={props.message} /></Show>
       <Switch>
