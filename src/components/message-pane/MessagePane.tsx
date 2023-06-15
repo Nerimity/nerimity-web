@@ -126,8 +126,10 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
 
   scrollToMessageListener(async (event) => {
     let messageEl = document.getElementById(`message-${event.messageId}`);
+    let fetched = false;
     if (!messageEl) {
       await messages.loadAroundAndStoreMessages(channel().id, event.messageId);
+      fetched = true;
       messageEl = document.getElementById(`message-${event.messageId}`);
       setTimeout(() => {
         scrollTracker.setLoadMoreBottom(false);
@@ -140,7 +142,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
       }, 300)
     };
     messageEl?.scrollIntoView({
-      behavior: 'smooth',
+      behavior: fetched ? 'instant' : 'smooth',
       inline: 'center',
       block: 'center'
     })
