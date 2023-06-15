@@ -4,6 +4,7 @@ import { styled } from "solid-styled-components";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
+import { onCleanup, onMount } from "solid-js";
 
 
 const ImageEmbedContainer = styled(FlexRow)`
@@ -75,6 +76,17 @@ const ImagePreviewContainer = styled(FlexRow)`
 
 export function ImagePreviewModal(props: { close: () => void, url: string, width?: number, height?: number }) {
   const { width, height } = useWindowProperties();
+
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown)
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown)
+    })
+  })
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") props.close();
+  }
 
   const style = () => {
     const maxWidth = clamp(width(), width() / 100 * 80);
