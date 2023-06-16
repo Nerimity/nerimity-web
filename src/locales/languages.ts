@@ -25,6 +25,11 @@ export const languages = {
     name: "Turkish",
     emoji: "🇹🇷",
     contributors: ["https://github.com/sutnax"],
+  },
+  "nl-nl": {
+    name: "Dutch",
+    emoji: "🇳🇱",
+    contributors: ["https://github.com/captainqdev"],
   }
 }
 
