@@ -30,7 +30,7 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
 const [channels, setChannels] = createStore<Record<string, Channel | undefined>>({});
 
 
-const set = (channel: RawChannel) => {
+const set = (channel: RawChannel & {lastSeen?: number}) => {
   const users = useUsers();
   const serverMembers = useServerMembers();
   const account = useAccount();

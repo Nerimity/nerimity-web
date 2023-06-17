@@ -94,6 +94,9 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   for (let i = 0; i < payload.inbox.length; i++) {
     const item = payload.inbox[i];
+    if (item.lastSeen) {
+      channels.get(item.channelId)!.updateLastSeen(item.lastSeen);
+    }
     inbox.set(item);
   }
 

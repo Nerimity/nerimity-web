@@ -143,6 +143,7 @@ export interface RawInboxWithoutChannel {
   channelId: string;
   recipient: RawUser;
   closed: boolean
+  lastSeen?: number;
 }
 
 export interface RawPresence {

@@ -184,7 +184,10 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   const dismissNotification = () => {
     if (!hasFocus()) return;
     if (!scrollTracker.scrolledBottom()) return;
-    channel()?.dismissNotification();
+
+    setTimeout(() => {
+      channel()?.dismissNotification();
+    }, 100);
   }
 
 
@@ -245,7 +248,6 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
 
       await fetchMessages();
 
-      dismissNotification();
     }))
 
     const channelId = params.channelId;
