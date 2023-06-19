@@ -30,6 +30,11 @@ export const languages = {
     name: "Dutch",
     emoji: "🇳🇱",
     contributors: ["https://github.com/captainqdev"],
+  },
+  "pl-pl": {
+    name: "Polish",
+    emoji: "🇵🇱",
+    contributors: ["https://github.com/Ciach0"],
   }
 }
 
