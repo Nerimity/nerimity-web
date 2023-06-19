@@ -26,6 +26,7 @@ import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { FloatingEmojiPicker } from '@/components/ui/EmojiPicker';
 import env from '@/common/env';
 import { useWindowProperties } from '@/common/useWindowProperties';
+import { DangerousLinkModal } from '@/components/ui/DangerousLinkModal';
 
 
 interface FloatingOptionsProps {
@@ -126,8 +127,6 @@ const MessageItem = (props: MessageItemProps) => {
 
   const isCompact = () => isSameCreator() && isDateUnderFiveMinutes() && isBeforeMessageContent();
   const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
-
-
 
 
   return (
@@ -242,9 +241,35 @@ export default MessageItem;
 function Embeds(props: { message: Message, hovered: boolean }) {
   return (
     <div class={styles.embeds}>
+      <Show when={props.message.embed}>
+        <OGEmbed message={props.message}/>
+      </Show>
       <Show when={props.message.attachments?.[0]}>
         <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
       </Show>
+    </div>
+  )
+}
+
+
+function OGEmbed(props: {message: RawMessage}) {
+  const embed = () => props.message.embed!;
+  const {createPortal} = useCustomPortal();
+  const onLinkClick = (e: MouseEvent) => {
+    e.preventDefault();
+    createPortal(close => <DangerousLinkModal unsafeUrl={embed().url} close={close} />)
+  }
+  
+  return (
+    <div class={styles.ogEmbedContainer}>
+      <Show when={embed().imageUrl}>
+        <img src={`${env.NERIMITY_CDN}proxy?url=${encodeURI(embed().imageUrl!)}`} class={styles.ogEmbedImage} loading='lazy' />
+      </Show>
+      <div>
+        <a class={styles.ogEmbedTitle} href={embed().url} onclick={onLinkClick} target="_blank" rel="noopener noreferrer">{embed().title}</a>
+
+        <div class={styles.ogEmbedDescription}>{embed().description}</div>
+      </div>
     </div>
   )
 }

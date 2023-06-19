@@ -36,6 +36,12 @@ export interface RawMessage {
   attachments?: Array<RawAttachment>
   quotedMessages: Partial<RawMessage>[]
   reactions: RawMessageReaction[]
+  embed?: {
+    title?: string;
+    description?: string;
+    imageUrl?: string;
+    url: string;
+  } | null;
 }
 
 export interface RawMessageReaction {

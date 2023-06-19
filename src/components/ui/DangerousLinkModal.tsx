@@ -17,6 +17,7 @@ const LinkContainer = styled(FlexRow)`
   border-radius: 6px;
   color: var(--primary-color);
   text-align: center;
+  word-break: break-all;
 `
 
 export function DangerousLinkModal(props : {unsafeUrl: string; close(): void;}) {

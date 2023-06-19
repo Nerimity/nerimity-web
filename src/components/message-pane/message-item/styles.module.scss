@@ -164,6 +164,42 @@ body .reactionItem {
   align-items: start;
 }
 
+.ogEmbedContainer {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 5px;
+  gap: 5px;
+  max-width: 500px;
+  .ogEmbedImage {
+    border-radius: 8px;
+    object-fit: cover;
+    height: 100px;
+    width: 100px;
+  }
+  .ogEmbedTitle {
+    font-weight: bold;
+    font-size: 14px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    margin-bottom: 5px;
+  }
+  .ogEmbedDescription {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* number of lines to show */
+            line-clamp: 5; 
+    -webkit-box-orient: vertical;
+    font-size: 12px;
+  }
+}
+
+
+
 @keyframes goUp {
   from {
     transform: translateY(30px);
