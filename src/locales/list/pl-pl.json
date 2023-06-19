@@ -1,0 +1,246 @@
+{
+  "header": {
+    "accountButton": "Konto",
+    "openAppButton": "Otwórz Aplikację",
+    "loginButton": "Zaloguj Się",
+    "joinNowButton": "Dołącz Teraz"
+  },
+  "homePage": {
+    "slogan": "Nowoczesna i elegancka aplikacja do czatowania.",
+    "joinButton": "Dołącz do {{appName}}",
+    "viewGitHubButton": "Wyświetl kod"
+  },
+  "loginPage": {
+    "title": "Zaloguj się, aby kontynuować",
+    "emailOrUsernameAndTag": "Email / nazwa:tag",
+    "password": "Hasło",
+    "login": "Zaloguj się",
+    "createAccountInstead": "Chcę założyć konto",
+    "loggingIn": "Trwa logowanie...",
+    "loginButton": "Zaloguj się"
+  },
+  "registerPage": {
+    "title": "Witaj w {{appName}}",
+    "email": "Email",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "confirmPassword": "Potwierdź hasło",
+    "registerButton": "Zarejestruj się",
+    "registering": "Trwa rejestrowanie...",
+    "loginInstead": "Chcę się zalogować"
+  },
+  "inbox": {
+    "drawer": {
+      "requests": "Zaproszenia",
+      "online": "Dostępni",
+      "offline": "Niedostępni",
+      "savedNotesButton": "Zapisane Notatki",
+      "addFriendButton": "Dodaj Znajomego",
+      "inboxButton": "Wiadomości",
+      "friendsButton": "Znajomi"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Odkrywaj",
+      "servers": "Serwery"
+    },
+    "servers": {
+      "title": "Odkrywaj - Serwery",
+      "noticeMessage": "Serwer może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}.",
+      "sortMostBumps": "Najwięcej podbić",
+      "sortMostMembers": "Najwięcej członków",
+      "sortRecentlyAdded": "Ostatnio dodane",
+      "sortRecentlyBumped": "Ostatnio podbite",
+      "filterAll": "Wszystkie",
+      "filterVerified": "Zweryfikowane",
+      "memberCount": "{{count}} członków",
+      "lifetimeBumpCount": "{{count}} dożywotnich podbić",
+      "visitServerButton": "Odwiedź",
+      "joinServerButton": "Dołącz",
+      "bumpButton": "Podbij ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "Ogólne",
+        "roles": "Role",
+        "channels": "Kanały",
+        "bans": "Bany",
+        "invites": "Zaproszenia",
+        "publishServer": "Publiczność",
+        "verify": "Weryfikacja",
+        "role": "Rola",
+        "channel": "Kanał",
+        "emojis": "Emoji",
+        "notifications": "Powiadomienia"
+      },
+      "general": {
+        "serverRenameNotice": "Jeśli zmienisz nazwę serwera, stracisz jego weryfikację oraz wszystkie korzyści które z niej płyną.",
+        "serverName": "Nazwa Serwera",
+        "defaultChannel": "Domyślny Kanał",
+        "defaultChannelDescription": "Nowi członkowie zostaną przekierowani na ten kanał.",
+        "systemMessages": "Wiadomości Systemowe",
+        "systemMessagesDescription": "Na ten kanał będą przychodzić wiadomości systemowe.",
+        "deleteThisServer": "Usuń ten serwer",
+        "deleteThisServerDescription": "Ta akcja jest nieodwracalna!",
+        "deleteServerButton": "Usuń Serwer",
+        "saveChangesButton": "Zapisz zmiany",
+        "saving": "Trwa zapisywanie..."
+      },
+      "roles": {
+        "addNewRole": "Dodaj nową rolę",
+        "addRoleButton": "Dodaj Rolę"
+      },
+      "role": {
+        "saveChangesButton": "Zapisz zmiany",
+        "saving": "Trwa zapisywanie...",
+        "roleName": "Nazwa Roli",
+        "roleColor": "Kolor Roli",
+        "hideRole": "Ukryj Rolę",
+        "hideRoleDescription": "Wyświetl członków tej roli razem ze wszystkimi domyślnymi członkami",
+        "permissions": "Uprawnienia",
+        "permissionsDescription": "Zarządzaj uprawnieniami dla tej roli.",
+        "deleteRoleButton": "Usuń tę rolę",
+        "deleteRoleButtonDescription": "Ta akcja jest nieodwracalna!"
+      },
+      "header": {
+        "editServer": "Edytuj Serwer",
+        "serverMemberCount": "{{count}} członków"
+      },
+      "channels": {
+        "createButton": "Stwórz",
+        "createNewDescription": "Stwórz kanał lub kategorię"
+      },
+      "channel": {
+        "saving": "Trwa zapisywanie...",
+        "saveChangesButton": "Zapisz zmiany",
+        "channelName": "Nazwa Kanału",
+        "permissions": "Uprawnienia",
+        "permissionsDescription": "Zarządzaj uprawnieniami dla tego kanału.",
+        "deleteThisChannel": "Usuń ten kanał",
+        "deleteThisChannelDescription": "Ta akcja jest nieodwracalna!",
+        "deleteChannelButton": "Usuń kanał"
+      },
+      "invites": {
+        "createANewInvite": "Stwórz nowe zaproszenie",
+        "createInviteButton": "Stwórz zaproszenie",
+        "serverInvites": "Zaproszenia do serwera",
+        "serverInvitesDescription": "Zaproś swoich przyjaciół na ten serwer.",
+        "customInviteVerifiedOnlyNotice": "Własne linki zaproszeniowe są dostępne tylko dla zweryfikowanych serwerów.",
+        "customLink": "Własny Link",
+        "saveButton": "Zapisz",
+        "deleteButton": "Usuń",
+        "copyLinkButton": "Skopiuj Link"
+      },
+      "publishServer": {
+        "publishNotice": "Publishing your server will make it be available in the <1>explore</1> page.",
+        "publishNotice": "Opublikowanie serwera sprawi, że będzie on widoczny w <1>wyszukiwarce serwerów</1>",
+        "public": "Publiczny",
+        "publicDescription": "Opublikuj ten serwer.",
+        "bumpServer": "Podbij Serwer",
+        "bumpServerDescription": "Podbij ten serwer aby dostać się na górę.",
+        "publishServerButton": "Opublikuj serwer",
+        "unpublishServerButton": "Wycofaj publikację"
+      }
+    },
+    "rolePermissions": {
+      "admin": "Administrator",
+      "adminDescription": "Włącza wszystkie uprawnienia.",
+      "sendMessage": "Wysyłanie wiadomości",
+      "sendMessageDescription": "Umożliw wysyłanie wiadomości na serwerze. Administratorzy dalej będą mogli wysyłać wiadomości.",
+      "manageRoles": "Zarządzanie rolami",
+      "manageRolesDescription": "Uprawnienie do aktualizacji lub usuwania ról.",
+      "manageChannels": "Zarządzanie kanałami",
+      "manageChannelsDescription": "Uprawnienie do aktualizacji lub usuwania kanałów..",
+      "kick": "Wyrzucanie",
+      "kickDescription": "Uprawnienie do wyrzucania użytkowników.",
+      "ban": "Banowanie",
+      "banDescription": "Uprawnienie do banowania użytkowników."
+    },
+    "channelPermissions": {
+      "privateChannel": "Kanał Prywatny",
+      "privateChannelDescription": "Zablokuj dostęp do kanału. Administratorzy serwera dalej będą mieć do niego dostęp.",
+      "sendMessage": "Wysyłanie wiadomości",
+      "sendMessageDescription": "Umożliw wysyłanie wiadomości na kanale. Administratorzy serwera dalej będą mogli wysyłać wiadomości."
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "Ustawienia",
+      "account": "Konto",
+      "language": "Język",
+      "notifications": "Powiadomienia",
+      "logout": "Wyloguj się",
+      "supportMe": "Wesprzyj Mnie",
+      "viewSource": "Wyświetl kod",
+      "changelog": "Dziennik zmian"
+    }
+  },
+  "addFriend": {
+    "usernameAndTag": "Nazwa i Tag"
+  },
+  "userContextMenu": {
+    "viewProfile": "Wyświetl Profil",
+    "sendMessage": "Wyślij Wiadomość",
+    "copyId": "Skopiuj ID",
+    "editRoles": "Edytuj Role",
+    "kick": "Wyrzuć",
+    "ban": "Zbanuj"
+  },
+  "kickServerMemberModal": {
+    "title": "Wyrzuć {{username}}",
+    "kickButton": "Wyrzuć",
+    "kicking": "Trwa wyrzucanie...",
+    "backButton": "Wstecz",
+    "message": "Czy jesteś pewien, że chcesz wyrzucić <1>username</1>?"
+  },
+  "editServerRolesModal": {
+    "title": "Edytuj Role"
+  },
+  "banModal": {
+    "title": "Zbanuj {{username}}?",
+    "message": "Czy jesteś pewien, że chcesz zbanować <1>username</1>?",
+    "deletePastMessagesCheckbox": "Usuń wiadomości z poprzednich 7 godzin.",
+    "banButton": "Zbanuj",
+    "banning": "Trwa banowanie..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Edytuj Wiadomość",
+    "deleteMessage": "Usuń Wiadomość",
+    "copyMessage": "Skopiuj Wiadomość",
+    "copyId": "Skopiuj ID"
+  },
+  "profile": {
+    "followButton": "Obserwuj",
+    "unfollowButton": "Przestań obserwować",
+    "removeFriendButton": "Usuń ze znajomych",
+    "addFriendButton": "Dodaj do znajomych",
+    "pendingRequest": "Oczekujące Zaproszenie",
+    "acceptRequestButton": "Zaakceptuj Zaproszenie",
+    "messageButton": "Wyślij Wiadomość",
+    "mutualFriends": "Wspólni Znajomi ({{count}})",
+    "mutualServers": "Wspólne Serwery ({{count}})",
+    "postsTab": "Posty",
+    "followersTab": "Obserwujący",
+    "followingTab": "Obserwowani",
+    "postsAndRepliesTab": "Posty i odpowiedzi ({{count}})",
+    "likedPostsTab": "Polubione Posty ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Czy jesteś pewien, że chcesz usunąć tego posta?",
+      "cancelButton": "Anuluj",
+      "deleteButton": "Usuń"
+    },
+    "postWasDeleted": "Ten post został usunięty!",
+    "someoneLikedYourPost": "<1>username</1> polubił(-a) Twój post!",
+    "someoneFollowedYou": "<1>username</1> zaczął(-ęła) Cię obserwować!",
+    "someoneRepliedToPost": "<1>username</1> odpowiedział(-a) na Twój post!",
+    "createAPostInputPlaceholder": "Stwórz posta...",
+    "replyInputPlaceholder": "Odpowiedz...",
+    "replyButton": "Odpowiedz",
+    "createButton": "Opublikuj"
+  }
+}
