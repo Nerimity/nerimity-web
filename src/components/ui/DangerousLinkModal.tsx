@@ -41,7 +41,7 @@ export function DangerousLinkModal(props : {unsafeUrl: string; close(): void;}) 
   )
 
   return (
-    <Modal title='Custom Link' icon='link' actionButtons={ActionButtons} maxWidth={400}>
+    <Modal title='Custom Link' icon='link' actionButtons={ActionButtons} maxWidth={400} close={props.close}>
       <ModalContainer gap={10}>
         <Text>This link will take you to</Text>
         <LinkContainer>{url()}</LinkContainer>

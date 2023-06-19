@@ -18,7 +18,7 @@ import { css, styled } from 'solid-styled-components';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
-import { ImageEmbed } from '@/components/ui/ImageEmbed';
+import { ImageEmbed, ImagePreviewModal } from '@/components/ui/ImageEmbed';
 import { CustomLink } from '@/components/ui/CustomLink';
 import { MentionUser } from '@/components/markup/MentionUser';
 import { Emoji } from '@/components/markup/Emoji';
@@ -255,18 +255,24 @@ function Embeds(props: { message: Message, hovered: boolean }) {
 function OGEmbed(props: {message: RawMessage}) {
   const embed = () => props.message.embed!;
   const {createPortal} = useCustomPortal();
+
   const onLinkClick = (e: MouseEvent) => {
     e.preventDefault();
     createPortal(close => <DangerousLinkModal unsafeUrl={embed().url} close={close} />)
+  }
+
+  const imageUrl = () => `${env.NERIMITY_CDN}proxy?url=${encodeURI(embed().imageUrl!)}`;
+  const onImageClick = () => {
+    createPortal(close => <ImagePreviewModal close={close} url={imageUrl()} />)
   }
   
   return (
     <div class={styles.ogEmbedContainer}>
       <Show when={embed().imageUrl}>
-        <img src={`${env.NERIMITY_CDN}proxy?url=${encodeURI(embed().imageUrl!)}`} class={styles.ogEmbedImage} loading='lazy' />
+        <img onClick={onImageClick} src={imageUrl()} class={styles.ogEmbedImage} loading='lazy' />
       </Show>
       <div>
-        <a class={styles.ogEmbedTitle} href={embed().url} onclick={onLinkClick} target="_blank" rel="noopener noreferrer">{embed().title}</a>
+        <CustomLink decoration class={styles.ogEmbedTitle} href={embed().url} onclick={onLinkClick} target="_blank" rel="noopener noreferrer">{embed().title}</CustomLink>
 
         <div class={styles.ogEmbedDescription}>{embed().description}</div>
       </div>

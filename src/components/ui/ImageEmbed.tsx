@@ -4,7 +4,7 @@ import { styled } from "solid-styled-components";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
-import { onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 
 
 const ImageEmbedContainer = styled(FlexRow)`
@@ -76,6 +76,7 @@ const ImagePreviewContainer = styled(FlexRow)`
 
 export function ImagePreviewModal(props: { close: () => void, url: string, width?: number, height?: number }) {
   const { width, height } = useWindowProperties();
+  const [dimensions, setDimensions] = createSignal({width: props.width, height: props.height})
 
   onMount(() => {
     document.addEventListener("keydown", onKeyDown)
@@ -91,7 +92,7 @@ export function ImagePreviewModal(props: { close: () => void, url: string, width
   const style = () => {
     const maxWidth = clamp(width(), width() / 100 * 80);
     const maxHeight = clamp(height(), height() / 100 * 80);
-    return clampImageSize(props.width!, props.height!, maxWidth, maxHeight)
+    return clampImageSize(dimensions().width!, dimensions().height!, maxWidth, maxHeight)
   }
 
   const onClick = (event: any) => {
@@ -100,9 +101,17 @@ export function ImagePreviewModal(props: { close: () => void, url: string, width
     props.close()
   }
 
+  const onLoad = (event: {target: HTMLImageElement}) => {
+    if (dimensions().width) return;
+    setDimensions({
+      width: event.target.naturalWidth,
+      height: event.target.naturalHeight
+    })
+  }
+
   return (
     <ImagePreviewContainer onclick={onClick} class="ImagePreviewContainer">
-      <img src={props.url} style={style()}></img>
+      <img src={props.url} onload={onLoad} style={style()}></img>
     </ImagePreviewContainer>
   )
 }
