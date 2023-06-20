@@ -38,9 +38,13 @@ export interface RawMessage {
   reactions: RawMessageReaction[]
   embed?: {
     title?: string;
+    type?: string;
     description?: string;
-    imageUrl?: string;
     url: string;
+    imageUrl?: string;
+    imageWidth?: number;
+    imageHeight?: number;
+    imageMime?: string;
   } | null;
 }
 

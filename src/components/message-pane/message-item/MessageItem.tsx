@@ -242,7 +242,7 @@ function Embeds(props: { message: Message, hovered: boolean }) {
   return (
     <div class={styles.embeds}>
       <Show when={props.message.embed}>
-        <OGEmbed message={props.message}/>
+        <OGEmbed message={props.message} />
       </Show>
       <Show when={props.message.attachments?.[0]}>
         <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
@@ -252,31 +252,58 @@ function Embeds(props: { message: Message, hovered: boolean }) {
 }
 
 
-function OGEmbed(props: {message: RawMessage}) {
+function OGEmbed(props: { message: RawMessage }) {
+  const { hasFocus } = useWindowProperties();
+
   const embed = () => props.message.embed!;
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
 
   const onLinkClick = (e: MouseEvent) => {
     e.preventDefault();
     createPortal(close => <DangerousLinkModal unsafeUrl={embed().url} close={close} />)
   }
 
-  const imageUrl = () => `${env.NERIMITY_CDN}proxy?url=${encodeURI(embed().imageUrl!)}`;
-  const onImageClick = () => {
-    createPortal(close => <ImagePreviewModal close={close} url={imageUrl()} />)
-  }
-  
-  return (
-    <div class={styles.ogEmbedContainer}>
-      <Show when={embed().imageUrl}>
-        <img onClick={onImageClick} src={imageUrl()} class={styles.ogEmbedImage} loading='lazy' />
-      </Show>
-      <div>
-        <CustomLink decoration class={styles.ogEmbedTitle} href={embed().url} onclick={onLinkClick} target="_blank" rel="noopener noreferrer">{embed().title}</CustomLink>
+  const imageUrl = () => `${env.NERIMITY_CDN}proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${embed().imageMime?.split("/")[1]}`;
+  const isGif = () => imageUrl().endsWith(".gif")
 
-        <div class={styles.ogEmbedDescription}>{embed().description}</div>
+  const url = (ignoreFocus?: boolean) => {
+    let url = new URL(imageUrl());
+    if (ignoreFocus) return url.href;
+    if (!isGif()) return url.href;
+    if (!hasFocus()) {
+      url.searchParams.set("type", "webp")
+    }
+    return url.href;
+  }
+  const onImageClick = () => {
+    createPortal(close => <ImagePreviewModal close={close} url={url(true)} />)
+  }
+
+
+  return (
+    <Switch fallback={
+      <div class={styles.ogEmbedContainer}>
+        <Show when={embed().imageUrl}>
+          <img onClick={onImageClick} src={url()} class={styles.ogEmbedImage} loading='lazy' />
+        </Show>
+        <div>
+          <CustomLink decoration class={styles.ogEmbedTitle} href={embed().url || "#"} onclick={onLinkClick} target="_blank" rel="noopener noreferrer">{embed().title}</CustomLink>
+
+          <div class={styles.ogEmbedDescription}>{embed().description}</div>
+        </div>
       </div>
-    </div>
+    }>
+      <Match when={embed().type === "image" }>
+        <ImageEmbed 
+          attachment={{
+            id:"",
+            path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${embed().imageMime?.split("/")[1]}`, 
+            width: embed().imageWidth, 
+            height: embed().imageHeight}} 
+            widthOffset={-70} 
+        />
+      </Match>
+    </Switch>
   )
 }
 
@@ -330,18 +357,18 @@ function ReactionItem(props: { textAreaEl?: HTMLTextAreaElement; reaction: RawMe
 }
 
 function AddNewReactionButton(props: { show?: boolean; onClick?(event: MouseEvent): void }) {
-  const {isMobileAgent} = useWindowProperties();
+  const { isMobileAgent } = useWindowProperties();
   const show = () => {
     if (isMobileAgent()) return true;
     if (props.show) return true;
   }
   return (
-    <Button onClick={props.onClick} margin={0} padding={6} class={styles.reactionItem} styles={{visibility: show() ? 'visible' : 'hidden'}}  iconName='add' iconSize={15} />
+    <Button onClick={props.onClick} margin={0} padding={6} class={styles.reactionItem} styles={{ visibility: show() ? 'visible' : 'hidden' }} iconName='add' iconSize={15} />
   )
 }
 
 
-function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement;  message: Message, reactionPickerClick?(event: MouseEvent): void }) {
+function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; message: Message, reactionPickerClick?(event: MouseEvent): void }) {
   return (
     <div class={styles.reactions}>
       <For each={props.message.reactions}>

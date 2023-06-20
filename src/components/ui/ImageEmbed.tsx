@@ -36,11 +36,13 @@ export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: num
   
   const isGif = () => props.attachment.path.endsWith(".gif")
   const url = (ignoreFocus?: boolean) => {
-    let url = `https://cdn.nerimity.com/${props.attachment.path}`;
-    if (ignoreFocus) return url;
-    if (!isGif()) return url;
-    if (!hasFocus()) url += "?type=webp";
-    return url;
+    let url = new URL(`https://cdn.nerimity.com/${props.attachment.path}`);
+    if (ignoreFocus) return url.href;
+    if (!isGif()) return url.href;
+    if (!hasFocus()) {
+      url.searchParams.set("type", "webp")
+    }
+    return url.href;
   }
 
   const style = () => {
