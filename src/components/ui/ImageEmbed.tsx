@@ -5,6 +5,7 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
 import { createSignal, onCleanup, onMount } from "solid-js";
+import env from '@/common/env'
 
 
 const ImageEmbedContainer = styled(FlexRow)`
@@ -36,7 +37,7 @@ export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: num
   
   const isGif = () => props.attachment.path.endsWith(".gif")
   const url = (ignoreFocus?: boolean) => {
-    let url = new URL(`https://cdn.nerimity.com/${props.attachment.path}`);
+    let url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
     if (ignoreFocus) return url.href;
     if (!isGif()) return url.href;
     if (!hasFocus()) {
