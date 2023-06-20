@@ -34,7 +34,7 @@ const EmojiPickerStyles = css`
 
 export function EmojiPicker(props: { heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
   const { servers } = useStore();
-  const { paneWidth, width, height } = useWindowProperties()
+  const { paneWidth, width, height, isMobileAgent } = useWindowProperties()
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
     onCleanup(() => {
@@ -90,6 +90,7 @@ export function EmojiPicker(props: { heightOffset?: number; close: () => void; o
   return (
     <EmojiPickerComponent
       class={EmojiPickerStyles}
+      focusOnMount={!isMobileAgent()}
       spriteUrl="/assets/emojiSprites.png"
       emojis={emojis}
       customEmojis={customEmojis()}
@@ -124,7 +125,6 @@ export const FloatingEmojiPicker = (props: {x: number, y: number; close: () => v
 const FloatingInScreenBGContainer = styled("div")`
   position: absolute;
   inset: 0;
-  background-color: #00000078;
   overflow: hidden;
 `;
 const FloatingContainer = styled("div")`
@@ -135,10 +135,19 @@ const FloatingContainer = styled("div")`
 const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number, y: number}) => {
   let floatingElementRef: undefined | HTMLDivElement = undefined;
 
+  const {isMobileAgent} = useWindowProperties();
   const [width, height] = useResizeObserver(() => floatingElementRef)
 
   const styles = () => {
     let _styles: JSX.CSSProperties = {};
+
+    if (isMobileAgent()) {
+      return {
+        bottom: 0,
+        right: 0,
+      }
+    }
+
 
     _styles.top = props.y + "px";
     _styles.left = props.x + "px";
