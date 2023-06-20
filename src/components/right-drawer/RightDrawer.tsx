@@ -170,7 +170,7 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
   const isGif = () => props.attachment.path.endsWith(".gif")
 
   const url = (ignoreFocus?: boolean) => {
-    let url = `https://cdn.nerimity.com/${props.attachment.path}`;
+    let url = `${env.NERIMITY_CDN}${props.attachment.path}`;
     if (ignoreFocus) return url;
     if (isGif()) return url += "?type=webp";
     return url;
