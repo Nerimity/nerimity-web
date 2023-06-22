@@ -8,7 +8,7 @@
   "homePage": {
     "slogan": "Nowoczesna i elegancka aplikacja do czatowania.",
     "joinButton": "Dołącz do {{appName}}",
-    "viewGitHubButton": "Wyświetl kod"
+    "viewGitHubButton": "Zobacz Githuba"
   },
   "loginPage": {
     "title": "Zaloguj się, aby kontynuować",
@@ -55,7 +55,7 @@
       "filterAll": "Wszystkie",
       "filterVerified": "Zweryfikowane",
       "memberCount": "{{count}} członków",
-      "lifetimeBumpCount": "{{count}} dożywotnich podbić",
+      "lifetimeBumpCount": "{{count}} wszystkich podbić",
       "visitServerButton": "Odwiedź",
       "joinServerButton": "Dołącz",
       "bumpButton": "Podbij ({{count}})"
@@ -135,7 +135,6 @@
         "copyLinkButton": "Skopiuj Link"
       },
       "publishServer": {
-        "publishNotice": "Publishing your server will make it be available in the <1>explore</1> page.",
         "publishNotice": "Opublikowanie serwera sprawi, że będzie on widoczny w <1>wyszukiwarce serwerów</1>",
         "public": "Publiczny",
         "publicDescription": "Opublikuj ten serwer.",
@@ -174,7 +173,7 @@
       "notifications": "Powiadomienia",
       "logout": "Wyloguj się",
       "supportMe": "Wesprzyj Mnie",
-      "viewSource": "Wyświetl kod",
+      "viewSource": "Zobacz kod",
       "changelog": "Dziennik zmian"
     }
   },
