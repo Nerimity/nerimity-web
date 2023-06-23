@@ -3,13 +3,13 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawMessage, RawMessageReaction } from '@/chat-api/RawData';
+import { MessageType, RawMessage, RawMessageReaction, RawUser } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
-import { addMessageReaction, deleteMessage, removeMessageReaction } from '@/chat-api/services/MessageService';
+import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { createEffect, createSignal, For, Match, on, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
 import Modal from '@/components/ui/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
@@ -27,6 +27,7 @@ import { FloatingEmojiPicker } from '@/components/ui/EmojiPicker';
 import env from '@/common/env';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { DangerousLinkModal } from '@/components/ui/DangerousLinkModal';
+import { useResizeObserver } from '@/common/useResizeObserver';
 
 
 interface FloatingOptionsProps {
@@ -293,14 +294,15 @@ function OGEmbed(props: { message: RawMessage }) {
         </div>
       </div>
     }>
-      <Match when={embed().type === "image" }>
-        <ImageEmbed 
+      <Match when={embed().type === "image"}>
+        <ImageEmbed
           attachment={{
-            id:"",
-            path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${embed().imageMime?.split("/")[1]}`, 
-            width: embed().imageWidth, 
-            height: embed().imageHeight}} 
-            widthOffset={-70} 
+            id: "",
+            path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${embed().imageMime?.split("/")[1]}`,
+            width: embed().imageWidth,
+            height: embed().imageHeight
+          }}
+          widthOffset={-70}
         />
       </Match>
     </Switch>
@@ -308,10 +310,18 @@ function OGEmbed(props: { message: RawMessage }) {
 }
 
 
+interface ReactionItemProps {
+  textAreaEl?: HTMLTextAreaElement;
+  reaction: RawMessageReaction,
+  message: Message,
+  onMouseEnter?: (event: MouseEvent) => void;
+  onMouseLeave?: (event: MouseEvent) => void;
+}
 
 
-function ReactionItem(props: { textAreaEl?: HTMLTextAreaElement; reaction: RawMessageReaction, message: Message }) {
+function ReactionItem(props: ReactionItemProps) {
   const { hasFocus } = useWindowProperties();
+
 
   const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name)
 
@@ -342,6 +352,8 @@ function ReactionItem(props: { textAreaEl?: HTMLTextAreaElement; reaction: RawMe
 
   return (
     <Button
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
       margin={0}
       padding={[2, 8, 2, 2]}
       customChildrenLeft={
@@ -369,13 +381,69 @@ function AddNewReactionButton(props: { show?: boolean; onClick?(event: MouseEven
 
 
 function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; message: Message, reactionPickerClick?(event: MouseEvent): void }) {
+  const { createPortal, closePortalById } = useCustomPortal();
+
+  const onHover = (event: MouseEvent, reaction: RawMessageReaction) => {
+    const rect = (event.target as HTMLDivElement).getBoundingClientRect();
+    createPortal(() => (<WhoReactedModal {...{ x: rect.x + (rect.width/2) , y: rect.y, reaction, message: props.message }} />), "whoReactedModal")
+  }
+  const onBlur = () => {
+    closePortalById("whoReactedModal")
+  }
+
   return (
     <div class={styles.reactions}>
       <For each={props.message.reactions}>
-        {reaction => <ReactionItem textAreaEl={props.textAreaEl} message={props.message} reaction={reaction} />}
+        {reaction => <ReactionItem onMouseEnter={e => onHover(e, reaction)} onMouseLeave={onBlur} textAreaEl={props.textAreaEl} message={props.message} reaction={reaction} />}
       </For>
       <AddNewReactionButton show={props.hovered} onClick={props.reactionPickerClick} />
     </div>
+  )
+}
+
+
+function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReaction, message: Message }) {
+  const [users, setUsers] = createSignal<null | RawUser[]>(null);
+  const [el, setEL] = createSignal<undefined | HTMLDivElement>(undefined);
+  const [width, height] = useResizeObserver(el)
+
+  onMount(() => {
+    const timeoutId = window.setTimeout(async () => {
+      const newUsers = await fetchMessageReactedUsers({
+        channelId: props.message.channelId,
+        messageId: props.message.id,
+        name: props.reaction.name,
+        emojiId: props.reaction.emojiId,
+      })
+      setUsers(newUsers)
+    }, 500)
+
+    onCleanup(() => {
+      clearTimeout(timeoutId);
+    })
+  })
+
+  const style = () => {
+    if (!height()) return {pointerEvents: 'none'};
+    return {top: (props.y - height() - 5) + "px", left: (props.x - width() /2) + "px"};
+  }
+
+  const plusCount = () => props.reaction.count - users()?.length!;
+
+  return (
+    <Show when={users()}>
+      <div ref={setEL} class={styles.whoReactedModal} style={style()}>
+        <For each={users()!}>
+          {user => (
+            <div class={styles.whoReactedItem}>
+              <Avatar size={15} user={user} />
+              <div>{user.username}</div>
+            </div>
+          )}
+        </For>
+        <Show when={plusCount()}><div class={styles.whoReactedPlusCount}>+{plusCount()}</div></Show>
+      </div>
+    </Show>
   )
 }
 

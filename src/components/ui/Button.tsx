@@ -4,6 +4,8 @@ import { styled } from 'solid-styled-components';
 import Text from './Text';
 
 interface Props {
+  onMouseLeave?: (event: MouseEvent) => void;
+  onMouseEnter?: (event: MouseEvent) => void;
   color?: string;
   class?: string;
   label?: string; 
@@ -63,7 +65,7 @@ export default function Button(props: Props) {
 
 
   return (
-    <ButtonContainer padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick}>
+    <ButtonContainer padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
       {props.customChildrenLeft && props.customChildrenLeft}
       { props.iconName && <Icon size={props.iconSize} name={props.iconName} color={props.primary ? 'white' : color()} /> }
       { props.label && <Text size={props.textSize || 14} class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }

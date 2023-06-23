@@ -1,5 +1,5 @@
 import env from '../../common/env';
-import { RawAttachment, RawMessage } from '../RawData';
+import { RawAttachment, RawMessage, RawUser } from '../RawData';
 import { request } from './Request';
 import Endpoints from './ServiceEndpoints';
 
@@ -135,6 +135,20 @@ export const removeMessageReaction = async (opts: {channelId: string, messageId:
     body: {
       name: opts.name,
       emojiId: opts.emojiId,
+    },
+    useToken: true,
+  });
+  return data;
+};
+
+export const fetchMessageReactedUsers = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string}) => {
+  const data = await request<RawUser[]>({
+    method: 'GET',
+    url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/users",
+    params: {
+      name: opts.name,
+      emojiId: opts.emojiId,
+
     },
     useToken: true,
   });
