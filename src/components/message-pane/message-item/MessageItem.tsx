@@ -407,16 +407,23 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
   const [el, setEL] = createSignal<undefined | HTMLDivElement>(undefined);
   const [width, height] = useResizeObserver(el)
 
+  const fetchNewUsers = async () => {
+    const newUsers = await fetchMessageReactedUsers({
+      channelId: props.message.channelId,
+      messageId: props.message.id,
+      name: props.reaction.name,
+      emojiId: props.reaction.emojiId,
+    })
+    setUsers(newUsers)
+  }
+
+  createEffect(on(() => props.reaction.count, () => {
+    setUsers(null)
+    fetchNewUsers()
+  }, {defer: true}))
+
   onMount(() => {
-    const timeoutId = window.setTimeout(async () => {
-      const newUsers = await fetchMessageReactedUsers({
-        channelId: props.message.channelId,
-        messageId: props.message.id,
-        name: props.reaction.name,
-        emojiId: props.reaction.emojiId,
-      })
-      setUsers(newUsers)
-    }, 500)
+    const timeoutId = window.setTimeout(fetchNewUsers, 500)
 
     onCleanup(() => {
       clearTimeout(timeoutId);
@@ -446,6 +453,7 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
     </Show>
   )
 }
+
 
 
 
