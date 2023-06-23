@@ -147,7 +147,7 @@ export const fetchMessageReactedUsers = async (opts: {channelId: string, message
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/users",
     params: {
       name: opts.name,
-      emojiId: opts.emojiId,
+      ...(opts.emojiId ? {emojiId: opts.emojiId} : undefined),
 
     },
     useToken: true,

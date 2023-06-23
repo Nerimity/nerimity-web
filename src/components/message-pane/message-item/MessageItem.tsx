@@ -315,13 +315,28 @@ interface ReactionItemProps {
   reaction: RawMessageReaction,
   message: Message,
   onMouseEnter?: (event: MouseEvent) => void;
-  onMouseLeave?: (event: MouseEvent) => void;
+  onMouseLeave?: (event?: MouseEvent) => void;
 }
 
 
 function ReactionItem(props: ReactionItemProps) {
   const { hasFocus } = useWindowProperties();
 
+
+  let isHovering = false;
+
+  const onMouseEnter = (e: any) => {
+    isHovering = true;
+    props.onMouseEnter?.(e)
+  }
+  
+  const onMouseLeave = (e: any) => {
+    isHovering = false;
+    props.onMouseLeave?.(e);
+  }
+  onCleanup(() => {
+    if (isHovering) props.onMouseLeave?.();
+  })
 
   const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name)
 
@@ -352,8 +367,8 @@ function ReactionItem(props: ReactionItemProps) {
 
   return (
     <Button
-      onMouseEnter={props.onMouseEnter}
-      onMouseLeave={props.onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       margin={0}
       padding={[2, 8, 2, 2]}
       customChildrenLeft={
@@ -407,23 +422,17 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
   const [el, setEL] = createSignal<undefined | HTMLDivElement>(undefined);
   const [width, height] = useResizeObserver(el)
 
-  const fetchNewUsers = async () => {
-    const newUsers = await fetchMessageReactedUsers({
-      channelId: props.message.channelId,
-      messageId: props.message.id,
-      name: props.reaction.name,
-      emojiId: props.reaction.emojiId,
-    })
-    setUsers(newUsers)
-  }
-
-  createEffect(on(() => props.reaction.count, () => {
-    setUsers(null)
-    fetchNewUsers()
-  }, {defer: true}))
 
   onMount(() => {
-    const timeoutId = window.setTimeout(fetchNewUsers, 500)
+    const timeoutId = window.setTimeout(async () => {
+      const newUsers = await fetchMessageReactedUsers({
+        channelId: props.message.channelId,
+        messageId: props.message.id,
+        name: props.reaction.name,
+        emojiId: props.reaction.emojiId,
+      })
+      setUsers(newUsers)
+    }, 500)
 
     onCleanup(() => {
       clearTimeout(timeoutId);
@@ -435,7 +444,7 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
     return {top: (props.y - height() - 5) + "px", left: (props.x - width() /2) + "px"};
   }
 
-  const plusCount = () => props.reaction.count - users()?.length!;
+  const plusCount = props.reaction.count - users()?.length!;
 
   return (
     <Show when={users()}>
@@ -448,7 +457,7 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
             </div>
           )}
         </For>
-        <Show when={plusCount()}><div class={styles.whoReactedPlusCount}>+{plusCount()}</div></Show>
+        <Show when={plusCount}><div class={styles.whoReactedPlusCount}>+{plusCount}</div></Show>
       </div>
     </Show>
   )
