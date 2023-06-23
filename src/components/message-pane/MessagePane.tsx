@@ -45,6 +45,7 @@ import { copyToClipboard } from '@/common/clipboard';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { t } from 'i18next';
 import { useScrollToMessageListener } from '@/common/GlobalEvents';
+import { createDesktopNotification } from '@/common/desktopNotification';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -203,6 +204,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
           message: payload.message,
           serverId: channel().serverId
         });
+        createDesktopNotification(payload.message)
       }
     }
   }

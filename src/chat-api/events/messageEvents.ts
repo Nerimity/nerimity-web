@@ -9,6 +9,7 @@ import useMention from "../store/useMention";
 import useMessages, { MessageSentStatus } from "../store/useMessages";
 import useUsers from "../store/useUsers";
 import socketClient from "../socketClient";
+import { createDesktopNotification } from "@/common/desktopNotification";
 
 
 
@@ -66,6 +67,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
     const isChannelSelected = header.details().id === "MessagePane" && header.details().channelId === payload.message.channelId;
     if (hasFocus() && isChannelSelected) return;
     playMessageNotification({message: payload.message, serverId: channel?.serverId});
+    createDesktopNotification(payload.message)
   }
 
 }
