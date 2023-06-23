@@ -124,7 +124,6 @@
         "deleteChannelButton": "Usuń kanał"
       },
       "invites": {
-        "createANewInvite": "Stwórz nowe zaproszenie",
         "createInviteButton": "Stwórz zaproszenie",
         "serverInvites": "Zaproszenia do serwera",
         "serverInvitesDescription": "Zaproś swoich przyjaciół na ten serwer.",

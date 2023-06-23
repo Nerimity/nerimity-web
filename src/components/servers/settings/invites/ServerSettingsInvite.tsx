@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { createCustomInvite, createInvite, getInvites} from '@/chat-api/services/ServerService';
+import { createCustomInvite, createInvite, getInvites } from '@/chat-api/services/ServerService';
 import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/Button';
 import env from '@/common/env';
@@ -24,8 +24,8 @@ import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 
 export default function ServerSettingsInvite() {
   const [t] = useTransContext();
-  const params = useParams<{serverId: string}>();
-  const {header, servers, account} = useStore();
+  const params = useParams<{ serverId: string }>();
+  const { header, servers, account } = useStore();
   const windowProperties = useWindowProperties();
   const [invites, setInvites] = createSignal<any[]>([]);
   const mobileSize = () => windowProperties.paneWidth()! < 550;
@@ -34,7 +34,7 @@ export default function ServerSettingsInvite() {
   const fetchInvites = async () => {
     const invites = await getInvites(params.serverId!);
     invites.sort((a: any, b: any) => {
-      if (a.isCustom) return -1;  
+      if (a.isCustom) return -1;
       return b.createdAt - a.createdAt;
     });
     setInvites(invites);
@@ -44,7 +44,7 @@ export default function ServerSettingsInvite() {
     fetchInvites();
   }));
 
-  
+
   createEffect(() => {
 
     header.updateHeader({
@@ -69,12 +69,11 @@ export default function ServerSettingsInvite() {
         <BreadcrumbItem title={t('servers.settings.drawer.invites')} />
       </Breadcrumb>
       <Show when={isServerOwner()}><CustomInvite invites={invites()} onUpdate={fetchInvites} /></Show>
-      <SettingsBlock label={t('servers.settings.invites.createANewInvite')} icon='add'>
+
+
+      <SettingsBlock label={t('servers.settings.invites.serverInvites')} description={t('servers.settings.invites.serverInvitesDescription')} icon='mail' header={true}>
         <Button label={t('servers.settings.invites.createInviteButton')} onClick={onCreateInviteClick} />
       </SettingsBlock>
-
-
-      <SettingsBlock label={t('servers.settings.invites.serverInvites')} description={t('servers.settings.invites.serverInvitesDescription')} icon='mail' header={true} />
       <For each={invites()}>
         {(invite) => (
           <InviteItem invite={invite} />
@@ -86,10 +85,10 @@ export default function ServerSettingsInvite() {
 
 
 
-function CustomInvite(props: {invites: any[]; onUpdate: () => void;}) {
+function CustomInvite(props: { invites: any[]; onUpdate: () => void; }) {
   const [t] = useTransContext();
-  const params = useParams<{serverId: string}>();
-  const {servers} = useStore();
+  const params = useParams<{ serverId: string }>();
+  const { servers } = useStore();
   const server = () => servers.get(params.serverId)
   const prefixUrl = env.APP_URL + RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT("");
 
@@ -121,33 +120,33 @@ function CustomInvite(props: {invites: any[]; onUpdate: () => void;}) {
   }
 
   return (
-    <FlexColumn style={{ "margin-bottom": "20px" }}>
-    <Show when={!server()?.verified}>
-      <Notice class={css`margin-bottom: 10px;`} type='info' description={t('servers.settings.invites.customInviteVerifiedOnlyNotice')}/>
-    </Show>
-
-    <SettingsBlock class={css`&&{position: relative; overflow: hidden; ${!server()?.verified ? 'cursor: not-allowed; opacity: 0.6;' : ''} }`} label={t('servers.settings.invites.customLink')} icon='link'>
-      {/* Overlay to block actions when server is not verified. */}
+    <FlexColumn style={{ "margin-bottom": "10px" }}>
       <Show when={!server()?.verified}>
-        <div style={{ position: 'absolute', inset: 0, "z-index": 1111}} />
+        <Notice class={css`margin-bottom: 10px;`} type='info' description={t('servers.settings.invites.customInviteVerifiedOnlyNotice')} />
       </Show>
-      <Input prefix={prefixUrl} onText={t => setCustomCode(t)} value={customCode()} />
-    </SettingsBlock>
-    <Show when={error()}><Text style={{"align-self": 'end'}} size={12} color="var(--alert-color)">{error()}</Text></Show>
-    <Show when={showCustomCodeSaveButton()} ><Button onClick={createInvite} class={css`align-self: self-end; margin-bottom: -8px;`} label={t('servers.settings.invites.saveButton')} iconName='save' /></Show>
-  </FlexColumn>
+
+      <SettingsBlock class={css`&&{position: relative; overflow: hidden; ${!server()?.verified ? 'cursor: not-allowed; opacity: 0.6;' : ''} }`} label={t('servers.settings.invites.customLink')} icon='link'>
+        {/* Overlay to block actions when server is not verified. */}
+        <Show when={!server()?.verified}>
+          <div style={{ position: 'absolute', inset: 0, "z-index": 1111 }} />
+        </Show>
+        <Input prefix={prefixUrl} onText={t => setCustomCode(t)} value={customCode()} />
+      </SettingsBlock>
+      <Show when={error()}><Text style={{ "align-self": 'end' }} size={12} color="var(--alert-color)">{error()}</Text></Show>
+      <Show when={showCustomCodeSaveButton()} ><Button onClick={createInvite} class={css`align-self: self-end; margin-bottom: -8px;`} label={t('servers.settings.invites.saveButton')} iconName='save' /></Show>
+    </FlexColumn>
   )
 }
 
 
 
-const InviteItem =(props: {invite: any}) => {
+const InviteItem = (props: { invite: any }) => {
   const [t] = useTransContext();
   const url = env.APP_URL + RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code);
 
   return (
     <div class={styles.inviteItem}>
-      <Avatar  class={styles.avatar} user={props.invite.createdBy} size={30} />
+      <Avatar class={styles.avatar} user={props.invite.createdBy} size={30} />
       <div class={styles.detailsOuter}>
         <div class={styles.details}>
           <Link href={RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code)} class={styles.url}>{url}</Link>

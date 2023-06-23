@@ -45,7 +45,7 @@
       "servers": "Szerverek"
     },
     "servers": {
-      "title": "Felfedezés - Szerverek" ,
+      "title": "Felfedezés - Szerverek",
       "noticeMessage": "Egy szervert lehet előretolhatsz {{hours}} óránként. Mindegyik előretolás a következő dátumon visszaállítódnak: {{date}}.",
       "sortMostBumps": "Legtöbb Elöretolás",
       "sortMostMembers": "Legtöbb Tag",
@@ -106,8 +106,7 @@
         "editServer": "Szerver Szerkesztése",
         "serverMemberCount": "{{count}} tag"
       },
-      "channels": {
-      },
+      "channels": {},
       "channel": {
         "saving": "Mentés...",
         "saveChangesButton": "Cserék mentése",
@@ -119,7 +118,6 @@
         "deleteChannelButton": "Csatorna Törlése"
       },
       "invites": {
-        "createANewInvite": "Új meghívó készítése",
         "createInviteButton": "Meghívó Készítése",
         "serverInvites": "Szerver Meghívok",
         "serverInvitesDescription": "Hívd meg a barátaid eme szerverbe.",

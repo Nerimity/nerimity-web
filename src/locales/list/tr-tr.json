@@ -123,7 +123,6 @@
         "deleteChannelButton": "Kanalı Sil"
       },
       "invites": {
-        "createANewInvite": "Yeni Davet Oluştur",
         "createInviteButton": "Davet Oluştur",
         "serverInvites": "Sunucu Davetleri",
         "serverInvitesDescription": "Arkadaşlarını bu sunucuya davet et.",

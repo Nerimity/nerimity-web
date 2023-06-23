@@ -124,7 +124,6 @@
         "deleteChannelButton": "Kanaal verwijderen"
       },
       "invites": {
-        "createANewInvite": "Maak een nieuwe uitnodiging aan",
         "createInviteButton": "Uitnodiging maken",
         "serverInvites": "Serveruitnodigingen",
         "serverInvitesDescription": "Nodig je vrienden uit voor deze server.",
