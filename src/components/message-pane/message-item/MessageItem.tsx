@@ -444,7 +444,9 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
     return {top: (props.y - height() - 5) + "px", left: (props.x - width() /2) + "px"};
   }
 
-  const plusCount = props.reaction.count - users()?.length!;
+  const reactionCount = props.reaction.count;
+
+  const plusCount = () =>  reactionCount - users()?.length!;
 
   return (
     <Show when={users()}>
@@ -457,7 +459,7 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
             </div>
           )}
         </For>
-        <Show when={plusCount}><div class={styles.whoReactedPlusCount}>+{plusCount}</div></Show>
+        <Show when={plusCount()}><div class={styles.whoReactedPlusCount}>+{plusCount()}</div></Show>
       </div>
     </Show>
   )
