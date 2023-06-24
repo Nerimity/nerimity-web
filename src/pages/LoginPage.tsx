@@ -8,6 +8,7 @@ import PageHeader from '../components/PageHeader';
 import { css, styled,  } from 'solid-styled-components';
 import { FlexColumn } from '@/components/ui/Flexbox';
 import { useTransContext } from '@nerimity/solid-i18next';
+import PageFooter from '@/components/PageFooter';
 
 const LoginPageContainer = styled("div")`
   display: flex;
@@ -22,6 +23,7 @@ const Content = styled(FlexColumn)`
   border-radius: 8px;
   margin: 8px;
   margin-top: 0;
+  margin-bottom: 0;
   overflow: auto;
 `;
 
@@ -79,15 +81,16 @@ export default function LoginPage() {
       <PageHeader />
       <Content>
         <Container class='container'>
-          <form action='#' onsubmit={loginClicked}>
+          <form style={{display: 'flex', "flex-direction": 'column'}} action='#' onsubmit={loginClicked}>
             <Title>{t('loginPage.title')}</Title>
             <Input margin={[10, 0, 10, 0]} label={t('loginPage.emailOrUsernameAndTag')} errorName={["email", "usernameAndTag"]}  type='text' error={error()} onText={setEmail} />
             <Input margin={[10, 0, 10, 0]} label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
-            <Button iconName='login' label={requestSent() ? t('loginPage.loggingIn') : t('loginPage.loginButton')} onClick={loginClicked} />
+            <Button primary styles={{flex: 1}} margin={[10,0,0,0]}  iconName='login' label={requestSent() ? t('loginPage.loggingIn') : t('loginPage.loginButton')} onClick={loginClicked} />
           </form>
           <Link class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</Link>
         </Container>
       </Content>
+      <PageFooter/>
     </LoginPageContainer>
   );
 }

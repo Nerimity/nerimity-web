@@ -8,6 +8,8 @@ import { appLogoUrl } from '@/common/worldEvents'
 import { useTransContext } from '@nerimity/solid-i18next'
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox'
 import Icon from '@/components/ui/icon/Icon'
+import { CustomLink } from '@/components/ui/CustomLink'
+import PageFooter from '@/components/PageFooter'
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -16,17 +18,19 @@ const HomePageContainer = styled("div")`
 `;
 
 const Content = styled("div")`
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--pane-color);
   margin: 8px;
   margin-top: 0;
+  margin-bottom: 0;
   border-radius: 8px;
   flex: 1;
 `;
 
 const ArtImage = styled("img")`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   width: auto;
@@ -89,12 +93,12 @@ export default function HomePage () {
           </ButtonsContainer>
         </TopContainer>
         <FeatureList/>
+        <ArtImage src="./assets/home-page-art.svg" alt=""/>
       </Content>
-      <ArtImage src="./assets/home-page-art.svg" alt=""/>
+      <PageFooter/>
     </HomePageContainer>
   )
 }
-
 
 
 const FeatureListContainer = styled("div")`

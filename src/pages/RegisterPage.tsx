@@ -11,6 +11,7 @@ import { FlexColumn } from '@/components/ui/Flexbox';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { Turnstile, TurnstileRef } from '@nerimity/solid-turnstile';
 import Text from '@/components/ui/Text';
+import PageFooter from '@/components/PageFooter';
 
 const RegisterPageContainer = styled("div")`
   display: flex;
@@ -25,6 +26,7 @@ const Content = styled(FlexColumn)`
   border-radius: 8px;
   margin: 8px;
   margin-top: 0;
+  margin-bottom: 0;
   overflow: auto;
 `;
 
@@ -94,7 +96,7 @@ export default function RegisterPage() {
       <PageHeader />
       <Content>
         <Container>
-        <form action='#' onsubmit={registerClicked}>
+        <form style={{display: 'flex', "flex-direction": 'column'}} action='#' onsubmit={registerClicked}>
           <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
           <Input margin={[10, 0, 10, 0]} label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
           <Input margin={[10, 0, 10, 0]} label={t('registerPage.username')} error={error()} onText={setUsername} />
@@ -109,11 +111,13 @@ export default function RegisterPage() {
           <Show when={!error().path || error().path === "other" || error().path === "token"}>
             <Text size={16}  color='var(--alert-color)'>{error().message}</Text>
           </Show>
-          <Button iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
+          <Text style={{"margin-top": "10px"}} size={12} opacity={0.8}>By creating an account, you are agreeing to the Terms and conditions and the privacy policy.</Text>
+          <Button primary styles={{flex: 1}} margin={[10,0,0,0]} iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
           </form>
           <Link class={linkStyle} href="/login">{t('registerPage.loginInstead')}</Link>
         </Container>
       </Content>
+      <PageFooter/>
     </RegisterPageContainer>
   )
 }

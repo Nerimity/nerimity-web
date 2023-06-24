@@ -11,6 +11,9 @@ const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AppPage = lazy(() => import('./pages/AppPage'));
 
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
+
 export default function App() {
   const [, actions] = useTransContext();
   onMount(() => {
@@ -44,6 +47,8 @@ export default function App() {
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
       <Route path="/i/:inviteId" component={InviteRedirect} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/terms-and-conditions" component={TermsAndConditionsPage} />
       <Route path="/*" component={NoMatch} />
     </Routes>
   )
