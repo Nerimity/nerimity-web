@@ -9,4 +9,5 @@ export default {
   TURNSTILE_SITEKEY: import.meta.env.VITE_TURNSTILE_SITEKEY,
   EMOJI_URL: import.meta.env.VITE_EMOJI_URL,
   NERIMITY_CDN: import.meta.env.VITE_NERIMITY_CDN,
+  OFFICIAL_SERVER: import.meta.env.VITE_OFFICIAL_SERVER || "nerimity",
 }
