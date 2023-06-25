@@ -1,5 +1,8 @@
 interface WindowAPI {
-  isElectron: boolean
+  isElectron: boolean;
+  minimize(): void;
+  toggleMaximize(): void;
+  close(): void;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {

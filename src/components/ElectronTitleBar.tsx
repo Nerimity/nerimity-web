@@ -2,6 +2,7 @@ import { css, styled } from "solid-styled-components"
 import { FlexRow } from "./ui/Flexbox"
 import Text from "./ui/Text";
 import Button from "./ui/Button";
+import { electronWindowAPI } from "@/common/Electron";
 
 const BarContainer = styled(FlexRow)`
   height: 30px;
@@ -28,6 +29,7 @@ const IconImage = styled("img")`
   border-radius: 50%;
   margin-left: 10px;
   pointer-events: none;
+  background-color: #353535;
 `;
 
 const TitleText = styled(Text)`
@@ -41,9 +43,9 @@ export function ElectronTitleBar() {
       <IconImage src="./assets/logo.png" />
       <TitleText>Nerimity</TitleText>
       <WindowControlButtonsContainer>
-        <Button margin={1} class={windowControlButtonStyles} label="M" />
-        <Button margin={1} class={windowControlButtonStyles} label="R" />
-        <Button margin={1} class={windowControlButtonStyles} label="C" />
+        <Button onClick={electronWindowAPI()?.minimize} margin={1} class={windowControlButtonStyles} label="M" />
+        <Button onClick={electronWindowAPI()?.toggleMaximize} margin={1} class={windowControlButtonStyles} label="R" />
+        <Button onClick={electronWindowAPI()?.close} margin={1} class={windowControlButtonStyles} label="C" />
       </WindowControlButtonsContainer>
     </BarContainer>
   )

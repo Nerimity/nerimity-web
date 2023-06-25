@@ -5,7 +5,7 @@ import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@solidjs/router';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@nerimity/solid-i18next';
-import { electronWindowAPI } from './common/useElectron';
+import { electronWindowAPI } from './common/Electron';
 import { ElectronTitleBar } from './components/ElectronTitleBar';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
