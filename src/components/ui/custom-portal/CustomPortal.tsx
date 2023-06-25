@@ -45,7 +45,7 @@ export function CustomPortalProvider(props: CustomPortalProps) {
 
   return (
     <CustomPortalContext.Provider value={value}>
-      <div style={{display: 'flex', height: '100%', width: '100%'}}>{props.children}</div>
+      <div style={{display: 'flex', "flex-direction": 'column',height: '100%', width: '100%'}}>{props.children}</div>
       <For each={elements}>{(item, i) => <Portal>{item.element(() => closePortal(i()))}</Portal>}</For>
     </CustomPortalContext.Provider>
   );

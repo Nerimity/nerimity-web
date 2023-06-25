@@ -1,10 +1,12 @@
-import { onMount, lazy } from 'solid-js';
+import { onMount, lazy, Show } from 'solid-js';
 import env from './common/env';
 import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@solidjs/router';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@nerimity/solid-i18next';
+import { electronWindowAPI } from './common/useElectron';
+import { ElectronTitleBar } from './components/ElectronTitleBar';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -41,16 +43,21 @@ export default function App() {
 
 
   return (
-    <Routes>
-      <Route path="/" component={HomePage} />
-      <Route path="/app/*" component={AppPage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/register" component={RegisterPage} />
-      <Route path="/i/:inviteId" component={InviteRedirect} />
-      <Route path="/privacy" component={PrivacyPage} />
-      <Route path="/terms-and-conditions" component={TermsAndConditionsPage} />
-      <Route path="/*" component={NoMatch} />
-    </Routes>
+    <>
+      <Show when={electronWindowAPI()?.isElectron}>
+        <ElectronTitleBar />
+      </Show>
+      <Routes>
+        <Route path="/" component={HomePage} />
+        <Route path="/app/*" component={AppPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/i/:inviteId" component={InviteRedirect} />
+        <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/terms-and-conditions" component={TermsAndConditionsPage} />
+        <Route path="/*" component={NoMatch} />
+      </Routes>
+    </>
   )
 };
 
@@ -59,7 +66,7 @@ function InviteRedirect() {
   const navigate = useNavigate();
 
   onMount(() => {
-    navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!), {replace: true})
+    navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!), { replace: true })
   })
 
   return <div>Redirecting...</div>
