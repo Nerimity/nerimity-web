@@ -56,10 +56,10 @@ export function WelcomeModal (props: {close: () => void}) {
 
 function ServerItem() {
   return (
-    <Link href="https://nerimity.com/app/explore/servers/invites/nerimity" target="_blank" style={{"text-decoration": "none"}}>
+    <Link href={`${env.APP_URL}/app/explore/servers/invites/${env.OFFICIAL_SERVER}`} target="_blank" style={{"text-decoration": "none"}}>
       <ItemContainer gap={5} >
         <Icon name="dns" />
-        <Text size={16} style={{flex: 1}} >Join the official Nerimity server!</Text>
+        <Text size={16} style={{flex: 1}} >Join the official {env.APP_NAME} server!</Text>
         <Icon name="open_in_new" />
       </ItemContainer>
     </Link>
