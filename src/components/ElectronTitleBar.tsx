@@ -40,7 +40,7 @@ const TitleText = styled(Text)`
 export function ElectronTitleBar() {
   return (
     <BarContainer>
-      <IconImage src="./assets/logo.png" />
+      <IconImage src="/assets/logo.png" />
       <TitleText>Nerimity</TitleText>
       <WindowControlButtonsContainer>
         <Button onClick={electronWindowAPI()?.minimize} margin={1} class={windowControlButtonStyles} label="M" />
