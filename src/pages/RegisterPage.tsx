@@ -28,6 +28,7 @@ const Content = styled(FlexColumn)`
   margin-top: 0;
   margin-bottom: 0;
   overflow: auto;
+  flex: 1;
 `;
 
 const Container = styled(FlexColumn)`

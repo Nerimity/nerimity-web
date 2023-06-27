@@ -15,6 +15,7 @@ const HomePageContainer = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex: 1;
 `;
 
 const Content = styled("div")`
