@@ -1,11 +1,12 @@
+import { electronWindowAPI } from "./Electron";
 import env from "./env";
 
 let title = ""
 let alert = false;
 
 export const updateTitle = (newTitle: string) => {
-  if (title === title) return;
-  title = title;
+  if (title === newTitle) return;
+  title = newTitle;
   update()
 }
 export const updateTitleAlert = (newAlert: boolean) => {
@@ -26,6 +27,6 @@ const update = () => {
   } else {
     link.href = "/favicon.ico";
   }
-    
+  electronWindowAPI()?.setNotification(alert);   
 }
 
