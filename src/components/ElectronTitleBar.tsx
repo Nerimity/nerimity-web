@@ -43,9 +43,9 @@ export function ElectronTitleBar() {
       <IconImage src="/assets/logo.png" />
       <TitleText>Nerimity</TitleText>
       <WindowControlButtonsContainer>
-        <Button onClick={electronWindowAPI()?.minimize} margin={1} class={windowControlButtonStyles} label="M" />
-        <Button onClick={electronWindowAPI()?.toggleMaximize} margin={1} class={windowControlButtonStyles} label="R" />
-        <Button onClick={electronWindowAPI()?.close} margin={1} class={windowControlButtonStyles} label="C" />
+        <Button onClick={electronWindowAPI()?.minimize} margin={1} class={windowControlButtonStyles} iconName="horizontal_rule" iconSize={16} />
+        <Button onClick={electronWindowAPI()?.toggleMaximize} margin={1} class={windowControlButtonStyles} iconName="check_box_outline_blank" iconSize={16} />
+        <Button onClick={electronWindowAPI()?.close} margin={1} class={windowControlButtonStyles} iconName="close" iconSize={18} />
       </WindowControlButtonsContainer>
     </BarContainer>
   )

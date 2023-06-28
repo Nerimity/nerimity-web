@@ -3,6 +3,9 @@ interface WindowAPI {
   minimize(): void;
   toggleMaximize(): void;
   close(): void;
+
+  getAutostart(): Promise<boolean>;
+  setAutostart(value: boolean): void;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {

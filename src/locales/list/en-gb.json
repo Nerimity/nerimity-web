@@ -173,7 +173,8 @@
       "logout": "Logout",
       "supportMe": "Support Me",
       "viewSource": "View Source",
-      "changelog": "Changelog"
+      "changelog": "Changelog",
+      "window-settings": "Window Settings"
     }
   },
   "addFriend": {
