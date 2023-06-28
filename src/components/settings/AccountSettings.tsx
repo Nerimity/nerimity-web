@@ -6,7 +6,7 @@ import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
-import { getUserDetailsRequest, updateUser, UserDetails } from '@/chat-api/services/UserService';
+import { deleteAccount, getUserDetailsRequest, updateUser, UserDetails } from '@/chat-api/services/UserService';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
@@ -15,6 +15,10 @@ import { Route, Routes, useMatch } from '@solidjs/router';
 import { CustomLink } from '../ui/CustomLink';
 import { getStorageString, setStorageString, StorageKeys } from '@/common/localStorage';
 import socketClient from '@/chat-api/socketClient';
+import DeleteConfirmModal from '../ui/delete-confirm-modal/DeleteConfirmModal';
+import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
+import useServers from '@/chat-api/store/useServers';
+import Modal from '../ui/Modal';
 
 const Container = styled("div")`
   display: flex;
@@ -111,7 +115,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
     }
 
 
-    const values = {...updatedInputValues(), socketId: socketClient.id(), confirmNewPassword: undefined };
+    const values = { ...updatedInputValues(), socketId: socketClient.id(), confirmNewPassword: undefined };
     await updateUser(values)
       .then((res) => {
         if (res.newToken) {
@@ -216,9 +220,76 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
       </Show>
+
+      <DeleteAccountBlock />
     </>
   )
 }
+
+
+const deleteAccountBlockStyles = css`
+  margin-top: 50px;
+  border: solid 1px var(--alert-color);
+`;
+
+
+function DeleteAccountBlock() {
+  const {createPortal} = useCustomPortal();
+  const {array} = useServers();
+
+  const serverCount = () => array().length;
+
+  const onDeleteClick = async (password: string) => {
+    let err = "";
+    await deleteAccount(password).catch(error => {
+      err = error.message;
+    })
+    if (!err) {
+      location.href = "/"
+    }
+    return err;
+  }
+
+  
+  const onClick = () => {
+    const ModalInfo = () => {
+      return (
+        <div style={{"margin-bottom": "15px"}}>
+          What will get deleted:
+          <div >• Email</div>
+          <div>• Username</div>
+          <div>• IP Address</div>
+          <div>• Bio</div>
+          <div >• And More</div>
+          <div style={{"margin-top": "15px"}}>What will not get deleted:</div>
+          <div>• Your Messages</div>
+          <div>• Your Posts</div>
+          <div style={{"margin-top": "5px", "font-size": "12px"}}>You may manually delete them before deleting your account.</div>
+        </div>
+      )
+    }
+    if (serverCount()) {
+      createPortal(close => <DeleteAccountNoticeModal close={close}/>)
+      return;
+    }
+    createPortal(close => <DeleteConfirmModal onDeleteClick={onDeleteClick} custom={<ModalInfo/>} close={close} confirmText='account' title='Delete Account' password />)
+  }
+  
+  return (
+    <SettingsBlock class={deleteAccountBlockStyles} icon='delete' label='Delete My Account' description='This cannot be undone!'>
+      <Button onClick={onClick} iconSize={18} primary color='var(--alert-color)' iconName='delete' label='Delete My Account' />
+    </SettingsBlock>
+  )
+}
+
+function DeleteAccountNoticeModal(props: {close():void}) {
+  return (
+    <Modal title='Delete Account' icon='delete' actionButtons={<Button iconName='check' styles={{"margin-left": 'auto'}} label='Understood' onClick={props.close} />} maxWidth={300}>
+    <Text style={{padding: "10px"}}>You must leave/delete all servers before you can delete your account.</Text>
+  </Modal>
+  )
+}
+
 
 
 

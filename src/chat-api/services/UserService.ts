@@ -144,3 +144,14 @@ export async function updateServerSettings(serverId: string, update: UpdateServe
     body: update
   });
 }
+
+
+
+export async function deleteAccount(password: string) {
+  return request({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("delete-account"),
+    method: "DELETE",
+    useToken: true,
+    body: {password}
+  });
+}

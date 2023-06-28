@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  .confirmText {
+    margin-bottom: 5px;
+  }
   .highlight {
     display: inline-block;
     background-color: var(--alert-color);

@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import { createEffect, createSignal, on } from "solid-js";
+import { JSXElement, Show, createEffect, createSignal, on } from "solid-js";
 import Button from '../Button';
 import Input from '../input/Input';
 import Modal from '../Modal';
@@ -8,13 +8,15 @@ import { FlexRow } from '../Flexbox';
 interface Props {
   confirmText: string;
   errorMessage?: string | null;
-  onDeleteClick?: () => void;
+  onDeleteClick?: (value: string) => Promise<string | undefined> | void;
   close: () => void;
+  password?: boolean;
   title: string;
+  custom?: JSXElement
 }
 
 export default function DeleteConfirmModal(props: Props) {
-  const [confirmInput, setConfirmInput] = createSignal();
+  const [confirmInput, setConfirmInput] = createSignal("");
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
 
@@ -29,14 +31,18 @@ export default function DeleteConfirmModal(props: Props) {
   
   const onDeleteClick = async () => {
     setError(null);
-    if (confirmInput() !== props.confirmText) {
+    if (!props.password && confirmInput() !== props.confirmText) {
       setError(`Input did not match "${props.confirmText}".`);
       return;
     }
     if (requestSent()) return;
     setRequestSent(true);
 
-    props.onDeleteClick?.()
+    const err = await props.onDeleteClick?.(confirmInput());
+    if (err) {
+      setError(err);
+      setRequestSent(false);
+    }
   }
 
   const buttonMessage = () => requestSent() ? 'Deleting...' : `Delete ${props.confirmText}`;
@@ -48,10 +54,12 @@ export default function DeleteConfirmModal(props: Props) {
   )
   
   return (
-    <Modal close={props.close} title={props.title} icon="delete" actionButtons={ActionButtons}>
+    <Modal close={props.close} title={props.title} icon="delete" actionButtons={ActionButtons} maxWidth={300}>
       <div class={styles.deleteConfirmModal}>
-        <div>Confirm by typing <span class={styles.highlight}>{props.confirmText}</span> in the box below.</div>
-        <Input error={error()} onText={v => setConfirmInput(v)} />
+        <Show when={props.custom}>{props.custom!}</Show>
+        <Show when={!props.password}><div class={styles.confirmText}>Confirm by typing <span class={styles.highlight}>{props.confirmText}</span> in the box below.</div></Show>
+        <Show when={props.password}><div class={styles.confirmText}>Confirm by typing your password in the box below.</div></Show>
+        <Input type={props.password ? 'password' : 'text'} error={error()} onText={v => setConfirmInput(v)} />
       </div>
     </Modal>
   )
