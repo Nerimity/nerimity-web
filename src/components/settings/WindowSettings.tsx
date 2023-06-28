@@ -64,14 +64,20 @@ export default function WindowSettings() {
 function StartupOptions() {
 
   const [autostart, setAutostart] = createSignal(false)
+  const [autostartMinimized, setAutostartMinimized] = createSignal(false)
 
   onMount(async () => {
     electronWindowAPI()?.getAutostart().then(setAutostart);
+    electronWindowAPI()?.getAutostartMinimized().then(setAutostartMinimized);
   })
 
   const onAutostartChange = (checked: boolean) => {
     electronWindowAPI()?.setAutostart(checked);
     setAutostart(checked);
+  }
+  const onAutostartMinimizedChange = (checked: boolean) => {
+    electronWindowAPI()?.setAutostartMinimized(checked);
+    setAutostartMinimized(checked);
   }
 
   return (
@@ -83,7 +89,7 @@ function StartupOptions() {
       </SettingsBlock>
       <Show when={autostart()}>
         <SettingsBlock icon='horizontal_rule' label='Start Minimized' description={`Minimize ${env.APP_NAME} to the tray automatically.`} borderTopRadius={false}>
-          <Checkbox />
+          <Checkbox checked={autostartMinimized()} onChange={onAutostartMinimizedChange} />
         </SettingsBlock>
       </Show>
     </FlexColumn>

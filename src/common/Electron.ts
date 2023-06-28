@@ -6,6 +6,9 @@ interface WindowAPI {
 
   getAutostart(): Promise<boolean>;
   setAutostart(value: boolean): void;
+  
+  getAutostartMinimized(): Promise<boolean>;
+  setAutostartMinimized(value: boolean): void;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {
