@@ -159,7 +159,7 @@ function MainPane() {
   const { hasRightDrawer, hasLeftDrawer } = useDrawer();
   const [mainPaneElement, setMainPaneElement] = createSignal<HTMLDivElement | undefined>(undefined);
 
-  const [width] = useResizeObserver(mainPaneElement)
+  const {width} = useResizeObserver(mainPaneElement)
 
   createEffect(() => {
     windowProperties.setPaneWidth(width());

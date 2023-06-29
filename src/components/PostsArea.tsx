@@ -372,7 +372,7 @@ const embedStyles = css`
 
 function Embeds(props: { post: Post, hovered: boolean }) {
   let element: HTMLDivElement | undefined;
-  const [width] = useResizeObserver(() => element?.parentElement?.parentElement?.parentElement);
+  const {width} = useResizeObserver(() => element?.parentElement?.parentElement?.parentElement);
   const { height } = useWindowProperties();
 
   const clampedHeight = () => clamp(height(), 600)

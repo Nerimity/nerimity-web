@@ -1,7 +1,9 @@
 import { createEffect, on, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 
-export function useResizeObserver(element: () => HTMLElement | undefined) {
+
+
+export function useResizeObserver(element: () => HTMLElement | undefined | null) {
   const [dimensions, setDimensions] = createStore({width: 0, height: 0})
   createEffect(on(element, (el) => {
     if (!el) return;
@@ -17,5 +19,5 @@ export function useResizeObserver(element: () => HTMLElement | undefined) {
       resizeObserver.disconnect();
     })
   }))
-  return [() => dimensions.width, () => dimensions.height]
+  return {width: () => dimensions.width, height: () => dimensions.height} as const
 }

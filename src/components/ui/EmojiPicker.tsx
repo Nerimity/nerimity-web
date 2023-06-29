@@ -136,7 +136,7 @@ const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number
   let floatingElementRef: undefined | HTMLDivElement = undefined;
 
   const {isMobileAgent} = useWindowProperties();
-  const [width, height] = useResizeObserver(() => floatingElementRef)
+  const {width, height} = useResizeObserver(() => floatingElementRef)
 
   const styles = () => {
     let _styles: JSX.CSSProperties = {};
