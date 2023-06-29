@@ -777,10 +777,9 @@ function TypingIndicator() {
     })
   })
 
-  // const typingUsers = createMemo(() => Object.keys(typingUserIds).map(userId =>
-  //   users.get(userId)
-  // ))
-  const typingUsers = () => [users.get("1390419318646415361"),users.get("1390419318646415361"), users.get("1390419318646415361")]
+  const typingUsers = createMemo(() => Object.keys(typingUserIds).map(userId =>
+    users.get(userId)
+  ))
 
   return (
     <Show when={typingUsers().length}>
