@@ -26,8 +26,26 @@ const Container = styled("div")`
   flex-direction: column;
   gap: 5px;
   padding: 10px;
+  flex-shrink: 0;
 `;
 
+
+const Options = styled("div")`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 10px;
+  flex-shrink: 0;
+
+`;
+
+
+const BlockContent = styled("div")`
+  position: absolute;
+  inset: 0;
+  cursor: not-allowed;
+`;
 
 
 export default function WindowSettings() {
@@ -54,7 +72,10 @@ export default function WindowSettings() {
         <Notice type='info' description='To modify these settings, you must download the Nerimity desktop app.' />
       </Show>
 
-      <StartupOptions />
+      <Options>
+        <Show when={!isElectron}><BlockContent/></Show>
+        <StartupOptions />
+      </Options>
 
     </Container>
   )
