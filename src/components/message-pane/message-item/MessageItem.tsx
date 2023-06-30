@@ -420,7 +420,7 @@ function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; 
 function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReaction, message: Message }) {
   const [users, setUsers] = createSignal<null | RawUser[]>(null);
   const [el, setEL] = createSignal<undefined | HTMLDivElement>(undefined);
-  const [width, height] = useResizeObserver(el)
+  const {width, height} = useResizeObserver(el)
 
 
   onMount(() => {
