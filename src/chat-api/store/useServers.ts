@@ -1,6 +1,6 @@
 import env from '@/common/env';
 import {createStore} from 'solid-js/store';
-import { ChannelType, RawCustomEmoji, RawServer } from '../RawData';
+import { ChannelType, RawCustomEmoji, RawServer, ServerNotificationPingMode } from '../RawData';
 import { deleteServer } from '../services/ServerService';
 import useAccount from './useAccount';
 import useChannels from './useChannels';
@@ -30,7 +30,16 @@ const set = (server: RawServer) =>
       ...server,
       get hasNotifications() {
         const channels = useChannels();
-        return channels.getChannelsByServerId(server.id).some(channel => channel!.hasNotifications && channel?.type === ChannelType.SERVER_TEXT)
+
+        const account = useAccount();
+        const notificationPingMode = account.getServerSettings(this.id)?.notificationPingMode;
+        if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
+        
+        return channels.getChannelsByServerId(server.id).some(channel => {
+          const hasNotification = channel!.hasNotifications;
+          if (hasNotification !== 'mention' && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
+          return hasNotification && channel?.type === ChannelType.SERVER_TEXT
+        })
       },
       get mentionCount() {
         const mention = useMention();

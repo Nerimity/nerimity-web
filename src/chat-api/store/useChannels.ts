@@ -5,7 +5,7 @@ import {createStore} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import {dismissChannelNotification} from '../emits/userEmits';
 import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIONS } from '../Bitwise';
-import { RawChannel } from '../RawData';
+import { RawChannel, ServerNotificationPingMode } from '../RawData';
 import useMessages from './useMessages';
 import useUsers, { User } from './useUsers';
 import useStore from './useStore';
@@ -23,7 +23,7 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   recipient?: User;
   recipientId?: string;
   lastSeen?: number;
-  hasNotifications: boolean;
+  hasNotifications: boolean | 'mention';
 }
 
 
@@ -52,7 +52,10 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
         }
 
         const {mentions} = useStore();
-        if (mentions.get(channel.id)?.count) return true; 
+        const hasMentions = mentions.get(channel.id)?.count;
+
+        if (hasMentions) return 'mention';
+
         const lastMessagedAt = this.lastMessagedAt! || 0;
         const lastSeenAt = this.lastSeen! || 0;
         if (!lastSeenAt) return true;

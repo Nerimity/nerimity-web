@@ -133,7 +133,8 @@ export async function unfollowUser(userId: string) {
 
 
 interface UpdateServerSettings {
-  notificationSoundMode: number;
+  notificationSoundMode?: number;
+  notificationPingMode?: number;
 }
 
 export async function updateServerSettings(serverId: string, update: UpdateServerSettings) {

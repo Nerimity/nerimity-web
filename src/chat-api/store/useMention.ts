@@ -1,5 +1,7 @@
 import {createStore} from 'solid-js/store';
 import useChannels from './useChannels';
+import useAccount from './useAccount';
+import { ServerNotificationPingMode } from '../RawData';
 
 export type Mention = {
   channelId: string;
@@ -12,6 +14,16 @@ const [mentions, setMentions] = createStore<Record<string, Mention | undefined>>
 
 
 const set = (mention: Mention) => {
+
+  const channels = useChannels();
+  const channel = channels.get(mention.channelId);
+  const account = useAccount();
+  
+  if (channel?.serverId) {
+    const notificationPingMode = account.getServerSettings(channel.serverId)?.notificationPingMode;
+    if (notificationPingMode === ServerNotificationPingMode.MUTE) return;
+  }
+
   setMentions(mention.channelId, mention);
 }
 

@@ -82,8 +82,14 @@ export enum ServerNotificationSoundMode {
   MENTIONS_ONLY = 1,
   MUTE = 2,
 }
+export enum ServerNotificationPingMode {
+  ALL = 0,
+  MENTIONS_ONLY = 1,
+  MUTE = 2,
+}
 export interface RawServerSettings {
-  notificationSoundMode: ServerNotificationSoundMode
+  notificationSoundMode: ServerNotificationSoundMode,
+  notificationPingMode: ServerNotificationPingMode,
   serverId: string
 }
 
