@@ -30,7 +30,7 @@ function ChannelItem(props: { channel: Channel }) {
   return (
     <CustomLink href={link} class={styles.channelItem}>
       <div class={styles.container}>
-        <ChannelIcon icon={props.channel.icon} />
+        <ChannelIcon icon={props.channel.icon} hovered={true} />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
         </Show>
@@ -73,7 +73,7 @@ function CategoryItem(props: { channel: Channel }) {
   return (
     <div class={styles.categoryItem}>
       <CustomLink href={link} class={styles.container}>
-        <ChannelIcon icon={props.channel.icon} isCategory />
+        <ChannelIcon icon={props.channel.icon} isCategory hovered />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
         </Show>

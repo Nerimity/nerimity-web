@@ -16,6 +16,7 @@ import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 import env from '@/common/env';
 import { unicodeToTwemojiUrl } from '@/emoji';
+import { createSignal } from 'solid-js';
 
 
 
@@ -70,10 +71,10 @@ const ChannelIconImage = styled('img')`
 `;
 
 
-export const ChannelIcon = (props: {icon?: string; isCategory?: boolean}) => {
+export const ChannelIcon = (props: {icon?: string; isCategory?: boolean; hovered?: boolean}) => {
   const url = () => {
     if (props.icon!.includes(".")) {
-      return `${env.NERIMITY_CDN}emojis/${props.icon}`
+      return `${env.NERIMITY_CDN}emojis/${props.icon}${!props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ''}`
     }
     return unicodeToTwemojiUrl(props.icon!);
   }
@@ -132,16 +133,17 @@ const CategoryItemContainer = styled(FlexRow)`
 function CategoryItem(props: { channel: Channel, selected: boolean }) {
   const params = useParams();
   const { channels } = useStore();
+  const [hovered, setHovered] = createSignal(false);
 
   const sortedServerChannels = createMemo(() => channels.getSortedChannelsByServerId(params.serverId, true).filter(channel => channel?.categoryId === props.channel.id));
   const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
 
   return (
-    <CategoryContainer>
+    <CategoryContainer onmouseenter={() => setHovered(true)} onmouseleave={() => setHovered(false)}>
 
       <CategoryItemContainer gap={5}>
-        <ChannelIcon icon={props.channel.icon} isCategory/>
+        <ChannelIcon icon={props.channel.icon} isCategory hovered={hovered()}/>
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3}}/>
         </Show>
@@ -165,7 +167,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
 
 function ChannelItem(props: { channel: Channel, selected: boolean }) {
   const { channel } = props;
-
+  const [hovered, setHovered] = createSignal(false);
 
   const hasNotifications = () => channel.hasNotifications;
 
@@ -176,8 +178,8 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
       href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
       style={{ "text-decoration": "none" }}
     >
-      <ChannelContainer selected={props.selected} alert={hasNotifications()}>
-        <ChannelIcon icon={props.channel.icon}/>
+      <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
+        <ChannelIcon icon={props.channel.icon} hovered={hovered()}/>
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-right": "5px"}}/>
         </Show>

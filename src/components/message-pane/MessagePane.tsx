@@ -1123,7 +1123,7 @@ function ChannelSuggestionItem(props: { onHover: () => void; selected: boolean; 
 
   return (
     <ItemContainer selected={props.selected} onmousemove={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.suggestionItem}>
-      <ChannelIcon icon={props.channel.icon} />
+      <ChannelIcon icon={props.channel.icon} hovered={props.selected} />
       <Show when={isPrivateChannel()}>
         <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
       </Show>
