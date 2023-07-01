@@ -15,6 +15,7 @@ import { ChannelType } from '@/chat-api/RawData';
 import { CustomLink } from '@/components/ui/CustomLink';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
+import { ChannelIcon } from '../../drawer/ServerDrawer';
 
 
 
@@ -29,7 +30,7 @@ function ChannelItem(props: { channel: Channel }) {
   return (
     <CustomLink href={link} class={styles.channelItem}>
       <div class={styles.container}>
-        <div class={styles.channelIcon}>#</div>
+        <ChannelIcon icon={props.channel.icon} />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
         </Show>
@@ -72,7 +73,7 @@ function CategoryItem(props: { channel: Channel }) {
   return (
     <div class={styles.categoryItem}>
       <CustomLink href={link} class={styles.container}>
-        <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
+        <ChannelIcon icon={props.channel.icon} isCategory />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
         </Show>

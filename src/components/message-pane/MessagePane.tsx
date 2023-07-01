@@ -47,6 +47,7 @@ import { t } from 'i18next';
 import { useScrollToMessageListener } from '@/common/GlobalEvents';
 import { createDesktopNotification } from '@/common/desktopNotification';
 import { useResizeObserver } from '@/common/useResizeObserver';
+import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -1122,7 +1123,7 @@ function ChannelSuggestionItem(props: { onHover: () => void; selected: boolean; 
 
   return (
     <ItemContainer selected={props.selected} onmousemove={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.suggestionItem}>
-      <span class={styles.channelIcon}>#</span>
+      <ChannelIcon icon={props.channel.icon} />
       <Show when={isPrivateChannel()}>
         <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
       </Show>

@@ -14,6 +14,8 @@ import { ChannelType } from '@/chat-api/RawData';
 import Icon from '@/components/ui/icon/Icon';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
+import env from '@/common/env';
+import { unicodeToTwemojiUrl } from '@/emoji';
 
 
 
@@ -53,9 +55,47 @@ const ChannelList = () => {
 };
 
 
+
+const ChannelIconContainer = styled(FlexRow)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  width: 18px;
+  `;
+const ChannelIconImage = styled('img')`
+  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+`;
+
+
+export const ChannelIcon = (props: {icon?: string; isCategory?: boolean}) => {
+  const url = () => {
+    if (props.icon!.includes(".")) {
+      return `${env.NERIMITY_CDN}emojis/${props.icon}`
+    }
+    return unicodeToTwemojiUrl(props.icon!);
+  }
+  return (
+    <ChannelIconContainer>
+      <Show when={!props.icon && props.isCategory}>
+        <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
+      </Show>
+      <Show when={!props.icon && !props.isCategory}>
+        <Text color='rgba(255,255,255,0.6)'>#</Text>
+      </Show>
+      <Show when={props.icon}>
+        <ChannelIconImage src={url()} />
+      </Show>
+    </ChannelIconContainer>
+  )
+}
+
 const ChannelContainer = styled(ItemContainer)`
   height: 32px;
   padding-left: 10px;
+  gap: 5px;
 
   
   .label {
@@ -69,9 +109,8 @@ const ChannelContainer = styled(ItemContainer)`
     opacity: 1;
   }
 
-  .channelIcon {
-    opacity: 0.2;
-    margin-right: 5px;
+  .channelDefaultIcon {
+    opacity: 0.4;
   }
 
 `;
@@ -90,8 +129,6 @@ const CategoryItemContainer = styled(FlexRow)`
   align-items: center;
 `
 
-
-
 function CategoryItem(props: { channel: Channel, selected: boolean }) {
   const params = useParams();
   const { channels } = useStore();
@@ -104,7 +141,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
     <CategoryContainer>
 
       <CategoryItemContainer gap={5}>
-        <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
+        <ChannelIcon icon={props.channel.icon} isCategory/>
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3}}/>
         </Show>
@@ -124,6 +161,8 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
   )
 }
 
+
+
 function ChannelItem(props: { channel: Channel, selected: boolean }) {
   const { channel } = props;
 
@@ -138,7 +177,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
       style={{ "text-decoration": "none" }}
     >
       <ChannelContainer selected={props.selected} alert={hasNotifications()}>
-        <Text class="channelIcon">#</Text>
+        <ChannelIcon icon={props.channel.icon}/>
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-right": "5px"}}/>
         </Show>

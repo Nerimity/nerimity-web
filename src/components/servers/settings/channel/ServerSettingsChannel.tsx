@@ -16,6 +16,11 @@ import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfi
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { useTransContext } from '@nerimity/solid-i18next';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
+import { FloatingEmojiPicker } from '@/components/ui/EmojiPicker';
+import { emojiShortcodeToUnicode } from '@/emoji';
+import { Emoji } from '@/components/markup/Emoji';
+import env from '@/common/env';
+import { ChannelIcon } from '../../drawer/ServerDrawer';
 
 type ChannelParams = {
   serverId: string;
@@ -28,6 +33,7 @@ export default function ServerSettingsChannel() {
   const { header, channels, servers } = useStore();
   const {createPortal} = useCustomPortal();
 
+  const [emojiPickerPosition, setEmojiPickerPosition] = createSignal<null | {x: number, y: number}>(null);
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
 
@@ -35,6 +41,7 @@ export default function ServerSettingsChannel() {
   
   const defaultInput = () => ({
     name: channel()?.name || '',
+    icon: channel()?.icon || null,
     permissions: channel()?.permissions || 0,
   })
   
@@ -86,6 +93,20 @@ export default function ServerSettingsChannel() {
 
   const server = () => servers.get(params.serverId);
 
+  const openChannelIconPicker = (event: MouseEvent) => {
+    setEmojiPickerPosition({
+      x: event.clientX,
+      y: event.clientY
+    })
+  }
+
+  const onIconPicked = (shortcode: string) => {
+    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
+    const unicode = emojiShortcodeToUnicode(shortcode);
+    const icon = unicode || `${customEmoji.id}.${customEmoji.gif ? 'gif' : 'webp'}`;
+    setInputValue('icon', icon);
+  }
+
 
   return (
     <div class={styles.channelPane}>
@@ -98,6 +119,20 @@ export default function ServerSettingsChannel() {
       {/* Channel Name */}
       <SettingsBlock icon='edit' label={t('servers.settings.channel.channelName')}>
         <Input value={inputValues().name} onText={(v) => setInputValue('name', v) } />
+      </SettingsBlock>
+      
+      {/* Channel Icon */}
+      <SettingsBlock icon='face' label='Channel Icon'>
+        <Show when={inputValues().icon}>
+          <Button iconName='delete' onClick={() => setInputValue('icon', null)} iconSize={13} color='var(--alert-color)' />
+        </Show>
+        <Button iconName={inputValues().icon ? undefined : 'face'} iconSize={16} onClick={openChannelIconPicker} customChildren={inputValues().icon ?(
+          <ChannelIcon icon={inputValues().icon}/>
+        ) : undefined} />
+        <Show when={emojiPickerPosition()}>
+          <FloatingEmojiPicker  onClick={onIconPicked} {...emojiPickerPosition()!} close={() => setEmojiPickerPosition(null)} />
+        </Show>
+
       </SettingsBlock>
       <div>
         <SettingsBlock icon="security" label={t('servers.settings.channel.permissions')} description={t('servers.settings.channel.permissionsDescription')} header={true} />

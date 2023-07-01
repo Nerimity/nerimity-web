@@ -111,6 +111,7 @@ export interface RawChannel {
   id: string;
   categoryId?: string;
   name: string
+  icon?: string;
   createdById?: string;
   serverId?: string;
   type: ChannelType;
