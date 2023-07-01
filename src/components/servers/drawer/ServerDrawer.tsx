@@ -65,7 +65,7 @@ const ChannelIconContainer = styled(FlexRow)`
   width: 18px;
   `;
 const ChannelIconImage = styled('img')`
-  border-radius: 50%;
+  border-radius: 4px;
   height: 18px;
   width: 18px;
 `;
