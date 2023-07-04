@@ -173,7 +173,9 @@
       "logout": "Wyloguj się",
       "supportMe": "Wesprzyj Mnie",
       "viewSource": "Zobacz kod",
-      "changelog": "Dziennik zmian"
+      "changelog": "Dziennik zmian",
+      "window-settings": "Ustawienia Okna",
+      "privacy": "Prywatność"
     }
   },
   "addFriend": {
