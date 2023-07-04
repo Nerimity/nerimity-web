@@ -107,6 +107,7 @@ interface UpdateUserOptions {
   newPassword?: string;
   bio?: string | null;
   socketId?: string;
+  dmStatus?: number;
 }
 export async function updateUser(body: UpdateUserOptions) {
   return request<{user: any, newToken?: string, }>({

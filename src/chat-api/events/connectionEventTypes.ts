@@ -23,7 +23,11 @@ interface MessageMention {
   createdAt: number;
 }
 
-
+export enum DmStatus {
+  OPEN = 0,
+  FRIENDS_AND_SERVERS = 1,
+  FRIENDS = 2,
+}
 
 
 export interface SelfUser {
@@ -37,4 +41,5 @@ export interface SelfUser {
   tag: string;
   customStatus?: string;
   orderedServerIds: string[]
+  dmStatus: DmStatus
 }

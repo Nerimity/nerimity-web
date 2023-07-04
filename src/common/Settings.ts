@@ -23,6 +23,12 @@ const settings: Setting[] =  [
     element: lazy(() => import('@/components/settings/NotificationsSettings'))
   },
   {
+    path: 'privacy',
+    name: 'settings.drawer.privacy',
+    icon: 'shield',
+    element: lazy(() => import('@/components/settings/PrivacySettings'))
+  },
+  {
     path: 'window-settings',
     name: 'settings.drawer.window-settings',
     icon: 'launch',
