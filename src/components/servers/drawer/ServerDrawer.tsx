@@ -165,6 +165,21 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
 
 
 
+const MentionCountContainer = styled(FlexRow) `
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: white;
+  background-color: var(--alert-color);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: 5px;
+`;
+
 function ChannelItem(props: { channel: Channel, selected: boolean }) {
   const { channel } = props;
   const [hovered, setHovered] = createSignal(false);
@@ -172,6 +187,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
   const hasNotifications = () => channel.hasNotifications;
 
   const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+
 
   return (
     <Link
@@ -184,6 +200,9 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-right": "5px"}}/>
         </Show>
         <Text class="label">{channel.name}</Text>
+        <Show when={props.channel.mentionCount}>
+          <MentionCountContainer>{props.channel.mentionCount}</MentionCountContainer>
+        </Show>
       </ChannelContainer>
     </Link>
   )

@@ -11,6 +11,7 @@ import useUsers, { User } from './useUsers';
 import useStore from './useStore';
 import useServerMembers from './useServerMembers';
 import useAccount from './useAccount';
+import useMention from './useMention';
 
 export type Channel = Omit<RawChannel, 'recipient'> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -24,6 +25,7 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   recipientId?: string;
   lastSeen?: number;
   hasNotifications: boolean | 'mention';
+  mentionCount: number;
 }
 
 
@@ -64,6 +66,12 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
       get permissionList () {
         const permissions = this.permissions || 0;
         return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
+      },
+      get mentionCount() {
+        const mention = useMention();
+        const count = mention.get(channel.id)?.count || 0
+
+        return count;
       },
       updateLastSeen(timestamp?: number) {
         setChannels(this.id, "lastSeen", timestamp);
