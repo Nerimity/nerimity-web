@@ -137,7 +137,7 @@ const InboxDrawerTab = () => {
 
   return <>
     <For each={array()}>
-      {user => <FriendItem user={user} />}
+      {user => <FriendItem user={user} isInboxTab />}
     </For>
   </>
 };

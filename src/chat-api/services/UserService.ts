@@ -88,6 +88,13 @@ export async function openDMChannelRequest(userId: string) {
     useToken: true
   });
 }
+export async function closeDMChannelRequest(channelId: string) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.channel(channelId),
+    method: 'DELETE',
+    useToken: true
+  });
+}
 export async function updatePresence(presence: Partial<Presence>) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.updatePresence(),

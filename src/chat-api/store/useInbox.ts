@@ -27,6 +27,11 @@ const set = (item: RawInboxWithoutChannel) => {
     },
   }});
 }
+
+const removeInbox = (channelId: string) => {
+  setInbox(channelId, undefined);
+}
+
 const get = (userId: string) => {
   return inbox[userId];
 }
@@ -47,7 +52,6 @@ const notificationCount = () => {
     const channel = channels.get(mention?.channelId!);
     if (channel?.serverId) continue;
     count += mention?.count || 0
-    
   }
 
   return count;
@@ -58,6 +62,7 @@ export default function useInbox() {
     array,
     get,
     set,
-    notificationCount
+    notificationCount,
+    removeInbox
   }
 }

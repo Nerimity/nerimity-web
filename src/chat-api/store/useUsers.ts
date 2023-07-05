@@ -1,7 +1,7 @@
 import {createStore} from 'solid-js/store';
 import { RawUser } from '../RawData';
 import useInbox, { Inbox } from './useInbox';
-import { openDMChannelRequest } from '../services/UserService';
+import { closeDMChannelRequest, openDMChannelRequest } from '../services/UserService';
 import useChannels from './useChannels';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { useNavigate } from '@solidjs/router';
@@ -30,8 +30,9 @@ export const bannerUrl = (item: {banner?: string}): string | null => item?.banne
 export type User = RawUser & {
   presence?: Presence
   inboxChannelId?: string
-  setInboxChannelId: (this: User, channelId: string) => void;
+  setInboxChannelId: (this: User, channelId: string | undefined) => void;
   openDM: (this: User) => Promise<void>;
+  closeDM: (this: User) => Promise<void>;
   avatarUrl(this: User): string | null
   bannerUrl(this: User): string | null
   update(this: User, update: Partial<RawUser>): void
@@ -49,6 +50,9 @@ const set = (user: RawUser) => runWithContext(() => {
     },
     async openDM() {
       await openDM(this.id)
+    },
+    async closeDM() {
+      await closeDM(this.inboxChannelId!)
     },
     avatarUrl(){
       return this?.banner ? env.NERIMITY_CDN + this?.banner : null;
@@ -73,6 +77,10 @@ const openDM = async (userId: string) => runWithContext(async () =>{
     user()?.setInboxChannelId(rawInbox.channel.id);
   }
   navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
+});
+
+const closeDM = async (channelId: string) => runWithContext(async () =>{
+  await closeDMChannelRequest(channelId);
 });
 
 const get = (userId: string) => users[userId]

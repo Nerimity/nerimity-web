@@ -27,6 +27,7 @@ export default {
 
   updatePresence: () => `/users/presence`,
 
+  channel: (channelId: string) => `/channels/${channelId}`,
   messages: (channelId: string) => `/channels/${channelId}/messages`,
   channelAttachments: (channelId: string) => `/channels/${channelId}/attachments`,
   channelTyping: (channelId: string) => `/channels/${channelId}/typing`,

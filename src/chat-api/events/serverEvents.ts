@@ -8,6 +8,7 @@ import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
 import useUsers from "../store/useUsers";
 import { CHANNEL_PERMISSIONS, addBit, hasBit } from "../Bitwise";
+import { useParams } from "@solidjs/router";
 
 interface ServerJoinedPayload {
   server: RawServer,
@@ -54,6 +55,10 @@ export const onServerLeft = (payload: { serverId: string }) => runWithContext(()
   const servers = useServers();
   const channels = useChannels();
   const roles = useServerRoles();
+
+  const params = useParams();
+
+  console.log(params.serverId)
 
 
   batch(() => {

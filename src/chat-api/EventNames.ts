@@ -19,6 +19,7 @@ export const ServerEvents = {
   FRIEND_REQUEST_ACCEPTED: 'friend:request_accepted',
   FRIEND_REMOVED: 'friend:removed',
   INBOX_OPENED: 'inbox:opened',
+  INBOX_CLOSED: 'inbox:closed',
   NOTIFICATION_DISMISSED: 'notification:dismissed',
 
   SERVER_JOINED: 'server:joined',

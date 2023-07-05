@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
-import { Link, useParams } from "@solidjs/router";
+import { Link, useNavigate, useParams } from "@solidjs/router";
 import { FriendStatus } from "@/chat-api/RawData";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
@@ -13,11 +13,14 @@ import { createSignal, Show } from "solid-js";
 import ItemContainer from "@/components/ui/Item";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
-export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User}) {
+export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User, isInboxTab?: boolean}) {
   const params = useParams();
-  const {inbox, mentions} = useStore();
+  const {inbox, mentions, channels} = useStore();
+  const navigate = useNavigate();
   const [hovered, setHovered] = createSignal(false);
+  const {isMobileAgent} = useWindowProperties();
 
 
   const user = () => {
@@ -43,6 +46,15 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   }
   const onDeclineClick = () => {
     props.friend?.removeFriend()
+  }
+
+  const onCloseDMClick = async () => {
+    const channel = channels.get(user().inboxChannelId!);
+    channel?.dismissNotification();
+    user().closeDM();
+    if (params.channelId === user().inboxChannelId) {
+      navigate('/app')
+    }
   }
 
 
@@ -71,9 +83,19 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
   `;
 
+
+  const showCloseButton = () => {
+    if (!props.isInboxTab) return false;
+    if (isMobileAgent()) {
+      if (isSelected()) return true;
+      return false;
+    }
+    return props.user?.inboxChannelId &&  hovered();
+  }
+
   return (
     <Show when={user()}>
-      <FriendContainer onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} selected={isSelected()} alert={mentionCount() || showAccept()} onClick={onFriendClick}>
+      <FriendContainer onmouseenter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} selected={isSelected()} alert={mentionCount() || showAccept()} onClick={onFriendClick}>
 
         <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar animate={hovered()} user={user()} size={25} />
@@ -92,6 +114,10 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
         </Show>
         <Show when={mentionCount()}>
           <div class={styles.notificationCount}>{mentionCount()}</div>
+        </Show>
+
+        <Show when={showCloseButton()}>
+          <Button class={styles.button} iconSize={12} color="var(--alert-color)" iconName="close" onClick={onCloseDMClick} />
         </Show>
 
       </FriendContainer>
