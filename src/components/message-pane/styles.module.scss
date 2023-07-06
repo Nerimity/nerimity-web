@@ -121,10 +121,13 @@
     }
 
     &.floatingMessageEmojiPicker {
+      position: absolute;
+      left: 60px;
       backdrop-filter: none;
       background-color: transparent;
       padding: 0;
       right: 0;
+      bottom: 50px;
       margin-right: 6px;
       z-index: 9999999;
       left: initial;

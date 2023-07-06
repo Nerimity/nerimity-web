@@ -604,10 +604,10 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   }
 
   return <div class={classNames("messageArea", styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
+      <Show when={showEmojiPicker()}><FloatingMessageEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
     <div class={styles.floatingItems}>
       <FloatingSuggestions textArea={textAreaEl()} />
       <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
-      <Show when={showEmojiPicker()}><FloatingMessageEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
       <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
       <TypingIndicator />
     </div>
@@ -868,14 +868,15 @@ function FloatingAttachment(props: {}) {
 }
 
 
-function Floating(props: { class?: string, children: JSX.Element }) {
+function Floating(props: { class?: string, children: JSX.Element, offset?: number; readjust?: boolean }) {
   let floatingEl: undefined | HTMLDivElement;
-  const offset = 12;
+  const offset = props.offset !== undefined ? props.offset :  6;
 
   const readjust = () => {
-    // if (!floatingEl) return;
-    // const height = floatingEl?.clientHeight;
-    // floatingEl.style.top = (-height + offset) + 'px';
+    if (!props.readjust) return;
+    if (!floatingEl) return;
+    const height = floatingEl?.clientHeight;
+    floatingEl.style.top = (-height + offset) + 'px';
   }
 
 
