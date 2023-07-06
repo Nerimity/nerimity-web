@@ -105,7 +105,7 @@ const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivEl
 }
 
 const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
   const params = useParams<{ channelId: string, serverId?: string }>();
   const { hasFocus } = useWindowProperties();
   const { channels, messages, account, channelProperties, servers } = useStore();
@@ -115,7 +115,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   const [unreadMarker, setUnreadMarker] = createStore<{ lastSeenAt: number | null, messageId: string | null }>({ lastSeenAt: null, messageId: null });
 
   const [messageContextDetails, setMessageContextDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
-  const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position?: { x: number, y: number }, message?: Message } | undefined>({position: undefined, message: undefined});
+  const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position?: { x: number, y: number }, message?: Message } | undefined>({ position: undefined, message: undefined });
 
   const [loadingMessages, setLoadingMessages] = createStore({ top: false, bottom: true });
   const scrollTracker = createScrollTracker(props.mainPaneEl);
@@ -212,7 +212,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   }
 
 
-  const {height: textAreaHeight} = useResizeObserver(() => props.textAreaEl?.parentElement?.parentElement);
+  const { height: textAreaHeight } = useResizeObserver(() => props.textAreaEl?.parentElement?.parentElement);
 
   createEffect(on(textAreaHeight, () => {
     if (scrollTracker.scrolledBottom()) {
@@ -424,12 +424,12 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
         />
       </Show>
       <Show when={userContextMenuDetails()?.position}>
-        <MemberContextMenu 
+        <MemberContextMenu
           user={userContextMenuDetails()?.message?.createdBy}
           position={userContextMenuDetails()!.position}
-          serverId={params.serverId} 
-          userId={userContextMenuDetails()?.message?.createdBy?.id!} 
-          onClose={() => setUserContextMenuDetails({position: undefined, message: userContextMenuDetails()?.message })} />
+          serverId={params.serverId}
+          userId={userContextMenuDetails()?.message?.createdBy?.id!}
+          onClose={() => setUserContextMenuDetails({ position: undefined, message: userContextMenuDetails()?.message })} />
       </Show>
       <For each={channelMessages()}>
         {(message, i) => (
@@ -485,7 +485,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
   return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll, setLoadMoreBottom }
 }
 
-function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: HTMLTextAreaElement):void }) {
+function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: HTMLTextAreaElement): void }) {
   const { channelProperties, account } = useStore();
   const params = useParams<{ channelId: string, serverId?: string; }>();
   let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
@@ -604,13 +604,13 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   }
 
   return <div class={classNames("messageArea", styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
-      <Show when={showEmojiPicker()}><FloatingMessageEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
+    <Show when={showEmojiPicker()}><FloatingMessageEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
     <div class={styles.floatingItems}>
       <FloatingSuggestions textArea={textAreaEl()} />
       <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
       <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
-      <TypingIndicator />
     </div>
+    <TypingIndicator />
     <CustomTextArea
       ref={setTextAreaEl}
       placeholder='Message'
@@ -736,6 +736,7 @@ interface TypingPayload {
 function TypingIndicator() {
   const params = useParams<{ channelId: string }>();
   const { users } = useStore();
+  const {paneWidth} = useWindowProperties();
 
   const [typingUserIds, setTypingUserIds] = createStore<Record<string, number | undefined>>({})
 
@@ -783,26 +784,36 @@ function TypingIndicator() {
   ))
 
   return (
-    <Show when={typingUsers().length}>
-      <Floating>
-        <Text size={12}>
-          <Switch>
-            <Match when={typingUsers().length === 1}>
-              <strong>{typingUsers()[0]?.username}</strong> is typing...
-            </Match>
-            <Match when={typingUsers().length === 2}>
-              <strong>{typingUsers()[0]?.username}</strong> and <strong>{typingUsers()[1]?.username}</strong> are typing...
-            </Match>
-            <Match when={typingUsers().length === 3}>
-              <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong> and <strong>{typingUsers()[2]?.username}</strong> are typing...
-            </Match>
-            <Match when={typingUsers().length > 3}>
-              <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong>,  <strong>{typingUsers()[2]?.username}</strong> and <strong>{typingUsers().length - 3}</strong> others are typing...
-            </Match>
-          </Switch>
-        </Text>
-      </Floating>
-    </Show>
+    <Floating style={{
+      visibility: typingUsers().length ? 'visible' : 'hidden',
+      position: 'absolute',
+      padding: "0px",
+      top: "-25px",
+      height: "20px",
+      "padding-left": '5px',
+      "padding-right": '5px',
+      overflow: 'hidden',
+      "white-space": 'nowrap',
+      "margin-bottom": "5px",
+      "z-index": "1"
+    }}>
+      <Text size={paneWidth()! < 500 ? 10 : 12 }>
+        <Switch>
+          <Match when={typingUsers().length === 1}>
+            <strong>{typingUsers()[0]?.username}</strong> is typing...
+          </Match>
+          <Match when={typingUsers().length === 2}>
+            <strong>{typingUsers()[0]?.username}</strong> and <strong>{typingUsers()[1]?.username}</strong> are typing...
+          </Match>
+          <Match when={typingUsers().length === 3}>
+            <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong> and <strong>{typingUsers()[2]?.username}</strong> are typing...
+          </Match>
+          <Match when={typingUsers().length > 3}>
+            <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong>,  <strong>{typingUsers()[2]?.username}</strong> and <strong>{typingUsers().length - 3}</strong> others are typing...
+          </Match>
+        </Switch>
+      </Text>
+    </Floating>
   )
 }
 
@@ -868,9 +879,9 @@ function FloatingAttachment(props: {}) {
 }
 
 
-function Floating(props: { class?: string, children: JSX.Element, offset?: number; readjust?: boolean }) {
+function Floating(props: { style?: JSX.CSSProperties; class?: string, children: JSX.Element, offset?: number; readjust?: boolean }) {
   let floatingEl: undefined | HTMLDivElement;
-  const offset = props.offset !== undefined ? props.offset :  6;
+  const offset = props.offset !== undefined ? props.offset : 6;
 
   const readjust = () => {
     if (!props.readjust) return;
@@ -890,7 +901,7 @@ function Floating(props: { class?: string, children: JSX.Element, offset?: numbe
 
 
   return (
-    <div ref={floatingEl} class={classNames("floating", styles.floating, props.class)}>
+    <div ref={floatingEl} style={props.style} class={classNames("floating", styles.floating, props.class)}>
       {props.children}
     </div>
   )
@@ -1276,9 +1287,9 @@ type MessageContextMenuProps = Omit<ContextMenuProps, 'items'> & {
 }
 
 function MessageContextMenu(props: MessageContextMenuProps) {
-  const params = useParams<{serverId?: string;}>();
+  const params = useParams<{ serverId?: string; }>();
   const { createPortal } = useCustomPortal();
-  const {account, serverMembers} = useStore();
+  const { account, serverMembers } = useStore();
   const onDeleteClick = () => {
     createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />)
   }
@@ -1306,10 +1317,10 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
   return (
     <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
-      ...(showQuote() ? [{ icon: 'format_quote', label: "Quote Message", onClick: props.quoteMessage}] : []),
-      ...(showEdit() ? [{ icon: 'edit', label: t('messageContextMenu.editMessage'), onClick: onEditClick}] : []),
+      ...(showQuote() ? [{ icon: 'format_quote', label: "Quote Message", onClick: props.quoteMessage }] : []),
+      ...(showEdit() ? [{ icon: 'edit', label: t('messageContextMenu.editMessage'), onClick: onEditClick }] : []),
       ...(showDelete() ? [{ icon: 'delete', label: t('messageContextMenu.deleteMessage'), onClick: onDeleteClick, alert: true }] : []),
-      ...(showEdit() || showDelete() || showQuote() ? [{separator: true}] : []),
+      ...(showEdit() || showDelete() || showQuote() ? [{ separator: true }] : []),
       ...(hasContent() ? [{ icon: 'copy', label: t('messageContextMenu.copyMessage'), onClick: () => copyToClipboard(props.message.content!) }] : []),
       { icon: 'copy', label: t('messageContextMenu.copyId'), onClick: () => copyToClipboard(props.message.id!) }
     ]} />

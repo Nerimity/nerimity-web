@@ -18,6 +18,7 @@
   padding-top: 30px;
   flex: 1;
   height: 100%;
+  padding-bottom: 30px;
 }
 
 .messageArea {
@@ -27,9 +28,7 @@
   position: sticky;
   bottom: 0;
   flex-shrink: 0;
-  margin-top: 10px;
   z-index: 111111111;
-  gap: 5px;
   padding-left: 5px;
   padding-right: 5px;
   padding-bottom: 5px;
@@ -74,12 +73,10 @@
   .floatingItems {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-
+    gap: 3px;
   }
   
   .floating {
-
     background-color: rgba(40, 40, 40, 0.6);
     backdrop-filter: blur(20px);
     border: solid 1px rgba(255, 255, 255, 0.2);
@@ -89,10 +86,13 @@
     padding-right: 8px;
     font-size: 14px;
     margin-left: 55px;
-    margin-right: 110px;
+    margin-right: 55px;
     // align-self: flex-start;
     z-index: 11111;
 
+    &:last-child {
+      margin-bottom: 3px;
+    }
 
 
     &.floatingSuggestion {
@@ -132,7 +132,7 @@
       z-index: 9999999;
       left: initial;
       border: none;
-      padding-bottom: 4px;
+      padding-bottom: 2px;
     }
     &.editIndicator {
       word-break: break-word;
