@@ -7,6 +7,8 @@ import UserPresence from '@/components/user-presence/UserPresence';
 import { useDrawer } from '../ui/drawer/Drawer';
 import { createSignal, Show } from 'solid-js';
 import { useWindowProperties } from '@/common/useWindowProperties';
+import { postJoinVoice } from '@/chat-api/services/VoiceService';
+import socketClient from '@/chat-api/socketClient';
 
 
 
@@ -40,6 +42,9 @@ export default function MainPaneHeader() {
     return { subName, title };
   }
 
+  const onCallClick = async  () => {
+    await postJoinVoice(header.details().channelId!, socketClient.id())
+  }
 
 
   return (
@@ -57,7 +62,7 @@ export default function MainPaneHeader() {
       </div>
       <div class={styles.rightIcons}>
         <Show when={header.details().channelId}>
-          <div class={classNames(styles.drawerIcon, styles.right)} onClick={toggleRightDrawer}><Icon name='call' /></div>
+          <div class={styles.drawerIcon} onClick={onCallClick}><Icon name='call' /></div>
         </Show>
         <Show when={hasRightDrawer() && isMobileWidth()}>
           <div class={styles.drawerIcon} onClick={toggleRightDrawer}><Icon name='group' /></div>
