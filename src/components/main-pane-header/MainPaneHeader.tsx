@@ -12,9 +12,9 @@ import { useWindowProperties } from '@/common/useWindowProperties';
 
 
 export default function MainPaneHeader() {
-  const {servers, users, header} = useStore();
-  const {toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage} = useDrawer();
-  const {isMobileWidth} = useWindowProperties();
+  const { servers, users, header } = useStore();
+  const { toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage } = useDrawer();
+  const { isMobileWidth } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);
 
   const server = () => servers.get(header.details().serverId!);
@@ -29,18 +29,18 @@ export default function MainPaneHeader() {
     if (user()) {
       title = user().username;
     }
-  
+
     if (header.details().title) {
       title = header.details().title;
     }
-  
+
     if (header.details().subName) {
       subName = header.details().subName;
     }
-    return {subName, title};
+    return { subName, title };
   }
 
-  
+
 
   return (
     <div onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} class={classNames(styles.header, conditionalClass(isMobileWidth(), styles.isMobile))}>
@@ -53,11 +53,16 @@ export default function MainPaneHeader() {
       <div class={styles.details}>
         <div class={styles.title}>{details().title}</div>
         {details().subName && <div class={styles.subTitle}>{details().subName}</div>}
-        {user() && <UserPresence userId={user()?.id} showOffline={true} animate={hovered()}  />}
+        {user() && <UserPresence userId={user()?.id} showOffline={true} animate={hovered()} />}
       </div>
-      <Show when={hasRightDrawer() && isMobileWidth()}>
-        <div class={classNames(styles.drawerIcon, styles.right)} onClick={toggleRightDrawer}><Icon name='group' /></div>
-      </Show>
+      <div class={styles.rightIcons}>
+        <Show when={header.details().channelId}>
+          <div class={classNames(styles.drawerIcon, styles.right)} onClick={toggleRightDrawer}><Icon name='call' /></div>
+        </Show>
+        <Show when={hasRightDrawer() && isMobileWidth()}>
+          <div class={styles.drawerIcon} onClick={toggleRightDrawer}><Icon name='group' /></div>
+        </Show>
+      </div>
     </div>
   )
 }
