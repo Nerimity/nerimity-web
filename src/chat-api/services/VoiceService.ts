@@ -14,3 +14,11 @@ export const postJoinVoice = async (channelId: string, socketId: string) => {
   });
   return data;
 };
+export const postLeaveVoice = async (channelId: string) => {
+  const data = await request({
+    method: 'POST',
+    url: env.SERVER_URL + "/api" + Endpoints.channel(channelId) + "/voice/leave",
+    useToken: true
+  });
+  return data;
+};

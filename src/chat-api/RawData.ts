@@ -15,6 +15,12 @@ export interface RawServer {
 }
 
 
+export interface RawVoice {
+  serverId?: string;
+  channelId: string;
+  userId: string;
+}
+
 
 export enum MessageType {
   CONTENT = 0,

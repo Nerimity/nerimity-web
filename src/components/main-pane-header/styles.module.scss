@@ -82,3 +82,36 @@
     left: 49px;
   }
 }
+
+.headerVoiceParticipants {
+  position: sticky;
+  top:46px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  height: 160px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  align-items: center;
+  user-select: none;
+  transition: 0.2s;
+  padding-left: 10px;
+  z-index: 11111;
+  background-color: rgba(48, 48, 48, 0.4);
+  backdrop-filter: blur(20px);
+  .voiceParticipants {
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    flex: 1;
+  }
+  .voiceActions {
+    display: flex;
+    gap: 5px;
+    padding-bottom: 5px;
+  }
+}

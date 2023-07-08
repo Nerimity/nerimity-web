@@ -49,7 +49,7 @@ export const onReconnectAttempt = () => {
 
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  const { account, servers, users, channels, serverMembers, friends, inbox, mentions, serverRoles } = useStore();
+  const { account, servers, users, channels, serverMembers, friends, inbox, mentions, serverRoles, voiceUsers } = useStore();
   console.log('[WS] Authenticated.');
 
   saveCache(LocalCacheKey.Account, payload.user);
@@ -149,7 +149,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     })
   }
 
-
-
-
+  batch(() => {
+    for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
+      const voiceChannelUser = payload.voiceChannelUsers[i];
+      voiceUsers.set(voiceChannelUser);      
+    }
+  })
 }
