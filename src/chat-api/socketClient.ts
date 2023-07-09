@@ -8,7 +8,7 @@ import { onMessageCreated, onMessageDeleted, onMessageReactionAdded, onMessageRe
 import { onServerChannelCreated, onServerChannelDeleted, onServerChannelOrderUpdated, onServerChannelUpdated, onServerEmojiAdd, onServerEmojiRemove, onServerEmojiUpdate, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from './events/serverEvents';
 import { onNotificationDismissed, onUserPresenceUpdate, onUserServerSettingsUpdate, onUserUpdated } from './events/userEvents';
 import { onCleanup, onMount } from 'solid-js';
-import { onVoiceUserJoined, onVoiceUserLeft } from './events/voiceEvents';
+import { onVoiceSignalReceived, onVoiceUserJoined, onVoiceUserLeft } from './events/voiceEvents';
 
 
 const socket = io(env.SERVER_URL, { transports: ['websocket'], autoConnect: false});
@@ -91,3 +91,4 @@ socket.on(ServerEvents.MESSAGE_REACTION_ADDED, onMessageReactionAdded)
 socket.on(ServerEvents.MESSAGE_REACTION_REMOVED, onMessageReactionRemoved)
 socket.on(ServerEvents.VOICE_USER_JOINED, onVoiceUserJoined)
 socket.on(ServerEvents.VOICE_USER_LEFT, onVoiceUserLeft)
+socket.on(ServerEvents.VOICE_SIGNAL_RECEIVED, onVoiceSignalReceived)
