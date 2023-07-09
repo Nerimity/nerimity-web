@@ -128,15 +128,34 @@ function VoiceActions(props: { channelId: string }) {
     channel()?.leaveCall();
   }
 
+  const isInCall = () => voiceUsers.currentVoiceChannelId() === props.channelId
+
 
   return (
     <div class={styles.voiceActions}>
-      <Show when={voiceUsers.currentVoiceChannelId() !== props.channelId}>
-        <Button iconName='call' color='var(--success-color)' onClick={onCallClick} />
+      <Show when={!isInCall()}>
+        <Button iconName='call' color='var(--success-color)' onClick={onCallClick}  label='Join' />
       </Show>
-      <Show when={voiceUsers.currentVoiceChannelId() === props.channelId}>
-        <Button iconName='call_end' color='var(--alert-color)' onClick={onCallEndClick} />
+      <Show when={isInCall()}>
+        <VoiceMicActions channelId={props.channelId} />
+        <Button iconName='call_end' color='var(--alert-color)' onClick={onCallEndClick} label='Leave' />
       </Show>
     </div>
   )
+}
+
+function VoiceMicActions(props: { channelId: string }) {
+  const { voiceUsers: {isLocalMicMuted, toggleMic} } = useStore();
+
+  return (
+    <>
+    <Show when={isLocalMicMuted()}>
+      <Button iconName='mic_off' color='var(--alert-color)' label='Muted' onClick={toggleMic} />
+    </Show>
+    <Show when={!isLocalMicMuted()}>
+      <Button iconName='mic' color='var(--success-color)' onClick={toggleMic} />
+    </Show> 
+    </>
+  )
+
 }
