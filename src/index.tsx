@@ -8,6 +8,10 @@ import { Router } from '@solidjs/router';
 import en from '@/locales/list/en-gb.json';
 import { TransProvider } from '@nerimity/solid-i18next';
 
+// needed for simple-peer
+import * as process from "process";
+global.process = process;
+global.crypto = crypto;
 
 render(() => (
   <Router>

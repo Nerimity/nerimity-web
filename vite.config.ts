@@ -7,11 +7,14 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vitejs.dev/config/server-options.html#server-host
 dns.setDefaultResultOrder('verbatim')
 
-
 export default defineConfig({
+  define: {
+    global: {}
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "readable-stream": "vite-compatible-readable-stream"
     }
   },
   plugins: [
