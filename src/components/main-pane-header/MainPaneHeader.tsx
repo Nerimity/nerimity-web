@@ -12,6 +12,7 @@ import socketClient from '@/chat-api/socketClient';
 import { useParams } from '@solidjs/router';
 import Button from '../ui/Button';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
+import { VoiceUser } from '@/chat-api/store/useVoiceUsers';
 
 
 
@@ -107,13 +108,31 @@ function VoiceParticipants(props: { channelId: string }) {
       <For each={channelVoiceUsers()}>
         {voiceUser => (
           <div>
-            <Avatar user={voiceUser?.user!} size={60} />
+            <VoiceParticipientItem voiceUser={voiceUser!}/>
           </div>
         )}
       </For>
     </div>
   )
 }
+
+
+function VoiceParticipientItem(props: {voiceUser: VoiceUser}) {
+  const {voiceUsers} = useStore();
+
+  const isMuted = () => {
+    return !voiceUsers.micEnabled(props.voiceUser.channelId, props.voiceUser.userId);
+  }
+  return (
+    <div class={styles.voiceParticipantItem}>
+      <Avatar user={props.voiceUser?.user!} size={60} />
+      <Show when={isMuted()}>
+        <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
+      </Show>
+    </div>
+  )
+}
+
 
 function VoiceActions(props: { channelId: string }) {
   const { voiceUsers, channels } = useStore();

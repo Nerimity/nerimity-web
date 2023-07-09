@@ -91,6 +91,7 @@ export function createPeer(voiceUser: RawVoice) {
   
   peer.on("stream", stream => {
     console.log("stream")
+    onStream(voiceUser, stream)
   })
 
   peer.on("connect", () => {
@@ -115,6 +116,7 @@ export function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
   
   peer.on("stream", stream => {
     console.log("stream")
+    onStream(voiceUser, stream)
   })
 
   peer.on("connect", () => {
@@ -125,6 +127,27 @@ export function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
   peer.signal(signal)
   return peer;
 }
+
+const onStream = (voiceUser: RawVoice, stream: MediaStream) => {
+  const videoTracks = stream.getVideoTracks();
+  const streamType = videoTracks.length ? "videoStream" : "audioStream";
+
+  stream.onremovetrack = () => {
+    setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
+      [streamType]: null,
+    })
+    stream.onremovetrack = null;
+  }
+
+  if (streamType === "audioStream") {
+    const mic = new Audio();
+    mic.srcObject = stream;
+    mic.play();
+  }
+  setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
+    [streamType]: stream,
+  })
+};
 
 const isLocalMicMuted = () => localStreams.audioStream === null;
 
@@ -140,6 +163,16 @@ const toggleMic = async () => {
 }
 
 
+const micEnabled = (channelId: string, userId: string) => {
+  const account = useAccount();
+  if (account.user()?.id === userId) {
+    return !!localStreams.audioStream;
+  }
+  return !!voiceUsers[channelId][userId]?.audioStream;
+}
+
+
+
 const sendStreamToPeer = (stream: MediaStream, type: 'audio' | 'video') => {
   console.log("sending stream...")
 
@@ -148,13 +181,22 @@ const sendStreamToPeer = (stream: MediaStream, type: 'audio' | 'video') => {
     const voiceUser = voiceUsers[i];
     voiceUser?.peer?.addStream(stream);
   }
+}
+const removeStreamFromPeer = (stream: MediaStream) => {
+  console.log("removing stream...")
 
+  const voiceUsers = Object.values(getVoiceInChannel(currentVoiceChannelId()!));
+  for (let i = 0; i < voiceUsers.length; i++) {
+    const voiceUser = voiceUsers[i];
+    voiceUser?.peer?.removeStream(stream);
+  }
 }
 
 
 
 
 const stopStream = (mediaStream: MediaStream) => {
+  removeStreamFromPeer(mediaStream);
   mediaStream.getTracks().forEach(track => track.stop());
 }
 
@@ -168,6 +210,7 @@ export default function useVoiceUsers() {
     currentVoiceChannelId,
     setCurrentVoiceChannelId,
     isLocalMicMuted,
+    micEnabled,
     toggleMic
   }
 }

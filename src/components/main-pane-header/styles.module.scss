@@ -100,6 +100,17 @@
   z-index: 11111;
   background-color: rgba(48, 48, 48, 0.4);
   backdrop-filter: blur(20px);
+  .voiceParticipantItem {
+    position: relative;
+    .muteIcon {
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      background-color: var(--alert-color);
+      border-radius: 50%;
+      padding: 5px;
+    }
+  }
   .voiceParticipants {
     align-items: center;
     align-self: center;
