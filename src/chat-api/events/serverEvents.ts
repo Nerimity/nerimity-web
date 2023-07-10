@@ -1,6 +1,6 @@
 import { runWithContext } from "@/common/runWithContext";
 import { batch, from } from "solid-js";
-import { ChannelType, RawChannel, RawCustomEmoji, RawPresence, RawServer, RawServerMember, RawServerRole } from "../RawData";
+import { ChannelType, RawChannel, RawCustomEmoji, RawPresence, RawServer, RawServerMember, RawServerRole, RawVoice } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels, { Channel } from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
@@ -9,6 +9,7 @@ import useServers from "../store/useServers";
 import useUsers from "../store/useUsers";
 import { CHANNEL_PERMISSIONS, addBit, hasBit } from "../Bitwise";
 import { useParams } from "@solidjs/router";
+import useVoiceUsers from "../store/useVoiceUsers";
 
 interface ServerJoinedPayload {
   server: RawServer,
@@ -16,6 +17,7 @@ interface ServerJoinedPayload {
   channels: RawChannel[],
   roles: RawServerRole[];
   memberPresences: RawPresence[]
+  voiceChannelUsers: RawVoice[];
 }
 
 
@@ -26,28 +28,35 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
   const servers = useServers();
   const channels = useChannels();
   const roles = useServerRoles();
+  const voiceUsers = useVoiceUsers();
 
 
   servers.set(payload.server);
 
-  for (let i = 0; i < payload.roles.length; i++) {
-    const role = payload.roles[i];
-    roles.set(role.serverId, role);
-  }
+  batch(() => {
+    for (let i = 0; i < payload.roles.length; i++) {
+      const role = payload.roles[i];
+      roles.set(role.serverId, role);
+    }
 
-  for (let index = 0; index < payload.channels.length; index++) {
-    const channel = payload.channels[index];
-    channels.set(channel);
-  }
+    for (let index = 0; index < payload.channels.length; index++) {
+      const channel = payload.channels[index];
+      channels.set(channel);
+    }
 
-  for (let i = 0; i < payload.members.length; i++) {
-    const serverMember = payload.members[i];
-    serverMembers.set(serverMember);
-  }
-  for (let i = 0; i < payload.memberPresences.length; i++) {
-    const presence = payload.memberPresences[i];
-    users.setPresence(presence.userId, presence);
-  }
+    for (let i = 0; i < payload.members.length; i++) {
+      const serverMember = payload.members[i];
+      serverMembers.set(serverMember);
+    }
+    for (let i = 0; i < payload.memberPresences.length; i++) {
+      const presence = payload.memberPresences[i];
+      users.setPresence(presence.userId, presence);
+    }
+    for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
+      const rawVoice = payload.voiceChannelUsers[i];
+      voiceUsers.set(rawVoice);
+    }
+  })
 }
 
 export const onServerLeft = (payload: { serverId: string }) => runWithContext(() => {

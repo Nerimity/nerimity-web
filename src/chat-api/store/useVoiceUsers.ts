@@ -1,5 +1,5 @@
 
-import { createSignal } from 'solid-js';
+import { batch, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { RawVoice } from '../RawData';
 import useUsers, { User } from './useUsers';
@@ -20,7 +20,7 @@ export type VoiceUser = RawVoice & {
 
 // voiceUsers[channelId][userId] = VoiceUser
 const [voiceUsers, setVoiceUsers] = createStore<Record<string, Record<string, VoiceUser | undefined>>>({});
-const [currentVoiceChannelId, setCurrentVoiceChannelId] = createSignal<null | string>(null);
+const [currentVoiceChannelId, _setCurrentVoiceChannelId] = createSignal<null | string>(null);
 
 interface LocalStreams {
   audioStream: MediaStream | null;
@@ -64,6 +64,7 @@ const set = (voiceUser: RawVoice) => {
 
 
 const removeUserInVoice = (channelId: string, userId: string) => {
+  voiceUsers[channelId][userId]?.peer?.destroy();
   setVoiceUsers(channelId, userId, undefined);
 }
 
@@ -153,7 +154,8 @@ const isLocalMicMuted = () => localStreams.audioStream === null;
 
 const toggleMic = async () => {
   if (isLocalMicMuted()) {
-    const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+    // const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+    const stream = await test();
     setLocalStreams({audioStream: stream});
     sendStreamToPeer(stream, 'audio')
     return;
@@ -184,8 +186,9 @@ const sendStreamToPeer = (stream: MediaStream, type: 'audio' | 'video') => {
 }
 const removeStreamFromPeer = (stream: MediaStream) => {
   console.log("removing stream...")
-
-  const voiceUsers = Object.values(getVoiceInChannel(currentVoiceChannelId()!));
+  const voiceUserObj = getVoiceInChannel(currentVoiceChannelId()!);
+  if (!voiceUserObj) return;
+  const voiceUsers = Object.values(voiceUserObj)
   for (let i = 0; i < voiceUsers.length; i++) {
     const voiceUser = voiceUsers[i];
     voiceUser?.peer?.removeStream(stream);
@@ -201,6 +204,23 @@ const stopStream = (mediaStream: MediaStream) => {
 }
 
 
+const setCurrentVoiceChannelId = (channelId: string | null) => {
+  const voiceUsers = getVoiceInChannel(currentVoiceChannelId()!);
+  _setCurrentVoiceChannelId(channelId);
+  localStreams.videoStream && stopStream(localStreams.videoStream);
+  localStreams.audioStream && stopStream(localStreams.audioStream);
+  setLocalStreams({videoStream: null, audioStream: null});
+  if (!voiceUsers) return;
+  batch(() => {
+    Object.values(voiceUsers).forEach(voiceUser => {
+      voiceUser?.peer?.destroy()
+      setVoiceUsers(voiceUser?.channelId!, voiceUser?.userId!, 'peer', undefined);
+    });
+  })
+  
+}
+
+
 export default function useVoiceUsers() {
   return {
     set,
@@ -213,4 +233,12 @@ export default function useVoiceUsers() {
     micEnabled,
     toggleMic
   }
+}
+
+async function test () {
+  const stream = await navigator.mediaDevices.getDisplayMedia({audio: true, video: true});
+  
+
+  const st = new MediaStream([stream.getAudioTracks()[0]])
+  return st;
 }
