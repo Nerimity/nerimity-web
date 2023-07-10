@@ -31,7 +31,7 @@ const [localStreams, setLocalStreams] = createStore<LocalStreams>({audioStream: 
 
 const set = (voiceUser: RawVoice) => {
   const users = useUsers();
-  const {user} = useAccount();
+  const account = useAccount();
 
   if (!voiceUsers[voiceUser.channelId]) {
     setVoiceUsers(voiceUser.channelId, {});
@@ -39,12 +39,15 @@ const set = (voiceUser: RawVoice) => {
 
   let peer: SimplePeer.Instance | undefined;
 
-  const isSelf = voiceUser.userId === user()?.id;
+  const isSelf = voiceUser.userId === account.user()?.id;
   const isInVoice = currentVoiceChannelId() === voiceUser.channelId;
 
   if (!isSelf && isInVoice) {
     peer = createPeer(voiceUser);
   }
+
+  const user = users.get(voiceUser.userId);
+  user.setVoiceChannelId(voiceUser.channelId);
 
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
     ...voiceUser,
@@ -64,8 +67,12 @@ const set = (voiceUser: RawVoice) => {
 
 
 const removeUserInVoice = (channelId: string, userId: string) => {
-  voiceUsers[channelId][userId]?.peer?.destroy();
-  setVoiceUsers(channelId, userId, undefined);
+  const voiceUser = voiceUsers[channelId][userId];
+  batch(() => {
+    voiceUser?.user.setVoiceChannelId(undefined);
+    voiceUser?.peer?.destroy();
+    setVoiceUsers(channelId, userId, undefined);
+  })
 }
 
 
@@ -214,7 +221,11 @@ const setCurrentVoiceChannelId = (channelId: string | null) => {
   batch(() => {
     Object.values(voiceUsers).forEach(voiceUser => {
       voiceUser?.peer?.destroy()
-      setVoiceUsers(voiceUser?.channelId!, voiceUser?.userId!, 'peer', undefined);
+      setVoiceUsers(voiceUser?.channelId!, voiceUser?.userId!, {
+        peer: undefined,
+        audioStream: undefined,
+        videoStream: undefined
+      });
     });
   })
   

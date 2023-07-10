@@ -8,6 +8,7 @@ import useServers from './useServers';
 import useStore from './useStore';
 import useUsers, { User } from './useUsers';
 import useAccount from './useAccount';
+import useVoiceUsers from './useVoiceUsers';
 
 
 export type ServerMember = Omit<RawServerMember, 'user'> & {
@@ -125,6 +126,13 @@ const set = (member: RawServerMember) => {
 }
 
 const remove = (serverId: string, userId: string) => {
+  const users = useUsers();
+  const voiceUsers = useVoiceUsers();
+  const user = users.get(userId);
+  
+  const voiceChannelId = user?.voiceChannelId;
+  voiceChannelId && voiceUsers.removeUserInVoice(voiceChannelId, userId);
+
   setMember(serverId, userId, undefined);
 }
 

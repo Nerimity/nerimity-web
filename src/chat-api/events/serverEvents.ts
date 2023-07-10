@@ -64,17 +64,20 @@ export const onServerLeft = (payload: { serverId: string }) => runWithContext(()
   const servers = useServers();
   const channels = useChannels();
   const roles = useServerRoles();
+  const voiceUsers = useVoiceUsers();
 
-  const params = useParams();
-
-  console.log(params.serverId)
-
+  const currentVoiceChannelId = voiceUsers.currentVoiceChannelId();
 
   batch(() => {
     servers.remove(payload.serverId);
     serverMembers.removeAllServerMembers(payload.serverId);
     channels.removeAllServerChannels(payload.serverId);
     roles.deleteAllByServerId(payload.serverId);
+
+    if (currentVoiceChannelId) {
+      voiceUsers.setCurrentVoiceChannelId(null);
+    }
+    
   })
 });
 
