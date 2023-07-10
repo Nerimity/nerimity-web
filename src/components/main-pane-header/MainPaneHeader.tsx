@@ -123,10 +123,11 @@ function VoiceParticipientItem(props: {voiceUser: VoiceUser}) {
   const isMuted = () => {
     return !voiceUsers.micEnabled(props.voiceUser.channelId, props.voiceUser.userId);
   }
+  const isInCall = () => voiceUsers.currentVoiceChannelId() === props.voiceUser.channelId;
   return (
     <div class={styles.voiceParticipantItem}>
       <Avatar user={props.voiceUser?.user!} size={60} />
-      <Show when={isMuted()}>
+      <Show when={isMuted() && isInCall()}>
         <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
       </Show>
     </div>
