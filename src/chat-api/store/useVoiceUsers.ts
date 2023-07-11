@@ -97,7 +97,6 @@ export async function createPeer(voiceUser: RawVoice) {
         {
           urls: [
             'stun:stun.l.google.com:19302',
-            'stun:global.stun.twilio.com:3478'
           ]
         }
       ],
@@ -127,6 +126,15 @@ export async function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData
   const peer = new (await LazySimplePeer())({
     initiator: false,
     trickle: true,
+    config: {
+      iceServers: [
+        {
+          urls: [
+            'stun:stun.l.google.com:19302'
+          ]
+        }
+      ],
+    },
     streams: [localStreams.audioStream, localStreams.videoStream].filter(stream => stream) as MediaStream[]
   })
 
