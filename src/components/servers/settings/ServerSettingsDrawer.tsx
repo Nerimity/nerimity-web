@@ -11,6 +11,7 @@ import Text from '@/components/ui/Text';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { Bitwise } from '@/chat-api/Bitwise';
 import { ChannelType } from '@/chat-api/RawData';
+import InVoiceActions from '@/components/InVoiceActions';
 
 const SettingsListContainer = styled("div")`
   display: flex;
@@ -41,7 +42,10 @@ const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
 
 export default function ServerSettingsDrawer() {
   return (
-    <SettingsList />
+    <div style={{display: 'flex', "flex-direction": 'column', "height": "100%"}}>
+      <SettingsList />
+      <InVoiceActions />
+    </div>
   )
 }
 

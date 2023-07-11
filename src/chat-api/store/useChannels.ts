@@ -31,6 +31,8 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   mentionCount: number;
   joinCall: () => void;
   leaveCall: () => void;
+  callJoinedAt?: number;
+  setCallJoinedAt: (this: Channel, joinedAt: number | undefined) => void;
 }
 
 
@@ -93,6 +95,9 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
       },
       setRecipientId(userId: string) {
         setChannels(this.id, "recipientId", userId);
+      },
+      setCallJoinedAt(joinedAt) {
+        setChannels(this.id, "callJoinedAt", joinedAt);
       },
       update(update) {
         setChannels(this.id, update);

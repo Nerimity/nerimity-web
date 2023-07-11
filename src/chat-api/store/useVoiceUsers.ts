@@ -3,9 +3,11 @@ import { batch, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { RawVoice } from '../RawData';
 import useUsers, { User } from './useUsers';
-import SimplePeer from '@thaunknown/simple-peer';
+import type SimplePeer from '@thaunknown/simple-peer';
 import useAccount from './useAccount';
 import { emitVoiceSignal } from '../emits/voiceEmits';
+import { LazySimplePeer } from '@/common/LazySimplePeer';
+import useChannels from './useChannels';
 
 
 export type VoiceUser = RawVoice & {
@@ -29,7 +31,7 @@ interface LocalStreams {
 const [localStreams, setLocalStreams] = createStore<LocalStreams>({audioStream: null, videoStream: null});
 
 
-const set = (voiceUser: RawVoice) => {
+const set = async (voiceUser: RawVoice) => {
   const users = useUsers();
   const account = useAccount();
 
@@ -43,7 +45,7 @@ const set = (voiceUser: RawVoice) => {
   const isInVoice = currentVoiceChannelId() === voiceUser.channelId;
 
   if (!isSelf && isInVoice) {
-    peer = createPeer(voiceUser);
+    peer = await createPeer(voiceUser);
   }
 
   const user = users.get(voiceUser.userId);
@@ -58,8 +60,8 @@ const set = (voiceUser: RawVoice) => {
     addSignal(signal) {
       this.peer?.signal(signal);
     },
-    addPeer(signal) {
-      setVoiceUsers(voiceUser.channelId, voiceUser.userId, 'peer', addPeer(voiceUser, signal))
+    async addPeer(signal) {
+      setVoiceUsers(voiceUser.channelId, voiceUser.userId, 'peer', await addPeer(voiceUser, signal))
     }
   });
 }
@@ -85,9 +87,9 @@ const getVoiceUser = (channelId: string, userId: string) => {
   return voiceUsers[channelId][userId];
 }
 
-export function createPeer(voiceUser: RawVoice) {
+export async function createPeer(voiceUser: RawVoice) {
   console.log("peer created")
-  const peer = new SimplePeer({
+  const peer = new (await LazySimplePeer())({
     initiator: true,
     trickle: true,
     streams: [localStreams.audioStream, localStreams.videoStream].filter(stream => stream) as MediaStream[]
@@ -110,9 +112,9 @@ export function createPeer(voiceUser: RawVoice) {
   return peer;
 }
 
-export function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
+export async function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
   console.log("peer added")
-  const peer = new SimplePeer({
+  const peer = new (await LazySimplePeer())({
     initiator: false,
     trickle: true,
     streams: [localStreams.audioStream, localStreams.videoStream].filter(stream => stream) as MediaStream[]
@@ -212,12 +214,26 @@ const stopStream = (mediaStream: MediaStream) => {
 
 
 const setCurrentVoiceChannelId = (channelId: string | null) => {
+  const channels = useChannels();
+
+  const oldChannelId = currentVoiceChannelId();
+  if (oldChannelId) {
+    const channel = channels.get(oldChannelId);
+    channel?.setCallJoinedAt(undefined);
+  }
+
+  const channel = channels.get(channelId!);
+  channel?.setCallJoinedAt(Date.now());
+  
   const voiceUsers = getVoiceInChannel(currentVoiceChannelId()!);
   _setCurrentVoiceChannelId(channelId);
+
   localStreams.videoStream && stopStream(localStreams.videoStream);
   localStreams.audioStream && stopStream(localStreams.audioStream);
+
   setLocalStreams({videoStream: null, audioStream: null});
   if (!voiceUsers) return;
+
   batch(() => {
     Object.values(voiceUsers).forEach(voiceUser => {
       voiceUser?.peer?.destroy()

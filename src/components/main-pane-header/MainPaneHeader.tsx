@@ -18,7 +18,7 @@ import { VoiceUser } from '@/chat-api/store/useVoiceUsers';
 
 
 export default function MainPaneHeader() {
-  const { servers, channels, users, header } = useStore();
+  const { servers, channels, users, header, voiceUsers } = useStore();
   const { toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage } = useDrawer();
   const { isMobileWidth } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);
@@ -49,6 +49,7 @@ export default function MainPaneHeader() {
   }
 
   const onCallClick = async () => {
+    if (voiceUsers.currentVoiceChannelId() === channel()?.id) return;
     channel()?.joinCall();
   }
 
@@ -177,5 +178,4 @@ function VoiceMicActions(props: { channelId: string }) {
     </Show> 
     </>
   )
-
 }

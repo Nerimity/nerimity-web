@@ -5,7 +5,7 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import Header from './header/ServerDrawerHeader';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { For, Match, Show, Switch, createMemo } from 'solid-js';
+import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';
 import ItemContainer from '@/components/ui/Item';
 import { css, styled } from 'solid-styled-components';
@@ -18,6 +18,8 @@ import env from '@/common/env';
 import { unicodeToTwemojiUrl } from '@/emoji';
 import { createSignal } from 'solid-js';
 import Avatar from '@/components/ui/Avatar';
+import { timeElapsed } from '@/common/date';
+import InVoiceActions from '@/components/InVoiceActions';
 
 
 
@@ -25,8 +27,11 @@ import Avatar from '@/components/ui/Avatar';
 const ServerDrawer = () => {
   return (
     <div class={styles.serverDrawer}>
-      <Header />
-      <ChannelList />
+      <div style={{display: 'flex', "flex-direction": 'column', height: "100%", overflow: 'auto'}}>
+        <Header />
+        <ChannelList />
+      </div>
+      <InVoiceActions />
     </div>
   )
 };
@@ -191,32 +196,34 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
 
 
   return (
-    <>
-      <Link
-        href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
-        style={{ "text-decoration": "none" }}
-      >
-        <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
-          <ChannelIcon icon={props.channel.icon} hovered={hovered()} />
-          <Show when={isPrivateChannel()}>
-            <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
-          </Show>
-          <Text class="label">{channel.name}</Text>
-          <Show when={props.channel.mentionCount}>
-            <MentionCountContainer>{props.channel.mentionCount}</MentionCountContainer>
-          </Show>
-        </ChannelContainer>
-      </Link>
+
+    <Link
+      href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
+      style={{ "text-decoration": "none" }}
+    >
+      <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
+        <ChannelIcon icon={props.channel.icon} hovered={hovered()} />
+        <Show when={isPrivateChannel()}>
+          <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
+        </Show>
+        <Text class="label">{channel.name}</Text>
+        <Show when={props.channel.mentionCount}>
+          <MentionCountContainer>{props.channel.mentionCount}</MentionCountContainer>
+        </Show>
+      </ChannelContainer>
       <ChannelItemVoiceUsers channelId={props.channel.id} />
-    </>
+    </Link>
+
   )
 }
 
 const ChannelVoiceUsersContainer = styled(FlexColumn)`
   gap: 3px;
   padding: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
+  padding-left: 10px;
+  background-color: hsl(216deg 7% 28% / 60%);
   border-radius: 8px;
+  margin-top: 2px;
 `;
 
 const ChannelVoiceUsersListContainer = styled(FlexRow)`
@@ -239,8 +246,9 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
     <Show when={channelVoiceUsers().length}>
       <ChannelVoiceUsersContainer>
         <ChannelVoiceUsersTitle size={12}>
-          <Icon name='mic' size={16} />
+          <Icon name='call' size={16} color='rgba(255,255,255,0.4)' />
           In Voice
+          <CallTime channelId={props.channelId} />
         </ChannelVoiceUsersTitle>
         <ChannelVoiceUsersListContainer>
           <For each={channelVoiceUsers()}>
@@ -248,6 +256,32 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
           </For>
         </ChannelVoiceUsersListContainer>
       </ChannelVoiceUsersContainer>
+    </Show>
+  )
+}
+
+function CallTime(props: { channelId: string }) {
+  const { channels } = useStore();
+  const channel = () => channels.get(props.channelId)
+
+  const [time, setTime] = createSignal<null | string>(null);
+
+  createEffect(on(() => channel()?.callJoinedAt, (joinedAt) => {
+    let interval: number;
+    if (joinedAt) {
+      setTime(timeElapsed(joinedAt))
+      interval = window.setInterval(() =>
+        setTime(timeElapsed(joinedAt))
+        , 1000)
+    }
+    onCleanup(() => {
+      interval && clearInterval(interval);
+    })
+  }))
+
+  return (
+    <Show when={channel()?.callJoinedAt}>
+      <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>{time()}</Text>
     </Show>
   )
 }

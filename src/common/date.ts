@@ -16,7 +16,7 @@ export function formatTimestamp(timestamp: number) {
   } else if (yesterday.toDateString() === date.toDateString()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   } else {
-    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
 
@@ -47,4 +47,15 @@ export function timeSince(timestamp: number) {
     return Math.round(secondsPast / 3600) + ' hours ago';
   }
   return formatTimestamp(timestamp)
+}
+
+export function timeElapsed(timestamp: number) {
+  let seconds = Math.floor((Date.now() - timestamp) / 1000);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - (hours * 3600)) / 60);
+  seconds -= hours * 3600 + minutes * 60;
+  const formattedTime = (hours ? (hours.toString().padStart(2, '0') + ':') : '') +
+    minutes.toString().padStart(2, '0') + ':' +
+    seconds.toString().padStart(2, '0');
+    return formattedTime;
 }

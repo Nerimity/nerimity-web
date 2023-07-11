@@ -13,6 +13,7 @@ import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
 import { DrawerHeader } from '@/components/DrawerHeader';
 import { useTransContext } from '@nerimity/solid-i18next';
+import InVoiceActions from '@/components/InVoiceActions';
 
 function Header(props: { selectedIndex: number, onTabClick: (index: number) => void }) {
   const { friends, inbox } = useStore();
@@ -101,6 +102,7 @@ const InboxDrawer = () => {
           <div>{t('inbox.drawer.addFriendButton')}</div>
         </div>
       </div>
+      <InVoiceActions style={{"margin-top": '0'}}/>
     </div>
   )
 };

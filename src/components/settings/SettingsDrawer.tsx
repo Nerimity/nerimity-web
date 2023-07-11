@@ -17,6 +17,7 @@ import socketClient from '@/chat-api/socketClient';
 import { DrawerHeader } from '../DrawerHeader';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { t } from 'i18next';
+import InVoiceActions from '../InVoiceActions';
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -74,6 +75,7 @@ function Footer() {
       <FooterItem href='https://github.com/Nerimity/Nerimity-Web' external icon="code" label={t('settings.drawer.viewSource')} />
       <FooterItem icon="description" label={t('settings.drawer.changelog')} subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
       <FooterItem color="var(--alert-color)" icon="logout" label={t('settings.drawer.logout')} onClick={onLogoutClick} />
+      <InVoiceActions />
     </FooterContainer>
   );
 }
