@@ -101,6 +101,9 @@ export function createPeer(voiceUser: RawVoice) {
           ]
         },
         {
+          urls: "stun:stun.relay.metered.ca:80",
+        },
+        {
           urls: "turn:a.relay.metered.ca:80",
           username: "b9fafdffb3c428131bd9ae10",
           credential: "DTk2mXfXv4kJYPvD",
@@ -155,6 +158,9 @@ export function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
           urls: [
             'stun:stun.l.google.com:19302'
           ]
+        },
+        {
+          urls: "stun:stun.relay.metered.ca:80",
         },
         {
           urls: "turn:a.relay.metered.ca:80",
