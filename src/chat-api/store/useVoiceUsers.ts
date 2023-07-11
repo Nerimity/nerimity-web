@@ -3,10 +3,9 @@ import { batch, createSignal } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { RawVoice } from '../RawData';
 import useUsers, { User } from './useUsers';
-import type SimplePeer from '@thaunknown/simple-peer';
+import SimplePeer from '@thaunknown/simple-peer';
 import useAccount from './useAccount';
 import { emitVoiceSignal } from '../emits/voiceEmits';
-import { LazySimplePeer } from '@/common/LazySimplePeer';
 import useChannels from './useChannels';
 
 
@@ -31,7 +30,7 @@ interface LocalStreams {
 const [localStreams, setLocalStreams] = createStore<LocalStreams>({audioStream: null, videoStream: null});
 
 
-const set = async (voiceUser: RawVoice) => {
+const set = (voiceUser: RawVoice) => {
   const users = useUsers();
   const account = useAccount();
 
@@ -45,7 +44,7 @@ const set = async (voiceUser: RawVoice) => {
   const isInVoice = currentVoiceChannelId() === voiceUser.channelId;
 
   if (!isSelf && isInVoice) {
-    peer = await createPeer(voiceUser);
+    peer = createPeer(voiceUser);
   }
 
   const user = users.get(voiceUser.userId);
@@ -60,8 +59,8 @@ const set = async (voiceUser: RawVoice) => {
     addSignal(signal) {
       this.peer?.signal(signal);
     },
-    async addPeer(signal) {
-      setVoiceUsers(voiceUser.channelId, voiceUser.userId, 'peer', await addPeer(voiceUser, signal))
+    addPeer(signal) {
+      setVoiceUsers(voiceUser.channelId, voiceUser.userId, 'peer', addPeer(voiceUser, signal))
     }
   });
 }
@@ -87,9 +86,11 @@ const getVoiceUser = (channelId: string, userId: string) => {
   return voiceUsers[channelId][userId];
 }
 
-export async function createPeer(voiceUser: RawVoice) {
-  console.log("peer created")
-  const peer = new (await LazySimplePeer())({
+export function createPeer(voiceUser: RawVoice) {
+  const users = useUsers();
+  const user = users.get(voiceUser.userId);
+  console.log(user.username, "peer created")
+  const peer = new SimplePeer({
     initiator: true,
     trickle: true,
     config: {
@@ -116,14 +117,16 @@ export async function createPeer(voiceUser: RawVoice) {
   peer.on("connect", () => {
     console.log("connect")
   })
-  peer.on("end", () => {console.log("end")})
+  peer.on("end", () => {console.log(user.username, "end")})
   peer.on("error", (err) => {console.log(err)})
   return peer;
 }
 
-export async function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
-  console.log("peer added")
-  const peer = new (await LazySimplePeer())({
+export function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
+  const users = useUsers();
+  const user = users.get(voiceUser.userId);
+  console.log(user.username, "peer added")
+  const peer = new SimplePeer({
     initiator: false,
     trickle: true,
     config: {
@@ -150,7 +153,7 @@ export async function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData
   peer.on("connect", () => {
     console.log("connect")
   })
-  peer.on("end", () => {console.log("end")})
+  peer.on("end", () => {user.username, console.log("end")})
   peer.on("error", (err) => {console.log(err)})
   peer.signal(signal)
   return peer;
