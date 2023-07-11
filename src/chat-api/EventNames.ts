@@ -1,6 +1,8 @@
 export const ClientEvents = {
   AUTHENTICATE: 'user:authenticate',
   NOTIFICATION_DISMISS: 'notification:dismiss',
+
+  VOICE_SIGNAL_SEND: 'voice:signal_send'
 }
 
 export const ServerEvents = {
@@ -53,4 +55,8 @@ export const ServerEvents = {
   MESSAGE_DELETED: 'message:deleted',
   MESSAGE_REACTION_ADDED: 'message:reaction_added',
   MESSAGE_REACTION_REMOVED: 'message:reaction_removed',
+
+  VOICE_USER_JOINED: 'voice:user_joined',
+  VOICE_USER_LEFT: 'voice:user_left',
+  VOICE_SIGNAL_RECEIVED: 'voice:signal_received',
 } as const

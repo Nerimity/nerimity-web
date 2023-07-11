@@ -9,6 +9,7 @@ import { FlexColumn } from '../ui/Flexbox';
 import { DrawerHeader } from '../DrawerHeader';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { t } from 'i18next';
+import InVoiceActions from '../InVoiceActions';
 
 
 
@@ -98,7 +99,7 @@ function Footer() {
   return (
     <FooterContainer gap={2}>
       <SupportItem/>
-
+      <InVoiceActions />
     </FooterContainer>
   );
 }

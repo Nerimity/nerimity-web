@@ -14,7 +14,9 @@
     "isolatedModules": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@thaunknown/simple-peer": ["./node_modules/@types/simple-peer"]
+
     }
   }
 }

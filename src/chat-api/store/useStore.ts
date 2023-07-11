@@ -11,6 +11,7 @@ import useHeader from "./useHeader";
 import useUsers from "./useUsers";
 import useChannelProperties from "./useChannelProperties";
 import { usePosts } from "./usePosts";
+import useVoiceUsers from "./useVoiceUsers";
 
 
 export default function useStore() {
@@ -27,6 +28,7 @@ export default function useStore() {
   const serverRoles = useServerRoles();
   const channelProperties = useChannelProperties()
   const posts = usePosts();
+  const voiceUsers = useVoiceUsers();
 
 
   return {
@@ -42,6 +44,7 @@ export default function useStore() {
     inbox,
     mentions,
     channelProperties,
-    posts
+    posts,
+    voiceUsers
   }
 }

@@ -5,7 +5,7 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import Header from './header/ServerDrawerHeader';
 import { Link, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { For, Match, Show, Switch, createMemo } from 'solid-js';
+import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';
 import ItemContainer from '@/components/ui/Item';
 import { css, styled } from 'solid-styled-components';
@@ -17,6 +17,9 @@ import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 import env from '@/common/env';
 import { unicodeToTwemojiUrl } from '@/emoji';
 import { createSignal } from 'solid-js';
+import Avatar from '@/components/ui/Avatar';
+import { timeElapsed } from '@/common/date';
+import InVoiceActions from '@/components/InVoiceActions';
 
 
 
@@ -24,8 +27,11 @@ import { createSignal } from 'solid-js';
 const ServerDrawer = () => {
   return (
     <div class={styles.serverDrawer}>
-      <Header />
-      <ChannelList />
+      <div style={{display: 'flex', "flex-direction": 'column', height: "100%", overflow: 'auto'}}>
+        <Header />
+        <ChannelList />
+      </div>
+      <InVoiceActions />
     </div>
   )
 };
@@ -71,7 +77,7 @@ const ChannelIconImage = styled('img')`
 `;
 
 
-export const ChannelIcon = (props: {icon?: string; isCategory?: boolean; hovered?: boolean}) => {
+export const ChannelIcon = (props: { icon?: string; isCategory?: boolean; hovered?: boolean }) => {
   const url = () => {
     if (props.icon!.includes(".")) {
       return `${env.NERIMITY_CDN}emojis/${props.icon}${!props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ''}`
@@ -143,9 +149,9 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
     <CategoryContainer onmouseenter={() => setHovered(true)} onmouseleave={() => setHovered(false)}>
 
       <CategoryItemContainer gap={5}>
-        <ChannelIcon icon={props.channel.icon} isCategory hovered={hovered()}/>
+        <ChannelIcon icon={props.channel.icon} isCategory hovered={hovered()} />
         <Show when={isPrivateChannel()}>
-          <Icon name='lock' size={14} style={{opacity: 0.3}}/>
+          <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
         </Show>
         <Text class="label" size={14} opacity={0.6}>{props.channel.name}</Text>
       </CategoryItemContainer>
@@ -165,7 +171,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
 
 
 
-const MentionCountContainer = styled(FlexRow) `
+const MentionCountContainer = styled(FlexRow)`
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -190,21 +196,93 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
 
 
   return (
+
     <Link
       href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
       style={{ "text-decoration": "none" }}
     >
       <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
-        <ChannelIcon icon={props.channel.icon} hovered={hovered()}/>
+        <ChannelIcon icon={props.channel.icon} hovered={hovered()} />
         <Show when={isPrivateChannel()}>
-          <Icon name='lock' size={14} style={{opacity: 0.3, "margin-right": "5px"}}/>
+          <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
         </Show>
         <Text class="label">{channel.name}</Text>
         <Show when={props.channel.mentionCount}>
           <MentionCountContainer>{props.channel.mentionCount}</MentionCountContainer>
         </Show>
       </ChannelContainer>
+      <ChannelItemVoiceUsers channelId={props.channel.id} />
     </Link>
+
+  )
+}
+
+const ChannelVoiceUsersContainer = styled(FlexColumn)`
+  gap: 3px;
+  padding: 5px;
+  padding-left: 10px;
+  background-color: hsl(216deg 7% 28% / 60%);
+  border-radius: 8px;
+  margin-top: 2px;
+`;
+
+const ChannelVoiceUsersListContainer = styled(FlexRow)`
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-left: 20px;
+`;
+const ChannelVoiceUsersTitle = styled(Text)`
+  display: flex;
+  gap: 3px;
+  align-items: center;
+`;
+
+function ChannelItemVoiceUsers(props: { channelId: string }) {
+  const { voiceUsers } = useStore();
+
+  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId) || {});
+
+  return (
+    <Show when={channelVoiceUsers().length}>
+      <ChannelVoiceUsersContainer>
+        <ChannelVoiceUsersTitle size={12}>
+          <Icon name='call' size={16} color='rgba(255,255,255,0.4)' />
+          In Voice
+          <CallTime channelId={props.channelId} />
+        </ChannelVoiceUsersTitle>
+        <ChannelVoiceUsersListContainer>
+          <For each={channelVoiceUsers()}>
+            {voiceUser => <Avatar user={voiceUser!.user} size={20} />}
+          </For>
+        </ChannelVoiceUsersListContainer>
+      </ChannelVoiceUsersContainer>
+    </Show>
+  )
+}
+
+function CallTime(props: { channelId: string }) {
+  const { channels } = useStore();
+  const channel = () => channels.get(props.channelId)
+
+  const [time, setTime] = createSignal<null | string>(null);
+
+  createEffect(on(() => channel()?.callJoinedAt, (joinedAt) => {
+    let interval: number;
+    if (joinedAt) {
+      setTime(timeElapsed(joinedAt))
+      interval = window.setInterval(() =>
+        setTime(timeElapsed(joinedAt))
+        , 1000)
+    }
+    onCleanup(() => {
+      interval && clearInterval(interval);
+    })
+  }))
+
+  return (
+    <Show when={channel()?.callJoinedAt}>
+      <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>{time()}</Text>
+    </Show>
   )
 }
 

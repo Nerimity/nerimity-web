@@ -8,7 +8,6 @@ import { Router } from '@solidjs/router';
 import en from '@/locales/list/en-gb.json';
 import { TransProvider } from '@nerimity/solid-i18next';
 
-
 render(() => (
   <Router>
     <TransProvider options={{ fallbackLng: 'en_gb',  lng: "en_gb", resources: { "en_gb": {translation: en} }}}>

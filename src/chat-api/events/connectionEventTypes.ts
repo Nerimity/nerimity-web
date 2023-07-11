@@ -1,4 +1,4 @@
-import { RawChannel, RawFriend, RawInboxWithoutChannel, RawPresence, RawServer, RawServerMember, RawServerRole, RawServerSettings, RawUser } from '../RawData';
+import { RawChannel, RawFriend, RawInboxWithoutChannel, RawPresence, RawServer, RawServerMember, RawServerRole, RawServerSettings, RawUser, RawVoice } from '../RawData';
 
 export interface AuthenticatedPayload {
   user: SelfUser;
@@ -12,6 +12,7 @@ export interface AuthenticatedPayload {
   friends: RawFriend[];
   inbox: RawInboxWithoutChannel[];
   lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
+  voiceChannelUsers: RawVoice[];
 }
 
 interface MessageMention {

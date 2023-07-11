@@ -12,6 +12,9 @@ import useStore from './useStore';
 import useServerMembers from './useServerMembers';
 import useAccount from './useAccount';
 import useMention from './useMention';
+import socketClient from '../socketClient';
+import { postJoinVoice, postLeaveVoice } from '../services/VoiceService';
+import useVoiceUsers from './useVoiceUsers';
 
 export type Channel = Omit<RawChannel, 'recipient'> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -26,6 +29,10 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   lastSeen?: number;
   hasNotifications: boolean | 'mention';
   mentionCount: number;
+  joinCall: () => void;
+  leaveCall: () => void;
+  callJoinedAt?: number;
+  setCallJoinedAt: (this: Channel, joinedAt: number | undefined) => void;
 }
 
 
@@ -89,8 +96,23 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
       setRecipientId(userId: string) {
         setChannels(this.id, "recipientId", userId);
       },
+      setCallJoinedAt(joinedAt) {
+        setChannels(this.id, "callJoinedAt", joinedAt);
+      },
       update(update) {
         setChannels(this.id, update);
+      },
+      joinCall() {
+        const {setCurrentVoiceChannelId} = useVoiceUsers();
+        postJoinVoice(this.id, socketClient.id()).then(() => {
+          setCurrentVoiceChannelId(this.id);
+        })
+      },
+      leaveCall() {
+        const {setCurrentVoiceChannelId} = useVoiceUsers();
+        postLeaveVoice(this.id).then(() => {
+          setCurrentVoiceChannelId(null);
+        })
       }
     }
   });

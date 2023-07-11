@@ -42,6 +42,10 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
     body = `${message.createdBy.username} left the server.`,
     title = `${server?.name} #${channel.name}`
   }
+  if (message.type === MessageType.CALL_STARTED) {
+    body = `${message.createdBy.username} started a call.`,
+    title = `${server?.name} #${channel.name}`
+  }
 
 
   new Notification(title, {
@@ -59,6 +63,9 @@ function createDMDesktopNotification(message: Message) {
 
   if (!body && message.attachments?.length) {
     body = "Image Message"
+  }
+  if (message.type === MessageType.CALL_STARTED) {
+    body = `${message.createdBy.username} started a call.`;
   }
 
   new Notification(title, {

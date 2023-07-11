@@ -30,7 +30,9 @@ export const bannerUrl = (item: {banner?: string}): string | null => item?.banne
 export type User = RawUser & {
   presence?: Presence
   inboxChannelId?: string
+  voiceChannelId?: string
   setInboxChannelId: (this: User, channelId: string | undefined) => void;
+  setVoiceChannelId: (this: User, channelId: string | undefined) => void;
   openDM: (this: User) => Promise<void>;
   closeDM: (this: User) => Promise<void>;
   avatarUrl(this: User): string | null
@@ -47,6 +49,9 @@ const set = (user: RawUser) => runWithContext(() => {
     ...user,
     setInboxChannelId(channelId) {
       setUsers(this.id, 'inboxChannelId', channelId);
+    },
+    setVoiceChannelId(channelId) {
+      setUsers(this.id, 'voiceChannelId', channelId);
     },
     async openDM() {
       await openDM(this.id)

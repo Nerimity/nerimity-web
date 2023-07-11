@@ -15,13 +15,20 @@ export interface RawServer {
 }
 
 
+export interface RawVoice {
+  serverId?: string;
+  channelId: string;
+  userId: string;
+}
+
 
 export enum MessageType {
   CONTENT = 0,
   JOIN_SERVER = 1,
   LEAVE_SERVER = 2,
   KICK_USER = 3,
-  BAN_USER = 4
+  BAN_USER = 4,
+  CALL_STARTED = 5
 }
 
 export interface RawMessage {

@@ -216,6 +216,8 @@ const SystemMessage = (props: { message: Message }) => {
         return { icon: "logout", color: 'var(--alert-color)', message: "has been kicked." }
       case MessageType.BAN_USER:
         return { icon: "block", color: 'var(--alert-color)', message: "has been banned." }
+      case MessageType.CALL_STARTED:
+        return { icon: "call", color: 'var(--success-color)', message: "started a call." }
       default:
         return undefined;
     }
