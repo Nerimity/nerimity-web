@@ -5,6 +5,7 @@ import { ClientEvents } from "../EventNames";
 import useAccount from "../store/useAccount";
 import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
+import useVoiceUsers from "../store/useVoiceUsers";
 
 
 export const onConnect = (socket: Socket, token?: string) => {
@@ -19,11 +20,14 @@ export const onConnect = (socket: Socket, token?: string) => {
 
 export const onDisconnect = () => {
   const account = useAccount();
+  const voiceUsers = useVoiceUsers();
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false
   })
+  voiceUsers.resetAll();
+
 }
 
 export const onAuthenticateError = (error: { message: string, data: any }) => {

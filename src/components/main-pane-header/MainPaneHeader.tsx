@@ -82,6 +82,8 @@ export default function MainPaneHeader() {
   )
 }
 
+const [showParticipants, setShowParticipants] = createSignal(true);
+
 function VoiceHeader(props: { channelId?: string }) {
   const { voiceUsers } = useStore();
 
@@ -91,7 +93,9 @@ function VoiceHeader(props: { channelId?: string }) {
   return (
     <Show when={channelVoiceUsers().length}>
       <div class={styles.headerVoiceParticipants}>
-        <VoiceParticipants channelId={props.channelId!} />
+        <Show when={showParticipants()}>
+          <VoiceParticipants channelId={props.channelId!} />
+        </Show>
         <VoiceActions channelId={props.channelId!} />
       </div>
     </Show>
@@ -102,15 +106,13 @@ function VoiceHeader(props: { channelId?: string }) {
 function VoiceParticipants(props: { channelId: string }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId!) || {});
+  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId!) || {})
 
   return (
     <div class={styles.voiceParticipants}>
       <For each={channelVoiceUsers()}>
         {voiceUser => (
-          <div>
-            <VoiceParticipientItem voiceUser={voiceUser!}/>
-          </div>
+            <VoiceParticipantItem voiceUser={voiceUser!}/>
         )}
       </For>
     </div>
@@ -118,7 +120,7 @@ function VoiceParticipants(props: { channelId: string }) {
 }
 
 
-function VoiceParticipientItem(props: {voiceUser: VoiceUser}) {
+function VoiceParticipantItem(props: {voiceUser: VoiceUser}) {
   const {voiceUsers} = useStore();
 
   const isMuted = () => {
@@ -149,11 +151,13 @@ function VoiceActions(props: { channelId: string }) {
     channel()?.leaveCall();
   }
 
-  const isInCall = () => voiceUsers.currentVoiceChannelId() === props.channelId
+  const isInCall = () => voiceUsers.currentVoiceChannelId() === props.channelId;
 
 
   return (
     <div class={styles.voiceActions}>
+        <Show when={showParticipants()}><Button iconName='expand_less' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(false)}  /></Show>
+        <Show when={!showParticipants()}><Button iconName='expand_more' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(true)}  /></Show>
       <Show when={!isInCall()}>
         <Button iconName='call' color='var(--success-color)' onClick={onCallClick}  label='Join' />
       </Show>

@@ -90,7 +90,6 @@
   right: 0;
   display: flex;
   flex-direction: column;
-  height: 160px;
   border-bottom: solid 1px rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
   align-items: center;
@@ -100,6 +99,8 @@
   z-index: 11111;
   background-color: rgba(48, 48, 48, 0.4);
   backdrop-filter: blur(20px);
+  padding-left: 10px;
+  padding-right: 10px;
   .voiceParticipantItem {
     position: relative;
     .muteIcon {
@@ -116,13 +117,17 @@
     align-self: center;
     justify-content: center;
     width: 100%;
+    height: 120px;
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .voiceActions {
     display: flex;
     gap: 5px;
-    padding-bottom: 5px;
   }
 }

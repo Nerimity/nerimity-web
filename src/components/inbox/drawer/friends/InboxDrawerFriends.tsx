@@ -36,57 +36,6 @@ const InboxDrawerFriends = () => {
         <For each={separatedFriends()?.offlineFriends}>
           {friend => <FriendItem friend={friend} />}
         </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
-        <For each={separatedFriends()?.offlineFriends}>
-          {friend => <FriendItem friend={friend} />}
-        </For>
       </div>
     </Show>
   )

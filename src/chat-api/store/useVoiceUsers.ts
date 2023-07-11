@@ -1,6 +1,6 @@
 
 import { batch, createSignal } from 'solid-js';
-import { createStore } from 'solid-js/store';
+import { createStore, reconcile } from 'solid-js/store';
 import { RawVoice } from '../RawData';
 import useUsers, { User } from './useUsers';
 import type SimplePeer from '@thaunknown/simple-peer';
@@ -163,8 +163,8 @@ const isLocalMicMuted = () => localStreams.audioStream === null;
 
 const toggleMic = async () => {
   if (isLocalMicMuted()) {
-    // const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-    const stream = await test();
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+    // const stream = await test();
     setLocalStreams({audioStream: stream});
     sendStreamToPeer(stream, 'audio')
     return;
@@ -248,6 +248,17 @@ const setCurrentVoiceChannelId = (channelId: string | null) => {
 }
 
 
+function resetAll() {
+  batch(() => {
+    if (currentVoiceChannelId()) {
+      setCurrentVoiceChannelId(null);
+    }
+    setVoiceUsers(reconcile({}));
+  })
+}
+
+
+
 export default function useVoiceUsers() {
   return {
     set,
@@ -258,14 +269,15 @@ export default function useVoiceUsers() {
     setCurrentVoiceChannelId,
     isLocalMicMuted,
     micEnabled,
-    toggleMic
+    toggleMic,
+    resetAll
   }
 }
 
-async function test () {
-  const stream = await navigator.mediaDevices.getDisplayMedia({audio: true, video: true});
+// async function test () {
+//   const stream = await navigator.mediaDevices.getDisplayMedia({audio: true, video: true});
   
 
-  const st = new MediaStream([stream.getAudioTracks()[0]])
-  return st;
-}
+//   const st = new MediaStream([stream.getAudioTracks()[0]])
+//   return st;
+// }
