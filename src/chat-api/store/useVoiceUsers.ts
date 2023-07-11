@@ -99,7 +99,27 @@ export function createPeer(voiceUser: RawVoice) {
           urls: [
             'stun:stun.l.google.com:19302',
           ]
-        }
+        },
+        {
+          urls: "turn:a.relay.metered.ca:80",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
+        {
+          urls: "turn:a.relay.metered.ca:80?transport=tcp",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
+        {
+          urls: "turn:a.relay.metered.ca:443",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
+        {
+          urls: "turn:a.relay.metered.ca:443?transport=tcp",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
       ],
     },
     streams: [localStreams.audioStream, localStreams.videoStream].filter(stream => stream) as MediaStream[]
@@ -135,7 +155,27 @@ export function addPeer(voiceUser: RawVoice, signal: SimplePeer.SignalData) {
           urls: [
             'stun:stun.l.google.com:19302'
           ]
-        }
+        },
+        {
+          urls: "turn:a.relay.metered.ca:80",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
+        {
+          urls: "turn:a.relay.metered.ca:80?transport=tcp",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
+        {
+          urls: "turn:a.relay.metered.ca:443",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
+        {
+          urls: "turn:a.relay.metered.ca:443?transport=tcp",
+          username: "b9fafdffb3c428131bd9ae10",
+          credential: "DTk2mXfXv4kJYPvD",
+        },
       ],
     },
     streams: [localStreams.audioStream, localStreams.videoStream].filter(stream => stream) as MediaStream[]
