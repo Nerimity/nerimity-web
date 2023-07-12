@@ -95,6 +95,22 @@ export async function closeDMChannelRequest(channelId: string) {
     useToken: true
   });
 }
+
+export async function blockUser(userId: string) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
+    method: 'POST',
+    useToken: true
+  });
+}
+export async function unblockUser(userId: string) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
+    method: 'DELETE',
+    useToken: true
+  });
+}
+
 export async function updatePresence(presence: Partial<Presence>) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.updatePresence(),

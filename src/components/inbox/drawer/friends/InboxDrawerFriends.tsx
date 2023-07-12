@@ -53,6 +53,7 @@ function separateFriends(friends: Friend[]) {
   for (let i = 0; i < friends.length; i++) {
     const friend = friends[i];
     const user = friend.recipient
+    if (friend.status === FriendStatus.BLOCKED) continue;
     if (friend.status === FriendStatus.PENDING || friend.status === FriendStatus.SENT) {
       // move incoming requests to the top.
       if (friend.status === FriendStatus.PENDING) {

@@ -16,6 +16,9 @@ export const ServerEvents = {
 
   USER_PRESENCE_UPDATE: 'user:presence_update',
 
+  USER_BLOCKED: 'user:blocked',
+  USER_UNBLOCKED: 'user:unblocked',
+
   FRIEND_REQUEST_SENT: 'friend:request_sent',
   FRIEND_REQUEST_PENDING: 'friend:request_pending',
   FRIEND_REQUEST_ACCEPTED: 'friend:request_accepted',
