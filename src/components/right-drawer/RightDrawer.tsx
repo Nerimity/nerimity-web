@@ -31,6 +31,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import socketClient from '@/chat-api/socketClient';
 import { ServerEvents } from '@/chat-api/EventNames';
 import { Markup } from '../Markup';
+import { useResizeObserver } from '@/common/useResizeObserver';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -442,14 +443,14 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
 
 
   const [flyoutRef, setFlyoutRef] = createSignal<HTMLDivElement | undefined>(undefined);
+  const {height: flyoutHeight} = useResizeObserver(flyoutRef);
 
 
   createEffect(() => {
     if (!flyoutRef()) return;
     if (props.mobile) return;
-    const flyoutHeight = flyoutRef()!.getBoundingClientRect().height;
     let newTop = props.top!;
-    if ((flyoutHeight + props.top!) > height()) newTop = height() - flyoutHeight;
+    if ((flyoutHeight() + props.top!) > height()) newTop = height() - flyoutHeight();
     flyoutRef()!.style.top = newTop + "px";
   })
 
