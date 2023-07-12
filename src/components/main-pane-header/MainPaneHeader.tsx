@@ -132,7 +132,7 @@ function VoiceParticipantItem(props: {voiceUser: VoiceUser}) {
 
   return (
     <div class={styles.voiceParticipantItem}>
-      <Avatar user={{...user(), badges: undefined}} size={60} borderColor={talking() ? 'var(--success-color)' : undefined} />
+      <Avatar user={{...user(), badges: undefined}} animate={talking()} size={60} borderColor={talking() ? 'var(--success-color)' : undefined} />
       <Show when={isMuted() && isInCall()}>
         <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
       </Show>
