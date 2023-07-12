@@ -265,6 +265,7 @@ const onStream = (voiceUser: RawVoice, stream: MediaStream) => {
   stream.onremovetrack = () => {
     setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
       [streamType]: null,
+      voiceActivity: false
     })
     stream.onremovetrack = null;
   }
@@ -292,10 +293,12 @@ const toggleMic = async () => {
     sendStreamToPeer(stream, 'audio')
     return;
   }
+  const account = useAccount();
   localStreams.vadStream?.getAudioTracks()[0].stop();
   localStreams.vad?.destroy();
   stopStream(localStreams.audioStream!);
-  setLocalStreams({audioStream: null})
+  setLocalStreams({audioStream: null});
+  setVoiceUsers(currentVoiceChannelId()!, account.user()?.id!, {voiceActivity: false});
 }
 
 
