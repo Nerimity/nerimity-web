@@ -71,6 +71,9 @@ dependencies:
   twemoji:
     specifier: ^14.0.2
     version: 14.0.2
+  voice-activity-detection:
+    specifier: ^0.0.5
+    version: 0.0.5
 
 devDependencies:
   '@types/markdown-it':
@@ -85,6 +88,9 @@ devDependencies:
   '@types/simple-peer':
     specifier: ^9.11.5
     version: 9.11.5
+  '@types/voice-activity-detection':
+    specifier: ^0.0.2
+    version: 0.0.2
   events:
     specifier: ^3.3.0
     version: 3.3.0
@@ -1867,6 +1873,10 @@ packages:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
     dev: true
 
+  /@types/voice-activity-detection@0.0.2:
+    resolution: {integrity: sha512-qJFNzsB2IYhIaN36c8L0ra1ivx0fYh4lKOR4nKGL3EIqO8BFUORVJW2jnrLcBYAy0CYNVEia9kfRXSiZbm87yw==}
+    dev: true
+
   /acorn@8.8.2:
     resolution: {integrity: sha512-xjIYgE8HBrkpd/sJqOGNspf8uHG+NOHGOw6a/Urj8taM2EXfdNAH2oFcPeIFfsv3+kz/mJrS5VuMqbNLjCa2vw==}
     engines: {node: '>=0.4.0'}
@@ -1881,6 +1891,12 @@ packages:
       require-from-string: 2.0.2
       uri-js: 4.4.1
     dev: true
+
+  /analyser-frequency-average@1.0.0:
+    resolution: {integrity: sha512-Y8HRgDfMWpefR286IAT7w9WsZ2r2dLOAkUNz8SQgsTAM0GsM9SAAqr1psqOr1scN76cL0pfuNZoQTnuvdoM0RA==}
+    dependencies:
+      audio-frequency-to-index: 2.0.0
+    dev: false
 
   /ansi-styles@3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
@@ -1922,6 +1938,12 @@ packages:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
     engines: {node: '>= 4.0.0'}
     dev: true
+
+  /audio-frequency-to-index@2.0.0:
+    resolution: {integrity: sha512-7zqlDEAsEkPB0ORRhjBlsK7KBZQtdgLLQcmemFD2V2KHPH4flqzDOheWl+U69K0P/LA7J/H5YBNzNWaoS/7WAQ==}
+    dependencies:
+      clamp: 1.0.1
+    dev: false
 
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
@@ -2079,6 +2101,10 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+
+  /clamp@1.0.1:
+    resolution: {integrity: sha512-kgMuFyE78OC6Dyu3Dy7vcx4uy97EIbVxJB/B0eJ3bUNAkwdNcxYzgKltnyADiYwsR7SEqkkUPsEUT//OVS6XMA==}
+    dev: false
 
   /color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -3597,6 +3623,12 @@ packages:
     dependencies:
       vite: 4.3.9(@types/node@18.16.18)(sass@1.63.4)
     dev: true
+
+  /voice-activity-detection@0.0.5:
+    resolution: {integrity: sha512-Ezq+k0cICI67XR/R9KvTRhJ7/u6U0Zk9I+8VNs3hHTAvB6cA3glCa+cHgCRWSW/SV6cRrufSQsV1YxpNtsQb1g==}
+    dependencies:
+      analyser-frequency-average: 1.0.0
+    dev: false
 
   /void-elements@3.1.0:
     resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}

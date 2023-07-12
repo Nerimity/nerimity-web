@@ -12,8 +12,9 @@ interface Props {
   size: number;
   class?: string;
   animate?: boolean;
-  user?: { avatar?: string, hexColor: string };
+  user?: { avatar?: string, hexColor: string, badges?: number};
   server?: { avatar?: string, hexColor: string, verified: boolean; };
+  borderColor?: string;
 }
 
 const AvatarContainer = styled("div") <{ size: number }>`
@@ -79,6 +80,9 @@ export default function Avatar(props: Props) {
 
   return (
     <AvatarContainer size={props.size} class={classNames("avatar-container", props.class)}>
+      <Show when={props.borderColor}>
+        <BasicBorder size={props.size} color={props.borderColor!} label=''  />
+      </Show>
       <AvatarBorder size={props.size} hovered={props.animate} serverOrUser={serverOrUser()} />
       <ImageContainer color={url() ? undefined : serverOrUser().hexColor}>
         <Show when={!url()}><Image src="/assets/profile.png" alt="User Avatar" /></Show>
