@@ -20,10 +20,21 @@ jobs:
         run: |
           npm i -g pnpm
           pnpm i
+
       - name: Build App
         run: pnpm run build
-      - name: Publish Artifact
-        uses: actions/upload-artifact@v3
+
+      - name: Zip The Build
+        uses: vimtor/action-zip@v1
         with:
-          name: my-artifact
-          path: dist/
+          files: dist/
+          dest: chat-client-uwu.zip
+
+      - name: Deploy to Server
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          local: 'chat-client-uwu.zip' 
+          remote: '/var/www/test' 
+          host: ${{secrets.HOST}}  
+          user: ${{secrets.USER}}   
+          password: ${{secrets.PASS}}
