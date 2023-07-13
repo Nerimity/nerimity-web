@@ -62,7 +62,7 @@ jobs:
           password: ${{ secrets.PASS }}
           port: ${{ secrets.PORT }}
           script: | 
-            unzip -o /var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip -d /var/www/nerimity.com/
+            unzip -o /var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip -d /var/www/nerimity.com
             rm -rf /var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
 
