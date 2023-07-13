@@ -46,4 +46,6 @@ jobs:
           username: ${{ secrets.USER }}
           password: ${{ secrets.PASS }}
           port: ${{ secrets.PORT }}
-          script: unzip -o /var/www/test.zip -d /var/www/test/
+          script: | 
+            unzip -o /var/www/test.zip -d /var/www/test/
+            rm -rf /var/www/test.zip
