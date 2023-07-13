@@ -5,7 +5,7 @@ import Icon from '@/components/ui/icon/Icon';
 import useStore from '@/chat-api/store/useStore';
 import UserPresence from '@/components/user-presence/UserPresence';
 import { useDrawer } from '../ui/drawer/Drawer';
-import { createEffect, createSignal, For, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { postJoinVoice } from '@/chat-api/services/VoiceService';
 import socketClient from '@/chat-api/socketClient';
@@ -13,6 +13,13 @@ import { useParams } from '@solidjs/router';
 import Button from '../ui/Button';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { VoiceUser } from '@/chat-api/store/useVoiceUsers';
+import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
+import { RawNotification, getUserNotificationsRequest } from '@/chat-api/services/UserService';
+import { RawMessage, RawServer } from '@/chat-api/RawData';
+import MessageItem from '../message-pane/message-item/MessageItem';
+import { Message } from '@/chat-api/store/useMessages';
+import { useResizeObserver } from '@/common/useResizeObserver';
+import Text from '../ui/Text';
 
 
 
@@ -54,6 +61,11 @@ export default function MainPaneHeader() {
   }
 
 
+  const [mentionListPosition, setMentionListPosition] = createSignal<boolean>(false);
+  const onMentionButtonClick = (event: MouseEvent) => {
+    setMentionListPosition(!mentionListPosition());
+  }
+
   return (
     <>
       <div onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} class={classNames(styles.header, conditionalClass(isMobileWidth(), styles.isMobile))}>
@@ -72,13 +84,72 @@ export default function MainPaneHeader() {
           <Show when={header.details().channelId}>
             <div class={styles.drawerIcon} onClick={onCallClick}><Icon name='call' /></div>
           </Show>
+          <div class={classNames(styles.drawerIcon, "mentionListIcon")} onClick={onMentionButtonClick}><Icon name='alternate_email' /></div>
           <Show when={hasRightDrawer() && isMobileWidth()}>
             <div class={styles.drawerIcon} onClick={toggleRightDrawer}><Icon name='group' /></div>
           </Show>
         </div>
       </div>
+      <Show when={mentionListPosition()}>
+        <MentionListPopup close={() => setMentionListPosition(false)} />
+      </Show>
       <VoiceHeader channelId={header.details().channelId} />
     </>
+  )
+}
+
+const MentionListPopup = (props: { close: () => void }) => {
+  const { isMobileWidth } = useWindowProperties();
+  const [elementRef, setElementRef] = createSignal<undefined | HTMLDivElement>(undefined);
+  const { width } = useResizeObserver(elementRef);
+  const [notifications, setNotifications] = createSignal<RawNotification[] | null>(null);
+
+  onMount(async () => {
+    const notifications = await getUserNotificationsRequest();
+    setNotifications(notifications);
+    document.addEventListener("click", onDocClick);
+    onCleanup(() => {
+      document.removeEventListener("click", onDocClick);
+    })
+  })
+
+  const onDocClick = (event: any) => {
+    if (event.target.closest(`.mentionListIcon`)) return;
+    if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
+  }
+
+
+
+  return (
+    <div ref={setElementRef} class={classNames(styles.mentionListContainer, conditionalClass(isMobileWidth(), styles.mobile))}>
+      <Show when={notifications() && !notifications()?.length}>
+        <div class={styles.noMentions}>
+          <Icon name='alternate_email' size={40}/>
+          <Text>No Mentions</Text>
+        </div>
+      </Show>
+      <Show when={notifications()}>
+        <For each={notifications()}>
+          {notification => (
+            <div>
+              <MentionServerHeader serverId={notification.server.id} />
+              <MessageItem message={notification.message} hideFloating />
+            </div>
+          )}
+        </For>
+      </Show>
+    </div>
+  )
+}
+
+const MentionServerHeader = (props: { serverId: string }) => {
+  const { servers } = useStore();
+  const server = () => servers.get(props.serverId);
+  return (
+    <div class={styles.mentionServerHeader}>
+      <Avatar server={server()} size={30} />
+      <Text>{server()!.name}</Text>
+    </div>
   )
 }
 
@@ -112,7 +183,7 @@ function VoiceParticipants(props: { channelId: string }) {
     <div class={styles.voiceParticipants}>
       <For each={channelVoiceUsers()}>
         {voiceUser => (
-            <VoiceParticipantItem voiceUser={voiceUser!}/>
+          <VoiceParticipantItem voiceUser={voiceUser!} />
         )}
       </For>
     </div>
@@ -120,8 +191,8 @@ function VoiceParticipants(props: { channelId: string }) {
 }
 
 
-function VoiceParticipantItem(props: {voiceUser: VoiceUser}) {
-  const {voiceUsers} = useStore();
+function VoiceParticipantItem(props: { voiceUser: VoiceUser }) {
+  const { voiceUsers } = useStore();
 
   const isMuted = () => {
     return !voiceUsers.micEnabled(props.voiceUser.channelId, props.voiceUser.userId);
@@ -132,7 +203,7 @@ function VoiceParticipantItem(props: {voiceUser: VoiceUser}) {
 
   return (
     <div class={styles.voiceParticipantItem}>
-      <Avatar user={{...user(), badges: undefined}} animate={talking()} size={60} borderColor={talking() ? 'var(--success-color)' : undefined} />
+      <Avatar user={{ ...user(), badges: undefined }} animate={talking()} size={60} borderColor={talking() ? 'var(--success-color)' : undefined} />
       <Show when={isMuted() && isInCall()}>
         <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
       </Show>
@@ -159,10 +230,10 @@ function VoiceActions(props: { channelId: string }) {
 
   return (
     <div class={styles.voiceActions}>
-        <Show when={showParticipants()}><Button iconName='expand_less' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(false)}  /></Show>
-        <Show when={!showParticipants()}><Button iconName='expand_more' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(true)}  /></Show>
+      <Show when={showParticipants()}><Button iconName='expand_less' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(false)} /></Show>
+      <Show when={!showParticipants()}><Button iconName='expand_more' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(true)} /></Show>
       <Show when={!isInCall()}>
-        <Button iconName='call' color='var(--success-color)' onClick={onCallClick}  label='Join' />
+        <Button iconName='call' color='var(--success-color)' onClick={onCallClick} label='Join' />
       </Show>
       <Show when={isInCall()}>
         <VoiceMicActions channelId={props.channelId} />
@@ -173,16 +244,16 @@ function VoiceActions(props: { channelId: string }) {
 }
 
 function VoiceMicActions(props: { channelId: string }) {
-  const { voiceUsers: {isLocalMicMuted, toggleMic} } = useStore();
+  const { voiceUsers: { isLocalMicMuted, toggleMic } } = useStore();
 
   return (
     <>
-    <Show when={isLocalMicMuted()}>
-      <Button iconName='mic_off' color='var(--alert-color)' label='Muted' onClick={toggleMic} />
-    </Show>
-    <Show when={!isLocalMicMuted()}>
-      <Button iconName='mic' color='var(--success-color)' onClick={toggleMic} />
-    </Show> 
+      <Show when={isLocalMicMuted()}>
+        <Button iconName='mic_off' color='var(--alert-color)' label='Muted' onClick={toggleMic} />
+      </Show>
+      <Show when={!isLocalMicMuted()}>
+        <Button iconName='mic' color='var(--success-color)' onClick={toggleMic} />
+      </Show>
     </>
   )
 }

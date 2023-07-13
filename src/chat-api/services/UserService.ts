@@ -1,5 +1,5 @@
 import env from "../../common/env";
-import { RawChannel, RawInboxWithoutChannel, RawPost, RawUser } from "../RawData";
+import { RawChannel, RawInboxWithoutChannel, RawMessage, RawPost, RawServer, RawUser } from "../RawData";
 import { Presence, UserStatus } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
@@ -60,6 +60,19 @@ export interface UserProfile {
 export async function getUserDetailsRequest(userId?: string) {
   return request<UserDetails>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId || ""),
+    method: "GET",
+    useToken: true
+  });
+}
+
+export interface RawNotification {
+  message: RawMessage;
+  server: RawServer
+}
+
+export async function getUserNotificationsRequest() {
+  return request<RawNotification[]>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("notifications"),
     method: "GET",
     useToken: true
   });
