@@ -34,7 +34,16 @@ jobs:
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
           local: 'chat-client-uwu.zip' 
-          remote: '/var/www/test' 
+          remote: '/var/www/test.zip' 
           host: ${{secrets.HOST}}  
           user: ${{secrets.USER}}   
           password: ${{secrets.PASS}}
+
+      - name: unzip
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          script: unzip -o /var/www/test.zip -d /var/www/test/
