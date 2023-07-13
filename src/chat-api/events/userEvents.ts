@@ -4,7 +4,9 @@ import useMention from "../store/useMention";
 import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
 import { SelfUser } from "./connectionEventTypes";
-import { RawServerSettings } from "../RawData";
+import { FriendStatus, RawServerSettings, RawUser } from "../RawData";
+import useFriends from "../store/useFriends";
+import useAccount from "../store/useAccount";
 
 export function onUserPresenceUpdate(payload: {status?: UserStatus, custom?: string; userId: string}) {
   const users = useUsers();
@@ -36,4 +38,20 @@ export function onUserUpdated(payload: Partial<SelfUser>) {
 export function onUserServerSettingsUpdate(payload: {serverId: string, updated: Partial<RawServerSettings>}) {
   const {account} = useStore();
   account.setServerSettings(payload.serverId, payload.updated)
+}
+
+
+export function onUserBlocked(payload: {user: RawUser}) {
+  const account = useAccount();
+  const friends = useFriends();
+  friends.set({
+    createdAt: Date.now(),
+    recipient: payload.user,
+    userId: account.user()?.id!,
+    status: FriendStatus.BLOCKED,
+  })
+}
+export function onUserUnblocked(payload: {userId: string}) {
+  const friends = useFriends();
+  friends.delete(payload.userId);
 }

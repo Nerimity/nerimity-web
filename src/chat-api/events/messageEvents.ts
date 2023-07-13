@@ -43,7 +43,13 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
     }
 
     const mentionCount = () => mentions.get(payload.message.channelId)?.count || 0;
-    const isMentioned = () => payload.message.mentions?.find(u => u.id === accountUser?.id)
+
+    const isMentioned = () => {
+      const mention = payload.message.mentions?.find(u => u.id === accountUser?.id);
+      if (mention) return true;
+      const quoteMention = payload.message.quotedMessages?.find(m => m.createdBy?.id === accountUser?.id);
+      return quoteMention;
+    }
     
     if (payload.message.createdBy.id !== accountUser?.id) {
   

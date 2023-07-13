@@ -1,5 +1,5 @@
 import env from "../../common/env";
-import { RawChannel, RawInboxWithoutChannel, RawPost, RawUser } from "../RawData";
+import { RawChannel, RawInboxWithoutChannel, RawMessage, RawPost, RawServer, RawUser } from "../RawData";
 import { Presence, UserStatus } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
@@ -65,6 +65,19 @@ export async function getUserDetailsRequest(userId?: string) {
   });
 }
 
+export interface RawNotification {
+  message: RawMessage;
+  server: RawServer
+}
+
+export async function getUserNotificationsRequest() {
+  return request<RawNotification[]>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("notifications"),
+    method: "GET",
+    useToken: true
+  });
+}
+
 export async function getFollowers(userId?: string) {
   return request<RawUser[]>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId || "") + "/followers",
@@ -95,6 +108,22 @@ export async function closeDMChannelRequest(channelId: string) {
     useToken: true
   });
 }
+
+export async function blockUser(userId: string) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
+    method: 'POST',
+    useToken: true
+  });
+}
+export async function unblockUser(userId: string) {
+  return request({
+    url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
+    method: 'DELETE',
+    useToken: true
+  });
+}
+
 export async function updatePresence(presence: Partial<Presence>) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.updatePresence(),

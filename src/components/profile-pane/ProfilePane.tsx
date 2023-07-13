@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import { Link, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
-import { followUser, getFollowers, getFollowing, getUserDetailsRequest, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
+import { blockUser, followUser, getFollowers, getFollowing, getUserDetailsRequest, unblockUser, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
 import { avatarUrl, bannerUrl, User } from '@/chat-api/store/useUsers';
 import { getDaysAgo } from '../../common/date';
@@ -140,10 +140,15 @@ const ActionButtons = (props: { class?: string, updateUserDetails(): void, userD
   const { friends, users } = useStore();
 
   const friend = () => friends.get(params.userId);
-  const friendExists = () => !!friend();
+    
+  const isBlocked = () =>  friend()?.status === FriendStatus.BLOCKED; 
+
+  const friendExists = () => !!friend() 
   const isPending = () => friendExists() && friend().status === FriendStatus.PENDING;
   const isSent = () => friendExists() && friend().status === FriendStatus.SENT;
   const isFriend = () => friendExists() && friend().status === FriendStatus.FRIENDS;
+
+  const showAddFriend = () => !friendExists() && !isBlocked();
 
   const acceptClicked = () => {
     friend().acceptFriendRequest();
@@ -158,6 +163,8 @@ const ActionButtons = (props: { class?: string, updateUserDetails(): void, userD
     addFriend({
       username: props.user.username,
       tag: props.user.tag
+    }).catch(err => {
+      alert(err.message)
     })
   }
 
@@ -177,15 +184,29 @@ const ActionButtons = (props: { class?: string, updateUserDetails(): void, userD
 
   const isFollowing = () => props.userDetails?.user.followers.length;
 
+  const blockClicked = async () => {
+    await blockUser(params.userId);
+  }
+  const unblockClicked = async () => {
+    await unblockUser(params.userId);
+  }
+
   return (
     <ActionButtonsContainer class={props.class} gap={3}>
       {!isFollowing() && <ActionButton icon='add_circle' label={t('profile.followButton')} onClick={followClick} color='var(--primary-color)' />}
       {isFollowing() && <ActionButton icon='add_circle' label={t('profile.unfollowButton')} onClick={unfollowClick} color='var(--alert-color)' />}
       {isFriend() && <ActionButton icon='person_add_disabled' label={t('profile.removeFriendButton')} color='var(--alert-color)' onClick={removeClicked} />}
-      {!friendExists() && <ActionButton icon='group_add' label={t('profile.addFriendButton')} color='var(--primary-color)' onClick={addClicked} />}
+      {showAddFriend() && <ActionButton icon='group_add' label={t('profile.addFriendButton')} color='var(--primary-color)' onClick={addClicked} />}
       {isSent() && <ActionButton icon='close' label={t('profile.pendingRequest')} color='var(--alert-color)' onClick={removeClicked} />}
       {isPending() && <ActionButton icon='done' label={t('profile.acceptRequestButton')} color='var(--success-color)' onClick={acceptClicked} />}
-      <ActionButton icon='block' label='Block (WIP)' color='var(--alert-color)' />
+
+      <Show when={isBlocked()}>
+        <ActionButton icon='block' label='Unblock' color='var(--alert-color)' onClick={unblockClicked} />
+      </Show>
+      <Show when={!isBlocked()}>
+        <ActionButton icon='block' label='Block' color='var(--alert-color)' onClick={blockClicked} />
+      </Show>
+
       <ActionButton icon='flag' label='Report (WIP)' color='var(--alert-color)' />
       <ActionButton icon='mail' label={t('profile.messageButton')} color='var(--primary-color)' onClick={onMessageClicked} />
     </ActionButtonsContainer>
