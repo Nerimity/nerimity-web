@@ -48,11 +48,22 @@ jobs:
       - name: Deploy to Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: 'dist/'                   # Local file path - REQUIRED false - DEFAULT ./
-          remote: '/var/www/nerimity.com/' # Remote file path - REQUIRED false - DEFAULT ~/
+          local: 'chat-client-${{ steps.get_version.outputs.VERSION }}.zip'                   # Local file path - REQUIRED false - DEFAULT ./
+          remote: '/var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip' # Remote file path - REQUIRED false - DEFAULT ~/
           host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
           user: ${{secrets.USER}}          # Remote server user - REQUIRED true
           password: ${{secrets.PASS}}      # User password - REQUIRED at least one of "password" or "key" 
+
+      - name: Unzip built
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          script: | 
+            unzip -o /var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip -d /var/www/nerimity.com/
+            rm -rf /var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip
 
 
       - name: Publish Draft Release
