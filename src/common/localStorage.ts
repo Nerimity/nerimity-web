@@ -7,7 +7,8 @@ export enum StorageKeys {
   FIRST_TIME = 'firstTime', // After registering, this is set to true.
   ARE_NOTIFICATIONS_MUTED = 'areNotificationsMuted',
   NOTIFICATION_VOLUME = 'notificationVolume',
-  ENABLE_DESKTOP_NOTIFICATION = 'enableDesktopNotification'
+  ENABLE_DESKTOP_NOTIFICATION = 'enableDesktopNotification',
+  LAST_SELECTED_SERVER_CHANNELS = 'lastSelectedServerChannels',
 }
 
 export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {
@@ -43,3 +44,7 @@ export function setStorageNumber(key: StorageKeys, value: number) {
 export function removeStorage(key: StorageKeys) {
     localStorage.removeItem(key);
 }
+
+
+
+

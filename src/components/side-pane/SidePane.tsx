@@ -37,6 +37,7 @@ import { clearCache } from '@/common/localCache';
 import { useDrawer } from '../ui/drawer/Drawer';
 import { useRegisterSW } from 'virtual:pwa-register/solid'
 import Input from '../ui/input/Input';
+import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -395,7 +396,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 
   return (
     <Link
-      href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
+      href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
       <SidebarItemContainer alert={hasNotifications()} selected={selected()}>

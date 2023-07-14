@@ -48,10 +48,11 @@ import { useScrollToMessageListener } from '@/common/GlobalEvents';
 import { createDesktopNotification } from '@/common/desktopNotification';
 import { useMutationObserver, useResizeObserver } from '@/common/useResizeObserver';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
+import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
-  const params = useParams();
+  const params = useParams<{channelId: string, serverId?: string}>();
   const { channels, header, serverMembers, account } = useStore();
   const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
   const channel = () => channels.get(params.channelId!);
@@ -69,7 +70,11 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
       id: 'MessagePane'
     });
 
+    if (params.serverId) {
+      setLastSelectedServerChannelId(params.serverId, params.channelId);
+    }
   })
+
 
   const canSendMessage = () => {
     if (!channel()?.serverId) return true;

@@ -28,6 +28,7 @@ import { t } from 'i18next';
 import { USER_BADGES, hasBit } from '@/chat-api/Bitwise';
 import Modal from '../ui/Modal';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
+import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -303,7 +304,7 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
               const server = () => servers.get(id);
               return (
                 <Show when={server()}>
-                  <Link href={RouterEndpoints.SERVER_MESSAGES(server()!.id, server()!.defaultChannelId)} class={styles.item}>
+                  <Link href={RouterEndpoints.SERVER_MESSAGES(server()!.id,  getLastSelectedChannelId(server()!.id, server()!.defaultChannelId))} class={styles.item}>
                     <Avatar server={server()} size={20} />
                     <div class={styles.name}>{server()!.name}</div>
                   </Link>
