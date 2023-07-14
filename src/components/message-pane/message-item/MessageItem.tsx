@@ -93,7 +93,7 @@ interface MessageItemProps {
 const MessageItem = (props: MessageItemProps) => {
 
   const params = useParams();
-  const { serverMembers, servers } = useStore();
+  const { serverMembers, servers, account } = useStore();
   const [hovered, setHovered] = createSignal(false);
   const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.message.createdBy.id) : undefined;
 
@@ -126,10 +126,26 @@ const MessageItem = (props: MessageItemProps) => {
   const isCompact = () => isSameCreator() && isDateUnderFiveMinutes() && isBeforeMessageContent();
   const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
 
+  const [isMentioned, setIsMentioned] = createSignal(false);
+
+  createEffect(on([() => props.message.mentions?.length, () => props.message.quotedMessages.length], () => {
+    setTimeout(() => {
+      const isQuoted = props.message.quotedMessages?.find(m => m.createdBy?.id === account.user()?.id);
+      const isMentioned = props.message.mentions?.find(u => u.id === account.user()?.id);
+      setIsMentioned(!!isQuoted || !!isMentioned);
+    });
+  }))
 
   return (
     <div
-      class={classNames(styles.messageItem, conditionalClass(isCompact(), styles.compact), props.class, "messageItem")}
+      class={
+        classNames(
+          styles.messageItem, 
+          conditionalClass(isCompact(), styles.compact), 
+          conditionalClass(isMentioned(), styles.mentioned), 
+          props.class, 
+          "messageItem"
+        )}
       onContextMenu={props.contextMenu}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
