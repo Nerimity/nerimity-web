@@ -99,10 +99,7 @@ const MessageItem = (props: MessageItemProps) => {
 
   const isServerCreator = () => params.serverId ? servers.get(params.serverId)?.createdById === props.message.createdBy.id : undefined;
 
-  createEffect(on(() => props.message.attachments, () => {
-    if (!props.messagePaneEl) return;
-    props.messagePaneEl.scrollTop = props.messagePaneEl.scrollHeight;
-  }, { defer: true }))
+  
 
   const Details = () => (
     <div class={classNames(styles.details)}>

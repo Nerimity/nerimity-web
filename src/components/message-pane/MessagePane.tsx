@@ -54,7 +54,6 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams();
   const { channels, header } = useStore();
   const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
-
   createEffect(() => {
     const channel = channels.get(params.channelId!);
     if (!channel) return;
@@ -157,11 +156,20 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     }, 3000)
   })
 
+  const {height} = useResizeObserver(() => props.mainPaneEl?.children[1]?.firstChild! as HTMLDivElement);
+
+
+  createRenderEffect(on(height, () => {
+    if (scrollTracker.scrolledBottom()) {
+      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+    }
+  }))
 
   const updateUnreadMarker = (ignoreFocus = false) => {
     if (!ignoreFocus && hasFocus()) return;
     const lastSeenAt = channel().lastSeen || -1;
     const message = channelMessages()?.find(m => m.createdAt - lastSeenAt >= 0);
+    console.log(message?.content)
     setUnreadMarker({
       lastSeenAt,
       messageId: message?.id || null
@@ -173,7 +181,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     });
   }
 
-  createEffect(on(() => channelMessages()?.length, (length, prevLength) => {
+  createRenderEffect(on(() => channelMessages()?.length, (length, prevLength) => {
     if (!length) return;
     updateUnreadMarker(prevLength === undefined);
     if (prevLength === undefined) return;
