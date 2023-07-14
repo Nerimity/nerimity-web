@@ -20,6 +20,8 @@ import MessageItem from '../message-pane/message-item/MessageItem';
 import { Message } from '@/chat-api/store/useMessages';
 import { useResizeObserver } from '@/common/useResizeObserver';
 import Text from '../ui/Text';
+import { CustomLink } from '../ui/CustomLink';
+import RouterEndpoints from '@/common/RouterEndpoints';
 
 
 
@@ -124,7 +126,7 @@ const MentionListPopup = (props: { close: () => void }) => {
     <div ref={setElementRef} class={classNames(styles.mentionListContainer, conditionalClass(isMobileWidth(), styles.mobile))}>
       <Show when={notifications() && !notifications()?.length}>
         <div class={styles.noMentions}>
-          <Icon name='alternate_email' size={40}/>
+          <Icon name='alternate_email' size={40} />
           <Text>No Mentions</Text>
         </div>
       </Show>
@@ -202,12 +204,12 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser }) {
   const user = () => props.voiceUser.user!;
 
   return (
-    <div class={styles.voiceParticipantItem}>
+    <CustomLink href={RouterEndpoints.PROFILE(user().id)} class={styles.voiceParticipantItem}>
       <Avatar user={{ ...user(), badges: undefined }} animate={talking()} size={60} borderColor={talking() ? 'var(--success-color)' : undefined} />
       <Show when={isMuted() && isInCall()}>
         <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
       </Show>
-    </div>
+    </CustomLink>
   )
 }
 
