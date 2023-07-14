@@ -8,13 +8,26 @@
 }
 
 
-.roleName {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+.roleTitle {
+  display: flex;
+  align-items: center;
   margin: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  .roleName {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  user-select: none;
+  &:hover .roleName {
+    color: white;
+  }
+  .roleExpandButton {
+    margin-left: auto;
+  }
 }
 .roleItem {
   display: flex;

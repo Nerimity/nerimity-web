@@ -32,6 +32,7 @@ import socketClient from '@/chat-api/socketClient';
 import { ServerEvents } from '@/chat-api/EventNames';
 import { Markup } from '../Markup';
 import { useResizeObserver } from '@/common/useResizeObserver';
+import { ServerRole } from '@/chat-api/store/useServerRoles';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -67,7 +68,7 @@ const MemberItem = (props: { member: ServerMember }) => {
         <Avatar animate={!!hoveringRect()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor }} >{user().username}</div>
-          <UserPresence animate={!!hoveringRect()}  userId={user().id} showOffline={false} />
+          <UserPresence animate={!!hoveringRect()} userId={user().id} showOffline={false} />
         </div>
       </CustomLink>
     </div>
@@ -294,27 +295,34 @@ const ServerDrawer = () => {
       <For each={roleMembers()}>
         {item => (
           <Show when={!item.role!.hideRole && item.members().length}>
-            <div class={styles.roleItem}>
-              <div class={styles.roleName}>{item.role!.name} ({item.members().length})</div>
-              <For each={item.members()}>
-                {member => <MemberItem member={member!} />}
-              </For>
-            </div>
+            <RoleItem members={item.members()} roleName={item.role?.name!} />
           </Show>
         )}
       </For>
 
       {/* Offline */}
-      <div class={styles.roleItem}>
-        <div class={styles.roleName}>Offline ({offlineMembers().length})</div>
-        <For each={offlineMembers()}>
-          {member => <MemberItem member={member!} />}
-        </For>
-      </div>
+      <RoleItem members={offlineMembers()} roleName="Offline" />
+
     </>
   )
 }
 
+function RoleItem(props: { roleName: string, members: ServerMember[] }) {
+  const [expanded, setExpanded] = createSignal(props.members.length <= 20);
+  return (
+    <div class={styles.roleItem} onclick={() => setExpanded(!expanded())}>
+      <div class={styles.roleTitle}>
+        <div class={styles.roleName}>{props.roleName} ({props.members.length}) </div>
+        <Button class={styles.roleExpandButton} padding={5} margin={0} iconName={expanded() ? 'expand_more' : 'expand_less'} iconSize={12} />
+      </div>
+      <Show when={expanded()}>
+        <For each={props.members}>
+          {member => <MemberItem member={member!} />}
+        </For>
+      </Show>
+    </div>
+  )
+}
 
 
 
@@ -443,7 +451,7 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
 
 
   const [flyoutRef, setFlyoutRef] = createSignal<HTMLDivElement | undefined>(undefined);
-  const {height: flyoutHeight} = useResizeObserver(flyoutRef);
+  const { height: flyoutHeight } = useResizeObserver(flyoutRef);
 
 
   createEffect(() => {
@@ -496,7 +504,7 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
         </CustomLink>
         <FlyoutOtherDetailsContainer>
           <span>
-            <CustomLink decoration style={{color: 'white'}} href={RouterEndpoints.PROFILE(props.userId)}>
+            <CustomLink decoration style={{ color: 'white' }} href={RouterEndpoints.PROFILE(props.userId)}>
               <Text style={{ "overflow-wrap": "anywhere" }}>{user()!.username}</Text>
               <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
             </CustomLink>
