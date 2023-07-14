@@ -39,7 +39,6 @@ interface LocalStreams {
 }
 const [localStreams, setLocalStreams] = createStore<LocalStreams>({audioStream: null, videoStream: null, vad: null, vadStream: null});
 
-
 const set = (voiceUser: RawVoice) => {
   const users = useUsers();
   const account = useAccount();
@@ -89,8 +88,17 @@ const removeUserInVoice = (channelId: string, userId: string) => {
 }
 
 
-const getVoiceInChannel = (channelId: string) => {
-  return voiceUsers[channelId];
+const getVoiceUsers = (channelId: string): VoiceUser[] => {
+  const account = useAccount();
+  const selfUserId = account.user()?.id!;
+  return Object.values(voiceUsers[channelId] || {}).map(v => {
+    if (v?.userId !== selfUserId) return v;
+    return {
+      ...v,
+      audioStream: localStreams.audioStream || undefined,
+      videoStream: localStreams.videoStream || undefined
+    }
+  }) as VoiceUser[];
 }
 
 
@@ -314,13 +322,20 @@ const micEnabled = (channelId: string, userId: string) => {
   }
   return !!voiceUsers[channelId][userId]?.audioStream;
 }
+const videoEnabled = (channelId: string, userId: string) => {
+  const account = useAccount();
+  if (account.user()?.id === userId) {
+    return !!localStreams.videoStream;
+  }
+  return !!voiceUsers[channelId][userId]?.videoStream;
+}
 
 
 
 const sendStreamToPeer = (stream: MediaStream, type: 'audio' | 'video') => {
   console.log("sending stream...")
 
-  const voiceUsers = Object.values(getVoiceInChannel(currentVoiceChannelId()!));
+  const voiceUsers = getVoiceUsers(currentVoiceChannelId()!);
   for (let i = 0; i < voiceUsers.length; i++) {
     const voiceUser = voiceUsers[i];
     voiceUser?.peer?.addStream(stream);
@@ -328,9 +343,7 @@ const sendStreamToPeer = (stream: MediaStream, type: 'audio' | 'video') => {
 }
 const removeStreamFromPeer = (stream: MediaStream) => {
   console.log("removing stream...")
-  const voiceUserObj = getVoiceInChannel(currentVoiceChannelId()!);
-  if (!voiceUserObj) return;
-  const voiceUsers = Object.values(voiceUserObj)
+  const voiceUsers = getVoiceUsers(currentVoiceChannelId()!);
   for (let i = 0; i < voiceUsers.length; i++) {
     const voiceUser = voiceUsers[i];
     voiceUser?.peer?.removeStream(stream);
@@ -358,7 +371,7 @@ const setCurrentVoiceChannelId = (channelId: string | null) => {
   const channel = channels.get(channelId!);
   channel?.setCallJoinedAt(Date.now());
   
-  const voiceUsers = getVoiceInChannel(currentVoiceChannelId()!);
+  const voiceUsers = getVoiceUsers(currentVoiceChannelId()!);
   _setCurrentVoiceChannelId(channelId);
 
   localStreams.videoStream && stopStream(localStreams.videoStream);
@@ -372,7 +385,7 @@ const setCurrentVoiceChannelId = (channelId: string | null) => {
   if (!voiceUsers) return;
 
   batch(() => {
-    Object.values(voiceUsers).forEach(voiceUser => {
+    voiceUsers.forEach(voiceUser => {
       voiceUser?.peer?.destroy()
       voiceUser?.vad?.destroy();
       setVoiceUsers(voiceUser?.channelId!, voiceUser?.userId!, {
@@ -403,12 +416,13 @@ export default function useVoiceUsers() {
   return {
     set,
     getVoiceUser,
-    getVoiceInChannel,
+    getVoiceUsers,
     removeUserInVoice,
     currentVoiceChannelId,
     setCurrentVoiceChannelId,
     isLocalMicMuted,
     micEnabled,
+    videoEnabled,
     toggleMic,
     setVideoStream,
     resetAll

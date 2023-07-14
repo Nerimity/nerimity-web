@@ -63,7 +63,7 @@ export function ScreenShareModal(props: { close: () => void }) {
 }
 
 const constructConstraints = async (quality: typeof QualityOptions[number], framerate: typeof FramerateOptions[number]) => {
-  const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
+  // const supportedConstraints = navigator.mediaDevices?.getSupportedConstraints();
   const constraints = {
     video: {
       height: 0,
@@ -79,9 +79,9 @@ const constructConstraints = async (quality: typeof QualityOptions[number], fram
     },
   };
 
-  if (supportedConstraints.suppressLocalAudioPlayback) {
-    (constraints.audio as any).suppressLocalAudioPlayback = true
-  }
+  // if (supportedConstraints?.suppressLocalAudioPlayback) {
+  //   (constraints.audio as any).suppressLocalAudioPlayback = true
+  // }
 
   switch (quality) {
     case "480p":

@@ -5,7 +5,7 @@ import Icon from '@/components/ui/icon/Icon';
 import useStore from '@/chat-api/store/useStore';
 import UserPresence from '@/components/user-presence/UserPresence';
 import { useDrawer } from '../ui/drawer/Drawer';
-import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { postJoinVoice } from '@/chat-api/services/VoiceService';
 import socketClient from '@/chat-api/socketClient';
@@ -22,7 +22,7 @@ import { useResizeObserver } from '@/common/useResizeObserver';
 import Text from '../ui/Text';
 import { CustomLink } from '../ui/CustomLink';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { ScreenShareModal } from './ScreenshareModal';
+import { ScreenShareModal } from './ScreenShareModal';
 
 
 
@@ -159,16 +159,46 @@ const MentionServerHeader = (props: { serverId: string }) => {
 const [showParticipants, setShowParticipants] = createSignal(true);
 
 function VoiceHeader(props: { channelId?: string }) {
-  const { voiceUsers } = useStore();
+  const { voiceUsers, account } = useStore();
+  let [videoEl, setVideoEl] = createSignal<HTMLVideoElement | undefined>(undefined);
 
-  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId!) || {});
+  const [selectedUserId, setSelectedUserId] = createSignal<null | string>(null);
 
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!)
+  const videoStreamingUsers = () => channelVoiceUsers().filter(v => v.videoStream);
+
+  createEffect(on(videoStreamingUsers, (now, prev) => {
+    if (!now?.length) setSelectedUserId(null);
+    if (!prev?.length && now.length) {
+      setSelectedUserId(now[0].userId)
+    }
+  }))
+
+  createEffect(on(selectedUserId, (selectedUserId) => {
+    if (!selectedUserId) return;
+    const voiceUser = videoStreamingUsers().find(v => v.userId === selectedUserId);
+    setTimeout(() => {
+      if (!videoEl()) return;
+      console.log(videoEl(), voiceUser?.videoStream)
+      videoEl()!.srcObject = voiceUser?.videoStream!; 
+    }, 1000);
+  }))
+
+
+  const isSomeoneVideoStreaming = () => voiceUsers.videoEnabled(props.channelId!, account.user()?.id!) ||  channelVoiceUsers().find(v => v?.videoStream)
 
   return (
     <Show when={channelVoiceUsers().length}>
-      <div class={styles.headerVoiceParticipants}>
+      <div class={classNames(styles.headerVoiceParticipants, conditionalClass(isSomeoneVideoStreaming(), styles.videoStream))}>
         <Show when={showParticipants()}>
-          <VoiceParticipants channelId={props.channelId!} />
+          <div class={styles.top}>
+            <VoiceParticipants selectedUserId={selectedUserId()} channelId={props.channelId!} size={isSomeoneVideoStreaming() ? 'small' : undefined} />
+            <Show when={isSomeoneVideoStreaming()}>
+              <div class={styles.videoContainer}>
+                <video ref={setVideoEl} autoplay />
+              </div>
+            </Show>
+          </div>
         </Show>
         <VoiceActions channelId={props.channelId!} />
       </div>
@@ -177,16 +207,16 @@ function VoiceHeader(props: { channelId?: string }) {
 }
 
 
-function VoiceParticipants(props: { channelId: string }) {
+function VoiceParticipants(props: { channelId: string, selectedUserId?: string | null; size?: "small" }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId!) || {})
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!)
 
   return (
     <div class={styles.voiceParticipants}>
       <For each={channelVoiceUsers()}>
         {voiceUser => (
-          <VoiceParticipantItem voiceUser={voiceUser!} />
+          <VoiceParticipantItem selected={voiceUser.userId === props.selectedUserId} voiceUser={voiceUser!} size={props.size} />
         )}
       </For>
     </div>
@@ -194,21 +224,27 @@ function VoiceParticipants(props: { channelId: string }) {
 }
 
 
-function VoiceParticipantItem(props: { voiceUser: VoiceUser }) {
+function VoiceParticipantItem(props: { voiceUser: VoiceUser, selected: boolean; size?: "small" }) {
   const { voiceUsers } = useStore();
 
   const isMuted = () => {
     return !voiceUsers.micEnabled(props.voiceUser.channelId, props.voiceUser.userId);
   }
+
+  const isVideoStreaming = () => voiceUsers.videoEnabled(props.voiceUser.channelId, props.voiceUser.userId);
+
   const isInCall = () => voiceUsers.currentVoiceChannelId() === props.voiceUser.channelId;
   const talking = () => props.voiceUser.voiceActivity;
   const user = () => props.voiceUser.user!;
 
   return (
-    <CustomLink href={RouterEndpoints.PROFILE(user().id)} class={styles.voiceParticipantItem}>
-      <Avatar user={{ ...user(), badges: undefined }} animate={talking()} size={60} borderColor={talking() ? 'var(--success-color)' : undefined} />
+    <CustomLink href={RouterEndpoints.PROFILE(user().id)} class={classNames(styles.voiceParticipantItem, conditionalClass(props.selected, styles.selected))}>
+      <Avatar user={{ ...user(), badges: undefined }} animate={talking()} size={props.size === "small" ? 40 : 60} borderColor={talking() ? 'var(--success-color)' : undefined} />
       <Show when={isMuted() && isInCall()}>
         <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
+      </Show>
+      <Show when={isVideoStreaming()}>
+        <Icon class={styles.videoStreamIcon} name='monitor' color='white' size={16} />
       </Show>
     </CustomLink>
   )
@@ -217,7 +253,7 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser }) {
 
 function VoiceActions(props: { channelId: string }) {
   const { voiceUsers, channels } = useStore();
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
 
   const channel = () => channels.get(props.channelId);
 

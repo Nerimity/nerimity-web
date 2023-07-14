@@ -101,6 +101,7 @@
   backdrop-filter: blur(20px);
   padding-left: 10px;
   padding-right: 10px;
+
   .voiceParticipantItem {
     position: relative;
     .muteIcon {
@@ -111,13 +112,32 @@
       border-radius: 50%;
       padding: 5px;
     }
+    .videoStreamIcon {
+      position: absolute;
+      bottom: -10px;
+      left: -10px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      padding: 3px;
+    }
+    &.selected {
+      background-color: rgba(255,255,255,0.2);
+    }
+  }
+
+  .top {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex: 1;
   }
   .voiceParticipants {
     align-items: center;
     align-self: center;
     justify-content: center;
     width: 100%;
-    height: 120px;
+    height: 20vh;
+    flex-shrink: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -125,6 +145,48 @@
     overflow-x: hidden;
     padding-top: 5px;
     padding-bottom: 5px;
+  }
+  &.videoStream {
+    height: 40vh;
+    padding-left: 0;
+    padding-right: 0;
+    .voiceParticipants {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      width: 80px;
+      align-self: flex-start;
+      justify-content: start;
+      margin-left: 5px;
+    }  
+    .voiceParticipantItem {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-radius: 6px;
+      justify-content: center;
+      transition: 0.2s;
+      .muteIcon {
+        padding: 3px;
+        bottom: 0px;
+        right: 0px;
+      }
+      .videoStreamIcon {
+        padding: 3px;
+        left: 0px;
+        bottom: 0px;
+      }
+      &:hover {
+        background-color: rgba(255,255,255,0.1);
+      }
+    }
+  }
+  .videoContainer {
+    background-color: black;
+    flex: 1;
+    margin: 5px;
+    border-radius: 8px;
   }
   .voiceActions {
     display: flex;
