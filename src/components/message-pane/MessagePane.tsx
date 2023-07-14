@@ -160,7 +160,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     };
     messageEl?.scrollIntoView({
       behavior: fetched ? 'instant' : 'smooth',
-      inline: 'center',
+      inline: 'nearest',
       block: 'center'
     })
     if (!messageEl) return;
