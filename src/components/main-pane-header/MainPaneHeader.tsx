@@ -22,6 +22,7 @@ import { useResizeObserver } from '@/common/useResizeObserver';
 import Text from '../ui/Text';
 import { CustomLink } from '../ui/CustomLink';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { ScreenShareModal } from './ScreenshareModal';
 
 
 
@@ -216,6 +217,7 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser }) {
 
 function VoiceActions(props: { channelId: string }) {
   const { voiceUsers, channels } = useStore();
+  const {createPortal} = useCustomPortal();
 
   const channel = () => channels.get(props.channelId);
 
@@ -230,6 +232,10 @@ function VoiceActions(props: { channelId: string }) {
   const isInCall = () => voiceUsers.currentVoiceChannelId() === props.channelId;
 
 
+  const onScreenShareClick = () => {
+    createPortal(close => <ScreenShareModal close={close} />)
+  }
+
   return (
     <div class={styles.voiceActions}>
       <Show when={showParticipants()}><Button iconName='expand_less' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(false)} /></Show>
@@ -238,6 +244,7 @@ function VoiceActions(props: { channelId: string }) {
         <Button iconName='call' color='var(--success-color)' onClick={onCallClick} label='Join' />
       </Show>
       <Show when={isInCall()}>
+        <Button iconName='monitor' onClick={onScreenShareClick} />
         <VoiceMicActions channelId={props.channelId} />
         <Button iconName='call_end' color='var(--alert-color)' onClick={onCallEndClick} label='Leave' />
       </Show>

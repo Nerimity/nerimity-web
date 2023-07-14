@@ -302,6 +302,11 @@ const toggleMic = async () => {
 }
 
 
+const setVideoStream = (stream: MediaStream,) => {
+  setLocalStreams({videoStream: stream});
+  sendStreamToPeer(stream, 'video')
+}
+
 const micEnabled = (channelId: string, userId: string) => {
   const account = useAccount();
   if (account.user()?.id === userId) {
@@ -405,6 +410,7 @@ export default function useVoiceUsers() {
     isLocalMicMuted,
     micEnabled,
     toggleMic,
+    setVideoStream,
     resetAll
   }
 }
