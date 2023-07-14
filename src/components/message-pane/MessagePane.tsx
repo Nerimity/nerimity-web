@@ -52,16 +52,16 @@ import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams();
-  const { channels, header } = useStore();
+  const { channels, header, serverMembers, account } = useStore();
   const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
+  const channel = () => channels.get(params.channelId!);
   createEffect(() => {
-    const channel = channels.get(params.channelId!);
-    if (!channel) return;
+    if (!channel()) return;
 
-    const userId = channel.recipient?.id;
+    const userId = channel()!.recipient?.id;
 
     header.updateHeader({
-      title: channel.name,
+      title: channel()!.name,
       serverId: params.serverId!,
       channelId: params.channelId!,
       userId: userId,
@@ -71,12 +71,27 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
 
   })
 
+  const canSendMessage = () => {
+    if (!channel()?.serverId) return true;
+    const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
+    if (!member) return false;
+    if (member.amIServerCreator()) return true;
+    if (member.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
+
+    if (!hasBit(channel()?.permissions || 0, CHANNEL_PERMISSIONS.SEND_MESSAGE.bit)) {
+      return false;
+    }
+
+    return member.hasPermission(ROLE_PERMISSIONS.SEND_MESSAGE);
+  }
 
   return (
     <Rerun on={() => params.channelId}>
       <div class={styles.messagePane}>
         <MessageLogArea mainPaneEl={props.mainPaneEl} textAreaEl={textAreaEl()} />
-        <MessageArea mainPaneEl={props.mainPaneEl} textAreaRef={setTextAreaEl} />
+        <Show when={canSendMessage()}>
+          <MessageArea mainPaneEl={props.mainPaneEl} textAreaRef={setTextAreaEl} />
+        </Show>
       </div>
     </Rerun>
   );
