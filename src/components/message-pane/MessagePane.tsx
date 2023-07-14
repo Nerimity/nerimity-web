@@ -156,9 +156,9 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     }, 3000)
   })
 
-  const {height} = useResizeObserver(() => props.mainPaneEl?.children[1]?.firstChild! as HTMLDivElement);
+  const {height} = useResizeObserver(() => messageLogElement);
 
-  useMutationObserver(() => props.mainPaneEl?.children[1]?.firstChild! as HTMLDivElement, () => {
+  useMutationObserver(() => messageLogElement, () => {
     if (scrollTracker.scrolledBottom()) {
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
     }
