@@ -21,3 +21,16 @@ export function useResizeObserver(element: () => HTMLElement | undefined | null)
   }))
   return {width: () => dimensions.width, height: () => dimensions.height} as const
 }
+
+
+export function useMutationObserver(element: () => HTMLElement | undefined | null, callback: () => void) {
+  createEffect(on(element, (el) => {
+    if (!el) return;
+    const resizeObserver = new MutationObserver(callback);
+    resizeObserver.observe(el, {childList: true, subtree: true});
+
+    onCleanup(() => {
+      resizeObserver.disconnect();
+    })
+  }))
+}

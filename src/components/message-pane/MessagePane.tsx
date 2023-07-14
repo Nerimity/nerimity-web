@@ -46,7 +46,7 @@ import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { t } from 'i18next';
 import { useScrollToMessageListener } from '@/common/GlobalEvents';
 import { createDesktopNotification } from '@/common/desktopNotification';
-import { useResizeObserver } from '@/common/useResizeObserver';
+import { useMutationObserver, useResizeObserver } from '@/common/useResizeObserver';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 
 
@@ -158,6 +158,11 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
 
   const {height} = useResizeObserver(() => props.mainPaneEl?.children[1]?.firstChild! as HTMLDivElement);
 
+  useMutationObserver(() => props.mainPaneEl?.children[1]?.firstChild! as HTMLDivElement, () => {
+    if (scrollTracker.scrolledBottom()) {
+      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+    }
+  })
 
   createRenderEffect(on(height, () => {
     if (scrollTracker.scrolledBottom()) {
@@ -169,15 +174,9 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     if (!ignoreFocus && hasFocus()) return;
     const lastSeenAt = channel().lastSeen || -1;
     const message = channelMessages()?.find(m => m.createdAt - lastSeenAt >= 0);
-    console.log(message?.content)
     setUnreadMarker({
       lastSeenAt,
       messageId: message?.id || null
-    });
-    setTimeout(() => {
-      if (scrollTracker.scrolledBottom()) {
-        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
-      }
     });
   }
 
