@@ -5,6 +5,8 @@ import useStore from "@/chat-api/store/useStore";
 import { useNavigate } from "@solidjs/router";
 import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
+import { createEffect } from "solid-js";
+import { ChannelType } from "@/chat-api/RawData";
 
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
@@ -36,7 +38,7 @@ export default function ContextMenuServer (props: Props) {
 
   };
 
-  const hasNotifications = () =>  server()?.hasNotifications;
+  const hasNotifications = () =>  channels.getChannelsByServerId(props.serverId!)?.find(c => c?.hasNotifications && c.type === ChannelType.SERVER_TEXT)
 
   const dismissNotifications = () => {
     if (!props.serverId) return;
