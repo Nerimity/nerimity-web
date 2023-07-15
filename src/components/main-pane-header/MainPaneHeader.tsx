@@ -5,7 +5,7 @@ import Icon from '@/components/ui/icon/Icon';
 import useStore from '@/chat-api/store/useStore';
 import UserPresence from '@/components/user-presence/UserPresence';
 import { useDrawer } from '../ui/drawer/Drawer';
-import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { postJoinVoice } from '@/chat-api/services/VoiceService';
 import socketClient from '@/chat-api/socketClient';
@@ -22,6 +22,7 @@ import { useResizeObserver } from '@/common/useResizeObserver';
 import Text from '../ui/Text';
 import { CustomLink } from '../ui/CustomLink';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { ScreenShareModal } from './ScreenShareModal';
 
 
 
@@ -158,16 +159,40 @@ const MentionServerHeader = (props: { serverId: string }) => {
 const [showParticipants, setShowParticipants] = createSignal(true);
 
 function VoiceHeader(props: { channelId?: string }) {
-  const { voiceUsers } = useStore();
+  const { voiceUsers, account } = useStore();
 
-  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId!) || {});
+  const [selectedUserId, setSelectedUserId] = createSignal<null | string>(null);
 
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!)
+  const videoStreamingUsers = () => channelVoiceUsers().filter(v => v.videoStream);
+
+  createEffect(on(videoStreamingUsers, (now, prev) => {
+    if (!now?.length) setSelectedUserId(null);
+    if (!prev?.length && now.length) {
+      setSelectedUserId(now[0].userId)
+    }
+  }))
+
+  const selectedVoiceUser = () => {
+    if (!selectedUserId()) return null;
+    return videoStreamingUsers().find(v => v.userId === selectedUserId())
+  }
+
+
+  const isSomeoneVideoStreaming = () => voiceUsers.videoEnabled(props.channelId!, account.user()?.id!) || channelVoiceUsers().find(v => v?.videoStream)
 
   return (
     <Show when={channelVoiceUsers().length}>
-      <div class={styles.headerVoiceParticipants}>
+      <div class={classNames(styles.headerVoiceParticipants, conditionalClass(isSomeoneVideoStreaming(), styles.videoStream), conditionalClass(!showParticipants(), styles.miniView))}>
         <Show when={showParticipants()}>
-          <VoiceParticipants channelId={props.channelId!} />
+          <div class={styles.top}>
+            <VoiceParticipants onClick={setSelectedUserId} selectedUserId={selectedUserId()} channelId={props.channelId!} size={isSomeoneVideoStreaming() ? 'small' : undefined} />
+            <Show when={isSomeoneVideoStreaming()}>
+              <div class={styles.videoContainer}>
+                <VideoStream mediaStream={selectedVoiceUser()?.videoStream!} mute={selectedVoiceUser()?.userId === account.user()?.id} />
+              </div>
+            </Show>
+          </div>
         </Show>
         <VoiceActions channelId={props.channelId!} />
       </div>
@@ -175,17 +200,30 @@ function VoiceHeader(props: { channelId?: string }) {
   )
 }
 
+function VideoStream(props: { mediaStream: MediaStream, mute?: boolean }) {
+  let videoEl: HTMLVideoElement | undefined = undefined;
 
-function VoiceParticipants(props: { channelId: string }) {
+  createEffect(() => {
+    if (!videoEl) return;
+    videoEl.srcObject = props.mediaStream
+  })
+
+  return (
+    <video ref={videoEl} autoplay muted={props.mute} />
+  )
+}
+
+
+function VoiceParticipants(props: { channelId: string, selectedUserId?: string | null; size?: "small", onClick: (userId: string) => void; }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId!) || {})
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!)
 
   return (
     <div class={styles.voiceParticipants}>
       <For each={channelVoiceUsers()}>
         {voiceUser => (
-          <VoiceParticipantItem voiceUser={voiceUser!} />
+          <VoiceParticipantItem onClick={() => props.onClick(voiceUser.userId)} selected={voiceUser.userId === props.selectedUserId} voiceUser={voiceUser!} size={props.size} />
         )}
       </For>
     </div>
@@ -193,21 +231,35 @@ function VoiceParticipants(props: { channelId: string }) {
 }
 
 
-function VoiceParticipantItem(props: { voiceUser: VoiceUser }) {
+function VoiceParticipantItem(props: { voiceUser: VoiceUser, selected: boolean; size?: "small", onClick: () => void; }) {
   const { voiceUsers } = useStore();
 
   const isMuted = () => {
     return !voiceUsers.micEnabled(props.voiceUser.channelId, props.voiceUser.userId);
   }
+
+  const isVideoStreaming = () => voiceUsers.videoEnabled(props.voiceUser.channelId, props.voiceUser.userId);
+
   const isInCall = () => voiceUsers.currentVoiceChannelId() === props.voiceUser.channelId;
   const talking = () => props.voiceUser.voiceActivity;
   const user = () => props.voiceUser.user!;
 
+  const onClick = (event: MouseEvent) => {
+    if (props.size !== "small") return;
+    if (!props.selected) {
+      props.onClick();
+      event.preventDefault();
+    }
+  }
+
   return (
-    <CustomLink href={RouterEndpoints.PROFILE(user().id)} class={styles.voiceParticipantItem}>
-      <Avatar user={{ ...user(), badges: undefined }} animate={talking()} size={60} borderColor={talking() ? 'var(--success-color)' : undefined} />
+    <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(user().id)} class={classNames(styles.voiceParticipantItem, conditionalClass(props.selected, styles.selected))}>
+      <Avatar user={{ ...user(), badges: undefined }} animate={talking()} size={props.size === "small" ? 40 : 60} borderColor={talking() ? 'var(--success-color)' : undefined} />
       <Show when={isMuted() && isInCall()}>
         <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
+      </Show>
+      <Show when={isVideoStreaming()}>
+        <Icon class={styles.videoStreamIcon} name='monitor' color='white' size={16} />
       </Show>
     </CustomLink>
   )
@@ -216,6 +268,8 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser }) {
 
 function VoiceActions(props: { channelId: string }) {
   const { voiceUsers, channels } = useStore();
+  const { createPortal } = useCustomPortal();
+  const {isMobileAgent} = useWindowProperties()
 
   const channel = () => channels.get(props.channelId);
 
@@ -230,6 +284,14 @@ function VoiceActions(props: { channelId: string }) {
   const isInCall = () => voiceUsers.currentVoiceChannelId() === props.channelId;
 
 
+  const onScreenShareClick = () => {
+    createPortal(close => <ScreenShareModal close={close} />)
+  }
+
+  const onStopScreenShareClick = () => {
+    voiceUsers.setVideoStream(null);
+  }
+
   return (
     <div class={styles.voiceActions}>
       <Show when={showParticipants()}><Button iconName='expand_less' color='rgba(255,255,255,0.6)' onClick={() => setShowParticipants(false)} /></Show>
@@ -238,6 +300,12 @@ function VoiceActions(props: { channelId: string }) {
         <Button iconName='call' color='var(--success-color)' onClick={onCallClick} label='Join' />
       </Show>
       <Show when={isInCall()}>
+        <Show when={!voiceUsers.localStreams.videoStream && !isMobileAgent()}>
+          <Button iconName='monitor' onClick={onScreenShareClick} />
+        </Show>
+        <Show when={voiceUsers.localStreams.videoStream}>
+          <Button iconName='desktop_access_disabled' onClick={onStopScreenShareClick}  color='var(--alert-color)'  />
+        </Show>
         <VoiceMicActions channelId={props.channelId} />
         <Button iconName='call_end' color='var(--alert-color)' onClick={onCallEndClick} label='Leave' />
       </Show>

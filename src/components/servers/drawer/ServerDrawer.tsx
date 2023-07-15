@@ -240,7 +240,7 @@ const ChannelVoiceUsersTitle = styled(Text)`
 function ChannelItemVoiceUsers(props: { channelId: string }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => Object.values(voiceUsers.getVoiceInChannel(props.channelId) || {});
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId)
 
   return (
     <Show when={channelVoiceUsers().length}>

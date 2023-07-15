@@ -1,3 +1,9 @@
+export interface ElectronCaptureSource {
+  id: string;
+  name: string;
+  thumbnailUrl: string;
+}
+
 interface WindowAPI {
   isElectron: boolean;
   minimize(): void;
@@ -9,9 +15,11 @@ interface WindowAPI {
   
   getAutostartMinimized(): Promise<boolean>;
   setAutostartMinimized(value: boolean): void;
-
+  
   setNotification(value: boolean): void;
+  getDesktopCaptureSources(): Promise<ElectronCaptureSource[]>;
 }
+
 
 export function electronWindowAPI(): WindowAPI | undefined {
   return (window as any).WindowAPI
