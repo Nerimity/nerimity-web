@@ -310,9 +310,25 @@ const toggleMic = async () => {
 }
 
 
-const setVideoStream = (stream: MediaStream,) => {
+const setVideoStream = (stream: MediaStream | null) => {
+  if (localStreams.videoStream) {
+    localStreams.videoStream.getTracks().forEach(t => t.stop());
+    removeStreamFromPeer(localStreams.videoStream);
+  }
   setLocalStreams({videoStream: stream});
+
+
+  if (!stream) return;
+
   sendStreamToPeer(stream, 'video')
+
+  const videoTrack = stream.getVideoTracks()[0];
+
+  videoTrack.onended = () => {
+    stopStream(stream);
+    setLocalStreams({videoStream: null});
+    videoTrack.onended = null;
+  }
 }
 
 const micEnabled = (channelId: string, userId: string) => {
@@ -425,7 +441,8 @@ export default function useVoiceUsers() {
     videoEnabled,
     toggleMic,
     setVideoStream,
-    resetAll
+    resetAll,
+    localStreams
   }
 }
 

@@ -1,13 +1,14 @@
-import { For, createSignal } from "solid-js";
+import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
 import Modal from "../ui/Modal";
 import Button from "../ui/Button";
 import { styled } from "solid-styled-components";
-import { FlexRow } from "../ui/Flexbox";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
+import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 
 const QualityOptions = ["480p", "720p", "1080p", "Source"] as const
-const FramerateOptions = ["30fps", "60fps", "Source"] as const
+const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps", "Source"] as const
 
 
 const OptionContainer = styled(FlexRow)``;
@@ -26,9 +27,39 @@ export function ScreenShareModal(props: { close: () => void }) {
   const [selectedQuality, setSelectedQuality] = createSignal<typeof QualityOptions[number]>("480p");
   const [selectedFramerate, setFramerate] = createSignal<typeof FramerateOptions[number]>("30fps");
 
+  let electronSourceIdRef: any;
+
   const chooseWindowClick = async () => {
     const constraints = await constructConstraints(selectedQuality(), selectedFramerate());
-    const stream = await navigator.mediaDevices.getDisplayMedia(constraints).catch(() => {});
+
+    let stream: MediaStream | void;;
+
+    if (electronWindowAPI()?.isElectron) {
+      const sourceId = electronSourceIdRef()
+      if (!sourceId) return;
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          mandatory: {
+            chromeMediaSource: "desktop",
+          },
+        },
+        video: {
+          mandatory: {
+            chromeMediaSource: "desktop",
+            chromeMediaSourceId: sourceId,
+            maxFrameRate: constraints.video.frameRate,
+            minWidth: constraints.video.width,
+            maxWidth: constraints.video.width,
+            minHeight: constraints.video.height,
+            maxHeight: constraints.video.height,
+          },
+        },
+      });
+      await stream.getAudioTracks()[0].applyConstraints(constraints.audio);
+    } else {
+      stream = await navigator.mediaDevices.getDisplayMedia(constraints).catch(() => {});
+    }
+
     if (!stream) return;
     voiceUsers.setVideoStream(stream);
     props.close();
@@ -57,6 +88,9 @@ export function ScreenShareModal(props: { close: () => void }) {
           {framerate => <Button onClick={() => setFramerate(framerate)} label={framerate} primary={selectedFramerate() === framerate} />}
         </For>
       </OptionContainer>
+      <Show when={electronWindowAPI()?.isElectron}>
+        <ElectronCaptureSourceList ref={electronSourceIdRef} />
+      </Show>
 
     </Modal>
   )
@@ -102,6 +136,12 @@ const constructConstraints = async (quality: typeof QualityOptions[number], fram
       break;
   }
   switch (framerate) {
+    case "1fps 💀":
+      constraints.video.frameRate = 1;
+      break;
+    case "10fps":
+      constraints.video.frameRate = 10;
+      break;
     case "30fps":
       constraints.video.frameRate = 30;
       break;
@@ -123,9 +163,108 @@ const getRoundedFps = async () => {
 }
 
 const getFPS = () => {
-  return new Promise<number>((resolve) =>
-    requestAnimationFrame((t1) =>
-      requestAnimationFrame((t2) => resolve(1000 / (t2 - t1)))
-    )
-  );
+  return new Promise<number>((resolve) => {
+    let fps = 0;
+    let count = 0;
+    const samples = 20;
+    const fpsArray = new Array(samples).fill(0);
+    const sampleInterval = setInterval(() => {
+      requestAnimationFrame((t1) => {
+        requestAnimationFrame((t2) => {
+          fpsArray[count % samples] = 1000 / (t2 - t1);
+          count++;
+          if (count >= samples) {
+            clearInterval(sampleInterval);
+            fps = fpsArray.reduce((a, b) => a + b) / samples;
+            resolve(Math.round(fps));
+          }
+        });
+      });
+    }, 1000 / 60);
+  });
+};
+
+
+
+const SourcesContainer = styled(FlexRow)`
+  display: flex;
+  flex-wrap: wrap;
+  width: 670px;
+  overflow: auto;
+  height: 40vh;
+
+`;
+
+
+function ElectronCaptureSourceList(props: {ref: any}) {
+  const [sources, setSources] = createSignal<ElectronCaptureSource[]>([]);
+  const [selectedSourceId, setSelectedSourceId] = createSignal<string | null>(null);
+
+  props.ref(() => selectedSourceId());
+
+
+  const fetchSources = async () => {
+    const sources = await electronWindowAPI()?.getDesktopCaptureSources()!;
+    
+    const selectedExists = sources.find(source => selectedSourceId() === source.id);
+    if (!selectedExists) {
+      setSelectedSourceId(null);
+    }
+
+    setSources(sources);
+  }
+
+  onMount(() => {
+    fetchSources();
+    const timeoutId = window.setInterval(fetchSources, 3000)
+
+    onCleanup(() => clearInterval(timeoutId));
+  })
+
+  return (
+    <SourcesContainer>
+      <For each={sources()}>
+        {source => <SourceItem source={source} onClick={() => setSelectedSourceId(source.id)} selected={selectedSourceId() === source.id} />}
+      </For>
+    </SourcesContainer>
+  )
+}
+
+const SourceItemContainer = styled(FlexColumn)<{selected?: boolean}>`
+  align-items: center;
+  width: 200px;
+  background-color: rgba(255,255,255,0.1);
+  margin: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  ${props => props.selected ? `
+    background-color: var(--primary-color);
+  ` : undefined}
+
+`;
+const SourceItemImage = styled("img")`
+  height: 150px;
+  width: 100%;
+  background-color: black;
+  object-fit: contain;
+`;
+const SourceText = styled(Text)`
+    word-break: break-word;
+    white-space: pre-line;
+    padding: 5px;
+    flex-shrink: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+`;
+
+function SourceItem(props: {source: ElectronCaptureSource, onClick: () => void, selected?: boolean}) {
+  return (
+    <SourceItemContainer onClick={props.onClick} selected={props.selected}>
+      <SourceItemImage src={props.source.thumbnailUrl} />
+      <SourceText size={12}>{props.source.name}</SourceText>
+    </SourceItemContainer>
+  )
 }
