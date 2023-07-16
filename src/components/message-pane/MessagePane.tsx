@@ -935,7 +935,7 @@ function Floating(props: { style?: JSX.CSSProperties; class?: string, children: 
 }
 
 const emojiRegex = /:[\w+-]+:/g;
-const channelMentionRegex = /#([a-zA-Z]+( [a-zA-Z]+)?)#/g;
+const channelMentionRegex = /#([^#]+)#/g;
 const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/g;
 
 export function formatMessage(message: string, serverId?: string, channelId?: string): string {
