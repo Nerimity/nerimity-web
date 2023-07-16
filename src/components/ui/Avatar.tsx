@@ -6,6 +6,7 @@ import { createMemo, JSX, Show } from 'solid-js';
 import { keyframes, styled } from 'solid-styled-components';
 import Text from './Text';
 import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
+import styles from './AvatarStyles.module.scss';
 
 interface Props {
   url?: string | null;
@@ -17,40 +18,9 @@ interface Props {
   borderColor?: string;
 }
 
-const AvatarContainer = styled("div") <{ size: number }>`
-  user-select: none;
-  flex-shrink: 0;
-  position: relative;
-  width: ${props => props.size}px;
-  height: ${props => props.size}px;
-  
-`;
 
-interface ImageContainerProps {
-  color?: string;
-}
 
-// Weird trick to fix background color bleed.
-const ImageContainer = styled("div") <ImageContainerProps>`
-  position: absolute;
 
-  inset: -1px;
-  &:before {
-    border-radius: 50%;
-    content: "";
-    position: absolute;
-    ${props => props.color ? `background-color: ${props.color}` : ''};
-    inset: 1px;
-  }
-`;
-
-const Image = styled("img")`
-  position: relative;
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-`;
 
 interface ServerOrUser {
   avatar: string;
@@ -66,7 +36,7 @@ export default function Avatar(props: Props) {
   const serverOrUser = () => (props.server || props.user) as ServerOrUser;
 
 
-  const url = createMemo(() => {
+  const url = () => {
     let url = props.url;
     if (!url) {
       url = avatarUrl(serverOrUser());
@@ -76,19 +46,22 @@ export default function Avatar(props: Props) {
     if (!hasFocus()) return url + "?type=webp";
     if (props.animate) return url;
     return url + "?type=webp";
-  })
+  }
 
   return (
-    <AvatarContainer size={props.size} class={classNames("avatar-container", props.class)}>
+    <div style={{width: props.size + "px", height: props.size + "px"}} class={classNames(styles.avatarContainer, "avatar-container", props.class)}>
       <Show when={props.borderColor}>
         <BasicBorder size={props.size} color={props.borderColor!} label=''  />
       </Show>
       <AvatarBorder size={props.size} hovered={props.animate} serverOrUser={serverOrUser()} />
-      <ImageContainer color={url() ? undefined : serverOrUser().hexColor}>
-        <Show when={!url()}><Image src="/assets/profile.png" alt="User Avatar" /></Show>
-        <Show when={url()}><Image loading="lazy" src={url()!} alt="User Avatar" /></Show>
-      </ImageContainer>
-    </AvatarContainer>
+      <div class={styles.imageContainer}>
+        <Show when={!url()}>
+          <div class={styles.avatarBackground} style={{background: url() ? undefined : serverOrUser().hexColor}} />
+        </Show>
+        <Show when={!url()}><img class={styles.image} src="/assets/profile.png" alt="User Avatar" /></Show>
+        <Show when={url()}><img class={styles.image} loading="lazy" src={url()!} alt="User Avatar" /></Show>
+      </div>
+    </div>
   )
 }
 

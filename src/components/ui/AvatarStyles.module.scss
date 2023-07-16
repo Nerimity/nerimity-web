@@ -1,0 +1,23 @@
+.avatarContainer {
+  user-select: none;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.imageContainer {
+  position: absolute;
+
+  inset: -1px;
+  .avatarBackground {
+    position: absolute;
+    border-radius: 50%;
+    inset: 1px;
+  }
+  .image {
+    position: relative;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+  }
+}
