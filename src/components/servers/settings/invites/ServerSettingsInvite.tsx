@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { createCustomInvite, createInvite, getInvites } from '@/chat-api/services/ServerService';
+import { createCustomInvite, createInvite, deleteInvite, getInvites } from '@/chat-api/services/ServerService';
 import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/Button';
 import env from '@/common/env';
@@ -62,6 +62,10 @@ export default function ServerSettingsInvite() {
     getInvites(params.serverId!).then((invites) => setInvites(invites.reverse()));
   }
 
+  const deleteInvite = (code: string) => {
+    setInvites(invites().filter(i => i.code !== code))
+  }
+
   return (
     <div class={classNames(styles.invitesPane, conditionalClass(mobileSize(), styles.mobile))}>
       <Breadcrumb>
@@ -76,7 +80,7 @@ export default function ServerSettingsInvite() {
       </SettingsBlock>
       <For each={invites()}>
         {(invite) => (
-          <InviteItem invite={invite} />
+          <InviteItem invite={invite} onDeleted={() => deleteInvite(invite.code)} />
         )}
       </For>
     </div>
@@ -140,9 +144,14 @@ function CustomInvite(props: { invites: any[]; onUpdate: () => void; }) {
 
 
 
-const InviteItem = (props: { invite: any }) => {
+const InviteItem = (props: { invite: any, onDeleted: () => void }) => {
   const [t] = useTransContext();
   const url = env.APP_URL + RouterEndpoints.EXPLORE_SERVER_INVITE_SHORT(props.invite.code);
+
+  const onDeleteClick = async () => {
+    await deleteInvite(props.invite.serverId, props.invite.code)
+    props.onDeleted();
+  }
 
   return (
     <div class={styles.inviteItem}>
@@ -160,7 +169,7 @@ const InviteItem = (props: { invite: any }) => {
         </div>
         <FlexRow class={styles.buttons}>
           <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label={t('servers.settings.invites.copyLinkButton')} iconName='copy' />
-          <Button class={classNames(styles.deleteButton, styles.button)} label={t('servers.settings.invites.deleteButton')} iconName='delete' color='var(--alert-color)' />
+          <Button onClick={onDeleteClick} class={classNames(styles.deleteButton, styles.button)} label={t('servers.settings.invites.deleteButton')} iconName='delete' color='var(--alert-color)' />
         </FlexRow>
       </div>
     </div>

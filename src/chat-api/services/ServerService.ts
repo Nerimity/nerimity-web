@@ -165,6 +165,13 @@ export async function createInvite(serverId: string): Promise<any> {
     useToken: true
   });
 }
+export async function deleteInvite(serverId: string, code: string): Promise<any> {
+  return request({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInvites(serverId) + `/${code}`,
+    useToken: true
+  });
+}
 
 export async function createCustomInvite(code: string, serverId: string): Promise<any> {
   return request({
