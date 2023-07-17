@@ -155,7 +155,7 @@
       "kick": "Kick",
       "kickDescription": "Erlaubt es Benutzern vom Server zu kicken.",
       "ban": "Ban",
-      "banDescription": "Erlaubt es Benutzern vom Server zu bannen.""
+      "banDescription": "Erlaubt es Benutzern vom Server zu bannen."
     },
     "channelPermissions": {
       "privateChannel": "Privater Kanal",
