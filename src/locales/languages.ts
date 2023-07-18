@@ -39,7 +39,7 @@ export const languages = {
   "de-de": {
     name: "German",
     emoji: "🇩🇪",
-    contributors: ["https://github.com/Tycraft2005/"],
+    contributors: ["https://github.com/Tycraft2005"],
   }
 }
 
