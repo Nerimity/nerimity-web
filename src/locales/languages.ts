@@ -35,11 +35,11 @@ export const languages = {
     name: "Polish",
     emoji: "🇵🇱",
     contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
-  }
+  },
   "de-de": {
     name: "German",
     emoji: "🇩🇪",
-    contributors: [https://github.com/Tycraft2005/],
+    contributors: ["https://github.com/Tycraft2005/"],
   }
 }
 
