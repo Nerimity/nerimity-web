@@ -12,6 +12,7 @@ import { avatarUrl } from '@/chat-api/store/useServers';
 import { bannerUrl } from '@/chat-api/store/useUsers';
 import { Banner } from '../ui/Banner';
 import { useWindowProperties } from '@/common/useWindowProperties';
+import { FriendStatus } from '@/chat-api/RawData';
 
 
 const HeaderContainer = styled("div")`
@@ -56,7 +57,7 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
   const { account, servers, friends } = useStore();
   const user = () => account.user();
   const serverCount = () => servers.array().length || "0";
-  const friendCount = () => friends.array().length || "0";
+  const friendCount = () => friends.array().filter(friend => friend.status === FriendStatus.FRIENDS).length || "0";
   const {width} = useWindowProperties();
 
 
