@@ -2,7 +2,7 @@ import { avatarUrl } from '@/chat-api/store/useUsers';
 import { classNames } from '@/common/classNames';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { read } from 'fs';
-import { createMemo, JSX, Show } from 'solid-js';
+import { createMemo, JSX, JSXElement, Match, Show, Switch } from 'solid-js';
 import { keyframes, styled } from 'solid-styled-components';
 import Text from './Text';
 import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
@@ -16,11 +16,8 @@ interface Props {
   user?: { avatar?: string, hexColor: string, badges?: number};
   server?: { avatar?: string, hexColor: string, verified: boolean; };
   borderColor?: string;
+  children?: JSXElement;
 }
-
-
-
-
 
 interface ServerOrUser {
   avatar: string;
@@ -56,10 +53,14 @@ export default function Avatar(props: Props) {
       <AvatarBorder size={props.size} hovered={props.animate} serverOrUser={serverOrUser()} />
       <div class={styles.imageContainer}>
         <Show when={!url()}>
-          <div class={styles.avatarBackground} style={{background: url() ? undefined : serverOrUser().hexColor}} />
+          <div class={styles.avatarBackground} style={{background: serverOrUser().hexColor}} />
         </Show>
-        <Show when={!url()}><img class={styles.image} src="/assets/profile.png" alt="User Avatar" /></Show>
-        <Show when={url()}><img class={styles.image} loading="lazy" src={url()!} alt="User Avatar" /></Show>
+        <Switch>
+          <Match when={props.children}>{props.children}</Match>
+          <Match when={url()}><img class={styles.image} loading="lazy" src={url()!} alt="User Avatar" /></Match>
+          <Match when={!url()}><img class={styles.image} src="/assets/profile.png" alt="User Avatar" /></Match>
+        </Switch>
+        
       </div>
     </div>
   )

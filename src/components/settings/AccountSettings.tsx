@@ -19,6 +19,7 @@ import DeleteConfirmModal from '../ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import useServers from '@/chat-api/store/useServers';
 import Modal from '../ui/Modal';
+import ImageCropModal from '../ui/ImageCropModal';
 
 const Container = styled("div")`
   display: flex;
@@ -26,7 +27,7 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-type UpdateHeader = Setter<{ username?: string, banner?: string; tag?: string, avatar?: any }>;
+type UpdateHeader = Setter<{ username?: string, banner?: string; tag?: string, avatar?: any, avatarPoints?: number[] }>;
 
 export default function AccountSettings(props: { updateHeader: UpdateHeader }) {
   const { header } = useStore();
@@ -95,6 +96,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
     newPassword: '',
     confirmNewPassword: '',
     avatar: '',
+    avatarPoints: null as null | number[],
     banner: '',
   })
 
@@ -127,6 +129,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         setInputValue("newPassword", '')
         setInputValue("confirmNewPassword", '')
         setInputValue("avatar", '')
+        setInputValue("avatarPoints", 'null')
         setInputValue("banner", '')
         props.updateHeader(reconcile({}));
       })
@@ -140,13 +143,21 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
   const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
 
 
+  const {createPortal} = useCustomPortal();
+
+  const onCropped = (points: [number, number, number]) => {
+    setInputValue("avatarPoints", points);
+    props.updateHeader({ avatarPoints: points });
+  }
+
   const onAvatarPick = (files: string[]) => {
     if (files[0]) {
+      createPortal(close => <ImageCropModal close={close} image={files[0]} onCropped={onCropped} />)
       setInputValue("avatar", files[0])
       props.updateHeader({ avatar: files[0] })
-
     }
   }
+
   const onBannerPick = (files: string[]) => {
     if (files[0]) {
       setInputValue("banner", files[0])
@@ -178,7 +189,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
       <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP'>
         <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick} />
         <Show when={inputValues().avatar}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); props.updateHeader({ avatar: undefined }); }} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); setInputValue("avatarPoints", null); props.updateHeader({ avatar: undefined, avatarPoints: undefined }); }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
       </SettingsBlock>
