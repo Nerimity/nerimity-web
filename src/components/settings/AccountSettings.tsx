@@ -129,7 +129,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         setInputValue("newPassword", '')
         setInputValue("confirmNewPassword", '')
         setInputValue("avatar", '')
-        setInputValue("avatarPoints", 'null')
+        setInputValue("avatarPoints", null)
         setInputValue("banner", '')
         props.updateHeader(reconcile({}));
       })
