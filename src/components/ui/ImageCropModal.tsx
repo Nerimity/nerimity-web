@@ -34,7 +34,7 @@ export default function ImageCropModal(props: { close(): void; image: string; on
   )
 
   return (
-    <Modal title="Crop Image" close={close} maxWidth={500} actionButtons={ActionButtons}>
+    <Modal title="Crop Image" close={props.close} maxWidth={500} actionButtons={ActionButtons}>
       <div style={{ "user-select": 'none', width: "100%", height: "400px", "margin-bottom": "50px" }}>
         <img  ref={imageEl} src={props.image} />
       </div>
