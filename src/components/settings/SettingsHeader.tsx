@@ -51,49 +51,75 @@ const UsernameTagContainer = styled(FlexRow)`
 
 const avatarStyles = css`
   z-index: 111;
-
 `;
 
+const CustomAvatar = styled("div")<{cropPosition: string}>`
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat !important;
+  border-radius: 50%;
+  ${props => props.cropPosition}
+`;
 
-// 0 startX
-// 1 startY
-
-// 2 endX
-// 3 endY
-
-const AvatarContainer = styled("div")<{points?: number[]}>`
-  img {
-    position: absolute !important;
-    ${props => props.points ? `
-      top: -${props.points[1]}px !important;
-      left: -${props.points[0]}px !important;
-      width: ${props.points[2] - props.points[0]}px !important;
-      height: ${props.points[3] - props.points[1]}px !important;
-    ` : ''}
-  }
-`
-
-const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?: string, banner?: string; avatar?: any; avatarPoints?: number[]; } }) => {
+const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?: string, banner?: string; avatar?: string; avatarPoints?: number[]; } }) => {
   const { account, servers, friends } = useStore();
   const user = () => account.user();
   const serverCount = () => servers.array().length || "0";
   const friendCount = () => friends.array().filter(friend => friend.status === FriendStatus.FRIENDS).length || "0";
   const {width} = useWindowProperties();
 
-  const [imageRef, setImageRef] = createSignal();
+  const [imageDimensions, setImageDimensions] = createSignal({height: 0, width: 0});
 
-  createEffect(on(() => props.headerPreviewDetails.avatarPoints, () => {
-    console.log(imageRef())
+
+  createEffect(on(() => props.headerPreviewDetails.avatar, (val) => {
+    if (!val) return
+    getImageDimensions(val).then(setImageDimensions);
   }))
 
+  const cropPosition = () => {
+    const coordinates  = props.headerPreviewDetails.avatarPoints;
+    if (!coordinates ) return ""
+
+
+    const viewWidth = 100;
+    const viewHeight = 100;
+    const imageWidth = imageDimensions().width;
+    const imageHeight = imageDimensions().height
+
+    const offsetX = coordinates [0];
+    const offsetY = coordinates [1];
+    const scaleX = viewWidth / (coordinates [2] - coordinates [0]);
+    const scaleY = viewHeight / (coordinates [3] - coordinates [1]);
+    return `
+      background-position: -${offsetX * scaleX}px -${offsetY * scaleY}px !important;
+      background-size: ${imageWidth * scaleX}px ${imageHeight * scaleY}px !important;
+    `
+  }
+
+  function getCroppedDimensions(points: number[]) {
+    const [startX, startY, endX, endY ] = points;
+    const width = Math.abs(endX - startX);
+    const height = Math.abs(endY - startY);
+    return { width, height };
+  }
+
+  async function getImageDimensions(imageUrl: string) {
+    const img = new Image();
+    img.src = imageUrl;
+    await img.decode();
+    return {width: img.width, height: img.height};
+  }
 
   return (
     <Show when={user()}>
       <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={props.headerPreviewDetails.banner || bannerUrl(user()!)}>
         <HeaderContainer>
-          <AvatarContainer points={props.headerPreviewDetails.avatarPoints}>
-            <Avatar  animate url={props.headerPreviewDetails.avatar} user={account.user()} hexColor={user()!.hexColor} size={width() <= 500 ? 70 : 100} class={avatarStyles} />
-          </AvatarContainer>
+          <Avatar animate user={account.user()} hexColor={user()!.hexColor} size={width() <= 500 ? 70 : 100} class={avatarStyles}>
+            {
+              props.headerPreviewDetails.avatar && 
+              <CustomAvatar cropPosition={cropPosition()} style={{background: `url("${props.headerPreviewDetails.avatar}")`}} />
+            }
+          </Avatar>
           <DetailsContainer>
             <UsernameTagContainer>
               <Text>{props.headerPreviewDetails.username || user()!.username}</Text>

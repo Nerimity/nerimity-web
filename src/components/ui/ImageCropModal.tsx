@@ -2,6 +2,7 @@ import { onMount } from "solid-js";
 import Modal from "./Modal";
 import Croppie from 'croppie';
 import "croppie/croppie.css"
+import Button from "./Button";
 
 
 
@@ -28,12 +29,15 @@ export default function ImageCropModal(props: { close(): void; image: string; on
     props.close();
   }
 
+  const ActionButtons = (
+    <Button iconName="done" label="Done" onClick={onClick} styles={{flex: 1}} primary padding={10} />
+  )
+
   return (
-    <Modal title="Crop Image" close={close} maxWidth={500}>
+    <Modal title="Crop Image" close={close} maxWidth={500} actionButtons={ActionButtons}>
       <div style={{ "user-select": 'none', width: "100%", height: "400px", "margin-bottom": "50px" }}>
         <img  ref={imageEl} src={props.image} />
       </div>
-      <button onclick={onClick}>test</button>
     </Modal>
   )
 }
