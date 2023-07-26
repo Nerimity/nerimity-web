@@ -1,6 +1,6 @@
 
 import { Link } from '@solidjs/router';
-import { Show } from 'solid-js';
+import { Show, createEffect, createSignal, on } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/Avatar';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -51,21 +51,49 @@ const UsernameTagContainer = styled(FlexRow)`
 
 const avatarStyles = css`
   z-index: 111;
+
 `;
 
-const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?: string, banner?: string; avatar?: any } }) => {
+
+// 0 startX
+// 1 startY
+
+// 2 endX
+// 3 endY
+
+const AvatarContainer = styled("div")<{points?: number[]}>`
+  img {
+    position: absolute !important;
+    ${props => props.points ? `
+      top: -${props.points[1]}px !important;
+      left: -${props.points[0]}px !important;
+      width: ${props.points[2] - props.points[0]}px !important;
+      height: ${props.points[3] - props.points[1]}px !important;
+    ` : ''}
+  }
+`
+
+const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?: string, banner?: string; avatar?: any; avatarPoints?: number[]; } }) => {
   const { account, servers, friends } = useStore();
   const user = () => account.user();
   const serverCount = () => servers.array().length || "0";
   const friendCount = () => friends.array().filter(friend => friend.status === FriendStatus.FRIENDS).length || "0";
   const {width} = useWindowProperties();
 
+  const [imageRef, setImageRef] = createSignal();
+
+  createEffect(on(() => props.headerPreviewDetails.avatarPoints, () => {
+    console.log(imageRef())
+  }))
+
 
   return (
     <Show when={user()}>
       <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={props.headerPreviewDetails.banner || bannerUrl(user()!)}>
         <HeaderContainer>
-          <Avatar animate url={props.headerPreviewDetails.avatar} user={account.user()} hexColor={user()!.hexColor} size={width() <= 500 ? 70 : 100} class={avatarStyles} />
+          <AvatarContainer points={props.headerPreviewDetails.avatarPoints}>
+            <Avatar  animate url={props.headerPreviewDetails.avatar} user={account.user()} hexColor={user()!.hexColor} size={width() <= 500 ? 70 : 100} class={avatarStyles} />
+          </AvatarContainer>
           <DetailsContainer>
             <UsernameTagContainer>
               <Text>{props.headerPreviewDetails.username || user()!.username}</Text>

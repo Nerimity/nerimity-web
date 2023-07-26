@@ -26,6 +26,9 @@ dependencies:
   '@thaunknown/simple-peer':
     specifier: ^9.12.1
     version: 9.12.1
+  croppie:
+    specifier: ^2.6.5
+    version: 2.6.5
   eventemitter3:
     specifier: ^5.0.1
     version: 5.0.1
@@ -76,6 +79,9 @@ dependencies:
     version: 0.0.5
 
 devDependencies:
+  '@types/croppie':
+    specifier: ^2.6.1
+    version: 2.6.1
   '@types/markdown-it':
     specifier: ^12.2.3
     version: 12.2.3
@@ -1828,6 +1834,10 @@ packages:
       '@babel/types': 7.22.5
     dev: true
 
+  /@types/croppie@2.6.1:
+    resolution: {integrity: sha512-5hUL4mzuE0mzva4KXPxrvBlargTcs9bqisjQBOZ76W6FkxoCvPVvXMSwtevUhD6r+YqgBh3gumR3gBhxuc4wdQ==}
+    dev: true
+
   /@types/estree@0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: true
@@ -2149,6 +2159,10 @@ packages:
     dependencies:
       browserslist: 4.21.8
     dev: true
+
+  /croppie@2.6.5:
+    resolution: {integrity: sha512-IlChnVUGG5T3w2gRZIaQgBtlvyuYnlUWs2YZIXXR3H9KrlO1PtBT3j+ykxvy9eZIWhk+V5SpBmhCQz5UXKrEKQ==}
+    dev: false
 
   /crypto-random-string@2.0.0:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}

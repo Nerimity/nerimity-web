@@ -8,7 +8,7 @@ export interface FileBrowserRef {
 interface Props {
   accept?: "any" | "images"
   ref?: Accessor<FileBrowserRef | undefined>
-  onChange?: (files: FileList | string[]) => void
+  onChange?: (files: FileList | string[], rawFiles?: FileList) => void
   base64?: boolean
 }
 
@@ -25,7 +25,7 @@ export default function FileBrowser(props: Props) {
 
   const onChange = async () => {
     if (!inputRef) return;
-    props.onChange?.(props.base64 ? await filesToBase64(inputRef.files!) : inputRef.files!)
+    props.onChange?.(props.base64 ? await filesToBase64(inputRef.files!) : inputRef.files!, inputRef.files)
     inputRef.value = "";
 
   }
