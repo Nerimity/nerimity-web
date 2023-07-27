@@ -1,4 +1,4 @@
-import { createEffect, createSignal, on, onCleanup, onMount, Setter, Show } from 'solid-js';
+import { createEffect, createSignal, lazy, on, onCleanup, onMount, Setter, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
@@ -19,7 +19,8 @@ import DeleteConfirmModal from '../ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import useServers from '@/chat-api/store/useServers';
 import Modal from '../ui/Modal';
-import ImageCropModal from '../ui/ImageCropModal';
+
+const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"))
 
 const Container = styled("div")`
   display: flex;
