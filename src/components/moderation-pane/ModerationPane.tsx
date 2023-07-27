@@ -29,13 +29,14 @@ const isUserSelected = (id: string) => selectedUsers().find(u => u.id === id);
 
 const ModerationPaneContainer = styled("div")`
   display: flex;
+  flex-direction: column;
   height: 100%;
-  overflow-y: auto;
-  gap: 5px;
+  width: 100%;
+  max-width: 900px;
+  align-self: center;
   a {
     text-decoration: none;
   }
-  padding: 5px;
 `;
 
 const UserColumn = styled(FlexColumn)`
@@ -49,12 +50,11 @@ const PaneContainer = styled("div")`
   background-color: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   padding: 10px;
-  width: 260px;
   flex-shrink: 0;
+  margin: 5px;
 `;
 
 const UserPaneContainer = styled(PaneContainer)`
-  min-height: 250px;
   flex: 1;
 `;
 
@@ -158,6 +158,9 @@ function UsersPane() {
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
 
+  const [showAll, setShowAll] = createSignal(false);
+
+
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
     getUsers(LIMIT, afterId())
@@ -173,14 +176,19 @@ function UsersPane() {
     setAfterId(user.id);
   }
 
+  const firstFive = () => users().slice(0, 5);
+
   return (
     <UserPaneContainer class="pane users">
-      <Text>Registered Users</Text>
+      <div>
+        <Text>Registered Users</Text>
+        <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
+      </div>
       <ListContainer class="list">
-        <For each={users()}>
+        <For each={!showAll() ? firstFive() : users()}>
           {user => <User user={user} />}
         </For>
-        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
+        <Show when={showAll() && !loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
       </ListContainer>
     </UserPaneContainer>
   )
