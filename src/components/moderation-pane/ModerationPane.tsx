@@ -34,6 +34,7 @@ const ModerationPaneContainer = styled("div")`
   width: 100%;
   max-width: 900px;
   align-self: center;
+  margin-top: 10px;
   a {
     text-decoration: none;
   }
@@ -52,6 +53,8 @@ const PaneContainer = styled("div")`
   padding: 10px;
   flex-shrink: 0;
   margin: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 const UserPaneContainer = styled(PaneContainer)`
@@ -78,6 +81,9 @@ const itemStyles = css`
   transition: 0.2s;
   text-decoration: none;
   color: white;
+  .checkbox {
+    margin-right: 10px;
+  }
 
   &:hover {
     background-color: rgb(66, 66, 66);
@@ -180,10 +186,10 @@ function UsersPane() {
 
   return (
     <UserPaneContainer class="pane users">
-      <div>
-        <Text>Registered Users</Text>
+      <FlexRow gap={5} itemsCenter>
         <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
-      </div>
+        <Text>Registered Users</Text>
+      </FlexRow>
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : users()}>
           {user => <User user={user} />}
@@ -197,11 +203,20 @@ function UsersPane() {
 function OnlineUsersPane() {
 
   const [users] = createResource(getOnlineUsers);
+
+  const [showAll, setShowAll] = createSignal(false);
+
+  const firstFive = () => users()?.slice(0, 5);
+
+
   return (
     <UserPaneContainer class="pane users">
-      <Text>Online Users</Text>
+      <FlexRow gap={5} itemsCenter>
+        <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
+        <Text>Online Users</Text>
+      </FlexRow>
       <ListContainer class="list">
-        <For each={users()}>
+        <For each={!showAll() ? firstFive() : users()}>
           {user => <User user={user} />}
         </For>
       </ListContainer>
@@ -214,6 +229,9 @@ function ServersPane() {
   const [servers, setServers] = createSignal<RawServer[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+
+  const [showAll, setShowAll] = createSignal(false);
+
 
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
@@ -230,14 +248,20 @@ function ServersPane() {
     setAfterId(server.id);
   }
 
+  const firstFive = () => servers().slice(0, 5);
+
   return (
     <PaneContainer class="pane servers">
-      <Text>Servers</Text>
+      <FlexRow gap={5} itemsCenter>
+        <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
+        <Text>Servers</Text>
+      </FlexRow>
+
       <ListContainer class="list">
-        <For each={servers()}>
+        <For each={!showAll() ? firstFive() : servers()}>
           {server => <Server server={server} />}
         </For>
-        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
+        <Show when={showAll() && !loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
       </ListContainer>
     </PaneContainer>
   )
