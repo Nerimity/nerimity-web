@@ -76,13 +76,14 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
     getImageDimensions(val).then(setImageDimensions);
   }))
 
+  const avatarSize = () => width() <= 500 ? 70 : 100
+
   const cropPosition = () => {
     const coordinates  = props.headerPreviewDetails.avatarPoints;
     if (!coordinates ) return ""
 
-
-    const viewWidth = 100;
-    const viewHeight = 100;
+    const viewWidth = avatarSize();
+    const viewHeight = avatarSize();
     const imageWidth = imageDimensions().width;
     const imageHeight = imageDimensions().height
 
@@ -114,7 +115,7 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
     <Show when={user()}>
       <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={props.headerPreviewDetails.banner || bannerUrl(user()!)}>
         <HeaderContainer>
-          <Avatar animate user={account.user()} hexColor={user()!.hexColor} size={width() <= 500 ? 70 : 100} class={avatarStyles}>
+          <Avatar animate user={account.user()} hexColor={user()!.hexColor} size={avatarSize()} class={avatarStyles}>
             {
               props.headerPreviewDetails.avatar && 
               <CustomAvatar cropPosition={cropPosition()} style={{background: `url("${props.headerPreviewDetails.avatar}")`}} />
