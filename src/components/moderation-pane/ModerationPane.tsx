@@ -28,9 +28,9 @@ const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const isUserSelected = (id: string) => selectedUsers().find(u => u.id === id);
 
 const ModerationPaneContainer = styled("div")`
+  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 100%;
   max-width: 900px;
   align-self: center;
@@ -55,6 +55,7 @@ const PaneContainer = styled("div")`
   margin: 5px;
   margin-left: 10px;
   margin-right: 10px;
+  max-height: 500px;
 `;
 
 const UserPaneContainer = styled(PaneContainer)`
@@ -107,7 +108,6 @@ const ItemDetailContainer = styled("div")`
   text-overflow: ellipsis;
 `;
 
-const ActionButtons = styled(FlexRow)``;
 
 export default function ModerationPane() {
   const { account, header } = useStore();
@@ -138,23 +138,55 @@ export default function ModerationPane() {
 }
 
 
-function ModerationPage() {
+const SelectedUserActionsContainer = styled(FlexRow)`
+  position: sticky;
+  right: 0px;
+  bottom: 10px;
+  left: 0px;
+  flex-shrink: 0;
+  align-items: center;
+  height: 50px;
+  margin: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(0,0,0,0.6);
+  padding-left: 15px;
+  padding-right: 10px;
+  .suspendButton {
+    margin-left: auto;
+  }
+`;
+
+function SelectedUserActions () {
   const { createPortal } = useCustomPortal();
 
   const showSuspendModal = () => {
     createPortal?.(close => <SuspendUsersModal close={close} users={selectedUsers()} />)
   }
   return (
+    <SelectedUserActionsContainer>
+    <Text>{selectedUsers().length} User(s) Selected</Text>
+    <Button class="suspendButton" onClick={showSuspendModal} label="Suspend Selected" primary color="var(--alert-color)" />
+
+    </SelectedUserActionsContainer>
+  )
+}
+
+function ModerationPage() {
+  return (
+    <>
     <ModerationPaneContainer class="moderation-pane-container">
       <UserColumn class="user-columns" gap={5} >
         <UsersPane />
         <OnlineUsersPane />
-        <ActionButtons>
-          <Button onClick={showSuspendModal} label={`Suspend ${selectedUsers().length}`} primary color="var(--alert-color)" />
-        </ActionButtons>
       </UserColumn>
       <ServersPane />
     </ModerationPaneContainer>
+    <Show when={selectedUsers().length}>
+      <SelectedUserActions />
+    </Show>
+    </>
   )
 }
 
