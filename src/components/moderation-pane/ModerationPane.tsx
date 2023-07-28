@@ -1,7 +1,7 @@
 import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getUser, getUsers, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
+import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, ModerationStats, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link, Route, Routes, useParams } from '@solidjs/router';
@@ -23,19 +23,24 @@ import { Banner } from "../ui/Banner";
 import { bannerUrl } from "@/chat-api/store/useServers";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
+import Icon from "../ui/icon/Icon";
+
+const [stats, setStats] = createSignal<ModerationStats>(null);
 
 const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const isUserSelected = (id: string) => selectedUsers().find(u => u.id === id);
 
 const ModerationPaneContainer = styled("div")`
+  position: relative;
   display: flex;
-  height: 100%;
-  overflow-y: auto;
-  gap: 5px;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  align-self: center;
+  margin-top: 10px;
   a {
     text-decoration: none;
   }
-  padding: 5px;
 `;
 
 const UserColumn = styled(FlexColumn)`
@@ -49,12 +54,14 @@ const PaneContainer = styled("div")`
   background-color: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   padding: 10px;
-  width: 260px;
   flex-shrink: 0;
+  margin: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  max-height: 500px;
 `;
 
 const UserPaneContainer = styled(PaneContainer)`
-  min-height: 250px;
   flex: 1;
 `;
 
@@ -78,6 +85,9 @@ const itemStyles = css`
   transition: 0.2s;
   text-decoration: none;
   color: white;
+  .checkbox {
+    margin-right: 10px;
+  }
 
   &:hover {
     background-color: rgb(66, 66, 66);
@@ -101,7 +111,6 @@ const ItemDetailContainer = styled("div")`
   text-overflow: ellipsis;
 `;
 
-const ActionButtons = styled(FlexRow)``;
 
 export default function ModerationPane() {
   const { account, header } = useStore();
@@ -115,6 +124,9 @@ export default function ModerationPane() {
       iconName: 'security',
     });
     setLoad(true);
+    if (!stats()) {
+      getStats().then(setStats);
+    }
   })
 
 
@@ -132,23 +144,56 @@ export default function ModerationPane() {
 }
 
 
-function ModerationPage() {
+const SelectedUserActionsContainer = styled(FlexRow)`
+  position: sticky;
+  right: 0px;
+  bottom: 10px;
+  left: 0px;
+  flex-shrink: 0;
+  align-items: center;
+  height: 50px;
+  margin: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(0,0,0,0.6);
+  padding-left: 15px;
+  padding-right: 10px;
+  .suspendButton {
+    margin-left: auto;
+  }
+`;
+
+function SelectedUserActions () {
   const { createPortal } = useCustomPortal();
 
   const showSuspendModal = () => {
     createPortal?.(close => <SuspendUsersModal close={close} users={selectedUsers()} />)
   }
   return (
+    <SelectedUserActionsContainer>
+    <Text>{selectedUsers().length} User(s) Selected</Text>
+    <Button class="suspendButton" onClick={showSuspendModal} label="Suspend Selected" primary color="var(--alert-color)" />
+
+    </SelectedUserActionsContainer>
+  )
+}
+
+function ModerationPage() {
+  return (
+    <>
     <ModerationPaneContainer class="moderation-pane-container">
+      <StatsArea/>
       <UserColumn class="user-columns" gap={5} >
         <UsersPane />
         <OnlineUsersPane />
-        <ActionButtons>
-          <Button onClick={showSuspendModal} label={`Suspend ${selectedUsers().length}`} primary color="var(--alert-color)" />
-        </ActionButtons>
       </UserColumn>
       <ServersPane />
     </ModerationPaneContainer>
+    <Show when={selectedUsers().length}>
+      <SelectedUserActions />
+    </Show>
+    </>
   )
 }
 
@@ -157,6 +202,9 @@ function UsersPane() {
   const [users, setUsers] = createSignal<RawUser[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+
+  const [showAll, setShowAll] = createSignal(false);
+
 
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
@@ -173,14 +221,19 @@ function UsersPane() {
     setAfterId(user.id);
   }
 
+  const firstFive = () => users().slice(0, 5);
+
   return (
     <UserPaneContainer class="pane users">
-      <Text>Registered Users</Text>
+      <FlexRow gap={5} itemsCenter>
+        <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
+        <Text>Registered Users</Text>
+      </FlexRow>
       <ListContainer class="list">
-        <For each={users()}>
+        <For each={!showAll() ? firstFive() : users()}>
           {user => <User user={user} />}
         </For>
-        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
+        <Show when={showAll() && !loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
       </ListContainer>
     </UserPaneContainer>
   )
@@ -189,11 +242,20 @@ function UsersPane() {
 function OnlineUsersPane() {
 
   const [users] = createResource(getOnlineUsers);
+
+  const [showAll, setShowAll] = createSignal(false);
+
+  const firstFive = () => users()?.slice(0, 5);
+
+
   return (
     <UserPaneContainer class="pane users">
-      <Text>Online Users</Text>
+      <FlexRow gap={5} itemsCenter>
+        <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
+        <Text>Online Users</Text>
+      </FlexRow>
       <ListContainer class="list">
-        <For each={users()}>
+        <For each={!showAll() ? firstFive() : users()}>
           {user => <User user={user} />}
         </For>
       </ListContainer>
@@ -206,6 +268,9 @@ function ServersPane() {
   const [servers, setServers] = createSignal<RawServer[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+
+  const [showAll, setShowAll] = createSignal(false);
+
 
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
@@ -222,14 +287,20 @@ function ServersPane() {
     setAfterId(server.id);
   }
 
+  const firstFive = () => servers().slice(0, 5);
+
   return (
     <PaneContainer class="pane servers">
-      <Text>Servers</Text>
+      <FlexRow gap={5} itemsCenter>
+        <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
+        <Text>Servers</Text>
+      </FlexRow>
+
       <ListContainer class="list">
-        <For each={servers()}>
+        <For each={!showAll() ? firstFive() : servers()}>
           {server => <Server server={server} />}
         </For>
-        <Show when={!loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
+        <Show when={showAll() && !loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
       </ListContainer>
     </PaneContainer>
   )
@@ -582,5 +653,41 @@ function UserPage() {
         </UserPageInnerContainer>
       </UserPageContainer>
     </Show>
+  )
+}
+
+
+const StatCardContainer = styled(FlexColumn)`
+  padding-left: 10px;
+  padding-right: 10px;
+  justify-content: center;
+  height: 50px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 8px;
+`
+
+function StatCard(props: {loading?: boolean; title: string, description: string}) {
+  return (
+    <StatCardContainer>
+      <Text size={12} color="rgba(255,255,255,0.6)">{props.title}</Text>
+      <Text size={12}>{props.description}</Text>
+    </StatCardContainer>
+  )
+}
+
+const StatsAreaContainer = styled(FlexRow)`
+  margin-left: 10px;
+  margin-right: 10px;
+`
+
+function StatsArea() {
+  return (
+    <StatsAreaContainer gap={5} wrap>
+      <StatCard title="Registered Users" description={stats()?.totalRegisteredUsers?.toLocaleString()} />
+      <StatCard title="Messages" description={stats()?.totalCreatedMessages?.toLocaleString()} />
+      <StatCard title="Servers" description={stats()?.totalCreatedServers?.toLocaleString()} />
+      <StatCard title="Weekly Registered Users" description={stats()?.weeklyRegisteredUsers?.toLocaleString()} />
+      <StatCard title="Weekly Messages" description={stats()?.weeklyCreatedMessages?.toLocaleString()} />
+    </StatsAreaContainer>
   )
 }

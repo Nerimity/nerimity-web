@@ -100,3 +100,20 @@ export const getUser = async (userId: string) => {
   });
   return data;
 };
+
+export interface ModerationStats {
+  totalRegisteredUsers: number,
+  weeklyRegisteredUsers: number,
+  totalCreatedServers: number,
+  totalCreatedMessages: number,
+  weeklyCreatedMessages: number,
+}
+
+export const getStats = async () => {
+  const data = await request<ModerationStats>({
+    method: 'GET',
+    url: env.SERVER_URL + `/api/moderation/stats`,
+    useToken: true,
+  });
+  return data;
+};
