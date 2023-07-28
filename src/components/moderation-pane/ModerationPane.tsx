@@ -1,7 +1,7 @@
 import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getUser, getUsers, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
+import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, ModerationStats, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link, Route, Routes, useParams } from '@solidjs/router';
@@ -23,6 +23,9 @@ import { Banner } from "../ui/Banner";
 import { bannerUrl } from "@/chat-api/store/useServers";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
+import Icon from "../ui/icon/Icon";
+
+const [stats, setStats] = createSignal<ModerationStats>(null);
 
 const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const isUserSelected = (id: string) => selectedUsers().find(u => u.id === id);
@@ -121,6 +124,9 @@ export default function ModerationPane() {
       iconName: 'security',
     });
     setLoad(true);
+    if (!stats()) {
+      getStats().then(setStats);
+    }
   })
 
 
@@ -177,6 +183,7 @@ function ModerationPage() {
   return (
     <>
     <ModerationPaneContainer class="moderation-pane-container">
+      <StatsArea/>
       <UserColumn class="user-columns" gap={5} >
         <UsersPane />
         <OnlineUsersPane />
@@ -646,5 +653,41 @@ function UserPage() {
         </UserPageInnerContainer>
       </UserPageContainer>
     </Show>
+  )
+}
+
+
+const StatCardContainer = styled(FlexColumn)`
+  padding-left: 10px;
+  padding-right: 10px;
+  justify-content: center;
+  height: 50px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 8px;
+`
+
+function StatCard(props: {loading?: boolean; title: string, description: string}) {
+  return (
+    <StatCardContainer>
+      <Text size={12} color="rgba(255,255,255,0.6)">{props.title}</Text>
+      <Text size={12}>{props.description}</Text>
+    </StatCardContainer>
+  )
+}
+
+const StatsAreaContainer = styled(FlexRow)`
+  margin-left: 10px;
+  margin-right: 10px;
+`
+
+function StatsArea() {
+  return (
+    <StatsAreaContainer gap={5} wrap>
+      <StatCard title="Registered Users" description={stats()?.totalRegisteredUsers?.toLocaleString()} />
+      <StatCard title="Messages" description={stats()?.totalCreatedMessages?.toLocaleString()} />
+      <StatCard title="Servers" description={stats()?.totalCreatedServers?.toLocaleString()} />
+      <StatCard title="Weekly Registered Users" description={stats()?.weeklyRegisteredUsers?.toLocaleString()} />
+      <StatCard title="Weekly Messages" description={stats()?.weeklyCreatedMessages?.toLocaleString()} />
+    </StatsAreaContainer>
   )
 }
