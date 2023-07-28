@@ -25,7 +25,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import Icon from "../ui/icon/Icon";
 
-const [stats, setStats] = createSignal<ModerationStats>(null);
+const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
 const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const isUserSelected = (id: string) => selectedUsers().find(u => u.id === id);
