@@ -339,9 +339,12 @@ function User(props: { user: any }) {
           <Text>{props.user.username}</Text>
           <Text opacity={0.6}>:{props.user.tag}</Text>
         </FlexRow>
-        <FlexRow gap={3}>
+        <FlexRow gap={3} itemsCenter>
           <Text size={12} opacity={0.6}>Registered:</Text>
           <Text size={12}>{joined}</Text>
+          <Show when={props.user.suspension}>
+            <Text size={12} style={{background: 'var(--alert-color)', "border-radius": "4px", padding: "3px"}}>Suspended</Text>
+          </Show>
         </FlexRow>
       </ItemDetailContainer>
     </Link>
