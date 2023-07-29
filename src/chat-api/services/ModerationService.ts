@@ -46,6 +46,18 @@ export const suspendUsers = async (confirmPassword: string, userIds: string[], d
   });
   return data;
 };
+export const unsuspendUsers = async (confirmPassword: string, userIds: string[]) => {
+  const data = await request<any[]>({
+    method: 'DELETE',
+    body: {
+      userIds,
+      password: confirmPassword
+    },
+    url: env.SERVER_URL + "/api/moderation/users/suspend",
+    useToken: true,
+  });
+  return data;
+};
 
 export const updateServer = async (serverId: string, update: {name?: string, verified?: boolean, password?: string}) => {
   const data = await request<any[]>({
@@ -68,7 +80,7 @@ export const getServer = async (serverId: string) => {
 
 
 export const getOnlineUsers = async () => {
-  const data = await request<any[]>({
+  const data = await request<ModerationUser[]>({
     method: 'GET',
     url: env.SERVER_URL + "/api/moderation/online-users",
     useToken: true,
@@ -79,6 +91,13 @@ export const getOnlineUsers = async () => {
 
 export type  ModerationUser = RawUser & {
   account: {email: string}
+  suspension?: ModerationSuspension
+}
+
+export interface ModerationSuspension {
+  expireAt?: number | null
+  reason?: string
+  suspendedAt: number
 }
 
 export const updateUser = async (userId: string, update: {email?: string, username?: string, tag?: string}) => {

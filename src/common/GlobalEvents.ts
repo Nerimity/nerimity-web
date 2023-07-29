@@ -1,3 +1,4 @@
+import { ModerationSuspension } from "@/chat-api/services/ModerationService";
 import EventEmitter from "eventemitter3";
 import { onCleanup } from "solid-js";
 
@@ -11,6 +12,16 @@ export function emitScrollToMessage(payload: {messageId: string}) {
 
 export function useScrollToMessageListener() {  
   return useEventListen<{messageId: string}>('scrollToMessage')
+}
+
+
+export function emitModerationUserSuspended(payload: ModerationSuspension) {
+  EE.emit("moderationUserSuspended", payload)
+}
+
+
+export function useModerationUserSuspendedListener() {  
+  return useEventListen<ModerationSuspension>('moderationUserSuspended')
 }
 
 export function useEventListen<TReturn>(name: string) {  

@@ -1,7 +1,7 @@
 import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, ModerationStats, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
+import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, ModerationStats, ModerationSuspension, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link, Route, Routes, useParams } from '@solidjs/router';
@@ -24,6 +24,9 @@ import { bannerUrl } from "@/chat-api/store/useServers";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import Icon from "../ui/icon/Icon";
+import env from "@/common/env";
+import UnsuspendUsersModal from "./UnsuspendUsersModal";
+import { emitModerationUserSuspended, useModerationUserSuspendedListener } from "@/common/GlobalEvents";
 
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
@@ -164,16 +167,21 @@ const SelectedUserActionsContainer = styled(FlexRow)`
   }
 `;
 
-function SelectedUserActions () {
+function SelectedUserActions() {
   const { createPortal } = useCustomPortal();
 
+  const onSuspended = (suspension: ModerationSuspension) => {
+    emitModerationUserSuspended(suspension);
+    setSelectedUsers([]);
+  }
+
   const showSuspendModal = () => {
-    createPortal?.(close => <SuspendUsersModal close={close} users={selectedUsers()} />)
+    createPortal?.(close => <SuspendUsersModal close={close} users={selectedUsers()} done={onSuspended} />)
   }
   return (
     <SelectedUserActionsContainer>
-    <Text>{selectedUsers().length} User(s) Selected</Text>
-    <Button class="suspendButton" onClick={showSuspendModal} label="Suspend Selected" primary color="var(--alert-color)" />
+      <Text>{selectedUsers().length} User(s) Selected</Text>
+      <Button class="suspendButton" onClick={showSuspendModal} label="Suspend Selected" primary color="var(--alert-color)" />
 
     </SelectedUserActionsContainer>
   )
@@ -182,17 +190,17 @@ function SelectedUserActions () {
 function ModerationPage() {
   return (
     <>
-    <ModerationPaneContainer class="moderation-pane-container">
-      <StatsArea/>
-      <UserColumn class="user-columns" gap={5} >
-        <UsersPane />
-        <OnlineUsersPane />
-      </UserColumn>
-      <ServersPane />
-    </ModerationPaneContainer>
-    <Show when={selectedUsers().length}>
-      <SelectedUserActions />
-    </Show>
+      <ModerationPaneContainer class="moderation-pane-container">
+        <StatsArea />
+        <UserColumn class="user-columns" gap={5} >
+          <UsersPane />
+          <OnlineUsersPane />
+        </UserColumn>
+        <ServersPane />
+      </ModerationPaneContainer>
+      <Show when={selectedUsers().length}>
+        <SelectedUserActions />
+      </Show>
     </>
   )
 }
@@ -205,6 +213,15 @@ function UsersPane() {
 
   const [showAll, setShowAll] = createSignal(false);
 
+  const moderationUserSuspendedListener = useModerationUserSuspendedListener()
+
+  moderationUserSuspendedListener(suspension => {
+    setUsers(users().map(u => {
+      const wasSuspended = selectedUsers().find(su => su.id === u.id);
+      if (!wasSuspended) return u;
+      return {...u, suspension }
+    }))
+  })
 
   createEffect(on(afterId, async () => {
     setLoadMoreClicked(true);
@@ -241,11 +258,22 @@ function UsersPane() {
 
 function OnlineUsersPane() {
 
-  const [users] = createResource(getOnlineUsers);
+  const [users, {mutate: setUsers}] = createResource<ModerationUser[]>(getOnlineUsers);
 
   const [showAll, setShowAll] = createSignal(false);
 
   const firstFive = () => users()?.slice(0, 5);
+
+  const moderationUserSuspendedListener = useModerationUserSuspendedListener()
+
+  moderationUserSuspendedListener(suspension => {
+    const localUsers = users();
+    if (!localUsers) return;
+    setUsers(localUsers.filter(u => {
+      return selectedUsers().find(su => su.id !== u.id);
+    }))
+  })
+
 
 
   return (
@@ -343,7 +371,7 @@ function User(props: { user: any }) {
           <Text size={12} opacity={0.6}>Registered:</Text>
           <Text size={12}>{joined}</Text>
           <Show when={props.user.suspension}>
-            <Text size={12} style={{background: 'var(--alert-color)', "border-radius": "4px", padding: "3px"}}>Suspended</Text>
+            <Text size={12} style={{ background: 'var(--alert-color)', "border-radius": "4px", padding: "3px" }}>Suspended</Text>
           </Show>
         </FlexRow>
       </ItemDetailContainer>
@@ -599,6 +627,9 @@ function UserPage() {
   }
 
 
+
+
+
   return (
     <Show when={user()}>
       <UserPageContainer>
@@ -652,12 +683,49 @@ function UserPage() {
 
             <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
           </Show>
+
+        <Show when={user()}>
+          <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
+        </Show>
+
         </UserPageInnerContainer>
       </UserPageContainer>
     </Show>
   )
 }
 
+function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: ModerationUser) => void}) {
+  const { createPortal } = useCustomPortal();
+
+  const showSuspendModal = () => {
+    createPortal?.(close => <SuspendUsersModal done={(suspension) => props.setUser({ ...props.user!, suspension })} close={close} users={[props.user]} />)
+  }
+  const showUnsuspendModal = () => {
+    createPortal?.(close => <UnsuspendUsersModal done={() => props.setUser({ ...props.user!, suspension: undefined })} close={close} users={[props.user]} />)
+  }
+  
+  const expiredAt = () => {
+    if (!props.user.suspension?.expireAt) return "Never";
+ 
+   return formatTimestamp(props.user.suspension.expireAt); 
+  }
+
+  return (
+    <>
+      <Show when={!props.user?.suspension}>
+        <SettingsBlock icon='block' label='Suspend' description={`Deny this user to access ${env.APP_NAME}`}>
+          <Button onClick={showSuspendModal} label="Suspend" color="var(--alert-color)" primary />
+        </SettingsBlock>
+      </Show>
+
+      <Show when={props.user?.suspension}>
+        <SettingsBlock icon='block' label={`Suspended for: ${props.user.suspension?.reason}` }  description={`Expires: ${expiredAt()}`}>
+          <Button onClick={showUnsuspendModal} label="Unsuspend" color="var(--alert-color)" primary />
+        </SettingsBlock>
+      </Show>
+    </>
+  )
+}
 
 const StatCardContainer = styled(FlexColumn)`
   padding-left: 10px;
@@ -668,7 +736,7 @@ const StatCardContainer = styled(FlexColumn)`
   border-radius: 8px;
 `
 
-function StatCard(props: {title: string, description?: string}) {
+function StatCard(props: { title: string, description?: string }) {
   return (
     <StatCardContainer>
       <Text size={12} color="rgba(255,255,255,0.6)">{props.title}</Text>

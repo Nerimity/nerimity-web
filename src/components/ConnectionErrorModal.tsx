@@ -36,7 +36,7 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
 
 
   return (
-    <Modal title="Connection Error" close={props.close} actionButtons={ActionButtons}>
+    <Modal title="Connection Error" close={props.close} actionButtons={ActionButtons} ignoreBackgroundClick>
       <ConnectionErrorContainer>
         <Switch fallback={() => <Text>{err()?.message}</Text>}>
           <Match when={!hasToken()}><Text>No token provided.</Text></Match>

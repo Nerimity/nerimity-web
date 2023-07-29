@@ -1,5 +1,5 @@
 import { RawUser } from "@/chat-api/RawData";
-import { suspendUsers } from "@/chat-api/services/ModerationService";
+import { ModerationSuspension, suspendUsers } from "@/chat-api/services/ModerationService";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import Button from "../ui/Button";
@@ -27,9 +27,10 @@ interface MinimalUser {
 interface Props {
   users: MinimalUser[];
   close: () => void;
+  done: (suspension: ModerationSuspension) => void;
 }
 
-export default function SuspendUsersModal({users, close}: Props) {
+export default function SuspendUsersModal({users, close, done}: Props) {
   const [reason, setReason] = createSignal("");
   const [suspendFor, setSuspendFor] = createSignal("7");
   const [password, setPassword] = createSignal("");
@@ -47,7 +48,15 @@ export default function SuspendUsersModal({users, close}: Props) {
     setSuspending(true);
     setError(null);
     const userIds = users.map(u => u.id);
+
+    const preview: ModerationSuspension = {
+      expireAt: suspendFor() ? daysToDate(parseInt(suspendFor())) : null,
+      suspendedAt: Date.now(),
+      reason: reason() || undefined
+    }
+
     suspendUsers(password(), userIds, parseInt(suspendFor()), reason() || undefined)
+      .then(() => {done(preview); close();})
       .catch(err => setError(err))
       .finally(() => setSuspending(false))
   }
@@ -76,4 +85,11 @@ export default function SuspendUsersModal({users, close}: Props) {
       </SuspendUsersContainer>
     </Modal>
   )
+}
+
+function daysToDate(days: number) {
+  const DAY_IN_MS = 86400000;
+  const now = Date.now();
+  const expireDate = new Date(now + DAY_IN_MS * days);
+  return expireDate.getTime();
 }
