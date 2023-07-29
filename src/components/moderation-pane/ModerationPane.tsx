@@ -545,12 +545,11 @@ function UserPage() {
   const [showChangePassword, setShowChangePassword] = createSignal(false);
 
 
-  const [account, setAccount] = createSignal<ModerationUser | null>(null);
+  const [user, setUser] = createSignal<ModerationUser | null>(null);
 
-  const user = () => account()?.user;
 
   const defaultInput = () => ({
-    email: account()?.email || '',
+    email: user()?.account?.email || '',
     username: user()?.username || '',
     tag: user()?.tag || '',
     badges: user()?.badges || 0,
@@ -562,7 +561,7 @@ function UserPage() {
 
 
   onMount(() => {
-    getUser(params.userId).then(setAccount)
+    getUser(params.userId).then(setUser)
   })
 
   const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
@@ -573,7 +572,7 @@ function UserPage() {
     const values = updatedInputValues();
     await updateUser(params.userId, values)
       .then(() => {
-        getUser(params.userId).then(setAccount)
+        getUser(params.userId).then(setUser)
         setInputValue("password", '');
       })
       .catch(err => {
@@ -666,7 +665,7 @@ const StatCardContainer = styled(FlexColumn)`
   border-radius: 8px;
 `
 
-function StatCard(props: {loading?: boolean; title: string, description: string}) {
+function StatCard(props: {title: string, description?: string}) {
   return (
     <StatCardContainer>
       <Text size={12} color="rgba(255,255,255,0.6)">{props.title}</Text>

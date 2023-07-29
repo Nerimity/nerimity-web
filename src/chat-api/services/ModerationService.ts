@@ -77,9 +77,8 @@ export const getOnlineUsers = async () => {
 };
 
 
-export interface ModerationUser {
-  email: string;
-  user: RawUser
+export type  ModerationUser = RawUser & {
+  account: {email: string}
 }
 
 export const updateUser = async (userId: string, update: {email?: string, username?: string, tag?: string}) => {
