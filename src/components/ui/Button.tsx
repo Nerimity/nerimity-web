@@ -40,7 +40,7 @@ const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: 
   user-select: none;
   transition: 0.2s;
   background-color: rgba(255, 255, 255, 0.08);
-  border: solid 1px rgba(255, 255, 255, 0.03);
+  border: solid 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.15);
