@@ -73,7 +73,7 @@ export default function MainPaneHeader() {
     <>
       <div onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} class={classNames(styles.header, conditionalClass(isMobileWidth(), styles.isMobile))}>
         <Show when={isMobileWidth()}>
-          <div class={styles.drawerIcon} onClick={toggleLeftDrawer}><Icon name='menu' /></div>
+          <Button iconName='menu' margin={[0, 8, 0, 5]} onClick={toggleLeftDrawer} />
         </Show>
         {header.details().iconName && <Icon name={header.details().iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
         {server() && <Avatar animate={hovered()} size={25} server={server()} />}
@@ -85,11 +85,11 @@ export default function MainPaneHeader() {
         </div>
         <div class={styles.rightIcons}>
           <Show when={header.details().channelId}>
-            <div class={styles.drawerIcon} onClick={onCallClick}><Icon name='call' /></div>
+            <Button margin={3} iconName='call' onClick={onCallClick} />
           </Show>
-          <div class={classNames(styles.drawerIcon, "mentionListIcon")} onClick={onMentionButtonClick}><Icon name='alternate_email' /></div>
+            <Button margin={3} iconName='alternate_email' onClick={onMentionButtonClick} class="mentionListIcon" />
           <Show when={hasRightDrawer() && isMobileWidth()}>
-            <div class={styles.drawerIcon} onClick={toggleRightDrawer}><Icon name='group' /></div>
+            <Button margin={3} iconName='group' onClick={toggleRightDrawer} />
           </Show>
         </div>
       </div>
