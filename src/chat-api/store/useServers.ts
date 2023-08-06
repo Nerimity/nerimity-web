@@ -1,7 +1,7 @@
 import env from '@/common/env';
 import {createStore} from 'solid-js/store';
 import { ChannelType, RawCustomEmoji, RawServer, ServerNotificationPingMode } from '../RawData';
-import { deleteServer } from '../services/ServerService';
+import { deleteServer, leaveServer } from '../services/ServerService';
 import useAccount from './useAccount';
 import useChannels from './useChannels';
 import useMention from './useMention';
@@ -12,6 +12,7 @@ export type Server = RawServer & {
   hasNotifications: boolean;
   update: (this: Server, update: Partial<RawServer>) => void;
   leave: () => Promise<RawServer>;
+  delete: () => Promise<RawServer>;
   mentionCount: number;
   avatarUrl(this: Server): string | null
 }
@@ -55,6 +56,9 @@ const set = (server: RawServer) =>
         setServers(this.id, update);
       },
       async leave() {
+        return leaveServer(server.id);
+      },
+      async delete() {
         return deleteServer(server.id);
       },
       avatarUrl(){

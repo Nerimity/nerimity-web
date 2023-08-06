@@ -190,6 +190,14 @@ export async function deleteServer(serverId: string): Promise<RawServer> {
   });
 }
 
+export async function leaveServer(serverId: string): Promise<RawServer> {
+  return request({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/leave",
+    useToken: true
+  });
+}
+
 export async function joinServerByInviteCode(inviteCode: string) {
   return request<RawServer>({
     method: "POST",
