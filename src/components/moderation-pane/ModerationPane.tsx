@@ -27,6 +27,7 @@ import Icon from "../ui/icon/Icon";
 import env from "@/common/env";
 import UnsuspendUsersModal from "./UnsuspendUsersModal";
 import { emitModerationUserSuspended, useModerationUserSuspendedListener } from "@/common/GlobalEvents";
+import DeleteServerModal from "./DeleteServerModal";
 
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
@@ -505,12 +506,29 @@ function ServerPage() {
 
             <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
           </Show>
+
+          <DeleteServerBlock serverId={server()?.id!} />
+          
         </ServerPageInnerContainer>
       </ServerPageContainer>
     </Show>
   )
 }
 
+
+const DeleteServerBlock = (props: {serverId: string}) => {
+  const {createPortal} = useCustomPortal();
+  
+  const showSuspendModal = () => {
+    createPortal(close => <DeleteServerModal close={close} serverId={props.serverId} done={() => {}} />)
+  }
+
+  return (
+    <SettingsBlock icon='delete' label='Delete Server'>
+    <Button onClick={showSuspendModal} label="Delete Server" color="var(--alert-color)" primary />
+  </SettingsBlock>
+  )
+}
 
 
 const UserPageContainer = styled(FlexColumn)`

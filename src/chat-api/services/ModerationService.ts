@@ -32,6 +32,18 @@ export const getUsers = async (limit: number, afterId?: string) => {
   return data;
 };
 
+export const deleteServer = async (serverId: string, confirmPassword: string) => {
+  const data = await request<any[]>({
+    method: 'DELETE',
+    body: {
+      password: confirmPassword
+    },
+    url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
+    useToken: true,
+  });
+  return data;
+}
+
 export const suspendUsers = async (confirmPassword: string, userIds: string[], days: number, reason?: string) => {
   const data = await request<any[]>({
     method: 'POST',
@@ -46,6 +58,7 @@ export const suspendUsers = async (confirmPassword: string, userIds: string[], d
   });
   return data;
 };
+
 export const unsuspendUsers = async (confirmPassword: string, userIds: string[]) => {
   const data = await request<any[]>({
     method: 'DELETE',
