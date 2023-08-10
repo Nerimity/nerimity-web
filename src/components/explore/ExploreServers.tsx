@@ -82,7 +82,8 @@ export default function ExploreServers() {
           <DropDown title='Sort' items={sortOpts} selectedId="most_members" onChange={i => setQuery({ ...query(), sort: i.id })} />
           <DropDown title='Filter' items={filterOpts} selectedId="verified" onChange={i => setQuery({ ...query(), filter: i.id })} />
         </FlexRow>
-        <Notice class={css`margin-bottom: 10px;`} type='info' description={t('explore.servers.noticeMessage', { hours: '3', date: 'Monday at 0:00 UTC' })} />
+        <Notice type='info' description={t('explore.servers.noticeMessage', { hours: '3', date: 'Monday at 0:00 UTC' })} />
+        <Notice class={css`margin-bottom: 10px;`} type='warn' description="Servers are not moderated by Nerimity. Please report servers that break the TOS." />
         <GridLayout>
           <For each={publicServers()}>
             {(server, i) => <PublicServerItem update={newServer => update(newServer, i())} publicServer={server} />}

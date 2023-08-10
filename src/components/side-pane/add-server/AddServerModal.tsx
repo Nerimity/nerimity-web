@@ -8,6 +8,8 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate } from '@solidjs/router';
 import Modal from '@/components/ui/Modal';
 import { FlexRow } from '@/components/ui/Flexbox';
+import { Notice } from '@/components/ui/Notice';
+import { css } from 'solid-styled-components';
 
 export default function AddServer(props: {close: () => void}) {
   const navigate = useNavigate();
@@ -37,6 +39,8 @@ export default function AddServer(props: {close: () => void}) {
   return(
     <Modal close={props.close} title="Add Server" icon='dns' actionButtons={ActionButtons}>
       <div class={styles.addServerContainer}>
+      <Notice class={css`margin-bottom: 10px; padding: 100px`} type='warn' description="NSFW content is not allowed." />
+
         <Input label='Server Name' error={error().message} onText={setName} />
       </div>
     </Modal>

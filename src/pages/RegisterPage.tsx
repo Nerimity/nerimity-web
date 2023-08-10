@@ -7,11 +7,13 @@ import { createSignal, onMount, Show } from 'solid-js';
 import env from '../common/env';
 import PageHeader from '../components/PageHeader';
 import { css, styled } from 'solid-styled-components';
-import { FlexColumn } from '@/components/ui/Flexbox';
+import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { Turnstile, TurnstileRef } from '@nerimity/solid-turnstile';
 import Text from '@/components/ui/Text';
 import PageFooter from '@/components/PageFooter';
+import { Notice } from '@/components/ui/Notice';
+import Icon from '@/components/ui/icon/Icon';
 
 const RegisterPageContainer = styled("div")`
   display: flex;
@@ -41,13 +43,19 @@ const Title = styled("div")`
   color: var(--primary-color);
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 const linkStyle = css`
   margin-top: 20px;
   display: block;
   text-align: center;
+`;
+
+const NoticesContainer = styled(FlexColumn)`
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+  border-radius: 6px;
 `;
 
 export default function RegisterPage() {
@@ -99,6 +107,13 @@ export default function RegisterPage() {
         <Container>
         <form style={{display: 'flex', "flex-direction": 'column'}} action='#' onsubmit={registerClicked}>
           <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
+          <NoticesContainer gap={5}>
+            <Text style={{"font-weight": 'bold'}} color='var(--warn-color)'>Notices</Text>
+
+            <Text color="rgba(255, 255, 255, 0.8)" style={{"align-items": 'center', display: 'flex', gap: "5px"}} size={14}><Icon name="info" size={14} color='var(--warn-color)' /> Please keep toxicity out of here.</Text>
+            <Text color="rgba(255, 255, 255, 0.8)" style={{"align-items": 'center', display: 'flex', gap: "5px"}} size={14}><Icon name="info" size={14} color='var(--warn-color)' /> NSFW content is against the TOS.</Text>
+            <Text color="rgba(255, 255, 255, 0.8)" style={{"align-items": 'center', display: 'flex', gap: "5px"}} size={14}><Icon name="info" size={14} color='var(--warn-color)' /> You must be over the age of 14 to use Nerimity.</Text>
+          </NoticesContainer>
           <Input margin={[10, 0, 10, 0]} label={t('registerPage.email')} type='email' error={error()} onText={setEmail} />
           <Input margin={[10, 0, 10, 0]} label={t('registerPage.username')} error={error()} onText={setUsername} />
           <Input margin={[10, 0, 10, 0]} label={t('registerPage.password')} type='password' error={error()} onText={setPassword} />
