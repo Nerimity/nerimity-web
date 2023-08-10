@@ -6,6 +6,7 @@ import { css, keyframes, styled } from 'solid-styled-components';
 import { FlexColumn, FlexRow } from './Flexbox';
 import Icon from './icon/Icon';
 import Text from './Text';
+import Button from './Button';
 
 
 const showUp = keyframes`
@@ -71,25 +72,15 @@ const TopBarContainer = styled(FlexRow)`
   align-items: center;
   padding: 10px;
   height: 30px;
-  background: var(--background-color);
   flex-shrink: 0;
 `;
-const closeButtonStyle = css`
+const CloseButtonContainer = styled("div")`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: auto;
-  border-radius: 8px;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  transition: 0.2s;
-  opacity: 0.7;
-  &:hover {
-    background: rgba(255,255,255,0.2);
-    opacity: 1;
-  }
 `;
+
 const topBarIconStyle = css`
   display: flex;
   align-items: center;
@@ -109,7 +100,7 @@ const Body = styled(FlexColumn)`
 `;
 
 const ActionContainer = styled(FlexRow)`
-  background: var(--background-color);
+
 `;
 
 
@@ -141,11 +132,13 @@ export default function Modal(props: Props) {
           <ModalContainer mobile={isMobileWidth()} maxHeight={props.maxHeight} maxWidth={props.maxWidth}  class={classNames(props.class, 'modal')}>
             <TopBarContainer>
               <Show when={props.icon}>
-                <Icon class={topBarIconStyle} onClick={props.close} name={props.icon} size={18} />
+                <Icon class={topBarIconStyle} onClick={props.close} name={props.icon} color='var(--primary-color)' size={18} />
               </Show>
-              <Text size={16}>{props.title}</Text>
+              <Text style={{"font-weight": 'bold'}} size={16} color='var(--primary-color)'>{props.title}</Text>
               <Show when={props.close}>
-                <Icon class={closeButtonStyle} onClick={props.close} name='close' size={16} />
+                <CloseButtonContainer>
+                  <Button color='var(--alert-color)' onClick={props.close} iconName='close' iconSize={16} />
+                </CloseButtonContainer>
               </Show>
             </TopBarContainer>
             <Body>
