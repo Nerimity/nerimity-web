@@ -45,6 +45,11 @@ export const languages = {
     name: "French",
     emoji: "🇫🇷",
     contributors: ["https://github.com/guiguitator"],
+  },
+  "pt-br": {
+    name: "Brazilian Portuguese",
+    emoji: "🇧🇷",
+    contributors: ["https://github.com/Jerkycat"],
   }
 }
 

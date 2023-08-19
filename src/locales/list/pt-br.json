@@ -1,0 +1,246 @@
+{
+  "header": {
+    "accountButton": "Conta",
+    "openAppButton": "Abrir Aplicativo",
+    "loginButton": "Login",
+    "joinNowButton": "Junte-se"
+  },
+  "homePage": {
+    "slogan": "Um aplicativo de chat bonito e moderno.",
+    "joinButton": "Junte-se ao {{appName}}",
+    "viewGitHubButton": "Ver GitHub"
+  },
+  "loginPage": {
+    "title": "Faça login para continuar",
+    "emailOrUsernameAndTag": "Email / nome de usuário:tag",
+    "password": "Senha",
+    "login": "Entrar",
+    "createAccountInstead": "Não possui uma conta?",
+    "loggingIn": "Conectando-se...",
+    "loginButton": "Entrar"
+  },
+  "registerPage": {
+    "title": "Bem vindo ao {{appName}}",
+    "email": "Email",
+    "username": "Nome de Usuário",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "registerButton": "Registrar-se",
+    "registering": "Registrando...",
+    "loginInstead": "Já possui uma conta?"
+  },
+  "inbox": {
+    "drawer": {
+      "requests": "Pendente",
+      "online": "Online",
+      "offline": "Offline",
+      "savedNotesButton": "Notas Salvas",
+      "addFriendButton": "Adicionar Amigo",
+      "inboxButton": "Caixa de Entrada",
+      "friendsButton": "Amigos"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Explorar",
+      "servers": "Servidores"
+    },
+    "servers": {
+      "title": "Explorar - Servidores",
+      "noticeMessage": "Um servidor poderá receber um bump uma vez a cada {{hours}} horas. Valores de bumps são redefinidos a cada {{date}}.",
+      "sortMostBumps": "Mais bumps",
+      "sortMostMembers": "Membros Totais",
+      "sortRecentlyAdded": "Adicionados Recentemente",
+      "sortRecentlyBumped": "Bumps Recentes",
+      "filterAll": "Todos",
+      "filterVerified": "Verificados",
+      "memberCount": "{{count}} membros",
+      "lifetimeBumpCount": "{{count}} bumps totais",
+      "visitServerButton": "Visitar",
+      "joinServerButton": "Juntar-se",
+      "bumpButton": "Bump ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "Geral",
+        "roles": "Cargos",
+        "channels": "Canais",
+        "bans": "Banimentos",
+        "invites": "Convites",
+        "publishServer": "Publicar Servidor",
+        "verify": "Verificar",
+        "role": "Cargo",
+        "channel": "Canal",
+        "emojis": "Emojis",
+        "notifications": "Notificações"
+      },
+      "general": {
+        "serverRenameNotice": "Seu servidor verificado perderá todos os benefícios caso seja renomeado.",
+        "serverName": "Nome do Servidor",
+        "defaultChannel": "Canal Padrão",
+        "defaultChannelDescription": "Membros novos serão direcionados a esse canal.",
+        "systemMessages": "Mensagens do Sistema",
+        "systemMessagesDescription": "Onde mensagens do sistema deverão aparecer.",
+        "deleteThisServer": "Excluir Servidor",
+        "deleteThisServerDescription": "Essa ação não poderá ser desfeita!",
+        "deleteServerButton": "Excluir Servidor",
+        "saveChangesButton": "Salvar Alterações",
+        "saving": "Salvando..."
+      },
+      "roles": {
+        "addNewRole": "Adicionar um novo cargo",
+        "addRoleButton": "Criar Cargo"
+      },
+      "role": {
+        "saveChangesButton": "Salvar Alterações",
+        "saving": "Salvando...",
+        "roleName": "Nome do Cargo",
+        "roleColor": "Cor do Cargo",
+        "hideRole": "Ocultar Cargo",
+        "hideRoleDescription": "Exibir membros com este cargo junto dos membros padrão",
+        "permissions": "Permissões",
+        "permissionsDescription": "Gerencie as permissões desse cargo.",
+        "deleteRoleButton": "Excluir Cargo",
+        "deleteRoleButtonDescription": "Essa ação não poderá ser desfeita!"
+      },
+      "header": {
+        "editServer": "Editar Servidor",
+        "serverMemberCount": "{{count}} membros"
+      },
+      "channels": {
+        "createButton": "Criar",
+        "createNewDescription": "Crie um novo canal ou categoria"
+      },
+      "channel": {
+        "saving": "Salvando...",
+        "saveChangesButton": "Salvar Alterações",
+        "channelName": "Nome do Canal",
+        "permissions": "Permissões",
+        "permissionsDescription": "Gerencie as permissões desse canal.",
+        "deleteThisChannel": "Excluir Canal",
+        "deleteThisChannelDescription": "Essa ação não poderá ser desfeita!",
+        "deleteChannelButton": "Excluir Canal"
+      },
+      "invites": {
+        "createInviteButton": "Criar Convite",
+        "serverInvites": "Convites do Servidor",
+        "serverInvitesDescription": "Convide seus amigos ao servidor.",
+        "customInviteVerifiedOnlyNotice": "Custom invite links are only available for verified servers.",
+        "customLink": "Link Personalizado",
+        "saveButton": "Salvar",
+        "deleteButton": "Excluir",
+        "copyLinkButton": "Copiar Link"
+      },
+      "publishServer": {
+        "publishNotice": "Publicar seu servidor o tornará disponível na página de <1>explore</1>.",
+        "public": "Público",
+        "publicDescription": "Torna este servidor público.",
+        "bumpServer": "Bump",
+        "bumpServerDescription": "Servidores que recebem bump vão ao topo da lista.",
+        "publishServerButton": "Publicar Servidor",
+        "unpublishServerButton": "Despublicar Servidor"
+      }
+    },
+    "rolePermissions": {
+      "admin": "Administrador",
+      "adminDescription": "Concede todas as permissões.",
+      "sendMessage": "Enviar Mensagens",
+      "sendMessageDescription": "Permite o envio de mensagens nesse servidor. Administradores ainda poderão enviar mensagens.",
+      "manageRoles": "Gerenciar Cargos",
+      "manageRolesDescription": "Permite alterar ou excluir cargos.",
+      "manageChannels": "Gerenciar Canais",
+      "manageChannelsDescription": "Permite alterar ou excluir canais",
+      "kick": "Expulsar Membros",
+      "kickDescription": "Permite ao usuário que expulse membros do servidor.",
+      "ban": "Banir Membros",
+      "banDescription": "Permite ao usuário banir permanentemente membros do servidor."
+    },
+    "channelPermissions": {
+      "privateChannel": "Canal Privado",
+      "privateChannelDescription": "Desabilita o acesso a esse canal. Administradores ainda poderão visualizá-lo.",
+      "sendMessage": "Enviar Mensagens",
+      "sendMessageDescription": "Habilita o envio de mensagens nesse canal. Administradores ainda poderão enviar mensagens."
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "Configurações",
+      "account": "Conta",
+      "language": "Idioma",
+      "notifications": "Notificações",
+      "logout": "Sair",
+      "supportMe": "Me Apoie",
+      "viewSource": "Ver Código Fonte",
+      "changelog": "Novidades",
+      "window-settings": "Config. de Janela",
+      "privacy": "Privacidade"
+    }
+  },
+  "addFriend": {
+    "usernameAndTag": "Nome de usuário & Tag"
+  },
+  "userContextMenu": {
+    "viewProfile": "Ver Perfil",
+    "sendMessage": "Enviar Mensagem",
+    "copyId": "Copiar ID",
+    "editRoles": "Editar Cargos",
+    "kick": "Expulsar",
+    "ban": "Banir"
+  },
+  "kickServerMemberModal": {
+    "title": "Expulsar {{username}}",
+    "kickButton": "Expulsar",
+    "kicking": "Expulsando...",
+    "backButton": "Cancelar",
+    "message": "Deseja mesmo expulsar <1>username</1> do servidor?"
+  },
+  "editServerRolesModal": {
+    "title": "Editar Cargos"
+  },
+  "banModal": {
+    "title": "Banir {{username}}?",
+    "message": "Deseja mesmo banir <1>username</1> do servidor?",
+    "deletePastMessagesCheckbox": "Excluir mensagens enviadas nas últimas 7 horas.",
+    "banButton": "Banir",
+    "banning": "Banindo..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Editar Mensagem",
+    "deleteMessage": "Excluir Mensagem",
+    "copyMessage": "Copy Mensagem",
+    "copyId": "Copiar ID"
+  },
+  "profile": {
+    "followButton": "Seguir",
+    "unfollowButton": "Seguindo",
+    "removeFriendButton": "Desfazer Amizade",
+    "addFriendButton": "Adicionar Amigo",
+    "pendingRequest": "Pedido Pendente",
+    "acceptRequestButton": "Aceitar Pedido",
+    "messageButton": "Enviar Mensagem",
+    "mutualFriends": "Amigos em Comum ({{count}})",
+    "mutualServers": "Servidores em Comum ({{count}})",
+    "postsTab": "Posts",
+    "followersTab": "Seguidores",
+    "followingTab": "Seguindo",
+    "postsAndRepliesTab": "Posts e Respostas ({{count}})",
+    "likedPostsTab": "Curtidas ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Deseja mesmo excluir este post??",
+      "cancelButton": "Cancelar",
+      "deleteButton": "Excluir"
+    },
+    "postWasDeleted": "Esse post foi excluído!",
+    "someoneLikedYourPost": "<1>username</1> curtiu seu post!",
+    "someoneFollowedYou": "<1>username</1> seguiu você!",
+    "someoneRepliedToPost": "<1>username</1> respondeu ao seu post!",
+    "createAPostInputPlaceholder": "Criar um post...",
+    "replyInputPlaceholder": "Poste sua resposta...",
+    "replyButton": "Responder",
+    "createButton": "Criar"
+  }
+}
