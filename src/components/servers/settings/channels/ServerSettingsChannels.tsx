@@ -30,7 +30,7 @@ function ChannelItem(props: { channel: Channel }) {
   return (
     <CustomLink href={link} class={styles.channelItem}>
       <div class={styles.container}>
-        <ChannelIcon icon={props.channel.icon} hovered={true} />
+        <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={true} />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
         </Show>
@@ -73,7 +73,7 @@ function CategoryItem(props: { channel: Channel }) {
   return (
     <div class={styles.categoryItem}>
       <CustomLink href={link} class={styles.container}>
-        <ChannelIcon icon={props.channel.icon} isCategory hovered />
+        <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
         </Show>
@@ -124,7 +124,7 @@ function ChannelList() {
     <Sortable delayOnTouchOnly group='manage-channels' class={styles.channelList} onMove={onMove} onAdd={onAdd} onEnd={onEnd} setItems={setTemp} items={temp()} idField="id">
       {channel => (
         <Switch>
-          <Match when={channel.type === ChannelType.SERVER_TEXT}>
+          <Match when={channel.type !== ChannelType.CATEGORY}>
             <ChannelItem channel={channel!} />
           </Match>
           <Match when={channel.type === ChannelType.CATEGORY}>
@@ -204,8 +204,9 @@ function ContextMenuCreate(props: Omit<ContextMenuProps, "items">) {
 
   return (
     <ContextMenu {...props} items={[
-      { icon: 'textsms', label: "Text Channel", id: 1 },
-      { icon: 'segment', label: "Category", id: 2 },
+      { icon: 'textsms', label: "Text Channel", id: ChannelType.SERVER_TEXT },
+      { icon: 'segment', label: "Category", id: ChannelType.CATEGORY },
+      { icon: 'poll', label: "Vote Channel", id: ChannelType.VOTE },
     ]} />
   )
 }

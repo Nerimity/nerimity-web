@@ -1125,7 +1125,7 @@ function FloatingChannelSuggestions(props: { search: string, textArea?: HTMLText
   const { channels } = useStore();
 
 
-  const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!, true).filter(c => c?.type === ChannelType.SERVER_TEXT) as Channel[]);
+  const serverChannels = createMemo(() => channels.getChannelsByServerId(params.serverId!, true).filter(c => c?.type !== ChannelType.CATEGORY) as Channel[]);
   const searchedChannels = () => matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(0, 10);
 
 
@@ -1162,7 +1162,7 @@ function ChannelSuggestionItem(props: { onHover: () => void; selected: boolean; 
 
   return (
     <ItemContainer selected={props.selected} onmousemove={props.onHover} onclick={() => props.onclick(props.channel)} class={styles.suggestionItem}>
-      <ChannelIcon icon={props.channel.icon} hovered={props.selected} />
+      <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={props.selected} />
       <Show when={isPrivateChannel()}>
         <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
       </Show>

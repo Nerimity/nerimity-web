@@ -77,20 +77,25 @@ const ChannelIconImage = styled('img')`
 `;
 
 
-export const ChannelIcon = (props: { icon?: string; isCategory?: boolean; hovered?: boolean }) => {
+export const ChannelIcon = (props: { icon?: string; type?: ChannelType; hovered?: boolean }) => {
   const url = () => {
     if (props.icon!.includes(".")) {
       return `${env.NERIMITY_CDN}emojis/${props.icon}${!props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ''}`
     }
     return unicodeToTwemojiUrl(props.icon!);
   }
+  const iconName = () => {
+    if (props.type === ChannelType.CATEGORY) return 'segment';
+    if (props.type === ChannelType.VOTE) return 'poll';
+    if (props.type === ChannelType.DM_TEXT) return 'poll';
+  }
+
   return (
     <ChannelIconContainer>
-      <Show when={!props.icon && props.isCategory}>
-        <Icon name='segment' color='rgba(255,255,255,0.6)' size={18} />
-      </Show>
-      <Show when={!props.icon && !props.isCategory}>
-        <Text color='rgba(255,255,255,0.6)'>#</Text>
+      <Show when={!props.icon}>
+        <Show when={props.type !== ChannelType.SERVER_TEXT} fallback={<Text color='rgba(255,255,255,0.6)'>#</Text>}>
+          <Icon name={iconName()} color='rgba(255,255,255,0.6)' size={18} />
+        </Show>
       </Show>
       <Show when={props.icon}>
         <ChannelIconImage src={url()} />
@@ -149,7 +154,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
     <CategoryContainer onmouseenter={() => setHovered(true)} onmouseleave={() => setHovered(false)}>
 
       <CategoryItemContainer gap={5}>
-        <ChannelIcon icon={props.channel.icon} isCategory hovered={hovered()} />
+        <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={hovered()} />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
         </Show>
@@ -202,7 +207,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
       style={{ "text-decoration": "none" }}
     >
       <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
-        <ChannelIcon icon={props.channel.icon} hovered={hovered()} />
+        <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={hovered()} />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
         </Show>

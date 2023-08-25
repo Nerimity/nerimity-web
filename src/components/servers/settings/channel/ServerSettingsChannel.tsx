@@ -127,7 +127,7 @@ export default function ServerSettingsChannel() {
           <Button iconName='delete' onClick={() => setInputValue('icon', null)} iconSize={13} color='var(--alert-color)' />
         </Show>
         <Button iconName={inputValues().icon ? undefined : 'face'} iconSize={16} onClick={openChannelIconPicker} customChildren={inputValues().icon ?(
-          <ChannelIcon icon={inputValues().icon!} hovered/>
+          <ChannelIcon type={channel()?.type} icon={inputValues().icon!} hovered/>
         ) : undefined} />
         <Show when={emojiPickerPosition()}>
           <FloatingEmojiPicker  onClick={onIconPicked} {...emojiPickerPosition()!} close={() => setEmojiPickerPosition(null)} />
