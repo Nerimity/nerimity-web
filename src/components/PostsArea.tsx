@@ -410,7 +410,7 @@ function LikedUsers(props: { postId: string }) {
     <FlexColumn gap={3}>
       <For each={users()}>
         {user => (
-          <CustomLink href={RouterEndpoints.PROFILE(user.id)}>
+          <CustomLink href={RouterEndpoints.PROFILE(user.likedBy.id)}>
             <LikedUserContainer gap={10}>
               <Avatar user={user.likedBy} size={20} />
               <FlexRow style={{ "margin-right": "auto" }}>
