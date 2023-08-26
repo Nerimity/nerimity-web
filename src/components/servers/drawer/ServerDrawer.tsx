@@ -47,10 +47,7 @@ const ChannelList = () => {
     <div class={styles.channelList}>
       <For each={sortedServerChannels()}>
         {channel => (
-          <Switch>
-            <Match when={channel!.type === ChannelType.SERVER_TEXT}>
-              <ChannelItem channel={channel!} selected={params.channelId === channel!.id} />
-            </Match>
+          <Switch fallback={<ChannelItem channel={channel!} selected={params.channelId === channel!.id} />}>
             <Match when={channel!.type === ChannelType.CATEGORY}>
               <CategoryItem channel={channel!} selected={params.channelId === channel!.id} />
             </Match>

@@ -91,14 +91,12 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   }
 
   return (
-    <Rerun on={() => params.channelId}>
-      <div class={styles.messagePane}>
-        <MessageLogArea mainPaneEl={props.mainPaneEl} textAreaEl={textAreaEl()} />
-        <Show when={canSendMessage()}>
-          <MessageArea mainPaneEl={props.mainPaneEl} textAreaRef={setTextAreaEl} />
-        </Show>
-      </div>
-    </Rerun>
+    <div class={styles.messagePane}>
+      <MessageLogArea mainPaneEl={props.mainPaneEl} textAreaEl={textAreaEl()} />
+      <Show when={canSendMessage()}>
+        <MessageArea mainPaneEl={props.mainPaneEl} textAreaRef={setTextAreaEl} />
+      </Show>
+    </div>
   );
 }
 

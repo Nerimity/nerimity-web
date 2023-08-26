@@ -7,7 +7,7 @@ const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
 const ServerSettingsPane = lazy(() => import('@/components/servers/settings/settings-pane/ServerSettingsPane'));
 const SettingsDrawer = lazy(() => import('@/components/settings/SettingsDrawer'));
 const SettingsPane = lazy(() => import('@/components/settings/SettingsPane'));
-const MessagePane = lazy(() => import('@/components/message-pane/MessagePane'));
+const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
 const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
 const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
 const ExplorePane = lazy(() => import('@/components/explore/ExplorePane'));
@@ -175,8 +175,8 @@ function MainPane() {
         <Route path="/settings/*" component={SettingsPane} />
         <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
         <Route path="/explore/*" component={ExplorePane} />
-        <Route path="/servers/:serverId/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!} />} />
-        <Route path="/inbox/:channelId" component={() => <MessagePane mainPaneEl={mainPaneElement()!} />} />
+        <Route path="/servers/:serverId/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
+        <Route path="/inbox/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
         <Route path="/profile/:userId" component={ProfilePane} />
         <Route path="/moderation/*" component={ModerationPane} />
         <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />

@@ -1,0 +1,9 @@
+.voteChannelPaneContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.createButton {
+  align-self: flex-end;
+}
