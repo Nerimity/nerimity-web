@@ -83,8 +83,6 @@ export const ChannelIcon = (props: { icon?: string; type?: ChannelType; hovered?
   }
   const iconName = () => {
     if (props.type === ChannelType.CATEGORY) return 'segment';
-    if (props.type === ChannelType.VOTE) return 'poll';
-    if (props.type === ChannelType.DM_TEXT) return 'poll';
   }
 
   return (

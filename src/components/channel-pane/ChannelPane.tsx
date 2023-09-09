@@ -4,7 +4,6 @@ import { Rerun } from "@solid-primitives/keyed";
 import { useParams } from "@solidjs/router";
 import { Match, Switch } from "solid-js";
 import MessagePane from "../message-pane/MessagePane";
-import VoteChannelPane from "../vote-channel-pane/VoteChannelPane";
 
 const TextChannels = [ChannelType.DM_TEXT, ChannelType.SERVER_TEXT];
 
@@ -18,7 +17,6 @@ export default function ChannelPane(props: { mainPaneEl: HTMLDivElement }) {
     <Rerun on={() => params.channelId}>
       <Switch>
         <Match when={TextChannels.includes(channel()?.type!)}><MessagePane {...props} /></Match>
-        <Match when={channel()?.type! === ChannelType.VOTE}><VoteChannelPane /></Match>
       </Switch>
 
     </Rerun>

@@ -206,7 +206,6 @@ function ContextMenuCreate(props: Omit<ContextMenuProps, "items">) {
     <ContextMenu {...props} items={[
       { icon: 'textsms', label: "Text Channel", id: ChannelType.SERVER_TEXT },
       { icon: 'segment', label: "Category", id: ChannelType.CATEGORY },
-      { icon: 'poll', label: "Vote Channel", id: ChannelType.VOTE },
     ]} />
   )
 }
