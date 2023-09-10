@@ -1,7 +1,7 @@
 import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, ModerationStats, ModerationSuspension, ModerationUser, updateServer, updateUser } from '@/chat-api/services/ModerationService';
+import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, ModerationStats, ModerationSuspension, ModerationUser, searchUsers, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link, Route, Routes, useParams } from '@solidjs/router';
@@ -211,6 +211,7 @@ function UsersPane() {
   const [users, setUsers] = createSignal<RawUser[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+  const [search, setSearch] = createSignal('');
 
   const [showAll, setShowAll] = createSignal(false);
 
@@ -225,13 +226,10 @@ function UsersPane() {
   })
 
   createEffect(on(afterId, async () => {
-    setLoadMoreClicked(true);
-    getUsers(LIMIT, afterId())
-      .then(newUsers => {
-        setUsers([...users(), ...newUsers])
-        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
-      })
-      .catch(() => setLoadMoreClicked(false))
+    if (search() && afterId()) {
+      return fetchSearch();
+    }
+    fetchUsers();
   }));
 
   const onLoadMoreClick = () => {
@@ -241,8 +239,47 @@ function UsersPane() {
 
   const firstFive = () => users().slice(0, 5);
 
+  let timeout: number | null = null;
+  const onSearchText = (text: string) => {
+    setSearch(text);
+    timeout && clearTimeout(timeout);
+    timeout = window.setTimeout(() => {
+      setAfterId(undefined);
+      setUsers([]);
+      if (!search().trim()) {
+        fetchUsers();
+        return;
+      }
+      setShowAll(true);
+      fetchSearch();
+    }, 1000);
+  }
+  
+  const fetchSearch = () => {
+    setLoadMoreClicked(true);
+    searchUsers(search(), LIMIT, afterId())
+      .then(newUsers => {
+        setUsers([...users(), ...newUsers])
+        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false))
+  }
+
+  const fetchUsers = () => {
+    setLoadMoreClicked(true);
+    getUsers(LIMIT, afterId())
+      .then(newUsers => {
+        setUsers([...users(), ...newUsers])
+        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false))
+  }
+
+
+
   return (
     <UserPaneContainer class="pane users">
+      <Input placeholder="Search" margin={[0, 0, 10, 30]} onText={onSearchText} value={search()}  />
       <FlexRow gap={5} itemsCenter>
         <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
         <Text>Registered Users</Text>

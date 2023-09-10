@@ -32,6 +32,20 @@ export const getUsers = async (limit: number, afterId?: string) => {
   return data;
 };
 
+export const searchUsers = async (query: string, limit: number, afterId?: string) => {
+  const data = await request<any[]>({
+    method: 'GET',
+    params: {
+      q: query,
+      ...(afterId ? {after: afterId} : undefined),
+      limit
+    },
+    url: env.SERVER_URL + "/api/moderation/users/search",
+    useToken: true,
+  });
+  return data;
+};
+
 export const deleteServer = async (serverId: string, confirmPassword: string) => {
   const data = await request<any[]>({
     method: 'DELETE',
