@@ -31,6 +31,18 @@ export const getUsers = async (limit: number, afterId?: string) => {
   });
   return data;
 };
+export const getUsersWithSameIPAddress = async (userId: string, limit: number, afterId?: string) => {
+  const data = await request<any[]>({
+    method: 'GET',
+    params: {
+      ...(afterId ? {after: afterId} : undefined),
+      limit
+    },
+    url: env.SERVER_URL + `/api/moderation/users/${userId}/users-with-same-ip`,
+    useToken: true,
+  });
+  return data;
+};
 
 export const searchUsers = async (query: string, limit: number, afterId?: string) => {
   const data = await request<any[]>({

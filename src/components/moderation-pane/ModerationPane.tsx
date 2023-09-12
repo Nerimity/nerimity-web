@@ -1,7 +1,7 @@
 import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, ModerationStats, ModerationSuspension, ModerationUser, searchUsers, updateServer, updateUser } from '@/chat-api/services/ModerationService';
+import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, getUsersWithSameIPAddress, ModerationStats, ModerationSuspension, ModerationUser, searchUsers, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
 import { Link, Route, Routes, useParams } from '@solidjs/router';
@@ -646,9 +646,9 @@ function UserPage() {
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
 
-  onMount(() => {
+  createEffect(on(() => params.userId, () => {
     getUser(params.userId).then(setUser)
-  })
+  }))
 
   const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
   const onSaveButtonClicked = async () => {
@@ -686,7 +686,7 @@ function UserPage() {
 
 
   return (
-    <Show when={user()}>
+    <Show when={user()} keyed>
       <UserPageContainer>
         <UserPageInnerContainer>
           <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={200} animate url={bannerUrl(user()!)} hexColor={user()!.hexColor}>
@@ -721,7 +721,7 @@ function UserPage() {
               }
             </For>
           </FlexColumn>
-          <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
+          <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px", "margin-top": "5px" }}>Change Password</ChangePasswordButton>
 
           <Show when={showChangePassword()}>
             <SettingsBlock icon='password' label='New Password' description='Changing the password will log them out everywhere.'>
@@ -739,6 +739,8 @@ function UserPage() {
             <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
           </Show>
 
+          <UsersWithSameIPAddress userId={user()?.id!}/>
+
         <Show when={user()}>
           <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
         </Show>
@@ -746,6 +748,33 @@ function UserPage() {
         </UserPageInnerContainer>
       </UserPageContainer>
     </Show>
+  )
+}
+
+const UsersWithSameIPAddressContainer = styled(FlexColumn)`
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 10px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding: 5px;
+`
+
+const UsersWithSameIPAddress = (props: {userId: string}) => {
+  const [users, setUsers] = createSignal<ModerationUser[]>([]);
+  
+  onMount(() => {
+    getUsersWithSameIPAddress(props.userId, 30).then(setUsers)
+  })
+
+  return (
+    <FlexColumn>
+      <SettingsBlock icon="dns" header label="Users With Same IP Address"  />
+      <UsersWithSameIPAddressContainer>
+      <For each={users()}>
+        {user => <User user={user} />}
+      </For>
+      </UsersWithSameIPAddressContainer>
+    </FlexColumn>
   )
 }
 
