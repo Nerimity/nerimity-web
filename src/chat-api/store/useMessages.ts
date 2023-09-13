@@ -17,7 +17,7 @@ export enum MessageSentStatus {
 export type Message = RawMessage & {
   tempId?: string;
   sentStatus?: MessageSentStatus;
-  uploadingAttachment?: File;
+  uploadingAttachment?: {file: File, progress: number};
 }
 
 const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});
@@ -114,6 +114,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const user = account.user();
   if (!user) return;
 
+  
   const localMessage: Message = {
     id: "",
     tempId: tempMessageId,
@@ -122,7 +123,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     createdAt: Date.now(),
     sentStatus: MessageSentStatus.SENDING,
     type: MessageType.CONTENT,
-    uploadingAttachment: properties?.attachment,
+    ...(!properties?.attachment ? undefined : {uploadingAttachment: {file: properties.attachment, progress: 0}}),
     reactions: [],
     quotedMessages: [],
     createdBy: {
@@ -134,18 +135,43 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       avatar: user.avatar
     },
   };
-
+  
   !properties?.moreBottomToLoad && setMessages({
     [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
   })
+  if (properties?.attachment && properties.attachment.size > 12 * 1024 * 1024) {
+    pushMessage(channelId, {
+      channelId: channelId,
+      createdAt: Date.now(),
+      createdBy: {
+        username: 'Nerimity',
+        tag: "owo",
+        badges: 0,
+        hexColor: '0',
+        id: "0",
+      },
+      reactions: [],
+      quotedMessages: [],
+      id: Math.random().toString(),
+      type: MessageType.CONTENT,
+      content: "This message couldn't be sent. Try again later. ```Error\nMax file size is 12MB.```"
+    })
 
-
+    return;
+  }
+  
+  const onUploadProgress = (percent: number) => {
+    const messageIndex = messages[channelId]!.findIndex(m => m.tempId === tempMessageId);
+    if (messageIndex === -1) return;
+    setMessages(channelId, messageIndex, 'uploadingAttachment', 'progress', percent);
+  }
 
   const message: void | Message = await postMessage({
     content,
     channelId,
     socketId: socketClient.id(),
-    attachment: properties?.attachment
+    attachment: properties?.attachment,
+    onUploadProgress
   }).catch((err) => {
     console.log(err);
     pushMessage(channelId, {

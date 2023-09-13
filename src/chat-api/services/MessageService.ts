@@ -1,6 +1,6 @@
 import env from '../../common/env';
 import { RawAttachment, RawMessage, RawUser } from '../RawData';
-import { request } from './Request';
+import { request, xhrRequest } from './Request';
 import Endpoints from './ServiceEndpoints';
 
 
@@ -46,6 +46,7 @@ interface PostMessageOpts {
   channelId: string;
   socketId?: string;
   attachment?: File
+  onUploadProgress?: (progress: number) => void
 }
 
 export const postMessage = async (opts: PostMessageOpts) => {
@@ -63,6 +64,15 @@ export const postMessage = async (opts: PostMessageOpts) => {
     }
     fd.append('attachment', opts.attachment);
     body = fd;
+
+    const data = await xhrRequest<RawMessage>({
+      method: 'POST',
+      url: env.SERVER_URL + "/api" + Endpoints.messages(opts.channelId),
+      useToken: true,
+      body
+    }, opts.onUploadProgress)
+
+    return data;
   }
 
   const data = await request<RawMessage>({

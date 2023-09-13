@@ -165,6 +165,9 @@ const MessageItem = (props: MessageItemProps) => {
           <div class={styles.messageInner}>
             <Show when={!isCompact()}><Details /></Show>
             <Content message={props.message} hovered={hovered()} />
+            <Show when={props.message.uploadingAttachment}>
+              <UploadAttachment message={props.message} />
+            </Show>
             <Show when={props.message.reactions?.length}><Reactions textAreaEl={props.textAreaEl} reactionPickerClick={props.reactionPickerClick} hovered={hovered()} message={props.message} /></Show>
           </div>
         </Match>
@@ -179,13 +182,34 @@ const Content = (props: { message: Message, hovered: boolean }) => {
   return (
     <div class={styles.content}>
       <Markup message={props.message} text={props.message.content || ''} />
-      <Show when={props.message.uploadingAttachment}>
-        Uploading {props.message.uploadingAttachment?.name}
+      <Show when={!props.message.uploadingAttachment || props.message.content?.trim()}>
+        <SentStatus message={props.message} />
       </Show>
-      <SentStatus message={props.message} />
       <Embeds {...props} />
     </div>
   )
+}
+
+
+const UploadAttachment = (props: { message: Message }) => {
+  const attachment = () => props.message.uploadingAttachment!;
+  return (
+    <div class={styles.uploadProgress}>
+      <div class={styles.name}>{attachment().file.name}</div>
+      <div class={styles.size}>{prettyBytes(attachment().file.size, 0)}</div>
+      <div class={styles.progressBarContainer}>
+        <div class={styles.currentProgress} style={{width: attachment().progress + "%"}}></div>
+      </div>
+    </div>
+  )
+}
+
+const prettyBytes = (num: number, precision = 3, addSpace = true) => {
+  const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  if (Math.abs(num) < 1) return num + (addSpace ? ' ' : '')
+  const exponent = Math.min(Math.floor(Math.log10(num) / Math.log10(1024)), UNITS.length - 1);
+  const n = Number(((num < 0 ? -1 : 1) * num) / Math.pow(1024, exponent));
+  return (num < 0 ? '-' : '') + n.toFixed(precision) + ' ' + UNITS[exponent];
 }
 
 

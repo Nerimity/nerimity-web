@@ -187,7 +187,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         <Input class={css`width: 52px;`} value={inputValues().tag} onText={(v) => setInputValue('tag', v)} />
       </SettingsBlock>
 
-      <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP'>
+      <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick} />
         <Show when={inputValues().avatar}>
           <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); setInputValue("avatarPoints", null); props.updateHeader({ avatar: undefined, avatarPoints: undefined }); }} />
@@ -195,7 +195,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
       </SettingsBlock>
 
-      <SettingsBlock icon='panorama' label='Banner' description='Supported: JPG, PNG, GIF, WEBP'>
+      <SettingsBlock icon='panorama' label='Banner' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick} />
         <Show when={inputValues().banner}>
           <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); props.updateHeader({ banner: undefined }); }} />

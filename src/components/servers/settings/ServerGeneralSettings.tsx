@@ -146,7 +146,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
         <DropDown items={dropDownSystemChannels()} selectedId={inputValues().systemChannelId} />
       </SettingsBlock>
 
-      <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP'>
+      <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick} />
         <Show when={inputValues().avatar}>
           <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); props.updateHeader({ avatar: undefined }); }} />
@@ -154,7 +154,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
       </SettingsBlock>
 
-      <SettingsBlock icon='panorama' label='Banner' description='Supported: JPG, PNG, GIF, WEBP'>
+      <SettingsBlock icon='panorama' label='Banner' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick} />
         <Show when={inputValues().banner}>
           <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); props.updateHeader({ banner: undefined }); }} />
