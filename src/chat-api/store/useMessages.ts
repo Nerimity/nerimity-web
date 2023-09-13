@@ -154,9 +154,10 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       quotedMessages: [],
       id: Math.random().toString(),
       type: MessageType.CONTENT,
-      content: "This message couldn't be sent. Try again later. ```Error\nMax file size is 12MB.```"
+      content: "This message couldn't be sent. Try again later. ```Error\nMax file size is 12MB.\nbody: " + content  + "```"
     })
-
+    const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
+    setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
     return;
   }
   
@@ -188,7 +189,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       quotedMessages: [],
       id: Math.random().toString(),
       type: MessageType.CONTENT,
-      content: "This message couldn't be sent. Try again later. ```Error\n" + err.message + "```"
+      content: "This message couldn't be sent. Try again later. ```Error\n" + err.message + "\nbody: " + content  + "```"
     })
   });
 
