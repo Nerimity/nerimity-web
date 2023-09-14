@@ -69,11 +69,11 @@ const loadAroundAndStoreMessages = async (channelId: string, aroundMessageId: st
 }
 
 function sliceEnd(arr: any[]) {
-  return arr.slice(0, env.MESSAGE_LIMIT * 4);
+  return arr.slice(0, env.MESSAGE_LIMIT * 2);
 }
 
 function sliceBeginning(arr: any[]) {
-  return arr.slice(-(env.MESSAGE_LIMIT * 4), arr.length);
+  return arr.slice(-(env.MESSAGE_LIMIT * 2), arr.length);
 }
 
 
