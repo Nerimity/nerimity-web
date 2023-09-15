@@ -70,13 +70,14 @@ export const deleteServer = async (serverId: string, confirmPassword: string) =>
   return data;
 }
 
-export const suspendUsers = async (confirmPassword: string, userIds: string[], days: number, reason?: string) => {
+export const suspendUsers = async (confirmPassword: string, userIds: string[], days: number, reason?: string, ipBan?: boolean) => {
   const data = await request<any[]>({
     method: 'POST',
     body: {
       userIds,
       days,
       reason,
+      ipBan,
       password: confirmPassword
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",

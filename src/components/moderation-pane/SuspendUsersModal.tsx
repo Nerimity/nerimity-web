@@ -7,6 +7,7 @@ import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
 import Modal from "../ui/Modal";
 import Text from "../ui/Text";
+import Checkbox from "../ui/Checkbox";
 
 
 const SuspendUsersContainer = styled("div")`
@@ -37,6 +38,8 @@ export default function SuspendUsersModal({users, close, done}: Props) {
   const [error, setError] = createSignal<{message: string, path?: string} | null>(null);
   const [suspending, setSuspending] = createSignal(false);
 
+  const [ipBan, setIpBan] = createSignal(false);
+
   createEffect(() => {
     let round = Math.round(parseInt(suspendFor()));
     round < 0 && (round = 0);
@@ -55,7 +58,7 @@ export default function SuspendUsersModal({users, close, done}: Props) {
       reason: reason() || undefined
     }
 
-    suspendUsers(password(), userIds, parseInt(suspendFor()), reason() || undefined)
+    suspendUsers(password(), userIds, parseInt(suspendFor()), reason() || undefined, ipBan())
       .then(() => {done(preview); close();})
       .catch(err => setError(err))
       .finally(() => setSuspending(false))
@@ -78,7 +81,15 @@ export default function SuspendUsersModal({users, close, done}: Props) {
           <Text style={{"margin-top": "45px"}}>Day(s)</Text>
         </FlexRow>
         <Text size={12} opacity={0.7}>0 days will suspend them indefinitely</Text>
+
+        <div style={{"margin-top": "10px", "margin-bottom": "10px"}}>
+          <Checkbox  checked={ipBan()} onChange={setIpBan} label="Also IP ban for a week" />
+        </div>
+
+
         <Input label="Confirm Password" type="password" value={password()} onText={setPassword} />
+
+
         <Show when={error()}>
           <Text color="var(--alert-color)" size={12}>{error()?.message}</Text>
         </Show>
