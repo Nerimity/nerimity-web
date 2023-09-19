@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "lokalise.i18n-ally",
-    "styled-components.vscode-styled-components"
+    "styled-components.vscode-styled-components",
+    "pranaygp.vscode-css-peek"
   ]
 }
