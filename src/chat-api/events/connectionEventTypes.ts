@@ -43,4 +43,5 @@ export interface SelfUser {
   customStatus?: string;
   orderedServerIds: string[]
   dmStatus: DmStatus
+  emailConfirmed: boolean
 }

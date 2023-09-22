@@ -2,6 +2,7 @@ import { css, styled } from "solid-styled-components";
 import { FlexRow } from "./Flexbox";
 import Icon from "./icon/Icon";
 import Text from "./Text";
+import { JSX } from "solid-js";
 
 const NoticeContainer = styled(FlexRow)<{bgColor: string, borderColor: string}>`
   background: ${props => props.bgColor};
@@ -38,6 +39,7 @@ interface NoticeProps {
   class?: string;
   description: string;
   type: keyof typeof noticeType;
+  children?: JSX.Element
 }
 
 export function Notice(props: NoticeProps) {
@@ -46,6 +48,7 @@ export function Notice(props: NoticeProps) {
     <NoticeContainer gap={10} class={props.class} bgColor={typeMeta.color} borderColor={typeMeta.borderColor} >
       <Icon color={typeMeta.borderColor} class={css`align-self: start;`} size={24} name={typeMeta.icon} />
       <Text size={13}>{props.description}</Text>
+      {props.children}
     </NoticeContainer>
   )
 }

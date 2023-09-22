@@ -49,6 +49,7 @@ import { createDesktopNotification } from '@/common/desktopNotification';
 import { useMutationObserver, useResizeObserver } from '@/common/useResizeObserver';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
+import RouterEndpoints from '@/common/RouterEndpoints';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -75,8 +76,12 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
     }
   })
 
+  const isServerAndEmailNotConfirmed = () => channel()?.serverId && !account.user()?.emailConfirmed
 
   const canSendMessage = () => {
+    if (isServerAndEmailNotConfirmed()) {
+      return false;
+    } 
     if (!channel()?.serverId) return true;
     const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
     if (!member) return false;
@@ -93,11 +98,27 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   return (
     <div class={styles.messagePane}>
       <MessageLogArea mainPaneEl={props.mainPaneEl} textAreaEl={textAreaEl()} />
+
+      <Show when={isServerAndEmailNotConfirmed()}>
+        <EmailUnconfirmedNotice />
+      </Show>
+
       <Show when={canSendMessage()}>
         <MessageArea mainPaneEl={props.mainPaneEl} textAreaRef={setTextAreaEl} />
       </Show>
     </div>
   );
+}
+
+const EmailUnconfirmedNotice = () => {
+  return (
+    <div class={styles.emailUnconfirmedNotice}>
+      <div class={styles.text}>Confirm your email to send messages.</div>
+      <A href="/app/settings/account">
+        <Button label='Confirm' primary />
+      </A>
+    </div>
+  )
 }
 
 const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement, element: "first" | "last") => {

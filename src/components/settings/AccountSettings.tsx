@@ -6,7 +6,7 @@ import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
-import { deleteAccount, getUserDetailsRequest, updateUser, UserDetails } from '@/chat-api/services/UserService';
+import { deleteAccount, getUserDetailsRequest, sendEmailConfirmCode, updateUser, UserDetails, verifyEmailConfirmCode } from '@/chat-api/services/UserService';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
@@ -19,6 +19,8 @@ import DeleteConfirmModal from '../ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import useServers from '@/chat-api/store/useServers';
 import Modal from '../ui/Modal';
+import { FlexColumn, FlexRow } from '../ui/Flexbox';
+import { Notice } from '../ui/Notice';
 
 const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"))
 
@@ -125,6 +127,9 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
           setStorageString(StorageKeys.USER_TOKEN, res.newToken);
           socketClient.updateToken(res.newToken);
         }
+        if (values.email && values.email !== account.user()?.email) {
+          account.setUser({emailConfirmed: false})
+        }
         setShowResetPassword(false)
         setInputValue("password", '')
         setInputValue("newPassword", '')
@@ -138,7 +143,6 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         setError(err.message)
       })
       .finally(() => setRequestSent(false))
-
   }
 
   const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
@@ -175,9 +179,14 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
 
   return (
     <>
-      <SettingsBlock icon='email' label='Email'>
+      <Show when={account.user() && !account.user()?.emailConfirmed}>
+        <ConfirmEmailNotice/>
+      </Show>
+      <SettingsBlock class={css`position: relative; z-index: 111;`} icon='email' label='Email'>
         <Input value={inputValues().email} onText={(v) => setInputValue('email', v)} />
       </SettingsBlock>
+
+
 
       <SettingsBlock icon='face' label='Username'>
         <Input value={inputValues().username} onText={(v) => setInputValue('username', v)} />
@@ -371,5 +380,110 @@ function EditProfilePage() {
         <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
       </Show>
     </>
+  )
+}
+
+
+let lastConfirmClickedTime: number | null = null;
+
+const ConfirmEmailNotice = () => {
+  const [now, setNow] = createSignal(Date.now());
+  const {createPortal} = useCustomPortal();
+
+  onMount(() => {
+    const timerId = setInterval(() => {
+      setNow(Date.now())
+    }, 1000)
+    onCleanup(() => {
+      clearInterval(timerId)
+    })
+  })
+
+  const remainingTimeInSeconds = () => {
+    const n = now()
+    if (!lastConfirmClickedTime) return 0;
+    const time = (60 -(n - lastConfirmClickedTime) / 1000);
+    if (time < 0) return 0;
+    return Math.round(time);
+  }
+
+  const onSendCodeClick = async () => {
+    if (remainingTimeInSeconds()) {
+      return;
+    }
+    lastConfirmClickedTime = Date.now();
+    setNow(Date.now())
+    
+    const res = await sendEmailConfirmCode().catch(err => {
+      const ttl = err.ttl
+      if (!ttl) return;
+      lastConfirmClickedTime = Date.now() - (60000 - ttl);
+      setNow(Date.now())
+    })
+    if (!res) return;
+    
+    lastConfirmClickedTime = Date.now();
+    setNow(Date.now())
+
+    createPortal(close => <ConfirmEmailModal message={res.message} close={close}/>)
+  
+  }
+
+  return (
+    <Notice 
+      type='warn' 
+      description='Confirm your email'
+      class={css`margin-bottom: 10px;`} 
+    >
+      <div style={{"margin-left": 'auto'}}></div>
+      <Button 
+        label={remainingTimeInSeconds() ? `Resend in ${remainingTimeInSeconds()}` : 'Send Code'} 
+        primary 
+        margin={0} 
+        onClick={onSendCodeClick} 
+      />
+    </Notice>
+  )
+}
+
+const ConfirmEmailModal = (props: {close():void, message: string}) => {
+  const {account} = useStore();
+  const [code, setCode] = createSignal('');
+  const [errorMessage, setErrorMessage] = createSignal('');
+
+  const confirmClicked = async () => {
+    setErrorMessage('')
+    const res = await verifyEmailConfirmCode(code()).catch(err => {
+      setErrorMessage(err.message);
+    })
+    if (res?.status) {
+      props.close();
+      account.setUser({emailConfirmed: true});
+    }
+  }
+
+  const actionButtons = (
+    <FlexRow style={{flex: 1}}>
+      <Button onClick={props.close} styles={{flex: 1}} iconName='close' label='Cancel' color='var(--alert-color)' />
+      <Button styles={{flex: 1}} iconName='check' label='Confirm' onClick={confirmClicked} primary />
+    </FlexRow>
+  );
+  
+
+  return (
+    <Modal ignoreBackgroundClick title='Confirm Email' close={props.close} actionButtons={actionButtons}>
+      <FlexColumn class={css`align-items: center; margin: 10px;`} gap={10}>
+        <Text color='var(--success-color)'>{props.message}</Text>
+        <Text size={14}>Enter the 5 digit code sent to your email:</Text>
+
+        <Input 
+          value={code()}
+          onText={setCode}
+          placeholder='_ _ _ _ _' 
+          class={css`width: 140px; input {font-size: 30px;}`} 
+        />
+      </FlexColumn>
+
+    </Modal>
   )
 }

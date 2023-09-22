@@ -6,6 +6,25 @@ import ServiceEndpoints from "./ServiceEndpoints";
 
 
 
+
+export async function sendEmailConfirmCode(): Promise<{message: string}> {
+  return request({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("emails/verify/send-code"),
+    method: "POST",
+    useToken: true
+  });
+}
+export async function verifyEmailConfirmCode(code: string): Promise<{status: boolean}> {
+  return request({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("emails/verify"),
+    params: {code},
+    method: "POST",
+    useToken: true
+  });
+}
+
+
+
 // Returns {token}
 // error returns {path?, message}
 export async function loginRequest(email: string, password: string): Promise<{token: string}> {
