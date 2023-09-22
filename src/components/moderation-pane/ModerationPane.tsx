@@ -639,6 +639,7 @@ function UserPage() {
     username: user()?.username || '',
     tag: user()?.tag || '',
     badges: user()?.badges || 0,
+    emailConfirmed: user()?.account?.emailConfirmed || false,
     newPassword: '',
     password: ''
   })
@@ -704,6 +705,11 @@ function UserPage() {
           <SettingsBlock label="Email" icon="email">
             <Input value={inputValues().email} onText={v => setInputValue('email', v)} />
           </SettingsBlock>
+
+          <SettingsBlock label="Email Confirmed">
+            <Checkbox checked={inputValues().emailConfirmed} onChange={checked => setInputValue("emailConfirmed", checked)} />
+        </SettingsBlock>
+
           <SettingsBlock label="Username" icon="face">
             <Input value={inputValues().username} onText={v => setInputValue('username', v)} />
           </SettingsBlock>

@@ -130,7 +130,7 @@ export const getOnlineUsers = async () => {
 
 
 export type  ModerationUser = RawUser & {
-  account: {email: string}
+  account: {email: string; emailConfirmed?: boolean}
   suspension?: ModerationSuspension
 }
 
