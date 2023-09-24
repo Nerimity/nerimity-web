@@ -28,6 +28,8 @@ import env from '@/common/env';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { DangerousLinkModal } from '@/components/ui/DangerousLinkModal';
 import { useResizeObserver } from '@/common/useResizeObserver';
+import { ServerWithMemberCount, serverDetailsByInviteCode } from '@/chat-api/services/ServerService';
+import { ServerVerifiedIcon } from '@/components/servers/ServerVerifiedIcon';
 
 
 interface FloatingOptionsProps {
@@ -278,14 +280,73 @@ export default MessageItem;
 
 
 
+const inviteLinkRegex = new RegExp(
+  `${env.APP_URL}/i/([\\S]+)`
+);
+
 function Embeds(props: { message: Message, hovered: boolean }) {
+  
+  const inviteEmbedCode = () => props.message.content?.match(inviteLinkRegex)?.[1];
+  
+
   return (
     <div class={styles.embeds}>
-      <Show when={props.message.embed}>
-        <OGEmbed message={props.message} />
+      <Show when={inviteEmbedCode()}>
+        {code => <ServerInviteEmbed code={code()} />}
       </Show>
       <Show when={props.message.attachments?.[0]}>
         <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
+      </Show>
+      <Show when={props.message.embed}>
+        <OGEmbed message={props.message} />
+      </Show>
+    </div>
+  )
+}
+
+
+
+const inviteCache = new Map<string, ServerWithMemberCount | false>();
+
+
+function ServerInviteEmbed(props: { code: string }) {
+  const {servers} = useStore();
+  const [invite, setInvite] = createSignal<ServerWithMemberCount | null | false>(null);
+  
+  onMount(async () => {
+    if (inviteCache.has(props.code)) return setInvite(inviteCache.get(props.code)!);
+    const invite = await serverDetailsByInviteCode(props.code).catch(() => {});
+    setInvite(invite || false);
+    inviteCache.set(props.code, invite || false);
+  })
+
+  const isJoined = () => {
+    const _invite = invite();
+    if (!_invite) return;
+    return servers.get(_invite.id);
+  }
+
+
+  return (
+    <div class={styles.serverInviteEmbed}>
+      <Show when={invite()} fallback={<div class={styles.serverInviteLoading}><Icon name='error' color='var(--alert-color)' />{invite() === false ? "Invalid Invite Code" : "Loading Invite..."}</div>}>
+        {invite => (
+        <>
+         <Avatar server={invite()} size={40} />
+         <div class={styles.serverInfo}>
+          <div class={styles.serverName}>
+            <span class={styles.serverNameOnly}>{invite()?.name} asdasd dfg fgh hghj ghj ghj hgj ghjghj</span>
+            <Show when={!invite().verified}><ServerVerifiedIcon /></Show>
+          </div>
+          
+          <div class={styles.serverMemberCount}>
+            <Icon name='people' size={14} color='var(--primary-color)' />
+            {invite().memberCount} member(s)
+          </div>
+         </div>
+         <Button label={isJoined() ? 'Visit' : 'Join'} iconName='login' />
+         </>
+        )}
       </Show>
     </div>
   )
