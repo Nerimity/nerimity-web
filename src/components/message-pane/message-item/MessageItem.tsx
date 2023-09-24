@@ -314,6 +314,7 @@ function ServerInviteEmbed(props: { code: string }) {
   const {servers} = useStore();
   const [invite, setInvite] = createSignal<ServerWithMemberCount | null | false>(null);
   const [joining, setJoining] = createSignal(false);
+  const [hovered, setHovered] = createSignal(false);
   
   onMount(async () => {
     if (inviteCache.has(props.code)) return setInvite(inviteCache.get(props.code)!);
@@ -349,11 +350,11 @@ function ServerInviteEmbed(props: { code: string }) {
 
 
   return (
-    <div class={styles.serverInviteEmbed}>
+    <div class={styles.serverInviteEmbed} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Show when={invite()} fallback={<div class={styles.serverInviteLoading}><Show when={invite() === false}><Icon name='error' color='var(--alert-color)' /></Show>{invite() === false ? "Invalid Invite Code" : "Loading Invite..."}</div>}>
         {invite => (
         <>
-         <Avatar server={invite()} size={40} />
+         <Avatar server={invite()} size={40} animate={hovered()} showBorder />
          <div class={styles.serverInfo}>
           <div class={styles.serverName}>
             <span class={styles.serverNameOnly}>{invite()?.name}</span>

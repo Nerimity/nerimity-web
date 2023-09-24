@@ -17,6 +17,7 @@ interface Props {
   server?: { avatar?: string, hexColor: string, verified: boolean; };
   borderColor?: string;
   children?: JSXElement;
+  showBorder?: boolean
 }
 
 interface ServerOrUser {
@@ -50,7 +51,7 @@ export default function Avatar(props: Props) {
       <Show when={props.borderColor}>
         <BasicBorder size={props.size} color={props.borderColor!} label=''  />
       </Show>
-      <AvatarBorder size={props.size} hovered={props.animate} serverOrUser={serverOrUser()} />
+      <AvatarBorder size={props.size} hovered={props.animate || props.showBorder} serverOrUser={serverOrUser()} />
       <div class={styles.imageContainer}>
         <Show when={!url()}>
           <div class={styles.avatarBackground} style={{background: serverOrUser().hexColor}} />
