@@ -7,7 +7,7 @@ import { MessageType, RawMessage, RawMessageReaction, RawUser } from '@/chat-api
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useNavigate, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
@@ -28,7 +28,7 @@ import env from '@/common/env';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { DangerousLinkModal } from '@/components/ui/DangerousLinkModal';
 import { useResizeObserver } from '@/common/useResizeObserver';
-import { ServerWithMemberCount, serverDetailsByInviteCode } from '@/chat-api/services/ServerService';
+import { ServerWithMemberCount, joinPublicServer, joinServerByInviteCode, serverDetailsByInviteCode } from '@/chat-api/services/ServerService';
 import { ServerVerifiedIcon } from '@/components/servers/ServerVerifiedIcon';
 
 
@@ -310,8 +310,10 @@ const inviteCache = new Map<string, ServerWithMemberCount | false>();
 
 
 function ServerInviteEmbed(props: { code: string }) {
+  const navigate = useNavigate();
   const {servers} = useStore();
   const [invite, setInvite] = createSignal<ServerWithMemberCount | null | false>(null);
+  const [joining, setJoining] = createSignal(false);
   
   onMount(async () => {
     if (inviteCache.has(props.code)) return setInvite(inviteCache.get(props.code)!);
@@ -320,22 +322,41 @@ function ServerInviteEmbed(props: { code: string }) {
     inviteCache.set(props.code, invite || false);
   })
 
-  const isJoined = () => {
+  const cachedServer = () => {
     const _invite = invite();
     if (!_invite) return;
     return servers.get(_invite.id);
   }
 
+  createEffect(() => {
+    if (joining() && cachedServer()) {
+      navigate(RouterEndpoints.SERVER_MESSAGES(cachedServer()!.id, cachedServer()!.defaultChannelId));
+    }
+  })
+
+  const joinOrVisitServer = () => {
+    const _invite = invite();
+    if (!_invite) return;
+    if (cachedServer()) return navigate(RouterEndpoints.SERVER_MESSAGES(_invite.id, _invite.defaultChannelId));
+
+    if (joining()) return;
+    setJoining(true);
+
+    joinServerByInviteCode(props.code).catch((err) => {
+      alert(err.message)
+    }).finally(() => setJoining(false))
+  }
+
 
   return (
     <div class={styles.serverInviteEmbed}>
-      <Show when={invite()} fallback={<div class={styles.serverInviteLoading}><Icon name='error' color='var(--alert-color)' />{invite() === false ? "Invalid Invite Code" : "Loading Invite..."}</div>}>
+      <Show when={invite()} fallback={<div class={styles.serverInviteLoading}><Show when={invite() === false}><Icon name='error' color='var(--alert-color)' /></Show>{invite() === false ? "Invalid Invite Code" : "Loading Invite..."}</div>}>
         {invite => (
         <>
          <Avatar server={invite()} size={40} />
          <div class={styles.serverInfo}>
           <div class={styles.serverName}>
-            <span class={styles.serverNameOnly}>{invite()?.name} asdasd dfg fgh hghj ghj ghj hgj ghjghj</span>
+            <span class={styles.serverNameOnly}>{invite()?.name}</span>
             <Show when={!invite().verified}><ServerVerifiedIcon /></Show>
           </div>
           
@@ -344,7 +365,7 @@ function ServerInviteEmbed(props: { code: string }) {
             {invite().memberCount} member(s)
           </div>
          </div>
-         <Button label={isJoined() ? 'Visit' : 'Join'} iconName='login' />
+         <Button label={joining() ? 'Joining...' : cachedServer() ? 'Visit' : 'Join'} iconName='login' onClick={joinOrVisitServer} />
          </>
         )}
       </Show>
