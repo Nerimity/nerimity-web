@@ -357,7 +357,7 @@ function ServerInviteEmbed(props: { code: string }) {
          <div class={styles.serverInfo}>
           <div class={styles.serverName}>
             <span class={styles.serverNameOnly}>{invite()?.name}</span>
-            <Show when={!invite().verified}><ServerVerifiedIcon /></Show>
+            <Show when={invite().verified}><ServerVerifiedIcon /></Show>
           </div>
           
           <div class={styles.serverMemberCount}>
