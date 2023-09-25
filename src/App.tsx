@@ -15,6 +15,7 @@ const AppPage = lazy(() => import('./pages/AppPage'));
 
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
+const GoogleRedirectLinkAccount = lazy(() => import('./pages/GoogleRedirectLinkAccountPage'));
 
 export default function App() {
   const [, actions] = useTransContext();
@@ -55,6 +56,11 @@ export default function App() {
         <Route path="/i/:inviteId" component={InviteRedirect} />
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/terms-and-conditions" component={TermsAndConditionsPage} />
+
+
+
+        <Route path="/google-redirect" component={GoogleRedirectLinkAccount} />
+
         <Route path="/*" component={NoMatch} />
       </Routes>
     </>
