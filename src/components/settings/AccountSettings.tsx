@@ -482,6 +482,7 @@ const ConfirmEmailModal = (props: {close():void, message: string}) => {
           placeholder='_ _ _ _ _' 
           class={css`width: 140px; input {font-size: 30px;}`} 
         />
+        <Text color='var(--alert-color)' size={14}>{errorMessage()}</Text>
       </FlexColumn>
 
     </Modal>
