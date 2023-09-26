@@ -25,13 +25,14 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
   .catch(err => { throw { message: "Could not connect to server. " + err.message } });
 
   const text = await response.text()
-  if (opts.notJSON) return text as T;
+
 
   try {
     const json = JSON.parse(text);
     if (!response.ok) {
       return Promise.reject(json)
     }
+    if (opts.notJSON) return text as T;
     return json;
   } catch (e) {
     throw {message: text}
@@ -69,17 +70,16 @@ export function xhrRequest<T>(opts: XHROpts, onProgress?: (percent: number) => v
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
         const text = xhr.responseText
-        
-        if (opts.notJSON) return res(text as T);
-
         try {
           if (xhr.status === 0) {
             return rej({message: "Could not connect to server."})
           }
-          const json = JSON.parse(text);
           if (xhr.status !== 200) {
+            const json = JSON.parse(text);
             return rej(json)
           }
+          if (opts.notJSON) return res(text as T);
+          const json = JSON.parse(text);
           return res(json);
         } catch (e) {
           throw {message: text}

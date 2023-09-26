@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "types": ["vite/client"],
+    "types": ["vite/client", "gapi", "@maxim_mazurok/gapi.client.drive-v3"],
     "resolveJsonModule": true,
     "noEmit": true,
     "isolatedModules": true,

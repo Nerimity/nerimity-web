@@ -6,6 +6,28 @@ import ServiceEndpoints from "./ServiceEndpoints";
 
 
 
+export async function createGoogleAccountLink (): Promise<string> {
+  return request({
+    url: env.SERVER_URL + "/api/google/create-link",
+    method: "GET",
+    notJSON: true,
+    useToken: true
+  });
+}
+
+export async function linkAccountWithGoogle (code: string, nerimityUserToken: string): Promise<{status: true}> {
+  return request({
+    url: env.SERVER_URL + "/api/google/link-account",
+    method: "POST",
+    body: {
+      code,
+      nerimityToken: nerimityUserToken
+    },
+    useToken: false
+  });
+}
+
+
 
 export async function sendEmailConfirmCode(): Promise<{message: string}> {
   return request({

@@ -26,6 +26,9 @@ dependencies:
   '@thaunknown/simple-peer':
     specifier: ^9.12.1
     version: 9.12.1
+  '@types/gapi.drive':
+    specifier: ^0.0.5
+    version: 0.0.5
   croppie:
     specifier: ^2.6.5
     version: 2.6.5
@@ -79,9 +82,15 @@ dependencies:
     version: 0.0.5
 
 devDependencies:
+  '@maxim_mazurok/gapi.client.drive-v3':
+    specifier: ^0.0.20230920
+    version: 0.0.20230920
   '@types/croppie':
     specifier: ^2.6.1
     version: 2.6.1
+  '@types/gapi':
+    specifier: ^0.0.45
+    version: 0.0.45
   '@types/markdown-it':
     specifier: ^12.2.3
     version: 12.2.3
@@ -460,6 +469,7 @@ packages:
   /@babel/plugin-proposal-unicode-property-regex@7.18.6(@babel/core@7.22.9):
     resolution: {integrity: sha512-2BShG/d5yoZyXZfVePH91urL5wTG6ASZU9M4o03lKK8u8UW1y08OMttBSOADTcJrnPMpvDXRG3G8fyLh4ovs8w==}
     engines: {node: '>=4'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-unicode-property-regex instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1605,6 +1615,20 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@maxim_mazurok/gapi.client.discovery-v1@0.1.20200806:
+    resolution: {integrity: sha512-Wl6UfmZVDdWbY3PUu8E2ULk9RPLjnMqp/iOA4tcK8Ne+U/GmlnWP/e34IaZNGArfl7iXJNOG+/3Rj9L9jQyF9Q==}
+    dependencies:
+      '@types/gapi.client': 1.0.6
+      '@types/gapi.client.discovery-v1': 0.0.1
+    dev: true
+
+  /@maxim_mazurok/gapi.client.drive-v3@0.0.20230920:
+    resolution: {integrity: sha512-phWG1o6tIwpKB35B/xSUllQ4zqLvBgfTkJj1lHMrkXM2ToHNQ/o4H8p+MG5mIP/c+sgi9gcCxgKURkMyhabDsQ==}
+    dependencies:
+      '@types/gapi.client': 1.0.6
+      '@types/gapi.client.discovery-v1': 0.0.1
+    dev: true
+
   /@minht11/solid-virtual-container@0.2.1(solid-js@1.7.8):
     resolution: {integrity: sha512-HvQWx1uE5NWwx9WsN4waFtmyOjhZKMA/3vBf+j3zGsRfi556LCUk4oOmqZcOvIB5nEpHezvuZ8oUlwxigdO3Xg==}
     peerDependencies:
@@ -1801,6 +1825,25 @@ packages:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: true
 
+  /@types/gapi.client.discovery-v1@0.0.1:
+    resolution: {integrity: sha512-xHW6FW+ERNxqFYNhC6yo1yZjBMmigqQIkX11VY8S6NFteZAX8eWpzvSrmmwFEUm4OOLTJhz8dxEyUAs4ltIMnw==}
+    dependencies:
+      '@maxim_mazurok/gapi.client.discovery-v1': 0.1.20200806
+    dev: true
+
+  /@types/gapi.client@1.0.6:
+    resolution: {integrity: sha512-BmPAMVqeYFj6yGef2CFmSDlpDnaXYxc7JIpseYclB+khI9DqyYP84+mxu5jCA/qjNituKAXHjgbvDssGJv1IsQ==}
+    dev: true
+
+  /@types/gapi.drive@0.0.5:
+    resolution: {integrity: sha512-GR/mZ4P4oyy5FUHXDhTEv2hmYkiXccqUs85eTZWvHCpB9vQwyOSCBjtuDAHMmAUfo4dykDdGJKFooKVfPD1X0w==}
+    dependencies:
+      '@types/gapi': 0.0.45
+    dev: false
+
+  /@types/gapi@0.0.45:
+    resolution: {integrity: sha512-xc8X9FrdZcWoOd4tMhLenYbnmaxCgy2FBt+SOI7xv9Efy/7Jk2V9gBZiufFBLIfDUUvpWY7DN3x4lrdL1I9y0Q==}
+
   /@types/linkify-it@3.0.2:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
     dev: true
@@ -1833,7 +1876,7 @@ packages:
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 18.17.1
+      '@types/node': 20.4.6
     dev: true
 
   /@types/simple-peer@9.11.5:
@@ -2766,7 +2809,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.17.1
+      '@types/node': 20.4.6
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
