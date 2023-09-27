@@ -1,23 +1,10 @@
-import { createEffect, createSignal, For, Show } from 'solid-js';
-import Text from '@/components/ui/Text';
-import { css, styled } from 'solid-styled-components';
-import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
+import { createEffect} from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import ItemContainer from '../ui/Item';
-import twemoji from 'twemoji';
-import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import useStore from '@/chat-api/store/useStore';
-import { useTransContext } from '@nerimity/solid-i18next';
-import env from '@/common/env';
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
-import { Emoji } from '../markup/Emoji';
-import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys } from '@/common/localStorage';
-import Checkbox from '../ui/Checkbox';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
 import SettingsBlock from '../ui/settings-block/SettingsBlock';
-import Slider from '../ui/Slider';
-import { playMessageNotification } from '@/common/Sound';
 import Button from '../ui/Button';
 import { createGoogleAccountLink } from '@/chat-api/services/UserService';
 
@@ -28,11 +15,8 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-
-
 export default function NotificationsSettings() {
   const { header } = useStore();
-
 
   createEffect(() => {
     header.updateHeader({
@@ -57,9 +41,8 @@ export default function NotificationsSettings() {
 function Connections() {
 
   const linkGoogle = () => {
-    createGoogleAccountLink().then(res => {
-      console.log(res)
-
+    createGoogleAccountLink().then(url => {
+      window.open(url, "_blank");
     }).catch(err => {
       alert(err.message)
     })

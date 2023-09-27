@@ -26,9 +26,6 @@ dependencies:
   '@thaunknown/simple-peer':
     specifier: ^9.12.1
     version: 9.12.1
-  '@types/gapi.drive':
-    specifier: ^0.0.5
-    version: 0.0.5
   croppie:
     specifier: ^2.6.5
     version: 2.6.5
@@ -1835,14 +1832,9 @@ packages:
     resolution: {integrity: sha512-BmPAMVqeYFj6yGef2CFmSDlpDnaXYxc7JIpseYclB+khI9DqyYP84+mxu5jCA/qjNituKAXHjgbvDssGJv1IsQ==}
     dev: true
 
-  /@types/gapi.drive@0.0.5:
-    resolution: {integrity: sha512-GR/mZ4P4oyy5FUHXDhTEv2hmYkiXccqUs85eTZWvHCpB9vQwyOSCBjtuDAHMmAUfo4dykDdGJKFooKVfPD1X0w==}
-    dependencies:
-      '@types/gapi': 0.0.45
-    dev: false
-
   /@types/gapi@0.0.45:
     resolution: {integrity: sha512-xc8X9FrdZcWoOd4tMhLenYbnmaxCgy2FBt+SOI7xv9Efy/7Jk2V9gBZiufFBLIfDUUvpWY7DN3x4lrdL1I9y0Q==}
+    dev: true
 
   /@types/linkify-it@3.0.2:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
