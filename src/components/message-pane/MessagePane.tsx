@@ -50,6 +50,7 @@ import { useMutationObserver, useResizeObserver } from '@/common/useResizeObserv
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import { uploadFile } from '@/common/driveAPI';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -596,6 +597,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   }
 
   const sendMessage = () => {
+    // uploadFile(channelProperty()?.attachment!, "6")
     textAreaEl()?.focus();
     const trimmedMessage = message().trim();
     setMessage('')

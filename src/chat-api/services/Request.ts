@@ -28,12 +28,12 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
 
 
   try {
-    const json = JSON.parse(text);
     if (!response.ok) {
+      const json = JSON.parse(text);
       return Promise.reject(json)
     }
     if (opts.notJSON) return text as T;
-    return json;
+    return JSON.parse(text)
   } catch (e) {
     throw {message: text}
   }

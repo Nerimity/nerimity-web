@@ -6,6 +6,7 @@ import { useParams, useSearchParams } from '@solidjs/router';
 import { Show, createSignal, onMount } from 'solid-js';
 import { linkAccountWithGoogle } from '@/chat-api/services/UserService';
 import Text from '@/components/ui/Text';
+import { getOrCreateUploadsFolder } from '@/common/driveAPI';
 
 const PageContainer = styled("div")`
   display: flex;
@@ -41,25 +42,6 @@ export default function GoogleRedirectLinkAccountPage() {
   const [success, setSuccess] = createSignal(false);
 
   onMount(async () => {
-
-    const start = () => {
-      gapi.client.init({
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-        clientId: '833085928210-2ksk1asgbmqvsg6jb3es4asnmug2a4iu.apps.googleusercontent.com',
-      }).then(() => {
-        gapi.client.setToken({access_token: ""})
-        
-          // create a new folder
-          gapi.client
-      })
-    
-    }
-    gapi.load('client', start);
-
-
-        
-
-
     const code = searchParams.code;
     const userToken = searchParams.state;
 
@@ -71,11 +53,6 @@ export default function GoogleRedirectLinkAccountPage() {
     if (res.status) {
       setSuccess(true);
     }
-
-
-
-
-
   })
 
 
