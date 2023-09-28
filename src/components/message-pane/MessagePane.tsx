@@ -597,7 +597,9 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   }
 
   const sendMessage = () => {
-    // uploadFile(channelProperty()?.attachment!, "6")
+
+
+    // uploadFile(channelProperty()?.attachment!, "token");
     textAreaEl()?.focus();
     const trimmedMessage = message().trim();
     setMessage('')

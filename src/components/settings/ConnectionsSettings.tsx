@@ -1,4 +1,4 @@
-import { createEffect} from 'solid-js';
+import { Show, createEffect} from 'solid-js';
 import { styled } from 'solid-styled-components';
 
 import useStore from '@/chat-api/store/useStore';
@@ -6,7 +6,7 @@ import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
 import SettingsBlock from '../ui/settings-block/SettingsBlock';
 import Button from '../ui/Button';
-import { createGoogleAccountLink } from '@/chat-api/services/UserService';
+import { createGoogleAccountLink, unlinkAccountWithGoogle } from '@/chat-api/services/UserService';
 
 const Container = styled("div")`
   display: flex;
@@ -40,6 +40,18 @@ export default function NotificationsSettings() {
 
 function Connections() {
 
+
+  return (
+    <>
+    <GoogleLink/>
+    </>
+  )
+}
+
+function GoogleLink() {
+  const {account} = useStore();
+  const isConnected = () => account.user()?.connections.find(c => c.provider === 'GOOGLE')
+
   const linkGoogle = () => {
     createGoogleAccountLink().then(url => {
       window.open(url, "_blank");
@@ -47,10 +59,18 @@ function Connections() {
       alert(err.message)
     })
   }
-
+  const unlinkGoogle = async () => {
+    await unlinkAccountWithGoogle().catch(err => {
+      alert(err.message)
+    })
+  }
+  
   return (
     <SettingsBlock label='Google' description='Linking your Google account will allow you to upload files in Nerimity. Files will be stores in your Google Drive.'>
-      <Button label='Link' iconName='link' onClick={linkGoogle}  />
+      <Show when={!isConnected()}><Button label='Link' iconName='link' onClick={linkGoogle}  /></Show>
+      <Show when={isConnected()}><Button label='Unlink' color='var(--alert-color)' iconName='link_off' onClick={unlinkGoogle}  /></Show>
     </SettingsBlock>
   )
+
+
 }

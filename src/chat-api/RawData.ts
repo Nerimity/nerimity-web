@@ -83,6 +83,12 @@ export interface RawUser {
   joinedAt?: number;
 }
 
+export interface RawUserConnection {
+  id: string;
+  provider: "GOOGLE",
+  connectedAt: number
+}
+
 
 export enum ServerNotificationSoundMode {
   ALL = 0,

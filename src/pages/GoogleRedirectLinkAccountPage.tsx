@@ -50,7 +50,7 @@ export default function GoogleRedirectLinkAccountPage() {
     });
 
     if (!res) return;
-    if (res.status) {
+    if (res.connection) {
       setSuccess(true);
     }
   })

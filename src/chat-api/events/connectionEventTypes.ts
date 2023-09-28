@@ -1,4 +1,4 @@
-import { RawChannel, RawFriend, RawInboxWithoutChannel, RawPresence, RawServer, RawServerMember, RawServerRole, RawServerSettings, RawUser, RawVoice } from '../RawData';
+import { RawChannel, RawFriend, RawInboxWithoutChannel, RawPresence, RawServer, RawServerMember, RawServerRole, RawServerSettings, RawUser, RawUserConnection, RawVoice } from '../RawData';
 
 export interface AuthenticatedPayload {
   user: SelfUser;
@@ -44,4 +44,5 @@ export interface SelfUser {
   orderedServerIds: string[]
   dmStatus: DmStatus
   emailConfirmed: boolean
+  connections: RawUserConnection[]
 }
