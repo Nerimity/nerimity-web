@@ -51,6 +51,7 @@ import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { uploadFile } from '@/common/driveAPI';
+import { getGoogleAccessToken } from '@/chat-api/services/UserService';
 
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
@@ -599,26 +600,33 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   const sendMessage = () => {
 
 
-    // uploadFile(channelProperty()?.attachment!, "token");
-    textAreaEl()?.focus();
-    const trimmedMessage = message().trim();
-    setMessage('')
-    const channel = channels.get(params.channelId!)!;
+    getGoogleAccessToken().then(res => {
+      uploadFile(channelProperty()?.attachment!, res.accessToken).then(res => {
+        console.log(res)
+      })
 
-    const formattedMessage = formatMessage(trimmedMessage, params.serverId, params.channelId);
+    })
 
-    if (editMessageId()) {
-      if (!trimmedMessage) return;
-      messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
-      cancelEdit();
-    } else {
-      if (!trimmedMessage && !channelProperty()?.attachment) return;
-      messages.sendAndStoreMessage(channel.id, formattedMessage);
-      channelProperties.setAttachment(channel.id, undefined)
-      !channelProperty()?.moreBottomToLoad && (props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight);
-    }
-    typingTimeoutId && clearTimeout(typingTimeoutId)
-    typingTimeoutId = null;
+    // return;
+    // textAreaEl()?.focus();
+    // const trimmedMessage = message().trim();
+    // setMessage('')
+    // const channel = channels.get(params.channelId!)!;
+
+    // const formattedMessage = formatMessage(trimmedMessage, params.serverId, params.channelId);
+
+    // if (editMessageId()) {
+    //   if (!trimmedMessage) return;
+    //   messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
+    //   cancelEdit();
+    // } else {
+    //   if (!trimmedMessage && !channelProperty()?.attachment) return;
+    //   messages.sendAndStoreMessage(channel.id, formattedMessage);
+    //   channelProperties.setAttachment(channel.id, undefined)
+    //   !channelProperty()?.moreBottomToLoad && (props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight);
+    // }
+    // typingTimeoutId && clearTimeout(typingTimeoutId)
+    // typingTimeoutId = null;
   }
 
   const adjustHeight = () => {

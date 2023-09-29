@@ -1,7 +1,4 @@
-
-
 let initialized = false;
-
 
 
 const initialize = (accessToken: string) => new Promise<void>(res => {
@@ -19,7 +16,7 @@ const initialize = (accessToken: string) => new Promise<void>(res => {
 })
 
 
-let nerimityUploadsFolder: gapi.client.drive.File;
+let nerimityUploadsFolder: gapi.client.drive.File | undefined;
 
 export const getOrCreateUploadsFolder = async (accessToken: string) => {
   if (nerimityUploadsFolder) return nerimityUploadsFolder;
@@ -46,21 +43,11 @@ export const getOrCreateUploadsFolder = async (accessToken: string) => {
 }
 
 
+// https://stackoverflow.com/questions/53839499/google-drive-api-and-file-uploads-from-the-browser
 export const uploadFile = async (file: File, accessToken: string) => {
   if (!initialized) await initialize(accessToken);
+  gapi.client.setToken({access_token: accessToken})
   const folder = await getOrCreateUploadsFolder(accessToken);
-  // https://stackoverflow.com/questions/53839499/google-drive-api-and-file-uploads-from-the-browser
-  // const res = await gapi.client.drive.files.create({
-    
-  //   resource: {
-  //     name: file.name,
-  //     mimeType: file.type,
-  //     parents: [folder.id!],
-      
-  //   },
-  //   fields: "id",
-  // });
-  
   const metadata = {
     'name': file.name,
     'mimeType': file.type,
@@ -76,31 +63,44 @@ export const uploadFile = async (file: File, accessToken: string) => {
   xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,kind');
   xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
   xhr.responseType = 'json';
-  xhr.onload = async  () => {
+
+  return new Promise((resolve, reject) => {
+    xhr.onload = async  () => {
+
       console.log(xhr.response);
-      const id = xhr.response.id;
+      if (xhr.status === 0) {
+        return reject({message: "Could not connect to server."})
+      }
+      if (xhr.status !== 200) {
+        nerimityUploadsFolder = undefined;
+        return reject(xhr.response);
+      }
+        const id = xhr.response.id;
+  
+        const body = {
+          value: "default",
+          type: "anyone",
+          role: "reader"
+        };
+  
+        
+        await gapi.client.drive.permissions
+        .create({
+          fileId: id,
+          resource: body
+        })
+        
+            await gapi.client.drive.files.get({
+              fileId: id,
+              fields: '*'
+            }).then(console.log)
+        resolve(xhr.response);
+  
+    };
+    xhr.send(form);
+  })
 
 
-      const body = {
-        value: "default",
-        type: "anyone",
-        role: "reader"
-      };
-
-      await gapi.client.drive.permissions
-      .create({
-        fileId: id,
-        resource: body
-      })
 
 
-
-  };
-  xhr.send(form);
-
-
-
-
-
-  // return res.result;
 }

@@ -34,6 +34,14 @@ export async function unlinkAccountWithGoogle (): Promise<{status: boolean}> {
   });
 }
 
+export async function getGoogleAccessToken (): Promise<{accessToken: string}> {
+  return request({
+    url: env.SERVER_URL + "/api/google/access-token",
+    method: "GET",
+    useToken: true
+  });
+}
+
 
 
 export async function sendEmailConfirmCode(): Promise<{message: string}> {
