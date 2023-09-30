@@ -3,7 +3,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import { formatTimestamp } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawMessage, RawMessageReaction, RawUser } from '@/chat-api/RawData';
+import { MessageType, RawAttachment, RawMessage, RawMessageReaction, RawUser } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -30,6 +30,7 @@ import { DangerousLinkModal } from '@/components/ui/DangerousLinkModal';
 import { useResizeObserver } from '@/common/useResizeObserver';
 import { ServerWithMemberCount, joinPublicServer, joinServerByInviteCode, serverDetailsByInviteCode } from '@/chat-api/services/ServerService';
 import { ServerVerifiedIcon } from '@/components/servers/ServerVerifiedIcon';
+import { getFile, googleApiInitialized, initializeGoogleDrive } from '@/common/driveAPI';
 
 
 interface FloatingOptionsProps {
@@ -294,13 +295,74 @@ function Embeds(props: { message: Message, hovered: boolean }) {
       <Show when={inviteEmbedCode()}>
         {code => <ServerInviteEmbed code={code()} />}
       </Show>
-      <Show when={props.message.attachments?.[0]}>
+      <Show when={props.message.attachments?.[0]?.provider === "local"}>
         <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
+      </Show>
+      <Show when={props.message.attachments?.[0]?.provider === "google_drive"}>
+        <GoogleDriveEmbeds attachment={props.message.attachments?.[0]!} />
       </Show>
       <Show when={props.message.embed}>
         <OGEmbed message={props.message} />
       </Show>
     </div>
+  )
+}
+
+
+
+
+
+
+
+
+
+const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
+  return (
+    <>
+      <FileEmbed attachment={props.attachment} />
+    </>
+  )
+}
+
+
+const FileEmbed = (props: { attachment: RawAttachment }) => {
+  const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
+  const [error, setError] = createSignal<string | undefined>();
+  onMount(async () => {
+    await initializeGoogleDrive();
+  });
+
+  createEffect(async () => {
+    if (!googleApiInitialized()) return;
+    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink").catch((e) => console.log(e))
+    if (!file) return setError("File was deleted");
+
+
+    const fileTime = new Date(file.modifiedTime!).getTime();
+    const diff = fileTime - props.attachment.createdAt
+    if (diff >= 5000) return setError("File was modified.");
+    setFile(file);
+  })
+
+  return (
+    <div class={styles.fileEmbed}>
+        <Show when={error()}>
+          <Icon name='error' color='var(--alert-color)' size={30} />
+          <div class={styles.fileEmbedDetails}>
+            <div class={styles.fileEmbedName}>{error()}</div>
+          </div>
+          <Button iconName='info' iconSize={16} onClick={() => alert("This file was modified/deleted by the creator in their Google Drive. ")} />
+        </Show>
+      <Show when={file() && !error()}>
+        <Icon name='insert_drive_file' color='var(--primary-color)' size={30} />
+        <div class={styles.fileEmbedDetails}>
+          <div class={styles.fileEmbedName}>{file()?.name}</div>
+          <div class={styles.fileEmbedSize}>{prettyBytes(parseInt(file()?.size! || "0"), 0)}</div>
+        </div>
+        <Button iconName='download' onClick={() => window.open(file()?.webContentLink!, "_blank")} />
+      </Show>
+    </div>
+
   )
 }
 

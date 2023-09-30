@@ -6,6 +6,8 @@ import socketClient from '../socketClient';
 import useAccount from './useAccount';
 import useChannelProperties from './useChannelProperties';
 import useChannels from './useChannels';
+import { getGoogleAccessToken } from '../services/UserService';
+import { uploadFileGoogleDrive } from '@/common/driveAPI';
 
 const account = useAccount();
 
@@ -167,11 +169,24 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     setMessages(channelId, messageIndex, 'uploadingAttachment', 'progress', percent);
   }
 
+  const isImage = properties?.attachment?.type?.startsWith('image/');
+
+
+  const file = properties?.attachment;
+  let googleDriveFileId: string | undefined;
+  if (file && !isImage) {
+    const accessToken = await getGoogleAccessToken();
+    const res = await uploadFileGoogleDrive(file, accessToken.accessToken, onUploadProgress);
+    googleDriveFileId = res.id;
+  }
+
+
   const message: void | Message = await postMessage({
     content,
     channelId,
     socketId: socketClient.id(),
-    attachment: properties?.attachment,
+    attachment: isImage ? properties?.attachment : undefined,
+    googleDriveAttachment: googleDriveFileId ? {id: googleDriveFileId, mime: file?.type!} : undefined,
     onUploadProgress
   }).catch((err) => {
     console.log(err);
