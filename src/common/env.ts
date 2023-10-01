@@ -10,4 +10,6 @@ export default {
   EMOJI_URL: import.meta.env.VITE_EMOJI_URL,
   NERIMITY_CDN: import.meta.env.VITE_NERIMITY_CDN,
   OFFICIAL_SERVER: import.meta.env.VITE_OFFICIAL_SERVER || "nerimity",
+  GOOGLE_CLIENT_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined,
+  GOOGLE_API_KEY: import.meta.env.VITE_GOOGLE_API_KEY as string | undefined,
 }

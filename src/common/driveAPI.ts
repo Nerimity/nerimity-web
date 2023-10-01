@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import env from "./env";
 
 export const [googleApiInitialized, setGoogleApiInitialized] = createSignal(false);
 
@@ -9,9 +10,9 @@ export const initializeGoogleDrive = (accessToken?: string) => new Promise<void>
   initializing = true;
   const start = async () => {
     await gapi.client.init({
-      apiKey: "AIzaSyA9BsxleoF_d5ktcvTgWBbiWnKl-n7KIK8",
+      apiKey: env.GOOGLE_API_KEY,
       discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-      clientId: '833085928210-2ksk1asgbmqvsg6jb3es4asnmug2a4iu.apps.googleusercontent.com',
+      clientId: env.GOOGLE_CLIENT_ID,
     })
     accessToken && gapi.client.setToken({access_token: accessToken})
     initializing = false;
