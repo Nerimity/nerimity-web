@@ -828,12 +828,12 @@ const UsersWithSameIPAddress = (props: {userId: string}) => {
     </FlexColumn>
   )
 }
-const UserServersList = (props: {userId: string; servers: RawServer[]}) => {
+const UserServersList = (props: {userId: string; servers: RawServer & { createdBy: RawUser}[]}) => {
 
   const sortOwnedFirst = () => {
     return props.servers.sort((a, b) => {
-      if (a.createdById === props.userId) return -1;
-      if (b.createdById === props.userId) return 1;
+      if (a.createdBy.id === props.userId) return -1;
+      if (b.createdBy.id === props.userId) return 1;
       return 0;
     })
   }
