@@ -102,8 +102,6 @@ const MessageItem = (props: MessageItemProps) => {
 
   const isServerCreator = () => params.serverId ? servers.get(params.serverId)?.createdById === props.message.createdBy.id : undefined;
 
-  
-
   const Details = () => (
     <div class={classNames(styles.details)}>
 
@@ -143,10 +141,10 @@ const MessageItem = (props: MessageItemProps) => {
     <div
       class={
         classNames(
-          styles.messageItem, 
-          conditionalClass(isCompact(), styles.compact), 
-          conditionalClass(isMentioned(), styles.mentioned), 
-          props.class, 
+          styles.messageItem,
+          conditionalClass(isCompact(), styles.compact),
+          conditionalClass(isMentioned(), styles.mentioned),
+          props.class,
           "messageItem"
         )}
       onContextMenu={props.contextMenu}
@@ -201,7 +199,7 @@ const UploadAttachment = (props: { message: Message }) => {
       <div class={styles.name}>{attachment().file.name}</div>
       <div class={styles.size}>{prettyBytes(attachment().file.size, 0)}</div>
       <div class={styles.progressBarContainer}>
-        <div class={styles.currentProgress} style={{width: attachment().progress + "%"}}></div>
+        <div class={styles.currentProgress} style={{ width: attachment().progress + "%" }}></div>
       </div>
     </div>
   )
@@ -286,9 +284,9 @@ const inviteLinkRegex = new RegExp(
 );
 
 function Embeds(props: { message: Message, hovered: boolean }) {
-  
+
   const inviteEmbedCode = () => props.message.content?.match(inviteLinkRegex)?.[1];
-  
+
 
   return (
     <div class={styles.embeds}>
@@ -313,17 +311,83 @@ function Embeds(props: { message: Message, hovered: boolean }) {
 
 
 
-
+const allowedVideoMimes = ["video/mp4", "video/webm"];
 
 
 const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
   return (
     <>
-      <FileEmbed attachment={props.attachment} />
+      <Switch fallback={<FileEmbed attachment={props.attachment} />}>
+        <Match when={allowedVideoMimes.includes(props.attachment.mime!)} ><VideoEmbed attachment={props.attachment} /></Match>
+      </Switch>
     </>
   )
 }
 
+
+const VideoEmbed = (props: { attachment: RawAttachment }) => {
+  const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
+  const [error, setError] = createSignal<string | undefined>();
+  const [playVideo, setPlayVideo] = createSignal<boolean>(false);
+  onMount(async () => {
+    await initializeGoogleDrive();
+  });
+
+  createEffect(async () => {
+    if (!googleApiInitialized()) return;
+    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata").catch((e) => console.log(e))
+    // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
+    if (!file) return setError("Could not get Video.");
+
+    if (file.mimeType !== props.attachment.mime) return setError("Video was modified.");
+
+
+    const fileTime = new Date(file.modifiedTime!).getTime();
+    const diff = fileTime - props.attachment.createdAt
+    if (diff >= 5000) return setError("Video was modified.");
+    setFile(file);
+  })
+
+  return (
+    <div class={styles.videoEmbed}>
+      <div class={styles.videoInfo}>
+        <Show when={error()}>
+          <Icon name='error' color='var(--alert-color)' size={30} />
+          <div class={styles.fileEmbedDetails}>
+            <div class={styles.fileEmbedName}>{error()}</div>
+          </div>
+          <Button iconName='info' iconSize={16} onClick={() => alert("This Video was modified/deleted by the creator in their Google Drive. ")} />
+        </Show>
+        <Show when={file() && !error()}>
+          <Icon name='insert_drive_file' color='var(--primary-color)' size={30} />
+          <div class={styles.fileEmbedDetails}>
+            <div class={styles.fileEmbedName}>{file()?.name}</div>
+            <div class={styles.fileEmbedSize}>{prettyBytes(parseInt(file()?.size! || "0"), 0)}</div>
+          </div>
+          <Button iconName='download' onClick={() => window.open(file()?.webContentLink!, "_blank")} />
+        </Show>
+      </div>
+
+      <div class={styles.video}>
+        <Show when={file() && !error()}>
+          <Show when={!playVideo()}>
+            <Show when={file()?.thumbnailLink}><img style={{ width: "100%", height: "100%", "object-fit": 'contain' }} src={file()?.thumbnailLink} alt="" /></Show>
+            <div onclick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
+              <div class={styles.playButton}>
+                <Icon name='play_arrow' color='var(--primary-color)' size={28} />
+              </div>
+            </div>
+          </Show>
+          <Show when={playVideo()}>
+            <video style={{ width: "100%", height: "100%", "object-fit": 'contain' }} autoplay src={file()?.webContentLink!} controls />
+          </Show>
+        </Show>
+      </div>
+
+    </div>
+
+  )
+}
 
 const FileEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
@@ -336,7 +400,7 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
     if (!googleApiInitialized()) return;
     const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType").catch((e) => console.log(e))
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("File was deleted");
+    if (!file) return setError("Could not get file.");
 
     if (file.mimeType !== props.attachment.mime) return setError("File was modified.");
 
@@ -349,13 +413,13 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
 
   return (
     <div class={styles.fileEmbed}>
-        <Show when={error()}>
-          <Icon name='error' color='var(--alert-color)' size={30} />
-          <div class={styles.fileEmbedDetails}>
-            <div class={styles.fileEmbedName}>{error()}</div>
-          </div>
-          <Button iconName='info' iconSize={16} onClick={() => alert("This file was modified/deleted by the creator in their Google Drive. ")} />
-        </Show>
+      <Show when={error()}>
+        <Icon name='error' color='var(--alert-color)' size={30} />
+        <div class={styles.fileEmbedDetails}>
+          <div class={styles.fileEmbedName}>{error()}</div>
+        </div>
+        <Button iconName='info' iconSize={16} onClick={() => alert("This file was modified/deleted by the creator in their Google Drive. ")} />
+      </Show>
       <Show when={file() && !error()}>
         <Icon name='insert_drive_file' color='var(--primary-color)' size={30} />
         <div class={styles.fileEmbedDetails}>
@@ -376,14 +440,14 @@ const inviteCache = new Map<string, ServerWithMemberCount | false>();
 
 function ServerInviteEmbed(props: { code: string }) {
   const navigate = useNavigate();
-  const {servers} = useStore();
+  const { servers } = useStore();
   const [invite, setInvite] = createSignal<ServerWithMemberCount | null | false>(null);
   const [joining, setJoining] = createSignal(false);
   const [hovered, setHovered] = createSignal(false);
-  
+
   onMount(async () => {
     if (inviteCache.has(props.code)) return setInvite(inviteCache.get(props.code)!);
-    const invite = await serverDetailsByInviteCode(props.code).catch(() => {});
+    const invite = await serverDetailsByInviteCode(props.code).catch(() => { });
     setInvite(invite || false);
     inviteCache.set(props.code, invite || false);
   })
@@ -418,21 +482,21 @@ function ServerInviteEmbed(props: { code: string }) {
     <div class={styles.serverInviteEmbed} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Show when={invite()} fallback={<div class={styles.serverInviteLoading}><Show when={invite() === false}><Icon name='error' color='var(--alert-color)' /></Show>{invite() === false ? "Invalid Invite Code" : "Loading Invite..."}</div>}>
         {invite => (
-        <>
-         <Avatar server={invite()} size={40} animate={hovered()} showBorder />
-         <div class={styles.serverInfo}>
-          <div class={styles.serverName}>
-            <span class={styles.serverNameOnly}>{invite()?.name}</span>
-            <Show when={invite().verified}><ServerVerifiedIcon /></Show>
-          </div>
-          
-          <div class={styles.serverMemberCount}>
-            <Icon name='people' size={14} color='var(--primary-color)' />
-            {invite().memberCount} member(s)
-          </div>
-         </div>
-         <Button label={joining() ? 'Joining...' : cachedServer() ? 'Visit' : 'Join'} iconName='login' onClick={joinOrVisitServer} />
-         </>
+          <>
+            <Avatar server={invite()} size={40} animate={hovered()} showBorder />
+            <div class={styles.serverInfo}>
+              <div class={styles.serverName}>
+                <span class={styles.serverNameOnly}>{invite()?.name}</span>
+                <Show when={invite().verified}><ServerVerifiedIcon /></Show>
+              </div>
+
+              <div class={styles.serverMemberCount}>
+                <Icon name='people' size={14} color='var(--primary-color)' />
+                {invite().memberCount} member(s)
+              </div>
+            </div>
+            <Button label={joining() ? 'Joining...' : cachedServer() ? 'Visit' : 'Join'} iconName='login' onClick={joinOrVisitServer} />
+          </>
         )}
       </Show>
     </div>
@@ -516,7 +580,7 @@ function ReactionItem(props: ReactionItemProps) {
     isHovering = true;
     props.onMouseEnter?.(e)
   }
-  
+
   const onMouseLeave = (e: any) => {
     isHovering = false;
     props.onMouseLeave?.(e);
@@ -587,7 +651,7 @@ function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; 
 
   const onHover = (event: MouseEvent, reaction: RawMessageReaction) => {
     const rect = (event.target as HTMLDivElement).getBoundingClientRect();
-    createPortal(() => (<WhoReactedModal {...{ x: rect.x + (rect.width/2) , y: rect.y, reaction, message: props.message }} />), "whoReactedModal")
+    createPortal(() => (<WhoReactedModal {...{ x: rect.x + (rect.width / 2), y: rect.y, reaction, message: props.message }} />), "whoReactedModal")
   }
   const onBlur = () => {
     closePortalById("whoReactedModal")
@@ -607,7 +671,7 @@ function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; 
 function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReaction, message: Message }) {
   const [users, setUsers] = createSignal<null | RawUser[]>(null);
   const [el, setEL] = createSignal<undefined | HTMLDivElement>(undefined);
-  const {width, height} = useResizeObserver(el)
+  const { width, height } = useResizeObserver(el)
 
 
   onMount(() => {
@@ -627,13 +691,13 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
   })
 
   const style = () => {
-    if (!height()) return {pointerEvents: 'none'};
-    return {top: (props.y - height() - 5) + "px", left: (props.x - width() /2) + "px"};
+    if (!height()) return { pointerEvents: 'none' };
+    return { top: (props.y - height() - 5) + "px", left: (props.x - width() / 2) + "px" };
   }
 
   const reactionCount = props.reaction.count;
 
-  const plusCount = () =>  reactionCount - users()?.length!;
+  const plusCount = () => reactionCount - users()?.length!;
 
   return (
     <Show when={users()}>

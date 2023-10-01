@@ -176,7 +176,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
         quotedMessages: [],
         id: Math.random().toString(),
         type: MessageType.CONTENT,
-        content: "Failed to upload file to Google Drive. ```Error\n" + err.message + "\nbody: " + content  + "```"
+        content: "Failed to upload file to Google Drive. ```Error\n" + err.message + "\nbody: " + content  + "\nFilename: " + file.name + "```"
       })
       const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
       setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);

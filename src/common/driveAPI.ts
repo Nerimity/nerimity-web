@@ -13,7 +13,6 @@ export const initializeGoogleDrive = (accessToken?: string) => new Promise<void>
       discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
       clientId: '833085928210-2ksk1asgbmqvsg6jb3es4asnmug2a4iu.apps.googleusercontent.com',
     })
-
     accessToken && gapi.client.setToken({access_token: accessToken})
     initializing = false;
     setGoogleApiInitialized(true)
