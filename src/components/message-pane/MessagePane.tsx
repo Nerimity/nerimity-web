@@ -718,7 +718,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
       <Show when={!props.isEditing && !pickedFile()}>
-        <FileBrowser ref={setAttachmentFileBrowserRef} accept='images' onChange={onFilePicked} />
+        <FileBrowser ref={setAttachmentFileBrowserRef} accept='any' onChange={onFilePicked} />
         <Button
           onClick={() => attachmentFileBrowserRef()?.open()}
           class={styles.inputButtons}
