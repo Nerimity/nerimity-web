@@ -1,6 +1,6 @@
 
 import env from '../../common/env';
-import { RawFriend, RawUser } from '../RawData';
+import { RawFriend, RawServer, RawUser } from '../RawData';
 import { request } from './Request';
 import Endpoints from './ServiceEndpoints';
 
@@ -53,6 +53,19 @@ export const searchUsers = async (query: string, limit: number, afterId?: string
       limit
     },
     url: env.SERVER_URL + "/api/moderation/users/search",
+    useToken: true,
+  });
+  return data;
+};
+export const searchServers = async (query: string, limit: number, afterId?: string) => {
+  const data = await request<any[]>({
+    method: 'GET',
+    params: {
+      q: query,
+      ...(afterId ? {after: afterId} : undefined),
+      limit
+    },
+    url: env.SERVER_URL + "/api/moderation/servers/search",
     useToken: true,
   });
   return data;
@@ -132,6 +145,7 @@ export const getOnlineUsers = async () => {
 export type  ModerationUser = RawUser & {
   account: {email: string; emailConfirmed?: boolean}
   suspension?: ModerationSuspension
+  servers?: RawServer[]
 }
 
 export interface ModerationSuspension {

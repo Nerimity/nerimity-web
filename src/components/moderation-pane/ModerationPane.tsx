@@ -1,10 +1,10 @@
 import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, getUsersWithSameIPAddress, ModerationStats, ModerationSuspension, ModerationUser, searchUsers, updateServer, updateUser } from '@/chat-api/services/ModerationService';
+import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, getUsersWithSameIPAddress, ModerationStats, ModerationSuspension, ModerationUser, searchServers, searchUsers, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
-import { Link, Route, Routes, useParams } from '@solidjs/router';
+import { A, Link, Route, Routes, useParams } from '@solidjs/router';
 import { RawServer, RawUser } from '@/chat-api/RawData';
 import Button from '../ui/Button';
 import { css, styled } from 'solid-styled-components';
@@ -334,18 +334,15 @@ function ServersPane() {
   const [servers, setServers] = createSignal<RawServer[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+  const [search, setSearch] = createSignal('');
 
   const [showAll, setShowAll] = createSignal(false);
 
-
   createEffect(on(afterId, async () => {
-    setLoadMoreClicked(true);
-    getServers(LIMIT, afterId())
-      .then(newServers => {
-        setServers([...servers(), ...newServers])
-        if (newServers.length >= LIMIT) setLoadMoreClicked(false);
-      })
-      .catch(() => setLoadMoreClicked(false))
+    if (search() && afterId()) {
+      return fetchSearch();
+    }
+    fetchServers();
   }));
 
   const onLoadMoreClick = () => {
@@ -355,8 +352,47 @@ function ServersPane() {
 
   const firstFive = () => servers().slice(0, 5);
 
+  let timeout: number | null = null;
+  const onSearchText = (text: string) => {
+    setSearch(text);
+    timeout && clearTimeout(timeout);
+    timeout = window.setTimeout(() => {
+      setAfterId(undefined);
+      setServers([]);
+      if (!search().trim()) {
+        fetchServers();
+        return;
+      }
+      setShowAll(true);
+      fetchSearch();
+    }, 1000);
+  }
+  
+  const fetchSearch = () => {
+    setLoadMoreClicked(true);
+    searchServers(search(), LIMIT, afterId())
+      .then(newServers => {
+        setServers([...servers(), ...newServers])
+        if (newServers.length >= LIMIT) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false))
+  }
+
+  const fetchServers = () => {
+    setLoadMoreClicked(true);
+    getServers(LIMIT, afterId())
+      .then(newServers => {
+        setServers([...servers(), ...newServers])
+        if (newServers.length >= LIMIT) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false))
+  }
+
+
   return (
     <PaneContainer class="pane servers">
+      <Input placeholder="Search" margin={[0, 0, 10, 30]} onText={onSearchText} value={search()}  />
+
       <FlexRow gap={5} itemsCenter>
         <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
         <Text>Servers</Text>
@@ -481,7 +517,7 @@ function ServerPage() {
   const [error, setError] = createSignal<string | null>(null);
 
 
-  const [server, setServer] = createSignal<RawServer | null>(null);
+  const [server, setServer] = createSignal<RawServer & {createdBy: RawUser} | null>(null);
 
   const defaultInput = () => ({
     name: server()?.name || '',
@@ -529,6 +565,13 @@ function ServerPage() {
             <BreadcrumbItem href={"../../"} icon='home' title="Moderation" />
             <BreadcrumbItem title={server()?.name} icon="dns" />
           </Breadcrumb>
+
+        <div style={{display: 'flex', "flex-direction": "column", gap: "4px", "margin-bottom": "10px"}}>
+          <Text size={14} style={{"margin-left": "45px"}}>Created By</Text>
+          <User user={server()?.createdBy} />
+        </div>
+
+
           <SettingsBlock label="Server Name" icon="edit">
             <Input value={inputValues().name} onText={v => setInputValue('name', v)} />
           </SettingsBlock>
@@ -543,7 +586,6 @@ function ServerPage() {
 
             <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
           </Show>
-
           <DeleteServerBlock serverId={server()?.id!} />
           
         </ServerPageInnerContainer>
@@ -588,6 +630,7 @@ const UserBannerContainer = styled(FlexRow)`
 const UserBannerDetails = styled(FlexColumn)`
   margin-left: 20px;
   margin-right: 20px;
+  gap: 4px;
   font-size: 18px;
   z-index: 1111;
   background: rgba(0,0,0,0.6);
@@ -695,6 +738,7 @@ function UserPage() {
               {user() && <Avatar animate user={user()!} size={width() <= 1100 ? 70 : 100} />}
               <UserBannerDetails>
                 <div>{user()!.username}</div>
+                <A class={css`font-size: 14px;`} href={RouterEndpoints.PROFILE(user()!.id)}>Visit Profile</A>
               </UserBannerDetails>
             </UserBannerContainer>
           </Banner>
@@ -746,6 +790,7 @@ function UserPage() {
           </Show>
 
           <UsersWithSameIPAddress userId={user()?.id!}/>
+          <UserServersList userId={user()?.id!} servers={user()?.servers!} />
 
         <Show when={user()}>
           <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
@@ -778,6 +823,28 @@ const UsersWithSameIPAddress = (props: {userId: string}) => {
       <UsersWithSameIPAddressContainer>
       <For each={users()}>
         {user => <User user={user} />}
+      </For>
+      </UsersWithSameIPAddressContainer>
+    </FlexColumn>
+  )
+}
+const UserServersList = (props: {userId: string; servers: RawServer[]}) => {
+
+  const sortOwnedFirst = () => {
+    return props.servers.sort((a, b) => {
+      if (a.createdById === props.userId) return -1;
+      if (b.createdById === props.userId) return 1;
+      return 0;
+    })
+  }
+
+
+  return (
+    <FlexColumn>
+      <SettingsBlock icon="dns" header label="Joined Servers"  />
+      <UsersWithSameIPAddressContainer>
+      <For each={sortOwnedFirst()}>
+        {server => <Server server={server} />}
       </For>
       </UsersWithSameIPAddressContainer>
     </FlexColumn>
