@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
-import { A, useParams } from '@solidjs/router';
+import { A, useNavigate, useParams } from '@solidjs/router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem, { DeleteMessageModal } from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
@@ -50,6 +50,8 @@ import { useMutationObserver, useResizeObserver } from '@/common/useResizeObserv
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
 import RouterEndpoints from '@/common/RouterEndpoints';
+import Modal from '../ui/Modal';
+import { FlexRow } from '../ui/Flexbox';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{channelId: string, serverId?: string}>();
@@ -535,6 +537,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
   const { isMobileAgent, paneWidth } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
+  const {createPortal} = useCustomPortal();
 
   const { channels, messages } = useStore();
 
@@ -603,7 +606,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
       const isMoreThan12MB = attachment && attachment.size > 12 * 1024 * 1024;
       const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
       if (shouldUploadToGoogleDrive && !account.user()?.connections.find(c => c.provider === 'GOOGLE')) {
-        alert("TODO: account not linked modal")
+        createPortal(close => <GoogleDriveLinkModal close={close} />)
         return;
         
       }
@@ -1341,6 +1344,28 @@ function removeByIndex(val: string, index: number, remove: number) {
   return val.substring(0, index) + val.substring(index + remove);
 }
 
+
+
+
+const GoogleDriveLinkModal = (props: {close: () => void}) => {
+  const navigate = useNavigate();
+  const actionButtons = (
+    <FlexRow style={{width: "100%"}}>
+      <Button styles={{flex: 1}} iconName='close' label="Don't link" color='var(--alert-color)' onClick={props.close} />
+      <Button styles={{flex: 1}} label='Link now' iconName='link' primary onClick={() => {
+        navigate('/app/settings/connections');
+        props.close();
+      }} />
+    </FlexRow>
+  )
+  return (
+    <Modal title='Google Drive' icon='link' actionButtons={actionButtons} ignoreBackgroundClick close={props.close} maxWidth={300}>
+      <Text size={14} style={{padding: '10px', "padding-top": 0}}>
+        You must link your account to Google Drive to upload large images, videos or files.
+      </Text>
+    </Modal>
+  )
+}
 
 
 type MessageContextMenuProps = Omit<ContextMenuProps, 'items'> & {
