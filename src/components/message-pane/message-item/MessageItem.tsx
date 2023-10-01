@@ -334,8 +334,11 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
 
   createEffect(async () => {
     if (!googleApiInitialized()) return;
-    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink").catch((e) => console.log(e))
+    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType").catch((e) => console.log(e))
+    // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
     if (!file) return setError("File was deleted");
+
+    if (file.mimeType !== props.attachment.mime) return setError("File was modified.");
 
 
     const fileTime = new Date(file.modifiedTime!).getTime();
