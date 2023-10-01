@@ -66,7 +66,7 @@ function GoogleLink() {
   }
   
   return (
-    <SettingsBlock label='Google' description='Linking your Google account will allow you to upload files in Nerimity. Files will be stores in your Google Drive.'>
+    <SettingsBlock iconSrc='/assets/Google.svg' label='Google' description='Linking your Google account will allow you to upload files in Nerimity. Files will be stores in your Google Drive.'>
       <Show when={!isConnected()}><Button label='Link' iconName='link' onClick={linkGoogle}  /></Show>
       <Show when={isConnected()}><Button label='Unlink' color='var(--alert-color)' iconName='link_off' onClick={unlinkGoogle}  /></Show>
     </SettingsBlock>
