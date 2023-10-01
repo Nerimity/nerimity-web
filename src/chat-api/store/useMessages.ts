@@ -141,27 +141,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   !properties?.moreBottomToLoad && setMessages({
     [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
   })
-  if (properties?.attachment && properties.attachment.size > 12 * 1024 * 1024) {
-    pushMessage(channelId, {
-      channelId: channelId,
-      createdAt: Date.now(),
-      createdBy: {
-        username: 'Nerimity',
-        tag: "owo",
-        badges: 0,
-        hexColor: '0',
-        id: "0",
-      },
-      reactions: [],
-      quotedMessages: [],
-      id: Math.random().toString(),
-      type: MessageType.CONTENT,
-      content: "This message couldn't be sent. Try again later. ```Error\nMax file size is 12MB.\nbody: " + content  + "```"
-    })
-    const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
-    setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
-    return;
-  }
+  
   
   const onUploadProgress = (percent: number) => {
     const messageIndex = messages[channelId]!.findIndex(m => m.tempId === tempMessageId);
@@ -170,14 +150,38 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   }
 
   const isImage = properties?.attachment?.type?.startsWith('image/');
+  const isMoreThan12MB = properties?.attachment && properties.attachment.size > 12 * 1024 * 1024;
+  const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
 
 
   const file = properties?.attachment;
   let googleDriveFileId: string | undefined;
-  if (file && !isImage) {
-    const accessToken = await getGoogleAccessToken();
-    const res = await uploadFileGoogleDrive(file, accessToken.accessToken, onUploadProgress);
-    googleDriveFileId = res.id;
+  if (file && shouldUploadToGoogleDrive) {
+    try {
+      const accessToken = await getGoogleAccessToken();
+      const res = await uploadFileGoogleDrive(file, accessToken.accessToken, onUploadProgress);
+      googleDriveFileId = res.id;
+    } catch (err: any) {
+      pushMessage(channelId, {
+        channelId: channelId,
+        createdAt: Date.now(),
+        createdBy: {
+          username: 'Nerimity',
+          tag: "owo",
+          badges: 0,
+          hexColor: '0',
+          id: "0",
+        },
+        reactions: [],
+        quotedMessages: [],
+        id: Math.random().toString(),
+        type: MessageType.CONTENT,
+        content: "Failed to upload file to Google Drive. ```Error\n" + err.message + "\nbody: " + content  + "```"
+      })
+      const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
+      setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
+      return;
+    }
   }
 
 
@@ -185,7 +189,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     content,
     channelId,
     socketId: socketClient.id(),
-    attachment: isImage ? properties?.attachment : undefined,
+    attachment: !shouldUploadToGoogleDrive ? properties?.attachment : undefined,
     googleDriveAttachment: googleDriveFileId ? {id: googleDriveFileId, mime: file?.type!} : undefined,
     onUploadProgress
   }).catch((err) => {

@@ -436,7 +436,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   }
 
   const addReaction = async (shortcode: string, message: Message) => {
-    props.textAreaEl!.focus();
+    props.textAreaEl?.focus();
     const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
     await addMessageReaction({
       channelId: message.channelId,
@@ -596,14 +596,19 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   const sendMessage = () => {
 
 
-    // getGoogleAccessToken().then(res => {
-    //   uploadFile(channelProperty()?.attachment!, res.accessToken, console.log).then(res => {
-    //     console.log(res)
-    //   })
 
-    // })
+    if (!editMessageId() && channelProperty()?.attachment) {
+      const attachment = channelProperty()?.attachment!;
+      const isImage = attachment?.type?.startsWith('image/');
+      const isMoreThan12MB = attachment && attachment.size > 12 * 1024 * 1024;
+      const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
+      if (shouldUploadToGoogleDrive && !account.user()?.connections.find(c => c.provider === 'GOOGLE')) {
+        alert("TODO: account not linked modal")
+        return;
+        
+      }
+    }
 
-    // return;
     textAreaEl()?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
