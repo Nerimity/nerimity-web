@@ -92,10 +92,13 @@ const linkIconStyle = css`
   margin-right: 5px;
 `;
 
-export default function PageHeader(props: {showLogo?: boolean}) {
+export default function PageHeader(props: {showLogo?: boolean, hideAccountInfo?: boolean}) {
   const [user, setUser] = createSignal<null | false | RawUser>(null);
 
   onMount(async () => {
+    if (props.hideAccountInfo) {
+      return;
+    }
     if (!getStorageString(StorageKeys.USER_TOKEN, null)) {
       return setUser(false);
     }

@@ -1,9 +1,46 @@
 import env from "../../common/env";
-import { RawChannel, RawInboxWithoutChannel, RawMessage, RawPost, RawServer, RawUser } from "../RawData";
+import { RawChannel, RawInboxWithoutChannel, RawMessage, RawPost, RawServer, RawUser, RawUserConnection } from "../RawData";
 import { Presence, UserStatus } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
+
+
+export async function createGoogleAccountLink (): Promise<string> {
+  return request({
+    url: env.SERVER_URL + "/api/google/create-link",
+    method: "GET",
+    notJSON: true,
+    useToken: true
+  });
+}
+
+export async function linkAccountWithGoogle (code: string, nerimityUserToken: string): Promise<{connection: RawUserConnection}> {
+  return request({
+    url: env.SERVER_URL + "/api/google/link-account",
+    method: "POST",
+    body: {
+      code,
+      nerimityToken: nerimityUserToken
+    },
+    useToken: false
+  });
+}
+export async function unlinkAccountWithGoogle (): Promise<{status: boolean}> {
+  return request({
+    url: env.SERVER_URL + "/api/google/unlink-account",
+    method: "POST",
+    useToken: true
+  });
+}
+
+export async function getGoogleAccessToken (): Promise<{accessToken: string}> {
+  return request({
+    url: env.SERVER_URL + "/api/google/access-token",
+    method: "GET",
+    useToken: true
+  });
+}
 
 
 

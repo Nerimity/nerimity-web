@@ -10,6 +10,9 @@ export const ServerEvents = {
   AUTHENTICATE_ERROR:'user:authenticate_error',
   USER_UPDATED: 'user:updated',
 
+  USER_CONNECTION_ADDED: 'user:connection_added',
+  USER_CONNECTION_REMOVED: 'user:connection_removed',
+
   USER_SERVER_SETTINGS_UPDATE: 'user:server_settings_update',
 
   USER_AUTHENTICATED: 'user:authenticated',

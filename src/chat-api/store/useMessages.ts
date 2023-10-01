@@ -6,6 +6,8 @@ import socketClient from '../socketClient';
 import useAccount from './useAccount';
 import useChannelProperties from './useChannelProperties';
 import useChannels from './useChannels';
+import { getGoogleAccessToken } from '../services/UserService';
+import { uploadFileGoogleDrive } from '@/common/driveAPI';
 
 const account = useAccount();
 
@@ -139,27 +141,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   !properties?.moreBottomToLoad && setMessages({
     [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
   })
-  if (properties?.attachment && properties.attachment.size > 12 * 1024 * 1024) {
-    pushMessage(channelId, {
-      channelId: channelId,
-      createdAt: Date.now(),
-      createdBy: {
-        username: 'Nerimity',
-        tag: "owo",
-        badges: 0,
-        hexColor: '0',
-        id: "0",
-      },
-      reactions: [],
-      quotedMessages: [],
-      id: Math.random().toString(),
-      type: MessageType.CONTENT,
-      content: "This message couldn't be sent. Try again later. ```Error\nMax file size is 12MB.\nbody: " + content  + "```"
-    })
-    const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
-    setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
-    return;
-  }
+  
   
   const onUploadProgress = (percent: number) => {
     const messageIndex = messages[channelId]!.findIndex(m => m.tempId === tempMessageId);
@@ -167,11 +149,48 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     setMessages(channelId, messageIndex, 'uploadingAttachment', 'progress', percent);
   }
 
+  const isImage = properties?.attachment?.type?.startsWith('image/');
+  const isMoreThan12MB = properties?.attachment && properties.attachment.size > 12 * 1024 * 1024;
+  const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
+
+
+  const file = properties?.attachment;
+  let googleDriveFileId: string | undefined;
+  if (file && shouldUploadToGoogleDrive) {
+    try {
+      const accessToken = await getGoogleAccessToken();
+      const res = await uploadFileGoogleDrive(file, accessToken.accessToken, onUploadProgress);
+      googleDriveFileId = res.id;
+    } catch (err: any) {
+      pushMessage(channelId, {
+        channelId: channelId,
+        createdAt: Date.now(),
+        createdBy: {
+          username: 'Nerimity',
+          tag: "owo",
+          badges: 0,
+          hexColor: '0',
+          id: "0",
+        },
+        reactions: [],
+        quotedMessages: [],
+        id: Math.random().toString(),
+        type: MessageType.CONTENT,
+        content: "Failed to upload file to Google Drive. ```Error\n" + err.message + "\nbody: " + content  + "\nFilename: " + file.name + "```"
+      })
+      const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
+      setMessages(channelId, index!, 'sentStatus', MessageSentStatus.FAILED);
+      return;
+    }
+  }
+
+
   const message: void | Message = await postMessage({
     content,
     channelId,
     socketId: socketClient.id(),
-    attachment: properties?.attachment,
+    attachment: !shouldUploadToGoogleDrive ? properties?.attachment : undefined,
+    googleDriveAttachment: googleDriveFileId ? {id: googleDriveFileId, mime: file?.type!} : undefined,
     onUploadProgress
   }).catch((err) => {
     console.log(err);

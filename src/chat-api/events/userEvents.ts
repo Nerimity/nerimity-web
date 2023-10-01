@@ -4,7 +4,7 @@ import useMention from "../store/useMention";
 import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
 import { SelfUser } from "./connectionEventTypes";
-import { FriendStatus, RawServerSettings, RawUser } from "../RawData";
+import { FriendStatus, RawServerSettings, RawUser, RawUserConnection } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
 
@@ -54,4 +54,18 @@ export function onUserBlocked(payload: {user: RawUser}) {
 export function onUserUnblocked(payload: {userId: string}) {
   const friends = useFriends();
   friends.delete(payload.userId);
+}
+
+
+export function onUserConnectionAdded (payload: {connection: RawUserConnection}) {
+  const account = useAccount();
+  account.setUser({
+    connections: [...(account.user()?.connections || []), payload.connection]
+  })
+}
+
+export function onUserConnectionRemoved (payload: {connectionId: string}) {
+  const account = useAccount();
+  account.setUser({connections: account.user()?.connections.filter(c => c.id !== payload.connectionId)})
+  
 }

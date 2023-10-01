@@ -7,6 +7,7 @@ import { css } from 'solid-styled-components';
 interface BlockProps {
   label: string;
   icon?: string;
+  iconSrc?: string;
   description?: string;
   children?: JSX.Element | undefined;
   header?: boolean;
@@ -28,7 +29,9 @@ export default function SettingsBlock(props: BlockProps) {
         props.class
       )}>
       <div class={styles.outerContainer}>
-        <Icon name={props.icon || "texture"} />
+        <Show when={props.iconSrc} fallback={<Icon name={props.icon || "texture"} />}>
+          <img class={styles.icon} src={props.iconSrc} alt="" />
+        </Show>
         <div class={styles.details}>
           <div class={styles.label}>{props.label}</div>
           <Show when={props.description}><div class={styles.description}>{props.description}</div></Show>

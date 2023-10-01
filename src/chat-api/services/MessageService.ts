@@ -45,14 +45,19 @@ interface PostMessageOpts {
   content?: string;
   channelId: string;
   socketId?: string;
-  attachment?: File
+  attachment?: File;
+  googleDriveAttachment?: {
+    id: string;
+    mime: string;
+  }
   onUploadProgress?: (progress: number) => void
 }
 
 export const postMessage = async (opts: PostMessageOpts) => {
 
   let body: any = {
-    content: opts.content,
+    content: opts.content?.trim() || undefined,
+    ...(opts.googleDriveAttachment ? { googleDriveAttachment: opts.googleDriveAttachment } : {}),
     ...(opts.socketId ? { socketId: opts.socketId } : {}),
   }
 

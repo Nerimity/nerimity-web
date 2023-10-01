@@ -66,10 +66,15 @@ export interface RawMessageReaction {
 
 export interface RawAttachment {
   id: string;
+
+  provider?: "local" | "google_drive"
+  fileId?: string
+  mime?: string
   messageId?: string;
-  path: string;
+  path?: string;
   width?: number;
   height?: number;
+  createdAt: number
 }
 
 export interface RawUser {
@@ -81,6 +86,12 @@ export interface RawUser {
   tag: string;
   badges: number;
   joinedAt?: number;
+}
+
+export interface RawUserConnection {
+  id: string;
+  provider: "GOOGLE",
+  connectedAt: number
 }
 
 

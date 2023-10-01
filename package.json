@@ -10,7 +10,9 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@maxim_mazurok/gapi.client.drive-v3": "^0.0.20230920",
     "@types/croppie": "^2.6.1",
+    "@types/gapi": "^0.0.45",
     "@types/markdown-it": "^12.2.3",
     "@types/markdown-it-emoji": "^2.0.2",
     "@types/node": "^20.4.6",

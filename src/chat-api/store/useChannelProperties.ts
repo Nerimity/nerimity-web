@@ -34,6 +34,7 @@ const get = (channelId: string) => properties[channelId] as ChannelProperties | 
 
 const setEditMessage = (channelId: string, message?: Message) => {
   initIfMissing(channelId)
+  if (!message && !get(channelId)?.editMessageId) return
   setChannelProperties(channelId, {
     editMessageId: message?.id,
     content: message?.content || '',

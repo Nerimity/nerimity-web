@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
-import { A, useParams } from '@solidjs/router';
+import { A, useNavigate, useParams } from '@solidjs/router';
 import useStore from '../../chat-api/store/useStore';
 import MessageItem, { DeleteMessageModal } from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
@@ -50,7 +50,8 @@ import { useMutationObserver, useResizeObserver } from '@/common/useResizeObserv
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
 import RouterEndpoints from '@/common/RouterEndpoints';
-
+import Modal from '../ui/Modal';
+import { FlexRow } from '../ui/Flexbox';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{channelId: string, serverId?: string}>();
@@ -330,7 +331,6 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   const onPaste = (event: ClipboardEvent) => {
     const file = event.clipboardData?.files[0];
     if (!file) return;
-    if (!file.type.startsWith("image")) return;
     channelProperties.setAttachment(params.channelId, file);
   }
 
@@ -438,7 +438,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
   }
 
   const addReaction = async (shortcode: string, message: Message) => {
-    props.textAreaEl!.focus();
+    props.textAreaEl?.focus();
     const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
     await addMessageReaction({
       channelId: message.channelId,
@@ -537,6 +537,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
   const { isMobileAgent, paneWidth } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
+  const {createPortal} = useCustomPortal();
 
   const { channels, messages } = useStore();
 
@@ -596,6 +597,21 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   }
 
   const sendMessage = () => {
+
+
+
+    if (!editMessageId() && channelProperty()?.attachment) {
+      const attachment = channelProperty()?.attachment!;
+      const isImage = attachment?.type?.startsWith('image/');
+      const isMoreThan12MB = attachment && attachment.size > 12 * 1024 * 1024;
+      const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
+      if (shouldUploadToGoogleDrive && !account.user()?.connections.find(c => c.provider === 'GOOGLE')) {
+        createPortal(close => <GoogleDriveLinkModal close={close} />)
+        return;
+        
+      }
+    }
+
     textAreaEl()?.focus();
     const trimmedMessage = message().trim();
     setMessage('')
@@ -702,7 +718,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
       <Show when={!props.isEditing && !pickedFile()}>
-        <FileBrowser ref={setAttachmentFileBrowserRef} accept='images' onChange={onFilePicked} />
+        <FileBrowser ref={setAttachmentFileBrowserRef} accept='any' onChange={onFilePicked} />
         <Button
           onClick={() => attachmentFileBrowserRef()?.open()}
           class={styles.inputButtons}
@@ -906,20 +922,23 @@ function FloatingAttachment(props: {}) {
   const [dataUrl, setDataUrl] = createSignal<string | undefined>(undefined);
 
   const getAttachmentFile = () => channelProperties.get(params.channelId)?.attachment;
+  const isImage = () => getAttachmentFile()?.type.startsWith('image/');
 
   createEffect(async () => {
     const file = getAttachmentFile();
     if (!file) return;
+    if (!isImage()) return;
     const getDataUrl = await fileToDataUrl(file);
     setDataUrl(getDataUrl)
   })
 
 
+
   return (
     <Floating class={styles.floatingAttachment}>
       <Icon name='attach_file' size={17} color='var(--primary-color)' class={styles.attachIcon} />
-      <img class={styles.attachmentImage} src={dataUrl()} alt="" />
-      <div class={styles.attachmentFilename}>{getAttachmentFile().name}</div>
+      <Show when={isImage()}><img class={styles.attachmentImage} src={dataUrl()} alt="" /></Show>
+      <div class={styles.attachmentFilename}>{getAttachmentFile()?.name}</div>
     </Floating>
   )
 }
@@ -1325,6 +1344,28 @@ function removeByIndex(val: string, index: number, remove: number) {
   return val.substring(0, index) + val.substring(index + remove);
 }
 
+
+
+
+const GoogleDriveLinkModal = (props: {close: () => void}) => {
+  const navigate = useNavigate();
+  const actionButtons = (
+    <FlexRow style={{width: "100%"}}>
+      <Button styles={{flex: 1}} iconName='close' label="Don't link" color='var(--alert-color)' onClick={props.close} />
+      <Button styles={{flex: 1}} label='Link now' iconName='link' primary onClick={() => {
+        navigate('/app/settings/connections');
+        props.close();
+      }} />
+    </FlexRow>
+  )
+  return (
+    <Modal title='Google Drive' icon='link' actionButtons={actionButtons} ignoreBackgroundClick close={props.close} maxWidth={300}>
+      <Text size={14} style={{padding: '10px', "padding-top": 0}}>
+        You must link your account to Google Drive to upload large images, videos or files.
+      </Text>
+    </Modal>
+  )
+}
 
 
 type MessageContextMenuProps = Omit<ContextMenuProps, 'items'> & {
