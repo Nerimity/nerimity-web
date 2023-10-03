@@ -290,7 +290,7 @@ const ServerDrawer = () => {
   const offlineMembers = createMemo(() => members().filter(member => !member?.user.presence?.status))
 
   return (
-    <>
+    <Show when={server()} keyed={server()?.id}>
       <Text style={{ "margin-left": "10px" }}>Members ({members().length})</Text>
       <For each={roleMembers()}>
         {item => (
@@ -303,7 +303,7 @@ const ServerDrawer = () => {
       {/* Offline */}
       <RoleItem members={offlineMembers()} roleName="Offline" />
 
-    </>
+    </Show>
   )
 }
 
@@ -424,7 +424,7 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
   
   const isMobileWidthMemo = createMemo(() => isMobileWidth())
   createEffect(on(isMobileWidthMemo, (input, prevInput) => {
-    props.close();
+    props.close?.();
   }, {defer: true}))
 
 
