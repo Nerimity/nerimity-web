@@ -168,8 +168,9 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
   const { createPortal } = useCustomPortal();
 
 
+  const isFile = () => props.attachment.fileId;
 
-  const isGif = () => props.attachment.path.endsWith(".gif")
+  const isGif = () => props.attachment.path?.endsWith(".gif")
 
   const url = (ignoreFocus?: boolean) => {
     let url = `${env.NERIMITY_CDN}${props.attachment.path}`;
@@ -184,11 +185,18 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
 
   return (
     <div class={classNames(styles.attachmentImageContainer, conditionalClass(isGif(), styles.gif))}>
-      <img class={styles.attachmentImage}
-        loading="lazy"
-        onClick={() => onClicked(props.attachment)}
-        src={url()}
-      />
+      <Show when={!isFile()}>
+        <img class={styles.attachmentImage}
+          loading="lazy"
+          onClick={() => onClicked(props.attachment)}
+          src={url()}
+        />
+      </Show>
+      <Show when={isFile()}>
+        <div class={styles.fileAttachment}>
+          <Icon name='insert_drive_file' color='var(--primary-color)' size={40} />
+        </div>
+      </Show>
     </div>
   )
 }
