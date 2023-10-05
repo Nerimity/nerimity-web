@@ -33,13 +33,15 @@ import { ServerEvents } from '@/chat-api/EventNames';
 import { Markup } from '../Markup';
 import { useResizeObserver } from '@/common/useResizeObserver';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
+import { electronWindowAPI } from '@/common/Electron';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
   const user = () => props.member.user;
-  let elementRef: undefined | HTMLAnchorElement;
+  let elementRef: undefined | HTMLDivElement;
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>(undefined);
-  const [hoveringRect, setHoveringRect] = createSignal<undefined | { left: number, top: number }>(undefined);
+  const [hovering, setHovering] = createSignal(false);
+  const [modalPosition, setModalPosition] = createSignal<undefined | { left: number, top: number }>(undefined);
   const { isMobileWidth } = useWindowProperties();
   const { createPortal } = useCustomPortal();
 
@@ -49,28 +51,26 @@ const MemberItem = (props: { member: ServerMember }) => {
     setContextPosition({ x: event.clientX, y: event.clientY });
   }
 
-  const onHover = () => {
-    if (isMobileWidth()) return;
-    const rect = elementRef?.getBoundingClientRect()!;
-    setHoveringRect({ left: rect.left, top: rect.top });
-  }
   const onClick = (e: MouseEvent) => {
-    if (isMobileWidth()) e.preventDefault();
-    createPortal(close => <MobileFlyout serverId={params.serverId} close={close} userId={user().id} />)
+    if (isMobileWidth())  
+      return createPortal(close => <MobileFlyout serverId={params.serverId} close={close} userId={user().id} />)
+    if (modalPosition()) return setModalPosition(undefined);
+    const rect = elementRef?.getBoundingClientRect()!;
+    setModalPosition({ left: rect.left, top: rect.top });
   }
 
   return (
-    <div onMouseEnter={onHover} onMouseLeave={() => setHoveringRect(undefined)} >
+    <div classList={{openedMemberList: !!modalPosition()}} onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} >
       {/* <div onMouseEnter={onHover} > */}
-      <Show when={hoveringRect()}><ProfileFlyout serverId={params.serverId} userId={user().id} left={hoveringRect()!.left} top={hoveringRect()!.top} /></Show>
+      <Show when={modalPosition()}><ProfileFlyout close={() => setModalPosition(undefined)} serverId={params.serverId} userId={user().id} left={modalPosition()!.left} top={modalPosition()!.top} /></Show>
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
-      <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(props.member.userId)} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
-        <Avatar animate={!!hoveringRect()} size={30} user={user()} />
+      <div onClick={onClick} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
+        <Avatar animate={hovering() || !!modalPosition()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor }} >{user().username}</div>
-          <UserPresence animate={!!hoveringRect()} userId={user().id} showOffline={false} />
+          <UserPresence animate={hovering() || !!modalPosition()} userId={user().id} showOffline={false} />
         </div>
-      </CustomLink>
+      </div>
     </div>
   )
 };
@@ -168,8 +168,9 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
   const { createPortal } = useCustomPortal();
 
 
+  const isFile = () => props.attachment.fileId;
 
-  const isGif = () => props.attachment.path.endsWith(".gif")
+  const isGif = () => props.attachment.path?.endsWith(".gif")
 
   const url = (ignoreFocus?: boolean) => {
     let url = `${env.NERIMITY_CDN}${props.attachment.path}`;
@@ -184,11 +185,18 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
 
   return (
     <div class={classNames(styles.attachmentImageContainer, conditionalClass(isGif(), styles.gif))}>
-      <img class={styles.attachmentImage}
-        loading="lazy"
-        onClick={() => onClicked(props.attachment)}
-        src={url()}
-      />
+      <Show when={!isFile()}>
+        <img class={styles.attachmentImage}
+          loading="lazy"
+          onClick={() => onClicked(props.attachment)}
+          src={url()}
+        />
+      </Show>
+      <Show when={isFile()}>
+        <div class={styles.fileAttachment}>
+          <Icon name='insert_drive_file' color='var(--primary-color)' size={40} />
+        </div>
+      </Show>
     </div>
   )
 }
@@ -290,7 +298,7 @@ const ServerDrawer = () => {
   const offlineMembers = createMemo(() => members().filter(member => !member?.user.presence?.status))
 
   return (
-    <>
+    <Show when={server()} keyed={server()?.id}>
       <Text style={{ "margin-left": "10px" }}>Members ({members().length})</Text>
       <For each={roleMembers()}>
         {item => (
@@ -303,15 +311,15 @@ const ServerDrawer = () => {
       {/* Offline */}
       <RoleItem members={offlineMembers()} roleName="Offline" />
 
-    </>
+    </Show>
   )
 }
 
 function RoleItem(props: { roleName: string, members: ServerMember[] }) {
   const [expanded, setExpanded] = createSignal(props.members.length <= 20);
   return (
-    <div class={styles.roleItem} onclick={() => setExpanded(!expanded())}>
-      <div class={styles.roleTitle}>
+    <div class={styles.roleItem}>
+      <div class={styles.roleTitle} onclick={() => setExpanded(!expanded())}>
         <div class={styles.roleName}>{props.roleName} ({props.members.length}) </div>
         <Button class={styles.roleExpandButton} padding={5} margin={0} iconName={expanded() ? 'expand_more' : 'expand_less'} iconSize={12} />
       </div>
@@ -420,6 +428,13 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
   const [hover, setHover] = createSignal(false);
   const { height } = useWindowProperties();
   const isMe = () => account.user()?.id === props.userId;
+  const { isMobileWidth } = useWindowProperties();
+  
+  const isMobileWidthMemo = createMemo(() => isMobileWidth())
+  createEffect(on(isMobileWidthMemo, (input, prevInput) => {
+    props.close?.();
+  }, {defer: true}))
+
 
   const user = () => {
     if (details()) return details()?.user
@@ -430,17 +445,12 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
 
   const member = () => props.serverId && serverMembers.get(props.serverId, props.userId);
 
-  createEffect(on(() => props.userId, () => {
+  createEffect(on(() => props.userId, async() => {
     setDetails(undefined);
-    const timeoutId = window.setTimeout(async () => {
-      const details = await getUserDetailsRequest(props.userId);
-      setDetails(details)
-      if (!details.latestPost) return;
-      posts.pushPost(details.latestPost)
-    }, props.mobile ? 0 : 500);
-    onCleanup(() => {
-      window.clearTimeout(timeoutId);
-    })
+    const details = await getUserDetailsRequest(props.userId);
+    setDetails(details)
+    if (!details.latestPost) return;
+    posts.pushPost(details.latestPost)
   }))
 
   const latestPost = () => posts.cachedPost(details()?.latestPost?.id!);
@@ -458,9 +468,26 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
     if (!flyoutRef()) return;
     if (props.mobile) return;
     let newTop = props.top!;
-    if ((flyoutHeight() + props.top!) > height()) newTop = height() - flyoutHeight();
+    if ((flyoutHeight() + props.top!) > height()) newTop = height() - flyoutHeight() - (electronWindowAPI()?.isElectron ? 35 : 0);
     flyoutRef()!.style.top = newTop + "px";
   })
+
+
+  onMount(() => {
+    document.addEventListener("mousedown", onBackgroundClick)
+    onCleanup(() => {
+      document.removeEventListener("mousedown", onBackgroundClick)
+    })
+  })
+  const onBackgroundClick = (event: MouseEvent) => {
+    if (props.mobile) return;
+    if (event.target instanceof Element) {
+      if (event.target.closest(`.${FlyoutContainer.class({})}`)) return;
+      if (event.target.closest(`.openedMemberList`)) return;
+      props.close?.()
+      
+    };
+  }
 
 
   const style = () => ({
@@ -570,7 +597,6 @@ const BackgroundContainer = styled("div")`
   z-index: 1111;
 `;
 function MobileFlyout(props: { userId: string, serverId: string, close: () => void }) {
-  const { isMobileWidth } = useWindowProperties();
   let mouseDownTarget: HTMLDivElement | null = null;
 
   const onBackgroundClick = (event: MouseEvent) => {
@@ -578,9 +604,6 @@ function MobileFlyout(props: { userId: string, serverId: string, close: () => vo
     props.close?.()
   }
 
-  createEffect(() => {
-    if (!isMobileWidth()) props.close();
-  })
 
   return (
     <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>

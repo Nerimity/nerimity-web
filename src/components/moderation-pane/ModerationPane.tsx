@@ -119,10 +119,9 @@ const ItemDetailContainer = styled("div")`
 export default function ModerationPane() {
   const { account, header } = useStore();
   const [load, setLoad] = createSignal(false);
-  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   createEffect(() => {
-    if (!account.isAuthenticated() || !hasModeratorPerm()) return;
+    if (!account.isAuthenticated() || !account.hasModeratorPerm()) return;
     header.updateHeader({
       title: "Moderation",
       iconName: 'security',

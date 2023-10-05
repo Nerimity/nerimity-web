@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { Link, useParams } from '@solidjs/router';
+import { A, Link, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
 import { blockUser, followUser, getFollowers, getFollowing, getUserDetailsRequest, unblockUser, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
@@ -138,7 +138,7 @@ export default function ProfilePane() {
 
 const ActionButtons = (props: { class?: string, updateUserDetails(): void, userDetails?: UserDetails | null, user?: RawUser | null }) => {
   const params = useParams<{ userId: string }>();
-  const { friends, users } = useStore();
+  const { friends, users, account } = useStore();
 
   const friend = () => friends.get(params.userId);
     
@@ -194,6 +194,12 @@ const ActionButtons = (props: { class?: string, updateUserDetails(): void, userD
 
   return (
     <ActionButtonsContainer class={props.class} gap={3}>
+      <Show when={account.hasModeratorPerm()}>
+        <CustomLink href={"/app/moderation/users/" + params.userId}>
+          <ActionButton icon='security' label='Admin Panel' color='var(--primary-color)' />
+        </CustomLink>
+      </Show>
+
       {!isFollowing() && <ActionButton icon='add_circle' label={t('profile.followButton')} onClick={followClick} color='var(--primary-color)' />}
       {isFollowing() && <ActionButton icon='add_circle' label={t('profile.unfollowButton')} onClick={unfollowClick} color='var(--alert-color)' />}
       {isFriend() && <ActionButton icon='person_add_disabled' label={t('profile.removeFriendButton')} color='var(--alert-color)' onClick={removeClicked} />}

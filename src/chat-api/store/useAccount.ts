@@ -2,6 +2,7 @@ import env from '@/common/env';
 import {createStore} from 'solid-js/store';
 import { SelfUser } from '../events/connectionEventTypes';
 import { RawServerSettings, RawUser } from '../RawData';
+import { USER_BADGES, hasBit } from '../Bitwise';
 
 
 type ServerSettings = Omit<RawServerSettings, 'serverId'>;
@@ -53,6 +54,9 @@ const authenticationError = () => account.authenticationError;
 
 const avatarUrl = () => user()?.avatar ? env.NERIMITY_CDN + user()?.avatar : null;
 
+const hasModeratorPerm = () => hasBit(user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit)
+
+
 export default function useAccount() {
   return {
     user,
@@ -63,6 +67,7 @@ export default function useAccount() {
     isAuthenticated,
     authenticationError,
     setServerSettings,
-    getServerSettings
+    getServerSettings,
+    hasModeratorPerm
   }
 }
