@@ -46,6 +46,12 @@ export const CHANNEL_PERMISSIONS = {
     description: 'servers.channelPermissions.sendMessageDescription',
     bit: 2,
     icon: 'mail'
+  },
+  JOIN_VOICE: {
+    name: 'servers.channelPermissions.joinVoice',
+    description: 'servers.channelPermissions.joinVoiceDescription',
+    bit: 4,
+    icon: 'call'
   }
 }
 

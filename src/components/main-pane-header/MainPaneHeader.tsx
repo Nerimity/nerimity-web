@@ -23,12 +23,13 @@ import Text from '../ui/Text';
 import { CustomLink } from '../ui/CustomLink';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { ScreenShareModal } from './ScreenShareModal';
+import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
 
 
 
 
 export default function MainPaneHeader() {
-  const { servers, channels, users, header, voiceUsers } = useStore();
+  const { servers, channels, users, header, voiceUsers, serverMembers, account } = useStore();
   const { toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage } = useDrawer();
   const { isMobileWidth } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);
@@ -69,6 +70,17 @@ export default function MainPaneHeader() {
     setMentionListPosition(!mentionListPosition());
   }
 
+  const canCall = () => {
+    if (!header.details().channelId) return;
+    if (!channel()?.serverId) return true;
+
+    const hasChannelGotCallPermission = hasBit(channel()?.permissions || 0, CHANNEL_PERMISSIONS.JOIN_VOICE.bit);
+    if (hasChannelGotCallPermission) return true;
+    const member =  serverMembers.get(channel()?.serverId!, account.user()?.id!);
+    const isAdmin = member?.amIServerCreator() || member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+    return isAdmin;
+  }
+
   return (
     <>
       <div onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} class={classNames(styles.header, conditionalClass(isMobileWidth(), styles.isMobile))}>
@@ -84,7 +96,7 @@ export default function MainPaneHeader() {
           {user() && <UserPresence userId={user()?.id} showOffline={true} animate={hovered()} />}
         </div>
         <div class={styles.rightIcons}>
-          <Show when={header.details().channelId}>
+          <Show when={canCall()}>
             <Button margin={3} iconName='call' onClick={onCallClick} />
           </Show>
             <Button margin={3} iconName='alternate_email' onClick={onMentionButtonClick} class="mentionListIcon" />

@@ -161,7 +161,9 @@
       "privateChannel": "Private Channel",
       "privateChannelDescription": "Disable access to the channel. Server admins can still access the channel.",
       "sendMessage": "Send Message",
-      "sendMessageDescription": "Enable sending messages in the channel. Server admins can still send messages."
+      "sendMessageDescription": "Enable sending messages in the channel. Server admins can still send messages.",
+      "joinVoice": "Join Voice",
+      "joinVoiceDescription": "Enable joining voice channels in the channel. Server admins can still join voice channels."
     }
   },
   "settings": {
