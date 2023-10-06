@@ -10,7 +10,8 @@ export function Link(props: { url: string, text?: string; }) {
     if (startsWithHttp || startsWithHttps) return props.url;
     return `https://${props.url}`
   }
-  const onClick = (event: any) => {
+  const onClick = (event: MouseEvent) => {
+    event.stopPropagation();
     if (props.text === undefined) return;
     if (props.text === safeUrl()) return; 
     event?.preventDefault();
