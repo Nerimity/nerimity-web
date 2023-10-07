@@ -52,6 +52,7 @@ import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerCh
 import RouterEndpoints from '@/common/RouterEndpoints';
 import Modal from '../ui/Modal';
 import { FlexRow } from '../ui/Flexbox';
+import { Markup } from '../Markup';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{channelId: string, serverId?: string}>();
@@ -717,6 +718,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
+    <BeforeYouChatNotice/>
       <Show when={!props.isEditing && !pickedFile()}>
         <FileBrowser ref={setAttachmentFileBrowserRef} accept='any' onChange={onFilePicked} />
         <Button
@@ -1411,5 +1413,25 @@ function MessageContextMenu(props: MessageContextMenuProps) {
       ...(hasContent() ? [{ icon: 'copy', label: t('messageContextMenu.copyMessage'), onClick: () => copyToClipboard(props.message.content!) }] : []),
       { icon: 'copy', label: t('messageContextMenu.copyId'), onClick: () => copyToClipboard(props.message.id!) }
     ]} />
+  )
+}
+
+
+
+function BeforeYouChatNotice() {
+  return (
+    <>
+    <div class={styles.disableChatArea}/>
+    <div class={styles.beforeYouChatNotice}>
+      <div class={styles.title}>
+        <Icon name='info' color='var(--primary-color)' size={18} />
+        Before you chat...
+      </div>
+      <div class={styles.info}>
+        <Markup inline text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem nobis consequuntur commodi magnam, amet provident ex natus accusantium omnis reiciendis perferendis ipsa voluptatibus temporibus quia maxime id quas quibusdam impedit.' />
+      </div>
+      <Button label='Understood' iconName='done' class={styles.noticeButton} primary />
+    </div>
+    </>
   )
 }

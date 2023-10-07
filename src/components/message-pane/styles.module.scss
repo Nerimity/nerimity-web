@@ -277,3 +277,48 @@
     }
   }
 }
+
+
+.disableChatArea {
+  position: absolute;
+  inset: 0;
+  cursor: not-allowed;
+}
+.beforeYouChatNotice {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: absolute;
+  background-color: var(--pane-color);
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+
+  left: 0;
+  right: 0;
+  bottom: -2px;
+
+  max-width: 300px;
+  max-height: 300px;
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .info {
+    margin: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    overflow: auto;
+  }
+  .noticeButton {
+    margin-top: auto;
+  }
+
+}
