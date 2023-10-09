@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createEffect,  createSignal,  For, on, Show } from 'solid-js';
+import { createEffect,  createSignal,  For, on, onMount, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
@@ -21,6 +21,10 @@ import { emojiShortcodeToUnicode } from '@/emoji';
 import { Emoji } from '@/components/markup/Emoji';
 import env from '@/common/env';
 import { ChannelIcon } from '../../drawer/ServerDrawer';
+import Text from '@/components/ui/Text';
+import { css } from 'solid-styled-components';
+import { deleteChannelNotice, getChannelNotice, updateChannelNotice } from '@/chat-api/services/ChannelService';
+import { RawChannelNotice } from '@/chat-api/RawData';
 
 type ChannelParams = {
   serverId: string;
@@ -145,6 +149,8 @@ export default function ServerSettingsChannel() {
 
         </For>
       </div>
+
+      <ChannelNoticeBlock channelId={params.channelId} serverId={params.serverId} />
       {/* Delete Channel */}
       <SettingsBlock icon='delete' label={t('servers.settings.channel.deleteThisChannel')} description={t('servers.settings.channel.deleteThisChannelDescription')}>
         <Button label={t('servers.settings.channel.deleteChannelButton')} color='var(--alert-color)' onClick={showDeleteConfirmModal} />
@@ -154,6 +160,83 @@ export default function ServerSettingsChannel() {
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button iconName='save' label={saveRequestStatus()} class={styles.saveButton} onClick={onSaveButtonClicked} />
       </Show>
+    </div>
+  )
+}
+
+
+const NoticeBlockStyle = css`
+  && {
+    height: initial;
+    min-height: initial;
+    align-items: start;
+    flex-direction: column;
+    flex: 0;
+    padding-top: 15px;
+    align-items: stretch;
+  }
+  .inputContainer {
+    margin-left: 35px;
+    margin-top: 5px;
+  }
+  textarea {
+    min-height: 100px;
+  }
+`;
+
+
+
+function ChannelNoticeBlock (props: {serverId: string, channelId: string}) {
+  const [error, setError] = createSignal<string>("");
+  const [channelNotice, setChannelNotice] = createSignal<RawChannelNotice | null>(null);
+  
+  const defaultInput = () => ({
+    content: channelNotice()?.content || ''
+  })
+
+  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
+
+  onMount(async () => {
+    const res = await getChannelNotice(props.channelId);
+    if (!res) return;
+    setChannelNotice(res.notice);
+  }) 
+
+
+
+  const save = async () => {
+    setError("")
+    if (inputValues().content.length > 300) return setError("Channel notice cannot be longer than 300 characters.");
+    const res = await updateChannelNotice(props.serverId, props.channelId, inputValues().content).catch((err) => {
+      setError(err.message);
+    })
+    if (!res) return;
+    setChannelNotice(res.notice);
+    setInputValue("content", res.notice.content);
+  }
+
+  const deleteNotice = async () => {
+    const res = await deleteChannelNotice(props.serverId, props.channelId).catch((err) => {
+      setError(err.message);
+    })
+    if (!res) return;
+    setChannelNotice(null);
+    setInputValue("content", "");
+  }
+
+  return (
+    <div style={{"margin-bottom": "35px", "padding-bottom": "30px", "border-bottom": "solid 1px rgba(255,255,255,0.2)"}}>
+      <SettingsBlock icon='info' label='Channel Notice' class={NoticeBlockStyle} description='Shows when the user is about to chat for the first time. Changes apply after reload.'>
+        <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({inputValues().content.length} / 300)</Text>
+        <Input class='inputContainer' type='textarea' value={inputValues().content} onText={(v) => setInputValue("content", v)} />
+        <Show when={error()}><Text style={{"margin-left": "40px"}} color='var(--alert-color)'>{error()}</Text></Show>
+
+        <div style={{ display: 'flex', "align-self": "flex-end", "margin-top": "15px" }}>
+          <Show when={channelNotice()?.content}><Button label='Remove Notice' color='var(--alert-color)' iconName='delete' onClick={deleteNotice} /></Show>
+          <Show when={updatedInputValues().content}><Button  label='Save' iconName='save'  onClick={save} /></Show>
+
+        </div>
+      </SettingsBlock>
     </div>
   )
 }
