@@ -9,6 +9,7 @@ export enum StorageKeys {
   NOTIFICATION_VOLUME = 'notificationVolume',
   ENABLE_DESKTOP_NOTIFICATION = 'enableDesktopNotification',
   LAST_SELECTED_SERVER_CHANNELS = 'lastSelectedServerChannels',
+  LAST_SEEN_CHANNEL_NOTICES = "lastSeenChannelNotices",
 }
 
 export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {
@@ -40,6 +41,21 @@ export function getStorageNumber<T>(key: StorageKeys, defaultValue: T) {
 export function setStorageNumber(key: StorageKeys, value: number) {
     localStorage.setItem(key, value.toString());
 }
+
+
+export function getStorageObject<T>(key: StorageKeys, defaultValue: T): T {
+    const value = getStorageString(key, null);
+    if (value === null) {
+        return defaultValue;
+    }
+    return JSON.parse(value);
+}
+
+export function setStorageObject<T>(key: StorageKeys, value: T) {
+    setStorageString(key, JSON.stringify(value));
+}
+
+
 
 export function removeStorage(key: StorageKeys) {
     localStorage.removeItem(key);

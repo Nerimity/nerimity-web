@@ -197,7 +197,7 @@ function ChannelNoticeBlock (props: {serverId: string, channelId: string}) {
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
   onMount(async () => {
-    const res = await getChannelNotice(props.serverId, props.channelId);
+    const res = await getChannelNotice(props.channelId);
     if (!res) return;
     setChannelNotice(res.notice);
   }) 

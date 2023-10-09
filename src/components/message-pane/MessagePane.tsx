@@ -6,7 +6,7 @@ import useStore from '../../chat-api/store/useStore';
 import MessageItem, { DeleteMessageModal } from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
 import { useWindowProperties } from '../../common/useWindowProperties';
-import { ChannelType, MessageType, RawCustomEmoji, RawMessage } from '../../chat-api/RawData';
+import { ChannelType, MessageType, RawChannelNotice, RawCustomEmoji, RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
@@ -53,6 +53,8 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import Modal from '../ui/Modal';
 import { FlexRow } from '../ui/Flexbox';
 import { Markup } from '../Markup';
+import { getChannelNotice } from '@/chat-api/services/ChannelService';
+import { getStorageObject, setStorageObject, StorageKeys } from '@/common/localStorage';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{channelId: string, serverId?: string}>();
@@ -718,7 +720,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
-    <BeforeYouChatNotice/>
+    <BeforeYouChatNotice channelId={params.channelId} />
       <Show when={!props.isEditing && !pickedFile()}>
         <FileBrowser ref={setAttachmentFileBrowserRef} accept='any' onChange={onFilePicked} />
         <Button
@@ -1418,20 +1420,72 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
 
 
-function BeforeYouChatNotice() {
+let noticeCache: Record<string, RawChannelNotice | null> = {};
+
+const useNotice = (channelId: string) => {
+
+  const [notice, setNotice] = createSignal<RawChannelNotice | null>(null);
+
+  onMount(async () => {
+    if (noticeCache[channelId] !== undefined) {
+      setNotice(noticeCache[channelId]);
+      return;
+    }
+    const noticeRes = await getChannelNotice(channelId).catch(() => {});
+    if (!noticeRes) {
+      noticeCache[channelId] = null;
+      return;
+    }
+    noticeCache[channelId] = noticeRes.notice;
+    setNotice(noticeRes.notice);
+  })
+
+  const hasAlreadySeenNotice = () => {
+    if (!notice()) return;
+    const lastSeenObj = getStorageObject<Record<string, number>>(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, {});
+    const lastSeen = lastSeenObj[channelId];
+    if (!lastSeen) return false;
+    return lastSeen > notice()!.updatedAt  
+  }
+  const updateLastSeen = () => {
+    if (!notice()) return;
+    let lastSeenObj = getStorageObject<Record<string, number>>(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, {});
+    lastSeenObj[channelId] = Date.now();
+    // keep the top 50 last seen notices
+    const sorted = Object.entries(lastSeenObj).sort((a, b) => b[1] - a[1]);
+    if (sorted.length > 50) {
+      sorted.splice(50, sorted.length - 50);
+    }
+    lastSeenObj = Object.fromEntries(sorted);
+    setStorageObject(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, lastSeenObj);
+  }
+
+  return {notice, setNotice, hasAlreadySeenNotice, updateLastSeen}
+}
+
+
+function BeforeYouChatNotice(props: {channelId: string}) {
+  const {notice, setNotice, hasAlreadySeenNotice, updateLastSeen} = useNotice(props.channelId);
+
+
+  const understoodClick = () => {
+    updateLastSeen();
+    setNotice(null);
+  }
+
   return (
-    <>
-    <div class={styles.disableChatArea}/>
-    <div class={styles.beforeYouChatNotice}>
-      <div class={styles.title}>
-        <Icon name='info' color='var(--primary-color)' size={18} />
-        Before you chat...
+    <Show when={notice() && !hasAlreadySeenNotice()}>
+      <div class={styles.disableChatArea}/>
+      <div class={styles.beforeYouChatNotice}>
+        <div class={styles.title}>
+          <Icon name='info' color='var(--primary-color)' size={18} />
+          Before you chat...
+        </div>
+        <div class={styles.info}>
+          <Markup inline text={notice()!.content} />
+        </div>
+        <Button label='Understood' iconName='done' onClick={understoodClick} class={styles.noticeButton} primary />
       </div>
-      <div class={styles.info}>
-        <Markup inline text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem nobis consequuntur commodi magnam, amet provident ex natus accusantium omnis reiciendis perferendis ipsa voluptatibus temporibus quia maxime id quas quibusdam impedit.' />
-      </div>
-      <Button label='Understood' iconName='done' class={styles.noticeButton} primary />
-    </div>
-    </>
+    </Show>
   )
 }

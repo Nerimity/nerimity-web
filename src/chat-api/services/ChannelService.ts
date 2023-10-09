@@ -3,10 +3,10 @@ import ServiceEndpoints from "./ServiceEndpoints";
 import { RawChannelNotice } from "../RawData";
 import env from "@/common/env";
 
-export const getChannelNotice = async (serverId: string, channelId: string) => {
+export const getChannelNotice = async (channelId: string) => {
   const data = await request<{notice: RawChannelNotice}>({
     method: 'GET',
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannel(serverId, channelId) + "/notice",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.channel(channelId) + "/notice",
     useToken: true,
   });
   return data;
