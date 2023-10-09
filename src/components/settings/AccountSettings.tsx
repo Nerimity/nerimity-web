@@ -6,7 +6,7 @@ import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
-import { deleteAccount, getUserDetailsRequest, sendEmailConfirmCode, updateUser, UserDetails, verifyEmailConfirmCode } from '@/chat-api/services/UserService';
+import { deleteAccount, deleteDMChannelNotice, getDMChannelNotice, getUserDetailsRequest, sendEmailConfirmCode, updateDMChannelNotice, updateUser, UserDetails, verifyEmailConfirmCode } from '@/chat-api/services/UserService';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
@@ -21,6 +21,8 @@ import useServers from '@/chat-api/store/useServers';
 import Modal from '../ui/Modal';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import { Notice } from '../ui/Notice';
+import { getChannelNotice } from '@/chat-api/services/ChannelService';
+import { RawChannelNotice } from '@/chat-api/RawData';
 
 const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"))
 
@@ -242,6 +244,11 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
       </Show>
 
+
+      <ChannelNoticeBlock/>
+
+
+
       <DeleteAccountBlock />
     </>
   )
@@ -382,6 +389,87 @@ function EditProfilePage() {
     </>
   )
 }
+
+
+
+
+
+const NoticeBlockStyle = css`
+  && {
+    height: initial;
+    min-height: initial;
+    align-items: start;
+    flex-direction: column;
+    flex: 0;
+    padding-top: 15px;
+    align-items: stretch;
+  }
+  .inputContainer {
+    margin-left: 35px;
+    margin-top: 5px;
+  }
+  textarea {
+    min-height: 100px;
+  }
+`;
+
+
+
+function ChannelNoticeBlock () {
+  const [error, setError] = createSignal<string>("");
+  const [channelNotice, setChannelNotice] = createSignal<RawChannelNotice | null>(null);
+  
+  const defaultInput = () => ({
+    content: channelNotice()?.content || ''
+  })
+
+  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
+
+  onMount(async () => {
+    const res = await getDMChannelNotice();
+    if (!res) return;
+    setChannelNotice(res.notice);
+  }) 
+
+
+
+  const save = async () => {
+    setError("")
+    if (inputValues().content.length > 300) return setError("Channel notice cannot be longer than 300 characters.");
+    const res = await updateDMChannelNotice(inputValues().content).catch((err) => {
+      setError(err.message);
+    })
+    if (!res) return;
+    setChannelNotice(res.notice);
+    setInputValue("content", res.notice.content);
+  }
+
+  const deleteNotice = async () => {
+    const res = await deleteDMChannelNotice().catch((err) => {
+      setError(err.message);
+    })
+    if (!res) return;
+    setChannelNotice(null);
+    setInputValue("content", "");
+  }
+
+  return (
+    <div style={{"margin-bottom": "35px", "padding-bottom": "30px", "border-bottom": "solid 1px rgba(255,255,255,0.2)"}}>
+      <SettingsBlock icon='info' label='Channel Notice' class={NoticeBlockStyle} description='Shows when the user is about to chat for the first time. Changes apply after reload.'>
+        <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({inputValues().content.length} / 300)</Text>
+        <Input class='inputContainer' type='textarea' value={inputValues().content} onText={(v) => setInputValue("content", v)} />
+        <Show when={error()}><Text style={{"margin-left": "40px"}} color='var(--alert-color)'>{error()}</Text></Show>
+
+        <div style={{ display: 'flex', "align-self": "flex-end", "margin-top": "15px" }}>
+          <Show when={channelNotice()?.content}><Button label='Remove Notice' color='var(--alert-color)' iconName='delete' onClick={deleteNotice} /></Show>
+          <Show when={updatedInputValues().content}><Button  label='Save' iconName='save'  onClick={save} /></Show>
+
+        </div>
+      </SettingsBlock>
+    </div>
+  )
+}
+
 
 
 let lastConfirmClickedTime: number | null = null;

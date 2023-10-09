@@ -1,5 +1,5 @@
 import env from "../../common/env";
-import { RawChannel, RawInboxWithoutChannel, RawMessage, RawPost, RawServer, RawUser, RawUserConnection } from "../RawData";
+import { RawChannel, RawChannelNotice, RawInboxWithoutChannel, RawMessage, RawPost, RawServer, RawUser, RawUserConnection } from "../RawData";
 import { Presence, UserStatus } from "../store/useUsers";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
@@ -249,3 +249,32 @@ export async function deleteAccount(password: string) {
     body: {password}
   });
 }
+
+
+
+export const updateDMChannelNotice = async (content: string) => {
+  const data = await request<{notice: RawChannelNotice}>({
+    method: 'PUT',
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
+    body: {content},
+    useToken: true,
+  });
+  return data;
+};
+
+export const deleteDMChannelNotice = async () => {
+  const data = await request({
+    method: 'DELETE',
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
+    useToken: true,
+  });
+  return data;
+};
+export const getDMChannelNotice = async () => {
+  const data = await request<{notice: RawChannelNotice}>({
+    method: 'GET',
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
+    useToken: true,
+  });
+  return data;
+};
