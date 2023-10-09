@@ -64,6 +64,13 @@ export interface RawMessageReaction {
   count: number
 }
 
+export interface RawChannelNotice {
+  content: string;
+  updatedAt: number;
+  channelId: string;
+  userId: string;
+}
+
 export interface RawAttachment {
   id: string;
 
