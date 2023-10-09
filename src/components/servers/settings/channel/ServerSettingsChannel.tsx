@@ -23,7 +23,7 @@ import env from '@/common/env';
 import { ChannelIcon } from '../../drawer/ServerDrawer';
 import Text from '@/components/ui/Text';
 import { css } from 'solid-styled-components';
-import { getChannelNotice, updateChannelNotice } from '@/chat-api/services/ChannelService';
+import { deleteChannelNotice, getChannelNotice, updateChannelNotice } from '@/chat-api/services/ChannelService';
 import { RawChannelNotice } from '@/chat-api/RawData';
 
 type ChannelParams = {
@@ -212,17 +212,32 @@ function ChannelNoticeBlock (props: {serverId: string, channelId: string}) {
     })
     if (!res) return;
     setChannelNotice(res.notice);
+    setInputValue("content", res.notice.content);
   }
-  
-  
+
+  const deleteNotice = async () => {
+    const res = await deleteChannelNotice(props.serverId, props.channelId).catch((err) => {
+      setError(err.message);
+    })
+    if (!res) return;
+    setChannelNotice(null);
+    setInputValue("content", "");
+  }
 
   return (
-    <SettingsBlock icon='info' label='Channel Notice' class={NoticeBlockStyle} description='Shows when the user is about to chat for the first time.'>
-    <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({inputValues().content.length} / 300)</Text>
-    <Input class='inputContainer' type='textarea' value={inputValues().content} onText={(v) => setInputValue("content", v)} />
-    <Show when={error()}><Text style={{"margin-left": "40px"}} color='var(--alert-color)'>{error()}</Text></Show>
-    <Show when={updatedInputValues().content}><Button  label='Save' iconName='save' styles={{ "align-self": "flex-end", "margin-top": "15px" }} onClick={save} /></Show>
-  </SettingsBlock>
+    <div style={{"margin-bottom": "35px", "padding-bottom": "30px", "border-bottom": "solid 1px rgba(255,255,255,0.2)"}}>
+      <SettingsBlock icon='info' label='Channel Notice' class={NoticeBlockStyle} description='Shows when the user is about to chat for the first time.'>
+        <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({inputValues().content.length} / 300)</Text>
+        <Input class='inputContainer' type='textarea' value={inputValues().content} onText={(v) => setInputValue("content", v)} />
+        <Show when={error()}><Text style={{"margin-left": "40px"}} color='var(--alert-color)'>{error()}</Text></Show>
+
+        <div style={{ display: 'flex', "align-self": "flex-end", "margin-top": "15px" }}>
+          <Show when={channelNotice()?.content}><Button label='Remove Notice' color='var(--alert-color)' iconName='delete' onClick={deleteNotice} /></Show>
+          <Show when={updatedInputValues().content}><Button  label='Save' iconName='save'  onClick={save} /></Show>
+
+        </div>
+      </SettingsBlock>
+    </div>
   )
 }
 
