@@ -282,7 +282,6 @@
 .disableChatArea {
   position: absolute;
   inset: 0;
-  cursor: not-allowed;
 }
 .beforeYouChatNotice {
   display: flex;
@@ -299,6 +298,11 @@
 
   max-width: 300px;
   max-height: 300px;
+
+  &.mobile {
+    max-width: initial;
+
+  }
 
   .title {
     display: flex;

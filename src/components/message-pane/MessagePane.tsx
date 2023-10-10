@@ -720,7 +720,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
-    <BeforeYouChatNotice channelId={params.channelId} />
+    <BeforeYouChatNotice channelId={params.channelId} textAreaEl={() => textAreaRef} />
       <Show when={!props.isEditing && !pickedFile()}>
         <FileBrowser ref={setAttachmentFileBrowserRef} accept='any' onChange={onFilePicked} />
         <Button
@@ -1464,19 +1464,40 @@ const useNotice = (channelId: string) => {
 }
 
 
-function BeforeYouChatNotice(props: {channelId: string}) {
+function BeforeYouChatNotice(props: {channelId: string, textAreaEl(): HTMLInputElement | undefined}) {
   const {notice, setNotice, hasAlreadySeenNotice, updateLastSeen} = useNotice(props.channelId);
+  const [textAreaFocus, setTextAreaFocus] = createSignal(false);
+  const {isMobileWidth} = useWindowProperties();
+
+  const showNotice = () => notice() && !hasAlreadySeenNotice();
+
+  const onDocClick = (e: MouseEvent) => {
+    if (e.target instanceof HTMLElement) {
+      if (e.target.closest(`.messageArea`)) return;
+      setTextAreaFocus(false)
+    }
+  }
+  
+
+  createEffect(on(showNotice, (show) => {
+    show && document.addEventListener("click", onDocClick);
+    onCleanup(() => {
+      document.removeEventListener("click", onDocClick);
+    })
+  }))
 
 
   const understoodClick = () => {
     updateLastSeen();
     setNotice(null);
+    props.textAreaEl()?.focus();
   }
 
   return (
-    <Show when={notice() && !hasAlreadySeenNotice()}>
-      <div class={styles.disableChatArea}/>
-      <div class={styles.beforeYouChatNotice}>
+    <>
+    <Show when={showNotice()}><div class={styles.disableChatArea} onClick={() => setTextAreaFocus(true)} style={{cursor: textAreaFocus() ? 'not-allowed': 'initial'}}/></Show>
+    <Show when={showNotice() && textAreaFocus()}>
+      <div class={classNames(styles.beforeYouChatNotice, conditionalClass(isMobileWidth(), styles.mobile))}>
         <div class={styles.title}>
           <Icon name='info' color='var(--primary-color)' size={18} />
           Before you chat...
@@ -1487,5 +1508,6 @@ function BeforeYouChatNotice(props: {channelId: string}) {
         <Button label='Understood' iconName='done' onClick={understoodClick} class={styles.noticeButton} primary />
       </div>
     </Show>
+    </>
   )
 }
