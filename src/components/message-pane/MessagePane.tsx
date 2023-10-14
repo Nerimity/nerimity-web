@@ -1025,7 +1025,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
     });
 
     if (isSomeoneMentioned) {
-      const randomUser = dmUsers[randomIndex(members.length)];
+      const randomUser = dmUsers[randomIndex(dmUsers.length)];
       if (randomUser) {
         finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${randomUser.username})**`)
       }
