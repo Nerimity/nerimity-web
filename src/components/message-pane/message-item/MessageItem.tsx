@@ -61,6 +61,7 @@ function FloatOptions(props: FloatingOptionsProps) {
     if (!params.serverId) return false;
 
     const member = serverMembers.get(params.serverId, account.user()?.id!);
+    if (member?.amIServerCreator()) return true;
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   }
 
@@ -128,12 +129,16 @@ const MessageItem = (props: MessageItemProps) => {
   const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
 
   const [isMentioned, setIsMentioned] = createSignal(false);
+  const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false); // @someone
 
   createEffect(on([() => props.message.mentions?.length, () => props.message.quotedMessages.length], () => {
     setTimeout(() => {
+      const isEveryoneMentioned = props.message.content?.includes("[@:e]");
+      const isSomeoneMentioned = props.message.content?.includes("[@:s]") || false;
       const isQuoted = props.message.quotedMessages?.find(m => m.createdBy?.id === account.user()?.id);
-      const isMentioned = props.message.mentions?.find(u => u.id === account.user()?.id);
+      const isMentioned = isEveryoneMentioned || props.message.mentions?.find(u => u.id === account.user()?.id);
       setIsMentioned(!!isQuoted || !!isMentioned);
+      setIsSomeoneMentioned(isSomeoneMentioned);
     });
   }))
 
@@ -144,6 +149,7 @@ const MessageItem = (props: MessageItemProps) => {
           styles.messageItem,
           conditionalClass(isCompact(), styles.compact),
           conditionalClass(isMentioned(), styles.mentioned),
+          conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
           props.class,
           "messageItem"
         )}

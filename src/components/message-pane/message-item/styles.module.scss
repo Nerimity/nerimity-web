@@ -96,6 +96,10 @@
       
     }
   }
+  &.someoneMentioned {
+    // rainbow background gradient with 40% opacity
+    background: linear-gradient(90deg, rgba(255,0,0,0.2) 0%, rgba(255,165,0,0.2) 25%, rgba(255,255,0,0.2) 50%, rgba(0,255,0,0.2) 75%, rgba(0,0,255,0.2) 100%);
+  }
 }
 
 .reactions {

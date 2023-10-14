@@ -130,6 +130,11 @@
         padding-right: 5px; 
         gap: 5px;
 
+        .suggestionInfo {
+          opacity: 0.6;
+          margin-left: auto;
+          font-size: 12px;
+        }
         .channelIcon {
           opacity: 0.5;
         }

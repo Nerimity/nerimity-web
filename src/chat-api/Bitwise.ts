@@ -96,6 +96,12 @@ export const ROLE_PERMISSIONS = {
     bit: 32,
     showSettings: true,
     // icon: 'mail'
+  },
+  MENTION_EVERYONE: {
+    name: 'servers.rolePermissions.mentionEveryone',
+    description: 'servers.rolePermissions.mentionEveryoneDescription',
+    bit: 64,
+    icon: 'alternate_email'
   }
 }
 

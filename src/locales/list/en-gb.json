@@ -155,7 +155,9 @@
       "kick": "Kick",
       "kickDescription": "Permission to kick users",
       "ban": "Ban",
-      "banDescription": "Permission to ban users."
+      "banDescription": "Permission to ban users.",
+      "mentionEveryone": "Mention Everyone",
+      "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone."
     },
     "channelPermissions": {
       "privateChannel": "Private Channel",

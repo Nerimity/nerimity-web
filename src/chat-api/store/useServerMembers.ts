@@ -23,6 +23,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   roleColor: string;
   unhiddenRole: () => ServerRole;
   amIServerCreator: () => boolean;
+  isServerCreator: () => boolean
 }
 
 const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
@@ -96,6 +97,11 @@ const set = (member: RawServerMember) => {
       const server = servers.get(this.serverId);
 
       return server!.createdById === account.user()?.id;
+    },
+    isServerCreator() {
+      const servers = useServers();
+      const server = servers.get(this.serverId);
+      return server?.createdById === this.userId
     },
     get topRole() {
       if (topRole) return topRole();

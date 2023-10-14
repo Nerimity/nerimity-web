@@ -22,6 +22,7 @@ import env from '@/common/env';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { Link } from './markup/Link';
 import { QuoteMessage, QuoteMessageHidden, QuoteMessageInvalid } from './markup/QuoteMessage';
+import { GenericMention } from './markup/GenericMention';
 
 export interface Props {
   text: string;
@@ -67,9 +68,14 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
     case "@": {
       const message = ctx.props().message;
       const user = message?.mentions?.find(u => u.id === expr) || users.get(expr);
+      const everyoneOrSomeone = ["e", "s"].includes(expr)
       if (user) {
         ctx.textCount += expr.length;
         return <MentionUser user={user} />;
+      }
+      if (everyoneOrSomeone) {
+        ctx.textCount += expr.length;
+        return <GenericMention name={expr === "e" ? "everyone" : "someone"} />
       }
       break;
     }

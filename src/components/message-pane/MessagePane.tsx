@@ -55,9 +55,10 @@ import { FlexRow } from '../ui/Flexbox';
 import { Markup } from '../Markup';
 import { getChannelNotice } from '@/chat-api/services/ChannelService';
 import { getStorageObject, setStorageObject, StorageKeys } from '@/common/localStorage';
+import { randomKaomoji } from '@/common/kaomoji';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
-  const params = useParams<{channelId: string, serverId?: string}>();
+  const params = useParams<{ channelId: string, serverId?: string }>();
   const { channels, header, serverMembers, account } = useStore();
   const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
   const channel = () => channels.get(params.channelId!);
@@ -85,7 +86,7 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const canSendMessage = () => {
     if (isServerAndEmailNotConfirmed()) {
       return false;
-    } 
+    }
     if (!channel()?.serverId) return true;
     const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
     if (!member) return false;
@@ -199,7 +200,7 @@ const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTe
     }, 3000)
   })
 
-  const {height} = useResizeObserver(() => messageLogElement);
+  const { height } = useResizeObserver(() => messageLogElement);
 
   useMutationObserver(() => messageLogElement, () => {
     if (scrollTracker.scrolledBottom()) {
@@ -540,7 +541,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
   const { isMobileAgent, paneWidth } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
 
   const { channels, messages } = useStore();
 
@@ -611,7 +612,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
       if (shouldUploadToGoogleDrive && !account.user()?.connections.find(c => c.provider === 'GOOGLE')) {
         createPortal(close => <GoogleDriveLinkModal close={close} />)
         return;
-        
+
       }
     }
 
@@ -620,7 +621,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
     setMessage('')
     const channel = channels.get(params.channelId!)!;
 
-    const formattedMessage = formatMessage(trimmedMessage, params.serverId, params.channelId);
+    const formattedMessage = formatMessage(trimmedMessage, params.serverId, params.channelId, !!editMessageId());
 
     if (editMessageId()) {
       if (!trimmedMessage) return;
@@ -720,7 +721,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   return (
     <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
-    <BeforeYouChatNotice channelId={params.channelId} textAreaEl={() => textAreaRef} />
+      <BeforeYouChatNotice channelId={params.channelId} textAreaEl={() => textAreaRef} />
       <Show when={!props.isEditing && !pickedFile()}>
         <FileBrowser ref={setAttachmentFileBrowserRef} accept='any' onChange={onFilePicked} />
         <Button
@@ -802,7 +803,7 @@ interface TypingPayload {
 function TypingIndicator() {
   const params = useParams<{ channelId: string }>();
   const { users } = useStore();
-  const {paneWidth} = useWindowProperties();
+  const { paneWidth } = useWindowProperties();
 
   const [typingUserIds, setTypingUserIds] = createStore<Record<string, number | undefined>>({})
 
@@ -863,7 +864,7 @@ function TypingIndicator() {
       "margin-bottom": "5px",
       "z-index": "1"
     }}>
-      <Text size={paneWidth()! < 500 ? 10 : 12 }>
+      <Text size={paneWidth()! < 500 ? 10 : 12}>
         <Switch>
           <Match when={typingUsers().length === 1}>
             <strong>{typingUsers()[0]?.username}</strong> is typing...
@@ -980,7 +981,13 @@ const emojiRegex = /:[\w+-]+:/g;
 const channelMentionRegex = /#([^#]+)#/g;
 const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/g;
 
-export function formatMessage(message: string, serverId?: string, channelId?: string): string {
+function randomIndex(arrLength: number) {
+  return Math.floor(Math.random() * arrLength);
+}
+
+export function formatMessage(message: string, serverId?: string, channelId?: string, isEditing?: boolean): string {
+
+  const isSomeoneMentioned = !isEditing && (message.includes("@someone") || false);
 
   const channels = useChannels();
   const serverMembers = useServerMembers();
@@ -1004,6 +1011,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
     return val;
   });
 
+  // DM Channel
   if (!serverId && channelId) {
     const channel = channels.get(channelId);
     const dmUsers = !channel ? [] : [channel?.recipient, account.user()] as User[];
@@ -1015,9 +1023,15 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
       if (!user) return match;
       return `[@:${user.id}]`;
     });
+
+    if (isSomeoneMentioned) {
+      const randomUser = dmUsers[randomIndex(members.length)];
+      if (randomUser) {
+        finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${randomUser.username})**`)
+      }
+    }
   }
-
-
+  // Server Channel
   if (serverId) {
     // replace user mentions
     finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
@@ -1031,7 +1045,17 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
       if (!channel) return match;
       return `[#:${channel.id}]`
     }))
+
+    if (isSomeoneMentioned) {
+      const randomUser = members[randomIndex(members.length)]?.user;
+      if (randomUser) {
+        finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${randomUser.username})**`)
+      }
+    }
+
   }
+
+  finalString = finalString.replaceAll("@everyone", "[@:e]");
 
   return finalString
 }
@@ -1218,8 +1242,40 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   const { serverMembers, channels, account } = useStore();
 
   const members = createMemo(() => serverMembers.array(params.serverId!) as ServerMember[]);
+  const hasPermissionToMentionEveryone = () => {
+    if (!params.serverId) return false;
+    const member = serverMembers.get(params.serverId, account.user()?.id!);
+    if (!member) return false;
+    if (member.amIServerCreator()) return true;
+    return member.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
+  }
 
-  const searchedServerUsers = () => matchSorter(members(), props.search, { keys: ["user.username"] }).slice(0, 10);
+  const searchedServerUsers = () => matchSorter([
+    ...members(),
+    ...(hasPermissionToMentionEveryone() ? [{
+      user: {
+        special: true,
+        id: "e",
+        username: "everyone"
+      }
+    }] : []),
+    {
+      user: {
+        special: true,
+        id: "s",
+        username: "someone"
+      }
+    }
+  ] as (ServerMember & {user: {special: boolean}})[],
+    props.search,
+    {
+      keys: ["user.username"]
+    }).slice(0, 10).sort((a, b) => {
+      // move all special users to the bottom
+      if (a.user.special && !b.user.special) return 1;
+      if (!a.user.special && b.user.special) return -1;
+      return 0;
+    });
 
 
   const channel = () => channels.get(params.channelId);
@@ -1235,6 +1291,10 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
 
   const onUserClick = (user: User) => {
     if (!props.textArea) return;
+    if (!user.tag) {
+      appendText(params.channelId, props.textArea, props.search, `${user.username} `)
+      return;
+    }
     appendText(params.channelId, props.textArea, props.search, `${user.username}:${user.tag} `)
   }
 
@@ -1255,11 +1315,13 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   )
 }
 
-function UserSuggestionItem(props: { onHover: () => void; selected: boolean; user: User, onclick(user: User): void; }) {
+function UserSuggestionItem(props: { onHover: () => void; selected: boolean; user: User & { special?: boolean }, onclick(user: User): void; }) {
   return (
     <ItemContainer onmousemove={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.user)}>
-      <Avatar user={props.user} animate={props.selected} size={15} />
+      <Show when={!props.user?.special} fallback={<div>@</div>}><Avatar user={props.user} animate={props.selected} size={15} /></Show>
       <div class={styles.suggestLabel}>{props.user.username}</div>
+      <Show when={props.user?.special && props.user.id === "e"}><div class={styles.suggestionInfo}>Mention everyone.</div></Show>
+      <Show when={props.user?.special && props.user.id === "s"}><div class={styles.suggestionInfo}>Mentions someone.</div></Show>
     </ItemContainer>
   )
 }
@@ -1351,12 +1413,12 @@ function removeByIndex(val: string, index: number, remove: number) {
 
 
 
-const GoogleDriveLinkModal = (props: {close: () => void}) => {
+const GoogleDriveLinkModal = (props: { close: () => void }) => {
   const navigate = useNavigate();
   const actionButtons = (
-    <FlexRow style={{width: "100%"}}>
-      <Button styles={{flex: 1}} iconName='close' label="Don't link" color='var(--alert-color)' onClick={props.close} />
-      <Button styles={{flex: 1}} label='Link now' iconName='link' primary onClick={() => {
+    <FlexRow style={{ width: "100%" }}>
+      <Button styles={{ flex: 1 }} iconName='close' label="Don't link" color='var(--alert-color)' onClick={props.close} />
+      <Button styles={{ flex: 1 }} label='Link now' iconName='link' primary onClick={() => {
         navigate('/app/settings/connections');
         props.close();
       }} />
@@ -1364,7 +1426,7 @@ const GoogleDriveLinkModal = (props: {close: () => void}) => {
   )
   return (
     <Modal title='Google Drive' icon='link' actionButtons={actionButtons} ignoreBackgroundClick close={props.close} maxWidth={300}>
-      <Text size={14} style={{padding: '10px', "padding-top": 0}}>
+      <Text size={14} style={{ padding: '10px', "padding-top": 0 }}>
         You must link your account to Google Drive to upload large images, videos or files.
       </Text>
     </Modal>
@@ -1397,12 +1459,11 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     if (!params.serverId) return false;
 
     const member = serverMembers.get(params.serverId, account.user()?.id!);
+    if (member?.amIServerCreator()) return true;
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   }
 
   const showQuote = () => props.message.type === MessageType.CONTENT;
-
-
 
   const hasContent = () => props.message.content;
 
@@ -1431,7 +1492,7 @@ const useNotice = (channelId: string) => {
       setNotice(noticeCache[channelId]);
       return;
     }
-    const noticeRes = await getChannelNotice(channelId).catch(() => {});
+    const noticeRes = await getChannelNotice(channelId).catch(() => { });
     if (!noticeRes) {
       noticeCache[channelId] = null;
       return;
@@ -1445,7 +1506,7 @@ const useNotice = (channelId: string) => {
     const lastSeenObj = getStorageObject<Record<string, number>>(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, {});
     const lastSeen = lastSeenObj[channelId];
     if (!lastSeen) return false;
-    return lastSeen > notice()!.updatedAt  
+    return lastSeen > notice()!.updatedAt
   }
   const updateLastSeen = () => {
     if (!notice()) return;
@@ -1460,14 +1521,14 @@ const useNotice = (channelId: string) => {
     setStorageObject(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, lastSeenObj);
   }
 
-  return {notice, setNotice, hasAlreadySeenNotice, updateLastSeen}
+  return { notice, setNotice, hasAlreadySeenNotice, updateLastSeen }
 }
 
 
-function BeforeYouChatNotice(props: {channelId: string, textAreaEl(): HTMLInputElement | undefined}) {
-  const {notice, setNotice, hasAlreadySeenNotice, updateLastSeen} = useNotice(props.channelId);
+function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInputElement | undefined }) {
+  const { notice, setNotice, hasAlreadySeenNotice, updateLastSeen } = useNotice(props.channelId);
   const [textAreaFocus, setTextAreaFocus] = createSignal(false);
-  const {isMobileWidth} = useWindowProperties();
+  const { isMobileWidth } = useWindowProperties();
 
   const showNotice = () => notice() && !hasAlreadySeenNotice();
 
@@ -1477,7 +1538,7 @@ function BeforeYouChatNotice(props: {channelId: string, textAreaEl(): HTMLInputE
       setTextAreaFocus(false)
     }
   }
-  
+
 
   createEffect(on(showNotice, (show) => {
     show && document.addEventListener("click", onDocClick);
@@ -1495,19 +1556,19 @@ function BeforeYouChatNotice(props: {channelId: string, textAreaEl(): HTMLInputE
 
   return (
     <>
-    <Show when={showNotice()}><div class={styles.disableChatArea} onClick={() => setTextAreaFocus(true)} style={{cursor: textAreaFocus() ? 'not-allowed': 'initial'}}/></Show>
-    <Show when={showNotice() && textAreaFocus()}>
-      <div class={classNames(styles.beforeYouChatNotice, conditionalClass(isMobileWidth(), styles.mobile))}>
-        <div class={styles.title}>
-          <Icon name='info' color='var(--primary-color)' size={18} />
-          Before you chat...
+      <Show when={showNotice()}><div class={styles.disableChatArea} onClick={() => setTextAreaFocus(true)} style={{ cursor: textAreaFocus() ? 'not-allowed' : 'initial' }} /></Show>
+      <Show when={showNotice() && textAreaFocus()}>
+        <div class={classNames(styles.beforeYouChatNotice, conditionalClass(isMobileWidth(), styles.mobile))}>
+          <div class={styles.title}>
+            <Icon name='info' color='var(--primary-color)' size={18} />
+            Before you chat...
+          </div>
+          <div class={styles.info}>
+            <Markup inline text={notice()!.content} />
+          </div>
+          <Button label='Understood' iconName='done' onClick={understoodClick} class={styles.noticeButton} primary />
         </div>
-        <div class={styles.info}>
-          <Markup inline text={notice()!.content} />
-        </div>
-        <Button label='Understood' iconName='done' onClick={understoodClick} class={styles.noticeButton} primary />
-      </div>
-    </Show>
+      </Show>
     </>
   )
 }

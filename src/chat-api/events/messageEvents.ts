@@ -10,6 +10,8 @@ import useMessages, { MessageSentStatus } from "../store/useMessages";
 import useUsers from "../store/useUsers";
 import socketClient from "../socketClient";
 import { createDesktopNotification } from "@/common/desktopNotification";
+import useServerMembers from "../store/useServerMembers";
+import { ROLE_PERMISSIONS } from "../Bitwise";
 
 
 
@@ -19,6 +21,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
   const messages = useMessages();
   const channels = useChannels();
   const mentions = useMention();
+  const members = useServerMembers();
   const users = useUsers();
   const account = useAccount();
   const channel = channels.get(payload.message.channelId);
@@ -45,6 +48,12 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
     const mentionCount = () => mentions.get(payload.message.channelId)?.count || 0;
 
     const isMentioned = () => {
+      const everyoneMentioned = payload.message.content?.includes("[@:e]");
+      if (everyoneMentioned && channel?.serverId) {
+        const member = members.get(channel.serverId, payload.message.createdBy.id);
+        const hasPerm = member?.isServerCreator() || member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
+        if (hasPerm) return true;
+      }
       const mention = payload.message.mentions?.find(u => u.id === accountUser?.id);
       if (mention) return true;
       const quoteMention = payload.message.quotedMessages?.find(m => m.createdBy?.id === accountUser?.id);
