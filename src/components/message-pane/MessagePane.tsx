@@ -1025,10 +1025,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
     });
 
     if (isSomeoneMentioned) {
-      const randomUser = dmUsers[randomIndex(dmUsers.length)];
-      if (randomUser) {
-        finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${randomUser.username})**`)
-      }
+        finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${dmUsers[randomIndex(dmUsers.length)].username})**`)
     }
   }
   // Server Channel
@@ -1047,10 +1044,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
     }))
 
     if (isSomeoneMentioned) {
-      const randomUser = members[randomIndex(members.length)]?.user;
-      if (randomUser) {
-        finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${randomUser.username})**`)
-      }
+      finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${members[randomIndex(members.length)]?.user.username})**`)
     }
 
   }
