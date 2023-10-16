@@ -33,14 +33,7 @@
   background: red;
 }
 
-.messageLogArea {
-  display: flex;
-  flex-direction: column;
-  padding-top: 30px;
-  flex: 1;
-  height: 100%;
-  padding-bottom: 30px;
-}
+
 
 .messageArea {
   display: flex;
@@ -237,50 +230,6 @@
 
 .inputButtons {
   align-self: flex-end;
-}
-
-
-.unreadMarkerContainer {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:before {
-    position: absolute;
-    content: "";
-    background-color: var(--alert-color);
-    height: 1px;
-    left: 0;
-    right: 0;
-  }
-  transition: 0.2s;
-  &:hover {
-    opacity: 0.6;
-  }
-}
-
-.unreadMarker {
-  display: flex;
-  position: relative;
-  gap: 5px;
-  align-items: center;
-  align-self: center;
-  border-radius: 8px;
-  padding: 5px;
-  font-size: 12px;
-  background-color: var(--alert-color);
-  margin-left: 3px;
-  cursor: pointer;
-  user-select: none;
-
-  .closeButton {
-    border-radius: 4px;
-    padding: 0;
-    margin: 0;
-    span {
-      font-size: 13px;
-    }
-  }
 }
 
 

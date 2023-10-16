@@ -1,28 +1,24 @@
 import styles from './styles.module.scss';
-import { batch, createEffect, createMemo, createRenderEffect, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { A, useNavigate, useParams } from '@solidjs/router';
 import useStore from '../../chat-api/store/useStore';
-import MessageItem, { DeleteMessageModal } from './message-item/MessageItem';
 import Button from '@/components/ui/Button';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import { ChannelType, MessageType, RawChannelNotice, RawCustomEmoji, RawMessage } from '../../chat-api/RawData';
 import socketClient from '../../chat-api/socketClient';
 import { ServerEvents } from '../../chat-api/EventNames';
 import Icon from '@/components/ui/icon/Icon';
-import { addMessageReaction, postChannelTyping } from '@/chat-api/services/MessageService';
+import { postChannelTyping } from '@/chat-api/services/MessageService';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
-import { Rerun } from '@solid-primitives/keyed';
-import Spinner from '../ui/Spinner';
+import { emojiShortcodeToUnicode, unicodeToTwemojiUrl } from '@/emoji';
+
 import env from '@/common/env';
 import Text from '../ui/Text';
 import useChannels, { Channel } from '@/chat-api/store/useChannels';
 import useServerMembers, { ServerMember } from '@/chat-api/store/useServerMembers';
-import { playMessageNotification } from '@/common/Sound';
 
-import { addToHistory, CustomEmoji } from '@nerimity/solid-emoji-picker'
-import categories from '@/emoji/categories.json';
+import { addToHistory } from '@nerimity/solid-emoji-picker'
 import emojis from '@/emoji/emojis.json';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { fileToDataUrl } from '@/common/fileToDataUrl';
@@ -31,31 +27,22 @@ import ItemContainer from '../ui/Item';
 import { User } from '@/chat-api/store/useUsers';
 import Avatar from '../ui/Avatar';
 import useChannelProperties from '@/chat-api/store/useChannelProperties';
-import { text } from 'stream/consumers';
 import { Emoji } from '../markup/Emoji';
 import { css } from 'solid-styled-components';
 import { CHANNEL_PERMISSIONS, hasBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import useAccount from '@/chat-api/store/useAccount';
-import useServers, { avatarUrl } from '@/chat-api/store/useServers';
-import { EmojiPicker, FloatingEmojiPicker } from '../ui/EmojiPicker';
-import { Message } from '@/chat-api/store/useMessages';
-import ContextMenu, { ContextMenuProps } from '../ui/context-menu/ContextMenu';
-import MemberContextMenu from '../member-context-menu/MemberContextMenu';
-import { copyToClipboard } from '@/common/clipboard';
+import useServers from '@/chat-api/store/useServers';
+import { EmojiPicker } from '../ui/EmojiPicker';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import { t } from 'i18next';
-import { useScrollToMessageListener } from '@/common/GlobalEvents';
-import { createDesktopNotification } from '@/common/desktopNotification';
-import { useMutationObserver, useResizeObserver } from '@/common/useResizeObserver';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
-import RouterEndpoints from '@/common/RouterEndpoints';
 import Modal from '../ui/Modal';
 import { FlexRow } from '../ui/Flexbox';
 import { Markup } from '../Markup';
 import { getChannelNotice } from '@/chat-api/services/ChannelService';
 import { getStorageObject, setStorageObject, StorageKeys } from '@/common/localStorage';
 import { randomKaomoji } from '@/common/kaomoji';
+import { MessageLogArea } from './message-log-area/MessageLogArea';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{ channelId: string, serverId?: string }>();
@@ -124,415 +111,6 @@ const EmailUnconfirmedNotice = () => {
       </A>
     </div>
   )
-}
-
-const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement, element: "first" | "last") => {
-
-  let el = logElement?.querySelector(".messageItem") as HTMLDivElement;
-
-  if (element === "last") {
-    el = logElement.lastElementChild as HTMLDivElement;
-  }
-
-  let beforeTop: undefined | number;
-
-  const save = () => {
-    beforeTop = el.getBoundingClientRect().top;
-  }
-  const load = () => {
-    const afterTop = el.getBoundingClientRect().top;
-    const difference = afterTop - beforeTop!;
-    scrollElement.scrollTop = scrollElement.scrollTop + difference;
-  }
-  return { save, load };
-}
-
-const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
-  const { createPortal } = useCustomPortal();
-  const params = useParams<{ channelId: string, serverId?: string }>();
-  const { hasFocus } = useWindowProperties();
-  const { channels, messages, account, channelProperties, servers } = useStore();
-  let messageLogElement: undefined | HTMLDivElement;
-  const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
-  let loadedTimestamp: number | undefined;
-  const [unreadMarker, setUnreadMarker] = createStore<{ lastSeenAt: number | null, messageId: string | null }>({ lastSeenAt: null, messageId: null });
-
-  const [messageContextDetails, setMessageContextDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
-  const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position?: { x: number, y: number }, message?: Message } | undefined>({ position: undefined, message: undefined });
-
-  const [loadingMessages, setLoadingMessages] = createStore({ top: false, bottom: true });
-  const scrollTracker = createScrollTracker(props.mainPaneEl);
-
-  const channel = () => channels.get(params.channelId!)!;
-
-  const properties = () => channelProperties.get(params.channelId);
-
-  const scrollToMessageListener = useScrollToMessageListener();
-
-
-  scrollToMessageListener(async (event) => {
-    let messageEl = document.getElementById(`message-${event.messageId}`);
-    let fetched = false;
-    if (!messageEl) {
-      await messages.loadAroundAndStoreMessages(channel().id, event.messageId);
-      fetched = true;
-      messageEl = document.getElementById(`message-${event.messageId}`);
-      setTimeout(() => {
-        scrollTracker.setLoadMoreBottom(false);
-        batch(() => {
-          channelProperties.setMoreTopToLoad(params.channelId, true);
-          channelProperties.setMoreBottomToLoad(params.channelId, true);
-          scrollTracker.forceUpdate();
-          setLoadingMessages('bottom', false);
-        })
-      }, 300)
-    };
-    messageEl?.scrollIntoView({
-      behavior: fetched ? 'instant' : 'smooth',
-      inline: 'nearest',
-      block: 'center'
-    })
-    if (!messageEl) return;
-    messageEl.style.background = "var(--primary-color-dark)";
-    setTimeout(() => {
-      if (!messageEl) return;
-      messageEl.style.background = "";
-    }, 3000)
-  })
-
-  const { height } = useResizeObserver(() => messageLogElement);
-
-  useMutationObserver(() => messageLogElement, () => {
-    if (scrollTracker.scrolledBottom()) {
-      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
-    }
-  })
-
-  createRenderEffect(on(height, () => {
-    if (scrollTracker.scrolledBottom()) {
-      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
-    }
-  }))
-
-  const updateUnreadMarker = (ignoreFocus = false) => {
-    if (!ignoreFocus && hasFocus()) return;
-    const lastSeenAt = channel().lastSeen || -1;
-    const message = channelMessages()?.find(m => m.createdAt - lastSeenAt >= 0);
-    setUnreadMarker({
-      lastSeenAt,
-      messageId: message?.id || null
-    });
-  }
-
-  createRenderEffect(on(() => channelMessages()?.length, (length, prevLength) => {
-    if (!length) return;
-    updateUnreadMarker(prevLength === undefined);
-    if (prevLength === undefined) return;
-    dismissNotification();
-  }))
-
-  createEffect(on(hasFocus, () => {
-    dismissNotification();
-  }, { defer: true }))
-
-  const dismissNotification = () => {
-    if (!hasFocus()) return;
-    if (!scrollTracker.scrolledBottom()) return;
-
-    setTimeout(() => {
-      channel()?.dismissNotification();
-    }, 100);
-  }
-
-
-  const onMessageCreated = (payload: { socketId: string, message: RawMessage }) => {
-    if (socketClient.id() === payload.socketId) return;
-
-    if (payload.message.channelId !== params.channelId) return;
-
-    if (!scrollTracker.scrolledBottom()) {
-      if (payload.message.createdBy.id !== account.user()?.id) {
-        if (!hasFocus()) return;
-        playMessageNotification({
-          message: payload.message,
-          serverId: channel().serverId
-        });
-        createDesktopNotification(payload.message)
-      }
-    }
-  }
-
-
-  const { height: textAreaHeight } = useResizeObserver(() => props.textAreaEl?.parentElement?.parentElement);
-
-  createEffect(on(textAreaHeight, () => {
-    if (scrollTracker.scrolledBottom()) {
-      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
-    }
-  }))
-
-  createEffect(on(() => channelMessages()?.length, () => {
-    if (scrollTracker.scrolledBottom()) {
-      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
-    }
-  }))
-
-  createEffect(on(channelMessages, (messages, prevMessages) => {
-    if (prevMessages) return;
-
-    const scrollPosition = () => {
-      if (properties()?.isScrolledBottom === undefined) return props.mainPaneEl.scrollHeight;
-      if (properties()?.isScrolledBottom) return props.mainPaneEl.scrollHeight;
-      return properties()?.scrollTop!;
-    }
-    props.mainPaneEl.scrollTop = scrollPosition();
-    scrollTracker.forceUpdate();
-
-    setTimeout(() => {
-      setLoadingMessages('bottom', false);
-    }, 100);
-  }))
-
-  createEffect(on(scrollTracker.scrolledBottom, () => {
-    dismissNotification();
-    channelProperties.setScrolledBottom(params.channelId, scrollTracker.scrolledBottom());
-  }));
-
-  onMount(async () => {
-    let authenticated = false;
-    createEffect(on(account.isAuthenticated, async (isAuthenticated) => {
-      if (!isAuthenticated) return;
-      if (authenticated) return;
-      authenticated = true;
-      if (!channelMessages()) {
-        channelProperties.setMoreTopToLoad(params.channelId, true);
-        channelProperties.setMoreBottomToLoad(params.channelId, false);
-      }
-
-      await fetchMessages();
-
-    }))
-
-    const channelId = params.channelId;
-
-    document.addEventListener("paste", onPaste)
-
-    socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
-    document.addEventListener("keydown", handleKeyDown);
-    onCleanup(() => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("paste", onPaste)
-      scrollTracker.forceUpdate();
-      batch(() => {
-        channelProperties.setScrolledBottom(channelId, scrollTracker.scrolledBottom());
-        channelProperties.setScrollTop(channelId, scrollTracker.scrollTop());
-      })
-      socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated);
-    })
-
-  })
-
-  const onPaste = (event: ClipboardEvent) => {
-    const file = event.clipboardData?.files[0];
-    if (!file) return;
-    channelProperties.setAttachment(params.channelId, file);
-  }
-
-  // key binds
-  const handleKeyDown = async (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      // scroll to bottom
-      if (properties()?.moreBottomToLoad) {
-        await messages.fetchAndStoreMessages(params.channelId, true);
-      }
-      props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
-      updateUnreadMarker(true);
-    }
-  }
-
-
-  const fetchMessages = async () => {
-    loadedTimestamp = Date.now();
-    if (channelMessages()) return;
-    await messages.fetchAndStoreMessages(params.channelId);
-  }
-
-  const areMessagesLoading = () => loadingMessages.top || loadingMessages.bottom;
-
-  // Load more top when scrolled to the top
-  createEffect(on([scrollTracker.loadMoreTop, areMessagesLoading], ([loadMoreTop, alreadyLoading]) => {
-    if (!channelMessages()) return;
-    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
-    if (!properties()?.moreTopToLoad) return;
-    if (alreadyLoading) return;
-    if (!loadMoreTop) return;
-    setLoadingMessages('top', true);
-    const { save, load } = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "first");
-
-    const beforeSet = () => {
-      save();
-    }
-
-    const afterSet = ({ hasMore }: { hasMore: boolean }) => {
-      load();
-      channelProperties.setMoreBottomToLoad(params.channelId, true);
-      channelProperties.setMoreTopToLoad(params.channelId, hasMore);
-      scrollTracker.forceUpdate();
-      setLoadingMessages('top', false);
-    }
-    messages.loadMoreTopAndStoreMessages(params.channelId, beforeSet, afterSet);
-  }))
-
-  // Load more bottom when scrolled to the bottom
-  createEffect(on([scrollTracker.loadMoreBottom, areMessagesLoading], ([loadMoreBottom, alreadyLoading]) => {
-    if (!channelMessages()) return;
-    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
-    if (!properties()?.moreBottomToLoad) return;
-    if (alreadyLoading) return;
-    if (!loadMoreBottom) return;
-    setLoadingMessages('bottom', true);
-    const { save, load } = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "last");
-
-    const beforeSet = () => {
-      save();
-    }
-
-    const afterSet = ({ hasMore }: { hasMore: boolean }) => {
-      load();
-      channelProperties.setMoreTopToLoad(params.channelId, true);
-      channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
-      scrollTracker.forceUpdate();
-      setLoadingMessages('bottom', false);
-    }
-    messages.loadMoreBottomAndStoreMessages(params.channelId, beforeSet, afterSet);
-  }))
-
-  const removeUnreadMarker = () => {
-    updateUnreadMarker(true);
-  }
-
-
-  const onContextMenu = (event: MouseEvent, message: Message) => {
-    event.preventDefault();
-    setMessageContextDetails({
-      message,
-      position: {
-        x: event.clientX,
-        y: event.clientY
-      }
-    })
-  }
-  const onUserContextMenu = (event: MouseEvent, message: Message) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setUserContextMenuDetails({
-      message,
-      position: {
-        x: event.clientX,
-        y: event.clientY
-      }
-    })
-  }
-
-  const quoteMessage = (message: Message) => {
-    if (!props.textAreaEl) return;
-    props.textAreaEl!.focus();
-    props.textAreaEl!.setRangeText(`[q:${message.id}]`, props.textAreaEl!.selectionStart, props.textAreaEl.selectionEnd, "end")
-    channelProperties.updateContent(params.channelId, props.textAreaEl.value)
-  }
-
-  const addReaction = async (shortcode: string, message: Message) => {
-    props.textAreaEl?.focus();
-    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
-    await addMessageReaction({
-      channelId: message.channelId,
-      messageId: message.id,
-      name: !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode,
-      emojiId: customEmoji?.id,
-      gif: customEmoji?.gif
-    })
-  }
-
-  const reactionPickerClick = (event: MouseEvent, message: Message) => {
-    createPortal(close => (
-      <FloatingEmojiPicker
-        onClick={shortcode => addReaction(shortcode, message)}
-        close={close}
-        x={event.clientX}
-        y={event.clientY}
-      />
-    ))
-  }
-
-  return (
-    <div class={styles.messageLogArea} ref={messageLogElement}>
-      <Show when={messageContextDetails()}>
-        <MessageContextMenu
-          {...messageContextDetails()!}
-          quoteMessage={() => quoteMessage(messageContextDetails()?.message!)}
-          onClose={() => setMessageContextDetails(undefined)}
-        />
-      </Show>
-      <Show when={userContextMenuDetails()?.position}>
-        <MemberContextMenu
-          user={userContextMenuDetails()?.message?.createdBy}
-          position={userContextMenuDetails()!.position}
-          serverId={params.serverId}
-          userId={userContextMenuDetails()?.message?.createdBy?.id!}
-          onClose={() => setUserContextMenuDetails({ position: undefined, message: userContextMenuDetails()?.message })} />
-      </Show>
-      <For each={channelMessages()}>
-        {(message, i) => (
-          <>
-            <Show when={unreadMarker.messageId === message.id}>
-              <UnreadMarker onClick={removeUnreadMarker} />
-            </Show>
-            <MessageItem
-              reactionPickerClick={event => reactionPickerClick(event, message)}
-              quoteClick={() => quoteMessage(message)}
-              contextMenu={(event) => onContextMenu(event, message)}
-              userContextMenu={(event) => onUserContextMenu(event, message)}
-              animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
-              message={message}
-              beforeMessage={message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
-              messagePaneEl={props.mainPaneEl}
-              textAreaEl={props.textAreaEl}
-            />
-          </>
-        )}
-      </For>
-    </div>
-  );
-}
-
-function createScrollTracker(scrollElement: HTMLElement) {
-  const [loadMoreTop, setLoadMoreTop] = createSignal(false);
-  const [loadMoreBottom, setLoadMoreBottom] = createSignal(true);
-  const [scrolledBottom, setScrolledBottom] = createSignal(true);
-  const [scrollTop, setScrollTop] = createSignal(scrollElement.scrollTop);
-
-  const LOAD_MORE_LENGTH = 300;
-  const SCROLLED_BOTTOM_LENGTH = 20;
-
-
-  const onScroll = () => {
-    const scrollBottom = scrollElement.scrollHeight - (scrollElement.scrollTop + scrollElement.clientHeight);
-
-    const isLoadMoreTop = scrollElement.scrollTop <= LOAD_MORE_LENGTH;
-    const isLoadMoreBottom = scrollBottom <= LOAD_MORE_LENGTH;
-    const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH
-
-    if (loadMoreTop() !== isLoadMoreTop) setLoadMoreTop(isLoadMoreTop);
-    if (loadMoreBottom() !== isLoadMoreBottom) setLoadMoreBottom(isLoadMoreBottom);
-    if (scrolledBottom() !== isScrolledBottom) setScrolledBottom(isScrolledBottom);
-    setScrollTop(scrollElement.scrollTop);
-  }
-
-  onMount(() => {
-    scrollElement.addEventListener("scroll", onScroll, { passive: true });
-    onCleanup(() => scrollElement.removeEventListener("scroll", onScroll));
-  })
-  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll, setLoadMoreBottom }
 }
 
 function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: HTMLTextAreaElement): void }) {
@@ -780,18 +358,6 @@ function CustomTextArea(props: CustomTextAreaProps) {
         iconSize={18}
       />
 
-    </div>
-  )
-}
-
-function UnreadMarker(props: { onClick: () => void }) {
-  return (
-    <div onclick={props.onClick} class={styles.unreadMarkerContainer}>
-      <div class={styles.unreadMarker}>
-        <Icon name='mark_chat_unread' class={styles.icon} size={12} />
-        New Messages
-        <Button class={styles.closeButton} iconName='close' color='white' />
-      </div>
     </div>
   )
 }
@@ -1428,50 +994,6 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
 }
 
 
-type MessageContextMenuProps = Omit<ContextMenuProps, 'items'> & {
-  message: Message
-  quoteMessage(): void;
-}
-
-function MessageContextMenu(props: MessageContextMenuProps) {
-  const params = useParams<{ serverId?: string; }>();
-  const { createPortal } = useCustomPortal();
-  const { account, serverMembers } = useStore();
-  const onDeleteClick = () => {
-    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />)
-  }
-
-  const onEditClick = () => {
-    const { channelProperties } = useStore();
-    channelProperties.setEditMessage(props.message.channelId, props.message);
-  }
-
-  const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
-
-  const showDelete = () => {
-    if (account.user()?.id === props.message.createdBy.id) return true;
-    if (!params.serverId) return false;
-
-    const member = serverMembers.get(params.serverId, account.user()?.id!);
-    if (member?.amIServerCreator()) return true;
-    return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
-  }
-
-  const showQuote = () => props.message.type === MessageType.CONTENT;
-
-  const hasContent = () => props.message.content;
-
-  return (
-    <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
-      ...(showQuote() ? [{ icon: 'format_quote', label: "Quote Message", onClick: props.quoteMessage }] : []),
-      ...(showEdit() ? [{ icon: 'edit', label: t('messageContextMenu.editMessage'), onClick: onEditClick }] : []),
-      ...(showDelete() ? [{ icon: 'delete', label: t('messageContextMenu.deleteMessage'), onClick: onDeleteClick, alert: true }] : []),
-      ...(showEdit() || showDelete() || showQuote() ? [{ separator: true }] : []),
-      ...(hasContent() ? [{ icon: 'copy', label: t('messageContextMenu.copyMessage'), onClick: () => copyToClipboard(props.message.content!) }] : []),
-      { icon: 'copy', label: t('messageContextMenu.copyId'), onClick: () => copyToClipboard(props.message.id!) }
-    ]} />
-  )
-}
 
 
 
