@@ -145,14 +145,14 @@ export default function ModerationPane() {
       <div style={{
         position: 'absolute',
         inset: 0,
-        "backdrop-filter": 'blur(20px)',
+        background: 'var(--pane-color)',
         overflow: "auto",
         "justify-content": 'center',
         display: 'flex',
-        margin: isMobileWidth() ? 0 :  "8px",
+        margin: isMobileWidth() ? 0 :  "8px 8px 8px 0",
         "border-radius": isMobileWidth() ? 0 :"8px",
         "padding-top": "40px",
-        "z-index": "1111111"
+        "z-index": "1111"
       }}>
         <Routes>
           <Route path="/servers/:serverId" element={<ServerPage />} />
