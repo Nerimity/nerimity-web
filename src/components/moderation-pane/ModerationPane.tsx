@@ -1,10 +1,10 @@
 import { addBit, hasBit, removeBit, USER_BADGES } from "@/chat-api/Bitwise";
 import useStore from "@/chat-api/store/useStore";
 import { createEffect, createMemo, createResource, createSignal, For, on, onMount, Show } from "solid-js";
-import { getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, getUsersWithSameIPAddress, ModerationStats, ModerationSuspension, ModerationUser, searchServers, searchUsers, updateServer, updateUser } from '@/chat-api/services/ModerationService';
+import { AuditLog, AuditLogType, getAuditLog, getOnlineUsers, getServer, getServers, getStats, getUser, getUsers, getUsersWithSameIPAddress, ModerationStats, ModerationSuspension, ModerationUser, searchServers, searchUsers, updateServer, updateUser } from '@/chat-api/services/ModerationService';
 import Avatar from '../ui/Avatar';
 import { formatTimestamp } from '@/common/date';
-import { A, Link, Route, Routes, useParams } from '@solidjs/router';
+import { A, Link, Route, Routes, useMatch, useParams } from '@solidjs/router';
 import { RawServer, RawUser } from '@/chat-api/RawData';
 import Button from '../ui/Button';
 import { css, styled } from 'solid-styled-components';
@@ -119,6 +119,7 @@ const ItemDetailContainer = styled("div")`
 export default function ModerationPane() {
   const { account, header } = useStore();
   const [load, setLoad] = createSignal(false);
+  const {isMobileWidth} = useWindowProperties();
 
   createEffect(() => {
     if (!account.isAuthenticated() || !account.hasModeratorPerm()) return;
@@ -133,14 +134,32 @@ export default function ModerationPane() {
   })
 
 
+  const show = useMatch(() => "/app/moderation");
+
+
 
   return (
     <Show when={load()}>
-      <Routes>
-        <Route path="/" element={<ModerationPage />} />
-        <Route path="/servers/:serverId" element={<ServerPage />} />
-        <Route path="/users/:userId" element={<UserPage />} />
-      </Routes>
+      <ModerationPage />
+    <Show when={!show()}>
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        "backdrop-filter": 'blur(20px)',
+        overflow: "auto",
+        "justify-content": 'center',
+        display: 'flex',
+        margin: isMobileWidth() ? 0 :  "8px",
+        "border-radius": isMobileWidth() ? 0 :"8px",
+        "padding-top": "40px",
+        "z-index": "1111111"
+      }}>
+        <Routes>
+          <Route path="/servers/:serverId" element={<ServerPage />} />
+          <Route path="/users/:userId" element={<UserPage />} />
+        </Routes>
+      </div>
+    </Show>
 
     </Show>
   )
@@ -192,6 +211,7 @@ function ModerationPage() {
     <>
       <ModerationPaneContainer class="moderation-pane-container">
         <StatsArea />
+        <AuditLogPane />
         <UserColumn class="user-columns" gap={5} >
           <UsersPane />
           <OnlineUsersPane />
@@ -915,5 +935,121 @@ function StatsArea() {
       <StatCard title="Weekly Registered Users" description={stats()?.weeklyRegisteredUsers?.toLocaleString()} />
       <StatCard title="Weekly Messages" description={stats()?.weeklyCreatedMessages?.toLocaleString()} />
     </StatsAreaContainer>
+  )
+}
+
+
+
+
+function AuditLogPane() {
+  const LIMIT = 30;
+  const [items, setItems] = createSignal<AuditLog[]>([]);
+  const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
+  const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+
+  const [showAll, setShowAll] = createSignal(false);
+
+  createEffect(on(afterId, async () => {
+    fetchServers();
+  }));
+
+  const onLoadMoreClick = () => {
+    const item = items()[items().length - 1];
+    setAfterId(item.id);
+  }
+  const firstFive = () => items().slice(0, 5);
+
+  const fetchServers = () => {
+    setLoadMoreClicked(true);
+    getAuditLog(LIMIT, afterId())
+      .then(newItems => {
+        setItems([...items(), ...newItems])
+        if (newItems.length >= LIMIT) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false))
+  }
+
+
+  return (
+    <PaneContainer class="pane servers">
+
+      <FlexRow gap={5} itemsCenter>
+        <Button iconName='add' iconSize={14} padding={4} onClick={() => setShowAll(!showAll())} />
+        <Text>Audit Logs</Text>
+      </FlexRow>
+
+      <ListContainer class="list">
+        <For each={!showAll() ? firstFive() : items()}>
+          {item => <AuditLogItem auditLog={item} />}
+        </For>
+        <Show when={showAll() && !loadMoreClicked()}><Button iconName='refresh' label='Load More' onClick={onLoadMoreClick} /></Show>
+      </ListContainer>
+    </PaneContainer>
+  )
+}
+
+
+function AuditLogItem(props: { auditLog: AuditLog }) {
+  const created = formatTimestamp(props.auditLog.createdAt);
+  const by = props.auditLog.actionBy;
+
+  const expireAt = props.auditLog.expireAt ? formatTimestamp(props.auditLog.expireAt) : "Never";
+
+  const [hovered, setHovered] = createSignal(false);
+
+  const action = () => {
+    switch (props.auditLog.actionType) {
+      case AuditLogType.serverDelete:
+        return {icon: "dnsremove_circle",color: "var(--alert-color)", title: "Server Deleted"};
+      case AuditLogType.serverUpdate:
+        return {icon: "dnsupdate", color: "var(--success-color)", title: "Server Updated"};
+      case AuditLogType.userSuspend:
+        return {icon: "personremove_circle", color: "var(--alert-color)", title: "User Suspended"};
+      case AuditLogType.userUnsuspend:
+        return {icon: "personlogin", color: "var(--success-color)", title: "User Un-suspended"};
+      case AuditLogType.userUpdate:
+        return {icon: "personupdate", color: "var(--success-color)", title: "User Updated"};    
+      default:
+        return {icon: "texture", color: "gray", title: "Unknown Action"}
+    }
+  }
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      class={itemStyles}>
+      <Avatar animate={hovered()} class={avatarStyle} user={by} size={28} />
+      <ItemDetailContainer class="details">
+        <FlexRow itemsCenter gap={4}>
+          <Icon name={action().icon} color={action().color} size={18} />
+          <Text>{action().title}</Text>
+        </FlexRow>
+
+        <FlexRow gap={3}>
+          <Text size={12} opacity={0.6}>At </Text>
+          <Text size={12}>{created}</Text>
+
+          <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
+            <Text size={12} opacity={0.6}>Suspended </Text>
+            <Text size={12}><Link class={linkStyle} href={`/app/moderation/users/${props.auditLog.userId}`}>{props.auditLog.username}</Link></Text>
+          </Show>
+          <Text size={12} opacity={0.6}>By </Text>
+          <Text size={12}><Link class={linkStyle} href={`/app/moderation/users/${by.id}`}>{by.username}:{by.tag}</Link></Text>
+
+        </FlexRow>
+        <Show when={props.auditLog.reason}>
+          <FlexRow gap={3}>
+            <Text size={12} opacity={0.6}>Reason: </Text>
+            <Text size={12}>{props.auditLog.reason}</Text>
+          </FlexRow>
+        </Show>
+        <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
+          <FlexRow gap={3}>
+            <Text size={12} opacity={0.6}>Expires </Text>
+            <Text size={12}>{expireAt}</Text>
+          </FlexRow>
+        </Show>
+      </ItemDetailContainer>
+    </div>
   )
 }

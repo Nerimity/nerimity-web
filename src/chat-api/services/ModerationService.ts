@@ -57,6 +57,51 @@ export const searchUsers = async (query: string, limit: number, afterId?: string
   });
   return data;
 };
+
+
+export const AuditLogType = {
+  userSuspend: 0,
+  userUnsuspend: 1,
+  userUpdate: 2,
+  serverDelete: 3,
+  serverUpdate: 4,
+} as const
+
+export interface AuditLog {
+  id: string;
+  createdAt: number;
+
+  actionById: string;
+  actionBy: RawUser
+  actionType: typeof AuditLogType[keyof typeof AuditLogType];
+
+  serverName?: string;
+  serverId?: string;
+
+  channelId?: string;
+  channelName?: string;
+
+  userId?: string;
+  username?: string;
+  
+  ipAddress?: string;
+  reason?: string;
+  expireAt?: number
+}
+
+export const getAuditLog = async (limit: number, afterId?: string) => {
+  const data = await request<AuditLog[]>({
+    method: 'GET',
+    params: {
+      ...(afterId ? {after: afterId} : undefined),
+      limit
+    },
+    url: env.SERVER_URL + "/api/moderation/audit-logs",
+    useToken: true,
+  });
+  return data;
+};
+
 export const searchServers = async (query: string, limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: 'GET',
