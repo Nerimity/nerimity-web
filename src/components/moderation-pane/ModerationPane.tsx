@@ -1033,6 +1033,27 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             <Text size={12} opacity={0.6}>Suspended </Text>
             <Text size={12}><Link class={linkStyle} href={`/app/moderation/users/${props.auditLog.userId}`}>{props.auditLog.username}</Link></Text>
           </Show>
+
+
+          <Show when={props.auditLog.actionType === AuditLogType.userUpdate}>
+            <Text size={12} opacity={0.6}>Updated </Text>
+            <Text size={12}><Link class={linkStyle} href={`/app/moderation/users/${props.auditLog.userId}`}>{props.auditLog.username}</Link></Text>
+          </Show>
+
+          <Show when={props.auditLog.actionType === AuditLogType.serverDelete}>
+            <Text size={12} opacity={0.6}>Deleted </Text>
+            <Text size={12}>{props.auditLog.serverName}</Text>
+          </Show>
+
+
+          <Show when={props.auditLog.actionType === AuditLogType.serverUpdate}>
+            <Text size={12} opacity={0.6}>Updated </Text>
+            <Text size={12}><Link class={linkStyle} href={`/app/moderation/servers/${props.auditLog.serverId}`}>{props.auditLog.serverName}</Link></Text>
+          </Show>
+
+
+
+
           <Text size={12} opacity={0.6}>By </Text>
           <Text size={12}><Link class={linkStyle} href={`/app/moderation/users/${by.id}`}>{by.username}:{by.tag}</Link></Text>
 
