@@ -163,13 +163,12 @@
 .SidePaneItem {
   display: flex;
   font-size: 14px;
-  align-items: center;
   margin-bottom: 9px;
   margin-top: 9px;
   margin-left: 5px;
+  gap: 4px;
   .label {
     margin-right: 5px;
-    margin-left: 5px;
   }
   .value {
     color: rgba(255, 255, 255, 0.6);

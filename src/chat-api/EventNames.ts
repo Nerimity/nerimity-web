@@ -2,7 +2,8 @@ export const ClientEvents = {
   AUTHENTICATE: 'user:authenticate',
   NOTIFICATION_DISMISS: 'notification:dismiss',
 
-  VOICE_SIGNAL_SEND: 'voice:signal_send'
+  VOICE_SIGNAL_SEND: 'voice:signal_send',
+  UPDATE_ACTIVITY: 'user:update_activity'
 }
 
 export const ServerEvents = {

@@ -10,6 +10,35 @@
   white-space: nowrap;
 }
 
+.activity {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+.activityAction {
+  color: white;
+
+}
+.activityName {
+
+}
+
+
+.value {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  font-size: 12px;
+  margin-left: 3px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
 .dot {
   height: 10px;
   width: 10px;
@@ -30,13 +59,4 @@
   &.dnd {
     background-color: #e37878;
   }
-}
-
-.value {
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-  font-size: 12px;
-  margin-left: 3px;
-  opacity: 0.8;
 }

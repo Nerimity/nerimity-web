@@ -189,10 +189,16 @@ export interface RawInboxWithoutChannel {
   lastSeen?: number;
 }
 
+export interface ActivityStatus {
+  action: string;
+  name: string;
+  startedAt: number;
+}
 export interface RawPresence {
   userId: string;
   custom?: string;
   status: number;
+  activity?: ActivityStatus;
 }
 
 

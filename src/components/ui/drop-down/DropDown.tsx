@@ -7,8 +7,10 @@ import styles from './styles.module.scss';
 export interface DropDownItem {
   id: string;
   label?: string;
+  description?: string;
   icon?: string;
   onClick?: (item: DropDownItem) => void;
+  data?: any;
   separator?: boolean;
   circleColor?: string;
 }
@@ -22,7 +24,7 @@ export interface DropDownProps {
 }
 
 
-export default function DropDown (props: DropDownProps) {
+export default function DropDown(props: DropDownProps) {
   const [selectedId, setSelectedId] = createSignal<string | null>(props.selectedId || null);
   const [isOpen, setIsOpen] = createSignal(false);
 
@@ -49,32 +51,35 @@ export default function DropDown (props: DropDownProps) {
       <div class={styles.box} onclick={() => setIsOpen(true)}>
         <ItemTemplate item={selectedItem()} />
         <Icon name='expand_more' class={styles.expandIcon} />
-      <Show when={isOpen()}>
-        <Popup selectedId={selectedId()}  items={props.items} onClose={() => setIsOpen(false)} onClick={onItemClick}  />
-      </Show>
+        <Show when={isOpen()}>
+          <Popup selectedId={selectedId()} items={props.items} onClose={() => setIsOpen(false)} onClick={onItemClick} />
+        </Show>
       </div>
     </div>
   )
 }
 
-function ItemTemplate (props: {item?: DropDownItem}) {
+function ItemTemplate(props: { item?: DropDownItem }) {
   return (
     <div class={styles.itemTemplate}>
       <CircleColor color={props.item?.circleColor} />
-      {props.item?.label || "Select Item"}
+      <div class={styles.details}>
+        <div>{props.item?.label || "Select Item"}</div>
+        <Show when={props.item?.description}><div class={styles.description}>{props.item?.description}</div></Show>
+      </div>
     </div>
   )
 }
 
-function CircleColor(props: {color?: string}) {
+function CircleColor(props: { color?: string }) {
   return <Show when={props.color}>
-    <div class={styles.circleColor} style={{background: props.color}}></div>
+    <div class={styles.circleColor} style={{ background: props.color }}></div>
   </Show>
 }
 
 
 
-function Popup (props: {items: DropDownItem[], selectedId: string | null, onClose: () => void, onClick?: (item: DropDownItem) => void}) {
+function Popup(props: { items: DropDownItem[], selectedId: string | null, onClose: () => void, onClick?: (item: DropDownItem) => void }) {
 
   const onDocumentClick = (event: any) => {
     if (event.target.closest("." + styles.popup)) return;

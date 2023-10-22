@@ -1,3 +1,4 @@
+import { createSignal, onMount } from "solid-js";
 
 export enum StorageKeys {
   USER_TOKEN = 'userToken',
@@ -10,6 +11,7 @@ export enum StorageKeys {
   ENABLE_DESKTOP_NOTIFICATION = 'enableDesktopNotification',
   LAST_SELECTED_SERVER_CHANNELS = 'lastSelectedServerChannels',
   LAST_SEEN_CHANNEL_NOTICES = "lastSeenChannelNotices",
+  PROGRAM_ACTIVITY_STATUS = "programActivityStatus",
 }
 
 export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {
@@ -31,36 +33,53 @@ export function setStorageString(key: StorageKeys, value: string) {
 }
 
 export function getStorageNumber<T>(key: StorageKeys, defaultValue: T) {
-    const value = localStorage.getItem(key);
-    if (value === null) {
-        return defaultValue;
-    }
-    return parseInt(value, 10);
+  const value = localStorage.getItem(key);
+  if (value === null) {
+    return defaultValue;
+  }
+  return parseInt(value, 10);
 }
 
 export function setStorageNumber(key: StorageKeys, value: number) {
-    localStorage.setItem(key, value.toString());
+  localStorage.setItem(key, value.toString());
 }
 
 
 export function getStorageObject<T>(key: StorageKeys, defaultValue: T): T {
-    const value = getStorageString(key, null);
-    if (value === null) {
-        return defaultValue;
-    }
-    return JSON.parse(value);
+  const value = getStorageString(key, null);
+  if (value === null) {
+      return defaultValue;
+  }
+  return JSON.parse(value);
 }
 
 export function setStorageObject<T>(key: StorageKeys, value: T) {
-    setStorageString(key, JSON.stringify(value));
+  setStorageString(key, JSON.stringify(value));
 }
 
 
 
 export function removeStorage(key: StorageKeys) {
-    localStorage.removeItem(key);
+  localStorage.removeItem(key);
 }
 
 
 
 
+
+export function useReactiveLocalStorage<T>(key: StorageKeys, store: T) {
+  const [value, setValue] = createSignal<T>(store);
+
+  onMount(() => {
+    const storedValue = getStorageObject<T>(key, store);
+    setValue(() => storedValue);
+  })
+
+  const setCustomValue = (value: T) => {
+    setValue(() => value);
+    setStorageString(key, JSON.stringify(value)); 
+  }
+
+  return [value, setCustomValue] as const
+
+}

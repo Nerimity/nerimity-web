@@ -4,15 +4,16 @@ import useMention from "../store/useMention";
 import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
 import { SelfUser } from "./connectionEventTypes";
-import { FriendStatus, RawServerSettings, RawUser, RawUserConnection } from "../RawData";
+import { ActivityStatus, FriendStatus, RawServerSettings, RawUser, RawUserConnection } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
 
-export function onUserPresenceUpdate(payload: {status?: UserStatus, custom?: string; userId: string}) {
+export function onUserPresenceUpdate(payload: {status?: UserStatus, custom?: string; userId: string, activity: ActivityStatus}) {
   const users = useUsers();
   users.setPresence(payload.userId, {
     ...(payload.status !== undefined ? {status: payload.status} : undefined), 
-    ...(payload.custom !== undefined ? {custom: payload.custom} : undefined)  
+    ...(payload.custom !== undefined ? {custom: payload.custom} : undefined),
+    ...(payload.activity !== undefined ? {activity: payload.activity} : undefined)
   })
 }
 

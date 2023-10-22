@@ -41,6 +41,12 @@ const settings: Setting[] =  [
     element: lazy(() => import('@/components/settings/WindowSettings'))
   },
   {
+    path: 'activity-status',
+    name: 'settings.drawer.activity-status',
+    icon: 'games',
+    element: lazy(() => import('@/components/settings/ActivityStatus'))
+  },
+  {
     path: 'language',
     name: 'settings.drawer.language',
     icon: 'flag',

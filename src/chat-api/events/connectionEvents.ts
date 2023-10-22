@@ -6,6 +6,9 @@ import useAccount from "../store/useAccount";
 import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 import useVoiceUsers from "../store/useVoiceUsers";
+import { StorageKeys, getStorageObject } from "@/common/localStorage";
+import { Program, electronWindowAPI } from "@/common/Electron";
+import { emitActivityStatus } from "../emits/userEmits";
 
 
 export const onConnect = (socket: Socket, token?: string) => {
@@ -48,6 +51,25 @@ export const onReconnectAttempt = () => {
     socketAuthenticated: false
   })
 }
+
+
+electronWindowAPI()?.activityStatusChanged(window => {
+  if (!window) {
+    return emitActivityStatus(null)
+  }
+  const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+  const program = programs.find(program => program.filename === window?.filename)
+  
+  if (!program) {
+    return emitActivityStatus(null)
+  }
+
+  emitActivityStatus({
+    action: program.action || "Playing",
+    name: program.name,
+    startedAt: window.createdAt
+  })
+})
 
 
 
@@ -160,4 +182,8 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   const t1 = performance.now();
   console.log(`${t1 - t0} milliseconds.`);
+
+
+  const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+  electronWindowAPI()?.restartActivityStatus(programs);
 }

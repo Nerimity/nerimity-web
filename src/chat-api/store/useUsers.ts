@@ -1,5 +1,5 @@
 import {createStore} from 'solid-js/store';
-import { RawUser } from '../RawData';
+import { ActivityStatus, RawUser } from '../RawData';
 import useInbox, { Inbox } from './useInbox';
 import { closeDMChannelRequest, openDMChannelRequest } from '../services/UserService';
 import useChannels from './useChannels';
@@ -8,6 +8,8 @@ import { useNavigate } from '@solidjs/router';
 import { runWithContext } from '@/common/runWithContext';
 import env from '@/common/env';
 import useAccount from './useAccount';
+import { StorageKeys, getStorageObject } from '@/common/localStorage';
+import { Program, electronWindowAPI } from '@/common/Electron';
 
 
 export enum UserStatus {
@@ -21,6 +23,7 @@ export enum UserStatus {
 export interface Presence {
   custom?: string | null;
   status: UserStatus;
+  activity?: ActivityStatus
 }
 
 export const avatarUrl = (item: {avatar?: string}): string | null => item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
@@ -94,11 +97,22 @@ const array = () => Object.values(users);
 
 const setPresence = (userId: string, presence: Partial<Presence>) => {
   const account = useAccount();
+  
+  const wasOffline = !get(userId).presence?.status && presence.status !== UserStatus.OFFLINE;
+
+
+  
   if (account.user()?.id === userId) {
+    if (wasOffline) {
+      const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+      electronWindowAPI()?.restartActivityStatus(programs);
+    }
+
+    
     account.setUser({
       ...(presence.custom !== undefined ? {
         customStatus: presence.custom || undefined
-      } : undefined)
+      } : undefined),
     })
   }
   const isOffline = presence.status !== undefined && presence.status === UserStatus.OFFLINE;
@@ -107,6 +121,7 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
     return;
   }
   if (presence.custom === null) presence.custom = undefined;
+  if (presence.activity === null) presence.activity = undefined;
   setUsers(userId, 'presence', presence);
 }
 

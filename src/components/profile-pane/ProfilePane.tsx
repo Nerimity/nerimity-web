@@ -1,11 +1,11 @@
 import styles from './styles.module.scss';
 import { A, Link, useParams } from '@solidjs/router';
-import { createEffect, createResource, createSignal, For, on, onMount, Show } from 'solid-js';
+import { createEffect, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import { FriendStatus, RawUser } from '@/chat-api/RawData';
 import { blockUser, followUser, getFollowers, getFollowing, getUserDetailsRequest, unblockUser, unfollowUser, updatePresence, UserDetails } from '@/chat-api/services/UserService';
 import useStore from '@/chat-api/store/useStore';
 import { avatarUrl, bannerUrl, User } from '@/chat-api/store/useUsers';
-import { getDaysAgo } from '../../common/date';
+import { calculateTimeElapsedForActivityStatus, getDaysAgo } from '../../common/date';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { userStatusDetail, UserStatuses } from '../../common/userStatus';
 import Avatar from '@/components/ui/Avatar';
@@ -13,7 +13,7 @@ import Button from '@/components/ui/Button';
 import DropDown from '@/components/ui/drop-down/DropDown';
 import Icon from '@/components/ui/icon/Icon';
 import UserPresence from '@/components/user-presence/UserPresence';
-import { styled } from 'solid-styled-components';
+import { css, styled } from 'solid-styled-components';
 import Text from '../ui/Text';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import { useWindowProperties } from '@/common/useWindowProperties';
@@ -115,7 +115,7 @@ export default function ProfilePane() {
                   <span class={styles.username}>{user()!.username}</span>
                   <span class={styles.tag}>{`:${user()!.tag}`}</span>
                 </div>
-                <UserPresence animate userId={user()!.id} showOffline={true} />
+                <UserPresence hideActivity animate userId={user()!.id} showOffline={true} />
                 <Show when={userDetails()}>
                   <Text size={14} color="rgba(255,255,255,0.6)">{userDetails()?.user._count.following.toLocaleString()} following | {userDetails()?.user._count.followers.toLocaleString()} followers</Text>
                   <Badges user={userDetails()!} />
@@ -248,12 +248,60 @@ function SideBar(props: { user: UserDetails }) {
 
   return (
     <div class={styles.sidePane}>
+      <UserActivity userId={props.user.user.id}/>
       <SidePaneItem icon='event' label='Joined' value={joinedAt} />
       <MutualFriendList mutualFriendIds={props.user.mutualFriendIds} />
       <MutualServerList mutualServerIds={props.user.mutualServerIds} />
     </div>
   )
 }
+
+
+
+const UserActivity = (props: {userId: string}) => {
+  const {users} = useStore();
+  const user = () => users.get(props.userId);
+  const activity = () => user()?.presence?.activity;
+  const [playedFor, setPlayedFor] = createSignal("");
+
+  createEffect(on(activity, () => {
+    if (!activity()) return;
+
+    setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
+    const intervalId = setInterval(() => {
+      setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
+    }, 1000)
+
+    onCleanup(() => {
+      clearInterval(intervalId);
+      
+    })
+  }))
+
+  return (
+    <Show when={activity()}>
+      <FlexRow gap={6} class={css`margin-top: 4px; margin-bottom: 4px; margin-left: 5px;`}>
+        <Icon class={css`margin-top: 2px;`} name='games' size={18} color='var(--primary-color)' />
+        <FlexColumn>
+          <FlexRow gap={4}>
+            <Text size={14}>{activity()?.action}</Text>
+            <Text size={14} opacity={0.6}>{activity()?.name}</Text>
+          </FlexRow>
+          <Text size={14}>For {playedFor()}</Text>
+        </FlexColumn>
+      </FlexRow>
+
+
+    </Show>
+  )
+
+}
+
+
+
+
+
+
 
 function MutualFriendList(props: { mutualFriendIds: string[] }) {
   const { users } = useStore();
@@ -329,9 +377,11 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
 function SidePaneItem(props: { icon: string, label: string, value: string }) {
   return (
     <div class={styles.SidePaneItem}>
-      <Icon name={props.icon} size={18} />
-      <div class={styles.label}>{props.label}</div>
-      <div class={styles.value}>{props.value}</div>
+      <Icon name={props.icon} size={18} color='var(--primary-color)' />
+      <FlexColumn >
+        <div class={styles.label}>{props.label}</div>
+        <div class={styles.value}>{props.value}</div>
+      </FlexColumn>
     </div>
   );
 }

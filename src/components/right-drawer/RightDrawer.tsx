@@ -34,6 +34,7 @@ import { Markup } from '../Markup';
 import { useResizeObserver } from '@/common/useResizeObserver';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
 import { electronWindowAPI } from '@/common/Electron';
+import { calculateTimeElapsedForActivityStatus } from '@/common/date';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -536,7 +537,7 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
               <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
             </CustomLink>
           </span>
-          <UserPresence animate userId={props.userId} showOffline />
+          <UserPresence hideActivity animate userId={props.userId} showOffline />
           <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
         </FlyoutOtherDetailsContainer>
       </FlyoutDetailsContainer>
@@ -550,6 +551,8 @@ const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): 
           <RoleContainer onclick={showRoleModal} selectable><Icon name='add' size={14} /></RoleContainer>
         </RolesContainer>
       </Show>
+
+      <UserActivity userId={props.userId} />
 
       <Show when={details()?.profile?.bio}>
         <FlyoutTitle icon='info' title='Bio' />
@@ -620,6 +623,47 @@ function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: st
       <Text size={13}>{props.title}</Text>
     </FlexRow>
   )
+}
+
+
+
+const UserActivity = (props: {userId: string}) => {
+  const {users} = useStore();
+  const user = () => users.get(props.userId);
+  const activity = () => user()?.presence?.activity;
+  const [playedFor, setPlayedFor] = createSignal("");
+
+  createEffect(on(activity, () => {
+    if (!activity()) return;
+
+    setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
+    const intervalId = setInterval(() => {
+      setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
+    }, 1000)
+
+    onCleanup(() => {
+      clearInterval(intervalId);
+      
+    })
+  }))
+
+  return (
+    <Show when={activity()}>
+      <FlexRow gap={6} class={css`margin-top: 4px; margin-bottom: 4px;`}>
+        <Icon class={css`margin-top: 2px;`} name='games' size={14} color='var(--primary-color)' />
+        <FlexColumn>
+          <FlexRow gap={4}>
+            <Text size={13}>{activity()?.action}</Text>
+            <Text size={13} opacity={0.6}>{activity()?.name}</Text>
+          </FlexRow>
+          <Text size={13}>For {playedFor()}</Text>
+        </FlexColumn>
+      </FlexRow>
+
+
+    </Show>
+  )
+
 }
 
 

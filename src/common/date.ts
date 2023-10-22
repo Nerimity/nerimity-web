@@ -59,3 +59,41 @@ export function timeElapsed(timestamp: number) {
     seconds.toString().padStart(2, '0');
     return formattedTime;
 }
+
+
+
+
+export function calculateTimeElapsedForActivityStatus(startTime: number) {
+  // Get the current time in milliseconds.
+  const now = Date.now();
+  // Calculate the time elapsed in milliseconds.
+  const timeElapsed = now - startTime;
+  // Convert the time elapsed from milliseconds to seconds.
+  const timeElapsedInSeconds = timeElapsed / 1000;
+
+  // Return the time elapsed in seconds.
+  return convertSecondsForActivityStatus(timeElapsedInSeconds);
+}
+
+function convertSecondsForActivityStatus(totalSeconds: number) {
+  const days = Math.floor(totalSeconds / (24*60*60));
+  totalSeconds %= 24*60*60;
+  const hours = Math.floor(totalSeconds / (60*60));
+  totalSeconds %= 60*60;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const roundedSeconds = Math.round(seconds);
+
+  if (days) {
+    return `${days}d ${hours}h`
+  }
+
+  if (hours) {
+    return `${hours}h ${minutes}m`
+  }
+  if (minutes) {
+    return `${minutes} minute${minutes <= 1 ? '' : 's'}`
+  }
+  return `${roundedSeconds} second${roundedSeconds <= 1 ? '' : 's'}`
+}

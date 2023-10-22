@@ -4,6 +4,11 @@ export interface ElectronCaptureSource {
   thumbnailUrl: string;
 }
 
+export interface Program {
+  name: string, 
+  filename: string
+}
+
 interface WindowAPI {
   isElectron: boolean;
   minimize(): void;
@@ -18,6 +23,10 @@ interface WindowAPI {
   
   setNotification(value: boolean): void;
   getDesktopCaptureSources(): Promise<ElectronCaptureSource[]>;
+  
+  getRunningPrograms(ignoredPrograms?: Program[]): Promise<Program[]>;
+  restartActivityStatus(listenToPrograms: Program[]): void;
+  activityStatusChanged(callback: (window: {filename: string, createdAt: number} | false) => void): void;
 }
 
 
