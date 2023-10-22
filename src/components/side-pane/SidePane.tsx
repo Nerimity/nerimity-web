@@ -28,7 +28,7 @@ import { formatTimestamp } from '@/common/date';
 import { Draggable } from '../ui/Draggable';
 import { updateServerOrder } from '@/chat-api/services/ServerService';
 import { Banner } from '../ui/Banner';
-import { User, bannerUrl } from '@/chat-api/store/useUsers';
+import { User, UserStatus, bannerUrl } from '@/chat-api/store/useUsers';
 import UserPresence from '../user-presence/UserPresence';
 import DropDown from '../ui/drop-down/DropDown';
 import { updatePresence } from '@/chat-api/services/UserService';
@@ -38,6 +38,8 @@ import { useDrawer } from '../ui/drawer/Drawer';
 import { useRegisterSW } from 'virtual:pwa-register/solid'
 import Input from '../ui/input/Input';
 import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
+import { Program, electronWindowAPI } from '@/common/Electron';
+import { StorageKeys, getStorageObject } from '@/common/localStorage';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -363,6 +365,8 @@ function PresenceDropDown() {
   const { account, users } = useStore();
   const user = () => users.get(account.user()?.id!);
 
+  const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0)
+
   const DropDownItems = UserStatuses.map((item, i) => {
     return {
       circleColor: item.color,
@@ -370,6 +374,11 @@ function PresenceDropDown() {
       label: item.name === "Offline" ? 'Appear As Offline' : item.name,
       index: i,
       onClick: (item: { index: number }) => {
+        const wasOffline = !user()?.presence?.status && item.index !== UserStatus.OFFLINE;
+        if (wasOffline) {
+          const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+          electronWindowAPI()?.restartActivityStatus(programs);
+        }
         updatePresence({
           status: item.index
         });
@@ -379,7 +388,7 @@ function PresenceDropDown() {
   // move invisible to the bottom.
   DropDownItems.push(DropDownItems.shift()!);
 
-  const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0)
+
 
   return (
     <DropDown title='Presence' class={styles.presenceDropdown} items={DropDownItems} selectedId={presenceStatus().id} />

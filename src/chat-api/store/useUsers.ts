@@ -1,6 +1,6 @@
 import {createStore} from 'solid-js/store';
 import { ActivityStatus, RawUser } from '../RawData';
-import useInbox, { Inbox } from './useInbox';
+import useInbox from './useInbox';
 import { closeDMChannelRequest, openDMChannelRequest } from '../services/UserService';
 import useChannels from './useChannels';
 import RouterEndpoints from '../../common/RouterEndpoints';
@@ -8,9 +8,6 @@ import { useNavigate } from '@solidjs/router';
 import { runWithContext } from '@/common/runWithContext';
 import env from '@/common/env';
 import useAccount from './useAccount';
-import { StorageKeys, getStorageObject } from '@/common/localStorage';
-import { Program, electronWindowAPI } from '@/common/Electron';
-
 
 export enum UserStatus {
   OFFLINE = 0,
@@ -98,17 +95,7 @@ const array = () => Object.values(users);
 const setPresence = (userId: string, presence: Partial<Presence>) => {
   const account = useAccount();
   
-  const wasOffline = !get(userId).presence?.status && presence.status !== UserStatus.OFFLINE;
-
-
-  
-  if (account.user()?.id === userId) {
-    if (wasOffline) {
-      const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
-      electronWindowAPI()?.restartActivityStatus(programs);
-    }
-
-    
+  if (account.user()?.id === userId) {    
     account.setUser({
       ...(presence.custom !== undefined ? {
         customStatus: presence.custom || undefined
