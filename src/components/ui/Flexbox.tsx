@@ -8,6 +8,7 @@ interface FlexRowProps {
 
 interface FlexColumnProps {
   gap?: number;
+  padding?: number
 } 
 
 export const FlexRow = styled("div")<FlexRowProps>`
@@ -21,4 +22,5 @@ export const FlexColumn = styled("div")<FlexColumnProps>`
   display: flex;
   flex-direction: column;
   gap: ${props => props.gap || 0}px;
+  ${props => props.padding ? `padding: ${props.padding}px;` : ''}
 `;

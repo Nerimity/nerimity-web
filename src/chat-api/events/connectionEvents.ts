@@ -7,7 +7,7 @@ import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 import useVoiceUsers from "../store/useVoiceUsers";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
-import { Program, electronWindowAPI } from "@/common/Electron";
+import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
 
 
@@ -57,7 +57,7 @@ electronWindowAPI()?.activityStatusChanged(window => {
   if (!window) {
     return emitActivityStatus(null)
   }
-  const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
   const program = programs.find(program => program.filename === window?.filename)
   
   if (!program) {
@@ -184,6 +184,6 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   console.log(`${t1 - t0} milliseconds.`);
 
 
-  const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
   electronWindowAPI()?.restartActivityStatus(programs);
 }

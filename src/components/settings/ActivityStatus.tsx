@@ -7,12 +7,15 @@ import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
 import SettingsBlock from '../ui/settings-block/SettingsBlock';
 import { Notice } from '../ui/Notice';
-import { electronWindowAPI, Program } from '@/common/Electron';
+import { electronWindowAPI, Program, ProgramWithAction } from '@/common/Electron';
 import Button from '../ui/Button';
 import DropDown, { DropDownItem } from '../ui/drop-down/DropDown';
 import Block from '../ui/settings-block/Block';
 import { getStorageObject, StorageKeys, useReactiveLocalStorage } from '@/common/localStorage';
 import { emitActivityStatus } from '@/chat-api/emits/userEmits';
+import Modal from '../ui/Modal';
+import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
+import Input from '../ui/input/Input';
 
 const Container = styled("div")`
   display: flex;
@@ -78,6 +81,8 @@ export default function WindowSettings() {
 function ProgramOptions() {
   const [programs, setPrograms] = createSignal<Program[]>([]);
   const [addedPrograms, setAddedPrograms] = useReactiveLocalStorage<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
+  
+  const {createPortal} = useCustomPortal();
 
   const getPrograms = () => {
     electronWindowAPI()?.getRunningPrograms(addedPrograms()).then(setPrograms);
@@ -85,6 +90,17 @@ function ProgramOptions() {
 
   const restartActivityStatus = () => {
     electronWindowAPI()?.restartActivityStatus(addedPrograms());
+  }
+
+  const updateProgram = (index: number, program: ProgramWithAction) => {
+    const programs = [...addedPrograms()];
+    programs[index] = program;
+    setAddedPrograms(programs);
+    restartActivityStatus();
+  }
+
+  const showEditModal = (i: number, program: ProgramWithAction) => {
+    createPortal(close => <EditActivityStatusModal onEdit={(p) => updateProgram(i, p)} program={program} close={close} />)
   }
 
   onMount(() => {
@@ -142,11 +158,38 @@ function ProgramOptions() {
                 <Text opacity={0.6} size={14}>{item.filename}</Text>
               </FlexColumn>
               <Button iconName='delete' onClick={() => removeProgram(item)} label='Delete' color='var(--alert-color)' />
-              <Button iconName='edit' label='Edit' />
+              <Button iconName='edit' label='Edit' onClick={() => showEditModal(i(), item)} />
            </FlexRow>
           </Block>
         )}
       </For>
     </FlexColumn>
+  )
+}
+
+
+const EditActivityStatusModal = (props: {onEdit(newProgram: ProgramWithAction): void; program: ProgramWithAction, close: () => void}) => {
+  const [newValues, setValues] = createSignal(props.program)
+  
+
+  const actionButtons = (
+    <FlexRow style={{ flex: 1, margin: "5px" }} >
+      <Button class={css`flex: 1; width: initial;`} color='var(--alert-color)' onClick={props.close} iconName="close" label="Back" />
+      <Button class={css`flex: 1; width: initial;`} iconName="edit" label="Edit" primary onClick={() => {
+        props.onEdit(newValues());
+        props.close();
+      }} />
+    </FlexRow>
+  )
+
+  return (
+    <Modal title='Edit Activity Status' icon='games' close={props.close} actionButtons={actionButtons}>
+      <FlexColumn padding={6} gap={6}>
+        <Input label='Executable' value={newValues().filename} onText={v => setValues({ ...newValues(), filename: v })} />
+        <Input label='Action' value={newValues().action} onText={v => setValues({ ...newValues(), action: v })} />
+        <Input label='Name' value={newValues().name} onText={v => setValues({ ...newValues(), name: v })} />
+      </FlexColumn>
+
+    </Modal>
   )
 }

@@ -8,6 +8,9 @@ export interface Program {
   name: string, 
   filename: string
 }
+export type ProgramWithAction = Program & {
+  action: string
+}
 
 interface WindowAPI {
   isElectron: boolean;

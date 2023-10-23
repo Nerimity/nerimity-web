@@ -38,7 +38,7 @@ import { useDrawer } from '../ui/drawer/Drawer';
 import { useRegisterSW } from 'virtual:pwa-register/solid'
 import Input from '../ui/input/Input';
 import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
-import { Program, electronWindowAPI } from '@/common/Electron';
+import { ProgramWithAction, electronWindowAPI } from '@/common/Electron';
 import { StorageKeys, getStorageObject } from '@/common/localStorage';
 
 const SidebarItemContainer = styled(ItemContainer)`
@@ -376,7 +376,7 @@ function PresenceDropDown() {
       onClick: (item: { index: number }) => {
         const wasOffline = !user()?.presence?.status && item.index !== UserStatus.OFFLINE;
         if (wasOffline) {
-          const programs = getStorageObject<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+          const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
           electronWindowAPI()?.restartActivityStatus(programs);
         }
         updatePresence({
