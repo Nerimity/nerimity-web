@@ -7,9 +7,24 @@ import { SelfUser } from "./connectionEventTypes";
 import { ActivityStatus, FriendStatus, RawServerSettings, RawUser, RawUserConnection } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
+import { StorageKeys, getStorageObject } from "@/common/localStorage";
+import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
 
-export function onUserPresenceUpdate(payload: {status?: UserStatus, custom?: string; userId: string, activity: ActivityStatus}) {
+export function onUserPresenceUpdate(payload: { userId: string; status?: UserStatus, custom?: string; activity?: ActivityStatus}) {
   const users = useUsers();
+  const account = useAccount();
+
+  if (payload.status !== undefined && account.user()?.id === payload.userId) {
+    const user = users.get(payload.userId);
+    const wasOffline = !user?.presence?.status && payload.status !== UserStatus.OFFLINE;
+    if (wasOffline) {
+      const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+      electronWindowAPI()?.restartActivityStatus(programs);
+    }
+  }
+  
+  
+  
   users.setPresence(payload.userId, {
     ...(payload.status !== undefined ? {status: payload.status} : undefined), 
     ...(payload.custom !== undefined ? {custom: payload.custom} : undefined),

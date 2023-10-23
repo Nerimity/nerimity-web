@@ -374,11 +374,6 @@ function PresenceDropDown() {
       label: item.name === "Offline" ? 'Appear As Offline' : item.name,
       index: i,
       onClick: (item: { index: number }) => {
-        const wasOffline = !user()?.presence?.status && item.index !== UserStatus.OFFLINE;
-        if (wasOffline) {
-          const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
-          electronWindowAPI()?.restartActivityStatus(programs);
-        }
         updatePresence({
           status: item.index
         });
