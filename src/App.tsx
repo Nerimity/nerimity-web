@@ -24,6 +24,9 @@ export default function App() {
     if (isHalloween) {
       document.documentElement.style.setProperty('--primary-color', '#d76623');
       document.documentElement.style.setProperty('--primary-color-dark', '#241e1a');
+
+      document.documentElement.style.setProperty('--alert-color', '#866ebf');
+      document.documentElement.style.setProperty('--alert-color-dark', '#27242e');
     }
     if (isChristmas) {
       document.documentElement.style.setProperty('--primary-color', '#34a65f');
