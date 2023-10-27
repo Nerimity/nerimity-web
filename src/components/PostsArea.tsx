@@ -256,10 +256,13 @@ export function PostItem(props: { showFullDate?: boolean; disableClick?: boolean
       <Show when={props.post.deleted}>
         <Text>{t("posts.postWasDeleted")}</Text>
       </Show>
-      <Show when={!props.post.deleted}>
+      <Show when={props.post.block}>
+        <Text>This user has blocked you.</Text>
+      </Show>
+      <Show when={!props.post.deleted && !props.post.block}>
         <Show when={replyingTo()}><ReplyTo user={replyingTo()!.createdBy} /></Show>
         <PostContainer gap={5}>
-          <Link href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>
+          <Link href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
             <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
           </Link>
           <PostInnerContainer gap={3}>
@@ -276,7 +279,7 @@ export function PostItem(props: { showFullDate?: boolean; disableClick?: boolean
 
 const Details = (props: { showFullDate?: boolean, hovered: boolean, post: Post }) => (
   <PostDetailsContainer gap={5}>
-    <CustomLink class={postUsernameStyle} style={{ color: 'white' }} decoration href={RouterEndpoints.PROFILE(props.post.createdBy.id)}>{props.post.createdBy.username}</CustomLink>
+    <CustomLink class={postUsernameStyle} style={{ color: 'white' }} decoration href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>{props.post.createdBy?.username}</CustomLink>
     <Text style={{"flex-shrink": 0 }} title={formatTimestamp(props.post.createdAt)} size={12} color="rgba(255,255,255,0.5)">
       {(props.showFullDate ? formatTimestamp :  timeSince)(props.post.createdAt)}
     </Text>
@@ -313,7 +316,7 @@ const Actions = (props: { post: Post, hideDelete?: boolean }) => {
 
   const onCommentClick = () => setSearchParams({ postId: props.post.id });
 
-  const isLikedByMe = () => props.post.likedBy.length;
+  const isLikedByMe = () => props.post?.likedBy?.length;
   const likedIcon = () => isLikedByMe() ? 'favorite' : 'favorite_border'
 
   const onLikeClick = async () => {
@@ -336,12 +339,12 @@ const Actions = (props: { post: Post, hideDelete?: boolean }) => {
 
   return (
     <PostActionsContainer gap={2}>
-      <Button margin={2} onClick={onLikeClick} class={postActionStyle} iconName={likedIcon()} label={props.post._count.likedBy.toLocaleString()} />
-      <Button margin={2} onClick={onCommentClick} class={postActionStyle} iconName="comment" label={props.post._count.comments.toLocaleString()} />
+      <Button margin={2} onClick={onLikeClick} class={postActionStyle} iconName={likedIcon()} label={props.post._count?.likedBy.toLocaleString()} />
+      <Button margin={2} onClick={onCommentClick} class={postActionStyle} iconName="comment" label={props.post._count?.comments.toLocaleString()} />
       {/* <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" /> */}
       {/* <Button margin={2} class={postActionStyle} iconName="share" /> */}
       <FlexRow style={{ "margin-left": "auto" }} gap={2}>
-        <Show when={props.post.createdBy.id === account.user()?.id && !props.hideDelete}>
+        <Show when={props.post.createdBy?.id === account.user()?.id && !props.hideDelete}>
           <Button onClick={onEditClicked} margin={2} class={postActionStyle} iconName="edit" />
           <Button onClick={onDeleteClick} margin={2} class={postActionStyle} color="var(--alert-color)" iconName="delete" />
         </Show>
@@ -356,7 +359,7 @@ const ReplyTo = (props: { user: RawUser }) => {
   return (
     <ReplyingToContainer>
       <Text size={14} style={{ "margin-right": "5px" }}>Replying to</Text>
-      <CustomLink decoration style={{ "font-size": "14px" }} href={RouterEndpoints.PROFILE(props.user.id!)}>{props.user.username}</CustomLink>
+      <CustomLink decoration style={{ "font-size": "14px" }} href={RouterEndpoints.PROFILE(props.user?.id!)}>{props.user?.username}</CustomLink>
     </ReplyingToContainer>
   )
 }
@@ -661,8 +664,10 @@ export function ViewPostModal(props: { close(): void }) {
             </For>
           </FlexColumn>
           <FlexRow gap={5} style={{ "margin-top": "10px", "margin-bottom": "10px" }}>
-            <Button onClick={() => setSelectedTab("comments")} padding={5} textSize={14} iconSize={14} margin={0} iconName="comment" primary={selectedTab() === "comments"} label={`Replies (${post()?._count.comments})`} />
-            <Button onClick={() => setSelectedTab("likes")} padding={5} textSize={14} iconSize={14} margin={0} iconName="favorite" primary={selectedTab() === "likes"} label={`Liked by (${post()?._count.likedBy})`} />
+            <Show when={!post()?.block}>
+              <Button onClick={() => setSelectedTab("comments")} padding={5} textSize={14} iconSize={14} margin={0} iconName="comment" primary={selectedTab() === "comments"} label={`Replies (${post()?._count?.comments})`} />
+              <Button onClick={() => setSelectedTab("likes")} padding={5} textSize={14} iconSize={14} margin={0} iconName="favorite" primary={selectedTab() === "likes"} label={`Liked by (${post()?._count?.likedBy})`} />
+            </Show>
           </FlexRow>
           <Switch>
             <Match when={selectedTab() === 'comments'}><PostsArea style={{ overflow: 'initial' }} postId={post()?.id} /></Match>

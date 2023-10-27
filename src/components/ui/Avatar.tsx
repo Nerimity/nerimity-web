@@ -54,7 +54,7 @@ export default function Avatar(props: Props) {
       <AvatarBorder size={props.size} hovered={props.animate || props.showBorder} serverOrUser={serverOrUser()} />
       <div class={styles.imageContainer}>
         <Show when={!url()}>
-          <div class={styles.avatarBackground} style={{background: serverOrUser().hexColor}} />
+          <div class={styles.avatarBackground} style={{background: serverOrUser()?.hexColor}} />
         </Show>
         <Switch>
           <Match when={props.children}>{props.children}</Match>

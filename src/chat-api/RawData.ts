@@ -218,6 +218,7 @@ export interface RawPost {
   content?: string;
   attachments?: Array<RawAttachment>;
   deleted: boolean;
+  block?: boolean;
   commentToId: string;
   commentTo?: RawPost;
   createdBy: RawUser

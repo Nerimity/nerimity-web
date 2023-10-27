@@ -73,7 +73,10 @@ export function usePosts() {
         async submitReply(opts: {content: string, attachment?: File}) {
           const account = useAccount();
           const formattedContent = opts.content.trim();
-          const post = await createPost({content: formattedContent, attachment: opts.attachment, replyToPostId: this.id});
+          const post = await createPost({content: formattedContent, attachment: opts.attachment, replyToPostId: this.id}).catch((err) => {
+            alert(err.message)
+          });
+          if (!post) return;
           batch(() => {
             if (!this.commentIds) {
               setState("posts", this.id, "commentIds", []);
