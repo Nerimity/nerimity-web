@@ -1,4 +1,4 @@
-import {createStore} from 'solid-js/store';
+import {createStore, reconcile} from 'solid-js/store';
 import { ActivityStatus, RawUser } from '../RawData';
 import useInbox from './useInbox';
 import { closeDMChannelRequest, openDMChannelRequest } from '../services/UserService';
@@ -112,6 +112,10 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
   setUsers(userId, 'presence', presence);
 }
 
+const reset = () => {
+  setUsers(reconcile({}));
+}
+
 
 export default function useUsers() {
   return {
@@ -119,6 +123,7 @@ export default function useUsers() {
     get,
     set,
     setPresence,
-    openDM
+    openDM,
+    reset
   }
 }

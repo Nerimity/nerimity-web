@@ -81,6 +81,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   const t0 = performance.now();
 
   batch(() => {
+    users.reset();
     saveCache(LocalCacheKey.Account, payload.user);
 
     //emitNotificationDismiss
