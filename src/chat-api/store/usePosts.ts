@@ -103,7 +103,10 @@ export function usePosts() {
   const submitPost = async (opts: {content: string, file?: File}) => {
     const account = useAccount();
     const formattedContent = opts.content.trim();
-    const post = await createPost({content: formattedContent, attachment: opts.file});
+    const post = await createPost({content: formattedContent, attachment: opts.file}).catch((err) => {
+      alert(err.message)
+    });
+    if (!post) return;
     pushPost(post, account.user()?.id!);
     setState("feedPostIds", [post.id, ...state.feedPostIds]);
     
