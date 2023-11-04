@@ -1,6 +1,6 @@
 import env from '@/common/env'
 import Button from '@/components/ui/Button'
-import { Link } from '@solidjs/router'
+import { Link, useNavigate } from '@solidjs/router'
 import PageHeader from '../components/PageHeader'
 import { styled } from 'solid-styled-components'
 import Text from '@/components/ui/Text'
@@ -49,7 +49,7 @@ const TopContainer = styled("div")`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 400px;
+  height: 490px;
   flex-shrink: 0;
 `;
 
@@ -89,15 +89,38 @@ export default function HomePage () {
           <Text class="slogan" opacity={0.7}>{t('homePage.slogan')}</Text>
           <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>
           <ButtonsContainer class="buttons-container">
-            <a href='/register'><Button iconName='open_in_browser' label={t('homePage.joinButton', {appName: env.APP_NAME})} primary={true} /></a>
-            <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t('homePage.viewGitHubButton')}  /></a>
+            <a href='/register'><Button iconName='open_in_browser' label={t('homePage.joinButton', {appName: env.APP_NAME})!} primary={true} /></a>
+            <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t('homePage.viewGitHubButton')!}  /></a>
           </ButtonsContainer>
+          <PlatformDownloadLinks/>
         </TopContainer>
         <FeatureList/>
         <ArtImage src="./assets/home-page-art.svg" alt=""/>
       </Content>
       <PageFooter/>
     </HomePageContainer>
+  )
+}
+
+
+
+
+const PlatformDownloadLinks = () => {
+  const navigate = useNavigate();
+  return (
+    <FlexColumn gap={10} itemsCenter style={{"margin-top": "10px"}}>
+      <Text size={16} opacity={0.7} style={{}}>Available on</Text>
+      <FlexRow wrap justifyCenter>
+        <Button onClick={() => navigate('/register')} color='' label='Browser' iconName='public' primary />
+        <Button onClick={() => window.open('https://github.com/Nerimity/nerimity-desktop/releases/latest', '_blank')} color='' label='Windows' iconName='grid_view' primary />
+        <Button  onClick={() => window.open('https://github.com/Nerimity/NerimityReactNative/releases/latest', '_blank')} color='#31a952' customChildren={
+          <FlexRow itemsCenter>
+            <Text>Android</Text>
+            <Text opacity={0.8} size={12}>(Experimental)</Text>
+          </FlexRow>
+        } iconName='android' primary />
+      </FlexRow>  
+    </FlexColumn>
   )
 }
 
