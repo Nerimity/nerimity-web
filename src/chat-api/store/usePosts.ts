@@ -113,8 +113,8 @@ export function usePosts() {
   }
 
   const fetchUserPosts = async (userId: string, withReplies?: boolean) => {
-    const posts = await getPosts(userId, withReplies);
     setState("userPostIds", userId, []);
+    const posts = await getPosts(userId, withReplies);
     batch(() => {
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
@@ -123,8 +123,8 @@ export function usePosts() {
     })
   }
   const fetchUserLikedPosts = async (userId: string) => {
-    const posts = await getPostsLiked(userId);
     setState("userPostIds", userId, []);
+    const posts = await getPostsLiked(userId);
     batch(() => {
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
@@ -147,9 +147,9 @@ export function usePosts() {
 
 
   const fetchFeed = async () => {
+    setState('feedPostIds', []);
     const posts = await getFeedPosts();
     batch(() => {
-      setState('feedPostIds', []);
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
         pushPost(post);

@@ -163,6 +163,7 @@ export default function ProfilePane() {
                 />
               </Show>
             </FlexRow>
+
             <div class={styles.informationContainer}>
               <div class={styles.details}>
                 <div class={styles.usernameTag}>
@@ -178,25 +179,25 @@ export default function ProfilePane() {
                 <Show when={userDetails()}>
                   <Badges user={userDetails()!} />
                 </Show>
+                <div class={styles.followingAndFollowersContainer}>
+                  <div>
+                    {userDetails()?.user._count.following.toLocaleString()}{" "}
+                    <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                      Following
+                    </span>
+                  </div>
+                  <div>
+                    {userDetails()?.user._count.followers.toLocaleString()}{" "}
+                    <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                      Followers
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <Show when={userDetails()?.profile?.bio}>
                 <BioContainer userDetails={userDetails()!} />
               </Show>
-              <div class={styles.followingAndFollowersContainer}>
-                <div>
-                  {userDetails()?.user._count.following.toLocaleString()}{" "}
-                  <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                    Following
-                  </span>
-                </div>
-                <div>
-                  {userDetails()?.user._count.followers.toLocaleString()}{" "}
-                  <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                    Followers
-                  </span>
-                </div>
-              </div>
             </div>
           </FlexColumn>
         </div>
@@ -395,14 +396,19 @@ function BioContainer(props: { userDetails: UserDetails }) {
 function SideBar(props: { user: UserDetails }) {
   const [toggleJoinedDateType, setToggleJoinedDateType] = createSignal(false);
   const joinedAt = () => {
-    if (!toggleJoinedDateType()) return getDaysAgo(props.user.user.joinedAt!)
-    return formatTimestamp(props.user.user.joinedAt!)
+    if (!toggleJoinedDateType()) return getDaysAgo(props.user.user.joinedAt!);
+    return formatTimestamp(props.user.user.joinedAt!);
   };
 
   return (
     <div class={styles.sidePane}>
       <UserActivity userId={props.user.user.id} />
-      <SidePaneItem icon="event" label="Joined" value={joinedAt()} onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())} />
+      <SidePaneItem
+        icon="event"
+        label="Joined"
+        value={joinedAt()}
+        onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
+      />
       <MutualFriendList mutualFriendIds={props.user.mutualFriendIds} />
       <MutualServerList mutualServerIds={props.user.mutualServerIds} />
     </div>
@@ -561,7 +567,12 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
   );
 }
 
-function SidePaneItem(props: { icon: string; label: string; value: string; onClick?: () => void }) {
+function SidePaneItem(props: {
+  icon: string;
+  label: string;
+  value: string;
+  onClick?: () => void;
+}) {
   return (
     <div class={styles.SidePaneItem} onClick={props.onClick}>
       <Icon name={props.icon} size={18} color="var(--primary-color)" />
@@ -574,6 +585,7 @@ function SidePaneItem(props: { icon: string; label: string; value: string; onCli
 }
 
 function PostsContainer(props: { user: UserDetails }) {
+  const {account} = useStore();
   const [currentPage, setCurrentPage] = createSignal(0); // posts | with replies | liked | Following | Followers
 
   const postCount = () => props.user.user._count.posts.toLocaleString();
@@ -587,7 +599,12 @@ function PostsContainer(props: { user: UserDetails }) {
           selected={currentPage() === 0}
           onClick={() => setCurrentPage(0)}
         >
-          <Text size={14} color={currentPage() === 0 ? 'white' : 'rgba(255,255,255,0.6)'}>{t("profile.postsTab")}</Text>
+          <Text
+            size={14}
+            color={currentPage() === 0 ? "white" : "rgba(255,255,255,0.6)"}
+          >
+            {t("profile.postsTab")}
+          </Text>
         </ItemContainer>
         <ItemContainer
           handlePosition="bottom"
@@ -595,7 +612,12 @@ function PostsContainer(props: { user: UserDetails }) {
           selected={currentPage() === 1}
           onClick={() => setCurrentPage(1)}
         >
-          <Text size={14} color={currentPage() === 1 ? 'white' : 'rgba(255,255,255,0.6)'}>{t("profile.postsAndRepliesTab", { count: postCount() })}</Text>
+          <Text
+            size={14}
+            color={currentPage() === 1 ? "white" : "rgba(255,255,255,0.6)"}
+          >
+            {t("profile.postsAndRepliesTab", { count: postCount() })}
+          </Text>
         </ItemContainer>
         <ItemContainer
           handlePosition="bottom"
@@ -603,7 +625,12 @@ function PostsContainer(props: { user: UserDetails }) {
           selected={currentPage() === 2}
           onClick={() => setCurrentPage(2)}
         >
-          <Text size={14} color={currentPage() === 2 ? 'white' : 'rgba(255,255,255,0.6)'}>{t("profile.likedPostsTab", { count: likeCount() })}</Text>
+          <Text
+            size={14}
+            color={currentPage() === 2 ? "white" : "rgba(255,255,255,0.6)"}
+          >
+            {t("profile.likedPostsTab", { count: likeCount() })}
+          </Text>
         </ItemContainer>
         <ItemContainer
           handlePosition="bottom"
@@ -611,16 +638,26 @@ function PostsContainer(props: { user: UserDetails }) {
           selected={currentPage() === 3}
           onClick={() => setCurrentPage(3)}
         >
-          <Text size={14} color={currentPage() === 3 ? 'white' : 'rgba(255,255,255,0.6)'}>{t("profile.followingTab")}</Text>
+          <Text
+            size={14}
+            color={currentPage() === 3 ? "white" : "rgba(255,255,255,0.6)"}
+          >
+            {t("profile.followingTab")}
+          </Text>
         </ItemContainer>
         <ItemContainer
           handlePosition="bottom"
           class={styles.postsTabButton}
           selected={currentPage() === 4}
           onClick={() => setCurrentPage(4)}
+        >
+          <Text
+            size={14}
+            color={currentPage() === 4 ? "white" : "rgba(255,255,255,0.6)"}
           >
-            <Text size={14} color={currentPage() === 4 ? 'white' : 'rgba(255,255,255,0.6)'}>{t("profile.followersTab")}</Text>
-          </ItemContainer>
+            {t("profile.followersTab")}
+          </Text>
+        </ItemContainer>
       </FlexRow>
       <Show when={props.user && currentPage() <= 2}>
         <PostsArea
@@ -628,6 +665,7 @@ function PostsContainer(props: { user: UserDetails }) {
           showReplies={currentPage() === 1}
           style={{ width: "100%" }}
           userId={props.user.user.id}
+          showCreateNew={account.user()?.id === props.user.user.id && currentPage() === 0}
         />
       </Show>
       <Show when={props.user && currentPage() === 3}>
