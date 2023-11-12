@@ -33,6 +33,9 @@ const ItemContainer = styled("div")<ItemContainer>`
   user-select: none;
   align-items: center;
   text-decoration: none;
+
+  ${props => props.handlePosition === "top" || props.handlePosition === "bottom" ? `justify-content: center;` : '' }
+
   &:after {
     content: '';
     position: absolute;
