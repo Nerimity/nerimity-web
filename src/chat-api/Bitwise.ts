@@ -32,6 +32,12 @@ export const USER_BADGES = {
     bit: 4,
     color: '#ffffff'
   },
+  BOT: {
+    name: 'Bot',      // I really recommend having this even if it is unused
+    description: 'An bot account (currently unused)',
+    bit: 8,
+    color: '#4c93ff'  // this is the primary color, not sure how to scope to that properly :(
+  }
 };
 
 export const CHANNEL_PERMISSIONS = {
@@ -60,7 +66,7 @@ export const ROLE_PERMISSIONS = {
     name: 'servers.rolePermissions.admin',
     description: 'servers.rolePermissions.adminDescription',
     bit: 1,
-    // icon: 'mail'
+    // icon: 'mail',  // looks good even without icon
     showSettings: true,
   },
   SEND_MESSAGE: {
@@ -72,14 +78,14 @@ export const ROLE_PERMISSIONS = {
   MANAGE_ROLES: {
     name: 'servers.rolePermissions.manageRoles',
     description: 'servers.rolePermissions.manageRolesDescription',
-    // icon: 'mail',
+    icon: 'leaderboard',
     bit: 4,
     showSettings: true,
   },
   MANAGE_CHANNELS: {
     name: 'servers.rolePermissions.manageChannels',
     description: 'servers.rolePermissions.manageChannelsDescription',
-    // icon: 'mail',
+    icon: 'storage',
     bit: 8,
     showSettings: true,
   },
@@ -87,7 +93,7 @@ export const ROLE_PERMISSIONS = {
     name: 'servers.rolePermissions.kick',
     description: 'servers.rolePermissions.kickDescription',
     bit: 16,
-    // icon: 'mail'
+    icon: 'logout',
     showSettings: true,
   },
   BAN: {
@@ -95,7 +101,7 @@ export const ROLE_PERMISSIONS = {
     description: 'servers.rolePermissions.banDescription',
     bit: 32,
     showSettings: true,
-    // icon: 'mail'
+    icon: 'block'
   },
   MENTION_EVERYONE: {
     name: 'servers.rolePermissions.mentionEveryone',
