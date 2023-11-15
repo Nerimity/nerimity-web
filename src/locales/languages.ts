@@ -12,44 +12,49 @@ export interface Language {
 
 export const languages = {
   "en-gb": {
-    name: "British English",
+    name: "English (British)",
     emoji: "🇬🇧",
     contributors: ["https://github.com/SupertigerDev"],
   },
-  "hu-hu": {
-    name: "Hungarian",
-    emoji: "🇭🇺",
-    contributors: ["https://github.com/andrasdaradici"],
-  },
-  "tr-tr": {
-    name: "Turkish",
-    emoji: "🇹🇷",
-    contributors: ["https://github.com/sutnax"],
+  "en-us": {
+    name: "English (American)",
+    emoji: "🇺🇸",
+    contributors: ["https://github.com/SupertigerDev", "https://github.com/F-iiral"],
   },
   "nl-nl": {
     name: "Dutch",
     emoji: "🇳🇱",
     contributors: ["https://github.com/captainqdev"],
   },
-  "pl-pl": {
-    name: "Polish",
-    emoji: "🇵🇱",
-    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
-  },
-  "de-de": {
-    name: "German",
-    emoji: "🇩🇪",
-    contributors: ["https://github.com/Tycraft2005"],
-  },
   "fr-FR": {
     name: "French",
     emoji: "🇫🇷",
     contributors: ["https://github.com/guiguitator"],
   },
+  "de-de": {
+    name: "German",
+    emoji: "🇩🇪",
+    contributors: ["https://github.com/F-iiral"],
+  },
+  "hu-hu": {
+    name: "Hungarian",
+    emoji: "🇭🇺",
+    contributors: ["https://github.com/andrasdaradici"],
+  },
   "pt-br": {
     name: "Brazilian Portuguese",
     emoji: "🇧🇷",
     contributors: ["https://github.com/Jerkycat"],
+  },
+  "pl-pl": {
+    name: "Polish",
+    emoji: "🇵🇱",
+    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
+  },
+  "tr-tr": {
+    name: "Turkish",
+    emoji: "🇹🇷",
+    contributors: ["https://github.com/sutnax"],
   }
 }
 
