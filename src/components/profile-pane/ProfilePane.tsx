@@ -33,7 +33,7 @@ import RouterEndpoints from "../../common/RouterEndpoints";
 import { userStatusDetail, UserStatuses } from "../../common/userStatus";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
-import DropDown from "@/components/ui/drop-down/DropDown";
+import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import Icon from "@/components/ui/icon/Icon";
 import UserPresence from "@/components/user-presence/UserPresence";
 import { css, styled } from "solid-styled-components";
@@ -53,6 +53,8 @@ import Modal from "../ui/Modal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/Item";
+import ContextMenu, { ContextMenuItem, ContextMenuProps } from "../ui/context-menu/ContextMenu";
+import Input from "../ui/input/Input";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -75,16 +77,19 @@ const ActionButtonContainer = styled(FlexRow)`
 
 const ActionButton = (props: {
   icon?: string;
-  label: string;
+  label?: string;
   color?: string;
-  onClick?: () => void;
+  class?: string;
+  onClick?: (event: MouseEvent) => void;
 }) => {
   return (
-    <ActionButtonContainer gap={5} onclick={props.onClick}>
+    <ActionButtonContainer class={props.class} gap={5} onclick={props.onClick}>
       <Icon color={props.color} size={18} name={props.icon} />
-      <Text size={12} opacity={0.9}>
-        {props.label}
-      </Text>
+      <Show when={props.label}>
+        <Text size={12} opacity={0.9}>
+          {props.label}
+        </Text>
+      </Show>
     </ActionButtonContainer>
   );
 };
@@ -227,6 +232,12 @@ const ActionButtons = (props: {
   const params = useParams<{ userId: string }>();
   const { friends, users, account } = useStore();
 
+  const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | null>(null)
+
+  const showProfileContext = (event: MouseEvent) => {
+    setContextPosition({x: event.clientX, y: event.clientY})
+  }
+
   const friend = () => friends.get(params.userId);
 
   const isBlocked = () => friend()?.status === FriendStatus.BLOCKED;
@@ -274,9 +285,7 @@ const ActionButtons = (props: {
 
   const isFollowing = () => props.userDetails?.user.followers.length;
 
-  const blockClicked = async () => {
-    await blockUser(params.userId);
-  };
+
   const unblockClicked = async () => {
     await unblockUser(params.userId);
   };
@@ -293,7 +302,7 @@ const ActionButtons = (props: {
         </CustomLink>
       </Show>
 
-      {!isFollowing() && (
+      {(!isFollowing() && !isBlocked()) && (
         <ActionButton
           icon="add_circle"
           label={t("profile.followButton")}
@@ -350,29 +359,100 @@ const ActionButtons = (props: {
           onClick={unblockClicked}
         />
       </Show>
-      <Show when={!isBlocked()}>
-        <ActionButton
-          icon="block"
-          label="Block"
-          color="var(--alert-color)"
-          onClick={blockClicked}
-        />
-      </Show>
-
-      <ActionButton
-        icon="flag"
-        label="Report (WIP)"
-        color="var(--alert-color)"
-      />
       <ActionButton
         icon="mail"
         label={t("profile.messageButton")}
         color="var(--primary-color)"
         onClick={onMessageClicked}
       />
+      <ActionButton
+        icon="more_vert"
+        color="var(--primary-color)"
+        class="profile-context-button"
+        onClick={showProfileContext}
+      />
+      <ProfileContextMenu position={contextPosition()} onClose={() => setContextPosition(null)} triggerClassName="profile-context-button" />
     </ActionButtonsContainer>
   );
 };
+
+
+function ProfileContextMenu (props: Omit<ContextMenuProps, 'items'>) {
+  const params = useParams<{ userId: string }>();
+  const { friends, users, account } = useStore();
+  const {createPortal} = useCustomPortal();
+
+  const friend = () => friends.get(params.userId);
+
+  const isBlocked = () => friend()?.status === FriendStatus.BLOCKED;
+
+
+  const items = () => {
+    const items: ContextMenuItem[] = [
+      {id: "message", label: "Message", icon: 'mail', onClick: onMessageClicked},
+      {separator: true},
+    ]
+  
+    if (isBlocked()) {
+      items.push({label: "Unblock", icon: 'block', alert: true, onClick: unblockClicked})
+    } else {
+      items.push({label: "Block", icon: 'block', alert: true, onClick: blockClicked})
+    }
+
+    items.push({id: "report", label: "Report", icon: 'flag', alert: true, onClick: reportClicked})
+    return items;
+  }
+
+  const onMessageClicked = () => {
+    users.openDM(params.userId);
+  };
+  
+  const unblockClicked = async () => {
+    await unblockUser(params.userId);
+  };
+  
+  const blockClicked = async () => {
+    await blockUser(params.userId);
+  };
+
+  const reportClicked = () => {
+    return createPortal(close => <CreateTicketModal close={close} />)
+  }
+
+  return (
+    <ContextMenu {...props} items={items()} />
+  )
+}
+
+
+function CreateTicketModal(props: {close: () => void}) {
+  const [selectedCategoryId, setSelectedCategoryId] = createSignal("ABUSE");
+  const Categories: DropDownItem[] = [
+    {id: 'QUESTION', label: "Question"},
+    {id: 'ACCOUNT', label: "Account"},
+    {id: 'ABUSE', label: "Abuse"},
+    {id: 'OTHER', label: "Other"},
+  ];
+
+  const actionButtons = (
+    <FlexRow style={{flex: 1, "justify-content": 'end'}}>
+      <Button label="Back" color="var(--alert-color)" onClick={props.close} iconName="close" />
+      <Button label="Create Ticket" onClick={props.close} iconName="add" primary />
+    </FlexRow>
+  )
+
+  return (
+    <Modal title="Create Ticket" icon="help" close={props.close} ignoreBackgroundClick maxWidth={800} actionButtons={actionButtons} >
+      <FlexColumn style={{gap: "12px", padding: "12px"}}>
+      <DropDown title="Choose a category" items={Categories} selectedId={selectedCategoryId()} onChange={item => setSelectedCategoryId(item.id)} />
+      <Input label="In one short sentence, what is the problem?"  />
+      <Input label="Describe the problem" type="textarea" minHeight={100} />
+      </FlexColumn>
+    </Modal>
+  )
+}
+
+
 
 function Content(props: { user: UserDetails }) {
   return (
