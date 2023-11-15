@@ -47,7 +47,7 @@
     },
     "servers": {
       "title": "Erkunden - Servers",
-      "noticeMessage": "Ein Server kann alle {{hours}} Stunden einmal geboosted werden. Am {{Datum}} werden all Boosts zurückgesetzt.",
+      "noticeMessage": "Ein Server kann alle {{hours}} Stunden einmal geboosted werden. Am {{date}} werden all Boosts zurückgesetzt.",
       "sortMostBumps": "Meiste Boosts",
       "sortMostMembers": "Meisten Mitglieder",
       "sortRecentlyAdded": "Kürzlich hinzugefügt",
@@ -223,10 +223,10 @@
     "mutualFriends": "Gemeinsame Freunde ({{count}})",
     "mutualServers": "Gemeinsame Server ({{count}})",
     "postsTab": "Beiträge",
-    "followersTab": "folgen",
-    "followingTab": "folgt",
+    "followersTab": "Folgende",
+    "followingTab": "Folgt",
     "postsAndRepliesTab": "Beiträge und Antworten ({{count}})",
-    "likedPostsTab": "Positive Beiträge ({{count}})"
+    "likedPostsTab": "Gelikete Beiträge ({{count}})"
   },
   "posts": {
     "deletePostModal": {
