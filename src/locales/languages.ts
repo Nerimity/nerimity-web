@@ -12,14 +12,9 @@ export interface Language {
 
 export const languages = {
   "en-gb": {
-    name: "English (British)",
+    name: "English",
     emoji: "🇬🇧",
     contributors: ["https://github.com/SupertigerDev"],
-  },
-  "en-us": {
-    name: "English (American)",
-    emoji: "🇺🇸",
-    contributors: ["https://github.com/SupertigerDev", "https://github.com/F-iiral"],
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
