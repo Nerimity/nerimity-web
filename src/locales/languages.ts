@@ -21,6 +21,11 @@ export const languages = {
     emoji: "🇺🇸",
     contributors: ["https://github.com/SupertigerDev", "https://github.com/F-iiral"],
   },
+  "zn-hant": {
+    name: "Chinese (Traditional)",
+    emoji: "🇨🇳",
+    contributors: ["https://github.com/captainqdev"],   // made by Dsiahrz without github
+  },
   "nl-nl": {
     name: "Dutch",
     emoji: "🇳🇱",
