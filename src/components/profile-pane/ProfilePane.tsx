@@ -53,8 +53,13 @@ import Modal from "../ui/Modal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/Item";
-import ContextMenu, { ContextMenuItem, ContextMenuProps } from "../ui/context-menu/ContextMenu";
+import ContextMenu, {
+  ContextMenuItem,
+  ContextMenuProps,
+} from "../ui/context-menu/ContextMenu";
 import Input from "../ui/input/Input";
+import { copyToClipboard } from "@/common/clipboard";
+import { Notice } from "../ui/Notice";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -232,11 +237,14 @@ const ActionButtons = (props: {
   const params = useParams<{ userId: string }>();
   const { friends, users, account } = useStore();
 
-  const [contextPosition, setContextPosition] = createSignal<{x: number, y: number} | null>(null)
+  const [contextPosition, setContextPosition] = createSignal<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   const showProfileContext = (event: MouseEvent) => {
-    setContextPosition({x: event.clientX, y: event.clientY})
-  }
+    setContextPosition({ x: event.clientX, y: event.clientY });
+  };
 
   const friend = () => friends.get(params.userId);
 
@@ -285,7 +293,6 @@ const ActionButtons = (props: {
 
   const isFollowing = () => props.userDetails?.user.followers.length;
 
-
   const unblockClicked = async () => {
     await unblockUser(params.userId);
   };
@@ -302,7 +309,7 @@ const ActionButtons = (props: {
         </CustomLink>
       </Show>
 
-      {(!isFollowing() && !isBlocked()) && (
+      {!isFollowing() && !isBlocked() && (
         <ActionButton
           icon="add_circle"
           label={t("profile.followButton")}
@@ -371,88 +378,171 @@ const ActionButtons = (props: {
         class="profile-context-button"
         onClick={showProfileContext}
       />
-      <ProfileContextMenu position={contextPosition()} onClose={() => setContextPosition(null)} triggerClassName="profile-context-button" />
+      <ProfileContextMenu
+        position={contextPosition()}
+        onClose={() => setContextPosition(null)}
+        triggerClassName="profile-context-button"
+      />
     </ActionButtonsContainer>
   );
 };
 
-
-function ProfileContextMenu (props: Omit<ContextMenuProps, 'items'>) {
+function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
   const params = useParams<{ userId: string }>();
   const { friends, users, account } = useStore();
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
 
   const friend = () => friends.get(params.userId);
 
   const isBlocked = () => friend()?.status === FriendStatus.BLOCKED;
 
-
   const items = () => {
     const items: ContextMenuItem[] = [
-      {id: "message", label: "Message", icon: 'mail', onClick: onMessageClicked},
-      {separator: true},
-    ]
-  
+      {
+        id: "message",
+        label: "Message",
+        icon: "mail",
+        onClick: onMessageClicked,
+      },
+      { separator: true },
+    ];
+
     if (isBlocked()) {
-      items.push({label: "Unblock", icon: 'block', alert: true, onClick: unblockClicked})
+      items.push({
+        label: "Unblock",
+        icon: "block",
+        alert: true,
+        onClick: unblockClicked,
+      });
     } else {
-      items.push({label: "Block", icon: 'block', alert: true, onClick: blockClicked})
+      items.push({
+        label: "Block",
+        icon: "block",
+        alert: true,
+        onClick: blockClicked,
+      });
     }
 
-    items.push({id: "report", label: "Report", icon: 'flag', alert: true, onClick: reportClicked})
+    items.push({
+      id: "report",
+      label: "Report",
+      icon: "flag",
+      alert: true,
+      onClick: reportClicked,
+    });
+    items.push(
+      { separator: true },
+      { label: "Copy ID", icon: "copy", onClick: copyIdClick }
+    );
     return items;
-  }
+  };
 
   const onMessageClicked = () => {
     users.openDM(params.userId);
   };
-  
+
   const unblockClicked = async () => {
     await unblockUser(params.userId);
   };
-  
+
   const blockClicked = async () => {
     await blockUser(params.userId);
   };
 
   const reportClicked = () => {
-    return createPortal(close => <CreateTicketModal close={close} />)
-  }
+    return createPortal((close) => (
+      <CreateTicketModal
+        close={close}
+        ticket={{ id: "ABUSE", userId: params.userId }}
+      />
+    ));
+  };
 
-  return (
-    <ContextMenu {...props} items={items()} />
-  )
+  const copyIdClick = () => {
+    copyToClipboard(params.userId);
+  };
+
+  return <ContextMenu {...props} items={items()} />;
 }
 
+interface AbuseTicket {
+  id: "ABUSE";
+  userId: string;
+}
 
-function CreateTicketModal(props: {close: () => void}) {
+type Ticket = AbuseTicket;
+
+function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
   const [selectedCategoryId, setSelectedCategoryId] = createSignal("ABUSE");
+  const [userId, setUserId] = createSignal(props.ticket?.userId || "");
+
   const Categories: DropDownItem[] = [
-    {id: 'QUESTION', label: "Question"},
-    {id: 'ACCOUNT', label: "Account"},
-    {id: 'ABUSE', label: "Abuse"},
-    {id: 'OTHER', label: "Other"},
+    { id: "QUESTION", label: "Question" },
+    { id: "ACCOUNT", label: "Account" },
+    { id: "ABUSE", label: "Abuse" },
+    { id: "OTHER", label: "Other" },
   ];
 
   const actionButtons = (
-    <FlexRow style={{flex: 1, "justify-content": 'end'}}>
-      <Button label="Back" color="var(--alert-color)" onClick={props.close} iconName="close" />
-      <Button label="Create Ticket" onClick={props.close} iconName="add" primary />
+    <FlexRow style={{ flex: 1, "justify-content": "end" }}>
+      <Button
+        label="Back"
+        color="var(--alert-color)"
+        onClick={props.close}
+        iconName="close"
+      />
+      <Button
+        label="Create Ticket"
+        onClick={props.close}
+        iconName="add"
+        primary
+      />
     </FlexRow>
-  )
+  );
 
   return (
-    <Modal title="Create Ticket" icon="help" close={props.close} ignoreBackgroundClick maxWidth={800} actionButtons={actionButtons} >
-      <FlexColumn style={{gap: "12px", padding: "12px"}}>
-      <DropDown title="Choose a category" items={Categories} selectedId={selectedCategoryId()} onChange={item => setSelectedCategoryId(item.id)} />
-      <Input label="In one short sentence, what is the problem?"  />
-      <Input label="Describe the problem" type="textarea" minHeight={100} />
+    <Modal
+      title="Create Ticket"
+      icon="help"
+      close={props.close}
+      ignoreBackgroundClick
+      maxWidth={800}
+      actionButtons={actionButtons}
+    >
+      <FlexColumn style={{overflow: 'auto', "max-height": "60vh"}}>
+        <Notice
+          style={{ "margin-left": "12px", "margin-right": "12px" }}
+          description="Creating false tickets may affect your account."
+          type="warn"
+        />
+
+        <FlexColumn style={{ gap: "12px", padding: "12px" }}>
+          <DropDown
+            title="Choose a category"
+            items={Categories}
+            selectedId={selectedCategoryId()}
+            onChange={(item) => setSelectedCategoryId(item.id)}
+          />
+
+          <Show when={selectedCategoryId() === "ABUSE"}>
+            <Input
+              label="User ID(s) to report (separated by comma)"
+              value={userId()}
+              onText={setUserId}
+            />
+          </Show>
+
+          <Input label="In one short sentence, what is the problem?" />
+          <Input label="Describe the problem" type="textarea" minHeight={100} />
+          <Notice
+            type="info"
+            description="You will be able to send attachments after the ticket is created."
+          />
+        </FlexColumn>
       </FlexColumn>
     </Modal>
-  )
+  );
 }
-
-
 
 function Content(props: { user: UserDetails }) {
   return (
@@ -665,7 +755,7 @@ function SidePaneItem(props: {
 }
 
 function PostsContainer(props: { user: UserDetails }) {
-  const {account} = useStore();
+  const { account } = useStore();
   const [currentPage, setCurrentPage] = createSignal(0); // posts | with replies | liked | Following | Followers
 
   const postCount = () => props.user.user._count.posts.toLocaleString();
@@ -745,7 +835,9 @@ function PostsContainer(props: { user: UserDetails }) {
           showReplies={currentPage() === 1}
           style={{ width: "100%" }}
           userId={props.user.user.id}
-          showCreateNew={account.user()?.id === props.user.user.id && currentPage() === 0}
+          showCreateNew={
+            account.user()?.id === props.user.user.id && currentPage() === 0
+          }
         />
       </Show>
       <Show when={props.user && currentPage() === 3}>
