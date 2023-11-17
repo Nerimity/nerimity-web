@@ -7,6 +7,8 @@ import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { electronWindowAPI } from './common/Electron';
 import { ElectronTitleBar } from './components/ElectronTitleBar';
+import { useWindowProperties } from './common/useWindowProperties';
+import styles from './App.module.scss';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -19,6 +21,7 @@ const GoogleRedirectLinkAccount = lazy(() => import('./pages/GoogleRedirectLinkA
 
 export default function App() {
   const [, actions] = useTransContext();
+  const {isMobileAgent} = useWindowProperties();
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {
@@ -47,7 +50,12 @@ export default function App() {
 
 
   return (
-    <>
+    <div 
+      class={styles.main} 
+      classList={{
+        [styles.applyScrollStyles]: !isMobileAgent(),
+      }}
+    >
       <Show when={electronWindowAPI()?.isElectron}>
         <ElectronTitleBar />
       </Show>
@@ -66,7 +74,7 @@ export default function App() {
 
         <Route path="/*" component={NoMatch} />
       </Routes>
-    </>
+    </div>
   )
 };
 
