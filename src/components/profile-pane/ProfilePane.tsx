@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { A, Link, useParams } from "@solidjs/router";
+import { A, Link, useNavigate, useParams } from "@solidjs/router";
 import {
   createEffect,
   createResource,
@@ -10,7 +10,7 @@ import {
   onMount,
   Show,
 } from "solid-js";
-import { FriendStatus, RawUser } from "@/chat-api/RawData";
+import { FriendStatus, RawUser, TicketCategory } from "@/chat-api/RawData";
 import {
   blockUser,
   followUser,
@@ -60,6 +60,7 @@ import ContextMenu, {
 import Input from "../ui/input/Input";
 import { copyToClipboard } from "@/common/clipboard";
 import { Notice } from "../ui/Notice";
+import { createTicket } from "@/chat-api/services/TicketService.ts";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -473,8 +474,12 @@ interface AbuseTicket {
 type Ticket = AbuseTicket;
 
 function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
+  const navigate = useNavigate();
   const [selectedCategoryId, setSelectedCategoryId] = createSignal("ABUSE");
   const [userId, setUserId] = createSignal(props.ticket?.userId || "");
+  const [title, setTitle] = createSignal("");
+  const [body, setBody] = createSignal("");
+  const [error, setError] = createSignal<null | string>(null);
 
   const Categories: DropDownItem[] = [
     { id: "QUESTION", label: "Question" },
@@ -482,6 +487,36 @@ function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
     { id: "ABUSE", label: "Abuse" },
     { id: "OTHER", label: "Other" },
   ];
+
+  const createTicketClick = async () => {
+    setError(null);
+
+    if (!body()) {
+      setError("Please enter a body");
+      return;
+    }
+
+    if (selectedCategoryId() !== "ABUSE") {
+      setUserId("");
+    }
+
+    let customBody = body();
+
+    if (userId()) {
+      customBody = `User to report: ${userId()}\n\n${customBody}`
+    }
+
+    const ticket = await createTicket({
+      body: customBody,
+      category: TicketCategory[selectedCategoryId() as keyof typeof TicketCategory],
+      title: title()
+    }).catch(err => {
+      setError(err.message)
+    });
+    if (!ticket) return;
+    navigate(`/tickets/${ticket.id}`);
+  }
+
 
   const actionButtons = (
     <FlexRow style={{ flex: 1, "justify-content": "end" }}>
@@ -493,7 +528,7 @@ function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
       />
       <Button
         label="Create Ticket"
-        onClick={props.close}
+        onClick={createTicketClick}
         iconName="add"
         primary
       />
@@ -532,8 +567,11 @@ function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
             />
           </Show>
 
-          <Input label="In one short sentence, what is the problem?" />
-          <Input label="Describe the problem" type="textarea" minHeight={100} />
+          <Input label="In one short sentence, what is the problem?" value={title()} onText={setTitle} />
+          <Input label="Describe the problem" type="textarea" minHeight={100} value={body()} onText={setBody} />
+          <Show when={error()}>
+            <Text color="var(--alert-color)">{error()}</Text>
+          </Show>
           <Notice
             type="info"
             description="You will be able to send attachments after the ticket is created."
