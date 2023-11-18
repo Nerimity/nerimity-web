@@ -19,7 +19,7 @@ export const languages = {
   "zn-hant": {
     name: "Chinese (Traditional)",
     emoji: "🇨🇳",
-    contributors: ["https://github.com/captainqdev"],   // made by Dsiahrz without github
+    contributors: ["https://github.com/SupertigerDev"],   // made by Dsiahrz without github
   },
   "nl-nl": {
     name: "Dutch",
@@ -50,6 +50,11 @@ export const languages = {
     name: "Polish",
     emoji: "🇵🇱",
     contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
+  },
+  "es-es": {
+    name: "Spanish",
+    emoji: "🇪🇸",
+    contributors: ["https://github.com/SupertigerDev"],   // made by Linterna001 without github
   },
   "tr-tr": {
     name: "Turkish",
