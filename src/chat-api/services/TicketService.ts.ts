@@ -4,7 +4,7 @@ import { RawChannel, RawChannelNotice, RawTicket, TicketCategory } from "../RawD
 import env from "@/common/env";
 
 export const getTickets = async () => {
-  const data = await request<{notice: RawChannelNotice}>({
+  const data = await request<RawTicket[]>({
     method: 'GET',
     url: env.SERVER_URL + "/api" + ServiceEndpoints.tickets(),
     useToken: true,

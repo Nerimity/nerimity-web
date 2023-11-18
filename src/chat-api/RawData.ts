@@ -132,12 +132,21 @@ export enum ChannelType {
   CATEGORY = 2
 }
 
+
+export enum TicketStatus {
+  WAITING_FOR_MODERATOR_RESPONSE = 0,
+  WAITING_FOR_USER_RESPONSE = 1,
+  CLOSED_AS_DONE = 2,
+  CLOSED_AS_INVALID = 3,
+}
+
 export interface RawTicket {
   id: string;
   title: string;
   category: number;
   channelId: string;
-  lastUpdatedAt: Date;
+  status: TicketStatus;
+  lastUpdatedAt: number;
   openedById: string;
   openedAt: Date;
 }
