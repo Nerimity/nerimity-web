@@ -21,7 +21,6 @@ const GoogleRedirectLinkAccount = lazy(() => import('./pages/GoogleRedirectLinkA
 
 export default function App() {
   const [, actions] = useTransContext();
-  const {isMobileAgent} = useWindowProperties();
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {
@@ -50,12 +49,7 @@ export default function App() {
 
 
   return (
-    <div 
-      class={styles.main} 
-      classList={{
-        [styles.applyScrollStyles]: !isMobileAgent(),
-      }}
-    >
+    <>
       <Show when={electronWindowAPI()?.isElectron}>
         <ElectronTitleBar />
       </Show>
@@ -74,7 +68,7 @@ export default function App() {
 
         <Route path="/*" component={NoMatch} />
       </Routes>
-    </div>
+    </>
   )
 };
 
