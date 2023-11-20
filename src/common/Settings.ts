@@ -54,6 +54,7 @@ const settings: Setting[] =  [
   },
   {
     path: 'tickets',
+    routePath: 'tickets/*',
     name: 'settings.drawer.tickets',
     icon: 'sell',
     element: lazy(() => import('@/components/settings/TicketSettings'))

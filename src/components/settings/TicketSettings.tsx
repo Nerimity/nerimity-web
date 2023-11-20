@@ -21,9 +21,11 @@ import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import { RawTicket, TicketStatus } from "@/chat-api/RawData";
-import { getTickets } from "@/chat-api/services/TicketService.ts";
+import { getTicket, getTickets } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { A, Route, Router, Routes, useParams } from "@solidjs/router";
+import { Dynamic } from "solid-js/web";
 
 const Container = styled("div")`
   display: flex;
@@ -32,16 +34,8 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function LanguageSettings() {
-  const [tickets, setTickets] = createSignal<RawTicket[]>([]);
-  const {isMobileWidth} = useWindowProperties();
+export default function TicketSettings() {
   const { header } = useStore();
-
-  onMount(async () => {
-    const tickets = await getTickets();
-    setTickets(tickets);
-  });
-
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Tickets",
@@ -50,28 +44,80 @@ export default function LanguageSettings() {
   });
 
   return (
-    <Container>
-      <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
-        <BreadcrumbItem title={t("settings.drawer.tickets")} />
-      </Breadcrumb>
+    <Routes>
+      <Route path="/" component={TicketListPage}/>
+      <Route path="/:id" component={TicketPage}/>
+    </Routes>
 
-      <Show when={!isMobileWidth()}>
-        <table style={{border: 'none'}} cellspacing="0" cellpadding="0">
-          <For each={tickets()}>{(ticket) => <TicketItemTable ticket={ticket} />}</For>
-        </table>
-      </Show>
-
-      <Show when={isMobileWidth()}>
-        <FlexColumn gap={8}>
-          <For each={tickets()}>{(ticket) => <TicketItem ticket={ticket} />}</For>
-        </FlexColumn>
-      </Show>
-    </Container>
   );
 }
 
+const TicketPage = () => {
+  const params = useParams<{id: string}>()
+
+  const [ticket, setTicket] = createSignal<RawTicket | null>(null);
+
+  onMount(async () => {
+    const ticket = await getTicket(params.id);
+    setTicket(ticket);
+  });
+
+  return (
+    <Container>
+      <Breadcrumb>
+        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+        <BreadcrumbItem title={t("settings.drawer.tickets")!} href="../" />
+        <BreadcrumbItem title={"Ticket"} />
+      </Breadcrumb>
+      <Show when={ticket()}>
+        <TicketItem ticket={ticket()!} disableClick={true} />
+      </Show>
+    </Container>
+  )
+}
+
+
+
+const TicketListPage = () => {
+
+  const [tickets, setTickets] = createSignal<RawTicket[]>([]);
+  const {isMobileWidth} = useWindowProperties();
+
+  onMount(async () => {
+    const tickets = await getTickets();
+    setTickets(tickets);
+  });
+
+
+
+  return (
+    <Container>
+    <Breadcrumb>
+      <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+      <BreadcrumbItem title={t("settings.drawer.tickets")!} />
+    </Breadcrumb>
+
+    <Show when={!isMobileWidth()}>
+      <table style={{border: 'none'}} cellspacing="0" cellpadding="0">
+        <For each={tickets()}>{(ticket) => <TicketItemTable ticket={ticket} />}</For>
+      </table>
+    </Show>
+
+    <Show when={isMobileWidth()}>
+      <FlexColumn gap={8}>
+        <For each={tickets()}>{(ticket) => <TicketItem ticket={ticket} />}</For>
+      </FlexColumn>
+    </Show>
+  </Container>
+  )
+}
+
+
+
+
+
 const TableRowStyle = css`
+  display: table-row;
   height: 30px;
   user-select: none;
   cursor: pointer;
@@ -113,9 +159,10 @@ const StatusToName = {
 const TicketItemTable = (props: { ticket: RawTicket }) => {
 
   return (
-    <tr class={TableRowStyle}>
+    <CustomLink href={`./${props.ticket.id}`} class={TableRowStyle}>
       <td style={{"text-align": 'center'}}>
-      <div style={{display: 'flex', "justify-content": 'start'}}>
+      <div style={{display: 'flex', "justify-content": 'start', "align-items": 'center', gap: '4px'}}>
+      <Text opacity={0.6}>#{props.ticket.id}</Text>
         <StatusText bgColor={StatusToName[props.ticket.status].color}>
             {StatusToName[props.ticket.status].text}
           </StatusText>
@@ -133,25 +180,27 @@ const TicketItemTable = (props: { ticket: RawTicket }) => {
           </Text>
         </Text>
       </td>
-    </tr>
+    </CustomLink>
   );
 };
 
 
 const TicketItemStyle = css`
+  display: flex;
+  flex-direction: column;
   user-select: none;
-  cursor: pointer;
 `
 
-const TicketItem = (props: { ticket: RawTicket }) => {
+const TicketItem = (props: { ticket: RawTicket, disableClick?: boolean }) => {
 
   return (
-    <FlexColumn class={TicketItemStyle}>
+    <Dynamic component={!props.disableClick ? CustomLink : "div"}  href={`./${props.ticket.id}`}  class={TicketItemStyle}>
       <td style={{"text-align": 'center'}}>
-      <div style={{display: 'flex', "justify-content": 'start'}}>
+      <div style={{display: 'flex', "justify-content": 'start', "align-items": "center", gap: "4px"}}>
+        <Text opacity={0.6}>#{props.ticket.id}</Text>
         <StatusText bgColor={StatusToName[props.ticket.status].color}>
             {StatusToName[props.ticket.status].text}
-          </StatusText>
+        </StatusText>
       </div>
       </td>
       <td>
@@ -166,6 +215,6 @@ const TicketItem = (props: { ticket: RawTicket }) => {
           </Text>
         </Text>
       </td>
-    </FlexColumn>
+    </Dynamic>
   );
 };
