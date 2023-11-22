@@ -1,40 +1,37 @@
 import styles from './styles.module.scss';
 import Avatar from "@/components/ui/Avatar";
 import UserPresence from '@/components/user-presence/UserPresence';
-import { Link, useParams } from '@solidjs/router';
+import {Link, useParams} from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { createEffect, createMemo, createSignal, For, mapArray, on, onCleanup, onMount, Show } from 'solid-js';
-import { ServerMember } from '@/chat-api/store/useServerMembers';
-import MemberContextMenu, { ServerMemberRoleModal } from '../member-context-menu/MemberContextMenu';
-import { DrawerHeader } from '@/components/DrawerHeader';
-import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
-import { css, styled } from 'solid-styled-components';
-import useUsers, { avatarUrl, bannerUrl } from '@/chat-api/store/useUsers';
+import {createEffect, createMemo, createSignal, For, JSX, mapArray, on, onCleanup, onMount, Show} from 'solid-js';
+import {ServerMember} from '@/chat-api/store/useServerMembers';
+import MemberContextMenu, {ServerMemberRoleModal} from '../member-context-menu/MemberContextMenu';
+import {DrawerHeader} from '@/components/DrawerHeader';
+import {useCustomPortal} from '@/components/ui/custom-portal/CustomPortal';
+import {css, styled} from 'solid-styled-components';
+import {bannerUrl} from '@/chat-api/store/useUsers';
 import Text from '@/components/ui/Text';
-import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
-import { getUserDetailsRequest, UserDetails } from '@/chat-api/services/UserService';
-import { PostItem } from '@/components/PostsArea';
+import {FlexColumn, FlexRow} from '@/components/ui/Flexbox';
+import {getUserDetailsRequest, UserDetails} from '@/chat-api/services/UserService';
+import {PostItem} from '@/components/PostsArea';
 import Icon from '@/components/ui/icon/Icon';
-import { JSX } from 'solid-js';
-import { useWindowProperties } from '@/common/useWindowProperties';
+import {useWindowProperties} from '@/common/useWindowProperties';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
-import Spinner from '@/components/ui/Spinner';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { CustomLink } from '@/components/ui/CustomLink';
-import { Banner } from '@/components/ui/Banner';
-import { fetchChannelAttachments } from '@/chat-api/services/MessageService';
-import { RawAttachment, RawMessage } from '@/chat-api/RawData';
+import {CustomLink} from '@/components/ui/CustomLink';
+import {Banner} from '@/components/ui/Banner';
+import {fetchChannelAttachments} from '@/chat-api/services/MessageService';
+import {RawAttachment, RawMessage} from '@/chat-api/RawData';
 import env from '@/common/env';
-import { ImagePreviewModal } from '@/components/ui/ImageEmbed';
-import { classNames, conditionalClass } from '@/common/classNames';
+import {ImagePreviewModal} from '@/components/ui/ImageEmbed';
+import {classNames, conditionalClass} from '@/common/classNames';
 import socketClient from '@/chat-api/socketClient';
-import { ServerEvents } from '@/chat-api/EventNames';
-import { Markup } from '../Markup';
-import { useResizeObserver } from '@/common/useResizeObserver';
-import { ServerRole } from '@/chat-api/store/useServerRoles';
-import { electronWindowAPI } from '@/common/Electron';
-import { calculateTimeElapsedForActivityStatus } from '@/common/date';
+import {ServerEvents} from '@/chat-api/EventNames';
+import {Markup} from '../Markup';
+import {useResizeObserver} from '@/common/useResizeObserver';
+import {electronWindowAPI} from '@/common/Electron';
+import {calculateTimeElapsedForActivityStatus} from '@/common/date';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -304,13 +301,13 @@ const ServerDrawer = () => {
       <For each={roleMembers()}>
         {item => (
           <Show when={!item.role!.hideRole && item.members().length}>
-            <RoleItem members={item.members()} roleName={item.role?.name!} />
+            <RoleItem members={item.members().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName={item.role?.name!} />
           </Show>
         )}
       </For>
 
       {/* Offline */}
-      <RoleItem members={offlineMembers()} roleName="Offline" />
+      <RoleItem members={offlineMembers().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName="Offline" />
 
     </Show>
   )
@@ -416,7 +413,6 @@ const BioContainer = styled("div")`
   margin-bottom: 5px;
   flex-shrink: 0;
   overflow: auto;
-  white-space: pre-wrap;
   word-break: break-word;
   white-space: pre-line;
   line-height: 14px;

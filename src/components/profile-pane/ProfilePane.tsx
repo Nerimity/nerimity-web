@@ -1,16 +1,7 @@
 import styles from "./styles.module.scss";
-import { A, Link, useNavigate, useParams } from "@solidjs/router";
-import {
-  createEffect,
-  createResource,
-  createSignal,
-  For,
-  on,
-  onCleanup,
-  onMount,
-  Show,
-} from "solid-js";
-import { FriendStatus, RawUser, TicketCategory } from "@/chat-api/RawData";
+import {Link, useNavigate, useParams} from "@solidjs/router";
+import {createEffect, createSignal, For, on, onCleanup, onMount, Show,} from "solid-js";
+import {FriendStatus, RawUser, TicketCategory} from "@/chat-api/RawData";
 import {
   blockUser,
   followUser,
@@ -19,48 +10,39 @@ import {
   getUserDetailsRequest,
   unblockUser,
   unfollowUser,
-  updatePresence,
   UserDetails,
 } from "@/chat-api/services/UserService";
 import useStore from "@/chat-api/store/useStore";
-import { avatarUrl, bannerUrl, User } from "@/chat-api/store/useUsers";
-import {
-  calculateTimeElapsedForActivityStatus,
-  formatTimestamp,
-  getDaysAgo,
-} from "../../common/date";
+import {bannerUrl, User} from "@/chat-api/store/useUsers";
+import {calculateTimeElapsedForActivityStatus, formatTimestamp, getDaysAgo,} from "../../common/date";
 import RouterEndpoints from "../../common/RouterEndpoints";
-import { userStatusDetail, UserStatuses } from "../../common/userStatus";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
-import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
+import DropDown, {DropDownItem} from "@/components/ui/drop-down/DropDown";
 import Icon from "@/components/ui/icon/Icon";
 import UserPresence from "@/components/user-presence/UserPresence";
-import { css, styled } from "solid-styled-components";
+import {css, styled} from "solid-styled-components";
 import Text from "../ui/Text";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
-import { useWindowProperties } from "@/common/useWindowProperties";
-import { addFriend } from "@/chat-api/services/FriendService";
-import { useDrawer } from "../ui/drawer/Drawer";
-import { PostsArea } from "../PostsArea";
-import { CustomLink } from "../ui/CustomLink";
-import { classNames, conditionalClass } from "@/common/classNames";
-import { Banner } from "../ui/Banner";
-import { Markup } from "../Markup";
-import { t } from "i18next";
-import { USER_BADGES, hasBit } from "@/chat-api/Bitwise";
+import {FlexColumn, FlexRow} from "../ui/Flexbox";
+import {useWindowProperties} from "@/common/useWindowProperties";
+import {addFriend} from "@/chat-api/services/FriendService";
+import {useDrawer} from "../ui/drawer/Drawer";
+import {PostsArea} from "../PostsArea";
+import {CustomLink} from "../ui/CustomLink";
+import {classNames, conditionalClass} from "@/common/classNames";
+import {Banner} from "../ui/Banner";
+import {Markup} from "../Markup";
+import {t} from "i18next";
+import {hasBit, USER_BADGES} from "@/chat-api/Bitwise";
 import Modal from "../ui/Modal";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
+import {useCustomPortal} from "../ui/custom-portal/CustomPortal";
+import {getLastSelectedChannelId} from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/Item";
-import ContextMenu, {
-  ContextMenuItem,
-  ContextMenuProps,
-} from "../ui/context-menu/ContextMenu";
+import ContextMenu, {ContextMenuItem, ContextMenuProps,} from "../ui/context-menu/ContextMenu";
 import Input from "../ui/input/Input";
-import { copyToClipboard } from "@/common/clipboard";
-import { Notice } from "../ui/Notice";
-import { createTicket } from "@/chat-api/services/TicketService.ts";
+import {copyToClipboard} from "@/common/clipboard";
+import {Notice} from "../ui/Notice";
+import {createTicket} from "@/chat-api/services/TicketService.ts";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -684,6 +666,12 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
   const { users } = useStore();
   const { isMobileWidth } = useWindowProperties();
   const [show, setShow] = createSignal(false);
+  const [ userProfiles, setUserProfiles ] = createSignal<User[]>([]);
+
+  for (const friend of props.mutualFriendIds) {
+    const user = () => users.get(friend);
+    setUserProfiles(a => [user(), ...a]);
+  }
 
   return (
     <div
@@ -703,17 +691,16 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
       </div>
       <Show when={!isMobileWidth() || show()}>
         <div class={styles.list}>
-          <For each={props.mutualFriendIds}>
-            {(id: string) => {
-              const user = () => users.get(id);
+          <For each={userProfiles()}>
+            {(userProfile) => {
               return (
-                <Show when={user()}>
+                <Show when={userProfile}>
                   <Link
-                    href={RouterEndpoints.PROFILE(user().id)}
+                    href={RouterEndpoints.PROFILE(userProfile.id)}
                     class={styles.item}
                   >
-                    <Avatar user={user()} size={20} />
-                    <div class={styles.name}>{user().username}</div>
+                    <Avatar user={userProfile} size={20} />
+                    <div class={styles.name}>{userProfile.username}</div>
                   </Link>
                 </Show>
               );

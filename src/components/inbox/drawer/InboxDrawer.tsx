@@ -1,18 +1,16 @@
 import styles from './styles.module.scss';
 import Icon from '@/components/ui/icon/Icon';
-import { getStorageNumber, setStorageNumber, StorageKeys } from '@/common/localStorage';
+import {getStorageNumber, setStorageNumber, StorageKeys} from '@/common/localStorage';
 import InboxDrawerFriends from './friends/InboxDrawerFriends';
-import { classNames, conditionalClass } from '@/common/classNames';
+import {classNames, conditionalClass} from '@/common/classNames';
 import FriendItem from './friends/friend-item/InboxDrawerFriendItem';
-import { createEffect, createSignal, For } from 'solid-js';
+import {createSignal, For} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
-import { FriendStatus } from '@/chat-api/RawData';
-import Modal from '@/components/ui/Modal';
-import { useParams } from '@solidjs/router';
-import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
+import {FriendStatus} from '@/chat-api/RawData';
+import {useParams} from '@solidjs/router';
+import {useCustomPortal} from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
-import { DrawerHeader } from '@/components/DrawerHeader';
-import { useTransContext } from '@nerimity/solid-i18next';
+import {useTransContext} from '@nerimity/solid-i18next';
 import InVoiceActions from '@/components/InVoiceActions';
 
 function Header(props: { selectedIndex: number, onTabClick: (index: number) => void }) {
@@ -138,7 +136,7 @@ const InboxDrawerTab = () => {
   }
 
   return <>
-    <For each={array()}>
+    <For each={array().sort((a, b) => a.username.localeCompare(b.username))}>
       {user => <FriendItem user={user} isInboxTab />}
     </For>
   </>
