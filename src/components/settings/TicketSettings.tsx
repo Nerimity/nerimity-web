@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import { Accessor, createEffect, createSignal, For, onMount, Setter, Show } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
@@ -26,9 +26,12 @@ import { formatTimestamp } from "@/common/date";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { A, Route, Router, Routes, useParams } from "@solidjs/router";
 import { Dynamic } from "solid-js/web";
-import { fetchMessages } from "@/chat-api/services/MessageService";
+import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
 import Avatar from "../ui/Avatar";
 import { Markup } from "../Markup";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import Input from "../ui/input/Input";
+import Button from "../ui/Button";
 
 const Container = styled("div")`
   display: flex;
@@ -81,16 +84,44 @@ const TicketPage = () => {
       <Show when={ticket()}>
         <TicketItem ticket={ticket()!} disableClick={true} />
         <MessageLogs messages={messages()} />
+        <MessageInputArea channelId={ticket()!.channelId} setMessages={setMessages} messages={messages()} />
       </Show>
     </Container>
   );
 };
 
+const MessageInputArea = (props: { channelId: string, messages: RawMessage[], setMessages: Setter<RawMessage[]> }) => {
+  const [value, setValue] = createSignal("");
+
+  const sendClick = async () => {
+    const formattedValue = value().trim();
+    setValue("");
+    if (!formattedValue) return;
+    const message = await postMessage({
+      content: formattedValue,
+      channelId: props.channelId
+    }).catch(err => {
+      alert(err.message);
+      setValue(formattedValue);
+    })
+    if (!message) return;
+
+    props.setMessages([...props.messages, message]);
+    
+  }
+
+  return (
+    <FlexRow gap={4}>
+      <Input type="textarea" class={css`flex: 1;`} onText={setValue} value={value()} minHeight={120} placeholder="Message" />
+      <Button iconName="send" margin={0} class={css`flex-shrink: 0; width: 26px; height: 26px;`} onClick={sendClick} />
+
+    </FlexRow>
+  )
+  
+}
+
 const MessageLogsContainer = styled(FlexColumn)`
-
   border-top: solid 1px rgba(255, 255, 255, 0.2);
-  padding-top: 12px;
-
 `;
 
 const MessageLogs = (props: { messages: RawMessage[] }) => {
@@ -105,7 +136,8 @@ const MessageLogs = (props: { messages: RawMessage[] }) => {
 
 const MessageItemContainer = styled(FlexRow)`
   border-bottom: solid 1px rgba(255, 255, 255, 0.2);
-  padding-bottom: 6px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   padding-left: 4px;
   padding-right: 4px;
 `;
@@ -121,12 +153,16 @@ const MessageItem = (props: { message: RawMessage }) => {
       onmouseenter={() => setHovered(true)}
       onmouseleave={() => setHovered(false)}
     >
-      <Avatar user={creator()} size={30} animate={hovered()} />
+      <CustomLink href={RouterEndpoints.PROFILE(creator().id)}>
+        <Avatar user={creator()} size={30} animate={hovered()} />
+      </CustomLink>
       <FlexColumn gap={4}>
         <FlexRow gap={4} itemsCenter>
           <FlexRow itemsCenter>
-            <Text>@{creator().username}</Text>
-            <Text opacity={0.6}>:{creator().tag}</Text>
+            <CustomLink href={RouterEndpoints.PROFILE(creator().id)}>
+              <Text>@{creator().username}</Text>
+              <Text opacity={0.6}>:{creator().tag}</Text>
+            </CustomLink>
           </FlexRow>
           <Text opacity={0.6} size={12}>
             {formatTimestamp(props.message.createdAt)}
