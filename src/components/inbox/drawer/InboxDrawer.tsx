@@ -136,7 +136,7 @@ const InboxDrawerTab = () => {
   }
 
   return <>
-    <For each={array().sort((a, b) => a.username.localeCompare(b.username))}>
+    <For each={array()}>
       {user => <FriendItem user={user} isInboxTab />}
     </For>
   </>
