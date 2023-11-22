@@ -692,7 +692,7 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
       </div>
       <Show when={!isMobileWidth() || show()}>
         <div class={styles.list}>
-          <For each={userProfiles()}>
+          <For each={userProfiles().sort((x, y) => x.username.localeCompare(y.username))}>
             {(userProfile) => {
               return (
                 <Show when={userProfile}>
