@@ -12,6 +12,15 @@ export const getTickets = async () => {
   return data;
 };
 
+export const getTicket = async (id: string) => {
+  const data = await request<RawTicket>({
+    method: 'GET',
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.tickets(id),
+    useToken: true,
+  });
+  return data;
+};
+
 interface CreateTicketOpts {
   category: TicketCategory;
   title: string;

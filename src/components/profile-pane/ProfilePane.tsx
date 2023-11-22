@@ -496,7 +496,8 @@ function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
       setError(err.message)
     });
     if (!ticket) return;
-    navigate(`/tickets/${ticket.id}`);
+    navigate(`/app/settings/tickets/${ticket.id}`);
+    props.close();
   }
 
 

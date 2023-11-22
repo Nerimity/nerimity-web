@@ -96,9 +96,9 @@ export default function ServerSettingsRole() {
       <SettingsBlock icon='colorize' label={t('servers.settings.role.roleColor')}>
         <ColorPicker color={inputValues().hexColor} onChange={v => setInputValue('hexColor', v)} />
       </SettingsBlock>
-
+      
       {/* Hide Role */}
-      <SettingsBlock icon='' label={t('servers.settings.role.hideRole')} description={t('servers.settings.role.hideRoleDescription')}>
+      <SettingsBlock icon='adjust' label={t('servers.settings.role.hideRole')} description={t('servers.settings.role.hideRoleDescription')}>
         <Checkbox checked={inputValues().hideRole} onChange={checked => setInputValue('hideRole', checked)} />
       </SettingsBlock>
 
