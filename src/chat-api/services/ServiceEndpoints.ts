@@ -3,6 +3,8 @@ export default {
   register: () => "/users/register",
 
 
+  tickets: (id?: string) => `/tickets/${id || ""}`,
+
   servers: () => `/servers`,
   server: (serverId: string) => `/servers/${serverId}`,
   serverInvites: (serverId: string) => `/servers/${serverId}/invites`,

@@ -40,12 +40,13 @@ interface NoticeProps {
   description: string;
   type: keyof typeof noticeType;
   children?: JSX.Element
+  style?: JSX.CSSProperties
 }
 
 export function Notice(props: NoticeProps) {
   const typeMeta = noticeType[props.type];
   return (
-    <NoticeContainer gap={10} class={props.class} bgColor={typeMeta.color} borderColor={typeMeta.borderColor} >
+    <NoticeContainer style={props.style} gap={10} class={props.class} bgColor={typeMeta.color} borderColor={typeMeta.borderColor} >
       <Icon color={typeMeta.borderColor} class={css`align-self: start;`} size={24} name={typeMeta.icon} />
       <Text size={13}>{props.description}</Text>
       {props.children}

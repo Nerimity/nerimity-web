@@ -35,7 +35,7 @@ export const USER_BADGES = {
   BOT: {
     name: 'Bot',      // I really recommend having this even if it is unused
     description: 'An bot account (currently unused)',
-    bit: 8,
+    bit: 16,
     color: '#4c93ff'  // this is the primary color, not sure how to scope to that properly :(
   }
 };

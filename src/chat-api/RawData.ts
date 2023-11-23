@@ -132,6 +132,25 @@ export enum ChannelType {
   CATEGORY = 2
 }
 
+
+export enum TicketStatus {
+  WAITING_FOR_MODERATOR_RESPONSE = 0,
+  WAITING_FOR_USER_RESPONSE = 1,
+  CLOSED_AS_DONE = 2,
+  CLOSED_AS_INVALID = 3,
+}
+
+export interface RawTicket {
+  id: string;
+  title: string;
+  category: number;
+  channelId: string;
+  status: TicketStatus;
+  lastUpdatedAt: number;
+  openedById: string;
+  openedAt: Date;
+}
+
 export interface RawChannel {
   id: string;
   categoryId?: string;
@@ -171,6 +190,14 @@ export enum FriendStatus {
   PENDING = 1,
   FRIENDS = 2,
   BLOCKED = 3,
+}
+
+
+export enum TicketCategory {
+  QUESTION = 0,
+  ACCOUNT = 1,
+  ABUSE = 2,
+  OTHER = 3,
 }
 
 export interface RawFriend {

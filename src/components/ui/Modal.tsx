@@ -11,11 +11,9 @@ import Button from './Button';
 
 const showUp = keyframes`
   0% {
-    opacity: 0;
     transform: translateY(20px);
   }
   100% {
-    opacity: 1;
     transform: translateY(0);
   }
 `;
@@ -95,6 +93,7 @@ const Body = styled(FlexColumn)`
   animation: ${showUp};
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
+  opacity: 1;
   padding: 5px;
   flex: 1;
 `;

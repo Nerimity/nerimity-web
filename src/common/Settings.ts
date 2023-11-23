@@ -52,6 +52,13 @@ const settings: Setting[] =  [
     icon: 'flag',
     element: lazy(() => import('@/components/settings/LanguageSettings'))
   },
+  {
+    path: 'tickets',
+    routePath: 'tickets/*',
+    name: 'settings.drawer.tickets',
+    icon: 'sell',
+    element: lazy(() => import('@/components/settings/TicketSettings'))
+  },
 ]
 
 export default settings;

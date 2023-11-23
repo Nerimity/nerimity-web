@@ -7,6 +7,8 @@ import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@nerimity/solid-i18next';
 import { electronWindowAPI } from './common/Electron';
 import { ElectronTitleBar } from './components/ElectronTitleBar';
+import { useWindowProperties } from './common/useWindowProperties';
+import styles from './App.module.scss';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
