@@ -530,7 +530,7 @@ function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
       <FlexColumn style={{overflow: 'auto', "max-height": "60vh"}}>
         <Notice
           style={{ "margin-left": "12px", "margin-right": "12px" }}
-          description="Creating false tickets may affect your account."
+          description="Creating multiple false tickets may affect your account."
           type="warn"
         />
 
