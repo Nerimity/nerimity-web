@@ -667,11 +667,11 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
   const { users } = useStore();
   const { isMobileWidth } = useWindowProperties();
   const [show, setShow] = createSignal(false);
-  const [ userProfiles, setUserProfiles ] = createSignal<User[]>([]);
 
-  for (const friend of props.mutualFriendIds) {
-    const user = () => users.get(friend);
-    setUserProfiles(a => [user(), ...a]);
+  const mutualFriends = () => {
+    return props.mutualFriendIds.map(userId => {
+      return users.get(friend);
+    });
   }
 
   return (
@@ -692,16 +692,16 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
       </div>
       <Show when={!isMobileWidth() || show()}>
         <div class={styles.list}>
-          <For each={userProfiles().sort((x, y) => x.username.localeCompare(y.username))}>
-            {(userProfile) => {
+          <For each={mutualFriends().sort((x, y) => x.username.localeCompare(y.username))}>
+            {(user) => {
               return (
-                <Show when={userProfile}>
+                <Show when={user}>
                   <Link
-                    href={RouterEndpoints.PROFILE(userProfile.id)}
+                    href={RouterEndpoints.PROFILE(user.id)}
                     class={styles.item}
                   >
-                    <Avatar user={userProfile} size={20} />
-                    <div class={styles.name}>{userProfile.username}</div>
+                    <Avatar user={user} size={20} />
+                    <div class={styles.name}>{user.username}</div>
                   </Link>
                 </Show>
               );
