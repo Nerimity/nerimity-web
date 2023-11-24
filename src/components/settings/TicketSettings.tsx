@@ -111,11 +111,13 @@ const MessageInputArea = (props: { channelId: string, messages: RawMessage[], se
   }
 
   return (
-    <FlexRow gap={4}>
+    <FlexColumn gap={4}>
       <Input type="textarea" class={css`flex: 1;`} onText={setValue} value={value()} minHeight={120} placeholder="Message" />
-      <Button iconName="send" margin={0} class={css`flex-shrink: 0; width: 26px; height: 26px;`} onClick={sendClick} />
-
-    </FlexRow>
+      <FlexRow gap={4} class={css`justify-content: space-between; margin-top: 4px;`}>
+        <Button label="Attach" iconName="attach_file" margin={0} class={css`flex-shrink: 0; height: 26px;`} onClick={sendClick} />
+        <Button label="Send" iconName="send" margin={0} class={css`flex-shrink: 0; height: 26px;`} onClick={sendClick} />
+      </FlexRow>
+    </FlexColumn>
   )
   
 }
