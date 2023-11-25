@@ -19,6 +19,7 @@ interface Props {
   customChildren?: JSXElement
   customChildrenLeft?: JSXElement
   styles?: JSX.CSSProperties
+  tabIndex?: string;
 }
 
 const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: number | number[]}>`
@@ -65,7 +66,7 @@ export default function Button(props: Props) {
 
 
   return (
-    <ButtonContainer padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
+    <ButtonContainer tabindex={props.tabIndex} padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
       {props.customChildrenLeft && props.customChildrenLeft}
       { props.iconName && <Icon size={props.iconSize} name={props.iconName} color={props.primary ? 'white' : color()} /> }
       { props.label && <Text size={props.textSize || 14} class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
