@@ -1,4 +1,12 @@
-import { Accessor, createEffect, createSignal, For, onMount, Setter, Show } from "solid-js";
+import {
+  Accessor,
+  createEffect,
+  createSignal,
+  For,
+  onMount,
+  Setter,
+  Show,
+} from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
@@ -20,7 +28,12 @@ import { Emoji } from "../markup/Emoji";
 import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
-import { RawMessage, RawTicket, TicketStatus } from "@/chat-api/RawData";
+import {
+  RawMessage,
+  RawTicket,
+  TicketCategory,
+  TicketStatus,
+} from "@/chat-api/RawData";
 import { getTicket, getTickets } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -82,15 +95,23 @@ const TicketPage = () => {
         <BreadcrumbItem title={"Ticket"} />
       </Breadcrumb>
       <Show when={ticket()}>
-        <TicketItem ticket={ticket()!} disableClick={true} />
+        <TicketItem as="user" ticket={ticket()!} disableClick={true} />
         <MessageLogs messages={messages()} />
-        <MessageInputArea channelId={ticket()!.channelId} setMessages={setMessages} messages={messages()} />
+        <MessageInputArea
+          channelId={ticket()!.channelId}
+          setMessages={setMessages}
+          messages={messages()}
+        />
       </Show>
     </Container>
   );
 };
 
-const MessageInputArea = (props: { channelId: string, messages: RawMessage[], setMessages: Setter<RawMessage[]> }) => {
+const MessageInputArea = (props: {
+  channelId: string;
+  messages: RawMessage[];
+  setMessages: Setter<RawMessage[]>;
+}) => {
   const [value, setValue] = createSignal("");
 
   const sendClick = async () => {
@@ -99,28 +120,59 @@ const MessageInputArea = (props: { channelId: string, messages: RawMessage[], se
     if (!formattedValue) return;
     const message = await postMessage({
       content: formattedValue,
-      channelId: props.channelId
-    }).catch(err => {
+      channelId: props.channelId,
+    }).catch((err) => {
       alert(err.message);
       setValue(formattedValue);
-    })
+    });
     if (!message) return;
 
     props.setMessages([...props.messages, message]);
-    
-  }
+  };
 
   return (
     <FlexColumn gap={4}>
-      <Input type="textarea" class={css`flex: 1;`} onText={setValue} value={value()} minHeight={120} placeholder="Message" />
-      <FlexRow gap={4} class={css`justify-content: space-between; margin-top: 4px;`}>
-        <Button label="Attach" iconName="attach_file" margin={0} class={css`flex-shrink: 0; height: 26px;`} onClick={sendClick} />
-        <Button label="Send" iconName="send" margin={0} class={css`flex-shrink: 0; height: 26px;`} onClick={sendClick} />
+      <Input
+        type="textarea"
+        class={css`
+          flex: 1;
+        `}
+        onText={setValue}
+        value={value()}
+        minHeight={120}
+        placeholder="Message"
+      />
+      <FlexRow
+        gap={4}
+        class={css`
+          justify-content: space-between;
+          margin-top: 4px;
+        `}
+      >
+        <Button
+          label="Attach"
+          iconName="attach_file"
+          margin={0}
+          class={css`
+            flex-shrink: 0;
+            height: 26px;
+          `}
+          onClick={sendClick}
+        />
+        <Button
+          label="Send"
+          iconName="send"
+          margin={0}
+          class={css`
+            flex-shrink: 0;
+            height: 26px;
+          `}
+          onClick={sendClick}
+        />
       </FlexRow>
     </FlexColumn>
-  )
-  
-}
+  );
+};
 
 const MessageLogsContainer = styled(FlexColumn)`
   border-top: solid 1px rgba(255, 255, 255, 0.2);
@@ -197,7 +249,7 @@ const TicketListPage = () => {
       <Show when={!isMobileWidth()}>
         <table style={{ border: "none" }} cellspacing="0" cellpadding="0">
           <For each={tickets()}>
-            {(ticket) => <TicketItemTable ticket={ticket} />}
+            {(ticket) => <TicketItemTable as="user" ticket={ticket} />}
           </For>
         </table>
       </Show>
@@ -205,7 +257,7 @@ const TicketListPage = () => {
       <Show when={isMobileWidth()}>
         <FlexColumn gap={8}>
           <For each={tickets()}>
-            {(ticket) => <TicketItem ticket={ticket} />}
+            {(ticket) => <TicketItem as="user" ticket={ticket} />}
           </For>
         </FlexColumn>
       </Show>
@@ -218,10 +270,14 @@ const TableRowStyle = css`
   height: 30px;
   user-select: none;
   cursor: pointer;
-  opacity: 0.6;
-  transition: 0.2s;
+  .firstCol {
+    transition: 0.2s;
+    opacity: 0.6;
+  }
   &:hover {
-    opacity: 1;
+    .firstCol {
+      opacity: 1;
+    }
   }
 `;
 
@@ -232,9 +288,10 @@ const StatusText = styled("div")<{ bgColor: string }>`
   padding-left: 8px;
   padding-right: 8px;
   font-size: 14px;
+  color: black;
 `;
 
-const StatusToName = {
+const StatusToName = (as: "mod" | "user") =>  ({
   [TicketStatus.CLOSED_AS_DONE]: {
     text: "Resolved",
     color: "var(--primary-color)",
@@ -244,44 +301,63 @@ const StatusToName = {
     color: "gray",
   },
   [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
-    text: "Awaiting moderator response",
-    color: "var(--warn-color)",
+    text: as === "user" ? "Reply Sent" : "Action Required",
+    color: as === "user" ? "var(--success-color)" : "var(--warn-color)",
   },
   [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
-    text: "Waiting for your reply",
-    color: "var(--success-color)",
+    text: as === "user" ? "Action Required" : "Reply Sent",
+    color: as === "user" ? "var(--warn-color)" : 'var(--success-color)',
   },
+} as const);
+
+const CategoryToName = {
+  [TicketCategory.QUESTION]: "Question",
+  [TicketCategory.ACCOUNT]: "Account",
+  [TicketCategory.ABUSE]: "Abuse",
+  [TicketCategory.OTHER]: "Other",
 } as const;
 
-const TicketItemTable = (props: { ticket: RawTicket }) => {
+const TicketItemTable = (props: { ticket: RawTicket, as: "mod" | "user" }) => {
   return (
     <CustomLink href={`./${props.ticket.id}`} class={TableRowStyle}>
-      <td style={{ "text-align": "center" }}>
-        <div
-          style={{
-            display: "flex",
-            "justify-content": "start",
-            "align-items": "center",
-            gap: "4px",
-          }}
-        >
-          <Text opacity={0.6}>#{props.ticket.id}</Text>
-          <StatusText bgColor={StatusToName[props.ticket.status].color}>
-            {StatusToName[props.ticket.status].text}
-          </StatusText>
-        </div>
-      </td>
-      <td>
-        <Text size={14}>{props.ticket.title}</Text>
+      <td class="firstCol">
+        <FlexColumn>
+          <FlexRow gap={4} itemsCenter>
+            <Text opacity={0.6}>#{props.ticket.id}</Text>
+            <Text size={14}>{props.ticket.title}</Text>
+          </FlexRow>
+          <Text
+            size={12}
+            opacity={0.4}
+            class={css`
+              margin-left: 22px;
+            `}
+          >
+            {CategoryToName[props.ticket.category]}
+          </Text>
+        </FlexColumn>
       </td>
 
-      <td>
-        <Text size={14} color="rgba(255,255,255,0.6)">
-          Last updated{" "}
+      <td
+        class={css`
+          width: 140px;
+        `}
+      >
+        <FlexColumn
+          gap={2}
+          class={css`
+            align-items: end;
+            padding-top: 4px;
+            padding-bottom: 4px;
+          `}
+        >
+          <StatusText bgColor={StatusToName(props.as)[props.ticket.status].color}>
+            {StatusToName(props.as)[props.ticket.status].text}
+          </StatusText>
           <Text color="white" size={14}>
             {formatTimestamp(props.ticket.lastUpdatedAt)}
           </Text>
-        </Text>
+        </FlexColumn>
       </td>
     </CustomLink>
   );
@@ -291,42 +367,47 @@ const TicketItemStyle = css`
   display: flex;
   flex-direction: column;
   user-select: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 6px;
 `;
 
-const TicketItem = (props: { ticket: RawTicket; disableClick?: boolean }) => {
+const TicketItem = (props: { ticket: RawTicket; disableClick?: boolean, as: "mod" | "user" }) => {
   return (
     <Dynamic
       component={!props.disableClick ? CustomLink : "div"}
       href={`./${props.ticket.id}`}
       class={TicketItemStyle}
     >
-      <td style={{ "text-align": "center" }}>
-        <div
-          style={{
-            display: "flex",
-            "justify-content": "start",
-            "align-items": "center",
-            gap: "4px",
-          }}
-        >
-          <Text opacity={0.6}>#{props.ticket.id}</Text>
-          <StatusText bgColor={StatusToName[props.ticket.status].color}>
-            {StatusToName[props.ticket.status].text}
-          </StatusText>
-        </div>
-      </td>
-      <td>
+      <FlexRow itemsCenter gap={4}>
+        <Text opacity={0.4}>#{props.ticket.id}</Text>
         <Text size={14}>{props.ticket.title}</Text>
-      </td>
+      </FlexRow>
+      <Text
+        size={12}
+        opacity={0.4}
+        class={css`
+          margin-left: 22px;
+        `}
+      >
+        {CategoryToName[props.ticket.category]}
+      </Text>
 
-      <td>
-        <Text size={14} color="rgba(255,255,255,0.6)">
-          Last updated{" "}
-          <Text color="white" size={14}>
-            {formatTimestamp(props.ticket.lastUpdatedAt)}
-          </Text>
+      <FlexColumn
+        gap={4}
+        class={css`
+          align-items: flex-start;
+          margin-top: 4px;
+          margin-left: 22px;
+        `}
+      >
+        <StatusText bgColor={StatusToName(props.as)[props.ticket.status].color}>
+          {StatusToName(props.as)[props.ticket.status].text}
+        </StatusText>
+        <Text color="white" size={14}>
+          {formatTimestamp(props.ticket.lastUpdatedAt)}
         </Text>
-      </td>
+      </FlexColumn>
     </Dynamic>
   );
 };
