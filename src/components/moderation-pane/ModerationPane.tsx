@@ -290,7 +290,9 @@ const TicketsPane = () => {
         }
         label="Tickets"
       >
-        <Button label="View Tickets" iconName="visibility" />
+        <CustomLink href="./tickets">
+          <Button tabIndex="-1" label="View Tickets" iconName="visibility" />
+        </CustomLink>
       </SettingsBlock>
     </div>
   );
