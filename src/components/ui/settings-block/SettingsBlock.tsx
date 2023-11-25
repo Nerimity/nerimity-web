@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { JSX, Show } from 'solid-js';
+import { JSX, JSXElement, Show } from 'solid-js';
 import Icon from '@/components/ui/icon/Icon';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { css } from 'solid-styled-components';
@@ -8,7 +8,7 @@ interface BlockProps {
   label: string;
   icon?: string;
   iconSrc?: string;
-  description?: string;
+  description?: string | JSXElement;
   children?: JSX.Element | undefined;
   header?: boolean;
   class?: string;

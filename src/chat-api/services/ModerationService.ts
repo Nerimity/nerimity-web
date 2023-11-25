@@ -1,10 +1,30 @@
 
 import env from '../../common/env';
-import { RawFriend, RawServer, RawUser } from '../RawData';
+import { RawFriend, RawServer, RawTicket, RawUser, TicketStatus } from '../RawData';
 import { request } from './Request';
 import Endpoints from './ServiceEndpoints';
 
 
+
+interface GetTicketsOpts {
+  limit: number;
+  afterId?: string;
+  status?: TicketStatus;
+}
+
+export const getTickets = async (opts: GetTicketsOpts) => {
+  const data = await request<RawTicket[]>({
+    method: 'GET',
+    params: {
+      ...(opts.afterId ? {after: opts.afterId} : undefined),
+      ...(opts.status ? {status: opts.status} : undefined),
+      limit: opts.limit
+    },
+    url: env.SERVER_URL + "/api/moderation/tickets",
+    useToken: true,
+  });
+  return data;
+};
 
 export const getServers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
