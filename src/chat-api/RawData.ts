@@ -143,7 +143,7 @@ export enum TicketStatus {
 export interface RawTicket {
   id: string;
   title: string;
-  category: number;
+  category: TicketCategory;
   channelId: string;
   status: TicketStatus;
   lastUpdatedAt: number;
