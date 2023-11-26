@@ -283,32 +283,33 @@ const TableRowStyle = css`
 
 const StatusText = styled("div")<{ bgColor: string }>`
   background-color: ${(props) => props.bgColor};
-  border-radius: 12px;
-  padding: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-  font-size: 14px;
+  border-radius: 6px;
+  padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 16px;
   color: black;
 `;
 
-const StatusToName = (as: "mod" | "user") =>  ({
-  [TicketStatus.CLOSED_AS_DONE]: {
-    text: "Resolved",
-    color: "var(--primary-color)",
-  },
-  [TicketStatus.CLOSED_AS_INVALID]: {
-    text: "Closed",
-    color: "gray",
-  },
-  [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
-    text: as === "user" ? "Reply Sent" : "Action Required",
-    color: as === "user" ? "var(--success-color)" : "var(--warn-color)",
-  },
-  [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
-    text: as === "user" ? "Action Required" : "Reply Sent",
-    color: as === "user" ? "var(--warn-color)" : 'var(--success-color)',
-  },
-} as const);
+const StatusToName = (as: "mod" | "user") =>
+  ({
+    [TicketStatus.CLOSED_AS_DONE]: {
+      text: "Resolved",
+      color: "var(--primary-color)",
+    },
+    [TicketStatus.CLOSED_AS_INVALID]: {
+      text: "Closed",
+      color: "gray",
+    },
+    [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
+      text: as === "user" ? "Reply Sent" : "Action Required",
+      color: as === "user" ? "var(--success-color)" : "var(--warn-color)",
+    },
+    [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
+      text: as === "user" ? "Action Required" : "Reply Sent",
+      color: as === "user" ? "var(--warn-color)" : "var(--success-color)",
+    },
+  } as const);
 
 const CategoryToName = {
   [TicketCategory.QUESTION]: "Question",
@@ -317,7 +318,7 @@ const CategoryToName = {
   [TicketCategory.OTHER]: "Other",
 } as const;
 
-const TicketItemTable = (props: { ticket: RawTicket, as: "mod" | "user" }) => {
+const TicketItemTable = (props: { ticket: RawTicket; as: "mod" | "user" }) => {
   return (
     <CustomLink href={`./${props.ticket.id}`} class={TableRowStyle}>
       <td class="firstCol">
@@ -351,10 +352,12 @@ const TicketItemTable = (props: { ticket: RawTicket, as: "mod" | "user" }) => {
             padding-bottom: 4px;
           `}
         >
-          <StatusText bgColor={StatusToName(props.as)[props.ticket.status].color}>
+          <StatusText
+            bgColor={StatusToName(props.as)[props.ticket.status].color}
+          >
             {StatusToName(props.as)[props.ticket.status].text}
           </StatusText>
-          <Text color="white" size={14}>
+          <Text color="white" size={12}>
             {formatTimestamp(props.ticket.lastUpdatedAt)}
           </Text>
         </FlexColumn>
@@ -365,48 +368,70 @@ const TicketItemTable = (props: { ticket: RawTicket, as: "mod" | "user" }) => {
 
 const TicketItemStyle = css`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   user-select: none;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 6px;
+  gap: 4px;
   padding: 6px;
 `;
 
-const TicketItem = (props: { ticket: RawTicket; disableClick?: boolean, as: "mod" | "user" }) => {
+export const TicketItem = (props: {
+  ticket: RawTicket;
+  disableClick?: boolean;
+  as: "mod" | "user";
+}) => {
   return (
     <Dynamic
       component={!props.disableClick ? CustomLink : "div"}
       href={`./${props.ticket.id}`}
       class={TicketItemStyle}
     >
-      <FlexRow itemsCenter gap={4}>
-        <Text opacity={0.4}>#{props.ticket.id}</Text>
-        <Text size={14}>{props.ticket.title}</Text>
-      </FlexRow>
-      <Text
-        size={12}
-        opacity={0.4}
-        class={css`
-          margin-left: 22px;
-        `}
-      >
-        {CategoryToName[props.ticket.category]}
+      <Text opacity={0.4} class={css`width`}>
+        #{props.ticket.id}
       </Text>
-
-      <FlexColumn
-        gap={4}
-        class={css`
-          align-items: flex-start;
-          margin-top: 4px;
-          margin-left: 22px;
-        `}
-      >
-        <StatusText bgColor={StatusToName(props.as)[props.ticket.status].color}>
-          {StatusToName(props.as)[props.ticket.status].text}
-        </StatusText>
-        <Text color="white" size={14}>
-          {formatTimestamp(props.ticket.lastUpdatedAt)}
+      <FlexColumn>
+        <FlexRow gap={4} itemsCenter>
+          <StatusText
+            bgColor={StatusToName(props.as)[props.ticket.status].color}
+          >
+            {StatusToName(props.as)[props.ticket.status].text}
+          </StatusText>
+        </FlexRow>
+        <FlexRow
+          class={css`
+            margin-top: 2px;
+          `}
+        >
+          <Text size={14}>{props.ticket.title}</Text>
+        </FlexRow>
+        <Text
+          size={12}
+          opacity={0.4}
+        >
+          {CategoryToName[props.ticket.category]}
         </Text>
+
+        <Show when={props.ticket.openedBy}>
+          <CustomLink href={RouterEndpoints.PROFILE(props.ticket.openedBy?.id!)}>
+            <FlexRow itemsCenter gap={4} class={css`margin-top: 4px; margin-bottom: 4px;`}>
+              <Avatar user={props.ticket.openedBy} size={18} />
+              <Text size={12}>{props.ticket.openedBy?.username}:{props.ticket.openedBy?.tag}</Text>
+            </FlexRow>
+          </CustomLink>
+        </Show>
+
+        <FlexColumn
+          gap={4}
+          class={css`
+            align-items: flex-start;
+            margin-top: 4px;
+          `}
+        >
+          <Text color="white" size={12}>
+            {formatTimestamp(props.ticket.lastUpdatedAt)}
+          </Text>
+        </FlexColumn>
       </FlexColumn>
     </Dynamic>
   );

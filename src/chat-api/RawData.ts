@@ -148,6 +148,7 @@ export interface RawTicket {
   status: TicketStatus;
   lastUpdatedAt: number;
   openedById: string;
+  openedBy?: RawUser;
   openedAt: Date;
 }
 

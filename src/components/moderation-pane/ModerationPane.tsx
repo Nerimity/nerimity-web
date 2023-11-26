@@ -50,6 +50,7 @@ import { Notice } from "../ui/Notice";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 
 const UserPage = lazy(() => import("./UserPage"));
+const TicketsPage = lazy(() => import("./TicketsPage"));
 const ServerPage = lazy(() => import("./ServerPage"));
 
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
@@ -155,12 +156,12 @@ export default function ModerationPane() {
     }
   });
 
-  const show = useMatch(() => "/app/moderation");
+  const isModerationRoute = useMatch(() => "/app/moderation");
 
   return (
     <Show when={load()}>
       <ModerationPage />
-      <Show when={!show()}>
+      <Show when={!isModerationRoute()}>
         <div
           style={{
             position: "absolute",
@@ -178,6 +179,7 @@ export default function ModerationPane() {
           <Routes>
             <Route path="/servers/:serverId" element={<ServerPage />} />
             <Route path="/users/:userId" element={<UserPage />} />
+            <Route path="/tickets" element={<TicketsPage/>} />
           </Routes>
         </div>
       </Show>
