@@ -17,7 +17,7 @@ import {
   getOnlineUsers,
   getServers,
   getStats,
-  getTickets,
+  getModerationTickets,
   getUsers,
   ModerationStats,
   ModerationSuspension,
@@ -48,9 +48,10 @@ import {
 } from "@/common/GlobalEvents";
 import { Notice } from "../ui/Notice";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import { TicketPage } from "../settings/TicketSettings";
 
 const UserPage = lazy(() => import("./UserPage"));
-const TicketsPage = lazy(() => import("./TicketsPage"));
+const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
 const ServerPage = lazy(() => import("./ServerPage"));
 
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
@@ -139,6 +140,14 @@ const ItemDetailContainer = styled("div")`
   text-overflow: ellipsis;
 `;
 
+const PageContainer = styled(FlexColumn)`
+  height: 100%;
+  width: 100%;
+  max-width: 900px;
+  align-self: center;
+  margin-top: 10px;
+`;
+
 export default function ModerationPane() {
   const { account, header } = useStore();
   const [load, setLoad] = createSignal(false);
@@ -179,7 +188,8 @@ export default function ModerationPane() {
           <Routes>
             <Route path="/servers/:serverId" element={<ServerPage />} />
             <Route path="/users/:userId" element={<UserPage />} />
-            <Route path="/tickets" element={<TicketsPage/>} />
+            <Route path="/tickets" element={<PageContainer><TicketsPage/></PageContainer>} />
+            <Route path="/tickets/:id" element={<PageContainer><TicketPage /></PageContainer>} />
           </Routes>
         </div>
       </Show>
@@ -262,7 +272,7 @@ const TicketsPane = () => {
   const [hasWaiting, setHasWaiting] = createSignal(false);
 
   onMount(async () => {
-    const tickets = await getTickets({
+    const tickets = await getModerationTickets({
       limit: 1,
       status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE,
     });

@@ -37,7 +37,7 @@ import {
 import { getTicket, getTickets } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { A, Route, Router, Routes, useParams } from "@solidjs/router";
+import { A, Route, Router, Routes, useMatch, useParams } from "@solidjs/router";
 import { Dynamic } from "solid-js/web";
 import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
 import Avatar from "../ui/Avatar";
@@ -45,6 +45,8 @@ import { Markup } from "../Markup";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Input from "../ui/input/Input";
 import Button from "../ui/Button";
+import { getModerationTicket } from "@/chat-api/services/ModerationService";
+import TicketsPage, { TicketItem } from "../tickets/TicketsPage";
 
 const Container = styled("div")`
   display: flex;
@@ -64,20 +66,24 @@ export default function TicketSettings() {
 
   return (
     <Routes>
-      <Route path="/" component={TicketListPage} />
+      <Route path="/" component={TicketsPage} />
       <Route path="/:id" component={TicketPage} />
     </Routes>
   );
 }
 
-const TicketPage = () => {
+export const TicketPage = () => {
   const params = useParams<{ id: string }>();
 
   const [ticket, setTicket] = createSignal<RawTicket | null>(null);
   const [messages, setMessages] = createSignal<RawMessage[]>([]);
 
+  const isModeration = useMatch(() => "/app/moderation/*");
+
   onMount(async () => {
-    const ticket = await getTicket(params.id);
+    const ticket = await (isModeration() ? getModerationTicket : getTicket)(
+      params.id
+    );
     setTicket(ticket);
     if (!ticket) return;
 
@@ -89,13 +95,32 @@ const TicketPage = () => {
 
   return (
     <Container>
-      <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
-        <BreadcrumbItem title={t("settings.drawer.tickets")!} href="../" />
-        <BreadcrumbItem title={"Ticket"} />
-      </Breadcrumb>
+      <div
+        class={
+          isModeration()
+            ? css`
+                margin-top: 20px;
+              `
+            : ""
+        }
+      >
+        <Breadcrumb>
+          <Show when={isModeration()}>
+            <BreadcrumbItem href={"../"} icon="home" title="Moderation" />
+          </Show>
+          <Show when={!isModeration()}>
+            <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+          </Show>
+          <BreadcrumbItem title={t("settings.drawer.tickets")!} href="../" />
+          <BreadcrumbItem title={"Ticket"} />
+        </Breadcrumb>
+      </div>
       <Show when={ticket()}>
-        <TicketItem as="user" ticket={ticket()!} disableClick={true} />
+        <TicketItem
+          as={isModeration() ? "mod" : "user"}
+          ticket={ticket()!}
+          disableClick={true}
+        />
         <MessageLogs messages={messages()} />
         <MessageInputArea
           channelId={ticket()!.channelId}
@@ -227,212 +252,5 @@ const MessageItem = (props: { message: RawMessage }) => {
         </Text>
       </FlexColumn>
     </MessageItemContainer>
-  );
-};
-
-const TicketListPage = () => {
-  const [tickets, setTickets] = createSignal<RawTicket[]>([]);
-  const { isMobileWidth } = useWindowProperties();
-
-  onMount(async () => {
-    const tickets = await getTickets();
-    setTickets(tickets);
-  });
-
-  return (
-    <Container>
-      <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
-        <BreadcrumbItem title={t("settings.drawer.tickets")!} />
-      </Breadcrumb>
-
-      <Show when={!isMobileWidth()}>
-        <table style={{ border: "none" }} cellspacing="0" cellpadding="0">
-          <For each={tickets()}>
-            {(ticket) => <TicketItemTable as="user" ticket={ticket} />}
-          </For>
-        </table>
-      </Show>
-
-      <Show when={isMobileWidth()}>
-        <FlexColumn gap={8}>
-          <For each={tickets()}>
-            {(ticket) => <TicketItem as="user" ticket={ticket} />}
-          </For>
-        </FlexColumn>
-      </Show>
-    </Container>
-  );
-};
-
-const TableRowStyle = css`
-  display: table-row;
-  height: 30px;
-  user-select: none;
-  cursor: pointer;
-  .firstCol {
-    transition: 0.2s;
-    opacity: 0.6;
-  }
-  &:hover {
-    .firstCol {
-      opacity: 1;
-    }
-  }
-`;
-
-const StatusText = styled("div")<{ bgColor: string }>`
-  background-color: ${(props) => props.bgColor};
-  border-radius: 6px;
-  padding: 2px;
-  padding-left: 6px;
-  padding-right: 6px;
-  font-size: 16px;
-  color: black;
-`;
-
-const StatusToName = (as: "mod" | "user") =>
-  ({
-    [TicketStatus.CLOSED_AS_DONE]: {
-      text: "Resolved",
-      color: "var(--primary-color)",
-    },
-    [TicketStatus.CLOSED_AS_INVALID]: {
-      text: "Closed",
-      color: "gray",
-    },
-    [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
-      text: as === "user" ? "Reply Sent" : "Action Required",
-      color: as === "user" ? "var(--success-color)" : "var(--warn-color)",
-    },
-    [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
-      text: as === "user" ? "Action Required" : "Reply Sent",
-      color: as === "user" ? "var(--warn-color)" : "var(--success-color)",
-    },
-  } as const);
-
-const CategoryToName = {
-  [TicketCategory.QUESTION]: "Question",
-  [TicketCategory.ACCOUNT]: "Account",
-  [TicketCategory.ABUSE]: "Abuse",
-  [TicketCategory.OTHER]: "Other",
-} as const;
-
-const TicketItemTable = (props: { ticket: RawTicket; as: "mod" | "user" }) => {
-  return (
-    <CustomLink href={`./${props.ticket.id}`} class={TableRowStyle}>
-      <td class="firstCol">
-        <FlexColumn>
-          <FlexRow gap={4} itemsCenter>
-            <Text opacity={0.6}>#{props.ticket.id}</Text>
-            <Text size={14}>{props.ticket.title}</Text>
-          </FlexRow>
-          <Text
-            size={12}
-            opacity={0.4}
-            class={css`
-              margin-left: 22px;
-            `}
-          >
-            {CategoryToName[props.ticket.category]}
-          </Text>
-        </FlexColumn>
-      </td>
-
-      <td
-        class={css`
-          width: 140px;
-        `}
-      >
-        <FlexColumn
-          gap={2}
-          class={css`
-            align-items: end;
-            padding-top: 4px;
-            padding-bottom: 4px;
-          `}
-        >
-          <StatusText
-            bgColor={StatusToName(props.as)[props.ticket.status].color}
-          >
-            {StatusToName(props.as)[props.ticket.status].text}
-          </StatusText>
-          <Text color="white" size={12}>
-            {formatTimestamp(props.ticket.lastUpdatedAt)}
-          </Text>
-        </FlexColumn>
-      </td>
-    </CustomLink>
-  );
-};
-
-const TicketItemStyle = css`
-  display: flex;
-  flex-direction: row;
-  user-select: none;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  gap: 4px;
-  padding: 6px;
-`;
-
-export const TicketItem = (props: {
-  ticket: RawTicket;
-  disableClick?: boolean;
-  as: "mod" | "user";
-}) => {
-  return (
-    <Dynamic
-      component={!props.disableClick ? CustomLink : "div"}
-      href={`./${props.ticket.id}`}
-      class={TicketItemStyle}
-    >
-      <Text opacity={0.4} class={css`width`}>
-        #{props.ticket.id}
-      </Text>
-      <FlexColumn>
-        <FlexRow gap={4} itemsCenter>
-          <StatusText
-            bgColor={StatusToName(props.as)[props.ticket.status].color}
-          >
-            {StatusToName(props.as)[props.ticket.status].text}
-          </StatusText>
-        </FlexRow>
-        <FlexRow
-          class={css`
-            margin-top: 2px;
-          `}
-        >
-          <Text size={14}>{props.ticket.title}</Text>
-        </FlexRow>
-        <Text
-          size={12}
-          opacity={0.4}
-        >
-          {CategoryToName[props.ticket.category]}
-        </Text>
-
-        <Show when={props.ticket.openedBy}>
-          <CustomLink href={RouterEndpoints.PROFILE(props.ticket.openedBy?.id!)}>
-            <FlexRow itemsCenter gap={4} class={css`margin-top: 4px; margin-bottom: 4px;`}>
-              <Avatar user={props.ticket.openedBy} size={18} />
-              <Text size={12}>{props.ticket.openedBy?.username}:{props.ticket.openedBy?.tag}</Text>
-            </FlexRow>
-          </CustomLink>
-        </Show>
-
-        <FlexColumn
-          gap={4}
-          class={css`
-            align-items: flex-start;
-            margin-top: 4px;
-          `}
-        >
-          <Text color="white" size={12}>
-            {formatTimestamp(props.ticket.lastUpdatedAt)}
-          </Text>
-        </FlexColumn>
-      </FlexColumn>
-    </Dynamic>
   );
 };

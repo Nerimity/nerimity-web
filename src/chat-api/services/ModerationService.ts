@@ -12,7 +12,7 @@ interface GetTicketsOpts {
   status?: TicketStatus;
 }
 
-export const getTickets = async (opts: GetTicketsOpts) => {
+export const getModerationTickets = async (opts: GetTicketsOpts) => {
   const data = await request<RawTicket[]>({
     method: 'GET',
     params: {
@@ -21,6 +21,14 @@ export const getTickets = async (opts: GetTicketsOpts) => {
       limit: opts.limit
     },
     url: env.SERVER_URL + "/api/moderation/tickets",
+    useToken: true,
+  });
+  return data;
+};
+export const getModerationTicket = async (id: string) => {
+  const data = await request<RawTicket>({
+    method: 'GET',
+    url: env.SERVER_URL + `/api/moderation/tickets/${id}`,
     useToken: true,
   });
   return data;

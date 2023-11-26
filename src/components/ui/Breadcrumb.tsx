@@ -5,11 +5,11 @@ import { CustomLink } from "./CustomLink";
 import { Dynamic } from "solid-js/web";
 import Icon from "./icon/Icon";
 
-interface breadcrumbProps {
+interface BreadcrumbProps {
   children: JSXElement
 }
 
-interface breadcrumbItemProps {
+interface BreadcrumbItemProps {
   title?: string;
   icon?: string;
   href?: string;
@@ -21,7 +21,7 @@ const BreadcrumbContainer = styled(FlexRow)`
   margin-bottom: 15px;
 `;
 
-export default function Breadcrumb(props: breadcrumbProps) {
+export default function Breadcrumb(props: BreadcrumbProps) {
   return (<BreadcrumbContainer children={props.children} />)
 }
 
@@ -62,7 +62,7 @@ const breadcrumbItemStyles = css`
     pointer-events: none;
   }
 `;
-export function BreadcrumbItem(props: breadcrumbItemProps) {
+export function BreadcrumbItem(props: BreadcrumbItemProps) {
   return (
     <Dynamic class={breadcrumbItemStyles} component={props.href ? CustomLink : 'div'} href={props.href!}>
       <Show when={props.icon}><Icon class={css`color: inherit;`} style={props.title ? {"margin-right": "5px"} : undefined} size={25} name={props.icon}/></Show>
