@@ -168,11 +168,11 @@ export const TicketStatusToName = (as: "mod" | "user") =>
       color: "gray",
     },
     [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
-      text: as === "user" ? "Reply Sent" : "Action Required",
+      text: as === "user" ? "Reply Sent" : "Response Needed",
       color: as === "user" ? "var(--success-color)" : "var(--warn-color)",
     },
     [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
-      text: as === "user" ? "Action Required" : "Reply Sent",
+      text: as === "user" ? "Response Needed" : "Reply Sent",
       color: as === "user" ? "var(--warn-color)" : "var(--success-color)",
     },
   } as const);

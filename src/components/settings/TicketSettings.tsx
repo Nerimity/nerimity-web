@@ -50,6 +50,7 @@ import TicketsPage, {
   TicketItem,
   TicketStatusToName,
 } from "../tickets/TicketsPage";
+import Checkbox from "../ui/Checkbox";
 
 const Container = styled("div")`
   display: flex;
@@ -139,20 +140,23 @@ export const TicketPage = () => {
 const StatusButtonContainer = styled(FlexRow)`
   border-radius: 4px;
   padding: 4px;
-  gap: 4px;
+  gap: 6px;
   color: black;
   cursor: pointer;
   user-select: none;
 `
 
-const TicketStatusButtons = () => {
+const TicketStatusButtons = (props: {selectedStatus: number | undefined; setSelectedStatus: Setter<number | undefined>;}) => {
   return (
-    <FlexRow gap={4} style={{"justify-content": 'end'}}>
+    <FlexRow wrap gap={4} style={{"justify-content": 'end'}}>
       <For each={Object.keys(TicketStatusToName("mod"))}>
         {(key) => {
           const status = TicketStatusToName("mod")[key];
           return (
-          <StatusButtonContainer style={{background: status.color}}>{status.text}</StatusButtonContainer>
+          <StatusButtonContainer itemsCenter onClick={() => props.setSelectedStatus(props.selectedStatus === Number(key) ? undefined : Number(key))} style={{background: status.color}}>
+            <Checkbox checked={key === props.selectedStatus?.toString()}/>
+            {status.text}
+          </StatusButtonContainer>
           )
         }}
       </For>
@@ -165,9 +169,12 @@ const MessageInputArea = (props: {
   messages: RawMessage[];
   setMessages: Setter<RawMessage[]>;
 }) => {
+  const [selectedStatus, setSelectedStatus] = createSignal<TicketStatus | undefined>(undefined);
+
   const [value, setValue] = createSignal("");
 
   const sendClick = async () => {
+    console.log(selectedStatus())
     const formattedValue = value().trim();
     setValue("");
     if (!formattedValue) return;
@@ -198,7 +205,7 @@ const MessageInputArea = (props: {
         placeholder="Message"
       />
       <Show when={isModeration()}>
-        <TicketStatusButtons />
+        <TicketStatusButtons selectedStatus={selectedStatus()} setSelectedStatus={setSelectedStatus} />
       </Show>
       <FlexRow
         gap={4}
