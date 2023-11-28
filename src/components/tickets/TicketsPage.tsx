@@ -98,9 +98,9 @@ export const TicketItem = (props: {
       <FlexColumn>
         <FlexRow gap={4} itemsCenter>
           <StatusText
-            bgColor={StatusToName(props.as)[props.ticket.status].color}
+            bgColor={TicketStatusToName(props.as)[props.ticket.status].color}
           >
-            {StatusToName(props.as)[props.ticket.status].text}
+            {TicketStatusToName(props.as)[props.ticket.status].text}
           </StatusText>
         </FlexRow>
         <FlexRow
@@ -157,7 +157,7 @@ const CategoryToName = {
   [TicketCategory.OTHER]: "Other",
 } as const;
 
-const StatusToName = (as: "mod" | "user") =>
+export const TicketStatusToName = (as: "mod" | "user") =>
   ({
     [TicketStatus.CLOSED_AS_DONE]: {
       text: "Resolved",

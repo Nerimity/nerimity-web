@@ -46,7 +46,10 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import Input from "../ui/input/Input";
 import Button from "../ui/Button";
 import { getModerationTicket } from "@/chat-api/services/ModerationService";
-import TicketsPage, { TicketItem } from "../tickets/TicketsPage";
+import TicketsPage, {
+  TicketItem,
+  TicketStatusToName,
+} from "../tickets/TicketsPage";
 
 const Container = styled("div")`
   display: flex;
@@ -132,6 +135,31 @@ export const TicketPage = () => {
   );
 };
 
+
+const StatusButtonContainer = styled(FlexRow)`
+  border-radius: 4px;
+  padding: 4px;
+  gap: 4px;
+  color: black;
+  cursor: pointer;
+  user-select: none;
+`
+
+const TicketStatusButtons = () => {
+  return (
+    <FlexRow gap={4} style={{"justify-content": 'end'}}>
+      <For each={Object.keys(TicketStatusToName("mod"))}>
+        {(key) => {
+          const status = TicketStatusToName("mod")[key];
+          return (
+          <StatusButtonContainer style={{background: status.color}}>{status.text}</StatusButtonContainer>
+          )
+        }}
+      </For>
+    </FlexRow>
+  );
+};
+
 const MessageInputArea = (props: {
   channelId: string;
   messages: RawMessage[];
@@ -155,6 +183,8 @@ const MessageInputArea = (props: {
     props.setMessages([...props.messages, message]);
   };
 
+  const isModeration = useMatch(() => "/app/moderation/*");
+
   return (
     <FlexColumn gap={4}>
       <Input
@@ -167,6 +197,9 @@ const MessageInputArea = (props: {
         minHeight={120}
         placeholder="Message"
       />
+      <Show when={isModeration()}>
+        <TicketStatusButtons />
+      </Show>
       <FlexRow
         gap={4}
         class={css`
