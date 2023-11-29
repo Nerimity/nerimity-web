@@ -384,6 +384,8 @@ function EditProfilePage() {
     setRequestSent(true);
     setError(null);
     const values = updatedInputValues();
+    values.bio = values.bio ?? userDetails()?.profile?.bio;
+    values.pronouns = values.pronouns ?? userDetails()?.profile?.pronouns;
     await updateUser({
       bio: values.bio?.trim() || null,
       pronouns: values.pronouns?.trim() || null
