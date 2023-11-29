@@ -34,6 +34,18 @@ export const getModerationTicket = async (id: string) => {
   return data;
 };
 
+
+export const updateModerationTicket = async (id: string, status: TicketStatus) => {
+  const data = await request<RawTicket>({
+    method: 'POST',
+    url: env.SERVER_URL + `/api/moderation/tickets/${id}`,
+    body: {status},
+    useToken: true,
+  });
+  return data;
+}
+
+
 export const getServers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: 'GET',

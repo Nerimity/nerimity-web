@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import { RawChannel, RawChannelNotice, RawTicket, TicketCategory } from "../RawData";
+import { RawChannel, RawChannelNotice, RawTicket, TicketCategory, TicketStatus } from "../RawData";
 import env from "@/common/env";
 
 export const getTickets = async () => {
@@ -32,6 +32,16 @@ export const createTicket = async (opts: CreateTicketOpts) => {
     method: 'POST',
     url: env.SERVER_URL + "/api" + ServiceEndpoints.tickets(),
     body: opts,
+    useToken: true,
+  });
+  return data;
+}
+
+export const updateTicket = async (ticketId: string, status: TicketStatus) => {
+  const data = await request<RawTicket>({
+    method: 'POST',
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.tickets(ticketId),
+    body: {status},
     useToken: true,
   });
   return data;

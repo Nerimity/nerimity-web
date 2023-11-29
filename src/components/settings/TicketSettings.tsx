@@ -34,7 +34,7 @@ import {
   TicketCategory,
   TicketStatus,
 } from "@/chat-api/RawData";
-import { getTicket, getTickets } from "@/chat-api/services/TicketService.ts";
+import { getTicket, getTickets, updateTicket } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { A, Route, Router, Routes, useMatch, useParams } from "@solidjs/router";
@@ -45,7 +45,7 @@ import { Markup } from "../Markup";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Input from "../ui/input/Input";
 import Button from "../ui/Button";
-import { getModerationTicket } from "@/chat-api/services/ModerationService";
+import { getModerationTicket, updateModerationTicket } from "@/chat-api/services/ModerationService";
 import TicketsPage, {
   TicketItem,
   TicketStatusToName,
@@ -127,6 +127,7 @@ export const TicketPage = () => {
         />
         <MessageLogs messages={messages()} />
         <MessageInputArea
+          updateTicket={setTicket}
           channelId={ticket()!.channelId}
           setMessages={setMessages}
           messages={messages()}
@@ -168,13 +169,25 @@ const MessageInputArea = (props: {
   channelId: string;
   messages: RawMessage[];
   setMessages: Setter<RawMessage[]>;
+  updateTicket(ticket: RawTicket): void;
 }) => {
+  const params = useParams<{id: string}>();
   const [selectedStatus, setSelectedStatus] = createSignal<TicketStatus | undefined>(undefined);
 
   const [value, setValue] = createSignal("");
 
+
+  
+  const isModeration = useMatch(() => "/app/moderation/*");
+
   const sendClick = async () => {
-    console.log(selectedStatus())
+
+    const status = selectedStatus();
+    if (status === undefined && isModeration()) {
+      alert("You must select a status.");
+      return;
+    }
+
     const formattedValue = value().trim();
     setValue("");
     if (!formattedValue) return;
@@ -187,10 +200,19 @@ const MessageInputArea = (props: {
     });
     if (!message) return;
 
+    const ticket = await (isModeration() ? updateModerationTicket : updateTicket)(params.id, status || TicketStatus.WAITING_FOR_MODERATOR_RESPONSE).catch((err) => {
+      alert(err.message);
+    });
+
+    if (ticket) {
+      props.updateTicket(ticket);
+    }
+    
+    setSelectedStatus(undefined);
+
     props.setMessages([...props.messages, message]);
   };
 
-  const isModeration = useMatch(() => "/app/moderation/*");
 
   return (
     <FlexColumn gap={4}>
