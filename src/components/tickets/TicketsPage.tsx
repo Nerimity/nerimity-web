@@ -164,8 +164,8 @@ export const TicketStatusToName = (as: "mod" | "user") =>
       color: "var(--primary-color)",
     },
     [TicketStatus.CLOSED_AS_INVALID]: {
-      text: "Closed",
-      color: "gray",
+      text: "Invalid",
+      color: "var(--alert-color)",
     },
     [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
       text: as === "user" ? "Reply Sent" : "Response Needed",

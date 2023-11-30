@@ -29,12 +29,17 @@ import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import {
+  CloseTicketStatuses,
   RawMessage,
   RawTicket,
   TicketCategory,
   TicketStatus,
 } from "@/chat-api/RawData";
-import { getTicket, getTickets, updateTicket } from "@/chat-api/services/TicketService.ts";
+import {
+  getTicket,
+  getTickets,
+  updateTicket,
+} from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { A, Route, Router, Routes, useMatch, useParams } from "@solidjs/router";
@@ -45,7 +50,10 @@ import { Markup } from "../Markup";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Input from "../ui/input/Input";
 import Button from "../ui/Button";
-import { getModerationTicket, updateModerationTicket } from "@/chat-api/services/ModerationService";
+import {
+  getModerationTicket,
+  updateModerationTicket,
+} from "@/chat-api/services/ModerationService";
 import TicketsPage, {
   TicketItem,
   TicketStatusToName,
@@ -127,6 +135,7 @@ export const TicketPage = () => {
         />
         <MessageLogs messages={messages()} />
         <MessageInputArea
+          ticket={ticket()!}
           updateTicket={setTicket}
           channelId={ticket()!.channelId}
           setMessages={setMessages}
@@ -137,7 +146,6 @@ export const TicketPage = () => {
   );
 };
 
-
 const StatusButtonContainer = styled(FlexRow)`
   border-radius: 4px;
   padding: 4px;
@@ -145,20 +153,31 @@ const StatusButtonContainer = styled(FlexRow)`
   color: black;
   cursor: pointer;
   user-select: none;
-`
+`;
 
-const TicketStatusButtons = (props: {selectedStatus: number | undefined; setSelectedStatus: Setter<number | undefined>;}) => {
+const TicketStatusButtons = (props: {
+  selectedStatus: number | undefined;
+  setSelectedStatus: Setter<number | undefined>;
+}) => {
   return (
-    <FlexRow wrap gap={4} style={{"justify-content": 'end'}}>
-      <For each={Object.keys(TicketStatusToName("mod"))}>
+    <FlexRow wrap gap={4} style={{ "justify-content": "end" }}>
+      <For each={Object.keys(TicketStatusToName("mod")).splice(1)}>
         {(key) => {
           const status = TicketStatusToName("mod")[key];
           return (
-          <StatusButtonContainer itemsCenter onClick={() => props.setSelectedStatus(props.selectedStatus === Number(key) ? undefined : Number(key))} style={{background: status.color}}>
-            <Checkbox checked={key === props.selectedStatus?.toString()}/>
-            {status.text}
-          </StatusButtonContainer>
-          )
+            <StatusButtonContainer
+              itemsCenter
+              onClick={() =>
+                props.setSelectedStatus(
+                  props.selectedStatus === Number(key) ? undefined : Number(key)
+                )
+              }
+              style={{ background: status.color }}
+            >
+              <Checkbox checked={key === props.selectedStatus?.toString()} />
+              {status.text}
+            </StatusButtonContainer>
+          );
         }}
       </For>
     </FlexRow>
@@ -170,18 +189,18 @@ const MessageInputArea = (props: {
   messages: RawMessage[];
   setMessages: Setter<RawMessage[]>;
   updateTicket(ticket: RawTicket): void;
+  ticket: RawTicket;
 }) => {
-  const params = useParams<{id: string}>();
-  const [selectedStatus, setSelectedStatus] = createSignal<TicketStatus | undefined>(undefined);
+  const params = useParams<{ id: string }>();
+  const [selectedStatus, setSelectedStatus] = createSignal<
+    TicketStatus | undefined
+  >(undefined);
 
   const [value, setValue] = createSignal("");
 
-
-  
   const isModeration = useMatch(() => "/app/moderation/*");
 
   const sendClick = async () => {
-
     const status = selectedStatus();
     if (status === undefined && isModeration()) {
       alert("You must select a status.");
@@ -200,63 +219,82 @@ const MessageInputArea = (props: {
     });
     if (!message) return;
 
-    const ticket = await (isModeration() ? updateModerationTicket : updateTicket)(params.id, status || TicketStatus.WAITING_FOR_MODERATOR_RESPONSE).catch((err) => {
+    const ticket = await (isModeration()
+      ? updateModerationTicket
+      : updateTicket)(
+      params.id,
+      status || TicketStatus.WAITING_FOR_MODERATOR_RESPONSE
+    ).catch((err) => {
       alert(err.message);
     });
 
     if (ticket) {
       props.updateTicket(ticket);
     }
-    
+
     setSelectedStatus(undefined);
 
     props.setMessages([...props.messages, message]);
   };
 
-
   return (
     <FlexColumn gap={4}>
-      <Input
-        type="textarea"
-        class={css`
-          flex: 1;
-        `}
-        onText={setValue}
-        value={value()}
-        minHeight={120}
-        placeholder="Message"
-      />
-      <Show when={isModeration()}>
-        <TicketStatusButtons selectedStatus={selectedStatus()} setSelectedStatus={setSelectedStatus} />
-      </Show>
-      <FlexRow
-        gap={4}
-        class={css`
-          justify-content: space-between;
-          margin-top: 4px;
-        `}
+      <Show
+        when={
+          isModeration() || !CloseTicketStatuses.includes(props.ticket.status)
+        }
       >
-        <Button
-          label="Attach"
-          iconName="attach_file"
-          margin={0}
+        <Input
+          type="textarea"
           class={css`
-            flex-shrink: 0;
-            height: 26px;
+            flex: 1;
           `}
-          onClick={sendClick}
+          onText={setValue}
+          value={value()}
+          minHeight={120}
+          placeholder="Message"
         />
-        <Button
-          label="Send"
-          iconName="send"
-          margin={0}
+      </Show>
+      <Show when={isModeration()}>
+        <TicketStatusButtons
+          selectedStatus={selectedStatus()}
+          setSelectedStatus={setSelectedStatus}
+        />
+      </Show>
+      <Show
+        when={
+          isModeration() || !CloseTicketStatuses.includes(props.ticket.status)
+        }
+      >
+        <FlexRow
+          gap={4}
           class={css`
-            flex-shrink: 0;
-            height: 26px;
+            justify-content: space-between;
+            margin-top: 4px;
           `}
-          onClick={sendClick}
-        />
-      </FlexRow>
+        >
+          <Button
+            label="Attach"
+            iconName="attach_file"
+            margin={0}
+            class={css`
+              flex-shrink: 0;
+              height: 26px;
+            `}
+            onClick={sendClick}
+          />
+          <Button
+            label="Send"
+            iconName="send"
+            margin={0}
+            class={css`
+              flex-shrink: 0;
+              height: 26px;
+            `}
+            onClick={sendClick}
+          />
+        </FlexRow>
+      </Show>
     </FlexColumn>
   );
 };

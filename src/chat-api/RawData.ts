@@ -140,6 +140,11 @@ export enum TicketStatus {
   CLOSED_AS_INVALID = 3,
 }
 
+export const CloseTicketStatuses = [
+  TicketStatus.CLOSED_AS_DONE,
+  TicketStatus.CLOSED_AS_INVALID,
+];
+
 export interface RawTicket {
   id: string;
   title: string;
