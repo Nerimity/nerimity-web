@@ -148,7 +148,7 @@
       "admin": "Administrator",
       "adminDescription": "Aktiveer alle toestemmings.",
       "sendMessage": "Stuur boodskap",
-      "sendMessageDescription": "Aktiveer die stuur van boodskappe in hierdie server. Server administrateurs kan steeds boodskappe stuur.,
+      "sendMessageDescription": "Aktiveer die stuur van boodskappe in hierdie server. Server administrateurs kan steeds boodskappe stuur.",
       "manageRoles": "Bestuur Rolle",
       "manageRolesDescription": "Toestemming vir die opdatering of verwydering van rolle.",
       "manageChannels": "Bestuur Kanale",
