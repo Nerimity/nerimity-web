@@ -75,7 +75,7 @@ const TicketItemStyle = css`
   display: flex;
   flex-direction: row;
   user-select: none;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(28, 30, 33, 0.94);
   border-radius: 6px;
   gap: 4px;
   padding: 6px;
@@ -86,6 +86,8 @@ export const TicketItem = (props: {
   disableClick?: boolean;
   as: "mod" | "user";
 }) => {
+  const ticketStatus = () => TicketStatusToName(props.as)[props.ticket.status];
+
   return (
     <Dynamic
       component={!props.disableClick ? CustomLink : "div"}
@@ -97,10 +99,8 @@ export const TicketItem = (props: {
       </Text>
       <FlexColumn>
         <FlexRow gap={4} itemsCenter>
-          <StatusText
-            bgColor={TicketStatusToName(props.as)[props.ticket.status].color}
-          >
-            {TicketStatusToName(props.as)[props.ticket.status].text}
+          <StatusText bgColor={ticketStatus().color}>
+            {ticketStatus().text}
           </StatusText>
         </FlexRow>
         <FlexRow
@@ -175,6 +175,6 @@ export const TicketStatusToName = (as: "mod" | "user") =>
       text: as === "user" ? "Response Needed" : "Reply Sent",
       color: as === "user" ? "var(--warn-color)" : "var(--success-color)",
     },
-  } as const);
+  } as Record<string, { text: string; color: string }>);
 
 export default TicketsPage;

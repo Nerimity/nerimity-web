@@ -5,12 +5,22 @@ export interface FileBrowserRef {
   open(): void
 }
 
-interface Props {
-  accept?: "any" | "images"
+interface BaseProps {
   ref?: Accessor<FileBrowserRef | undefined>
-  onChange?: (files: FileList | string[], rawFiles?: FileList) => void
-  base64?: boolean
+  accept?: "any" | "images"
 }
+
+interface PropsBase64 {
+  base64: true
+  onChange?: (files: string[], rawFiles?: FileList) => void
+}
+interface PropsFileList {
+  base64?: false
+  onChange?: (files: FileList) => void
+}
+
+type Props = BaseProps & (PropsBase64 | PropsFileList)
+
 
 export default function FileBrowser(props: Props) {
   let inputRef: undefined | HTMLInputElement; 
@@ -25,7 +35,12 @@ export default function FileBrowser(props: Props) {
 
   const onChange = async () => {
     if (!inputRef) return;
-    props.onChange?.(props.base64 ? await filesToBase64(inputRef.files!) : inputRef.files!, inputRef.files)
+    if (props.base64) {
+      props.onChange?.(await filesToBase64(inputRef.files!), inputRef.files!)
+    }
+    if (!props.base64) {
+      props.onChange?.(inputRef.files!)
+    }
     inputRef.value = "";
 
   }

@@ -3,28 +3,15 @@ import {
   createEffect,
   createSignal,
   For,
+  onCleanup,
   onMount,
   Setter,
   Show,
 } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
-import {
-  getCurrentLanguage,
-  getLanguage,
-  Language,
-  languages,
-  setCurrentLanguage,
-} from "@/locales/languages";
-
-import ItemContainer from "../ui/Item";
-import twemoji from "twemoji";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
-import { useTransContext } from "@nerimity/solid-i18next";
-import env from "@/common/env";
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
-import { Emoji } from "../markup/Emoji";
 import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
@@ -32,18 +19,11 @@ import {
   CloseTicketStatuses,
   RawMessage,
   RawTicket,
-  TicketCategory,
   TicketStatus,
 } from "@/chat-api/RawData";
-import {
-  getTicket,
-  getTickets,
-  updateTicket,
-} from "@/chat-api/services/TicketService.ts";
+import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
-import { useWindowProperties } from "@/common/useWindowProperties";
-import { A, Route, Router, Routes, useMatch, useParams } from "@solidjs/router";
-import { Dynamic } from "solid-js/web";
+import { Route, Routes, useMatch, useParams } from "@solidjs/router";
 import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
 import Avatar from "../ui/Avatar";
 import { Markup } from "../Markup";
@@ -59,6 +39,9 @@ import TicketsPage, {
   TicketStatusToName,
 } from "../tickets/TicketsPage";
 import Checkbox from "../ui/Checkbox";
+import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
+import { ImageEmbed } from "../ui/ImageEmbed";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 const Container = styled("div")`
   display: flex;
@@ -85,6 +68,7 @@ export default function TicketSettings() {
 }
 
 export const TicketPage = () => {
+  const {height} = useWindowProperties();
   const params = useParams<{ id: string }>();
 
   const [ticket, setTicket] = createSignal<RawTicket | null>(null);
@@ -107,15 +91,7 @@ export const TicketPage = () => {
 
   return (
     <Container>
-      <div
-        class={
-          isModeration()
-            ? css`
-                margin-top: 20px;
-              `
-            : ""
-        }
-      >
+      <div style={isModeration() ? { "margin-top": "20px" } : {}}>
         <Breadcrumb>
           <Show when={isModeration()}>
             <BreadcrumbItem href={"../"} icon="home" title="Moderation" />
@@ -128,11 +104,19 @@ export const TicketPage = () => {
         </Breadcrumb>
       </div>
       <Show when={ticket()}>
-        <TicketItem
-          as={isModeration() ? "mod" : "user"}
-          ticket={ticket()!}
-          disableClick={true}
-        />
+        <div class={css`
+          ${height() >= 500 ?`
+            position: sticky;
+            z-index: 111111;
+            top: ${isModeration() ? "10px": "50px"};
+          ` : ""};
+        `}>
+          <TicketItem
+            as={isModeration() ? "mod" : "user"}
+            ticket={ticket()!}
+            disableClick={true}
+          />
+        </div>
         <MessageLogs messages={messages()} />
         <MessageInputArea
           ticket={ticket()!}
@@ -192,13 +176,32 @@ const MessageInputArea = (props: {
   ticket: RawTicket;
 }) => {
   const params = useParams<{ id: string }>();
-  const [selectedStatus, setSelectedStatus] = createSignal<
-    TicketStatus | undefined
-  >(undefined);
+  const [selectedStatus, setSelectedStatus] = createSignal<TicketStatus | undefined>(undefined);
+  const [fileBrowserRef, setFileBrowserRef] = createSignal<FileBrowserRef>();
 
   const [value, setValue] = createSignal("");
-
+  const [attachment, setAttachment] = createSignal<File | undefined>();
   const isModeration = useMatch(() => "/app/moderation/*");
+
+  onMount(() => {
+    document.addEventListener("paste", onPaste)
+    onCleanup(() => {
+      document.removeEventListener("paste", onPaste)
+    })
+  })
+
+  const onPaste = (event: ClipboardEvent) => {
+    const file = event.clipboardData?.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image")) return;
+    setAttachment(() => file);
+  }
+
+
+  const onAttachmentChange = (files: FileList) => {
+    const file = files[0];
+    setAttachment(() => file);
+  }
 
   const sendClick = async () => {
     const status = selectedStatus();
@@ -206,16 +209,24 @@ const MessageInputArea = (props: {
       alert("You must select a status.");
       return;
     }
-
+    
     const formattedValue = value().trim();
+    if (!formattedValue.length) {
+      alert("Your message cannot be empty.");
+      return;
+    }
+    const file = attachment();
+    setAttachment(undefined);
     setValue("");
     if (!formattedValue) return;
     const message = await postMessage({
       content: formattedValue,
+      attachment: file,
       channelId: props.channelId,
     }).catch((err) => {
       alert(err.message);
       setValue(formattedValue);
+      setAttachment(() => file);
     });
     if (!message) return;
 
@@ -273,16 +284,34 @@ const MessageInputArea = (props: {
             margin-top: 4px;
           `}
         >
-          <Button
-            label="Attach"
-            iconName="attach_file"
-            margin={0}
-            class={css`
-              flex-shrink: 0;
-              height: 26px;
-            `}
-            onClick={sendClick}
-          />
+          <FileBrowser ref={setFileBrowserRef} accept="images" onChange={onAttachmentChange}  />
+          <Show when={!attachment()}>
+            <Button
+              label="Attach"
+              iconName="attach_file"
+
+              margin={0}
+              class={css`
+                flex-shrink: 0;
+                height: 26px;
+              `}
+              onClick={fileBrowserRef()?.open}
+            />
+          </Show>
+          <Show when={attachment()}>
+            <Button
+              label="Remove Attachment"
+              iconName="close"
+              color="var(--alert-color)"
+
+              margin={0}
+              class={css`
+                flex-shrink: 0;
+                height: 26px;
+              `}
+              onClick={() => setAttachment(undefined)}
+            />
+          </Show>
           <Button
             label="Send"
             iconName="send"
@@ -350,6 +379,10 @@ const MessageItem = (props: { message: RawMessage }) => {
         <Text size={14}>
           <Markup message={props.message} text={props.message.content || ""} />
         </Text>
+        <Show when={props.message.attachments?.[0]?.provider === "local"}>
+          <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
+        </Show>
+
       </FlexColumn>
     </MessageItemContainer>
   );
