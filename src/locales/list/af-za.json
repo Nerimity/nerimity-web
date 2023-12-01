@@ -1,0 +1,253 @@
+
+{
+  "header": {
+    "accountButton": "Rekening",
+    "openAppButton": "Maak App Oop",
+    "loginButton": "Teken In",
+    "joinNowButton": "Sluit Nou Aan"
+  },
+  "homePage": {
+    "slogan": "'n Moderne en stylvolle chat gesels app.",
+    "joinButton": "Sluit aan by {{appName}}",
+    "viewGitHubButton": "Besoek GitHub"
+  },
+  "loginPage": {
+    "title": "Teken in om voort te gaan",
+    "emailOrUsernameAndTag": "Email / username:tag",
+    "password": "Wagwoord",
+    "login": "Teken In",
+    "createAccountInstead": "Skep eerder ' n rekening",
+    "loggingIn": "Besig om in te teken..",
+    "loginButton": "Teken In"
+  },
+  "registerPage": {
+    "title": "Welkom by {{appName}}",
+    "email": "Email",
+    "username": "Gebruikersnaam",
+    "password": "Wagwoord",
+    "confirmPassword": "Bevestig wagwoord",
+    "registerButton": "Registreer",
+    "registering": "Besig om te registreer...",
+    "loginInstead": "Teken eerder in"
+  },
+  "inbox": {
+    "drawer": {
+      "requests": "Versoeke",
+      "online": "Aanlyn",
+      "offline": "Aflyn",
+      "savedNotesButton": "Gestoorde Notas",
+      "addFriendButton": "Voeg Vriend By",
+      "inboxButton": "Posbus",
+      "friendsButton": "Vriende"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Verken",
+      "servers": "Servers"
+    },
+    "servers": {
+      "title": "Verken - Servers",
+      "noticeMessage": "'n Server kan net een keer elke {{hours}} uur opgestoot word. Alle stote herstel elke {{date}}.",
+      "sortMostBumps": "Meeste stote",
+      "sortMostMembers": "Meeste Lede",
+      "sortRecentlyAdded": "Onlangs bygevoeg",
+      "sortRecentlyBumped": "Onlangs opgestoot",
+      "filterAll": "Almal",
+      "filterVerified": "Geverifieer",
+      "memberCount": "{{count}} Lede",
+      "lifetimeBumpCount": "{{count}} leeftyd stote",
+      "visitServerButton": "Besoek",
+      "joinServerButton": "Sluit aan",
+      "bumpButton": "Stoot ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "Algemeen",
+        "roles": "Rolle",
+        "channels": "Kanale",
+        "bans": "Verban",
+        "invites": "Uitnodigings",
+        "publishServer": "Publiseer Server",
+        "verify": "Verifieer",
+        "role": "Rol",
+        "channel": "Kanaal",
+        "emojis": "Emoji's",
+        "notifications": "Kennisgewings"
+      },
+      "general": {
+        "serverRenameNotice": "Jy sal al die voordele verloor van jou Server geverifieer te hê as jy dit hernoem.",
+        "serverName": "Server Naam",
+        "defaultChannel": "Standaard Kanaal",
+        "defaultChannelDescription": "Nuwe lede sal na hierdie kanaal gerig word",
+        "systemMessages": "Stelselboodskappe",
+        "systemMessagesDescription": "Waar stelselboodskappe moet verskyn.",
+        "deleteThisServer": "Verwyder hierdie Server",
+        "deleteThisServerDescription": "Dit kan nie ontdoen word nie!",
+        "deleteServerButton": "Verwyder hierdie Server",
+        "saveChangesButton": "Berg Veranderinge",
+        "saving": "Besig om te berg..."
+      },
+      "roles": {
+        "addNewRole": "Voeg 'n nuwe rol by",
+        "addRoleButton": "Voeg rol by"
+      },
+      "role": {
+        "saveChangesButton": "Berg Veranderinge",
+        "saving": "Besig om te berg...",
+        "roleName": "Rol Naam",
+        "roleColor": "Rol Kleur",
+        "hideRole": "Steek Rol Weg",
+        "hideRoleDescription": "Vertoon lede met hierdie rol saam met al die standaard lede",
+        "permissions": "Toestemmings",
+        "permissionsDescription": "Bestuur toestemmings vir hierdie rol.",
+        "deleteRoleButton": "Verwyder hierdie Rol",
+        "deleteRoleButtonDescription": "Hierdie kan nie ontdoen word nie!"
+      },
+      "header": {
+        "editServer": "Redigeer Server",
+        "serverMemberCount": "{{count}} Lede"
+      },
+      "channels": {
+        "createButton": "Maak",
+        "createNewDescription": "Maak 'n nuwe kanaal of kategorie"
+      },
+      "channel": {
+        "saving": "Besig om te berg...",
+        "saveChangesButton": "Berg Veranderinge",
+        "channelName": "Kanaal Naam",
+        "permissions": "Toestemmings",
+        "permissionsDescription": "Bestuur toestemmings vir hierdie kanaal.",
+        "deleteThisChannel": "Verwyder hierdie kanaal",
+        "deleteThisChannelDescription": "Hierdie kan nie ontdoen word nie!",
+        "deleteChannelButton": "Verwyde Kanaal"
+      },
+      "invites": {
+        "createInviteButton": "Skep Uitnodiging",
+        "serverInvites": "Server Uitnodigings",
+        "serverInvitesDescription": "Nooi jou vriende na hierdie Server.",
+        "customInviteVerifiedOnlyNotice": "Persoonlike uitnodiging skakels is slegs beskikbaar vir geverifieerde Servers.",
+        "customLink": "Persoonlike Skakel",
+        "saveButton": "Berg",
+        "deleteButton": "Verwyder",
+        "copyLinkButton": "Kopieer Skakel"
+      },
+      "publishServer": {
+        "publishNotice": "Jou Server publiseer sal dit beskikbaar maak op die <1>verken</1> bladsy.",
+        "public": "Publiek",
+        "publicDescription": "Maak hierdie Server publiek",
+        "bumpServer": "Stoot Server",
+        "bumpServerDescription": "Stoot hierdie Server om bo-aan te kom.",
+        "publishServerButton": "Publiseer server",
+        "unpublishServerButton": "Ontpubliseer server"
+      }
+    },
+    "rolePermissions": {
+      "admin": "Administrator",
+      "adminDescription": "Aktiveer alle toestemmings.",
+      "sendMessage": "Stuur boodskap",
+      "sendMessageDescription": "Aktiveer die stuur van boodskappe in hierdie server. Server administrateurs kan steeds boodskappe stuur.,
+      "manageRoles": "Bestuur Rolle",
+      "manageRolesDescription": "Toestemming vir die opdatering of verwydering van rolle.",
+      "manageChannels": "Bestuur Kanale",
+      "manageChannelsDescription": "Toestemming vir die opdatering of verwydering van kanale.",
+      "kick": "Skop uit",
+      "kickDescription": "Toestemming om verbruikers uit te skop.",
+      "ban": "Verban",
+      "banDescription": "Toestemming om verbruikers te verban.",
+      "mentionEveryone": "Noem Almal",
+      "mentionEveryoneDescription": "Aktiveer die vermelding van @everyone. Server administrateurs kan steeds almal vermeld."
+    },
+    "channelPermissions": {
+      "privateChannel": "Privaat Kanaal",
+      "privateChannelDescription": "Deaktiveer toegang tot die kanaal.",
+      "sendMessage": "Stuur boodskappe",
+      "sendMessageDescription": "Aktiveer die stuur van boodskappe in die kanaal. Server administrateurs kan steeds boodskappe stuur.",
+      "joinVoice": "Sluit aan met Stem",
+      "joinVoiceDescription": "Aktiveer aansluiting by stemkanale in die kanaal. Bediener admins kan steeds by stemkanale aansluit"
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "Opsies",
+      "account": "Rekening",
+      "language": "Taal",
+      "notifications": "Kennisgewings",
+      "logout": "Teken uit",
+      "supportMe": "Ondersteun my",
+      "viewSource": "Besigtig Bronkode",
+      "changelog": "Veranderinge-log",
+      "window-settings": "Applikasie",
+      "activity-status": "Aktiwiteit Staat",
+      "privacy": "Privaatheid",
+      "connections": "Verbindings"
+    }
+  },
+  "addFriend": {
+    "usernameAndTag": "Username & Tag"
+  },
+  "userContextMenu": {
+    "viewProfile": "Besoek Profiel",
+    "sendMessage": "Stuur Boodskap",
+    "copyId": "Kopieer ID",
+    "editRoles": "Verander Rolle",
+    "kick": "Skop uit",
+    "ban": "Verban"
+  },
+  "kickServerMemberModal": {
+    "title": "Skop {{username}} uit",
+    "kickButton": "Skop uit",
+    "kicking": "Besig om uit te skop...",
+    "backButton": "Terug",
+    "message": "Is jy seker jy wil <1>username</1> uitskop?"
+  },
+  "editServerRolesModal": {
+    "title": "Verander Rolle"
+  },
+  "banModal": {
+    "title": "Verban {{username}}?",
+    "message": "Is jy seker jy wil <1>username</1> verban?",
+    "deletePastMessagesCheckbox": "Verwyder boodskappe wat die afgelope 7 uur gestuur is.",
+    "banButton": "Verban",
+    "banning": "Besig om te verban..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Redigeer Boodskap",
+    "deleteMessage": "Verwyder Boodskap",
+    "copyMessage": "Kopieer Boodskap",
+    "copyId": "Kopieer ID"
+  },
+  "profile": {
+    "followButton": "Volg",
+    "unfollowButton": "Ontvolg",
+    "removeFriendButton": "Verwyder Vriend",
+    "addFriendButton": "Voeg Vriend by",
+    "pendingRequest": "Hangende versoek",
+    "acceptRequestButton": "Aanvar versoek",
+    "messageButton": "Stuur boodskap",
+    "mutualFriends": "Gemeenskaplike vriende ({{count}})",
+    "mutualServers": "Gemeenskaplike Servers ({{count}})",
+    "postsTab": "Plasings",
+    "followersTab": "Aanhangers",
+    "followingTab": "Aanhang",
+    "postsAndRepliesTab": "Plasings en antwoorde ({{count}})",
+    "likedPostsTab": "Geliefde plasings ({{count}})"
+  },
+ "posts": {
+   "deletePostModal": {
+     "message": "Is jy seker jy wil hierdie plasing verwyder?",
+     "cancelButton": "Kanselleer",
+     "deleteButton": "Verwyder"
+   },
+   "postWasDeleted": "Hierdie plasing is verwyder!",
+   "someoneLikedYourPost": "<1>username</1> hou van jou plasing!",
+   "someoneFollowedYou": "<1>username</1> het jou gevolg!",
+   "someoneRepliedToPost": "<1>username</1> het op jou plasing geantwoord!",
+   "createAPostInputPlaceholder": "Maak 'n nuwe plasing...",
+   "replyInputPlaceholder": "Antwoord...",
+   "replyButton": "Antwoord",
+   "createButton": "Skep"
+  }
+}
