@@ -60,7 +60,12 @@ export const languages = {
     name: "Turkish",
     emoji: "🇹🇷",
     contributors: ["https://github.com/sutnax"],
-  }
+  },
+  "af-za": {
+    name: "Afrikaans",
+    emoji: "🇿🇦",
+    contributors: ["https://github.com/mooocksadev"],
+  },
 }
 
 export function getCurrentLanguage() {
