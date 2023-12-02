@@ -14,6 +14,10 @@ import { Dynamic } from "solid-js/web";
 import { t } from "i18next";
 import { getModerationTickets } from "@/chat-api/services/ModerationService";
 import { useMatch } from "@solidjs/router";
+import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import Button from "../ui/Button";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { CreateTicketModal } from "../profile-pane/ProfilePane";
 
 const Container = styled("div")`
   display: flex;
@@ -24,6 +28,7 @@ const Container = styled("div")`
 
 const TicketsPage = () => {
   const [tickets, setTickets] = createSignal<RawTicket[]>([]);
+  const {createPortal} = useCustomPortal();
 
   const isModeration = useMatch(() => "/app/moderation/*");
 
@@ -33,6 +38,10 @@ const TicketsPage = () => {
     });
     setTickets(tickets);
   });
+
+  const createTicketClick = () => {
+    createPortal(close => <CreateTicketModal close={close} />)
+  }
 
   return (
     <Container>
@@ -50,6 +59,11 @@ const TicketsPage = () => {
           <BreadcrumbItem title={t("settings.drawer.tickets")!} />
         </Breadcrumb>
       </div>
+      <Show when={!isModeration()}>
+        <SettingsBlock icon="sell" label="Tickets">
+          <Button iconName="add" label="Create Ticket" onClick={createTicketClick} />
+        </SettingsBlock>
+      </Show>
       <FlexColumn gap={8}>
         <For each={tickets()}>
           {(ticket) => (
@@ -75,7 +89,7 @@ const TicketItemStyle = css`
   display: flex;
   flex-direction: row;
   user-select: none;
-  background-color: rgba(28, 30, 33, 0.94);
+  background-color: rgba(46, 49, 52, 1);
   border-radius: 6px;
   gap: 4px;
   padding: 6px;

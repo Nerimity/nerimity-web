@@ -42,6 +42,7 @@ import Checkbox from "../ui/Checkbox";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { ImageEmbed } from "../ui/ImageEmbed";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { Notice } from "../ui/Notice";
 
 const Container = styled("div")`
   display: flex;
@@ -77,17 +78,30 @@ export const TicketPage = () => {
   const isModeration = useMatch(() => "/app/moderation/*");
 
   onMount(async () => {
+    refreshData();
+    const TwoMinutesToMilliseconds = 2 * 60 * 1000;
+    const interval = window.setInterval(() => refreshData(), TwoMinutesToMilliseconds);
+
+    onCleanup(() => {
+      window.clearInterval(interval);
+    })
+    
+  });  
+
+  const refreshData = async () => {
     const ticket = await (isModeration() ? getModerationTicket : getTicket)(
       params.id
     );
     setTicket(ticket);
     if (!ticket) return;
 
-    const messages = await fetchMessages(ticket.channelId, {
-      afterMessageId: "0",
+    const afterMessageId = messages().length ? messages()[messages().length - 1].id : "0";
+
+    const newMessages = await fetchMessages(ticket.channelId, {
+      afterMessageId: afterMessageId,
     });
-    setMessages(messages);
-  });
+    setMessages(afterMessageId === "0" ? newMessages : [...messages(), ...newMessages]);
+  }
 
   return (
     <Container>
@@ -104,6 +118,7 @@ export const TicketPage = () => {
         </Breadcrumb>
       </div>
       <Show when={ticket()}>
+        <Notice type="info" description="Page updates every 2 minutes." />
         <div class={css`
           ${height() >= 500 ?`
             position: sticky;

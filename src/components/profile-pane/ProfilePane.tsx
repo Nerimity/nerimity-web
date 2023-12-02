@@ -455,9 +455,9 @@ interface AbuseTicket {
 
 type Ticket = AbuseTicket;
 
-function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
+export function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
   const navigate = useNavigate();
-  const [selectedCategoryId, setSelectedCategoryId] = createSignal("ABUSE");
+  const [selectedCategoryId, setSelectedCategoryId] = createSignal(props.ticket ? "ABUSE" : "SELECT");
   const [userId, setUserId] = createSignal(props.ticket?.userId || "");
   const [title, setTitle] = createSignal("");
   const [body, setBody] = createSignal("");
@@ -472,6 +472,11 @@ function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
 
   const createTicketClick = async () => {
     setError(null);
+
+    if (selectedCategoryId() === "SELECT") {
+      setError("Please select a category");
+      return;
+    }
 
     if (!body()) {
       setError("Please enter a body");
