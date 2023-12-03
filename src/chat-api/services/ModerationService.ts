@@ -17,7 +17,7 @@ export const getModerationTickets = async (opts: GetTicketsOpts) => {
     method: 'GET',
     params: {
       ...(opts.afterId ? {after: opts.afterId} : undefined),
-      ...(opts.status ? {status: opts.status} : undefined),
+      ...(opts.status !== undefined ? {status: opts.status} : undefined),
       limit: opts.limit
     },
     url: env.SERVER_URL + "/api/moderation/tickets",

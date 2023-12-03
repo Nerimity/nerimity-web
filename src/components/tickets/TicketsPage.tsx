@@ -1,6 +1,6 @@
 import { getTickets } from "@/chat-api/services/TicketService.ts";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { For, Show, createSignal, onMount } from "solid-js";
+import { For, Setter, Show, createEffect, createSignal, on, onMount } from "solid-js";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { RawTicket, TicketCategory, TicketStatus } from "@/chat-api/RawData";
@@ -18,6 +18,7 @@ import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Button from "../ui/Button";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { CreateTicketModal } from "../profile-pane/ProfilePane";
+import Checkbox from "../ui/Checkbox";
 
 const Container = styled("div")`
   display: flex;
@@ -32,12 +33,15 @@ const TicketsPage = () => {
 
   const isModeration = useMatch(() => "/app/moderation/*");
 
-  onMount(async () => {
+  const [ticketSortStatus, setTicketSortStatus] = createSignal<undefined | number>(undefined);
+
+  createEffect(on(ticketSortStatus, async () => {
     const tickets = await (isModeration() ? getModerationTickets : getTickets)({
       limit: 30,
+      status: ticketSortStatus()
     });
     setTickets(tickets);
-  });
+  }));
 
   const createTicketClick = () => {
     createPortal(close => <CreateTicketModal close={close} />)
@@ -59,6 +63,10 @@ const TicketsPage = () => {
           <BreadcrumbItem title={t("settings.drawer.tickets")!} />
         </Breadcrumb>
       </div>
+
+      <Show when={isModeration()}>
+        <TicketStatusButtons selectedStatus={ticketSortStatus()} setSelectedStatus={setTicketSortStatus}/>
+      </Show>
       <Show when={!isModeration()}>
         <SettingsBlock icon="sell" label="Tickets">
           <Button iconName="add" label="Create Ticket" onClick={createTicketClick} />
@@ -74,6 +82,50 @@ const TicketsPage = () => {
     </Container>
   );
 };
+
+
+const StatusButtonContainer = styled(FlexRow)`
+  border-radius: 4px;
+  padding: 4px;
+  gap: 6px;
+  color: black;
+  cursor: pointer;
+  user-select: none;
+`;
+
+const TicketStatusButtons = (props: {
+  selectedStatus: number | undefined;
+  setSelectedStatus: Setter<number | undefined>;
+}) => {
+  return (
+    <FlexColumn gap={4}>
+      <Text>Sort:</Text>
+      <FlexRow wrap gap={4}>
+        <For each={Object.keys(TicketStatusToName("mod"))}>
+          {(key) => {
+            const status = TicketStatusToName("mod")[key];
+            return (
+              <StatusButtonContainer
+                itemsCenter
+                onClick={() =>
+                  props.setSelectedStatus(
+                    props.selectedStatus === Number(key) ? undefined : Number(key)
+                  )
+                }
+                style={{ background: status.color }}
+              >
+                <Checkbox checked={key === props.selectedStatus?.toString()} />
+                {status.text}
+              </StatusButtonContainer>
+            );
+          }}
+        </For>
+      </FlexRow>
+    </FlexColumn>
+  );
+};
+
+
 
 const StatusText = styled("div")<{ bgColor: string }>`
   background-color: ${(props) => props.bgColor};
