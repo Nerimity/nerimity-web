@@ -111,7 +111,7 @@ export const TicketItem = (props: {
       <Text opacity={0.4} class={css`width`}>
         #{props.ticket.id}
       </Text>
-      <FlexColumn>
+      <FlexColumn class={css`align-items: start;`}>
         <FlexRow gap={4} itemsCenter>
           <StatusText bgColor={ticketStatus().color}>
             {ticketStatus().text}
@@ -136,8 +136,13 @@ export const TicketItem = (props: {
               itemsCenter
               gap={4}
               class={css`
-                margin-top: 4px;
-                margin-bottom: 4px;
+                padding: 4px;
+                border-radius: 4px;
+                transition: 0.2s;
+                margin-left: -4px;
+                &:hover {
+                  background-color: rgba(0,0,0,0.3);
+                }
               `}
             >
               <Avatar user={props.ticket.openedBy} size={18} />

@@ -133,13 +133,19 @@ export const TicketPage = () => {
           />
         </div>
         <MessageLogs messages={messages()} />
-        <MessageInputArea
-          ticket={ticket()!}
-          updateTicket={setTicket}
-          channelId={ticket()!.channelId}
-          setMessages={setMessages}
-          messages={messages()}
-        />
+        <div>{messages()?.length || 0}/50 messages</div>
+
+        <Show when={messages()?.length < 50}>
+
+          <MessageInputArea
+            ticket={ticket()!}
+            updateTicket={setTicket}
+            channelId={ticket()!.channelId}
+            setMessages={setMessages}
+            messages={messages()}
+            />
+        </Show>
+
       </Show>
     </Container>
   );
