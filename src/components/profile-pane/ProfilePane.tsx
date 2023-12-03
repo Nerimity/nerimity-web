@@ -675,7 +675,7 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
 
   const mutualFriends = () => {
     return props.mutualFriendIds.map(userId => {
-      return users.get(friend);
+      return users.get(userId);
     });
   }
 
