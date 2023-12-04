@@ -81,7 +81,7 @@ function CategoryItem(props: { channel: Channel }) {
         <Icon name='navigate_next' />
       </CustomLink>
       <div class={styles.categoryChannels}>
-        <Sortable delayOnTouchOnly group='manage-channels' class={styles.channelList} setItems={setTemp} onEnd={onEnd} onAdd={onAdd} items={temp()} idField="id">
+        <Sortable delay={200} delayOnTouchOnly group='manage-channels' class={styles.channelList} setItems={setTemp} onEnd={onEnd} onAdd={onAdd} items={temp()} idField="id">
           {channel => <ChannelItem channel={channel!} />}
         </Sortable>
       </div>
@@ -121,7 +121,7 @@ function ChannelList() {
 
 
   return (
-    <Sortable delayOnTouchOnly group='manage-channels' class={styles.channelList} onMove={onMove} onAdd={onAdd} onEnd={onEnd} setItems={setTemp} items={temp()} idField="id">
+    <Sortable delay={200} delayOnTouchOnly group='manage-channels' class={styles.channelList} onMove={onMove} onAdd={onAdd} onEnd={onEnd} setItems={setTemp} items={temp()} idField="id">
       {channel => (
         <Switch>
           <Match when={channel.type !== ChannelType.CATEGORY}>
