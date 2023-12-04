@@ -208,6 +208,7 @@
   border-bottom: solid 2px rgba(255, 255, 255, 0.3);
   transition: 0.2s;
   flex: 1;
+  z-index: 1111111;
   cursor: text;
 
   &.focused {
