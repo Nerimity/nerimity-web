@@ -57,7 +57,7 @@ export interface RawMessage {
 
 export interface RawMessageReaction {
   name: string;
-  emojiId?: string;
+  emojiId?: string | null;
   gif?: boolean;
 
   reacted: boolean

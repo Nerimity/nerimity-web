@@ -130,7 +130,7 @@ export const deleteMessage = async (opts: DeleteMessageOpts) => {
   });
   return data;
 };
-export const addMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string, gif?: boolean}) => {
+export const addMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string | null, gif?: boolean}) => {
   const data = await request<any>({
     method: 'POST',
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions",
@@ -143,7 +143,7 @@ export const addMessageReaction = async (opts: {channelId: string, messageId: st
   });
   return data;
 };
-export const removeMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string}) => {
+export const removeMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string | null}) => {
   const data = await request<any>({
     method: 'POST',
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/remove",
@@ -156,7 +156,7 @@ export const removeMessageReaction = async (opts: {channelId: string, messageId:
   return data;
 };
 
-export const fetchMessageReactedUsers = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string}) => {
+export const fetchMessageReactedUsers = async (opts: {channelId: string, messageId: string, name: string, emojiId?: string | null}) => {
   const data = await request<RawUser[]>({
     method: 'GET',
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/users",

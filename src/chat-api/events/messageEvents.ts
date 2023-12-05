@@ -113,10 +113,11 @@ export function onMessageReactionAdded(payload: ReactionAddedPayload) {
   const messages = useMessages();
   const account = useAccount();
   const reactedByMe = account.user()?.id === payload.reactedByUserId;
+
   messages.updateMessageReaction(payload.channelId, payload.messageId, {
     count: payload.count,
     name: payload.name,
-    emojiId: payload.emojiId,
+    emojiId: payload.emojiId || null,
     gif: payload.gif,
     ...(reactedByMe? { reacted: true } : undefined)
   })
