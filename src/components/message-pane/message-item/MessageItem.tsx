@@ -131,9 +131,19 @@ const MessageItem = (props: MessageItemProps) => {
   const [isMentioned, setIsMentioned] = createSignal(false);
   const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false); // @someone
 
+
+  const hasPermissionToMentionEveryone = () => {
+    if (!params.serverId) return false;
+    const member = serverMember();
+    if (!member) return false;
+    if (member.isServerCreator()) return true;
+    return member.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
+  }
+
+
   createEffect(on([() => props.message.mentions?.length, () => props.message.quotedMessages.length], () => {
     setTimeout(() => {
-      const isEveryoneMentioned = props.message.content?.includes("[@:e]");
+      const isEveryoneMentioned = props.message.content?.includes("[@:e]") && hasPermissionToMentionEveryone();
       const isSomeoneMentioned = props.message.content?.includes("[@:s]") || false;
       const isQuoted = props.message.quotedMessages?.find(m => m.createdBy?.id === account.user()?.id);
       const isMentioned = isEveryoneMentioned || props.message.mentions?.find(u => u.id === account.user()?.id);
