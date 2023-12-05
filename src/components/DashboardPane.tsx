@@ -184,8 +184,42 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
       onContextMenu={props.onContextMenu}>
       <SidebarItemContainer handlePosition='bottom' alert={hasNotifications()}>
+        <NotificationCountBadge count={props.server.mentionCount} top={5} right={2}/>
         <Avatar animate={hovered()} server={props.server} size={35} />
       </SidebarItemContainer>
     </Link>
   )
+}
+
+const NotificationCountBadgeContainer = styled.div`
+  position: absolute;
+  top: 10px;  
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-left: 5px;
+  font-size: 0.8em;
+  background-color: var(--alert-color);
+  border-radius: 50%;
+  height: 17px;
+  width: 17px;
+  z-index: 111111111;
+`;
+
+function NotificationCountBadge(props: { count: number, top: number, right: number }) {
+  return (
+    <Show when={props.count}>
+      <NotificationCountBadgeContainer
+        style={{
+          top: `${props.top}px`,
+          right: `${props.right}px`,
+        }}
+      >
+        {props.count}
+      </NotificationCountBadgeContainer>
+    </Show>
+  )
+
 }
