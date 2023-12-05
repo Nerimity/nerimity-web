@@ -28,7 +28,7 @@ function ChannelItem(props: { channel: Channel }) {
   const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
   return (
-    <CustomLink href={link} class={styles.channelItem}>
+    <CustomLink noContextMenu href={link} class={styles.channelItem}>
       <div class={styles.container}>
         <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={true} />
         <Show when={isPrivateChannel()}>
@@ -72,7 +72,7 @@ function CategoryItem(props: { channel: Channel }) {
 
   return (
     <div class={styles.categoryItem}>
-      <CustomLink href={link} class={styles.container}>
+      <CustomLink noContextMenu href={link} class={styles.container}>
         <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{opacity: 0.3, "margin-left": "10px"}}/>
