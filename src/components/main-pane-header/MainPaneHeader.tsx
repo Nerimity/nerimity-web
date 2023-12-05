@@ -15,7 +15,7 @@ import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { VoiceUser } from '@/chat-api/store/useVoiceUsers';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { RawNotification, getUserNotificationsRequest } from '@/chat-api/services/UserService';
-import { RawMessage, RawServer } from '@/chat-api/RawData';
+import { FriendStatus, RawMessage, RawServer } from '@/chat-api/RawData';
 import MessageItem from '../message-pane/message-item/MessageItem';
 import { Message } from '@/chat-api/store/useMessages';
 import { useResizeObserver } from '@/common/useResizeObserver';
@@ -29,7 +29,7 @@ import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS, hasBit } from '@/chat-api/Bitwis
 
 
 export default function MainPaneHeader() {
-  const { servers, channels, users, header, voiceUsers, serverMembers, account } = useStore();
+  const { servers, channels, users, header, voiceUsers, serverMembers, account, mentions, inbox, friends } = useStore();
   const { toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage } = useDrawer();
   const { isMobileWidth } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);
@@ -81,11 +81,26 @@ export default function MainPaneHeader() {
     return isAdmin;
   }
 
+  const notificationCount = createMemo(() => {
+    const friendRequestCount = friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
+  
+    const mentionsCount = mentions.array().reduce((count, mention) => {
+      return count + (mention?.count || 0)
+    }, 0);
+
+    return friendRequestCount + mentionsCount;
+  })
+
   return (
     <>
       <div onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)} class={classNames(styles.header, conditionalClass(isMobileWidth(), styles.isMobile))}>
         <Show when={isMobileWidth()}>
-          <Button iconName='menu' margin={[0, 8, 0, 5]} onClick={toggleLeftDrawer} />
+          <div class={styles.toggleLeftDrawerContainer}>
+            <Show when={notificationCount()}>
+              <div class={styles.notificationCounter}>{notificationCount()}</div>
+            </Show>
+            <Button iconName='menu' margin={[0, 8, 0, 5]} onClick={toggleLeftDrawer} />
+          </div>
         </Show>
         {header.details().iconName && <Icon name={header.details().iconName} class={classNames(styles.icon, conditionalClass(server() || user(), styles.hasAvatar))} />}
         {server() && <Avatar animate={hovered()} size={25} server={server()} />}

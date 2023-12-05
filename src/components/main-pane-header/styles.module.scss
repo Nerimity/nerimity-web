@@ -18,6 +18,25 @@
   backdrop-filter: blur(20px);
 }
 
+.toggleLeftDrawerContainer {
+  position: relative;
+}
+
+.notificationCounter {
+  position: absolute;
+  right: 0;
+  top: -4px;
+  min-width: 15px;
+  height: 15px;
+  font-size: 12px;
+  border-radius: 50%;
+  background-color: var(--alert-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .details {
   margin-left: 10px;
   overflow: hidden;
