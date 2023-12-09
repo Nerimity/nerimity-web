@@ -97,7 +97,8 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       ctx.emojiCount += 1;
       const animated = type === "ace";
       const shouldAnimate = animated && ctx.props().animateEmoji === false ? '?type=webp' : ''
-      return <Emoji {...{
+      return <Emoji custom clickable {...{
+        id,
         animated,
         name,
         url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"}${shouldAnimate}`
@@ -182,12 +183,12 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       const unicode = emojiShortcodeToUnicode(name as unknown as string);
       if (!unicode) return sliceText(ctx, entity.outerSpan);
       ctx.emojiCount += 1;
-      return <Emoji name={name} url={unicodeToTwemojiUrl(unicode)} />;
+      return <Emoji clickable name={name} url={unicodeToTwemojiUrl(unicode)} />;
     }
     case 'emoji': {
       const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
       ctx.emojiCount += 1;
-      return <Emoji name={emojiUnicodeToShortcode(emoji)} url={unicodeToTwemojiUrl(emoji)} />;
+      return <Emoji clickable name={emojiUnicodeToShortcode(emoji)} url={unicodeToTwemojiUrl(emoji)} />;
     }
     case 'custom': {
       return transformCustomEntity(entity, ctx);

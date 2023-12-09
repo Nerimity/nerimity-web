@@ -216,6 +216,14 @@ export async function serverDetailsByInviteCode(inviteCode: string) {
   });
 }
 
+export async function publicServerByEmojiId(id: string) {
+  return request<RawPublicServer>({
+    method: "GET",
+    url: env.SERVER_URL + `/api/emojis/${id}/server`,
+    useToken: true,
+  });
+}
+
 // Explore
 export async function joinPublicServer(serverId: string) {
   return request<RawServer>({
