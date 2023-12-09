@@ -636,6 +636,7 @@ function ReactionItem(props: ReactionItemProps) {
     <Button
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onContextMenu={e => {e.preventDefault(); e.stopPropagation()}}
       margin={0}
       padding={[2, 8, 2, 2]}
       customChildrenLeft={
