@@ -27,6 +27,22 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
+function NotificationCircle () {
+  return (
+    <div style={{
+      "display": 'flex',
+      "align-items": 'center',
+      "justify-content": 'center',
+      background: 'var(--alert-color)',
+      "border-radius": '50%',
+      color: "white",
+      width: '20px',
+      height: '20px',
+      "font-size": '14px',
+    }}>!</div>
+  )
+}
+
 const TicketsPage = () => {
   const [tickets, setTickets] = createSignal<RawTicket[]>([]);
   const {createPortal} = useCustomPortal();
@@ -160,6 +176,7 @@ export const TicketItem = (props: {
       href={`./${props.ticket.id}`}
       class={TicketItemStyle}
     >
+      <Show when={props.as === "user" && props.ticket.seen === false}><NotificationCircle/></Show>
       <Text opacity={0.4} class={css`width`}>
         #{props.ticket.id}
       </Text>

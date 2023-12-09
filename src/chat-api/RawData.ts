@@ -155,6 +155,7 @@ export interface RawTicket {
   openedById: string;
   openedBy?: RawUser;
   openedAt: Date;
+  seen?: boolean;
 }
 
 export interface RawChannel {

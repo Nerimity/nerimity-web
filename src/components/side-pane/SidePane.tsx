@@ -6,8 +6,8 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { createEffect, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-import { Link, useLocation, useParams, useMatch } from '@solidjs/router';
-import { FriendStatus } from '../../chat-api/RawData';
+import { Link, useLocation, useParams, useMatch, hashIntegration } from '@solidjs/router';
+import { FriendStatus, TicketStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/Modal';
 import AddServer from './add-server/AddServerModal';
 import { UserStatuses, userStatusDetail } from '../../common/userStatus';
@@ -40,6 +40,7 @@ import Input from '../ui/input/Input';
 import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
 import { ProgramWithAction, electronWindowAPI } from '@/common/Electron';
 import { StorageKeys, getStorageObject } from '@/common/localStorage';
+import { getModerationTickets } from '@/chat-api/services/ModerationService';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -113,7 +114,7 @@ function InboxItem() {
 }
 
 
-function NotificationCountBadge(props: { count: number, top: number, right: number }) {
+function NotificationCountBadge(props: { count: number | string, top: number, right: number }) {
   return <Show when={props.count}><div class={styles.notificationCount} style={{
     top: `${props.top}px`,
     right: `${props.right}px`,
@@ -148,15 +149,20 @@ function UpdateItem() {
   )
 }
 function ModerationItem() {
-  const { account } = useStore();
+  const { account, tickets } = useStore();
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   const selected = useMatch(() => "/app/moderation/*");
+
+  createEffect(() => {
+    tickets.updateModerationTicketNotification();
+  })
 
   return (
     <Show when={hasModeratorPerm()}>
       <Link href="/app/moderation" style={{ "text-decoration": "none" }} >
         <SidebarItemContainer selected={selected()}>
+          <Show when={tickets.hasModerationTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
           <Icon name='security' title='Moderation' />
         </SidebarItemContainer>
       </Link>
@@ -165,6 +171,12 @@ function ModerationItem() {
 }
 
 function SettingsItem() {
+  const { tickets } = useStore();
+
+  createEffect(() => {
+    tickets.updateTicketNotification();
+  })
+
 
   const selected = useMatch(() => "/app/settings/*");
 
@@ -172,6 +184,7 @@ function SettingsItem() {
   return (
     <Link href="/app/settings/account" style={{ "text-decoration": "none" }} >
       <SidebarItemContainer selected={selected()}>
+        <Show when={tickets.hasTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
         <Icon name='settings' title='Settings' />
       </SidebarItemContainer>
     </Link>

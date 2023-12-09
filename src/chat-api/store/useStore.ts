@@ -12,6 +12,7 @@ import useUsers from "./useUsers";
 import useChannelProperties from "./useChannelProperties";
 import { usePosts } from "./usePosts";
 import useVoiceUsers from "./useVoiceUsers";
+import useTicket from "./UseTicket";
 
 
 export default function useStore() {
@@ -30,6 +31,8 @@ export default function useStore() {
   const posts = usePosts();
   const voiceUsers = useVoiceUsers();
 
+  const tickets = useTicket();
+
 
   return {
     account,
@@ -45,6 +48,7 @@ export default function useStore() {
     mentions,
     channelProperties,
     posts,
-    voiceUsers
+    voiceUsers,
+    tickets
   }
 }

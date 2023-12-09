@@ -49,6 +49,7 @@ import {
 import { Notice } from "../ui/Notice";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { TicketPage } from "../settings/TicketSettings";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -269,14 +270,9 @@ function ModerationPage() {
 }
 
 const TicketsPane = () => {
-  const [hasWaiting, setHasWaiting] = createSignal(false);
-
+  const {tickets} = useStore();
   onMount(async () => {
-    const tickets = await getModerationTickets({
-      limit: 1,
-      status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE,
-    });
-    setHasWaiting(tickets.length > 0);
+    tickets.updateModerationTicketNotification();
   });
 
   return (
@@ -288,7 +284,7 @@ const TicketsPane = () => {
         margin-top: 4px;
       `}
     >
-      <Show when={hasWaiting()}>
+      <Show when={tickets.hasModerationTicketNotification()}>
         <div class={css`position: absolute; top:10px; left: 6px;`}>
           <Icon name="error" color="var(--alert-color)" size={18}/>
         </div>
@@ -296,7 +292,7 @@ const TicketsPane = () => {
       <SettingsBlock
         icon="sell"
         description={
-          <Show when={hasWaiting()}>
+          <Show when={tickets.hasModerationTicketNotification()}>
             <Text size={12} color="var(--warn-color)">There are ticket(s) waiting for moderator response.</Text>
           </Show>
         }

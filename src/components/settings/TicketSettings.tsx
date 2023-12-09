@@ -196,6 +196,7 @@ const MessageInputArea = (props: {
   updateTicket(ticket: RawTicket): void;
   ticket: RawTicket;
 }) => {
+  const {tickets} = useStore();
   const params = useParams<{ id: string }>();
   const [selectedStatus, setSelectedStatus] = createSignal<TicketStatus | undefined>(undefined);
   const [fileBrowserRef, setFileBrowserRef] = createSignal<FileBrowserRef>();
@@ -205,6 +206,9 @@ const MessageInputArea = (props: {
   const isModeration = useMatch(() => "/app/moderation/*");
 
   onMount(() => {
+    setTimeout(() => {
+      tickets.updateTicketNotification();
+    }, 2000);
     document.addEventListener("paste", onPaste)
     onCleanup(() => {
       document.removeEventListener("paste", onPaste)
@@ -259,6 +263,8 @@ const MessageInputArea = (props: {
     ).catch((err) => {
       alert(err.message);
     });
+    tickets.updateModerationTicketNotification();
+    tickets.updateTicketNotification();
 
     if (ticket) {
       props.updateTicket(ticket);

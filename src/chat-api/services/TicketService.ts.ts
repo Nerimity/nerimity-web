@@ -3,9 +3,20 @@ import ServiceEndpoints from "./ServiceEndpoints";
 import { RawChannel, RawChannelNotice, RawTicket, TicketCategory, TicketStatus } from "../RawData";
 import env from "@/common/env";
 
-export const getTickets = async () => {
+interface GetTicketsOpts {
+  limit: number;
+  status?: TicketStatus;
+  seen?: boolean
+}
+
+export const getTickets = async (opts: GetTicketsOpts) => {
   const data = await request<RawTicket[]>({
     method: 'GET',
+    params: {
+      ...(opts.status !== undefined ? {status: opts.status} : undefined),
+      ...(opts.seen !== undefined ? {seen: opts.seen} : undefined),
+      limit: opts.limit
+    },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.tickets(),
     useToken: true,
   });

@@ -90,23 +90,44 @@ export default function SettingsDrawer() {
 }
 
 function SettingsList() {
+  const {tickets} = useStore();
   const [t] = useTransContext();
   return (
     <SettingsListContainer>
       <DrawerHeader text={t('settings.drawer.title')} />
       <For each={settings}>
         {setting =>
-          <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} />
+          <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)}>
+            <Show when={setting.path === "tickets" && tickets.hasTicketNotification()}>
+              <NotificationCircle/>
+            </Show>
+          </Item>
         }
       </For>
     </SettingsListContainer>
   )
 }
 
+function NotificationCircle () {
+  return (
+    <div style={{
+      "display": 'flex',
+      "align-items": 'center',
+      "justify-content": 'center',
+      background: 'var(--alert-color)',
+      "border-radius": '50%',
+      color: "white",
+      width: '20px',
+      height: '20px',
+      "font-size": '14px',
+      "margin-left": 'auto',
+      "margin-right": '8px',
+    }}>!</div>
+  )
+}
 
 
-
-function Item(props: { path: string, icon: string, label: string, onClick?: () => void }) {
+function Item(props: { path: string, icon: string, label: string, onClick?: () => void, children?: JSXElement }) {
   const href = () => {
     return "/app/settings/" + props.path;
   };
@@ -117,6 +138,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
       <SettingItemContainer selected={selected()}>
         <Icon name={props.icon} size={18} />
         <Text class="label">{props.label}</Text>
+        {props.children}
       </SettingItemContainer>
     </Link>
   )

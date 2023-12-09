@@ -29,7 +29,7 @@ import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS, hasBit } from '@/chat-api/Bitwis
 
 
 export default function MainPaneHeader() {
-  const { servers, channels, users, header, voiceUsers, serverMembers, account, mentions, inbox, friends } = useStore();
+  const { servers, channels, users, header, voiceUsers, serverMembers, account, mentions, tickets, friends } = useStore();
   const { toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage } = useDrawer();
   const { isMobileWidth } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);
@@ -83,12 +83,14 @@ export default function MainPaneHeader() {
 
   const notificationCount = createMemo(() => {
     const friendRequestCount = friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
+
+    const ticketNotifications = tickets.hasModerationTicketNotification() || tickets.hasTicketNotification();
   
     const mentionsCount = mentions.array().reduce((count, mention) => {
       return count + (mention?.count || 0)
     }, 0);
 
-    return friendRequestCount + mentionsCount;
+    return friendRequestCount + mentionsCount + (ticketNotifications ? 1 : 0);
   })
 
   return (
