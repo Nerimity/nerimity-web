@@ -13,7 +13,7 @@ import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfi
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
-import { Notice } from '@/components/ui/Notice';
+import { Notice } from '@/components/ui/Notice/Notice';
 import { useTransContext } from '@nerimity/solid-i18next';
 import FileBrowser, { FileBrowserRef } from '@/components/ui/FileBrowser';
 import { reconcile } from 'solid-js/store';

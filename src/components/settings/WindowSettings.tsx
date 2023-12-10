@@ -18,7 +18,7 @@ import { t } from 'i18next';
 import SettingsBlock from '../ui/settings-block/SettingsBlock';
 import Slider from '../ui/Slider';
 import { playMessageNotification } from '@/common/Sound';
-import { Notice } from '../ui/Notice';
+import { Notice } from '../ui/Notice/Notice';
 import { electronWindowAPI } from '@/common/Electron';
 
 const Container = styled("div")`

@@ -15,7 +15,7 @@ import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import { copyToClipboard } from '@/common/clipboard';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Input from '@/components/ui/input/Input';
-import { Notice } from '@/components/ui/Notice';
+import { Notice } from '@/components/ui/Notice/Notice';
 import { css } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { useTransContext } from '@nerimity/solid-i18next';

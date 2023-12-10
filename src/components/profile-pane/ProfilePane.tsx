@@ -41,7 +41,7 @@ import ItemContainer from "../ui/Item";
 import ContextMenu, {ContextMenuItem, ContextMenuProps,} from "../ui/context-menu/ContextMenu";
 import Input from "../ui/input/Input";
 import {copyToClipboard} from "@/common/clipboard";
-import {Notice} from "../ui/Notice";
+import {Notice} from "../ui/Notice/Notice";
 import {createTicket} from "@/chat-api/services/TicketService.ts";
 
 const ActionButtonsContainer = styled(FlexRow)`

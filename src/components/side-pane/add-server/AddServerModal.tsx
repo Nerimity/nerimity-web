@@ -8,7 +8,7 @@ import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate } from '@solidjs/router';
 import Modal from '@/components/ui/Modal';
 import { FlexRow } from '@/components/ui/Flexbox';
-import { Notice } from '@/components/ui/Notice';
+import { Notice } from '@/components/ui/Notice/Notice';
 import { css } from 'solid-styled-components';
 
 export default function AddServer(props: {close: () => void}) {

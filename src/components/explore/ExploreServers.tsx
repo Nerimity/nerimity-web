@@ -15,7 +15,7 @@ import Button from '../ui/Button';
 import DropDown, { DropDownItem } from '../ui/drop-down/DropDown';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import Icon from '../ui/icon/Icon';
-import { Notice } from '../ui/Notice';
+import { Notice } from '../ui/Notice/Notice';
 import Text from '../ui/Text';
 import { Banner } from '../ui/Banner';
 import { timeSince } from '@/common/date';

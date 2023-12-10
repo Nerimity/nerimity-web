@@ -3,7 +3,7 @@ import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { Notice } from "@/components/ui/Notice";
+import { Notice } from "@/components/ui/Notice/Notice";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { useParams } from "@solidjs/router";

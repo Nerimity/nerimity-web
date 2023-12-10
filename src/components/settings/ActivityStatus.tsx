@@ -6,7 +6,7 @@ import useStore from '@/chat-api/store/useStore';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
 import SettingsBlock from '../ui/settings-block/SettingsBlock';
-import { Notice } from '../ui/Notice';
+import { Notice } from '../ui/Notice/Notice';
 import { electronWindowAPI, Program, ProgramWithAction } from '@/common/Electron';
 import Button from '../ui/Button';
 import DropDown, { DropDownItem } from '../ui/drop-down/DropDown';

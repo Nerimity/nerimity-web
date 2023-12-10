@@ -1,0 +1,12 @@
+.noticeContainer {
+  display: flex;
+  align-items: center;
+  
+  border-radius: 8px;
+  padding: 10px;
+  gap: 4px;
+}
+
+.noticeDescription {
+  font-size: 12px;
+}

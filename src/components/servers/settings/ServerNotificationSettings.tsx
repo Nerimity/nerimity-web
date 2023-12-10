@@ -8,7 +8,7 @@ import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { RadioBox, RadioBoxItem } from '@/components/ui/RadioBox';
 import { updateServerSettings } from '@/chat-api/services/UserService';
-import { Notice } from '@/components/ui/Notice';
+import { Notice } from '@/components/ui/Notice/Notice';
 import ItemContainer from '@/components/ui/Item';
 import Avatar from '@/components/ui/Avatar';
 import { ServerNotificationPingMode, ServerNotificationSoundMode } from '@/chat-api/RawData';

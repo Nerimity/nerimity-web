@@ -12,7 +12,6 @@ import { useTransContext } from '@nerimity/solid-i18next';
 import { Turnstile, TurnstileRef } from '@nerimity/solid-turnstile';
 import Text from '@/components/ui/Text';
 import PageFooter from '@/components/PageFooter';
-import { Notice } from '@/components/ui/Notice';
 import Icon from '@/components/ui/icon/Icon';
 
 const RegisterPageContainer = styled("div")`

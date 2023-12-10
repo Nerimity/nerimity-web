@@ -12,7 +12,7 @@ import Button from "@/components/ui/Button";
 import FileBrowser, { FileBrowserRef, getBase64 } from "@/components/ui/FileBrowser";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Input from "@/components/ui/input/Input";
-import { Notice } from "@/components/ui/Notice";
+import { Notice } from "@/components/ui/Notice/Notice";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { useParams } from "@solidjs/router";

@@ -42,7 +42,7 @@ import Checkbox from "../ui/Checkbox";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { ImageEmbed } from "../ui/ImageEmbed";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { Notice } from "../ui/Notice";
+import { Notice } from "../ui/Notice/Notice";
 
 const Container = styled("div")`
   display: flex;

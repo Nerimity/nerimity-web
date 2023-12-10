@@ -1,16 +1,8 @@
-import { css, styled } from "solid-styled-components";
-import { FlexRow } from "./Flexbox";
-import Icon from "./icon/Icon";
-import Text from "./Text";
-import { JSX } from "solid-js";
+import styles from './Notice.module.css';
 
-const NoticeContainer = styled(FlexRow)<{bgColor: string, borderColor: string}>`
-  background: ${props => props.bgColor};
-  border: solid 1px ${props => props.borderColor};
-  border-radius: 8px;
-  padding: 10px;
-  align-items: center;
-`;
+import { JSX } from "solid-js";
+import { classNames } from '@/common/classNames';
+import Icon from "../icon/Icon";
 
 const noticeType = {
   warn: {
@@ -45,11 +37,18 @@ interface NoticeProps {
 
 export function Notice(props: NoticeProps) {
   const typeMeta = noticeType[props.type];
+
+  const style: JSX.CSSProperties = {
+    ...props.style,
+    background: typeMeta.color,
+    border: `solid 1px ${typeMeta.borderColor}`,
+  }
+
   return (
-    <NoticeContainer style={props.style} gap={10} class={props.class} bgColor={typeMeta.color} borderColor={typeMeta.borderColor} >
-      <Icon color={typeMeta.borderColor} class={css`align-self: start;`} size={24} name={typeMeta.icon} />
-      <Text size={13}>{props.description}</Text>
+    <div class={classNames(styles.noticeContainer, props.class)} style={style}>
+      <Icon color={typeMeta.borderColor} size={24} name={typeMeta.icon} />
+      <div class={styles.noticeDescription}>{props.description}</div>
       {props.children}
-    </NoticeContainer>
+    </div>
   )
 }
