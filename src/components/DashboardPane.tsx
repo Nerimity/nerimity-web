@@ -95,6 +95,13 @@ const NotificationCountContainer = styled(FlexRow) <{ selected: boolean }>`
   ` : ''}
 `;
 
+const TabStyle = css`
+  padding-left: 8px;
+  padding-right: 8px;
+  gap: 4px;
+  background: rgba(255,255,255,0.04);
+`;
+
 
 
 function PostsContainer() {
@@ -119,9 +126,17 @@ function PostsContainer() {
   return (
     <FlexColumn>
       <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px" }}>Posts</Text>
-      <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "5px" }}>
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={!showNotifications()} label='Feed' onClick={() => setShowNotifications(false)} />
-        <Button padding={5} textSize={14} iconSize={14} margin={0} primary={showNotifications()} label="Notifications" customChildren={NotificationIndicator} onClick={() => setShowNotifications(true)} />
+      <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "5px", height: "28px" }}>
+
+        <ItemContainer class={TabStyle} handlePosition="bottom" selected={!showNotifications()} onclick={() => setShowNotifications(false)}>
+          <Text size={14}>Feed</Text>
+        </ItemContainer>
+
+        <ItemContainer class={TabStyle} handlePosition="bottom" selected={showNotifications()} onclick={() => setShowNotifications(true)}>
+          <Text size={14}>Notifications</Text>
+          <NotificationIndicator />
+        </ItemContainer>
+
       </FlexRow>
       <Show when={!showNotifications()}><PostsArea showFeed style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew /></Show>
       <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "5px", "margin-right": "5px" }} /></Show>

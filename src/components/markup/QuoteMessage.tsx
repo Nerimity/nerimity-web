@@ -57,7 +57,7 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
         <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ color: serverMember()?.roleColor }}>
           <Avatar animate={hovered()} user={props.quote.createdBy!} size={18} />
         </CustomLink>
-        <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ "font-size": "16px", color: serverMember()?.roleColor }}>
+        <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ "font-size": "16px", color: serverMember()?.roleColor || "white" }}>
           {props.quote.createdBy!.username}
         </CustomLink>
         <Show when={props.quote.channelId === params.channelId}>
