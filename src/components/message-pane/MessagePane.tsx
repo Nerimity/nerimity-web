@@ -430,7 +430,7 @@ function TypingIndicator() {
       "margin-bottom": "5px",
       "z-index": "1"
     }}>
-      <Text size={paneWidth()! < 500 ? 10 : 12}>
+      <Text size={paneWidth()! < 500 ? 12 : 14}>
         <Switch>
           <Match when={typingUsers().length === 1}>
             <strong>{typingUsers()[0]?.username}</strong> is typing...

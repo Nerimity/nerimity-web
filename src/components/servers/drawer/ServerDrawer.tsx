@@ -100,7 +100,7 @@ export const ChannelIcon = (props: { icon?: string; type?: ChannelType; hovered?
 }
 
 const ChannelContainer = styled(ItemContainer)`
-  height: 32px;
+  height: 34px;
   padding-left: 10px;
   gap: 5px;
 
@@ -111,7 +111,7 @@ const ChannelContainer = styled(ItemContainer)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
+    font-size: 16px;
     color: white;
   }
   &:hover .label {
