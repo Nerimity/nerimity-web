@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import useChannels, { Channel } from '@/chat-api/store/useChannels';
 import Icon from '@/components/ui/icon/Icon';
 import { createServerChannel, updateServerChannelOrder } from '@/chat-api/services/ServerService';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import Sortable from 'solid-sortablejs';
 import ContextMenu, { ContextMenuProps } from '@/components/ui/context-menu/ContextMenu';
 import { ChannelType } from '@/chat-api/RawData';

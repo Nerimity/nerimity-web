@@ -28,7 +28,7 @@ import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
 import { t } from "i18next";
-import { Trans } from "@nerimity/solid-i18next";
+import { Trans } from "@mbarzda/solid-i18next";
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -503,12 +503,8 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <FlexColumn gap={2} class={notificationUsernameStyles}>
           <FlexRow gap={5} style={{ "align-items": 'center' }}  >
             <Text size={14} class={notificationUsernameStyles}>
-              <Trans key="posts.someoneRepliedToPost">
-                {() => (
-                  <>
-                    <strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> replied to your post!
-                  </>
-                )}
+              <Trans key="posts.someoneRepliedToPost" options={{ username: props.notification.by.username }}>
+                <strong class={notificationUsernameStyles}>{"username"}</strong> replied to your post!
               </Trans>
             </Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
@@ -530,12 +526,8 @@ function PostNotification(props: { notification: RawPostNotification }) {
           <Avatar user={props.notification.by} size={30} />
           <FlexRow gap={2} style={{ "align-items": 'center' }} class={notificationUsernameStyles}>
             <Text size={14} class={notificationUsernameStyles}>
-              <Trans key="posts.someoneFollowedYou">
-                {() => (
-                  <>
-                    <strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> followed you!
-                  </>
-                )}
+              <Trans key="posts.someoneFollowedYou" options={{username: props.notification.by.username}}>
+                <strong class={notificationUsernameStyles}>{"username"}</strong> followed you!
               </Trans>
             </Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>
@@ -558,12 +550,8 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <FlexColumn gap={2}>
           <FlexRow gap={5} style={{ "align-items": 'center' }}>
             <Text size={14} class={notificationUsernameStyles}>
-              <Trans key="posts.someoneLikedYourPost">
-                {() => (
-                  <>
-                    <strong class={notificationUsernameStyles}>{props.notification.by.username}</strong> liked your post!
-                  </>
-                )}
+              <Trans key="posts.someoneLikedYourPost" options={{ username: props.notification.by.username }}>
+                  <strong class={notificationUsernameStyles}>{"username"}</strong> liked your post!
               </Trans>
             </Text>
             <Text opacity={0.6} size={12}>{formatTimestamp(props.notification.createdAt)}</Text>

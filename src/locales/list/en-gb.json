@@ -201,14 +201,14 @@
     "kickButton": "Kick",
     "kicking": "Kicking...",
     "backButton": "Back",
-    "message": "Are you sure you want to kick <1>username</1>?"
+    "message": "Are you sure you want to kick <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
     "title": "Edit Roles"
   },
   "banModal": {
     "title": "Ban {{username}}?",
-    "message": "Are you sure you want to ban <1>username</1>?",
+    "message": "Are you sure you want to ban <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
     "banButton": "Ban",
     "banning": "Banning..."
@@ -242,9 +242,9 @@
       "deleteButton": "delete"
     },
     "postWasDeleted": "This post was deleted!",
-    "someoneLikedYourPost": "<1>username</1> liked your post!",
-    "someoneFollowedYou": "<1>username</1> followed you!",
-    "someoneRepliedToPost": "<1>username</1> replied to your post!",
+    "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
+    "someoneFollowedYou": "<1>{{username}}</1> followed you!",
+    "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
     "createAPostInputPlaceholder": "Create a post...",
     "replyInputPlaceholder": "Reply...",
     "replyButton": "Reply",

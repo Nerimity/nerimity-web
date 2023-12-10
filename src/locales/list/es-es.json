@@ -200,14 +200,14 @@
     "kickButton": "Expulsar",
     "kicking": "Expulsando...",
     "backButton": "Retroceder",
-    "message": "¿Estas seguro/a que quieres expulsar a <1>username</1>?"
+    "message": "¿Estas seguro/a que quieres expulsar a <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
     "title": "Editar roles"
   },
   "banModal": {
     "title": "¿Banear {{username}}?",
-    "message": "¿Estas seguro que quieres banear a <1>username</1>?",
+    "message": "¿Estas seguro que quieres banear a <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Borrar mensajes enviados en las ultimas 7 horas.",
     "banButton": "Banear",
     "banning": "Baneando..."
@@ -241,9 +241,9 @@
       "deleteButton": "Borrar"
     },
     "postWasDeleted": "¡Esta publicación ha sido borrada!",
-    "someoneLikedYourPost": "¡<1>username</1> le dió Me Gusta a tu publicación!",
-    "someoneFollowedYou": "¡<1>username</1> te esta siguiendo!",
-    "someoneRepliedToPost": "¡<1>username</1> respondio a tu publicación!",
+    "someoneLikedYourPost": "¡<1>{{username}}</1> le dió Me Gusta a tu publicación!",
+    "someoneFollowedYou": "¡<1>{{username}}</1> te esta siguiendo!",
+    "someoneRepliedToPost": "¡<1>{{username}}</1> respondio a tu publicación!",
     "createAPostInputPlaceholder": "Crear una publicacion...",
     "replyInputPlaceholder": "Responder...",
     "replyButton": "Responder",

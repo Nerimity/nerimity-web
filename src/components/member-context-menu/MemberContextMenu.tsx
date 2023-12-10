@@ -18,7 +18,7 @@ import { FlexRow } from '../ui/Flexbox';
 import { classNames, conditionalClass } from '@/common/classNames';
 import Icon from '../ui/icon/Icon';
 import { t,  } from 'i18next';
-import { Trans } from '@nerimity/solid-i18next';
+import { Trans } from '@mbarzda/solid-i18next';
 type Props = Omit<ContextMenuProps, 'items'> & {
   serverId?: string
   userId: string
@@ -126,12 +126,8 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
   return (
     <Modal close={props.close} title={t('kickServerMemberModal.title', {username: props.member?.user.username})} actionButtons={ActionButtons}>
       <div class={styles.kickModal}>
-      <Trans key='kickServerMemberModal.message'>
-          {() =>
-            <>
-              Are you sure you want to kick <b>{props.member?.user.username}</b>?
-            </>
-          }
+        <Trans key='kickServerMemberModal.message' options={{username: props.member?.user.username}}>
+          Are you sure you want to kick <b>{"username"}</b>?
         </Trans>
         <div class={styles.buttons}>
         </div>
@@ -166,12 +162,8 @@ function BanModal (props: {user: RawUser, serverId: string, close: () => void}) 
     <Modal close={props.close} title={t('banModal.title', {username: props.user.username})}  actionButtons={ActionButtons}>
       <div class={styles.kickModal}>
         <div style={{"margin-bottom": "15px"}}>
-        <Trans key='banModal.message'>
-          {() =>
-            <>
-              Are you sure you want to ban <b>{props.user.username}</b>?
-            </>
-          }
+        <Trans key='banModal.message' options={{username: props.user.username}}>
+          Are you sure you want to ban <b>{"username"}</b>?
         </Trans>
         </div>
         <Checkbox 

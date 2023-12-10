@@ -18,7 +18,7 @@ import Input from '@/components/ui/input/Input';
 import { Notice } from '@/components/ui/Notice/Notice';
 import { css } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { avatarUrl } from '@/chat-api/store/useUsers';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 

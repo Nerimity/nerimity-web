@@ -7,7 +7,7 @@ import ItemContainer from '../ui/Item';
 import twemoji from 'twemoji';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import useStore from '@/chat-api/store/useStore';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import env from '@/common/env';
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
 import { Emoji } from '../markup/Emoji';

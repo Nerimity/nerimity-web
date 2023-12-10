@@ -1,4 +1,3 @@
-
 {
   "header": {
     "accountButton": "Rekening",
@@ -201,14 +200,14 @@
     "kickButton": "Skop uit",
     "kicking": "Besig om uit te skop...",
     "backButton": "Terug",
-    "message": "Is jy seker jy wil <1>username</1> uitskop?"
+    "message": "Is jy seker jy wil <1>{{username}}</1> uitskop?"
   },
   "editServerRolesModal": {
     "title": "Verander Rolle"
   },
   "banModal": {
     "title": "Verban {{username}}?",
-    "message": "Is jy seker jy wil <1>username</1> verban?",
+    "message": "Is jy seker jy wil <1>{{username}}</1> verban?",
     "deletePastMessagesCheckbox": "Verwyder boodskappe wat die afgelope 7 uur gestuur is.",
     "banButton": "Verban",
     "banning": "Besig om te verban..."
@@ -235,19 +234,19 @@
     "postsAndRepliesTab": "Plasings en antwoorde ({{count}})",
     "likedPostsTab": "Geliefde plasings ({{count}})"
   },
- "posts": {
-   "deletePostModal": {
-     "message": "Is jy seker jy wil hierdie plasing verwyder?",
-     "cancelButton": "Kanselleer",
-     "deleteButton": "Verwyder"
-   },
-   "postWasDeleted": "Hierdie plasing is verwyder!",
-   "someoneLikedYourPost": "<1>username</1> hou van jou plasing!",
-   "someoneFollowedYou": "<1>username</1> het jou gevolg!",
-   "someoneRepliedToPost": "<1>username</1> het op jou plasing geantwoord!",
-   "createAPostInputPlaceholder": "Maak 'n nuwe plasing...",
-   "replyInputPlaceholder": "Antwoord...",
-   "replyButton": "Antwoord",
-   "createButton": "Skep"
+  "posts": {
+    "deletePostModal": {
+      "message": "Is jy seker jy wil hierdie plasing verwyder?",
+      "cancelButton": "Kanselleer",
+      "deleteButton": "Verwyder"
+    },
+    "postWasDeleted": "Hierdie plasing is verwyder!",
+    "someoneLikedYourPost": "<1>{{username}}</1> hou van jou plasing!",
+    "someoneFollowedYou": "<1>{{username}}</1> het jou gevolg!",
+    "someoneRepliedToPost": "<1>{{username}}</1> het op jou plasing geantwoord!",
+    "createAPostInputPlaceholder": "Maak 'n nuwe plasing...",
+    "replyInputPlaceholder": "Antwoord...",
+    "replyButton": "Antwoord",
+    "createButton": "Skep"
   }
 }

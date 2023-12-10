@@ -8,7 +8,7 @@ import serverSettings from '@/common/ServerSettings';
 import ItemContainer from '@/components/ui/Item';
 import { styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { Bitwise } from '@/chat-api/Bitwise';
 import { ChannelType } from '@/chat-api/RawData';
 import InVoiceActions from '@/components/InVoiceActions';

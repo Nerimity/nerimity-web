@@ -5,7 +5,7 @@ import ServerSettingsHeader from './ServerSettingsHeader';
 import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { createStore } from 'solid-js/store';
 
 

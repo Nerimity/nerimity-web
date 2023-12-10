@@ -7,7 +7,7 @@ import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../components/PageHeader';
 import { css, styled,  } from 'solid-styled-components';
 import { FlexColumn } from '@/components/ui/Flexbox';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import PageFooter from '@/components/PageFooter';
 
 const LoginPageContainer = styled("div")`

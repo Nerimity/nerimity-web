@@ -8,7 +8,7 @@ import { css, styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
 import { Banner } from '@/components/ui/Banner';
 import { useWindowProperties } from '@/common/useWindowProperties';

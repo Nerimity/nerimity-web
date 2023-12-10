@@ -194,14 +194,14 @@
     "kickButton": "Wyrzuć",
     "kicking": "Trwa wyrzucanie...",
     "backButton": "Wstecz",
-    "message": "Czy jesteś pewien, że chcesz wyrzucić <1>username</1>?"
+    "message": "Czy jesteś pewien, że chcesz wyrzucić <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
     "title": "Edytuj Role"
   },
   "banModal": {
     "title": "Zbanuj {{username}}?",
-    "message": "Czy jesteś pewien, że chcesz zbanować <1>username</1>?",
+    "message": "Czy jesteś pewien, że chcesz zbanować <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Usuń wiadomości z poprzednich 7 godzin.",
     "banButton": "Zbanuj",
     "banning": "Trwa banowanie..."
@@ -235,9 +235,9 @@
       "deleteButton": "Usuń"
     },
     "postWasDeleted": "Ten post został usunięty!",
-    "someoneLikedYourPost": "<1>username</1> polubił(-a) Twój post!",
-    "someoneFollowedYou": "<1>username</1> zaczął(-ęła) Cię obserwować!",
-    "someoneRepliedToPost": "<1>username</1> odpowiedział(-a) na Twój post!",
+    "someoneLikedYourPost": "<1>{{username}}</1> polubił(-a) Twój post!",
+    "someoneFollowedYou": "<1>{{username}}</1> zaczął(-ęła) Cię obserwować!",
+    "someoneRepliedToPost": "<1>{{username}}</1> odpowiedział(-a) na Twój post!",
     "createAPostInputPlaceholder": "Stwórz posta...",
     "replyInputPlaceholder": "Odpowiedz...",
     "replyButton": "Odpowiedz",

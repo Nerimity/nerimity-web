@@ -192,14 +192,14 @@
     "kickButton": "Kick",
     "kicking": "Kicking...",
     "backButton": "Terug",
-    "message": "Weet je zeker dat je <1>username</1> wilt kicken?"
+    "message": "Weet je zeker dat je <1>{{username}}</1> wilt kicken?"
   },
   "editServerRolesModal": {
     "title": "Rollen bewerken"
   },
   "banModal": {
     "title": "Ban {{username}}?",
-    "message": "Weet je zeker dat je <1>username</1> wilt verbannen.",
+    "message": "Weet je zeker dat je <1>{{username}}</1> wilt verbannen.",
     "deletePastMessagesCheckbox": "Verwijder berichten die in de afgelopen 7 uur zijn verzonden.",
     "banButton": "Verban",
     "banning": "Verbannen..."
@@ -233,9 +233,9 @@
       "deleteButton": "Verwijderen"
     },
     "postWasDeleted": "Dit bericht is verwijderd!",
-    "someoneLikedYourPost": "<1>username</1> vond je post leuk!",
-    "someoneFollowedYou": "<1>username</1> volgt je!",
-    "someoneRepliedToPost": "<1>username</1> reageerde op je bericht!",
+    "someoneLikedYourPost": "<1>{{username}}</1> vond je post leuk!",
+    "someoneFollowedYou": "<1>{{username}}</1> volgt je!",
+    "someoneRepliedToPost": "<1>{{username}}</1> reageerde op je bericht!",
     "createAPostInputPlaceholder": "Maak een bericht...",
     "replyInputPlaceholder": "Antwoord...",
     "replyButton": "Antwoord",

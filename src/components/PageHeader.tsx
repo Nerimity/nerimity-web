@@ -7,7 +7,7 @@ import { RawUser } from '@/chat-api/RawData'
 import { getStorageString, StorageKeys } from '@/common/localStorage'
 import Icon from './ui/icon/Icon'
 import { appLogoUrl, isChristmas, isHalloween } from '@/common/worldEvents'
-import { useTransContext } from '@nerimity/solid-i18next'
+import { useTransContext } from '@mbarzda/solid-i18next'
 
 
 const HeaderContainer = styled("header")`

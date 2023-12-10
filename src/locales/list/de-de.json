@@ -194,14 +194,14 @@
     "kickButton": "Kick",
     "kicking": "Am kicken...",
     "backButton": "Zurück",
-    "message": "Sind Sie sicher, dass Sie <1>username</1> kicken wollen?"
+    "message": "Sind Sie sicher, dass Sie <1>{{username}}</1> kicken wollen?"
   },
   "editServerRolesModal": {
     "title": "Edit Roles"
   },
   "banModal": {
     "title": "Ban {{username}}?",
-    "message": "Sind Sie sicher, dass Sie <1>username</1> bannen wollen?",
+    "message": "Sind Sie sicher, dass Sie <1>{{username}}</1> bannen wollen?",
     "deletePastMessagesCheckbox": "Alle Nachrichten der letzten 7 Stunden löschen.",
     "banButton": "Ban",
     "banning": "Am bannen..."
@@ -235,9 +235,9 @@
       "deleteButton": "Löschen"
     },
     "postWasDeleted": "Dieser Beitrag wurde gelöscht!",
-    "someoneLikedYourPost": "<1>username</1> hat deinen Beitrag gefallen!",
-    "someoneFollowedYou": "<1>username</1> ist dir gefolgt!",
-    "someoneRepliedToPost": "<1>username</1> hat auf deinen Beitrag geantwortet!",
+    "someoneLikedYourPost": "<1>{{username}}</1> hat deinen Beitrag gefallen!",
+    "someoneFollowedYou": "<1>{{username}}</1> ist dir gefolgt!",
+    "someoneRepliedToPost": "<1>{{username}}</1> hat auf deinen Beitrag geantwortet!",
     "createAPostInputPlaceholder": "Einen Beitrag erstellen...",
     "replyInputPlaceholder": "Antworten...",
     "replyButton": "Antworten",

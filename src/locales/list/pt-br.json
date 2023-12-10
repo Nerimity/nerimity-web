@@ -194,14 +194,14 @@
     "kickButton": "Expulsar",
     "kicking": "Expulsando...",
     "backButton": "Cancelar",
-    "message": "Deseja mesmo expulsar <1>username</1> do servidor?"
+    "message": "Deseja mesmo expulsar <1>{{username}}</1> do servidor?"
   },
   "editServerRolesModal": {
     "title": "Editar Cargos"
   },
   "banModal": {
     "title": "Banir {{username}}?",
-    "message": "Deseja mesmo banir <1>username</1> do servidor?",
+    "message": "Deseja mesmo banir <1>{{username}}</1> do servidor?",
     "deletePastMessagesCheckbox": "Excluir mensagens enviadas nas últimas 7 horas.",
     "banButton": "Banir",
     "banning": "Banindo..."
@@ -235,9 +235,9 @@
       "deleteButton": "Excluir"
     },
     "postWasDeleted": "Esse post foi excluído!",
-    "someoneLikedYourPost": "<1>username</1> curtiu seu post!",
-    "someoneFollowedYou": "<1>username</1> seguiu você!",
-    "someoneRepliedToPost": "<1>username</1> respondeu ao seu post!",
+    "someoneLikedYourPost": "<1>{{username}}</1> curtiu seu post!",
+    "someoneFollowedYou": "<1>{{username}}</1> seguiu você!",
+    "someoneRepliedToPost": "<1>{{username}}</1> respondeu ao seu post!",
     "createAPostInputPlaceholder": "Criar um post...",
     "replyInputPlaceholder": "Poste sua resposta...",
     "replyButton": "Responder",

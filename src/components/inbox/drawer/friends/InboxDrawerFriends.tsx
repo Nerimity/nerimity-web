@@ -5,7 +5,7 @@ import { createEffect, createSignal, For, Show, useTransition } from "solid-js";
 import { Friend } from "@/chat-api/store/useFriends";
 import { FriendStatus } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
-import { useTransContext } from "@nerimity/solid-i18next";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const InboxDrawerFriends = () => {
   const [t] = useTransContext();

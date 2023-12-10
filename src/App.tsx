@@ -4,7 +4,7 @@ import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
 import { Link, Route, Routes, useNavigate, useParams } from '@solidjs/router';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { electronWindowAPI } from './common/Electron';
 import { ElectronTitleBar } from './components/ElectronTitleBar';
 import { useWindowProperties } from './common/useWindowProperties';

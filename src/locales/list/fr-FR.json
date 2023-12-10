@@ -194,14 +194,14 @@
     "kickButton": "Exclure",
     "kicking": "Exclusion...",
     "backButton": "Retour",
-    "message": "Êtes-vous sûr de vouloir exclure <1>username</1>?"
+    "message": "Êtes-vous sûr de vouloir exclure <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
     "title": "Modifier les Rôles"
   },
   "banModal": {
     "title": "Bannir {{username}}?",
-    "message": "Êtes-vous sûr de vouloir bannir <1>username</1>?",
+    "message": "Êtes-vous sûr de vouloir bannir <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Supprimer les messages envoyés au cours des 7 dernières heures.",
     "banButton": "Bannir",
     "banning": "Bannissement..."
@@ -235,9 +235,9 @@
       "deleteButton": "Supprimer"
     },
     "postWasDeleted": "Cette publication a été supprimé!",
-    "someoneLikedYourPost": "<1>username</1> a aimé votre publication!",
-    "someoneFollowedYou": "<1>username</1> vous suit!",
-    "someoneRepliedToPost": "<1>username</1> a répondu à votre publication!",
+    "someoneLikedYourPost": "<1>{{username}}</1> a aimé votre publication!",
+    "someoneFollowedYou": "<1>{{username}}</1> vous suit!",
+    "someoneRepliedToPost": "<1>{{username}}</1> a répondu à votre publication!",
     "createAPostInputPlaceholder": "Créer une publication...",
     "replyInputPlaceholder": "Répondre...",
     "replyButton": "Répondre",

@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import Icon from '@/components/ui/icon/Icon';
 import { createServerRole, updateServerRoleOrder } from '@/chat-api/services/ServerService';
 import { ServerRole } from '@/chat-api/store/useServerRoles';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { Draggable } from '@/components/ui/Draggable';
 import { CustomLink } from '@/components/ui/CustomLink';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';

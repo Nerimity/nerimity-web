@@ -11,7 +11,7 @@ import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
-import { Trans, useTransContext } from "@nerimity/solid-i18next";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { Link, useParams } from "@solidjs/router";
 import { createEffect, createSignal, Show, } from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -112,11 +112,7 @@ export default function PublishServerSettings() {
       </Breadcrumb>
       <Text color="rgba(255,255,255,0.6)" style={{ "margin-bottom": "10px" }}>
         <Trans key='servers.settings.publishServer.publishNotice'>
-          {data =>
-            <>
-              Publishing your server will make it be available in the <Link href="/app/explore/servers">{data[1]}</Link> page.
-            </>
-          }
+          Publishing your server will make it be available in the <Link href="/app/explore/servers">explore</Link> page.          
         </Trans>
       </Text>
       <SettingsBlock icon="public" label={t('servers.settings.publishServer.public')} description={t('servers.settings.publishServer.publicDescription')}>

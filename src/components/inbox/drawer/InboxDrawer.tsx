@@ -10,7 +10,7 @@ import {FriendStatus} from '@/chat-api/RawData';
 import {useParams} from '@solidjs/router';
 import {useCustomPortal} from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
-import {useTransContext} from '@nerimity/solid-i18next';
+import {useTransContext} from '@mbarzda/solid-i18next';
 import InVoiceActions from '@/components/InVoiceActions';
 
 function Header(props: { selectedIndex: number, onTabClick: (index: number) => void }) {

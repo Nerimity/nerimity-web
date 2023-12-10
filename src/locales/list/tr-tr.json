@@ -194,14 +194,14 @@
     "kickButton": "At",
     "kicking": "Atılıyor...",
     "backButton": "Geri",
-    "message": "<1>username</1> Sunucudan atmak istediğinden emin misin?"
+    "message": "<1>{{username}}</1> Sunucudan atmak istediğinden emin misin?"
   },
   "editServerRolesModal": {
     "title": "Rolleri Düzenle"
   },
   "banModal": {
     "title": "{{username}} Yasakla?",
-    "message": "<1>username</1> Sunucudan yasaklamak istediğinden emin misin?",
+    "message": "<1>{{username}}</1> Sunucudan yasaklamak istediğinden emin misin?",
     "deletePastMessagesCheckbox": "Son 7 saat içinde gönderilen mesajları silin.",
     "banButton": "Yasakla",
     "banning": "Yasaklanıyor..."
@@ -235,9 +235,9 @@
       "deleteButton": "Sil"
     },
     "postWasDeleted": "Bu gönderi silinmişti!",
-    "someoneLikedYourPost": "<1>username</1> gönderini beğendi!",
-    "someoneFollowedYou": "<1>username</1> seni takip etti!",
-    "someoneRepliedToPost": "<1>username</1> gönderine yanıt verdi!",
+    "someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
+    "someoneFollowedYou": "<1>{{username}}</1> seni takip etti!",
+    "someoneRepliedToPost": "<1>{{username}}</1> gönderine yanıt verdi!",
     "createAPostInputPlaceholder": "Bir gönderi oluştur...",
     "replyInputPlaceholder": "Yanıtla...",
     "replyButton": "Yanıtla",

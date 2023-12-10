@@ -3,7 +3,7 @@ import { BumpPublicServer, getPublicServers, joinPublicServer } from '@/chat-api
 import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { useTransContext } from '@nerimity/solid-i18next';
+import { useTransContext } from '@mbarzda/solid-i18next';
 import { Link, useNavigate } from '@solidjs/router';
 import { update } from 'idb-keyval';
 import { createSignal, For, Show } from 'solid-js';
