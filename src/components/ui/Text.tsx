@@ -8,8 +8,10 @@ interface TextProps {
   children: JSX.Element;
 }
 
-const Text = (props: TextProps) => {
+const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
+  
   const style: JSX.CSSProperties = {
+    ...props.style as JSX.CSSProperties,
     color: props.color || "white",
     "font-size": `${props.size || "16"}px`,
     opacity: props.opacity || "1",
@@ -17,7 +19,7 @@ const Text = (props: TextProps) => {
   }
   return (
     <span
-      style={style}
+      {...{...props, style}}
     >
       {props.children}
     </span>
