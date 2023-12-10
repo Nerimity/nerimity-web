@@ -89,6 +89,12 @@ export default function RegisterPage() {
       setRequestSent(false);
       return;
     }
+
+    if (password().length > 72) {
+      setError({message: 'Password must be less than 72 characters.', path: 'Password'});
+      setRequestSent(false);
+      return;
+    }
     const response = await registerRequest(email(), username().trim(), password().trim(), verifyToken).catch(err => {
       setError({message: err.message, path: err.path});
       turnstileRef?.reset();

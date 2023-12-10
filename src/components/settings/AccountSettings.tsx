@@ -119,6 +119,13 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         setRequestSent(false);
         return;
       }
+
+      if (updatedInputValues().newPassword!.length > 72) {
+        setError('Password must be less than 72 characters.')
+        setRequestSent(false);
+        return;
+      }
+
     }
 
 
