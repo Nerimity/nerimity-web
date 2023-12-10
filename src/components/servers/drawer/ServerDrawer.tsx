@@ -207,7 +207,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
         </Show>
-        <Text class="label">{channel.name}</Text>
+        <div class="label">{channel.name}</div>
         <Show when={props.channel.mentionCount}>
           <MentionCountContainer>{props.channel.mentionCount}</MentionCountContainer>
         </Show>
