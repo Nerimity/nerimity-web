@@ -112,6 +112,7 @@ const ChannelContainer = styled(ItemContainer)`
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
+    color: white;
   }
   &:hover .label {
     opacity: 1;
