@@ -111,6 +111,7 @@ const ChannelContainer = styled(ItemContainer)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
   }
   &:hover .label {
     opacity: 1;
@@ -153,7 +154,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
         </Show>
-        <Text class="label" size={14} opacity={0.6}>{props.channel.name}</Text>
+        <div class="label">{props.channel.name}</div>
       </CategoryItemContainer>
 
       <Show when={sortedServerChannels().length}>

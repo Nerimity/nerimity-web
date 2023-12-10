@@ -75,6 +75,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
     .username {
       opacity: ${props => props.selected ? 1 : 0.6};
       transition: 0.2s;
+      font-size: 16px;
     }
   
     &:hover .username {
@@ -101,7 +102,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
           <Avatar animate={hovered()} user={user()} size={25} />
         </Link>
         <div class={styles.details}>
-          <Text class="username">{user().username}</Text>
+          <div class="username">{user().username}</div>
           <UserPresence userId={user().id} showOffline={false} animate={hovered()} />
         </div>
 

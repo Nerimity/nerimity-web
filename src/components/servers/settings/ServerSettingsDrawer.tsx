@@ -32,6 +32,7 @@ const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
   .label {
     opacity: ${props => props.selected ? 1 : 0.6};
     transition: 0.2s;
+    font-size: 16px;
   }
 
   &:hover .label {
@@ -100,7 +101,7 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
       >
         <SettingItemContainer nested={props.nested} selected={selected()}>
           <Icon name={props.icon} size={18} />
-          <Text class="label">{props.label}</Text>
+          <div class="label">{props.label}</div>
         </SettingItemContainer>
     </Link>
   )

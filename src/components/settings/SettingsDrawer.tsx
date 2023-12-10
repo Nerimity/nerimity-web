@@ -44,6 +44,7 @@ const SettingItemContainer = styled(ItemContainer) <{ nested?: boolean }>`
 
   .label {
     opacity: ${props => props.selected ? 1 : 0.6};
+    font-size: 16px;
     transition: 0.2s;
   }
 
@@ -137,7 +138,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
     <Link href={href()} style={{ "text-decoration": "none" }}>
       <SettingItemContainer selected={selected()}>
         <Icon name={props.icon} size={18} />
-        <Text class="label">{props.label}</Text>
+        <div class="label">{props.label}</div>
         {props.children}
       </SettingItemContainer>
     </Link>
