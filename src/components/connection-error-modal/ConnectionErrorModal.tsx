@@ -1,17 +1,13 @@
+import styles from './styles.module.css';
+
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
 import { useNavigate } from "@solidjs/router";
 import { Match, Show, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
-import Button from "./ui/Button";
-import { FlexRow } from "./ui/Flexbox";
-import Modal from "./ui/Modal"
-import Text from "./ui/Text";
-
-const ConnectionErrorContainer = styled("div")`
-  max-width: 250px;
-`;
+import Button from "../ui/Button";
+import { FlexRow } from "../ui/Flexbox";
+import Modal from "../ui/Modal"
 
 export const ConnectionErrorModal = (props: {close: () => void}) => {
   const { account } = useStore();
@@ -43,13 +39,13 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
 
   return (
     <Modal title="Connection Error" close={props.close} actionButtons={ActionButtons} ignoreBackgroundClick>
-      <ConnectionErrorContainer>
-        <Switch fallback={() => <Text>{err()?.message}</Text>}>
-          <Match when={!hasToken()}><Text>No token provided.</Text></Match>
+      <div class={styles.connectionErrorContainer}>
+        <Switch fallback={<div class={styles.message}>{err()?.message}</div>}>
+          <Match when={!hasToken()}><div class={styles.message}>No token provided.</div></Match>
           <Match when={err()?.data?.type === "suspend"}><SuspendMessage {...err().data} /></Match>
           <Match when={err()?.data?.type === "ip-ban"}><IPBanMessage {...err().data} /></Match>
         </Switch>
-      </ConnectionErrorContainer>
+      </div>
     </Modal>
   )
 }
@@ -57,19 +53,19 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
 function SuspendMessage({reason, expire}: {reason?: string; expire?: number;}) {
   return (
     <>
-      <Text opacity={0.6}>You are suspended for </Text>
-      <Text> {reason || "Violating the TOS"}</Text>
-      <Text opacity={0.6}> until</Text>
-      <Text> {expire ? formatTimestamp(expire) : "never"}</Text>
+      <div class={styles.message}>You are suspended for </div>
+      <div class={styles.message}> {reason || "Violating the TOS"}</div>
+      <div class={styles.messageDim}> until</div>
+      <div class={styles.message}> {expire ? formatTimestamp(expire) : "never"}</div>
     </>
   )
 }
 function IPBanMessage({reason, expire}: {reason?: string; expire?: number;}) {
   return (
     <>
-      <Text opacity={0.6}>You are IP banned</Text>
-      <Text opacity={0.6}> until</Text>
-      <Text> {expire ? formatTimestamp(expire) : "never"}</Text>
+      <div class={styles.messageDim}>You are IP banned</div>
+      <div class={styles.messageDim}> until</div>
+      <div class={styles.message}> {expire ? formatTimestamp(expire) : "never"}</div>
     </>
   )
 }

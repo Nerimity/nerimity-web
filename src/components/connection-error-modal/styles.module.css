@@ -1,0 +1,14 @@
+.connectionErrorContainer {
+  max-width: 250px;
+  margin: 6px;
+  margin-top: 0;
+}
+
+.message {
+  font-size: 16px;
+}
+
+.messageDim {
+  font-size: 16px;
+  opacity: 0.6s;
+}

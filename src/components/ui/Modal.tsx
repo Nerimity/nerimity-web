@@ -133,7 +133,7 @@ export default function Modal(props: Props) {
               <Show when={props.icon}>
                 <Icon class={topBarIconStyle} onClick={props.close} name={props.icon} color='var(--primary-color)' size={18} />
               </Show>
-              <Text style={{"font-weight": 'bold'}} size={16} color='var(--primary-color)'>{props.title}</Text>
+              <Text style={{"font-weight": 'bold', "margin-right": "12px"}} size={16} color='var(--primary-color)'>{props.title}</Text>
               <Show when={props.close}>
                 <CloseButtonContainer>
                   <Button color='var(--alert-color)' onClick={props.close} iconName='close' iconSize={16} />

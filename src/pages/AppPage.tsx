@@ -26,7 +26,7 @@ import DrawerLayout, { useDrawer } from '@/components/ui/drawer/Drawer';
 import { Route, Routes, useMatch, useSearchParams } from '@solidjs/router';
 import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
-import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
+import { ConnectionErrorModal } from '@/components/connection-error-modal/ConnectionErrorModal';
 import { useAppVersion } from '@/common/useAppVersion';
 import { ChangelogModal } from '@/components/ChangelogModal';
 import { classNames, conditionalClass } from '@/common/classNames';
