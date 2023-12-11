@@ -23,7 +23,7 @@ import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout, { useDrawer } from '@/components/ui/drawer/Drawer';
-import { Route, Routes, useSearchParams } from '@solidjs/router';
+import { Route, Routes, useMatch, useSearchParams } from '@solidjs/router';
 import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ConnectionErrorModal } from '@/components/ConnectionErrorModal';
@@ -106,7 +106,8 @@ export default function AppPage() {
 
   createEffect(on(account.authenticationError, (err) => {
     if (!err) return;
-    if (!getStorageString(StorageKeys.USER_TOKEN, null)) return;
+    const invitesPage = useMatch(() => "/app/explore/servers/invites/*");
+    if (invitesPage()) return;
     createPortal?.(close => <ConnectionErrorModal close={close} />)
   }))
 

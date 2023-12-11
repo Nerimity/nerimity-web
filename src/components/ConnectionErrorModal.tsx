@@ -24,6 +24,11 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
     props.close();
   }
 
+  const loginPage = () => {
+    navigate("/login");
+    props.close();
+  }
+
   const hasToken = () => getStorageString(StorageKeys.USER_TOKEN, null);
 
 
@@ -31,6 +36,7 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
     <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button onClick={props.close} label="OK" />
       <Show when={hasToken()}><Button onClick={logout} label="Logout" color="var(--alert-color)" /></Show>
+      <Show when={!hasToken()}><Button onClick={() => loginPage()} label="Login" /></Show>
     </FlexRow>
   )
 
