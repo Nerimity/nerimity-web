@@ -6,7 +6,7 @@ import { createServer } from '@/chat-api/services/ServerService';
 import { createSignal } from 'solid-js';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useNavigate } from '@solidjs/router';
-import Modal from '@/components/ui/Modal';
+import Modal from '@/components/ui/modal/Modal';
 import { FlexRow } from '@/components/ui/Flexbox';
 import { Notice } from '@/components/ui/Notice/Notice';
 import { css } from 'solid-styled-components';

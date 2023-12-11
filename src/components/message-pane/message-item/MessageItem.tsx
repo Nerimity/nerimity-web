@@ -11,7 +11,7 @@ import { Link, useNavigate, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
-import Modal from '@/components/ui/Modal';
+import Modal from '@/components/ui/modal/Modal';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';

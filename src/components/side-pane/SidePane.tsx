@@ -8,7 +8,7 @@ import { createEffect, createResource, createSignal, For, on, onCleanup, onMount
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams, useMatch, hashIntegration } from '@solidjs/router';
 import { FriendStatus, TicketStatus } from '../../chat-api/RawData';
-import Modal from '@/components/ui/Modal';
+import Modal from '@/components/ui/modal/Modal';
 import AddServer from './add-server/AddServerModal';
 import { UserStatuses, userStatusDetail } from '../../common/userStatus';
 import { Server } from '../../chat-api/store/useServers';

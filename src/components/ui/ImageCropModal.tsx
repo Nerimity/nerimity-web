@@ -1,5 +1,5 @@
 import { onMount } from "solid-js";
-import Modal from "./Modal";
+import Modal from "./modal/Modal";
 import Croppie from 'croppie';
 import "croppie/croppie.css"
 import Button from "./Button";

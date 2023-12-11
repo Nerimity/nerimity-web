@@ -13,7 +13,7 @@ import DropDown, { DropDownItem } from '../ui/drop-down/DropDown';
 import Block from '../ui/settings-block/Block';
 import { getStorageObject, StorageKeys, useReactiveLocalStorage } from '@/common/localStorage';
 import { emitActivityStatus } from '@/chat-api/emits/userEmits';
-import Modal from '../ui/Modal';
+import Modal from '../ui/modal/Modal';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import Input from '../ui/input/Input';
 

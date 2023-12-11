@@ -18,7 +18,7 @@ import socketClient from '@/chat-api/socketClient';
 import DeleteConfirmModal from '../ui/delete-confirm-modal/DeleteConfirmModal';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import useServers from '@/chat-api/store/useServers';
-import Modal from '../ui/Modal';
+import Modal from '../ui/modal/Modal';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import { Notice } from '../ui/Notice/Notice';
 import { getChannelNotice } from '@/chat-api/services/ChannelService';

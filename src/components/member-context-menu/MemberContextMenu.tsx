@@ -3,7 +3,7 @@ import { copyToClipboard } from "@/common/clipboard";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import { createSignal, For} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import Modal from '@/components/ui/Modal'
+import Modal from '@/components/ui/modal/Modal'
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import Checkbox from "@/components/ui/Checkbox";
 import { BanServerMember, kickServerMember, updateServerMember } from '@/chat-api/services/ServerService';

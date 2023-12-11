@@ -4,7 +4,7 @@ import { useAppVersion } from "@/common/useAppVersion";
 import { Link } from "@solidjs/router";
 import Button from "./ui/Button";
 import { FlexColumn } from "./ui/Flexbox";
-import Modal from "./ui/Modal";
+import Modal from "./ui/modal/Modal";
 import Text from "./ui/Text";
 
 export function ChangelogModal (props: {close: () => void}) {

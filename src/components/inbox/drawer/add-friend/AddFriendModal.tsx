@@ -4,7 +4,7 @@ import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
 import { createSignal } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
-import Modal from '@/components/ui/Modal';
+import Modal from '@/components/ui/modal/Modal';
 import { FlexRow } from '@/components/ui/Flexbox';
 import { t } from 'i18next';
 

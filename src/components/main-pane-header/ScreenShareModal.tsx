@@ -1,5 +1,5 @@
 import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
-import Modal from "../ui/Modal";
+import Modal from "../ui/modal/Modal";
 import Button from "../ui/Button";
 import { styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";

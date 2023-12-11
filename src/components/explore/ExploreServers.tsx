@@ -20,7 +20,7 @@ import Text from '../ui/Text';
 import { Banner } from '../ui/Banner';
 import { timeSince } from '@/common/date';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import Modal from '../ui/Modal';
+import Modal from '../ui/modal/Modal';
 import { Turnstile, TurnstileRef } from '@nerimity/solid-turnstile';
 import env from '@/common/env';
 

@@ -2,7 +2,7 @@ import styles from './styles.module.scss'
 import { JSXElement, Show, createEffect, createSignal, on } from "solid-js";
 import Button from '../Button';
 import Input from '../input/Input';
-import Modal from '../Modal';
+import Modal from '../modal/Modal';
 import { FlexRow } from '../Flexbox';
 
 interface Props {

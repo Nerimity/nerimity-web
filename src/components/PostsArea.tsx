@@ -17,7 +17,7 @@ import { CustomLink } from "./ui/CustomLink";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Icon from "./ui/icon/Icon";
 import Input from "./ui/input/Input";
-import Modal from "./ui/Modal";
+import Modal from "./ui/modal/Modal";
 import Text from "./ui/Text";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { ImageEmbed, clamp } from "./ui/ImageEmbed";

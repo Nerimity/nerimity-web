@@ -7,7 +7,7 @@ import { useNavigate } from "@solidjs/router";
 import { Match, Show, Switch } from "solid-js";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
-import Modal from "../ui/Modal"
+import Modal from "../ui/modal/Modal"
 
 export const ConnectionErrorModal = (props: {close: () => void}) => {
   const { account } = useStore();

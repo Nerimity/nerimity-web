@@ -36,7 +36,7 @@ import { EmojiPicker } from '../ui/EmojiPicker';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
-import Modal from '../ui/Modal';
+import Modal from '../ui/modal/Modal';
 import { FlexRow } from '../ui/Flexbox';
 import { Markup } from '../Markup';
 import { getChannelNotice } from '@/chat-api/services/ChannelService';

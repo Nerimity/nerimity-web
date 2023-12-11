@@ -1,7 +1,7 @@
 import { classNames } from "@/common/classNames"
 import { useWindowProperties } from "@/common/useWindowProperties"
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import Modal from "../ui/Modal";
+import Modal from "../ui/modal/Modal";
 import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
 import { Show, createEffect, createSignal, onMount } from "solid-js";

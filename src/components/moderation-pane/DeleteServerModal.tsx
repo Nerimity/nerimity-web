@@ -3,7 +3,7 @@ import { styled } from "solid-styled-components";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
-import Modal from "../ui/Modal";
+import Modal from "../ui/modal/Modal";
 import Text from "../ui/Text";
 import { deleteServer } from "@/chat-api/services/ModerationService";
 

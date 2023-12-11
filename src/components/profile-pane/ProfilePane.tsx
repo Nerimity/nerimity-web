@@ -34,7 +34,7 @@ import {Banner} from "../ui/Banner";
 import {Markup} from "../Markup";
 import {t} from "i18next";
 import {hasBit, USER_BADGES} from "@/chat-api/Bitwise";
-import Modal from "../ui/Modal";
+import Modal from "../ui/modal/Modal";
 import {useCustomPortal} from "../ui/custom-portal/CustomPortal";
 import {getLastSelectedChannelId} from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/Item";

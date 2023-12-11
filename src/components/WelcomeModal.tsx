@@ -6,7 +6,7 @@ import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Icon from "./ui/icon/Icon";
-import Modal from "./ui/Modal";
+import Modal from "./ui/modal/Modal";
 import Text from "./ui/Text";
 
 

@@ -16,7 +16,7 @@ import {getUserDetailsRequest, UserDetails} from '@/chat-api/services/UserServic
 import {PostItem} from '@/components/PostsArea';
 import Icon from '@/components/ui/icon/Icon';
 import {useWindowProperties} from '@/common/useWindowProperties';
-import Modal from '@/components/ui/Modal';
+import Modal from '@/components/ui/modal/Modal';
 import Button from '@/components/ui/Button';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import {CustomLink} from '@/components/ui/CustomLink';

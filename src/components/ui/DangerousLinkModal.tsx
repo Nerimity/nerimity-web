@@ -1,7 +1,7 @@
 import { styled } from "solid-styled-components";
 import Button from "./Button";
 import { FlexColumn, FlexRow } from "./Flexbox";
-import Modal from "./Modal";
+import Modal from "./modal/Modal";
 import Text from "./Text";
 
 const ModalContainer = styled(FlexColumn)`
