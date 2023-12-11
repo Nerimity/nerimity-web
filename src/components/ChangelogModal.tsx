@@ -1,5 +1,5 @@
 import { formatTimestamp } from "@/common/date";
-import Marked from "@/common/Marked";
+import Marked from "@/components/marked/Marked";
 import { useAppVersion } from "@/common/useAppVersion";
 import { Link } from "@solidjs/router";
 import Button from "./ui/Button";

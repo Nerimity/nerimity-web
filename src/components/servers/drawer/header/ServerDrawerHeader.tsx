@@ -5,7 +5,7 @@ import { createSignal, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
-import { DrawerHeader } from '@/components/DrawerHeader/DrawerHeader';
+import { DrawerHeader } from '@/components/drawer-header/DrawerHeader';
 import Button from '@/components/ui/Button';
 
 const ServerDrawerHeader =() => {

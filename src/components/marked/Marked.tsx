@@ -1,6 +1,10 @@
+/*
+  Used to parse github readmes.
+*/
+
+import styles from './Marked.module.scss';
 import type MarkdownIt from "markdown-it";
 import { createEffect, createSignal, Show } from "solid-js";
-import { styled } from "solid-styled-components";
 
 const lazyMarkdownIt = () => import("markdown-it");
 
@@ -16,25 +20,6 @@ async function getMd () {
   });
 }
 
-
-const MarkedContainer = styled("div")`
-  h2 {
-    font-weight: normal;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  ul {
-    margin: 5px;
-  }
-  li {
-    opacity: 0.8;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: -10px;
-  }
-`;
-
-// Used to parse github readmes.
 export default function Marked(props: {value: string}) {
   const [html, setHtml] = createSignal<null | ChildNode>(null);
 
@@ -55,5 +40,5 @@ export default function Marked(props: {value: string}) {
     setHtml(div)
   })
 
-  return <Show when={html()}><MarkedContainer>{html?.()}</MarkedContainer></Show>
+  return <Show when={html()}><div class={styles.markedContainer}>{html?.()}</div></Show>
 }

@@ -23,7 +23,7 @@ import { useWindowProperties } from '@/common/useWindowProperties';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import Button from '../ui/Button';
 import Text from '../ui/Text';
-import Marked from '@/common/Marked';
+import Marked from '@/components/marked/Marked';
 import { formatTimestamp } from '@/common/date';
 import { Draggable } from '../ui/Draggable';
 import { updateServerOrder } from '@/chat-api/services/ServerService';
