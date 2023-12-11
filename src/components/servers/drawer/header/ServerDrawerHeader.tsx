@@ -5,7 +5,8 @@ import { createSignal, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
-import { DrawerHeader } from '@/components/DrawerHeader';
+import { DrawerHeader } from '@/components/DrawerHeader/DrawerHeader';
+import Button from '@/components/ui/Button';
 
 const ServerDrawerHeader =() => {
   const params = useParams();
@@ -23,7 +24,7 @@ const ServerDrawerHeader =() => {
         <ContextMenuServer onClose={() => setContextPosition(undefined)} position={contextPosition()} serverId={params.serverId} triggerClassName={styles.showMoreIcon} />
         <div class={styles.serverName}>{server()?.name}</div>
         <Show when={server()?.verified}><ServerVerifiedIcon/></Show>
-        <Icon size={18} name='expand_more' class={styles.showMoreIcon} onClick={onClick}  />
+        <Button class={styles.showMoreIcon} iconName='more_vert' iconSize={18} onClick={onClick} margin={0} padding={6} />
       </div>
     </DrawerHeader>
   )

@@ -6,7 +6,7 @@ import ItemContainer from '@/components/ui/Item';
 import { css, styled } from 'solid-styled-components';
 import Text from '@/components/ui/Text';
 import { FlexColumn } from '../ui/Flexbox';
-import { DrawerHeader } from '../DrawerHeader';
+import { DrawerHeader } from '../DrawerHeader/DrawerHeader';
 import { useTransContext } from '@mbarzda/solid-i18next';
 import { t } from 'i18next';
 import InVoiceActions from '../InVoiceActions';

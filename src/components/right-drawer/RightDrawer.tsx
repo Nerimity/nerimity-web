@@ -6,7 +6,7 @@ import useStore from '@/chat-api/store/useStore';
 import {createEffect, createMemo, createSignal, For, JSX, mapArray, on, onCleanup, onMount, Show} from 'solid-js';
 import {ServerMember} from '@/chat-api/store/useServerMembers';
 import MemberContextMenu, {ServerMemberRoleModal} from '../member-context-menu/MemberContextMenu';
-import {DrawerHeader} from '@/components/DrawerHeader';
+import {DrawerHeader} from '@/components/DrawerHeader/DrawerHeader';
 import {useCustomPortal} from '@/components/ui/custom-portal/CustomPortal';
 import {css, styled} from 'solid-styled-components';
 import {bannerUrl} from '@/chat-api/store/useUsers';

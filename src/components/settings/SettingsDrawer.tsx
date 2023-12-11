@@ -14,7 +14,7 @@ import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { ChangelogModal } from '../ChangelogModal';
 import { clearCache } from '@/common/localCache';
 import socketClient from '@/chat-api/socketClient';
-import { DrawerHeader } from '../DrawerHeader';
+import { DrawerHeader } from '../DrawerHeader/DrawerHeader';
 import { useTransContext } from '@mbarzda/solid-i18next';
 import { t } from 'i18next';
 import InVoiceActions from '../InVoiceActions';
