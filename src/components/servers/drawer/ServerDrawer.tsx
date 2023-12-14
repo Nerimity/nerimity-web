@@ -20,6 +20,7 @@ import { createSignal } from 'solid-js';
 import Avatar from '@/components/ui/Avatar';
 import { timeElapsed } from '@/common/date';
 import InVoiceActions from '@/components/InVoiceActions';
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 
 
 
@@ -40,23 +41,34 @@ const ServerDrawer = () => {
 
 const ChannelList = () => {
   const params = useParams();
-  const { channels } = useStore();
+  const { channels, account } = useStore();
   const sortedServerChannels = () => channels.getSortedChannelsByServerId(params.serverId, true).filter(channel => !channel?.categoryId);
 
   return (
     <div class={styles.channelList}>
-      <For each={sortedServerChannels()}>
-        {channel => (
-          <Switch fallback={<ChannelItem channel={channel!} selected={params.channelId === channel!.id} />}>
-            <Match when={channel!.type === ChannelType.CATEGORY}>
-              <CategoryItem channel={channel!} selected={params.channelId === channel!.id} />
-            </Match>
-          </Switch>
-        )}
-      </For>
+      <Show when={account.lastAuthenticatedAt()} fallback={<ChannelListSkeleton/>}>
+        <For each={sortedServerChannels()}>
+          {channel => (
+            <Switch fallback={<ChannelItem channel={channel!} selected={params.channelId === channel!.id} />}>
+              <Match when={channel!.type === ChannelType.CATEGORY}>
+                <CategoryItem channel={channel!} selected={params.channelId === channel!.id} />
+              </Match>
+            </Switch>
+          )}
+        </For>
+      </Show>
     </div>
   )
 };
+
+
+const ChannelListSkeleton = () => {
+  return (
+   <Skeleton.List>
+     <Skeleton.Item height="34px" width='100%'  />
+   </Skeleton.List>
+  )
+ }
 
 
 

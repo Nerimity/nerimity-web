@@ -41,6 +41,7 @@ import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel'
 import { ProgramWithAction, electronWindowAPI } from '@/common/Electron';
 import { StorageKeys, getStorageObject } from '@/common/localStorage';
 import { getModerationTickets } from '@/chat-api/services/ModerationService';
+import { Skeleton } from '../ui/skeleton/Skeleton';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -425,7 +426,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 }
 
 const ServerList = () => {
-  const { servers } = useStore();
+  const { servers, account } = useStore();
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>();
   const [contextServerId, setContextServerId] = createSignal<string | undefined>();
 
@@ -442,14 +443,25 @@ const ServerList = () => {
 
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
-    <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
-      {server => <ServerItem
-        server={server!}
-        onContextMenu={e => onContextMenu(e, server!.id)}
-      />}
-    </Draggable>
+    <Show when={account.lastAuthenticatedAt()} fallback={<ServerListSkeleton/>}>
+      <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
+        {server => <ServerItem
+          server={server!}
+          onContextMenu={e => onContextMenu(e, server!.id)}
+          />}
+      </Draggable>
+    </Show>
   </div>
 };
+
+
+const ServerListSkeleton = () => {
+ return (
+  <Skeleton.List>
+    <Skeleton.Item height="50px" width="60px" />
+  </Skeleton.List>
+ )
+}
 
 
 function UpdateModal(props: { close: () => void }) {

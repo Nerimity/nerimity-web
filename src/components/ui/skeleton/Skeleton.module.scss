@@ -1,0 +1,41 @@
+.skeletonList {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+
+}
+
+.skeletonItem {
+  position: relative;
+  background-color: hsl(216deg 7% 28% / 20%);
+  border-radius: 8px;
+  overflow: hidden;
+
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+
+  &::after{
+    content:'';
+    inset: 0;
+    transform:translateX(100%);
+    position: absolute;
+    z-index:1;
+    animation: slide 1.5s infinite;
+    opacity: 0.1;
+
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,var(--primary-color) 50%,rgba(128,186,232,0) 99%,rgba(125,185,232,0) 100%);
+  }
+}
+
+@keyframes slide {
+	0% {transform:translateX(-100%);}
+	100% {transform:translateX(100%);}
+}
+
+
+@keyframes fadeIn {
+	0% {opacity: 0}
+	100% {opacity: 1}
+}

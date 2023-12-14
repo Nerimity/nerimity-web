@@ -89,7 +89,8 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     account.setUser(payload.user);
     account.setSocketDetails({
       socketConnected: true,
-      socketAuthenticated: true
+      socketAuthenticated: true,
+      lastAuthenticatedAt: Date.now()
     })
     users.set(payload.user)
 

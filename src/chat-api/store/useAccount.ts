@@ -14,6 +14,7 @@ interface Account {
   socketAuthenticated: boolean,
   authenticationError: {message: string, data: any} | null;
   serverSettings: Record<string, ServerSettings>
+  lastAuthenticatedAt: null | number;
 }
 
 
@@ -23,7 +24,8 @@ const [account, setAccount] = createStore<Account>({
   socketConnected: false,
   socketAuthenticated: false,
   authenticationError: null,
-  serverSettings: {}
+  serverSettings: {},
+  lastAuthenticatedAt: null
 });
 
 
@@ -38,6 +40,7 @@ interface SetSocketDetailsArgs {
   socketAuthenticated?: boolean,
   socketConnected?: boolean,
   authenticationError?: {message: string, data: any} | null,
+  lastAuthenticatedAt?: number;
 }
 const setSocketDetails = (details: SetSocketDetailsArgs) => {
   setAccount(details);
@@ -51,6 +54,8 @@ const user = () => account.user;
 const isConnected = () => account.socketConnected;
 const isAuthenticated = () => account.socketAuthenticated;
 const authenticationError = () => account.authenticationError;
+
+const lastAuthenticatedAt = () => account.lastAuthenticatedAt
 
 const avatarUrl = () => user()?.avatar ? env.NERIMITY_CDN + user()?.avatar : null;
 
@@ -68,6 +73,7 @@ export default function useAccount() {
     authenticationError,
     setServerSettings,
     getServerSettings,
-    hasModeratorPerm
+    hasModeratorPerm,
+    lastAuthenticatedAt
   }
 }
