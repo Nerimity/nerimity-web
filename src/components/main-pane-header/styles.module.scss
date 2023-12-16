@@ -133,6 +133,7 @@
       background-color: var(--alert-color);
       border-radius: 50%;
       padding: 5px;
+      z-index: 111111;
     }
     .videoStreamIcon {
       position: absolute;
@@ -141,6 +142,7 @@
       background-color: var(--primary-color);
       border-radius: 50%;
       padding: 3px;
+      z-index: 11111;
     }
     &.selected {
       background-color: rgba(255,255,255,0.2);

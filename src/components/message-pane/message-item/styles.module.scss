@@ -56,6 +56,8 @@
     align-items: center;
     justify-content: center;
     width: 40px;
+    padding-left: 6px;
+    padding-right: 6px;
   }
   .date {
     color: rgba(255, 255, 255, 0.6);
@@ -71,11 +73,15 @@
   flex-shrink: 0;
 
   padding: 3px;
-  padding-left: 10px;
+  padding-left: 6px;
   padding-right: 10px;
   margin-top: 10px;
   gap: 5px;
   align-items: start;
+  .avatar {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
   &:hover {
     background-color: rgba(255, 255, 255, 0.03);
     .floatOptions {
@@ -189,7 +195,7 @@ body .reactionItem {
 .compact {
   padding-top: 3px;
   margin-top: 0px;
-  padding-left: 55px;
+  padding-left: 63px;
 }
 
 .sentStatus {

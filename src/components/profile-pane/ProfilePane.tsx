@@ -990,11 +990,21 @@ function BadgeDetailModal(props: {
   close(): void;
 }) {
   const user = () => ({ ...props.user.user, badges: props.badge.bit });
+  const [animate, setAnimate] = createSignal(false);
+
+  onMount(() => {
+    const id = window.setTimeout(() => {
+      setAnimate(true);
+    }, 100);
+    onCleanup(() => {
+      window.clearTimeout(id);
+    })
+  })
 
   return (
     <Modal title={`${props.badge.name} Badge`} close={props.close}>
       <BadgeDetailsModalContainer gap={30}>
-        <Avatar user={user()} size={80} animate />
+        <Avatar user={user()} size={80} animate={animate()} />
         <Text>{props.badge.description}</Text>
       </BadgeDetailsModalContainer>
     </Modal>

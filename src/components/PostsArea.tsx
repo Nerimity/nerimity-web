@@ -171,6 +171,7 @@ const PostOuterContainer = styled(FlexColumn)`
 
 const PostContainer = styled(FlexRow)`
   align-items: start;
+  padding-left: 2px;
 `;
 
 const PostDetailsContainer = styled(FlexRow)`
@@ -216,6 +217,7 @@ const ReplyingToContainer = styled("div")`
 const PostInnerContainer = styled(FlexColumn)`
   width: 100%;
   overflow: hidden;
+  margin-left: 6px;
 `
 
 export function PostItem(props: { showFullDate?: boolean; disableClick?: boolean; hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post }) {

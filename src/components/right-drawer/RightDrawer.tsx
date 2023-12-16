@@ -383,7 +383,8 @@ const FlyoutOtherDetailsContainer = styled(FlexColumn)`
 `;
 
 const flyoutAvatarStyles = css`
-  margin-right: 5px;
+  margin-right: 14px;
+  margin-left: 6px;
 `;
 
 const RolesContainer = styled(FlexRow)`

@@ -283,7 +283,7 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser, selected: boolean; 
 
   return (
     <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(user().id)} class={classNames(styles.voiceParticipantItem, conditionalClass(props.selected, styles.selected))}>
-      <Avatar user={{ ...user(), badges: undefined }} animate={talking()} size={props.size === "small" ? 40 : 60} borderColor={talking() ? 'var(--success-color)' : undefined} />
+      <Avatar user={user()}  size={props.size === "small" ? 40 : 60} voiceIndicator animate={talking() } />
       <Show when={isMuted() && isInCall()}>
         <Icon class={styles.muteIcon} name='mic_off' color='white' size={16} />
       </Show>
