@@ -9,6 +9,7 @@ import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
 import { SupporterBorderSvg } from "../avatar-borders/SupporterBorderSvg";
 import { AdminBorderSvg } from "../avatar-borders/AdminBorderSvg";
+import { FounderBorderSvg } from "../avatar-borders/FounderBorderSvg";
 
 interface Props {
   url?: string | null;
@@ -125,6 +126,15 @@ function AvatarBorder(props: {
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.ADMIN.bit}>
           <AdminBorder
+            size={props.size}
+            avatarUrl={props.url}
+            hovered={props.hovered}
+            color={props.color}
+            children={props.children}
+          />
+        </Match>
+        <Match when={props.badge?.bit === USER_BADGES.FOUNDER.bit}>
+          <FounderBorder
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -291,6 +301,24 @@ function AdminBorder(props: {
 }) {
   return (
     <AdminBorderSvg
+      children={props.children}
+      color={props.color}
+      url={props.avatarUrl}
+      hovered={props.hovered}
+    />
+  );
+}
+
+
+function  FounderBorder(props: {
+  size: number;
+  avatarUrl?: string;
+  hovered?: boolean;
+  color?: string;
+  children?: JSXElement;
+}) {
+  return (
+    <FounderBorderSvg
       children={props.children}
       color={props.color}
       url={props.avatarUrl}

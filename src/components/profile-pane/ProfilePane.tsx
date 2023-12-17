@@ -103,8 +103,12 @@ export default function ProfilePane() {
   );
 
   const fetchUserDetails = async (userId: string) => {
+    setAnimateAvatar(false)
     const userDetails = await getUserDetailsRequest(userId);
     setUserDetails(userDetails);
+    setTimeout(() => {
+      setAnimateAvatar(true);
+    }, 100);
   };
 
   const user = () => {
@@ -122,13 +126,6 @@ export default function ProfilePane() {
         title: user()!.username,
         iconName: "person",
       });
-
-      setAnimateAvatar(false)
-      setTimeout(() => {
-        setAnimateAvatar(true);
-      }, 100);
-
-
     })
   );
 

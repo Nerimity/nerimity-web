@@ -12,7 +12,8 @@ export const USER_BADGES = {
     name: 'Founder',
     bit: 1,
     description: 'Creator of Nerimity',
-    color: '#6fd894'
+    color: 'linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%);',
+    credit: "Avatar Border by upklyak on Freepik"
   },
   ADMIN: {
     name: 'Admin',
