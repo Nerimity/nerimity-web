@@ -8,6 +8,7 @@ import Text from "./Text";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
 import { SupporterBorderSvg } from "../avatar-borders/SupporterBorderSvg";
+import { AdminBorderSvg } from "../avatar-borders/AdminBorderSvg";
 
 interface Props {
   url?: string | null;
@@ -45,12 +46,11 @@ export default function Avatar(props: Props) {
     return url + "?type=webp";
   };
 
-
   const badge = createMemo(() => {
     const badges = serverOrUser().badges;
     if (!badges) return;
-    return badgesArr.find((b) => hasBit(badges, b.bit))
-  })
+    return badgesArr.find((b) => hasBit(badges, b.bit));
+  });
 
   return (
     <div
@@ -108,11 +108,9 @@ function AvatarBorder(props: {
   url?: string;
   color?: string;
   children?: JSXElement;
-  badge?: typeof USER_BADGES[keyof typeof USER_BADGES];
+  badge?: (typeof USER_BADGES)[keyof typeof USER_BADGES];
   voiceIndicator?: boolean;
 }) {
-
-
   return (
     <>
       <Switch>
@@ -125,11 +123,26 @@ function AvatarBorder(props: {
             children={props.children}
           />
         </Match>
+        <Match when={props.badge?.bit === USER_BADGES.ADMIN.bit}>
+          <AdminBorder
+            size={props.size}
+            avatarUrl={props.url}
+            hovered={props.hovered}
+            color={props.color}
+            children={props.children}
+          />
+        </Match>
         <Match when={props.badge || props.serverOrUser?.verified}>
           <BasicBorder
             size={props.size}
-            color={props.serverOrUser?.verified ? "var(--primary-color)" : props.badge!.color}
-            label={props.serverOrUser?.verified ? "Verified" :  props.badge!.name}
+            color={
+              props.serverOrUser?.verified
+                ? "var(--primary-color)"
+                : props.badge!.color
+            }
+            label={
+              props.serverOrUser?.verified ? "Verified" : props.badge!.name
+            }
             hovered={props.hovered}
             serverOrUser={props.serverOrUser}
             url={props.url}
@@ -261,6 +274,23 @@ function SupporterBorder(props: {
 }) {
   return (
     <SupporterBorderSvg
+      children={props.children}
+      color={props.color}
+      url={props.avatarUrl}
+      hovered={props.hovered}
+    />
+  );
+}
+
+function AdminBorder(props: {
+  size: number;
+  avatarUrl?: string;
+  hovered?: boolean;
+  color?: string;
+  children?: JSXElement;
+}) {
+  return (
+    <AdminBorderSvg
       children={props.children}
       color={props.color}
       url={props.avatarUrl}

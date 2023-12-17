@@ -1,0 +1,84 @@
+.s0 { fill: url(#admin-badge-g1) } 
+.s1 { fill: url(#admin-badge-g2) } 
+.s2 { fill: url(#admin-badge-g3) } 
+.s3 { fill: url(#admin-badge-g4) } 
+.s4 { fill: url(#admin-badge-g5) } 
+.s5 { fill: url(#admin-badge-g6) } 
+
+.s6 { fill: url(#admin-badge-g7) } 
+.s7 { fill: url(#admin-badge-g8) } 
+.s8 { fill: url(#admin-badge-g9) } 
+.s9 { fill: url(#admin-badge-g10) } 
+.s10 { fill: url(#admin-badge-g11) } 
+.s11 { fill: url(#admin-badge-g12) } 
+
+.s12 { fill: url(#admin-badge-g13) } 
+.s13 { fill: url(#admin-badge-g14) } 
+.s14 { fill: url(#admin-badge-g15) } 
+.s15 { fill: url(#admin-badge-g16) } 
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
+  transition: 0.4s ease;
+}
+
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.container.hovered {
+  transform: scale(0.8)
+}
+
+
+.s0,
+.s1,
+.s2,
+.s3,
+.s4,
+.s5 {
+  opacity: 0;
+  transform: translateX(30%);
+  transition: 0.4s;
+}
+
+.s6,
+.s7,
+.s8,
+.s9,
+.s10,
+.s11 {
+  opacity: 0;
+  transform: translateX(-30%);
+  
+  transition: 0.4s;
+}
+
+.container.hovered .s0,
+.container.hovered .s1,
+.container.hovered .s2,
+.container.hovered .s3,
+.container.hovered .s4,
+.container.hovered .s5 {
+  transform: translateX(0%);
+  opacity: 1;
+}
+
+
+.container.hovered .s6,
+.container.hovered .s7,
+.container.hovered .s8,
+.container.hovered .s9,
+.container.hovered .s10,
+.container.hovered .s11 {
+  transform: translateX(0%);
+  opacity: 1;
+}

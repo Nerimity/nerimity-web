@@ -18,13 +18,15 @@ export const USER_BADGES = {
     name: 'Admin',
     bit: 2,
     description: 'Admin of Nerimity',
-    color: '#d8a66f'
+    color: 'linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%);',
+    credit: "Avatar Border by upklyak on Freepik"
   },
   SUPPORTER: {
     name: 'Supporter',
     description: 'Supported this project by donating money',
     bit: 8,
-    color: '#d86f6f'
+    color: 'linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)',
+    credit: "Avatar Border by upklyak on Freepik"
   },
   CONTRIBUTOR: {
     name: 'Contributor',

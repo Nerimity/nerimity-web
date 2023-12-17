@@ -1,13 +1,13 @@
-.s0 { fill: url(#g1) } 
-.s1 { fill: url(#g2) } 
-.s2 { fill: url(#g3) } 
-.s3 { fill: url(#g4) } 
-.s4 { fill: url(#g5) } 
-.s5 { fill: url(#g6) } 
-.s6 { fill: url(#g7) } 
-.s7 { fill: url(#g8) } 
-.s8 { fill: url(#g9) } 
-.s9 { fill: url(#g10) }
+.s0 { fill: url(#supporter-badge-g1) } 
+.s1 { fill: url(#supporter-badge-g2) } 
+.s2 { fill: url(#supporter-badge-g3) } 
+.s3 { fill: url(#supporter-badge-g4) } 
+.s4 { fill: url(#supporter-badge-g5) } 
+.s5 { fill: url(#supporter-badge-g6) } 
+.s6 { fill: url(#supporter-badge-g7) } 
+.s7 { fill: url(#supporter-badge-g8) } 
+.s8 { fill: url(#supporter-badge-g9) } 
+.s9 { fill: url(#supporter-badge-g10) }
 
 .container {
   display: flex;
@@ -35,7 +35,6 @@
 .s1,
 .s2 {
   opacity: 0;
-  /* animation: rightWingsOut 0.4s ease forwards; */
   transform: translateX(-30%);
   transition: 0.4s;
 }

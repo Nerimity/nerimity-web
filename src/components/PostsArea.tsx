@@ -645,7 +645,7 @@ export function ViewPostModal(props: { close(): void }) {
   }
 
   return (
-    <Modal close={onClose} title="Post" class={css` width: 610px; max-height: 800px; height: calc(100% - 20px);`}>
+    <Modal close={onClose} title="Post" class={css`display: flex; flex-direction: column; width: 610px; max-height: 800px; height: calc(100% - 20px);`}>
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
           <FlexColumn gap={5}>
