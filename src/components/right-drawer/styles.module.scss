@@ -100,8 +100,9 @@
   transition: 0.2s;
   overflow: hidden;
   user-select: none;
+  padding-left: 8px;
   .memberInfo {
-    margin-left: 5px;
+    margin-left: 8px;
   }
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);

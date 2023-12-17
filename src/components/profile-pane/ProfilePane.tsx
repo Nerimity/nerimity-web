@@ -89,6 +89,7 @@ export default function ProfilePane() {
   const { width, isMobileWidth } = useWindowProperties();
   const isMe = () => account.user()?.id === params.userId;
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
+  const [animateAvatar, setAnimateAvatar] = createSignal(false);
 
   createEffect(
     on(
@@ -102,8 +103,12 @@ export default function ProfilePane() {
   );
 
   const fetchUserDetails = async (userId: string) => {
+    setAnimateAvatar(false)
     const userDetails = await getUserDetailsRequest(userId);
     setUserDetails(userDetails);
+    setTimeout(() => {
+      setAnimateAvatar(true);
+    }, 100);
   };
 
   const user = () => {
@@ -144,7 +149,7 @@ export default function ProfilePane() {
                     margin-top: -${width() <= 500 ? "40" : "52"}px;
                   `
                 )}
-                animate
+                animate={animateAvatar()}
                 user={user()!}
                 size={width() <= 500 ? 72 : 98}
               />
@@ -929,10 +934,10 @@ function UsersList(props: { users: RawUser[] }) {
   );
 }
 
-type Badge = typeof USER_BADGES.FOUNDER;
+type Badge = typeof USER_BADGES.SUPPORTER;
 
 const BadgeContainer = styled("button")<{ color: string }>`
-  background-color: ${(props) => props.color};
+  background: ${(props) => props.color};
   border-radius: 4px;
   padding: 3px;
   color: rgba(0, 0, 0, 0.7);
@@ -990,12 +995,27 @@ function BadgeDetailModal(props: {
   close(): void;
 }) {
   const user = () => ({ ...props.user.user, badges: props.badge.bit });
+  const [animate, setAnimate] = createSignal(false);
+
+  onMount(() => {
+    const id = window.setTimeout(() => {
+      setAnimate(true);
+    }, 100);
+    onCleanup(() => {
+      window.clearTimeout(id);
+    })
+  })
 
   return (
     <Modal title={`${props.badge.name} Badge`} close={props.close}>
       <BadgeDetailsModalContainer gap={30}>
-        <Avatar user={user()} size={80} animate />
-        <Text>{props.badge.description}</Text>
+        <FlexColumn itemsCenter gap={18}> 
+          <Avatar user={user()} size={80} animate={animate()} />
+          <Text style={{"max-width": "200px", "text-align": "center"}}>{props.badge.description}</Text>
+        </FlexColumn>
+        <FlexColumn itemsCenter gap={16} >
+          <Text size={14} opacity={0.6}>{props.badge.credit}</Text>
+        </FlexColumn>
       </BadgeDetailsModalContainer>
     </Modal>
   );

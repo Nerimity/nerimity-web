@@ -171,6 +171,7 @@ const PostOuterContainer = styled(FlexColumn)`
 
 const PostContainer = styled(FlexRow)`
   align-items: start;
+  padding-left: 2px;
 `;
 
 const PostDetailsContainer = styled(FlexRow)`
@@ -216,6 +217,7 @@ const ReplyingToContainer = styled("div")`
 const PostInnerContainer = styled(FlexColumn)`
   width: 100%;
   overflow: hidden;
+  margin-left: 6px;
 `
 
 export function PostItem(props: { showFullDate?: boolean; disableClick?: boolean; hideDelete?: boolean; class?: string; onClick?: (id: Post) => void; post: Post }) {
@@ -643,7 +645,7 @@ export function ViewPostModal(props: { close(): void }) {
   }
 
   return (
-    <Modal close={onClose} title="Post" class={css` width: 610px; max-height: 800px; height: calc(100% - 20px);`}>
+    <Modal close={onClose} title="Post" class={css`display: flex; flex-direction: column; width: 610px; max-height: 800px; height: calc(100% - 20px);`}>
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
           <FlexColumn gap={5}>

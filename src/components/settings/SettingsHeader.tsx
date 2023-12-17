@@ -13,6 +13,7 @@ import { bannerUrl } from '@/chat-api/store/useUsers';
 import { Banner } from '../ui/Banner';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { FriendStatus } from '@/chat-api/RawData';
+import { useResizeObserver } from '@/common/useResizeObserver';
 
 
 const HeaderContainer = styled("div")`
@@ -62,6 +63,7 @@ const CustomAvatar = styled("div")<{cropPosition: string}>`
 `;
 
 const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?: string, banner?: string; avatar?: string; avatarPoints?: number[]; } }) => {
+  const [avatarEl, setAvatarEl] = createSignal<HTMLDivElement | undefined>();
   const { account, servers, friends } = useStore();
   const user = () => account.user();
   const serverCount = () => servers.array().length || "0";
@@ -82,8 +84,8 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
     const coordinates  = props.headerPreviewDetails.avatarPoints;
     if (!coordinates ) return ""
 
-    const viewWidth = avatarSize();
-    const viewHeight = avatarSize();
+    const viewWidth = avatarSize() && avatarEl()?.clientWidth || 0;
+    const viewHeight = avatarSize() && avatarEl()?.clientHeight || 0;
     const imageWidth = imageDimensions().width;
     const imageHeight = imageDimensions().height
 
@@ -97,13 +99,6 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
     `
   }
 
-  function getCroppedDimensions(points: number[]) {
-    const [startX, startY, endX, endY ] = points;
-    const width = Math.abs(endX - startX);
-    const height = Math.abs(endY - startY);
-    return { width, height };
-  }
-
   async function getImageDimensions(imageUrl: string) {
     const img = new Image();
     img.src = imageUrl;
@@ -115,11 +110,8 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
     <Show when={user()}>
       <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={props.headerPreviewDetails.banner || bannerUrl(user()!)}>
         <HeaderContainer>
-          <Avatar animate user={account.user()} hexColor={user()!.hexColor} size={avatarSize()} class={avatarStyles}>
-            {
-              props.headerPreviewDetails.avatar && 
-              <CustomAvatar cropPosition={cropPosition()} style={{background: `url("${props.headerPreviewDetails.avatar}")`}} />
-            }
+          <Avatar animate user={account.user()!} size={avatarSize()} class={avatarStyles}>
+            {props.headerPreviewDetails.avatar  ? <CustomAvatar ref={setAvatarEl} cropPosition={cropPosition()} style={{background: `url("${props.headerPreviewDetails.avatar}")`}} /> : null}
           </Avatar>
           <DetailsContainer>
             <UsernameTagContainer>
