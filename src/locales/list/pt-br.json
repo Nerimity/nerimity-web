@@ -2,38 +2,38 @@
   "header": {
     "accountButton": "Conta",
     "openAppButton": "Abrir Aplicativo",
-    "loginButton": "Login",
-    "joinNowButton": "Junte-se"
+    "loginButton": "Entrar",
+    "joinNowButton": "Junte-se Agora"
   },
   "homePage": {
-    "slogan": "Um aplicativo de chat bonito e moderno.",
+    "slogan": "Um aplicativo de conversa elegante e moderno.",
     "joinButton": "Junte-se ao {{appName}}",
     "viewGitHubButton": "Ver GitHub"
   },
   "loginPage": {
-    "title": "Faça login para continuar",
+    "title": "Entre para continuar",
     "emailOrUsernameAndTag": "Email / nome de usuário:tag",
     "password": "Senha",
     "login": "Entrar",
-    "createAccountInstead": "Não possui uma conta?",
-    "loggingIn": "Conectando-se...",
+    "createAccountInstead": "Em vez disso, criar uma conta",
+    "loggingIn": "Entrando...",
     "loginButton": "Entrar"
   },
   "registerPage": {
-    "title": "Bem vindo ao {{appName}}",
+    "title": "Bem-vindo ao {{appName}}",
     "email": "Email",
     "username": "Nome de Usuário",
     "password": "Senha",
     "confirmPassword": "Confirmar Senha",
     "registerButton": "Registrar-se",
     "registering": "Registrando...",
-    "loginInstead": "Já possui uma conta?"
+    "loginInstead": "Em vez disso, entrar"
   },
   "inbox": {
     "drawer": {
-      "requests": "Pendente",
-      "online": "Online",
-      "offline": "Offline",
+      "requests": "Pedidos",
+      "online": "Ativo",
+      "offline": "Inativo",
       "savedNotesButton": "Notas Salvas",
       "addFriendButton": "Adicionar Amigo",
       "inboxButton": "Caixa de Entrada",
@@ -47,18 +47,18 @@
     },
     "servers": {
       "title": "Explorar - Servidores",
-      "noticeMessage": "Um servidor poderá receber um bump uma vez a cada {{hours}} horas. Valores de bumps são redefinidos a cada {{date}}.",
-      "sortMostBumps": "Mais bumps",
-      "sortMostMembers": "Membros Totais",
-      "sortRecentlyAdded": "Adicionados Recentemente",
-      "sortRecentlyBumped": "Bumps Recentes",
+      "noticeMessage": "Um servidor pode ser impulsionado uma vez a cada {{hours}} horas. Todos impulsos são redefinidos a cada {{date}}.",
+      "sortMostBumps": "Mais impulsos",
+      "sortMostMembers": "Mais Membros",
+      "sortRecentlyAdded": "Adicionado recentemente",
+      "sortRecentlyBumped": "Recentemente impulsionado",
       "filterAll": "Todos",
       "filterVerified": "Verificados",
       "memberCount": "{{count}} membros",
-      "lifetimeBumpCount": "{{count}} bumps totais",
+      "lifetimeBumpCount": "{{count}} impulsos totais",
       "visitServerButton": "Visitar",
       "joinServerButton": "Juntar-se",
-      "bumpButton": "Bump ({{count}})"
+      "bumpButton": "Impulsionar ({{count}})"
     }
   },
   "servers": {
@@ -77,14 +77,14 @@
         "notifications": "Notificações"
       },
       "general": {
-        "serverRenameNotice": "Seu servidor verificado perderá todos os benefícios caso seja renomeado.",
+        "serverRenameNotice": "Se você renomear seu servidor, você perderá todos os benefícios de verificação.",
         "serverName": "Nome do Servidor",
         "defaultChannel": "Canal Padrão",
         "defaultChannelDescription": "Membros novos serão direcionados a esse canal.",
         "systemMessages": "Mensagens do Sistema",
         "systemMessagesDescription": "Onde mensagens do sistema deverão aparecer.",
-        "deleteThisServer": "Excluir Servidor",
-        "deleteThisServerDescription": "Essa ação não poderá ser desfeita!",
+        "deleteThisServer": "Excluir servidor",
+        "deleteThisServerDescription": "Isso não pode ser desfeito!",
         "deleteServerButton": "Excluir Servidor",
         "saveChangesButton": "Salvar Alterações",
         "saving": "Salvando..."
@@ -99,11 +99,11 @@
         "roleName": "Nome do Cargo",
         "roleColor": "Cor do Cargo",
         "hideRole": "Ocultar Cargo",
-        "hideRoleDescription": "Exibir membros com este cargo junto dos membros padrão",
+        "hideRoleDescription": "Mostrar membros com este cargo junto dos membros padrão",
         "permissions": "Permissões",
         "permissionsDescription": "Gerencie as permissões desse cargo.",
-        "deleteRoleButton": "Excluir Cargo",
-        "deleteRoleButtonDescription": "Essa ação não poderá ser desfeita!"
+        "deleteRoleButton": "Excluir cargo",
+        "deleteRoleButtonDescription": "Esta ação não podeser desfeita!"
       },
       "header": {
         "editServer": "Editar Servidor",
@@ -119,49 +119,49 @@
         "channelName": "Nome do Canal",
         "permissions": "Permissões",
         "permissionsDescription": "Gerencie as permissões desse canal.",
-        "deleteThisChannel": "Excluir Canal",
-        "deleteThisChannelDescription": "Essa ação não poderá ser desfeita!",
+        "deleteThisChannel": "Excluir canal",
+        "deleteThisChannelDescription": "Isso não pode ser desfeito!",
         "deleteChannelButton": "Excluir Canal"
       },
       "invites": {
         "createInviteButton": "Criar Convite",
         "serverInvites": "Convites do Servidor",
-        "serverInvitesDescription": "Convide seus amigos ao servidor.",
-        "customInviteVerifiedOnlyNotice": "Custom invite links are only available for verified servers.",
+        "serverInvitesDescription": "Convide seus amigos a este servidor.",
+        "customInviteVerifiedOnlyNotice": "Links de convite personalizados só estão disponíveis para servidores verificados.",
         "customLink": "Link Personalizado",
         "saveButton": "Salvar",
         "deleteButton": "Excluir",
         "copyLinkButton": "Copiar Link"
       },
       "publishServer": {
-        "publishNotice": "Publicar seu servidor o tornará disponível na página de <1>explore</1>.",
+        "publishNotice": "Publicar seu servidor o tornará disponível na página de <1>exploração</1>.",
         "public": "Público",
-        "publicDescription": "Torna este servidor público.",
-        "bumpServer": "Bump",
-        "bumpServerDescription": "Servidores que recebem bump vão ao topo da lista.",
-        "publishServerButton": "Publicar Servidor",
-        "unpublishServerButton": "Despublicar Servidor"
+        "publicDescription": "Tornar este servidor público.",
+        "bumpServer": "Impulsionar Servidor",
+        "bumpServerDescription": "Impulsione este servidor para ir ao topo da lista.",
+        "publishServerButton": "Publicar servidor",
+        "unpublishServerButton": "Despublicar servidor"
       }
     },
     "rolePermissions": {
       "admin": "Administrador",
-      "adminDescription": "Concede todas as permissões.",
+      "adminDescription": "Ativa todas permissões.",
       "sendMessage": "Enviar Mensagens",
-      "sendMessageDescription": "Permite o envio de mensagens nesse servidor. Administradores ainda poderão enviar mensagens.",
+      "sendMessageDescription": "Permitir enviar mensagens neste servidor. Administradores do servidor ainda poderão enviar mensagens.",
       "manageRoles": "Gerenciar Cargos",
-      "manageRolesDescription": "Permite alterar ou excluir cargos.",
+      "manageRolesDescription": "Permissão para alterar ou excluir cargos.",
       "manageChannels": "Gerenciar Canais",
-      "manageChannelsDescription": "Permite alterar ou excluir canais",
-      "kick": "Expulsar Membros",
-      "kickDescription": "Permite ao usuário que expulse membros do servidor.",
-      "ban": "Banir Membros",
-      "banDescription": "Permite ao usuário banir permanentemente membros do servidor."
+      "manageChannelsDescription": "Permitssão para alterar ou excluir canais.",
+      "kick": "Expulsar",
+      "kickDescription": "Permisão para expulsar usuários.",
+      "ban": "Banir",
+      "banDescription": "Permisão para banir usuários."
     },
     "channelPermissions": {
       "privateChannel": "Canal Privado",
-      "privateChannelDescription": "Desabilita o acesso a esse canal. Administradores ainda poderão visualizá-lo.",
+      "privateChannelDescription": "Desabilitar acesso ao canal. Administradores do servidor ainda poderão acessar o canal.",
       "sendMessage": "Enviar Mensagens",
-      "sendMessageDescription": "Habilita o envio de mensagens nesse canal. Administradores ainda poderão enviar mensagens."
+      "sendMessageDescription": "Habilita o envio de mensagens neste canal. Administradores do servidor ainda poderão enviar mensagens."
     }
   },
   "settings": {
@@ -171,15 +171,15 @@
       "language": "Idioma",
       "notifications": "Notificações",
       "logout": "Sair",
-      "supportMe": "Me Apoie",
+      "supportMe": "Apoie-me",
       "viewSource": "Ver Código Fonte",
       "changelog": "Novidades",
-      "window-settings": "Config. de Janela",
+      "window-settings": "Configurações de Janela",
       "privacy": "Privacidade"
     }
   },
   "addFriend": {
-    "usernameAndTag": "Nome de usuário & Tag"
+    "usernameAndTag": "Nome de Usuário & Tag"
   },
   "userContextMenu": {
     "viewProfile": "Ver Perfil",
@@ -193,15 +193,15 @@
     "title": "Expulsar {{username}}",
     "kickButton": "Expulsar",
     "kicking": "Expulsando...",
-    "backButton": "Cancelar",
-    "message": "Deseja mesmo expulsar <1>{{username}}</1> do servidor?"
+    "backButton": "Voltar",
+    "message": "Tem certeza de que quer expulsar <1>{{username}}</1> do servidor?"
   },
   "editServerRolesModal": {
     "title": "Editar Cargos"
   },
   "banModal": {
     "title": "Banir {{username}}?",
-    "message": "Deseja mesmo banir <1>{{username}}</1> do servidor?",
+    "message": "Tem certeza de que quer banir <1>{{username}}</1> do servidor?",
     "deletePastMessagesCheckbox": "Excluir mensagens enviadas nas últimas 7 horas.",
     "banButton": "Banir",
     "banning": "Banindo..."
@@ -214,8 +214,8 @@
   },
   "profile": {
     "followButton": "Seguir",
-    "unfollowButton": "Seguindo",
-    "removeFriendButton": "Desfazer Amizade",
+    "unfollowButton": "Parar de seguir",
+    "removeFriendButton": "Remover Amigo",
     "addFriendButton": "Adicionar Amigo",
     "pendingRequest": "Pedido Pendente",
     "acceptRequestButton": "Aceitar Pedido",
@@ -225,21 +225,21 @@
     "postsTab": "Posts",
     "followersTab": "Seguidores",
     "followingTab": "Seguindo",
-    "postsAndRepliesTab": "Posts e Respostas ({{count}})",
-    "likedPostsTab": "Curtidas ({{count}})"
+    "postsAndRepliesTab": "Postagens e respostas ({{count}})",
+    "likedPostsTab": "Postagens Curtidas ({{count}})"
   },
   "posts": {
     "deletePostModal": {
-      "message": "Deseja mesmo excluir este post??",
+      "message": "Tem certeza de que gostaria de excluir esta postagem?",
       "cancelButton": "Cancelar",
-      "deleteButton": "Excluir"
+      "deleteButton": "excluir"
     },
-    "postWasDeleted": "Esse post foi excluído!",
-    "someoneLikedYourPost": "<1>{{username}}</1> curtiu seu post!",
+    "postWasDeleted": "Esta postagem foi excluída!",
+    "someoneLikedYourPost": "<1>{{username}}</1> curtiu sua postagem!",
     "someoneFollowedYou": "<1>{{username}}</1> seguiu você!",
-    "someoneRepliedToPost": "<1>{{username}}</1> respondeu ao seu post!",
-    "createAPostInputPlaceholder": "Criar um post...",
-    "replyInputPlaceholder": "Poste sua resposta...",
+    "someoneRepliedToPost": "<1>{{username}}</1> respondeu a sua postagem!",
+    "createAPostInputPlaceholder": "Criar uma postagem...",
+    "replyInputPlaceholder": "Responder...",
     "replyButton": "Responder",
     "createButton": "Criar"
   }
