@@ -48,7 +48,7 @@ export default function Avatar(props: Props) {
   };
 
   const badge = createMemo(() => {
-    const badges = serverOrUser().badges;
+    const badges = serverOrUser()?.badges;
     if (!badges) return;
     return badgesArr.find((b) => hasBit(badges, b.bit));
   });
