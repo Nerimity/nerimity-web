@@ -30,7 +30,7 @@ import { ConnectionErrorModal } from '@/components/connection-error-modal/Connec
 import { useAppVersion } from '@/common/useAppVersion';
 import { ChangelogModal } from '@/components/ChangelogModal';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { WelcomeModal } from '@/components/WelcomeModal';
+import { WelcomeModal } from '@/components/welcome-modal/WelcomeModal';
 import { ViewPostModal } from '@/components/PostsArea';
 import { useResizeObserver } from '@/common/useResizeObserver';
 
