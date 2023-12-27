@@ -704,7 +704,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
                 key="posts.someoneRepliedToPost"
                 options={{ username: props.notification.by.username }}
               >
-                <strong class={notificationUsernameStyles}>{"username"}</strong>{" "}
+                <strong class={notificationUsernameStyles}>{"username"}</strong>
                 replied to your post!
               </Trans>
             </Text>
@@ -744,7 +744,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
                 key="posts.someoneFollowedYou"
                 options={{ username: props.notification.by.username }}
               >
-                <strong class={notificationUsernameStyles}>{"username"}</strong>{" "}
+                <strong class={notificationUsernameStyles}>{"username"}</strong>
                 followed you!
               </Trans>
             </Text>
@@ -780,7 +780,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
                 key="posts.someoneLikedYourPost"
                 options={{ username: props.notification.by.username }}
               >
-                <strong class={notificationUsernameStyles}>{"username"}</strong>{" "}
+                <strong class={notificationUsernameStyles}>{"username"}</strong>
                 liked your post!
               </Trans>
             </Text>
