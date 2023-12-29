@@ -32,7 +32,7 @@ import { css } from 'solid-styled-components';
 import { CHANNEL_PERMISSIONS, hasBit, ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import useAccount from '@/chat-api/store/useAccount';
 import useServers from '@/chat-api/store/useServers';
-import { EmojiPicker } from '../ui/EmojiPicker';
+import { EmojiPicker } from '../ui/emoji-picker/EmojiPicker';
 import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { setLastSelectedServerChannelId } from '@/common/useLastSelectedServerChannel';
@@ -455,6 +455,7 @@ function FloatingMessageEmojiPicker(props: { close: () => void; onClick: (shortc
   return (
     <Floating class={styles.floatingMessageEmojiPicker}>
       <EmojiPicker
+      showGifPicker
         onClick={props.onClick}
         close={props.close}
         heightOffset={-60}

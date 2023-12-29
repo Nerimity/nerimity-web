@@ -1,0 +1,48 @@
+.outerEmojiPicker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 420px;
+  height: 100%;
+  overflow: hidden;
+  
+  &:before {
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.7);
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    z-index: 1;
+  }
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 4px;
+  margin-bottom: 4px;
+  margin-right: 6px;
+  z-index: 1111;
+  position: relative;
+}
+
+.emojiPicker {
+
+  overflow: hidden;
+  background: none;
+  border: none;
+  z-index: 11111;
+  
+
+  :global {
+    .categoriesContainer .customEmojiImage,
+    .title .customEmojiImage {
+      border-radius: 50%;
+    }
+  }
+  
+
+}

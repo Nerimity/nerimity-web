@@ -23,7 +23,7 @@ import { CustomLink } from '@/components/ui/CustomLink';
 import { MentionUser } from '@/components/markup/MentionUser';
 import { Emoji } from '@/components/markup/Emoji';
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
-import { FloatingEmojiPicker } from '@/components/ui/EmojiPicker';
+import { FloatingEmojiPicker } from '@/components/ui/emoji-picker/EmojiPicker';
 import env from '@/common/env';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { DangerousLinkModal } from '@/components/ui/DangerousLinkModal';

@@ -1,40 +1,21 @@
+import styles from './EmojiPicker.module.scss'
 import env from "@/common/env";
 import { CustomEmoji, EmojiPicker as EmojiPickerComponent } from "@nerimity/solid-emoji-picker";
 import { css, styled } from "solid-styled-components";
-import Avatar from "./Avatar";
-import { JSX, JSXElement, createEffect, on, onCleanup, onMount } from "solid-js";
+import Avatar from "../Avatar";
+import { JSX, JSXElement, Show, createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import emojis from '@/emoji/emojis.json';
 import { useResizeObserver } from "@/common/useResizeObserver";
+import Button from '../Button';
 
-const EmojiPickerStyles = css`
-  .categoriesContainer .customEmojiImage,
-  .title .customEmojiImage {
-    border-radius: 50%;
-  }
-
-  max-height: 420px;
-  height: 100%;
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  background-color: rgba(0, 0, 0, 0.7);
-  overflow: hidden;
-
-  &:before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    backdrop-filter: blur(20px);
-    border-radius: 8px;
-    z-index: -1;
-
-  }
-
-`;
-
-export function EmojiPicker(props: { heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
+export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
   const { servers } = useStore();
   const { paneWidth, width, height, isMobileAgent } = useWindowProperties()
+
+  const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF"> ("EMOJI");
+
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
     onCleanup(() => {
@@ -43,7 +24,7 @@ export function EmojiPicker(props: { heightOffset?: number; close: () => void; o
   })
 
   const handleClickOutside = (e: MouseEvent & { target: any }) => {
-    if (e.target.closest(`.${EmojiPickerStyles}`)) return;
+    if (e.target.closest(`.${styles.outerEmojiPicker}`)) return;
     if (e.target.closest(`.emojiPickerButton`)) return;
     props.close();
   }
@@ -88,18 +69,26 @@ export function EmojiPicker(props: { heightOffset?: number; close: () => void; o
   }
 
   return (
-    <EmojiPickerComponent
-      class={EmojiPickerStyles}
-      focusOnMount={!isMobileAgent()}
-      spriteUrl="/assets/emojiSprites.png"
-      emojis={emojis}
-      customEmojis={customEmojis()}
-      onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
-      primaryColor='var(--primary-color)'
-      style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}
-      maxRecent={20}
-      maxRow={emojiPickerWidth()?.row}
-    />
+    <div class={styles.outerEmojiPicker}>
+      <EmojiPickerComponent
+        class={styles.emojiPicker}
+        focusOnMount={!isMobileAgent()}
+        spriteUrl="/assets/emojiSprites.png"
+        emojis={emojis}
+        customEmojis={customEmojis()}
+        onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
+        primaryColor='var(--primary-color)'
+        style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}
+        maxRecent={20}
+        maxRow={emojiPickerWidth()?.row}
+      />
+      <Show when={props.showGifPicker}>
+        <div class={styles.tabs}>
+          <Button iconName='gif' margin={0} primary={selectedTab() === "GIF"} onClick={() => setSelectedTab("GIF")} />
+          <Button iconName='face' margin={0} primary={selectedTab() === "EMOJI"} onClick={() => setSelectedTab("EMOJI")} />
+        </div>
+      </Show>
+    </div>
   )
 }
 

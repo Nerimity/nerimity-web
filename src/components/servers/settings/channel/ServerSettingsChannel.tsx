@@ -16,7 +16,7 @@ import DeleteConfirmModal from '@/components/ui/delete-confirm-modal/DeleteConfi
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { useTransContext } from '@mbarzda/solid-i18next';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
-import { FloatingEmojiPicker } from '@/components/ui/EmojiPicker';
+import { FloatingEmojiPicker } from '@/components/ui/emoji-picker/EmojiPicker';
 import { emojiShortcodeToUnicode } from '@/emoji';
 import { Emoji } from '@/components/markup/Emoji';
 import env from '@/common/env';
