@@ -1,20 +1,21 @@
 import styles from './EmojiPicker.module.scss'
 import env from "@/common/env";
-import { CustomEmoji, EmojiPicker as EmojiPickerComponent } from "@nerimity/solid-emoji-picker";
+import { Category, CustomEmoji, EmojiPicker as EmojiPickerComponent } from "@nerimity/solid-emoji-picker";
 import { css, styled } from "solid-styled-components";
 import Avatar from "../Avatar";
-import { JSX, JSXElement, Show, createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
+import { For, JSX, JSXElement, Show, createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import emojis from '@/emoji/emojis.json';
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Button from '../Button';
+import { TenorCategory, getTenorCategories } from '@/chat-api/services/TenorService';
 
 export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
   const { servers } = useStore();
   const { paneWidth, width, height, isMobileAgent } = useWindowProperties()
 
-  const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF"> ("EMOJI");
+  const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF"> ("GIF");
 
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
@@ -70,24 +71,67 @@ export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: num
 
   return (
     <div class={styles.outerEmojiPicker}>
-      <EmojiPickerComponent
-        class={styles.emojiPicker}
-        focusOnMount={!isMobileAgent()}
-        spriteUrl="/assets/emojiSprites.png"
-        emojis={emojis}
-        customEmojis={customEmojis()}
-        onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
-        primaryColor='var(--primary-color)'
-        style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}
-        maxRecent={20}
-        maxRow={emojiPickerWidth()?.row}
-      />
+      <Show when={selectedTab() === "EMOJI"}>
+        <EmojiPickerComponent
+          class={styles.emojiPicker}
+          focusOnMount={!isMobileAgent()}
+          spriteUrl="/assets/emojiSprites.png"
+          emojis={emojis}
+          customEmojis={customEmojis()}
+          onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
+          primaryColor='var(--primary-color)'
+          style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}
+          maxRecent={20}
+          maxRow={emojiPickerWidth()?.row}
+        />
+      </Show>
+      <Show when={selectedTab() === "GIF"}>
+        <GifPicker
+        />
+      </Show>
       <Show when={props.showGifPicker}>
         <div class={styles.tabs}>
           <Button iconName='gif' margin={0} primary={selectedTab() === "GIF"} onClick={() => setSelectedTab("GIF")} />
           <Button iconName='face' margin={0} primary={selectedTab() === "EMOJI"} onClick={() => setSelectedTab("EMOJI")} />
         </div>
       </Show>
+    </div>
+  )
+}
+
+const GifPicker = () => {
+  const [search, setSearch] = createSignal("");
+
+
+  return (
+    <div class={styles.gifPickerContainer}>
+      <GifPickerCategories hide={!!search().trim()} onPick={(c) => setSearch(c.searchterm)} />
+    </div> 
+  )
+}
+
+const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCategory) => void}) => {
+  const [categories, setCategories] = createSignal<TenorCategory[]>([]);
+  onMount(() => {
+    getTenorCategories().then(setCategories);
+  })
+
+  return (
+    <div class={styles.gifPickerCategories} style={{visibility: props.hide ? "hidden" : "visible"}}>
+      <For each={categories()}>
+        {category => <GifCategoryItem category={category} onClick={() => props.onPick(category)} />}
+      </For>
+    </div>
+  )
+}
+
+
+
+const GifCategoryItem = (props: {category: TenorCategory; onClick?: () => void}) => {
+  return (
+    <div class={styles.gifCategoryItem} tabIndex={0} onClick={props.onClick} >
+      <img class={styles.image} src={props.category.image} alt={props.category.searchterm} />
+      <div class={styles.name}>{props.category.searchterm}</div>
     </div>
   )
 }

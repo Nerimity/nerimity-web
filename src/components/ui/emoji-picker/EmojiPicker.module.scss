@@ -46,3 +46,64 @@
   
 
 }
+
+.gifPickerContainer {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 420px;
+  max-width: 420px;
+  height: 100%;
+  overflow: auto;
+  z-index: 1111;
+  margin: 8px;
+  margin-bottom: 4px;
+}
+
+.gifPickerCategories {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 420px;
+  height: 100%;
+  gap: 6px;
+}
+
+.gifCategoryItem {
+  display: flex;
+  position: relative;
+  background-color: red;
+
+  border-radius: 6px;
+  height: 120px;
+  width: calc(50% - 6px);
+  flex-shrink: 0;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  .image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+  }
+
+  .name {
+    position: relative;
+    z-index: 1111;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    padding: 6px;
+    border-radius: 6px;
+    align-self: flex-end;
+    margin: 6px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+  }
+
+}
