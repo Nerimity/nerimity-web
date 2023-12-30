@@ -16,3 +16,21 @@ export const getTenorCategories = async () => {
   });
   return data;
 };
+
+
+export interface TenorImage {
+  url: string;
+  previewUrl: string;
+}
+
+export const getTenorImages = async (query: string) => {
+  const data = await request<TenorImage[]>({
+    method: 'GET',
+    url: env.SERVER_URL + "/api/tenor/search",
+    params: {
+      query
+    },
+    useToken: true
+  });
+  return data;
+};

@@ -9,7 +9,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import emojis from '@/emoji/emojis.json';
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Button from '../Button';
-import { TenorCategory, getTenorCategories } from '@/chat-api/services/TenorService';
+import { TenorCategory, TenorImage, getTenorCategories, getTenorImages } from '@/chat-api/services/TenorService';
 
 export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
   const { servers } = useStore();
@@ -101,12 +101,36 @@ export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: num
 
 const GifPicker = () => {
   const [search, setSearch] = createSignal("");
-
-
   return (
     <div class={styles.gifPickerContainer}>
+      <Show when={search().trim()}><GifPickerImages query={search().trim()} /></Show>
       <GifPickerCategories hide={!!search().trim()} onPick={(c) => setSearch(c.searchterm)} />
     </div> 
+  )
+}
+
+
+
+const GifPickerImages = (props: {query: string;}) => {
+  const [gifs, setGifs] = createSignal<TenorImage[]>([]);
+  onMount(() => {
+    getTenorImages(props.query).then(setGifs);
+  })
+
+  return (
+    <div class={styles.gifPickerCategories}>
+      <For each={gifs()}>
+        {gif => <GifPickerImageItem url={gif.previewUrl} />}
+      </For>
+    </div>
+  )
+}
+
+const GifPickerImageItem = (props: {url: string}) => {
+  return (
+    <div class={styles.gifCategoryItem} tabIndex={0} >
+      <img class={styles.image} src={props.url} loading='lazy' />
+    </div>
   )
 }
 
@@ -117,7 +141,7 @@ const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCat
   })
 
   return (
-    <div class={styles.gifPickerCategories} style={{visibility: props.hide ? "hidden" : "visible"}}>
+    <div class={styles.gifPickerCategories} style={{display: props.hide ? "none" : "flex"}}>
       <For each={categories()}>
         {category => <GifCategoryItem category={category} onClick={() => props.onPick(category)} />}
       </For>
@@ -130,7 +154,7 @@ const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCat
 const GifCategoryItem = (props: {category: TenorCategory; onClick?: () => void}) => {
   return (
     <div class={styles.gifCategoryItem} tabIndex={0} onClick={props.onClick} >
-      <img class={styles.image} src={props.category.image} alt={props.category.searchterm} />
+      <img class={styles.image} src={props.category.image} alt={props.category.searchterm} loading='lazy' />
       <div class={styles.name}>{props.category.searchterm}</div>
     </div>
   )
