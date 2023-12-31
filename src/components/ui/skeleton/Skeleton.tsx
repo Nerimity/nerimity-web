@@ -1,9 +1,9 @@
 import styles from './Skeleton.module.scss'
 import { For, JSX } from "solid-js"
 
-const SkeletonList = (props: {count?: number, children: JSX.Element}) => {
+const SkeletonList = (props: {count?: number, children: JSX.Element; style?: JSX.CSSProperties}) => {
   return (
-    <div class={styles.skeletonList}>
+    <div class={styles.skeletonList} style={props.style}>
       <For each={Array(props.count ?? 30).fill(undefined)}>
         {() => props.children}
       </For>

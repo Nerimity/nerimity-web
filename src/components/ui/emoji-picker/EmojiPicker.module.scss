@@ -1,0 +1,146 @@
+.outerEmojiPicker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 420px;
+  height: 100%;
+  overflow: hidden;
+  
+  &:before {
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.7);
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    z-index: 1;
+  }
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 4px;
+  margin-bottom: 4px;
+  margin-right: 6px;
+  z-index: 1111;
+  position: relative;
+}
+
+.emojiPicker {
+
+  overflow: hidden;
+  background: none;
+  border: none;
+  z-index: 11111;
+  width: 100%;
+  height: 100%;
+  
+
+  :global {
+    .categoriesContainer .customEmojiImage,
+    .title .customEmojiImage {
+      border-radius: 50%;
+    }
+  }
+  
+
+}
+
+.gifPickerSearchBar {
+  display: flex;
+  position: sticky;
+  z-index: 11111111;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 8px;
+  padding-right: 6px;
+  input {
+    outline: none;
+    color: white;
+    flex: 1;
+    width: 100%;
+    background-color: rgba(99, 99, 99, 0.4);;
+    backdrop-filter: blur(20px);
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    border-bottom: solid 2px var(--primary-color);
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+}
+
+.gifPickerContainer {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 420px;
+  max-width: 420px;
+  height: 100%;
+  overflow: auto;
+  z-index: 1111;
+  margin: 8px;
+}
+
+.gifPickerCategories {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 420px;
+  width: 100%;
+  height: 100%;
+  gap: 6px;
+  margin-left: 2px;
+
+  .gap {
+    height: 2px;
+    width: 2px;
+  }
+
+}
+
+.gifCategoryItem {
+  display: flex;
+  position: relative;
+  border-radius: 6px;
+  height: 120px;
+  width: calc(50% - 6px);
+  flex-shrink: 0;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  aspect-ratio: 1/1;
+  .image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+  }
+
+  .name {
+    position: relative;
+    z-index: 1111;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    padding: 6px;
+    border-radius: 6px;
+    align-self: flex-end;
+    margin: 6px;
+    font-size: 12px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &:hover {
+    outline: 2px var(--primary-color) solid;
+  }
+
+}

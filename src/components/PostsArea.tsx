@@ -53,7 +53,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames } from "@/common/classNames";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
-import { EmojiPicker } from "./ui/EmojiPicker";
+import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
 import { t } from "i18next";
 import { Trans } from "@mbarzda/solid-i18next";

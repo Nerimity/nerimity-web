@@ -12,7 +12,7 @@ import { createDesktopNotification } from "@/common/desktopNotification";
 import env from "@/common/env";
 import { useMutationObserver, useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { FloatingEmojiPicker } from "@/components/ui/EmojiPicker";
+import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { emojiShortcodeToUnicode } from "@/emoji";
