@@ -43,6 +43,7 @@ import { getChannelNotice } from '@/chat-api/services/ChannelService';
 import { getStorageObject, setStorageObject, StorageKeys } from '@/common/localStorage';
 import { randomKaomoji } from '@/common/kaomoji';
 import { MessageLogArea } from './message-log-area/MessageLogArea';
+import { TenorImage } from '@/chat-api/services/TenorService';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{ channelId: string, serverId?: string }>();
@@ -247,8 +248,17 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
 
   }
 
+  const onGifPicked = (gif: TenorImage) => {
+    if (!textAreaEl()) return;
+    textAreaEl()!.focus();
+    textAreaEl()!.setRangeText(`${gif.url} `, textAreaEl()!.selectionStart, textAreaEl()!.selectionEnd, "end")
+    setMessage(textAreaEl()!.value)
+    setShowEmojiPicker(false);
+
+  }
+
   return <div class={classNames("messageArea", styles.messageArea, conditionalClass(editMessageId(), styles.editing))}>
-    <Show when={showEmojiPicker()}><FloatingMessageEmojiPicker close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
+    <Show when={showEmojiPicker()}><FloatingMessageEmojiPicker gifPicked={onGifPicked} close={() => setShowEmojiPicker(false)} onClick={onEmojiPicked} /></Show>
     <div class={styles.floatingItems}>
       <FloatingSuggestions textArea={textAreaEl()} />
       <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
@@ -450,13 +460,14 @@ function TypingIndicator() {
   )
 }
 
-function FloatingMessageEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void }) {
+function FloatingMessageEmojiPicker(props: { close: () => void; onClick: (shortcode: string) => void; gifPicked: (gif: TenorImage) => void }) {
 
   return (
     <Floating class={styles.floatingMessageEmojiPicker}>
       <EmojiPicker
       showGifPicker
         onClick={props.onClick}
+        gifPicked={props.gifPicked}
         close={props.close}
         heightOffset={-60}
       />

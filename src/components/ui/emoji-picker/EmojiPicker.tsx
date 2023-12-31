@@ -10,12 +10,16 @@ import emojis from '@/emoji/emojis.json';
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Button from '../Button';
 import { TenorCategory, TenorImage, getTenorCategories, getTenorImages } from '@/chat-api/services/TenorService';
+import { Skeleton } from '../skeleton/Skeleton';
 
-export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
+
+const [gifPickerSearch, setGifPickerSearch] = createSignal("");
+
+export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; showGifPicker?: boolean; heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
   const { servers } = useStore();
   const { paneWidth, width, height, isMobileAgent } = useWindowProperties()
 
-  const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF"> ("GIF");
+  const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF"> ("EMOJI");
 
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside)
@@ -70,7 +74,7 @@ export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: num
   }
 
   return (
-    <div class={styles.outerEmojiPicker}>
+    <div class={styles.outerEmojiPicker} style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}>
       <Show when={selectedTab() === "EMOJI"}>
         <EmojiPickerComponent
           class={styles.emojiPicker}
@@ -80,17 +84,17 @@ export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: num
           customEmojis={customEmojis()}
           onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
           primaryColor='var(--primary-color)'
-          style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}
+          
           maxRecent={20}
           maxRow={emojiPickerWidth()?.row}
         />
       </Show>
       <Show when={selectedTab() === "GIF"}>
-        <GifPicker
-        />
+        <GifPicker gifPicked={props.gifPicked} />
       </Show>
       <Show when={props.showGifPicker}>
         <div class={styles.tabs}>
+          <Show when={gifPickerSearch().trim()}><Button styles={{"margin-right": 'auto', "margin-left": "6px"}} iconName='arrow_back' margin={0} onClick={() => setGifPickerSearch("")} /></Show>
           <Button iconName='gif' margin={0} primary={selectedTab() === "GIF"} onClick={() => setSelectedTab("GIF")} />
           <Button iconName='face' margin={0} primary={selectedTab() === "EMOJI"} onClick={() => setSelectedTab("EMOJI")} />
         </div>
@@ -99,37 +103,68 @@ export function EmojiPicker(props: { showGifPicker?: boolean; heightOffset?: num
   )
 }
 
-const GifPicker = () => {
-  const [search, setSearch] = createSignal("");
+
+
+const GifPicker = (props: {gifPicked?: (gif: TenorImage) => void}) => {
+
+  onCleanup(() => {
+    setGifPickerSearch("");
+  })
+
   return (
     <div class={styles.gifPickerContainer}>
-      <Show when={search().trim()}><GifPickerImages query={search().trim()} /></Show>
-      <GifPickerCategories hide={!!search().trim()} onPick={(c) => setSearch(c.searchterm)} />
+      <GifPickerSearchBar/>
+      <Show when={gifPickerSearch().trim()}><GifPickerImages gifPicked={props.gifPicked} query={gifPickerSearch().trim()} /></Show>
+      <GifPickerCategories hide={!!gifPickerSearch().trim()} onPick={(c) => setGifPickerSearch(c.searchterm)} />
     </div> 
   )
 }
 
+const GifPickerSearchBar = () => {
+  let timeout: null | number = null;
+  const onInput = (e: InputEvent) => {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = window.setTimeout(() => {
+      console.log("why")
+      setGifPickerSearch((e.target as HTMLInputElement).value);
+      timeout = null;
+    }, 350);
+    
+  }
+
+  return (
+    <div class={styles.gifPickerSearchBar}>
+      <input placeholder='Search GIFs' value={gifPickerSearch()} onInput={onInput}/>
+    </div>
+  )
+}
 
 
-const GifPickerImages = (props: {query: string;}) => {
-  const [gifs, setGifs] = createSignal<TenorImage[]>([]);
-  onMount(() => {
+const GifPickerImages = (props: {query: string; gifPicked?: (gif: TenorImage) => void}) => {
+  const [gifs, setGifs] = createSignal<TenorImage[] | null>(null);
+  createEffect(on(() => props.query, () => {
+    setGifs(null)
     getTenorImages(props.query).then(setGifs);
-  })
+  }))
 
   return (
     <div class={styles.gifPickerCategories}>
+      <Show when={!gifs()}>
+        <GifItemSkeleton/>
+      </Show>
       <For each={gifs()}>
-        {gif => <GifPickerImageItem url={gif.previewUrl} />}
+        {gif => <GifPickerImageItem url={gif.previewUrl} onClick={() => props.gifPicked?.(gif)} />}
       </For>
     </div>
   )
 }
 
-const GifPickerImageItem = (props: {url: string}) => {
+const GifPickerImageItem = (props: {url: string; onClick?: () => void}) => {
   return (
     <div class={styles.gifCategoryItem} tabIndex={0} >
-      <img class={styles.image} src={props.url} loading='lazy' />
+      <img class={styles.image} src={props.url} loading='lazy' onClick={props.onClick} />
     </div>
   )
 }
@@ -142,12 +177,25 @@ const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCat
 
   return (
     <div class={styles.gifPickerCategories} style={{display: props.hide ? "none" : "flex"}}>
+      <Show when={!categories().length}>
+        <GifItemSkeleton/>
+      </Show>
       <For each={categories()}>
         {category => <GifCategoryItem category={category} onClick={() => props.onPick(category)} />}
       </For>
     </div>
   )
 }
+
+function GifItemSkeleton() {
+  return (
+    <Skeleton.List count={20} style={{width: "100%", "flex-wrap": 'wrap', "flex-direction": 'row'}}>
+      <Skeleton.Item height='100px' width='calc(50% - 5px)'/>
+    </Skeleton.List>
+  )
+}
+
+
 
 
 
