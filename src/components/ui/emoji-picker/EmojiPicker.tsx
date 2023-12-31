@@ -106,16 +106,23 @@ export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; show
 
 
 const GifPicker = (props: {gifPicked?: (gif: TenorImage) => void}) => {
+  let scrollElementRef: HTMLDivElement | undefined;
 
   onCleanup(() => {
     setGifPickerSearch("");
   })
 
+  createEffect(on(gifPickerSearch, () => {
+    scrollElementRef?.scrollTo(0, 0)
+  }))
+  
+
   return (
-    <div class={styles.gifPickerContainer}>
+    <div class={styles.gifPickerContainer} ref={scrollElementRef}>
       <GifPickerSearchBar/>
       <Show when={gifPickerSearch().trim()}><GifPickerImages gifPicked={props.gifPicked} query={gifPickerSearch().trim()} /></Show>
       <GifPickerCategories hide={!!gifPickerSearch().trim()} onPick={(c) => setGifPickerSearch(c.searchterm)} />
+
     </div> 
   )
 }
@@ -157,6 +164,7 @@ const GifPickerImages = (props: {query: string; gifPicked?: (gif: TenorImage) =>
       <For each={gifs()}>
         {gif => <GifPickerImageItem url={gif.previewUrl} onClick={() => props.gifPicked?.(gif)} />}
       </For>
+      <div class={styles.gap}></div>
     </div>
   )
 }
@@ -183,6 +191,8 @@ const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCat
       <For each={categories()}>
         {category => <GifCategoryItem category={category} onClick={() => props.onPick(category)} />}
       </For>
+      <div class={styles.gap}></div>
+      
     </div>
   )
 }
