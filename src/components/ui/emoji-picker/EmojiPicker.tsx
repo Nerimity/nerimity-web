@@ -128,22 +128,29 @@ const GifPicker = (props: {gifPicked?: (gif: TenorImage) => void}) => {
 }
 
 const GifPickerSearchBar = () => {
+  const {isMobileAgent} = useWindowProperties();
+
+  let inputRef: HTMLInputElement | undefined;
   let timeout: null | number = null;
   const onInput = (e: InputEvent) => {
     if (timeout) {
       clearTimeout(timeout);
     }
     timeout = window.setTimeout(() => {
-      console.log("why")
       setGifPickerSearch((e.target as HTMLInputElement).value);
       timeout = null;
     }, 350);
-    
   }
+
+  onMount(() => {
+    if (!isMobileAgent()) {
+      inputRef?.focus();
+    }
+  })
 
   return (
     <div class={styles.gifPickerSearchBar}>
-      <input placeholder='Search GIFs' value={gifPickerSearch()} onInput={onInput}/>
+      <input ref={inputRef} placeholder='Search GIFs' value={gifPickerSearch()} onInput={onInput}/>
     </div>
   )
 }
