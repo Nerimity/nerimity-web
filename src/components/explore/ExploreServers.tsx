@@ -166,12 +166,13 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
 
   const cacheServer = () => servers.get(server.id);
 
-  const joinServerClick = () => {
+  const joinServerClick = async () => {
     if (joinClicked()) return;
     setJoinClicked(true);
-    joinPublicServer(props.publicServer.serverId).catch((err) => {
+    await joinPublicServer(props.publicServer.serverId).catch((err) => {
       alert(err.message)
     })
+    setJoinClicked(false)
   }
 
   const bumpClick = () => {
