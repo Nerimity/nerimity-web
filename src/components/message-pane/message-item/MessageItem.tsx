@@ -31,6 +31,7 @@ import { useResizeObserver } from '@/common/useResizeObserver';
 import { ServerWithMemberCount, joinPublicServer, joinServerByInviteCode, serverDetailsByInviteCode } from '@/chat-api/services/ServerService';
 import { ServerVerifiedIcon } from '@/components/servers/ServerVerifiedIcon';
 import { getFile, googleApiInitialized, initializeGoogleDrive } from '@/common/driveAPI';
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 
 
 interface FloatingOptionsProps {
@@ -328,6 +329,7 @@ function Embeds(props: { message: Message, hovered: boolean }) {
 
 
 const allowedVideoMimes = ["video/mp4", "video/webm"];
+const allowedAudioMimes = ["audio/mp3", "audio/mpeg"];
 
 
 const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
@@ -335,6 +337,7 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
     <>
       <Switch fallback={<FileEmbed attachment={props.attachment} />}>
         <Match when={allowedVideoMimes.includes(props.attachment.mime!)} ><VideoEmbed attachment={props.attachment} /></Match>
+        <Match when={allowedAudioMimes.includes(props.attachment.mime!)} ><AudioEmbed attachment={props.attachment} /></Match>
       </Switch>
     </>
   )
@@ -367,6 +370,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
   return (
     <div class={styles.videoEmbed}>
       <div class={styles.videoInfo}>
+        <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
         <Show when={error()}>
           <Icon name='error' color='var(--alert-color)' size={30} />
           <div class={styles.fileEmbedDetails}>
@@ -385,6 +389,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
       </div>
 
       <div class={styles.video}>
+        <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
         <Show when={file() && !error()}>
           <Show when={!playVideo()}>
             <Show when={file()?.thumbnailLink}><img style={{ width: "100%", height: "100%", "object-fit": 'contain' }} src={file()?.thumbnailLink} alt="" /></Show>
@@ -429,6 +434,7 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
 
   return (
     <div class={styles.fileEmbed}>
+      <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
       <Show when={error()}>
         <Icon name='error' color='var(--alert-color)' size={30} />
         <div class={styles.fileEmbedDetails}>
@@ -438,6 +444,87 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
       </Show>
       <Show when={file() && !error()}>
         <Icon name='insert_drive_file' color='var(--primary-color)' size={30} />
+        <div class={styles.fileEmbedDetails}>
+          <div class={styles.fileEmbedName}>{file()?.name}</div>
+          <div class={styles.fileEmbedSize}>{prettyBytes(parseInt(file()?.size! || "0"), 0)}</div>
+        </div>
+        <Button iconName='download' onClick={() => window.open(file()?.webContentLink!, "_blank")} />
+      </Show>
+    </div>
+
+  )
+}
+const AudioEmbed = (props: { attachment: RawAttachment }) => {
+  const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
+  const [error, setError] = createSignal<string | undefined>();
+  const [preloadAudio, setPreloadAudio] = createSignal(false);
+  const [preloaded, setPreloaded] = createSignal(false);
+  const [playing, setPlaying] = createSignal(false);
+
+  let audio: HTMLAudioElement | undefined;
+
+  onMount(async () => {
+    await initializeGoogleDrive();
+  });
+
+  createEffect(async () => {
+    if (!googleApiInitialized()) return;
+    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType").catch((e) => console.log(e))
+    // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
+    if (!file) return setError("Could not get file.");
+
+    if (file.mimeType !== props.attachment.mime) return setError("File was modified.");
+
+
+    const fileTime = new Date(file.modifiedTime!).getTime();
+    const diff = fileTime - props.attachment.createdAt
+    if (diff >= 5000) return setError("File was modified.");
+    setFile(file);
+  })
+  
+  createEffect(() => {
+    if (!preloadAudio()) return;
+    const fileItem = file();
+    if (!fileItem) return;
+
+    audio = new Audio();
+    
+    audio.onloadedmetadata = () => {
+      setPreloaded(true);
+    }
+    audio.src = fileItem.webContentLink!
+  })
+  createEffect(() => {
+    if (!preloaded()) return;
+    if (playing())
+      audio?.play()
+    else
+      audio?.pause()
+  })
+
+  onCleanup(() => {
+    audio?.pause();
+    audio?.remove();
+  })
+
+  const statusIcon = () => {
+    if (playing() && !preloaded()) return "hourglass_top";
+    if (playing()) return "pause";
+    return "play_arrow";
+  }
+
+  return (
+    <div class={styles.fileEmbed} onMouseEnter={() => setPreloadAudio(true)}>
+      <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
+      <Show when={error()}>
+        <Icon name='error' color='var(--alert-color)' size={30} />
+        <div class={styles.fileEmbedDetails}>
+          <div class={styles.fileEmbedName}>{error()}</div>
+        </div>
+        <Button iconName='info' iconSize={16} onClick={() => alert("This file was modified/deleted by the creator in their Google Drive. ")} />
+      </Show>
+      <Show when={file() && !error()}>
+        <Button onClick={() => setPlaying(!playing())} iconName={statusIcon()} color='var(--primary-color)' styles={{"border-radius": "50%"}} />
         <div class={styles.fileEmbedDetails}>
           <div class={styles.fileEmbedName}>{file()?.name}</div>
           <div class={styles.fileEmbedSize}>{prettyBytes(parseInt(file()?.size! || "0"), 0)}</div>
@@ -496,6 +583,7 @@ function ServerInviteEmbed(props: { code: string }) {
 
   return (
     <div class={styles.serverInviteEmbed} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+
       <Show when={invite()} fallback={<div class={styles.serverInviteLoading}><Show when={invite() === false}><Icon name='error' color='var(--alert-color)' /></Show>{invite() === false ? "Invalid Invite Code" : "Loading Invite..."}</div>}>
         {invite => (
           <>

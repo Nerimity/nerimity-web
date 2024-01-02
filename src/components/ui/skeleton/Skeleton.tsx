@@ -11,10 +11,11 @@ const SkeletonList = (props: {count?: number, children: JSX.Element; style?: JSX
   )
 }
 
-const SkeletonItem = (props: {width?: string, height?: string}) => {
+const SkeletonItem = (props: {width?: string, height?: string, style?: JSX.CSSProperties}) => {
   const style: JSX.CSSProperties = {
     ...(props.height ? {height: props.height} : undefined),
     ...(props.width ? {width: props.width} : undefined),
+    ...props.style,
   }
   return (
     <div style={style} class={styles.skeletonItem} />
