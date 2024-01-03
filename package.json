@@ -32,6 +32,7 @@
     "@mbarzda/solid-i18next": "^1.4.1",
     "@nerimity/nevula": "^0.12.3",
     "@nerimity/solid-emoji-picker": "^0.4.7",
+    "@nerimity/solid-opus-media-recorder": "^1.0.1",
     "@nerimity/solid-turnstile": "^1.1.0",
     "@solid-primitives/keyed": "^1.2.0",
     "@solidjs/router": "^0.9.1",

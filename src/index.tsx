@@ -1,4 +1,5 @@
 /* @refresh reload */
+import "./init";
 import { render } from "solid-js/web";
 import "material-icons/iconfont/round.scss";
 import "./index.css";

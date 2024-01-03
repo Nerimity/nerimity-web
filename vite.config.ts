@@ -8,9 +8,6 @@ import { VitePWA } from 'vite-plugin-pwa'
 dns.setDefaultResultOrder('verbatim')
 
 export default defineConfig({
-  define: {
-    global: {}
-  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src")
