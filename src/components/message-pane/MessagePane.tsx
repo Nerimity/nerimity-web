@@ -44,6 +44,7 @@ import { getStorageObject, setStorageObject, StorageKeys } from '@/common/localS
 import { randomKaomoji } from '@/common/kaomoji';
 import { MessageLogArea } from './message-log-area/MessageLogArea';
 import { TenorImage } from '@/chat-api/services/TenorService';
+import { useMicRecorder } from '@nerimity/solid-opus-media-recorder';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{ channelId: string, serverId?: string }>();
@@ -351,6 +352,10 @@ function CustomTextArea(props: CustomTextAreaProps) {
         maxLength={2000}
         class={styles.textArea}
       />
+      <MicButton onBlob={(blob) => {
+        const file = new File([blob], "voice.ogg", {type: "audio/ogg"});
+        channelProperties.setAttachment(params.channelId, file);
+      }} />
       <Button
         class={classNames(styles.inputButtons, "emojiPickerButton")}
         onClick={props.onEmojiPickerClick}
@@ -370,6 +375,115 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
     </div>
   )
+}
+
+
+const MicButton = (props: {onBlob?: (blob: Blob) => void}) => {
+  const {isMobileAgent} = useWindowProperties();
+  let timer: number | null = null;
+  let recordStartAt = 0;
+  let recordEndAt = 0;
+
+  const [isRecording, setRecording] = createSignal(false);
+  const {record, stop} = useMicRecorder();
+  const [currentDuration, setDuration] = createSignal("0:00");
+  const [cancelRecording, setCancelRecording] = createSignal(false);
+
+
+  const onTouchMove = (event: TouchEvent) => {
+    if (!isMobileAgent()) return;
+    const myLocation = event.changedTouches[0];
+    const realTarget = document.elementFromPoint(myLocation.clientX, myLocation.clientY);
+    setCancelRecording(!realTarget?.closest(".voice-recorder-button"))
+
+  }
+
+  const onMicHold = async () => {
+    if (isRecording()) return;
+    recordStartAt = Date.now();
+
+    setRecording(true);
+    const blob = await record();
+
+    const durationMs = recordEndAt - recordStartAt;
+    if (durationMs < 800) return;
+    if (cancelRecording()) return;
+
+    props.onBlob?.(blob);
+
+    setRecording(false);
+    setCancelRecording(false);
+  }
+  
+  const onMicRelease = () => {
+    if (!isRecording()) return;
+
+    setTimeout(() => {
+      recordEndAt = Date.now();
+      stop();
+      setRecording(false);
+    }, 200);
+  }
+
+  onMount(() => {
+    document.addEventListener("pointerup", onMicRelease);
+
+    onCleanup(() => {
+      document.removeEventListener("pointerup", onMicRelease);
+    })
+  })
+
+
+  createEffect(on(isRecording, () => {
+
+    if (isRecording()) {
+      timer = window.setInterval(() => {
+        const durationMs = Date.now() - recordStartAt;
+        setDuration(msToTime(durationMs));
+      }, 1000);
+      return;
+    } 
+
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+    setDuration("0:00");
+  }))
+
+
+  return (
+    <div style={{"display": "flex", "align-items": "center", "gap": "4px", "align-self": "end"}}>
+    <Show when={isRecording()}>
+      <div style={{"font-size": "12px"}}>{currentDuration()}</div>
+    </Show>
+    <Button
+        styles={{"touch-action": "none", "user-select": "none"}}
+        class={classNames(styles.inputButtons, "voice-recorder-button")}
+        onPointerDown={onMicHold}
+        onTouchMove={onTouchMove}
+        onContextMenu={e => e.preventDefault()}
+        onPointerEnter={() => !isMobileAgent() && setCancelRecording(false)}
+        onPointerLeave={() => !isMobileAgent() && setCancelRecording(true)}
+        iconName={cancelRecording() && isRecording() ? "delete" : "mic"}
+        padding={[8, 15, 8, 15]}
+        margin={[3, 0, 3, 3]}
+        iconSize={18}
+        primary={isRecording()}
+        color={cancelRecording() && isRecording() ? "var(--alert-color)" : undefined}
+      />
+    </div>
+  )
+}
+
+function msToTime(duration: number): string {
+  let seconds: number | string = Math.floor((duration / 1000) % 60),
+      minutes: number | string = Math.floor((duration / (1000 * 60)) % 60),
+      hours: number | string = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  return (hours !== 0 ? hours + ":" : "") + minutes + ":" + seconds;
 }
 
 interface TypingPayload {

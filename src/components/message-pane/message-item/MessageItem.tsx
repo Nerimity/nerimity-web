@@ -329,7 +329,7 @@ function Embeds(props: { message: Message, hovered: boolean }) {
 
 
 const allowedVideoMimes = ["video/mp4", "video/webm"];
-const allowedAudioMimes = ["audio/mp3", "audio/mpeg"];
+const allowedAudioMimes = ["audio/mp3", "audio/mpeg", "audio/ogg"];
 
 
 const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
@@ -492,6 +492,11 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
     audio.onloadedmetadata = () => {
       setPreloaded(true);
     }
+
+    audio.onended = () => {
+      setPlaying(false);
+    }
+
     audio.src = fileItem.webContentLink!
   })
   createEffect(() => {
