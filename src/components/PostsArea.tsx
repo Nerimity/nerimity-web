@@ -554,16 +554,16 @@ function Embeds(props: { post: Post; hovered: boolean }) {
   const { width } = useResizeObserver(
     () => element?.parentElement?.parentElement?.parentElement
   );
-  const { height } = useWindowProperties();
 
-  const clampedHeight = () => clamp(height(), 600);
+
+
   return (
     <div ref={element} class={classNames("embeds", embedStyles)}>
       <Show when={props.post.attachments?.[0]}>
         <ImageEmbed
           attachment={props.post.attachments?.[0]!}
           widthOffset={-50}
-          customHeight={clampedHeight()}
+          customHeight={1120}
           customWidth={width()}
         />
       </Show>
