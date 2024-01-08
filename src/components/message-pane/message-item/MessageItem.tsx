@@ -861,6 +861,28 @@ export function DeleteMessageModal(props: { message: Message, close: () => void 
     deleteMessage({ channelId: props.message.channelId, messageId: props.message.id });
   }
 
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onDeleteClick();
+    }
+    if (event.key === "Escape") {
+      event.preventDefault();
+     props. close();
+    }
+  }
+
+
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown);
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown);
+    })
+  })
+
+
+
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button onClick={props.close} iconName="close" label="Cancel" />

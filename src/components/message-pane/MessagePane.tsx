@@ -45,6 +45,7 @@ import { randomKaomoji } from '@/common/kaomoji';
 import { MessageLogArea } from './message-log-area/MessageLogArea';
 import { TenorImage } from '@/chat-api/services/TenorService';
 import { useMicRecorder } from '@nerimity/solid-opus-media-recorder';
+import { DeleteMessageModal } from './message-item/MessageItem';
 
 export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
   const params = useParams<{ channelId: string, serverId?: string }>();
@@ -192,7 +193,6 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
       if (shouldUploadToGoogleDrive && !account.user()?.connections.find(c => c.provider === 'GOOGLE')) {
         createPortal(close => <GoogleDriveLinkModal close={close} />)
         return;
-
       }
     }
 
@@ -204,6 +204,14 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
     const formattedMessage = formatMessage(trimmedMessage, params.serverId, params.channelId, !!editMessageId());
 
     if (editMessageId()) {
+
+      if (!formattedMessage.trim()) {
+        const message = messages.get(params.channelId)?.find(m => m.id === editMessageId())
+        createPortal(close => <DeleteMessageModal close={close} message={message!} />)
+        channelProperties.setEditMessage(params.channelId, undefined);
+        return;
+      }
+
       if (!trimmedMessage) return;
       messages.editAndStoreMessage(params.channelId, editMessageId()!, formattedMessage);
       cancelEdit();
@@ -365,7 +373,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
         onClick={props.onEmojiPickerClick}
         iconName="face"
         padding={[8, 8, 8, 8]}
-        margin={[3, (pickedFile() || value().trim()) ? 0 : 3, 3, 3]}
+        margin={[3, props.isEditing ? 0 : ((pickedFile() || value().trim()) ? 0 : 3), 3, 3]}
         iconSize={18}
       />
       <Show when={pickedFile() || value().trim()}>
@@ -373,6 +381,17 @@ function CustomTextArea(props: CustomTextAreaProps) {
           class={styles.inputButtons}
           onClick={props.onSendClick}
           iconName={props.isEditing ? 'edit' : 'send'}
+          padding={[8, 15, 8, 15]}
+          margin={[3, 3, 3, 3]}
+          iconSize={18}
+        />
+      </Show>
+      <Show when={!value().trim() && props.isEditing}>
+        <Button
+          class={styles.inputButtons}
+          onClick={props.onSendClick}
+          color='var(--alert-color)'
+          iconName={'delete'}
           padding={[8, 15, 8, 15]}
           margin={[3, 3, 3, 3]}
           iconSize={18}
