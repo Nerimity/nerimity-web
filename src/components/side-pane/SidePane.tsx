@@ -38,9 +38,6 @@ import { useDrawer } from '../ui/drawer/Drawer';
 import { useRegisterSW } from 'virtual:pwa-register/solid'
 import Input from '../ui/input/Input';
 import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
-import { ProgramWithAction, electronWindowAPI } from '@/common/Electron';
-import { StorageKeys, getStorageObject } from '@/common/localStorage';
-import { getModerationTickets } from '@/chat-api/services/ModerationService';
 import { Skeleton } from '../ui/skeleton/Skeleton';
 
 const SidebarItemContainer = styled(ItemContainer)`

@@ -9,6 +9,7 @@ import useStore from './useStore';
 import useUsers, { User } from './useUsers';
 import useAccount from './useAccount';
 import useVoiceUsers from './useVoiceUsers';
+import { runWithContext } from '@/common/runWithContext';
 
 
 export type ServerMember = Omit<RawServerMember, 'user'> & {
@@ -53,10 +54,16 @@ const set = (member: RawServerMember) => {
       const servers = useServers();
       const server = servers.get(member.serverId);
       const roleIds = () => this.roleIds;
-      return mapArray(roleIds, id => {
-        const {serverRoles} = useStore();
-        return serverRoles.get(member.serverId, id);
-      })
+
+
+
+      return runWithContext(() => {
+        return mapArray(roleIds, id => {
+          const {serverRoles} = useStore();
+          return serverRoles.get(member.serverId, id);
+        }) 
+      }) as () => (ServerRole | undefined)[]
+      
     },
     hasRole(roleId) {
       const servers = useServers();

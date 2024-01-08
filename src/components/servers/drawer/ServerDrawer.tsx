@@ -3,9 +3,9 @@ import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import Header from './header/ServerDrawerHeader';
-import { Link, useParams } from '@solidjs/router';
+import { Link, useNavigate, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
-import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup } from 'solid-js';
+import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup, onMount } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';
 import ItemContainer from '@/components/ui/Item';
 import { css, styled } from 'solid-styled-components';
@@ -42,12 +42,54 @@ const ServerDrawer = () => {
 const ChannelList = () => {
   const params = useParams();
   const { channels, account } = useStore();
-  const sortedServerChannels = () => channels.getSortedChannelsByServerId(params.serverId, true).filter(channel => !channel?.categoryId);
+  const navigate = useNavigate();
+
+  const sortedChannels = () => channels.getSortedChannelsByServerId(params.serverId, true)
+  const sortedRootChannels = () => sortedChannels().filter(channel => !channel?.categoryId);
+  const channelsWithoutCategory = () => sortedChannels().filter(channel => channel?.type !== ChannelType.CATEGORY);
+
+  const selectedChannelIndex = () => channelsWithoutCategory().findIndex(channel => channel?.id === params.channelId)
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (!event.altKey) return;
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      let newIndex = selectedChannelIndex()
+
+      if (selectedChannelIndex() < channelsWithoutCategory().length - 1) {
+        newIndex = selectedChannelIndex() + 1;
+      } else {
+        newIndex = 0
+      }
+      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`)
+    }
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      let newIndex = selectedChannelIndex()
+
+      if (selectedChannelIndex() > 0) {
+        newIndex = selectedChannelIndex() - 1;
+      } else {
+        newIndex = channelsWithoutCategory().length - 1
+      }
+      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`)
+    }
+
+  }
+
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown);
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown);      
+    })
+  })
 
   return (
     <div class={styles.channelList}>
       <Show when={account.lastAuthenticatedAt()} fallback={<ChannelListSkeleton/>}>
-        <For each={sortedServerChannels()}>
+        <For each={sortedRootChannels()}>
           {channel => (
             <Switch fallback={<ChannelItem channel={channel!} selected={params.channelId === channel!.id} />}>
               <Match when={channel!.type === ChannelType.CATEGORY}>
