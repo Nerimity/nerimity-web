@@ -603,6 +603,15 @@ function SideBar(props: { user: UserDetails }) {
 
   return (
     <div class={styles.sidePane}>
+      <Show when={props.user.block}>
+        <SidePaneItem
+          icon="block"
+          label="You've been blocked"
+          color="var(--alert-color)"
+          value="This user has blocked you."
+          onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
+        />
+      </Show>
       <UserActivity userId={props.user.user.id} />
       <SidePaneItem
         icon="event"
@@ -777,11 +786,12 @@ function SidePaneItem(props: {
   icon: string;
   label: string;
   value: string;
+  color?: string;
   onClick?: () => void;
 }) {
   return (
     <div class={styles.SidePaneItem} onClick={props.onClick}>
-      <Icon name={props.icon} size={18} color="var(--primary-color)" />
+      <Icon name={props.icon} size={18} color={props.color || "var(--primary-color)"} />
       <FlexColumn>
         <div class={styles.label}>{props.label}</div>
         <div class={styles.value}>{props.value}</div>

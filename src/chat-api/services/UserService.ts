@@ -93,6 +93,7 @@ export async function registerRequest(email: string, username: string, password:
 }
 
 export interface UserDetails {
+  block: boolean;
   user: RawUser & {
     _count: {
       followers: number, 
