@@ -291,6 +291,8 @@ function CustomTextArea(props: CustomTextAreaProps) {
   let textAreaRef: HTMLInputElement | undefined;
   const params = useParams<{ channelId: string, serverId?: string; }>();
 
+  const value = () => props.value as string;
+
   const [isFocused, setFocused] = createSignal(false);
   const [attachmentFileBrowserRef, setAttachmentFileBrowserRef] = createSignal<FileBrowserRef | undefined>(undefined);
 
@@ -317,7 +319,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
           onClick={() => attachmentFileBrowserRef()?.open()}
           class={styles.inputButtons}
           iconName='attach_file'
-          padding={[8, 15, 8, 15]}
+          padding={[8, 8, 8, 8]}
           margin={3}
           iconSize={18}
         />
@@ -328,7 +330,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
           class={styles.inputButtons}
           iconName='close'
           color='var(--alert-color)'
-          padding={[8, 15, 8, 15]}
+          padding={[8, 8, 8, 8]}
           margin={3}
           iconSize={18}
         />
@@ -339,7 +341,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
           class={styles.inputButtons}
           iconName='close'
           color='var(--alert-color)'
-          padding={[8, 15, 8, 15]}
+          padding={[8, 8, 8, 8]}
           margin={3}
           iconSize={18}
         />
@@ -352,26 +354,30 @@ function CustomTextArea(props: CustomTextAreaProps) {
         maxLength={2000}
         class={styles.textArea}
       />
-      <MicButton onBlob={(blob) => {
-        const file = new File([blob], "voice.ogg", {type: "audio/ogg"});
-        channelProperties.setAttachment(params.channelId, file);
-      }} />
+      <Show when={!value().trim() && !pickedFile() && !props.isEditing}>
+        <MicButton onBlob={(blob) => {
+          const file = new File([blob], "voice.ogg", {type: "audio/ogg"});
+          channelProperties.setAttachment(params.channelId, file);
+        }} />
+      </Show>
       <Button
         class={classNames(styles.inputButtons, "emojiPickerButton")}
         onClick={props.onEmojiPickerClick}
         iconName="face"
-        padding={[8, 15, 8, 15]}
-        margin={[3, 0, 3, 3]}
+        padding={[8, 8, 8, 8]}
+        margin={[3, (pickedFile() || value().trim()) ? 0 : 3, 3, 3]}
         iconSize={18}
       />
-      <Button
-        class={styles.inputButtons}
-        onClick={props.onSendClick}
-        iconName={props.isEditing ? 'edit' : 'send'}
-        padding={[8, 15, 8, 15]}
-        margin={[3, 3, 3, 3]}
-        iconSize={18}
-      />
+      <Show when={pickedFile() || value().trim()}>
+        <Button
+          class={styles.inputButtons}
+          onClick={props.onSendClick}
+          iconName={props.isEditing ? 'edit' : 'send'}
+          padding={[8, 15, 8, 15]}
+          margin={[3, 3, 3, 3]}
+          iconSize={18}
+        />
+      </Show>
 
     </div>
   )
@@ -466,7 +472,7 @@ const MicButton = (props: {onBlob?: (blob: Blob) => void}) => {
         onPointerEnter={() => !isMobileAgent() && setCancelRecording(false)}
         onPointerLeave={() => !isMobileAgent() && setCancelRecording(true)}
         iconName={cancelRecording() && isRecording() ? "delete" : "mic"}
-        padding={[8, 15, 8, 15]}
+        padding={[8, 8, 8, 8]}
         margin={[3, 0, 3, 3]}
         iconSize={18}
         primary={isRecording()}

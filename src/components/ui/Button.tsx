@@ -47,7 +47,7 @@ const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: 
   color: white;
   cursor: pointer;
   user-select: none;
-  transition: 0.2s;
+  transition: 0.2s background-color;
   background-color: rgba(255, 255, 255, 0.08);
   border: solid 1px rgba(255, 255, 255, 0.1);
 
