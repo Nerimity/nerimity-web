@@ -391,7 +391,8 @@ function CustomTextArea(props: CustomTextAreaProps) {
           class={styles.inputButtons}
           onClick={props.onSendClick}
           color='var(--alert-color)'
-          iconName={'delete'}
+          iconName="delete"
+          primary
           padding={[8, 15, 8, 15]}
           margin={[3, 3, 3, 3]}
           iconSize={18}
