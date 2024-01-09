@@ -15,7 +15,7 @@ const christmas = {
 const now = Date.now();
 
 export const isHalloween = isEventActive(halloween);
-export const isChristmas = true;
+export const isChristmas = false;
 
 function isEventActive({start, dayDuration}: Event) {
   const startDate = new Date();
