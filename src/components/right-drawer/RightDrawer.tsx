@@ -32,6 +32,9 @@ import {Markup} from '../Markup';
 import {useResizeObserver} from '@/common/useResizeObserver';
 import {electronWindowAPI} from '@/common/Electron';
 import {calculateTimeElapsedForActivityStatus} from '@/common/date';
+import { emitScrollToMessage } from '@/common/GlobalEvents';
+import { Skeleton } from '../ui/skeleton/Skeleton';
+import { useDrawer } from '../ui/drawer/Drawer';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -103,7 +106,7 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
   const params = useParams<{ serverId?: string; channelId?: string; }>();
   const { channels } = useStore();
 
-  const [attachments, setAttachments] = createSignal<RawAttachment[]>([]);
+  const [attachments, setAttachments] = createSignal<RawAttachment[] | null>(null);
 
   const incrAttachments = (channelId: string) => {
     const channel = channels.get(channelId);
@@ -124,20 +127,22 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
   })
 
   const onMessage = (payload: { message: RawMessage }) => {
+    if (!attachments()) return;
     if (payload.message.channelId !== params.channelId) return;
     const attachment = payload?.message.attachments?.[0];
     if (!attachment) return;
     setAttachments([
       { ...attachment, messageId: payload.message.id },
-      ...attachments()
+      ...attachments()!
     ])
     incrAttachments(params.channelId);
   }
   socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage)
 
   const onDelete = (payload: { messageId: string, channelId: string }) => {
+    if (!attachments()) return;
     if (payload.channelId !== params.channelId) return;
-    setAttachments(attachments().filter(attachment => attachment.messageId !== payload.messageId))
+    setAttachments(attachments()!.filter(attachment => attachment.messageId !== payload.messageId))
     decrAttachments(params.channelId);
   }
   socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)
@@ -151,23 +156,33 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
         onClick={props.onHideAttachmentClick}
         class={css`justify-content: start;`}
         padding={5} />
+
+
+
       <div class={styles.attachmentList}>
-        <For each={attachments()}>
-          {item => (
-            <AttachmentImage attachment={item} />
-          )}
-        </For>
+
+        <Show when={!attachments()}>
+          <For each={Array(50).fill(undefined)}>
+            {() => (
+              <Skeleton.Item width='100%' style={{"aspect-ratio": "1/1"}} />
+            )}
+          </For>
+        </Show>
+        <Show when={attachments()}>
+          <For each={attachments()}>
+            {item => (
+              <AttachmentImage attachment={item} />
+            )}
+          </For>
+        </Show>
       </div>
     </>
   )
 }
 
 const AttachmentImage = (props: { attachment: RawAttachment }) => {
-  const { createPortal } = useCustomPortal();
-
 
   const isFile = () => props.attachment.fileId;
-
   const isGif = () => props.attachment.path?.endsWith(".gif")
 
   const url = (ignoreFocus?: boolean) => {
@@ -177,16 +192,23 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
     return url;
   }
 
-  const onClicked = (attachment: RawAttachment) => {
-    createPortal(close => <ImagePreviewModal close={close} url={url(true)} width={attachment.width} height={attachment.height} />)
+  const onClicked = () => {
+    if (!props.attachment.messageId) return;
+    emitScrollToMessage({
+      messageId: props.attachment.messageId,
+    });
   }
 
   return (
     <div class={classNames(styles.attachmentImageContainer, conditionalClass(isGif(), styles.gif))}>
+      
+      <div class={styles.attachmentHover} onClick={onClicked}>
+        <Icon name='visibility' color='var(--primary-color)' />
+      </div>
+      
       <Show when={!isFile()}>
         <img class={styles.attachmentImage}
           loading="lazy"
-          onClick={() => onClicked(props.attachment)}
           src={url()}
         />
       </Show>

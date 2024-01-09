@@ -25,8 +25,10 @@ import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import { copyToClipboard } from "@/common/clipboard";
 import { t } from "i18next";
+import { useDrawer } from "@/components/ui/drawer/Drawer";
 
 export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
+  const {goToMain} = useDrawer();
   const { createPortal } = useCustomPortal();
   const params = useParams<{ channelId: string, serverId?: string }>();
   const { hasFocus } = useWindowProperties();
@@ -50,6 +52,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
 
   scrollToMessageListener(async (event) => {
+    goToMain();
     let messageEl = document.getElementById(`message-${event.messageId}`);
     let fetched = false;
     if (!messageEl) {
