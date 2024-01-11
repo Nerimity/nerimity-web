@@ -16,6 +16,15 @@
   opacity: 0;
   animation: fadeIn 0.2s forwards;
 
+  &.stopAnimate {
+    animation: none;
+    opacity: 1;
+    &::after {
+      animation: none;
+      transform:translateX(0%);
+    }
+  }
+
   &::after{
     content:'';
     inset: 0;

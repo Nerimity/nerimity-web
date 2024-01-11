@@ -1,5 +1,5 @@
 import { batch } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createStore, reconcile } from "solid-js/store";
 import { RawPost } from "../RawData";
 import { createPost, deletePost, editPost, getCommentPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, unlikePost } from "../services/PostService";
 import useAccount from "./useAccount";
@@ -9,7 +9,8 @@ export type Post = RawPost & {
   like(this: Post): Promise<string>;
   delete(this: Post): Promise<void>;
   unlike(this: Post): Promise<string>;
-  loadComments(this: Post): Promise<any>;
+  loadComments(this: Post): Promise<RawPost[]>;
+  loadMoreComments(this: Post): Promise<RawPost[]>;
   editPost(this: Post, content: string): Promise<any>;
   commentIds: string[] | undefined
   cachedComments(this: Post): Post[] | undefined
@@ -30,7 +31,7 @@ const [state, setState] = createStore<State>({
 
 export function usePosts() {
   
-  const pushPost = (post: RawPost, userId?: string) => {
+  const pushPost = (post: RawPost, userId?: string, prependUserPost = false) => {
     batch(() => {
       if (post.commentTo) {
         pushPost(post.commentTo);
@@ -57,7 +58,8 @@ export function usePosts() {
           setState("posts", newPost.id, {...this, ...newPost})
         },
         async loadComments() {
-          const comments = await getCommentPosts(this.id);
+          const comments = await getCommentPosts({postId: this.id, limit: 30});
+          setState("posts", this.id, "commentIds", reconcile([]));
           batch(() => {
             for (let index = 0; index < comments.length; index++) {
               const comment = comments[index];
@@ -69,6 +71,25 @@ export function usePosts() {
               setState("posts", this.id, "commentIds", [comment.id, ...this.commentIds!]);
             }
           })
+          return comments
+        },
+        async loadMoreComments() {
+          const afterId = this.commentIds?.at(-1);
+          if (!afterId) return [];
+          const comments = await getCommentPosts({postId: this.id, limit: 30, afterId});
+          comments.reverse();
+          batch(() => {
+            for (let index = 0; index < comments.length; index++) {
+              const comment = comments[index];
+              pushPost(comment);
+              if (!this.commentIds) {
+                setState("posts", this.id, "commentIds", []);
+              }
+              if (this.commentIds?.includes(comment.id)) continue;
+              setState("posts", this.id, "commentIds", [...this.commentIds!, comment.id]);
+            }
+          })
+          return comments;
         },
         async submitReply(opts: {content: string, attachment?: File}) {
           const account = useAccount();
@@ -96,7 +117,11 @@ export function usePosts() {
         setState("userPostIds", userId, []);
       }
       if (state.userPostIds[userId]?.includes(post.id)) return;
-      setState("userPostIds", userId, [post.id, ...state.userPostIds[userId]!]);
+      if (prependUserPost) {
+        setState("userPostIds", userId, [...state.userPostIds[userId]!, post.id]);
+      } else {
+        setState("userPostIds", userId, [post.id, ...state.userPostIds[userId]!]);
+      }
     })
   }
 
@@ -114,13 +139,27 @@ export function usePosts() {
 
   const fetchUserPosts = async (userId: string, withReplies?: boolean) => {
     setState("userPostIds", userId, []);
-    const posts = await getPosts(userId, withReplies);
+    const posts = await getPosts({userId, withReplies});
     batch(() => {
       for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
         pushPost(post, userId);
       }
     })
+    return posts;
+  }
+  const fetchMoreUserPosts = async (userId: string, withReplies?: boolean) => {
+    const afterId = state.userPostIds?.[userId]?.at(-1);
+    if (!afterId) return [];
+    const posts = await getPosts({userId, withReplies, afterId});
+    posts.reverse();
+    batch(() => {
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        pushPost(post, userId, true);
+      }
+    })
+    return posts;
   }
   const fetchUserLikedPosts = async (userId: string) => {
     setState("userPostIds", userId, []);
@@ -156,10 +195,25 @@ export function usePosts() {
         setState('feedPostIds', state.feedPostIds.length, post.id);
       }
     })
+    return posts;
+  }
+
+  const fetchMoreFeed = async () => {
+    const afterId = state.feedPostIds?.at(-1);
+    if (!afterId) return [];
+    const posts = await getFeedPosts({afterId});
+    batch(() => {
+      for (let index = 0; index < posts.length; index++) {
+        const post = posts[index];
+        pushPost(post);
+        setState('feedPostIds', [...state.feedPostIds, post.id]);
+      }
+    })
+    return posts;
   }
 
   const cachedFeed = () => state.feedPostIds.map(id => state.posts[id] as Post);
   const cachedPost = (postId: string) => state.posts[postId];
 
-  return {pushPost, fetchFeed, cachedFeed, cachedPost, fetchUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts}
+  return {pushPost, fetchFeed, cachedFeed, fetchMoreFeed, cachedPost, fetchUserPosts, fetchMoreUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts}
 }

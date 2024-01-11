@@ -25,6 +25,7 @@ import { Link, useParams, useSearchParams } from "@solidjs/router";
 import {
   createEffect,
   createMemo,
+  createRenderEffect,
   createSignal,
   For,
   JSX,
@@ -58,6 +59,7 @@ import { formatMessage } from "./message-pane/MessagePane";
 import { t } from "i18next";
 import { Trans } from "@mbarzda/solid-i18next";
 import ItemContainer from "./ui/Item";
+import { Skeleton } from "./ui/skeleton/Skeleton";
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -624,39 +626,86 @@ export function PostsArea(props: {
   showCreateNew?: boolean;
   style?: JSX.CSSProperties;
 }) {
+  const [loading, setLoading] = createSignal(false);
   const { posts } = useStore();
+  const [lastFetchCount, setLastFetchCount] = createSignal(0);
 
-  const cachedPosts = () => {
+  const cachedReplies = () => {
     if (props.showFeed) return posts.cachedFeed();
     if (props.userId) return posts.cachedUserPosts(props.userId!);
     return posts.cachedPost(props.postId!)?.cachedComments();
   };
 
-  createEffect(() => {
+  createEffect(async () => {
     if (props.userId) {
       if (props.showLiked) {
         return posts.fetchUserLikedPosts(props.userId);
       }
-      posts.fetchUserPosts(props.userId!, props.showReplies);
+      setLoading(true);
+      const newPosts = await posts.fetchUserPosts(props.userId!, props.showReplies);
+      setLastFetchCount(newPosts?.length || 0)
+      setLoading(false);
     }
   });
 
-  createEffect(
-    on(
-      () => props.postId,
-      () => {
-        if (props.showFeed) {
-          posts.fetchFeed();
-          return;
-        }
-        if (props.postId) {
-          posts.cachedPost(props.postId!)?.loadComments();
-          return;
-        }
-      }
-    )
-  );
+  const fetchFeed = async () => {
+    if (!props.showFeed) return;
+    setLoading(true);
+    const newPosts = await posts.fetchFeed();
+    setLastFetchCount(newPosts?.length || 0)
+    setLoading(false);
+  }
+  const fetchReplies = async () => {
+    if (!props.postId) return; 
+    setLoading(true);
+    const newPosts = await posts.cachedPost(props.postId!)?.loadComments();
+    setLastFetchCount(newPosts?.length || 0)
+    setLoading(false);
+  }
 
+  createEffect(on(() =>  props.postId, () => {
+    fetchFeed();
+    fetchReplies();
+  }));
+  
+  const hasMorePosts = () => lastFetchCount() >= 30;
+
+
+  const loadMoreComments = async () => {
+    if (loading()) return;
+    setLoading(true);
+    const newPosts = await posts.cachedPost(props.postId!)?.loadMoreComments();
+    setLastFetchCount(newPosts?.length || 0)
+    setLoading(false);
+  }
+
+  const loadMoreUserPosts = async () => {
+    if (loading()) return;
+    setLoading(true);
+    const newPosts = await posts.fetchMoreUserPosts(props.userId!, props.showReplies);
+    setLastFetchCount(newPosts?.length || 0)
+    setLoading(false);
+  }
+
+  const loadMoreFeed = async () => {
+    if (loading()) return;
+    setLoading(true);
+    const newPosts = await posts.fetchMoreFeed();
+    setLastFetchCount(newPosts?.length || 0)
+    setLoading(false);
+  }
+
+  const loadMore = () => {
+    if (props.postId) {
+      loadMoreComments()
+    }
+    if (props.userId) {
+      loadMoreUserPosts();
+    }
+    if (props.showFeed) {
+      loadMoreFeed();
+    }
+  }
   return (
     <PostsContainer gap={2} style={props.style}>
       <Show when={props.showCreateNew}>
@@ -665,7 +714,13 @@ export function PostsArea(props: {
       <Show when={props.postId}>
         <NewPostArea postId={props.postId} />
       </Show>
-      <For each={cachedPosts()}>{(post, i) => <PostItem post={post} />}</For>
+      <For each={cachedReplies()}>{(post, i) => <PostItem post={post} />}</For>
+
+      <Show when={hasMorePosts() || loading()}>
+        <For each={Array(10).fill(0)}>
+          {() => <Skeleton.Item onInView={() => loadMore()} height="100px" width="100%" />}
+        </For>
+      </Show>
     </PostsContainer>
   );
 }

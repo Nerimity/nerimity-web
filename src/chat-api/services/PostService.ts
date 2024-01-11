@@ -4,22 +4,48 @@ import { Post } from "../store/usePosts";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 
-export const getFeedPosts = async (userId?: string, withReplies = true) => {
+interface GetFeedPostsOpts {
+  limit?: number
+  beforeId?: string
+  afterId?: string
+}
+
+export const getFeedPosts = async (opts?: GetFeedPostsOpts) => {
   const data = await request<RawPost[]>({
     method: 'GET',
     url: env.SERVER_URL + '/api' + ServiceEndpoints.feedPosts(),
+    params: {
+      ...(opts?.limit ? {limit: opts.limit} : undefined),
+      ...(opts?.beforeId ? {beforeId: opts.beforeId} : undefined),
+      ...(opts?.afterId ? {afterId: opts.afterId} : undefined),
+    },
     useToken: true,
   });
   return data;
 }
 
-export const getPosts = async (userId?: string, withReplies = true) => {
+interface GetPostsOpts {
+  userId?: string
+  withReplies?: boolean
+  limit?: number
+  beforeId?: string
+  afterId?: string
+}
+
+export const getPosts = async (opts: GetPostsOpts) => {
+  const defaultOpts: GetPostsOpts = {
+    ...opts,
+    withReplies: opts.withReplies ?? true
+  }
   const data = await request<RawPost[]>({
     method: 'GET',
     params: {
-      ...(withReplies ? {withReplies} : undefined)
+      ...(defaultOpts.withReplies ? {withReplies: defaultOpts.withReplies} : undefined),
+      ...(defaultOpts.limit ? {limit: defaultOpts.limit} : undefined),
+      ...(defaultOpts.beforeId ? {beforeId: defaultOpts.beforeId} : undefined),
+      ...(defaultOpts.afterId ? {afterId: defaultOpts.afterId} : undefined),
     },
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.posts(userId),
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.posts(defaultOpts.userId),
     useToken: true,
   });
   return data;
@@ -60,10 +86,23 @@ export const editPost = async (postId: string, content: string) => {
   return data;
 }
 
-export const getCommentPosts = async (postId: string) => {
+
+interface GetCommentPostsOpts {
+  postId: string;
+  limit?: number;
+  beforeId?: string;
+  afterId?: string;
+}
+
+export const getCommentPosts = async (opts: GetCommentPostsOpts) => {
   const data = await request<RawPost[]>({
     method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.postComments(postId),
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.postComments(opts.postId),
+    params: {
+      ...(opts.limit ? {limit: opts.limit} : undefined),
+      ...(opts.beforeId ? {beforeId: opts.beforeId} : undefined),
+      ...(opts.afterId ? {afterId: opts.afterId} : undefined),
+    },
     useToken: true,
   });
   return data;
