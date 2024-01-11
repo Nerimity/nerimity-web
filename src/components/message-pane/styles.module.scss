@@ -1,3 +1,16 @@
+:global body.disableBlur {
+  :local {
+    .textAreaContainer {
+      background-color: black;
+      backdrop-filter: none;
+    }
+    .backToBottom {
+      background-color: rgb(40, 40, 40);
+      backdrop-filter: none;
+    }
+  }
+}
+
 .messagePane {
   display: flex;
   flex-direction: column;
@@ -206,6 +219,8 @@
   border: solid 1px rgba(255, 255, 255, 0.2);
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(20px);
+
+
   border-bottom: solid 2px rgba(255, 255, 255, 0.3);
   transition: 0.2s;
   flex: 1;

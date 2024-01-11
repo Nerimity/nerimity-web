@@ -1,5 +1,6 @@
 import { createStore } from "solid-js/store";
 import env from "./env";
+import { createSignal } from "solid-js";
 
 
 
@@ -28,15 +29,24 @@ window.addEventListener('blur', () => {
 function setPaneWidth(val: number) {
   setWindowProperties({ paneWidth: val });
 }
+
+
+const isMobileAgent = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 export function useWindowProperties() {
+  const blurEffectEnabled = () => {
+    if (isMobileAgent()) return false;
+    return windowProperties.hasFocus;
+  }
 
   return {
+    blurEffectEnabled,
     setPaneWidth,
     width: () => windowProperties.width,
     height: () => windowProperties.height,
     isMobileWidth: ()  => windowProperties.width <= env.MOBILE_WIDTH,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
-    isMobileAgent: () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
+    isMobileAgent,
   }
 }

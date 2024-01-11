@@ -10,9 +10,18 @@ import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
 import styles from "./Index.module.scss";
 import { useWindowProperties } from "./common/useWindowProperties";
+import { createEffect, on } from "solid-js";
 
 render(() => {
-  const { isMobileAgent } = useWindowProperties();
+  const { isMobileAgent, blurEffectEnabled } = useWindowProperties();
+
+  createEffect(on(blurEffectEnabled, () => {
+    if (blurEffectEnabled()) {
+      document.body.classList.remove("disableBlur");
+    } else {
+      document.body.classList.add("disableBlur");
+    }
+  }))
 
   if (!isMobileAgent()) {
     const styleEl = document.createElement("style");
