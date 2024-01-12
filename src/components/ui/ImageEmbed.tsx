@@ -23,8 +23,8 @@ const ImageEmbedContainer = styled(FlexRow)`
     content: "GIF";
     position: absolute;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.46);
+    backdrop-filter: blur(34px);
     padding: 5px;
     top: 10px;
     left: 10px;

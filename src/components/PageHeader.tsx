@@ -45,8 +45,8 @@ const Logo = styled("img")`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(34px);
 `;
 
 const NavigationContainer = styled("nav")`

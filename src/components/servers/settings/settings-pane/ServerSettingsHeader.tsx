@@ -30,8 +30,8 @@ const DetailsContainer = styled(FlexColumn)`
   margin-right: 20px;
   font-size: 18px;
   z-index: 1111;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(20px);
+  background: rgba(0,0,0,0.86);
+  backdrop-filter: blur(34px);
   padding: 10px;
   border-radius: 8px;
 `;

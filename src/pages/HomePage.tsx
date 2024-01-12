@@ -70,8 +70,8 @@ const Logo = styled("img")`
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(34px);
 `;
 
 export default function HomePage () {
@@ -136,7 +136,7 @@ const FeatureListContainer = styled("div")`
   background-color: rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 8px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(34px);
   z-index: 1111;
   margin: 10px;
 

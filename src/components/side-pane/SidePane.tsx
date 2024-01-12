@@ -275,8 +275,8 @@ const BannerContainer = styled(FlexRow)`
 const DetailsContainer = styled(FlexColumn)`
   z-index: 1;
   margin-left: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(34px);
   padding: 5px;
   border-radius: 8px;
 `;

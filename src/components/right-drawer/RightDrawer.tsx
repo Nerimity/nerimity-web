@@ -366,8 +366,8 @@ const FlyoutContainer = styled(FlexRow)`
 const FlyoutInner = styled(FlexColumn) <{ mobile?: boolean, sidePane?: boolean }>`
   border-radius: 8px;
   padding: 5px;
-  background-color: rgba(40, 40, 40, 0.8);
-  backdrop-filter: blur(20px);
+  background-color: rgba(40, 40, 40, 0.86);
+  backdrop-filter: blur(34px);
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
   width: 300px;

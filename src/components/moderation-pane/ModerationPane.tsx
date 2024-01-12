@@ -209,8 +209,8 @@ const SelectedUserActionsContainer = styled(FlexRow)`
   margin: 10px;
   margin-top: 5px;
   border-radius: 8px;
-  backdrop-filter: blur(20px);
-  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(34px);
+  background-color: rgba(0, 0, 0, 0.86);
   padding-left: 15px;
   padding-right: 10px;
   .suspendButton {

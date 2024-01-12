@@ -23,9 +23,9 @@
   display: flex;
   align-items: center;
 
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.86);
   font-size: 14px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(34px);
   position: sticky;
   bottom: 10px;
   z-index: 111;
@@ -65,7 +65,7 @@
     width: 35px;
     height: 25px;
     margin: 0;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(34px);
   }
 
   .backToBottom {
@@ -73,8 +73,8 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    backdrop-filter: blur(20px);
-    background-color: rgba(40, 40, 40, 0.6);
+    backdrop-filter: blur(34px);
+    background-color: rgba(40, 40, 40, 0.86);
     border: solid 1px rgba(255, 255, 255, 0.2);
     
     border-radius: 8px;
@@ -104,8 +104,8 @@
   }
   
   .floating {
-    background-color: rgba(40, 40, 40, 0.6);
-    backdrop-filter: blur(20px);
+    background-color: rgba(40, 40, 40, 0.86);
+    backdrop-filter: blur(34px);
     border: solid 1px rgba(255, 255, 255, 0.2);
     border-radius: 6px;
     padding: 3px;
@@ -217,8 +217,8 @@
   position: relative;
   border-radius: 8px;
   border: solid 1px rgba(255, 255, 255, 0.2);
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(20px);
+  background-color: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(34px);
 
 
   border-bottom: solid 2px rgba(255, 255, 255, 0.3);
