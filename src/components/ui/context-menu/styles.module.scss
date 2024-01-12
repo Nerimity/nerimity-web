@@ -1,3 +1,12 @@
+
+:global body.disableBlur {
+  :local {
+    .contextMenu {
+      background-color: rgb(40, 40, 40);
+      backdrop-filter: none;
+    }
+  }
+}
 .contextMenu {
   position: fixed;
   

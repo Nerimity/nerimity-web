@@ -17,6 +17,12 @@ const settings: Setting[] =  [
     element: lazy(() => import('@/components/settings/AccountSettings'))
   },
   {
+    path: 'interface',
+    name: 'settings.drawer.interface',
+    icon: 'brush',
+    element: lazy(() => import('@/components/settings/InterfaceSettings'))
+  },
+  {
     path: 'notifications',
     name: 'settings.drawer.notifications',
     icon: 'notifications',

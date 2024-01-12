@@ -13,10 +13,10 @@ import { useWindowProperties } from "./common/useWindowProperties";
 import { createEffect, on } from "solid-js";
 
 render(() => {
-  const { isMobileAgent, blurEffectEnabled } = useWindowProperties();
+  const { isMobileAgent, isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
 
-  createEffect(on(blurEffectEnabled, () => {
-    if (blurEffectEnabled()) {
+  createEffect(on(isWindowFocusedAndBlurEffectEnabled, () => {
+    if (isWindowFocusedAndBlurEffectEnabled()) {
       document.body.classList.remove("disableBlur");
     } else {
       document.body.classList.add("disableBlur");

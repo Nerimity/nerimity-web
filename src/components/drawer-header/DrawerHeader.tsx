@@ -1,4 +1,4 @@
-import styles from "./DrawerHeader.module.css";
+import styles from "./DrawerHeader.module.scss";
 
 import { JSXElement, Match, Switch } from "solid-js";
 

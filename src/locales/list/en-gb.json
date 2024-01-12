@@ -172,6 +172,7 @@
     "drawer": {
       "title": "Settings",
       "account": "Account",
+      "interface": "Interface",
       "language": "Language",
       "notifications": "Notifications",
       "logout": "Logout",

@@ -1,6 +1,7 @@
 import { createStore } from "solid-js/store";
 import env from "./env";
 import { createSignal } from "solid-js";
+import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
 
 
 
@@ -33,14 +34,20 @@ function setPaneWidth(val: number) {
 
 const isMobileAgent = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+const [blurEffectEnabled, setBlurEffectEnabled] = useReactiveLocalStorage(StorageKeys.BLUR_EFFECT_ENABLED, !isMobileAgent())
+
+
+
 export function useWindowProperties() {
-  const blurEffectEnabled = () => {
-    if (isMobileAgent()) return false;
-    return windowProperties.hasFocus;
+  const isWindowFocusedAndBlurEffectEnabled  = () => {
+    if (!windowProperties.hasFocus) return false;
+    return blurEffectEnabled();
   }
 
   return {
     blurEffectEnabled,
+    setBlurEffectEnabled,
+    isWindowFocusedAndBlurEffectEnabled,
     setPaneWidth,
     width: () => windowProperties.width,
     height: () => windowProperties.height,
