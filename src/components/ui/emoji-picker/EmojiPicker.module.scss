@@ -1,3 +1,26 @@
+
+:global body.disableBlur {
+  :local {
+    .outerEmojiPicker:before {
+      background-color: black;
+      backdrop-filter: none;
+    }
+    .gifPickerSearchBar input {
+      backdrop-filter: none;
+      background-color: rgb(41, 41, 41);
+    }
+  }
+  .go1741493984 { // emoji picker search bar
+    backdrop-filter: none;
+    background-color: rgb(41, 41, 41);
+  }
+  .go2985996624 { // emoji picker footer details
+    backdrop-filter: none;
+    background-color: rgb(46, 46, 46);
+
+
+  }
+}
 .outerEmojiPicker {
   position: relative;
   display: flex;
