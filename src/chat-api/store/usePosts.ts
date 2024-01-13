@@ -218,6 +218,8 @@ export function usePosts() {
   const fetchDiscover = async () => {
     setState('discoverPostIds', []);
     const posts = await getDiscoverPosts();
+    posts.reverse();
+    
     batch(() => {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
@@ -232,6 +234,7 @@ export function usePosts() {
     const afterId = state.discoverPostIds?.at(-1);
     if (!afterId) return [];
     const posts = await getDiscoverPosts({afterId});
+    posts.reverse();
     batch(() => {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
