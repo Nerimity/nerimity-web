@@ -3,7 +3,7 @@ import { createStore, produce } from "solid-js/store";
 import { Portal } from "solid-js/web";
 
 interface Value {
-  createPortal: (element: (close: () => void) => JSX.Element, id?: string) => number | undefined
+  createPortal: (element: (close: () => void) => JSX.Element, id?: string, toggle?: boolean) => number | undefined
   closePortal: (index: number) => void,
   closePortalById: (id: string) => void,
   isPortalOpened: (id: string) => boolean,
@@ -20,7 +20,13 @@ export function CustomPortalProvider(props: CustomPortalProps) {
   const [elements, setElements] = createStore<{element: ((close: () => void) => JSX.Element), id?: string}[]>([]);
 
   
-  const createPortal = (element: (close: () => void) => JSX.Element, id?: string) => {
+  const createPortal = (element: (close: () => void) => JSX.Element, id?: string, toggle?: boolean) => {
+    if (id && toggle){
+      if (isPortalOpened(id)) {
+        closePortalById(id)
+        return;
+      }
+    }
     if (id && isPortalOpened(id)) return;
     setElements([...elements, {element, id}])
     return elements.length - 1;

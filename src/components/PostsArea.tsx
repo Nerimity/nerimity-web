@@ -384,7 +384,7 @@ export function PostItem(props: {
           <ReplyTo user={replyingTo()!.createdBy} />
         </Show>
         <PostContainer gap={5}>
-          <Link href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
+          <Link onClick={e => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
             <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
           </Link>
           <PostInnerContainer gap={3}>
@@ -412,6 +412,7 @@ const Details = (props: {
     <CustomLink
       class={postUsernameStyle}
       style={{ color: "white" }}
+      onClick={e => e.stopPropagation()}
       decoration
       href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
     >

@@ -35,6 +35,7 @@ import {calculateTimeElapsedForActivityStatus} from '@/common/date';
 import { emitScrollToMessage } from '@/common/GlobalEvents';
 import { Skeleton } from '../ui/skeleton/Skeleton';
 import { useDrawer } from '../ui/drawer/Drawer';
+import { ProfileFlyout } from '../floating-profile/FloatingProfile';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -42,9 +43,12 @@ const MemberItem = (props: { member: ServerMember }) => {
   let elementRef: undefined | HTMLDivElement;
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>(undefined);
   const [hovering, setHovering] = createSignal(false);
-  const [modalPosition, setModalPosition] = createSignal<undefined | { left: number, top: number }>(undefined);
   const { isMobileWidth } = useWindowProperties();
-  const { createPortal } = useCustomPortal();
+  const { createPortal, isPortalOpened } = useCustomPortal();
+
+  const isProfileFlyoutOpened = () => {
+    return isPortalOpened("profile-pane-flyout-" + user().id);
+  }
 
 
   const onContextMenu = (event: MouseEvent) => {
@@ -53,23 +57,18 @@ const MemberItem = (props: { member: ServerMember }) => {
   }
 
   const onClick = (e: MouseEvent) => {
-    if (isMobileWidth())  
-      return createPortal(close => <MobileFlyout serverId={params.serverId} close={close} userId={user().id} />)
-    if (modalPosition()) return setModalPosition(undefined);
     const rect = elementRef?.getBoundingClientRect()!;
-    setModalPosition({ left: rect.left, top: rect.top });
+    return createPortal(close => <ProfileFlyout triggerEl={e.target as HTMLElement} position={{ left: rect.left, top: rect.top }} serverId={params.serverId} close={close} userId={user().id} />, "profile-pane-flyout-" + user().id, true)
   }
 
   return (
-    <div classList={{openedMemberList: !!modalPosition()}} onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} >
-      {/* <div onMouseEnter={onHover} > */}
-      <Show when={modalPosition()}><ProfileFlyout close={() => setModalPosition(undefined)} serverId={params.serverId} userId={user().id} left={modalPosition()!.left} top={modalPosition()!.top} /></Show>
+    <div class="trigger-profile-flyout" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} >
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <div onClick={onClick} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
-        <Avatar animate={hovering() || !!modalPosition()} size={30} user={user()} />
+        <Avatar animate={hovering() || !!isProfileFlyoutOpened()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor }} >{user().username}</div>
-          <UserPresence animate={hovering() || !!modalPosition()} userId={user().id} showOffline={false} />
+          <UserPresence animate={hovering() || !!isProfileFlyoutOpened()} userId={user().id} showOffline={false} />
         </div>
       </div>
     </div>
@@ -260,7 +259,7 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
   return <>
     <Show when={!channel()?.recipientId}><BannerItem /></Show>
     <Show when={channel()?.recipientId}>
-      <ProfileFlyout sidePane userId={channel()?.recipientId!} close={() => { }} />
+      <ProfileFlyout dmPane userId={channel()?.recipientId!} />
     </Show>
     <Show when={channel()}>
       <Button
@@ -353,339 +352,6 @@ function RoleItem(props: { roleName: string, members: ServerMember[] }) {
   )
 }
 
-
-
-const FlyoutContainer = styled(FlexRow)`
-  position: fixed;
-  z-index: 100111111111110;
-  gap: 10px;
-  width: 350px;
-  align-items: flex-start;
-`
-
-const FlyoutInner = styled(FlexColumn) <{ mobile?: boolean, sidePane?: boolean }>`
-  border-radius: 8px;
-  padding: 5px;
-  background-color: rgba(40, 40, 40, 0.86);
-  backdrop-filter: blur(34px);
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  overflow: auto;
-  width: 300px;
-  max-height: 600px;
-
-  ${props => props.mobile ? `
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
-    max-height: initial;
-  ` : ''}
-  ${props => props.sidePane ? `
-    border-radius: 0;
-    padding: 0;
-    padding: 5px;
-    background-color: transparent;
-    backdrop-filter: none;
-    border: none;
-    padding-top: 0;
-    max-height: initial;
-  ` : ''}
-`;
-
-const FlyoutDetailsContainer = styled(FlexRow)`
-  position: relative;
-  margin-left: 10px;
-  z-index: 111111111;
-  margin-top: -18px;
-  margin-bottom: 10px;
-`;
-const FlyoutOtherDetailsContainer = styled(FlexColumn)`
-  margin-top: 20px;
-  overflow: hidden;
-`;
-
-const flyoutAvatarStyles = css`
-  margin-right: 14px;
-  margin-left: 6px;
-`;
-
-const RolesContainer = styled(FlexRow)`
-  margin-bottom: 5px;
-  flex-wrap: wrap;
-`;
-
-const RoleContainer = styled(FlexRow) <{ selectable?: boolean }>`
-  background-color: rgba(80, 80, 80, 0.6);
-  border-radius: 6px;
-  padding: 5px;
-  ${props => props.selectable ? `
-    cursor: pointer;
-    width: 14px;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(80, 80, 80, 0.8);
-    &:hover {
-      background-color: #5a5a5a;
-    }
-  ` : ''}
-`;
-
-const BioContainer = styled("div")`
-  border-radius: 6px;
-  max-height: 300px;
-  margin-bottom: 5px;
-  flex-shrink: 0;
-  overflow: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-  white-space: pre-line;
-  line-height: 14px;
-`;
-
-const ProfileFlyout = (props: { sidePane?: boolean; mobile?: boolean; close?(): void, userId: string, serverId?: string, left?: number, top?: number }) => {
-  const { createPortal } = useCustomPortal();
-  const { users, account, serverMembers, posts } = useStore();
-  const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
-  const [hover, setHover] = createSignal(false);
-  const { height } = useWindowProperties();
-  const isMe = () => account.user()?.id === props.userId;
-  const { isMobileWidth } = useWindowProperties();
-  
-  const isMobileWidthMemo = createMemo(() => isMobileWidth())
-  createEffect(on(isMobileWidthMemo, (input, prevInput) => {
-    props.close?.();
-  }, {defer: true}))
-
-
-  const user = () => {
-    if (details()) return details()?.user
-    if (isMe()) return account.user();
-    const user = users.get(props.userId)
-    if (user) return user;
-  };
-
-  const member = () => props.serverId && serverMembers.get(props.serverId, props.userId);
-
-  createEffect(on(() => props.userId, async() => {
-    setDetails(undefined);
-    const details = await getUserDetailsRequest(props.userId);
-    setDetails(details)
-    if (!details.latestPost) return;
-    posts.pushPost(details.latestPost)
-  }))
-
-  const latestPost = () => posts.cachedPost(details()?.latestPost?.id!);
-
-
-  const followingCount = () => details()?.user._count.following.toLocaleString()
-  const followersCount = () => details()?.user._count.followers.toLocaleString()
-
-
-  const [flyoutRef, setFlyoutRef] = createSignal<HTMLDivElement | undefined>(undefined);
-  const { height: flyoutHeight } = useResizeObserver(flyoutRef);
-
-
-  createEffect(() => {
-    if (!flyoutRef()) return;
-    if (props.mobile) return;
-    let newTop = props.top!;
-    if ((flyoutHeight() + props.top!) > height()) newTop = height() - flyoutHeight() - (electronWindowAPI()?.isElectron ? 35 : 0);
-    flyoutRef()!.style.top = newTop + "px";
-  })
-
-
-  onMount(() => {
-    document.addEventListener("mousedown", onBackgroundClick)
-    onCleanup(() => {
-      document.removeEventListener("mousedown", onBackgroundClick)
-    })
-  })
-  const onBackgroundClick = (event: MouseEvent) => {
-    if (props.mobile) return;
-    if (event.target instanceof Element) {
-      if (event.target.closest(`.${FlyoutContainer.class({})}`)) return;
-      if (event.target.closest(`.openedMemberList`)) return;
-      props.close?.()
-      
-    };
-  }
-
-
-  const style = () => ({
-    left: (props.left! - 350) + "px",
-    ...(props.mobile ? {
-      top: 'initial',
-      bottom: "0",
-      left: "0",
-      right: "0",
-      width: "initial",
-      "align-items": "initial",
-      "max-height": "70%",
-      height: 'initial'
-    } : undefined),
-    ...(props.sidePane ? {
-      position: 'relative',
-      width: "initial",
-      height: 'initial',
-      "z-index": 1
-    } : undefined)
-  })
-
-  const showRoleModal = () => {
-    createPortal?.(close => <Modal maxHeight={500} maxWidth={350} close={close} title="Edit Roles" children={() => <ServerMemberRoleModal userId={member()?.userId!} serverId={member()?.serverId!} />} />)
-  }
-
-  const ShowFullProfileButton = () => (
-    <Link href={RouterEndpoints.PROFILE(props.userId)} style={{ "text-decoration": 'none', display: 'flex', "margin-top": 'auto' }}>
-      <Button onClick={props.close} iconName='person' label='View full profile' margin={0} class={css`margin-top: 5px;flex: 1;`} />
-    </Link>
-  )
-
-
-
-  const ProfileArea = () => (
-    <>
-      <Banner maxHeight={200} margin={0} animate={!props.sidePane ? true : hover()} hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
-      <FlyoutDetailsContainer>
-        <CustomLink href={RouterEndpoints.PROFILE(props.userId)}>
-          <Avatar animate class={flyoutAvatarStyles} user={user()!} size={60} />
-        </CustomLink>
-        <FlyoutOtherDetailsContainer>
-          <span>
-            <CustomLink decoration style={{ color: 'white' }} href={RouterEndpoints.PROFILE(props.userId)}>
-              <Text style={{ "overflow-wrap": "anywhere" }}>{user()!.username}</Text>
-              <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
-            </CustomLink>
-          </span>
-          <UserPresence hideActivity animate userId={props.userId} showOffline />
-          <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
-        </FlyoutOtherDetailsContainer>
-      </FlyoutDetailsContainer>
-
-      <Show when={member()}>
-        <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
-        <RolesContainer gap={2}>
-          <For each={member()?.roles()!}>
-            {role => (<RoleContainer><Text color={role?.hexColor} size={12}>{role?.name}</Text></RoleContainer>)}
-          </For>
-          <RoleContainer onclick={showRoleModal} selectable><Icon name='add' size={14} /></RoleContainer>
-        </RolesContainer>
-      </Show>
-
-      <UserActivity userId={props.userId} />
-
-      <Show when={details()?.profile?.bio}>
-        <FlyoutTitle icon='info' title='Bio' />
-        <BioContainer>
-          <Text size={12} color='rgba(255,255,255,0.7)'><Markup text={details()?.profile?.bio!} /></Text>
-        </BioContainer>
-      </Show>
-
-
-    </>
-  );
-
-  const PostArea = () => (
-    <>
-      <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='chat' title='Latest Post' />
-      <PostItem post={latestPost()!} />
-    </>
-  )
-
-  return (
-    <Show when={details()}>
-      <FlyoutContainer onMouseEnter={() => setHover(true)} onMouseLeave={(() => setHover(false))} ref={setFlyoutRef} class="modal" style={style()}>
-        <FlyoutInner sidePane={props.sidePane} style={{ width: 'initial', flex: 1 }}>
-          <ProfileArea />
-          <Show when={latestPost()}>
-            <PostArea />
-          </Show>
-          <ShowFullProfileButton />
-        </FlyoutInner>
-      </FlyoutContainer>
-    </Show>
-  )
-}
-
-const BackgroundContainer = styled("div")`
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1111;
-`;
-function MobileFlyout(props: { userId: string, serverId: string, close: () => void }) {
-  let mouseDownTarget: HTMLDivElement | null = null;
-
-  const onBackgroundClick = (event: MouseEvent) => {
-    if (mouseDownTarget?.closest(".modal")) return;
-    props.close?.()
-  }
-
-
-  return (
-    <BackgroundContainer onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-      <ProfileFlyout mobile close={props.close} serverId={props.serverId} userId={props.userId} />
-    </BackgroundContainer>
-  )
-}
-
-
-function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: string }) {
-  return (
-    <FlexRow gap={5} style={{ ...{ "align-items": 'center', "font-weight": "bold" }, ...props.style }}>
-      <Icon color='var(--primary-color)' name={props.icon} size={14} />
-      <Text size={13}>{props.title}</Text>
-    </FlexRow>
-  )
-}
-
-
-
-const UserActivity = (props: {userId: string}) => {
-  const {users} = useStore();
-  const user = () => users.get(props.userId);
-  const activity = () => user()?.presence?.activity;
-  const [playedFor, setPlayedFor] = createSignal("");
-
-  createEffect(on(activity, () => {
-    if (!activity()) return;
-
-    setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
-    const intervalId = setInterval(() => {
-      setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
-    }, 1000)
-
-    onCleanup(() => {
-      clearInterval(intervalId);
-      
-    })
-  }))
-
-  return (
-    <Show when={activity()}>
-      <FlexRow gap={6} class={css`margin-top: 4px; margin-bottom: 4px;`}>
-        <Icon class={css`margin-top: 2px;`} name='games' size={14} color='var(--primary-color)' />
-        <FlexColumn>
-          <FlexRow gap={4}>
-            <Text size={13}>{activity()?.action}</Text>
-            <Text size={13} opacity={0.6}>{activity()?.name}</Text>
-          </FlexRow>
-          <Text size={13}>For {playedFor()}</Text>
-        </FlexColumn>
-      </FlexRow>
-
-
-    </Show>
-  )
-
-}
 
 
 

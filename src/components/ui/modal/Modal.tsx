@@ -6,6 +6,7 @@ import { Portal } from 'solid-js/web';
 import Icon from '../icon/Icon';
 import Text from '../Text';
 import Button from '../Button';
+import { classNames } from '@/common/classNames';
 
 interface Props {
   children: JSX.Element;
@@ -29,7 +30,7 @@ export default function Modal(props: Props) {
     } : {}),
 
     ...(props.maxHeight ? {
-      "max-width": `${props.maxHeight}px`,
+      "max-height": `${props.maxHeight}px`,
       height: `${isMobileWidth() ? 'calc(100% - 20px)' : '100%'}`
     } : {})
 
@@ -43,7 +44,7 @@ export default function Modal(props: Props) {
   }
   return (
     <Portal>
-      <div class={styles.backgroundContainer} onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as HTMLDivElement}>
+      <div class={classNames(styles.backgroundContainer, "modal-bg")} onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as HTMLDivElement}>
         <div style={modalContainerStyle()} classList={{
           "modal": true,
           [props.class || ""]: true,

@@ -80,7 +80,7 @@ export default function MemberContextMenu(props: Props) {
 
 
   const onEditRoleClick = () => {
-    createPortal?.(close => <Modal maxHeight={500} maxWidth={350} close={close}  title={t('editServerRolesModal.title')} children={() => <ServerMemberRoleModal {...props} />} />)
+    createPortal?.(close => <ServerMemberRoleModal close={close} {...props} />)
   }
 
   const onKickClick = () => {
@@ -177,7 +177,7 @@ function BanModal (props: {user: RawUser, serverId: string, close: () => void}) 
 }
 
 
-export function ServerMemberRoleModal (props: Props) {
+export function ServerMemberRoleModal (props: Props & {close: () => void}) {
   const {serverRoles, serverMembers, servers, account} = useStore();
   const server = () => servers.get(props.serverId!);
   const roles = () => serverRoles.getAllByServerId(props.serverId!);
@@ -195,11 +195,13 @@ export function ServerMemberRoleModal (props: Props) {
   });
 
   return (
-    <div class={styles.roleModalContainer}>
-      <For each={rolesThatCanBeApplied()}>
-        {role => <RoleItem role={role!} userId={props.userId} />}
-      </For>
-    </div>
+    <Modal maxHeight={500} maxWidth={350} class={styles.roleModal} close={props.close} title="Edit Roles">
+      <div class={styles.roleModalContainer}>
+        <For each={rolesThatCanBeApplied()}>
+          {role => <RoleItem role={role!} userId={props.userId} />}
+        </For>
+      </div>
+    </Modal>
   )
 }
 

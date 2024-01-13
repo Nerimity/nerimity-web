@@ -1,11 +1,15 @@
 
 
+.roleModal {
+  width: 100%;
+}
 .roleModalContainer {
   display: flex;
   flex-direction: column;
   gap: 3px;
   overflow: auto;
   padding-right: 5px;
+  width: 100%;
   .roleItem {
     overflow: hidden;
     display: flex;

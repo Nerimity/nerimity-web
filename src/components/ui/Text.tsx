@@ -6,7 +6,7 @@ interface TextProps {
   size?: number;
   bold?: boolean;
   children: JSX.Element;
-  class: string;
+  class?: string;
 }
 
 const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {

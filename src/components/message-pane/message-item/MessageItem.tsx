@@ -32,6 +32,8 @@ import { ServerWithMemberCount, joinPublicServer, joinServerByInviteCode, server
 import { ServerVerifiedIcon } from '@/components/servers/ServerVerifiedIcon';
 import { getFile, googleApiInitialized, initializeGoogleDrive } from '@/common/driveAPI';
 import { Skeleton } from '@/components/ui/skeleton/Skeleton';
+import { ProfileFlyout } from '@/components/floating-profile/FloatingProfile';
+import { ServerMember } from '@/chat-api/store/useServerMembers';
 
 
 interface FloatingOptionsProps {
@@ -95,6 +97,29 @@ interface MessageItemProps {
   quoteClick?: () => void
 }
 
+interface DetailsProps {
+  message: Message;
+  userContextMenu?: (event: MouseEvent) => void;
+  isSystemMessage?: boolean;
+  isServerCreator?: boolean;
+  serverMember?: ServerMember;
+  showProfileFlyout?: (event: MouseEvent) => void
+}
+const Details = (props: DetailsProps) => (
+  <div class={classNames(styles.details)}>
+
+    <CustomLink onClick={props.showProfileFlyout} decoration onContextMenu={props.userContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: props.serverMember?.roleColor || "white" }}>
+      {props.message.createdBy.username}
+    </CustomLink>
+    <Show when={props.isSystemMessage}><SystemMessage message={props.message} /></Show>
+    <Show when={props.isServerCreator}>
+      <div class={styles.ownerBadge}>Owner</div>
+    </Show>
+    <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
+  </div>
+)
+
+
 const MessageItem = (props: MessageItemProps) => {
 
   const params = useParams();
@@ -103,20 +128,9 @@ const MessageItem = (props: MessageItemProps) => {
   const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.message.createdBy.id) : undefined;
 
   const isServerCreator = () => params.serverId ? servers.get(params.serverId)?.createdById === props.message.createdBy.id : undefined;
+  const {createPortal} = useCustomPortal();
 
-  const Details = () => (
-    <div class={classNames(styles.details)}>
 
-      <CustomLink decoration onContextMenu={props.userContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: serverMember()?.roleColor || "white" }}>
-        {props.message.createdBy.username}
-      </CustomLink>
-      <Show when={isSystemMessage()}><SystemMessage message={props.message} /></Show>
-      <Show when={isServerCreator()}>
-        <div class={styles.ownerBadge}>Owner</div>
-      </Show>
-      <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
-    </div>
-  )
 
   const currentTime = props.message?.createdAt;
   const beforeMessageTime = () => props.beforeMessage?.createdAt!
@@ -153,6 +167,14 @@ const MessageItem = (props: MessageItemProps) => {
     });
   }))
 
+  const showProfileFlyout = (event: MouseEvent) => {
+    event.preventDefault();
+    const el = event.target as HTMLElement;
+    const rect = el?.getBoundingClientRect()!;
+    const pos = { left: rect.left + 40, top: rect.top, anchor: "left" } as const;
+    return createPortal(close => <ProfileFlyout triggerEl={el} position={pos} serverId={params.serverId} close={close} userId={props.message.createdBy.id} />, "profile-pane-flyout-" + props.message.createdBy.id, true)
+  }
+
   return (
     <div
       class={
@@ -162,7 +184,8 @@ const MessageItem = (props: MessageItemProps) => {
           conditionalClass(isMentioned(), styles.mentioned),
           conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
           props.class,
-          "messageItem"
+          "messageItem",
+          "trigger-profile-flyout"
         )}
       onContextMenu={props.contextMenu}
       onMouseEnter={() => setHovered(true)}
@@ -176,12 +199,21 @@ const MessageItem = (props: MessageItemProps) => {
         </Match>
         <Match when={!isSystemMessage()}>
           <Show when={!isCompact()}>
-            <Link onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
+            <Link onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
               <Avatar animate={hovered()} user={props.message.createdBy} size={40} />
             </Link>
           </Show>
           <div class={styles.messageInner}>
-            <Show when={!isCompact()}><Details /></Show>
+            <Show when={!isCompact()}>
+              <Details 
+                message={props.message} 
+                isServerCreator={isServerCreator()} 
+                isSystemMessage={isSystemMessage()} 
+                serverMember={serverMember()} 
+                showProfileFlyout={showProfileFlyout} 
+                userContextMenu={props.userContextMenu} 
+                 />
+              </Show>
             <Content message={props.message} hovered={hovered()} />
             <Show when={props.message.uploadingAttachment}>
               <UploadAttachment message={props.message} />
