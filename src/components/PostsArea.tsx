@@ -621,6 +621,7 @@ const PostsContainer = styled(FlexColumn)`
 export function PostsArea(props: {
   showLiked?: boolean;
   showFeed?: boolean;
+  showDiscover?: boolean;
   showReplies?: boolean;
   postId?: string;
   userId?: string;
@@ -632,6 +633,7 @@ export function PostsArea(props: {
   const [lastFetchCount, setLastFetchCount] = createSignal(0);
 
   const cachedReplies = () => {
+    if (props.showDiscover) return posts.cachedDiscover();
     if (props.showFeed) return posts.cachedFeed();
     if (props.userId) return posts.cachedUserPosts(props.userId!);
     return posts.cachedPost(props.postId!)?.cachedComments();
@@ -656,6 +658,15 @@ export function PostsArea(props: {
     setLastFetchCount(newPosts?.length || 0)
     setLoading(false);
   }
+
+  const fetchDiscover = async () => {
+    if (!props.showDiscover) return;
+    setLoading(true);
+    const newPosts = await posts.fetchDiscover();
+    setLastFetchCount(newPosts?.length || 0)
+    setLoading(false);
+  }
+
   const fetchReplies = async () => {
     if (!props.postId) return; 
     setLoading(true);
@@ -666,6 +677,7 @@ export function PostsArea(props: {
 
   createEffect(on(() =>  props.postId, () => {
     fetchFeed();
+    fetchDiscover();
     fetchReplies();
   }));
   
@@ -695,6 +707,13 @@ export function PostsArea(props: {
     setLastFetchCount(newPosts?.length || 0)
     setLoading(false);
   }
+  const loadMoreDiscover = async () => {
+    if (loading()) return;
+    setLoading(true);
+    const newPosts = await posts.fetchMoreDiscover();
+    setLastFetchCount(newPosts?.length || 0)
+    setLoading(false);
+  }
 
   const loadMore = () => {
     if (props.postId) {
@@ -705,6 +724,9 @@ export function PostsArea(props: {
     }
     if (props.showFeed) {
       loadMoreFeed();
+    }
+    if (props.showDiscover) {
+      loadMoreDiscover();
     }
   }
   return (

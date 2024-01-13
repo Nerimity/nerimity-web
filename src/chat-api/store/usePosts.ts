@@ -1,7 +1,7 @@
 import { batch } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { RawPost } from "../RawData";
-import { createPost, deletePost, editPost, getCommentPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, unlikePost } from "../services/PostService";
+import { createPost, deletePost, editPost, getCommentPosts, getDiscoverPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, unlikePost } from "../services/PostService";
 import useAccount from "./useAccount";
 
 
@@ -21,12 +21,14 @@ interface State {
   userPostIds: Record<string, string[] | undefined>; // userPostIds[userId] -> postIds
   posts: Record<string, Post | undefined>
   feedPostIds: string[]
+  discoverPostIds: string[]
 }
 
 const [state, setState] = createStore<State>({
   userPostIds: {},
   posts: {},
   feedPostIds: [],
+  discoverPostIds: [],
 });
 
 export function usePosts() {
@@ -212,8 +214,40 @@ export function usePosts() {
     return posts;
   }
 
+
+  const fetchDiscover = async () => {
+    setState('discoverPostIds', []);
+    const posts = await getDiscoverPosts();
+    batch(() => {
+      for (let index = 0; index < posts.length; index++) {
+        const post = posts[index];
+        pushPost(post);
+        setState('discoverPostIds', state.discoverPostIds.length, post.id);
+      }
+    })
+    return posts;
+  }
+
+  const fetchMoreDiscover = async () => {
+    const afterId = state.discoverPostIds?.at(-1);
+    if (!afterId) return [];
+    const posts = await getDiscoverPosts({afterId});
+    batch(() => {
+      for (let index = 0; index < posts.length; index++) {
+        const post = posts[index];
+        pushPost(post);
+        setState('discoverPostIds', [...state.discoverPostIds, post.id]);
+      }
+    })
+    return posts;
+  }
+
+
+
+
   const cachedFeed = () => state.feedPostIds.map(id => state.posts[id] as Post);
+  const cachedDiscover = () => state.discoverPostIds.map(id => state.posts[id] as Post);
   const cachedPost = (postId: string) => state.posts[postId];
 
-  return {pushPost, fetchFeed, cachedFeed, fetchMoreFeed, cachedPost, fetchUserPosts, fetchMoreUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts}
+  return {cachedDiscover, fetchDiscover, fetchMoreDiscover, pushPost, fetchFeed, cachedFeed, fetchMoreFeed, cachedPost, fetchUserPosts, fetchMoreUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts}
 }

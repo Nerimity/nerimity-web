@@ -16,7 +16,6 @@ import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Input from "./ui/input/Input";
 import ItemContainer from "./ui/Item";
 import Text from "./ui/Text";
-
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -105,7 +104,7 @@ const TabStyle = css`
 
 
 function PostsContainer() {
-  const [showNotifications, setShowNotifications] = createSignal(false);
+  const [selectedTab, setSelectedTab] = createSignal<"FEED" | "DISCOVER" | "NOTIFICATIONS">("FEED");
 
   const [notificationCount, setNotificationCount] = createSignal(0);
   onMount(async () => {
@@ -114,11 +113,11 @@ function PostsContainer() {
   })
 
   const NotificationIndicator = () => {
-    return <Show when={notificationCount()}><NotificationCountContainer selected={showNotifications()}>{notificationCount()}</NotificationCountContainer></Show>
+    return <Show when={notificationCount()}><NotificationCountContainer selected={selectedTab() === "NOTIFICATIONS"}>{notificationCount()}</NotificationCountContainer></Show>
   }
 
   createEffect(async () => {
-    if (!showNotifications()) return;
+    if (selectedTab() !== "NOTIFICATIONS") return;
     await getPostNotificationDismiss()
     setNotificationCount(0);
   })
@@ -128,18 +127,26 @@ function PostsContainer() {
       <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px" }}>Posts</Text>
       <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "5px", height: "28px" }}>
 
-        <ItemContainer class={TabStyle} handlePosition="bottom" selected={!showNotifications()} onclick={() => setShowNotifications(false)}>
+        <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "FEED"} onclick={() => setSelectedTab("FEED")}>
           <Text size={14}>Feed</Text>
         </ItemContainer>
+        <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "DISCOVER"} onclick={() => setSelectedTab("DISCOVER")}>
+          <Text size={14}>Discover</Text>
+        </ItemContainer>
 
-        <ItemContainer class={TabStyle} handlePosition="bottom" selected={showNotifications()} onclick={() => setShowNotifications(true)}>
+        <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "NOTIFICATIONS"} onclick={() => setSelectedTab("NOTIFICATIONS")}>
           <Text size={14}>Notifications</Text>
           <NotificationIndicator />
         </ItemContainer>
 
       </FlexRow>
-      <Show when={!showNotifications()}><PostsArea showFeed style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew /></Show>
-      <Show when={showNotifications()}><PostNotificationsArea style={{ "margin-left": "5px", "margin-right": "5px" }} /></Show>
+      <Show when={selectedTab() === "FEED"}>
+        <PostsArea showFeed style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
+      </Show>
+      <Show when={selectedTab() === "DISCOVER"}>
+        <PostsArea showDiscover style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
+      </Show>
+      <Show when={selectedTab() === "NOTIFICATIONS"}><PostNotificationsArea style={{ "margin-left": "5px", "margin-right": "5px" }} /></Show>
     </FlexColumn>
   )
 

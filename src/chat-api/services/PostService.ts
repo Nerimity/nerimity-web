@@ -24,6 +24,26 @@ export const getFeedPosts = async (opts?: GetFeedPostsOpts) => {
   return data;
 }
 
+interface GetDiscoverPostsOpts {
+  limit?: number
+  beforeId?: string
+  afterId?: string
+}
+
+export const getDiscoverPosts = async (opts?: GetDiscoverPostsOpts) => {
+  const data = await request<RawPost[]>({
+    method: 'GET',
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.post("discover"),
+    params: {
+      ...(opts?.limit ? {limit: opts.limit} : undefined),
+      ...(opts?.beforeId ? {beforeId: opts.beforeId} : undefined),
+      ...(opts?.afterId ? {afterId: opts.afterId} : undefined),
+    },
+    useToken: true,
+  });
+  return data;
+}
+
 interface GetPostsOpts {
   userId?: string
   withReplies?: boolean
