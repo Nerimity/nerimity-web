@@ -136,6 +136,7 @@ export function usePosts() {
     if (!post) return;
     pushPost(post, account.user()?.id!);
     setState("feedPostIds", [post.id, ...state.feedPostIds]);
+    setState("discoverPostIds", [post.id, ...state.feedPostIds]);
     
   }
 
