@@ -108,7 +108,7 @@ interface DetailsProps {
 const Details = (props: DetailsProps) => (
   <div class={classNames(styles.details)}>
 
-    <CustomLink onClick={props.showProfileFlyout} decoration onContextMenu={props.userContextMenu} class={styles.username} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: props.serverMember?.roleColor || "white" }}>
+    <CustomLink onClick={props.showProfileFlyout} decoration onContextMenu={props.userContextMenu} class={classNames("trigger-profile-flyout", styles.username)} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: props.serverMember?.roleColor || "white" }}>
       {props.message.createdBy.username}
     </CustomLink>
     <Show when={props.isSystemMessage}><SystemMessage message={props.message} /></Show>
@@ -184,8 +184,7 @@ const MessageItem = (props: MessageItemProps) => {
           conditionalClass(isMentioned(), styles.mentioned),
           conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
           props.class,
-          "messageItem",
-          "trigger-profile-flyout"
+          "messageItem"
         )}
       onContextMenu={props.contextMenu}
       onMouseEnter={() => setHovered(true)}
@@ -199,7 +198,7 @@ const MessageItem = (props: MessageItemProps) => {
         </Match>
         <Match when={!isSystemMessage()}>
           <Show when={!isCompact()}>
-            <Link onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={styles.avatar}>
+            <Link onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={classNames(styles.avatar, "trigger-profile-flyout")}>
               <Avatar animate={hovered()} user={props.message.createdBy} size={40} />
             </Link>
           </Show>
