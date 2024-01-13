@@ -7,7 +7,11 @@
     .backToBottom {
       background-color: rgb(40, 40, 40);
       backdrop-filter: none;
+      &:hover {
+        background-color: rgb(58, 58, 58);
+      }
     }
+    
   }
 }
 

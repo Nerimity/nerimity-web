@@ -791,7 +791,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
   return (
     <Show when={scrolledUp()}>
       <div class={styles.backToBottom} onclick={onClick}>
-        <Show when={newMessages()}><Text class={styles.text}>New messages</Text></Show>
+        <Show when={newMessages()}><Text class={styles.text} size={14}>New messages</Text></Show>
         <Icon size={34} color={newMessages() ? 'var(--alert-color)' : "var(--primary-color)"} name="expand_more" />
       </div>
     </Show>

@@ -6,6 +6,7 @@ interface TextProps {
   size?: number;
   bold?: boolean;
   children: JSX.Element;
+  class: string;
 }
 
 const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
@@ -18,7 +19,7 @@ const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
     ...(props.bold ? { "font-weight": "bold" } : {}),
   } as JSX.CSSProperties)
   return (
-    <span style={style()}>
+    <span style={style()} class={props.class}>
       {props.children}
     </span>
   );
