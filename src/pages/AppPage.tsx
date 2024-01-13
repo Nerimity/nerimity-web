@@ -165,9 +165,10 @@ export default function AppPage() {
 function MainPane() {
   const windowProperties = useWindowProperties();
   const { hasRightDrawer, hasLeftDrawer } = useDrawer();
+  const [outerPaneElement, setOuterPaneElement] = createSignal<HTMLDivElement | undefined>(undefined);
   const [mainPaneElement, setMainPaneElement] = createSignal<HTMLDivElement | undefined>(undefined);
 
-  const {width} = useResizeObserver(mainPaneElement)
+  const {width} = useResizeObserver(outerPaneElement)
 
   createEffect(() => {
     windowProperties.setPaneWidth(width());
@@ -177,8 +178,8 @@ function MainPane() {
 
 
   return (
-    <OuterMainPaneContainer ref={setMainPaneElement}>
-        <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} >
+    <OuterMainPaneContainer ref={setOuterPaneElement}>
+      <MainPaneContainer ref={setMainPaneElement} hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} >
         <MainPaneHeader />
         <Routes>
           <Route path="/settings/*" component={SettingsPane} />
