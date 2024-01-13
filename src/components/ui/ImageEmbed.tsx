@@ -125,7 +125,7 @@ export function clamp(num: number, max: number) {
 }
 
 
-function clampImageSize(width: number, height: number, maxWidth: number, maxHeight: number) {
+export function clampImageSize(width: number, height: number, maxWidth: number, maxHeight: number) {
   const aspectRatio = width / height;
   if (width > maxWidth) {
     width = maxWidth;

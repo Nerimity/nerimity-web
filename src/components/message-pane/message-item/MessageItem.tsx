@@ -1,9 +1,9 @@
 import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
-import { formatTimestamp } from '@/common/date';
+import { formatTimestamp, timeSince } from '@/common/date';
 import Avatar from '@/components/ui/Avatar';
 import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawAttachment, RawMessage, RawMessageReaction, RawUser } from '@/chat-api/RawData';
+import { MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, RawUser } from '@/chat-api/RawData';
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -18,7 +18,7 @@ import { css, styled } from 'solid-styled-components';
 import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
-import { ImageEmbed, ImagePreviewModal } from '@/components/ui/ImageEmbed';
+import { ImageEmbed, ImagePreviewModal, clamp, clampImageSize } from '@/components/ui/ImageEmbed';
 import { CustomLink } from '@/components/ui/CustomLink';
 import { MentionUser } from '@/components/markup/MentionUser';
 import { Emoji } from '@/components/markup/Emoji';
@@ -332,25 +332,38 @@ const inviteLinkRegex = new RegExp(
   `${env.APP_URL}/i/([\\S]+)`
 );
 
+const youtubeLinkRegex =
+  /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/;
+
+
+
 function Embeds(props: { message: Message, hovered: boolean }) {
 
   const inviteEmbedCode = () => props.message.content?.match(inviteLinkRegex)?.[1];
 
+  
+  const youtubeEmbed = () =>props.message.embed?.origUrl?.match(youtubeLinkRegex);
+
 
   return (
     <div class={styles.embeds}>
-      <Show when={inviteEmbedCode()}>
-        {code => <ServerInviteEmbed code={code()} />}
-      </Show>
       <Show when={props.message.attachments?.[0]?.provider === "local"}>
-        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
+        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-90} />
       </Show>
-      <Show when={props.message.attachments?.[0]?.provider === "google_drive"}>
-        <GoogleDriveEmbeds attachment={props.message.attachments?.[0]!} />
-      </Show>
-      <Show when={props.message.embed}>
-        <OGEmbed message={props.message} />
-      </Show>
+      <Switch>
+        <Match when={inviteEmbedCode()}>
+          {code => <ServerInviteEmbed code={code()} />}
+        </Match>
+        <Match when={youtubeEmbed()}>
+          {youtubeEmbed => <YoutubeEmbed code={youtubeEmbed()[3]} embed={props.message.embed!} shorts={youtubeEmbed()[1].endsWith("shorts")} />}
+        </Match>
+        <Match when={props.message.attachments?.[0]?.provider === "google_drive"}>
+          <GoogleDriveEmbeds attachment={props.message.attachments?.[0]!} />
+        </Match>
+        <Match when={props.message.embed}>
+          <OGEmbed message={props.message} />
+        </Match>
+      </Switch>
     </div>
   )
 }
@@ -374,6 +387,72 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
     </>
   )
 }
+
+
+const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean }) => {
+  const { paneWidth, height, width: windowWidth } = useWindowProperties();
+  const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
+  const [error, setError] = createSignal<string | undefined>();
+  const [playVideo, setPlayVideo] = createSignal<boolean>(false);
+
+  const [date, setDate] = createSignal<string>("");
+
+  const widthOffset = -90;
+  const customHeight = 0;
+  const customWidth = 0;
+
+  const style = () => {
+
+    if (props.shorts) {
+      const maxWidth = clamp((customWidth || paneWidth()!) + (widthOffset || 0), 600)
+      const maxHeight = windowWidth() <= 600 ? (customHeight || height()) / 1.4 : (customHeight || height()) / 2
+      return clampImageSize(1080, 1920, maxWidth, maxHeight)
+    }
+
+
+    const maxWidth = clamp((customWidth || paneWidth()!) + (widthOffset || 0), 600)
+    return clampImageSize(1920, 1080, maxWidth, (customHeight || height()) / 2)
+  }
+
+  onMount(() => {
+    updateDate();
+    const interval = setInterval(updateDate, 60000);
+    onCleanup(() => clearInterval(interval))
+  })
+
+  const updateDate = () => {
+    setDate(timeSince(new Date(props.embed.uploadDate || 0).getTime()))
+  }
+
+  return (
+    <div class={styles.youtubeEmbed} >
+      <div class={styles.video} style={style()}>
+        <Show when={!playVideo()}>
+          <img style={{ width: "100%", height: "100%", "object-fit": 'cover' }} src={props.embed.imageUrl} />
+          <div onclick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
+            <div class={styles.playButton}>
+              <Icon name='play_arrow' color='var(--primary-color)' size={28} />
+            </div>
+          </div>
+        </Show>
+        <Show when={playVideo()}>
+        <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${props.code}?autoplay=1`} frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </Show>
+      </div>
+      <div class={styles.youtubeEmbedDetails}>
+        <div class={styles.title}>{props.embed.title}</div>
+        <div class={styles.info}>
+          {props.embed.channelName} • <span class={styles.date}>{date()}</span>
+        </div>
+        <div class={styles.description}>{props.embed.description}</div>
+    
+      </div>
+    </div>
+
+  )
+}
+
+
 
 
 const VideoEmbed = (props: { attachment: RawAttachment }) => {
@@ -694,7 +773,7 @@ function OGEmbed(props: { message: RawMessage }) {
             width: embed().imageWidth,
             height: embed().imageHeight
           }}
-          widthOffset={-70}
+          widthOffset={-90}
         />
       </Match>
     </Switch>

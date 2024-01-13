@@ -48,6 +48,13 @@ interface MainPaneContainerProps {
   hasRightDrawer: boolean
 }
 
+const OuterMainPaneContainer = styled("div")`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
+
 const MainPaneContainer = styled("div") <MainPaneContainerProps>`
   overflow: auto;
   display: flex;
@@ -170,19 +177,21 @@ function MainPane() {
 
 
   return (
-    <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} ref={setMainPaneElement}>
-      <MainPaneHeader />
-      <Routes>
-        <Route path="/settings/*" component={SettingsPane} />
-        <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
-        <Route path="/explore/*" component={ExplorePane} />
-        <Route path="/servers/:serverId/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
-        <Route path="/inbox/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
-        <Route path="/profile/:userId" component={ProfilePane} />
-        <Route path="/moderation/*" component={ModerationPane} />
-        <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
-        <Route path="/*" component={DashboardPane} />
-      </Routes>
-    </MainPaneContainer>
+    <OuterMainPaneContainer ref={setMainPaneElement}>
+        <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} >
+        <MainPaneHeader />
+        <Routes>
+          <Route path="/settings/*" component={SettingsPane} />
+          <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
+          <Route path="/explore/*" component={ExplorePane} />
+          <Route path="/servers/:serverId/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
+          <Route path="/inbox/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
+          <Route path="/profile/:userId" component={ProfilePane} />
+          <Route path="/moderation/*" component={ModerationPane} />
+          <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
+          <Route path="/*" component={DashboardPane} />
+        </Routes>
+      </MainPaneContainer>
+    </OuterMainPaneContainer>
   )
 }

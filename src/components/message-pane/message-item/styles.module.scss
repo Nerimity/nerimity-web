@@ -387,6 +387,75 @@ body .reactionItem {
 
 }
 
+
+.youtubeEmbed {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+
+  width: min-content;
+  .video {
+    position: relative;
+    background-color: black;
+    margin: 5px;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  .playButtonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    z-index: 1111;
+    cursor: pointer;
+  }
+  .playButton {
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.86);
+    backdrop-filter: blur(34px);
+    border-radius: 6px;
+  }
+
+  .youtubeEmbedDetails {
+    margin: 8px;
+    margin-top: 4px;
+
+    .title {
+      font-weight: bold;
+      
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .info {
+      margin-top: 2px;
+      margin-bottom: 4px;
+      .date {
+        opacity: 0.8;
+      }
+    }
+    .description {
+      opacity: 0.6;
+      font-size: 12px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+}
+
+
+
 .videoEmbed {
   display: flex;
   flex-direction: column;

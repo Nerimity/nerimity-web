@@ -43,17 +43,24 @@ export interface RawMessage {
   attachments?: Array<RawAttachment>
   quotedMessages: Partial<RawMessage>[]
   reactions: RawMessageReaction[]
-  embed?: {
-    title?: string;
-    type?: string;
-    description?: string;
-    url: string;
-    imageUrl?: string;
-    imageWidth?: number;
-    imageHeight?: number;
-    imageMime?: string;
-  } | null;
+  embed?: RawEmbed | null;
 }
+
+export interface RawEmbed {
+  title?: string;
+  type?: string;
+  description?: string;
+  url: string;
+  origUrl?: string;
+  imageUrl?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageMime?: string;
+
+  // for youtube
+  uploadDate: string;
+  channelName: string;
+};
 
 export interface RawMessageReaction {
   name: string;
