@@ -9,6 +9,7 @@ import { electronWindowAPI } from './common/Electron';
 import { ElectronTitleBar } from './components/ElectronTitleBar';
 import { useWindowProperties } from './common/useWindowProperties';
 import styles from './App.module.scss';
+import { ConnectingStatusHeader } from './components/connecting-status-header/ConnectingStatusHeader';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -47,12 +48,12 @@ export default function App() {
     actions.changeLanguage(key);
   }
 
-
   return (
     <>
       <Show when={electronWindowAPI()?.isElectron}>
         <ElectronTitleBar />
       </Show>
+      <ConnectingStatusHeader/>
       <Routes>
         <Route path="/" component={HomePage} />
         <Route path="/app/*" component={AppPage} />

@@ -1,0 +1,46 @@
+.connectingStatusHeader {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  
+  overflow: hidden;
+  opacity: 1;
+  height: 20px;
+  transition: 0.2s ease-in;
+
+  border-radius: 6px;
+  margin: 6px;
+  margin-bottom: -3px;
+
+  &.mobile {
+    border-radius: 0;
+    margin: 0;
+  }
+  
+  &.hide {
+    opacity: 0;
+    height: 0;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: brightness(82%);
+  }
+  
+  .text {
+    position: relative;
+    z-index: 1111;
+    font-size: 14px;
+    text-align: center;
+    flex: 1;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+  }
+}

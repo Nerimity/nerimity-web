@@ -114,7 +114,7 @@ export default function AppPage() {
   createEffect(on(account.authenticationError, (err) => {
     if (!err) return;
     const invitesPage = useMatch(() => "/app/explore/servers/invites/*");
-    if (invitesPage()) return;
+    if (invitesPage() && !getStorageString(StorageKeys.USER_TOKEN, undefined)) return;
     createPortal?.(close => <ConnectionErrorModal close={close} />)
   }))
 
