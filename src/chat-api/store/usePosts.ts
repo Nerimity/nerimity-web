@@ -136,8 +136,7 @@ export function usePosts() {
     if (!post) return;
     pushPost(post, account.user()?.id!);
     setState("feedPostIds", [post.id, ...state.feedPostIds]);
-    setState("discoverPostIds", [post.id, ...state.feedPostIds]);
-    
+    setState("discoverPostIds", [post.id, ...state.discoverPostIds]);
   }
 
   const fetchUserPosts = async (userId: string, withReplies?: boolean) => {
