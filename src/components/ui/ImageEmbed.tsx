@@ -31,7 +31,7 @@ const ImageEmbedContainer = styled(FlexRow)`
   }
 `
 
-export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: number, customWidth?: number, customHeight?: number}) {
+export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: number, customWidth?: number, customHeight?: number, maxWidth?: number;}) {
   const { paneWidth, height, hasFocus } = useWindowProperties();
   const { createPortal } = useCustomPortal();
   
@@ -47,7 +47,7 @@ export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: num
   }
 
   const style = () => {
-    const maxWidth = clamp((props.customWidth || paneWidth()!) + (props.widthOffset || 0), 600)
+    const maxWidth = clamp((props.customWidth || paneWidth()!) + (props.widthOffset || 0), props.maxWidth || 600)
     return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, (props.customHeight || height()) / 2)
   }
 

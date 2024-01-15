@@ -71,7 +71,7 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
           <Icon class="editIcon" name='edit' size={14} color="rgba(255,255,255,0.4)" title={editedAt()} />
         </Show>
       </div>
-      <Embeds hovered={hovered()} message={props.quote}  />
+      <Embeds hovered={hovered()} message={props.quote} maxWidth={160}  />
 
     </div>
   )
