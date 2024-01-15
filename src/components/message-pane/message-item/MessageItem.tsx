@@ -335,7 +335,7 @@ const youtubeLinkRegex =
 
 
 
-export function Embeds(props: { message: Message, hovered: boolean; maxWidth?: number; }) {
+export function Embeds(props: { message: Message, hovered: boolean; maxWidth?: number; maxHeight?: number }) {
 
   const inviteEmbedCode = () => props.message.content?.match(inviteLinkRegex)?.[1];
 
@@ -346,7 +346,7 @@ export function Embeds(props: { message: Message, hovered: boolean; maxWidth?: n
   return (
     <div class={styles.embeds}>
       <Show when={props.message.attachments?.[0]?.provider === "local"}>
-        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-90}  maxWidth={props.maxWidth}/>
+        <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-90}  maxWidth={props.maxWidth} maxHeight={props.maxHeight} />
       </Show>
       <Switch>
         <Match when={inviteEmbedCode()}>

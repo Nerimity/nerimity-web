@@ -31,11 +31,20 @@ const ImageEmbedContainer = styled(FlexRow)`
   }
 `
 
-export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: number, customWidth?: number, customHeight?: number, maxWidth?: number;}) {
+interface ImageEmbedProps {
+  attachment: RawAttachment;
+  widthOffset?: number; 
+  customWidth?: number;
+  customHeight?: number;
+  maxWidth?: number; 
+  maxHeight?: number
+}
+
+export function ImageEmbed(props: ImageEmbedProps) {
   const { paneWidth, height, hasFocus } = useWindowProperties();
   const { createPortal } = useCustomPortal();
   
-  const isGif = () => props.attachment.path.endsWith(".gif")
+  const isGif = () => props.attachment.path?.endsWith(".gif")
   const url = (ignoreFocus?: boolean) => {
     let url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
     if (ignoreFocus) return url.href;
@@ -48,7 +57,8 @@ export function ImageEmbed(props: { attachment: RawAttachment, widthOffset?: num
 
   const style = () => {
     const maxWidth = clamp((props.customWidth || paneWidth()!) + (props.widthOffset || 0), props.maxWidth || 600)
-    return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, (props.customHeight || height()) / 2)
+    const maxHeight = props.maxHeight ? clamp(((props.customHeight || height()) / 2), props.maxHeight) : ((props.customHeight || height()) / 2)
+    return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, maxHeight)
   }
 
   const onClicked = () => {
