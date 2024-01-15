@@ -87,7 +87,6 @@ interface MessageItemProps {
   class?: string;
   message: Message;
   beforeMessage?: Message;
-  animate?: boolean;
   hideFloating?: boolean;
   messagePaneEl?: HTMLDivElement;
   textAreaEl?: HTMLTextAreaElement;

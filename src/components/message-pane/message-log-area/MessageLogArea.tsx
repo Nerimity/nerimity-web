@@ -28,21 +28,21 @@ import { t } from "i18next";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
 
 export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
+  let messageLogElement: undefined | HTMLDivElement;
+
   const {goToMain} = useDrawer();
   const { createPortal } = useCustomPortal();
   const params = useParams<{ channelId: string, serverId?: string }>();
   const { hasFocus } = useWindowProperties();
   const { channels, messages, account, channelProperties, servers } = useStore();
-  let messageLogElement: undefined | HTMLDivElement;
   const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
-  let loadedTimestamp: number | undefined;
   const [unreadMarker, setUnreadMarker] = createStore<{ lastSeenAt: number | null, messageId: string | null }>({ lastSeenAt: null, messageId: null });
   
 
   const [messageContextDetails, setMessageContextDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
   const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position?: { x: number, y: number }, message?: Message } | undefined>({ position: undefined, message: undefined });
 
-  const [loadingMessages, setLoadingMessages] = createStore({ top: false, bottom: true });
+  const [areMessagesLoading, setAreMessagesLoading] = createSignal(false);
   const scrollTracker = createScrollTracker(props.mainPaneEl);
 
   const channel = () => channels.get(params.channelId!)!;
@@ -52,14 +52,13 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
   const scrollToMessageListener = useScrollToMessageListener();
   const scrollPositionRetainer = useScrollPositionRetainer(() => props.mainPaneEl!, () => messageLogElement!);
 
-
   scrollToMessageListener(async (event) => {
+    if (areMessagesLoading()) return;
     goToMain();
+    setAreMessagesLoading(true);
     let messageEl = document.getElementById(`message-${event.messageId}`);
-    let fetched = false;
     if (!messageEl) {
       await messages.loadAroundAndStoreMessages(channel().id, event.messageId);
-      fetched = true;
       messageEl = document.getElementById(`message-${event.messageId}`);
       setTimeout(() => {
         scrollTracker.setLoadMoreBottom(false);
@@ -67,15 +66,19 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
           channelProperties.setMoreTopToLoad(params.channelId, true);
           channelProperties.setMoreBottomToLoad(params.channelId, true);
           scrollTracker.forceUpdate();
-          setLoadingMessages('bottom', false);
         })
       }, 300)
     };
-    messageEl?.scrollIntoView({
-      behavior: fetched ? 'instant' : 'smooth',
-      inline: 'nearest',
-      block: 'center'
-    })
+    setTimeout(() => {
+      messageEl?.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'nearest',
+        block: 'center'
+      })
+    }, 500);
+    setTimeout(() => {
+      setAreMessagesLoading(false);
+    }, 1200);
     if (!messageEl) return;
     messageEl.style.background = "var(--primary-color-dark)";
     setTimeout(() => {
@@ -173,7 +176,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     scrollTracker.forceUpdate();
 
     setTimeout(() => {
-      setLoadingMessages('bottom', false);
+      setAreMessagesLoading(false);
     }, 100);
   }))
 
@@ -236,12 +239,11 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
 
   const fetchMessages = async () => {
-    loadedTimestamp = Date.now();
     if (channelMessages()) return;
     await messages.fetchAndStoreMessages(params.channelId);
   }
 
-  const areMessagesLoading = () => loadingMessages.top || loadingMessages.bottom;
+
 
   // Load more top when scrolled to the top
   createEffect(on([scrollTracker.loadMoreTop, areMessagesLoading], ([loadMoreTop, alreadyLoading]) => {
@@ -250,7 +252,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     if (!properties()?.moreTopToLoad) return;
     if (alreadyLoading) return;
     if (!loadMoreTop) return;
-    setLoadingMessages('top', true);
+    setAreMessagesLoading(true);
 
     const beforeSet = () => {
       scrollPositionRetainer.save("first");
@@ -261,7 +263,8 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       channelProperties.setMoreBottomToLoad(params.channelId, true);
       channelProperties.setMoreTopToLoad(params.channelId, hasMore);
       scrollTracker.forceUpdate();
-      setLoadingMessages('top', false);
+      setAreMessagesLoading(false);
+
     }
     messages.loadMoreTopAndStoreMessages(params.channelId, beforeSet, afterSet);
   }))
@@ -273,7 +276,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     if (!properties()?.moreBottomToLoad) return;
     if (alreadyLoading) return;
     if (!loadMoreBottom) return;
-    setLoadingMessages('bottom', true);
+    setAreMessagesLoading(true);
 
     const beforeSet = () => {
       scrollPositionRetainer.save("last");
@@ -284,7 +287,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       channelProperties.setMoreTopToLoad(params.channelId, true);
       channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
       scrollTracker.forceUpdate();
-      setLoadingMessages('bottom', false);
+      setAreMessagesLoading(false);
     }
     messages.loadMoreBottomAndStoreMessages(params.channelId, beforeSet, afterSet);
   }))
@@ -374,7 +377,6 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
               quoteClick={() => quoteMessage(message)}
               contextMenu={(event) => onContextMenu(event, message)}
               userContextMenu={(event) => onUserContextMenu(event, message)}
-              animate={!!loadedTimestamp && message.createdAt > loadedTimestamp}
               message={message}
               beforeMessage={message.type === MessageType.CONTENT ? channelMessages()?.[i() - 1] : undefined}
               messagePaneEl={props.mainPaneEl}
