@@ -13,6 +13,7 @@ import { ServerEvents } from "@/chat-api/EventNames";
 import { reconcile } from "solid-js/store";
 import { formatTimestamp } from "@/common/date";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
+import { Embeds } from "../message-pane/message-item/MessageItem";
 
 
 
@@ -20,6 +21,7 @@ import { emitScrollToMessage } from "@/common/GlobalEvents";
 
 
 export function QuoteMessage(props: { message: Message; quote: Partial<Message> }) {
+  console.log(props.quote)
   const [hovered, setHovered] = createSignal(false);
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const { serverMembers, messages } = useStore();
@@ -65,17 +67,12 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
         </Show>
       </div>
       <div>
-        <Show when={props.quote.attachments?.length}>
-          <Icon style={{"vertical-align": "-0.2em", "margin-right": "4px"}} name="image" color="rgba(255,255,255,0.6)" size={16}/>
-        </Show>
         <Markup text={props.quote.content || ""} message={props.quote as Message} isQuote />
-        <Show when={props.quote.attachments?.length && !props.quote.content}>
-          Image
-        </Show>
         <Show when={editedAt()}>
           <Icon class="editIcon" name='edit' size={14} color="rgba(255,255,255,0.4)" title={editedAt()} />
         </Show>
       </div>
+      <Embeds hovered={hovered()} message={props.quote}  />
 
     </div>
   )

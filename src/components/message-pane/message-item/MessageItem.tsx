@@ -336,7 +336,7 @@ const youtubeLinkRegex =
 
 
 
-function Embeds(props: { message: Message, hovered: boolean }) {
+export function Embeds(props: { message: Message, hovered: boolean }) {
 
   const inviteEmbedCode = () => props.message.content?.match(inviteLinkRegex)?.[1];
 
