@@ -37,6 +37,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
   const channelMessages = createMemo(() => messages.getMessagesByChannelId(params.channelId!));
   let loadedTimestamp: number | undefined;
   const [unreadMarker, setUnreadMarker] = createStore<{ lastSeenAt: number | null, messageId: string | null }>({ lastSeenAt: null, messageId: null });
+  
 
   const [messageContextDetails, setMessageContextDetails] = createSignal<{ position: { x: number, y: number }, message: Message } | undefined>(undefined);
   const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<{ position?: { x: number, y: number }, message?: Message } | undefined>({ position: undefined, message: undefined });
@@ -49,6 +50,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
   const properties = () => channelProperties.get(params.channelId);
 
   const scrollToMessageListener = useScrollToMessageListener();
+  const scrollPositionRetainer = useScrollPositionRetainer(() => props.mainPaneEl!, () => messageLogElement!);
 
 
   scrollToMessageListener(async (event) => {
@@ -249,14 +251,13 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     if (alreadyLoading) return;
     if (!loadMoreTop) return;
     setLoadingMessages('top', true);
-    const { save, load } = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "first");
 
     const beforeSet = () => {
-      save();
+      scrollPositionRetainer.save("first");
     }
 
     const afterSet = ({ hasMore }: { hasMore: boolean }) => {
-      load();
+      scrollPositionRetainer.load();
       channelProperties.setMoreBottomToLoad(params.channelId, true);
       channelProperties.setMoreTopToLoad(params.channelId, hasMore);
       scrollTracker.forceUpdate();
@@ -273,14 +274,13 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     if (alreadyLoading) return;
     if (!loadMoreBottom) return;
     setLoadingMessages('bottom', true);
-    const { save, load } = saveScrollPosition(props.mainPaneEl!, messageLogElement!, "last");
 
     const beforeSet = () => {
-      save();
+      scrollPositionRetainer.save("last");
     }
 
     const afterSet = ({ hasMore }: { hasMore: boolean }) => {
-      load();
+      scrollPositionRetainer.load();
       channelProperties.setMoreTopToLoad(params.channelId, true);
       channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
       scrollTracker.forceUpdate();
@@ -387,23 +387,27 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
   );
 }
 
-const saveScrollPosition = (scrollElement: HTMLDivElement, logElement: HTMLDivElement, element: "first" | "last") => {
-
-  let el = logElement?.querySelector(".messageItem") as HTMLDivElement;
-
-  if (element === "last") {
-    el = logElement.lastElementChild as HTMLDivElement;
-  }
+const useScrollPositionRetainer = (scrollElement:() => HTMLDivElement, logElement:() => HTMLDivElement) => {
+  let el: HTMLDivElement | undefined;
 
   let beforeTop: undefined | number;
 
-  const save = () => {
+  const save = (trackFrom: "first" | "last") => {
+    if (beforeTop) return;
+    el = logElement()?.querySelector(".messageItem") as HTMLDivElement;
+
+    if (trackFrom === "last") {
+      el = logElement().lastElementChild as HTMLDivElement;
+    }
+
     beforeTop = el.getBoundingClientRect().top;
   }
   const load = () => {
+    if (!el) return;
     const afterTop = el.getBoundingClientRect().top;
     const difference = afterTop - beforeTop!;
-    scrollElement.scrollTop = scrollElement.scrollTop + difference;
+    scrollElement().scrollTop = scrollElement().scrollTop + difference;
+    beforeTop = undefined;
   }
   return { save, load };
 }

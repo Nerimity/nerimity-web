@@ -21,7 +21,6 @@ import { Embeds } from "../message-pane/message-item/MessageItem";
 
 
 export function QuoteMessage(props: { message: Message; quote: Partial<Message> }) {
-  console.log(props.quote)
   const [hovered, setHovered] = createSignal(false);
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const { serverMembers, messages } = useStore();
