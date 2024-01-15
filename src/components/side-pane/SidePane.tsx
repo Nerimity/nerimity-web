@@ -4,7 +4,7 @@ import Avatar from '@/components/ui/Avatar';
 import RouterEndpoints from '../../common/RouterEndpoints';
 import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
-import { createEffect, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
 import { Link, useLocation, useParams, useMatch, hashIntegration } from '@solidjs/router';
 import { FriendStatus, TicketStatus } from '../../chat-api/RawData';
@@ -192,8 +192,10 @@ function SettingsItem() {
 const UserItem = () => {
   const { account, users } = useStore();
   const { createPortal } = useCustomPortal();
+  const {currentPage} = useDrawer();
   const [hovered, setHovered] = createSignal(false)
   const [modalOpened, setModalOpened] = createSignal(false)
+  const {isMobileWidth} = useWindowProperties();
 
 
   const userId = () => account.user()?.id;
@@ -211,6 +213,12 @@ const UserItem = () => {
     if (authErrorMessage()) {
       return createPortal?.(close => <ConnectionErrorModal close={close} />)
     }
+
+    if (isMobileWidth()) {
+      createPortal(close => <FloatingUserModal close={close} currentDrawerPage={currentPage()} />)
+      return;
+    }
+
     setModalOpened(!modalOpened())
   }
 
@@ -223,7 +231,7 @@ const UserItem = () => {
         {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
         {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
       </SidebarItemContainer>
-      <Show when={user() && modalOpened()}><FloatingUserModal close={() => setModalOpened(false)} /></Show>
+      <Show when={user() && modalOpened()}><FloatingUserModal close={() => setModalOpened(false)} currentDrawerPage={currentPage()} /></Show>
     </>
   )
 };
@@ -231,7 +239,7 @@ const UserItem = () => {
 
 
 
-const FloatingUserModalContainer = styled(FlexColumn) <{ mobileWidth: boolean, width: number }>`
+const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
   position: absolute;
   left: 67px;
   bottom: 5px;
@@ -240,14 +248,22 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ mobileWidth: boolean, w
   z-index: 1111111111111;
   height: 380px;
   padding: 8px;
-  ${props => props.mobileWidth ? `
-    width: ${props.width - 92}px;
-  ` : ''}
-
   border-radius: 8px;
   background-color: var(--pane-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
+
+  ${props => props.isMobile ? `
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: initial;
+    width: initial;
+    height: initial;
+    max-height: 60%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  ` : ''}
   
 
   .button {
@@ -270,21 +286,24 @@ const BannerContainer = styled(FlexRow)`
   height: 100%;
   align-items: center;
   padding: 10px;
+  padding-left: 20px;
 `;
 
 const DetailsContainer = styled(FlexColumn)`
   z-index: 1;
-  margin-left: 10px;
+  margin-left: 15px;
   background: rgba(0, 0, 0, 0.86);
-  backdrop-filter: blur(34px);
+  backdrop-filter: blur(24px);
   padding: 5px;
   border-radius: 8px;
+  overflow: hidden;
+
+
 `;
 
 
-function FloatingUserModal(props: { close(): void }) {
+function FloatingUserModal(props: { close(): void, currentDrawerPage?: number }) {
   const { account, users } = useStore();
-  const { currentPage } = useDrawer();
   const { isMobileWidth, width } = useWindowProperties();
 
   const userId = () => account.user()?.id;
@@ -306,11 +325,12 @@ function FloatingUserModal(props: { close(): void }) {
     })
   })
 
-  createEffect(() => {
-    if (!isMobileWidth()) return;
-    if (currentPage() === 0) return;
+  const memoIsMobileWidth = createMemo(() => isMobileWidth())
+
+  createEffect(on([() => props.currentDrawerPage, memoIsMobileWidth], () => {
+    console.log("test")
     props.close();
-  })
+  }, {defer: true}))
 
   let pos = {x: 0, y: 0};
   const onDocMouseDown = (event: MouseEvent) => {
@@ -325,13 +345,13 @@ function FloatingUserModal(props: { close(): void }) {
   }
 
   return (
-    <FloatingUserModalContainer class="floatingUserModalContainer" mobileWidth={isMobileWidth()} width={width()} gap={5}>
-      <Banner margin={0} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
+    <FloatingUserModalContainer class="floatingUserModalContainer" isMobile={isMobileWidth()} gap={5}>
+      <Banner margin={0} brightness={50} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
         <BannerContainer>
           <Avatar animate size={60} user={user()} />
           <DetailsContainer>
             <FlexRow>
-              <Text>{user().username}</Text>
+              <Text style={{ "white-space": "nowrap", "overflow": "hidden", "text-overflow": "ellipsis"}}>{user().username}</Text>
               <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
             </FlexRow>
             <UserPresence animate showOffline userId={userId()!} />
