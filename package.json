@@ -35,7 +35,7 @@
     "@nerimity/solid-opus-media-recorder": "^1.0.1",
     "@nerimity/solid-turnstile": "^1.1.0",
     "@solid-primitives/keyed": "^1.2.1",
-    "@solidjs/router": "^0.9.1",
+    "@solidjs/router": "^0.10.9",
     "@thaunknown/simple-peer": "^9.12.1",
     "croppie": "^2.6.5",
     "eventemitter3": "^5.0.1",

@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import { FlexRow } from "@/components/ui/Flexbox";
 import Icon from "@/components/ui/icon/Icon";
 import Text from "@/components/ui/Text";
-import { Link, useParams } from "@solidjs/router";
+import { A, useParams } from "@solidjs/router";
 import { createEffect, createResource, createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components"
 
@@ -90,10 +90,10 @@ function BanItem(props: { ban: Ban, refetch: () => void }) {
 
   return (
     <BanContainer gap={5}>
-      <Link class="ban-link" href={RouterEndpoints.PROFILE(user.id)}>
+      <A class="ban-link" href={RouterEndpoints.PROFILE(user.id)}>
         <Avatar user={user} size={26} />
         <Text>{props.ban.user.username}</Text>
-      </Link>
+      </A>
       <UnbanButtonContainer gap={5} onclick={onUnbanClick}>
         <Icon color="var(--alert-color)" name="undo" size={14} />
         <Text color="var(--alert-color)" size={14}>{requestSent() ? 'Unbanning' : 'Unban'}</Text>

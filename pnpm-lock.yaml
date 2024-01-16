@@ -24,8 +24,8 @@ dependencies:
     specifier: ^1.2.1
     version: 1.2.1(solid-js@1.8.11)
   '@solidjs/router':
-    specifier: ^0.9.1
-    version: 0.9.1(solid-js@1.8.11)
+    specifier: ^0.10.9
+    version: 0.10.9(solid-js@1.8.11)
   '@thaunknown/simple-peer':
     specifier: ^9.12.1
     version: 9.12.1
@@ -1879,10 +1879,10 @@ packages:
       solid-js: 1.8.11
     dev: false
 
-  /@solidjs/router@0.9.1(solid-js@1.8.11):
-    resolution: {integrity: sha512-kRY75piOQsyoH75E/RP6lr7uVGFCjeeCCCJx7Z2D1Vc6+I1yFQjLCvE+6agXGwqDoWi6vbETP1g7gmp/L1mNLg==}
+  /@solidjs/router@0.10.9(solid-js@1.8.11):
+    resolution: {integrity: sha512-TmipgAI2cU7A94fBO1MOEx7j9OYoKtddoOonSFb2221w5I1xxdjLk9W4CZDdyOVdO5z80f70KGJvNq83WFX/Qg==}
     peerDependencies:
-      solid-js: ^1.8.4
+      solid-js: ^1.8.6
     dependencies:
       solid-js: 1.8.11
     dev: false

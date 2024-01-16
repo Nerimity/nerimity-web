@@ -7,7 +7,7 @@ import { MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, R
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from '@solidjs/router';
+import { A, useNavigate, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
@@ -197,9 +197,9 @@ const MessageItem = (props: MessageItemProps) => {
         </Match>
         <Match when={!isSystemMessage()}>
           <Show when={!isCompact()}>
-            <Link onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={classNames(styles.avatar, "trigger-profile-flyout")}>
+            <A onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={classNames(styles.avatar, "trigger-profile-flyout")}>
               <Avatar animate={hovered()} user={props.message.createdBy} size={40} />
-            </Link>
+            </A>
           </Show>
           <div class={styles.messageInner}>
             <Show when={!isCompact()}>

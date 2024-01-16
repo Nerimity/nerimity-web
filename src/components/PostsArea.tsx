@@ -21,7 +21,7 @@ import useStore from "@/chat-api/store/useStore";
 import { User, avatarUrl } from "@/chat-api/store/useUsers";
 import { formatTimestamp, timeSince } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { Link, useParams, useSearchParams } from "@solidjs/router";
+import { A, useParams, useSearchParams } from "@solidjs/router";
 import {
   createEffect,
   createMemo,
@@ -384,9 +384,9 @@ export function PostItem(props: {
           <ReplyTo user={replyingTo()!.createdBy} />
         </Show>
         <PostContainer gap={5}>
-          <Link onClick={e => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
+          <A onClick={e => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
             <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
-          </Link>
+          </A>
           <PostInnerContainer gap={3}>
             <Details
               hovered={hovered()}
@@ -769,12 +769,12 @@ function PostNotification(props: { notification: RawPostNotification }) {
     return (
       <FlexRow gap={5} style={{ "align-items": "center" }} onclick={showPost}>
         <Icon name="reply" color="var(--primary-color)" />
-        <Link
+        <A
           onclick={(e) => e.stopPropagation()}
           href={RouterEndpoints.PROFILE(props.notification.by.id)}
         >
           <Avatar user={props.notification.by} size={30} />
-        </Link>
+        </A>
         <FlexColumn gap={2} class={notificationUsernameStyles}>
           <FlexRow gap={5} style={{ "align-items": "center" }}>
             <Text size={14} class={notificationUsernameStyles}>
@@ -805,7 +805,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
 
   const Followed = () => {
     return (
-      <Link
+      <A
         href={RouterEndpoints.PROFILE(props.notification.by.id)}
         style={{ "text-decoration": "none" }}
       >
@@ -831,7 +831,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
             </Text>
           </FlexRow>
         </FlexRow>
-      </Link>
+      </A>
     );
   };
 
@@ -845,12 +845,12 @@ function PostNotification(props: { notification: RawPostNotification }) {
     return (
       <FlexRow gap={5} style={{ "align-items": "center" }} onclick={showPost}>
         <Icon name="favorite" color="var(--primary-color)" />
-        <Link
+        <A
           onclick={(e) => e.stopPropagation()}
           href={RouterEndpoints.PROFILE(props.notification.by.id)}
         >
           <Avatar user={props.notification.by} size={30} />
-        </Link>
+        </A>
         <FlexColumn gap={2}>
           <FlexRow gap={5} style={{ "align-items": "center" }}>
             <Text size={14} class={notificationUsernameStyles}>

@@ -4,7 +4,7 @@ import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { useTransContext } from '@mbarzda/solid-i18next';
-import { Link, useNavigate } from '@solidjs/router';
+import { A, useNavigate } from '@solidjs/router';
 import { update } from 'idb-keyval';
 import { createSignal, For, Show } from 'solid-js';
 import { createEffect } from 'solid-js';
@@ -222,7 +222,7 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
       <Text class={descriptionStyles} size={14} opacity={0.7}>{props.publicServer.description}</Text>
       <ButtonsContainer>
         <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t('explore.servers.bumpButton', { count: props.publicServer.bumpCount.toLocaleString() })} />
-        <Show when={cacheServer()}><Link style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></Link></Show>
+        <Show when={cacheServer()}><A style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></A></Show>
         <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')} /></Show>
       </ButtonsContainer>
       <FlexRow style={{ "align-items": 'center', "margin-left": "auto", "margin-right": "5px" }} gap={5}>

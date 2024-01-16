@@ -1,5 +1,5 @@
 
-import { Link } from '@solidjs/router';
+import { A } from '@solidjs/router';
 import { Show, createEffect, createSignal, on } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/Avatar';
@@ -123,7 +123,7 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
               <Text size={14}>•</Text>
               <Text size={14} opacity={0.8}>{friendCount()} friends</Text>
             </FlexRow>
-            <Text size={14}><Link href="/app/settings/account">Manage Account</Link></Text>
+            <Text size={14}><A href="/app/settings/account">Manage Account</A></Text>
           </DetailsContainer>
         </HeaderContainer>
       </Banner>

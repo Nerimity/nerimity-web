@@ -4,7 +4,7 @@ import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { Link } from "@solidjs/router";
+import { A } from "@solidjs/router";
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { css, styled } from "solid-styled-components"
 import { Markup } from "./Markup";
@@ -200,7 +200,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
   const [hovered, setHovered] = createSignal(false);
 
   return (
-    <Link
+    <A
       onmouseover={() => setHovered(true)}
       onmouseout={() => setHovered(false)}
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
@@ -209,7 +209,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
         <NotificationCountBadge count={props.server.mentionCount} top={5} right={2}/>
         <Avatar animate={hovered()} server={props.server} size={35} />
       </SidebarItemContainer>
-    </Link>
+    </A>
   )
 }
 

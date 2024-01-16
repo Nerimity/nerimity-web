@@ -45,7 +45,7 @@ export default function GoogleRedirectLinkAccountPage() {
     const code = searchParams.code;
     const userToken = searchParams.state;
 
-    const res = await linkAccountWithGoogle(code, userToken).catch(err => {
+    const res = await linkAccountWithGoogle(code!, userToken!).catch(err => {
       setError(err.message);
     });
 

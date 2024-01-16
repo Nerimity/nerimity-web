@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { classNames, conditionalClass } from '@/common/classNames';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import Header from './header/ServerDrawerHeader';
-import { Link, useNavigate, useParams } from '@solidjs/router';
+import { A, useNavigate, useParams } from '@solidjs/router';
 import useStore from '@/chat-api/store/useStore';
 import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup, onMount } from 'solid-js';
 import { Channel } from '@/chat-api/store/useChannels';
@@ -253,7 +253,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
 
   return (
 
-    <Link
+    <A
       href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
       style={{ "text-decoration": "none" }}
     >
@@ -268,7 +268,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
         </Show>
       </ChannelContainer>
       <ChannelItemVoiceUsers channelId={props.channel.id} />
-    </Link>
+    </A>
 
   )
 }

@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useMatch } from '@solidjs/router';
+import { A, useMatch } from '@solidjs/router';
 import { For } from 'solid-js';
 import exploreRoutes from '@/common/exploreRoutes';
 import ItemContainer from '@/components/ui/Item';
@@ -76,7 +76,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
   const selected = useMatch(() => href() + "/*")
 
   return (
-    <Link
+    <A
       href={href()}
       style={{ "text-decoration": "none" }}
     >
@@ -84,7 +84,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
         <Icon name={props.icon} size={18} />
         <Text class="label">{props.label}</Text>
       </ExploreItemContainer>
-    </Link>
+    </A>
   )
 }
 
@@ -108,7 +108,7 @@ function Footer() {
 function SupportItem() {
 
   return (
-    <Link
+    <A
       href="https://ko-fi.com/supertiger"
       target="_blank"
       rel="noopener noreferrer"
@@ -124,6 +124,6 @@ function SupportItem() {
         </div>
         <Icon class={css`margin-left: auto;`} style={{ "align-self": 'start', "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
       </ExploreItemContainer>
-    </Link>
+    </A>
   )
 }

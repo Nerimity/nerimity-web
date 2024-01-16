@@ -2,7 +2,7 @@ import Input from '@/components/ui/input/Input';
 import { registerRequest } from '../chat-api/services/UserService';
 import Button from '@/components/ui/Button';
 import { getStorageString, setStorageString, StorageKeys } from '../common/localStorage';
-import { Link, useNavigate, useLocation } from '@solidjs/router';
+import { A, useNavigate, useLocation } from '@solidjs/router';
 import { createSignal, onMount, Show } from 'solid-js';
 import env from '../common/env';
 import PageHeader from '../components/PageHeader';
@@ -76,7 +76,7 @@ export default function RegisterPage() {
     }
   })
 
-  const registerClicked = async (event?: SubmitEvent) => {
+  const registerClicked = async (event?: SubmitEvent | MouseEvent) => {
     event?.preventDefault();
     const redirectTo = location.query.redirect || "/app"
     if (requestSent()) return;
@@ -135,7 +135,7 @@ export default function RegisterPage() {
           <Text style={{"margin-top": "10px"}} size={12} opacity={0.8}>By creating an account, you are agreeing to the Terms and conditions and the privacy policy.</Text>
           <Button primary styles={{flex: 1}} margin={[10,0,0,0]} iconName='login' label={requestSent() ? t('registerPage.registering') : t('registerPage.registerButton')} onClick={registerClicked} />
           </form>
-          <Link class={linkStyle} href="/login">{t('registerPage.loginInstead')}</Link>
+          <A class={linkStyle} href="/login">{t('registerPage.loginInstead')}</A>
         </Container>
       </Content>
       <PageFooter/>

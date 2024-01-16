@@ -27,7 +27,7 @@ import {
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
-import { Link, Route, Routes, useMatch } from "@solidjs/router";
+import { A, Route, Routes, useMatch } from "@solidjs/router";
 import { RawServer, RawUser, TicketStatus } from "@/chat-api/RawData";
 import Button from "../ui/Button";
 import { css, styled } from "solid-styled-components";
@@ -567,7 +567,7 @@ export function User(props: { user: any }) {
   };
 
   return (
-    <Link
+    <A
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
       href={`/app/moderation/users/${props.user.id}`}
@@ -602,7 +602,7 @@ export function User(props: { user: any }) {
           </Show>
         </FlexRow>
       </ItemDetailContainer>
-    </Link>
+    </A>
   );
 }
 
@@ -612,7 +612,7 @@ export function Server(props: { server: any }) {
   const [hovered, setHovered] = createSignal(false);
 
   return (
-    <Link
+    <A
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
       href={`/app/moderation/servers/${props.server.id}`}
@@ -637,16 +637,16 @@ export function Server(props: { server: any }) {
             Created By:
           </Text>
           <Text size={12}>
-            <Link
+            <A
               class={linkStyle}
               href={`/app/moderation/users/${createdBy.id}`}
             >
               {createdBy.username}:{createdBy.tag}
-            </Link>
+            </A>
           </Text>
         </FlexRow>
       </ItemDetailContainer>
-    </Link>
+    </A>
   );
 }
 
@@ -831,12 +831,12 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
               Suspended{" "}
             </Text>
             <Text size={12}>
-              <Link
+              <A
                 class={linkStyle}
                 href={`/app/moderation/users/${props.auditLog.userId}`}
               >
                 {props.auditLog.username}
-              </Link>
+              </A>
             </Text>
           </Show>
 
@@ -845,12 +845,12 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
               Updated{" "}
             </Text>
             <Text size={12}>
-              <Link
+              <A
                 class={linkStyle}
                 href={`/app/moderation/users/${props.auditLog.userId}`}
               >
                 {props.auditLog.username}
-              </Link>
+              </A>
             </Text>
           </Show>
 
@@ -866,12 +866,12 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
               Updated{" "}
             </Text>
             <Text size={12}>
-              <Link
+              <A
                 class={linkStyle}
                 href={`/app/moderation/servers/${props.auditLog.serverId}`}
               >
                 {props.auditLog.serverName}
-              </Link>
+              </A>
             </Text>
           </Show>
 
@@ -879,9 +879,9 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             By{" "}
           </Text>
           <Text size={12}>
-            <Link class={linkStyle} href={`/app/moderation/users/${by.id}`}>
+            <A class={linkStyle} href={`/app/moderation/users/${by.id}`}>
               {by.username}:{by.tag}
-            </Link>
+            </A>
           </Text>
         </FlexRow>
         <Show when={props.auditLog.reason}>

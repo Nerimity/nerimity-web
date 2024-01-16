@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useMatch, useNavigate, useParams } from '@solidjs/router';
+import { A, useMatch, useNavigate, useParams } from '@solidjs/router';
 import { For, JSXElement, Match, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -136,13 +136,13 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
   const selected = useMatch(() => href() + "/*")
 
   return (
-    <Link href={href()} style={{ "text-decoration": "none" }}>
+    <A href={href()} style={{ "text-decoration": "none" }}>
       <SettingItemContainer selected={selected()}>
         <Icon name={props.icon} size={18} />
         <div class="label">{props.label}</div>
         {props.children}
       </SettingItemContainer>
-    </Link>
+    </A>
   )
 }
 
@@ -174,7 +174,7 @@ function FooterItem(props: FooterItemProps) {
   return (
     <Switch>
       <Match when={props.href}>
-        <Link href={props.href!} target="_blank" rel="noopener noreferrer" style={{ "text-decoration": "none" }} children={Content} />
+        <A href={props.href!} target="_blank" rel="noopener noreferrer" style={{ "text-decoration": "none" }} children={Content} />
       </Match>
       <Match when={!props.href}>
         <div children={Content} onclick={props.onClick} />
@@ -188,7 +188,7 @@ function FooterItem(props: FooterItemProps) {
 function SupportItem() {
 
   return (
-    <Link
+    <A
       href="https://ko-fi.com/supertiger"
       target="_blank"
       rel="noopener noreferrer"
@@ -204,6 +204,6 @@ function SupportItem() {
         </div>
         <Icon class={css`margin-left: auto;`} style={{ "align-self": 'start', "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
       </SettingItemContainer>
-    </Link>
+    </A>
   )
 }

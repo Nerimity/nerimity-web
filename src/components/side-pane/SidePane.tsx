@@ -6,7 +6,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-import { Link, useLocation, useParams, useMatch, hashIntegration } from '@solidjs/router';
+import { A, useLocation, useParams, useMatch } from '@solidjs/router';
 import { FriendStatus, TicketStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/modal/Modal';
 import AddServer from './add-server/AddServerModal';
@@ -74,11 +74,11 @@ function ExploreItem() {
   const selected = useMatch(() => "/app/explore/*");
 
   return (
-    <Link href={RouterEndpoints.EXPLORE_SERVER("")} style={{ "text-decoration": "none" }}>
+    <A href={RouterEndpoints.EXPLORE_SERVER("")} style={{ "text-decoration": "none" }}>
       <SidebarItemContainer selected={selected()}>
         <Icon name='explore' />
       </SidebarItemContainer>
-    </Link>
+    </A>
   )
 }
 
@@ -102,12 +102,12 @@ function InboxItem() {
   })
 
   return (
-    <Link href='/app' style={{ "text-decoration": "none" }}>
+    <A href='/app' style={{ "text-decoration": "none" }}>
       <SidebarItemContainer selected={isSelected()} alert={(count())}>
         <NotificationCountBadge count={count()} top={10} right={10} />
         <Icon name='all_inbox' />
       </SidebarItemContainer>
-    </Link>
+    </A>
   )
 }
 
@@ -158,12 +158,12 @@ function ModerationItem() {
 
   return (
     <Show when={hasModeratorPerm()}>
-      <Link href="/app/moderation" style={{ "text-decoration": "none" }} >
+      <A href="/app/moderation" style={{ "text-decoration": "none" }} >
         <SidebarItemContainer selected={selected()}>
           <Show when={tickets.hasModerationTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
           <Icon name='security' title='Moderation' />
         </SidebarItemContainer>
-      </Link>
+      </A>
     </Show>
   )
 }
@@ -180,12 +180,12 @@ function SettingsItem() {
 
 
   return (
-    <Link href="/app/settings/account" style={{ "text-decoration": "none" }} >
+    <A href="/app/settings/account" style={{ "text-decoration": "none" }} >
       <SidebarItemContainer selected={selected()}>
         <Show when={tickets.hasTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
         <Icon name='settings' title='Settings' />
       </SidebarItemContainer>
-    </Link>
+    </A>
   )
 }
 
@@ -430,7 +430,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 
 
   return (
-    <Link
+    <A
       href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
@@ -438,7 +438,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
         <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
         <Avatar animate={hovered()} size={40} server={props.server} />
       </SidebarItemContainer>
-    </Link>
+    </A>
   )
 }
 

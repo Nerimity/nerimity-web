@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import {Link, useNavigate, useParams} from "@solidjs/router";
+import {A, useNavigate, useParams} from "@solidjs/router";
 import {createEffect, createSignal, For, on, onCleanup, onMount, Show,} from "solid-js";
 import {FriendStatus, RawUser, TicketCategory} from "@/chat-api/RawData";
 import {
@@ -715,13 +715,13 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
             {(user) => {
               return (
                 <Show when={user}>
-                  <Link
+                  <A
                     href={RouterEndpoints.PROFILE(user.id)}
                     class={styles.item}
                   >
                     <Avatar user={user} size={20} />
                     <div class={styles.name}>{user.username}</div>
-                  </Link>
+                  </A>
                 </Show>
               );
             }}
@@ -759,7 +759,7 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
               const server = () => servers.get(id);
               return (
                 <Show when={server()}>
-                  <Link
+                  <A
                     href={RouterEndpoints.SERVER_MESSAGES(
                       server()!.id,
                       getLastSelectedChannelId(
@@ -771,7 +771,7 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
                   >
                     <Avatar server={server()} size={20} />
                     <div class={styles.name}>{server()!.name}</div>
-                  </Link>
+                  </A>
                 </Show>
               );
             }}

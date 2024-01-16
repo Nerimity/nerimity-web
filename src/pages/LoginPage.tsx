@@ -2,7 +2,7 @@ import Input from '@/components/ui/input/Input';
 import { loginRequest } from '../chat-api/services/UserService';
 import Button from '@/components/ui/Button';
 import { getStorageString, setStorageString, StorageKeys } from '../common/localStorage';
-import { Link, useNavigate, useLocation } from '@solidjs/router';
+import { A, useNavigate, useLocation } from '@solidjs/router';
 import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../components/PageHeader';
 import { css, styled,  } from 'solid-styled-components';
@@ -61,7 +61,7 @@ export default function LoginPage() {
     }
   })
 
-  const loginClicked = async (event?: SubmitEvent) => {
+  const loginClicked = async (event?: SubmitEvent | MouseEvent) => {
     event?.preventDefault();
     const redirectTo = location.query.redirect || "/app"
     if (requestSent()) return;
@@ -87,11 +87,10 @@ export default function LoginPage() {
             <Input margin={[10, 0, 10, 0]} label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />
             <Button primary styles={{flex: 1}} margin={[10,0,0,0]}  iconName='login' label={requestSent() ? t('loginPage.loggingIn') : t('loginPage.loginButton')} onClick={loginClicked} />
           </form>
-          <Link class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</Link>
+          <A class={linkStyle} href="/register">{t('loginPage.createAccountInstead')}</A>
         </Container>
       </Content>
       <PageFooter/>
     </LoginPageContainer>
   );
 }
-

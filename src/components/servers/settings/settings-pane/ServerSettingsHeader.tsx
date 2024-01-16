@@ -1,5 +1,5 @@
 
-import { Link, useParams } from '@solidjs/router';
+import { A, useParams } from '@solidjs/router';
 import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/Avatar';
@@ -59,7 +59,7 @@ const ServerSettingsHeader = (props: { headerPreviewDetails: { name?: any, avata
               <Show when={server()?.verified}><ServerVerifiedIcon /></Show>
             </FlexRow>
             <Text size={14} opacity={0.8}>{t('servers.settings.header.serverMemberCount', { count: serverMembersCount() })}</Text>
-            <Text size={14}><Link href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)}>{t('servers.settings.header.editServer')}</Link></Text>
+            <Text size={14}><A href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)}>{t('servers.settings.header.editServer')}</A></Text>
           </DetailsContainer>
         </HeaderContainer>
       </Banner>
