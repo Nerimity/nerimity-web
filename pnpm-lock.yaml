@@ -69,8 +69,8 @@ dependencies:
     specifier: ^1.8.11
     version: 1.8.11
   solid-navigator:
-    specifier: ^0.2.4
-    version: 0.2.4(solid-js@1.8.11)
+    specifier: ^0.3.1
+    version: 0.3.1(solid-js@1.8.11)
   solid-sortablejs:
     specifier: ^2.1.2
     version: 2.1.2(solid-js@1.8.11)
@@ -3471,8 +3471,8 @@ packages:
       seroval: 1.0.4
       seroval-plugins: 1.0.4(seroval@1.0.4)
 
-  /solid-navigator@0.2.4(solid-js@1.8.11):
-    resolution: {integrity: sha512-m68q2wu483pUHK944gGnmGoOBYAqR4ZGkTqtlsGi+CDqFuCySlItYCScz8XKjoOs+JtO5KytYAU17P8bTNnWQg==}
+  /solid-navigator@0.3.1(solid-js@1.8.11):
+    resolution: {integrity: sha512-T8uoHZIHWwj+6KUL7x2p/xn3fJFHzdgKfr3slR8VDLcwIndiFaSG2dxqw56cib1IPkCrDo1ok2mYTEKxwJR3BQ==}
     engines: {node: '>=18', pnpm: '>=8.6.0'}
     peerDependencies:
       solid-js: ^1.6.0

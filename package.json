@@ -50,7 +50,7 @@
     "socket.io-client": "^4.7.4",
     "solid-dnd-directive": "^0.2.0",
     "solid-js": "^1.8.11",
-    "solid-navigator": "^0.2.4",
+    "solid-navigator": "^0.3.1",
     "solid-sortablejs": "^2.1.2",
     "solid-styled-components": "^0.28.5",
     "twemoji": "^14.0.2",

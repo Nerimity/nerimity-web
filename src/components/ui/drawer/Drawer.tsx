@@ -5,6 +5,7 @@ import {Accessor, children, ChildrenReturn, createContext, createEffect, createM
 import env from '@/common/env';
 import SidePane from '@/components/side-pane/SidePane';
 import { classNames, conditionalClass } from '@/common/classNames';
+import { matchComponent } from 'solid-navigator';
 
 interface DrawerLayoutProps {
   LeftDrawer: any;
@@ -26,7 +27,7 @@ const DrawerContext = createContext<DrawerContext>();
 
 
 export default function DrawerLayout(props: DrawerLayoutProps) {
-
+  
   let containerEl: HTMLDivElement | undefined = undefined;
   const startPos = {x: 0, y: 0};
   let startTransformX = 0;
@@ -36,14 +37,13 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let pauseTouches = false;
 
   const {width, isMobileWidth} = useWindowProperties();
-  const LeftDrawer = children(() => props.LeftDrawer()).toArray
-  const RightDrawer = children(() => props.RightDrawer()).toArray
-
-
-
+  const LeftDrawer = children(() => props.LeftDrawer())
+  const RightDrawer = children(() => props.RightDrawer())
   
-  const hasLeftDrawer = createMemo(() => !!LeftDrawer()?.length);
-  const hasRightDrawer = createMemo(() => !!RightDrawer()?.length);
+  
+  
+  const hasLeftDrawer = matchComponent(() => "leftDrawer");
+  const hasRightDrawer = matchComponent(() => "rightDrawer");
 
 
   let transformString: string;
