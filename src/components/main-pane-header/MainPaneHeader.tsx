@@ -9,7 +9,7 @@ import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Sh
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { postJoinVoice } from '@/chat-api/services/VoiceService';
 import socketClient from '@/chat-api/socketClient';
-import { useParams } from '@solidjs/router';
+import { useParams } from 'solid-navigator';
 import Button from '../ui/Button';
 import { ChannelIcon } from '../servers/drawer/ServerDrawer';
 import { VoiceUser } from '@/chat-api/store/useVoiceUsers';
@@ -136,9 +136,13 @@ const MentionListPopup = (props: { close: () => void }) => {
   const { width } = useResizeObserver(elementRef);
   const [notifications, setNotifications] = createSignal<RawNotification[] | null>(null);
 
-  onMount(async () => {
+  const fetchAndSetNotifications = async () => {
     const notifications = await getUserNotificationsRequest();
     setNotifications(notifications);
+  }
+
+  onMount(() => {
+    fetchAndSetNotifications()
     document.addEventListener("click", onDocClick);
     onCleanup(() => {
       document.removeEventListener("click", onDocClick);

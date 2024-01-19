@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { A, useMatch, useNavigate, useParams } from '@solidjs/router';
+import { A, useMatch, useNavigate, useParams } from 'solid-navigator';
 import { For, JSXElement, Match, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';

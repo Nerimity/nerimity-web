@@ -2,7 +2,7 @@ import { Message } from "@/chat-api/store/useMessages";
 import Avatar from "../ui/Avatar";
 import { Markup } from "../Markup";
 import useStore from "@/chat-api/store/useStore";
-import { useParams } from "@solidjs/router";
+import { useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { CustomLink } from "../ui/CustomLink";
 import { Show, createSignal, onCleanup } from "solid-js";

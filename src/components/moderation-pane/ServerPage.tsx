@@ -2,7 +2,7 @@ import { RawServer, RawUser } from "@/chat-api/RawData";
 import { getServer, updateServer } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { useParams } from "@solidjs/router";
+import { useParams } from "solid-navigator";
 import { Show, createSignal, onMount } from "solid-js";
 import { User } from "./ModerationPane";
 import Text from "../ui/Text";

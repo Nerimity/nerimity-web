@@ -1,6 +1,6 @@
 import env from '@/common/env'
 import Button from '@/components/ui/Button'
-import { Link } from '@solidjs/router'
+import { Link } from 'solid-navigator'
 import PageHeader from '../components/PageHeader'
 import { styled } from 'solid-styled-components'
 import Text from '@/components/ui/Text'

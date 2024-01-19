@@ -4,7 +4,7 @@ import useInbox from './useInbox';
 import { closeDMChannelRequest, openDMChannelRequest } from '../services/UserService';
 import useChannels from './useChannels';
 import RouterEndpoints from '../../common/RouterEndpoints';
-import { useNavigate } from '@solidjs/router';
+import { useNavigate } from 'solid-navigator';
 import { runWithContext } from '@/common/runWithContext';
 import env from '@/common/env';
 import useAccount from './useAccount';

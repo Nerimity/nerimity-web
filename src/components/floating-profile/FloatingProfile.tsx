@@ -20,7 +20,7 @@ import { bannerUrl } from "@/chat-api/store/useUsers";
 import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu";
 import { electronWindowAPI } from "@/common/Electron";
 import { classNames } from "@/common/classNames";
-import { useLocation } from "@solidjs/router";
+import { useLocation } from "solid-navigator";
 
 
 

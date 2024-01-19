@@ -2,7 +2,7 @@ import { USER_BADGES, addBit, hasBit, removeBit } from "@/chat-api/Bitwise";
 import { ModerationUser, getUser, getUsersWithSameIPAddress, updateUser } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { A, useParams } from "@solidjs/router";
+import { A, useParams } from "solid-navigator";
 import { For, Show, createEffect, createSignal, on, onMount } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";

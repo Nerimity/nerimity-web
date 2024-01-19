@@ -1,6 +1,6 @@
 import ServerDrawerHeader from '@/components/servers/drawer/header/ServerDrawerHeader';
 import Icon from '@/components/ui/icon/Icon';
-import { A, useMatch, useParams } from '@solidjs/router';
+import { A, useMatch, useParams } from 'solid-navigator';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';

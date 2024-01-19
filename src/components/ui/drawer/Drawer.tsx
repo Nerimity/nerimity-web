@@ -1,7 +1,7 @@
 /* @refresh reload */
 import styles from './styles.module.scss'
 import { useWindowProperties } from '@/common/useWindowProperties';
-import {Accessor, createContext, createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount, Show, useContext} from 'solid-js';
+import {Accessor, children, ChildrenReturn, createContext, createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount, Show, useContext} from 'solid-js';
 import env from '@/common/env';
 import SidePane from '@/components/side-pane/SidePane';
 import { classNames, conditionalClass } from '@/common/classNames';
@@ -36,10 +36,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let pauseTouches = false;
 
   const {width, isMobileWidth} = useWindowProperties();
+  const LeftDrawer = children(() => props.LeftDrawer).toArray
+  const RightDrawer = children(() => props.RightDrawer).toArray
+
+
 
   
-  const hasLeftDrawer = () => !!props.LeftDrawer();
-  const hasRightDrawer = () => !!props.RightDrawer();
+  const hasLeftDrawer = () => !!LeftDrawer()?.length;
+  const hasRightDrawer = () => !!RightDrawer()?.length;
 
 
   let transformString: string;
@@ -282,7 +286,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
         <div ref={containerEl} class={styles.container}  style={{translate: transformX + "px", overflow: isMobileWidth() ? 'initial' : 'hidden'}}>
           <div style={{width: isMobileWidth() ? leftDrawerWidth() + "px" : hasLeftDrawer() ? "330px" : '65px', display: 'flex', "flex-shrink": 0}}>
             <SidePane/>
-            {hasLeftDrawer() && <div class={styles.leftDrawer}>{props.LeftDrawer}</div>}
+            {hasLeftDrawer() && <div class={styles.leftDrawer}>{LeftDrawer()}</div>}
           </div>
           <div class={styles.content} style={{width: isMobileWidth() ? width() + "px" : '100%'}}>
             <div style={{
@@ -292,7 +296,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             <props.Content/>
           </div>
           <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '300px' : '0', display: 'flex', "flex-shrink": 0}}>
-            <div class={styles.rightPane}>{props.RightDrawer}</div>
+            <div class={styles.rightPane}>{RightDrawer()}</div>
           </div>
         </div>
       </div>

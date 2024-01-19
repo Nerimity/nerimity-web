@@ -16,7 +16,7 @@ import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { emojiShortcodeToUnicode } from "@/emoji";
-import { useParams } from "@solidjs/router";
+import { useParams } from "solid-navigator";
 import { For, Show, batch, createEffect, createMemo, createRenderEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import MessageItem, { DeleteMessageModal } from "../message-item/MessageItem";

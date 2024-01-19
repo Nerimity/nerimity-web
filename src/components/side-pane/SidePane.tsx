@@ -6,7 +6,7 @@ import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
 import useStore from '../../chat-api/store/useStore';
-import { A, useLocation, useParams, useMatch } from '@solidjs/router';
+import { A, useLocation, useParams, useMatch } from 'solid-navigator';
 import { FriendStatus, TicketStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/modal/Modal';
 import AddServer from './add-server/AddServerModal';

@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import {A, useNavigate, useParams} from "@solidjs/router";
+import {A, useNavigate, useParams} from "solid-navigator";
 import {createEffect, createSignal, For, on, onCleanup, onMount, Show,} from "solid-js";
 import {FriendStatus, RawUser, TicketCategory} from "@/chat-api/RawData";
 import {

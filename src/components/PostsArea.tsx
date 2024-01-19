@@ -21,7 +21,7 @@ import useStore from "@/chat-api/store/useStore";
 import { User, avatarUrl } from "@/chat-api/store/useUsers";
 import { formatTimestamp, timeSince } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A, useParams, useSearchParams } from "@solidjs/router";
+import { A, useParams, useSearchParams } from "solid-navigator";
 import {
   createEffect,
   createMemo,

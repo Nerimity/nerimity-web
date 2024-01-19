@@ -23,7 +23,7 @@ import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout, { useDrawer } from '@/components/ui/drawer/Drawer';
-import { Route, Routes, useMatch, useSearchParams } from '@solidjs/router';
+import { useMatch, useSearchParams, Outlet } from 'solid-navigator';
 import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ConnectionErrorModal } from '@/components/connection-error-modal/ConnectionErrorModal';
@@ -135,29 +135,31 @@ export default function AppPage() {
     })
   })
 
-  const LeftPane = (
-    <Routes>
-      <Route path="/servers/:serverId/settings/:path/*" component={ServerSettingsDrawer} />
-      <Route path="/explore/*" component={ExploreDrawer} />
-      <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer} />
-      <Route path="/inbox/:channelId?/*" component={InboxDrawer} />
-      <Route path="/*" component={InboxDrawer} />
-      <Route path="/settings/*" component={SettingsDrawer} />
-    </Routes>
-  )
+  
+  // const LeftPane = (
+    //   <Routes>
+    //     <Route path="/explore/*" component={ExploreDrawer} />
+    //     <Route path="/servers/:serverId/settings/:path/*" component={ServerSettingsDrawer} />
+    //     <Route path="/*" component={InboxDrawer} />
+  //     <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer} />
+  //     <Route path="/inbox/:channelId?/*" component={InboxDrawer} />
+  //     <Route path="/settings/*" component={SettingsDrawer} />
+  //   </Routes>
+  // )
 
-  const RightPane = (
-    <Routes>
-      <Route path="/servers/:serverId/:channelId?/*" component={RightDrawer} />
-      <Route path="/inbox/:channelId?/*" component={RightDrawer} />
-    </Routes>
-  )
+  // const RightPane = (
+  //   <Routes>
+  //     <Route path="/servers/:serverId/:channelId?/*" component={RightDrawer} />
+  //     <Route path="/inbox/:channelId?/*" component={RightDrawer} />
+  //   </Routes>
+  // )
+
 
   return (
     <DrawerLayout
       Content={() => <MainPane />}
-      LeftDrawer={LeftPane}
-      RightDrawer={RightPane}
+      LeftDrawer={() => <Outlet name='leftDrawer' />}
+      RightDrawer={() => <Outlet name='rightDrawer' />}
     />
   )
 }
@@ -181,7 +183,8 @@ function MainPane() {
     <OuterMainPaneContainer ref={setOuterPaneElement}>
       <MainPaneContainer ref={setMainPaneElement} hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} >
         <MainPaneHeader />
-        <Routes>
+        <Outlet name="mainPane" />
+        {/* <Routes>
           <Route path="/settings/*" component={SettingsPane} />
           <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
           <Route path="/explore/*" component={ExplorePane} />
@@ -191,7 +194,7 @@ function MainPane() {
           <Route path="/moderation/*" component={ModerationPane} />
           <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
           <Route path="/*" component={DashboardPane} />
-        </Routes>
+        </Routes> */}
       </MainPaneContainer>
     </OuterMainPaneContainer>
   )

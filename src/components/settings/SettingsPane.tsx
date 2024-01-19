@@ -1,5 +1,5 @@
 import Settings from '@/common/Settings';
-import { Route, Routes } from '@solidjs/router';
+import { Route, Routes } from 'solid-navigator';
 import { createSignal, For, Show } from 'solid-js';
 import SettingsHeader from './SettingsHeader';
 import useStore from '@/chat-api/store/useStore';

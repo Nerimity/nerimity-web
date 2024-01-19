@@ -12,7 +12,7 @@ import { ServerMember } from '@/chat-api/store/useServerMembers';
 import Button from '@/components/ui/Button';
 import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
 import { RawUser } from '@/chat-api/RawData';
-import { useNavigate } from '@solidjs/router';
+import { useNavigate } from 'solid-navigator';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { FlexRow } from '../ui/Flexbox';
 import { classNames, conditionalClass } from '@/common/classNames';

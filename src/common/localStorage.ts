@@ -71,10 +71,8 @@ export function removeStorage(key: StorageKeys) {
 export function useReactiveLocalStorage<T>(key: StorageKeys, store: T) {
   const [value, setValue] = createSignal<T>(store);
 
-  onMount(() => {
-    const storedValue = getStorageObject<T>(key, store);
-    setValue(() => storedValue);
-  })
+  const storedValue = getStorageObject<T>(key, store);
+  setValue(() => storedValue);
 
   const setCustomValue = (value: T) => {
     setValue(() => value);

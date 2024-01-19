@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import { FlexRow } from "@/components/ui/Flexbox";
 import Icon from "@/components/ui/icon/Icon";
 import Text from "@/components/ui/Text";
-import { A, useParams } from "@solidjs/router";
+import { A, useParams } from "solid-navigator";
 import { createEffect, createResource, createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components"
 

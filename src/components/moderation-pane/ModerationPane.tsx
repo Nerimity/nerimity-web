@@ -27,7 +27,7 @@ import {
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
-import { A, Route, Routes, useMatch } from "@solidjs/router";
+import { A, Route, Routes, useMatch } from "solid-navigator";
 import { RawServer, RawUser, TicketStatus } from "@/chat-api/RawData";
 import Button from "../ui/Button";
 import { css, styled } from "solid-styled-components";

@@ -1,5 +1,5 @@
 import Icon from '@/components/ui/icon/Icon';
-import { A, useMatch } from '@solidjs/router';
+import { A, useMatch } from 'solid-navigator';
 import { For } from 'solid-js';
 import exploreRoutes from '@/common/exploreRoutes';
 import ItemContainer from '@/components/ui/Item';

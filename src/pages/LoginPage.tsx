@@ -2,7 +2,7 @@ import Input from '@/components/ui/input/Input';
 import { loginRequest } from '../chat-api/services/UserService';
 import Button from '@/components/ui/Button';
 import { getStorageString, setStorageString, StorageKeys } from '../common/localStorage';
-import { A, useNavigate, useLocation } from '@solidjs/router';
+import { A, useNavigate, useLocation } from 'solid-navigator';
 import { createSignal, onMount } from 'solid-js';
 import PageHeader from '../components/PageHeader';
 import { css, styled,  } from 'solid-styled-components';

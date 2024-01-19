@@ -2,7 +2,7 @@ import PageHeader from '../components/PageHeader'
 import { styled } from 'solid-styled-components'
 import { FlexColumn } from '@/components/ui/Flexbox'
 import PageFooter from '@/components/PageFooter'
-import { useParams, useSearchParams } from '@solidjs/router';
+import { useParams, useSearchParams } from 'solid-navigator';
 import { Show, createSignal, onMount } from 'solid-js';
 import { linkAccountWithGoogle } from '@/chat-api/services/UserService';
 import Text from '@/components/ui/Text';
@@ -59,7 +59,7 @@ export default function GoogleRedirectLinkAccountPage() {
 
   return (
     <PageContainer class="page-container">
-      <PageHeader showLogo={false} hideAccountInfo  />
+      <PageHeader hideAccountInfo  />
       <Content class='content'>
         <CenterContainer>
 

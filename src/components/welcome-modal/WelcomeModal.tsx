@@ -1,6 +1,6 @@
 import styles from "./WelcomeModal.module.scss";
 import env from "@/common/env";
-import { Link } from "@solidjs/router";
+import { Link } from "solid-navigator";
 import Button from "../ui/Button";
 import Icon from "../ui/icon/Icon";
 import Modal from "../ui/modal/Modal";

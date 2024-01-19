@@ -1,5 +1,5 @@
 
-import { A, useParams } from '@solidjs/router';
+import { A, useParams } from 'solid-navigator';
 import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/Avatar';

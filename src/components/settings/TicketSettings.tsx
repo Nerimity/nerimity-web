@@ -23,7 +23,7 @@ import {
 } from "@/chat-api/RawData";
 import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
-import { Route, Routes, useMatch, useParams } from "@solidjs/router";
+import { Route, Routes, useMatch, useParams } from "solid-navigator";
 import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
 import Avatar from "../ui/Avatar";
 import { Markup } from "../Markup";

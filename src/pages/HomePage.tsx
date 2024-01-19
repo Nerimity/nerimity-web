@@ -1,6 +1,6 @@
 import env from '@/common/env'
 import Button from '@/components/ui/Button'
-import {useNavigate } from '@solidjs/router'
+import {useNavigate } from 'solid-navigator'
 import PageHeader from '../components/PageHeader'
 import { styled } from 'solid-styled-components'
 import Text from '@/components/ui/Text'

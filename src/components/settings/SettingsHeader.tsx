@@ -1,5 +1,5 @@
 
-import { A } from '@solidjs/router';
+import { A } from 'solid-navigator';
 import { Show, createEffect, createSignal, on } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Avatar from '@/components/ui/Avatar';

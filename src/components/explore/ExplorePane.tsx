@@ -1,5 +1,5 @@
 import exploreRoutes from '@/common/exploreRoutes';
-import { Route, Routes } from '@solidjs/router';
+import { Route, Routes } from 'solid-navigator';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';

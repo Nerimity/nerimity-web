@@ -2,7 +2,7 @@ import { onMount, lazy, Show } from 'solid-js';
 import env from './common/env';
 import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
-import { A, Route, Router, useNavigate, useParams } from '@solidjs/router';
+import { A, Route, Router, useNavigate, useParams } from 'solid-navigator';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@mbarzda/solid-i18next';
 import { electronWindowAPI } from './common/Electron';
@@ -14,6 +14,7 @@ import { ConnectingStatusHeader } from './components/connecting-status-header/Co
 
 
 export default function App() {
+
   const [, actions] = useTransContext();
   onMount(() => {
     document.title = env.APP_NAME

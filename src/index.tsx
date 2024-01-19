@@ -5,13 +5,19 @@ import "material-icons/iconfont/round.scss";
 import "./index.css";
 import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
-import { A, Route, RouteSectionProps, Router, useNavigate, useParams } from "@solidjs/router";
+import { A, Outlet, Route, Router, useNavigate, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
 import styles from "./Index.module.scss";
 import { useWindowProperties } from "./common/useWindowProperties";
 import { Component, JSXElement, createEffect, lazy, on, onMount } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
+import InboxDrawer from "./components/inbox/drawer/InboxDrawer";
+import DashboardPane from "./components/DashboardPane";
+import ChannelPane from "./components/channel-pane/ChannelPane";
+import ServerDrawer from "./components/servers/drawer/ServerDrawer";
+import RightDrawer from "./components/right-drawer/RightDrawer";
+import ProfilePane from "./components/profile-pane/ProfilePane";
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -68,7 +74,7 @@ const useMobileInterface = () => {
 
 
 
-const Root: Component<RouteSectionProps<unknown>> = (props) => {
+const Root = () => {
   return (
     <TransProvider
       options={{
@@ -79,8 +85,8 @@ const Root: Component<RouteSectionProps<unknown>> = (props) => {
     >
       <CustomPortalProvider>
         <App/>
-        {props.children}
-        </CustomPortalProvider>
+        <Outlet/>
+      </CustomPortalProvider>
     </TransProvider>
   );
 };
@@ -91,17 +97,30 @@ render(() => {
 
   return (
     <Router root={Root}>
-       <Route path="/app/*" component={AppPage} />
+
+      <Route path="/app" component={AppPage}  components={{leftDrawer: InboxDrawer, mainPane: DashboardPane}}>
+
     
+        <Route path="/inbox/:channelId" components={{mainPane: ChannelPane, rightDrawer: RightDrawer}} />
+        <Route path="/servers/:serverId/:channelId" components={{mainPane: ChannelPane, leftDrawer: ServerDrawer, rightDrawer: RightDrawer}} />
+        <Route path="/profile/:userId" components={{mainPane: ProfilePane, leftDrawer: undefined, rightDrawer: undefined}} />
+        
+
+        <Route path="/*"/>
+      
+      </Route>
+
+
+       
+    
+      <Route path="/" component={HomePage}/>
       <Route path="/register" component={RegisterPage} />
       <Route path="/login" component={LoginPage} />
-      <Route path="/terms-and-conditions" component={TermsAndConditionsPage} /> 
-
-      <Route path="/google-redirect" component={GoogleRedirectLinkAccount} /> 
-      
       <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/terms-and-conditions" component={TermsAndConditionsPage} /> 
+      <Route path="/google-redirect" component={GoogleRedirectLinkAccount} /> 
       <Route path="/i/:inviteId" component={InviteRedirect} />
-      <Route path="/" component={HomePage} />
+      
       <Route path="/*" component={NoMatch} />
     </Router>
   );
@@ -124,12 +143,7 @@ function NoMatch() {
 
 function InviteRedirect() {
   const params = useParams();
-  const navigate = useNavigate();
 
-  onMount(() => {
-    navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!), { replace: true })
-  })
-
-  return <div>Redirecting...</div>
+  return <Navigate href={RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!)} />
 }
 

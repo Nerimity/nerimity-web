@@ -1,4 +1,4 @@
-import { useParams } from '@solidjs/router';
+import { useParams } from 'solid-navigator';
 import { createEffect, createSignal, onCleanup, Setter, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';

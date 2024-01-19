@@ -2,7 +2,7 @@ import { copyToClipboard } from "@/common/clipboard";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import useStore from "@/chat-api/store/useStore";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate } from "solid-navigator";
 import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
 import { createEffect } from "solid-js";

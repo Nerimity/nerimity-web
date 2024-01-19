@@ -13,7 +13,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { Dynamic } from "solid-js/web";
 import { t } from "i18next";
 import { getModerationTickets } from "@/chat-api/services/ModerationService";
-import { useMatch } from "@solidjs/router";
+import { useMatch } from "solid-navigator";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Button from "../ui/Button";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";

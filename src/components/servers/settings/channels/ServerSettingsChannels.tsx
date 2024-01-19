@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from '@solidjs/router';
+import { Link, useNavigate, useParams } from 'solid-navigator';
 import { createEffect, createMemo, createSignal, For, Match, on, onMount, Show, Switch } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';

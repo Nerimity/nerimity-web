@@ -11,7 +11,7 @@ import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
-import { Route, Routes, useMatch } from '@solidjs/router';
+import { Route, Routes, useMatch } from 'solid-navigator';
 import { CustomLink } from '../ui/CustomLink';
 import { getStorageString, setStorageString, StorageKeys } from '@/common/localStorage';
 import socketClient from '@/chat-api/socketClient';

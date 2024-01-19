@@ -1,5 +1,5 @@
 import { classNames, conditionalClass } from "@/common/classNames";
-import { AnchorProps, A } from "@solidjs/router";
+import { AnchorProps, A } from "solid-navigator";
 import { css } from "solid-styled-components";
 
 interface CustomLinkProps extends AnchorProps {

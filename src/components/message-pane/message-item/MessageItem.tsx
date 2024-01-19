@@ -7,7 +7,7 @@ import { MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, R
 import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
 import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from '@/chat-api/services/MessageService';
 import RouterEndpoints from '@/common/RouterEndpoints';
-import { A, useNavigate, useParams } from '@solidjs/router';
+import { A, useNavigate, useParams } from 'solid-navigator';
 import useStore from '@/chat-api/store/useStore';
 import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { Markup } from '@/components/Markup';
