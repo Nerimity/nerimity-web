@@ -8,16 +8,18 @@ import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal
 import { A, Outlet, Route, Router, useNavigate, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
-import styles from "./Index.module.scss";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { Component, JSXElement, createEffect, lazy, on, onMount } from "solid-js";
+import { createEffect, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
-import InboxDrawer from "./components/inbox/drawer/InboxDrawer";
-import DashboardPane from "./components/DashboardPane";
-import ChannelPane from "./components/channel-pane/ChannelPane";
-import ServerDrawer from "./components/servers/drawer/ServerDrawer";
-import RightDrawer from "./components/right-drawer/RightDrawer";
-import ProfilePane from "./components/profile-pane/ProfilePane";
+
+const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
+const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
+const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
+const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
+const DashboardPane = lazy(() => import("@/components/DashboardPane"));
+const RightDrawer = lazy(() => import("@/components/right-drawer/RightDrawer"));
+
+
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));

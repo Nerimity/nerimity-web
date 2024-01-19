@@ -36,14 +36,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let pauseTouches = false;
 
   const {width, isMobileWidth} = useWindowProperties();
-  const LeftDrawer = children(() => props.LeftDrawer).toArray
-  const RightDrawer = children(() => props.RightDrawer).toArray
+  const LeftDrawer = children(() => props.LeftDrawer()).toArray
+  const RightDrawer = children(() => props.RightDrawer()).toArray
 
 
 
   
-  const hasLeftDrawer = () => !!LeftDrawer()?.length;
-  const hasRightDrawer = () => !!RightDrawer()?.length;
+  const hasLeftDrawer = createMemo(() => !!LeftDrawer()?.length);
+  const hasRightDrawer = createMemo(() => !!RightDrawer()?.length);
 
 
   let transformString: string;
@@ -62,7 +62,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   
   
-  createEffect(on(isMobileWidth, () => {
+  createEffect(on([isMobileWidth, hasLeftDrawer, hasRightDrawer], () => {
     if (isMobileWidth()) {
       addEvents();
       updatePage();

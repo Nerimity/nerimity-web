@@ -1,19 +1,19 @@
 import { createEffect, createSignal, lazy, on, onCleanup, onMount } from 'solid-js';
 import MainPaneHeader from '../components/main-pane-header/MainPaneHeader';
 
-const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
-const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
-const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
-const ServerSettingsPane = lazy(() => import('@/components/servers/settings/settings-pane/ServerSettingsPane'));
-const SettingsDrawer = lazy(() => import('@/components/settings/SettingsDrawer'));
-const SettingsPane = lazy(() => import('@/components/settings/SettingsPane'));
-const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
-const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
-const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
-const ExplorePane = lazy(() => import('@/components/explore/ExplorePane'));
-const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
-const ModerationPane = lazy(() => import("@/components/moderation-pane/ModerationPane"));
-const DashboardPane = lazy(() => import("@/components/DashboardPane"));
+// const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
+// const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
+// const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
+// const ServerSettingsPane = lazy(() => import('@/components/servers/settings/settings-pane/ServerSettingsPane'));
+// const SettingsDrawer = lazy(() => import('@/components/settings/SettingsDrawer'));
+// const SettingsPane = lazy(() => import('@/components/settings/SettingsPane'));
+// const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
+// const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
+// const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
+// const ExplorePane = lazy(() => import('@/components/explore/ExplorePane'));
+// const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
+// const ModerationPane = lazy(() => import("@/components/moderation-pane/ModerationPane"));
+// const DashboardPane = lazy(() => import("@/components/DashboardPane"));
 
 import { getStorageString, removeStorage, StorageKeys } from '../common/localStorage';
 import socketClient from '../chat-api/socketClient';
