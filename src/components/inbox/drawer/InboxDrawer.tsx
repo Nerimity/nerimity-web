@@ -18,7 +18,6 @@ function Header(props: { selectedIndex: number, onTabClick: (index: number) => v
   const [t] = useTransContext();
 
   const friendRequests = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING);
-  console.log("test")
 
   return (
     <div class={styles.header}>
