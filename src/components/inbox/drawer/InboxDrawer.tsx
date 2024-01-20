@@ -7,7 +7,7 @@ import FriendItem from './friends/friend-item/InboxDrawerFriendItem';
 import {createSignal, For} from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import {FriendStatus} from '@/chat-api/RawData';
-import {useParams} from '@solidjs/router';
+import {useParams} from 'solid-navigator';
 import {useCustomPortal} from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
 import {useTransContext} from '@mbarzda/solid-i18next';

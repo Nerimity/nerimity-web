@@ -1,4 +1,4 @@
-import { useParams } from '@solidjs/router';
+import { useParams } from 'solid-navigator';
 import { Show, createEffect } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';

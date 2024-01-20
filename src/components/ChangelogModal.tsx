@@ -1,7 +1,7 @@
 import { formatTimestamp } from "@/common/date";
 import Marked from "@/components/marked/Marked";
 import { useAppVersion } from "@/common/useAppVersion";
-import { Link } from "@solidjs/router";
+import { A } from "solid-navigator";
 import Button from "./ui/Button";
 import { FlexColumn } from "./ui/Flexbox";
 import Modal from "./ui/modal/Modal";
@@ -17,9 +17,9 @@ export function ChangelogModal (props: {close: () => void}) {
   }
 
   const ActionButtons = (
-    <Link style={{"text-decoration": "none"}} href="https://github.com/Nerimity/Nerimity-Web/releases" target="_blank" rel="noopener noreferrer">
+    <A style={{"text-decoration": "none"}} href="https://github.com/Nerimity/Nerimity-Web/releases" target="_blank" rel="noopener noreferrer">
       <Button label="View more in GitHub" iconName="launch"  />
-    </Link>
+    </A>
   )
 
 

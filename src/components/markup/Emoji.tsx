@@ -11,7 +11,7 @@ import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
 import useStore from "@/chat-api/store/useStore";
 import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 
 export function Emoji(props: { clickable?: boolean, custom?: boolean, class?: string, name: string, url: string, id?: string; animated?: boolean}) {

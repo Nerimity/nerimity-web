@@ -1,8 +1,11 @@
 import { classNames, conditionalClass } from "@/common/classNames";
-import { AnchorProps, Link } from "@solidjs/router";
+import { A } from "solid-navigator";
 import { css } from "solid-styled-components";
 
-interface CustomLinkProps extends AnchorProps {
+
+type AProps = Parameters<typeof A>[0]; 
+
+interface CustomLinkProps extends AProps {
   decoration?: boolean;
   noContextMenu?: boolean;
 }
@@ -29,5 +32,5 @@ export function CustomLink(props: CustomLinkProps) {
     event.preventDefault();
   }
 
-  return <Link oncontextmenu={onContextMenu} {...props} class={classNames(conditionalClass(props.decoration, decoration), conditionalClass(!props.decoration, noDecoration), props.class)} />
+  return <A onContextMenu={onContextMenu} {...props} class={classNames(conditionalClass(props.decoration, decoration), conditionalClass(!props.decoration, noDecoration), props.class)} />
 }

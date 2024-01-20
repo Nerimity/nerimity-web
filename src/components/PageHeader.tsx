@@ -1,6 +1,6 @@
 import { createSignal, Match, onMount, Show, Switch } from 'solid-js'
 import { css, styled } from 'solid-styled-components'
-import { Link } from '@solidjs/router'
+import { A } from 'solid-navigator'
 import env from '@/common/env'
 import { getUserDetailsRequest } from '@/chat-api/services/UserService'
 import { RawUser } from '@/chat-api/RawData'
@@ -92,7 +92,7 @@ const linkIconStyle = css`
   margin-right: 5px;
 `;
 
-export default function PageHeader(props: {showLogo?: boolean, hideAccountInfo?: boolean}) {
+export default function PageHeader(props: { hideAccountInfo?: boolean}) {
   const [user, setUser] = createSignal<null | false | RawUser>(null);
 
   onMount(async () => {
@@ -111,10 +111,10 @@ export default function PageHeader(props: {showLogo?: boolean, hideAccountInfo?:
 
   return (
     <HeaderContainer class="header-container">
-      <Link href="/" class={titleContainerStyle}>
+      <A href="/" class={titleContainerStyle}>
         <Logo src={appLogoUrl()} alt="logo"/>
         <Title>{env.APP_NAME}</Title>
-      </Link>
+      </A>
       <Show when={user() === false}><LoggedOutLinks/></Show>
       <Show when={user()}><LoggedInLinks user={user() as RawUser}/></Show>
     </HeaderContainer>

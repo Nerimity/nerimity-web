@@ -5,24 +5,67 @@ import "material-icons/iconfont/round.scss";
 import "./index.css";
 import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
-import { Router } from "@solidjs/router";
+import { A, Outlet, Route, Router, useNavigate, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
-import styles from "./Index.module.scss";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { createEffect, on } from "solid-js";
+import { For, Show, createEffect, createSignal, lazy, on } from "solid-js";
+import RouterEndpoints from "./common/RouterEndpoints";
+import settings from "./common/Settings";
+import exploreRoutes from "./common/exploreRoutes";
+import serverSettings from "./common/ServerSettings";
+import useStore from "./chat-api/store/useStore";
+import ModerationPane from "./components/moderation-pane/ModerationPane";
+import TicketsPage from "@/components/tickets/TicketsPage";
+import { TicketPage } from "./components/settings/TicketSettings";
 
-render(() => {
-  const { isMobileAgent, isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
+// Drawers
+const SettingsDrawer = lazy(() => import("@/components/settings/SettingsDrawer"));
+const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
+const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
+const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
+const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
 
-  createEffect(on(isWindowFocusedAndBlurEffectEnabled, () => {
-    if (isWindowFocusedAndBlurEffectEnabled()) {
-      document.body.classList.remove("disableBlur");
-    } else {
-      document.body.classList.add("disableBlur");
-    }
-  }))
+const RightDrawer = lazy(() => import("@/components/right-drawer/RightDrawer"));
 
+// App Panes
+const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
+const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
+const DashboardPane = lazy(() => import("@/components/DashboardPane"));
+const ExplorePane = lazy(() => import("@/components/explore/ExplorePane"));
+const SettingsPane = lazy(() => import("@/components/settings/SettingsPane"));
+const ServerSettingsPane = lazy(() => import("@/components/servers/settings/settings-pane/ServerSettingsPane"));
+const ExploreServerPane = lazy(() => import("@/components/servers/explore-pane/ExploreServerPane"));
+
+// Pages
+const HomePage = lazy(() => import('./pages/HomePage'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const AppPage = lazy(() => import('./pages/AppPage'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
+const GoogleRedirectLinkAccount = lazy(() => import('./pages/GoogleRedirectLinkAccountPage'));
+
+const ModerationUserPage = lazy(() => import("@/components/moderation-pane/UserPage"));
+const ModerationServerPage = lazy(() => import("@/components/moderation-pane/ServerPage"));
+
+
+const useBlurEffect = () => {
+  const { isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
+
+  createEffect(
+    on(isWindowFocusedAndBlurEffectEnabled, () => {
+      if (isWindowFocusedAndBlurEffectEnabled()) {
+        document.body.classList.remove("disableBlur");
+      } else {
+        document.body.classList.add("disableBlur");
+      }
+    })
+  );
+};
+
+const useMobileInterface = () => {
+  const { isMobileAgent } = useWindowProperties();
   if (!isMobileAgent()) {
     const styleEl = document.createElement("style");
     styleEl.innerHTML = `
@@ -48,20 +91,112 @@ render(() => {
     `;
     document.head.appendChild(styleEl);
   }
+};
+
+
+const Root = () => {
+  return (
+    <TransProvider
+      options={{
+        fallbackLng: "en_gb",
+        lng: "en_gb",
+        resources: { en_gb: { translation: en } },
+      }}
+    >
+      <CustomPortalProvider>
+        <App/>
+        <Outlet/>
+      </CustomPortalProvider>
+    </TransProvider>
+  );
+};
+
+render(() => {
+  useBlurEffect();
+  useMobileInterface();
+  const {account} = useStore();
 
   return (
-      <Router>
-        <TransProvider
-          options={{
-            fallbackLng: "en_gb",
-            lng: "en_gb",
-            resources: { en_gb: { translation: en } },
-          }}
-        >
-          <CustomPortalProvider>
-            <App />
-          </CustomPortalProvider>
-        </TransProvider>
-      </Router>
+    <Router root={Root}>
+      <Route path="/app" component={AppPage}  components={{leftDrawer: InboxDrawer, mainPane: DashboardPane}}>
+        <Route path="/inbox/:channelId" components={{mainPane: ChannelPane, rightDrawer: RightDrawer}} />
+
+        <Route path="/servers/:serverId/" components={{leftDrawer: ServerDrawer, rightDrawer: RightDrawer}}>
+          <Route path="/:channelId" components={{mainPane: ChannelPane}} />
+
+          {/* Server Settings */}
+          <Route path="/settings" components={{leftDrawer: ServerSettingsDrawer, mainPane: ServerSettingsPane}}>
+            <For each={serverSettings}>
+              {(setting) => <Route path={setting.routePath} components={{settingsPane: setting.element}} />}
+            </For>
+          </Route>
+          <Route path="/*" components={{settingsPane: undefined}}  />
+        </Route>
+
+        <Route path="/profile/:userId" components={{mainPane: ProfilePane, leftDrawer: undefined, rightDrawer: undefined}} />
+
+        <Route path="/explore" components={{mainPane: ExplorePane, leftDrawer: ExploreDrawer}}>
+          <For each={exploreRoutes}>
+            {(paths) => <Route path={paths.routePath} components={{explorePane: paths.element}} />}
+          </For>
+          <Route path="/servers/invites/:inviteId" components={{mainPane: ExploreServerPane}} />
+          <Route path="/*" components={{explorePane: undefined}}  />
+        </Route>
+
+        {/* User Settings */}
+        <Route path="/settings" components={{leftDrawer: SettingsDrawer, mainPane: SettingsPane}}>
+          <For each={settings}>
+            {(setting) => <Route path={setting.routePath} components={{settingsPane: setting.element}} />}
+          </For>
+          <Route path="/*" components={{settingsPane: undefined}}  />
+        </Route>
+
+        <Show when={account.hasModeratorPerm()}>
+          <Route path="/moderation" components={{mainPane: ModerationPane, leftDrawer: InboxDrawer}}>
+            <Route path="/servers/:serverId" components={{moderationPane: ModerationServerPage}} />
+            <Route path="/users/:userId" components={{moderationPane: ModerationUserPage}} />
+            <Route path="/tickets" components={{moderationPane: TicketsPage}}>
+              <Route path="/:id" components={{moderationPane: TicketPage}} />
+            </Route>
+            <Route path="/*" components={{moderationPane: undefined}}  />
+          </Route>
+        </Show>   
+
+        <Route path="/*" components={{mainPane: DashboardPane, RightDrawer: undefined, leftDrawer: InboxDrawer}} />
+      </Route>
+
+
+      <Route path="/" component={HomePage}/>
+      <Route path="/register" component={RegisterPage} />
+      <Route path="/login" component={LoginPage} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/terms-and-conditions" component={TermsAndConditionsPage} /> 
+      <Route path="/google-redirect" component={GoogleRedirectLinkAccount} /> 
+      <Route path="/i/:inviteId" component={InviteRedirect} />
+      
+      <Route path="/*" component={NoMatch} />
+    </Router>
   );
 }, document.getElementById("root") as HTMLElement);
+
+
+
+
+function NoMatch() {
+  return (
+    <div>
+      <h2>Nothing to see here!</h2>
+      <p>
+        <A href="/">Go to the home page</A>
+      </p>
+    </div>
+  );
+}
+
+
+function InviteRedirect() {
+  const params = useParams();
+
+  return <Navigate href={RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!)} />
+}
+

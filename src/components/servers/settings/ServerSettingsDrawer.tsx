@@ -1,6 +1,6 @@
 import ServerDrawerHeader from '@/components/servers/drawer/header/ServerDrawerHeader';
 import Icon from '@/components/ui/icon/Icon';
-import { Link, useMatch, useParams } from '@solidjs/router';
+import { A, useMatch, useParams } from 'solid-navigator';
 import { For, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import RouterEndpoints from '@/common/RouterEndpoints';
@@ -96,7 +96,7 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
   const selected = useMatch(() => href() + "/*")
 
   return (
-    <Link 
+    <A 
       href={href()}
       style={{"text-decoration": "none"}}
       >
@@ -104,7 +104,7 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
           <Icon name={props.icon} size={18} />
           <div class="label">{props.label}</div>
         </SettingItemContainer>
-    </Link>
+    </A>
   )
 }
 

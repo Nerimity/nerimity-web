@@ -8,7 +8,7 @@ import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
 import useUsers from "../store/useUsers";
 import { CHANNEL_PERMISSIONS, addBit, hasBit } from "../Bitwise";
-import { useParams } from "@solidjs/router";
+import { useParams } from "solid-navigator";
 import useVoiceUsers from "../store/useVoiceUsers";
 
 interface ServerJoinedPayload {

@@ -13,7 +13,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { Dynamic } from "solid-js/web";
 import { t } from "i18next";
 import { getModerationTickets } from "@/chat-api/services/ModerationService";
-import { useMatch } from "@solidjs/router";
+import { useMatch } from "solid-navigator";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Button from "../ui/Button";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -75,7 +75,8 @@ const TicketsPage = () => {
         }
       >
         <Breadcrumb>
-          <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+          <Show when={!isModeration()}><BreadcrumbItem href="/app" icon="home" title="Dashboard" /></Show>
+          <Show when={isModeration()}><BreadcrumbItem href="/app/moderation" icon="home" title="Moderation" /></Show>
           <BreadcrumbItem title={t("settings.drawer.tickets")!} />
         </Breadcrumb>
       </div>

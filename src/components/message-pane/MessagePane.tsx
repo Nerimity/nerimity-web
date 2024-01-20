@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
-import { A, useNavigate, useParams } from '@solidjs/router';
+import { A, useNavigate, useParams } from 'solid-navigator';
 import useStore from '../../chat-api/store/useStore';
 import Button from '@/components/ui/Button';
 import { useWindowProperties } from '../../common/useWindowProperties';
@@ -47,7 +47,8 @@ import { TenorImage } from '@/chat-api/services/TenorService';
 import { useMicRecorder } from '@nerimity/solid-opus-media-recorder';
 import { DeleteMessageModal } from './message-item/MessageItem';
 
-export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
+export default function MessagePane() {
+  const mainPaneEl = document.querySelector(".main-pane-container")!;
   const params = useParams<{ channelId: string, serverId?: string }>();
   const { channels, header, serverMembers, account } = useStore();
   const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
@@ -92,14 +93,14 @@ export default function MessagePane(props: { mainPaneEl: HTMLDivElement }) {
 
   return (
     <div class={styles.messagePane}>
-      <MessageLogArea mainPaneEl={props.mainPaneEl} textAreaEl={textAreaEl()} />
+      <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
 
       <Show when={isServerAndEmailNotConfirmed()}>
         <EmailUnconfirmedNotice />
       </Show>
 
       <Show when={canSendMessage()}>
-        <MessageArea mainPaneEl={props.mainPaneEl} textAreaRef={setTextAreaEl} />
+        <MessageArea mainPaneEl={mainPaneEl} textAreaRef={setTextAreaEl} />
       </Show>
     </div>
   );

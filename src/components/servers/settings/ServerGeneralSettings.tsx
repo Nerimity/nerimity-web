@@ -1,4 +1,4 @@
-import { useParams } from '@solidjs/router';
+import { useParams } from 'solid-navigator';
 import { createEffect, createSignal, onCleanup, Setter, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { useWindowProperties } from '@/common/useWindowProperties';
@@ -20,6 +20,7 @@ import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { ChannelType } from '@/chat-api/RawData';
+import { setServerSettingsHeaderPreview } from './settings-pane/ServerSettingsPane';
 
 const Container = styled("div")`
   display: flex;
@@ -27,7 +28,7 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function ServerGeneralSettings(props: { updateHeader: Setter<{ name?: string, avatar?: any, banner?: string }> }) {
+export default function ServerGeneralSettings() {
   const [t] = useTransContext();
   const params = useParams<{ serverId: string }>();
   const { header, servers, channels, account } = useStore();
@@ -83,7 +84,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
     });
   })
   onCleanup(() => {
-    props.updateHeader(reconcile({}));
+    setServerSettingsHeaderPreview(reconcile({}));
   })
 
   const onSaveButtonClicked = async () => {
@@ -95,7 +96,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
       .then(() => {
         setInputValue("avatar", '')
         setInputValue("banner", '')
-        props.updateHeader(reconcile({}));
+        setServerSettingsHeaderPreview(reconcile({}));
       })
       .catch((err) => setError(err.message))
       .finally(() => setRequestSent(false));
@@ -111,14 +112,14 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
   const onAvatarPick = (files: string[]) => {
     if (files[0]) {
       setInputValue("avatar", files[0])
-      props.updateHeader({ avatar: files[0] })
+      setServerSettingsHeaderPreview({ avatar: files[0] })
     }
   }
 
   const onBannerPick = (files: string[]) => {
     if (files[0]) {
       setInputValue("banner", files[0])
-      props.updateHeader({ banner: files[0] })
+      setServerSettingsHeaderPreview({ banner: files[0] })
     }
   }
 
@@ -149,7 +150,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
       <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick} />
         <Show when={inputValues().avatar}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); props.updateHeader({ avatar: undefined }); }} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); setServerSettingsHeaderPreview({ avatar: undefined }); }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
       </SettingsBlock>
@@ -157,7 +158,7 @@ export default function ServerGeneralSettings(props: { updateHeader: Setter<{ na
       <SettingsBlock icon='panorama' label='Banner' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick} />
         <Show when={inputValues().banner}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); props.updateHeader({ banner: undefined }); }} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); setServerSettingsHeaderPreview({ banner: undefined }); }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>

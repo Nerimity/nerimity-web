@@ -1,6 +1,5 @@
-import exploreRoutes from '@/common/exploreRoutes';
-import { Route, Routes } from '@solidjs/router';
-import { For, Show } from 'solid-js';
+import { Outlet } from 'solid-navigator';
+import { Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import { styled } from 'solid-styled-components';
 
@@ -20,13 +19,7 @@ export default function ExplorePane() {
   return (
     <Show when={user()}>
       <ExplorePaneContainer>
-        <For each={exploreRoutes}>
-          {routes => (
-            <Routes>
-              {routes.path && <Route path={`/${routes.path}`} component={routes.element} />}
-            </Routes>
-          )}
-        </For>
+        <Outlet name="explorePane"/>
       </ExplorePaneContainer>
     </Show>
   );

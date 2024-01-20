@@ -1,19 +1,6 @@
-import { createEffect, createSignal, lazy, on, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, on, onCleanup, onMount } from 'solid-js';
 import MainPaneHeader from '../components/main-pane-header/MainPaneHeader';
 
-const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
-const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
-const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
-const ServerSettingsPane = lazy(() => import('@/components/servers/settings/settings-pane/ServerSettingsPane'));
-const SettingsDrawer = lazy(() => import('@/components/settings/SettingsDrawer'));
-const SettingsPane = lazy(() => import('@/components/settings/SettingsPane'));
-const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
-const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
-const ExploreServerPane = lazy(() => import('@/components/servers/explore-pane/ExploreServerPane'));
-const ExplorePane = lazy(() => import('@/components/explore/ExplorePane'));
-const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
-const ModerationPane = lazy(() => import("@/components/moderation-pane/ModerationPane"));
-const DashboardPane = lazy(() => import("@/components/DashboardPane"));
 
 import { getStorageString, removeStorage, StorageKeys } from '../common/localStorage';
 import socketClient from '../chat-api/socketClient';
@@ -23,7 +10,7 @@ import { getCache, LocalCacheKey } from '@/common/localCache';
 import useStore from '@/chat-api/store/useStore';
 import { setContext } from '@/common/runWithContext';
 import DrawerLayout, { useDrawer } from '@/components/ui/drawer/Drawer';
-import { Route, Routes, useMatch, useSearchParams } from '@solidjs/router';
+import { useMatch, useSearchParams, Outlet } from 'solid-navigator';
 import { css, styled } from 'solid-styled-components';
 import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
 import { ConnectionErrorModal } from '@/components/connection-error-modal/ConnectionErrorModal';
@@ -68,8 +55,6 @@ const MainPaneContainer = styled("div") <MainPaneContainerProps>`
   background: var(--pane-color);
 
 `;
-// border-right: solid 1px rgba(255, 255, 255, 0.1);
-// border-left: solid 1px rgba(255, 255, 255, 0.1);
 
 async function loadAllCache() {
   const { account } = useStore();
@@ -135,29 +120,12 @@ export default function AppPage() {
     })
   })
 
-  const LeftPane = (
-    <Routes>
-      <Route path="/servers/:serverId/settings/:path/*" component={ServerSettingsDrawer} />
-      <Route path="/explore/*" component={ExploreDrawer} />
-      <Route path="/servers/:serverId/:channelId/*" component={ServerDrawer} />
-      <Route path="/inbox/:channelId?/*" component={InboxDrawer} />
-      <Route path="/*" component={InboxDrawer} />
-      <Route path="/settings/*" component={SettingsDrawer} />
-    </Routes>
-  )
-
-  const RightPane = (
-    <Routes>
-      <Route path="/servers/:serverId/:channelId?/*" component={RightDrawer} />
-      <Route path="/inbox/:channelId?/*" component={RightDrawer} />
-    </Routes>
-  )
 
   return (
     <DrawerLayout
       Content={() => <MainPane />}
-      LeftDrawer={LeftPane}
-      RightDrawer={RightPane}
+      LeftDrawer={() => <Outlet name='leftDrawer' />}
+      RightDrawer={() => <Outlet name='rightDrawer' />}
     />
   )
 }
@@ -166,7 +134,6 @@ function MainPane() {
   const windowProperties = useWindowProperties();
   const { hasRightDrawer, hasLeftDrawer } = useDrawer();
   const [outerPaneElement, setOuterPaneElement] = createSignal<HTMLDivElement | undefined>(undefined);
-  const [mainPaneElement, setMainPaneElement] = createSignal<HTMLDivElement | undefined>(undefined);
 
   const {width} = useResizeObserver(outerPaneElement)
 
@@ -175,23 +142,11 @@ function MainPane() {
   })
 
 
-
-
   return (
     <OuterMainPaneContainer ref={setOuterPaneElement}>
-      <MainPaneContainer ref={setMainPaneElement} hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} >
+      <MainPaneContainer hasLeftDrawer={hasLeftDrawer()} hasRightDrawer={hasRightDrawer()} class={classNames("main-pane-container", conditionalClass(windowProperties.isMobileWidth(), mobileMainPaneStyles))} >
         <MainPaneHeader />
-        <Routes>
-          <Route path="/settings/*" component={SettingsPane} />
-          <Route path="/servers/:serverId/settings/*" component={ServerSettingsPane} />
-          <Route path="/explore/*" component={ExplorePane} />
-          <Route path="/servers/:serverId/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
-          <Route path="/inbox/:channelId" component={() => <ChannelPane mainPaneEl={mainPaneElement()!} />} />
-          <Route path="/profile/:userId" component={ProfilePane} />
-          <Route path="/moderation/*" component={ModerationPane} />
-          <Route path="/explore/servers/invites/:inviteId" component={ExploreServerPane} />
-          <Route path="/*" component={DashboardPane} />
-        </Routes>
+        <Outlet name="mainPane" />
       </MainPaneContainer>
     </OuterMainPaneContainer>
   )

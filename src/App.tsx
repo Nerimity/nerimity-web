@@ -2,7 +2,7 @@ import { onMount, lazy, Show } from 'solid-js';
 import env from './common/env';
 import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
-import { Link, Route, Routes, useNavigate, useParams } from '@solidjs/router';
+import { A, Route, Router, useNavigate, useParams } from 'solid-navigator';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@mbarzda/solid-i18next';
 import { electronWindowAPI } from './common/Electron';
@@ -11,16 +11,10 @@ import { useWindowProperties } from './common/useWindowProperties';
 import styles from './App.module.scss';
 import { ConnectingStatusHeader } from './components/connecting-status-header/ConnectingStatusHeader';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
-const RegisterPage = lazy(() => import('./pages/RegisterPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const AppPage = lazy(() => import('./pages/AppPage'));
 
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
-const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
-const GoogleRedirectLinkAccount = lazy(() => import('./pages/GoogleRedirectLinkAccountPage'));
 
 export default function App() {
+
   const [, actions] = useTransContext();
   onMount(() => {
     document.title = env.APP_NAME
@@ -54,43 +48,7 @@ export default function App() {
         <ElectronTitleBar />
       </Show>
       <ConnectingStatusHeader/>
-      <Routes>
-        <Route path="/" component={HomePage} />
-        <Route path="/app/*" component={AppPage} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/i/:inviteId" component={InviteRedirect} />
-        <Route path="/privacy" component={PrivacyPage} />
-        <Route path="/terms-and-conditions" component={TermsAndConditionsPage} />
-
-
-
-        <Route path="/google-redirect" component={GoogleRedirectLinkAccount} />
-
-        <Route path="/*" component={NoMatch} />
-      </Routes>
     </>
   )
 };
 
-function InviteRedirect() {
-  const params = useParams();
-  const navigate = useNavigate();
-
-  onMount(() => {
-    navigate(RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!), { replace: true })
-  })
-
-  return <div>Redirecting...</div>
-}
-
-function NoMatch() {
-  return (
-    <div>
-      <h2>Nothing to see here!</h2>
-      <p>
-        <Link href="/">Go to the home page</Link>
-      </p>
-    </div>
-  );
-}

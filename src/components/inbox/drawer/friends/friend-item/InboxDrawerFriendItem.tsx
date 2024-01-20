@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
-import { Link, useNavigate, useParams } from "@solidjs/router";
+import { A, useNavigate, useParams } from "solid-navigator";
 import { FriendStatus } from "@/chat-api/RawData";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
@@ -98,9 +98,9 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
     <Show when={user()}>
       <FriendContainer onmouseenter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} selected={isSelected()} alert={mentionCount() || showAccept()} onClick={onFriendClick}>
 
-        <Link href={RouterEndpoints.PROFILE(user().id)} class="link">
+        <A href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar animate={hovered()} user={user()} size={25} />
-        </Link>
+        </A>
         <div class={styles.details}>
           <div class="username">{user().username}</div>
           <UserPresence userId={user().id} showOffline={false} animate={hovered()} />

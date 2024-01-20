@@ -4,7 +4,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import Avatar from "../ui/Avatar";
 import { CustomLink } from "../ui/CustomLink";
 import { createSignal, Show } from "solid-js";
-import { useParams } from "@solidjs/router";
+import { useParams } from "solid-navigator";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 
 export function MentionUser(props: { user: RawUser }) {

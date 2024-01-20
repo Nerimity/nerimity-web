@@ -3,7 +3,7 @@ import useStore from "@/chat-api/store/useStore";
 import { classNames, conditionalClass } from '@/common/classNames';
 import { StorageKeys, getStorageString } from '@/common/localStorage';
 import { useWindowProperties } from '@/common/useWindowProperties';
-import { useMatch } from '@solidjs/router';
+import { useMatch } from 'solid-navigator';
 import { createEffect, createSignal, on } from "solid-js"
 
 export const ConnectingStatusHeader = () => {

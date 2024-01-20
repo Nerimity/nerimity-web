@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate } from "solid-navigator";
 import { Match, Show, Switch } from "solid-js";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";

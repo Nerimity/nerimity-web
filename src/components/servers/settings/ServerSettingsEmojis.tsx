@@ -15,7 +15,7 @@ import Input from "@/components/ui/input/Input";
 import { Notice } from "@/components/ui/Notice/Notice";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
-import { useParams } from "@solidjs/router";
+import { useParams } from "solid-navigator";
 import { createSign } from "crypto";
 import { t } from "i18next";
 import { createEffect, createSignal, For, Match, onMount, Show, Switch } from "solid-js";

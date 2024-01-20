@@ -1,12 +1,13 @@
 import {
-  Accessor,
   createEffect,
   createSignal,
   For,
+  Match,
   onCleanup,
   onMount,
   Setter,
   Show,
+  Switch,
 } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
@@ -23,7 +24,7 @@ import {
 } from "@/chat-api/RawData";
 import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
-import { Route, Routes, useMatch, useParams } from "@solidjs/router";
+import { Route, useMatch, useParams } from "solid-navigator";
 import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
 import Avatar from "../ui/Avatar";
 import { Markup } from "../Markup";
@@ -59,12 +60,12 @@ export default function TicketSettings() {
       iconName: "settings",
     });
   });
+  const showTicketPage = useMatch(() => "/app/settings/tickets/:id")
 
   return (
-    <Routes>
-      <Route path="/" component={TicketsPage} />
-      <Route path="/:id" component={TicketPage} />
-    </Routes>
+    <Switch fallback={<TicketsPage/>}>
+      <Match when={showTicketPage()}><TicketPage/></Match>
+    </Switch>
   );
 }
 
@@ -108,12 +109,12 @@ export const TicketPage = () => {
       <div style={isModeration() ? { "margin-top": "20px" } : {}}>
         <Breadcrumb>
           <Show when={isModeration()}>
-            <BreadcrumbItem href={"../"} icon="home" title="Moderation" />
+            <BreadcrumbItem href={"/app/moderation"} icon="home" title="Moderation" />
           </Show>
           <Show when={!isModeration()}>
             <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
           </Show>
-          <BreadcrumbItem title={t("settings.drawer.tickets")!} href="../" />
+          <BreadcrumbItem title={t("settings.drawer.tickets")!} href={isModeration() ? '/app/moderation/tickets' : '/app/settings/tickets'} />
           <BreadcrumbItem title={"Ticket"} />
         </Breadcrumb>
       </div>
