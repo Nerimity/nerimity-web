@@ -9,26 +9,45 @@ import { A, Outlet, Route, Router, useNavigate, useParams, Navigate } from "soli
 import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { createEffect, lazy, on } from "solid-js";
+import { For, Show, createEffect, createSignal, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
+import settings from "./common/Settings";
+import exploreRoutes from "./common/exploreRoutes";
+import serverSettings from "./common/ServerSettings";
+import useStore from "./chat-api/store/useStore";
+import ModerationPane from "./components/moderation-pane/ModerationPane";
+import TicketsPage from "@/components/tickets/TicketsPage";
+import { TicketPage } from "./components/settings/TicketSettings";
 
+// Drawers
+const SettingsDrawer = lazy(() => import("@/components/settings/SettingsDrawer"));
 const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
 const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
+const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
+const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
+
+const RightDrawer = lazy(() => import("@/components/right-drawer/RightDrawer"));
+
+// App Panes
 const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
 const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
 const DashboardPane = lazy(() => import("@/components/DashboardPane"));
-const RightDrawer = lazy(() => import("@/components/right-drawer/RightDrawer"));
+const ExplorePane = lazy(() => import("@/components/explore/ExplorePane"));
+const SettingsPane = lazy(() => import("@/components/settings/SettingsPane"));
+const ServerSettingsPane = lazy(() => import("@/components/servers/settings/settings-pane/ServerSettingsPane"));
+const ExploreServerPane = lazy(() => import("@/components/servers/explore-pane/ExploreServerPane"));
 
-
-
+// Pages
 const HomePage = lazy(() => import('./pages/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AppPage = lazy(() => import('./pages/AppPage'));
-
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
 const GoogleRedirectLinkAccount = lazy(() => import('./pages/GoogleRedirectLinkAccountPage'));
+
+const ModerationUserPage = lazy(() => import("@/components/moderation-pane/UserPage"));
+const ModerationServerPage = lazy(() => import("@/components/moderation-pane/ServerPage"));
 
 
 const useBlurEffect = () => {
@@ -75,7 +94,6 @@ const useMobileInterface = () => {
 };
 
 
-
 const Root = () => {
   return (
     <TransProvider
@@ -96,25 +114,58 @@ const Root = () => {
 render(() => {
   useBlurEffect();
   useMobileInterface();
+  const {account} = useStore();
 
   return (
     <Router root={Root}>
-
       <Route path="/app" component={AppPage}  components={{leftDrawer: InboxDrawer, mainPane: DashboardPane}}>
-
-    
         <Route path="/inbox/:channelId" components={{mainPane: ChannelPane, rightDrawer: RightDrawer}} />
-        <Route path="/servers/:serverId/:channelId" components={{mainPane: ChannelPane, leftDrawer: ServerDrawer, rightDrawer: RightDrawer}} />
-        <Route path="/profile/:userId" components={{mainPane: ProfilePane, leftDrawer: undefined, rightDrawer: undefined}} />
-        
 
-        <Route path="/*"/>
-      
+        <Route path="/servers/:serverId/" components={{leftDrawer: ServerDrawer, rightDrawer: RightDrawer}}>
+          <Route path="/:channelId" components={{mainPane: ChannelPane}} />
+
+          {/* Server Settings */}
+          <Route path="/settings" components={{leftDrawer: ServerSettingsDrawer, mainPane: ServerSettingsPane}}>
+            <For each={serverSettings}>
+              {(setting) => <Route path={setting.routePath} components={{settingsPane: setting.element}} />}
+            </For>
+          </Route>
+          <Route path="/*" components={{settingsPane: undefined}}  />
+        </Route>
+
+        <Route path="/profile/:userId" components={{mainPane: ProfilePane, leftDrawer: undefined, rightDrawer: undefined}} />
+
+        <Route path="/explore" components={{mainPane: ExplorePane, leftDrawer: ExploreDrawer}}>
+          <For each={exploreRoutes}>
+            {(paths) => <Route path={paths.routePath} components={{explorePane: paths.element}} />}
+          </For>
+          <Route path="/servers/invites/:inviteId" components={{mainPane: ExploreServerPane}} />
+          <Route path="/*" components={{explorePane: undefined}}  />
+        </Route>
+
+        {/* User Settings */}
+        <Route path="/settings" components={{leftDrawer: SettingsDrawer, mainPane: SettingsPane}}>
+          <For each={settings}>
+            {(setting) => <Route path={setting.routePath} components={{settingsPane: setting.element}} />}
+          </For>
+          <Route path="/*" components={{settingsPane: undefined}}  />
+        </Route>
+
+        <Show when={account.hasModeratorPerm()}>
+          <Route path="/moderation" components={{mainPane: ModerationPane, leftDrawer: InboxDrawer}}>
+            <Route path="/servers/:serverId" components={{moderationPane: ModerationServerPage}} />
+            <Route path="/users/:userId" components={{moderationPane: ModerationUserPage}} />
+            <Route path="/tickets" components={{moderationPane: TicketsPage}}>
+              <Route path="/:id" components={{moderationPane: TicketPage}} />
+            </Route>
+            <Route path="/*" components={{moderationPane: undefined}}  />
+          </Route>
+        </Show>   
+
+        <Route path="/*" components={{mainPane: DashboardPane, RightDrawer: undefined, leftDrawer: InboxDrawer}} />
       </Route>
 
 
-       
-    
       <Route path="/" component={HomePage}/>
       <Route path="/register" component={RegisterPage} />
       <Route path="/login" component={LoginPage} />

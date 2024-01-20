@@ -27,7 +27,7 @@ import {
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
-import { A, Route, Routes, useMatch } from "solid-navigator";
+import { A, Outlet, useMatch } from "solid-navigator";
 import { RawServer, RawUser, TicketStatus } from "@/chat-api/RawData";
 import Button from "../ui/Button";
 import { css, styled } from "solid-styled-components";
@@ -186,12 +186,14 @@ export default function ModerationPane() {
             "z-index": "1111",
           }}
         >
-          <Routes>
+
+          <PageContainer><Outlet name="moderationPane" /></PageContainer>
+          {/* <Routes>
             <Route path="/servers/:serverId" element={<ServerPage />} />
             <Route path="/users/:userId" element={<UserPage />} />
             <Route path="/tickets" element={<PageContainer><TicketsPage/></PageContainer>} />
             <Route path="/tickets/:id" element={<PageContainer><TicketPage /></PageContainer>} />
-          </Routes>
+          </Routes> */}
         </div>
       </Show>
     </Show>

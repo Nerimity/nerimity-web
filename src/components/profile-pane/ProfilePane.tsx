@@ -545,12 +545,14 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
         />
 
         <FlexColumn style={{ gap: "12px", padding: "12px" }}>
+          <Show when={!props.ticket}>
           <DropDown
             title="Choose a category"
             items={Categories}
             selectedId={selectedCategoryId()}
             onChange={(item) => setSelectedCategoryId(item.id)}
           />
+          </Show>
 
           <Show when={selectedCategoryId() === "ABUSE"}>
             <Input

@@ -14,6 +14,7 @@ import { Banner } from '../ui/Banner';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { FriendStatus } from '@/chat-api/RawData';
 import { useResizeObserver } from '@/common/useResizeObserver';
+import { settingsHeaderPreview } from './SettingsPane';
 
 
 const HeaderContainer = styled("div")`
@@ -62,7 +63,7 @@ const CustomAvatar = styled("div")<{cropPosition: string}>`
   ${props => props.cropPosition}
 `;
 
-const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?: string, banner?: string; avatar?: string; avatarPoints?: number[]; } }) => {
+const SettingsHeader = () => {
   const [avatarEl, setAvatarEl] = createSignal<HTMLDivElement | undefined>();
   const { account, servers, friends } = useStore();
   const user = () => account.user();
@@ -73,7 +74,7 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
   const [imageDimensions, setImageDimensions] = createSignal({height: 0, width: 0});
 
 
-  createEffect(on(() => props.headerPreviewDetails.avatar, (val) => {
+  createEffect(on(() => settingsHeaderPreview.avatar, (val) => {
     if (!val) return
     getImageDimensions(val).then(setImageDimensions);
   }))
@@ -81,7 +82,7 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
   const avatarSize = () => width() <= 500 ? 70 : 100
 
   const cropPosition = () => {
-    const coordinates  = props.headerPreviewDetails.avatarPoints;
+    const coordinates  = settingsHeaderPreview.avatarPoints;
     if (!coordinates ) return ""
 
     const viewWidth = avatarSize() && avatarEl()?.clientWidth || 0;
@@ -108,15 +109,15 @@ const SettingsHeader = (props: { headerPreviewDetails: { username?: string, tag?
 
   return (
     <Show when={user()}>
-      <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={props.headerPreviewDetails.banner || bannerUrl(user()!)}>
+      <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={settingsHeaderPreview.banner || bannerUrl(user()!)}>
         <HeaderContainer>
           <Avatar animate user={account.user()!} size={avatarSize()} class={avatarStyles}>
-            {props.headerPreviewDetails.avatar  ? <CustomAvatar ref={setAvatarEl} cropPosition={cropPosition()} style={{background: `url("${props.headerPreviewDetails.avatar}")`}} /> : null}
+            {settingsHeaderPreview.avatar  ? <CustomAvatar ref={setAvatarEl} cropPosition={cropPosition()} style={{background: `url("${settingsHeaderPreview.avatar}")`}} /> : null}
           </Avatar>
           <DetailsContainer>
             <UsernameTagContainer>
-              <Text>{props.headerPreviewDetails.username || user()!.username}</Text>
-              <Text opacity={0.7}>:{props.headerPreviewDetails.tag || user()!.tag}</Text>
+              <Text>{settingsHeaderPreview.username || user()!.username}</Text>
+              <Text opacity={0.7}>:{settingsHeaderPreview.tag || user()!.tag}</Text>
             </UsernameTagContainer>
             <FlexRow gap={5}>
               <Text size={14} opacity={0.8}>{serverCount()} servers</Text>

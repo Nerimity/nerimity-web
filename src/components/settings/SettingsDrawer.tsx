@@ -97,7 +97,7 @@ function SettingsList() {
   return (
     <SettingsListContainer>
       <DrawerHeader text={t('settings.drawer.title')} />
-      <For each={settings}>
+      <For each={settings.filter(setting => !setting.hide)}>
         {setting =>
           <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)}>
             <Show when={setting.path === "tickets" && tickets.hasTicketNotification()}>

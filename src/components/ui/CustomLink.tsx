@@ -1,8 +1,11 @@
 import { classNames, conditionalClass } from "@/common/classNames";
-import { AnchorProps, A } from "solid-navigator";
+import { A } from "solid-navigator";
 import { css } from "solid-styled-components";
 
-interface CustomLinkProps extends AnchorProps {
+
+type AProps = Parameters<typeof A>[0]; 
+
+interface CustomLinkProps extends AProps {
   decoration?: boolean;
   noContextMenu?: boolean;
 }

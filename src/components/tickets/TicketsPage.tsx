@@ -75,7 +75,8 @@ const TicketsPage = () => {
         }
       >
         <Breadcrumb>
-          <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+          <Show when={!isModeration()}><BreadcrumbItem href="/app" icon="home" title="Dashboard" /></Show>
+          <Show when={isModeration()}><BreadcrumbItem href="/app/moderation" icon="home" title="Moderation" /></Show>
           <BreadcrumbItem title={t("settings.drawer.tickets")!} />
         </Breadcrumb>
       </div>

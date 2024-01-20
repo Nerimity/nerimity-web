@@ -71,7 +71,7 @@ export default function ServerPage() {
             </ServerBannerContainer>
           </Banner>
           <Breadcrumb>
-            <BreadcrumbItem href={"../../"} icon='home' title="Moderation" />
+            <BreadcrumbItem href={"../"} icon='home' title="Moderation" />
             <BreadcrumbItem title={server()?.name} icon="dns" />
           </Breadcrumb>
 

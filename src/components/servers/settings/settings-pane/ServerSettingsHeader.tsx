@@ -12,6 +12,7 @@ import { useTransContext } from '@mbarzda/solid-i18next';
 import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
 import { Banner } from '@/components/ui/Banner';
 import { useWindowProperties } from '@/common/useWindowProperties';
+import { serverSettingsHeaderPreview } from './ServerSettingsPane';
 
 const HeaderContainer = styled("div")`
 position: relative;
@@ -40,7 +41,7 @@ const avatarStyles = css`
   z-index: 111;
 `;
 
-const ServerSettingsHeader = (props: { headerPreviewDetails: { name?: any, avatar?: any, banner?: string } }) => {
+const ServerSettingsHeader = () => {
   const [t] = useTransContext();
   const params = useParams();
   const { servers, serverMembers } = useStore();
@@ -50,12 +51,12 @@ const ServerSettingsHeader = (props: { headerPreviewDetails: { name?: any, avata
 
   return (
     <Show when={server()}>
-      <Banner maxHeight={200} animate url={props.headerPreviewDetails.banner || bannerUrl(server()!)} hexColor={server()?.hexColor}>
+      <Banner maxHeight={200} animate url={serverSettingsHeaderPreview.banner || bannerUrl(server()!)} hexColor={server()?.hexColor}>
         <HeaderContainer>
-          <Avatar animate url={props.headerPreviewDetails.avatar} server={server()} size={width() <= 1100 ? 70 : 100} class={avatarStyles} />
+          <Avatar animate url={serverSettingsHeaderPreview.avatar} server={server()} size={width() <= 1100 ? 70 : 100} class={avatarStyles} />
           <DetailsContainer>
             <FlexRow gap={5}>
-              <Text>{props.headerPreviewDetails.name || server()!.name}</Text>
+              <Text>{serverSettingsHeaderPreview.name || server()!.name}</Text>
               <Show when={server()?.verified}><ServerVerifiedIcon /></Show>
             </FlexRow>
             <Text size={14} opacity={0.8}>{t('servers.settings.header.serverMemberCount', { count: serverMembersCount() })}</Text>

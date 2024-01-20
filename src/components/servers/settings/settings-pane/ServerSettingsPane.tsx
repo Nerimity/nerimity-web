@@ -1,5 +1,5 @@
 import serverSettings from '@/common/ServerSettings';
-import { Route, Routes, useParams } from 'solid-navigator';
+import { Outlet, useParams } from 'solid-navigator';
 import {createSignal, For, Show } from 'solid-js';
 import ServerSettingsHeader from './ServerSettingsHeader';
 import useStore from '@/chat-api/store/useStore';
@@ -18,12 +18,19 @@ const SettingsPaneContainer = styled("div")`
   align-self: center;
 `;
 
+
+interface ServerSettingsHeaderPreview {
+  name?: string;
+  avatar?: any;
+  banner?: string;
+}
+
+export const [serverSettingsHeaderPreview, setServerSettingsHeaderPreview] = createStore<ServerSettingsHeaderPreview>({});
+
 export default function ServerSettingsPane() {
   const [t] = useTransContext();
   const params = useParams();
   const {servers} = useStore();
-
-  const [updateHeader, setUpdateHeader] = createStore<{name?: string, avatar?: any, banner?: string}>({});
 
 
   const server = () => servers.get(params.serverId);
@@ -31,20 +38,23 @@ export default function ServerSettingsPane() {
   return (
     <Show when={server()}>
       <SettingsPaneContainer>
-        <ServerSettingsHeader headerPreviewDetails={updateHeader}  />
-        <For each={serverSettings}>
-          {setting => (
-            <Routes>
-              {setting.path && <Route path={`/${setting.path}`} component={() => (
-                <>
-                  {/* <Text style={{"margin-left": "10px"}}  size={24}>{t(setting.name)}</Text> */}
-                  <setting.element updateHeader={setUpdateHeader} />
-                </>
-              )} />}
-            </Routes>
-          )}
-        </For>
+        <ServerSettingsHeader  />
+        <>
+        <Outlet name="settingsPane" />
+        </>
       </SettingsPaneContainer>
     </Show>
   );
 }
+        // <For each={serverSettings}>
+        //   {setting => (
+        //     <Routes>
+        //       {setting.path && <Route path={`/${setting.path}`} component={() => (
+        //         <>
+        //           {/* <Text style={{"margin-left": "10px"}}  size={24}>{t(setting.name)}</Text> */}
+        //           <setting.element updateHeader={setUpdateHeader} />
+        //         </>
+        //       )} />}
+        //     </Routes>
+        //   )}
+        // </For>

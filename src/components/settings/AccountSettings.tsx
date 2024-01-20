@@ -1,4 +1,4 @@
-import { createEffect, createSignal, lazy, on, onCleanup, onMount, Setter, Show } from 'solid-js';
+import { createEffect, createSignal, lazy, onCleanup, onMount, Show } from 'solid-js';
 import useStore from '@/chat-api/store/useStore';
 import Input from '@/components/ui/input/Input';
 import Button from '@/components/ui/Button';
@@ -6,12 +6,11 @@ import { createUpdatedSignal } from '@/common/createUpdatedSignal';
 import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
 import Text from '@/components/ui/Text';
 import { css, styled } from 'solid-styled-components';
-import { deleteAccount, deleteDMChannelNotice, getDMChannelNotice, getUserDetailsRequest, sendEmailConfirmCode, updateDMChannelNotice, updateUser, UserDetails, verifyEmailConfirmCode } from '@/chat-api/services/UserService';
+import { deleteAccount, deleteDMChannelNotice, getDMChannelNotice, sendEmailConfirmCode, updateDMChannelNotice, updateUser, verifyEmailConfirmCode } from '@/chat-api/services/UserService';
 import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
 import { reconcile } from 'solid-js/store';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
-import { Route, Routes, useMatch } from 'solid-navigator';
 import { CustomLink } from '../ui/CustomLink';
 import { getStorageString, setStorageString, StorageKeys } from '@/common/localStorage';
 import socketClient from '@/chat-api/socketClient';
@@ -21,8 +20,8 @@ import useServers from '@/chat-api/store/useServers';
 import Modal from '../ui/modal/Modal';
 import { FlexColumn, FlexRow } from '../ui/Flexbox';
 import { Notice } from '../ui/Notice/Notice';
-import { getChannelNotice } from '@/chat-api/services/ChannelService';
 import { RawChannelNotice } from '@/chat-api/RawData';
+import { setSettingsHeaderPreview } from './SettingsPane';
 
 const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"))
 
@@ -32,9 +31,7 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-type UpdateHeader = Setter<{ username?: string, banner?: string; tag?: string, avatar?: any, avatarPoints?: number[] }>;
-
-export default function AccountSettings(props: { updateHeader: UpdateHeader }) {
+export default function AccountSettings() {
   const { header } = useStore();
 
   createEffect(() => {
@@ -45,26 +42,19 @@ export default function AccountSettings(props: { updateHeader: UpdateHeader }) {
   })
 
   onCleanup(() => {
-    props.updateHeader(reconcile({}));
+    setSettingsHeaderPreview(reconcile({}));
   })
 
-  const isProfilePage = useMatch(() => "app/settings/account/profile")
 
   return (
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t('settings.drawer.account')} href='../account' />
-        <Show when={isProfilePage()}>
-          <BreadcrumbItem title="Profile" />
-        </Show>
 
       </Breadcrumb>
 
-      <Routes>
-        <Route path="/" element={<EditAccountPage updateHeader={props.updateHeader} />} />
-        <Route path="/profile" element={<EditProfilePage />} />
-      </Routes>
+      <EditAccountPage />
     </Container>
   )
 }
@@ -82,7 +72,7 @@ const ChangePasswordButton = styled("button")`
   }
 `
 
-function EditAccountPage(props: { updateHeader: UpdateHeader }) {
+function EditAccountPage() {
   const { account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
@@ -146,7 +136,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
         setInputValue("avatar", '')
         setInputValue("avatarPoints", null)
         setInputValue("banner", '')
-        props.updateHeader(reconcile({}));
+        setSettingsHeaderPreview(reconcile({}));
       })
       .catch(err => {
         setError(err.message)
@@ -161,21 +151,21 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
 
   const onCropped = (points: [number, number, number]) => {
     setInputValue("avatarPoints", points);
-    props.updateHeader({ avatarPoints: points });
+    setSettingsHeaderPreview({ avatarPoints: points });
   }
 
   const onAvatarPick = (files: string[]) => {
     if (files[0]) {
       createPortal(close => <ImageCropModal close={close} image={files[0]} onCropped={onCropped} />)
       setInputValue("avatar", files[0])
-      props.updateHeader({ avatar: files[0] })
+      setSettingsHeaderPreview({ avatar: files[0] })
     }
   }
 
   const onBannerPick = (files: string[]) => {
     if (files[0]) {
       setInputValue("banner", files[0])
-      props.updateHeader({ banner: files[0] })
+      setSettingsHeaderPreview({ banner: files[0] })
 
     }
   }
@@ -208,7 +198,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
       <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick} />
         <Show when={inputValues().avatar}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); setInputValue("avatarPoints", null); props.updateHeader({ avatar: undefined, avatarPoints: undefined }); }} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); setInputValue("avatarPoints", null); setSettingsHeaderPreview({ avatar: undefined, avatarPoints: undefined }); }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
       </SettingsBlock>
@@ -216,7 +206,7 @@ function EditAccountPage(props: { updateHeader: UpdateHeader }) {
       <SettingsBlock icon='panorama' label='Banner' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick} />
         <Show when={inputValues().banner}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); props.updateHeader({ banner: undefined }); }} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); setSettingsHeaderPreview({ banner: undefined }); }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>
@@ -324,82 +314,6 @@ function DeleteAccountNoticeModal(props: {close():void}) {
   </Modal>
   )
 }
-
-
-
-
-const bioBlockStyles = css`
-  && {
-    height: initial;
-    min-height: initial;
-    align-items: start;
-    flex-direction: column;
-    flex: 0;
-    padding-top: 15px;
-    align-items: stretch;
-  }
-  .inputContainer {
-    margin-left: 35px;
-    margin-top: 5px;
-  }
-  textarea {
-    height: 100px;
-  }
-`;
-
-function EditProfilePage() {
-  const { account } = useStore();
-  const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
-  const [error, setError] = createSignal<null | string>(null);
-  const [requestSent, setRequestSent] = createSignal(false);
-
-  const defaultInput = () => ({
-    bio: userDetails()?.profile?.bio || '',
-  })
-
-  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
-
-  createEffect(on(account.user, (user) => {
-    if (!user) return;
-    getUserDetailsRequest(account.user()?.id).then(setUserDetails)
-  }))
-
-  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
-
-  const onSaveButtonClicked = async () => {
-    if (requestSent()) return;
-    setRequestSent(true);
-    setError(null);
-    const values = updatedInputValues();
-    await updateUser({
-      bio: values.bio?.trim() || null
-    })
-      .then(() => {
-        setUserDetails(() => ({ ...userDetails()!, profile: { bio: values.bio } }))
-      })
-      .catch(err => {
-        setError(err.message)
-      })
-      .finally(() => setRequestSent(false))
-  }
-
-  return (
-    <>
-      <SettingsBlock icon='info' label='Bio' class={bioBlockStyles} description='Multiline and markup support'>
-        <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({inputValues().bio.length} / 1000)</Text>
-        <Input class='inputContainer' type='textarea' value={inputValues().bio} onText={(v) => setInputValue('bio', v)} />
-      </SettingsBlock>
-      <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
-      <Show when={Object.keys(updatedInputValues()).length}>
-        <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
-      </Show>
-    </>
-  )
-}
-
-
-
-
 
 const NoticeBlockStyle = css`
   && {
