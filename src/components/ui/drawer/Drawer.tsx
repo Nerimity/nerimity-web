@@ -39,11 +39,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const {width, isMobileWidth} = useWindowProperties();
   const LeftDrawer = children(() => props.LeftDrawer())
   const RightDrawer = children(() => props.RightDrawer())
+
+  const LeftDrawerComponent = matchComponent(() => "leftDrawer")
+  const RightDrawerComponent = matchComponent(() => "rightDrawer")
   
   
   
-  const hasLeftDrawer = matchComponent(() => "leftDrawer");
-  const hasRightDrawer = matchComponent(() => "rightDrawer");
+  const hasLeftDrawer = createMemo(() => !!LeftDrawerComponent());
+  const hasRightDrawer = createMemo(() => !!RightDrawerComponent());
 
 
   let transformString: string;
