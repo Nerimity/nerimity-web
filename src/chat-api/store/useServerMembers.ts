@@ -29,7 +29,6 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
 
 const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
 
-let rolesCache: (() => (ServerRole | undefined)[]) | null = null;
 
 const set = (member: RawServerMember) => {
   const users = useUsers();
@@ -52,20 +51,12 @@ const set = (member: RawServerMember) => {
       setMember(this.serverId, this.userId, updated);
     },
     get roles(){
+      const {serverRoles} = useStore();
       const roleIds = () => this.roleIds;
 
-      if (rolesCache) return rolesCache
-
-      rolesCache = runWithContext(() => {
-        return mapArray(roleIds, id => {
-          console.log("ran")
-          const {serverRoles} = useStore();
-          return serverRoles.get(member.serverId, id);
-        }) 
-      })!
-
-
-      return rolesCache!;      
+      return (() => roleIds().map(id => {
+        return serverRoles.get(member.serverId, id);
+      })) as () => (ServerRole | undefined)[]
     },
     hasRole(roleId) {
       const servers = useServers();
