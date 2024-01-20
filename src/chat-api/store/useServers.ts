@@ -25,45 +25,42 @@ export const bannerUrl = (item: {banner?: string}): string | null => item?.banne
 
 
 const set = (server: RawServer) => 
-  setServers({
-    ...servers,
-    [server.id]: {
-      ...server,
-      get hasNotifications() {
-        const channels = useChannels();
+  setServers(server.id, {
+    ...server,
+    get hasNotifications() {
+      const channels = useChannels();
 
-        const account = useAccount();
-        const notificationPingMode = account.getServerSettings(this.id)?.notificationPingMode;
-        if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
-        
-        return channels.getChannelsByServerId(server.id).some(channel => {
-          const hasNotification = channel!.hasNotifications;
-          if (hasNotification !== 'mention' && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
-          return hasNotification && channel?.type === ChannelType.SERVER_TEXT
-        })
-      },
-      get mentionCount() {
-        const mention = useMention();
-        let count = 0;
-        const mentions = mention.array().filter(mention => mention!.serverId === server.id);
-        for (let i = 0; i < mentions.length; i++) {
-          const mention = mentions[i];
-          count += mention?.count || 0
-        }
-        return count;
-      },
-      update(update) {
-        setServers(this.id, update);
-      },
-      async leave() {
-        return leaveServer(server.id);
-      },
-      async delete() {
-        return deleteServer(server.id);
-      },
-      avatarUrl(){
-        return this?.avatar ? env.NERIMITY_CDN + this?.avatar : null;
+      const account = useAccount();
+      const notificationPingMode = account.getServerSettings(this.id)?.notificationPingMode;
+      if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
+      
+      return channels.getChannelsByServerId(server.id).some(channel => {
+        const hasNotification = channel!.hasNotifications;
+        if (hasNotification !== 'mention' && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
+        return hasNotification && channel?.type === ChannelType.SERVER_TEXT
+      })
+    },
+    get mentionCount() {
+      const mention = useMention();
+      let count = 0;
+      const mentions = mention.array().filter(mention => mention!.serverId === server.id);
+      for (let i = 0; i < mentions.length; i++) {
+        const mention = mentions[i];
+        count += mention?.count || 0
       }
+      return count;
+    },
+    update(update) {
+      setServers(this.id, update);
+    },
+    async leave() {
+      return leaveServer(server.id);
+    },
+    async delete() {
+      return deleteServer(server.id);
+    },
+    avatarUrl(){
+      return this?.avatar ? env.NERIMITY_CDN + this?.avatar : null;
     }
   });
 

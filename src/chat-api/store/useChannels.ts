@@ -44,78 +44,75 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
   const serverMembers = useServerMembers();
   const account = useAccount();
 
-  setChannels({
-    ...channels,
-    [channel.id]: {
-      ...channel,
-      get recipient(): User {
-        return users.get(this.recipientId!);
-      },
-      get hasNotifications() {
-        const isAdminChannel = () => hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+  setChannels(channel.id, {
+    ...channel,
+    get recipient(): User {
+      return users.get(this.recipientId!);
+    },
+    get hasNotifications() {
+      const isAdminChannel = () => hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
-        if (this.serverId && isAdminChannel()) {
-          const member = serverMembers.get(this.serverId, account.user()?.id!);
-          const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN) || member?.amIServerCreator();
-          if (!hasAdminPermission) return false;
-        }
-
-        const {mentions} = useStore();
-        const hasMentions = mentions.get(channel.id)?.count;
-
-        if (hasMentions) return 'mention';
-
-        const lastMessagedAt = this.lastMessagedAt! || 0;
-        const lastSeenAt = this.lastSeen! || 0;
-        if (!lastSeenAt) return true;
-        return lastMessagedAt > lastSeenAt;
-      },
-      get permissionList () {
-        const permissions = this.permissions || 0;
-        return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
-      },
-      get mentionCount() {
-        const mention = useMention();
-        const count = mention.get(channel.id)?.count || 0
-
-        return count;
-      },
-      updateLastSeen(timestamp?: number) {
-        setChannels(this.id, "lastSeen", timestamp);
-      },
-      updateLastMessaged(timestamp?: number) {
-        setChannels(this.id, "lastMessagedAt", timestamp);
-      },
-      dismissNotification(force = false) {
-        if (force) return dismissChannelNotification(channel.id);
-        const {hasFocus} = useWindowProperties();
-        if (!hasFocus()) return;
-        if (!this.hasNotifications) return;
-        dismissChannelNotification(channel.id);
-      },
-      setRecipientId(userId: string) {
-        setChannels(this.id, "recipientId", userId);
-      },
-      setCallJoinedAt(joinedAt) {
-        setChannels(this.id, "callJoinedAt", joinedAt);
-      },
-      update(update) {
-        setChannels(this.id, update);
-      },
-      joinCall() {
-        const {setCurrentVoiceChannelId} = useVoiceUsers();
-        postJoinVoice(this.id, socketClient.id()).then(() => {
-          setCurrentVoiceChannelId(this.id);
-        })
-      },
-      leaveCall() {
-        const {setCurrentVoiceChannelId} = useVoiceUsers();
-        postLeaveVoice(this.id).then(() => {
-          setCurrentVoiceChannelId(null);
-        })
+      if (this.serverId && isAdminChannel()) {
+        const member = serverMembers.get(this.serverId, account.user()?.id!);
+        const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN) || member?.amIServerCreator();
+        if (!hasAdminPermission) return false;
       }
+
+      const {mentions} = useStore();
+      const hasMentions = mentions.get(channel.id)?.count;
+
+      if (hasMentions) return 'mention';
+
+      const lastMessagedAt = this.lastMessagedAt! || 0;
+      const lastSeenAt = this.lastSeen! || 0;
+      if (!lastSeenAt) return true;
+      return lastMessagedAt > lastSeenAt;
+    },
+    get permissionList () {
+      const permissions = this.permissions || 0;
+      return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
+    },
+    get mentionCount() {
+      const mention = useMention();
+      const count = mention.get(channel.id)?.count || 0
+
+      return count;
+    },
+    updateLastSeen(timestamp?: number) {
+      setChannels(this.id, "lastSeen", timestamp);
+    },
+    updateLastMessaged(timestamp?: number) {
+      setChannels(this.id, "lastMessagedAt", timestamp);
+    },
+    dismissNotification(force = false) {
+      if (force) return dismissChannelNotification(channel.id);
+      const {hasFocus} = useWindowProperties();
+      if (!hasFocus()) return;
+      if (!this.hasNotifications) return;
+      dismissChannelNotification(channel.id);
+    },
+    setRecipientId(userId: string) {
+      setChannels(this.id, "recipientId", userId);
+    },
+    setCallJoinedAt(joinedAt) {
+      setChannels(this.id, "callJoinedAt", joinedAt);
+    },
+    update(update) {
+      setChannels(this.id, update);
+    },
+    joinCall() {
+      const {setCurrentVoiceChannelId} = useVoiceUsers();
+      postJoinVoice(this.id, socketClient.id()).then(() => {
+        setCurrentVoiceChannelId(this.id);
+      })
+    },
+    leaveCall() {
+      const {setCurrentVoiceChannelId} = useVoiceUsers();
+      postLeaveVoice(this.id).then(() => {
+        setCurrentVoiceChannelId(null);
+      })
     }
-  });
+  }); 
 }
 
 

@@ -41,7 +41,7 @@ const set = (member: RawServerMember) => {
   let topRole: Accessor<any>;
   let unhiddenRole: Accessor<any>;
   let permissions: Accessor<any>;
-  setMember(member.serverId, {[member.user.id]: {
+  setMember(member.serverId, member.user.id, {
     ...member,
     userId: member.user.id,
     get user() {
@@ -126,7 +126,7 @@ const set = (member: RawServerMember) => {
       });
       return unhiddenRole();
     }
-  }});
+  });
 
 
 }

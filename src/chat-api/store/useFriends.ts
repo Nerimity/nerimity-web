@@ -21,7 +21,7 @@ const set = (friend: RawFriend) => {
 
   users.set(friend.recipient);
 
-  setFriends({[friend.recipient.id]: {
+  setFriends(friend.recipient.id, {
     ...friend, 
     recipientId: friend.recipient.id,
     get recipient() {return users.get(this.recipientId)},
@@ -33,7 +33,7 @@ const set = (friend: RawFriend) => {
       await removeFriend({friendId: this.recipientId});
       setFriends({[this.recipientId]: undefined})
     }
-  }});
+  });
 }
 
 const get = (userId: string) => friends[userId]

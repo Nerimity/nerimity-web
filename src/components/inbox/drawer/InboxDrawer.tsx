@@ -12,6 +12,7 @@ import {useCustomPortal} from '@/components/ui/custom-portal/CustomPortal';
 import AddFriendModal from './add-friend/AddFriendModal';
 import {useTransContext} from '@mbarzda/solid-i18next';
 import InVoiceActions from '@/components/InVoiceActions';
+import { Delay } from '@/common/Delay';
 
 function Header(props: { selectedIndex: number, onTabClick: (index: number) => void }) {
   const { friends, inbox } = useStore();
@@ -86,8 +87,12 @@ const InboxDrawer = () => {
     <div class={styles.inboxDrawer}>
       <Header selectedIndex={selectedIndex()} onTabClick={onTabClick} />
       <div class={styles.list}>
-        {selectedIndex() === 0 && <InboxDrawerTab />}
-        {selectedIndex() === 1 && <InboxDrawerFriends />}
+        <Delay>
+          <>
+            {selectedIndex() === 0 && <InboxDrawerTab />}
+            {selectedIndex() === 1 && <InboxDrawerFriends />}
+          </>
+        </Delay>
       </div>
 
       <div class={styles.items}>

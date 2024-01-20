@@ -20,12 +20,12 @@ const set = (item: RawInboxWithoutChannel) => {
   user.set(item.recipient);
   channel.setRecipientId(item.recipient.id);
   channel.recipient?.setInboxChannelId(item.channelId);
-  setInbox({[item.channelId]: {
+  setInbox(item.channelId, {
     ...item,
     get channel() {
       return channels.get(item.channelId)!
     },
-  }});
+  });
 }
 
 const removeInbox = (channelId: string) => {

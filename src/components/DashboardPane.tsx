@@ -16,6 +16,7 @@ import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Input from "./ui/input/Input";
 import ItemContainer from "./ui/Item";
 import Text from "./ui/Text";
+import { Delay } from "@/common/Delay";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -140,13 +141,17 @@ function PostsContainer() {
         </ItemContainer>
 
       </FlexRow>
-      <Show when={selectedTab() === "FEED"}>
-        <PostsArea showFeed style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
-      </Show>
-      <Show when={selectedTab() === "DISCOVER"}>
-        <PostsArea showDiscover style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
-      </Show>
-      <Show when={selectedTab() === "NOTIFICATIONS"}><PostNotificationsArea style={{ "margin-left": "5px", "margin-right": "5px" }} /></Show>
+      <Delay>
+        <>
+          <Show when={selectedTab() === "FEED"}>
+            <PostsArea showFeed style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
+          </Show>
+          <Show when={selectedTab() === "DISCOVER"}>
+            <PostsArea showDiscover style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
+          </Show>
+          <Show when={selectedTab() === "NOTIFICATIONS"}><PostNotificationsArea style={{ "margin-left": "5px", "margin-right": "5px" }} /></Show>
+        </>
+      </Delay>
     </FlexColumn>
   )
 

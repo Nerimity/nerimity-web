@@ -36,6 +36,7 @@ import { emitScrollToMessage } from '@/common/GlobalEvents';
 import { Skeleton } from '../ui/skeleton/Skeleton';
 import { useDrawer } from '../ui/drawer/Drawer';
 import { ProfileFlyout } from '../floating-profile/FloatingProfile';
+import { Delay } from '@/common/Delay';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -318,18 +319,22 @@ const ServerDrawer = () => {
   const offlineMembers = createMemo(() => members().filter(member => !member?.user?.presence?.status))
 
   return (
-    <Show when={server()} keyed={server()?.id}>
-      <Text style={{ "margin-left": "10px" }}>Members ({members().length})</Text>
-      <For each={roleMembers()}>
-        {item => (
-          <Show when={!item.role!.hideRole && item.members().length}>
-            <RoleItem members={item.members().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName={item.role?.name!} />
-          </Show>
-        )}
-      </For>
+    <Show when={server()?.id} keyed={true}>
+      <Delay ms={10}>
+        <>
+          <Text style={{ "margin-left": "10px" }}>Members ({members().length})</Text>
+          <For each={roleMembers()}>
+            {item => (
+              <Show when={!item.role!.hideRole && item.members().length}>
+                <RoleItem members={item.members().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName={item.role?.name!} />
+              </Show>
+            )}
+          </For>
 
-      {/* Offline */}
-      <RoleItem members={offlineMembers().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName="Offline" />
+          {/* Offline */}
+          <RoleItem members={offlineMembers().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName="Offline" />
+        </>
+      </Delay>
 
     </Show>
   )
