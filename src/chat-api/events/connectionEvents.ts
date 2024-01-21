@@ -82,6 +82,9 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   batch(() => {
     users.reset();
+    channels.reset();
+    serverMembers.reset();
+
     saveCache(LocalCacheKey.Account, payload.user);
 
     //emitNotificationDismiss

@@ -1,7 +1,7 @@
 import RouterEndpoints from '@/common/RouterEndpoints';
 import { runWithContext } from '@/common/runWithContext';
 import { batch } from 'solid-js';
-import {createStore} from 'solid-js/store';
+import {createStore, reconcile} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import {dismissChannelNotification} from '../emits/userEmits';
 import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIONS } from '../Bitwise';
@@ -175,8 +175,14 @@ const removeAllServerChannels = (serverId: string) => {
 }
 
 
+
+
+const reset = () => {
+  setChannels(reconcile({}));
+}
 export default function useChannels() {
   return {
+    reset,
     array,
     getChannelsByServerId,
     getSortedChannelsByServerId,

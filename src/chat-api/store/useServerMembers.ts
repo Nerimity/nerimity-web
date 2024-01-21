@@ -149,8 +149,13 @@ const removeAllServerMembers = (serverId: string) => {
 const array = (serverId: string) => Object.values(serverMembers?.[serverId] || []);
 const get = (serverId: string, userId: string) => serverMembers[serverId]?.[userId];
 
+const reset = () => {
+  setMember(reconcile({}));
+}
+
 export default function useServerMembers() {
   return {
+    reset,
     array,
     set,
     remove,
