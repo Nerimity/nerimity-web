@@ -78,7 +78,7 @@ function EmojiDetailsModal (props: {close: () => void, name: string, url: string
     <Modal close={props.close} icon="face" title={props.custom ? "Custom Emoji" : "Emoji"}>
       <EmojiDetailsContainer>
         <MainEmojiContainer>
-          <img loading="lazy" style={{width: "60px", height: "60px", "border-radius": "6px"}} src={props.url + (props.animated && !hasFocus() ? '?type=webp' : '')} alt={props.name} title={props.name} />
+          <img loading="lazy" style={{"object-fit": "contain", width: "60px", height: "60px", "border-radius": "6px"}} src={props.url + (props.animated && !hasFocus() ? '?type=webp' : '')} alt={props.name} title={props.name} />
           <EmojiNameContainer>
             <Text size={18}>:<Text size={18} color="var(--primary-color)">{props.name}</Text>:</Text>
             <Text size={12} opacity={0.6}>{props.custom ? "Custom Emoji" : "Emoji"}</Text>
