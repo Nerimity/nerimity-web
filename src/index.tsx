@@ -18,6 +18,7 @@ import useStore from "./chat-api/store/useStore";
 import ModerationPane from "./components/moderation-pane/ModerationPane";
 import TicketsPage from "@/components/tickets/TicketsPage";
 import { TicketPage } from "./components/settings/TicketSettings";
+import { StoreProvider } from "./store/store";
 
 // Drawers
 const SettingsDrawer = lazy(() => import("@/components/settings/SettingsDrawer"));
@@ -103,10 +104,12 @@ const Root = () => {
         resources: { en_gb: { translation: en } },
       }}
     >
-      <CustomPortalProvider>
-        <App/>
-        <Outlet/>
-      </CustomPortalProvider>
+      <StoreProvider>
+        <CustomPortalProvider>
+          <App/>
+          <Outlet/>
+        </CustomPortalProvider>
+      </StoreProvider>
     </TransProvider>
   );
 };

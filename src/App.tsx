@@ -10,11 +10,11 @@ import { ElectronTitleBar } from './components/ElectronTitleBar';
 import { useWindowProperties } from './common/useWindowProperties';
 import styles from './App.module.scss';
 import { ConnectingStatusHeader } from './components/connecting-status-header/ConnectingStatusHeader';
+import { useStore } from './store';
 
 
 
 export default function App() {
-
   const [, actions] = useTransContext();
   onMount(() => {
     document.title = env.APP_NAME
