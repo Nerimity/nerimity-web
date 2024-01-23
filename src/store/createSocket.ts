@@ -13,8 +13,8 @@ import { registerUserEvents } from "./events/userEvents"
 
 const createSocket = (state: () => StoreContext) => {
 
-  registerUserEvents(socketClient.socket, state);
   registerConnectionEvents(socketClient.socket, state);
+  registerUserEvents(socketClient.socket, state);
 
   const dispose = () => {
     console.warn("TODO: Handle disposing socket events.") 
