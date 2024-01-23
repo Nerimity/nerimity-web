@@ -22,8 +22,8 @@ export default function ContextMenuServer (props: Props) {
   const isServerCreator = () => account.user()?.id === server()?.createdById;
 
   const onLeaveClicked = async () => {
-    navigate(RouterEndpoints.INBOX());
     await server()?.leave();
+    navigate(RouterEndpoints.INBOX());
   }
 
   const member = () => serverMembers.get(props.serverId!, account.user()?.id!);
