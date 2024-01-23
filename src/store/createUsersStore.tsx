@@ -56,10 +56,12 @@ const actions = {
   UPDATE_USER_PRESENCE
 }
 
-const getUser = (id: string) => users[id];
 
 export const createUsersStore = (state: () => StoreContext) => {  
   const dispatch = createDispatcher(actions, state);
+  
+  const getUser = (id: string) => users[id];
+  
 
   
   return {

@@ -39,7 +39,7 @@ const actions = {
 }
 
 
-const getSelfUser = () => account.user;
+const getLoggedInUser = () => account.user;
 
 
 export const createAccountStore = (state: () => StoreContext) => {  
@@ -48,6 +48,6 @@ export const createAccountStore = (state: () => StoreContext) => {
   
   return {
     dispatch,
-    getSelfUser
+    getLoggedInUser
   }
 }
