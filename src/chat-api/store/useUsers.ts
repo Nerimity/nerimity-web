@@ -74,7 +74,7 @@ const openDM = async (userId: string) => runWithContext(async () =>{
   const channels = useChannels();
   const user = () => get(userId);
   const inboxItem = () => inbox.get(user()?.inboxChannelId!);
-    // check if dm already exists
+  // check if dm already exists
   if (!inboxItem()) {
     const rawInbox = await openDMChannelRequest(userId);
     channels.set(rawInbox.channel);

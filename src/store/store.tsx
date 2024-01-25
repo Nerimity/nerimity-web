@@ -1,8 +1,5 @@
-import { JSX, batch, createContext, onCleanup, useContext } from "solid-js";
+import { JSX, createContext, onCleanup, useContext } from "solid-js";
 import { createUsersStore } from "./createUsersStore";
-import socketClient from "@/chat-api/socketClient";
-import { ClientEvents, ServerEvents } from "@/chat-api/EventNames";
-import { AuthenticatedPayload } from "@/chat-api/events/connectionEventTypes";
 import { createSocket } from "./createSocket";
 import { createAccountStore } from "./createAccountStore";
 

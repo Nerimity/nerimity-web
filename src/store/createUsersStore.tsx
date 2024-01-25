@@ -1,4 +1,4 @@
-import { ActivityStatus, RawPresence, RawUser } from "@/chat-api/RawData";
+import { ActivityStatus, RawUser } from "@/chat-api/RawData";
 import { StoreContext } from "./store";
 import { createDispatcher } from "./createDispatcher";
 import { batch } from "solid-js";
