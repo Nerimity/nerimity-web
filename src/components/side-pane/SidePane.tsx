@@ -5,7 +5,7 @@ import RouterEndpoints from '../../common/RouterEndpoints';
 import { classNames, conditionalClass } from '@/common/classNames';
 import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
 import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
-import useStore from '../../chat-api/store/useStore';
+import useOldStore from '../../chat-api/store/useStore';
 import { A, useLocation, useParams, useMatch } from 'solid-navigator';
 import { FriendStatus, TicketStatus } from '../../chat-api/RawData';
 import Modal from '@/components/ui/modal/Modal';
@@ -39,6 +39,7 @@ import { useRegisterSW } from 'virtual:pwa-register/solid'
 import Input from '../ui/input/Input';
 import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
 import { Skeleton } from '../ui/skeleton/Skeleton';
+import { useStore } from '@/store';
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -83,7 +84,7 @@ function ExploreItem() {
 }
 
 function InboxItem() {
-  const { inbox, friends, servers } = useStore();
+  const { inbox, friends, servers } = useOldStore();
   const location = useLocation();
   const isSelected = () => {
     if (location.pathname === '/app') return true;
@@ -147,7 +148,7 @@ function UpdateItem() {
   )
 }
 function ModerationItem() {
-  const { account, tickets } = useStore();
+  const { account, tickets } = useOldStore();
   const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
 
   const selected = useMatch(() => "/app/moderation/*");
@@ -169,7 +170,7 @@ function ModerationItem() {
 }
 
 function SettingsItem() {
-  const { tickets } = useStore();
+  const { tickets } = useOldStore();
 
   createEffect(() => {
     tickets.updateTicketNotification();
@@ -190,7 +191,7 @@ function SettingsItem() {
 }
 
 const UserItem = () => {
-  const { account, users } = useStore();
+  const { account, users } = useOldStore();
   const { createPortal } = useCustomPortal();
   const {currentPage} = useDrawer();
   const [hovered, setHovered] = createSignal(false)
@@ -303,7 +304,7 @@ const DetailsContainer = styled(FlexColumn)`
 
 
 function FloatingUserModal(props: { close(): void, currentDrawerPage?: number }) {
-  const { account, users } = useStore();
+  const { account, users } = useOldStore();
   const { isMobileWidth, width } = useWindowProperties();
 
   const userId = () => account.user()?.id;
@@ -374,7 +375,7 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
 }
 
 function CustomStatus() {
-  const {account, users} = useStore();
+  const {account, users} = useOldStore();
   const [customStatus, setCustomStatus] = createSignal("");
 
   createEffect(on(() => account.user()?.customStatus, (custom) => {
@@ -393,7 +394,7 @@ function CustomStatus() {
 }
 
 function PresenceDropDown() {
-  const { account, users } = useStore();
+  const { account, users } = useOldStore();
   const user = () => users.get(account.user()?.id!);
 
   const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0)
@@ -443,7 +444,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 }
 
 const ServerList = () => {
-  const { servers, account } = useStore();
+  const store = useStore();
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>();
   const [contextServerId, setContextServerId] = createSignal<string | undefined>();
 
@@ -460,8 +461,8 @@ const ServerList = () => {
 
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
-    <Show when={account.lastAuthenticatedAt()} fallback={<ServerListSkeleton/>}>
-      <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
+    <Show when={store.socket.details.lastAuthenticatedAt} fallback={<ServerListSkeleton/>}>
+      <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={store.servers.orderedList()}>
         {server => <ServerItem
           server={server!}
           onContextMenu={e => onContextMenu(e, server!.id)}

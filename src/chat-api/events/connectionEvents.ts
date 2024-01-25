@@ -105,10 +105,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
 
 
-    for (let i = 0; i < payload.servers.length; i++) {
-      const server = payload.servers[i];
-      servers.set(server);
-    }
+    // for (let i = 0; i < payload.servers.length; i++) {
+    //   const server = payload.servers[i];
+    //   servers.set(server);
+    // }
 
 
     for (let i = 0; i < payload.channels.length; i++) {
@@ -149,7 +149,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
 
 
-    for (let channelId in payload.lastSeenServerChannelIds) {
+    for (const channelId in payload.lastSeenServerChannelIds) {
       const timestamp = payload.lastSeenServerChannelIds[channelId];
       channels.get(channelId)!.updateLastSeen(timestamp);
     }

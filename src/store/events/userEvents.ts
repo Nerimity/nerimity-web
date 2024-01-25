@@ -1,5 +1,5 @@
 import { Socket } from "socket.io-client";
-import { StoreContext } from "../store";
+import { ContextStore } from "../store";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { ActivityStatus } from "@/chat-api/RawData";
 import { UserStatus } from "../createUsersStore";
@@ -13,17 +13,17 @@ interface UserPresenceUpdatePayload {
   activity?: ActivityStatus
 }
 
-const registerUserEvents = (socket: Socket, state: () => StoreContext) => {
+const registerUserEvents = (socket: Socket, state: ContextStore) => {
   const onUserPresenceUpdate = (payload: UserPresenceUpdatePayload) => {
 
-    const loggedInUser = state().account.getLoggedInUser();
+    const loggedInUser = state.account.getLoggedInUser();
     const isLoggedInUser = loggedInUser?.id === payload.userId;
   
     if (isLoggedInUser) {
       handleLoggedInUserPresenceUpdate(payload, state);
     }
   
-    state().users.dispatch("UPDATE_USER_PRESENCE", {
+    state.users.dispatch("UPDATE_USER_PRESENCE", {
       id: payload.userId,
       update: {
         ...(payload.status !== undefined ? {status: payload.status} : undefined), 
@@ -33,9 +33,9 @@ const registerUserEvents = (socket: Socket, state: () => StoreContext) => {
     })
   }
 
-  const handleLoggedInUserPresenceUpdate = (payload: UserPresenceUpdatePayload, state: () => StoreContext) => {
+  const handleLoggedInUserPresenceUpdate = (payload: UserPresenceUpdatePayload, state: ContextStore) => {
     if (payload.status === undefined) return;
-    const user = state().users.get(payload.userId);
+    const user = state.users.get(payload.userId);
     const wasOffline = !user?.presence?.status && payload.status !== UserStatus.OFFLINE;
     if (!wasOffline) return;
   

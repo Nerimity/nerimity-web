@@ -1,5 +1,5 @@
 import { ActivityStatus, RawUser } from "@/chat-api/RawData";
-import { StoreContext } from "./store";
+import { ContextStore } from "./store";
 import { createDispatcher } from "./createDispatcher";
 import { batch } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
@@ -31,16 +31,17 @@ const ADD_USER = (user: User) => {
   return true;
 }
 
-const ADD_USERS = (users: User[], state: () => StoreContext) => {
+const ADD_USERS = (users: User[]) => {
   batch(() => {
     for (let index = 0; index < users.length; index++) {
       const user = users[index];
-      state().users.dispatch("ADD_USER", user);
+      setUsers(user.id, reconcile(user));
     }
   })
 }
 
 const UPDATE_USER = (payload: {id: string, user: Partial<User>}) => {
+  if (!users[payload.id]) return;
   setUsers(payload.id, payload.user);
 }
 
@@ -57,12 +58,10 @@ const actions = {
 }
 
 
-export const createUsersStore = (state: () => StoreContext) => {  
+export const createUsersStore = (state: ContextStore) => {  
   const dispatch = createDispatcher(actions, state);
   
   const getUser = (id: string) => users[id];
-  
-
   
   return {
     dispatch,

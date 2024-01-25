@@ -1,53 +1,51 @@
-import { ActivityStatus, RawPresence, RawServerSettings, RawUser } from "@/chat-api/RawData";
-import { StoreContext } from "./store";
+import { RawServerSettings } from "@/chat-api/RawData";
+import { ContextStore } from "./store";
 import { createDispatcher } from "./createDispatcher";
-import { batch } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { SelfUser } from "@/chat-api/events/connectionEventTypes";
 
 
 interface Account {
   user: SelfUser | null,
-
-  socketId: string | null,
-  socketConnected: boolean,
-  socketAuthenticated: boolean,
-  authenticationError: {message: string, data: any} | null;
   serverSettings: Record<string, RawServerSettings>
-  lastAuthenticatedAt: null | number;
 }
 
 
 const [account, setAccount] = createStore<Account>({
   user: null,
-
-  socketId: null,
-  socketConnected: false,
-  socketAuthenticated: false,
-  authenticationError: null,
   serverSettings: {},
-  lastAuthenticatedAt: null
 });
 
 const UPDATE_ACCOUNT = (update: Partial<Account>) => {
   setAccount(update);
   return true;
 }
+const SET_SERVER_SETTINGS = (settings: RawServerSettings) => {
+  setAccount('serverSettings', settings.serverId, reconcile(settings));
+  return true;
+}
+
+const SET_SERVER_ORDER = (serverIds: string[]) => {
+  setAccount('user', 'orderedServerIds', reconcile(serverIds));
+}
 
 const actions = {
   UPDATE_ACCOUNT,
+  SET_SERVER_SETTINGS,
+  SET_SERVER_ORDER
 }
 
 
 const getLoggedInUser = () => account.user;
 
 
-export const createAccountStore = (state: () => StoreContext) => {  
+export const createAccountStore = (state: ContextStore) => {  
   const dispatch = createDispatcher(actions, state);
 
   
   return {
     dispatch,
+
     getLoggedInUser
   }
 }

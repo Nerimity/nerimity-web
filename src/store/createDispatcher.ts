@@ -1,6 +1,6 @@
-import { StoreContext } from "./store";
+import { ContextStore } from "./store";
 
-const createDispatcher = <T extends Record<string, any>>(actions: T, state: () => StoreContext) => {
+const createDispatcher = <T extends Record<string, any>>(actions: T, state: ContextStore) => {
 
   return <H extends keyof T>(name: H, payload: Parameters<T[H]>[0]) => {
     const action = actions[name];

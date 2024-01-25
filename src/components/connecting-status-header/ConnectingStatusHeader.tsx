@@ -1,13 +1,14 @@
 import styles from './ConnectingStatusHeader.module.scss';
-import useStore from "@/chat-api/store/useStore";
 import { classNames, conditionalClass } from '@/common/classNames';
 import { StorageKeys, getStorageString } from '@/common/localStorage';
 import { useWindowProperties } from '@/common/useWindowProperties';
 import { useMatch } from 'solid-navigator';
-import { createEffect, createSignal, on } from "solid-js"
+import { createEffect, createSignal } from "solid-js"
+import { useStore } from '@/store';
 
 export const ConnectingStatusHeader = () => {
-  const {account} = useStore();
+  const store = useStore();
+  const socketDetails = () => store.socket.details;
   const [status, setStatus] = createSignal<{color: string; text: string;} | null>(null)
   const {isMobileWidth} = useWindowProperties();
 
@@ -29,16 +30,16 @@ export const ConnectingStatusHeader = () => {
 
     window.clearInterval(interval)
 
-    if (account.authenticationError()) {
+    if (socketDetails().authenticationError) {
       setStatus({
         color: "var(--alert-color)",
-        text: account.authenticationError()?.message || "Authentication error",
+        text: socketDetails().authenticationError?.message || "Authentication error",
       })
       return;
     }
 
 
-    if (!account.isConnected()) {
+    if (!socketDetails().socketConnected) {
       setStatus({
         color: "var(--warn-color)",
         text: alreadyConnected ? "Reconnecting..." : "Connecting...",
@@ -48,7 +49,7 @@ export const ConnectingStatusHeader = () => {
 
     alreadyConnected = true;
 
-    if (!account.isAuthenticated()) {
+    if (!socketDetails().socketAuthenticated) {
       setStatus({
         color: "var(--warn-color)",
         text: "Authenticating...",
@@ -56,7 +57,7 @@ export const ConnectingStatusHeader = () => {
       return;
     }
 
-    if (account.isAuthenticated()) {
+    if (socketDetails().socketAuthenticated) {
       setStatus({
         color: "var(--success-color)",
         text: "Connected!",
