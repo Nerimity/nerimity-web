@@ -1,12 +1,13 @@
 import { Show, createEffect} from 'solid-js';
 import { styled } from 'solid-styled-components';
 
-import useStore from '@/chat-api/store/useStore';
+import useOldStore from '@/chat-api/store/useStore';
 import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
 import { t } from 'i18next';
 import SettingsBlock from '../ui/settings-block/SettingsBlock';
 import Button from '../ui/Button';
 import { createGoogleAccountLink, unlinkAccountWithGoogle } from '@/chat-api/services/UserService';
+import { useStore } from '@/store';
 
 const Container = styled("div")`
   display: flex;
@@ -16,7 +17,7 @@ const Container = styled("div")`
 `;
 
 export default function NotificationsSettings() {
-  const { header } = useStore();
+  const { header } = useOldStore();
 
   createEffect(() => {
     header.updateHeader({
@@ -49,8 +50,9 @@ function Connections() {
 }
 
 function GoogleLink() {
-  const {account} = useStore();
-  const isConnected = () => account.user()?.connections.find(c => c.provider === 'GOOGLE')
+  const store = useStore();
+  const loggedInUser = () => store.account.getLoggedInUser()
+  const isConnected = () => loggedInUser()?.connections.find(c => c.provider === 'GOOGLE')
 
   const linkGoogle = () => {
     createGoogleAccountLink().then(url => {

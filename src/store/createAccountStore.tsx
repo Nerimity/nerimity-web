@@ -1,7 +1,7 @@
-import { RawServerSettings } from "@/chat-api/RawData";
+import { RawServerSettings, RawUserConnection } from "@/chat-api/RawData";
 import { ContextStore } from "./store";
 import { createDispatcher } from "./createDispatcher";
-import { createStore, reconcile } from "solid-js/store";
+import { createStore, produce, reconcile } from "solid-js/store";
 import { SelfUser } from "@/chat-api/events/connectionEventTypes";
 
 
@@ -25,14 +25,29 @@ const SET_SERVER_SETTINGS = (settings: RawServerSettings) => {
   return true;
 }
 
+const UPDATE_SERVER_SETTINGS = (payload: {serverId: string, updated: Partial<RawServerSettings>}) => {
+  setAccount('serverSettings', payload.serverId, payload.updated);
+}
+
 const SET_SERVER_ORDER = (serverIds: string[]) => {
   setAccount('user', 'orderedServerIds', reconcile(serverIds));
+}
+
+const ADD_CONNECTION = (connection: RawUserConnection) => {
+  setAccount('user', 'connections', produce(c => c.push(connection)));
+}
+
+const REMOVE_CONNECTION = (connectionId: string) => {
+  setAccount('user', 'connections', reconcile(account.user?.connections.filter(c => c.id !== connectionId) || []));
 }
 
 const actions = {
   UPDATE_ACCOUNT,
   SET_SERVER_SETTINGS,
-  SET_SERVER_ORDER
+  SET_SERVER_ORDER,
+  UPDATE_SERVER_SETTINGS,
+  ADD_CONNECTION,
+  REMOVE_CONNECTION
 }
 
 

@@ -1,7 +1,7 @@
 import { Socket } from "socket.io-client";
 import { ContextStore } from "../store";
 import { ServerEvents } from "@/chat-api/EventNames";
-import { ActivityStatus } from "@/chat-api/RawData";
+import { ActivityStatus, RawServerSettings, RawUser, RawUserConnection } from "@/chat-api/RawData";
 import { UserStatus } from "../createUsersStore";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
 import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
@@ -14,13 +14,14 @@ interface UserPresenceUpdatePayload {
 }
 
 const registerUserEvents = (socket: Socket, state: ContextStore) => {
+
   const onUserPresenceUpdate = (payload: UserPresenceUpdatePayload) => {
 
     const loggedInUser = state.account.getLoggedInUser();
     const isLoggedInUser = loggedInUser?.id === payload.userId;
   
     if (isLoggedInUser) {
-      handleLoggedInUserPresenceUpdate(payload, state);
+      handleLoggedInUserPresenceUpdate(payload);
     }
   
     state.users.dispatch("UPDATE_USER_PRESENCE", {
@@ -33,7 +34,7 @@ const registerUserEvents = (socket: Socket, state: ContextStore) => {
     })
   }
 
-  const handleLoggedInUserPresenceUpdate = (payload: UserPresenceUpdatePayload, state: ContextStore) => {
+  const handleLoggedInUserPresenceUpdate = (payload: UserPresenceUpdatePayload) => {
     if (payload.status === undefined) return;
     const user = state.users.get(payload.userId);
     const wasOffline = !user?.presence?.status && payload.status !== UserStatus.OFFLINE;
@@ -43,8 +44,37 @@ const registerUserEvents = (socket: Socket, state: ContextStore) => {
     electronWindowAPI()?.restartActivityStatus(programs);
   }
 
-  socket.on(ServerEvents.USER_PRESENCE_UPDATE, onUserPresenceUpdate)
+  const onUserUpdated = (payload: Partial<RawUser>) => {
+    state.users.dispatch("UPDATE_USER", {
+      id: payload.id!,
+      user: payload
+    });
+  }
 
+  const onUserServerSettingsUpdate = (payload: {serverId: string, updated: Partial<RawServerSettings>}) => {
+    state.account.dispatch("UPDATE_SERVER_SETTINGS", {
+      serverId: payload.serverId,
+      updated: payload.updated
+    })
+  }
+
+
+  const onUserConnectionAdded = (payload: {connection: RawUserConnection}) => {
+    state.account.dispatch("ADD_CONNECTION", payload.connection);
+  }
+
+  const onUserConnectionRemoved = (payload: {connectionId: string}) => {
+    state.account.dispatch("REMOVE_CONNECTION", payload.connectionId);
+  }
+
+
+
+
+  socket.on(ServerEvents.USER_UPDATED, onUserUpdated);
+  socket.on(ServerEvents.USER_PRESENCE_UPDATE, onUserPresenceUpdate)
+  socket.on(ServerEvents.USER_SERVER_SETTINGS_UPDATE, onUserServerSettingsUpdate)
+  socket.on(ServerEvents.USER_CONNECTION_ADDED, onUserConnectionAdded)
+  socket.on(ServerEvents.USER_CONNECTION_REMOVED, onUserConnectionRemoved)
 
 };
 

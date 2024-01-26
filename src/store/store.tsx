@@ -3,6 +3,7 @@ import { createUsersStore } from "./createUsersStore";
 import { createSocket } from "./createSocket";
 import { createAccountStore } from "./createAccountStore";
 import { createServersStore } from "./createServersStore";
+import { createFriendsStore } from "./createFriendsStore";
 
 
 
@@ -13,6 +14,7 @@ export class ContextStore {
   socket: ReturnType<typeof createSocket>;
   account: ReturnType<typeof createAccountStore>;
   servers: ReturnType<typeof createServersStore>;
+  friends: ReturnType<typeof createFriendsStore>;
   constructor() {
     const [ready, setReady] = createSignal(false);
     this.ready = ready;
@@ -22,6 +24,7 @@ export class ContextStore {
     
     this.users = createUsersStore(this);
     this.servers = createServersStore(this);
+    this.friends = createFriendsStore(this);
     setReady(true);
   }
   dispose() {

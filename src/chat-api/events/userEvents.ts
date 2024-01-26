@@ -10,6 +10,7 @@ import useAccount from "../store/useAccount";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
 import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
 
+// migrated
 export function onUserPresenceUpdate(payload: { userId: string; status?: UserStatus, custom?: string; activity?: ActivityStatus}) {
   const users = useUsers();
   const account = useAccount();
@@ -43,6 +44,7 @@ export function onNotificationDismissed(payload: {channelId: string}) {
   
 }
 
+// migrated
 export function onUserUpdated(payload: Partial<SelfUser>) {
   const {account, users} = useStore();
   account.setUser(payload)
@@ -51,6 +53,8 @@ export function onUserUpdated(payload: Partial<SelfUser>) {
   user?.update(payload)
 }
 
+
+// migrated
 export function onUserServerSettingsUpdate(payload: {serverId: string, updated: Partial<RawServerSettings>}) {
   const {account} = useStore();
   account.setServerSettings(payload.serverId, payload.updated)
@@ -72,14 +76,14 @@ export function onUserUnblocked(payload: {userId: string}) {
   friends.delete(payload.userId);
 }
 
-
+// migrated
 export function onUserConnectionAdded (payload: {connection: RawUserConnection}) {
   const account = useAccount();
   account.setUser({
     connections: [...(account.user()?.connections || []), payload.connection]
   })
 }
-
+// migrated
 export function onUserConnectionRemoved (payload: {connectionId: string}) {
   const account = useAccount();
   account.setUser({connections: account.user()?.connections.filter(c => c.id !== payload.connectionId)})
