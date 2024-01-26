@@ -1,5 +1,6 @@
 .markup {
   white-space: pre-wrap;
+  line-height: 1.3;
 }
 
 .markup .bold {
@@ -124,21 +125,21 @@
 }
 
 .markup .spoiler {
-  position: relative;
-  display: inline-flex;
   overflow: hidden;
   border-radius: 3px;
 
-  &:not(.spoiled):after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  &:not(.spoiled) {
     background-color: #0e0f10;
+    color: transparent;
+    user-select: none;
     cursor: pointer;
-    z-index: 1;
+    border-radius: 4px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    &:hover {
+      background-color: #0e0f10b9;
+    }
+
   }
 }
 
