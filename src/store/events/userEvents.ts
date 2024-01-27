@@ -1,10 +1,11 @@
 import { Socket } from "socket.io-client";
 import { ContextStore } from "../store";
 import { ServerEvents } from "@/chat-api/EventNames";
-import { ActivityStatus, RawServerSettings, RawUser, RawUserConnection } from "@/chat-api/RawData";
+import { ActivityStatus, FriendStatus, RawServerSettings, RawUser, RawUserConnection } from "@/chat-api/RawData";
 import { UserStatus } from "../createUsersStore";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
 import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
+import { batch } from "solid-js";
 
 interface UserPresenceUpdatePayload { 
   userId: string; 
@@ -68,6 +69,26 @@ const registerUserEvents = (socket: Socket, state: ContextStore) => {
   }
 
 
+  const onUserBlocked = (payload: {user: RawUser}) => {
+    batch(() => {
+      state.users.dispatch("UPDATE_USER", {
+        id: payload.user.id,
+        user: payload.user
+      })
+      state.friends.dispatch("ADD_FRIEND", {
+        createdAt: Date.now(),
+        recipientId: payload.user.id,
+        userId: state.account.getLoggedInUser()?.id!,
+        status: FriendStatus.BLOCKED,
+      })
+    })
+  }
+
+  const onUserUnblocked = (payload: {userId: string}) => {
+    state.friends.dispatch("DELETE_FRIEND", payload.userId);
+  }
+
+
 
 
   socket.on(ServerEvents.USER_UPDATED, onUserUpdated);
@@ -75,6 +96,8 @@ const registerUserEvents = (socket: Socket, state: ContextStore) => {
   socket.on(ServerEvents.USER_SERVER_SETTINGS_UPDATE, onUserServerSettingsUpdate)
   socket.on(ServerEvents.USER_CONNECTION_ADDED, onUserConnectionAdded)
   socket.on(ServerEvents.USER_CONNECTION_REMOVED, onUserConnectionRemoved)
+  socket.on(ServerEvents.USER_BLOCKED, onUserBlocked)
+  socket.on(ServerEvents.USER_UNBLOCKED, onUserUnblocked)
 
 };
 

@@ -21,8 +21,19 @@ const SET_FRIENDS = (friends: Friend[]) => {
 
 }
 
+const ADD_FRIEND = (friend: Friend) => {
+  setFriends(friend.recipientId, friend);
+}
+
+const DELETE_FRIEND = (friendId: string) => {
+  setFriends(friendId, undefined as any);
+}
+
 const actions = {
-  SET_FRIENDS
+  SET_FRIENDS,
+  ADD_FRIEND,
+  DELETE_FRIEND
+
 }
 
 

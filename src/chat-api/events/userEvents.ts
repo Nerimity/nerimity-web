@@ -60,7 +60,7 @@ export function onUserServerSettingsUpdate(payload: {serverId: string, updated: 
   account.setServerSettings(payload.serverId, payload.updated)
 }
 
-
+// migrated
 export function onUserBlocked(payload: {user: RawUser}) {
   const account = useAccount();
   const friends = useFriends();
@@ -71,6 +71,8 @@ export function onUserBlocked(payload: {user: RawUser}) {
     status: FriendStatus.BLOCKED,
   })
 }
+
+// migrated
 export function onUserUnblocked(payload: {userId: string}) {
   const friends = useFriends();
   friends.delete(payload.userId);
