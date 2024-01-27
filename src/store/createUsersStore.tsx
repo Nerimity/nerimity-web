@@ -1,4 +1,4 @@
-import { ActivityStatus, RawUser } from "@/chat-api/RawData";
+import { ActivityStatus, RawPresence, RawUser } from "@/chat-api/RawData";
 import { ContextStore } from "./store";
 import { createDispatcher } from "./createDispatcher";
 import { batch } from "solid-js";
@@ -50,11 +50,23 @@ const UPDATE_USER_PRESENCE = (payload: {id: string, update: Partial<Presence>}) 
   setUsers(payload.id, "presence", payload.update);
 }
 
+const SET_ALL_USER_PRESENCES = (presences: RawPresence[]) => {
+  batch(() => {
+    for (let index = 0; index < presences.length; index++) {
+      const {userId, ...presence} = presences[index];
+      if (!users[userId]) continue;
+      setUsers(userId, "presence", reconcile(presence));
+    }
+  })
+  
+}
+
 const actions = {
   ADD_USER,
   ADD_USERS,
   UPDATE_USER,
-  UPDATE_USER_PRESENCE
+  UPDATE_USER_PRESENCE,
+  SET_ALL_USER_PRESENCES
 }
 
 

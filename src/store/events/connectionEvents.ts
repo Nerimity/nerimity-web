@@ -33,10 +33,12 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     const userPresences = payload.presences
     const servers = payload.servers;
     const serverSettings = payload.serverSettings;
+    const friends = payload.friends;
   
     state.users.dispatch("ADD_USER", {...payload.user});
-    state.account.dispatch("UPDATE_ACCOUNT", {
+    state.account.dispatch("SET_ACCOUNT", {
       user: {...payload.user},
+      serverSettings: {}
     })
 
     state.socket.dispatch("UPDATE_SOCKET_DETAILS", {
@@ -47,11 +49,7 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     })
 
 
-    for (let i = 0; i < serverSettings.length; i++) {
-      const serverSetting = serverSettings[i];
-      state.account.dispatch("SET_SERVER_SETTINGS", serverSetting)
-    }
-
+    state.account.dispatch("SET_ALL_SERVER_SETTINGS", serverSettings)
 
 
     state.servers.dispatch("ADD_SERVERS", servers);
@@ -59,17 +57,12 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
 
     const serverUsers = serverMembers.map(serverMember => serverMember.user);
     state.users.dispatch("ADD_USERS", serverUsers);
+    
+    state.users.dispatch("SET_ALL_USER_PRESENCES", userPresences);
+    
+    state.users.dispatch("ADD_USERS", friends.map(friend => friend.recipient));
+    state.friends.setFriends(friends)
 
-    batch(() => {  
-      for (let index = 0; index < userPresences.length; index++) {
-        const {userId, ...presence} = userPresences[index];
-        state.users.dispatch("UPDATE_USER_PRESENCE", {
-          id: userId,
-          update: presence
-        });
-      }
-  
-    })
   }
   socket.on(ServerEvents.USER_AUTHENTICATED, onUserAuthenticated) 
 }
