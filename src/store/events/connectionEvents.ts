@@ -12,8 +12,6 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
       socketAuthenticated: false
     })
   }
-  socket.on("reconnect_attempt", onReconnectAttempt);
-
 
   const onAuthenticateError = (error: { message: string, data: any }) => {
     state.socket.dispatch("UPDATE_SOCKET_DETAILS", {
@@ -24,8 +22,6 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     })
     
   }
-  socket.on(ServerEvents.AUTHENTICATE_ERROR, onAuthenticateError)
-
 
   const onUserAuthenticated = (payload: AuthenticatedPayload) => {
     const serverMembers = payload.serverMembers;
@@ -63,7 +59,11 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     state.friends.setFriends(friends)
 
   }
+
   socket.on(ServerEvents.USER_AUTHENTICATED, onUserAuthenticated) 
+  socket.on("reconnect_attempt", onReconnectAttempt);
+  socket.on(ServerEvents.AUTHENTICATE_ERROR, onAuthenticateError)
+
 }
 
 export {
