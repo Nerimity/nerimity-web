@@ -1,4 +1,4 @@
-import { RawFriend } from "@/chat-api/RawData";
+import { FriendStatus, RawFriend } from "@/chat-api/RawData";
 import { ContextStore } from "./store";
 import { createDispatcher } from "./createDispatcher";
 import { createStore, reconcile } from "solid-js/store";
@@ -18,22 +18,25 @@ const SET_FRIENDS = (friends: Friend[]) => {
       setFriends(friend.recipientId, reconcile(friend));
     }
   })
-
 }
 
-const ADD_FRIEND = (friend: Friend) => {
-  setFriends(friend.recipientId, friend);
+const SET_FRIEND = (friend: Friend) => {
+  setFriends(friend.recipientId, reconcile(friend));
 }
 
 const DELETE_FRIEND = (friendId: string) => {
-  setFriends(friendId, undefined as any);
+  setFriends(friendId, undefined);
+}
+
+const UPDATE_FRIEND_STATUS = (payload: {friendId: string, status: FriendStatus}) => {
+  setFriends(payload.friendId, "status", payload.status);
 }
 
 const actions = {
   SET_FRIENDS,
-  ADD_FRIEND,
-  DELETE_FRIEND
-
+  DELETE_FRIEND,
+  UPDATE_FRIEND_STATUS,
+  SET_FRIEND
 }
 
 

@@ -71,11 +71,8 @@ const registerUserEvents = (socket: Socket, state: ContextStore) => {
 
   const onUserBlocked = (payload: {user: RawUser}) => {
     batch(() => {
-      state.users.dispatch("UPDATE_USER", {
-        id: payload.user.id,
-        user: payload.user
-      })
-      state.friends.dispatch("ADD_FRIEND", {
+      state.users.dispatch("UPSERT_USER", payload.user);
+      state.friends.dispatch("SET_FRIEND", {
         createdAt: Date.now(),
         recipientId: payload.user.id,
         userId: state.account.getLoggedInUser()?.id!,

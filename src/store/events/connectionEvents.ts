@@ -1,5 +1,4 @@
 import { AuthenticatedPayload } from "@/chat-api/events/connectionEventTypes";
-import { batch } from "solid-js";
 import { ContextStore } from "../store";
 import { Socket } from "socket.io-client";
 import { ServerEvents } from "@/chat-api/EventNames";

@@ -40,6 +40,10 @@ const ADD_USERS = (users: User[]) => {
   })
 }
 
+const UPSERT_USER = (user: User) => {
+  setUsers(user.id, user);
+}
+
 const UPDATE_USER = (payload: {id: string, user: Partial<User>}) => {
   if (!users[payload.id]) return;
   setUsers(payload.id, payload.user);
@@ -64,6 +68,7 @@ const SET_ALL_USER_PRESENCES = (presences: RawPresence[]) => {
 const actions = {
   ADD_USER,
   ADD_USERS,
+  UPSERT_USER,
   UPDATE_USER,
   UPDATE_USER_PRESENCE,
   SET_ALL_USER_PRESENCES
