@@ -5,6 +5,8 @@ import { registerUserEvents } from "./events/userEvents"
 import { createDispatcher } from "./createDispatcher";
 import { createStore } from "solid-js/store";
 import { registerServerEvents } from "./events/serverEvents";
+import { registerInboxEvents } from "./events/inboxEvents";
+import { registerFriendEvents } from "./events/friendEvents";
 
 
 interface SocketDetails {
@@ -40,6 +42,8 @@ const createSocket = (state: ContextStore) => {
   registerConnectionEvents(socketClient.socket, state);
   registerUserEvents(socketClient.socket, state);
   registerServerEvents(socketClient.socket, state);
+  registerInboxEvents(socketClient.socket, state);
+  registerFriendEvents(socketClient.socket, state);
   
 
   const dispose = () => {

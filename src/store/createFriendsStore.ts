@@ -44,9 +44,12 @@ export const createFriendsStore = (state: ContextStore) => {
   const dispatch = createDispatcher(actions, state);
 
   const setFriends = async (friends: RawFriend[]) => {
-    dispatch("SET_FRIENDS", friends.map(({recipient, ...rest}) => {
-      return {...rest, recipientId: recipient.id};
-    }))
+    batch(() => {
+      state.users.dispatch("ADD_USERS", friends.map(({recipient}) => recipient));
+      dispatch("SET_FRIENDS", friends.map(({recipient, ...rest}) => {
+        return {...rest, recipientId: recipient.id};
+      }))
+    })
   }
   
   

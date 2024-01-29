@@ -21,7 +21,9 @@ export interface Presence {
 
 
 type User = {
-  presence?: Presence
+  presence?: Presence;
+  inboxChannelId?: string;
+  voiceChannelId?: string;
 } & RawUser;
 
 const [users, setUsers] = createStore<Record<string, User>>({});

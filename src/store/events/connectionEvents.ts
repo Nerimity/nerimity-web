@@ -29,6 +29,8 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     const servers = payload.servers;
     const serverSettings = payload.serverSettings;
     const friends = payload.friends;
+    const inbox = payload.inbox;
+    const channels = payload.channels;
   
     state.users.dispatch("ADD_USER", {...payload.user});
     state.account.dispatch("SET_ACCOUNT", {
@@ -50,13 +52,15 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     state.servers.dispatch("ADD_SERVERS", servers);
     
 
+    state.channels.dispatch("ADD_CHANNELS", channels);
     const serverUsers = serverMembers.map(serverMember => serverMember.user);
     state.users.dispatch("ADD_USERS", serverUsers);
     
     state.users.dispatch("SET_ALL_USER_PRESENCES", userPresences);
     
-    state.users.dispatch("ADD_USERS", friends.map(friend => friend.recipient));
     state.friends.setFriends(friends)
+
+    state.inbox.addInboxes(inbox)
 
   }
 
