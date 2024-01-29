@@ -31,6 +31,7 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     const friends = payload.friends;
     const inbox = payload.inbox;
     const channels = payload.channels;
+    const serverRoles = payload.serverRoles;
   
     state.users.dispatch("ADD_USER", {...payload.user});
     state.account.dispatch("SET_ACCOUNT", {
@@ -49,6 +50,7 @@ const registerConnectionEvents = (socket: Socket, state: ContextStore) => {
     state.account.dispatch("SET_ALL_SERVER_SETTINGS", serverSettings)
 
 
+    state.serverRoles.dispatch("ADD_SERVER_ROLES", serverRoles)
     state.servers.dispatch("ADD_SERVERS", servers);
     
 
