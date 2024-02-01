@@ -125,6 +125,7 @@ function UpdateItem() {
   const { checkForUpdate, updateAvailable } = useAppVersion();
   const { createPortal } = useCustomPortal();
   const { hasFocus } = useWindowProperties()
+  const { updateServiceWorker } = useRegisterSW()
   let lastChecked = 0;
 
   createEffect(on(hasFocus, async () => {
@@ -135,6 +136,12 @@ function UpdateItem() {
       checkForUpdate();
     }
   }))
+
+  createEffect(() => {
+    if (updateAvailable()) {
+      updateServiceWorker(false);
+    }
+  })
 
   const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close} />)
 
