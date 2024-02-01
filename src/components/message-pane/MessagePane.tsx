@@ -305,6 +305,24 @@ function CustomTextArea(props: CustomTextAreaProps) {
   const [isFocused, setFocused] = createSignal(false);
   const [attachmentFileBrowserRef, setAttachmentFileBrowserRef] = createSignal<FileBrowserRef | undefined>(undefined);
 
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.target instanceof HTMLElement) {
+      if (event.target.tagName === "TEXTAREA") return;
+      if (event.target.tagName === "INPUT") return;
+    }
+    if (event.ctrlKey && event.key.toLowerCase() !== "v") return;
+    if (event.key.length !== 1) return;
+    textAreaRef?.focus(); 
+  }
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown)
+  
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown)
+    })
+  })
+
+
   const { channelProperties } = useStore();
 
   const onFilePicked = (test: FileList) => {
@@ -1208,11 +1226,21 @@ function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInput
     }
   }
 
+  const onInput = (event: Event) => {
+    if (event.target instanceof HTMLElement) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+  }
+
 
   createEffect(on(showNotice, (show) => {
+
+    show && document.addEventListener("keypress", onInput);
     show && document.addEventListener("click", onDocClick);
     onCleanup(() => {
       document.removeEventListener("click", onDocClick);
+      document.removeEventListener("keypress", onInput);
     })
   }))
 
