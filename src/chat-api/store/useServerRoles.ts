@@ -1,12 +1,9 @@
 import { batch } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createStore, reconcile } from "solid-js/store";
 import { RawServerRole } from "../RawData";
 import useServers from "./useServers";
 
-export type ServerRole = RawServerRole & {
-  update: (this: ServerRole, update: Partial<RawServerRole>) => void;
-
-}
+export type ServerRole = RawServerRole;
 
 // serverRoles[serverId][roleId] = Role
 const [serverRoles, setServerRoles] = createStore<Record<string, Record<string, ServerRole | undefined> | undefined>>({});
@@ -16,13 +13,15 @@ const set = (serverId: string, role: RawServerRole) =>  {
   if (!serverRoles[serverId]) {
     setServerRoles(serverId, {});
   }
-  setServerRoles(serverId, role.id, {
-    ...role,
-    update(update) {
-      setServerRoles(serverId, role.id, update)
-    }
-  })
+  setServerRoles(serverId, role.id, reconcile(role));
 }
+
+const update = (serverId: string, roleId: string, update: Partial<RawServerRole>) => {
+  if (!serverRoles[serverId]?.[roleId]) {
+    return;
+  }
+  setServerRoles(serverId, roleId, update);
+} 
 
 const addNewRole = (serverId: string, role: RawServerRole) =>  {
   const servers = useServers();
@@ -74,6 +73,7 @@ const deleteRole = (serverId: string, roleId: string) => {
 export default function useServerRoles() {
   return {
     set,
+    update,
     addNewRole,
     getAllByServerId,
     get,

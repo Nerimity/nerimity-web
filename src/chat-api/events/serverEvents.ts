@@ -230,8 +230,7 @@ interface ServerRoleUpdated {
 }
 export const onServerRoleUpdated = (payload: ServerRoleUpdated) => {
   const serverRoles = useServerRoles();
-  const role = serverRoles.get(payload.serverId, payload.roleId);
-  role?.update(payload.updated);
+  serverRoles.update(payload.serverId, payload.roleId, payload.updated);
 }
 
 interface ServerRoleOrderUpdated {
@@ -244,8 +243,7 @@ export const onServerRoleOrderUpdated = (payload: ServerRoleOrderUpdated) => {
   batch(() => {
     for (let i = 0; i < payload.roleIds.length; i++) {
       const roleId = payload.roleIds[i];
-      const role = serverRoles.get(payload.serverId, roleId);
-      role?.update({ order: i + 1 });
+      serverRoles.update(payload.serverId, roleId, { order: i + 1 });
     }
   })
 }
