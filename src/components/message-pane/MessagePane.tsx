@@ -907,7 +907,7 @@ function useSelectedSuggestion(length: () => number, textArea: HTMLTextAreaEleme
       event.preventDefault();
       previous();
     }
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.key === "Tab") {
       event.stopPropagation();
       event.preventDefault();
       onEnterClick(current());
