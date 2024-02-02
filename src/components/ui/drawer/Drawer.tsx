@@ -6,6 +6,7 @@ import env from '@/common/env';
 import SidePane from '@/components/side-pane/SidePane';
 import { classNames, conditionalClass } from '@/common/classNames';
 import { matchComponent } from 'solid-navigator';
+import { GlobalEventName, useEventListen } from '@/common/GlobalEvents';
 
 interface DrawerLayoutProps {
   LeftDrawer: any;
@@ -266,6 +267,11 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     }
     updatePage();
   }
+
+  const goToMainListener = useEventListen(GlobalEventName.DRAWER_GO_TO_MAIN)
+
+  goToMainListener(() => goToMain())
+  
 
 
   const drawer = {

@@ -21,6 +21,7 @@ import Avatar from '@/components/ui/Avatar';
 import { timeElapsed } from '@/common/date';
 import InVoiceActions from '@/components/InVoiceActions';
 import { Skeleton } from '@/components/ui/skeleton/Skeleton';
+import { emitDrawerGoToMain } from '@/common/GlobalEvents';
 
 
 
@@ -253,7 +254,8 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
 
   return (
 
-    <A
+    <A 
+      onClick={() => emitDrawerGoToMain()}
       href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
       style={{ "text-decoration": "none" }}
     >

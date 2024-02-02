@@ -14,6 +14,7 @@ import ItemContainer from "@/components/ui/Item";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 
 export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: User, isInboxTab?: boolean}) {
   const params = useParams();
@@ -62,6 +63,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
     if (e.target.closest(".link")) return;
     if (e.target.closest("." + styles.button)) return;
     user().openDM();
+    emitDrawerGoToMain();
   }
 
   const mentionCount = () => mentions.getDmCount(user()!.id);
