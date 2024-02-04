@@ -28,13 +28,7 @@ Chat App made using SolidJS. Work in progress.
 
 ### Planned Features:
 - [ ] Push Notifications
-- [ ] Mute Notifications
-- [ ] Desktop App
-- [ ] App Settings
-- [ ] Delete Account
 - [ ] Recycle List (Virtual List to Improve Performance)
-- [ ] Embeds
-- [ ] Upload Files
 - [ ] Explore Themes
 
 ### Completed Features:
@@ -60,3 +54,9 @@ Chat App made using SolidJS. Work in progress.
 - [x] Block Users
 - [x] Mentions
 - [x] Custom Emojis
+- [x] Mute Notifications
+- [x] Desktop App
+- [x] App Settings
+- [x] Delete Account
+- [x] Embeds
+- [x] Upload Files
