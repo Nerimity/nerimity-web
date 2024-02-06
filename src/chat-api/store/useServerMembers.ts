@@ -16,7 +16,6 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   userId: string
   user: User
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
-  roles: () => (ServerRole | undefined)[] ;
   hasRole:  (this: ServerMember, roleId: string) => boolean;
   permissions: () => number;
   hasPermission:  (this: ServerMember, bitwise: Bitwise, ignoreAdmin?: boolean) => boolean | void;
@@ -41,7 +40,9 @@ const set = (member: RawServerMember) => {
   let topRole: Accessor<any>;
   let unhiddenRole: Accessor<any>;
   let permissions: Accessor<any>;
-  setMember(member.serverId, member.user.id, {
+
+
+  const newMember: ServerMember = {
     ...member,
     userId: member.user.id,
     get user() {
@@ -49,14 +50,6 @@ const set = (member: RawServerMember) => {
     },
     update(updated) {
       setMember(this.serverId, this.userId, updated);
-    },
-    get roles(){
-      const {serverRoles} = useStore();
-      const roleIds = () => this.roleIds;
-
-      return (() => roleIds().map(id => {
-        return serverRoles.get(member.serverId, id);
-      })) as () => (ServerRole | undefined)[]
     },
     hasRole(roleId) {
       const servers = useServers();
@@ -75,7 +68,7 @@ const set = (member: RawServerMember) => {
         return () => {
           let currentPermissions = 0;
           currentPermissions = addBit(currentPermissions, defaultRole()?.permissions || 0);
-          const rolesArr = this.roles();
+          const rolesArr = getServerMemberRoles(member.serverId, member.user.id);
           for (let i = 0; i < rolesArr.length; i++) {
             const role = rolesArr[i];
             currentPermissions = addBit(currentPermissions, role?.permissions || 0);
@@ -108,7 +101,8 @@ const set = (member: RawServerMember) => {
       topRole = createMemo(() => {
         const servers = useServers();
         const roles = useServerRoles();
-        const sortedRoles = () => this.roles().sort((a, b) => b?.order! - a?.order!);
+        const memberRoles = getServerMemberRoles(member.serverId, member.user.id);
+        const sortedRoles = () => memberRoles.sort((a, b) => b?.order! - a?.order!);
         const defaultRoleId = () => servers.get(member.serverId)?.defaultRoleId;
         const defaultRole = () => roles.get(member.serverId, defaultRoleId()!);
         return () => sortedRoles()[0] || defaultRole();
@@ -121,12 +115,18 @@ const set = (member: RawServerMember) => {
     get unhiddenRole() {
       if (unhiddenRole) return unhiddenRole();
       unhiddenRole = createMemo(() => {
-        const sortedRoles = () => this.roles().sort((a, b) => b?.order! - a?.order!);
+        const memberRoles = getServerMemberRoles(member.serverId, member.user.id);
+        const sortedRoles = () => memberRoles.sort((a, b) => b?.order! - a?.order!);
         return () => sortedRoles().find(role => !role?.hideRole)
       });
       return unhiddenRole();
     }
-  });
+  }
+
+
+
+
+  setMember(member.serverId, member.user.id, reconcile(newMember));
 
 
 }
@@ -153,12 +153,20 @@ const reset = () => {
   setMember(reconcile({}));
 }
 
+
+
+const getServerMemberRoles = (serverId: string, userId: string) => {
+  const serverRoles = useServerRoles();
+  return serverMembers[serverId]?.[userId]?.roleIds.map(id => serverRoles.get(serverId, id)) || [];
+}
+
 export default function useServerMembers() {
   return {
     reset,
     array,
     set,
     remove,
+    getServerMemberRoles,
     removeAllServerMembers,
     get
   }
