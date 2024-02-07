@@ -15,7 +15,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
   hasRole:  (this: ServerMember, roleId: string) => boolean | undefined;
   permissions: () => number;
-  hasPermission:  (this: ServerMember, bitwise: Bitwise, ignoreAdmin?: boolean) => boolean | void;
+  hasPermission:  (this: ServerMember, bitwise: Bitwise, ignoreAdmin?: boolean, ignoreCreator?: boolean) => boolean | void;
   topRole: () => ServerRole;
   roleColor: () =>  string;
   unhiddenRole: () => ServerRole | undefined;
@@ -115,7 +115,10 @@ function permissions (this: ServerMember) {
 
   return currentPermissions;
 }
-function hasPermission (this: ServerMember, bitwise: Bitwise, ignoreAdmin = false) {
+function hasPermission (this: ServerMember, bitwise: Bitwise, ignoreAdmin = false, ignoreCreator = false) {
+  if (!ignoreCreator) {
+    if (this.server().isCurrentUserCreator()) return true;
+  }
   if (!ignoreAdmin) {
     if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;
   }

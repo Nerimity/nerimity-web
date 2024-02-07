@@ -45,7 +45,7 @@ export default function MemberContextMenu(props: Props) {
 
     const isCurrentUserCreator = server()?.isCurrentUserCreator()
     const items: any = [];
-    const hasManageRolePermission = isCurrentUserCreator || selfMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES);
+    const hasManageRolePermission = selfMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES);
     if (hasManageRolePermission) {
       items.push(editRoles);
     }

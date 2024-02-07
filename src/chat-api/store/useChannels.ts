@@ -54,7 +54,7 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
 
       if (this.serverId && isAdminChannel()) {
         const member = serverMembers.get(this.serverId, account.user()?.id!);
-        const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN) || member?.server().isCurrentUserCreator();
+        const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN)
         if (!hasAdminPermission) return false;
       }
 
@@ -138,7 +138,7 @@ const getChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = false) =>
   const serverMembers = useServerMembers();
   const account = useAccount();
   const member = serverMembers.get(serverId, account.user()?.id!);
-  const hasAdminPerm = member?.hasPermission(ROLE_PERMISSIONS.ADMIN) || member?.server()?.isCurrentUserCreator();
+  const hasAdminPerm = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
   if (hasAdminPerm) return array().filter(channel => channel?.serverId === serverId);
 
 
