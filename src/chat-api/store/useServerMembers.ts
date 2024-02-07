@@ -11,6 +11,7 @@ export type ServerMember = Omit<RawServerMember, 'user'> & {
   userId: string
   user: () => User
   server: () => Server
+  roles: () => ServerRole[]
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
   hasRole:  (this: ServerMember, roleId: string) => boolean | undefined;
   permissions: () => number;
@@ -38,6 +39,7 @@ const set = (member: RawServerMember) => {
     server,
     user,
     update,
+    roles,
     hasRole,
     isServerCreator,
     topRole,
@@ -82,9 +84,8 @@ function hasRole(this: ServerMember, roleId: string) {
 function topRole(this: ServerMember) {
   const servers = useServers();
   const roles = useServerRoles();
-  const memberRoles = getServerMemberRoles(this.serverId, this.userId);
 
-  const sortedRoles = memberRoles.sort((a, b) => b?.order! - a?.order!);
+  const sortedRoles = this.roles().sort((a, b) => b?.order! - a?.order!);
   const defaultRoleId = () => servers.get(this.serverId)?.defaultRoleId;
   const defaultRole = () => roles.get(this.serverId, defaultRoleId()!);
 
@@ -94,8 +95,7 @@ function roleColor (this: ServerMember) {
   return this.topRole().hexColor || "white";
 }
 function unhiddenRole (this: ServerMember) {
-  const memberRoles = getServerMemberRoles(this.serverId, this.userId);
-  const sortedRoles = memberRoles.sort((a, b) => b?.order! - a?.order!);
+  const sortedRoles = this.roles().sort((a, b) => b?.order! - a?.order!);
   return sortedRoles.find(role => !role?.hideRole)
 }
 function permissions (this: ServerMember) {
@@ -107,7 +107,7 @@ function permissions (this: ServerMember) {
 
   let currentPermissions = defaultRole?.permissions || 0;
 
-  const memberRoles = getServerMemberRoles(this.serverId, this.userId);
+  const memberRoles = this.roles();
   for (let i = 0; i < memberRoles.length; i++) {
     const role = memberRoles[i];
     currentPermissions = addBit(currentPermissions, role?.permissions || 0);
@@ -120,6 +120,11 @@ function hasPermission (this: ServerMember, bitwise: Bitwise, ignoreAdmin = fals
     if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;
   }
   return hasBit(this.permissions(), bitwise.bit)
+}
+
+function roles (this: ServerMember) {
+  const serverRoles = useServerRoles();
+  return this.roleIds.map(id => serverRoles.get(this.serverId, id)!) || [];
 }
 
 
@@ -147,20 +152,12 @@ const reset = () => {
   setMember(reconcile({}));
 }
 
-
-
-const getServerMemberRoles = (serverId: string, userId: string) => {
-  const serverRoles = useServerRoles();
-  return serverMembers[serverId]?.[userId]?.roleIds.map(id => serverRoles.get(serverId, id)) || [];
-}
-
 export default function useServerMembers() {
   return {
     reset,
     array,
     set,
     remove,
-    getServerMemberRoles,
     removeAllServerMembers,
     get
   }
