@@ -769,7 +769,6 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
   if (serverId) {
     // replace user mentions
     finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
-      console.log(username)
       const member = members.find(member => {
         const user = member?.user();
         return user && (user.username === username && user.tag === tag)
