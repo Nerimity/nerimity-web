@@ -40,7 +40,7 @@ import { Delay } from '@/common/Delay';
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
-  const user = () => props.member.user;
+  const user = () => props.member.user();
   let elementRef: undefined | HTMLDivElement;
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>(undefined);
   const [hovering, setHovering] = createSignal(false);
@@ -68,7 +68,7 @@ const MemberItem = (props: { member: ServerMember }) => {
       <div onClick={onClick} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
         <Avatar animate={hovering() || !!isProfileFlyoutOpened()} size={30} user={user()} />
         <div class={styles.memberInfo}>
-          <div class={styles.username} style={{ color: props.member.roleColor }} >{user().username}</div>
+          <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
           <UserPresence animate={hovering() || !!isProfileFlyoutOpened()} userId={user().id} showOffline={false} />
         </div>
       </div>
@@ -307,8 +307,8 @@ const ServerDrawer = () => {
   const roleMembers = mapArray(roles, role => {
 
     const membersInThisRole = () => members().filter(member => {
-      if (!member?.user) return false;
-      if (!member?.user.presence?.status) return false;
+      if (!member?.user()) return false;
+      if (!member?.user().presence?.status) return false;
       if (server()?.defaultRoleId === role!.id && !member?.unhiddenRole()) return true;
       if (member?.unhiddenRole()?.id === role!.id) return true;
     });
@@ -316,7 +316,7 @@ const ServerDrawer = () => {
     return { role, members: createMemo(() => membersInThisRole()) }
   })
 
-  const offlineMembers = createMemo(() => members().filter(member => !member?.user?.presence?.status))
+  const offlineMembers = createMemo(() => members().filter(member => !member?.user().presence?.status))
 
   return (
     <Show when={server()?.id} keyed={true}>
@@ -326,13 +326,13 @@ const ServerDrawer = () => {
           <For each={roleMembers()}>
             {item => (
               <Show when={!item.role!.hideRole && item.members().length}>
-                <RoleItem members={item.members().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName={item.role?.name!} />
+                <RoleItem members={item.members().sort((a, b) => a!?.user().username.localeCompare(b!?.user().username))} roleName={item.role?.name!} />
               </Show>
             )}
           </For>
 
           {/* Offline */}
-          <RoleItem members={offlineMembers().sort((a, b) => a.user.username.localeCompare(b.user.username))} roleName="Offline" />
+          <RoleItem members={offlineMembers().sort((a, b) => a!?.user().username.localeCompare(b!?.user().username))} roleName="Offline" />
         </>
       </Delay>
 

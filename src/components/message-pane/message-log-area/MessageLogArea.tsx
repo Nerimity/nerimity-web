@@ -486,7 +486,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     if (!params.serverId) return false;
 
     const member = serverMembers.get(params.serverId, account.user()?.id!);
-    if (member?.amIServerCreator()) return true;
+    if (member?.server().isCurrentUserCreator()) return true;
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   }
 
