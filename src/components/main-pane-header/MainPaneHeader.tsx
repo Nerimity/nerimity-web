@@ -275,7 +275,7 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser, selected: boolean; 
 
   const isInCall = () => voiceUsers.currentVoiceChannelId() === props.voiceUser.channelId;
   const talking = () => props.voiceUser.voiceActivity;
-  const user = () => props.voiceUser.user!;
+  const user = () => props.voiceUser.user()!;
 
   const onClick = (event: MouseEvent) => {
     if (props.size !== "small") return;

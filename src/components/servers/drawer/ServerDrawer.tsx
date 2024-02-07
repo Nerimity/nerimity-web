@@ -310,7 +310,7 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
         </ChannelVoiceUsersTitle>
         <ChannelVoiceUsersListContainer>
           <For each={channelVoiceUsers()}>
-            {voiceUser => <Avatar user={voiceUser!.user} size={20} />}
+            {voiceUser => <Avatar user={voiceUser!.user()} size={20} />}
           </For>
         </ChannelVoiceUsersListContainer>
       </ChannelVoiceUsersContainer>
