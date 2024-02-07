@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { createEffect, createMemo, createSignal, For, JSX, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, mapArray, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 import { A, useNavigate, useParams } from 'solid-navigator';
 import useStore from '../../chat-api/store/useStore';
@@ -975,7 +975,14 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   const params = useParams<{ serverId?: string, channelId: string }>();
   const { serverMembers, channels, account } = useStore();
 
-  const members = createMemo(() => serverMembers.array(params.serverId!) as ServerMember[]);
+  const members = mapArray(() => serverMembers.array(params.serverId!) as ServerMember[], (sm) => {
+    return {
+      ...sm, 
+      get user () {
+        return sm.user()
+      }
+    }
+  });
   const hasPermissionToMentionEveryone = () => {
     if (!params.serverId) return false;
     const member = serverMembers.get(params.serverId, account.user()?.id!);
@@ -985,7 +992,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   }
 
   const searchedServerUsers = () => matchSorter([
-    ...members(),
+    ...members() as (Omit<ServerMember, "user"> & {user: Partial<User>})[],
     ...(hasPermissionToMentionEveryone() ? [{
       user: {
         special: true,
