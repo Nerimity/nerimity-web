@@ -9,12 +9,11 @@ import { createEffect, createMemo, createRoot } from 'solid-js';
 import { emojiShortcodeToUnicode } from '@/emoji';
 
 export type Server = RawServer & {
-  hasNotifications: boolean;
+  hasNotifications: () => boolean;
   isCurrentUserCreator: () => boolean | undefined
   update: (this: Server, update: Partial<RawServer>) => void;
   leave: () => Promise<RawServer>;
-  delete: () => Promise<RawServer>;
-  mentionCount: number;
+  mentionCount: () => number;
   avatarUrl(this: Server): string | null
 }
 const [servers, setServers] = createStore<Record<string, Server | undefined>>({});
@@ -25,46 +24,54 @@ export const bannerUrl = (item: {banner?: string}): string | null => item?.banne
 
 
 
-const set = (server: RawServer) => 
-  setServers(server.id, {
+const set = (server: RawServer) => {
+  const newServer: Server = {
     ...server,
     isCurrentUserCreator,
-    get hasNotifications() {
-      const channels = useChannels();
+    update,
+    leave,
+    hasNotifications,
+    mentionCount,
+    avatarUrl: function () {return avatarUrl(this)},
+  }
+  
+  setServers(server.id, newServer);
+}
 
-      const account = useAccount();
-      const notificationPingMode = account.getServerSettings(this.id)?.notificationPingMode;
-      if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
-      
-      return channels.getChannelsByServerId(server.id).some(channel => {
-        const hasNotification = channel!.hasNotifications;
-        if (hasNotification !== 'mention' && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
-        return hasNotification && channel?.type === ChannelType.SERVER_TEXT
-      })
-    },
-    get mentionCount() {
-      const mention = useMention();
-      let count = 0;
-      const mentions = mention.array().filter(mention => mention!.serverId === server.id);
-      for (let i = 0; i < mentions.length; i++) {
-        const mention = mentions[i];
-        count += mention?.count || 0
-      }
-      return count;
-    },
-    update(update) {
-      setServers(this.id, update);
-    },
-    async leave() {
-      return leaveServer(server.id);
-    },
-    async delete() {
-      return deleteServer(server.id);
-    },
-    avatarUrl(){
-      return this?.avatar ? env.NERIMITY_CDN + this?.avatar : null;
-    }
-  });
+function hasNotifications (this: Server) {
+  const channels = useChannels();
+
+  const account = useAccount();
+  const notificationPingMode = account.getServerSettings(this.id)?.notificationPingMode;
+  if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
+  
+  return channels.getChannelsByServerId(this.id).some(channel => {
+    const hasNotification = channel!.hasNotifications;
+    if (hasNotification !== 'mention' && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
+    return hasNotification && channel?.type === ChannelType.SERVER_TEXT
+  })
+}
+
+function mentionCount (this: Server) {
+  const mention = useMention();
+  let count = 0;
+  const mentions = mention.array().filter(mention => mention!.serverId === this.id);
+  for (let i = 0; i < mentions.length; i++) {
+    const mention = mentions[i];
+    count += mention?.count || 0
+  }
+  return count;
+}
+
+
+function leave (this: Server) {
+  return leaveServer(this.id);
+}
+function update (this: Server, update: Partial<RawServer>) {
+  setServers(this.id, update);
+}
+
+  
 
 const remove = (serverId: string) => {  
   setServers(serverId, undefined);
@@ -103,8 +110,8 @@ const orderedArray = () => {
 }
 
 
-const hasNotifications =  () => {
-  return array().find(s => s?.hasNotifications);
+const hasAllNotifications =  () => {
+  return array().find(s => s?.hasNotifications());
 }
 const emojis = createRoot(() => createMemo(() => orderedArray().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat()));
 
@@ -145,7 +152,7 @@ export default function useServers() {
     array,
     get,
     set,
-    hasNotifications,
+    hasNotifications: hasAllNotifications,
     orderedArray,
     remove
   }

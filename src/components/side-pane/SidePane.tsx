@@ -431,7 +431,7 @@ function PresenceDropDown() {
 
 function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
   const { id, defaultChannelId } = props.server;
-  const hasNotifications = () => props.server.hasNotifications;
+  const hasNotifications = () => props.server.hasNotifications();
   const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
   const [hovered, setHovered] = createSignal(false);
 
@@ -442,7 +442,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
       <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
-        <NotificationCountBadge count={props.server.mentionCount} top={5} right={10} />
+        <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
         <Avatar animate={hovered()} size={40} server={props.server} />
       </SidebarItemContainer>
     </A>

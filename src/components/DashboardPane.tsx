@@ -201,7 +201,7 @@ function ServerList() {
 
 function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
   const { id, defaultChannelId } = props.server;
-  const hasNotifications = () => props.server.hasNotifications;
+  const hasNotifications = () => props.server.hasNotifications();
   const [hovered, setHovered] = createSignal(false);
 
   return (
@@ -211,7 +211,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
       onContextMenu={props.onContextMenu}>
       <SidebarItemContainer handlePosition='bottom' alert={hasNotifications()}>
-        <NotificationCountBadge count={props.server.mentionCount} top={5} right={2}/>
+        <NotificationCountBadge count={props.server.mentionCount()} top={5} right={2}/>
         <Avatar animate={hovered()} server={props.server} size={35} />
       </SidebarItemContainer>
     </A>
