@@ -1,8 +1,8 @@
-import { onMount, lazy, Show } from 'solid-js';
+import { onMount, lazy, Show, createEffect, createMemo, on } from 'solid-js';
 import env from './common/env';
 import { isChristmas, isHalloween } from './common/worldEvents';
 import RouterEndpoints from './common/RouterEndpoints';
-import { A, Route, Router, useNavigate, useParams } from 'solid-navigator';
+import { A, Route, Router, useMatch, useNavigate, useParams } from 'solid-navigator';
 import { getCurrentLanguage, getLanguage } from './locales/languages';
 import { useTransContext } from '@mbarzda/solid-i18next';
 import { electronWindowAPI } from './common/Electron';
@@ -10,12 +10,13 @@ import { ElectronTitleBar } from './components/ElectronTitleBar';
 import { useWindowProperties } from './common/useWindowProperties';
 import styles from './App.module.scss';
 import { ConnectingStatusHeader } from './components/connecting-status-header/ConnectingStatusHeader';
+import useStore from './chat-api/store/useStore';
 
 
 
 export default function App() {
-
   const [, actions] = useTransContext();
+  useServerRedirect()
   onMount(() => {
     document.title = env.APP_NAME
     if (isHalloween) {
@@ -42,6 +43,8 @@ export default function App() {
     actions.changeLanguage(key);
   }
 
+
+
   return (
     <>
       <Show when={electronWindowAPI()?.isElectron}>
@@ -52,3 +55,18 @@ export default function App() {
   )
 };
 
+
+function useServerRedirect() {
+  const navigate = useNavigate();
+  const {servers, account} = useStore();
+
+  const serverRoute = useMatch(() => "/app/servers/:serverId/*");
+  const serverId = createMemo(() => serverRoute()?.params.serverId);
+  const server = () => serverId() ? servers.get(serverId()!) : undefined;
+
+  createEffect(on([server, account.isAuthenticated], () => {
+    if (server()) return;
+    if (!account.isAuthenticated()) return;
+    navigate(RouterEndpoints.INBOX());
+  }))
+}
