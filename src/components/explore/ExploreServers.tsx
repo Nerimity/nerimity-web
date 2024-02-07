@@ -171,8 +171,8 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
     setJoinClicked(true);
     await joinPublicServer(props.publicServer.serverId).catch((err) => {
       alert(err.message)
+      setJoinClicked(false)
     })
-    setJoinClicked(false)
   }
 
   const bumpClick = () => {

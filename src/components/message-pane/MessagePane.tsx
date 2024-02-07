@@ -81,7 +81,7 @@ export default function MessagePane() {
     if (!channel()?.serverId) return true;
     const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
     if (!member) return false;
-    if (member.amIServerCreator()) return true;
+    if (member.server().isCurrentUserCreator()) return true;
     if (member.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
 
     if (!hasBit(channel()?.permissions || 0, CHANNEL_PERMISSIONS.SEND_MESSAGE.bit)) {
@@ -756,7 +756,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
     finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
       if (!dmUsers) return match;
 
-      const user = dmUsers.find(member => member?.username === username && member?.tag === tag);
+      const user = dmUsers.find(user => user?.username === username && user?.tag === tag);
       if (!user) return match;
       return `[@:${user.id}]`;
     });
@@ -769,9 +769,12 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
   if (serverId) {
     // replace user mentions
     finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
-      const member = members.find(member => member?.user.username === username && member?.user.tag === tag);
+      const member = members.find(member => () => {
+        const user = member?.user();
+        return user && (user.username === username && user.tag === tag)
+      });
       if (!member) return match;
-      return `[@:${member.user.id}]`;
+      return `[@:${member.user().id}]`;
     });
     // replace channel mentions
     finalString = finalString.replaceAll(channelMentionRegex, ((match, group) => {
@@ -781,7 +784,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
     }))
 
     if (isSomeoneMentioned) {
-      finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${members[randomIndex(members.length)]?.user.username})**`)
+      finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${members[randomIndex(members.length)]?.user().username})**`)
     }
 
   }
@@ -977,7 +980,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
     if (!params.serverId) return false;
     const member = serverMembers.get(params.serverId, account.user()?.id!);
     if (!member) return false;
-    if (member.amIServerCreator()) return true;
+    if (member.server().isCurrentUserCreator()) return true;
     return member.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
   }
 

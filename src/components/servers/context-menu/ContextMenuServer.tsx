@@ -2,7 +2,7 @@ import { copyToClipboard } from "@/common/clipboard";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import useStore from "@/chat-api/store/useStore";
-import { useNavigate } from "solid-navigator";
+import { useMatch, useNavigate } from "solid-navigator";
 import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
 import { createEffect } from "solid-js";
@@ -20,10 +20,12 @@ export default function ContextMenuServer (props: Props) {
   const server = () => servers.get(props.serverId!);
 
   const isServerCreator = () => account.user()?.id === server()?.createdById;
+  const isOnServerPage = useMatch(() => `/app/servers/${props.serverId}/*`); 
 
   const onLeaveClicked = async () => {
     await server()?.leave();
-    navigate(RouterEndpoints.INBOX());
+    if (isOnServerPage())
+      navigate(RouterEndpoints.INBOX());
   }
 
   const member = () => serverMembers.get(props.serverId!, account.user()?.id!);

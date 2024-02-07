@@ -232,7 +232,7 @@ export async function joinPublicServer(serverId: string) {
     useToken: true
   });
 }
-export async function BumpPublicServer(serverId: string, token) {
+export async function BumpPublicServer(serverId: string, token: string) {
   return request<RawPublicServer>({
     method: "POST",
     body: {token},

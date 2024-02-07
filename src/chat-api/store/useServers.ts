@@ -10,6 +10,7 @@ import { emojiShortcodeToUnicode } from '@/emoji';
 
 export type Server = RawServer & {
   hasNotifications: boolean;
+  isCurrentUserCreator: () => boolean | undefined
   update: (this: Server, update: Partial<RawServer>) => void;
   leave: () => Promise<RawServer>;
   delete: () => Promise<RawServer>;
@@ -27,6 +28,7 @@ export const bannerUrl = (item: {banner?: string}): string | null => item?.banne
 const set = (server: RawServer) => 
   setServers(server.id, {
     ...server,
+    isCurrentUserCreator,
     get hasNotifications() {
       const channels = useChannels();
 
@@ -66,6 +68,12 @@ const set = (server: RawServer) =>
 
 const remove = (serverId: string) => {  
   setServers(serverId, undefined);
+}
+
+function isCurrentUserCreator(this: Server) {
+  const account = useAccount();
+  if (!account.user()) return;
+  return this.createdById === account.user()?.id;
 }
 
 

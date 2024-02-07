@@ -77,7 +77,7 @@ export default function MainPaneHeader() {
     const hasChannelGotCallPermission = hasBit(channel()?.permissions || 0, CHANNEL_PERMISSIONS.JOIN_VOICE.bit);
     if (hasChannelGotCallPermission) return true;
     const member =  serverMembers.get(channel()?.serverId!, account.user()?.id!);
-    const isAdmin = member?.amIServerCreator() || member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+    const isAdmin = member?.server().isCurrentUserCreator() || member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
     return isAdmin;
   }
 

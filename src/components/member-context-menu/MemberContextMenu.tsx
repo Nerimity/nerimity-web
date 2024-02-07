@@ -43,9 +43,9 @@ export default function MemberContextMenu(props: Props) {
     const kick = { label: t('userContextMenu.kick'), alert: true, icon: "exit_to_app", onClick: onKickClick };
     const ban = { label: t('userContextMenu.ban'), alert: true, icon: "block", onClick: onBanClick };
 
-    const AmIServerCreator = server()?.createdById === account.user()?.id;
+    const isCurrentUserCreator = server()?.isCurrentUserCreator()
     const items: any = [];
-    const hasManageRolePermission = AmIServerCreator || selfMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES);
+    const hasManageRolePermission = isCurrentUserCreator || selfMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES);
     if (hasManageRolePermission) {
       items.push(editRoles);
     }
@@ -56,7 +56,7 @@ export default function MemberContextMenu(props: Props) {
     if (clickedOnMyself) return items;
 
 
-    if (AmIServerCreator) {
+    if (isCurrentUserCreator) {
       return [
         ...(member() ? [editRoles] : []),
         separator,
@@ -124,9 +124,9 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
   )
 
   return (
-    <Modal close={props.close} title={t('kickServerMemberModal.title', {username: props.member?.user.username})} actionButtons={ActionButtons}>
+    <Modal close={props.close} title={t('kickServerMemberModal.title', {username: props.member?.user().username})} actionButtons={ActionButtons}>
       <div class={styles.kickModal}>
-        <Trans key='kickServerMemberModal.message' options={{username: props.member?.user.username}}>
+        <Trans key='kickServerMemberModal.message' options={{username: props.member?.user().username}}>
           Are you sure you want to kick <b>{"username"}</b>?
         </Trans>
         <div class={styles.buttons}>
@@ -188,7 +188,7 @@ export function ServerMemberRoleModal (props: Props & {close: () => void}) {
   
   const rolesThatCanBeApplied = () => roles().filter(role => {
     if (role!.id === server()?.defaultRoleId!) return false;
-    if (selfMember()?.amIServerCreator()) return true;
+    if (selfMember()?.server().isCurrentUserCreator()) return true;
     if (role!.order >= selfTopRole()?.order!) return false;
 
     return true;
