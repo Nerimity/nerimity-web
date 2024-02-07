@@ -7,9 +7,9 @@ import useUsers, { User } from './useUsers';
 
 export type Friend = Omit<RawFriend, 'recipient'> & {
   recipientId: string;
-  recipient: User;
-  acceptFriendRequest: (this: Friend) => Promise<void>;
-  removeFriend: (this: Friend) => Promise<void>;
+  recipient: () => User;
+  accept: (this: Friend) => Promise<void>;
+  remove: (this: Friend) => Promise<void>;
 } 
 
 
@@ -21,25 +21,35 @@ const set = (friend: RawFriend) => {
 
   users.set(friend.recipient);
 
-  setFriends(friend.recipient.id, {
+
+  const newFriend: Friend = {
     ...friend, 
     recipientId: friend.recipient.id,
-    get recipient() {return users.get(this.recipientId)},
-    async acceptFriendRequest() {
-      await acceptFriendRequest({friendId: this.recipientId});
-      setFriends(this.recipientId, 'status', FriendStatus.FRIENDS);
-    },
-    async removeFriend() {
-      await removeFriend({friendId: this.recipientId});
-      setFriends({[this.recipientId]: undefined})
-    }
-  });
+    recipient,
+    accept,
+    remove
+  }
+
+  setFriends(friend.recipient.id, newFriend);
 }
 
+function recipient (this: Friend) {
+  const users = useUsers();
+  return users.get(this.recipientId);
+}
+async function remove(this: Friend) {
+  await removeFriend({friendId: this.recipientId});
+  setFriends(this.recipientId, undefined);
+}
+async function accept(this: Friend) {
+  await acceptFriendRequest({friendId: this.recipientId});
+  setFriends(this.recipientId, 'status', FriendStatus.FRIENDS);
+}
+
+
+
 const get = (userId: string) => friends[userId]
-
 const deleteFriend = (userId: string) => setFriends({[userId]: undefined})
-
 
 const updateStatus = (userId: string, status: FriendStatus) => {
   if (!friends[userId]) return;

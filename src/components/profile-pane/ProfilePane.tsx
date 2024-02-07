@@ -248,11 +248,11 @@ const ActionButtons = (props: {
   const showAddFriend = () => !friendExists() && !isBlocked();
 
   const acceptClicked = () => {
-    friend().acceptFriendRequest();
+    friend().accept();
   };
 
   const removeClicked = () => {
-    friend().removeFriend();
+    friend().remove();
   };
 
   const addClicked = () => {
