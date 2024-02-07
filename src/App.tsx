@@ -65,6 +65,7 @@ function useServerRedirect() {
   const server = () => serverId() ? servers.get(serverId()!) : undefined;
 
   createEffect(on([server, account.isAuthenticated], () => {
+    if (!serverRoute()) return;
     if (server()) return;
     if (!account.isAuthenticated()) return;
     navigate(RouterEndpoints.INBOX());
