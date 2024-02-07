@@ -27,7 +27,7 @@ export const avatarUrl = (item: {avatar?: string}): string | null => item?.avata
 
 export const bannerUrl = (item: {banner?: string}): string | null => item?.banner ? env.NERIMITY_CDN + item?.banner : null;
 
-export type User = RawUser & {
+export type User =  {
   presence?: Presence
   inboxChannelId?: string
   voiceChannelId?: string
@@ -36,57 +36,61 @@ export type User = RawUser & {
   openDM: (this: User) => Promise<void>;
   closeDM: (this: User) => Promise<void>;
   avatarUrl(this: User): string | null
-  bannerUrl(this: User): string | null
   update(this: User, update: Partial<RawUser>): void
-}
+} & RawUser;
 
 const [users, setUsers] = createStore<Record<string, User>>({});
 
 
 const set = (user: RawUser) => runWithContext(() => {
   if (users[user.id]) return;
-  setUsers(user.id, {
+
+
+  const newUser: User = {
     ...user,
-    setInboxChannelId(channelId) {
-      setUsers(this.id, 'inboxChannelId', channelId);
-    },
-    setVoiceChannelId(channelId) {
-      setUsers(this.id, 'voiceChannelId', channelId);
-    },
-    async openDM() {
-      await openDM(this.id)
-    },
-    async closeDM() {
-      await closeDM(this.inboxChannelId!)
-    },
-    avatarUrl(){
-      return this?.banner ? env.NERIMITY_CDN + this?.banner : null;
-    },
-    update(update) {
-      setUsers(this.id, update);
-    }
-  });
-});
-
-const openDM = async (userId: string) => runWithContext(async () =>{
-  const navigate = useNavigate();
-  const inbox = useInbox();
-  const channels = useChannels();
-  const user = () => get(userId);
-  const inboxItem = () => inbox.get(user()?.inboxChannelId!);
-    // check if dm already exists
-  if (!inboxItem()) {
-    const rawInbox = await openDMChannelRequest(userId);
-    channels.set(rawInbox.channel);
-    inbox.set({...rawInbox, channelId: rawInbox.channel.id});
-    user()?.setInboxChannelId(rawInbox.channel.id);
+    setInboxChannelId,
+    setVoiceChannelId,
+    openDM,
+    closeDM,
+    avatarUrl: function () {return avatarUrl(this)},
+    update
   }
-  navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
+
+  setUsers(user.id, newUser);
 });
 
-const closeDM = async (channelId: string) => runWithContext(async () =>{
-  await closeDMChannelRequest(channelId);
-});
+function setVoiceChannelId (this: User, channelId: string | undefined) {
+  setUsers(this.id, 'voiceChannelId', channelId);
+}
+function setInboxChannelId (this: User, channelId: string | undefined) {
+  setUsers(this.id, 'inboxChannelId', channelId);
+}
+
+function update (this: User, update: Partial<RawUser>) {
+  setUsers(this.id, update);
+}
+
+async function openDM(this: User) {
+  return runWithContext(async () => {
+    const navigate = useNavigate();
+    const inbox = useInbox();
+    const channels = useChannels();
+
+    const inboxItem = () => inbox.get(this.inboxChannelId!);
+    // check if dm already exists
+    if (!inboxItem()) {
+      const rawInbox = await openDMChannelRequest(this.id);
+      channels.set(rawInbox.channel);
+      inbox.set({...rawInbox, channelId: rawInbox.channel.id});
+      this.setInboxChannelId(rawInbox.channel.id);
+    }
+    navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
+  });
+}
+
+async function closeDM(this: User) {
+  await closeDMChannelRequest(this.inboxChannelId!);
+}
 
 const get = (userId: string) => users[userId]
 

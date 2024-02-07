@@ -123,8 +123,8 @@ const InboxDrawerTab = () => {
   const array = () => {
     const users = mentionUserArray();
     const inboxArray = inbox.array().sort((a, b) => {
-      const aTime = a.channel.lastMessagedAt!;
-      const bTime = b.channel.lastMessagedAt!;
+      const aTime = a.channel().lastMessagedAt!;
+      const bTime = b.channel().lastMessagedAt!;
       return bTime - aTime;
     });
 
@@ -132,9 +132,9 @@ const InboxDrawerTab = () => {
 
     for (let i = 0; i < inboxArray.length; i++) {
       const inboxItem = inboxArray[i];
-      const alreadyExists = users.find(u => u?.id === inboxItem.channel.recipient?.id);
+      const alreadyExists = users.find(u => u?.id === inboxItem.channel().recipient?.id);
       if (!alreadyExists) {
-        users.push(inboxItem.channel.recipient!);
+        users.push(inboxItem.channel().recipient!);
       }
     }
     return users;
