@@ -769,7 +769,8 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
   if (serverId) {
     // replace user mentions
     finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
-      const member = members.find(member => () => {
+      console.log(username)
+      const member = members.find(member => {
         const user = member?.user();
         return user && (user.username === username && user.tag === tag)
       });
@@ -975,14 +976,8 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   const params = useParams<{ serverId?: string, channelId: string }>();
   const { serverMembers, channels, account } = useStore();
 
-  const members = mapArray(() => serverMembers.array(params.serverId!) as ServerMember[], (sm) => {
-    return {
-      ...sm, 
-      get user () {
-        return sm.user()
-      }
-    }
-  });
+  const members = () => serverMembers.array(params.serverId!);
+
   const hasPermissionToMentionEveryone = () => {
     if (!params.serverId) return false;
     const member = serverMembers.get(params.serverId, account.user()?.id!);
@@ -992,29 +987,29 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   }
 
   const searchedServerUsers = () => matchSorter([
-    ...members() as (Omit<ServerMember, "user"> & {user: Partial<User>})[],
+    ...members(),
     ...(hasPermissionToMentionEveryone() ? [{
-      user: {
+      user: () => ({
         special: true,
         id: "e",
         username: "everyone"
-      }
+      })
     }] : []),
     {
-      user: {
+      user: () => ({
         special: true,
         id: "s",
         username: "someone"
-      }
+      })
     }
-  ] as (ServerMember & {user: {special: boolean}})[],
+  ] as (any)[],
     props.search,
     {
-      keys: ["user.username"]
+      keys: [e => e.user().username ]
     }).slice(0, 10).sort((a, b) => {
       // move all special users to the bottom
-      if (a.user.special && !b.user.special) return 1;
-      if (!a.user.special && b.user.special) return -1;
+      if (a.user().special && !b.user().special) return 1;
+      if (!a.user().special && b.user().special) return -1;
       return 0;
     });
 
@@ -1040,7 +1035,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   }
 
   const onEnterClick = (i: number) => {
-    onUserClick((searched()[i] as ServerMember)?.user || searched()[i]);
+    onUserClick((searched()[i] as ServerMember)?.user() || searched()[i]);
   }
 
   const [current, , , setCurrent] = useSelectedSuggestion(() => searched().length, props.textArea!, onEnterClick)
@@ -1049,7 +1044,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
     <Show when={searched().length}>
       <Floating class={styles.floatingSuggestion}>
         <For each={searched()}>
-          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={(member as ServerMember)?.user || member} onclick={onUserClick} />}
+          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={(member as ServerMember)?.user() || member} onclick={onUserClick} />}
         </For>
       </Floating>
     </Show>
