@@ -28,9 +28,7 @@
     "process": "^0.11.10",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
-    "vite-plugin-pwa": "^0.17.4",
-    "vite-plugin-solid": "^2.8.2",
-    "workbox-window": "^7.0.0"
+    "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
     "@mbarzda/solid-i18next": "^1.4.1",
@@ -52,7 +50,6 @@
     "material-icons": "^1.13.12",
     "sass": "^1.70.0",
     "socket.io-client": "^4.7.4",
-    "solid-dnd-directive": "^0.2.0",
     "solid-js": "^1.8.11",
     "solid-navigator": "^0.3.4",
     "solid-sortablejs": "^2.1.2",

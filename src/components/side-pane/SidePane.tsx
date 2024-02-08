@@ -35,7 +35,6 @@ import { updatePresence } from "@/chat-api/services/UserService";
 import { CustomLink } from "../ui/CustomLink";
 import { clearCache } from "@/common/localCache";
 import { useDrawer } from "../ui/drawer/Drawer";
-import { useRegisterSW } from "virtual:pwa-register/solid";
 import Input from "../ui/input/Input";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { Skeleton } from "../ui/skeleton/Skeleton";
@@ -125,7 +124,6 @@ function UpdateItem() {
   const { checkForUpdate, updateAvailable } = useAppVersion();
   const { createPortal } = useCustomPortal();
   const { hasFocus } = useWindowProperties();
-  const { updateServiceWorker } = useRegisterSW();
   let lastChecked = 0;
 
   createEffect(on(hasFocus, async () => {
@@ -137,11 +135,6 @@ function UpdateItem() {
     }
   }));
 
-  createEffect(() => {
-    if (updateAvailable()) {
-      updateServiceWorker(false);
-    }
-  });
 
   const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close} />);
 
@@ -496,11 +489,9 @@ function UpdateModal(props: { close: () => void }) {
     if (!release) return undefined;
     return formatTimestamp(new Date(release.published_at).getTime());
   };
-  const { updateServiceWorker } = useRegisterSW();
 
 
   const onUpdateClick = async () => {
-    await updateServiceWorker();
     location.reload();
   };
 
