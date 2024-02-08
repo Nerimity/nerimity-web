@@ -843,7 +843,7 @@ function ReactionItem(props: ReactionItemProps) {
       margin={0}
       padding={[2, 8, 2, 2]}
       customChildrenLeft={
-        <Emoji class={styles.emoji} name={name()} url={url()} />
+        <Emoji class={styles.emoji} name={name()} url={url()} custom={!!props.reaction.emojiId} resize={60} />
       }
       onClick={addReaction}
       class={classNames(styles.reactionItem, conditionalClass(props.reaction.reacted, styles.reacted))}
