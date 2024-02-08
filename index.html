@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <script>
-    // Remove PWA worker. Caused issues with updating Nerimity (I think?)
-    navigator.serviceWorker?.getRegistrations().then(workers => {
-      workers.forEach(worker => {
-        if (worker.active?.scriptURL === "https://nerimity.com/sw.js") {
-          worker.unregister().then(() => {
-            console.log("Removed worker sw.js");
-            location.reload();
-          });
-        }
-      });
-    });
 
-  </script>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
@@ -41,4 +28,18 @@
 
     <script src="/src/index.tsx" type="module"></script>
   </body>
+  <script>
+    // Remove PWA worker. Caused issues with updating Nerimity (I think?)
+    navigator.serviceWorker?.getRegistrations().then(workers => {
+      workers.forEach(worker => {
+        if (worker.active?.scriptURL === "https://nerimity.com/sw.js") {
+          worker.unregister().then(() => {
+            console.log("Removed worker sw.js");
+            location.reload();
+          });
+        }
+      });
+    });
+
+  </script>
 </html>
