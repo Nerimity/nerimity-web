@@ -66,8 +66,9 @@ export default function ServerSettingsBans() {
       <ListContainer>
         <Text size={24} style={{ "margin-bottom": "10px" }}>Perks</Text>
         <SettingsBlock icon="verified" label="Verified badge" description="A badge to show that your server is special." />
-        <SettingsBlock icon="explore" label="Explore" description="Your server will be displayed in the explore page." />
+        <SettingsBlock icon="explore" label="Explore" description="Your server can be displayed in the explore page." />
         <SettingsBlock icon="link" label="Custom invite link" description="Create your own invite link from the invites page." />
+        <SettingsBlock icon="face" label="More emoji slots" description="Add 50 more emoji slots to your server." />
       </ListContainer>
     </Container>
   );
