@@ -66,7 +66,7 @@ const MemberItem = (props: { member: ServerMember }) => {
     <div class="trigger-profile-flyout" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} >
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
       <div onClick={onClick} ref={elementRef} class={styles.memberItem} onContextMenu={onContextMenu} >
-        <Avatar animate={hovering() || !!isProfileFlyoutOpened()} size={30} user={user()} />
+        <Avatar resize={96} animate={hovering() || !!isProfileFlyoutOpened()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
           <UserPresence animate={hovering() || !!isProfileFlyoutOpened()} userId={user().id} showOffline={false} />

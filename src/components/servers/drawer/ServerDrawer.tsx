@@ -134,7 +134,9 @@ const ChannelIconImage = styled("img")`
 export const ChannelIcon = (props: { icon?: string; type?: ChannelType; hovered?: boolean }) => {
   const url = () => {
     if (props.icon!.includes(".")) {
-      return `${env.NERIMITY_CDN}emojis/${props.icon}${!props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ""}`;
+      const url = new URL(`${env.NERIMITY_CDN}emojis/${props.icon}${!props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ""}`);
+      url.searchParams.set("size", "36");
+      return url.href;
     }
     return unicodeToTwemojiUrl(props.icon!);
   };

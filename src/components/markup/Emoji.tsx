@@ -14,7 +14,7 @@ import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
 import { useNavigate } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 
-export function Emoji(props: { clickable?: boolean, custom?: boolean, class?: string, name: string, url: string, id?: string; animated?: boolean}) {
+export function Emoji(props: { clickable?: boolean, custom?: boolean, class?: string, name: string, url: string, id?: string; animated?: boolean, resize?: number}) {
   const {hasFocus} = useWindowProperties();
   const {createPortal} = useCustomPortal();
   
@@ -24,8 +24,21 @@ export function Emoji(props: { clickable?: boolean, custom?: boolean, class?: st
     );
   };
 
+  const src = () => {
+    if (!props.custom) return props.url;
+
+    const url = new URL(props.url);
+    if(!hasFocus() && props.animated) {
+      url.searchParams.set("type", "webp");
+    }
+    if (props.resize) {
+      url.searchParams.set("size", props.resize.toString());
+    }
+    return url.href;
+  };
+
   return (
-    <img onClick={props.clickable ? click : undefined} loading="lazy" class={classNames(props.class, "emoji")} src={props.url + (props.animated && !hasFocus() ? "?type=webp" : "")} alt={props.name} title={props.name} />
+    <img onClick={props.clickable ? click : undefined} loading="lazy" class={classNames(props.class, "emoji")} src={src()} alt={props.name} title={props.name} />
   );
 }
 

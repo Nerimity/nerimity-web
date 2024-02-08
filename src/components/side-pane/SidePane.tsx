@@ -225,7 +225,7 @@ const UserItem = () => {
   return (
     <>
       <SidebarItemContainer class={classNames(styles.user, "sidePaneUser")} onclick={onClicked} selected={modalOpened()} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-        {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} />}
+        {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} resize={96} />}
         {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
         {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
         {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
@@ -436,7 +436,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
       onContextMenu={props.onContextMenu}>
       <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
         <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
-        <Avatar animate={hovered()} size={40} server={props.server} />
+        <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
       </SidebarItemContainer>
     </A>
   );

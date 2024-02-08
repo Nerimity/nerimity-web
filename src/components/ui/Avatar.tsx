@@ -21,6 +21,7 @@ interface Props {
   voiceIndicator?: boolean;
   children?: JSXElement;
   showBorder?: boolean;
+  resize?: number;
 }
 
 interface ServerOrUser {
@@ -36,15 +37,21 @@ export default function Avatar(props: Props) {
   const serverOrUser = () => (props.server || props.user) as ServerOrUser;
 
   const url = () => {
-    let url = props.url;
-    if (!url) {
-      url = avatarUrl(serverOrUser());
+    const rawUrl = props.url || avatarUrl(serverOrUser());
+    if (!rawUrl) return;
+    const url = new URL(rawUrl);
+
+    if (props.resize) {
+      url.searchParams.set("size", props.resize.toString());
     }
 
-    if (!url?.endsWith(".gif")) return url;
-    if (!hasFocus()) return url + "?type=webp";
-    if (props.animate) return url;
-    return url + "?type=webp";
+    if (!rawUrl?.endsWith(".gif")) return url.href;
+
+    if(!hasFocus() || !props.animate) {
+      url.searchParams.set("type", "webp");
+    }
+
+    return url.href;
   };
 
   const badge = createMemo(() => {

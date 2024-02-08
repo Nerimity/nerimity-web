@@ -197,7 +197,7 @@ const MessageItem = (props: MessageItemProps) => {
         <Match when={!isSystemMessage()}>
           <Show when={!isCompact()}>
             <A onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={classNames(styles.avatar, "trigger-profile-flyout")}>
-              <Avatar animate={hovered()} user={props.message.createdBy} size={40} />
+              <Avatar animate={hovered()} user={props.message.createdBy} size={40} resize={96} />
             </A>
           </Show>
           <div class={styles.messageInner}>

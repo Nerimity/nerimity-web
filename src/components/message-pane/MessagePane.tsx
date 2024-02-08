@@ -1113,7 +1113,7 @@ function EmojiSuggestionItem(props: { onHover: () => void; selected: boolean; em
   };
   return (
     <ItemContainer onmousemove={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.emoji)}>
-      <Emoji class={css`height: 20px; width: 20px; object-fit: contain;`} name={name()} url={url()} />
+      <Emoji class={css`height: 20px; width: 20px; object-fit: contain;`} name={name()} url={url()} resize={96} custom={props.emoji.id} />
       <div class={styles.suggestLabel}>{name()}</div>
     </ItemContainer>
   );
