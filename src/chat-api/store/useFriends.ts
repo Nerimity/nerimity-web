@@ -7,7 +7,7 @@ import useUsers, { User } from './useUsers';
 
 export type Friend = Omit<RawFriend, 'recipient'> & {
   recipientId: string;
-  recipient: () => User;
+  recipient: typeof recipient;
   accept: (this: Friend) => Promise<void>;
   remove: (this: Friend) => Promise<void>;
 } 
@@ -39,7 +39,7 @@ function recipient (this: Friend) {
 }
 async function remove(this: Friend) {
   await removeFriend({friendId: this.recipientId});
-  setFriends(this.recipientId, undefined);
+  setFriends(this.recipientId, undefined!);
 }
 async function accept(this: Friend) {
   await acceptFriendRequest({friendId: this.recipientId});

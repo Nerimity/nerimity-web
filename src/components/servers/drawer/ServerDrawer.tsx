@@ -247,7 +247,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
   const { channel } = props;
   const [hovered, setHovered] = createSignal(false);
 
-  const hasNotifications = () => channel.hasNotifications;
+  const hasNotifications = () => channel.hasNotifications();
 
   const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
@@ -265,8 +265,8 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
           <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
         </Show>
         <div class="label">{channel.name}</div>
-        <Show when={props.channel.mentionCount}>
-          <MentionCountContainer>{props.channel.mentionCount}</MentionCountContainer>
+        <Show when={props.channel.mentionCount()}>
+          <MentionCountContainer>{props.channel.mentionCount()}</MentionCountContainer>
         </Show>
       </ChannelContainer>
       <ChannelItemVoiceUsers channelId={props.channel.id} />

@@ -37,7 +37,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
     if (accountUser?.id === payload.message.createdBy.id) {
       channel?.updateLastSeen(payload.message.createdAt + 1);
     } 
-    else if (!channel || channel.recipient) {
+    else if (!channel || channel.recipient()) {
       const user = users.get(payload.message.createdBy.id);
       if (!user) {
         users.set(payload.message.createdBy);

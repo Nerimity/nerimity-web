@@ -40,12 +40,12 @@ export default function ContextMenuServer (props: Props) {
 
   };
 
-  const hasNotifications = () =>  channels.getChannelsByServerId(props.serverId!)?.find(c => c?.hasNotifications && c.type === ChannelType.SERVER_TEXT)
+  const hasNotifications = () =>  channels.getChannelsByServerId(props.serverId!)?.find(c => c?.hasNotifications() && c.type === ChannelType.SERVER_TEXT)
 
   const dismissNotifications = () => {
     if (!props.serverId) return;
     channels.getChannelsByServerId(props.serverId).forEach(c => {
-      if (!c?.hasNotifications) return;
+      if (!c?.hasNotifications()) return;
       return dismissChannelNotification(c.id);
     })
   }

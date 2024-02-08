@@ -46,7 +46,7 @@ function hasNotifications (this: Server) {
   if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
   
   return channels.getChannelsByServerId(this.id).some(channel => {
-    const hasNotification = channel!.hasNotifications;
+    const hasNotification = channel!.hasNotifications();
     if (hasNotification !== 'mention' && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
     return hasNotification && channel?.type === ChannelType.SERVER_TEXT
   })

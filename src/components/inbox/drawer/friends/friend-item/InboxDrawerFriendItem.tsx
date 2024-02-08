@@ -50,10 +50,10 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   }
 
   const onCloseDMClick = async () => {
-    const channel = channels.get(user().inboxChannelId!);
+    const channel = channels.get(user()?.inboxChannelId!);
     channel?.dismissNotification();
-    user().closeDM();
-    if (params.channelId === user().inboxChannelId) {
+    user()?.closeDM();
+    if (params.channelId === user()?.inboxChannelId) {
       navigate('/app')
     }
   }
@@ -62,7 +62,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   const onFriendClick = async (e: any) => {
     if (e.target.closest(".link")) return;
     if (e.target.closest("." + styles.button)) return;
-    user().openDM();
+    user()?.openDM();
     emitDrawerGoToMain();
   }
 

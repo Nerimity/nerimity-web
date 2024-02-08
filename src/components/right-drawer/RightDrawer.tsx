@@ -65,7 +65,7 @@ const MemberItem = (props: { member: ServerMember }) => {
   return (
     <div class="trigger-profile-flyout" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} >
       <MemberContextMenu position={contextPosition()} serverId={props.member.serverId} userId={props.member.userId} onClose={() => setContextPosition(undefined)} />
-      <div onClick={onClick} ref={elementRef} class={styles.memberItem} oncontextmenu={onContextMenu} >
+      <div onClick={onClick} ref={elementRef} class={styles.memberItem} onContextMenu={onContextMenu} >
         <Avatar animate={hovering() || !!isProfileFlyoutOpened()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor() }} >{user().username}</div>
@@ -283,7 +283,7 @@ const BannerItem = () => {
 
   const server = () => servers.get(params.serverId!);
 
-  const channel = () => channels.get(params.channelId!)?.recipient;
+  const channel = () => channels.get(params.channelId!)?.recipient();
 
   const bannerData = () => server() || channel() as { hexColor: string, banner?: string; };
 
@@ -326,13 +326,13 @@ const ServerDrawer = () => {
           <For each={roleMembers()}>
             {item => (
               <Show when={!item.role!.hideRole && item.members().length}>
-                <RoleItem members={item.members().sort((a, b) => a!?.user().username.localeCompare(b!?.user().username))} roleName={item.role?.name!} />
+                <RoleItem members={item.members().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName={item.role?.name!} />
               </Show>
             )}
           </For>
 
           {/* Offline */}
-          <RoleItem members={offlineMembers().sort((a, b) => a!?.user().username.localeCompare(b!?.user().username))} roleName="Offline" />
+          <RoleItem members={offlineMembers().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName="Offline" />
         </>
       </Delay>
 
@@ -344,7 +344,7 @@ function RoleItem(props: { roleName: string, members: ServerMember[] }) {
   const [expanded, setExpanded] = createSignal(props.members.length <= 20);
   return (
     <div class={styles.roleItem}>
-      <div class={styles.roleTitle} onclick={() => setExpanded(!expanded())}>
+      <div class={styles.roleTitle} onClick={() => setExpanded(!expanded())}>
         <div class={styles.roleName}>{props.roleName} ({props.members.length}) </div>
         <Button class={styles.roleExpandButton} padding={5} margin={0} iconName={expanded() ? 'expand_more' : 'expand_less'} iconSize={12} />
       </div>

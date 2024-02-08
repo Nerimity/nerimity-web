@@ -31,7 +31,7 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
   const server = () => servers.get(channel()?.serverId!);
 
   const name = () => {
-    if (!server()) return channel()?.recipient?.username
+    if (!server()) return channel()?.recipient()?.username
     return `${server()?.name} #${channel()?.name}`;
   }
 

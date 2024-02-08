@@ -22,7 +22,7 @@ const set = (item: RawInboxWithoutChannel) => {
     user.set(item.recipient);
     
     channel.setRecipientId(item.recipient.id);
-    channel.recipient?.setInboxChannelId(item.channelId);
+    channel.recipient()?.setInboxChannelId(item.channelId);
   }
   
   setInbox(item.channelId, {
@@ -38,7 +38,7 @@ function channel (this: Inbox) {
 
 
 const removeInbox = (channelId: string) => {
-  setInbox(channelId, undefined);
+  setInbox(channelId, undefined!);
 }
 
 const get = (userId: string) => {

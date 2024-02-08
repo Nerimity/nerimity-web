@@ -56,7 +56,7 @@ export default function MessagePane() {
   createEffect(() => {
     if (!channel()) return;
 
-    const userId = channel()!.recipient?.id;
+    const userId = channel()!.recipient()?.id;
 
     header.updateHeader({
       title: channel()!.name,
@@ -119,7 +119,7 @@ const EmailUnconfirmedNotice = () => {
 function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: HTMLTextAreaElement): void }) {
   const { channelProperties, account } = useStore();
   const params = useParams<{ channelId: string, serverId?: string; }>();
-  let [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
+  const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
   const { isMobileAgent, paneWidth } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
   const { createPortal } = useCustomPortal();
@@ -226,7 +226,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
   }
 
   const adjustHeight = () => {
-    let MAX_HEIGHT = 100;
+    const MAX_HEIGHT = 100;
     textAreaEl()!.style.height = '0px';
     let newHeight = (textAreaEl()!.scrollHeight - 24);
     if (newHeight > MAX_HEIGHT) newHeight = MAX_HEIGHT;
@@ -375,8 +375,8 @@ function CustomTextArea(props: CustomTextAreaProps) {
       <textarea
         {...props}
         ref={textAreaRef}
-        onfocus={() => setFocused(true)}
-        onblur={() => setFocused(false)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         maxLength={2000}
         class={styles.textArea}
       />
@@ -750,7 +750,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
   // DM Channel
   if (!serverId && channelId) {
     const channel = channels.get(channelId);
-    const dmUsers = !channel ? [] : [channel?.recipient, account.user()] as User[];
+    const dmUsers = !channel ? [] : [channel?.recipient(), account.user()] as User[];
     // replace user mentions
     finalString = finalString.replace(userMentionRegex, (match, username, tag) => {
       if (!dmUsers) return match;
@@ -761,7 +761,7 @@ export function formatMessage(message: string, serverId?: string, channelId?: st
     });
 
     if (isSomeoneMentioned) {
-        finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${dmUsers[randomIndex(dmUsers.length)].username})**`)
+        finalString = finalString.replaceAll("@someone", () => `[@:s] **${randomKaomoji()} (${dmUsers[randomIndex(dmUsers.length)]?.username})**`)
     }
   }
   // Server Channel
@@ -800,7 +800,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
   const properties = () => channelProperties.get(params.channelId);
   const scrolledUp = () => !properties()?.isScrolledBottom || properties()?.moreBottomToLoad;
 
-  const newMessages = createMemo(() => channels.get(params.channelId)?.hasNotifications);
+  const newMessages = createMemo(() => channels.get(params.channelId)?.hasNotifications());
 
   const onClick = async () => {
     if (properties()?.moreBottomToLoad) {
@@ -811,7 +811,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
 
   return (
     <Show when={scrolledUp()}>
-      <div class={styles.backToBottom} onclick={onClick}>
+      <div class={styles.backToBottom} onClick={onClick}>
         <Show when={newMessages()}><Text class={styles.text} size={14}>New messages</Text></Show>
         <Icon size={34} color={newMessages() ? 'var(--alert-color)' : "var(--primary-color)"} name="expand_more" />
       </div>
@@ -1011,7 +1011,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
 
 
   const channel = () => channels.get(params.channelId);
-  const DMUsers = () => !channel() ? [] : [channel()?.recipient, account.user()] as User[];
+  const DMUsers = () => !channel() ? [] : [channel()?.recipient(), account.user()] as User[];
   const searchedDMUsers = () => matchSorter(DMUsers(), props.search, { keys: ["username"] }).slice(0, 10);
 
   const searched = () => !params.serverId ? searchedDMUsers() : searchedServerUsers();
@@ -1169,7 +1169,7 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
 
 
 
-let noticeCache: Record<string, RawChannelNotice | null> = {};
+const noticeCache: Record<string, RawChannelNotice | null> = {};
 
 const useNotice = (channelId: string) => {
 

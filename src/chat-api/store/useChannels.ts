@@ -1,13 +1,12 @@
-import RouterEndpoints from '@/common/RouterEndpoints';
 import { runWithContext } from '@/common/runWithContext';
 import { batch } from 'solid-js';
 import {createStore, reconcile} from 'solid-js/store';
 import { useWindowProperties } from '../../common/useWindowProperties';
 import {dismissChannelNotification} from '../emits/userEmits';
 import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIONS } from '../Bitwise';
-import { RawChannel, ServerNotificationPingMode } from '../RawData';
+import { RawChannel } from '../RawData';
 import useMessages from './useMessages';
-import useUsers, { User } from './useUsers';
+import useUsers from './useUsers';
 import useStore from './useStore';
 import useServerMembers from './useServerMembers';
 import useAccount from './useAccount';
@@ -23,12 +22,12 @@ export type Channel = Omit<RawChannel, 'recipient'> & {
   setRecipientId(this: Channel, userId: string): void;
   update: (this: Channel, update: Partial<RawChannel>) => void;
 
-  permissionList: Array<Bitwise & {hasPerm: boolean}>
-  recipient?: User;
+  permissionList: typeof permissionList;
+  recipient: typeof recipient
   recipientId?: string;
   lastSeen?: number;
-  hasNotifications: boolean | 'mention';
-  mentionCount: number;
+  hasNotifications: typeof hasNotifications;
+  mentionCount: typeof mentionCount;
   joinCall: () => void;
   leaveCall: () => void;
   callJoinedAt?: number;
@@ -40,80 +39,106 @@ const [channels, setChannels] = createStore<Record<string, Channel | undefined>>
 
 
 const set = (channel: RawChannel & {lastSeen?: number}) => {
-  const users = useUsers();
-  const serverMembers = useServerMembers();
-  const account = useAccount();
 
-  setChannels(channel.id, {
+  const newChannel: Channel = {
     ...channel,
-    get recipient(): User {
-      return users.get(this.recipientId!);
-    },
-    get hasNotifications() {
-      const isAdminChannel = () => hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+    recipient,
+    hasNotifications,
+    permissionList,
+    mentionCount,
+    updateLastSeen,
+    updateLastMessaged,
+    dismissNotification,
+    setRecipientId,
+    setCallJoinedAt,
+    update,
+    joinCall,
+    leaveCall
+  }
 
-      if (this.serverId && isAdminChannel()) {
-        const member = serverMembers.get(this.serverId, account.user()?.id!);
-        const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN)
-        if (!hasAdminPermission) return false;
-      }
-
-      const {mentions} = useStore();
-      const hasMentions = mentions.get(channel.id)?.count;
-
-      if (hasMentions) return 'mention';
-
-      const lastMessagedAt = this.lastMessagedAt! || 0;
-      const lastSeenAt = this.lastSeen! || 0;
-      if (!lastSeenAt) return true;
-      return lastMessagedAt > lastSeenAt;
-    },
-    get permissionList () {
-      const permissions = this.permissions || 0;
-      return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
-    },
-    get mentionCount() {
-      const mention = useMention();
-      const count = mention.get(channel.id)?.count || 0
-
-      return count;
-    },
-    updateLastSeen(timestamp?: number) {
-      setChannels(this.id, "lastSeen", timestamp);
-    },
-    updateLastMessaged(timestamp?: number) {
-      setChannels(this.id, "lastMessagedAt", timestamp);
-    },
-    dismissNotification(force = false) {
-      if (force) return dismissChannelNotification(channel.id);
-      const {hasFocus} = useWindowProperties();
-      if (!hasFocus()) return;
-      if (!this.hasNotifications) return;
-      dismissChannelNotification(channel.id);
-    },
-    setRecipientId(userId: string) {
-      setChannels(this.id, "recipientId", userId);
-    },
-    setCallJoinedAt(joinedAt) {
-      setChannels(this.id, "callJoinedAt", joinedAt);
-    },
-    update(update) {
-      setChannels(this.id, update);
-    },
-    joinCall() {
-      const {setCurrentVoiceChannelId} = useVoiceUsers();
-      postJoinVoice(this.id, socketClient.id()).then(() => {
-        setCurrentVoiceChannelId(this.id);
-      })
-    },
-    leaveCall() {
-      const {setCurrentVoiceChannelId} = useVoiceUsers();
-      postLeaveVoice(this.id).then(() => {
-        setCurrentVoiceChannelId(null);
-      })
-    }
-  }); 
+  setChannels(channel.id, newChannel); 
 }
+
+function permissionList (this: Channel) {
+  const permissions = this.permissions || 0;
+  return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
+}
+
+function mentionCount (this: Channel) {
+  const mention = useMention();
+  const count = mention.get(this.id)?.count || 0
+
+  return count;
+}
+
+function hasNotifications (this: Channel) {
+  const {serverMembers, account, mentions} = useStore();
+  const isAdminChannel = () => hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+
+  if (this.serverId && isAdminChannel()) {
+    const member = serverMembers.get(this.serverId, account.user()?.id as string);
+    const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN)
+    if (!hasAdminPermission) return false;
+  }
+
+  const hasMentions = mentions.get(this.id)?.count;
+
+  if (hasMentions) return 'mention';
+
+  const lastMessagedAt = this.lastMessagedAt! || 0;
+  const lastSeenAt = this.lastSeen! || 0;
+  if (!lastSeenAt) return true;
+  return lastMessagedAt > lastSeenAt;
+} 
+
+
+function recipient (this: Channel) {
+  const users = useUsers();
+  return users.get(this.recipientId!);
+}
+
+
+function joinCall(this: Channel) {
+  const {setCurrentVoiceChannelId} = useVoiceUsers();
+  postJoinVoice(this.id, socketClient.id()!).then(() => {
+    setCurrentVoiceChannelId(this.id);
+  })
+}
+function leaveCall (this: Channel) {
+  const {setCurrentVoiceChannelId} = useVoiceUsers();
+  postLeaveVoice(this.id).then(() => {
+    setCurrentVoiceChannelId(null);
+  })
+}
+function update (this: Channel, update: Partial<RawChannel>) {
+  setChannels(this.id, update);
+}
+
+function setCallJoinedAt(this: Channel, joinedAt: number | undefined) {
+  setChannels(this.id, "callJoinedAt", joinedAt);
+}
+
+function setRecipientId(this: Channel, userId: string) {
+  setChannels(this.id, "recipientId", userId);
+}
+
+function dismissNotification (this: Channel, force = false) {
+  if (force) return dismissChannelNotification(this.id);
+  const {hasFocus} = useWindowProperties();
+  if (!hasFocus()) return;
+  if (!this.hasNotifications()) return;
+  dismissChannelNotification(this.id);
+}
+
+function updateLastMessaged(this: Channel, timestamp?: number) {
+  setChannels(this.id, "lastMessagedAt", timestamp);
+}
+
+function updateLastSeen(this: Channel, timestamp?: number) {
+  setChannels(this.id, "lastSeen", timestamp);
+}
+
+
 
 
 const deleteChannel = (channelId: string, serverId?: string) => runWithContext(() => {
