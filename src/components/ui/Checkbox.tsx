@@ -1,8 +1,8 @@
-import { createEffect, createSignal, on, Show } from 'solid-js';
-import { css, styled } from 'solid-styled-components';
-import Icon from './icon/Icon';
-import Text from './Text';
-import { classNames, conditionalClass } from '@/common/classNames';
+import { createEffect, createSignal, on, Show } from "solid-js";
+import { css, styled } from "solid-styled-components";
+import Icon from "./icon/Icon";
+import Text from "./Text";
+import { classNames, conditionalClass } from "@/common/classNames";
 
 interface CheckboxProps {
   checked: boolean
@@ -48,17 +48,17 @@ export default function Checkbox (props: CheckboxProps) {
   ));
 
   const onClick = () => {
-    const newState = !checked() 
+    const newState = !checked(); 
     !props.disableLocalUpdate &&  setChecked(newState);
     props.onChange?.(newState);
-  }
+  };
 
   return (
-    <CheckboxContainer class={ classNames('checkbox', conditionalClass(checked(), 'selected'))} onClick={onClick}>
+    <CheckboxContainer class={ classNames("checkbox", conditionalClass(checked(), "selected"))} onClick={onClick}>
       <Icon size={13} class={boxStyle} name="done" />
       <Show when={props.label}>
         <Text size={props.labelSize}>{props.label}</Text>
       </Show>
     </CheckboxContainer>
-  )
+  );
 }

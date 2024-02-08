@@ -1,21 +1,21 @@
-import { runWithContext } from '@/common/runWithContext';
-import { batch } from 'solid-js';
-import {createStore, reconcile} from 'solid-js/store';
-import { useWindowProperties } from '../../common/useWindowProperties';
-import {dismissChannelNotification} from '../emits/userEmits';
-import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIONS } from '../Bitwise';
-import { RawChannel } from '../RawData';
-import useMessages from './useMessages';
-import useUsers from './useUsers';
-import useStore from './useStore';
-import useServerMembers from './useServerMembers';
-import useAccount from './useAccount';
-import useMention from './useMention';
-import socketClient from '../socketClient';
-import { postJoinVoice, postLeaveVoice } from '../services/VoiceService';
-import useVoiceUsers from './useVoiceUsers';
+import { runWithContext } from "@/common/runWithContext";
+import { batch } from "solid-js";
+import {createStore, reconcile} from "solid-js/store";
+import { useWindowProperties } from "../../common/useWindowProperties";
+import {dismissChannelNotification} from "../emits/userEmits";
+import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIONS } from "../Bitwise";
+import { RawChannel } from "../RawData";
+import useMessages from "./useMessages";
+import useUsers from "./useUsers";
+import useStore from "./useStore";
+import useServerMembers from "./useServerMembers";
+import useAccount from "./useAccount";
+import useMention from "./useMention";
+import socketClient from "../socketClient";
+import { postJoinVoice, postLeaveVoice } from "../services/VoiceService";
+import useVoiceUsers from "./useVoiceUsers";
 
-export type Channel = Omit<RawChannel, 'recipient'> & {
+export type Channel = Omit<RawChannel, "recipient"> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
   updateLastMessaged(this: Channel, timestamp?: number): void;
   dismissNotification(this: Channel, force?: boolean): void;
@@ -54,10 +54,10 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
     update,
     joinCall,
     leaveCall
-  }
+  };
 
   setChannels(channel.id, newChannel); 
-}
+};
 
 function permissionList (this: Channel) {
   const permissions = this.permissions || 0;
@@ -66,7 +66,7 @@ function permissionList (this: Channel) {
 
 function mentionCount (this: Channel) {
   const mention = useMention();
-  const count = mention.get(this.id)?.count || 0
+  const count = mention.get(this.id)?.count || 0;
 
   return count;
 }
@@ -77,13 +77,13 @@ function hasNotifications (this: Channel) {
 
   if (this.serverId && isAdminChannel()) {
     const member = serverMembers.get(this.serverId, account.user()?.id as string);
-    const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN)
+    const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
     if (!hasAdminPermission) return false;
   }
 
   const hasMentions = mentions.get(this.id)?.count;
 
-  if (hasMentions) return 'mention';
+  if (hasMentions) return "mention";
 
   const lastMessagedAt = this.lastMessagedAt! || 0;
   const lastSeenAt = this.lastSeen! || 0;
@@ -102,13 +102,13 @@ function joinCall(this: Channel) {
   const {setCurrentVoiceChannelId} = useVoiceUsers();
   postJoinVoice(this.id, socketClient.id()!).then(() => {
     setCurrentVoiceChannelId(this.id);
-  })
+  });
 }
 function leaveCall (this: Channel) {
   const {setCurrentVoiceChannelId} = useVoiceUsers();
   postLeaveVoice(this.id).then(() => {
     setCurrentVoiceChannelId(null);
-  })
+  });
 }
 function update (this: Channel, update: Partial<RawChannel>) {
   setChannels(this.id, update);
@@ -148,13 +148,13 @@ const deleteChannel = (channelId: string, serverId?: string) => runWithContext((
   batch(() => {
     messages.deleteChannelMessages(channelId);
     setChannels(channelId, undefined);
-  })
+  });
 });
 
 
 const get = (channelId: string) => {
   return channels[channelId];
-}
+};
 
 const array = () => Object.values(channels);
 
@@ -172,7 +172,7 @@ const getChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = false) =>
     const isPrivateChannel = hasBit(channel?.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
     return isServerChannel && !isPrivateChannel;
   });
-}
+};
 
 
 // if order field exists, sort by order, else, sort by created date
@@ -180,11 +180,12 @@ const getSortedChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = fal
   return getChannelsByServerId(serverId, hidePrivateIfNoPerm).sort((a, b) => {
     if (a!.order && b!.order) {
       return a!.order - b!.order;
-    } else {
+    }
+    else {
       return a!.createdAt - b!.createdAt;
     }
-  })
-}
+  });
+};
 
 
 
@@ -196,15 +197,15 @@ const removeAllServerChannels = (serverId: string) => {
       if (channel?.serverId !== serverId) continue; 
       deleteChannel(channel.id);
     }
-  })
-}
+  });
+};
 
 
 
 
 const reset = () => {
   setChannels(reconcile({}));
-}
+};
 export default function useChannels() {
   return {
     reset,
@@ -215,5 +216,5 @@ export default function useChannels() {
     get,
     set,
     removeAllServerChannels
-  }
+  };
 }

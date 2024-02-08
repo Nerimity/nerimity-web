@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import {A, useNavigate, useParams} from "solid-navigator";
-import {createEffect, createSignal, For, on, onCleanup, onMount, Show,} from "solid-js";
+import {createEffect, createSignal, For, on, onCleanup, onMount, Show} from "solid-js";
 import {FriendStatus, RawUser, TicketCategory} from "@/chat-api/RawData";
 import {
   blockUser,
@@ -10,11 +10,11 @@ import {
   getUserDetailsRequest,
   unblockUser,
   unfollowUser,
-  UserDetails,
+  UserDetails
 } from "@/chat-api/services/UserService";
 import useStore from "@/chat-api/store/useStore";
 import {bannerUrl, User} from "@/chat-api/store/useUsers";
-import {calculateTimeElapsedForActivityStatus, formatTimestamp, getDaysAgo,} from "../../common/date";
+import {calculateTimeElapsedForActivityStatus, formatTimestamp, getDaysAgo} from "../../common/date";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
@@ -38,7 +38,7 @@ import Modal from "../ui/modal/Modal";
 import {useCustomPortal} from "../ui/custom-portal/CustomPortal";
 import {getLastSelectedChannelId} from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/Item";
-import ContextMenu, {ContextMenuItem, ContextMenuProps,} from "../ui/context-menu/ContextMenu";
+import ContextMenu, {ContextMenuItem, ContextMenuProps} from "../ui/context-menu/ContextMenu";
 import Input from "../ui/input/Input";
 import {copyToClipboard} from "@/common/clipboard";
 import {Notice} from "../ui/Notice/Notice";
@@ -103,7 +103,7 @@ export default function ProfilePane() {
   );
 
   const fetchUserDetails = async (userId: string) => {
-    setAnimateAvatar(false)
+    setAnimateAvatar(false);
     const userDetails = await getUserDetailsRequest(userId);
     setUserDetails(userDetails);
     setTimeout(() => {
@@ -124,7 +124,7 @@ export default function ProfilePane() {
       header.updateHeader({
         subName: "Profile",
         title: user()!.username,
-        iconName: "person",
+        iconName: "person"
       });
     })
   );
@@ -139,7 +139,7 @@ export default function ProfilePane() {
             margin={0}
             hexColor={user()?.hexColor}
             url={bannerUrl(user()!)}
-           />
+          />
           <FlexColumn>
             <FlexRow>
               <Avatar
@@ -259,7 +259,7 @@ const ActionButtons = (props: {
     if (!props.user) return;
     addFriend({
       username: props.user.username,
-      tag: props.user.tag,
+      tag: props.user.tag
     }).catch((err) => {
       alert(err.message);
     });
@@ -390,9 +390,9 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
         id: "message",
         label: "Message",
         icon: "mail",
-        onClick: onMessageClicked,
+        onClick: onMessageClicked
       },
-      { separator: true },
+      { separator: true }
     ];
 
     if (isBlocked()) {
@@ -400,14 +400,15 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
         label: "Unblock",
         icon: "block",
         alert: true,
-        onClick: unblockClicked,
+        onClick: unblockClicked
       });
-    } else {
+    }
+    else {
       items.push({
         label: "Block",
         icon: "block",
         alert: true,
-        onClick: blockClicked,
+        onClick: blockClicked
       });
     }
 
@@ -416,7 +417,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
       label: "Report",
       icon: "flag",
       alert: true,
-      onClick: reportClicked,
+      onClick: reportClicked
     });
     items.push(
       { separator: true },
@@ -472,7 +473,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
     { id: "QUESTION", label: "Question" },
     { id: "ACCOUNT", label: "Account" },
     { id: "ABUSE", label: "Abuse" },
-    { id: "OTHER", label: "Other" },
+    { id: "OTHER", label: "Other" }
   ];
 
   const createTicketClick = async () => {
@@ -495,7 +496,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
     let customBody = body();
 
     if (userId()) {
-      customBody = `User to report: ${userId()}\n\n${customBody}`
+      customBody = `User to report: ${userId()}\n\n${customBody}`;
     }
 
     const ticket = await createTicket({
@@ -503,12 +504,12 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
       category: TicketCategory[selectedCategoryId() as keyof typeof TicketCategory],
       title: title()
     }).catch(err => {
-      setError(err.message)
+      setError(err.message);
     });
     if (!ticket) return;
     navigate(`/app/settings/tickets/${ticket.id}`);
     props.close();
-  }
+  };
 
 
   const actionButtons = (
@@ -537,7 +538,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
       maxWidth={800}
       actionButtons={actionButtons}
     >
-      <FlexColumn style={{overflow: 'auto', "max-height": "60vh"}}>
+      <FlexColumn style={{overflow: "auto", "max-height": "60vh"}}>
         <Notice
           style={{ "margin-left": "12px", "margin-right": "12px" }}
           description="Creating multiple false tickets may affect your account."
@@ -546,12 +547,12 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
 
         <FlexColumn style={{ gap: "12px", padding: "12px" }}>
           <Show when={!props.ticket}>
-          <DropDown
-            title="Choose a category"
-            items={Categories}
-            selectedId={selectedCategoryId()}
-            onChange={(item) => setSelectedCategoryId(item.id)}
-          />
+            <DropDown
+              title="Choose a category"
+              items={Categories}
+              selectedId={selectedCategoryId()}
+              onChange={(item) => setSelectedCategoryId(item.id)}
+            />
           </Show>
 
           <Show when={selectedCategoryId() === "ABUSE"}>
@@ -693,7 +694,7 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
     return props.mutualFriendIds.map(userId => {
       return users.get(userId);
     });
-  }
+  };
 
   return (
     <div
@@ -1015,8 +1016,8 @@ function BadgeDetailModal(props: {
     }, 100);
     onCleanup(() => {
       window.clearTimeout(id);
-    })
-  })
+    });
+  });
 
   return (
     <Modal title={`${props.badge.name} Badge`} close={props.close}>

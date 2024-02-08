@@ -1,7 +1,7 @@
-import { Outlet } from 'solid-navigator';
-import { Show } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import { styled } from 'solid-styled-components';
+import { Outlet } from "solid-navigator";
+import { Show } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import { styled } from "solid-styled-components";
 
 const ExplorePaneContainer = styled("div")`
   display: flex;

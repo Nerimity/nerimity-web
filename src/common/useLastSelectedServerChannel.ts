@@ -24,9 +24,10 @@ export function setLastSelectedServerChannelId(serverId: string, channelId: stri
   const index = entries.findIndex(([entryServerId]) => serverId === entryServerId);
   if (index >= 0) {
     entries[index] = [serverId, channelId];
-  } else {
+  }
+  else {
     entries.unshift([serverId, channelId]);
   }
-  set(reconcile(Object.fromEntries(entries)))
-  setStorageString(StorageKeys.LAST_SELECTED_SERVER_CHANNELS, JSON.stringify(entries.slice(0, 20)))
+  set(reconcile(Object.fromEntries(entries)));
+  setStorageString(StorageKeys.LAST_SELECTED_SERVER_CHANNELS, JSON.stringify(entries.slice(0, 20)));
 }

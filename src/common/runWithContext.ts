@@ -4,8 +4,8 @@ let ctx: Owner | null = null;
 
 export const setContext = () => {
   ctx = getOwner();
-}
+};
 
 export function runWithContext<T>(callback: () => T) {
-  return runWithOwner<T>(ctx!, callback)
+  return runWithOwner<T>(ctx!, callback);
 }

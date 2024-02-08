@@ -2,7 +2,7 @@ import {
   PostNotificationType,
   RawPost,
   RawPostNotification,
-  RawUser,
+  RawUser
 } from "@/chat-api/RawData";
 import {
   createPost,
@@ -14,7 +14,7 @@ import {
   getPostsLiked,
   LikedPost,
   likePost,
-  unlikePost,
+  unlikePost
 } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
@@ -34,7 +34,7 @@ import {
   onCleanup,
   onMount,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import { createStore } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
@@ -124,9 +124,10 @@ function NewPostArea(props: { postId?: string }) {
         .cachedPost(props.postId)
         ?.submitReply({
           content: formattedContent,
-          attachment: attachedFile(),
+          attachment: attachedFile()
         });
-    } else {
+    }
+    else {
       posts.submitPost({ content: formattedContent, file: attachedFile() });
     }
     setContent("");
@@ -342,7 +343,7 @@ export function PostItem(props: {
   const onMouseDown = (event: any) => {
     startClickPos = {
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     };
     textSelected = !!window.getSelection()?.toString();
   };
@@ -646,7 +647,7 @@ export function PostsArea(props: {
       }
       setLoading(true);
       const newPosts = await posts.fetchUserPosts(props.userId!, props.showReplies);
-      setLastFetchCount(newPosts?.length || 0)
+      setLastFetchCount(newPosts?.length || 0);
       setLoading(false);
     }
   });
@@ -655,25 +656,25 @@ export function PostsArea(props: {
     if (!props.showFeed) return;
     setLoading(true);
     const newPosts = await posts.fetchFeed();
-    setLastFetchCount(newPosts?.length || 0)
+    setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
-  }
+  };
 
   const fetchDiscover = async () => {
     if (!props.showDiscover) return;
     setLoading(true);
     const newPosts = await posts.fetchDiscover();
-    setLastFetchCount(newPosts?.length || 0)
+    setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
-  }
+  };
 
   const fetchReplies = async () => {
     if (!props.postId) return; 
     setLoading(true);
     const newPosts = await posts.cachedPost(props.postId!)?.loadComments();
-    setLastFetchCount(newPosts?.length || 0)
+    setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
-  }
+  };
 
   createEffect(on(() =>  props.postId, () => {
     fetchFeed();
@@ -688,36 +689,36 @@ export function PostsArea(props: {
     if (loading()) return;
     setLoading(true);
     const newPosts = await posts.cachedPost(props.postId!)?.loadMoreComments();
-    setLastFetchCount(newPosts?.length || 0)
+    setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
-  }
+  };
 
   const loadMoreUserPosts = async () => {
     if (loading()) return;
     setLoading(true);
     const newPosts = await posts.fetchMoreUserPosts(props.userId!, props.showReplies);
-    setLastFetchCount(newPosts?.length || 0)
+    setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
-  }
+  };
 
   const loadMoreFeed = async () => {
     if (loading()) return;
     setLoading(true);
     const newPosts = await posts.fetchMoreFeed();
-    setLastFetchCount(newPosts?.length || 0)
+    setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
-  }
+  };
   const loadMoreDiscover = async () => {
     if (loading()) return;
     setLoading(true);
     const newPosts = await posts.fetchMoreDiscover();
-    setLastFetchCount(newPosts?.length || 0)
+    setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
-  }
+  };
 
   const loadMore = () => {
     if (props.postId) {
-      loadMoreComments()
+      loadMoreComments();
     }
     if (props.userId) {
       loadMoreUserPosts();
@@ -728,7 +729,7 @@ export function PostsArea(props: {
     if (props.showDiscover) {
       loadMoreDiscover();
     }
-  }
+  };
   return (
     <PostsContainer gap={2} style={props.style}>
       <Show when={props.showCreateNew}>

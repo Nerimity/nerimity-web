@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {ChannelType, RawChannel, RawCustomEmoji, RawPublicServer, RawServer, RawServerRole, RawUser} from '../RawData'
+import {ChannelType, RawChannel, RawCustomEmoji, RawPublicServer, RawServer, RawServerRole, RawUser} from "../RawData";
 import env from "../../common/env";
 
 
@@ -69,7 +69,7 @@ export async function createServerChannel(opts: CreateServerChannelOpts): Promis
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannels(opts.serverId),
     body: {
       ...(opts.name ? {name: opts.name} : undefined),
-      ...(opts.type ? {type: opts.type} : undefined),
+      ...(opts.type ? {type: opts.type} : undefined)
     },
     useToken: true
   });
@@ -212,7 +212,7 @@ export type ServerWithMemberCount = RawServer & { memberCount: number };
 export async function serverDetailsByInviteCode(inviteCode: string) {
   return request<ServerWithMemberCount>({
     method: "GET",
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInviteCode(inviteCode),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInviteCode(inviteCode)
   });
 }
 
@@ -220,7 +220,7 @@ export async function publicServerByEmojiId(id: string) {
   return request<RawPublicServer>({
     method: "GET",
     url: env.SERVER_URL + `/api/emojis/${id}/server`,
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -245,16 +245,16 @@ export async function getPublicServer(serverId: string) {
   return request<RawPublicServer>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 
-export async function getPublicServers(sort: 'most_bumps' | 'most_members' | 'recently_added' | 'recently_bumped', filter: 'all' | 'verified') {
+export async function getPublicServers(sort: "most_bumps" | "most_members" | "recently_added" | "recently_bumped", filter: "all" | "verified") {
   return request<RawPublicServer[]>({
     params: {sort, filter},
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(""),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -263,14 +263,14 @@ export async function updatePublicServer(serverId: string, description: string) 
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
     body: {description},
-    useToken: true,
+    useToken: true
   });
 }
 export async function deletePublicServer(serverId: string) {
   return request<RawPublicServer>({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -281,9 +281,9 @@ export async function addServerEmoji(serverId: string, emojiName: string, base64
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
     body: {
       name: emojiName,
-      emoji: base64,
+      emoji: base64
     },
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -293,7 +293,7 @@ export async function getServerEmojis(serverId: string) {
   return request<RawCustomEmojiWithCreator[]>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
-    useToken: true,
+    useToken: true
   });
 }
 
@@ -304,7 +304,7 @@ export async function updateServerEmoji(serverId: string, emojiId: string, newNa
     body: {
       name: newName
     },
-    useToken: true,
+    useToken: true
   });
 }
 export async function deleteServerEmoji(serverId: string, emojiId: string) {
@@ -312,6 +312,6 @@ export async function deleteServerEmoji(serverId: string, emojiId: string) {
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis/" + emojiId,
     notJSON: true,
-    useToken: true,
+    useToken: true
   });
 }

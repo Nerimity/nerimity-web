@@ -29,19 +29,19 @@ export default function ServerPage() {
   const [server, setServer] = createSignal<RawServer & {createdBy: RawUser} | null>(null);
 
   const defaultInput = () => ({
-    name: server()?.name || '',
+    name: server()?.name || "",
     verified: server()?.verified || false,
-    password: ''
-  })
+    password: ""
+  });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
 
   onMount(() => {
-    getServer(params.serverId).then(setServer)
-  })
+    getServer(params.serverId).then(setServer);
+  });
 
-  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
+  const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
     setRequestSent(true);
@@ -49,13 +49,13 @@ export default function ServerPage() {
     const values = updatedInputValues();
     await updateServer(params.serverId, values)
       .then(() => {
-        setServer(() => ({ ...server()!, ...values, password: '' }))
+        setServer(() => ({ ...server()!, ...values, password: "" }));
       })
       .catch(err => {
-        setError(err.message)
+        setError(err.message);
       })
-      .finally(() => setRequestSent(false))
-  }
+      .finally(() => setRequestSent(false));
+  };
 
   return (
     <Show when={server()}>
@@ -75,21 +75,21 @@ export default function ServerPage() {
             <BreadcrumbItem title={server()?.name} icon="dns" />
           </Breadcrumb>
 
-        <div style={{display: 'flex', "flex-direction": "column", gap: "4px", "margin-bottom": "10px"}}>
-          <Text size={14} style={{"margin-left": "45px"}}>Created By</Text>
-          <User user={server()?.createdBy} />
-        </div>
+          <div style={{display: "flex", "flex-direction": "column", gap: "4px", "margin-bottom": "10px"}}>
+            <Text size={14} style={{"margin-left": "45px"}}>Created By</Text>
+            <User user={server()?.createdBy} />
+          </div>
 
 
           <SettingsBlock label="Server Name" icon="edit">
-            <Input value={inputValues().name} onText={v => setInputValue('name', v)} />
+            <Input value={inputValues().name} onText={v => setInputValue("name", v)} />
           </SettingsBlock>
           <SettingsBlock label="Verified" icon="verified">
-            <Checkbox checked={inputValues().verified} onChange={v => setInputValue('verified', v)} />
+            <Checkbox checked={inputValues().verified} onChange={v => setInputValue("verified", v)} />
           </SettingsBlock>
           <Show when={Object.keys(updatedInputValues()).length}>
             <SettingsBlock label="Confirm Admin Password" icon="security" class={css`margin-top: 10px;`}>
-              <Input type="password" value={inputValues().password} onText={v => setInputValue('password', v)} />
+              <Input type="password" value={inputValues().password} onText={v => setInputValue("password", v)} />
             </SettingsBlock>
             <Show when={error()}><Text color="var(--alert-color)">{error()}</Text></Show>
 
@@ -100,7 +100,7 @@ export default function ServerPage() {
         </ServerPageInnerContainer>
       </ServerPageContainer>
     </Show>
-  )
+  );
 }
 
 
@@ -139,12 +139,12 @@ const DeleteServerBlock = (props: {serverId: string}) => {
   const {createPortal} = useCustomPortal();
   
   const showSuspendModal = () => {
-    createPortal(close => <DeleteServerModal close={close} serverId={props.serverId} done={() => {}} />)
-  }
+    createPortal(close => <DeleteServerModal close={close} serverId={props.serverId} done={() => {}} />);
+  };
 
   return (
     <SettingsBlock icon='delete' label='Delete Server'>
-    <Button onClick={showSuspendModal} label="Delete Server" color="var(--alert-color)" primary />
-  </SettingsBlock>
-  )
-}
+      <Button onClick={showSuspendModal} label="Delete Server" color="var(--alert-color)" primary />
+    </SettingsBlock>
+  );
+};

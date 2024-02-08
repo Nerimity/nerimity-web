@@ -1,39 +1,39 @@
-import styles from './styles.module.scss';
-import { classNames, conditionalClass } from '@/common/classNames';
-import { formatTimestamp, timeSince } from '@/common/date';
-import Avatar from '@/components/ui/Avatar';
-import Icon from '@/components/ui/icon/Icon';
-import { MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, RawUser } from '@/chat-api/RawData';
-import { Message, MessageSentStatus } from '@/chat-api/store/useMessages';
-import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from '@/chat-api/services/MessageService';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import { A, useNavigate, useParams } from 'solid-navigator';
-import useStore from '@/chat-api/store/useStore';
-import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from 'solid-js';
-import { Markup } from '@/components/Markup';
-import Modal from '@/components/ui/modal/Modal';
-import { useCustomPortal } from '@/components/ui/custom-portal/CustomPortal';
-import Text from '@/components/ui/Text';
-import { css, styled } from 'solid-styled-components';
-import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
-import Button from '@/components/ui/Button';
-import { ROLE_PERMISSIONS } from '@/chat-api/Bitwise';
-import { ImageEmbed, ImagePreviewModal, clamp, clampImageSize } from '@/components/ui/ImageEmbed';
-import { CustomLink } from '@/components/ui/CustomLink';
-import { MentionUser } from '@/components/markup/MentionUser';
-import { Emoji } from '@/components/markup/Emoji';
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
-import { FloatingEmojiPicker } from '@/components/ui/emoji-picker/EmojiPicker';
-import env from '@/common/env';
-import { useWindowProperties } from '@/common/useWindowProperties';
-import { DangerousLinkModal } from '@/components/ui/DangerousLinkModal';
-import { useResizeObserver } from '@/common/useResizeObserver';
-import { ServerWithMemberCount, joinPublicServer, joinServerByInviteCode, serverDetailsByInviteCode } from '@/chat-api/services/ServerService';
-import { ServerVerifiedIcon } from '@/components/servers/ServerVerifiedIcon';
-import { getFile, googleApiInitialized, initializeGoogleDrive } from '@/common/driveAPI';
-import { Skeleton } from '@/components/ui/skeleton/Skeleton';
-import { ProfileFlyout } from '@/components/floating-profile/FloatingProfile';
-import { ServerMember } from '@/chat-api/store/useServerMembers';
+import styles from "./styles.module.scss";
+import { classNames, conditionalClass } from "@/common/classNames";
+import { formatTimestamp, timeSince } from "@/common/date";
+import Avatar from "@/components/ui/Avatar";
+import Icon from "@/components/ui/icon/Icon";
+import { MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, RawUser } from "@/chat-api/RawData";
+import { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
+import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from "@/chat-api/services/MessageService";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { A, useNavigate, useParams } from "solid-navigator";
+import useStore from "@/chat-api/store/useStore";
+import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
+import { Markup } from "@/components/Markup";
+import Modal from "@/components/ui/modal/Modal";
+import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import Text from "@/components/ui/Text";
+import { css, styled } from "solid-styled-components";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import Button from "@/components/ui/Button";
+import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { ImageEmbed, ImagePreviewModal, clamp, clampImageSize } from "@/components/ui/ImageEmbed";
+import { CustomLink } from "@/components/ui/CustomLink";
+import { MentionUser } from "@/components/markup/MentionUser";
+import { Emoji } from "@/components/markup/Emoji";
+import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
+import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
+import env from "@/common/env";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { DangerousLinkModal } from "@/components/ui/DangerousLinkModal";
+import { useResizeObserver } from "@/common/useResizeObserver";
+import { ServerWithMemberCount, joinPublicServer, joinServerByInviteCode, serverDetailsByInviteCode } from "@/chat-api/services/ServerService";
+import { ServerVerifiedIcon } from "@/components/servers/ServerVerifiedIcon";
+import { getFile, googleApiInitialized, initializeGoogleDrive } from "@/common/driveAPI";
+import { Skeleton } from "@/components/ui/skeleton/Skeleton";
+import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
+import { ServerMember } from "@/chat-api/store/useServerMembers";
 
 
 interface FloatingOptionsProps {
@@ -51,12 +51,12 @@ function FloatOptions(props: FloatingOptionsProps) {
   const { createPortal } = useCustomPortal();
 
   const onDeleteClick = () => {
-    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />)
-  }
+    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />);
+  };
   const onEditClick = () => {
     const { channelProperties } = useStore();
     channelProperties.setEditMessage(props.message.channelId, props.message);
-  }
+  };
   const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
 
   const showDelete = () => {
@@ -65,7 +65,7 @@ function FloatOptions(props: FloatingOptionsProps) {
 
     const member = serverMembers.get(params.serverId, account.user()?.id!);
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
-  }
+  };
 
   const isContentType = () => props.message.type === MessageType.CONTENT;
 
@@ -79,7 +79,7 @@ function FloatOptions(props: FloatingOptionsProps) {
       <Show when={showDelete()}><div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div></Show>
       <div class={classNames("floatingShowMore", styles.item)} onClick={props.showContextMenu}><Icon size={18} name='more_vert' class={styles.icon} /></div>
     </div>
-  )
+  );
 }
 
 interface MessageItemProps {
@@ -115,7 +115,7 @@ const Details = (props: DetailsProps) => (
     </Show>
     <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
   </div>
-)
+);
 
 
 const MessageItem = (props: MessageItemProps) => {
@@ -131,7 +131,7 @@ const MessageItem = (props: MessageItemProps) => {
 
 
   const currentTime = props.message?.createdAt;
-  const beforeMessageTime = () => props.beforeMessage?.createdAt!
+  const beforeMessageTime = () => props.beforeMessage?.createdAt!;
 
   const isSameCreator = () => props.beforeMessage && props.beforeMessage?.createdBy?.id === props.message?.createdBy?.id;
   const isDateUnderFiveMinutes = () => beforeMessageTime() && (currentTime - beforeMessageTime()) < 300000;
@@ -151,7 +151,7 @@ const MessageItem = (props: MessageItemProps) => {
     if (!member) return false;
     if (member.isServerCreator()) return true;
     return member.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
-  }
+  };
 
 
   createEffect(on([() => props.message.mentions?.length, () => props.message.quotedMessages.length], () => {
@@ -163,15 +163,15 @@ const MessageItem = (props: MessageItemProps) => {
       setIsMentioned(!!isQuoted || !!isMentioned);
       setIsSomeoneMentioned(isSomeoneMentioned);
     });
-  }))
+  }));
 
   const showProfileFlyout = (event: MouseEvent) => {
     event.preventDefault();
     const el = event.target as HTMLElement;
     const rect = el?.getBoundingClientRect()!;
     const pos = { left: rect.left + 40, top: rect.top, anchor: "left" } as const;
-    return createPortal(close => <ProfileFlyout triggerEl={el} position={pos} serverId={params.serverId} close={close} userId={props.message.createdBy.id} />, "profile-pane-flyout-" + props.message.createdBy.id, true)
-  }
+    return createPortal(close => <ProfileFlyout triggerEl={el} position={pos} serverId={params.serverId} close={close} userId={props.message.createdBy.id} />, "profile-pane-flyout-" + props.message.createdBy.id, true);
+  };
 
   return (
     <div
@@ -209,8 +209,8 @@ const MessageItem = (props: MessageItemProps) => {
                 serverMember={serverMember()} 
                 showProfileFlyout={showProfileFlyout} 
                 userContextMenu={props.userContextMenu} 
-                 />
-              </Show>
+              />
+            </Show>
             <Content message={props.message} hovered={hovered()} />
             <Show when={props.message.uploadingAttachment}>
               <UploadAttachment message={props.message} />
@@ -228,14 +228,14 @@ const MessageItem = (props: MessageItemProps) => {
 const Content = (props: { message: Message, hovered: boolean }) => {
   return (
     <div class={styles.content}>
-      <Markup message={props.message} text={props.message.content || ''} />
+      <Markup message={props.message} text={props.message.content || ""} />
       <Show when={!props.message.uploadingAttachment || props.message.content?.trim()}>
         <SentStatus message={props.message} />
       </Show>
       <Embeds {...props} />
     </div>
-  )
-}
+  );
+};
 
 
 const UploadAttachment = (props: { message: Message }) => {
@@ -248,16 +248,16 @@ const UploadAttachment = (props: { message: Message }) => {
         <div class={styles.currentProgress} style={{ width: attachment().progress + "%" }} />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const prettyBytes = (num: number, precision = 3, addSpace = true) => {
-  const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-  if (Math.abs(num) < 1) return num + (addSpace ? ' ' : '')
+  const UNITS = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  if (Math.abs(num) < 1) return num + (addSpace ? " " : "");
   const exponent = Math.min(Math.floor(Math.log10(num) / Math.log10(1024)), UNITS.length - 1);
   const n = Number(((num < 0 ? -1 : 1) * num) / Math.pow(1024, exponent));
-  return (num < 0 ? '-' : '') + n.toFixed(precision) + ' ' + UNITS[exponent];
-}
+  return (num < 0 ? "-" : "") + n.toFixed(precision) + " " + UNITS[exponent];
+};
 
 
 const SentStatus = (props: { message: Message }) => {
@@ -265,7 +265,7 @@ const SentStatus = (props: { message: Message }) => {
   const editedAt = () => {
     if (!props.message.editedAt) return;
     return "Edited at " + formatTimestamp(props.message.editedAt);
-  }
+  };
 
   return (
     <Switch>
@@ -285,27 +285,27 @@ const SentStatus = (props: { message: Message }) => {
         </div>
       </Match>
     </Switch>
-  )
-}
+  );
+};
 
 
 const SystemMessage = (props: { message: Message }) => {
   const systemMessage = () => {
     switch (props.message.type) {
       case MessageType.JOIN_SERVER:
-        return { icon: "login", color: 'var(--primary-color)', message: "has joined the server." }
+        return { icon: "login", color: "var(--primary-color)", message: "has joined the server." };
       case MessageType.LEAVE_SERVER:
-        return { icon: "logout", color: 'var(--alert-color)', message: "has left the server." }
+        return { icon: "logout", color: "var(--alert-color)", message: "has left the server." };
       case MessageType.KICK_USER:
-        return { icon: "logout", color: 'var(--alert-color)', message: "has been kicked." }
+        return { icon: "logout", color: "var(--alert-color)", message: "has been kicked." };
       case MessageType.BAN_USER:
-        return { icon: "block", color: 'var(--alert-color)', message: "has been banned." }
+        return { icon: "block", color: "var(--alert-color)", message: "has been banned." };
       case MessageType.CALL_STARTED:
-        return { icon: "call", color: 'var(--success-color)', message: "started a call." }
+        return { icon: "call", color: "var(--success-color)", message: "started a call." };
       default:
         return undefined;
     }
-  }
+  };
 
   return (
     <Show when={systemMessage()}>
@@ -318,8 +318,8 @@ const SystemMessage = (props: { message: Message }) => {
         </span>
       </div>
     </Show>
-  )
-}
+  );
+};
 
 export default MessageItem;
 
@@ -362,7 +362,7 @@ export function Embeds(props: { message: Message, hovered: boolean; maxWidth?: n
         </Match>
       </Switch>
     </div>
-  )
+  );
 }
 
 
@@ -382,8 +382,8 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
         <Match when={allowedAudioMimes.includes(props.attachment.mime!)} ><AudioEmbed attachment={props.attachment} /></Match>
       </Switch>
     </>
-  )
-}
+  );
+};
 
 
 const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean }) => {
@@ -401,31 +401,31 @@ const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean })
   const style = () => {
 
     if (props.shorts) {
-      const maxWidth = clamp((customWidth || paneWidth()!) + (widthOffset || 0), 600)
-      const maxHeight = windowWidth() <= 600 ? (customHeight || height()) / 1.4 : (customHeight || height()) / 2
-      return clampImageSize(1080, 1920, maxWidth, maxHeight)
+      const maxWidth = clamp((customWidth || paneWidth()!) + (widthOffset || 0), 600);
+      const maxHeight = windowWidth() <= 600 ? (customHeight || height()) / 1.4 : (customHeight || height()) / 2;
+      return clampImageSize(1080, 1920, maxWidth, maxHeight);
     }
 
 
-    const maxWidth = clamp((customWidth || paneWidth()!) + (widthOffset || 0), 600)
-    return clampImageSize(1920, 1080, maxWidth, (customHeight || height()) / 2)
-  }
+    const maxWidth = clamp((customWidth || paneWidth()!) + (widthOffset || 0), 600);
+    return clampImageSize(1920, 1080, maxWidth, (customHeight || height()) / 2);
+  };
 
   onMount(() => {
     updateDate();
     const interval = setInterval(updateDate, 60000);
-    onCleanup(() => clearInterval(interval))
-  })
+    onCleanup(() => clearInterval(interval));
+  });
 
   const updateDate = () => {
-    setDate(timeSince(new Date(props.embed.uploadDate || 0).getTime()))
-  }
+    setDate(timeSince(new Date(props.embed.uploadDate || 0).getTime()));
+  };
 
   return (
     <div class={styles.youtubeEmbed} >
       <div class={styles.video} style={style()}>
         <Show when={!playVideo()}>
-          <img style={{ width: "100%", height: "100%", "object-fit": 'cover' }} src={props.embed.imageUrl} />
+          <img style={{ width: "100%", height: "100%", "object-fit": "cover" }} src={props.embed.imageUrl} />
           <div onClick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
             <div class={styles.playButton}>
               <Icon name='play_arrow' color='var(--primary-color)' size={28} />
@@ -433,7 +433,7 @@ const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean })
           </div>
         </Show>
         <Show when={playVideo()}>
-        <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${props.code}?autoplay=1`} frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
+          <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${props.code}?autoplay=1`} frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
         </Show>
       </div>
       <div class={styles.youtubeEmbedDetails}>
@@ -446,8 +446,8 @@ const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean })
       </div>
     </div>
 
-  )
-}
+  );
+};
 
 
 
@@ -462,7 +462,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
 
   createEffect(async () => {
     if (!googleApiInitialized()) return;
-    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata").catch((e) => console.log(e))
+    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata").catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
     if (!file) return setError("Could not get Video.");
 
@@ -470,10 +470,10 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
 
 
     const fileTime = new Date(file.modifiedTime!).getTime();
-    const diff = fileTime - props.attachment.createdAt
+    const diff = fileTime - props.attachment.createdAt;
     if (diff >= 5000) return setError("Video was modified.");
     setFile(file);
-  })
+  });
 
   return (
     <div class={styles.videoEmbed}>
@@ -500,7 +500,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
         <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
         <Show when={file() && !error()}>
           <Show when={!playVideo()}>
-            <Show when={file()?.thumbnailLink}><img style={{ width: "100%", height: "100%", "object-fit": 'contain' }} src={file()?.thumbnailLink} alt="" /></Show>
+            <Show when={file()?.thumbnailLink}><img style={{ width: "100%", height: "100%", "object-fit": "contain" }} src={file()?.thumbnailLink} alt="" /></Show>
             <div onClick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
               <div class={styles.playButton}>
                 <Icon name='play_arrow' color='var(--primary-color)' size={28} />
@@ -508,15 +508,15 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
             </div>
           </Show>
           <Show when={playVideo()}>
-            <video style={{ width: "100%", height: "100%", "object-fit": 'contain' }} autoplay src={file()?.webContentLink!} controls />
+            <video style={{ width: "100%", height: "100%", "object-fit": "contain" }} autoplay src={file()?.webContentLink!} controls />
           </Show>
         </Show>
       </div>
 
     </div>
 
-  )
-}
+  );
+};
 
 const FileEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
@@ -527,7 +527,7 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
 
   createEffect(async () => {
     if (!googleApiInitialized()) return;
-    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType").catch((e) => console.log(e))
+    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType").catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
     if (!file) return setError("Could not get file.");
 
@@ -535,10 +535,10 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
 
 
     const fileTime = new Date(file.modifiedTime!).getTime();
-    const diff = fileTime - props.attachment.createdAt
+    const diff = fileTime - props.attachment.createdAt;
     if (diff >= 5000) return setError("File was modified.");
     setFile(file);
-  })
+  });
 
   return (
     <div class={styles.fileEmbed}>
@@ -560,8 +560,8 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
       </Show>
     </div>
 
-  )
-}
+  );
+};
 const AudioEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
   const [error, setError] = createSignal<string | undefined>();
@@ -577,7 +577,7 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
 
   createEffect(async () => {
     if (!googleApiInitialized()) return;
-    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType").catch((e) => console.log(e))
+    const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType").catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
     if (!file) return setError("Could not get file.");
 
@@ -585,10 +585,10 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
 
 
     const fileTime = new Date(file.modifiedTime!).getTime();
-    const diff = fileTime - props.attachment.createdAt
+    const diff = fileTime - props.attachment.createdAt;
     if (diff >= 5000) return setError("File was modified.");
     setFile(file);
-  })
+  });
   
   createEffect(() => {
     if (!preloadAudio()) return;
@@ -599,32 +599,32 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
     
     audio.onloadedmetadata = () => {
       setPreloaded(true);
-    }
+    };
 
     audio.onended = () => {
       setPlaying(false);
-    }
+    };
 
-    audio.src = fileItem.webContentLink!
-  })
+    audio.src = fileItem.webContentLink!;
+  });
   createEffect(() => {
     if (!preloaded()) return;
     if (playing())
-      audio?.play()
+      audio?.play();
     else
-      audio?.pause()
-  })
+      audio?.pause();
+  });
 
   onCleanup(() => {
     audio?.pause();
     audio?.remove();
-  })
+  });
 
   const statusIcon = () => {
     if (playing() && !preloaded()) return "hourglass_top";
     if (playing()) return "pause";
     return "play_arrow";
-  }
+  };
 
   return (
     <div class={styles.fileEmbed} onMouseEnter={() => setPreloadAudio(true)}>
@@ -646,8 +646,8 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
       </Show>
     </div>
 
-  )
-}
+  );
+};
 
 
 
@@ -666,19 +666,19 @@ function ServerInviteEmbed(props: { code: string }) {
     const invite = await serverDetailsByInviteCode(props.code).catch(() => { });
     setInvite(invite || false);
     inviteCache.set(props.code, invite || false);
-  })
+  });
 
   const cachedServer = () => {
     const _invite = invite();
     if (!_invite) return;
     return servers.get(_invite.id);
-  }
+  };
 
   createEffect(() => {
     if (joining() && cachedServer()) {
       navigate(RouterEndpoints.SERVER_MESSAGES(cachedServer()!.id, cachedServer()!.defaultChannelId));
     }
-  })
+  });
 
   const joinOrVisitServer = () => {
     const _invite = invite();
@@ -689,9 +689,9 @@ function ServerInviteEmbed(props: { code: string }) {
     setJoining(true);
 
     joinServerByInviteCode(props.code).catch((err) => {
-      alert(err.message)
-    }).finally(() => setJoining(false))
-  }
+      alert(err.message);
+    }).finally(() => setJoining(false));
+  };
 
 
   return (
@@ -712,12 +712,12 @@ function ServerInviteEmbed(props: { code: string }) {
                 {invite().memberCount} member(s)
               </div>
             </div>
-            <Button label={joining() ? 'Joining...' : cachedServer() ? 'Visit' : 'Join'} iconName='login' onClick={joinOrVisitServer} />
+            <Button label={joining() ? "Joining..." : cachedServer() ? "Visit" : "Join"} iconName='login' onClick={joinOrVisitServer} />
           </>
         )}
       </Show>
     </div>
-  )
+  );
 }
 
 
@@ -729,24 +729,24 @@ function OGEmbed(props: { message: RawMessage }) {
 
   const onLinkClick = (e: MouseEvent) => {
     e.preventDefault();
-    createPortal(close => <DangerousLinkModal unsafeUrl={embed().url} close={close} />)
-  }
+    createPortal(close => <DangerousLinkModal unsafeUrl={embed().url} close={close} />);
+  };
 
   const imageUrl = () => `${env.NERIMITY_CDN}proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${embed().imageMime?.split("/")[1]}`;
-  const isGif = () => imageUrl().endsWith(".gif")
+  const isGif = () => imageUrl().endsWith(".gif");
 
   const url = (ignoreFocus?: boolean) => {
     const url = new URL(imageUrl());
     if (ignoreFocus) return url.href;
     if (!isGif()) return url.href;
     if (!hasFocus()) {
-      url.searchParams.set("type", "webp")
+      url.searchParams.set("type", "webp");
     }
     return url.href;
-  }
+  };
   const onImageClick = () => {
-    createPortal(close => <ImagePreviewModal close={close} url={url(true)} />)
-  }
+    createPortal(close => <ImagePreviewModal close={close} url={url(true)} />);
+  };
 
 
   return (
@@ -774,7 +774,7 @@ function OGEmbed(props: { message: RawMessage }) {
         />
       </Match>
     </Switch>
-  )
+  );
 }
 
 
@@ -795,23 +795,23 @@ function ReactionItem(props: ReactionItemProps) {
 
   const onMouseEnter = (e: any) => {
     isHovering = true;
-    props.onMouseEnter?.(e)
-  }
+    props.onMouseEnter?.(e);
+  };
 
   const onMouseLeave = (e: any) => {
     isHovering = false;
     props.onMouseLeave?.(e);
-  }
+  };
   onCleanup(() => {
     if (isHovering) props.onMouseLeave?.();
-  })
+  });
 
-  const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name)
+  const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name);
 
   const url = () => {
     if (!props.reaction.emojiId) return unicodeToTwemojiUrl(props.reaction.name);
-    return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${props.reaction.gif ? 'gif' : 'webp'}${props.reaction.gif ? (!hasFocus() ? '?type=webp' : '') : ''}`;
-  }
+    return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${props.reaction.gif ? "gif" : "webp"}${props.reaction.gif ? (!hasFocus() ? "?type=webp" : "") : ""}`;
+  };
 
   const addReaction = () => {
     props.textAreaEl?.focus();
@@ -820,8 +820,8 @@ function ReactionItem(props: ReactionItemProps) {
         channelId: props.message.channelId,
         messageId: props.message.id,
         name: props.reaction.name,
-        emojiId: props.reaction.emojiId,
-      })
+        emojiId: props.reaction.emojiId
+      });
       return;
     }
     addMessageReaction({
@@ -830,14 +830,16 @@ function ReactionItem(props: ReactionItemProps) {
       name: props.reaction.name,
       emojiId: props.reaction.emojiId,
       gif: props.reaction.gif
-    })
-  }
+    });
+  };
 
   return (
     <Button
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onContextMenu={e => {e.preventDefault(); e.stopPropagation()}}
+      onContextMenu={e => {
+        e.preventDefault(); e.stopPropagation();
+      }}
       margin={0}
       padding={[2, 8, 2, 2]}
       customChildrenLeft={
@@ -847,9 +849,9 @@ function ReactionItem(props: ReactionItemProps) {
       class={classNames(styles.reactionItem, conditionalClass(props.reaction.reacted, styles.reacted))}
       label={props.reaction.count.toLocaleString()}
       textSize={12}
-      color={!props.reaction.reacted ? 'white' : undefined}
+      color={!props.reaction.reacted ? "white" : undefined}
     />
-  )
+  );
 }
 
 function AddNewReactionButton(props: { show?: boolean; onClick?(event: MouseEvent): void }) {
@@ -857,10 +859,10 @@ function AddNewReactionButton(props: { show?: boolean; onClick?(event: MouseEven
   const show = () => {
     if (isMobileAgent()) return true;
     if (props.show) return true;
-  }
+  };
   return (
-    <Button onClick={props.onClick} margin={0} padding={6} class={styles.reactionItem} styles={{ visibility: show() ? 'visible' : 'hidden' }} iconName='add' iconSize={15} />
-  )
+    <Button onClick={props.onClick} margin={0} padding={6} class={styles.reactionItem} styles={{ visibility: show() ? "visible" : "hidden" }} iconName='add' iconSize={15} />
+  );
 }
 
 
@@ -869,11 +871,11 @@ function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; 
 
   const onHover = (event: MouseEvent, reaction: RawMessageReaction) => {
     const rect = (event.target as HTMLDivElement).getBoundingClientRect();
-    createPortal(() => (<WhoReactedModal {...{ x: rect.x + (rect.width / 2), y: rect.y, reaction, message: props.message }} />), "whoReactedModal")
-  }
+    createPortal(() => (<WhoReactedModal {...{ x: rect.x + (rect.width / 2), y: rect.y, reaction, message: props.message }} />), "whoReactedModal");
+  };
   const onBlur = () => {
-    closePortalById("whoReactedModal")
-  }
+    closePortalById("whoReactedModal");
+  };
 
   return (
     <div class={styles.reactions}>
@@ -882,14 +884,14 @@ function Reactions(props: { hovered: boolean, textAreaEl?: HTMLTextAreaElement; 
       </For>
       <AddNewReactionButton show={props.hovered} onClick={props.reactionPickerClick} />
     </div>
-  )
+  );
 }
 
 
 function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReaction, message: Message }) {
   const [users, setUsers] = createSignal<null | RawUser[]>(null);
   const [el, setEL] = createSignal<undefined | HTMLDivElement>(undefined);
-  const { width, height } = useResizeObserver(el)
+  const { width, height } = useResizeObserver(el);
 
 
   onMount(() => {
@@ -898,20 +900,20 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
         channelId: props.message.channelId,
         messageId: props.message.id,
         name: props.reaction.name,
-        emojiId: props.reaction.emojiId,
-      })
-      setUsers(newUsers)
-    }, 500)
+        emojiId: props.reaction.emojiId
+      });
+      setUsers(newUsers);
+    }, 500);
 
     onCleanup(() => {
       clearTimeout(timeoutId);
-    })
-  })
+    });
+  });
 
   const style = () => {
-    if (!height()) return { pointerEvents: 'none' };
+    if (!height()) return { pointerEvents: "none" };
     return { top: (props.y - height() - 5) + "px", left: (props.x - width() / 2) + "px" };
-  }
+  };
 
   const reactionCount = props.reaction.count;
 
@@ -931,7 +933,7 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
         <Show when={plusCount()}><div class={styles.whoReactedPlusCount}>+{plusCount()}</div></Show>
       </div>
     </Show>
-  )
+  );
 }
 
 
@@ -955,19 +957,19 @@ const deleteMessageItemContainerStyles = css`
       background-color: rgba(0,0,0,0.3);
     }
   }
-`
+`;
 
 const deleteMessageModalStyles = css`
   max-height: 800px;
   overflow: hidden;
-`
+`;
 
 export function DeleteMessageModal(props: { message: Message, close: () => void }) {
 
   const onDeleteClick = () => {
     props.close();
     deleteMessage({ channelId: props.message.channelId, messageId: props.message.id });
-  }
+  };
 
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -977,17 +979,17 @@ export function DeleteMessageModal(props: { message: Message, close: () => void 
     }
     if (event.key === "Escape") {
       event.preventDefault();
-     props. close();
+      props. close();
     }
-  }
+  };
 
 
   onMount(() => {
     document.addEventListener("keydown", onKeyDown);
     onCleanup(() => {
       document.removeEventListener("keydown", onKeyDown);
-    })
-  })
+    });
+  });
 
 
 
@@ -996,7 +998,7 @@ export function DeleteMessageModal(props: { message: Message, close: () => void 
       <Button onClick={props.close} iconName="close" label="Cancel" />
       <Button onClick={onDeleteClick} iconName="delete" color='var(--alert-color)' label="Delete" />
     </FlexRow>
-  )
+  );
 
   return (
     <Modal close={props.close} title='Delete Message?' icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons} maxWidth={500}>
@@ -1005,5 +1007,5 @@ export function DeleteMessageModal(props: { message: Message, close: () => void 
         <MessageItem class={deleteMessageItemContainerStyles} hideFloating message={props.message} />
       </DeleteMessageModalContainer>
     </Modal>
-  )
+  );
 }

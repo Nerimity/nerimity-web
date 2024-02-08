@@ -16,14 +16,14 @@ const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
     color: props.color || "white",
     "font-size": `${props.size || "16"}px`,
     opacity: props.opacity || "1",
-    ...(props.bold ? { "font-weight": "bold" } : {}),
-  } as JSX.CSSProperties)
+    ...(props.bold ? { "font-weight": "bold" } : {})
+  } as JSX.CSSProperties);
   return (
     <span style={style()} class={props.class}>
       {props.children}
     </span>
   );
-}
+};
 
 
 

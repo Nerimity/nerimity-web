@@ -1,5 +1,5 @@
-import aliases from './aliases.json';
-import languages from './languages.json';
+import aliases from "./aliases.json";
+import languages from "./languages.json";
 
 // language argument can be a name or alias.
 export function getLanguageName(language: string) {

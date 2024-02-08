@@ -1,16 +1,16 @@
-import env from '@/common/env'
-import Button from '@/components/ui/Button'
-import { Link } from 'solid-navigator'
-import PageHeader from '../components/PageHeader'
-import { styled } from 'solid-styled-components'
-import Text from '@/components/ui/Text'
-import { appLogoUrl } from '@/common/worldEvents'
-import { useTransContext } from '@mbarzda/solid-i18next'
-import { FlexColumn, FlexRow } from '@/components/ui/Flexbox'
-import Icon from '@/components/ui/icon/Icon'
-import { JSXElement } from 'solid-js'
-import { CustomLink } from '@/components/ui/CustomLink'
-import PageFooter from '@/components/PageFooter'
+import env from "@/common/env";
+import Button from "@/components/ui/Button";
+import { Link } from "solid-navigator";
+import PageHeader from "../components/PageHeader";
+import { styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { appLogoUrl } from "@/common/worldEvents";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import Icon from "@/components/ui/icon/Icon";
+import { JSXElement } from "solid-js";
+import { CustomLink } from "@/components/ui/CustomLink";
+import PageFooter from "@/components/PageFooter";
 
 const PageContainer = styled("div")`
   display: flex;
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
       </Content>
       <PageFooter/>
     </PageContainer>
-  )
+  );
 }
 
 const BlockContainer = styled(FlexColumn)`
@@ -95,7 +95,7 @@ function Block(props: { title: string, children: JSXElement }) {
       <BlockTitle>{props.title}</BlockTitle>
       <Text size={14} opacity={0.8}>{props.children}</Text>
     </BlockContainer>
-  )
+  );
 }
 
 

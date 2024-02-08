@@ -9,128 +9,128 @@ export interface Bitwise {
 
 export const USER_BADGES = {
   FOUNDER: {
-    name: 'Founder',
+    name: "Founder",
     bit: 1,
-    description: 'Creator of Nerimity',
-    color: 'linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%);',
+    description: "Creator of Nerimity",
+    color: "linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%);",
     credit: "Avatar Border by upklyak on Freepik"
   },
   ADMIN: {
-    name: 'Admin',
+    name: "Admin",
     bit: 2,
-    description: 'Admin of Nerimity',
-    color: 'linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%);',
+    description: "Admin of Nerimity",
+    color: "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%);",
     credit: "Avatar Border by upklyak on Freepik"
   },
   SUPPORTER: {
-    name: 'Supporter',
-    description: 'Supported this project by donating money',
+    name: "Supporter",
+    description: "Supported this project by donating money",
     bit: 8,
-    color: 'linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)',
+    color: "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
     credit: "Avatar Border by upklyak on Freepik"
   },
   CONTRIBUTOR: {
-    name: 'Contributor',
-    description: 'Helped with this project in some way',
+    name: "Contributor",
+    description: "Helped with this project in some way",
     bit: 4,
-    color: '#ffffff'
+    color: "#ffffff"
   },
   BOT: {
-    name: 'Bot',      // I really recommend having this even if it is unused
-    description: 'An bot account (currently unused)',
+    name: "Bot",      // I really recommend having this even if it is unused
+    description: "An bot account (currently unused)",
     bit: 16,
-    color: '#4c93ff'  // this is the primary color, not sure how to scope to that properly :(
+    color: "#4c93ff"  // this is the primary color, not sure how to scope to that properly :(
   }
 };
 
 export const CHANNEL_PERMISSIONS = {
   PRIVATE_CHANNEL: {
-    name: 'servers.channelPermissions.privateChannel',
-    description: 'servers.channelPermissions.privateChannelDescription',
+    name: "servers.channelPermissions.privateChannel",
+    description: "servers.channelPermissions.privateChannelDescription",
     bit: 1,
-    icon: 'lock'
+    icon: "lock"
   },
   SEND_MESSAGE: {
-    name: 'servers.channelPermissions.sendMessage',
-    description: 'servers.channelPermissions.sendMessageDescription',
+    name: "servers.channelPermissions.sendMessage",
+    description: "servers.channelPermissions.sendMessageDescription",
     bit: 2,
-    icon: 'mail'
+    icon: "mail"
   },
   JOIN_VOICE: {
-    name: 'servers.channelPermissions.joinVoice',
-    description: 'servers.channelPermissions.joinVoiceDescription',
+    name: "servers.channelPermissions.joinVoice",
+    description: "servers.channelPermissions.joinVoiceDescription",
     bit: 4,
-    icon: 'call'
+    icon: "call"
   }
-}
+};
 
 export const ROLE_PERMISSIONS = {
   ADMIN: {
-    name: 'servers.rolePermissions.admin',
-    description: 'servers.rolePermissions.adminDescription',
+    name: "servers.rolePermissions.admin",
+    description: "servers.rolePermissions.adminDescription",
     bit: 1,
     // icon: 'mail',  // looks good even without icon
-    showSettings: true,
+    showSettings: true
   },
   SEND_MESSAGE: {
-    name: 'servers.rolePermissions.sendMessage',
-    description: 'servers.rolePermissions.sendMessageDescription',
+    name: "servers.rolePermissions.sendMessage",
+    description: "servers.rolePermissions.sendMessageDescription",
     bit: 2,
-    icon: 'mail'
+    icon: "mail"
   },
   MANAGE_ROLES: {
-    name: 'servers.rolePermissions.manageRoles',
-    description: 'servers.rolePermissions.manageRolesDescription',
-    icon: 'leaderboard',
+    name: "servers.rolePermissions.manageRoles",
+    description: "servers.rolePermissions.manageRolesDescription",
+    icon: "leaderboard",
     bit: 4,
-    showSettings: true,
+    showSettings: true
   },
   MANAGE_CHANNELS: {
-    name: 'servers.rolePermissions.manageChannels',
-    description: 'servers.rolePermissions.manageChannelsDescription',
-    icon: 'storage',
+    name: "servers.rolePermissions.manageChannels",
+    description: "servers.rolePermissions.manageChannelsDescription",
+    icon: "storage",
     bit: 8,
-    showSettings: true,
+    showSettings: true
   },
   KICK: {
-    name: 'servers.rolePermissions.kick',
-    description: 'servers.rolePermissions.kickDescription',
+    name: "servers.rolePermissions.kick",
+    description: "servers.rolePermissions.kickDescription",
     bit: 16,
-    icon: 'logout',
-    showSettings: true,
+    icon: "logout",
+    showSettings: true
   },
   BAN: {
-    name: 'servers.rolePermissions.ban',
-    description: 'servers.rolePermissions.banDescription',
+    name: "servers.rolePermissions.ban",
+    description: "servers.rolePermissions.banDescription",
     bit: 32,
     showSettings: true,
-    icon: 'block'
+    icon: "block"
   },
   MENTION_EVERYONE: {
-    name: 'servers.rolePermissions.mentionEveryone',
-    description: 'servers.rolePermissions.mentionEveryoneDescription',
+    name: "servers.rolePermissions.mentionEveryone",
+    description: "servers.rolePermissions.mentionEveryoneDescription",
     bit: 64,
-    icon: 'alternate_email'
+    icon: "alternate_email"
   }
-}
+};
 
 export const hasBit = (permissions: number, bit: number) => {
-  return (permissions & bit) === bit
-}
+  return (permissions & bit) === bit;
+};
 
 export const addBit = (permissions: number, bit: number) => {
-  return permissions | bit
-}
+  return permissions | bit;
+};
 export const removeBit = (permissions: number, bit: number) => {
-  return permissions & ~bit
-}
+  return permissions & ~bit;
+};
 
 export const getAllPermissions = (permissionList: Record<string, Bitwise>, permissions: number) => {
   return Object.values(permissionList).map(permission => {
-    const hasPerm = hasBit(permissions, permission.bit)
+    const hasPerm = hasBit(permissions, permission.bit);
     return {
       ...permission,
       hasPerm
-    }
-  })
-}
+    };
+  });
+};

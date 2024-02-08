@@ -18,7 +18,7 @@ export function onUserPresenceUpdate(payload: { userId: string; status?: UserSta
     const user = users.get(payload.userId);
     const wasOffline = !user?.presence?.status && payload.status !== UserStatus.OFFLINE;
     if (wasOffline) {
-      const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+      const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
       electronWindowAPI()?.restartActivityStatus(programs);
     }
   }
@@ -29,7 +29,7 @@ export function onUserPresenceUpdate(payload: { userId: string; status?: UserSta
     ...(payload.status !== undefined ? {status: payload.status} : undefined), 
     ...(payload.custom !== undefined ? {custom: payload.custom} : undefined),
     ...(payload.activity !== undefined ? {activity: payload.activity} : undefined)
-  })
+  });
 }
 
 export function onNotificationDismissed(payload: {channelId: string}) {
@@ -39,21 +39,21 @@ export function onNotificationDismissed(payload: {channelId: string}) {
   batch(() => {
     channel?.updateLastSeen((channel.lastMessagedAt || Date.now()) + 1);
     mentions.remove(payload.channelId);
-  })
+  });
   
 }
 
 export function onUserUpdated(payload: Partial<SelfUser>) {
   const {account, users} = useStore();
-  account.setUser(payload)
+  account.setUser(payload);
 
-  const user = users.get(account.user()?.id!)
-  user?.update(payload)
+  const user = users.get(account.user()?.id!);
+  user?.update(payload);
 }
 
 export function onUserServerSettingsUpdate(payload: {serverId: string, updated: Partial<RawServerSettings>}) {
   const {account} = useStore();
-  account.setServerSettings(payload.serverId, payload.updated)
+  account.setServerSettings(payload.serverId, payload.updated);
 }
 
 
@@ -64,8 +64,8 @@ export function onUserBlocked(payload: {user: RawUser}) {
     createdAt: Date.now(),
     recipient: payload.user,
     userId: account.user()?.id!,
-    status: FriendStatus.BLOCKED,
-  })
+    status: FriendStatus.BLOCKED
+  });
 }
 export function onUserUnblocked(payload: {userId: string}) {
   const friends = useFriends();
@@ -77,11 +77,11 @@ export function onUserConnectionAdded (payload: {connection: RawUserConnection})
   const account = useAccount();
   account.setUser({
     connections: [...(account.user()?.connections || []), payload.connection]
-  })
+  });
 }
 
 export function onUserConnectionRemoved (payload: {connectionId: string}) {
   const account = useAccount();
-  account.setUser({connections: account.user()?.connections.filter(c => c.id !== payload.connectionId)})
+  account.setUser({connections: account.user()?.connections.filter(c => c.id !== payload.connectionId)});
   
 }

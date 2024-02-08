@@ -1,13 +1,13 @@
-import { createSignal, Match, onMount, Show, Switch } from 'solid-js'
-import { css, styled } from 'solid-styled-components'
-import { A } from 'solid-navigator'
-import env from '@/common/env'
-import { getUserDetailsRequest } from '@/chat-api/services/UserService'
-import { RawUser } from '@/chat-api/RawData'
-import { getStorageString, StorageKeys } from '@/common/localStorage'
-import Icon from './ui/icon/Icon'
-import { appLogoUrl, isChristmas, isHalloween } from '@/common/worldEvents'
-import { useTransContext } from '@mbarzda/solid-i18next'
+import { createSignal, Match, onMount, Show, Switch } from "solid-js";
+import { css, styled } from "solid-styled-components";
+import { A } from "solid-navigator";
+import env from "@/common/env";
+import { getUserDetailsRequest } from "@/chat-api/services/UserService";
+import { RawUser } from "@/chat-api/RawData";
+import { getStorageString, StorageKeys } from "@/common/localStorage";
+import Icon from "./ui/icon/Icon";
+import { appLogoUrl, isChristmas, isHalloween } from "@/common/worldEvents";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 
 const HeaderContainer = styled("header")`
@@ -75,7 +75,7 @@ const LinkContainer = styled("div")<{primary: boolean}>`
 
   && {
     ${props => (
-      props.primary ? `
+    props.primary ? `
         background-color: var(--primary-color);
         opacity: 0.9;
         transition: 0.2s;
@@ -83,7 +83,7 @@ const LinkContainer = styled("div")<{primary: boolean}>`
           opacity: 1;
         }
       ` : undefined
-    )}
+  )}
   }
 
 `;
@@ -102,12 +102,12 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
     if (!getStorageString(StorageKeys.USER_TOKEN, null)) {
       return setUser(false);
     }
-    const details = await getUserDetailsRequest()
+    const details = await getUserDetailsRequest();
     if (!details) {
       return setUser(false);
     }
     setUser(details.user);
-  })
+  });
 
   return (
     <HeaderContainer class="header-container">
@@ -118,7 +118,7 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
       <Show when={user() === false}><LoggedOutLinks/></Show>
       <Show when={user()}><LoggedInLinks user={user() as RawUser}/></Show>
     </HeaderContainer>
-  )
+  );
 }
 
 function LoggedInLinks (props: {user: RawUser}) {
@@ -126,29 +126,29 @@ function LoggedInLinks (props: {user: RawUser}) {
 
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='#' label={t('header.accountButton')} />
-      <HeaderLink href='/app' label={t('header.openAppButton')} primary={true} icon='open_in_browser' />
+      <HeaderLink href='#' label={t("header.accountButton")} />
+      <HeaderLink href='/app' label={t("header.openAppButton")} primary={true} icon='open_in_browser' />
     </NavigationContainer>
-  )
+  );
 }
 
 function LoggedOutLinks() {
   const [t] = useTransContext();
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='/login' label={t('header.loginButton')} icon='login' />
-      <HeaderLink href='/register' label={t('header.joinNowButton')} primary={true} icon="add" />
+      <HeaderLink href='/login' label={t("header.loginButton")} icon='login' />
+      <HeaderLink href='/register' label={t("header.joinNowButton")} primary={true} icon="add" />
     </NavigationContainer>
-  )
+  );
 }
 
 function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean }) {
   return (
-    <a href={props.href} style={{"text-decoration": 'none'}}>
+    <a href={props.href} style={{"text-decoration": "none"}}>
       <LinkContainer primary={props.primary || false}>
         <Show when={props.icon}><Icon name={props.icon} class={linkIconStyle} /></Show>
         {props.label}
       </LinkContainer>
     </a>
-  )
+  );
 }

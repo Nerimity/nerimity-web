@@ -1,6 +1,6 @@
-declare module 'virtual:pwa-register/solid' {
+declare module "virtual:pwa-register/solid" {
   // @ts-expect-error ignore when solid-js is not installed
-  import type { Accessor, Setter } from 'solid-js'
+  import type { Accessor, Setter } from "solid-js";
 
   export interface RegisterSWOptions {
     immediate?: boolean

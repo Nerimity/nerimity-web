@@ -29,12 +29,12 @@ export default function ServerSettingsBans() {
     header.updateHeader({
       title: "Settings - Verify",
       serverId: params.serverId!,
-      iconName: 'settings',
+      iconName: "settings"
     });
-  })
+  });
   const TARGET_MEMBERS = 10;
   const server = () => servers.get(params.serverId);
-  const isVerified = () => server()?.verified
+  const isVerified = () => server()?.verified;
   const memberCount = () => serverMembers.array(params.serverId).length;
 
   const membersNeeded = () => TARGET_MEMBERS - memberCount();
@@ -43,7 +43,7 @@ export default function ServerSettingsBans() {
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
-        <BreadcrumbItem title={t('servers.settings.drawer.verify')} />
+        <BreadcrumbItem title={t("servers.settings.drawer.verify")} />
       </Breadcrumb>
       {/* Notices depending on how many members the server has and if it's verified.  */}
       <Switch>
@@ -54,7 +54,7 @@ export default function ServerSettingsBans() {
           <Notice type="warn" description={`You need ${membersNeeded()} more member(s) to apply for a verification.`} />
         </Match>
         <Match when={membersNeeded() <= 0}>
-          <Notice type="success" description={`You have enough members to verify your server!`} />
+          <Notice type="success" description={"You have enough members to verify your server!"} />
         </Match>
       </Switch>
       <ListContainer>
@@ -70,5 +70,5 @@ export default function ServerSettingsBans() {
         <SettingsBlock icon="link" label="Custom invite link" description="Create your own invite link from the invites page." />
       </ListContainer>
     </Container>
-  )
+  );
 }

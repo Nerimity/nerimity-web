@@ -1,11 +1,11 @@
-import {createStore} from 'solid-js/store';
-import { FriendStatus, RawFriend } from '../RawData';
-import { acceptFriendRequest, removeFriend, addFriend } from '../services/FriendService';
-import useUsers, { User } from './useUsers';
+import {createStore} from "solid-js/store";
+import { FriendStatus, RawFriend } from "../RawData";
+import { acceptFriendRequest, removeFriend, addFriend } from "../services/FriendService";
+import useUsers, { User } from "./useUsers";
 
 
 
-export type Friend = Omit<RawFriend, 'recipient'> & {
+export type Friend = Omit<RawFriend, "recipient"> & {
   recipientId: string;
   recipient: typeof recipient;
   accept: (this: Friend) => Promise<void>;
@@ -28,10 +28,10 @@ const set = (friend: RawFriend) => {
     recipient,
     accept,
     remove
-  }
+  };
 
   setFriends(friend.recipient.id, newFriend);
-}
+};
 
 function recipient (this: Friend) {
   const users = useUsers();
@@ -43,22 +43,22 @@ async function remove(this: Friend) {
 }
 async function accept(this: Friend) {
   await acceptFriendRequest({friendId: this.recipientId});
-  setFriends(this.recipientId, 'status', FriendStatus.FRIENDS);
+  setFriends(this.recipientId, "status", FriendStatus.FRIENDS);
 }
 
 
 
-const get = (userId: string) => friends[userId]
-const deleteFriend = (userId: string) => setFriends({[userId]: undefined})
+const get = (userId: string) => friends[userId];
+const deleteFriend = (userId: string) => setFriends({[userId]: undefined});
 
 const updateStatus = (userId: string, status: FriendStatus) => {
   if (!friends[userId]) return;
-  setFriends(userId, 'status', status);
-}
+  setFriends(userId, "status", status);
+};
 
 const sendRequest = async (username: string, tag: string) => {
   const friend = await addFriend({username, tag});
-}
+};
 
 
 const array = () => Object.values(friends);
@@ -71,7 +71,7 @@ export default function useFriends() {
     delete: deleteFriend,
     updateStatus,
     sendRequest
-  }
+  };
 }
 
 

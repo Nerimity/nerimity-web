@@ -1,7 +1,7 @@
-import env from '@/common/env';
-import twemoji from 'twemoji';
-import shortcodesToUnicode from './shortcodes-to-unicode.json';
-import unicodesToShortcode from './unicode-to-shortcodes.json';
+import env from "@/common/env";
+import twemoji from "twemoji";
+import shortcodesToUnicode from "./shortcodes-to-unicode.json";
+import unicodesToShortcode from "./unicode-to-shortcodes.json";
 
 export function emojiShortcodeToUnicode(shortcode: string): string {
   return (shortcodesToUnicode as Record<string, string>)[shortcode];
@@ -19,8 +19,8 @@ export const unicodeToTwemojiUrl = (unicode: string) => {
   );
 
   if (env.EMOJI_URL) {
-    return `${env.EMOJI_URL}/${codePoint}.svg`
+    return `${env.EMOJI_URL}/${codePoint}.svg`;
   }
 
   return `https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`;
-}
+};

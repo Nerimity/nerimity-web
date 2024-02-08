@@ -1,7 +1,7 @@
-import styles from './styles.module.scss';
-import { JSX } from 'solid-js';
-import { classNames, conditionalClass } from '@/common/classNames';
-import { css } from 'solid-styled-components';
+import styles from "./styles.module.scss";
+import { JSX } from "solid-js";
+import { classNames, conditionalClass } from "@/common/classNames";
+import { css } from "solid-styled-components";
 
 interface BlockProps {
   children?: JSX.Element | undefined;
@@ -22,7 +22,7 @@ export default function Block(props: BlockProps) {
       )}>
       {props.children}
     </div>
-  )
+  );
 }
 
 

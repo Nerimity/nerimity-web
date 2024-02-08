@@ -1,5 +1,5 @@
-import { css, styled } from "solid-styled-components"
-import { FlexRow } from "./ui/Flexbox"
+import { css, styled } from "solid-styled-components";
+import { FlexRow } from "./ui/Flexbox";
 import Text from "./ui/Text";
 import Button from "./ui/Button";
 import { electronWindowAPI } from "@/common/Electron";
@@ -17,7 +17,7 @@ const WindowControlButtonsContainer = styled(FlexRow)`
   margin-left: auto;
   margin-right: 4px;
   -webkit-app-region: no-drag;
-`
+`;
 
 const windowControlButtonStyles = css`
   display: flex;
@@ -79,5 +79,5 @@ export function ElectronTitleBar() {
         <Icon onClick={electronWindowAPI()?.close} class={classNames(windowControlButtonStyles, close)} name="close" size={18} />
       </WindowControlButtonsContainer>
     </BarContainer>
-  )
+  );
 }

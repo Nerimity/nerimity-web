@@ -14,7 +14,7 @@ export function WelcomeModal (props: {close: () => void}) {
     <div class={styles.modalActionButtons}>
       <Button label="Continue" iconName="arrow_forward" onClick={props.close} />
     </div>
-  )
+  );
 
 
   return (
@@ -27,7 +27,7 @@ export function WelcomeModal (props: {close: () => void}) {
         <SupportItem />
       </div>
     </Modal>
-  )
+  );
 }
 
 function ServerItem() {
@@ -45,7 +45,7 @@ function ServerItem() {
 function EditProfileItem() {
   return (
     <CustomLink href="/app/settings/account" target="_blank" style={{"text-decoration": "none"}}>
-        <div class={styles.itemContainer} >
+      <div class={styles.itemContainer} >
         <Icon name="edit" />
         <div style={{flex: 1}} >Edit my profile</div>
         <Icon name="open_in_new" />

@@ -42,16 +42,18 @@ export default function UnsuspendUsersModal(props: Props) {
     setError(null);
     const userIds = props.users.map(u => u.id);
     unsuspendUsers(password(), userIds)
-      .then(() => {props.done(); props.close();})
+      .then(() => {
+        props.done(); props.close();
+      })
       .catch(err => setError(err))
-      .finally(() => setSuspending(false))
-  }
+      .finally(() => setSuspending(false));
+  };
 
   const ActionButtons = (
     <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button onClick={onUnsuspendClicked} margin={0} label={suspending() ? "Suspending..." : "Suspend"} color="var(--alert-color)" primary />
     </FlexRow>
-  )
+  );
 
 
 
@@ -64,5 +66,5 @@ export default function UnsuspendUsersModal(props: Props) {
         </Show>
       </SuspendUsersContainer>
     </Modal>
-  )
+  );
 }

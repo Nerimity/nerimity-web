@@ -1,8 +1,8 @@
-import { createEffect, createSignal, on, Show } from 'solid-js';
-import { css, styled } from 'solid-styled-components';
-import Icon from './icon/Icon';
-import Text from './Text';
-import { classNames, conditionalClass } from '@/common/classNames';
+import { createEffect, createSignal, on, Show } from "solid-js";
+import { css, styled } from "solid-styled-components";
+import Icon from "./icon/Icon";
+import Text from "./Text";
+import { classNames, conditionalClass } from "@/common/classNames";
 
 interface CheckboxProps {
   onChange?: (value: number) => void
@@ -30,5 +30,5 @@ export default function Slider (props: CheckboxProps) {
     <SliderContainer class="slider">
       <input onPointerUp={props.onEnd} type="range" min={props.min} max={props.max} value={props.value} onInput={(e) => props.onChange?.(e.target.value)}  />
     </SliderContainer>
-  )
+  );
 }

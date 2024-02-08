@@ -16,29 +16,29 @@ const InboxDrawerFriends = () => {
   createEffect(() => {
     startTransition(() => {
       setSeparatedFriends(separateFriends(friends.array()));
-    })
+    });
   });
-1
+  1;
 
   return (
     <Show when={separatedFriends()} >
       <div class={styles.inboxDrawerFriends}>
-        <div class={styles.title}>{t('inbox.drawer.requests')} ({separatedFriends()?.requests.length})</div>
+        <div class={styles.title}>{t("inbox.drawer.requests")} ({separatedFriends()?.requests.length})</div>
         <For each={separatedFriends()?.requests.sort((x, y) => x.recipient().username.localeCompare(y.recipient().username))}>
           {friend => <FriendItem friend={friend} />}
         </For>
 
-        <div class={styles.title}>{t('inbox.drawer.online')} ({separatedFriends()?.onlineFriends.length})</div>
+        <div class={styles.title}>{t("inbox.drawer.online")} ({separatedFriends()?.onlineFriends.length})</div>
         <For each={separatedFriends()?.onlineFriends.sort((x, y) => x.recipient().username.localeCompare(y.recipient().username))}>
           {friend => <FriendItem friend={friend} />}
         </For>
-        <div class={styles.title}>{t('inbox.drawer.offline')} ({separatedFriends()?.offlineFriends.length})</div>
+        <div class={styles.title}>{t("inbox.drawer.offline")} ({separatedFriends()?.offlineFriends.length})</div>
         <For each={separatedFriends()?.offlineFriends.sort((x, y) => x.recipient().username.localeCompare(y.recipient().username))}>
           {friend => <FriendItem friend={friend} />}
         </For>
       </div>
     </Show>
-  )
+  );
 };
 
 export default InboxDrawerFriends;

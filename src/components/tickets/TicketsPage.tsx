@@ -30,17 +30,17 @@ const Container = styled("div")`
 function NotificationCircle () {
   return (
     <div style={{
-      "display": 'flex',
-      "align-items": 'center',
-      "justify-content": 'center',
-      background: 'var(--alert-color)',
-      "border-radius": '50%',
+      "display": "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      background: "var(--alert-color)",
+      "border-radius": "50%",
       color: "white",
-      width: '20px',
-      height: '20px',
-      "font-size": '14px',
+      width: "20px",
+      height: "20px",
+      "font-size": "14px"
     }}>!</div>
-  )
+  );
 }
 
 const TicketsPage = () => {
@@ -60,8 +60,8 @@ const TicketsPage = () => {
   }));
 
   const createTicketClick = () => {
-    createPortal(close => <CreateTicketModal close={close} />)
-  }
+    createPortal(close => <CreateTicketModal close={close} />);
+  };
 
   return (
     <Container>
@@ -243,27 +243,27 @@ const CategoryToName = {
   [TicketCategory.QUESTION]: "Question",
   [TicketCategory.ACCOUNT]: "Account",
   [TicketCategory.ABUSE]: "Abuse",
-  [TicketCategory.OTHER]: "Other",
+  [TicketCategory.OTHER]: "Other"
 } as const;
 
 export const TicketStatusToName = (as: "mod" | "user") =>
   ({
     [TicketStatus.CLOSED_AS_DONE]: {
       text: "Resolved",
-      color: "var(--primary-color)",
+      color: "var(--primary-color)"
     },
     [TicketStatus.CLOSED_AS_INVALID]: {
       text: "Invalid",
-      color: "var(--alert-color)",
+      color: "var(--alert-color)"
     },
     [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
       text: as === "user" ? "Reply Sent" : "Response Needed",
-      color: as === "user" ? "var(--success-color)" : "var(--warn-color)",
+      color: as === "user" ? "var(--success-color)" : "var(--warn-color)"
     },
     [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
       text: as === "user" ? "Response Needed" : "Reply Sent",
-      color: as === "user" ? "var(--warn-color)" : "var(--success-color)",
-    },
+      color: as === "user" ? "var(--warn-color)" : "var(--success-color)"
+    }
   } as Record<string, { text: string; color: string }>);
 
 export default TicketsPage;

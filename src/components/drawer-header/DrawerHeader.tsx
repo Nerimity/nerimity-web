@@ -11,6 +11,6 @@ export function DrawerHeader(props: {children?: JSXElement, class?: string; text
         <Match when={props.text}><div class={styles.text}>{props.text}</div></Match>
       </Switch>
     </div>
-  )
+  );
 
 }

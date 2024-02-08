@@ -1,27 +1,27 @@
-import styles from './styles.module.scss';
+import styles from "./styles.module.scss";
 
-import { classNames, conditionalClass } from '@/common/classNames';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import Header from './header/ServerDrawerHeader';
-import { A, useNavigate, useParams } from 'solid-navigator';
-import useStore from '@/chat-api/store/useStore';
-import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup, onMount } from 'solid-js';
-import { Channel } from '@/chat-api/store/useChannels';
-import ItemContainer from '@/components/ui/Item';
-import { css, styled } from 'solid-styled-components';
-import Text from '@/components/ui/Text';
-import { ChannelType } from '@/chat-api/RawData';
-import Icon from '@/components/ui/icon/Icon';
-import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
-import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
-import env from '@/common/env';
-import { unicodeToTwemojiUrl } from '@/emoji';
-import { createSignal } from 'solid-js';
-import Avatar from '@/components/ui/Avatar';
-import { timeElapsed } from '@/common/date';
-import InVoiceActions from '@/components/InVoiceActions';
-import { Skeleton } from '@/components/ui/skeleton/Skeleton';
-import { emitDrawerGoToMain } from '@/common/GlobalEvents';
+import { classNames, conditionalClass } from "@/common/classNames";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import Header from "./header/ServerDrawerHeader";
+import { A, useNavigate, useParams } from "solid-navigator";
+import useStore from "@/chat-api/store/useStore";
+import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup, onMount } from "solid-js";
+import { Channel } from "@/chat-api/store/useChannels";
+import ItemContainer from "@/components/ui/Item";
+import { css, styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { ChannelType } from "@/chat-api/RawData";
+import Icon from "@/components/ui/icon/Icon";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import { CHANNEL_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
+import env from "@/common/env";
+import { unicodeToTwemojiUrl } from "@/emoji";
+import { createSignal } from "solid-js";
+import Avatar from "@/components/ui/Avatar";
+import { timeElapsed } from "@/common/date";
+import InVoiceActions from "@/components/InVoiceActions";
+import { Skeleton } from "@/components/ui/skeleton/Skeleton";
+import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 
 
 
@@ -29,13 +29,13 @@ import { emitDrawerGoToMain } from '@/common/GlobalEvents';
 const ServerDrawer = () => {
   return (
     <div class={styles.serverDrawer}>
-      <div style={{display: 'flex', "flex-direction": 'column', height: "100%", overflow: 'auto'}}>
+      <div style={{display: "flex", "flex-direction": "column", height: "100%", overflow: "auto"}}>
         <Header />
         <ChannelList />
       </div>
       <InVoiceActions />
     </div>
-  )
+  );
 };
 
 
@@ -45,47 +45,49 @@ const ChannelList = () => {
   const { channels, account } = useStore();
   const navigate = useNavigate();
 
-  const sortedChannels = () => channels.getSortedChannelsByServerId(params.serverId, true)
+  const sortedChannels = () => channels.getSortedChannelsByServerId(params.serverId, true);
   const sortedRootChannels = () => sortedChannels().filter(channel => !channel?.categoryId);
   const channelsWithoutCategory = () => sortedChannels().filter(channel => channel?.type !== ChannelType.CATEGORY);
 
-  const selectedChannelIndex = () => channelsWithoutCategory().findIndex(channel => channel?.id === params.channelId)
+  const selectedChannelIndex = () => channelsWithoutCategory().findIndex(channel => channel?.id === params.channelId);
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (!event.altKey) return;
 
     if (event.key === "ArrowUp") {
       event.preventDefault();
-      let newIndex = selectedChannelIndex()
+      let newIndex = selectedChannelIndex();
 
       if (selectedChannelIndex() < channelsWithoutCategory().length - 1) {
         newIndex = selectedChannelIndex() + 1;
-      } else {
-        newIndex = 0
       }
-      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`)
+      else {
+        newIndex = 0;
+      }
+      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`);
     }
 
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      let newIndex = selectedChannelIndex()
+      let newIndex = selectedChannelIndex();
 
       if (selectedChannelIndex() > 0) {
         newIndex = selectedChannelIndex() - 1;
-      } else {
-        newIndex = channelsWithoutCategory().length - 1
       }
-      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`)
+      else {
+        newIndex = channelsWithoutCategory().length - 1;
+      }
+      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`);
     }
 
-  }
+  };
 
   onMount(() => {
     document.addEventListener("keydown", onKeyDown);
     onCleanup(() => {
       document.removeEventListener("keydown", onKeyDown);      
-    })
-  })
+    });
+  });
 
   return (
     <div class={styles.channelList}>
@@ -101,17 +103,17 @@ const ChannelList = () => {
         </For>
       </Show>
     </div>
-  )
+  );
 };
 
 
 const ChannelListSkeleton = () => {
   return (
-   <Skeleton.List>
-     <Skeleton.Item height="34px" width='100%'  />
-   </Skeleton.List>
-  )
- }
+    <Skeleton.List>
+      <Skeleton.Item height="34px" width='100%'  />
+    </Skeleton.List>
+  );
+};
 
 
 
@@ -122,7 +124,7 @@ const ChannelIconContainer = styled(FlexRow)`
   height: 18px;
   width: 18px;
   `;
-const ChannelIconImage = styled('img')`
+const ChannelIconImage = styled("img")`
   border-radius: 4px;
   height: 18px;
   width: 18px;
@@ -132,13 +134,13 @@ const ChannelIconImage = styled('img')`
 export const ChannelIcon = (props: { icon?: string; type?: ChannelType; hovered?: boolean }) => {
   const url = () => {
     if (props.icon!.includes(".")) {
-      return `${env.NERIMITY_CDN}emojis/${props.icon}${!props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ''}`
+      return `${env.NERIMITY_CDN}emojis/${props.icon}${!props.hovered && props.icon?.endsWith(".gif") ? "?type=webp" : ""}`;
     }
     return unicodeToTwemojiUrl(props.icon!);
-  }
+  };
   const iconName = () => {
-    if (props.type === ChannelType.CATEGORY) return 'segment';
-  }
+    if (props.type === ChannelType.CATEGORY) return "segment";
+  };
 
   return (
     <ChannelIconContainer>
@@ -151,8 +153,8 @@ export const ChannelIcon = (props: { icon?: string; type?: ChannelType; hovered?
         <ChannelIconImage src={url()} />
       </Show>
     </ChannelIconContainer>
-  )
-}
+  );
+};
 
 const ChannelContainer = styled(ItemContainer)`
   height: 34px;
@@ -186,12 +188,12 @@ const CategoryContainer = styled(FlexColumn)`
   
   margin-top: 2px;
   margin-bottom: 2px;
-`
+`;
 const CategoryItemContainer = styled(FlexRow)`
   margin-top: 5px;
   margin-bottom: 5px;
   align-items: center;
-`
+`;
 
 function CategoryItem(props: { channel: Channel, selected: boolean }) {
   const params = useParams();
@@ -223,7 +225,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
         </div>
       </Show>
     </CategoryContainer>
-  )
+  );
 }
 
 
@@ -272,7 +274,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
       <ChannelItemVoiceUsers channelId={props.channel.id} />
     </A>
 
-  )
+  );
 }
 
 const ChannelVoiceUsersContainer = styled(FlexColumn)`
@@ -298,7 +300,7 @@ const ChannelVoiceUsersTitle = styled(Text)`
 function ChannelItemVoiceUsers(props: { channelId: string }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId)
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId);
 
   return (
     <Show when={channelVoiceUsers().length}>
@@ -315,33 +317,33 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
         </ChannelVoiceUsersListContainer>
       </ChannelVoiceUsersContainer>
     </Show>
-  )
+  );
 }
 
 function CallTime(props: { channelId: string }) {
   const { channels } = useStore();
-  const channel = () => channels.get(props.channelId)
+  const channel = () => channels.get(props.channelId);
 
   const [time, setTime] = createSignal<null | string>(null);
 
   createEffect(on(() => channel()?.callJoinedAt, (joinedAt) => {
     let interval: number;
     if (joinedAt) {
-      setTime(timeElapsed(joinedAt))
+      setTime(timeElapsed(joinedAt));
       interval = window.setInterval(() =>
         setTime(timeElapsed(joinedAt))
-        , 1000)
+      , 1000);
     }
     onCleanup(() => {
       interval && clearInterval(interval);
-    })
-  }))
+    });
+  }));
 
   return (
     <Show when={channel()?.callJoinedAt}>
       <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>{time()}</Text>
     </Show>
-  )
+  );
 }
 
 

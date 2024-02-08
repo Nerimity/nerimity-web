@@ -1,9 +1,9 @@
-import styles from './styles.module.scss';
-import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
-import { classNames, conditionalClass } from '@/common/classNames';
-import Icon from '@/components/ui/icon/Icon';
-import { Portal } from 'solid-js/web';
-import { useWindowProperties } from '@/common/useWindowProperties';
+import styles from "./styles.module.scss";
+import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import { classNames, conditionalClass } from "@/common/classNames";
+import Icon from "@/components/ui/icon/Icon";
+import { Portal } from "solid-js/web";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 
 export interface ContextMenuItem {
@@ -36,9 +36,11 @@ export default function ContextMenu(props: ContextMenuProps) {
 
   const handleOutsideClick = (e: any) => {
     if (props.triggerClassName) {
-      if (e.target.closest("." + props.triggerClassName)) {return}
+      if (e.target.closest("." + props.triggerClassName)) {
+        return;
+      }
     }
-    props.onClose?.()
+    props.onClose?.();
   };
   
   const handleOutsideRightClick = (e: any) => {
@@ -46,23 +48,23 @@ export default function ContextMenu(props: ContextMenuProps) {
       e.preventDefault();
       return;
     }
-    props.onClose?.()
+    props.onClose?.();
   };
 
   createEffect(on(() => props.position, () => {
     if (!props.position) return;
-    window.addEventListener('contextmenu', handleOutsideRightClick, {capture: true});
-    window.addEventListener('click', handleOutsideClick);
+    window.addEventListener("contextmenu", handleOutsideRightClick, {capture: true});
+    window.addEventListener("click", handleOutsideClick);
 
     onCleanup(() => {
-      window.removeEventListener('contextmenu', handleOutsideRightClick);
-      window.removeEventListener('click', handleOutsideClick);
-    })
-  }))
+      window.removeEventListener("contextmenu", handleOutsideRightClick);
+      window.removeEventListener("click", handleOutsideClick);
+    });
+  }));
 
   createEffect(() => {
     if (!hasFocus()) props.onClose?.();
-  })
+  });
 
 
 
@@ -74,7 +76,7 @@ export default function ContextMenu(props: ContextMenuProps) {
       return props.position.x - contextMenuElement.clientWidth + "px";
     }
     return props.position.x + "px";
-  }
+  };
 
   const top = () => {
     if (!props.position) return;
@@ -84,11 +86,11 @@ export default function ContextMenu(props: ContextMenuProps) {
       return props.position.y - contextMenuElement.clientHeight + "px";
     }
     return props.position.y + "px";
-  }
+  };
 
   createEffect(on(() => props.position, () => {
-    setPos({left: left() || "0", top: top() || "0"})
-  }))
+    setPos({left: left() || "0", top: top() || "0"});
+  }));
 
 
 
@@ -107,23 +109,23 @@ export default function ContextMenu(props: ContextMenuProps) {
                   {!item.separator && <Item onClick={() => props.onClick?.(item)} item={item} />}
                 </Show>
               )}
-          </For>
+            </For>
           </div>
         </div>
       </Portal>
     </Show>
-  )
+  );
 }
 
 function Item(props: {item: ContextMenuItem, onClick?(): void}) {
   const onClick = () => {
-    props.onClick?.()
-    props.item.onClick?.()
-  }
+    props.onClick?.();
+    props.item.onClick?.();
+  };
   return (
     <div class={classNames(styles.item, conditionalClass(props.item.alert, styles.alert), conditionalClass(props.item.disabled, styles.disabled))} onClick={onClick}>
-      <Icon name={props.item.icon || "texture"} size={18} color={props.item.alert ? 'var(--alert-color)' : 'var(--primary-color)'}  />
+      <Icon name={props.item.icon || "texture"} size={18} color={props.item.alert ? "var(--alert-color)" : "var(--primary-color)"}  />
       <span class={styles.label} >{props.item.label}</span>
     </div>
-  )
+  );
 }

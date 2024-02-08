@@ -13,7 +13,7 @@ import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A, useParams } from "solid-navigator";
-import { createEffect, createSignal, Show, } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 
 const Container = styled("div")`
@@ -42,18 +42,18 @@ export default function PublishServerSettings() {
     header.updateHeader({
       title: "Settings - Publish Server",
       serverId: params.serverId!,
-      iconName: 'settings',
+      iconName: "settings"
     });
     loadPublicServer();
-  })
+  });
 
   const loadPublicServer = () => {
     getPublicServer(params.serverId).then(ps => {
       setPublicServer(ps);
       setDescription(ps.description);
       setIsPublic(true);
-    })
-  }
+    });
+  };
 
   const publish = () => {
     setError(null);
@@ -62,8 +62,8 @@ export default function PublishServerSettings() {
         setPublicServer(ps);
         setDescription(ps.description);
       })
-      .catch(err => setError(err.message))
-  }
+      .catch(err => setError(err.message));
+  };
 
   const deletePublic = () => {
     deletePublicServer(params.serverId)
@@ -71,8 +71,8 @@ export default function PublishServerSettings() {
         setPublicServer(null);
         setDescription("");
         setError(null);
-      })
-  }
+      });
+  };
 
 
   const showPublishButton = () => {
@@ -80,7 +80,7 @@ export default function PublishServerSettings() {
     if (!publicServer() && description().length) return true;
     if (publicServer()?.description !== description()) return true;
     return false;
-  }
+  };
 
   const bumpClick = () => {
     // 3 hours to milliseconds
@@ -96,31 +96,31 @@ export default function PublishServerSettings() {
     }
 
 
-    return createPortal(close => <ServerBumpModal update={setPublicServer} publicServer={publicServer()!} close={close} />)
+    return createPortal(close => <ServerBumpModal update={setPublicServer} publicServer={publicServer()!} close={close} />);
 
 
-  }
+  };
 
-  const server =() => servers.get(params.serverId)
+  const server =() => servers.get(params.serverId);
 
 
   return (
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
-        <BreadcrumbItem title={t('servers.settings.drawer.invites')} />
+        <BreadcrumbItem title={t("servers.settings.drawer.invites")} />
       </Breadcrumb>
       <Text color="rgba(255,255,255,0.6)" style={{ "margin-bottom": "10px" }}>
         <Trans key='servers.settings.publishServer.publishNotice'>
           Publishing your server will make it be available in the <A href="/app/explore/servers">explore</A> page.          
         </Trans>
       </Text>
-      <SettingsBlock icon="public" label={t('servers.settings.publishServer.public')} description={t('servers.settings.publishServer.publicDescription')}>
+      <SettingsBlock icon="public" label={t("servers.settings.publishServer.public")} description={t("servers.settings.publishServer.publicDescription")}>
         <Checkbox checked={isPublic()} onChange={v => setIsPublic(v)} />
       </SettingsBlock>
 
       <Show when={isPublic() && publicServer()}>
-        <SettingsBlock icon="arrow_upward" label={t('servers.settings.publishServer.bumpServer')} description={t('servers.settings.publishServer.bumpServerDescription')}>
+        <SettingsBlock icon="arrow_upward" label={t("servers.settings.publishServer.bumpServer")} description={t("servers.settings.publishServer.bumpServerDescription")}>
           <Button onClick={bumpClick} class={css`margin-right: 0px;`} label={`Bump (${publicServer()?.bumpCount})`} />
         </SettingsBlock>
       </Show>
@@ -129,8 +129,8 @@ export default function PublishServerSettings() {
         <Input value={description()} onText={t => setDescription(t)} type="textarea" height={200} label={`Server Description (${description().length}/${MAX_DESCRIPTION_LENGTH})`} />
       </Show>
       <Show when={error()}><Text color="var(--alert-color)">{error()}</Text></Show>
-      <Show when={showPublishButton()}><Button class={buttonStyle} iconName="public" label={t('servers.settings.publishServer.publishServerButton')} onClick={publish} /></Show>
-      <Show when={!isPublic() && publicServer()}><Button class={buttonStyle} iconName="delete" color="var(--alert-color)" label={t('servers.settings.publishServer.unpublishServerButton')} onClick={deletePublic} /></Show>
+      <Show when={showPublishButton()}><Button class={buttonStyle} iconName="public" label={t("servers.settings.publishServer.publishServerButton")} onClick={publish} /></Show>
+      <Show when={!isPublic() && publicServer()}><Button class={buttonStyle} iconName="delete" color="var(--alert-color)" label={t("servers.settings.publishServer.unpublishServerButton")} onClick={deletePublic} /></Show>
     </Container>
-  )
+  );
 }

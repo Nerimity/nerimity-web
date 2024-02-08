@@ -13,14 +13,14 @@ export function ChangelogModal (props: {close: () => void}) {
   const date = () => {
     const release = latestRelease();
     if (!release) return undefined;
-    return formatTimestamp(new Date(release.published_at).getTime())
-  }
+    return formatTimestamp(new Date(release.published_at).getTime());
+  };
 
   const ActionButtons = (
     <A style={{"text-decoration": "none"}} href="https://github.com/Nerimity/Nerimity-Web/releases" target="_blank" rel="noopener noreferrer">
       <Button label="View more in GitHub" iconName="launch"  />
     </A>
-  )
+  );
 
 
   return (
@@ -34,5 +34,5 @@ export function ChangelogModal (props: {close: () => void}) {
         </FlexColumn>
       </FlexColumn>
     </Modal>
-  )
+  );
 }

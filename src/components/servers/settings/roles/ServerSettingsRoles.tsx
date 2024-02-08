@@ -1,17 +1,17 @@
-import styles from './styles.module.scss'
-import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from 'solid-navigator';
-import { createEffect, createSignal, For, JSX, onMount } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
-import Button from '@/components/ui/Button';
-import Icon from '@/components/ui/icon/Icon';
-import { createServerRole, updateServerRoleOrder } from '@/chat-api/services/ServerService';
-import { ServerRole } from '@/chat-api/store/useServerRoles';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import { Draggable } from '@/components/ui/Draggable';
-import { CustomLink } from '@/components/ui/CustomLink';
-import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
+import styles from "./styles.module.scss";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { Link, useNavigate, useParams } from "solid-navigator";
+import { createEffect, createSignal, For, JSX, onMount } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import Button from "@/components/ui/Button";
+import Icon from "@/components/ui/icon/Icon";
+import { createServerRole, updateServerRoleOrder } from "@/chat-api/services/ServerService";
+import { ServerRole } from "@/chat-api/store/useServerRoles";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { Draggable } from "@/components/ui/Draggable";
+import { CustomLink } from "@/components/ui/CustomLink";
+import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 
 
 
@@ -26,7 +26,7 @@ function RoleItem(props: { role: ServerRole }) {
       <div class={styles.name}>{props.role.name}</div>
       <Icon name='navigate_next' />
     </CustomLink>
-  )
+  );
 }
 
 
@@ -44,14 +44,14 @@ function RoleList() {
     updateServerRoleOrder(serverId, [...ids].reverse())
       .catch(() => {
         revert();
-      })
-  }
+      });
+  };
 
   return (
     <Draggable onDrop={onDrop} class={styles.roleList} items={roles()}>
       {role => <RoleItem role={role!} />}
     </Draggable>
-  )
+  );
 }
 
 
@@ -69,19 +69,19 @@ export default function ServerSettingsRole() {
     header.updateHeader({
       title: "Settings - Roles",
       serverId: serverId!,
-      iconName: 'settings',
+      iconName: "settings"
     });
-  })
+  });
 
   const onAddRoleClicked = async () => {
     if (roleAddRequestSent()) return;
     setRoleAddRequestSent(true);
 
     const role = await createServerRole(serverId!)
-      .finally(() => setRoleAddRequestSent(false))
+      .finally(() => setRoleAddRequestSent(false));
 
-    navigate(RouterEndpoints.SERVER_SETTINGS_ROLE(serverId!, role.id))
-  }
+    navigate(RouterEndpoints.SERVER_SETTINGS_ROLE(serverId!, role.id));
+  };
 
   const server = () => servers.get(serverId);
 
@@ -90,13 +90,13 @@ export default function ServerSettingsRole() {
     <div class={styles.rolesPane}>
       <Breadcrumb>
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
-        <BreadcrumbItem title={t('servers.settings.drawer.roles')} />
+        <BreadcrumbItem title={t("servers.settings.drawer.roles")} />
       </Breadcrumb>
-      <SettingsBlock label={t('servers.settings.roles.addNewRole')} icon='add'>
-        <Button label={t('servers.settings.roles.addRoleButton')} onClick={onAddRoleClicked} />
+      <SettingsBlock label={t("servers.settings.roles.addNewRole")} icon='add'>
+        <Button label={t("servers.settings.roles.addRoleButton")} onClick={onAddRoleClicked} />
       </SettingsBlock>
       <RoleList />
     </div>
-  )
+  );
 }
 

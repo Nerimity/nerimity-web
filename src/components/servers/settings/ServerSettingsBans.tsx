@@ -10,7 +10,7 @@ import Icon from "@/components/ui/icon/Icon";
 import Text from "@/components/ui/Text";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createResource, createSignal, For, Show } from "solid-js";
-import { styled } from "solid-styled-components"
+import { styled } from "solid-styled-components";
 
 const BansContainer = styled("div")`
   display: flex;
@@ -37,7 +37,7 @@ export default function ServerSettingsBans() {
         </For>
       </Show>
     </BansContainer>
-  )
+  );
 }
 
 const BanContainer = styled(FlexRow)`
@@ -85,8 +85,8 @@ function BanItem(props: { ban: Ban, refetch: () => void }) {
     removeBanServerMember(props.ban.serverId, user.id).finally(() => {
       setRequestSent(false);
       props.refetch();
-    })
-  }
+    });
+  };
 
   return (
     <BanContainer gap={5}>
@@ -96,8 +96,8 @@ function BanItem(props: { ban: Ban, refetch: () => void }) {
       </A>
       <UnbanButtonContainer gap={5} onclick={onUnbanClick}>
         <Icon color="var(--alert-color)" name="undo" size={14} />
-        <Text color="var(--alert-color)" size={14}>{requestSent() ? 'Unbanning' : 'Unban'}</Text>
+        <Text color="var(--alert-color)" size={14}>{requestSent() ? "Unbanning" : "Unban"}</Text>
       </UnbanButtonContainer>
     </BanContainer>
-  )
+  );
 }

@@ -7,7 +7,7 @@ import {
   onMount,
   Setter,
   Show,
-  Switch,
+  Switch
 } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
@@ -20,7 +20,7 @@ import {
   CloseTicketStatuses,
   RawMessage,
   RawTicket,
-  TicketStatus,
+  TicketStatus
 } from "@/chat-api/RawData";
 import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
 import { formatTimestamp } from "@/common/date";
@@ -33,11 +33,11 @@ import Input from "../ui/input/Input";
 import Button from "../ui/Button";
 import {
   getModerationTicket,
-  updateModerationTicket,
+  updateModerationTicket
 } from "@/chat-api/services/ModerationService";
 import TicketsPage, {
   TicketItem,
-  TicketStatusToName,
+  TicketStatusToName
 } from "../tickets/TicketsPage";
 import Checkbox from "../ui/Checkbox";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
@@ -57,10 +57,10 @@ export default function TicketSettings() {
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Tickets",
-      iconName: "settings",
+      iconName: "settings"
     });
   });
-  const showTicketPage = useMatch(() => "/app/settings/tickets/:id")
+  const showTicketPage = useMatch(() => "/app/settings/tickets/:id");
 
   return (
     <Switch fallback={<TicketsPage/>}>
@@ -85,7 +85,7 @@ export const TicketPage = () => {
 
     onCleanup(() => {
       window.clearInterval(interval);
-    })
+    });
     
   });  
 
@@ -99,10 +99,10 @@ export const TicketPage = () => {
     const afterMessageId = messages().length ? messages()[messages().length - 1].id : "0";
 
     const newMessages = await fetchMessages(ticket.channelId, {
-      afterMessageId: afterMessageId,
+      afterMessageId: afterMessageId
     });
     setMessages(afterMessageId === "0" ? newMessages : [...messages(), ...newMessages]);
-  }
+  };
 
   return (
     <Container>
@@ -114,7 +114,7 @@ export const TicketPage = () => {
           <Show when={!isModeration()}>
             <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
           </Show>
-          <BreadcrumbItem title={t("settings.drawer.tickets")!} href={isModeration() ? '/app/moderation/tickets' : '/app/settings/tickets'} />
+          <BreadcrumbItem title={t("settings.drawer.tickets")!} href={isModeration() ? "/app/moderation/tickets" : "/app/settings/tickets"} />
           <BreadcrumbItem title={"Ticket"} />
         </Breadcrumb>
       </div>
@@ -144,7 +144,7 @@ export const TicketPage = () => {
             channelId={ticket()!.channelId}
             setMessages={setMessages}
             messages={messages()}
-            />
+          />
         </Show>
 
       </Show>
@@ -210,24 +210,24 @@ const MessageInputArea = (props: {
     setTimeout(() => {
       tickets.updateTicketNotification();
     }, 2000);
-    document.addEventListener("paste", onPaste)
+    document.addEventListener("paste", onPaste);
     onCleanup(() => {
-      document.removeEventListener("paste", onPaste)
-    })
-  })
+      document.removeEventListener("paste", onPaste);
+    });
+  });
 
   const onPaste = (event: ClipboardEvent) => {
     const file = event.clipboardData?.files[0];
     if (!file) return;
     if (!file.type.startsWith("image")) return;
     setAttachment(() => file);
-  }
+  };
 
 
   const onAttachmentChange = (files: FileList) => {
     const file = files[0];
     setAttachment(() => file);
-  }
+  };
 
   const sendClick = async () => {
     const status = selectedStatus();
@@ -248,7 +248,7 @@ const MessageInputArea = (props: {
     const message = await postMessage({
       content: formattedValue,
       attachment: file,
-      channelId: props.channelId,
+      channelId: props.channelId
     }).catch((err) => {
       alert(err.message);
       setValue(formattedValue);

@@ -1,9 +1,9 @@
-import { createEffect, createSignal, on, onMount, Show } from 'solid-js';
-import { classNames, conditionalClass } from '@/common/classNames';
-import styles from './styles.module.scss';
-import { styled } from 'solid-styled-components';
-import Text from '../Text';
-import { FlexRow } from '../Flexbox';
+import { createEffect, createSignal, on, onMount, Show } from "solid-js";
+import { classNames, conditionalClass } from "@/common/classNames";
+import styles from "./styles.module.scss";
+import { styled } from "solid-styled-components";
+import Text from "../Text";
+import { FlexRow } from "../Flexbox";
 
 interface Error {message: string, path: string}
 interface Props {
@@ -30,7 +30,7 @@ const Base = styled("div")<{margin?: number | number[]}>`
   flex-direction: column;
   margin: ${props => props.margin !== undefined ? 
     typeof props.margin === "object" ? props.margin.join("px ") : props.margin  
-  : 0}px;
+    : 0}px;
 `;
 
 const Label = styled(Text)`
@@ -76,7 +76,7 @@ const InputContainer = styled(FlexRow)<{focused: boolean}>`
   border-bottom: solid 2px rgba(255, 255, 255, 0.3);
   transition: 0.2s;
   cursor: text;
-  ${props => props.focused ? "border-bottom: solid 2px var(--primary-color);" : ''}
+  ${props => props.focused ? "border-bottom: solid 2px var(--primary-color);" : ""}
 `;
 
 export default function Input(props: Props) {
@@ -85,32 +85,33 @@ export default function Input(props: Props) {
 
   onMount(() => {
     props.ref?.(inputEl as HTMLInputElement | HTMLTextAreaElement);
-  })
+  });
 
   const error = () => {
   
-    if (props.error && typeof props.error !== 'string') {
-      const errorField = props.errorName || props.label
+    if (props.error && typeof props.error !== "string") {
+      const errorField = props.errorName || props.label;
       if (Array.isArray(errorField)) {
         if (errorField.map(e => e.toLowerCase()).includes(props.error.path.toLowerCase())) {
           return props.error.message;
         }
-      } else if (errorField?.toLowerCase() === props.error.path?.toLowerCase()){
+      }
+      else if (errorField?.toLowerCase() === props.error.path?.toLowerCase()){
         return props.error.message;
       }
     }
-    if (typeof props.error === 'string') {
+    if (typeof props.error === "string") {
       return props.error;
     }
-  }
+  };
   const focus = (event?: MouseEvent) => {
     event?.preventDefault();
-    inputEl?.focus()
-  }
+    inputEl?.focus();
+  };
 
   createEffect(on(() => props.value, () => {
     auto_grow();
-  }))
+  }));
 
   function auto_grow() {
     if (inputEl?.tagName !== "TEXTAREA") return;
@@ -119,14 +120,14 @@ export default function Input(props: Props) {
   }
 
   const onChange = (event: any) => {
-    auto_grow()
+    auto_grow();
     props.onText?.(event.target.value);
-  }
+  };
 
   const onBlur = (event: FocusEvent) => {
-    setFocused(false)
+    setFocused(false);
     props.onBlur?.(event);
-  }
+  };
   return (
     <Base margin={props.margin} class={props.class}>
       <Show when={props.label}><Label color='rgba(255, 255, 255, 0.8)'>{props.label}</Label></Show>
@@ -138,5 +139,5 @@ export default function Input(props: Props) {
       <Show when={error()}><ErrorLabel color="var(--alert-color)">{error()}</ErrorLabel></Show>
     </Base>
 
-  )
+  );
 }

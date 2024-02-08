@@ -7,8 +7,8 @@ import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 
-const QualityOptions = ["480p", "720p", "1080p", "Source"] as const
-const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps", "Source"] as const
+const QualityOptions = ["480p", "720p", "1080p", "Source"] as const;
+const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps", "Source"] as const;
 
 
 const OptionContainer = styled(FlexRow)``;
@@ -35,13 +35,13 @@ export function ScreenShareModal(props: { close: () => void }) {
     let stream: MediaStream | void;
 
     if (electronWindowAPI()?.isElectron) {
-      const sourceId = electronSourceIdRef()
+      const sourceId = electronSourceIdRef();
       if (!sourceId) return;
       stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           mandatory: {
-            chromeMediaSource: "desktop",
-          },
+            chromeMediaSource: "desktop"
+          }
         },
         video: {
           mandatory: {
@@ -51,26 +51,27 @@ export function ScreenShareModal(props: { close: () => void }) {
             minWidth: constraints.video.width,
             maxWidth: constraints.video.width,
             minHeight: constraints.video.height,
-            maxHeight: constraints.video.height,
-          },
-        },
+            maxHeight: constraints.video.height
+          }
+        }
       });
       await stream.getAudioTracks()[0].applyConstraints(constraints.audio);
-    } else {
+    }
+    else {
       stream = await navigator.mediaDevices.getDisplayMedia(constraints).catch(() => {});
     }
 
     if (!stream) return;
     voiceUsers.setVideoStream(stream);
     props.close();
-  }
+  };
 
   const ActionButtons = (
     <ActionButtonsContainer>
       <Button label="Back" color="var(--alert-color)" onClick={props.close} />
       <Button label="Choose Window" onClick={chooseWindowClick} />
     </ActionButtonsContainer>
-  )
+  );
 
   return (
     <Modal title="Screen Share" close={props.close} actionButtons={ActionButtons}>
@@ -93,7 +94,7 @@ export function ScreenShareModal(props: { close: () => void }) {
       </Show>
 
     </Modal>
-  )
+  );
 }
 
 const constructConstraints = async (quality: typeof QualityOptions[number], framerate: typeof FramerateOptions[number]) => {
@@ -103,14 +104,14 @@ const constructConstraints = async (quality: typeof QualityOptions[number], fram
       height: 0,
       width: 0,
       frameRate: 0,
-      resizeMode: "none",
+      resizeMode: "none"
     },
     audio: {
       autoGainControl: false,
       echoCancellation: false,
       googAutoGainControl: false,
-      noiseSuppression: false,
-    },
+      noiseSuppression: false
+    }
   };
 
   // if (supportedConstraints?.suppressLocalAudioPlayback) {
@@ -156,11 +157,11 @@ const constructConstraints = async (quality: typeof QualityOptions[number], fram
   }
 
   return constraints;
-}
+};
 
 const getRoundedFps = async () => {
   return Math.round((await getFPS()) / 10) * 10;
-}
+};
 
 const getFPS = () => {
   return new Promise<number>((resolve) => {
@@ -212,14 +213,14 @@ function ElectronCaptureSourceList(props: {ref: any}) {
     }
 
     setSources(sources);
-  }
+  };
 
   onMount(() => {
     fetchSources();
-    const timeoutId = window.setInterval(fetchSources, 3000)
+    const timeoutId = window.setInterval(fetchSources, 3000);
 
     onCleanup(() => clearInterval(timeoutId));
-  })
+  });
 
   return (
     <SourcesContainer>
@@ -227,7 +228,7 @@ function ElectronCaptureSourceList(props: {ref: any}) {
         {source => <SourceItem source={source} onClick={() => setSelectedSourceId(source.id)} selected={selectedSourceId() === source.id} />}
       </For>
     </SourcesContainer>
-  )
+  );
 }
 
 const SourceItemContainer = styled(FlexColumn)<{selected?: boolean}>`
@@ -266,5 +267,5 @@ function SourceItem(props: {source: ElectronCaptureSource, onClick: () => void, 
       <SourceItemImage src={props.source.thumbnailUrl} />
       <SourceText size={12}>{props.source.name}</SourceText>
     </SourceItemContainer>
-  )
+  );
 }

@@ -65,7 +65,7 @@ export async function verifyEmailConfirmCode(code: string): Promise<{status: boo
 // Returns {token}
 // error returns {path?, message}
 export async function loginRequest(email: string, password: string): Promise<{token: string}> {
-  const isUsernameAndTag = email.includes(":")
+  const isUsernameAndTag = email.includes(":");
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.login(),
     method: "POST",
@@ -154,14 +154,14 @@ export async function getFollowing(userId?: string) {
 export async function openDMChannelRequest(userId: string) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.openUserDM(userId),
-    method: 'POST',
+    method: "POST",
     useToken: true
   });
 }
 export async function closeDMChannelRequest(channelId: string) {
   return request({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.channel(channelId),
-    method: 'DELETE',
+    method: "DELETE",
     useToken: true
   });
 }
@@ -169,14 +169,14 @@ export async function closeDMChannelRequest(channelId: string) {
 export async function blockUser(userId: string) {
   return request({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
-    method: 'POST',
+    method: "POST",
     useToken: true
   });
 }
 export async function unblockUser(userId: string) {
   return request({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(userId) + "/block",
-    method: 'DELETE',
+    method: "DELETE",
     useToken: true
   });
 }
@@ -184,7 +184,7 @@ export async function unblockUser(userId: string) {
 export async function updatePresence(presence: Partial<Presence>) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.updatePresence(),
-    method: 'POST',
+    method: "POST",
     body: presence,
     useToken: true
   });
@@ -205,7 +205,7 @@ interface UpdateUserOptions {
 export async function updateUser(body: UpdateUserOptions) {
   return request<{user: any, newToken?: string, }>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(""),
-    method: 'POST',
+    method: "POST",
     body,
     useToken: true
   });
@@ -213,14 +213,14 @@ export async function updateUser(body: UpdateUserOptions) {
 export async function followUser(userId: string) {
   return request({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.userFollow(userId),
-    method: 'POST',
+    method: "POST",
     useToken: true
   });
 }
 export async function unfollowUser(userId: string) {
   return request({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.userFollow(userId),
-    method: 'DELETE',
+    method: "DELETE",
     useToken: true
   });
 }
@@ -255,27 +255,27 @@ export async function deleteAccount(password: string) {
 
 export const updateDMChannelNotice = async (content: string) => {
   const data = await request<{notice: RawChannelNotice}>({
-    method: 'PUT',
+    method: "PUT",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
     body: {content},
-    useToken: true,
+    useToken: true
   });
   return data;
 };
 
 export const deleteDMChannelNotice = async () => {
   const data = await request({
-    method: 'DELETE',
+    method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
-    useToken: true,
+    useToken: true
   });
   return data;
 };
 export const getDMChannelNotice = async () => {
   const data = await request<{notice: RawChannelNotice}>({
-    method: 'GET',
+    method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
-    useToken: true,
+    useToken: true
   });
   return data;
 };

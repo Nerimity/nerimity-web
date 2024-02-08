@@ -1,8 +1,8 @@
-import styles from './styles.module.scss';
-import { JSX, JSXElement, Show } from 'solid-js';
-import Icon from '@/components/ui/icon/Icon';
-import { classNames, conditionalClass } from '@/common/classNames';
-import { css } from 'solid-styled-components';
+import styles from "./styles.module.scss";
+import { JSX, JSXElement, Show } from "solid-js";
+import Icon from "@/components/ui/icon/Icon";
+import { classNames, conditionalClass } from "@/common/classNames";
+import { css } from "solid-styled-components";
 
 interface BlockProps {
   label: string;
@@ -39,7 +39,7 @@ export default function SettingsBlock(props: BlockProps) {
       </div>
       {props.children}
     </div>
-  )
+  );
 }
 
 

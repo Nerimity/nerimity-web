@@ -36,7 +36,7 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
   if (opts?.message) {
     const mentionedMe = opts.message.mentions?.find(m => m.id === account.user()?.id);
     if (mentionedMe) {
-      return playSound(MESSAGE_MENTION_NOTIFICATION)
+      return playSound(MESSAGE_MENTION_NOTIFICATION);
     }
   }
   if (notificationSoundMode === ServerNotificationSoundMode.MENTIONS_ONLY) return;

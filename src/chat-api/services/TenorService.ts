@@ -1,5 +1,5 @@
-import env from '../../common/env';
-import { request } from './Request';
+import env from "../../common/env";
+import { request } from "./Request";
 
 export interface TenorCategory {
   searchterm: string; // 'anime smile',
@@ -10,7 +10,7 @@ export interface TenorCategory {
 
 export const getTenorCategories = async () => {
   const data = await request<TenorCategory>({
-    method: 'GET',
+    method: "GET",
     url: env.SERVER_URL + "/api/tenor/categories",
     useToken: true
   });
@@ -25,7 +25,7 @@ export interface TenorImage {
 
 export const getTenorImages = async (query: string) => {
   const data = await request<TenorImage[]>({
-    method: 'GET',
+    method: "GET",
     url: env.SERVER_URL + "/api/tenor/search",
     params: {
       query

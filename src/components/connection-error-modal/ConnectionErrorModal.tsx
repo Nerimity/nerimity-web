@@ -1,4 +1,4 @@
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
@@ -7,7 +7,7 @@ import { useNavigate } from "solid-navigator";
 import { Match, Show, Switch } from "solid-js";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
-import Modal from "../ui/modal/Modal"
+import Modal from "../ui/modal/Modal";
 
 export const ConnectionErrorModal = (props: {close: () => void}) => {
   const { account } = useStore();
@@ -16,14 +16,14 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
 
   const logout = () => {
     localStorage.clear();
-    navigate("/")
+    navigate("/");
     props.close();
-  }
+  };
 
   const loginPage = () => {
     navigate("/login");
     props.close();
-  }
+  };
 
   const hasToken = () => getStorageString(StorageKeys.USER_TOKEN, null);
 
@@ -34,7 +34,7 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
       <Show when={hasToken()}><Button onClick={logout} label="Logout" color="var(--alert-color)" /></Show>
       <Show when={!hasToken()}><Button onClick={() => loginPage()} label="Login" /></Show>
     </FlexRow>
-  )
+  );
 
 
   return (
@@ -47,8 +47,8 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
         </Switch>
       </div>
     </Modal>
-  )
-}
+  );
+};
 
 function SuspendMessage(props: {reason?: string; expire?: number;}) {
   return (
@@ -58,7 +58,7 @@ function SuspendMessage(props: {reason?: string; expire?: number;}) {
       <div class={styles.messageDim}> until</div>
       <div class={styles.message}> {props.expire ? formatTimestamp(props.expire) : "never"}</div>
     </>
-  )
+  );
 }
 function IPBanMessage(props: {reason?: string; expire?: number;}) {
   return (
@@ -67,5 +67,5 @@ function IPBanMessage(props: {reason?: string; expire?: number;}) {
       <div class={styles.messageDim}> until</div>
       <div class={styles.message}> {props.expire ? formatTimestamp(props.expire) : "never"}</div>
     </>
-  )
+  );
 }

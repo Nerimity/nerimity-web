@@ -1,23 +1,23 @@
-import Icon from '@/components/ui/icon/Icon';
-import { A, useMatch, useNavigate, useParams } from 'solid-navigator';
-import { For, JSXElement, Match, Show, Switch } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import settings from '@/common/Settings';
-import ItemContainer from '@/components/ui/Item';
-import { css, styled } from 'solid-styled-components';
-import Text from '@/components/ui/Text';
-import { FlexColumn } from '../ui/Flexbox';
-import env from '@/common/env';
-import { Dynamic } from 'solid-js/web';
-import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import { ChangelogModal } from '../ChangelogModal';
-import { clearCache } from '@/common/localCache';
-import socketClient from '@/chat-api/socketClient';
-import { DrawerHeader } from '../drawer-header/DrawerHeader';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import { t } from 'i18next';
-import InVoiceActions from '../InVoiceActions';
+import Icon from "@/components/ui/icon/Icon";
+import { A, useMatch, useNavigate, useParams } from "solid-navigator";
+import { For, JSXElement, Match, Show, Switch } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import settings from "@/common/Settings";
+import ItemContainer from "@/components/ui/Item";
+import { css, styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { FlexColumn } from "../ui/Flexbox";
+import env from "@/common/env";
+import { Dynamic } from "solid-js/web";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { ChangelogModal } from "../ChangelogModal";
+import { clearCache } from "@/common/localCache";
+import socketClient from "@/chat-api/socketClient";
+import { DrawerHeader } from "../drawer-header/DrawerHeader";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
+import InVoiceActions from "../InVoiceActions";
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -35,7 +35,7 @@ const SettingsListContainer = styled("div")`
 const SettingItemContainer = styled(ItemContainer) <{ nested?: boolean }>`
   height: 32px;
   gap: 5px;
-  padding-left: ${props => props.nested ? '25px' : '10px'};
+  padding-left: ${props => props.nested ? "25px" : "10px"};
   margin-left: 3px;
   margin-right: 3px;
   :first {
@@ -63,20 +63,20 @@ function Footer() {
   const navigate = useNavigate();
   const { createPortal } = useCustomPortal();
 
-  const onChangelogClick = () => createPortal?.(close => <ChangelogModal close={close} />)
+  const onChangelogClick = () => createPortal?.(close => <ChangelogModal close={close} />);
 
   const onLogoutClick = async () => {
     await clearCache();
     localStorage.clear();
-    location.href = "/"
-  }
+    location.href = "/";
+  };
 
   return (
     <FooterContainer gap={2}>
       <SupportItem />
-      <FooterItem href='https://github.com/Nerimity/Nerimity-Web' external icon="code" label={t('settings.drawer.viewSource')} />
-      <FooterItem icon="description" label={t('settings.drawer.changelog')} subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
-      <FooterItem color="var(--alert-color)" icon="logout" label={t('settings.drawer.logout')} onClick={onLogoutClick} />
+      <FooterItem href='https://github.com/Nerimity/Nerimity-Web' external icon="code" label={t("settings.drawer.viewSource")} />
+      <FooterItem icon="description" label={t("settings.drawer.changelog")} subLabel={env.APP_VERSION || "Unknown"} onClick={onChangelogClick} />
+      <FooterItem color="var(--alert-color)" icon="logout" label={t("settings.drawer.logout")} onClick={onLogoutClick} />
       <InVoiceActions />
     </FooterContainer>
   );
@@ -88,7 +88,7 @@ export default function SettingsDrawer() {
       <SettingsList />
       <Footer />
     </DrawerContainer>
-  )
+  );
 }
 
 function SettingsList() {
@@ -96,7 +96,7 @@ function SettingsList() {
   const [t] = useTransContext();
   return (
     <SettingsListContainer>
-      <DrawerHeader text={t('settings.drawer.title')} />
+      <DrawerHeader text={t("settings.drawer.title")} />
       <For each={settings.filter(setting => !setting.hide)}>
         {setting =>
           <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)}>
@@ -107,25 +107,25 @@ function SettingsList() {
         }
       </For>
     </SettingsListContainer>
-  )
+  );
 }
 
 function NotificationCircle () {
   return (
     <div style={{
-      "display": 'flex',
-      "align-items": 'center',
-      "justify-content": 'center',
-      background: 'var(--alert-color)',
-      "border-radius": '50%',
+      "display": "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      background: "var(--alert-color)",
+      "border-radius": "50%",
       color: "white",
-      width: '20px',
-      height: '20px',
-      "font-size": '14px',
-      "margin-left": 'auto',
-      "margin-right": '8px',
+      width: "20px",
+      height: "20px",
+      "font-size": "14px",
+      "margin-left": "auto",
+      "margin-right": "8px"
     }}>!</div>
-  )
+  );
 }
 
 
@@ -133,7 +133,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
   const href = () => {
     return "/app/settings/" + props.path;
   };
-  const selected = useMatch(() => href() + "/*")
+  const selected = useMatch(() => href() + "/*");
 
   return (
     <A href={href()} style={{ "text-decoration": "none" }}>
@@ -143,7 +143,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
         {props.children}
       </SettingItemContainer>
     </A>
-  )
+  );
 }
 
 
@@ -170,7 +170,7 @@ function FooterItem(props: FooterItemProps) {
         </Show>
       </SettingItemContainer>
     </>
-  )
+  );
   return (
     <Switch>
       <Match when={props.href}>
@@ -180,7 +180,7 @@ function FooterItem(props: FooterItemProps) {
         <div children={Content} onClick={props.onClick} />
       </Match>
     </Switch>
-  )
+  );
 }
 
 
@@ -194,16 +194,16 @@ function SupportItem() {
       rel="noopener noreferrer"
       style={{ "text-decoration": "none" }}
     >
-      <SettingItemContainer style={{ background: 'var(--alert-color)', height: 'initial', "padding": "10px" }}>
-        <Icon style={{ "align-self": 'start', "margin-top": "3px" }} name="favorite" size={18} />
+      <SettingItemContainer style={{ background: "var(--alert-color)", height: "initial", "padding": "10px" }}>
+        <Icon style={{ "align-self": "start", "margin-top": "3px" }} name="favorite" size={18} />
         <div>
-          <Text style={{ "font-weight": 'bold' }}>{t('settings.drawer.supportMe')}</Text>
+          <Text style={{ "font-weight": "bold" }}>{t("settings.drawer.supportMe")}</Text>
           <div>
             <Text size={12}>Support this project on Ko-fi to get a supporter badge!</Text>
           </div>
         </div>
-        <Icon class={css`margin-left: auto;`} style={{ "align-self": 'start', "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
+        <Icon class={css`margin-left: auto;`} style={{ "align-self": "start", "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
       </SettingItemContainer>
     </A>
-  )
+  );
 }

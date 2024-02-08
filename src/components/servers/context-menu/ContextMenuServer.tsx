@@ -8,7 +8,7 @@ import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
 import { createEffect } from "solid-js";
 import { ChannelType } from "@/chat-api/RawData";
 
-type Props = Omit<ContextMenuProps, 'items'> & {
+type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string
 }
 
@@ -26,7 +26,7 @@ export default function ContextMenuServer (props: Props) {
     await server()?.leave();
     if (isOnServerPage())
       navigate(RouterEndpoints.INBOX());
-  }
+  };
 
   const member = () => serverMembers.get(props.serverId!, account.user()?.id!);
 
@@ -36,31 +36,31 @@ export default function ContextMenuServer (props: Props) {
       if (!member()?.hasPermission(p)) return false;
       if (p.showSettings) return true;
       return false;
-    })
+    });
 
   };
 
-  const hasNotifications = () =>  channels.getChannelsByServerId(props.serverId!)?.find(c => c?.hasNotifications() && c.type === ChannelType.SERVER_TEXT)
+  const hasNotifications = () =>  channels.getChannelsByServerId(props.serverId!)?.find(c => c?.hasNotifications() && c.type === ChannelType.SERVER_TEXT);
 
   const dismissNotifications = () => {
     if (!props.serverId) return;
     channels.getChannelsByServerId(props.serverId).forEach(c => {
       if (!c?.hasNotifications()) return;
       return dismissChannelNotification(c.id);
-    })
-  }
+    });
+  };
 
   return (
     <ContextMenu {...props} items={[
-      {icon: 'markunread_mailbox', label: "Mark As Read", disabled: !hasNotifications(), onClick: dismissNotifications},
+      {icon: "markunread_mailbox", label: "Mark As Read", disabled: !hasNotifications(), onClick: dismissNotifications},
       {separator: true},
-      {icon: 'mail', label: "Invites", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))},
-      {icon: 'notifications', label: "Notification Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!))},
-      ...(showSettings() ? [{icon: 'settings', label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))}] : []),
+      {icon: "mail", label: "Invites", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_INVITES(props.serverId!))},
+      {icon: "notifications", label: "Notification Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!))},
+      ...(showSettings() ? [{icon: "settings", label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))}] : []),
       {separator: true},
-      {icon: 'copy', label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},
+      {icon: "copy", label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},
       {separator: true, show: !isServerCreator()},
-      {icon: 'logout', label: "Leave", alert: true, onClick: onLeaveClicked, show: !isServerCreator()},
+      {icon: "logout", label: "Leave", alert: true, onClick: onLeaveClicked, show: !isServerCreator()}
     ]} />
-  )
+  );
 }

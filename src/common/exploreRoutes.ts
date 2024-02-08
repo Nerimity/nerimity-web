@@ -1,4 +1,4 @@
-import { lazy } from 'solid-js';
+import { lazy } from "solid-js";
 
 export interface ExploreRoute {
     path?: string;
@@ -10,13 +10,13 @@ export interface ExploreRoute {
 
 const exploreRoutes: ExploreRoute[] =  [
   {
-    path: 'servers',
+    path: "servers",
     routePath: "/servers",
-    name: 'explore.drawer.servers',
-    icon: 'dns',
-    element: lazy(() => import('@/components/explore/ExploreServers'))
-  },
+    name: "explore.drawer.servers",
+    icon: "dns",
+    element: lazy(() => import("@/components/explore/ExploreServers"))
+  }
 
-]
+];
 
 export default exploreRoutes;

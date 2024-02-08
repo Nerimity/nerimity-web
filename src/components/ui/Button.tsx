@@ -1,7 +1,7 @@
-import Icon from '@/components/ui/icon/Icon';
-import { JSX, JSXElement } from 'solid-js';
-import { styled } from 'solid-styled-components';
-import Text from './Text';
+import Icon from "@/components/ui/icon/Icon";
+import { JSX, JSXElement } from "solid-js";
+import { styled } from "solid-styled-components";
+import Text from "./Text";
 
 interface Props {
   onMouseLeave?: (event: MouseEvent) => void;
@@ -40,10 +40,10 @@ const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: 
   flex-shrink: 0;
   padding: ${props => props.padding !== undefined ? 
     typeof props.padding === "object" ? props.padding.join("px ") : props.padding  
-  : 5}px;
+    : 5}px;
   margin: ${props => props.margin !== undefined ? 
     typeof props.margin === "object" ? props.margin.join("px ") : props.margin  
-  : 5}px;
+    : 5}px;
   color: white;
   cursor: pointer;
   user-select: none;
@@ -70,15 +70,15 @@ export default function Button(props: Props) {
   const style = () => ({
     ...(props.primary ? {"background-color": color()} : undefined),
     ...props.styles
-  })
+  });
 
 
   return (
     <ButtonContainer onTouchStart={props.onTouchStart} ontouchmove={props.onTouchMove} onPointerMove={props.onPointerMove} onPointerEnter={props.onPointerEnter} onPointerLeave={props.onPointerLeave} onPointerDown={props.onPointerDown} onPointerUp={props.onPointerUp} tabindex={props.tabIndex} padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick} onContextMenu={props.onContextMenu} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
       {props.customChildrenLeft && props.customChildrenLeft}
-      { props.iconName && <Icon size={props.iconSize} name={props.iconName} color={props.primary ? 'white' : color()} /> }
-      { props.label && <Text size={props.textSize || 14} class='label' color={props.primary ? 'white' : color()}>{props.label}</Text> }
+      { props.iconName && <Icon size={props.iconSize} name={props.iconName} color={props.primary ? "white" : color()} /> }
+      { props.label && <Text size={props.textSize || 14} class='label' color={props.primary ? "white" : color()}>{props.label}</Text> }
       {props.customChildren && props.customChildren}
     </ButtonContainer>
-  )
+  );
 }

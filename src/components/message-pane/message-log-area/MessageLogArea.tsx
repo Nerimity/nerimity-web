@@ -1,4 +1,4 @@
-import styles from "./styles.module.scss"
+import styles from "./styles.module.scss";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { MessageType, RawMessage } from "@/chat-api/RawData";
@@ -66,15 +66,15 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
           channelProperties.setMoreTopToLoad(params.channelId, true);
           channelProperties.setMoreBottomToLoad(params.channelId, true);
           scrollTracker.forceUpdate();
-        })
-      }, 300)
+        });
+      }, 300);
     }
     setTimeout(() => {
       messageEl?.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'nearest',
-        block: 'center'
-      })
+        behavior: "smooth",
+        inline: "nearest",
+        block: "center"
+      });
     }, 500);
     setTimeout(() => {
       setAreMessagesLoading(false);
@@ -84,8 +84,8 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     setTimeout(() => {
       if (!messageEl) return;
       messageEl.style.background = "";
-    }, 3000)
-  })
+    }, 3000);
+  });
 
   const { height } = useResizeObserver(() => messageLogElement);
 
@@ -93,13 +93,13 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     if (scrollTracker.scrolledBottom()) {
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
     }
-  })
+  });
 
   createRenderEffect(on(height, () => {
     if (scrollTracker.scrolledBottom()) {
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
     }
-  }))
+  }));
 
   const updateUnreadMarker = (ignoreFocus = false) => {
     if (!ignoreFocus && hasFocus()) return;
@@ -109,18 +109,18 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       lastSeenAt,
       messageId: message?.id || null
     });
-  }
+  };
 
   createRenderEffect(on(() => channelMessages()?.length, (length, prevLength) => {
     if (!length) return;
     updateUnreadMarker(prevLength === undefined);
     if (prevLength === undefined) return;
     dismissNotification();
-  }))
+  }));
 
   createEffect(on(hasFocus, () => {
     dismissNotification();
-  }, { defer: true }))
+  }, { defer: true }));
 
   const dismissNotification = () => {
     if (!hasFocus()) return;
@@ -129,7 +129,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     setTimeout(() => {
       channel()?.dismissNotification();
     }, 100);
-  }
+  };
 
 
   const onMessageCreated = (payload: { socketId: string, message: RawMessage }) => {
@@ -144,10 +144,10 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
           message: payload.message,
           serverId: channel().serverId
         });
-        createDesktopNotification(payload.message)
+        createDesktopNotification(payload.message);
       }
     }
-  }
+  };
 
 
   const { height: textAreaHeight } = useResizeObserver(() => props.textAreaEl?.parentElement?.parentElement);
@@ -156,13 +156,13 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     if (scrollTracker.scrolledBottom()) {
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
     }
-  }))
+  }));
 
   createEffect(on(() => channelMessages()?.length, () => {
     if (scrollTracker.scrolledBottom()) {
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
     }
-  }))
+  }));
 
   createEffect(on(channelMessages, (messages, prevMessages) => {
     if (prevMessages) return;
@@ -171,14 +171,14 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       if (properties()?.isScrolledBottom === undefined) return props.mainPaneEl.scrollHeight;
       if (properties()?.isScrolledBottom) return props.mainPaneEl.scrollHeight;
       return properties()?.scrollTop!;
-    }
+    };
     props.mainPaneEl.scrollTop = scrollPosition();
     scrollTracker.forceUpdate();
 
     setTimeout(() => {
       setAreMessagesLoading(false);
     }, 100);
-  }))
+  }));
 
   createEffect(on(scrollTracker.scrolledBottom, () => {
     dismissNotification();
@@ -198,32 +198,32 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
       await fetchMessages();
 
-    }))
+    }));
 
     const channelId = params.channelId;
 
-    document.addEventListener("paste", onPaste)
+    document.addEventListener("paste", onPaste);
 
     socketClient.socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
     document.addEventListener("keydown", handleKeyDown);
     onCleanup(() => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("paste", onPaste)
+      document.removeEventListener("paste", onPaste);
       scrollTracker.forceUpdate();
       batch(() => {
         channelProperties.setScrolledBottom(channelId, scrollTracker.scrolledBottom());
         channelProperties.setScrollTop(channelId, scrollTracker.scrollTop());
-      })
+      });
       socketClient.socket.off(ServerEvents.MESSAGE_CREATED, onMessageCreated);
-    })
+    });
 
-  })
+  });
 
   const onPaste = (event: ClipboardEvent) => {
     const file = event.clipboardData?.files[0];
     if (!file) return;
     channelProperties.setAttachment(params.channelId, file);
-  }
+  };
 
   // key binds
   const handleKeyDown = async (e: KeyboardEvent) => {
@@ -235,13 +235,13 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
       updateUnreadMarker(true);
     }
-  }
+  };
 
 
   const fetchMessages = async () => {
     if (channelMessages()) return;
     await messages.fetchAndStoreMessages(params.channelId);
-  }
+  };
 
 
 
@@ -256,7 +256,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
     const beforeSet = () => {
       scrollPositionRetainer.save("first");
-    }
+    };
 
     const afterSet = ({ hasMore }: { hasMore: boolean }) => {
       scrollPositionRetainer.load();
@@ -265,9 +265,9 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       scrollTracker.forceUpdate();
       setAreMessagesLoading(false);
 
-    }
+    };
     messages.loadMoreTopAndStoreMessages(params.channelId, beforeSet, afterSet);
-  }))
+  }));
 
   // Load more bottom when scrolled to the bottom
   createEffect(on([scrollTracker.loadMoreBottom, areMessagesLoading], ([loadMoreBottom, alreadyLoading]) => {
@@ -280,7 +280,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
     const beforeSet = () => {
       scrollPositionRetainer.save("last");
-    }
+    };
 
     const afterSet = ({ hasMore }: { hasMore: boolean }) => {
       scrollPositionRetainer.load();
@@ -288,13 +288,13 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
       scrollTracker.forceUpdate();
       setAreMessagesLoading(false);
-    }
+    };
     messages.loadMoreBottomAndStoreMessages(params.channelId, beforeSet, afterSet);
-  }))
+  }));
 
   const removeUnreadMarker = () => {
     updateUnreadMarker(true);
-  }
+  };
 
 
   const onContextMenu = (event: MouseEvent, message: Message) => {
@@ -305,8 +305,8 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
         x: event.clientX,
         y: event.clientY
       }
-    })
-  }
+    });
+  };
   const onUserContextMenu = (event: MouseEvent, message: Message) => {
     event.preventDefault();
     event.stopPropagation();
@@ -316,15 +316,15 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
         x: event.clientX,
         y: event.clientY
       }
-    })
-  }
+    });
+  };
 
   const quoteMessage = (message: Message) => {
     if (!props.textAreaEl) return;
     props.textAreaEl!.focus();
-    props.textAreaEl!.setRangeText(`[q:${message.id}]`, props.textAreaEl!.selectionStart, props.textAreaEl.selectionEnd, "end")
-    channelProperties.updateContent(params.channelId, props.textAreaEl.value)
-  }
+    props.textAreaEl!.setRangeText(`[q:${message.id}]`, props.textAreaEl!.selectionStart, props.textAreaEl.selectionEnd, "end");
+    channelProperties.updateContent(params.channelId, props.textAreaEl.value);
+  };
 
   const addReaction = async (shortcode: string, message: Message) => {
     props.textAreaEl?.focus();
@@ -335,8 +335,8 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       name: !customEmoji ? emojiShortcodeToUnicode(shortcode) : shortcode,
       emojiId: customEmoji?.id,
       gif: customEmoji?.gif
-    })
-  }
+    });
+  };
 
   const reactionPickerClick = (event: MouseEvent, message: Message) => {
     createPortal(close => (
@@ -346,8 +346,8 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
         x={event.clientX}
         y={event.clientY}
       />
-    ))
-  }
+    ));
+  };
 
   return (
     <div class={styles.messageLogArea} ref={messageLogElement}>
@@ -387,7 +387,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       </For>
     </div>
   );
-}
+};
 
 const useScrollPositionRetainer = (scrollElement:() => HTMLDivElement, logElement:() => HTMLDivElement) => {
   let el: HTMLDivElement | undefined;
@@ -403,16 +403,16 @@ const useScrollPositionRetainer = (scrollElement:() => HTMLDivElement, logElemen
     }
 
     beforeTop = el.getBoundingClientRect().top;
-  }
+  };
   const load = () => {
     if (!el) return;
     const afterTop = el.getBoundingClientRect().top;
     const difference = afterTop - beforeTop!;
     scrollElement().scrollTop = scrollElement().scrollTop + difference;
     beforeTop = undefined;
-  }
+  };
   return { save, load };
-}
+};
 
 
 
@@ -431,19 +431,19 @@ function createScrollTracker(scrollElement: HTMLElement) {
 
     const isLoadMoreTop = scrollElement.scrollTop <= LOAD_MORE_LENGTH;
     const isLoadMoreBottom = scrollBottom <= LOAD_MORE_LENGTH;
-    const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH
+    const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH;
 
     if (loadMoreTop() !== isLoadMoreTop) setLoadMoreTop(isLoadMoreTop);
     if (loadMoreBottom() !== isLoadMoreBottom) setLoadMoreBottom(isLoadMoreBottom);
     if (scrolledBottom() !== isScrolledBottom) setScrolledBottom(isScrolledBottom);
     setScrollTop(scrollElement.scrollTop);
-  }
+  };
 
   onMount(() => {
     scrollElement.addEventListener("scroll", onScroll, { passive: true });
     onCleanup(() => scrollElement.removeEventListener("scroll", onScroll));
-  })
-  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll, setLoadMoreBottom }
+  });
+  return { loadMoreTop, loadMoreBottom, scrolledBottom, scrollTop, forceUpdate: onScroll, setLoadMoreBottom };
 }
 
 
@@ -456,11 +456,11 @@ function UnreadMarker(props: { onClick: () => void }) {
         <Button class={styles.closeButton} iconName='close' color='white' />
       </div>
     </div>
-  )
+  );
 }
 
 
-type MessageContextMenuProps = Omit<ContextMenuProps, 'items'> & {
+type MessageContextMenuProps = Omit<ContextMenuProps, "items"> & {
   message: Message
   quoteMessage(): void;
 }
@@ -471,13 +471,13 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const { createPortal } = useCustomPortal();
   const { account, serverMembers } = useStore();
   const onDeleteClick = () => {
-    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />)
-  }
+    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />);
+  };
 
   const onEditClick = () => {
     const { channelProperties } = useStore();
     channelProperties.setEditMessage(props.message.channelId, props.message);
-  }
+  };
 
   const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
 
@@ -487,7 +487,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
     const member = serverMembers.get(params.serverId, account.user()?.id!);
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
-  }
+  };
 
   const showQuote = () => props.message.type === MessageType.CONTENT;
 
@@ -495,12 +495,12 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
   return (
     <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
-      ...(showQuote() ? [{ icon: 'format_quote', label: "Quote Message", onClick: props.quoteMessage }] : []),
-      ...(showEdit() ? [{ icon: 'edit', label: t('messageContextMenu.editMessage')!, onClick: onEditClick }] : []),
-      ...(showDelete() ? [{ icon: 'delete', label: t('messageContextMenu.deleteMessage')!, onClick: onDeleteClick, alert: true }] : []),
+      ...(showQuote() ? [{ icon: "format_quote", label: "Quote Message", onClick: props.quoteMessage }] : []),
+      ...(showEdit() ? [{ icon: "edit", label: t("messageContextMenu.editMessage")!, onClick: onEditClick }] : []),
+      ...(showDelete() ? [{ icon: "delete", label: t("messageContextMenu.deleteMessage")!, onClick: onDeleteClick, alert: true }] : []),
       ...(showEdit() || showDelete() || showQuote() ? [{ separator: true }] : []),
-      ...(hasContent() ? [{ icon: 'copy', label: t('messageContextMenu.copyMessage')!, onClick: () => copyToClipboard(props.message.content!) }] : []),
-      { icon: 'copy', label: t('messageContextMenu.copyId')!, onClick: () => copyToClipboard(props.message.id!) }
+      ...(hasContent() ? [{ icon: "copy", label: t("messageContextMenu.copyMessage")!, onClick: () => copyToClipboard(props.message.content!) }] : []),
+      { icon: "copy", label: t("messageContextMenu.copyId")!, onClick: () => copyToClipboard(props.message.id!) }
     ]} />
-  )
+  );
 }

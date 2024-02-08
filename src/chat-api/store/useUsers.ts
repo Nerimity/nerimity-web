@@ -1,13 +1,13 @@
-import {createStore, reconcile} from 'solid-js/store';
-import { ActivityStatus, RawUser } from '../RawData';
-import useInbox from './useInbox';
-import { closeDMChannelRequest, openDMChannelRequest } from '../services/UserService';
-import useChannels from './useChannels';
-import RouterEndpoints from '../../common/RouterEndpoints';
-import { useNavigate } from 'solid-navigator';
-import { runWithContext } from '@/common/runWithContext';
-import env from '@/common/env';
-import useAccount from './useAccount';
+import {createStore, reconcile} from "solid-js/store";
+import { ActivityStatus, RawUser } from "../RawData";
+import useInbox from "./useInbox";
+import { closeDMChannelRequest, openDMChannelRequest } from "../services/UserService";
+import useChannels from "./useChannels";
+import RouterEndpoints from "../../common/RouterEndpoints";
+import { useNavigate } from "solid-navigator";
+import { runWithContext } from "@/common/runWithContext";
+import env from "@/common/env";
+import useAccount from "./useAccount";
 
 export enum UserStatus {
   OFFLINE = 0,
@@ -52,18 +52,20 @@ const set = (user: RawUser) => runWithContext(() => {
     setVoiceChannelId,
     openDM: openDMScoped,
     closeDM,
-    avatarUrl: function () {return avatarUrl(this)},
+    avatarUrl: function () {
+      return avatarUrl(this);
+    },
     update
-  }
+  };
 
   setUsers(user.id, newUser);
 });
 
 function setVoiceChannelId (this: User, channelId: string | undefined) {
-  setUsers(this.id, 'voiceChannelId', channelId);
+  setUsers(this.id, "voiceChannelId", channelId);
 }
 function setInboxChannelId (this: User, channelId: string | undefined) {
-  setUsers(this.id, 'inboxChannelId', channelId);
+  setUsers(this.id, "inboxChannelId", channelId);
 }
 
 function update (this: User, update: Partial<RawUser>) {
@@ -80,7 +82,7 @@ const openDM = async (userId: string) => runWithContext(async () =>{
   const channels = useChannels();
   const user = () => get(userId);
   const inboxItem = () => inbox.get(user()?.inboxChannelId!);
-    // check if dm already exists
+  // check if dm already exists
   if (!inboxItem()) {
     const rawInbox = await openDMChannelRequest(userId);
     channels.set(rawInbox.channel);
@@ -95,7 +97,7 @@ async function closeDM(this: User) {
   await closeDMChannelRequest(this.inboxChannelId!);
 }
 
-const get = (userId: string) => users[userId]
+const get = (userId: string) => users[userId];
 
 const array = () => Object.values(users);
 
@@ -106,22 +108,22 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
     account.setUser({
       ...(presence.custom !== undefined ? {
         customStatus: presence.custom || undefined
-      } : undefined),
-    })
+      } : undefined)
+    });
   }
   const isOffline = presence.status !== undefined && presence.status === UserStatus.OFFLINE;
   if (isOffline) {
-    setUsers(userId, 'presence', undefined)
+    setUsers(userId, "presence", undefined);
     return;
   }
   if (presence.custom === null) presence.custom = undefined;
   if (presence.activity === null) presence.activity = undefined;
-  setUsers(userId, 'presence', presence);
-}
+  setUsers(userId, "presence", presence);
+};
 
 const reset = () => {
   setUsers(reconcile({}));
-}
+};
 
 
 export default function useUsers() {
@@ -132,5 +134,5 @@ export default function useUsers() {
     setPresence,
     openDM,
     reset
-  }
+  };
 }

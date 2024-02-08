@@ -34,7 +34,7 @@ const ItemContainer = styled("div")<ItemContainer>`
   align-items: center;
   text-decoration: none;
 
-  ${props => props.handlePosition === "top" || props.handlePosition === "bottom" ? `justify-content: center;` : '' }
+  ${props => props.handlePosition === "top" || props.handlePosition === "bottom" ? "justify-content: center;" : "" }
 
   &:after {
     content: '';
@@ -42,8 +42,8 @@ const ItemContainer = styled("div")<ItemContainer>`
     width: 3px;
     height: 15px;
 
-    ${props => props.handlePosition === "left" || !props.handlePosition ? 'left: 0' : undefined};
-    ${props => props.handlePosition === "right" ? 'right: 0' : undefined};
+    ${props => props.handlePosition === "left" || !props.handlePosition ? "left: 0" : undefined};
+    ${props => props.handlePosition === "right" ? "right: 0" : undefined};
 
     ${props => props.handlePosition === "top" ? `
       top: 0;

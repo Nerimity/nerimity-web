@@ -10,8 +10,8 @@ export const onInboxOpened = (payload: RawInboxWithoutChannel & {channel: RawCha
   batch(() => {
     channels.set({...payload.channel, lastSeen: payload.lastSeen});
     inbox.set({...payload, channelId: payload.channel.id});
-  })
-}
+  });
+};
 export const onInboxClosed = (payload: {channelId: string}) => {
   const channels = useChannels();
   const inbox = useInbox();
@@ -19,7 +19,7 @@ export const onInboxClosed = (payload: {channelId: string}) => {
   batch(() => {
     inbox.removeInbox(payload.channelId);
     channel?.recipient()?.setInboxChannelId(undefined);
-    channels.deleteChannel(payload.channelId)
+    channels.deleteChannel(payload.channelId);
 
-  })
-}
+  });
+};

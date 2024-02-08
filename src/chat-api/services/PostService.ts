@@ -12,17 +12,17 @@ interface GetFeedPostsOpts {
 
 export const getFeedPosts = async (opts?: GetFeedPostsOpts) => {
   const data = await request<RawPost[]>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.feedPosts(),
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.feedPosts(),
     params: {
       ...(opts?.limit ? {limit: opts.limit} : undefined),
       ...(opts?.beforeId ? {beforeId: opts.beforeId} : undefined),
-      ...(opts?.afterId ? {afterId: opts.afterId} : undefined),
+      ...(opts?.afterId ? {afterId: opts.afterId} : undefined)
     },
-    useToken: true,
+    useToken: true
   });
   return data;
-}
+};
 
 interface GetDiscoverPostsOpts {
   limit?: number
@@ -32,17 +32,17 @@ interface GetDiscoverPostsOpts {
 
 export const getDiscoverPosts = async (opts?: GetDiscoverPostsOpts) => {
   const data = await request<RawPost[]>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.post("discover"),
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.post("discover"),
     params: {
       ...(opts?.limit ? {limit: opts.limit} : undefined),
       ...(opts?.beforeId ? {beforeId: opts.beforeId} : undefined),
-      ...(opts?.afterId ? {afterId: opts.afterId} : undefined),
+      ...(opts?.afterId ? {afterId: opts.afterId} : undefined)
     },
-    useToken: true,
+    useToken: true
   });
   return data;
-}
+};
 
 interface GetPostsOpts {
   userId?: string
@@ -56,55 +56,55 @@ export const getPosts = async (opts: GetPostsOpts) => {
   const defaultOpts: GetPostsOpts = {
     ...opts,
     withReplies: opts.withReplies ?? true
-  }
+  };
   const data = await request<RawPost[]>({
-    method: 'GET',
+    method: "GET",
     params: {
       ...(defaultOpts.withReplies ? {withReplies: defaultOpts.withReplies} : undefined),
       ...(defaultOpts.limit ? {limit: defaultOpts.limit} : undefined),
       ...(defaultOpts.beforeId ? {beforeId: defaultOpts.beforeId} : undefined),
-      ...(defaultOpts.afterId ? {afterId: defaultOpts.afterId} : undefined),
+      ...(defaultOpts.afterId ? {afterId: defaultOpts.afterId} : undefined)
     },
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.posts(defaultOpts.userId),
-    useToken: true,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.posts(defaultOpts.userId),
+    useToken: true
   });
   return data;
-}
+};
 
 export const getPostsLiked = async (userId: string) => {
   const data = await request<RawPost[]>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.likedPosts(userId),
-    useToken: true,
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.likedPosts(userId),
+    useToken: true
   });
   return data;
-}
+};
 
 export const getPost = async (postId: string) => {
   const data = await request<RawPost>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.post(postId),
-    useToken: true,
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.post(postId),
+    useToken: true
   });
   return data;
-}
+};
 export const deletePost = async (postId: string) => {
   const data = await request<any>({
-    method: 'DELETE',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.post(postId),
-    useToken: true,
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.post(postId),
+    useToken: true
   });
   return data;
-}
+};
 export const editPost = async (postId: string, content: string) => {
   const data = await request<Post>({
-    method: 'PATCH',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.post(postId),
+    method: "PATCH",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.post(postId),
     body: { content},
-    useToken: true,
+    useToken: true
   });
   return data;
-}
+};
 
 
 interface GetCommentPostsOpts {
@@ -116,54 +116,54 @@ interface GetCommentPostsOpts {
 
 export const getCommentPosts = async (opts: GetCommentPostsOpts) => {
   const data = await request<RawPost[]>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.postComments(opts.postId),
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.postComments(opts.postId),
     params: {
       ...(opts.limit ? {limit: opts.limit} : undefined),
       ...(opts.beforeId ? {beforeId: opts.beforeId} : undefined),
-      ...(opts.afterId ? {afterId: opts.afterId} : undefined),
+      ...(opts.afterId ? {afterId: opts.afterId} : undefined)
     },
-    useToken: true,
+    useToken: true
   });
   return data;
-}
+};
 
 export interface LikedPost {likedBy: RawUser, createdAt: number}
 
 export const getLikesPosts = async (postId: string) => {
   const data = await request<LikedPost[]>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.postLikes(postId),
-    useToken: true,
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.postLikes(postId),
+    useToken: true
   });
   return data;
-}
+};
 
 export const getPostNotifications = async () => {
   const data = await request<RawPostNotification[]>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.postNotifications(),
-    useToken: true,
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.postNotifications(),
+    useToken: true
   });
   return data;
-}
+};
 export const getPostNotificationCount = async () => {
   const data = await request<number>({
-    method: 'GET',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.postNotificationCount(),
-    useToken: true,
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.postNotificationCount(),
+    useToken: true
   });
   return data;
-}
+};
 export const getPostNotificationDismiss = async () => {
   const data = await request<number>({
-    method: 'POST',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.postNotificationDismiss(),
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.postNotificationDismiss(),
     useToken: true,
-    notJSON: true,
+    notJSON: true
   });
   return data;
-}
+};
 
 
 export const createPost = async (opts: {content?: string, attachment?: File,  replyToPostId?: string}) => {
@@ -171,13 +171,13 @@ export const createPost = async (opts: {content?: string, attachment?: File,  re
   let body: any = {
     content: opts.content,
     ...(opts.replyToPostId ? {postId: opts.replyToPostId} : undefined)
-  }
+  };
 
   if (opts.attachment) {
     const fd = new FormData();
 
     if (opts.content?.trim()) {
-      fd.append("content", opts.content)
+      fd.append("content", opts.content);
     }
     if (opts.replyToPostId) fd.append("postId", opts.replyToPostId);
     fd.append("attachment", opts.attachment);
@@ -186,29 +186,29 @@ export const createPost = async (opts: {content?: string, attachment?: File,  re
 
 
   const data = await request<RawPost>({
-    method: 'POST',
+    method: "POST",
     body,
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.posts(''),
-    useToken: true,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.posts(""),
+    useToken: true
   });
   return data;
-}
+};
 
 export const likePost = async (postId: string) => {
   const data = await request<RawPost>({
-    method: 'POST',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.likePost(postId),
-    useToken: true,
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.likePost(postId),
+    useToken: true
   });
   return data;
-}
+};
 
 export const unlikePost = async (postId: string) => {
   const data = await request<RawPost>({
-    method: 'POST',
-    url: env.SERVER_URL + '/api' + ServiceEndpoints.unlikePost(postId),
-    useToken: true,
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.unlikePost(postId),
+    useToken: true
   });
   return data;
-}
+};
 

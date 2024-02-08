@@ -1,7 +1,7 @@
 import { classNames, conditionalClass } from "@/common/classNames";
 import { copyToClipboard } from "@/common/clipboard";
 import { getLanguageName } from "@/highlight-js-parser";
-import type {HLJSApi} from 'highlight.js'
+import type {HLJSApi} from "highlight.js";
 import "highlight.js/styles/felipec.css";
 
 import { createEffect, createSignal, Show } from "solid-js";
@@ -16,7 +16,7 @@ interface Props {
 
 export default function CodeBlock(props: Props) {
   // const language = () => languageLoaded() ? hljs.getLanguage(props.lang!)?.name : '';
-  const [languageName, setLanguageName] = createSignal('');
+  const [languageName, setLanguageName] = createSignal("");
   const [wrap, setWrap] = createSignal(true);
   const [languageLoaded, setLanguageLoaded] = createSignal(false);
   let hljs: HLJSApi | undefined;
@@ -29,18 +29,18 @@ export default function CodeBlock(props: Props) {
     hljs = (await import("highlight.js/lib/core")).default;
     const lang = await import(`../../../node_modules/highlight.js/es/languages/${langFilename}.js`);
     hljs.registerLanguage(langFilename, lang.default);
-    setLanguageName(hljs.getLanguage(props.lang!)?.name || '');
+    setLanguageName(hljs.getLanguage(props.lang!)?.name || "");
     setLanguageLoaded(true);    
-  })
+  });
 
   const toggleWrap = () => setWrap(!wrap());
 
   const highlighted = () => {
     return hljs?.highlight(props.value, {
       ignoreIllegals: true,
-      language: props.lang!,
-    })?.value
-  }
+      language: props.lang!
+    })?.value;
+  };
 
   const copy = () => copyToClipboard(props.value);
 
@@ -56,5 +56,5 @@ export default function CodeBlock(props: Props) {
         <Show when={!languageLoaded()}><code>{props.value}</code></Show>
       </div>
     </div>
-  )
+  );
 }

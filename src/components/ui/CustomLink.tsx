@@ -30,7 +30,7 @@ export function CustomLink(props: CustomLinkProps) {
     props.onContextMenu?.(event);
     if (!props.noContextMenu) return;
     event.preventDefault();
-  }
+  };
 
-  return <A onContextMenu={onContextMenu} {...props} class={classNames(conditionalClass(props.decoration, decoration), conditionalClass(!props.decoration, noDecoration), props.class)} />
+  return <A onContextMenu={onContextMenu} {...props} class={classNames(conditionalClass(props.decoration, decoration), conditionalClass(!props.decoration, noDecoration), props.class)} />;
 }

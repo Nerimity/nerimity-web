@@ -1,29 +1,29 @@
-import { createEffect, createSignal, lazy, onCleanup, onMount, Show } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import Input from '@/components/ui/input/Input';
-import Button from '@/components/ui/Button';
-import { createUpdatedSignal } from '@/common/createUpdatedSignal';
-import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
-import Text from '@/components/ui/Text';
-import { css, styled } from 'solid-styled-components';
-import { deleteAccount, deleteDMChannelNotice, getDMChannelNotice, sendEmailConfirmCode, updateDMChannelNotice, updateUser, verifyEmailConfirmCode } from '@/chat-api/services/UserService';
-import FileBrowser, { FileBrowserRef } from '../ui/FileBrowser';
-import { reconcile } from 'solid-js/store';
-import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
-import { t } from 'i18next';
-import { CustomLink } from '../ui/CustomLink';
-import { getStorageString, setStorageString, StorageKeys } from '@/common/localStorage';
-import socketClient from '@/chat-api/socketClient';
-import DeleteConfirmModal from '../ui/delete-confirm-modal/DeleteConfirmModal';
-import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import useServers from '@/chat-api/store/useServers';
-import Modal from '../ui/modal/Modal';
-import { FlexColumn, FlexRow } from '../ui/Flexbox';
-import { Notice } from '../ui/Notice/Notice';
-import { RawChannelNotice } from '@/chat-api/RawData';
-import { setSettingsHeaderPreview } from './SettingsPane';
+import { createEffect, createSignal, lazy, onCleanup, onMount, Show } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import Input from "@/components/ui/input/Input";
+import Button from "@/components/ui/Button";
+import { createUpdatedSignal } from "@/common/createUpdatedSignal";
+import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import Text from "@/components/ui/Text";
+import { css, styled } from "solid-styled-components";
+import { deleteAccount, deleteDMChannelNotice, getDMChannelNotice, sendEmailConfirmCode, updateDMChannelNotice, updateUser, verifyEmailConfirmCode } from "@/chat-api/services/UserService";
+import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
+import { reconcile } from "solid-js/store";
+import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
+import { t } from "i18next";
+import { CustomLink } from "../ui/CustomLink";
+import { getStorageString, setStorageString, StorageKeys } from "@/common/localStorage";
+import socketClient from "@/chat-api/socketClient";
+import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import useServers from "@/chat-api/store/useServers";
+import Modal from "../ui/modal/Modal";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { Notice } from "../ui/Notice/Notice";
+import { RawChannelNotice } from "@/chat-api/RawData";
+import { setSettingsHeaderPreview } from "./SettingsPane";
 
-const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"))
+const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"));
 
 const Container = styled("div")`
   display: flex;
@@ -37,26 +37,26 @@ export default function AccountSettings() {
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Account",
-      iconName: 'settings',
+      iconName: "settings"
     });
-  })
+  });
 
   onCleanup(() => {
     setSettingsHeaderPreview(reconcile({}));
-  })
+  });
 
 
   return (
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
-        <BreadcrumbItem title={t('settings.drawer.account')} href='../account' />
+        <BreadcrumbItem title={t("settings.drawer.account")} href='../account' />
 
       </Breadcrumb>
 
       <EditAccountPage />
     </Container>
-  )
+  );
 }
 
 
@@ -70,30 +70,30 @@ const ChangePasswordButton = styled("button")`
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 
 function EditAccountPage() {
   const { account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
-  const [avatarFileBrowserRef, setAvatarFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
-  const [bannerFileBrowserRef, setBannerFileBrowserRef] = createSignal<undefined | FileBrowserRef>()
+  const [avatarFileBrowserRef, setAvatarFileBrowserRef] = createSignal<undefined | FileBrowserRef>();
+  const [bannerFileBrowserRef, setBannerFileBrowserRef] = createSignal<undefined | FileBrowserRef>();
 
   const [showResetPassword, setShowResetPassword] = createSignal(false);
 
   const user = () => account.user();
 
   const defaultInput = () => ({
-    email: user()?.email || '',
-    username: user()?.username || '',
-    tag: user()?.tag || '',
-    password: '',
-    newPassword: '',
-    confirmNewPassword: '',
-    avatar: '',
+    email: user()?.email || "",
+    username: user()?.username || "",
+    tag: user()?.tag || "",
+    password: "",
+    newPassword: "",
+    confirmNewPassword: "",
+    avatar: "",
     avatarPoints: null as null | number[],
-    banner: '',
-  })
+    banner: ""
+  });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
@@ -105,13 +105,13 @@ function EditAccountPage() {
 
     if (updatedInputValues().newPassword) {
       if (updatedInputValues().newPassword !== updatedInputValues().confirmNewPassword) {
-        setError("Confirm password does not match.")
+        setError("Confirm password does not match.");
         setRequestSent(false);
         return;
       }
 
       if (updatedInputValues().newPassword!.length > 72) {
-        setError('Password must be less than 72 characters.')
+        setError("Password must be less than 72 characters.");
         setRequestSent(false);
         return;
       }
@@ -127,24 +127,24 @@ function EditAccountPage() {
           socketClient.updateToken(res.newToken);
         }
         if (values.email && values.email !== account.user()?.email) {
-          account.setUser({emailConfirmed: false})
+          account.setUser({emailConfirmed: false});
         }
-        setShowResetPassword(false)
-        setInputValue("password", '')
-        setInputValue("newPassword", '')
-        setInputValue("confirmNewPassword", '')
-        setInputValue("avatar", '')
-        setInputValue("avatarPoints", null)
-        setInputValue("banner", '')
+        setShowResetPassword(false);
+        setInputValue("password", "");
+        setInputValue("newPassword", "");
+        setInputValue("confirmNewPassword", "");
+        setInputValue("avatar", "");
+        setInputValue("avatarPoints", null);
+        setInputValue("banner", "");
         setSettingsHeaderPreview(reconcile({}));
       })
       .catch(err => {
-        setError(err.message)
+        setError(err.message);
       })
-      .finally(() => setRequestSent(false))
-  }
+      .finally(() => setRequestSent(false));
+  };
 
-  const requestStatus = () => requestSent() ? 'Saving...' : 'Save Changes';
+  const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
 
 
   const {createPortal} = useCustomPortal();
@@ -152,29 +152,29 @@ function EditAccountPage() {
   const onCropped = (points: [number, number, number]) => {
     setInputValue("avatarPoints", points);
     setSettingsHeaderPreview({ avatarPoints: points });
-  }
+  };
 
   const onAvatarPick = (files: string[]) => {
     if (files[0]) {
-      createPortal(close => <ImageCropModal close={close} image={files[0]} onCropped={onCropped} />)
-      setInputValue("avatar", files[0])
-      setSettingsHeaderPreview({ avatar: files[0] })
+      createPortal(close => <ImageCropModal close={close} image={files[0]} onCropped={onCropped} />);
+      setInputValue("avatar", files[0]);
+      setSettingsHeaderPreview({ avatar: files[0] });
     }
-  }
+  };
 
   const onBannerPick = (files: string[]) => {
     if (files[0]) {
-      setInputValue("banner", files[0])
-      setSettingsHeaderPreview({ banner: files[0] })
+      setInputValue("banner", files[0]);
+      setSettingsHeaderPreview({ banner: files[0] });
 
     }
-  }
+  };
 
   const onChangePasswordClick = () => {
-    setInputValue("newPassword", '')
-    setInputValue("confirmNewPassword", '')
-    setShowResetPassword(!showResetPassword())
-  }
+    setInputValue("newPassword", "");
+    setInputValue("confirmNewPassword", "");
+    setShowResetPassword(!showResetPassword());
+  };
 
   return (
     <>
@@ -182,23 +182,25 @@ function EditAccountPage() {
         <ConfirmEmailNotice/>
       </Show>
       <SettingsBlock class={css`position: relative; z-index: 111;`} icon='email' label='Email'>
-        <Input value={inputValues().email} onText={(v) => setInputValue('email', v)} />
+        <Input value={inputValues().email} onText={(v) => setInputValue("email", v)} />
       </SettingsBlock>
 
 
 
       <SettingsBlock icon='face' label='Username'>
-        <Input value={inputValues().username} onText={(v) => setInputValue('username', v)} />
+        <Input value={inputValues().username} onText={(v) => setInputValue("username", v)} />
       </SettingsBlock>
 
       <SettingsBlock icon='local_offer' label='Tag'>
-        <Input class={css`width: 52px;`} value={inputValues().tag} onText={(v) => setInputValue('tag', v)} />
+        <Input class={css`width: 52px;`} value={inputValues().tag} onText={(v) => setInputValue("tag", v)} />
       </SettingsBlock>
 
       <SettingsBlock icon='wallpaper' label='Avatar' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setAvatarFileBrowserRef} base64 onChange={onAvatarPick} />
         <Show when={inputValues().avatar}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("avatar", ""); setInputValue("avatarPoints", null); setSettingsHeaderPreview({ avatar: undefined, avatarPoints: undefined }); }} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => {
+            setInputValue("avatar", ""); setInputValue("avatarPoints", null); setSettingsHeaderPreview({ avatar: undefined, avatarPoints: undefined }); 
+          }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={avatarFileBrowserRef()?.open} />
       </SettingsBlock>
@@ -206,7 +208,9 @@ function EditAccountPage() {
       <SettingsBlock icon='panorama' label='Banner' description='Supported: JPG, PNG, GIF, WEBP, Max 12 MB'>
         <FileBrowser accept='images' ref={setBannerFileBrowserRef} base64 onChange={onBannerPick} />
         <Show when={inputValues().banner}>
-          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => { setInputValue("banner", ""); setSettingsHeaderPreview({ banner: undefined }); }} />
+          <Button margin={0} color='var(--alert-color)' iconSize={18} iconName='close' onClick={() => {
+            setInputValue("banner", ""); setSettingsHeaderPreview({ banner: undefined }); 
+          }} />
         </Show>
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>
@@ -221,17 +225,17 @@ function EditAccountPage() {
 
       <Show when={showResetPassword()}>
         <SettingsBlock icon='password' label='New Password' description='Changing your password will log you out everywhere else.'>
-          <Input type='password' value={inputValues().newPassword} onText={(v) => setInputValue('newPassword', v)} />
+          <Input type='password' value={inputValues().newPassword} onText={(v) => setInputValue("newPassword", v)} />
         </SettingsBlock>
         <SettingsBlock icon='password' label='Confirm New Password' description='Confirm your new password'>
-          <Input type='password' value={inputValues().confirmNewPassword} onText={(v) => setInputValue('confirmNewPassword', v)} />
+          <Input type='password' value={inputValues().confirmNewPassword} onText={(v) => setInputValue("confirmNewPassword", v)} />
         </SettingsBlock>
       </Show>
 
 
       <Show when={Object.keys(updatedInputValues()).length}>
         <SettingsBlock icon='password' label='Confirm Password'>
-          <Input type='password' value={inputValues().password} onText={(v) => setInputValue('password', v)} />
+          <Input type='password' value={inputValues().password} onText={(v) => setInputValue("password", v)} />
         </SettingsBlock>
       </Show>
 
@@ -248,7 +252,7 @@ function EditAccountPage() {
 
       <DeleteAccountBlock />
     </>
-  )
+  );
 }
 
 
@@ -268,12 +272,12 @@ function DeleteAccountBlock() {
     let err = "";
     await deleteAccount(password).catch(error => {
       err = error.message;
-    })
+    });
     if (!err) {
-      location.href = "/"
+      location.href = "/";
     }
     return err;
-  }
+  };
 
   
   const onClick = () => {
@@ -291,28 +295,28 @@ function DeleteAccountBlock() {
           <div>• Your Posts</div>
           <div style={{"margin-top": "5px", "font-size": "12px"}}>You may manually delete them before deleting your account.</div>
         </div>
-      )
-    }
+      );
+    };
     if (serverCount()) {
-      createPortal(close => <DeleteAccountNoticeModal close={close}/>)
+      createPortal(close => <DeleteAccountNoticeModal close={close}/>);
       return;
     }
-    createPortal(close => <DeleteConfirmModal onDeleteClick={onDeleteClick} custom={<ModalInfo/>} close={close} confirmText='account' title='Delete Account' password />)
-  }
+    createPortal(close => <DeleteConfirmModal onDeleteClick={onDeleteClick} custom={<ModalInfo/>} close={close} confirmText='account' title='Delete Account' password />);
+  };
   
   return (
     <SettingsBlock class={deleteAccountBlockStyles} icon='delete' label='Delete My Account' description='This cannot be undone!'>
       <Button onClick={onClick} iconSize={18} primary color='var(--alert-color)' iconName='delete' label='Delete My Account' />
     </SettingsBlock>
-  )
+  );
 }
 
 function DeleteAccountNoticeModal(props: {close():void}) {
   return (
-    <Modal title='Delete Account' icon='delete' actionButtons={<Button iconName='check' styles={{"margin-left": 'auto'}} label='Understood' onClick={props.close} />} maxWidth={300}>
-    <Text style={{padding: "10px"}}>You must leave/delete all servers before you can delete your account.</Text>
-  </Modal>
-  )
+    <Modal title='Delete Account' icon='delete' actionButtons={<Button iconName='check' styles={{"margin-left": "auto"}} label='Understood' onClick={props.close} />} maxWidth={300}>
+      <Text style={{padding: "10px"}}>You must leave/delete all servers before you can delete your account.</Text>
+    </Modal>
+  );
 }
 
 const NoticeBlockStyle = css`
@@ -341,8 +345,8 @@ function ChannelNoticeBlock () {
   const [channelNotice, setChannelNotice] = createSignal<RawChannelNotice | null>(null);
   
   const defaultInput = () => ({
-    content: channelNotice()?.content || ''
-  })
+    content: channelNotice()?.content || ""
+  });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
@@ -350,29 +354,29 @@ function ChannelNoticeBlock () {
     const res = await getDMChannelNotice();
     if (!res) return;
     setChannelNotice(res.notice);
-  }) 
+  }); 
 
 
 
   const save = async () => {
-    setError("")
+    setError("");
     if (inputValues().content.length > 300) return setError("Channel notice cannot be longer than 300 characters.");
     const res = await updateDMChannelNotice(inputValues().content).catch((err) => {
       setError(err.message);
-    })
+    });
     if (!res) return;
     setChannelNotice(res.notice);
     setInputValue("content", res.notice.content);
-  }
+  };
 
   const deleteNotice = async () => {
     const res = await deleteDMChannelNotice().catch((err) => {
       setError(err.message);
-    })
+    });
     if (!res) return;
     setChannelNotice(null);
     setInputValue("content", "");
-  }
+  };
 
   return (
     <div style={{"margin-bottom": "35px", "padding-bottom": "30px", "border-bottom": "solid 1px rgba(255,255,255,0.2)"}}>
@@ -381,14 +385,14 @@ function ChannelNoticeBlock () {
         <Input class='inputContainer' type='textarea' value={inputValues().content} onText={(v) => setInputValue("content", v)} />
         <Show when={error()}><Text style={{"margin-left": "40px"}} color='var(--alert-color)'>{error()}</Text></Show>
 
-        <div style={{ display: 'flex', "align-self": "flex-end", "margin-top": "15px" }}>
+        <div style={{ display: "flex", "align-self": "flex-end", "margin-top": "15px" }}>
           <Show when={channelNotice()?.content}><Button label='Remove Notice' color='var(--alert-color)' iconName='delete' onClick={deleteNotice} /></Show>
           <Show when={updatedInputValues().content}><Button  label='Save' iconName='save'  onClick={save} /></Show>
 
         </div>
       </SettingsBlock>
     </div>
-  )
+  );
 }
 
 
@@ -401,42 +405,42 @@ const ConfirmEmailNotice = () => {
 
   onMount(() => {
     const timerId = setInterval(() => {
-      setNow(Date.now())
-    }, 1000)
+      setNow(Date.now());
+    }, 1000);
     onCleanup(() => {
-      clearInterval(timerId)
-    })
-  })
+      clearInterval(timerId);
+    });
+  });
 
   const remainingTimeInSeconds = () => {
-    const n = now()
+    const n = now();
     if (!lastConfirmClickedTime) return 0;
     const time = (60 -(n - lastConfirmClickedTime) / 1000);
     if (time < 0) return 0;
     return Math.round(time);
-  }
+  };
 
   const onSendCodeClick = async () => {
     if (remainingTimeInSeconds()) {
       return;
     }
     lastConfirmClickedTime = Date.now();
-    setNow(Date.now())
+    setNow(Date.now());
     
     const res = await sendEmailConfirmCode().catch(err => {
-      const ttl = err.ttl
+      const ttl = err.ttl;
       if (!ttl) return;
       lastConfirmClickedTime = Date.now() - (60000 - ttl);
-      setNow(Date.now())
-    })
+      setNow(Date.now());
+    });
     if (!res) return;
     
     lastConfirmClickedTime = Date.now();
-    setNow(Date.now())
+    setNow(Date.now());
 
-    createPortal(close => <ConfirmEmailModal message={res.message} close={close}/>)
+    createPortal(close => <ConfirmEmailModal message={res.message} close={close}/>);
   
-  }
+  };
 
   return (
     <Notice 
@@ -444,32 +448,32 @@ const ConfirmEmailNotice = () => {
       description='Confirm your email'
       class={css`margin-bottom: 10px;`} 
     >
-      <div style={{"margin-left": 'auto'}} />
+      <div style={{"margin-left": "auto"}} />
       <Button 
-        label={remainingTimeInSeconds() ? `Resend in ${remainingTimeInSeconds()}` : 'Send Code'} 
+        label={remainingTimeInSeconds() ? `Resend in ${remainingTimeInSeconds()}` : "Send Code"} 
         primary 
         margin={0} 
         onClick={onSendCodeClick} 
       />
     </Notice>
-  )
-}
+  );
+};
 
 const ConfirmEmailModal = (props: {close():void, message: string}) => {
   const {account} = useStore();
-  const [code, setCode] = createSignal('');
-  const [errorMessage, setErrorMessage] = createSignal('');
+  const [code, setCode] = createSignal("");
+  const [errorMessage, setErrorMessage] = createSignal("");
 
   const confirmClicked = async () => {
-    setErrorMessage('')
+    setErrorMessage("");
     const res = await verifyEmailConfirmCode(code()).catch(err => {
       setErrorMessage(err.message);
-    })
+    });
     if (res?.status) {
       props.close();
       account.setUser({emailConfirmed: true});
     }
-  }
+  };
 
   const actionButtons = (
     <FlexRow style={{flex: 1}}>
@@ -495,5 +499,5 @@ const ConfirmEmailModal = (props: {close():void, message: string}) => {
       </FlexColumn>
 
     </Modal>
-  )
-}
+  );
+};

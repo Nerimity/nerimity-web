@@ -1,4 +1,4 @@
-import { StorageKeys, getStorageString, setStorageString } from "@/common/localStorage"
+import { StorageKeys, getStorageString, setStorageString } from "@/common/localStorage";
 
 export interface Language {
   name: string,
@@ -14,59 +14,59 @@ export const languages = {
   "en-gb": {
     name: "English",
     emoji: "🇬🇧",
-    contributors: ["https://github.com/SupertigerDev"],
+    contributors: ["https://github.com/SupertigerDev"]
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
     emoji: "🇨🇳",
-    contributors: ["Dsiahrz"],
+    contributors: ["Dsiahrz"]
   },
   "nl-nl": {
     name: "Dutch",
     emoji: "🇳🇱",
-    contributors: ["https://github.com/captainqdev"],
+    contributors: ["https://github.com/captainqdev"]
   },
   "fr-FR": {
     name: "French",
     emoji: "🇫🇷",
-    contributors: ["https://github.com/guiguitator"],
+    contributors: ["https://github.com/guiguitator"]
   },
   "de-de": {
     name: "German",
     emoji: "🇩🇪",
-    contributors: ["https://github.com/F-iiral"],
+    contributors: ["https://github.com/F-iiral"]
   },
   "hu-hu": {
     name: "Hungarian",
     emoji: "🇭🇺",
-    contributors: ["https://github.com/andrasdaradici"],
+    contributors: ["https://github.com/andrasdaradici"]
   },
   "pt-br": {
     name: "Brazilian Portuguese",
     emoji: "🇧🇷",
-    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Gersonzao"],
+    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Gersonzao"]
   },
   "pl-pl": {
     name: "Polish",
     emoji: "🇵🇱",
-    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
+    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"]
   },
   "es-es": {
     name: "Spanish",
     emoji: "🇪🇸",
-    contributors: ["Linterna001"],
+    contributors: ["Linterna001"]
   },
   "tr-tr": {
     name: "Turkish",
     emoji: "🇹🇷",
-    contributors: ["https://github.com/sutnax"],
+    contributors: ["https://github.com/sutnax"]
   },
   "af-za": {
     name: "Afrikaans",
     emoji: "🇿🇦",
-    contributors: ["https://github.com/mooocksadev"],
-  },
-}
+    contributors: ["https://github.com/mooocksadev"]
+  }
+};
 
 export function getCurrentLanguage() {
   return getStorageString(StorageKeys.APP_LANGUAGE, null)?.replace("-", "_");

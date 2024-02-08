@@ -16,15 +16,15 @@ window.setInterval(() => {
 
 const updateModerationTicketNotification = async () => {
   const {account} = useStore();
-  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
+  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
   if (!hasModeratorPerm()) return;
 
   const tickets = await getModerationTickets({
     limit: 1,
-    status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE,
+    status: TicketStatus.WAITING_FOR_MODERATOR_RESPONSE
   });
   setHasModerationTicketNotification(tickets.length > 0);
-}
+};
 
 const updateTicketNotification = async () => {
   const tickets = await getTickets({
@@ -32,7 +32,7 @@ const updateTicketNotification = async () => {
     seen: false
   });
   setHasTicketNotification(tickets.length > 0);
-}
+};
 
 
 export default function useTicket() {
@@ -41,5 +41,5 @@ export default function useTicket() {
     hasModerationTicketNotification,
     updateTicketNotification,
     hasTicketNotification
-  }
+  };
 }

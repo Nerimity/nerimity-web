@@ -21,16 +21,16 @@ import { TicketPage } from "./components/settings/TicketSettings";
 
 // Drawers
 const SettingsDrawer = lazy(() => import("@/components/settings/SettingsDrawer"));
-const ServerDrawer = lazy(() => import('@/components/servers/drawer/ServerDrawer'));
-const InboxDrawer = lazy(() => import('@/components/inbox/drawer/InboxDrawer'));
-const ExploreDrawer = lazy(() => import('@/components/explore/ExploreDrawer'));
-const ServerSettingsDrawer = lazy(() => import('@/components/servers/settings/ServerSettingsDrawer'));
+const ServerDrawer = lazy(() => import("@/components/servers/drawer/ServerDrawer"));
+const InboxDrawer = lazy(() => import("@/components/inbox/drawer/InboxDrawer"));
+const ExploreDrawer = lazy(() => import("@/components/explore/ExploreDrawer"));
+const ServerSettingsDrawer = lazy(() => import("@/components/servers/settings/ServerSettingsDrawer"));
 
 const RightDrawer = lazy(() => import("@/components/right-drawer/RightDrawer"));
 
 // App Panes
-const ChannelPane = lazy(() => import('@/components/channel-pane/ChannelPane'));
-const ProfilePane = lazy(() => import('@/components/profile-pane/ProfilePane'));
+const ChannelPane = lazy(() => import("@/components/channel-pane/ChannelPane"));
+const ProfilePane = lazy(() => import("@/components/profile-pane/ProfilePane"));
 const DashboardPane = lazy(() => import("@/components/DashboardPane"));
 const ExplorePane = lazy(() => import("@/components/explore/ExplorePane"));
 const SettingsPane = lazy(() => import("@/components/settings/SettingsPane"));
@@ -38,13 +38,13 @@ const ServerSettingsPane = lazy(() => import("@/components/servers/settings/sett
 const ExploreServerPane = lazy(() => import("@/components/servers/explore-pane/ExploreServerPane"));
 
 // Pages
-const HomePage = lazy(() => import('./pages/HomePage'));
-const RegisterPage = lazy(() => import('./pages/RegisterPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const AppPage = lazy(() => import('./pages/AppPage'));
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
-const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
-const GoogleRedirectLinkAccount = lazy(() => import('./pages/GoogleRedirectLinkAccountPage'));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const AppPage = lazy(() => import("./pages/AppPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const TermsAndConditionsPage = lazy(() => import("./pages/TermsAndConditionsPage"));
+const GoogleRedirectLinkAccount = lazy(() => import("./pages/GoogleRedirectLinkAccountPage"));
 
 const ModerationUserPage = lazy(() => import("@/components/moderation-pane/UserPage"));
 const ModerationServerPage = lazy(() => import("@/components/moderation-pane/ServerPage"));
@@ -57,7 +57,8 @@ const useBlurEffect = () => {
     on(isWindowFocusedAndBlurEffectEnabled, () => {
       if (isWindowFocusedAndBlurEffectEnabled()) {
         document.body.classList.remove("disableBlur");
-      } else {
+      }
+      else {
         document.body.classList.add("disableBlur");
       }
     })
@@ -100,7 +101,7 @@ const Root = () => {
       options={{
         fallbackLng: "en_gb",
         lng: "en_gb",
-        resources: { en_gb: { translation: en } },
+        resources: { en_gb: { translation: en } }
       }}
     >
       <CustomPortalProvider>
@@ -197,6 +198,6 @@ function NoMatch() {
 function InviteRedirect() {
   const params = useParams();
 
-  return <Navigate href={RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!)} />
+  return <Navigate href={RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!)} />;
 }
 

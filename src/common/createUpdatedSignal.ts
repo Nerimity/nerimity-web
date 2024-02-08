@@ -10,13 +10,13 @@ export function createUpdatedSignal<T>(defaultValues: () => T): CreatedUpdateSig
 
   createEffect(() => {
     setValues(reconcile({...defaultValues()}));
-  })
+  });
 
   
   // params of key and value
   const updateValue = <K extends keyof T>(key: keyof T, value: T[K]) => {
     setValues(key as any, value as any);
-  }
+  };
 
   const updatedValues = () => {
     const updatedValues: Partial<T> = {};
@@ -28,6 +28,6 @@ export function createUpdatedSignal<T>(defaultValues: () => T): CreatedUpdateSig
       }
     }
     return updatedValues;
-  }
-  return [() => values, updatedValues, updateValue]
+  };
+  return [() => values, updatedValues, updateValue];
 }

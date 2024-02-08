@@ -27,10 +27,11 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   const user = () => {
     if (props.friend) {
       return props.friend.recipient();
-    } else {
+    }
+    else {
       return props.user!;
     }
-  }
+  };
 
   const inboxItem = () => inbox.get(user()?.inboxChannelId!);
 
@@ -43,20 +44,20 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
   const showDecline = () => props.friend?.status === FriendStatus.PENDING || props.friend?.status === FriendStatus.SENT;
 
   const onAcceptClick = () => {
-    props.friend?.accept()
-  }
+    props.friend?.accept();
+  };
   const onDeclineClick = () => {
-    props.friend?.remove()
-  }
+    props.friend?.remove();
+  };
 
   const onCloseDMClick = async () => {
     const channel = channels.get(user()?.inboxChannelId!);
     channel?.dismissNotification();
     user()?.closeDM();
     if (params.channelId === user()?.inboxChannelId) {
-      navigate('/app')
+      navigate("/app");
     }
-  }
+  };
 
 
   const onFriendClick = async (e: any) => {
@@ -64,7 +65,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
     if (e.target.closest("." + styles.button)) return;
     user()?.openDM();
     emitDrawerGoToMain();
-  }
+  };
 
   const mentionCount = () => mentions.getDmCount(user()!.id);
 
@@ -94,7 +95,7 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
       return false;
     }
     return props.user?.inboxChannelId &&  hovered();
-  }
+  };
 
   return (
     <Show when={user()}>
@@ -125,5 +126,5 @@ export default function InboxDrawerFriendItem(props: { friend?: Friend, user?: U
 
       </FriendContainer>
     </Show>
-  )
+  );
 }

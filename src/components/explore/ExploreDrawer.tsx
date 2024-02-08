@@ -1,15 +1,15 @@
-import Icon from '@/components/ui/icon/Icon';
-import { A, useMatch } from 'solid-navigator';
-import { For } from 'solid-js';
-import exploreRoutes from '@/common/exploreRoutes';
-import ItemContainer from '@/components/ui/Item';
-import { css, styled } from 'solid-styled-components';
-import Text from '@/components/ui/Text';
-import { FlexColumn } from '../ui/Flexbox';
-import { DrawerHeader } from '../drawer-header/DrawerHeader';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import { t } from 'i18next';
-import InVoiceActions from '../InVoiceActions';
+import Icon from "@/components/ui/icon/Icon";
+import { A, useMatch } from "solid-navigator";
+import { For } from "solid-js";
+import exploreRoutes from "@/common/exploreRoutes";
+import ItemContainer from "@/components/ui/Item";
+import { css, styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { FlexColumn } from "../ui/Flexbox";
+import { DrawerHeader } from "../drawer-header/DrawerHeader";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
+import InVoiceActions from "../InVoiceActions";
 
 
 
@@ -49,7 +49,7 @@ export default function SettingsDrawer() {
       <ExploreList />
       <Footer/>
     </DrawerContainer>
-  )
+  );
 }
 
 function ExploreList() {
@@ -63,7 +63,7 @@ function ExploreList() {
         }
       </For>
     </ExploreListContainer>
-  )
+  );
 }
 
 
@@ -73,7 +73,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
   const href = () => {
     return "/app/explore/" + props.path;
   };
-  const selected = useMatch(() => href() + "/*")
+  const selected = useMatch(() => href() + "/*");
 
   return (
     <A
@@ -85,7 +85,7 @@ function Item(props: { path: string, icon: string, label: string, onClick?: () =
         <Text class="label">{props.label}</Text>
       </ExploreItemContainer>
     </A>
-  )
+  );
 }
 
 
@@ -114,16 +114,16 @@ function SupportItem() {
       rel="noopener noreferrer"
       style={{ "text-decoration": "none" }}
     >
-      <ExploreItemContainer style={{ background: 'var(--alert-color)', height: 'initial', "padding": "10px" }}>
-        <Icon style={{ "align-self": 'start', "margin-top": "3px" }} name="favorite" size={18} />
+      <ExploreItemContainer style={{ background: "var(--alert-color)", height: "initial", "padding": "10px" }}>
+        <Icon style={{ "align-self": "start", "margin-top": "3px" }} name="favorite" size={18} />
         <div>
-          <Text style={{ "font-weight": 'bold' }}>{t('settings.drawer.supportMe')}</Text>
+          <Text style={{ "font-weight": "bold" }}>{t("settings.drawer.supportMe")}</Text>
           <div>
             <Text size={12}>Support this project on Ko-fi to get a supporter badge!</Text>
           </div>
         </div>
-        <Icon class={css`margin-left: auto;`} style={{ "align-self": 'start', "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
+        <Icon class={css`margin-left: auto;`} style={{ "align-self": "start", "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
       </ExploreItemContainer>
     </A>
-  )
+  );
 }

@@ -4,22 +4,22 @@ import { createStore } from "solid-js/store";
 
 
 export function useResizeObserver(element: () => HTMLElement | undefined | null) {
-  const [dimensions, setDimensions] = createStore({width: 0, height: 0})
+  const [dimensions, setDimensions] = createStore({width: 0, height: 0});
   createEffect(on(element, (el) => {
     if (!el) return;
     const resizeObserver = new ResizeObserver((entries) => {
       setDimensions({
         width: entries[0].contentRect.width,
         height: entries[0].contentRect.height
-      })
+      });
     });
     resizeObserver.observe(el);
 
     onCleanup(() => {
       resizeObserver.disconnect();
-    })
-  }))
-  return {width: () => dimensions.width, height: () => dimensions.height} as const
+    });
+  }));
+  return {width: () => dimensions.width, height: () => dimensions.height} as const;
 }
 
 
@@ -31,6 +31,6 @@ export function useMutationObserver(element: () => HTMLElement | undefined | nul
 
     onCleanup(() => {
       resizeObserver.disconnect();
-    })
-  }))
+    });
+  }));
 }

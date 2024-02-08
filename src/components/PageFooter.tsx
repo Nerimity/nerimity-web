@@ -16,5 +16,5 @@ export default function PageFooter() {
       <CustomLink decoration href="/privacy">Privacy Policy</CustomLink>
       <CustomLink decoration href="/terms-and-conditions">Terms And Conditions</CustomLink>
     </FooterContainer>
-  )
+  );
 }

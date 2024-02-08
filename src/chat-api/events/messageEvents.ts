@@ -58,7 +58,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
       if (mention) return true;
       const quoteMention = payload.message.quotedMessages?.find(m => m.createdBy?.id === accountUser?.id);
       return quoteMention;
-    }
+    };
     
     if (payload.message.createdBy.id !== accountUser?.id) {
   
@@ -73,7 +73,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
     }
 
     messages.pushMessage(payload.message.channelId, payload.message);
-  })
+  });
 
   // only play notifications if: 
   //   it does not have focus (has focus)
@@ -82,7 +82,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
     const isChannelSelected = header.details().id === "MessagePane" && header.details().channelId === payload.message.channelId;
     if (hasFocus() && isChannelSelected) return;
     playMessageNotification({message: payload.message, serverId: channel?.serverId});
-    createDesktopNotification(payload.message)
+    createDesktopNotification(payload.message);
   }
 
 }
@@ -120,7 +120,7 @@ export function onMessageReactionAdded(payload: ReactionAddedPayload) {
     emojiId: payload.emojiId || null,
     gif: payload.gif,
     ...(reactedByMe? { reacted: true } : undefined)
-  })
+  });
 }
 interface ReactionRemovedPayload {
   messageId: string,
@@ -140,5 +140,5 @@ export function onMessageReactionRemoved(payload: ReactionRemovedPayload) {
     name: payload.name,
     emojiId: payload.emojiId,
     ...(reactionRemovedByMe ? { reacted: false } : undefined)
-  })
+  });
 }

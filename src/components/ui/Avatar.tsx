@@ -263,7 +263,7 @@ function BasicBorder(props: {
                 "border-radius": (props.size / 100) * 8 + "px",
                 bottom: -((props.size / 100) * 15) + "px",
                 padding: (props.size / 100) * 5 + "px",
-                background: props.color,
+                background: props.color
               }}
             >
               {props.label}

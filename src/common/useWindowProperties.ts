@@ -9,22 +9,22 @@ const [windowProperties, setWindowProperties] = createStore({
   width: window.innerWidth,
   height: window.innerHeight,
   paneWidth: null as null | number,
-  hasFocus: document.hasFocus(),
+  hasFocus: document.hasFocus()
 });
 
 
 
 window.addEventListener("resize", () => {
-  setWindowProperties('width', window.innerWidth)
-  setWindowProperties('height', window.innerHeight)
-})
+  setWindowProperties("width", window.innerWidth);
+  setWindowProperties("height", window.innerHeight);
+});
 
-window.addEventListener('focus', () => {
-  setWindowProperties('hasFocus', true)
-})
-window.addEventListener('blur', () => {
-  setWindowProperties('hasFocus', false)
-})
+window.addEventListener("focus", () => {
+  setWindowProperties("hasFocus", true);
+});
+window.addEventListener("blur", () => {
+  setWindowProperties("hasFocus", false);
+});
 
 
 function setPaneWidth(val: number) {
@@ -34,7 +34,7 @@ function setPaneWidth(val: number) {
 
 const isMobileAgent = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-const [blurEffectEnabled, setBlurEffectEnabled] = useReactiveLocalStorage(StorageKeys.BLUR_EFFECT_ENABLED, !isMobileAgent())
+const [blurEffectEnabled, setBlurEffectEnabled] = useReactiveLocalStorage(StorageKeys.BLUR_EFFECT_ENABLED, !isMobileAgent());
 
 
 
@@ -42,7 +42,7 @@ export function useWindowProperties() {
   const isWindowFocusedAndBlurEffectEnabled  = () => {
     if (!windowProperties.hasFocus) return false;
     return blurEffectEnabled();
-  }
+  };
 
   return {
     blurEffectEnabled,
@@ -54,6 +54,6 @@ export function useWindowProperties() {
     isMobileWidth: ()  => windowProperties.width <= env.MOBILE_WIDTH,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
-    isMobileAgent,
-  }
+    isMobileAgent
+  };
 }

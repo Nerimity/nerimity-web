@@ -1,11 +1,11 @@
-import env from '@/common/env';
-import {createStore} from 'solid-js/store';
-import { SelfUser } from '../events/connectionEventTypes';
-import { RawServerSettings, RawUser } from '../RawData';
-import { USER_BADGES, hasBit } from '../Bitwise';
+import env from "@/common/env";
+import {createStore} from "solid-js/store";
+import { SelfUser } from "../events/connectionEventTypes";
+import { RawServerSettings, RawUser } from "../RawData";
+import { USER_BADGES, hasBit } from "../Bitwise";
 
 
-type ServerSettings = Omit<RawServerSettings, 'serverId'>;
+type ServerSettings = Omit<RawServerSettings, "serverId">;
 interface Account {
   user: SelfUser | null,
 
@@ -30,8 +30,8 @@ const [account, setAccount] = createStore<Account>({
 
 
 const setServerSettings = (serverId: string, setting: Partial<RawServerSettings>) => {
-  setAccount('serverSettings', serverId, {...setting, serverId: undefined});
-}
+  setAccount("serverSettings", serverId, {...setting, serverId: undefined});
+};
 
 const getServerSettings = (serverId: string) => account.serverSettings[serverId] as ServerSettings | undefined;
 
@@ -44,10 +44,10 @@ interface SetSocketDetailsArgs {
 }
 const setSocketDetails = (details: SetSocketDetailsArgs) => {
   setAccount(details);
-}
+};
 
 
-const setUser = (user: Partial<SelfUser> | null) => setAccount('user', user);
+const setUser = (user: Partial<SelfUser> | null) => setAccount("user", user);
 
 const user = () => account.user;
 
@@ -55,11 +55,11 @@ const isConnected = () => account.socketConnected;
 const isAuthenticated = () => account.socketAuthenticated;
 const authenticationError = () => account.authenticationError;
 
-const lastAuthenticatedAt = () => account.lastAuthenticatedAt
+const lastAuthenticatedAt = () => account.lastAuthenticatedAt;
 
 const avatarUrl = () => user()?.avatar ? env.NERIMITY_CDN + user()?.avatar : null;
 
-const hasModeratorPerm = () => hasBit(user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit)
+const hasModeratorPerm = () => hasBit(user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit);
 
 
 export default function useAccount() {
@@ -75,5 +75,5 @@ export default function useAccount() {
     getServerSettings,
     hasModeratorPerm,
     lastAuthenticatedAt
-  }
+  };
 }

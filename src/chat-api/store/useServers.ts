@@ -1,12 +1,12 @@
-import env from '@/common/env';
-import {createStore} from 'solid-js/store';
-import { ChannelType, RawCustomEmoji, RawServer, ServerNotificationPingMode } from '../RawData';
-import { deleteServer, leaveServer } from '../services/ServerService';
-import useAccount from './useAccount';
-import useChannels from './useChannels';
-import useMention from './useMention';
-import { createEffect, createMemo, createRoot } from 'solid-js';
-import { emojiShortcodeToUnicode } from '@/emoji';
+import env from "@/common/env";
+import {createStore} from "solid-js/store";
+import { ChannelType, RawCustomEmoji, RawServer, ServerNotificationPingMode } from "../RawData";
+import { deleteServer, leaveServer } from "../services/ServerService";
+import useAccount from "./useAccount";
+import useChannels from "./useChannels";
+import useMention from "./useMention";
+import { createEffect, createMemo, createRoot } from "solid-js";
+import { emojiShortcodeToUnicode } from "@/emoji";
 
 export type Server = RawServer & {
   hasNotifications: () => boolean;
@@ -32,11 +32,13 @@ const set = (server: RawServer) => {
     leave,
     hasNotifications,
     mentionCount,
-    avatarUrl: function () {return avatarUrl(this)},
-  }
+    avatarUrl: function () {
+      return avatarUrl(this);
+    }
+  };
   
   setServers(server.id, newServer);
-}
+};
 
 function hasNotifications (this: Server) {
   const channels = useChannels();
@@ -47,9 +49,9 @@ function hasNotifications (this: Server) {
   
   return channels.getChannelsByServerId(this.id).some(channel => {
     const hasNotification = channel!.hasNotifications();
-    if (hasNotification !== 'mention' && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
-    return hasNotification && channel?.type === ChannelType.SERVER_TEXT
-  })
+    if (hasNotification !== "mention" && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
+    return hasNotification && channel?.type === ChannelType.SERVER_TEXT;
+  });
 }
 
 function mentionCount (this: Server) {
@@ -58,7 +60,7 @@ function mentionCount (this: Server) {
   const mentions = mention.array().filter(mention => mention!.serverId === this.id);
   for (let i = 0; i < mentions.length; i++) {
     const mention = mentions[i];
-    count += mention?.count || 0
+    count += mention?.count || 0;
   }
   return count;
 }
@@ -75,7 +77,7 @@ function update (this: Server, update: Partial<RawServer>) {
 
 const remove = (serverId: string) => {  
   setServers(serverId, undefined);
-}
+};
 
 function isCurrentUserCreator(this: Server) {
   const account = useAccount();
@@ -84,7 +86,7 @@ function isCurrentUserCreator(this: Server) {
 }
 
 
-const get = (serverId: string) => servers[serverId]
+const get = (serverId: string) => servers[serverId];
 
 const array = () => Object.values(servers) as Server[];
 
@@ -92,7 +94,9 @@ const orderedArray = () => {
   const account = useAccount();
   const serverIdsArray = account.user()?.orderedServerIds;
   const order: Record<string, number> = {};
-  serverIdsArray?.forEach((a, i) => {order[a] = i})
+  serverIdsArray?.forEach((a, i) => {
+    order[a] = i;
+  });
   
   return array()
     .sort((a, b) => a.createdAt - b.createdAt)
@@ -106,13 +110,13 @@ const orderedArray = () => {
         return 1;
       }
       return orderA - orderB;
-    })
-}
+    });
+};
 
 
 const hasAllNotifications =  () => {
   return array().find(s => s?.hasNotifications());
-}
+};
 const emojis = createRoot(() => createMemo(() => orderedArray().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat()));
 
 const emojisUpdatedDupName = createRoot(() => createMemo(() => {
@@ -122,11 +126,11 @@ const emojisUpdatedDupName = createRoot(() => createMemo(() => {
   for (let i = 0; i < emojis().length; i++) {
     const emoji = emojis()[i];
     let count = counts[emoji.name] || 0;
-    const hasEmojiShortcode = emojiShortcodeToUnicode(emoji.name)
+    const hasEmojiShortcode = emojiShortcodeToUnicode(emoji.name);
     if (hasEmojiShortcode) count++;
     const newName = count ? `${emoji.name}-${count}` : emoji.name;
     if (!hasEmojiShortcode) count++;
-    counts[emoji.name] = count
+    counts[emoji.name] = count;
     uniqueNamedEmojis.push({ ...emoji, name: newName });
   }
   return uniqueNamedEmojis;
@@ -155,5 +159,5 @@ export default function useServers() {
     hasNotifications: hasAllNotifications,
     orderedArray,
     remove
-  }
+  };
 }

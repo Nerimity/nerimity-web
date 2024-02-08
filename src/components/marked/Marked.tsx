@@ -2,7 +2,7 @@
   Used to parse github readmes.
 */
 
-import styles from './Marked.module.scss';
+import styles from "./Marked.module.scss";
 import type MarkdownIt from "markdown-it";
 import { createEffect, createSignal, Show } from "solid-js";
 
@@ -28,17 +28,17 @@ export default function Marked(props: {value: string}) {
     const md = await getMd();
     const newHtml = md.render(props.value);
 
-    const div = document.createElement('div');
+    const div = document.createElement("div");
     div.innerHTML = newHtml;
 
     div.querySelectorAll("a").forEach(element => 
       element.setAttribute("target", "_blank")
-    )
+    );
 
 
 
-    setHtml(div)
-  })
+    setHtml(div);
+  });
 
-  return <Show when={html()}><div class={styles.markedContainer}>{html?.()}</div></Show>
+  return <Show when={html()}><div class={styles.markedContainer}>{html?.()}</div></Show>;
 }

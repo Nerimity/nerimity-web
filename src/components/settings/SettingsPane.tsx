@@ -1,10 +1,10 @@
-import { Outlet } from 'solid-navigator';
-import { Show } from 'solid-js';
-import SettingsHeader from './SettingsHeader';
-import useStore from '@/chat-api/store/useStore';
-import { styled } from 'solid-styled-components';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import { createStore } from 'solid-js/store';
+import { Outlet } from "solid-navigator";
+import { Show } from "solid-js";
+import SettingsHeader from "./SettingsHeader";
+import useStore from "@/chat-api/store/useStore";
+import { styled } from "solid-styled-components";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { createStore } from "solid-js/store";
 
 const SettingsPaneContainer = styled("div")`
   display: flex;

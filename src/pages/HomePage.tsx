@@ -1,15 +1,15 @@
-import env from '@/common/env'
-import Button from '@/components/ui/Button'
-import {useNavigate } from 'solid-navigator'
-import PageHeader from '../components/PageHeader'
-import { styled } from 'solid-styled-components'
-import Text from '@/components/ui/Text'
-import { appLogoUrl } from '@/common/worldEvents'
-import { useTransContext } from '@mbarzda/solid-i18next'
-import { FlexColumn, FlexRow } from '@/components/ui/Flexbox'
-import Icon from '@/components/ui/icon/Icon'
-import { CustomLink } from '@/components/ui/CustomLink'
-import PageFooter from '@/components/PageFooter'
+import env from "@/common/env";
+import Button from "@/components/ui/Button";
+import {useNavigate } from "solid-navigator";
+import PageHeader from "../components/PageHeader";
+import { styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { appLogoUrl } from "@/common/worldEvents";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import Icon from "@/components/ui/icon/Icon";
+import { CustomLink } from "@/components/ui/CustomLink";
+import PageFooter from "@/components/PageFooter";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -77,7 +77,7 @@ const Logo = styled("img")`
 export default function HomePage () {
   const [t] = useTransContext();
   
-  const releaseLink = `https://github.com/Nerimity/nerimity-web/releases/${env.APP_VERSION ? `tag/${env.APP_VERSION}` : '' }`
+  const releaseLink = `https://github.com/Nerimity/nerimity-web/releases/${env.APP_VERSION ? `tag/${env.APP_VERSION}` : "" }`;
 
   return (
     <HomePageContainer class="home-page-container">
@@ -86,11 +86,11 @@ export default function HomePage () {
         <TopContainer class='top-container'>
           <Logo src={appLogoUrl()} alt="logo"/>
           <Text class="title" size={60}>{env.APP_NAME}</Text>
-          <Text class="slogan" opacity={0.7}>{t('homePage.slogan')}</Text>
+          <Text class="slogan" opacity={0.7}>{t("homePage.slogan")}</Text>
           <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>
           <ButtonsContainer class="buttons-container">
-            <a href='/register'><Button iconName='open_in_browser' label={t('homePage.joinButton', {appName: env.APP_NAME})!} primary={true} /></a>
-            <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t('homePage.viewGitHubButton')!}  /></a>
+            <a href='/register'><Button iconName='open_in_browser' label={t("homePage.joinButton", {appName: env.APP_NAME})!} primary={true} /></a>
+            <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t("homePage.viewGitHubButton")!}  /></a>
           </ButtonsContainer>
           <PlatformDownloadLinks/>
         </TopContainer>
@@ -99,7 +99,7 @@ export default function HomePage () {
       </Content>
       <PageFooter/>
     </HomePageContainer>
-  )
+  );
 }
 
 
@@ -111,9 +111,9 @@ const PlatformDownloadLinks = () => {
     <FlexColumn gap={10} itemsCenter style={{"margin-top": "10px"}}>
       <Text size={16} opacity={0.7} style={{}}>Available on</Text>
       <FlexRow wrap justifyCenter>
-        <Button onClick={() => navigate('/register')} color='' label='Browser' iconName='public' primary />
-        <Button onClick={() => window.open('https://github.com/Nerimity/nerimity-desktop/releases/latest', '_blank')} color='' label='Windows' iconName='grid_view' primary />
-        <Button  onClick={() => window.open('https://github.com/Nerimity/NerimityReactNative/releases/latest', '_blank')} color='#31a952' customChildren={
+        <Button onClick={() => navigate("/register")} color='' label='Browser' iconName='public' primary />
+        <Button onClick={() => window.open("https://github.com/Nerimity/nerimity-desktop/releases/latest", "_blank")} color='' label='Windows' iconName='grid_view' primary />
+        <Button  onClick={() => window.open("https://github.com/Nerimity/NerimityReactNative/releases/latest", "_blank")} color='#31a952' customChildren={
           <FlexRow itemsCenter>
             <Text>Android</Text>
             <Text opacity={0.8} size={12}>(Experimental)</Text>
@@ -121,8 +121,8 @@ const PlatformDownloadLinks = () => {
         } iconName='android' primary />
       </FlexRow>  
     </FlexColumn>
-  )
-}
+  );
+};
 
 
 const FeatureListContainer = styled("div")`
@@ -160,7 +160,7 @@ function FeatureList() {
       <Feature icon='volunteer_activism' label='Runs from donations'/>
       <Feature icon='code' label='Full source code on GitHub'/>
     </FeatureListContainer>
-  )
+  );
 }
 
 
@@ -171,8 +171,8 @@ const FeatureContainer = styled(FlexRow)`
 function Feature(props: {icon: string, label: string;}) {
   return (
     <FeatureContainer gap={10}>
-      <Icon style={{background: 'rgba(255,255,255,0.05)', padding: "10px", "border-radius": "50%"}} name={props.icon} size={26} />
+      <Icon style={{background: "rgba(255,255,255,0.05)", padding: "10px", "border-radius": "50%"}} name={props.icon} size={26} />
       <Text style={{"font-weight": "bold"}} size={14} opacity={0.8}>{props.label}</Text>
     </FeatureContainer>
-  )
+  );
 }

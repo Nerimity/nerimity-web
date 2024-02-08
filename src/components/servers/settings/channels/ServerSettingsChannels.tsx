@@ -1,21 +1,21 @@
-import styles from './styles.module.scss'
-import RouterEndpoints from '@/common/RouterEndpoints';
-import { Link, useNavigate, useParams } from 'solid-navigator';
-import { createEffect, createMemo, createSignal, For, Match, on, onMount, Show, Switch } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import SettingsBlock from '@/components/ui/settings-block/SettingsBlock';
-import Button from '@/components/ui/Button';
-import useChannels, { Channel } from '@/chat-api/store/useChannels';
-import Icon from '@/components/ui/icon/Icon';
-import { createServerChannel, updateServerChannelOrder } from '@/chat-api/services/ServerService';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import Sortable from 'solid-sortablejs';
-import ContextMenu, { ContextMenuProps } from '@/components/ui/context-menu/ContextMenu';
-import { ChannelType } from '@/chat-api/RawData';
-import { CustomLink } from '@/components/ui/CustomLink';
-import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
-import { CHANNEL_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
-import { ChannelIcon } from '../../drawer/ServerDrawer';
+import styles from "./styles.module.scss";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { Link, useNavigate, useParams } from "solid-navigator";
+import { createEffect, createMemo, createSignal, For, Match, on, onMount, Show, Switch } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
+import Button from "@/components/ui/Button";
+import useChannels, { Channel } from "@/chat-api/store/useChannels";
+import Icon from "@/components/ui/icon/Icon";
+import { createServerChannel, updateServerChannelOrder } from "@/chat-api/services/ServerService";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import Sortable from "solid-sortablejs";
+import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
+import { ChannelType } from "@/chat-api/RawData";
+import { CustomLink } from "@/components/ui/CustomLink";
+import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
+import { CHANNEL_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
+import { ChannelIcon } from "../../drawer/ServerDrawer";
 
 
 
@@ -38,7 +38,7 @@ function ChannelItem(props: { channel: Channel }) {
         <Icon name='navigate_next' />
       </div>
     </CustomLink>
-  )
+  );
 }
 function CategoryItem(props: { channel: Channel }) {
   const { serverId } = useParams();
@@ -56,16 +56,16 @@ function CategoryItem(props: { channel: Channel }) {
     updateServerChannelOrder(serverId, {
       channelIds: temp().map(c => c.id),
       categoryId: props.channel.id
-    }).finally(resetTemp)
-  }
+    }).finally(resetTemp);
+  };
 
   const onEnd = (event: any) => {
     if (event.to !== event.from) return;
     updateServerChannelOrder(serverId, {
       channelIds: temp().map(c => c.id),
-      categoryId: props.channel.id,
-    }).finally(resetTemp)
-  }
+      categoryId: props.channel.id
+    }).finally(resetTemp);
+  };
 
   const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
@@ -86,7 +86,7 @@ function CategoryItem(props: { channel: Channel }) {
         </Sortable>
       </div>
     </div>
-  )
+  );
 }
 
 
@@ -103,21 +103,21 @@ function ChannelList() {
     if (event.to !== event.from) return;
     updateServerChannelOrder(serverId, {
       channelIds: temp().map(c => c.id)
-    }).finally(resetTemp)
-  }
+    }).finally(resetTemp);
+  };
 
   const onAdd = () => {
     updateServerChannelOrder(serverId, {
       channelIds: temp().map(c => c.id)
-    }).finally(resetTemp)
-  }
+    }).finally(resetTemp);
+  };
 
 
   const onMove = (event: any) => {
     const channelId = event.dragged.dataset.id;
     const channel = channels.get(channelId);
     if (channel?.type === ChannelType.CATEGORY && event.to !== event.from) return false;
-  }
+  };
 
 
   return (
@@ -133,16 +133,16 @@ function ChannelList() {
         </Switch>
       )}
     </Sortable>
-  )
+  );
 }
 
 function createTemporarySignal<T>(v: () => T) {
   const [value, setValue] = createSignal(v());
-  createEffect(on(v, () => setValue(v)))
+  createEffect(on(v, () => setValue(v)));
 
   const resetValue = () => setValue(v);
 
-  return [value, setValue, resetValue] as const
+  return [value, setValue, resetValue] as const;
 }
 
 
@@ -158,26 +158,26 @@ export default function ServerSettingsChannel() {
     header.updateHeader({
       title: "Settings - Channels",
       serverId: serverId!,
-      iconName: 'settings'
+      iconName: "settings"
     });
-  })
+  });
 
   const onAddChannelClicked = (event: MouseEvent) => {
     setContextMenuPos(!contextMenuPos() ? {
       x: event.clientX,
-      y: event.clientY,
-    } : null)
+      y: event.clientY
+    } : null);
 
-  }
+  };
   const createChannel = async (type: ChannelType) => {
     if (channelAddRequestSent()) return;
     setChannelAddRequestSent(true);
 
     const channel = await createServerChannel({ serverId, type })
-      .finally(() => setChannelAddRequestSent(false))
+      .finally(() => setChannelAddRequestSent(false));
 
-    navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channel.id))
-  }
+    navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channel.id));
+  };
   const server = () => servers.get(serverId);
 
   return (
@@ -185,16 +185,16 @@ export default function ServerSettingsChannel() {
 
       <Breadcrumb>
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
-        <BreadcrumbItem title={t('servers.settings.drawer.channels')} />
+        <BreadcrumbItem title={t("servers.settings.drawer.channels")} />
       </Breadcrumb>
 
-      <SettingsBlock label={t('servers.settings.channels.createNewDescription')} icon='add'>
-        <Button label={t('servers.settings.channels.createButton')} class='createButton' onClick={onAddChannelClicked} />
+      <SettingsBlock label={t("servers.settings.channels.createNewDescription")} icon='add'>
+        <Button label={t("servers.settings.channels.createButton")} class='createButton' onClick={onAddChannelClicked} />
         <ContextMenuCreate onClick={item => createChannel(item.id!)} triggerClassName='createButton' onClose={() => setContextMenuPos(null)} position={contextMenuPos()} />
       </SettingsBlock>
       <ChannelList />
     </div>
-  )
+  );
 }
 
 
@@ -204,8 +204,8 @@ function ContextMenuCreate(props: Omit<ContextMenuProps, "items">) {
 
   return (
     <ContextMenu {...props} items={[
-      { icon: 'textsms', label: "Text Channel", id: ChannelType.SERVER_TEXT },
-      { icon: 'segment', label: "Category", id: ChannelType.CATEGORY },
+      { icon: "textsms", label: "Text Channel", id: ChannelType.SERVER_TEXT },
+      { icon: "segment", label: "Category", id: ChannelType.CATEGORY }
     ]} />
-  )
+  );
 }

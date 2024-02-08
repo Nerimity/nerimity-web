@@ -29,16 +29,18 @@ export default function DeleteServerModal(props: Props) {
     setError(null);
 
     deleteServer(props.serverId, password())
-      .then(() => {props.done(); props.close();})
+      .then(() => {
+        props.done(); props.close();
+      })
       .catch(err => setError(err))
-      .finally(() => setDeleting(false))
-  }
+      .finally(() => setDeleting(false));
+  };
 
   const ActionButtons = (
     <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button onClick={onDeleteClick} margin={0} label={deleting() ? "Deleting..." : "Delete"} color="var(--alert-color)" primary />
     </FlexRow>
-  )
+  );
 
   return (
     <Modal close={props.close} title="Delete Server" actionButtons={ActionButtons}>
@@ -49,6 +51,6 @@ export default function DeleteServerModal(props: Props) {
         </Show>
       </DeleteServerModalContainer>
     </Modal>
-  )
+  );
 }
 

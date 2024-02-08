@@ -18,5 +18,20 @@
         "solid"
     ],
     "rules": {
+        "brace-style": [
+            "error", "stroustrup"
+          ],
+          "quotes": [
+            "error", "double"
+          ],
+          "indent": [
+            "error", 2, { "SwitchCase": 1 }
+          ],
+          "semi": [
+            "error", "always"
+          ],
+          "comma-dangle": [
+            "error", "never"
+          ]
     }
 }

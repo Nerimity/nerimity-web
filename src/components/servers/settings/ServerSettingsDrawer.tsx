@@ -1,17 +1,17 @@
-import ServerDrawerHeader from '@/components/servers/drawer/header/ServerDrawerHeader';
-import Icon from '@/components/ui/icon/Icon';
-import { A, useMatch, useParams } from 'solid-navigator';
-import { For, Show } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import serverSettings from '@/common/ServerSettings';
-import ItemContainer from '@/components/ui/Item';
-import { styled } from 'solid-styled-components';
-import Text from '@/components/ui/Text';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import { Bitwise } from '@/chat-api/Bitwise';
-import { ChannelType } from '@/chat-api/RawData';
-import InVoiceActions from '@/components/InVoiceActions';
+import ServerDrawerHeader from "@/components/servers/drawer/header/ServerDrawerHeader";
+import Icon from "@/components/ui/icon/Icon";
+import { A, useMatch, useParams } from "solid-navigator";
+import { For, Show } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import serverSettings from "@/common/ServerSettings";
+import ItemContainer from "@/components/ui/Item";
+import { styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { Bitwise } from "@/chat-api/Bitwise";
+import { ChannelType } from "@/chat-api/RawData";
+import InVoiceActions from "@/components/InVoiceActions";
 
 const SettingsListContainer = styled("div")`
   display: flex;
@@ -25,7 +25,7 @@ const SettingsListContainer = styled("div")`
 const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
   height: 32px;
   gap: 5px;
-  padding-left: ${props => props.nested ? '25px' : '10px'};
+  padding-left: ${props => props.nested ? "25px" : "10px"};
   margin-left: 3px;
   margin-right: 3px;
 
@@ -44,11 +44,11 @@ const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
 
 export default function ServerSettingsDrawer() {
   return (
-    <div style={{display: 'flex', "flex-direction": 'column', "height": "100%"}}>
+    <div style={{display: "flex", "flex-direction": "column", "height": "100%"}}>
       <SettingsList />
       <InVoiceActions />
     </div>
-  )
+  );
 }
 
 function SettingsList () {
@@ -61,7 +61,7 @@ function SettingsList () {
   const hasPermission = (role?: Bitwise) => {
     if (!role) return true;
     if (server()?.createdById === account.user()?.id) return true;
-    return member()?.hasPermission(role)
+    return member()?.hasPermission(role);
   };
 
   return (
@@ -77,11 +77,11 @@ function SettingsList () {
               <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} selected={selected()} />
               {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
             </Show>
-          )
+          );
         }}
       </For>
     </SettingsListContainer>
-  )
+  );
 }
 
 
@@ -90,22 +90,22 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
 
   const href = () => {
     if (props.nested) return props.path;
-    return "/app/servers/" + params.serverId + "/settings/" + props.path
+    return "/app/servers/" + params.serverId + "/settings/" + props.path;
   };
 
-  const selected = useMatch(() => href() + "/*")
+  const selected = useMatch(() => href() + "/*");
 
   return (
     <A 
       href={href()}
       style={{"text-decoration": "none"}}
-      >
-        <SettingItemContainer nested={props.nested} selected={selected()}>
-          <Icon name={props.icon} size={18} />
-          <div class="label">{props.label}</div>
-        </SettingItemContainer>
+    >
+      <SettingItemContainer nested={props.nested} selected={selected()}>
+        <Icon name={props.icon} size={18} />
+        <div class="label">{props.label}</div>
+      </SettingItemContainer>
     </A>
-  )
+  );
 }
 
 function ServerChannelsList () {
@@ -118,8 +118,8 @@ function ServerChannelsList () {
       {(channel) => {
         const path = RouterEndpoints.SERVER_SETTINGS_CHANNEL(params.serverId, channel!.id);
         const selected = () =>params.id === channel!.id;
-        return <Item nested={true} icon={channel!.type === ChannelType.CATEGORY ? 'segment' : 'storage'} label={channel!.name} path={path} selected={selected()} />
+        return <Item nested={true} icon={channel!.type === ChannelType.CATEGORY ? "segment" : "storage"} label={channel!.name} path={path} selected={selected()} />;
       }}
     </For>
-  )
+  );
 }

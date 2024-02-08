@@ -1,29 +1,29 @@
-import styles from './styles.module.scss';
-import { classNames, conditionalClass } from '@/common/classNames';
-import Avatar from '@/components/ui/Avatar';
-import Icon from '@/components/ui/icon/Icon';
-import useStore from '@/chat-api/store/useStore';
-import UserPresence from '@/components/user-presence/UserPresence';
-import { useDrawer } from '../ui/drawer/Drawer';
-import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
-import { useWindowProperties } from '@/common/useWindowProperties';
-import { postJoinVoice } from '@/chat-api/services/VoiceService';
-import socketClient from '@/chat-api/socketClient';
-import { useParams } from 'solid-navigator';
-import Button from '../ui/Button';
-import { ChannelIcon } from '../servers/drawer/ServerDrawer';
-import { VoiceUser } from '@/chat-api/store/useVoiceUsers';
-import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import { RawNotification, getUserNotificationsRequest } from '@/chat-api/services/UserService';
-import { FriendStatus, RawMessage, RawServer } from '@/chat-api/RawData';
-import MessageItem from '../message-pane/message-item/MessageItem';
-import { Message } from '@/chat-api/store/useMessages';
-import { useResizeObserver } from '@/common/useResizeObserver';
-import Text from '../ui/Text';
-import { CustomLink } from '../ui/CustomLink';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import { ScreenShareModal } from './ScreenShareModal';
-import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS, hasBit } from '@/chat-api/Bitwise';
+import styles from "./styles.module.scss";
+import { classNames, conditionalClass } from "@/common/classNames";
+import Avatar from "@/components/ui/Avatar";
+import Icon from "@/components/ui/icon/Icon";
+import useStore from "@/chat-api/store/useStore";
+import UserPresence from "@/components/user-presence/UserPresence";
+import { useDrawer } from "../ui/drawer/Drawer";
+import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { postJoinVoice } from "@/chat-api/services/VoiceService";
+import socketClient from "@/chat-api/socketClient";
+import { useParams } from "solid-navigator";
+import Button from "../ui/Button";
+import { ChannelIcon } from "../servers/drawer/ServerDrawer";
+import { VoiceUser } from "@/chat-api/store/useVoiceUsers";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { RawNotification, getUserNotificationsRequest } from "@/chat-api/services/UserService";
+import { FriendStatus, RawMessage, RawServer } from "@/chat-api/RawData";
+import MessageItem from "../message-pane/message-item/MessageItem";
+import { Message } from "@/chat-api/store/useMessages";
+import { useResizeObserver } from "@/common/useResizeObserver";
+import Text from "../ui/Text";
+import { CustomLink } from "../ui/CustomLink";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { ScreenShareModal } from "./ScreenShareModal";
+import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
 
 
 
@@ -57,18 +57,18 @@ export default function MainPaneHeader() {
       subName = header.details().subName;
     }
     return { subName, title };
-  }
+  };
 
   const onCallClick = async () => {
     if (voiceUsers.currentVoiceChannelId() === channel()?.id) return;
     channel()?.joinCall();
-  }
+  };
 
 
   const [mentionListPosition, setMentionListPosition] = createSignal<boolean>(false);
   const onMentionButtonClick = (event: MouseEvent) => {
     setMentionListPosition(!mentionListPosition());
-  }
+  };
 
   const canCall = () => {
     if (!header.details().channelId) return;
@@ -79,7 +79,7 @@ export default function MainPaneHeader() {
     const member =  serverMembers.get(channel()?.serverId!, account.user()?.id!);
     const isAdmin = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
     return isAdmin;
-  }
+  };
 
   const notificationCount = createMemo(() => {
     const friendRequestCount = friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
@@ -87,11 +87,11 @@ export default function MainPaneHeader() {
     const ticketNotifications = tickets.hasModerationTicketNotification() || tickets.hasTicketNotification();
   
     const mentionsCount = mentions.array().reduce((count, mention) => {
-      return count + (mention?.count || 0)
+      return count + (mention?.count || 0);
     }, 0);
 
     return friendRequestCount + mentionsCount + (ticketNotifications ? 1 : 0);
-  })
+  });
 
   return (
     <>
@@ -116,7 +116,7 @@ export default function MainPaneHeader() {
           <Show when={canCall()}>
             <Button margin={3} iconName='call' onClick={onCallClick} />
           </Show>
-            <Button margin={3} iconName='alternate_email' onClick={onMentionButtonClick} class="mentionListIcon" />
+          <Button margin={3} iconName='alternate_email' onClick={onMentionButtonClick} class="mentionListIcon" />
           <Show when={hasRightDrawer() && isMobileWidth()}>
             <Button margin={3} iconName='group' onClick={toggleRightDrawer} />
           </Show>
@@ -127,7 +127,7 @@ export default function MainPaneHeader() {
       </Show>
       <VoiceHeader channelId={header.details().channelId} />
     </>
-  )
+  );
 }
 
 const MentionListPopup = (props: { close: () => void }) => {
@@ -139,20 +139,20 @@ const MentionListPopup = (props: { close: () => void }) => {
   const fetchAndSetNotifications = async () => {
     const notifications = await getUserNotificationsRequest();
     setNotifications(notifications);
-  }
+  };
 
   onMount(() => {
-    fetchAndSetNotifications()
+    fetchAndSetNotifications();
     document.addEventListener("click", onDocClick);
     onCleanup(() => {
       document.removeEventListener("click", onDocClick);
-    })
-  })
+    });
+  });
 
   const onDocClick = (event: any) => {
-    if (event.target.closest(`.mentionListIcon`)) return;
+    if (event.target.closest(".mentionListIcon")) return;
     if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
-  }
+  };
 
 
 
@@ -175,8 +175,8 @@ const MentionListPopup = (props: { close: () => void }) => {
         </For>
       </Show>
     </div>
-  )
-}
+  );
+};
 
 const MentionServerHeader = (props: { serverId: string }) => {
   const { servers } = useStore();
@@ -186,8 +186,8 @@ const MentionServerHeader = (props: { serverId: string }) => {
       <Avatar server={server()} size={30} />
       <Text>{server()!.name}</Text>
     </div>
-  )
-}
+  );
+};
 
 const [showParticipants, setShowParticipants] = createSignal(true);
 
@@ -196,30 +196,30 @@ function VoiceHeader(props: { channelId?: string }) {
 
   const [selectedUserId, setSelectedUserId] = createSignal<null | string>(null);
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!)
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!);
   const videoStreamingUsers = () => channelVoiceUsers().filter(v => v.videoStream);
 
   createEffect(on(videoStreamingUsers, (now, prev) => {
     if (!now?.length) setSelectedUserId(null);
     if (!prev?.length && now.length) {
-      setSelectedUserId(now[0].userId)
+      setSelectedUserId(now[0].userId);
     }
-  }))
+  }));
 
   const selectedVoiceUser = () => {
     if (!selectedUserId()) return null;
-    return videoStreamingUsers().find(v => v.userId === selectedUserId())
-  }
+    return videoStreamingUsers().find(v => v.userId === selectedUserId());
+  };
 
 
-  const isSomeoneVideoStreaming = () => voiceUsers.videoEnabled(props.channelId!, account.user()?.id!) || channelVoiceUsers().find(v => v?.videoStream)
+  const isSomeoneVideoStreaming = () => voiceUsers.videoEnabled(props.channelId!, account.user()?.id!) || channelVoiceUsers().find(v => v?.videoStream);
 
   return (
     <Show when={channelVoiceUsers().length}>
       <div class={classNames(styles.headerVoiceParticipants, conditionalClass(isSomeoneVideoStreaming(), styles.videoStream), conditionalClass(!showParticipants(), styles.miniView))}>
         <Show when={showParticipants()}>
           <div class={styles.top}>
-            <VoiceParticipants onClick={setSelectedUserId} selectedUserId={selectedUserId()} channelId={props.channelId!} size={isSomeoneVideoStreaming() ? 'small' : undefined} />
+            <VoiceParticipants onClick={setSelectedUserId} selectedUserId={selectedUserId()} channelId={props.channelId!} size={isSomeoneVideoStreaming() ? "small" : undefined} />
             <Show when={isSomeoneVideoStreaming()}>
               <div class={styles.videoContainer}>
                 <VideoStream mediaStream={selectedVoiceUser()?.videoStream!} mute={selectedVoiceUser()?.userId === account.user()?.id} />
@@ -230,7 +230,7 @@ function VoiceHeader(props: { channelId?: string }) {
         <VoiceActions channelId={props.channelId!} />
       </div>
     </Show>
-  )
+  );
 }
 
 function VideoStream(props: { mediaStream: MediaStream, mute?: boolean }) {
@@ -238,19 +238,19 @@ function VideoStream(props: { mediaStream: MediaStream, mute?: boolean }) {
 
   createEffect(() => {
     if (!videoEl) return;
-    videoEl.srcObject = props.mediaStream
-  })
+    videoEl.srcObject = props.mediaStream;
+  });
 
   return (
     <video ref={videoEl} autoplay muted={props.mute} />
-  )
+  );
 }
 
 
 function VoiceParticipants(props: { channelId: string, selectedUserId?: string | null; size?: "small", onClick: (userId: string) => void; }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!)
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!);
 
   return (
     <div class={styles.voiceParticipants}>
@@ -260,7 +260,7 @@ function VoiceParticipants(props: { channelId: string, selectedUserId?: string |
         )}
       </For>
     </div>
-  )
+  );
 }
 
 
@@ -269,7 +269,7 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser, selected: boolean; 
 
   const isMuted = () => {
     return !voiceUsers.micEnabled(props.voiceUser.channelId, props.voiceUser.userId);
-  }
+  };
 
   const isVideoStreaming = () => voiceUsers.videoEnabled(props.voiceUser.channelId, props.voiceUser.userId);
 
@@ -283,7 +283,7 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser, selected: boolean; 
       props.onClick();
       event.preventDefault();
     }
-  }
+  };
 
   return (
     <CustomLink onClick={onClick} href={RouterEndpoints.PROFILE(user().id)} class={classNames(styles.voiceParticipantItem, conditionalClass(props.selected, styles.selected))}>
@@ -295,35 +295,35 @@ function VoiceParticipantItem(props: { voiceUser: VoiceUser, selected: boolean; 
         <Icon class={styles.videoStreamIcon} name='monitor' color='white' size={16} />
       </Show>
     </CustomLink>
-  )
+  );
 }
 
 
 function VoiceActions(props: { channelId: string }) {
   const { voiceUsers, channels } = useStore();
   const { createPortal } = useCustomPortal();
-  const {isMobileAgent} = useWindowProperties()
+  const {isMobileAgent} = useWindowProperties();
 
   const channel = () => channels.get(props.channelId);
 
   const onCallClick = async () => {
     channel()?.joinCall();
-  }
+  };
 
   const onCallEndClick = async () => {
     channel()?.leaveCall();
-  }
+  };
 
   const isInCall = () => voiceUsers.currentVoiceChannelId() === props.channelId;
 
 
   const onScreenShareClick = () => {
-    createPortal(close => <ScreenShareModal close={close} />)
-  }
+    createPortal(close => <ScreenShareModal close={close} />);
+  };
 
   const onStopScreenShareClick = () => {
     voiceUsers.setVideoStream(null);
-  }
+  };
 
   return (
     <div class={styles.voiceActions}>
@@ -343,7 +343,7 @@ function VoiceActions(props: { channelId: string }) {
         <Button iconName='call_end' color='var(--alert-color)' onClick={onCallEndClick} label='Leave' />
       </Show>
     </div>
-  )
+  );
 }
 
 function VoiceMicActions(props: { channelId: string }) {
@@ -358,5 +358,5 @@ function VoiceMicActions(props: { channelId: string }) {
         <Button iconName='mic' color='var(--success-color)' onClick={toggleMic} />
       </Show>
     </>
-  )
+  );
 }

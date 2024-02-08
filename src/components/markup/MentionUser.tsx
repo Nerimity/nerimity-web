@@ -11,10 +11,10 @@ export function MentionUser(props: { user: RawUser }) {
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>(undefined);
   const params = useParams<{ serverId?: string }>();
   const onContext = (event: MouseEvent) => {
-    event.preventDefault()
+    event.preventDefault();
     event.stopPropagation();
     setContextPosition({ x: event.clientX, y: event.clientY });
-  }
+  };
 
   return (
     <CustomLink
@@ -27,5 +27,5 @@ export function MentionUser(props: { user: RawUser }) {
         <MemberContextMenu user={props.user} position={contextPosition()} serverId={params.serverId} userId={props.user.id} onClose={() => setContextPosition(undefined)} />
       </Show>
     </CustomLink>
-  )
+  );
 }

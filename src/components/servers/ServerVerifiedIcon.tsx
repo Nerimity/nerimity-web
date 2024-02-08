@@ -11,5 +11,5 @@ export function ServerVerifiedIcon (props: {class?: string}) {
       name='verified'
       color='var(--primary-color)' size={16}
     />
-  )
+  );
 }

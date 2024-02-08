@@ -4,5 +4,5 @@ export function GenericMention(props: { name: string }) {
       class="mention">
       @{props.name}
     </div>
-  )
+  );
 }

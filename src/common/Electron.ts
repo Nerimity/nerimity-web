@@ -34,6 +34,6 @@ interface WindowAPI {
 
 
 export function electronWindowAPI(): WindowAPI | undefined {
-  return (window as any).WindowAPI
+  return (window as any).WindowAPI;
 }
 

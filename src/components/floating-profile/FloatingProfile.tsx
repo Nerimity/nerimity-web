@@ -41,18 +41,18 @@ export const ProfileFlyout = (props: Props) => {
 
   const showMobileFlyout = () => {
     if (props.dmPane) return false;
-    return isMobileWidth()
-  }
+    return isMobileWidth();
+  };
 
   const memoShowMobileFlyout = createMemo(() => showMobileFlyout());
 
   const onPathChange = () => {
-    return location.pathname + location.search + location.query
-  }
+    return location.pathname + location.search + location.query;
+  };
 
   createEffect(on([memoShowMobileFlyout, onPathChange],  () => {
     props.close?.();
-  }, {defer: true}))
+  }, {defer: true}));
 
   return (
     <Switch>
@@ -61,9 +61,9 @@ export const ProfileFlyout = (props: Props) => {
         <MobileFlyout close={props?.close} serverId={props.serverId} userId={props.userId}  />
       </Match>
     </Switch>
-  )
+  );
 
-}
+};
 
 
 const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean; mobile?: boolean; close?(): void, userId: string, serverId?: string, left?: number, top?: number; anchor?: "left" | "right" }) => {
@@ -75,16 +75,16 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
   const isMe = () => account.user()?.id === props.userId;
   const { isMobileWidth } = useWindowProperties();
   
-  const isMobileWidthMemo = createMemo(() => isMobileWidth())
+  const isMobileWidthMemo = createMemo(() => isMobileWidth());
   createEffect(on(isMobileWidthMemo, (input, prevInput) => {
     props.close?.();
-  }, {defer: true}))
+  }, {defer: true}));
 
 
   const user = () => {
-    if (details()) return details()?.user
+    if (details()) return details()?.user;
     if (isMe()) return account.user();
-    const user = users.get(props.userId)
+    const user = users.get(props.userId);
     if (user) return user;
   };
 
@@ -93,16 +93,16 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
   createEffect(on(() => props.userId, async() => {
     setDetails(undefined);
     const details = await getUserDetailsRequest(props.userId);
-    setDetails(details)
+    setDetails(details);
     if (!details.latestPost) return;
-    posts.pushPost(details.latestPost)
-  }))
+    posts.pushPost(details.latestPost);
+  }));
 
   const latestPost = () => posts.cachedPost(details()?.latestPost?.id!);
 
 
-  const followingCount = () => details()?.user._count.following.toLocaleString()
-  const followersCount = () => details()?.user._count.followers.toLocaleString()
+  const followingCount = () => details()?.user._count.following.toLocaleString();
+  const followersCount = () => details()?.user._count.followers.toLocaleString();
 
 
   const [flyoutRef, setFlyoutRef] = createSignal<HTMLDivElement | undefined>(undefined);
@@ -115,15 +115,15 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
     let newTop = props.top!;
     if ((flyoutHeight() + props.top!) > height()) newTop = height() - flyoutHeight() - (electronWindowAPI()?.isElectron ? 35 : 0);
     flyoutRef()!.style.top = newTop + "px";
-  })
+  });
 
 
   onMount(() => {
-    document.addEventListener("mouseup", onBackgroundClick)
+    document.addEventListener("mouseup", onBackgroundClick);
     onCleanup(() => {
-      document.removeEventListener("mouseup", onBackgroundClick)
-    })
-  })
+      document.removeEventListener("mouseup", onBackgroundClick);
+    });
+  });
 
   const onBackgroundClick = (event: MouseEvent) => {
     if (props.mobile) return;
@@ -132,42 +132,42 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
       if (event.target.closest(".modal")) return;
       if (event.target.closest(`.${styles.flyoutContainer}`)) return;
       if (props.triggerEl) {
-        if (event.target.closest(`.trigger-profile-flyout`) === props.triggerEl.closest(`.trigger-profile-flyout`)) return;
+        if (event.target.closest(".trigger-profile-flyout") === props.triggerEl.closest(".trigger-profile-flyout")) return;
       }
-      props.close?.()
+      props.close?.();
     }
-  }
+  };
 
   const left = () => {
     if (props.anchor == "left") return props.left + "px";
     return (props.left! - 350) + "px";
 
-  }
+  };
 
 
   const style = () => ({
     left: left(),
     ...(props.mobile ? {
-      top: 'initial',
+      top: "initial",
       bottom: "0",
       left: "0",
       right: "0",
       width: "initial",
       "align-items": "initial",
       "max-height": "70%",
-      height: 'initial'
+      height: "initial"
     } : undefined),
     ...(props.dmPane ? {
-      position: 'relative',
+      position: "relative",
       width: "initial",
-      height: 'initial',
+      height: "initial",
       "z-index": 1
     } : undefined)
-  }) as JSX.CSSProperties
+  }) as JSX.CSSProperties;
 
   const showRoleModal = () => {
     createPortal?.(close =>  <ServerMemberRoleModal close={close} userId={member()?.userId!} serverId={member()?.serverId!} />);
-  }
+  };
 
 
   const ProfileArea = () => (
@@ -179,7 +179,7 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
         </CustomLink>
         <div class={styles.flyoutOtherDetailsContainer}>
           <span>
-            <CustomLink decoration style={{ color: 'white' }} href={RouterEndpoints.PROFILE(props.userId)}>
+            <CustomLink decoration style={{ color: "white" }} href={RouterEndpoints.PROFILE(props.userId)}>
               <Text style={{ "overflow-wrap": "anywhere" }}>{user()!.username}</Text>
               <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
             </CustomLink>
@@ -217,7 +217,7 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
       <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='chat' title='Latest Post' />
       <PostItem post={latestPost()!} />
     </>
-  )
+  );
 
   return (
     <Show when={details()}>
@@ -228,7 +228,7 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
             [styles.dmPane]: props.dmPane,
             [styles.mobile]: props.mobile
           }} 
-          style={{ width: 'initial', flex: 1 }}
+          style={{ width: "initial", flex: 1 }}
         >
           <ProfileArea />
           <Show when={latestPost()}>
@@ -237,8 +237,8 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
         </div>
       </div>
     </Show>
-  )
-}
+  );
+};
 
 
 
@@ -247,15 +247,15 @@ function MobileFlyout(props: { userId: string, serverId?: string, close?: () => 
 
   const onBackgroundClick = (event: MouseEvent) => {
     if (mouseDownTarget?.closest(".modal")) return;
-    props.close?.()
-  }
+    props.close?.();
+  };
 
 
   return (
     <div class={styles.backgroundContainer} onClick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
       <DesktopProfileFlyout mobile close={props.close} serverId={props.serverId} userId={props.userId} />
     </div>
-  )
+  );
 }
 
 
@@ -269,7 +269,7 @@ function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: st
       <Icon color='var(--primary-color)' name={props.icon} size={14} />
       <Text size={13}>{props.title}</Text>
     </div>
-  )
+  );
 }
 
 
@@ -286,13 +286,13 @@ const UserActivity = (props: {userId: string}) => {
     setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
     const intervalId = setInterval(() => {
       setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
-    }, 1000)
+    }, 1000);
 
     onCleanup(() => {
       clearInterval(intervalId);
       
-    })
-  }))
+    });
+  }));
 
   return (
     <Show when={activity()}>
@@ -307,9 +307,9 @@ const UserActivity = (props: {userId: string}) => {
         </div>
       </div>
     </Show>
-  )
+  );
 
-}
+};
 
 
 

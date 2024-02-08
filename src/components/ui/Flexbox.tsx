@@ -16,15 +16,15 @@ interface FlexColumnProps {
 export const FlexRow = styled("div")<FlexRowProps>`
   display: flex;
   gap: ${props => props.gap || 0}px;
-  ${props => props.itemsCenter ? 'align-items: center;' : ''}
-  ${props => props.justifyCenter ? 'justify-content: center;' : ''}
-  ${props => props.wrap ? 'flex-wrap: wrap;' : ''}
+  ${props => props.itemsCenter ? "align-items: center;" : ""}
+  ${props => props.justifyCenter ? "justify-content: center;" : ""}
+  ${props => props.wrap ? "flex-wrap: wrap;" : ""}
   `;
 
 export const FlexColumn = styled("div")<FlexColumnProps>`
   display: flex;
   flex-direction: column;
-  ${props => props.itemsCenter ? 'align-items: center;' : ''}
+  ${props => props.itemsCenter ? "align-items: center;" : ""}
   gap: ${props => props.gap || 0}px;
-  ${props => props.padding ? `padding: ${props.padding}px;` : ''}
+  ${props => props.padding ? `padding: ${props.padding}px;` : ""}
 `;

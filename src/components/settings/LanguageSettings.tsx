@@ -1,19 +1,19 @@
-import { createEffect, createSignal, For, Show } from 'solid-js';
-import Text from '@/components/ui/Text';
-import { css, styled } from 'solid-styled-components';
-import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
+import { createEffect, createSignal, For, Show } from "solid-js";
+import Text from "@/components/ui/Text";
+import { css, styled } from "solid-styled-components";
+import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from "@/locales/languages";
 
-import ItemContainer from '../ui/Item';
-import twemoji from 'twemoji';
-import { FlexColumn, FlexRow } from '../ui/Flexbox';
-import useStore from '@/chat-api/store/useStore';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import env from '@/common/env';
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
-import { Emoji } from '../markup/Emoji';
-import { CustomLink } from '../ui/CustomLink';
-import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
-import { t } from 'i18next';
+import ItemContainer from "../ui/Item";
+import twemoji from "twemoji";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import useStore from "@/chat-api/store/useStore";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import env from "@/common/env";
+import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
+import { Emoji } from "../markup/Emoji";
+import { CustomLink } from "../ui/CustomLink";
+import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
+import { t } from "i18next";
 
 const Container = styled("div")`
   display: flex;
@@ -40,9 +40,9 @@ export default function LanguageSettings() {
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Language",
-      iconName: 'settings',
+      iconName: "settings"
     });
-  })
+  });
 
   const languageKeys = Object.keys(languages);
 
@@ -58,20 +58,20 @@ export default function LanguageSettings() {
     actions.changeLanguage(key);
     setCurrentLanguage(key);
     setCurrentLocalLanguage(key);
-  }
+  };
 
 
   return (
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
-        <BreadcrumbItem title={t('settings.drawer.language')} />
+        <BreadcrumbItem title={t("settings.drawer.language")} />
       </Breadcrumb>
       <For each={languageKeys}>
         {key => <LanguageItem selected={currentLocalLanguage().replace("_", "-") === key} onClick={() => setLanguage(key)} key={key} />}
       </For>
     </Container>
-  )
+  );
 }
 
 function LanguageItem(props: { key: string, selected: boolean, onClick: () => void }) {
@@ -81,7 +81,7 @@ function LanguageItem(props: { key: string, selected: boolean, onClick: () => vo
     const target = event.target as HTMLElement;
     if (target.tagName === "A") return;
     props.onClick();
-  }
+  };
 
   return (
     <LanguageItemContainer onclick={onClick} selected={props.selected}>
@@ -91,7 +91,7 @@ function LanguageItem(props: { key: string, selected: boolean, onClick: () => vo
         <Contributors contributors={language.contributors} />
       </FlexColumn>
     </LanguageItemContainer>
-  )
+  );
 }
 
 const ContributorContainer = styled(FlexRow)`
@@ -112,19 +112,20 @@ function Contributors(props: { contributors: string[] }) {
         )}
       </For>
     </FlexRow>
-  )
+  );
 }
 
 function isUrl(url: string) {
   try {
     new URL(url);
     return true;
-  } catch (e) {
+  }
+  catch (e) {
     return false;
   }
 }
 
 function lastPath(url: string) {
-  const split = url.split('/');
+  const split = url.split("/");
   return split[split.length - 1];
 }

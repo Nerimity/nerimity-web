@@ -1,8 +1,8 @@
 
-import env from '../../common/env';
-import { RawFriend } from '../RawData';
-import { request } from './Request';
-import Endpoints from './ServiceEndpoints';
+import env from "../../common/env";
+import { RawFriend } from "../RawData";
+import { request } from "./Request";
+import Endpoints from "./ServiceEndpoints";
 
 
 interface AddFriendOpts {
@@ -13,13 +13,13 @@ interface AddFriendOpts {
 
 export const addFriend = async (opts: AddFriendOpts) => {
   const data = await request<RawFriend>({
-    method: 'POST',
+    method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.addFriend(),
     body: {username: opts.username, tag: opts.tag},
-    useToken: true,
+    useToken: true
   });
   return data;
-}
+};
 
 interface AcceptFriendOpts {
   friendId: string
@@ -27,9 +27,9 @@ interface AcceptFriendOpts {
 
 export const acceptFriendRequest = async (opts: AcceptFriendOpts) => {
   const data = await request<{message: string}>({
-    method: 'POST',
+    method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.friends(opts.friendId),
-    useToken: true,
+    useToken: true
   });
   return data;
 };
@@ -40,9 +40,9 @@ interface RemoveFriendOpts {
 
 export const removeFriend = async (opts: RemoveFriendOpts) => {
   const data = await request<{message: string}>({
-    method: 'DELETE',
+    method: "DELETE",
     url: env.SERVER_URL + "/api" + Endpoints.friends(opts.friendId),
-    useToken: true,
+    useToken: true
   });
   return data;
 };

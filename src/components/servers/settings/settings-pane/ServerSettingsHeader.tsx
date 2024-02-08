@@ -1,18 +1,18 @@
 
-import { A, useParams } from 'solid-navigator';
-import { Show } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import Avatar from '@/components/ui/Avatar';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import { css, styled } from 'solid-styled-components';
-import Text from '@/components/ui/Text';
-import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
-import { ServerVerifiedIcon } from '../../ServerVerifiedIcon';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
-import { Banner } from '@/components/ui/Banner';
-import { useWindowProperties } from '@/common/useWindowProperties';
-import { serverSettingsHeaderPreview } from './ServerSettingsPane';
+import { A, useParams } from "solid-navigator";
+import { Show } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import Avatar from "@/components/ui/Avatar";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { css, styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import { ServerVerifiedIcon } from "../../ServerVerifiedIcon";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
+import { Banner } from "@/components/ui/Banner";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { serverSettingsHeaderPreview } from "./ServerSettingsPane";
 
 const HeaderContainer = styled("div")`
 position: relative;
@@ -59,13 +59,13 @@ const ServerSettingsHeader = () => {
               <Text>{serverSettingsHeaderPreview.name || server()!.name}</Text>
               <Show when={server()?.verified}><ServerVerifiedIcon /></Show>
             </FlexRow>
-            <Text size={14} opacity={0.8}>{t('servers.settings.header.serverMemberCount', { count: serverMembersCount() })}</Text>
-            <Text size={14}><A href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)}>{t('servers.settings.header.editServer')}</A></Text>
+            <Text size={14} opacity={0.8}>{t("servers.settings.header.serverMemberCount", { count: serverMembersCount() })}</Text>
+            <Text size={14}><A href={RouterEndpoints.SERVER_SETTINGS_GENERAL(server()!.id)}>{t("servers.settings.header.editServer")}</A></Text>
           </DetailsContainer>
         </HeaderContainer>
       </Banner>
     </Show>
-  )
+  );
 };
 
 

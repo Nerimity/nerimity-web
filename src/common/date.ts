@@ -13,9 +13,11 @@ export function formatTimestamp(timestamp: number) {
 
   if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
     return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  } else if (yesterday.toDateString() === date.toDateString()) {
+  }
+  else if (yesterday.toDateString() === date.toDateString()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  } else {
+  }
+  else {
     return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
@@ -23,30 +25,30 @@ export function formatTimestamp(timestamp: number) {
 
 // get days ago from timestamp
 export function getDaysAgo(timestamp: number) {
-  const rtf = new Intl.RelativeTimeFormat('en', {
-    numeric: 'auto',
+  const rtf = new Intl.RelativeTimeFormat("en", {
+    numeric: "auto"
   });
   const oneDayInMs = 1000 * 60 * 60 * 24;
   const daysDifference = Math.round(
-    (timestamp - Date.now()) / oneDayInMs,
+    (timestamp - Date.now()) / oneDayInMs
   );
 
-  return rtf.format(daysDifference, 'day');
+  return rtf.format(daysDifference, "day");
 }
 
 export function timeSince(timestamp: number) {
   const now = new Date();
   const secondsPast = (now.getTime() - timestamp) / 1000;
   if (secondsPast < 60) {
-    return 'few seconds ago';
+    return "few seconds ago";
   }
   if (secondsPast < 3600) {
-    return Math.round(secondsPast / 60) + ' minutes ago';
+    return Math.round(secondsPast / 60) + " minutes ago";
   }
   if (secondsPast <= 86400) {
-    return Math.round(secondsPast / 3600) + ' hours ago';
+    return Math.round(secondsPast / 3600) + " hours ago";
   }
-  return formatTimestamp(timestamp)
+  return formatTimestamp(timestamp);
 }
 
 export function timeElapsed(timestamp: number) {
@@ -54,10 +56,10 @@ export function timeElapsed(timestamp: number) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds - (hours * 3600)) / 60);
   seconds -= hours * 3600 + minutes * 60;
-  const formattedTime = (hours ? (hours.toString().padStart(2, '0') + ':') : '') +
-    minutes.toString().padStart(2, '0') + ':' +
-    seconds.toString().padStart(2, '0');
-    return formattedTime;
+  const formattedTime = (hours ? (hours.toString().padStart(2, "0") + ":") : "") +
+    minutes.toString().padStart(2, "0") + ":" +
+    seconds.toString().padStart(2, "0");
+  return formattedTime;
 }
 
 
@@ -86,14 +88,14 @@ function convertSecondsForActivityStatus(totalSeconds: number) {
   const roundedSeconds = Math.round(seconds);
 
   if (days) {
-    return `${days}d ${hours}h`
+    return `${days}d ${hours}h`;
   }
 
   if (hours) {
-    return `${hours}h ${minutes}m`
+    return `${hours}h ${minutes}m`;
   }
   if (minutes) {
-    return `${minutes} minute${minutes <= 1 ? '' : 's'}`
+    return `${minutes} minute${minutes <= 1 ? "" : "s"}`;
   }
-  return `${roundedSeconds} second${roundedSeconds <= 1 ? '' : 's'}`
+  return `${roundedSeconds} second${roundedSeconds <= 1 ? "" : "s"}`;
 }

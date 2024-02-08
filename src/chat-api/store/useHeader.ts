@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { createSignal } from "solid-js";
 
 
 
@@ -15,13 +15,13 @@ export interface HeaderDetail {
 }
 
 const [details, setDetails] = createSignal<HeaderDetail>({
-  title: 'Nothing Selected',
+  title: "Nothing Selected"
 });
 
 
 const updateHeader = (header: HeaderDetail) => {
   setDetails(header);
-}
+};
 
 
 
@@ -29,5 +29,5 @@ export default function useHeader() {
   return {
     updateHeader,
     details
-  }
+  };
 }

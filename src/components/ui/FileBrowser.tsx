@@ -29,30 +29,30 @@ export default function FileBrowser(props: Props) {
   onMount(() => {
     (props?.ref as any)({
       open: () => inputRef?.click()
-    })
-  })
+    });
+  });
 
 
   const onChange = async () => {
     if (!inputRef) return;
     if (props.base64) {
-      props.onChange?.(await filesToBase64(inputRef.files!), inputRef.files!)
+      props.onChange?.(await filesToBase64(inputRef.files!), inputRef.files!);
     }
     if (!props.base64) {
-      props.onChange?.(inputRef.files!)
+      props.onChange?.(inputRef.files!);
     }
     inputRef.value = "";
 
-  }
+  };
 
   return (
     <input 
       onChange={onChange}
-      style={{display: 'none'}}
+      style={{display: "none"}}
       ref={inputRef}
       type="file"
       accept={accept}/>
-  )
+  );
 }
 
 async function filesToBase64(files: FileList) {
@@ -74,7 +74,7 @@ export function getBase64(file: File): Promise<string | undefined> {
       resolve(reader.result?.toString());
     };
     reader.onerror = function (error) {
-      console.log('Error: ', error);
+      console.log("Error: ", error);
     };
-  })
+  });
 }

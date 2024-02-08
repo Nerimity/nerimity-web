@@ -1,15 +1,15 @@
 import { createSignal, onMount } from "solid-js";
 
 export enum StorageKeys {
-  USER_TOKEN = 'userToken',
-  SEEN_APP_VERSION = 'seenAppVersion',
-  INBOX_DRAWER_SELECTED_INDEX = 'inboxDrawerSelectedIndex',
-  APP_LANGUAGE = 'appLanguage',
-  FIRST_TIME = 'firstTime', // After registering, this is set to true.
-  ARE_NOTIFICATIONS_MUTED = 'areNotificationsMuted',
-  NOTIFICATION_VOLUME = 'notificationVolume',
-  ENABLE_DESKTOP_NOTIFICATION = 'enableDesktopNotification',
-  LAST_SELECTED_SERVER_CHANNELS = 'lastSelectedServerChannels',
+  USER_TOKEN = "userToken",
+  SEEN_APP_VERSION = "seenAppVersion",
+  INBOX_DRAWER_SELECTED_INDEX = "inboxDrawerSelectedIndex",
+  APP_LANGUAGE = "appLanguage",
+  FIRST_TIME = "firstTime", // After registering, this is set to true.
+  ARE_NOTIFICATIONS_MUTED = "areNotificationsMuted",
+  NOTIFICATION_VOLUME = "notificationVolume",
+  ENABLE_DESKTOP_NOTIFICATION = "enableDesktopNotification",
+  LAST_SELECTED_SERVER_CHANNELS = "lastSelectedServerChannels",
   LAST_SEEN_CHANNEL_NOTICES = "lastSeenChannelNotices",
   PROGRAM_ACTIVITY_STATUS = "programActivityStatus",
   BLUR_EFFECT_ENABLED = "blurEffectEnabled",
@@ -49,7 +49,7 @@ export function setStorageNumber(key: StorageKeys, value: number) {
 export function getStorageObject<T>(key: StorageKeys, defaultValue: T): T {
   const value = getStorageString(key, null);
   if (value === null) {
-      return defaultValue;
+    return defaultValue;
   }
   return JSON.parse(value);
 }
@@ -77,8 +77,8 @@ export function useReactiveLocalStorage<T>(key: StorageKeys, store: T) {
   const setCustomValue = (value: T) => {
     setValue(() => value);
     setStorageString(key, JSON.stringify(value)); 
-  }
+  };
 
-  return [value, setCustomValue] as const
+  return [value, setCustomValue] as const;
 
 }

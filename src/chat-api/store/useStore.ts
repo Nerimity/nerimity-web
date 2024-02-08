@@ -27,7 +27,7 @@ export default function useStore() {
   const inbox = useInbox();
   const mentions = useMention();
   const serverRoles = useServerRoles();
-  const channelProperties = useChannelProperties()
+  const channelProperties = useChannelProperties();
   const posts = usePosts();
   const voiceUsers = useVoiceUsers();
 
@@ -50,5 +50,5 @@ export default function useStore() {
     posts,
     voiceUsers,
     tickets
-  }
+  };
 }

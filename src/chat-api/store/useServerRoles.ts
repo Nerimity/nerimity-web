@@ -14,14 +14,14 @@ const set = (serverId: string, role: RawServerRole) =>  {
     setServerRoles(serverId, {});
   }
   setServerRoles(serverId, role.id, reconcile(role));
-}
+};
 
 const update = (serverId: string, roleId: string, update: Partial<RawServerRole>) => {
   if (!serverRoles[serverId]?.[roleId]) {
     return;
   }
   setServerRoles(serverId, roleId, update);
-} 
+}; 
 
 const addNewRole = (serverId: string, role: RawServerRole) =>  {
   const servers = useServers();
@@ -34,26 +34,26 @@ const addNewRole = (serverId: string, role: RawServerRole) =>  {
       const role = roles[i];
       const newOrder = roles.length - i;
       if (server?.defaultRoleId === role?.id) continue;
-      setServerRoles(serverId, role?.id!, 'order', newOrder + 1)
+      setServerRoles(serverId, role?.id!, "order", newOrder + 1);
       
     }
     set(serverId, role);
-  })
+  });
 
 
-}
+};
 
 
 
 const getAllByServerId = (serverId: string) => {
   return Object.values(serverRoles[serverId] || {}).sort((a, b) =>  b!.order - a!.order);
-}
+};
 
 const get = (serverId: string, roleId: string) => serverRoles[serverId]?.[roleId];
 
 const deleteAllByServerId = (serverId: string) => {
   setServerRoles(serverId, undefined);
-}
+};
 
 const deleteRole = (serverId: string, roleId: string) => {
   setServerRoles(serverId, roleId, undefined);
@@ -62,12 +62,12 @@ const deleteRole = (serverId: string, roleId: string) => {
     for (let i = 0; i < serverRoles.length; i++) {
       const role = serverRoles[i];
       const newOrder = serverRoles.length - i;
-      setServerRoles(serverId, role?.id!, 'order', newOrder);
+      setServerRoles(serverId, role?.id!, "order", newOrder);
     }
-  })
+  });
 
   
-}
+};
 
 
 export default function useServerRoles() {
@@ -79,5 +79,5 @@ export default function useServerRoles() {
     get,
     deleteRole,
     deleteAllByServerId
-  }
+  };
 }

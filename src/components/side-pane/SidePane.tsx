@@ -1,44 +1,44 @@
-import styles from './styles.module.scss';
-import Icon from '@/components/ui/icon/Icon';
-import Avatar from '@/components/ui/Avatar';
-import RouterEndpoints from '../../common/RouterEndpoints';
-import { classNames, conditionalClass } from '@/common/classNames';
-import ContextMenuServer from '@/components/servers/context-menu/ContextMenuServer';
-import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
-import useStore from '../../chat-api/store/useStore';
-import { A, useLocation, useParams, useMatch } from 'solid-navigator';
-import { FriendStatus, TicketStatus } from '../../chat-api/RawData';
-import Modal from '@/components/ui/modal/Modal';
-import AddServer from './add-server/AddServerModal';
-import { UserStatuses, userStatusDetail } from '../../common/userStatus';
-import { Server } from '../../chat-api/store/useServers';
-import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import { hasBit, USER_BADGES } from '@/chat-api/Bitwise';
-import { updateTitleAlert } from '@/common/BrowserTitle';
-import { ConnectionErrorModal } from '../connection-error-modal/ConnectionErrorModal';
-import ItemContainer from '../ui/Item';
-import { css, styled } from 'solid-styled-components';
-import { useAppVersion } from '@/common/useAppVersion';
-import { useWindowProperties } from '@/common/useWindowProperties';
-import { FlexColumn, FlexRow } from '../ui/Flexbox';
-import Button from '../ui/Button';
-import Text from '../ui/Text';
-import Marked from '@/components/marked/Marked';
-import { formatTimestamp } from '@/common/date';
-import { Draggable } from '../ui/Draggable';
-import { updateServerOrder } from '@/chat-api/services/ServerService';
-import { Banner } from '../ui/Banner';
-import { User, UserStatus, bannerUrl } from '@/chat-api/store/useUsers';
-import UserPresence from '../user-presence/UserPresence';
-import DropDown from '../ui/drop-down/DropDown';
-import { updatePresence } from '@/chat-api/services/UserService';
-import { CustomLink } from '../ui/CustomLink';
-import { clearCache } from '@/common/localCache';
-import { useDrawer } from '../ui/drawer/Drawer';
-import { useRegisterSW } from 'virtual:pwa-register/solid'
-import Input from '../ui/input/Input';
-import { getLastSelectedChannelId } from '@/common/useLastSelectedServerChannel';
-import { Skeleton } from '../ui/skeleton/Skeleton';
+import styles from "./styles.module.scss";
+import Icon from "@/components/ui/icon/Icon";
+import Avatar from "@/components/ui/Avatar";
+import RouterEndpoints from "../../common/RouterEndpoints";
+import { classNames, conditionalClass } from "@/common/classNames";
+import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
+import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import useStore from "../../chat-api/store/useStore";
+import { A, useLocation, useParams, useMatch } from "solid-navigator";
+import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
+import Modal from "@/components/ui/modal/Modal";
+import AddServer from "./add-server/AddServerModal";
+import { UserStatuses, userStatusDetail } from "../../common/userStatus";
+import { Server } from "../../chat-api/store/useServers";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { updateTitleAlert } from "@/common/BrowserTitle";
+import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
+import ItemContainer from "../ui/Item";
+import { css, styled } from "solid-styled-components";
+import { useAppVersion } from "@/common/useAppVersion";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import Button from "../ui/Button";
+import Text from "../ui/Text";
+import Marked from "@/components/marked/Marked";
+import { formatTimestamp } from "@/common/date";
+import { Draggable } from "../ui/Draggable";
+import { updateServerOrder } from "@/chat-api/services/ServerService";
+import { Banner } from "../ui/Banner";
+import { User, UserStatus, bannerUrl } from "@/chat-api/store/useUsers";
+import UserPresence from "../user-presence/UserPresence";
+import DropDown from "../ui/drop-down/DropDown";
+import { updatePresence } from "@/chat-api/services/UserService";
+import { CustomLink } from "../ui/CustomLink";
+import { clearCache } from "@/common/localCache";
+import { useDrawer } from "../ui/drawer/Drawer";
+import { useRegisterSW } from "virtual:pwa-register/solid";
+import Input from "../ui/input/Input";
+import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
+import { Skeleton } from "../ui/skeleton/Skeleton";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -51,8 +51,8 @@ export default function SidePane() {
   const { createPortal } = useCustomPortal();
 
   const showAddServerModal = () => {
-    createPortal?.(close => <AddServer close={close} />)
-  }
+    createPortal?.(close => <AddServer close={close} />);
+  };
 
   return <div class={styles.sidePane}>
     <InboxItem />
@@ -67,7 +67,7 @@ export default function SidePane() {
     <ModerationItem />
     <SettingsItem />
     <UserItem />
-  </div>
+  </div>;
 }
 
 function ExploreItem() {
@@ -79,16 +79,16 @@ function ExploreItem() {
         <Icon name='explore' />
       </SidebarItemContainer>
     </A>
-  )
+  );
 }
 
 function InboxItem() {
   const { inbox, friends, servers } = useStore();
   const location = useLocation();
   const isSelected = () => {
-    if (location.pathname === '/app') return true;
+    if (location.pathname === "/app") return true;
     if (location.pathname.startsWith(RouterEndpoints.INBOX())) return true;
-    if (location.pathname.startsWith('/app/posts')) return true;
+    if (location.pathname.startsWith("/app/posts")) return true;
     return false;
   };
 
@@ -99,7 +99,7 @@ function InboxItem() {
 
   createEffect(() => {
     updateTitleAlert(count() || servers.hasNotifications() ? true : false);
-  })
+  });
 
   return (
     <A href='/app' style={{ "text-decoration": "none" }}>
@@ -108,15 +108,15 @@ function InboxItem() {
         <Icon name='all_inbox' />
       </SidebarItemContainer>
     </A>
-  )
+  );
 }
 
 
 function NotificationCountBadge(props: { count: number | string, top: number, right: number }) {
   return <Show when={props.count}><div class={styles.notificationCount} style={{
     top: `${props.top}px`,
-    right: `${props.right}px`,
-  }}>{props.count}</div></Show>
+    right: `${props.right}px`
+  }}>{props.count}</div></Show>;
 
 }
 
@@ -124,8 +124,8 @@ function UpdateItem() {
   const checkAfterMS = 600000; // 10 minutes
   const { checkForUpdate, updateAvailable } = useAppVersion();
   const { createPortal } = useCustomPortal();
-  const { hasFocus } = useWindowProperties()
-  const { updateServiceWorker } = useRegisterSW()
+  const { hasFocus } = useWindowProperties();
+  const { updateServiceWorker } = useRegisterSW();
   let lastChecked = 0;
 
   createEffect(on(hasFocus, async () => {
@@ -135,15 +135,15 @@ function UpdateItem() {
       lastChecked = now;
       checkForUpdate();
     }
-  }))
+  }));
 
   createEffect(() => {
     if (updateAvailable()) {
       updateServiceWorker(false);
     }
-  })
+  });
 
-  const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close} />)
+  const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close} />);
 
   return (
     <Show when={updateAvailable()}>
@@ -151,17 +151,17 @@ function UpdateItem() {
         <Icon name='get_app' title='Update Available' color="var(--success-color)" />
       </SidebarItemContainer>
     </Show>
-  )
+  );
 }
 function ModerationItem() {
   const { account, tickets } = useStore();
-  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit)
+  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
 
   const selected = useMatch(() => "/app/moderation/*");
 
   createEffect(() => {
     tickets.updateModerationTicketNotification();
-  })
+  });
 
   return (
     <Show when={hasModeratorPerm()}>
@@ -172,7 +172,7 @@ function ModerationItem() {
         </SidebarItemContainer>
       </A>
     </Show>
-  )
+  );
 }
 
 function SettingsItem() {
@@ -180,7 +180,7 @@ function SettingsItem() {
 
   createEffect(() => {
     tickets.updateTicketNotification();
-  })
+  });
 
 
   const selected = useMatch(() => "/app/settings/*");
@@ -193,21 +193,21 @@ function SettingsItem() {
         <Icon name='settings' title='Settings' />
       </SidebarItemContainer>
     </A>
-  )
+  );
 }
 
 const UserItem = () => {
   const { account, users } = useStore();
   const { createPortal } = useCustomPortal();
   const {currentPage} = useDrawer();
-  const [hovered, setHovered] = createSignal(false)
-  const [modalOpened, setModalOpened] = createSignal(false)
+  const [hovered, setHovered] = createSignal(false);
+  const [modalOpened, setModalOpened] = createSignal(false);
   const {isMobileWidth} = useWindowProperties();
 
 
   const userId = () => account.user()?.id;
-  const user = () => users.get(userId()!)
-  const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color
+  const user = () => users.get(userId()!);
+  const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color;
 
   const isAuthenticated = account.isAuthenticated;
   const authErrorMessage = account.authenticationError;
@@ -218,16 +218,16 @@ const UserItem = () => {
 
   const onClicked = () => {
     if (authErrorMessage()) {
-      return createPortal?.(close => <ConnectionErrorModal close={close} />)
+      return createPortal?.(close => <ConnectionErrorModal close={close} />);
     }
 
     if (isMobileWidth()) {
-      createPortal(close => <FloatingUserModal close={close} currentDrawerPage={currentPage()} />)
+      createPortal(close => <FloatingUserModal close={close} currentDrawerPage={currentPage()} />);
       return;
     }
 
-    setModalOpened(!modalOpened())
-  }
+    setModalOpened(!modalOpened());
+  };
 
   return (
     <>
@@ -240,7 +240,7 @@ const UserItem = () => {
       </SidebarItemContainer>
       <Show when={user() && modalOpened()}><FloatingUserModal close={() => setModalOpened(false)} currentDrawerPage={currentPage()} /></Show>
     </>
-  )
+  );
 };
 
 
@@ -270,7 +270,7 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
     max-height: 60%;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-  ` : ''}
+  ` : ""}
   
 
   .button {
@@ -320,36 +320,36 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
   const onLogoutClick = async () => {
     await clearCache();
     localStorage.clear();
-    location.href = "/"
-  }
+    location.href = "/";
+  };
 
   onMount(() => {
-    document.addEventListener("mousedown", onDocMouseDown, { capture: true })
-    document.addEventListener("click", onDocClick, { capture: true })
+    document.addEventListener("mousedown", onDocMouseDown, { capture: true });
+    document.addEventListener("click", onDocClick, { capture: true });
     onCleanup(() => {
-      document.removeEventListener("mousedown", onDocMouseDown)
-      document.removeEventListener("click", onDocClick)
-    })
-  })
+      document.removeEventListener("mousedown", onDocMouseDown);
+      document.removeEventListener("click", onDocClick);
+    });
+  });
 
-  const memoIsMobileWidth = createMemo(() => isMobileWidth())
+  const memoIsMobileWidth = createMemo(() => isMobileWidth());
 
   createEffect(on([() => props.currentDrawerPage, memoIsMobileWidth], () => {
-    console.log("test")
+    console.log("test");
     props.close();
-  }, {defer: true}))
+  }, {defer: true}));
 
   let pos = {x: 0, y: 0};
   const onDocMouseDown = (event: MouseEvent) => {
     pos = {x: event.x, y: event.y};
-  }
+  };
 
   const onDocClick = (event: any) => {
     if (pos.x !== event.x || pos.y !== event.y) return;
-    const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(`.sidePaneUser`);
+    const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(".sidePaneUser");
     if (clickedInside) return;
     props.close();
-  }
+  };
 
   return (
     <FloatingUserModalContainer class="floatingUserModalContainer" isMobile={isMobileWidth()} gap={5}>
@@ -377,7 +377,7 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
       <Button onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
 
     </FloatingUserModalContainer>
-  )
+  );
 }
 
 function CustomStatus() {
@@ -386,38 +386,38 @@ function CustomStatus() {
 
   createEffect(on(() => account.user()?.customStatus, (custom) => {
     setCustomStatus(custom || "");
-  }))
+  }));
 
   const onBlur = () => {
     updatePresence({
       custom: customStatus().trim() ? customStatus() : null
-    })
-  }
+    });
+  };
 
   return (
     <Input class={styles.customStatusInput} label='Custom Status' placeholder='' onBlur={onBlur} onText={setCustomStatus} value={customStatus()}  />
-  )
+  );
 }
 
 function PresenceDropDown() {
   const { account, users } = useStore();
   const user = () => users.get(account.user()?.id!);
 
-  const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0)
+  const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0);
 
   const DropDownItems = UserStatuses.map((item, i) => {
     return {
       circleColor: item.color,
       id: item.id,
-      label: item.name === "Offline" ? 'Appear As Offline' : item.name,
+      label: item.name === "Offline" ? "Appear As Offline" : item.name,
       index: i,
       onClick: (item: { index: number }) => {
         updatePresence({
           status: item.index
         });
       }
-    }
-  })
+    };
+  });
   // move invisible to the bottom.
   DropDownItems.push(DropDownItems.shift()!);
 
@@ -425,7 +425,7 @@ function PresenceDropDown() {
 
   return (
     <DropDown title='Presence' class={styles.presenceDropdown} items={DropDownItems} selectedId={presenceStatus().id} />
-  )
+  );
 }
 
 
@@ -446,7 +446,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
         <Avatar animate={hovered()} size={40} server={props.server} />
       </SidebarItemContainer>
     </A>
-  )
+  );
 }
 
 const ServerList = () => {
@@ -458,12 +458,12 @@ const ServerList = () => {
     event.preventDefault();
     setContextServerId(serverId);
     setContextPosition({ x: event.clientX, y: event.clientY });
-  }
+  };
 
   const onDrop = (servers: Server[]) => {
     const serverIds = servers.map(server => server.id);
-    updateServerOrder(serverIds)
-  }
+    updateServerOrder(serverIds);
+  };
 
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
@@ -472,20 +472,20 @@ const ServerList = () => {
         {server => <ServerItem
           server={server!}
           onContextMenu={e => onContextMenu(e, server!.id)}
-          />}
+        />}
       </Draggable>
     </Show>
-  </div>
+  </div>;
 };
 
 
 const ServerListSkeleton = () => {
- return (
-  <Skeleton.List>
-    <Skeleton.Item height="50px" width="60px" />
-  </Skeleton.List>
- )
-}
+  return (
+    <Skeleton.List>
+      <Skeleton.Item height="50px" width="60px" />
+    </Skeleton.List>
+  );
+};
 
 
 function UpdateModal(props: { close: () => void }) {
@@ -494,15 +494,15 @@ function UpdateModal(props: { close: () => void }) {
   const date = () => {
     const release = latestRelease();
     if (!release) return undefined;
-    return formatTimestamp(new Date(release.published_at).getTime())
-  }
-  const { updateServiceWorker } = useRegisterSW()
+    return formatTimestamp(new Date(release.published_at).getTime());
+  };
+  const { updateServiceWorker } = useRegisterSW();
 
 
   const onUpdateClick = async () => {
     await updateServiceWorker();
     location.reload();
-  }
+  };
 
 
   const ActionButtons = (
@@ -510,7 +510,7 @@ function UpdateModal(props: { close: () => void }) {
       <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)' />
       <Button iconName='get_app' label='Update Now' onClick={onUpdateClick} primary />
     </FlexRow>
-  )
+  );
   return (
     <Modal title='Update Available' actionButtons={ActionButtons} close={props.close}>
       <FlexColumn gap={5}>
@@ -522,5 +522,5 @@ function UpdateModal(props: { close: () => void }) {
         </FlexColumn>
       </FlexColumn>
     </Modal>
-  )
+  );
 }

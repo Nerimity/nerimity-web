@@ -1,21 +1,21 @@
-import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
-import Text from '@/components/ui/Text';
-import { css, styled } from 'solid-styled-components';
-import { FlexColumn, FlexRow } from '../ui/Flexbox';
-import useStore from '@/chat-api/store/useStore';
-import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
-import { t } from 'i18next';
-import SettingsBlock from '../ui/settings-block/SettingsBlock';
-import { Notice } from '../ui/Notice/Notice';
-import { electronWindowAPI, Program, ProgramWithAction } from '@/common/Electron';
-import Button from '../ui/Button';
-import DropDown, { DropDownItem } from '../ui/drop-down/DropDown';
-import Block from '../ui/settings-block/Block';
-import { getStorageObject, StorageKeys, useReactiveLocalStorage } from '@/common/localStorage';
-import { emitActivityStatus } from '@/chat-api/emits/userEmits';
-import Modal from '../ui/modal/Modal';
-import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import Input from '../ui/input/Input';
+import { createEffect, createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import Text from "@/components/ui/Text";
+import { css, styled } from "solid-styled-components";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import useStore from "@/chat-api/store/useStore";
+import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
+import { t } from "i18next";
+import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import { Notice } from "../ui/Notice/Notice";
+import { electronWindowAPI, Program, ProgramWithAction } from "@/common/Electron";
+import Button from "../ui/Button";
+import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
+import Block from "../ui/settings-block/Block";
+import { getStorageObject, StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
+import { emitActivityStatus } from "@/chat-api/emits/userEmits";
+import Modal from "../ui/modal/Modal";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import Input from "../ui/input/Input";
 
 const Container = styled("div")`
   display: flex;
@@ -52,9 +52,9 @@ export default function WindowSettings() {
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Activity Status",
-      iconName: 'settings',
+      iconName: "settings"
     });
-  })
+  });
 
   const isElectron = electronWindowAPI()?.isElectron;
 
@@ -63,7 +63,7 @@ export default function WindowSettings() {
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
-        <BreadcrumbItem title={t('settings.drawer.activity-status')!} />
+        <BreadcrumbItem title={t("settings.drawer.activity-status")!} />
       </Breadcrumb>
       <Show when={!isElectron}>
         <Notice type='info' description='To modify these settings, you must download the Nerimity desktop app.' />
@@ -75,7 +75,7 @@ export default function WindowSettings() {
       </Options>
 
     </Container>
-  )
+  );
 }
 
 function ProgramOptions() {
@@ -86,58 +86,58 @@ function ProgramOptions() {
 
   const getPrograms = () => {
     electronWindowAPI()?.getRunningPrograms(addedPrograms()).then(setPrograms);
-  }
+  };
 
   const restartActivityStatus = () => {
     electronWindowAPI()?.restartActivityStatus(addedPrograms());
-  }
+  };
 
   const updateProgram = (index: number, program: ProgramWithAction) => {
     const programs = [...addedPrograms()];
     programs[index] = program;
     setAddedPrograms(programs);
     restartActivityStatus();
-  }
+  };
 
   const showEditModal = (i: number, program: ProgramWithAction) => {
-    createPortal(close => <EditActivityStatusModal onEdit={(p) => updateProgram(i, p)} program={program} close={close} />)
-  }
+    createPortal(close => <EditActivityStatusModal onEdit={(p) => updateProgram(i, p)} program={program} close={close} />);
+  };
 
   onMount(() => {
     if (!electronWindowAPI()?.isElectron) return;
     getPrograms();
     const timerId = window.setInterval(() => {
-      getPrograms()
-    }, 3000)
+      getPrograms();
+    }, 3000);
 
     onCleanup(() => {
-      window.clearInterval(timerId)
-    })
-  })
+      window.clearInterval(timerId);
+    });
+  });
   const dropDownItems = () => {
     return programs().map((program) => ({
       id: program.filename,
       label: program.name,  
       description: program.filename,
       data: program
-    })) satisfies DropDownItem[]
-  }
+    })) satisfies DropDownItem[];
+  };
 
   const addProgram = (item: DropDownItem) => {
     const program = {
       ...item.data,
       action: "Playing"
-    }
+    };
     setAddedPrograms([...addedPrograms(), program]);
     getPrograms();
-    restartActivityStatus()
-  }
+    restartActivityStatus();
+  };
 
   const removeProgram = (program: Program) => {
     setAddedPrograms(addedPrograms().filter(p => p !== program));
     getPrograms();
-    restartActivityStatus()
-  }
+    restartActivityStatus();
+  };
 
   return (
 
@@ -149,8 +149,8 @@ function ProgramOptions() {
       <For each={addedPrograms()}>
         {(item, i) => (
           <Block borderTopRadius={false} borderBottomRadius={i() === addedPrograms().length - 1}>
-           <FlexRow class={css`flex: 1;`}>
-            <FlexColumn gap={4}  class={css`flex: 1;`}>
+            <FlexRow class={css`flex: 1;`}>
+              <FlexColumn gap={4}  class={css`flex: 1;`}>
                 <FlexRow gap={5} itemsCenter>
                   <Text bold>{item.action}</Text>
                   <Text opacity={0.8}>{item.name}</Text>
@@ -159,17 +159,17 @@ function ProgramOptions() {
               </FlexColumn>
               <Button iconName='delete' onClick={() => removeProgram(item)} label='Delete' color='var(--alert-color)' />
               <Button iconName='edit' label='Edit' onClick={() => showEditModal(i(), item)} />
-           </FlexRow>
+            </FlexRow>
           </Block>
         )}
       </For>
     </FlexColumn>
-  )
+  );
 }
 
 
 const EditActivityStatusModal = (props: {onEdit(newProgram: ProgramWithAction): void; program: ProgramWithAction, close: () => void}) => {
-  const [newValues, setValues] = createSignal(props.program)
+  const [newValues, setValues] = createSignal(props.program);
   
 
   const actionButtons = (
@@ -180,7 +180,7 @@ const EditActivityStatusModal = (props: {onEdit(newProgram: ProgramWithAction): 
         props.close();
       }} />
     </FlexRow>
-  )
+  );
 
   return (
     <Modal title='Edit Activity Status' icon='games' close={props.close} actionButtons={actionButtons}>
@@ -191,5 +191,5 @@ const EditActivityStatusModal = (props: {onEdit(newProgram: ProgramWithAction): 
       </FlexColumn>
 
     </Modal>
-  )
-}
+  );
+};

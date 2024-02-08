@@ -23,21 +23,21 @@ export function CustomPortalProvider(props: CustomPortalProps) {
   const createPortal = (element: (close: () => void) => JSX.Element, id?: string, toggle?: boolean) => {
     if (id && toggle){
       if (isPortalOpened(id)) {
-        closePortalById(id)
+        closePortalById(id);
         return;
       }
     }
     if (id && isPortalOpened(id)) return;
-    setElements([...elements, {element, id}])
+    setElements([...elements, {element, id}]);
     return elements.length - 1;
-  }
+  };
  
   const closePortal = (index: number) => {
     setElements(produce(elements => elements.splice(index, 1)));
-  }
+  };
   const closePortalById = (id: string) => {
     setElements(elements.filter(e => e.id !== id));
-  }
+  };
 
   const isPortalOpened = (id: string) => elements.find(e => e.id === id) !== undefined;
 
@@ -46,15 +46,17 @@ export function CustomPortalProvider(props: CustomPortalProps) {
     closePortal,
     closePortalById,
     isPortalOpened
-  }
+  };
   
 
   return (
     <CustomPortalContext.Provider value={value}>
-      <div style={{display: 'flex', "flex-direction": 'column',height: '100%', width: '100%'}}>{props.children}</div>
+      <div style={{display: "flex", "flex-direction": "column",height: "100%", width: "100%"}}>{props.children}</div>
       <For each={elements}>{(item, i) => <Portal>{item.element(() => closePortal(i()))}</Portal>}</For>
     </CustomPortalContext.Provider>
   );
 }
 
-export function useCustomPortal() { return useContext(CustomPortalContext) as Value; }
+export function useCustomPortal() {
+  return useContext(CustomPortalContext) as Value; 
+}

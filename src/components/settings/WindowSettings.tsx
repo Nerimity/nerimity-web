@@ -1,25 +1,25 @@
-import { createEffect, createSignal, For, onMount, Show } from 'solid-js';
-import Text from '@/components/ui/Text';
-import { css, styled } from 'solid-styled-components';
-import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from '@/locales/languages';
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import Text from "@/components/ui/Text";
+import { css, styled } from "solid-styled-components";
+import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from "@/locales/languages";
 
-import ItemContainer from '../ui/Item';
-import twemoji from 'twemoji';
-import { FlexColumn, FlexRow } from '../ui/Flexbox';
-import useStore from '@/chat-api/store/useStore';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import env from '@/common/env';
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from '@/emoji';
-import { Emoji } from '../markup/Emoji';
-import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys } from '@/common/localStorage';
-import Checkbox from '../ui/Checkbox';
-import Breadcrumb, { BreadcrumbItem } from '../ui/Breadcrumb';
-import { t } from 'i18next';
-import SettingsBlock from '../ui/settings-block/SettingsBlock';
-import Slider from '../ui/Slider';
-import { playMessageNotification } from '@/common/Sound';
-import { Notice } from '../ui/Notice/Notice';
-import { electronWindowAPI } from '@/common/Electron';
+import ItemContainer from "../ui/Item";
+import twemoji from "twemoji";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import useStore from "@/chat-api/store/useStore";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import env from "@/common/env";
+import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
+import { Emoji } from "../markup/Emoji";
+import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys } from "@/common/localStorage";
+import Checkbox from "../ui/Checkbox";
+import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
+import { t } from "i18next";
+import SettingsBlock from "../ui/settings-block/SettingsBlock";
+import Slider from "../ui/Slider";
+import { playMessageNotification } from "@/common/Sound";
+import { Notice } from "../ui/Notice/Notice";
+import { electronWindowAPI } from "@/common/Electron";
 
 const Container = styled("div")`
   display: flex;
@@ -55,9 +55,9 @@ export default function WindowSettings() {
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Window Settings",
-      iconName: 'settings',
+      iconName: "settings"
     });
-  })
+  });
 
   const isElectron = electronWindowAPI()?.isElectron;
 
@@ -66,7 +66,7 @@ export default function WindowSettings() {
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
-        <BreadcrumbItem title={t('settings.drawer.window-settings')} />
+        <BreadcrumbItem title={t("settings.drawer.window-settings")} />
       </Breadcrumb>
       <Show when={!isElectron}>
         <Notice type='info' description='To modify these settings, you must download the Nerimity desktop app.' />
@@ -78,28 +78,28 @@ export default function WindowSettings() {
       </Options>
 
     </Container>
-  )
+  );
 }
 
 
 function StartupOptions() {
 
-  const [autostart, setAutostart] = createSignal(false)
-  const [autostartMinimized, setAutostartMinimized] = createSignal(false)
+  const [autostart, setAutostart] = createSignal(false);
+  const [autostartMinimized, setAutostartMinimized] = createSignal(false);
 
   onMount(async () => {
     electronWindowAPI()?.getAutostart().then(setAutostart);
     electronWindowAPI()?.getAutostartMinimized().then(setAutostartMinimized);
-  })
+  });
 
   const onAutostartChange = (checked: boolean) => {
     electronWindowAPI()?.setAutostart(checked);
     setAutostart(checked);
-  }
+  };
   const onAutostartMinimizedChange = (checked: boolean) => {
     electronWindowAPI()?.setAutostartMinimized(checked);
     setAutostartMinimized(checked);
-  }
+  };
 
   return (
 
@@ -114,5 +114,5 @@ function StartupOptions() {
         </SettingsBlock>
       </Show>
     </FlexColumn>
-  )
+  );
 }

@@ -1,12 +1,12 @@
 /* @refresh reload */
-import styles from './styles.module.scss'
-import { useWindowProperties } from '@/common/useWindowProperties';
-import {Accessor, children, ChildrenReturn, createContext, createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount, Show, useContext} from 'solid-js';
-import env from '@/common/env';
-import SidePane from '@/components/side-pane/SidePane';
-import { classNames, conditionalClass } from '@/common/classNames';
-import { matchComponent } from 'solid-navigator';
-import { GlobalEventName, useEventListen } from '@/common/GlobalEvents';
+import styles from "./styles.module.scss";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import {Accessor, children, ChildrenReturn, createContext, createEffect, createMemo, createSignal, JSX, on, onCleanup, onMount, Show, useContext} from "solid-js";
+import env from "@/common/env";
+import SidePane from "@/components/side-pane/SidePane";
+import { classNames, conditionalClass } from "@/common/classNames";
+import { matchComponent } from "solid-navigator";
+import { GlobalEventName, useEventListen } from "@/common/GlobalEvents";
 
 interface DrawerLayoutProps {
   LeftDrawer: any;
@@ -38,11 +38,11 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let pauseTouches = false;
 
   const {width, isMobileWidth} = useWindowProperties();
-  const LeftDrawer = children(() => props.LeftDrawer())
-  const RightDrawer = children(() => props.RightDrawer())
+  const LeftDrawer = children(() => props.LeftDrawer());
+  const RightDrawer = children(() => props.RightDrawer());
 
-  const LeftDrawerComponent = matchComponent(() => "leftDrawer")
-  const RightDrawerComponent = matchComponent(() => "rightDrawer")
+  const LeftDrawerComponent = matchComponent(() => "leftDrawer");
+  const RightDrawerComponent = matchComponent(() => "rightDrawer");
   
   
   
@@ -61,7 +61,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     animationFrame = window.requestAnimationFrame(function() {
       containerEl!.style.transform = transformString;
     });
-  }
+  };
   
 
   
@@ -80,21 +80,21 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
     onCleanup(() => {
       removeEvents();
-    })
-  }))
+    });
+  }));
 
   const addEvents = () => {
     window.addEventListener("touchstart", onTouchStart, false);
     window.addEventListener("touchmove", onTouchMove, false);
     window.addEventListener("touchend", onTouchEnd, false);
     window.addEventListener("scroll", onScroll, true);
-  }
+  };
   const removeEvents = () => {
     window.removeEventListener("touchstart", onTouchStart);
     window.removeEventListener("touchmove", onTouchMove);
     window.removeEventListener("touchend", onTouchEnd);
     window.removeEventListener("scroll", onScroll);
-  }
+  };
 
 
 
@@ -112,21 +112,21 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (dWidth > MAX_WIDTH) return MAX_WIDTH;
     return dWidth;
   };
-  const totalWidth = () => (rightDrawerWidth() + leftDrawerWidth()) + width() 
+  const totalWidth = () => (rightDrawerWidth() + leftDrawerWidth()) + width(); 
 
   let velocityTimeout: any;
   const updatePage = () => {
     if (!isMobileWidth()) return;
     velocityTimeout && clearTimeout(velocityTimeout);
 
-    containerEl!.style.transition = `transform 0.2s`
+    containerEl!.style.transition = "transform 0.2s";
     velocityTimeout = setTimeout(() => {
       containerEl!.style.transition = "";
-    }, 200)  
+    }, 200);  
     if (currentPage() === 0) setTransformX(0);
     if (currentPage() === 1) setTransformX(-leftDrawerWidth());
     if (currentPage() === 2) setTransformX(-totalWidth() - -width());
-  }
+  };
 
 
   const onTouchStart = (event: TouchEvent) => {
@@ -155,7 +155,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     startPos.x =  x - transformX;
     startPos.y = y;
     startTime = Date.now();
-  }
+  };
 
 
   let ignoreDistance = false;
@@ -190,12 +190,12 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     }
 
     if (touchDistance <= -totalWidth() + width() ) {
-      startPos.x = x - transformX
+      startPos.x = x - transformX;
       return setTransformX(-totalWidth() + width());
     }
 
     setTransformX(touchDistance);
-  }
+  };
   const onTouchEnd = (event: TouchEvent) => {
     ignoreDistance = false;
     pauseTouches = false;
@@ -226,7 +226,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
       if (isSwipingRight && beforePage <= 2) {
         setCurrentPage(beforePage+1);
-      } else if (isSwipingLeft && beforePage >=0) {
+      }
+      else if (isSwipingLeft && beforePage >=0) {
         setCurrentPage(beforePage-1);
       }
     }
@@ -236,41 +237,43 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     updatePage();
 
 
-  }
+  };
   const onScroll = () => {
     pauseTouches = true;
     updatePage();
-  }
+  };
 
 
   const toggleLeftDrawer = () => {
     if (currentPage() === 0) {
       setCurrentPage(1);
-    } else {
+    }
+    else {
       setCurrentPage(0);
     }
-    updatePage()
-  }
+    updatePage();
+  };
 
   const toggleRightDrawer = () => {
     if (currentPage() === 2) {
       setCurrentPage(1);
-    } else {
+    }
+    else {
       setCurrentPage(2);
     }
-    updatePage()
-  }
+    updatePage();
+  };
   
   const goToMain = () =>  {
     if (currentPage() !== 1) {
       setCurrentPage(1);
     }
     updatePage();
-  }
+  };
 
-  const goToMainListener = useEventListen(GlobalEventName.DRAWER_GO_TO_MAIN)
+  const goToMainListener = useEventListen(GlobalEventName.DRAWER_GO_TO_MAIN);
 
-  goToMainListener(() => goToMain())
+  goToMainListener(() => goToMain());
   
 
 
@@ -280,37 +283,37 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     hasRightDrawer,
     toggleLeftDrawer,
     toggleRightDrawer,
-    goToMain,
-  }
+    goToMain
+  };
 
   const onOpacityClicked = () => {
     setCurrentPage(1);
     updatePage();
-  }
+  };
 
 
   return (
     <DrawerContext.Provider value={drawer}>
       <div class={classNames(styles.drawerLayout, conditionalClass(isMobileWidth(), styles.mobile))}>
-        <div ref={containerEl} class={styles.container}  style={{translate: transformX + "px", overflow: isMobileWidth() ? 'initial' : 'hidden'}}>
-          <div style={{width: isMobileWidth() ? leftDrawerWidth() + "px" : hasLeftDrawer() ? "330px" : '65px', display: 'flex', "flex-shrink": 0}}>
+        <div ref={containerEl} class={styles.container}  style={{translate: transformX + "px", overflow: isMobileWidth() ? "initial" : "hidden"}}>
+          <div style={{width: isMobileWidth() ? leftDrawerWidth() + "px" : hasLeftDrawer() ? "330px" : "65px", display: "flex", "flex-shrink": 0}}>
             <SidePane/>
             {hasLeftDrawer() && <div class={styles.leftDrawer}>{LeftDrawer()}</div>}
           </div>
-          <div class={styles.content} style={{width: isMobileWidth() ? width() + "px" : '100%'}}>
+          <div class={styles.content} style={{width: isMobileWidth() ? width() + "px" : "100%"}}>
             <div style={{
-              "pointer-events": currentPage() !== 1 ? 'initial' :'none',
-              "opacity": currentPage() !== 1 ? 1 :0,
+              "pointer-events": currentPage() !== 1 ? "initial" :"none",
+              "opacity": currentPage() !== 1 ? 1 :0
             }} class={styles.opacityContent} onClick={onOpacityClicked}/>
             <props.Content/>
           </div>
-          <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '300px' : '0', display: 'flex', "flex-shrink": 0}}>
+          <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? "300px" : "0", display: "flex", "flex-shrink": 0}}>
             <div class={styles.rightPane}>{RightDrawer()}</div>
           </div>
         </div>
       </div>
     </DrawerContext.Provider>
-  )
+  );
 }
 
 

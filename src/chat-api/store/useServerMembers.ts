@@ -1,13 +1,13 @@
-import {createStore, reconcile} from 'solid-js/store';
-import { addBit, Bitwise, hasBit, ROLE_PERMISSIONS } from '../Bitwise';
-import { RawServerMember } from '../RawData';
-import useServerRoles, { ServerRole } from './useServerRoles';
-import useServers, { Server } from './useServers';
-import useUsers, { User } from './useUsers';
-import useVoiceUsers from './useVoiceUsers';
+import {createStore, reconcile} from "solid-js/store";
+import { addBit, Bitwise, hasBit, ROLE_PERMISSIONS } from "../Bitwise";
+import { RawServerMember } from "../RawData";
+import useServerRoles, { ServerRole } from "./useServerRoles";
+import useServers, { Server } from "./useServers";
+import useUsers, { User } from "./useUsers";
+import useVoiceUsers from "./useVoiceUsers";
 
 
-export type ServerMember = Omit<RawServerMember, 'user'> & {
+export type ServerMember = Omit<RawServerMember, "user"> & {
   userId: string
   user: () => User
   server: () => Server
@@ -47,13 +47,13 @@ const set = (member: RawServerMember) => {
     unhiddenRole,
     permissions,
     hasPermission
-  }
+  };
 
 
 
 
   setMember(member.serverId, member.user.id, reconcile(newMember));
-}
+};
 
 
 function user(this: ServerMember) {
@@ -71,7 +71,7 @@ function isServerCreator(this: ServerMember) {
   const servers = useServers();
   const server = servers.get(this.serverId);
   if (!server) return;
-  return server.createdById === this.userId
+  return server.createdById === this.userId;
 }
 function hasRole(this: ServerMember, roleId: string) {
   const servers = useServers();
@@ -96,7 +96,7 @@ function roleColor (this: ServerMember) {
 }
 function unhiddenRole (this: ServerMember) {
   const sortedRoles = this.roles().sort((a, b) => b?.order! - a?.order!);
-  return sortedRoles.find(role => !role?.hideRole)
+  return sortedRoles.find(role => !role?.hideRole);
 }
 function permissions (this: ServerMember) {
   const servers = useServers();
@@ -122,7 +122,7 @@ function hasPermission (this: ServerMember, bitwise: Bitwise, ignoreAdmin = fals
   if (!ignoreAdmin) {
     if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;
   }
-  return hasBit(this.permissions(), bitwise.bit)
+  return hasBit(this.permissions(), bitwise.bit);
 }
 
 function roles (this: ServerMember) {
@@ -142,18 +142,18 @@ const remove = (serverId: string, userId: string) => {
   voiceChannelId && voiceUsers.removeUserInVoice(voiceChannelId, userId);
 
   setMember(serverId, userId, undefined);
-}
+};
 
 const removeAllServerMembers = (serverId: string) => {
   setMember(serverId, undefined);
-}
+};
 
 const array = (serverId: string) => Object.values(serverMembers?.[serverId] || []);
 const get = (serverId: string, userId: string) => serverMembers[serverId]?.[userId];
 
 const reset = () => {
   setMember(reconcile({}));
-}
+};
 
 export default function useServerMembers() {
   return {
@@ -163,5 +163,5 @@ export default function useServerMembers() {
     remove,
     removeAllServerMembers,
     get
-  }
+  };
 }

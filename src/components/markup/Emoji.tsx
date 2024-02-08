@@ -1,5 +1,5 @@
-import { classNames } from "@/common/classNames"
-import { useWindowProperties } from "@/common/useWindowProperties"
+import { classNames } from "@/common/classNames";
+import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Modal from "../ui/modal/Modal";
 import { css, styled } from "solid-styled-components";
@@ -20,13 +20,13 @@ export function Emoji(props: { clickable?: boolean, custom?: boolean, class?: st
   
   const click = () => {
     createPortal(
-      close => <EmojiDetailsModal close={close} {...props}/>,
-    )
-  }
+      close => <EmojiDetailsModal close={close} {...props}/>
+    );
+  };
 
   return (
-    <img onClick={props.clickable ? click : undefined} loading="lazy" class={classNames(props.class, "emoji")} src={props.url + (props.animated && !hasFocus() ? '?type=webp' : '')} alt={props.name} title={props.name} />
-  )
+    <img onClick={props.clickable ? click : undefined} loading="lazy" class={classNames(props.class, "emoji")} src={props.url + (props.animated && !hasFocus() ? "?type=webp" : "")} alt={props.name} title={props.name} />
+  );
 }
 
 
@@ -72,13 +72,13 @@ function EmojiDetailsModal (props: {close: () => void, name: string, url: string
 
   onMount(() => {
     if (!props.custom || !props.id) return;
-    publicServerByEmojiId(props.id).then(setPublicServer)
-  })
+    publicServerByEmojiId(props.id).then(setPublicServer);
+  });
   return (
     <Modal close={props.close} icon="face" title={props.custom ? "Custom Emoji" : "Emoji"}>
       <EmojiDetailsContainer>
         <MainEmojiContainer>
-          <img loading="lazy" style={{"object-fit": "contain", width: "60px", height: "60px", "border-radius": "6px"}} src={props.url + (props.animated && !hasFocus() ? '?type=webp' : '')} alt={props.name} title={props.name} />
+          <img loading="lazy" style={{"object-fit": "contain", width: "60px", height: "60px", "border-radius": "6px"}} src={props.url + (props.animated && !hasFocus() ? "?type=webp" : "")} alt={props.name} title={props.name} />
           <EmojiNameContainer>
             <Text size={18}>:<Text size={18} color="var(--primary-color)">{props.name}</Text>:</Text>
             <Text size={12} opacity={0.6}>{props.custom ? "Custom Emoji" : "Emoji"}</Text>
@@ -88,7 +88,7 @@ function EmojiDetailsModal (props: {close: () => void, name: string, url: string
         <Show when={props.custom}><PublicServer close={props.close} publicServer={publicServer()!} name={props.name}/></Show>
       </EmojiDetailsContainer>
     </Modal>
-  )
+  );
 }
 
 
@@ -138,7 +138,7 @@ function PublicServer (props: {publicServer?: RawPublicServer, name: string, clo
       props.close();
       navigate(RouterEndpoints.SERVER_MESSAGES(server()!.id, server()!.defaultChannelId));
     }
-  })
+  });
 
   const joinOrVisitServer = () => {
 
@@ -148,14 +148,14 @@ function PublicServer (props: {publicServer?: RawPublicServer, name: string, clo
     setJoining(true);
 
     joinPublicServer(serverId()!).catch((err) => {
-      alert(err.message)
-    }).finally(() => setJoining(false))
-  }
+      alert(err.message);
+    }).finally(() => setJoining(false));
+  };
 
 
 
   return (
-   <Show when={server()}>
+    <Show when={server()}>
       <PublicServerContainer onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
         <Avatar animate={hovered()} size={40} server={server()}  />
         <PublicServerDetailsContainer>
@@ -163,9 +163,9 @@ function PublicServer (props: {publicServer?: RawPublicServer, name: string, clo
             <Text size={14}>{server().name}</Text>
             <Show when={props.publicServer?.server?.verified}>{" "}<ServerVerifiedIcon  class={css`vertical-align: -3px;`} /></Show>
           </PublicServerNameContainer>
-          <Button onClick={joinOrVisitServer} styles={{"align-self": 'flex-start'}} iconName="login" label={isInServer() ? "Visit Server" : "Join Server"} margin={0}  />
+          <Button onClick={joinOrVisitServer} styles={{"align-self": "flex-start"}} iconName="login" label={isInServer() ? "Visit Server" : "Join Server"} margin={0}  />
         </PublicServerDetailsContainer>
-    </PublicServerContainer> 
-   </Show>
-  )
+      </PublicServerContainer> 
+    </Show>
+  );
 }

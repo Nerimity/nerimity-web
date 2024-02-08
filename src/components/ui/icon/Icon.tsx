@@ -1,6 +1,6 @@
-import { JSX } from 'solid-js/jsx-runtime';
-import styles from './styles.module.scss';
-import { classNames } from '@/common/classNames';
+import { JSX } from "solid-js/jsx-runtime";
+import styles from "./styles.module.scss";
+import { classNames } from "@/common/classNames";
 
 interface IconProps {
   name?: string;
@@ -19,7 +19,7 @@ export default function Icon(props: IconProps) {
       style={{color: props.color, "font-size": props.size + "px", ...props.style}}
       title={props.title}
       onClick={props.onClick}>
-        {props.name || 'texture'} 
+      {props.name || "texture"} 
     </span>
-  )
+  );
 }

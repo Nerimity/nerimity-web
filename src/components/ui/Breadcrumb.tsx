@@ -22,7 +22,7 @@ const BreadcrumbContainer = styled(FlexRow)`
 `;
 
 export default function Breadcrumb(props: BreadcrumbProps) {
-  return (<BreadcrumbContainer children={props.children} />)
+  return (<BreadcrumbContainer children={props.children} />);
 }
 
 
@@ -64,9 +64,9 @@ const breadcrumbItemStyles = css`
 `;
 export function BreadcrumbItem(props: BreadcrumbItemProps) {
   return (
-    <Dynamic class={breadcrumbItemStyles} component={props.href ? CustomLink : 'div'} href={props.href!}>
+    <Dynamic class={breadcrumbItemStyles} component={props.href ? CustomLink : "div"} href={props.href!}>
       <Show when={props.icon}><Icon class={css`color: inherit;`} style={props.title ? {"margin-right": "5px"} : undefined} size={25} name={props.icon}/></Show>
       <Show when={props.title}>{props.title}</Show>
     </Dynamic>
-  )
+  );
 }

@@ -1,20 +1,20 @@
 
-import { A } from 'solid-navigator';
-import { Show, createEffect, createSignal, on } from 'solid-js';
-import useStore from '@/chat-api/store/useStore';
-import Avatar from '@/components/ui/Avatar';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import { css, styled } from 'solid-styled-components';
-import Text from '@/components/ui/Text';
-import { FlexColumn, FlexRow } from '@/components/ui/Flexbox';
-import env from '@/common/env';
-import { avatarUrl } from '@/chat-api/store/useServers';
-import { bannerUrl } from '@/chat-api/store/useUsers';
-import { Banner } from '../ui/Banner';
-import { useWindowProperties } from '@/common/useWindowProperties';
-import { FriendStatus } from '@/chat-api/RawData';
-import { useResizeObserver } from '@/common/useResizeObserver';
-import { settingsHeaderPreview } from './SettingsPane';
+import { A } from "solid-navigator";
+import { Show, createEffect, createSignal, on } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import Avatar from "@/components/ui/Avatar";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { css, styled } from "solid-styled-components";
+import Text from "@/components/ui/Text";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import env from "@/common/env";
+import { avatarUrl } from "@/chat-api/store/useServers";
+import { bannerUrl } from "@/chat-api/store/useUsers";
+import { Banner } from "../ui/Banner";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { FriendStatus } from "@/chat-api/RawData";
+import { useResizeObserver } from "@/common/useResizeObserver";
+import { settingsHeaderPreview } from "./SettingsPane";
 
 
 const HeaderContainer = styled("div")`
@@ -75,20 +75,20 @@ const SettingsHeader = () => {
 
 
   createEffect(on(() => settingsHeaderPreview.avatar, (val) => {
-    if (!val) return
+    if (!val) return;
     getImageDimensions(val).then(setImageDimensions);
-  }))
+  }));
 
-  const avatarSize = () => width() <= 500 ? 70 : 100
+  const avatarSize = () => width() <= 500 ? 70 : 100;
 
   const cropPosition = () => {
     const coordinates  = settingsHeaderPreview.avatarPoints;
-    if (!coordinates ) return ""
+    if (!coordinates ) return "";
 
     const viewWidth = avatarSize() && avatarEl()?.clientWidth || 0;
     const viewHeight = avatarSize() && avatarEl()?.clientHeight || 0;
     const imageWidth = imageDimensions().width;
-    const imageHeight = imageDimensions().height
+    const imageHeight = imageDimensions().height;
 
     const offsetX = coordinates [0];
     const offsetY = coordinates [1];
@@ -97,8 +97,8 @@ const SettingsHeader = () => {
     return `
       background-position: -${offsetX * scaleX}px -${offsetY * scaleY}px !important;
       background-size: ${imageWidth * scaleX}px ${imageHeight * scaleY}px !important;
-    `
-  }
+    `;
+  };
 
   async function getImageDimensions(imageUrl: string) {
     const img = new Image();
@@ -129,7 +129,7 @@ const SettingsHeader = () => {
         </HeaderContainer>
       </Banner>
     </Show>
-  )
+  );
 };
 
 

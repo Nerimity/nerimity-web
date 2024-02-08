@@ -5,7 +5,7 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
 import { createSignal, onCleanup, onMount } from "solid-js";
-import env from '@/common/env'
+import env from "@/common/env";
 
 
 const ImageEmbedContainer = styled(FlexRow)`
@@ -29,7 +29,7 @@ const ImageEmbedContainer = styled(FlexRow)`
     top: 10px;
     left: 10px;
   }
-`
+`;
 
 interface ImageEmbedProps {
   attachment: RawAttachment;
@@ -44,32 +44,32 @@ export function ImageEmbed(props: ImageEmbedProps) {
   const { paneWidth, height, hasFocus } = useWindowProperties();
   const { createPortal } = useCustomPortal();
   
-  const isGif = () => props.attachment.path?.endsWith(".gif")
+  const isGif = () => props.attachment.path?.endsWith(".gif");
   const url = (ignoreFocus?: boolean) => {
     const url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
     if (ignoreFocus) return url.href;
     if (!isGif()) return url.href;
     if (!hasFocus()) {
-      url.searchParams.set("type", "webp")
+      url.searchParams.set("type", "webp");
     }
     return url.href;
-  }
+  };
 
   const style = () => {
-    const maxWidth = clamp((props.customWidth || paneWidth()!) + (props.widthOffset || 0), props.maxWidth || 600)
-    const maxHeight = props.maxHeight ? clamp(((props.customHeight || height()) / 2), props.maxHeight) : ((props.customHeight || height()) / 2)
-    return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, maxHeight)
-  }
+    const maxWidth = clamp((props.customWidth || paneWidth()!) + (props.widthOffset || 0), props.maxWidth || 600);
+    const maxHeight = props.maxHeight ? clamp(((props.customHeight || height()) / 2), props.maxHeight) : ((props.customHeight || height()) / 2);
+    return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, maxHeight);
+  };
 
   const onClicked = () => {
-    createPortal(close => <ImagePreviewModal close={close} url={url(true)} width={props.attachment.width} height={props.attachment.height} />)
-  }
+    createPortal(close => <ImagePreviewModal close={close} url={url(true)} width={props.attachment.width} height={props.attachment.height} />);
+  };
 
   return (
     <ImageEmbedContainer onclick={onClicked} class={classNames("imageEmbedContainer", conditionalClass(isGif() && !hasFocus(), "gif"))}>
       <img loading="lazy" src={url()} style={style()} alt="" />
     </ImageEmbedContainer>
-  )
+  );
 }
 
 
@@ -89,44 +89,44 @@ const ImagePreviewContainer = styled(FlexRow)`
 
 export function ImagePreviewModal(props: { close: () => void, url: string, width?: number, height?: number }) {
   const { width, height } = useWindowProperties();
-  const [dimensions, setDimensions] = createSignal({width: props.width, height: props.height})
+  const [dimensions, setDimensions] = createSignal({width: props.width, height: props.height});
 
   onMount(() => {
-    document.addEventListener("keydown", onKeyDown)
+    document.addEventListener("keydown", onKeyDown);
     onCleanup(() => {
-      document.removeEventListener("keydown", onKeyDown)
-    })
-  })
+      document.removeEventListener("keydown", onKeyDown);
+    });
+  });
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") props.close();
-  }
+  };
 
   const style = () => {
     const maxWidth = clamp(width(), width() / 100 * 80);
     const maxHeight = clamp(height(), height() / 100 * 80);
-    return clampImageSize(dimensions().width!, dimensions().height!, maxWidth, maxHeight)
-  }
+    return clampImageSize(dimensions().width!, dimensions().height!, maxWidth, maxHeight);
+  };
 
   const onClick = (event: any) => {
     const target = event.target as HTMLDivElement;
     if (!target.classList.contains("ImagePreviewContainer")) return;
-    props.close()
-  }
+    props.close();
+  };
 
   const onLoad = (event: {target: HTMLImageElement}) => {
     if (dimensions().width) return;
     setDimensions({
       width: event.target.naturalWidth,
       height: event.target.naturalHeight
-    })
-  }
+    });
+  };
 
   return (
     <ImagePreviewContainer onclick={onClick} class="ImagePreviewContainer">
       <img src={props.url} onLoad={onLoad} style={style()} />
     </ImagePreviewContainer>
-  )
+  );
 }
 
 

@@ -1,4 +1,4 @@
-import styles from './EmojiPicker.module.scss'
+import styles from "./EmojiPicker.module.scss";
 import env from "@/common/env";
 import { Category, CustomEmoji, EmojiPicker as EmojiPickerComponent } from "@nerimity/solid-emoji-picker";
 import { css, styled } from "solid-styled-components";
@@ -6,35 +6,35 @@ import Avatar from "../Avatar";
 import { For, JSX, JSXElement, Show, createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import emojis from '@/emoji/emojis.json';
+import emojis from "@/emoji/emojis.json";
 import { useResizeObserver } from "@/common/useResizeObserver";
-import Button from '../Button';
-import { TenorCategory, TenorImage, getTenorCategories, getTenorImages } from '@/chat-api/services/TenorService';
-import { Skeleton } from '../skeleton/Skeleton';
+import Button from "../Button";
+import { TenorCategory, TenorImage, getTenorCategories, getTenorImages } from "@/chat-api/services/TenorService";
+import { Skeleton } from "../skeleton/Skeleton";
 
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
 export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; showGifPicker?: boolean; heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
   const { servers } = useStore();
-  const { paneWidth, width, height, isMobileAgent } = useWindowProperties()
+  const { paneWidth, width, height, isMobileAgent } = useWindowProperties();
 
   const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF"> ("EMOJI");
 
   onMount(() => {
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
     onCleanup(() => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    })
-  })
+      document.removeEventListener("mousedown", handleClickOutside);
+    });
+  });
 
   const handleClickOutside = (e: MouseEvent & { target: any }) => {
     if (e.target.closest(`.${styles.outerEmojiPicker}`)) return;
-    if (e.target.closest(`.emojiPickerButton`)) return;
+    if (e.target.closest(".emojiPickerButton")) return;
     props.close();
-  }
+  };
 
-  createEffect(on(width, props.close, { defer: true }))
+  createEffect(on(width, props.close, { defer: true }));
 
   const customEmojis = () => {
     return servers.emojisUpdatedDupName().map(e => {
@@ -49,29 +49,29 @@ export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; show
           customElement: url ? undefined : (size) => Avatar({ size, server: { ...server, verified: false } })
         },
         name: e.name,
-        url: `${env.NERIMITY_CDN}emojis/${e.id}.${e.gif ? 'gif' : 'webp'}`
-      }
-    }) as CustomEmoji[]
-  }
+        url: `${env.NERIMITY_CDN}emojis/${e.id}.${e.gif ? "gif" : "webp"}`
+      };
+    }) as CustomEmoji[];
+  };
 
 
 
 
   const emojiPickerWidth = () => {
     if (paneWidth()! < 340) {
-      return { row: 4, width: 280 }
+      return { row: 4, width: 280 };
     }
     if (paneWidth()! < 360) {
-      return { row: 5, width: 320 }
+      return { row: 5, width: 320 };
     }
     if (paneWidth()! < 420) {
-      return { row: 6, width: 355 }
+      return { row: 6, width: 355 };
     }
     if (paneWidth()! < 470) {
-      return { row: 7, width: 400 }
+      return { row: 7, width: 400 };
     }
-    return { row: 8, width: 430 }
-  }
+    return { row: 8, width: 430 };
+  };
 
   return (
     <div class={styles.outerEmojiPicker} style={{ width: emojiPickerWidth().width + "px", height: (height() + (props.heightOffset || 0)) + "px" }}>
@@ -94,13 +94,13 @@ export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; show
       </Show>
       <Show when={props.showGifPicker}>
         <div class={styles.tabs}>
-          <Show when={gifPickerSearch().trim()}><Button styles={{"margin-right": 'auto', "margin-left": "6px"}} iconName='arrow_back' margin={0} onClick={() => setGifPickerSearch("")} /></Show>
+          <Show when={gifPickerSearch().trim()}><Button styles={{"margin-right": "auto", "margin-left": "6px"}} iconName='arrow_back' margin={0} onClick={() => setGifPickerSearch("")} /></Show>
           <Button iconName='gif' margin={0} primary={selectedTab() === "GIF"} onClick={() => setSelectedTab("GIF")} />
           <Button iconName='face' margin={0} primary={selectedTab() === "EMOJI"} onClick={() => setSelectedTab("EMOJI")} />
         </div>
       </Show>
     </div>
-  )
+  );
 }
 
 
@@ -110,11 +110,11 @@ const GifPicker = (props: {gifPicked?: (gif: TenorImage) => void}) => {
 
   onCleanup(() => {
     setGifPickerSearch("");
-  })
+  });
 
   createEffect(on(gifPickerSearch, () => {
-    scrollElementRef?.scrollTo(0, 0)
-  }))
+    scrollElementRef?.scrollTo(0, 0);
+  }));
   
 
   return (
@@ -124,8 +124,8 @@ const GifPicker = (props: {gifPicked?: (gif: TenorImage) => void}) => {
       <GifPickerCategories hide={!!gifPickerSearch().trim()} onPick={(c) => setGifPickerSearch(c.searchterm)} />
 
     </div> 
-  )
-}
+  );
+};
 
 const GifPickerSearchBar = () => {
   const {isMobileAgent} = useWindowProperties();
@@ -140,28 +140,28 @@ const GifPickerSearchBar = () => {
       setGifPickerSearch((e.target as HTMLInputElement).value);
       timeout = null;
     }, 350);
-  }
+  };
 
   onMount(() => {
     if (!isMobileAgent()) {
       inputRef?.focus();
     }
-  })
+  });
 
   return (
     <div class={styles.gifPickerSearchBar}>
       <input ref={inputRef} placeholder='Search GIFs' value={gifPickerSearch()} onInput={onInput}/>
     </div>
-  )
-}
+  );
+};
 
 
 const GifPickerImages = (props: {query: string; gifPicked?: (gif: TenorImage) => void}) => {
   const [gifs, setGifs] = createSignal<TenorImage[] | null>(null);
   createEffect(on(() => props.query, () => {
-    setGifs(null)
+    setGifs(null);
     getTenorImages(props.query).then(setGifs);
-  }))
+  }));
 
   return (
     <div class={styles.gifPickerCategories}>
@@ -173,22 +173,22 @@ const GifPickerImages = (props: {query: string; gifPicked?: (gif: TenorImage) =>
       </For>
       <div class={styles.gap} />
     </div>
-  )
-}
+  );
+};
 
 const GifPickerImageItem = (props: {url: string; onClick?: () => void}) => {
   return (
     <div class={styles.gifCategoryItem} tabIndex={0} >
       <img class={styles.image} src={props.url} loading='lazy' onClick={props.onClick} />
     </div>
-  )
-}
+  );
+};
 
 const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCategory) => void}) => {
   const [categories, setCategories] = createSignal<TenorCategory[]>([]);
   onMount(() => {
     getTenorCategories().then(setCategories);
-  })
+  });
 
   return (
     <div class={styles.gifPickerCategories} style={{display: props.hide ? "none" : "flex"}}>
@@ -201,15 +201,15 @@ const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCat
       <div class={styles.gap} />
       
     </div>
-  )
-}
+  );
+};
 
 function GifItemSkeleton() {
   return (
-    <Skeleton.List count={20} style={{width: "100%", "flex-wrap": 'wrap', "flex-direction": 'row'}}>
+    <Skeleton.List count={20} style={{width: "100%", "flex-wrap": "wrap", "flex-direction": "row"}}>
       <Skeleton.Item height='100px' width='calc(50% - 5px)'/>
     </Skeleton.List>
-  )
+  );
 }
 
 
@@ -222,8 +222,8 @@ const GifCategoryItem = (props: {category: TenorCategory; onClick?: () => void})
       <img class={styles.image} src={props.category.image} alt={props.category.searchterm} loading='lazy' />
       <div class={styles.name}>{props.category.searchterm}</div>
     </div>
-  )
-}
+  );
+};
 
 
 
@@ -232,14 +232,14 @@ export const FloatingEmojiPicker = (props: {x: number, y: number; close: () => v
   const onPick = (shortcode: string) => {
     props.onClick(shortcode);
     props.close();
-  }
+  };
 
   return (
     <FloatingInScreen close={props.close} x={props.x} y={props.y}>
       <EmojiPicker onClick={onPick} close={props.close}/>
     </FloatingInScreen>
-  )
-}
+  );
+};
 
 
 
@@ -258,7 +258,7 @@ const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number
   let floatingElementRef: undefined | HTMLDivElement;
 
   const {isMobileAgent} = useWindowProperties();
-  const {width, height} = useResizeObserver(() => floatingElementRef)
+  const {width, height} = useResizeObserver(() => floatingElementRef);
 
   const styles = () => {
     const _styles: JSX.CSSProperties = {};
@@ -266,8 +266,8 @@ const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number
     if (isMobileAgent()) {
       return {
         bottom: "0",
-        right: "0",
-      }
+        right: "0"
+      };
     }
 
 
@@ -284,12 +284,12 @@ const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number
       _styles.top = window.innerHeight - height() + "px";
     }
     return _styles;
-  }
+  };
 
   const onMouseDown = (event: any) => {
     if (!event.target.classList.contains("floatingInScreenBGContainer")) return;
     props.close();
-  }
+  };
 
   return (
     <FloatingInScreenBGContainer class="floatingInScreenBGContainer" onClick={onMouseDown}>
@@ -297,5 +297,5 @@ const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number
         {props.children}
       </FloatingContainer>
     </FloatingInScreenBGContainer>
-  )
-}
+  );
+};

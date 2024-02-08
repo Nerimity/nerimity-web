@@ -50,7 +50,7 @@ export function Banner(props: { brightness?: number; class?: string; margin?: nu
   };
 
   const getStyles = () => {
-    const styles: JSX.CSSProperties = {}
+    const styles: JSX.CSSProperties = {};
 
     if (props.maxHeight) {
       styles["max-height"] = props.maxHeight + "px";
@@ -60,7 +60,7 @@ export function Banner(props: { brightness?: number; class?: string; margin?: nu
 
     styles.margin = (props.margin === undefined ? 10 : props.margin) + "px";
     return styles;
-  }
+  };
 
   return (
     <BannerContainer class={props.class} style={getStyles()}>
@@ -68,5 +68,5 @@ export function Banner(props: { brightness?: number; class?: string; margin?: nu
       <Show when={!url()}><SolidColor brightness={props.brightness} color={props.hexColor!} /></Show>
       {props.children}
     </BannerContainer>
-  )
+  );
 }

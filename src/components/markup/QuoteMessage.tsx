@@ -25,15 +25,15 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const { serverMembers, messages } = useStore();
   const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.quote.createdBy!.id) : undefined;
-  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete)
-  socketClient.useSocketOn(ServerEvents.MESSAGE_UPDATED, onUpdate)
+  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete);
+  socketClient.useSocketOn(ServerEvents.MESSAGE_UPDATED, onUpdate);
   
   function onDelete(payload: {channelId: string, messageId: string;}) {
     if (props.quote.id !== payload.messageId) return;
     
     messages.updateLocalMessage({
       quotedMessages: props.message.quotedMessages.filter(m => m.id !== props.quote.id)
-    }, props.message.channelId, props.message.id)
+    }, props.message.channelId, props.message.id);
   }
   
   function onUpdate(payload: {channelId: string, messageId: string, updated: Message}) {
@@ -41,16 +41,16 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
 
     const quotedMessages = [...props.message.quotedMessages];
     const index = quotedMessages.findIndex(q => q.id === props.quote.id);
-    quotedMessages[index] = {...quotedMessages[index], ...payload.updated} 
+    quotedMessages[index] = {...quotedMessages[index], ...payload.updated}; 
     messages.updateLocalMessage({
-      quotedMessages,
-    }, props.message.channelId, props.message.id)
+      quotedMessages
+    }, props.message.channelId, props.message.id);
   }
 
   const editedAt = () => {
     if (!props.quote.editedAt) return;
     return "Edited at " + formatTimestamp(props.quote.editedAt);
-  }
+  };
 
   return (
     <div class="quoteContainer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
@@ -74,13 +74,13 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
       <Embeds hovered={hovered()} message={props.quote} maxWidth={160}  maxHeight={160}  />
 
     </div>
-  )
+  );
 }
 
 
 export function QuoteMessageInvalid() {
-  return <div class="quoteContainer">Deleted Or Invalid Quote.</div>
+  return <div class="quoteContainer">Deleted Or Invalid Quote.</div>;
 }
 export function QuoteMessageHidden() {
-  return <span class="hiddenQuote">Nested Quote</span>
+  return <span class="hiddenQuote">Nested Quote</span>;
 }

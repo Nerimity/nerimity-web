@@ -24,27 +24,27 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   let body = message.content;
 
   if (!body && message.attachments?.length) {
-    body = "Image Message"
+    body = "Image Message";
   }
   if (message.type === MessageType.BAN_USER) {
     body = `${message.createdBy.username} has been banned.`,
-    title = `${server?.name} #${channel.name}`
+    title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.KICK_USER) {
     body = `${message.createdBy.username} has been kicked.`,
-    title = `${server?.name} #${channel.name}`
+    title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.JOIN_SERVER) {
     body = `${message.createdBy.username} joined the server.`,
-    title = `${server?.name} #${channel.name}`
+    title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.LEAVE_SERVER) {
     body = `${message.createdBy.username} left the server.`,
-    title = `${server?.name} #${channel.name}`
+    title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.CALL_STARTED) {
     body = `${message.createdBy.username} started a call.`,
-    title = `${server?.name} #${channel.name}`
+    title = `${server?.name} #${channel.name}`;
   }
 
 
@@ -55,14 +55,14 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
     renotify: true,
 
     icon: server?.avatarUrl() || undefined
-  })
+  });
 }
 function createDMDesktopNotification(message: Message) {
   const title = message.createdBy.username;
   let body = message.content;
 
   if (!body && message.attachments?.length) {
-    body = "Image Message"
+    body = "Image Message";
   }
   if (message.type === MessageType.CALL_STARTED) {
     body = `${message.createdBy.username} started a call.`;
@@ -74,5 +74,5 @@ function createDMDesktopNotification(message: Message) {
     tag: message.channelId,
     renotify: true,
     icon: avatarUrl(message.createdBy) || undefined
-  })
+  });
 }

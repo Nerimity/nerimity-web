@@ -4,9 +4,9 @@ export function fileToDataUrl(file: File): Promise<string> {
     const reader = new FileReader();
 
     reader.addEventListener("load", () => {
-      resolve(reader.result as string)
+      resolve(reader.result as string);
     },false);
   
     reader.readAsDataURL(file);
-  })
+  });
 }

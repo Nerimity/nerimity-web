@@ -28,7 +28,7 @@ const [state, setState] = createStore<State>({
   userPostIds: {},
   posts: {},
   feedPostIds: [],
-  discoverPostIds: [],
+  discoverPostIds: []
 });
 
 export function usePosts() {
@@ -43,21 +43,21 @@ export function usePosts() {
         commentTo: undefined, 
         async delete() {
           await deletePost(this.id);
-          setState("posts", this.id, { ...this, content: undefined, deleted: true })
+          setState("posts", this.id, { ...this, content: undefined, deleted: true });
         },
         async like() {
           const newPost = await likePost(this.id);
-          setState("posts", newPost.id, {...this, ...newPost})
+          setState("posts", newPost.id, {...this, ...newPost});
           return this.id;
         },
         async unlike() {
           const newPost = await unlikePost(this.id);
-          setState("posts", newPost.id, {...this, ...newPost})
+          setState("posts", newPost.id, {...this, ...newPost});
           return this.id;
         },
         async editPost(content: string) {
           const newPost = await editPost(this.id, content);
-          setState("posts", newPost.id, {...this, ...newPost})
+          setState("posts", newPost.id, {...this, ...newPost});
         },
         async loadComments() {
           const comments = await getCommentPosts({postId: this.id, limit: 30});
@@ -72,8 +72,8 @@ export function usePosts() {
               if (this.commentIds?.includes(comment.id)) continue;
               setState("posts", this.id, "commentIds", [comment.id, ...this.commentIds!]);
             }
-          })
-          return comments
+          });
+          return comments;
         },
         async loadMoreComments() {
           const afterId = this.commentIds?.at(-1);
@@ -90,14 +90,14 @@ export function usePosts() {
               if (this.commentIds?.includes(comment.id)) continue;
               setState("posts", this.id, "commentIds", [...this.commentIds!, comment.id]);
             }
-          })
+          });
           return comments;
         },
         async submitReply(opts: {content: string, attachment?: File}) {
           const account = useAccount();
           const formattedContent = opts.content.trim();
           const post = await createPost({content: formattedContent, attachment: opts.attachment, replyToPostId: this.id}).catch((err) => {
-            alert(err.message)
+            alert(err.message);
           });
           if (!post) return;
           batch(() => {
@@ -106,10 +106,10 @@ export function usePosts() {
             }
             pushPost(post, account.user()?.id!);
             setState("posts", this.id, "commentIds", [post.id, ...this.commentIds!]);
-          })
+          });
         },
         cachedComments() {
-          return this.commentIds?.map(postId => state.posts[postId] as Post)
+          return this.commentIds?.map(postId => state.posts[postId] as Post);
         }
       });
       if (!userId) return;
@@ -121,23 +121,24 @@ export function usePosts() {
       if (state.userPostIds[userId]?.includes(post.id)) return;
       if (prependUserPost) {
         setState("userPostIds", userId, [...state.userPostIds[userId]!, post.id]);
-      } else {
+      }
+      else {
         setState("userPostIds", userId, [post.id, ...state.userPostIds[userId]!]);
       }
-    })
-  }
+    });
+  };
 
   const submitPost = async (opts: {content: string, file?: File}) => {
     const account = useAccount();
     const formattedContent = opts.content.trim();
     const post = await createPost({content: formattedContent, attachment: opts.file}).catch((err) => {
-      alert(err.message)
+      alert(err.message);
     });
     if (!post) return;
     pushPost(post, account.user()?.id!);
     setState("feedPostIds", [post.id, ...state.feedPostIds]);
     setState("discoverPostIds", [post.id, ...state.discoverPostIds]);
-  }
+  };
 
   const fetchUserPosts = async (userId: string, withReplies?: boolean) => {
     setState("userPostIds", userId, []);
@@ -147,9 +148,9 @@ export function usePosts() {
         const post = posts[i];
         pushPost(post, userId);
       }
-    })
+    });
     return posts;
-  }
+  };
   const fetchMoreUserPosts = async (userId: string, withReplies?: boolean) => {
     const afterId = state.userPostIds?.[userId]?.at(-1);
     if (!afterId) return [];
@@ -160,9 +161,9 @@ export function usePosts() {
         const post = posts[i];
         pushPost(post, userId, true);
       }
-    })
+    });
     return posts;
-  }
+  };
   const fetchUserLikedPosts = async (userId: string) => {
     setState("userPostIds", userId, []);
     const posts = await getPostsLiked(userId);
@@ -171,34 +172,34 @@ export function usePosts() {
         const post = posts[i];
         pushPost(post, userId);
       }
-    })
-  }
+    });
+  };
 
   const cachedUserPosts = (userId: string) => {
     const postIds = state.userPostIds?.[userId];
     return postIds?.map(postId => state.posts[postId] as Post);
-  }
+  };
   const fetchAndPushPost = async (postId: string) => {
     if (state.posts[postId]) return state.posts[postId];
     const post = await getPost(postId);
     if (!post) return undefined;
     pushPost(post);
     return state.posts[postId];
-  }
+  };
 
 
   const fetchFeed = async () => {
-    setState('feedPostIds', []);
+    setState("feedPostIds", []);
     const posts = await getFeedPosts();
     batch(() => {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
         pushPost(post);
-        setState('feedPostIds', state.feedPostIds.length, post.id);
+        setState("feedPostIds", state.feedPostIds.length, post.id);
       }
-    })
+    });
     return posts;
-  }
+  };
 
   const fetchMoreFeed = async () => {
     const afterId = state.feedPostIds?.at(-1);
@@ -208,15 +209,15 @@ export function usePosts() {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
         pushPost(post);
-        setState('feedPostIds', [...state.feedPostIds, post.id]);
+        setState("feedPostIds", [...state.feedPostIds, post.id]);
       }
-    })
+    });
     return posts;
-  }
+  };
 
 
   const fetchDiscover = async () => {
-    setState('discoverPostIds', []);
+    setState("discoverPostIds", []);
     const posts = await getDiscoverPosts();
     posts.reverse();
     
@@ -224,11 +225,11 @@ export function usePosts() {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
         pushPost(post);
-        setState('discoverPostIds', state.discoverPostIds.length, post.id);
+        setState("discoverPostIds", state.discoverPostIds.length, post.id);
       }
-    })
+    });
     return posts;
-  }
+  };
 
   const fetchMoreDiscover = async () => {
     const afterId = state.discoverPostIds?.at(-1);
@@ -239,11 +240,11 @@ export function usePosts() {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
         pushPost(post);
-        setState('discoverPostIds', [...state.discoverPostIds, post.id]);
+        setState("discoverPostIds", [...state.discoverPostIds, post.id]);
       }
-    })
+    });
     return posts;
-  }
+  };
 
 
 
@@ -252,5 +253,5 @@ export function usePosts() {
   const cachedDiscover = () => state.discoverPostIds.map(id => state.posts[id] as Post);
   const cachedPost = (postId: string) => state.posts[postId];
 
-  return {cachedDiscover, fetchDiscover, fetchMoreDiscover, pushPost, fetchFeed, cachedFeed, fetchMoreFeed, cachedPost, fetchUserPosts, fetchMoreUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts}
+  return {cachedDiscover, fetchDiscover, fetchMoreDiscover, pushPost, fetchFeed, cachedFeed, fetchMoreFeed, cachedPost, fetchUserPosts, fetchMoreUserPosts, cachedUserPosts, submitPost, fetchAndPushPost, fetchUserLikedPosts};
 }

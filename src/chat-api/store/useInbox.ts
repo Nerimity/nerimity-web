@@ -1,8 +1,8 @@
-import {createStore} from 'solid-js/store';
-import { RawInboxWithoutChannel } from '../RawData';
-import useChannels, { Channel } from './useChannels';
-import useMention from './useMention';
-import useUsers from './useUsers';
+import {createStore} from "solid-js/store";
+import { RawInboxWithoutChannel } from "../RawData";
+import useChannels, { Channel } from "./useChannels";
+import useMention from "./useMention";
+import useUsers from "./useUsers";
 
 
 export type Inbox = RawInboxWithoutChannel & {
@@ -27,23 +27,23 @@ const set = (item: RawInboxWithoutChannel) => {
   
   setInbox(item.channelId, {
     ...item,
-    channel,
+    channel
   });
-}
+};
 
 function channel (this: Inbox) {
   const channels = useChannels();
-  return channels.get(this.channelId)!
+  return channels.get(this.channelId)!;
 }
 
 
 const removeInbox = (channelId: string) => {
   setInbox(channelId, undefined!);
-}
+};
 
 const get = (userId: string) => {
   return inbox[userId];
-}
+};
 
 
 const array = () => Object.values(inbox);
@@ -60,11 +60,11 @@ const notificationCount = () => {
     const mention = mentionsArr[i];
     const channel = channels.get(mention?.channelId!);
     if (channel?.serverId) continue;
-    count += mention?.count || 0
+    count += mention?.count || 0;
   }
 
   return count;
-}
+};
 
 export default function useInbox() {
   return {
@@ -73,5 +73,5 @@ export default function useInbox() {
     set,
     notificationCount,
     removeInbox
-  }
+  };
 }

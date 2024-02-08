@@ -17,9 +17,9 @@ export const onConnect = (socket: Socket, token?: string) => {
     socketId: socket.id,
     socketConnected: true,
     socketAuthenticated: false
-  })
+  });
   socket.emit(ClientEvents.AUTHENTICATE, { token });
-}
+};
 
 export const onDisconnect = () => {
   const account = useAccount();
@@ -28,10 +28,10 @@ export const onDisconnect = () => {
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false
-  })
+  });
   voiceUsers.resetAll();
 
-}
+};
 
 export const onAuthenticateError = (error: { message: string, data: any }) => {
   const account = useAccount();
@@ -39,9 +39,9 @@ export const onAuthenticateError = (error: { message: string, data: any }) => {
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false,
-    authenticationError: error,
-  })
-}
+    authenticationError: error
+  });
+};
 
 export const onReconnectAttempt = () => {
   const account = useAccount();
@@ -49,34 +49,34 @@ export const onReconnectAttempt = () => {
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false
-  })
-}
+  });
+};
 
 
 electronWindowAPI()?.activityStatusChanged(window => {
   if (!window) {
-    return emitActivityStatus(null)
+    return emitActivityStatus(null);
   }
-  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
-  const program = programs.find(program => program.filename === window?.filename)
+  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
+  const program = programs.find(program => program.filename === window?.filename);
   
   if (!program) {
-    return emitActivityStatus(null)
+    return emitActivityStatus(null);
   }
 
   emitActivityStatus({
     action: program.action || "Playing",
     name: program.name,
     startedAt: window.createdAt
-  })
-})
+  });
+});
 
 
 
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
   const { account, servers, users, channels, serverMembers, friends, inbox, mentions, serverRoles, voiceUsers } = useStore();
-  console.log('[WS] Authenticated.');
+  console.log("[WS] Authenticated.");
 
   const t0 = performance.now();
 
@@ -94,8 +94,8 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       socketConnected: true,
       socketAuthenticated: true,
       lastAuthenticatedAt: Date.now()
-    })
-    users.set(payload.user)
+    });
+    users.set(payload.user);
 
 
     for (let i = 0; i < payload.serverRoles.length; i++) {
@@ -160,7 +160,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       const channel = channels.get(mention.channelId);
 
       if (!mention.serverId) {
-        channel?.updateLastSeen(mention.createdAt)
+        channel?.updateLastSeen(mention.createdAt);
       }
 
       const user = users.get(mention.mentionedById);
@@ -172,7 +172,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
         channelId: mention.channelId,
         userId: mention.mentionedById,
         count: mention.count,
-        serverId: mention.serverId,
+        serverId: mention.serverId
       });
 
 
@@ -183,12 +183,12 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       const voiceChannelUser = payload.voiceChannelUsers[i];
       voiceUsers.set(voiceChannelUser);
     }
-  })
+  });
 
   const t1 = performance.now();
   console.log(`${t1 - t0} milliseconds.`);
 
 
-  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, [])
+  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
   electronWindowAPI()?.restartActivityStatus(programs);
-}
+};

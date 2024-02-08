@@ -1,7 +1,7 @@
-import {createStore} from 'solid-js/store';
-import useChannels from './useChannels';
-import useAccount from './useAccount';
-import { ServerNotificationPingMode } from '../RawData';
+import {createStore} from "solid-js/store";
+import useChannels from "./useChannels";
+import useAccount from "./useAccount";
+import { ServerNotificationPingMode } from "../RawData";
 
 export type Mention = {
   channelId: string;
@@ -26,7 +26,7 @@ const set = (mention: Mention) => {
   }
 
   setMentions(mention.channelId, mention);
-}
+};
 
 const array = () => Object.values(mentions);
 const get = (channelId: string) => mentions[channelId];
@@ -35,13 +35,13 @@ const getDmCount = (userId: string) => {
   const channels = useChannels();
   return array().find(m => {
     const channel = channels.get(m?.channelId!);
-    return m?.userId === userId && (!channel || channel.recipientId)
+    return m?.userId === userId && (!channel || channel.recipientId);
   })?.count || 0; 
-}
+};
 
 const remove = (channelId: string) => {
   setMentions(channelId, undefined);
-}
+};
 
 
 
@@ -52,5 +52,5 @@ export default function useMention() {
     get,
     getDmCount,
     remove
-  }
+  };
 }

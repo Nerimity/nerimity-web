@@ -1,12 +1,12 @@
-import styles from './Modal.module.scss';
-import { useWindowProperties } from '@/common/useWindowProperties';
-import { JSX, Show } from 'solid-js';
-import { Portal } from 'solid-js/web';
+import styles from "./Modal.module.scss";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { JSX, Show } from "solid-js";
+import { Portal } from "solid-js/web";
 
-import Icon from '../icon/Icon';
-import Text from '../Text';
-import Button from '../Button';
-import { classNames } from '@/common/classNames';
+import Icon from "../icon/Icon";
+import Text from "../Text";
+import Button from "../Button";
+import { classNames } from "@/common/classNames";
 
 interface Props {
   children: JSX.Element;
@@ -31,17 +31,17 @@ export default function Modal(props: Props) {
 
     ...(props.maxHeight ? {
       "max-height": `${props.maxHeight}px`,
-      height: `${isMobileWidth() ? 'calc(100% - 20px)' : '100%'}`
+      height: `${isMobileWidth() ? "calc(100% - 20px)" : "100%"}`
     } : {})
 
-  } as JSX.CSSProperties)
+  } as JSX.CSSProperties);
 
 
   const onBackgroundClick = (event: MouseEvent) => {
     if (props.ignoreBackgroundClick) return;
     if (mouseDownTarget?.closest(".modal")) return;
-    props.close?.()
-  }
+    props.close?.();
+  };
   return (
     <Portal>
       <div class={classNames(styles.backgroundContainer, "modal-bg")} onClick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as HTMLDivElement}>
@@ -49,9 +49,9 @@ export default function Modal(props: Props) {
           "modal": true,
           [props.class || ""]: true,
           [styles.modalContainer]: true,
-          [styles.mobile]: isMobileWidth(),
+          [styles.mobile]: isMobileWidth()
         }}
-          >
+        >
           <div class={styles.header}>
             <Show when={props.icon}>
               <Icon class={styles.icon} onClick={props.close} name={props.icon} color='var(--primary-color)'  size={18} />
@@ -70,5 +70,5 @@ export default function Modal(props: Props) {
         </div>
       </div>
     </Portal>
-  )
+  );
 }

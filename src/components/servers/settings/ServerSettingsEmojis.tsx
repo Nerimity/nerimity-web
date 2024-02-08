@@ -42,36 +42,36 @@ export default function ServerSettingsBans() {
     header.updateHeader({
       title: "Settings - Emojis",
       serverId: params.serverId!,
-      iconName: 'settings',
+      iconName: "settings"
     });
-  })
+  });
 
   const server = () => servers.get(params.serverId);
 
   const onFilePick = async (files: FileList) => {
     const file = files[0];
     const base64Image = await getBase64(file);
-    const name = file.name.split(".")[0]
+    const name = file.name.split(".")[0];
     addServerEmoji(params.serverId, name.substring(0, 15), base64Image!).then(newEmoji => {
-      setEmojis(() => [{ ...newEmoji, uploadedBy: account.user() as RawUser }, ...emojis()])
-    })
+      setEmojis(() => [{ ...newEmoji, uploadedBy: account.user() as RawUser }, ...emojis()]);
+    });
 
-  }
+  };
 
   onMount(() => {
-    getServerEmojis(params.serverId).then(setEmojis)
-  })
+    getServerEmojis(params.serverId).then(setEmojis);
+  });
 
   const deleteEmoji = (emoji: RawCustomEmojiWithCreator) => {
-    setEmojis(emojis().filter(e => e !== emoji))
-  }
+    setEmojis(emojis().filter(e => e !== emoji));
+  };
 
 
   return (
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
-        <BreadcrumbItem title={t('servers.settings.drawer.emojis')} />
+        <BreadcrumbItem title={t("servers.settings.drawer.emojis")} />
       </Breadcrumb>
 
 
@@ -80,7 +80,7 @@ export default function ServerSettingsBans() {
         <FileBrowser accept="images" ref={setFileBrowser} onChange={onFilePick} />
         <Button label="Add Emoji" onClick={() => fileBrowser()?.open()} />
       </SettingsBlock>
-        <EmojiCountPane count={emojis().length}/>
+      <EmojiCountPane count={emojis().length}/>
       <Show when={emojis()?.length}>
         <For each={emojis()!}>
           {(emoji) => <EmojiItem emoji={emoji} onDelete={deleteEmoji(emoji)} />}
@@ -89,7 +89,7 @@ export default function ServerSettingsBans() {
 
 
     </Container>
-  )
+  );
 }
 
 
@@ -105,8 +105,8 @@ const EmojiCountPane = (props: {count: number}) => {
     <EmojiCountPaneContainer>
       <Text size={13} opacity={0.6}>({props.count}/30)</Text>
     </EmojiCountPaneContainer>
-  )
-}
+  );
+};
 
 
 const EmojiItemContainer = styled(FlexRow)`
@@ -137,22 +137,22 @@ const EmojiInput = styled("input")`
 
 
 function EmojiItem(props: { emoji: RawCustomEmojiWithCreator, onDelete():void }) {
-  const [name, setName] = createSignal(props.emoji.name)
-  const params = useParams<{ serverId: string }>()
+  const [name, setName] = createSignal(props.emoji.name);
+  const params = useParams<{ serverId: string }>();
 
   const onBlur = async () => {
     const newName = name().trim();
     if (!newName.length) return setName(props.emoji.name);
     await updateServerEmoji(params.serverId, props.emoji.id, newName);
-  }
+  };
 
   const onInput = (event: any) => {
-    setName(event.target.value.replace(/[^0-9a-zA-Z]/g, '_'));
-  }
+    setName(event.target.value.replace(/[^0-9a-zA-Z]/g, "_"));
+  };
 
   const deleteEmoji = () => {
-    deleteServerEmoji(params.serverId, props.emoji.id).then(props.onDelete)
-  }
+    deleteServerEmoji(params.serverId, props.emoji.id).then(props.onDelete);
+  };
 
 
 
@@ -163,12 +163,12 @@ function EmojiItem(props: { emoji: RawCustomEmojiWithCreator, onDelete():void })
       </div>
       <FlexColumn>
         <EmojiInput onblur={onBlur} spellcheck="false" maxlength={15} value={name()} onInput={onInput} />
-        <FlexRow gap={5} style={{ "align-items": 'center', "margin-left": "15px", "margin-top": "5px" }}>
+        <FlexRow gap={5} style={{ "align-items": "center", "margin-left": "15px", "margin-top": "5px" }}>
           <Avatar user={props.emoji.uploadedBy} size={15} />
           <Text size={13}>{props.emoji.uploadedBy.username}</Text>
         </FlexRow>
       </FlexColumn>
       <Button class={css`margin-left: auto;`} onClick={deleteEmoji} padding={5} iconSize={16} color="var(--alert-color)" iconName="delete" />
     </EmojiItemContainer>
-  )
+  );
 }

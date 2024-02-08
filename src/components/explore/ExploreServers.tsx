@@ -1,28 +1,28 @@
-import { RawPublicServer } from '@/chat-api/RawData';
-import { BumpPublicServer, getPublicServers, joinPublicServer } from '@/chat-api/services/ServerService';
-import { avatarUrl, bannerUrl } from '@/chat-api/store/useServers';
-import useStore from '@/chat-api/store/useStore';
-import RouterEndpoints from '@/common/RouterEndpoints';
-import { useTransContext } from '@mbarzda/solid-i18next';
-import { A, useNavigate } from 'solid-navigator';
-import { update } from 'idb-keyval';
-import { createSignal, For, Show } from 'solid-js';
-import { createEffect } from 'solid-js';
-import { css, styled } from 'solid-styled-components';
-import { ServerVerifiedIcon } from '../servers/ServerVerifiedIcon';
-import Avatar from '../ui/Avatar';
-import Button from '../ui/Button';
-import DropDown, { DropDownItem } from '../ui/drop-down/DropDown';
-import { FlexColumn, FlexRow } from '../ui/Flexbox';
-import Icon from '../ui/icon/Icon';
-import { Notice } from '../ui/Notice/Notice';
-import Text from '../ui/Text';
-import { Banner } from '../ui/Banner';
-import { timeSince } from '@/common/date';
-import { useCustomPortal } from '../ui/custom-portal/CustomPortal';
-import Modal from '../ui/modal/Modal';
-import { Turnstile, TurnstileRef } from '@nerimity/solid-turnstile';
-import env from '@/common/env';
+import { RawPublicServer } from "@/chat-api/RawData";
+import { BumpPublicServer, getPublicServers, joinPublicServer } from "@/chat-api/services/ServerService";
+import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
+import useStore from "@/chat-api/store/useStore";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { A, useNavigate } from "solid-navigator";
+import { update } from "idb-keyval";
+import { createSignal, For, Show } from "solid-js";
+import { createEffect } from "solid-js";
+import { css, styled } from "solid-styled-components";
+import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
+import Avatar from "../ui/Avatar";
+import Button from "../ui/Button";
+import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import Icon from "../ui/icon/Icon";
+import { Notice } from "../ui/Notice/Notice";
+import Text from "../ui/Text";
+import { Banner } from "../ui/Banner";
+import { timeSince } from "@/common/date";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import Modal from "../ui/modal/Modal";
+import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
+import env from "@/common/env";
 
 const Container = styled("div")`
   display: flex;
@@ -41,39 +41,39 @@ export default function ExploreServers() {
   const [t] = useTransContext();
   const { header } = useStore();
   const [publicServers, setPublicServers] = createSignal<null | RawPublicServer[]>(null);
-  const [query, setQuery] = createSignal({ sort: 'most_members', filter: 'verified' })
+  const [query, setQuery] = createSignal({ sort: "most_members", filter: "verified" });
 
 
   createEffect(() => {
     header.updateHeader({
-      title: t('explore.servers.title'),
-      iconName: 'explore',
+      title: t("explore.servers.title"),
+      iconName: "explore"
     });
-  })
+  });
 
   createEffect(() => {
     getPublicServers(query().sort as any, query().filter as any).then(servers => {
       setPublicServers(servers);
-    })
-  })
+    });
+  });
 
   const sortOpts: DropDownItem[] = [
-    { id: 'most_bumps', label: t('explore.servers.sortMostBumps') },
-    { id: 'most_members', label: t('explore.servers.sortMostMembers') },
-    { id: 'recently_added', label: t('explore.servers.sortRecentlyAdded') },
-    { id: 'recently_bumped', label: t('explore.servers.sortRecentlyBumped') },
+    { id: "most_bumps", label: t("explore.servers.sortMostBumps") },
+    { id: "most_members", label: t("explore.servers.sortMostMembers") },
+    { id: "recently_added", label: t("explore.servers.sortRecentlyAdded") },
+    { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") }
   ];
 
   const filterOpts: DropDownItem[] = [
-    { id: 'all', label: t('explore.servers.filterAll') },
-    { id: 'verified', label: t('explore.servers.filterVerified') },
+    { id: "all", label: t("explore.servers.filterAll") },
+    { id: "verified", label: t("explore.servers.filterVerified") }
   ];
 
   const update = (newPublicServer: RawPublicServer, index: number) => {
     const current = [...publicServers()!];
     current[index] = newPublicServer;
     setPublicServers(current);
-  }
+  };
 
   return (
     <Container>
@@ -82,7 +82,7 @@ export default function ExploreServers() {
           <DropDown title='Sort' items={sortOpts} selectedId="most_members" onChange={i => setQuery({ ...query(), sort: i.id })} />
           <DropDown title='Filter' items={filterOpts} selectedId="verified" onChange={i => setQuery({ ...query(), filter: i.id })} />
         </FlexRow>
-        <Notice type='info' description={t('explore.servers.noticeMessage', { hours: '3', date: 'Monday at 0:00 UTC' })} />
+        <Notice type='info' description={t("explore.servers.noticeMessage", { hours: "3", date: "Monday at 0:00 UTC" })} />
         <Notice class={css`margin-bottom: 10px;`} type='warn' description="Servers are not moderated by Nerimity. Please report servers that break the TOS." />
         <GridLayout>
           <For each={publicServers()}>
@@ -91,7 +91,7 @@ export default function ExploreServers() {
         </GridLayout>
       </Show>
     </Container>
-  )
+  );
 }
 
 
@@ -125,7 +125,7 @@ const serverNameStyles = css`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-`
+`;
 const avatarStyles = css`
   margin-top: -40px;
   margin-left: 10px;
@@ -170,10 +170,10 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
     if (joinClicked()) return;
     setJoinClicked(true);
     await joinPublicServer(props.publicServer.serverId).catch((err) => {
-      alert(err.message)
-      setJoinClicked(false)
-    })
-  }
+      alert(err.message);
+      setJoinClicked(false);
+    });
+  };
 
   const bumpClick = () => {
 
@@ -188,14 +188,14 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
       alert(`You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`);
       return;
     }
-    return createPortal(close => <ServerBumpModal update={props.update} publicServer={props.publicServer} close={close} />)
-  }
+    return createPortal(close => <ServerBumpModal update={props.update} publicServer={props.publicServer} close={close} />);
+  };
 
   createEffect(() => {
     if (joinClicked() && cacheServer()) {
       navigate(RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId));
     }
-  })
+  });
 
 
 
@@ -211,33 +211,33 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
         <MemberContainer gap={5}>
           <FlexRow gap={5}>
             <Icon name='people' size={17} color="var(--primary-color)" />
-            <Text size={12}>{t('explore.servers.memberCount', { count: server._count.serverMembers.toLocaleString() })}</Text>
+            <Text size={12}>{t("explore.servers.memberCount", { count: server._count.serverMembers.toLocaleString() })}</Text>
           </FlexRow>
           <FlexRow gap={5}>
             <Icon name='arrow_upward' size={17} color="var(--primary-color)" />
-            <Text size={12}>{t('explore.servers.lifetimeBumpCount', { count: props.publicServer.lifetimeBumpCount.toLocaleString() })}</Text>
+            <Text size={12}>{t("explore.servers.lifetimeBumpCount", { count: props.publicServer.lifetimeBumpCount.toLocaleString() })}</Text>
           </FlexRow>
         </MemberContainer>
       </DetailsContainer>
       <Text class={descriptionStyles} size={14} opacity={0.7}>{props.publicServer.description}</Text>
       <ButtonsContainer>
-        <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t('explore.servers.bumpButton', { count: props.publicServer.bumpCount.toLocaleString() })} />
-        <Show when={cacheServer()}><A style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t('explore.servers.visitServerButton')} /></A></Show>
-        <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t('explore.servers.joinServerButton')} /></Show>
+        <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t("explore.servers.bumpButton", { count: props.publicServer.bumpCount.toLocaleString() })} />
+        <Show when={cacheServer()}><A style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t("explore.servers.visitServerButton")} /></A></Show>
+        <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t("explore.servers.joinServerButton")} /></Show>
       </ButtonsContainer>
-      <FlexRow style={{ "align-items": 'center', "margin-left": "auto", "margin-right": "5px" }} gap={5}>
+      <FlexRow style={{ "align-items": "center", "margin-left": "auto", "margin-right": "5px" }} gap={5}>
         <Icon name='schedule' size={14} color='rgba(255,255,255,0.8)' />
         <Text size={12} color='rgba(255,255,255,0.6)'>Last bumped {timeSince(props.publicServer.bumpedAt)}</Text>
       </FlexRow>
     </ServerItemContainer>
-  )
+  );
 }
 
 const ServerBumpModalContainer = styled(FlexRow)`
   justify-content: center;
   align-items: center;
   padding: 10px;
-`
+`;
 
 export function ServerBumpModal(props: { update(server: RawPublicServer): void; publicServer: RawPublicServer; close(): void; }) {
   const [verifyToken, setVerifyKey] = createSignal<string | undefined>(undefined);
@@ -252,19 +252,19 @@ export function ServerBumpModal(props: { update(server: RawPublicServer): void; 
       })
       .catch((err) => {
         setVerifyKey(undefined);
-        alert(err.message)
+        alert(err.message);
         turnstileRef?.reset();
-      })
-  }
+      });
+  };
 
   const ActionButtons = (
-    <FlexRow style={{ "justify-content": "flex-end", width: '100%' }}>
+    <FlexRow style={{ "justify-content": "flex-end", width: "100%" }}>
       <Button iconName='close' onClick={props.close} color='var(--alert-color)' label='Back' />
       <Show when={verifyToken()}>
         <Button iconName='arrow_upward' label='Bump' onClick={bumpServer} />
       </Show>
     </FlexRow>
-  )
+  );
 
 
   return (
@@ -278,5 +278,5 @@ export function ServerBumpModal(props: { update(server: RawPublicServer): void; 
         />
       </ServerBumpModalContainer>
     </Modal>
-  )
+  );
 }

@@ -3,8 +3,8 @@ export default {
   SERVER_MESSAGES: (serverId: string, channelId: string) => `/app/servers/${serverId}/${channelId}`,
   SERVER: (serverId: string) => `/app/servers/${serverId}`,
 
-  LOGIN: (redirect?: string) => `/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`,
-  REGISTER: (redirect?: string) => `/register${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`,
+  LOGIN: (redirect?: string) => `/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""}`,
+  REGISTER: (redirect?: string) => `/register${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""}`,
   
   SERVER_SETTINGS_GENERAL: (serverId: string) => `/app/servers/${serverId}/settings/general`,
   SERVER_SETTINGS_INVITES: (serverId: string) => `/app/servers/${serverId}/settings/invites`,
@@ -21,6 +21,6 @@ export default {
   EXPLORE_SERVER_INVITE: (inviteId: string) => `/app/explore/servers/invites/${inviteId}`,
   EXPLORE_SERVER_INVITE_SHORT: (inviteId: string) => `/i/${inviteId}`,
   
-  INBOX: () => '/app/inbox',
-  INBOX_MESSAGES: (channelId: string) => `/app/inbox/${channelId}`,
-}
+  INBOX: () => "/app/inbox",
+  INBOX_MESSAGES: (channelId: string) => `/app/inbox/${channelId}`
+};

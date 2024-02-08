@@ -44,7 +44,7 @@ export default function SuspendUsersModal(props: Props) {
     let round = Math.round(parseInt(suspendFor()));
     round < 0 && (round = 0);
     setSuspendFor(round.toString());
-  })
+  });
 
   const onSuspendClicked = () => {
     if (suspending()) return;
@@ -56,19 +56,21 @@ export default function SuspendUsersModal(props: Props) {
       expireAt: suspendFor() ? daysToDate(parseInt(suspendFor())) : null,
       suspendedAt: Date.now(),
       reason: reason() || undefined
-    }
+    };
 
     suspendUsers(password(), userIds, parseInt(suspendFor()), reason() || undefined, ipBan())
-      .then(() => {props.done(preview); props.close();})
+      .then(() => {
+        props.done(preview); props.close();
+      })
       .catch(err => setError(err))
-      .finally(() => setSuspending(false))
-  }
+      .finally(() => setSuspending(false));
+  };
 
   const ActionButtons = (
     <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button onClick={onSuspendClicked} margin={0} label={suspending() ? "Suspending..." : "Suspend"} color="var(--alert-color)" primary />
     </FlexRow>
-  )
+  );
 
 
 
@@ -95,7 +97,7 @@ export default function SuspendUsersModal(props: Props) {
         </Show>
       </SuspendUsersContainer>
     </Modal>
-  )
+  );
 }
 
 function daysToDate(days: number) {

@@ -9,7 +9,7 @@ const ModalContainer = styled(FlexColumn)`
   padding: 10px;
   padding-top: 20px;
   padding-bottom: 20px;
-`
+`;
 
 const LinkContainer = styled(FlexRow)`
   padding: 5px;
@@ -18,27 +18,27 @@ const LinkContainer = styled(FlexRow)`
   color: var(--primary-color);
   text-align: center;
   word-break: break-all;
-`
+`;
 
 export function DangerousLinkModal(props : {unsafeUrl: string; close(): void;}) {
   const url = () => {
     const startsWithHttp = props.unsafeUrl.startsWith("http://");
-    const startsWithHttps = props.unsafeUrl.startsWith("https://")
+    const startsWithHttps = props.unsafeUrl.startsWith("https://");
     if (startsWithHttp || startsWithHttps) return props.unsafeUrl;
-    return `https://${props.unsafeUrl}`
-  }
+    return `https://${props.unsafeUrl}`;
+  };
 
   const visitLink = () => {
     props.close();
-    window.open(url(), '_blank')?.focus();
-  }
+    window.open(url(), "_blank")?.focus();
+  };
 
   const ActionButtons = (
-    <FlexRow style={{ "margin-left": 'auto' }}>
+    <FlexRow style={{ "margin-left": "auto" }}>
       <Button label="Don't Visit" onClick={props.close} color='var(--alert-color)' iconName='close' />
       <Button label='Visit' iconName='done' onClick={visitLink} />
     </FlexRow>
-  )
+  );
 
   return (
     <Modal title='Custom Link' icon='link' actionButtons={ActionButtons} maxWidth={400} close={props.close}>
@@ -47,5 +47,5 @@ export function DangerousLinkModal(props : {unsafeUrl: string; close(): void;}) 
         <LinkContainer>{url()}</LinkContainer>
       </ModalContainer>
     </Modal>
-  )
+  );
 }

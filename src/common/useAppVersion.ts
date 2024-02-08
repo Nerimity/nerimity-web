@@ -25,7 +25,7 @@ const showChangelog = () => {
     return true;
   }
   return false;
-}
+};
   
 const checkForUpdate = async () => {
   console.log("[UPDATE] Checking...");
@@ -39,15 +39,15 @@ const checkForUpdate = async () => {
   const latestVersion = latestRelease.tag_name;
   setLatestRelease(latestRelease);
 
-  console.log(`[UPDATE] Current: ${appVersion} Latest: ${latestVersion}`)
+  console.log(`[UPDATE] Current: ${appVersion} Latest: ${latestVersion}`);
 
   const hasUpdate = latestVersion !== appVersion;
-  setUpdateAvailable(hasUpdate)
+  setUpdateAvailable(hasUpdate);
 
-  if (hasUpdate) console.log("[UPDATE] Update available!")
-  if (!hasUpdate) console.log("[UPDATE] No update available.")
-}
+  if (hasUpdate) console.log("[UPDATE] Update available!");
+  if (!hasUpdate) console.log("[UPDATE] No update available.");
+};
 
 export function useAppVersion () {
-  return {latestRelease, updateAvailable, showChangelog, checkForUpdate}
+  return {latestRelease, updateAvailable, showChangelog, checkForUpdate};
 }

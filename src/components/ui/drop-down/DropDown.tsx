@@ -1,7 +1,7 @@
-import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from 'solid-js';
-import { classNames, conditionalClass } from '@/common/classNames';
-import Icon from '@/components/ui/icon/Icon';
-import styles from './styles.module.scss';
+import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import { classNames, conditionalClass } from "@/common/classNames";
+import Icon from "@/components/ui/icon/Icon";
+import styles from "./styles.module.scss";
 
 
 export interface DropDownItem {
@@ -35,11 +35,11 @@ export default function DropDown(props: DropDownProps) {
     setSelectedId(item.id);
     props.onChange?.(item);
     item.onClick?.(item);
-  }
+  };
 
   createEffect(on(() => props.selectedId, () => {
     setSelectedId(props.selectedId || null);
-  }))
+  }));
 
 
 
@@ -56,7 +56,7 @@ export default function DropDown(props: DropDownProps) {
         </Show>
       </div>
     </div>
-  )
+  );
 }
 
 function ItemTemplate(props: { item?: DropDownItem }) {
@@ -68,13 +68,13 @@ function ItemTemplate(props: { item?: DropDownItem }) {
         <Show when={props.item?.description}><div class={styles.description}>{props.item?.description}</div></Show>
       </div>
     </div>
-  )
+  );
 }
 
 function CircleColor(props: { color?: string }) {
   return <Show when={props.color}>
     <div class={styles.circleColor} style={{ background: props.color }} />
-  </Show>
+  </Show>;
 }
 
 
@@ -84,20 +84,20 @@ function Popup(props: { items: DropDownItem[], selectedId: string | null, onClos
   const onDocumentClick = (event: any) => {
     if (event.target.closest("." + styles.popup)) return;
     props.onClose();
-  }
+  };
 
   onMount(() => {
-    document.addEventListener('click', onDocumentClick);
+    document.addEventListener("click", onDocumentClick);
 
     onCleanup(() => {
-      document.removeEventListener('click', onDocumentClick);
-    })
-  })
+      document.removeEventListener("click", onDocumentClick);
+    });
+  });
 
   const onItemClick = (item: DropDownItem) => {
     props.onClose();
     props.onClick?.(item);
-  }
+  };
 
 
   return (
@@ -106,12 +106,12 @@ function Popup(props: { items: DropDownItem[], selectedId: string | null, onClos
         {item => (
           <div class={
             classNames(styles.item, conditionalClass(props.selectedId === item.id, styles.selected))}
-            onClick={() => onItemClick(item)}
+          onClick={() => onItemClick(item)}
           >
             <ItemTemplate item={item} />
           </div>
         )}
       </For>
     </div>
-  )
+  );
 }

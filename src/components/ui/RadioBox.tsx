@@ -21,14 +21,14 @@ export function RadioBox(props: RadioBoxProps) {
   const [selectedId, setSelectedId] = createSignal(props.initialId);
 
   createEffect(() => {
-    setSelectedId(props.initialId)
-  })
+    setSelectedId(props.initialId);
+  });
 
   const onClick = (item: RadioBoxItem) => {
     if (item.id === selectedId()) return;
     setSelectedId(item.id);
     props.onChange?.(item);
-  }
+  };
 
   return (
     <RadioBoxContainer>
@@ -36,7 +36,7 @@ export function RadioBox(props: RadioBoxProps) {
         {item => <RadioBoxItem onClick={() => onClick(item)} item={item} selected={item.id === selectedId()} />}
       </For>
     </RadioBoxContainer>
-  )
+  );
 }
 
 
@@ -46,7 +46,7 @@ const RadioBoxItemCheckBox = styled(FlexRow)<{selected: boolean}>`
   border-radius: 50%;
   background-color: white;
   transition: 0.2s;
-  border: solid 5px ${props => props.selected ? 'var(--primary-color)' : 'gray'};
+  border: solid 5px ${props => props.selected ? "var(--primary-color)" : "gray"};
   
 `;
 
@@ -57,7 +57,7 @@ const RadioBoxItemContainer = styled(FlexRow)<{selected: boolean}>`
   border-radius: 8px;
   transition: 0.2s;
   .label {
-    color: ${props => props.selected ? 'white' : 'rgba(255,255,255,0.6)'};
+    color: ${props => props.selected ? "white" : "rgba(255,255,255,0.6)"};
     transition: 0.2s;
   }
 
@@ -81,5 +81,5 @@ function RadioBoxItem(props: RadioBoxItemProps) {
       <RadioBoxItemCheckBox selected={props.selected} />
       <Text class="label">{props.item.label}</Text>
     </RadioBoxItemContainer>
-  )
+  );
 }

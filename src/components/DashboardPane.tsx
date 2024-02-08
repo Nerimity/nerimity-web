@@ -6,7 +6,7 @@ import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A } from "solid-navigator";
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
-import { css, styled } from "solid-styled-components"
+import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import { PostNotificationsArea, PostsArea } from "./PostsArea";
 import ContextMenuServer from "./servers/context-menu/ContextMenuServer";
@@ -65,9 +65,9 @@ export default function DashboardPane() {
   createEffect(() => {
     header.updateHeader({
       title: "Dashboard",
-      iconName: 'dashboard',
+      iconName: "dashboard"
     });
-  })
+  });
   return (
     <DashboardPaneContainer>
       <DashboardPaneContent gap={10}>
@@ -77,7 +77,7 @@ export default function DashboardPane() {
         </Show>
       </DashboardPaneContent>
     </DashboardPaneContainer>
-  )
+  );
 }
 
 
@@ -92,7 +92,7 @@ const NotificationCountContainer = styled(FlexRow) <{ selected: boolean }>`
   ${props => props.selected ? `
     background: white;
     color: var(--primary-color);  
-  ` : ''}
+  ` : ""}
 `;
 
 const TabStyle = css`
@@ -111,17 +111,17 @@ function PostsContainer() {
   onMount(async () => {
     const count = await getPostNotificationCount();
     setNotificationCount(count);
-  })
+  });
 
   const NotificationIndicator = () => {
-    return <Show when={notificationCount()}><NotificationCountContainer selected={selectedTab() === "NOTIFICATIONS"}>{notificationCount()}</NotificationCountContainer></Show>
-  }
+    return <Show when={notificationCount()}><NotificationCountContainer selected={selectedTab() === "NOTIFICATIONS"}>{notificationCount()}</NotificationCountContainer></Show>;
+  };
 
   createEffect(async () => {
     if (selectedTab() !== "NOTIFICATIONS") return;
-    await getPostNotificationDismiss()
+    await getPostNotificationDismiss();
     setNotificationCount(0);
-  })
+  });
 
   return (
     <FlexColumn>
@@ -153,7 +153,7 @@ function PostsContainer() {
         </>
       </Delay>
     </FlexColumn>
-  )
+  );
 
 
 }
@@ -170,7 +170,7 @@ function ServerList() {
     event.preventDefault();
     setContextServerId(serverId);
     setContextPosition({ x: event.clientX, y: event.clientY });
-  }
+  };
 
 
   let serverListEl: undefined | HTMLDivElement;
@@ -180,8 +180,8 @@ function ServerList() {
 
     const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
 
-    serverListEl.scrollLeft -= event.wheelDelta
-  }
+    serverListEl.scrollLeft -= event.wheelDelta;
+  };
 
   return (
     <FlexColumn>
@@ -196,7 +196,7 @@ function ServerList() {
         </For>
       </ServerListContainer>
     </FlexColumn>
-  )
+  );
 }
 
 function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
@@ -215,7 +215,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
         <Avatar animate={hovered()} server={props.server} size={35} />
       </SidebarItemContainer>
     </A>
-  )
+  );
 }
 
 const NotificationCountBadgeContainer = styled.div`
@@ -241,12 +241,12 @@ function NotificationCountBadge(props: { count: number, top: number, right: numb
       <NotificationCountBadgeContainer
         style={{
           top: `${props.top}px`,
-          right: `${props.right}px`,
+          right: `${props.right}px`
         }}
       >
         {props.count}
       </NotificationCountBadgeContainer>
     </Show>
-  )
+  );
 
 }

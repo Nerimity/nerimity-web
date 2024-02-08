@@ -1,7 +1,7 @@
-import styles from './Notice.module.css';
+import styles from "./Notice.module.css";
 
 import { JSX } from "solid-js";
-import { classNames } from '@/common/classNames';
+import { classNames } from "@/common/classNames";
 import Icon from "../icon/Icon";
 
 const noticeType = {
@@ -25,7 +25,7 @@ const noticeType = {
     borderColor: "var(--success-color)",
     icon: "check_circle"
   }
-}
+};
 
 interface NoticeProps {
   class?: string;
@@ -41,8 +41,8 @@ export function Notice(props: NoticeProps) {
   const style: JSX.CSSProperties = {
     ...props.style,
     background: typeMeta.color,
-    border: `solid 1px ${typeMeta.borderColor}`,
-  }
+    border: `solid 1px ${typeMeta.borderColor}`
+  };
 
   return (
     <div class={classNames(styles.noticeContainer, props.class)} style={style}>
@@ -50,5 +50,5 @@ export function Notice(props: NoticeProps) {
       <div class={styles.noticeDescription}>{props.description}</div>
       {props.children}
     </div>
-  )
+  );
 }

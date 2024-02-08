@@ -1,7 +1,7 @@
-import env from '../../common/env';
-import { RawAttachment, RawMessage, RawUser } from '../RawData';
-import { request, xhrRequest } from './Request';
-import Endpoints from './ServiceEndpoints';
+import env from "../../common/env";
+import { RawAttachment, RawMessage, RawUser } from "../RawData";
+import { request, xhrRequest } from "./Request";
+import Endpoints from "./ServiceEndpoints";
 
 
 interface FetchMessageOpts {
@@ -14,7 +14,7 @@ interface FetchMessageOpts {
 
 export const fetchMessages = async (channelId: string, opts?: FetchMessageOpts) => {
   const data = await request<RawMessage[]>({
-    method: 'GET',
+    method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.messages(channelId),
     params: {
       limit: opts?.limit || env.MESSAGE_LIMIT,
@@ -29,7 +29,7 @@ export const fetchMessages = async (channelId: string, opts?: FetchMessageOpts) 
 
 export const fetchChannelAttachments = async (channelId: string, limit = 50, afterAttachmentId?: string, beforeAttachmentId?: string) => {
   const data = await request<RawAttachment[]>({
-    method: 'GET',
+    method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.channelAttachments(channelId),
     params: {
       limit,
@@ -58,30 +58,30 @@ export const postMessage = async (opts: PostMessageOpts) => {
   let body: any = {
     content: opts.content?.trim() || undefined,
     ...(opts.googleDriveAttachment ? { googleDriveAttachment: opts.googleDriveAttachment } : {}),
-    ...(opts.socketId ? { socketId: opts.socketId } : {}),
-  }
+    ...(opts.socketId ? { socketId: opts.socketId } : {})
+  };
 
   if (opts.attachment) {
     const fd = new FormData();
-    opts.content && fd.append('content', opts.content);
+    opts.content && fd.append("content", opts.content);
     if (opts.socketId) {
-      fd.append('socketId', opts.socketId);
+      fd.append("socketId", opts.socketId);
     }
-    fd.append('attachment', opts.attachment);
+    fd.append("attachment", opts.attachment);
     body = fd;
 
     const data = await xhrRequest<RawMessage>({
-      method: 'POST',
+      method: "POST",
       url: env.SERVER_URL + "/api" + Endpoints.messages(opts.channelId),
       useToken: true,
       body
-    }, opts.onUploadProgress)
+    }, opts.onUploadProgress);
 
     return data;
   }
 
   const data = await request<RawMessage>({
-    method: 'POST',
+    method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.messages(opts.channelId),
     useToken: true,
     body
@@ -97,11 +97,11 @@ interface UpdateMessageOpts {
 
 export const updateMessage = async (opts: UpdateMessageOpts) => {
   const data = await request<Partial<{updated: RawMessage}>>({
-    method: 'PATCH',
+    method: "PATCH",
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId),
     useToken: true,
     body: {
-      content: opts.content,
+      content: opts.content
     }
   });
   return data;
@@ -109,10 +109,10 @@ export const updateMessage = async (opts: UpdateMessageOpts) => {
 
 export const postChannelTyping = async (channelId: string) => {
   const data = await request<RawMessage>({
-    method: 'POST',
+    method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.channelTyping(channelId),
     useToken: true,
-    notJSON: true,
+    notJSON: true
   });
   return data;
 };
@@ -124,48 +124,48 @@ interface DeleteMessageOpts {
 
 export const deleteMessage = async (opts: DeleteMessageOpts) => {
   const data = await request<{message: string}>({
-    method: 'DELETE',
+    method: "DELETE",
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId),
-    useToken: true,
+    useToken: true
   });
   return data;
 };
 export const addMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string | null, gif?: boolean}) => {
   const data = await request<any>({
-    method: 'POST',
+    method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions",
     body: {
       name: opts.name,
       emojiId: opts.emojiId,
-      gif: opts.gif,
+      gif: opts.gif
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
 export const removeMessageReaction = async (opts: {channelId: string, messageId: string,name: string, emojiId?: string | null}) => {
   const data = await request<any>({
-    method: 'POST',
+    method: "POST",
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/remove",
     body: {
       name: opts.name,
-      emojiId: opts.emojiId,
+      emojiId: opts.emojiId
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };
 
 export const fetchMessageReactedUsers = async (opts: {channelId: string, messageId: string, name: string, emojiId?: string | null}) => {
   const data = await request<RawUser[]>({
-    method: 'GET',
+    method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/users",
     params: {
       name: opts.name,
-      ...(opts.emojiId ? {emojiId: opts.emojiId} : undefined),
+      ...(opts.emojiId ? {emojiId: opts.emojiId} : undefined)
 
     },
-    useToken: true,
+    useToken: true
   });
   return data;
 };

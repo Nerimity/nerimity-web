@@ -8,7 +8,7 @@ import {
   lazy,
   on,
   onMount,
-  Show,
+  Show
 } from "solid-js";
 import {
   AuditLog,
@@ -23,7 +23,7 @@ import {
   ModerationSuspension,
   ModerationUser,
   searchServers,
-  searchUsers,
+  searchUsers
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
@@ -44,7 +44,7 @@ import Icon from "../ui/icon/Icon";
 
 import {
   emitModerationUserSuspended,
-  useModerationUserSuspendedListener,
+  useModerationUserSuspendedListener
 } from "@/common/GlobalEvents";
 import { Notice } from "../ui/Notice/Notice";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
@@ -158,7 +158,7 @@ export default function ModerationPane() {
     if (!account.isAuthenticated() || !account.hasModeratorPerm()) return;
     header.updateHeader({
       title: "Moderation",
-      iconName: "security",
+      iconName: "security"
     });
     setLoad(true);
     if (!stats()) {
@@ -183,7 +183,7 @@ export default function ModerationPane() {
             margin: isMobileWidth() ? 0 : "8px 8px 8px 0",
             "border-radius": isMobileWidth() ? 0 : "8px",
             "padding-top": "40px",
-            "z-index": "1111",
+            "z-index": "1111"
           }}
         >
 
@@ -596,7 +596,7 @@ export function User(props: { user: any }) {
               style={{
                 background: "var(--alert-color)",
                 "border-radius": "4px",
-                padding: "3px",
+                padding: "3px"
               }}
             >
               Suspended
@@ -778,31 +778,31 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         return {
           icon: "dnsremove_circle",
           color: "var(--alert-color)",
-          title: "Server Deleted",
+          title: "Server Deleted"
         };
       case AuditLogType.serverUpdate:
         return {
           icon: "dnsupdate",
           color: "var(--success-color)",
-          title: "Server Updated",
+          title: "Server Updated"
         };
       case AuditLogType.userSuspend:
         return {
           icon: "personremove_circle",
           color: "var(--alert-color)",
-          title: "User Suspended",
+          title: "User Suspended"
         };
       case AuditLogType.userUnsuspend:
         return {
           icon: "personlogin",
           color: "var(--success-color)",
-          title: "User Un-suspended",
+          title: "User Un-suspended"
         };
       case AuditLogType.userUpdate:
         return {
           icon: "personupdate",
           color: "var(--success-color)",
-          title: "User Updated",
+          title: "User Updated"
         };
       default:
         return { icon: "texture", color: "gray", title: "Unknown Action" };

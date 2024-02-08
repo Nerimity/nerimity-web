@@ -16,15 +16,15 @@ export function Draggable<T>(props: Props<T>) {
 
   createEffect(() => {
     setItems(props.items);
-  })
+  });
 
   const onEnd = () => {
     props.onDrop?.(items(), revert);
-  }
+  };
 
   const revert = () =>  {
     setItems(props.items);
-  }
+  };
 
   props.ref?.({revert});
 
@@ -32,5 +32,5 @@ export function Draggable<T>(props: Props<T>) {
     <Sortable onStart={props.onStart} class={props.class} delay={200} delayOnTouchOnly idField="id" items={items()} onEnd={onEnd} setItems={setItems}>
       {item => props.children(item)}
     </Sortable>
-  )
+  );
 }
