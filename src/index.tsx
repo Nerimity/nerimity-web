@@ -50,20 +50,6 @@ const ModerationUserPage = lazy(() => import("@/components/moderation-pane/UserP
 const ModerationServerPage = lazy(() => import("@/components/moderation-pane/ServerPage"));
 
 
-
-// Remove PWA worker. Caused issues with updating Nerimity (I think?)
-navigator.serviceWorker?.getRegistrations().then(workers => {
-  workers.forEach(worker => {
-    if (worker.active?.scriptURL === "https://nerimity.com/sw.js") {
-      worker.unregister().then(() => {
-        console.log("Removed worker sw.js");
-        location.reload();
-      });
-    }
-  });
-});
-
-
 const useBlurEffect = () => {
   const { isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
 
