@@ -26,33 +26,3 @@ export default defineConfig({
     open: true
   }
 });
-
-
-// VitePWA({ 
-//   manifest: {
-//     name: "Nerimity",
-//     short_name: "Nerimity",
-//     theme_color: "#77a8f3",
-//     description: "A modern and sleek chat app.",
-//     id: "/app",
-//     start_url: "/app",
-//     background_color: "hsl(216deg 9% 8%)",
-//     display: "standalone",
-//     icons: [
-//       {
-//         src: "pwa-192x192.png", // <== don't add slash, for testing
-//         sizes: "192x192",
-//         type: "image/png"
-//       },
-//       {
-//         src: "/pwa-512x512.png", // <== don't remove slash, for testing
-//         sizes: "512x512",
-//         type: "image/png"
-//       }
-//     ]
-//   },
-//   registerType: "autoUpdate",
-//   devOptions: {
-//     enabled: false
-//   }
-// })
