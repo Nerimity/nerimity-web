@@ -32,7 +32,7 @@ export function ScreenShareModal(props: { close: () => void }) {
   const chooseWindowClick = async () => {
     const constraints = await constructConstraints(selectedQuality(), selectedFramerate());
 
-    let stream: MediaStream | void;;
+    let stream: MediaStream | void;
 
     if (electronWindowAPI()?.isElectron) {
       const sourceId = electronSourceIdRef()
@@ -126,7 +126,7 @@ const constructConstraints = async (quality: typeof QualityOptions[number], fram
       constraints.video.width = 1280;
       constraints.video.height = 720;
       break;
-    case "1080p": ;
+    case "1080p": 
       constraints.video.width = 1920;
       constraints.video.height = 1080;
       break;

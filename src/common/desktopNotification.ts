@@ -58,7 +58,7 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   })
 }
 function createDMDesktopNotification(message: Message) {
-  let title = message.createdBy.username;
+  const title = message.createdBy.username;
   let body = message.content;
 
   if (!body && message.attachments?.length) {

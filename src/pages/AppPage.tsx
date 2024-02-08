@@ -85,7 +85,7 @@ export default function AppPage() {
   }
 
   function handleFirstTime() {
-    let isFirstTime = getStorageString(StorageKeys.FIRST_TIME, false);
+    const isFirstTime = getStorageString(StorageKeys.FIRST_TIME, false);
     if (!isFirstTime) return;
     removeStorage(StorageKeys.FIRST_TIME);
     createPortal?.(close => <WelcomeModal close={close} />)

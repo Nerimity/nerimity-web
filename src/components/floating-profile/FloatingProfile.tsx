@@ -135,7 +135,7 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
         if (event.target.closest(`.trigger-profile-flyout`) === props.triggerEl.closest(`.trigger-profile-flyout`)) return;
       }
       props.close?.()
-    };
+    }
   }
 
   const left = () => {
@@ -195,7 +195,7 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
           <For each={member()?.roles()!}>
             {role => (<div class={styles.roleContainer}><Text color={role?.hexColor} size={12}>{role?.name}</Text></div>)}
           </For>
-          <div class={classNames(styles.roleContainer, styles.selectable)}  onclick={showRoleModal}><Icon name='add' size={14} /></div>
+          <div class={classNames(styles.roleContainer, styles.selectable)}  onClick={showRoleModal}><Icon name='add' size={14} /></div>
         </div>
       </Show>
 
@@ -252,7 +252,7 @@ function MobileFlyout(props: { userId: string, serverId?: string, close?: () => 
 
 
   return (
-    <div class={styles.backgroundContainer} onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
+    <div class={styles.backgroundContainer} onClick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
       <DesktopProfileFlyout mobile close={props.close} serverId={props.serverId} userId={props.userId} />
     </div>
   )

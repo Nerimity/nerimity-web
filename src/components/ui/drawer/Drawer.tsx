@@ -29,7 +29,7 @@ const DrawerContext = createContext<DrawerContext>();
 
 export default function DrawerLayout(props: DrawerLayoutProps) {
   
-  let containerEl: HTMLDivElement | undefined = undefined;
+  let containerEl: HTMLDivElement | undefined;
   const startPos = {x: 0, y: 0};
   let startTransformX = 0;
   let transformX = 0;
@@ -301,7 +301,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             <div style={{
               "pointer-events": currentPage() !== 1 ? 'initial' :'none',
               "opacity": currentPage() !== 1 ? 1 :0,
-            }} class={styles.opacityContent} onclick={onOpacityClicked}/>
+            }} class={styles.opacityContent} onClick={onOpacityClicked}/>
             <props.Content/>
           </div>
           <div style={{width: isMobileWidth() ? rightDrawerWidth() + "px" : hasRightDrawer() ? '300px' : '0', display: 'flex', "flex-shrink": 0}}>

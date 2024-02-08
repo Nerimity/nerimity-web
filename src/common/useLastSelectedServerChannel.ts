@@ -19,7 +19,7 @@ function getLocalStorageLastSelectedServerChannelIds() {
 }
 
 export function setLastSelectedServerChannelId(serverId: string, channelId: string) {
-  let stringObjEntries = getStorageString(StorageKeys.LAST_SELECTED_SERVER_CHANNELS, "[]");
+  const stringObjEntries = getStorageString(StorageKeys.LAST_SELECTED_SERVER_CHANNELS, "[]");
   const entries: [string, string][] = JSON.parse(stringObjEntries);
   const index = entries.findIndex(([entryServerId]) => serverId === entryServerId);
   if (index >= 0) {

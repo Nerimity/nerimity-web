@@ -128,7 +128,7 @@ export const getCommentPosts = async (opts: GetCommentPostsOpts) => {
   return data;
 }
 
-export interface LikedPost {likedBy: RawUser, createdAt: number};
+export interface LikedPost {likedBy: RawUser, createdAt: number}
 
 export const getLikesPosts = async (postId: string) => {
   const data = await request<LikedPost[]>({

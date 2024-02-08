@@ -171,7 +171,7 @@ const GifPickerImages = (props: {query: string; gifPicked?: (gif: TenorImage) =>
       <For each={gifs()}>
         {gif => <GifPickerImageItem url={gif.previewUrl} onClick={() => props.gifPicked?.(gif)} />}
       </For>
-      <div class={styles.gap}></div>
+      <div class={styles.gap} />
     </div>
   )
 }
@@ -198,7 +198,7 @@ const GifPickerCategories = (props: {hide?: boolean; onPick: (category: TenorCat
       <For each={categories()}>
         {category => <GifCategoryItem category={category} onClick={() => props.onPick(category)} />}
       </For>
-      <div class={styles.gap}></div>
+      <div class={styles.gap} />
       
     </div>
   )
@@ -255,13 +255,13 @@ const FloatingContainer = styled("div")`
 
 
 const FloatingInScreen = (props: {close(): void; children: JSXElement, x: number, y: number}) => {
-  let floatingElementRef: undefined | HTMLDivElement = undefined;
+  let floatingElementRef: undefined | HTMLDivElement;
 
   const {isMobileAgent} = useWindowProperties();
   const {width, height} = useResizeObserver(() => floatingElementRef)
 
   const styles = () => {
-    let _styles: JSX.CSSProperties = {};
+    const _styles: JSX.CSSProperties = {};
 
     if (isMobileAgent()) {
       return {

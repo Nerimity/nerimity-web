@@ -444,7 +444,7 @@ const ConfirmEmailNotice = () => {
       description='Confirm your email'
       class={css`margin-bottom: 10px;`} 
     >
-      <div style={{"margin-left": 'auto'}}></div>
+      <div style={{"margin-left": 'auto'}} />
       <Button 
         label={remainingTimeInSeconds() ? `Resend in ${remainingTimeInSeconds()}` : 'Send Code'} 
         primary 

@@ -53,7 +53,7 @@ export default function App() {
       <ConnectingStatusHeader/>
     </>
   )
-};
+}
 
 
 function useServerRedirect() {

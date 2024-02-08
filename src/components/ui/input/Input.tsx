@@ -5,7 +5,7 @@ import { styled } from 'solid-styled-components';
 import Text from '../Text';
 import { FlexRow } from '../Flexbox';
 
-interface Error {message: string, path: string};
+interface Error {message: string, path: string}
 interface Props {
   label?: string, 
   type?: string, 
@@ -80,8 +80,8 @@ const InputContainer = styled(FlexRow)<{focused: boolean}>`
 `;
 
 export default function Input(props: Props) {
-  let [isFocused, setFocused] = createSignal(false);
-  let inputEl: undefined | HTMLInputElement | HTMLTextAreaElement = undefined;
+  const [isFocused, setFocused] = createSignal(false);
+  let inputEl: undefined | HTMLInputElement | HTMLTextAreaElement;
 
   onMount(() => {
     props.ref?.(inputEl as HTMLInputElement | HTMLTextAreaElement);
@@ -90,7 +90,7 @@ export default function Input(props: Props) {
   const error = () => {
   
     if (props.error && typeof props.error !== 'string') {
-      let errorField = props.errorName || props.label
+      const errorField = props.errorName || props.label
       if (Array.isArray(errorField)) {
         if (errorField.map(e => e.toLowerCase()).includes(props.error.path.toLowerCase())) {
           return props.error.message;

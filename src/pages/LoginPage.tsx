@@ -81,7 +81,7 @@ export default function LoginPage() {
       <PageHeader />
       <Content>
         <Container class='container'>
-          <form style={{display: 'flex', "flex-direction": 'column'}} action='#' onsubmit={loginClicked}>
+          <form style={{display: 'flex', "flex-direction": 'column'}} action='#' onSubmit={loginClicked}>
             <Title>{t('loginPage.title')}</Title>
             <Input margin={[10, 0, 10, 0]} label={t('loginPage.emailOrUsernameAndTag')} errorName={["email", "usernameAndTag"]}  type='text' error={error()} onText={setEmail} />
             <Input margin={[10, 0, 10, 0]} label={t('loginPage.password')} type='password' error={error()} onText={setPassword} />

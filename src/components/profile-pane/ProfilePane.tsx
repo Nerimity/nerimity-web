@@ -139,7 +139,7 @@ export default function ProfilePane() {
             margin={0}
             hexColor={user()?.hexColor}
             url={bannerUrl(user()!)}
-          ></Banner>
+           />
           <FlexColumn>
             <FlexRow>
               <Avatar

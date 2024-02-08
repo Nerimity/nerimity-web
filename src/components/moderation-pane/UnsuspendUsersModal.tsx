@@ -30,7 +30,7 @@ interface Props {
   done: () => void;
 }
 
-export default function UnsuspendUsersModal({users, close, done}: Props) {
+export default function UnsuspendUsersModal(props: Props) {
   const [password, setPassword] = createSignal("");
   const [error, setError] = createSignal<{message: string, path?: string} | null>(null);
   const [suspending, setSuspending] = createSignal(false);
@@ -40,9 +40,9 @@ export default function UnsuspendUsersModal({users, close, done}: Props) {
     if (suspending()) return;
     setSuspending(true);
     setError(null);
-    const userIds = users.map(u => u.id);
+    const userIds = props.users.map(u => u.id);
     unsuspendUsers(password(), userIds)
-      .then(() => {done(); close();})
+      .then(() => {props.done(); props.close();})
       .catch(err => setError(err))
       .finally(() => setSuspending(false))
   }
@@ -56,7 +56,7 @@ export default function UnsuspendUsersModal({users, close, done}: Props) {
 
 
   return (
-    <Modal close={close} title={`Unsuspend ${users.length} User(s)`} actionButtons={ActionButtons}>
+    <Modal close={props.close} title={`Unsuspend ${props.users.length} User(s)`} actionButtons={ActionButtons}>
       <SuspendUsersContainer>
         <Input label="Confirm Password" type="password" value={password()} onText={setPassword} />
         <Show when={error()}>

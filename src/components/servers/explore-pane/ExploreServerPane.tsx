@@ -32,7 +32,7 @@ export default function ExploreServerPane() {
 
   const errorJoinClick = (newCode: string) => {
     if (!newCode) return;
-    let newPath = RouterEndpoints.EXPLORE_SERVER_INVITE(newCode);
+    const newPath = RouterEndpoints.EXPLORE_SERVER_INVITE(newCode);
 
     navigate(newPath);
   }
@@ -67,7 +67,7 @@ export default function ExploreServerPane() {
 const ServerPage = (props: { server: ServerWithMemberCount, inviteCode?: string }) => {
   const { servers } = useStore();
   const navigate = useNavigate();
-  let [joinClicked, setJoinClicked] = createSignal(false);
+  const [joinClicked, setJoinClicked] = createSignal(false);
   const { server } = props;
   const {width} = useWindowProperties();
 

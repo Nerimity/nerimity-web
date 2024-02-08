@@ -37,7 +37,7 @@ export default function MainPaneHeader() {
   const server = () => servers.get(header.details().serverId!);
   const user = () => users.get(header.details().userId!);
 
-  const channel = () => channels.get(header.details().channelId!!);
+  const channel = () => channels.get(header.details().channelId!);
 
   const details = () => {
     let subName = null;
@@ -234,7 +234,7 @@ function VoiceHeader(props: { channelId?: string }) {
 }
 
 function VideoStream(props: { mediaStream: MediaStream, mute?: boolean }) {
-  let videoEl: HTMLVideoElement | undefined = undefined;
+  const videoEl: HTMLVideoElement | undefined = undefined;
 
   createEffect(() => {
     if (!videoEl) return;

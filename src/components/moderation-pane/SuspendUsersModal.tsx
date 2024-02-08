@@ -31,7 +31,7 @@ interface Props {
   done: (suspension: ModerationSuspension) => void;
 }
 
-export default function SuspendUsersModal({users, close, done}: Props) {
+export default function SuspendUsersModal(props: Props) {
   const [reason, setReason] = createSignal("");
   const [suspendFor, setSuspendFor] = createSignal("7");
   const [password, setPassword] = createSignal("");
@@ -50,7 +50,7 @@ export default function SuspendUsersModal({users, close, done}: Props) {
     if (suspending()) return;
     setSuspending(true);
     setError(null);
-    const userIds = users.map(u => u.id);
+    const userIds = props.users.map(u => u.id);
 
     const preview: ModerationSuspension = {
       expireAt: suspendFor() ? daysToDate(parseInt(suspendFor())) : null,
@@ -59,7 +59,7 @@ export default function SuspendUsersModal({users, close, done}: Props) {
     }
 
     suspendUsers(password(), userIds, parseInt(suspendFor()), reason() || undefined, ipBan())
-      .then(() => {done(preview); close();})
+      .then(() => {props.done(preview); props.close();})
       .catch(err => setError(err))
       .finally(() => setSuspending(false))
   }
@@ -73,7 +73,7 @@ export default function SuspendUsersModal({users, close, done}: Props) {
 
 
   return (
-    <Modal close={close} title={`Suspend ${users.length} User(s)`} actionButtons={ActionButtons}>
+    <Modal close={props.close} title={`Suspend ${props.users.length} User(s)`} actionButtons={ActionButtons}>
       <SuspendUsersContainer>
         <Input label="Reason" value={reason()} onText={setReason} />
         <FlexRow gap={10}>

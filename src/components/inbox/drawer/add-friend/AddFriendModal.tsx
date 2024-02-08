@@ -55,7 +55,7 @@ export default function AddFriendModal(props: {close: () => void}) {
     <Modal close={props.close} icon="group_add" title="Add Friend" actionButtons={ActionButtons}>
       <div class={styles.addFriendContainer}>
         <Input label={t('addFriend.usernameAndTag')} error={error().message} onText={setUserTag} />
-        {success() && <div style="color: var(--success-color)">Friend successfully added!</div>}
+        {success() && <div style={{"color":"var(--success-color)"}}>Friend successfully added!</div>}
       </div>
     </Modal>
   )

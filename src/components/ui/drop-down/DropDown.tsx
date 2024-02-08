@@ -48,7 +48,7 @@ export default function DropDown(props: DropDownProps) {
       <Show when={props.title}>
         <div class={styles.title}>{props.title}</div>
       </Show>
-      <div class={styles.box} onclick={() => setIsOpen(true)}>
+      <div class={styles.box} onClick={() => setIsOpen(true)}>
         <ItemTemplate item={selectedItem()} />
         <Icon name='expand_more' class={styles.expandIcon} />
         <Show when={isOpen()}>
@@ -73,7 +73,7 @@ function ItemTemplate(props: { item?: DropDownItem }) {
 
 function CircleColor(props: { color?: string }) {
   return <Show when={props.color}>
-    <div class={styles.circleColor} style={{ background: props.color }}></div>
+    <div class={styles.circleColor} style={{ background: props.color }} />
   </Show>
 }
 
@@ -106,7 +106,7 @@ function Popup(props: { items: DropDownItem[], selectedId: string | null, onClos
         {item => (
           <div class={
             classNames(styles.item, conditionalClass(props.selectedId === item.id, styles.selected))}
-            onclick={() => onItemClick(item)}
+            onClick={() => onItemClick(item)}
           >
             <ItemTemplate item={item} />
           </div>

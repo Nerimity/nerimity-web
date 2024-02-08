@@ -8,7 +8,7 @@ import { createEffect, createSignal, Show } from "solid-js";
 
 const lazyMarkdownIt = () => import("markdown-it");
 
-let MD: MarkdownIt | null = null;
+const MD: MarkdownIt | null = null;
 
 async function getMd () {
   if (MD) return MD;
@@ -28,7 +28,7 @@ export default function Marked(props: {value: string}) {
     const md = await getMd();
     const newHtml = md.render(props.value);
 
-    var div = document.createElement('div');
+    const div = document.createElement('div');
     div.innerHTML = newHtml;
 
     div.querySelectorAll("a").forEach(element => 

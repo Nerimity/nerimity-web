@@ -28,7 +28,7 @@ export default function Slider (props: CheckboxProps) {
 
   return (
     <SliderContainer class="slider">
-      <input onPointerUp={props.onEnd} type="range" min={props.min} max={props.max} value={props.value} oninput={(e) => props.onChange?.(e.target.value)}  />
+      <input onPointerUp={props.onEnd} type="range" min={props.min} max={props.max} value={props.value} onInput={(e) => props.onChange?.(e.target.value)}  />
     </SliderContainer>
   )
 }

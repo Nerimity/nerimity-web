@@ -50,22 +50,22 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
   )
 }
 
-function SuspendMessage({reason, expire}: {reason?: string; expire?: number;}) {
+function SuspendMessage(props: {reason?: string; expire?: number;}) {
   return (
     <>
       <div class={styles.message}>You are suspended for </div>
-      <div class={styles.message}> {reason || "Violating the TOS"}</div>
+      <div class={styles.message}> {props.reason || "Violating the TOS"}</div>
       <div class={styles.messageDim}> until</div>
-      <div class={styles.message}> {expire ? formatTimestamp(expire) : "never"}</div>
+      <div class={styles.message}> {props.expire ? formatTimestamp(props.expire) : "never"}</div>
     </>
   )
 }
-function IPBanMessage({reason, expire}: {reason?: string; expire?: number;}) {
+function IPBanMessage(props: {reason?: string; expire?: number;}) {
   return (
     <>
       <div class={styles.messageDim}>You are IP banned</div>
       <div class={styles.messageDim}> until</div>
-      <div class={styles.message}> {expire ? formatTimestamp(expire) : "never"}</div>
+      <div class={styles.message}> {props.expire ? formatTimestamp(props.expire) : "never"}</div>
     </>
   )
 }

@@ -82,8 +82,7 @@ function DMOptions() {
 
   return (
     <FlexColumn>
-      <SettingsBlock class={css`margin-top: 10px;`} header icon='chat_bubble' label='Direct Message Options' >
-      </SettingsBlock>
+      <SettingsBlock class={css`margin-top: 10px;`} header icon='chat_bubble' label='Direct Message Options'  />
 
       <RadioBoxContainer>
         <RadioBox onChange={onChange} items={radioboxItems} initialId={currentDmStatus() || 0} />

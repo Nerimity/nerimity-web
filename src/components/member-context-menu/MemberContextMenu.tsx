@@ -68,7 +68,7 @@ export default function MemberContextMenu(props: Props) {
     const hasKickPermission = selfMember()?.hasPermission(ROLE_PERMISSIONS.KICK);
     const hasBanPermission = selfMember()?.hasPermission(ROLE_PERMISSIONS.BAN);
 
-     let createArr = [];
+     const createArr = [];
      if (hasBanPermission || hasKickPermission) {
       createArr.push(separator);
      }
@@ -129,8 +129,7 @@ function KickModal (props: {member: ServerMember, close: () => void}) {
         <Trans key='kickServerMemberModal.message' options={{username: props.member?.user().username}}>
           Are you sure you want to kick <b>{"username"}</b>?
         </Trans>
-        <div class={styles.buttons}>
-        </div>
+        <div class={styles.buttons} />
       </div>
     </Modal>
   )
@@ -227,7 +226,7 @@ function RoleItem (props: {role: ServerRole, userId: string}) {
   }
 
   return (
-    <div class={classNames(styles.roleItem, conditionalClass(hasRole(), styles.selected))} onclick={onRoleClicked} >
+    <div class={classNames(styles.roleItem, conditionalClass(hasRole(), styles.selected))} onClick={onRoleClicked} >
       <div class={styles.checkbox} style={{background: props.role.hexColor}}>
         <Icon name='done' size={12} class={styles.icon} />
       </div>

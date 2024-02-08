@@ -18,7 +18,7 @@ interface Props {
   done: () => void;
 }
 
-export default function DeleteServerModal({serverId, close, done}: Props) {
+export default function DeleteServerModal(props: Props) {
   const [password, setPassword] = createSignal("");
   const [error, setError] = createSignal<{message: string, path?: string} | null>(null);
   const [deleting, setDeleting] = createSignal(false);
@@ -28,8 +28,8 @@ export default function DeleteServerModal({serverId, close, done}: Props) {
     setDeleting(true);
     setError(null);
 
-    deleteServer(serverId, password())
-      .then(() => {done(); close();})
+    deleteServer(props.serverId, password())
+      .then(() => {props.done(); props.close();})
       .catch(err => setError(err))
       .finally(() => setDeleting(false))
   }
@@ -41,7 +41,7 @@ export default function DeleteServerModal({serverId, close, done}: Props) {
   )
 
   return (
-    <Modal close={close} title="Delete Server" actionButtons={ActionButtons}>
+    <Modal close={props.close} title="Delete Server" actionButtons={ActionButtons}>
       <DeleteServerModalContainer>
         <Input label="Confirm Password" type="password" value={password()} onText={setPassword} />
         <Show when={error()}>

@@ -40,7 +40,7 @@ export function Banner(props: { brightness?: number; class?: string; margin?: nu
 
 
   const url = () => {
-    let url = props.url;
+    const url = props.url;
     if (!url) return;
 
     if (!url?.endsWith(".gif")) return url;
@@ -50,7 +50,7 @@ export function Banner(props: { brightness?: number; class?: string; margin?: nu
   };
 
   const getStyles = () => {
-    let styles: JSX.CSSProperties = {}
+    const styles: JSX.CSSProperties = {}
 
     if (props.maxHeight) {
       styles["max-height"] = props.maxHeight + "px";

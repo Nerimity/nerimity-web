@@ -177,7 +177,7 @@ function FooterItem(props: FooterItemProps) {
         <A href={props.href!} target="_blank" rel="noopener noreferrer" style={{ "text-decoration": "none" }} children={Content} />
       </Match>
       <Match when={!props.href}>
-        <div children={Content} onclick={props.onClick} />
+        <div children={Content} onClick={props.onClick} />
       </Match>
     </Switch>
   )

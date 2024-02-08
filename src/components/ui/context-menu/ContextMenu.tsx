@@ -36,7 +36,7 @@ export default function ContextMenu(props: ContextMenuProps) {
 
   const handleOutsideClick = (e: any) => {
     if (props.triggerClassName) {
-      if (e.target.closest("." + props.triggerClassName)) {return};
+      if (e.target.closest("." + props.triggerClassName)) {return}
     }
     props.onClose?.()
   };
@@ -45,7 +45,7 @@ export default function ContextMenu(props: ContextMenuProps) {
     if (e.target.closest("."+styles.contextMenu)) {
       e.preventDefault();
       return;
-    };
+    }
     props.onClose?.()
   };
 

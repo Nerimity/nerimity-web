@@ -95,7 +95,7 @@ function NewPostArea(props: { postId?: string }) {
     undefined | FileBrowserRef
   >();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
-  let [textAreaEl, setTextAreaEl] = createSignal<
+  const [textAreaEl, setTextAreaEl] = createSignal<
     undefined | HTMLTextAreaElement
   >(undefined);
 

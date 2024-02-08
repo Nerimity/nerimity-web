@@ -6,7 +6,7 @@ export default function Spoiler(props: {children: JSXElement}) {
   const [isSpoiled, setSpoiled] = createSignal(false);
 
   return (
-    <span class={classNames("spoiler", conditionalClass(isSpoiled(), 'spoiled'))} onclick={() => setSpoiled(true)}>
+    <span class={classNames("spoiler", conditionalClass(isSpoiled(), 'spoiled'))} onClick={() => setSpoiled(true)}>
       {props.children}
     </span>
   )

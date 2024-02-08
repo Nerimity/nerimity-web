@@ -68,7 +68,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
           scrollTracker.forceUpdate();
         })
       }, 300)
-    };
+    }
     setTimeout(() => {
       messageEl?.scrollIntoView({
         behavior: 'smooth',
@@ -449,7 +449,7 @@ function createScrollTracker(scrollElement: HTMLElement) {
 
 function UnreadMarker(props: { onClick: () => void }) {
   return (
-    <div onclick={props.onClick} class={styles.unreadMarkerContainer}>
+    <div onClick={props.onClick} class={styles.unreadMarkerContainer}>
       <div class={styles.unreadMarker}>
         <Icon name='mark_chat_unread' size={12} />
         New Messages

@@ -240,7 +240,7 @@ const ServerBumpModalContainer = styled(FlexRow)`
 `
 
 export function ServerBumpModal(props: { update(server: RawPublicServer): void; publicServer: RawPublicServer; close(): void; }) {
-  let [verifyToken, setVerifyKey] = createSignal<string | undefined>(undefined);
+  const [verifyToken, setVerifyKey] = createSignal<string | undefined>(undefined);
   let turnstileRef: TurnstileRef | undefined;
 
 

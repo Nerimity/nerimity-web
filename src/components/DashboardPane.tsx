@@ -178,7 +178,7 @@ function ServerList() {
     if (!serverListEl) return;
     event.preventDefault();
 
-    var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+    const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
 
     serverListEl.scrollLeft -= event.wheelDelta
   }

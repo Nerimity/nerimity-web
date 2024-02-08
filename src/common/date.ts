@@ -35,8 +35,8 @@ export function getDaysAgo(timestamp: number) {
 }
 
 export function timeSince(timestamp: number) {
-  let now = new Date();
-  let secondsPast = (now.getTime() - timestamp) / 1000;
+  const now = new Date();
+  const secondsPast = (now.getTime() - timestamp) / 1000;
   if (secondsPast < 60) {
     return 'few seconds ago';
   }

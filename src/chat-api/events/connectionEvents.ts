@@ -149,7 +149,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
 
 
-    for (let channelId in payload.lastSeenServerChannelIds) {
+    for (const channelId in payload.lastSeenServerChannelIds) {
       const timestamp = payload.lastSeenServerChannelIds[channelId];
       channels.get(channelId)!.updateLastSeen(timestamp);
     }

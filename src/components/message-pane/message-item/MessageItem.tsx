@@ -73,9 +73,9 @@ function FloatOptions(props: FloatingOptionsProps) {
   return (
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
-      <Show when={isContentType()}><div class={styles.item} onclick={props.reactionPickerClick}><Icon size={18} name='face' class={styles.icon} /></div></Show>
-      <Show when={isContentType()}><div class={styles.item} onclick={props.quoteClick}><Icon size={18} name='format_quote' class={styles.icon} /></div></Show>
-      <Show when={showEdit()}><div class={styles.item} onclick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
+      <Show when={isContentType()}><div class={styles.item} onClick={props.reactionPickerClick}><Icon size={18} name='face' class={styles.icon} /></div></Show>
+      <Show when={isContentType()}><div class={styles.item} onClick={props.quoteClick}><Icon size={18} name='format_quote' class={styles.icon} /></div></Show>
+      <Show when={showEdit()}><div class={styles.item} onClick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
       <Show when={showDelete()}><div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div></Show>
       <div class={classNames("floatingShowMore", styles.item)} onClick={props.showContextMenu}><Icon size={18} name='more_vert' class={styles.icon} /></div>
     </div>
@@ -245,7 +245,7 @@ const UploadAttachment = (props: { message: Message }) => {
       <div class={styles.name}>{attachment().file.name}</div>
       <div class={styles.size}>{prettyBytes(attachment().file.size, 0)}</div>
       <div class={styles.progressBarContainer}>
-        <div class={styles.currentProgress} style={{ width: attachment().progress + "%" }}></div>
+        <div class={styles.currentProgress} style={{ width: attachment().progress + "%" }} />
       </div>
     </div>
   )
@@ -426,14 +426,14 @@ const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean })
       <div class={styles.video} style={style()}>
         <Show when={!playVideo()}>
           <img style={{ width: "100%", height: "100%", "object-fit": 'cover' }} src={props.embed.imageUrl} />
-          <div onclick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
+          <div onClick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
             <div class={styles.playButton}>
               <Icon name='play_arrow' color='var(--primary-color)' size={28} />
             </div>
           </div>
         </Show>
         <Show when={playVideo()}>
-        <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${props.code}?autoplay=1`} frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${props.code}?autoplay=1`} frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
         </Show>
       </div>
       <div class={styles.youtubeEmbedDetails}>
@@ -501,7 +501,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
         <Show when={file() && !error()}>
           <Show when={!playVideo()}>
             <Show when={file()?.thumbnailLink}><img style={{ width: "100%", height: "100%", "object-fit": 'contain' }} src={file()?.thumbnailLink} alt="" /></Show>
-            <div onclick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
+            <div onClick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
               <div class={styles.playButton}>
                 <Icon name='play_arrow' color='var(--primary-color)' size={28} />
               </div>
@@ -736,7 +736,7 @@ function OGEmbed(props: { message: RawMessage }) {
   const isGif = () => imageUrl().endsWith(".gif")
 
   const url = (ignoreFocus?: boolean) => {
-    let url = new URL(imageUrl());
+    const url = new URL(imageUrl());
     if (ignoreFocus) return url.href;
     if (!isGif()) return url.href;
     if (!hasFocus()) {

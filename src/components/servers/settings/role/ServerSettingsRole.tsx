@@ -170,9 +170,9 @@ function ColorPicker(props: { color: string, onChange?: (value: string) => void 
   }
 
   return (
-    <div class={styles.colorPicker} style={{ background: props.color }} onclick={onClicked}>
+    <div class={styles.colorPicker} style={{ background: props.color }} onClick={onClicked}>
       <Icon name='colorize' color='white' size={18} class={styles.icon} />
-      <input style={{ position: 'absolute', opacity: 0 }} ref={inputEl} type="color" value={props.color} onchange={onChange} />
+      <input style={{ position: 'absolute', opacity: 0 }} ref={inputEl} type="color" value={props.color} onChange={onChange} />
     </div>
   )
 }

@@ -53,7 +53,7 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
   }
 
   return (
-    <div class="quoteContainer" onmouseenter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <div class="quoteContainer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <div class="headerContainer">
         <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ color: serverMember()?.roleColor() }}>
           <Avatar animate={hovered()} user={props.quote.createdBy!} size={18} />

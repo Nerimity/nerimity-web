@@ -80,8 +80,8 @@ function sliceBeginning(arr: any[]) {
 
 
 const editAndStoreMessage = async (channelId: string, messageId: string, content: string) => {
-  let messages = get(channelId) || [];
-  let index = messages.findIndex(m => m.id === messageId);
+  const messages = get(channelId) || [];
+  const index = messages.findIndex(m => m.id === messageId);
   if (index < 0) return;
   if (messages[index].content === content) return;
   setMessages(channelId, index, {

@@ -110,7 +110,7 @@ export default function RegisterPage() {
       <PageHeader />
       <Content>
         <Container>
-        <form style={{display: 'flex', "flex-direction": 'column'}} action='#' onsubmit={registerClicked}>
+        <form style={{display: 'flex', "flex-direction": 'column'}} action='#' onSubmit={registerClicked}>
           <Title>{t('registerPage.title', {appName: env.APP_NAME})}</Title>
           <NoticesContainer gap={5}>
             <Text style={{"font-weight": 'bold'}} color='var(--warn-color)'>Notices</Text>

@@ -44,7 +44,7 @@ export default function Modal(props: Props) {
   }
   return (
     <Portal>
-      <div class={classNames(styles.backgroundContainer, "modal-bg")} onclick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as HTMLDivElement}>
+      <div class={classNames(styles.backgroundContainer, "modal-bg")} onClick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as HTMLDivElement}>
         <div style={modalContainerStyle()} classList={{
           "modal": true,
           [props.class || ""]: true,

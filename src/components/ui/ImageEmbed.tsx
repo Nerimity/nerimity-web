@@ -46,7 +46,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
   
   const isGif = () => props.attachment.path?.endsWith(".gif")
   const url = (ignoreFocus?: boolean) => {
-    let url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
+    const url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
     if (ignoreFocus) return url.href;
     if (!isGif()) return url.href;
     if (!hasFocus()) {
@@ -124,7 +124,7 @@ export function ImagePreviewModal(props: { close: () => void, url: string, width
 
   return (
     <ImagePreviewContainer onclick={onClick} class="ImagePreviewContainer">
-      <img src={props.url} onload={onLoad} style={style()}></img>
+      <img src={props.url} onLoad={onLoad} style={style()} />
     </ImagePreviewContainer>
   )
 }
