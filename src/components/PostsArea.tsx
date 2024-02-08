@@ -386,7 +386,7 @@ export function PostItem(props: {
         </Show>
         <PostContainer gap={5}>
           <A onClick={e => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
-            <Avatar animate={hovered()} user={props.post.createdBy} size={40} />
+            <Avatar resize={96} animate={hovered()} user={props.post.createdBy} size={40} />
           </A>
           <PostInnerContainer gap={3}>
             <Details
