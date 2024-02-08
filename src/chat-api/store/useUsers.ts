@@ -50,7 +50,7 @@ const set = (user: RawUser) => runWithContext(() => {
     ...user,
     setInboxChannelId,
     setVoiceChannelId,
-    openDM,
+    openDM: openDMScoped,
     closeDM,
     avatarUrl: function () {return avatarUrl(this)},
     update
@@ -69,24 +69,27 @@ function setInboxChannelId (this: User, channelId: string | undefined) {
 function update (this: User, update: Partial<RawUser>) {
   setUsers(this.id, update);
 }
-
-async function openDM(this: User) {
-  return runWithContext(async () => {
-    const navigate = useNavigate();
-    const inbox = useInbox();
-    const channels = useChannels();
-
-    const inboxItem = () => inbox.get(this.inboxChannelId!);
-    // check if dm already exists
-    if (!inboxItem()) {
-      const rawInbox = await openDMChannelRequest(this.id);
-      channels.set(rawInbox.channel);
-      inbox.set({...rawInbox, channelId: rawInbox.channel.id});
-      this.setInboxChannelId(rawInbox.channel.id);
-    }
-    navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem().channelId));
-  });
+function openDMScoped (this: User) {
+  return openDM(this.id);
 }
+
+
+const openDM = async (userId: string) => runWithContext(async () =>{
+  const navigate = useNavigate();
+  const inbox = useInbox();
+  const channels = useChannels();
+  const user = () => get(userId);
+  const inboxItem = () => inbox.get(user()?.inboxChannelId!);
+    // check if dm already exists
+  if (!inboxItem()) {
+    const rawInbox = await openDMChannelRequest(userId);
+    channels.set(rawInbox.channel);
+    inbox.set({...rawInbox, channelId: rawInbox.channel.id});
+    user()?.setInboxChannelId(rawInbox.channel.id);
+  }
+  navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem()?.channelId!));
+});
+
 
 async function closeDM(this: User) {
   await closeDMChannelRequest(this.inboxChannelId!);
