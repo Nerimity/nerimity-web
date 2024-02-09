@@ -9,8 +9,8 @@ dependencies:
     specifier: ^1.4.1
     version: 1.4.1(html-parse-string@0.0.9)(i18next@23.7.18)(solid-js@1.8.11)
   '@nerimity/nevula':
-    specifier: ^0.12.3
-    version: 0.12.3
+    specifier: ^0.13.1
+    version: 0.13.1
   '@nerimity/solid-emoji-picker':
     specifier: ^0.4.8
     version: 0.4.8(solid-js@1.8.11)
@@ -810,8 +810,8 @@ packages:
       solid-js: 1.8.11
     dev: false
 
-  /@nerimity/nevula@0.12.3:
-    resolution: {integrity: sha512-IY1wXrTs48uFYNQqBjrK6oZY3nlmfCrBtJby6nUGmEedxsHnpmyeu4oRs5GgopF3Cpz7nVCVeWhP34Y0Q3tgzg==}
+  /@nerimity/nevula@0.13.1:
+    resolution: {integrity: sha512-OPR5yM/mw/kml/n1ZwXTt+jDQjc/HJaN2XXnpeSjRLC2Fl3qVFbFlMvR0gBCLyPMWJSSxZh56TCCanR3/zHygw==}
     dev: false
 
   /@nerimity/solid-emoji-picker@0.4.8(solid-js@1.8.11):

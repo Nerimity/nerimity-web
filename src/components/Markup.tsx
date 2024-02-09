@@ -10,7 +10,7 @@ import {
   Span,
   UnreachableCaseError
 } from "@nerimity/nevula";
-import { createComputed, createEffect, createMemo, createRenderEffect, JSXElement, lazy, on } from "solid-js";
+import { createMemo, JSXElement, on } from "solid-js";
 import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "./markup/Emoji";
 import useChannels from "@/chat-api/store/useChannels";
@@ -172,7 +172,12 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
         return sliceText(ctx, entity.outerSpan);
       }
     }
-
+    case "named_link": {
+      const name = entity.params.name;
+      const url = entity.params.url;
+      ctx.textCount += name.length;
+      return <Link {...{url, text: name}} />;
+    }
     case "bold":
     case "italic":
     case "underline":
