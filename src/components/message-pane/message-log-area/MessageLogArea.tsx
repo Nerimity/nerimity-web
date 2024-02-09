@@ -6,7 +6,7 @@ import { addMessageReaction } from "@/chat-api/services/MessageService";
 import socketClient from "@/chat-api/socketClient";
 import { Message } from "@/chat-api/store/useMessages";
 import useStore from "@/chat-api/store/useStore";
-import { useScrollToMessageListener } from "@/common/GlobalEvents";
+import { emitScrollToMessage, useScrollToMessageListener } from "@/common/GlobalEvents";
 import { playMessageNotification } from "@/common/Sound";
 import { createDesktopNotification } from "@/common/desktopNotification";
 import env from "@/common/env";
@@ -16,7 +16,7 @@ import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { emojiShortcodeToUnicode } from "@/emoji";
-import { useParams } from "solid-navigator";
+import { useParams, useSearchParams } from "solid-navigator";
 import { For, Show, batch, createEffect, createMemo, createRenderEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import MessageItem, { DeleteMessageModal } from "../message-item/MessageItem";
@@ -28,6 +28,8 @@ import { t } from "i18next";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
 
 export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
+  const [searchParams, setSearchParams] = useSearchParams<{messageId?: string}>();
+
   let messageLogElement: undefined | HTMLDivElement;
 
   const {goToMain} = useDrawer();
@@ -59,6 +61,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     let messageEl = document.getElementById(`message-${event.messageId}`);
     if (!messageEl) {
       await messages.loadAroundAndStoreMessages(channel().id, event.messageId);
+
       messageEl = document.getElementById(`message-${event.messageId}`);
       setTimeout(() => {
         scrollTracker.setLoadMoreBottom(false);
@@ -67,6 +70,11 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
           channelProperties.setMoreBottomToLoad(params.channelId, true);
           scrollTracker.forceUpdate();
         });
+
+        if (searchParams.messageId) {
+          setSearchParams({messageId: undefined}, {replace: true});
+        }
+
       }, 300);
     }
     setTimeout(() => {
@@ -176,6 +184,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     scrollTracker.forceUpdate();
 
     setTimeout(() => {
+      if (searchParams.messageId) return;
       setAreMessagesLoading(false);
     }, 100);
   }));
@@ -185,15 +194,33 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     channelProperties.setScrolledBottom(params.channelId, scrollTracker.scrolledBottom());
   }));
 
+  createEffect(on(() => searchParams.messageId, () => {
+    if (searchParams.messageId) {
+      setTimeout(() => {
+        emitScrollToMessage({messageId: searchParams.messageId!});
+      }, 100);
+      return;
+    }
+  }, {defer: true}));
+
   onMount(async () => {
     let authenticated = false;
     createEffect(on(account.isAuthenticated, async (isAuthenticated) => {
       if (!isAuthenticated) return;
       if (authenticated) return;
       authenticated = true;
+      
+
       if (!channelMessages()) {
         channelProperties.setMoreTopToLoad(params.channelId, true);
         channelProperties.setMoreBottomToLoad(params.channelId, false);
+      }
+
+      if (searchParams.messageId) {
+        setTimeout(() => {
+          emitScrollToMessage({messageId: searchParams.messageId!});
+        }, 100);
+        return;
       }
 
       await fetchMessages();

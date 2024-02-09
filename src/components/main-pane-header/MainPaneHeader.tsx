@@ -9,7 +9,7 @@ import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Sh
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { postJoinVoice } from "@/chat-api/services/VoiceService";
 import socketClient from "@/chat-api/socketClient";
-import { useParams } from "solid-navigator";
+import { useNavigate, useParams } from "solid-navigator";
 import Button from "../ui/Button";
 import { ChannelIcon } from "../servers/drawer/ServerDrawer";
 import { VoiceUser } from "@/chat-api/store/useVoiceUsers";
@@ -134,6 +134,7 @@ const MentionListPopup = (props: { close: () => void }) => {
   const { isMobileWidth } = useWindowProperties();
   const [elementRef, setElementRef] = createSignal<undefined | HTMLDivElement>(undefined);
   const { width } = useResizeObserver(elementRef);
+  const navigate = useNavigate();
   const [notifications, setNotifications] = createSignal<RawNotification[] | null>(null);
 
   const fetchAndSetNotifications = async () => {
@@ -154,6 +155,12 @@ const MentionListPopup = (props: { close: () => void }) => {
     if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
   };
 
+  const onJump = (notification: RawNotification) => {
+    const serverId = notification.server.id;
+    const channelId = notification.message.channelId;
+    navigate(RouterEndpoints.SERVER_MESSAGES(serverId, channelId) + "?messageId=" + notification.message.id);
+    props.close();  
+  };
 
 
   return (
@@ -168,8 +175,11 @@ const MentionListPopup = (props: { close: () => void }) => {
         <For each={notifications()}>
           {notification => (
             <div>
-              <MentionServerHeader serverId={notification.server.id} />
-              <MessageItem message={notification.message} hideFloating />
+              <MentionServerHeader serverId={notification.server.id} channelId={notification.message.channelId} />
+              <div class={styles.messageContainer}>
+                <div class={styles.jumpToMessage} onClick={() => onJump(notification)}>Jump</div>
+                <MessageItem message={notification.message} hideFloating />
+              </div>
             </div>
           )}
         </For>
@@ -178,13 +188,18 @@ const MentionListPopup = (props: { close: () => void }) => {
   );
 };
 
-const MentionServerHeader = (props: { serverId: string }) => {
-  const { servers } = useStore();
+const MentionServerHeader = (props: { serverId: string, channelId: string }) => {
+  const { servers, channels } = useStore();
   const server = () => servers.get(props.serverId);
+  const channel = () => channels.get(props.channelId);
+
   return (
     <div class={styles.mentionServerHeader}>
       <Avatar server={server()} size={30} />
-      <Text>{server()!.name}</Text>
+      <div class={styles.mentionHeaderDetails}>
+        <Text size={14}>{server()!.name}</Text>
+        <Show when={channel()?.name}><Text size={12} opacity={0.6}>#{channel()?.name || ""}</Text></Show>
+      </div>
     </div>
   );
 };

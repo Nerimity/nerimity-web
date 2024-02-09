@@ -287,5 +287,24 @@
     background-color: rgba(0, 0, 0, 0.326);
     gap: 10px;
     margin-top: 10px;
+    .mentionHeaderDetails {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .messageContainer {
+    position: relative;
+    .jumpToMessage {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      background-color: rgba(0,0,0,0.6);
+      border-radius: 6px;
+      padding: 4px;
+      z-index: 111111111;
+      cursor: pointer;
+      font-size: 14px;
+
+    }
   }
 }
