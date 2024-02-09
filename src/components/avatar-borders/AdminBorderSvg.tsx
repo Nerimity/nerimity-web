@@ -16,7 +16,7 @@ export function AdminBorderSvg(props: {
         version="1.2"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 500 362"
-        style={{ scale: 1.8 }}
+        style={{ scale: 1.8, height: "100%", width: "100%" }} // height & width fix for safari
       >
         <defs>
           <radialGradient
