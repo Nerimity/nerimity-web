@@ -48,13 +48,27 @@ export default function ServerSettingsBans() {
 
   const server = () => servers.get(params.serverId);
 
+  
   const onFilePick = async (files: FileList) => {
-    const file = files[0];
-    const base64Image = await getBase64(file);
-    const name = file.name.split(".")[0];
-    addServerEmoji(params.serverId, name.substring(0, 15), base64Image!).then(newEmoji => {
-      setEmojis(() => [{ ...newEmoji, uploadedBy: account.user() as RawUser }, ...emojis()]);
+    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const promiseFuncs = Array.from(files).map( file => {
+
+      return async () => {
+        const base64Image = await getBase64(file);
+        const name = file.name.split(".")[0];
+        if (!name) return;
+        await addServerEmoji(params.serverId, name.substring(0, 15), base64Image!).then(newEmoji => {
+          setEmojis(() => [{ ...newEmoji, uploadedBy: account.user() as RawUser }, ...emojis()]);
+        });
+        await sleep(800);
+      };
+      
     });
+    
+    for (let index = 0; index < promiseFuncs.length; index++) {
+      await promiseFuncs[index]?.();
+    }
 
   };
 
@@ -77,8 +91,8 @@ export default function ServerSettingsBans() {
 
       <Text size={24} style={{ "margin-bottom": "10px" }}>Emojis</Text>
       <SettingsBlock icon="face" label="Custom Emojis" description="Add your own emojis!" class={css`&&{ border-bottom-left-radius: 0; border-bottom-right-radius: 0; margin-bottom: 1px;}`}>
-        <FileBrowser accept="images" ref={setFileBrowser} onChange={onFilePick} />
-        <Button label="Add Emoji" onClick={() => fileBrowser()?.open()} />
+        <FileBrowser multiple accept="images" ref={setFileBrowser} onChange={onFilePick} />
+        <Button label="Add Emojis" onClick={() => fileBrowser()?.open()} />
       </SettingsBlock>
       <EmojiCountPane count={emojis().length} serverVerified={server()?.verified}/>
       <Show when={emojis()?.length}>

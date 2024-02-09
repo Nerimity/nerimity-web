@@ -8,6 +8,7 @@ export interface FileBrowserRef {
 interface BaseProps {
   ref?: Accessor<FileBrowserRef | undefined>
   accept?: "any" | "images"
+  multiple?: boolean
 }
 
 interface PropsBase64 {
@@ -50,6 +51,7 @@ export default function FileBrowser(props: Props) {
       onChange={onChange}
       style={{display: "none"}}
       ref={inputRef}
+      multiple={props.multiple}
       type="file"
       accept={accept}/>
   );
