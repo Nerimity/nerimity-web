@@ -252,7 +252,7 @@ function VoiceHeader(props: { channelId?: string }) {
 }
 
 function VideoStream(props: { mediaStream: MediaStream, mute?: boolean }) {
-  const videoEl: HTMLVideoElement | undefined = undefined;
+  let videoEl: HTMLVideoElement | undefined;
 
   createEffect(() => {
     if (!videoEl) return;
