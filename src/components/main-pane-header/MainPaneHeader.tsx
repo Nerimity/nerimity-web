@@ -177,7 +177,10 @@ const MentionListPopup = (props: { close: () => void }) => {
             <div>
               <MentionServerHeader serverId={notification.server.id} channelId={notification.message.channelId} />
               <div class={styles.messageContainer}>
-                <div class={styles.jumpToMessage} onClick={() => onJump(notification)}>Jump</div>
+                <div onClick={() => onJump(notification)} class={styles.messageOverlay}>
+                  <div class={styles.jumpToMessage} >Jump</div>
+                </div>
+                
                 <MessageItem message={notification.message} hideFloating />
               </div>
             </div>

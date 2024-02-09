@@ -294,11 +294,22 @@
   }
   .messageContainer {
     position: relative;
+    .messageOverlay {
+      position: absolute;
+      inset: 0;
+      z-index: 11111;
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      &:hover {
+        opacity: 1;
+      }
+    }
     .jumpToMessage {
       position: absolute;
       right: 4px;
       top: 4px;
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0,0,0,0.4);
       border-radius: 6px;
       padding: 4px;
       z-index: 111111111;
