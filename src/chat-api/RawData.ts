@@ -291,7 +291,7 @@ export interface RawApplication {
   description?: string
   avatar?: string
 
-  botUserId: string
+  botUserId?: string
   botUser?: RawUser
 
 

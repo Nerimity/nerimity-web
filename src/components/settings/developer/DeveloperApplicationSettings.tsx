@@ -14,6 +14,7 @@ import { createStore, reconcile } from "solid-js/store";
 import { useNavigate, useParams } from "solid-navigator";
 import Input from "@/components/ui/input/Input";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
+import { CustomLink } from "@/components/ui/CustomLink";
 
 const Container = styled("div")`
   display: flex;
@@ -60,11 +61,20 @@ export default function DeveloperApplicationsSetting() {
       </Breadcrumb>
 
 
-      <div>
-        <SettingsBlock icon='edit' label='Name'>
-          <Input value={inputValues().name} onText={(v) => setInputValue("name", v)}/>
-        </SettingsBlock>
-      </div>
+  
+      <SettingsBlock icon='edit' label='Name'>
+        <Input value={inputValues().name} onText={(v) => setInputValue("name", v)}/>
+      </SettingsBlock>
+
+      <SettingsBlock icon='smart_toy' label='Bot User' description="Create or edit a bot user.">
+        <CustomLink href="./bot">
+          <Button 
+            label={application()?.botUserId ? "Edit" :  "Create"} 
+            iconName={application()?.botUserId ? "edit" : "add"} 
+          />
+        </CustomLink>
+      </SettingsBlock>
+  
 
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button label="Save" iconName="save"/>
