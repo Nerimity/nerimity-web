@@ -283,3 +283,18 @@ export interface RawPostNotification {
   by: RawUser,
   post?: RawPost
 }
+
+
+export interface RawApplication {
+  id: string
+  name: string
+  description?: string
+  avatar?: string
+
+  botUserId: string
+  botUser?: RawUser
+
+
+  creatorAccountId: string
+  createdAt: number
+}

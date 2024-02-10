@@ -1,5 +1,4 @@
 import { lazy } from "solid-js";
-import { RouteObject } from "solid-navigator";
 
 export interface Setting {
     path: string;
@@ -8,6 +7,7 @@ export interface Setting {
     icon: string;
     element: any
     hide?: boolean;
+    hideHeader?: boolean;
 
 } 
 
@@ -75,6 +75,30 @@ const settings: Setting[] =  [
     name: "settings.drawer.language",
     icon: "flag",
     element: lazy(() => import("@/components/settings/LanguageSettings"))
+  },
+  {
+    path: "developer",
+    routePath: "/developer",
+    name: "settings.drawer.developer",
+    icon: "code",
+    element: lazy(() => import("@/components/settings/developer/DeveloperSettings"))
+  },
+  {
+    path: "developer/applications",
+    routePath: "/developer/applications",
+    name: "settings.drawer.developer",
+    icon: "code",
+    hide: true,
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationsSettings"))
+  },
+  {
+    path: "developer/applications",
+    routePath: "/developer/applications/:id",
+    name: "settings.drawer.developer",
+    hideHeader: true,
+    icon: "code",
+    hide: true,
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationSettings"))
   },
   {
     path: "tickets",

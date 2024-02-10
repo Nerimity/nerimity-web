@@ -8,6 +8,12 @@
   border-radius: 8px;
   align-items: center;
   margin-bottom: 5px;
+  &.clickable {
+    cursor: pointer;
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
   &.header {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

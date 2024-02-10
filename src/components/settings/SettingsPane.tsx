@@ -1,10 +1,11 @@
-import { Outlet } from "solid-navigator";
-import { Show } from "solid-js";
+import { Outlet, useLocation, useMatch } from "solid-navigator";
+import { Show, createEffect } from "solid-js";
 import SettingsHeader from "./SettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { createStore } from "solid-js/store";
+import settings from "@/common/Settings";
 
 const SettingsPaneContainer = styled("div")`
   display: flex;
@@ -26,15 +27,23 @@ interface SettingsHeaderPreview {
 export const [settingsHeaderPreview, setSettingsHeaderPreview] = createStore<SettingsHeaderPreview>({});
 
 export default function SettingsPane() {
-  const [t] = useTransContext();
   const { account} = useStore();
   const user = () => account.user();
+
+  const matchingSettingsPane = () => {
+    return settings.find(s => {
+      const match = useMatch(() => `/app/settings/${s.routePath}`);
+      return match();
+    });
+  };
 
 
   return (
     <Show when={user()}>
       <SettingsPaneContainer>
-        <SettingsHeader />
+        <Show when={!matchingSettingsPane()?.hideHeader}>
+          <SettingsHeader />
+        </Show>
         <Outlet name='settingsPane' />
       </SettingsPaneContainer>
     </Show>
