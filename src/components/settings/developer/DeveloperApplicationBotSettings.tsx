@@ -11,7 +11,7 @@ import Button from "@/components/ui/Button";
 import { createAppBotUser, createApplication, getApplication, getApplications } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { createStore, reconcile } from "solid-js/store";
-import { useNavigate, useParams } from "solid-navigator";
+import { useLocation, useNavigate, useParams } from "solid-navigator";
 import Input from "@/components/ui/input/Input";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { CustomLink } from "@/components/ui/CustomLink";
@@ -27,7 +27,6 @@ const Container = styled("div")`
 export default function DeveloperApplicationBotSettings() {
   const { header } = useStore();
   const params = useParams<{id: string}>();
-  const navigate = useNavigate();
 
   createEffect(() => {
     header.updateHeader({
@@ -50,10 +49,6 @@ export default function DeveloperApplicationBotSettings() {
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
-  const createBot = async () => {
-    const botUser = await createAppBotUser(params.id);
-    navigate("./bot");
-  };
 
 
   return (
@@ -62,7 +57,8 @@ export default function DeveloperApplicationBotSettings() {
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem href="/app/settings/developer" title={t("settings.drawer.developer")} />
         <BreadcrumbItem href="/app/settings/developer/applications" title={t("settings.drawer.applications")} />
-        <BreadcrumbItem href="/app/settings/developer/applications" title={application() ? application()!.name : "loading..."} />
+        <BreadcrumbItem href="../" title={application() ? application()!.name : "loading..."} />
+        <BreadcrumbItem  title="Bot" />
       </Breadcrumb>
 
 
@@ -71,24 +67,6 @@ export default function DeveloperApplicationBotSettings() {
         <SettingsBlock icon='edit' label='Name'>
           <Input value={inputValues().name} onText={(v) => setInputValue("name", v)}/>
         </SettingsBlock>
-
-        <SettingsBlock 
-          href={application()?.botUserId ? "./bot" : undefined} 
-          icon='smart_toy' 
-          label='Bot User'
-          description={application()?.botUserId ? "Edit bot" : "Create a new bot user."}>
-          <Show when={!application()?.botUserId}>
-            <Button label="Create" iconName= "add" onClick={createBot} />
-          </Show>
-          <Show when={application()?.botUserId}>
-            <Icon name="keyboard_arrow_right" />
-          </Show>
-        </SettingsBlock>
-  
-
-        <Show when={Object.keys(updatedInputValues()).length}>
-          <Button label="Save" iconName="save"/>
-        </Show>
 
       </Show>
 

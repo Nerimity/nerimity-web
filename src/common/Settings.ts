@@ -101,6 +101,15 @@ const settings: Setting[] =  [
     element: lazy(() => import("@/components/settings/developer/DeveloperApplicationSettings"))
   },
   {
+    path: "developer/applications",
+    routePath: "/developer/applications/:id/bot",
+    name: "settings.drawer.developer",
+    hideHeader: true,
+    icon: "code",
+    hide: true,
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationBotSettings"))
+  },
+  {
     path: "tickets",
     routePath: "/tickets/:id?",
     name: "settings.drawer.tickets",

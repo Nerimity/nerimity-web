@@ -51,9 +51,8 @@ export default function DeveloperApplicationSetting() {
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
   const createBot = async () => {
-    const botUser = await createAppBotUser(params.id);
-    const newApp: RawApplication = {...application()!, botUser: botUser};
-    navigate("./bot",  {state: newApp});
+    await createAppBotUser(params.id);
+    navigate("./bot");
   };
 
 
@@ -63,7 +62,7 @@ export default function DeveloperApplicationSetting() {
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem href="/app/settings/developer" title={t("settings.drawer.developer")} />
         <BreadcrumbItem href="/app/settings/developer/applications" title={t("settings.drawer.applications")} />
-        <BreadcrumbItem href="/app/settings/developer/applications" title={application() ? application()!.name : "loading..."} />
+        <BreadcrumbItem title={application() ? application()!.name : "loading..."} />
       </Breadcrumb>
 
 
@@ -75,7 +74,6 @@ export default function DeveloperApplicationSetting() {
 
         <SettingsBlock 
           href={application()?.botUserId ? "./bot" : undefined} 
-          historyState={application()}
           icon='smart_toy' 
           label='Bot User'
           description={application()?.botUserId ? "Edit bot" : "Create a new bot user."}>
