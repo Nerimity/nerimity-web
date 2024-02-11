@@ -18,12 +18,13 @@ interface BlockProps {
   borderBottomRadius?: boolean
   onClick?: () => void
   href?: string
+  historyState?: any
 }
 
 
 export default function SettingsBlock(props: BlockProps) {
   return (
-    <Dynamic component={props.href ? CustomLink : "div"} href={props.href} class={
+    <Dynamic component={props.href ? CustomLink : "div"} state={props.historyState} href={props.href} class={
       classNames(
         styles.block,
         conditionalClass(props.header, styles.header!),

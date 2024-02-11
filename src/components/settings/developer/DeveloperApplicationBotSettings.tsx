@@ -24,13 +24,14 @@ const Container = styled("div")`
 `;
 
 
-export default function DeveloperApplicationSetting() {
+export default function DeveloperApplicationBotSettings() {
   const { header } = useStore();
   const params = useParams<{id: string}>();
   const navigate = useNavigate();
+
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Application",
+      title: "Settings - Developer Application Bot",
       iconName: "settings"
     });
   });
@@ -45,15 +46,13 @@ export default function DeveloperApplicationSetting() {
 
   const defaultInput = () => ({
     name: application()?.name || ""
-
   });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
   const createBot = async () => {
     const botUser = await createAppBotUser(params.id);
-    const newApp: RawApplication = {...application()!, botUser: botUser};
-    navigate("./bot",  {state: newApp});
+    navigate("./bot");
   };
 
 
@@ -75,7 +74,6 @@ export default function DeveloperApplicationSetting() {
 
         <SettingsBlock 
           href={application()?.botUserId ? "./bot" : undefined} 
-          historyState={application()}
           icon='smart_toy' 
           label='Bot User'
           description={application()?.botUserId ? "Edit bot" : "Create a new bot user."}>
