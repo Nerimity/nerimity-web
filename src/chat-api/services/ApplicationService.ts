@@ -1,5 +1,5 @@
 import env from "@/common/env";
-import { RawApplication } from "../RawData";
+import { RawApplication, RawUser } from "../RawData";
 import { request } from "./Request";
 
 export const getApplication = async (id: string) => {
@@ -24,6 +24,15 @@ export const createApplication = async () => {
   const data = await request<RawApplication>({
     method: "POST",
     url: env.SERVER_URL + "/api/applications",
+    useToken: true
+  });
+  return data;
+};
+
+export const createAppBotUser = async (appId: string) => {
+  const data = await request<RawUser>({
+    method: "POST",
+    url: env.SERVER_URL + `/api/applications/${appId}/bot`,
     useToken: true
   });
   return data;
