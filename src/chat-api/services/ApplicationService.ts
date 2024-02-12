@@ -37,3 +37,12 @@ export const createAppBotUser = async (appId: string) => {
   });
   return data;
 };
+export const updateAppBotUser = async (appId: string, update: {username?: string, tag?: string}) => {
+  const data = await request<RawUser>({
+    method: "PATCH",
+    url: env.SERVER_URL + `/api/applications/${appId}/bot`,
+    body: update,
+    useToken: true
+  });
+  return data;
+};

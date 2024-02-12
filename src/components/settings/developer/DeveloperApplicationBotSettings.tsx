@@ -1,5 +1,5 @@
 import { For, Show, createEffect, createSignal, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
+import { css, styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
 
@@ -8,13 +8,14 @@ import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
-import { createAppBotUser, createApplication, getApplication, getApplications } from "@/chat-api/services/ApplicationService";
+import { createAppBotUser, createApplication, getApplication, getApplications, updateAppBotUser } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { createStore, reconcile } from "solid-js/store";
 import { useLocation, useNavigate, useParams } from "solid-navigator";
 import Input from "@/components/ui/input/Input";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { CustomLink } from "@/components/ui/CustomLink";
+import Text from "@/components/ui/Text";
 
 const Container = styled("div")`
   display: flex;
@@ -27,6 +28,8 @@ const Container = styled("div")`
 export default function DeveloperApplicationBotSettings() {
   const { header } = useStore();
   const params = useParams<{id: string}>();
+  const [error, setError] = createSignal<string | null>(null);
+  const [requestSent, setRequestSent] = createSignal(false);
 
   createEffect(() => {
     header.updateHeader({
@@ -43,12 +46,32 @@ export default function DeveloperApplicationBotSettings() {
   });
 
 
+  const onSaveClicked = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+    setError(null);
+
+
+    await updateAppBotUser(params.id, updatedInputValues())
+      .then((newUser) => {
+        setApplication({...application()!, botUser: newUser});
+      })
+      .catch(err => {
+        setError(err.message);
+      })
+      .finally(() => setRequestSent(false));
+
+  
+  };
+
   const defaultInput = () => ({
-    name: application()?.name || ""
+    username: application()?.botUser?.username || "",
+    tag: application()?.botUser?.tag || ""
   });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
+  const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
 
 
   return (
@@ -64,9 +87,20 @@ export default function DeveloperApplicationBotSettings() {
 
   
       <Show when={application()}>
-        <SettingsBlock icon='edit' label='Name'>
-          <Input value={inputValues().name} onText={(v) => setInputValue("name", v)}/>
+
+        <SettingsBlock icon='face' label='Username'>
+          <Input value={inputValues().username} onText={(v) => setInputValue("username", v)} />
         </SettingsBlock>
+
+        <SettingsBlock icon='local_offer' label='Tag'>
+          <Input class={css`width: 52px;`} value={inputValues().tag} onText={(v) => setInputValue("tag", v)} />
+        </SettingsBlock>
+
+
+        <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
+        <Show when={Object.keys(updatedInputValues()).length}>
+          <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveClicked} />
+        </Show>
 
       </Show>
 
