@@ -1,4 +1,5 @@
 import { lazy } from "solid-js";
+import { ExperimentIds } from "./experiments";
 
 export interface Setting {
     path: string;
@@ -8,6 +9,7 @@ export interface Setting {
     element: any
     hide?: boolean;
     hideHeader?: boolean;
+    experimentId?: ExperimentIds;
 
 } 
 
@@ -81,7 +83,8 @@ const settings: Setting[] =  [
     routePath: "/developer",
     name: "settings.drawer.developer",
     icon: "code",
-    element: lazy(() => import("@/components/settings/developer/DeveloperSettings"))
+    element: lazy(() => import("@/components/settings/developer/DeveloperSettings")),
+    experimentId: "CREATE_APPS"
   },
   {
     path: "developer/applications",
@@ -89,7 +92,8 @@ const settings: Setting[] =  [
     name: "settings.drawer.developer",
     icon: "code",
     hide: true,
-    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationsSettings"))
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationsSettings")),
+    experimentId: "CREATE_APPS"
   },
   {
     path: "developer/applications",
@@ -98,7 +102,15 @@ const settings: Setting[] =  [
     hideHeader: true,
     icon: "code",
     hide: true,
-    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationSettings"))
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationSettings")),
+    experimentId: "CREATE_APPS"
+  },
+  {
+    path: "experiments",
+    routePath: "/experiments",
+    name: "settings.drawer.experiments",
+    icon: "science",
+    element: lazy(() => import("@/components/settings/ExperimentSettings"))
   },
   {
     path: "developer/applications",

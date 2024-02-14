@@ -13,6 +13,7 @@ export enum StorageKeys {
   LAST_SEEN_CHANNEL_NOTICES = "lastSeenChannelNotices",
   PROGRAM_ACTIVITY_STATUS = "programActivityStatus",
   BLUR_EFFECT_ENABLED = "blurEffectEnabled",
+  ENABLED_EXPERIMENTS = "enabledExperiments",
 }
 
 export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {
