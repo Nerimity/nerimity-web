@@ -1,5 +1,4 @@
 import { lazy } from "solid-js";
-import { ExperimentIds } from "./experiments";
 
 export interface Setting {
     path: string;
@@ -9,7 +8,6 @@ export interface Setting {
     element: any
     hide?: boolean;
     hideHeader?: boolean;
-    experimentId?: ExperimentIds;
 
 } 
 
@@ -83,8 +81,7 @@ const settings: Setting[] =  [
     routePath: "/developer",
     name: "settings.drawer.developer",
     icon: "code",
-    element: lazy(() => import("@/components/settings/developer/DeveloperSettings")),
-    experimentId: "CREATE_APPS"
+    element: lazy(() => import("@/components/settings/developer/DeveloperSettings"))
   },
   {
     path: "developer/applications",
@@ -92,8 +89,7 @@ const settings: Setting[] =  [
     name: "settings.drawer.developer",
     icon: "code",
     hide: true,
-    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationsSettings")),
-    experimentId: "CREATE_APPS"
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationsSettings"))
   },
   {
     path: "developer/applications",
@@ -102,16 +98,18 @@ const settings: Setting[] =  [
     hideHeader: true,
     icon: "code",
     hide: true,
-    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationSettings")),
-    experimentId: "CREATE_APPS"
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationSettings"))
   },
   {
-    path: "experiments",
-    routePath: "/experiments",
-    name: "settings.drawer.experiments",
-    icon: "science",
-    element: lazy(() => import("@/components/settings/ExperimentSettings"))
+    path: "developer/applications",
+    routePath: "/developer/applications/:id/bot/create-link",
+    name: "settings.drawer.developer",
+    hideHeader: true,
+    icon: "code",
+    hide: true,
+    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationBotCreateLinkSettings"))
   },
+
   {
     path: "developer/applications",
     routePath: "/developer/applications/:id/bot",
@@ -120,6 +118,13 @@ const settings: Setting[] =  [
     icon: "code",
     hide: true,
     element: lazy(() => import("@/components/settings/developer/DeveloperApplicationBotSettings"))
+  },
+  {
+    path: "experiments",
+    routePath: "/experiments",
+    name: "settings.drawer.experiments",
+    icon: "science",
+    element: lazy(() => import("@/components/settings/ExperimentSettings"))
   },
   {
     path: "tickets",

@@ -88,6 +88,10 @@ export default function DeveloperApplicationBotSettings() {
   
       <Show when={application()}>
 
+        <SettingsBlock icon='link' label='Create Invite Link' href="./create-link">
+          <Icon name="keyboard_arrow_right" />
+        </SettingsBlock>
+
         <SettingsBlock icon='face' label='Username'>
           <Input value={inputValues().username} onText={(v) => setInputValue("username", v)} />
         </SettingsBlock>
