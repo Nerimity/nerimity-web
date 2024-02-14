@@ -100,7 +100,7 @@ function SettingsList() {
       <DrawerHeader text={t("settings.drawer.title")} />
       <For each={settings.filter(setting => !setting.hide)}>
         {setting =>
-          <ShowExperiment experimentId={setting.experimentId}>
+          <ShowExperiment id={setting.experimentId}>
             <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)}>
               <Show when={setting.path === "tickets" && tickets.hasTicketNotification()}>
                 <NotificationCircle/>

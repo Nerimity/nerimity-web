@@ -19,9 +19,9 @@ export type ExperimentIds = typeof Experiments[number]["id"];
 
 const [enabledExperiments, setEnabledExperiments] = useReactiveLocalStorage<string[]>(StorageKeys.ENABLED_EXPERIMENTS, []);
 
-export const ShowExperiment = (props: {experimentId?: ExperimentIds, children: JSXElement}) => {
+export const ShowExperiment = (props: {id?: ExperimentIds, children: JSXElement}) => {
   return (
-    <Show when={!props.experimentId || enabledExperiments().includes(props.experimentId)}>
+    <Show when={!props.id || enabledExperiments().includes(props.id)}>
       {props.children}
     </Show>
   );
