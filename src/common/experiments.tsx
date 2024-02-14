@@ -11,7 +11,7 @@ export const Experiments = [
   {
     id: "CREATE_APPS",
     name: "Create Applications",
-    description: "Create applications that will allow users to create bots."
+    description: "Enables developer option to settings. Lets you create bots."
   }
 ] as const;
 
