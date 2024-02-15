@@ -17,8 +17,9 @@ interface BreadcrumbItemProps {
 
 const BreadcrumbContainer = styled(FlexRow)`
   align-items: center;
-  gap: 19px;
+  gap: 4px;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 `;
 
 export default function Breadcrumb(props: BreadcrumbProps) {
@@ -37,7 +38,9 @@ const breadcrumbItemStyles = css`
   user-select: none;
   transition: 0.2s;
   color: rgba(255, 255, 255, 0.5);
+  margin-right: 14px;
 
+  font-size: 12px;
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
@@ -65,7 +68,7 @@ const breadcrumbItemStyles = css`
 export function BreadcrumbItem(props: BreadcrumbItemProps) {
   return (
     <Dynamic class={breadcrumbItemStyles} component={props.href ? CustomLink : "div"} href={props.href!}>
-      <Show when={props.icon}><Icon class={css`color: inherit;`} style={props.title ? {"margin-right": "5px"} : undefined} size={25} name={props.icon}/></Show>
+      <Show when={props.icon}><Icon class={css`color: inherit;`} style={props.title ? {"margin-right": "5px"} : undefined} size={22} name={props.icon}/></Show>
       <Show when={props.title}>{props.title}</Show>
     </Dynamic>
   );

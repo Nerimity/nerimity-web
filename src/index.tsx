@@ -43,6 +43,7 @@ const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const InviteServerBotPage = lazy(() => import("./pages/InviteServerBot"));
 const TermsAndConditionsPage = lazy(() => import("./pages/TermsAndConditionsPage"));
 const GoogleRedirectLinkAccount = lazy(() => import("./pages/GoogleRedirectLinkAccountPage"));
 
@@ -174,6 +175,7 @@ render(() => {
       <Route path="/terms-and-conditions" component={TermsAndConditionsPage} /> 
       <Route path="/google-redirect" component={GoogleRedirectLinkAccount} /> 
       <Route path="/i/:inviteId" component={InviteRedirect} />
+      <Route path="/bot/:appId" component={InviteServerBotPage} />
       
       <Route path="/*" component={NoMatch} />
     </Router>

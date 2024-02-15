@@ -1,24 +1,18 @@
 import { For, Show, createEffect, createSignal, onMount } from "solid-js";
 import { css, styled } from "solid-styled-components";
-
 import useStore from "@/chat-api/store/useStore";
-
 import { t } from "i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
-import Icon from "@/components/ui/icon/Icon";
-import Button from "@/components/ui/Button";
-import { createAppBotUser, createApplication, getApplication, getApplications, updateAppBotUser } from "@/chat-api/services/ApplicationService";
+import {  getApplication} from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
-import { createStore, reconcile } from "solid-js/store";
-import { useLocation, useNavigate, useParams } from "solid-navigator";
-import Input from "@/components/ui/input/Input";
-import { createUpdatedSignal } from "@/common/createUpdatedSignal";
+import { useParams } from "solid-navigator";
 import { CustomLink } from "@/components/ui/CustomLink";
-import Text from "@/components/ui/Text";
 import { Bitwise, ROLE_PERMISSIONS, addBit, hasBit, removeBit } from "@/chat-api/Bitwise";
 import Checkbox from "@/components/ui/Checkbox";
 import env from "@/common/env";
+import Button from "@/components/ui/Button";
+import { FlexRow } from "@/components/ui/Flexbox";
 
 const Container = styled("div")`
   display: flex;
@@ -76,26 +70,23 @@ export default function DeveloperApplicationBotCreateLinkSettings() {
       </Breadcrumb>  
       <Show when={application()}>
 
-        <div>
-          <div>Link: <CustomLink decoration href={link()}>{link()}</CustomLink></div>
-        </div>
-
-
 
         <div>
-          <SettingsBlock icon="security" label={t("servers.settings.role.permissions")} description="Modify permissions for this link." header={true} />
+          <SettingsBlock icon="security" label={t("servers.settings.role.permissions")} description="Modify permissions for this link." header={true} class={css`flex-wrap: wrap; gap: 8px;`}>
+            <FlexRow itemsCenter gap={4} style={{background: "rgba(0,0,0,0.4)", "padding-left": "8px", "border-radius": "8px"}}>
+              <CustomLink style={{"font-size": "12px"}} target="_blank" rel="noopener noreferrer" decoration href={link()}>{link()}</CustomLink>
+              <Button iconName="copy" iconSize={18} onClick={() => navigator.clipboard.writeText(link())}  />
+            </FlexRow>
+          </SettingsBlock>
           <For each={permissionsList}>
             {(permission, i) => (
-              <SettingsBlock borderTopRadius={false} borderBottomRadius={i() === permissionsList.length - 1} icon={permission.icon} label={t(permission.name)} description={t(permission.description)}>
+              <SettingsBlock borderTopRadius={false} borderBottomRadius={i() === permissionsList.length - 1} icon={permission.icon} label={t(permission.name)} description={t(permission.description!)}>
                 <Checkbox checked={hasBit(permissions(), permission.bit)} onChange={checked => onPermissionChanged(checked, permission.bit)} />
               </SettingsBlock>
             )}
 
           </For>
         </div>
-
-
-
 
       </Show>
 

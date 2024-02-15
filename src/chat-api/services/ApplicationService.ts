@@ -46,3 +46,18 @@ export const updateAppBotUser = async (appId: string, update: {username?: string
   });
   return data;
 };
+
+
+
+export type RawBotUser = RawUser  & {application: {creatorAccount: {user: RawUser}}};
+
+
+export const getApplicationBot = async (appId: string, includeServers: boolean) => {
+  const data = await request<{bot: RawBotUser, servers: {id: string, name: string}[]}>({
+    method: "GET",
+    url: env.SERVER_URL + `/api/applications/${appId}/bot`,
+    params: { includeServers },
+    useToken: true
+  });
+  return data;
+};
