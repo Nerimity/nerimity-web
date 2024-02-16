@@ -8,7 +8,7 @@ import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
-import { createAppBotUser, createApplication, getApplication, getApplications, updateAppBotUser } from "@/chat-api/services/ApplicationService";
+import { createAppBotUser, createApplication, getAppBotToken, getApplication, getApplications, refreshAppBotToken, updateAppBotUser } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { createStore, reconcile } from "solid-js/store";
 import { useLocation, useNavigate, useParams } from "solid-navigator";
@@ -73,6 +73,27 @@ export default function DeveloperApplicationBotSettings() {
 
   const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
 
+  let token: string | null = null;
+  const copyToken = async () => {
+    if (token) {
+      navigator.clipboard.writeText(token);
+      return alert("Copied token to clipboard.");
+    }
+    const res = await getAppBotToken(params.id);
+    token = res.token;
+    navigator.clipboard.writeText(token);
+    alert("Copied token to clipboard.");
+  };
+  
+  const onRefreshClick = async () => {
+    token = null;
+    refreshAppBotToken(params.id).then(() => {
+      alert("Token refreshed.");
+    }).catch(err => {
+      alert(err.message);
+    });
+  };
+
 
   return (
     <Container>
@@ -81,7 +102,7 @@ export default function DeveloperApplicationBotSettings() {
         <BreadcrumbItem href="/app/settings/developer" title={t("settings.drawer.developer")} />
         <BreadcrumbItem href="/app/settings/developer/applications" title={t("settings.drawer.applications")} />
         <BreadcrumbItem href="../" title={application() ? application()!.name : "loading..."} />
-        <BreadcrumbItem  title="Bot" />
+        <BreadcrumbItem title="Bot" />
       </Breadcrumb>
 
 
@@ -90,6 +111,13 @@ export default function DeveloperApplicationBotSettings() {
 
         <SettingsBlock icon='link' label='Create Invite Link' href="./create-link">
           <Icon name="keyboard_arrow_right" />
+        </SettingsBlock>
+
+
+        
+        <SettingsBlock icon='key' label='Token' class={css`margin-bottom: 20px;`}>
+          <Button label="Refresh" onClick={onRefreshClick} iconName="refresh"/>
+          <Button onClick={copyToken} label="Copy" iconName="content_copy"/>
         </SettingsBlock>
 
         <SettingsBlock icon='face' label='Username'>

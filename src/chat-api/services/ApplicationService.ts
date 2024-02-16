@@ -47,6 +47,23 @@ export const updateAppBotUser = async (appId: string, update: {username?: string
   return data;
 };
 
+export const getAppBotToken = async (appId: string) => {
+  const data = await request<{token: string}>({
+    method: "GET",
+    url: env.SERVER_URL + `/api/applications/${appId}/token`,
+    useToken: true
+  });
+  return data;
+};
+export const refreshAppBotToken = async (appId: string) => {
+  const data = await request<{token: string}>({
+    method: "POST",
+    url: env.SERVER_URL + `/api/applications/${appId}/token`,
+    useToken: true
+  });
+  return data;
+};
+
 
 
 export type RawBotUser = RawUser  & {application: {creatorAccount: {user: RawUser}}};
