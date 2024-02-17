@@ -46,6 +46,15 @@ export const updateAppBotUser = async (appId: string, update: {username?: string
   });
   return data;
 };
+export const updateApp = async (appId: string, update: {name?: string}) => {
+  const data = await request<Partial<RawApplication>>({
+    method: "PATCH",
+    url: env.SERVER_URL + `/api/applications/${appId}`,
+    body: update,
+    useToken: true
+  });
+  return data;
+};
 
 export const getAppBotToken = async (appId: string) => {
   const data = await request<{token: string}>({

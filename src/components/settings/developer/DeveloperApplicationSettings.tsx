@@ -8,7 +8,7 @@ import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
-import { createAppBotUser, createApplication, deleteApp, getApplication, getApplications } from "@/chat-api/services/ApplicationService";
+import { createAppBotUser, createApplication, deleteApp, getApplication, getApplications, updateApp } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
 import { createStore, reconcile } from "solid-js/store";
 import { useNavigate, useParams } from "solid-navigator";
@@ -17,6 +17,7 @@ import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { CustomLink } from "@/components/ui/CustomLink";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import Text from "@/components/ui/Text";
 
 const Container = styled("div")`
   display: flex;
@@ -30,6 +31,9 @@ export default function DeveloperApplicationSetting() {
   const { header } = useStore();
   const params = useParams<{id: string}>();
   const navigate = useNavigate();
+  const [error, setError] = createSignal<string | null>(null);
+  const [requestSent, setRequestSent] = createSignal(false);
+
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Developer Application",
@@ -51,10 +55,27 @@ export default function DeveloperApplicationSetting() {
   });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
+  const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
 
   const createBot = async () => {
     await createAppBotUser(params.id);
     navigate("./bot");
+  };
+
+  const onSaveClicked = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+    setError(null);
+
+
+    await updateApp(params.id, updatedInputValues())
+      .then((newApp) => {
+        setApplication({...application()!, ...newApp});
+      })
+      .catch(err => {
+        setError(err.message);
+      })
+      .finally(() => setRequestSent(false));
   };
 
 
@@ -88,11 +109,12 @@ export default function DeveloperApplicationSetting() {
         </SettingsBlock>
   
 
+        <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
         <Show when={Object.keys(updatedInputValues()).length}>
-          <Button label="Save" iconName="save"/>
+          <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveClicked} />
         </Show>
 
-        <DeleteApplicationBlock id={params.id} name={application()?.name!} />
+        <DeleteApplicationBlock id={params.id} name={application()!.name} />
 
       </Show>
 
