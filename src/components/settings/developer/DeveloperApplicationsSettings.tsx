@@ -40,7 +40,10 @@ export default function DeveloperApplicationsSettings() {
 
 
   const addNewApp = async () => {
-    const app = await createApplication();
+    const app = await createApplication().catch(err => {
+      alert(err.message); 
+    });
+    if (!app) return;
     navigate("/app/settings/developer/applications/" + app.id);
   };
 

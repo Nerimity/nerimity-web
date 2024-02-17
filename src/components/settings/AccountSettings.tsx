@@ -274,6 +274,7 @@ function DeleteAccountBlock() {
       err = error.message;
     });
     if (!err) {
+      localStorage.clear();
       location.href = "/";
     }
     return err;

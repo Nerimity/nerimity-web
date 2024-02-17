@@ -63,6 +63,14 @@ export const refreshAppBotToken = async (appId: string) => {
   });
   return data;
 };
+export const deleteApp = async (appId: string) => {
+  const data = await request<{success: string}>({
+    method: "DELETE",
+    url: env.SERVER_URL + `/api/applications/${appId}`,
+    useToken: true
+  });
+  return data;
+};
 
 
 
