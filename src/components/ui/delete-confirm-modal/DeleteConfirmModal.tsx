@@ -42,7 +42,9 @@ export default function DeleteConfirmModal(props: Props) {
     if (err) {
       setError(err);
       setRequestSent(false);
+      return;
     }
+    props.close();
   };
 
   const buttonMessage = () => requestSent() ? "Deleting..." : `Delete ${props.confirmText}`;

@@ -205,6 +205,14 @@ export async function joinServerByInviteCode(inviteCode: string) {
     useToken: true
   });
 }
+export async function inviteBot(serverId: string, appId: string, permissions: number) {
+  return request<{success: boolean}>({
+    method: "POST",
+    url: env.SERVER_URL + `/api/servers/${serverId}/invites/applications/${appId}/bot`,
+    params: {permissions},
+    useToken: true
+  });
+}
 
 export type ServerWithMemberCount = RawServer & { memberCount: number }; 
 

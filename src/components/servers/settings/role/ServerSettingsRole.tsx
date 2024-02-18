@@ -17,6 +17,8 @@ import Icon from "@/components/ui/icon/Icon";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
+import { Notice } from "@/components/ui/Notice/Notice";
+import { css } from "solid-styled-components";
 
 type RoleParams = {
   serverId: string;
@@ -26,7 +28,7 @@ type RoleParams = {
 export default function ServerSettingsRole() {
   const [t] = useTransContext();
   const params = useParams<RoleParams>();
-  const { header, serverRoles, servers } = useStore();
+  const { header, serverRoles, servers, users } = useStore();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
@@ -80,6 +82,14 @@ export default function ServerSettingsRole() {
     createPortal?.(close => <RoleDeleteConfirmModal close={close} role={role()!} />);
   };
 
+
+  const bot = () => {
+    if (!role()?.botRole) return;
+    const botId = role()?.createdById;
+    if (!botId) return;
+    return users.get(botId);
+  };
+
   return (
     <div class={styles.channelPane}>
       <Breadcrumb>
@@ -87,6 +97,11 @@ export default function ServerSettingsRole() {
         <BreadcrumbItem href='../' title={t("servers.settings.drawer.roles")} />
         <BreadcrumbItem title={role()?.name} />
       </Breadcrumb>
+
+      <Show when={bot()}>
+        <Notice class={css`margin-bottom: 8px;`} type="warn" description={`This role is managed by ${bot()?.username}. You cannot delete or add members to this role. Kick this bot to remove this role.`} />
+      </Show>
+      
       {/* Role Name */}
       <SettingsBlock icon='edit' label={t("servers.settings.role.roleName")}>
         <Input value={inputValues().name} onText={(v) => setInputValue("name", v)} />
@@ -140,12 +155,19 @@ function RoleDeleteConfirmModal(props: { role: ServerRole, close: () => void }) 
   const onDeleteClick = async () => {
     setError(null);
     const serverId = props.role?.serverId!;
-    deleteServerRole(serverId, props.role.id).then(() => {
+    let err = "";
+    await deleteServerRole(serverId, props.role.id)
+      .catch(error => {
+        err = error.message;
+        setError(error.message);
+      });
+    if (!err) {
       const path = RouterEndpoints.SERVER_SETTINGS_ROLES(serverId);
       navigate(path);
-    }).catch(err => {
-      setError(err.message);
-    });
+    }
+
+    console.log(err);
+    return err;
   };
 
   return (

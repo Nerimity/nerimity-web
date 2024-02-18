@@ -18,6 +18,7 @@ import { DrawerHeader } from "../drawer-header/DrawerHeader";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { t } from "i18next";
 import InVoiceActions from "../InVoiceActions";
+import { ShowExperiment } from "@/common/experiments";
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -99,11 +100,13 @@ function SettingsList() {
       <DrawerHeader text={t("settings.drawer.title")} />
       <For each={settings.filter(setting => !setting.hide)}>
         {setting =>
-          <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)}>
-            <Show when={setting.path === "tickets" && tickets.hasTicketNotification()}>
-              <NotificationCircle/>
-            </Show>
-          </Item>
+          <ShowExperiment id={setting.experimentId}>
+            <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)}>
+              <Show when={setting.path === "tickets" && tickets.hasTicketNotification()}>
+                <NotificationCircle/>
+              </Show>
+            </Item>
+          </ShowExperiment>
         }
       </For>
     </SettingsListContainer>
