@@ -22,6 +22,7 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { Notice } from "../ui/Notice/Notice";
 import { RawChannelNotice } from "@/chat-api/RawData";
 import { setSettingsHeaderPreview } from "./SettingsPane";
+import Icon from "../ui/icon/Icon";
 
 const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"));
 
@@ -215,10 +216,8 @@ function EditAccountPage() {
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>
 
-      <SettingsBlock icon='info' label='Profile' description='Edit your bio'>
-        <CustomLink href='./profile'>
-          <Button iconSize={18} iconName='edit' label='Edit' />
-        </CustomLink>
+      <SettingsBlock icon='info' label='Profile' description='Edit your bio' href="./profile">
+        <Icon name="keyboard_arrow_right" />
       </SettingsBlock>
       <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
 
