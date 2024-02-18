@@ -87,7 +87,7 @@ export default function MemberContextMenu(props: Props) {
     createPortal?.(close =>  <KickModal close={close} member={member()!} />);
   };
   const onBanClick = () => {
-    const user = props.user! || member()?.user;
+    const user = props.user! || member()?.user();
     createPortal?.(close => <BanModal close={close} user={user} serverId={props.serverId!} />);
   };
 
