@@ -37,7 +37,7 @@ export default function ProfileSettings() {
     <Container>
       <Breadcrumb>
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
-        <BreadcrumbItem title={t("settings.drawer.account")} href='../account' />
+        <BreadcrumbItem title={t("settings.drawer.account")} href='../' />
         <BreadcrumbItem title="Profile" />
       </Breadcrumb>
 
