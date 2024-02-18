@@ -981,15 +981,20 @@ const BadgesContainer = styled(FlexRow)`
 function Badges(props: { user: UserDetails }) {
   const allBadges = Object.values(USER_BADGES);
 
+  const isBot = () => props.user.user.bot;
+
   const hasBadges = () =>
     allBadges.filter((badge) => hasBit(props.user.user.badges || 0, badge.bit));
 
   return (
-    <Show when={hasBadges().length}>
+    <Show when={hasBadges().length || isBot()}>
       <BadgesContainer gap={3}>
         <For each={hasBadges()}>
           {(badge) => <Badge {...{ badge }} {...props} />}
         </For>
+        <Show when={isBot()}>
+          <Badge badge={USER_BADGES.BOT} {...props} />
+        </Show>
       </BadgesContainer>
     </Show>
   );

@@ -113,6 +113,9 @@ const Details = (props: DetailsProps) => (
     <Show when={props.isServerCreator}>
       <div class={styles.ownerBadge}>Owner</div>
     </Show>
+    {/* <Show when={props.message.createdBy.bot}>
+      <div class={styles.ownerBadge}>Bot</div>
+    </Show> */}
     <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
   </div>
 );
