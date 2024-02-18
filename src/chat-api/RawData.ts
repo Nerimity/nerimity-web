@@ -100,6 +100,7 @@ export interface RawUser {
   tag: string;
   badges: number;
   joinedAt?: number;
+  bot: boolean;
 }
 
 export interface RawUserConnection {
