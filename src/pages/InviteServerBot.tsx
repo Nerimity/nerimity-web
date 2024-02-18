@@ -17,6 +17,7 @@ import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS, addBit, hasBit, removeBit } from "@/chat-api/Bitwise";
 import { t } from "i18next";
 import Checkbox from "@/components/ui/Checkbox";
+import { inviteBot } from "@/chat-api/services/ServerService";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -65,7 +66,7 @@ export default function InviteServerBotPage () {
       alert("Please select a server!");
       return;
     }
-    console.log(permissions());
+    inviteBot(serverId()!, params.appId, permissions()!);
   };
 
 
@@ -109,7 +110,7 @@ const PermissionList = (props: {permissions: number, setPermissions: (permission
 
   return (
     <FlexColumn  gap={8} class={css`width: 230px;`}>
-      <Text opacity={0.8}>Permissions</Text>
+      <Text opacity={0.8}>Bot Permissions</Text>
       <FlexColumn gap={4}>
         <For each={permissionsList}>
           {(permission) => (
