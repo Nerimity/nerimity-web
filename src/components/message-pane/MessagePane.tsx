@@ -46,6 +46,7 @@ import { MessageLogArea } from "./message-log-area/MessageLogArea";
 import { TenorImage } from "@/chat-api/services/TenorService";
 import { useMicRecorder } from "@nerimity/solid-opus-media-recorder";
 import { DeleteMessageModal } from "./message-item/MessageItem";
+import { useNotice } from "@/common/useChannelNotice";
 
 export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
@@ -1173,52 +1174,11 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
 
 
 
-const noticeCache: Record<string, RawChannelNotice | null> = {};
 
-const useNotice = (channelId: string) => {
-
-  const [notice, setNotice] = createSignal<RawChannelNotice | null>(null);
-
-  onMount(async () => {
-    if (noticeCache[channelId] !== undefined) {
-      setNotice(noticeCache[channelId]);
-      return;
-    }
-    const noticeRes = await getChannelNotice(channelId).catch(() => { });
-    if (!noticeRes) {
-      noticeCache[channelId] = null;
-      return;
-    }
-    noticeCache[channelId] = noticeRes.notice;
-    setNotice(noticeRes.notice);
-  });
-
-  const hasAlreadySeenNotice = () => {
-    if (!notice()) return;
-    const lastSeenObj = getStorageObject<Record<string, number>>(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, {});
-    const lastSeen = lastSeenObj[channelId];
-    if (!lastSeen) return false;
-    return lastSeen > notice()!.updatedAt;
-  };
-  const updateLastSeen = () => {
-    if (!notice()) return;
-    let lastSeenObj = getStorageObject<Record<string, number>>(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, {});
-    lastSeenObj[channelId] = Date.now();
-    // keep the top 50 last seen notices
-    const sorted = Object.entries(lastSeenObj).sort((a, b) => b[1] - a[1]);
-    if (sorted.length > 50) {
-      sorted.splice(50, sorted.length - 50);
-    }
-    lastSeenObj = Object.fromEntries(sorted);
-    setStorageObject(StorageKeys.LAST_SEEN_CHANNEL_NOTICES, lastSeenObj);
-  };
-
-  return { notice, setNotice, hasAlreadySeenNotice, updateLastSeen };
-};
 
 
 function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInputElement | undefined }) {
-  const { notice, setNotice, hasAlreadySeenNotice, updateLastSeen } = useNotice(props.channelId);
+  const { notice, setNotice, hasAlreadySeenNotice, updateLastSeen } = useNotice(() => props.channelId);
   const [textAreaFocus, setTextAreaFocus] = createSignal(false);
   const { isMobileWidth } = useWindowProperties();
 

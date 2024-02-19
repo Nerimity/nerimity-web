@@ -34,6 +34,9 @@ export default function Marked(props: {value: string}) {
     div.querySelectorAll("a").forEach(element => 
       element.setAttribute("target", "_blank")
     );
+    div.querySelectorAll("img").forEach(element => 
+      element.setAttribute("style", "width: 100%;")
+    );
 
 
 

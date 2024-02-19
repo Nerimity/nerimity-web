@@ -37,6 +37,7 @@ import { Skeleton } from "../ui/skeleton/Skeleton";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { Delay } from "@/common/Delay";
+import { getCachedNotice } from "@/common/useChannelNotice";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -258,6 +259,7 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
 
 
   return <>
+    <ChannelNotice/>
     <Show when={!channel()?.recipientId}><BannerItem /></Show>
     <Show when={channel()?.recipientId}>
       <ProfileFlyout dmPane userId={channel()?.recipientId!} />
@@ -357,6 +359,24 @@ function RoleItem(props: { roleName: string, members: ServerMember[] }) {
   );
 }
 
+
+const ChannelNotice = () => {
+  const params = useParams<{ channelId: string }>();
+
+  const cachedNotice = () => getCachedNotice(() => params.channelId);
+
+  return (
+    <Show when={cachedNotice()}>
+      <div class={styles.channelNotice}>
+        <div class={styles.channelNoticeHeader}>
+          <Icon color='var(--primary-color)' name="info" size={14} />
+          <Text size={13}>Channel Notice</Text>
+        </div>
+        <div class={styles.channelNoticeContent}><Markup inline text={cachedNotice()!.content} /></div>
+      </div>
+    </Show>
+  );
+};
 
 
 

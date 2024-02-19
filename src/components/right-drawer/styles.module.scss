@@ -149,3 +149,27 @@
     text-overflow: ellipsis;
   }
 }
+
+.channelNotice {
+  display: flex;
+  flex-direction: column;
+  margin-left: 4px;
+  margin-right: 4px;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  padding: 6px;
+}
+.channelNoticeHeader {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-weight: bold;
+
+}
+.channelNoticeContent {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
