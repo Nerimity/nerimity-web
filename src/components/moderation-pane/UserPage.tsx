@@ -158,7 +158,7 @@ export default function UserPage() {
             </UserBannerContainer>
           </Banner>
           <Breadcrumb>
-            <BreadcrumbItem href={"../"} icon='home' title="Moderation" />
+            <BreadcrumbItem href={"../../"} icon='home' title="Moderation" />
             <BreadcrumbItem title={user()?.username} icon="person" />
           </Breadcrumb>
           <SettingsBlock label="Email" icon="email">
