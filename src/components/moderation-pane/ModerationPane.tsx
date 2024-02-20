@@ -139,6 +139,7 @@ const ItemDetailContainer = styled("div")`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-left: 6px;
 `;
 
 const PageContainer = styled(FlexColumn)`
@@ -776,33 +777,33 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
     switch (props.auditLog.actionType) {
       case AuditLogType.serverDelete:
         return {
-          icon: "dnsremove_circle",
+          icon: "dns",
           color: "var(--alert-color)",
-          title: "Server Deleted"
+          title: "Server Delete"
         };
       case AuditLogType.serverUpdate:
         return {
-          icon: "dnsupdate",
+          icon: "dns",
           color: "var(--success-color)",
-          title: "Server Updated"
+          title: "Server Update"
         };
       case AuditLogType.userSuspend:
         return {
-          icon: "personremove_circle",
+          icon: "person",
           color: "var(--alert-color)",
-          title: "User Suspended"
+          title: "User Suspend"
         };
       case AuditLogType.userUnsuspend:
         return {
-          icon: "personlogin",
+          icon: "person",
           color: "var(--success-color)",
-          title: "User Un-suspended"
+          title: "User Unsuspend"
         };
       case AuditLogType.userUpdate:
         return {
-          icon: "personupdate",
+          icon: "person",
           color: "var(--success-color)",
-          title: "User Updated"
+          title: "User Update"
         };
       default:
         return { icon: "texture", color: "gray", title: "Unknown Action" };
@@ -814,25 +815,34 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       class={itemStyles}
+      style={{cursor: "initial"}}
     >
       <Avatar animate={hovered()} class={avatarStyle} user={by} size={28} />
       <ItemDetailContainer class="details">
-        <FlexRow itemsCenter gap={4}>
-          <Icon name={action().icon} color={action().color} size={18} />
-          <Text>{action().title}</Text>
-        </FlexRow>
+        
 
-        <FlexRow gap={3}>
-          <Text size={12} opacity={0.6}>
-            At{" "}
-          </Text>
-          <Text size={12}>{created}</Text>
+        <FlexRow gap={3} itemsCenter style={{"margin-bottom": "2px"}}>
 
           <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
-            <Text size={12} opacity={0.6}>
-              Suspended{" "}
+            <Text size={14} >
+              Suspend{" "}
             </Text>
-            <Text size={12}>
+            <Text size={14}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.auditLog.userId}`}
+              >
+                {props.auditLog.username}
+              </A>
+            </Text>
+          </Show>
+
+
+          <Show when={props.auditLog.actionType === AuditLogType.userUnsuspend}>
+            <Text size={14} >
+              Unsuspend{" "}
+            </Text>
+            <Text size={14}>
               <A
                 class={linkStyle}
                 href={`/app/moderation/users/${props.auditLog.userId}`}
@@ -843,10 +853,10 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.userUpdate}>
-            <Text size={12} opacity={0.6}>
+            <Text size={14}>
               Updated{" "}
             </Text>
-            <Text size={12}>
+            <Text size={14}>
               <A
                 class={linkStyle}
                 href={`/app/moderation/users/${props.auditLog.userId}`}
@@ -857,17 +867,17 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.serverDelete}>
-            <Text size={12} opacity={0.6}>
+            <Text size={14}>
               Deleted{" "}
             </Text>
-            <Text size={12}>{props.auditLog.serverName}</Text>
+            <Text size={14}>{props.auditLog.serverName}</Text>
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.serverUpdate}>
-            <Text size={12} opacity={0.6}>
+            <Text size={14}>
               Updated{" "}
             </Text>
-            <Text size={12}>
+            <Text size={14}>
               <A
                 class={linkStyle}
                 href={`/app/moderation/servers/${props.auditLog.serverId}`}
@@ -877,15 +887,25 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
 
-          <Text size={12} opacity={0.6}>
+          <Text size={14}>
             By{" "}
           </Text>
-          <Text size={12}>
+          <Text size={14}>
             <A class={linkStyle} href={`/app/moderation/users/${by.id}`}>
               {by.username}:{by.tag}
             </A>
           </Text>
         </FlexRow>
+
+        <FlexRow gap={3}>
+          <Text size={12} opacity={0.6}>
+              At:{" "}
+          </Text>
+          <Text size={12}>
+            {created}
+          </Text>
+        </FlexRow>
+
         <Show when={props.auditLog.reason}>
           <FlexRow gap={3}>
             <Text size={12} opacity={0.6}>
