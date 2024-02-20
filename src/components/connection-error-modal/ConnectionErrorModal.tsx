@@ -8,6 +8,7 @@ import { Match, Show, Switch } from "solid-js";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Modal from "../ui/modal/Modal";
+import Text from "../ui/Text";
 
 export const ConnectionErrorModal = (props: {close: () => void}) => {
   const { account } = useStore();
@@ -53,19 +54,18 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
 function SuspendMessage(props: {reason?: string; expire?: number;}) {
   return (
     <>
-      <div class={styles.message}>You are suspended for </div>
-      <div class={styles.message}> {props.reason || "Violating the TOS"}</div>
-      <div class={styles.messageDim}> until</div>
-      <div class={styles.message}> {props.expire ? formatTimestamp(props.expire) : "never"}</div>
+      <div class={styles.message}>You are suspended.</div>
+      <div class={styles.message}>Reason: <span class={styles.messageDim}>{props.reason || "Violating the TOS"}</span></div>
+      <div class={styles.message}>Until: <span class={styles.messageDim}>{props.expire ? formatTimestamp(props.expire) : "never"}</span></div>
     </>
   );
 }
 function IPBanMessage(props: {reason?: string; expire?: number;}) {
   return (
     <>
-      <div class={styles.messageDim}>You are IP banned</div>
-      <div class={styles.messageDim}> until</div>
-      <div class={styles.message}> {props.expire ? formatTimestamp(props.expire) : "never"}</div>
+
+      <div class={styles.message}>Your IP is banned.</div>
+      <div class={styles.message}>Until: <span class={styles.messageDim}>{ formatTimestamp(props.expire!)}</span></div>
     </>
   );
 }

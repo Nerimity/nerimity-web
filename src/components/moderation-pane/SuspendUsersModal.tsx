@@ -51,14 +51,16 @@ export default function SuspendUsersModal(props: Props) {
     setSuspending(true);
     setError(null);
     const userIds = props.users.map(u => u.id);
+    
+    const intSuspendFor = parseInt(suspendFor());
 
     const preview: ModerationSuspension = {
-      expireAt: suspendFor() ? daysToDate(parseInt(suspendFor())) : null,
+      expireAt: intSuspendFor ? daysToDate(intSuspendFor) : null,
       suspendedAt: Date.now(),
       reason: reason() || undefined
     };
 
-    suspendUsers(password(), userIds, parseInt(suspendFor()), reason() || undefined, ipBan())
+    suspendUsers(password(), userIds, intSuspendFor, reason() || undefined, ipBan())
       .then(() => {
         props.done(preview); props.close();
       })
