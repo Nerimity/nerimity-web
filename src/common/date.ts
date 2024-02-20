@@ -17,8 +17,9 @@ export function formatTimestamp(timestamp: number) {
   else if (yesterday.toDateString() === date.toDateString()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
+  
   else {
-    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    return `${Intl.DateTimeFormat("en-GB", {day: "2-digit", month: "short", year: "numeric"}).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
 
