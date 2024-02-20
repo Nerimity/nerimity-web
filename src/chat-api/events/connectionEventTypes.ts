@@ -29,6 +29,11 @@ export enum DmStatus {
   FRIENDS_AND_SERVERS = 1,
   FRIENDS = 2,
 }
+export enum FriendRequestStatus {
+  OPEN = 0,
+  SERVERS = 1,
+  CLOSED = 2,
+}
 
 
 export interface SelfUser {
@@ -43,6 +48,7 @@ export interface SelfUser {
   customStatus?: string;
   orderedServerIds: string[]
   dmStatus: DmStatus
+  friendRequestStatus: FriendRequestStatus
   emailConfirmed: boolean
   connections: RawUserConnection[]
 }

@@ -201,6 +201,7 @@ interface UpdateUserOptions {
   bio?: string | null;
   socketId?: string;
   dmStatus?: number;
+  friendRequestStatus?: number;
 }
 export async function updateUser(body: UpdateUserOptions) {
   return request<{user: any, newToken?: string, }>({
