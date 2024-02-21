@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   viewBox="0 0 24 24"
+   id="svg6"
+   sodipodi:docname="assembly.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="17.645833"
+     inkscape:cx="12.070838"
+     inkscape:cy="17.794569"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <text
+     xml:space="preserve"
+     style="font-size:15.9996px;font-family:ARIA;-inkscape-font-specification:ARIA;text-align:center;text-anchor:middle;fill:#e3ae5a;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0;stroke-linejoin:bevel;stroke-opacity:0"
+     x="12.239292"
+     y="17.474819"
+     id="text234"
+     transform="scale(1.0001273,0.99987272)"><tspan
+       sodipodi:role="line"
+       id="tspan232"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.9996px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;fill:#45403d;fill-opacity:1;stroke-width:0"
+       x="12.239292"
+       y="17.474819">[   ]</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:6.66667px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;text-align:center;text-anchor:middle;fill:#45403d;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linejoin:bevel;stroke-opacity:0"
+     x="12.24085"
+     y="10.599995"
+     id="text3835"><tspan
+       sodipodi:role="line"
+       id="tspan3833"
+       x="12.24085"
+       y="10.599995"
+       style="font-size:6.66667px">0 1 0</tspan><tspan
+       sodipodi:role="line"
+       x="12.24085"
+       y="18.933332"
+       id="tspan3837"
+       style="font-size:6.66667px">1 0 1</tspan></text>
+</svg>

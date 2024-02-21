@@ -33,6 +33,21 @@ export default function CodeBlock(props: Props) {
     setLanguageLoaded(true);    
   });
 
+  function getLanguageIcon(): string {
+    const lang = languageName().toLowerCase().replaceAll(' ', '')
+
+    // languages with special characters in names
+    if (lang == 'c++') { return `/assets/code-block-icons/cpp.svg` }
+    else if (lang == 'c#') { return `/assets/code-block-icons/cs.svg` }
+    else if (lang == 'html,xml') { return `/assets/code-block-icons/html_xml.svg` }  
+
+    const langsWithIcons: string[] = ['assembly', 'c', 'css', 'go', 'java', 'javascript', 'json', 'kotlin', 'lua', 'perl', 'php', 'python', 'rust', 'shellsession', 'sql', 'typescript', 'yaml']
+    if (langsWithIcons.includes(lang)) {
+      return `/assets/code-block-icons/${lang}.svg`
+    }
+    return `/assets/code-block-icons/default.svg`
+  }
+
   const toggleWrap = () => setWrap(!wrap());
 
   const highlighted = () => {
@@ -47,7 +62,8 @@ export default function CodeBlock(props: Props) {
   return (
     <div class={classNames("code-block", conditionalClass(!wrap(), "no-wrap"))}>
       <div class="header">
-        <span class="lang-name">{languageName()|| props.lang || "Text"}</span>
+        <img src={getLanguageIcon()} height='24px' width='24px' alt=''></img>
+        <span class="lang-name">{` ${languageName()}`|| ` ${props.lang}` || " Text"}</span>
         <Icon onClick={toggleWrap}  title="Toggle Wrap" name="wrap_text" class={classNames("button", conditionalClass(wrap(), "active"))} size={16} />
         <Icon onClick={copy} title="Copy" name="copy" class="button" size={16} />
       </div>
