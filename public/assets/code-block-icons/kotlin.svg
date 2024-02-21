@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   viewBox="0 0 24 24"
+   id="svg145"
+   sodipodi:docname="kotlin.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview147"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="12.477488"
+     inkscape:cx="12.662805"
+     inkscape:cy="0.96173204"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg145" />
+  <defs
+     id="defs139">
+    <linearGradient
+       id="linearGradient4183"
+       x1="1.7253"
+       x2="22.185"
+       y1="22.67"
+       y2="1.9823"
+       gradientTransform="matrix(.89324 0 0 .89324 1.3055 1.1285)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#7daea3"
+         offset="0"
+         id="stop129" />
+      <stop
+         stop-color="#ab6c7d"
+         offset="1"
+         id="stop131" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4206"
+       x1="1.8691"
+       x2="22.798"
+       y1="22.382"
+       y2="3.3774"
+       gradientTransform="matrix(.89324 0 0 .89324 1.323 1.1285)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#d3869b"
+         offset="0"
+         id="stop134" />
+      <stop
+         stop-color="#e78a4e"
+         offset="1"
+         id="stop136" />
+    </linearGradient>
+  </defs>
+  <path
+     id="path141"
+     style="fill:#d3869b;fill-opacity:1"
+     d="M 2.9746094 2.9765625 L 2.9746094 21.023438 L 2.9921875 21.023438 L 3.0761719 21.023438 L 21.025391 21.023438 L 21.025391 20.994141 L 16.546875 16.482422 L 12.099609 12 L 12.107422 11.992188 L 12.083984 11.966797 L 16.564453 7.453125 L 21.007812 2.9765625 L 20.990234 2.9765625 L 12.222656 2.9765625 L 2.9746094 2.9765625 z " />
+</svg>
