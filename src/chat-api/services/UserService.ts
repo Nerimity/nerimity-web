@@ -227,14 +227,16 @@ export async function unfollowUser(userId: string) {
 }
 
 
-interface UpdateServerSettings {
+interface UpdateNotificationSettings {
   notificationSoundMode?: number;
   notificationPingMode?: number;
+  serverId?: string;
+  channelId?: string;
 }
 
-export async function updateServerSettings(serverId: string, update: UpdateServerSettings) {
+export async function updateNotificationSettings(update: UpdateNotificationSettings) {
   return request({
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("servers/") + serverId,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("notifications"),
     method: "POST",
     useToken: true,
     body: update

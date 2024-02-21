@@ -4,7 +4,7 @@ import useMention from "../store/useMention";
 import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
 import { SelfUser } from "./connectionEventTypes";
-import { ActivityStatus, FriendStatus, RawServerSettings, RawUser, RawUserConnection } from "../RawData";
+import { ActivityStatus, FriendStatus, RawUserNotificationSettings, RawUser, RawUserConnection } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
@@ -51,9 +51,9 @@ export function onUserUpdated(payload: Partial<SelfUser>) {
   user?.update(payload);
 }
 
-export function onUserServerSettingsUpdate(payload: {serverId: string, updated: Partial<RawServerSettings>}) {
+export function onUserNotificationSettingsUpdate(payload: {serverId?: string, channelId?: string; updated: Partial<RawUserNotificationSettings>}) {
   const {account} = useStore();
-  account.setServerSettings(payload.serverId, payload.updated);
+  account.setNotificationSettings(payload.channelId || payload.serverId! , payload.updated);
 }
 
 

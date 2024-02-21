@@ -120,10 +120,11 @@ export enum ServerNotificationPingMode {
   MENTIONS_ONLY = 1,
   MUTE = 2,
 }
-export interface RawServerSettings {
+export interface RawUserNotificationSettings {
   notificationSoundMode: ServerNotificationSoundMode,
   notificationPingMode: ServerNotificationPingMode,
-  serverId: string
+  serverId?: string,
+  channelId?: string
 }
 
 export interface RawServerMember {

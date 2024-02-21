@@ -7,7 +7,7 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { RadioBox, RadioBoxItem } from "@/components/ui/RadioBox";
-import { updateServerSettings } from "@/chat-api/services/UserService";
+import { updateNotificationSettings } from "@/chat-api/services/UserService";
 import { Notice } from "@/components/ui/Notice/Notice";
 import ItemContainer from "@/components/ui/Item";
 import Avatar from "@/components/ui/Avatar";
@@ -42,8 +42,8 @@ export default function ServerGeneralSettings(props: {}) {
     });
   });
 
-  const currentNotificationSoundMode = () => account.getServerSettings(params.serverId)?.notificationSoundMode || 0;
-  const currentNotificationPingMode = () => account.getServerSettings(params.serverId)?.notificationPingMode || 0;
+  const currentNotificationSoundMode = () => account.getNotificationSettings(params.serverId)?.notificationSoundMode || 0;
+  const currentNotificationPingMode = () => account.getNotificationSettings(params.serverId)?.notificationPingMode || 0;
   
   const NotificationSoundItems: () => RadioBoxItem[] = () => ([
     ...(currentNotificationPingMode() !== ServerNotificationPingMode.MENTIONS_ONLY ? [{id: 0, label: "Everything" }] : []),
@@ -52,8 +52,9 @@ export default function ServerGeneralSettings(props: {}) {
   ]);
 
   const onNotificationSoundChange = (item: RadioBoxItem) => {
-    updateServerSettings(params.serverId, {
-      notificationSoundMode: item.id as number
+    updateNotificationSettings({
+      notificationSoundMode: item.id as number,
+      serverId: params.serverId
     });
   };
 
@@ -71,9 +72,10 @@ export default function ServerGeneralSettings(props: {}) {
     if (item.id === ServerNotificationPingMode.MUTE) {
       notificationSoundMode = ServerNotificationSoundMode.MUTE;
     }
-    updateServerSettings(params.serverId, {
+    updateNotificationSettings({
       notificationPingMode: item.id as number,
-      ...(notificationSoundMode !== null ? {notificationSoundMode} : undefined)
+      ...(notificationSoundMode !== null ? {notificationSoundMode} : undefined),
+      serverId: params.serverId
     });
   };
 

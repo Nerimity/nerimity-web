@@ -1,11 +1,10 @@
 import env from "@/common/env";
 import {createStore} from "solid-js/store";
 import { SelfUser } from "../events/connectionEventTypes";
-import { RawServerSettings, RawUser } from "../RawData";
+import { RawUserNotificationSettings } from "../RawData";
 import { USER_BADGES, hasBit } from "../Bitwise";
 
 
-type ServerSettings = Omit<RawServerSettings, "serverId">;
 interface Account {
   user: SelfUser | null,
 
@@ -13,7 +12,7 @@ interface Account {
   socketConnected: boolean,
   socketAuthenticated: boolean,
   authenticationError: {message: string, data: any} | null;
-  serverSettings: Record<string, ServerSettings>
+  notificationSettings: Record<string, RawUserNotificationSettings>
   lastAuthenticatedAt: null | number;
 }
 
@@ -24,16 +23,16 @@ const [account, setAccount] = createStore<Account>({
   socketConnected: false,
   socketAuthenticated: false,
   authenticationError: null,
-  serverSettings: {},
+  notificationSettings: {},
   lastAuthenticatedAt: null
 });
 
 
-const setServerSettings = (serverId: string, setting: Partial<RawServerSettings>) => {
-  setAccount("serverSettings", serverId, {...setting, serverId: undefined});
+const setNotificationSettings = (channelOrServerId: string, setting: Partial<RawUserNotificationSettings>) => {
+  setAccount("notificationSettings", channelOrServerId, setting);
 };
 
-const getServerSettings = (serverId: string) => account.serverSettings[serverId] as ServerSettings | undefined;
+const getNotificationSettings = (serverOrChannelId: string) => account.notificationSettings[serverOrChannelId] as RawUserNotificationSettings | undefined;
 
 interface SetSocketDetailsArgs {
   socketId?: string | null,
@@ -71,8 +70,8 @@ export default function useAccount() {
     isConnected,
     isAuthenticated,
     authenticationError,
-    setServerSettings,
-    getServerSettings,
+    setNotificationSettings,
+    getNotificationSettings,
     hasModeratorPerm,
     lastAuthenticatedAt
   };

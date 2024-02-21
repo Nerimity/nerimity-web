@@ -44,7 +44,7 @@ function hasNotifications (this: Server) {
   const channels = useChannels();
 
   const account = useAccount();
-  const notificationPingMode = account.getServerSettings(this.id)?.notificationPingMode;
+  const notificationPingMode = account.getNotificationSettings(this.id)?.notificationPingMode;
   if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
   
   return channels.getChannelsByServerId(this.id).some(channel => {

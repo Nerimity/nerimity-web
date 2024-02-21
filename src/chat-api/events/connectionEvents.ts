@@ -142,9 +142,9 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
 
 
-    for (let i = 0; i < payload.serverSettings.length; i++) {
-      const serverSetting = payload.serverSettings[i];
-      account.setServerSettings(serverSetting.serverId, serverSetting);
+    for (let i = 0; i < payload.notificationSettings.length; i++) {
+      const notificationSetting = payload.notificationSettings[i]!;
+      account.setNotificationSettings( notificationSetting.channelId || notificationSetting.serverId!, notificationSetting);
     }
 
 

@@ -21,7 +21,7 @@ const set = (mention: Mention) => {
   const account = useAccount();
   
   if (channel?.serverId) {
-    const notificationPingMode = account.getServerSettings(channel.serverId)?.notificationPingMode;
+    const notificationPingMode = account.getNotificationSettings(channel.serverId)?.notificationPingMode;
     if (notificationPingMode === ServerNotificationPingMode.MUTE) return;
   }
 
