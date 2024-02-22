@@ -22,6 +22,8 @@ import { timeElapsed } from "@/common/date";
 import InVoiceActions from "@/components/InVoiceActions";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import ContextMenuServer from "../context-menu/ContextMenuServer";
+import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 
 
 
@@ -45,10 +47,12 @@ const ChannelList = () => {
   const { channels, account } = useStore();
   const navigate = useNavigate();
 
+  const [contextMenuDetails, setContextMenuDetails] = createSignal<{ position: {x: number, y: number}, serverId: string, channelId: string } | undefined>();
+
+
   const sortedChannels = () => channels.getSortedChannelsByServerId(params.serverId, true);
   const sortedRootChannels = () => sortedChannels().filter(channel => !channel?.categoryId);
   const channelsWithoutCategory = () => sortedChannels().filter(channel => channel?.type !== ChannelType.CATEGORY);
-
   const selectedChannelIndex = () => channelsWithoutCategory().findIndex(channel => channel?.id === params.channelId);
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -89,14 +93,26 @@ const ChannelList = () => {
     });
   });
 
+  const onChannelContextMenu = (event: MouseEvent, channelId: string) => {
+    event.preventDefault();
+    setContextMenuDetails({ 
+      position: {x: event.clientX, y: event.clientY},
+      serverId: params.serverId!,
+      channelId
+    });
+
+  };
+
   return (
     <div class={styles.channelList}>
+      <ContextMenuServerChannel {...contextMenuDetails()} onClose={() => setContextMenuDetails(undefined)} />
+
       <Show when={account.lastAuthenticatedAt()} fallback={<ChannelListSkeleton/>}>
         <For each={sortedRootChannels()}>
           {channel => (
-            <Switch fallback={<ChannelItem channel={channel!} selected={params.channelId === channel!.id} />}>
+            <Switch fallback={<ChannelItem onContextMenu={e => onChannelContextMenu(e, channel!.id)} channel={channel!} selected={params.channelId === channel!.id} />}>
               <Match when={channel!.type === ChannelType.CATEGORY}>
-                <CategoryItem channel={channel!} selected={params.channelId === channel!.id} />
+                <CategoryItem onChannelContextMenu={onChannelContextMenu} channel={channel!} selected={params.channelId === channel!.id} />
               </Match>
             </Switch>
           )}
@@ -197,7 +213,7 @@ const CategoryItemContainer = styled(FlexRow)`
   align-items: center;
 `;
 
-function CategoryItem(props: { channel: Channel, selected: boolean }) {
+function CategoryItem(props: { channel: Channel, selected: boolean, onChannelContextMenu: (event: MouseEvent, channelId: string) => void }) {
   const params = useParams();
   const { channels } = useStore();
   const [hovered, setHovered] = createSignal(false);
@@ -221,7 +237,7 @@ function CategoryItem(props: { channel: Channel, selected: boolean }) {
         <div class={styles.categoryChannelList}>
           <For each={sortedServerChannels()}>
             {channel => (
-              <ChannelItem channel={channel!} selected={params.channelId === channel!.id} />
+              <ChannelItem onContextMenu={e => props.onChannelContextMenu(e, channel!.id!)} channel={channel!} selected={params.channelId === channel!.id} />
             )}
           </For>
         </div>
@@ -247,7 +263,7 @@ const MentionCountContainer = styled(FlexRow)`
   margin-right: 5px;
 `;
 
-function ChannelItem(props: { channel: Channel, selected: boolean }) {
+function ChannelItem(props: { channel: Channel, selected: boolean, onContextMenu: (event: MouseEvent) => void }) {
   const { channel } = props;
   const [hovered, setHovered] = createSignal(false);
 
@@ -260,6 +276,7 @@ function ChannelItem(props: { channel: Channel, selected: boolean }) {
 
     <A 
       onClick={() => emitDrawerGoToMain()}
+      onContextMenu={props.onContextMenu}
       href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
       style={{ "text-decoration": "none" }}
     >

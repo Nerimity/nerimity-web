@@ -40,6 +40,9 @@ export default function ContextMenu(props: ContextMenuProps) {
         return;
       }
     }
+    if (e.target.closest("."+styles.contextMenu)) {
+      return;
+    }
     props.onClose?.();
   };
   
@@ -94,6 +97,12 @@ export default function ContextMenu(props: ContextMenuProps) {
 
 
 
+  const onItemClick = (item: ContextMenuItem) => {
+    if (item.disabled) return;
+    props.onClick?.(item);
+    setTimeout(() => props.onClose?.(), 10);
+  };
+
  
 
   return (
@@ -106,7 +115,7 @@ export default function ContextMenu(props: ContextMenuProps) {
               {item => (
                 <Show when={item.show !== false}>
                   {item.separator && <div class={styles.separator} />}
-                  {!item.separator && <Item onClick={() => props.onClick?.(item)} item={item} />}
+                  {!item.separator && <Item onClick={() => onItemClick(item)} item={item} />}
                 </Show>
               )}
             </For>
