@@ -1,9 +1,10 @@
 import styles from "./styles.module.scss";
-import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Icon from "@/components/ui/icon/Icon";
 import { Portal } from "solid-js/web";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { useResizeObserver } from "@/common/useResizeObserver";
 
 
 export interface ContextMenuItem {
@@ -12,9 +13,11 @@ export interface ContextMenuItem {
   icon?: string;
   onClick?: () => void;
   separator?: boolean;
+  title?: string;
   alert?: boolean
   disabled?: boolean
   show?: boolean
+  sub?: ContextMenuItem[]
 }
 
 export interface ContextMenuProps {
@@ -103,6 +106,15 @@ export default function ContextMenu(props: ContextMenuProps) {
     setTimeout(() => props.onClose?.(), 10);
   };
 
+
+  const [hoveredItemIndex, setHoveredItemIndex] = createSignal<number | null>(null);
+
+  const onMouseEnter = (item: ContextMenuItem, index: number) => {
+    setHoveredItemIndex(index);
+  };
+  const onMouseLeave = (item: ContextMenuItem, index: number) => {
+    // setHoveredItemIndex(null);    
+  };
  
 
   return (
@@ -112,10 +124,16 @@ export default function ContextMenu(props: ContextMenuProps) {
         <div ref={contextMenuElement} class={classNames(styles.contextMenu, conditionalClass(isMobileWidth(), styles.mobile))} style={isMobileWidth() ? {} : pos()}>
           <div class={styles.contextMenuInner}>
             <For each={props.items}>
-              {item => (
+              {(item, i) => (
                 <Show when={item.show !== false}>
-                  {item.separator && <div class={styles.separator} />}
-                  {!item.separator && <Item onClick={() => onItemClick(item)} item={item} />}
+                  <Switch fallback={<Item hovered={i() === hoveredItemIndex()} onEnter={() => onMouseEnter(item, i())} onLeave={() => onMouseLeave(item, i())} onClick={() => onItemClick(item)} item={item} />}>
+                    <Match when={item.separator}>
+                      <div class={styles.separator} />
+                    </Match>
+                    <Match when={item.title}>
+                      <div class={styles.title}>{item.title}</div>
+                    </Match>
+                  </Switch>
                 </Show>
               )}
             </For>
@@ -126,15 +144,31 @@ export default function ContextMenu(props: ContextMenuProps) {
   );
 }
 
-function Item(props: {item: ContextMenuItem, onClick?(): void}) {
+function Item(props: {item: ContextMenuItem, onClick?(): void, onEnter?(): void, onLeave?(): void, hovered?: boolean}) {
+  let itemElement: HTMLDivElement | undefined;
+  const {width} = useResizeObserver(() => itemElement);
   const onClick = () => {
     props.onClick?.();
     props.item.onClick?.();
   };
+
+  const getSubContextMenuPos = () => {
+    if (!width()) return;
+    if (!itemElement) return;
+    const rect = itemElement.getBoundingClientRect();
+    return {
+      x: rect.x + rect.width + 10,
+      y: rect.y
+    };
+  };
+
   return (
-    <div class={classNames(styles.item, conditionalClass(props.item.alert, styles.alert), conditionalClass(props.item.disabled, styles.disabled))} onClick={onClick}>
+    <div ref={itemElement} onMouseEnter={props.onEnter} onMouseLeave={props.onLeave} class={classNames(styles.item, conditionalClass(props.item.alert, styles.alert), conditionalClass(props.item.disabled, styles.disabled))} onClick={onClick}>
       <Icon name={props.item.icon || "texture"} size={18} color={props.item.alert ? "var(--alert-color)" : "var(--primary-color)"}  />
       <span class={styles.label} >{props.item.label}</span>
+      <Show when={props.item.sub && props.hovered}>
+        <ContextMenu items={props.item.sub!} position={getSubContextMenuPos()} />
+      </Show>
     </div>
   );
 }

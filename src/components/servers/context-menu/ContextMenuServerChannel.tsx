@@ -47,7 +47,21 @@ export default function ContextMenuServerChannel (props: Props) {
     <ContextMenu {...props} items={[
       {icon: "markunread_mailbox", label: "Mark As Read", disabled: !hasNotifications(), onClick: dismissNotifications},
       {separator: true},
-      {icon: "notifications", label: "Notification Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!) + "/" + props.channelId!)},
+      {icon: "notifications", label: "Notification Settings", sub: [
+        {title: "Ping"},
+        {label: "Initial"},
+        {label: "Everything"},
+        {label: "Mentions Only"},
+        {label: "Mute"},
+        
+        {title: "Sound"},
+        {label: "Initial"},
+        {label: "Everything"},
+        {label: "Mentions Only"},
+        {label: "Mute"}
+
+      ]},
+      // {icon: "notifications", label: "Notification Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!) + "/" + props.channelId!)},
       ...(showSettings() ? [{icon: "settings", label: "Channel Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(props.serverId!, props.channelId!))}] : []),
       {separator: true},
       {icon: "copy", label: "Copy ID", onClick: () => copyToClipboard(props.channelId!)}
