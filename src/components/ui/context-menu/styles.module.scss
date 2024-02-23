@@ -76,6 +76,10 @@
   .label {
     margin-left: 5px;
   }
+  .arrow {
+    margin-left: auto;
+    padding-left: 6px;
+  }
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
@@ -99,4 +103,5 @@
 .title {
   font-size: 14px;
   margin-left: 6px;
+  margin-top: 4px;
 }

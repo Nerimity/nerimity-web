@@ -40,13 +40,13 @@ export function RadioBox(props: RadioBoxProps) {
 }
 
 
-const RadioBoxItemCheckBox = styled(FlexRow)<{selected: boolean}>`
-  width: 10px;
-  height: 10px;
+export const RadioBoxItemCheckBox = styled(FlexRow)<{selected: boolean, size?: number}>`
+  width: ${props => props.size || 10}px;
+  height: ${props => props.size || 10}px;
   border-radius: 50%;
   background-color: white;
   transition: 0.2s;
-  border: solid 5px ${props => props.selected ? "var(--primary-color)" : "gray"};
+  border: solid ${props => (props.size || 10) / 2}px ${props => props.selected ? "var(--primary-color)" : "gray"};
   
 `;
 
