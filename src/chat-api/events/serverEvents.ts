@@ -60,6 +60,7 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
 };
 
 export const onServerLeft = (payload: { serverId: string }) => runWithContext(() => {
+  const account = useAccount();
   const serverMembers = useServerMembers();
   const servers = useServers();
   const channels = useChannels();
@@ -68,16 +69,22 @@ export const onServerLeft = (payload: { serverId: string }) => runWithContext(()
 
   const currentVoiceChannelId = voiceUsers.currentVoiceChannelId();
 
+  const serverChannels = channels.getChannelsByServerId(payload.serverId);
+
   batch(() => {
     servers.remove(payload.serverId);
     serverMembers.removeAllServerMembers(payload.serverId);
     channels.removeAllServerChannels(payload.serverId);
     roles.deleteAllByServerId(payload.serverId);
 
+    account.removeNotificationSettings(payload.serverId);
+    for (let i = 0; i < serverChannels.length; i++) {
+      const channel = serverChannels[i]!;
+      account.removeNotificationSettings(channel.id);
+    }
     if (currentVoiceChannelId) {
       voiceUsers.setCurrentVoiceChannelId(null);
     }
-    
   });
 });
 

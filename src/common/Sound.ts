@@ -29,8 +29,9 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
   const user = users.get(userId!);
   if (user?.presence?.status === UserStatus.DND) return;
 
-  const notificationSoundMode = !opts?.serverId ? undefined : account.getNotificationSettings(opts.serverId)?.notificationSoundMode;
+  const notificationSoundMode = !opts?.serverId ? undefined : account.getCombinedNotificationSettings(opts.serverId, opts.message?.channelId)?.notificationSoundMode;
 
+  console.log(notificationSoundMode);
   if (notificationSoundMode === ServerNotificationSoundMode.MUTE) return;
   
   if (opts?.message) {

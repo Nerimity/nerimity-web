@@ -228,8 +228,8 @@ export async function unfollowUser(userId: string) {
 
 
 interface UpdateNotificationSettings {
-  notificationSoundMode?: number;
-  notificationPingMode?: number;
+  notificationSoundMode?: number | null;
+  notificationPingMode?: number | null;
   serverId?: string;
   channelId?: string;
 }

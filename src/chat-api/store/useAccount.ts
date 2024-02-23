@@ -27,12 +27,29 @@ const [account, setAccount] = createStore<Account>({
   lastAuthenticatedAt: null
 });
 
+const removeNotificationSettings = (channelOrServerId: string) => {
+  setAccount("notificationSettings", channelOrServerId, undefined!);
+};
 
 const setNotificationSettings = (channelOrServerId: string, setting: Partial<RawUserNotificationSettings>) => {
   setAccount("notificationSettings", channelOrServerId, setting);
 };
 
-const getNotificationSettings = (serverOrChannelId: string) => account.notificationSettings[serverOrChannelId] as RawUserNotificationSettings | undefined;
+const getRawNotificationSettings = (serverOrChannelId: string) => account.notificationSettings[serverOrChannelId] as RawUserNotificationSettings | undefined;
+
+const getCombinedNotificationSettings = (serverId?: string, channelId?: string) => {
+  const channelNotification = account.notificationSettings[channelId!] as RawUserNotificationSettings | undefined;
+  const serverNotification = account.notificationSettings[serverId!] as RawUserNotificationSettings | undefined;
+  
+  if (!channelNotification) return serverNotification;
+
+  return {
+    ...channelNotification,
+    ...serverNotification,
+    notificationPingMode: channelNotification.notificationPingMode ?? serverNotification?.notificationPingMode,
+    notificationSoundMode: channelNotification.notificationSoundMode ?? serverNotification?.notificationSoundMode
+  } as RawUserNotificationSettings;
+};
 
 interface SetSocketDetailsArgs {
   socketId?: string | null,
@@ -71,7 +88,9 @@ export default function useAccount() {
     isAuthenticated,
     authenticationError,
     setNotificationSettings,
-    getNotificationSettings,
+    getRawNotificationSettings,
+    getCombinedNotificationSettings,
+    removeNotificationSettings,
     hasModeratorPerm,
     lastAuthenticatedAt
   };

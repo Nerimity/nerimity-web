@@ -4,7 +4,7 @@ import Text from "./Text";
 import { For, createEffect, createSignal } from "solid-js";
 
 export interface RadioBoxItem {
-  id: string | number;
+  id: any;
   label: string;
 }
 

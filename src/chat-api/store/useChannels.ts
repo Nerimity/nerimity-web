@@ -156,7 +156,7 @@ const get = (channelId: string) => {
   return channels[channelId];
 };
 
-const array = () => Object.values(channels);
+const array = () => Object.values(channels) as Channel[];
 
 const getChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = false) => {
   if (!hidePrivateIfNoPerm) return array().filter(channel => channel?.serverId === serverId);

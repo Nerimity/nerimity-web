@@ -44,6 +44,7 @@ export default function SettingsBlock(props: BlockProps) {
         </div>
       </div>
       {props.children}
+      <Show when={!props.children && (props.onClick || props.href)}><Icon name="keyboard_arrow_right" /></Show>
     </Dynamic>
   );
 }

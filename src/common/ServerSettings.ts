@@ -28,6 +28,14 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import("@/components/servers/settings/ServerNotificationSettings"))
   },
   {
+    path: "notifications/:channelId",
+    routePath: "/notifications/:channelId",
+    name: "settings.drawer.notifications",
+    icon: "notifications",
+    hideDrawer: true,
+    element: lazy(() => import("@/components/servers/settings/ServerNotificationSettings"))
+  },
+  {
     path: "roles/:roleId",
     routePath: "/roles/:roleId",
     name: "servers.settings.drawer.role",
