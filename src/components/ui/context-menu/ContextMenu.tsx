@@ -5,6 +5,7 @@ import Icon from "@/components/ui/icon/Icon";
 import { Portal } from "solid-js/web";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
+import { createStore, reconcile } from "solid-js/store";
 
 
 export interface ContextMenuItem {
@@ -38,6 +39,11 @@ export default function ContextMenu(props: ContextMenuProps) {
   const [pos, setPos] = createSignal({top: "0", left: "0"});
   const {isMobileWidth, hasFocus} = useWindowProperties();
 
+  const [items, setItems] = createStore(props.items);
+
+  createEffect(() => {
+    setItems(reconcile(props.items));
+  });
 
   const handleOutsideClick = (e: any) => {
     if (props.triggerClassName) {
@@ -59,8 +65,23 @@ export default function ContextMenu(props: ContextMenuProps) {
     props.onClose?.();
   };
 
+
+  const [hoveredItemIndex, setHoveredItemIndex] = createSignal<number | null>(null);
+
+  const onMouseEnter = (item: ContextMenuItem, index: number) => {
+    setHoveredItemIndex(index);
+  };
+  const onMouseLeave = (item: ContextMenuItem, index: number) => {
+    // setHoveredItemIndex(null);    
+  };
+ 
+
   createEffect(on(() => props.position, () => {
-    if (!props.position) return;
+    if (!props.position) {
+      setHoveredItemIndex(null);    
+
+      return;
+    }
     window.addEventListener("contextmenu", handleOutsideRightClick, {capture: true});
     window.addEventListener("click", handleOutsideClick);
 
@@ -109,15 +130,7 @@ export default function ContextMenu(props: ContextMenuProps) {
   };
 
 
-  const [hoveredItemIndex, setHoveredItemIndex] = createSignal<number | null>(null);
 
-  const onMouseEnter = (item: ContextMenuItem, index: number) => {
-    setHoveredItemIndex(index);
-  };
-  const onMouseLeave = (item: ContextMenuItem, index: number) => {
-    // setHoveredItemIndex(null);    
-  };
- 
 
   return (
     <Show when={props.position}>
@@ -125,7 +138,7 @@ export default function ContextMenu(props: ContextMenuProps) {
         <Show when={isMobileWidth()}><div class={styles.darkBackground}/></Show>
         <div ref={contextMenuElement} class={classNames(styles.contextMenu, conditionalClass(isMobileWidth(), styles.mobile))} style={isMobileWidth() ? {} : pos()}>
           <div class={styles.contextMenuInner}>
-            <For each={props.items}>
+            <For each={items}>
               {(item, i) => (
                 <Show when={item.show !== false}>
                   <Switch fallback={<Item close={props.onClose} hovered={i() === hoveredItemIndex()} onEnter={() => onMouseEnter(item, i())} onLeave={() => onMouseLeave(item, i())} onClick={() => onItemClick(item)} item={item} />}>
@@ -150,6 +163,7 @@ function Item(props: { close?: () => void, item: ContextMenuItem, onClick?(): vo
   let itemElement: HTMLDivElement | undefined;
   const {width} = useResizeObserver(() => itemElement);
   const onClick = () => {
+    if (props.item.disabled) return;
     props.onClick?.();
     props.item.onClick?.();
   };

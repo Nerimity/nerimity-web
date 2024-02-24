@@ -45,35 +45,62 @@ export default function ContextMenuServerChannel (props: Props) {
     dismissChannelNotification(channel().id);
   };
 
-  const notificationPingMode = () => account.getRawNotificationSettings(channel()!.id)?.notificationPingMode ?? undefined;
-  const notificationSoundMode = () => account.getRawNotificationSettings(channel()!.id)?.notificationSoundMode ?? undefined;
+  const notificationPingMode = () => account.getRawNotificationSettings(channel()?.id!)?.notificationPingMode ?? null;
+  const notificationSoundMode = () => account.getRawNotificationSettings(channel()?.id!)?.notificationSoundMode ?? null;
 
-  const updatePingMode = (mode: ServerNotificationPingMode | null) => {
-    updateNotificationSettings({
+  const updateMode = (ping?: ServerNotificationPingMode | null, sound?: ServerNotificationSoundMode | null) => {
+    account.updateUserNotificationSettings({
       channelId: channel()!.id,
-      notificationPingMode: mode
+      notificationPingMode: ping,
+      notificationSoundMode: sound
     });
+  };
+
+
+  const notificationItem = (opts: {type: "SOUND" | "PING", label: string, value: number | null}) => {
+    let disabled = false;
+
+    if (opts.type === "SOUND") {
+      if (notificationPingMode() !== null && opts.value === null) {
+        disabled = true;
+      }
+      
+      if ((notificationPingMode() === ServerNotificationPingMode.MENTIONS_ONLY) && opts.value === ServerNotificationSoundMode.ALL) {
+        disabled = true;
+      }
+      
+      if (notificationPingMode() === ServerNotificationPingMode.MUTE) {
+        disabled = true;
+      }
+    }
+
+
+    return {
+      label: opts.label,
+      closeOnClick: false,
+      disabled,
+      onClick: () => opts.type === "PING" ? updateMode(opts.value) : updateMode(undefined, opts.value),
+      prefix: <RadioBoxItemCheckBox selected={opts.type === "PING" ? opts.value === notificationPingMode() : opts.value === notificationSoundMode()} size={8} />
+    } as ContextMenuItem;
   };
 
   const notificationItems = () => {
     const items: ContextMenuItem[] = [];
     items.push(
       {title: "Ping"},
-      {label: "Initial",       closeOnClick: false, onClick: () => updatePingMode(null), prefix: <RadioBoxItemCheckBox selected={notificationPingMode() === undefined} size={8} />},
-      {label: "Everything",    closeOnClick: false, onClick: () => updatePingMode(ServerNotificationPingMode.ALL), prefix: <RadioBoxItemCheckBox selected={notificationPingMode() === ServerNotificationPingMode.ALL} size={8} />},
-      {label: "Mentions Only", closeOnClick: false, onClick: () => updatePingMode(ServerNotificationPingMode.MENTIONS_ONLY), prefix: <RadioBoxItemCheckBox selected={notificationPingMode() === ServerNotificationPingMode.MENTIONS_ONLY} size={8} />},
-      {label: "Mute",          closeOnClick: false, onClick: () => updatePingMode(ServerNotificationPingMode.MUTE), prefix: <RadioBoxItemCheckBox selected={notificationPingMode() === ServerNotificationPingMode.MUTE} size={8} />}
+      notificationItem({type: "PING", label: "Initial", value: null}),
+      notificationItem({type: "PING", label: "Everything", value: ServerNotificationPingMode.ALL}),
+      notificationItem({type: "PING", label: "Mentions Only", value: ServerNotificationPingMode.MENTIONS_ONLY}),      
+      notificationItem({type: "PING", label: "Mute", value: ServerNotificationPingMode.MUTE})
     );
 
     items.push(
         
       {title: "Sound"},
-      {label: "Initial",   disabled: notificationPingMode() !== undefined,    prefix: <RadioBoxItemCheckBox selected={notificationPingMode() === undefined} size={8} />},
-      {label: "Everything",disabled: notificationPingMode() !== ServerNotificationPingMode.MENTIONS_ONLY,    prefix: <RadioBoxItemCheckBox selected={notificationSoundMode() === ServerNotificationSoundMode.ALL} size={8} />},
-      {label: "Mentions Only", prefix: <RadioBoxItemCheckBox selected={notificationSoundMode() === ServerNotificationSoundMode.MENTIONS_ONLY} size={8} />},
-      {label: "Mute",          prefix: <RadioBoxItemCheckBox selected={notificationSoundMode() === ServerNotificationSoundMode.MUTE} size={8} />}
-
-      
+      notificationItem({type: "SOUND", label: "Initial", value: null}),
+      notificationItem({type: "SOUND", label: "Everything", value: ServerNotificationSoundMode.ALL}),
+      notificationItem({type: "SOUND", label: "Mentions Only", value: ServerNotificationSoundMode.MENTIONS_ONLY}),      
+      notificationItem({type: "SOUND", label: "Mute", value: ServerNotificationSoundMode.MUTE})
     );
 
 
@@ -84,8 +111,7 @@ export default function ContextMenuServerChannel (props: Props) {
     <ContextMenu {...props} items={[
       {icon: "markunread_mailbox", label: "Mark As Read", disabled: !hasNotifications(), onClick: dismissNotifications},
       {separator: true},
-      {icon: "notifications", label: "Notification Settings", sub: notificationItems()},
-      // {icon: "notifications", label: "Notification Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!) + "/" + props.channelId!)},
+      {icon: "notifications", label: "Notification Settings", sub: notificationItems(), onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!) + "/" + props.channelId!)},
       ...(showSettings() ? [{icon: "settings", label: "Channel Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(props.serverId!, props.channelId!))}] : []),
       {separator: true},
       {icon: "copy", label: "Copy ID", onClick: () => copyToClipboard(props.channelId!)}

@@ -1,8 +1,9 @@
 import env from "@/common/env";
 import {createStore} from "solid-js/store";
 import { SelfUser } from "../events/connectionEventTypes";
-import { RawUserNotificationSettings } from "../RawData";
+import { RawUserNotificationSettings, ServerNotificationPingMode, ServerNotificationSoundMode } from "../RawData";
 import { USER_BADGES, hasBit } from "../Bitwise";
+import { updateNotificationSettings } from "../services/UserService";
 
 
 interface Account {
@@ -78,6 +79,41 @@ const avatarUrl = () => user()?.avatar ? env.NERIMITY_CDN + user()?.avatar : nul
 const hasModeratorPerm = () => hasBit(user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit);
 
 
+
+
+
+const updateUserNotificationSettings = (opts: {serverId?: string, channelId?: string, notificationPingMode?: number | null, notificationSoundMode?: number | null}) => {
+  const currentNotificationSoundMode = () => getRawNotificationSettings(opts.channelId || opts.serverId!)?.notificationSoundMode ?? (opts.channelId ? null : 0);
+
+  if (opts.notificationSoundMode !== undefined) {
+    return updateNotificationSettings({
+      serverId: opts.serverId,
+      channelId: opts.channelId,
+      notificationSoundMode: opts.notificationSoundMode
+    });
+  }
+
+  let notificationSoundMode: number | null | undefined = null;
+
+  if (opts.notificationPingMode !== null && currentNotificationSoundMode() === null) {
+    notificationSoundMode = opts.notificationPingMode;
+  }
+  if (opts.notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY && currentNotificationSoundMode() === ServerNotificationSoundMode.ALL) {
+    notificationSoundMode = ServerNotificationSoundMode.MENTIONS_ONLY;
+  }
+  if (opts.notificationPingMode === ServerNotificationPingMode.MUTE) {
+    notificationSoundMode = ServerNotificationSoundMode.MUTE;
+  }
+
+  return updateNotificationSettings({
+    notificationPingMode: opts.notificationPingMode,
+    ...(notificationSoundMode !== null ? {notificationSoundMode} : undefined),
+    serverId: opts.serverId,
+    channelId: opts.channelId
+  });
+};
+
+
 export default function useAccount() {
   return {
     user,
@@ -90,6 +126,7 @@ export default function useAccount() {
     setNotificationSettings,
     getRawNotificationSettings,
     getCombinedNotificationSettings,
+    updateUserNotificationSettings,
     removeNotificationSettings,
     hasModeratorPerm,
     lastAuthenticatedAt

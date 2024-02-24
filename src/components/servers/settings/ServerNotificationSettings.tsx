@@ -56,10 +56,10 @@ export default function ServerNotificationSettings() {
   ]);
 
   const onNotificationSoundChange = (item: RadioBoxItem) => {
-    updateNotificationSettings({
-      notificationSoundMode: item.id as number,
-      serverId: params.serverId,
-      channelId: params.channelId
+    account.updateUserNotificationSettings({
+      notificationSoundMode: item.id,
+      channelId: params.channelId,
+      serverId: params.serverId
     });
   };
 
@@ -71,18 +71,10 @@ export default function ServerNotificationSettings() {
   ];
 
   const onNotificationPingChange = (item: RadioBoxItem) => {
-    let notificationSoundMode: number | null = null;
-    if (item.id === ServerNotificationPingMode.MENTIONS_ONLY && currentNotificationSoundMode() === ServerNotificationSoundMode.ALL) {
-      notificationSoundMode = ServerNotificationSoundMode.MENTIONS_ONLY;
-    }
-    if (item.id === ServerNotificationPingMode.MUTE) {
-      notificationSoundMode = ServerNotificationSoundMode.MUTE;
-    }
-    updateNotificationSettings({
-      notificationPingMode: item.id as number,
-      ...(notificationSoundMode !== null ? {notificationSoundMode} : undefined),
-      serverId: params.serverId,
-      channelId: params.channelId
+    account.updateUserNotificationSettings({
+      notificationPingMode: item.id,
+      channelId: params.channelId,
+      serverId: params.serverId
     });
   };
 
