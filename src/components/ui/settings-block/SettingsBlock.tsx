@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { JSX, JSXElement, Show } from "solid-js";
+import { JSX, JSXElement, Show, children } from "solid-js";
 import Icon from "@/components/ui/icon/Icon";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { css } from "solid-styled-components";
@@ -23,6 +23,7 @@ interface BlockProps {
 
 
 export default function SettingsBlock(props: BlockProps) {
+  const child = children(() => props.children);
   return (
     <Dynamic component={props.href ? CustomLink : "div"} state={props.historyState} href={props.href} class={
       classNames(
@@ -43,8 +44,8 @@ export default function SettingsBlock(props: BlockProps) {
           <Show when={props.description}><div class={styles.description}>{props.description}</div></Show>
         </div>
       </div>
-      {props.children}
-      <Show when={!props.children && (props.onClick || props.href)}><Icon name="keyboard_arrow_right" /></Show>
+      {child()}
+      <Show when={!child() && (props.onClick || props.href)}><Icon name="keyboard_arrow_right" /></Show>
     </Dynamic>
   );
 }
