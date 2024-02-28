@@ -22,6 +22,7 @@ interface Props {
   ref?: (el: HTMLInputElement | HTMLTextAreaElement) => void; 
   margin?: number | number[]
   maxLength?: number
+  onInput?: (event: InputEvent) => void
 }
 
 
@@ -120,6 +121,7 @@ export default function Input(props: Props) {
   }
 
   const onChange = (event: any) => {
+    props.onInput?.(event);
     auto_grow();
     props.onText?.(event.target.value);
   };

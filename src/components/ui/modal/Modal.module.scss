@@ -69,6 +69,10 @@
 .actionButtons {
   display: flex;
 }
+.actionButtonInnerContainer {
+  display: flex;
+  justify-content: end;
+}
 
 @keyframes showUp {
   0% {

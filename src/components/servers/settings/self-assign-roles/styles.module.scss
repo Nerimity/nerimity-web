@@ -1,0 +1,32 @@
+.pane {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.addQuestionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px;
+  overflow: auto;
+}
+
+.answerForAddModalContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+}
+
+.answerInput {
+  flex: 1;
+}
+
+.deleteAnswerButton {
+  margin-top: 24px;
+  &.hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
