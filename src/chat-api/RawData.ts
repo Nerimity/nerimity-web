@@ -300,3 +300,18 @@ export interface RawApplication {
   creatorAccountId: string
   createdAt: number
 }
+
+export interface RawServerWelcomeQuestion {
+  id: string
+  title: string
+  multiselect: boolean
+  answers: RawServerWelcomeAnswer[]
+  createdAt?: number;
+}
+
+export interface RawServerWelcomeAnswer {
+  id: string
+  title: string
+  roleIds: string[]
+  createdAt?: number;
+}

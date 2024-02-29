@@ -58,7 +58,7 @@ const serverSettings: ServerSetting[] =  [
     routePath: "/welcome-screen",
     icon: "task_alt",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
-    element: lazy(() => import("@/components/servers/settings/self-assign-roles/SelfAssignRoles"))
+    element: lazy(() => import("@/components/servers/settings/welcome-screen/WelcomeScreen"))
   },
   {
     path: "channels/:channelId",
