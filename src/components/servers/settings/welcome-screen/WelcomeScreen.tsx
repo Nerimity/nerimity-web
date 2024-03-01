@@ -6,7 +6,7 @@ import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 
-import { createWelcomeQuestion, getWelcomeQuestions, updateWelcomeQuestion } from "@/chat-api/services/ServerService";
+import { createWelcomeQuestion, deleteWelcomeQuestion, getWelcomeQuestions, updateWelcomeQuestion } from "@/chat-api/services/ServerService";
 import { useTransContext } from "@mbarzda/solid-i18next";
 
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
@@ -60,6 +60,10 @@ export default function SettingsPage() {
     });
   };
 
+  const onQuestionDeleted = (question: RawServerWelcomeQuestion) => {
+    setQuestions(prev => prev.filter(q => q.id !== question.id));
+  };
+
   const onAddQuestionClick = () => {
     createPortal(close => <AddQuestionModal close={close} addQuestion={onQuestionAdded} />);
   };
@@ -74,27 +78,36 @@ export default function SettingsPage() {
       <SettingsBlock label="Welcome Screen" header={!!questions().length} description="Setup welcome screen. Let users assign roles." icon='task_alt'>
         <Button label="Add Question" onClick={onAddQuestionClick} />
       </SettingsBlock>
-      <QuestionList questions={questions()}  onEditQuestion={onQuestionEdited}/>
+      <QuestionList questions={questions()}  onEditQuestion={onQuestionEdited} onQuestionDelete={onQuestionDeleted} />
     </div>
   );
 }
 
-const QuestionList = (props: {questions: RawServerWelcomeQuestion[], onEditQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
+const QuestionList = (props: {questions: RawServerWelcomeQuestion[], onQuestionDelete: (question: RawServerWelcomeQuestion) => void; onEditQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
 
   return (
     <For each={props.questions.sort((a, b) => a.createdAt! - b.createdAt!)}>
-      {(question, i) => <QuestionItem question={question} onEditQuestion={props.onEditQuestion} isLast={props.questions.length - 1 === i()} />}
+      {(question, i) => <QuestionItem question={question} onQuestionDelete={() => props.onQuestionDelete(question)} onEditQuestion={props.onEditQuestion} isLast={props.questions.length - 1 === i()} />}
     </For>
   );
 };
 
-const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolean, onEditQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
+const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolean, onQuestionDelete: () => void; onEditQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
+  const params = useParams<{serverId: string}>();
   const {createPortal} = useCustomPortal();
 
   const answerList = () => props.question.answers.map(answer => answer.title).join(" • ");
   
   const onEditClick = () => {
     createPortal(close => <EditQuestionModal close={close} question={props.question} editQuestion={props.onEditQuestion} />);
+  };
+
+  const onDeleteClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    deleteWelcomeQuestion(params.serverId, props.question.id)
+      .then(() => props.onQuestionDelete)
+      .catch(err => alert(err.message));
   };
 
   return (
@@ -104,7 +117,10 @@ const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolea
       description={answerList()}
       borderTopRadius={false} 
       borderBottomRadius={props.isLast} 
-      label={props.question.title} />
+      label={props.question.title} >
+      <Button label="Delete" iconName="delete" margin={[0, 4]} iconSize={16} color="var(--alert-color)" onClick={onDeleteClick} />
+      <Button label="Edit" iconName="edit" iconSize={16} margin={0}  />
+    </SettingsBlock>
   );
 };
 

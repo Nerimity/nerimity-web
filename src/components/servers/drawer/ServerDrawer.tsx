@@ -1,14 +1,12 @@
 import styles from "./styles.module.scss";
-
-import { classNames, conditionalClass } from "@/common/classNames";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Header from "./header/ServerDrawerHeader";
-import { A, useNavigate, useParams } from "solid-navigator";
+import { A, useMatch, useNavigate, useParams } from "solid-navigator";
 import useStore from "@/chat-api/store/useStore";
 import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup, onMount } from "solid-js";
 import { Channel } from "@/chat-api/store/useChannels";
 import ItemContainer from "@/components/ui/Item";
-import { css, styled } from "solid-styled-components";
+import {  styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { ChannelType } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
@@ -22,7 +20,6 @@ import { timeElapsed } from "@/common/date";
 import InVoiceActions from "@/components/InVoiceActions";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
-import ContextMenuServer from "../context-menu/ContextMenuServer";
 import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 
 
@@ -33,6 +30,7 @@ const ServerDrawer = () => {
     <div class={styles.serverDrawer}>
       <div style={{display: "flex", "flex-direction": "column", height: "100%", overflow: "auto"}}>
         <Header />
+        <CustomizeItem/>
         <ChannelList />
       </div>
       <InVoiceActions />
@@ -40,6 +38,20 @@ const ServerDrawer = () => {
   );
 };
 
+const CustomizeItem = () => {
+  const params = useParams<{serverId: string}>();
+  const match = useMatch(() => RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome"));
+  return (
+    <div class={styles.welcomeItemContainer}>
+      <A style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")}>
+        <ChannelContainer selected={match()}>
+          <Icon name="tune" color="rgba(255,255,255,0.6)" size={16} />
+          <div class="label">Customize</div>
+        </ChannelContainer>
+      </A>
+    </div>
+  );
+};
 
 
 const ChannelList = () => {

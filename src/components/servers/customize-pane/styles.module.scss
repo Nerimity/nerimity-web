@@ -1,0 +1,49 @@
+.pane {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.welcomeMessage {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.questionList {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.questionItem {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.answerList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.answerItem {
+  display: flex;
+  align-items: center;
+  .checkbox {
+    flex: 1;
+  }
+  .userCount {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    gap: 4px;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 2px 6px;
+  }
+}

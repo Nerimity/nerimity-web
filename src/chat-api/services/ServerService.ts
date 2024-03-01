@@ -353,3 +353,10 @@ export async function getWelcomeQuestions(serverId: string) {
   });
 }
 
+export async function deleteWelcomeQuestion(serverId: string, questionId: string) {
+  return request<{status: boolean}>({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions/" + questionId,
+    useToken: true
+  });
+}

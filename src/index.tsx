@@ -5,11 +5,11 @@ import "material-icons/iconfont/round.scss";
 import "./index.css";
 import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
-import { A, Outlet, Route, Router, useNavigate, useParams, Navigate } from "solid-navigator";
+import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { For, Show, createEffect, createSignal, lazy, on } from "solid-js";
+import { For, Show, createEffect, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
 import settings from "./common/Settings";
 import exploreRoutes from "./common/exploreRoutes";
@@ -36,6 +36,8 @@ const ExplorePane = lazy(() => import("@/components/explore/ExplorePane"));
 const SettingsPane = lazy(() => import("@/components/settings/SettingsPane"));
 const ServerSettingsPane = lazy(() => import("@/components/servers/settings/settings-pane/ServerSettingsPane"));
 const ExploreServerPane = lazy(() => import("@/components/servers/explore-pane/ExploreServerPane"));
+
+const ServerCustomizePane = lazy(() => import("@/components/servers/customize-pane/ServerCustomizePane"));
 
 // Pages
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -124,6 +126,7 @@ render(() => {
         <Route path="/inbox/:channelId" components={{mainPane: ChannelPane, rightDrawer: RightDrawer}} />
 
         <Route path="/servers/:serverId/" components={{leftDrawer: ServerDrawer, rightDrawer: RightDrawer}}>
+          <Route path="/welcome" components={{mainPane: ServerCustomizePane}} />
           <Route path="/:channelId" components={{mainPane: ChannelPane}} />
 
           {/* Server Settings */}
