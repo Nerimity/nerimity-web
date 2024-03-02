@@ -12,6 +12,9 @@ export interface RawServer {
   createdAt: number;
   verified: boolean;
   customEmojis: RawCustomEmoji[];
+  _count?: {
+    welcomeQuestions: number;
+  }
 }
 
 
@@ -314,4 +317,5 @@ export interface RawServerWelcomeAnswer {
   title: string
   roleIds: string[]
   createdAt?: number;
+  _count: { answeredUsers: number }
 }

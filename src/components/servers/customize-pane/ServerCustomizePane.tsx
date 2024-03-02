@@ -83,16 +83,16 @@ const AnswerItem = (props: {answer: RawServerWelcomeAnswer}) => {
   return (
     <div class={styles.answerItem}>
       <Checkbox checked={false} labelSize={14} label={props.answer.title} class={styles.checkbox} />
-      <UserCount/>
+      <Show when={props.answer._count.answeredUsers}><UserCount count={props.answer._count.answeredUsers}/></Show>
     </div>
   );
 };
 
-const UserCount = () => {
+const UserCount = (props: {count: number}) => {
   return (
     <div class={styles.userCount}>
       <Icon name="person" size={14} />
-      <div>{(1002).toLocaleString()}</div>
+      <div>{props.count.toLocaleString()}</div>
     </div>
   );
 };

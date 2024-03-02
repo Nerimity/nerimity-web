@@ -26,11 +26,14 @@ import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 
 
 const ServerDrawer = () => {
+  const params = useParams<{serverId: string}>();
+  const store = useStore();
+  const server = () => store.servers.get(params.serverId);
   return (
     <div class={styles.serverDrawer}>
       <div style={{display: "flex", "flex-direction": "column", height: "100%", overflow: "auto"}}>
         <Header />
-        <CustomizeItem/>
+        <Show when={server()?._count?.welcomeQuestions}><CustomizeItem/></Show>
         <ChannelList />
       </div>
       <InVoiceActions />
