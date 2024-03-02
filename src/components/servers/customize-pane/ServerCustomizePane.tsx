@@ -8,6 +8,9 @@ import { RawServerWelcomeAnswer, RawServerWelcomeQuestion } from "@/chat-api/Raw
 import Checkbox from "@/components/ui/Checkbox";
 import Icon from "@/components/ui/icon/Icon";
 import Text from "@/components/ui/Text";
+import Button from "@/components/ui/Button";
+import { CustomLink } from "@/components/ui/CustomLink";
+import RouterEndpoints from "@/common/RouterEndpoints";
 
 export default function Pane() {
   const params = useParams<{serverId: string}>();
@@ -30,10 +33,13 @@ export default function Pane() {
   });
 
   return (
-    <div class={styles.pane}>  
-      <WelcomeMessage/>
-      <QuestionList questions={questions()} />
-    </div>
+    <>
+      <div class={styles.pane}>  
+        <WelcomeMessage/>
+        <QuestionList questions={questions()} />
+      </div>
+      <ContinueFooter/>
+    </>
   );
 }
 
@@ -94,5 +100,20 @@ const UserCount = (props: {count: number}) => {
       <Icon name="person" size={14} />
       <div>{props.count.toLocaleString()}</div>
     </div>
+  );
+};
+
+
+const ContinueFooter = () => {
+  const params = useParams<{serverId: string}>();
+  const store = useStore();
+
+  const server = () => store.servers.get(params.serverId!);
+  const defaultChannel = () => store.channels.get(server()?.defaultChannelId);
+
+  return (
+    <CustomLink href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, defaultChannel()?.id!)} class={styles.continueFooter}>
+      <Button margin={0} class={styles.button} label={`Continue To #${defaultChannel()?.name}`} color="white" customChildren={<Icon name="keyboard_arrow_right" size={24} />} />
+    </CustomLink>
   );
 };
