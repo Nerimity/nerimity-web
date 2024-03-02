@@ -94,7 +94,6 @@ function Popup(props: { items: MultiSelectDropDownItem[], selectedIds: string[],
   });
 
   const onItemClick = (item: MultiSelectDropDownItem) => {
-    props.onClose();
     props.onClick?.(item);
   };
 
