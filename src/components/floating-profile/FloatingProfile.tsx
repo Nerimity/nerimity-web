@@ -192,7 +192,7 @@ const DesktopProfileFlyout = (props: { triggerEl?: HTMLElement, dmPane?: boolean
       <Show when={member()}>
         <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
         <div class={styles.rolesContainer}>
-          <For each={member()?.roles()!}>
+          <For each={member()?.roles(true)!}>
             {role => (<div class={styles.roleContainer}><Text color={role?.hexColor} size={12}>{role?.name}</Text></div>)}
           </For>
           <div class={classNames(styles.roleContainer, styles.selectable)}  onClick={showRoleModal}><Icon name='add' size={14} /></div>

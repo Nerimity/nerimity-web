@@ -11,7 +11,7 @@ export type ServerMember = Omit<RawServerMember, "user"> & {
   userId: string
   user: () => User
   server: () => Server
-  roles: () => ServerRole[]
+  roles: (sorted?:  boolean) => ServerRole[]
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
   hasRole:  (this: ServerMember, roleId: string) => boolean | undefined;
   permissions: () => number;
@@ -125,9 +125,11 @@ function hasPermission (this: ServerMember, bitwise: Bitwise, ignoreAdmin = fals
   return hasBit(this.permissions(), bitwise.bit);
 }
 
-function roles (this: ServerMember) {
+function roles (this: ServerMember, sorted = false) {
   const serverRoles = useServerRoles();
-  return this.roleIds.map(id => serverRoles.get(this.serverId, id)!) || [];
+  const roles = this.roleIds.map(id => serverRoles.get(this.serverId, id)!) || [];
+  if (!sorted) return roles;
+  return roles.sort((a, b) => b?.order! - a?.order!);
 }
 
 
