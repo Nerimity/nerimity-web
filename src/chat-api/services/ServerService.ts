@@ -1,6 +1,6 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {ChannelType, RawChannel, RawCustomEmoji, RawPublicServer, RawServer, RawServerRole, RawUser} from "../RawData";
+import {ChannelType, RawChannel, RawCustomEmoji, RawPublicServer, RawServer, RawServerRole, RawServerWelcomeAnswer, RawServerWelcomeQuestion, RawUser} from "../RawData";
 import env from "../../common/env";
 
 
@@ -320,6 +320,58 @@ export async function deleteServerEmoji(serverId: string, emojiId: string) {
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis/" + emojiId,
     notJSON: true,
+    useToken: true
+  });
+}
+
+export type CreateWelcomeQuestionQuestion = Omit<RawServerWelcomeQuestion, "id" | "answers"> & {answers: Omit<RawServerWelcomeAnswer, "id">[]}
+export async function createWelcomeQuestion(serverId: string, question: CreateWelcomeQuestionQuestion) {
+  return request<RawServerWelcomeQuestion>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions",
+    body: question,
+    useToken: true
+  });
+}
+
+
+export type UpdateWelcomeQuestionQuestion = Partial<RawServerWelcomeQuestion>
+export async function updateWelcomeQuestion(serverId: string, questionId: string, question: UpdateWelcomeQuestionQuestion) {
+  return request<RawServerWelcomeQuestion>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions/" + questionId,
+    body: question,
+    useToken: true
+  });
+}
+
+export async function getWelcomeQuestions(serverId: string) {
+  return request<RawServerWelcomeQuestion[]>({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions",
+    useToken: true
+  });
+}
+
+export async function deleteWelcomeQuestion(serverId: string, questionId: string) {
+  return request<{status: boolean}>({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions/" + questionId,
+    useToken: true
+  });
+}
+
+export async function addAnswerToMember(serverId: string, answerId: string) {
+  return request<{status: boolean}>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/answers/" + answerId + "/answer",
+    useToken: true
+  });
+}
+export async function removeAnswerFromMember(serverId: string, answerId: string) {
+  return request<{status: boolean}>({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/answers/" + answerId + "/answer",
     useToken: true
   });
 }

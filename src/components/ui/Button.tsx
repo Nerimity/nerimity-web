@@ -3,7 +3,7 @@ import { JSX, JSXElement } from "solid-js";
 import { styled } from "solid-styled-components";
 import Text from "./Text";
 
-interface Props {
+export interface ButtonProps {
   onMouseLeave?: (event: MouseEvent) => void;
   onMouseEnter?: (event: MouseEvent) => void;
   onPointerEnter?: (event: PointerEvent) => void;
@@ -63,7 +63,7 @@ const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: 
   }
 `;
 
-export default function Button(props: Props) {
+export default function Button(props: ButtonProps) {
 
   const color = () => props.color || "var(--primary-color)";
 

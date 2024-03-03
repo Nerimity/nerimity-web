@@ -152,7 +152,8 @@ const deleteChannel = (channelId: string, serverId?: string) => runWithContext((
 });
 
 
-const get = (channelId: string) => {
+const get = (channelId?: string) => {
+  if (!channelId) return undefined;
   return channels[channelId];
 };
 

@@ -12,6 +12,9 @@ export interface RawServer {
   createdAt: number;
   verified: boolean;
   customEmojis: RawCustomEmoji[];
+  _count?: {
+    welcomeQuestions: number;
+  }
 }
 
 
@@ -299,4 +302,24 @@ export interface RawApplication {
 
   creatorAccountId: string
   createdAt: number
+}
+
+export interface RawServerWelcomeQuestion {
+  id: string
+  title: string
+  multiselect: boolean
+  answers: RawServerWelcomeAnswer[]
+  createdAt?: number;
+  order: number;
+}
+
+export interface RawServerWelcomeAnswer {
+  id: string
+  title: string
+  roleIds: string[]
+  createdAt?: number;
+  answered: boolean;
+  questionId: string;
+  order: number;
+  _count: { answeredUsers: number }
 }

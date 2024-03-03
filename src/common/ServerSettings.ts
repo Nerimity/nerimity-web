@@ -53,6 +53,14 @@ const serverSettings: ServerSetting[] =  [
     element: lazy(() => import("@/components/servers/settings/roles/ServerSettingsRoles"))
   },
   {
+    name: "servers.settings.drawer.welcome-screen",
+    path: "welcome-screen",
+    routePath: "/welcome-screen",
+    icon: "task_alt",
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
+    element: lazy(() => import("@/components/servers/settings/welcome-screen/WelcomeScreen"))
+  },
+  {
     path: "channels/:channelId",
     routePath: "/channels/:channelId",
     name: "servers.settings.drawer.channel",

@@ -1,11 +1,11 @@
 import styles from "./Modal.module.scss";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { JSX, Show } from "solid-js";
+import { For, JSX, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 
 import Icon from "../icon/Icon";
 import Text from "../Text";
-import Button from "../Button";
+import Button, { ButtonProps } from "../Button";
 import { classNames } from "@/common/classNames";
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
   title: string;
   icon?: string;
   actionButtons?: JSX.Element;
+  actionButtonsArr?: ButtonProps[]
   close?: () => void;
   ignoreBackgroundClick?: boolean
   class?: string;
@@ -65,6 +66,13 @@ export default function Modal(props: Props) {
             {props.children}
           </div>
           <div style={styles.actionButtons}>
+            <Show when={props.actionButtonsArr}>
+              <div class={styles.actionButtonInnerContainer}>
+                <For each={props.actionButtonsArr}>
+                  {actionButton => <Button {...actionButton} />}
+                </For>
+              </div>
+            </Show>
             {props.actionButtons}
           </div>
         </div>
