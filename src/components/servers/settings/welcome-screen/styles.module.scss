@@ -13,6 +13,7 @@
   max-height: 60vh;
 }
 
+
 .answerForAddModalContainer {
   display: flex;
   align-items: center;
@@ -22,6 +23,7 @@
 
 .answerInput {
   flex: 1;
+  width: 500px;
 }
 
 .deleteAnswerButton {
