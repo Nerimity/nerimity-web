@@ -6,7 +6,7 @@ import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 
-import { createWelcomeQuestion, deleteWelcomeQuestion, getWelcomeQuestions, updateWelcomeQuestion } from "@/chat-api/services/ServerService";
+import { UpdateAnswer, UpdateQuestion, createWelcomeQuestion, deleteWelcomeQuestion, getWelcomeQuestions, updateWelcomeQuestion } from "@/chat-api/services/ServerService";
 import { useTransContext } from "@mbarzda/solid-i18next";
 
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
@@ -141,11 +141,8 @@ const AddQuestionModal = (props: {close: () => void; addQuestion?: (question: Ra
   const setAnswer = (answer: Partial<QuestionAnswer>, index: number) => {
     if (index === questionAnswers.length - 1) {
       const newQuestionAnswers = [...questionAnswers];
-      newQuestionAnswers.push({roleIds: answer.roleIds || [], title: answer.title || ""});
+      newQuestionAnswers.push({roleIds: [], title: ""});
       setQuestionAnswers(newQuestionAnswers);
-      const lastInput = [...document.querySelectorAll(`.${styles.answerForAddModalContainer} input`).values()].at(-1) as HTMLInputElement;
-      lastInput.value = "";
-      return;
     }
     setQuestionAnswers(index, answer);
   };
@@ -187,17 +184,18 @@ const AddQuestionModal = (props: {close: () => void; addQuestion?: (question: Ra
 
 
 
-const EditQuestionModal = (props: {question: RawServerWelcomeQuestion ,close: () => void; editQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
+
+const EditQuestionModal = (props: {question: UpdateQuestion ,close: () => void; editQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
   const params = useParams<{serverId: string}>();
   const [questionTitle, setQuestionTitle] = createSignal("");
   const [allowMultipleAnswers, setAllowMultipleAnswers] = createSignal(false);
-  const [questionAnswers, setQuestionAnswers] = createStore<(RawServerWelcomeAnswer)[]>([{id: Math.random().toString(), title: "", roleIds: []}]);
+  const [questionAnswers, setQuestionAnswers] = createStore<UpdateAnswer[]>([{id: Math.random().toString(), title: "", roleIds: []}]);
 
   createEffect(() => {
     setQuestionTitle(props.question.title);
     setAllowMultipleAnswers(props.question.multiselect);
     setQuestionAnswers(reconcile([
-      ...props.question.answers,
+      ...props.question.answers.sort((a, b) => a.order! - b.order!),
       {id: Math.random().toString(), title: "", roleIds: []}
     ]));
   });
@@ -206,11 +204,9 @@ const EditQuestionModal = (props: {question: RawServerWelcomeQuestion ,close: ()
   const setAnswer = (answer: Partial<RawServerWelcomeAnswer>, index: number) => {
     if (index === questionAnswers.length - 1) {
       const newQuestionAnswers = [...questionAnswers];
-      newQuestionAnswers.push({id: Math.random().toString(), roleIds: answer.roleIds || [], title: answer.title || ""});
+      newQuestionAnswers.push({id: Math.random().toString(), roleIds: [], title: ""});
       setQuestionAnswers(newQuestionAnswers);
-      const lastInput = [...document.querySelectorAll(`.${styles.answerForAddModalContainer} input`).values()].at(-1) as HTMLInputElement;
-      lastInput.value = "";
-      return;
+
     }
     setQuestionAnswers(index, answer);
   };
@@ -219,7 +215,7 @@ const EditQuestionModal = (props: {question: RawServerWelcomeQuestion ,close: ()
     if (!questionTitle()) {
       return alert("Question cannot be empty");
     }
-    const question = await updateWelcomeQuestion(params.serverId, props.question.id, {
+    const question = await updateWelcomeQuestion(params.serverId, props.question.id!, {
       title: questionTitle(),
       multiselect: allowMultipleAnswers(),
       answers: questionAnswers.map((answer, i) => ({order: i, id: answer.id, title: answer.title, roleIds: answer.roleIds})).filter(answer => answer.title.trim())

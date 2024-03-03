@@ -324,8 +324,17 @@ export async function deleteServerEmoji(serverId: string, emojiId: string) {
   });
 }
 
-export type CreateWelcomeQuestionQuestion = Omit<RawServerWelcomeQuestion, "id" | "answers"> & {answers: Omit<RawServerWelcomeAnswer, "id">[]}
-export async function createWelcomeQuestion(serverId: string, question: CreateWelcomeQuestionQuestion) {
+export interface CreateQuestion {
+  title: string;
+  multiselect: boolean;
+  answers: CreateAnswer[]
+}
+export interface CreateAnswer {
+  title: string;
+  roleIds: string[]
+  order?: number;
+}
+export async function createWelcomeQuestion(serverId: string, question: CreateQuestion) {
   return request<RawServerWelcomeQuestion>({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions",
@@ -335,8 +344,19 @@ export async function createWelcomeQuestion(serverId: string, question: CreateWe
 }
 
 
-export type UpdateWelcomeQuestionQuestion = Partial<RawServerWelcomeQuestion>
-export async function updateWelcomeQuestion(serverId: string, questionId: string, question: UpdateWelcomeQuestionQuestion) {
+export interface UpdateQuestion {
+  id?: string;
+  title: string;
+  multiselect: boolean;
+  answers: UpdateAnswer[]
+}
+export interface UpdateAnswer {
+  id: string;
+  title: string;
+  roleIds: string[]
+  order?: number;
+}
+export async function updateWelcomeQuestion(serverId: string, questionId: string, question: UpdateQuestion) {
   return request<RawServerWelcomeQuestion>({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions/" + questionId,
