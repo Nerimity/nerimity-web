@@ -319,6 +319,7 @@ export interface RawServerWelcomeAnswer {
   roleIds: string[]
   createdAt?: number;
   answered: boolean;
+  questionId: string;
   order: number;
   _count: { answeredUsers: number }
 }

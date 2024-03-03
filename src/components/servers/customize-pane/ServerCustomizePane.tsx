@@ -59,7 +59,7 @@ const WelcomeMessage = () => {
 const QuestionList = (props: {questions: RawServerWelcomeQuestion[], updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.questionList}>
-      <For each={props.questions}>
+      <For each={props.questions.sort((a, b) => a.order - b.order)}>
         {(question) => <QuestionItem question={question} updateQuestions={props.updateQuestions} />}
       </For>
     </div>
@@ -78,7 +78,7 @@ const QuestionItem = (props: {question: RawServerWelcomeQuestion; updateQuestion
 const AnswerList = (props: {answers: RawServerWelcomeAnswer[], multiselect: boolean, updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.answerList}>
-      <For each={props.answers}>
+      <For each={props.answers.sort((a, b) => a.order - b.order)}>
         {(answer) => <AnswerItem answer={answer} multiselect={props.multiselect} updateQuestions={props.updateQuestions} />}
       </For>
     </div>
@@ -87,23 +87,46 @@ const AnswerList = (props: {answers: RawServerWelcomeAnswer[], multiselect: bool
 
 const AnswerItem = (props: {answer: RawServerWelcomeAnswer, multiselect: boolean, updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
   const params = useParams<{serverId: string}>();
-  const onChange = (newVal: boolean) => {
+  const onChange = async (newVal: boolean) => {
     if (newVal) {
-      addAnswerToMember(params.serverId, props.answer.id);
+      await addAnswerToMember(params.serverId, props.answer.id);
       if (!props.multiselect) {
         props.updateQuestions(prev => {
-          return prev.map(q => ({
-            ...q,
-            answers: q.answers.map(a => ({
-              ...a,
-              answered: a.id === props.answer.id
-            }))
-          }));
+          
+          return prev.map(q => {
+            if (q.id !== props.answer.questionId) {
+              return q;
+            }
+            return {
+              ...q,
+              answers: q.answers.map(a => ({
+                ...a,
+                answered: a.id === props.answer.id
+              }))
+            };
+          });
         });
       }
     }
     else {
-      removeAnswerFromMember(params.serverId, props.answer.id);
+      await removeAnswerFromMember(params.serverId, props.answer.id);
+      if (!props.multiselect) {
+        props.updateQuestions(prev => {
+          
+          return prev.map(q => {
+            if (q.id !== props.answer.questionId) {
+              return q;
+            }
+            return {
+              ...q,
+              answers: q.answers.map(a => ({
+                ...a,
+                answered: false
+              }))
+            };
+          });
+        });
+      }
     }
   };
   return (

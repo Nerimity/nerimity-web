@@ -86,7 +86,7 @@ export default function SettingsPage() {
 const QuestionList = (props: {questions: RawServerWelcomeQuestion[], onQuestionDelete: (question: RawServerWelcomeQuestion) => void; onEditQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
 
   return (
-    <For each={props.questions.sort((a, b) => a.createdAt! - b.createdAt!)}>
+    <For each={props.questions.sort((a, b) => a.order! - b.order!)}>
       {(question, i) => <QuestionItem question={question} onQuestionDelete={() => props.onQuestionDelete(question)} onEditQuestion={props.onEditQuestion} isLast={props.questions.length - 1 === i()} />}
     </For>
   );
@@ -106,7 +106,7 @@ const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolea
     event.stopPropagation();
     event.preventDefault();
     deleteWelcomeQuestion(params.serverId, props.question.id)
-      .then(() => props.onQuestionDelete)
+      .then(() => props.onQuestionDelete())
       .catch(err => alert(err.message));
   };
 
@@ -143,7 +143,8 @@ const AddQuestionModal = (props: {close: () => void; addQuestion?: (question: Ra
       const newQuestionAnswers = [...questionAnswers];
       newQuestionAnswers.push({roleIds: answer.roleIds || [], title: answer.title || ""});
       setQuestionAnswers(newQuestionAnswers);
-      setQuestionAnswers(questionAnswers.length - 1, {title: "", roleIds: []});
+      const lastInput = [...document.querySelectorAll(`.${styles.answerForAddModalContainer} input`).values()].at(-1) as HTMLInputElement;
+      lastInput.value = "";
       return;
     }
     setQuestionAnswers(index, answer);
@@ -207,7 +208,8 @@ const EditQuestionModal = (props: {question: RawServerWelcomeQuestion ,close: ()
       const newQuestionAnswers = [...questionAnswers];
       newQuestionAnswers.push({id: Math.random().toString(), roleIds: answer.roleIds || [], title: answer.title || ""});
       setQuestionAnswers(newQuestionAnswers);
-      setQuestionAnswers(questionAnswers.length - 1, {title: "", roleIds: []});
+      const lastInput = [...document.querySelectorAll(`.${styles.answerForAddModalContainer} input`).values()].at(-1) as HTMLInputElement;
+      lastInput.value = "";
       return;
     }
     setQuestionAnswers(index, answer);
@@ -250,7 +252,9 @@ const AnswerForAddModal = (props: { onDeleteClick: () => void, deletable: boolea
   const params = useParams<{serverId: string}>();
   const store = useStore();
 
-  const roles = () => store.serverRoles.getAllByServerId(params.serverId!) as ServerRole[];
+  const server = () => store.servers.get(params.serverId!);
+
+  const roles = () => store.serverRoles.getAllByServerId(params.serverId!).filter(role => role!.id !== server()?.defaultRoleId) as ServerRole[];
 
   const roleItems = () => roles().map(role => {
     return {
