@@ -310,6 +310,7 @@ export interface RawServerWelcomeQuestion {
   multiselect: boolean
   answers: RawServerWelcomeAnswer[]
   createdAt?: number;
+  order: number;
 }
 
 export interface RawServerWelcomeAnswer {
@@ -317,5 +318,7 @@ export interface RawServerWelcomeAnswer {
   title: string
   roleIds: string[]
   createdAt?: number;
+  answered: boolean;
+  order: number;
   _count: { answeredUsers: number }
 }

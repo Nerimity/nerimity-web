@@ -1,9 +1,9 @@
 import styles from "./styles.module.scss";
 
 import { useParams } from "solid-navigator";
-import { For, Show, createEffect, createSignal, on, onMount } from "solid-js";
+import { For, Setter, Show, createEffect, createSignal, on, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import { getWelcomeQuestions } from "@/chat-api/services/ServerService";
+import { addAnswerToMember, getWelcomeQuestions, removeAnswerFromMember } from "@/chat-api/services/ServerService";
 import { RawServerWelcomeAnswer, RawServerWelcomeQuestion } from "@/chat-api/RawData";
 import Checkbox from "@/components/ui/Checkbox";
 import Icon from "@/components/ui/icon/Icon";
@@ -36,7 +36,7 @@ export default function Pane() {
     <>
       <div class={styles.pane}>  
         <WelcomeMessage/>
-        <QuestionList questions={questions()} />
+        <QuestionList questions={questions()} updateQuestions={setQuestions} />
       </div>
       <ContinueFooter/>
     </>
@@ -56,39 +56,59 @@ const WelcomeMessage = () => {
   );
 };
 
-const QuestionList = (props: {questions: RawServerWelcomeQuestion[]}) => {
+const QuestionList = (props: {questions: RawServerWelcomeQuestion[], updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.questionList}>
       <For each={props.questions}>
-        {(question) => <QuestionItem question={question} />}
+        {(question) => <QuestionItem question={question} updateQuestions={props.updateQuestions} />}
       </For>
     </div>
   );
 };
 
-const QuestionItem = (props: {question: RawServerWelcomeQuestion}) => {
+const QuestionItem = (props: {question: RawServerWelcomeQuestion; updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.questionItem}>
       <div>{props.question.title}</div>
-      <Show when={props.question.answers.length}><AnswerList answers={props.question.answers}/></Show>
+      <Show when={props.question.answers.length}><AnswerList updateQuestions={props.updateQuestions} multiselect={props.question.multiselect} answers={props.question.answers}/></Show>
     </div>
   );
 };
 
-const AnswerList = (props: {answers: RawServerWelcomeAnswer[]}) => {
+const AnswerList = (props: {answers: RawServerWelcomeAnswer[], multiselect: boolean, updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.answerList}>
       <For each={props.answers}>
-        {(answer) => <AnswerItem answer={answer} />}
+        {(answer) => <AnswerItem answer={answer} multiselect={props.multiselect} updateQuestions={props.updateQuestions} />}
       </For>
     </div>
   );
 };
 
-const AnswerItem = (props: {answer: RawServerWelcomeAnswer}) => {
+const AnswerItem = (props: {answer: RawServerWelcomeAnswer, multiselect: boolean, updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
+  const params = useParams<{serverId: string}>();
+  const onChange = (newVal: boolean) => {
+    if (newVal) {
+      addAnswerToMember(params.serverId, props.answer.id);
+      if (!props.multiselect) {
+        props.updateQuestions(prev => {
+          return prev.map(q => ({
+            ...q,
+            answers: q.answers.map(a => ({
+              ...a,
+              answered: a.id === props.answer.id
+            }))
+          }));
+        });
+      }
+    }
+    else {
+      removeAnswerFromMember(params.serverId, props.answer.id);
+    }
+  };
   return (
     <div class={styles.answerItem}>
-      <Checkbox checked={false} labelSize={14} label={props.answer.title} class={styles.checkbox} />
+      <Checkbox onChange={onChange} checked={props.answer.answered} labelSize={14} label={props.answer.title} class={styles.checkbox} />
       <Show when={props.answer._count.answeredUsers}><UserCount count={props.answer._count.answeredUsers}/></Show>
     </div>
   );

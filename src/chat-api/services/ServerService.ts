@@ -360,3 +360,18 @@ export async function deleteWelcomeQuestion(serverId: string, questionId: string
     useToken: true
   });
 }
+
+export async function addAnswerToMember(serverId: string, answerId: string) {
+  return request<{status: boolean}>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/answers/" + answerId + "/answer",
+    useToken: true
+  });
+}
+export async function removeAnswerFromMember(serverId: string, answerId: string) {
+  return request<{status: boolean}>({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/answers/" + answerId + "/answer",
+    useToken: true
+  });
+}

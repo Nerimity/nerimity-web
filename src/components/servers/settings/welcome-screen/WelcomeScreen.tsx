@@ -156,7 +156,7 @@ const AddQuestionModal = (props: {close: () => void; addQuestion?: (question: Ra
     const question = await createWelcomeQuestion(params.serverId, {
       title: questionTitle(),
       multiselect: allowMultipleAnswers(),
-      answers: questionAnswers.map(answer => ({title: answer.title, roleIds: answer.roleIds})).filter(answer => answer.title.trim())
+      answers: questionAnswers.map((answer, i) => ({order: i, title: answer.title, roleIds: answer.roleIds})).filter(answer => answer.title.trim())
     }).catch(e => alert(e.message));
     if (!question) {
       return;
@@ -220,7 +220,7 @@ const EditQuestionModal = (props: {question: RawServerWelcomeQuestion ,close: ()
     const question = await updateWelcomeQuestion(params.serverId, props.question.id, {
       title: questionTitle(),
       multiselect: allowMultipleAnswers(),
-      answers: questionAnswers.map(answer => ({id: answer.id, title: answer.title, roleIds: answer.roleIds})).filter(answer => answer.title.trim())
+      answers: questionAnswers.map((answer, i) => ({order: i, id: answer.id, title: answer.title, roleIds: answer.roleIds})).filter(answer => answer.title.trim())
     }).catch(e => alert(e.message));
     if (!question) {
       return;
