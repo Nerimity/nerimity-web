@@ -59,7 +59,7 @@ export const languages = {
   "tr-tr": {
     name: "Turkish",
     emoji: "🇹🇷",
-    contributors: ["https://github.com/sutnax"]
+    contributors: ["https://github.com/slideglide"]
   },
   "af-za": {
     name: "Afrikaans",

@@ -8,7 +8,7 @@
   "homePage": {
     "slogan": "Modern ve şık bir sohbet uygulaması.",
     "joinButton": "{{appName}}'ye Katıl",
-    "viewGitHubButton": "GitHub Açık Kaynak Kodu'nu Görüntüle"
+    "viewGitHubButton": "GitHub Üzerinden Açık Kaynak Kodu'nu Görüntüle"
   },
   "loginPage": {
     "title": "Devam etmek için giriş yapın",
@@ -54,7 +54,7 @@
       "sortRecentlyBumped": "Yakın zamanda bumplananlar",
       "filterAll": "Hepsi",
       "filterVerified": "Doğrulanmış",
-      "memberCount": "{{count}} Üye sayısı",
+      "memberCount": "{{count}} üye",
       "lifetimeBumpCount": "{{count}} Bump",
       "visitServerButton": "Ziyaret Et",
       "joinServerButton": "Katıl",
@@ -107,7 +107,7 @@
       },
       "header": {
         "editServer": "Sunucuyu Düzenle",
-        "serverMemberCount": "{{count}} üyeler"
+        "serverMemberCount": "{{count}} üye"
       },
       "channels": {
         "createButton": "Oluştur",
@@ -168,14 +168,20 @@
     "drawer": {
       "title": "Ayarlar",
       "account": "Hesap",
+      "interface": "Arayüz",
       "language": "Dil",
       "notifications": "Bildirimler",
       "logout": "Çıkış Yap",
+      "developer": "Geliştirici",
       "supportMe": "Beni Destekle!",
-      "viewSource": "Açık Kaynak Kodunu Görüntüle",
+      "viewSource": "Kaynak Kodunu Görüntüle",
       "changelog": "Değişiklikler",
       "window-settings": "İstemci Ayarları",
-      "privacy": "Gizlilik"
+      "activity-status": "Aktivite Durumu",
+      "experiments": "Deneyler",
+      "tickets": "Bilet",
+      "privacy": "Gizlilik",
+      "connections": "Bağlantılar"
     }
   },
   "addFriend": {
