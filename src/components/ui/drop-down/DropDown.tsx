@@ -95,7 +95,7 @@ function Popup(props: { items: DropDownItem[], position: {top: number, left: num
   let element: HTMLDivElement | undefined;
   const [selectedElement, setSelectedElement] = createSignal<HTMLDivElement | undefined>();
   const resizeObserver = useResizeObserver(() => element);
-  const {width} = useWindowProperties();
+  const {width, height} = useWindowProperties();
   const [position, setPosition] = createSignal({top: "0px", left: "0px", "min-width": "0px"});
 
   const onDocumentClick = (event: any) => {
@@ -125,6 +125,7 @@ function Popup(props: { items: DropDownItem[], position: {top: number, left: num
     let top = props.position.top;
     let left = props.position.left;
 
+
     const selElement = selectedElement();
     if (selElement) {
       selElement.scrollIntoView({behavior: "instant", block: "center"});
@@ -139,9 +140,18 @@ function Popup(props: { items: DropDownItem[], position: {top: number, left: num
       left = (width() - elWidth) - 10;
     }
 
+    const elHeight = resizeObserver.height();
+    const bottom = top + elHeight;
+
+    if (bottom > height()) {
+      top = top - ( bottom - height());
+    }
+
+
     setPosition({
       top: top + "px",
       left: left + "px",
+
       "min-width": props.position.minWidth + "px"
     });
   });
