@@ -16,6 +16,7 @@ import { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import MultiSelectDropDown from "@/components/ui/multi-select-drop-down/MultiSelectDropDown";
 import Checkbox from "@/components/ui/Checkbox";
 import Text from "@/components/ui/Text";
+import { ServerRole } from "@/chat-api/store/useServerRoles";
 
 
 
@@ -187,7 +188,7 @@ const AnswerForEditModal = (props: {title: string, roleIds: string[], onTitleCha
 
   const server = () => store.servers.get(params.serverId!);
 
-  const roles = () => store.serverRoles.getAllByServerId(params.serverId!).filter(role => role!.id !== server()?.defaultRoleId) as ServerRole[];
+  const roles = () => store.serverRoles.getAllByServerId(params.serverId!).filter(role => role!.id !== server()?.defaultRoleId).filter(r => !r?.botRole) as ServerRole[];
 
   const roleItems = () => roles().map(role => {
     return {

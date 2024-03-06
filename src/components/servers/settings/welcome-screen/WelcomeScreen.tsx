@@ -1,25 +1,17 @@
 import styles from "./styles.module.scss";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useParams } from "solid-navigator";
-import { For, createEffect, createSignal, onMount } from "solid-js";
+import { useNavigate, useParams } from "solid-navigator";
+import { For, createSignal, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 
-import { UpdateAnswer, UpdateQuestion, createWelcomeQuestion, deleteWelcomeQuestion, getWelcomeQuestions, updateWelcomeQuestion } from "@/chat-api/services/ServerService";
+import {createWelcomeQuestion, deleteWelcomeQuestion, getWelcomeQuestions } from "@/chat-api/services/ServerService";
 import { useTransContext } from "@mbarzda/solid-i18next";
 
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import Modal from "@/components/ui/modal/Modal";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import Input from "@/components/ui/input/Input";
-import { createStore, reconcile } from "solid-js/store";
-import  { DropDownItem } from "@/components/ui/drop-down/DropDown";
-import { classNames, conditionalClass } from "@/common/classNames";
-import Checkbox from "@/components/ui/Checkbox";
-import { ServerRole } from "@/chat-api/store/useServerRoles";
-import MultiSelectDropDown from "@/components/ui/multi-select-drop-down/MultiSelectDropDown";
-import { RawServerWelcomeAnswer, RawServerWelcomeQuestion } from "@/chat-api/RawData";
+import { RawServerWelcomeQuestion } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
 
 
@@ -32,8 +24,8 @@ export default function SettingsPage() {
   const [t] = useTransContext();
   const params = useParams<{serverId: string}>();
   const { header, servers } = useStore();
-  const {createPortal} = useCustomPortal();
   const [questions, setQuestions] = createSignal<RawServerWelcomeQuestion[]>([]);
+  const navigate = useNavigate();
   
 
 
@@ -50,6 +42,8 @@ export default function SettingsPage() {
 
   const onQuestionAdded = (question: RawServerWelcomeQuestion) => {
     setQuestions([...questions(), question]);
+    navigate("./" + question.id);
+
   };
 
   const onQuestionEdited = (question: RawServerWelcomeQuestion) => {
