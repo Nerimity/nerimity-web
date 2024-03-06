@@ -20,6 +20,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import MultiSelectDropDown from "@/components/ui/multi-select-drop-down/MultiSelectDropDown";
 import { RawServerWelcomeAnswer, RawServerWelcomeQuestion } from "@/chat-api/RawData";
+import { CustomLink } from "@/components/ui/CustomLink";
 
 
 
@@ -64,8 +65,14 @@ export default function SettingsPage() {
     setQuestions(prev => prev.filter(q => q.id !== question.id));
   };
 
-  const onAddQuestionClick = () => {
-    createPortal(close => <AddQuestionModal close={close} addQuestion={onQuestionAdded} />);
+  const onAddQuestionClick = async () => {
+    const question = await createWelcomeQuestion(params.serverId, {
+      title: "Untitled Question",
+      multiselect: false,
+      answers: []
+    }).catch(e => alert(e.message));
+    if (!question) return;
+    onQuestionAdded(question);
   };
 
 
@@ -75,7 +82,7 @@ export default function SettingsPage() {
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId || "")} icon='home' title={server()?.name} />
         <BreadcrumbItem title={t("servers.settings.drawer.welcome-screen")} />
       </Breadcrumb>
-      <SettingsBlock label="Welcome Screen" header={!!questions().length} description="Setup welcome screen. Let users assign roles." icon='task_alt'>
+      <SettingsBlock label="Questions" header={!!questions().length} description="Setup questions. Let users assign roles." icon='task_alt'>
         <Button label="Add Question" onClick={onAddQuestionClick} />
       </SettingsBlock>
       <QuestionList questions={questions()}  onEditQuestion={onQuestionEdited} onQuestionDelete={onQuestionDeleted} />
@@ -94,13 +101,8 @@ const QuestionList = (props: {questions: RawServerWelcomeQuestion[], onQuestionD
 
 const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolean, onQuestionDelete: () => void; onEditQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
   const params = useParams<{serverId: string}>();
-  const {createPortal} = useCustomPortal();
-
   const answerList = () => props.question.answers.map(answer => answer.title).join(" • ");
   
-  const onEditClick = () => {
-    createPortal(close => <EditQuestionModal close={close} question={props.question} editQuestion={props.onEditQuestion} />);
-  };
 
   const onDeleteClick = (event: MouseEvent) => {
     event.stopPropagation();
@@ -112,159 +114,15 @@ const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolea
 
   return (
     <SettingsBlock 
-      icon="question_answer"
-      onClick={onEditClick} 
+      icon="help"
+      
       description={answerList()}
       borderTopRadius={false} 
       borderBottomRadius={props.isLast} 
       label={props.question.title} >
       <Button label="Delete" iconName="delete" margin={[0, 4]} iconSize={16} color="var(--alert-color)" onClick={onDeleteClick} />
-      <Button label="Edit" iconName="edit" iconSize={16} margin={0}  />
+      <CustomLink href={`./${props.question.id}`}><Button label="Edit" iconName="edit" iconSize={16} margin={0}  /></CustomLink>
     </SettingsBlock>
   );
 };
 
-
-
-
-interface QuestionAnswer {
-  title: string;
-  roleIds: string[];
-}
-
-const AddQuestionModal = (props: {close: () => void; addQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
-  const params = useParams<{serverId: string}>();
-  const [questionTitle, setQuestionTitle] = createSignal("");
-  const [allowMultipleAnswers, setAllowMultipleAnswers] = createSignal(false);
-  const [questionAnswers, setQuestionAnswers] = createStore<QuestionAnswer[]>([{title: "", roleIds: []}]);
-
-  const setAnswer = (answer: Partial<QuestionAnswer>, index: number) => {
-    if (index === questionAnswers.length - 1) {
-      const newQuestionAnswers = [...questionAnswers];
-      newQuestionAnswers.push({roleIds: [], title: ""});
-      setQuestionAnswers(newQuestionAnswers);
-    }
-    setQuestionAnswers(index, answer);
-  };
-
-  const onAddQuestionClick = async () => {
-    if (!questionTitle()) {
-      return alert("Question cannot be empty");
-    }
-    const question = await createWelcomeQuestion(params.serverId, {
-      title: questionTitle(),
-      multiselect: allowMultipleAnswers(),
-      answers: questionAnswers.map((answer, i) => ({order: i, title: answer.title, roleIds: answer.roleIds})).filter(answer => answer.title.trim())
-    }).catch(e => alert(e.message));
-    if (!question) {
-      return;
-    }
-    props.addQuestion?.(question);
-    props.close();
-  };
-
-  const onDeleteClick = (index: number) => {
-    setQuestionAnswers(prev => prev.filter((_, i) => i !== index));
-  };
-
-
-  return (
-    <Modal title="New Question" close={props.close} ignoreBackgroundClick actionButtonsArr={[{ iconName: "add", label: "Add Question", onClick: onAddQuestionClick, primary: true}]}>
-      <div class={styles.addQuestionContainer}>
-        <Input label="Question" placeholder="Cats Or Dogs?" value={questionTitle()} onText={setQuestionTitle} />
-        <For each={questionAnswers}>
-          {(answer, i) => <AnswerForAddModal onDeleteClick={() => onDeleteClick(i())} deletable={i() !== questionAnswers.length - 1} answer={answer} setAnswer={u => setAnswer(u, i()) } />}
-        </For>
-
-        <Checkbox label="Allow multiple answers" checked={allowMultipleAnswers()} onChange={setAllowMultipleAnswers} />
-      </div>
-    </Modal>
-  );
-};
-
-
-
-
-const EditQuestionModal = (props: {question: UpdateQuestion ,close: () => void; editQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
-  const params = useParams<{serverId: string}>();
-  const [questionTitle, setQuestionTitle] = createSignal("");
-  const [allowMultipleAnswers, setAllowMultipleAnswers] = createSignal(false);
-  const [questionAnswers, setQuestionAnswers] = createStore<UpdateAnswer[]>([{id: Math.random().toString(), title: "", roleIds: []}]);
-
-  createEffect(() => {
-    setQuestionTitle(props.question.title);
-    setAllowMultipleAnswers(props.question.multiselect);
-    setQuestionAnswers(reconcile([
-      ...props.question.answers.sort((a, b) => a.order! - b.order!),
-      {id: Math.random().toString(), title: "", roleIds: []}
-    ]));
-  });
-
-
-  const setAnswer = (answer: Partial<RawServerWelcomeAnswer>, index: number) => {
-    if (index === questionAnswers.length - 1) {
-      const newQuestionAnswers = [...questionAnswers];
-      newQuestionAnswers.push({id: Math.random().toString(), roleIds: [], title: ""});
-      setQuestionAnswers(newQuestionAnswers);
-
-    }
-    setQuestionAnswers(index, answer);
-  };
-
-  const onEditQuestionClick = async () => {
-    if (!questionTitle()) {
-      return alert("Question cannot be empty");
-    }
-    const question = await updateWelcomeQuestion(params.serverId, props.question.id!, {
-      title: questionTitle(),
-      multiselect: allowMultipleAnswers(),
-      answers: questionAnswers.map((answer, i) => ({order: i, id: answer.id, title: answer.title, roleIds: answer.roleIds})).filter(answer => answer.title.trim())
-    }).catch(e => alert(e.message));
-    if (!question) {
-      return;
-    }
-    props.editQuestion?.(question);
-    props.close();
-  };
-  const onDeleteClick = (index: number) => {
-    setQuestionAnswers(prev => prev.filter((_, i) => i !== index));
-  };
-
-  return (
-    <Modal title="Edit Question" close={props.close} ignoreBackgroundClick actionButtonsArr={[{ iconName: "edit", label: "Edit Question", onClick: onEditQuestionClick, primary: true}]}>
-      <div class={styles.addQuestionContainer}>
-        <Input label="Question" placeholder="Cats Or Dogs?" value={questionTitle()} onText={setQuestionTitle} />
-        <For each={questionAnswers}>
-          {(answer, i) => <AnswerForAddModal  onDeleteClick={() => onDeleteClick(i())} deletable={i() !== questionAnswers.length - 1} answer={answer} setAnswer={u => setAnswer(u, i()) } />}
-        </For>
-
-        <Checkbox label="Allow multiple answers" checked={allowMultipleAnswers()} onChange={setAllowMultipleAnswers} />
-      </div>
-    </Modal>
-  );
-};
-
-const AnswerForAddModal = (props: { onDeleteClick: () => void, deletable: boolean, answer: QuestionAnswer, setAnswer: (answer: Partial<QuestionAnswer>) => void}) => {
-  const params = useParams<{serverId: string}>();
-  const store = useStore();
-
-  const server = () => store.servers.get(params.serverId!);
-
-  const roles = () => store.serverRoles.getAllByServerId(params.serverId!).filter(role => role!.id !== server()?.defaultRoleId) as ServerRole[];
-
-  const roleItems = () => roles().map(role => {
-    return {
-      id: role.id,
-      label: role.name
-    } as DropDownItem;
-  });
-
-  
-  return (
-    <div class={styles.answerForAddModalContainer}>
-      <Input class={styles.answerInput} label="Answer" placeholder="Cats" value={props.answer.title} onText={t => props.setAnswer({title: t})} />
-      <MultiSelectDropDown items={roleItems()} selectedIds={props.answer.roleIds} onChange={items => props.setAnswer({roleIds: items.map(item => item.id)})}  title="Select Roles" />
-      <Button onClick={() => (props.deletable && props.onDeleteClick())} class={classNames(styles.deleteAnswerButton, conditionalClass(!props.deletable, styles.hidden))} color="var(--alert-color)" iconName="delete" margin={0} />
-    </div>
-  );
-};

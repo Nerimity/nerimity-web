@@ -51,7 +51,7 @@ const WelcomeMessage = () => {
   return (
     <div class={styles.welcomeMessage}>
       <Text size={24}>{server()?.name}</Text>
-      <Text size={14} opacity={0.6}>Complete these questions to get roles:</Text>
+      <Text size={16} opacity={0.6}>Complete these questions:</Text>
     </div>
   );
 };

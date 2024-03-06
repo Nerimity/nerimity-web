@@ -372,6 +372,13 @@ export async function getWelcomeQuestions(serverId: string) {
     useToken: true
   });
 }
+export async function getWelcomeQuestion(serverId: string, questionId: string) {
+  return request<RawServerWelcomeQuestion>({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions/" + questionId,
+    useToken: true
+  });
+}
 
 export async function deleteWelcomeQuestion(serverId: string, questionId: string) {
   return request<{status: boolean}>({

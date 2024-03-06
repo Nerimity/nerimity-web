@@ -1,0 +1,27 @@
+.pane {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+
+
+.editQuestionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  overflow: auto;
+  max-height: 60vh;
+  min-width: 300px;
+}
+
+.answerForEditModalContainer {  
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.answerInput {
+  flex: 1;
+}
