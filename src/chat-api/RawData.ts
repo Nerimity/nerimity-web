@@ -239,6 +239,13 @@ export interface ActivityStatus {
   action: string;
   name: string;
   startedAt: number;
+  endsAt?: number;
+
+  imgSrc?: string
+  title?: string
+  subtitle?: string;
+
+
 }
 export interface RawPresence {
   userId: string;

@@ -52,13 +52,23 @@ export function timeSince(timestamp: number) {
   return formatTimestamp(timestamp);
 }
 
-export function timeElapsed(timestamp: number) {
+export function timeElapsed(timestamp: number, onlyPadSeconds = false) {
   let seconds = Math.floor((Date.now() - timestamp) / 1000);
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds - (hours * 3600)) / 60);
   seconds -= hours * 3600 + minutes * 60;
-  const formattedTime = (hours ? (hours.toString().padStart(2, "0") + ":") : "") +
-    minutes.toString().padStart(2, "0") + ":" +
+  const formattedTime = (hours ? (hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":") : "") +
+    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":" +
+    seconds.toString().padStart(2, "0");
+  return formattedTime;
+}
+export function millisecondsToHhMmSs(timestamp: number, onlyPadSeconds = false) {
+  let seconds = Math.floor((timestamp) / 1000);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - (hours * 3600)) / 60);
+  seconds -= hours * 3600 + minutes * 60;
+  const formattedTime = (hours ? (hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":") : "") +
+    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":" +
     seconds.toString().padStart(2, "0");
   return formattedTime;
 }
@@ -66,13 +76,17 @@ export function timeElapsed(timestamp: number) {
 
 
 
-export function calculateTimeElapsedForActivityStatus(startTime: number) {
+export function calculateTimeElapsedForActivityStatus(startTime: number, music = false) {
   // Get the current time in milliseconds.
   const now = Date.now();
   // Calculate the time elapsed in milliseconds.
-  const timeElapsed = now - startTime;
+  const timeElapsedMS = now - startTime;
   // Convert the time elapsed from milliseconds to seconds.
-  const timeElapsedInSeconds = timeElapsed / 1000;
+  const timeElapsedInSeconds = timeElapsedMS / 1000;
+
+  if (music) {
+    return timeElapsed(startTime, true);
+  }
 
   // Return the time elapsed in seconds.
   return convertSecondsForActivityStatus(timeElapsedInSeconds);

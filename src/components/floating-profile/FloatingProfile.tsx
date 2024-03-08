@@ -2,7 +2,7 @@ import styles from "./FloatingProfile.module.scss";
 import { For, JSX, Match, Show, Switch, createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
 import Icon from "../ui/icon/Icon";
 import Text from "../ui/Text";
-import { calculateTimeElapsedForActivityStatus } from "@/common/date";
+import { calculateTimeElapsedForActivityStatus, millisecondsToHhMmSs, timeElapsed } from "@/common/date";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { UserDetails, getUserDetailsRequest } from "@/chat-api/services/UserService";
@@ -21,6 +21,8 @@ import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu"
 import { electronWindowAPI } from "@/common/Electron";
 import { classNames } from "@/common/classNames";
 import { useLocation } from "solid-navigator";
+import env from "@/common/env";
+import { title } from "process";
 
 
 
@@ -280,12 +282,22 @@ const UserActivity = (props: {userId: string}) => {
   const activity = () => user()?.presence?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
+
+  const isMusic = () =>  !!activity()?.action.startsWith("Listening") && !!activity()?.startedAt && !!activity()?.endsAt;
+
+  const icon = () => {
+    if (activity()?.action.startsWith("Listening")) return "music_note";
+    return "games";
+  };
+
   createEffect(on(activity, () => {
     if (!activity()) return;
 
-    setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
+
+
+    setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!, isMusic()));
     const intervalId = setInterval(() => {
-      setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!));
+      setPlayedFor(calculateTimeElapsedForActivityStatus(activity()?.startedAt!, isMusic()));
     }, 1000);
 
     onCleanup(() => {
@@ -294,22 +306,82 @@ const UserActivity = (props: {userId: string}) => {
     });
   }));
 
+
+
+  const imgSrc = () => {
+    if (!activity()?.imgSrc) return;
+    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(activity()?.imgSrc!)}/a`;
+
+  };
+
   return (
     <Show when={activity()}>
       <div class={styles.userActivityContainer}>
-        <Icon class={styles.icon} name='games' size={14} color='var(--primary-color)' />
+        <Icon class={styles.icon} name={icon()} size={14} color='var(--primary-color)' />
+
         <div class={styles.activityInfo}>
           <div class={styles.activityInfoRow}>
             <Text size={13}>{activity()?.action}</Text>
             <Text size={13} opacity={0.6}>{activity()?.name}</Text>
           </div>
-          <Text size={13}>For {playedFor()}</Text>
-        </div>
+          <Show when={activity()?.imgSrc}>
+            <div class={styles.richPresence}>
+              <img src={imgSrc()} class={styles.activityImg} />
+              <div class={styles.richInfo}>
+                <Text size={13} opacity={0.9}>{activity()?.title}</Text>
+                <Text size={13} opacity={0.6}>{activity()?.subtitle}</Text>
+                <Show when={!isMusic()}><Text size={13} opacity={0.6}>{playedFor()}</Text></Show>
+                <Show when={isMusic()}><RichProgressBar startedAt={activity()?.startedAt!} endsAt={activity()?.endsAt!} /></Show>
+              </div>
+            </div>
+          </Show>
+          <Show when={!activity()?.imgSrc}><Text size={13}>For {playedFor()}</Text></Show>
+        </div>    
       </div>
     </Show>
   );
 
 };
 
+const RichProgressBar = (props: { startedAt: number, endsAt: number }) => {
+  const [playedFor, setPlayedFor] = createSignal("");
+
+  const endsAt = () => {
+    const diff = props.endsAt - props.startedAt;
+    return millisecondsToHhMmSs(diff, true);
+  };
+
+  createEffect(() => {
+    setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
+    const intervalId = setInterval(() => {
+      setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
+    }, 1000);
+
+    onCleanup(() => {
+      clearInterval(intervalId);
+    });
+  });
+
+  const percent = on(playedFor, () => {
+    const now = Date.now();
+    const start = now - props.startedAt;
+    const end = props.endsAt - props.startedAt;
+
+    return Math.round(start / end * 100);
+  });
+
+
+  return (
+    <div class={styles.richProgressBar}>
+      <div class={styles.progressDetails}>
+        <Text size={13} opacity={0.6}>{playedFor()}</Text>
+        <Text size={13} opacity={0.6}>{endsAt()}</Text>  
+      </div>
+      <div class={styles.progressBar}>
+        <div class={styles.progress} style={{width: `${percent(undefined)}%`}} />
+      </div>
+    </div>
+  );
+};
 
 

@@ -13,8 +13,8 @@ import {
   UserDetails
 } from "@/chat-api/services/UserService";
 import useStore from "@/chat-api/store/useStore";
-import {bannerUrl, User} from "@/chat-api/store/useUsers";
-import {calculateTimeElapsedForActivityStatus, formatTimestamp, getDaysAgo} from "../../common/date";
+import {bannerUrl} from "@/chat-api/store/useUsers";
+import {calculateTimeElapsedForActivityStatus, formatTimestamp, getDaysAgo, millisecondsToHhMmSs} from "../../common/date";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
@@ -43,6 +43,7 @@ import Input from "../ui/input/Input";
 import {copyToClipboard} from "@/common/clipboard";
 import {Notice} from "../ui/Notice/Notice";
 import {createTicket} from "@/chat-api/services/TicketService.ts";
+import env from "@/common/env";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -628,11 +629,69 @@ function SideBar(props: { user: UserDetails }) {
   );
 }
 
+
+const RichProgressBar = (props: { startedAt: number, endsAt: number }) => {
+  const [playedFor, setPlayedFor] = createSignal("");
+
+  const endsAt = () => {
+    const diff = props.endsAt - props.startedAt;
+    return millisecondsToHhMmSs(diff, true);
+  };
+
+  createEffect(() => {
+    setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
+    const intervalId = setInterval(() => {
+      setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
+    }, 1000);
+
+    onCleanup(() => {
+      clearInterval(intervalId);
+    });
+  });
+
+  const percent = on(playedFor, () => {
+    const now = Date.now();
+    const start = now - props.startedAt;
+    const end = props.endsAt - props.startedAt;
+
+    return Math.round(start / end * 100);
+  });
+
+
+  return (
+    <div class={styles.richProgressBar}>
+      <div class={styles.progressDetails}>
+        <Text size={13} opacity={0.6}>{playedFor()}</Text>
+        <Text size={13} opacity={0.6}>{endsAt()}</Text>  
+      </div>
+      <div class={styles.progressBar}>
+        <div class={styles.progress} style={{width: `${percent(undefined)}%`}} />
+      </div>
+    </div>
+  );
+};
+
+
 const UserActivity = (props: { userId: string }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
   const activity = () => user()?.presence?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
+
+
+
+  const isMusic = () =>  !!activity()?.action.startsWith("Listening") && !!activity()?.startedAt && !!activity()?.endsAt;
+
+  const icon = () => {
+    if (activity()?.action.startsWith("Listening")) return "music_note";
+    return "games";
+  };
+
+  const imgSrc = () => {
+    if (!activity()?.imgSrc) return;
+    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(activity()?.imgSrc!)}/a`;
+
+  };
 
   createEffect(
     on(activity, () => {
@@ -667,18 +726,31 @@ const UserActivity = (props: { userId: string }) => {
           class={css`
             margin-top: 2px;
           `}
-          name="games"
+          name={icon()}
           size={18}
           color="var(--primary-color)"
         />
-        <FlexColumn>
+        <FlexColumn style={{ flex: 1 }}>
           <FlexRow gap={4}>
             <Text size={14}>{activity()?.action}</Text>
             <Text size={14} opacity={0.6}>
               {activity()?.name}
             </Text>
           </FlexRow>
-          <Text size={14}>For {playedFor()}</Text>
+
+          <Show when={activity()?.imgSrc}>
+            <div class={styles.richPresence}>
+              <img src={imgSrc()} class={styles.activityImg} />
+              <div class={styles.richInfo}>
+                <Text size={13} opacity={0.9}>{activity()?.title}</Text>
+                <Text size={13} opacity={0.6}>{activity()?.subtitle}</Text>
+                <Show when={!isMusic()}><Text size={13} opacity={0.6}>{playedFor()}</Text></Show>
+                <Show when={isMusic()}><RichProgressBar startedAt={activity()?.startedAt!} endsAt={activity()?.endsAt!} /></Show>
+              </div>
+            </div>
+          </Show>
+          
+          <Show when={!activity()?.imgSrc}><Text size={14}>For {playedFor()}</Text></Show>
         </FlexColumn>
       </FlexRow>
     </Show>

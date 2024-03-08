@@ -5,13 +5,24 @@ export interface Experiment {
   id: ExperimentIds;
   name: string;
   description?: string;
+  electron?: boolean
+  reloadRequired?: boolean
 }
 
 export const Experiments = [
   {
     id: "CREATE_APPS",
     name: "Create Applications",
-    description: "Enables developer option to settings. Lets you create bots."
+    description: "Enables developer option to settings. Lets you create bots.",
+    reloadRequired: false,
+    electron: false
+  },
+  {
+    id: "RPC_SERVER",
+    name: "Start local RPC Server.",
+    description: "Rich Presence details for a supported program activity",
+    reloadRequired: true,
+    electron: true
   }
 ] as const;
 
@@ -19,6 +30,9 @@ export type ExperimentIds = typeof Experiments[number]["id"];
 
 const [enabledExperiments, setEnabledExperiments] = useReactiveLocalStorage<string[]>(StorageKeys.ENABLED_EXPERIMENTS, []);
 
+export const isExperimentEnabled = (experimentId: ExperimentIds) => {
+  return enabledExperiments().includes(experimentId);
+};
 export const ShowExperiment = (props: {id?: ExperimentIds, children: JSXElement}) => {
   return (
     <Show when={!props.id || enabledExperiments().includes(props.id)}>

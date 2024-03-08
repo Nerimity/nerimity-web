@@ -25,6 +25,11 @@ const UserPresence = (props: { userId: string, showOffline: boolean, animate?: b
     return true;
   };
 
+  const icon = () => {
+    if (activity()?.action.startsWith("Listening")) return "music_note";
+    return "games";
+  };
+
   const name = () => {
     return <Switch fallback={statusDetails()?.name}>
       <Match when={activity()}>
@@ -41,7 +46,7 @@ const UserPresence = (props: { userId: string, showOffline: boolean, animate?: b
     <Show when={show()}>
       <div class={styles.userPresence}>
         <Show when={activity()} fallback={<div title={statusDetails().name} class={classNames(styles.dot, styles[statusDetails()?.id])} />}>
-          <Icon name='games' size={14} color={statusDetails().color} />
+          <Icon name={icon()} size={14} color={statusDetails().color} />
         </Show>
         <div class={styles.value}>{name()}</div>
       </div>

@@ -9,6 +9,7 @@ import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
 import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
+import { isExperimentEnabled } from "@/common/experiments";
 
 export function onUserPresenceUpdate(payload: { userId: string; status?: UserStatus, custom?: string; activity?: ActivityStatus}) {
   const users = useUsers();
@@ -20,6 +21,11 @@ export function onUserPresenceUpdate(payload: { userId: string; status?: UserSta
     if (wasOffline) {
       const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
       electronWindowAPI()?.restartActivityStatus(programs);
+      if (isExperimentEnabled("RPC_SERVER")) {
+        electronWindowAPI()?.restartRPCServer();
+      }
+
+
     }
   }
   

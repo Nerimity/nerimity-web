@@ -30,6 +30,12 @@ interface WindowAPI {
   getRunningPrograms(ignoredPrograms?: Program[]): Promise<Program[]>;
   restartActivityStatus(listenToPrograms: Program[]): void;
   activityStatusChanged(callback: (window: {filename: string, createdAt: number} | false) => void): void;
+
+  restartRPCServer(): void;
+  rpcChanged(callback: (data: {name: string; action: string; imgSrc?: string; title?: string; startedAt?: number} | false) => void): void;
+  relaunchApp(): void;
+
+
 }
 
 

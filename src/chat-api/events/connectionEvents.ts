@@ -9,6 +9,7 @@ import useVoiceUsers from "../store/useVoiceUsers";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
 import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
+import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 
 
 export const onConnect = (socket: Socket, token?: string) => {
@@ -71,6 +72,15 @@ electronWindowAPI()?.activityStatusChanged(window => {
   });
 });
 
+
+electronWindowAPI()?.rpcChanged((data) => {
+  if (!data) {
+    const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
+    electronWindowAPI()?.restartActivityStatus(programs);
+    return;
+  }
+  emitActivityStatus({startedAt: Date.now(), ...data });
+});
 
 
 
@@ -191,4 +201,8 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
   electronWindowAPI()?.restartActivityStatus(programs);
+
+  if (isExperimentEnabled("RPC_SERVER")) {
+    electronWindowAPI()?.restartRPCServer();
+  }
 };
