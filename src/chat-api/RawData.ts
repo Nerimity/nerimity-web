@@ -244,6 +244,7 @@ export interface ActivityStatus {
   imgSrc?: string
   title?: string
   subtitle?: string;
+  link?: string;
 
 
 }

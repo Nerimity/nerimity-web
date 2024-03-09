@@ -23,6 +23,7 @@ import { classNames } from "@/common/classNames";
 import { useLocation } from "solid-navigator";
 import env from "@/common/env";
 import { title } from "process";
+import { DangerousLinkModal } from "../ui/DangerousLinkModal";
 
 
 
@@ -328,7 +329,7 @@ const UserActivity = (props: {userId: string}) => {
             <div class={styles.richPresence}>
               <img src={imgSrc()} class={styles.activityImg} />
               <div class={styles.richInfo}>
-                <Text size={13} opacity={0.9}>{activity()?.title}</Text>
+                <Text href={activity()?.link} isDangerousLink newTab size={13} opacity={0.9}>{activity()?.title}</Text>
                 <Text size={13} opacity={0.6}>{activity()?.subtitle}</Text>
                 <Show when={!isMusic()}><Text size={13} opacity={0.6}>{playedFor()}</Text></Show>
                 <Show when={isMusic()}><RichProgressBar startedAt={activity()?.startedAt!} endsAt={activity()?.endsAt!} /></Show>

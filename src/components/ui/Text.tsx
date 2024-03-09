@@ -1,4 +1,6 @@
 import { JSX } from "solid-js";
+import { Dynamic } from "solid-js/web";
+import { CustomLink } from "./CustomLink";
 
 interface TextProps {
   color?: string;
@@ -7,6 +9,9 @@ interface TextProps {
   bold?: boolean;
   children: JSX.Element;
   class?: string;
+  href?: string;
+  newTab?: boolean
+  isDangerousLink?: boolean
 }
 
 const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
@@ -19,9 +24,9 @@ const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
     ...(props.bold ? { "font-weight": "bold" } : {})
   } as JSX.CSSProperties);
   return (
-    <span style={style()} class={props.class}>
+    <Dynamic component={props.href ? CustomLink : "span"} isDangerous={props.isDangerousLink} onClick={props.onClick} {...(props.newTab ? {target: "_blank", rel: "noopener noreferrer"} : {})} href={props.href} style={style()} class={props.class}>
       {props.children}
-    </span>
+    </Dynamic>
   );
 };
 
