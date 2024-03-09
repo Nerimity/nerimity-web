@@ -234,6 +234,13 @@
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 6px;
+
+  &.videoActivityImg {
+    aspect-ratio: 16/9;
+    width: 100%;
+    max-width: 200px;
+  }
+
 }
 
 

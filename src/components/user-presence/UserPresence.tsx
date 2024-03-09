@@ -27,6 +27,7 @@ const UserPresence = (props: { userId: string, showOffline: boolean, animate?: b
 
   const icon = () => {
     if (activity()?.action.startsWith("Listening")) return "music_note";
+    if (activity()?.action.startsWith("Watching")) return "movie";
     return "games";
   };
 

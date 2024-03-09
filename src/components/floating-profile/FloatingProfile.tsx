@@ -285,9 +285,11 @@ const UserActivity = (props: {userId: string}) => {
 
 
   const isMusic = () =>  !!activity()?.action.startsWith("Listening") && !!activity()?.startedAt && !!activity()?.endsAt;
+  const isVideo = () =>  !!activity()?.action.startsWith("Watching") && !!activity()?.startedAt && !!activity()?.endsAt;
 
   const icon = () => {
     if (activity()?.action.startsWith("Listening")) return "music_note";
+    if (activity()?.action.startsWith("Watching")) return "movie";
     return "games";
   };
 
@@ -327,12 +329,12 @@ const UserActivity = (props: {userId: string}) => {
           </div>
           <Show when={activity()?.imgSrc}>
             <div class={styles.richPresence}>
-              <img src={imgSrc()} class={styles.activityImg} />
+              <img src={imgSrc()} class={styles.activityImg} classList={{[styles.videoActivityImg!]: isVideo()}} />
               <div class={styles.richInfo}>
                 <Text href={activity()?.link} isDangerousLink newTab size={13} opacity={0.9}>{activity()?.title}</Text>
                 <Text size={13} opacity={0.6}>{activity()?.subtitle}</Text>
-                <Show when={!isMusic()}><Text size={13} opacity={0.6}>{playedFor()}</Text></Show>
-                <Show when={isMusic()}><RichProgressBar startedAt={activity()?.startedAt!} endsAt={activity()?.endsAt!} /></Show>
+                <Show when={!isMusic() && !isVideo()}><Text size={13} opacity={0.6}>{playedFor()}</Text></Show>
+                <Show when={isMusic() || isVideo()}><RichProgressBar startedAt={activity()?.startedAt!} endsAt={activity()?.endsAt!} /></Show>
               </div>
             </div>
           </Show>
