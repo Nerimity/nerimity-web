@@ -8,6 +8,7 @@ import { useNavigate } from "solid-navigator";
 import { runWithContext } from "@/common/runWithContext";
 import env from "@/common/env";
 import useAccount from "./useAccount";
+import { createEffect } from "solid-js";
 
 export enum UserStatus {
   OFFLINE = 0,
@@ -18,6 +19,7 @@ export enum UserStatus {
 }
 
 export interface Presence {
+  userId: string;
   custom?: string | null;
   status: UserStatus;
   activity?: ActivityStatus
@@ -28,7 +30,7 @@ export const avatarUrl = (item: {avatar?: string}): string | null => item?.avata
 export const bannerUrl = (item: {banner?: string}): string | null => item?.banner ? env.NERIMITY_CDN + item?.banner : null;
 
 export type User =  {
-  presence?: Presence
+  presence: () => Presence | undefined,
   inboxChannelId?: string
   voiceChannelId?: string
   setInboxChannelId: (this: User, channelId: string | undefined) => void;
@@ -40,7 +42,7 @@ export type User =  {
 } & RawUser;
 
 const [users, setUsers] = createStore<Record<string, User>>({});
-
+const [userPresences, setUserPresences] = createStore<Record<string, Presence>>({});
 
 const set = (user: RawUser) => runWithContext(() => {
   if (users[user.id]) return;
@@ -48,6 +50,7 @@ const set = (user: RawUser) => runWithContext(() => {
 
   const newUser: User = {
     ...user,
+    presence: getPresence,
     setInboxChannelId,
     setVoiceChannelId,
     openDM: openDMScoped,
@@ -60,6 +63,10 @@ const set = (user: RawUser) => runWithContext(() => {
 
   setUsers(user.id, newUser);
 });
+
+function getPresence (this: User) {
+  return userPresences[this.id];
+}
 
 function setVoiceChannelId (this: User, channelId: string | undefined) {
   setUsers(this.id, "voiceChannelId", channelId);
@@ -113,18 +120,23 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
   }
   const isOffline = presence.status !== undefined && presence.status === UserStatus.OFFLINE;
   if (isOffline) {
-    setUsers(userId, "presence", undefined);
+    setUserPresences(userId, undefined!);
     return;
   }
   if (presence.custom === null) presence.custom = undefined;
   if (presence.activity === null) presence.activity = undefined;
-  setUsers(userId, "presence", presence);
+  setUserPresences(userId, {...presence, userId});
+};
+
+const removePresence = (userId: string) => {
+  setPresence(userId, {status: UserStatus.OFFLINE});
 };
 
 const reset = () => {
   setUsers(reconcile({}));
 };
 
+const presencesArray = () => Object.values(userPresences);
 
 export default function useUsers() {
   return {
@@ -132,7 +144,9 @@ export default function useUsers() {
     get,
     set,
     setPresence,
+    removePresence,
     openDM,
-    reset
+    reset,
+    presencesArray
   };
 }

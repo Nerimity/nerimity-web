@@ -11,11 +11,11 @@ const UserPresence = (props: { userId: string, showOffline: boolean, animate?: b
   const { users } = useStore();
   const user = () => users.get(props.userId);
 
-  const statusDetails = () => userStatusDetail(user()?.presence?.status || 0);
-  const activity = () => props.hideActivity ? undefined : user().presence?.activity;
+  const statusDetails = () => userStatusDetail(user()?.presence()?.status || 0);
+  const activity = () => props.hideActivity ? undefined : user().presence()?.activity;
 
   const show = () => {
-    if (!props.showOffline && !user()?.presence?.status) {
+    if (!props.showOffline && !user()?.presence()?.status) {
       return false;
     }
 
@@ -39,7 +39,7 @@ const UserPresence = (props: { userId: string, showOffline: boolean, animate?: b
           <div class={styles.activityName}>{activity()?.name}</div>
         </div>
       </Match>
-      <Match when={user()?.presence?.custom}><Markup animateEmoji={props.animate} inline text={user().presence?.custom!} /></Match>
+      <Match when={user()?.presence()?.custom}><Markup animateEmoji={props.animate} inline text={user().presence()?.custom!} /></Match>
     </Switch>;
   };
 

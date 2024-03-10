@@ -280,7 +280,7 @@ function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: st
 const UserActivity = (props: {userId: string}) => {
   const {users} = useStore();
   const user = () => users.get(props.userId);
-  const activity = () => user()?.presence?.activity;
+  const activity = () => user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
 

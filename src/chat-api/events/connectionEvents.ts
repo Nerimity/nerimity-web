@@ -146,7 +146,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     }
 
     for (let i = 0; i < payload.presences.length; i++) {
-      const presence = payload.presences[i];
+      const presence = payload.presences[i]!;
       users.setPresence(presence.userId, presence);
     }
 

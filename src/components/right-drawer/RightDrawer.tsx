@@ -310,7 +310,7 @@ const ServerDrawer = () => {
 
     const membersInThisRole = () => members().filter(member => {
       if (!member?.user()) return false;
-      if (!member?.user().presence?.status) return false;
+      if (!member?.user().presence()?.status) return false;
       if (server()?.defaultRoleId === role!.id && !member?.unhiddenRole()) return true;
       if (member?.unhiddenRole()?.id === role!.id) return true;
     });
@@ -318,7 +318,7 @@ const ServerDrawer = () => {
     return { role, members: createMemo(() => membersInThisRole()) };
   });
 
-  const offlineMembers = createMemo(() => members().filter(member => !member?.user().presence?.status));
+  const offlineMembers = createMemo(() => members().filter(member => !member?.user().presence()?.status));
 
   return (
     <Show when={server()?.id} keyed={true}>

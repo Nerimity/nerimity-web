@@ -63,7 +63,7 @@ function separateFriends(friends: Friend[]) {
       requests.push(friend);
       continue;
     }
-    if (!user.presence?.status) {
+    if (!user.presence()?.status) {
       offlineFriends.push(friend);
       continue;
     }

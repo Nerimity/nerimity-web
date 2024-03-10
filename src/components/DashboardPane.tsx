@@ -17,6 +17,9 @@ import Input from "./ui/input/Input";
 import ItemContainer from "./ui/Item";
 import Text from "./ui/Text";
 import { Delay } from "@/common/Delay";
+import { Presence } from "@/chat-api/store/useUsers";
+import Icon from "./ui/icon/Icon";
+import env from "@/common/env";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -72,6 +75,7 @@ export default function DashboardPane() {
     <DashboardPaneContainer>
       <DashboardPaneContent gap={10}>
         <Show when={account.user()}>
+          <ActivityList />
           <ServerList />
           <PostsContainer />
         </Show>
@@ -250,3 +254,93 @@ function NotificationCountBadge(props: { count: number, top: number, right: numb
   );
 
 }
+
+
+
+
+const ActivityListContainer = styled(FlexRow)`
+  display: flex;
+  gap: 8px;
+  height: 80px;
+
+
+`;
+
+
+
+const ActivityList = () => {
+  const store = useStore();
+
+  const activities = () => {
+    const presences = store.users.presencesArray();
+    return presences.filter(p => p.activity);
+  };
+
+  return (
+    <Show when={activities().length}>
+      <Text size={18}>Active Users</Text>
+
+      <ActivityListContainer>
+        <For each={activities()}>
+          {activity => <PresenceItem presence={activity} />}
+        </For>
+      </ActivityListContainer>
+    </Show>
+  );
+};
+
+
+const PresenceItemContainer = styled(FlexRow)`
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+
+  padding: 4px;
+
+`;
+
+const PresenceItem = (props: { presence: Presence }) => {
+  const store = useStore();
+
+  const activity = () => props.presence.activity!;
+
+  const user = () => {
+    return store.users.get(props.presence.userId);
+  };
+
+  const icon = () => {
+    if (activity().action.startsWith("Listening")) return "music_note";
+    if (activity().action.startsWith("Watching")) return "movie";
+    return "games";
+  };
+  const imgSrc = () => {
+    if (!activity()?.imgSrc) return;
+    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(activity()?.imgSrc!)}/a`;
+
+  };
+
+  return (
+    <PresenceItemContainer>
+      <Show when={imgSrc()}>
+        <img src={imgSrc()} style={{ "aspect-ratio": "1/1", "height": "100%", "object-fit": "cover", "border-radius": "6px" }} />
+      </Show>
+
+      <div class={css`display: flex; flex-direction: column; gap: 2px; padding-left: 10px; padding-right: 10px;`}>
+        <div class={css`display: flex; gap: 8px; align-items: center;`} >
+          <Avatar user={user()} size={20} />
+          <Text>{user()?.username}</Text>
+        </div>
+
+
+        <span>
+          <Icon name={icon()} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
+          <Text size={14}> {props.presence.activity?.name}</Text>
+        </span> 
+        <Show when={activity().title}><Text size={14}> {activity().title}</Text></Show>
+      </div>
+
+
+    </PresenceItemContainer>
+  );
+};

@@ -200,7 +200,7 @@ const UserItem = () => {
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
-  const presenceColor = () => user() && userStatusDetail(user().presence?.status || 0).color;
+  const presenceColor = () => user() && userStatusDetail(user().presence()?.status || 0).color;
 
   const isAuthenticated = account.isAuthenticated;
   const authErrorMessage = account.authenticationError;
@@ -396,7 +396,7 @@ function PresenceDropDown() {
   const { account, users } = useStore();
   const user = () => users.get(account.user()?.id!);
 
-  const presenceStatus = () => userStatusDetail(user()?.presence?.status || 0);
+  const presenceStatus = () => userStatusDetail(user()?.presence()?.status || 0);
 
   const DropDownItems = UserStatuses.map((item, i) => {
     return {

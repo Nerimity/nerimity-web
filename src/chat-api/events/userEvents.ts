@@ -17,7 +17,7 @@ export function onUserPresenceUpdate(payload: { userId: string; status?: UserSta
 
   if (payload.status !== undefined && account.user()?.id === payload.userId) {
     const user = users.get(payload.userId);
-    const wasOffline = !user?.presence?.status && payload.status !== UserStatus.OFFLINE;
+    const wasOffline = !user?.presence()?.status && payload.status !== UserStatus.OFFLINE;
     if (wasOffline) {
       const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
       electronWindowAPI()?.restartActivityStatus(programs);

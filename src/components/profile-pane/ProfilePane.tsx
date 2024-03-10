@@ -675,7 +675,7 @@ const RichProgressBar = (props: { startedAt: number, endsAt: number }) => {
 const UserActivity = (props: { userId: string }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
-  const activity = () => user()?.presence?.activity;
+  const activity = () => user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
 
