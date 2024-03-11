@@ -294,11 +294,9 @@ const ActivityList = () => {
   const activities = () => {
     const presences = store.users.presencesArray();
     // sort by if activity img exists exists first
-    return presences.filter(p => p.activity).sort((a, b) => {
-      if (a.activity!.imgSrc && !b.activity!.imgSrc) return -1;
-      if (!a.activity!.imgSrc && b.activity!.imgSrc) return 1;
-      return 0;
-    });
+    return presences
+      .filter(p => p.activity)
+      .sort((a, b) => b.activity!.startedAt - a.activity!.startedAt);
   };
 
   return (
@@ -319,12 +317,10 @@ const PresenceItemContainer = styled(FlexRow)`
   background: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   display: flex;
-  align-items: center;
-
   padding: 4px;
   flex-shrink: 0;
 
-  max-width: 240px;
+  width: 240px;
   overflow: hidden;
 
 
@@ -353,8 +349,10 @@ const activityImageStyles = css`
 const activityDetailsStyles = css`
   display: flex; 
   flex-direction: column;
-  gap: 2px; padding-left: 10px;
+  gap: 2px; 
+  padding-left: 10px;
   padding-right: 10px;
+  margin-top: 4px;
   max-width: 180px;
   overflow: hidden;
   padding-top: 2px;
@@ -387,15 +385,15 @@ const PresenceItem = (props: { presence: Presence }) => {
 
         <div class={css`display: flex; gap: 8px; align-items: center;`} >
           <Avatar user={user()} size={20} />
-          <Text class={textOverflowHiddenStyles} size={14}>{user()?.username}</Text>
+          <Text class={textOverflowHiddenStyles} size={14} bold>{user()?.username}</Text>
         </div>
 
         <span class={textOverflowHiddenStyles}>
           <Icon name={getActivityIconName(activity())} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
-          <Text size={14}> {props.presence.activity?.name}</Text>
+          <Text size={14} opacity={0.7}> {props.presence.activity?.name}</Text>
         </span> 
 
-        <Show when={activity().title}><Text size={12} opacity={0.6} class={textOverflowHiddenStyles}> {activity().title}</Text></Show>
+        <Show when={activity().title}><Text size={12} opacity={0.7} class={textOverflowHiddenStyles}> {activity().title}</Text></Show>
       </div>
 
 

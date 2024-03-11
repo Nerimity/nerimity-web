@@ -686,12 +686,12 @@ const UserActivity = (props: { userId: string }) => {
           color="var(--primary-color)"
         />
         <FlexColumn style={{ flex: 1 }}>
-          <FlexRow gap={4}>
-            <Text size={14}>{activity()?.action}</Text>
+          <span >
+            <Text size={14}>{activity()?.action} </Text>
             <Text size={14} opacity={0.6}>
               {activity()?.name}
             </Text>
-          </FlexRow>
+          </span>
 
           <Show when={activity()?.imgSrc}>
             <div class={styles.richPresence}>
