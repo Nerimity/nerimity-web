@@ -44,6 +44,7 @@ import {copyToClipboard} from "@/common/clipboard";
 import {Notice} from "../ui/Notice/Notice";
 import {createTicket} from "@/chat-api/services/TicketService.ts";
 import env from "@/common/env";
+import { RichProgressBar, getActivityIconName } from "@/components/activity/Activity";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -629,49 +630,6 @@ function SideBar(props: { user: UserDetails }) {
   );
 }
 
-
-const RichProgressBar = (props: { startedAt: number, endsAt: number }) => {
-  const [playedFor, setPlayedFor] = createSignal("");
-
-  const endsAt = () => {
-    const diff = props.endsAt - props.startedAt;
-    return millisecondsToHhMmSs(diff, true);
-  };
-
-  createEffect(() => {
-    setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
-    const intervalId = setInterval(() => {
-      setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
-    }, 1000);
-
-    onCleanup(() => {
-      clearInterval(intervalId);
-    });
-  });
-
-  const percent = on(playedFor, () => {
-    const now = Date.now();
-    const start = now - props.startedAt;
-    const end = props.endsAt - props.startedAt;
-
-    return Math.round(start / end * 100);
-  });
-
-
-  return (
-    <div class={styles.richProgressBar}>
-      <div class={styles.progressDetails}>
-        <Text size={13} opacity={0.6}>{playedFor()}</Text>
-        <Text size={13} opacity={0.6}>{endsAt()}</Text>  
-      </div>
-      <div class={styles.progressBar}>
-        <div class={styles.progress} style={{width: `${percent(undefined)}%`}} />
-      </div>
-    </div>
-  );
-};
-
-
 const UserActivity = (props: { userId: string }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
@@ -683,12 +641,6 @@ const UserActivity = (props: { userId: string }) => {
   const isMusic = () =>  !!activity()?.action.startsWith("Listening") && !!activity()?.startedAt && !!activity()?.endsAt;
   const isVideo = () =>  !!activity()?.action.startsWith("Watching") && !!activity()?.startedAt && !!activity()?.endsAt;
 
-  const icon = () => {
-    if (activity()?.action.startsWith("Listening")) return "music_note";
-    if (activity()?.action.startsWith("Watching")) return "movie";
-
-    return "games";
-  };
 
   const imgSrc = () => {
     if (!activity()?.imgSrc) return;
@@ -729,7 +681,7 @@ const UserActivity = (props: { userId: string }) => {
           class={css`
             margin-top: 2px;
           `}
-          name={icon()}
+          name={getActivityIconName(activity()!)}
           size={18}
           color="var(--primary-color)"
         />

@@ -20,6 +20,7 @@ import { Delay } from "@/common/Delay";
 import { Presence } from "@/chat-api/store/useUsers";
 import Icon from "./ui/icon/Icon";
 import env from "@/common/env";
+import { getActivityIconName } from "@/components/activity/Activity";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -370,11 +371,6 @@ const PresenceItem = (props: { presence: Presence }) => {
     return store.users.get(props.presence.userId);
   };
 
-  const icon = () => {
-    if (activity().action.startsWith("Listening")) return "music_note";
-    if (activity().action.startsWith("Watching")) return "movie";
-    return "games";
-  };
   const imgSrc = () => {
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(activity()?.imgSrc!)}/a`;
@@ -395,7 +391,7 @@ const PresenceItem = (props: { presence: Presence }) => {
         </div>
 
         <span class={textOverflowHiddenStyles}>
-          <Icon name={icon()} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
+          <Icon name={getActivityIconName(activity())} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
           <Text size={14}> {props.presence.activity?.name}</Text>
         </span> 
 

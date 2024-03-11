@@ -8,7 +8,6 @@ import { useNavigate } from "solid-navigator";
 import { runWithContext } from "@/common/runWithContext";
 import env from "@/common/env";
 import useAccount from "./useAccount";
-import { createEffect } from "solid-js";
 
 export enum UserStatus {
   OFFLINE = 0,

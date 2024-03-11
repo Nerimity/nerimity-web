@@ -132,28 +132,6 @@
       margin-right: 2px;
     }
 
-    .richProgressBar{
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      .progressDetails {
-        display: flex;
-        justify-content: space-between;
-      }
-      .progressBar {
-        flex: 1;;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        overflow: hidden;
-      }
-      .progress {
-        height: 4px;
-        border-radius: 999999999px;
-        background-color: var(--primary-color);
-      }
-
-    }
-
   }
   .activityImg {
     width: 60px;

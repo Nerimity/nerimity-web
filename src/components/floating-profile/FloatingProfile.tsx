@@ -24,6 +24,7 @@ import { useLocation } from "solid-navigator";
 import env from "@/common/env";
 import { title } from "process";
 import { DangerousLinkModal } from "../ui/DangerousLinkModal";
+import { RichProgressBar, getActivityIconName } from "@/components/activity/Activity";
 
 
 
@@ -287,12 +288,6 @@ const UserActivity = (props: {userId: string}) => {
   const isMusic = () =>  !!activity()?.action.startsWith("Listening") && !!activity()?.startedAt && !!activity()?.endsAt;
   const isVideo = () =>  !!activity()?.action.startsWith("Watching") && !!activity()?.startedAt && !!activity()?.endsAt;
 
-  const icon = () => {
-    if (activity()?.action.startsWith("Listening")) return "music_note";
-    if (activity()?.action.startsWith("Watching")) return "movie";
-    return "games";
-  };
-
   createEffect(on(activity, () => {
     if (!activity()) return;
 
@@ -320,7 +315,7 @@ const UserActivity = (props: {userId: string}) => {
   return (
     <Show when={activity()}>
       <div class={styles.userActivityContainer}>
-        <Icon class={styles.icon} name={icon()} size={14} color='var(--primary-color)' />
+        <Icon class={styles.icon} name={getActivityIconName(activity()!)} size={14} color='var(--primary-color)' />
 
         <div class={styles.activityInfo}>
           <div class={styles.activityInfoRow}>
@@ -344,47 +339,6 @@ const UserActivity = (props: {userId: string}) => {
     </Show>
   );
 
-};
-
-const RichProgressBar = (props: { startedAt: number, endsAt: number }) => {
-  const [playedFor, setPlayedFor] = createSignal("");
-
-  const endsAt = () => {
-    const diff = props.endsAt - props.startedAt;
-    return millisecondsToHhMmSs(diff, true);
-  };
-
-  createEffect(() => {
-    setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
-    const intervalId = setInterval(() => {
-      setPlayedFor(calculateTimeElapsedForActivityStatus(props.startedAt, true));
-    }, 1000);
-
-    onCleanup(() => {
-      clearInterval(intervalId);
-    });
-  });
-
-  const percent = on(playedFor, () => {
-    const now = Date.now();
-    const start = now - props.startedAt;
-    const end = props.endsAt - props.startedAt;
-
-    return Math.round(start / end * 100);
-  });
-
-
-  return (
-    <div class={styles.richProgressBar}>
-      <div class={styles.progressDetails}>
-        <Text size={13} opacity={0.6}>{playedFor()}</Text>
-        <Text size={13} opacity={0.6}>{endsAt()}</Text>  
-      </div>
-      <div class={styles.progressBar}>
-        <div class={styles.progress} style={{width: `${percent(undefined)}%`}} />
-      </div>
-    </div>
-  );
 };
 
 

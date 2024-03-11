@@ -5,6 +5,7 @@ import { userStatusDetail } from "@/common/userStatus";
 import useStore from "@/chat-api/store/useStore";
 import { Markup } from "../Markup";
 import Icon from "../ui/icon/Icon";
+import { getActivityIconName } from "@/components/activity/Activity";
 
 
 const UserPresence = (props: { userId: string, showOffline: boolean, animate?: boolean, hideActivity?: boolean }) => {
@@ -25,12 +26,6 @@ const UserPresence = (props: { userId: string, showOffline: boolean, animate?: b
     return true;
   };
 
-  const icon = () => {
-    if (activity()?.action.startsWith("Listening")) return "music_note";
-    if (activity()?.action.startsWith("Watching")) return "movie";
-    return "games";
-  };
-
   const name = () => {
     return <Switch fallback={statusDetails()?.name}>
       <Match when={activity()}>
@@ -47,7 +42,7 @@ const UserPresence = (props: { userId: string, showOffline: boolean, animate?: b
     <Show when={show()}>
       <div class={styles.userPresence}>
         <Show when={activity()} fallback={<div title={statusDetails().name} class={classNames(styles.dot, styles[statusDetails()?.id])} />}>
-          <Icon name={icon()} size={14} color={statusDetails().color} />
+          <Icon name={getActivityIconName(activity()!)} size={14} color={statusDetails().color} />
         </Show>
         <div class={styles.value}>{name()}</div>
       </div>
