@@ -129,7 +129,7 @@ function PostsContainer() {
 
   return (
     <FlexColumn>
-      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px" }}>Posts</Text>
+      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px", "margin-top": "20px" }}>Posts</Text>
       <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "5px", height: "28px" }}>
 
         <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "FEED"} onclick={() => setSelectedTab("FEED")}>
@@ -188,7 +188,7 @@ function ServerList() {
 
   return (
     <FlexColumn>
-      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px" }}>Servers</Text>
+      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px", "margin-top": "20px" }}>Servers</Text>
       <ServerListContainer ref={serverListEl} onwheel={onWheel}>
         <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
         <For each={servers.orderedArray()}>
