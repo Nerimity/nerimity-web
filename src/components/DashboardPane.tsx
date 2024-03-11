@@ -4,7 +4,7 @@ import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A } from "solid-navigator";
+import { A, useNavigate } from "solid-navigator";
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
@@ -182,7 +182,6 @@ function ServerList() {
     if (!serverListEl) return;
     event.preventDefault();
 
-    const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
 
     serverListEl.scrollLeft -= event.wheelDelta;
   };
@@ -262,7 +261,16 @@ const ActivityListContainer = styled(FlexRow)`
   display: flex;
   gap: 8px;
   height: 80px;
+  margin-left: 5px;
+  margin-right: 5px;
+  overflow: auto;
 
+  scroll-behavior: smooth;
+
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
 `;
 
@@ -270,17 +278,33 @@ const ActivityListContainer = styled(FlexRow)`
 
 const ActivityList = () => {
   const store = useStore();
+  let activityListEl: undefined | HTMLDivElement;
+
+
+  const onWheel = (event: any) => {
+    if (!activityListEl) return;
+    event.preventDefault();
+
+
+    activityListEl.scrollLeft -= event.wheelDelta;
+  };
+
 
   const activities = () => {
     const presences = store.users.presencesArray();
-    return presences.filter(p => p.activity);
+    // sort by if activity img exists exists first
+    return presences.filter(p => p.activity).sort((a, b) => {
+      if (a.activity!.imgSrc && !b.activity!.imgSrc) return -1;
+      if (!a.activity!.imgSrc && b.activity!.imgSrc) return 1;
+      return 0;
+    });
   };
 
   return (
     <Show when={activities().length}>
-      <Text size={18}>Active Users</Text>
+      <Text size={18}  style={{ "margin-left": "5px" }}>Active Users</Text>
 
-      <ActivityListContainer>
+      <ActivityListContainer onwheel={onWheel} ref={activityListEl}>
         <For each={activities()}>
           {activity => <PresenceItem presence={activity} />}
         </For>
@@ -297,10 +321,47 @@ const PresenceItemContainer = styled(FlexRow)`
   align-items: center;
 
   padding: 4px;
+  flex-shrink: 0;
+
+  max-width: 240px;
+  overflow: hidden;
+
+
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
 
 `;
 
+const textOverflowHiddenStyles = css`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
+const activityImageStyles = css`
+  aspect-ratio: 1/1;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  background: black;
+`;
+
+const activityDetailsStyles = css`
+  display: flex; 
+  flex-direction: column;
+  gap: 2px; padding-left: 10px;
+  padding-right: 10px;
+  max-width: 180px;
+  overflow: hidden;
+  padding-top: 2px;
+  padding-bottom: 2px;
+`;
+
 const PresenceItem = (props: { presence: Presence }) => {
+  const navigate = useNavigate();
   const store = useStore();
 
   const activity = () => props.presence.activity!;
@@ -321,23 +382,24 @@ const PresenceItem = (props: { presence: Presence }) => {
   };
 
   return (
-    <PresenceItemContainer>
+    <PresenceItemContainer onClick={() => navigate(RouterEndpoints.PROFILE(props.presence.userId))} >
       <Show when={imgSrc()}>
-        <img src={imgSrc()} style={{ "aspect-ratio": "1/1", "height": "100%", "object-fit": "cover", "border-radius": "6px" }} />
+        <img src={imgSrc()} class={activityImageStyles} />
       </Show>
 
-      <div class={css`display: flex; flex-direction: column; gap: 2px; padding-left: 10px; padding-right: 10px;`}>
+      <div class={activityDetailsStyles}>
+
         <div class={css`display: flex; gap: 8px; align-items: center;`} >
           <Avatar user={user()} size={20} />
-          <Text>{user()?.username}</Text>
+          <Text class={textOverflowHiddenStyles} size={14}>{user()?.username}</Text>
         </div>
 
-
-        <span>
+        <span class={textOverflowHiddenStyles}>
           <Icon name={icon()} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
           <Text size={14}> {props.presence.activity?.name}</Text>
         </span> 
-        <Show when={activity().title}><Text size={14}> {activity().title}</Text></Show>
+
+        <Show when={activity().title}><Text size={12} opacity={0.6} class={textOverflowHiddenStyles}> {activity().title}</Text></Show>
       </div>
 
 
