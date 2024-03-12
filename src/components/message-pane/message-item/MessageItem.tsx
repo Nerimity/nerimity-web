@@ -470,6 +470,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
     await initializeGoogleDrive();
   });
 
+  // eslint-disable-next-line solid/reactivity
   createEffect(async () => {
     if (!googleApiInitialized()) return;
     const file = await getFile(props.attachment.fileId!, "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata").catch((e) => console.log(e));
@@ -510,7 +511,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
         <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
         <Show when={file() && !error()}>
           <Show when={!playVideo()}>
-            <Show when={file()?.thumbnailLink}><img style={{ width: "100%", height: "100%", "object-fit": "contain" }} src={file()?.thumbnailLink} alt="" /></Show>
+            {/* <Show when={file()?.thumbnailLink}><img crossorigin="anonymous" style={{ width: "100%", height: "100%", "object-fit": "contain" }} src={file()?.thumbnailLink} alt="" /></Show> */}
             <div onClick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
               <div class={styles.playButton}>
                 <Icon name='play_arrow' color='var(--primary-color)' size={28} />
@@ -518,7 +519,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
             </div>
           </Show>
           <Show when={playVideo()}>
-            <video style={{ width: "100%", height: "100%", "object-fit": "contain" }} autoplay src={file()?.webContentLink!} controls />
+            <video crossorigin="anonymous" style={{ width: "100%", height: "100%", "object-fit": "contain" }} autoplay src={`https://drive.lienuc.com/uc?id=${props.attachment.fileId}`} controls />
           </Show>
         </Show>
       </div>
@@ -606,6 +607,7 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
     if (!fileItem) return;
 
     audio = new Audio();
+    audio.crossOrigin = "anonymous";
     
     audio.onloadedmetadata = () => {
       setPreloaded(true);
@@ -615,7 +617,7 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
       setPlaying(false);
     };
 
-    audio.src = fileItem.webContentLink!;
+    audio.src = `https://drive.lienuc.com/uc?id=${props.attachment.fileId}`;
   });
   createEffect(() => {
     if (!preloaded()) return;
