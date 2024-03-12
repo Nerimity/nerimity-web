@@ -1,7 +1,7 @@
 import { playMessageNotification } from "@/common/Sound";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { batch } from "solid-js";
-import { RawMessage } from "../RawData";
+import { FriendStatus, RawMessage } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels from "../store/useChannels";
 import useHeader from "../store/useHeader";
@@ -12,6 +12,7 @@ import socketClient from "../socketClient";
 import { createDesktopNotification } from "@/common/desktopNotification";
 import useServerMembers from "../store/useServerMembers";
 import { ROLE_PERMISSIONS } from "../Bitwise";
+import useFriends from "../store/useFriends";
 
 
 
@@ -25,10 +26,12 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
   const users = useUsers();
   const account = useAccount();
   const channel = channels.get(payload.message.channelId);
+  const friends = useFriends();
   const {hasFocus} = useWindowProperties();
 
   const accountUser = account.user();
 
+  const hasBlockedRecipient = friends.get(payload.message.createdBy.id)?.status === FriendStatus.BLOCKED;
 
   batch(() => {
 
@@ -48,6 +51,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
     const mentionCount = () => mentions.get(payload.message.channelId)?.count || 0;
 
     const isMentioned = () => {
+      if (hasBlockedRecipient) return false;
       const everyoneMentioned = payload.message.content?.includes("[@:e]");
       if (everyoneMentioned && channel?.serverId) {
         const member = members.get(channel.serverId, payload.message.createdBy.id);
@@ -79,6 +83,7 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
   //   it does not have focus (has focus)
   //   channel is not selected (is selected)
   if (payload.message.createdBy.id !== accountUser?.id) {
+    if (hasBlockedRecipient) return;
     const isChannelSelected = header.details().id === "MessagePane" && header.details().channelId === payload.message.channelId;
     if (hasFocus() && isChannelSelected) return;
     playMessageNotification({message: payload.message, serverId: channel?.serverId});

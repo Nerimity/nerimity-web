@@ -60,6 +60,11 @@ const sendRequest = async (username: string, tag: string) => {
   const friend = await addFriend({username, tag});
 };
 
+const hasBeenBlockedByMe = (userId: string) => {
+  const friend = friends[userId];
+  return friend?.status === FriendStatus.BLOCKED;
+};
+
 
 const array = () => Object.values(friends);
 
@@ -70,7 +75,8 @@ export default function useFriends() {
     set,
     delete: deleteFriend,
     updateStatus,
-    sendRequest
+    sendRequest,
+    hasBeenBlockedByMe
   };
 }
 

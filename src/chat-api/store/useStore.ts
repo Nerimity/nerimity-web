@@ -14,8 +14,29 @@ import { usePosts } from "./usePosts";
 import useVoiceUsers from "./useVoiceUsers";
 import useTicket from "./UseTicket";
 
+interface Store {
+  account: ReturnType<typeof useAccount>;
+  serverMembers: ReturnType<typeof useServerMembers>;
+  servers: ReturnType<typeof useServers>;
+  users: ReturnType<typeof useUsers>;
+  channels: ReturnType<typeof useChannels>;
+  header: ReturnType<typeof useHeader>;
+  messages: ReturnType<typeof useMessages>;
+  friends: ReturnType<typeof useFriends>;
+  inbox: ReturnType<typeof useInbox>;
+  mentions: ReturnType<typeof useMention>;
+  serverRoles: ReturnType<typeof useServerRoles>;
+  channelProperties: ReturnType<typeof useChannelProperties>;
+  posts: ReturnType<typeof usePosts>;
+  voiceUsers: ReturnType<typeof useVoiceUsers>;
+  tickets: ReturnType<typeof useTicket>;
+
+}
+
+let store: Store | null = null;
 
 export default function useStore() {
+  if (store) return store;
   const account = useAccount();
   const serverMembers = useServerMembers();
   const servers = useServers();
@@ -33,8 +54,7 @@ export default function useStore() {
 
   const tickets = useTicket();
 
-
-  return {
+  const obj = {
     account,
     servers,
     serverMembers,
@@ -50,5 +70,9 @@ export default function useStore() {
     posts,
     voiceUsers,
     tickets
-  };
+  } satisfies Store;
+
+  store = obj;
+
+  return obj;
 }

@@ -34,6 +34,7 @@ import { getFile, googleApiInitialized, initializeGoogleDrive } from "@/common/d
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
+import { classList } from "solid-js/web";
 
 
 interface FloatingOptionsProps {
@@ -124,12 +125,13 @@ const Details = (props: DetailsProps) => (
 const MessageItem = (props: MessageItemProps) => {
 
   const params = useParams();
-  const { serverMembers, servers, account } = useStore();
+  const { serverMembers, servers, account, friends } = useStore();
   const [hovered, setHovered] = createSignal(false);
   const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.message.createdBy.id) : undefined;
 
   const isServerCreator = () => params.serverId ? servers.get(params.serverId)?.createdById === props.message.createdBy.id : undefined;
   const {createPortal} = useCustomPortal();
+
 
 
 
@@ -146,6 +148,11 @@ const MessageItem = (props: MessageItemProps) => {
 
   const [isMentioned, setIsMentioned] = createSignal(false);
   const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false); // @someone
+  const [blockedMessage, setBlockedMessage] = createSignal(false);
+
+  createEffect(() => {
+    setBlockedMessage(friends.hasBeenBlockedByMe(props.message.createdBy.id));
+  });
 
 
   const hasPermissionToMentionEveryone = () => {
@@ -193,11 +200,11 @@ const MessageItem = (props: MessageItemProps) => {
       id={`message-${props.message.id}`}
     >
       <Show when={!props.hideFloating}><FloatOptions reactionPickerClick={props.reactionPickerClick} quoteClick={props.quoteClick} showContextMenu={props.contextMenu} isCompact={isCompact()} message={props.message} /></Show>
-      <Switch>
+      <Switch fallback={<Show when={blockedMessage()}><div onClick={() => setBlockedMessage(false)} class={classNames(styles.blockedMessage, conditionalClass(isCompact(), styles.compact))}>You have blocked this user. Click to show.</div></Show>}>
         <Match when={isSystemMessage()}>
           <SystemMessage message={props.message} />
         </Match>
-        <Match when={!isSystemMessage()}>
+        <Match when={!isSystemMessage() && !blockedMessage()}>
           <Show when={!isCompact()}>
             <A onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={classNames(styles.avatar, "trigger-profile-flyout")}>
               <Avatar animate={hovered()} user={props.message.createdBy} size={40} resize={96} />
