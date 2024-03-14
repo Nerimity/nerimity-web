@@ -60,6 +60,8 @@ import { t } from "i18next";
 import { Trans } from "@mbarzda/solid-i18next";
 import ItemContainer from "./ui/Item";
 import { Skeleton } from "./ui/skeleton/Skeleton";
+import { Notice } from "./ui/Notice/Notice";
+import env from "@/common/env";
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -88,16 +90,12 @@ function NewPostArea(props: { postId?: string }) {
   const { posts } = useStore();
   const [content, setContent] = createSignal("");
   const { isPortalOpened } = useCustomPortal();
-  const [attachedFile, setAttachedFile] = createSignal<File | undefined>(
-    undefined
-  );
-  const [fileBrowserRef, setFileBrowserRef] = createSignal<
-    undefined | FileBrowserRef
-  >();
+  const [attachedFile, setAttachedFile] = createSignal<File | undefined>(undefined);
+  const [fileBrowserRef, setFileBrowserRef] = createSignal<undefined | FileBrowserRef>();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
-  const [textAreaEl, setTextAreaEl] = createSignal<
-    undefined | HTMLTextAreaElement
-  >(undefined);
+  const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
+
+  const [inputFocused, setInputFocused] = createSignal(false);
 
   onMount(() => {
     document.addEventListener("paste", onPaste);
@@ -145,11 +143,20 @@ function NewPostArea(props: { postId?: string }) {
     setContent(textAreaEl()!.value);
   };
 
+
+  const hasContentOrFocused = () => (inputFocused() || content().length);
   return (
     <NewPostContainer>
+      <Show when={hasContentOrFocused()}>
+        <Notice type="warn" class={css`margin-top: 10px; margin-bottom: -6px;`} description={`Self-harm content is not allowed on ${env.APP_NAME}.`} />
+      </Show>
       <Input
         maxLength={500}
         margin={[10, 0, 10, 0]}
+        onBlur={() => setInputFocused(false)}
+        onFocus={() => setInputFocused(true)}
+        minHeight={hasContentOrFocused() ? 60: undefined}
+        
         ref={setTextAreaEl}
         placeholder={
           props.postId

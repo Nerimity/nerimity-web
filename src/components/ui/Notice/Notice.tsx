@@ -46,7 +46,7 @@ export function Notice(props: NoticeProps) {
 
   return (
     <div class={classNames(styles.noticeContainer, props.class)} style={style}>
-      <Icon color={typeMeta.borderColor} size={24} name={typeMeta.icon} />
+      <Icon color={typeMeta.borderColor} size={20} name={typeMeta.icon} />
       <div class={styles.noticeDescription}>{props.description}</div>
       {props.children}
     </div>
