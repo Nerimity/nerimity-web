@@ -161,6 +161,12 @@ export default function UserPage() {
             <BreadcrumbItem href={"../../"} icon='home' title="Moderation" />
             <BreadcrumbItem title={user()?.username} icon="person" />
           </Breadcrumb>
+
+          <Show when={user()}>
+            <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
+          </Show>
+
+
           <SettingsBlock label="Email" icon="email">
             <Input value={inputValues().email} onText={v => setInputValue("email", v)} />
           </SettingsBlock>
@@ -207,9 +213,7 @@ export default function UserPage() {
           <UsersWithSameIPAddress userId={user()?.id!}/>
           <UserServersList userId={user()?.id!} servers={user()?.servers!} />
 
-          <Show when={user()}>
-            <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
-          </Show>
+
 
         </UserPageInnerContainer>
       </UserPageContainer>
@@ -284,8 +288,29 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
     return formatTimestamp(props.user.suspension.expireAt); 
   };
 
+  const suspendedAt = () => {
+    return formatTimestamp(props.user.suspension?.suspendedAt!);
+  };
+
+  const Description = () => (
+    <span>
+      <Text size={12} opacity={0.8}>By </Text>
+      <Text size={12} opacity={0.6}>{props.user.suspension?.suspendBy.username}</Text>
+
+      <br/>
+
+      <Text size={12} opacity={0.8}>At </Text>
+      <Text size={12} opacity={0.6}>{suspendedAt()}</Text>
+
+      <br/>
+
+      <Text size={12} opacity={0.8}> Expires</Text>
+      <Text size={12} opacity={0.6}> {expiredAt()}</Text>
+    </span>
+  );
+
   return (
-    <>
+    <div class={css`margin-bottom: 10px;`}>
       <Show when={!props.user?.suspension}>
         <SettingsBlock icon='block' label='Suspend' description={`Deny this user to access ${env.APP_NAME}`}>
           <Button onClick={showSuspendModal} label="Suspend" color="var(--alert-color)" primary />
@@ -293,10 +318,10 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
       </Show>
 
       <Show when={props.user?.suspension}>
-        <SettingsBlock icon='block' label={`Suspended for: ${props.user.suspension?.reason}` }  description={`Expires: ${expiredAt()}`}>
+        <SettingsBlock icon='block' label={`Suspended for: ${props.user.suspension?.reason}` }  description={<Description/>}>
           <Button onClick={showUnsuspendModal} label="Unsuspend" color="var(--alert-color)" primary />
         </SettingsBlock>
       </Show>
-    </>
+    </div>
   );
 }

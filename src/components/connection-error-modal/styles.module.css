@@ -1,7 +1,8 @@
 .connectionErrorContainer {
-  max-width: 250px;
+  max-width: 450px;
   margin: 6px;
   margin-top: 0;
+  word-break: break-word;
 }
 
 .message {
@@ -11,4 +12,10 @@
 .messageDim {
   font-size: 16px;
   opacity: 0.6;
+}
+
+.suspendContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

@@ -237,6 +237,7 @@ export interface ModerationSuspension {
   expireAt?: number | null
   reason?: string
   suspendedAt: number
+  suspendBy: RawUser
 }
 
 export const updateUser = async (userId: string, update: {email?: string, username?: string, tag?: string}) => {

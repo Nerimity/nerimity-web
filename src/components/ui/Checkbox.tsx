@@ -4,7 +4,7 @@ import Icon from "./icon/Icon";
 import Text from "./Text";
 import { classNames, conditionalClass } from "@/common/classNames";
 
-interface CheckboxProps {
+export interface CheckboxProps {
   checked: boolean
   onChange?: (checked: boolean) => void
   disableLocalUpdate?: boolean

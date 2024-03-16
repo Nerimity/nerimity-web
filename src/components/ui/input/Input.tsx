@@ -19,6 +19,7 @@ interface Props {
   height?: number;
   minHeight?: number;
   prefix?: string;
+  suffix?: string;
   placeholder?: string;
   ref?: (el: HTMLInputElement | HTMLTextAreaElement) => void; 
   margin?: number | number[]
@@ -65,9 +66,14 @@ const CustomTextArea = styled("textarea")`
 `;
 
 const PrefixLabel = styled(Text)`
-  padding-top: 12px;
+  padding-top: 10px;
   padding-left: 10px;
   margin-right: -10px;
+`;
+
+const SuffixLabel = styled(Text)`
+  padding-top: 10px;
+  padding-right: 10px;
 `;
 
 const InputContainer = styled(FlexRow)<{focused: boolean}>`
@@ -144,6 +150,7 @@ export default function Input(props: Props) {
         <Show when={props.prefix}><PrefixLabel opacity={0.6} onmousedown={focus} size={12}>{props.prefix}</PrefixLabel></Show>
         <Show when={props.type === "textarea"}><CustomTextArea maxlength={props.maxLength} placeholder={props.placeholder} style={{ "min-height": props.minHeight ? `${props.minHeight}px` : undefined, height: `${props.height}px`}} ref={inputEl}  onfocus={onFocus} onblur={onBlur} onInput={onChange} value={props.value || ""} /></Show>
         <Show when={props.type !== "textarea"}><CustomInput maxlength={props.maxLength} placeholder={props.placeholder} ref={inputEl} onfocus={onFocus} onblur={onBlur} onInput={onChange} type={props.type || "text"} value={props.value || ""} /></Show>
+        <Show when={props.suffix}><SuffixLabel opacity={0.6} onmousedown={focus} size={12}>{props.suffix}</SuffixLabel></Show>
       </InputContainer>
       <Show when={error()}><ErrorLabel color="var(--alert-color)">{error()}</ErrorLabel></Show>
     </Base>

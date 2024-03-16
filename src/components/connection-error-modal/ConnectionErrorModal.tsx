@@ -10,12 +10,13 @@ import { FlexRow } from "../ui/Flexbox";
 import Modal from "../ui/modal/Modal";
 import Text from "../ui/Text";
 
-export const ConnectionErrorModal = (props: {close: () => void}) => {
+export const ConnectionErrorModal = (props: {close: () => void, suspensionPreview?: {reason?: string, expire?: number}}) => {
   const { account } = useStore();
   const navigate = useNavigate();
   const err = () => account.authenticationError()!;
 
   const logout = () => {
+    if (props.suspensionPreview) return;
     localStorage.clear();
     navigate("/");
     props.close();
@@ -43,7 +44,7 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
       <div class={styles.connectionErrorContainer}>
         <Switch fallback={<div class={styles.message}>{err()?.message}</div>}>
           <Match when={!hasToken()}><div class={styles.message}>No token provided.</div></Match>
-          <Match when={err()?.data?.type === "suspend"}><SuspendMessage {...err().data} /></Match>
+          <Match when={err()?.data?.type === "suspend" || props.suspensionPreview}><SuspendMessage {...(err()?.data || props.suspensionPreview)} /></Match>
           <Match when={err()?.data?.type === "ip-ban"}><IPBanMessage {...err().data} /></Match>
         </Switch>
       </div>
@@ -53,11 +54,11 @@ export const ConnectionErrorModal = (props: {close: () => void}) => {
 
 function SuspendMessage(props: {reason?: string; expire?: number;}) {
   return (
-    <>
+    <div class={styles.suspendContainer}>
       <div class={styles.message}>You are suspended.</div>
       <div class={styles.message}>Reason: <span class={styles.messageDim}>{props.reason || "Violating the TOS"}</span></div>
       <div class={styles.message}>Until: <span class={styles.messageDim}>{props.expire ? formatTimestamp(props.expire) : "never"}</span></div>
-    </>
+    </div>
   );
 }
 function IPBanMessage(props: {reason?: string; expire?: number;}) {
