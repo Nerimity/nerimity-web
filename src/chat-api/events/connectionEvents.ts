@@ -10,6 +10,7 @@ import { StorageKeys, getStorageObject } from "@/common/localStorage";
 import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
+import { localRPC } from "@/common/LocalRPC";
 
 
 export const onConnect = (socket: Socket, token?: string) => {
@@ -81,6 +82,14 @@ electronWindowAPI()?.rpcChanged((data) => {
   }
   emitActivityStatus({startedAt: Date.now(), ...data });
 });
+
+
+localRPC.onUpdateRPC = data => {
+  if (!data) {
+    emitActivityStatus(null);
+  }
+  emitActivityStatus({startedAt: Date.now(), ...data });
+};
 
 
 
@@ -205,4 +214,5 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   if (isExperimentEnabled("RPC_SERVER")) {
     electronWindowAPI()?.restartRPCServer();
   }
+  localRPC.start();
 };

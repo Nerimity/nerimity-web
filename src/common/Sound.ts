@@ -31,7 +31,6 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
 
   const notificationSoundMode = !opts?.serverId ? undefined : account.getCombinedNotificationSettings(opts.serverId, opts.message?.channelId)?.notificationSoundMode;
 
-  console.log(notificationSoundMode);
   if (notificationSoundMode === ServerNotificationSoundMode.MUTE) return;
   
   if (opts?.message) {

@@ -12,6 +12,14 @@ export type ProgramWithAction = Program & {
   action: string
 }
 
+export interface RPC {
+  name: string;
+  action: string;
+  imgSrc?: string;
+  title?: string;
+  startedAt?: number;
+}
+
 interface WindowAPI {
   isElectron: boolean;
   minimize(): void;
@@ -32,7 +40,7 @@ interface WindowAPI {
   activityStatusChanged(callback: (window: {filename: string, createdAt: number} | false) => void): void;
 
   restartRPCServer(): void;
-  rpcChanged(callback: (data: {name: string; action: string; imgSrc?: string; title?: string; startedAt?: number} | false) => void): void;
+  rpcChanged(callback: (data: RPC | false) => void): void;
   relaunchApp(): void;
 
 
