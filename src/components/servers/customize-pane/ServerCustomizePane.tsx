@@ -1,9 +1,9 @@
 import styles from "./styles.module.scss";
 
 import { useParams } from "solid-navigator";
-import { For, Setter, Show, createEffect, createSignal, on, onMount } from "solid-js";
+import { For, Setter, Show, batch, createEffect, createSignal, on, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import { addAnswerToMember, getWelcomeQuestions, removeAnswerFromMember } from "@/chat-api/services/ServerService";
+import { addAnswerToMember, getWelcomeQuestions, removeAnswerFromMember, updateWelcomeQuestion } from "@/chat-api/services/ServerService";
 import { RawServerWelcomeAnswer, RawServerWelcomeQuestion } from "@/chat-api/RawData";
 import Checkbox from "@/components/ui/Checkbox";
 import Icon from "@/components/ui/icon/Icon";
@@ -11,17 +11,19 @@ import Text from "@/components/ui/Text";
 import Button from "@/components/ui/Button";
 import { CustomLink } from "@/components/ui/CustomLink";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import { RadioBoxItem } from "@/components/ui/RadioBox";
+import { SetStoreFunction, createStore, reconcile } from "solid-js/store";
 
 export default function Pane() {
   const params = useParams<{serverId: string}>();
   const { header } = useStore();
 
-  const [questions, setQuestions] = createSignal<RawServerWelcomeQuestion[]>([]);
+  const [questions, setQuestions] = createStore<RawServerWelcomeQuestion[]>([]);
 
 
   createEffect(on(() => params.serverId, async () => {
     const questions = await getWelcomeQuestions(params.serverId!);
-    setQuestions(questions);
+    setQuestions(reconcile(questions));
   }));
 
   onMount(() => {
@@ -36,7 +38,7 @@ export default function Pane() {
     <>
       <div class={styles.pane}>  
         <WelcomeMessage/>
-        <QuestionList questions={questions()} updateQuestions={setQuestions} />
+        <QuestionList questions={questions} updateQuestions={setQuestions} />
       </div>
       <ContinueFooter/>
     </>
@@ -56,82 +58,79 @@ const WelcomeMessage = () => {
   );
 };
 
-const QuestionList = (props: {questions: RawServerWelcomeQuestion[], updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
+const QuestionList = (props: {questions: RawServerWelcomeQuestion[], updateQuestions: SetStoreFunction<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.questionList}>
-      <For each={props.questions.sort((a, b) => a.order - b.order)}>
-        {(question) => <QuestionItem question={question} updateQuestions={props.updateQuestions} />}
+      <For each={props.questions.toSorted((a, b) => a.order - b.order)}>
+        {(question) => <QuestionItem questions={props.questions} question={question} updateQuestions={props.updateQuestions} />}
       </For>
     </div>
   );
 };
 
-const QuestionItem = (props: {question: RawServerWelcomeQuestion; updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
+const QuestionItem = (props: {question: RawServerWelcomeQuestion; questions: RawServerWelcomeQuestion[], updateQuestions: SetStoreFunction<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.questionItem}>
       <div>{props.question.title}</div>
-      <Show when={props.question.answers.length}><AnswerList updateQuestions={props.updateQuestions} multiselect={props.question.multiselect} answers={props.question.answers}/></Show>
+      <Show when={props.question.answers.length}><AnswerList questions={props.questions} updateQuestions={props.updateQuestions} multiselect={props.question.multiselect} answers={props.question.answers}/></Show>
     </div>
   );
 };
 
-const AnswerList = (props: {answers: RawServerWelcomeAnswer[], multiselect: boolean, updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
+const AnswerList = (props: {answers: RawServerWelcomeAnswer[], multiselect: boolean, questions: RawServerWelcomeQuestion[], updateQuestions: SetStoreFunction<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.answerList}>
-      <For each={props.answers.sort((a, b) => a.order - b.order)}>
-        {(answer) => <AnswerItem answer={answer} multiselect={props.multiselect} updateQuestions={props.updateQuestions} />}
+      <For each={props.answers.toSorted((a, b) => a.order - b.order)}>
+        {(answer) => <AnswerItem questions={props.questions} answer={answer} multiselect={props.multiselect} updateQuestions={props.updateQuestions} />}
       </For>
     </div>
   );
 };
 
-const AnswerItem = (props: {answer: RawServerWelcomeAnswer, multiselect: boolean, updateQuestions: Setter<RawServerWelcomeQuestion[]>}) => {
+const AnswerItem = (props: {answer: RawServerWelcomeAnswer, questions: RawServerWelcomeQuestion[], multiselect: boolean, updateQuestions: SetStoreFunction<RawServerWelcomeQuestion[]>}) => {
   const params = useParams<{serverId: string}>();
   const onChange = async (newVal: boolean) => {
     if (newVal) {
       await addAnswerToMember(params.serverId, props.answer.id);
       if (!props.multiselect) {
-        props.updateQuestions(prev => {
-          
-          return prev.map(q => {
-            if (q.id !== props.answer.questionId) {
-              return q;
-            }
-            return {
-              ...q,
-              answers: q.answers.map(a => ({
-                ...a,
-                answered: a.id === props.answer.id
-              }))
-            };
-          });
+
+        const index = props.questions.findIndex(q => q.id === props.answer.questionId);
+
+        if (index === -1) return;
+
+        const answers = props.questions[index]?.answers!;
+
+
+        batch(() => {
+          for (let i = 0; i < answers.length; i++) {
+            const answer = answers[i];
+            props.updateQuestions(index, "answers", i, "answered", answer?.id === props.answer.id);
+          }
         });
       }
     }
     else {
       await removeAnswerFromMember(params.serverId, props.answer.id);
       if (!props.multiselect) {
-        props.updateQuestions(prev => {
-          
-          return prev.map(q => {
-            if (q.id !== props.answer.questionId) {
-              return q;
-            }
-            return {
-              ...q,
-              answers: q.answers.map(a => ({
-                ...a,
-                answered: false
-              }))
-            };
-          });
+
+        const index = props.questions.findIndex(q => q.id === props.answer.questionId);
+
+        if (index === -1) return;
+
+        const answers = props.questions[index]?.answers!;
+
+        batch(() => {
+          for (let i = 0; i < answers.length; i++) {
+            props.updateQuestions(index, "answers", i, "answered", false);
+          }
         });
       }
     }
   };
   return (
     <div class={styles.answerItem}>
-      <Checkbox onChange={onChange} checked={props.answer.answered} labelSize={14} label={props.answer.title} class={styles.checkbox} />
+      <Show when={!props.multiselect}><RadioBoxItem onClick={() => onChange(!props.answer.answered)} selected={props.answer.answered} item={{label: props.answer.title, id: props.answer.id}} labelSize={14} class={styles.radioBox} /></Show>
+      <Show when={props.multiselect}><Checkbox onChange={onChange} checked={props.answer.answered} labelSize={14} label={props.answer.title} class={styles.checkbox} /></Show>
       <Show when={props.answer._count.answeredUsers}><UserCount count={props.answer._count.answeredUsers}/></Show>
     </div>
   );

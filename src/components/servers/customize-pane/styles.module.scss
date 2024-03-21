@@ -38,6 +38,12 @@
   .checkbox {
     flex: 1;
   }
+  .radioBox {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    flex: 1;
+  }
   .userCount {
     display: flex;
     align-items: center;
