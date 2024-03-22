@@ -18,7 +18,7 @@ import Icon from "../ui/icon/Icon";
 import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import { Banner } from "../ui/Banner";
-import { timeSince } from "@/common/date";
+import { getDaysAgo, timeSince } from "@/common/date";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Modal from "../ui/modal/Modal";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
@@ -212,6 +212,12 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
   });
 
 
+  const bumpedUnder24Hours = () => {
+    const millisecondsSinceLastBump = new Date().getTime() - props.publicServer.bumpedAt;
+    return millisecondsSinceLastBump < 24 * 60 * 60 * 1000;
+  };
+
+
 
   return (
     <ServerItemContainer class="serverItemContainer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
@@ -241,7 +247,7 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
       </ButtonsContainer>
       <FlexRow style={{ "align-items": "center", "margin-left": "auto", "margin-right": "10px", "margin-bottom": "8px" }} gap={5}>
         <Icon name='schedule' size={14} color='rgba(255,255,255,0.4)' />
-        <Text size={12} color='rgba(255,255,255,0.4)'>Last bumped {timeSince(props.publicServer.bumpedAt)}</Text>
+        <Text size={12} color='rgba(255,255,255,0.4)'>Bumped {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(props.publicServer.bumpedAt)}</Text>
       </FlexRow>
     </ServerItemContainer>
   );
