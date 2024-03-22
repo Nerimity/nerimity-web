@@ -51,7 +51,7 @@ const ServerSettingsHeader = () => {
 
   return (
     <Show when={server()}>
-      <Banner maxHeight={200} animate url={serverSettingsHeaderPreview.banner || bannerUrl(server()!)} hexColor={server()?.hexColor}>
+      <Banner maxHeight={250} animate url={serverSettingsHeaderPreview.banner || bannerUrl(server()!)} hexColor={server()?.hexColor}>
         <HeaderContainer>
           <Avatar animate url={serverSettingsHeaderPreview.avatar} server={server()} size={width() <= 1100 ? 70 : 100} class={avatarStyles} />
           <DetailsContainer>

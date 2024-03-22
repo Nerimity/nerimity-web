@@ -136,7 +136,7 @@ export default function ProfilePane() {
       <div class={styles.profilePane}>
         <div class={styles.topArea}>
           <Banner
-            maxHeight={200}
+            maxHeight={250}
             animate
             margin={0}
             hexColor={user()?.hexColor}

@@ -109,7 +109,7 @@ const SettingsHeader = () => {
 
   return (
     <Show when={user()}>
-      <Banner maxHeight={200} animate hexColor={user()?.hexColor} url={settingsHeaderPreview.banner || bannerUrl(user()!)}>
+      <Banner maxHeight={250} animate hexColor={user()?.hexColor} url={settingsHeaderPreview.banner || bannerUrl(user()!)}>
         <HeaderContainer>
           <Avatar animate user={account.user()!} size={avatarSize()} class={avatarStyles}>
             {settingsHeaderPreview.avatar  ? <CustomAvatar ref={setAvatarEl} cropPosition={cropPosition()} style={{background: `url("${settingsHeaderPreview.avatar}")`}} /> : null}

@@ -8,7 +8,7 @@ const ExplorePaneContainer = styled("div")`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   align-self: center;
 `;
 

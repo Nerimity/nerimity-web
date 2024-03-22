@@ -148,7 +148,7 @@ export default function UserPage() {
     <Show when={user()} keyed>
       <UserPageContainer>
         <UserPageInnerContainer>
-          <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={200} animate url={bannerUrl(user()!)} hexColor={user()!.hexColor}>
+          <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={250} animate url={bannerUrl(user()!)} hexColor={user()!.hexColor}>
             <UserBannerContainer>
               {user() && <Avatar animate user={user()!} size={width() <= 1100 ? 70 : 100} />}
               <UserBannerDetails>

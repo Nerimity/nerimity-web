@@ -61,7 +61,7 @@ export default function ServerPage() {
     <Show when={server()}>
       <ServerPageContainer>
         <ServerPageInnerContainer>
-          <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={200} animate url={bannerUrl(server()!)} hexColor={server()!.hexColor}>
+          <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={250} animate url={bannerUrl(server()!)} hexColor={server()!.hexColor}>
             <ServerBannerContainer>
               {server && <Avatar animate server={server()!} size={width() <= 1100 ? 70 : 100} />}
               <ServerBannerDetails>

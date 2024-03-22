@@ -93,7 +93,7 @@ const ServerPage = (props: { server: ServerWithMemberCount, inviteCode?: string 
   return (
 
     <div class={styles.topArea}>
-      <Banner maxHeight={200} animate url={bannerUrl(server)} hexColor={server.hexColor}>
+      <Banner maxHeight={250} animate url={bannerUrl(server)} hexColor={server.hexColor}>
         <div class={styles.bannerItems}>
           {server && <Avatar server={server} size={width() <= 1100 ? 70 : 100} />}
           <div class={styles.details}>
@@ -105,16 +105,16 @@ const ServerPage = (props: { server: ServerWithMemberCount, inviteCode?: string 
       <Switch>
         <Match when={!isLoggedIn}>
           <A href={RouterEndpoints.LOGIN(location.pathname)} class={styles.joinButton}>
-            <Button iconName='login' label='Login To Join' />
+            <Button margin={0} iconName='login' label='Login To Join' />
           </A>
         </Match>
         <Match when={cacheServer()}>
           <A href={RouterEndpoints.SERVER_MESSAGES(server.id, server.defaultChannelId)} class={styles.joinButton}>
-            <Button iconName='login' label='Visit Server' />
+            <Button margin={0} iconName='login' label='Visit Server' />
           </A>
         </Match>
         <Match when={!cacheServer()}>
-          <Button class={styles.joinButton} iconName='login' label='Join Server' onClick={joinServerClick} color="var(--success-color)" />
+          <Button margin={0} class={styles.joinButton} iconName='login' label='Join Server' onClick={joinServerClick} color="var(--success-color)" />
         </Match>
       </Switch>
     </div>

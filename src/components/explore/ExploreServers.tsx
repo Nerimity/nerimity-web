@@ -23,6 +23,8 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Modal from "../ui/modal/Modal";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import env from "@/common/env";
+import { CustomLink } from "../ui/CustomLink";
+import { Skeleton } from "../ui/skeleton/Skeleton";
 
 const Container = styled("div")`
   display: flex;
@@ -34,7 +36,7 @@ const Container = styled("div")`
 const GridLayout = styled("div")`
   display: grid;
   grid-gap: 16px;
-  grid-template-columns: repeat(auto-fill,minmax(248px,1fr));
+  grid-template-columns: repeat(auto-fill,minmax(290px,1fr));
 `;
 
 export default function ExploreServers() {
@@ -52,6 +54,7 @@ export default function ExploreServers() {
   });
 
   createEffect(() => {
+    setPublicServers(null);
     getPublicServers(query().sort as any, query().filter as any).then(servers => {
       setPublicServers(servers);
     });
@@ -77,30 +80,34 @@ export default function ExploreServers() {
 
   return (
     <Container>
-      <Show when={publicServers()}>
-        <FlexRow gap={10}>
-          <DropDown title='Sort' items={sortOpts} selectedId="most_members" onChange={i => setQuery({ ...query(), sort: i.id })} />
-          <DropDown title='Filter' items={filterOpts} selectedId="verified" onChange={i => setQuery({ ...query(), filter: i.id })} />
-        </FlexRow>
-        <Notice type='info' description={t("explore.servers.noticeMessage", { hours: "3", date: "Monday at 0:00 UTC" })} />
-        <Notice class={css`margin-bottom: 10px;`} type='warn' description="Servers are not moderated by Nerimity. Please report servers that break the TOS." />
-        <GridLayout>
-          <For each={publicServers()}>
-            {(server, i) => <PublicServerItem update={newServer => update(newServer, i())} publicServer={server} />}
+
+      <FlexRow gap={10}>
+        <DropDown title='Sort' items={sortOpts} selectedId="most_members" onChange={i => setQuery({ ...query(), sort: i.id })} />
+        <DropDown title='Filter' items={filterOpts} selectedId="verified" onChange={i => setQuery({ ...query(), filter: i.id })} />
+      </FlexRow>
+      <Notice type='info' description={t("explore.servers.noticeMessage", { hours: "3", date: "Monday at 0:00 UTC" })} />
+      <Notice class={css`margin-bottom: 10px;`} type='warn' description="Servers are not moderated by Nerimity. Please report servers that break the TOS." />
+      <GridLayout>
+        <Show when={!publicServers()}>
+          <For each={Array(20).fill(null)}>
+            {() => <Skeleton.Item height="334px" width='100%' />}
           </For>
-        </GridLayout>
-      </Show>
+        </Show>
+        <For each={publicServers()}>
+          {(server, i) => <PublicServerItem update={newServer => update(newServer, i())} publicServer={server} />}
+        </For>
+      </GridLayout>
+
     </Container>
   );
 }
 
 
 const ServerItemContainer = styled(FlexColumn)`
-  padding: 5px;
   background: rgba(255,255,255,0.04);
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
   border-radius: 8px;
-  max-height: 300px;
+  max-height: 400px;
 `;
 const DetailsContainer = styled(FlexColumn)`
   white-space: nowrap;
@@ -110,10 +117,14 @@ const DetailsContainer = styled(FlexColumn)`
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 0;
+  padding-left: 6px;
+  padding-right: 6px;
+  flex-shrink: 0;
 `;
 
 const MemberContainer = styled(FlexRow)`
   align-items: center;
+  flex-shrink: 0;
 `;
 
 const serverNameStyles = css`
@@ -132,24 +143,27 @@ const avatarStyles = css`
 `;
 
 const descriptionStyles = css`
-  margin-top: 3px;
+  margin-top: 6px;
   word-break: break-word;
   white-space: pre-line;
+  flex-shrink: 0;
 
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 
 `;
 
 const ButtonsContainer = styled(FlexRow)`
   margin-top: auto;
-  padding-top: 5px;
+  padding-top: 10px;
+  padding-bottom: 4px;
   margin-left: auto;
+  margin-right: 4px;
   flex-shrink: 0;
 `;
 
@@ -201,11 +215,11 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
 
   return (
     <ServerItemContainer class="serverItemContainer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <Banner margin={0} animate={hovered()} class={css`width: 100%; flex-shrink: initial;`} maxHeight={100} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
+      <Banner margin={0} radius={6} animate={hovered()} class={css`width: 100%;`} maxHeight={130} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
       <Avatar class={avatarStyles} animate={hovered()} server={server} size={60} />
       <DetailsContainer class='detailsContainer' gap={1}>
-        <FlexRow style={{ "align-items": "center" }} gap={5}>
-          <Text class={serverNameStyles} size={18}>{server.name}</Text>
+        <FlexRow style={{ "align-items": "center", "margin-bottom": "4px" }} gap={5}>
+          <Text class={serverNameStyles} size={18} bold>{server.name}</Text>
           <Show when={server.verified}><ServerVerifiedIcon /></Show>
         </FlexRow>
         <MemberContainer gap={5}>
@@ -219,15 +233,15 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
           </FlexRow>
         </MemberContainer>
       </DetailsContainer>
-      <Text class={descriptionStyles} size={14} opacity={0.7}>{props.publicServer.description}</Text>
+      <Text class={descriptionStyles} size={12} opacity={0.6}>{props.publicServer.description}</Text>
       <ButtonsContainer>
         <Button padding={8} iconSize={18} onClick={bumpClick} iconName='arrow_upward' label={t("explore.servers.bumpButton", { count: props.publicServer.bumpCount.toLocaleString() })} />
         <Show when={cacheServer()}><A style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(cacheServer()!.id, cacheServer()!.defaultChannelId)}><Button padding={8} iconSize={18} iconName='login' label={t("explore.servers.visitServerButton")} /></A></Show>
         <Show when={!cacheServer()}><Button padding={8} iconSize={18} onClick={joinServerClick} iconName='login' label={t("explore.servers.joinServerButton")} /></Show>
       </ButtonsContainer>
-      <FlexRow style={{ "align-items": "center", "margin-left": "auto", "margin-right": "5px" }} gap={5}>
-        <Icon name='schedule' size={14} color='rgba(255,255,255,0.8)' />
-        <Text size={12} color='rgba(255,255,255,0.6)'>Last bumped {timeSince(props.publicServer.bumpedAt)}</Text>
+      <FlexRow style={{ "align-items": "center", "margin-left": "auto", "margin-right": "10px", "margin-bottom": "8px" }} gap={5}>
+        <Icon name='schedule' size={14} color='rgba(255,255,255,0.4)' />
+        <Text size={12} color='rgba(255,255,255,0.4)'>Last bumped {timeSince(props.publicServer.bumpedAt)}</Text>
       </FlexRow>
     </ServerItemContainer>
   );
