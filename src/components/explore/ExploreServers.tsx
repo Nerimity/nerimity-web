@@ -215,7 +215,7 @@ function PublicServerItem(props: { publicServer: RawPublicServer, update: (newSe
 
   return (
     <ServerItemContainer class="serverItemContainer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <Banner margin={0} radius={6} animate={hovered()} class={css`width: 100%;`} maxHeight={130} url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
+      <Banner margin={0} radius={6} animate={hovered()} class={css`width: 100%;`}  url={bannerUrl(props.publicServer.server!)} hexColor={props.publicServer.server?.hexColor} />
       <Avatar class={avatarStyles} animate={hovered()} server={server} size={60} />
       <DetailsContainer class='detailsContainer' gap={1}>
         <FlexRow style={{ "align-items": "center", "margin-bottom": "4px" }} gap={5}>
