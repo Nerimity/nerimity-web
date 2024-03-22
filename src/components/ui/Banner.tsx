@@ -64,8 +64,8 @@ export function Banner(props: {radius?: number; brightness?: number; class?: str
 
   return (
     <BannerContainer radius={props.radius || 8} class={props.class} style={getStyles()}>
-      <Show when={url()}><BannerImage radius={props.radius || 8} brightness={props.brightness} src={url()} alt="Banner"/></Show>
-      <Show when={!url()}><SolidColor radius={props.radius || 8} brightness={props.brightness} color={props.hexColor!} /></Show>
+      <Show when={url()}><BannerImage class="banner-inner" radius={props.radius || 8} brightness={props.brightness} src={url()} alt="Banner"/></Show>
+      <Show when={!url()}><SolidColor class="banner-inner" radius={props.radius || 8} brightness={props.brightness} color={props.hexColor!} /></Show>
       {props.children}
     </BannerContainer>
   );
