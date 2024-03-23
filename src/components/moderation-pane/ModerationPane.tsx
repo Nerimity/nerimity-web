@@ -107,7 +107,6 @@ const itemStyles = css`
   display: flex;
   flex-shrink: 0;
   gap: 5px;
-  align-items: center;
   padding: 5px;
   padding-left: 10px;
   border-radius: 8px;
@@ -579,12 +578,12 @@ export function User(props: { user: any }) {
     >
       <Checkbox checked={selected()} onChange={onCheckChanged} />
       <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
-        <Avatar animate={hovered()} user={props.user} size={28} />
+        <Avatar animate={hovered()} user={props.user} size={28} class={css`margin-top: 2px;`} />
       </CustomLink>
       <ItemDetailContainer class="details">
         <FlexRow>
-          <Text>{props.user.username}</Text>
-          <Text opacity={0.6}>:{props.user.tag}</Text>
+          <Text size={14}>{props.user.username}</Text>
+          <Text size={14} opacity={0.6}>:{props.user.tag}</Text>
         </FlexRow>
         <FlexRow gap={3} itemsCenter>
           <Text size={12} opacity={0.6}>
@@ -764,6 +763,8 @@ function AuditLogPane() {
 }
 
 function AuditLogItem(props: { auditLog: AuditLog }) {
+
+  const [expanded, setExpanded] = createSignal(false);
   const created = formatTimestamp(props.auditLog.createdAt);
   const by = props.auditLog.actionBy;
 
@@ -807,6 +808,14 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         };
       default:
         return { icon: "texture", color: "gray", title: "Unknown Action" };
+    }
+  };
+
+  const isExpandable = () => {
+    switch (props.auditLog.actionType) {
+      case AuditLogType.userSuspend:
+        return true;
+      default: return false;
     }
   };
 
@@ -906,23 +915,29 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Text>
         </FlexRow>
 
-        <Show when={props.auditLog.reason}>
-          <FlexRow gap={3}>
-            <Text size={12} opacity={0.6}>
+        <Show when={expanded()}>
+          <Show when={props.auditLog.reason}>
+            <FlexRow gap={3}>
+              <Text size={12} opacity={0.6} >
               Reason:{" "}
-            </Text>
-            <Text size={12}>{props.auditLog.reason}</Text>
-          </FlexRow>
-        </Show>
-        <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
-          <FlexRow gap={3}>
-            <Text size={12} opacity={0.6}>
+              </Text>
+              <Text size={12} style={{"white-space": "initial"}}>{props.auditLog.reason}</Text>
+            </FlexRow>
+          </Show>
+          <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
+            <FlexRow gap={3}>
+              <Text size={12} opacity={0.6}>
               Expires{" "}
-            </Text>
-            <Text size={12}>{expireAt}</Text>
-          </FlexRow>
+              </Text>
+              <Text size={12}>{expireAt}</Text>
+            </FlexRow>
+          </Show>
         </Show>
+        
       </ItemDetailContainer>
+      <Show when={isExpandable()}>
+        <Button padding={4} margin={0} styles={{"margin-left": "auto", "align-self": "start"}} iconName="arrow_drop_down" onClick={() => setExpanded(!expanded())}/>
+      </Show>
     </div>
   );
 }
