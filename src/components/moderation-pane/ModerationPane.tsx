@@ -50,6 +50,7 @@ import { Notice } from "../ui/Notice/Notice";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { TicketPage } from "../settings/TicketSettings";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { classNames } from "@/common/classNames";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -83,7 +84,8 @@ const PaneContainer = styled("div")`
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
-  padding: 10px;
+  overflow: hidden;
+
   flex-shrink: 0;
   margin: 5px;
   margin-left: 10px;
@@ -92,13 +94,13 @@ const PaneContainer = styled("div")`
 `;
 
 const UserPaneContainer = styled(PaneContainer)`
-  flex: 1;
+
 `;
 
 const ListContainer = styled("div")`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+
   margin-top: 10px;
   overflow: auto;
 `;
@@ -108,12 +110,16 @@ const itemStyles = css`
   flex-shrink: 0;
   gap: 5px;
   padding: 5px;
-  padding-left: 10px;
-  border-radius: 8px;
+  padding-left: 16px;
   cursor: pointer;
   transition: 0.2s;
   text-decoration: none;
   color: white;
+
+  border-top: solid 1px rgba(0,0,0,0.4);
+  padding-top: 10px;
+  padding-bottom: 10px;
+
   .checkbox {
     margin-right: 10px;
   }
@@ -385,11 +391,11 @@ function UsersPane() {
     <UserPaneContainer class="pane users">
       <Input
         placeholder="Search"
-        margin={[0, 0, 10, 30]}
+        margin={[10, 10, 10, 30]}
         onText={onSearchText}
         value={search()}
       />
-      <FlexRow gap={5} itemsCenter>
+      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px"}}>
         <Button
           iconName="add"
           iconSize={14}
@@ -436,7 +442,7 @@ function OnlineUsersPane() {
 
   return (
     <UserPaneContainer class="pane users">
-      <FlexRow gap={5} itemsCenter>
+      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px", "padding-top": "10px"}}>
         <Button
           iconName="add"
           iconSize={14}
@@ -519,12 +525,12 @@ function ServersPane() {
     <PaneContainer class="pane servers">
       <Input
         placeholder="Search"
-        margin={[0, 0, 10, 30]}
+        margin={[10, 10, 10, 30]}
         onText={onSearchText}
         value={search()}
       />
 
-      <FlexRow gap={5} itemsCenter>
+      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px"}}>
         <Button
           iconName="add"
           iconSize={14}
@@ -550,7 +556,7 @@ function ServersPane() {
   );
 }
 
-export function User(props: { user: any }) {
+export function User(props: { user: any, class?: string }) {
   const joined = formatTimestamp(props.user.joinedAt);
   const [hovered, setHovered] = createSignal(false);
 
@@ -574,7 +580,7 @@ export function User(props: { user: any }) {
       onMouseOut={() => setHovered(false)}
       href={`/app/moderation/users/${props.user.id}`}
       onclick={onLinkClick}
-      class={itemStyles}
+      class={classNames(itemStyles, props.class)}
     >
       <Checkbox checked={selected()} onChange={onCheckChanged} />
       <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
@@ -736,7 +742,7 @@ function AuditLogPane() {
 
   return (
     <PaneContainer class="pane servers">
-      <FlexRow gap={5} itemsCenter>
+      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px", "padding-top": "10px"}}>
         <Button
           iconName="add"
           iconSize={14}
@@ -936,7 +942,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         
       </ItemDetailContainer>
       <Show when={isExpandable()}>
-        <Button padding={4} margin={0} styles={{"margin-left": "auto", "align-self": "start"}} iconName="arrow_drop_down" onClick={() => setExpanded(!expanded())}/>
+        <Button padding={4} margin={[0,6,0,0]} styles={{"margin-left": "auto", "align-self": "start"}} iconName="arrow_drop_down" onClick={() => setExpanded(!expanded())}/>
       </Show>
     </div>
   );

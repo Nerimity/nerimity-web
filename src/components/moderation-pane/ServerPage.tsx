@@ -77,7 +77,7 @@ export default function ServerPage() {
 
           <div style={{display: "flex", "flex-direction": "column", gap: "4px", "margin-bottom": "10px"}}>
             <Text size={14} style={{"margin-left": "45px"}}>Created By</Text>
-            <User user={server()?.createdBy} />
+            <User  user={server()?.createdBy} class={css`border: none; border-radius: 6px; background: rgba(255, 255, 255, 0.05);`} />
           </div>
 
 

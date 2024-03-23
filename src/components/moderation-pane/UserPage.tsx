@@ -227,7 +227,7 @@ const UsersWithSameIPAddressContainer = styled(FlexColumn)`
   margin-bottom: 10px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  padding: 5px;
+
 `;
 
 
@@ -240,7 +240,7 @@ const UsersWithSameIPAddress = (props: {userId: string}) => {
 
   return (
     <FlexColumn>
-      <SettingsBlock icon="dns" header label="Users With Same IP Address"  />
+      <SettingsBlock icon="dns" borderBottomRadius={false} label="Users With Same IP Address"  />
       <UsersWithSameIPAddressContainer>
         <For each={users()}>
           {user => <User user={user} />}
@@ -262,7 +262,7 @@ const UserServersList = (props: {userId: string; servers: RawServer & { createdB
 
   return (
     <FlexColumn>
-      <SettingsBlock icon="dns" header label="Joined Servers"  />
+      <SettingsBlock icon="dns" borderBottomRadius={false} label="Joined Servers"  />
       <UsersWithSameIPAddressContainer>
         <For each={sortOwnedFirst()}>
           {server => <Server server={server} />}
