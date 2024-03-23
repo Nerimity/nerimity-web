@@ -824,7 +824,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       class={itemStyles}
-      style={{cursor: "initial"}}
+      style={{cursor: "initial", overflow: "hidden"}}
     >
       <Avatar animate={hovered()} class={avatarStyle} user={by} size={28} />
       <ItemDetailContainer class="details">
