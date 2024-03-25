@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
-
 :root {
   --background-color: hsl(216deg 9% 8%);
   --primary-color: #4c93ff;
@@ -21,8 +19,8 @@ body {
   padding: 0;
   margin: 0;
   background: var(--background-color);
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
+  font-family: sans-serif;
+  font-weight: 300;
   color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,7 +28,7 @@ body {
 }
 
 textarea {
-  font-family: 'Inter', sans-serif;
+  font-family: sans-serif;
 }
 
 #root {
