@@ -23,12 +23,14 @@ import {
   ModerationSuspension,
   ModerationUser,
   searchServers,
-  searchUsers
+  searchUsers,
+  getPosts,
+  searchPosts
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
-import { A, Outlet, useMatch } from "solid-navigator";
-import { RawServer, RawUser, TicketStatus } from "@/chat-api/RawData";
+import { A, Outlet, useMatch, useSearchParams } from "solid-navigator";
+import { RawPost, RawServer, RawUser, TicketStatus } from "@/chat-api/RawData";
 import Button from "../ui/Button";
 import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
@@ -269,6 +271,7 @@ function ModerationPage() {
           <OnlineUsersPane />
         </UserColumn>
         <ServersPane />
+        <PostsPane />
       </ModerationPaneContainer>
       <Show when={selectedUsers().length}>
         <SelectedUserActions />
@@ -944,6 +947,174 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
       <Show when={isExpandable()}>
         <Button padding={4} margin={[0,6,0,0]} styles={{"margin-left": "auto", "align-self": "start"}} iconName="arrow_drop_down" onClick={() => setExpanded(!expanded())}/>
       </Show>
+    </div>
+  );
+}
+
+
+
+
+
+
+function PostsPane() {
+  const LIMIT = 30;
+  const [posts, setPosts] = createSignal<RawPost[]>([]);
+  const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
+  const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+  const [search, setSearch] = createSignal("");
+
+  const [showAll, setShowAll] = createSignal(false);
+
+  createEffect(
+    on(afterId, async () => {
+      if (search() && afterId()) {
+        return fetchSearch();
+      }
+      fetchPosts();
+    })
+  );
+
+  const onLoadMoreClick = () => {
+    const post = posts()[posts().length - 1];
+    setAfterId(post?.id);
+  };
+
+  const firstFive = () => posts().slice(0, 5);
+
+  let timeout: number | null = null;
+  const onSearchText = (text: string) => {
+    setSearch(text);
+    timeout && clearTimeout(timeout);
+    timeout = window.setTimeout(() => {
+      setAfterId(undefined);
+      setPosts([]);
+      if (!search().trim()) {
+        fetchPosts();
+        return;
+      }
+      setShowAll(true);
+      fetchSearch();
+    }, 1000);
+  };
+
+  const fetchSearch = () => {
+    setLoadMoreClicked(true);
+    searchPosts(search(), LIMIT, afterId())
+      .then((newPosts) => {
+        setPosts([...posts(), ...newPosts.toReversed()]);
+        if (newPosts.length >= LIMIT) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false));
+  };
+
+  const fetchPosts = () => {
+    setLoadMoreClicked(true);
+    getPosts(LIMIT, afterId())
+      .then((newPosts) => {
+        setPosts([...posts(), ...newPosts.toReversed()]);
+        if (newPosts.length >= LIMIT) setLoadMoreClicked(false);
+      })
+      .catch(() => setLoadMoreClicked(false));
+  };
+
+  return (
+    <PaneContainer class="pane posts">
+      <Input
+        placeholder="Search"
+        margin={[10, 10, 10, 30]}
+        onText={onSearchText}
+        value={search()}
+      />
+
+      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px"}}>
+        <Button
+          iconName="add"
+          iconSize={14}
+          padding={4}
+          onClick={() => setShowAll(!showAll())}
+        />
+        <Text>Posts</Text>
+      </FlexRow>
+
+      <ListContainer class="list">
+        <For each={!showAll() ? firstFive() : posts()}>
+          {(post) => <Post post={post} />}
+        </For>
+        <Show when={showAll() && !loadMoreClicked()}>
+          <Button
+            iconName="refresh"
+            label="Load More"
+            onClick={onLoadMoreClick}
+          />
+        </Show>
+      </ListContainer>
+    </PaneContainer>
+  );
+}
+
+
+export function Post(props: { post: RawPost }) {
+  const created = formatTimestamp(props.post.createdAt);
+  const createdBy = props.post.createdBy;
+  const [hovered, setHovered] = createSignal(false);
+  const [searchParams, setSearchParams] = useSearchParams<{ postId?: string }>();
+
+
+  return (
+    <div
+      onMouseOver={() => setHovered(true)}
+      onMouseOut={() => setHovered(false)}
+      onClick={() => setSearchParams({ postId: props.post.id })}
+      class={itemStyles}
+    >
+      <Avatar
+        animate={hovered()}
+        class={avatarStyle}
+        user={createdBy}
+        size={28}
+      />
+      <ItemDetailContainer class="details">
+        <Show when={props.post.attachments?.length}><Icon style={{"vertical-align": "-2px", "margin-right": "4px"}} size={14} name="image" color="rgba(255,255,255,0.6)" /></Show>
+        <Text size={14}>
+          {props.post.content}
+        </Text>
+        <FlexRow gap={3}>
+          <Text size={12} opacity={0.6}>
+            Created:
+          </Text>
+          <Text size={12}>{created}</Text>
+        </FlexRow>
+        <FlexRow gap={3}>
+          <Text size={12} opacity={0.6}>
+            Created By:
+          </Text>
+          <Text size={12}>
+            <A
+              class={linkStyle}
+              href={`/app/moderation/users/${createdBy.id}`}
+            >
+              {createdBy.username}:{createdBy.tag}
+            </A>
+          </Text>
+        </FlexRow>
+
+        <Show when={props.post.commentTo}>
+          <FlexRow gap={3}>
+            <Text size={12} opacity={0.6}>
+              Replying To:
+            </Text>
+            <Text size={12}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.post.commentTo?.createdBy.id}`}
+              >
+                {props.post.commentTo?.createdBy.username}:{props.post.commentTo?.createdBy.username}
+              </A>
+            </Text>
+          </FlexRow>
+        </Show>
+
+      </ItemDetailContainer>
     </div>
   );
 }

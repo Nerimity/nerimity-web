@@ -58,6 +58,34 @@ export const getServers = async (limit: number, afterId?: string) => {
   });
   return data;
 };
+export const getPosts = async (limit: number, afterId?: string) => {
+  const data = await request<any[]>({
+    method: "GET",
+    params: {
+      ...(afterId ? {after: afterId} : undefined),
+      limit
+    },
+    url: env.SERVER_URL + "/api/moderation/posts",
+    useToken: true
+  });
+  return data;
+};
+
+export const searchPosts = async (query: string, limit: number, afterId?: string) => {
+  const data = await request<any[]>({
+    method: "GET",
+    params: {
+      q: query,
+      ...(afterId ? {after: afterId} : undefined),
+      limit
+    },
+    url: env.SERVER_URL + "/api/moderation/posts/search",
+    useToken: true
+  });
+  return data;
+};
+
+
 
 export const getUsers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
