@@ -1163,7 +1163,7 @@ export function Post(props: { post: RawPost, onDelete?: (postId: string) => void
                 class={linkStyle}
                 href={`/app/moderation/users/${props.post.commentTo?.createdBy.id}`}
               >
-                {props.post.commentTo?.createdBy.username}:{props.post.commentTo?.createdBy.username}
+                {props.post.commentTo?.createdBy.username}:{props.post.commentTo?.createdBy.tag}
               </A>
             </Text>
           </FlexRow>
