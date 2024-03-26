@@ -23,6 +23,7 @@ import env from "@/common/env";
 import Text from "../ui/Text";
 import { RawServer, RawUser } from "@/chat-api/RawData";
 import { Server, User } from "./ModerationPane";
+import EditUserSuspensionModal from "./EditUserSuspensionModal";
 
 
 const UserPageContainer = styled(FlexColumn)`
@@ -278,6 +279,10 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
   const showSuspendModal = () => {
     createPortal?.(close => <SuspendUsersModal done={(suspension) => props.setUser({ ...props.user!, suspension })} close={close} users={[props.user]} />);
   };
+  const showEditModal = () => {
+    createPortal?.(close => <EditUserSuspensionModal done={(suspension) => props.setUser({ ...props.user!, suspension })} close={close} user={props.user} suspension={props.user.suspension} />);
+  };
+
   const showUnsuspendModal = () => {
     createPortal?.(close => <UnsuspendUsersModal done={() => props.setUser({ ...props.user!, suspension: undefined })} close={close} users={[props.user]} />);
   };
@@ -319,7 +324,10 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
 
       <Show when={props.user?.suspension}>
         <SettingsBlock icon='block' label={`Suspended for: ${props.user.suspension?.reason}` }  description={<Description/>}>
-          <Button onClick={showUnsuspendModal} label="Unsuspend" color="var(--alert-color)" primary />
+          <FlexColumn gap={4}>
+            <Button onClick={showEditModal} label="Edit" margin={0} />
+            <Button onClick={showUnsuspendModal} label="Unsuspend" color="var(--alert-color)" primary margin={0} />
+          </FlexColumn>
         </SettingsBlock>
       </Show>
     </div>

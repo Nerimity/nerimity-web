@@ -225,6 +225,19 @@ export const suspendUsers = async (confirmPassword: string, userIds: string[], d
   });
   return data;
 };
+export const editSuspendUsers = async (confirmPassword: string, userIds: string[], update: {days?: number, reason?: string}) => {
+  const data = await request<any[]>({
+    method: "PATCH",
+    body: {
+      userIds,
+      ...update,
+      password: confirmPassword
+    },
+    url: env.SERVER_URL + "/api/moderation/users/suspend",
+    useToken: true
+  });
+  return data;
+};
 
 export const unsuspendUsers = async (confirmPassword: string, userIds: string[]) => {
   const data = await request<any[]>({
