@@ -857,6 +857,20 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
 
+          <Show when={props.auditLog.actionType === AuditLogType.userSuspendUpdate}>
+            <Text size={14} >
+              Updated Suspension for {" "}
+            </Text>
+            <Text size={14}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.auditLog.userId}`}
+              >
+                {props.auditLog.username}
+              </A>
+            </Text>
+          </Show>
+
 
           <Show when={props.auditLog.actionType === AuditLogType.postDelete}>
             <Text size={14} >

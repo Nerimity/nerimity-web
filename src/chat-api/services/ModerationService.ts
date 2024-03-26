@@ -146,7 +146,8 @@ export const AuditLogType = {
   userUpdate: 2,
   serverDelete: 3,
   serverUpdate: 4,
-  postDelete: 5
+  postDelete: 5,
+  userSuspendUpdate: 6
 } as const;
 
 export interface AuditLog {
