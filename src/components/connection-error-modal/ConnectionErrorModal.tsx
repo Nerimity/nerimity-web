@@ -10,7 +10,7 @@ import { FlexRow } from "../ui/Flexbox";
 import Modal from "../ui/modal/Modal";
 import Text from "../ui/Text";
 
-export const ConnectionErrorModal = (props: {close: () => void, suspensionPreview?: {reason?: string, expire?: number}}) => {
+export const ConnectionErrorModal = (props: {close: () => void, suspensionPreview?: {reason?: string, expire?: number, by?: {username: string}}}) => {
   const { account } = useStore();
   const navigate = useNavigate();
   const err = () => account.authenticationError()!;
@@ -52,12 +52,13 @@ export const ConnectionErrorModal = (props: {close: () => void, suspensionPrevie
   );
 };
 
-function SuspendMessage(props: {reason?: string; expire?: number;}) {
+function SuspendMessage(props: {reason?: string; expire?: number; by?: {username: string};}) {
   return (
     <div class={styles.suspendContainer}>
       <div class={styles.message}>You are suspended.</div>
       <div class={styles.message}>Reason: <span class={styles.messageDim}>{props.reason || "Violating the TOS"}</span></div>
       <div class={styles.message}>Until: <span class={styles.messageDim}>{props.expire ? formatTimestamp(props.expire) : "never"}</span></div>
+      <div class={styles.message}>By: <span class={styles.messageDim}>{props.by?.username}</span></div>
     </div>
   );
 }

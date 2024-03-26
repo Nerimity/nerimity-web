@@ -118,7 +118,7 @@ export default function SuspendUsersModal(props: Props) {
     const r = compiledReason() || undefined;
 
 
-    createPortal(close => <ConnectionErrorModal close={close} suspensionPreview={{expire: expireAt, reason: r}} />);
+    createPortal(close => <ConnectionErrorModal close={close} suspensionPreview={{expire: expireAt, reason: r, by: {username: store.account.user()!.username}}} />);
   };
 
   const ActionButtons = (
