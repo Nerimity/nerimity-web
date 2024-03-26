@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:light,regular,medium,thin,italic,mediumitalic,bold');
+
+
 :root {
   --background-color: hsl(216deg 9% 8%);
   --primary-color: #4c93ff;
@@ -19,7 +22,7 @@ body {
   padding: 0;
   margin: 0;
   background: var(--background-color);
-  font-family: sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 300;
   color: white;
   -webkit-font-smoothing: antialiased;
@@ -28,7 +31,7 @@ body {
 }
 
 textarea {
-  font-family: sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 #root {
