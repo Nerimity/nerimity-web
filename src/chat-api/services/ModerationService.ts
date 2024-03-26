@@ -86,6 +86,19 @@ export const searchPosts = async (query: string, limit: number, afterId?: string
 };
 
 
+export const deletePosts = async (confirmPassword: string, postIds: string[]) => {
+  const data = await request<any[]>({
+    method: "POST",
+    body: {
+      postIds,
+      password: confirmPassword
+    },
+    url: env.SERVER_URL + "/api/moderation/posts/delete",
+    useToken: true
+  });
+  return data;
+};
+
 
 export const getUsers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
@@ -132,7 +145,8 @@ export const AuditLogType = {
   userUnsuspend: 1,
   userUpdate: 2,
   serverDelete: 3,
-  serverUpdate: 4
+  serverUpdate: 4,
+  postDelete: 5
 } as const;
 
 export interface AuditLog {

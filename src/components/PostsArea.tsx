@@ -21,7 +21,7 @@ import useStore from "@/chat-api/store/useStore";
 import { User, avatarUrl } from "@/chat-api/store/useUsers";
 import { formatTimestamp, timeSince } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A, useParams, useSearchParams } from "solid-navigator";
+import { A, useNavigate, useParams, useSearchParams } from "solid-navigator";
 import {
   createEffect,
   createMemo,
@@ -462,6 +462,7 @@ const Content = (props: { post: Post; hovered: boolean }) => {
 };
 
 const Actions = (props: { post: Post; hideDelete?: boolean }) => {
+  const navigate = useNavigate();
   const { account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const { createPortal } = useCustomPortal();
@@ -513,6 +514,14 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
       {/* <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" /> */}
       {/* <Button margin={2} class={postActionStyle} iconName="share" /> */}
       <FlexRow style={{ "margin-left": "auto" }} gap={2}>
+        <Show when={account.hasModeratorPerm()}>
+          <Button
+            onClick={() => navigate("/app/moderation?search-post-id=" + props.post.id)}
+            margin={2}
+            class={postActionStyle}
+            iconName="security"
+          />
+        </Show>
         <Show
           when={
             props.post.createdBy?.id === account.user()?.id && !props.hideDelete

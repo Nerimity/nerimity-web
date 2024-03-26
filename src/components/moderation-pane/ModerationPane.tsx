@@ -25,7 +25,8 @@ import {
   searchServers,
   searchUsers,
   getPosts,
-  searchPosts
+  searchPosts,
+  deletePosts
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
@@ -53,6 +54,7 @@ import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { TicketPage } from "../settings/TicketSettings";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { classNames } from "@/common/classNames";
+import DeletePostsModal from "./DeletePostsModal";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -856,6 +858,24 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
 
+          <Show when={props.auditLog.actionType === AuditLogType.postDelete}>
+            <Text size={14} >
+              Post From{" "}
+            </Text>
+            <Text size={14}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.auditLog.userId}`}
+              >
+                {props.auditLog.username}
+              </A>
+            </Text>
+            <Text size={14} >
+              Was Deleted{" "}
+            </Text>
+          </Show>
+
+
           <Show when={props.auditLog.actionType === AuditLogType.userUnsuspend}>
             <Text size={14} >
               Unsuspend{" "}
@@ -962,12 +982,33 @@ function PostsPane() {
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
   const [search, setSearch] = createSignal("");
+  let pageContainerEl: HTMLDivElement | undefined;
+
+  const [searchParams, setSearchParams] = useSearchParams<{"search-post-id": string}>();
+
+
+  onMount(() => {
+    if (searchParams["search-post-id"]) {
+      setSearch(searchParams["search-post-id"]);
+      setSearchParams({ "search-post-id": undefined! }, {replace: true});
+      const el = document.querySelector(".main-pane-container")!;
+
+      setTimeout(() => {
+        el.scrollTo(0, el.scrollHeight);
+      }, 100);
+
+    }
+  });
+
 
   const [showAll, setShowAll] = createSignal(false);
 
   createEffect(
     on(afterId, async () => {
       if (search() && afterId()) {
+        return fetchSearch();
+      }
+      if (search()) {
         return fetchSearch();
       }
       fetchPosts();
@@ -1017,10 +1058,14 @@ function PostsPane() {
       .catch(() => setLoadMoreClicked(false));
   };
 
+  const onDelete = (postId: string) => {
+    setPosts(posts().filter((post) => post.id !== postId));
+  };
+
   return (
-    <PaneContainer class="pane posts">
+    <PaneContainer class="pane posts" ref={pageContainerEl}>
       <Input
-        placeholder="Search"
+        placeholder="Search by post id / user id"
         margin={[10, 10, 10, 30]}
         onText={onSearchText}
         value={search()}
@@ -1038,7 +1083,7 @@ function PostsPane() {
 
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : posts()}>
-          {(post) => <Post post={post} />}
+          {(post) => <Post post={post} onDelete={onDelete} />}
         </For>
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
@@ -1053,18 +1098,28 @@ function PostsPane() {
 }
 
 
-export function Post(props: { post: RawPost }) {
+export function Post(props: { post: RawPost, onDelete?: (postId: string) => void }) {
   const created = formatTimestamp(props.post.createdAt);
   const createdBy = props.post.createdBy;
   const [hovered, setHovered] = createSignal(false);
   const [searchParams, setSearchParams] = useSearchParams<{ postId?: string }>();
+  const {createPortal} = useCustomPortal();
+
+  const onPostDeleteClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    createPortal(close => <DeletePostsModal close={close} postIds={[props.post.id]} done={() => props.onDelete?.(props.post.id)}/>);
+    
+  };
 
 
   return (
     <div
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
-      onClick={() => setSearchParams({ postId: props.post.id })}
+      onClick={(e) => {
+        if (e.target.closest("." + linkStyle)) return;
+        setSearchParams({ postId: props.post.id });
+      }}
       class={itemStyles}
     >
       <Avatar
@@ -1115,6 +1170,8 @@ export function Post(props: { post: RawPost }) {
         </Show>
 
       </ItemDetailContainer>
+
+      <Button onClick={onPostDeleteClick} styles={{"margin-left": "auto", "align-self": "start"}} iconName="delete" color="var(--alert-color)" />
     </div>
   );
 }
