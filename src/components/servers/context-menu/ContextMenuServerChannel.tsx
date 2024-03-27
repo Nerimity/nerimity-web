@@ -9,6 +9,7 @@ import { createEffect } from "solid-js";
 import { ChannelType, ServerNotificationPingMode, ServerNotificationSoundMode } from "@/chat-api/RawData";
 import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "@/components/ui/RadioBox";
 import { updateNotificationSettings } from "@/chat-api/services/UserService";
+import { css } from "solid-styled-components";
 
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string
@@ -76,11 +77,11 @@ export default function ContextMenuServerChannel (props: Props) {
 
 
     return {
-      label: opts.label,
+      label: "",
       closeOnClick: false,
       disabled,
       onClick: () => opts.type === "PING" ? updateMode(opts.value) : updateMode(undefined, opts.value),
-      prefix: <RadioBoxItemCheckBox selected={opts.type === "PING" ? opts.value === notificationPingMode() : opts.value === notificationSoundMode()} size={8} />
+      prefix: <RadioBoxItem class={css`margin: 0; padding: 0; height: 100%;`} item={{label: opts.label, id: 0}} selected={opts.type === "PING" ? opts.value === notificationPingMode() : opts.value === notificationSoundMode()} checkboxSize={8} labelSize={14} />
     } as ContextMenuItem;
   };
 
