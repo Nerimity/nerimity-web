@@ -404,7 +404,7 @@ const MessageItem = (props: { message: RawMessage }) => {
             {formatTimestamp(props.message.createdAt)}
           </Text>
         </FlexRow>
-        <Text size={14}>
+        <Text size={14} class={css`word-break: break-word;white-space: pre-line;`}>
           <Markup message={props.message} text={props.message.content || ""} />
         </Text>
         <Show when={props.message.attachments?.[0]?.provider === "local"}>
