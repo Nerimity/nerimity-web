@@ -165,6 +165,7 @@ export default function UserPage() {
 
           <Show when={user()}>
             <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
+            <WarnBlock user={user()!} setUser={setUser}/>
           </Show>
 
 
@@ -315,7 +316,7 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
   );
 
   return (
-    <div class={css`margin-bottom: 10px;`}>
+    <div>
       <Show when={!props.user?.suspension}>
         <SettingsBlock icon='block' label='Suspend' description={`Deny this user to access ${env.APP_NAME}`}>
           <Button onClick={showSuspendModal} label="Suspend" color="var(--alert-color)" primary />
@@ -330,6 +331,40 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
           </FlexColumn>
         </SettingsBlock>
       </Show>
+    </div>
+  );
+}
+function WarnBlock(props: {user: ModerationUser, setUser: (user: ModerationUser) => void}) {
+  const { createPortal } = useCustomPortal();
+
+
+  const showEditModal = () => {
+    createPortal?.(close => <EditUserSuspensionModal done={(suspension) => props.setUser({ ...props.user!, suspension })} close={close} user={props.user} suspension={props.user.suspension} />);
+  };
+  
+
+
+
+  const Description = () => (
+    <span>
+      <Text size={12} opacity={0.8}>Warnings</Text>
+      <Text size={12} opacity={0.6}>{props.user.suspension?.suspendBy.username}</Text>
+
+      <Text size={12} opacity={0.6}> 1234</Text>
+    </span>
+  );
+
+  return (
+    <div class={css`margin-bottom: 10px;`}>
+
+
+
+      <SettingsBlock icon='warning' label="Warn User"  description={<Description/>}>
+        <FlexColumn gap={4}>
+          <Button onClick={showEditModal} label="Warn User" color="var(--warn-color)" primary margin={0} />
+        </FlexColumn>
+      </SettingsBlock>
+
     </div>
   );
 }
