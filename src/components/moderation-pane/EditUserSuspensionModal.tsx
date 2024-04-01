@@ -80,7 +80,7 @@ export default function EditUserSuspensionModal(props: Props) {
       expireAt: intSuspendFor ? daysToDate(intSuspendFor) : null,
       suspendedAt: Date.now(),
       reason: inputValues().reason || undefined,
-      suspendBy: store.account.user()! as unknown as RawUser
+      suspendBy: props.suspension.suspendBy
     };
 
     const update = {
@@ -104,7 +104,7 @@ export default function EditUserSuspensionModal(props: Props) {
     const r = inputValues().reason || undefined;
 
 
-    createPortal(close => <ConnectionErrorModal close={close} suspensionPreview={{expire: expireAt, reason: r, by: {username: store.account.user()!.username}}} />);
+    createPortal(close => <ConnectionErrorModal close={close} suspensionPreview={{expire: expireAt, reason: r, by: {username: props.suspension.suspendBy.username}}} />);
   };
 
   const ActionButtons = (

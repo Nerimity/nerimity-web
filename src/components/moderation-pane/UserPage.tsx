@@ -24,6 +24,7 @@ import Text from "../ui/Text";
 import { RawServer, RawUser } from "@/chat-api/RawData";
 import { Server, User } from "./ModerationPane";
 import EditUserSuspensionModal from "./EditUserSuspensionModal";
+import WarnUserModal from "./WarnUserModal";
 
 
 const UserPageContainer = styled(FlexColumn)`
@@ -339,7 +340,7 @@ function WarnBlock(props: {user: ModerationUser, setUser: (user: ModerationUser)
 
 
   const showEditModal = () => {
-    createPortal?.(close => <EditUserSuspensionModal done={(suspension) => props.setUser({ ...props.user!, suspension })} close={close} user={props.user} suspension={props.user.suspension} />);
+    createPortal?.(close => <WarnUserModal done={(suspension) => props.setUser({ ...props.user!, suspension })} close={close} user={props.user} />);
   };
   
 
