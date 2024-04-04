@@ -337,21 +337,23 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
 }
 function WarnBlock(props: {user: ModerationUser, setUser: (user: ModerationUser) => void}) {
   const { createPortal } = useCustomPortal();
+  
+  const expired = () => !props.user.account.warnExpiresAt ? true : new Date(props.user.account.warnExpiresAt) < new Date();
+  const warnCount = () => expired() ? 0 : props.user.account.warnCount || 0;
 
-
-  const showEditModal = () => {
-    createPortal?.(close => <WarnUserModal done={(suspension) => props.setUser({ ...props.user!, suspension })} close={close} user={props.user} />);
+  const showWarnModal = () => {
+    createPortal?.(close => <WarnUserModal done={() => props.setUser({...props.user, account: {...props.user.account, warnCount: warnCount() + 1, warnExpiresAt: new Date().setMonth(new Date().getMonth() + 6)}})} close={close} user={props.user} />);
   };
   
 
 
 
+
   const Description = () => (
     <span>
-      <Text size={12} opacity={0.8}>Warnings</Text>
-      <Text size={12} opacity={0.6}>{props.user.suspension?.suspendBy.username}</Text>
-
-      <Text size={12} opacity={0.6}> 1234</Text>
+      <Text size={12} opacity={0.6}>Warned</Text>
+      <Text size={12} opacity={0.8}> {warnCount()} </Text>
+      <Text size={12} opacity={0.6}>time(s) in the last 6 months.</Text>
     </span>
   );
 
@@ -362,7 +364,7 @@ function WarnBlock(props: {user: ModerationUser, setUser: (user: ModerationUser)
 
       <SettingsBlock icon='warning' label="Warn User"  description={<Description/>}>
         <FlexColumn gap={4}>
-          <Button onClick={showEditModal} label="Warn User" color="var(--warn-color)" primary margin={0} />
+          <Button onClick={showWarnModal} label="Warn User" color="var(--warn-color)" primary margin={0} />
         </FlexColumn>
       </SettingsBlock>
 

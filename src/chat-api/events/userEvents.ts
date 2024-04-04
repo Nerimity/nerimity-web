@@ -4,7 +4,7 @@ import useMention from "../store/useMention";
 import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
 import { SelfUser } from "./connectionEventTypes";
-import { ActivityStatus, FriendStatus, RawUserNotificationSettings, RawUser, RawUserConnection } from "../RawData";
+import { ActivityStatus, FriendStatus, RawUserNotificationSettings, RawUser, RawUserConnection, RawNotice } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
@@ -89,5 +89,11 @@ export function onUserConnectionAdded (payload: {connection: RawUserConnection})
 export function onUserConnectionRemoved (payload: {connectionId: string}) {
   const account = useAccount();
   account.setUser({connections: account.user()?.connections.filter(c => c.id !== payload.connectionId)});
-  
+}
+
+export function onUserNoticeUpdated(payload: RawNotice) {
+  const account = useAccount();
+  const notices: RawNotice[] = [...account.user()?.notices || []];
+  notices.push(payload);
+  account.setUser({notices});
 }

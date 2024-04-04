@@ -282,3 +282,12 @@ export const getDMChannelNotice = async () => {
   });
   return data;
 };
+
+
+export async function userNoticeDismiss(id: string) {
+  return request<any>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("notices/" + id),
+    method: "DELETE",
+    useToken: true
+  });
+}

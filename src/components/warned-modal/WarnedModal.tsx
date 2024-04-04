@@ -3,8 +3,11 @@ import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Modal from "../ui/modal/Modal";
 import { createSignal, onCleanup, onMount } from "solid-js";
+import useStore from "@/chat-api/store/useStore";
+import { userNoticeDismiss } from "@/chat-api/services/UserService";
 
-export const WarnedModal = (props: {close: () => void, reason?: string, by?: {username: string}, bypassCounter?: boolean}) => {
+export const WarnedModal = (props: {id?: string; close: () => void, reason?: string, by?: {username: string}, bypassCounter?: boolean}) => {
+  const store = useStore();
 
   const [countdown, setCountdown] = createSignal(10);
 
@@ -18,9 +21,15 @@ export const WarnedModal = (props: {close: () => void, reason?: string, by?: {us
   onCleanup(() => clearInterval(interval));
 
 
-  const onClick = () => {
+  const onClick = async () => {
     if (!props.bypassCounter && countdown() !== 0) return; 
     props.close();
+    await userNoticeDismiss(props.id || "").catch(() => {});
+
+    const user = store.account.user();
+    let notices = [...user?.notices || []];
+    notices = notices.filter(n => n.id !== props.id);
+    store.account.setUser({ ...user, notices: notices });
   };
 
   const ActionButtons = (

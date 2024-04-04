@@ -1,4 +1,4 @@
-import { ModerationSuspension, editSuspendUsers } from "@/chat-api/services/ModerationService";
+import { ModerationSuspension, ModerationUser, editSuspendUsers, warnUsers } from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "../ui/Button";
@@ -10,6 +10,7 @@ import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { WarnedModal } from "../warned-modal/WarnedModal";
+import { Notice } from "../ui/Notice/Notice";
 
 
 const Container = styled("div")`
@@ -25,16 +26,12 @@ const Container = styled("div")`
 `;
 
 
-interface MinimalUser {
-  id: string;
-  username: string;
-  tag: string
-}
+
 
 interface Props {
-  user: MinimalUser;
+  user: ModerationUser;
   close: () => void;
-  done: (suspension: ModerationSuspension) => void;
+  done: () => void;
 }
 
 export default function WarnUserModal(props: Props) {
@@ -48,6 +45,10 @@ export default function WarnUserModal(props: Props) {
 
   const {createPortal} = useCustomPortal();
 
+  const expired = () => !props.user.account.warnExpiresAt ? true : new Date(props.user.account.warnExpiresAt) < new Date();
+  const warnCount = () => expired() ? 0 : props.user.account.warnCount || 0;
+
+
   
 
   const onWarnClick = () => {
@@ -56,14 +57,10 @@ export default function WarnUserModal(props: Props) {
     setError(null);
     const userIds = [props.user.id];
     
-
-    const update = {
-      reason: reason()
-    };
-
-    editSuspendUsers(password(), userIds, update)
+    warnUsers(password(), userIds, reason())
       .then(() => {
-        props.done(update); props.close();
+        props.done(); 
+        props.close();
       })
       .catch(err => setError(err))
       .finally(() => setRequestSending(false));
@@ -84,6 +81,9 @@ export default function WarnUserModal(props: Props) {
   return (
     <Modal close={props.close} title="Warn User" actionButtons={ActionButtons} ignoreBackgroundClick>
       <Container>
+        <Show when={warnCount() >= 2}>
+          <Notice type="warn" description="This user has been warned more than 2 times. Suspension is recommended."/>
+        </Show>
         <Input label="Reason" value={reason()} onText={setReason} />
 
         <Input label="Confirm Password" type="password" value={password()} onText={setPassword} />
