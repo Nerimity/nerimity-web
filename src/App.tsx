@@ -11,12 +11,16 @@ import { useWindowProperties } from "./common/useWindowProperties";
 import styles from "./App.module.scss";
 import { ConnectingStatusHeader } from "./components/connecting-status-header/ConnectingStatusHeader";
 import useStore from "./chat-api/store/useStore";
+import useAccount from "./chat-api/store/useAccount";
+import { useCustomPortal } from "./components/ui/custom-portal/CustomPortal";
+import { WarnedModal } from "./components/warned-modal/WarnedModal";
 
 
 
 export default function App() {
   const [, actions] = useTransContext();
   useServerRedirect();
+  useUserNotices();
   onMount(() => {
     document.title = env.APP_NAME;
     if (isHalloween) {
@@ -69,5 +73,20 @@ function useServerRedirect() {
     if (server()) return;
     if (!account.isAuthenticated()) return;
     navigate(RouterEndpoints.INBOX());
+  }));
+}
+
+function useUserNotices() {
+  const account = useAccount();
+  const {createPortal} = useCustomPortal();
+  const notices = () => account?.user()?.notices || [];
+
+  const firstNotice = createMemo(() => notices()[0]);
+  createEffect(on(() => notices().length, () => {
+
+    if (!firstNotice()) return;
+      
+    createPortal((close) => <WarnedModal id={firstNotice()?.id} reason={firstNotice()?.content} by={{username: firstNotice()?.createdBy.username!}} close={close} />, "user-notice");
+
   }));
 }

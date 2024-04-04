@@ -24,6 +24,7 @@ import Text from "../ui/Text";
 import { RawServer, RawUser } from "@/chat-api/RawData";
 import { Server, User } from "./ModerationPane";
 import EditUserSuspensionModal from "./EditUserSuspensionModal";
+import WarnUserModal from "./WarnUserModal";
 
 
 const UserPageContainer = styled(FlexColumn)`
@@ -165,6 +166,7 @@ export default function UserPage() {
 
           <Show when={user()}>
             <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
+            <WarnBlock user={user()!} setUser={setUser}/>
           </Show>
 
 
@@ -315,7 +317,7 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
   );
 
   return (
-    <div class={css`margin-bottom: 10px;`}>
+    <div>
       <Show when={!props.user?.suspension}>
         <SettingsBlock icon='block' label='Suspend' description={`Deny this user to access ${env.APP_NAME}`}>
           <Button onClick={showSuspendModal} label="Suspend" color="var(--alert-color)" primary />
@@ -330,6 +332,42 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
           </FlexColumn>
         </SettingsBlock>
       </Show>
+    </div>
+  );
+}
+function WarnBlock(props: {user: ModerationUser, setUser: (user: ModerationUser) => void}) {
+  const { createPortal } = useCustomPortal();
+  
+  const expired = () => !props.user.account.warnExpiresAt ? true : new Date(props.user.account.warnExpiresAt) < new Date();
+  const warnCount = () => expired() ? 0 : props.user.account.warnCount || 0;
+
+  const showWarnModal = () => {
+    createPortal?.(close => <WarnUserModal done={() => props.setUser({...props.user, account: {...props.user.account, warnCount: warnCount() + 1, warnExpiresAt: new Date().setMonth(new Date().getMonth() + 6)}})} close={close} user={props.user} />);
+  };
+  
+
+
+
+
+  const Description = () => (
+    <span>
+      <Text size={12} opacity={0.6}>Warned</Text>
+      <Text size={12} opacity={0.8}> {warnCount()} </Text>
+      <Text size={12} opacity={0.6}>time(s) in the last 6 months.</Text>
+    </span>
+  );
+
+  return (
+    <div class={css`margin-bottom: 10px;`}>
+
+
+
+      <SettingsBlock icon='warning' label="Warn User"  description={<Description/>}>
+        <FlexColumn gap={4}>
+          <Button onClick={showWarnModal} label="Warn User" color="var(--warn-color)" primary margin={0} />
+        </FlexColumn>
+      </SettingsBlock>
+
     </div>
   );
 }

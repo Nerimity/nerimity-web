@@ -1,4 +1,4 @@
-import { RawChannel, RawFriend, RawInboxWithoutChannel, RawPresence, RawServer, RawServerMember, RawServerRole, RawUserNotificationSettings, RawUser, RawUserConnection, RawVoice } from "../RawData";
+import { RawChannel, RawFriend, RawInboxWithoutChannel, RawPresence, RawServer, RawServerMember, RawServerRole, RawUserNotificationSettings, RawUser, RawUserConnection, RawVoice, RawNotice } from "../RawData";
 
 export interface AuthenticatedPayload {
   user: SelfUser;
@@ -51,4 +51,5 @@ export interface SelfUser {
   friendRequestStatus: FriendRequestStatus
   emailConfirmed: boolean
   connections: RawUserConnection[]
+  notices: RawNotice[]
 }

@@ -826,6 +826,8 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
     switch (props.auditLog.actionType) {
       case AuditLogType.userSuspend:
         return true;
+      case AuditLogType.userWarned:
+        return true;
       default: return false;
     }
   };
@@ -843,6 +845,19 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
 
         <FlexRow gap={3} itemsCenter style={{"margin-bottom": "2px"}}>
 
+          <Show when={props.auditLog.actionType === AuditLogType.userWarned}>
+            <Text size={14} >
+              Warned{" "}
+            </Text>
+            <Text size={14}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.auditLog.userId}`}
+              >
+                {props.auditLog.username}
+              </A>
+            </Text>
+          </Show>
           <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
             <Text size={14} >
               Suspend{" "}

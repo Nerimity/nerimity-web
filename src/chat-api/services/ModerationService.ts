@@ -147,7 +147,8 @@ export const AuditLogType = {
   serverDelete: 3,
   serverUpdate: 4,
   postDelete: 5,
-  userSuspendUpdate: 6
+  userSuspendUpdate: 6,
+  userWarned: 7
 } as const;
 
 export interface AuditLog {
@@ -226,6 +227,21 @@ export const suspendUsers = async (confirmPassword: string, userIds: string[], d
   });
   return data;
 };
+
+export const warnUsers = async (confirmPassword: string, userIds: string[], reason?: string) => {
+  const data = await request<any[]>({
+    method: "POST",
+    body: {
+      userIds,
+      reason,
+      password: confirmPassword
+    },
+    url: env.SERVER_URL + "/api/moderation/users/warn",
+    useToken: true
+  });
+  return data;
+};
+
 export const editSuspendUsers = async (confirmPassword: string, userIds: string[], update: {days?: number, reason?: string}) => {
   const data = await request<any[]>({
     method: "PATCH",
@@ -284,7 +300,7 @@ export const getOnlineUsers = async () => {
 
 
 export type  ModerationUser = RawUser & {
-  account: {email: string; emailConfirmed?: boolean}
+  account: {email: string; emailConfirmed?: boolean, warnCount?: number, warnExpiresAt?: number}
   suspension?: ModerationSuspension
   servers?: RawServer[]
 }

@@ -60,7 +60,7 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
 async function loadAllCache() {
   const { account } = useStore();
   const user = await getCache(LocalCacheKey.Account);
-  account.setUser(user);
+  account.setUser({...user, notices: []});
 }
 
 export default function AppPage() {

@@ -331,3 +331,12 @@ export interface RawServerWelcomeAnswer {
   order: number;
   _count: { answeredUsers: number }
 }
+
+export interface RawNotice {
+    id: string,
+    type: 0,
+    title: null,
+    content: string,
+    createdAt: number,
+    createdBy: {username: string}
+}
