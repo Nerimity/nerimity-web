@@ -24,6 +24,7 @@ import { CustomLink } from "../ui/CustomLink";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { ScreenShareModal } from "./ScreenShareModal";
 import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
+import { WebcamModal } from "./WebcamModal";
 
 
 
@@ -339,6 +340,10 @@ function VoiceActions(props: { channelId: string }) {
     createPortal(close => <ScreenShareModal close={close} />);
   };
 
+  const onWebCamClick = () => {
+    return createPortal(close => <WebcamModal close={close} />);
+  };
+
   const onStopScreenShareClick = () => {
     voiceUsers.setVideoStream(null);
   };
@@ -353,6 +358,9 @@ function VoiceActions(props: { channelId: string }) {
       <Show when={isInCall()}>
         <Show when={!voiceUsers.localStreams.videoStream && !isMobileAgent()}>
           <Button iconName='monitor' onClick={onScreenShareClick} />
+        </Show>
+        <Show when={!voiceUsers.localStreams.videoStream && !isMobileAgent()}>
+          <Button iconName='videocam' onClick={onWebCamClick} />
         </Show>
         <Show when={voiceUsers.localStreams.videoStream}>
           <Button iconName='desktop_access_disabled' onClick={onStopScreenShareClick}  color='var(--alert-color)'  />
