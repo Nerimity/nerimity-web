@@ -25,6 +25,7 @@ import env from "@/common/env";
 import { title } from "process";
 import { DangerousLinkModal } from "../ui/DangerousLinkModal";
 import { RichProgressBar, getActivityIconName } from "@/components/activity/Activity";
+import { ActivityStatus } from "@/chat-api/RawData";
 
 
 
@@ -278,10 +279,10 @@ function FlyoutTitle(props: { style?: JSX.CSSProperties, icon: string, title: st
 
 
 
-const UserActivity = (props: {userId: string}) => {
+export const UserActivity = (props: {userId?: string, exampleActivity?: ActivityStatus}) => {
   const {users} = useStore();
-  const user = () => users.get(props.userId);
-  const activity = () => user()?.presence()?.activity;
+  const user = () => users.get(props.userId!);
+  const activity = () => props.exampleActivity || user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
 
@@ -290,6 +291,7 @@ const UserActivity = (props: {userId: string}) => {
 
   createEffect(on(activity, () => {
     if (!activity()) return;
+
 
 
 
@@ -324,7 +326,7 @@ const UserActivity = (props: {userId: string}) => {
           </div>
           <Show when={activity()?.imgSrc}>
             <div class={styles.richPresence}>
-              <img src={imgSrc()} class={styles.activityImg} classList={{[styles.videoActivityImg!]: isVideo()}} />
+              <img src={imgSrc()} class={styles.activityImg + " activityImage"} classList={{[styles.videoActivityImg!]: isVideo()}} />
               <div class={styles.richInfo}>
                 <Text href={activity()?.link} isDangerousLink newTab size={13} opacity={0.9}>{activity()?.title}</Text>
                 <Text size={13} opacity={0.6}>{activity()?.subtitle}</Text>

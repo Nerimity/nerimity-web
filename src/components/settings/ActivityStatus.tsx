@@ -16,6 +16,9 @@ import { emitActivityStatus } from "@/chat-api/emits/userEmits";
 import Modal from "../ui/modal/Modal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Input from "../ui/input/Input";
+import { UserActivity } from "../floating-profile/FloatingProfile";
+import { CustomLink } from "../ui/CustomLink";
+import Icon from "../ui/icon/Icon";
 
 const Container = styled("div")`
   display: flex;
@@ -45,6 +48,34 @@ const BlockContent = styled("div")`
 `;
 
 
+const RPCAdContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 10px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+  padding: 10px;
+
+  margin-bottom: 16px;
+`;
+
+
+const ExampleActivityContainer = styled("div")`
+  padding: 2px;
+  background: rgba(255,255,255,0.04);
+  flex: 1;
+  border-radius: 8px;
+  padding-left: 6px;
+  padding-right: 6px;
+  min-width: 250px;
+  .activityImage {
+    background: rgba(0,0,0,0.2);
+  }
+`;
+
+
 export default function WindowSettings() {
   const { header } = useStore();
 
@@ -65,12 +96,68 @@ export default function WindowSettings() {
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.activity-status")!} />
       </Breadcrumb>
+
+
+
+
+      <RPCAdContainer>
+
+
+        <FlexRow gap={12} itemsCenter>
+          <Icon name="extension" />
+          <FlexColumn gap={4}>
+            <Text size={14}>Chrome Extension</Text>
+            <Text size={12} opacity={0.6}>Our RPC extension allows you to share your activity from Spotify and YouTube with users on Nerimity!</Text>
+          </FlexColumn>
+        </FlexRow>
+
+
+
+
+        <FlexRow gap={6} itemsCenter justifyCenter wrap class={css`margin-top: 6px;`}>
+
+          <ExampleActivityContainer>
+            <UserActivity exampleActivity={{
+              action: "Watching",
+              name: "YouTube",
+              startedAt: Date.now() - 3000,
+              endsAt: Date.now() + 10000,
+              imgSrc: "https://nerimity.com/assets/logo.png",
+              link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+              title: "Why Nerimity is the best",
+              subtitle: "Good YouTuber"
+            }} />
+          </ExampleActivityContainer>
+
+          <ExampleActivityContainer>
+            <UserActivity exampleActivity={{
+              action: "Listening to",
+              name: "Spotify",
+              startedAt: Date.now() - 30000,
+              endsAt: Date.now() + 100000,
+              imgSrc: "https://nerimity.com/assets/logo.png",
+              link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+              title: "Ner Ner Nerimity!",
+              subtitle: "Nerimity"
+            }} />
+          </ExampleActivityContainer>
+        </FlexRow>
+
+
+        <CustomLink target="_blank" rel="noopener noreferrer" class={css`align-self: flex-end;`} href="https://chromewebstore.google.com/detail/nerimity-rpc/lgboikjogeocndkamelapkbngmfjfgaf">
+          <Button margin={[10, 0, 0, 0]} iconName="extension" primary label="Visit Chrome Web Store" />
+        </CustomLink>
+
+
+      </RPCAdContainer>
+
+
       <Show when={!isElectron}>
         <Notice type='info' description='To modify these settings, you must download the Nerimity desktop app.' />
       </Show>
 
       <Options>
-        <Show when={!isElectron}><BlockContent/></Show>
+        <Show when={!isElectron}><BlockContent /></Show>
         <ProgramOptions />
       </Options>
 
@@ -80,9 +167,9 @@ export default function WindowSettings() {
 
 function ProgramOptions() {
   const [programs, setPrograms] = createSignal<Program[]>([]);
-  const [addedPrograms, setAddedPrograms] = useReactiveLocalStorage<(Program & {action: string})[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
-  
-  const {createPortal} = useCustomPortal();
+  const [addedPrograms, setAddedPrograms] = useReactiveLocalStorage<(Program & { action: string })[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
+
+  const { createPortal } = useCustomPortal();
 
   const getPrograms = () => {
     electronWindowAPI()?.getRunningPrograms(addedPrograms()).then(setPrograms);
@@ -117,7 +204,7 @@ function ProgramOptions() {
   const dropDownItems = () => {
     return programs().map((program) => ({
       id: program.filename,
-      label: program.name,  
+      label: program.name,
       description: program.filename,
       data: program
     })) satisfies DropDownItem[];
@@ -145,12 +232,12 @@ function ProgramOptions() {
       <SettingsBlock icon='games' label='Activity Status' description="Share what you're up to with everyone." header={!!addedPrograms().length}>
         <Show when={addedPrograms().length + 1} keyed><DropDown onChange={addProgram} items={dropDownItems()} class={css`width: 200px;`} /></Show>
       </SettingsBlock>
-      
+
       <For each={addedPrograms()}>
         {(item, i) => (
           <Block borderTopRadius={false} borderBottomRadius={i() === addedPrograms().length - 1}>
             <FlexRow class={css`flex: 1;`}>
-              <FlexColumn gap={4}  class={css`flex: 1;`}>
+              <FlexColumn gap={4} class={css`flex: 1;`}>
                 <FlexRow gap={5} itemsCenter>
                   <Text bold>{item.action}</Text>
                   <Text opacity={0.8}>{item.name}</Text>
@@ -168,9 +255,9 @@ function ProgramOptions() {
 }
 
 
-const EditActivityStatusModal = (props: {onEdit(newProgram: ProgramWithAction): void; program: ProgramWithAction, close: () => void}) => {
+const EditActivityStatusModal = (props: { onEdit(newProgram: ProgramWithAction): void; program: ProgramWithAction, close: () => void }) => {
   const [newValues, setValues] = createSignal(props.program);
-  
+
 
   const actionButtons = (
     <FlexRow style={{ flex: 1, margin: "5px" }} >
