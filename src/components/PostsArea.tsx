@@ -28,6 +28,7 @@ import {
   createRenderEffect,
   createSignal,
   For,
+  Index,
   JSX,
   Match,
   on,
@@ -36,7 +37,7 @@ import {
   Show,
   Switch
 } from "solid-js";
-import { createStore } from "solid-js/store";
+import { SetStoreFunction, StoreSetter, createStore, reconcile } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import Avatar from "./ui/Avatar";
@@ -97,6 +98,10 @@ function NewPostArea(props: { postId?: string }) {
 
   const [inputFocused, setInputFocused] = createSignal(false);
 
+  const [showPollOptions, setShowPollOptions] = createSignal(false);
+  const [pollOptions, setPollOptions] = createStore<string[]>([""]);
+
+
   onMount(() => {
     document.addEventListener("paste", onPaste);
     onCleanup(() => {
@@ -126,9 +131,10 @@ function NewPostArea(props: { postId?: string }) {
         });
     }
     else {
-      posts.submitPost({ content: formattedContent, file: attachedFile() });
+      posts.submitPost({ content: formattedContent, file: attachedFile(), poll: showPollOptions() ? pollOptions : undefined });
     }
     setContent("");
+    setPollOptions(reconcile([""]));
     setAttachedFile(undefined);
   };
 
@@ -143,6 +149,13 @@ function NewPostArea(props: { postId?: string }) {
     setContent(textAreaEl()!.value);
   };
 
+  const togglePollOptions = () => {
+    const newVal = !showPollOptions();
+    setShowPollOptions(newVal);
+    if (!newVal) {
+      setPollOptions(reconcile([""]));
+    }
+  };
 
   const hasContentOrFocused = () => (inputFocused() || content().length);
   return (
@@ -167,6 +180,9 @@ function NewPostArea(props: { postId?: string }) {
         value={content()}
         type="textarea"
       />
+      <Show when={showPollOptions()}>
+        <PollOptions options={pollOptions} setOptions={setPollOptions}/>
+      </Show>
       <Show when={attachedFile()}>
         <AttachFileItem
           cancel={() => setAttachedFile(undefined)}
@@ -179,6 +195,7 @@ function NewPostArea(props: { postId?: string }) {
           ref={setFileBrowserRef}
           onChange={onFilePicked}
         />
+
         <Button
           margin={0}
           padding={5}
@@ -186,9 +203,20 @@ function NewPostArea(props: { postId?: string }) {
             width: 20px;
             height: 20px;
           `}
-          iconSize={14}
+          iconSize={16}
           onClick={() => fileBrowserRef()?.open()}
           iconName="attach_file"
+        />
+        <Button
+          margin={0}
+          padding={5}
+          class={css`
+            width: 20px;
+            height: 20px;
+          `}
+          iconSize={16}
+          onClick={togglePollOptions}
+          iconName="poll"
         />
         <Button
           margin={0}
@@ -200,14 +228,14 @@ function NewPostArea(props: { postId?: string }) {
               height: 20px;
             `
           )}
-          iconSize={14}
+          iconSize={16}
           onClick={() => setShowEmojiPicker(!showEmojiPicker())}
           iconName="face"
         />
         <Button
           margin={0}
           padding={5}
-          iconSize={14}
+          iconSize={16}
           onClick={onCreateClick}
           label={
             props.postId ? t("posts.replyButton") : t("posts.createButton")
@@ -226,6 +254,45 @@ function NewPostArea(props: { postId?: string }) {
     </NewPostContainer>
   );
 }
+
+
+const PollOptions = (props: {options: string[], setOptions: SetStoreFunction<string[]>}) => {
+
+  const updateOption = (i: number, text: string) => {
+    props.setOptions(i, text);
+  };
+  return (
+    <FlexColumn gap={6}>
+      <Text>Poll Options</Text>
+      <FlexColumn gap={4}>
+        <Index each={props.options}>
+          {(option, i) => (
+            <PollOptionItem 
+              index={i} 
+              onText={t => updateOption(i, t)} 
+              value={option()} 
+              showAddButton={ i === props.options.length - 1 && props.options.length <= 5} 
+              onAddClick={() => props.setOptions([...props.options, ""])}
+            />
+          )}
+        </Index>
+      </FlexColumn>
+    </FlexColumn>
+  );
+
+};
+
+const PollOptionItem = (props: { index: number; value: string, onText: (text: string) => void, showAddButton?: boolean; onAddClick?: () => void }) => {
+  return (
+    <FlexRow itemsCenter gap={4}>
+      <Input placeholder={"Option " + (props.index + 1)} value={props.value} maxLength={56} onText={props.onText} />
+      <Show when={props.showAddButton}><Button margin={0} iconName="add" onClick={props.onAddClick} /></Show>
+    </FlexRow>
+  );
+};
+
+
+
 
 const AttachFileItemContainer = styled(FlexRow)`
   align-items: center;
@@ -648,6 +715,7 @@ export function PostsArea(props: {
   const [loading, setLoading] = createSignal(false);
   const { posts } = useStore();
   const [lastFetchCount, setLastFetchCount] = createSignal(0);
+  let postsContainerRef: HTMLDivElement | undefined;
 
   const cachedReplies = () => {
     if (props.showDiscover) return posts.cachedDiscover();
@@ -746,6 +814,16 @@ export function PostsArea(props: {
       loadMoreDiscover();
     }
   };
+
+
+
+  // TODO: use method to update post stats in real time.
+  // onMount(() => {
+  //   setInterval(() => {
+  //     console.log(findIndexInViewport(postsContainerRef!));
+  //   }, 5000);
+  // });
+
   return (
     <PostsContainer gap={2} style={props.style}>
       <Show when={props.showCreateNew}>
@@ -754,16 +832,46 @@ export function PostsArea(props: {
       <Show when={props.postId}>
         <NewPostArea postId={props.postId} />
       </Show>
-      <For each={cachedReplies()}>{(post, i) => <PostItem post={post} />}</For>
+      <FlexColumn gap={2} ref={postsContainerRef}>
+        <For each={cachedReplies()}>{(post, i) => <PostItem post={post} />}</For>
 
-      <Show when={hasMorePosts() || loading()}>
-        <For each={Array(10).fill(0)}>
-          {() => <Skeleton.Item onInView={() => loadMore()} height="100px" width="100%" />}
-        </For>
-      </Show>
+        <Show when={hasMorePosts() || loading()}>
+          <For each={Array(10).fill(0)}>
+            {() => <Skeleton.Item onInView={() => loadMore()} height="100px" width="100%" />}
+          </For>
+        </Show>
+      </FlexColumn>
     </PostsContainer>
   );
 }
+
+
+function partInViewport(elem: HTMLElement) {
+  const x = elem.getBoundingClientRect().left;
+  const y = elem.getBoundingClientRect().top;
+  const ww = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  const hw = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  const w = elem.clientWidth;
+  const h = elem.clientHeight;
+  return (
+    (y < hw &&
+       y + h > 0) &&
+      (x < ww &&
+       x + w > 0)
+  );
+}
+
+function findIndexInViewport(element: HTMLElement) {
+  const children = element.children || [];
+  for (let i = 0; i < children.length; i++) {
+    const childEl = children[i]! as HTMLElement;
+    if (partInViewport(childEl)) {
+      return i;
+    }
+  }  
+  return -1;
+}
+
 
 const notificationUsernameStyles = css`
   white-space: nowrap;

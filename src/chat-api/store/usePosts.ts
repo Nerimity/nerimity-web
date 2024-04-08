@@ -128,10 +128,10 @@ export function usePosts() {
     });
   };
 
-  const submitPost = async (opts: {content: string, file?: File}) => {
+  const submitPost = async (opts: {content: string, file?: File, poll?: string[]}) => {
     const account = useAccount();
     const formattedContent = opts.content.trim();
-    const post = await createPost({content: formattedContent, attachment: opts.file}).catch((err) => {
+    const post = await createPost({content: formattedContent, attachment: opts.file, poll: opts.poll}).catch((err) => {
       alert(err.message);
     });
     if (!post) return;
