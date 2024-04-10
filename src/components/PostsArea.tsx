@@ -694,7 +694,6 @@ const PollEmbed = (props: { post: Post, poll: RawPostPoll }) => {
 
   const onVoteClick = async () => {
     await props.post.votePoll(selectedChoiceId()!);
-    setSelectedChoiceId(null);
   };
 
   return (
