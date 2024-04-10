@@ -750,7 +750,7 @@ const ProgressbarContainer = styled.div`
 const PollChoice = (props: {votedChoiceId?: string, choice: RawPostChoice, poll: RawPostPoll, selectedId: string | null, setSelected: (id: string | null) => void;}) => {
 
   // (100 * vote) / totalVotes
-  const votes = () => (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers;
+  const votes = () => Math.round((100 * props.choice._count.votedUsers) / props.poll._count.votedUsers);
 
   return (
     <PollChoiceContainer class={conditionalClass(props.votedChoiceId === props.choice.id, "selected")} onClick={() => props.setSelected(props.choice.id === props.selectedId ? null : props.choice.id)} itemsCenter>
