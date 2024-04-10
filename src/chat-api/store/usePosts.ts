@@ -1,7 +1,7 @@
 import { batch } from "solid-js";
-import { createStore, reconcile } from "solid-js/store";
+import { createStore, reconcile, unwrap } from "solid-js/store";
 import { RawPost } from "../RawData";
-import { createPost, deletePost, editPost, getCommentPosts, getDiscoverPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, unlikePost } from "../services/PostService";
+import { createPost, deletePost, editPost, getCommentPosts, getDiscoverPosts, getFeedPosts, getPost, getPosts, getPostsLiked, likePost, postVotePoll, unlikePost } from "../services/PostService";
 import useAccount from "./useAccount";
 
 
@@ -12,6 +12,8 @@ export type Post = RawPost & {
   loadComments(this: Post): Promise<RawPost[]>;
   loadMoreComments(this: Post): Promise<RawPost[]>;
   editPost(this: Post, content: string): Promise<any>;
+  votePoll(this: Post, choiceId: string): Promise<any>;
+
   commentIds: string[] | undefined
   cachedComments(this: Post): Post[] | undefined
   submitReply(this: Post, opts: {content: string, attachment?: File}): Promise<any>;
@@ -58,6 +60,22 @@ export function usePosts() {
         async editPost(content: string) {
           const newPost = await editPost(this.id, content);
           setState("posts", newPost.id, {...this, ...newPost});
+        },
+        async votePoll(choiceId) {
+
+          await postVotePoll(this.id, this.poll?.id!, choiceId).then(() => {
+
+            const poll = structuredClone(unwrap(this.poll!));
+            poll._count.votedUsers++;
+            const choiceIndex = poll.choices.findIndex(choice => choice.id === choiceId);
+            if (choiceIndex === -1) return;
+            poll.choices[choiceIndex]!._count.votedUsers++;
+
+            poll.votedUsers = [{pollChoiceId: choiceId}];
+
+            setState("posts", this.id, {...this, poll});
+          }).catch(e => alert(e.message));
+
         },
         async loadComments() {
           const comments = await getCommentPosts({postId: this.id, limit: 30});
@@ -128,7 +146,7 @@ export function usePosts() {
     });
   };
 
-  const submitPost = async (opts: {content: string, file?: File, poll?: string[]}) => {
+  const submitPost = async (opts: {content: string, file?: File, poll?: {choices: string[]}}) => {
     const account = useAccount();
     const formattedContent = opts.content.trim();
     const post = await createPost({content: formattedContent, attachment: opts.file, poll: opts.poll}).catch((err) => {
