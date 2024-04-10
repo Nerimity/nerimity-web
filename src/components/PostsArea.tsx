@@ -1,7 +1,9 @@
 import {
   PostNotificationType,
   RawPost,
+  RawPostChoice,
   RawPostNotification,
+  RawPostPoll,
   RawUser
 } from "@/chat-api/RawData";
 import {
@@ -14,6 +16,7 @@ import {
   getPostsLiked,
   LikedPost,
   likePost,
+  postVotePoll,
   unlikePost
 } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
@@ -28,6 +31,7 @@ import {
   createRenderEffect,
   createSignal,
   For,
+  Index,
   JSX,
   Match,
   on,
@@ -36,7 +40,7 @@ import {
   Show,
   Switch
 } from "solid-js";
-import { createStore } from "solid-js/store";
+import { SetStoreFunction, StoreSetter, createStore, reconcile } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import Avatar from "./ui/Avatar";
@@ -51,7 +55,7 @@ import Text from "./ui/Text";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { ImageEmbed, clamp } from "./ui/ImageEmbed";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { classNames } from "@/common/classNames";
+import { classNames, conditionalClass } from "@/common/classNames";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
@@ -62,6 +66,7 @@ import ItemContainer from "./ui/Item";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
 import env from "@/common/env";
+import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "./ui/RadioBox";
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -97,6 +102,10 @@ function NewPostArea(props: { postId?: string }) {
 
   const [inputFocused, setInputFocused] = createSignal(false);
 
+  const [showPollOptions, setShowPollOptions] = createSignal(false);
+  const [pollOptions, setPollOptions] = createStore<string[]>([""]);
+
+
   onMount(() => {
     document.addEventListener("paste", onPaste);
     onCleanup(() => {
@@ -126,9 +135,10 @@ function NewPostArea(props: { postId?: string }) {
         });
     }
     else {
-      posts.submitPost({ content: formattedContent, file: attachedFile() });
+      posts.submitPost({ content: formattedContent, file: attachedFile(), poll: showPollOptions() ? {choices: pollOptions} : undefined });
     }
     setContent("");
+    setPollOptions(reconcile([""]));
     setAttachedFile(undefined);
   };
 
@@ -143,6 +153,13 @@ function NewPostArea(props: { postId?: string }) {
     setContent(textAreaEl()!.value);
   };
 
+  const togglePollOptions = () => {
+    const newVal = !showPollOptions();
+    setShowPollOptions(newVal);
+    if (!newVal) {
+      setPollOptions(reconcile([""]));
+    }
+  };
 
   const hasContentOrFocused = () => (inputFocused() || content().length);
   return (
@@ -167,6 +184,9 @@ function NewPostArea(props: { postId?: string }) {
         value={content()}
         type="textarea"
       />
+      <Show when={showPollOptions()}>
+        <PollOptions options={pollOptions} setOptions={setPollOptions}/>
+      </Show>
       <Show when={attachedFile()}>
         <AttachFileItem
           cancel={() => setAttachedFile(undefined)}
@@ -179,6 +199,7 @@ function NewPostArea(props: { postId?: string }) {
           ref={setFileBrowserRef}
           onChange={onFilePicked}
         />
+
         <Button
           margin={0}
           padding={5}
@@ -186,9 +207,20 @@ function NewPostArea(props: { postId?: string }) {
             width: 20px;
             height: 20px;
           `}
-          iconSize={14}
+          iconSize={16}
           onClick={() => fileBrowserRef()?.open()}
           iconName="attach_file"
+        />
+        <Button
+          margin={0}
+          padding={5}
+          class={css`
+            width: 20px;
+            height: 20px;
+          `}
+          iconSize={16}
+          onClick={togglePollOptions}
+          iconName="poll"
         />
         <Button
           margin={0}
@@ -200,14 +232,14 @@ function NewPostArea(props: { postId?: string }) {
               height: 20px;
             `
           )}
-          iconSize={14}
+          iconSize={16}
           onClick={() => setShowEmojiPicker(!showEmojiPicker())}
           iconName="face"
         />
         <Button
           margin={0}
           padding={5}
-          iconSize={14}
+          iconSize={16}
           onClick={onCreateClick}
           label={
             props.postId ? t("posts.replyButton") : t("posts.createButton")
@@ -226,6 +258,45 @@ function NewPostArea(props: { postId?: string }) {
     </NewPostContainer>
   );
 }
+
+
+const PollOptions = (props: {options: string[], setOptions: SetStoreFunction<string[]>}) => {
+
+  const updateOption = (i: number, text: string) => {
+    props.setOptions(i, text);
+  };
+  return (
+    <FlexColumn gap={6}>
+      <Text>Poll Options</Text>
+      <FlexColumn gap={4}>
+        <Index each={props.options}>
+          {(option, i) => (
+            <PollOptionItem 
+              index={i} 
+              onText={t => updateOption(i, t)} 
+              value={option()} 
+              showAddButton={ i === props.options.length - 1 && props.options.length <= 5} 
+              onAddClick={() => props.setOptions([...props.options, ""])}
+            />
+          )}
+        </Index>
+      </FlexColumn>
+    </FlexColumn>
+  );
+
+};
+
+const PollOptionItem = (props: { index: number; value: string, onText: (text: string) => void, showAddButton?: boolean; onAddClick?: () => void }) => {
+  return (
+    <FlexRow itemsCenter gap={4}>
+      <Input placeholder={"Option " + (props.index + 1)} value={props.value} maxLength={56} onText={props.onText} />
+      <Show when={props.showAddButton}><Button margin={0} iconName="add" onClick={props.onAddClick} /></Show>
+    </FlexRow>
+  );
+};
+
+
+
 
 const AttachFileItemContainer = styled(FlexRow)`
   align-items: center;
@@ -274,7 +345,7 @@ const PostOuterContainer = styled(FlexColumn)`
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   background: rgba(255, 255, 255, 0.06);
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.07);
   }
 `;
 
@@ -360,6 +431,9 @@ export function PostItem(props: {
     if (props.post.deleted) return;
     if (event.target.closest(".button")) return;
     if (event.target.closest(".imageEmbedContainer")) return;
+    if (event.target.closest(".pollEmbedContainer")) return;
+    if (event.target.closest(".spoiler")) return;
+    if (event.target.closest("a")) return;
     if (
       startClickPos.x !== event.clientX &&
       startClickPos.y !== event.clientY
@@ -587,9 +661,115 @@ function Embeds(props: { post: Post; hovered: boolean }) {
           customWidth={width()}
         />
       </Show>
+
+      <Show when={props.post.poll}>
+        <PollEmbed poll={props.post.poll!} post={props.post} />
+      </Show>
     </div>
   );
 }
+
+const PollContainer = styled(FlexColumn)`
+  border-radius: 6px;
+  border: solid 1px rgba(255,255,255,0.2);
+  padding: 4px;
+  align-self: stretch;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  gap: 4px;
+
+`;
+
+const notAllowedStyle = css`pointer-events: none;`;
+
+const PollEmbed = (props: { post: Post, poll: RawPostPoll }) => {
+
+  const votedChoiceId = () =>  props.poll.votedUsers[0]?.pollChoiceId;
+
+  const [selectedChoiceId, setSelectedChoiceId] = createSignal<string | null>(null);
+
+  createEffect(() => {
+    setSelectedChoiceId(votedChoiceId() || null);
+  });
+
+  const onVoteClick = async () => {
+    await props.post.votePoll(selectedChoiceId()!);
+    setSelectedChoiceId(null);
+  };
+
+  return (
+    <PollContainer class="pollEmbedContainer">
+      <FlexColumn gap={4} class={conditionalClass(votedChoiceId(), notAllowedStyle)}>
+        <For each={props.poll.choices}>
+          {choice => <PollChoice votedChoiceId={votedChoiceId()} poll={props.poll} choice={choice} selectedId={selectedChoiceId()} setSelected={setSelectedChoiceId} /> }
+        </For>
+      </FlexColumn>
+
+
+      <FlexRow gap={6} class={css`align-self: end;`} itemsCenter>
+        <span class={css`padding: 4px;`}>
+          <Text size={12}>{props.poll._count.votedUsers}</Text>
+          <Text size={12} opacity={0.6}> votes</Text>
+        </span>
+        <Show when={selectedChoiceId() && !votedChoiceId()}><Button onClick={onVoteClick} class={css`margin-left: auto; margin-top: 2px;`} primary label="Vote" iconName="done" padding={4} margin={0} iconSize={16} /></Show>
+      </FlexRow>
+
+    </PollContainer>
+  );
+};
+
+const PollChoiceContainer = styled(FlexRow)`
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  &.selected {
+    background-color: rgba(255,255,255,0.1);
+  }
+  z-index: 1111;
+`;
+
+const radioBoxStyles = css`
+  width: 100%; 
+  border-radius: 4px;
+  &:hover{background-color: rgba(255,255,255,0.06); }
+  &.selected {
+    background-color: rgba(255,255,255,0.1);
+  }
+`;
+
+const ProgressbarContainer = styled.div`
+  height: 100%;
+  background-color: var(--primary-color);
+  opacity: 0.2;
+  position: absolute;
+  border-radius: 4px;
+  z-index: -1;
+
+`;
+
+const PollChoice = (props: {votedChoiceId?: string, choice: RawPostChoice, poll: RawPostPoll, selectedId: string | null, setSelected: (id: string | null) => void;}) => {
+
+  // (100 * vote) / totalVotes
+  const votes = () => (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers;
+
+  return (
+    <PollChoiceContainer class={conditionalClass(props.votedChoiceId === props.choice.id, "selected")} onClick={() => props.setSelected(props.choice.id === props.selectedId ? null : props.choice.id)} itemsCenter>
+      
+      <RadioBoxItem 
+        checkboxSize={8} 
+        class={conditionalClass(!props.votedChoiceId,  radioBoxStyles)}
+        item={{id: "0", label: props.choice.content}} 
+        labelSize={14} 
+        selected={props.selectedId === props.choice.id} 
+      />
+
+      <Show when={props.votedChoiceId}><Text opacity={0.8} size={12} class={css`margin-left: auto; flex-shrink: 0; margin-right: 4px;`}>{votes()}%</Text></Show>
+      <Show when={props.votedChoiceId}><ProgressbarContainer style={{width: `${votes()}%`}} /></Show>
+
+    </PollChoiceContainer>
+  );
+};
 
 const LikedUserContainer = styled(FlexRow)`
   align-items: center;
@@ -648,6 +828,7 @@ export function PostsArea(props: {
   const [loading, setLoading] = createSignal(false);
   const { posts } = useStore();
   const [lastFetchCount, setLastFetchCount] = createSignal(0);
+  let postsContainerRef: HTMLDivElement | undefined;
 
   const cachedReplies = () => {
     if (props.showDiscover) return posts.cachedDiscover();
@@ -746,6 +927,16 @@ export function PostsArea(props: {
       loadMoreDiscover();
     }
   };
+
+
+
+  // TODO: use method to update post stats in real time.
+  // onMount(() => {
+  //   setInterval(() => {
+  //     console.log(findIndexInViewport(postsContainerRef!));
+  //   }, 5000);
+  // });
+
   return (
     <PostsContainer gap={2} style={props.style}>
       <Show when={props.showCreateNew}>
@@ -754,16 +945,46 @@ export function PostsArea(props: {
       <Show when={props.postId}>
         <NewPostArea postId={props.postId} />
       </Show>
-      <For each={cachedReplies()}>{(post, i) => <PostItem post={post} />}</For>
+      <FlexColumn gap={2} ref={postsContainerRef}>
+        <For each={cachedReplies()}>{(post, i) => <PostItem post={post} />}</For>
 
-      <Show when={hasMorePosts() || loading()}>
-        <For each={Array(10).fill(0)}>
-          {() => <Skeleton.Item onInView={() => loadMore()} height="100px" width="100%" />}
-        </For>
-      </Show>
+        <Show when={hasMorePosts() || loading()}>
+          <For each={Array(10).fill(0)}>
+            {() => <Skeleton.Item onInView={() => loadMore()} height="100px" width="100%" />}
+          </For>
+        </Show>
+      </FlexColumn>
     </PostsContainer>
   );
 }
+
+
+function partInViewport(elem: HTMLElement) {
+  const x = elem.getBoundingClientRect().left;
+  const y = elem.getBoundingClientRect().top;
+  const ww = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  const hw = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  const w = elem.clientWidth;
+  const h = elem.clientHeight;
+  return (
+    (y < hw &&
+       y + h > 0) &&
+      (x < ww &&
+       x + w > 0)
+  );
+}
+
+function findIndexInViewport(element: HTMLElement) {
+  const children = element.children || [];
+  for (let i = 0; i < children.length; i++) {
+    const childEl = children[i]! as HTMLElement;
+    if (partInViewport(childEl)) {
+      return i;
+    }
+  }  
+  return -1;
+}
+
 
 const notificationUsernameStyles = css`
   white-space: nowrap;

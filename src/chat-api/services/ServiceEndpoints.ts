@@ -55,6 +55,7 @@ export default {
   postNotificationDismiss: () => "/posts/notifications/dismiss",
   postNotificationCount: () => "/posts/notifications/count",
   post: (postId: string) => `/posts/${postId}`,
+  postVotePoll: (postId: string, pollId: string, choiceId: string) => `/posts/${postId}/polls/${pollId}/choices/${choiceId}`,
   likePost: (postId: string) => `/posts/${postId}/like`,
   unlikePost: (postId: string) => `/posts/${postId}/unlike`,
   feedPosts: () => "/posts/feed",

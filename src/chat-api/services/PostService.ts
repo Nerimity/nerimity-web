@@ -106,6 +106,15 @@ export const editPost = async (postId: string, content: string) => {
   return data;
 };
 
+export const postVotePoll = async (postId: string, pollId: string, choiceId: string) => {
+  const data = await request<Post>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.postVotePoll(postId, pollId, choiceId),
+    useToken: true
+  });
+  return data;
+};
+
 
 interface GetCommentPostsOpts {
   postId: string;
@@ -166,10 +175,11 @@ export const getPostNotificationDismiss = async () => {
 };
 
 
-export const createPost = async (opts: {content?: string, attachment?: File,  replyToPostId?: string}) => {
+export const createPost = async (opts: {content?: string, attachment?: File,  replyToPostId?: string, poll?: {choices: string[]}}) => {
 
   let body: any = {
     content: opts.content,
+    poll: opts.poll,
     ...(opts.replyToPostId ? {postId: opts.replyToPostId} : undefined)
   };
 
@@ -178,6 +188,9 @@ export const createPost = async (opts: {content?: string, attachment?: File,  re
 
     if (opts.content?.trim()) {
       fd.append("content", opts.content);
+    }
+    if (opts.poll) {
+      fd.append("poll", JSON.stringify(opts.poll));
     }
     if (opts.replyToPostId) fd.append("postId", opts.replyToPostId);
     fd.append("attachment", opts.attachment);
