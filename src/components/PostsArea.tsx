@@ -771,7 +771,7 @@ const PollChoice = (props: {post: Post; votedChoiceId?: string, choice: RawPostC
         selected={props.selectedId === props.choice.id} 
       />
 
-      <Show when={showResults()}><Text opacity={0.8} size={12} class={css`margin-left: auto; flex-shrink: 0; margin-right: 4px;`}>{votes()}%</Text></Show>
+      <Show when={showResults()}><Text opacity={0.8} size={12} class={css` position: absolute; right: 4px; flex-shrink: 0;`}>{votes()}%</Text></Show>
       <Show when={showResults()}><ProgressbarContainer style={{width: `${votes()}%`}} /></Show>
 
     </PollChoiceContainer>
