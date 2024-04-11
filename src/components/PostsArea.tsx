@@ -700,7 +700,7 @@ const PollEmbed = (props: { post: Post, poll: RawPostPoll }) => {
     <PollContainer class="pollEmbedContainer">
       <FlexColumn gap={4} class={conditionalClass(votedChoiceId(), notAllowedStyle)}>
         <For each={props.poll.choices}>
-          {choice => <PollChoice votedChoiceId={votedChoiceId()} poll={props.poll} choice={choice} selectedId={selectedChoiceId()} setSelected={setSelectedChoiceId} /> }
+          {choice => <PollChoice post={props.post} votedChoiceId={votedChoiceId()} poll={props.poll} choice={choice} selectedId={selectedChoiceId()} setSelected={setSelectedChoiceId} /> }
         </For>
       </FlexColumn>
 
