@@ -747,10 +747,18 @@ const ProgressbarContainer = styled.div`
 
 `;
 
-const PollChoice = (props: {votedChoiceId?: string, choice: RawPostChoice, poll: RawPostPoll, selectedId: string | null, setSelected: (id: string | null) => void;}) => {
+const PollChoice = (props: {post: Post; votedChoiceId?: string, choice: RawPostChoice, poll: RawPostPoll, selectedId: string | null, setSelected: (id: string | null) => void;}) => {
+  const store = useStore();
 
   // (100 * vote) / totalVotes
   const votes = () => Math.round((100 * props.choice._count.votedUsers) / props.poll._count.votedUsers);
+
+  const showResults = () => {
+    if (props.votedChoiceId) return true;
+    if (store.account.user()?.id === props.post.createdBy.id) return true;
+
+    return false;
+  };
 
   return (
     <PollChoiceContainer class={conditionalClass(props.votedChoiceId === props.choice.id, "selected")} onClick={() => props.setSelected(props.choice.id === props.selectedId ? null : props.choice.id)} itemsCenter>
@@ -763,8 +771,8 @@ const PollChoice = (props: {votedChoiceId?: string, choice: RawPostChoice, poll:
         selected={props.selectedId === props.choice.id} 
       />
 
-      <Show when={props.votedChoiceId}><Text opacity={0.8} size={12} class={css`margin-left: auto; flex-shrink: 0; margin-right: 4px;`}>{votes()}%</Text></Show>
-      <Show when={props.votedChoiceId}><ProgressbarContainer style={{width: `${votes()}%`}} /></Show>
+      <Show when={showResults()}><Text opacity={0.8} size={12} class={css`margin-left: auto; flex-shrink: 0; margin-right: 4px;`}>{votes()}%</Text></Show>
+      <Show when={showResults()}><ProgressbarContainer style={{width: `${votes()}%`}} /></Show>
 
     </PollChoiceContainer>
   );
