@@ -751,7 +751,7 @@ const PollChoice = (props: {post: Post; votedChoiceId?: string, choice: RawPostC
   const store = useStore();
 
   // (100 * vote) / totalVotes
-  const votes = () => Math.round((100 * props.choice._count.votedUsers) / props.poll._count.votedUsers);
+  const votes = () => Math.round(((100 * props.choice._count.votedUsers) / props.poll._count.votedUsers) || 0);
 
   const showResults = () => {
     if (props.votedChoiceId) return true;
