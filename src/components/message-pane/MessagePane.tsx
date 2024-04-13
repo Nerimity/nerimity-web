@@ -1181,6 +1181,7 @@ function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInput
   const { notice, setNotice, hasAlreadySeenNotice, updateLastSeen } = useNotice(() => props.channelId);
   const [textAreaFocus, setTextAreaFocus] = createSignal(false);
   const { isMobileWidth } = useWindowProperties();
+  const [buttonClickable, setButtonClickable] = createSignal(false);
 
   const showNotice = () => notice() && !hasAlreadySeenNotice();
 
@@ -1195,8 +1196,17 @@ function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInput
     if (event.target instanceof HTMLElement) {
       event.preventDefault();
       event.stopPropagation();
+      setTextAreaFocus(true)
     }
   };
+  createEffect(on([textAreaFocus, showNotice], () => {
+    setButtonClickable(false)
+    if (showNotice() && textAreaFocus()) {
+      setTimeout(() => {
+        setButtonClickable(true)
+      }, 1000);
+    }
+  }));
 
 
   createEffect(on(showNotice, (show) => {
@@ -1211,6 +1221,7 @@ function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInput
 
 
   const understoodClick = () => {
+    if (!buttonClickable()) return;
     updateLastSeen();
     setNotice(null);
     props.textAreaEl()?.focus();
@@ -1228,7 +1239,7 @@ function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInput
           <div class={styles.info}>
             <Markup inline text={notice()!.content} />
           </div>
-          <Button label='Understood' iconName='done' onClick={understoodClick} class={styles.noticeButton} primary />
+          <Button styles={{opacity: buttonClickable() ? 1 : 0.5}} label='Understood' iconName='done' onClick={understoodClick} class={styles.noticeButton} primary />
         </div>
       </Show>
     </>
