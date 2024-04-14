@@ -10,7 +10,7 @@ export const getActivityIconName = (activity: ActivityStatus) => {
   return "games";
 };
 
-export const RichProgressBar = (props: { startedAt: number, endsAt: number }) => {
+export const RichProgressBar = (props: { primaryColor?: string; startedAt: number, endsAt: number }) => {
   const [playedFor, setPlayedFor] = createSignal("");
 
   const endsAt = () => {
@@ -38,6 +38,7 @@ export const RichProgressBar = (props: { startedAt: number, endsAt: number }) =>
   });
 
 
+
   return (
     <div class={styles.richProgressBar}>
       <div class={styles.progressDetails}>
@@ -45,7 +46,7 @@ export const RichProgressBar = (props: { startedAt: number, endsAt: number }) =>
         <Text size={13} opacity={0.6}>{endsAt()}</Text>  
       </div>
       <div class={styles.progressBar}>
-        <div class={styles.progress} style={{width: `${percent(undefined)}%`}} />
+        <div class={styles.progress} style={{width: `${percent(undefined)}%`, ...(props.primaryColor ? {"background-color": props.primaryColor} : {})}} />
       </div>
     </div>
   );

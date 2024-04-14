@@ -112,6 +112,9 @@ export interface UserDetails {
 }
 export interface UserProfile {
   bio?: string;
+  bgColorOne?: string;
+  bgColorTwo?: string;
+  primaryColor?: string;
 }
 
 export async function getUserDetailsRequest(userId?: string) {
