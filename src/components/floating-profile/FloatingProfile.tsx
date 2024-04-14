@@ -251,7 +251,7 @@ const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | nul
         <div 
           class={styles.flyoutInnerContainer} 
           style={{
-            background: `linear-gradient(180deg, ${props.colors?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"})`
+            background: `linear-gradient(180deg, ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"})`
           }}
           classList={{
             [styles.dmPane]: props.dmPane,
