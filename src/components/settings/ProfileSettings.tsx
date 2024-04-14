@@ -12,6 +12,9 @@ import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 
 import { setSettingsHeaderPreview } from "./SettingsPane";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { ProfileFlyout } from "../floating-profile/FloatingProfile";
+import { ColorPicker } from "../ui/color-picker/ColorPicker";
 
 const Container = styled("div")`
   display: flex;
@@ -109,6 +112,9 @@ function EditProfilePage() {
         <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({inputValues().bio.length} / 1000)</Text>
         <Input class='inputContainer' type='textarea' value={inputValues().bio} onText={(v) => setInputValue("bio", v)} />
       </SettingsBlock>
+
+      <ProfileColorBlock />
+
       <Show when={error()}><Text size={12} color="var(--alert-color)" style={{ "margin-top": "5px" }}>{error()}</Text></Show>
       <Show when={Object.keys(updatedInputValues()).length}>
         <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
@@ -116,3 +122,38 @@ function EditProfilePage() {
     </>
   );
 }
+
+
+const ProfileColorContainer = styled(FlexRow)`
+margin-top: 8px;
+`;
+
+const ColorPickerContainer = styled(FlexColumn)`
+  flex: 1;
+`;
+
+const ProfileFlyoutContainer = styled(FlexColumn)`
+  border-radius: 12px;
+  overflow: hidden;
+  outline: solid 1px rgba(255, 255, 255, 0.2);
+`;
+
+const ProfileColorBlock = () => {
+  const [colorOne, setColorOne] = createSignal<string | null>(null);
+  const [colorTwo, setColorTwo] = createSignal<string | null>(null);
+  const [primaryColor, setPrimaryColor] = createSignal<string | null>("var(--primary-color)");
+  return (
+    <ProfileColorContainer gap={6}>
+      <ColorPickerContainer>
+      
+        <SettingsBlock icon="palette" label="Gradient Color 1"><ColorPicker color={colorOne()} onChange={setColorOne} /></SettingsBlock>
+        <SettingsBlock icon="palette" label="Gradient Color 2"><ColorPicker color={colorTwo()} onChange={setColorTwo} /></SettingsBlock>
+        <SettingsBlock icon="palette" label="Primary Color"><ColorPicker color={primaryColor()} onChange={setPrimaryColor} /></SettingsBlock>
+        
+      
+      </ColorPickerContainer>
+      <ProfileFlyoutContainer><ProfileFlyout colors={{ bg: [colorOne(), colorTwo()], primary: primaryColor() }} dmPane /></ProfileFlyoutContainer>
+
+    </ProfileColorContainer>
+  );
+};

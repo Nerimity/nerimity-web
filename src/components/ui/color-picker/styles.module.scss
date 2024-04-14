@@ -1,0 +1,26 @@
+.colorPicker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 30px;
+  width: 30px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transition: 0.2s;
+  }
+  &:hover:before {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  .icon {
+    position: relative;
+    z-index: 1111;
+  }
+}
