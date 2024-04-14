@@ -19,7 +19,7 @@ import { PostItem } from "../PostsArea";
 import { bannerUrl } from "@/chat-api/store/useUsers";
 import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu";
 import { electronWindowAPI } from "@/common/Electron";
-import { classNames } from "@/common/classNames";
+import { classNames, conditionalClass } from "@/common/classNames";
 import { useLocation } from "solid-navigator";
 import env from "@/common/env";
 import { RichProgressBar, getActivityIconName } from "@/components/activity/Activity";
@@ -36,12 +36,15 @@ interface Props {
   close?: () => void;
   triggerEl?: HTMLElement;
   colors?: {bg?: [string | null, string | null], primary?: string | null}
+  bio?: string;
 }
 
 
 export const ProfileFlyout = (props: Props) => {
   const { isMobileWidth } = useWindowProperties();
   const location = useLocation();
+
+
 
 
   const showMobileFlyout = () => {
@@ -61,9 +64,9 @@ export const ProfileFlyout = (props: Props) => {
 
   return (
     <Switch>
-      <Match when={!showMobileFlyout()}><DesktopProfileFlyout colors={props.colors} triggerEl={props.triggerEl} close={props.close} anchor={props.position?.anchor} left={props.position?.left} top={props.position?.top} dmPane={props.dmPane} userId={props.userId} serverId={props.serverId} /></Match>
+      <Match when={!showMobileFlyout()}><DesktopProfileFlyout bio={props.bio} colors={props.colors} triggerEl={props.triggerEl} close={props.close} anchor={props.position?.anchor} left={props.position?.left} top={props.position?.top} dmPane={props.dmPane} userId={props.userId} serverId={props.serverId} /></Match>
       <Match when={showMobileFlyout()}>
-        <MobileFlyout colors={props.colors} close={props?.close} serverId={props.serverId} userId={props.userId}  />
+        <MobileFlyout bio={props.bio} colors={props.colors} close={props?.close} serverId={props.serverId} userId={props.userId}  />
       </Match>
     </Switch>
   );
@@ -71,7 +74,7 @@ export const ProfileFlyout = (props: Props) => {
 };
 
 
-const DesktopProfileFlyout = (props: {colors?: {bg?: [string | null, string | null], primary?: string | null}, triggerEl?: HTMLElement, dmPane?: boolean; mobile?: boolean; close?(): void, userId: string, serverId?: string, left?: number, top?: number; anchor?: "left" | "right" }) => {
+const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | null, string | null], primary?: string | null}, triggerEl?: HTMLElement, dmPane?: boolean; mobile?: boolean; close?(): void, userId: string, serverId?: string, left?: number, top?: number; anchor?: "left" | "right" }) => {
   const { createPortal } = useCustomPortal();
   const { users, account, serverMembers, posts } = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
@@ -91,6 +94,19 @@ const DesktopProfileFlyout = (props: {colors?: {bg?: [string | null, string | nu
     if (isMe()) return account.user();
     const user = users.get(props.userId);
     if (user) return user;
+  };
+
+
+  const colors = () => {
+    if (props.colors) return props.colors;
+    const bgColorOne = details()?.profile?.bgColorOne;
+    const bgColorTwo = details()?.profile?.bgColorTwo;
+    const primaryColor = details()?.profile?.primaryColor;
+    return {bg: [bgColorOne, bgColorTwo], primary: primaryColor};
+  };
+  const bio = () => {
+    if (props.bio !== undefined) return props.bio;
+    return details()?.profile?.bio;
   };
 
   const member = () => props.serverId ? serverMembers.get(props.serverId, props.userId) : undefined;
@@ -200,7 +216,7 @@ const DesktopProfileFlyout = (props: {colors?: {bg?: [string | null, string | nu
     <>
 
       <Show when={member()}>
-        <FlyoutTitle primaryColor={props.colors?.primary || undefined} style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
+        <FlyoutTitle primaryColor={colors()?.primary || undefined} style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
         <div class={styles.rolesContainer}>
           <For each={member()?.roles(true)!}>
             {role => (<div class={styles.roleContainer}><Text color={role?.hexColor} size={12}>{role?.name}</Text></div>)}
@@ -209,12 +225,12 @@ const DesktopProfileFlyout = (props: {colors?: {bg?: [string | null, string | nu
         </div>
       </Show>
 
-      <UserActivity userId={props.userId} primaryColor={props.colors?.primary || undefined} />
+      <UserActivity userId={props.userId} primaryColor={colors()?.primary || undefined} />
 
       <Show when={details()?.profile?.bio}>
-        <FlyoutTitle icon='info' title='Bio' primaryColor={props.colors?.primary || undefined} />
+        <FlyoutTitle icon='info' title='Bio' primaryColor={colors()?.primary || undefined} />
         <div class={styles.bioContainer}>
-          <Text size={12} color='rgba(255,255,255,0.7)' class={props.colors?.primary ? css`a {color: ${props.colors?.primary}; }`: ""}><Markup text={details()?.profile?.bio!} /></Text>
+          <Text size={12} color='rgba(255,255,255,0.7)' class={colors()?.primary ? css`a {color: ${colors()?.primary}; }`: ""}><Markup text={bio()!} /></Text>
         </div>
       </Show>
 
@@ -235,7 +251,7 @@ const DesktopProfileFlyout = (props: {colors?: {bg?: [string | null, string | nu
         <div 
           class={styles.flyoutInnerContainer} 
           style={{
-            background: `linear-gradient(180deg, ${props.colors?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${props.colors?.bg?.[1] || "rgba(40, 40, 40, 0.86)"})`
+            background: `linear-gradient(180deg, ${props.colors?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"})`
           }}
           classList={{
             [styles.dmPane]: props.dmPane,
@@ -244,11 +260,11 @@ const DesktopProfileFlyout = (props: {colors?: {bg?: [string | null, string | nu
 
         >
           <StickyArea/>
-          <div class={styles.flyoutOuterScrollableContainer}>
+          <div class={classNames(styles.flyoutOuterScrollableContainer, conditionalClass(colors().primary, css`::-webkit-scrollbar-thumb{background-color: ${colors().primary!};}`))} >
             <div class={styles.flyoutScrollableContainer}>
               <ProfileArea />
               <Show when={latestPost()}>
-                <PostArea primaryColor={props.colors?.primary || undefined} />
+                <PostArea primaryColor={colors()?.primary || undefined} />
               </Show>
             </div>
           </div>
@@ -260,7 +276,7 @@ const DesktopProfileFlyout = (props: {colors?: {bg?: [string | null, string | nu
 
 
 
-function MobileFlyout(props: {colors?: {bg?: [string | null, string | null], primary?: string | null}, userId: string, serverId?: string, close?: () => void }) {
+function MobileFlyout(props: {bio?: string; colors?: {bg?: [string | null, string | null], primary?: string | null}, userId: string, serverId?: string, close?: () => void }) {
   let mouseDownTarget: HTMLDivElement | null = null;
 
   const onBackgroundClick = (event: MouseEvent) => {
@@ -271,7 +287,7 @@ function MobileFlyout(props: {colors?: {bg?: [string | null, string | null], pri
 
   return (
     <div class={styles.backgroundContainer} onClick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-      <DesktopProfileFlyout colors={props.colors} mobile close={props.close} serverId={props.serverId} userId={props.userId} />
+      <DesktopProfileFlyout bio={props.bio} colors={props.colors} mobile close={props.close} serverId={props.serverId} userId={props.userId} />
     </div>
   );
 }

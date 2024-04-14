@@ -216,7 +216,7 @@ function EditAccountPage() {
         <Button iconSize={18} iconName='attach_file' label='Browse' onClick={bannerFileBrowserRef()?.open} />
       </SettingsBlock>
 
-      <SettingsBlock icon='info' label='Profile' description='Edit your bio' href="./profile">
+      <SettingsBlock icon='info' label='Profile' description='Edit your bio or colors' href="./profile">
         <Icon name="keyboard_arrow_right" />
       </SettingsBlock>
       <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
