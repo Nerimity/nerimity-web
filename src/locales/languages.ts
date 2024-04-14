@@ -16,6 +16,16 @@ export const languages = {
     emoji: "🇬🇧",
     contributors: ["https://github.com/SupertigerDev"]
   },
+  "af-za": {
+    name: "Afrikaans",
+    emoji: "🇿🇦",
+    contributors: ["https://github.com/mooocksadev"]
+  },
+  "pt-br": {
+    name: "Brazilian Portuguese",
+    emoji: "🇧🇷",
+    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Gersonzao"]
+  },
   "zn-hant": {
     name: "Chinese (Traditional)",
     emoji: "🇨🇳",
@@ -41,15 +51,16 @@ export const languages = {
     emoji: "🇭🇺",
     contributors: ["https://github.com/andrasdaradici"]
   },
-  "pt-br": {
-    name: "Brazilian Portuguese",
-    emoji: "🇧🇷",
-    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Gersonzao"]
-  },
+
   "pl-pl": {
     name: "Polish",
     emoji: "🇵🇱",
     contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"]
+  },
+  "ro-ro": {
+    name: "Romanian",
+    emoji: "🇷🇴",
+    contributors: ["GNU/Alex"]
   },
   "es-es": {
     name: "Spanish",
@@ -60,11 +71,6 @@ export const languages = {
     name: "Turkish",
     emoji: "🇹🇷",
     contributors: ["https://github.com/slideglide"]
-  },
-  "af-za": {
-    name: "Afrikaans",
-    emoji: "🇿🇦",
-    contributors: ["https://github.com/mooocksadev"]
   }
 };
 
