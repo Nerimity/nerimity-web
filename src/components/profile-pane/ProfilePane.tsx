@@ -130,11 +130,24 @@ export default function ProfilePane() {
       });
     })
   );
+  
+  const colors = () => {
+    const bgColorOne = userDetails()?.profile?.bgColorOne;
+    const bgColorTwo = userDetails()?.profile?.bgColorTwo;
+    const primaryColor = userDetails()?.profile?.primaryColor;
+    return {bg: [bgColorOne, bgColorTwo], primary: primaryColor};
+  };
 
   return (
     <Show when={user()}>
       <div class={styles.profilePane}>
-        <div class={styles.topArea}>
+        <div class={classNames(styles.topArea, css`
+          background: linear-gradient(180deg, ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"});
+        &:after {
+          background: linear-gradient(180deg, ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"});
+        }
+
+        `)}>
           <Banner
             maxHeight={250}
             animate
@@ -142,7 +155,7 @@ export default function ProfilePane() {
             hexColor={user()?.hexColor}
             url={bannerUrl(user()!)}
           />
-          <FlexColumn>
+          <FlexColumn class={styles.topAreaContent}>
             <FlexRow>
               <Avatar
                 class={classNames(
@@ -196,7 +209,7 @@ export default function ProfilePane() {
               </div>
 
               <Show when={userDetails()?.profile?.bio}>
-                <BioContainer userDetails={userDetails()!} />
+                <BioContainer primaryColor={colors()?.primary} userDetails={userDetails()!} />
               </Show>
             </div>
           </FlexColumn>
@@ -589,10 +602,10 @@ function Content(props: { user: UserDetails }) {
   );
 }
 
-function BioContainer(props: { userDetails: UserDetails }) {
+function BioContainer(props: { primaryColor?: string; userDetails: UserDetails }) {
   return (
     <div class={styles.bioContainer}>
-      <Text size={13}>
+      <Text size={13} class={props.primaryColor ? css`a {color: ${props.primaryColor}; }`: ""}>
         <Markup text={props.userDetails?.profile?.bio!} />
       </Text>
     </div>

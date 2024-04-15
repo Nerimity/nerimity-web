@@ -10,16 +10,38 @@
 }
 .topArea {
   display: flex;
+  position: relative;
   flex-direction: column;
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.06);
   margin: 10px;
   margin-bottom: 0;
+  flex-shrink: 0;
+  z-index: 1111;
 
-  box-shadow: 2px 2px 11px 2px #1b1b1b;
+  &:after { 
+    content: ""; 
+    position: absolute; 
+    inset: 0; 
+    
+
+    filter: blur(2em); 
+    z-index: -1; 
+  } 
+  &:before {
+    content: ""; 
+    position: absolute; 
+    inset: 0;
+    background-color: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    z-index: 1;
+  }
 
   .avatar {
     margin-left: 26px;
+  }
+  .topAreaContent {
+    z-index: 111;
   }
 
 }
@@ -39,6 +61,7 @@
   padding-right: 6px;
   border-radius: 6px;
   background-color: rgba(255,255,255,0.04);
+  z-index: 1111;
 }
 
 .followingAndFollowersContainer {
