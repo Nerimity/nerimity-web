@@ -246,12 +246,12 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
   max-width: 300px;
   width: 100%;
   z-index: 1111111111111;
-  height: 380px;
-  padding: 8px;
-  border-radius: 8px;
+  height: 410px;
+  border-radius: 6px;
   background-color: var(--pane-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
   overflow: auto;
+  padding-bottom: 4px;
 
   ${props => props.isMobile ? `
     left: 0;
@@ -270,6 +270,8 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
     background-color: transparent;
     border: none;
     justify-content: initial;
+    margin-left: 4px;
+    margin-right: 4px;
     &:hover {
       background-color: rgba(255,255,255, 0.1);
     }
@@ -346,7 +348,7 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
 
   return (
     <FloatingUserModalContainer class="floatingUserModalContainer" isMobile={isMobileWidth()} gap={5}>
-      <Banner margin={0} brightness={50} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
+      <Banner margin={0} radius={6} brightness={50} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
         <BannerContainer>
           <Avatar animate size={60} user={user()} />
           <DetailsContainer>
@@ -358,8 +360,10 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
           </DetailsContainer>
         </BannerContainer>
       </Banner>
-      <PresenceDropDown />
-      <CustomStatus/>
+      <FlexColumn gap={4} style={{"margin-left": "4px", "margin-right": "4px"}}>
+        <PresenceDropDown />
+        <CustomStatus/>
+      </FlexColumn>
 
       <CustomLink onclick={props.close} style={{ display: "flex", "flex-direction": "column" }} href={RouterEndpoints.PROFILE(userId()!)}>
         <Button iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
