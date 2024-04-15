@@ -241,7 +241,7 @@ const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | nul
   const PostArea = (props: { primaryColor?: string }) => (
     <>
       <FlyoutTitle style={{ "margin-bottom": "5px" }} icon='chat' title='Latest Post' primaryColor={props.primaryColor || undefined} />
-      <PostItem post={latestPost()!} />
+      <PostItem class={styles.postItemContainer} post={latestPost()!} />
     </>
   );
 

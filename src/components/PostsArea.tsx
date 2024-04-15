@@ -364,7 +364,8 @@ const PostActionsContainer = styled(FlexRow)`
 
 const postActionStyle = css`
   margin: 0;
-  background: transparent;
+  background-color: rgba(255,255,255,0.05);
+
   min-width: 17px;
   padding: 5px;
   .label {
@@ -570,16 +571,18 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
     ));
 
   return (
-    <PostActionsContainer gap={2}>
+    <PostActionsContainer gap={4}>
       <Button
-        margin={2}
+        margin={0}
         onClick={onLikeClick}
         class={postActionStyle}
+        color="var(--alert-color)"
+        primary={!!isLikedByMe()}
         iconName={likedIcon()}
         label={props.post._count?.likedBy.toLocaleString()}
       />
       <Button
-        margin={2}
+        margin={0}
         onClick={onCommentClick}
         class={postActionStyle}
         iconName="comment"
@@ -587,11 +590,11 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
       />
       {/* <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" /> */}
       {/* <Button margin={2} class={postActionStyle} iconName="share" /> */}
-      <FlexRow style={{ "margin-left": "auto" }} gap={2}>
+      <FlexRow style={{ "margin-left": "auto" }} gap={4}>
         <Show when={account.hasModeratorPerm()}>
           <Button
             onClick={() => navigate("/app/moderation?search-post-id=" + props.post.id)}
-            margin={2}
+            margin={0}
             class={postActionStyle}
             iconName="security"
           />
@@ -603,13 +606,13 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
         >
           <Button
             onClick={onEditClicked}
-            margin={2}
+            margin={0}
             class={postActionStyle}
             iconName="edit"
           />
           <Button
             onClick={onDeleteClick}
-            margin={2}
+            margin={0}
             class={postActionStyle}
             color="var(--alert-color)"
             iconName="delete"
