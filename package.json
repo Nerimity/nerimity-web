@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@mbarzda/solid-i18next": "^1.4.1",
+    "@melloware/coloris": "^0.24.0",
     "@nerimity/nevula": "^0.13.1",
     "@nerimity/solid-emoji-picker": "^0.4.8",
     "@nerimity/solid-opus-media-recorder": "^1.0.1",
