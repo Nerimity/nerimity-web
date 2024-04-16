@@ -154,6 +154,7 @@ export default function ProfilePane() {
             margin={0}
             hexColor={user()?.hexColor}
             url={bannerUrl(user()!)}
+            class={css`z-index: 111;`}
           />
           <FlexColumn class={styles.topAreaContent}>
             <FlexRow>
