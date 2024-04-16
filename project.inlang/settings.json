@@ -1,6 +1,6 @@
 {
-	"sourceLanguageTag": "en",
-	"languageTags": ["en", "de"], 
+	"sourceLanguageTag": "en-gb",
+	"languageTags": ["en-gb", "de-de"], 
 	"modules": [
 		"https://cdn.jsdelivr.net/npm/@inlang/plugin-i18next@latest/dist/index.js"
   	],
