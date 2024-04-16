@@ -5,6 +5,6 @@
 		"https://cdn.jsdelivr.net/npm/@inlang/plugin-i18next@latest/dist/index.js"
   	],
 	"plugin.inlang.i18next": {
-		"pathPattern": "./src/locales/list/{languageTag}.json"
+		"pathPattern": "../src/locales/list/{languageTag}.json"
   	}
 }
