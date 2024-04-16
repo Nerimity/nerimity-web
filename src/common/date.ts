@@ -42,15 +42,15 @@ export function timeSince(timestamp: number, showSeconds = false) {
   const secondsPast = Math.abs((now.getTime() - timestamp) / 1000);
   if (secondsPast < 60) {
     if (showSeconds) {
-      return Math.floor(secondsPast) + " seconds ago";
+      return Math.trunc(secondsPast) + " seconds ago";
     }
     return "few seconds ago";
   }
   if (secondsPast < 3600) {
-    return Math.floor(secondsPast / 60) + " minutes ago";
+    return Math.trunc(secondsPast / 60) + " minutes ago";
   }
   if (secondsPast <= 86400) {
-    return Math.floor(secondsPast / 3600) + " hours ago";
+    return Math.trunc(secondsPast / 3600) + " hours ago";
   }
   return formatTimestamp(timestamp);
 }

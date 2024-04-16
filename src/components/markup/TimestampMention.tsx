@@ -42,24 +42,24 @@ function timeSince(timestamp: number) {
 
 
   if (secondsPast < 60) {
-    return text(Math.floor(secondsPast) + " seconds");
+    return text(Math.trunc(secondsPast) + " seconds");
   }
   if (secondsPast < 3600) {
-    return text(Math.floor(secondsPast / 60) + " minutes " + (Math.floor(secondsPast) % 60 )  + " seconds");
+    return text(Math.trunc(secondsPast / 60) + " minutes " + (Math.trunc(secondsPast) % 60 )  + " seconds");
   }
   if (secondsPast <= 86400) {
-    return text(Math.floor(secondsPast / 3600) + " hours " + (Math.floor(secondsPast / 60) % 60 )  + " minutes");
+    return text(Math.trunc(secondsPast / 3600) + " hours " + (Math.trunc(secondsPast / 60) % 60 )  + " minutes");
   }
   if (secondsPast <= 604800) {
-    return text(Math.floor(secondsPast / 86400) + " days " + (Math.floor(secondsPast / 3600) % 24 )  + " hours");
+    return text(Math.trunc(secondsPast / 86400) + " days " + (Math.trunc(secondsPast / 3600) % 24 )  + " hours");
   }
   if (secondsPast <= 2629743) {
-    return text(Math.floor(secondsPast / 604800) + " weeks " + (Math.floor(secondsPast / 86400) % 7 )  + " days");
+    return text(Math.trunc(secondsPast / 604800) + " weeks " + (Math.trunc(secondsPast / 86400) % 7 )  + " days");
   }
   if (secondsPast <= 31556926) {
-    return text(Math.floor(secondsPast / 2629743) + " months " + (Math.floor(secondsPast / 604800) % 4 )  + " weeks");
+    return text(Math.trunc(secondsPast / 2629743) + " months " + (Math.trunc(secondsPast / 604800) % 4 )  + " weeks");
   }
 
-  return text(Math.floor(secondsPast / 31556926) + " years");
+  return text(Math.trunc(secondsPast / 31556926) + " years");
   
 }
