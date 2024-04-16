@@ -45,7 +45,7 @@ function timeSince(timestamp: number) {
     return text(Math.round(secondsPast) + " seconds");
   }
   if (secondsPast < 3600) {
-    return text(Math.round(secondsPast / 60) + " minutes");
+    return text(Math.round(secondsPast / 60) + " minutes " + (Math.round(secondsPast) % 60 )  + " seconds");
   }
   if (secondsPast <= 86400) {
     return text(Math.round(secondsPast / 3600) + " hours " + (Math.round(secondsPast / 60) % 60 )  + " minutes");
