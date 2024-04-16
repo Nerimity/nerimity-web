@@ -168,6 +168,11 @@
   margin-top: 1px;
   margin-bottom: 1px;
   align-items: baseline;
+  .icon {
+    align-self: center;
+    margin-right: 4px;
+    opacity: 0.8;
+  }
   .type {
     opacity: 0.5;
     margin-right: 5px;

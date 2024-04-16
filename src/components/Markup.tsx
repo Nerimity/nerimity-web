@@ -23,6 +23,7 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { Link } from "./markup/Link";
 import { QuoteMessage, QuoteMessageHidden, QuoteMessageInvalid } from "./markup/QuoteMessage";
 import { GenericMention } from "./markup/GenericMention";
+import { TimestampMention, TimestampType } from "./markup/TimestampMention";
 
 export interface Props {
   text: string;
@@ -112,6 +113,15 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         return <Link {...{url, text}} />;
       }
       break;
+    }
+    case "tr" : {
+
+      const stamp = parseInt(expr);
+      if (isNaN(stamp)) {
+        break;
+      }
+      ctx.textCount += expr.length;
+      return <TimestampMention type={type as TimestampType} timestamp={stamp * 1000} />;
     }
     default: {
       console.warn("Unknown custom entity:", type);

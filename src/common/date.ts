@@ -37,10 +37,13 @@ export function getDaysAgo(timestamp: number) {
   return rtf.format(daysDifference, "day");
 }
 
-export function timeSince(timestamp: number) {
+export function timeSince(timestamp: number, showSeconds = false) {
   const now = new Date();
-  const secondsPast = (now.getTime() - timestamp) / 1000;
+  const secondsPast = Math.abs((now.getTime() - timestamp) / 1000);
   if (secondsPast < 60) {
+    if (showSeconds) {
+      return Math.round(secondsPast) + " seconds ago";
+    }
     return "few seconds ago";
   }
   if (secondsPast < 3600) {
