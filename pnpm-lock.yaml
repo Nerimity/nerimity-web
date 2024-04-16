@@ -8,6 +8,9 @@ dependencies:
   '@mbarzda/solid-i18next':
     specifier: ^1.4.1
     version: 1.4.1(html-parse-string@0.0.9)(i18next@23.7.18)(solid-js@1.8.11)
+  '@melloware/coloris':
+    specifier: ^0.24.0
+    version: 0.24.0
   '@nerimity/nevula':
     specifier: ^0.13.1
     version: 0.13.1
@@ -800,6 +803,10 @@ packages:
       html-parse-string: 0.0.9
       i18next: 23.7.18
       solid-js: 1.8.11
+    dev: false
+
+  /@melloware/coloris@0.24.0:
+    resolution: {integrity: sha512-9RGKHqZJsUSsxb/0xaBCK5OKywobiK/xRtV8f4KQDmviqmVfkMLR3kK4DRuTTLSFdSOqkV0OQ/Niitu+rlXXYw==}
     dev: false
 
   /@minht11/solid-virtual-container@0.2.1(solid-js@1.8.11):
