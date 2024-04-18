@@ -435,6 +435,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 
   return (
     <A
+      title={props.server.name}
       href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>

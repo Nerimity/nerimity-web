@@ -2,8 +2,8 @@ import Icon from "../icon/Icon";
 import styles from "./styles.module.scss";
 
 import "@melloware/coloris/dist/coloris.css";
-import { coloris, init, updatePosition } from "@melloware/coloris";
-import { createEffect, on, onMount } from "solid-js";
+import Coloris, { coloris, init, updatePosition } from "@melloware/coloris";
+import { createEffect, createSignal, on, onMount } from "solid-js";
 import Modal from "../modal/Modal";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -39,10 +39,15 @@ export function ColorPicker(props: { color: string | null, onChange?: (value: st
   );
 }
 
-const ColorPickerModal = (props: {color: string | null, close: () => void, onChange: (value: string) => void}) => {
+export const ColorPickerModal = (props: {color: string | null, done: (color: string) => void, close: () => void, onChange: (value: string) => void}) => {
   const {isMobileWidth, width} = useWindowProperties();
+  let color = props.color || "#000000";
+  const onChange = (newVal: string) => {
+    props.onChange(newVal);
+    color = newVal;
+  };
 
-  const initColoris = () => coloris({themeMode: "dark", parent: "#coloris", defaultColor: props.color || "black", inline: true, onChange: props.onChange});
+  const initColoris = () => coloris({themeMode: "dark", parent: "#coloris", defaultColor: props.color || "black", inline: true, onChange});
 
 
   onMount(() => {
@@ -59,11 +64,15 @@ const ColorPickerModal = (props: {color: string | null, close: () => void, onCha
   createEffect(on(width, () => {
     clearTimeout(timeout || 0);
     timeout = window.setTimeout(initColoris, 100);
-
   }));
 
+  const done = () => {
+    props.close();
+    props.done(color!);
+  };
 
-  return <Modal title="Color Picker" close={props.close} ignoreBackgroundClick>
+
+  return <Modal title="Color Picker" close={props.close} ignoreBackgroundClick actionButtonsArr={[{label: "Done", onClick: done, iconName: "done", primary: true}]}>
     <div class={classNames(styles.colorPickerContainer, conditionalClass(isMobileWidth(), styles.mobile))}><div id="coloris" /></div>
   </Modal>;
 };

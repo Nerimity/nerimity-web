@@ -47,6 +47,7 @@ import { TenorImage } from "@/chat-api/services/TenorService";
 import { useMicRecorder } from "@nerimity/solid-opus-media-recorder";
 import { DeleteMessageModal } from "./message-item/MessageItem";
 import { useNotice } from "@/common/useChannelNotice";
+import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 
 export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
@@ -276,6 +277,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
       <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
     </div>
     <TypingIndicator />
+    <AdvancedMarkupOptions inputElement={textAreaEl()!} updateText={setMessage}/>
     <CustomTextArea
       ref={setTextAreaEl}
       placeholder='Message'

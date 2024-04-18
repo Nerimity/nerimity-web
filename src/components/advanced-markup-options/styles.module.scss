@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  gap: 2px;
+  background: black;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  height: 30px;
+  flex-shrink: 0;
+  margin-bottom: 1px;
+
+}
+
+.button {
+  width: 16px;
+  height: 16px;
+}
+.colorBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+.datePickerModal {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
