@@ -1,4 +1,4 @@
-import { createEffect, createSignal, on, onMount, Show } from "solid-js";
+import { createEffect, createSignal, JSXElement, Match, on, onMount, Show, Switch } from "solid-js";
 import { classNames, conditionalClass } from "@/common/classNames";
 import styles from "./styles.module.scss";
 import { styled } from "solid-styled-components";
@@ -19,7 +19,7 @@ interface Props {
   height?: number;
   minHeight?: number;
   prefix?: string;
-  suffix?: string;
+  suffix?: string | JSXElement;
   placeholder?: string;
   ref?: (el: HTMLInputElement | HTMLTextAreaElement) => void; 
   margin?: number | number[]
@@ -150,7 +150,11 @@ export default function Input(props: Props) {
         <Show when={props.prefix}><PrefixLabel opacity={0.6} onmousedown={focus} size={12}>{props.prefix}</PrefixLabel></Show>
         <Show when={props.type === "textarea"}><CustomTextArea maxlength={props.maxLength} placeholder={props.placeholder} style={{ "min-height": props.minHeight ? `${props.minHeight}px` : undefined, height: `${props.height}px`}} ref={inputEl}  onfocus={onFocus} onblur={onBlur} onInput={onChange} value={props.value || ""} /></Show>
         <Show when={props.type !== "textarea"}><CustomInput maxlength={props.maxLength} placeholder={props.placeholder} ref={inputEl} onfocus={onFocus} onblur={onBlur} onInput={onChange} type={props.type || "text"} value={props.value || ""} /></Show>
-        <Show when={props.suffix}><SuffixLabel opacity={0.6} onmousedown={focus} size={12}>{props.suffix}</SuffixLabel></Show>
+        <Show when={props.suffix}>
+          <Switch fallback={props.suffix}>
+            <Match when={typeof props.suffix === "string"}><SuffixLabel opacity={0.6} onmousedown={focus} size={12}>{props.suffix}</SuffixLabel></Match>
+          </Switch>
+        </Show>
       </InputContainer>
       <Show when={error()}><ErrorLabel color="var(--alert-color)">{error()}</ErrorLabel></Show>
     </Base>

@@ -38,6 +38,8 @@ import { useDrawer } from "../ui/drawer/Drawer";
 import Input from "../ui/input/Input";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { Skeleton } from "../ui/skeleton/Skeleton";
+import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
+import { formatMessage } from "../message-pane/MessagePane";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -246,7 +248,7 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
   max-width: 300px;
   width: 100%;
   z-index: 1111111111111;
-  height: 410px;
+  height: 440px;
   border-radius: 6px;
   background-color: var(--pane-color);
   border: solid 1px rgba(255, 255, 255, 0.2);
@@ -260,23 +262,19 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
     max-width: initial;
     width: initial;
     height: initial;
-    max-height: 60%;
+    max-height: 68%;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   ` : ""}
   
 
-  .button {
+  .buttonContainer .button {
     background-color: transparent;
     border: none;
     justify-content: initial;
-    margin-left: 4px;
-    margin-right: 4px;
+    margin: 0;
     &:hover {
       background-color: rgba(255,255,255, 0.1);
-    }
-    &:last-child {
-      margin-top: auto;
     }
   }
 
@@ -299,14 +297,36 @@ const DetailsContainer = styled(FlexColumn)`
   padding: 5px;
   border-radius: 8px;
   overflow: hidden;
-
-
 `;
 
+
+const ButtonContainer = styled(FlexRow)`
+  padding-top: 30px;
+  margin-top: auto;
+  margin-left: 4px;
+  margin-right: 4px;
+  > * {
+    flex: 1;
+    display: flex;
+    .button {
+      flex: 1;
+    }
+  }
+  
+`;
+
+const customButtonStyles = css`
+  flex-direction: column;
+  gap: 4px;
+  .label {
+    margin: 0;
+  }
+`;
 
 function FloatingUserModal(props: { close(): void, currentDrawerPage?: number }) {
   const { account, users } = useStore();
   const { isMobileWidth, width } = useWindowProperties();
+  const {openedPortals} = useCustomPortal();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
@@ -341,6 +361,8 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
 
   const onDocClick = (event: any) => {
     if (pos.x !== event.x || pos.y !== event.y) return;
+    if (openedPortals().length) return;
+
     const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(".sidePaneUser");
     if (clickedInside) return;
     props.close();
@@ -365,13 +387,19 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
         <CustomStatus/>
       </FlexColumn>
 
-      <CustomLink onclick={props.close} style={{ display: "flex", "flex-direction": "column" }} href={RouterEndpoints.PROFILE(userId()!)}>
-        <Button iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
-      </CustomLink>
-      <CustomLink onclick={props.close} style={{ display: "flex", "flex-direction": "column" }} href="/app/settings/account">
-        <Button iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
-      </CustomLink>
-      <Button onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
+      <ButtonContainer class="buttonContainer">
+        
+        <CustomLink onclick={props.close} href={RouterEndpoints.PROFILE(userId()!)}>
+          <Button textSize={12} class={customButtonStyles} iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
+        </CustomLink>
+        
+        <CustomLink onclick={props.close} href="/app/settings/account">
+          <Button textSize={12} class={customButtonStyles} iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
+        </CustomLink>
+
+        <Button textSize={12} class={customButtonStyles} onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
+
+      </ButtonContainer>
 
     </FloatingUserModalContainer>
   );
@@ -380,19 +408,33 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
 function CustomStatus() {
   const {account, users} = useStore();
   const [customStatus, setCustomStatus] = createSignal("");
+  const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
 
   createEffect(on(() => account.user()?.customStatus, (custom) => {
     setCustomStatus(custom || "");
   }));
 
-  const onBlur = () => {
+  const save = (event: FocusEvent) => {
+    console.log(event);
+    const formattedStatus = formatMessage(customStatus().trim() || "");
     updatePresence({
-      custom: customStatus().trim() ? customStatus() : null
+      custom: customStatus().trim() ? formattedStatus : null
     });
   };
 
+  const changes = () => {
+    return (customStatus() || "") !== (account.user()?.customStatus || "");
+  };
+
   return (
-    <Input class={styles.customStatusInput} label='Custom Status' placeholder='' onBlur={onBlur} onText={setCustomStatus} value={customStatus()}  />
+    <>
+      <Text opacity={0.8}>Custom Status</Text>
+      <FlexColumn>
+        <AdvancedMarkupOptions class="advancedMarkupOptions" inputElement={inputRef()!} updateText={setCustomStatus} />
+        <Input type="textarea" height={30} ref={setInputRef} class={styles.customStatusInput} placeholder='' onText={setCustomStatus} value={customStatus()}  />
+        <Show when={changes()}><Button label="Save" onClick={save} iconName="save" iconSize={16} margin={[6, 0, 0, 0]}/></Show>
+      </FlexColumn>
+    </>  
   );
 }
 

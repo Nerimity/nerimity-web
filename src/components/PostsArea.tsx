@@ -67,6 +67,7 @@ import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
 import env from "@/common/env";
 import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "./ui/RadioBox";
+import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -167,12 +168,14 @@ function NewPostArea(props: { postId?: string }) {
       <Show when={hasContentOrFocused()}>
         <Notice type="warn" class={css`margin-top: 10px; margin-bottom: -6px;`} description={`Self-harm content is not allowed on ${env.APP_NAME}.`} />
       </Show>
+      <AdvancedMarkupOptions hideEmojiPicker class={css`margin-top: 10px;`} inputElement={textAreaEl()!} updateText={setContent} />
       <Input
         maxLength={500}
-        margin={[10, 0, 10, 0]}
+        margin={[0, 0, 10, 0]}
         onBlur={() => setInputFocused(false)}
         onFocus={() => setInputFocused(true)}
         minHeight={hasContentOrFocused() ? 60: undefined}
+
         
         ref={setTextAreaEl}
         placeholder={

@@ -1,25 +1,34 @@
-import { createSignal } from "solid-js";
+import styles from "./styles.module.scss";
+import { Show, createEffect, createSignal, on } from "solid-js";
 import Button from "../ui/Button";
 import { ColorPickerModal } from "../ui/color-picker/ColorPicker";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Icon from "../ui/icon/Icon";
 import Modal from "../ui/modal/Modal";
-import styles from "./styles.module.scss";
+import { classNames } from "@/common/classNames";
+import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
+import { useResizeObserver } from "@/common/useResizeObserver";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 const formats = {
   bold: (text: string) => ({offsetStart: 2, offsetEnd: text.length + 2, res: `**${text}**`}),
   italic: (text: string) => ({offsetStart: 1, offsetEnd: text.length + 1, res: `_${text}_`}),
   strikethrough: (text: string) => ({offsetStart: 2, offsetEnd: text.length + 2, res: `~~${text}~~`}),
+  spoiler: (text: string) => ({offsetStart: 2, offsetEnd: text.length + 2, res: `||${text}||`}),
   color: (text: string, color?: string) => ({offsetStart: color!.length + 2, offsetEnd: color!.length + 2 + text.length, res: `[${color}]${text || ""}`}),
   timestamp: (text: string, schedule?: number) => ({offsetStart: 5 + schedule!.toString().length , offsetEnd: 5 + schedule!.toString().length, res: `[tr:${schedule}]`})
 
 } as const;
 
-export const AdvancedMarkupOptions = (props: {inputElement: HTMLInputElement | HTMLTextAreaElement, updateText(text: string):void}) => {
+export const AdvancedMarkupOptions = (props: {hideEmojiPicker?: boolean; class?: string; inputElement: HTMLInputElement | HTMLTextAreaElement, updateText(text: string):void}) => {
   const {createPortal} = useCustomPortal();
   let colorHistory: null | string = null;
+  const [emojiPickerRef, setEmojiPickerRef] = createSignal<HTMLDivElement>();
+  const {height, width} = useResizeObserver(emojiPickerRef);
+  const windowProperties = useWindowProperties();
 
-  const applyFormat = (format: "bold" | "italic" | "strikethrough" | "color" | "timestamp", color?: string, schedule?: number) => {
+
+  const applyFormat = (format: "bold" | "italic" | "strikethrough" | "spoiler" | "color" | "timestamp", color?: string, schedule?: number) => {
 
     if (format === "color" && !color) {
       createPortal?.(close => <ColorPickerModal close={close} color={colorHistory} done={(color) => {
@@ -57,13 +66,84 @@ export const AdvancedMarkupOptions = (props: {inputElement: HTMLInputElement | H
     props.inputElement.selectionEnd = start + modifySel.offsetEnd;
   };
 
+
+  let opened: any = null;
+  const onEmojiPicked = (shortcode: string) => {
+    props.inputElement!.focus();
+    props.inputElement!.setRangeText(
+      `:${shortcode}: `,
+      props.inputElement!.selectionStart!,
+      props.inputElement!.selectionEnd!,
+      "end"
+    );
+    props.updateText(props.inputElement.value);
+    opened?.();
+    opened = null;
+  };
+
+
+  const showEmojiPicker = (event: MouseEvent) => {
+    event.preventDefault();
+    if (!windowProperties.isMobileAgent()) {
+      props.inputElement!.focus();
+    }
+    if (opened) {
+      opened();
+      opened = null;
+      return; 
+    }
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect() as DOMRect;
+    
+    const getPos = () => {
+      let top = rect.y - 5 - height();
+      let left = rect.x;
+
+      if (top < 0) {
+        top = 0;
+      }
+
+      if (left + width() > windowProperties.width()) {
+        left = windowProperties.width() - width();
+      }
+
+
+
+      return {
+        top: top + "px", 
+        left: left + "px"
+      };
+    };
+
+    createPortal(close => {
+      opened = close;
+      return (
+        <div ref={setEmojiPickerRef} class={styles.emojiPickerContainer} style={getPos()}>
+          <EmojiPicker
+            onClick={onEmojiPicked}
+            close={() => {
+              opened = null;
+              close();
+            }}
+          />
+        </div>
+      );
+    });
+  };
+
   return (
-    <div class={styles.container}>
+    <div class={classNames(styles.container, props.class)}>
       <Button hoverText="Bold" onClick={() => applyFormat("bold")} iconSize={18} margin={0} iconName="format_bold" class={styles.button} />
       <Button hoverText="Italic" onClick={() => applyFormat("italic")} iconSize={18} margin={0} iconName="format_italic" class={styles.button} />
       <Button hoverText="Strikethrough" onClick={() => applyFormat("strikethrough")} iconSize={18} margin={0} iconName="strikethrough_s" class={styles.button} />
+      <Button hoverText="Spoiler" onClick={() => applyFormat("spoiler")} iconSize={18} margin={0} iconName="visibility_off" class={styles.button} />
       <Button hoverText="Timestamp" onClick={() => applyFormat("timestamp")}  iconSize={18} margin={0} iconName="schedule" class={styles.button} />
       <Button hoverText="Color" onClick={() => applyFormat("color")} iconSize={18} margin={0} iconName="palette" class={styles.button} />
+
+      <Show when={!props.hideEmojiPicker}>
+        <Button hoverText="Emoji Picker" onClick={showEmojiPicker} iconSize={18} margin={0} iconName="face" class={classNames(styles.button, "emojiPickerButton")} />
+      </Show>
+
+
     </div>
   );
 };

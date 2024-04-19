@@ -23,6 +23,8 @@ import { Notice } from "../ui/Notice/Notice";
 import { RawChannelNotice } from "@/chat-api/RawData";
 import { setSettingsHeaderPreview } from "./SettingsPane";
 import Icon from "../ui/icon/Icon";
+import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
+import { formatMessage } from "../message-pane/MessagePane";
 
 const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"));
 
@@ -329,9 +331,12 @@ const NoticeBlockStyle = css`
     padding-top: 15px;
     align-items: stretch;
   }
-  .inputContainer {
+  .advancedMarkupOptions {
     margin-left: 35px;
     margin-top: 5px;
+  }
+  .inputContainer {
+    margin-left: 35px;
   }
   textarea {
     min-height: 100px;
@@ -343,6 +348,7 @@ const NoticeBlockStyle = css`
 function ChannelNoticeBlock () {
   const [error, setError] = createSignal<string>("");
   const [channelNotice, setChannelNotice] = createSignal<RawChannelNotice | null>(null);
+  const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
   
   const defaultInput = () => ({
     content: channelNotice()?.content || ""
@@ -360,8 +366,9 @@ function ChannelNoticeBlock () {
 
   const save = async () => {
     setError("");
-    if (inputValues().content.length > 300) return setError("Channel notice cannot be longer than 300 characters.");
-    const res = await updateDMChannelNotice(inputValues().content).catch((err) => {
+    const formattedContent = formatMessage(inputValues().content.trim());
+    if (formattedContent.length > 300) return setError("Channel notice cannot be longer than 300 characters.");
+    const res = await updateDMChannelNotice(formattedContent).catch((err) => {
       setError(err.message);
     });
     if (!res) return;
@@ -382,7 +389,8 @@ function ChannelNoticeBlock () {
     <div style={{"margin-bottom": "35px", "padding-bottom": "30px", "border-bottom": "solid 1px rgba(255,255,255,0.2)"}}>
       <SettingsBlock icon='info' label='Channel Notice' class={NoticeBlockStyle} description='Shows when the user is about to chat for the first time. Changes apply after reload.'>
         <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({inputValues().content.length} / 300)</Text>
-        <Input class='inputContainer' type='textarea' value={inputValues().content} onText={(v) => setInputValue("content", v)} />
+        <AdvancedMarkupOptions class="advancedMarkupOptions" inputElement={inputRef()!} updateText={(v) => setInputValue("content", v)}/>
+        <Input ref={setInputRef} class='inputContainer' type='textarea' value={inputValues().content} onText={(v) => setInputValue("content", v)} />
         <Show when={error()}><Text style={{"margin-left": "40px"}} color='var(--alert-color)'>{error()}</Text></Show>
 
         <div style={{ display: "flex", "align-self": "flex-end", "margin-top": "15px" }}>

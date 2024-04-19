@@ -11,7 +11,7 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import env from "@/common/env";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "../markup/Emoji";
-import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys } from "@/common/localStorage";
+import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
@@ -47,13 +47,14 @@ export default function InterfaceSettings() {
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.interface")} />
       </Breadcrumb>
-      <DesktopNotification/>
+      <BlurEffect/>
+      <AdvancedMarkup/>
     </Container>
   );
 }
 
 
-function DesktopNotification() {
+function BlurEffect() {
   const {setBlurEffectEnabled, blurEffectEnabled} = useWindowProperties();
   const toggleBlurEffect = () => {
     setBlurEffectEnabled(!blurEffectEnabled());
@@ -62,6 +63,15 @@ function DesktopNotification() {
   return (
     <SettingsBlock icon='dvr' label='Blur Effect' description='Enables transparent blur effect. Disabled by default on mobile. Can cause performance issues.'>
       <Checkbox onChange={toggleBlurEffect} checked={blurEffectEnabled()} />
+    </SettingsBlock>
+  );
+}
+function AdvancedMarkup() {
+  const [enabled, setEnabled] = useReactiveLocalStorage(StorageKeys.DISABLED_ADVANCED_MARKUP, false);
+
+  return (
+    <SettingsBlock icon='dvr' label='Disable Advanced Markup' description='Disable advanced markup from text channels.'>
+      <Checkbox onChange={setEnabled} checked={enabled()} />
     </SettingsBlock>
   );
 }

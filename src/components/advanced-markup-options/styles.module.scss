@@ -1,14 +1,35 @@
+
+:global body.disableBlur {
+  :local {
+    .container {
+      background-color: black;
+      backdrop-filter: none;
+    }    
+  }
+}
 .container {
   display: flex;
   align-items: center;
   padding: 2px;
   gap: 2px;
-  background: black;
   border: solid 1px rgba(255, 255, 255, 0.2);
+
+  background-color: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(34px);
+
+
   border-radius: 6px;
   height: 30px;
   flex-shrink: 0;
   margin-bottom: 1px;
+
+
+}
+
+
+.emojiPickerContainer {
+  position: absolute;
+  z-index: 11111111111;
 
 }
 

@@ -40,7 +40,7 @@ import Modal from "../ui/modal/Modal";
 import { FlexRow } from "../ui/Flexbox";
 import { Markup } from "../Markup";
 import { getChannelNotice } from "@/chat-api/services/ChannelService";
-import { getStorageObject, setStorageObject, StorageKeys } from "@/common/localStorage";
+import { getStorageBoolean, getStorageObject, setStorageObject, StorageKeys } from "@/common/localStorage";
 import { randomKaomoji } from "@/common/kaomoji";
 import { MessageLogArea } from "./message-log-area/MessageLogArea";
 import { TenorImage } from "@/chat-api/services/TenorService";
@@ -277,7 +277,10 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
       <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
     </div>
     <TypingIndicator />
-    <AdvancedMarkupOptions inputElement={textAreaEl()!} updateText={setMessage}/>
+    <Show when={!getStorageBoolean(StorageKeys.DISABLED_ADVANCED_MARKUP, false)}>
+    <AdvancedMarkupOptions hideEmojiPicker inputElement={textAreaEl()!} updateText={setMessage}/>
+
+    </Show>
     <CustomTextArea
       ref={setTextAreaEl}
       placeholder='Message'

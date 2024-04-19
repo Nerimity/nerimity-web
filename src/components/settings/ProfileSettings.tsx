@@ -17,6 +17,8 @@ import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
+import { formatMessage } from "../message-pane/MessagePane";
 
 const Container = styled("div")`
   display: flex;
@@ -65,7 +67,11 @@ const bioBlockStyles = css`
   }
   .inputContainer {
     margin-left: 35px;
+  }
+  .advancedMarkupOptions {
+    margin-left: 35px;
     margin-top: 5px;
+
   }
   textarea {
     height: 100px;
@@ -99,8 +105,11 @@ function EditProfilePage() {
     setRequestSent(true);
     setError(null);
     const values = updatedInputValues();
+
+    const formattedBio = formatMessage(values.bio?.trim() || "");
+
     await updateUser({
-      ...((values.bio !== undefined && values.bio.trim() === "") ? {bio: null} : {bio: values.bio}),
+      ...((values.bio !== undefined && values.bio.trim() === "") ? {bio: null} : {bio: formattedBio}),
       ...((values.bgColorOne !== undefined && values.bgColorOne === "") ? {bgColorOne: null} : {bgColorOne: values.bgColorOne}),
       ...((values.bgColorTwo !== undefined && values.bgColorTwo === "") ? {bgColorTwo: null} : {bgColorTwo: values.bgColorTwo}),
       ...((values.primaryColor !== undefined && values.primaryColor === "") ? {primaryColor: null} : {primaryColor: values.primaryColor})      
@@ -133,10 +142,12 @@ function EditProfilePage() {
 
 
 const EditBioBlock = (props: {bio: string, setBio: (bio: string) => void}) => {
+  const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
   return <>
     <SettingsBlock icon='info' label='Bio' class={bioBlockStyles} description='Multiline and markup support'>
       <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({props.bio.length} / 1000)</Text>
-      <Input class='inputContainer' type='textarea' value={props.bio} onText={(v) => props.setBio(v)} />
+      <AdvancedMarkupOptions class="advancedMarkupOptions" updateText={props.setBio} inputElement={inputRef()!}/>
+      <Input ref={setInputRef} class='inputContainer' type='textarea' value={props.bio} onText={(v) => props.setBio(v)} />
     </SettingsBlock>
   </>;
 };
@@ -166,7 +177,7 @@ const ProfileColorBlock = (props: {children: JSXElement, values: {[key: string]:
   };
 
   const showPreview = () => {
-    createPortal(close => <ProfileFlyout close={close} bio={props.values.bio} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} />);
+    createPortal(close => <ProfileFlyout close={close} bio={formatMessage(props.values.bio?.trim() || "")} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} />);
   };
 
   return (
@@ -183,7 +194,7 @@ const ProfileColorBlock = (props: {children: JSXElement, values: {[key: string]:
 
       </ColorPickerContainer>
       <Show when={!hidePreview()}>
-        <ProfileFlyoutContainer><ProfileFlyout  bio={props.values.bio} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} dmPane /></ProfileFlyoutContainer>
+        <ProfileFlyoutContainer><ProfileFlyout  bio={formatMessage(props.values.bio?.trim() || "")} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} dmPane /></ProfileFlyoutContainer>
       </Show>
 
     </ProfileColorContainer>

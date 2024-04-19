@@ -14,6 +14,7 @@ export enum StorageKeys {
   PROGRAM_ACTIVITY_STATUS = "programActivityStatus",
   BLUR_EFFECT_ENABLED = "blurEffectEnabled",
   ENABLED_EXPERIMENTS = "enabledExperiments",
+  DISABLED_ADVANCED_MARKUP = "disabledAdvancedMarkup",
 }
 
 export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {
@@ -69,10 +70,10 @@ export function removeStorage(key: StorageKeys) {
 
 
 
-export function useReactiveLocalStorage<T>(key: StorageKeys, store: T) {
-  const [value, setValue] = createSignal<T>(store);
+export function useReactiveLocalStorage<T>(key: StorageKeys, defaultValue: T) {
+  const [value, setValue] = createSignal<T>(defaultValue);
 
-  const storedValue = getStorageObject<T>(key, store);
+  const storedValue = getStorageObject<T>(key, defaultValue);
   setValue(() => storedValue);
 
   const setCustomValue = (value: T) => {
