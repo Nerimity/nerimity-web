@@ -111,8 +111,7 @@ interface ServerUpdated {
 
 export const onServerMemberLeft = (payload: { userId: string, serverId: string }) => {
   const serverMembers = useServerMembers();
-  serverMembers.remove(payload.serverId, payload.userId);
-  
+  serverMembers.remove(payload.serverId, payload.userId);  
 };
 
 

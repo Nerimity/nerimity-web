@@ -8,6 +8,7 @@ import useChannelProperties from "./useChannelProperties";
 import useChannels from "./useChannels";
 import { getGoogleAccessToken } from "../services/UserService";
 import { uploadFileGoogleDrive } from "@/common/driveAPI";
+import { batch } from "solid-js";
 
 const account = useAccount();
 
@@ -246,6 +247,44 @@ const locallyRemoveMessage = (channelId: string, messageId: string) => {
   setMessages(channelId, produce(messages => messages?.splice(index, 1)));
 };
 
+const locallyRemoveServerMessagesBatch = (payload: {
+  userId: string
+  serverId: string
+  fromTime: number,
+  toTime: number,
+}) => {
+  const channels = useChannels();
+  const channelProperties = useChannelProperties();
+  const properties = channelProperties.get(payload.serverId);
+  const serverChannels = channels.getChannelsByServerId(payload.serverId);
+  if (!serverChannels) return;
+  batch(() => {
+    for (let i = 0; i < serverChannels.length; i++) {
+      const channel = serverChannels[i]!;
+      const channelMessages = messages[channel.id];
+      if (!channelMessages) continue;
+      const filteredMessages = channelMessages.filter(m => {
+        if (m.createdBy.id !== payload.userId) return true;
+        if (m.createdAt < payload.fromTime) return false;
+        if (m.createdAt > payload.toTime) return false;
+      });
+
+      setMessages(channel.id, reconcile(filteredMessages));      
+      if (!properties) return;
+      channelProperties.setMoreTopToLoad(channel.id, true);
+      channelProperties.setMoreBottomToLoad(channel.id, true);
+    }
+  });
+  
+};
+
+
+const locallyRemoveMessagesBatch = (channelId: string, count: number) => {
+  const channelMessages = messages[channelId];
+  if (!channelMessages) return;
+  setMessages(channelId, produce(messages => messages?.splice(messages.length - count, count)));
+};
+
 const updateMessageReaction = (channelId: string, messageId: string, reaction: Partial<RawMessageReaction>) => {
   const channelMessages = messages[channelId];
   if (!channelMessages) return;
@@ -291,6 +330,7 @@ export default function useMessages() {
     deleteChannelMessages,
     get,
     updateLocalMessage,
-    updateMessageReaction
+    updateMessageReaction,
+    locallyRemoveServerMessagesBatch
   };
 }

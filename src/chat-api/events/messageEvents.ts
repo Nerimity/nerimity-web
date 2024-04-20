@@ -103,6 +103,15 @@ export function onMessageDeleted(payload: {channelId: string, messageId: string}
   messages.locallyRemoveMessage(payload.channelId, payload.messageId);
 }
 
+export function onMessageDeletedBatch(payload: {
+  userId: string
+  serverId: string
+  fromTime: number,
+  toTime: number,
+}) {
+  const messages = useMessages();
+  messages.locallyRemoveServerMessagesBatch(payload);
+}
 
 interface ReactionAddedPayload {
   messageId: string,

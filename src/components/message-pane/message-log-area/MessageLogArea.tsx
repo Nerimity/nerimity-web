@@ -156,6 +156,19 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       }
     }
   };
+  // const onMessageDeleted = (payload: { channelId: string, messageId: string }) => {
+  //   // if (payload.channelId !== params.channelId) return;
+
+  //   // setAreMessagesLoading(true);
+
+  //   messages.locallyRemoveMessagesBatch(params.channelId, 40);
+  //   channelProperties.setMoreTopToLoad(params.channelId, true);
+  //   channelProperties.setMoreBottomToLoad(params.channelId, true);
+  // };
+
+  // setTimeout(() => {
+  //   onMessageDeleted();
+  // }, 5000);
 
 
   const { height: textAreaHeight } = useResizeObserver(() => props.textAreaEl?.parentElement?.parentElement);
@@ -275,7 +288,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
   // Load more top when scrolled to the top
   createEffect(on([scrollTracker.loadMoreTop, areMessagesLoading], ([loadMoreTop, alreadyLoading]) => {
     if (!channelMessages()) return;
-    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
+    if (channelMessages()?.length! === 0) return;
     if (!properties()?.moreTopToLoad) return;
     if (alreadyLoading) return;
     if (!loadMoreTop) return;
@@ -299,7 +312,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
   // Load more bottom when scrolled to the bottom
   createEffect(on([scrollTracker.loadMoreBottom, areMessagesLoading], ([loadMoreBottom, alreadyLoading]) => {
     if (!channelMessages()) return;
-    if (channelMessages()?.length! < env.MESSAGE_LIMIT) return;
+    if (channelMessages()?.length! === 0) return;
     if (!properties()?.moreBottomToLoad) return;
     if (alreadyLoading) return;
     if (!loadMoreBottom) return;
