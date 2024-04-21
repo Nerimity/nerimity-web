@@ -8,9 +8,12 @@ import { RawMessage, ServerNotificationSoundMode } from "@/chat-api/RawData";
 export const MESSAGE_NOTIFICATION = "message-notification.mp3";
 export const MESSAGE_MENTION_NOTIFICATION = "message-notification.mp3";
 
+
+const audio = new Audio();
 export function playSound(name: string) {
-  const audio = new Audio(`/assets/${name}`);
+  audio.src = `/assets/${name}`;
   audio.volume = getStorageNumber(StorageKeys.NOTIFICATION_VOLUME, 10) / 100;
+  audio.load();
   audio.play();
 }
 
