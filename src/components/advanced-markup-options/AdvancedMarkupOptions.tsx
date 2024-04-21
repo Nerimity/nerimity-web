@@ -5,7 +5,7 @@ import { ColorPickerModal } from "../ui/color-picker/ColorPicker";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Icon from "../ui/icon/Icon";
 import Modal from "../ui/modal/Modal";
-import { classNames } from "@/common/classNames";
+import { classNames, conditionalClass } from "@/common/classNames";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -20,7 +20,7 @@ const formats = {
 
 } as const;
 
-export const AdvancedMarkupOptions = (props: {hideEmojiPicker?: boolean; class?: string; inputElement: HTMLInputElement | HTMLTextAreaElement, updateText(text: string):void}) => {
+export const AdvancedMarkupOptions = (props: {zeroBottomBorderRadius?: boolean; hideEmojiPicker?: boolean; class?: string; inputElement: HTMLInputElement | HTMLTextAreaElement, updateText(text: string):void}) => {
   const {createPortal} = useCustomPortal();
   let colorHistory: null | string = null;
   const [emojiPickerRef, setEmojiPickerRef] = createSignal<HTMLDivElement>();
@@ -131,7 +131,7 @@ export const AdvancedMarkupOptions = (props: {hideEmojiPicker?: boolean; class?:
   };
 
   return (
-    <div class={classNames(styles.container, props.class)}>
+    <div class={classNames(styles.container, props.class, conditionalClass(props.zeroBottomBorderRadius, styles.zeroBottomBorderRadius))}>
       <Button hoverText="Bold" onClick={() => applyFormat("bold")} iconSize={18} margin={0} iconName="format_bold" class={styles.button} />
       <Button hoverText="Italic" onClick={() => applyFormat("italic")} iconSize={18} margin={0} iconName="format_italic" class={styles.button} />
       <Button hoverText="Strikethrough" onClick={() => applyFormat("strikethrough")} iconSize={18} margin={0} iconName="strikethrough_s" class={styles.button} />

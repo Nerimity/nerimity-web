@@ -278,8 +278,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
     </div>
     <TypingIndicator />
     <Show when={!getStorageBoolean(StorageKeys.DISABLED_ADVANCED_MARKUP, false)}>
-    <AdvancedMarkupOptions hideEmojiPicker inputElement={textAreaEl()!} updateText={setMessage}/>
-
+      <AdvancedMarkupOptions zeroBottomBorderRadius hideEmojiPicker inputElement={textAreaEl()!} updateText={setMessage}/>
     </Show>
     <CustomTextArea
       ref={setTextAreaEl}
@@ -343,8 +342,10 @@ function CustomTextArea(props: CustomTextAreaProps) {
     textAreaRef?.focus();
   };
 
+  const advancedMarkupShown = !getStorageBoolean(StorageKeys.DISABLED_ADVANCED_MARKUP, false);
+
   return (
-    <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused))}>
+    <div class={classNames(styles.textAreaContainer, conditionalClass(isFocused(), styles.focused), conditionalClass(advancedMarkupShown, styles.advancedMarkupShown))}>
       <BeforeYouChatNotice channelId={params.channelId} textAreaEl={() => textAreaRef} />
       <Show when={!props.isEditing && !pickedFile()}>
         <FileBrowser ref={setAttachmentFileBrowserRef} accept='any' onChange={onFilePicked} />

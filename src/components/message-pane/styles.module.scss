@@ -234,6 +234,12 @@
   &.focused {
     border-bottom: solid 2px var(--primary-color);
   }
+  &.advancedMarkupShown {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: 0;
+  }
 }
 
 .textArea {
