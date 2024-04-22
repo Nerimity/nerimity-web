@@ -1,4 +1,4 @@
-import { createEffect, createRenderEffect, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createRenderEffect, createSignal, For, JSXElement, on, onCleanup, onMount, Show } from "solid-js";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Icon from "@/components/ui/icon/Icon";
 import styles from "./styles.module.scss";
@@ -16,6 +16,7 @@ export interface DropDownItem {
   data?: any;
   separator?: boolean;
   circleColor?: string;
+  suffix?: string | JSXElement;
 }
 
 export interface DropDownProps {
@@ -76,7 +77,7 @@ function ItemTemplate(props: { item?: DropDownItem }) {
     <div class={styles.itemTemplate}>
       <CircleColor color={props.item?.circleColor} />
       <div class={styles.details}>
-        <div>{props.item?.label || "Select Item"}</div>
+        <div class={styles.label}>{props.item?.label || "Select Item"}{props.item?.suffix}</div>
         <Show when={props.item?.description}><div class={styles.description}>{props.item?.description}</div></Show>
       </div>
     </div>
