@@ -62,6 +62,11 @@ export const languages = {
     emoji: "🇷🇴",
     contributors: ["GNU/Alex"]
   },
+  "ru-ru": {
+    name: "Russian",
+    emoji: "🇷🇺",
+    contributors: ["https://github.com/FAYSi223"]
+  },
   "es-es": {
     name: "Spanish",
     emoji: "🇪🇸",
