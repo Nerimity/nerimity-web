@@ -300,7 +300,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
     const afterSet = ({ hasMore }: { hasMore: boolean }) => {
       scrollPositionRetainer.load();
-      channelProperties.setMoreBottomToLoad(params.channelId, true);
+      channelProperties.setMoreBottomToLoad(params.channelId, channelMessages()?.length! >= env.MESSAGE_LIMIT);
       channelProperties.setMoreTopToLoad(params.channelId, hasMore);
       scrollTracker.forceUpdate();
       setAreMessagesLoading(false);
@@ -324,7 +324,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
     const afterSet = ({ hasMore }: { hasMore: boolean }) => {
       scrollPositionRetainer.load();
-      channelProperties.setMoreTopToLoad(params.channelId, true);
+      channelProperties.setMoreTopToLoad(params.channelId, channelMessages()?.length! >= env.MESSAGE_LIMIT);
       channelProperties.setMoreBottomToLoad(params.channelId, hasMore);
       scrollTracker.forceUpdate();
       setAreMessagesLoading(false);
