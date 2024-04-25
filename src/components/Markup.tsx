@@ -24,6 +24,7 @@ import { Link } from "./markup/Link";
 import { QuoteMessage, QuoteMessageHidden, QuoteMessageInvalid } from "./markup/QuoteMessage";
 import { GenericMention } from "./markup/GenericMention";
 import { TimestampMention, TimestampType } from "./markup/TimestampMention";
+import { Dynamic } from "solid-js/web";
 
 export interface Props {
   text: string;
@@ -207,6 +208,15 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
       ctx.emojiCount += 1;
       return <Emoji clickable name={emojiUnicodeToShortcode(emoji)} url={unicodeToTwemojiUrl(emoji)} />;
+    }
+    case "heading": {
+      const level = entity.params.level;
+      const text = transformEntities(entity, ctx);
+      ctx.textCount += text.length;
+      if (ctx.props().inline) {
+        return <span>{text}</span>;
+      }
+      return <Dynamic component={`h${level}`} class="heading">{text}</Dynamic>;
     }
     case "custom": {
       return transformCustomEntity(entity, ctx);
