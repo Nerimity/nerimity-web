@@ -70,7 +70,7 @@ function AdvancedMarkup() {
   const [enabled, setEnabled] = useReactiveLocalStorage(StorageKeys.DISABLED_ADVANCED_MARKUP, false);
 
   return (
-    <SettingsBlock icon='dvr' label='Disable Advanced Markup' description='Disable advanced markup from text channels.'>
+    <SettingsBlock icon='dvr' label='Disable Advanced Markup Bar' description='Disable advanced markup bar from text channels.'>
       <Checkbox onChange={setEnabled} checked={enabled()} />
     </SettingsBlock>
   );
