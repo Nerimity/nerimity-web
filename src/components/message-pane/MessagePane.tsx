@@ -1042,7 +1042,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   };
 
   const onEnterClick = (i: number) => {
-    onUserClick((searched()[i] as ServerMember)?.user() || searched()[i]);
+    onUserClick((searched()[i] as ServerMember)?.user?.() || searched()[i]);
   };
 
   const [current, , , setCurrent] = useSelectedSuggestion(() => searched().length, props.textArea!, onEnterClick);
@@ -1051,7 +1051,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
     <Show when={searched().length}>
       <Floating class={styles.floatingSuggestion}>
         <For each={searched()}>
-          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={(member as ServerMember)?.user() || member} onclick={onUserClick} />}
+          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={(member as ServerMember)?.user?.() || member} onclick={onUserClick} />}
         </For>
       </Floating>
     </Show>

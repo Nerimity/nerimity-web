@@ -30,6 +30,12 @@
 .details {
   display: flex; 
   flex-direction: column;
+  width: 100%;
+  .label {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
 
 }
 
@@ -98,6 +104,7 @@
 .itemTemplate {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 .circleColor {
   height: 10px;

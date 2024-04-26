@@ -117,7 +117,7 @@ function permissions (this: ServerMember) {
 }
 function hasPermission (this: ServerMember, bitwise: Bitwise, ignoreAdmin = false, ignoreCreator = false) {
   if (!ignoreCreator) {
-    if (this.server().isCurrentUserCreator()) return true;
+    if (this.server().createdById === this.userId) return true;
   }
   if (!ignoreAdmin) {
     if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;

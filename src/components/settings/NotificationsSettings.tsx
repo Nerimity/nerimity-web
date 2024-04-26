@@ -1,23 +1,17 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
 import Text from "@/components/ui/Text";
-import { css, styled } from "solid-styled-components";
-import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from "@/locales/languages";
-
-import ItemContainer from "../ui/Item";
-import twemoji from "twemoji";
+import { styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import env from "@/common/env";
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
-import { Emoji } from "../markup/Emoji";
-import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys } from "@/common/localStorage";
+import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Slider from "../ui/Slider";
-import { playMessageNotification } from "@/common/Sound";
+import { playMessageNotification, playSound, Sounds } from "@/common/Sound";
+import DropDown from "../ui/drop-down/DropDown";
+import Button from "../ui/Button";
 
 const Container = styled("div")`
   display: flex;
@@ -48,6 +42,8 @@ export default function NotificationsSettings() {
       </Breadcrumb>
       <DesktopNotification/>
       <NotificationSound />
+
+      <NotificationSoundSelection />
     </Container>
   );
 }
@@ -105,3 +101,48 @@ function NotificationSound() {
     </FlexColumn>
   );
 }
+
+
+function NotificationSoundSelection() {
+  return (
+    <FlexColumn>
+      <SettingsBlock header icon="music_note" label="Sounds" description="Change the sound of notifications with these royalty free sounds." />
+      <SettingsBlock icon='chat' label='Message' description='Sound when receiving a message.' borderTopRadius={false} borderBottomRadius={false} >
+        <NotificationSoundDropDown typeId="MESSAGE" />
+      </SettingsBlock>
+      <SettingsBlock icon='alternate_email' label='Mention' description='Sound when receiving a mention.' borderTopRadius={false} >
+        <NotificationSoundDropDown typeId="MESSAGE_MENTION" />
+      </SettingsBlock>
+    </FlexColumn>
+  );
+}
+
+
+function NotificationSoundDropDown(props: {typeId: "MESSAGE" | "MESSAGE_MENTION"}) {
+  const [selectedSounds, setSelectedSounds] = useReactiveLocalStorage<{[key: string]: typeof Sounds[number] | undefined}>(StorageKeys.NOTIFICATION_SOUNDS, {});
+
+  const selectedId = () => selectedSounds()[props.typeId] || "default";
+
+  const capitalizeFirstLetter = (val: string) => { 
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  };
+
+  const testSound = (e: MouseEvent, sound: typeof Sounds[number]) => {
+    e.stopPropagation();
+    playSound(sound);
+  };
+  return (
+    <DropDown selectedId={selectedId()} items={
+      Sounds.map(sound => ({
+        id: sound,
+        onClick: () => setSelectedSounds({...selectedSounds(), [props.typeId]: sound}),
+        label: sound === "nerimity-mute" ? "Mute" :  capitalizeFirstLetter(sound.replaceAll("-", " ")),
+        suffix: <Show when={sound !== "nerimity-mute"}><div style={{"margin-left": "auto", "flex-shrink": 0}}>
+          <Button onClick={(e) => testSound(e, sound)} styles={{"margin-left": "6px", "flex-shrink": 0}}  iconName="play_circle_filled" margin={0} padding={4} iconSize={16}/>
+        </div></Show>
+        
+      }))
+    }/>
+  );
+}
+

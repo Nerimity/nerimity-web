@@ -11,6 +11,8 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
 
 const formats = {
+  named_link: (url: string) => ({offsetStart: 1, offsetEnd: "Name".length + 1, res: `[Name](${url || "https://example.com"})`}),
+  header: (text: string) => ({offsetStart: 2, offsetEnd: text.length + 2, res: `# ${text}`}),
   bold: (text: string) => ({offsetStart: 2, offsetEnd: text.length + 2, res: `**${text}**`}),
   italic: (text: string) => ({offsetStart: 1, offsetEnd: text.length + 1, res: `_${text}_`}),
   strikethrough: (text: string) => ({offsetStart: 2, offsetEnd: text.length + 2, res: `~~${text}~~`}),
@@ -28,7 +30,7 @@ export const AdvancedMarkupOptions = (props: {zeroBottomBorderRadius?: boolean; 
   const windowProperties = useWindowProperties();
 
 
-  const applyFormat = (format: "bold" | "italic" | "strikethrough" | "spoiler" | "color" | "timestamp", color?: string, schedule?: number) => {
+  const applyFormat = (format: "bold" | "italic" | "strikethrough" | "spoiler" | "color" | "timestamp" | "header" | "named_link", color?: string, schedule?: number) => {
 
     if (format === "color" && !color) {
       createPortal?.(close => <ColorPickerModal close={close} color={colorHistory} done={(color) => {
@@ -135,6 +137,8 @@ export const AdvancedMarkupOptions = (props: {zeroBottomBorderRadius?: boolean; 
       <Button hoverText="Bold" onClick={() => applyFormat("bold")} iconSize={18} margin={0} iconName="format_bold" class={styles.button} />
       <Button hoverText="Italic" onClick={() => applyFormat("italic")} iconSize={18} margin={0} iconName="format_italic" class={styles.button} />
       <Button hoverText="Strikethrough" onClick={() => applyFormat("strikethrough")} iconSize={18} margin={0} iconName="strikethrough_s" class={styles.button} />
+      <Button hoverText="Header" onClick={() => applyFormat("header")} iconSize={18} margin={0} iconName="title" class={styles.button} />
+      <Button hoverText="Named Link" onClick={() => applyFormat("named_link")} iconSize={18} margin={0} iconName="link" class={styles.button} />
       <Button hoverText="Spoiler" onClick={() => applyFormat("spoiler")} iconSize={18} margin={0} iconName="visibility_off" class={styles.button} />
       <Button hoverText="Timestamp" onClick={() => applyFormat("timestamp")}  iconSize={18} margin={0} iconName="schedule" class={styles.button} />
       <Button hoverText="Color" onClick={() => applyFormat("color")} iconSize={18} margin={0} iconName="palette" class={styles.button} />
