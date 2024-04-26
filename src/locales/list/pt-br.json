@@ -72,6 +72,7 @@
         "publishServer": "Publicar Servidor",
         "verify": "Verificar",
         "role": "Cargo",
+        "welcome-screen": "Tela de Boas-vindas",
         "channel": "Canal",
         "emojis": "Emojis",
         "notifications": "Notificações"
@@ -155,27 +156,38 @@
       "kick": "Expulsar",
       "kickDescription": "Permisão para expulsar usuários.",
       "ban": "Banir",
-      "banDescription": "Permisão para banir usuários."
+      "banDescription": "Permisão para banir usuários.",
+      "mentionEveryone": "Mencionar Todos",
+      "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos."
     },
     "channelPermissions": {
       "privateChannel": "Canal Privado",
       "privateChannelDescription": "Desabilitar acesso ao canal. Administradores do servidor ainda poderão acessar o canal.",
       "sendMessage": "Enviar Mensagens",
-      "sendMessageDescription": "Habilita o envio de mensagens neste canal. Administradores do servidor ainda poderão enviar mensagens."
+      "sendMessageDescription": "Habilita o envio de mensagens neste canal. Administradores do servidor ainda poderão enviar mensagens.",
+      "joinVoice": "Entrar em Canal de Voz",
+      "joinVoiceDescription": "Habilita entrar em canais de voz no canal. Administradores do servidor ainda podem entrar em canais de voz."
     }
   },
   "settings": {
     "drawer": {
       "title": "Configurações",
       "account": "Conta",
+      "interface": "Interface",
       "language": "Idioma",
       "notifications": "Notificações",
       "logout": "Sair",
+      "developer": "Desenvolvedor",
+      "applications": "Aplicativos",
+      "experiments": "Experimentos",
       "supportMe": "Apoie-me",
       "viewSource": "Ver Código Fonte",
       "changelog": "Novidades",
       "window-settings": "Configurações de Janela",
-      "privacy": "Privacidade"
+      "activity-status": "Estatus de Atividade",
+      "tickets": "Bilhetes",
+      "privacy": "Privacidade",
+      "connections": "Conexões"
     }
   },
   "addFriend": {
