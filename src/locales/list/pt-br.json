@@ -154,9 +154,9 @@
       "manageChannels": "Gerenciar Canais",
       "manageChannelsDescription": "Permitssão para alterar ou excluir canais.",
       "kick": "Expulsar",
-      "kickDescription": "Permisão para expulsar usuários.",
+      "kickDescription": "Permissão para expulsar usuários.",
       "ban": "Banir",
-      "banDescription": "Permisão para banir usuários.",
+      "banDescription": "Permissão para banir usuários.",
       "mentionEveryone": "Mencionar Todos",
       "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos."
     },
