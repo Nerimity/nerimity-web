@@ -51,7 +51,11 @@ export const languages = {
     emoji: "🇭🇺",
     contributors: ["https://github.com/andrasdaradici"]
   },
-
+  "fil-ph": {
+    name: "Filipino",
+    emoji: "🇵🇭",
+    contributors: ["https://github.com/serenemm"]
+  },
   "pl-pl": {
     name: "Polish",
     emoji: "🇵🇱",
