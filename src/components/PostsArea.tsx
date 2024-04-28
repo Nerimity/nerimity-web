@@ -1003,11 +1003,11 @@ const notificationUsernameStyles = css`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
 `;
 
 function PostNotification(props: { notification: RawPostNotification }) {
   const { posts } = useStore();
-  const { createPortal } = useCustomPortal();
   const [, setSearchParams] = useSearchParams<{ postId: string }>();
 
   const Reply = () => {
@@ -1018,37 +1018,10 @@ function PostNotification(props: { notification: RawPostNotification }) {
       setSearchParams({ postId: props.notification.post?.id! });
 
     return (
-      <FlexRow gap={5} style={{ "align-items": "center" }} onclick={showPost}>
-        <Icon name="reply" color="var(--primary-color)" />
-        <A
-          onclick={(e) => e.stopPropagation()}
-          href={RouterEndpoints.PROFILE(props.notification.by.id)}
-        >
-          <Avatar user={props.notification.by} size={30} />
-        </A>
+      <FlexRow gap={5} onclick={showPost}>
+        <Icon class={css`margin-top: -2px;`} name="reply" color="var(--primary-color)" />
         <FlexColumn gap={2} class={notificationUsernameStyles}>
-          <FlexRow gap={5} style={{ "align-items": "center" }}>
-            <Text size={14} class={notificationUsernameStyles}>
-              <Trans
-                key="posts.someoneRepliedToPost"
-                options={{ username: props.notification.by.username }}
-              >
-                <strong class={notificationUsernameStyles}>{"username"}</strong>
-                replied to your post!
-              </Trans>
-            </Text>
-            <Text opacity={0.6} size={12}>
-              {formatTimestamp(props.notification.createdAt)}
-            </Text>
-          </FlexRow>
-          <div style={{ opacity: 0.6, "font-size": "14px" }}>
-            <Show when={!cachedPost()?.deleted}>
-              <Markup text={cachedPost()?.content || ""} />
-            </Show>
-            <Show when={cachedPost()?.deleted}>
-              {t("posts.postWasDeleted")}
-            </Show>
-          </div>
+          <PostItem post={cachedPost()!} disableClick class={css`margin: 0; padding: 0; background: none; &:hover { background: none;} box-shadow: none;`} />
         </FlexColumn>
       </FlexRow>
     );
@@ -1060,9 +1033,9 @@ function PostNotification(props: { notification: RawPostNotification }) {
         href={RouterEndpoints.PROFILE(props.notification.by.id)}
         style={{ "text-decoration": "none" }}
       >
-        <FlexRow gap={5} style={{ "align-items": "center" }}>
-          <Icon name="add_circle" color="var(--primary-color)" />
-          <Avatar user={props.notification.by} size={30} />
+        <FlexRow gap={5}>
+          <Icon class={css`margin-top: 4px;`} name="add_circle" color="var(--primary-color)" />
+          <Avatar class={css`margin-left: 6px; margin-right: 6px;`} user={props.notification.by} size={30} />
           <FlexRow
             gap={2}
             style={{ "align-items": "center" }}
@@ -1094,11 +1067,12 @@ function PostNotification(props: { notification: RawPostNotification }) {
       setSearchParams({ postId: props.notification.post?.id! });
 
     return (
-      <FlexRow gap={5} style={{ "align-items": "center" }} onclick={showPost}>
-        <Icon name="favorite" color="var(--primary-color)" />
+      <FlexRow gap={5} style={{  }} onclick={showPost}>
+        <Icon class={css`margin-top: 4px;`} name="favorite" color="var(--alert-color)" />
         <A
           onclick={(e) => e.stopPropagation()}
           href={RouterEndpoints.PROFILE(props.notification.by.id)}
+          style={{"margin-left": "6px", "margin-right": "6px"}}
         >
           <Avatar user={props.notification.by} size={30} />
         </A>
@@ -1117,9 +1091,9 @@ function PostNotification(props: { notification: RawPostNotification }) {
               {formatTimestamp(props.notification.createdAt)}
             </Text>
           </FlexRow>
-          <div style={{ opacity: 0.6, "font-size": "14px" }}>
+          <div style={{ opacity: 0.6, "font-size": "14px", "overflow": "hidden", "text-overflow": "ellipsis", "-webkit-line-clamp": "3", "display": "-webkit-box", "-webkit-box-orient": "vertical" }}>
             <Show when={!cachedPost()?.deleted}>
-              <Markup text={cachedPost()?.content || ""} />
+              <Markup  text={cachedPost()?.content || ""} />
             </Show>
             <Show when={cachedPost()?.deleted}>
               {t("posts.postWasDeleted")}
