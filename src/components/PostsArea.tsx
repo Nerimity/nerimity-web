@@ -196,7 +196,7 @@ function NewPostArea(props: { postId?: string }) {
           file={attachedFile()!}
         />
       </Show>
-      <ButtonsContainer gap={5}>
+      <ButtonsContainer gap={6}>
         <FileBrowser
           accept="images"
           ref={setFileBrowserRef}
@@ -324,7 +324,7 @@ function AttachFileItem(props: { file: File; cancel(): void }) {
   });
 
   return (
-    <AttachFileItemContainer gap={5}>
+    <AttachFileItemContainer gap={6}>
       <Icon name="attach_file" size={17} color="var(--primary-color)" />
       <img class={attachmentImageStyle} src={dataUrl()} alt="" />
       <Text>{props.file.name}</Text>
@@ -469,7 +469,7 @@ export function PostItem(props: {
         <Show when={replyingTo()}>
           <ReplyTo user={replyingTo()!.createdBy} />
         </Show>
-        <PostContainer gap={5}>
+        <PostContainer gap={6}>
           <A onClick={e => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
             <Avatar resize={96} animate={hovered()} user={props.post.createdBy} size={40} />
           </A>
@@ -494,7 +494,7 @@ const Details = (props: {
   hovered: boolean;
   post: Post;
 }) => (
-  <PostDetailsContainer gap={5}>
+  <PostDetailsContainer gap={6}>
     <CustomLink
       class={postUsernameStyle}
       style={{ color: "white" }}
@@ -1003,7 +1003,7 @@ const notificationUsernameStyles = css`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
+
 `;
 
 function PostNotification(props: { notification: RawPostNotification }) {
@@ -1018,9 +1018,9 @@ function PostNotification(props: { notification: RawPostNotification }) {
       setSearchParams({ postId: props.notification.post?.id! });
 
     return (
-      <FlexRow gap={5} onclick={showPost}>
+      <FlexRow gap={6} onclick={showPost}>
         <Icon class={css`margin-top: -2px;`} name="reply" color="var(--primary-color)" />
-        <FlexColumn gap={2} class={notificationUsernameStyles}>
+        <FlexColumn gap={2} class={notificationUsernameStyles} style={{ width: "100%" }}>
           <PostItem post={cachedPost()!} disableClick class={css`margin: 0; padding: 0; background: none; &:hover { background: none;} box-shadow: none;`} />
         </FlexColumn>
       </FlexRow>
@@ -1033,11 +1033,11 @@ function PostNotification(props: { notification: RawPostNotification }) {
         href={RouterEndpoints.PROFILE(props.notification.by.id)}
         style={{ "text-decoration": "none" }}
       >
-        <FlexRow gap={5}>
+        <FlexRow gap={6}>
           <Icon class={css`margin-top: 4px;`} name="add_circle" color="var(--primary-color)" />
           <Avatar class={css`margin-left: 6px; margin-right: 6px;`} user={props.notification.by} size={30} />
           <FlexRow
-            gap={2}
+            gap={6}
             style={{ "align-items": "center" }}
             class={notificationUsernameStyles}
           >
@@ -1067,7 +1067,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
       setSearchParams({ postId: props.notification.post?.id! });
 
     return (
-      <FlexRow gap={5} style={{  }} onclick={showPost}>
+      <FlexRow gap={6} style={{  }} onclick={showPost}>
         <Icon class={css`margin-top: 4px;`} name="favorite" color="var(--alert-color)" />
         <A
           onclick={(e) => e.stopPropagation()}
@@ -1077,7 +1077,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
           <Avatar user={props.notification.by} size={30} />
         </A>
         <FlexColumn gap={2}>
-          <FlexRow gap={5} style={{ "align-items": "center" }}>
+          <FlexRow gap={6} style={{ "align-items": "center" }}>
             <Text size={14} class={notificationUsernameStyles}>
               <Trans
                 key="posts.someoneLikedYourPost"
@@ -1131,7 +1131,7 @@ export function PostNotificationsArea(props: { style?: JSX.CSSProperties }) {
     setNotifications(fetchNotifications);
   });
   return (
-    <PostsContainer gap={5} style={props.style}>
+    <PostsContainer gap={6} style={props.style}>
       <For each={notifications()}>
         {(notification) => <PostNotification notification={notification} />}
       </For>
@@ -1193,13 +1193,13 @@ export function ViewPostModal(props: { close(): void }) {
     >
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
-          <FlexColumn gap={5}>
+          <FlexColumn gap={6}>
             <For each={commentToList()}>
               {(post) => <PostItem showFullDate disableClick post={post!} />}
             </For>
           </FlexColumn>
           <FlexRow
-            gap={5}
+            gap={6}
             style={{ "margin-top": "10px", "margin-bottom": "10px" }}
           >
             <Show when={!post()?.block}>
