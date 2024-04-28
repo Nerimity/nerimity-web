@@ -36,6 +36,7 @@ export default function DeveloperSettings() {
       </Breadcrumb>
 
       <SettingsBlock href="./applications" icon="extension" label="Applications" description="Create Nerimity Bots." children={<Icon name="keyboard_arrow_right" />}  />
+      <SettingsBlock href="https://github.com/Nerimity/nerimity-api-docs" hrefBlank icon="article" label="API Documentation (incomplete)" children={<Icon name="launch" style={{"margin-right": "6px"}} />}  />
 
     </Container>
   );
