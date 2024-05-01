@@ -106,7 +106,7 @@ function EditProfilePage() {
     setError(null);
     const values = updatedInputValues();
 
-    const formattedBio = formatMessage(values.bio?.trim() || "");
+    const formattedBio = values.bio !== undefined ? formatMessage(values.bio?.trim() || "") : undefined;
 
     await updateUser({
       ...((values.bio !== undefined && values.bio.trim() === "") ? {bio: null} : {bio: formattedBio}),
