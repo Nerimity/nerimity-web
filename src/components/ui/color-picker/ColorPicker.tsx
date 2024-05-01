@@ -39,7 +39,7 @@ export function ColorPicker(props: { color: string | null, onChange?: (value: st
   );
 }
 
-export const ColorPickerModal = (props: {color: string | null, done: (color: string) => void, close: () => void, onChange: (value: string) => void}) => {
+export const ColorPickerModal = (props: {color: string | null, done?: (color: string) => void, close: () => void, onChange: (value: string) => void}) => {
   const {isMobileWidth, width} = useWindowProperties();
   let color = props.color || "#000000";
   const onChange = (newVal: string) => {
@@ -68,7 +68,7 @@ export const ColorPickerModal = (props: {color: string | null, done: (color: str
 
   const done = () => {
     props.close();
-    props.done(color!);
+    props.done?.(color!);
   };
 
 
