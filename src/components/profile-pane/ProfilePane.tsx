@@ -171,6 +171,13 @@ export default function ProfilePane() {
               />
               <Show when={!isMe() && !isMobileWidth()}>
                 <ActionButtons
+                  class={css`
+                      background-color: rgba(0,0,0,0.4);
+                      border-radius: 10px;
+                      padding: 4px;
+                      margin-right: 6px;
+                      margin-top: 8px;
+                  `}
                   updateUserDetails={() => fetchUserDetails(params.userId)}
                   userDetails={userDetails()}
                   user={user()}
@@ -216,7 +223,7 @@ export default function ProfilePane() {
           </FlexColumn>
         </div>
         <Show when={!isMe() && isMobileWidth()}>
-          <div style={{ "align-self": "center", margin: "4px" }}>
+          <div style={{ "align-self": "center", margin: "4px", "margin-top": "8px" }}>
             <ActionButtons
               updateUserDetails={() => fetchUserDetails(params.userId)}
               userDetails={userDetails()}
