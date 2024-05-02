@@ -8,6 +8,7 @@ const ChannelIconImage = styled("img")`
   border-radius: 4px;
   height: 18px;
   width: 18px;
+  flex-shrink: 0;
 `;
 
 

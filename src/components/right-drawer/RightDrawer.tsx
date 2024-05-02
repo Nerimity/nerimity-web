@@ -349,7 +349,8 @@ function RoleItem(props: { roleName: string, members: ServerMember[], roleIcon?:
   return (
     <div class={styles.roleItem} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <div class={styles.roleTitle} onClick={() => setExpanded(!expanded())}>
-        <div class={styles.roleName}> <Show when={props.roleIcon}><Emoji hovered={hovered()} size={16} resize={16} icon={props.roleIcon} /></Show> {props.roleName} ({props.members.length}) </div>
+        <div class={styles.roleName}> <Show when={props.roleIcon}><Emoji hovered={hovered()} size={16} resize={16} icon={props.roleIcon} /></Show> {props.roleName}</div>
+        <div class={styles.roleCount}>{props.members.length.toLocaleString()}</div>
         <Button class={styles.roleExpandButton} padding={5} margin={0} iconName={expanded() ? "expand_more" : "expand_less"} iconSize={12} />
       </div>
       <Show when={expanded()}>

@@ -29,8 +29,23 @@
     color: white;
   }
   .roleExpandButton {
+    margin-left: 8px;
+  }
+
+  .roleCount {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: solid 1px rgba(255, 255, 255, 0.1);
+    padding: 2px;
+    flex-shrink: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    min-width: 10px;
+    border-radius: 6px;
+    font-size: 10px;
     margin-left: auto;
   }
+
 }
 .roleItem {
   display: flex;
@@ -48,6 +63,8 @@
   .memberItem:empty {
     display: none;
   }
+
+
 
 }
 
