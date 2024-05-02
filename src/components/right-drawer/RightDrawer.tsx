@@ -38,6 +38,7 @@ import { useDrawer } from "../ui/drawer/Drawer";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
+import { Emoji } from "../ui/Emoji";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -319,7 +320,7 @@ const ServerDrawer = () => {
   });
 
   const offlineMembers = createMemo(() => members().filter(member => !member?.user().presence()?.status));
-
+  const defaultRole = () => serverRoles.get(server()?.id!, server()?.defaultRoleId!);
   return (
     <Show when={server()?.id} keyed={true}>
       <Delay ms={10}>
@@ -328,13 +329,13 @@ const ServerDrawer = () => {
           <For each={roleMembers()}>
             {item => (
               <Show when={!item.role!.hideRole && item.members().length}>
-                <RoleItem members={item.members().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName={item.role?.name!} />
+                <RoleItem members={item.members().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName={item.role?.name!} roleIcon={item.role?.icon!} />
               </Show>
             )}
           </For>
 
           {/* Offline */}
-          <RoleItem members={offlineMembers().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName="Offline" />
+          <RoleItem members={offlineMembers().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName="Offline" roleIcon={defaultRole()?.icon} />
         </>
       </Delay>
 
@@ -342,12 +343,13 @@ const ServerDrawer = () => {
   );
 };
 
-function RoleItem(props: { roleName: string, members: ServerMember[] }) {
+function RoleItem(props: { roleName: string, members: ServerMember[], roleIcon?: string }) {
   const [expanded, setExpanded] = createSignal(props.members.length <= 20);
+  const [hovered, setHovered] = createSignal(false);
   return (
-    <div class={styles.roleItem}>
+    <div class={styles.roleItem} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <div class={styles.roleTitle} onClick={() => setExpanded(!expanded())}>
-        <div class={styles.roleName}>{props.roleName} ({props.members.length}) </div>
+        <div class={styles.roleName}> <Show when={props.roleIcon}><Emoji hovered={hovered()} size={16} resize={16} icon={props.roleIcon} /></Show> {props.roleName} ({props.members.length}) </div>
         <Button class={styles.roleExpandButton} padding={5} margin={0} iconName={expanded() ? "expand_more" : "expand_less"} iconSize={12} />
       </div>
       <Show when={expanded()}>
