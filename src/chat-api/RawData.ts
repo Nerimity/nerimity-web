@@ -195,6 +195,7 @@ export interface RawCustomEmoji {
 export interface RawServerRole {
   id: string;
   name: string
+  icon?: string;
   order: number;
   hexColor: string;
   createdById: string;

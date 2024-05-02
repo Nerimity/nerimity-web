@@ -138,6 +138,7 @@ export default function ServerSettingsChannel() {
         </Show>
 
       </SettingsBlock>
+      
       <div>
         <SettingsBlock icon="security" label={t("servers.settings.channel.permissions")} description={t("servers.settings.channel.permissionsDescription")} header={true} />
         <For each={ permissions()}>

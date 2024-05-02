@@ -35,7 +35,7 @@ import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import { classList } from "solid-js/web";
-
+import {Emoji as RoleEmoji} from "@/components/ui/Emoji";
 
 interface FloatingOptionsProps {
   message: RawMessage,
@@ -103,6 +103,7 @@ interface DetailsProps {
   isServerCreator?: boolean;
   serverMember?: ServerMember;
   showProfileFlyout?: (event: MouseEvent) => void
+  hovered?: boolean
 }
 const Details = (props: DetailsProps) => (
   <div class={classNames(styles.details)}>
@@ -110,6 +111,9 @@ const Details = (props: DetailsProps) => (
     <CustomLink onClick={props.showProfileFlyout} decoration onContextMenu={props.userContextMenu} class={classNames("trigger-profile-flyout", styles.username)} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: props.serverMember?.roleColor() }}>
       {props.message.createdBy.username}
     </CustomLink>
+    <Show when={props.serverMember?.topRoleWithIcon()}>
+      {role => <RoleEmoji title={role().name} size={16} icon={role().icon} hovered={props.hovered} resize={16}  />}
+    </Show>
     <Show when={props.isSystemMessage}><SystemMessage message={props.message} /></Show>
     <Show when={props.isServerCreator}>
       <div class={styles.ownerBadge}>Owner</div>
@@ -213,6 +217,7 @@ const MessageItem = (props: MessageItemProps) => {
           <div class={styles.messageInner}>
             <Show when={!isCompact()}>
               <Details 
+                hovered={hovered()}
                 message={props.message} 
                 isServerCreator={isServerCreator()} 
                 isSystemMessage={isSystemMessage()} 

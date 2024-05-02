@@ -25,6 +25,7 @@ import env from "@/common/env";
 import { RichProgressBar, getActivityIconName } from "@/components/activity/Activity";
 import { ActivityStatus } from "@/chat-api/RawData";
 import { css } from "solid-styled-components";
+import { Emoji } from "../ui/Emoji";
 
 
 
@@ -219,7 +220,10 @@ const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | nul
         <FlyoutTitle primaryColor={colors()?.primary || undefined} style={{ "margin-bottom": "5px" }} icon='leaderboard' title='Roles' />
         <div class={styles.rolesContainer}>
           <For each={member()?.roles(true)!}>
-            {role => (<div class={styles.roleContainer}><Text color={role?.hexColor} size={12}>{role?.name}</Text></div>)}
+            {role => (<div class={styles.roleContainer}>
+              <Show when={role?.icon}><Emoji size={16} resize={16} icon={role?.icon} hovered /></Show>
+              <Text color={role?.hexColor} size={12}>{role?.name}</Text>
+            </div>)}
           </For>
           <div class={classNames(styles.roleContainer, styles.selectable)}  onClick={showRoleModal}><Icon name='add' size={14} /></div>
         </div>

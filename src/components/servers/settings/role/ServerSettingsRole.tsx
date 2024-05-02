@@ -19,6 +19,10 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { Notice } from "@/components/ui/Notice/Notice";
 import { css } from "solid-styled-components";
+import { ChannelIcon } from "../../drawer/ServerDrawer";
+import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
+import { emojiShortcodeToUnicode } from "@/emoji";
+import { Emoji } from "@/components/ui/Emoji";
 
 type RoleParams = {
   serverId: string;
@@ -32,6 +36,8 @@ export default function ServerSettingsRole() {
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
+  const [emojiPickerPosition, setEmojiPickerPosition] = createSignal<null | {x: number, y: number}>(null);
+
   const { createPortal } = useCustomPortal();
 
   const role = () => serverRoles.get(params.serverId, params.roleId);
@@ -41,7 +47,8 @@ export default function ServerSettingsRole() {
     name: role()?.name || "",
     hexColor: role()?.hexColor || "#fff",
     permissions: role()?.permissions || 0,
-    hideRole: role()?.hideRole || false
+    hideRole: role()?.hideRole || false,
+    icon: role()?.icon || null
   });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
@@ -83,6 +90,22 @@ export default function ServerSettingsRole() {
   };
 
 
+  const openIconPicker = (event: MouseEvent) => {
+    setEmojiPickerPosition({
+      x: event.clientX,
+      y: event.clientY
+    });
+  };
+
+  const onIconPicked = (shortcode: string) => {
+    const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
+    const unicode = emojiShortcodeToUnicode(shortcode);
+    const icon = unicode || `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`;
+    setInputValue("icon", icon);
+  };
+
+
+
   const bot = () => {
     if (!role()?.botRole) return;
     const botId = role()?.createdById;
@@ -111,6 +134,26 @@ export default function ServerSettingsRole() {
       <SettingsBlock icon='colorize' label={t("servers.settings.role.roleColor")}>
         <ColorPicker color={inputValues().hexColor} onChange={v => setInputValue("hexColor", v)} />
       </SettingsBlock>
+
+
+
+      {/* Icon */}
+      <SettingsBlock icon='face' label='Icon'>
+        <Show when={inputValues().icon}>
+          <Button iconName='delete' onClick={() => setInputValue("icon", null)} iconSize={13} color='var(--alert-color)' />
+        </Show>
+        <Button margin={0} onClick={openIconPicker} customChildren={(
+          inputValues().icon ? <Emoji size={18} icon={inputValues().icon} hovered /> : <Icon name="face" size={18} />
+        )} />
+        <Show when={emojiPickerPosition()}>
+          <FloatingEmojiPicker  onClick={onIconPicked} {...emojiPickerPosition()!} close={() => setEmojiPickerPosition(null)} />
+        </Show>
+
+      </SettingsBlock>
+
+
+
+
       
       {/* Hide Role */}
       <SettingsBlock icon='adjust' label={t("servers.settings.role.hideRole")} description={t("servers.settings.role.hideRoleDescription")}>
