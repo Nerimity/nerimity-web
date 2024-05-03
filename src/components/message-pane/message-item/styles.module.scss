@@ -367,6 +367,49 @@ body .reactionItem {
   }
 
 }
+
+.audioEmbed {
+  flex-direction: column;
+
+  &.preloadedAudio {
+    height: 80px;
+  }
+
+  .audioDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+  .time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .progressBar {
+    height: 10px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 9999px;
+    overflow: hidden;
+    .progress {
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 9999px;
+    }
+  }
+
+  .innerAudioEmbed {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 200px;
+    max-width: 500px;
+    overflow: hidden;
+  }
+
+}
 .fileEmbed	{
   display: flex;
   align-items: center;
@@ -380,6 +423,9 @@ body .reactionItem {
   max-width: 500px;
   
   overflow: hidden;
+
+
+
   .fileEmbedDetails {
     display: flex;
     flex-direction: column;

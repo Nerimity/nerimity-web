@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import { classNames, conditionalClass } from "@/common/classNames";
-import { formatTimestamp, timeSince } from "@/common/date";
+import { formatTimestamp, millisecondsToHhMmSs, timeElapsed, timeSince } from "@/common/date";
 import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
 import { MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, RawUser } from "@/chat-api/RawData";
@@ -585,7 +585,11 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
   const [preloaded, setPreloaded] = createSignal(false);
   const [playing, setPlaying] = createSignal(false);
 
+  const [currentTime, setCurrentTime] = createSignal(0);
+  const [endTime, setEndTime] = createSignal(0);
+
   let audio: HTMLAudioElement | undefined;
+  let progressBarRef: HTMLDivElement | undefined;
 
   onMount(async () => {
     await initializeGoogleDrive();
@@ -643,24 +647,82 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
     return "play_arrow";
   };
 
+  const playingTimeEl = () => {
+    if (!audio) return;
+
+
+
+    return  ;
+  };
+
+  createEffect(on(preloaded, () => {
+    if (!audio) return;
+    if (!preloaded()) return;
+
+    setEndTime(audio.duration * 1000);
+    audio.addEventListener("timeupdate", onTimeUpdate);
+
+    onCleanup(() => {
+      audio?.removeEventListener("timeupdate", onTimeUpdate);
+    });
+  }));
+
+  const onTimeUpdate = () => {
+    if (!audio) return;
+    const current = audio.currentTime * 1000;
+    setCurrentTime(current);
+  };
+
+  const onProgressClick = (event: MouseEvent) => {
+    if (!audio) return;
+    if (!progressBarRef) return;
+
+    const rect = progressBarRef.getBoundingClientRect();
+    const mouseX = event.clientX - rect.x;
+
+    const percent = mouseX / rect.width;
+    audio.currentTime = percent * audio.duration;
+  };
+
   return (
-    <div class={styles.fileEmbed} onMouseEnter={() => setPreloadAudio(true)}>
-      <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
-      <Show when={error()}>
-        <Icon name='error' color='var(--alert-color)' size={30} />
-        <div class={styles.fileEmbedDetails}>
-          <div class={styles.fileEmbedName}>{error()}</div>
+    <div class={classNames(styles.fileEmbed, styles.audioEmbed, conditionalClass(preloaded(), styles.preloadedAudio))} onMouseEnter={() => setPreloadAudio(true)}>
+      <div class={styles.innerAudioEmbed}>
+        <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
+        <Show when={error()}>
+          <Icon name='error' color='var(--alert-color)' size={30} />
+          <div class={styles.fileEmbedDetails}>
+            <div class={styles.fileEmbedName}>{error()}</div>
+          </div>
+          <Button iconName='info' iconSize={16} onClick={() => alert("This file was modified/deleted by the creator in their Google Drive. ")} />
+        </Show>
+        <Show when={file() && !error()}>
+          <Button onClick={() => setPlaying(!playing())} iconName={statusIcon()} color='var(--primary-color)' styles={{"border-radius": "50%"}} />
+          <div class={styles.fileEmbedDetails}>
+            <div class={styles.fileEmbedName}>{file()?.name}</div>
+            <div class={styles.fileEmbedSize}>{prettyBytes(parseInt(file()?.size! || "0"), 0)}</div>
+          </div>
+          <Button iconName='download' onClick={() => window.open(file()?.webContentLink!, "_blank")} />
+        </Show>
+
+      </div>
+
+      <Show when={preloaded()}>
+        <div class={styles.audioDetails}>
+          <div class={styles.time}>
+            <div>{millisecondsToHhMmSs(currentTime(), true)}</div>
+            <div>{millisecondsToHhMmSs(endTime(), true)}</div>
+          </div>
+
+
+          <div ref={progressBarRef} class={styles.progressBar} onClick={onProgressClick}>
+            <div class={styles.progress} style={{ width: `${(currentTime() / endTime()) * 100}%` }} />
+          </div>
+
+
         </div>
-        <Button iconName='info' iconSize={16} onClick={() => alert("This file was modified/deleted by the creator in their Google Drive. ")} />
       </Show>
-      <Show when={file() && !error()}>
-        <Button onClick={() => setPlaying(!playing())} iconName={statusIcon()} color='var(--primary-color)' styles={{"border-radius": "50%"}} />
-        <div class={styles.fileEmbedDetails}>
-          <div class={styles.fileEmbedName}>{file()?.name}</div>
-          <div class={styles.fileEmbedSize}>{prettyBytes(parseInt(file()?.size! || "0"), 0)}</div>
-        </div>
-        <Button iconName='download' onClick={() => window.open(file()?.webContentLink!, "_blank")} />
-      </Show>
+
+
     </div>
 
   );
