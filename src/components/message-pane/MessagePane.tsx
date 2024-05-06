@@ -48,6 +48,7 @@ import { useMicRecorder } from "@nerimity/solid-opus-media-recorder";
 import { DeleteMessageModal } from "./message-item/MessageItem";
 import { useNotice } from "@/common/useChannelNotice";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
+import { PhotoEditor } from "../ui/photo-editor/PhotoEditor";
 
 export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
@@ -309,6 +310,8 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   const [isFocused, setFocused] = createSignal(false);
   const [attachmentFileBrowserRef, setAttachmentFileBrowserRef] = createSignal<FileBrowserRef | undefined>(undefined);
+  const {createPortal} = useCustomPortal();
+
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.target instanceof HTMLElement) {
@@ -329,14 +332,28 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
 
   const { channelProperties } = useStore();
+  const pickedFile = () => channelProperties.get(params.channelId)?.attachment;
+  const isImage = () => pickedFile()?.type.startsWith("image/");
+  const isGif = () => pickedFile()?.type.startsWith("image/gif");
 
-  const onFilePicked = (test: FileList) => {
+
+  const editDone = (file: File) => {
+
+    channelProperties.setAttachment(params.channelId, file);
+    textAreaRef?.focus();
+
+  }
+  const onFilePicked = async  (test: FileList) => {
     const file = test.item(0) || undefined;
     channelProperties.setAttachment(params.channelId, file);
     textAreaRef?.focus();
+
+    if (isImage() && !isGif()) {
+      const dataUrl = await fileToDataUrl(file!);
+      createPortal(close => <PhotoEditor done={editDone} src={dataUrl} close={close} />)
+    }
   };
 
-  const pickedFile = () => channelProperties.get(params.channelId)?.attachment;
   const onCancelAttachmentClick = () => {
     channelProperties.setAttachment(params.channelId, undefined);
     textAreaRef?.focus();
@@ -667,6 +684,7 @@ function EditIndicator(props: { messageId: string }) {
 
 function FloatingAttachment(props: {}) {
   const params = useParams<{ channelId: string }>();
+  const {createPortal} = useCustomPortal();
   const { channelProperties } = useStore();
   const [dataUrl, setDataUrl] = createSignal<string | undefined>(undefined);
 
@@ -682,12 +700,24 @@ function FloatingAttachment(props: {}) {
   });
 
 
+  const editDone = (file: File) => {
+
+    channelProperties.setAttachment(params.channelId, file);
+
+  }
+  const showImageEditor = () => {
+    createPortal(close => <PhotoEditor done={editDone} src={dataUrl()!} close={close} />)
+  }
+
+
 
   return (
     <Floating class={styles.floatingAttachment}>
       <Icon name='attach_file' size={17} color='var(--primary-color)' class={styles.attachIcon} />
       <Show when={isImage()}><img class={styles.attachmentImage} src={dataUrl()} alt="" /></Show>
       <div class={styles.attachmentFilename}>{getAttachmentFile()?.name}</div>
+
+      <Show when={isImage()}><Button onClick={showImageEditor} margin={0} padding={4} iconSize={16} styles={{"margin-left": 'auto'}} iconName="edit" /></Show>
     </Floating>
   );
 }

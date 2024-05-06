@@ -45,6 +45,7 @@
     "html-parse-string": "^0.0.9",
     "i18next": "^23.7.18",
     "idb-keyval": "^6.2.1",
+    "konva": "^9.3.6",
     "markdown-it": "^13.0.2",
     "markdown-it-emoji": "^2.0.2",
     "match-sorter": "^6.3.3",

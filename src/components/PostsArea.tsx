@@ -68,6 +68,7 @@ import { Notice } from "./ui/Notice/Notice";
 import env from "@/common/env";
 import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "./ui/RadioBox";
 import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";
+import { PhotoEditor } from "./ui/photo-editor/PhotoEditor";
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -100,6 +101,7 @@ function NewPostArea(props: { postId?: string }) {
   const [fileBrowserRef, setFileBrowserRef] = createSignal<undefined | FileBrowserRef>();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
   const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
+  const {createPortal} = useCustomPortal();
 
   const [inputFocused, setInputFocused] = createSignal(false);
 
@@ -114,15 +116,29 @@ function NewPostArea(props: { postId?: string }) {
     });
   });
 
+  const isGif = () => attachedFile()?.type.startsWith("image/gif");
+
+
+  const editDone = (file: File) => {
+    setAttachedFile(() => file);
+  };
+  const openEditor = async () => {
+    const dataUrl = await fileToDataUrl(attachedFile()!);
+    createPortal(close => <PhotoEditor done={editDone} src={dataUrl} close={close} />);
+  };
+
   const onPaste = (event: ClipboardEvent) => {
     const file = event.clipboardData?.files[0];
     if (!file) return;
     if (!file.type.startsWith("image")) return;
     setAttachedFile(() => file);
+    if (!isGif()) openEditor();
   };
   const onFilePicked = (list: FileList) => {
     const file = list.item(0) || undefined;
     setAttachedFile(() => file);
+
+    if (!isGif()) openEditor();
   };
 
   const onCreateClick = async () => {
@@ -194,6 +210,7 @@ function NewPostArea(props: { postId?: string }) {
         <AttachFileItem
           cancel={() => setAttachedFile(undefined)}
           file={attachedFile()!}
+          onEditClick={openEditor}
         />
       </Show>
       <ButtonsContainer gap={6}>
@@ -315,7 +332,7 @@ const attachmentImageStyle = css`
   border-radius: 6px;
 `;
 
-function AttachFileItem(props: { file: File; cancel(): void }) {
+function AttachFileItem(props: { file: File; cancel(): void, onEditClick(): void }) {
   const [dataUrl, setDataUrl] = createSignal<string | undefined>(undefined);
 
   createEffect(async () => {
@@ -328,13 +345,23 @@ function AttachFileItem(props: { file: File; cancel(): void }) {
       <Icon name="attach_file" size={17} color="var(--primary-color)" />
       <img class={attachmentImageStyle} src={dataUrl()} alt="" />
       <Text>{props.file.name}</Text>
-      <Button
-        iconName="close"
-        onClick={props.cancel}
-        iconSize={14}
-        padding={5}
-        color="var(--alert-color)"
-      />
+      <FlexRow gap={4}>
+        <Button
+          iconName="edit"
+          onClick={props.onEditClick}
+          iconSize={14}
+          padding={5}
+          margin={0}
+        />
+        <Button
+          iconName="close"
+          onClick={props.cancel}
+          iconSize={14}
+          padding={5}
+          color="var(--alert-color)"
+          margin={0}
+        />
+      </FlexRow>
     </AttachFileItemContainer>
   );
 }

@@ -140,6 +140,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       pauseTouches = true;
       return;
     }
+    if (target.closest("canvas")) {
+      pauseTouches = true;
+      return;
+    }
 
     if (target.closest("textarea")) {
       pauseTouches = true;

@@ -26,6 +26,8 @@ import Button from "@/components/ui/Button";
 import { copyToClipboard } from "@/common/clipboard";
 import { t } from "i18next";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
+import { fileToDataUrl } from "@/common/fileToDataUrl";
+import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";
 
 export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
   const [searchParams, setSearchParams] = useSearchParams<{messageId?: string}>();
@@ -259,10 +261,26 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
   });
 
-  const onPaste = (event: ClipboardEvent) => {
+  const pickedFile = () => channelProperties.get(params.channelId)?.attachment;
+  const isImage = () => pickedFile()?.type.startsWith("image/");
+  const isGif = () => pickedFile()?.type.startsWith("image/gif");
+
+
+
+  const editDone = (file: File) => {
+    channelProperties.setAttachment(params.channelId, file);
+    props.textAreaEl?.focus();
+  };
+  const onPaste = async (event: ClipboardEvent) => {
     const file = event.clipboardData?.files[0];
     if (!file) return;
     channelProperties.setAttachment(params.channelId, file);
+
+
+    if (isImage() && !isGif()) {
+      const dataUrl = await fileToDataUrl(file!);
+      createPortal(close => <PhotoEditor done={editDone} src={dataUrl} close={close} />);
+    }
   };
 
   // key binds
