@@ -444,7 +444,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     });
     items.push(
       { separator: true },
-      { label: "Copy ID", icon: "copy", onClick: copyIdClick }
+      { label: "Copy ID", icon: "content_copy", onClick: copyIdClick }
     );
     return items;
   };

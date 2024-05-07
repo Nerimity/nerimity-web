@@ -168,7 +168,7 @@ const InviteItem = (props: { invite: any, onDeleted: () => void }) => {
             {formatTimestamp(props.invite.createdAt)}</div>
         </div>
         <FlexRow class={styles.buttons}>
-          <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label={t("servers.settings.invites.copyLinkButton")} iconName='copy' />
+          <Button onClick={() => copyToClipboard(url)} class={classNames(styles.copyButton, styles.button)} label={t("servers.settings.invites.copyLinkButton")} iconName='content_copy' />
           <Button onClick={onDeleteClick} class={classNames(styles.deleteButton, styles.button)} label={t("servers.settings.invites.deleteButton")} iconName='delete' color='var(--alert-color)' />
         </FlexRow>
       </div>

@@ -1,7 +1,8 @@
 /* @refresh reload */
 import "./init";
 import { render } from "solid-js/web";
-import "material-icons/iconfont/round.scss";
+// import "material-icons/iconfont/round.css";
+import "material-symbols/rounded.css";
 import "./index.css";
 import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";

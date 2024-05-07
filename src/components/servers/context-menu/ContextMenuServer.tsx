@@ -117,7 +117,7 @@ export default function ContextMenuServer (props: Props) {
       {icon: "notifications", label: "Notification Settings", sub: notificationItems(), onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!))},
       ...(showSettings() ? [{icon: "settings", label: "Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_GENERAL(props.serverId!))}] : []),
       {separator: true},
-      {icon: "copy", label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},
+      {icon: "content_copy", label: "Copy ID", onClick: () => copyToClipboard(props.serverId!)},
       {separator: true, show: !isServerCreator()},
       {icon: "logout", label: "Leave", alert: true, onClick: onLeaveClicked, show: !isServerCreator()}
     ]} />

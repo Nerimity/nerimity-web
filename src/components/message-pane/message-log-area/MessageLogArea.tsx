@@ -557,8 +557,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
       ...(showEdit() ? [{ icon: "edit", label: t("messageContextMenu.editMessage")!, onClick: onEditClick }] : []),
       ...(showDelete() ? [{ icon: "delete", label: t("messageContextMenu.deleteMessage")!, onClick: onDeleteClick, alert: true }] : []),
       ...(showEdit() || showDelete() || showQuote() ? [{ separator: true }] : []),
-      ...(hasContent() ? [{ icon: "copy", label: t("messageContextMenu.copyMessage")!, onClick: () => copyToClipboard(props.message.content!) }] : []),
-      { icon: "copy", label: t("messageContextMenu.copyId")!, onClick: () => copyToClipboard(props.message.id!) }
+      ...(hasContent() ? [{ icon: "content_copy", label: t("messageContextMenu.copyMessage")!, onClick: () => copyToClipboard(props.message.content!) }] : []),
+      { icon: "content_copy", label: t("messageContextMenu.copyId")!, onClick: () => copyToClipboard(props.message.id!) }
     ]} />
   );
 }

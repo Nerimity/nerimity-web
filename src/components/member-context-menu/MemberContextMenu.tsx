@@ -99,7 +99,7 @@ export default function MemberContextMenu(props: Props) {
         { label: t("userContextMenu.sendMessage"), icon: "message", onClick: () => users.openDM(props.userId) },
         ...adminItems(),
         { separator: true },
-        { icon: "copy", label: t("userContextMenu.copyId"), onClick: () => copyToClipboard(props.userId) }
+        { icon: "content_copy", label: t("userContextMenu.copyId"), onClick: () => copyToClipboard(props.userId) }
       ]} />
     </>
   );

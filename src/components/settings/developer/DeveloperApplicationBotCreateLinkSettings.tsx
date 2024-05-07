@@ -75,7 +75,7 @@ export default function DeveloperApplicationBotCreateLinkSettings() {
           <SettingsBlock icon="security" label={t("servers.settings.role.permissions")} description="Modify permissions for this link." header={true} class={css`flex-wrap: wrap; gap: 8px;`}>
             <FlexRow itemsCenter gap={4} style={{background: "rgba(0,0,0,0.4)", "padding-left": "8px", "border-radius": "8px"}}>
               <CustomLink style={{"font-size": "12px"}} target="_blank" rel="noopener noreferrer" decoration href={link()}>{link()}</CustomLink>
-              <Button iconName="copy" iconSize={18} onClick={() => navigator.clipboard.writeText(link())}  />
+              <Button iconName="content_copy" iconSize={18} onClick={() => navigator.clipboard.writeText(link())}  />
             </FlexRow>
           </SettingsBlock>
           <For each={permissionsList}>

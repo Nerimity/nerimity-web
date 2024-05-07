@@ -50,6 +50,7 @@
     "markdown-it-emoji": "^2.0.2",
     "match-sorter": "^6.3.3",
     "material-icons": "^1.13.12",
+    "material-symbols": "^0.17.4",
     "sass": "^1.70.0",
     "socket.io-client": "^4.7.4",
     "solid-js": "^1.8.11",

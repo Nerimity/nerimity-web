@@ -49,3 +49,7 @@ a {
 #dnd-action-dragged-el {
   opacity: 0.6 !important;
 }
+
+.material-symbols-rounded {
+  font-variation-settings: 'FILL' 1;
+}

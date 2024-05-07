@@ -62,6 +62,9 @@ dependencies:
   material-icons:
     specifier: ^1.13.12
     version: 1.13.12
+  material-symbols:
+    specifier: ^0.17.4
+    version: 0.17.4
   sass:
     specifier: ^1.70.0
     version: 1.70.0
@@ -2112,6 +2115,10 @@ packages:
 
   /material-icons@1.13.12:
     resolution: {integrity: sha512-/2YoaB79IjUK2B2JB+vIXXYGtBfHb/XG66LvoKVM5ykHW7yfrV5SP6d7KLX6iijY6/G9GqwgtPQ/sbhFnOURVA==}
+    dev: false
+
+  /material-symbols@0.17.4:
+    resolution: {integrity: sha512-5zI+rSzAidMJxAIrQCVwnp4rMjFnx8aQg68lfFXtaDeksZzJ7m8eDl16y9bRNxMosuYbLKeDHDbOWHPJJTSLhQ==}
     dev: false
 
   /mdurl@1.0.1:
