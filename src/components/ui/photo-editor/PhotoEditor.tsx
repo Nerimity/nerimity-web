@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import {createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
+import {Show, createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
 import Konva from "konva/lib/Core";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { Vector2d } from "konva/lib/types";
@@ -8,6 +8,11 @@ import { Line as KonvaLine } from "konva/lib/shapes/Line";
 import Modal from "../modal/Modal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import Icon from "../icon/Icon";
+import Button from "../Button";
+import { FlexRow } from "../Flexbox";
+import { ColorPicker } from "../color-picker/ColorPicker";
+import Text from "../Text";
 
 
 export interface PhotoEditorProps {
@@ -16,16 +21,21 @@ export interface PhotoEditorProps {
   done: (file: File) => void;
 }
 
+const [strokeColor, setStrokeColor] = createSignal("#ff4848");
+const [strokeWidth, setStrokeWidth] = createSignal(4);
 
 export const PhotoEditor = (props: PhotoEditorProps) => {
   const [el, setEl] = createSignal<HTMLDivElement | undefined>(undefined);
   const {isMobileAgent} = useWindowProperties();
   const {width, height} = useResizeObserver(el);
-
+  
   const imgLayer = new Konva.Layer();
   const drawLayer = new Konva.Layer();
   let spaceHeld = false;
   let imageDimensions: {width: number, height: number} | undefined;
+  let lineHistory: KonvaLine[] = [];
+  
+  const [mode, setMode] = createSignal<"brush" | "erase">("brush");
 
 
   const handlePinchZoom = (stage: Stage) => {
@@ -119,19 +129,7 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
 
   const handleDrawing = (stage: Stage) => {
     let isPaint = false;
-    const mode = "brush";
     let lastLine: KonvaLine | null = null;
-    let lineHistory: KonvaLine[] = [];
-
-
-
-    // undo history
-    // setInterval(() => {
-    //   lineHistory.at(-1)?.remove();
-    //   lineHistory = lineHistory.slice(0, -1);
-    // }, 1000)
-
-
 
     stage.on("mousedown touchstart", function (e) {
       if (spaceHeld) return;
@@ -144,11 +142,11 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
       isPaint = true;
       const pos = stage.getRelativePointerPosition()!;
       lastLine = new KonvaLine({
-        stroke: "#ff4949",
+        stroke: strokeColor(),
         // keep scroll width the same size depending on zoom
-        strokeWidth: 4,
+        strokeWidth: strokeWidth(),
         globalCompositeOperation:
-          mode === "brush" ? "source-over" : "destination-out",
+          mode() === "brush" ? "source-over" : "destination-out",
         // round cap for smoother lines
         lineCap: "round",
         lineJoin: "round",
@@ -240,6 +238,20 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
       document.removeEventListener("keyup", keyUp);
     });
   };
+  const handleShortcuts = () => {
+
+    const keyDown = (event: KeyboardEvent) => {
+      if (event.key.toLowerCase() === "z" && event.ctrlKey) {
+        undo();
+      }
+    };
+
+    document.addEventListener("keydown", keyDown);
+
+    onCleanup(() => {
+      document.removeEventListener("keydown", keyDown);
+    });
+  };
 
   let stage: Stage | null = null;
   onMount(() => {
@@ -255,6 +267,7 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
     
 
     handleSpaceToDrag(stage);
+    handleShortcuts();
     handlePinchZoom(stage);
     handleDrawing(stage);
 
@@ -343,6 +356,11 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
 
   };
 
+  const undo = () => {
+    lineHistory.at(-1)?.remove();
+    lineHistory = lineHistory.slice(0, -1);
+  };
+
   const DesktopNotices = () => {
 
 
@@ -357,6 +375,26 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
   return (
     <Modal actionButtons={isMobileAgent() ? <MobileNotices /> : <DesktopNotices />} title='Photo Editor' class={styles.modal} close={props.close} actionButtonsArr={[{iconName: "close", label: "Cancel", onClick: props.close, color: "var(--alert-color)"}, { iconName: "done", label: "Edit", onClick: onDone}]} ignoreBackgroundClick>
       <div ref={setEl} class={styles.editorContainer} />
+
+      <div class={styles.buttons} >
+        <Button hoverText="Undo (Ctrl + Z)" onClick={undo} iconName="undo" margin={0}/>
+        <Button hoverText="Brush" onClick={() => setMode("brush")} primary={mode() === "brush"} iconName="brush" margin={0}/>
+        <Button hoverText="Erase" onClick={() => setMode("erase")} primary={mode() === "erase"} iconName="ink_eraser" margin={0}/>
+        
+        <Show when={mode() === "brush"}><ColorPicker  color={strokeColor()} onChange={setStrokeColor} /></Show>
+        <div class={styles.strokeWidth}>
+          <Text style={{"margin-left": "2px"}} size={12} opacity={0.8}>Stroke Width ({strokeWidth()})</Text>
+
+          <input type="range" min="1" max="100" onInput={(e) => {
+            setStrokeWidth(parseInt(e.target.value));
+          }} title="Stroke Width" value={strokeWidth()} />
+  
+        </div>
+
+
+      </div>
+
+      
     </Modal>
   );
 };

@@ -20,3 +20,14 @@
   left: 10px;
   height: 50px;
 }
+
+.buttons {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+.strokeWidth {
+  display: flex;
+  flex-direction: column;
+}
