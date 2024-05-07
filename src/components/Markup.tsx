@@ -38,6 +38,7 @@ type RenderContext = {
   props: () => Props;
   textCount: number;
   emojiCount: number;
+  quoteCount: number;
 };
 
 const transformEntities = (entity: Entity, ctx: RenderContext) =>
@@ -88,6 +89,10 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       const quote = ctx.props().message?.quotedMessages?.find(m => m.id === expr);
       
       if (quote) {
+        if (ctx.quoteCount >= 10) {
+          break;
+        }
+        ctx.quoteCount += 1;
         return <QuoteMessage message={ctx.props().message} quote={quote} />;
       }
       
@@ -228,12 +233,13 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
 }
 
 export function Markup(props: Props) {
-  const _ctx = { props: () => props, emojiCount: 0, textCount: 0 };
+  const _ctx = { props: () => props, emojiCount: 0, textCount: 0, quoteCount: 0 };
 
   const output = createMemo(on(() => props.text, () => {
     const entity = addTextSpans(parseMarkup(_ctx.props().text));
     _ctx.emojiCount = 0;
     _ctx.textCount = 0;
+    _ctx.quoteCount = 0;
     return transformEntity(entity, _ctx);
   }));
 
