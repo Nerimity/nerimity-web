@@ -1025,12 +1025,16 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
 const DeleteMessageModalContainer = styled(FlexColumn)`
   overflow: auto;
   padding: 10px;
+  max-height: 200px;
+  
 `;
 const deleteMessageItemContainerStyles = css`
   padding-top: 5px;
   border-radius: 8px;
   margin-top: 5px;
   background-color: rgba(0,0,0,0.3);
+
+  overflow: hidden;
   &&{
     &:hover {
       background-color: rgba(0,0,0,0.3);
