@@ -261,26 +261,10 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
 
   });
 
-  const pickedFile = () => channelProperties.get(params.channelId)?.attachment;
-  const isImage = () => pickedFile()?.type.startsWith("image/");
-  const isGif = () => pickedFile()?.type.startsWith("image/gif");
-
-
-
-  const editDone = (file: File) => {
-    channelProperties.setAttachment(params.channelId, file);
-    props.textAreaEl?.focus();
-  };
   const onPaste = async (event: ClipboardEvent) => {
     const file = event.clipboardData?.files[0];
     if (!file) return;
     channelProperties.setAttachment(params.channelId, file);
-
-
-    if (isImage() && !isGif()) {
-      const dataUrl = await fileToDataUrl(file!);
-      createPortal(close => <PhotoEditor done={editDone} src={dataUrl} close={close} />);
-    }
   };
 
   // key binds

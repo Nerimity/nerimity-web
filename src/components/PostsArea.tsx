@@ -116,9 +116,6 @@ function NewPostArea(props: { postId?: string }) {
     });
   });
 
-  const isGif = () => attachedFile()?.type.startsWith("image/gif");
-
-
   const editDone = (file: File) => {
     setAttachedFile(() => file);
   };
@@ -132,13 +129,10 @@ function NewPostArea(props: { postId?: string }) {
     if (!file) return;
     if (!file.type.startsWith("image")) return;
     setAttachedFile(() => file);
-    if (!isGif()) openEditor();
   };
   const onFilePicked = (list: FileList) => {
     const file = list.item(0) || undefined;
     setAttachedFile(() => file);
-
-    if (!isGif()) openEditor();
   };
 
   const onCreateClick = async () => {
@@ -347,7 +341,7 @@ function AttachFileItem(props: { file: File; cancel(): void, onEditClick(): void
       <Text>{props.file.name}</Text>
       <FlexRow gap={4}>
         <Button
-          iconName="edit"
+          iconName="brush"
           onClick={props.onEditClick}
           iconSize={14}
           padding={5}

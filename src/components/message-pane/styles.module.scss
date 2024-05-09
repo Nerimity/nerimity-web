@@ -195,6 +195,12 @@
       display: flex;
       align-items: center;
       padding-right: 4px;
+      height: 50px;
+      .attachmentInfo {
+        overflow: hidden;
+        word-break: break-all;
+        margin-left: 5px;
+      }
     }
 
     .attachIcon {
@@ -202,16 +208,25 @@
     }
     .attachmentFilename {
       word-break: break-all;
-      margin-left: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .attachmentSize {
+      opacity: 0.6;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .attachmentImage {
       aspect-ratio: 16/9;
       object-fit: contain;
       flex-shrink: 0;
-      max-width: 50px;
-      max-height: 50px;
+      height: 100%;
       background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
   }
 }

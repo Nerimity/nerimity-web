@@ -49,6 +49,7 @@ import { DeleteMessageModal } from "./message-item/MessageItem";
 import { useNotice } from "@/common/useChannelNotice";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { PhotoEditor } from "../ui/photo-editor/PhotoEditor";
+import { prettyBytes } from "@/common/prettyBytes";
 
 export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
@@ -333,25 +334,11 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   const { channelProperties } = useStore();
   const pickedFile = () => channelProperties.get(params.channelId)?.attachment;
-  const isImage = () => pickedFile()?.type.startsWith("image/");
-  const isGif = () => pickedFile()?.type.startsWith("image/gif");
 
-
-  const editDone = (file: File) => {
-
-    channelProperties.setAttachment(params.channelId, file);
-    textAreaRef?.focus();
-
-  }
   const onFilePicked = async  (test: FileList) => {
     const file = test.item(0) || undefined;
     channelProperties.setAttachment(params.channelId, file);
     textAreaRef?.focus();
-
-    if (isImage() && !isGif()) {
-      const dataUrl = await fileToDataUrl(file!);
-      createPortal(close => <PhotoEditor done={editDone} src={dataUrl} close={close} />)
-    }
   };
 
   const onCancelAttachmentClick = () => {
@@ -714,10 +701,15 @@ function FloatingAttachment(props: {}) {
   return (
     <Floating class={styles.floatingAttachment}>
       <Icon name='attach_file' size={17} color='var(--primary-color)' class={styles.attachIcon} />
-      <Show when={isImage()}><img class={styles.attachmentImage} src={dataUrl()} alt="" /></Show>
-      <div class={styles.attachmentFilename}>{getAttachmentFile()?.name}</div>
+      <Show when={isImage()}><img onClick={showImageEditor} class={styles.attachmentImage} src={dataUrl()} alt="" /></Show>
+      <div class={styles.attachmentInfo}>
+        <div class={styles.attachmentFilename}>{getAttachmentFile()?.name}</div>
+        <div class={styles.attachmentSize}>{prettyBytes(getAttachmentFile()!.size, 0)}</div>
+      </div>
 
-      <Show when={isImage()}><Button onClick={showImageEditor} margin={0} padding={4} iconSize={16} styles={{"margin-left": 'auto'}} iconName="edit" /></Show>
+
+
+      <Show when={isImage()}><Button onClick={showImageEditor} margin={0} padding={14} iconSize={18} styles={{"margin-left": 'auto'}} iconName="brush" /></Show>
     </Floating>
   );
 }

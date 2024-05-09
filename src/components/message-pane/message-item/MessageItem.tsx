@@ -36,6 +36,7 @@ import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import { classList } from "solid-js/web";
 import {Emoji as RoleEmoji} from "@/components/ui/Emoji";
+import { prettyBytes } from "@/common/prettyBytes";
 
 interface FloatingOptionsProps {
   message: RawMessage,
@@ -266,13 +267,6 @@ const UploadAttachment = (props: { message: Message }) => {
   );
 };
 
-const prettyBytes = (num: number, precision = 3, addSpace = true) => {
-  const UNITS = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-  if (Math.abs(num) < 1) return num + (addSpace ? " " : "");
-  const exponent = Math.min(Math.floor(Math.log10(num) / Math.log10(1024)), UNITS.length - 1);
-  const n = Number(((num < 0 ? -1 : 1) * num) / Math.pow(1024, exponent));
-  return (num < 0 ? "-" : "") + n.toFixed(precision) + " " + UNITS[exponent];
-};
 
 
 const SentStatus = (props: { message: Message }) => {

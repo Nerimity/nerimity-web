@@ -331,6 +331,10 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
 
 
   const onDone = async () => {
+    if (lineHistory.length === 0) {
+      props.close();
+      return;
+    }
     stage?.scale({x: 1, y: 1});
 
     const blob = await stage!.toBlob({
