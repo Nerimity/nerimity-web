@@ -487,7 +487,7 @@ type Ticket = AbuseTicket;
 export function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
   const navigate = useNavigate();
   const [selectedCategoryId, setSelectedCategoryId] = createSignal(props.ticket ? "ABUSE" : "SELECT");
-  const [userId, setUserId] = createSignal(props.ticket?.userId || "");
+  const [userIds, setUserIds] = createSignal(props.ticket?.userId || "");
   const [title, setTitle] = createSignal("");
   const [body, setBody] = createSignal("");
   const [error, setError] = createSignal<null | string>(null);
@@ -513,13 +513,15 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
     }
 
     if (selectedCategoryId() !== "ABUSE") {
-      setUserId("");
+      setUserIds("");
     }
 
     let customBody = body();
 
-    if (userId()) {
-      customBody = `User to report: ${userId()}\n\n${customBody}`;
+    if (userIds()) {
+      const userIdsWithoutSpace = userIds().replace(/\s/g, "");
+      const userIdsSplit = userIdsWithoutSpace.split(",");
+      customBody = `User(s) to report:${userIdsSplit.map(id => ` [@:${id}]`)}\n\n${customBody}`;
     }
 
     const ticket = await createTicket({
@@ -581,8 +583,8 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
           <Show when={selectedCategoryId() === "ABUSE"}>
             <Input
               label="User ID(s) to report (separated by comma)"
-              value={userId()}
-              onText={setUserId}
+              value={userIds()}
+              onText={setUserIds}
             />
           </Show>
 
