@@ -29,6 +29,7 @@ export interface ButtonProps {
   styles?: JSX.CSSProperties
   tabIndex?: string;
   hoverText?: string;
+  iconClass?: string;
 }
 
 const ButtonContainer = styled("button")<{padding?: number | number[]; margin?: number | number[]}>`
@@ -77,7 +78,7 @@ export default function Button(props: ButtonProps) {
   return (
     <ButtonContainer title={props.hoverText} onTouchStart={props.onTouchStart} ontouchmove={props.onTouchMove} onPointerMove={props.onPointerMove} onPointerEnter={props.onPointerEnter} onPointerLeave={props.onPointerLeave} onPointerDown={props.onPointerDown} onPointerUp={props.onPointerUp} tabindex={props.tabIndex} padding={props.padding} margin={props.margin} style={style()}  class={`${props.class} button`} onClick={props.onClick} onContextMenu={props.onContextMenu} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
       {props.customChildrenLeft && props.customChildrenLeft}
-      { props.iconName && <Icon size={props.iconSize} name={props.iconName} color={props.primary ? "white" : color()} /> }
+      { props.iconName && <Icon class={props.iconClass} size={props.iconSize} name={props.iconName} color={props.primary ? "white" : color()} /> }
       { props.label && <Text size={props.textSize || 14} class='label' color={props.primary ? "white" : color()}>{props.label}</Text> }
       {props.customChildren && props.customChildren}
     </ButtonContainer>

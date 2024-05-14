@@ -21,6 +21,7 @@ import InVoiceActions from "@/components/InVoiceActions";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
+import Button from "@/components/ui/Button";
 
 
 
@@ -226,6 +227,39 @@ const CategoryItemContainer = styled(FlexRow)`
   margin-top: 5px;
   margin-bottom: 5px;
   align-items: center;
+  cursor: pointer;
+
+
+  .label {
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    font-size: 14px;
+    transition: 0.2s;
+  }
+  .expand_icon {
+    transition: 0.2s;
+  }
+
+
+
+  &.hide {
+    .expand_icon {
+      transform: rotate(180deg);
+    } 
+    .label {
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+
+
+  
 `;
 
 function CategoryItem(props: { channel: Channel, selected: boolean, onChannelContextMenu: (event: MouseEvent, channelId: string) => void }) {
@@ -237,22 +271,27 @@ function CategoryItem(props: { channel: Channel, selected: boolean, onChannelCon
   const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
 
+  const [expanded, setExpanded] = createSignal(true);
+
+
   return (
     <CategoryContainer onmouseenter={() => setHovered(true)} onmouseleave={() => setHovered(false)}>
 
-      <CategoryItemContainer gap={5}>
+      <CategoryItemContainer gap={5} onClick={() => setExpanded(!expanded())} classList={{"hide": !expanded()}} >
         <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={hovered()} />
         <Show when={isPrivateChannel()}>
           <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
         </Show>
         <div class="label">{props.channel.name}</div>
+
+        <Button iconClass="expand_icon" padding={2} margin={[0,2,0,0]} iconName="expand_more" iconSize={16} />
       </CategoryItemContainer>
 
       <Show when={sortedServerChannels().length}>
         <div class={styles.categoryChannelList}>
           <For each={sortedServerChannels()}>
             {channel => (
-              <ChannelItem onContextMenu={e => props.onChannelContextMenu(e, channel!.id!)} channel={channel!} selected={params.channelId === channel!.id} />
+              <ChannelItem expanded={expanded()} onContextMenu={e => props.onChannelContextMenu(e, channel!.id!)} channel={channel!} selected={params.channelId === channel!.id} />
             )}
           </For>
         </div>
@@ -278,7 +317,7 @@ const MentionCountContainer = styled(FlexRow)`
   margin-right: 5px;
 `;
 
-function ChannelItem(props: { channel: Channel, selected: boolean, onContextMenu: (event: MouseEvent) => void }) {
+function ChannelItem(props: { expanded: boolean, channel: Channel, selected: boolean, onContextMenu: (event: MouseEvent) => void }) {
   const { channel } = props;
   const [hovered, setHovered] = createSignal(false);
 
@@ -289,24 +328,26 @@ function ChannelItem(props: { channel: Channel, selected: boolean, onContextMenu
 
   return (
 
-    <A 
-      onClick={() => emitDrawerGoToMain()}
-      onContextMenu={props.onContextMenu}
-      href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
-      style={{ "text-decoration": "none" }}
-    >
-      <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
-        <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={hovered()} />
-        <Show when={isPrivateChannel()}>
-          <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
-        </Show>
-        <div class="label">{channel.name}</div>
-        <Show when={props.channel.mentionCount()}>
-          <MentionCountContainer>{props.channel.mentionCount()}</MentionCountContainer>
-        </Show>
-      </ChannelContainer>
-      <ChannelItemVoiceUsers channelId={props.channel.id} />
-    </A>
+    <Show when={props.expanded || props.selected || hasNotifications()}>
+      <A 
+        onClick={() => emitDrawerGoToMain()}
+        onContextMenu={props.onContextMenu}
+        href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
+        style={{ "text-decoration": "none" }}
+      >
+        <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
+          <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={hovered()} />
+          <Show when={isPrivateChannel()}>
+            <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
+          </Show>
+          <div class="label">{channel.name}</div>
+          <Show when={props.channel.mentionCount()}>
+            <MentionCountContainer>{props.channel.mentionCount()}</MentionCountContainer>
+          </Show>
+        </ChannelContainer>
+        <ChannelItemVoiceUsers channelId={props.channel.id} />
+      </A>
+    </Show>
 
   );
 }
