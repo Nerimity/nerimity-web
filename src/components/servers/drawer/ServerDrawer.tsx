@@ -126,7 +126,7 @@ const ChannelList = () => {
       <Show when={account.lastAuthenticatedAt()} fallback={<ChannelListSkeleton/>}>
         <For each={sortedRootChannels()}>
           {channel => (
-            <Switch fallback={<ChannelItem onContextMenu={e => onChannelContextMenu(e, channel!.id)} channel={channel!} selected={params.channelId === channel!.id} />}>
+            <Switch fallback={<ChannelItem expanded onContextMenu={e => onChannelContextMenu(e, channel!.id)} channel={channel!} selected={params.channelId === channel!.id} />}>
               <Match when={channel!.type === ChannelType.CATEGORY}>
                 <CategoryItem onChannelContextMenu={onChannelContextMenu} channel={channel!} selected={params.channelId === channel!.id} />
               </Match>
