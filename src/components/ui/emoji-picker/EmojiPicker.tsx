@@ -79,7 +79,7 @@ export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; show
         <EmojiPickerComponent
           class={styles.emojiPicker}
           focusOnMount={!isMobileAgent()}
-          spriteUrl="/assets/emojiSprites.png"
+          spriteUrl="/assets/emojiSprites.png?cache=1"
           emojis={emojis}
           customEmojis={customEmojis()}
           onEmojiClick={(e: any) => props.onClick(e.name || e.short_names[0])}
