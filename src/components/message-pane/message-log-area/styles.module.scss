@@ -52,3 +52,74 @@
     }
   }
 }
+
+
+
+
+.viewReactionsContainer {
+  .reactionTabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    .reactionItem {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 4px;
+      .name {
+        font-size: 13px;
+      }
+      .count {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        background: rgba(255,255,255,0.1);
+        border: solid 1px rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        padding-left: 4px;
+        padding-right: 4px;
+        margin-left: 6px;
+      }
+      .emoji {
+        height: 1.4em;
+        width: 1.4em;
+        border-radius: 4px;
+        margin-right: 3px;
+        object-fit: contain;
+      }
+      
+    }
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 4px;
+  }
+
+  .reactedUsers {
+    display: flex;
+    flex-direction: column;
+    margin-top: 18px;
+    .reactedUserItem {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px;
+      transition: 0.2s;
+      user-select: none;
+      cursor: pointer;
+      .reactedUsername {
+        flex: 1;
+      }
+      .reactedAt {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+    }
+  }
+}

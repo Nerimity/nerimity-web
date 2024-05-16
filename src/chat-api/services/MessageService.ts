@@ -156,12 +156,20 @@ export const removeMessageReaction = async (opts: {channelId: string, messageId:
   return data;
 };
 
-export const fetchMessageReactedUsers = async (opts: {channelId: string, messageId: string, name: string, emojiId?: string | null}) => {
-  const data = await request<RawUser[]>({
+
+
+export interface ReactedUser {
+  reactedAt: number;
+  user: RawUser;
+}
+
+export const fetchMessageReactedUsers = async (opts: {limit?: number, channelId: string, messageId: string, name: string, emojiId?: string | null}) => {
+  const data = await request<ReactedUser[]>({
     method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.message(opts.channelId, opts.messageId) + "/reactions/users",
     params: {
       name: opts.name,
+      ...(opts.limit ? {limit: opts.limit} : undefined),
       ...(opts.emojiId ? {emojiId: opts.emojiId} : undefined)
 
     },

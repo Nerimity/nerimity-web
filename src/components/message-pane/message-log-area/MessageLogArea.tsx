@@ -1,8 +1,8 @@
 import styles from "./styles.module.scss";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ServerEvents } from "@/chat-api/EventNames";
-import { MessageType, RawMessage } from "@/chat-api/RawData";
-import { addMessageReaction } from "@/chat-api/services/MessageService";
+import { MessageType, RawMessage, RawMessageReaction, RawUser } from "@/chat-api/RawData";
+import { ReactedUser, addMessageReaction, fetchMessageReactedUsers } from "@/chat-api/services/MessageService";
 import socketClient from "@/chat-api/socketClient";
 import { Message } from "@/chat-api/store/useMessages";
 import useStore from "@/chat-api/store/useStore";
@@ -15,7 +15,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/ContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { emojiShortcodeToUnicode } from "@/emoji";
+import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { useParams, useSearchParams } from "solid-navigator";
 import { For, Show, batch, createEffect, createMemo, createRenderEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
@@ -28,6 +28,12 @@ import { t } from "i18next";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";
+import Modal from "@/components/ui/modal/Modal";
+import { FlexRow } from "@/components/ui/Flexbox";
+import { Emoji } from "@/components/markup/Emoji";
+import ItemContainer from "@/components/ui/Item";
+import Avatar from "@/components/ui/Avatar";
+import { formatTimestamp } from "@/common/date";
 
 export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
   const [searchParams, setSearchParams] = useSearchParams<{messageId?: string}>();
@@ -516,6 +522,10 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />);
   };
 
+  const onViewReactionsClick = () => {
+    createPortal?.(close => <ViewReactionsModal close={close} message={props.message} />);
+  };
+
   const onEditClick = () => {
     const { channelProperties } = useStore();
     channelProperties.setEditMessage(props.message.channelId, props.message);
@@ -537,6 +547,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
   return (
     <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
+      { icon: "face", label: "View Reactions", onClick: onViewReactionsClick },
       ...(showQuote() ? [{ icon: "format_quote", label: "Quote Message", onClick: props.quoteMessage }] : []),
       ...(showEdit() ? [{ icon: "edit", label: t("messageContextMenu.editMessage")!, onClick: onEditClick }] : []),
       ...(showDelete() ? [{ icon: "delete", label: t("messageContextMenu.deleteMessage")!, onClick: onDeleteClick, alert: true }] : []),
@@ -546,3 +557,88 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     ]} />
   );
 }
+
+
+
+const ViewReactionsModal = (props: { close: () => void, message: Message }) => {
+  const [selectedIndex, setSelectedIndex] = createSignal(0);
+  const [reactedUsers, setReactedUsers] = createSignal<ReactedUser[]>([]);
+
+  const selectedReaction = () => props.message.reactions[selectedIndex()]!;
+
+  createEffect(on(selectedIndex, async () => {
+    setReactedUsers([]);
+    const reactedUsers = await fetchMessageReactedUsers({
+      channelId: props.message.channelId,
+      messageId: props.message.id,
+      name: selectedReaction().name,
+      emojiId: selectedReaction().emojiId,
+      limit: 50
+    });
+    setReactedUsers(reactedUsers);
+  }));
+
+  return (
+    <Modal
+      maxWidth={600}
+      maxHeight={500}
+      title="Reactions"
+      icon="face"
+      close={props.close}>
+      <div class={styles.viewReactionsContainer}>
+        <ReactionTabs message={props.message} onClick={setSelectedIndex} selectedIndex={selectedIndex()}/>
+        <ReactedUsersList reactedUsers={reactedUsers()} />  
+      </div>
+    </Modal>
+  );
+};
+
+const ReactionTabs = (props: { message: Message, selectedIndex: number, onClick: (index: number) => void }) => {
+  return (
+    <div class={styles.reactionTabs}>
+      <For each={props.message.reactions}>{(reaction, i) => <ReactionItem onClick={() => props.onClick?.(i())} selected={i() === props.selectedIndex} reaction={reaction} />}</For>
+    </div>
+  );
+};
+
+const ReactionItem = (props: { reaction: RawMessageReaction, selected: boolean, onClick?: () => void }) => {
+  const { hasFocus } = useWindowProperties();
+
+  const name = () => props.reaction.emojiId ? props.reaction.name : emojiUnicodeToShortcode(props.reaction.name);
+
+  const url = () => {
+    if (!props.reaction.emojiId) return unicodeToTwemojiUrl(props.reaction.name);
+    return `${env.NERIMITY_CDN}/emojis/${props.reaction.emojiId}.${props.reaction.gif ? "gif" : "webp"}${props.reaction.gif ? (!hasFocus() ? "?type=webp" : "") : ""}`;
+  };
+
+  return (
+    <ItemContainer class={styles.reactionItem} selected={props.selected} handlePosition="bottom" onClick={props.onClick}>
+      <Emoji class={styles.emoji} name={name()} url={url()} custom={!!props.reaction.emojiId} resize={60} />
+
+      <div class={styles.name}>{name()}</div>
+      <div class={styles.count}>{props.reaction.count}</div>
+    </ItemContainer>
+  );
+
+};
+
+const ReactedUsersList = (props: { reactedUsers: ReactedUser[] }) => {
+  return (
+    <div class={styles.reactedUsers}>
+      <For each={props.reactedUsers}>
+        {user => <ReactedUserItem reactedUser={user} />}
+      </For>
+    </div>
+  );
+};
+
+const ReactedUserItem = (props: { reactedUser: ReactedUser }) => {
+  return (
+    <div class={styles.reactedUserItem}>
+      <Avatar user={props.reactedUser.user} size={24} /> 
+      <div class={styles.reactedUsername}>{props.reactedUser.user.username}</div>
+      <div class={styles.reactedAt}>{formatTimestamp(props.reactedUser.reactedAt)}</div>
+    </div>
+  );
+
+};

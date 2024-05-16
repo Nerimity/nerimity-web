@@ -969,13 +969,14 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
 
   onMount(() => {
     const timeoutId = window.setTimeout(async () => {
-      const newUsers = await fetchMessageReactedUsers({
+      const newReactedUsers = await fetchMessageReactedUsers({
         channelId: props.message.channelId,
         messageId: props.message.id,
         name: props.reaction.name,
-        emojiId: props.reaction.emojiId
+        emojiId: props.reaction.emojiId,
+        limit: 5
       });
-      setUsers(newUsers);
+      setUsers(newReactedUsers.map(u => u.user));
     }, 500);
 
     onCleanup(() => {
@@ -1003,7 +1004,7 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
             </div>
           )}
         </For>
-        <Show when={plusCount()}><div class={styles.whoReactedPlusCount}>+{plusCount()}</div></Show>
+        <Show when={plusCount()}><div class={styles.whoReactedPlusCount}>{plusCount()} more</div></Show>
       </div>
     </Show>
   );
