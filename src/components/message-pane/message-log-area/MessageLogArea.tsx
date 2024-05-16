@@ -582,6 +582,7 @@ const ViewReactionsModal = (props: { close: () => void, message: Message }) => {
     <Modal
       maxWidth={600}
       maxHeight={500}
+      class={styles.viewReactionsModal}
       title="Reactions"
       icon="face"
       close={props.close}>
