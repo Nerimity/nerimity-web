@@ -138,7 +138,7 @@ function NotificationSoundDropDown(props: {typeId: "MESSAGE" | "MESSAGE_MENTION"
         onClick: () => setSelectedSounds({...selectedSounds(), [props.typeId]: sound}),
         label: sound === "nerimity-mute" ? "Mute" :  capitalizeFirstLetter(sound.replaceAll("-", " ")),
         suffix: <Show when={sound !== "nerimity-mute"}><div style={{"margin-left": "auto", "flex-shrink": 0}}>
-          <Button onClick={(e) => testSound(e, sound)} styles={{"margin-left": "6px", "flex-shrink": 0}}  iconName="play_circle_filled" margin={0} padding={4} iconSize={16}/>
+          <Button onClick={(e) => testSound(e, sound)} styles={{"margin-left": "6px", "flex-shrink": 0}}  iconName="play_circle" margin={0} padding={4} iconSize={16}/>
         </div></Show>
         
       }))
