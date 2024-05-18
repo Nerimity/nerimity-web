@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import {A, useNavigate, useParams} from "solid-navigator";
+import {A, useNavigate, useParams, useSearchParams} from "solid-navigator";
 import {createEffect, createSignal, For, on, onCleanup, onMount, Show} from "solid-js";
 import {FriendStatus, RawUser, TicketCategory} from "@/chat-api/RawData";
 import {
@@ -201,18 +201,18 @@ export default function ProfilePane() {
                   <Badges user={userDetails()!} />
                 </Show>
                 <div class={styles.followingAndFollowersContainer}>
-                  <div>
+                  <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>
                     {userDetails()?.user._count.following.toLocaleString()}{" "}
                     <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
                       Following
                     </span>
-                  </div>
-                  <div>
+                  </CustomLink>
+                  <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>
                     {userDetails()?.user._count.followers.toLocaleString()}{" "}
                     <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
                       Followers
                     </span>
-                  </div>
+                  </CustomLink>
                 </div>
               </div>
 
@@ -856,10 +856,48 @@ function SidePaneItem(props: {
 
 function PostsContainer(props: { user: UserDetails }) {
   const { account } = useStore();
-  const [currentPage, setCurrentPage] = createSignal(0); // posts | with replies | liked | Following | Followers
+  const navigate = useNavigate();
+  const params = useParams<{tab?: "replies" | "liked" | "following" | "followers"}>()
 
   const postCount = () => props.user.user._count.posts.toLocaleString();
   const likeCount = () => props.user.user._count.likedPosts.toLocaleString();
+
+
+
+  const currentPage = () => {
+    switch (params.tab) {
+      case "replies":
+        return 1;
+      case "liked":
+        return 2;
+      case "following":
+        return 3;
+      case "followers":
+        return 4;
+      default:
+        return 0;
+    }
+  }
+
+  const setCurrentPage = (page: number) => {
+    switch (page) {
+      case 1:
+        navigate(RouterEndpoints.PROFILE(props.user.user.id) + "/replies");
+        break;
+      case 2:
+        navigate(RouterEndpoints.PROFILE(props.user.user.id) + "/liked");
+        break;
+      case 3:
+        navigate(RouterEndpoints.PROFILE(props.user.user.id) + "/following");
+        break;
+      case 4:
+        navigate(RouterEndpoints.PROFILE(props.user.user.id) + "/followers");
+        break;
+      default:
+        navigate(RouterEndpoints.PROFILE(props.user.user.id));
+    }
+  }
+
   return (
     <div class={styles.postsContainer}>
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": "wrap" }}>

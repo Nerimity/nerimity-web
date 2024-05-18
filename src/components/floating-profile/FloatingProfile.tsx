@@ -207,7 +207,7 @@ const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | nul
             </CustomLink>
           </span>
           <UserPresence hideActivity animate userId={props.userId} showOffline />
-          <Text size={12} opacity={0.6}>{followingCount()} Following | {followersCount()} Followers</Text>
+          <Text size={12} opacity={0.6}><CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>{followingCount()} Following</CustomLink> | <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>{followersCount()} Followers</CustomLink></Text>
         </div>
       </div>
 

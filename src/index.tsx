@@ -139,7 +139,7 @@ render(() => {
           <Route path="/*" components={{settingsPane: undefined}}  />
         </Route>
 
-        <Route path="/profile/:userId" components={{mainPane: ProfilePane, leftDrawer: undefined, rightDrawer: undefined}} />
+        <Route path="/profile/:userId/:tab?" components={{mainPane: ProfilePane, leftDrawer: undefined, rightDrawer: undefined}} />
 
         <Route path="/explore" components={{mainPane: ExplorePane, leftDrawer: ExploreDrawer}}>
           <For each={exploreRoutes}>
