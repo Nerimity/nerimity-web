@@ -53,6 +53,7 @@ export default function SuspendUsersModal(props: Props) {
 
   const {createPortal} = useCustomPortal();
   const [ipBan, setIpBan] = createSignal(false);
+  const [deleteRecentMessages, setDeleteRecentMessages] = createSignal(false);
 
   
   const [checkedViolation, setCheckedViolation] = createStore([false, false, false, false, false, false]);
@@ -102,7 +103,14 @@ export default function SuspendUsersModal(props: Props) {
       suspendBy: store.account.user()! as unknown as RawUser
     };
 
-    suspendUsers(password(), userIds, intSuspendFor, compiledReason() || undefined, ipBan())
+    suspendUsers({
+      confirmPassword: password(),
+      userIds,
+      days: intSuspendFor,
+      reason: compiledReason() || undefined,
+      ipBan: ipBan(),
+      deleteRecentMessages: deleteRecentMessages()
+    })
       .then(() => {
         props.done(preview); props.close();
       })
@@ -141,8 +149,11 @@ export default function SuspendUsersModal(props: Props) {
         <Input class={suspendInputStyle} label="Suspend for" type="number" value={suspendFor()} onText={setSuspendFor} suffix="days" />
         <Text size={12} opacity={0.7} class={css`margin-top: -4px;`}>0 days will suspend them indefinitely</Text>
 
-        <div style={{"margin-top": "6px", "margin-bottom": "6px"}}>
-          <Checkbox labelSize={14} checked={ipBan()} onChange={setIpBan} label="Also IP ban for a week" />
+        <div style={{"margin-top": "6px", "margin-bottom": "2px"}}>
+          <Checkbox labelSize={14} checked={ipBan()} onChange={setIpBan} label="IP ban for a week" />
+        </div>
+        <div style={{"margin-top": "2px", "margin-bottom": "6px"}}>
+          <Checkbox labelSize={14} checked={deleteRecentMessages()} onChange={setDeleteRecentMessages} label="Delete past 7 days of messages (raids only)" />
         </div>
 
 

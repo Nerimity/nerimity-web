@@ -212,15 +212,25 @@ export const deleteServer = async (serverId: string, confirmPassword: string) =>
   return data;
 };
 
-export const suspendUsers = async (confirmPassword: string, userIds: string[], days: number, reason?: string, ipBan?: boolean) => {
+interface SuspendUsersOpts {
+  confirmPassword: string;
+  userIds: string[];
+  days: number;
+  reason?: string;
+  ipBan?: boolean;
+  deleteRecentMessages?: boolean;
+}
+
+export const suspendUsers = async (opts: SuspendUsersOpts) => {
   const data = await request<any[]>({
     method: "POST",
     body: {
-      userIds,
-      days,
-      reason,
-      ipBan,
-      password: confirmPassword
+      userIds: opts.userIds,
+      days: opts.days,
+      reason: opts.reason,
+      ipBan: opts.ipBan,
+      password: opts.confirmPassword,
+      deleteRecentMessages: opts.deleteRecentMessages
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",
     useToken: true
