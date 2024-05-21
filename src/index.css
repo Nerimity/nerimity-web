@@ -31,6 +31,10 @@ body {
   -webkit-touch-callout: none;
 }
 
+#root.mobileAgent {
+  -webkit-user-select: none;
+}
+
 textarea {
   font-family: "Inter", sans-serif;
 }

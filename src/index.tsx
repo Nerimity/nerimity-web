@@ -96,6 +96,9 @@ const useMobileInterface = () => {
     `;
     document.head.appendChild(styleEl);
   }
+  if (isMobileAgent()) {
+    document.getElementById("root")?.classList.add("mobileAgent");
+  }
 };
 
 
