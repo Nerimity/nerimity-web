@@ -481,22 +481,27 @@ interface AbuseTicket {
   id: "ABUSE";
   userId: string;
 }
+interface VerifyServerTicket {
+  id: "SERVER_VERIFICATION"
+}
 
-type Ticket = AbuseTicket;
+type Ticket = AbuseTicket | VerifyServerTicket;
 
 export function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
   const navigate = useNavigate();
-  const [selectedCategoryId, setSelectedCategoryId] = createSignal(props.ticket ? "ABUSE" : "SELECT");
-  const [userIds, setUserIds] = createSignal(props.ticket?.userId || "");
+  const [selectedCategoryId, setSelectedCategoryId] = createSignal(props.ticket?.id || "SELECT");
+  const [userIds, setUserIds] = createSignal(props.ticket?.id === "ABUSE" ? (props.ticket.userId || "") : "");
   const [title, setTitle] = createSignal("");
   const [body, setBody] = createSignal("");
   const [error, setError] = createSignal<null | string>(null);
+  const [serverInviteUrl, setServerInviteUrl] = createSignal<string>("");
 
   const Categories: DropDownItem[] = [
+    { id: "SERVER_VERIFICATION", label: "Verify Server" },
     { id: "QUESTION", label: "Question" },
     { id: "ACCOUNT", label: "Account" },
     { id: "ABUSE", label: "Abuse" },
-    { id: "OTHER", label: "Other" }
+    { id: "OTHER", label: "Other" },
   ];
 
   const createTicketClick = async () => {
@@ -522,6 +527,11 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
       const userIdsWithoutSpace = userIds().replace(/\s/g, "");
       const userIdsSplit = userIdsWithoutSpace.split(",");
       customBody = `User(s) to report:${userIdsSplit.map(id => ` [@:${id}]`)}\n\n${customBody}`;
+    }
+
+    if (selectedCategoryId() === "SERVER_VERIFICATION") {
+      customBody = `Server Invite URL: ${serverInviteUrl()}\n\nExcited For:\n${customBody}`
+      setTitle("Server Verification");
     }
 
     const ticket = await createTicket({
@@ -588,8 +598,18 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
             />
           </Show>
 
+       <Show when={["ABUSE", "OTHER", "ACCOUNT", "QUESTION"].includes(selectedCategoryId())}>
           <Input label="In one short sentence, what is the problem?" value={title()} onText={setTitle} />
           <Input label="Describe the problem" type="textarea" minHeight={100} value={body()} onText={setBody} />
+       </Show>
+       <Show when={selectedCategoryId() === "SERVER_VERIFICATION"}>
+          <Notice
+            type="info"
+            description="Make sure you meet all the requirements in your server settings verify page."
+          />
+          <Input label="Server Invite URL" placeholder="https://nerimity.com/i/xxxxxxxxxx" value={serverInviteUrl()} onText={setServerInviteUrl} />
+          <Input label="Which verify perk are you most excited for?" type="textarea" minHeight={100} value={body()} onText={setBody} />
+       </Show>
           <Show when={error()}>
             <Text color="var(--alert-color)">{error()}</Text>
           </Show>

@@ -10,6 +10,9 @@ import { useParams } from "solid-navigator";
 import { t } from "i18next";
 import { createEffect, Match, onMount, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
+import Button from "@/components/ui/Button";
+import { CreateTicketModal } from "@/components/profile-pane/ProfilePane";
+import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -24,6 +27,7 @@ const ListContainer = styled(FlexColumn)`
 export default function ServerSettingsBans() {
   const params = useParams<{ serverId: string }>();
   const { servers, serverMembers, header } = useStore();
+  const { createPortal } = useCustomPortal();
 
   createEffect(() => {
     header.updateHeader({
@@ -38,6 +42,15 @@ export default function ServerSettingsBans() {
   const memberCount = () => serverMembers.array(params.serverId).length;
 
   const membersNeeded = () => TARGET_MEMBERS - memberCount();
+
+  const verifyClick = () => {
+    return createPortal((close) => (
+      <CreateTicketModal
+        close={close}
+        ticket={{ id: "SERVER_VERIFICATION" }}
+      />
+    ));
+  };
 
   return (
     <Container>
@@ -54,7 +67,7 @@ export default function ServerSettingsBans() {
           <Notice type="warn" description={`You need ${membersNeeded()} more member(s) to apply for a verification.`} />
         </Match>
         <Match when={membersNeeded() <= 0}>
-          <Notice type="success" description={"You have enough members to verify your server!"} />
+          <Notice type="success" description={"You have enough members to verify your server!"} children={<Button onClick={verifyClick} label="Verify" styles={{"margin-left": "auto"}} margin={0} color="var(--success-color)" />} />
         </Match>
       </Switch>
       <ListContainer>
