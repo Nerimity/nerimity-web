@@ -34,6 +34,7 @@ import { Emoji } from "@/components/markup/Emoji";
 import ItemContainer from "@/components/ui/Item";
 import Avatar from "@/components/ui/Avatar";
 import { formatTimestamp } from "@/common/date";
+import { CreateTicketModal } from "@/components/profile-pane/ProfilePane";
 
 export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
   const [searchParams, setSearchParams] = useSearchParams<{messageId?: string}>();
@@ -531,6 +532,13 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     channelProperties.setEditMessage(props.message.channelId, props.message);
   };
 
+  const onReportClick = () => {
+    createPortal(close => <CreateTicketModal
+      close={close}
+      ticket={{ id: "ABUSE", userId: props.message.createdBy.id, messageId: props.message.id }}
+    />);  
+  };
+
   const showEdit = () => account.user()?.id === props.message.createdBy.id && props.message.type === MessageType.CONTENT;
 
   const showDelete = () => {
@@ -544,6 +552,8 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const showQuote = () => props.message.type === MessageType.CONTENT;
 
   const hasContent = () => props.message.content;
+  const isSelfMessage = () => account.user()?.id === props.message.createdBy.id;
+  const showReportMessage = () => !isSelfMessage();
 
   return (
     <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
@@ -551,7 +561,12 @@ function MessageContextMenu(props: MessageContextMenuProps) {
       ...(showQuote() ? [{ icon: "format_quote", label: "Quote Message", onClick: props.quoteMessage }] : []),
       ...(showEdit() ? [{ icon: "edit", label: t("messageContextMenu.editMessage")!, onClick: onEditClick }] : []),
       ...(showDelete() ? [{ icon: "delete", label: t("messageContextMenu.deleteMessage")!, onClick: onDeleteClick, alert: true }] : []),
-      ...(showEdit() || showDelete() || showQuote() ? [{ separator: true }] : []),
+      ...(showReportMessage() ? [{ icon: "flag", label: "Report Message", onClick: onReportClick, alert: true }] : []),
+
+
+      ...(showEdit() || showDelete() || showQuote() || showReportMessage() ? [{ separator: true }] : []),
+
+
       ...(hasContent() ? [{ icon: "content_copy", label: t("messageContextMenu.copyMessage")!, onClick: () => copyToClipboard(props.message.content!) }] : []),
       { icon: "content_copy", label: t("messageContextMenu.copyId")!, onClick: () => copyToClipboard(props.message.id!) }
     ]} />

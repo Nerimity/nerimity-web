@@ -480,6 +480,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
 interface AbuseTicket {
   id: "ABUSE";
   userId: string;
+  messageId?: string
 }
 interface VerifyServerTicket {
   id: "SERVER_VERIFICATION"
@@ -491,6 +492,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
   const navigate = useNavigate();
   const [selectedCategoryId, setSelectedCategoryId] = createSignal(props.ticket?.id || "SELECT");
   const [userIds, setUserIds] = createSignal(props.ticket?.id === "ABUSE" ? (props.ticket.userId || "") : "");
+  const [messageIds, setMessageIds] = createSignal(props.ticket?.id === "ABUSE" ? (props.ticket.messageId || "") : "");
   const [title, setTitle] = createSignal("");
   const [body, setBody] = createSignal("");
   const [error, setError] = createSignal<null | string>(null);
@@ -519,6 +521,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
 
     if (selectedCategoryId() !== "ABUSE") {
       setUserIds("");
+      setMessageIds("");
     }
 
     let customBody = body();
@@ -527,6 +530,9 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
       const userIdsWithoutSpace = userIds().replace(/\s/g, "");
       const userIdsSplit = userIdsWithoutSpace.split(",");
       customBody = `User(s) to report:${userIdsSplit.map(id => ` [@:${id}]`)}\n\n${customBody}`;
+    }
+    if (messageIds()) {
+      customBody += `\n\nMessage(s) to report:\n${messageIds().replace(/\s/g, "").split(",").map(id => `[q:${id}]`).join("")}\n\n`;
     }
 
     if (selectedCategoryId() === "SERVER_VERIFICATION") {
@@ -595,6 +601,11 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
               label="User ID(s) to report (separated by comma)"
               value={userIds()}
               onText={setUserIds}
+            />
+            <Input
+              label="Message ID(s) to report (separated by comma)"
+              value={messageIds()}
+              onText={setMessageIds}
             />
           </Show>
 
