@@ -662,13 +662,20 @@ function SideBar(props: { user: UserDetails }) {
 
   return (
     <div class={styles.sidePane}>
+      <Show when={props.user.suspensionExpiresAt !== undefined}>
+        <SidePaneItem
+          icon="block"
+          label="This user is suspended"
+          color="var(--alert-color)"
+          value={`Expires ${!props.user.suspensionExpiresAt ? "never" :getDaysAgo(props.user.suspensionExpiresAt!)}`}
+        />
+      </Show>
       <Show when={props.user.block}>
         <SidePaneItem
           icon="block"
           label="You've been blocked"
           color="var(--alert-color)"
           value="This user has blocked you."
-          onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
         />
       </Show>
       <UserActivity userId={props.user.user.id} />

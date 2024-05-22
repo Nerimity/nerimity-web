@@ -94,6 +94,7 @@ export async function registerRequest(email: string, username: string, password:
 
 export interface UserDetails {
   block: boolean;
+  suspensionExpiresAt?: number;
   user: RawUser & {
     _count: {
       followers: number, 
