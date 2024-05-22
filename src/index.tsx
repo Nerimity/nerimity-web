@@ -182,6 +182,7 @@ render(() => {
       <Route path="/terms-and-conditions" component={TermsAndConditionsPage} /> 
       <Route path="/google-redirect" component={GoogleRedirectLinkAccount} /> 
       <Route path="/i/:inviteId" component={InviteRedirect} />
+      <Route path="/p/:postId" component={PostRedirect} />
       <Route path="/bot/:appId" component={InviteServerBotPage} />
       
       <Route path="/*" component={NoMatch} />
@@ -208,5 +209,11 @@ function InviteRedirect() {
   const params = useParams();
 
   return <Navigate href={RouterEndpoints.EXPLORE_SERVER_INVITE(params.inviteId!)} />;
+}
+
+function PostRedirect() {
+  const params = useParams();
+
+  return <Navigate href={`/app?postId=${params.postId!}`} />;
 }
 
