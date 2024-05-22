@@ -602,6 +602,10 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
         class={postActionStyle}
         color="var(--alert-color)"
         primary={!!isLikedByMe()}
+        iconClass={!isLikedByMe() ? css`
+          -webkit-text-fill-color: transparent;
+          -webkit-text-stroke: 1px;
+        ` : undefined}
         iconName={likedIcon()}
         label={props.post._count?.likedBy.toLocaleString()}
       />
