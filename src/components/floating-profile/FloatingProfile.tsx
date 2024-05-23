@@ -38,6 +38,7 @@ interface Props {
   triggerEl?: HTMLElement;
   colors?: {bg?: [string | null, string | null], primary?: string | null}
   bio?: string;
+  channelNotice?: string;
 }
 
 
@@ -65,9 +66,9 @@ export const ProfileFlyout = (props: Props) => {
 
   return (
     <Switch>
-      <Match when={!showMobileFlyout()}><DesktopProfileFlyout bio={props.bio} colors={props.colors} triggerEl={props.triggerEl} close={props.close} anchor={props.position?.anchor} left={props.position?.left} top={props.position?.top} dmPane={props.dmPane} userId={props.userId} serverId={props.serverId} /></Match>
+      <Match when={!showMobileFlyout()}><DesktopProfileFlyout channelNotice={props.channelNotice} bio={props.bio} colors={props.colors} triggerEl={props.triggerEl} close={props.close} anchor={props.position?.anchor} left={props.position?.left} top={props.position?.top} dmPane={props.dmPane} userId={props.userId} serverId={props.serverId} /></Match>
       <Match when={showMobileFlyout()}>
-        <MobileFlyout bio={props.bio} colors={props.colors} close={props?.close} serverId={props.serverId} userId={props.userId}  />
+        <MobileFlyout bio={props.bio} channelNotice={props.channelNotice} colors={props.colors} close={props?.close} serverId={props.serverId} userId={props.userId}  />
       </Match>
     </Switch>
   );
@@ -75,7 +76,7 @@ export const ProfileFlyout = (props: Props) => {
 };
 
 
-const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | null, string | null], primary?: string | null}, triggerEl?: HTMLElement, dmPane?: boolean; mobile?: boolean; close?(): void, userId: string, serverId?: string, left?: number, top?: number; anchor?: "left" | "right" }) => {
+const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; colors?: {bg?: [string | null, string | null], primary?: string | null}, triggerEl?: HTMLElement, dmPane?: boolean; mobile?: boolean; close?(): void, userId: string, serverId?: string, left?: number, top?: number; anchor?: "left" | "right" }) => {
   const { createPortal } = useCustomPortal();
   const { users, account, serverMembers, posts } = useStore();
   const [details, setDetails] = createSignal<UserDetails | undefined>(undefined);
@@ -229,7 +230,15 @@ const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | nul
         </div>
       </Show>
 
+      <Show when={props.channelNotice}>
+        <FlyoutTitle icon='info' title='Channel Notice' primaryColor={colors()?.primary || undefined} />
+        <div class={styles.bioContainer}>
+          <Text size={12} color='rgba(255,255,255,0.7)' class={colors()?.primary ? css`a {color: ${colors()?.primary}; }`: ""}><Markup text={props.channelNotice!} /></Text>
+        </div>
+      </Show>
+
       <UserActivity userId={props.userId} primaryColor={colors()?.primary || undefined} />
+
 
       <Show when={details()?.profile?.bio}>
         <FlyoutTitle icon='info' title='Bio' primaryColor={colors()?.primary || undefined} />
@@ -280,7 +289,7 @@ const DesktopProfileFlyout = (props: {bio?: string; colors?: {bg?: [string | nul
 
 
 
-function MobileFlyout(props: {bio?: string; colors?: {bg?: [string | null, string | null], primary?: string | null}, userId: string, serverId?: string, close?: () => void }) {
+function MobileFlyout(props: { channelNotice?: string, bio?: string; colors?: {bg?: [string | null, string | null], primary?: string | null}, userId: string, serverId?: string, close?: () => void }) {
   let mouseDownTarget: HTMLDivElement | null = null;
 
   const onBackgroundClick = (event: MouseEvent) => {
@@ -291,7 +300,7 @@ function MobileFlyout(props: {bio?: string; colors?: {bg?: [string | null, strin
 
   return (
     <div class={styles.backgroundContainer} onClick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as any}>
-      <DesktopProfileFlyout bio={props.bio} colors={props.colors} mobile close={props.close} serverId={props.serverId} userId={props.userId} />
+      <DesktopProfileFlyout channelNotice={props.channelNotice} bio={props.bio} colors={props.colors} mobile close={props.close} serverId={props.serverId} userId={props.userId} />
     </div>
   );
 }
