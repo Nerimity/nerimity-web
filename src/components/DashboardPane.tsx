@@ -21,6 +21,7 @@ import { Presence } from "@/chat-api/store/useUsers";
 import Icon from "./ui/icon/Icon";
 import env from "@/common/env";
 import { getActivityIconName } from "@/components/activity/Activity";
+import { Skeleton } from "./ui/skeleton/Skeleton";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -41,7 +42,6 @@ const ServerListContainer = styled(FlexRow)`
   padding-top: 5px;
   padding-bottom: 5px;
   background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   padding-left: 6px;
   padding-right: 6px;
   border-radius: 8px;
@@ -278,6 +278,9 @@ const ActivityListContainer = styled(FlexRow)`
 
 
 const ActivityList = () => {
+  const {account} = useStore();
+
+  
   const store = useStore();
   let activityListEl: undefined | HTMLDivElement;
 
@@ -299,16 +302,32 @@ const ActivityList = () => {
       .sort((a, b) => b.activity!.startedAt - a.activity!.startedAt);
   };
 
+  const authenticatedInPast = () => account.lastAuthenticatedAt();
+
   return (
-    <Show when={activities().length}>
+    <>
+
       <Text size={18}  style={{ "margin-left": "5px" }}>Active Users</Text>
 
       <ActivityListContainer onwheel={onWheel} ref={activityListEl}>
-        <For each={activities()}>
-          {activity => <PresenceItem presence={activity} />}
-        </For>
+        <Show when={!authenticatedInPast()}>
+          <Skeleton.List count={5} style={{"flex-direction": "row"}}>
+            <Skeleton.Item height="80px" width="240px" />
+          </Skeleton.List>
+        </Show>
+
+        <Show when={authenticatedInPast() && !activities().length}>
+          <div style={{ display: "flex", "text-align": "center", "flex-direction": "column", "align-items": "center", "justify-content": "center", background: "rgba(255,255,255,0.04)", width: "100%", height: "100%", "border-radius": "8px"}}>
+            <Text size={14} opacity={0.6} >No active users</Text>
+          </div>
+        </Show>
+        <Show when={authenticatedInPast() && activities().length}>
+          <For each={activities()}>
+            {activity => <PresenceItem presence={activity} />}
+          </For>
+        </Show>
       </ActivityListContainer>
-    </Show>
+    </>
   );
 };
 
