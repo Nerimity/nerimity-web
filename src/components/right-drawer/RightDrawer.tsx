@@ -26,6 +26,7 @@ import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
+import { Markup } from "../Markup";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -248,18 +249,27 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
   const cachedNotice = () => params.channelId ? getCachedNotice(() => params.channelId!) : undefined;
 
   return <>
-    <Show when={!channel()?.recipientId}><BannerItem /></Show>
+    <Show when={channel()?.serverId}><BannerItem /></Show>
+    <Show when={channel()?.serverId}>
+      <ServerChannelNotice/>
+    </Show>
     <Show when={channel()?.recipientId}>
       <ProfileFlyout channelNotice={cachedNotice()?.content} dmPane userId={channel()?.recipientId!} />
     </Show>
     <Show when={channel()}>
       <Button
-        label={`Attachments (${channel()?._count?.attachments ?? "..."})`}
-        customChildren={<Icon class={css`margin-left: auto;`} size={16} name='navigate_next' />}
+        label="Attachments"
+        customChildren={
+          <>
+            <div class={styles.attachmentCount}>{channel()?._count?.attachments?.toLocaleString?.() ?? "..."}</div>
+            <Icon size={16} color="var(--primary-color)" name='navigate_next' />
+          </>
+        }
         iconName='attach_file'
         iconSize={16}
         onClick={props.onShowAttachmentClick}
         class={css`justify-content: start;`}
+        
         padding={5} />
     </Show>
     <Show when={params.serverId}><ServerDrawer /></Show>
@@ -312,7 +322,10 @@ const ServerDrawer = () => {
     <Show when={server()?.id} keyed={true}>
       <Delay ms={10}>
         <>
-          <Text style={{ "margin-left": "10px" }}>Members ({members().length})</Text>
+          <div style={{ "margin-left": "8px", display: "flex" }}>
+            <Text size={14}>Members</Text>
+            <div class={styles.memberCount}>{members().length.toLocaleString()}</div>
+          </div>
           <For each={roleMembers()}>
             {item => (
               <Show when={!item.role!.hideRole && item.members().length}>
@@ -349,6 +362,25 @@ function RoleItem(props: { roleName: string, members: ServerMember[], roleIcon?:
   );
 }
 
+
+
+const ServerChannelNotice = () => {
+  const params = useParams<{ channelId: string }>();
+
+  const cachedNotice = () => getCachedNotice(() => params.channelId);
+
+  return (
+    <Show when={cachedNotice()}>
+      <div class={styles.channelNotice}>
+        <div class={styles.channelNoticeHeader}>
+          <Icon color='var(--primary-color)' name="info" size={14} />
+          <Text size={13}>Channel Notice</Text>
+        </div>
+        <div class={styles.channelNoticeContent}><Markup inline text={cachedNotice()!.content} /></div>
+      </div>
+    </Show>
+  );
+};
 
 export default RightDrawer;
 
