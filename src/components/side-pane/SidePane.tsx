@@ -396,8 +396,11 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
         <CustomLink onclick={props.close} href="/app/settings/account">
           <Button textSize={12} class={customButtonStyles} iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
         </CustomLink>
+        
+        <div>
+          <Button textSize={12} class={customButtonStyles} onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
+        </div>
 
-        <Button textSize={12} class={customButtonStyles} onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
 
       </ButtonContainer>
 
