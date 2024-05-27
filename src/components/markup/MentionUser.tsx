@@ -29,16 +29,18 @@ export function MentionUser(props: { user: RawUser }) {
 
 
   return (
-    <A
-      onClick={showProfileFlyout}
-      onContextMenu={onContext}
-      href={RouterEndpoints.PROFILE(props.user.id)}
-      class="mention trigger-profile-flyout">
-      <Avatar class="avatar" user={props.user} size={16} />
-      {props.user.username}
+    <>
+      <A
+        onClick={showProfileFlyout}
+        onContextMenu={onContext}
+        href={RouterEndpoints.PROFILE(props.user.id)}
+        class="mention trigger-profile-flyout">
+        <Avatar class="avatar" user={props.user} size={16} />
+        {props.user.username}
+      </A>
       <Show when={contextPosition()}>
         <MemberContextMenu user={props.user} position={contextPosition()} serverId={params.serverId} userId={props.user.id} onClose={() => setContextPosition(undefined)} />
       </Show>
-    </A>
+    </>
   );
 }
