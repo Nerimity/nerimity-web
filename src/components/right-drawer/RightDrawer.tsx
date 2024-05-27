@@ -326,16 +326,18 @@ const ServerDrawer = () => {
             <Text size={14}>Members</Text>
             <div class={styles.memberCount}>{members().length.toLocaleString()}</div>
           </div>
-          <For each={roleMembers()}>
-            {item => (
-              <Show when={!item.role!.hideRole && item.members().length}>
-                <RoleItem members={item.members().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName={item.role?.name!} roleIcon={item.role?.icon!} />
-              </Show>
-            )}
-          </For>
+          <div class={styles.roleContainer}>
+            <For each={roleMembers()}>
+              {(item) => (
+                <Show when={!item.role!.hideRole && item.members().length}>
+                  <RoleItem members={item.members().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName={item.role?.name!} roleIcon={item.role?.icon!} />
+                </Show>
+              )}
+            </For>
 
-          {/* Offline */}
-          <RoleItem members={offlineMembers().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName="Offline" roleIcon={defaultRole()?.icon} />
+            {/* Offline */}
+            <RoleItem members={offlineMembers().sort((a, b) => a?.user().username.localeCompare(b?.user().username))} roleName="Offline" roleIcon={defaultRole()?.icon} />
+          </div>
         </>
       </Delay>
 

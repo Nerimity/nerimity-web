@@ -63,6 +63,13 @@
   }
 
 }
+
+.roleContainer {
+  display: flex;
+  gap: 1px;
+  flex-direction: column;
+
+}
 .roleItem {
   display: flex;
   flex-direction: column;
@@ -70,7 +77,6 @@
   margin-right: 3px;
   gap: 3px;
   background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
   padding: 5px;
   margin-left: 5px;
   margin-right: 5px;
@@ -79,6 +85,31 @@
     display: none;
   }
 
+  border-radius: 0;
+
+  &:first-child {
+    border-radius: 8px;
+  }
+
+  &:last-child {
+    border-radius: 8px;
+  }
+
+  &:has( + .roleItem)  {
+
+    &:first-child {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }    
+  }
+
+  &:has( + .roleItem) ~ .roleItem {
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }    
+  }
 
 
 }
