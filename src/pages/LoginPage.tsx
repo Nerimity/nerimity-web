@@ -87,6 +87,7 @@ export default function LoginPage() {
             <Input margin={[10, 0, 10, 0]} label={t("loginPage.password")} type='password' error={error()} onText={setPassword} />
             <Button primary styles={{flex: 1}} margin={[10,0,0,0]}  iconName='login' label={requestSent() ? t("loginPage.loggingIn") : t("loginPage.loginButton")} onClick={loginClicked} />
           </form>
+          <A class={linkStyle} href="/reset-password">Reset Password</A>
           <A class={linkStyle} href="/register">{t("loginPage.createAccountInstead")}</A>
         </Container>
       </Content>

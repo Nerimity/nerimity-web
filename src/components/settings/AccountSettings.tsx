@@ -6,7 +6,7 @@ import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
-import { deleteAccount, deleteDMChannelNotice, getDMChannelNotice, sendEmailConfirmCode, updateDMChannelNotice, updateUser, verifyEmailConfirmCode } from "@/chat-api/services/UserService";
+import { deleteAccount, deleteDMChannelNotice, getDMChannelNotice, resetPassword, sendEmailConfirmCode, sendResetPassword, updateDMChannelNotice, updateUser, verifyEmailConfirmCode } from "@/chat-api/services/UserService";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
@@ -179,6 +179,19 @@ function EditAccountPage() {
     setShowResetPassword(!showResetPassword());
   };
 
+  const [forgotPasswordSent, setForgotPasswordSent] = createSignal(false); 
+
+  const onForgotPasswordClick = async () => {
+    if (forgotPasswordSent()) return;
+    setTimeout(() => {
+      setForgotPasswordSent(false);
+    }, 5000);
+
+    const res = await sendResetPassword(user()?.email!);
+    setForgotPasswordSent(true);
+    createPortal((close) => <Modal close={close} ignoreBackgroundClick title="Reset Password" actionButtonsArr={[{label: "OK", onClick: close}]}>{res.message}</Modal>);
+  };
+
   return (
     <>
       <Show when={account.user() && !account.user()?.emailConfirmed}>
@@ -222,6 +235,7 @@ function EditAccountPage() {
         <Icon name="keyboard_arrow_right" />
       </SettingsBlock>
       <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
+      <ChangePasswordButton onClick={onForgotPasswordClick} style={{ "margin-bottom": "5px" }}>Forgot Password</ChangePasswordButton>
 
 
       <Show when={showResetPassword()}>

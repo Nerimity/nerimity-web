@@ -44,6 +44,27 @@ export async function getGoogleAccessToken (): Promise<{accessToken: string}> {
 
 
 
+export async function sendResetPassword(email: string): Promise<{message: string}> {
+  return request({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("reset-password/send-code"),
+    body: {email},
+    method: "POST"
+  });
+}
+
+export async function resetPassword(code: string, userId: string, newPassword: string): Promise<{token: string}> {
+  return request({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("reset-password"),
+    params: {code, userId},
+    body: {newPassword},
+    method: "POST",
+    useToken: true
+  });
+}
+
+
+
+
 export async function sendEmailConfirmCode(): Promise<{message: string}> {
   return request({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("emails/verify/send-code"),
