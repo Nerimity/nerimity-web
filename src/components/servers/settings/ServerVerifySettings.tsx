@@ -36,7 +36,7 @@ export default function ServerSettingsBans() {
       iconName: "settings"
     });
   });
-  const TARGET_MEMBERS = 10;
+  const TARGET_MEMBERS = 20;
   const server = () => servers.get(params.serverId);
   const isVerified = () => server()?.verified;
   const memberCount = () => serverMembers.array(params.serverId).length;
@@ -72,8 +72,9 @@ export default function ServerSettingsBans() {
       </Switch>
       <ListContainer>
         <Text size={24} style={{ "margin-bottom": "10px" }}>Requirements</Text>
-        <SettingsBlock icon="people" label="10 or more members" description="Your server must have 10 or more members." />
+        <SettingsBlock icon="people" label="10 or more members" description={`Your server must have at least ${TARGET_MEMBERS} members.`} />
         <SettingsBlock icon="cleaning_services" label="Profanity free" description="Server name, avatar and banner should be profanity free." />
+        <SettingsBlock icon="landscape" label="Server rules" description="Server should have an avatar and a banner." />
         <SettingsBlock icon="gavel" label="Server rules" description="Server should have a rules channel." />
       </ListContainer>
       <ListContainer>
