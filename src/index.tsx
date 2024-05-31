@@ -10,7 +10,7 @@ import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { For, Show, createEffect, lazy, on } from "solid-js";
+import { For, Show, createEffect, lazy, on, onMount } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
 import settings from "./common/Settings";
 import exploreRoutes from "./common/exploreRoutes";
@@ -19,6 +19,9 @@ import useStore from "./chat-api/store/useStore";
 import ModerationPane from "./components/moderation-pane/ModerationPane";
 import TicketsPage from "@/components/tickets/TicketsPage";
 import { TicketPage } from "./components/settings/TicketSettings";
+import { updateTheme } from "./common/themes";
+
+updateTheme();
 
 // Drawers
 const SettingsDrawer = lazy(() => import("@/components/settings/SettingsDrawer"));
@@ -53,7 +56,6 @@ const GoogleRedirectLinkAccount = lazy(() => import("./pages/GoogleRedirectLinkA
 
 const ModerationUserPage = lazy(() => import("@/components/moderation-pane/UserPage"));
 const ModerationServerPage = lazy(() => import("@/components/moderation-pane/ServerPage"));
-
 
 const useBlurEffect = () => {
   const { isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
@@ -123,6 +125,7 @@ const Root = () => {
 render(() => {
   useBlurEffect();
   useMobileInterface();
+
   const {account} = useStore();
 
   return (

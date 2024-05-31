@@ -19,6 +19,9 @@ import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Slider from "../ui/Slider";
 import { playMessageNotification } from "@/common/Sound";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { currentTheme, customColors, setThemeColor } from "@/common/themes";
+import { ColorPicker } from "../ui/color-picker/ColorPicker";
+import Button from "../ui/Button";
 
 const Container = styled("div")`
   display: flex;
@@ -49,6 +52,7 @@ export default function InterfaceSettings() {
       </Breadcrumb>
       <BlurEffect/>
       <AdvancedMarkup/>
+      <CustomizeColors/>
     </Container>
   );
 }
@@ -76,3 +80,23 @@ function AdvancedMarkup() {
   );
 }
 
+
+
+function CustomizeColors () {
+  return (
+    <div>
+      <SettingsBlock icon='palette' label='Customize Colors' description='Customize the colors of the interface.' header/>
+      <For each={Object.entries(currentTheme())} >
+        {([name, value], i) => (
+          <SettingsBlock icon="colors" class={css`text-transform: capitalize;`} label={name.replaceAll("-", " ")} borderBottomRadius={i() === Object.keys(currentTheme()).length - 1} borderTopRadius={false}>
+            <Show when={customColors()[name]}>
+              <Button iconName="restart_alt" padding={2}  onClick={() => setThemeColor(name, undefined)}/>
+            </Show>
+            <ColorPicker color={value} onChange={v => setThemeColor(name, v)} />
+          </SettingsBlock>
+        )}
+      </For>
+    </div>
+
+  );
+}

@@ -6,7 +6,7 @@ import { getUserDetailsRequest } from "@/chat-api/services/UserService";
 import { RawUser } from "@/chat-api/RawData";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
 import Icon from "./ui/icon/Icon";
-import { appLogoUrl, isChristmas, isHalloween } from "@/common/worldEvents";
+import { appLogoUrl } from "@/common/worldEvents";
 import { useTransContext } from "@mbarzda/solid-i18next";
 
 

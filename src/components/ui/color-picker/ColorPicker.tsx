@@ -28,6 +28,7 @@ export function ColorPicker(props: { color: string | null, onChange?: (value: st
     createPortal?.(close => <ColorPickerModal color={props.color} close={close} onChange={onChange} />);
   };
 
+
   return (
     <>
     

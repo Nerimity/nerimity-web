@@ -1,6 +1,5 @@
 import { onMount, lazy, Show, createEffect, createMemo, on } from "solid-js";
 import env from "./common/env";
-import { isChristmas, isHalloween } from "./common/worldEvents";
 import RouterEndpoints from "./common/RouterEndpoints";
 import { A, Route, Router, useMatch, useNavigate, useParams } from "solid-navigator";
 import { getCurrentLanguage, getLanguage } from "./locales/languages";
@@ -23,17 +22,6 @@ export default function App() {
   useUserNotices();
   onMount(() => {
     document.title = env.APP_NAME;
-    if (isHalloween) {
-      document.documentElement.style.setProperty("--primary-color", "#d76623");
-      document.documentElement.style.setProperty("--primary-color-dark", "#241e1a");
-
-      document.documentElement.style.setProperty("--alert-color", "#866ebf");
-      document.documentElement.style.setProperty("--alert-color-dark", "#27242e");
-    }
-    if (isChristmas) {
-      document.documentElement.style.setProperty("--primary-color", "#34a65f");
-      document.documentElement.style.setProperty("--primary-color-dark", "#222c26");
-    }
     setLanguage();
   });
 
