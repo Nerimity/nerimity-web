@@ -8,7 +8,7 @@
   "homePage": {
     "slogan": "Nowoczesna i elegancka aplikacja do czatowania.",
     "joinButton": "Dołącz do {{appName}}",
-    "viewGitHubButton": "Zobacz Githuba"
+    "viewGitHubButton": "Zobacz GitHuba"
   },
   "loginPage": {
     "title": "Zaloguj się, aby kontynuować",
@@ -72,6 +72,7 @@
         "publishServer": "Publiczność",
         "verify": "Weryfikacja",
         "role": "Rola",
+        "welcome-screen": "Ekran powitalny",
         "channel": "Kanał",
         "emojis": "Emoji",
         "notifications": "Powiadomienia"
@@ -155,27 +156,38 @@
       "kick": "Wyrzucanie",
       "kickDescription": "Uprawnienie do wyrzucania użytkowników.",
       "ban": "Banowanie",
-      "banDescription": "Uprawnienie do banowania użytkowników."
+      "banDescription": "Uprawnienie do banowania użytkowników.",
+      "mentionEveryone": "Oznacz Everyone",
+      "mentionEveryoneDescription": "Umożliw oznaczanie @everyone. Administratorzy dalej będą mogli oznaczać everyone."
     },
     "channelPermissions": {
       "privateChannel": "Kanał Prywatny",
-      "privateChannelDescription": "Zablokuj dostęp do kanału. Administratorzy serwera dalej będą mieć do niego dostęp.",
+      "privateChannelDescription": "Zablokuj dostęp do kanału. Administratorzy dalej będą mieć do niego dostęp.",
       "sendMessage": "Wysyłanie wiadomości",
-      "sendMessageDescription": "Umożliw wysyłanie wiadomości na kanale. Administratorzy serwera dalej będą mogli wysyłać wiadomości."
+      "sendMessageDescription": "Umożliw wysyłanie wiadomości na kanale. Administratorzy dalej będą mogli wysyłać wiadomości.",
+      "joinVoice": "Dołącz do rozmowy głosowej",
+      "joinVoiceDescription": "Umożliw dołączanie do kanałów głosowych na kanale. Administratorzy dalej będą mogli dołączać do kanałów głosowych."
     }
   },
   "settings": {
     "drawer": {
       "title": "Ustawienia",
       "account": "Konto",
+      "interface": "Interfejs",
       "language": "Język",
       "notifications": "Powiadomienia",
       "logout": "Wyloguj się",
+      "developer": "Opcje programistyczne",
+      "applications": "Aplikacje",
+      "experiments": "Eksperymenty",
       "supportMe": "Wesprzyj Mnie",
       "viewSource": "Zobacz kod",
       "changelog": "Dziennik zmian",
-      "window-settings": "Ustawienia Okna",
-      "privacy": "Prywatność"
+      "window-settings": "Ustawienia okna",
+      "activity-status": "Status aktywności",
+      "tickets": "Zgłoszenia",
+      "privacy": "Prywatność",
+      "connections": "Połączenia"
     }
   },
   "addFriend": {
