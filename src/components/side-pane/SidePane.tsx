@@ -4,7 +4,7 @@ import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { classNames, conditionalClass } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Setter, Show } from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useParams, useMatch } from "solid-navigator";
 import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
@@ -40,6 +40,8 @@ import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel"
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
+import Sortable from "solid-sortablejs";
+import { createTemporarySignal } from "@/common/createTemporarySignal";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -497,26 +499,41 @@ const ServerList = () => {
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>();
   const [contextServerId, setContextServerId] = createSignal<string | undefined>();
 
+  const [orderedServers, setOrderedServers, resetOrderedServers] = createTemporarySignal(servers.orderedArray);
+
+
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
     setContextServerId(serverId);
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
 
-  const onDrop = (servers: Server[]) => {
-    const serverIds = servers.map(server => server.id);
-    updateServerOrder(serverIds);
+  const onDrop = () => {
+    const serverIds = orderedServers().map(server => server.id);
+    updateServerOrder(serverIds).then(resetOrderedServers);
   };
+
 
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
     <Show when={account.lastAuthenticatedAt()} fallback={<ServerListSkeleton/>}>
-      <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
+      {/* <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
         {server => <ServerItem
           server={server!}
           onContextMenu={e => onContextMenu(e, server!.id)}
         />}
-      </Draggable>
+      </Draggable> */}
+
+      <Sortable delay={200} delayOnTouchOnly group='server' class={styles.serverList} setItems={setOrderedServers} onEnd={onDrop} items={orderedServers()} idField="id">
+        {server => (
+          <ServerItem
+            server={server!}
+            onContextMenu={e => onContextMenu(e, server!.id)}
+          />    
+        )}
+      </Sortable>
+
+
     </Show>
   </div>;
 };

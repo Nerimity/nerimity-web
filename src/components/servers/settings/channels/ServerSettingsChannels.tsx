@@ -16,6 +16,7 @@ import { CustomLink } from "@/components/ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { CHANNEL_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
 import { ChannelIcon } from "../../drawer/ServerDrawer";
+import { createTemporarySignal } from "@/common/createTemporarySignal";
 
 
 
@@ -134,15 +135,6 @@ function ChannelList() {
       )}
     </Sortable>
   );
-}
-
-function createTemporarySignal<T>(v: () => T) {
-  const [value, setValue] = createSignal(v());
-  createEffect(on(v, () => setValue(v)));
-
-  const resetValue = () => setValue(v);
-
-  return [value, setValue, resetValue] as const;
 }
 
 
