@@ -4,7 +4,7 @@ import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { classNames, conditionalClass } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Setter, Show } from "solid-js";
+import { createEffect, createMemo, createResource, createSignal, For, JSXElement, on, onCleanup, onMount, Setter, Show } from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useParams, useMatch } from "solid-navigator";
 import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
@@ -482,11 +482,12 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 
   return (
     <A
+      draggable={false}
       title={props.server.name}
       href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
-      <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
+      <SidebarItemContainer class="sidebar-server-item" alert={hasNotifications()} selected={selected()}>
         <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
         <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
       </SidebarItemContainer>
@@ -508,9 +509,12 @@ const ServerList = () => {
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
 
-  const onDrop = () => {
+  const onDrop = (event: {currentIndex: number, newIndex: number}) => {
+    console.log(event);
     const serverIds = orderedServers().map(server => server.id);
-    updateServerOrder(serverIds).then(resetOrderedServers);
+
+    const newOrderedServerIds = moveArrayItemToNewIndex(serverIds, event.currentIndex, event.newIndex);
+    updateServerOrder(newOrderedServerIds).then(resetOrderedServers);
   };
 
 
@@ -524,19 +528,184 @@ const ServerList = () => {
         />}
       </Draggable> */}
 
-      <Sortable delay={200} delayOnTouchOnly group='server' class={styles.serverList} setItems={setOrderedServers} onEnd={onDrop} items={orderedServers()} idField="id">
-        {server => (
-          <ServerItem
-            server={server!}
-            onContextMenu={e => onContextMenu(e, server!.id)}
-          />    
-        )}
-      </Sortable>
+      <div class={css`.dragging {
+        .avatar-container {
+          display: none;
+        }
+        .sidebar-server-item {
+          background: rgba(255,255,255,0.1);
+        }
+        .sidebar-server-item:after {
+          display: none;
+        }
+        
+      }`}>
+        <SimpleSortable items={orderedServers()} idField="id" gap={4} onDrop={onDrop}>
+          {server => (
+            <ServerItem
+              server={server!}
+              onContextMenu={e => onContextMenu(e, server!.id)}
+            />    
+          )}
+        </SimpleSortable>
+      </div>
 
 
     </Show>
   </div>;
 };
+
+
+
+function moveArrayItemToNewIndex(arr: string[], oldIndex: number, newIndex: number): string[] {
+  if (newIndex >= arr.length) {
+    let paddingCount = newIndex - arr.length + 1;
+    while (paddingCount--) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+  return arr;
+}
+
+interface SimpleSortableProps<T> {
+  items: T[];
+  idField: keyof T;
+  gap?: number
+  children: (item: T) => JSXElement;
+  onDrop?: (event: { currentIndex: number, newIndex: number }) => void;
+}
+
+function SimpleSortable<T>(props: SimpleSortableProps<T>) {
+  let containerRef: undefined | HTMLDivElement;
+  const [pointerPos, setPointerPos] = createSignal<null | { x: number; y: number }>(null);
+  const [down, setDown] = createSignal(false);
+
+  const [draggingElementIndex, setDraggingElementIndex] = createSignal(-1);
+
+
+
+  const changeVisibleHolder = (el?: HTMLDivElement, show?: boolean) => {
+    const holderElements = containerRef?.getElementsByClassName("drag-holder") || [];
+
+    for (let i = 0; i < holderElements.length; i++) {
+      const el = holderElements[i]! as HTMLElement;
+      el.style.opacity = "0";
+    }
+    if (el && show) {
+      el.style.opacity = "1";
+    }
+  };
+
+  const findIndex = (el: Element) => {
+    const holderElements = containerRef?.getElementsByClassName("drag-holder");
+    if (!holderElements) return -1;
+    for (let i = 0; i < holderElements.length; i++) {
+      if (holderElements[i] === el) return i;
+    }
+    return -1;
+  };
+
+  
+
+  onMount(() => {
+    document.addEventListener("pointermove", onPointerMove);
+    document.addEventListener("pointerup", onPointerUp);
+    document.addEventListener("dragend", onPointerUp);
+    onCleanup(() => {
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerup", onPointerUp);
+      document.removeEventListener("dragend", onPointerUp);
+    });
+  });
+
+
+  const onPointerDown = (event: MouseEvent, i: number) => {
+    setDown(true);
+    setPointerPos({ x: event.clientX, y: event.clientY });
+    setDraggingElementIndex(i);
+
+  };
+
+  const onPointerMove = (event: MouseEvent) => {
+    if (!down()) return;
+    if (!pointerPos()) return;
+    setPointerPos({ x: event.clientX, y: event.clientY });
+
+    const dragHolderEl = document.elementsFromPoint(pointerPos()!.x, pointerPos()!.y).find(el => el.classList.contains("drag-holder"));
+    if (!dragHolderEl) {
+      changeVisibleHolder();
+      return;
+    }
+    changeVisibleHolder(dragHolderEl as HTMLDivElement, true);
+  };
+
+  const onPointerUp = (event: MouseEvent) => {
+
+    const dragHolderEl = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.classList.contains("drag-holder"));
+
+    if (dragHolderEl) {
+      onDrop(findIndex(dragHolderEl));
+    }
+
+
+    setDown(false);
+    setPointerPos(null);
+    changeVisibleHolder();
+    setDraggingElementIndex(-1);
+    
+  };
+
+  const onDragOver = (event: DragEvent) => {
+    if (!down()) return;
+    if (!pointerPos()) return;
+    console.log(findIndex(event.target) + 1);
+    changeVisibleHolder(event.target as HTMLDivElement, true);
+
+  };
+
+  const onDragLeave  = () => {
+    console.log("test");
+    if (!pointerPos()) return;
+    changeVisibleHolder();
+  };
+
+  const onDrop = (index: number) => {
+    props.onDrop?.({
+      currentIndex: draggingElementIndex(),
+      newIndex: index 
+    });
+  };
+
+
+
+  const DragHolder = (thisProps: {last?: boolean; onDragLeave?: (event: DragEvent) => void, onDragOver?: (event: DragEvent) => void}) => <div onDragLeave={thisProps.onDragLeave} onDragOver={thisProps.onDragOver} style={{opacity: 0}} class={"drag-holder " + css`position: absolute; z-index: 1111; left: 0; right: 0; ${thisProps.last ? "last: -" + (((props.gap || 0) / 2) + 2) + "px" + ";" : ""} height: 4px; background: var(--primary-color); border-radius: 999px;`} />;
+
+
+  const lastIndex = () => props.items.length - 1;
+
+  return (
+    <div ref={containerRef} class={css`display: flex; flex-direction: column; gap: ${(props.gap || 0) + "px"};`}>
+      <For each={props.items}>
+        {(item, i) => (
+          <div  onPointerDown={(e) => onPointerDown(e, i())} class={css`position: relative; touch-action: none; user-select: none;`}>
+            <Show when={i() !== draggingElementIndex()}><DragHolder onDragOver={(e) => onDragOver(e)} onDragLeave={onDragLeave}/></Show>
+            <div classList={{ dragging: i() === draggingElementIndex()}}>{props.children(item)}</div>
+            
+            <Show when={i() === lastIndex() && i() !== draggingElementIndex()}><DragHolder  onDragOver={(e) => onDragOver(e)} onDragLeave={onDragLeave}/></Show>
+          </div>
+        )}
+      </For>
+    </div>
+  );
+}
+
+
+
+
+
+
+
 
 
 const ServerListSkeleton = () => {
