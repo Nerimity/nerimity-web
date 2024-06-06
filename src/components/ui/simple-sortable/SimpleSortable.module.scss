@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemOuterContainer {
+  position: relative; 
+  touch-action: none; 
+  user-select: none;
+}
+
+
+.dragHolderContainer {
+  height: 10px;
+  position: absolute; 
+  z-index: 1111; 
+  left: 0; 
+  right: 0; 
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dragHolder {
+  height: 4px; 
+  background: var(--primary-color); 
+  border-radius: 999px;
+  margin-top: 3px;
+}

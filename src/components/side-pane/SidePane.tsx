@@ -4,7 +4,7 @@ import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { classNames, conditionalClass } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import { createEffect, createMemo, createResource, createSignal, For, JSXElement, on, onCleanup, onMount, Setter, Show } from "solid-js";
+import { createEffect, createMemo, createResource, createSignal, For, JSXElement, Match, on, onCleanup, onMount, Setter, Show, Switch } from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useParams, useMatch } from "solid-navigator";
 import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
@@ -42,12 +42,24 @@ import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkup
 import { formatMessage } from "../message-pane/MessagePane";
 import Sortable from "solid-sortablejs";
 import { createTemporarySignal } from "@/common/createTemporarySignal";
+import { SimpleSortable } from "../ui/simple-sortable/SimpleSortable";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
   justify-content: center;
   height: 50px;
   width: 60px;
+  user-select: none;
+  cursor: default;
+`;
+const SidebarFolderItemContainer = styled(ItemContainer)`
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 60px;
+  user-select: none;
+  cursor: default;
+  gap: 6px;
 `;
 
 export default function SidePane() {
@@ -473,7 +485,7 @@ function PresenceDropDown() {
 }
 
 
-function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
+function ServerItem(props: { folderModeServerId?: string, server: Server, onContextMenu?: (e: MouseEvent) => void }) {
   const { id, defaultChannelId } = props.server;
   const hasNotifications = () => props.server.hasNotifications();
   const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
@@ -487,13 +499,34 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
       href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
-      <SidebarItemContainer class="sidebar-server-item" alert={hasNotifications()} selected={selected()}>
-        <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
-        <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
-      </SidebarItemContainer>
+      <Switch>
+        <Match when={props.folderModeServerId}>
+          <FolderItem serverIds={[id, props.folderModeServerId!]} />
+        </Match>
+        <Match when={!props.folderModeServerId}>
+          <SidebarItemContainer class="sidebar-server-item" alert={hasNotifications()} selected={selected()}>
+            <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
+            <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
+          </SidebarItemContainer>
+        </Match>
+      </Switch>
     </A>
   );
 }
+
+const FolderItem = (props: {serverIds: string[]}) => {
+  const store = useStore();
+  const servers = () => props.serverIds.map(id => store.servers.get(id)) as Server[];
+
+  
+  return (
+    <SidebarFolderItemContainer class="sidebar-server-temp-folder-item" selected>
+      <For each={servers()}>
+        {(server) => <Avatar size={20} resize={64} server={{...server, verified: false}} />}
+      </For>
+    </SidebarFolderItemContainer>
+  );
+};
 
 const ServerList = () => {
   const { servers, account } = useStore();
@@ -501,6 +534,14 @@ const ServerList = () => {
   const [contextServerId, setContextServerId] = createSignal<string | undefined>();
 
   const [orderedServers, setOrderedServers, resetOrderedServers] = createTemporarySignal(servers.orderedArray);
+
+  const [draggingOnTop, setDraggingOnTop] = createSignal<{draggingIndex: number, targetIndex: number} | null>(null);
+
+
+  const draggingOnTopServerId = () => {
+    if (!draggingOnTop()) return;
+    return servers.orderedArray()[draggingOnTop()!.draggingIndex]?.id;
+  };
 
 
   const onContextMenu = (event: MouseEvent, serverId: string) => {
@@ -517,18 +558,20 @@ const ServerList = () => {
     updateServerOrder(newOrderedServerIds).then(resetOrderedServers);
   };
 
+  const onDragOnTop = (draggingIndex: number, targetIndex: number) => {
+    if (draggingIndex === -1) {
+      setDraggingOnTop(null);
+      return;
+    }
+    setDraggingOnTop({ draggingIndex, targetIndex });
+  };
+
 
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
     <Show when={account.lastAuthenticatedAt()} fallback={<ServerListSkeleton/>}>
-      {/* <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
-        {server => <ServerItem
-          server={server!}
-          onContextMenu={e => onContextMenu(e, server!.id)}
-        />}
-      </Draggable> */}
-
-      <div class={css`.dragging {
+      <div class={css`
+      .simpleSortableDraggingItem {
         .avatar-container {
           display: none;
         }
@@ -538,11 +581,18 @@ const ServerList = () => {
         .sidebar-server-item:after {
           display: none;
         }
-        
-      }`}>
-        <SimpleSortable items={orderedServers()} idField="id" gap={4} onDrop={onDrop}>
-          {server => (
+      }
+      .simpleSortableDraggedOnTop {
+        .sidebar-server-temp-folder-item:after {
+          display: none;
+        }
+      }
+      
+      `}>
+        <SimpleSortable items={orderedServers()} idField="id" gap={4} onDrop={onDrop} allowDragOnTop onDragOnTop={onDragOnTop}>
+          {(server, i) => (
             <ServerItem
+              folderModeServerId={draggingOnTop()?.targetIndex === i() ?  draggingOnTopServerId() : undefined}
               server={server!}
               onContextMenu={e => onContextMenu(e, server!.id)}
             />    
@@ -566,138 +616,6 @@ function moveArrayItemToNewIndex(arr: string[], oldIndex: number, newIndex: numb
   }
   arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
   return arr;
-}
-
-interface SimpleSortableProps<T> {
-  items: T[];
-  idField: keyof T;
-  gap?: number
-  children: (item: T) => JSXElement;
-  onDrop?: (event: { currentIndex: number, newIndex: number }) => void;
-}
-
-function SimpleSortable<T>(props: SimpleSortableProps<T>) {
-  let containerRef: undefined | HTMLDivElement;
-  const [pointerPos, setPointerPos] = createSignal<null | { x: number; y: number }>(null);
-  const [down, setDown] = createSignal(false);
-
-  const [draggingElementIndex, setDraggingElementIndex] = createSignal(-1);
-
-
-
-  const changeVisibleHolder = (el?: HTMLDivElement, show?: boolean) => {
-    const holderElements = containerRef?.getElementsByClassName("drag-holder") || [];
-
-    for (let i = 0; i < holderElements.length; i++) {
-      const el = holderElements[i]! as HTMLElement;
-      el.style.opacity = "0";
-    }
-    if (el && show) {
-      el.style.opacity = "1";
-    }
-  };
-
-  const findIndex = (el: Element) => {
-    const holderElements = containerRef?.getElementsByClassName("drag-holder");
-    if (!holderElements) return -1;
-    for (let i = 0; i < holderElements.length; i++) {
-      if (holderElements[i] === el) return i;
-    }
-    return -1;
-  };
-
-  
-
-  onMount(() => {
-    document.addEventListener("pointermove", onPointerMove);
-    document.addEventListener("pointerup", onPointerUp);
-    document.addEventListener("dragend", onPointerUp);
-    onCleanup(() => {
-      document.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerup", onPointerUp);
-      document.removeEventListener("dragend", onPointerUp);
-    });
-  });
-
-
-  const onPointerDown = (event: MouseEvent, i: number) => {
-    setDown(true);
-    setPointerPos({ x: event.clientX, y: event.clientY });
-    setDraggingElementIndex(i);
-
-  };
-
-  const onPointerMove = (event: MouseEvent) => {
-    if (!down()) return;
-    if (!pointerPos()) return;
-    setPointerPos({ x: event.clientX, y: event.clientY });
-
-    const dragHolderEl = document.elementsFromPoint(pointerPos()!.x, pointerPos()!.y).find(el => el.classList.contains("drag-holder"));
-    if (!dragHolderEl) {
-      changeVisibleHolder();
-      return;
-    }
-    changeVisibleHolder(dragHolderEl as HTMLDivElement, true);
-  };
-
-  const onPointerUp = (event: MouseEvent) => {
-
-    const dragHolderEl = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.classList.contains("drag-holder"));
-
-    if (dragHolderEl) {
-      onDrop(findIndex(dragHolderEl));
-    }
-
-
-    setDown(false);
-    setPointerPos(null);
-    changeVisibleHolder();
-    setDraggingElementIndex(-1);
-    
-  };
-
-  const onDragOver = (event: DragEvent) => {
-    if (!down()) return;
-    if (!pointerPos()) return;
-    console.log(findIndex(event.target) + 1);
-    changeVisibleHolder(event.target as HTMLDivElement, true);
-
-  };
-
-  const onDragLeave  = () => {
-    console.log("test");
-    if (!pointerPos()) return;
-    changeVisibleHolder();
-  };
-
-  const onDrop = (index: number) => {
-    props.onDrop?.({
-      currentIndex: draggingElementIndex(),
-      newIndex: index 
-    });
-  };
-
-
-
-  const DragHolder = (thisProps: {last?: boolean; onDragLeave?: (event: DragEvent) => void, onDragOver?: (event: DragEvent) => void}) => <div onDragLeave={thisProps.onDragLeave} onDragOver={thisProps.onDragOver} style={{opacity: 0}} class={"drag-holder " + css`position: absolute; z-index: 1111; left: 0; right: 0; ${thisProps.last ? "last: -" + (((props.gap || 0) / 2) + 2) + "px" + ";" : ""} height: 4px; background: var(--primary-color); border-radius: 999px;`} />;
-
-
-  const lastIndex = () => props.items.length - 1;
-
-  return (
-    <div ref={containerRef} class={css`display: flex; flex-direction: column; gap: ${(props.gap || 0) + "px"};`}>
-      <For each={props.items}>
-        {(item, i) => (
-          <div  onPointerDown={(e) => onPointerDown(e, i())} class={css`position: relative; touch-action: none; user-select: none;`}>
-            <Show when={i() !== draggingElementIndex()}><DragHolder onDragOver={(e) => onDragOver(e)} onDragLeave={onDragLeave}/></Show>
-            <div classList={{ dragging: i() === draggingElementIndex()}}>{props.children(item)}</div>
-            
-            <Show when={i() === lastIndex() && i() !== draggingElementIndex()}><DragHolder  onDragOver={(e) => onDragOver(e)} onDragLeave={onDragLeave}/></Show>
-          </div>
-        )}
-      </For>
-    </div>
-  );
 }
 
 
