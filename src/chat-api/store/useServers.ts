@@ -1,12 +1,13 @@
 import env from "@/common/env";
 import {createStore} from "solid-js/store";
-import { ChannelType, RawCustomEmoji, RawServer, ServerNotificationPingMode } from "../RawData";
+import { ChannelType, RawCustomEmoji, RawServer, RawServerFolder, ServerNotificationPingMode } from "../RawData";
 import { deleteServer, leaveServer } from "../services/ServerService";
 import useAccount from "./useAccount";
 import useChannels from "./useChannels";
 import useMention from "./useMention";
 import { createEffect, createMemo, createRoot } from "solid-js";
 import { emojiShortcodeToUnicode } from "@/emoji";
+import useServerFolders from "./useServerFolders";
 
 export type Server = RawServer & {
   hasNotifications: () => boolean;
@@ -113,6 +114,33 @@ const orderedArray = () => {
     });
 };
 
+const orderedServersAndFoldersArray = () => {
+  const account = useAccount();
+  const folders = useServerFolders();
+
+  const serverIdsArray = account.user()?.orderedServerIds;
+
+  const order: Record<string, number> = {};
+
+  serverIdsArray?.forEach((a, i) => {
+    order[a] = i;
+  });
+  
+  return ([...array(), ...folders.array()] as (Server | RawServerFolder)[])
+    .sort((a, b) => (a as unknown as Server).createdAt|| 0 - (b as unknown as Server).createdAt|| 0)
+    .sort((a, b) => {
+      const orderA = order[a.id];
+      const orderB = order[b.id];
+      if (orderA === undefined) {
+        return -1;
+      }
+      if (orderB === undefined) {
+        return 1;
+      }
+      return orderA - orderB;
+    });
+};
+
 
 const hasAllNotifications =  () => {
   return array().find(s => s?.hasNotifications());
@@ -157,6 +185,7 @@ export default function useServers() {
     get,
     set,
     hasNotifications: hasAllNotifications,
+    orderedServersAndFoldersArray,
     orderedArray,
     remove
   };

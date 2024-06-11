@@ -4,10 +4,10 @@ import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { classNames, conditionalClass } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import { createEffect, createMemo, createResource, createSignal, For, JSXElement, Match, on, onCleanup, onMount, Setter, Show, Switch } from "solid-js";
+import { createEffect, createMemo, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
 import useStore from "../../chat-api/store/useStore";
-import { A, useLocation, useParams, useMatch } from "solid-navigator";
-import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
+import { A, useLocation, useMatch } from "solid-navigator";
+import { FriendStatus, RawServerFolder } from "../../chat-api/RawData";
 import Modal from "@/components/ui/modal/Modal";
 import AddServer from "./add-server/AddServerModal";
 import { UserStatuses, userStatusDetail } from "../../common/userStatus";
@@ -25,10 +25,9 @@ import Button from "../ui/Button";
 import Text from "../ui/Text";
 import Marked from "@/components/marked/Marked";
 import { formatTimestamp } from "@/common/date";
-import { Draggable } from "../ui/Draggable";
-import { updateServerOrder } from "@/chat-api/services/ServerService";
+import { createServerFolder, updateServerFolder, updateServerOrder } from "@/chat-api/services/ServerService";
 import { Banner } from "../ui/Banner";
-import { User, UserStatus, bannerUrl } from "@/chat-api/store/useUsers";
+import { bannerUrl } from "@/chat-api/store/useUsers";
 import UserPresence from "../user-presence/UserPresence";
 import DropDown from "../ui/drop-down/DropDown";
 import { updatePresence } from "@/chat-api/services/UserService";
@@ -40,7 +39,6 @@ import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel"
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
-import Sortable from "solid-sortablejs";
 import { createTemporarySignal } from "@/common/createTemporarySignal";
 import { SimpleSortable } from "../ui/simple-sortable/SimpleSortable";
 
@@ -53,13 +51,24 @@ const SidebarItemContainer = styled(ItemContainer)`
   cursor: default;
 `;
 const SidebarFolderItemContainer = styled(ItemContainer)`
-  align-items: center;
-  justify-content: center;
+
   height: 50px;
   width: 60px;
   user-select: none;
   cursor: default;
-  gap: 6px;
+  background-color: rgba(255, 255, 255, 0.08);
+  align-items: center;
+  justify-content: center;
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    place-items: center;
+    height: 96%;
+    width: 80%;
+  }
+
 `;
 
 export default function SidePane() {
@@ -216,7 +225,7 @@ const UserItem = () => {
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
-  const presenceColor = () => user() && userStatusDetail(user().presence()?.status || 0).color;
+  const presenceColor = () => user() && userStatusDetail(user()!.presence()?.status || 0).color;
 
   const isAuthenticated = account.isAuthenticated;
   const authErrorMessage = account.authenticationError;
@@ -339,7 +348,7 @@ const customButtonStyles = css`
 
 function FloatingUserModal(props: { close(): void, currentDrawerPage?: number }) {
   const { account, users } = useStore();
-  const { isMobileWidth, width } = useWindowProperties();
+  const { isMobileWidth } = useWindowProperties();
   const {openedPortals} = useCustomPortal();
 
   const userId = () => account.user()?.id;
@@ -373,11 +382,11 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
     pos = {x: event.x, y: event.y};
   };
 
-  const onDocClick = (event: any) => {
+  const onDocClick = (event: MouseEvent) => {
     if (pos.x !== event.x || pos.y !== event.y) return;
     if (openedPortals().length) return;
 
-    const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(".sidePaneUser");
+    const clickedInside = event.target instanceof HTMLElement && (event.target.closest(".floatingUserModalContainer") || event.target.closest(".sidePaneUser"));
     if (clickedInside) return;
     props.close();
   };
@@ -486,9 +495,9 @@ function PresenceDropDown() {
 
 
 function ServerItem(props: { folderModeServerId?: string, server: Server, onContextMenu?: (e: MouseEvent) => void }) {
-  const { id, defaultChannelId } = props.server;
+  const server = () => props.server;
   const hasNotifications = () => props.server.hasNotifications();
-  const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
+  const selected = useMatch(() => RouterEndpoints.SERVER(server().id) + "/*");
   const [hovered, setHovered] = createSignal(false);
 
 
@@ -496,15 +505,15 @@ function ServerItem(props: { folderModeServerId?: string, server: Server, onCont
     <A
       draggable={false}
       title={props.server.name}
-      href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
+      href={RouterEndpoints.SERVER_MESSAGES(server().id, getLastSelectedChannelId(server().id, server().defaultChannelId))}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onContextMenu={props.onContextMenu}>
       <Switch>
         <Match when={props.folderModeServerId}>
-          <FolderItem serverIds={[id, props.folderModeServerId!]} />
+          <FolderItem serverIds={[server().id, props.folderModeServerId!]} isTemp />
         </Match>
         <Match when={!props.folderModeServerId}>
-          <SidebarItemContainer class="sidebar-server-item" alert={hasNotifications()} selected={selected()}>
+          <SidebarItemContainer class="sidebar-server-item sortable-sidebar-root-drop-class" alert={hasNotifications()} selected={selected()}>
             <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
             <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
           </SidebarItemContainer>
@@ -514,33 +523,53 @@ function ServerItem(props: { folderModeServerId?: string, server: Server, onCont
   );
 }
 
-const FolderItem = (props: {serverIds: string[]}) => {
+const FolderItem = (props: {folderId?: string, serverIds: string[], isTemp?: boolean, onAdd?: (e: { currentIndex: number, newIndex: number, id: string }) => void}) => {
   const store = useStore();
-  const servers = () => props.serverIds.map(id => store.servers.get(id)) as Server[];
+  const servers = () => props.serverIds.map(id => store.servers.get(id)).filter(Boolean) as Server[];
+
+  const [open, setOpen] = createSignal(false);
 
   
+  const firstFourServers = () => servers().slice(0, 4);
   return (
-    <SidebarFolderItemContainer class="sidebar-server-temp-folder-item" selected>
-      <For each={servers()}>
-        {(server) => <Avatar size={20} resize={64} server={{...server, verified: false}} />}
-      </For>
-    </SidebarFolderItemContainer>
+    <>
+      <SidebarFolderItemContainer onClick={() => setOpen(!open())} style={open() ? {"border-bottom-left-radius": "0", "border-bottom-right-radius": "0"} : {}} class={classNames("sidebar-folder", "sortable-sidebar-root-drop-class", conditionalClass(props.isTemp, "sidebar-server-temp-folder-item"))}>
+        <div class="grid">
+          <For each={firstFourServers()}>
+            {(server) => <Avatar size={20} resize={64} server={{...server, verified: false}} />}
+          </For>
+        </div>
+      </SidebarFolderItemContainer>
+      <Show when={open() && !props.isTemp}>
+        <div class="sidebar-folder-items" style={{background: "rgba(255,255,255,0.14)", "border-radius": "4px", ...(open() ? {"border-top-left-radius": "0", "border-top-right-radius": "0"} : {})}}>
+          
+          <SimpleSortable id={props.folderId} onAdd={props.onAdd} group="sidebar-servers" items={servers()} idField="id" gap={4} >
+            {(server) => (
+              <ServerItem server={server} />   
+            )}
+          </SimpleSortable>
+        
+        </div>
+      </Show>
+    </>
   );
 };
 
 const ServerList = () => {
-  const { servers, account } = useStore();
+  const { servers, account, serverFolders } = useStore();
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>();
   const [contextServerId, setContextServerId] = createSignal<string | undefined>();
 
-  const [orderedServers, setOrderedServers, resetOrderedServers] = createTemporarySignal(servers.orderedArray);
+  const [orderedServers, setOrderedServers, resetOrderedServers] = createTemporarySignal(servers.orderedServersAndFoldersArray);
 
   const [draggingOnTop, setDraggingOnTop] = createSignal<{draggingIndex: number, targetIndex: number} | null>(null);
 
 
   const draggingOnTopServerId = () => {
     if (!draggingOnTop()) return;
-    return servers.orderedArray()[draggingOnTop()!.draggingIndex]?.id;
+    const draggingItem = servers.orderedServersAndFoldersArray()[draggingOnTop()!.draggingIndex];
+    if (draggingItem.serverIds) return;
+    return draggingItem?.id;
   };
 
 
@@ -551,11 +580,107 @@ const ServerList = () => {
   };
 
   const onDrop = (event: {currentIndex: number, newIndex: number}) => {
-    console.log(event);
+    
     const serverIds = orderedServers().map(server => server.id);
+    
+    if (draggingOnTop()?.targetIndex !== -1) {
+
+
+      if ( orderedServers()[event.currentIndex]?.serverIds ) return;
+
+      const folderServerIds = orderedServers()[event.newIndex]?.serverIds;
+
+      // move on top of a folder
+      if ( folderServerIds) {        
+        const order: [number, number] = event.currentIndex > event.newIndex ? [event.currentIndex, event.newIndex + folderServerIds.length + 1] : [event.currentIndex, event.newIndex + folderServerIds.length];
+        const newOrderedServerIds = moveArrayItemToNewIndex(serverIds, ...order);
+        onAddToFolder(event.newIndex, event.currentIndex, newOrderedServerIds);
+
+      }
+      else {
+        // create a new folder
+        const order: [number, number] = event.currentIndex > event.newIndex ? [event.currentIndex, event.newIndex + 1] : [event.currentIndex, event.newIndex];
+        const newOrderedServerIds = moveArrayItemToNewIndex(serverIds, ...order);
+        onCreateNewFolder(event.newIndex, event.currentIndex, newOrderedServerIds);
+      }
+
+      return;
+    }
 
     const newOrderedServerIds = moveArrayItemToNewIndex(serverIds, event.currentIndex, event.newIndex);
     updateServerOrder(newOrderedServerIds).then(resetOrderedServers);
+  };
+
+
+  const onAdd = (event: {currentIndex: number, newIndex: number, id: string}) => {
+    const folderIndex = account.user()?.orderedServerIds?.indexOf(event.id);
+    if (folderIndex === undefined || folderIndex === -1) return;
+    const newIndex = folderIndex + event.newIndex;
+
+    const serverIds = orderedServers().map(server => server.id);
+
+
+    const order: [number, number] = event.currentIndex > newIndex ? [event.currentIndex, newIndex + 1] : [event.currentIndex, newIndex];
+    const newOrderedServerIds = moveArrayItemToNewIndex(serverIds, ...order);
+
+
+    onAddToFolder(newIndex, event.currentIndex, newOrderedServerIds, event.id);
+
+  };
+
+  const onMoveFromFolder = async (currentFolderId: string, event: {currentIndex: number, newIndex: number, id: string}) => {
+    const isMovedToAnotherFolder = orderedServers().find(server => server.id === event.id && server.serverIds);
+
+    if (!isMovedToAnotherFolder) {
+
+      const serverIds = orderedServers().map(server => server.id);
+      
+      
+      const folderIndex = account.user()?.orderedServerIds?.indexOf(currentFolderId);
+      if (folderIndex === undefined || folderIndex === -1) return;
+
+
+      const currentIndex = folderIndex + event.currentIndex;
+
+      const order: [number, number] = currentIndex > event.newIndex ? [currentIndex, event.newIndex] : [currentIndex, event.newIndex];
+      const newOrderedServerIds = moveArrayItemToNewIndex(serverIds, ...order);
+
+      console.log(order);
+
+
+
+      const unorderedFolderServers = serverFolders.get(currentFolderId)?.serverIds;
+      if (!unorderedFolderServers) return;
+      const orderedFolderServers = orderedFolderItems(unorderedFolderServers);
+
+
+      const newServerIds = orderedFolderServers.toSpliced(event.currentIndex, 1);
+
+      // await updateServerOrder(newOrderedServerIds);
+      // await updateServerFolder(currentFolderId, newServerIds);
+
+
+
+    }
+
+  };
+
+  const onAddToFolder = (newIndex: number, currentIndex: number, newOrderedServerIds: string[], _folderId?: string) => {
+    const folderId = _folderId || orderedServers()[newIndex]?.id;
+    const folder = serverFolders.get(folderId!) as RawServerFolder;
+    const draggingServerId = orderedServers()[currentIndex]?.id;
+    if (folder && draggingServerId) {
+      updateServerOrder(newOrderedServerIds).then(async () => {
+        await updateServerFolder(folder.id, [...folder.serverIds, draggingServerId]);
+      });
+    }
+  };
+
+  const onCreateNewFolder = (newIndex: number, currentIndex: number, newOrderedServerIds: string[]) => {
+    const folderServerIds = [orderedServers()[newIndex]?.id!, orderedServers()[currentIndex]?.id!];
+    updateServerOrder(newOrderedServerIds).then(async () => {
+      await createServerFolder(folderServerIds);
+    });
   };
 
   const onDragOnTop = (draggingIndex: number, targetIndex: number) => {
@@ -567,19 +692,19 @@ const ServerList = () => {
   };
 
 
+  const orderedFolderItems = (unorderedServerIds: string[]) => {
+    const serverIds = orderedServers().filter(server => unorderedServerIds.includes(server.id)).map(server => server.id);
+    return serverIds;
+  };
+
   return <div class={styles.serverListContainer}>
     <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
     <Show when={account.lastAuthenticatedAt()} fallback={<ServerListSkeleton/>}>
       <div class={css`
       .simpleSortableDraggingItem {
-        .avatar-container {
-          display: none;
-        }
-        .sidebar-server-item {
-          background: rgba(255,255,255,0.1);
-        }
-        .sidebar-server-item:after {
-          display: none;
+        opacity: 0.4;
+        img {
+          pointer-events: none;
         }
       }
       .simpleSortableDraggedOnTop {
@@ -589,13 +714,24 @@ const ServerList = () => {
       }
       
       `}>
-        <SimpleSortable items={orderedServers()} idField="id" gap={4} onDrop={onDrop} allowDragOnTop onDragOnTop={onDragOnTop}>
+        <SimpleSortable onAdd={onAdd} group="sidebar-servers" dropClassName="sortable-sidebar-root-drop-class" ignoreClassName="sidebar-folder-items" items={orderedServers()} hiddenItems={s => !s.serverIds &&  !!serverFolders.isInFolder(s.id)} idField="id" gap={4} onDrop={onDrop} allowDragOnTop onDragOnTop={onDragOnTop}>
           {(server, i) => (
-            <ServerItem
-              folderModeServerId={draggingOnTop()?.targetIndex === i() ?  draggingOnTopServerId() : undefined}
-              server={server!}
-              onContextMenu={e => onContextMenu(e, server!.id)}
-            />    
+            <Switch>
+              <Match when={server.serverIds}>
+                <FolderItem
+                  onAdd={(e) => onMoveFromFolder(server.id, e)}
+                  folderId={server.id}
+                  serverIds={[...orderedFolderItems(server.serverIds), ...(draggingOnTop()?.targetIndex === i() && draggingOnTopServerId() ? [draggingOnTopServerId()] : [])]!}
+                />
+              </Match>
+              <Match when={!server.serverIds && !serverFolders.isInFolder(server.id)}>
+                <ServerItem
+                  folderModeServerId={draggingOnTop()?.targetIndex === i() ?  draggingOnTopServerId() : undefined}
+                  server={server!}
+                  onContextMenu={e => onContextMenu(e, server!.id)}
+                />
+              </Match>
+            </Switch>    
           )}
         </SimpleSortable>
       </div>

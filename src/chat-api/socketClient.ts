@@ -5,7 +5,7 @@ import { onAuthenticated, onAuthenticateError, onConnect, onDisconnect, onReconn
 import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFriendRequestSent } from "./events/friendEvents";
 import { onInboxClosed, onInboxOpened } from "./events/inboxEvents";
 import { onMessageCreated, onMessageDeleted, onMessageDeletedBatch, onMessageReactionAdded, onMessageReactionRemoved, onMessageUpdated } from "./events/messageEvents";
-import { onServerChannelCreated, onServerChannelDeleted, onServerChannelOrderUpdated, onServerChannelUpdated, onServerEmojiAdd, onServerEmojiRemove, onServerEmojiUpdate, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from "./events/serverEvents";
+import { onServerChannelCreated, onServerChannelDeleted, onServerChannelOrderUpdated, onServerChannelUpdated, onServerEmojiAdd, onServerEmojiRemove, onServerEmojiUpdate, onServerFolderCreated, onServerFolderUpdated, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from "./events/serverEvents";
 import { onNotificationDismissed, onUserBlocked, onUserConnectionAdded, onUserConnectionRemoved, onUserNoticeUpdated, onUserNotificationSettingsUpdate, onUserPresenceUpdate, onUserUnblocked, onUserUpdated } from "./events/userEvents";
 import { onCleanup, onMount } from "solid-js";
 import { onVoiceSignalReceived, onVoiceUserJoined, onVoiceUserLeft } from "./events/voiceEvents";
@@ -77,8 +77,15 @@ socket.on(ServerEvents.MESSAGE_DELETED_BATCH, onMessageDeletedBatch);
 socket.on(ServerEvents.SERVER_JOINED, onServerJoined);
 socket.on(ServerEvents.SERVER_LEFT, onServerLeft);
 socket.on(ServerEvents.SERVER_UPDATED, onServerUpdated);
+
+
 socket.on(ServerEvents.SERVER_ORDER_UPDATED, onServerOrderUpdated);
 socket.on(ServerEvents.SERVER_ROLE_ORDER_UPDATED, onServerRoleOrderUpdated);
+
+socket.on(ServerEvents.SERVER_FOLDER_CREATED, onServerFolderCreated);
+socket.on(ServerEvents.SERVER_FOLDER_UPDATED, onServerFolderUpdated);
+
+
 socket.on(ServerEvents.SERVER_CHANNEL_ORDER_UPDATED, onServerChannelOrderUpdated);
 
 socket.on(ServerEvents.SERVER_ROLE_CREATED, onServerRoleCreated);

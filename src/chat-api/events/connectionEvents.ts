@@ -94,15 +94,22 @@ localRPC.onUpdateRPC = data => {
 
 
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  const { account, servers, users, channels, serverMembers, friends, inbox, mentions, serverRoles, voiceUsers } = useStore();
+  const { account, servers, users, channels, serverMembers, friends, inbox, mentions, serverRoles, voiceUsers, serverFolders } = useStore();
   console.log("[WS] Authenticated.");
 
   const t0 = performance.now();
+
+
+  payload.serverFolders = payload.serverFolders.map((folder) => {
+    folder.serverIds = folder.serverIds.filter(serverId => payload.servers.find(server => server.id === serverId));
+    return folder;
+  });
 
   batch(() => {
     users.reset();
     channels.reset();
     serverMembers.reset();
+    serverFolders.reset();
 
     saveCache(LocalCacheKey.Account, payload.user);
 
@@ -114,6 +121,8 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       socketAuthenticated: true,
       lastAuthenticatedAt: Date.now()
     });
+
+
     users.set(payload.user);
 
 
@@ -124,6 +133,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
 
 
+    for (let i = 0; i < payload.serverFolders.length; i++) {
+      const folder = payload.serverFolders[i]!;
+      serverFolders.set(folder);
+    }
     for (let i = 0; i < payload.servers.length; i++) {
       const server = payload.servers[i];
       servers.set(server);

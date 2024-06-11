@@ -90,6 +90,22 @@ export async function updateServerOrder(serverIds: string[]): Promise<RawServerR
     useToken: true
   });
 }
+export async function createServerFolder(serverIds: string[]): Promise<{folderId: string}> {
+  return request({
+    method: "POST",
+    body: {serverIds},
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverFolders(),
+    useToken: true
+  });
+}
+export async function updateServerFolder(folderId: string, serverIds: string[]): Promise<{status: boolean}> {
+  return request({
+    method: "PATCH",
+    body: {serverIds},
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverFolders(folderId),
+    useToken: true
+  });
+}
 
 export async function updateServerChannelOrder(serverId: string, updated: {channelIds: string[], categoryId?: string}): Promise<RawServerRole> {
   return request({

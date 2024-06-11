@@ -24,6 +24,13 @@ export interface RawVoice {
   userId: string;
 }
 
+export interface RawServerFolder {
+  id: string;
+  name?: string;
+  icon?: string;
+  serverIds: string[];
+}
+
 
 export enum MessageType {
   CONTENT = 0,

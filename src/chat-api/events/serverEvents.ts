@@ -1,6 +1,6 @@
 import { runWithContext } from "@/common/runWithContext";
 import { batch, from } from "solid-js";
-import { ChannelType, RawChannel, RawCustomEmoji, RawPresence, RawServer, RawServerMember, RawServerRole, RawVoice } from "../RawData";
+import { ChannelType, RawChannel, RawCustomEmoji, RawPresence, RawServer, RawServerFolder, RawServerMember, RawServerRole, RawVoice } from "../RawData";
 import useAccount from "../store/useAccount";
 import useChannels, { Channel } from "../store/useChannels";
 import useServerMembers from "../store/useServerMembers";
@@ -10,6 +10,7 @@ import useUsers from "../store/useUsers";
 import { CHANNEL_PERMISSIONS, addBit, hasBit } from "../Bitwise";
 import { useParams } from "solid-navigator";
 import useVoiceUsers from "../store/useVoiceUsers";
+import useServerFolders from "../store/useServerFolders";
 
 interface ServerJoinedPayload {
   server: RawServer,
@@ -165,6 +166,16 @@ export const onServerOrderUpdated = (payload: { serverIds: string[] }) => {
   account.setUser({
     orderedServerIds: payload.serverIds
   });
+};
+
+
+export const onServerFolderCreated = (payload: { folder: RawServerFolder }) => {
+  const serverFolders = useServerFolders();
+  serverFolders.set(payload.folder);
+};
+export const onServerFolderUpdated = (payload: { folder: Partial<RawServerFolder> }) => {
+  const serverFolders = useServerFolders();
+  serverFolders.updateServerIds(payload.folder.id!, payload.folder.serverIds!);
 };
 
 

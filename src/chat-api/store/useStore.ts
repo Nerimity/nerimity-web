@@ -13,6 +13,7 @@ import useChannelProperties from "./useChannelProperties";
 import { usePosts } from "./usePosts";
 import useVoiceUsers from "./useVoiceUsers";
 import useTicket from "./UseTicket";
+import useServerFolders from "./useServerFolders";
 
 interface Store {
   account: ReturnType<typeof useAccount>;
@@ -30,6 +31,7 @@ interface Store {
   posts: ReturnType<typeof usePosts>;
   voiceUsers: ReturnType<typeof useVoiceUsers>;
   tickets: ReturnType<typeof useTicket>;
+  serverFolders: ReturnType<typeof useServerFolders>;
 
 }
 
@@ -54,6 +56,8 @@ export default function useStore() {
 
   const tickets = useTicket();
 
+  const serverFolders = useServerFolders();
+
   const obj = {
     account,
     servers,
@@ -69,7 +73,8 @@ export default function useStore() {
     channelProperties,
     posts,
     voiceUsers,
-    tickets
+    tickets,
+    serverFolders
   } satisfies Store;
 
   store = obj;
