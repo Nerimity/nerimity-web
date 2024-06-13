@@ -69,10 +69,8 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
         return playSound(getCustomSound("MESSAGE_MENTION"));
       }
     }
-
-
-
   }
+  
   if (notificationSoundMode === ServerNotificationSoundMode.MENTIONS_ONLY) return;
 
   playSound(getCustomSound("MESSAGE"));
