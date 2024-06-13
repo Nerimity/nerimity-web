@@ -11,10 +11,12 @@ export function formatTimestamp(timestamp: number) {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
 
-  if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
+  const sameYear = today.getFullYear() === date.getFullYear();
+
+  if (sameYear && date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
     return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
-  else if (yesterday.toDateString() === date.toDateString()) {
+  else if (sameYear && yesterday.toDateString() === date.toDateString()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
   

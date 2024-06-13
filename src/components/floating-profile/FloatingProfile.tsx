@@ -26,6 +26,7 @@ import { RichProgressBar, getActivityIconName } from "@/components/activity/Acti
 import { ActivityStatus } from "@/chat-api/RawData";
 import { css } from "solid-styled-components";
 import { Emoji } from "../ui/Emoji";
+import { t } from "i18next";
 
 
 
@@ -231,7 +232,7 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
       </Show>
 
       <Show when={props.channelNotice}>
-        <FlyoutTitle icon='info' title='Channel Notice' primaryColor={colors()?.primary || undefined} />
+        <FlyoutTitle icon='info' title={t("informationDrawer.channelNotice")} primaryColor={colors()?.primary || undefined} />
         <div class={styles.bioContainer}>
           <Text size={12} color='rgba(255,255,255,0.7)' class={colors()?.primary ? css`a {color: ${colors()?.primary}; }`: ""}><Markup text={props.channelNotice!} /></Text>
         </div>

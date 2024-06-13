@@ -2,16 +2,50 @@ import { Channel } from "@/chat-api/store/useChannels";
 import { Message } from "@/chat-api/store/useMessages";
 import useStore from "@/chat-api/store/useStore";
 import { StorageKeys, getStorageBoolean } from "./localStorage";
-import { MessageType } from "@/chat-api/RawData";
+import { MessageType, ServerNotificationPingMode } from "@/chat-api/RawData";
 import env from "./env";
 import { avatarUrl } from "@/chat-api/store/useUsers";
+import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 
 export function createDesktopNotification(message: Message) {
   const enabled = getStorageBoolean(StorageKeys.ENABLE_DESKTOP_NOTIFICATION, false);
   if (!enabled) return;
-
-  const {channels} = useStore();
+  const {channels, account, serverMembers} = useStore();
   const channel = channels.get(message.channelId);
+
+  const serverId = channel?.serverId;
+  const channelId = channel?.id;
+
+  const notificationPing = !serverId? undefined : account.getCombinedNotificationSettings(serverId, channelId)?.notificationPingMode;
+
+  if (notificationPing === ServerNotificationPingMode.MUTE) return;
+
+
+  let showNotification = false;
+
+
+  if (notificationPing === ServerNotificationPingMode.MENTIONS_ONLY) {
+    const mentionedMe = message.mentions?.find(m => m.id === account.user()?.id);
+    if (mentionedMe) {
+      showNotification = true;
+    }
+    
+    const everyoneMentioned = message.content?.includes("[@:e]");
+    if (!showNotification && (everyoneMentioned && serverId)) {
+      const member = serverMembers.get(serverId, message.createdBy.id);
+      const hasPerm = member?.isServerCreator() || member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
+      if (hasPerm) {
+        showNotification = true;
+      }
+    }
+  }
+  if (!serverId) {
+    showNotification = true;
+  }
+
+
+  if (!showNotification) return;
+
   if (channel?.serverId) return createServerDesktopNotification(message, channel);
   else return createDMDesktopNotification(message);
 

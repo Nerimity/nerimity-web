@@ -27,6 +27,7 @@ import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
 import { Markup } from "../Markup";
+import { t } from "i18next";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -68,7 +69,7 @@ const MemberItem = (props: { member: ServerMember }) => {
 
 const Header = () => {
 
-  return (<DrawerHeader text={"Information"} />);
+  return (<DrawerHeader text={t("informationDrawer.title")} />);
 };
 
 
@@ -139,7 +140,7 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
   return (
     <>
       <Button
-        label="Back"
+        label={t("informationDrawer.attachmentsBack")}
         iconName='navigate_before'
         iconSize={16}
         onClick={props.onHideAttachmentClick}
@@ -258,7 +259,7 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
     </Show>
     <Show when={channel()}>
       <Button
-        label="Attachments"
+        label={t("informationDrawer.attachments")}
         customChildren={
           <>
             <div class={styles.attachmentCount}>{channel()?._count?.attachments?.toLocaleString?.() ?? "..."}</div>
@@ -323,7 +324,7 @@ const ServerDrawer = () => {
       <Delay ms={10}>
         <>
           <div style={{ "margin-left": "8px", display: "flex" }}>
-            <Text size={14}>Members</Text>
+            <Text size={14}>{t("informationDrawer.members")}</Text>
             <div class={styles.memberCount}>{members().length.toLocaleString()}</div>
           </div>
           <div class={styles.roleContainer}>
@@ -376,7 +377,7 @@ const ServerChannelNotice = () => {
       <div class={styles.channelNotice}>
         <div class={styles.channelNoticeHeader}>
           <Icon color='var(--primary-color)' name="info" size={14} />
-          <Text size={13}>Channel Notice</Text>
+          <Text size={13}>{t("informationDrawer.channelNotice")}</Text>
         </div>
         <div class={styles.channelNoticeContent}><Markup inline text={cachedNotice()!.content} /></div>
       </div>

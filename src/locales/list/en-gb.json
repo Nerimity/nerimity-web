@@ -29,6 +29,16 @@
     "registering": "Registering...",
     "loginInstead": "Login Instead"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "activeUsers": "Active Users",
+    "noActiveUsers": "No active users",
+    "servers": "Servers",
+    "posts": "Posts",
+    "feed": "Feed",
+    "discover": "Discover",
+    "notifications": "Notifications"
+  },
   "inbox": {
     "drawer": {
       "requests": "Requests",
@@ -188,6 +198,24 @@
       "tickets": "Tickets",
       "privacy": "Privacy",
       "connections": "Connections"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "Direct Message",
+        "description": "Set Who can send you direct messages.",
+        "anyone": "Anyone",
+        "friendsAndServersOnly": "Friends and Servers Only",
+        "friendsOnly": "Friends Only"      
+      },
+
+      "friendRequest": {
+        "title": "Friend Request",
+        "description": "Set who can send you friend requests.",
+        "anyone": "Anyone",
+        "serversOnly": "Servers Only",
+        "nobody": "Nobody"
+      }
+
     }
   },
   "addFriend": {
@@ -253,6 +281,15 @@
     "createAPostInputPlaceholder": "Create a post...",
     "replyInputPlaceholder": "Reply...",
     "replyButton": "Reply",
-    "createButton": "Create"
+    "createButton": "Create",
+    "pollOptions": "Poll Options",
+    "optionNumberPlaceholder": "Option {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Information",
+    "channelNotice": "Channel Notice",
+    "attachments": "Attachments",
+    "attachmentsBack": "Back",
+    "members": "Members"
   }
 }

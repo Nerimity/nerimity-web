@@ -22,6 +22,7 @@ import Icon from "./ui/icon/Icon";
 import env from "@/common/env";
 import { getActivityIconName } from "@/components/activity/Activity";
 import { Skeleton } from "./ui/skeleton/Skeleton";
+import { t } from "i18next";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -68,7 +69,7 @@ export default function DashboardPane() {
   const { header, account } = useStore();
   createEffect(() => {
     header.updateHeader({
-      title: "Dashboard",
+      title: t("dashboard.title"),
       iconName: "dashboard"
     });
   });
@@ -130,18 +131,18 @@ function PostsContainer() {
 
   return (
     <FlexColumn>
-      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px", "margin-top": "20px" }}>Posts</Text>
+      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px", "margin-top": "20px" }}>{t("dashboard.posts")}</Text>
       <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "5px", height: "28px" }}>
 
         <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "FEED"} onclick={() => setSelectedTab("FEED")}>
-          <Text size={14}>Feed</Text>
+          <Text size={14}>{t("dashboard.feed")}</Text>
         </ItemContainer>
         <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "DISCOVER"} onclick={() => setSelectedTab("DISCOVER")}>
-          <Text size={14}>Discover</Text>
+          <Text size={14}>{t("dashboard.discover")}</Text>
         </ItemContainer>
 
         <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "NOTIFICATIONS"} onclick={() => setSelectedTab("NOTIFICATIONS")}>
-          <Text size={14}>Notifications</Text>
+          <Text size={14}>{t("dashboard.notifications")}</Text>
           <NotificationIndicator />
         </ItemContainer>
 
@@ -307,7 +308,7 @@ const ActivityList = () => {
   return (
     <>
 
-      <Text size={18}  style={{ "margin-left": "5px" }}>Active Users</Text>
+      <Text size={18}  style={{ "margin-left": "5px" }}>{t("dashboard.activeUsers")}</Text>
 
       <ActivityListContainer onwheel={onWheel} ref={activityListEl}>
         <Show when={!authenticatedInPast()}>
@@ -318,7 +319,7 @@ const ActivityList = () => {
 
         <Show when={authenticatedInPast() && !activities().length}>
           <div style={{ display: "flex", "text-align": "center", "flex-direction": "column", "align-items": "center", "justify-content": "center", background: "rgba(255,255,255,0.04)", width: "100%", height: "100%", "border-radius": "8px"}}>
-            <Text size={14} opacity={0.6} >No active users</Text>
+            <Text size={14} opacity={0.6} >{t("dashboard.noActiveUsers")}</Text>
           </div>
         </Show>
         <Show when={authenticatedInPast() && activities().length}>

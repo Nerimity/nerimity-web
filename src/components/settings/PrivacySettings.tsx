@@ -72,7 +72,7 @@ function DMOptions() {
 
       <DirectMessageBlock/>
 
-      <SettingsBlock class={css`margin-top: 10px;`} description="Set who can send you friend requests." header icon='group_add' label='Friend Request'  />
+      <SettingsBlock class={css`margin-top: 10px;`} description={t("settings.privacy.friendRequest.description")} header icon='group_add' label={t("settings.privacy.friendRequest.title")}  />
       <RadioBoxContainer>
         <RadioBox onChange={onChange} items={radioboxItems} initialId={friendRequestStatus() || 0} />
       </RadioBoxContainer>
@@ -100,7 +100,7 @@ const DirectMessageBlock = () => {
   };
   return (
     <>
-      <SettingsBlock class={css`margin-top: 10px;`} description="Set who can send you direct messages." header icon='chat_bubble' label='Direct Message'  />
+      <SettingsBlock class={css`margin-top: 10px;`} description={t("settings.privacy.directMessage.description")} header icon='chat_bubble' label={t("settings.privacy.directMessage.title")}  />
       <RadioBoxContainer>
         <RadioBox onChange={onChange} items={radioboxItems} initialId={currentDmStatus() || 0} />
       </RadioBoxContainer>

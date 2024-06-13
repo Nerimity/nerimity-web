@@ -280,7 +280,7 @@ const PollOptions = (props: {options: string[], setOptions: SetStoreFunction<str
   };
   return (
     <FlexColumn gap={6}>
-      <Text>Poll Options</Text>
+      <Text>{t("posts.pollOptions")}</Text>
       <FlexColumn gap={4}>
         <Index each={props.options}>
           {(option, i) => (
@@ -302,7 +302,7 @@ const PollOptions = (props: {options: string[], setOptions: SetStoreFunction<str
 const PollOptionItem = (props: { index: number; value: string, onText: (text: string) => void, showAddButton?: boolean; onAddClick?: () => void }) => {
   return (
     <FlexRow itemsCenter gap={4}>
-      <Input placeholder={"Option " + (props.index + 1)} value={props.value} maxLength={56} onText={props.onText} />
+      <Input placeholder={ t("posts.optionNumberPlaceholder", {number: props.index + 1})} value={props.value} maxLength={56} onText={props.onText} />
       <Show when={props.showAddButton}><Button margin={0} iconName="add" onClick={props.onAddClick} /></Show>
     </FlexRow>
   );

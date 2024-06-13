@@ -205,67 +205,17 @@
     "banButton": "Забанить",
     "banning": "Баним..."
   },
-  "profile": {
-    "userInformation": "Информация о пользователе",
-    "viewRecentActivity": "Просмотреть недавнюю активность",
-    "editProfile": "Редактировать профиль",
-    "username": "Имя пользователя",
-    "email": "Email",
-    "password": "Пароль",
-    "changeAvatar": "Изменить аватар",
-    "saveButton": "Сохранить",
-    "saving": "Сохраняем..."
-  },
-  "privacy": {
-    "title": "Политика конфиденциальности"
-  },
-  "emojis": {
-    "addEmoji": "Добавить эмодзи",
-    "customEmojis": "Пользовательские эмодзи",
-    "emojiName": "Имя эмодзи",
-    "emojiImage": "Изображение эмодзи",
-    "deleteEmoji": "Удалить эмодзи"
-  },
+  "profile": {},
+  "privacy": {},
+  "emojis": {},
   "savedNotes": {
-    "header": {
-      "title": "Сохранённые заметки",
-      "backButton": "Назад",
-      "deleteButton": "Удалить заметку",
-      "saveButton": "Сохранить заметку",
-      "createNoteButton": "Создать заметку"
-    },
-    "createNote": {
-      "title": "Создать новую заметку",
-      "content": "Содержимое заметки"
-    },
-    "deleteNote": {
-      "title": "Удалить заметку",
-      "deleteMessage": "Вы уверены, что хотите удалить эту заметку?"
-    },
-    "editNote": {
-      "title": "Редактировать заметку",
-      "editMessage": "Вы действительно хотите изменить эту заметку?"
-    },
-    "notes": {
-      "noNotes": "Заметки не найдены",
-      "createNote": "Создать заметку"
-    }
+    "header": {},
+    "createNote": {},
+    "deleteNote": {},
+    "editNote": {},
+    "notes": {}
   },
-  "footer": {
-    "about": "О нас",
-    "terms": "Условия использования",
-    "privacy": "Политика конфиденциальности"
-  },
-  "errors": {
-    "badRequest": "Неверный запрос",
-    "internalError": "Внутренняя ошибка",
-    "notFound": "Не найден",
-    "unauthorized": "Нет доступа",
-    "tooManyRequests": "Слишком много запросов",
-    "serviceUnavailable": "Сервис недоступен"
-  },
-  "windowSettings": {
-    "title": "Настройки окна",
-    "customize": "Настроить"
-  }
+  "footer": {},
+  "errors": {},
+  "windowSettings": {}
 }
