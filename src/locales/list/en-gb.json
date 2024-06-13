@@ -284,5 +284,12 @@
     "createButton": "Create",
     "pollOptions": "Poll Options",
     "optionNumberPlaceholder": "Option {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Information",
+    "channelNotice": "Channel Notice",
+    "attachments": "Attachments",
+    "attachmentsBack": "Back",
+    "members": "Members"
   }
 }
