@@ -25,7 +25,7 @@ export function TimestampMention(props: { type: TimestampType; timestamp: number
   }));
 
   return (
-    <div class="mention">
+    <div class="mention" title={formatTimestamp(props.timestamp)}>
       <Icon name="schedule" size={14} color="var(--primary-color)" class="icon"  />
       {formattedTime()}
     </div>
