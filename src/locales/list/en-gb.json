@@ -188,6 +188,24 @@
       "tickets": "Tickets",
       "privacy": "Privacy",
       "connections": "Connections"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "Direct Message",
+        "description": "Set Who can send you direct messages.",
+        "anyone": "Anyone",
+        "friendsAndServersOnly": "Friends and Servers Only",
+        "friendsOnly": "Friends Only"      
+      },
+
+      "friendRequest": {
+        "title": "Friend Request",
+        "description": "Set who can send you friend requests.",
+        "anyone": "Anyone",
+        "serversOnly": "Servers Only",
+        "nobody": "Nobody"
+      }
+
     }
   },
   "addFriend": {
