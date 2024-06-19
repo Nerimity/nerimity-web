@@ -115,7 +115,7 @@ const EmojiCountPaneContainer = styled("div")`
 `;
 
 const EmojiCountPane = (props: {count: number, serverVerified?: boolean}) => {
-  const maxCount = () => props.serverVerified ? 100 : 50;
+  const maxCount = () => props.serverVerified ? 200 : 80;
   return (
     <EmojiCountPaneContainer>
       <Text size={13} opacity={0.6}>({props.count}/{maxCount()})</Text>
