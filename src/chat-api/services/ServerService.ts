@@ -257,9 +257,9 @@ export async function getPublicServer(serverId: string) {
   });
 }
 
-export async function getPublicServers(sort: "most_bumps" | "most_members" | "recently_added" | "recently_bumped", filter: "all" | "verified") {
+export async function getPublicServers(sort: "most_bumps" | "most_members" | "recently_added" | "recently_bumped", filter: "all" | "verified", limit?: number) {
   return request<RawPublicServer[]>({
-    params: {sort, filter},
+    params: {sort, filter, limit},
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(""),
     useToken: true
