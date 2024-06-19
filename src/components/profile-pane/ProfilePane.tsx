@@ -503,7 +503,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
     { id: "QUESTION", label: "Question" },
     { id: "ACCOUNT", label: "Account" },
     { id: "ABUSE", label: "Abuse" },
-    { id: "OTHER", label: "Other" },
+    { id: "OTHER", label: "Other" }
   ];
 
   const createTicketClick = async () => {
@@ -536,7 +536,11 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
     }
 
     if (selectedCategoryId() === "SERVER_VERIFICATION") {
-      customBody = `Server Invite URL: ${serverInviteUrl()}\n\nExcited For:\n${customBody}`
+      if (!serverInviteUrl()) {
+        setError("Please enter an invite URL (from your server settings)");
+        return;
+      }
+      customBody = `Server Invite URL: ${serverInviteUrl()}\n\nExcited For:\n${customBody}`;
       setTitle("Server Verification");
     }
 
@@ -609,18 +613,18 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
             />
           </Show>
 
-       <Show when={["ABUSE", "OTHER", "ACCOUNT", "QUESTION"].includes(selectedCategoryId())}>
-          <Input label="In one short sentence, what is the problem?" value={title()} onText={setTitle} />
-          <Input label="Describe the problem" type="textarea" minHeight={100} value={body()} onText={setBody} />
-       </Show>
-       <Show when={selectedCategoryId() === "SERVER_VERIFICATION"}>
-          <Notice
-            type="info"
-            description="Make sure you meet all the requirements in your server settings verify page."
-          />
-          <Input label="Server Invite URL" placeholder="https://nerimity.com/i/xxxxxxxxxx" value={serverInviteUrl()} onText={setServerInviteUrl} />
-          <Input label="Which verify perk are you most excited for?" type="textarea" minHeight={100} value={body()} onText={setBody} />
-       </Show>
+          <Show when={["ABUSE", "OTHER", "ACCOUNT", "QUESTION"].includes(selectedCategoryId())}>
+            <Input label="In one short sentence, what is the problem?" value={title()} onText={setTitle} />
+            <Input label="Describe the problem" type="textarea" minHeight={100} value={body()} onText={setBody} />
+          </Show>
+          <Show when={selectedCategoryId() === "SERVER_VERIFICATION"}>
+            <Notice
+              type="info"
+              description="Make sure you meet all the requirements in your server settings verify page."
+            />
+            <Input label="Server Invite URL" placeholder="https://nerimity.com/i/xxxxxxxxxx" value={serverInviteUrl()} onText={setServerInviteUrl} />
+            <Input label="Which verify perk are you most excited for?" type="textarea" minHeight={100} value={body()} onText={setBody} />
+          </Show>
           <Show when={error()}>
             <Text color="var(--alert-color)">{error()}</Text>
           </Show>
@@ -895,7 +899,7 @@ function SidePaneItem(props: {
 function PostsContainer(props: { user: UserDetails }) {
   const { account } = useStore();
   const navigate = useNavigate();
-  const params = useParams<{tab?: "replies" | "liked" | "following" | "followers"}>()
+  const params = useParams<{tab?: "replies" | "liked" | "following" | "followers"}>();
 
   const postCount = () => props.user.user._count.posts.toLocaleString();
   const likeCount = () => props.user.user._count.likedPosts.toLocaleString();
@@ -915,7 +919,7 @@ function PostsContainer(props: { user: UserDetails }) {
       default:
         return 0;
     }
-  }
+  };
 
   const setCurrentPage = (page: number) => {
     switch (page) {
@@ -934,7 +938,7 @@ function PostsContainer(props: { user: UserDetails }) {
       default:
         navigate(RouterEndpoints.PROFILE(props.user.user.id));
     }
-  }
+  };
 
   return (
     <div class={styles.postsContainer}>
