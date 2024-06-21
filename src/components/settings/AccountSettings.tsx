@@ -20,7 +20,7 @@ import useServers from "@/chat-api/store/useServers";
 import Modal from "../ui/modal/Modal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { Notice } from "../ui/Notice/Notice";
-import { RawChannelNotice } from "@/chat-api/RawData";
+import { RawChannelNotice, RawUser } from "@/chat-api/RawData";
 import { setSettingsHeaderPreview } from "./SettingsPane";
 import Icon from "../ui/icon/Icon";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
@@ -43,11 +43,6 @@ export default function AccountSettings() {
       iconName: "settings"
     });
   });
-
-  onCleanup(() => {
-    setSettingsHeaderPreview(reconcile({}));
-  });
-
 
   return (
     <Container>
@@ -75,7 +70,7 @@ const ChangePasswordButton = styled("button")`
   }
 `;
 
-function EditAccountPage() {
+export function EditAccountPage(props: {bot?: RawUser, botToken?: string | null, onUpdated?: () => void}) {
   const { account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
@@ -84,7 +79,7 @@ function EditAccountPage() {
 
   const [showResetPassword, setShowResetPassword] = createSignal(false);
 
-  const user = () => account.user();
+  const user = () => props.bot || account.user();
 
   const defaultInput = () => ({
     email: user()?.email || "",
@@ -97,6 +92,11 @@ function EditAccountPage() {
     avatarPoints: null as null | number[],
     banner: ""
   });
+
+  onCleanup(() => {
+    setSettingsHeaderPreview(reconcile({}));
+  });
+
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
@@ -118,19 +118,22 @@ function EditAccountPage() {
         setRequestSent(false);
         return;
       }
+      
 
     }
 
 
     const values = { ...updatedInputValues(), socketId: socketClient.id(), confirmNewPassword: undefined };
-    await updateUser(values)
+    await updateUser(values, props.botToken)
       .then((res) => {
-        if (res.newToken) {
-          setStorageString(StorageKeys.USER_TOKEN, res.newToken);
-          socketClient.updateToken(res.newToken);
-        }
-        if (values.email && values.email !== account.user()?.email) {
-          account.setUser({emailConfirmed: false});
+        if (!props.bot) {
+          if (res.newToken) {
+            setStorageString(StorageKeys.USER_TOKEN, res.newToken);
+            socketClient.updateToken(res.newToken);
+          }
+          if (values.email && values.email !== account.user()?.email) {
+            account.setUser({emailConfirmed: false});
+          }
         }
         setShowResetPassword(false);
         setInputValue("password", "");
@@ -140,6 +143,7 @@ function EditAccountPage() {
         setInputValue("avatarPoints", null);
         setInputValue("banner", "");
         setSettingsHeaderPreview(reconcile({}));
+        props.onUpdated?.();
       })
       .catch(err => {
         setError(err.message);
@@ -194,12 +198,14 @@ function EditAccountPage() {
 
   return (
     <>
-      <Show when={account.user() && !account.user()?.emailConfirmed}>
+      <Show when={!props.bot  && (account.user() && !account.user()?.emailConfirmed)}>
         <ConfirmEmailNotice/>
       </Show>
-      <SettingsBlock class={css`position: relative; z-index: 111;`} icon='email' label='Email'>
-        <Input value={inputValues().email} onText={(v) => setInputValue("email", v)} />
-      </SettingsBlock>
+      <Show when={!props.bot}>
+        <SettingsBlock class={css`position: relative; z-index: 111;`} icon='email' label='Email'>
+          <Input value={inputValues().email} onText={(v) => setInputValue("email", v)} />
+        </SettingsBlock>
+      </Show>
 
 
 
@@ -234,11 +240,13 @@ function EditAccountPage() {
       <SettingsBlock icon='info' label='Profile' description='Edit your bio or colors' href="./profile">
         <Icon name="keyboard_arrow_right" />
       </SettingsBlock>
-      <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
-      <ChangePasswordButton onClick={onForgotPasswordClick} style={{ "margin-bottom": "5px" }}>Forgot Password</ChangePasswordButton>
+      <Show when={!props.bot}>
+        <ChangePasswordButton onClick={onChangePasswordClick} style={{ "margin-bottom": "5px" }}>Change Password</ChangePasswordButton>
+        <ChangePasswordButton onClick={onForgotPasswordClick} style={{ "margin-bottom": "5px" }}>Forgot Password</ChangePasswordButton>
 
+      </Show>
 
-      <Show when={showResetPassword()}>
+      <Show when={!props.bot && showResetPassword()}>
         <SettingsBlock icon='password' label='New Password' description='Changing your password will log you out everywhere else.'>
           <Input type='password' value={inputValues().newPassword} onText={(v) => setInputValue("newPassword", v)} />
         </SettingsBlock>
@@ -248,7 +256,7 @@ function EditAccountPage() {
       </Show>
 
 
-      <Show when={Object.keys(updatedInputValues()).length}>
+      <Show when={!props.bot && Object.keys(updatedInputValues()).length}>
         <SettingsBlock icon='password' label='Confirm Password'>
           <Input type='password' value={inputValues().password} onText={(v) => setInputValue("password", v)} />
         </SettingsBlock>
@@ -261,7 +269,7 @@ function EditAccountPage() {
       </Show>
 
 
-      <ChannelNoticeBlock/>
+      <ChannelNoticeBlock botToken={props.botToken}/>
 
 
 
@@ -359,7 +367,7 @@ const NoticeBlockStyle = css`
 
 
 
-function ChannelNoticeBlock () {
+function ChannelNoticeBlock (props: {botToken?: string | null}) {
   const [error, setError] = createSignal<string>("");
   const [channelNotice, setChannelNotice] = createSignal<RawChannelNotice | null>(null);
   const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
@@ -371,7 +379,7 @@ function ChannelNoticeBlock () {
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
   onMount(async () => {
-    const res = await getDMChannelNotice();
+    const res = await getDMChannelNotice(props.botToken);
     if (!res) return;
     setChannelNotice(res.notice);
   }); 
@@ -382,7 +390,7 @@ function ChannelNoticeBlock () {
     setError("");
     const formattedContent = formatMessage(inputValues().content.trim());
     if (formattedContent.length > 300) return setError("Channel notice cannot be longer than 300 characters.");
-    const res = await updateDMChannelNotice(formattedContent).catch((err) => {
+    const res = await updateDMChannelNotice(formattedContent, props.botToken).catch((err) => {
       setError(err.message);
     });
     if (!res) return;
@@ -391,7 +399,7 @@ function ChannelNoticeBlock () {
   };
 
   const deleteNotice = async () => {
-    const res = await deleteDMChannelNotice().catch((err) => {
+    const res = await deleteDMChannelNotice(props.botToken).catch((err) => {
       setError(err.message);
     });
     if (!res) return;

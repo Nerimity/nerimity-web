@@ -12,7 +12,7 @@ import { avatarUrl } from "@/chat-api/store/useServers";
 import { bannerUrl } from "@/chat-api/store/useUsers";
 import { Banner } from "../ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { FriendStatus } from "@/chat-api/RawData";
+import { FriendStatus, RawUser } from "@/chat-api/RawData";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { settingsHeaderPreview } from "./SettingsPane";
 
@@ -63,7 +63,7 @@ const CustomAvatar = styled("div")<{cropPosition: string}>`
   ${props => props.cropPosition}
 `;
 
-const SettingsHeader = () => {
+const SettingsHeader = (props: {bot?: RawUser}) => {
   const [avatarEl, setAvatarEl] = createSignal<HTMLDivElement | undefined>();
   const { account, servers, friends } = useStore();
   const user = () => account.user();
@@ -109,22 +109,24 @@ const SettingsHeader = () => {
 
   return (
     <Show when={user()}>
-      <Banner maxHeight={250} animate hexColor={user()?.hexColor} url={settingsHeaderPreview.banner || bannerUrl(user()!)}>
+      <Banner maxHeight={250} margin={props.bot ? 0 : undefined} animate hexColor={props.bot?.hexColor || user()?.hexColor} url={settingsHeaderPreview.banner || bannerUrl(props.bot || user()!)}>
         <HeaderContainer>
-          <Avatar animate user={account.user()!} size={avatarSize()} class={avatarStyles}>
+          <Avatar animate user={props.bot || account.user()!} size={avatarSize()} class={avatarStyles}>
             {settingsHeaderPreview.avatar  ? <CustomAvatar ref={setAvatarEl} cropPosition={cropPosition()} style={{background: `url("${settingsHeaderPreview.avatar}")`}} /> : null}
           </Avatar>
           <DetailsContainer>
             <UsernameTagContainer>
-              <Text>{settingsHeaderPreview.username || user()!.username}</Text>
-              <Text opacity={0.7}>:{settingsHeaderPreview.tag || user()!.tag}</Text>
+              <Text>{settingsHeaderPreview.username || props.bot?.username || user()!.username}</Text>
+              <Text opacity={0.7}>:{settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}</Text>
             </UsernameTagContainer>
-            <FlexRow gap={5}>
-              <Text size={14} opacity={0.8}>{serverCount()} servers</Text>
-              <Text size={14}>•</Text>
-              <Text size={14} opacity={0.8}>{friendCount()} friends</Text>
-            </FlexRow>
-            <Text size={14}><A href="/app/settings/account">Manage Account</A></Text>
+            <Show when={!props.bot}>
+              <FlexRow gap={5}>
+                <Text size={14} opacity={0.8}>{serverCount()} servers</Text>
+                <Text size={14}>•</Text>
+                <Text size={14} opacity={0.8}>{friendCount()} friends</Text>
+              </FlexRow>
+              <Text size={14}><A href="/app/settings/account">Manage Account</A></Text>
+            </Show>
           </DetailsContainer>
         </HeaderContainer>
       </Banner>

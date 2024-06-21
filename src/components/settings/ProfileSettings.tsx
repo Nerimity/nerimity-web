@@ -19,6 +19,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
+import { RawUser } from "@/chat-api/RawData";
 
 const Container = styled("div")`
   display: flex;
@@ -78,7 +79,7 @@ const bioBlockStyles = css`
   }
 `;
 
-function EditProfilePage() {
+export function EditProfilePage(props: {bot?: RawUser | null, botToken: string | null}) {
   const { account } = useStore();
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [error, setError] = createSignal<null | string>(null);
@@ -94,8 +95,8 @@ function EditProfilePage() {
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
 
   createEffect(on(account.user, (user) => {
-    if (!user) return;
-    getUserDetailsRequest(account.user()?.id).then(setUserDetails);
+    if (!props.bot && !user) return;
+    getUserDetailsRequest(props.bot?.id || account.user()?.id).then(setUserDetails);
   }));
 
   const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
@@ -114,7 +115,7 @@ function EditProfilePage() {
       ...((values.bgColorTwo !== undefined && values.bgColorTwo === "") ? {bgColorTwo: null} : {bgColorTwo: values.bgColorTwo}),
       ...((values.primaryColor !== undefined && values.primaryColor === "") ? {primaryColor: null} : {primaryColor: values.primaryColor})      
 
-    })
+    }, props.botToken)
       .then((res) => {
         setUserDetails(() => ({ ...userDetails()!, profile: res.user.profile }));
       })
@@ -129,7 +130,7 @@ function EditProfilePage() {
 
       <EditBioBlock bio={inputValues().bio} setBio={v => setInputValue("bio", v)}/>
 
-      <ProfileColorBlock values={inputValues()} setValues={(k, v) => setInputValue(k, v)}>
+      <ProfileColorBlock userId={props.bot?.id} values={inputValues()} setValues={(k, v) => setInputValue(k, v)}>
         <Show when={Object.keys(updatedInputValues()).length}>
           <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
         </Show>
@@ -168,7 +169,7 @@ const ProfileFlyoutContainer = styled(FlexColumn)`
   width: 310px;
 `;
 
-const ProfileColorBlock = (props: {children: JSXElement, values: {[key: string]: string | undefined}, setValues: (key: "bgColorOne" | "bgColorTwo" | "primaryColor", value: string) => void}) => {
+const ProfileColorBlock = (props: {userId?: string, children: JSXElement, values: {[key: string]: string | undefined}, setValues: (key: "bgColorOne" | "bgColorTwo" | "primaryColor", value: string) => void}) => {
   const {paneWidth} = useWindowProperties();
   const {createPortal} = useCustomPortal();
 
@@ -177,7 +178,7 @@ const ProfileColorBlock = (props: {children: JSXElement, values: {[key: string]:
   };
 
   const showPreview = () => {
-    createPortal(close => <ProfileFlyout close={close} bio={formatMessage(props.values.bio?.trim() || "")} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} />);
+    createPortal(close => <ProfileFlyout userId={props.userId} close={close} bio={formatMessage(props.values.bio?.trim() || "")} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} />);
   };
 
   return (
@@ -194,7 +195,7 @@ const ProfileColorBlock = (props: {children: JSXElement, values: {[key: string]:
 
       </ColorPickerContainer>
       <Show when={!hidePreview()}>
-        <ProfileFlyoutContainer><ProfileFlyout  bio={formatMessage(props.values.bio?.trim() || "")} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} dmPane /></ProfileFlyoutContainer>
+        <ProfileFlyoutContainer><ProfileFlyout userId={props.userId}  bio={formatMessage(props.values.bio?.trim() || "")} colors={{ bg: [props.values.bgColorOne!, props.values.bgColorTwo!], primary: props.values.primaryColor }} dmPane /></ProfileFlyoutContainer>
       </Show>
 
     </ProfileColorContainer>

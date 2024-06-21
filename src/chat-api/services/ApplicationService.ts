@@ -65,7 +65,7 @@ export const getAppBotToken = async (appId: string) => {
   return data;
 };
 export const refreshAppBotToken = async (appId: string) => {
-  const data = await request<{token: string}>({
+  const data = await request<{status: true}>({
     method: "POST",
     url: env.SERVER_URL + `/api/applications/${appId}/token`,
     useToken: true

@@ -7,6 +7,7 @@ interface RequestOpts {
   useToken?: boolean;
   notJSON?: boolean;
   params?: Record<any, any>;
+  token?: string | null;
 }
 
 export async function request<T>(opts: RequestOpts): Promise<T> {
@@ -19,7 +20,7 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
     body: opts.body instanceof FormData ? opts.body :  JSON.stringify(opts.body),
     headers: {
       ...(!(opts.body instanceof FormData) ? {"Content-Type": "application/json"} : undefined),
-      "Authorization": opts.useToken ? token : ""
+      "Authorization": opts.useToken ? (opts.token || token) : ""
     }
   })
     .catch(err => {

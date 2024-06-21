@@ -241,7 +241,7 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
       <UserActivity userId={props.userId} primaryColor={colors()?.primary || undefined} />
 
 
-      <Show when={details()?.profile?.bio}>
+      <Show when={bio()?.length}>
         <FlyoutTitle icon='info' title='Bio' primaryColor={colors()?.primary || undefined} />
         <div class={styles.bioContainer}>
           <Text size={12} color='rgba(255,255,255,0.7)' class={colors()?.primary ? css`a {color: ${colors()?.primary}; }`: ""}><Markup text={bio()!} /></Text>

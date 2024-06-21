@@ -228,12 +228,13 @@ interface UpdateUserOptions {
   dmStatus?: number;
   friendRequestStatus?: number;
 }
-export async function updateUser(body: UpdateUserOptions) {
+export async function updateUser(body: UpdateUserOptions, token?: string | null) {
   return request<{user: any, newToken?: string, }>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(""),
     method: "POST",
     body,
-    useToken: true
+    useToken: true,
+    token
   });
 }
 export async function followUser(userId: string) {
@@ -281,29 +282,32 @@ export async function deleteAccount(password: string) {
 
 
 
-export const updateDMChannelNotice = async (content: string) => {
+export const updateDMChannelNotice = async (content: string, token?: string | null) => {
   const data = await request<{notice: RawChannelNotice}>({
     method: "PUT",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
     body: {content},
-    useToken: true
+    useToken: true,
+    token
   });
   return data;
 };
 
-export const deleteDMChannelNotice = async () => {
+export const deleteDMChannelNotice = async (token?: string | null) => {
   const data = await request({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
-    useToken: true
+    useToken: true,
+    token
   });
   return data;
 };
-export const getDMChannelNotice = async () => {
+export const getDMChannelNotice = async (token?: string | null) => {
   const data = await request<{notice: RawChannelNotice}>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
-    useToken: true
+    useToken: true,
+    token
   });
   return data;
 };
