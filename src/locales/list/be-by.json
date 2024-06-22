@@ -1,0 +1,295 @@
+{
+  "header": {
+    "accountButton": "Уліковы запіс",
+    "openAppButton": "Адкрыць праграму",
+    "loginButton": "Увайсці",
+    "joinNowButton": "Далучыцца"
+  },
+  "homePage": {
+    "slogan": "Сучасная і элегантная праграма для абмена паведамленнямі.",
+    "joinButton": "Далучыцца да {{appName}}",
+    "viewGitHubButton": "Праглядзець на GitHub"
+  },
+  "loginPage": {
+    "title": "Увайдзіце, каб працягнуць",
+    "emailOrUsernameAndTag": "Эл. адрас / імя карыстальніка:тэг",
+    "password": "Пароль",
+    "login": "Увайсці",
+    "createAccountInstead": "Не, стварыць уліковы запіс",
+    "loggingIn": "Ідзе ўваход...",
+    "loginButton": "Увайсці"
+  },
+  "registerPage": {
+    "title": "Вітаем у {{appName}}",
+    "email": "Электронны адрас",
+    "username": "Імя карыстальніка",
+    "password": "Пароль",
+    "confirmPassword": "Пацвярджэнне пароля",
+    "registerButton": "Зарэгістравацца",
+    "registering": "Ідзе рэгістрацыя...",
+    "loginInstead": "Не, увайсці"
+  },
+  "dashboard": {
+    "title": "Панэль кіравання",
+    "activeUsers": "Зараз у сетцы", 
+    "noActiveUsers": "Няма актыўных карыстальнікаў",
+    "servers": "Серверы",
+    "posts": "Публікацыі",
+    "feed": "Лента",
+    "discover": "Даследаваць",
+    "notifications": "Апавяшчэнні"
+  },
+  "inbox": {
+    "drawer": {
+      "requests": "Запыты",
+      "online": "У сетцы",
+      "offline": "Па-за сеткай",
+      "savedNotesButton": "Нататкі",
+      "addFriendButton": "Дадаць сябра",
+      "inboxButton": "Уваходныя",
+      "friendsButton": "Сябры"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Даследаваць",
+      "servers": "Серверы"
+    },
+    "servers": {
+      "title": "Даследаванне - Серверы",
+      "noticeMessage": "Сервер можна падтрымаць раз у {{hours}} гадзін. Усе падтрымліванні скідываюцца кожны {{date}}.",
+      "sortMostBumps": "Найбольш падтрымак",
+      "sortMostMembers": "Найбольш удзельнікаў",
+      "sortRecentlyAdded": "Нядаўна даданыя",
+      "sortRecentlyBumped": "Нядаўна падтрыманыя",
+      "filterAll": "Усе",
+      "filterVerified": "Правераныя",
+      "memberCount": "{{count}} удзельнікаў",
+      "lifetimeBumpCount": "{{count}} падтрымак за ўвесь час",
+      "visitServerButton": "Наведаць",
+      "joinServerButton": "Далучыцца",
+      "bumpButton": "Падтрымаць ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "Агульныя",
+        "roles": "Ролі",
+        "channels": "Каналы",
+        "bans": "Баны",
+        "invites": "Запрашэнні",
+        "publishServer": "Апублікаваць сервер",
+        "verify": "Пацвердзіць",
+        "role": "Роля",
+        "welcome-screen": "Экран запрашэння",
+        "channel": "Канал",
+        "emojis": "Эмодзі",
+        "notifications": "Апавяшчэнні"
+      },
+      "general": {
+        "serverRenameNotice": "Вы згубіце ўсе асаблівасці праверанага сервера, калі парайменуйце яго.",
+        "serverName": "Назва серверу",
+        "defaultChannel": "Стандартны канал",
+        "defaultChannelDescription": "Новыя ўдзельнікі будуць накіраваны ў гэты канал.",
+        "systemMessages": "Сістэмныя паведамленні",
+        "systemMessagesDescription": "Тут павінны з'яўляцца сістэмныя паведамленні.",
+        "deleteThisServer": "Выдаліць гэты сервер",
+        "deleteThisServerDescription": "Гэта дзеянне нельга адрабіць!",
+        "deleteServerButton": "Выдаліць сервер",
+        "saveChangesButton": "Захаваць змены",
+        "saving": "Захоўваем..."
+      },
+      "roles": {
+        "addNewRole": "Дадаць новую ролю",
+        "addRoleButton": "Стварыць ролю"
+      },
+      "role": {
+        "saveChangesButton": "Захаваць змены",
+        "saving": "Захоўваем...",
+        "roleName": "Назва ролі",
+        "roleColor": "Колер роли",
+        "hideRole": "Схаваць ролю",
+        "hideRoleDescription": "Паказваць удзельникаў з гэтай роляю зараз са ўсімі асстатнімі ўдзельнікамі",
+        "permissions": "Дазволы",
+        "permissionsDescription": "Кіраванне дазволамі гэтай ролі.",
+        "deleteRoleButton": "Выдаліць гэту ролю",
+        "deleteRoleButtonDescription": "Гэта дзеянне нельга адрабіць!"
+      },
+      "header": {
+        "editServer": "Рэдагаваць сервер",
+        "serverMemberCount": "{{count}} удзельнікаў"
+      },
+      "channels": {
+        "createButton": "Стварыць",
+        "createNewDescription": "Стварыць новы канал ці катыгорыю"
+      },
+      "channel": {
+        "saving": "Захоўваем...",
+        "saveChangesButton": "Захаваць",
+        "channelName": "Назва канала",
+        "permissions": "Дазволы",
+        "permissionsDescription": "Кіраванне дазволамі гэтага канала.",
+        "deleteThisChannel": "Выдаліць гэты канал",
+        "deleteThisChannelDescription": "Гэта дзеянне нельга адрабіць!",
+        "deleteChannelButton": "Выдаліць канал"
+      },
+      "invites": {
+        "createInviteButton": "Стварыць запрашэнне",
+        "serverInvites": "Запрашэнні сервера",
+        "serverInvitesDescription": "Запрасіце сваіх сяброў на гэты сервер.",
+        "customInviteVerifiedOnlyNotice": "Карыстальніцкія запрашэнні даступны толькі на правераных серверах.",
+        "customLink": "Карыстальніцкая спасылка",
+        "saveButton": "Захаваць",
+        "deleteButton": "Выдаліць",
+        "copyLinkButton": "Скапіяваць спасылку"
+      },
+      "publishServer": {
+        "publishNotice": "Пасля публікацыі, сервер з'явіцца ва ўкладцы <1>*Даследаваць*</1>.",
+        "public": "Публічны",
+        "publicDescription": "Зрабіць гэты сервер публічным.",
+        "bumpServer": "Падтрымаць сервер",
+        "bumpServerDescription": "Падтрымайце сервер, каб ён падняўся наверх.",
+        "publishServerButton": "Апублікаваць сервер",
+        "unpublishServerButton": "Прыватызаваць сервер"
+      }
+    },
+    "rolePermissions": {
+      "admin": "Адмін",
+      "adminDescription": "Уключае ўсе дазволы.",
+      "sendMessage": "Адсылаць паведамленні",
+      "sendMessageDescription": "Дазваляе адпраўку паведамленняў на серверы. Адміны могуць адпраўляць паведамленні незалежна ад гэтага дазволу.",
+      "manageRoles": "Кіраваць ролямі",
+      "manageRolesDescription": "Дазвол на рэдагаванне і выдаленне роляў.",
+      "manageChannels": "Кіраваць каналамі",
+      "manageChannelsDescription": "Дазвол на рэдагаванне і выдаленне каналаў.",
+      "kick": "Выганяць",
+      "kickDescription": "Дазвол на выган удзельнікаў",
+      "ban": "Блакіраваць",
+      "banDescription": "Дазвол на блакіроўку ўдзельнікаў.",
+      "mentionEveryone": "Згадваць усіх",
+      "mentionEveryoneDescription": "Дазваляе згадванне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу."
+    },
+    "channelPermissions": {
+      "privateChannel": "Private Channel",
+      "privateChannelDescription": "Disable access to the channel. Server admins can still access the channel.",
+      "sendMessage": "Send Message",
+      "sendMessageDescription": "Enable sending messages in the channel. Server admins can still send messages.",
+      "joinVoice": "Join Voice",
+      "joinVoiceDescription": "Enable joining voice channels in the channel. Server admins can still join voice channels."
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "Settings",
+      "account": "Account",
+      "interface": "Interface",
+      "language": "Language",
+      "notifications": "Notifications",
+      "logout": "Logout",
+      "developer": "Developer",
+      "applications": "Applications",
+      "experiments": "Experiments",
+      "supportMe": "Support Me",
+      "viewSource": "View Source",
+      "changelog": "Changelog",
+      "window-settings": "Window Settings",
+      "activity-status": "Activity Status",
+      "tickets": "Tickets",
+      "privacy": "Privacy",
+      "connections": "Connections"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "Direct Message",
+        "description": "Set Who can send you direct messages.",
+        "anyone": "Anyone",
+        "friendsAndServersOnly": "Friends and Servers Only",
+        "friendsOnly": "Friends Only"      
+      },
+
+      "friendRequest": {
+        "title": "Friend Request",
+        "description": "Set who can send you friend requests.",
+        "anyone": "Anyone",
+        "serversOnly": "Servers Only",
+        "nobody": "Nobody"
+      }
+
+    }
+  },
+  "addFriend": {
+    "usernameAndTag": "Username & Tag"
+  },
+  "userContextMenu": {
+    "viewProfile": "View Profile",
+    "sendMessage": "Send Message",
+    "copyId": "Copy ID",
+    "editRoles": "Edit Roles",
+    "kick": "Kick",
+    "ban": "Ban"
+  },
+  "kickServerMemberModal": {
+    "title": "Kick {{username}}",
+    "kickButton": "Kick",
+    "kicking": "Kicking...",
+    "backButton": "Back",
+    "message": "Are you sure you want to kick <1>{{username}}</1>?"
+  },
+  "editServerRolesModal": {
+    "title": "Edit Roles"
+  },
+  "banModal": {
+    "title": "Ban {{username}}?",
+    "message": "Are you sure you want to ban <1>{{username}}</1>?",
+    "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
+    "banButton": "Ban",
+    "banning": "Banning..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Edit Message",
+    "deleteMessage": "Delete Message",
+    "copyMessage": "Copy Message",
+    "copyId": "Copy ID"
+  },
+  "profile": {
+    "followButton": "Follow",
+    "unfollowButton": "Unfollow",
+    "removeFriendButton": "Remove Friend",
+    "addFriendButton": "Add Friend",
+    "pendingRequest": "Pending Request",
+    "acceptRequestButton": "Accept Request",
+    "messageButton": "Message",
+    "mutualFriends": "Mutual Friends ({{count}})",
+    "mutualServers": "Mutual Servers ({{count}})",
+    "postsTab": "Posts",
+    "followersTab": "Followers",
+    "followingTab": "Following",
+    "postsAndRepliesTab": "Posts and replies ({{count}})",
+    "likedPostsTab": "Liked Posts ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Are you sure you would like to delete this post?",
+      "cancelButton": "Cancel",
+      "deleteButton": "delete"
+    },
+    "postWasDeleted": "This post was deleted!",
+    "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
+    "someoneFollowedYou": "<1>{{username}}</1> followed you!",
+    "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
+    "createAPostInputPlaceholder": "Create a post...",
+    "replyInputPlaceholder": "Reply...",
+    "replyButton": "Reply",
+    "createButton": "Create",
+    "pollOptions": "Poll Options",
+    "optionNumberPlaceholder": "Option {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Information",
+    "channelNotice": "Channel Notice",
+    "attachments": "Attachments",
+    "attachmentsBack": "Back",
+    "members": "Members"
+  }
+}
