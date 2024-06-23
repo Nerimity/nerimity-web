@@ -151,7 +151,7 @@
         "bumpServer": "Падтрымаць сервер",
         "bumpServerDescription": "Падтрымайце сервер, каб ён падняўся наверх.",
         "publishServerButton": "Апублікаваць сервер",
-        "unpublishServerButton": "Прыватызаваць сервер"
+        "unpublishServerButton": "Зрабіць сервер закрытым"
       }
     },
     "rolePermissions": {
