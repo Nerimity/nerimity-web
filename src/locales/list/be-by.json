@@ -157,7 +157,7 @@
     "rolePermissions": {
       "admin": "Адмін",
       "adminDescription": "Уключае ўсе дазволы.",
-      "sendMessage": "Адсылаць паведамленні",
+      "sendMessage": "Адпраўляць паведамленні",
       "sendMessageDescription": "Дазваляе адпраўку паведамленняў на серверы. Адміны могуць адпраўляць паведамленні незалежна ад гэтага дазволу.",
       "manageRoles": "Кіраваць ролямі",
       "manageRolesDescription": "Дазвол на рэдагаванне і выдаленне роляў.",
@@ -171,125 +171,125 @@
       "mentionEveryoneDescription": "Дазваляе згадванне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу."
     },
     "channelPermissions": {
-      "privateChannel": "Private Channel",
-      "privateChannelDescription": "Disable access to the channel. Server admins can still access the channel.",
-      "sendMessage": "Send Message",
-      "sendMessageDescription": "Enable sending messages in the channel. Server admins can still send messages.",
-      "joinVoice": "Join Voice",
-      "joinVoiceDescription": "Enable joining voice channels in the channel. Server admins can still join voice channels."
+      "privateChannel": "Прыватны канал",
+      "privateChannelDescription": "Абмежаваць доступ да гэтага каналу. Адміны могуць праглядваць канал незалежна ад гэтага дазволу.",
+      "sendMessage": "Адпраўляць паведамленні",
+      "sendMessageDescription": "Дазваляе адпраўку паведамленняў у гэтым канале. Адміны могуць адпраўляць паведамленні незалежна ад гэтага дазволу.",
+      "joinVoice": "Далучацца да выкліку",
+      "joinVoiceDescription": "Дазваляе далучацца да выклікаў у гэтым канале. Адміны могуць далучацца незалежна ад гэтага дазволу."
     }
   },
   "settings": {
     "drawer": {
-      "title": "Settings",
-      "account": "Account",
-      "interface": "Interface",
-      "language": "Language",
-      "notifications": "Notifications",
-      "logout": "Logout",
-      "developer": "Developer",
-      "applications": "Applications",
-      "experiments": "Experiments",
-      "supportMe": "Support Me",
-      "viewSource": "View Source",
-      "changelog": "Changelog",
-      "window-settings": "Window Settings",
-      "activity-status": "Activity Status",
-      "tickets": "Tickets",
-      "privacy": "Privacy",
-      "connections": "Connections"
+      "title": "Налады",
+      "account": "Уліковы запіс",
+      "interface": "Інтэрфейс",
+      "language": "Мова",
+      "notifications": "Апавяшчэнні",
+      "logout": "Выйсці",
+      "developer": "Распрацоўшчык",
+      "applications": "Боты",
+      "experiments": "Эксперыменты",
+      "supportMe": "Падтрымаць мяне",
+      "viewSource": "Праглядзець код",
+      "changelog": "Спіс змен",
+      "window-settings": "Налады акна",
+      "activity-status": "Статус",
+      "tickets": "Білеты",
+      "privacy": "Прыватнасць",
+      "connections": "Злучэнні"
     },
     "privacy": {
       "directMessage": {
-        "title": "Direct Message",
-        "description": "Set Who can send you direct messages.",
-        "anyone": "Anyone",
-        "friendsAndServersOnly": "Friends and Servers Only",
-        "friendsOnly": "Friends Only"      
+        "title": "Прамыя паведамленні",
+        "description": "Хто можа гаварыць са мной у прамых паведамленнях.",
+        "anyone": "Усе",
+        "friendsAndServersOnly": "Толькі сябры і удзельнікі агульных са мной сервероў",
+        "friendsOnly": "Толькі сябры"      
       },
 
       "friendRequest": {
-        "title": "Friend Request",
-        "description": "Set who can send you friend requests.",
-        "anyone": "Anyone",
-        "serversOnly": "Servers Only",
-        "nobody": "Nobody"
+        "title": "Запыты сяброўства",
+        "description": "Хто можа адпраўляць мяне запыты сяброўства.",
+        "anyone": "Усе",
+        "serversOnly": "Толькі ўдзельнікі агульных са мной сервероў",
+        "nobody": "Ніхто"
       }
 
     }
   },
   "addFriend": {
-    "usernameAndTag": "Username & Tag"
+    "usernameAndTag": "Імя карыстальніка й тэг"
   },
   "userContextMenu": {
-    "viewProfile": "View Profile",
-    "sendMessage": "Send Message",
-    "copyId": "Copy ID",
-    "editRoles": "Edit Roles",
-    "kick": "Kick",
-    "ban": "Ban"
+    "viewProfile": "Праглядзець профіль",
+    "sendMessage": "Адправіць паведамленне",
+    "copyId": "Скапіяваць ID",
+    "editRoles": "Рэдагаваць ролі",
+    "kick": "Выгнаць",
+    "ban": "Заблакіраваць"
   },
   "kickServerMemberModal": {
-    "title": "Kick {{username}}",
-    "kickButton": "Kick",
-    "kicking": "Kicking...",
-    "backButton": "Back",
-    "message": "Are you sure you want to kick <1>{{username}}</1>?"
+    "title": "Выгнаць {{username}}",
+    "kickButton": "Выгнаць",
+    "kicking": "Выганяем...",
+    "backButton": "Назад",
+    "message": "Вы ўпэўнены, што хочаце выгнаць <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
-    "title": "Edit Roles"
+    "title": "Рэдагаваць ролі"
   },
   "banModal": {
-    "title": "Ban {{username}}?",
-    "message": "Are you sure you want to ban <1>{{username}}</1>?",
-    "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
-    "banButton": "Ban",
-    "banning": "Banning..."
+    "title": "Заблакіраваць {{username}}?",
+    "message": "Вы ўпэўнены, што хочаце заблакіраваць <1>{{username}}</1>?",
+    "deletePastMessagesCheckbox": "Выдаліць паведамленні карыстальніка за апошнія 7 гадзін.",
+    "banButton": "Заблакіраваць",
+    "banning": "Блакіруем..."
   },
   "messageContextMenu": {
-    "editMessage": "Edit Message",
-    "deleteMessage": "Delete Message",
-    "copyMessage": "Copy Message",
-    "copyId": "Copy ID"
+    "editMessage": "Адрэдагаваць паведамленне",
+    "deleteMessage": "Выдаліць паведамленне",
+    "copyMessage": "Скапіяваць паведамленне",
+    "copyId": "Скапіяваць ID"
   },
   "profile": {
-    "followButton": "Follow",
-    "unfollowButton": "Unfollow",
-    "removeFriendButton": "Remove Friend",
-    "addFriendButton": "Add Friend",
-    "pendingRequest": "Pending Request",
-    "acceptRequestButton": "Accept Request",
-    "messageButton": "Message",
-    "mutualFriends": "Mutual Friends ({{count}})",
-    "mutualServers": "Mutual Servers ({{count}})",
-    "postsTab": "Posts",
-    "followersTab": "Followers",
-    "followingTab": "Following",
-    "postsAndRepliesTab": "Posts and replies ({{count}})",
-    "likedPostsTab": "Liked Posts ({{count}})"
+    "followButton": "Падпісацца",
+    "unfollowButton": "Адпісацца",
+    "removeFriendButton": "Выдаліць з сяброў",
+    "addFriendButton": "Дадаць у сябры",
+    "pendingRequest": "У чаканні",
+    "acceptRequestButton": "Прыняць запыт",
+    "messageButton": "Напісаць",
+    "mutualFriends": "Агульныя сябры ({{count}})",
+    "mutualServers": "Агульныя серверы ({{count}})",
+    "postsTab": "Публікацыі",
+    "followersTab": "Падпісчыкі",
+    "followingTab": "Падпісаны на",
+    "postsAndRepliesTab": "Публікацыі й адказы ({{count}})",
+    "likedPostsTab": "Упадабаныя публікацыі ({{count}})"
   },
   "posts": {
     "deletePostModal": {
-      "message": "Are you sure you would like to delete this post?",
-      "cancelButton": "Cancel",
-      "deleteButton": "delete"
+      "message": "Вы ўпэўнены, што хочаце выдаліць гэтую публікацыю?",
+      "cancelButton": "Скасаваць",
+      "deleteButton": "Выдаліць"
     },
-    "postWasDeleted": "This post was deleted!",
-    "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
-    "someoneFollowedYou": "<1>{{username}}</1> followed you!",
-    "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
-    "createAPostInputPlaceholder": "Create a post...",
-    "replyInputPlaceholder": "Reply...",
-    "replyButton": "Reply",
-    "createButton": "Create",
-    "pollOptions": "Poll Options",
-    "optionNumberPlaceholder": "Option {{number}}"
+    "postWasDeleted": "Гэта публікацыя была выдалена!",
+    "someoneLikedYourPost": "<1>{{username}}</1> упадабаў вашу публікацыю!",
+    "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
+    "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашу публікацыю!",
+    "createAPostInputPlaceholder": "Дадаць публікацыю...",
+    "replyInputPlaceholder": "Адказ...",
+    "replyButton": "Адказаць",
+    "createButton": "Дадаць",
+    "pollOptions": "Варыянты ў апытанні",
+    "optionNumberPlaceholder": "Вырыянт {{number}}"
   },
   "informationDrawer": {
-    "title": "Information",
-    "channelNotice": "Channel Notice",
-    "attachments": "Attachments",
-    "attachmentsBack": "Back",
-    "members": "Members"
+    "title": "Інфармацыя",
+    "channelNotice": "Апіснне канала",
+    "attachments": "Далучаныя файлы",
+    "attachmentsBack": "Назад",
+    "members": "Удзельнікі"
   }
 }
