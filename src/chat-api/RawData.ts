@@ -34,6 +34,11 @@ export enum MessageType {
   CALL_STARTED = 5
 }
 
+export interface HtmlEmbedItem {
+  tag: string;
+  attributes: Record<string, string>;
+  content: (string | HtmlEmbedItem)[]
+}
 export interface RawMessage {
   id: string;
   channelId: string;
@@ -46,6 +51,7 @@ export interface RawMessage {
   attachments?: Array<RawAttachment>
   quotedMessages: Partial<RawMessage>[]
   reactions: RawMessageReaction[]
+  htmlEmbed?: string;
   embed?: RawEmbed | null;
 }
 

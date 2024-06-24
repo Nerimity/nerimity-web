@@ -3,13 +3,13 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { formatTimestamp, millisecondsToHhMmSs, timeElapsed, timeSince } from "@/common/date";
 import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
-import { MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, RawUser } from "@/chat-api/RawData";
+import { HtmlEmbedItem, MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, RawUser } from "@/chat-api/RawData";
 import { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
 import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from "@/chat-api/services/MessageService";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useNavigate, useParams } from "solid-navigator";
 import useStore from "@/chat-api/store/useStore";
-import { createEffect, createSignal, For, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
+import { createEffect, createMemo, createSignal, createUniqueId, For, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
 import { Markup } from "@/components/Markup";
 import Modal from "@/components/ui/modal/Modal";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
@@ -34,9 +34,11 @@ import { getFile, googleApiInitialized, initializeGoogleDrive } from "@/common/d
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
-import { classList } from "solid-js/web";
+import { Dynamic, classList } from "solid-js/web";
 import {Emoji as RoleEmoji} from "@/components/ui/Emoji";
 import { prettyBytes } from "@/common/prettyBytes";
+import { unzip, unzipJson } from "@/common/zip";
+import { Rerun } from "@solid-primitives/keyed";
 
 interface FloatingOptionsProps {
   message: RawMessage,
@@ -217,14 +219,14 @@ const MessageItem = (props: MessageItemProps) => {
           </Show>
           <div class={styles.messageInner}>
             <Show when={!isCompact()}>
-              <Details 
+              <Details
                 hovered={hovered()}
-                message={props.message} 
-                isServerCreator={isServerCreator()} 
-                isSystemMessage={isSystemMessage()} 
-                serverMember={serverMember()} 
-                showProfileFlyout={showProfileFlyout} 
-                userContextMenu={props.userContextMenu} 
+                message={props.message}
+                isServerCreator={isServerCreator()}
+                isSystemMessage={isSystemMessage()}
+                serverMember={serverMember()}
+                showProfileFlyout={showProfileFlyout}
+                userContextMenu={props.userContextMenu}
               />
             </Show>
             <Content message={props.message} hovered={hovered()} />
@@ -347,7 +349,7 @@ export function Embeds(props: { message: Message, hovered: boolean; maxWidth?: n
 
   const inviteEmbedCode = () => props.message.content?.match(inviteLinkRegex)?.[1];
 
-  
+
   const youtubeEmbed = () =>props.message.embed?.origUrl?.match(youtubeLinkRegex);
 
 
@@ -357,6 +359,9 @@ export function Embeds(props: { message: Message, hovered: boolean; maxWidth?: n
         <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-90}  maxWidth={props.maxWidth} maxHeight={props.maxHeight} />
       </Show>
       <Switch>
+        <Match when={props.message.htmlEmbed}>
+          <HTMLEmbed message={props.message} />
+        </Match>
         <Match when={inviteEmbedCode()}>
           {code => <ServerInviteEmbed code={code()} />}
         </Match>
@@ -451,7 +456,7 @@ const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean })
           {props.embed.channelName} • <span class={styles.date}>{date()}</span>
         </div>
         <div class={styles.description}>{props.embed.description}</div>
-    
+
       </div>
     </div>
 
@@ -603,7 +608,7 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
     if (diff >= 5000) return setError("File was modified.");
     setFile(file);
   });
-  
+
   createEffect(() => {
     if (!preloadAudio()) return;
     const fileItem = file();
@@ -611,7 +616,7 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
 
     audio = new Audio();
     audio.crossOrigin = "anonymous";
-    
+
     audio.onloadedmetadata = () => {
       setPreloaded(true);
     };
@@ -851,6 +856,98 @@ function OGEmbed(props: { message: RawMessage }) {
 }
 
 
+const replaceImageUrl = (val: string, hasFocus: boolean) => {
+  const regex = /url\((.*?)\)/gm;
+  const regex2 = /url\((.*?)\)/m;
+
+  return val.replaceAll(regex, (r) => {
+    let url = regex2.exec(r)?.[1];
+    if (!url) return r;
+    if (url.startsWith("\"") || url.startsWith("'")) {
+      url = url.slice(1, -1);
+    }
+    return `url("${
+      env.NERIMITY_CDN + "proxy/" + encodeURIComponent(url) + "/b"  + (hasFocus ? "" : "?type=webp")
+    }")`;
+  });
+};
+
+
+function HTMLEmbed(props: { message: RawMessage }) {
+  const id = createUniqueId();
+  const embed = createMemo<HtmlEmbedItem | HtmlEmbedItem[]>(() => unzipJson(props.message.htmlEmbed!));
+  const {hasFocus} = useWindowProperties();
+
+  const styleItem = createMemo(() => (embed() as HtmlEmbedItem[]).find?.(item => item.tag === "style")?.content[0] as string | undefined);
+
+
+  return (
+    <div class={classNames(styles.htmlEmbedContainer, `htmlEmbed${id}`)}>
+      <HTMLEmbedItem items={Array.isArray(embed()) ? embed() as HtmlEmbedItem[] : [embed() as HtmlEmbedItem]} />
+      <Show when={styleItem()}>
+        <style>
+          {`
+            @scope (.htmlEmbed${id}) {
+              ${replaceImageUrl(styleItem()!, hasFocus())}
+            }
+          `}
+        </style>
+      </Show>
+    </div>
+  );
+}
+
+function HTMLEmbedItem (props: { items: HtmlEmbedItem[] | string[] }) {
+  const { createPortal } = useCustomPortal();
+  const {hasFocus} = useWindowProperties();
+
+  const onLinkClick = (e: MouseEvent) => {
+    const href = (e.currentTarget as HTMLAnchorElement).href;
+    const value = (e.currentTarget as HTMLAnchorElement).innerText;
+    if (href !== value) {
+      e.preventDefault();
+      createPortal(close => <DangerousLinkModal unsafeUrl={href || "#"} close={close} />);
+    }
+  };
+
+  const cleanAttributes = (item: HtmlEmbedItem) => {
+    if (!item.attributes) return undefined;
+    const attributes = {...item.attributes};
+    if (attributes.style) {
+      attributes.style = replaceImageUrl(attributes.style, hasFocus());
+    }
+    if (attributes.src) {
+      attributes.src = env.NERIMITY_CDN + "proxy/" + encodeURIComponent(attributes.src) + "/b" + (hasFocus() ? "" : "?type=webp");
+    }
+    return attributes;
+  };
+
+  return (
+    <For each={props.items}>
+      {item => (
+        <Switch fallback={(
+          <Dynamic component={(item as HtmlEmbedItem).tag} {...cleanAttributes(item as HtmlEmbedItem)} onClick={(item as HtmlEmbedItem).tag === "a" ? onLinkClick : undefined}>
+            <For each={(item as HtmlEmbedItem).content}>
+              {content => (
+                <Switch fallback={<HTMLEmbedItem items={[content as HtmlEmbedItem]} />}>
+                  <Match when={typeof content === "string"}><Markup text={content as string}/></Match>
+                  <Match when={(content as HtmlEmbedItem).tag === "style"}><></></Match>
+                </Switch>
+              )}
+            </For>
+          </Dynamic>
+        )}>
+          <Match when={typeof item === "string"}><Markup text={item as string}/></Match>
+          <Match when={(item as HtmlEmbedItem).tag === "style"}><></></Match>
+        </Switch>
+      )}
+    </For>
+  );
+}
+
+
+
+
 interface ReactionItemProps {
   textAreaEl?: HTMLTextAreaElement;
   reaction: RawMessageReaction,
@@ -1021,7 +1118,7 @@ const DeleteMessageModalContainer = styled(FlexColumn)`
   overflow: auto;
   padding: 10px;
   max-height: 200px;
-  
+
 `;
 const deleteMessageItemContainerStyles = css`
   padding-top: 5px;

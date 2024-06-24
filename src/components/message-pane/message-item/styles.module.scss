@@ -234,7 +234,14 @@ body .reactionItem {
   flex-direction: column;
   align-items: start;
 }
+.htmlEmbedContainer {
+  display: flex;
+  position: relative;
+  overflow: auto;
+  align-self: normal;
+  max-height: 500px;
 
+}
 .ogEmbedContainer {
   display: flex;
   background-color: rgba(255, 255, 255, 0.02);
