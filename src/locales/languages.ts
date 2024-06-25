@@ -33,7 +33,7 @@ export const languages = {
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
-    emoji: "🇨🇳",
+    emoji: "🇹🇼",
     contributors: ["Dsiahrz"]
   },
   "nl-nl": {
