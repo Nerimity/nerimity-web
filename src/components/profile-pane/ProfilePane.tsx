@@ -192,6 +192,7 @@ export default function ProfilePane() {
                   <span class={styles.tag}>{`:${user()!.tag}`}</span>
                 </div>
                 <UserPresence
+                  showFull
                   hideActivity
                   animate
                   userId={user()!.id}

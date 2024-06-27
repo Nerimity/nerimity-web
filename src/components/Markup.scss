@@ -40,6 +40,12 @@
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   width: fit-content;
+  &.inline {
+    display: inline;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
 
 }
 

@@ -167,7 +167,8 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       return <CodeBlock value={value} lang={lang} />;
     }
     case "blockquote": {
-      return <blockquote>{transformEntities(entity, ctx)}</blockquote>;
+
+      return <blockquote classList={{"inline": ctx.props().inline}}>{transformEntities(entity, ctx)}</blockquote>;
     }
     case "color": {
       const { color } = entity.params;

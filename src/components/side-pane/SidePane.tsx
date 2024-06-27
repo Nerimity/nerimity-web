@@ -40,6 +40,7 @@ import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel"
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
+import { Tooltip } from "../ui/Tooltip";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -479,16 +480,17 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 
 
   return (
-    <A
-      title={props.server.name}
-      href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
-      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      onContextMenu={props.onContextMenu}>
-      <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
-        <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
-        <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
-      </SidebarItemContainer>
-    </A>
+    <Tooltip tooltip={props.server.name}>
+      <A
+        href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
+        onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+        onContextMenu={props.onContextMenu}>
+        <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
+          <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
+          <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
+        </SidebarItemContainer>
+      </A>
+    </Tooltip>
   );
 }
 
