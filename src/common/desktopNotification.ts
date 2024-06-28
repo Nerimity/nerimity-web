@@ -52,32 +52,35 @@ export function createDesktopNotification(message: Message) {
 }
 
 function createServerDesktopNotification(message: Message, channel: Channel) {
-  const {servers} = useStore();
+  const {servers, serverMembers} = useStore();
   const server = servers.get(channel.serverId!);
+  const member = serverMembers.get(server?.id || "", message.createdBy.id);
   let title = `${message.createdBy.username} (${server?.name} #${channel.name})`;
   let body = message.content;
+
+  const username = member?.nickname || message.createdBy.username;
 
   if (!body && message.attachments?.length) {
     body = "Image Message";
   }
   if (message.type === MessageType.BAN_USER) {
-    body = `${message.createdBy.username} has been banned.`,
+    body = `${username} has been banned.`,
     title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.KICK_USER) {
-    body = `${message.createdBy.username} has been kicked.`,
+    body = `${username} has been kicked.`,
     title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.JOIN_SERVER) {
-    body = `${message.createdBy.username} joined the server.`,
+    body = `${username} joined the server.`,
     title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.LEAVE_SERVER) {
-    body = `${message.createdBy.username} left the server.`,
+    body = `${username} left the server.`,
     title = `${server?.name} #${channel.name}`;
   }
   if (message.type === MessageType.CALL_STARTED) {
-    body = `${message.createdBy.username} started a call.`,
+    body = `${username} started a call.`,
     title = `${server?.name} #${channel.name}`;
   }
 

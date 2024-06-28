@@ -112,7 +112,7 @@ const Details = (props: DetailsProps) => (
   <div class={classNames(styles.details)}>
 
     <CustomLink onClick={props.showProfileFlyout} decoration onContextMenu={props.userContextMenu} class={classNames("trigger-profile-flyout", styles.username)} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} style={{ color: props.serverMember?.roleColor() }}>
-      {props.message.createdBy.username}
+      {props.serverMember?.nickname || props.message.createdBy.username}
     </CustomLink>
     <Show when={props.serverMember?.topRoleWithIcon()}>
       {role => <RoleEmoji title={role().name} size={16} icon={role().icon} hovered={props.hovered} resize={16}  />}

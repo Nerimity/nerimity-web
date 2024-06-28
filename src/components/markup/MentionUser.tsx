@@ -6,12 +6,18 @@ import { A, useParams } from "solid-navigator";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
+import useServerMembers, { ServerMember } from "@/chat-api/store/useServerMembers";
 
-export function MentionUser(props: { user: RawUser }) {
+export function MentionUser(props: { user: RawUser, serverMember?: ServerMember }) {
+  const serverMembers = useServerMembers();
   const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>(undefined);
   const { createPortal } = useCustomPortal();
 
   const params = useParams<{ serverId?: string }>();
+
+
+  const serverMember = () => params.serverId ? serverMembers.get(params.serverId, props.user.id) : undefined;
+
 
   const onContext = (event: MouseEvent) => {
     event.preventDefault();
@@ -36,7 +42,7 @@ export function MentionUser(props: { user: RawUser }) {
         href={RouterEndpoints.PROFILE(props.user.id)}
         class="mention trigger-profile-flyout">
         <Avatar class="avatar" user={props.user} size={16} />
-        {props.user.username}
+        {serverMember()?.nickname || props.user.username}
       </A>
       <Show when={contextPosition()}>
         <MemberContextMenu user={props.user} position={contextPosition()} serverId={params.serverId} userId={props.user.id} onClose={() => setContextPosition(undefined)} />

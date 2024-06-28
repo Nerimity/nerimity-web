@@ -110,6 +110,12 @@ export const ROLE_PERMISSIONS = {
     description: "servers.rolePermissions.mentionEveryoneDescription",
     bit: 64,
     icon: "alternate_email"
+  },
+  NICKNAME_MEMBER: {
+    name: "servers.rolePermissions.nicknameMember",
+    description: "servers.rolePermissions.nicknameMemberDescription",
+    bit: 128,
+    icon: "edit"
   }
 };
 

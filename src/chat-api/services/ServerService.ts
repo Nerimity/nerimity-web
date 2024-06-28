@@ -123,6 +123,18 @@ export async function deleteServerRole(serverId: string, roleId: string): Promis
     useToken: true
   });
 }
+
+export async function updateServerMemberProfile(serverId: string, userId: string, update: {nickname?: null | string}): Promise<any> {
+  return request({
+    method: "POST",
+    body: update,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.serverMember(serverId, userId) + "/profile",
+    useToken: true
+  });
+}
+
+
+
 export async function updateServerMember(serverId: string, userId: string, update: any): Promise<any> {
   return request({
     method: "POST",

@@ -59,7 +59,7 @@ export function QuoteMessage(props: { message: Message; quote: Partial<Message> 
           <Avatar animate={hovered()} user={props.quote.createdBy!} size={18} />
         </CustomLink>
         <CustomLink decoration href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)} style={{ "font-size": "16px", color: serverMember()?.roleColor() }}>
-          {props.quote.createdBy!.username}
+          {serverMember()?.nickname || props.quote.createdBy!.username}
         </CustomLink>
         <Show when={props.quote.channelId === params.channelId}>
           <Button class="goToMessageButton" iconName="keyboard_arrow_up" margin={0} padding={4} iconSize={14} onClick={() => emitScrollToMessage({messageId: props.quote.id!})} />

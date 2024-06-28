@@ -691,10 +691,10 @@ function FloatingAttachment(props: {}) {
 
     channelProperties.setAttachment(params.channelId, file);
 
-  }
+  };
   const showImageEditor = () => {
-    createPortal(close => <PhotoEditor done={editDone} src={dataUrl()!} close={close} />)
-  }
+    createPortal(close => <PhotoEditor done={editDone} src={dataUrl()!} close={close} />);
+  };
 
 
 
@@ -709,7 +709,7 @@ function FloatingAttachment(props: {}) {
 
 
 
-      <Show when={isImage()}><Button onClick={showImageEditor} margin={0} padding={14} iconSize={18} styles={{"margin-left": 'auto'}} iconName="brush" /></Show>
+      <Show when={isImage()}><Button onClick={showImageEditor} margin={0} padding={14} iconSize={18} styles={{"margin-left": "auto"}} iconName="brush" /></Show>
     </Floating>
   );
 }
@@ -1034,7 +1034,7 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
   ] as (any)[],
   props.search,
   {
-    keys: [e => e.user().username ]
+    keys: [e => e.user().username, e => e.nickname]
   }).slice(0, 10).sort((a, b) => {
     // move all special users to the bottom
     if (a.user().special && !b.user().special) return 1;
@@ -1073,18 +1073,19 @@ function FloatingUserSuggestions(props: { search: string, textArea?: HTMLTextAre
     <Show when={searched().length}>
       <Floating class={styles.floatingSuggestion}>
         <For each={searched()}>
-          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} user={(member as ServerMember)?.user?.() || member} onclick={onUserClick} />}
+          {(member, i) => <UserSuggestionItem onHover={() => setCurrent(i())} selected={current() === i()} nickname={member?.nickname} user={(member as ServerMember)?.user?.() || member} onclick={onUserClick} />}
         </For>
       </Floating>
     </Show>
   );
 }
 
-function UserSuggestionItem(props: { onHover: () => void; selected: boolean; user: User & { special?: boolean }, onclick(user: User): void; }) {
+function UserSuggestionItem(props: { nickname?: string, onHover: () => void; selected: boolean; user: User & { special?: boolean }, onclick(user: User): void; }) {
   return (
     <ItemContainer onmousemove={props.onHover} selected={props.selected} class={styles.suggestionItem} onclick={() => props.onclick(props.user)}>
       <Show when={!props.user?.special} fallback={<div>@</div>}><Avatar user={props.user} animate={props.selected} size={15} /></Show>
-      <div class={styles.suggestLabel}>{props.user.username}</div>
+      <div class={styles.suggestLabel}>{props.nickname || props.user.username}</div>
+      <Show when={props.nickname}><div class={styles.suggestionInfo}>{props.user.username}</div></Show>
       <Show when={props.user?.special && props.user.id === "e"}><div class={styles.suggestionInfo}>Mention everyone.</div></Show>
       <Show when={props.user?.special && props.user.id === "s"}><div class={styles.suggestionInfo}>Mentions someone.</div></Show>
     </ItemContainer>
@@ -1224,14 +1225,14 @@ function BeforeYouChatNotice(props: { channelId: string, textAreaEl(): HTMLInput
     if (event.target instanceof HTMLElement) {
       event.preventDefault();
       event.stopPropagation();
-      setTextAreaFocus(true)
+      setTextAreaFocus(true);
     }
   };
   createEffect(on([textAreaFocus, showNotice], () => {
-    setButtonClickable(false)
+    setButtonClickable(false);
     if (showNotice() && textAreaFocus()) {
       setTimeout(() => {
-        setButtonClickable(true)
+        setButtonClickable(true);
       }, 1000);
     }
   }));

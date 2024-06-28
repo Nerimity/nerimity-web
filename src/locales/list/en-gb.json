@@ -168,7 +168,9 @@
       "ban": "Ban",
       "banDescription": "Permission to ban users.",
       "mentionEveryone": "Mention Everyone",
-      "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone."
+      "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone.",
+      "nicknameMember": "Nickname Member",
+      "nicknameMemberDescription": "Allow users to change their nickname in the server."
     },
     "channelPermissions": {
       "privateChannel": "Private Channel",
@@ -227,7 +229,8 @@
     "copyId": "Copy ID",
     "editRoles": "Edit Roles",
     "kick": "Kick",
-    "ban": "Ban"
+    "ban": "Ban",
+    "changeNickname": "Change Nickname"
   },
   "kickServerMemberModal": {
     "title": "Kick {{username}}",

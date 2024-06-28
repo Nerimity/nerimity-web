@@ -140,6 +140,7 @@ export interface RawServerMember {
   serverId: string;
   user: RawUser;
   joinedAt: number;
+  nickname?: string | null;
   roleIds: string[];
 }
 
