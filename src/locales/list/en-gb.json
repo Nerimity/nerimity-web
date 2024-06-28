@@ -1,6 +1,6 @@
 {
   "header": {
-    "accountButton": "Account",
+    "logoutButton": "Logout",
     "openAppButton": "Open App",
     "loginButton": "Login",
     "joinNowButton": "Join Now"

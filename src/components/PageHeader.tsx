@@ -123,10 +123,14 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
 
 function LoggedInLinks (props: {user: RawUser}) {
   const [t] = useTransContext();
+  const onLogoutClick = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
 
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='#' label={t("header.accountButton")} />
+      <HeaderLink href='#' onClick={onLogoutClick} label={t("header.logoutButton")} icon="logout" />
       <HeaderLink href='/app' label={t("header.openAppButton")} primary={true} icon='open_in_browser' />
     </NavigationContainer>
   );
@@ -142,9 +146,9 @@ function LoggedOutLinks() {
   );
 }
 
-function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean }) {
+function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean, onClick?: () => void}) {
   return (
-    <a href={props.href} style={{"text-decoration": "none"}}>
+    <a href={props.href} onClick={props.onClick} style={{"text-decoration": "none"}}>
       <LinkContainer primary={props.primary || false}>
         <Show when={props.icon}><Icon name={props.icon} class={linkIconStyle} /></Show>
         {props.label}
