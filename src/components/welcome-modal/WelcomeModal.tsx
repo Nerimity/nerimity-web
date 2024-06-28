@@ -18,9 +18,9 @@ export function WelcomeModal (props: {close: () => void}) {
 
 
   return (
-    <Modal ignoreBackgroundClick  title={`Welcome to ${env.APP_NAME}!`} maxWidth={600} actionButtons={ActionButtons} >
+    <Modal ignoreBackgroundClick  title={"Welcome to Nerimity!"} maxWidth={600} actionButtons={ActionButtons} >
       <div class={styles.modalContainer}>
-        <div>Thanks for trying out {env.APP_NAME}!</div>
+        <div>Thanks for trying out Nerimity!</div>
         <EditProfileItem />
         <ServerItem/>
         <SourceCodeItem />
@@ -35,7 +35,7 @@ function ServerItem() {
     <CustomLink href={`${env.APP_URL}/app/explore/servers/invites/${env.OFFICIAL_SERVER}`} target="_blank" style={{"text-decoration": "none"}}>
       <div class={styles.itemContainer} >
         <Icon name="dns" />
-        <div style={{flex: 1}}>Join the official {env.APP_NAME} server!</div>
+        <div style={{flex: 1}}>Join the official Nerimity server!</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -70,7 +70,7 @@ function SourceCodeItem() {
     <CustomLink href="https://github.com/Nerimity" target="_blank" style={{"text-decoration": "none"}}>
       <div class={styles.itemContainer} >
         <Icon name="code" />
-        <div style={{flex: 1}}>Contribute to {env.APP_NAME} on GitHub</div>
+        <div style={{flex: 1}}>Contribute to Nerimity on GitHub</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>

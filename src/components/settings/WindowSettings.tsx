@@ -105,11 +105,11 @@ function StartupOptions() {
 
     <FlexColumn>
       <SettingsBlock icon='launch' label='Startup Options' header />
-      <SettingsBlock icon='restart_alt' label={`Open ${env.APP_NAME} on startup`} borderTopRadius={false} borderBottomRadius={!autostart()} >
+      <SettingsBlock icon='restart_alt' label={"Open Nerimity on startup"} borderTopRadius={false} borderBottomRadius={!autostart()} >
         <Checkbox checked={autostart()} onChange={onAutostartChange} />
       </SettingsBlock>
       <Show when={autostart()}>
-        <SettingsBlock icon='horizontal_rule' label='Start Minimized' description={`Minimize ${env.APP_NAME} to the tray automatically.`} borderTopRadius={false}>
+        <SettingsBlock icon='horizontal_rule' label='Start Minimized' description={"Minimize Nerimity to the tray automatically."} borderTopRadius={false}>
           <Checkbox checked={autostartMinimized()} onChange={onAutostartMinimizedChange} />
         </SettingsBlock>
       </Show>

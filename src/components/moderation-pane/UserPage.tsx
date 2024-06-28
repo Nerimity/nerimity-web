@@ -319,7 +319,7 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
   return (
     <div>
       <Show when={!props.user?.suspension}>
-        <SettingsBlock icon='block' label='Suspend' description={`Deny this user to access ${env.APP_NAME}`}>
+        <SettingsBlock icon='block' label='Suspend' description={"Deny this user to access Nerimity"}>
           <Button onClick={showSuspendModal} label="Suspend" color="var(--alert-color)" primary />
         </SettingsBlock>
       </Show>

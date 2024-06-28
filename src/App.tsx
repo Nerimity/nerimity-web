@@ -21,7 +21,7 @@ export default function App() {
   useServerRedirect();
   useUserNotices();
   onMount(() => {
-    document.title = env.APP_NAME;
+    document.title = "Nerimity";
     setLanguage();
   });
 

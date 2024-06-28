@@ -17,10 +17,10 @@ export const updateTitleAlert = (newAlert: boolean) => {
 
 const update = () => {
   if (title) {
-    document.title = `${title} - ${env.APP_NAME} - ${env.DEV_MODE ? " - DEV" : ""}`;
+    document.title = `${title} - Nerimity - ${env.DEV_MODE ? " - DEV" : ""}`;
   }
   else {
-    document.title = env.APP_NAME + (env.DEV_MODE ? " - DEV" : "");
+    document.title = "Nerimity" + (env.DEV_MODE ? " - DEV" : "");
   }
   const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
   if (alert) {

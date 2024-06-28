@@ -175,7 +175,7 @@ function NewPostArea(props: { postId?: string }) {
   return (
     <NewPostContainer>
       <Show when={hasContentOrFocused()}>
-        <Notice type="warn" class={css`margin-top: 10px; margin-bottom: -6px;`} description={`Self-harm content is not allowed on ${env.APP_NAME}.`} />
+        <Notice type="warn" class={css`margin-top: 10px; margin-bottom: -6px;`} description={"Self-harm content is not allowed on Nerimity."} />
       </Show>
       <AdvancedMarkupOptions hideEmojiPicker class={css`margin-top: 10px;`} inputElement={textAreaEl()!} updateText={setContent} />
       <Input

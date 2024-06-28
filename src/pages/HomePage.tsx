@@ -85,11 +85,11 @@ export default function HomePage () {
       <Content class='content'>
         <TopContainer class='top-container'>
           <Logo src={appLogoUrl()} alt="logo"/>
-          <Text class="title" size={60}>{env.APP_NAME}</Text>
+          <Text class="title" size={60}>Nerimity</Text>
           <Text class="slogan" opacity={0.7}>{t("homePage.slogan")}</Text>
           <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>
           <ButtonsContainer class="buttons-container">
-            <a href='/register'><Button iconName='open_in_browser' label={t("homePage.joinButton", {appName: env.APP_NAME})!} primary={true} /></a>
+            <a href='/register'><Button iconName='open_in_browser' label={t("homePage.joinButton", {appName: "Nerimity"})!} primary={true} /></a>
             <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t("homePage.viewGitHubButton")!}  /></a>
           </ButtonsContainer>
           <PlatformDownloadLinks/>

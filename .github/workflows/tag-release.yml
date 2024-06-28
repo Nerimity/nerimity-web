@@ -30,7 +30,6 @@ jobs:
       - name: Build App
         run: pnpm run build
         env:
-          VITE_APP_NAME: "Nerimity"
           VITE_SERVER_URL: "https://nerimity.com"
           VITE_APP_URL: "https://nerimity.com"
           VITE_APP_VERSION: ${{ steps.get_version.outputs.VERSION }}

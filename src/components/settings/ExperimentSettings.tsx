@@ -87,7 +87,7 @@ const ReloadRequiredModal = (props: {close: () => void}) => {
   return (
     <Modal  title="Reload Required" close={props.close} ignoreBackgroundClick actionButtonsArr={[{label: "Restart Later", onClick: props.close}, { label: "Restart Now", primary: true, onClick: restart }]} >
       <div class={css`padding: 10px; max-width: 230px; text-align: center;`}>
-        <Text>{env.APP_NAME} needs to be restarted to take effect.</Text>
+        <Text>Nerimity needs to be restarted to take effect.</Text>
       </div>
     </Modal>
   );

@@ -113,7 +113,7 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
     <HeaderContainer class="header-container">
       <A href="/" class={titleContainerStyle}>
         <Logo src={appLogoUrl()} alt="logo"/>
-        <Title>{env.APP_NAME}</Title>
+        <Title>Nerimity</Title>
       </A>
       <Show when={user() === false}><LoggedOutLinks/></Show>
       <Show when={user()}><LoggedInLinks user={user() as RawUser}/></Show>
