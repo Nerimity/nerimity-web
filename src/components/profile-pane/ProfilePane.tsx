@@ -162,12 +162,12 @@ export default function ProfilePane() {
                 class={classNames(
                   styles.avatar,
                   css`
-                    margin-top: -${width() <= 500 ? "40" : "52"}px;
+                    margin-top: -${width() <= 500 ? "50" : "52"}px;
                   `
                 )}
                 animate={animateAvatar()}
                 user={user()!}
-                size={width() <= 500 ? 72 : 98}
+                size={width() <= 500 ? 92 : 110}
               />
               <Show when={!isMe() && !isMobileWidth()}>
                 <ActionButtons

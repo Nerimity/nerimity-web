@@ -199,7 +199,7 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
       <Banner maxHeight={200} margin={props.dmPane ? 6 : 0} animate={!props.dmPane ? true : hover()} hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
       <div class={styles.flyoutDetailsContainer}>
         <CustomLink href={RouterEndpoints.PROFILE(props.userId)} class={css`align-self: flex-start;`}>
-          <Avatar animate class={styles.flyoutAvatarStyles} user={user()!} size={72} />
+          <Avatar animate class={styles.flyoutAvatarStyles} user={user()!} size={82} />
         </CustomLink>
         <div class={styles.flyoutOtherDetailsContainer}>
           <span>
