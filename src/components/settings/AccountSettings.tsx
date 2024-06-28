@@ -273,7 +273,9 @@ export function EditAccountPage(props: {bot?: RawUser, botToken?: string | null,
 
 
 
-      <DeleteAccountBlock />
+      <Show when={!props.bot}>
+        <DeleteAccountBlock />
+      </Show>
     </>
   );
 }
