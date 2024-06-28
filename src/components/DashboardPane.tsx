@@ -396,27 +396,29 @@ const PresenceItem = (props: { presence: Presence }) => {
   };
 
   return (
-    <PresenceItemContainer onClick={() => navigate(RouterEndpoints.PROFILE(props.presence.userId))} >
-      <Show when={imgSrc()}>
-        <img src={imgSrc()} class={activityImageStyles} />
-      </Show>
+    <Show when={!user()?.bot}>
+      <PresenceItemContainer onClick={() => navigate(RouterEndpoints.PROFILE(props.presence.userId))} >
+        <Show when={imgSrc()}>
+          <img src={imgSrc()} class={activityImageStyles} />
+        </Show>
 
-      <div class={activityDetailsStyles}>
+        <div class={activityDetailsStyles}>
 
-        <div class={css`display: flex; gap: 8px; align-items: center;`} >
-          <Avatar user={user()} size={20} />
-          <Text class={textOverflowHiddenStyles} size={14} bold>{user()?.username}</Text>
+          <div class={css`display: flex; gap: 8px; align-items: center;`} >
+            <Avatar user={user()} size={20} />
+            <Text class={textOverflowHiddenStyles} size={14} bold>{user()?.username}</Text>
+          </div>
+
+          <span class={textOverflowHiddenStyles}>
+            <Icon name={getActivityIconName(activity())} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
+            <Text size={14} opacity={0.7}> {props.presence.activity?.name}</Text>
+          </span> 
+
+          <Show when={activity().title}><Text size={12} opacity={0.7} class={textOverflowHiddenStyles}> {activity().title}</Text></Show>
         </div>
 
-        <span class={textOverflowHiddenStyles}>
-          <Icon name={getActivityIconName(activity())} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
-          <Text size={14} opacity={0.7}> {props.presence.activity?.name}</Text>
-        </span> 
 
-        <Show when={activity().title}><Text size={12} opacity={0.7} class={textOverflowHiddenStyles}> {activity().title}</Text></Show>
-      </div>
-
-
-    </PresenceItemContainer>
+      </PresenceItemContainer>
+    </Show>
   );
 };
