@@ -13,6 +13,8 @@ export interface AuthenticatedPayload {
   inbox: RawInboxWithoutChannel[];
   lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
   voiceChannelUsers: RawVoice[];
+
+
 }
 
 interface MessageMention {
@@ -52,4 +54,7 @@ export interface SelfUser {
   emailConfirmed: boolean
   connections: RawUserConnection[]
   notices: RawNotice[]
+
+  hideFollowers: boolean;
+  hideFollowing: boolean;
 }

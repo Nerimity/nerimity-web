@@ -202,18 +202,22 @@ export default function ProfilePane() {
                   <Badges user={userDetails()!} />
                 </Show>
                 <div class={styles.followingAndFollowersContainer}>
-                  <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>
-                    {userDetails()?.user._count.following.toLocaleString()}{" "}
-                    <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                      Following
-                    </span>
-                  </CustomLink>
+                  <Show when={isMe() || !userDetails()?.hideFollowing}>
+                    <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>
+                      {userDetails()?.user._count.following.toLocaleString()}{" "}
+                      <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                        Following
+                      </span>
+                    </CustomLink>
+                  </Show>
+                  <Show when={isMe() || !userDetails()?.hideFollowers}>
                   <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>
                     {userDetails()?.user._count.followers.toLocaleString()}{" "}
                     <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
                       Followers
                     </span>
                   </CustomLink>
+                  </Show>
                 </div>
               </div>
 
@@ -941,6 +945,9 @@ function PostsContainer(props: { user: UserDetails }) {
     }
   };
 
+  const isMe = () => account.user()?.id === props.user.user.id;
+
+
   return (
     <div class={styles.postsContainer}>
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": "wrap" }}>
@@ -983,19 +990,22 @@ function PostsContainer(props: { user: UserDetails }) {
             {t("profile.likedPostsTab", { count: likeCount() })}
           </Text>
         </ItemContainer>
-        <ItemContainer
-          handlePosition="bottom"
-          class={styles.postsTabButton}
-          selected={currentPage() === 3}
-          onClick={() => setCurrentPage(3)}
-        >
-          <Text
-            size={14}
-            color={currentPage() === 3 ? "white" : "rgba(255,255,255,0.6)"}
+        <Show when={isMe() || !props.user.hideFollowing}>
+          <ItemContainer
+            handlePosition="bottom"
+            class={styles.postsTabButton}
+            selected={currentPage() === 3}
+            onClick={() => setCurrentPage(3)}
           >
-            {t("profile.followingTab")}
-          </Text>
-        </ItemContainer>
+            <Text
+              size={14}
+              color={currentPage() === 3 ? "white" : "rgba(255,255,255,0.6)"}
+            >
+              {t("profile.followingTab")}
+            </Text>
+          </ItemContainer>
+        </Show>
+        <Show when={isMe() || !props.user.hideFollowers}>
         <ItemContainer
           handlePosition="bottom"
           class={styles.postsTabButton}
@@ -1009,6 +1019,7 @@ function PostsContainer(props: { user: UserDetails }) {
             {t("profile.followersTab")}
           </Text>
         </ItemContainer>
+        </Show>
       </FlexRow>
       <Show when={props.user && currentPage() <= 2}>
         <PostsArea
@@ -1022,16 +1033,16 @@ function PostsContainer(props: { user: UserDetails }) {
         />
       </Show>
       <Show when={props.user && currentPage() === 3}>
-        <FollowingArea userId={props.user.user.id} />
+        <FollowingArea userId={props.user.user.id} usuallyHidden={isMe() && props.user.hideFollowing} />
       </Show>
       <Show when={props.user && currentPage() === 4}>
-        <FollowersArea userId={props.user.user.id} />
+        <FollowersArea userId={props.user.user.id} usuallyHidden={isMe() && props.user.hideFollowers} />
       </Show>
     </div>
   );
 }
 
-function FollowersArea(props: { userId: string }) {
+function FollowersArea(props: { userId: string, usuallyHidden?: boolean }) {
   const [followers, setFollowers] = createSignal<RawUser[]>([]);
   onMount(() => {
     getFollowers(props.userId).then((newFollowers) =>
@@ -1039,9 +1050,12 @@ function FollowersArea(props: { userId: string }) {
     );
   });
 
-  return <UsersList users={followers()} />;
+  return <>
+  <Show when={props.usuallyHidden}><Notice type="info" description="Only you can see your followers list." /></Show>
+    <UsersList users={followers()} />
+  </>;
 }
-function FollowingArea(props: { userId: string }) {
+function FollowingArea(props: { userId: string, usuallyHidden?: boolean }) {
   const [following, setFollowing] = createSignal<RawUser[]>([]);
   onMount(() => {
     getFollowing(props.userId).then((newFollowing) =>
@@ -1049,7 +1063,10 @@ function FollowingArea(props: { userId: string }) {
     );
   });
 
-  return <UsersList users={following()} />;
+  return <>
+  <Show when={props.usuallyHidden}><Notice type="info" description="Only you can see your following list." /></Show>
+    <UsersList users={following()} />
+  </>;
 }
 
 const UserItemContainer = styled(FlexRow)`

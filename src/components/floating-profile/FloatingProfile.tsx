@@ -209,7 +209,7 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
             </CustomLink>
           </span>
           <UserPresence showFull hideActivity animate userId={props.userId} showOffline />
-          <Text size={12} opacity={0.6}><CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>{followingCount()} Following</CustomLink> | <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>{followersCount()} Followers</CustomLink></Text>
+          <Text size={12} opacity={0.6}><Show when={isMe() || !details()?.hideFollowing}><CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>{isMe() || followingCount()} Following</CustomLink></Show><Show when={isMe() || (!details()?.hideFollowers  && !details()?.hideFollowing)}>{` | `}</Show><Show when={isMe() || !details()?.hideFollowers}><CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>{followersCount()} Followers</CustomLink></Show></Text>
         </div>
       </div>
 

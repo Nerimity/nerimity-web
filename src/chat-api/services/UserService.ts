@@ -130,6 +130,8 @@ export interface UserDetails {
   mutualServerIds: string[];
   latestPost: RawPost
   profile?: UserProfile
+  hideFollowers?: boolean;
+  hideFollowing?: boolean;
 
 }
 export interface UserProfile {
@@ -227,6 +229,8 @@ interface UpdateUserOptions {
   socketId?: string;
   dmStatus?: number;
   friendRequestStatus?: number;
+  hideFollowers?: boolean;
+  hideFollowing?: boolean;
 }
 export async function updateUser(body: UpdateUserOptions, token?: string | null) {
   return request<{user: any, newToken?: string, }>({

@@ -74,7 +74,7 @@ export default function ServerSettingsBans() {
         <Text size={24} style={{ "margin-bottom": "10px" }}>Requirements</Text>
         <SettingsBlock icon="people" label={`${TARGET_MEMBERS} or more members`} description={`Your server must have at least ${TARGET_MEMBERS} members.`} />
         <SettingsBlock icon="cleaning_services" label="Profanity free" description="Server name, avatar and banner should be profanity free." />
-        <SettingsBlock icon="landscape" label="Server rules" description="Server should have an avatar and a banner." />
+        <SettingsBlock icon="landscape" label="Avatar & Banner" description="Server should have an avatar and a banner." />
         <SettingsBlock icon="gavel" label="Server rules" description="Server should have a rules channel." />
       </ListContainer>
       <ListContainer>

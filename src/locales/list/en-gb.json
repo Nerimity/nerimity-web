@@ -207,7 +207,16 @@
         "description": "Set Who can send you direct messages.",
         "anyone": "Anyone",
         "friendsAndServersOnly": "Friends and Servers Only",
-        "friendsOnly": "Friends Only"      
+        "friendsOnly": "Friends Only"     
+        
+        
+      },
+      "profileOptions": {
+        "title": "Profile Options",
+        "hideFollowers": "Hide Followers",
+        "hideFollowersDescription": "Hide your followers from your profile.",
+        "hideFollowing": "Hide Following",
+        "hideFollowingDescription": "Hide users you are following from your profile."
       },
 
       "friendRequest": {
