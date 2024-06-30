@@ -11,11 +11,13 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import Button from "../Button";
 import { TenorCategory, TenorImage, getTenorCategories, getTenorImages } from "@/chat-api/services/TenorService";
 import { Skeleton } from "../skeleton/Skeleton";
+import { useParams } from "solid-navigator";
 
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
 export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; showGifPicker?: boolean; heightOffset?: number; close: () => void; onClick: (shortcode: string) => void }) {
+  const params = useParams<{ serverId?: string }>();
   const { servers } = useStore();
   const { paneWidth, width, height, isMobileAgent } = useWindowProperties();
 
@@ -51,7 +53,8 @@ export function EmojiPicker(props: { gifPicked?: (gif: TenorImage) => void; show
         name: e.name,
         url: `${env.NERIMITY_CDN}emojis/${e.id}.${e.gif ? "gif" : "webp"}?size=60`
       };
-    }) as CustomEmoji[];
+    })
+    .sort((a, b) => a.category.id === params.serverId ? -1 : b.category.id === params.serverId ? 1 : 0) as CustomEmoji[];
   };
 
 
