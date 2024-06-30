@@ -144,15 +144,41 @@
   border-radius: 3px;
 
   &:not(.spoiled) {
+
+    .emoji {
+      opacity: 0;
+    }
+
+    .code-block {
+      position: relative;
+      overflow: hidden;
+      &::before{
+        content: "spoiler";
+        position: absolute;
+        inset: 0;
+        background-color: #0e0f10;
+        z-index: 11111111;
+
+      }
+    }
+
+    * {
+      pointer-events: none;
+      color: transparent;
+    }
+
     background-color: #0e0f10;
-    color: transparent;
+
     user-select: none;
     cursor: pointer;
     border-radius: 4px;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     &:hover {
-      background-color: #0e0f10b9;
+      background-color: #1c1e20;
+      .code-block::before {
+        background-color: #1c1e20;
+      }
     }
 
   }
