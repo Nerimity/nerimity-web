@@ -123,7 +123,8 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
     case "tr" : {
 
       const stamp = parseInt(expr);
-      if (isNaN(stamp)) {
+      const date = new Date(stamp * 1000);
+      if (isNaN(date as any)) {
         break;
       }
       ctx.textCount += expr.length;
