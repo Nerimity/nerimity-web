@@ -547,8 +547,8 @@ interface TypingPayload {
   channelId: string;
 }
 function TypingIndicator() {
-  const params = useParams<{ channelId: string }>();
-  const { users } = useStore();
+  const params = useParams<{ channelId: string, serverId: string }>();
+  const { users, serverMembers } = useStore();
   const { paneWidth } = useWindowProperties();
 
   const [typingUserIds, setTypingUserIds] = createStore<Record<string, number | undefined>>({});
@@ -593,8 +593,18 @@ function TypingIndicator() {
   });
 
   const typingUsers = createMemo(() => Object.keys(typingUserIds).map(userId =>
-    users.get(userId)
+    users.get(userId)!
   ));
+
+  const typingUserDisplayNames = createMemo(() => {
+    return typingUsers().map(user => {
+      if (params.serverId) {
+        const member = serverMembers.get(params.serverId, user.id);
+        return member?.nickname || user.username;
+      } 
+      return user.username;
+    })
+  })
 
   return (
     <Floating style={{
@@ -612,17 +622,17 @@ function TypingIndicator() {
     }}>
       <Text size={paneWidth()! < 500 ? 10 : 12}>
         <Switch>
-          <Match when={typingUsers().length === 1}>
-            <strong>{typingUsers()[0]?.username}</strong> is typing...
+          <Match when={typingUserDisplayNames().length === 1}>
+            <strong>{typingUserDisplayNames()[0]}</strong> is typing...
           </Match>
-          <Match when={typingUsers().length === 2}>
-            <strong>{typingUsers()[0]?.username}</strong> and <strong>{typingUsers()[1]?.username}</strong> are typing...
+          <Match when={typingUserDisplayNames().length === 2}>
+            <strong>{typingUserDisplayNames()[0]}</strong> and <strong>{typingUserDisplayNames()[1]}</strong> are typing...
           </Match>
-          <Match when={typingUsers().length === 3}>
-            <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong> and <strong>{typingUsers()[2]?.username}</strong> are typing...
+          <Match when={typingUserDisplayNames().length === 3}>
+            <strong>{typingUserDisplayNames()[0]}</strong>, <strong>{typingUserDisplayNames()[1]}</strong> and <strong>{typingUserDisplayNames()[2]}</strong> are typing...
           </Match>
-          <Match when={typingUsers().length > 3}>
-            <strong>{typingUsers()[0]?.username}</strong>, <strong>{typingUsers()[1]?.username}</strong>,  <strong>{typingUsers()[2]?.username}</strong> and <strong>{typingUsers().length - 3}</strong> others are typing...
+          <Match when={typingUserDisplayNames().length > 3}>
+            <strong>{typingUserDisplayNames()[0]}</strong>, <strong>{typingUserDisplayNames()[1]}</strong>,  <strong>{typingUserDisplayNames()[2]}</strong> and <strong>{typingUserDisplayNames().length - 3}</strong> others are typing...
           </Match>
         </Switch>
       </Text>
