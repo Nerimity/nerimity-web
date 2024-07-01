@@ -51,6 +51,29 @@
 }
 
 
+.floatingTypingContainer {
+  display: flex;
+  position: absolute;
+  top: -25px;
+  height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 5px;
+  max-width: calc(100% - 80px);
+  .typingText {
+    display: flex; 
+    gap: 4px;
+    line-height: 20px;
+  }
+  .username {
+    max-width: 200px; 
+    display: block; 
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+  }
+}
+
 
 .messageArea {
   display: flex;
@@ -106,6 +129,8 @@
     flex-direction: column;
     gap: 3px;
   }
+
+
   
   .floating {
     background-color: rgba(40, 40, 40, 0.86);

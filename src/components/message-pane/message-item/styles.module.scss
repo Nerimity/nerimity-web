@@ -54,6 +54,11 @@
 
 
 .systemMessage {
+  span {
+    word-break: break-word;
+    white-space: pre-line;
+  }
+  overflow: hidden;
   display: flex;
   gap: 5px;
   align-items: center;

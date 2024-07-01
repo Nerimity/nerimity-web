@@ -597,6 +597,7 @@ function TypingIndicator() {
   ));
 
   const typingUserDisplayNames = createMemo(() => {
+
     return typingUsers().map(user => {
       if (params.serverId) {
         const member = serverMembers.get(params.serverId, user.id);
@@ -607,32 +608,26 @@ function TypingIndicator() {
   })
 
   return (
-    <Floating style={{
+    <Floating class={styles.floatingTypingContainer} style={{
       visibility: typingUsers().length ? "visible" : "hidden",
-      position: "absolute",
-      padding: "0px",
-      top: "-25px",
-      height: "20px",
+      "padding": "0px",
       "padding-left": "5px",
       "padding-right": "5px",
-      overflow: "hidden",
-      "white-space": "nowrap",
-      "margin-bottom": "5px",
       "z-index": "1"
     }}>
-      <Text size={paneWidth()! < 500 ? 10 : 12}>
+      <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText} >
         <Switch>
           <Match when={typingUserDisplayNames().length === 1}>
-            <strong>{typingUserDisplayNames()[0]}</strong> is typing...
+            <strong class={styles.username}>{typingUserDisplayNames()[0]}</strong> is typing...
           </Match>
           <Match when={typingUserDisplayNames().length === 2}>
-            <strong>{typingUserDisplayNames()[0]}</strong> and <strong>{typingUserDisplayNames()[1]}</strong> are typing...
+            <strong class={styles.username}>{typingUserDisplayNames()[0]}</strong> and <strong class={styles.username}>{typingUserDisplayNames()[1]}</strong> are typing...
           </Match>
           <Match when={typingUserDisplayNames().length === 3}>
-            <strong>{typingUserDisplayNames()[0]}</strong>, <strong>{typingUserDisplayNames()[1]}</strong> and <strong>{typingUserDisplayNames()[2]}</strong> are typing...
+            <strong>{typingUserDisplayNames()[0]}</strong>, <strong class={styles.username}>{typingUserDisplayNames()[1]}</strong> and <strong class={styles.username}>{typingUserDisplayNames()[2]}</strong> are typing...
           </Match>
           <Match when={typingUserDisplayNames().length > 3}>
-            <strong>{typingUserDisplayNames()[0]}</strong>, <strong>{typingUserDisplayNames()[1]}</strong>,  <strong>{typingUserDisplayNames()[2]}</strong> and <strong>{typingUserDisplayNames().length - 3}</strong> others are typing...
+            <strong class={styles.username}>{typingUserDisplayNames()[0]}</strong>, <strong class={styles.username}>{typingUserDisplayNames()[1]}</strong>,  <strong class={styles.username}>{typingUserDisplayNames()[2]}</strong> and <strong>{typingUserDisplayNames().length - 3}</strong> others are typing...
           </Match>
         </Switch>
       </Text>
