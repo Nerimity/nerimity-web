@@ -385,7 +385,7 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
 
   return (
     <FloatingUserModalContainer class="floatingUserModalContainer" isMobile={isMobileWidth()} gap={5}>
-      <Banner margin={0} radius={6} brightness={50} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
+      <Banner margin={0}  radius={6} brightness={50} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
         <BannerContainer>
           <Avatar animate size={60} user={user()} />
           <DetailsContainer>

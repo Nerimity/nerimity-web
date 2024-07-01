@@ -50,23 +50,33 @@ export function Banner(props: {radius?: number; brightness?: number; class?: str
   };
 
   const getStyles = () => {
-    const styles: JSX.CSSProperties = {};
+    const styles: JSX.CSSProperties = {
+      width: "100%"
+    };
 
-    if (props.maxHeight) {
+    if (props.maxHeight !== undefined) {
       styles["max-height"] = props.maxHeight + "px";
-    }
+    } 
 
-    if (props.margin === 0) return styles;
 
-    styles.margin = (props.margin === undefined ? 10 : props.margin) + "px";
     return styles;
   };
 
+  const getOuterStyles = () => {
+
+    return {
+      padding: (props.margin === undefined ? 10 : props.margin) + "px",
+      display: "flex"
+    }
+  }
+
   return (
-    <BannerContainer radius={props.radius || 8} class={props.class} style={getStyles()}>
-      <Show when={url()}><BannerImage class="banner-inner" radius={props.radius || 8} brightness={props.brightness} src={url()} alt="Banner"/></Show>
-      <Show when={!url()}><SolidColor class="banner-inner" radius={props.radius || 8} brightness={props.brightness} color={props.hexColor!} /></Show>
-      {props.children}
-    </BannerContainer>
+    <div style={getOuterStyles()}>
+      <BannerContainer radius={props.radius || 8} class={props.class}  style={getStyles()}>
+        <Show when={url()}><BannerImage class="banner-inner" radius={props.radius || 8} brightness={props.brightness} src={url()} alt="Banner"/></Show>
+        <Show when={!url()}><SolidColor class="banner-inner" radius={props.radius || 8} brightness={props.brightness} color={props.hexColor!} /></Show>
+        {props.children}
+      </BannerContainer>
+    </div>
   );
 }

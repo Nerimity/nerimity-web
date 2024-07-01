@@ -33,8 +33,12 @@ function setPaneWidth(val: number) {
 
 
 const isMobileAgent = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const isFirefox = navigator.userAgent.includes('Firefox');
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+const isChrome = /^((?!chrome|android).)*chrome/i.test(navigator.userAgent);
 
-const [blurEffectEnabled, setBlurEffectEnabled] = useReactiveLocalStorage(StorageKeys.BLUR_EFFECT_ENABLED, !isMobileAgent());
+
+const [blurEffectEnabled, setBlurEffectEnabled] = useReactiveLocalStorage(StorageKeys.BLUR_EFFECT_ENABLED, isChrome);
 
 
 
