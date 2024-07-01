@@ -751,6 +751,13 @@ const PollChoiceContainer = styled(FlexRow)`
   position: relative;
   overflow: hidden;
   border-radius: 4px;
+
+  .label {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
   &.selected {
     background-color: rgba(255,255,255,0.1);
   }
@@ -1090,7 +1097,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
       setSearchParams({ postId: props.notification.post?.id! });
 
     return (
-      <FlexRow gap={6} style={{  }} onclick={showPost}>
+      <FlexRow gap={6} style={{ overflow: 'hidden' }} onclick={showPost}>
         <Icon class={css`margin-top: 4px;`} name="favorite" color="var(--alert-color)" />
         <A
           onclick={(e) => e.stopPropagation()}
@@ -1116,7 +1123,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
           </FlexRow>
           <div style={{ opacity: 0.6, "font-size": "14px", "overflow": "hidden", "text-overflow": "ellipsis", "-webkit-line-clamp": "3", "display": "-webkit-box", "-webkit-box-orient": "vertical" }}>
             <Show when={!cachedPost()?.deleted}>
-              <Markup  text={cachedPost()?.content || ""} />
+              <Markup  text={"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" || cachedPost()?.content || ""} />
             </Show>
             <Show when={cachedPost()?.deleted}>
               {t("posts.postWasDeleted")}
@@ -1283,8 +1290,13 @@ export function ViewPostModal(props: { close(): void }) {
 
 const DeletePostModalContainer = styled(FlexColumn)`
   overflow: auto;
+  height: 100%;
+  position: relative;
+
+
 `;
 const deletePostItemContainerStyles = css`
+  pointer-events: none;
   && {
     background-color: rgba(0, 0, 0, 0.3);
     &:hover {
@@ -1294,8 +1306,11 @@ const deletePostItemContainerStyles = css`
 `;
 
 const deletePostModalStyles = css`
+  display: flex;
+  flex-direction: column;
   max-height: 800px;
-  overflow: hidden;
+  height: 100%;
+  overflow: auto;
 `;
 
 function DeletePostModal(props: { post: Post; close: () => void }) {

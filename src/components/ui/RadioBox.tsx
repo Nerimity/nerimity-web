@@ -62,6 +62,7 @@ export const RadioBoxItemCheckBox = styled(FlexRow)<{size?: number}>`
     background-color: white;
     border-color: var(--primary-color);
   }
+  flex-shrink: 0;
 
 
 
@@ -75,6 +76,7 @@ const RadioBoxItemContainer = styled(FlexRow)`
   border-radius: 8px;
   transition: 0.2s;
   user-select: none;
+  flex-shrink: 0;
 
   .label {
     color: white;
