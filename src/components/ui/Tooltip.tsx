@@ -1,20 +1,25 @@
 import styles from "./Tooltip.module.scss";
-import { JSXElement, onCleanup, createUniqueId, createSignal } from "solid-js";
+import { JSXElement, onCleanup, createUniqueId, createSignal, createEffect, on } from "solid-js";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames } from "@/common/classNames";
 import { Delay } from "@/common/Delay";
 
-export const Tooltip = (props: { children: JSXElement, tooltip: JSXElement, anchor?: "left" | "right", class?: string }) => {
+export const Tooltip = (props: { disable?: boolean; children: JSXElement, tooltip: JSXElement, anchor?: "left" | "right", class?: string }) => {
   const {isMobileAgent} = useWindowProperties();
   const {createPortal, closePortalById} = useCustomPortal();
   const id = createUniqueId();
 
   const portalId = "tooltip" + id;
+
+  createEffect(on(() => props.disable, () => {
+    onMouseLeave();
+  }))
   
 
   const onMouseEnter = (e: MouseEvent) => {
+    if (props.disable) return;
     if (isMobileAgent()) return;
     const target = e.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();

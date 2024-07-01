@@ -61,9 +61,11 @@ export default function SidePane() {
     <ExploreItem />
     <div class={styles.scrollable}>
       <ServerList />
-      <SidebarItemContainer onClick={showAddServerModal} >
-        <Icon name="add_box" size={40} />
-      </SidebarItemContainer>
+      <Tooltip tooltip="Create Server">
+        <SidebarItemContainer onClick={showAddServerModal} >
+          <Icon name="add_box" size={40} />
+        </SidebarItemContainer>
+      </Tooltip>
     </div>
     <UpdateItem />
     <ModerationItem />
@@ -76,11 +78,13 @@ function ExploreItem() {
   const selected = useMatch(() => "/app/explore/*");
 
   return (
-    <A href={RouterEndpoints.EXPLORE_SERVER("")} style={{ "text-decoration": "none" }}>
-      <SidebarItemContainer selected={selected()}>
-        <Icon name='explore' />
-      </SidebarItemContainer>
-    </A>
+    <Tooltip tooltip="Explore">
+      <A href={RouterEndpoints.EXPLORE_SERVER("")} style={{ "text-decoration": "none" }}>
+        <SidebarItemContainer selected={selected()}>
+          <Icon name='explore' />
+        </SidebarItemContainer>
+      </A>
+    </Tooltip>
   );
 }
 
@@ -104,12 +108,14 @@ function InboxItem() {
   });
 
   return (
-    <A href='/app' style={{ "text-decoration": "none" }}>
-      <SidebarItemContainer selected={isSelected()} alert={(count())}>
-        <NotificationCountBadge count={count()} top={10} right={10} />
-        <Icon name='all_inbox' />
-      </SidebarItemContainer>
-    </A>
+    <Tooltip tooltip="Dashboard / Inbox">
+      <A href='/app' style={{ "text-decoration": "none" }}>
+        <SidebarItemContainer selected={isSelected()} alert={(count())}>
+          <NotificationCountBadge count={count()} top={10} right={10} />
+          <Icon name='all_inbox' />
+        </SidebarItemContainer>
+      </A>
+    </Tooltip>
   );
 }
 
@@ -143,9 +149,11 @@ function UpdateItem() {
 
   return (
     <Show when={updateAvailable()}>
-      <SidebarItemContainer onclick={showUpdateModal}>
-        <Icon name='get_app' title='Update Available' color="var(--success-color)" />
-      </SidebarItemContainer>
+      <Tooltip tooltip='Update Available'>
+        <SidebarItemContainer onclick={showUpdateModal}>
+          <Icon name='get_app' color="var(--success-color)" />
+        </SidebarItemContainer>
+      </Tooltip>
     </Show>
   );
 }
@@ -161,12 +169,14 @@ function ModerationItem() {
 
   return (
     <Show when={hasModeratorPerm()}>
-      <A href="/app/moderation" style={{ "text-decoration": "none" }} >
-        <SidebarItemContainer selected={selected()}>
-          <Show when={tickets.hasModerationTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
-          <Icon name='security' title='Moderation' />
-        </SidebarItemContainer>
-      </A>
+      <Tooltip tooltip="Moderation Pane">
+        <A href="/app/moderation" style={{ "text-decoration": "none" }} >
+          <SidebarItemContainer selected={selected()}>
+            <Show when={tickets.hasModerationTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
+            <Icon name='security' title='Moderation' />
+          </SidebarItemContainer>
+        </A>
+      </Tooltip>  
     </Show>
   );
 }
@@ -183,12 +193,14 @@ function SettingsItem() {
 
 
   return (
-    <A href="/app/settings/account" style={{ "text-decoration": "none" }} >
-      <SidebarItemContainer selected={selected()}>
-        <Show when={tickets.hasTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
-        <Icon name='settings' title='Settings' />
-      </SidebarItemContainer>
-    </A>
+    <Tooltip tooltip="Settings">
+      <A href="/app/settings/account" style={{ "text-decoration": "none" }} >
+        <SidebarItemContainer selected={selected()}>
+          <Show when={tickets.hasTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
+          <Icon name='settings' title='Settings' />
+        </SidebarItemContainer>
+      </A>
+    </Tooltip>
   );
 }
 
@@ -227,13 +239,15 @@ const UserItem = () => {
 
   return (
     <>
-      <SidebarItemContainer class={classNames(styles.user, "sidePaneUser")} onclick={onClicked} selected={modalOpened()} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-        {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} resize={96} />}
-        {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
-        {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
-        {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
-        {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
-      </SidebarItemContainer>
+      <Tooltip disable={modalOpened()} tooltip={<div>Profile <Show when={user()}><div>{user()!.username}:{user()!.tag}</div></Show></div>}>
+        <SidebarItemContainer class={classNames(styles.user, "sidePaneUser")} onclick={onClicked} selected={modalOpened()} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+          {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} resize={96} />}
+          {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
+          {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
+          {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
+          {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
+        </SidebarItemContainer>
+      </Tooltip>
       <Show when={user() && modalOpened()}><FloatingUserModal close={() => setModalOpened(false)} currentDrawerPage={currentPage()} /></Show>
     </>
   );
