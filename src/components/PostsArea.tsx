@@ -1076,7 +1076,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
                 key="posts.someoneFollowedYou"
                 options={{ username: props.notification.by.username }}
               >
-                <strong class={notificationUsernameStyles}>{"username"}</strong>
+                <strong class={notificationUsernameStyles} style="display: inline-block; max-width: 200px; vertical-align: bottom;">{"username"}</strong>
                 followed you!
               </Trans>
             </Text>
@@ -1097,7 +1097,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
       setSearchParams({ postId: props.notification.post?.id! });
 
     return (
-      <FlexRow gap={6} style={{ overflow: 'hidden' }} onclick={showPost}>
+      <FlexRow gap={6} onclick={showPost}>
         <Icon class={css`margin-top: 4px;`} name="favorite" color="var(--alert-color)" />
         <A
           onclick={(e) => e.stopPropagation()}
@@ -1106,14 +1106,14 @@ function PostNotification(props: { notification: RawPostNotification }) {
         >
           <Avatar user={props.notification.by} size={30} />
         </A>
-        <FlexColumn gap={2}>
+        <FlexColumn gap={2} style={{overflow: 'hidden'}}>
           <FlexRow gap={6} style={{ "align-items": "center" }}>
             <Text size={14} class={notificationUsernameStyles}>
               <Trans
                 key="posts.someoneLikedYourPost"
                 options={{ username: props.notification.by.username }}
               >
-                <strong class={notificationUsernameStyles}>{"username"}</strong>
+                <strong class={notificationUsernameStyles} style="display: inline-block; max-width: 200px; vertical-align: bottom;">{"username"}</strong>
                 liked your post!
               </Trans>
             </Text>
@@ -1123,7 +1123,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
           </FlexRow>
           <div style={{ opacity: 0.6, "font-size": "14px", "overflow": "hidden", "text-overflow": "ellipsis", "-webkit-line-clamp": "3", "display": "-webkit-box", "-webkit-box-orient": "vertical" }}>
             <Show when={!cachedPost()?.deleted}>
-              <Markup  text={"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" || cachedPost()?.content || ""} />
+              <Markup  text={cachedPost()?.content || ""} />
             </Show>
             <Show when={cachedPost()?.deleted}>
               {t("posts.postWasDeleted")}
