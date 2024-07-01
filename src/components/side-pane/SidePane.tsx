@@ -302,6 +302,7 @@ const BannerContainer = styled(FlexRow)`
   align-items: center;
   padding: 10px;
   padding-left: 20px;
+  overflow: hidden;
 `;
 
 const DetailsContainer = styled(FlexColumn)`
@@ -390,7 +391,8 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
           <Avatar animate size={60} user={user()} />
           <DetailsContainer>
             <FlexRow>
-              <Text style={{ "white-space": "nowrap", "overflow": "hidden", "text-overflow": "ellipsis"}}>{user().username}</Text>
+              <Text style={{ "white-space": "nowrap", "overflow": "hidden", "text-overflow": "ellipsis"}}>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</Text>
+              {/* <Text style={{ "white-space": "nowrap", "overflow": "hidden", "text-overflow": "ellipsis"}}>{user().username}</Text> */}
               <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
             </FlexRow>
             <UserPresence animate showOffline userId={userId()!} />

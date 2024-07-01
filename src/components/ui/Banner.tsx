@@ -10,6 +10,7 @@ const BannerContainer = styled(FlexColumn)<{radius: number}>`
   aspect-ratio: 30/12;
   flex-shrink: 0;
   border-radius: ${props => props.radius}px;
+  overflow: hidden;
 `;
   
 const BannerImage = styled("img")<{brightness?: number; radius: number}>`
@@ -66,7 +67,8 @@ export function Banner(props: {radius?: number; brightness?: number; class?: str
 
     return {
       padding: (props.margin === undefined ? 10 : props.margin) + "px",
-      display: "flex"
+      display: "flex",
+      overflow: "hidden"
     }
   }
 
