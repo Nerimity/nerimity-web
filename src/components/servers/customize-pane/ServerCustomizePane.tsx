@@ -52,7 +52,7 @@ const WelcomeMessage = () => {
 
   return (
     <div class={styles.welcomeMessage}>
-      <Text size={24}>{server()?.name}</Text>
+      <Text size={24} class={styles.title}>{server()?.name}</Text>
       <Text size={16} opacity={0.6}>Complete these questions:</Text>
     </div>
   );
@@ -71,7 +71,7 @@ const QuestionList = (props: {questions: RawServerWelcomeQuestion[], updateQuest
 const QuestionItem = (props: {question: RawServerWelcomeQuestion; questions: RawServerWelcomeQuestion[], updateQuestions: SetStoreFunction<RawServerWelcomeQuestion[]>}) => {
   return (
     <div class={styles.questionItem}>
-      <div>{props.question.title}</div>
+      <div class={styles.title}>{props.question.title}</div>
       <Show when={props.question.answers.length}><AnswerList questions={props.questions} updateQuestions={props.updateQuestions} multiselect={props.question.multiselect} answers={props.question.answers}/></Show>
     </div>
   );

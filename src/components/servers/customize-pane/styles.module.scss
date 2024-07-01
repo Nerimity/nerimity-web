@@ -8,6 +8,13 @@
 .welcomeMessage {
   display: flex;
   flex-direction: column;
+  .title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+  }
+  display: flex;
+  flex-direction: column;
   margin-bottom: 8px;
 }
 
@@ -23,6 +30,12 @@
   background-color: rgba(255, 255, 255, 0.05);
   padding: 8px;
   border-radius: 6px;
+
+  .title {
+    word-break: break-word;
+    white-space: pre-line;
+  }
+
 }
 
 .answerList {
@@ -74,6 +87,7 @@
   .button {
     flex: 1;
     padding: 12px;
+    overflow: hidden;
   }
   .button > span:nth-child(1) {
     width: 100%;
