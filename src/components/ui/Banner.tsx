@@ -51,7 +51,7 @@ export function Banner(props: {radius?: number; brightness?: number; class?: str
 
   const getStyles = () => {
     const styles: JSX.CSSProperties = {
-      width: "100%"
+      flex: "1"
     };
 
     if (props.maxHeight !== undefined) {
