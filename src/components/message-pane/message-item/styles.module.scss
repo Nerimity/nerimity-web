@@ -84,6 +84,95 @@
   }
 }
 
+.replies {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  margin-bottom: 8px;
+  flex: 1;
+  .replyItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 26px;
+    font-size: 14px;
+    user-select: none;
+    cursor: pointer;
+    transition: 0.2s;
+    padding-left: 32px;
+overflow: hidden;
+    
+
+
+    &:hover {
+      opacity: 0.6;
+    }
+    .line {
+      position: absolute;
+      width: 2px;
+      background-color: var(--primary-color);
+      left: 13px;
+      top: 0;
+      bottom: 0;
+      &.first {
+        top: 14px;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 28px;
+          height: 2px;
+          top: 0;
+          background-color: var(--primary-color);
+        }
+
+      }
+      &:not(.first) {
+        &::before {
+          content: "";
+          position: absolute;
+          width: 8px;
+          height: 4px;
+          border-radius: 99px;
+          top: 14px;
+          left: 14px;
+          background-color: var(--primary-color);
+        }
+      }
+
+    }
+    .replyContentContainer {
+      margin-left: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow: hidden;
+
+      .replyUsername {
+        opacity: 0.6;
+        font-weight: bold;
+        max-width: 200px;
+        flex-shrink: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .replyContent {
+        opacity: 0.6;
+        pointer-events: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        :global .markup {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
 
 .messageItem {
   display: flex;
@@ -191,6 +280,20 @@ body .reactionItem {
 }
 
 .messageInner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+}
+
+.messageInnerInner {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 5px;
+}
+
+.messageInnerInnerInner {
   display: flex;
   flex-direction: column;
   gap: 3px;

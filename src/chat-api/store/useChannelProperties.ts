@@ -1,9 +1,13 @@
 import {createStore} from "solid-js/store";
 import { Message } from "./useMessages";
+import { RawMessage } from "../RawData";
 
 export type ChannelProperties = {
   content: string;
   editMessageId?: string;
+
+  replyToMessages: RawMessage[];
+  mentionReplies?: boolean;
 
   attachment?: File;
 
@@ -21,9 +25,36 @@ const initIfMissing = (channelId: string) => {
   if (properties[channelId]) return;
   setChannelProperties(channelId, {
     content: "",
-    isScrolledBottom: false
+    isScrolledBottom: false,
+    replyToMessages: [],
   });
 };
+
+const addReply = (channelId: string, message: RawMessage) => {
+  initIfMissing(channelId);
+  const property = get(channelId)!;
+  if (property.replyToMessages.length >= 5) return;
+  if (property.replyToMessages.find(m => m.id === message.id)) return;
+  setChannelProperties(channelId, { 
+    replyToMessages: [...property.replyToMessages, message],
+    ...(!property.replyToMessages.length ? {mentionReplies: true} : {})
+   });
+}
+
+const removeReply = (channelId: string, messageId: string) => {
+  const property = get(channelId)!;
+  setChannelProperties(channelId, { replyToMessages: property.replyToMessages.filter(m => m.id !== messageId) });
+}
+
+const removeReplies = (channelId: string) => {
+  setChannelProperties(channelId, { replyToMessages: [], mentionReplies: true });
+}
+
+const toggleMentionReplies = (channelId: string) => {
+  initIfMissing(channelId);
+  const property = get(channelId)!;
+  setChannelProperties(channelId, { mentionReplies: !property.mentionReplies });
+}
 
 const updateContent = (channelId: string, content: string) => {
   initIfMissing(channelId);
@@ -76,6 +107,10 @@ export default function useChannelProperties() {
     setScrollTop,
     setScrolledBottom,
     setMoreTopToLoad,
-    setMoreBottomToLoad
+    setMoreBottomToLoad,
+    addReply,
+    removeReply,
+    removeReplies,
+    toggleMentionReplies
   };
 }

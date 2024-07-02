@@ -33,27 +33,35 @@ import { ServerVerifiedIcon } from "@/components/servers/ServerVerifiedIcon";
 import { getFile, googleApiInitialized, initializeGoogleDrive } from "@/common/driveAPI";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
-import { ServerMember } from "@/chat-api/store/useServerMembers";
+import useServerMembers, { ServerMember } from "@/chat-api/store/useServerMembers";
 import { Dynamic, classList } from "solid-js/web";
 import {Emoji as RoleEmoji} from "@/components/ui/Emoji";
 import { prettyBytes } from "@/common/prettyBytes";
 import { unzip, unzipJson } from "@/common/zip";
 import { Rerun } from "@solid-primitives/keyed";
+import { emitScrollToMessage } from "@/common/GlobalEvents";
+import socketClient from "@/chat-api/socketClient";
+import { ServerEvents } from "@/chat-api/EventNames";
 
 interface FloatingOptionsProps {
   message: RawMessage,
   isCompact?: boolean | number,
   showContextMenu?: (event: MouseEvent) => void,
-  quoteClick?(): void;
   reactionPickerClick?(event: MouseEvent): void
+  textAreaEl?: HTMLTextAreaElement;
+
 }
 
 
 function FloatOptions(props: FloatingOptionsProps) {
   const params = useParams<{ serverId: string }>();
-  const { account, serverMembers } = useStore();
+  const { account, serverMembers, channelProperties } = useStore();
   const { createPortal } = useCustomPortal();
 
+  const replyClick = () => {
+    channelProperties.addReply(props.message.channelId, props.message);  
+    props.textAreaEl?.focus();
+  }
   const onDeleteClick = () => {
     createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />);
   };
@@ -78,7 +86,7 @@ function FloatOptions(props: FloatingOptionsProps) {
     <div class={styles.floatOptions}>
       {props.isCompact && (<div class={styles.floatDate}>{formatTimestamp(props.message.createdAt)}</div>)}
       <Show when={isContentType()}><div class={styles.item} onClick={props.reactionPickerClick}><Icon size={18} name='face' class={styles.icon} /></div></Show>
-      <Show when={isContentType()}><div class={styles.item} onClick={props.quoteClick}><Icon size={18} name='format_quote' class={styles.icon} /></div></Show>
+      <Show when={isContentType()}><div class={styles.item} onClick={replyClick}><Icon size={18} name='reply' class={styles.icon} /></div></Show>
       <Show when={showEdit()}><div class={styles.item} onClick={onEditClick}><Icon size={18} name='edit' class={styles.icon} /></div></Show>
       <Show when={showDelete()}><div class={styles.item} onClick={onDeleteClick}><Icon size={18} name='delete' class={styles.icon} color='var(--alert-color)' /></div></Show>
       <div class={classNames("floatingShowMore", styles.item)} onClick={props.showContextMenu}><Icon size={18} name='more_vert' class={styles.icon} /></div>
@@ -150,7 +158,7 @@ const MessageItem = (props: MessageItemProps) => {
   const isBeforeMessageContent = () => props.beforeMessage && props.beforeMessage.type === MessageType.CONTENT;
 
 
-  const isCompact = () => isSameCreator() && isDateUnderFiveMinutes() && isBeforeMessageContent();
+  const isCompact = () => !props.message.replyMessages?.length && isSameCreator() && isDateUnderFiveMinutes() && isBeforeMessageContent();
   const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
 
   const [isMentioned, setIsMentioned] = createSignal(false);
@@ -176,8 +184,9 @@ const MessageItem = (props: MessageItemProps) => {
       const isEveryoneMentioned = props.message.content?.includes("[@:e]") && hasPermissionToMentionEveryone();
       const isSomeoneMentioned = props.message.content?.includes("[@:s]") || false;
       const isQuoted = props.message.quotedMessages?.find(m => m.createdBy?.id === account.user()?.id);
+      const isReplied = props.message.replyMessages?.find(m => m.replyToMessage?.createdBy?.id === account.user()?.id);
       const isMentioned = isEveryoneMentioned || props.message.mentions?.find(u => u.id === account.user()?.id);
-      setIsMentioned(!!isQuoted || !!isMentioned);
+      setIsMentioned(!!isQuoted || !!isMentioned || !!isReplied);
       setIsSomeoneMentioned(isSomeoneMentioned);
     });
   }));
@@ -206,34 +215,42 @@ const MessageItem = (props: MessageItemProps) => {
       onMouseLeave={() => setHovered(false)}
       id={`message-${props.message.id}`}
     >
-      <Show when={!props.hideFloating}><FloatOptions reactionPickerClick={props.reactionPickerClick} quoteClick={props.quoteClick} showContextMenu={props.contextMenu} isCompact={isCompact()} message={props.message} /></Show>
+
+
+
+      <Show when={!props.hideFloating}><FloatOptions textAreaEl={props.textAreaEl} reactionPickerClick={props.reactionPickerClick} showContextMenu={props.contextMenu} isCompact={isCompact()} message={props.message} /></Show>
       <Switch fallback={<Show when={blockedMessage()}><div onClick={() => setBlockedMessage(false)} class={classNames(styles.blockedMessage, conditionalClass(isCompact(), styles.compact))}>You have blocked this user. Click to show.</div></Show>}>
         <Match when={isSystemMessage()}>
           <SystemMessage message={props.message} />
         </Match>
         <Match when={!isSystemMessage() && !blockedMessage()}>
-          <Show when={!isCompact()}>
-            <A onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={classNames(styles.avatar, "trigger-profile-flyout")}>
-              <Avatar animate={hovered()} user={props.message.createdBy} size={40} resize={96} />
-            </A>
-          </Show>
           <div class={styles.messageInner}>
-            <Show when={!isCompact()}>
-              <Details
-                hovered={hovered()}
-                message={props.message}
-                isServerCreator={isServerCreator()}
-                isSystemMessage={isSystemMessage()}
-                serverMember={serverMember()}
-                showProfileFlyout={showProfileFlyout}
-                userContextMenu={props.userContextMenu}
-              />
-            </Show>
-            <Content message={props.message} hovered={hovered()} />
-            <Show when={props.message.uploadingAttachment}>
-              <UploadAttachment message={props.message} />
-            </Show>
-            <Show when={props.message.reactions?.length}><Reactions textAreaEl={props.textAreaEl} reactionPickerClick={props.reactionPickerClick} hovered={hovered()} message={props.message} /></Show>
+            <MessageReplies message={props.message}/>
+            <div class={styles.messageInnerInner}>
+              <Show when={!isCompact()}>
+                <A onClick={showProfileFlyout} onContextMenu={props.userContextMenu} href={RouterEndpoints.PROFILE(props.message.createdBy.id)} class={classNames(styles.avatar, "trigger-profile-flyout")}>
+                  <Avatar animate={hovered()} user={props.message.createdBy} size={40} resize={96} />
+                </A>
+              </Show>
+              <div class={styles.messageInnerInnerInner}>
+                <Show when={!isCompact()}>
+                  <Details
+                    hovered={hovered()}
+                    message={props.message}
+                    isServerCreator={isServerCreator()}
+                    isSystemMessage={isSystemMessage()}
+                    serverMember={serverMember()}
+                    showProfileFlyout={showProfileFlyout}
+                    userContextMenu={props.userContextMenu}
+                  />
+                </Show>
+                <Content message={props.message} hovered={hovered()} />
+                <Show when={props.message.uploadingAttachment}>
+                  <UploadAttachment message={props.message} />
+                </Show>
+                <Show when={props.message.reactions?.length}><Reactions textAreaEl={props.textAreaEl} reactionPickerClick={props.reactionPickerClick} hovered={hovered()} message={props.message} /></Show>
+              </div>
+            </div>
           </div>
         </Match>
       </Switch>
@@ -1114,6 +1131,66 @@ function WhoReactedModal(props: { x: number, y: number; reaction: RawMessageReac
 
 
 
+const MessageReplies = (props: { message: Message }) => {
+  const params = useParams<{serverId?: string;}>();
+  const store = useStore();
+  const replies = () => props.message.replyMessages;
+  const repliesIds = () => replies().map(r => r.replyToMessage?.id);
+
+  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete);
+  socketClient.useSocketOn(ServerEvents.MESSAGE_UPDATED, onUpdate);
+  
+  function onDelete(payload: {channelId: string, messageId: string;}) {
+    if (!repliesIds().includes(payload.messageId)) return;
+    
+    store.messages.updateLocalMessage({
+      replyMessages: props.message.replyMessages.filter(m => m.replyToMessage?.id !== payload.messageId)
+    }, props.message.channelId, props.message.id);
+  }
+  
+  function onUpdate(payload: {channelId: string, messageId: string, updated: Message}) {
+    if (!repliesIds().includes(payload.messageId)) return;
+    
+
+    let replyMessages = [...props.message.replyMessages];
+    const index = replyMessages.findIndex(q => q.replyToMessage?.id === payload.messageId);
+    replyMessages[index] = {...replyMessages[index], ...{replyToMessage: payload.updated}}; 
+    store.messages.updateLocalMessage({
+      replyMessages
+    }, props.message.channelId, props.message.id);
+  }
+
+
+  const topRoleColor = (userId: string) => {
+    if (!params.serverId) return "white";
+    return store.serverMembers.get(params.serverId!, userId)?.roleColor() || "white";
+  }
+
+  return (
+    <Show when={replies()?.length}>
+    <div class={styles.replies}>
+      <For each={replies()}>
+        {({replyToMessage}, i) => (
+          <div class={styles.replyItem}  onClick={() => (replyToMessage && emitScrollToMessage({messageId: replyToMessage.id}))}>
+            <div class={classNames(styles.line, i() === 0 ? styles.first : undefined)} />
+              <div class={styles.replyContentContainer}>
+               <Show when={replyToMessage}>
+                <div class={styles.replyUsername} style={{ color: topRoleColor(replyToMessage!.createdBy.id) }}>{replyToMessage!.createdBy.username}</div>
+                  <Show when={replyToMessage!.attachments?.length}><Icon name="image" color="rgba(255,255,255,0.6)" size={16} /></Show>
+                <div class={styles.replyContent}><Markup inline message={replyToMessage!} text={replyToMessage!.content || ""} /></div>
+               </Show>
+               <Show when={!replyToMessage}>
+                <div class={styles.replyContent}>Message was deleted.</div>
+               </Show>
+              </div>
+            </div>
+          )}
+        </For>
+      </div>
+    </Show>
+  )
+}
+
 
 
 
@@ -1187,3 +1264,6 @@ export function DeleteMessageModal(props: { message: Message, close: () => void 
     </Modal>
   );
 }
+
+
+

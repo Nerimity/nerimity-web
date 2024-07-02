@@ -46,6 +46,8 @@ interface PostMessageOpts {
   channelId: string;
   socketId?: string;
   attachment?: File;
+  replyToMessageIds?: string[];
+  mentionReplies?: boolean;
   googleDriveAttachment?: {
     id: string;
     mime: string;
@@ -57,6 +59,12 @@ export const postMessage = async (opts: PostMessageOpts) => {
 
   let body: any = {
     content: opts.content?.trim() || undefined,
+  
+    ...(opts.replyToMessageIds?.length ? { 
+      replyToMessageIds: opts.replyToMessageIds.toReversed(),
+      mentionReplies: opts.mentionReplies
+     } : {}),
+
     ...(opts.googleDriveAttachment ? { googleDriveAttachment: opts.googleDriveAttachment } : {}),
     ...(opts.socketId ? { socketId: opts.socketId } : {})
   };
@@ -66,6 +74,11 @@ export const postMessage = async (opts: PostMessageOpts) => {
     opts.content && fd.append("content", opts.content);
     if (opts.socketId) {
       fd.append("socketId", opts.socketId);
+    }
+    
+    if (opts.replyToMessageIds?.length) {
+      fd.append("replyToMessageIds", JSON.stringify(opts.replyToMessageIds.toReversed()));
+      fd.append("mentionReplies", String(opts.mentionReplies));
     }
     fd.append("attachment", opts.attachment);
     body = fd;

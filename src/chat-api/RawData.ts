@@ -53,6 +53,10 @@ export interface RawMessage {
   reactions: RawMessageReaction[]
   htmlEmbed?: string;
   embed?: RawEmbed | null;
+  mentionReplies?: boolean;
+  replyMessages: {
+    replyToMessage?: RawMessage;
+  }[]
 }
 
 export interface RawEmbed {

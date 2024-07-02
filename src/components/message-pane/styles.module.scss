@@ -141,8 +141,8 @@
     padding-left: 8px;
     padding-right: 8px;
     font-size: 14px;
-    margin-left: 55px;
-    margin-right: 55px;
+    margin-left: 45px;
+    margin-right: 4px;
     // align-self: flex-start;
     z-index: 11111;
 
@@ -194,6 +194,39 @@
       left: initial;
       border: none;
       padding-bottom: 2px;
+
+    }
+    &.replyIndicator {
+      display: flex;
+      flex-direction: column;
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 6px;
+      padding-bottom: 2px;
+      .replyIndicatorTitle {
+        margin-left: 2px;
+        margin-bottom: 4px;
+      }
+      .replyIndicatorInner {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding-right: 2px;
+        padding-bottom: 4px;
+        padding-top: 4px;
+
+  
+      }
+      .message {
+        font-size: 12px;
+        opacity: 0.7;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        color: rgba(255, 255, 255, 0.8);
+        flex: 1;
+      }
 
     }
     &.editIndicator {

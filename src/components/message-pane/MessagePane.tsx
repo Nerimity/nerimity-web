@@ -50,6 +50,8 @@ import { useNotice } from "@/common/useChannelNotice";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { PhotoEditor } from "../ui/photo-editor/PhotoEditor";
 import { prettyBytes } from "@/common/prettyBytes";
+import Checkbox from "../ui/Checkbox";
+import { RadioBoxItemCheckBox } from "../ui/RadioBox";
 
 export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
@@ -277,6 +279,7 @@ function MessageArea(props: { mainPaneEl: HTMLDivElement, textAreaRef(element?: 
       <FloatingSuggestions textArea={textAreaEl()} />
       <Show when={channelProperty()?.attachment}><FloatingAttachment /></Show>
       <Show when={editMessageId()}><EditIndicator messageId={editMessageId()!} /></Show>
+      <FloatingReply/>
     </div>
     <TypingIndicator />
     <Show when={!getStorageBoolean(StorageKeys.DISABLED_ADVANCED_MARKUP, false)}>
@@ -650,6 +653,56 @@ function FloatingMessageEmojiPicker(props: { close: () => void; onClick: (shortc
   );
 }
 
+
+function FloatingReply() {
+  const params = useParams<{ channelId: string }>();
+  const { channelProperties } = useStore();
+
+  const property = () => channelProperties.get(params.channelId)
+
+  const messages = () => property()?.replyToMessages?.toReversed() || [];
+  const mention = () => property()?.mentionReplies;
+  const setMention = (value: boolean) => {
+    channelProperties.toggleMentionReplies(params.channelId);
+  }
+
+  return (
+    <Show when={messages().length}>
+      <Floating class={styles.replyIndicator}>
+        <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>Replying to {messages().length} message(s)</Text>
+        <For each={messages()}>
+          {(message, i) => (
+            <div class={styles.replyIndicatorInner} style={{
+              "border-bottom": "solid 1px rgba(255, 255, 255, 0.1)",
+              ...(i() === 0 ? {"border-top": "solid 1px rgba(255, 255, 255, 0.1)",} : {})
+            }}>
+              <Icon
+                name="reply"
+                size={17}
+                color="var(--primary-color)"
+                class={styles.editIcon}
+              />
+              <Avatar size={16} user={message.createdBy} />
+              <div class={styles.message}>{message.content}</div>
+              <Button
+                iconName="close"
+                color="var(--alert-color)"
+                onClick={() =>
+                  channelProperties.removeReply(params.channelId, message.id)
+                }
+                padding={0}
+                iconSize={16}
+                margin={0}
+              />
+            </div>
+          )}
+        </For>
+        <Checkbox checked={mention()!} onChange={setMention}  style={{gap: "4px", "padding-top": "4px", "padding-bottom": "4px", "justify-content": 'end'}} boxStyles={{"font-size": "8px", "border-radius": "4px"}} label="Mention" labelSize={12}  />
+
+      </Floating>
+    </Show>
+  );
+}
 
 function EditIndicator(props: { messageId: string }) {
   const params = useParams<{ channelId: string }>();

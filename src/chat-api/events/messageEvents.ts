@@ -61,7 +61,12 @@ export function onMessageCreated(payload: {socketId: string, message: RawMessage
       const mention = payload.message.mentions?.find(u => u.id === accountUser?.id);
       if (mention) return true;
       const quoteMention = payload.message.quotedMessages?.find(m => m.createdBy?.id === accountUser?.id);
-      return quoteMention;
+
+      if (quoteMention) return true;
+      
+      const replyMention = payload.message.mentionReplies && payload.message.replyMessages.find(m => m.replyToMessage?.createdBy?.id === accountUser?.id);
+
+      return replyMention;
     };
     
     if (payload.message.createdBy.id !== accountUser?.id) {

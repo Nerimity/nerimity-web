@@ -186,11 +186,18 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     }
   }
 
+  const replyToMessageIds = properties?.replyToMessages?.map(m => m.id) || [];
+  const mentionReplies = properties?.mentionReplies;
+
+  channelProperties.removeReplies(channelId);
+
 
   const message: void | Message = await postMessage({
     content,
     channelId,
     socketId: socketClient.id(),
+    replyToMessageIds,
+    mentionReplies,
     attachment: !shouldUploadToGoogleDrive ? properties?.attachment : undefined,
     googleDriveAttachment: googleDriveFileId ? {id: googleDriveFileId, mime: file?.type!} : undefined,
     onUploadProgress

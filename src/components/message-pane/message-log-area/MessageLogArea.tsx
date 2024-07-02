@@ -375,6 +375,12 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
     channelProperties.updateContent(params.channelId, props.textAreaEl.value);
   };
 
+  const replyMessage = (message: Message) => {
+    if (!props.textAreaEl) return;
+    props.textAreaEl!.focus();
+    channelProperties.addReply(params.channelId, message);
+  };
+
   const addReaction = async (shortcode: string, message: Message) => {
     props.textAreaEl?.focus();
     const customEmoji = servers.customEmojiNamesToEmoji()[shortcode];
@@ -403,6 +409,7 @@ export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?:
       <Show when={messageContextDetails()}>
         <MessageContextMenu
           {...messageContextDetails()!}
+          replyMessage={() => replyMessage(messageContextDetails()?.message!)}
           quoteMessage={() => quoteMessage(messageContextDetails()?.message!)}
           onClose={() => setMessageContextDetails(undefined)}
         />
@@ -512,6 +519,7 @@ function UnreadMarker(props: { onClick: () => void }) {
 type MessageContextMenuProps = Omit<ContextMenuProps, "items"> & {
   message: Message
   quoteMessage(): void;
+  replyMessage(): void;
 }
 
 
@@ -550,6 +558,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   };
 
   const showQuote = () => props.message.type === MessageType.CONTENT;
+  const showReply = () => props.message.type === MessageType.CONTENT;
 
   const hasContent = () => props.message.content;
   const isSelfMessage = () => account.user()?.id === props.message.createdBy.id;
@@ -559,6 +568,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     <ContextMenu triggerClassName='floatingShowMore' {...props} items={[
       { icon: "face", label: "View Reactions", onClick: onViewReactionsClick },
       ...(showQuote() ? [{ icon: "format_quote", label: "Quote Message", onClick: props.quoteMessage }] : []),
+      ...(showReply() ? [{ icon: "reply", label: "Reply", onClick: props.replyMessage }] : []),
       ...(showEdit() ? [{ icon: "edit", label: t("messageContextMenu.editMessage")!, onClick: onEditClick }] : []),
       ...(showDelete() ? [{ icon: "delete", label: t("messageContextMenu.deleteMessage")!, onClick: onDeleteClick, alert: true }] : []),
       ...(showReportMessage() ? [{ icon: "flag", label: "Report Message", onClick: onReportClick, alert: true }] : []),

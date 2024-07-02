@@ -1,4 +1,4 @@
-import { createEffect, createSignal, on, Show } from "solid-js";
+import { createEffect, createSignal, JSX, on, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import Icon from "./icon/Icon";
 import Text from "./Text";
@@ -11,6 +11,8 @@ export interface CheckboxProps {
   label?: string
   labelSize?: number
   class?: string;
+  boxStyles?: JSX.CSSProperties;
+  style?: JSX.CSSProperties;
 }
 
 const boxStyle = css`
@@ -55,8 +57,8 @@ export default function Checkbox (props: CheckboxProps) {
   };
 
   return (
-    <CheckboxContainer class={ classNames("checkbox", props.class, conditionalClass(checked(), "selected"))} onClick={onClick}>
-      <Icon size={13} class={boxStyle} name="done" />
+    <CheckboxContainer style={props.style} class={ classNames("checkbox", props.class, conditionalClass(checked(), "selected"))} onClick={onClick}>
+      <Icon size={13} style={props.boxStyles} class={boxStyle} name="done" />
       <Show when={props.label}>
         <Text size={props.labelSize} style={{"word-break": "break-word"}}>{props.label}</Text>
       </Show>
