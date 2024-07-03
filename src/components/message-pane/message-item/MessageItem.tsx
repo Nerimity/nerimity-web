@@ -62,8 +62,8 @@ function FloatOptions(props: FloatingOptionsProps) {
     channelProperties.addReply(props.message.channelId, props.message);  
     props.textAreaEl?.focus();
   }
-  const onDeleteClick = () => {
-    createPortal?.(close => <DeleteMessageModal close={close} message={props.message} />);
+  const onDeleteClick = (e: MouseEvent) => {
+    createPortal?.(close => <DeleteMessageModal instant={e.shiftKey} close={close} message={props.message} />);
   };
   const onEditClick = () => {
     const { channelProperties } = useStore();
@@ -1222,12 +1222,16 @@ const deleteMessageModalStyles = css`
   overflow: hidden;
 `;
 
-export function DeleteMessageModal(props: { message: Message, close: () => void }) {
+export function DeleteMessageModal(props: { instant?: boolean; message: Message, close: () => void }) {
 
   const onDeleteClick = () => {
     props.close();
     deleteMessage({ channelId: props.message.channelId, messageId: props.message.id });
   };
+
+  if (props.instant) {
+    onDeleteClick();
+  }
 
 
   const onKeyDown = (event: KeyboardEvent) => {
