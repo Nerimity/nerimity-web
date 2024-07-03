@@ -1144,7 +1144,10 @@ const MessageReplies = (props: { message: Message }) => {
     if (!repliesIds().includes(payload.messageId)) return;
     
     store.messages.updateLocalMessage({
-      replyMessages: props.message.replyMessages.filter(m => m.replyToMessage?.id !== payload.messageId)
+      replyMessages: props.message.replyMessages.map(m => {
+        const match = m.replyToMessage?.id === payload.messageId;
+        return match ? m : {}
+      })
     }, props.message.channelId, props.message.id);
   }
   
