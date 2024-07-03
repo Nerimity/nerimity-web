@@ -5,17 +5,13 @@ import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
 import { HtmlEmbedItem, MessageType, RawAttachment, RawEmbed, RawMessage, RawMessageReaction, RawUser } from "@/chat-api/RawData";
 import { Message, MessageSentStatus } from "@/chat-api/store/useMessages";
-import { addMessageReaction, deleteMessage, fetchMessageReactedUsers, removeMessageReaction } from "@/chat-api/services/MessageService";
+import { addMessageReaction, fetchMessageReactedUsers, removeMessageReaction } from "@/chat-api/services/MessageService";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useNavigate, useParams } from "solid-navigator";
 import useStore from "@/chat-api/store/useStore";
-import { createEffect, createMemo, createSignal, createUniqueId, For, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
+import { createEffect, createMemo, createSignal, createUniqueId, For, lazy, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
 import { Markup } from "@/components/Markup";
-import Modal from "@/components/ui/modal/Modal";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import Text from "@/components/ui/Text";
-import { css, styled } from "solid-styled-components";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ImageEmbed, ImagePreviewModal, clamp, clampImageSize } from "@/components/ui/ImageEmbed";
@@ -23,25 +19,25 @@ import { CustomLink } from "@/components/ui/CustomLink";
 import { MentionUser } from "@/components/markup/MentionUser";
 import { Emoji } from "@/components/markup/Emoji";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
-import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import env from "@/common/env";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { DangerousLinkModal } from "@/components/ui/DangerousLinkModal";
 import { useResizeObserver } from "@/common/useResizeObserver";
-import { ServerWithMemberCount, joinPublicServer, joinServerByInviteCode, serverDetailsByInviteCode } from "@/chat-api/services/ServerService";
+import { ServerWithMemberCount, joinServerByInviteCode, serverDetailsByInviteCode } from "@/chat-api/services/ServerService";
 import { ServerVerifiedIcon } from "@/components/servers/ServerVerifiedIcon";
 import { getFile, googleApiInitialized, initializeGoogleDrive } from "@/common/driveAPI";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
-import useServerMembers, { ServerMember } from "@/chat-api/store/useServerMembers";
-import { Dynamic, classList } from "solid-js/web";
+import { ServerMember } from "@/chat-api/store/useServerMembers";
+import { Dynamic } from "solid-js/web";
 import {Emoji as RoleEmoji} from "@/components/ui/Emoji";
 import { prettyBytes } from "@/common/prettyBytes";
-import { unzip, unzipJson } from "@/common/zip";
-import { Rerun } from "@solid-primitives/keyed";
+import { unzipJson } from "@/common/zip";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
+
+const DeleteMessageModal = lazy(() => import("../message-delete-modal/MessageDeleteModal"));
 
 interface FloatingOptionsProps {
   message: RawMessage,
@@ -49,7 +45,6 @@ interface FloatingOptionsProps {
   showContextMenu?: (event: MouseEvent) => void,
   reactionPickerClick?(event: MouseEvent): void
   textAreaEl?: HTMLTextAreaElement;
-
 }
 
 
@@ -1193,84 +1188,5 @@ const MessageReplies = (props: { message: Message }) => {
     </Show>
   )
 }
-
-
-
-
-const DeleteMessageModalContainer = styled(FlexColumn)`
-  overflow: auto;
-  padding: 10px;
-  max-height: 200px;
-
-`;
-const deleteMessageItemContainerStyles = css`
-  padding-top: 5px;
-  border-radius: 8px;
-  margin-top: 5px;
-  background-color: rgba(0,0,0,0.3);
-
-  overflow: hidden;
-  &&{
-    &:hover {
-      background-color: rgba(0,0,0,0.3);
-    }
-  }
-`;
-
-const deleteMessageModalStyles = css`
-  max-height: 800px;
-  overflow: hidden;
-`;
-
-export function DeleteMessageModal(props: { instant?: boolean; message: Message, close: () => void }) {
-
-  const onDeleteClick = () => {
-    props.close();
-    deleteMessage({ channelId: props.message.channelId, messageId: props.message.id });
-  };
-
-  if (props.instant) {
-    onDeleteClick();
-  }
-
-
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      onDeleteClick();
-    }
-    if (event.key === "Escape") {
-      event.preventDefault();
-      props. close();
-    }
-  };
-
-
-  onMount(() => {
-    document.addEventListener("keydown", onKeyDown);
-    onCleanup(() => {
-      document.removeEventListener("keydown", onKeyDown);
-    });
-  });
-
-
-
-  const ActionButtons = (
-    <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button onClick={props.close} iconName="close" label="Cancel" />
-      <Button onClick={onDeleteClick} iconName="delete" color='var(--alert-color)' label="Delete" />
-    </FlexRow>
-  );
-
-  return (
-    <Modal close={props.close} title='Delete Message?' icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons} maxWidth={500}>
-      <DeleteMessageModalContainer>
-        <Text>Are you sure you would like to delete this message?</Text>
-        <MessageItem class={deleteMessageItemContainerStyles} hideFloating message={props.message} />
-      </DeleteMessageModalContainer>
-    </Modal>
-  );
-}
-
 
 

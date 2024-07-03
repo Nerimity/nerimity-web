@@ -1,11 +1,11 @@
 import styles from "./styles.module.scss";
-import { createEffect, createMemo, createSignal, For, JSX, mapArray, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
+import { createEffect, createMemo, createSignal, For, JSX, lazy, mapArray, Match, on, onCleanup, onMount, Show, Switch } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { A, useNavigate, useParams } from "solid-navigator";
 import useStore from "../../chat-api/store/useStore";
 import Button from "@/components/ui/Button";
 import { useWindowProperties } from "../../common/useWindowProperties";
-import { ChannelType, MessageType, RawChannelNotice, RawCustomEmoji, RawMessage } from "../../chat-api/RawData";
+import { ChannelType, MessageType, RawCustomEmoji, RawMessage } from "../../chat-api/RawData";
 import socketClient from "../../chat-api/socketClient";
 import { ServerEvents } from "../../chat-api/EventNames";
 import Icon from "@/components/ui/icon/Icon";
@@ -39,19 +39,18 @@ import { setLastSelectedServerChannelId } from "@/common/useLastSelectedServerCh
 import Modal from "../ui/modal/Modal";
 import { FlexRow } from "../ui/Flexbox";
 import { Markup } from "../Markup";
-import { getChannelNotice } from "@/chat-api/services/ChannelService";
-import { getStorageBoolean, getStorageObject, setStorageObject, StorageKeys } from "@/common/localStorage";
+import { getStorageBoolean, StorageKeys } from "@/common/localStorage";
 import { randomKaomoji } from "@/common/kaomoji";
 import { MessageLogArea } from "./message-log-area/MessageLogArea";
 import { TenorImage } from "@/chat-api/services/TenorService";
 import { useMicRecorder } from "@nerimity/solid-opus-media-recorder";
-import { DeleteMessageModal } from "./message-item/MessageItem";
 import { useNotice } from "@/common/useChannelNotice";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { PhotoEditor } from "../ui/photo-editor/PhotoEditor";
 import { prettyBytes } from "@/common/prettyBytes";
 import Checkbox from "../ui/Checkbox";
-import { RadioBoxItemCheckBox } from "../ui/RadioBox";
+
+const DeleteMessageModal = lazy(() => import("./message-delete-modal/MessageDeleteModal"));
 
 export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;

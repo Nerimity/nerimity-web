@@ -17,9 +17,9 @@ import ContextMenu, { ContextMenuProps } from "@/components/ui/context-menu/Cont
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { useParams, useSearchParams } from "solid-navigator";
-import { For, Show, batch, createEffect, createMemo, createRenderEffect, createSignal, on, onCleanup, onMount } from "solid-js";
+import { For, Show, batch, createEffect, createMemo, createRenderEffect, createSignal, lazy, on, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
-import MessageItem, { DeleteMessageModal } from "../message-item/MessageItem";
+import MessageItem from "../message-item/MessageItem";
 import MemberContextMenu from "@/components/member-context-menu/MemberContextMenu";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
@@ -35,6 +35,8 @@ import ItemContainer from "@/components/ui/Item";
 import Avatar from "@/components/ui/Avatar";
 import { formatTimestamp } from "@/common/date";
 import { CreateTicketModal } from "@/components/profile-pane/ProfilePane";
+
+const DeleteMessageModal = lazy(() => import("../message-delete-modal/MessageDeleteModal"));
 
 export const MessageLogArea = (props: { mainPaneEl: HTMLDivElement, textAreaEl?: HTMLTextAreaElement }) => {
   const [searchParams, setSearchParams] = useSearchParams<{messageId?: string}>();

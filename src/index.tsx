@@ -16,7 +16,6 @@ import settings from "./common/Settings";
 import exploreRoutes from "./common/exploreRoutes";
 import serverSettings from "./common/ServerSettings";
 import useStore from "./chat-api/store/useStore";
-import ModerationPane from "./components/moderation-pane/ModerationPane";
 import TicketsPage from "@/components/tickets/TicketsPage";
 import { TicketPage } from "./components/settings/TicketSettings";
 import { updateTheme } from "./common/themes";
@@ -54,6 +53,9 @@ const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const TermsAndConditionsPage = lazy(() => import("./pages/TermsAndConditionsPage"));
 const GoogleRedirectLinkAccount = lazy(() => import("./pages/GoogleRedirectLinkAccountPage"));
 
+
+
+const ModerationPane = lazy(() => import("@/components/moderation-pane/ModerationPane"));
 const ModerationUserPage = lazy(() => import("@/components/moderation-pane/UserPage"));
 const ModerationServerPage = lazy(() => import("@/components/moderation-pane/ServerPage"));
 
