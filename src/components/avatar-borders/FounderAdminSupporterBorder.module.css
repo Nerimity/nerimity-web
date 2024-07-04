@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
+  transition: 0.4s ease;
+  position: relative;
+  transition: 0.4s ease;
+
+}
+
+.hover {
+  scale: .8;
+}
+
+.border {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  z-index: 1111;
+  scale: 1.14;
+}
+
+.rawAvatar {
+  position: absolute;
+  border-radius: 30%;
+  inset: 0;
+  overflow: hidden;
+  scale: 0.9;
+  z-index: 111;
+}
+
+.wing {
+  z-index: 11;
+  height: 60%;
+  position: absolute;
+  transition: 0.4s ease;
+
+}
+
+.hover .wing {
+  opacity: 1;
+}
+.hover .leftWing {
+  left: -30%;
+}
+.hover .rightWing {
+  right: -30%;
+
+}
+.leftWing {
+  left: 30%;
+  opacity: 0;
+}
+
+.rightWing {
+  right: 30%;
+  opacity: 0;
+}

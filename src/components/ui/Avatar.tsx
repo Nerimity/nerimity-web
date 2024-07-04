@@ -7,9 +7,7 @@ import { keyframes, styled } from "solid-styled-components";
 import Text from "./Text";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
-import { SupporterBorderSvg } from "../avatar-borders/SupporterBorderSvg";
-import { AdminBorderSvg } from "../avatar-borders/AdminBorderSvg";
-import { FounderBorderSvg } from "../avatar-borders/FounderBorderSvg";
+import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 
 interface Props {
   url?: string | null;
@@ -290,7 +288,8 @@ function SupporterBorder(props: {
   children?: JSXElement;
 }) {
   return (
-    <SupporterBorderSvg
+    <FounderAdminSupporterBorder
+      type="supporter"
       children={props.children}
       color={props.color}
       url={props.avatarUrl}
@@ -307,7 +306,8 @@ function AdminBorder(props: {
   children?: JSXElement;
 }) {
   return (
-    <AdminBorderSvg
+    <FounderAdminSupporterBorder
+      type="admin"
       children={props.children}
       color={props.color}
       url={props.avatarUrl}
@@ -325,7 +325,8 @@ function  FounderBorder(props: {
   children?: JSXElement;
 }) {
   return (
-    <FounderBorderSvg
+    <FounderAdminSupporterBorder
+      type="founder"
       children={props.children}
       color={props.color}
       url={props.avatarUrl}
