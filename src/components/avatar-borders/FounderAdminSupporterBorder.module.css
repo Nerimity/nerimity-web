@@ -34,7 +34,12 @@
   scale: 0.9;
   z-index: 111;
 }
-
+.background {
+  position: absolute;
+  inset: 0;
+  user-select: none;
+  z-index: -1;
+}
 .wing {
   z-index: 11;
   height: 60%;
