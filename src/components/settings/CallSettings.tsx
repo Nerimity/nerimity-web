@@ -41,7 +41,7 @@ export default function NotificationsSettings() {
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.call-settings")} />
       </Breadcrumb>
-      <Notice type="info" description="Changes will be applied on next your calls." />
+      <Notice type="info" description="Changes will be applied on your next calls." />
       <InputDevices/>
       <OutputDevices/>
 
