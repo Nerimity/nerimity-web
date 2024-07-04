@@ -178,6 +178,14 @@ export async function getFollowing(userId?: string) {
 }
 
 
+export async function toggleBadge(bit: number) {
+  return request<{badges: number}>({
+    url:  env.SERVER_URL + "/api/users/badges/toggle",
+    body: {bit},
+    method: "POST",
+    useToken: true
+  });
+}
 export async function openDMChannelRequest(userId: string) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.openUserDM(userId),

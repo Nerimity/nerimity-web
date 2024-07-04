@@ -7,14 +7,14 @@ export function FounderAdminSupporterBorder(props: {
   color?: string;
   url?: string;
   hovered?: boolean;
-  type: "founder" | "supporter" | "admin";
+  type: "founder" | "supporter" | "admin" | "palestine";
 }) {
   return (
     <div class={classNames(styles.container, props.hovered ? styles.hover : undefined)}>
-      <img src={`/borders/${props.type}-left-wing.png`} class={classNames(styles.wing, styles.leftWing)} />
+      <Show when={props.type !== "palestine"}><img src={`/borders/${props.type}-left-wing.png`} class={classNames(styles.wing, styles.leftWing)} /></Show>
       <img src={`/borders/${props.type}.png`} class={styles.border} />
       <RawAvatar {...props} />
-      <img src={`/borders/${props.type}-right-wing.png`} class={classNames(styles.wing, styles.rightWing)} />
+      <Show when={props.type !== "palestine"}><img src={`/borders/${props.type}-right-wing.png`} class={classNames(styles.wing, styles.rightWing)} /></Show>
     </div>
   );
 }

@@ -35,10 +35,12 @@ export const USER_BADGES = {
     bit: 4,
     color: "#ffffff"
   },
-  BOT: {
-    name: "Bot User",
-    description: "Bot User",
-    color: "var(--primary-color)" 
+  PALESTINE: {
+    name: "Palestine",
+    description: "[Click To Help](https://arab.org/click-to-help/palestine/)",
+    bit: 16,
+    credit: "Avatar Border by upklyak on Freepik, edited by Supertiger",
+    color: "linear-gradient(90deg, red, white, green);" 
   }
 };
 

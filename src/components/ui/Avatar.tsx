@@ -147,6 +147,15 @@ function AvatarBorder(props: {
             children={props.children}
           />
         </Match>
+        <Match when={props.badge?.bit === USER_BADGES.PALESTINE.bit}>
+          <PalestineBorder
+            size={props.size}
+            avatarUrl={props.url}
+            hovered={props.hovered}
+            color={props.color}
+            children={props.children}
+          />
+        </Match>
         <Match when={props.badge || props.serverOrUser?.verified}>
           <BasicBorder
             size={props.size}
@@ -327,6 +336,23 @@ function  FounderBorder(props: {
   return (
     <FounderAdminSupporterBorder
       type="founder"
+      children={props.children}
+      color={props.color}
+      url={props.avatarUrl}
+      hovered={props.hovered}
+    />
+  );
+}
+function  PalestineBorder(props: {
+  size: number;
+  avatarUrl?: string;
+  hovered?: boolean;
+  color?: string;
+  children?: JSXElement;
+}) {
+  return (
+    <FounderAdminSupporterBorder
+      type="palestine"
       children={props.children}
       color={props.color}
       url={props.avatarUrl}

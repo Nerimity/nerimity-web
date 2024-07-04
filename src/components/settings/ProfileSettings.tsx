@@ -6,7 +6,7 @@ import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
-import { getUserDetailsRequest, updateUser, UserDetails } from "@/chat-api/services/UserService";
+import { getUserDetailsRequest, toggleBadge, updateUser, UserDetails } from "@/chat-api/services/UserService";
 import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
@@ -20,6 +20,8 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
 import { RawUser } from "@/chat-api/RawData";
+import Checkbox from "../ui/Checkbox";
+import { addBit, hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
 const Container = styled("div")`
   display: flex;
@@ -48,10 +50,29 @@ export default function ProfileSettings() {
         <BreadcrumbItem title={t("settings.drawer.account")} href='../' />
         <BreadcrumbItem title="Profile" />
       </Breadcrumb>
-
+      <PalestineBorder/>
       <EditProfilePage />
     </Container>
   );
+}
+
+const PalestineBorder = () => {
+
+  const store = useStore();
+  const user = () => store.account.user();
+  const hasBorder = () => hasBit(user()?.badges || 0, USER_BADGES.PALESTINE.bit);
+
+  const onToggle = () => {
+    toggleBadge(USER_BADGES.PALESTINE.bit).then((result) => {
+      store.account.setUser({badges: result.badges});
+    })
+  }
+
+  return (
+    <SettingsBlock icon="favorite" label="Add Palestine border to your avatar." onClick={onToggle}>
+      <Checkbox checked={hasBorder()} />
+    </SettingsBlock>
+  )
 }
 
 
@@ -79,7 +100,7 @@ const bioBlockStyles = css`
   }
 `;
 
-export function EditProfilePage(props: {bot?: RawUser | null, botToken: string | null}) {
+export function EditProfilePage(props: {bot?: RawUser | null, botToken?: string | null}) {
   const { account } = useStore();
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [error, setError] = createSignal<null | string>(null);

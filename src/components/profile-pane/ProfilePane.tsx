@@ -1178,7 +1178,7 @@ function BadgeDetailModal(props: {
       <BadgeDetailsModalContainer gap={30}>
         <FlexColumn itemsCenter gap={18}> 
           <Avatar user={user()} size={80} animate={animate()} />
-          <Text style={{"max-width": "200px", "text-align": "center"}}>{props.badge.description}</Text>
+          <Text style={{"max-width": "200px", "text-align": "center"}}><Markup text={props.badge.description}/></Text>
         </FlexColumn>
         <FlexColumn itemsCenter gap={16} >
           <Text size={14} opacity={0.6}>{props.badge.credit}</Text>
