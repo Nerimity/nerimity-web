@@ -83,7 +83,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       break;
     }
     case "q": { // quoted messages
-      if (ctx.props().isQuote) {
+      if (ctx.props().isQuote || ctx.props().inline) {
         return <QuoteMessageHidden />;
       }
       const quote = ctx.props().message?.quotedMessages?.find(m => m.id === expr);
