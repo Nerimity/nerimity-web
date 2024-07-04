@@ -659,7 +659,7 @@ function FloatingReply() {
 
   const property = () => channelProperties.get(params.channelId)
 
-  const messages = () => property()?.replyToMessages?.toReversed() || [];
+  const messages = () => property()?.replyToMessages || [];
   const mention = () => property()?.mentionReplies;
   const setMention = (value: boolean) => {
     channelProperties.toggleMentionReplies(params.channelId);

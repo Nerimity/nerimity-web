@@ -61,7 +61,7 @@ export const postMessage = async (opts: PostMessageOpts) => {
     content: opts.content?.trim() || undefined,
   
     ...(opts.replyToMessageIds?.length ? { 
-      replyToMessageIds: opts.replyToMessageIds.toReversed(),
+      replyToMessageIds: opts.replyToMessageIds,
       mentionReplies: opts.mentionReplies
      } : {}),
 
@@ -77,7 +77,7 @@ export const postMessage = async (opts: PostMessageOpts) => {
     }
     
     if (opts.replyToMessageIds?.length) {
-      fd.append("replyToMessageIds", JSON.stringify(opts.replyToMessageIds.toReversed()));
+      fd.append("replyToMessageIds", JSON.stringify(opts.replyToMessageIds));
       fd.append("mentionReplies", String(opts.mentionReplies));
     }
     fd.append("attachment", opts.attachment);
