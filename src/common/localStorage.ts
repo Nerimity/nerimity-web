@@ -17,6 +17,8 @@ export enum StorageKeys {
   DISABLED_ADVANCED_MARKUP = "disabledAdvancedMarkup",
   NOTIFICATION_SOUNDS = "notificationSounds",
   CUSTOM_COLORS = "customColors",
+  inputDeviceId = "inputDeviceId",
+  outputDeviceId = "outputDeviceId",
 }
 
 export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {

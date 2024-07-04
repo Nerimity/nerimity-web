@@ -9,6 +9,7 @@ import { emitVoiceSignal } from "../emits/voiceEmits";
 import useChannels from "./useChannels";
 import env from "@/common/env";
 import vad from "voice-activity-detection";
+import { getStorageString, StorageKeys } from "@/common/localStorage";
 
 interface VADInstance {
   connect: () => void;
@@ -298,6 +299,10 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
   if (streamType === "audioStream") {
     setVAD(stream, voiceUser);
     const mic = new Audio();
+    const deviceId = getStorageString(StorageKeys.outputDeviceId, undefined)
+    if (deviceId) {
+      mic.setSinkId(JSON.parse(deviceId))
+    }
     mic.srcObject = stream;
     mic.play();
   }
@@ -309,9 +314,10 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
 const isLocalMicMuted = () => localStreams.audioStream === null;
 
 const toggleMic = async () => {
+  const deviceId = getStorageString(StorageKeys.inputDeviceId, undefined);
   if (isLocalMicMuted()) {
-    const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-    const vadStream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+    const stream = await navigator.mediaDevices.getUserMedia({audio: !deviceId ? true : {deviceId: JSON.parse(deviceId)}, video: false});
+    const vadStream = await navigator.mediaDevices.getUserMedia({audio: !deviceId ? true : {deviceId: JSON.parse(deviceId)}, video: false});
 
     setLocalStreams({audioStream: stream, vadStream});
     setLocalVAD(vadStream);
@@ -461,15 +467,4 @@ export default function useVoiceUsers() {
     resetAll,
     localStreams
   };
-}
-
-async function test () {
-  const stream = await navigator.mediaDevices.getDisplayMedia({audio: {
-
-
-  }, video: true});
-  
-
-  const st = new MediaStream([stream.getAudioTracks()[0]]);
-  return st;
 }

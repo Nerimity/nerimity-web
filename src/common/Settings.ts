@@ -46,6 +46,13 @@ const settings: Setting[] =  [
     element: lazy(() => import("@/components/settings/NotificationsSettings"))
   },
   {
+    path: "call-settings",
+    routePath: "/call-settings",
+    name: "settings.drawer.call-settings",
+    icon: "call",
+    element: lazy(() => import("@/components/settings/CallSettings"))
+  },
+  {
     path: "connections",
     routePath: "/connections",
     name: "settings.drawer.connections",

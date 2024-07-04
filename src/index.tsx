@@ -19,8 +19,30 @@ import useStore from "./chat-api/store/useStore";
 import TicketsPage from "@/components/tickets/TicketsPage";
 import { TicketPage } from "./components/settings/TicketSettings";
 import { updateTheme } from "./common/themes";
+import { getStorageString, removeStorage, setStorageString, StorageKeys } from "./common/localStorage";
 
 updateTheme();
+
+// check valid deviceIds Exist
+navigator.mediaDevices.enumerateDevices().then((devices) => {
+  const currentInputDevice = getStorageString(StorageKeys.inputDeviceId, undefined);
+  const currentOutputDevice = getStorageString(StorageKeys.outputDeviceId, undefined);
+  if (currentInputDevice) {
+    const deviceId = JSON.parse(currentInputDevice);
+    const exists = devices.find((d) => d.deviceId === deviceId);
+    if (!exists) {
+      removeStorage(StorageKeys.inputDeviceId);
+    }
+  }
+
+  if (currentOutputDevice) {
+    const deviceId = JSON.parse(currentOutputDevice);
+    const exists = devices.find((d) => d.deviceId === deviceId);
+    if (!exists) {
+      removeStorage(StorageKeys.outputDeviceId);
+    }
+  }
+})
 
 // Drawers
 const SettingsDrawer = lazy(() => import("@/components/settings/SettingsDrawer"));
