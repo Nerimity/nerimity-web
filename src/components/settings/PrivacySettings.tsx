@@ -45,7 +45,7 @@ export default function PrivacySettings() {
         <BreadcrumbItem title={t("settings.drawer.privacy")} />
       </Breadcrumb>
 
-      <LastSeenOptions/>
+      <LastOnlineOptions/>
       <DMOptions />
       <ProfileOptions/>
 
@@ -54,7 +54,7 @@ export default function PrivacySettings() {
 }
 
 
-function LastSeenOptions() {
+function LastOnlineOptions() {
   const {account} = useStore();
 
   const friendRequestStatus = () => account.user()?.lastOnlineStatus;
@@ -76,7 +76,7 @@ function LastSeenOptions() {
     <FlexColumn>
 
 
-      <SettingsBlock class={css`margin-top: 10px;`} description={t("settings.privacy.lastSeen.description")} header icon='access_time' label={t("settings.privacy.lastSeen.title")}  />
+      <SettingsBlock class={css`margin-top: 10px;`} description={t("settings.privacy.lastOnline.description")} header icon='access_time' label={t("settings.privacy.lastOnline.title")}  />
       <RadioBoxContainer>
         <RadioBox onChange={onChange} items={radioboxItems} initialId={friendRequestStatus() || 0} />
       </RadioBoxContainer>

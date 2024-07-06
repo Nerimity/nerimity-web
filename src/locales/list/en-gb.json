@@ -224,9 +224,9 @@
         "serversOnly": "Servers Only",
         "nobody": "Nobody"
       },
-      "lastSeen": {
-        "description": "Set who can see your last seen time.",
-        "title": "Last Seen Time"
+      "lastOnline": {
+        "description": "Set who can see your last online time.",
+        "title": "Last Online Time"
       }
     }
   },

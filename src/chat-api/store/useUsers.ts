@@ -138,9 +138,14 @@ const reset = () => {
 const presencesArray = () => Object.values(userPresences);
 
 const updateLastOnlineAt = (userId: string) => {
+  const account = useAccount();
   const friends = useFriends();
   const user = get(userId);
   if (!user) return;
+  if (account.user()?.id === userId && user.lastOnlineStatus !== LastOnlineStatus.HIDDEN) {
+    setUsers(userId, "lastOnlineAt", Date.now());
+    return;
+  }
   if (user.lastOnlineStatus === LastOnlineStatus.FRIENDS_AND_SERVERS) {
     setUsers(userId, "lastOnlineAt", Date.now());
     return;
