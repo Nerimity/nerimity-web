@@ -237,6 +237,7 @@ interface UpdateUserOptions {
   socketId?: string;
   dmStatus?: number;
   friendRequestStatus?: number;
+  lastOnlineStatus?: number;
   hideFollowers?: boolean;
   hideFollowing?: boolean;
 }

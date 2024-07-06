@@ -44,9 +44,44 @@ export default function PrivacySettings() {
         <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.privacy")} />
       </Breadcrumb>
+
+      <LastSeenOptions/>
       <DMOptions />
       <ProfileOptions/>
+
     </Container>
+  );
+}
+
+
+function LastSeenOptions() {
+  const {account} = useStore();
+
+  const friendRequestStatus = () => account.user()?.lastOnlineStatus;
+
+  const radioboxItems = [
+    { id: 0, label: "Hidden" },
+    { id: 1, label: "Friends only" },
+    { id: 2, label: "Friends and servers" }
+  ];
+
+  const onChange = (item: RadioBoxItem) => {
+    const id = item.id;
+    updateUser({
+      lastOnlineStatus: id as number
+    });
+  };
+
+  return (
+    <FlexColumn>
+
+
+      <SettingsBlock class={css`margin-top: 10px;`} description={t("settings.privacy.lastSeen.description")} header icon='access_time' label={t("settings.privacy.lastSeen.title")}  />
+      <RadioBoxContainer>
+        <RadioBox onChange={onChange} items={radioboxItems} initialId={friendRequestStatus() || 0} />
+      </RadioBoxContainer>
+
+    </FlexColumn>
   );
 }
 

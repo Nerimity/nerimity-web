@@ -1,5 +1,5 @@
 import {createStore, reconcile} from "solid-js/store";
-import { ActivityStatus, RawUser } from "../RawData";
+import { ActivityStatus, FriendStatus, RawUser } from "../RawData";
 import useInbox from "./useInbox";
 import { closeDMChannelRequest, openDMChannelRequest } from "../services/UserService";
 import useChannels from "./useChannels";
@@ -8,6 +8,8 @@ import { useNavigate } from "solid-navigator";
 import { runWithContext } from "@/common/runWithContext";
 import env from "@/common/env";
 import useAccount from "./useAccount";
+import { LastOnlineStatus } from "../events/connectionEventTypes";
+import useFriends from "./useFriends";
 
 export enum UserStatus {
   OFFLINE = 0,
@@ -44,8 +46,6 @@ const [users, setUsers] = createStore<Record<string, User>>({});
 const [userPresences, setUserPresences] = createStore<Record<string, Presence>>({});
 
 const set = (user: RawUser) => runWithContext(() => {
-  if (users[user.id]) return;
-
 
   const newUser: User = {
     ...user,
@@ -137,6 +137,24 @@ const reset = () => {
 
 const presencesArray = () => Object.values(userPresences);
 
+const updateLastOnlineAt = (userId: string) => {
+  const friends = useFriends();
+  const user = get(userId);
+  if (!user) return;
+  if (user.lastOnlineStatus === LastOnlineStatus.FRIENDS_AND_SERVERS) {
+    setUsers(userId, "lastOnlineAt", Date.now());
+    return;
+  }
+  if (user.lastOnlineStatus === LastOnlineStatus.FRIENDS) {
+    const isFriends = friends.get(userId)?.status === FriendStatus.FRIENDS;
+    if (isFriends) {
+      setUsers(userId, "lastOnlineAt", Date.now());
+      return;
+    }
+  }
+  setUsers(userId, "lastOnlineAt", undefined);
+}
+
 export default function useUsers() {
   return {
     array,
@@ -146,6 +164,7 @@ export default function useUsers() {
     removePresence,
     openDM,
     reset,
-    presencesArray
+    presencesArray,
+    updateLastOnlineAt
   };
 }

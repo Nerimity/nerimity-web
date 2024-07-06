@@ -208,9 +208,7 @@
         "description": "Set Who can send you direct messages.",
         "anyone": "Anyone",
         "friendsAndServersOnly": "Friends and Servers Only",
-        "friendsOnly": "Friends Only"     
-        
-        
+        "friendsOnly": "Friends Only"
       },
       "profileOptions": {
         "title": "Profile Options",
@@ -219,15 +217,17 @@
         "hideFollowing": "Hide Following",
         "hideFollowingDescription": "Hide users you are following from your profile."
       },
-
       "friendRequest": {
         "title": "Friend Request",
         "description": "Set who can send you friend requests.",
         "anyone": "Anyone",
         "serversOnly": "Servers Only",
         "nobody": "Nobody"
+      },
+      "lastSeen": {
+        "description": "Set who can see your last seen time.",
+        "title": "Last Seen Time"
       }
-
     }
   },
   "addFriend": {

@@ -25,6 +25,11 @@ interface MessageMention {
   channelId: string
   createdAt: number;
 }
+export enum LastOnlineStatus {
+  HIDDEN = 0,
+  FRIENDS = 1,
+  FRIENDS_AND_SERVERS = 2,
+}
 
 export enum DmStatus {
   OPEN = 0,
@@ -51,6 +56,7 @@ export interface SelfUser {
   orderedServerIds: string[]
   dmStatus: DmStatus
   friendRequestStatus: FriendRequestStatus
+  lastOnlineStatus?: number
   emailConfirmed: boolean
   connections: RawUserConnection[]
   notices: RawNotice[]

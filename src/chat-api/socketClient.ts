@@ -6,7 +6,7 @@ import { onFriendRemoved, onFriendRequestAccepted, onFriendRequestPending, onFri
 import { onInboxClosed, onInboxOpened } from "./events/inboxEvents";
 import { onMessageCreated, onMessageDeleted, onMessageDeletedBatch, onMessageReactionAdded, onMessageReactionRemoved, onMessageUpdated } from "./events/messageEvents";
 import { onServerChannelCreated, onServerChannelDeleted, onServerChannelOrderUpdated, onServerChannelUpdated, onServerEmojiAdd, onServerEmojiRemove, onServerEmojiUpdate, onServerJoined, onServerLeft, onServerMemberJoined, onServerMemberLeft, onServerMemberUpdated, onServerOrderUpdated, onServerRoleCreated, onServerRoleDeleted, onServerRoleOrderUpdated, onServerRoleUpdated, onServerUpdated } from "./events/serverEvents";
-import { onNotificationDismissed, onUserBlocked, onUserConnectionAdded, onUserConnectionRemoved, onUserNoticeUpdated, onUserNotificationSettingsUpdate, onUserPresenceUpdate, onUserUnblocked, onUserUpdated } from "./events/userEvents";
+import { onNotificationDismissed, onUserBlocked, onUserConnectionAdded, onUserConnectionRemoved, onUserNoticeUpdated, onUserNotificationSettingsUpdate, onUserPresenceUpdate, onUserUnblocked, onUserUpdated, onUserUpdatedSelf } from "./events/userEvents";
 import { onCleanup, onMount } from "solid-js";
 import { onVoiceSignalReceived, onVoiceUserJoined, onVoiceUserLeft } from "./events/voiceEvents";
 
@@ -46,6 +46,7 @@ socket.on(ServerEvents.CONNECT, () => onConnect(socket, token));
 socket.on(ServerEvents.AUTHENTICATE_ERROR, onAuthenticateError);
 socket.on("disconnect", onDisconnect);
 socket.on(ServerEvents.USER_AUTHENTICATED, onAuthenticated);
+socket.on(ServerEvents.USER_UPDATED_SELF, onUserUpdatedSelf);
 socket.on(ServerEvents.USER_UPDATED, onUserUpdated);
 socket.on(ServerEvents.USER_NOTIFICATION_SETTINGS_UPDATE, onUserNotificationSettingsUpdate);
 socket.on(ServerEvents.USER_NOTICE_CREATED, onUserNoticeUpdated);

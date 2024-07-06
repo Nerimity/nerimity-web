@@ -9,6 +9,7 @@ export const ClientEvents = {
 export const ServerEvents = {
   CONNECT: "connect",
   AUTHENTICATE_ERROR:"user:authenticate_error",
+  USER_UPDATED_SELF: "user:updatedSelf",
   USER_UPDATED: "user:updated",
   USER_NOTICE_CREATED: "user:notice_created",
 

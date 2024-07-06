@@ -3,13 +3,14 @@ import useChannels from "../store/useChannels";
 import useMention from "../store/useMention";
 import useStore from "../store/useStore";
 import useUsers, { UserStatus } from "../store/useUsers";
-import { SelfUser } from "./connectionEventTypes";
+import { LastOnlineStatus, SelfUser } from "./connectionEventTypes";
 import { ActivityStatus, FriendStatus, RawUserNotificationSettings, RawUser, RawUserConnection, RawNotice } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
 import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
 import { isExperimentEnabled } from "@/common/experiments";
+import { userInfo } from "os";
 
 export function onUserPresenceUpdate(payload: { userId: string; status?: UserStatus, custom?: string; activity?: ActivityStatus}) {
   const users = useUsers();
@@ -27,6 +28,10 @@ export function onUserPresenceUpdate(payload: { userId: string; status?: UserSta
 
 
     }
+  }
+
+  if (payload.status === UserStatus.OFFLINE) {
+    users.updateLastOnlineAt(payload.userId)
   }
   
   
@@ -49,12 +54,25 @@ export function onNotificationDismissed(payload: {channelId: string}) {
   
 }
 
-export function onUserUpdated(payload: Partial<SelfUser>) {
+export function onUserUpdatedSelf(payload: Partial<SelfUser>) {
   const {account, users} = useStore();
   account.setUser(payload);
 
   const user = users.get(account.user()?.id!);
   user?.update(payload);
+}
+export function onUserUpdated(payload: {userId: string; updated: Partial<RawUser>}) {
+  const {users, friends} = useStore();
+  const user = users.get(payload.userId);
+  user?.update(payload.updated);
+  if (payload.updated.lastOnlineStatus) {
+    const lastOnlineStatus = payload.updated.lastOnlineStatus;
+    const areFriends = friends.get(payload.userId)?.status === FriendStatus.FRIENDS;
+    if (!areFriends && lastOnlineStatus === LastOnlineStatus.FRIENDS) {
+      users.updateLastOnlineAt(payload.userId);
+    }
+
+  }
 }
 
 export function onUserNotificationSettingsUpdate(payload: {serverId?: string, channelId?: string; updated: Partial<RawUserNotificationSettings>}) {

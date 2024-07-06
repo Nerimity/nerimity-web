@@ -114,6 +114,8 @@ export interface RawUser {
   badges: number;
   joinedAt?: number;
   bot: boolean;
+  lastOnlineStatus?: number;
+  lastOnlineAt?: number;
 }
 
 export interface RawUserConnection {
