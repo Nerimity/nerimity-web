@@ -417,11 +417,8 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
 
 const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean }) => {
   const { paneWidth, height, width: windowWidth } = useWindowProperties();
-  const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
-  const [error, setError] = createSignal<string | undefined>();
   const [playVideo, setPlayVideo] = createSignal<boolean>(false);
 
-  const [date, setDate] = createSignal<string>("");
 
   const widthOffset = -90;
   const customHeight = 0;
@@ -440,21 +437,17 @@ const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean })
     return clampImageSize(1920, 1080, maxWidth, (customHeight || height()) / 2);
   };
 
-  onMount(() => {
-    updateDate();
-    const interval = setInterval(updateDate, 60000);
-    onCleanup(() => clearInterval(interval));
-  });
-
-  const updateDate = () => {
-    setDate(timeSince(new Date(props.embed.uploadDate || 0).getTime()));
+  const thumbnailUrl = () => {
+    return `https://i.ytimg.com/vi/${props.code}/maxresdefault.jpg`;
   };
+
+
 
   return (
     <div class={styles.youtubeEmbed} >
       <div class={styles.video} style={style()}>
         <Show when={!playVideo()}>
-          <img style={{ width: "100%", height: "100%", "object-fit": "cover" }} src={props.embed.imageUrl} />
+          <img style={{ width: "100%", height: "100%", "object-fit": "cover" }} src={thumbnailUrl()} />
           <div onClick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
             <div class={styles.playButton}>
               <Icon name='play_arrow' color='var(--primary-color)' size={28} />
@@ -468,7 +461,7 @@ const YoutubeEmbed = (props: { code: string, embed: RawEmbed, shorts: boolean })
       <div class={styles.youtubeEmbedDetails}>
         <div class={styles.title}>{props.embed.title}</div>
         <div class={styles.info}>
-          {props.embed.channelName} • <span class={styles.date}>{date()}</span>
+          {props.embed.channelName} • <span class={styles.date}>{props.embed.uploadDate}</span>
         </div>
         <div class={styles.description}>{props.embed.description}</div>
 
