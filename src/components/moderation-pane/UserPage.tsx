@@ -144,6 +144,7 @@ export default function UserPage() {
 
 
 
+  const botApplicationUser = () => user()?.application?.creatorAccount?.user;
 
 
   return (
@@ -164,19 +165,30 @@ export default function UserPage() {
             <BreadcrumbItem title={user()?.username} icon="person" />
           </Breadcrumb>
 
+          <Show when={user()?.application}>
+            <div style={{display: "flex", "flex-direction": "column", gap: "4px", "margin-bottom": "10px"}}>
+              <Text size={14} style={{"margin-left": "0px"}}>Bot Created By</Text>
+              <User user={botApplicationUser()} class={css`border: none; border-radius: 6px; background: rgba(255, 255, 255, 0.05);`} />
+            </div>
+          </Show>
+
           <Show when={user()}>
-            <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
-            <WarnBlock user={user()!} setUser={setUser}/>
+            <FlexColumn class={css`margin-bottom: 10px;`}>
+              <SuspendOrUnsuspendBlock user={user()!} setUser={setUser}/>
+              <Show when={user()?.account}><WarnBlock user={user()!} setUser={setUser}/></Show>
+            </FlexColumn>
           </Show>
 
 
-          <SettingsBlock label="Email" icon="email">
-            <Input value={inputValues().email} onText={v => setInputValue("email", v)} />
-          </SettingsBlock>
+          <Show when={user()?.account}>
+            <SettingsBlock label="Email" icon="email">
+              <Input value={inputValues().email} onText={v => setInputValue("email", v)} />
+            </SettingsBlock>
 
-          <SettingsBlock label="Email Confirmed">
-            <Checkbox checked={inputValues().emailConfirmed} onChange={checked => setInputValue("emailConfirmed", checked)} />
-          </SettingsBlock>
+            <SettingsBlock label="Email Confirmed">
+              <Checkbox checked={inputValues().emailConfirmed} onChange={checked => setInputValue("emailConfirmed", checked)} />
+            </SettingsBlock>
+          </Show>
 
           <SettingsBlock label="Username" icon="face">
             <Input value={inputValues().username} onText={v => setInputValue("username", v)} />
@@ -338,8 +350,8 @@ function SuspendOrUnsuspendBlock(props: {user: ModerationUser, setUser: (user: M
 function WarnBlock(props: {user: ModerationUser, setUser: (user: ModerationUser) => void}) {
   const { createPortal } = useCustomPortal();
   
-  const expired = () => !props.user.account.warnExpiresAt ? true : new Date(props.user.account.warnExpiresAt) < new Date();
-  const warnCount = () => expired() ? 0 : props.user.account.warnCount || 0;
+  const expired = () => !props.user.account?.warnExpiresAt ? true : new Date(props.user.account.warnExpiresAt) < new Date();
+  const warnCount = () => expired() ? 0 : props.user.account?.warnCount || 0;
 
   const showWarnModal = () => {
     createPortal?.(close => <WarnUserModal done={() => props.setUser({...props.user, account: {...props.user.account, warnCount: warnCount() + 1, warnExpiresAt: new Date().setMonth(new Date().getMonth() + 6)}})} close={close} user={props.user} />);
@@ -358,7 +370,7 @@ function WarnBlock(props: {user: ModerationUser, setUser: (user: ModerationUser)
   );
 
   return (
-    <div class={css`margin-bottom: 10px;`}>
+    <div>
 
 
 

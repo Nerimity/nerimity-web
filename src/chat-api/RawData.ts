@@ -338,6 +338,9 @@ export interface RawApplication {
   botUser?: RawUser
 
 
+  creatorAccount?: {
+    user: RawUser
+  }
   creatorAccountId: string
   createdAt: number
 }

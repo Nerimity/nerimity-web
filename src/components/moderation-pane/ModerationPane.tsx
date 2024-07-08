@@ -613,6 +613,18 @@ export function User(props: { user: any, class?: string }) {
               Suspended
             </Text>
           </Show>
+          <Show when={props.user.bot}>
+            <Text
+              size={12}
+              style={{
+                background: "var(--primary-color)",
+                "border-radius": "4px",
+                padding: "3px"
+              }}
+            >
+              Bot
+            </Text>
+          </Show>
         </FlexRow>
       </ItemDetailContainer>
     </A>

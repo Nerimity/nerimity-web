@@ -1,6 +1,6 @@
 
 import env from "../../common/env";
-import { RawFriend, RawServer, RawTicket, RawUser, TicketStatus } from "../RawData";
+import { RawApplication, RawFriend, RawServer, RawTicket, RawUser, TicketStatus } from "../RawData";
 import { request } from "./Request";
 import Endpoints from "./ServiceEndpoints";
 
@@ -310,7 +310,8 @@ export const getOnlineUsers = async () => {
 
 
 export type  ModerationUser = RawUser & {
-  account: {email: string; emailConfirmed?: boolean, warnCount?: number, warnExpiresAt?: number}
+  account?: {email: string; emailConfirmed?: boolean, warnCount?: number, warnExpiresAt?: number},
+  application?: RawApplication
   suspension?: ModerationSuspension
   servers?: RawServer[]
 }
