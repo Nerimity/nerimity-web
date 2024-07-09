@@ -144,9 +144,14 @@ export default function WindowSettings() {
         </FlexRow>
 
 
-        <CustomLink target="_blank" rel="noopener noreferrer" class={css`align-self: flex-end;`} href="https://chromewebstore.google.com/detail/nerimity-rpc/lgboikjogeocndkamelapkbngmfjfgaf">
-          <Button margin={[10, 0, 0, 0]} iconName="extension" primary label="Visit Chrome Web Store" />
-        </CustomLink>
+        <FlexRow  class={css`align-self: flex-end;`} gap={6} wrap>
+          <CustomLink target="_blank" rel="noopener noreferrer" href="https://addons.mozilla.org/en-GB/firefox/addon/nerimity-rpc">
+            <Button margin={[10, 0, 0, 0]} iconName="extension" primary label="Visit Firefox Add-ons" />
+          </CustomLink>
+          <CustomLink target="_blank" rel="noopener noreferrer" href="https://chromewebstore.google.com/detail/nerimity-rpc/lgboikjogeocndkamelapkbngmfjfgaf">
+            <Button margin={[10, 0, 0, 0]} iconName="extension" primary label="Visit Chrome Web Store" />
+          </CustomLink>
+        </FlexRow>
 
 
       </RPCAdContainer>
