@@ -41,7 +41,13 @@ export const USER_BADGES = {
     bit: 16,
     credit: "Avatar Border by upklyak on Freepik, edited by Supertiger",
     color: "linear-gradient(90deg, red, white, green);" 
-  }
+  },
+  BOT: {
+    name: "Bot User",
+    description: "Bot User",
+    bit: 32,
+    color: "var(--primary-color)" 
+  },
 };
 
 export const CHANNEL_PERMISSIONS = {
