@@ -5,27 +5,27 @@
     "joinNowButton": "Jetzt beitreten"
   },
   "homePage": {
-    "slogan": "Eine moderne und elegante Chat-Platform.",
+    "slogan": "Eine moderne und elegante Chat-Plattform.",
     "joinButton": "{{appName}} beitreten",
     "viewGitHubButton": "GitHub ansehen"
   },
   "loginPage": {
-    "title": "Melden Sie sich an, um fortzufahren",
-    "emailOrUsernameAndTag": "Email / benutzername:tag",
+    "title": "Melde dich an, um fortzufahren",
+    "emailOrUsernameAndTag": "Email / Benutzername:Tag",
     "password": "Passwort",
     "login": "Anmelden",
     "createAccountInstead": "Stattdessen einen neuen Account erstellen",
-    "loggingIn": "Am anmelden...",
+    "loggingIn": "Anmeldung erfolgt...",
     "loginButton": "Anmelden"
   },
   "registerPage": {
-    "title": "Willkommen bei  {{appName}}",
+    "title": "Willkommen bei {{appName}}",
     "email": "Email",
     "username": "Benutzername",
     "password": "Passwort",
     "confirmPassword": "Passwort bestätigen",
     "registerButton": "Registrieren",
-    "registering": "Am registrieren...",
+    "registering": "Registrierung erfolgt...",
     "loginInstead": "Stattdessen anmelden"
   },
   "inbox": {
@@ -35,26 +35,26 @@
       "offline": "Offline",
       "savedNotesButton": "Gespeicherte Notizen",
       "addFriendButton": "Freund hinzufügen",
-      "inboxButton": "Inbox",
+      "inboxButton": "Posteingang",
       "friendsButton": "Freunde"
     }
   },
   "explore": {
     "drawer": {
       "title": "Erkunden",
-      "servers": "Servers"
+      "servers": "Server"
     },
     "servers": {
-      "title": "Erkunden - Servers",
-      "noticeMessage": "Ein Server kann alle {{hours}} Stunden einmal geboosted werden. Am {{date}} werden all Boosts zurückgesetzt.",
+      "title": "Erkunden - Server",
+      "noticeMessage": "Ein Server kann alle {{hours}} Stunden einmal geboosted werden. Am {{date}} werden alle Boosts zurückgesetzt.",
       "sortMostBumps": "Meiste Boosts",
-      "sortMostMembers": "Meisten Mitglieder",
+      "sortMostMembers": "Meiste Mitglieder",
       "sortRecentlyAdded": "Kürzlich hinzugefügt",
       "sortRecentlyBumped": "Kürzlich geboosted",
       "filterAll": "Alle",
       "filterVerified": "Verifiziert",
       "memberCount": "{{count}} Mitglieder",
-      "lifetimeBumpCount": "{{count}} insgesamte Boosts",
+      "lifetimeBumpCount": "{{count}} Boosts insgesamt",
       "visitServerButton": "Besuchen",
       "joinServerButton": "Beitreten",
       "bumpButton": "Boost ({{count}})"
@@ -76,31 +76,31 @@
         "notifications": "Benachrichtigungen"
       },
       "general": {
-        "serverRenameNotice": "Wenn Sie Ihren Server umbenennen, verlieren Sie alle Vorteile der Verifizierung Ihres Servers.",
-        "serverName": "Server Name",
+        "serverRenameNotice": "Wenn du deinen Server umbennenst, verlierst du alle Vorteile der Verifizierung deines Servers.",
+        "serverName": "Servername",
         "defaultChannel": "Standardkanal",
         "defaultChannelDescription": "Neue Mitglieder werden auf diesen Kanal weitergeleitet.",
         "systemMessages": "Systemmeldungen",
-        "systemMessagesDescription": "Wo Systemmeldungen erscheinen sollen.",
+        "systemMessagesDescription": "Hier werden Systembenachrichtigungen reingesendet.",
         "deleteThisServer": "Diesen Server löschen",
-        "deleteThisServerDescription": "Dies kann nicht rückgängig gemacht werden!",
-        "deleteServerButton": "Server Löschen",
+        "deleteThisServerDescription": "Dies kann nicht Rückgängig gemacht werden!",
+        "deleteServerButton": "Server löschen",
         "saveChangesButton": "Änderungen speichern",
-        "saving": "Am speichern..."
+        "saving": "Speichern..."
       },
       "roles": {
         "addNewRole": "Eine neue Rolle hinzufügen",
-        "addRoleButton": "Rollen hinzufügen"
+        "addRoleButton": "Rolle hinzufügen"
       },
       "role": {
         "saveChangesButton": "Änderungen speichern",
-        "saving": "Am speichern...",
+        "saving": "Speichern...",
         "roleName": "Rollenname",
         "roleColor": "Rollenfarbe",
         "hideRole": "Rolle ausblenden",
-        "hideRoleDescription": "Zeigen Sie Mitglieder mit dieser Rolle zusammen mit allen anderen an",
+        "hideRoleDescription": "Zeige Mitglieder mit dieser Rolle zusammen mit allen anderen an",
         "permissions": "Berechtigungen",
-        "permissionsDescription": "Verwalten Sie die Berechtigungen für diese Rolle.",
+        "permissionsDescription": "Verwalte die Berechtigungen für diese Rolle.",
         "deleteRoleButton": "Rolle löschen",
         "deleteRoleButtonDescription": "Dies kann nicht rückgängig gemacht werden!"
       },
@@ -110,22 +110,22 @@
       },
       "channels": {
         "createButton": "Erstellen",
-        "createNewDescription": "Einen neuen Kanal oder eine neue Kategorie erstellen"
+        "createNewDescription": "Einen neuen Kanal oder Kategorie erstellen"
       },
       "channel": {
-        "saving": "Am speichern...",
+        "saving": "Speichern...",
         "saveChangesButton": "Änderungen speichern",
-        "channelName": "Kanal Name",
+        "channelName": "Kanalname",
         "permissions": "Berechtigungen",
-        "permissionsDescription": "Berechtigungen für diesen Kanal verwalten.",
+        "permissionsDescription": "Verwalte die Berechtigungen für diesen Kanal.",
         "deleteThisChannel": "Kanal löschen",
-        "deleteThisChannelDescription": "Das kann nicht rückgängig gemacht werden!",
+        "deleteThisChannelDescription": "Dies kann nicht rückgängig gemacht werden!",
         "deleteChannelButton": "Kanal löschen"
       },
       "invites": {
         "createInviteButton": "Einladung erstellen",
         "serverInvites": "Server Einladungen",
-        "serverInvitesDescription": "Lade deine Freunde auf diesen Server ein.",
+        "serverInvitesDescription": "Laden deine Freunde auf diesen Server ein.",
         "customInviteVerifiedOnlyNotice": "Benutzerdefinierte Einladungslinks sind nur für verifizierte Server verfügbar.",
         "customLink": "Benutzerdefinierte Einladungslinks",
         "saveButton": "Speichern",
@@ -133,7 +133,7 @@
         "copyLinkButton": "Link kopieren"
       },
       "publishServer": {
-        "publishNotice": "Durch die Veröffentlichung Ihres Servers wird er auf der <1>Erkunden</1>-Seite sichtbar gemacht.",
+        "publishNotice": "Durch die Veröffentlichung deines Servers wird er auf der <1>Erkunden</1>-Seite sichtbar gemacht.",
         "public": "Öffentlich",
         "publicDescription": "Diesen Server veröffentlichen",
         "bumpServer": "Server boosten",
@@ -144,8 +144,8 @@
     },
     "rolePermissions": {
       "admin": "Administrator",
-      "adminDescription": "Aktiviert alle Berechtigungen und überschriebt die Nachricht senden Berechtigung.",
-      "sendMessage": "Nachricht senden",
+      "adminDescription": "Aktiviert alle Berechtigungen und überschreibt die Nachrichten senden Berechtigung.",
+      "sendMessage": "Nachrichten senden",
       "sendMessageDescription": "Erlaubt das Senden von Nachrichten auf diesem Server.",
       "manageRoles": "Rollen verwalten",
       "manageRolesDescription": "Erlaubt die Verwaltung von Rollen auf diesem Server.",
@@ -158,7 +158,7 @@
     },
     "channelPermissions": {
       "privateChannel": "Privater Kanal",
-      "privateChannelDescription": "Deaktivieren Sie den Zugriff auf den Kanal. Administratoren können weiterhin auf den Kanal zugreifen.",
+      "privateChannelDescription": "Deaktiviere den Zugriff auf den Kanal. Administratoren können weiterhin auf den Kanal zugreifen.",
       "sendMessage": "Nachricht senden",
       "sendMessageDescription": "Erlaubt das Senden von Nachrichten auf diesem Server. Administratoren können weiterhin Nachrichten senden."
     }
@@ -171,9 +171,9 @@
       "notifications": "Benachrichtigungen",
       "logout": "Abmelden",
       "supportMe": "Unterstütze Mich",
-      "viewSource": "Quellcode anzeigen",
-      "changelog": "Changelog",
-      "window-settings": "Fenster Einstellungen",
+      "viewSource": "Quellcode ansehen",
+      "changelog": "Änderungsprotokoll",
+      "window-settings": "Fenstereinstellungen",
       "privacy": "Privatsphäre"
     }
   },
@@ -191,19 +191,19 @@
   "kickServerMemberModal": {
     "title": "Kick {{username}}",
     "kickButton": "Kick",
-    "kicking": "Am kicken...",
+    "kicking": "Kicken...",
     "backButton": "Zurück",
-    "message": "Sind Sie sicher, dass Sie <1>{{username}}</1> kicken wollen?"
+    "message": "Bist du sicher, dass du <1>{{username}}</1> kicken willst?"
   },
   "editServerRolesModal": {
     "title": "Edit Roles"
   },
   "banModal": {
     "title": "Ban {{username}}?",
-    "message": "Sind Sie sicher, dass Sie <1>{{username}}</1> bannen wollen?",
+    "message": "Bist du sicher, dass du <1>{{username}}</1> bannen willst?",
     "deletePastMessagesCheckbox": "Alle Nachrichten der letzten 7 Stunden löschen.",
     "banButton": "Ban",
-    "banning": "Am bannen..."
+    "banning": "Bannen..."
   },
   "messageContextMenu": {
     "editMessage": "Nachricht bearbeiten",
@@ -213,7 +213,7 @@
   },
   "profile": {
     "followButton": "Folgen",
-    "unfollowButton": "Nicht mehr folgen",
+    "unfollowButton": "Entfolgen",
     "removeFriendButton": "Freund entfernen",
     "addFriendButton": "Freund hinzufügen",
     "pendingRequest": "Ausstehende Anfrage",
@@ -222,19 +222,19 @@
     "mutualFriends": "Gemeinsame Freunde ({{count}})",
     "mutualServers": "Gemeinsame Server ({{count}})",
     "postsTab": "Beiträge",
-    "followersTab": "Folgende",
+    "followersTab": "Follower",
     "followingTab": "Folgt",
     "postsAndRepliesTab": "Beiträge und Antworten ({{count}})",
     "likedPostsTab": "Gelikete Beiträge ({{count}})"
   },
   "posts": {
     "deletePostModal": {
-      "message": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten?",
+      "message": "Bist du sicher, dass du diesen Beitrag löschen möchtest?",
       "cancelButton": "Abbrechen",
       "deleteButton": "Löschen"
     },
     "postWasDeleted": "Dieser Beitrag wurde gelöscht!",
-    "someoneLikedYourPost": "<1>{{username}}</1> hat deinen Beitrag gefallen!",
+    "someoneLikedYourPost": "<1>{{username}}</1> gelällt dein Beitrag!",
     "someoneFollowedYou": "<1>{{username}}</1> ist dir gefolgt!",
     "someoneRepliedToPost": "<1>{{username}}</1> hat auf deinen Beitrag geantwortet!",
     "createAPostInputPlaceholder": "Einen Beitrag erstellen...",

@@ -49,7 +49,7 @@ export const languages = {
   "de-de": {
     name: "German",
     emoji: "🇩🇪",
-    contributors: ["https://github.com/F-iiral"]
+    contributors: ["https://github.com/F-iiral", "https://github.com/Deutscher775"]
   },
   "hu-hu": {
     name: "Hungarian",
