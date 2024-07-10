@@ -1,11 +1,12 @@
 {
   "header": {
+    "logoutButton": "Выйти",
     "openAppButton": "Открыть приложение",
     "loginButton": "Войти",
-    "joinNowButton": "Присоединиться"
+    "joinNowButton": "Присоединиться сейчас"
   },
   "homePage": {
-    "slogan": "Современная и элегантная платформа чата.",
+    "slogan": "Современное и стильное чат-приложение.",
     "joinButton": "Присоединиться к {{appName}}",
     "viewGitHubButton": "Посмотреть на GitHub"
   },
@@ -14,8 +15,8 @@
     "emailOrUsernameAndTag": "Email / имя пользователя:тег",
     "password": "Пароль",
     "login": "Войти",
-    "createAccountInstead": "Создать новый аккаунт вместо этого",
-    "loggingIn": "Входим...",
+    "createAccountInstead": "Создать аккаунт вместо этого",
+    "loggingIn": "Вход...",
     "loginButton": "Войти"
   },
   "registerPage": {
@@ -23,17 +24,27 @@
     "email": "Email",
     "username": "Имя пользователя",
     "password": "Пароль",
-    "confirmPassword": "Подтвердить пароль",
-    "registerButton": "Зарегистрироваться",
-    "registering": "Регистрируемся...",
+    "confirmPassword": "Подтвердите пароль",
+    "registerButton": "Регистрация",
+    "registering": "Регистрация...",
     "loginInstead": "Войти вместо этого"
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "activeUsers": "Активные пользователи",
+    "noActiveUsers": "Нет активных пользователей",
+    "servers": "Серверы",
+    "posts": "Посты",
+    "feed": "Лента",
+    "discover": "Открыть",
+    "notifications": "Уведомления"
   },
   "inbox": {
     "drawer": {
       "requests": "Запросы",
       "online": "Онлайн",
       "offline": "Офлайн",
-      "savedNotesButton": "Сохранённые заметки",
+      "savedNotesButton": "Сохраненные заметки",
       "addFriendButton": "Добавить друга",
       "inboxButton": "Входящие",
       "friendsButton": "Друзья"
@@ -46,47 +57,48 @@
     },
     "servers": {
       "title": "Исследовать - Серверы",
-      "noticeMessage": "Сервер можно улучшить (бампнуть) один раз каждые {{hours}} часов. Все улучшения будут сброшены {{date}}.",
-      "sortMostBumps": "Больше всего улучшений",
+      "noticeMessage": "Сервер может быть продвинут раз в {{hours}} часов. Все продвижения сбрасываются каждый {{date}}.",
+      "sortMostBumps": "Больше всего продвижений",
       "sortMostMembers": "Больше всего участников",
-      "sortRecentlyAdded": "Недавно добавлено",
-      "sortRecentlyBumped": "Недавно улучшено",
+      "sortRecentlyAdded": "Недавно добавленные",
+      "sortRecentlyBumped": "Недавно продвинутые",
       "filterAll": "Все",
-      "filterVerified": "Подтверждено",
+      "filterVerified": "Проверенные",
       "memberCount": "{{count}} участников",
-      "lifetimeBumpCount": "{{count}} всего улучшений",
+      "lifetimeBumpCount": "{{count}} продвижений за всё время",
       "visitServerButton": "Посетить",
       "joinServerButton": "Присоединиться",
-      "bumpButton": "Улучшить ({{count}})"
+      "bumpButton": "Продвинуть ({{count}})"
     }
   },
   "servers": {
     "settings": {
       "drawer": {
-        "general": "Общее",
+        "general": "Общие",
         "roles": "Роли",
         "channels": "Каналы",
         "bans": "Баны",
         "invites": "Приглашения",
         "publishServer": "Опубликовать сервер",
-        "verify": "Подтвердить",
+        "verify": "Проверить",
         "role": "Роль",
+        "welcome-screen": "Экран приветствия",
         "channel": "Канал",
         "emojis": "Эмодзи",
         "notifications": "Уведомления"
       },
       "general": {
-        "serverRenameNotice": "Если вы переименуете свой сервер, вы потеряете все преимущества верификации сервера.",
+        "serverRenameNotice": "Вы потеряете все преимущества верификации сервера, если переименуете его.",
         "serverName": "Имя сервера",
         "defaultChannel": "Канал по умолчанию",
-        "defaultChannelDescription": "Новые участники будут перенаправлены в этот канал.",
+        "defaultChannelDescription": "Новые участники будут направлены в этот канал.",
         "systemMessages": "Системные сообщения",
-        "systemMessagesDescription": "Где будут отображаться системные сообщения.",
+        "systemMessagesDescription": "Где должны отображаться системные сообщения.",
         "deleteThisServer": "Удалить этот сервер",
-        "deleteThisServerDescription": "Это действие нельзя отменить!",
+        "deleteThisServerDescription": "Это действие не может быть отменено!",
         "deleteServerButton": "Удалить сервер",
         "saveChangesButton": "Сохранить изменения",
-        "saving": "Сохраняем..."
+        "saving": "Сохранение..."
       },
       "roles": {
         "addNewRole": "Добавить новую роль",
@@ -94,15 +106,15 @@
       },
       "role": {
         "saveChangesButton": "Сохранить изменения",
-        "saving": "Сохраняем...",
-        "roleName": "Имя роли",
+        "saving": "Сохранение...",
+        "roleName": "Название роли",
         "roleColor": "Цвет роли",
         "hideRole": "Скрыть роль",
-        "hideRoleDescription": "Показывать участников с этой ролью среди всех остальных",
+        "hideRoleDescription": "Отображать участников с этой ролью вместе со всеми участниками по умолчанию",
         "permissions": "Разрешения",
         "permissionsDescription": "Управление разрешениями для этой роли.",
-        "deleteRoleButton": "Удалить роль",
-        "deleteRoleButtonDescription": "Это действие нельзя отменить!"
+        "deleteRoleButton": "Удалить эту роль",
+        "deleteRoleButtonDescription": "Это действие не может быть отменено!"
       },
       "header": {
         "editServer": "Редактировать сервер",
@@ -110,71 +122,112 @@
       },
       "channels": {
         "createButton": "Создать",
-        "createNewDescription": "Создать новый канал или новую категорию"
+        "createNewDescription": "Создать новый канал или категорию"
       },
       "channel": {
-        "saving": "Сохраняем...",
+        "saving": "Сохранение...",
         "saveChangesButton": "Сохранить изменения",
-        "channelName": "Имя канала",
+        "channelName": "Название канала",
         "permissions": "Разрешения",
         "permissionsDescription": "Управление разрешениями для этого канала.",
-        "deleteThisChannel": "Удалить канал",
-        "deleteThisChannelDescription": "Это действие нельзя отменить!",
+        "deleteThisChannel": "Удалить этот канал",
+        "deleteThisChannelDescription": "Это действие не может быть отменено!",
         "deleteChannelButton": "Удалить канал"
       },
       "invites": {
         "createInviteButton": "Создать приглашение",
-        "serverInvites": "Приглашения сервера",
-        "serverInvitesDescription": "Приглашай друзей на этот сервер.",
-        "customInviteVerifiedOnlyNotice": "Пользовательские ссылки для приглашений доступны только для подтверждённых серверов.",
-        "customLink": "Пользовательские ссылки для приглашений",
+        "serverInvites": "Приглашения на сервер",
+        "serverInvitesDescription": "Пригласите своих друзей на этот сервер.",
+        "customInviteVerifiedOnlyNotice": "Пользовательские ссылки на приглашения доступны только для проверенных серверов.",
+        "customLink": "Пользовательская ссылка",
         "saveButton": "Сохранить",
         "deleteButton": "Удалить",
-        "copyLinkButton": "Копировать ссылку"
+        "copyLinkButton": "Скопировать ссылку"
       },
       "publishServer": {
-        "publishNotice": "Опубликовав свой сервер, он станет виден на странице «Исследовать».",
-        "public": "Общественный",
-        "publicDescription": "Опубликовать этот сервер",
-        "bumpServer": "Улучшить сервер",
-        "bumpServerDescription": "Улучшение сервера поможет привлечь больше участников.",
+        "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>исследовать</1>.",
+        "public": "Публичный",
+        "publicDescription": "Сделать этот сервер публичным.",
+        "bumpServer": "Продвинуть сервер",
+        "bumpServerDescription": "Продвинуть этот сервер на вершину.",
         "publishServerButton": "Опубликовать сервер",
-        "unpublishServerButton": "Сделать сервер приватным"
+        "unpublishServerButton": "Снять сервер с публикации"
       }
     },
     "rolePermissions": {
       "admin": "Администратор",
-      "adminDescription": "Активирует все разрешения и отменяет разрешение на отправку сообщений.",
+      "adminDescription": "Включает все разрешения.",
       "sendMessage": "Отправить сообщение",
-      "sendMessageDescription": "Разрешить отправку сообщений на этом сервере.",
-      "manageRoles": "Управлять ролями",
-      "manageRolesDescription": "Разрешить управление ролями на этом сервере.",
-      "manageChannels": "Управлять каналами",
-      "manageChannelsDescription": "Разрешить управление каналами на этом сервере.",
-      "kick": "Кик",
-      "kickDescription": "Разрешить кикнуть пользователей с сервера.",
-      "ban": "Бан",
-      "banDescription": "Разрешить забанить пользователей с сервера."
+      "sendMessageDescription": "Разрешение на отправку сообщений на этом сервере. Администраторы сервера могут отправлять сообщения.",
+      "manageRoles": "Управление ролями",
+      "manageRolesDescription": "Разрешение на обновление или удаление ролей.",
+      "manageChannels": "Управление каналами",
+      "manageChannelsDescription": "Разрешение на обновление или удаление каналов.",
+      "kick": "Выгнать",
+      "kickDescription": "Разрешение на выгнать пользователей",
+      "ban": "Забанить",
+      "banDescription": "Разрешение на бан пользователей.",
+      "mentionEveryone": "Упомянуть всех",
+      "mentionEveryoneDescription": "Разрешение упоминать @everyone. Администраторы сервера могут упоминать всех.",
+      "nicknameMember": "Поменять ник",
+      "nicknameMemberDescription": "Разрешить пользователям менять свой ник на сервере."
     },
     "channelPermissions": {
       "privateChannel": "Приватный канал",
-      "privateChannelDescription": "Отключить доступ к каналу. Администраторы все ещё могут получить доступ к каналу.",
+      "privateChannelDescription": "Запретить доступ к каналу. Администраторы сервера могут получить доступ к каналу.",
       "sendMessage": "Отправить сообщение",
-      "sendMessageDescription": "Разрешить отправку сообщений в этом канале. Администраторы всё ещё могут отправлять сообщения."
+      "sendMessageDescription": "Разрешение на отправку сообщений в канале. Администраторы сервера могут отправлять сообщения.",
+      "joinVoice": "Присоединиться к голосовому",
+      "joinVoiceDescription": "Разрешение на присоединение к голосовым каналам. Администраторы сервера могут присоединяться к голосовым каналам."
     }
   },
   "settings": {
     "drawer": {
       "title": "Настройки",
       "account": "Аккаунт",
+      "interface": "Интерфейс",
       "language": "Язык",
       "notifications": "Уведомления",
       "logout": "Выйти",
-      "supportMe": "Поддержите меня",
-      "viewSource": "Посмотреть код",
+      "developer": "Разработчик",
+      "applications": "Приложения",
+      "experiments": "Эксперименты",
+      "supportMe": "Поддержать меня",
+      "viewSource": "Посмотреть исходник",
       "changelog": "Изменения",
       "window-settings": "Настройки окна",
-      "privacy": "Конфиденциальность"
+      "call-settings": "Настройки звонков",
+      "activity-status": "Статус активности",
+      "tickets": "Тикеты",
+      "privacy": "Конфиденциальность",
+      "connections": "Подключения"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "Прямое сообщение",
+        "description": "Установить, кто может отправлять вам прямые сообщения.",
+        "anyone": "Любой",
+        "friendsAndServersOnly": "Только друзья и серверы",
+        "friendsOnly": "Только друзья"
+      },
+      "profileOptions": {
+        "title": "Настройки профиля",
+        "hideFollowers": "Скрыть подписчиков",
+        "hideFollowersDescription": "Скрыть ваших подписчиков в профиле.",
+        "hideFollowing": "Скрыть подписки",
+        "hideFollowingDescription": "Скрыть пользователей, на которых вы подписаны, в профиле."
+      },
+      "friendRequest": {
+        "title": "Запрос на добавление в друзья",
+        "description": "Установить, кто может отправлять вам запросы на добавление в друзья.",
+        "anyone": "Любой",
+        "serversOnly": "Только серверы",
+        "nobody": "Никто"
+      },
+      "lastOnline": {
+        "description": "Установить, кто может видеть ваше последнее время онлайн.",
+        "title": "Последнее время онлайн"
+      }
     }
   },
   "addFriend": {
@@ -183,38 +236,73 @@
   "userContextMenu": {
     "viewProfile": "Просмотреть профиль",
     "sendMessage": "Отправить сообщение",
-    "copyId": "Копировать ID",
+    "copyId": "Скопировать ID",
     "editRoles": "Редактировать роли",
-    "kick": "Кик",
-    "ban": "Бан"
+    "kick": "Выгнать",
+    "ban": "Забанить",
+    "changeNickname": "Изменить ник"
   },
   "kickServerMemberModal": {
-    "title": "Кикнуть {{username}}",
-    "kickButton": "Кик",
-    "kicking": "Кикаем...",
+    "title": "Выгнать {{username}}",
+    "kickButton": "Выгнать",
+    "kicking": "Выгоняем...",
     "backButton": "Назад",
-    "message": "Вы уверены, что хотите кикнуть <1>{{username}}</1>?"
+    "message": "Вы уверены, что хотите выгнать <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
     "title": "Редактировать роли"
   },
   "banModal": {
     "title": "Забанить {{username}}?",
-    "message": "Вы уверены, что хотите забанить <1>{{username}}</1> с этого сервера?",
+    "message": "Вы уверены, что хотите забанить <1>{{username}}</1>?",
+    "deletePastMessagesCheckbox": "Удалить сообщения, отправленные за последние 7 часов.",
     "banButton": "Забанить",
     "banning": "Баним..."
   },
-  "profile": {},
-  "privacy": {},
-  "emojis": {},
-  "savedNotes": {
-    "header": {},
-    "createNote": {},
-    "deleteNote": {},
-    "editNote": {},
-    "notes": {}
+  "messageContextMenu": {
+    "editMessage": "Редактировать сообщение",
+    "deleteMessage": "Удалить сообщение",
+    "copyMessage": "Скопировать сообщение",
+    "copyId": "Скопировать ID"
   },
-  "footer": {},
-  "errors": {},
-  "windowSettings": {}
+  "profile": {
+    "followButton": "Подписаться",
+    "unfollowButton": "Отписаться",
+    "removeFriendButton": "Удалить из друзей",
+    "addFriendButton": "Добавить в друзья",
+    "pendingRequest": "Запрос в ожидании",
+    "acceptRequestButton": "Принять запрос",
+    "messageButton": "Сообщение",
+    "mutualFriends": "Общие друзья ({{count}})",
+    "mutualServers": "Общие серверы ({{count}})",
+    "postsTab": "Посты",
+    "followersTab": "Подписчики",
+    "followingTab": "Подписки",
+    "postsAndRepliesTab": "Посты и ответы ({{count}})",
+    "likedPostsTab": "Понравившиеся посты ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Вы уверены, что хотите удалить этот пост?",
+      "cancelButton": "Отмена",
+      "deleteButton": "удалить"
+    },
+    "postWasDeleted": "Этот пост был удален!",
+    "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",
+    "someoneFollowedYou": "<1>{{username}}</1> подписался на вас!",
+    "someoneRepliedToPost": "<1>{{username}}</1> ответил на ваш пост!",
+    "createAPostInputPlaceholder": "Создать пост...",
+    "replyInputPlaceholder": "Ответить...",
+    "replyButton": "Ответить",
+    "createButton": "Создать",
+    "pollOptions": "Опции опроса",
+    "optionNumberPlaceholder": "Опция {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Информация",
+    "channelNotice": "Уведомление канала",
+    "attachments": "Вложения",
+    "attachmentsBack": "Назад",
+    "members": "Участники"
+  }
 }
