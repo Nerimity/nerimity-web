@@ -24,7 +24,7 @@ import { getStorageString, removeStorage, setStorageString, StorageKeys } from "
 updateTheme();
 
 // check valid deviceIds Exist
-navigator.mediaDevices.enumerateDevices().then((devices) => {
+navigator?.mediaDevices?.enumerateDevices?.()?.then((devices) => {
   const currentInputDevice = getStorageString(StorageKeys.inputDeviceId, undefined);
   const currentOutputDevice = getStorageString(StorageKeys.outputDeviceId, undefined);
   if (currentInputDevice) {
