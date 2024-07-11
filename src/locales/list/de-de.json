@@ -302,7 +302,10 @@
     "members": "Mitglieder"
   },
   "chatWindow" : {
-    "isTyping": "{{username}} schreibt..",
+    "oneIsTyping": "{{username}} schreibt..",
+    "twoAreTyping": "{{username_1}} und {{username_2}} schreiben..",
+    "threeAreTyping": "{{username_1}}, {{username_2}} und {{username_3}} schreiben..",
+    "multipleAreTyping": "{{username1}}, {{username2}}, {{username3}} und {{number}} weitere schreiben..",
     "messagePlaceholder": "Nachricht senden",
     "messageContextMenu": {
       "editMessage": "Nachricht bearbeiten",

@@ -300,7 +300,10 @@
     "members": "Members"
   },
   "chatWindow" : {
-    "isTyping": "{{username}} is typing..",
+    "oneIsTyping": "{{username}} is typing..",
+    "twoAreTyping": "{{username_1}} and {{username_2}} are typing..",
+    "threeAreTyping": "{{username_1}}, {{username_2}} and {{username_3}} are typing..",
+    "multipleAreTyping": "{{username1}}, {{username2}}, {{username3}} and {{number}} others are typing...",
     "messagePlaceholder": "Send message",
     "messageContextMenu": {
       "editMessage": "Edit Message",
