@@ -231,7 +231,9 @@
     }
   },
   "addFriend": {
-    "usernameAndTag": "Benutzername & Tag"
+    "title": "Freund hinzufügen",
+    "usernameAndTag": "Benutzername & Tag",
+    "sendRequest": "Anfrage senden"
   },
   "userContextMenu": {
     "viewProfile": "Profil ansehen",
@@ -258,12 +260,6 @@
     "deletePastMessagesCheckbox": "Nachrichten der letzten 7 Stunden löschen.",
     "banButton": "Ban",
     "banning": "Bannen..."
-  },
-  "messageContextMenu": {
-    "editMessage": "Nachricht bearbeiten",
-    "deleteMessage": "Nachricht löschen",
-    "copyMessage": "Nachricht kopieren",
-    "copyId": "ID kopieren"
   },
   "profile": {
     "followButton": "Folgen",
@@ -304,5 +300,48 @@
     "attachments": "Anhänge",
     "attachmentsBack": "Zurück",
     "members": "Mitglieder"
+  },
+  "chatWindow" : {
+    "isTyping": "{{username}} schreibt..",
+    "messagePlaceholder": "Nachricht senden",
+    "messageContextMenu": {
+      "editMessage": "Nachricht bearbeiten",
+      "deleteMessage": "Nachricht löschen",
+      "copyMessage": "Nachricht kopieren",
+      "copyId": "ID kopieren",
+      "quoteMessage": "Nachricht zitieren",
+      "reply": "Antworten",
+      "viewReactions": "Reaktionen ansehen"
+    },
+    "formatOptions": {
+      "bold": "Fett",
+      "italic": "Kursiv",
+      "underline": "Unterstrichen",
+      "strikethrough": "Durchgestrichen",
+      "namedLink": "Hyperlink",
+      "spoiler": "Spoiler",
+      "timestamp": "Zeitstempel",
+      "timestampModal": {
+        "title": "Zeitstempel einfügen",
+        "done": "Fertig" 
+      },
+      "color": "Farbe",
+      "colorModal": {
+        "title": "Farbe auswählen",
+        "done": "Fertig"
+      }
+    },
+    "emojiTab": {
+      "recentEmojis": "Zuletzt verwendet",
+      "smileysAndEmotion": "Smileys & Emotionen",
+      "peopleAndFantasy": "Menschen & Körper",
+      "animalsAndNature": "Tiere & Natur",
+      "foodAndDrink": "Essen & Trinken",
+      "travelAndPlaces": "Reisen & Orte",
+      "activities": "Aktivitäten",
+      "objects": "Objekte",
+      "symbols": "Symbole",
+      "flags": "Flaggen"
+    }
   }
 }
