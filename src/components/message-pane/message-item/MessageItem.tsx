@@ -36,6 +36,7 @@ import { unzipJson } from "@/common/zip";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
+import { electronWindowAPI } from "@/common/Electron";
 
 const DeleteMessageModal = lazy(() => import("../message-delete-modal/MessageDeleteModal"));
 
@@ -498,6 +499,13 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
     setFile(file);
   });
 
+  const onPlayClick = () => {
+    if (!electronWindowAPI()?.isElectron) {
+      alert("Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App.");
+    }
+    setPlayVideo(!playVideo())
+  }
+
   return (
     <div class={styles.videoEmbed}>
       <div class={styles.videoInfo}>
@@ -523,15 +531,15 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
         <Show when={!file() && !error()}><Skeleton.Item height='100%' width='100%' /></Show>
         <Show when={file() && !error()}>
           <Show when={!playVideo()}>
-            {/* <Show when={file()?.thumbnailLink}><img crossorigin="anonymous" style={{ width: "100%", height: "100%", "object-fit": "contain" }} src={file()?.thumbnailLink} alt="" /></Show> */}
-            <div onClick={() => setPlayVideo(!playVideo())} class={styles.playButtonContainer}>
+            <Show when={file()?.thumbnailLink}><img crossorigin="anonymous" style={{ width: "100%", height: "100%", "object-fit": "contain" }} src={file()?.thumbnailLink} alt="" /></Show>
+            <div onClick={onPlayClick} class={styles.playButtonContainer}>
               <div class={styles.playButton}>
                 <Icon name='play_arrow' color='var(--primary-color)' size={28} />
               </div>
             </div>
           </Show>
           <Show when={playVideo()}>
-            <video crossorigin="anonymous" style={{ width: "100%", height: "100%", "object-fit": "contain" }} autoplay src={`https://drive.lienuc.com/uc?id=${props.attachment.fileId}`} controls />
+            <video crossorigin="anonymous" style={{ width: "100%", height: "100%", "object-fit": "contain" }} autoplay src={file()?.webContentLink!} controls />
           </Show>
         </Show>
       </div>
@@ -633,7 +641,7 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
       setPlaying(false);
     };
 
-    audio.src = `https://drive.lienuc.com/uc?id=${props.attachment.fileId}`;
+    audio.src = fileItem.webContentLink!;
   });
   createEffect(() => {
     if (!preloaded()) return;
@@ -654,13 +662,6 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
     return "play_arrow";
   };
 
-  const playingTimeEl = () => {
-    if (!audio) return;
-
-
-
-    return  ;
-  };
 
   createEffect(on(preloaded, () => {
     if (!audio) return;
@@ -691,6 +692,13 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
     audio.currentTime = percent * audio.duration;
   };
 
+  const onPlayClick = () => {
+    if (!electronWindowAPI()?.isElectron) {
+      alert("Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App.");
+    }
+    setPlaying(!playing())
+  }
+
   return (
     <div class={classNames(styles.fileEmbed, styles.audioEmbed, conditionalClass(preloaded(), styles.preloadedAudio))} onMouseEnter={() => setPreloadAudio(true)}>
       <div class={styles.innerAudioEmbed}>
@@ -703,7 +711,7 @@ const AudioEmbed = (props: { attachment: RawAttachment }) => {
           <Button iconName='info' iconSize={16} onClick={() => alert("This file was modified/deleted by the creator in their Google Drive. ")} />
         </Show>
         <Show when={file() && !error()}>
-          <Button onClick={() => setPlaying(!playing())} iconName={statusIcon()} color='var(--primary-color)' styles={{"border-radius": "50%"}} />
+          <Button onClick={onPlayClick} iconName={statusIcon()} color='var(--primary-color)' styles={{"border-radius": "50%"}} />
           <div class={styles.fileEmbedDetails}>
             <div class={styles.fileEmbedName}>{file()?.name}</div>
             <div class={styles.fileEmbedSize}>{prettyBytes(parseInt(file()?.size! || "0"), 0)}</div>
