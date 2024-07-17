@@ -1,7 +1,15 @@
 import styles from "./styles.module.scss";
-import {A, useNavigate, useParams, useSearchParams} from "solid-navigator";
-import {createEffect, createSignal, For, on, onCleanup, onMount, Show} from "solid-js";
-import {FriendStatus, RawUser, TicketCategory} from "@/chat-api/RawData";
+import { A, useNavigate, useParams, useSearchParams } from "solid-navigator";
+import {
+  createEffect,
+  createSignal,
+  For,
+  on,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
+import { FriendStatus, RawUser, TicketCategory } from "@/chat-api/RawData";
 import {
   blockUser,
   followUser,
@@ -10,41 +18,52 @@ import {
   getUserDetailsRequest,
   unblockUser,
   unfollowUser,
-  UserDetails
+  UserDetails,
 } from "@/chat-api/services/UserService";
 import useStore from "@/chat-api/store/useStore";
-import {bannerUrl} from "@/chat-api/store/useUsers";
-import {calculateTimeElapsedForActivityStatus, formatTimestamp, getDaysAgo, millisecondsToHhMmSs} from "../../common/date";
+import { bannerUrl } from "@/chat-api/store/useUsers";
+import {
+  calculateTimeElapsedForActivityStatus,
+  formatTimestamp,
+  getDaysAgo,
+  millisecondsToHhMmSs,
+} from "../../common/date";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
-import DropDown, {DropDownItem} from "@/components/ui/drop-down/DropDown";
+import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import Icon from "@/components/ui/icon/Icon";
 import UserPresence from "@/components/user-presence/UserPresence";
-import {css, styled} from "solid-styled-components";
+import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
-import {FlexColumn, FlexRow} from "../ui/Flexbox";
-import {useWindowProperties} from "@/common/useWindowProperties";
-import {addFriend} from "@/chat-api/services/FriendService";
-import {useDrawer} from "../ui/drawer/Drawer";
-import {PostsArea} from "../PostsArea";
-import {CustomLink} from "../ui/CustomLink";
-import {classNames, conditionalClass} from "@/common/classNames";
-import {Banner} from "../ui/Banner";
-import {Markup} from "../Markup";
-import {t} from "i18next";
-import {hasBit, USER_BADGES} from "@/chat-api/Bitwise";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { addFriend } from "@/chat-api/services/FriendService";
+import { useDrawer } from "../ui/drawer/Drawer";
+import { PostsArea } from "../PostsArea";
+import { CustomLink } from "../ui/CustomLink";
+import { classNames, conditionalClass } from "@/common/classNames";
+import { Banner } from "../ui/Banner";
+import { Markup } from "../Markup";
+import { t } from "i18next";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import Modal from "../ui/modal/Modal";
-import {useCustomPortal} from "../ui/custom-portal/CustomPortal";
-import {getLastSelectedChannelId} from "@/common/useLastSelectedServerChannel";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/Item";
-import ContextMenu, {ContextMenuItem, ContextMenuProps} from "../ui/context-menu/ContextMenu";
+import ContextMenu, {
+  ContextMenuItem,
+  ContextMenuProps,
+} from "../ui/context-menu/ContextMenu";
 import Input from "../ui/input/Input";
-import {copyToClipboard} from "@/common/clipboard";
-import {Notice} from "../ui/Notice/Notice";
-import {createTicket} from "@/chat-api/services/TicketService.ts";
+import { copyToClipboard } from "@/common/clipboard";
+import { Notice } from "../ui/Notice/Notice";
+import { createTicket } from "@/chat-api/services/TicketService.ts";
 import env from "@/common/env";
-import { RichProgressBar, getActivityIconName } from "@/components/activity/Activity";
+import {
+  RichProgressBar,
+  getActivityIconName,
+} from "@/components/activity/Activity";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -126,35 +145,49 @@ export default function ProfilePane() {
       header.updateHeader({
         subName: "Profile",
         title: user()!.username,
-        iconName: "person"
+        iconName: "person",
       });
     })
   );
-  
+
   const colors = () => {
     const bgColorOne = userDetails()?.profile?.bgColorOne;
     const bgColorTwo = userDetails()?.profile?.bgColorTwo;
     const primaryColor = userDetails()?.profile?.primaryColor;
-    return {bg: [bgColorOne, bgColorTwo], primary: primaryColor};
+    return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
   };
 
   return (
     <Show when={user()}>
       <div class={styles.profilePane}>
-        <div class={classNames(styles.topArea, css`
-          background: linear-gradient(180deg, ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"});
-        &:after {
-          background: linear-gradient(180deg, ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"}, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"});
-        }
-
-        `)}>
+        <div
+          class={classNames(
+            styles.topArea,
+            css`
+              background: linear-gradient(
+                180deg,
+                ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
+                ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
+              );
+              &:after {
+                background: linear-gradient(
+                  180deg,
+                  ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
+                  ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
+                );
+              }
+            `
+          )}
+        >
           <Banner
             maxHeight={250}
             animate
             margin={0}
             hexColor={user()?.hexColor}
             url={bannerUrl(user()!)}
-            class={css`z-index: 111;`}
+            class={css`
+              z-index: 111;
+            `}
           />
           <FlexColumn class={styles.topAreaContent}>
             <FlexRow>
@@ -172,11 +205,11 @@ export default function ProfilePane() {
               <Show when={!isMe() && !isMobileWidth()}>
                 <ActionButtons
                   class={css`
-                      background-color: rgba(0,0,0,0.4);
-                      border-radius: 10px;
-                      padding: 4px;
-                      margin-right: 6px;
-                      margin-top: 8px;
+                    background-color: rgba(0, 0, 0, 0.4);
+                    border-radius: 10px;
+                    padding: 4px;
+                    margin-right: 6px;
+                    margin-top: 8px;
                   `}
                   updateUserDetails={() => fetchUserDetails(params.userId)}
                   userDetails={userDetails()}
@@ -203,7 +236,9 @@ export default function ProfilePane() {
                 </Show>
                 <div class={styles.followingAndFollowersContainer}>
                   <Show when={isMe() || !userDetails()?.hideFollowing}>
-                    <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>
+                    <CustomLink
+                      href={RouterEndpoints.PROFILE(user()!.id + "/following")}
+                    >
                       {userDetails()?.user._count.following.toLocaleString()}{" "}
                       <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
                         Following
@@ -211,24 +246,35 @@ export default function ProfilePane() {
                     </CustomLink>
                   </Show>
                   <Show when={isMe() || !userDetails()?.hideFollowers}>
-                  <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>
-                    {userDetails()?.user._count.followers.toLocaleString()}{" "}
-                    <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                      Followers
-                    </span>
-                  </CustomLink>
+                    <CustomLink
+                      href={RouterEndpoints.PROFILE(user()!.id + "/followers")}
+                    >
+                      {userDetails()?.user._count.followers.toLocaleString()}{" "}
+                      <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                        Followers
+                      </span>
+                    </CustomLink>
                   </Show>
                 </div>
               </div>
 
               <Show when={userDetails()?.profile?.bio}>
-                <BioContainer primaryColor={colors()?.primary} userDetails={userDetails()!} />
+                <BioContainer
+                  primaryColor={colors()?.primary}
+                  userDetails={userDetails()!}
+                />
               </Show>
             </div>
           </FlexColumn>
         </div>
         <Show when={!isMe() && isMobileWidth()}>
-          <div style={{ "align-self": "center", margin: "4px", "margin-top": "8px" }}>
+          <div
+            style={{
+              "align-self": "center",
+              margin: "4px",
+              "margin-top": "8px",
+            }}
+          >
             <ActionButtons
               updateUserDetails={() => fetchUserDetails(params.userId)}
               userDetails={userDetails()}
@@ -287,7 +333,7 @@ const ActionButtons = (props: {
     if (!props.user) return;
     addFriend({
       username: props.user.username,
-      tag: props.user.tag
+      tag: props.user.tag,
     }).catch((err) => {
       alert(err.message);
     });
@@ -418,9 +464,9 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
         id: "message",
         label: "Message",
         icon: "mail",
-        onClick: onMessageClicked
+        onClick: onMessageClicked,
       },
-      { separator: true }
+      { separator: true },
     ];
 
     if (isBlocked()) {
@@ -428,15 +474,14 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
         label: "Unblock",
         icon: "block",
         alert: true,
-        onClick: unblockClicked
+        onClick: unblockClicked,
       });
-    }
-    else {
+    } else {
       items.push({
         label: "Block",
         icon: "block",
         alert: true,
-        onClick: blockClicked
+        onClick: blockClicked,
       });
     }
 
@@ -445,7 +490,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
       label: "Report",
       icon: "flag",
       alert: true,
-      onClick: reportClicked
+      onClick: reportClicked,
     });
     items.push(
       { separator: true },
@@ -485,19 +530,28 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
 interface AbuseTicket {
   id: "ABUSE";
   userId: string;
-  messageId?: string
+  messageId?: string;
 }
 interface VerifyServerTicket {
-  id: "SERVER_VERIFICATION"
+  id: "SERVER_VERIFICATION";
 }
 
 type Ticket = AbuseTicket | VerifyServerTicket;
 
-export function CreateTicketModal(props: { close: () => void; ticket?: Ticket }) {
+export function CreateTicketModal(props: {
+  close: () => void;
+  ticket?: Ticket;
+}) {
   const navigate = useNavigate();
-  const [selectedCategoryId, setSelectedCategoryId] = createSignal(props.ticket?.id || "SELECT");
-  const [userIds, setUserIds] = createSignal(props.ticket?.id === "ABUSE" ? (props.ticket.userId || "") : "");
-  const [messageIds, setMessageIds] = createSignal(props.ticket?.id === "ABUSE" ? (props.ticket.messageId || "") : "");
+  const [selectedCategoryId, setSelectedCategoryId] = createSignal(
+    props.ticket?.id || "SELECT"
+  );
+  const [userIds, setUserIds] = createSignal(
+    props.ticket?.id === "ABUSE" ? props.ticket.userId || "" : ""
+  );
+  const [messageIds, setMessageIds] = createSignal(
+    props.ticket?.id === "ABUSE" ? props.ticket.messageId || "" : ""
+  );
   const [title, setTitle] = createSignal("");
   const [body, setBody] = createSignal("");
   const [error, setError] = createSignal<null | string>(null);
@@ -508,7 +562,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
     { id: "QUESTION", label: "Question" },
     { id: "ACCOUNT", label: "Account" },
     { id: "ABUSE", label: "Abuse" },
-    { id: "OTHER", label: "Other" }
+    { id: "OTHER", label: "Other" },
   ];
 
   const createTicketClick = async () => {
@@ -534,10 +588,16 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
     if (userIds()) {
       const userIdsWithoutSpace = userIds().replace(/\s/g, "");
       const userIdsSplit = userIdsWithoutSpace.split(",");
-      customBody = `User(s) to report:${userIdsSplit.map(id => ` [@:${id}]`)}\n\n${customBody}`;
+      customBody = `User(s) to report:${userIdsSplit.map(
+        (id) => ` [@:${id}]`
+      )}\n\n${customBody}`;
     }
     if (messageIds()) {
-      customBody += `\n\nMessage(s) to report:\n${messageIds().replace(/\s/g, "").split(",").map(id => `[q:${id}]`).join("")}\n\n`;
+      customBody += `\n\nMessage(s) to report:\n${messageIds()
+        .replace(/\s/g, "")
+        .split(",")
+        .map((id) => `[q:${id}]`)
+        .join("")}\n\n`;
     }
 
     if (selectedCategoryId() === "SERVER_VERIFICATION") {
@@ -551,16 +611,16 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
 
     const ticket = await createTicket({
       body: customBody,
-      category: TicketCategory[selectedCategoryId() as keyof typeof TicketCategory],
-      title: title()
-    }).catch(err => {
+      category:
+        TicketCategory[selectedCategoryId() as keyof typeof TicketCategory],
+      title: title(),
+    }).catch((err) => {
       setError(err.message);
     });
     if (!ticket) return;
     navigate(`/app/settings/tickets/${ticket.id}`);
     props.close();
   };
-
 
   const actionButtons = (
     <FlexRow style={{ flex: 1, "justify-content": "end" }}>
@@ -588,7 +648,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
       maxWidth={800}
       actionButtons={actionButtons}
     >
-      <FlexColumn style={{overflow: "auto", "max-height": "60vh"}}>
+      <FlexColumn style={{ overflow: "auto", "max-height": "60vh" }}>
         <Notice
           style={{ "margin-left": "12px", "margin-right": "12px" }}
           description="Creating multiple false tickets may affect your account."
@@ -618,17 +678,42 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
             />
           </Show>
 
-          <Show when={["ABUSE", "OTHER", "ACCOUNT", "QUESTION"].includes(selectedCategoryId())}>
-            <Input label="In one short sentence, what is the problem?" value={title()} onText={setTitle} />
-            <Input label="Describe the problem" type="textarea" minHeight={100} value={body()} onText={setBody} />
+          <Show
+            when={["ABUSE", "OTHER", "ACCOUNT", "QUESTION"].includes(
+              selectedCategoryId()
+            )}
+          >
+            <Input
+              label="In one short sentence, what is the problem?"
+              value={title()}
+              onText={setTitle}
+            />
+            <Input
+              label="Describe the problem"
+              type="textarea"
+              minHeight={100}
+              value={body()}
+              onText={setBody}
+            />
           </Show>
           <Show when={selectedCategoryId() === "SERVER_VERIFICATION"}>
             <Notice
               type="info"
               description="Make sure you meet all the requirements in your server settings verify page."
             />
-            <Input label="Existing Server Invite URL" placeholder="https://nerimity.com/i/xxxxxxxxxx" value={serverInviteUrl()} onText={setServerInviteUrl} />
-            <Input label="Which verify perk are you most excited for?" type="textarea" minHeight={100} value={body()} onText={setBody} />
+            <Input
+              label="Existing Server Invite URL"
+              placeholder="https://nerimity.com/i/xxxxxxxxxx"
+              value={serverInviteUrl()}
+              onText={setServerInviteUrl}
+            />
+            <Input
+              label="Which verify perk are you most excited for?"
+              type="textarea"
+              minHeight={100}
+              value={body()}
+              onText={setBody}
+            />
           </Show>
           <Show when={error()}>
             <Text color="var(--alert-color)">{error()}</Text>
@@ -652,10 +737,24 @@ function Content(props: { user: UserDetails }) {
   );
 }
 
-function BioContainer(props: { primaryColor?: string; userDetails: UserDetails }) {
+function BioContainer(props: {
+  primaryColor?: string;
+  userDetails: UserDetails;
+}) {
   return (
     <div class={styles.bioContainer}>
-      <Text size={13} class={props.primaryColor ? css`a {color: ${props.primaryColor}; }`: ""}>
+      <Text
+        size={13}
+        class={
+          props.primaryColor
+            ? css`
+                a {
+                  color: ${props.primaryColor};
+                }
+              `
+            : ""
+        }
+      >
         <Markup text={props.userDetails?.profile?.bio!} />
       </Text>
     </div>
@@ -676,7 +775,11 @@ function SideBar(props: { user: UserDetails }) {
           icon="block"
           label="This user is suspended"
           color="var(--alert-color)"
-          value={`Expires ${!props.user.suspensionExpiresAt ? "never" :getDaysAgo(props.user.suspensionExpiresAt!)}`}
+          value={`Expires ${
+            !props.user.suspensionExpiresAt
+              ? "never"
+              : getDaysAgo(props.user.suspensionExpiresAt!)
+          }`}
         />
       </Show>
       <Show when={props.user.block}>
@@ -706,16 +809,20 @@ const UserActivity = (props: { userId: string }) => {
   const activity = () => user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
-
-
-  const isMusic = () =>  !!activity()?.action.startsWith("Listening") && !!activity()?.startedAt && !!activity()?.endsAt;
-  const isVideo = () =>  !!activity()?.action.startsWith("Watching") && !!activity()?.startedAt && !!activity()?.endsAt;
-
+  const isMusic = () =>
+    !!activity()?.action.startsWith("Listening") &&
+    !!activity()?.startedAt &&
+    !!activity()?.endsAt;
+  const isVideo = () =>
+    !!activity()?.action.startsWith("Watching") &&
+    !!activity()?.startedAt &&
+    !!activity()?.endsAt;
 
   const imgSrc = () => {
     if (!activity()?.imgSrc) return;
-    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(activity()?.imgSrc!)}/a`;
-
+    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
+      activity()?.imgSrc!
+    )}/a`;
   };
 
   createEffect(
@@ -756,7 +863,7 @@ const UserActivity = (props: { userId: string }) => {
           color="var(--primary-color)"
         />
         <FlexColumn style={{ flex: 1 }}>
-          <span >
+          <span>
             <Text size={14}>{activity()?.action} </Text>
             <Text size={14} opacity={0.6}>
               {activity()?.name}
@@ -765,18 +872,43 @@ const UserActivity = (props: { userId: string }) => {
 
           <Show when={activity()?.imgSrc}>
             <div class={styles.richPresence}>
-              <img src={imgSrc()} class={styles.activityImg} classList={{[styles.videoActivityImg!]: isVideo()}}  />
+              <img
+                src={imgSrc()}
+                class={styles.activityImg}
+                classList={{ [styles.videoActivityImg!]: isVideo() }}
+              />
               <div class={styles.richInfo}>
-                <Text size={13} opacity={0.9} href={activity()?.link} isDangerousLink newTab>{activity()?.title}</Text>
-                
-                <Text size={13} opacity={0.6}>{activity()?.subtitle}</Text>
-                <Show when={!isMusic() && !isVideo()}><Text size={13} opacity={0.6}>{playedFor()}</Text></Show>
-                <Show when={isMusic() || isVideo()}><RichProgressBar startedAt={activity()?.startedAt!} endsAt={activity()?.endsAt!} /></Show>
+                <Text
+                  size={13}
+                  opacity={0.9}
+                  href={activity()?.link}
+                  isDangerousLink
+                  newTab
+                >
+                  {activity()?.title}
+                </Text>
+
+                <Text size={13} opacity={0.6}>
+                  {activity()?.subtitle}
+                </Text>
+                <Show when={!isMusic() && !isVideo()}>
+                  <Text size={13} opacity={0.6}>
+                    {playedFor()}
+                  </Text>
+                </Show>
+                <Show when={isMusic() || isVideo()}>
+                  <RichProgressBar
+                    startedAt={activity()?.startedAt!}
+                    endsAt={activity()?.endsAt!}
+                  />
+                </Show>
               </div>
             </div>
           </Show>
-          
-          <Show when={!activity()?.imgSrc}><Text size={14}>For {playedFor()}</Text></Show>
+
+          <Show when={!activity()?.imgSrc}>
+            <Text size={14}>For {playedFor()}</Text>
+          </Show>
         </FlexColumn>
       </FlexRow>
     </Show>
@@ -789,7 +921,7 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
   const [show, setShow] = createSignal(false);
 
   const mutualFriends = () => {
-    return props.mutualFriendIds.map(userId => {
+    return props.mutualFriendIds.map((userId) => {
       return users.get(userId);
     });
   };
@@ -812,7 +944,11 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
       </div>
       <Show when={!isMobileWidth() || show()}>
         <div class={styles.list}>
-          <For each={mutualFriends().sort((x, y) => x.username.localeCompare(y.username))}>
+          <For
+            each={mutualFriends().sort((x, y) =>
+              x.username.localeCompare(y.username)
+            )}
+          >
             {(user) => {
               return (
                 <Show when={user}>
@@ -892,7 +1028,11 @@ function SidePaneItem(props: {
 }) {
   return (
     <div class={styles.SidePaneItem} onClick={props.onClick}>
-      <Icon name={props.icon} size={18} color={props.color || "var(--primary-color)"} />
+      <Icon
+        name={props.icon}
+        size={18}
+        color={props.color || "var(--primary-color)"}
+      />
       <FlexColumn>
         <div class={styles.label}>{props.label}</div>
         <div class={styles.value}>{props.value}</div>
@@ -904,12 +1044,12 @@ function SidePaneItem(props: {
 function PostsContainer(props: { user: UserDetails }) {
   const { account } = useStore();
   const navigate = useNavigate();
-  const params = useParams<{tab?: "replies" | "liked" | "following" | "followers"}>();
+  const params = useParams<{
+    tab?: "replies" | "liked" | "following" | "followers";
+  }>();
 
   const postCount = () => props.user.user._count.posts.toLocaleString();
   const likeCount = () => props.user.user._count.likedPosts.toLocaleString();
-
-
 
   const currentPage = () => {
     switch (params.tab) {
@@ -946,7 +1086,6 @@ function PostsContainer(props: { user: UserDetails }) {
   };
 
   const isMe = () => account.user()?.id === props.user.user.id;
-
 
   return (
     <div class={styles.postsContainer}>
@@ -1006,19 +1145,19 @@ function PostsContainer(props: { user: UserDetails }) {
           </ItemContainer>
         </Show>
         <Show when={isMe() || !props.user.hideFollowers}>
-        <ItemContainer
-          handlePosition="bottom"
-          class={styles.postsTabButton}
-          selected={currentPage() === 4}
-          onClick={() => setCurrentPage(4)}
-        >
-          <Text
-            size={14}
-            color={currentPage() === 4 ? "white" : "rgba(255,255,255,0.6)"}
+          <ItemContainer
+            handlePosition="bottom"
+            class={styles.postsTabButton}
+            selected={currentPage() === 4}
+            onClick={() => setCurrentPage(4)}
           >
-            {t("profile.followersTab")}
-          </Text>
-        </ItemContainer>
+            <Text
+              size={14}
+              color={currentPage() === 4 ? "white" : "rgba(255,255,255,0.6)"}
+            >
+              {t("profile.followersTab")}
+            </Text>
+          </ItemContainer>
         </Show>
       </FlexRow>
       <Show when={props.user && currentPage() <= 2}>
@@ -1033,16 +1172,22 @@ function PostsContainer(props: { user: UserDetails }) {
         />
       </Show>
       <Show when={props.user && currentPage() === 3}>
-        <FollowingArea userId={props.user.user.id} usuallyHidden={isMe() && props.user.hideFollowing} />
+        <FollowingArea
+          userId={props.user.user.id}
+          usuallyHidden={isMe() && props.user.hideFollowing}
+        />
       </Show>
       <Show when={props.user && currentPage() === 4}>
-        <FollowersArea userId={props.user.user.id} usuallyHidden={isMe() && props.user.hideFollowers} />
+        <FollowersArea
+          userId={props.user.user.id}
+          usuallyHidden={isMe() && props.user.hideFollowers}
+        />
       </Show>
     </div>
   );
 }
 
-function FollowersArea(props: { userId: string, usuallyHidden?: boolean }) {
+function FollowersArea(props: { userId: string; usuallyHidden?: boolean }) {
   const [followers, setFollowers] = createSignal<RawUser[]>([]);
   onMount(() => {
     getFollowers(props.userId).then((newFollowers) =>
@@ -1050,12 +1195,19 @@ function FollowersArea(props: { userId: string, usuallyHidden?: boolean }) {
     );
   });
 
-  return <>
-  <Show when={props.usuallyHidden}><Notice type="info" description="Only you can see your followers list." /></Show>
-    <UsersList users={followers()} />
-  </>;
+  return (
+    <>
+      <Show when={props.usuallyHidden}>
+        <Notice
+          type="info"
+          description="Only you can see your followers list."
+        />
+      </Show>
+      <UsersList users={followers()} />
+    </>
+  );
 }
-function FollowingArea(props: { userId: string, usuallyHidden?: boolean }) {
+function FollowingArea(props: { userId: string; usuallyHidden?: boolean }) {
   const [following, setFollowing] = createSignal<RawUser[]>([]);
   onMount(() => {
     getFollowing(props.userId).then((newFollowing) =>
@@ -1063,10 +1215,17 @@ function FollowingArea(props: { userId: string, usuallyHidden?: boolean }) {
     );
   });
 
-  return <>
-  <Show when={props.usuallyHidden}><Notice type="info" description="Only you can see your following list." /></Show>
-    <UsersList users={following()} />
-  </>;
+  return (
+    <>
+      <Show when={props.usuallyHidden}>
+        <Notice
+          type="info"
+          description="Only you can see your following list."
+        />
+      </Show>
+      <UsersList users={following()} />
+    </>
+  );
 }
 
 const UserItemContainer = styled(FlexRow)`
@@ -1176,12 +1335,16 @@ function BadgeDetailModal(props: {
   return (
     <Modal title={`${props.badge.name} Badge`} close={props.close}>
       <BadgeDetailsModalContainer gap={30}>
-        <FlexColumn itemsCenter gap={18}> 
+        <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />
-          <Text style={{"max-width": "200px", "text-align": "center"}}><Markup text={props.badge.description}/></Text>
+          <Text style={{ "max-width": "200px", "text-align": "center" }}>
+            <Markup text={props.badge.description} />
+          </Text>
         </FlexColumn>
-        <FlexColumn itemsCenter gap={16} >
-          <Text size={14} opacity={0.6}>{props.badge.credit}</Text>
+        <FlexColumn itemsCenter gap={16}>
+          <Text size={14} opacity={0.6}>
+            {props.badge.credit}
+          </Text>
         </FlexColumn>
       </BadgeDetailsModalContainer>
     </Modal>
