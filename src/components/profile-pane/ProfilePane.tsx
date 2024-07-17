@@ -627,7 +627,7 @@ export function CreateTicketModal(props: { close: () => void; ticket?: Ticket })
               type="info"
               description="Make sure you meet all the requirements in your server settings verify page."
             />
-            <Input label="Server Invite URL" placeholder="https://nerimity.com/i/xxxxxxxxxx" value={serverInviteUrl()} onText={setServerInviteUrl} />
+            <Input label="Existing Server Invite URL" placeholder="https://nerimity.com/i/xxxxxxxxxx" value={serverInviteUrl()} onText={setServerInviteUrl} />
             <Input label="Which verify perk are you most excited for?" type="textarea" minHeight={100} value={body()} onText={setBody} />
           </Show>
           <Show when={error()}>
