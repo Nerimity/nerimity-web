@@ -1,5 +1,0 @@
-bundles:
-  - 2
-files:
-  - source: /src/locales/list/*.json
-    translation: /src/locales/list/%locale%.json
