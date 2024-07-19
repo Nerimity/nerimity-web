@@ -12,6 +12,9 @@ interface IconProps {
   onClick?: JSX.EventHandlerUnion<HTMLSpanElement, MouseEvent>;
 }
 
+/**
+ * @deprecated Use unplugin-icons instead. https://icones.js.org/collection/material-symbols?variant=Rounded
+ */
 export default function Icon(props: IconProps) {
   return (
     <span

@@ -9,7 +9,7 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "noUncheckedIndexedAccess": true,
-    "types": ["vite/client", "gapi", "@maxim_mazurok/gapi.client.drive-v3"],
+    "types": ["vite/client", "gapi", "@maxim_mazurok/gapi.client.drive-v3", "unplugin-icons/types/solid"],
     "resolveJsonModule": true,
     "noEmit": true,
     "isolatedModules": true,
@@ -17,7 +17,6 @@
     "paths": {
       "@/*": ["./src/*"],
       "@thaunknown/simple-peer": ["./node_modules/@types/simple-peer"]
-
     }
   }
 }

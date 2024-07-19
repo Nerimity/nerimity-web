@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import path from "path";
 import dns from "dns";
-
+import Icons from 'unplugin-icons/vite';
 
 // https://vitejs.dev/config/server-options.html#server-host
 dns.setDefaultResultOrder("verbatim");
@@ -14,7 +14,8 @@ export default defineConfig({
     }
   },
   plugins: [
-    solidPlugin()
+    solidPlugin(),
+    Icons({ compiler: 'solid', autoInstall: true }),
   ],
   build: {
     target: "esnext",
