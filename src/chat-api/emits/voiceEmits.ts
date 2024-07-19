@@ -1,4 +1,4 @@
-import SimplePeer from "simple-peer";
+import type SimplePeer from "@thaunknown/simple-peer";
 import { ClientEvents } from "../EventNames";
 import socketClient from "../socketClient";
 

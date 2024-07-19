@@ -7,7 +7,6 @@ import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIO
 import { RawChannel } from "../RawData";
 import useMessages from "./useMessages";
 import useUsers from "./useUsers";
-import useStore from "./useStore";
 import useServerMembers from "./useServerMembers";
 import useAccount from "./useAccount";
 import useMention from "./useMention";
@@ -72,7 +71,9 @@ function mentionCount (this: Channel) {
 }
 
 function hasNotifications (this: Channel) {
-  const {serverMembers, account, mentions} = useStore();
+  const serverMembers = useServerMembers();
+  const account = useAccount();
+  const mentions = useMention();
   const isAdminChannel = () => hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
   if (this.serverId && isAdminChannel()) {

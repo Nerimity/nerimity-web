@@ -3,13 +3,16 @@ import { batch, createSignal } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { RawVoice } from "../RawData";
 import useUsers, { User } from "./useUsers";
-import SimplePeer from "@thaunknown/simple-peer";
+import type SimplePeer from "@thaunknown/simple-peer";
 import useAccount from "./useAccount";
 import { emitVoiceSignal } from "../emits/voiceEmits";
 import useChannels from "./useChannels";
 import env from "@/common/env";
 import vad from "voice-activity-detection";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
+
+
+console.trace("NO")
 
 interface VADInstance {
   connect: () => void;
@@ -40,7 +43,7 @@ interface LocalStreams {
 }
 const [localStreams, setLocalStreams] = createStore<LocalStreams>({audioStream: null, videoStream: null, vad: null, vadStream: null});
 
-const set = (voiceUser: RawVoice) => {
+const set = async (voiceUser: RawVoice) => {
   const users = useUsers();
   const account = useAccount();
 
@@ -55,7 +58,7 @@ const set = (voiceUser: RawVoice) => {
     const isInVoice = currentVoiceChannelId() === voiceUser.channelId;
 
     if (!isSelf && isInVoice) {
-      peer = createPeer(voiceUser);
+      peer = await createPeer(voiceUser);
     }
 
     const user = users.get(voiceUser.userId);
@@ -79,10 +82,14 @@ function addSignal(this: VoiceUser, signal: SimplePeer.SignalData) {
   this.peer?.signal(signal);
 }
 
-function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
+async function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
   const user = this.user();
   console.log(user.username, "peer added");
-  const peer = new SimplePeer({
+
+  const {default: LazySimplePeer} = await import("@thaunknown/simple-peer");
+
+
+  const peer = new LazySimplePeer({
     initiator: false,
     trickle: true,
     config: {
@@ -181,11 +188,14 @@ const getVoiceUser = (channelId: string, userId: string) => {
   return voiceUsers[channelId][userId];
 };
 
-export function createPeer(voiceUser: VoiceUser | RawVoice) {
+export async function createPeer(voiceUser: VoiceUser | RawVoice) {
   const users = useUsers();
   const user = users.get(voiceUser.userId);
   console.log(user.username, "peer created");
-  const peer = new SimplePeer({
+
+  const {default: LazySimplePeer} = await import("@thaunknown/simple-peer");
+
+  const peer = new LazySimplePeer({
     initiator: true,
     trickle: true,
     config: {
