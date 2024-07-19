@@ -11,7 +11,6 @@ import { postJoinVoice } from "@/chat-api/services/VoiceService";
 import socketClient from "@/chat-api/socketClient";
 import { useNavigate, useParams } from "solid-navigator";
 import Button from "../ui/Button";
-import { ChannelIcon } from "../servers/drawer/ServerDrawer";
 import { VoiceUser } from "@/chat-api/store/useVoiceUsers";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { RawNotification, getUserNotificationsRequest } from "@/chat-api/services/UserService";

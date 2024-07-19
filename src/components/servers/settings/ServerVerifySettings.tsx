@@ -11,8 +11,8 @@ import { t } from "i18next";
 import { createEffect, Match, onMount, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "@/components/ui/Button";
-import { CreateTicketModal } from "@/components/profile-pane/ProfilePane";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { CreateTicketModal } from "@/components/CreateTicketModal";
 
 const Container = styled("div")`
   display: flex;

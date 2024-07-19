@@ -17,7 +17,6 @@ import exploreRoutes from "./common/exploreRoutes";
 import serverSettings from "./common/ServerSettings";
 import useStore from "./chat-api/store/useStore";
 import TicketsPage from "@/components/tickets/TicketsPage";
-import { TicketPage } from "./components/settings/TicketSettings";
 import { updateTheme } from "./common/themes";
 import { getStorageString, removeStorage, setStorageString, StorageKeys } from "./common/localStorage";
 
@@ -74,6 +73,8 @@ const InviteServerBotPage = lazy(() => import("./pages/InviteServerBot"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const TermsAndConditionsPage = lazy(() => import("./pages/TermsAndConditionsPage"));
 const GoogleRedirectLinkAccount = lazy(() => import("./pages/GoogleRedirectLinkAccountPage"));
+
+const TicketPage = lazy(() => import("./pages/TicketPage"));
 
 
 

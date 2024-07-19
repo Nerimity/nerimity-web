@@ -20,11 +20,11 @@ import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { Emoji } from "@/components/markup/Emoji";
 import env from "@/common/env";
-import { ChannelIcon } from "../../drawer/ServerDrawer";
 import Text from "@/components/ui/Text";
 import { css } from "solid-styled-components";
 import { deleteChannelNotice, getChannelNotice, updateChannelNotice } from "@/chat-api/services/ChannelService";
 import { RawChannelNotice } from "@/chat-api/RawData";
+import { ChannelIcon } from "@/components/ChannelIcon";
 
 type ChannelParams = {
   serverId: string;

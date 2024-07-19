@@ -15,7 +15,7 @@ import { ChannelType } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { CHANNEL_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
-import { ChannelIcon } from "../../drawer/ServerDrawer";
+import { ChannelIcon } from "@/components/ChannelIcon";
 
 
 

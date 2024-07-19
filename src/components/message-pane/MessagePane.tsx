@@ -34,7 +34,6 @@ import useAccount from "@/chat-api/store/useAccount";
 import useServers from "@/chat-api/store/useServers";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import { ChannelIcon } from "../servers/drawer/ServerDrawer";
 import { setLastSelectedServerChannelId } from "@/common/useLastSelectedServerChannel";
 import Modal from "../ui/modal/Modal";
 import { FlexRow } from "../ui/Flexbox";
@@ -49,6 +48,7 @@ import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkup
 import { PhotoEditor } from "../ui/photo-editor/PhotoEditor";
 import { prettyBytes } from "@/common/prettyBytes";
 import Checkbox from "../ui/Checkbox";
+import { ChannelIcon } from "../ChannelIcon";
 
 const DeleteMessageModal = lazy(() => import("./message-delete-modal/MessageDeleteModal"));
 

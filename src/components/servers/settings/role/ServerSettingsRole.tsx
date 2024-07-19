@@ -19,7 +19,6 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { Notice } from "@/components/ui/Notice/Notice";
 import { css } from "solid-styled-components";
-import { ChannelIcon } from "../../drawer/ServerDrawer";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { Emoji } from "@/components/ui/Emoji";

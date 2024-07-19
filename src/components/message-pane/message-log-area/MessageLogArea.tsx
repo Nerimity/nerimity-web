@@ -34,7 +34,7 @@ import { Emoji } from "@/components/markup/Emoji";
 import ItemContainer from "@/components/ui/Item";
 import Avatar from "@/components/ui/Avatar";
 import { formatTimestamp } from "@/common/date";
-import { CreateTicketModal } from "@/components/profile-pane/ProfilePane";
+import { CreateTicketModal } from "@/components/CreateTicketModal";
 
 const DeleteMessageModal = lazy(() => import("../message-delete-modal/MessageDeleteModal"));
 

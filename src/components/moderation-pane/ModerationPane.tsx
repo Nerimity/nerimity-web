@@ -49,10 +49,7 @@ import {
   emitModerationUserSuspended,
   useModerationUserSuspendedListener
 } from "@/common/GlobalEvents";
-import { Notice } from "../ui/Notice/Notice";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
-import { TicketPage } from "../settings/TicketSettings";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { classNames } from "@/common/classNames";
 import DeletePostsModal from "./DeletePostsModal";
 

@@ -17,8 +17,8 @@ import { useMatch } from "solid-navigator";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Button from "../ui/Button";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import { CreateTicketModal } from "../profile-pane/ProfilePane";
 import Checkbox from "../ui/Checkbox";
+import { CreateTicketModal } from "../CreateTicketModal";
 
 const Container = styled("div")`
   display: flex;
