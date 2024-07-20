@@ -1,13 +1,24 @@
-import { CloseTicketStatuses, RawMessage, RawTicket, TicketStatus } from "@/chat-api/RawData";
+import {
+  CloseTicketStatuses,
+  RawMessage,
+  RawTicket,
+  TicketStatus,
+} from "@/chat-api/RawData";
 import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
-import { getModerationTicket, updateModerationTicket } from "@/chat-api/services/ModerationService";
+import {
+  getModerationTicket,
+  updateModerationTicket,
+} from "@/chat-api/services/ModerationService";
 import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { Markup } from "@/components/Markup";
-import { TicketItem, TicketStatusToName } from "@/components/tickets/TicketsPage";
+import {
+  TicketItem,
+  TicketStatusToName,
+} from "@/components/tickets/TicketItem";
 import Avatar from "@/components/ui/Avatar";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
@@ -23,8 +34,6 @@ import { t } from "i18next";
 import { createSignal, For, onCleanup, onMount, Setter, Show } from "solid-js";
 import { useMatch, useParams } from "solid-navigator";
 import { css, styled } from "solid-styled-components";
-
-
 
 const Container = styled("div")`
   display: flex;
@@ -71,13 +80,9 @@ const TicketStatusButtons = (props: {
   );
 };
 
-
-
 const MessageLogsContainer = styled(FlexColumn)`
   border-top: solid 1px rgba(255, 255, 255, 0.2);
 `;
-
-
 
 const MessageItemContainer = styled(FlexRow)`
   border-bottom: solid 1px rgba(255, 255, 255, 0.2);
@@ -87,10 +92,8 @@ const MessageItemContainer = styled(FlexRow)`
   padding-right: 4px;
 `;
 
-
-
 export default function TicketPage() {
-  const {height} = useWindowProperties();
+  const { height } = useWindowProperties();
   const params = useParams<{ id: string }>();
 
   const [ticket, setTicket] = createSignal<RawTicket | null>(null);
@@ -101,13 +104,15 @@ export default function TicketPage() {
   onMount(async () => {
     refreshData();
     const TwoMinutesToMilliseconds = 2 * 60 * 1000;
-    const interval = window.setInterval(() => refreshData(), TwoMinutesToMilliseconds);
+    const interval = window.setInterval(
+      () => refreshData(),
+      TwoMinutesToMilliseconds
+    );
 
     onCleanup(() => {
       window.clearInterval(interval);
     });
-    
-  });  
+  });
 
   const refreshData = async () => {
     const ticket = await (isModeration() ? getModerationTicket : getTicket)(
@@ -116,12 +121,16 @@ export default function TicketPage() {
     setTicket(ticket);
     if (!ticket) return;
 
-    const afterMessageId = messages().length ? messages()[messages().length - 1]?.id : "0";
+    const afterMessageId = messages().length
+      ? messages()[messages().length - 1]?.id
+      : "0";
 
     const newMessages = await fetchMessages(ticket.channelId, {
-      afterMessageId: afterMessageId
+      afterMessageId: afterMessageId,
     });
-    setMessages(afterMessageId === "0" ? newMessages : [...messages(), ...newMessages]);
+    setMessages(
+      afterMessageId === "0" ? newMessages : [...messages(), ...newMessages]
+    );
   };
 
   return (
@@ -129,24 +138,39 @@ export default function TicketPage() {
       <div style={isModeration() ? { "margin-top": "20px" } : {}}>
         <Breadcrumb>
           <Show when={isModeration()}>
-            <BreadcrumbItem href={"/app/moderation"} icon="home" title="Moderation" />
+            <BreadcrumbItem
+              href={"/app/moderation"}
+              icon="home"
+              title="Moderation"
+            />
           </Show>
           <Show when={!isModeration()}>
             <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
           </Show>
-          <BreadcrumbItem title={t("settings.drawer.tickets")!} href={isModeration() ? "/app/moderation/tickets" : "/app/settings/tickets"} />
+          <BreadcrumbItem
+            title={t("settings.drawer.tickets")!}
+            href={
+              isModeration()
+                ? "/app/moderation/tickets"
+                : "/app/settings/tickets"
+            }
+          />
           <BreadcrumbItem title={"Ticket"} />
         </Breadcrumb>
       </div>
       <Show when={ticket()}>
         <Notice type="info" description="Page updates every 2 minutes." />
-        <div class={css`
-          ${height() >= 500 ?`
+        <div
+          class={css`
+            ${height() >= 500
+              ? `
             position: sticky;
             z-index: 111111;
-            top: ${isModeration() ? "10px": "50px"};
-          ` : ""};
-        `}>
+            top: ${isModeration() ? "10px" : "50px"};
+          `
+              : ""};
+          `}
+        >
           <TicketItem
             as={isModeration() ? "mod" : "user"}
             ticket={ticket()!}
@@ -157,7 +181,6 @@ export default function TicketPage() {
         <div>{messages()?.length || 0}/50 messages</div>
 
         <Show when={messages()?.length < 50}>
-
           <MessageInputArea
             ticket={ticket()!}
             updateTicket={setTicket}
@@ -166,12 +189,10 @@ export default function TicketPage() {
             messages={messages()}
           />
         </Show>
-
       </Show>
     </Container>
   );
-};
-
+}
 
 const MessageInputArea = (props: {
   channelId: string;
@@ -180,9 +201,11 @@ const MessageInputArea = (props: {
   updateTicket(ticket: RawTicket): void;
   ticket: RawTicket;
 }) => {
-  const {tickets} = useStore();
+  const { tickets } = useStore();
   const params = useParams<{ id: string }>();
-  const [selectedStatus, setSelectedStatus] = createSignal<TicketStatus | undefined>(undefined);
+  const [selectedStatus, setSelectedStatus] = createSignal<
+    TicketStatus | undefined
+  >(undefined);
   const [fileBrowserRef, setFileBrowserRef] = createSignal<FileBrowserRef>();
 
   const [value, setValue] = createSignal("");
@@ -206,7 +229,6 @@ const MessageInputArea = (props: {
     setAttachment(() => file);
   };
 
-
   const onAttachmentChange = (files: FileList) => {
     const file = files[0];
     setAttachment(() => file);
@@ -218,7 +240,7 @@ const MessageInputArea = (props: {
       alert("You must select a status.");
       return;
     }
-    
+
     const formattedValue = value().trim();
     if (!formattedValue.length) {
       alert("Your message cannot be empty.");
@@ -231,7 +253,7 @@ const MessageInputArea = (props: {
     const message = await postMessage({
       content: formattedValue,
       attachment: file,
-      channelId: props.channelId
+      channelId: props.channelId,
     }).catch((err) => {
       alert(err.message);
       setValue(formattedValue);
@@ -295,12 +317,15 @@ const MessageInputArea = (props: {
             margin-top: 4px;
           `}
         >
-          <FileBrowser ref={setFileBrowserRef} accept="images" onChange={onAttachmentChange}  />
+          <FileBrowser
+            ref={setFileBrowserRef}
+            accept="images"
+            onChange={onAttachmentChange}
+          />
           <Show when={!attachment()}>
             <Button
               label="Attach"
               iconName="attach_file"
-
               margin={0}
               class={css`
                 flex-shrink: 0;
@@ -314,7 +339,6 @@ const MessageInputArea = (props: {
               label="Remove Attachment"
               iconName="close"
               color="var(--alert-color)"
-
               margin={0}
               class={css`
                 flex-shrink: 0;
@@ -348,7 +372,6 @@ const MessageLogs = (props: { messages: RawMessage[] }) => {
   );
 };
 
-
 const MessageItem = (props: { message: RawMessage }) => {
   const [hovered, setHovered] = createSignal(false);
 
@@ -375,13 +398,21 @@ const MessageItem = (props: { message: RawMessage }) => {
             {formatTimestamp(props.message.createdAt)}
           </Text>
         </FlexRow>
-        <Text size={14} class={css`word-break: break-word;white-space: pre-line;`}>
+        <Text
+          size={14}
+          class={css`
+            word-break: break-word;
+            white-space: pre-line;
+          `}
+        >
           <Markup message={props.message} text={props.message.content || ""} />
         </Text>
         <Show when={props.message.attachments?.[0]?.provider === "local"}>
-          <ImageEmbed attachment={props.message.attachments?.[0]!} widthOffset={-70} />
+          <ImageEmbed
+            attachment={props.message.attachments?.[0]!}
+            widthOffset={-70}
+          />
         </Show>
-
       </FlexColumn>
     </MessageItemContainer>
   );

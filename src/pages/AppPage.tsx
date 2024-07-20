@@ -1,10 +1,17 @@
-import { createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  on,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import MainPaneHeader from "../components/main-pane-header/MainPaneHeader";
 
 import {
   getStorageString,
   removeStorage,
-  StorageKeys
+  StorageKeys,
 } from "../common/localStorage";
 import socketClient from "../chat-api/socketClient";
 import RightDrawer from "@/components/right-drawer/RightDrawer";
@@ -13,7 +20,12 @@ import { getCache, LocalCacheKey } from "@/common/localCache";
 import useStore from "@/chat-api/store/useStore";
 import { setContext } from "@/common/runWithContext";
 import DrawerLayout, { useDrawer } from "@/components/ui/drawer/Drawer";
-import { useMatch, useSearchParams, Outlet } from "solid-navigator";
+import {
+  useMatch,
+  useSearchParams,
+  Outlet,
+  useNavigate,
+} from "solid-navigator";
 import { css, styled } from "solid-styled-components";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "@/components/connection-error-modal/ConnectionErrorModal";
@@ -23,6 +35,9 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { WelcomeModal } from "@/components/welcome-modal/WelcomeModal";
 import { ViewPostModal } from "@/components/PostsArea";
 import { useResizeObserver } from "@/common/useResizeObserver";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import useAccount from "@/chat-api/store/useAccount";
+import { WarnedModal } from "@/components/warned-modal/WarnedModal";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -60,7 +75,7 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
 async function loadAllCache() {
   const { account } = useStore();
   const user = await getCache(LocalCacheKey.Account);
-  account.setUser({...user, notices: []});
+  account.setUser({ ...user, notices: [] });
 }
 
 export default function AppPage() {
@@ -129,7 +144,7 @@ export default function AppPage() {
       socketId: null,
       socketConnected: false,
       socketAuthenticated: false,
-      authenticationError: null
+      authenticationError: null,
     });
   });
 
@@ -150,6 +165,9 @@ function MainPane() {
   >(undefined);
 
   const { width } = useResizeObserver(outerPaneElement);
+
+  useServerRedirect();
+  useUserNotices();
 
   createEffect(() => {
     windowProperties.setPaneWidth(width());
@@ -172,5 +190,51 @@ function MainPane() {
         <Outlet name="mainPane" />
       </MainPaneContainer>
     </OuterMainPaneContainer>
+  );
+}
+
+function useServerRedirect() {
+  const navigate = useNavigate();
+  const { servers, account } = useStore();
+
+  const serverRoute = useMatch(() => "/app/servers/:serverId/*");
+  const serverId = createMemo(() => serverRoute()?.params.serverId);
+  const server = () => (serverId() ? servers.get(serverId()!) : undefined);
+
+  createEffect(
+    on([server, account.isAuthenticated], () => {
+      if (!serverRoute()) return;
+      if (server()) return;
+      if (!account.isAuthenticated()) return;
+      navigate(RouterEndpoints.INBOX());
+    })
+  );
+}
+
+function useUserNotices() {
+  const account = useAccount();
+  const { createPortal } = useCustomPortal();
+  const notices = () => account?.user()?.notices || [];
+
+  const firstNotice = createMemo(() => notices()[0]);
+  createEffect(
+    on(
+      () => notices().length,
+      () => {
+        if (!firstNotice()) return;
+
+        createPortal(
+          (close) => (
+            <WarnedModal
+              id={firstNotice()?.id}
+              reason={firstNotice()?.content}
+              by={{ username: firstNotice()?.createdBy.username! }}
+              close={close}
+            />
+          ),
+          "user-notice"
+        );
+      }
+    )
   );
 }

@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, interactive-widget=resizes-content"
+    />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Nerimity is a open source, modern and sleek chat app
                made for everyone with features such as the ability to
-               make servers, a lot of customization and a lot more!">
+               make servers, a lot of customization and a lot more!"
+    />
 
-    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="manifest" href="/manifest.webmanifest" />
 
-
-    <link rel="icon" type="image/png" href="/favicon.ico">
-    <title>Chat App</title>
-
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <title>Nerimity</title>
 
     <!-- Needed to verify if a Google Drive file is not modified and to get metadata and additional info. -->
     <script src="https://apis.google.com/js/api.js"></script>
-
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -30,8 +30,8 @@
   </body>
   <script>
     // Remove PWA worker. Caused issues with updating Nerimity (I think?)
-    navigator.serviceWorker?.getRegistrations().then(workers => {
-      workers.forEach(worker => {
+    navigator.serviceWorker?.getRegistrations().then((workers) => {
+      workers.forEach((worker) => {
         if (worker.active?.scriptURL === "https://nerimity.com/sw.js") {
           worker.unregister().then(() => {
             console.log("Removed worker sw.js");
@@ -40,6 +40,5 @@
         }
       });
     });
-
   </script>
 </html>

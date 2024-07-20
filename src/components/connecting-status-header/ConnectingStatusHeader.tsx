@@ -6,10 +6,13 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { useMatch } from "solid-navigator";
 import { createEffect, createSignal, on } from "solid-js";
 
-export const ConnectingStatusHeader = () => {
-  const {account} = useStore();
-  const [status, setStatus] = createSignal<{color: string; text: string;} | null>(null);
-  const {isMobileWidth} = useWindowProperties();
+export default function ConnectingStatusHeader() {
+  const { account } = useStore();
+  const [status, setStatus] = createSignal<{
+    color: string;
+    text: string;
+  } | null>(null);
+  const { isMobileWidth } = useWindowProperties();
 
   let interval: number | undefined;
   let alreadyConnected = false;
@@ -17,31 +20,28 @@ export const ConnectingStatusHeader = () => {
   const invitesPage = useMatch(() => "/app/explore/servers/invites/*");
   const appPage = useMatch(() => "/app/*");
 
-
   const show = () => {
     if (!appPage()) return false;
-    if (invitesPage() && !getStorageString(StorageKeys.USER_TOKEN, undefined)) return false;
+    if (invitesPage() && !getStorageString(StorageKeys.USER_TOKEN, undefined))
+      return false;
     return true;
   };
 
-
   createEffect(() => {
-
     window.clearInterval(interval);
 
     if (account.authenticationError()) {
       setStatus({
         color: "var(--alert-color)",
-        text: account.authenticationError()?.message || "Authentication error"
+        text: account.authenticationError()?.message || "Authentication error",
       });
       return;
     }
 
-
     if (!account.isConnected()) {
       setStatus({
         color: "var(--warn-color)",
-        text: alreadyConnected ? "Reconnecting..." : "Connecting..."
+        text: alreadyConnected ? "Reconnecting..." : "Connecting...",
       });
       return;
     }
@@ -51,7 +51,7 @@ export const ConnectingStatusHeader = () => {
     if (!account.isAuthenticated()) {
       setStatus({
         color: "var(--warn-color)",
-        text: "Authenticating..."
+        text: "Authenticating...",
       });
       return;
     }
@@ -59,7 +59,7 @@ export const ConnectingStatusHeader = () => {
     if (account.isAuthenticated()) {
       setStatus({
         color: "var(--success-color)",
-        text: "Connected!"
+        text: "Connected!",
       });
       interval = window.setTimeout(() => {
         setStatus(null);
@@ -68,8 +68,15 @@ export const ConnectingStatusHeader = () => {
   });
 
   return (
-    <div class={classNames(styles.connectingStatusHeader, conditionalClass(isMobileWidth(), styles.mobile), conditionalClass(!status() || !show(), styles.hide))} style={{background: status()?.color}}>
+    <div
+      class={classNames(
+        styles.connectingStatusHeader,
+        conditionalClass(isMobileWidth(), styles.mobile),
+        conditionalClass(!status() || !show(), styles.hide)
+      )}
+      style={{ background: status()?.color }}
+    >
       <div class={styles.text}>{status()?.text}</div>
     </div>
   );
-};
+}
