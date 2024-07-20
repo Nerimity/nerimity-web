@@ -148,7 +148,7 @@ function NewPostArea(props: { postId?: string }) {
     setAttachedFile(() => file);
   };
 
-  const onCreateClick = async () => {
+  const onCreateClick = () => {
     const formattedContent = formatMessage(content().trim());
     if (props.postId) {
       posts.cachedPost(props.postId)?.submitReply({
