@@ -32,15 +32,9 @@ importers:
       '@thaunknown/simple-peer':
         specifier: ^10.0.10
         version: 10.0.10
-      '@types/pako':
-        specifier: ^2.0.3
-        version: 2.0.3
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.39)
-      base64-arraybuffer:
-        specifier: ^1.0.2
-        version: 1.0.2
       croppie:
         specifier: ^2.6.5
         version: 2.6.5
@@ -77,9 +71,6 @@ importers:
       material-symbols:
         specifier: ^0.20.0
         version: 0.20.0
-      pako:
-        specifier: ^2.1.0
-        version: 2.1.0
       sass:
         specifier: ^1.77.8
         version: 1.77.8
@@ -101,6 +92,9 @@ importers:
       twemoji:
         specifier: ^14.0.2
         version: 14.0.2
+      uzip:
+        specifier: ^0.20201231.0
+        version: 0.20201231.0
       voice-activity-detection:
         specifier: ^0.0.5
         version: 0.0.5
@@ -132,6 +126,9 @@ importers:
       '@types/simple-peer':
         specifier: ^9.11.8
         version: 9.11.8
+      '@types/uzip':
+        specifier: ^0.20201231.2
+        version: 0.20201231.2
       '@types/voice-activity-detection':
         specifier: ^0.0.5
         version: 0.0.5
@@ -683,14 +680,14 @@ packages:
   '@types/node@20.14.11':
     resolution: {integrity: sha512-kprQpL8MMeszbz6ojB5/tU8PLN4kesnN8Gjzw349rDlNgsSzg90lAVj3llK99Dh7JON+t9AuscPPFW6mPbTnSA==}
 
-  '@types/pako@2.0.3':
-    resolution: {integrity: sha512-bq0hMV9opAcrmE0Byyo0fY3Ew4tgOevJmQ9grUhpXQhYfyLJ1Kqg3P33JT5fdbT2AjeAjR51zqqVjAL/HMkx7Q==}
-
   '@types/simple-peer@9.11.8':
     resolution: {integrity: sha512-rvqefdp2rvIA6wiomMgKWd2UZNPe6LM2EV5AuY3CPQJF+8TbdrL5TjYdMf0VAjGczzlkH4l1NjDkihwbj3Xodw==}
 
   '@types/sortablejs@1.15.8':
     resolution: {integrity: sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==}
+
+  '@types/uzip@0.20201231.2':
+    resolution: {integrity: sha512-l8n/uaJDoxv2hMMWKCaq6l/umbCZjq6CMr8z2wuteB7lKoIwHrIlMZ3AwAuc+olmOK1AobfvK1PPfr5wl7lkWQ==}
 
   '@types/voice-activity-detection@0.0.5':
     resolution: {integrity: sha512-sdk0AnjVO3GOx7UbQanOzz9+g0L99w2Kdo6Jg1BWqt7zNoQ9WQejltukUgvB/XzGEgifhL8uZEZz9opnsYBvmA==}
@@ -1434,9 +1431,6 @@ packages:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
 
-  pako@2.1.0:
-    resolution: {integrity: sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==}
-
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -1757,6 +1751,9 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  uzip@0.20201231.0:
+    resolution: {integrity: sha512-OZeJfZP+R0z9D6TmBgLq2LHzSSptGMGDGigGiEe0pr8UBe/7fdflgHlHBNDASTXB5jnFuxHpNaJywSg8YFeGng==}
 
   validate-html-nesting@1.2.2:
     resolution: {integrity: sha512-hGdgQozCsQJMyfK5urgFcWEqsSSrK63Awe0t/IMR0bZ0QMtnuaiHzThW81guu3qx9abLi99NEuiaN6P9gVYsNg==}
@@ -2341,13 +2338,13 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/pako@2.0.3': {}
-
   '@types/simple-peer@9.11.8':
     dependencies:
       '@types/node': 20.14.11
 
   '@types/sortablejs@1.15.8': {}
+
+  '@types/uzip@0.20201231.2': {}
 
   '@types/voice-activity-detection@0.0.5': {}
 
@@ -3118,8 +3115,6 @@ snapshots:
     dependencies:
       p-limit: 3.1.0
 
-  pako@2.1.0: {}
-
   parent-module@1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -3450,6 +3445,8 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
+
+  uzip@0.20201231.0: {}
 
   validate-html-nesting@1.2.2: {}
 

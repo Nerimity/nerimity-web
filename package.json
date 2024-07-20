@@ -20,6 +20,7 @@
     "@types/markdown-it-emoji": "^2.0.5",
     "@types/node": "^20.14.11",
     "@types/simple-peer": "^9.11.8",
+    "@types/uzip": "^0.20201231.2",
     "@types/voice-activity-detection": "^0.0.5",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
@@ -42,9 +43,7 @@
     "@nerimity/solid-turnstile": "^1.1.0",
     "@solid-primitives/keyed": "^1.2.2",
     "@thaunknown/simple-peer": "^10.0.10",
-    "@types/pako": "^2.0.3",
     "autoprefixer": "^10.4.19",
-    "base64-arraybuffer": "^1.0.2",
     "croppie": "^2.6.5",
     "eventemitter3": "^5.0.1",
     "highlight.js": "^11.10.0",
@@ -57,7 +56,6 @@
     "match-sorter": "^6.3.4",
     "material-icons": "^1.13.12",
     "material-symbols": "^0.20.0",
-    "pako": "^2.1.0",
     "sass": "^1.77.8",
     "socket.io-client": "^4.7.5",
     "solid-js": "^1.8.18",
@@ -65,6 +63,7 @@
     "solid-sortablejs": "^2.1.2",
     "solid-styled-components": "^0.28.5",
     "twemoji": "^14.0.2",
+    "uzip": "^0.20201231.0",
     "voice-activity-detection": "^0.0.5"
   },
   "engines": {
