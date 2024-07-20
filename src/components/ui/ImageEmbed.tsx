@@ -7,7 +7,6 @@ import { RawAttachment } from "@/chat-api/RawData";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import env from "@/common/env";
 
-
 const ImageEmbedContainer = styled(FlexRow)`
   user-select: none;
   overflow: hidden;
@@ -33,17 +32,18 @@ const ImageEmbedContainer = styled(FlexRow)`
 
 interface ImageEmbedProps {
   attachment: RawAttachment;
-  widthOffset?: number; 
+  widthOffset?: number;
   customWidth?: number;
   customHeight?: number;
-  maxWidth?: number; 
-  maxHeight?: number
+  maxWidth?: number;
+  maxHeight?: number;
+  ignoreClick?: boolean;
 }
 
 export function ImageEmbed(props: ImageEmbedProps) {
   const { paneWidth, height, hasFocus } = useWindowProperties();
   const { createPortal } = useCustomPortal();
-  
+
   const isGif = () => props.attachment.path?.endsWith(".gif");
   const url = (ignoreFocus?: boolean) => {
     const url = new URL(`${env.NERIMITY_CDN}${props.attachment.path}`);
@@ -56,22 +56,45 @@ export function ImageEmbed(props: ImageEmbedProps) {
   };
 
   const style = () => {
-    const maxWidth = clamp((props.customWidth || paneWidth()!) + (props.widthOffset || 0), props.maxWidth || 600);
-    const maxHeight = props.maxHeight ? clamp(((props.customHeight || height()) / 2), props.maxHeight) : ((props.customHeight || height()) / 2);
-    return clampImageSize(props.attachment.width!, props.attachment.height!, maxWidth, maxHeight);
+    const maxWidth = clamp(
+      (props.customWidth || paneWidth()!) + (props.widthOffset || 0),
+      props.maxWidth || 600
+    );
+    const maxHeight = props.maxHeight
+      ? clamp((props.customHeight || height()) / 2, props.maxHeight)
+      : (props.customHeight || height()) / 2;
+    return clampImageSize(
+      props.attachment.width!,
+      props.attachment.height!,
+      maxWidth,
+      maxHeight
+    );
   };
 
   const onClicked = () => {
-    createPortal(close => <ImagePreviewModal close={close} url={url(true)} width={props.attachment.width} height={props.attachment.height} />);
+    if (props.ignoreClick) return;
+    createPortal((close) => (
+      <ImagePreviewModal
+        close={close}
+        url={url(true)}
+        width={props.attachment.width}
+        height={props.attachment.height}
+      />
+    ));
   };
 
   return (
-    <ImageEmbedContainer onclick={onClicked} class={classNames("imageEmbedContainer", conditionalClass(isGif() && !hasFocus(), "gif"))}>
+    <ImageEmbedContainer
+      onclick={onClicked}
+      class={classNames(
+        "imageEmbedContainer",
+        conditionalClass(isGif() && !hasFocus(), "gif")
+      )}
+    >
       <img loading="lazy" src={url()} style={style()} alt="" />
     </ImageEmbedContainer>
   );
 }
-
 
 const ImagePreviewContainer = styled(FlexRow)`
   position: absolute;
@@ -80,16 +103,23 @@ const ImagePreviewContainer = styled(FlexRow)`
   align-items: center;
   inset: 0;
   z-index: 111111111111;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.9);
   img {
     border-radius: 8px;
   }
 `;
 
-
-export function ImagePreviewModal(props: { close: () => void, url: string, width?: number, height?: number }) {
+export function ImagePreviewModal(props: {
+  close: () => void;
+  url: string;
+  width?: number;
+  height?: number;
+}) {
   const { width, height } = useWindowProperties();
-  const [dimensions, setDimensions] = createSignal({width: props.width, height: props.height});
+  const [dimensions, setDimensions] = createSignal({
+    width: props.width,
+    height: props.height,
+  });
 
   onMount(() => {
     document.addEventListener("keydown", onKeyDown);
@@ -103,9 +133,14 @@ export function ImagePreviewModal(props: { close: () => void, url: string, width
   };
 
   const style = () => {
-    const maxWidth = clamp(width(), width() / 100 * 80);
-    const maxHeight = clamp(height(), height() / 100 * 80);
-    return clampImageSize(dimensions().width!, dimensions().height!, maxWidth, maxHeight);
+    const maxWidth = clamp(width(), (width() / 100) * 80);
+    const maxHeight = clamp(height(), (height() / 100) * 80);
+    return clampImageSize(
+      dimensions().width!,
+      dimensions().height!,
+      maxWidth,
+      maxHeight
+    );
   };
 
   const onClick = (event: any) => {
@@ -114,11 +149,11 @@ export function ImagePreviewModal(props: { close: () => void, url: string, width
     props.close();
   };
 
-  const onLoad = (event: {target: HTMLImageElement}) => {
+  const onLoad = (event: { target: HTMLImageElement }) => {
     if (dimensions().width) return;
     setDimensions({
       width: event.target.naturalWidth,
-      height: event.target.naturalHeight
+      height: event.target.naturalHeight,
     });
   };
 
@@ -129,13 +164,16 @@ export function ImagePreviewModal(props: { close: () => void, url: string, width
   );
 }
 
-
 export function clamp(num: number, max: number) {
   return num >= max ? max : num;
 }
 
-
-export function clampImageSize(width: number, height: number, maxWidth: number, maxHeight: number) {
+export function clampImageSize(
+  width: number,
+  height: number,
+  maxWidth: number,
+  maxHeight: number
+) {
   const aspectRatio = width / height;
   if (width > maxWidth) {
     width = maxWidth;

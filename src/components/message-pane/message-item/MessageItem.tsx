@@ -1262,6 +1262,7 @@ const NormalEmbed = (props: { message: RawMessage }) => {
           </Show>
           <Show when={largeImage()}>
             <ImageEmbed
+              ignoreClick
               attachment={{
                 id: "",
                 path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${

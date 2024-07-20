@@ -363,6 +363,7 @@ body .reactionItem {
   max-width: 500px;
 
   .ogEmbedImageContainer {
+    align-self: flex-start;
     position: relative;
     display: flex;
     align-items: center;
