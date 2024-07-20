@@ -1,4 +1,3 @@
-
 export interface RawServer {
   id: string;
   name: string;
@@ -14,9 +13,8 @@ export interface RawServer {
   customEmojis: RawCustomEmoji[];
   _count?: {
     welcomeQuestions: number;
-  }
+  };
 }
-
 
 export interface RawVoice {
   serverId?: string;
@@ -24,20 +22,19 @@ export interface RawVoice {
   userId: string;
 }
 
-
 export enum MessageType {
   CONTENT = 0,
   JOIN_SERVER = 1,
   LEAVE_SERVER = 2,
   KICK_USER = 3,
   BAN_USER = 4,
-  CALL_STARTED = 5
+  CALL_STARTED = 5,
 }
 
 export interface HtmlEmbedItem {
   tag: string;
   attributes: Record<string, string>;
-  content: (string | HtmlEmbedItem)[]
+  content: (string | HtmlEmbedItem)[];
 }
 export interface RawMessage {
   id: string;
@@ -48,15 +45,15 @@ export interface RawMessage {
   createdAt: number;
   editedAt?: number;
   mentions?: Array<RawUser>;
-  attachments?: Array<RawAttachment>
-  quotedMessages: Partial<RawMessage>[]
-  reactions: RawMessageReaction[]
+  attachments?: Array<RawAttachment>;
+  quotedMessages: Partial<RawMessage>[];
+  reactions: RawMessageReaction[];
   htmlEmbed?: string;
   embed?: RawEmbed | null;
   mentionReplies?: boolean;
   replyMessages: {
     replyToMessage?: RawMessage;
-  }[]
+  }[];
 }
 
 export interface RawEmbed {
@@ -70,6 +67,9 @@ export interface RawEmbed {
   imageHeight?: number;
   imageMime?: string;
 
+  video?: boolean;
+  largeImage?: boolean;
+
   // for youtube
   uploadDate: string;
   channelName: string;
@@ -80,8 +80,8 @@ export interface RawMessageReaction {
   emojiId?: string | null;
   gif?: boolean;
 
-  reacted: boolean
-  count: number
+  reacted: boolean;
+  count: number;
 }
 
 export interface RawChannelNotice {
@@ -94,14 +94,14 @@ export interface RawChannelNotice {
 export interface RawAttachment {
   id: string;
 
-  provider?: "local" | "google_drive"
-  fileId?: string
-  mime?: string
+  provider?: "local" | "google_drive";
+  fileId?: string;
+  mime?: string;
   messageId?: string;
   path?: string;
   width?: number;
   height?: number;
-  createdAt: number
+  createdAt?: number;
 }
 
 export interface RawUser {
@@ -120,10 +120,9 @@ export interface RawUser {
 
 export interface RawUserConnection {
   id: string;
-  provider: "GOOGLE",
-  connectedAt: number
+  provider: "GOOGLE";
+  connectedAt: number;
 }
-
 
 export enum ServerNotificationSoundMode {
   ALL = 0,
@@ -136,10 +135,10 @@ export enum ServerNotificationPingMode {
   MUTE = 2,
 }
 export interface RawUserNotificationSettings {
-  notificationSoundMode: ServerNotificationSoundMode,
-  notificationPingMode: ServerNotificationPingMode,
-  serverId?: string,
-  channelId?: string
+  notificationSoundMode: ServerNotificationSoundMode;
+  notificationPingMode: ServerNotificationPingMode;
+  serverId?: string;
+  channelId?: string;
 }
 
 export interface RawServerMember {
@@ -150,13 +149,11 @@ export interface RawServerMember {
   roleIds: string[];
 }
 
-
 export enum ChannelType {
   DM_TEXT = 0,
   SERVER_TEXT = 1,
-  CATEGORY = 2
+  CATEGORY = 2,
 }
-
 
 export enum TicketStatus {
   WAITING_FOR_MODERATOR_RESPONSE = 0,
@@ -167,7 +164,7 @@ export enum TicketStatus {
 
 export const CloseTicketStatuses = [
   TicketStatus.CLOSED_AS_DONE,
-  TicketStatus.CLOSED_AS_INVALID
+  TicketStatus.CLOSED_AS_INVALID,
 ];
 
 export interface RawTicket {
@@ -186,28 +183,28 @@ export interface RawTicket {
 export interface RawChannel {
   id: string;
   categoryId?: string;
-  name: string
+  name: string;
   icon?: string;
   createdById?: string;
   serverId?: string;
   type: ChannelType;
-  permissions?: number
-  createdAt: number
+  permissions?: number;
+  createdAt: number;
   lastMessagedAt?: number;
   order?: number;
-  _count?: {attachments: number}
+  _count?: { attachments: number };
 }
 
 export interface RawCustomEmoji {
   id: string;
-  name:string;
+  name: string;
   gif: boolean;
   serverId?: string;
 }
 
 export interface RawServerRole {
   id: string;
-  name: string
+  name: string;
   icon?: string;
   order: number;
   hexColor: string;
@@ -225,18 +222,17 @@ export enum FriendStatus {
   BLOCKED = 3,
 }
 
-
 export enum TicketCategory {
   QUESTION = 0,
   ACCOUNT = 1,
   ABUSE = 2,
   OTHER = 3,
-  SERVER_VERIFICATION = 4
+  SERVER_VERIFICATION = 4,
 }
 
 export interface RawFriend {
-  status: FriendStatus,
-  createdAt: number
+  status: FriendStatus;
+  createdAt: number;
   userId: string;
   recipient: RawUser;
 }
@@ -246,7 +242,7 @@ export interface RawInboxWithoutChannel {
   createdById: string;
   channelId: string;
   recipient: RawUser;
-  closed: boolean
+  closed: boolean;
   lastSeen?: number;
 }
 
@@ -256,12 +252,10 @@ export interface ActivityStatus {
   startedAt: number;
   endsAt?: number;
 
-  imgSrc?: string
-  title?: string
+  imgSrc?: string;
+  title?: string;
   subtitle?: string;
   link?: string;
-
-
 }
 export interface RawPresence {
   userId: string;
@@ -270,7 +264,6 @@ export interface RawPresence {
   activity?: ActivityStatus;
 }
 
-
 export interface RawPublicServer {
   serverId: string;
   createdAt: number;
@@ -278,9 +271,8 @@ export interface RawPublicServer {
   description: string;
   bumpCount: number;
   lifetimeBumpCount: number;
-  server?: RawServer & {_count: {serverMembers: number}}
+  server?: RawServer & { _count: { serverMembers: number } };
 }
-
 
 export interface RawPost {
   id: string;
@@ -290,86 +282,88 @@ export interface RawPost {
   block?: boolean;
   commentToId: string;
   commentTo?: RawPost;
-  createdBy: RawUser
+  createdBy: RawUser;
   createdAt: number;
   editedAt: number;
-  likedBy: {id: string}[] // if you liked this post, array will not be empty
-  _count: {likedBy: number, comments: number}
+  likedBy: { id: string }[]; // if you liked this post, array will not be empty
+  _count: { likedBy: number; comments: number };
 
-  poll?: RawPostPoll
+  poll?: RawPostPoll;
 }
 
 export interface RawPostPoll {
   id: string;
-  _count: { votedUsers: number }
-  choices: RawPostChoice[]
-  votedUsers: [{
-    pollChoiceId: string
-  }] | []
+  _count: { votedUsers: number };
+  choices: RawPostChoice[];
+  votedUsers:
+    | [
+        {
+          pollChoiceId: string;
+        }
+      ]
+    | [];
 }
 export interface RawPostChoice {
-  id: string
-  content: string
-  _count: { votedUsers: number }
+  id: string;
+  content: string;
+  _count: { votedUsers: number };
 }
 
 export enum PostNotificationType {
   LIKED = 0,
   REPLIED = 1,
-  FOLLOWED = 2
+  FOLLOWED = 2,
 }
 
 export interface RawPostNotification {
-  id: string,
-  createdAt: number,
-  type: PostNotificationType,
-  by: RawUser,
-  post?: RawPost
+  id: string;
+  createdAt: number;
+  type: PostNotificationType;
+  by: RawUser;
+  post?: RawPost;
 }
 
-
 export interface RawApplication {
-  id: string
-  name: string
-  description?: string
-  avatar?: string
+  id: string;
+  name: string;
+  description?: string;
+  avatar?: string;
 
-  botUserId?: string
-  botUser?: RawUser
-
+  botUserId?: string;
+  botUser?: RawUser;
 
   creatorAccount?: {
-    user: RawUser
-  }
-  creatorAccountId: string
-  createdAt: number
+    user: RawUser;
+  };
+  creatorAccountId: string;
+  createdAt: number;
 }
 
 export interface RawServerWelcomeQuestion {
-  id: string
-  title: string
-  multiselect: boolean
-  answers: RawServerWelcomeAnswer[]
+  id: string;
+  title: string;
+  multiselect: boolean;
+  answers: RawServerWelcomeAnswer[];
   createdAt?: number;
   order: number;
 }
 
 export interface RawServerWelcomeAnswer {
-  id: string
-  title: string
-  roleIds: string[]
+  id: string;
+  title: string;
+  roleIds: string[];
   createdAt?: number;
   answered: boolean;
   questionId: string;
   order: number;
-  _count: { answeredUsers: number }
+  _count: { answeredUsers: number };
 }
 
 export interface RawNotice {
-    id: string,
-    type: 0,
-    title: null,
-    content: string,
-    createdAt: number,
-    createdBy: {username: string}
+  id: string;
+  type: 0;
+  title: null;
+  content: string;
+  createdAt: number;
+  createdBy: { username: string };
 }
