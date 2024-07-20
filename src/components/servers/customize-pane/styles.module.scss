@@ -8,14 +8,13 @@
 .welcomeMessage {
   display: flex;
   flex-direction: column;
-  .title {
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-  }
   display: flex;
   flex-direction: column;
   margin-bottom: 8px;
+  .title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 
 .questionList {
@@ -35,7 +34,6 @@
     word-break: break-word;
     white-space: pre-line;
   }
-
 }
 
 .answerList {
@@ -68,11 +66,9 @@
   }
 }
 
-
 .continueFooter {
   display: flex;
   align-items: center;
-
 
   font-size: 14px;
   backdrop-filter: blur(34px);
@@ -92,5 +88,4 @@
   .button > span:nth-child(1) {
     width: 100%;
   }
-
 }

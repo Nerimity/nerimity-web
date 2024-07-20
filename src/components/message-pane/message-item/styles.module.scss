@@ -58,16 +58,17 @@
 }
 
 .systemMessage {
-  span {
-    word-break: break-word;
-    white-space: pre-line;
-  }
   overflow: hidden;
   display: flex;
   gap: 5px;
   align-items: center;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
+  span {
+    word-break: break-word;
+    white-space: pre-line;
+  }
+
   .iconContainer {
     display: flex;
     align-items: center;
@@ -234,6 +235,8 @@
   flex-wrap: wrap;
 }
 body .reactionItem {
+  background: transparent;
+  background-color: rgba(255, 255, 255, 0.05);
   .emoji {
     height: 1.4em;
     width: 1.4em;
@@ -241,9 +244,6 @@ body .reactionItem {
     margin-right: 3px;
     object-fit: contain;
   }
-
-  background: transparent;
-  background-color: rgba(255, 255, 255, 0.05);
   &.reacted {
     background-color: rgba(255, 255, 255, 0.16);
     &:hover {

@@ -8,7 +8,6 @@
   margin-bottom: 4px;
 }
 
-
 .markup .bold {
   font-weight: bold;
 }
@@ -46,9 +45,7 @@
     padding-left: 4px;
     padding-right: 4px;
   }
-
 }
-
 
 .markup .quoteContainer {
   display: flex;
@@ -82,7 +79,7 @@
 
 .markup .hiddenQuote {
   display: inline-flex;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   background: rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   padding: 2px;
@@ -92,8 +89,6 @@
   margin-bottom: 1px;
   align-items: baseline;
 }
-
-
 
 .markup .code-block {
   background: rgba(0, 0, 0, 0.6);
@@ -113,7 +108,7 @@
     align-items: center;
     font-weight: bold;
     padding: 3px;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.4);    
+    border-bottom: solid 1px rgba(255, 255, 255, 0.4);
     margin-bottom: 5px;
 
     .lang-name {
@@ -144,6 +139,12 @@
   border-radius: 3px;
 
   &:not(.spoiled) {
+    background-color: #0e0f10;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 4px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 
     .emoji {
       opacity: 0;
@@ -152,13 +153,12 @@
     .code-block {
       position: relative;
       overflow: hidden;
-      &::before{
+      &::before {
         content: "spoiler";
         position: absolute;
         inset: 0;
         background-color: #0e0f10;
         z-index: 11111111;
-
       }
     }
 
@@ -167,23 +167,14 @@
       color: transparent;
     }
 
-    background-color: #0e0f10;
-
-    user-select: none;
-    cursor: pointer;
-    border-radius: 4px;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
     &:hover {
       background-color: #1c1e20;
       .code-block::before {
         background-color: #1c1e20;
       }
     }
-
   }
 }
-
 
 .markup.largeEmoji .emoji {
   height: 48px;
