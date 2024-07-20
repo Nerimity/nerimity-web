@@ -7,14 +7,12 @@
   padding-bottom: 30px;
 }
 
-
-
-
 .unreadMarkerContainer {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.2s;
   &:before {
     position: absolute;
     content: "";
@@ -23,7 +21,6 @@
     left: 0;
     right: 0;
   }
-  transition: 0.2s;
   &:hover {
     opacity: 0.6;
   }
@@ -53,8 +50,6 @@
   }
 }
 
-
-
 .viewReactionsModal {
   display: flex;
   flex-direction: column;
@@ -68,6 +63,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 4px;
     .reactionItem {
       display: flex;
       align-items: center;
@@ -82,7 +80,7 @@
         justify-content: center;
         font-size: 12px;
         color: rgba(255, 255, 255, 0.6);
-        background: rgba(255,255,255,0.1);
+        background: rgba(255, 255, 255, 0.1);
         border: solid 1px rgba(255, 255, 255, 0.2);
         border-radius: 4px;
         padding-left: 4px;
@@ -96,12 +94,7 @@
         margin-right: 3px;
         object-fit: contain;
       }
-      
     }
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 8px;
-    padding: 4px;
-
   }
 
   .reactedUsers {
@@ -128,7 +121,6 @@
         background-color: rgba(255, 255, 255, 0.1);
         border-radius: 4px;
       }
-
     }
   }
 }
