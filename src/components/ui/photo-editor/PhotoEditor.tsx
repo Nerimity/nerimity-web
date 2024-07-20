@@ -1,5 +1,13 @@
 import styles from "./styles.module.scss";
-import {Show, createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
+import {
+  Show,
+  createEffect,
+  createMemo,
+  createSignal,
+  on,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import Konva from "konva/lib/Core";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { Vector2d } from "konva/lib/types";
@@ -14,8 +22,7 @@ import { FlexRow } from "../Flexbox";
 import { ColorPicker } from "../color-picker/ColorPicker";
 import Text from "../Text";
 
-
-export interface PhotoEditorProps {
+interface PhotoEditorProps {
   src: string;
   close: () => void;
   done: (file: File) => void;
@@ -24,19 +31,18 @@ export interface PhotoEditorProps {
 const [strokeColor, setStrokeColor] = createSignal("#ff4848");
 const [strokeWidth, setStrokeWidth] = createSignal(4);
 
-export const PhotoEditor = (props: PhotoEditorProps) => {
+export default function PhotoEditor(props: PhotoEditorProps) {
   const [el, setEl] = createSignal<HTMLDivElement | undefined>(undefined);
-  const {isMobileAgent} = useWindowProperties();
-  const {width, height} = useResizeObserver(el);
-  
+  const { isMobileAgent } = useWindowProperties();
+  const { width, height } = useResizeObserver(el);
+
   const imgLayer = new Konva.Layer();
   const drawLayer = new Konva.Layer();
   let spaceHeld = false;
-  let imageDimensions: {width: number, height: number} | undefined;
+  let imageDimensions: { width: number; height: number } | undefined;
   let lineHistory: KonvaLine[] = [];
-  
-  const [mode, setMode] = createSignal<"brush" | "erase">("brush");
 
+  const [mode, setMode] = createSignal<"brush" | "erase">("brush");
 
   const handlePinchZoom = (stage: Stage) => {
     function getDistance(p1: Vector2d, p2: Vector2d) {
@@ -46,7 +52,7 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
     function getCenter(p1: Vector2d, p2: Vector2d) {
       return {
         x: (p1.x + p2.x) / 2,
-        y: (p1.y + p2.y) / 2
+        y: (p1.y + p2.y) / 2,
       };
     }
     let lastCenter: Vector2d | null = null;
@@ -74,11 +80,11 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
 
         const p1 = {
           x: touch1.clientX,
-          y: touch1.clientY
+          y: touch1.clientY,
         };
         const p2 = {
           x: touch2.clientX,
-          y: touch2.clientY
+          y: touch2.clientY,
         };
 
         if (!lastCenter) {
@@ -96,7 +102,7 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
         // local coordinates of center point
         const pointTo = {
           x: (newCenter.x - stage.x()) / stage.scaleX(),
-          y: (newCenter.y - stage.y()) / stage.scaleX()
+          y: (newCenter.y - stage.y()) / stage.scaleX(),
         };
 
         const scale = stage.scaleX() * (dist / lastDist);
@@ -110,7 +116,7 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
 
         const newPos = {
           x: newCenter.x - pointTo.x * scale + dx,
-          y: newCenter.y - pointTo.y * scale + dy
+          y: newCenter.y - pointTo.y * scale + dy,
         };
 
         stage.position(newPos);
@@ -125,7 +131,6 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
       lastCenter = null;
     });
   };
-
 
   const handleDrawing = (stage: Stage) => {
     let isPaint = false;
@@ -151,7 +156,7 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
         lineCap: "round",
         lineJoin: "round",
         // add point twice, so we have some drawings even on a simple click
-        points: [pos.x, pos.y, pos.x, pos.y]
+        points: [pos.x, pos.y, pos.x, pos.y],
       });
       lineHistory.push(lastLine);
       drawLayer.add(lastLine);
@@ -191,7 +196,7 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
 
       const mousePointTo = {
         x: (pointer.x - stage.x()) / oldScale,
-        y: (pointer.y - stage.y()) / oldScale
+        y: (pointer.y - stage.y()) / oldScale,
       };
 
       // how to scale? Zoom in? Or zoom out?
@@ -209,14 +214,13 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
 
       const newPos = {
         x: pointer.x - mousePointTo.x * newScale,
-        y: pointer.y - mousePointTo.y * newScale
+        y: pointer.y - mousePointTo.y * newScale,
       };
       stage.position(newPos);
     });
   };
 
   const handleSpaceToDrag = (stage: Stage) => {
-
     const keyDown = (event: KeyboardEvent) => {
       if (event.key === " ") {
         spaceHeld = true;
@@ -239,7 +243,6 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
     });
   };
   const handleShortcuts = () => {
-
     const keyDown = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() === "z" && event.ctrlKey) {
         undo();
@@ -259,12 +262,10 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
       container: el()!,
       width: 500,
       height: 500,
-      draggable: false
-      
+      draggable: false,
     });
     stage.add(imgLayer);
     stage.add(drawLayer);
-    
 
     handleSpaceToDrag(stage);
     handleShortcuts();
@@ -277,87 +278,88 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
       stage?.destroy();
     });
   });
-  
 
-  createEffect(on(() => props.src, () => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = props.src;
-    img.onload = () => {
+  createEffect(
+    on(
+      () => props.src,
+      () => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = props.src;
+        img.onload = () => {
+          imageDimensions = {
+            width: img.width,
+            height: img.height,
+          };
 
-      imageDimensions = {
-        width: img.width,
-        height: img.height
-      };
-      
+          // scale stage to fit image inside the current width and height
+          const scaledImageSize = calculateAspectRatioFit(
+            img.width,
+            img.height,
+            width(),
+            height()
+          );
 
-      // scale stage to fit image inside the current width and height
-      const scaledImageSize = calculateAspectRatioFit(img.width, img.height, width(), height());
+          const scaleX = scaledImageSize.width / img.width;
+          const scaleY = scaledImageSize.height / img.height;
 
-      const scaleX = scaledImageSize.width / img.width;
-      const scaleY = scaledImageSize.height / img.height;
+          stage?.scaleX(scaleX);
+          stage?.scaleY(scaleY);
 
-      stage?.scaleX(scaleX);
-      stage?.scaleY(scaleY);
+          const scaledImageWidth = img.width * scaleX;
+          const scaledImageHeight = img.height * scaleY;
 
+          // set position to center
+          stage?.setPosition({
+            x: (width() - scaledImageWidth) / 2,
+            y: (height() - scaledImageHeight) / 2,
+          });
+          imgLayer.add(
+            new KonvaImage({
+              x: 0,
+              y: 0,
+              image: img,
+              width: img.width,
+              height: img.height,
+            })
+          );
 
-      const scaledImageWidth = img.width * scaleX;
-      const scaledImageHeight = img.height * scaleY;
+          imgLayer.draw();
+        };
+      }
+    )
+  );
 
-
-
-      // set position to center
-      stage?.setPosition({
-        x: (width() - scaledImageWidth) / 2,
-        y: (height() - scaledImageHeight) / 2
-      });
-      imgLayer.add(new KonvaImage({
-        x: 0,
-        y: 0,
-        image: img,
-        width: img.width,
-        height: img.height
-      }));
-
-      imgLayer.draw();
-    };
-  }));
-
-
-  createEffect(on(width, () => {
-    stage?.width(width());
-  }));
-
-
+  createEffect(
+    on(width, () => {
+      stage?.width(width());
+    })
+  );
 
   const onDone = async () => {
     if (lineHistory.length === 0) {
       props.close();
       return;
     }
-    stage?.scale({x: 1, y: 1});
+    stage?.scale({ x: 1, y: 1 });
 
-    const blob = await stage!.toBlob({
+    const blob = (await stage!.toBlob({
       x: stage?.x()! + imgLayer.x(),
       y: stage?.y()! + imgLayer.y(),
       width: imageDimensions?.width,
-      height: imageDimensions?.height
-      
-    }) as Blob;
+      height: imageDimensions?.height,
+    })) as Blob;
     const file = new File([blob], "image.png", { type: "image/png" });
     props.done(file);
     props.close();
   };
 
   const MobileNotices = () => {
-
     return (
-
       <div class={styles.notices}>
         <div>Pinch to drag/zoom</div>
       </div>
     );
-
   };
 
   const undo = () => {
@@ -366,8 +368,6 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
   };
 
   const DesktopNotices = () => {
-
-
     return (
       <div class={styles.notices}>
         <div>Space + Drag to Move</div>
@@ -377,37 +377,76 @@ export const PhotoEditor = (props: PhotoEditorProps) => {
   };
 
   return (
-    <Modal actionButtons={isMobileAgent() ? <MobileNotices /> : <DesktopNotices />} title='Photo Editor' class={styles.modal} close={props.close} actionButtonsArr={[{iconName: "close", label: "Cancel", onClick: props.close, color: "var(--alert-color)"}, { iconName: "done", label: "Edit", onClick: onDone}]} ignoreBackgroundClick>
+    <Modal
+      actionButtons={isMobileAgent() ? <MobileNotices /> : <DesktopNotices />}
+      title="Photo Editor"
+      class={styles.modal}
+      close={props.close}
+      actionButtonsArr={[
+        {
+          iconName: "close",
+          label: "Cancel",
+          onClick: props.close,
+          color: "var(--alert-color)",
+        },
+        { iconName: "done", label: "Edit", onClick: onDone },
+      ]}
+      ignoreBackgroundClick
+    >
       <div ref={setEl} class={styles.editorContainer} />
 
-      <div class={styles.buttons} >
-        <Button hoverText="Undo (Ctrl + Z)" onClick={undo} iconName="undo" margin={0}/>
-        <Button hoverText="Brush" onClick={() => setMode("brush")} primary={mode() === "brush"} iconName="brush" margin={0}/>
-        <Button hoverText="Erase" onClick={() => setMode("erase")} primary={mode() === "erase"} iconName="ink_eraser" margin={0}/>
-        
-        <Show when={mode() === "brush"}><ColorPicker  color={strokeColor()} onChange={setStrokeColor} /></Show>
+      <div class={styles.buttons}>
+        <Button
+          hoverText="Undo (Ctrl + Z)"
+          onClick={undo}
+          iconName="undo"
+          margin={0}
+        />
+        <Button
+          hoverText="Brush"
+          onClick={() => setMode("brush")}
+          primary={mode() === "brush"}
+          iconName="brush"
+          margin={0}
+        />
+        <Button
+          hoverText="Erase"
+          onClick={() => setMode("erase")}
+          primary={mode() === "erase"}
+          iconName="ink_eraser"
+          margin={0}
+        />
+
+        <Show when={mode() === "brush"}>
+          <ColorPicker color={strokeColor()} onChange={setStrokeColor} />
+        </Show>
         <div class={styles.strokeWidth}>
-          <Text style={{"margin-left": "2px"}} size={12} opacity={0.8}>Stroke Width ({strokeWidth()})</Text>
+          <Text style={{ "margin-left": "2px" }} size={12} opacity={0.8}>
+            Stroke Width ({strokeWidth()})
+          </Text>
 
-          <input type="range" min="1" max="100" onInput={(e) => {
-            setStrokeWidth(parseInt(e.target.value));
-          }} title="Stroke Width" value={strokeWidth()} />
-  
+          <input
+            type="range"
+            min="1"
+            max="100"
+            onInput={(e) => {
+              setStrokeWidth(parseInt(e.target.value));
+            }}
+            title="Stroke Width"
+            value={strokeWidth()}
+          />
         </div>
-
-
       </div>
-
-      
     </Modal>
   );
-};
+}
 
-
-
-
-function calculateAspectRatioFit(srcWidth: number, srcHeight: number, maxWidth: number, maxHeight: number) {
-
+function calculateAspectRatioFit(
+  srcWidth: number,
+  srcHeight: number,
+  maxWidth: number,
+  maxHeight: number
+) {
   const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
 
   return { width: srcWidth * ratio, height: srcHeight * ratio };

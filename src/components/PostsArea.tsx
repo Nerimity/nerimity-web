@@ -4,7 +4,7 @@ import {
   RawPostChoice,
   RawPostNotification,
   RawPostPoll,
-  RawUser
+  RawUser,
 } from "@/chat-api/RawData";
 import {
   createPost,
@@ -17,7 +17,7 @@ import {
   LikedPost,
   likePost,
   postVotePoll,
-  unlikePost
+  unlikePost,
 } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
@@ -33,14 +33,20 @@ import {
   For,
   Index,
   JSX,
+  lazy,
   Match,
   on,
   onCleanup,
   onMount,
   Show,
-  Switch
+  Switch,
 } from "solid-js";
-import { SetStoreFunction, StoreSetter, createStore, reconcile } from "solid-js/store";
+import {
+  SetStoreFunction,
+  StoreSetter,
+  createStore,
+  reconcile,
+} from "solid-js/store";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import Avatar from "./ui/Avatar";
@@ -68,7 +74,8 @@ import { Notice } from "./ui/Notice/Notice";
 import env from "@/common/env";
 import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "./ui/RadioBox";
 import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";
-import { PhotoEditor } from "./ui/photo-editor/PhotoEditor";
+
+const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
 const NewPostContainer = styled(FlexColumn)`
   padding-bottom: 5px;
@@ -96,17 +103,22 @@ function NewPostArea(props: { postId?: string }) {
   const { posts } = useStore();
   const [content, setContent] = createSignal("");
   const { isPortalOpened } = useCustomPortal();
-  const [attachedFile, setAttachedFile] = createSignal<File | undefined>(undefined);
-  const [fileBrowserRef, setFileBrowserRef] = createSignal<undefined | FileBrowserRef>();
+  const [attachedFile, setAttachedFile] = createSignal<File | undefined>(
+    undefined
+  );
+  const [fileBrowserRef, setFileBrowserRef] = createSignal<
+    undefined | FileBrowserRef
+  >();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
-  const [textAreaEl, setTextAreaEl] = createSignal<undefined | HTMLTextAreaElement>(undefined);
-  const {createPortal} = useCustomPortal();
+  const [textAreaEl, setTextAreaEl] = createSignal<
+    undefined | HTMLTextAreaElement
+  >(undefined);
+  const { createPortal } = useCustomPortal();
 
   const [inputFocused, setInputFocused] = createSignal(false);
 
   const [showPollOptions, setShowPollOptions] = createSignal(false);
   const [pollOptions, setPollOptions] = createStore<string[]>([""]);
-
 
   onMount(() => {
     document.addEventListener("paste", onPaste);
@@ -120,7 +132,9 @@ function NewPostArea(props: { postId?: string }) {
   };
   const openEditor = async () => {
     const dataUrl = await fileToDataUrl(attachedFile()!);
-    createPortal(close => <PhotoEditor done={editDone} src={dataUrl} close={close} />);
+    createPortal((close) => (
+      <PhotoEditor done={editDone} src={dataUrl} close={close} />
+    ));
   };
 
   const onPaste = (event: ClipboardEvent) => {
@@ -137,15 +151,16 @@ function NewPostArea(props: { postId?: string }) {
   const onCreateClick = async () => {
     const formattedContent = formatMessage(content().trim());
     if (props.postId) {
-      posts
-        .cachedPost(props.postId)
-        ?.submitReply({
-          content: formattedContent,
-          attachment: attachedFile()
-        });
-    }
-    else {
-      posts.submitPost({ content: formattedContent, file: attachedFile(), poll: showPollOptions() ? {choices: pollOptions} : undefined });
+      posts.cachedPost(props.postId)?.submitReply({
+        content: formattedContent,
+        attachment: attachedFile(),
+      });
+    } else {
+      posts.submitPost({
+        content: formattedContent,
+        file: attachedFile(),
+        poll: showPollOptions() ? { choices: pollOptions } : undefined,
+      });
     }
     setContent("");
     setPollOptions(reconcile([""]));
@@ -171,21 +186,33 @@ function NewPostArea(props: { postId?: string }) {
     }
   };
 
-  const hasContentOrFocused = () => (inputFocused() || content().length);
+  const hasContentOrFocused = () => inputFocused() || content().length;
   return (
     <NewPostContainer>
       <Show when={hasContentOrFocused()}>
-        <Notice type="warn" class={css`margin-top: 10px; margin-bottom: -6px;`} description={"Self-harm content is not allowed on Nerimity."} />
+        <Notice
+          type="warn"
+          class={css`
+            margin-top: 10px;
+            margin-bottom: -6px;
+          `}
+          description={"Self-harm content is not allowed on Nerimity."}
+        />
       </Show>
-      <AdvancedMarkupOptions hideEmojiPicker class={css`margin-top: 10px;`} inputElement={textAreaEl()!} updateText={setContent} />
+      <AdvancedMarkupOptions
+        hideEmojiPicker
+        class={css`
+          margin-top: 10px;
+        `}
+        inputElement={textAreaEl()!}
+        updateText={setContent}
+      />
       <Input
         maxLength={500}
         margin={[0, 0, 10, 0]}
         onBlur={() => setTimeout(() => setInputFocused(false), 100)}
         onFocus={() => setTimeout(() => setInputFocused(true), 100)}
-        minHeight={hasContentOrFocused() ? 60: undefined}
-
-        
+        minHeight={hasContentOrFocused() ? 60 : undefined}
         ref={setTextAreaEl}
         placeholder={
           props.postId
@@ -197,7 +224,7 @@ function NewPostArea(props: { postId?: string }) {
         type="textarea"
       />
       <Show when={showPollOptions()}>
-        <PollOptions options={pollOptions} setOptions={setPollOptions}/>
+        <PollOptions options={pollOptions} setOptions={setPollOptions} />
       </Show>
       <Show when={attachedFile()}>
         <AttachFileItem
@@ -272,9 +299,10 @@ function NewPostArea(props: { postId?: string }) {
   );
 }
 
-
-const PollOptions = (props: {options: string[], setOptions: SetStoreFunction<string[]>}) => {
-
+const PollOptions = (props: {
+  options: string[];
+  setOptions: SetStoreFunction<string[]>;
+}) => {
   const updateOption = (i: number, text: string) => {
     props.setOptions(i, text);
   };
@@ -284,11 +312,13 @@ const PollOptions = (props: {options: string[], setOptions: SetStoreFunction<str
       <FlexColumn gap={4}>
         <Index each={props.options}>
           {(option, i) => (
-            <PollOptionItem 
-              index={i} 
-              onText={t => updateOption(i, t)} 
-              value={option()} 
-              showAddButton={ i === props.options.length - 1 && props.options.length <= 5} 
+            <PollOptionItem
+              index={i}
+              onText={(t) => updateOption(i, t)}
+              value={option()}
+              showAddButton={
+                i === props.options.length - 1 && props.options.length <= 5
+              }
               onAddClick={() => props.setOptions([...props.options, ""])}
             />
           )}
@@ -296,20 +326,31 @@ const PollOptions = (props: {options: string[], setOptions: SetStoreFunction<str
       </FlexColumn>
     </FlexColumn>
   );
-
 };
 
-const PollOptionItem = (props: { index: number; value: string, onText: (text: string) => void, showAddButton?: boolean; onAddClick?: () => void }) => {
+const PollOptionItem = (props: {
+  index: number;
+  value: string;
+  onText: (text: string) => void;
+  showAddButton?: boolean;
+  onAddClick?: () => void;
+}) => {
   return (
     <FlexRow itemsCenter gap={4}>
-      <Input placeholder={ t("posts.optionNumberPlaceholder", {number: props.index + 1})} value={props.value} maxLength={56} onText={props.onText} />
-      <Show when={props.showAddButton}><Button margin={0} iconName="add" onClick={props.onAddClick} /></Show>
+      <Input
+        placeholder={t("posts.optionNumberPlaceholder", {
+          number: props.index + 1,
+        })}
+        value={props.value}
+        maxLength={56}
+        onText={props.onText}
+      />
+      <Show when={props.showAddButton}>
+        <Button margin={0} iconName="add" onClick={props.onAddClick} />
+      </Show>
     </FlexRow>
   );
 };
-
-
-
 
 const AttachFileItemContainer = styled(FlexRow)`
   align-items: center;
@@ -325,7 +366,11 @@ const attachmentImageStyle = css`
   border-radius: 6px;
 `;
 
-function AttachFileItem(props: { file: File; cancel(): void, onEditClick(): void }) {
+function AttachFileItem(props: {
+  file: File;
+  cancel(): void;
+  onEditClick(): void;
+}) {
   const [dataUrl, setDataUrl] = createSignal<string | undefined>(undefined);
 
   createEffect(async () => {
@@ -386,7 +431,7 @@ const PostActionsContainer = styled(FlexRow)`
 
 const postActionStyle = css`
   margin: 0;
-  background-color: rgba(255,255,255,0.05);
+  background-color: rgba(255, 255, 255, 0.05);
 
   min-width: 17px;
   padding: 5px;
@@ -444,7 +489,7 @@ export function PostItem(props: {
   const onMouseDown = (event: any) => {
     startClickPos = {
       x: event.clientX,
-      y: event.clientY
+      y: event.clientY,
     };
     textSelected = !!window.getSelection()?.toString();
   };
@@ -489,8 +534,16 @@ export function PostItem(props: {
           <ReplyTo user={replyingTo()!.createdBy} />
         </Show>
         <PostContainer gap={6}>
-          <A onClick={e => e.stopPropagation()} href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}>
-            <Avatar resize={96} animate={hovered()} user={props.post.createdBy} size={40} />
+          <A
+            onClick={(e) => e.stopPropagation()}
+            href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
+          >
+            <Avatar
+              resize={96}
+              animate={hovered()}
+              user={props.post.createdBy}
+              size={40}
+            />
           </A>
           <PostInnerContainer gap={3}>
             <Details
@@ -517,7 +570,7 @@ const Details = (props: {
     <CustomLink
       class={postUsernameStyle}
       style={{ color: "white" }}
-      onClick={e => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
       decoration
       href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
     >
@@ -600,10 +653,14 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
         class={postActionStyle}
         color="var(--alert-color)"
         primary={!!isLikedByMe()}
-        iconClass={!isLikedByMe() ? css`
-          -webkit-text-fill-color: transparent;
-          -webkit-text-stroke: 1px;
-        ` : undefined}
+        iconClass={
+          !isLikedByMe()
+            ? css`
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke: 1px;
+              `
+            : undefined
+        }
         iconName={likedIcon()}
         label={props.post._count?.likedBy.toLocaleString()}
       />
@@ -619,7 +676,9 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
       <FlexRow style={{ "margin-left": "auto" }} gap={4}>
         <Show when={account.hasModeratorPerm()}>
           <Button
-            onClick={() => navigate("/app/moderation?search-post-id=" + props.post.id)}
+            onClick={() =>
+              navigate("/app/moderation?search-post-id=" + props.post.id)
+            }
             margin={0}
             class={postActionStyle}
             iconName="security"
@@ -678,8 +737,6 @@ function Embeds(props: { post: Post; hovered: boolean }) {
     () => element?.parentElement?.parentElement?.parentElement
   );
 
-
-
   return (
     <div ref={element} class={classNames("embeds", embedStyles)}>
       <Show when={props.post.attachments?.[0]}>
@@ -700,22 +757,24 @@ function Embeds(props: { post: Post; hovered: boolean }) {
 
 const PollContainer = styled(FlexColumn)`
   border-radius: 6px;
-  border: solid 1px rgba(255,255,255,0.2);
+  border: solid 1px rgba(255, 255, 255, 0.2);
   padding: 4px;
   align-self: stretch;
   margin-top: 4px;
   margin-bottom: 4px;
   gap: 4px;
-
 `;
 
-const notAllowedStyle = css`pointer-events: none;`;
+const notAllowedStyle = css`
+  pointer-events: none;
+`;
 
-const PollEmbed = (props: { post: Post, poll: RawPostPoll }) => {
+const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
+  const votedChoiceId = () => props.poll.votedUsers[0]?.pollChoiceId;
 
-  const votedChoiceId = () =>  props.poll.votedUsers[0]?.pollChoiceId;
-
-  const [selectedChoiceId, setSelectedChoiceId] = createSignal<string | null>(null);
+  const [selectedChoiceId, setSelectedChoiceId] = createSignal<string | null>(
+    null
+  );
 
   createEffect(() => {
     setSelectedChoiceId(votedChoiceId() || null);
@@ -727,21 +786,58 @@ const PollEmbed = (props: { post: Post, poll: RawPostPoll }) => {
 
   return (
     <PollContainer class="pollEmbedContainer">
-      <FlexColumn gap={4} class={conditionalClass(votedChoiceId(), notAllowedStyle)}>
+      <FlexColumn
+        gap={4}
+        class={conditionalClass(votedChoiceId(), notAllowedStyle)}
+      >
         <For each={props.poll.choices}>
-          {choice => <PollChoice post={props.post} votedChoiceId={votedChoiceId()} poll={props.poll} choice={choice} selectedId={selectedChoiceId()} setSelected={setSelectedChoiceId} /> }
+          {(choice) => (
+            <PollChoice
+              post={props.post}
+              votedChoiceId={votedChoiceId()}
+              poll={props.poll}
+              choice={choice}
+              selectedId={selectedChoiceId()}
+              setSelected={setSelectedChoiceId}
+            />
+          )}
         </For>
       </FlexColumn>
 
-
-      <FlexRow gap={6} class={css`align-self: end;`} itemsCenter>
-        <span class={css`padding: 4px;`}>
+      <FlexRow
+        gap={6}
+        class={css`
+          align-self: end;
+        `}
+        itemsCenter
+      >
+        <span
+          class={css`
+            padding: 4px;
+          `}
+        >
           <Text size={12}>{props.poll._count.votedUsers}</Text>
-          <Text size={12} opacity={0.6}> votes</Text>
+          <Text size={12} opacity={0.6}>
+            {" "}
+            votes
+          </Text>
         </span>
-        <Show when={selectedChoiceId() && !votedChoiceId()}><Button onClick={onVoteClick} class={css`margin-left: auto; margin-top: 2px;`} primary label="Vote" iconName="done" padding={4} margin={0} iconSize={16} /></Show>
+        <Show when={selectedChoiceId() && !votedChoiceId()}>
+          <Button
+            onClick={onVoteClick}
+            class={css`
+              margin-left: auto;
+              margin-top: 2px;
+            `}
+            primary
+            label="Vote"
+            iconName="done"
+            padding={4}
+            margin={0}
+            iconSize={16}
+          />
+        </Show>
       </FlexRow>
-
     </PollContainer>
   );
 };
@@ -759,17 +855,19 @@ const PollChoiceContainer = styled(FlexRow)`
     overflow: hidden;
   }
   &.selected {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
   z-index: 1111;
 `;
 
 const radioBoxStyles = css`
-  width: 100%; 
+  width: 100%;
   border-radius: 4px;
-  &:hover{background-color: rgba(255,255,255,0.06); }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
   &.selected {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 `;
 
@@ -780,14 +878,23 @@ const ProgressbarContainer = styled.div`
   position: absolute;
   border-radius: 4px;
   z-index: -1;
-
 `;
 
-const PollChoice = (props: {post: Post; votedChoiceId?: string, choice: RawPostChoice, poll: RawPostPoll, selectedId: string | null, setSelected: (id: string | null) => void;}) => {
+const PollChoice = (props: {
+  post: Post;
+  votedChoiceId?: string;
+  choice: RawPostChoice;
+  poll: RawPostPoll;
+  selectedId: string | null;
+  setSelected: (id: string | null) => void;
+}) => {
   const store = useStore();
 
   // (100 * vote) / totalVotes
-  const votes = () => Math.round(((100 * props.choice._count.votedUsers) / props.poll._count.votedUsers) || 0);
+  const votes = () =>
+    Math.round(
+      (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers || 0
+    );
 
   const showResults = () => {
     if (props.votedChoiceId) return true;
@@ -797,19 +904,42 @@ const PollChoice = (props: {post: Post; votedChoiceId?: string, choice: RawPostC
   };
 
   return (
-    <PollChoiceContainer class={conditionalClass(props.votedChoiceId === props.choice.id, "selected")} onClick={() => props.setSelected(props.choice.id === props.selectedId ? null : props.choice.id)} itemsCenter>
-      
-      <RadioBoxItem 
-        checkboxSize={8} 
-        class={conditionalClass(!props.votedChoiceId,  radioBoxStyles)}
-        item={{id: "0", label: props.choice.content}} 
-        labelSize={14} 
-        selected={props.selectedId === props.choice.id} 
+    <PollChoiceContainer
+      class={conditionalClass(
+        props.votedChoiceId === props.choice.id,
+        "selected"
+      )}
+      onClick={() =>
+        props.setSelected(
+          props.choice.id === props.selectedId ? null : props.choice.id
+        )
+      }
+      itemsCenter
+    >
+      <RadioBoxItem
+        checkboxSize={8}
+        class={conditionalClass(!props.votedChoiceId, radioBoxStyles)}
+        item={{ id: "0", label: props.choice.content }}
+        labelSize={14}
+        selected={props.selectedId === props.choice.id}
       />
 
-      <Show when={showResults()}><Text opacity={0.8} size={12} class={css` position: absolute; right: 4px; flex-shrink: 0;`}>{votes()}%</Text></Show>
-      <Show when={showResults()}><ProgressbarContainer style={{width: `${votes()}%`}} /></Show>
-
+      <Show when={showResults()}>
+        <Text
+          opacity={0.8}
+          size={12}
+          class={css`
+            position: absolute;
+            right: 4px;
+            flex-shrink: 0;
+          `}
+        >
+          {votes()}%
+        </Text>
+      </Show>
+      <Show when={showResults()}>
+        <ProgressbarContainer style={{ width: `${votes()}%` }} />
+      </Show>
     </PollChoiceContainer>
   );
 };
@@ -886,7 +1016,10 @@ export function PostsArea(props: {
         return posts.fetchUserLikedPosts(props.userId);
       }
       setLoading(true);
-      const newPosts = await posts.fetchUserPosts(props.userId!, props.showReplies);
+      const newPosts = await posts.fetchUserPosts(
+        props.userId!,
+        props.showReplies
+      );
       setLastFetchCount(newPosts?.length || 0);
       setLoading(false);
     }
@@ -909,21 +1042,25 @@ export function PostsArea(props: {
   };
 
   const fetchReplies = async () => {
-    if (!props.postId) return; 
+    if (!props.postId) return;
     setLoading(true);
     const newPosts = await posts.cachedPost(props.postId!)?.loadComments();
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
   };
 
-  createEffect(on(() =>  props.postId, () => {
-    fetchFeed();
-    fetchDiscover();
-    fetchReplies();
-  }));
-  
-  const hasMorePosts = () => lastFetchCount() >= 30;
+  createEffect(
+    on(
+      () => props.postId,
+      () => {
+        fetchFeed();
+        fetchDiscover();
+        fetchReplies();
+      }
+    )
+  );
 
+  const hasMorePosts = () => lastFetchCount() >= 30;
 
   const loadMoreComments = async () => {
     if (loading()) return;
@@ -936,7 +1073,10 @@ export function PostsArea(props: {
   const loadMoreUserPosts = async () => {
     if (loading()) return;
     setLoading(true);
-    const newPosts = await posts.fetchMoreUserPosts(props.userId!, props.showReplies);
+    const newPosts = await posts.fetchMoreUserPosts(
+      props.userId!,
+      props.showReplies
+    );
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
   };
@@ -971,8 +1111,6 @@ export function PostsArea(props: {
     }
   };
 
-
-
   // TODO: use method to update post stats in real time.
   // onMount(() => {
   //   setInterval(() => {
@@ -989,11 +1127,19 @@ export function PostsArea(props: {
         <NewPostArea postId={props.postId} />
       </Show>
       <FlexColumn gap={2} ref={postsContainerRef}>
-        <For each={cachedReplies()}>{(post, i) => <PostItem post={post} />}</For>
+        <For each={cachedReplies()}>
+          {(post, i) => <PostItem post={post} />}
+        </For>
 
         <Show when={hasMorePosts() || loading()}>
           <For each={Array(10).fill(0)}>
-            {() => <Skeleton.Item onInView={() => loadMore()} height="100px" width="100%" />}
+            {() => (
+              <Skeleton.Item
+                onInView={() => loadMore()}
+                height="100px"
+                width="100%"
+              />
+            )}
           </For>
         </Show>
       </FlexColumn>
@@ -1001,20 +1147,20 @@ export function PostsArea(props: {
   );
 }
 
-
 function partInViewport(elem: HTMLElement) {
   const x = elem.getBoundingClientRect().left;
   const y = elem.getBoundingClientRect().top;
-  const ww = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  const hw = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  const ww = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
+  const hw = Math.max(
+    document.documentElement.clientHeight,
+    window.innerHeight || 0
+  );
   const w = elem.clientWidth;
   const h = elem.clientHeight;
-  return (
-    (y < hw &&
-       y + h > 0) &&
-      (x < ww &&
-       x + w > 0)
-  );
+  return y < hw && y + h > 0 && x < ww && x + w > 0;
 }
 
 function findIndexInViewport(element: HTMLElement) {
@@ -1024,16 +1170,14 @@ function findIndexInViewport(element: HTMLElement) {
     if (partInViewport(childEl)) {
       return i;
     }
-  }  
+  }
   return -1;
 }
-
 
 const notificationUsernameStyles = css`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
 `;
 
 function PostNotification(props: { notification: RawPostNotification }) {
@@ -1049,9 +1193,31 @@ function PostNotification(props: { notification: RawPostNotification }) {
 
     return (
       <FlexRow gap={6} onclick={showPost}>
-        <Icon class={css`margin-top: -2px;`} name="reply" color="var(--primary-color)" />
-        <FlexColumn gap={2} class={notificationUsernameStyles} style={{ width: "100%" }}>
-          <PostItem post={cachedPost()!} disableClick class={css`margin: 0; padding: 0; background: none; &:hover { background: none;} box-shadow: none;`} />
+        <Icon
+          class={css`
+            margin-top: -2px;
+          `}
+          name="reply"
+          color="var(--primary-color)"
+        />
+        <FlexColumn
+          gap={2}
+          class={notificationUsernameStyles}
+          style={{ width: "100%" }}
+        >
+          <PostItem
+            post={cachedPost()!}
+            disableClick
+            class={css`
+              margin: 0;
+              padding: 0;
+              background: none;
+              &:hover {
+                background: none;
+              }
+              box-shadow: none;
+            `}
+          />
         </FlexColumn>
       </FlexRow>
     );
@@ -1064,8 +1230,21 @@ function PostNotification(props: { notification: RawPostNotification }) {
         style={{ "text-decoration": "none" }}
       >
         <FlexRow gap={6}>
-          <Icon class={css`margin-top: 4px;`} name="add_circle" color="var(--primary-color)" />
-          <Avatar class={css`margin-left: 6px; margin-right: 6px;`} user={props.notification.by} size={30} />
+          <Icon
+            class={css`
+              margin-top: 4px;
+            `}
+            name="add_circle"
+            color="var(--primary-color)"
+          />
+          <Avatar
+            class={css`
+              margin-left: 6px;
+              margin-right: 6px;
+            `}
+            user={props.notification.by}
+            size={30}
+          />
           <FlexRow
             gap={6}
             style={{ "align-items": "center" }}
@@ -1076,7 +1255,12 @@ function PostNotification(props: { notification: RawPostNotification }) {
                 key="posts.someoneFollowedYou"
                 options={{ username: props.notification.by.username }}
               >
-                <strong class={notificationUsernameStyles} style="display: inline-block; max-width: 200px; vertical-align: bottom;">{"username"}</strong>
+                <strong
+                  class={notificationUsernameStyles}
+                  style="display: inline-block; max-width: 200px; vertical-align: bottom;"
+                >
+                  {"username"}
+                </strong>
                 followed you!
               </Trans>
             </Text>
@@ -1098,22 +1282,33 @@ function PostNotification(props: { notification: RawPostNotification }) {
 
     return (
       <FlexRow gap={6} onclick={showPost}>
-        <Icon class={css`margin-top: 4px;`} name="favorite" color="var(--alert-color)" />
+        <Icon
+          class={css`
+            margin-top: 4px;
+          `}
+          name="favorite"
+          color="var(--alert-color)"
+        />
         <A
           onclick={(e) => e.stopPropagation()}
           href={RouterEndpoints.PROFILE(props.notification.by.id)}
-          style={{"margin-left": "6px", "margin-right": "6px"}}
+          style={{ "margin-left": "6px", "margin-right": "6px" }}
         >
           <Avatar user={props.notification.by} size={30} />
         </A>
-        <FlexColumn gap={2} style={{overflow: 'hidden'}}>
+        <FlexColumn gap={2} style={{ overflow: "hidden" }}>
           <FlexRow gap={6} style={{ "align-items": "center" }}>
             <Text size={14} class={notificationUsernameStyles}>
               <Trans
                 key="posts.someoneLikedYourPost"
                 options={{ username: props.notification.by.username }}
               >
-                <strong class={notificationUsernameStyles} style="display: inline-block; max-width: 200px; vertical-align: bottom;">{"username"}</strong>
+                <strong
+                  class={notificationUsernameStyles}
+                  style="display: inline-block; max-width: 200px; vertical-align: bottom;"
+                >
+                  {"username"}
+                </strong>
                 liked your post!
               </Trans>
             </Text>
@@ -1121,9 +1316,19 @@ function PostNotification(props: { notification: RawPostNotification }) {
               {formatTimestamp(props.notification.createdAt)}
             </Text>
           </FlexRow>
-          <div style={{ opacity: 0.6, "font-size": "14px", "overflow": "hidden", "text-overflow": "ellipsis", "-webkit-line-clamp": "3", "display": "-webkit-box", "-webkit-box-orient": "vertical" }}>
+          <div
+            style={{
+              opacity: 0.6,
+              "font-size": "14px",
+              overflow: "hidden",
+              "text-overflow": "ellipsis",
+              "-webkit-line-clamp": "3",
+              display: "-webkit-box",
+              "-webkit-box-orient": "vertical",
+            }}
+          >
             <Show when={!cachedPost()?.deleted}>
-              <Markup  text={cachedPost()?.content || ""} />
+              <Markup text={cachedPost()?.content || ""} />
             </Show>
             <Show when={cachedPost()?.deleted}>
               {t("posts.postWasDeleted")}
@@ -1236,7 +1441,7 @@ export function ViewPostModal(props: { close(): void }) {
               <ItemContainer
                 handlePosition="bottom"
                 selected={selectedTab() === "comments"}
-                style={{padding: "8px", gap: "4px"}}
+                style={{ padding: "8px", gap: "4px" }}
                 onClick={() => setSelectedTab("comments")}
               >
                 <Icon size={14} name="comment" />
@@ -1254,7 +1459,7 @@ export function ViewPostModal(props: { close(): void }) {
               <ItemContainer
                 handlePosition="bottom"
                 selected={selectedTab() === "likes"}
-                style={{padding: "8px", gap: "4px"}}
+                style={{ padding: "8px", gap: "4px" }}
                 onClick={() => setSelectedTab("likes")}
               >
                 <Icon size={14} name="favorite" />
@@ -1292,8 +1497,6 @@ const DeletePostModalContainer = styled(FlexColumn)`
   overflow: auto;
   height: 100%;
   position: relative;
-
-
 `;
 const deletePostItemContainerStyles = css`
   pointer-events: none;
