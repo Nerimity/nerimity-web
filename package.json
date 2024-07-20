@@ -11,8 +11,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@iconify-json/material-symbols": "^1.1.85",
-    "@iconify-json/mdi": "^1.1.67",
     "@maxim_mazurok/gapi.client.drive-v3": "^0.0.20230927",
     "@types/croppie": "^2.6.4",
     "@types/gapi": "^0.0.45",
@@ -30,11 +28,11 @@
     "global": "^4.4.0",
     "process": "^0.11.10",
     "typescript": "^5.5.3",
-    "unplugin-icons": "^0.19.0",
     "vite": "^5.3.4",
     "vite-plugin-solid": "^2.10.2"
   },
   "dependencies": {
+    "@material-symbols/font-400": "^0.21.2",
     "@mbarzda/solid-i18next": "^1.4.1",
     "@melloware/coloris": "^0.24.0",
     "@nerimity/nevula": "^0.14.0",
@@ -54,8 +52,6 @@
     "markdown-it": "^13.0.2",
     "markdown-it-emoji": "^2.0.2",
     "match-sorter": "^6.3.4",
-    "material-icons": "^1.13.12",
-    "material-symbols": "^0.20.0",
     "sass": "^1.77.8",
     "socket.io-client": "^4.7.5",
     "solid-js": "^1.8.18",

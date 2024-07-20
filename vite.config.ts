@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import path from "path";
 import dns from "dns";
-import Icons from "unplugin-icons/vite";
 import autoprefixer from "autoprefixer";
 
 // https://vitejs.dev/config/server-options.html#server-host
@@ -14,7 +13,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  plugins: [solidPlugin(), Icons({ compiler: "solid", autoInstall: true })],
+  plugins: [solidPlugin()],
   css: {
     postcss: {
       plugins: [autoprefixer()],
