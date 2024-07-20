@@ -20,15 +20,15 @@
   padding: 8px;
   height: 20px;
   border-radius: 8px;
+  cursor: pointer;
   .expandIcon {
     margin-left: auto;
     color: rgba(255, 255, 255, 0.7);
   }
-  cursor: pointer;
 }
 
 .details {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   width: 100%;
   .label {
@@ -36,7 +36,6 @@
     width: 100%;
     align-items: center;
   }
-
 }
 
 .description {
@@ -50,7 +49,6 @@
   flex-direction: column;
   gap: 3px;
   user-select: none;
-
 
   padding-top: 5px;
   padding-bottom: 5px;
@@ -78,19 +76,18 @@
     overflow: hidden;
     flex-shrink: 0;
 
-
     &:after {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       width: 3px;
       border-radius: 3px;
       height: 15px;
       transition: 0.2s;
-    }  
+    }
     &.selected:after {
       background-color: var(--primary-color);
-    } 
+    }
     &.selected {
       background-color: rgba(255, 255, 255, 0.2);
     }
@@ -98,7 +95,6 @@
       background-color: rgba(255, 255, 255, 0.15);
     }
   }
-
 }
 
 .itemTemplate {
