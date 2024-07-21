@@ -16,6 +16,9 @@ interface WindowAPI {
   pauseAudio(): void;
   seekAudio(time: number): void;
 
+  logout(): void;
+  token(token: string): string;
+
   on<K extends keyof CustomEventMap>(
     event: K,
     callback: (data: CustomEventMap[K]) => void

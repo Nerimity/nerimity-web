@@ -11,15 +11,18 @@ import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 import { localRPC } from "@/common/LocalRPC";
+import { reactNativeAPI } from "@/common/ReactNative";
 
+let token: string;
 
-export const onConnect = (socket: Socket, token?: string) => {
+export const onConnect = (socket: Socket, newToken?: string) => {
   const account = useAccount();
   account.setSocketDetails({
     socketId: socket.id,
     socketConnected: true,
-    socketAuthenticated: false
+    socketAuthenticated: false,
   });
+  newToken = token;
   socket.emit(ClientEvents.AUTHENTICATE, { token });
 };
 
@@ -29,19 +32,18 @@ export const onDisconnect = () => {
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
-    socketAuthenticated: false
+    socketAuthenticated: false,
   });
   voiceUsers.resetAll();
-
 };
 
-export const onAuthenticateError = (error: { message: string, data: any }) => {
+export const onAuthenticateError = (error: { message: string; data: any }) => {
   const account = useAccount();
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false,
-    authenticationError: error
+    authenticationError: error,
   });
 };
 
@@ -50,18 +52,22 @@ export const onReconnectAttempt = () => {
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
-    socketAuthenticated: false
+    socketAuthenticated: false,
   });
 };
 
-
-electronWindowAPI()?.activityStatusChanged(window => {
+electronWindowAPI()?.activityStatusChanged((window) => {
   if (!window) {
     return emitActivityStatus(null);
   }
-  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
-  const program = programs.find(program => program.filename === window?.filename);
-  
+  const programs = getStorageObject<ProgramWithAction[]>(
+    StorageKeys.PROGRAM_ACTIVITY_STATUS,
+    []
+  );
+  const program = programs.find(
+    (program) => program.filename === window?.filename
+  );
+
   if (!program) {
     return emitActivityStatus(null);
   }
@@ -69,33 +75,45 @@ electronWindowAPI()?.activityStatusChanged(window => {
   emitActivityStatus({
     action: program.action || "Playing",
     name: program.name,
-    startedAt: window.createdAt
+    startedAt: window.createdAt,
   });
 });
 
-
 electronWindowAPI()?.rpcChanged((data) => {
   if (!data) {
-    const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
+    const programs = getStorageObject<ProgramWithAction[]>(
+      StorageKeys.PROGRAM_ACTIVITY_STATUS,
+      []
+    );
     electronWindowAPI()?.restartActivityStatus(programs);
     return;
   }
-  emitActivityStatus({startedAt: Date.now(), ...data });
+  emitActivityStatus({ startedAt: Date.now(), ...data });
 });
 
-
-localRPC.onUpdateRPC = data => {
+localRPC.onUpdateRPC = (data) => {
   if (!data) {
     emitActivityStatus(null);
   }
-  emitActivityStatus({startedAt: Date.now(), ...data });
+  emitActivityStatus({ startedAt: Date.now(), ...data });
 };
 
-
-
 export const onAuthenticated = (payload: AuthenticatedPayload) => {
-  const { account, servers, users, channels, serverMembers, friends, inbox, mentions, serverRoles, voiceUsers } = useStore();
+  const {
+    account,
+    servers,
+    users,
+    channels,
+    serverMembers,
+    friends,
+    inbox,
+    mentions,
+    serverRoles,
+    voiceUsers,
+  } = useStore();
   console.log("[WS] Authenticated.");
+
+  reactNativeAPI()?.token(token);
 
   const t0 = performance.now();
 
@@ -112,23 +130,19 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     account.setSocketDetails({
       socketConnected: true,
       socketAuthenticated: true,
-      lastAuthenticatedAt: Date.now()
+      lastAuthenticatedAt: Date.now(),
     });
     users.set(payload.user);
-
 
     for (let i = 0; i < payload.serverRoles.length; i++) {
       const role = payload.serverRoles[i];
       serverRoles.set(role.serverId, role);
     }
 
-
-
     for (let i = 0; i < payload.servers.length; i++) {
       const server = payload.servers[i];
       servers.set(server);
     }
-
 
     for (let i = 0; i < payload.channels.length; i++) {
       const channel = payload.channels[i];
@@ -139,7 +153,6 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       const serverMember = payload.serverMembers[i];
       serverMembers.set(serverMember);
     }
-
 
     for (let i = 0; i < payload.inbox.length; i++) {
       const item = payload.inbox[i];
@@ -159,20 +172,18 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       users.setPresence(presence.userId, presence);
     }
 
-
-
     for (let i = 0; i < payload.notificationSettings.length; i++) {
       const notificationSetting = payload.notificationSettings[i]!;
-      account.setNotificationSettings( notificationSetting.channelId || notificationSetting.serverId!, notificationSetting);
+      account.setNotificationSettings(
+        notificationSetting.channelId || notificationSetting.serverId!,
+        notificationSetting
+      );
     }
-
-
 
     for (const channelId in payload.lastSeenServerChannelIds) {
       const timestamp = payload.lastSeenServerChannelIds[channelId];
       channels.get(channelId)!.updateLastSeen(timestamp);
     }
-
 
     for (let i = 0; i < payload.messageMentions.length; i++) {
       const mention = payload.messageMentions[i];
@@ -191,12 +202,9 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
         channelId: mention.channelId,
         userId: mention.mentionedById,
         count: mention.count,
-        serverId: mention.serverId
+        serverId: mention.serverId,
       });
-
-
     }
-
 
     for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
       const voiceChannelUser = payload.voiceChannelUsers[i];
@@ -207,8 +215,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   const t1 = performance.now();
   console.log(`${t1 - t0} milliseconds.`);
 
-
-  const programs = getStorageObject<ProgramWithAction[]>(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
+  const programs = getStorageObject<ProgramWithAction[]>(
+    StorageKeys.PROGRAM_ACTIVITY_STATUS,
+    []
+  );
   electronWindowAPI()?.restartActivityStatus(programs);
 
   if (isExperimentEnabled("RPC_SERVER")) {

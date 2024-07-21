@@ -41,6 +41,7 @@ import { Skeleton } from "../ui/skeleton/Skeleton";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
 import { Tooltip } from "../ui/Tooltip";
+import { logout } from "@/common/logout";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -349,9 +350,7 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
 
 
   const onLogoutClick = async () => {
-    await clearCache();
-    localStorage.clear();
-    location.href = "/";
+    logout();
   };
 
   onMount(() => {

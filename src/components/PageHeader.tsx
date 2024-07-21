@@ -8,6 +8,7 @@ import { getStorageString, StorageKeys } from "@/common/localStorage";
 import Icon from "./ui/icon/Icon";
 import { appLogoUrl } from "@/common/worldEvents";
 import { useTransContext } from "@mbarzda/solid-i18next";
+import { logout } from "@/common/logout";
 
 
 const HeaderContainer = styled("header")`
@@ -124,8 +125,7 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
 function LoggedInLinks (props: {user: RawUser}) {
   const [t] = useTransContext();
   const onLogoutClick = () => {
-    localStorage.clear();
-    window.location.reload();
+    logout();
   };
 
   return (

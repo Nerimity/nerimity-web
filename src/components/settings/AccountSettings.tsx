@@ -25,6 +25,7 @@ import { setSettingsHeaderPreview } from "./SettingsPane";
 import Icon from "../ui/icon/Icon";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
+import { logout } from "@/common/logout";
 
 const ImageCropModal = lazy(() => import ("../ui/ImageCropModal"));
 
@@ -299,8 +300,7 @@ function DeleteAccountBlock() {
       err = error.message;
     });
     if (!err) {
-      localStorage.clear();
-      location.href = "/";
+      logout();
     }
     return err;
   };

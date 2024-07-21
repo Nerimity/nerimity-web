@@ -19,6 +19,7 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import { t } from "i18next";
 import InVoiceActions from "../InVoiceActions";
 import { ShowExperiment } from "@/common/experiments";
+import { logout } from "@/common/logout";
 
 
 const DrawerContainer = styled(FlexColumn)`
@@ -68,8 +69,7 @@ function Footer() {
 
   const onLogoutClick = async () => {
     await clearCache();
-    localStorage.clear();
-    location.href = "/";
+    logout();
   };
 
   return (

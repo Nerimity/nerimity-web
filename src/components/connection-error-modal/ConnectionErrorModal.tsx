@@ -9,17 +9,16 @@ import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Modal from "../ui/modal/Modal";
 import Text from "../ui/Text";
+import { logout } from "@/common/logout";
 
 export const ConnectionErrorModal = (props: {close: () => void, suspensionPreview?: {reason?: string, expire?: number, by?: {username: string}}}) => {
   const { account } = useStore();
   const navigate = useNavigate();
   const err = () => account.authenticationError()!;
 
-  const logout = () => {
+  const logoutClick = () => {
     if (props.suspensionPreview) return;
-    localStorage.clear();
-    navigate("/");
-    props.close();
+    logout();
   };
 
   const loginPage = () => {
@@ -33,7 +32,7 @@ export const ConnectionErrorModal = (props: {close: () => void, suspensionPrevie
   const ActionButtons = (
     <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button onClick={props.close} label="OK" />
-      <Show when={hasToken()}><Button onClick={logout} label="Logout" color="var(--alert-color)" /></Show>
+      <Show when={hasToken()}><Button onClick={logoutClick} label="Logout" color="var(--alert-color)" /></Show>
       <Show when={!hasToken()}><Button onClick={() => loginPage()} label="Login" /></Show>
     </FlexRow>
   );
