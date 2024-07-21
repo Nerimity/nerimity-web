@@ -13,7 +13,7 @@ import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 import { localRPC } from "@/common/LocalRPC";
 import { reactNativeAPI } from "@/common/ReactNative";
 
-let token: string;
+let token: string | undefined;
 
 export const onConnect = (socket: Socket, newToken?: string) => {
   const account = useAccount();
@@ -22,7 +22,7 @@ export const onConnect = (socket: Socket, newToken?: string) => {
     socketConnected: true,
     socketAuthenticated: false,
   });
-  newToken = token;
+  token = newToken;
   socket.emit(ClientEvents.AUTHENTICATE, { token });
 };
 
