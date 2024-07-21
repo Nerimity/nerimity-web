@@ -80,6 +80,9 @@ import { emitScrollToMessage } from "@/common/GlobalEvents";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { electronWindowAPI } from "@/common/Electron";
+import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
+import { stat } from "fs";
+import { AudioEmbed } from "./AudioEmbed";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -739,6 +742,11 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
   });
 
   const onPlayClick = () => {
+    if (reactNativeAPI()?.isReactNative) {
+      reactNativeAPI()?.playVideo(file()!.webContentLink!);
+      return;
+    }
+
     if (!electronWindowAPI()?.isElectron) {
       alert(
         "Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App."
@@ -887,186 +895,6 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
           iconName="download"
           onClick={() => window.open(file()?.webContentLink!, "_blank")}
         />
-      </Show>
-    </div>
-  );
-};
-const AudioEmbed = (props: { attachment: RawAttachment }) => {
-  const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
-  const [error, setError] = createSignal<string | undefined>();
-  const [preloadAudio, setPreloadAudio] = createSignal(false);
-  const [preloaded, setPreloaded] = createSignal(false);
-  const [playing, setPlaying] = createSignal(false);
-
-  const [currentTime, setCurrentTime] = createSignal(0);
-  const [endTime, setEndTime] = createSignal(0);
-
-  let audio: HTMLAudioElement | undefined;
-  let progressBarRef: HTMLDivElement | undefined;
-
-  onMount(async () => {
-    await initializeGoogleDrive();
-  });
-
-  createEffect(async () => {
-    if (!googleApiInitialized()) return;
-    const file = await getFile(
-      props.attachment.fileId!,
-      "name, size, modifiedTime, webContentLink, mimeType"
-    ).catch((e) => console.log(e));
-    // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("Could not get file.");
-
-    if (file.mimeType !== props.attachment.mime)
-      return setError("File was modified.");
-
-    const fileTime = new Date(file.modifiedTime!).getTime();
-    const diff = fileTime - props.attachment.createdAt;
-    if (diff >= 5000) return setError("File was modified.");
-    setFile(file);
-  });
-
-  createEffect(() => {
-    if (!preloadAudio()) return;
-    const fileItem = file();
-    if (!fileItem) return;
-
-    audio = new Audio();
-    audio.crossOrigin = "anonymous";
-
-    audio.onloadedmetadata = () => {
-      setPreloaded(true);
-    };
-
-    audio.onended = () => {
-      setPlaying(false);
-    };
-
-    audio.src = fileItem.webContentLink!;
-  });
-  createEffect(() => {
-    if (!preloaded()) return;
-    if (playing()) audio?.play();
-    else audio?.pause();
-  });
-
-  onCleanup(() => {
-    audio?.pause();
-    audio?.remove();
-  });
-
-  const statusIcon = () => {
-    if (playing() && !preloaded()) return "hourglass_top";
-    if (playing()) return "pause";
-    return "play_arrow";
-  };
-
-  createEffect(
-    on(preloaded, () => {
-      if (!audio) return;
-      if (!preloaded()) return;
-
-      setEndTime(audio.duration * 1000);
-      audio.addEventListener("timeupdate", onTimeUpdate);
-
-      onCleanup(() => {
-        audio?.removeEventListener("timeupdate", onTimeUpdate);
-      });
-    })
-  );
-
-  const onTimeUpdate = () => {
-    if (!audio) return;
-    const current = audio.currentTime * 1000;
-    setCurrentTime(current);
-  };
-
-  const onProgressClick = (event: MouseEvent) => {
-    if (!audio) return;
-    if (!progressBarRef) return;
-
-    const rect = progressBarRef.getBoundingClientRect();
-    const mouseX = event.clientX - rect.x;
-
-    const percent = mouseX / rect.width;
-    audio.currentTime = percent * audio.duration;
-  };
-
-  const onPlayClick = () => {
-    if (!electronWindowAPI()?.isElectron) {
-      alert(
-        "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
-      );
-    }
-    setPlaying(!playing());
-  };
-
-  return (
-    <div
-      class={classNames(
-        styles.fileEmbed,
-        styles.audioEmbed,
-        conditionalClass(preloaded(), styles.preloadedAudio)
-      )}
-      onMouseEnter={() => setPreloadAudio(true)}
-    >
-      <div class={styles.innerAudioEmbed}>
-        <Show when={!file() && !error()}>
-          <Skeleton.Item height="100%" width="100%" />
-        </Show>
-        <Show when={error()}>
-          <Icon name="error" color="var(--alert-color)" size={30} />
-          <div class={styles.fileEmbedDetails}>
-            <div class={styles.fileEmbedName}>{error()}</div>
-          </div>
-          <Button
-            iconName="info"
-            iconSize={16}
-            onClick={() =>
-              alert(
-                "This file was modified/deleted by the creator in their Google Drive. "
-              )
-            }
-          />
-        </Show>
-        <Show when={file() && !error()}>
-          <Button
-            onClick={onPlayClick}
-            iconName={statusIcon()}
-            color="var(--primary-color)"
-            styles={{ "border-radius": "50%" }}
-          />
-          <div class={styles.fileEmbedDetails}>
-            <div class={styles.fileEmbedName}>{file()?.name}</div>
-            <div class={styles.fileEmbedSize}>
-              {prettyBytes(parseInt(file()?.size! || "0"), 0)}
-            </div>
-          </div>
-          <Button
-            iconName="download"
-            onClick={() => window.open(file()?.webContentLink!, "_blank")}
-          />
-        </Show>
-      </div>
-
-      <Show when={preloaded()}>
-        <div class={styles.audioDetails}>
-          <div class={styles.time}>
-            <div>{millisecondsToHhMmSs(currentTime(), true)}</div>
-            <div>{millisecondsToHhMmSs(endTime(), true)}</div>
-          </div>
-
-          <div
-            ref={progressBarRef}
-            class={styles.progressBar}
-            onClick={onProgressClick}
-          >
-            <div
-              class={styles.progress}
-              style={{ width: `${(currentTime() / endTime()) * 100}%` }}
-            />
-          </div>
-        </div>
       </Show>
     </div>
   );
