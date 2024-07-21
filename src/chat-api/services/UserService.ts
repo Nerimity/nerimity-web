@@ -15,6 +15,17 @@ export async function createGoogleAccountLink (): Promise<string> {
   });
 }
 
+export async function registerFCM(token: string) {
+  return request({
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.user('register-fcm'),
+    body: {token},
+    method: 'POST',
+    useToken: true,
+    notJSON: true,
+  });
+}
+
+
 export async function linkAccountWithGoogle (code: string, nerimityUserToken: string): Promise<{connection: RawUserConnection}> {
   return request({
     url: env.SERVER_URL + "/api/google/link-account",

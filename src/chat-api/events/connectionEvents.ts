@@ -13,16 +13,14 @@ import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 import { localRPC } from "@/common/LocalRPC";
 import { reactNativeAPI } from "@/common/ReactNative";
 
-let token: string | undefined;
 
-export const onConnect = (socket: Socket, newToken?: string) => {
+export const onConnect = (socket: Socket, token?: string) => {
   const account = useAccount();
   account.setSocketDetails({
     socketId: socket.id,
     socketConnected: true,
     socketAuthenticated: false,
   });
-  token = newToken;
   socket.emit(ClientEvents.AUTHENTICATE, { token });
 };
 
@@ -113,7 +111,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   } = useStore();
   console.log("[WS] Authenticated.");
 
-  reactNativeAPI()?.token(token);
+  reactNativeAPI()?.authenticated(payload.user.id);
 
   const t0 = performance.now();
 

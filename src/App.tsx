@@ -5,6 +5,8 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import { electronWindowAPI } from "./common/Electron";
 import { ElectronTitleBar } from "./components/ElectronTitleBar";
 import { useMatch } from "solid-navigator";
+import { useReactNativeEvent } from "./common/ReactNative";
+import { registerFCM } from "./chat-api/services/UserService";
 
 const ConnectingStatusHeader = lazy(
   () => import("@/components/connecting-status-header/ConnectingStatusHeader")
@@ -12,6 +14,10 @@ const ConnectingStatusHeader = lazy(
 export default function App() {
   const [, actions] = useTransContext();
   const isAppPage = useMatch(() => "/app/*");
+
+  useReactNativeEvent(["registerFCM"], e => {
+    registerFCM(e.token)
+  })
 
   onMount(() => {
     document.title = "Nerimity";

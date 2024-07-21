@@ -3,6 +3,7 @@ import { onCleanup, onMount } from "solid-js";
 interface CustomEventMap {
   audioLoaded: { url: string; duration: number; position: number };
   audioLoading: { url: string };
+  registerFCM: { token: string };
 }
 
 type EventByType<T extends CustomEventMap> = {
@@ -16,8 +17,8 @@ interface WindowAPI {
   pauseAudio(): void;
   seekAudio(time: number): void;
 
+  authenticated(userId: string): string;
   logout(): void;
-  token(token: string): string;
 
   on<K extends keyof CustomEventMap>(
     event: K,
