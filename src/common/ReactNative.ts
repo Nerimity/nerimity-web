@@ -4,6 +4,8 @@ interface CustomEventMap {
   audioLoaded: { url: string; duration: number; position: number };
   audioLoading: { url: string };
   registerFCM: { token: string };
+
+  openChannel: { userId: string; channelId: string; serverId?: string };
 }
 
 type EventByType<T extends CustomEventMap> = {

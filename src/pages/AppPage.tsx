@@ -38,6 +38,9 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import useAccount from "@/chat-api/store/useAccount";
 import { WarnedModal } from "@/components/warned-modal/WarnedModal";
+import { useReactNativeEvent } from "@/common/ReactNative";
+import { registerFCM } from "@/chat-api/services/UserService";
+import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -79,10 +82,29 @@ async function loadAllCache() {
 }
 
 export default function AppPage() {
-  const { account } = useStore();
+  const { account, users } = useStore();
   const [searchParams] = useSearchParams<{ postId: string }>();
+  const navigate = useNavigate();
 
   const { createPortal, closePortalById } = useCustomPortal();
+
+  useReactNativeEvent(["registerFCM", "openChannel"], (e) => {
+    if (e.type === "registerFCM") {
+      registerFCM(e.token);
+    }
+    if (e.type === "openChannel") {
+      const { userId, channelId, serverId } = e;
+      if (serverId) {
+        navigate(RouterEndpoints.SERVER_MESSAGES(serverId, channelId));
+        return;
+      }
+      const user = users.get(userId);
+      if (user) {
+        user?.openDM();
+        emitDrawerGoToMain();
+      }
+    }
+  });
 
   onMount(() => {
     loadAllCache();

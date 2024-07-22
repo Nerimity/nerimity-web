@@ -15,9 +15,9 @@ export default function App() {
   const [, actions] = useTransContext();
   const isAppPage = useMatch(() => "/app/*");
 
-  useReactNativeEvent(["registerFCM"], e => {
-    registerFCM(e.token)
-  })
+  useReactNativeEvent(["registerFCM"], (e) => {
+    registerFCM(e.token);
+  });
 
   onMount(() => {
     document.title = "Nerimity";
