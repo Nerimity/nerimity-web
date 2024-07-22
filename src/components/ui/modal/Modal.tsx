@@ -6,7 +6,7 @@ import { Portal } from "solid-js/web";
 import Icon from "../icon/Icon";
 import Text from "../Text";
 import Button, { ButtonProps } from "../Button";
-import { classNames } from "@/common/classNames";
+import { classNames, conditionalClass } from "@/common/classNames";
 
 interface Props {
   children: JSX.Element;
@@ -19,6 +19,8 @@ interface Props {
   class?: string;
   maxHeight?: number;
   maxWidth?: number;
+
+  color?: string;
 }
 
 export default function Modal(props: Props) {
@@ -49,15 +51,15 @@ export default function Modal(props: Props) {
         <div style={modalContainerStyle()} classList={{
           "modal": true,
           [props.class || ""]: true,
-          [styles.modalContainer]: true,
-          [styles.mobile]: isMobileWidth()
+          [styles.modalContainer!]: true,
+          [styles.mobile!]: isMobileWidth()
         }}
         >
           <div class={styles.header}>
             <Show when={props.icon}>
-              <Icon class={styles.icon} onClick={props.close} name={props.icon} color='var(--primary-color)'  size={18} />
+              <Icon class={styles.icon} onClick={props.close} name={props.icon} color={props.color || 'var(--primary-color)'}  size={24} />
             </Show>
-            <div class={styles.title}>{props.title}</div>
+            <div class={styles.title} style={{ color: props.color }}>{props.title}</div>
             <Show when={props.close}>
               <Button class={styles.closeButton} color='var(--alert-color)' onClick={props.close} iconName='close' iconSize={16} />
             </Show>
@@ -67,7 +69,7 @@ export default function Modal(props: Props) {
           </div>
           <div style={styles.actionButtons}>
             <Show when={props.actionButtonsArr}>
-              <div class={styles.actionButtonInnerContainer}>
+              <div class={classNames(styles.actionButtonInnerContainer, isMobileWidth() ? styles.mobile : undefined)}>
                 <For each={props.actionButtonsArr}>
                   {actionButton => <Button {...actionButton} />}
                 </For>

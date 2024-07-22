@@ -12,22 +12,28 @@ import MessageItem from "../message-item/MessageItem";
 
 const DeleteMessageModalContainer = styled(FlexColumn)`
   overflow: auto;
-  padding: 10px;
   max-height: 200px;
+  padding-left: 8px;
+  padding-right: 8px;
+  gap: 6px;
+
 
 `;
 const deleteMessageItemContainerStyles = css`
+  
   padding-top: 5px;
   border-radius: 8px;
   margin-top: 5px;
-  background-color: rgba(0,0,0,0.3);
 
-  overflow: hidden;
-  &&{
-    &:hover {
-      background-color: rgba(0,0,0,0.3);
-    }
+  pointer-events: none;
+
+  && {
+    padding: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
   }
+
+ 
 `;
 
 const deleteMessageModalStyles = css`
@@ -68,17 +74,15 @@ export default function DeleteMessageModal(props: { instant?: boolean; message: 
 
 
 
-  const ActionButtons = (
-    <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button onClick={props.close} iconName="close" label="Cancel" />
-      <Button onClick={onDeleteClick} iconName="delete" color='var(--alert-color)' label="Delete" />
-    </FlexRow>
-  );
+
 
   return (
-    <Modal close={props.close} title='Delete Message?' icon='delete' class={deleteMessageModalStyles} actionButtons={ActionButtons} maxWidth={500}>
+    <Modal actionButtonsArr={[
+      {label: "Don't Delete", onClick: props.close, iconName: "close"},
+      {primary: true, label: "Delete", onClick: onDeleteClick, iconName: "delete", color: "var(--alert-color)"},
+    ]} color="var(--alert-color)" close={props.close} title='Delete Message?' icon='delete' class={deleteMessageModalStyles} maxWidth={500}>
       <DeleteMessageModalContainer>
-        <Text>Are you sure you would like to delete this message?</Text>
+        <Text size={14}>Would you like to delete this message?</Text>
         <MessageItem class={deleteMessageItemContainerStyles} hideFloating message={props.message} />
       </DeleteMessageModalContainer>
     </Modal>

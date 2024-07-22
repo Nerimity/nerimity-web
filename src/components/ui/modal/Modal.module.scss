@@ -25,6 +25,7 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom: none;
+    border: none;
     border-left: none;
     border-right: none;
     align-self: flex-end;
@@ -62,8 +63,7 @@
 }
 
 .icon {
-  opacity: 0.7;
-  margin-right: 7px;
+  margin-right: 4px;
 }
 
 .actionButtons {
@@ -72,6 +72,15 @@
 .actionButtonInnerContainer {
   display: flex;
   justify-content: end;
+  margin: 6px;
+  &.mobile {
+    justify-content: stretch;
+    button {
+      height: 28px;
+      align-self: stretch;
+      flex: 1;
+    }
+  }
 }
 
 @keyframes showUp {
