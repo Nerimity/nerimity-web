@@ -83,7 +83,7 @@ export const MessageLogArea = (props: {
 
   let messageLogElement: undefined | HTMLDivElement;
 
-  const { goToMain } = useDrawer();
+  const drawer = useDrawer();
   const { createPortal } = useCustomPortal();
   const params = useParams<{ channelId: string; serverId?: string }>();
   const { hasFocus } = useWindowProperties();
@@ -138,7 +138,7 @@ export const MessageLogArea = (props: {
 
   scrollToMessageListener(async (event) => {
     if (areMessagesLoading()) return;
-    goToMain();
+    drawer?.goToMain();
     setAreMessagesLoading(true);
     let messageEl = document.getElementById(`message-${event.messageId}`);
     if (!messageEl) {

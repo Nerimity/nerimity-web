@@ -523,7 +523,6 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
   return <ContextMenu {...props} items={items()} />;
 }
 
-
 function Content(props: { user: UserDetails }) {
   return (
     <div class={styles.content}>
