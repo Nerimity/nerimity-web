@@ -126,7 +126,9 @@ export const MessageLogArea = (props: {
 
       if (!properties()?.moreBottomToLoad) {
         setAreMessagesLoading(true);
-        await messages.fetchAndStoreMessages(params.channelId, true);
+        await messages
+          .fetchAndStoreMessages(params.channelId, true)
+          .catch(() => {});
         updateUnreadMarker(true);
         setAreMessagesLoading(false);
         channelProperties.updateStale(params.channelId, false);
