@@ -12,7 +12,8 @@ import { emitActivityStatus } from "../emits/userEmits";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 import { localRPC } from "@/common/LocalRPC";
 import { reactNativeAPI } from "@/common/ReactNative";
-
+import { useWindowProperties } from "@/common/useWindowProperties";
+import useChannelProperties from "../store/useChannelProperties";
 
 export const onConnect = (socket: Socket, token?: string) => {
   const account = useAccount();
@@ -27,11 +28,13 @@ export const onConnect = (socket: Socket, token?: string) => {
 export const onDisconnect = () => {
   const account = useAccount();
   const voiceUsers = useVoiceUsers();
+  const channelProperties = useChannelProperties();
   account.setSocketDetails({
     socketId: null,
     socketConnected: false,
     socketAuthenticated: false,
   });
+  channelProperties.staleAll();
   voiceUsers.resetAll();
 };
 
