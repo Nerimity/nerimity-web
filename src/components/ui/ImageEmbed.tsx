@@ -6,6 +6,7 @@ import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import env from "@/common/env";
+import { ImagePreviewModal } from "./ImagePreviewModal";
 
 const ImageEmbedContainer = styled(FlexRow)`
   user-select: none;
@@ -31,7 +32,7 @@ const ImageEmbedContainer = styled(FlexRow)`
 `;
 
 interface ImageEmbedProps {
-  attachment: RawAttachment;
+  attachment: RawAttachment & { origSrc?: string };
   widthOffset?: number;
   customWidth?: number;
   customHeight?: number;
@@ -77,6 +78,7 @@ export function ImageEmbed(props: ImageEmbedProps) {
       <ImagePreviewModal
         close={close}
         url={url(true)}
+        origUrl={props.attachment.origSrc}
         width={props.attachment.width}
         height={props.attachment.height}
       />
@@ -93,74 +95,6 @@ export function ImageEmbed(props: ImageEmbedProps) {
     >
       <img loading="lazy" src={url()} style={style()} alt="" />
     </ImageEmbedContainer>
-  );
-}
-
-const ImagePreviewContainer = styled(FlexRow)`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  inset: 0;
-  z-index: 111111111111;
-  background: rgba(0, 0, 0, 0.9);
-  img {
-    border-radius: 8px;
-  }
-`;
-
-export function ImagePreviewModal(props: {
-  close: () => void;
-  url: string;
-  width?: number;
-  height?: number;
-}) {
-  const { width, height } = useWindowProperties();
-  const [dimensions, setDimensions] = createSignal({
-    width: props.width,
-    height: props.height,
-  });
-
-  onMount(() => {
-    document.addEventListener("keydown", onKeyDown);
-    onCleanup(() => {
-      document.removeEventListener("keydown", onKeyDown);
-    });
-  });
-
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") props.close();
-  };
-
-  const style = () => {
-    const maxWidth = clamp(width(), (width() / 100) * 80);
-    const maxHeight = clamp(height(), (height() / 100) * 80);
-    return clampImageSize(
-      dimensions().width!,
-      dimensions().height!,
-      maxWidth,
-      maxHeight
-    );
-  };
-
-  const onClick = (event: any) => {
-    const target = event.target as HTMLDivElement;
-    if (!target.classList.contains("ImagePreviewContainer")) return;
-    props.close();
-  };
-
-  const onLoad = (event: { target: HTMLImageElement }) => {
-    if (dimensions().width) return;
-    setDimensions({
-      width: event.target.naturalWidth,
-      height: event.target.naturalHeight,
-    });
-  };
-
-  return (
-    <ImagePreviewContainer onclick={onClick} class="ImagePreviewContainer">
-      <img src={props.url} onLoad={onLoad} style={style()} />
-    </ImagePreviewContainer>
   );
 }
 

@@ -78,8 +78,8 @@ importers:
         specifier: ^1.8.18
         version: 1.8.18
       solid-navigator:
-        specifier: ^0.3.13
-        version: 0.3.13(solid-js@1.8.18)
+        specifier: ^0.3.14
+        version: 0.3.14(solid-js@1.8.18)
       solid-sortablejs:
         specifier: ^2.1.2
         version: 2.1.2(solid-js@1.8.18)
@@ -95,6 +95,9 @@ importers:
       voice-activity-detection:
         specifier: ^0.0.5
         version: 0.0.5
+      zoomist:
+        specifier: ^2.1.1
+        version: 2.1.1
     devDependencies:
       '@maxim_mazurok/gapi.client.drive-v3':
         specifier: ^0.0.20230927
@@ -1490,8 +1493,8 @@ packages:
   solid-js@1.8.18:
     resolution: {integrity: sha512-cpkxDPvO/AuKBugVv6xKFd1C9VC0XZMu4VtF56IlHoux8HgyW44uqNSWbozMnVcpIzHIhS3vVXPAVZYM26jpWw==}
 
-  solid-navigator@0.3.13:
-    resolution: {integrity: sha512-26PU2miHzMwuXgd+G7pr84Rub7nWENamY8osY+Nqj4jbjRJIEXhBnn9S4K0UqwPCefkzY3Sxr+U0HtgAatpMrA==}
+  solid-navigator@0.3.14:
+    resolution: {integrity: sha512-5t9MIeyLhQnoy0CCSXx1RHCsKO3nf4To7asL6kJcfWjmLNXyoTJfV28PQIDy5/7nNCdbRhZqhIaLIp+6kzuviw==}
     engines: {node: '>=18', pnpm: '>=8.6.0'}
     peerDependencies:
       solid-js: ^1.6.0
@@ -1710,6 +1713,9 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zoomist@2.1.1:
+    resolution: {integrity: sha512-QSvR5LbeyG7zgixfDsS5OAXX0fBuc+3FGk9AM3N/USzgppHGVEEYQfufAqwGqQtIZJLsG1R2Rg8edtz3W3kFPw==}
 
 snapshots:
 
@@ -3044,7 +3050,7 @@ snapshots:
       seroval: 1.1.0
       seroval-plugins: 1.1.0(seroval@1.1.0)
 
-  solid-navigator@0.3.13(solid-js@1.8.18):
+  solid-navigator@0.3.14(solid-js@1.8.18):
     dependencies:
       solid-js: 1.8.18
 
@@ -3232,3 +3238,5 @@ snapshots:
   yallist@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zoomist@2.1.1: {}

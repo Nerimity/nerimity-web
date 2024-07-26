@@ -55,12 +55,13 @@
     "sass": "^1.77.8",
     "socket.io-client": "^4.7.5",
     "solid-js": "^1.8.18",
-    "solid-navigator": "^0.3.13",
+    "solid-navigator": "^0.3.14",
     "solid-sortablejs": "^2.1.2",
     "solid-styled-components": "^0.28.5",
     "twemoji": "^14.0.2",
     "uzip": "^0.20201231.0",
-    "voice-activity-detection": "^0.0.5"
+    "voice-activity-detection": "^0.0.5",
+    "zoomist": "^2.1.1"
   },
   "engines": {
     "npm": "please-use-pnpm",

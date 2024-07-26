@@ -25,6 +25,7 @@ import {
   useSearchParams,
   Outlet,
   useNavigate,
+  useLocation,
 } from "solid-navigator";
 import { css, styled } from "solid-styled-components";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
@@ -85,8 +86,13 @@ export default function AppPage() {
   const { account, users } = useStore();
   const [searchParams] = useSearchParams<{ postId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { createPortal, closePortalById } = useCustomPortal();
+
+  navigate(location.pathname + location.search, {
+    replace: true,
+  });
 
   useReactNativeEvent(["registerFCM", "openChannel"], (e) => {
     if (e.type === "registerFCM") {
@@ -149,8 +155,11 @@ export default function AppPage() {
     on(
       () => searchParams.postId,
       (postId, oldPostId) => {
+        console.log("1", postId);
         if (!oldPostId && !postId) return;
+
         if (!postId) return closePortalById("post_modal");
+
         createPortal?.(
           (close) => <ViewPostModal close={close} />,
           "post_modal"
