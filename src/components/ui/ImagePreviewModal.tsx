@@ -118,9 +118,21 @@ export function ImagePreviewModal(props: {
     createPortal((c) => <DangerousLinkModal close={c} unsafeUrl={url} />);
   };
 
+  let pos = { x: 0, y: 0 };
+  const onMouseDown = (event: MouseEvent) => {
+    pos = { x: event.x, y: event.y };
+  };
+
+  const onMouseUp = (event: MouseEvent) => {
+    if (event.target instanceof HTMLImageElement) return;
+    if (pos.x === event.x && pos.y === event.y) {
+      navigate(location.pathname + location.search, { replace: true });
+    }
+  };
+
   return (
     <ImagePreviewContainer>
-      <ImagePreview>
+      <ImagePreview onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
         <div class="zoomist-container" ref={zoomistContainerRef}>
           <div class="zoomist-wrapper">
             <div class="zoomist-image">
