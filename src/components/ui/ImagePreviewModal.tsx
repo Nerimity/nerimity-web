@@ -119,20 +119,24 @@ export function ImagePreviewModal(props: {
   };
 
   let pos = { x: 0, y: 0 };
-  const onMouseDown = (event: MouseEvent) => {
-    pos = { x: event.x, y: event.y };
+  const onMouseDown = (event: PointerEvent) => {
+    pos = { x: Math.round(event.x), y: Math.round(event.y) };
   };
 
-  const onMouseUp = (event: MouseEvent) => {
+  const onMouseUp = (event: PointerEvent) => {
     if (event.target instanceof HTMLImageElement) return;
-    if (pos.x === event.x && pos.y === event.y) {
+
+    const diffX = Math.abs(event.x - pos.x);
+    const diffY = Math.abs(event.y - pos.y);
+
+    if (diffX < 5 && diffY < 1) {
       navigate(location.pathname + location.search, { replace: true });
     }
   };
 
   return (
     <ImagePreviewContainer>
-      <ImagePreview onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+      <ImagePreview onpointerdown={onMouseDown} onpointerup={onMouseUp}>
         <div class="zoomist-container" ref={zoomistContainerRef}>
           <div class="zoomist-wrapper">
             <div class="zoomist-image">
