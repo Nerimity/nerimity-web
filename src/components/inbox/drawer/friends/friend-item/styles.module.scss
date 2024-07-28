@@ -1,5 +1,3 @@
-
-
 .notificationCount {
   display: flex;
   justify-content: center;
@@ -40,4 +38,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  a {
+    pointer-events: none;
+  }
 }

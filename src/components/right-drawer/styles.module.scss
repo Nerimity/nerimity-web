@@ -184,6 +184,9 @@
   overflow: hidden;
   user-select: none;
   padding-left: 8px;
+  a {
+    pointer-events: none;
+  }
   .memberInfo {
     margin-left: 8px;
   }
