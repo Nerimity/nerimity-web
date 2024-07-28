@@ -18,7 +18,6 @@ body .presenceDropdown {
 
 body .customStatusInput {
   margin-top: 0;
-
 }
 
 .serverList {
@@ -41,17 +40,13 @@ body .customStatusInput {
   border-bottom: solid 1px rgba(255, 255, 255, 0.2);
 }
 
-
-
-
-
 .scrollable::-webkit-scrollbar {
   display: none;
 }
 
 .notificationCount {
   position: absolute;
-  top: 10px;  
+  top: 10px;
   right: 10px;
   display: flex;
   align-items: center;
@@ -65,7 +60,6 @@ body .customStatusInput {
   width: 17px;
   z-index: 111111111;
 }
-
 
 .user {
   position: relative;
@@ -84,11 +78,12 @@ body .customStatusInput {
     align-items: center;
     justify-content: center;
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     background-color: rgba(0, 0, 0, 0.46);
     backdrop-filter: blur(34px);
     border-radius: 50%;
+    z-index: 11111;
 
     animation-name: rotate;
     animation-duration: 2s;
@@ -97,17 +92,18 @@ body .customStatusInput {
 
     &.authenticatingIcon {
       animation-duration: 4s;
-      color: var(--primary-color)
+      color: var(--primary-color);
     }
-
   }
   .errorIcon {
+    z-index: 11111;
+
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background-color: rgba(0, 0, 0, 0.46);
     color: var(--alert-color);
     backdrop-filter: blur(34px);
@@ -117,9 +113,9 @@ body .customStatusInput {
 
 @keyframes rotate {
   from {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
-  to { 
-      transform: rotate(360deg);
+  to {
+    transform: rotate(360deg);
   }
 }
