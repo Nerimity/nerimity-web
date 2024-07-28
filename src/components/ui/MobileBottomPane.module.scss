@@ -1,0 +1,133 @@
+.container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  z-index: 11111111111111;
+
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+  background: black;
+
+  align-items: center;
+
+  justify-content: space-around;
+
+  opacity: 0;
+  transition: 0.2s;
+  bottom: -60px;
+  overflow: auto;
+  &.show {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+.item {
+  display: flex;
+  gap: 4px;
+
+  flex-direction: column;
+  font-size: 12px;
+
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+
+  height: 50px;
+  width: 50px;
+  border-radius: 6px;
+}
+
+.anchor:focus {
+  outline: none;
+}
+
+.notify {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-left: 5px;
+  font-size: 0.8em;
+  background-color: var(--alert-color);
+  border-radius: 50%;
+  height: 14px;
+  width: 14px;
+  z-index: 111111111;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.presence {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  z-index: 1111111111;
+}
+
+.connectingIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  background-color: rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(34px);
+  border-radius: 50%;
+  z-index: 11111;
+
+  animation-name: rotate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  &.authenticatingIcon {
+    animation-duration: 4s;
+    color: var(--primary-color);
+  }
+}
+
+.errorIcon {
+  z-index: 11111;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  background-color: rgba(0, 0, 0, 0.46);
+  color: var(--alert-color);
+  backdrop-filter: blur(34px);
+  border-radius: 50%;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.userModal {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}

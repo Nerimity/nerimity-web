@@ -42,6 +42,7 @@ import { WarnedModal } from "@/components/warned-modal/WarnedModal";
 import { useReactNativeEvent } from "@/common/ReactNative";
 import { registerFCM } from "@/chat-api/services/UserService";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import MobileBottomPane from "@/components/ui/MobileBottomPane";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -184,7 +185,9 @@ export default function AppPage() {
       Content={() => <MainPane />}
       LeftDrawer={() => <Outlet name="leftDrawer" />}
       RightDrawer={() => <Outlet name="rightDrawer" />}
-    />
+    >
+      <MobileBottomPane />
+    </DrawerLayout>
   );
 }
 

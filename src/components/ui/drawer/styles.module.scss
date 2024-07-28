@@ -14,7 +14,6 @@
   transition: 0.2s;
 }
 
-
 .container {
   display: flex;
   flex: 1;
@@ -46,6 +45,9 @@
   overflow: hidden;
 }
 
+.mobile .leftDrawer {
+  padding-bottom: 54px;
+}
 // .mobile .leftDrawer {
 //   border-radius: 0;
 //   margin: 0;

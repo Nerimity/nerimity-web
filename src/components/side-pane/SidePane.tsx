@@ -2,9 +2,19 @@ import styles from "./styles.module.scss";
 import Icon from "@/components/ui/icon/Icon";
 import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import { createEffect, createMemo, createResource, createSignal, For, on, onCleanup, onMount, Show } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createResource,
+  createSignal,
+  For,
+  on,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useParams, useMatch } from "solid-navigator";
 import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
@@ -52,27 +62,36 @@ const SidebarItemContainer = styled(ItemContainer)`
 
 export default function SidePane() {
   const { createPortal } = useCustomPortal();
+  const { isMobileWidth } = useWindowProperties();
 
   const showAddServerModal = () => {
-    createPortal?.(close => <AddServer close={close} />);
+    createPortal?.((close) => <AddServer close={close} />);
   };
 
-  return <div class={styles.sidePane}>
-    <InboxItem />
-    <ExploreItem />
-    <div class={styles.scrollable}>
-      <ServerList />
-      <Tooltip tooltip="Create Server">
-        <SidebarItemContainer onClick={showAddServerModal} >
-          <Icon name="add_box" size={40} />
-        </SidebarItemContainer>
-      </Tooltip>
+  return (
+    <div
+      class={cn(styles.sidePane, isMobileWidth() ? styles.mobile : undefined)}
+    >
+      <Show when={!isMobileWidth()}>
+        <InboxItem />
+        <ExploreItem />
+      </Show>
+      <div class={styles.scrollable}>
+        <ServerList />
+        <Tooltip tooltip="Create Server">
+          <SidebarItemContainer onClick={showAddServerModal}>
+            <Icon name="add_box" size={40} />
+          </SidebarItemContainer>
+        </Tooltip>
+      </div>
+      <UpdateItem />
+      <Show when={!isMobileWidth()}>
+        <ModerationItem />
+        <SettingsItem />
+        <UserItem />
+      </Show>
     </div>
-    <UpdateItem />
-    <ModerationItem />
-    <SettingsItem />
-    <UserItem />
-  </div>;
+  );
 }
 
 function ExploreItem() {
@@ -80,9 +99,12 @@ function ExploreItem() {
 
   return (
     <Tooltip tooltip="Explore">
-      <A href={RouterEndpoints.EXPLORE_SERVER("")} style={{ "text-decoration": "none" }}>
+      <A
+        href={RouterEndpoints.EXPLORE_SERVER("")}
+        style={{ "text-decoration": "none" }}
+      >
         <SidebarItemContainer selected={selected()}>
-          <Icon name='explore' />
+          <Icon name="explore" />
         </SidebarItemContainer>
       </A>
     </Tooltip>
@@ -100,9 +122,11 @@ function InboxItem() {
   };
 
   const notificationCount = () => inbox.notificationCount();
-  const friendRequestCount = () => friends.array().filter(friend => friend.status === FriendStatus.PENDING).length;
+  const friendRequestCount = () =>
+    friends.array().filter((friend) => friend.status === FriendStatus.PENDING)
+      .length;
 
-  const count = () => (notificationCount() + friendRequestCount());
+  const count = () => notificationCount() + friendRequestCount();
 
   createEffect(() => {
     updateTitleAlert(count() || servers.hasNotifications() ? true : false);
@@ -110,23 +134,34 @@ function InboxItem() {
 
   return (
     <Tooltip tooltip="Dashboard / Inbox">
-      <A href='/app' style={{ "text-decoration": "none" }}>
-        <SidebarItemContainer selected={isSelected()} alert={(count())}>
+      <A href="/app" style={{ "text-decoration": "none" }}>
+        <SidebarItemContainer selected={isSelected()} alert={count()}>
           <NotificationCountBadge count={count()} top={10} right={10} />
-          <Icon name='all_inbox' />
+          <Icon name="all_inbox" />
         </SidebarItemContainer>
       </A>
     </Tooltip>
   );
 }
 
-
-function NotificationCountBadge(props: { count: number | string, top: number, right: number }) {
-  return <Show when={props.count}><div class={styles.notificationCount} style={{
-    top: `${props.top}px`,
-    right: `${props.right}px`
-  }}>{props.count}</div></Show>;
-
+function NotificationCountBadge(props: {
+  count: number | string;
+  top: number;
+  right: number;
+}) {
+  return (
+    <Show when={props.count}>
+      <div
+        class={styles.notificationCount}
+        style={{
+          top: `${props.top}px`,
+          right: `${props.right}px`,
+        }}
+      >
+        {props.count}
+      </div>
+    </Show>
+  );
 }
 
 function UpdateItem() {
@@ -136,23 +171,25 @@ function UpdateItem() {
   const { hasFocus } = useWindowProperties();
   let lastChecked = 0;
 
-  createEffect(on(hasFocus, async () => {
-    if (updateAvailable()) return;
-    const now = Date.now();
-    if (now - lastChecked >= checkAfterMS) {
-      lastChecked = now;
-      checkForUpdate();
-    }
-  }));
+  createEffect(
+    on(hasFocus, async () => {
+      if (updateAvailable()) return;
+      const now = Date.now();
+      if (now - lastChecked >= checkAfterMS) {
+        lastChecked = now;
+        checkForUpdate();
+      }
+    })
+  );
 
-
-  const showUpdateModal = () => createPortal?.(close => <UpdateModal close={close} />);
+  const showUpdateModal = () =>
+    createPortal?.((close) => <UpdateModal close={close} />);
 
   return (
     <Show when={updateAvailable()}>
-      <Tooltip tooltip='Update Available'>
+      <Tooltip tooltip="Update Available">
         <SidebarItemContainer onclick={showUpdateModal}>
-          <Icon name='get_app' color="var(--success-color)" />
+          <Icon name="get_app" color="var(--success-color)" />
         </SidebarItemContainer>
       </Tooltip>
     </Show>
@@ -160,24 +197,24 @@ function UpdateItem() {
 }
 function ModerationItem() {
   const { account, tickets } = useStore();
-  const hasModeratorPerm = () => hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) || hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
+  const hasModeratorPerm = () =>
+    hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
+    hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
 
   const selected = useMatch(() => "/app/moderation/*");
-
-  createEffect(() => {
-    tickets.updateModerationTicketNotification();
-  });
 
   return (
     <Show when={hasModeratorPerm()}>
       <Tooltip tooltip="Moderation Pane">
-        <A href="/app/moderation" style={{ "text-decoration": "none" }} >
+        <A href="/app/moderation" style={{ "text-decoration": "none" }}>
           <SidebarItemContainer selected={selected()}>
-            <Show when={tickets.hasModerationTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
-            <Icon name='security' title='Moderation' />
+            <Show when={tickets.hasModerationTicketNotification()}>
+              <NotificationCountBadge count={"!"} top={5} right={10} />
+            </Show>
+            <Icon name="security" title="Moderation" />
           </SidebarItemContainer>
         </A>
-      </Tooltip>  
+      </Tooltip>
     </Show>
   );
 }
@@ -185,20 +222,16 @@ function ModerationItem() {
 function SettingsItem() {
   const { tickets } = useStore();
 
-  createEffect(() => {
-    tickets.updateTicketNotification();
-  });
-
-
   const selected = useMatch(() => "/app/settings/*");
-
 
   return (
     <Tooltip tooltip="Settings">
-      <A href="/app/settings/account" style={{ "text-decoration": "none" }} >
+      <A href="/app/settings/account" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={selected()}>
-          <Show when={tickets.hasTicketNotification()}><NotificationCountBadge count={"!"} top={5} right={10} /></Show>
-          <Icon name='settings' title='Settings' />
+          <Show when={tickets.hasTicketNotification()}>
+            <NotificationCountBadge count={"!"} top={5} right={10} />
+          </Show>
+          <Icon name="settings" title="Settings" />
         </SidebarItemContainer>
       </A>
     </Tooltip>
@@ -208,30 +241,36 @@ function SettingsItem() {
 const UserItem = () => {
   const { account, users } = useStore();
   const { createPortal } = useCustomPortal();
-  const {currentPage} = useDrawer();
+  const drawer = useDrawer();
   const [hovered, setHovered] = createSignal(false);
   const [modalOpened, setModalOpened] = createSignal(false);
-  const {isMobileWidth} = useWindowProperties();
-
+  const { isMobileWidth } = useWindowProperties();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
-  const presenceColor = () => user() && userStatusDetail(user().presence()?.status || 0).color;
+  const presenceColor = () =>
+    user() && userStatusDetail(user().presence()?.status || 0).color;
 
   const isAuthenticated = account.isAuthenticated;
   const authErrorMessage = account.authenticationError;
   const isConnected = account.isConnected;
 
   const isAuthenticating = () => !isAuthenticated() && isConnected();
-  const showConnecting = () => !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
+  const showConnecting = () =>
+    !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
 
   const onClicked = () => {
     if (authErrorMessage()) {
-      return createPortal?.(close => <ConnectionErrorModal close={close} />);
+      return createPortal?.((close) => <ConnectionErrorModal close={close} />);
     }
 
     if (isMobileWidth()) {
-      createPortal(close => <FloatingUserModal close={close} currentDrawerPage={currentPage()} />);
+      createPortal((close) => (
+        <FloatingUserModal
+          close={close}
+          currentDrawerPage={drawer?.currentPage()}
+        />
+      ));
       return;
     }
 
@@ -240,24 +279,69 @@ const UserItem = () => {
 
   return (
     <>
-      <Tooltip disable={modalOpened()} tooltip={<div>Profile <Show when={user()}><div>{user()!.username}:{user()!.tag}</div></Show></div>}>
-        <SidebarItemContainer class={classNames(styles.user, "sidePaneUser")} onclick={onClicked} selected={modalOpened()} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-          {account.user() && <Avatar animate={hovered()} size={40} user={account.user()!} resize={96} />}
-          {!showConnecting() && <div class={styles.presence} style={{ background: presenceColor() }} />}
-          {showConnecting() && <Icon name='autorenew' class={styles.connectingIcon} size={24} />}
-          {isAuthenticating() && <Icon name='autorenew' class={classNames(styles.connectingIcon, styles.authenticatingIcon)} size={24} />}
-          {authErrorMessage() && <Icon name='error' class={styles.errorIcon} size={24} />}
+      <Tooltip
+        disable={modalOpened()}
+        tooltip={
+          <div>
+            Profile{" "}
+            <Show when={user()}>
+              <div>
+                {user()!.username}:{user()!.tag}
+              </div>
+            </Show>
+          </div>
+        }
+      >
+        <SidebarItemContainer
+          class={classNames(styles.user, "sidePaneUser")}
+          onclick={onClicked}
+          selected={modalOpened()}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          {account.user() && (
+            <Avatar
+              animate={hovered()}
+              size={40}
+              user={account.user()!}
+              resize={96}
+            />
+          )}
+          {!showConnecting() && (
+            <div
+              class={styles.presence}
+              style={{ background: presenceColor() }}
+            />
+          )}
+          {showConnecting() && (
+            <Icon name="autorenew" class={styles.connectingIcon} size={24} />
+          )}
+          {isAuthenticating() && (
+            <Icon
+              name="autorenew"
+              class={classNames(
+                styles.connectingIcon,
+                styles.authenticatingIcon
+              )}
+              size={24}
+            />
+          )}
+          {authErrorMessage() && (
+            <Icon name="error" class={styles.errorIcon} size={24} />
+          )}
         </SidebarItemContainer>
       </Tooltip>
-      <Show when={user() && modalOpened()}><FloatingUserModal close={() => setModalOpened(false)} currentDrawerPage={currentPage()} /></Show>
+      <Show when={user() && modalOpened()}>
+        <FloatingUserModal
+          close={() => setModalOpened(false)}
+          currentDrawerPage={drawer?.currentPage()}
+        />
+      </Show>
     </>
   );
 };
 
-
-
-
-const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
+const FloatingUserModalContainer = styled(FlexColumn)<{ isMobile: boolean }>`
   position: absolute;
   left: 67px;
   bottom: 5px;
@@ -271,7 +355,9 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
   overflow: auto;
   padding-bottom: 4px;
 
-  ${props => props.isMobile ? `
+  ${(props) =>
+    props.isMobile
+      ? `
     left: 0;
     right: 0;
     bottom: 0;
@@ -281,8 +367,8 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
     max-height: 68%;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-  ` : ""}
-  
+  `
+      : ""}
 
   .buttonContainer .button {
     background-color: transparent;
@@ -290,12 +376,10 @@ const FloatingUserModalContainer = styled(FlexColumn) <{ isMobile: boolean }>`
     justify-content: initial;
     margin: 0;
     &:hover {
-      background-color: rgba(255,255,255, 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
-
 `;
-
 
 const BannerContainer = styled(FlexRow)`
   display: flex;
@@ -316,7 +400,6 @@ const DetailsContainer = styled(FlexColumn)`
   overflow: hidden;
 `;
 
-
 const ButtonContainer = styled(FlexRow)`
   padding-top: 30px;
   margin-top: auto;
@@ -329,7 +412,6 @@ const ButtonContainer = styled(FlexRow)`
       flex: 1;
     }
   }
-  
 `;
 
 const customButtonStyles = css`
@@ -340,14 +422,16 @@ const customButtonStyles = css`
   }
 `;
 
-function FloatingUserModal(props: { close(): void, currentDrawerPage?: number }) {
+export function FloatingUserModal(props: {
+  close(): void;
+  currentDrawerPage?: number;
+}) {
   const { account, users } = useStore();
   const { isMobileWidth, width } = useWindowProperties();
-  const {openedPortals} = useCustomPortal();
+  const { openedPortals } = useCustomPortal();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
-
 
   const onLogoutClick = async () => {
     logout();
@@ -364,79 +448,138 @@ function FloatingUserModal(props: { close(): void, currentDrawerPage?: number })
 
   const memoIsMobileWidth = createMemo(() => isMobileWidth());
 
-  createEffect(on([() => props.currentDrawerPage, memoIsMobileWidth], () => {
-    console.log("test");
-    props.close();
-  }, {defer: true}));
+  createEffect(
+    on(
+      [() => props.currentDrawerPage, memoIsMobileWidth],
+      () => {
+        props.close();
+      },
+      { defer: true }
+    )
+  );
 
-  let pos = {x: 0, y: 0};
+  let pos = { x: 0, y: 0 };
   const onDocMouseDown = (event: MouseEvent) => {
-    pos = {x: event.x, y: event.y};
+    pos = { x: event.x, y: event.y };
   };
 
   const onDocClick = (event: any) => {
     if (pos.x !== event.x || pos.y !== event.y) return;
-    if (openedPortals().length) return;
 
-    const clickedInside = event.target.closest(".floatingUserModalContainer") || event.target.closest(".sidePaneUser");
+    const clickedInside =
+      event.target.closest(".floatingUserModalContainer") ||
+      event.target.closest(".sidePaneUser");
+
     if (clickedInside) return;
     props.close();
   };
 
   return (
-    <FloatingUserModalContainer class="floatingUserModalContainer" isMobile={isMobileWidth()} gap={5}>
-      <Banner margin={0}  radius={6} brightness={50} animate hexColor={user()?.hexColor} url={bannerUrl(user())}>
+    <FloatingUserModalContainer
+      class="floatingUserModalContainer"
+      isMobile={isMobileWidth()}
+      gap={5}
+    >
+      <Banner
+        margin={0}
+        radius={6}
+        brightness={50}
+        animate
+        hexColor={user()?.hexColor}
+        url={bannerUrl(user())}
+      >
         <BannerContainer>
           <Avatar animate size={60} user={user()} />
           <DetailsContainer>
             <FlexRow>
-              <Text style={{ "white-space": "nowrap", "overflow": "hidden", "text-overflow": "ellipsis"}}>{user().username}</Text>
-              <Text color='rgba(255,255,255,0.6)'>:{user().tag}</Text>
+              <Text
+                style={{
+                  "white-space": "nowrap",
+                  overflow: "hidden",
+                  "text-overflow": "ellipsis",
+                }}
+              >
+                {user().username}
+              </Text>
+              <Text color="rgba(255,255,255,0.6)">:{user().tag}</Text>
             </FlexRow>
             <UserPresence animate showOffline userId={userId()!} />
           </DetailsContainer>
         </BannerContainer>
       </Banner>
-      <FlexColumn gap={4} style={{"margin-left": "4px", "margin-right": "4px"}}>
+      <FlexColumn
+        gap={4}
+        style={{ "margin-left": "4px", "margin-right": "4px" }}
+      >
         <PresenceDropDown />
-        <CustomStatus/>
+        <CustomStatus />
       </FlexColumn>
 
       <ButtonContainer class="buttonContainer">
-        
-        <CustomLink onclick={props.close} href={RouterEndpoints.PROFILE(userId()!)}>
-          <Button textSize={12} class={customButtonStyles} iconSize={18} padding={8} iconName='person' label='View Profile' margin={0} />
+        <CustomLink
+          onclick={props.close}
+          href={RouterEndpoints.PROFILE(userId()!)}
+        >
+          <Button
+            textSize={12}
+            class={customButtonStyles}
+            iconSize={18}
+            padding={8}
+            iconName="person"
+            label="View Profile"
+            margin={0}
+          />
         </CustomLink>
-        
+
         <CustomLink onclick={props.close} href="/app/settings/account">
-          <Button textSize={12} class={customButtonStyles} iconSize={18} padding={8} iconName='settings' label='Edit Profile' margin={0} />
+          <Button
+            textSize={12}
+            class={customButtonStyles}
+            iconSize={18}
+            padding={8}
+            iconName="settings"
+            label="Edit Profile"
+            margin={0}
+          />
         </CustomLink>
-        
+
         <div>
-          <Button textSize={12} class={customButtonStyles} onClick={onLogoutClick} iconSize={18} padding={8} iconName='logout' color='var(--alert-color)' label='Logout' margin={0} />
+          <Button
+            textSize={12}
+            class={customButtonStyles}
+            onClick={onLogoutClick}
+            iconSize={18}
+            padding={8}
+            iconName="logout"
+            color="var(--alert-color)"
+            label="Logout"
+            margin={0}
+          />
         </div>
-
-
       </ButtonContainer>
-
     </FloatingUserModalContainer>
   );
 }
 
 function CustomStatus() {
-  const {account, users} = useStore();
+  const { account, users } = useStore();
   const [customStatus, setCustomStatus] = createSignal("");
   const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
 
-  createEffect(on(() => account.user()?.customStatus, (custom) => {
-    setCustomStatus(custom || "");
-  }));
+  createEffect(
+    on(
+      () => account.user()?.customStatus,
+      (custom) => {
+        setCustomStatus(custom || "");
+      }
+    )
+  );
 
   const save = (event: FocusEvent) => {
     console.log(event);
     const formattedStatus = formatMessage(customStatus().trim() || "");
     updatePresence({
-      custom: customStatus().trim() ? formattedStatus : null
+      custom: customStatus().trim() ? formattedStatus : null,
     });
   };
 
@@ -448,11 +591,31 @@ function CustomStatus() {
     <>
       <Text opacity={0.8}>Custom Status</Text>
       <FlexColumn>
-        <AdvancedMarkupOptions class="advancedMarkupOptions" inputElement={inputRef()!} updateText={setCustomStatus} />
-        <Input type="textarea" height={30} ref={setInputRef} class={styles.customStatusInput} placeholder='' onText={setCustomStatus} value={customStatus()}  />
-        <Show when={changes()}><Button label="Save" onClick={save} iconName="save" iconSize={16} margin={[6, 0, 0, 0]}/></Show>
+        <AdvancedMarkupOptions
+          class="advancedMarkupOptions"
+          inputElement={inputRef()!}
+          updateText={setCustomStatus}
+        />
+        <Input
+          type="textarea"
+          height={30}
+          ref={setInputRef}
+          class={styles.customStatusInput}
+          placeholder=""
+          onText={setCustomStatus}
+          value={customStatus()}
+        />
+        <Show when={changes()}>
+          <Button
+            label="Save"
+            onClick={save}
+            iconName="save"
+            iconSize={16}
+            margin={[6, 0, 0, 0]}
+          />
+        </Show>
       </FlexColumn>
-    </>  
+    </>
   );
 }
 
@@ -460,7 +623,8 @@ function PresenceDropDown() {
   const { account, users } = useStore();
   const user = () => users.get(account.user()?.id!);
 
-  const presenceStatus = () => userStatusDetail(user()?.presence()?.status || 0);
+  const presenceStatus = () =>
+    userStatusDetail(user()?.presence()?.status || 0);
 
   const DropDownItems = UserStatuses.map((item, i) => {
     return {
@@ -470,38 +634,56 @@ function PresenceDropDown() {
       index: i,
       onClick: (item: { index: number }) => {
         updatePresence({
-          status: item.index
+          status: item.index,
         });
-      }
+      },
     };
   });
   // move invisible to the bottom.
   DropDownItems.push(DropDownItems.shift()!);
 
-
-
   return (
-    <DropDown title='Presence' class={styles.presenceDropdown} items={DropDownItems} selectedId={presenceStatus().id} />
+    <DropDown
+      title="Presence"
+      class={styles.presenceDropdown}
+      items={DropDownItems}
+      selectedId={presenceStatus().id}
+    />
   );
 }
 
-
-function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
+function ServerItem(props: {
+  server: Server;
+  onContextMenu?: (e: MouseEvent) => void;
+}) {
   const { id, defaultChannelId } = props.server;
   const hasNotifications = () => props.server.hasNotifications();
   const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
   const [hovered, setHovered] = createSignal(false);
 
-
   return (
     <Tooltip tooltip={props.server.name}>
       <A
-        href={RouterEndpoints.SERVER_MESSAGES(id, getLastSelectedChannelId(id, defaultChannelId))}
-        onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-        onContextMenu={props.onContextMenu}>
+        href={RouterEndpoints.SERVER_MESSAGES(
+          id,
+          getLastSelectedChannelId(id, defaultChannelId)
+        )}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onContextMenu={props.onContextMenu}
+      >
         <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
-          <NotificationCountBadge count={props.server.mentionCount()} top={5} right={10} />
-          <Avatar resize={128} animate={hovered()} size={40} server={props.server} />
+          <NotificationCountBadge
+            count={props.server.mentionCount()}
+            top={5}
+            right={10}
+          />
+          <Avatar
+            resize={128}
+            animate={hovered()}
+            size={40}
+            server={props.server}
+          />
         </SidebarItemContainer>
       </A>
     </Tooltip>
@@ -510,8 +692,12 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 
 const ServerList = () => {
   const { servers, account } = useStore();
-  const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>();
-  const [contextServerId, setContextServerId] = createSignal<string | undefined>();
+  const [contextPosition, setContextPosition] = createSignal<
+    { x: number; y: number } | undefined
+  >();
+  const [contextServerId, setContextServerId] = createSignal<
+    string | undefined
+  >();
 
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
@@ -520,23 +706,38 @@ const ServerList = () => {
   };
 
   const onDrop = (servers: Server[]) => {
-    const serverIds = servers.map(server => server.id);
+    const serverIds = servers.map((server) => server.id);
     updateServerOrder(serverIds);
   };
 
-  return <div class={styles.serverListContainer}>
-    <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
-    <Show when={account.lastAuthenticatedAt()} fallback={<ServerListSkeleton/>}>
-      <Draggable onStart={() => setContextPosition(undefined)} class={styles.serverList} onDrop={onDrop} items={servers.orderedArray()}>
-        {server => <ServerItem
-          server={server!}
-          onContextMenu={e => onContextMenu(e, server!.id)}
-        />}
-      </Draggable>
-    </Show>
-  </div>;
+  return (
+    <div class={styles.serverListContainer}>
+      <ContextMenuServer
+        position={contextPosition()}
+        onClose={() => setContextPosition(undefined)}
+        serverId={contextServerId()}
+      />
+      <Show
+        when={account.lastAuthenticatedAt()}
+        fallback={<ServerListSkeleton />}
+      >
+        <Draggable
+          onStart={() => setContextPosition(undefined)}
+          class={styles.serverList}
+          onDrop={onDrop}
+          items={servers.orderedArray()}
+        >
+          {(server) => (
+            <ServerItem
+              server={server!}
+              onContextMenu={(e) => onContextMenu(e, server!.id)}
+            />
+          )}
+        </Draggable>
+      </Show>
+    </div>
+  );
 };
-
 
 const ServerListSkeleton = () => {
   return (
@@ -545,7 +746,6 @@ const ServerListSkeleton = () => {
     </Skeleton.List>
   );
 };
-
 
 function UpdateModal(props: { close: () => void }) {
   const { latestRelease } = useAppVersion();
@@ -556,22 +756,41 @@ function UpdateModal(props: { close: () => void }) {
     return formatTimestamp(new Date(release.published_at).getTime());
   };
 
-
   const onUpdateClick = async () => {
     location.reload();
   };
 
-
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button iconName='close' onClick={props.close} label='Later' color='var(--alert-color)' />
-      <Button iconName='get_app' label='Update Now' onClick={onUpdateClick} primary />
+      <Button
+        iconName="close"
+        onClick={props.close}
+        label="Later"
+        color="var(--alert-color)"
+      />
+      <Button
+        iconName="get_app"
+        label="Update Now"
+        onClick={onUpdateClick}
+        primary
+      />
     </FlexRow>
   );
   return (
-    <Modal title='Update Available' actionButtons={ActionButtons} close={props.close}>
+    <Modal
+      title="Update Available"
+      actionButtons={ActionButtons}
+      close={props.close}
+    >
       <FlexColumn gap={5}>
-        <FlexColumn style={{ "max-height": "400px", "max-width": "600px", overflow: "auto", padding: "10px" }}>
+        <FlexColumn
+          style={{
+            "max-height": "400px",
+            "max-width": "600px",
+            overflow: "auto",
+            padding: "10px",
+          }}
+        >
           <Text size={24}>{latestRelease()?.name || ""}</Text>
           <Text opacity={0.7}>Released at {date() || ""}</Text>
           <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>

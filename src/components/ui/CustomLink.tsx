@@ -4,8 +4,7 @@ import { css } from "solid-styled-components";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { DangerousLinkModal } from "./DangerousLinkModal";
 
-
-type AProps = Parameters<typeof A>[0]; 
+type AProps = Parameters<typeof A>[0];
 
 interface CustomLinkProps extends AProps {
   decoration?: boolean;
@@ -29,7 +28,7 @@ const decoration = css`
 `;
 
 export function CustomLink(props: CustomLinkProps) {
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
   const onContextMenu = (event: MouseEvent) => {
     props.onContextMenu?.(event);
     if (!props.noContextMenu) return;
@@ -37,10 +36,23 @@ export function CustomLink(props: CustomLinkProps) {
   };
 
   const onLinkClick = (e: MouseEvent) => {
-    if (!props.isDangerous) return;
+    if (!props.isDangerous) return props.onClick?.(e) || props.onclick?.(e);
     e.preventDefault();
-    createPortal(close => <DangerousLinkModal unsafeUrl={props.href || "#"} close={close} />);
+    createPortal((close) => (
+      <DangerousLinkModal unsafeUrl={props.href || "#"} close={close} />
+    ));
   };
 
-  return <A onContextMenu={onContextMenu} {...props} onClick={onLinkClick} class={classNames(conditionalClass(props.decoration, decoration), conditionalClass(!props.decoration, noDecoration), props.class)} />;
+  return (
+    <A
+      onContextMenu={onContextMenu}
+      {...props}
+      onClick={onLinkClick}
+      class={classNames(
+        conditionalClass(props.decoration, decoration),
+        conditionalClass(!props.decoration, noDecoration),
+        props.class
+      )}
+    />
+  );
 }

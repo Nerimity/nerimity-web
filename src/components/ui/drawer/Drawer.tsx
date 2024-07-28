@@ -10,6 +10,7 @@ import {
   createMemo,
   createSignal,
   JSX,
+  JSXElement,
   on,
   onCleanup,
   onMount,
@@ -27,6 +28,7 @@ interface DrawerLayoutProps {
   LeftDrawer: any;
   Content: () => JSX.Element;
   RightDrawer: any;
+  children?: JSXElement;
 }
 
 interface DrawerContext {
@@ -137,6 +139,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const onTouchStart = (event: TouchEvent) => {
     const target = event.target as HTMLElement;
 
+    if (target.closest(".mobileBottomPane")) {
+      pauseTouches = true;
+      return;
+    }
     if (target.closest("input[type=range]")) {
       pauseTouches = true;
       return;
@@ -295,6 +301,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   return (
     <DrawerContext.Provider value={drawer}>
+      {props.children}
       <div
         class={classNames(
           styles.drawerLayout,
