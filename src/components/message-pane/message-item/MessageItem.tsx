@@ -79,6 +79,7 @@ import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
 import { stat } from "fs";
 import { AudioEmbed } from "./AudioEmbed";
 import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
+import { ButtonsEmbed } from "./ButtonsEmbed";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -612,6 +613,9 @@ export function Embeds(props: {
           <OGEmbed message={props.message} />
         </Match>
       </Switch>
+      <Show when={props.message.buttons}>
+        <ButtonsEmbed message={props.message} />
+      </Show>
     </div>
   );
 }

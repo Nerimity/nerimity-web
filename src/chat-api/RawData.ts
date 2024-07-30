@@ -54,6 +54,15 @@ export interface RawMessage {
   replyMessages: {
     replyToMessage?: RawMessage;
   }[];
+
+  buttons: RawMessageButton[];
+}
+
+export interface RawMessageButton {
+  id: string;
+  label: string;
+
+  alert?: boolean;
 }
 
 export interface RawEmbed {

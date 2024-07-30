@@ -3,12 +3,12 @@ export const ClientEvents = {
   NOTIFICATION_DISMISS: "notification:dismiss",
 
   VOICE_SIGNAL_SEND: "voice:signal_send",
-  UPDATE_ACTIVITY: "user:update_activity"
+  UPDATE_ACTIVITY: "user:update_activity",
 };
 
 export const ServerEvents = {
   CONNECT: "connect",
-  AUTHENTICATE_ERROR:"user:authenticate_error",
+  AUTHENTICATE_ERROR: "user:authenticate_error",
   USER_UPDATED_SELF: "user:updatedSelf",
   USER_UPDATED: "user:updated",
   USER_NOTICE_CREATED: "user:notice_created",
@@ -43,7 +43,6 @@ export const ServerEvents = {
 
   SERVER_ROLE_DELETED: "server:role_deleted",
 
-
   SERVER_MEMBER_JOINED: "server:member_joined",
   SERVER_MEMBER_LEFT: "server:member_left",
   SERVER_MEMBER_UPDATED: "server:member_updated",
@@ -56,8 +55,6 @@ export const ServerEvents = {
   SERVER_EMOJI_REMOVE: "server:emoji_remove",
   SERVER_EMOJI_UPDATE: "server:emoji_update",
 
-
-
   CHANNEL_TYPING: "channel:typing",
   MESSAGE_CREATED: "message:created",
   MESSAGE_UPDATED: "message:updated",
@@ -67,7 +64,9 @@ export const ServerEvents = {
   MESSAGE_REACTION_ADDED: "message:reaction_added",
   MESSAGE_REACTION_REMOVED: "message:reaction_removed",
 
+  MESSAGE_BUTTON_CLICKED_CALLBACK: "message:button_clicked_callback",
+
   VOICE_USER_JOINED: "voice:user_joined",
   VOICE_USER_LEFT: "voice:user_left",
-  VOICE_SIGNAL_RECEIVED: "voice:signal_received"
+  VOICE_SIGNAL_RECEIVED: "voice:signal_received",
 } as const;
