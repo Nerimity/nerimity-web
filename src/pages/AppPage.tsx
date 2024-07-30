@@ -156,7 +156,6 @@ export default function AppPage() {
     on(
       () => searchParams.postId,
       (postId, oldPostId) => {
-        console.log("1", postId);
         if (!oldPostId && !postId) return;
 
         if (!postId) return closePortalById("post_modal");

@@ -441,8 +441,10 @@ export function FloatingUserModal(props: {
     document.addEventListener("mousedown", onDocMouseDown, { capture: true });
     document.addEventListener("click", onDocClick, { capture: true });
     onCleanup(() => {
-      document.removeEventListener("mousedown", onDocMouseDown);
-      document.removeEventListener("click", onDocClick);
+      document.removeEventListener("mousedown", onDocMouseDown, {
+        capture: true,
+      });
+      document.removeEventListener("click", onDocClick, { capture: true });
     });
   });
 
