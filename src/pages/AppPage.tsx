@@ -66,7 +66,6 @@ const OuterMainPaneContainer = styled("div")`
 
 const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   overflow: auto;
-  overscroll-behavior: none;
   display: flex;
   flex-direction: column;
   flex: 1;
