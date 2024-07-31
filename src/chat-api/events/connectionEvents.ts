@@ -222,8 +222,6 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   );
   electronWindowAPI()?.restartActivityStatus(programs);
 
-  if (isExperimentEnabled("RPC_SERVER")) {
-    electronWindowAPI()?.restartRPCServer();
-  }
+  electronWindowAPI()?.restartRPCServer();
   localRPC.start();
 };
