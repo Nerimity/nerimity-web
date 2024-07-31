@@ -52,6 +52,7 @@ import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkup
 import { formatMessage } from "../message-pane/MessagePane";
 import { Tooltip } from "../ui/Tooltip";
 import { logout } from "@/common/logout";
+import { isExperimentEnabled, ShowExperiment } from "@/common/experiments";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -68,13 +69,17 @@ export default function SidePane() {
     createPortal?.((close) => <AddServer close={close} />);
   };
 
+  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
+
   return (
     <div
       class={cn(styles.sidePane, isMobileWidth() ? styles.mobile : undefined)}
     >
       <Show when={!isMobileWidth()}>
         <InboxItem />
-        <ExploreItem />
+        <Show when={!homeDrawerExperimentEnabled()}>
+          <ExploreItem />
+        </Show>
       </Show>
       <div class={styles.scrollable}>
         <ServerList />
@@ -132,12 +137,16 @@ function InboxItem() {
     updateTitleAlert(count() || servers.hasNotifications() ? true : false);
   });
 
+  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
+
   return (
-    <Tooltip tooltip="Dashboard / Inbox">
+    <Tooltip
+      tooltip={homeDrawerExperimentEnabled() ? "Home" : "Dashboard / Inbox"}
+    >
       <A href="/app" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={isSelected()} alert={count()}>
           <NotificationCountBadge count={count()} top={10} right={10} />
-          <Icon name="all_inbox" />
+          <Icon name={homeDrawerExperimentEnabled() ? "home" : "all_inbox"} />
         </SidebarItemContainer>
       </A>
     </Tooltip>

@@ -9,7 +9,14 @@ export interface Experiment {
   reloadRequired?: boolean;
 }
 
-export const Experiments = [] as const;
+export const Experiments = [
+  {
+    id: "HOME_DRAWER",
+    name: "New Home Drawer",
+    description:
+      "Enable the new home drawer, which replaces the current inbox drawer.",
+  },
+] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];
 
@@ -18,7 +25,7 @@ const [enabledExperiments, setEnabledExperiments] = useReactiveLocalStorage<
 >(StorageKeys.ENABLED_EXPERIMENTS, []);
 
 export const isExperimentEnabled = (experimentId: ExperimentIds) => {
-  return enabledExperiments().includes(experimentId);
+  return () => enabledExperiments().includes(experimentId);
 };
 export const ShowExperiment = (props: {
   id?: ExperimentIds;

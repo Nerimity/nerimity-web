@@ -29,6 +29,9 @@ importers:
       '@nerimity/solid-turnstile':
         specifier: ^1.1.0
         version: 1.1.0(solid-js@1.8.18)
+      '@solid-primitives/context':
+        specifier: ^0.2.3
+        version: 0.2.3(solid-js@1.8.18)
       '@solid-primitives/keyed':
         specifier: ^1.2.2
         version: 1.2.2(solid-js@1.8.18)
@@ -598,6 +601,11 @@ packages:
 
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
+
+  '@solid-primitives/context@0.2.3':
+    resolution: {integrity: sha512-6/e8qu9qJf48FJ+sxc/B782NdgFw5TvI8+r6U0gHizumfZcWZg8FAJqvRZAiwlygkUNiTQOGTeO10LVbMm0kvg==}
+    peerDependencies:
+      solid-js: ^1.6.12
 
   '@solid-primitives/keyed@1.2.2':
     resolution: {integrity: sha512-oBziY40JK4XmJ57XGkFl8j0GtEarSu0hhjdkUQgqL/U0QQE3TZrRo9uhgH7I6VGJKBKG7SAraTPE6S5lVLM1ow==}
@@ -2099,6 +2107,10 @@ snapshots:
     optional: true
 
   '@socket.io/component-emitter@3.1.2': {}
+
+  '@solid-primitives/context@0.2.3(solid-js@1.8.18)':
+    dependencies:
+      solid-js: 1.8.18
 
   '@solid-primitives/keyed@1.2.2(solid-js@1.8.18)':
     dependencies:

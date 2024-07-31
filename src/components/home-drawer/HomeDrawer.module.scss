@@ -1,0 +1,54 @@
+.container {
+  user-select: none;
+}
+.items {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  .item {
+    height: 32px;
+    padding-left: 8px;
+    font-size: 14px;
+    gap: 6px;
+  }
+}
+
+.onlineFriends {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding-bottom: 2px;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    a {
+      font-size: 12px;
+    }
+  }
+  .friends {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .addFriend {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 6px;
+    margin: 4px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+  }
+}

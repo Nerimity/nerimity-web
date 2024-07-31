@@ -17,11 +17,14 @@ import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorM
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { FloatingUserModal } from "../side-pane/SidePane";
+import { isExperimentEnabled } from "@/common/experiments";
 
 export default function MobileBottomPane() {
   const drawer = useDrawer();
 
   const showPane = () => drawer?.currentPage() === 0;
+
+  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
 
   return (
     <div
@@ -32,11 +35,13 @@ export default function MobileBottomPane() {
       )}
     >
       <InboxItem />
-      <AnchorItem
-        href={RouterEndpoints.EXPLORE_SERVER("")}
-        title="Explore"
-        icon="explore"
-      />
+      <Show when={!homeDrawerExperimentEnabled()}>
+        <AnchorItem
+          href={RouterEndpoints.EXPLORE_SERVER("")}
+          title="Explore"
+          icon="explore"
+        />
+      </Show>
       <ModerationItem />
       <UserItem />
     </div>
@@ -64,11 +69,13 @@ function InboxItem() {
     updateTitleAlert(count() || servers.hasNotifications() ? true : false);
   });
 
+  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
+
   return (
     <AnchorItem
-      title="Inbox"
-      icon="all_inbox"
-      href="/app/inbox"
+      title={homeDrawerExperimentEnabled() ? "Home" : "Inbox"}
+      icon={homeDrawerExperimentEnabled() ? "home" : "all_inbox"}
+      href="/app"
       notify={count() ? { count: count(), top: 3, right: 16 } : undefined}
     />
   );
