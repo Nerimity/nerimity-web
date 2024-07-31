@@ -128,7 +128,11 @@ const useBlurEffect = () => {
 };
 
 const useMobileInterface = () => {
-  const { isMobileAgent } = useWindowProperties();
+  const { isMobileAgent, isSafari } = useWindowProperties();
+
+  if (isSafari) {
+    document.getElementById("viewport")?.setAttribute("content", "width=device-width, initial-scale=1,  interactive-widget=resizes-content, maximum-scale=1")
+  }
   if (!isMobileAgent()) {
     const styleEl = document.createElement("style");
     styleEl.innerHTML = `

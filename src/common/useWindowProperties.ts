@@ -58,6 +58,7 @@ export function useWindowProperties() {
     isMobileWidth: ()  => windowProperties.width <= env.MOBILE_WIDTH,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
-    isMobileAgent
+    isMobileAgent,
+    isSafari
   };
 }
