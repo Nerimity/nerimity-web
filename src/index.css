@@ -14,6 +14,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior-y: contain;
   -webkit-touch-callout: none;
+  overscroll-behavior: none;
 }
 
 #root.mobileAgent {
