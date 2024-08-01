@@ -15,6 +15,8 @@ import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import Modal from "@/components/ui/modal/Modal";
 
 export default function InboxDrawerFriendItem(props: {
   friend?: Friend;
@@ -26,6 +28,7 @@ export default function InboxDrawerFriendItem(props: {
   const navigate = useNavigate();
   const [hovered, setHovered] = createSignal(false);
   const { isMobileAgent } = useWindowProperties();
+  const { createPortal } = useCustomPortal();
 
   const user = () => {
     if (props.friend) {
@@ -52,7 +55,9 @@ export default function InboxDrawerFriendItem(props: {
     props.friend?.accept();
   };
   const onDeclineClick = () => {
-    props.friend?.remove();
+    createPortal((close) => (
+      <ConfirmRemoveFriendRequestModal close={close} friend={props.friend} />
+    ));
   };
 
   const onCloseDMClick = async () => {
@@ -156,3 +161,42 @@ export default function InboxDrawerFriendItem(props: {
     </Show>
   );
 }
+
+const ConfirmRemoveFriendRequestModal = (props: {
+  close: () => void;
+  friend: Friend | undefined;
+}) => {
+  const remove = () => {
+    props.friend?.remove();
+    props.close();
+  };
+
+  return (
+    <Modal
+      color="var(--alert-color)"
+      close={props.close}
+      title="Remove Friend Request"
+      actionButtonsArr={[
+        {
+          label: "Don't Remove",
+          onClick: props.close,
+          iconName: "close",
+        },
+        {
+          label: "Remove",
+          color: "var(--alert-color)",
+          onClick: remove,
+          primary: true,
+          iconName: "delete",
+        },
+      ]}
+    >
+      <div
+        style={{ "max-width": "300px", padding: "0 10px", "font-size": "14px" }}
+      >
+        Are you sure you want to remove
+        <b> {props.friend?.recipient()?.username}</b>?
+      </div>
+    </Modal>
+  );
+};
