@@ -1,39 +1,143 @@
 import { FriendStatus } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
 import { createContextProvider } from "@solid-primitives/context";
-import { createContext, createMemo, JSXElement, useContext } from "solid-js";
+import {
+  createContext,
+  createMemo,
+  createSignal,
+  JSXElement,
+  useContext,
+} from "solid-js";
 import AddFriendModal from "../inbox/drawer/add-friend/AddFriendModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { useParams } from "solid-navigator";
+
+const useFriendsController = () => {
+  const store = useStore();
+
+  const [viewAllFriends, setViewAllFriends] = createSignal(false);
+
+  const toggleViewAllFriends = () => {
+    setViewAllFriends(!viewAllFriends());
+  };
+
+  const { createPortal } = useCustomPortal();
+
+  const friendRequests = createMemo(() => {
+    return store.friends
+      .array()
+      .filter((friend) =>
+        [FriendStatus.PENDING, FriendStatus.SENT].includes(friend.status)
+      );
+  });
+  const hasFriendRequests = () => friendRequests().length > 0;
+
+  const onlineFriends = createMemo(() => {
+    const online = store.friends.array().filter((friend) => {
+      if (friend.status !== FriendStatus.FRIENDS) return;
+      if (!friend.recipient()?.presence()?.status) return;
+      return true;
+    });
+    const sorted = online.sort((x, y) =>
+      x.recipient()!.username.localeCompare(y.recipient()!.username)
+    );
+    return sorted;
+  });
+
+  const offlineFriends = createMemo(() => {
+    return store.friends.array().filter((friend) => {
+      if (friend.status !== FriendStatus.FRIENDS) return;
+      return !friend.recipient()?.presence()?.status;
+    });
+  });
+  const hasOfflineFriends = () => offlineFriends().length > 0;
+
+  const areFriendsOnline = () => onlineFriends().length > 0;
+  const topThreeFriends = () => onlineFriends().slice(0, 3);
+
+  const showAddFriendModel = () => {
+    createPortal?.((close) => <AddFriendModal close={close} />);
+  };
+
+  return {
+    onlineFriends,
+    areFriendsOnline,
+    topThreeFriends,
+    showAddFriendModel,
+    hasFriendRequests,
+    friendRequests,
+    offlineFriends,
+    hasOfflineFriends,
+    viewAllFriends,
+    toggleViewAllFriends,
+  };
+};
+
+const useInboxController = () => {
+  const store = useStore();
+  const params = useParams<{ channelId?: string }>();
+
+  const getMentionUsers = createMemo(() =>
+    store.mentions
+      .array()
+      .filter((m) => {
+        const channel = store.channels.get(m?.channelId!);
+        return !channel?.serverId;
+      })
+      .map((m) => store.users.get(m?.userId!)!)
+  );
+
+  const inboxUsers = createMemo(() => {
+    const mentionUsers = [...getMentionUsers()];
+
+    const inboxArray = store.inbox.array().sort((a, b) => {
+      const aTime = a.channel().lastMessagedAt!;
+      const bTime = b.channel().lastMessagedAt!;
+      return bTime - aTime;
+    });
+
+    for (let i = 0; i < inboxArray.length; i++) {
+      const inboxItem = inboxArray[i];
+      const alreadyExists = mentionUsers.find(
+        (u) => u?.id === inboxItem?.channel().recipient()?.id
+      );
+      if (!alreadyExists) {
+        mentionUsers.push(inboxItem?.channel().recipient()!);
+      }
+    }
+    return mentionUsers;
+  });
+
+  const openSavedNotes = () => {
+    const id = store.account.user()?.id;
+    if (!id) return;
+    const user = store.users.get(id);
+    user?.openDM();
+  };
+  const isSavedNotesOpened = () => {
+    const id = store.account.user()?.id;
+    if (!id) return false;
+    const user = store.users.get(id);
+    if (!user?.inboxChannelId) return;
+    return user.inboxChannelId === params.channelId;
+  };
+
+  return {
+    inboxUsers,
+    getMentionUsers,
+    openSavedNotes,
+    isSavedNotesOpened,
+  };
+};
 
 const [HomeDrawerControllerProvider, useHomeDrawerController] =
   createContextProvider(() => {
-    const store = useStore();
-    const { createPortal } = useCustomPortal();
-
-    const onlineFriends = createMemo(() => {
-      const online = store.friends.array().filter((friend) => {
-        if (friend.status !== FriendStatus.FRIENDS) return;
-        if (!friend.recipient()?.presence()?.status) return;
-        return true;
-      });
-      const sorted = online.sort((x, y) =>
-        x.recipient()!.username.localeCompare(y.recipient()!.username)
-      );
-      return sorted;
-    });
-
-    const areFriendsOnline = () => onlineFriends().length > 0;
-    const topThreeFriends = () => onlineFriends().slice(0, 3);
-
-    const showAddFriendModel = () => {
-      createPortal?.((close) => <AddFriendModal close={close} />);
-    };
+    const friendsController = useFriendsController();
+    const inboxController = useInboxController();
 
     return {
-      onlineFriends,
-      areFriendsOnline,
-      topThreeFriends,
-      showAddFriendModel,
+      friends: friendsController,
+      inbox: inboxController,
     };
   }, null!);
 
