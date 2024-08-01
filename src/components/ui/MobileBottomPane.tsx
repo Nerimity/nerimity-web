@@ -43,6 +43,7 @@ export default function MobileBottomPane() {
         />
       </Show>
       <ModerationItem />
+      <SettingsItem />
       <UserItem />
     </div>
   );
@@ -73,10 +74,24 @@ function InboxItem() {
 
   return (
     <AnchorItem
+      selected={isSelected()}
       title={homeDrawerExperimentEnabled() ? "Home" : "Inbox"}
       icon={homeDrawerExperimentEnabled() ? "home" : "all_inbox"}
       href="/app"
       notify={count() ? { count: count(), top: 3, right: 16 } : undefined}
+    />
+  );
+}
+function SettingsItem() {
+  const { tickets } = useStore();
+  return (
+    <AnchorItem
+      title="Settings"
+      icon="settings"
+      href="/app/settings/account"
+      notify={
+        tickets.hasTicketNotification() ? { top: 3, right: 16 } : undefined
+      }
     />
   );
 }
@@ -158,7 +173,7 @@ function Notify(props: { notify?: ItemProps["notify"] }) {
 }
 
 function UserItem() {
-  const { account, users, tickets } = useStore();
+  const { account, users } = useStore();
   const drawer = useDrawer();
   const { createPortal } = useCustomPortal();
 
@@ -197,11 +212,6 @@ function UserItem() {
       class={style.item}
       handlePosition="bottom"
     >
-      <Notify
-        notify={
-          tickets.hasTicketNotification() ? { top: 3, right: 16 } : undefined
-        }
-      />
       <div class={style.user}>
         <Show when={account.user()}>
           <Avatar size={28} user={account.user()!} resize={96} />
