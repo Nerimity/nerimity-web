@@ -8,7 +8,7 @@ import {
 import InboxDrawerFriends from "./friends/InboxDrawerFriends";
 import { classNames, conditionalClass } from "@/common/classNames";
 import FriendItem from "./friends/friend-item/InboxDrawerFriendItem";
-import { createSignal, For, Match, Show, Switch } from "solid-js";
+import { createSignal, For, lazy, Match, Show, Switch } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { FriendStatus } from "@/chat-api/RawData";
 import { useParams } from "solid-navigator";
@@ -18,7 +18,8 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import InVoiceActions from "@/components/InVoiceActions";
 import { Delay } from "@/common/Delay";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
-import HomeDrawer from "@/components/home-drawer/HomeDrawer";
+
+const HomeDrawer = lazy(() => import("@/components/home-drawer/HomeDrawer"));
 
 function Header(props: {
   selectedIndex: number;
