@@ -17,6 +17,8 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Modal from "@/components/ui/modal/Modal";
+import { formatTimestamp } from "@/common/date";
+import { unblockUser } from "@/chat-api/services/UserService";
 
 export default function InboxDrawerFriendItem(props: {
   friend?: Friend;
@@ -68,6 +70,7 @@ export default function InboxDrawerFriendItem(props: {
       navigate("/app");
     }
   };
+  const isBlocked = () => props.friend?.status === FriendStatus.BLOCKED;
 
   const onFriendClick = async (e: any) => {
     if (e.target.closest(".link")) return;
@@ -109,7 +112,7 @@ export default function InboxDrawerFriendItem(props: {
       <FriendContainer
         onmouseenter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        selected={isSelected()}
+        selected={!isBlocked() && isSelected()}
         alert={mentionCount() || showAccept()}
         onClick={onFriendClick}
       >
@@ -118,11 +121,18 @@ export default function InboxDrawerFriendItem(props: {
         </A>
         <div class={styles.details}>
           <div class="username">{user().username}</div>
-          <UserPresence
-            userId={user().id}
-            showOffline={false}
-            animate={hovered()}
-          />
+          <Show when={isBlocked()}>
+            <Text class={styles.blockedText} size={12} opacity={0.6}>
+              Blocked at {formatTimestamp(props.friend?.createdAt || 0)}
+            </Text>
+          </Show>
+          <Show when={!isBlocked()}>
+            <UserPresence
+              userId={user().id}
+              showOffline={false}
+              animate={hovered()}
+            />
+          </Show>
         </div>
 
         <Show when={showAccept() || showDecline()}>
@@ -155,6 +165,15 @@ export default function InboxDrawerFriendItem(props: {
             color="var(--alert-color)"
             iconName="close"
             onClick={onCloseDMClick}
+          />
+        </Show>
+        <Show when={isBlocked()}>
+          <Button
+            class={styles.button}
+            iconSize={12}
+            color="var(--alert-color)"
+            iconName="close"
+            onClick={() => unblockUser(props.friend?.recipientId!)}
           />
         </Show>
       </FriendContainer>

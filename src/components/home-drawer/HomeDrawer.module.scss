@@ -71,3 +71,11 @@
     }
   }
 }
+
+.blockedUsersModal {
+  width: 100%;
+}
+.blockedUsersList {
+  max-height: 50vh;
+  overflow: auto;
+}

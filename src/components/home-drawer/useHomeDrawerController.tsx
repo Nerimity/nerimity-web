@@ -11,6 +11,7 @@ import {
 import AddFriendModal from "../inbox/drawer/add-friend/AddFriendModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { useParams } from "solid-navigator";
+import { BlockedUsersModal } from "./HomeDrawer";
 
 const useFriendsController = () => {
   const store = useStore();
@@ -55,8 +56,25 @@ const useFriendsController = () => {
   const areFriendsOnline = () => onlineFriends().length > 0;
   const topThreeFriends = () => onlineFriends().slice(0, 3);
 
+  const blockedUsers = createMemo(() => {
+    const blockedFriends = store.friends
+      .array()
+      .filter((friend) => friend.status === FriendStatus.BLOCKED);
+    const sorted = blockedFriends.sort((x, y) => y.createdAt - x.createdAt);
+
+    return sorted;
+  });
+
   const showAddFriendModel = () => {
     createPortal?.((close) => <AddFriendModal close={close} />);
+  };
+
+  const showBlockedUsersModal = () => {
+    createPortal?.((close) => (
+      <HomeDrawerControllerProvider>
+        <BlockedUsersModal close={close} />{" "}
+      </HomeDrawerControllerProvider>
+    ));
   };
 
   return {
@@ -70,6 +88,8 @@ const useFriendsController = () => {
     hasOfflineFriends,
     viewAllFriends,
     toggleViewAllFriends,
+    blockedUsers,
+    showBlockedUsersModal,
   };
 };
 
@@ -139,6 +159,6 @@ const [HomeDrawerControllerProvider, useHomeDrawerController] =
       friends: friendsController,
       inbox: inboxController,
     };
-  }, null!);
+  });
 
 export { useHomeDrawerController, HomeDrawerControllerProvider };

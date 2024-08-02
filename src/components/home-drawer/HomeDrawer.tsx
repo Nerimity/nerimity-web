@@ -1,4 +1,4 @@
-import { useMatch } from "solid-navigator";
+import { useLocation, useMatch } from "solid-navigator";
 import ItemContainer from "../ui/Item";
 import style from "./HomeDrawer.module.scss";
 import Icon from "../ui/icon/Icon";
@@ -8,10 +8,11 @@ import {
   HomeDrawerControllerProvider,
   useHomeDrawerController,
 } from "./useHomeDrawerController";
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createEffect, For, on, Show } from "solid-js";
 import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDrawerFriendItem";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
+import Modal from "../ui/modal/Modal";
 
 export default function HomeDrawer() {
   return (
@@ -27,6 +28,7 @@ export default function HomeDrawer() {
 
 const Items = () => {
   const controller = useHomeDrawerController();
+
   return (
     <div class={style.items}>
       <Item label={t("dashboard.title")} icon="dashboard" href="/app" />
@@ -38,8 +40,13 @@ const Items = () => {
       <Item
         label={t("inbox.drawer.savedNotesButton")}
         icon="note_alt"
-        onClick={controller.inbox?.openSavedNotes}
-        selected={controller.inbox?.isSavedNotesOpened()}
+        onClick={controller?.inbox.openSavedNotes}
+        selected={controller?.inbox.isSavedNotesOpened()}
+      />
+      <Item
+        label="Blocked Users"
+        icon="block"
+        onClick={controller?.friends.showBlockedUsersModal}
       />
     </div>
   );
@@ -71,29 +78,29 @@ function Friends() {
   const controller = useHomeDrawerController();
 
   const onlineFriends = () => {
-    if (controller.friends.viewAllFriends()) {
-      return controller.friends?.onlineFriends();
+    if (controller?.friends.viewAllFriends()) {
+      return controller?.friends?.onlineFriends();
     }
-    return controller.friends?.topThreeFriends();
+    return controller?.friends?.topThreeFriends();
   };
   const showOfflineFriends = () => {
-    if (controller.friends.viewAllFriends()) {
-      return controller.friends?.hasOfflineFriends();
+    if (controller?.friends.viewAllFriends()) {
+      return controller?.friends?.hasOfflineFriends();
     }
     return false;
   };
 
   return (
     <div class={style.friends}>
-      <Show when={controller.friends?.hasFriendRequests()}>
+      <Show when={controller?.friends?.hasFriendRequests()}>
         <FriendRequestsHeader />
-        <FriendsList friends={controller.friends?.friendRequests()} />
+        <FriendsList friends={controller?.friends?.friendRequests()} />
       </Show>
       <OnlineFriendsHeader />
       <FriendsList friends={onlineFriends()} />
       <Show when={showOfflineFriends()}>
         <FriendOfflineHeader />
-        <FriendsList friends={controller.friends?.offlineFriends()} />
+        <FriendsList friends={controller?.friends?.offlineFriends()} />
       </Show>
       <div class={style.separator} />
       <AddFriendButton />
@@ -106,7 +113,7 @@ const FriendOfflineHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller.friends?.offlineFriends().length} Offline Friends</div>
+      <div>{controller?.friends?.offlineFriends().length} Offline Friends</div>
     </div>
   );
 };
@@ -115,8 +122,8 @@ const OnlineFriendsHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller.friends?.onlineFriends().length} Online Friends</div>
-      <CustomLink decoration onclick={controller.friends.toggleViewAllFriends}>
+      <div>{controller?.friends?.onlineFriends().length} Online Friends</div>
+      <CustomLink decoration onclick={controller?.friends.toggleViewAllFriends}>
         View All
       </CustomLink>
     </div>
@@ -127,7 +134,7 @@ const FriendRequestsHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller.friends?.friendRequests().length} Friend Requests</div>
+      <div>{controller?.friends?.friendRequests().length} Friend Requests</div>
     </div>
   );
 };
@@ -157,7 +164,7 @@ const AddFriendButton = () => {
 
   return (
     <div
-      onClick={controller.friends?.showAddFriendModel}
+      onClick={controller?.friends?.showAddFriendModel}
       class={style.addFriend}
     >
       <Icon name="group_add" size={18} />
@@ -172,7 +179,37 @@ const Inbox = () => {
   return (
     <div class={style.inbox}>
       <div class={style.header}>Inbox</div>
-      <FriendsList users={controller.inbox?.inboxUsers()} inbox />
+      <FriendsList users={controller?.inbox?.inboxUsers()} inbox />
     </div>
+  );
+};
+
+export const BlockedUsersModal = (props: { close: () => void }) => {
+  const controller = useHomeDrawerController();
+  const location = useLocation();
+
+  createEffect(
+    on(
+      () => location.pathname,
+      () => {
+        props.close();
+      },
+      { defer: true }
+    )
+  );
+
+  return (
+    <Modal
+      title="Blocked Users"
+      close={props.close}
+      maxWidth={500}
+      class={style.blockedUsersModal}
+    >
+      <div class={style.blockedUsersList}>
+        <For each={controller?.friends.blockedUsers()}>
+          {(user) => <InboxDrawerFriendItem friend={user} />}
+        </For>
+      </div>
+    </Modal>
   );
 };
