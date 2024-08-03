@@ -85,7 +85,7 @@ const Footer = (props: FooterProps) => {
 };
 
 const ModalButton = (props: ButtonProps) => {
-  return <Button {...props} />;
+  return <Button {...props} margin={0} />;
 };
 
 export const Modal = {
