@@ -27,7 +27,7 @@
     "confirmPassword": "Пацвярджэнне пароля",
     "registerButton": "Зарэгістравацца",
     "registering": "Ідзе рэгістрацыя...",
-    "loginInstead": "Не, увайсці"
+    "loginInstead": "Замест гэтага увайсці"
   },
   "dashboard": {
     "title": "Панэль кіравання",
@@ -65,7 +65,7 @@
       "filterAll": "Усе",
       "filterVerified": "Правераныя",
       "memberCount": "{{count}} удзельнікаў",
-      "lifetimeBumpCount": "{{count}} падтрымак за ўвесь час",
+      "lifetimeBumpCount": "{{count}} падтрымак(кі) за ўвесь час",
       "visitServerButton": "Наведаць",
       "joinServerButton": "Далучыцца",
       "bumpButton": "Падтрымаць ({{count}})"
@@ -77,7 +77,7 @@
         "general": "Агульныя",
         "roles": "Ролі",
         "channels": "Каналы",
-        "bans": "Баны",
+        "bans": "Блакіроўкі",
         "invites": "Запрашэнні",
         "publishServer": "Апублікаваць сервер",
         "verify": "Пацвердзіць",
@@ -101,7 +101,7 @@
         "saving": "Захоўваем..."
       },
       "roles": {
-        "addNewRole": "Дадаць новую ролю",
+        "addNewRole": "Дадаць ролю",
         "addRoleButton": "Стварыць ролю"
       },
       "role": {
@@ -122,7 +122,7 @@
       },
       "channels": {
         "createButton": "Стварыць",
-        "createNewDescription": "Стварыць новы канал ці катыгорыю"
+        "createNewDescription": "Стварыць новы канал ці катэгорыю"
       },
       "channel": {
         "saving": "Захоўваем...",
@@ -151,7 +151,7 @@
         "bumpServer": "Падтрымаць сервер",
         "bumpServerDescription": "Падтрымайце сервер, каб ён падняўся наверх.",
         "publishServerButton": "Апублікаваць сервер",
-        "unpublishServerButton": "Зрабіць сервер закрытым"
+        "unpublishServerButton": "Зрабіць сервер прыватным"
       }
     },
     "rolePermissions": {
@@ -215,7 +215,7 @@
         "hideFollowers": "Схаваць падпісчыкаў",
         "hideFollowersDescription": "Схаваць падпісчыкаў з вашага профілю.",
         "hideFollowing": "Схаваць падпіскі",
-        "hideFollowingDescription": "Схаваць карыстачоў, на якіх вы падпісаны, з вашага профілю."
+        "hideFollowingDescription": "Схаваць карыстальнікаў, на якіх вы падпісаны, з вашага профілю."
       },
       "friendRequest": {
         "title": "Запыты сяброўства",
@@ -275,7 +275,7 @@
     "mutualServers": "Агульныя серверы ({{count}})",
     "postsTab": "Публікацыі",
     "followersTab": "Падпісчыкі",
-    "followingTab": "Падпісаны на",
+    "followingTab": "Падпіскі",
     "postsAndRepliesTab": "Публікацыі й адказы ({{count}})",
     "likedPostsTab": "Упадабаныя публікацыі ({{count}})"
   },
