@@ -83,14 +83,14 @@ export default function InboxDrawerFriendItem(props: {
 
   const FriendContainer = styled(ItemContainer)`
     padding-left: 10px;
-    height: 45px;
+    height: 40px;
     margin-left: 3px;
     margin-right: 3px;
 
     .username {
       opacity: ${(props) => (props.selected ? 1 : 0.6)};
       transition: 0.2s;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     &:hover .username {
@@ -117,7 +117,7 @@ export default function InboxDrawerFriendItem(props: {
         onClick={onFriendClick}
       >
         <A href={RouterEndpoints.PROFILE(user().id)} class="link">
-          <Avatar animate={hovered()} user={user()} size={25} />
+          <Avatar animate={hovered()} user={user()} size={28} />
         </A>
         <div class={styles.details}>
           <div class="username">{user().username}</div>
