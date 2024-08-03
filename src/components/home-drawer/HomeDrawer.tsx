@@ -12,7 +12,6 @@ import { createEffect, For, on, Show } from "solid-js";
 import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDrawerFriendItem";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
-import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { Modal } from "../ui/modal";
 
 export default function HomeDrawer() {

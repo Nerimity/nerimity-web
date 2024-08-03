@@ -3,7 +3,6 @@ import style from "./styles.module.scss";
 import Input from "@/components/ui/input/Input";
 import { Modal } from "@/components/ui/modal";
 import { useAddFriendModalController } from "./AddFriendModalController";
-import { t } from "i18next";
 
 export default function AddFriendModal(props: { close: () => void }) {
   const controller = useAddFriendModalController();
