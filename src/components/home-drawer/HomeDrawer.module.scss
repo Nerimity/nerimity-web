@@ -1,18 +1,18 @@
 .container {
   display: flex;
-  flex-direction: column;
-  user-select: none;
 
   overflow: auto;
+  flex-direction: column;
+  user-select: none;
 
   gap: 4px;
 }
 .items {
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 4px;
   display: flex;
   flex-direction: column;
+  padding-top: 4px;
+  padding-right: 4px;
+  padding-left: 4px;
   gap: 2px;
   .item {
     height: 32px;
@@ -22,26 +22,26 @@
   }
 }
 .separator {
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.1);
   width: 90%;
+  height: 1px;
   margin: auto;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .inbox,
 .friends {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding-bottom: 2px;
   padding-top: 8px;
+  padding-bottom: 2px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
   .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding-left: 8px;
+    justify-content: space-between;
     padding-right: 8px;
-    font-size: 14px;
+    padding-left: 8px;
     color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
     a {
       font-size: 12px;
     }
@@ -49,33 +49,33 @@
   .friendsList {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    margin-bottom: 4px;
     margin-top: 4px;
+    margin-bottom: 4px;
+    gap: 2px;
   }
   .addFriend {
     display: flex;
-    gap: 8px;
     align-items: center;
     justify-content: center;
     padding: 8px;
-    font-size: 14px;
+    margin: 4px;
+    border-radius: 6px;
     color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: 0.2s;
-    border-radius: 6px;
-    margin: 4px;
+    font-size: 14px;
+    gap: 8px;
     &:hover {
-      background-color: rgba(255, 255, 255, 0.05);
       color: white;
+      background-color: rgba(255, 255, 255, 0.05);
     }
   }
 }
 
 .blockedUsersModal {
-  width: 100%;
+  width: 500px;
 }
 .blockedUsersList {
-  max-height: 50vh;
   overflow: auto;
+  max-height: 50vh;
 }

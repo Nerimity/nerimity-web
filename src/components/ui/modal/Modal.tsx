@@ -12,6 +12,7 @@ const ModalContext = createContext<{
 interface RootProps {
   children: JSXElement;
   close?: () => void;
+  class?: string;
 }
 const Root = (props: RootProps) => {
   const { isMobileWidth } = useWindowProperties();
@@ -29,7 +30,7 @@ const Root = (props: RootProps) => {
           isMobileWidth() ? style.mobile : undefined
         )}
       >
-        <div class={style.modalRoot}>{props.children}</div>
+        <div class={cn(style.modalRoot, props.class)}>{props.children}</div>
       </div>
     </ModalContext.Provider>
   );
@@ -38,6 +39,7 @@ const Root = (props: RootProps) => {
 interface HeaderProps {
   title: string;
   icon?: string;
+  alert?: boolean;
 }
 const Header = (props: HeaderProps) => {
   const modal = useContext(ModalContext);
@@ -47,11 +49,13 @@ const Header = (props: HeaderProps) => {
         <Show when={props.icon}>
           <Icon
             name={props.icon}
-            color="var(--primary-color)"
+            color={props.alert ? "var(--alert-color)" : "var(--primary-color)"}
             class={style.modalHeaderIcon}
           />
         </Show>
-        <span>{props.title}</span>
+        <span style={{ color: props.alert ? "var(--alert-color)" : undefined }}>
+          {props.title}
+        </span>
       </div>
       <Button
         iconName="close"

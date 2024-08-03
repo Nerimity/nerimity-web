@@ -13,6 +13,7 @@ import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDraw
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
+import { Modal } from "../ui/modal";
 
 export default function HomeDrawer() {
   return (
@@ -199,17 +200,15 @@ export const BlockedUsersModal = (props: { close: () => void }) => {
   );
 
   return (
-    <LegacyModal
-      title="Blocked Users"
-      close={props.close}
-      maxWidth={500}
-      class={style.blockedUsersModal}
-    >
-      <div class={style.blockedUsersList}>
-        <For each={controller?.friends.blockedUsers()}>
-          {(user) => <InboxDrawerFriendItem friend={user} />}
-        </For>
-      </div>
-    </LegacyModal>
+    <Modal.Root close={props.close} class={style.blockedUsersModal}>
+      <Modal.Header title="Blocked Users" icon="block" />
+      <Modal.Body>
+        <div class={style.blockedUsersList}>
+          <For each={controller?.friends.blockedUsers()}>
+            {(user) => <InboxDrawerFriendItem friend={user} />}
+          </For>
+        </div>
+      </Modal.Body>
+    </Modal.Root>
   );
 };
