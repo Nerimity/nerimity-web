@@ -1,5 +1,6 @@
 {
   "header": {
+    "logoutButton": "Выйсці",
     "openAppButton": "Адкрыць праграму",
     "loginButton": "Увайсці",
     "joinNowButton": "Далучыцца"
@@ -14,7 +15,7 @@
     "emailOrUsernameAndTag": "Эл. адрас / імя карыстальніка:тэг",
     "password": "Пароль",
     "login": "Увайсці",
-    "createAccountInstead": "Не, стварыць уліковы запіс",
+    "createAccountInstead": "Замест гэтага стварыць уліковы запіс",
     "loggingIn": "Ідзе ўваход...",
     "loginButton": "Увайсці"
   },
@@ -168,6 +169,8 @@
       "banDescription": "Дазвол на блакіроўку ўдзельнікаў.",
       "mentionEveryone": "Згадваць усіх",
       "mentionEveryoneDescription": "Дазваляе згадванне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу."
+      "nicknameMember": "Змяняць нікнэймы",
+      "nicknameMemberDescription": "Дазваляе карыстальнікам змяняць іх нікнэйм на серверы."
     },
     "channelPermissions": {
       "privateChannel": "Прыватны канал",
@@ -186,13 +189,14 @@
       "language": "Мова",
       "notifications": "Апавяшчэнні",
       "logout": "Выйсці",
-      "developer": "Распрацоўшчык",
+      "developer": "Для распрацоўшчыкаў",
       "applications": "Боты",
       "experiments": "Эксперыменты",
       "supportMe": "Падтрымаць мяне",
       "viewSource": "Праглядзець код",
       "changelog": "Спіс змен",
       "window-settings": "Налады акна",
+      "call-settings": "Налады выклікаў",
       "activity-status": "Статус",
       "tickets": "Білеты",
       "privacy": "Прыватнасць",
@@ -205,6 +209,13 @@
         "anyone": "Усе",
         "friendsAndServersOnly": "Толькі сябры і удзельнікі агульных са мной сервероў",
         "friendsOnly": "Толькі сябры"
+       },
+      "profileOptions": {
+        "title": "Налады профілю",
+        "hideFollowers": "Схаваць падпісчыкаў",
+        "hideFollowersDescription": "Схаваць падпісчыкаў з вашага профілю.",
+        "hideFollowing": "Схаваць падпіскі",
+        "hideFollowingDescription": "Схаваць карыстачоў, на якіх вы падпісаны, з вашага профілю."
       },
       "friendRequest": {
         "title": "Запыты сяброўства",
@@ -212,6 +223,10 @@
         "anyone": "Усе",
         "serversOnly": "Толькі ўдзельнікі агульных са мной сервероў",
         "nobody": "Ніхто"
+      },
+      "lastOnline": {
+        "description": "Задайце, хто можа бачыць, калі вы былі ў сетцы апошні раз.",
+        "title": "Апошні раз у сетцы"
       }
     }
   },
@@ -223,6 +238,7 @@
     "editRoles": "Рэдагаваць ролі",
     "kick": "Выгнаць",
     "ban": "Заблакіраваць"
+    "changeNickname": "Змяніць нікнэйм"
   },
   "kickServerMemberModal": {
     "title": "Выгнаць {{username}}",
