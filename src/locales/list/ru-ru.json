@@ -230,9 +230,7 @@
       }
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Имя пользователя и тег"
-  },
+
   "userContextMenu": {
     "viewProfile": "Просмотреть профиль",
     "sendMessage": "Отправить сообщение",

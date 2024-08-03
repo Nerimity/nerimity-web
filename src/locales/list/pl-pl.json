@@ -189,9 +189,7 @@
       "connections": "Połączenia"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Nazwa i Tag"
-  },
+
   "userContextMenu": {
     "viewProfile": "Wyświetl Profil",
     "sendMessage": "Wyślij Wiadomość",

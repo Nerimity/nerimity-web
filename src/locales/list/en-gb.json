@@ -230,9 +230,7 @@
       }
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Username & Tag"
-  },
+
   "userContextMenu": {
     "viewProfile": "View Profile",
     "sendMessage": "Send Message",

@@ -56,7 +56,7 @@ import { CustomLink } from "./ui/CustomLink";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Icon from "./ui/icon/Icon";
 import Input from "./ui/input/Input";
-import Modal from "./ui/modal/Modal";
+import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import Text from "./ui/Text";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { ImageEmbed, clamp } from "./ui/ImageEmbed";
@@ -1415,7 +1415,7 @@ export function ViewPostModal(props: { close(): void }) {
   };
 
   return (
-    <Modal
+    <LegacyModal
       close={onClose}
       title="Post"
       class={css`
@@ -1489,7 +1489,7 @@ export function ViewPostModal(props: { close(): void }) {
           </Switch>
         </Show>
       </FlexColumn>
-    </Modal>
+    </LegacyModal>
   );
 }
 
@@ -1538,7 +1538,7 @@ function DeletePostModal(props: { post: Post; close: () => void }) {
     </FlexRow>
   );
   return (
-    <Modal
+    <LegacyModal
       close={props.close}
       title="Delete Post?"
       icon="delete"
@@ -1554,7 +1554,7 @@ function DeletePostModal(props: { post: Post; close: () => void }) {
           post={props.post}
         />
       </DeletePostModalContainer>
-    </Modal>
+    </LegacyModal>
   );
 }
 
@@ -1587,7 +1587,7 @@ function EditPostModal(props: { post: Post; close: () => void }) {
   );
 
   return (
-    <Modal
+    <LegacyModal
       close={props.close}
       title="Edit Post"
       icon="delete"
@@ -1603,6 +1603,6 @@ function EditPostModal(props: { post: Post; close: () => void }) {
           onText={setContent}
         />
       </DeletePostModalContainer>
-    </Modal>
+    </LegacyModal>
   );
 }

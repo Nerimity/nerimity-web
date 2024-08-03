@@ -8,11 +8,10 @@ import { Experiment, Experiments, useExperiment } from "@/common/experiments";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Checkbox from "../ui/Checkbox";
 import { electronWindowAPI } from "@/common/Electron";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import env from "@/common/env";
-
 
 const Container = styled("div")`
   display: flex;
@@ -21,43 +20,44 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-
 export default function LanguageSettings() {
   const { header } = useStore();
-
 
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Experiments",
-      iconName: "settings"
+      iconName: "settings",
     });
   });
-
 
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.experiments")} />
       </Breadcrumb>
 
-      <Show when={!Experiments.length}><div>There are currently no experiments available.</div></Show>
+      <Show when={!Experiments.length}>
+        <div>There are currently no experiments available.</div>
+      </Show>
 
       <For each={Experiments}>
-        {experiment => <ExperimentItem experiment={experiment} />}
+        {(experiment) => <ExperimentItem experiment={experiment} />}
       </For>
-
-
     </Container>
   );
 }
 
-
-
-const disabledStyles = css`pointer-events: none; opacity: 0.5; cursor: not-allowed;`;
+const disabledStyles = css`
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+`;
 const ExperimentItem = (props: { experiment: Experiment }) => {
-  const {createPortal} = useCustomPortal();
-  const {experiment, toggleExperiment} = useExperiment(() => props.experiment.id);
+  const { createPortal } = useCustomPortal();
+  const { experiment, toggleExperiment } = useExperiment(
+    () => props.experiment.id
+  );
   const disabled = () => {
     if (props.experiment.electron && !electronWindowAPI()?.isElectron) {
       return true;
@@ -67,28 +67,44 @@ const ExperimentItem = (props: { experiment: Experiment }) => {
 
   const toggle = () => {
     if (props.experiment.reloadRequired) {
-      createPortal(close => <ReloadRequiredModal close={close} />);
+      createPortal((close) => <ReloadRequiredModal close={close} />);
     }
     toggleExperiment();
-  }; 
-
+  };
 
   return (
-    <SettingsBlock class={disabled() ? disabledStyles : undefined} onClick={toggle} label={props.experiment.name} description={props.experiment.description}>
-      <Checkbox checked={!!experiment()}  />
+    <SettingsBlock
+      class={disabled() ? disabledStyles : undefined}
+      onClick={toggle}
+      label={props.experiment.name}
+      description={props.experiment.description}
+    >
+      <Checkbox checked={!!experiment()} />
     </SettingsBlock>
   );
 };
 
-
-const ReloadRequiredModal = (props: {close: () => void}) => {
-
+const ReloadRequiredModal = (props: { close: () => void }) => {
   const restart = () => electronWindowAPI()?.relaunchApp();
   return (
-    <Modal  title="Reload Required" close={props.close} ignoreBackgroundClick actionButtonsArr={[{label: "Restart Later", onClick: props.close}, { label: "Restart Now", primary: true, onClick: restart }]} >
-      <div class={css`padding: 10px; max-width: 230px; text-align: center;`}>
+    <LegacyModal
+      title="Reload Required"
+      close={props.close}
+      ignoreBackgroundClick
+      actionButtonsArr={[
+        { label: "Restart Later", onClick: props.close },
+        { label: "Restart Now", primary: true, onClick: restart },
+      ]}
+    >
+      <div
+        class={css`
+          padding: 10px;
+          max-width: 230px;
+          text-align: center;
+        `}
+      >
         <Text>Nerimity needs to be restarted to take effect.</Text>
       </div>
-    </Modal>
+    </LegacyModal>
   );
 };

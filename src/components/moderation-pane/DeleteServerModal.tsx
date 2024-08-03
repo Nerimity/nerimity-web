@@ -3,7 +3,7 @@ import { styled } from "solid-styled-components";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import { deleteServer } from "@/chat-api/services/ModerationService";
 
@@ -20,7 +20,10 @@ interface Props {
 
 export default function DeleteServerModal(props: Props) {
   const [password, setPassword] = createSignal("");
-  const [error, setError] = createSignal<{message: string, path?: string} | null>(null);
+  const [error, setError] = createSignal<{
+    message: string;
+    path?: string;
+  } | null>(null);
   const [deleting, setDeleting] = createSignal(false);
 
   const onDeleteClick = () => {
@@ -30,27 +33,44 @@ export default function DeleteServerModal(props: Props) {
 
     deleteServer(props.serverId, password())
       .then(() => {
-        props.done(); props.close();
+        props.done();
+        props.close();
       })
-      .catch(err => setError(err))
+      .catch((err) => setError(err))
       .finally(() => setDeleting(false));
   };
 
   const ActionButtons = (
-    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button onClick={onDeleteClick} margin={0} label={deleting() ? "Deleting..." : "Delete"} color="var(--alert-color)" primary />
+    <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
+      <Button
+        onClick={onDeleteClick}
+        margin={0}
+        label={deleting() ? "Deleting..." : "Delete"}
+        color="var(--alert-color)"
+        primary
+      />
     </FlexRow>
   );
 
   return (
-    <Modal close={props.close} title="Delete Server" actionButtons={ActionButtons}>
+    <LegacyModal
+      close={props.close}
+      title="Delete Server"
+      actionButtons={ActionButtons}
+    >
       <DeleteServerModalContainer>
-        <Input label="Confirm Password" type="password" value={password()} onText={setPassword} />
+        <Input
+          label="Confirm Password"
+          type="password"
+          value={password()}
+          onText={setPassword}
+        />
         <Show when={error()}>
-          <Text color="var(--alert-color)" size={12}>{error()?.message}</Text>
+          <Text color="var(--alert-color)" size={12}>
+            {error()?.message}
+          </Text>
         </Show>
       </DeleteServerModalContainer>
-    </Modal>
+    </LegacyModal>
   );
 }
-

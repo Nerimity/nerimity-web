@@ -44,7 +44,7 @@ import { Banner } from "../ui/Banner";
 import { Markup } from "../Markup";
 import { t } from "i18next";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/Item";
@@ -1128,7 +1128,7 @@ function BadgeDetailModal(props: {
   });
 
   return (
-    <Modal title={`${props.badge.name} Badge`} close={props.close}>
+    <LegacyModal title={`${props.badge.name} Badge`} close={props.close}>
       <BadgeDetailsModalContainer gap={30}>
         <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />
@@ -1142,6 +1142,6 @@ function BadgeDetailModal(props: {
           </Text>
         </FlexColumn>
       </BadgeDetailsModalContainer>
-    </Modal>
+    </LegacyModal>
   );
 }

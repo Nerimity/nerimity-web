@@ -177,9 +177,7 @@
       "privacy": "Privatsphäre"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Benutzername & Tag"
-  },
+
   "userContextMenu": {
     "viewProfile": "Profil anzeigen",
     "sendMessage": "Nachricht senden",

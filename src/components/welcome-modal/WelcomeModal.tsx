@@ -3,39 +3,44 @@ import env from "@/common/env";
 import { Link } from "solid-navigator";
 import Button from "../ui/Button";
 import Icon from "../ui/icon/Icon";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { CustomLink } from "../ui/CustomLink";
 
-
-
-export function WelcomeModal (props: {close: () => void}) {
-
+export function WelcomeModal(props: { close: () => void }) {
   const ActionButtons = (
     <div class={styles.modalActionButtons}>
       <Button label="Continue" iconName="arrow_forward" onClick={props.close} />
     </div>
   );
 
-
   return (
-    <Modal ignoreBackgroundClick  title={"Welcome to Nerimity!"} maxWidth={600} actionButtons={ActionButtons} >
+    <LegacyModal
+      ignoreBackgroundClick
+      title={"Welcome to Nerimity!"}
+      maxWidth={600}
+      actionButtons={ActionButtons}
+    >
       <div class={styles.modalContainer}>
         <div>Thanks for trying out Nerimity!</div>
         <EditProfileItem />
-        <ServerItem/>
+        <ServerItem />
         <SourceCodeItem />
         <SupportItem />
       </div>
-    </Modal>
+    </LegacyModal>
   );
 }
 
 function ServerItem() {
   return (
-    <CustomLink href={`${env.APP_URL}/app/explore/servers/invites/${env.OFFICIAL_SERVER}`} target="_blank" style={{"text-decoration": "none"}}>
-      <div class={styles.itemContainer} >
+    <CustomLink
+      href={`${env.APP_URL}/app/explore/servers/invites/${env.OFFICIAL_SERVER}`}
+      target="_blank"
+      style={{ "text-decoration": "none" }}
+    >
+      <div class={styles.itemContainer}>
         <Icon name="dns" />
-        <div style={{flex: 1}}>Join the official Nerimity server!</div>
+        <div style={{ flex: 1 }}>Join the official Nerimity server!</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -44,10 +49,14 @@ function ServerItem() {
 
 function EditProfileItem() {
   return (
-    <CustomLink href="/app/settings/account" target="_blank" style={{"text-decoration": "none"}}>
-      <div class={styles.itemContainer} >
+    <CustomLink
+      href="/app/settings/account"
+      target="_blank"
+      style={{ "text-decoration": "none" }}
+    >
+      <div class={styles.itemContainer}>
         <Icon name="edit" />
-        <div style={{flex: 1}} >Edit my profile</div>
+        <div style={{ flex: 1 }}>Edit my profile</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -56,10 +65,14 @@ function EditProfileItem() {
 
 function SupportItem() {
   return (
-    <CustomLink href="https://ko-fi.com/supertiger" target="_blank" style={{"text-decoration": "none"}}>
-      <div class={styles.itemContainer} >
+    <CustomLink
+      href="https://ko-fi.com/supertiger"
+      target="_blank"
+      style={{ "text-decoration": "none" }}
+    >
+      <div class={styles.itemContainer}>
         <Icon name="favorite" />
-        <div style={{flex: 1}}>Support me on Ko-fi</div>
+        <div style={{ flex: 1 }}>Support me on Ko-fi</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -67,10 +80,14 @@ function SupportItem() {
 }
 function SourceCodeItem() {
   return (
-    <CustomLink href="https://github.com/Nerimity" target="_blank" style={{"text-decoration": "none"}}>
-      <div class={styles.itemContainer} >
+    <CustomLink
+      href="https://github.com/Nerimity"
+      target="_blank"
+      style={{ "text-decoration": "none" }}
+    >
+      <div class={styles.itemContainer}>
         <Icon name="code" />
-        <div style={{flex: 1}}>Contribute to Nerimity on GitHub</div>
+        <div style={{ flex: 1 }}>Contribute to Nerimity on GitHub</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>

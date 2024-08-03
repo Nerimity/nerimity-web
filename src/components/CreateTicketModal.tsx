@@ -5,7 +5,7 @@ import { createTicket } from "@/chat-api/services/TicketService.ts";
 import { TicketCategory } from "@/chat-api/RawData";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Button from "./ui/Button";
-import Modal from "./ui/modal/Modal";
+import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import { Notice } from "./ui/Notice/Notice";
 import Input from "./ui/input/Input";
 import Text from "./ui/Text";
@@ -20,7 +20,6 @@ interface VerifyServerTicket {
 }
 
 type Ticket = AbuseTicket | VerifyServerTicket;
-
 
 export function CreateTicketModal(props: {
   close: () => void;
@@ -124,7 +123,7 @@ export function CreateTicketModal(props: {
   );
 
   return (
-    <Modal
+    <LegacyModal
       title="Create Ticket"
       icon="help"
       close={props.close}
@@ -208,6 +207,6 @@ export function CreateTicketModal(props: {
           />
         </FlexColumn>
       </FlexColumn>
-    </Modal>
+    </LegacyModal>
   );
 }

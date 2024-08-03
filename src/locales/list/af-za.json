@@ -183,9 +183,7 @@
       "connections": "Verbindings"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Username & Tag"
-  },
+
   "userContextMenu": {
     "viewProfile": "Besoek Profiel",
     "sendMessage": "Stuur Boodskap",

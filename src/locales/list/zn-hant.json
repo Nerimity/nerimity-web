@@ -183,9 +183,7 @@
       "connections": "連接"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "使用者名稱和標籤"
-  },
+
   "userContextMenu": {
     "viewProfile": "查看個人資料",
     "sendMessage": "傳送訊息",

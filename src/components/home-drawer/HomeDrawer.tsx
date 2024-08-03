@@ -12,7 +12,7 @@ import { createEffect, For, on, Show } from "solid-js";
 import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDrawerFriendItem";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 
 export default function HomeDrawer() {
   return (
@@ -199,7 +199,7 @@ export const BlockedUsersModal = (props: { close: () => void }) => {
   );
 
   return (
-    <Modal
+    <LegacyModal
       title="Blocked Users"
       close={props.close}
       maxWidth={500}
@@ -210,6 +210,6 @@ export const BlockedUsersModal = (props: { close: () => void }) => {
           {(user) => <InboxDrawerFriendItem friend={user} />}
         </For>
       </div>
-    </Modal>
+    </LegacyModal>
   );
 };

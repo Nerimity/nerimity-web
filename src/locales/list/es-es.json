@@ -183,9 +183,7 @@
       "connections": "Connecciones"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Usuario y etiqueta"
-  },
+
   "userContextMenu": {
     "viewProfile": "Ver perfil",
     "sendMessage": "Enviar mensaje",

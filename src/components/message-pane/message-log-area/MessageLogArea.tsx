@@ -61,7 +61,7 @@ import { t } from "i18next";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";
-import Modal from "@/components/ui/modal/Modal";
+import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { FlexRow } from "@/components/ui/Flexbox";
 import { Emoji } from "@/components/markup/Emoji";
 import ItemContainer from "@/components/ui/Item";
@@ -835,7 +835,7 @@ const ViewReactionsModal = (props: { close: () => void; message: Message }) => {
   );
 
   return (
-    <Modal
+    <LegacyModal
       maxWidth={600}
       maxHeight={500}
       class={styles.viewReactionsModal}
@@ -851,7 +851,7 @@ const ViewReactionsModal = (props: { close: () => void; message: Message }) => {
         />
         <ReactedUsersList reactedUsers={reactedUsers()} />
       </div>
-    </Modal>
+    </LegacyModal>
   );
 };
 

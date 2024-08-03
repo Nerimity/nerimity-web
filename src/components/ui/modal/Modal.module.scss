@@ -1,93 +1,61 @@
-.backgroundContainer {
-  position: fixed;
+.modalBackground {
+  position: absolute;
+  z-index: 111111111111;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 111111111111;
+  inset: 0;
 }
 
-
-.modalContainer {
-  background-color: var(--pane-color);
+.modalRoot {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+  max-height: 100vh;
+  padding: 12px;
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  overflow: hidden;
-  align-self: center;
 
-  &.mobile {
-    width: 100%;
-    max-width: initial;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: none;
-    border: none;
-    border-left: none;
-    border-right: none;
-    align-self: flex-end;
-  }
-
+  background-color: var(--pane-color);
+  gap: 8px;
 }
 
-.body {
-  overflow: hidden;
-  animation: showUp;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-  opacity: 1;
-  padding: 5px;
-  flex: 1;
-}
-
-.header {
+.modalHeader {
   display: flex;
   align-items: center;
-  padding: 10px;
-  height: 30px;
-  flex-shrink: 0;
-
-  .title {
-    font-size: 18px;
+  padding-bottom: 0;
+  user-select: none;
+  .titleAndIcon {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-right: 20px;
     color: var(--primary-color);
-    font-weight: bold; 
-    margin-right: 12px;
-  }
-
-  .closeButton {
-    margin-left: auto;
+    font-weight: bold;
+    gap: 8px;
   }
 }
 
-.icon {
-  margin-right: 4px;
+.modalBody {
 }
 
-.actionButtons {
+.modalFooter {
   display: flex;
+  justify-content: flex-end;
 }
-.actionButtonInnerContainer {
-  display: flex;
-  justify-content: end;
-  margin: 6px;
-  &.mobile {
-    justify-content: stretch;
+
+.mobile {
+  .modalRoot {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .modalFooter {
     button {
-      height: 28px;
-      align-self: stretch;
       flex: 1;
     }
-  }
-}
-
-@keyframes showUp {
-  0% {
-    transform: translateY(20px);
-  }
-  100% {
-    transform: translateY(0);
   }
 }

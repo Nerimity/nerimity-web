@@ -13,7 +13,7 @@ import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { Vector2d } from "konva/lib/types";
 import { Stage } from "konva/lib/Stage";
 import { Line as KonvaLine } from "konva/lib/shapes/Line";
-import Modal from "../modal/Modal";
+import LegacyModal from "../legacy-modal/LegacyModal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import Icon from "../icon/Icon";
@@ -377,7 +377,7 @@ export default function PhotoEditor(props: PhotoEditorProps) {
   };
 
   return (
-    <Modal
+    <LegacyModal
       actionButtons={isMobileAgent() ? <MobileNotices /> : <DesktopNotices />}
       title="Photo Editor"
       class={styles.modal}
@@ -437,7 +437,7 @@ export default function PhotoEditor(props: PhotoEditorProps) {
           />
         </div>
       </div>
-    </Modal>
+    </LegacyModal>
   );
 }
 

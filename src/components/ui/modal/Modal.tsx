@@ -1,84 +1,93 @@
-import styles from "./Modal.module.scss";
-import { useWindowProperties } from "@/common/useWindowProperties";
-import { For, JSX, Show } from "solid-js";
-import { Portal } from "solid-js/web";
-
-import Icon from "../icon/Icon";
-import Text from "../Text";
+import style from "./Modal.module.scss";
+import { createContext, JSXElement, Show, useContext } from "solid-js";
 import Button, { ButtonProps } from "../Button";
-import { classNames, conditionalClass } from "@/common/classNames";
+import Icon from "../icon/Icon";
+import { cn } from "@/common/classNames";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
-interface Props {
-  children: JSX.Element;
-  title: string;
-  icon?: string;
-  actionButtons?: JSX.Element;
-  actionButtonsArr?: ButtonProps[]
+const ModalContext = createContext<{
   close?: () => void;
-  ignoreBackgroundClick?: boolean
-  class?: string;
-  maxHeight?: number;
-  maxWidth?: number;
+}>();
 
-  color?: string;
+interface RootProps {
+  children: JSXElement;
+  close?: () => void;
 }
-
-export default function Modal(props: Props) {
+const Root = (props: RootProps) => {
   const { isMobileWidth } = useWindowProperties();
-  let mouseDownTarget: HTMLDivElement | null = null;
-
-  const modalContainerStyle = () => ({
-    ...(props.maxWidth ? {
-      "max-width": `${props.maxWidth}px`
-    } : {}),
-
-    ...(props.maxHeight ? {
-      "max-height": `${props.maxHeight}px`,
-      height: `${isMobileWidth() ? "calc(100% - 20px)" : "100%"}`
-    } : {})
-
-  } as JSX.CSSProperties);
-
 
   const onBackgroundClick = (event: MouseEvent) => {
-    if (props.ignoreBackgroundClick) return;
-    if (mouseDownTarget?.closest(".modal")) return;
-    props.close?.();
+    if (event.target === event.currentTarget) props.close?.();
   };
+
   return (
-    <Portal>
-      <div class={classNames(styles.backgroundContainer, "modal-bg")} onClick={onBackgroundClick} onMouseDown={e => mouseDownTarget = e.target as HTMLDivElement}>
-        <div style={modalContainerStyle()} classList={{
-          "modal": true,
-          [props.class || ""]: true,
-          [styles.modalContainer!]: true,
-          [styles.mobile!]: isMobileWidth()
-        }}
-        >
-          <div class={styles.header}>
-            <Show when={props.icon}>
-              <Icon class={styles.icon} onClick={props.close} name={props.icon} color={props.color || 'var(--primary-color)'}  size={24} />
-            </Show>
-            <div class={styles.title} style={{ color: props.color }}>{props.title}</div>
-            <Show when={props.close}>
-              <Button class={styles.closeButton} color='var(--alert-color)' onClick={props.close} iconName='close' iconSize={16} />
-            </Show>
-          </div>
-          <div class={styles.body}>
-            {props.children}
-          </div>
-          <div style={styles.actionButtons}>
-            <Show when={props.actionButtonsArr}>
-              <div class={classNames(styles.actionButtonInnerContainer, isMobileWidth() ? styles.mobile : undefined)}>
-                <For each={props.actionButtonsArr}>
-                  {actionButton => <Button {...actionButton} />}
-                </For>
-              </div>
-            </Show>
-            {props.actionButtons}
-          </div>
-        </div>
+    <ModalContext.Provider value={{ close: props.close }}>
+      <div
+        onMouseUp={onBackgroundClick}
+        class={cn(
+          style.modalBackground,
+          isMobileWidth() ? style.mobile : undefined
+        )}
+      >
+        <div class={style.modalRoot}>{props.children}</div>
       </div>
-    </Portal>
+    </ModalContext.Provider>
   );
+};
+
+interface HeaderProps {
+  title: string;
+  icon?: string;
 }
+const Header = (props: HeaderProps) => {
+  const modal = useContext(ModalContext);
+  return (
+    <div class={style.modalHeader}>
+      <div class={style.titleAndIcon}>
+        <Show when={props.icon}>
+          <Icon
+            name={props.icon}
+            color="var(--primary-color)"
+            class={style.modalHeaderIcon}
+          />
+        </Show>
+        <span>{props.title}</span>
+      </div>
+      <Button
+        iconName="close"
+        color="var(--alert-color)"
+        onClick={modal?.close}
+        padding={0}
+        margin={0}
+      />
+    </div>
+  );
+};
+
+interface BodyProps {
+  children: JSXElement;
+  class?: string;
+}
+const Body = (props: BodyProps) => {
+  return <div class={cn(style.modalBody, props.class)}>{props.children}</div>;
+};
+
+interface FooterProps {
+  children: JSXElement;
+}
+
+const Footer = (props: FooterProps) => {
+  return <div class={style.modalFooter}>{props.children}</div>;
+};
+
+const ModalButton = (props: ButtonProps) => {
+  return <Button {...props} />;
+};
+
+export const Modal = {
+  Root,
+  Header,
+  Body,
+  Footer,
+  Button: ModalButton,
+};

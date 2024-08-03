@@ -175,9 +175,7 @@
       "changelog": "Wijzigingenlijst"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Gebruikersnaam & Tag"
-  },
+
   "userContextMenu": {
     "viewProfile": "Profiel bekijken",
     "sendMessage": "Bericht versturen",

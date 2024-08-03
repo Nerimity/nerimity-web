@@ -8,7 +8,7 @@ import useStore from "@/chat-api/store/useStore";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import Modal from "@/components/ui/modal/Modal";
+import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { Markup } from "@/components/Markup";
 
 export function ButtonsEmbed(props: { message: RawMessage }) {
@@ -110,7 +110,7 @@ const ResponseModal = (props: {
     `Response from ${props.message.createdBy.username}`;
 
   return (
-    <Modal
+    <LegacyModal
       ignoreBackgroundClick
       close={props.close}
       title={title}
@@ -120,6 +120,6 @@ const ResponseModal = (props: {
       <div class={style.modalContent}>
         <Markup text={props.payload.content || ""} />
       </div>
-    </Modal>
+    </LegacyModal>
   );
 };

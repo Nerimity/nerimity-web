@@ -16,7 +16,7 @@ import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import Modal from "@/components/ui/modal/Modal";
+import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 
@@ -191,7 +191,7 @@ const ConfirmRemoveFriendRequestModal = (props: {
   };
 
   return (
-    <Modal
+    <LegacyModal
       color="var(--alert-color)"
       close={props.close}
       title="Remove Friend Request"
@@ -216,6 +216,6 @@ const ConfirmRemoveFriendRequestModal = (props: {
         Are you sure you want to remove
         <b> {props.friend?.recipient()?.username}</b>?
       </div>
-    </Modal>
+    </LegacyModal>
   );
 };

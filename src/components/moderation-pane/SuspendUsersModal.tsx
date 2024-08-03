@@ -1,11 +1,14 @@
 import { RawUser } from "@/chat-api/RawData";
-import { ModerationSuspension, suspendUsers } from "@/chat-api/services/ModerationService";
+import {
+  ModerationSuspension,
+  suspendUsers,
+} from "@/chat-api/services/ModerationService";
 import { createEffect, createSignal, For, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import Checkbox, { CheckboxProps } from "../ui/Checkbox";
 import useStore from "@/chat-api/store/useStore";
@@ -13,7 +16,6 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { RadioBox } from "../ui/RadioBox";
 import { createStore } from "solid-js/store";
-
 
 const SuspendUsersContainer = styled("div")`
   min-width: 260px;
@@ -28,13 +30,13 @@ const SuspendUsersContainer = styled("div")`
 `;
 
 const suspendInputStyle = css`
-  width: 120px; 
+  width: 120px;
 `;
 
 interface MinimalUser {
   id: string;
   username: string;
-  tag: string
+  tag: string;
 }
 
 interface Props {
@@ -48,25 +50,33 @@ export default function SuspendUsersModal(props: Props) {
   const [reason, setReason] = createSignal("");
   const [suspendFor, setSuspendFor] = createSignal("7");
   const [password, setPassword] = createSignal("");
-  const [error, setError] = createSignal<{message: string, path?: string} | null>(null);
+  const [error, setError] = createSignal<{
+    message: string;
+    path?: string;
+  } | null>(null);
   const [suspending, setSuspending] = createSignal(false);
 
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
   const [ipBan, setIpBan] = createSignal(false);
   const [deleteRecentMessages, setDeleteRecentMessages] = createSignal(false);
 
-  
-  const [checkedViolation, setCheckedViolation] = createStore([false, false, false, false, false, false]);
+  const [checkedViolation, setCheckedViolation] = createStore([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const checkboxItems: CheckboxProps[] = [
-    {label: "Bypassing Suspensions (Alt)", checked: false},
-    {label: "Being Racist", checked: false},
-    {label: "Threating Harm or Violence", checked: false},
-    {label: "Being Hateful", checked: false},
-    {label: "Sharing NSFW Content", checked: false},
-    {label: "Other", checked: false}
+    { label: "Bypassing Suspensions (Alt)", checked: false },
+    { label: "Being Racist", checked: false },
+    { label: "Threating Harm or Violence", checked: false },
+    { label: "Being Hateful", checked: false },
+    { label: "Sharing NSFW Content", checked: false },
+    { label: "Other", checked: false },
   ];
-
 
   createEffect(() => {
     let round = Math.round(parseInt(suspendFor()));
@@ -75,10 +85,12 @@ export default function SuspendUsersModal(props: Props) {
   });
 
   const compiledReason = () => {
-    const checkedLabels =  checkboxItems.filter((item, i) => {
-      if (i === checkboxItems.length - 1) return false;
-      return checkedViolation[i];
-    }).map(i => i.label);
+    const checkedLabels = checkboxItems
+      .filter((item, i) => {
+        if (i === checkboxItems.length - 1) return false;
+        return checkedViolation[i];
+      })
+      .map((i) => i.label);
     if (checkedViolation[checkboxItems.length - 1] && reason()?.trim()) {
       checkedLabels.push(reason());
     }
@@ -87,20 +99,19 @@ export default function SuspendUsersModal(props: Props) {
     return lf.format(checkedLabels as string[]);
   };
 
-
   const onSuspendClicked = () => {
     if (suspending()) return;
     setSuspending(true);
     setError(null);
-    const userIds = props.users.map(u => u.id);
-    
+    const userIds = props.users.map((u) => u.id);
+
     const intSuspendFor = parseInt(suspendFor());
 
     const preview: ModerationSuspension = {
       expireAt: intSuspendFor ? daysToDate(intSuspendFor) : null,
       suspendedAt: Date.now(),
       reason: compiledReason() || undefined,
-      suspendBy: store.account.user()! as unknown as RawUser
+      suspendBy: store.account.user()! as unknown as RawUser,
     };
 
     suspendUsers({
@@ -109,62 +120,122 @@ export default function SuspendUsersModal(props: Props) {
       days: intSuspendFor,
       reason: compiledReason() || undefined,
       ipBan: ipBan(),
-      deleteRecentMessages: deleteRecentMessages()
+      deleteRecentMessages: deleteRecentMessages(),
     })
       .then(() => {
-        props.done(preview); props.close();
+        props.done(preview);
+        props.close();
       })
-      .catch(err => setError(err))
+      .catch((err) => setError(err))
       .finally(() => setSuspending(false));
   };
 
   const onPreviewClick = () => {
-
-
     const intSuspendFor = parseInt(suspendFor());
     const expireAt = intSuspendFor ? daysToDate(intSuspendFor) : undefined;
     const r = compiledReason() || undefined;
 
-
-    createPortal(close => <ConnectionErrorModal close={close} suspensionPreview={{expire: expireAt, reason: r, by: {username: store.account.user()!.username}}} />);
+    createPortal((close) => (
+      <ConnectionErrorModal
+        close={close}
+        suspensionPreview={{
+          expire: expireAt,
+          reason: r,
+          by: { username: store.account.user()!.username },
+        }}
+      />
+    ));
   };
 
   const ActionButtons = (
-    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px", gap: "4px" }}>
-
+    <FlexRow
+      style={{
+        "justify-content": "flex-end",
+        flex: 1,
+        margin: "5px",
+        gap: "4px",
+      }}
+    >
       <Button onClick={onPreviewClick} margin={0} label="Preview" />
-      <Button onClick={onSuspendClicked} margin={0} label={suspending() ? "Suspending..." : "Suspend"} color="var(--alert-color)" primary />
+      <Button
+        onClick={onSuspendClicked}
+        margin={0}
+        label={suspending() ? "Suspending..." : "Suspend"}
+        color="var(--alert-color)"
+        primary
+      />
     </FlexRow>
   );
 
-
-
   return (
-    <Modal close={props.close} title={`Suspend ${props.users.length} User(s)`} actionButtons={ActionButtons} ignoreBackgroundClick>
+    <LegacyModal
+      close={props.close}
+      title={`Suspend ${props.users.length} User(s)`}
+      actionButtons={ActionButtons}
+      ignoreBackgroundClick
+    >
       <SuspendUsersContainer>
-        <For each={checkboxItems} >{(item, i) => <Checkbox {...item} onChange={v => setCheckedViolation(i(), v)} labelSize={14} />}</For>
+        <For each={checkboxItems}>
+          {(item, i) => (
+            <Checkbox
+              {...item}
+              onChange={(v) => setCheckedViolation(i(), v)}
+              labelSize={14}
+            />
+          )}
+        </For>
         <Show when={checkedViolation[5]}>
           <Input label="Reason" value={reason()} onText={setReason} />
         </Show>
-        <Input class={suspendInputStyle} label="Suspend for" type="number" value={suspendFor()} onText={setSuspendFor} suffix="days" />
-        <Text size={12} opacity={0.7} class={css`margin-top: -4px;`}>0 days will suspend them indefinitely</Text>
+        <Input
+          class={suspendInputStyle}
+          label="Suspend for"
+          type="number"
+          value={suspendFor()}
+          onText={setSuspendFor}
+          suffix="days"
+        />
+        <Text
+          size={12}
+          opacity={0.7}
+          class={css`
+            margin-top: -4px;
+          `}
+        >
+          0 days will suspend them indefinitely
+        </Text>
 
-        <div style={{"margin-top": "6px", "margin-bottom": "2px"}}>
-          <Checkbox labelSize={14} checked={ipBan()} onChange={setIpBan} label="IP ban for a week" />
+        <div style={{ "margin-top": "6px", "margin-bottom": "2px" }}>
+          <Checkbox
+            labelSize={14}
+            checked={ipBan()}
+            onChange={setIpBan}
+            label="IP ban for a week"
+          />
         </div>
-        <div style={{"margin-top": "2px", "margin-bottom": "6px"}}>
-          <Checkbox labelSize={14} checked={deleteRecentMessages()} onChange={setDeleteRecentMessages} label="Delete past 7 days of messages (raids only)" />
+        <div style={{ "margin-top": "2px", "margin-bottom": "6px" }}>
+          <Checkbox
+            labelSize={14}
+            checked={deleteRecentMessages()}
+            onChange={setDeleteRecentMessages}
+            label="Delete past 7 days of messages (raids only)"
+          />
         </div>
 
-
-        <Input label="Confirm Password" type="password" value={password()} onText={setPassword} />
-
+        <Input
+          label="Confirm Password"
+          type="password"
+          value={password()}
+          onText={setPassword}
+        />
 
         <Show when={error()}>
-          <Text color="var(--alert-color)" size={12}>{error()?.message}</Text>
+          <Text color="var(--alert-color)" size={12}>
+            {error()?.message}
+          </Text>
         </Show>
       </SuspendUsersContainer>
-    </Modal>
+    </LegacyModal>
   );
 }
 

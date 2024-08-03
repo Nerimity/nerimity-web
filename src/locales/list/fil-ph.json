@@ -111,7 +111,7 @@
       },
       "channels": {
         "createButton": "Gumawa",
-        "createNewDescription": "Gumawa ng panibagong channel o kategorya" 
+        "createNewDescription": "Gumawa ng panibagong channel o kategorya"
       },
       "channel": {
         "saving": "Nagsa-save...",
@@ -189,9 +189,7 @@
       "connections": "Mga koneksyon"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Username at Tag"
-  },
+
   "userContextMenu": {
     "viewProfile": "Tingnan ang Profile",
     "sendMessage": "Magpadala ng mensahe",

@@ -1,17 +1,20 @@
 import { RawUser } from "@/chat-api/RawData";
-import { ModerationSuspension, editSuspendUsers, suspendUsers } from "@/chat-api/services/ModerationService";
+import {
+  ModerationSuspension,
+  editSuspendUsers,
+  suspendUsers,
+} from "@/chat-api/services/ModerationService";
 import { createEffect, createSignal, For, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
-
 
 const SuspendUsersContainer = styled("div")`
   min-width: 260px;
@@ -26,20 +29,20 @@ const SuspendUsersContainer = styled("div")`
 `;
 
 const suspendInputStyle = css`
-  width: 120px; 
+  width: 120px;
 `;
 
 interface MinimalUser {
   id: string;
   username: string;
-  tag: string
+  tag: string;
 }
 
 interface Props {
   user: MinimalUser;
   close: () => void;
   done: (suspension: ModerationSuspension) => void;
-  suspension: ModerationSuspension; 
+  suspension: ModerationSuspension;
 }
 
 export default function EditUserSuspensionModal(props: Props) {
@@ -47,19 +50,20 @@ export default function EditUserSuspensionModal(props: Props) {
 
   const defaultInput = () => ({
     reason: props.suspension.reason || "",
-    suspendFor: dateToDays(props.suspension.expireAt!).toString() || "0"
+    suspendFor: dateToDays(props.suspension.expireAt!).toString() || "0",
   });
 
-  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
+  const [inputValues, updatedInputValues, setInputValue] =
+    createUpdatedSignal(defaultInput);
 
   const [password, setPassword] = createSignal("");
-  const [error, setError] = createSignal<{message: string, path?: string} | null>(null);
+  const [error, setError] = createSignal<{
+    message: string;
+    path?: string;
+  } | null>(null);
   const [suspending, setSuspending] = createSignal(false);
 
-  const {createPortal} = useCustomPortal();
-
-  
-
+  const { createPortal } = useCustomPortal();
 
   createEffect(() => {
     let round = Math.round(parseInt(inputValues().suspendFor));
@@ -67,70 +71,118 @@ export default function EditUserSuspensionModal(props: Props) {
     setInputValue("suspendFor", round.toString());
   });
 
-
   const onSuspendClicked = () => {
     if (suspending()) return;
     setSuspending(true);
     setError(null);
     const userIds = [props.user.id];
-    
+
     const intSuspendFor = parseInt(inputValues().suspendFor);
 
     const preview: ModerationSuspension = {
       expireAt: intSuspendFor ? daysToDate(intSuspendFor) : null,
       suspendedAt: Date.now(),
       reason: inputValues().reason || undefined,
-      suspendBy: props.suspension.suspendBy
+      suspendBy: props.suspension.suspendBy,
     };
 
     const update = {
-      ...(updatedInputValues().suspendFor ? {days: intSuspendFor}: {}),
-      ...(updatedInputValues().reason ? {reason: updatedInputValues().reason!} : {})
+      ...(updatedInputValues().suspendFor ? { days: intSuspendFor } : {}),
+      ...(updatedInputValues().reason
+        ? { reason: updatedInputValues().reason! }
+        : {}),
     };
 
     editSuspendUsers(password(), userIds, update)
       .then(() => {
-        props.done(preview); props.close();
+        props.done(preview);
+        props.close();
       })
-      .catch(err => setError(err))
+      .catch((err) => setError(err))
       .finally(() => setSuspending(false));
   };
 
   const onPreviewClick = () => {
-
-
     const intSuspendFor = parseInt(inputValues().suspendFor);
     const expireAt = intSuspendFor ? daysToDate(intSuspendFor) : undefined;
     const r = inputValues().reason || undefined;
 
-
-    createPortal(close => <ConnectionErrorModal close={close} suspensionPreview={{expire: expireAt, reason: r, by: {username: props.suspension.suspendBy.username}}} />);
+    createPortal((close) => (
+      <ConnectionErrorModal
+        close={close}
+        suspensionPreview={{
+          expire: expireAt,
+          reason: r,
+          by: { username: props.suspension.suspendBy.username },
+        }}
+      />
+    ));
   };
 
   const ActionButtons = (
-    <FlexRow style={{"justify-content": "flex-end", flex: 1, margin: "5px", gap: "4px" }}>
-
+    <FlexRow
+      style={{
+        "justify-content": "flex-end",
+        flex: 1,
+        margin: "5px",
+        gap: "4px",
+      }}
+    >
       <Button onClick={onPreviewClick} margin={0} label="Preview" />
-      <Button onClick={onSuspendClicked} margin={0} label={suspending() ? "Editing..." : "Edit Suspension"} primary />
+      <Button
+        onClick={onSuspendClicked}
+        margin={0}
+        label={suspending() ? "Editing..." : "Edit Suspension"}
+        primary
+      />
     </FlexRow>
   );
 
-
-
   return (
-    <Modal close={props.close} title={"Edit Suspension"} actionButtons={ActionButtons} ignoreBackgroundClick>
+    <LegacyModal
+      close={props.close}
+      title={"Edit Suspension"}
+      actionButtons={ActionButtons}
+      ignoreBackgroundClick
+    >
       <SuspendUsersContainer>
-        <Input label="Reason" value={inputValues().reason} onText={(t) => setInputValue("reason", t)} />
-        <Input class={suspendInputStyle} label="Suspend for" type="number" value={inputValues().suspendFor} onText={(t) => setInputValue("suspendFor", t)} suffix="days" />
-        <Text size={12} opacity={0.7} class={css`margin-top: -4px;`}>0 days will suspend them indefinitely</Text>
+        <Input
+          label="Reason"
+          value={inputValues().reason}
+          onText={(t) => setInputValue("reason", t)}
+        />
+        <Input
+          class={suspendInputStyle}
+          label="Suspend for"
+          type="number"
+          value={inputValues().suspendFor}
+          onText={(t) => setInputValue("suspendFor", t)}
+          suffix="days"
+        />
+        <Text
+          size={12}
+          opacity={0.7}
+          class={css`
+            margin-top: -4px;
+          `}
+        >
+          0 days will suspend them indefinitely
+        </Text>
 
-        <Input label="Confirm Password" type="password" value={password()} onText={setPassword} />
+        <Input
+          label="Confirm Password"
+          type="password"
+          value={password()}
+          onText={setPassword}
+        />
 
         <Show when={error()}>
-          <Text color="var(--alert-color)" size={12}>{error()?.message}</Text>
+          <Text color="var(--alert-color)" size={12}>
+            {error()?.message}
+          </Text>
         </Show>
       </SuspendUsersContainer>
-    </Modal>
+    </LegacyModal>
   );
 }
 

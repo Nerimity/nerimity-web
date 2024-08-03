@@ -1,5 +1,5 @@
 import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Button from "../ui/Button";
 import { styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
@@ -8,8 +8,13 @@ import useStore from "@/chat-api/store/useStore";
 import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 
 const QualityOptions = ["480p", "720p", "1080p", "Source"] as const;
-const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps", "Source"] as const;
-
+const FramerateOptions = [
+  "1fps 💀",
+  "10fps",
+  "30fps",
+  "60fps",
+  "Source",
+] as const;
 
 const OptionContainer = styled(FlexRow)``;
 
@@ -23,14 +28,19 @@ const OptionTitle = styled(Text)`
 `;
 
 export function ScreenShareModal(props: { close: () => void }) {
-  const {voiceUsers} = useStore();
-  const [selectedQuality, setSelectedQuality] = createSignal<typeof QualityOptions[number]>("480p");
-  const [selectedFramerate, setFramerate] = createSignal<typeof FramerateOptions[number]>("30fps");
+  const { voiceUsers } = useStore();
+  const [selectedQuality, setSelectedQuality] =
+    createSignal<(typeof QualityOptions)[number]>("480p");
+  const [selectedFramerate, setFramerate] =
+    createSignal<(typeof FramerateOptions)[number]>("30fps");
 
   let electronSourceIdRef: any;
 
   const chooseWindowClick = async () => {
-    const constraints = await constructConstraints(selectedQuality(), selectedFramerate());
+    const constraints = await constructConstraints(
+      selectedQuality(),
+      selectedFramerate()
+    );
 
     let stream: MediaStream | void;
 
@@ -40,8 +50,8 @@ export function ScreenShareModal(props: { close: () => void }) {
       stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           mandatory: {
-            chromeMediaSource: "desktop"
-          }
+            chromeMediaSource: "desktop",
+          },
         },
         video: {
           mandatory: {
@@ -51,14 +61,15 @@ export function ScreenShareModal(props: { close: () => void }) {
             minWidth: constraints.video.width,
             maxWidth: constraints.video.width,
             minHeight: constraints.video.height,
-            maxHeight: constraints.video.height
-          }
-        }
+            maxHeight: constraints.video.height,
+          },
+        },
       });
       await stream.getAudioTracks()[0].applyConstraints(constraints.audio);
-    }
-    else {
-      stream = await navigator.mediaDevices.getDisplayMedia(constraints).catch(() => {});
+    } else {
+      stream = await navigator.mediaDevices
+        .getDisplayMedia(constraints)
+        .catch(() => {});
     }
 
     if (!stream) return;
@@ -74,44 +85,61 @@ export function ScreenShareModal(props: { close: () => void }) {
   );
 
   return (
-    <Modal title="Screen Share" close={props.close} actionButtons={ActionButtons}>
-
+    <LegacyModal
+      title="Screen Share"
+      close={props.close}
+      actionButtons={ActionButtons}
+    >
       <OptionTitle>Quality</OptionTitle>
       <OptionContainer>
         <For each={QualityOptions}>
-          {quality => <Button onClick={() => setSelectedQuality(quality)} label={quality} primary={selectedQuality() === quality} />}
+          {(quality) => (
+            <Button
+              onClick={() => setSelectedQuality(quality)}
+              label={quality}
+              primary={selectedQuality() === quality}
+            />
+          )}
         </For>
       </OptionContainer>
 
       <OptionTitle>Framerate</OptionTitle>
       <OptionContainer>
         <For each={FramerateOptions}>
-          {framerate => <Button onClick={() => setFramerate(framerate)} label={framerate} primary={selectedFramerate() === framerate} />}
+          {(framerate) => (
+            <Button
+              onClick={() => setFramerate(framerate)}
+              label={framerate}
+              primary={selectedFramerate() === framerate}
+            />
+          )}
         </For>
       </OptionContainer>
       <Show when={electronWindowAPI()?.isElectron}>
         <ElectronCaptureSourceList ref={electronSourceIdRef} />
       </Show>
-
-    </Modal>
+    </LegacyModal>
   );
 }
 
-const constructConstraints = async (quality: typeof QualityOptions[number], framerate: typeof FramerateOptions[number]) => {
+const constructConstraints = async (
+  quality: (typeof QualityOptions)[number],
+  framerate: (typeof FramerateOptions)[number]
+) => {
   // const supportedConstraints = navigator.mediaDevices?.getSupportedConstraints();
   const constraints = {
     video: {
       height: 0,
       width: 0,
       frameRate: 0,
-      resizeMode: "none"
+      resizeMode: "none",
     },
     audio: {
       autoGainControl: false,
       echoCancellation: false,
       googAutoGainControl: false,
-      noiseSuppression: false
-    }
+      noiseSuppression: false,
+    },
   };
 
   // if (supportedConstraints?.suppressLocalAudioPlayback) {
@@ -127,7 +155,7 @@ const constructConstraints = async (quality: typeof QualityOptions[number], fram
       constraints.video.width = 1280;
       constraints.video.height = 720;
       break;
-    case "1080p": 
+    case "1080p":
       constraints.video.width = 1920;
       constraints.video.height = 1080;
       break;
@@ -185,29 +213,28 @@ const getFPS = () => {
   });
 };
 
-
-
 const SourcesContainer = styled(FlexRow)`
   display: flex;
   flex-wrap: wrap;
   width: 670px;
   overflow: auto;
   height: 40vh;
-
 `;
 
-
-function ElectronCaptureSourceList(props: {ref: any}) {
+function ElectronCaptureSourceList(props: { ref: any }) {
   const [sources, setSources] = createSignal<ElectronCaptureSource[]>([]);
-  const [selectedSourceId, setSelectedSourceId] = createSignal<string | null>(null);
+  const [selectedSourceId, setSelectedSourceId] = createSignal<string | null>(
+    null
+  );
 
   props.ref(() => selectedSourceId());
 
-
   const fetchSources = async () => {
     const sources = await electronWindowAPI()?.getDesktopCaptureSources()!;
-    
-    const selectedExists = sources.find(source => selectedSourceId() === source.id);
+
+    const selectedExists = sources.find(
+      (source) => selectedSourceId() === source.id
+    );
     if (!selectedExists) {
       setSelectedSourceId(null);
     }
@@ -225,25 +252,33 @@ function ElectronCaptureSourceList(props: {ref: any}) {
   return (
     <SourcesContainer>
       <For each={sources()}>
-        {source => <SourceItem source={source} onClick={() => setSelectedSourceId(source.id)} selected={selectedSourceId() === source.id} />}
+        {(source) => (
+          <SourceItem
+            source={source}
+            onClick={() => setSelectedSourceId(source.id)}
+            selected={selectedSourceId() === source.id}
+          />
+        )}
       </For>
     </SourcesContainer>
   );
 }
 
-const SourceItemContainer = styled(FlexColumn)<{selected?: boolean}>`
+const SourceItemContainer = styled(FlexColumn)<{ selected?: boolean }>`
   align-items: center;
   width: 200px;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   margin: 10px;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   user-select: none;
-  ${props => props.selected ? `
+  ${(props) =>
+    props.selected
+      ? `
     background-color: var(--primary-color);
-  ` : undefined}
-
+  `
+      : undefined}
 `;
 const SourceItemImage = styled("img")`
   height: 150px;
@@ -252,16 +287,20 @@ const SourceItemImage = styled("img")`
   object-fit: contain;
 `;
 const SourceText = styled(Text)`
-    word-break: break-word;
-    white-space: pre-line;
-    padding: 5px;
-    flex-shrink: 0;
-    margin-top: auto;
-    margin-bottom: auto;
-    text-align: center;
+  word-break: break-word;
+  white-space: pre-line;
+  padding: 5px;
+  flex-shrink: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
 `;
 
-function SourceItem(props: {source: ElectronCaptureSource, onClick: () => void, selected?: boolean}) {
+function SourceItem(props: {
+  source: ElectronCaptureSource;
+  onClick: () => void;
+  selected?: boolean;
+}) {
   return (
     <SourceItemContainer onClick={props.onClick} selected={props.selected}>
       <SourceItemImage src={props.source.thumbnailUrl} />

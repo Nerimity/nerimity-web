@@ -183,9 +183,7 @@
       "connections": "Bağlantılar"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Kullanıcı Adı & Etiketi"
-  },
+
   "userContextMenu": {
     "viewProfile": "Profili Görüntüle",
     "sendMessage": "Mesaj Gönder",

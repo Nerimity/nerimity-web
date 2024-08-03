@@ -177,9 +177,7 @@
       "privacy": "Confidențialitate"
     }
   },
-  "addFriend": {
-    "usernameAndTag": "Nume de utilizator & Tag"
-  },
+
   "userContextMenu": {
     "viewProfile": "Vezi Profilul",
     "sendMessage": "Trimite mesaj",

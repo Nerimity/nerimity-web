@@ -60,7 +60,7 @@ import useServers from "@/chat-api/store/useServers";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { setLastSelectedServerChannelId } from "@/common/useLastSelectedServerChannel";
-import Modal from "../ui/modal/Modal";
+import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { FlexRow } from "../ui/Flexbox";
 import { Markup } from "../Markup";
 import { getStorageBoolean, StorageKeys } from "@/common/localStorage";
@@ -1691,7 +1691,7 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
     </FlexRow>
   );
   return (
-    <Modal
+    <LegacyModal
       title="Google Drive"
       icon="link"
       actionButtons={actionButtons}
@@ -1703,7 +1703,7 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
         You must link your account to Google Drive to upload large images,
         videos or files.
       </Text>
-    </Modal>
+    </LegacyModal>
   );
 };
 

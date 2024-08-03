@@ -18,7 +18,7 @@ import {
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useParams, useMatch } from "solid-navigator";
 import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
-import Modal from "@/components/ui/modal/Modal";
+import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import AddServer from "./add-server/AddServerModal";
 import { UserStatuses, userStatusDetail } from "../../common/userStatus";
 import { Server } from "../../chat-api/store/useServers";
@@ -788,7 +788,7 @@ function UpdateModal(props: { close: () => void }) {
     </FlexRow>
   );
   return (
-    <Modal
+    <LegacyModal
       title="Update Available"
       actionButtons={ActionButtons}
       close={props.close}
@@ -808,6 +808,6 @@ function UpdateModal(props: { close: () => void }) {
           <Marked value={latestRelease()?.body!} />
         </FlexColumn>
       </FlexColumn>
-    </Modal>
+    </LegacyModal>
   );
 }
