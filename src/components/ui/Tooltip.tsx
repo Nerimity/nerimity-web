@@ -6,7 +6,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames } from "@/common/classNames";
 import { Delay } from "@/common/Delay";
 
-export const Tooltip = (props: { disable?: boolean; children: JSXElement, tooltip: JSXElement, anchor?: "left" | "right", class?: string }) => {
+export const Tooltip = (props: { disable?: boolean; onBeforeShow?: (el: HTMLDivElement) => boolean; children: JSXElement, tooltip: JSXElement, anchor?: "left" | "right", class?: string }) => {
   const {isMobileAgent} = useWindowProperties();
   const {createPortal, closePortalById} = useCustomPortal();
   const id = createUniqueId();
@@ -23,6 +23,10 @@ export const Tooltip = (props: { disable?: boolean; children: JSXElement, toolti
     if (isMobileAgent()) return;
     const target = e.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
+    if (props.onBeforeShow) {
+      const shouldShow = props.onBeforeShow(e.currentTarget as HTMLDivElement);
+      if (!shouldShow) return;
+    }
 
     createPortal(() => <TooltipItem  rect={rect} children={props.tooltip} anchor={props.anchor} />, portalId);
   };
