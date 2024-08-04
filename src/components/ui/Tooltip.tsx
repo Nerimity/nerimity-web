@@ -54,10 +54,17 @@ const TooltipItem = (props: {rect: DOMRect, children: JSXElement, anchor?: "left
     if (!width()) {
       return undefined;
     }
-    let left = (props.rect.left + (props.anchor === "left" ? 0 : props.rect.width));
+    let left = (props.rect.left + (props.anchor === "left" ? -width() - 4  : props.rect.width));
 
-    if (((width() + left) + 10) > window.innerWidth) {
-      left = window.innerWidth - (width() + 20);
+    if (props.anchor === "right") {
+      if (((width() + left) + 10) > window.innerWidth) {
+        left = window.innerWidth - (width() + 20);
+      }
+    }
+    if (props.anchor === "left") {
+      if (left <= 0) {
+        left = 0;
+      }
     }
     
 

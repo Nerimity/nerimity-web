@@ -128,6 +128,7 @@ export default function InboxDrawerFriendItem(props: {
           </Show>
           <Show when={!isBlocked()}>
             <UserPresence
+              tooltipAnchor="right"
               userId={user().id}
               showOffline={false}
               animate={hovered()}

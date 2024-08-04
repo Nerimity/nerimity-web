@@ -13,7 +13,7 @@ import { formatTimestamp } from "@/common/date";
 
 
 // show full will disable overflow eclipses
-const UserPresence = (props: { showFull?: boolean; userId: string, showOffline: boolean, animate?: boolean, hideActivity?: boolean }) => {
+const UserPresence = (props: { tooltipAnchor?: "left" | "right"; showFull?: boolean; userId: string, showOffline: boolean, animate?: boolean, hideActivity?: boolean }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
 
@@ -73,7 +73,7 @@ const UserPresence = (props: { showFull?: boolean; userId: string, showOffline: 
             <Icon name={getActivityIconName(activity()!)} size={14} color={statusDetails().color} />
           </Show>
         </Show>
-        <Tooltip tooltip={<div class={styles.full}>{name()}</div>} onBeforeShow={onBeforeShow} anchor="left" class={styles.value}>
+        <Tooltip tooltip={<div class={styles.full}>{name()}</div>} onBeforeShow={onBeforeShow} anchor={props.tooltipAnchor} class={styles.value}>
           {name()}
         </Tooltip>
       </div>
