@@ -16,7 +16,6 @@ import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 import { Modal } from "@/components/ui/modal";
