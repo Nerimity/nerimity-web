@@ -19,6 +19,7 @@ import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
+import { Modal } from "@/components/ui/modal";
 
 export default function InboxDrawerFriendItem(props: {
   friend?: Friend;
@@ -191,31 +192,26 @@ const ConfirmRemoveFriendRequestModal = (props: {
   };
 
   return (
-    <LegacyModal
-      color="var(--alert-color)"
-      close={props.close}
-      title="Remove Friend Request"
-      actionButtonsArr={[
-        {
-          label: "Don't Remove",
-          onClick: props.close,
-          iconName: "close",
-        },
-        {
-          label: "Remove",
-          color: "var(--alert-color)",
-          onClick: remove,
-          primary: true,
-          iconName: "delete",
-        },
-      ]}
-    >
-      <div
-        style={{ "max-width": "300px", padding: "0 10px", "font-size": "14px" }}
-      >
+    <Modal.Root close={props.close} class={styles.removeFriendRequestModal}>
+      <Modal.Header title="Remove Friend Request" icon="delete" alert />
+      <Modal.Body class={styles.removeFriendRequestBody}>
         Are you sure you want to remove
         <b> {props.friend?.recipient()?.username}</b>?
-      </div>
-    </LegacyModal>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label="Don't Remove"
+          onClick={props.close}
+          iconName="close"
+        />
+        <Modal.Button
+          label="Remove"
+          color="var(--alert-color)"
+          onClick={remove}
+          primary
+          iconName="delete"
+        />
+      </Modal.Footer>
+    </Modal.Root>
   );
 };
