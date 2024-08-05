@@ -375,7 +375,10 @@ const MessageItem = (props: MessageItemProps) => {
         </Match>
         <Match when={!isSystemMessage() && !blockedMessage()}>
           <div class={styles.messageInner}>
-            <MessageReplies message={props.message} />
+            <MessageReplies
+              message={props.message}
+              serverMember={serverMember()}
+            />
             <div class={styles.messageInnerInner}>
               <Show when={!isCompact()}>
                 <A
@@ -1478,7 +1481,10 @@ function WhoReactedModal(props: {
   );
 }
 
-const MessageReplies = (props: { message: Message }) => {
+const MessageReplies = (props: {
+  message: Message;
+  serverMember?: ServerMember;
+}) => {
   const params = useParams<{ serverId?: string }>();
   const store = useStore();
   const replies = () => props.message.replyMessages;
@@ -1559,7 +1565,8 @@ const MessageReplies = (props: { message: Message }) => {
                       color: topRoleColor(replyToMessage!.createdBy.id),
                     }}
                   >
-                    {replyToMessage!.createdBy.username}
+                    {props.serverMember?.nickname ||
+                      replyToMessage!.createdBy.username}
                   </div>
                   <Show when={replyToMessage!.attachments?.length}>
                     <Icon
