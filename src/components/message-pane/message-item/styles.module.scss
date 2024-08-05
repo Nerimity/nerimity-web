@@ -8,45 +8,41 @@
 }
 
 .username {
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .floatOptions {
-  display: flex;
-  align-items: center;
   position: absolute;
-  background-color: rgba(40, 40, 40, 0.86);
-  padding: 2px;
-  border-radius: 8px;
-  backdrop-filter: blur(34px);
+  z-index: 1111111;
   top: -18px;
   right: 10px;
+  display: flex;
   display: none;
-  z-index: 1111111;
+  align-items: center;
+  padding: 2px;
   border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background-color: rgba(40, 40, 40, 0.86);
+  backdrop-filter: blur(34px);
   .floatDate {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
+    padding-right: 5px;
     margin-right: 5px;
     margin-left: 5px;
-    padding-right: 5px;
     border-right: solid 1px rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
   }
   .item {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 20px;
+    padding: 2px;
+    border-radius: 6px;
     opacity: 0.6;
     cursor: pointer;
     transition: 0.2s;
-    border-radius: 6px;
-    padding: 2px;
-    .icon {
-      transition: 0.2s;
-      user-select: none;
-    }
     &:hover {
       opacity: 1;
       background-color: rgb(78, 78, 78);
@@ -54,16 +50,20 @@
         color: var(--primary-color);
       }
     }
+    .icon {
+      user-select: none;
+      transition: 0.2s;
+    }
   }
 }
 
 .systemMessage {
-  overflow: hidden;
   display: flex;
-  gap: 5px;
+  overflow: hidden;
   align-items: center;
-  font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  gap: 5px;
   span {
     word-break: break-word;
     white-space: pre-line;
@@ -74,92 +74,92 @@
     align-items: center;
     justify-content: center;
     width: 40px;
-    padding-left: 6px;
     padding-right: 6px;
+    padding-left: 6px;
   }
   .date {
+    margin-left: 6px;
     color: rgba(255, 255, 255, 0.6);
     font-size: 12px;
-    margin-left: 6px;
   }
 }
 
 .replies {
   display: flex;
-  flex-direction: column;
-  margin-left: 12px;
-  margin-bottom: 8px;
   flex: 1;
+  flex-direction: column;
+  margin-bottom: 8px;
+  margin-left: 12px;
   .replyItem {
     position: relative;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    height: 26px;
-    font-size: 14px;
-    user-select: none;
-    cursor: pointer;
-    transition: 0.2s;
-    padding-left: 32px;
     overflow: hidden;
+    align-items: center;
+    height: 26px;
+    padding-left: 32px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+    font-size: 14px;
+    gap: 8px;
 
     &:hover {
       opacity: 0.6;
     }
     .line {
       position: absolute;
-      width: 2px;
-      background-color: var(--primary-color);
-      left: 13px;
       top: 0;
       bottom: 0;
+      left: 13px;
+      width: 2px;
+      background-color: var(--primary-color);
+      &:not(.first) {
+        &::before {
+          position: absolute;
+          top: 14px;
+          left: 14px;
+          width: 8px;
+          height: 4px;
+          border-radius: 99px;
+          background-color: var(--primary-color);
+          content: "";
+        }
+      }
       &.first {
         top: 14px;
 
         &::before {
-          content: "";
           position: absolute;
+          top: 0;
           width: 28px;
           height: 2px;
-          top: 0;
           background-color: var(--primary-color);
-        }
-      }
-      &:not(.first) {
-        &::before {
           content: "";
-          position: absolute;
-          width: 8px;
-          height: 4px;
-          border-radius: 99px;
-          top: 14px;
-          left: 14px;
-          background-color: var(--primary-color);
         }
       }
     }
     .replyContentContainer {
-      margin-left: 14px;
       display: flex;
-      align-items: center;
-      gap: 4px;
       overflow: hidden;
+      align-items: center;
+      margin-left: 14px;
+      gap: 4px;
 
       .replyUsername {
-        opacity: 0.6;
-        font-weight: bold;
-        max-width: 200px;
-        flex-shrink: 0;
         overflow: hidden;
+        flex-shrink: 0;
+        max-width: 200px;
+        opacity: 0.6;
         text-overflow: ellipsis;
         white-space: nowrap;
+        font-weight: bold;
       }
       .replyContent {
-        opacity: 0.6;
-        pointer-events: none;
         overflow: hidden;
+        opacity: 0.6;
         text-overflow: ellipsis;
         white-space: nowrap;
+        pointer-events: none;
         :global .markup {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -171,31 +171,16 @@
 }
 
 .messageItem {
-  display: flex;
   position: relative;
+  display: flex;
+  align-items: start;
   flex-shrink: 0;
 
   padding: 3px;
-  padding-left: 6px;
   padding-right: 10px;
+  padding-left: 6px;
   margin-top: 10px;
   gap: 5px;
-  align-items: start;
-
-  .blockedMessage {
-    font-size: 14px;
-    opacity: 0.6;
-    padding-left: 56px;
-    cursor: pointer;
-  }
-  .blockedMessage.compact {
-    padding-left: 0;
-  }
-
-  .avatar {
-    margin-left: 6px;
-    margin-right: 6px;
-  }
   &:hover {
     background-color: rgba(255, 255, 255, 0.03);
     .floatOptions {
@@ -205,18 +190,17 @@
   &.mentioned {
     background-color: rgba(255, 149, 149, 0.1);
     &:before {
-      content: "";
-      left: 0;
+      position: absolute;
       top: 5px;
       bottom: 5px;
+      left: 0;
       width: 5px;
-      background-color: var(--alert-color);
       border-radius: 8px;
-      position: absolute;
+      background-color: var(--alert-color);
+      content: "";
     }
   }
   &.someoneMentioned {
-    // rainbow background gradient with 40% opacity
     background: linear-gradient(
       90deg,
       rgba(255, 0, 0, 0.2) 0%,
@@ -227,56 +211,72 @@
       rgba(136, 0, 130, 0.2) 100%
     );
   }
+
+  .blockedMessage {
+    padding-left: 56px;
+    opacity: 0.6;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .blockedMessage.compact {
+    padding-left: 0;
+  }
+
+  .avatar {
+    align-self: flex-start;
+    margin-right: 6px;
+    margin-left: 6px;
+  }
 }
 
 .reactions {
   display: flex;
-  gap: 2px;
   flex-wrap: wrap;
+  gap: 2px;
 }
 body .reactionItem {
   background: transparent;
   background-color: rgba(255, 255, 255, 0.05);
-  .emoji {
-    height: 1.4em;
-    width: 1.4em;
-    border-radius: 4px;
-    margin-right: 3px;
-    object-fit: contain;
-  }
   &.reacted {
     background-color: rgba(255, 255, 255, 0.16);
     &:hover {
       background-color: rgba(255, 255, 255, 0.16);
     }
   }
+  .emoji {
+    width: 1.4em;
+    height: 1.4em;
+    margin-right: 3px;
+    border-radius: 4px;
+    object-fit: contain;
+  }
 }
 
 .whoReactedModal {
   position: absolute;
+  z-index: 11111;
+  top: 10px;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   background-color: rgba(40, 40, 40, 0.86);
   backdrop-filter: blur(34px);
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  z-index: 11111;
-  flex-shrink: 0;
-  border-radius: 8px;
-  top: 10px;
 }
 
 .whoReactedItem {
   display: flex;
   align-items: center;
-  gap: 5px;
   padding: 5px;
   font-size: 12px;
+  gap: 5px;
 }
 .whoReactedPlusCount {
-  font-size: 12px;
-  text-align: center;
   margin-bottom: 5px;
   opacity: 0.6;
+  text-align: center;
+  font-size: 12px;
 }
 
 .messageInner {
@@ -294,10 +294,10 @@ body .reactionItem {
 
 .messageInnerInnerInner {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
   overflow: hidden;
+  flex-direction: column;
   width: 100%;
+  gap: 3px;
 }
 
 .details {
@@ -307,30 +307,30 @@ body .reactionItem {
 }
 
 .details .ownerBadge {
-  font-size: 12px;
   padding: 2px;
-  background-color: var(--primary-color);
   border-radius: 4px;
+  background-color: var(--primary-color);
+  font-size: 12px;
 }
 
 .details .date {
+  flex-shrink: 0;
   color: rgba(255, 255, 255, 0.6);
   font-size: 12px;
-  flex-shrink: 0;
 }
 
 .content {
   overflow: hidden;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
   word-break: break-word;
   white-space: pre-line;
+  font-size: 14px;
 }
 
 .compact {
   padding-top: 3px;
-  margin-top: 0px;
   padding-left: 63px;
+  margin-top: 0px;
 }
 
 .sentStatus {
@@ -343,102 +343,102 @@ body .reactionItem {
 
 .embeds {
   display: flex;
-  flex-direction: column;
   align-items: start;
+  flex-direction: column;
 }
 .htmlEmbedContainer {
-  display: flex;
   position: relative;
+  display: flex;
   overflow: auto;
   align-self: normal;
   max-height: 500px;
 }
 .ogEmbedContainer {
   display: flex;
-  background-color: rgba(255, 255, 255, 0.02);
+  max-width: 500px;
+  padding: 5px;
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.02);
   gap: 5px;
-  max-width: 500px;
-
-  .ogEmbedImageContainer {
-    align-self: flex-start;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    .playButton {
-      position: absolute;
-      padding: 10px;
-      background-color: rgba(0, 0, 0, 0.86);
-      backdrop-filter: blur(34px);
-      border-radius: 6px;
-      z-index: 11;
-    }
-  }
 
   &.largeImage {
     flex-direction: column-reverse;
     .ogEmbedImage {
-      max-width: 200px;
-      max-height: 200px;
-      height: 100%;
       width: 100%;
+      max-width: 200px;
+      height: 100%;
+      max-height: 200px;
+    }
+  }
+
+  .ogEmbedImageContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    justify-content: center;
+    cursor: pointer;
+    .playButton {
+      position: absolute;
+      z-index: 11;
+      padding: 10px;
+      border-radius: 6px;
+      background-color: rgba(0, 0, 0, 0.86);
+      backdrop-filter: blur(34px);
     }
   }
 
   .ogEmbedImage {
-    border-radius: 8px;
-    object-fit: cover;
-    height: 100px;
     width: 100px;
+    height: 100px;
+    border-radius: 8px;
     cursor: pointer;
+    object-fit: cover;
   }
   .ogEmbedTitle {
-    font-weight: bold;
-    font-size: 14px;
-    overflow: hidden;
     display: -webkit-box;
+    overflow: hidden;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
     -webkit-line-clamp: 2; /* number of lines to show */
     line-clamp: 2;
     -webkit-box-orient: vertical;
-    margin-bottom: 5px;
   }
   .ogEmbedDescription {
-    overflow: hidden;
     display: -webkit-box;
+    overflow: hidden;
+    font-size: 12px;
     -webkit-line-clamp: 5; /* number of lines to show */
     line-clamp: 5;
     -webkit-box-orient: vertical;
-    font-size: 12px;
   }
 }
 
 .uploadProgress {
   display: flex;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: solid 1px rgba(255, 255, 255, 0.1);
   padding: 5px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
 
   .name {
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .size {
     opacity: 0.5;
   }
   .progressBarContainer {
-    height: 10px;
-    width: 100%;
-    margin-top: 5px;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 18px;
     overflow: hidden;
+    width: 100%;
+    height: 10px;
+    margin-top: 5px;
+    border-radius: 18px;
+    background-color: rgba(0, 0, 0, 0.6);
     .currentProgress {
       height: 100%;
       background-color: var(--primary-color);
@@ -448,63 +448,63 @@ body .reactionItem {
 
 @keyframes goUp {
   from {
-    transform: translateY(30px);
     opacity: 0;
+    transform: translateY(30px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .serverInviteEmbed {
   display: flex;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  flex-shrink: 0;
+  max-width: 300px;
+  height: 50px;
   padding: 5px;
   padding-left: 10px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
   gap: 6px;
-  flex-shrink: 0;
-  height: 50px;
-  max-width: 300px;
 
   .serverInviteLoading {
-    padding-left: 10px;
-    padding-right: 10px;
     display: flex;
     align-items: center;
+    padding-right: 10px;
+    padding-left: 10px;
     gap: 10px;
   }
 
   .serverInfo {
     display: flex;
+    overflow: hidden;
     flex-direction: column;
     gap: 4px;
-    overflow: hidden;
   }
 
   .serverName {
     display: flex;
+    overflow: hidden;
     align-items: center;
 
     gap: 4px;
-    overflow: hidden;
   }
   .serverNameOnly {
     display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
     overflow: hidden;
     font-size: 14px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
   .serverMemberCount {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    gap: 4px;
   }
 }
 
@@ -518,102 +518,102 @@ body .reactionItem {
   .audioDetails {
     display: flex;
     flex-direction: column;
-    gap: 4px;
     width: 100%;
+    gap: 4px;
   }
   .time {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
     color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
   }
   .progressBar {
-    height: 10px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 9999px;
     overflow: hidden;
+    width: 100%;
+    height: 10px;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.1);
     .progress {
       height: 100%;
-      background-color: var(--primary-color);
       border-radius: 9999px;
+      background-color: var(--primary-color);
     }
   }
 
   .innerAudioEmbed {
     display: flex;
+    overflow: hidden;
     align-items: center;
-    gap: 4px;
     min-width: 200px;
     max-width: 500px;
-    overflow: hidden;
+    gap: 4px;
   }
 }
 .fileEmbed {
   display: flex;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  height: 42px;
-  padding: 5px;
-  gap: 4px;
-  min-width: 200px;
-  max-width: 500px;
 
   overflow: hidden;
+  align-items: center;
+  min-width: 200px;
+  max-width: 500px;
+  height: 42px;
+  padding: 5px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
+  gap: 4px;
 
   .fileEmbedDetails {
     display: flex;
-    flex-direction: column;
-    flex: 1;
     overflow: hidden;
+    flex: 1;
+    flex-direction: column;
   }
   .fileEmbedName {
     display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
     overflow: hidden;
     white-space: pre-line;
     line-break: anywhere;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
   .fileEmbedSize {
-    font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
   }
 }
 
 .youtubeEmbed {
   display: flex;
-  flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
   overflow: hidden;
+  flex-direction: column;
 
   width: min-content;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
   .video {
     position: relative;
-    background-color: black;
-    margin: 5px;
-    height: 100%;
     overflow: hidden;
+    height: 100%;
+    margin: 5px;
     border-radius: 6px;
+    background-color: black;
   }
   .playButtonContainer {
+    position: absolute;
+    z-index: 1111;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    inset: 0;
-    z-index: 1111;
     cursor: pointer;
+    inset: 0;
   }
   .playButton {
     padding: 10px;
+    border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.86);
     backdrop-filter: blur(34px);
-    border-radius: 6px;
   }
 
   .youtubeEmbedDetails {
@@ -621,11 +621,11 @@ body .reactionItem {
     margin-top: 4px;
 
     .title {
-      font-weight: bold;
+      display: -webkit-box;
 
       overflow: hidden;
       text-overflow: ellipsis;
-      display: -webkit-box;
+      font-weight: bold;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
@@ -637,12 +637,12 @@ body .reactionItem {
       }
     }
     .description {
-      opacity: 0.6;
-      font-size: 12px;
+      display: -webkit-box;
 
       overflow: hidden;
+      opacity: 0.6;
       text-overflow: ellipsis;
-      display: -webkit-box;
+      font-size: 12px;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
@@ -651,66 +651,66 @@ body .reactionItem {
 
 .videoEmbed {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.02);
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
 
   min-width: 200px;
   max-width: 500px;
 
   max-height: 500px;
-  overflow: hidden;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
   .videoInfo {
     display: flex;
-    padding: 5px;
-    gap: 4px;
     overflow: hidden;
     align-items: center;
-    height: 42px;
     flex-shrink: 0;
+    height: 42px;
+    padding: 5px;
+    gap: 4px;
 
     .fileEmbedDetails {
       display: flex;
-      flex-direction: column;
-      flex: 1;
       overflow: hidden;
+      flex: 1;
+      flex-direction: column;
     }
     .fileEmbedName {
       display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
       overflow: hidden;
       white-space: pre-line;
       line-break: anywhere;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
     }
     .fileEmbedSize {
-      font-size: 12px;
       color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
     }
   }
   .video {
     position: relative;
-    background-color: black;
+    overflow: hidden;
     margin: 5px;
     margin-top: 0;
-    overflow: hidden;
     border-radius: 6px;
+    background-color: black;
     aspect-ratio: 16 / 9;
   }
   .playButtonContainer {
+    position: absolute;
+    z-index: 1111;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    inset: 0;
-    z-index: 1111;
     cursor: pointer;
+    inset: 0;
   }
   .playButton {
     padding: 10px;
+    border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.86);
     backdrop-filter: blur(34px);
-    border-radius: 6px;
   }
 }
