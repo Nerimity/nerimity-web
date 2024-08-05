@@ -1,7 +1,16 @@
 import env from "@/common/env";
 import { createStore, produce, reconcile } from "solid-js/store";
-import { MessageType, RawMessage, RawMessageReaction, RawUser } from "../RawData";
-import { fetchMessages, postMessage, updateMessage } from "../services/MessageService";
+import {
+  MessageType,
+  RawMessage,
+  RawMessageReaction,
+  RawUser,
+} from "../RawData";
+import {
+  fetchMessages,
+  postMessage,
+  updateMessage,
+} from "../services/MessageService";
 import socketClient from "../socketClient";
 import useAccount from "./useAccount";
 import useChannelProperties from "./useChannelProperties";
@@ -20,10 +29,12 @@ export enum MessageSentStatus {
 export type Message = RawMessage & {
   tempId?: string;
   sentStatus?: MessageSentStatus;
-  uploadingAttachment?: {file: File, progress: number};
-}
+  uploadingAttachment?: { file: File; progress: number };
+};
 
-const [messages, setMessages] = createStore<Record<string, Message[] | undefined>>({});
+const [messages, setMessages] = createStore<
+  Record<string, Message[] | undefined>
+>({});
 const fetchAndStoreMessages = async (channelId: string, force = false) => {
   if (!force && getMessagesByChannelId(channelId)) return;
 
@@ -33,41 +44,56 @@ const fetchAndStoreMessages = async (channelId: string, force = false) => {
 
   const newMessages = await fetchMessages(channelId);
   setMessages({
-    [channelId]: newMessages
+    [channelId]: newMessages,
   });
 };
 
-const loadMoreTopAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: { hasMore: boolean }) => void) => {
+const loadMoreTopAndStoreMessages = async (
+  channelId: string,
+  beforeSet: () => void,
+  afterSet: (data: { hasMore: boolean }) => void
+) => {
   const channelMessages = messages[channelId]!;
-  const newMessages = await fetchMessages(channelId, {beforeMessageId: channelMessages[0].id});
+  const newMessages = await fetchMessages(channelId, {
+    beforeMessageId: channelMessages[0].id,
+  });
   const clamp = sliceEnd([...newMessages, ...channelMessages]);
   const hasMore = newMessages.length === env.MESSAGE_LIMIT;
 
   beforeSet();
   setMessages({
-    [channelId]: clamp
+    [channelId]: clamp,
   });
   afterSet({ hasMore });
 };
 
-const loadMoreBottomAndStoreMessages = async (channelId: string, beforeSet: () => void, afterSet: (data: { hasMore: boolean }) => void) => {
+const loadMoreBottomAndStoreMessages = async (
+  channelId: string,
+  beforeSet: () => void,
+  afterSet: (data: { hasMore: boolean }) => void
+) => {
   const channelMessages = messages[channelId]!;
-  const newMessages = await fetchMessages(channelId, {afterMessageId: channelMessages[channelMessages.length - 1].id});
+  const newMessages = await fetchMessages(channelId, {
+    afterMessageId: channelMessages[channelMessages.length - 1].id,
+  });
   const clamp = sliceBeginning([...channelMessages, ...newMessages]);
   const hasMore = newMessages.length === env.MESSAGE_LIMIT;
 
   beforeSet();
   setMessages({
-    [channelId]: clamp
+    [channelId]: clamp,
   });
   afterSet({ hasMore });
 };
 
-const loadAroundAndStoreMessages = async (channelId: string, aroundMessageId: string) => {
-  const newMessages = await fetchMessages(channelId, {aroundMessageId});
+const loadAroundAndStoreMessages = async (
+  channelId: string,
+  aroundMessageId: string
+) => {
+  const newMessages = await fetchMessages(channelId, { aroundMessageId });
 
   setMessages({
-    [channelId]: newMessages
+    [channelId]: newMessages,
   });
 };
 
@@ -79,33 +105,43 @@ function sliceBeginning(arr: any[]) {
   return arr.slice(-(env.MESSAGE_LIMIT * 2), arr.length);
 }
 
-
-const editAndStoreMessage = async (channelId: string, messageId: string, content: string) => {
+const editAndStoreMessage = async (
+  channelId: string,
+  messageId: string,
+  content: string
+) => {
   const messages = get(channelId) || [];
-  const index = messages.findIndex(m => m.id === messageId);
+  const index = messages.findIndex((m) => m.id === messageId);
   if (index < 0) return;
   if (messages[index].content === content) return;
   setMessages(channelId, index, {
     sentStatus: MessageSentStatus.SENDING,
-    content
+    content,
   });
 
   await updateMessage({
     channelId,
     messageId,
-    content
+    content,
   }).catch(() => {
-    updateLocalMessage({ sentStatus: MessageSentStatus.FAILED }, channelId, messageId);
+    updateLocalMessage(
+      { sentStatus: MessageSentStatus.FAILED },
+      channelId,
+      messageId
+    );
   });
 };
 
-const updateLocalMessage = async (message: Partial<RawMessage & { sentStatus: MessageSentStatus }>, channelId: string, messageId: string) => {
+const updateLocalMessage = async (
+  message: Partial<RawMessage & { sentStatus: MessageSentStatus }>,
+  channelId: string,
+  messageId: string
+) => {
   const messages = get(channelId) || [];
-  const index = messages.findIndex(m => m.id === messageId);
+  const index = messages.findIndex((m) => m.id === messageId);
   if (index < 0) return;
   setMessages(channelId, index, message);
 };
-
 
 const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const channels = useChannels();
@@ -117,7 +153,6 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const user = account.user();
   if (!user) return;
 
-  
   const localMessage: Message = {
     id: "",
     tempId: tempMessageId,
@@ -126,44 +161,61 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     createdAt: Date.now(),
     sentStatus: MessageSentStatus.SENDING,
     type: MessageType.CONTENT,
-    ...(!properties?.attachment ? undefined : {uploadingAttachment: {file: properties.attachment, progress: 0}}),
+    ...(!properties?.attachment
+      ? undefined
+      : { uploadingAttachment: { file: properties.attachment, progress: 0 } }),
     reactions: [],
     quotedMessages: [],
+    replyMessages:
+      properties?.replyToMessages.map((m) => ({
+        replyToMessage: { ...m },
+      })) || [],
     createdBy: {
       id: user.id,
       username: user.username,
       tag: user.tag,
       badges: user.badges,
       hexColor: user.hexColor,
-      avatar: user.avatar
-    }
+      avatar: user.avatar,
+    },
   };
-  
-  !properties?.moreBottomToLoad && setMessages({
-    [channelId]: sliceBeginning([...messages[channelId]!, localMessage])
-  });
-  
-  
+
+  !properties?.moreBottomToLoad &&
+    setMessages({
+      [channelId]: sliceBeginning([...messages[channelId]!, localMessage]),
+    });
+
   const onUploadProgress = (percent: number) => {
-    const messageIndex = messages[channelId]!.findIndex(m => m.tempId === tempMessageId);
+    const messageIndex = messages[channelId]!.findIndex(
+      (m) => m.tempId === tempMessageId
+    );
     if (messageIndex === -1) return;
-    setMessages(channelId, messageIndex, "uploadingAttachment", "progress", percent);
+    setMessages(
+      channelId,
+      messageIndex,
+      "uploadingAttachment",
+      "progress",
+      percent
+    );
   };
 
   const isImage = properties?.attachment?.type?.startsWith("image/");
-  const isMoreThan12MB = properties?.attachment && properties.attachment.size > 12 * 1024 * 1024;
+  const isMoreThan12MB =
+    properties?.attachment && properties.attachment.size > 12 * 1024 * 1024;
   const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
-
 
   const file = properties?.attachment;
   let googleDriveFileId: string | undefined;
   if (file && shouldUploadToGoogleDrive) {
     try {
       const accessToken = await getGoogleAccessToken();
-      const res = await uploadFileGoogleDrive(file, accessToken.accessToken, onUploadProgress);
+      const res = await uploadFileGoogleDrive(
+        file,
+        accessToken.accessToken,
+        onUploadProgress
+      );
       googleDriveFileId = res.id;
-    }
-    catch (err: any) {
+    } catch (err: any) {
       pushMessage(channelId, {
         channelId: channelId,
         createdAt: Date.now(),
@@ -172,25 +224,33 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
           tag: "owo",
           badges: 0,
           hexColor: "0",
-          id: "0"
+          id: "0",
         },
         reactions: [],
         quotedMessages: [],
         id: Math.random().toString(),
         type: MessageType.CONTENT,
-        content: "Failed to upload file to Google Drive. ```Error\n" + err.message + "\nbody: " + content  + "\nFilename: " + file.name + "```"
+        content:
+          "Failed to upload file to Google Drive. ```Error\n" +
+          err.message +
+          "\nbody: " +
+          content +
+          "\nFilename: " +
+          file.name +
+          "```",
       });
-      const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
+      const index = messages[channelId]?.findIndex(
+        (m) => m.tempId === tempMessageId
+      );
       setMessages(channelId, index!, "sentStatus", MessageSentStatus.FAILED);
       return;
     }
   }
 
-  const replyToMessageIds = properties?.replyToMessages?.map(m => m.id) || [];
+  const replyToMessageIds = properties?.replyToMessages?.map((m) => m.id) || [];
   const mentionReplies = properties?.mentionReplies;
 
   channelProperties.removeReplies(channelId);
-
 
   const message: void | Message = await postMessage({
     content,
@@ -199,8 +259,10 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     replyToMessageIds,
     mentionReplies,
     attachment: !shouldUploadToGoogleDrive ? properties?.attachment : undefined,
-    googleDriveAttachment: googleDriveFileId ? {id: googleDriveFileId, mime: file?.type!} : undefined,
-    onUploadProgress
+    googleDriveAttachment: googleDriveFileId
+      ? { id: googleDriveFileId, mime: file?.type! }
+      : undefined,
+    onUploadProgress,
   }).catch((err) => {
     console.log(err);
     pushMessage(channelId, {
@@ -211,54 +273,65 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
         tag: "owo",
         badges: 0,
         hexColor: "0",
-        id: "0"
+        id: "0",
       },
       reactions: [],
       quotedMessages: [],
       id: Math.random().toString(),
       type: MessageType.CONTENT,
-      content: "This message couldn't be sent. Try again later. ```Error\n" + err.message + "\nbody: " + content  + "```"
+      content:
+        "This message couldn't be sent. Try again later. ```Error\n" +
+        err.message +
+        "\nbody: " +
+        content +
+        "```",
     });
   });
-
 
   channel?.updateLastSeen(message?.createdAt! + 1);
   channel?.updateLastMessaged?.(message?.createdAt!);
 
-  const index = messages[channelId]?.findIndex(m => m.tempId === tempMessageId);
+  const index = messages[channelId]?.findIndex(
+    (m) => m.tempId === tempMessageId
+  );
 
   if (!message) {
-    !properties?.moreBottomToLoad && setMessages(channelId, index!, "sentStatus", MessageSentStatus.FAILED);
+    !properties?.moreBottomToLoad &&
+      setMessages(channelId, index!, "sentStatus", MessageSentStatus.FAILED);
     return;
   }
   message.tempId = tempMessageId;
 
-  !properties?.moreBottomToLoad && setMessages(channelId, index!, reconcile(message, { key: "tempId" }));
+  !properties?.moreBottomToLoad &&
+    setMessages(channelId, index!, reconcile(message, { key: "tempId" }));
 };
-
 
 const pushMessage = (channelId: string, message: Message) => {
   if (!messages[channelId]) return;
   const channelProperties = useChannelProperties();
   const properties = channelProperties.get(channelId);
-  !properties?.moreBottomToLoad && setMessages({
-    [channelId]: sliceBeginning([...messages[channelId]!, message])
-  });
+  !properties?.moreBottomToLoad &&
+    setMessages({
+      [channelId]: sliceBeginning([...messages[channelId]!, message]),
+    });
 };
 
 const locallyRemoveMessage = (channelId: string, messageId: string) => {
   const channelMessages = messages[channelId];
   if (!channelMessages) return;
-  const index = channelMessages.findIndex(m => m.id === messageId);
+  const index = channelMessages.findIndex((m) => m.id === messageId);
   if (index === -1) return;
-  setMessages(channelId, produce(messages => messages?.splice(index, 1)));
+  setMessages(
+    channelId,
+    produce((messages) => messages?.splice(index, 1))
+  );
 };
 
 const locallyRemoveServerMessagesBatch = (payload: {
-  userId: string
-  serverId: string
-  fromTime: number,
-  toTime: number,
+  userId: string;
+  serverId: string;
+  fromTime: number;
+  toTime: number;
 }) => {
   const channels = useChannels();
   const channelProperties = useChannelProperties();
@@ -270,58 +343,74 @@ const locallyRemoveServerMessagesBatch = (payload: {
       const channel = serverChannels[i]!;
       const channelMessages = messages[channel.id];
       if (!channelMessages) continue;
-      const filteredMessages = channelMessages.filter(m => {
+      const filteredMessages = channelMessages.filter((m) => {
         if (m.createdBy.id !== payload.userId) return true;
         if (m.createdAt < payload.fromTime) return false;
         if (m.createdAt > payload.toTime) return false;
       });
 
-      setMessages(channel.id, reconcile(filteredMessages));      
+      setMessages(channel.id, reconcile(filteredMessages));
       if (!properties) return;
       channelProperties.setMoreTopToLoad(channel.id, true);
       channelProperties.setMoreBottomToLoad(channel.id, true);
     }
   });
-  
 };
-
 
 const locallyRemoveMessagesBatch = (channelId: string, count: number) => {
   const channelMessages = messages[channelId];
   if (!channelMessages) return;
-  setMessages(channelId, produce(messages => messages?.splice(messages.length - count, count)));
+  setMessages(
+    channelId,
+    produce((messages) => messages?.splice(messages.length - count, count))
+  );
 };
 
-const updateMessageReaction = (channelId: string, messageId: string, reaction: Partial<RawMessageReaction>) => {
+const updateMessageReaction = (
+  channelId: string,
+  messageId: string,
+  reaction: Partial<RawMessageReaction>
+) => {
   const channelMessages = messages[channelId];
   if (!channelMessages) return;
-  const index = channelMessages.findIndex(m => m.id === messageId);
+  const index = channelMessages.findIndex((m) => m.id === messageId);
   if (index === -1) return;
 
   const message = channelMessages[index];
-  const reactionIndex = message.reactions.findIndex(r => {
+  const reactionIndex = message.reactions.findIndex((r) => {
     console.log(r, reaction);
     return r.emojiId === reaction.emojiId && r.name === reaction.name;
   });
 
   if (!reaction.count) {
     if (reactionIndex >= 0)
-      return setMessages(channelId, index, "reactions", produce(arr => arr.splice(reactionIndex, 1)));
+      return setMessages(
+        channelId,
+        index,
+        "reactions",
+        produce((arr) => arr.splice(reactionIndex, 1))
+      );
   }
 
   if (reactionIndex >= 0) {
     return setMessages(channelId, index, "reactions", reactionIndex, reaction);
   }
 
-  setMessages(channelId, index, "reactions", message.reactions.length, reaction);
+  setMessages(
+    channelId,
+    index,
+    "reactions",
+    message.reactions.length,
+    reaction
+  );
 };
 
 const get = (channelId: string) => messages[channelId];
 
-
 const getMessagesByChannelId = (channelId: string) => messages[channelId];
 
-const deleteChannelMessages = (channelId: string) => setMessages(channelId, undefined);
+const deleteChannelMessages = (channelId: string) =>
+  setMessages(channelId, undefined);
 
 export default function useMessages() {
   return {
@@ -338,6 +427,6 @@ export default function useMessages() {
     get,
     updateLocalMessage,
     updateMessageReaction,
-    locallyRemoveServerMessagesBatch
+    locallyRemoveServerMessagesBatch,
   };
 }
