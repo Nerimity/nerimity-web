@@ -61,7 +61,7 @@ import Text from "./ui/Text";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { ImageEmbed, clamp } from "./ui/ImageEmbed";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
@@ -74,6 +74,8 @@ import { Notice } from "./ui/Notice/Notice";
 import env from "@/common/env";
 import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "./ui/RadioBox";
 import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";
+import { Tooltip } from "./ui/Tooltip";
+import { Modal } from "./ui/modal";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -442,6 +444,18 @@ const postActionStyle = css`
     font-size: 14px;
   }
 `;
+const viewsStyle = css`
+  background-color: transparent;
+  border: none;
+  margin-top: 1px;
+  &:focus,
+  &:hover {
+    background-color: transparent;
+  }
+  .icon {
+    margin-top: 1px;
+  }
+`;
 const postUsernameStyle = css`
   white-space: nowrap;
   overflow: hidden;
@@ -611,6 +625,14 @@ const Content = (props: { post: Post; hovered: boolean }) => {
   );
 };
 
+const viewsEnabledAt = new Date();
+viewsEnabledAt.setUTCFullYear(2024);
+viewsEnabledAt.setUTCDate(5);
+viewsEnabledAt.setUTCMonth(7);
+viewsEnabledAt.setUTCHours(9);
+viewsEnabledAt.setUTCMinutes(54);
+const timestampViewsEnabledAt = viewsEnabledAt.getTime();
+
 const Actions = (props: { post: Post; hideDelete?: boolean }) => {
   const navigate = useNavigate();
   const { account } = useStore();
@@ -645,6 +667,10 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
       <EditPostModal close={close} post={props.post} />
     ));
 
+  const showViews = () => {
+    return props.post.createdAt > timestampViewsEnabledAt;
+  };
+
   return (
     <PostActionsContainer gap={4}>
       <Button
@@ -671,6 +697,17 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
         iconName="comment"
         label={props.post._count?.comments.toLocaleString()}
       />
+      <Show when={showViews()}>
+        <Tooltip tooltip="Estimated Views">
+          <Button
+            margin={0}
+            color="rgba(255,255,255,0.6)"
+            class={cn(postActionStyle, viewsStyle)}
+            iconName="visibility"
+            label={props.post.views.toLocaleString()}
+          />
+        </Tooltip>
+      </Show>
       {/* <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" /> */}
       {/* <Button margin={2} class={postActionStyle} iconName="share" /> */}
       <FlexRow style={{ "margin-left": "auto" }} gap={4}>
