@@ -6,7 +6,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames } from "@/common/classNames";
 import { Delay } from "@/common/Delay";
 
-export const Tooltip = (props: { disable?: boolean; children: JSXElement, tooltip: JSXElement, anchor?: "left" | "right", class?: string }) => {
+export const Tooltip = (props: { disable?: boolean; onBeforeShow?: (el: HTMLDivElement) => boolean; children: JSXElement, tooltip: JSXElement, anchor?: "left" | "right", class?: string }) => {
   const {isMobileAgent} = useWindowProperties();
   const {createPortal, closePortalById} = useCustomPortal();
   const id = createUniqueId();
@@ -23,6 +23,10 @@ export const Tooltip = (props: { disable?: boolean; children: JSXElement, toolti
     if (isMobileAgent()) return;
     const target = e.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
+    if (props.onBeforeShow) {
+      const shouldShow = props.onBeforeShow(e.currentTarget as HTMLDivElement);
+      if (!shouldShow) return;
+    }
 
     createPortal(() => <TooltipItem  rect={rect} children={props.tooltip} anchor={props.anchor} />, portalId);
   };
@@ -50,10 +54,17 @@ const TooltipItem = (props: {rect: DOMRect, children: JSXElement, anchor?: "left
     if (!width()) {
       return undefined;
     }
-    let left = (props.rect.left + (props.anchor === "left" ? 0 : props.rect.width));
+    let left = (props.rect.left + (props.anchor === "left" ? -width() - 4  : props.rect.width));
 
-    if (((width() + left) + 10) > window.innerWidth) {
-      left = window.innerWidth - (width() + 20);
+    if (props.anchor === "right") {
+      if (((width() + left) + 10) > window.innerWidth) {
+        left = window.innerWidth - (width() + 20);
+      }
+    }
+    if (props.anchor === "left") {
+      if (left <= 0) {
+        left = 0;
+      }
     }
     
 

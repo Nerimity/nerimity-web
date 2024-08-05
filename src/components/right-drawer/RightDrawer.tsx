@@ -59,7 +59,7 @@ const MemberItem = (props: { member: ServerMember }) => {
         <Avatar resize={96} animate={hovering() || !!isProfileFlyoutOpened()} size={30} user={user()} />
         <div class={styles.memberInfo}>
           <div class={styles.username} style={{ color: props.member.roleColor() }} >{props.member.nickname || user().username}</div>
-          <UserPresence animate={hovering() || !!isProfileFlyoutOpened()} userId={user().id} showOffline={false} />
+          <UserPresence tooltipAnchor="left" animate={hovering() || !!isProfileFlyoutOpened()} userId={user().id} showOffline={false} />
         </div>
       </div>
     </div>

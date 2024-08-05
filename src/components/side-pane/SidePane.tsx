@@ -19,7 +19,6 @@ import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useParams, useMatch } from "solid-navigator";
 import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
-import AddServer from "./add-server/AddServerModal";
 import { UserStatuses, userStatusDetail } from "../../common/userStatus";
 import { Server } from "../../chat-api/store/useServers";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -53,6 +52,7 @@ import { formatMessage } from "../message-pane/MessagePane";
 import { Tooltip } from "../ui/Tooltip";
 import { logout } from "@/common/logout";
 import { isExperimentEnabled, ShowExperiment } from "@/common/experiments";
+import { CreateServerModal } from "./create-server-modal/CreateServerModal";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -66,7 +66,7 @@ export default function SidePane() {
   const { isMobileWidth } = useWindowProperties();
 
   const showAddServerModal = () => {
-    createPortal?.((close) => <AddServer close={close} />);
+    createPortal?.((close) => <CreateServerModal close={close} />);
   };
 
   const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");

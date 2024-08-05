@@ -20,7 +20,7 @@
   border-radius: 12px;
 
   background-color: var(--pane-color);
-  gap: 8px;
+  gap: 12px;
 }
 
 .modalHeader {
@@ -45,6 +45,7 @@
 .modalFooter {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
 }
 
 .mobile {

@@ -296,6 +296,7 @@ export interface RawPost {
   editedAt: number;
   likedBy: { id: string }[]; // if you liked this post, array will not be empty
   _count: { likedBy: number; comments: number };
+  views: number;
 
   poll?: RawPostPoll;
 }

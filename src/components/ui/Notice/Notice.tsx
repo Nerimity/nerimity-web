@@ -8,31 +8,31 @@ const noticeType = {
   warn: {
     color: "var(--warn-color-dark)",
     borderColor: "var(--warn-color)",
-    icon: "warning"
+    icon: "warning",
   },
   error: {
     color: "var(--alert-color-dark)",
     borderColor: "var(--alert-color)",
-    icon: "error"
+    icon: "error",
   },
   info: {
     color: "var(--primary-color-dark)",
     borderColor: "var(--primary-color)",
-    icon: "info"
+    icon: "info",
   },
   success: {
     color: "var(--success-color-dark)",
     borderColor: "var(--success-color)",
-    icon: "check_circle"
-  }
+    icon: "check_circle",
+  },
 };
 
 interface NoticeProps {
   class?: string;
   description: string;
   type: keyof typeof noticeType;
-  children?: JSX.Element
-  style?: JSX.CSSProperties
+  children?: JSX.Element;
+  style?: JSX.CSSProperties;
 }
 
 export function Notice(props: NoticeProps) {
@@ -41,11 +41,14 @@ export function Notice(props: NoticeProps) {
   const style: JSX.CSSProperties = {
     ...props.style,
     background: typeMeta.color,
-    border: `solid 1px ${typeMeta.borderColor}`
   };
 
   return (
     <div class={classNames(styles.noticeContainer, props.class)} style={style}>
+      <div
+        class={styles.noticeLine}
+        style={{ "background-color": typeMeta.borderColor }}
+      ></div>
       <Icon color={typeMeta.borderColor} size={20} name={typeMeta.icon} />
       <div class={styles.noticeDescription}>{props.description}</div>
       {props.children}

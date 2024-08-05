@@ -16,9 +16,9 @@ import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
+import { Modal } from "@/components/ui/modal";
 
 export default function InboxDrawerFriendItem(props: {
   friend?: Friend;
@@ -83,14 +83,14 @@ export default function InboxDrawerFriendItem(props: {
 
   const FriendContainer = styled(ItemContainer)`
     padding-left: 10px;
-    height: 45px;
+    height: 40px;
     margin-left: 3px;
     margin-right: 3px;
 
     .username {
       opacity: ${(props) => (props.selected ? 1 : 0.6)};
       transition: 0.2s;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     &:hover .username {
@@ -117,7 +117,7 @@ export default function InboxDrawerFriendItem(props: {
         onClick={onFriendClick}
       >
         <A href={RouterEndpoints.PROFILE(user().id)} class="link">
-          <Avatar animate={hovered()} user={user()} size={25} />
+          <Avatar animate={hovered()} user={user()} size={28} />
         </A>
         <div class={styles.details}>
           <div class="username">{user().username}</div>
@@ -128,6 +128,7 @@ export default function InboxDrawerFriendItem(props: {
           </Show>
           <Show when={!isBlocked()}>
             <UserPresence
+              tooltipAnchor="right"
               userId={user().id}
               showOffline={false}
               animate={hovered()}
@@ -191,31 +192,26 @@ const ConfirmRemoveFriendRequestModal = (props: {
   };
 
   return (
-    <LegacyModal
-      color="var(--alert-color)"
-      close={props.close}
-      title="Remove Friend Request"
-      actionButtonsArr={[
-        {
-          label: "Don't Remove",
-          onClick: props.close,
-          iconName: "close",
-        },
-        {
-          label: "Remove",
-          color: "var(--alert-color)",
-          onClick: remove,
-          primary: true,
-          iconName: "delete",
-        },
-      ]}
-    >
-      <div
-        style={{ "max-width": "300px", padding: "0 10px", "font-size": "14px" }}
-      >
+    <Modal.Root close={props.close} class={styles.removeFriendRequestModal}>
+      <Modal.Header title="Remove Friend Request" icon="delete" alert />
+      <Modal.Body class={styles.removeFriendRequestBody}>
         Are you sure you want to remove
         <b> {props.friend?.recipient()?.username}</b>?
-      </div>
-    </LegacyModal>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label="Don't Remove"
+          onClick={props.close}
+          iconName="close"
+        />
+        <Modal.Button
+          label="Remove"
+          color="var(--alert-color)"
+          onClick={remove}
+          primary
+          iconName="delete"
+        />
+      </Modal.Footer>
+    </Modal.Root>
   );
 };

@@ -1,27 +1,28 @@
 .notificationCount {
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
   width: 15px;
   height: 15px;
   margin-right: 10px;
   margin-left: 10px;
   border-radius: 50%;
-  background-color: var(--alert-color);
   color: white;
-  flex-shrink: 0;
+  background-color: var(--alert-color);
   font-size: 12px;
 }
 
 .requestButtons {
   display: flex;
   flex-shrink: 0;
-  gap: 3px;
   margin-right: 4px;
+  margin-left: 4px;
+  gap: 3px;
   .button {
-    background-color: transparent;
     padding: 5px;
     margin: 0;
+    background-color: transparent;
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -34,12 +35,21 @@
 }
 
 .details {
-  margin-left: 8px;
-  margin-right: auto;
-  white-space: nowrap;
   overflow: hidden;
+  margin-right: auto;
+  margin-left: 8px;
   text-overflow: ellipsis;
+  white-space: nowrap;
   a {
     pointer-events: none;
+  }
+}
+
+
+.removeFriendRequestModal {
+  width: 300px;
+  user-select: none;
+  .removeFriendRequestBody {
+    font-size: 14px;
   }
 }

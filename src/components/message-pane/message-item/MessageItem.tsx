@@ -282,7 +282,7 @@ const MessageItem = (props: MessageItemProps) => {
     on(
       [
         () => props.message.mentions?.length,
-        () => props.message.quotedMessages.length,
+        () => props.message.quotedMessages?.length,
       ],
       () => {
         setTimeout(() => {
@@ -1479,7 +1479,6 @@ function WhoReactedModal(props: {
 }
 
 const MessageReplies = (props: { message: Message }) => {
-  const params = useParams<{ serverId?: string }>();
   const store = useStore();
   const replies = () => props.message.replyMessages;
   const repliesIds = () => replies().map((r) => r.replyToMessage?.id);
@@ -1526,64 +1525,79 @@ const MessageReplies = (props: { message: Message }) => {
     );
   }
 
-  const topRoleColor = (userId: string) => {
-    if (!params.serverId) return "white";
-    return (
-      store.serverMembers.get(params.serverId!, userId)?.roleColor() || "white"
-    );
-  };
-
   return (
     <Show when={replies()?.length}>
       <div class={styles.replies}>
         <For each={replies()}>
-          {({ replyToMessage }, i) => (
-            <div
-              class={styles.replyItem}
-              onClick={() =>
-                replyToMessage &&
-                emitScrollToMessage({ messageId: replyToMessage.id })
-              }
-            >
-              <div
-                class={classNames(
-                  styles.line,
-                  i() === 0 ? styles.first : undefined
-                )}
-              />
-              <div class={styles.replyContentContainer}>
-                <Show when={replyToMessage}>
-                  <div
-                    class={styles.replyUsername}
-                    style={{
-                      color: topRoleColor(replyToMessage!.createdBy.id),
-                    }}
-                  >
-                    {replyToMessage!.createdBy.username}
-                  </div>
-                  <Show when={replyToMessage!.attachments?.length}>
-                    <Icon
-                      name="image"
-                      color="rgba(255,255,255,0.6)"
-                      size={16}
-                    />
-                  </Show>
-                  <div class={styles.replyContent}>
-                    <Markup
-                      inline
-                      message={replyToMessage!}
-                      text={replyToMessage!.content || ""}
-                    />
-                  </div>
-                </Show>
-                <Show when={!replyToMessage}>
-                  <div class={styles.replyContent}>Message was deleted.</div>
-                </Show>
-              </div>
-            </div>
+          {(reply, i) => (
+            <MessageReplyItem
+              replyToMessage={reply.replyToMessage}
+              index={i()}
+            />
           )}
         </For>
       </div>
     </Show>
+  );
+};
+
+const MessageReplyItem = (props: {
+  replyToMessage?: RawMessage;
+  index: number;
+}) => {
+  const params = useParams<{ serverId?: string }>();
+  const store = useStore();
+
+  const member = () =>
+    store.serverMembers.get(
+      params.serverId!,
+      props.replyToMessage!.createdBy.id
+    );
+
+  const topRoleColor = () => {
+    if (!params.serverId) return "white";
+    return member()?.roleColor() || "white";
+  };
+
+  return (
+    <div
+      class={styles.replyItem}
+      onClick={() =>
+        props.replyToMessage &&
+        emitScrollToMessage({ messageId: props.replyToMessage.id })
+      }
+    >
+      <div
+        class={classNames(
+          styles.line,
+          props.index === 0 ? styles.first : undefined
+        )}
+      />
+      <div class={styles.replyContentContainer}>
+        <Show when={props.replyToMessage}>
+          <div
+            class={styles.replyUsername}
+            style={{
+              color: topRoleColor(),
+            }}
+          >
+            {member()?.nickname || props.replyToMessage!.createdBy.username}
+          </div>
+          <Show when={props.replyToMessage!.attachments?.length}>
+            <Icon name="image" color="rgba(255,255,255,0.6)" size={16} />
+          </Show>
+          <div class={styles.replyContent}>
+            <Markup
+              inline
+              message={props.replyToMessage!}
+              text={props.replyToMessage!.content || ""}
+            />
+          </div>
+        </Show>
+        <Show when={!props.replyToMessage}>
+          <div class={styles.replyContent}>Message was deleted.</div>
+        </Show>
+      </div>
+    </div>
   );
 };

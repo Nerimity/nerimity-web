@@ -36,6 +36,7 @@ export interface ButtonProps {
 const ButtonContainer = styled("button")<{
   padding?: number | number[];
   margin?: number | number[];
+  primary?: boolean;
 }>`
   all: unset;
   display: flex;
@@ -59,12 +60,13 @@ const ButtonContainer = styled("button")<{
   color: white;
   cursor: pointer;
   user-select: none;
-  transition: 0.2s background-color;
+  transition: 0.2s background-color, 0.2s opacity;
   background-color: rgba(255, 255, 255, 0.08);
   border: solid 1px rgba(255, 255, 255, 0.1);
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.15);
+    ${(props) => props.primary ? "opacity: 0.6" : undefined};
   }
   &:focus {
     background-color: rgba(255, 255, 255, 0.15);
@@ -97,6 +99,7 @@ export default function Button(props: ButtonProps) {
       tabindex={props.tabIndex}
       padding={props.padding}
       margin={props.margin}
+      primary={props.primary}
       style={style()}
       class={`${props.class} button`}
       onClick={props.onClick}
