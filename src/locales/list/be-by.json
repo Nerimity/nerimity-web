@@ -1,5 +1,6 @@
 {
   "header": {
+    "logoutButton": "Выйсці",
     "openAppButton": "Адкрыць праграму",
     "loginButton": "Увайсці",
     "joinNowButton": "Далучыцца"
@@ -14,7 +15,7 @@
     "emailOrUsernameAndTag": "Эл. адрас / імя карыстальніка:тэг",
     "password": "Пароль",
     "login": "Увайсці",
-    "createAccountInstead": "Не, стварыць уліковы запіс",
+    "createAccountInstead": "Замест гэтага стварыць уліковы запіс",
     "loggingIn": "Ідзе ўваход...",
     "loginButton": "Увайсці"
   },
@@ -26,7 +27,7 @@
     "confirmPassword": "Пацвярджэнне пароля",
     "registerButton": "Зарэгістравацца",
     "registering": "Ідзе рэгістрацыя...",
-    "loginInstead": "Не, увайсці"
+    "loginInstead": "Замест гэтага увайсці"
   },
   "dashboard": {
     "title": "Панэль кіравання",
@@ -64,7 +65,7 @@
       "filterAll": "Усе",
       "filterVerified": "Правераныя",
       "memberCount": "{{count}} удзельнікаў",
-      "lifetimeBumpCount": "{{count}} падтрымак за ўвесь час",
+      "lifetimeBumpCount": "{{count}} падтрымак(кі) за ўвесь час",
       "visitServerButton": "Наведаць",
       "joinServerButton": "Далучыцца",
       "bumpButton": "Падтрымаць ({{count}})"
@@ -76,7 +77,7 @@
         "general": "Агульныя",
         "roles": "Ролі",
         "channels": "Каналы",
-        "bans": "Баны",
+        "bans": "Блакіроўкі",
         "invites": "Запрашэнні",
         "publishServer": "Апублікаваць сервер",
         "verify": "Пацвердзіць",
@@ -100,7 +101,7 @@
         "saving": "Захоўваем..."
       },
       "roles": {
-        "addNewRole": "Дадаць новую ролю",
+        "addNewRole": "Дадаць ролю",
         "addRoleButton": "Стварыць ролю"
       },
       "role": {
@@ -121,7 +122,7 @@
       },
       "channels": {
         "createButton": "Стварыць",
-        "createNewDescription": "Стварыць новы канал ці катыгорыю"
+        "createNewDescription": "Стварыць новы канал ці катэгорыю"
       },
       "channel": {
         "saving": "Захоўваем...",
@@ -150,7 +151,7 @@
         "bumpServer": "Падтрымаць сервер",
         "bumpServerDescription": "Падтрымайце сервер, каб ён падняўся наверх.",
         "publishServerButton": "Апублікаваць сервер",
-        "unpublishServerButton": "Зрабіць сервер закрытым"
+        "unpublishServerButton": "Зрабіць сервер прыватным"
       }
     },
     "rolePermissions": {
@@ -168,6 +169,8 @@
       "banDescription": "Дазвол на блакіроўку ўдзельнікаў.",
       "mentionEveryone": "Згадваць усіх",
       "mentionEveryoneDescription": "Дазваляе згадванне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу."
+      "nicknameMember": "Змяняць нікнэймы",
+      "nicknameMemberDescription": "Дазваляе карыстальнікам змяняць іх нікнэйм на серверы."
     },
     "channelPermissions": {
       "privateChannel": "Прыватны канал",
@@ -186,13 +189,14 @@
       "language": "Мова",
       "notifications": "Апавяшчэнні",
       "logout": "Выйсці",
-      "developer": "Распрацоўшчык",
+      "developer": "Для распрацоўшчыкаў",
       "applications": "Боты",
       "experiments": "Эксперыменты",
       "supportMe": "Падтрымаць мяне",
       "viewSource": "Праглядзець код",
       "changelog": "Спіс змен",
       "window-settings": "Налады акна",
+      "call-settings": "Налады выклікаў",
       "activity-status": "Статус",
       "tickets": "Білеты",
       "privacy": "Прыватнасць",
@@ -205,6 +209,13 @@
         "anyone": "Усе",
         "friendsAndServersOnly": "Толькі сябры і удзельнікі агульных са мной сервероў",
         "friendsOnly": "Толькі сябры"
+       },
+      "profileOptions": {
+        "title": "Налады профілю",
+        "hideFollowers": "Схаваць падпісчыкаў",
+        "hideFollowersDescription": "Схаваць падпісчыкаў з вашага профілю.",
+        "hideFollowing": "Схаваць падпіскі",
+        "hideFollowingDescription": "Схаваць карыстальнікаў, на якіх вы падпісаны, з вашага профілю."
       },
       "friendRequest": {
         "title": "Запыты сяброўства",
@@ -212,6 +223,10 @@
         "anyone": "Усе",
         "serversOnly": "Толькі ўдзельнікі агульных са мной сервероў",
         "nobody": "Ніхто"
+      },
+      "lastOnline": {
+        "description": "Задайце, хто можа бачыць, калі вы былі ў сетцы апошні раз.",
+        "title": "Апошні раз у сетцы"
       }
     }
   },
@@ -223,6 +238,7 @@
     "editRoles": "Рэдагаваць ролі",
     "kick": "Выгнаць",
     "ban": "Заблакіраваць"
+    "changeNickname": "Змяніць нікнэйм"
   },
   "kickServerMemberModal": {
     "title": "Выгнаць {{username}}",
@@ -259,7 +275,7 @@
     "mutualServers": "Агульныя серверы ({{count}})",
     "postsTab": "Публікацыі",
     "followersTab": "Падпісчыкі",
-    "followingTab": "Падпісаны на",
+    "followingTab": "Падпіскі",
     "postsAndRepliesTab": "Публікацыі й адказы ({{count}})",
     "likedPostsTab": "Упадабаныя публікацыі ({{count}})"
   },
@@ -282,7 +298,7 @@
   },
   "informationDrawer": {
     "title": "Інфармацыя",
-    "channelNotice": "Апіснне канала",
+    "channelNotice": "Папярэджанне канала",
     "attachments": "Далучаныя файлы",
     "attachmentsBack": "Назад",
     "members": "Удзельнікі"
