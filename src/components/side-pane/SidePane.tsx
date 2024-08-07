@@ -477,6 +477,15 @@ export function FloatingUserModal(props: {
   const onDocClick = (event: any) => {
     if (pos.x !== event.x || pos.y !== event.y) return;
 
+    let portals = openedPortals().length;
+    if (isMobileWidth()) {
+      portals--;
+    }
+
+    if (portals) {
+      return;
+    }
+
     const clickedInside =
       event.target.closest(".floatingUserModalContainer") ||
       event.target.closest(".sidePaneUser");
