@@ -1202,6 +1202,11 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
   const cleanAttributes = (item: HtmlEmbedItem) => {
     if (!item.attributes) return undefined;
     const attributes = { ...item.attributes };
+    if (attributes.href) {
+      if (!attributes.href.startsWith("http://") && !attributes.href.startsWith("https://")) {
+        attributes.href = "#NiceTry";
+      }
+    }
     if (attributes.style) {
       attributes.style = replaceImageUrl(attributes.style, hasFocus());
     }
