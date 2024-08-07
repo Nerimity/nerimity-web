@@ -1,34 +1,20 @@
 import {
   PostNotificationType,
-  RawPost,
   RawPostChoice,
   RawPostNotification,
-  RawPostPoll,
-  RawUser,
 } from "@/chat-api/RawData";
 import {
-  createPost,
-  getCommentPosts,
   getLikesPosts,
-  getPost,
   getPostNotifications,
-  getPosts,
-  getPostsLiked,
   LikedPost,
-  likePost,
-  postVotePoll,
-  unlikePost,
 } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
-import { User, avatarUrl } from "@/chat-api/store/useUsers";
 import { formatTimestamp, timeSince } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A, useNavigate, useParams, useSearchParams } from "solid-navigator";
+import { A, useSearchParams } from "solid-navigator";
 import {
   createEffect,
-  createMemo,
-  createRenderEffect,
   createSignal,
   For,
   Index,
@@ -41,12 +27,7 @@ import {
   Show,
   Switch,
 } from "solid-js";
-import {
-  SetStoreFunction,
-  StoreSetter,
-  createStore,
-  reconcile,
-} from "solid-js/store";
+import { SetStoreFunction, createStore, reconcile } from "solid-js/store";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import Avatar from "./ui/Avatar";
@@ -59,10 +40,8 @@ import Input from "./ui/input/Input";
 import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import Text from "./ui/Text";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
-import { ImageEmbed, clamp } from "./ui/ImageEmbed";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { classNames, cn, conditionalClass } from "@/common/classNames";
-import { useResizeObserver } from "@/common/useResizeObserver";
+import { classNames } from "@/common/classNames";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
@@ -71,11 +50,8 @@ import { Trans } from "@mbarzda/solid-i18next";
 import ItemContainer from "./ui/Item";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
-import env from "@/common/env";
-import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "./ui/RadioBox";
 import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";
-import { Tooltip } from "./ui/Tooltip";
-import { Modal } from "./ui/modal";
+import { PostItem } from "./post-area/PostItem";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -417,569 +393,6 @@ const PostOuterContainer = styled(FlexColumn)`
     background: rgba(255, 255, 255, 0.07);
   }
 `;
-
-const PostContainer = styled(FlexRow)`
-  align-items: start;
-  padding-left: 2px;
-`;
-
-const PostDetailsContainer = styled(FlexRow)`
-  align-items: center;
-`;
-
-const PostActionsContainer = styled(FlexRow)`
-  align-items: stretch;
-`;
-
-const postActionStyle = css`
-  margin: 0;
-  background-color: rgba(255, 255, 255, 0.05);
-
-  min-width: 17px;
-  padding: 5px;
-  .label {
-    font-size: 14px;
-  }
-  .icon {
-    font-size: 14px;
-  }
-`;
-const viewsStyle = css`
-  background-color: transparent;
-  border: none;
-  margin-top: 1px;
-  &:focus,
-  &:hover {
-    background-color: transparent;
-  }
-  .icon {
-    margin-top: 1px;
-  }
-`;
-const postUsernameStyle = css`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const editIconStyles = css`
-  margin-left: 3px;
-  vertical-align: -2px;
-  color: rgba(255, 255, 255, 0.4);
-`;
-
-const ReplyingToContainer = styled("div")`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const PostInnerContainer = styled(FlexColumn)`
-  width: 100%;
-  overflow: hidden;
-  margin-left: 6px;
-`;
-
-export function PostItem(props: {
-  showFullDate?: boolean;
-  disableClick?: boolean;
-  hideDelete?: boolean;
-  class?: string;
-  onClick?: (id: Post) => void;
-  post: Post;
-}) {
-  const { posts } = useStore();
-  const [searchParams, setSearchParams] = useSearchParams<{ postId: string }>();
-  const [hovered, setHovered] = createSignal(false);
-
-  const replyingTo = createMemo(() => {
-    if (!props.post.commentToId) return;
-    return posts.cachedPost(props.post.commentToId);
-  });
-
-  let startClickPos = { x: 0, y: 0 };
-  let textSelected = false;
-
-  const onMouseDown = (event: any) => {
-    startClickPos = {
-      x: event.clientX,
-      y: event.clientY,
-    };
-    textSelected = !!window.getSelection()?.toString();
-  };
-
-  const onClick = (event: any) => {
-    if (props.disableClick) return;
-    if (props.post.deleted) return;
-    if (event.target.closest(".button")) return;
-    if (event.target.closest(".imageEmbedContainer")) return;
-    if (event.target.closest(".pollEmbedContainer")) return;
-    if (event.target.closest(".spoiler")) return;
-    if (event.target.closest("a")) return;
-    if (
-      startClickPos.x !== event.clientX &&
-      startClickPos.y !== event.clientY
-    ) {
-      return;
-    }
-    if (textSelected) return;
-    setSearchParams({ postId: props.post.id });
-  };
-
-  return (
-    <PostOuterContainer
-      gap={10}
-      style={{ cursor: props.disableClick ? "initial" : "pointer" }}
-      class={props.class}
-      tabIndex="0"
-      onMouseDown={onMouseDown}
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <Show when={props.post.deleted}>
-        <Text>{t("posts.postWasDeleted")}</Text>
-      </Show>
-      <Show when={props.post.block}>
-        <Text>This user has blocked you.</Text>
-      </Show>
-      <Show when={!props.post.deleted && !props.post.block}>
-        <Show when={replyingTo()}>
-          <ReplyTo user={replyingTo()!.createdBy} />
-        </Show>
-        <PostContainer gap={6}>
-          <A
-            onClick={(e) => e.stopPropagation()}
-            href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
-          >
-            <Avatar
-              resize={96}
-              animate={hovered()}
-              user={props.post.createdBy}
-              size={40}
-            />
-          </A>
-          <PostInnerContainer gap={3}>
-            <Details
-              hovered={hovered()}
-              showFullDate={props.showFullDate}
-              post={props.post}
-            />
-            <Content post={props.post} hovered={hovered()} />
-
-            <Actions hideDelete={props.hideDelete} post={props.post} />
-          </PostInnerContainer>
-        </PostContainer>
-      </Show>
-    </PostOuterContainer>
-  );
-}
-
-const Details = (props: {
-  showFullDate?: boolean;
-  hovered: boolean;
-  post: Post;
-}) => (
-  <PostDetailsContainer gap={6}>
-    <CustomLink
-      class={postUsernameStyle}
-      style={{ color: "white" }}
-      onClick={(e) => e.stopPropagation()}
-      decoration
-      href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
-    >
-      {props.post.createdBy?.username}
-    </CustomLink>
-    <Text
-      style={{ "flex-shrink": 0 }}
-      title={formatTimestamp(props.post.createdAt)}
-      size={12}
-      color="rgba(255,255,255,0.5)"
-    >
-      {(props.showFullDate ? formatTimestamp : timeSince)(props.post.createdAt)}
-    </Text>
-  </PostDetailsContainer>
-);
-
-const ContentContainer = styled("div")`
-  overflow: hidden;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  word-break: break-word;
-  white-space: pre-line;
-`;
-const Content = (props: { post: Post; hovered: boolean }) => {
-  return (
-    <ContentContainer>
-      <Markup text={props.post.content || ""} />
-      <Show when={props.post.editedAt}>
-        <Icon
-          name="edit"
-          class={editIconStyles}
-          size={14}
-          title={`Edited at ${formatTimestamp(props.post.editedAt)}`}
-        />
-      </Show>
-      <Embeds post={props.post} hovered={props.hovered} />
-    </ContentContainer>
-  );
-};
-
-const viewsEnabledAt = new Date();
-viewsEnabledAt.setUTCFullYear(2024);
-viewsEnabledAt.setUTCDate(5);
-viewsEnabledAt.setUTCMonth(7);
-viewsEnabledAt.setUTCHours(9);
-viewsEnabledAt.setUTCMinutes(54);
-const timestampViewsEnabledAt = viewsEnabledAt.getTime();
-
-const Actions = (props: { post: Post; hideDelete?: boolean }) => {
-  const navigate = useNavigate();
-  const { account } = useStore();
-  const [requestSent, setRequestSent] = createSignal(false);
-  const { createPortal } = useCustomPortal();
-  const [searchParams, setSearchParams] = useSearchParams<{ postId: string }>();
-
-  const onCommentClick = () => setSearchParams({ postId: props.post.id });
-
-  const isLikedByMe = () => props.post?.likedBy?.length;
-  const likedIcon = () => (isLikedByMe() ? "favorite" : "favorite_border");
-
-  const onLikeClick = async () => {
-    if (requestSent()) return;
-    setRequestSent(true);
-    if (isLikedByMe()) {
-      await props.post.unlike();
-      setRequestSent(false);
-      return;
-    }
-    await props.post.like();
-    setRequestSent(false);
-  };
-
-  const onDeleteClick = () =>
-    createPortal?.((close) => (
-      <DeletePostModal close={close} post={props.post} />
-    ));
-
-  const onEditClicked = () =>
-    createPortal?.((close) => (
-      <EditPostModal close={close} post={props.post} />
-    ));
-
-  const showViews = () => {
-    return props.post.createdAt > timestampViewsEnabledAt;
-  };
-
-  return (
-    <PostActionsContainer gap={4}>
-      <Button
-        margin={0}
-        onClick={onLikeClick}
-        class={postActionStyle}
-        color="var(--alert-color)"
-        primary={!!isLikedByMe()}
-        iconClass={
-          !isLikedByMe()
-            ? css`
-                -webkit-text-fill-color: transparent;
-                -webkit-text-stroke: 1px;
-              `
-            : undefined
-        }
-        iconName={likedIcon()}
-        label={props.post._count?.likedBy.toLocaleString()}
-      />
-      <Button
-        margin={0}
-        onClick={onCommentClick}
-        class={postActionStyle}
-        iconName="comment"
-        label={props.post._count?.comments.toLocaleString()}
-      />
-      <Show when={showViews()}>
-        <Tooltip tooltip="Estimated Views">
-          <Button
-            margin={0}
-            color="rgba(255,255,255,0.6)"
-            class={cn(postActionStyle, viewsStyle)}
-            iconName="visibility"
-            label={props.post.views.toLocaleString()}
-          />
-        </Tooltip>
-      </Show>
-      {/* <Button margin={2} class={postActionStyle} iconName="format_quote" label="0" /> */}
-      {/* <Button margin={2} class={postActionStyle} iconName="share" /> */}
-      <FlexRow style={{ "margin-left": "auto" }} gap={4}>
-        <Show when={account.hasModeratorPerm()}>
-          <Button
-            onClick={() =>
-              navigate("/app/moderation?search-post-id=" + props.post.id)
-            }
-            margin={0}
-            class={postActionStyle}
-            iconName="security"
-          />
-        </Show>
-        <Show
-          when={
-            props.post.createdBy?.id === account.user()?.id && !props.hideDelete
-          }
-        >
-          <Button
-            onClick={onEditClicked}
-            margin={0}
-            class={postActionStyle}
-            iconName="edit"
-          />
-          <Button
-            onClick={onDeleteClick}
-            margin={0}
-            class={postActionStyle}
-            color="var(--alert-color)"
-            iconName="delete"
-          />
-        </Show>
-      </FlexRow>
-    </PostActionsContainer>
-  );
-};
-
-const ReplyTo = (props: { user: RawUser }) => {
-  return (
-    <ReplyingToContainer>
-      <Text size={14} style={{ "margin-right": "5px" }}>
-        Replying to
-      </Text>
-      <CustomLink
-        decoration
-        style={{ "font-size": "14px" }}
-        href={RouterEndpoints.PROFILE(props.user?.id!)}
-      >
-        {props.user?.username}
-      </CustomLink>
-    </ReplyingToContainer>
-  );
-};
-
-const embedStyles = css`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-`;
-
-function Embeds(props: { post: Post; hovered: boolean }) {
-  let element: HTMLDivElement | undefined;
-  const { width } = useResizeObserver(
-    () => element?.parentElement?.parentElement?.parentElement
-  );
-
-  return (
-    <div ref={element} class={classNames("embeds", embedStyles)}>
-      <Show when={props.post.attachments?.[0]}>
-        <ImageEmbed
-          attachment={props.post.attachments?.[0]!}
-          widthOffset={-50}
-          customHeight={1120}
-          customWidth={width()}
-        />
-      </Show>
-
-      <Show when={props.post.poll}>
-        <PollEmbed poll={props.post.poll!} post={props.post} />
-      </Show>
-    </div>
-  );
-}
-
-const PollContainer = styled(FlexColumn)`
-  border-radius: 6px;
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  padding: 4px;
-  align-self: stretch;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  gap: 4px;
-`;
-
-const notAllowedStyle = css`
-  pointer-events: none;
-`;
-
-const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
-  const votedChoiceId = () => props.poll.votedUsers[0]?.pollChoiceId;
-
-  const [selectedChoiceId, setSelectedChoiceId] = createSignal<string | null>(
-    null
-  );
-
-  createEffect(() => {
-    setSelectedChoiceId(votedChoiceId() || null);
-  });
-
-  const onVoteClick = async () => {
-    await props.post.votePoll(selectedChoiceId()!);
-  };
-
-  return (
-    <PollContainer class="pollEmbedContainer">
-      <FlexColumn
-        gap={4}
-        class={conditionalClass(votedChoiceId(), notAllowedStyle)}
-      >
-        <For each={props.poll.choices}>
-          {(choice) => (
-            <PollChoice
-              post={props.post}
-              votedChoiceId={votedChoiceId()}
-              poll={props.poll}
-              choice={choice}
-              selectedId={selectedChoiceId()}
-              setSelected={setSelectedChoiceId}
-            />
-          )}
-        </For>
-      </FlexColumn>
-
-      <FlexRow
-        gap={6}
-        class={css`
-          align-self: end;
-        `}
-        itemsCenter
-      >
-        <span
-          class={css`
-            padding: 4px;
-          `}
-        >
-          <Text size={12}>{props.poll._count.votedUsers}</Text>
-          <Text size={12} opacity={0.6}>
-            {" "}
-            votes
-          </Text>
-        </span>
-        <Show when={selectedChoiceId() && !votedChoiceId()}>
-          <Button
-            onClick={onVoteClick}
-            class={css`
-              margin-left: auto;
-              margin-top: 2px;
-            `}
-            primary
-            label="Vote"
-            iconName="done"
-            padding={4}
-            margin={0}
-            iconSize={16}
-          />
-        </Show>
-      </FlexRow>
-    </PollContainer>
-  );
-};
-
-const PollChoiceContainer = styled(FlexRow)`
-  gap: 6px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 4px;
-
-  .label {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-  }
-  &.selected {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  z-index: 1111;
-`;
-
-const radioBoxStyles = css`
-  width: 100%;
-  border-radius: 4px;
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.06);
-  }
-  &.selected {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-`;
-
-const ProgressbarContainer = styled.div`
-  height: 100%;
-  background-color: var(--primary-color);
-  opacity: 0.2;
-  position: absolute;
-  border-radius: 4px;
-  z-index: -1;
-`;
-
-const PollChoice = (props: {
-  post: Post;
-  votedChoiceId?: string;
-  choice: RawPostChoice;
-  poll: RawPostPoll;
-  selectedId: string | null;
-  setSelected: (id: string | null) => void;
-}) => {
-  const store = useStore();
-
-  // (100 * vote) / totalVotes
-  const votes = () =>
-    Math.round(
-      (100 * props.choice._count.votedUsers) / props.poll._count.votedUsers || 0
-    );
-
-  const showResults = () => {
-    if (props.votedChoiceId) return true;
-    if (store.account.user()?.id === props.post.createdBy.id) return true;
-
-    return false;
-  };
-
-  return (
-    <PollChoiceContainer
-      class={conditionalClass(
-        props.votedChoiceId === props.choice.id,
-        "selected"
-      )}
-      onClick={() =>
-        props.setSelected(
-          props.choice.id === props.selectedId ? null : props.choice.id
-        )
-      }
-      itemsCenter
-    >
-      <RadioBoxItem
-        checkboxSize={8}
-        class={conditionalClass(!props.votedChoiceId, radioBoxStyles)}
-        item={{ id: "0", label: props.choice.content }}
-        labelSize={14}
-        selected={props.selectedId === props.choice.id}
-      />
-
-      <Show when={showResults()}>
-        <Text
-          opacity={0.8}
-          size={12}
-          class={css`
-            position: absolute;
-            right: 4px;
-            flex-shrink: 0;
-          `}
-        >
-          {votes()}%
-        </Text>
-      </Show>
-      <Show when={showResults()}>
-        <ProgressbarContainer style={{ width: `${votes()}%` }} />
-      </Show>
-    </PollChoiceContainer>
-  );
-};
 
 const LikedUserContainer = styled(FlexRow)`
   align-items: center;
@@ -1553,7 +966,7 @@ const deletePostModalStyles = css`
   overflow: auto;
 `;
 
-function DeletePostModal(props: { post: Post; close: () => void }) {
+export function DeletePostModal(props: { post: Post; close: () => void }) {
   const onDeleteClick = () => {
     props.close();
     props.post.delete();
@@ -1602,7 +1015,7 @@ const editPostModalStyles = css`
   overflow: hidden;
 `;
 
-function EditPostModal(props: { post: Post; close: () => void }) {
+export function EditPostModal(props: { post: Post; close: () => void }) {
   const [content, setContent] = createSignal(props.post.content || "");
 
   const onEditClick = () => {

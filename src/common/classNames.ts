@@ -1,4 +1,4 @@
-export function classNames(...args: Array<string | undefined>): string {
+export function classNames(...args: Array<string | undefined | false>): string {
   return args.filter(Boolean).join(" ");
 }
 

@@ -1,0 +1,192 @@
+.postContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  gap: 10px;
+  scroll-margin-top: 50px;
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+  }
+  &.disableClick {
+    cursor: initial;
+  }
+}
+
+.postInnerContainer {
+  display: flex;
+  align-items: start;
+  padding-left: 2px;
+  gap: 6px;
+}
+
+.postInnerInnerContainer {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 6px;
+  gap: 3px;
+}
+
+.postDetailsContainer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  .postUsernameStyle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.postContentContainer {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.8);
+  word-break: break-word;
+  white-space: pre-line;
+  font-size: 14px;
+  .editIconStyles {
+    margin-left: 3px;
+    color: rgba(255, 255, 255, 0.4);
+    vertical-align: -2px;
+  }
+}
+
+.postActionsContainer {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+
+  .postButtonStyle {
+    min-width: 17px;
+    padding: 5px;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+    .notLiked {
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1px;
+    }
+    .label {
+      font-size: 14px;
+    }
+    .icon {
+      font-size: 14px;
+    }
+  }
+  .viewsStyle {
+    margin-top: 1px;
+    border: none;
+    background-color: transparent;
+    &:focus,
+    &:hover {
+      background-color: transparent;
+    }
+    .icon {
+      margin-top: 1px;
+    }
+  }
+
+  .rightActions {
+    display: flex;
+    margin-left: auto;
+    gap: 4px;
+  }
+}
+
+.replyToContainer {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.embedContainer {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+}
+
+.pollEmbedContainer {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  padding: 4px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  gap: 4px;
+
+  .pollChoicesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    .notAllowed {
+      pointer-events: none;
+    }
+  }
+  .footer {
+    display: flex;
+    align-items: center;
+    align-self: end;
+    gap: 6px;
+  }
+  .votes {
+    padding: 4px;
+  }
+  .voteButton {
+    margin-top: 2px;
+    margin-left: auto;
+  }
+}
+
+.pollChoiceContainer {
+  position: relative;
+  z-index: 1111;
+  display: flex;
+  overflow: hidden;
+  border-radius: 4px;
+  gap: 6px;
+  &.selected {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .label {
+    display: -webkit-box;
+    overflow: hidden;
+    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .radioBoxItem {
+    width: 100%;
+    border-radius: 4px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+    &.selected {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+  .percentText {
+    position: absolute;
+    right: 4px;
+    flex-shrink: 0;
+  }
+  .progressBarContainer {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    border-radius: 4px;
+    opacity: 0.2;
+    background-color: var(--primary-color);
+  }
+}

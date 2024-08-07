@@ -34,7 +34,6 @@ import { CustomLink } from "../ui/CustomLink";
 import Avatar from "../ui/Avatar";
 import UserPresence from "../user-presence/UserPresence";
 import { Markup } from "../Markup";
-import { PostItem } from "../PostsArea";
 import { bannerUrl } from "@/chat-api/store/useUsers";
 import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu";
 import { electronWindowAPI } from "@/common/Electron";
@@ -49,6 +48,7 @@ import { ActivityStatus } from "@/chat-api/RawData";
 import { css } from "solid-styled-components";
 import { Emoji } from "../ui/Emoji";
 import { t } from "i18next";
+import { PostItem } from "../post-area/PostItem";
 
 interface Props {
   dmPane?: boolean;
