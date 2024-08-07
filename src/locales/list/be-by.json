@@ -168,7 +168,7 @@
       "ban": "Блакіраваць",
       "banDescription": "Дазвол на блакіроўку ўдзельнікаў.",
       "mentionEveryone": "Згадваць усіх",
-      "mentionEveryoneDescription": "Дазваляе згадванне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу."
+      "mentionEveryoneDescription": "Дазваляе згадванне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу.",
       "nicknameMember": "Змяняць нікнэймы",
       "nicknameMemberDescription": "Дазваляе карыстальнікам змяняць іх нікнэйм на серверы."
     },
@@ -209,7 +209,7 @@
         "anyone": "Усе",
         "friendsAndServersOnly": "Толькі сябры і удзельнікі агульных са мной сервероў",
         "friendsOnly": "Толькі сябры"
-       },
+      },
       "profileOptions": {
         "title": "Налады профілю",
         "hideFollowers": "Схаваць падпісчыкаў",
@@ -237,7 +237,7 @@
     "copyId": "Скапіяваць ID",
     "editRoles": "Рэдагаваць ролі",
     "kick": "Выгнаць",
-    "ban": "Заблакіраваць"
+    "ban": "Заблакіраваць",
     "changeNickname": "Змяніць нікнэйм"
   },
   "kickServerMemberModal": {
