@@ -1204,7 +1204,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
     const attributes = { ...item.attributes };
     if (attributes.href) {
       if (!attributes.href.startsWith("http://") && !attributes.href.startsWith("https://")) {
-        attributes.href = "#NiceTry";
+        attributes.href = "#";
       }
     }
     if (attributes.style) {
