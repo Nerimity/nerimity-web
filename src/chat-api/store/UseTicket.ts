@@ -35,10 +35,6 @@ const fetchUpdated = () => {
   updateTicketNotification();
 };
 
-setTimeout(() => {
-  fetchUpdated();
-});
-
 window.setInterval(() => {
   fetchUpdated();
 }, 10 * 60 * 1000); // 10 minutes
@@ -49,5 +45,6 @@ export default function useTicket() {
     hasModerationTicketNotification,
     updateTicketNotification,
     hasTicketNotification,
+    fetchUpdated,
   };
 }

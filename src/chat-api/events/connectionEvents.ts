@@ -111,6 +111,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     mentions,
     serverRoles,
     voiceUsers,
+    tickets,
   } = useStore();
   console.log("[WS] Authenticated.");
 
@@ -134,6 +135,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       lastAuthenticatedAt: Date.now(),
     });
     users.set(payload.user);
+    tickets.fetchUpdated();
 
     for (let i = 0; i < payload.serverRoles.length; i++) {
       const role = payload.serverRoles[i];
