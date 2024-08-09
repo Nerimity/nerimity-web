@@ -20,7 +20,6 @@ export default function App() {
   });
 
   onMount(() => {
-    document.title = "Nerimity";
     setLanguage();
   });
 

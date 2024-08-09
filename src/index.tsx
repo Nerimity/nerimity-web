@@ -22,6 +22,7 @@ import {
   StorageKeys,
 } from "./common/localStorage";
 import useAccount from "./chat-api/store/useAccount";
+import { MetaProvider, Title } from "@solidjs/meta";
 
 updateTheme();
 
@@ -131,7 +132,12 @@ const useMobileInterface = () => {
   const { isMobileAgent, isSafari } = useWindowProperties();
 
   if (isSafari) {
-    document.getElementById("viewport")?.setAttribute("content", "width=device-width, initial-scale=1,  interactive-widget=resizes-content, maximum-scale=1")
+    document
+      .getElementById("viewport")
+      ?.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1,  interactive-widget=resizes-content, maximum-scale=1"
+      );
   }
   if (!isMobileAgent()) {
     const styleEl = document.createElement("style");
@@ -187,36 +193,83 @@ render(() => {
   const account = useAccount();
 
   return (
-    <Router root={Root}>
-      <Route
-        path="/app"
-        component={AppPage}
-        components={{ leftDrawer: InboxDrawer, mainPane: DashboardPane }}
-      >
+    <MetaProvider>
+      <Title>Nerimity</Title>
+      <Router root={Root}>
         <Route
-          path="/inbox/:channelId"
-          components={{ mainPane: ChannelPane, rightDrawer: RightDrawer }}
-        />
-
-        <Route
-          path="/servers/:serverId/"
-          components={{ leftDrawer: ServerDrawer, rightDrawer: RightDrawer }}
+          path="/app"
+          component={AppPage}
+          components={{ leftDrawer: InboxDrawer, mainPane: DashboardPane }}
         >
           <Route
-            path="/welcome"
-            components={{ mainPane: ServerCustomizePane }}
+            path="/inbox/:channelId"
+            components={{ mainPane: ChannelPane, rightDrawer: RightDrawer }}
           />
-          <Route path="/:channelId" components={{ mainPane: ChannelPane }} />
 
-          {/* Server Settings */}
+          <Route
+            path="/servers/:serverId/"
+            components={{ leftDrawer: ServerDrawer, rightDrawer: RightDrawer }}
+          >
+            <Route
+              path="/welcome"
+              components={{ mainPane: ServerCustomizePane }}
+            />
+            <Route path="/:channelId" components={{ mainPane: ChannelPane }} />
+
+            {/* Server Settings */}
+            <Route
+              path="/settings"
+              components={{
+                leftDrawer: ServerSettingsDrawer,
+                mainPane: ServerSettingsPane,
+              }}
+            >
+              <For each={serverSettings}>
+                {(setting) => (
+                  <Route
+                    path={setting.routePath}
+                    components={{ settingsPane: setting.element }}
+                  />
+                )}
+              </For>
+            </Route>
+            <Route path="/*" components={{ settingsPane: undefined }} />
+          </Route>
+
+          <Route
+            path="/profile/:userId/:tab?"
+            components={{
+              mainPane: ProfilePane,
+              leftDrawer: undefined,
+              rightDrawer: undefined,
+            }}
+          />
+
+          <Route
+            path="/explore"
+            components={{ mainPane: ExplorePane, leftDrawer: ExploreDrawer }}
+          >
+            <For each={exploreRoutes}>
+              {(paths) => (
+                <Route
+                  path={paths.routePath}
+                  components={{ explorePane: paths.element }}
+                />
+              )}
+            </For>
+            <Route
+              path="/servers/invites/:inviteId"
+              components={{ mainPane: ExploreServerPane }}
+            />
+            <Route path="/*" components={{ explorePane: undefined }} />
+          </Route>
+
+          {/* User Settings */}
           <Route
             path="/settings"
-            components={{
-              leftDrawer: ServerSettingsDrawer,
-              mainPane: ServerSettingsPane,
-            }}
+            components={{ leftDrawer: SettingsDrawer, mainPane: SettingsPane }}
           >
-            <For each={serverSettings}>
+            <For each={settings}>
               {(setting) => (
                 <Route
                   path={setting.routePath}
@@ -224,97 +277,62 @@ render(() => {
                 />
               )}
             </For>
+            <Route path="/*" components={{ settingsPane: undefined }} />
           </Route>
-          <Route path="/*" components={{ settingsPane: undefined }} />
-        </Route>
 
-        <Route
-          path="/profile/:userId/:tab?"
-          components={{
-            mainPane: ProfilePane,
-            leftDrawer: undefined,
-            rightDrawer: undefined,
-          }}
-        />
-
-        <Route
-          path="/explore"
-          components={{ mainPane: ExplorePane, leftDrawer: ExploreDrawer }}
-        >
-          <For each={exploreRoutes}>
-            {(paths) => (
-              <Route
-                path={paths.routePath}
-                components={{ explorePane: paths.element }}
-              />
-            )}
-          </For>
-          <Route
-            path="/servers/invites/:inviteId"
-            components={{ mainPane: ExploreServerPane }}
-          />
-          <Route path="/*" components={{ explorePane: undefined }} />
-        </Route>
-
-        {/* User Settings */}
-        <Route
-          path="/settings"
-          components={{ leftDrawer: SettingsDrawer, mainPane: SettingsPane }}
-        >
-          <For each={settings}>
-            {(setting) => (
-              <Route
-                path={setting.routePath}
-                components={{ settingsPane: setting.element }}
-              />
-            )}
-          </For>
-          <Route path="/*" components={{ settingsPane: undefined }} />
-        </Route>
-
-        <Show when={account.hasModeratorPerm()}>
-          <Route
-            path="/moderation"
-            components={{ mainPane: ModerationPane, leftDrawer: InboxDrawer }}
-          >
+          <Show when={account.hasModeratorPerm()}>
             <Route
-              path="/servers/:serverId"
-              components={{ moderationPane: ModerationServerPage }}
-            />
-            <Route
-              path="/users/:userId"
-              components={{ moderationPane: ModerationUserPage }}
-            />
-            <Route path="/tickets" components={{ moderationPane: TicketsPage }}>
-              <Route path="/:id" components={{ moderationPane: TicketPage }} />
+              path="/moderation"
+              components={{ mainPane: ModerationPane, leftDrawer: InboxDrawer }}
+            >
+              <Route
+                path="/servers/:serverId"
+                components={{ moderationPane: ModerationServerPage }}
+              />
+              <Route
+                path="/users/:userId"
+                components={{ moderationPane: ModerationUserPage }}
+              />
+              <Route
+                path="/tickets"
+                components={{ moderationPane: TicketsPage }}
+              >
+                <Route
+                  path="/:id"
+                  components={{ moderationPane: TicketPage }}
+                />
+              </Route>
+              <Route path="/*" components={{ moderationPane: undefined }} />
             </Route>
-            <Route path="/*" components={{ moderationPane: undefined }} />
-          </Route>
-        </Show>
+          </Show>
 
+          <Route
+            path="/*"
+            components={{
+              mainPane: DashboardPane,
+              RightDrawer: undefined,
+              leftDrawer: InboxDrawer,
+            }}
+          />
+        </Route>
+
+        <Route path="/" component={HomePage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/privacy" component={PrivacyPage} />
         <Route
-          path="/*"
-          components={{
-            mainPane: DashboardPane,
-            RightDrawer: undefined,
-            leftDrawer: InboxDrawer,
-          }}
+          path="/terms-and-conditions"
+          component={TermsAndConditionsPage}
         />
-      </Route>
+        <Route path="/google-redirect" component={GoogleRedirectLinkAccount} />
+        <Route path="/i/:inviteId" component={InviteRedirect} />
+        <Route path="/p/:postId" component={PostRedirect} />
+        <Route path="/bot/:appId" component={InviteServerBotPage} />
+        <Route path="/reset-password" component={ResetPasswordPage} />
 
-      <Route path="/" component={HomePage} />
-      <Route path="/register" component={RegisterPage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/privacy" component={PrivacyPage} />
-      <Route path="/terms-and-conditions" component={TermsAndConditionsPage} />
-      <Route path="/google-redirect" component={GoogleRedirectLinkAccount} />
-      <Route path="/i/:inviteId" component={InviteRedirect} />
-      <Route path="/p/:postId" component={PostRedirect} />
-      <Route path="/bot/:appId" component={InviteServerBotPage} />
-      <Route path="/reset-password" component={ResetPasswordPage} />
-
-      <Route path="/*" component={NoMatch} />
-    </Router>
+        <Route path="/*" component={NoMatch} />
+      </Router>
+    </MetaProvider>
   );
 }, document.getElementById("root") as HTMLElement);
 

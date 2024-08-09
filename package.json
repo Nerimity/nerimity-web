@@ -41,6 +41,7 @@
     "@nerimity/solid-turnstile": "^1.1.0",
     "@solid-primitives/context": "^0.2.3",
     "@solid-primitives/keyed": "^1.2.2",
+    "@solidjs/meta": "^0.29.4",
     "@thaunknown/simple-peer": "^10.0.10",
     "autoprefixer": "^10.4.19",
     "croppie": "^2.6.5",

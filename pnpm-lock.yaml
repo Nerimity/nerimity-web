@@ -35,6 +35,9 @@ importers:
       '@solid-primitives/keyed':
         specifier: ^1.2.2
         version: 1.2.2(solid-js@1.8.18)
+      '@solidjs/meta':
+        specifier: ^0.29.4
+        version: 0.29.4(solid-js@1.8.18)
       '@thaunknown/simple-peer':
         specifier: ^10.0.10
         version: 10.0.10
@@ -611,6 +614,11 @@ packages:
     resolution: {integrity: sha512-oBziY40JK4XmJ57XGkFl8j0GtEarSu0hhjdkUQgqL/U0QQE3TZrRo9uhgH7I6VGJKBKG7SAraTPE6S5lVLM1ow==}
     peerDependencies:
       solid-js: ^1.6.12
+
+  '@solidjs/meta@0.29.4':
+    resolution: {integrity: sha512-zdIWBGpR9zGx1p1bzIPqF5Gs+Ks/BH8R6fWhmUa/dcK1L2rUC8BAcZJzNRYBQv74kScf1TSOs0EY//Vd/I0V8g==}
+    peerDependencies:
+      solid-js: '>=1.8.4'
 
   '@thaunknown/simple-peer@10.0.10':
     resolution: {integrity: sha512-RtoYQChP5clkbh+crUhv0LD/fdzgNO/Ah/SBdcSqla6xY6GK50ukNhq39H4vzAKoYqvDu01Hc+JSD9DxCdoBOw==}
@@ -2113,6 +2121,10 @@ snapshots:
       solid-js: 1.8.18
 
   '@solid-primitives/keyed@1.2.2(solid-js@1.8.18)':
+    dependencies:
+      solid-js: 1.8.18
+
+  '@solidjs/meta@0.29.4(solid-js@1.8.18)':
     dependencies:
       solid-js: 1.8.18
 

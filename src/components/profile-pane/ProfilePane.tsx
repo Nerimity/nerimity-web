@@ -60,6 +60,7 @@ import {
   getActivityIconName,
 } from "@/components/activity/Activity";
 import { CreateTicketModal } from "../CreateTicketModal";
+import { MetaTitle } from "@/common/MetaTitle";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -154,135 +155,142 @@ export default function ProfilePane() {
   };
 
   return (
-    <Show when={user()}>
-      <div class={styles.profilePane}>
-        <div
-          class={classNames(
-            styles.topArea,
-            css`
-              background: linear-gradient(
-                180deg,
-                ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
-                ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
-              );
-              &:after {
+    <>
+      <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
+      <Show when={user()}>
+        <div class={styles.profilePane}>
+          <div
+            class={classNames(
+              styles.topArea,
+              css`
                 background: linear-gradient(
                   180deg,
                   ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
                   ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
                 );
-              }
-            `
-          )}
-        >
-          <Banner
-            maxHeight={250}
-            animate
-            margin={0}
-            hexColor={user()?.hexColor}
-            url={bannerUrl(user()!)}
-            class={css`
-              z-index: 111;
-            `}
-          />
-          <FlexColumn class={styles.topAreaContent}>
-            <FlexRow>
-              <Avatar
-                class={classNames(
-                  styles.avatar,
-                  css`
-                    margin-top: -${width() <= 500 ? "50" : "52"}px;
-                  `
-                )}
-                animate={animateAvatar()}
-                user={user()!}
-                size={width() <= 500 ? 92 : 110}
-              />
-              <Show when={!isMe() && !isMobileWidth()}>
-                <ActionButtons
-                  class={css`
-                    background-color: rgba(0, 0, 0, 0.4);
-                    border-radius: 10px;
-                    padding: 4px;
-                    margin-right: 6px;
-                    margin-top: 8px;
-                  `}
-                  updateUserDetails={() => fetchUserDetails(params.userId)}
-                  userDetails={userDetails()}
-                  user={user()}
-                />
-              </Show>
-            </FlexRow>
-
-            <div class={styles.informationContainer}>
-              <div class={styles.details}>
-                <div class={styles.usernameTag}>
-                  <span class={styles.username}>{user()!.username}</span>
-                  <span class={styles.tag}>{`:${user()!.tag}`}</span>
-                </div>
-                <UserPresence
-                  showFull
-                  hideActivity
-                  animate
-                  userId={user()!.id}
-                  showOffline={true}
-                />
-                <Show when={userDetails()}>
-                  <Badges user={userDetails()!} />
-                </Show>
-                <div class={styles.followingAndFollowersContainer}>
-                  <Show when={isMe() || !userDetails()?.hideFollowing}>
-                    <CustomLink
-                      href={RouterEndpoints.PROFILE(user()!.id + "/following")}
-                    >
-                      {userDetails()?.user._count.following.toLocaleString()}{" "}
-                      <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                        Following
-                      </span>
-                    </CustomLink>
-                  </Show>
-                  <Show when={isMe() || !userDetails()?.hideFollowers}>
-                    <CustomLink
-                      href={RouterEndpoints.PROFILE(user()!.id + "/followers")}
-                    >
-                      {userDetails()?.user._count.followers.toLocaleString()}{" "}
-                      <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                        Followers
-                      </span>
-                    </CustomLink>
-                  </Show>
-                </div>
-              </div>
-
-              <Show when={userDetails()?.profile?.bio}>
-                <BioContainer
-                  primaryColor={colors()?.primary}
-                  userDetails={userDetails()!}
-                />
-              </Show>
-            </div>
-          </FlexColumn>
-        </div>
-        <Show when={!isMe() && isMobileWidth()}>
-          <div
-            style={{
-              "align-self": "center",
-              margin: "4px",
-              "margin-top": "8px",
-            }}
+                &:after {
+                  background: linear-gradient(
+                    180deg,
+                    ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
+                    ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
+                  );
+                }
+              `
+            )}
           >
-            <ActionButtons
-              updateUserDetails={() => fetchUserDetails(params.userId)}
-              userDetails={userDetails()}
-              user={user()}
+            <Banner
+              maxHeight={250}
+              animate
+              margin={0}
+              hexColor={user()?.hexColor}
+              url={bannerUrl(user()!)}
+              class={css`
+                z-index: 111;
+              `}
             />
+            <FlexColumn class={styles.topAreaContent}>
+              <FlexRow>
+                <Avatar
+                  class={classNames(
+                    styles.avatar,
+                    css`
+                      margin-top: -${width() <= 500 ? "50" : "52"}px;
+                    `
+                  )}
+                  animate={animateAvatar()}
+                  user={user()!}
+                  size={width() <= 500 ? 92 : 110}
+                />
+                <Show when={!isMe() && !isMobileWidth()}>
+                  <ActionButtons
+                    class={css`
+                      background-color: rgba(0, 0, 0, 0.4);
+                      border-radius: 10px;
+                      padding: 4px;
+                      margin-right: 6px;
+                      margin-top: 8px;
+                    `}
+                    updateUserDetails={() => fetchUserDetails(params.userId)}
+                    userDetails={userDetails()}
+                    user={user()}
+                  />
+                </Show>
+              </FlexRow>
+
+              <div class={styles.informationContainer}>
+                <div class={styles.details}>
+                  <div class={styles.usernameTag}>
+                    <span class={styles.username}>{user()!.username}</span>
+                    <span class={styles.tag}>{`:${user()!.tag}`}</span>
+                  </div>
+                  <UserPresence
+                    showFull
+                    hideActivity
+                    animate
+                    userId={user()!.id}
+                    showOffline={true}
+                  />
+                  <Show when={userDetails()}>
+                    <Badges user={userDetails()!} />
+                  </Show>
+                  <div class={styles.followingAndFollowersContainer}>
+                    <Show when={isMe() || !userDetails()?.hideFollowing}>
+                      <CustomLink
+                        href={RouterEndpoints.PROFILE(
+                          user()!.id + "/following"
+                        )}
+                      >
+                        {userDetails()?.user._count.following.toLocaleString()}{" "}
+                        <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                          Following
+                        </span>
+                      </CustomLink>
+                    </Show>
+                    <Show when={isMe() || !userDetails()?.hideFollowers}>
+                      <CustomLink
+                        href={RouterEndpoints.PROFILE(
+                          user()!.id + "/followers"
+                        )}
+                      >
+                        {userDetails()?.user._count.followers.toLocaleString()}{" "}
+                        <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                          Followers
+                        </span>
+                      </CustomLink>
+                    </Show>
+                  </div>
+                </div>
+
+                <Show when={userDetails()?.profile?.bio}>
+                  <BioContainer
+                    primaryColor={colors()?.primary}
+                    userDetails={userDetails()!}
+                  />
+                </Show>
+              </div>
+            </FlexColumn>
           </div>
-        </Show>
-        <Show when={userDetails()}>
-          <Content user={userDetails()!} />
-        </Show>
-      </div>
-    </Show>
+          <Show when={!isMe() && isMobileWidth()}>
+            <div
+              style={{
+                "align-self": "center",
+                margin: "4px",
+                "margin-top": "8px",
+              }}
+            >
+              <ActionButtons
+                updateUserDetails={() => fetchUserDetails(params.userId)}
+                userDetails={userDetails()}
+                user={user()}
+              />
+            </div>
+          </Show>
+          <Show when={userDetails()}>
+            <Content user={userDetails()!} />
+          </Show>
+        </div>
+      </Show>
+    </>
   );
 }
 

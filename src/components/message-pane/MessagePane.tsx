@@ -73,6 +73,7 @@ import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkup
 import { prettyBytes } from "@/common/prettyBytes";
 import Checkbox from "../ui/Checkbox";
 import { ChannelIcon } from "../ChannelIcon";
+import { MetaTitle } from "@/common/MetaTitle";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -82,7 +83,7 @@ const PhotoEditor = lazy(() => import("../ui/photo-editor/PhotoEditor"));
 export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
   const params = useParams<{ channelId: string; serverId?: string }>();
-  const { channels, header, serverMembers, account } = useStore();
+  const { channels, header, serverMembers, account, servers } = useStore();
   const [textAreaEl, setTextAreaEl] = createSignal<
     undefined | HTMLTextAreaElement
   >(undefined);
@@ -127,8 +128,14 @@ export default function MessagePane() {
     return member.hasPermission(ROLE_PERMISSIONS.SEND_MESSAGE);
   };
 
+  const server = () => servers.get(channel()?.serverId!);
+
   return (
     <div class={styles.messagePane}>
+      <MetaTitle>
+        {channel()?.name || channel()?.recipient()?.username}
+        {params.serverId ? ` (${server()?.name})` : ""}
+      </MetaTitle>
       <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
 
       <Show when={isServerAndEmailNotConfirmed()}>

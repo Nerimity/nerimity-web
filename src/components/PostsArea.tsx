@@ -52,6 +52,7 @@ import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
 import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";
 import { PostItem } from "./post-area/PostItem";
+import { MetaTitle } from "@/common/MetaTitle";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -876,6 +877,11 @@ export function ViewPostModal(props: { close(): void }) {
         height: calc(100% - 20px);
       `}
     >
+      <MetaTitle>
+        {!post() || post()?.deleted
+          ? "Post"
+          : `${post()?.createdBy.username}: ${post()?.content}`}
+      </MetaTitle>
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
           <FlexColumn gap={6}>
