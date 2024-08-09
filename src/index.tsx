@@ -330,13 +330,18 @@ render(() => {
         <Route path="/bot/:appId" component={InviteServerBotPage} />
         <Route path="/reset-password" component={ResetPasswordPage} />
 
-        <Route path="/*" component={NoMatch} />
+        <Route path="/404" component={NotFound} />
+        <Route path="/*" component={AllOther} />
       </Router>
     </MetaProvider>
   );
 }, document.getElementById("root") as HTMLElement);
 
-function NoMatch() {
+function AllOther() {
+  location.href = "/404";
+  return <></>;
+}
+function NotFound() {
   return (
     <div>
       <h2>Nothing to see here!</h2>
