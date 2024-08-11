@@ -1203,7 +1203,10 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
     if (!item.attributes) return undefined;
     const attributes = { ...item.attributes };
     if (attributes.href) {
-      if (!attributes.href.startsWith("http://") && !attributes.href.startsWith("https://")) {
+      if (
+        !attributes.href.startsWith("http://") &&
+        !attributes.href.startsWith("https://")
+      ) {
         attributes.href = "#";
       }
     }

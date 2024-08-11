@@ -25,7 +25,7 @@ import useAccount from "./chat-api/store/useAccount";
 import { MetaProvider, Title } from "@solidjs/meta";
 
 updateTheme();
-
+fixSafariMobileContextMenu();
 // check valid deviceIds Exist
 navigator?.mediaDevices?.enumerateDevices?.()?.then((devices) => {
   const currentInputDevice = getStorageString(
@@ -364,4 +364,47 @@ function PostRedirect() {
   const params = useParams();
 
   return <Navigate href={`/app?postId=${params.postId!}`} />;
+}
+
+function fixSafariMobileContextMenu() {
+  const { isSafari, isMobileAgent } = useWindowProperties();
+  if (!isSafari || !isMobileAgent()) return;
+
+  let timer: number;
+
+  let isTouchDown = false;
+  let startX = 0;
+  let startY = 0;
+  let diffX = 0;
+  let diffY = 0;
+  document.addEventListener(
+    "touchstart",
+    (event) => {
+      startX = event.touches[0]?.clientX || 0;
+      startY = event.touches[0]?.clientY || 0;
+      timer = window.setTimeout(function () {
+        if (diffX >= 10 || diffY >= 10) return;
+        if (event.target instanceof HTMLElement) {
+          isTouchDown = true;
+          const e = new MouseEvent("contextmenu", { bubbles: true });
+          event.target?.dispatchEvent(e);
+        }
+      }, 500);
+    },
+    false
+  );
+
+  document.addEventListener("touchmove", (event) => {
+    diffX = Math.abs(startX - (event.touches[0]?.clientX || 0));
+    diffY = Math.abs(startY - (event.touches[0]?.clientY || 0));
+  });
+
+  document.addEventListener("touchend", (event) => {
+    if (isTouchDown) {
+      isTouchDown = false;
+      event.preventDefault();
+    }
+
+    window.clearTimeout(timer);
+  });
 }
