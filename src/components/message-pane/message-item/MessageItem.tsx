@@ -341,7 +341,6 @@ const MessageItem = (props: MessageItemProps) => {
         props.class,
         "messageItem"
       )}
-      onUwu={() => alert("uwu")}
       onContextMenu={props.contextMenu}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

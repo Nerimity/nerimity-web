@@ -367,6 +367,9 @@ function PostRedirect() {
 }
 
 function fixSafariMobileContextMenu() {
+  const { isSafari, isMobileAgent } = useWindowProperties();
+  if (!isSafari || !isMobileAgent()) return;
+
   let timer: number;
 
   let isTouchDown = false;
@@ -383,11 +386,10 @@ function fixSafariMobileContextMenu() {
         if (diffX >= 10 || diffY >= 10) return;
         if (event.target instanceof HTMLElement) {
           isTouchDown = true;
-          console.log(event.target);
-          const e = new MouseEvent("onContextMenu", { bubbles: true });
+          const e = new MouseEvent("contextmenu", { bubbles: true });
           event.target?.dispatchEvent(e);
         }
-      }, 1000);
+      }, 500);
     },
     false
   );
