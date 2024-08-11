@@ -341,6 +341,7 @@ const MessageItem = (props: MessageItemProps) => {
         props.class,
         "messageItem"
       )}
+      onUwu={() => alert("uwu")}
       onContextMenu={props.contextMenu}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -1203,7 +1204,10 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
     if (!item.attributes) return undefined;
     const attributes = { ...item.attributes };
     if (attributes.href) {
-      if (!attributes.href.startsWith("http://") && !attributes.href.startsWith("https://")) {
+      if (
+        !attributes.href.startsWith("http://") &&
+        !attributes.href.startsWith("https://")
+      ) {
         attributes.href = "#";
       }
     }
