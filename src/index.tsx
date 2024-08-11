@@ -375,14 +375,18 @@ function fixSafariMobileContextMenu() {
   let isTouchDown = false;
   let startX = 0;
   let startY = 0;
-  let diffX = 0;
-  let diffY = 0;
+  let currentX = 0;
+  let currentY = 0;
   document.addEventListener(
     "touchstart",
     (event) => {
       startX = event.touches[0]?.clientX || 0;
       startY = event.touches[0]?.clientY || 0;
+      currentX = startX;
+      currentY = startY;
       timer = window.setTimeout(function () {
+        const diffX = Math.abs(startX - currentX);
+        const diffY = Math.abs(startY - currentY);
         if (diffX >= 10 || diffY >= 10) return;
         if (event.target instanceof HTMLElement) {
           isTouchDown = true;
@@ -395,8 +399,8 @@ function fixSafariMobileContextMenu() {
   );
 
   document.addEventListener("touchmove", (event) => {
-    diffX = Math.abs(startX - (event.touches[0]?.clientX || 0));
-    diffY = Math.abs(startY - (event.touches[0]?.clientY || 0));
+    currentX = event.touches[0]?.clientX || 0;
+    currentY = event.touches[0]?.clientY || 0;
   });
 
   document.addEventListener("touchend", (event) => {
