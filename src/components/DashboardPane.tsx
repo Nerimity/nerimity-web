@@ -1,5 +1,11 @@
 import { RawPost } from "@/chat-api/RawData";
-import { createPost, getPostNotificationCount, getPostNotificationDismiss, getPostNotifications, getPosts } from "@/chat-api/services/PostService";
+import {
+  createPost,
+  getPostNotificationCount,
+  getPostNotificationDismiss,
+  getPostNotifications,
+  getPosts,
+} from "@/chat-api/services/PostService";
 import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
@@ -51,10 +57,9 @@ const ServerListContainer = styled(FlexRow)`
   height: 50px;
   scroll-behavior: smooth;
 
-
   &::-webkit-scrollbar {
-  display: none;
-}
+    display: none;
+  }
 `;
 
 const SidebarItemContainer = styled(ItemContainer)`
@@ -64,13 +69,12 @@ const SidebarItemContainer = styled(ItemContainer)`
   width: 50px;
 `;
 
-
 export default function DashboardPane() {
   const { header, account } = useStore();
   createEffect(() => {
     header.updateHeader({
       title: t("dashboard.title"),
-      iconName: "dashboard"
+      iconName: "dashboard",
     });
   });
   return (
@@ -86,8 +90,7 @@ export default function DashboardPane() {
   );
 }
 
-
-const NotificationCountContainer = styled(FlexRow) <{ selected: boolean }>`
+const NotificationCountContainer = styled(FlexRow)<{ selected: boolean }>`
   align-items: center;
   justify-content: center;
   background: var(--primary-color);
@@ -95,23 +98,26 @@ const NotificationCountContainer = styled(FlexRow) <{ selected: boolean }>`
   height: 18px;
   width: 18px;
   font-size: 12px;
-  ${props => props.selected ? `
+  ${(props) =>
+    props.selected
+      ? `
     background: white;
     color: var(--primary-color);  
-  ` : ""}
+  `
+      : ""}
 `;
 
 const TabStyle = css`
   padding-left: 8px;
   padding-right: 8px;
   gap: 4px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
 `;
 
-
-
 function PostsContainer() {
-  const [selectedTab, setSelectedTab] = createSignal<"FEED" | "DISCOVER" | "NOTIFICATIONS">("FEED");
+  const [selectedTab, setSelectedTab] = createSignal<
+    "FEED" | "DISCOVER" | "NOTIFICATIONS"
+  >("FEED");
 
   const [notificationCount, setNotificationCount] = createSignal(0);
   onMount(async () => {
@@ -120,7 +126,15 @@ function PostsContainer() {
   });
 
   const NotificationIndicator = () => {
-    return <Show when={notificationCount()}><NotificationCountContainer selected={selectedTab() === "NOTIFICATIONS"}>{notificationCount()}</NotificationCountContainer></Show>;
+    return (
+      <Show when={notificationCount()}>
+        <NotificationCountContainer
+          selected={selectedTab() === "NOTIFICATIONS"}
+        >
+          {notificationCount()}
+        </NotificationCountContainer>
+      </Show>
+    );
   };
 
   createEffect(async () => {
@@ -131,46 +145,82 @@ function PostsContainer() {
 
   return (
     <FlexColumn>
-      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px", "margin-top": "20px" }}>{t("dashboard.posts")}</Text>
-      <FlexRow gap={5} style={{ "margin-bottom": "5px", "margin-left": "5px", height: "28px" }}>
-
-        <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "FEED"} onclick={() => setSelectedTab("FEED")}>
+      <Text
+        size={18}
+        style={{
+          "margin-left": "5px",
+          "margin-bottom": "5px",
+          "margin-top": "20px",
+        }}
+      >
+        {t("dashboard.posts")}
+      </Text>
+      <FlexRow
+        gap={5}
+        style={{ "margin-bottom": "5px", "margin-left": "5px", height: "28px" }}
+      >
+        <ItemContainer
+          class={TabStyle}
+          handlePosition="bottom"
+          selected={selectedTab() === "FEED"}
+          onclick={() => setSelectedTab("FEED")}
+        >
           <Text size={14}>{t("dashboard.feed")}</Text>
         </ItemContainer>
-        <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "DISCOVER"} onclick={() => setSelectedTab("DISCOVER")}>
+        <ItemContainer
+          class={TabStyle}
+          handlePosition="bottom"
+          selected={selectedTab() === "DISCOVER"}
+          onclick={() => setSelectedTab("DISCOVER")}
+        >
           <Text size={14}>{t("dashboard.discover")}</Text>
         </ItemContainer>
 
-        <ItemContainer class={TabStyle} handlePosition="bottom" selected={selectedTab() === "NOTIFICATIONS"} onclick={() => setSelectedTab("NOTIFICATIONS")}>
+        <ItemContainer
+          class={TabStyle}
+          handlePosition="bottom"
+          selected={selectedTab() === "NOTIFICATIONS"}
+          onclick={() => setSelectedTab("NOTIFICATIONS")}
+        >
           <Text size={14}>{t("dashboard.notifications")}</Text>
           <NotificationIndicator />
         </ItemContainer>
-
       </FlexRow>
       <Delay>
         <>
           <Show when={selectedTab() === "FEED"}>
-            <PostsArea showFeed style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
+            <PostsArea
+              showFeed
+              style={{ "margin-left": "5px", "margin-right": "5px" }}
+              showCreateNew
+            />
           </Show>
           <Show when={selectedTab() === "DISCOVER"}>
-            <PostsArea showDiscover style={{ "margin-left": "5px", "margin-right": "5px" }} showCreateNew />
+            <PostsArea
+              showDiscover
+              style={{ "margin-left": "5px", "margin-right": "5px" }}
+              showCreateNew
+            />
           </Show>
-          <Show when={selectedTab() === "NOTIFICATIONS"}><PostNotificationsArea style={{ "margin-left": "5px", "margin-right": "5px" }} /></Show>
+          <Show when={selectedTab() === "NOTIFICATIONS"}>
+            <PostNotificationsArea
+              style={{ "margin-left": "5px", "margin-right": "5px" }}
+            />
+          </Show>
         </>
       </Delay>
     </FlexColumn>
   );
-
-
 }
-
-
-
 
 function ServerList() {
   const { servers } = useStore();
-  const [contextPosition, setContextPosition] = createSignal<{ x: number, y: number } | undefined>();
-  const [contextServerId, setContextServerId] = createSignal<string | undefined>();
+  const [contextPosition, setContextPosition] = createSignal<
+    { x: number; y: number } | undefined
+  >();
+  const [contextServerId, setContextServerId] = createSignal<
+    string | undefined
+  >();
 
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
@@ -178,33 +228,49 @@ function ServerList() {
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
 
-
   let serverListEl: undefined | HTMLDivElement;
   const onWheel = (event: any) => {
     if (!serverListEl) return;
     event.preventDefault();
-
 
     serverListEl.scrollLeft -= event.wheelDelta;
   };
 
   return (
     <FlexColumn>
-      <Text size={18} style={{ "margin-left": "5px", "margin-bottom": "5px", "margin-top": "20px" }}>Servers</Text>
+      <Text
+        size={18}
+        style={{
+          "margin-left": "5px",
+          "margin-bottom": "5px",
+          "margin-top": "20px",
+        }}
+      >
+        Servers
+      </Text>
       <ServerListContainer ref={serverListEl} onwheel={onWheel}>
-        <ContextMenuServer position={contextPosition()} onClose={() => setContextPosition(undefined)} serverId={contextServerId()} />
+        <ContextMenuServer
+          position={contextPosition()}
+          onClose={() => setContextPosition(undefined)}
+          serverId={contextServerId()}
+        />
         <For each={servers.orderedArray()}>
-          {server => <ServerItem
-            server={server!}
-            onContextMenu={e => onContextMenu(e, server!.id)}
-          />}
+          {(server) => (
+            <ServerItem
+              server={server!}
+              onContextMenu={(e) => onContextMenu(e, server!.id)}
+            />
+          )}
         </For>
       </ServerListContainer>
     </FlexColumn>
   );
 }
 
-function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => void }) {
+function ServerItem(props: {
+  server: Server;
+  onContextMenu?: (e: MouseEvent) => void;
+}) {
   const { id, defaultChannelId } = props.server;
   const hasNotifications = () => props.server.hasNotifications();
   const [hovered, setHovered] = createSignal(false);
@@ -214,9 +280,14 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
       onmouseover={() => setHovered(true)}
       onmouseout={() => setHovered(false)}
       href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
-      onContextMenu={props.onContextMenu}>
-      <SidebarItemContainer handlePosition='bottom' alert={hasNotifications()}>
-        <NotificationCountBadge count={props.server.mentionCount()} top={5} right={2}/>
+      onContextMenu={props.onContextMenu}
+    >
+      <SidebarItemContainer handlePosition="bottom" alert={hasNotifications()}>
+        <NotificationCountBadge
+          count={props.server.mentionCount()}
+          top={5}
+          right={2}
+        />
         <Avatar animate={hovered()} server={props.server} size={35} />
       </SidebarItemContainer>
     </A>
@@ -225,7 +296,7 @@ function ServerItem(props: { server: Server, onContextMenu?: (e: MouseEvent) => 
 
 const NotificationCountBadgeContainer = styled.div`
   position: absolute;
-  top: 10px;  
+  top: 10px;
   right: 10px;
   display: flex;
   align-items: center;
@@ -240,24 +311,24 @@ const NotificationCountBadgeContainer = styled.div`
   z-index: 111111111;
 `;
 
-function NotificationCountBadge(props: { count: number, top: number, right: number }) {
+function NotificationCountBadge(props: {
+  count: number;
+  top: number;
+  right: number;
+}) {
   return (
     <Show when={props.count}>
       <NotificationCountBadgeContainer
         style={{
           top: `${props.top}px`,
-          right: `${props.right}px`
+          right: `${props.right}px`,
         }}
       >
         {props.count}
       </NotificationCountBadgeContainer>
     </Show>
   );
-
 }
-
-
-
 
 const ActivityListContainer = styled(FlexRow)`
   display: flex;
@@ -269,37 +340,34 @@ const ActivityListContainer = styled(FlexRow)`
 
   scroll-behavior: smooth;
 
-
   &::-webkit-scrollbar {
     display: none;
   }
-
 `;
 
-
-
 const ActivityList = () => {
-  const {account} = useStore();
+  const { account, users } = useStore();
 
-  
   const store = useStore();
   let activityListEl: undefined | HTMLDivElement;
-
 
   const onWheel = (event: any) => {
     if (!activityListEl) return;
     event.preventDefault();
 
-
     activityListEl.scrollLeft -= event.wheelDelta;
   };
-
 
   const activities = () => {
     const presences = store.users.presencesArray();
     // sort by if activity img exists exists first
     return presences
-      .filter(p => p.activity)
+      .filter((p) => () => {
+        if (!p.activity) return false;
+        const user = users.get(p.userId);
+        if (user?.bot) return false;
+        return true;
+      })
       .sort((a, b) => b.activity!.startedAt - a.activity!.startedAt);
   };
 
@@ -307,31 +375,45 @@ const ActivityList = () => {
 
   return (
     <>
-
-      <Text size={18}  style={{ "margin-left": "5px" }}>{t("dashboard.activeUsers")}</Text>
+      <Text size={18} style={{ "margin-left": "5px" }}>
+        {t("dashboard.activeUsers")}
+      </Text>
 
       <ActivityListContainer onwheel={onWheel} ref={activityListEl}>
         <Show when={!authenticatedInPast()}>
-          <Skeleton.List count={5} style={{"flex-direction": "row"}}>
+          <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
             <Skeleton.Item height="80px" width="240px" />
           </Skeleton.List>
         </Show>
 
         <Show when={authenticatedInPast() && !activities().length}>
-          <div style={{ display: "flex", "text-align": "center", "flex-direction": "column", "align-items": "center", "justify-content": "center", background: "rgba(255,255,255,0.04)", width: "100%", height: "100%", "border-radius": "8px"}}>
-            <Text size={14} opacity={0.6} >{t("dashboard.noActiveUsers")}</Text>
+          <div
+            style={{
+              display: "flex",
+              "text-align": "center",
+              "flex-direction": "column",
+              "align-items": "center",
+              "justify-content": "center",
+              background: "rgba(255,255,255,0.04)",
+              width: "100%",
+              height: "100%",
+              "border-radius": "8px",
+            }}
+          >
+            <Text size={14} opacity={0.6}>
+              {t("dashboard.noActiveUsers")}
+            </Text>
           </div>
         </Show>
         <Show when={authenticatedInPast() && activities().length}>
           <For each={activities()}>
-            {activity => <PresenceItem presence={activity} />}
+            {(activity) => <PresenceItem presence={activity} />}
           </For>
         </Show>
       </ActivityListContainer>
     </>
   );
 };
-
 
 const PresenceItemContainer = styled(FlexRow)`
   background: rgba(255, 255, 255, 0.06);
@@ -343,14 +425,12 @@ const PresenceItemContainer = styled(FlexRow)`
   width: 240px;
   overflow: hidden;
 
-
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
   &:hover {
     background: rgba(255, 255, 255, 0.15);
   }
-
 `;
 
 const textOverflowHiddenStyles = css`
@@ -367,9 +447,9 @@ const activityImageStyles = css`
 `;
 
 const activityDetailsStyles = css`
-  display: flex; 
+  display: flex;
   flex-direction: column;
-  gap: 2px; 
+  gap: 2px;
   padding-left: 10px;
   padding-right: 10px;
   margin-top: 4px;
@@ -391,33 +471,56 @@ const PresenceItem = (props: { presence: Presence }) => {
 
   const imgSrc = () => {
     if (!activity()?.imgSrc) return;
-    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(activity()?.imgSrc!)}/a`;
-
+    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
+      activity()?.imgSrc!
+    )}/a`;
   };
 
   return (
     <Show when={!user()?.bot}>
-      <PresenceItemContainer onClick={() => navigate(RouterEndpoints.PROFILE(props.presence.userId))} >
+      <PresenceItemContainer
+        onClick={() => navigate(RouterEndpoints.PROFILE(props.presence.userId))}
+      >
         <Show when={imgSrc()}>
           <img src={imgSrc()} class={activityImageStyles} />
         </Show>
 
         <div class={activityDetailsStyles}>
-
-          <div class={css`display: flex; gap: 8px; align-items: center;`} >
+          <div
+            class={css`
+              display: flex;
+              gap: 8px;
+              align-items: center;
+            `}
+          >
             <Avatar user={user()} size={20} />
-            <Text class={textOverflowHiddenStyles} size={14} bold>{user()?.username}</Text>
+            <Text class={textOverflowHiddenStyles} size={14} bold>
+              {user()?.username}
+            </Text>
           </div>
 
           <span class={textOverflowHiddenStyles}>
-            <Icon name={getActivityIconName(activity())} size={14} class={css`vertical-align: -2px;`} color="var(--primary-color)" />
-            <Text size={14} opacity={0.7}> {props.presence.activity?.name}</Text>
-          </span> 
+            <Icon
+              name={getActivityIconName(activity())}
+              size={14}
+              class={css`
+                vertical-align: -2px;
+              `}
+              color="var(--primary-color)"
+            />
+            <Text size={14} opacity={0.7}>
+              {" "}
+              {props.presence.activity?.name}
+            </Text>
+          </span>
 
-          <Show when={activity().title}><Text size={12} opacity={0.7} class={textOverflowHiddenStyles}> {activity().title}</Text></Show>
+          <Show when={activity().title}>
+            <Text size={12} opacity={0.7} class={textOverflowHiddenStyles}>
+              {" "}
+              {activity().title}
+            </Text>
+          </Show>
         </div>
-
-
       </PresenceItemContainer>
     </Show>
   );
