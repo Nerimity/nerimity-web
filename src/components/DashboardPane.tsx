@@ -362,7 +362,7 @@ const ActivityList = () => {
     const presences = store.users.presencesArray();
     // sort by if activity img exists exists first
     return presences
-      .filter((p) => () => {
+      .filter((p) => {
         if (!p.activity) return false;
         const user = users.get(p.userId);
         if (user?.bot) return false;
