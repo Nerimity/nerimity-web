@@ -1,15 +1,17 @@
 import { getLatestRelease, Release } from "@/github-api";
 import { createSignal } from "solid-js";
 import env from "./env";
-import { getStorageString, setStorageString, StorageKeys } from "./localStorage";
-
+import {
+  getStorageString,
+  setStorageString,
+  StorageKeys,
+} from "./localStorage";
 
 const [updateAvailable, setUpdateAvailable] = createSignal(false);
 const [latestRelease, setLatestRelease] = createSignal<Release | null>(null);
 
-
 const showChangelog = () => {
-  if (env.DEV_MODE) {
+  if (env.DEV_MODE || !env.APP_VERSION) {
     return false;
   }
   const appVersion = env.APP_VERSION;
@@ -26,9 +28,12 @@ const showChangelog = () => {
   }
   return false;
 };
-  
+
 const checkForUpdate = async () => {
   console.log("[UPDATE] Checking...");
+  if (!env.APP_VERSION) {
+    console.log("[UPDATE] Skipping (reason: No App Version)");
+  }
   if (env.DEV_MODE) {
     console.log("[UPDATE] Skipping (reason: Dev Mode)");
     return;
@@ -48,6 +53,6 @@ const checkForUpdate = async () => {
   if (!hasUpdate) console.log("[UPDATE] No update available.");
 };
 
-export function useAppVersion () {
-  return {latestRelease, updateAvailable, showChangelog, checkForUpdate};
+export function useAppVersion() {
+  return { latestRelease, updateAvailable, showChangelog, checkForUpdate };
 }
