@@ -38,7 +38,7 @@ jobs:
           run: pnpm run build
           env:
             VITE_SERVER_URL: "https://nerimity.com"
-            VITE_APP_URL: "https://nerimity.com"
+            VITE_APP_URL: "https://latest.nerimity.com"
             VITE_APP_VERSION: ${{ env.sha_short }}
             VITE_MOBILE_WIDTH: 850
             VITE_TURNSTILE_SITEKEY: "0x4AAAAAAABO1ilip_YaVHJk"
