@@ -7,23 +7,68 @@ name: push-build
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
+concurrency:
+  # github.workflow: name of the workflow
+  # github.event.pull_request.number || github.ref: pull request number or branch name if not a pull request
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+  # Cancel in-progress runs when a new workflow with the same group name is triggered
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     container: node:20
     steps:
+      - name: Declare some variables
+        shell: bash
+        run: |
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
       - uses: actions/checkout@v2
       - name: Install Node.js dependencies
         run: |
           npm i -g pnpm
           pnpm i
-      - name: Build App
-        run: pnpm run build
-      - name: Publish Artifact
-        uses: actions/upload-artifact@v3
+
+
+          - name: Build App
+          run: pnpm run build
+          env:
+            VITE_SERVER_URL: "https://nerimity.com"
+            VITE_APP_URL: "https://nerimity.com"
+            VITE_APP_VERSION: ${{ env.sha_short }}
+            VITE_MOBILE_WIDTH: 850
+            VITE_TURNSTILE_SITEKEY: "0x4AAAAAAABO1ilip_YaVHJk"
+            VITE_EMOJI_URL: "https://nerimity.com/twemojis/"
+            VITE_NERIMITY_CDN: "https://cdn.nerimity.com/"
+            VITE_GOOGLE_CLIENT_ID: "833085928210-2ksk1asgbmqvsg6jb3es4asnmug2a4iu.apps.googleusercontent.com"
+            VITE_GOOGLE_API_KEY: "AIzaSyAPeozJV7itoZk9Fk1VYbFCDMMXB-gU38M"
+
+      - name: Zip The Build
+        uses: vimtor/action-zip@v1
         with:
-          name: my-artifact
-          path: dist/
+          files: dist/
+          dest: latest-chat-client-${{ env.sha_short}}.zip
+
+      - name: Deploy to Server
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          local: "latest-chat-client-${{ env.sha_short }}.zip" # Local file path - REQUIRED false - DEFAULT ./
+          remote: "/var/www/latest-chat-client-${{ env.sha_short }}.zip" # Remote file path - REQUIRED false - DEFAULT ~/
+          host: ${{secrets.HOST}} # Remote server address - REQUIRED true
+          user: ${{secrets.USER}} # Remote server user - REQUIRED true
+          password: ${{secrets.PASS}} # User password - REQUIRED at least one of "password" or "key"
+
+      - name: Unzip built
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          script: |
+            unzip -o -DD /var/www/latest-chat-client-${{ env.sha_short }}.zip -d /var/www/latest.nerimity.com/dist
+            rm -rf /var/www/latest-chat-client-${{ env.sha_short }}.zip
