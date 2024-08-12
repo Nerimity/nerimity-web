@@ -10,6 +10,13 @@ on:
     tags:
       - "v*"
 
+concurrency:
+  # github.workflow: name of the workflow
+  # github.event.pull_request.number || github.ref: pull request number or branch name if not a pull request
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+  # Cancel in-progress runs when a new workflow with the same group name is triggered
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -49,11 +56,11 @@ jobs:
       - name: Deploy to Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: 'chat-client-${{ steps.get_version.outputs.VERSION }}.zip'                   # Local file path - REQUIRED false - DEFAULT ./
-          remote: '/var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip' # Remote file path - REQUIRED false - DEFAULT ~/
-          host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
-          user: ${{secrets.USER}}          # Remote server user - REQUIRED true
-          password: ${{secrets.PASS}}      # User password - REQUIRED at least one of "password" or "key" 
+          local: "chat-client-${{ steps.get_version.outputs.VERSION }}.zip" # Local file path - REQUIRED false - DEFAULT ./
+          remote: "/var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip" # Remote file path - REQUIRED false - DEFAULT ~/
+          host: ${{secrets.HOST}} # Remote server address - REQUIRED true
+          user: ${{secrets.USER}} # Remote server user - REQUIRED true
+          password: ${{secrets.PASS}} # User password - REQUIRED at least one of "password" or "key"
 
       - name: Unzip built
         uses: appleboy/ssh-action@v0.1.10
@@ -62,10 +69,9 @@ jobs:
           username: ${{ secrets.USER }}
           password: ${{ secrets.PASS }}
           port: ${{ secrets.PORT }}
-          script: | 
+          script: |
             unzip -o -DD /var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip -d /var/www/nerimity.com/dist
             rm -rf /var/www/chat-client-${{ steps.get_version.outputs.VERSION }}.zip
-
 
       - name: Publish Draft Release
         uses: "marvinpinto/action-automatic-releases@latest"
