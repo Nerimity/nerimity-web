@@ -22,9 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     container: node:20
     steps:
-      - name: Set outputs
-        id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v2
       - name: Install Node.js dependencies
         run: |
@@ -37,7 +34,6 @@ jobs:
           env:
             VITE_SERVER_URL: "https://nerimity.com"
             VITE_APP_URL: "https://latest.nerimity.com"
-            VITE_APP_VERSION: ${{ steps.vars.outputs.sha_short }}
             VITE_MOBILE_WIDTH: 850
             VITE_TURNSTILE_SITEKEY: "0x4AAAAAAABO1ilip_YaVHJk"
             VITE_EMOJI_URL: "https://nerimity.com/twemojis/"
@@ -49,13 +45,13 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: dist/
-          dest: latest-chat-client-${{ steps.vars.outputs.sha_short }}.zip
+          dest: latest-chat-client.zip
 
       - name: Deploy to Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: "latest-chat-client-${{ steps.vars.outputs.sha_short }}.zip" # Local file path - REQUIRED false - DEFAULT ./
-          remote: "/var/www/latest-chat-client-${{ steps.vars.outputs.sha_short }}.zip" # Remote file path - REQUIRED false - DEFAULT ~/
+          local: "latest-chat-client.zip" # Local file path - REQUIRED false - DEFAULT ./
+          remote: "/var/www/latest-chat-client.zip" # Remote file path - REQUIRED false - DEFAULT ~/
           host: ${{secrets.HOST}} # Remote server address - REQUIRED true
           user: ${{secrets.USER}} # Remote server user - REQUIRED true
           password: ${{secrets.PASS}} # User password - REQUIRED at least one of "password" or "key"
@@ -68,5 +64,5 @@ jobs:
           password: ${{ secrets.PASS }}
           port: ${{ secrets.PORT }}
           script: |
-            unzip -o -DD /var/www/latest-chat-client-${{ steps.vars.outputs.sha_short }}.zip -d /var/www/latest.nerimity.com/dist
-            rm -rf /var/www/latest-chat-client-${{ steps.vars.outputs.sha_short }}.zip
+            unzip -o -DD /var/www/latest-chat-client.zip -d /var/www/latest.nerimity.com/dist
+            rm -rf /var/www/latest-chat-client.zip
