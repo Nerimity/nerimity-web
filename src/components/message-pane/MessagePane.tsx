@@ -208,9 +208,14 @@ function MessageArea(props: {
     textAreaEl()?.focus();
   };
 
+  const cancelReplies = (all?: boolean) => {
+    channelProperties.removeReplies(params.channelId);
+  };
+
   const onKeyDown = (event: KeyboardEvent) => {
     const myId = account.user()?.id;
     if (event.key === "Escape") {
+      cancelReplies();
       cancelEdit();
       cancelAttachment();
       return;
