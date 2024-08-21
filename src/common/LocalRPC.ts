@@ -82,7 +82,9 @@ const sanitizedData = (data: any) => {
     subtitle: data.subtitle?.substring(0, 30),
     link: data.link?.substring(0, 250),
     startedAt: data.startedAt,
-    endsAt: data.endsAt
+    endsAt: data.endsAt,
+    speed: data.speed,
+    updatedAt: data.updatedAt
   }));
 };
 

@@ -621,6 +621,9 @@ const UserActivity = (props: { userId: string }) => {
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
 
+  const isLiveStream = () =>
+    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+
   const imgSrc = () => {
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
@@ -678,7 +681,9 @@ const UserActivity = (props: { userId: string }) => {
               <img
                 src={imgSrc()}
                 class={styles.activityImg}
-                classList={{ [styles.videoActivityImg!]: isVideo() }}
+                classList={{
+                  [styles.videoActivityImg!]: isVideo() || isLiveStream(),
+                }}
               />
               <div class={styles.richInfo}>
                 <Text
@@ -701,6 +706,8 @@ const UserActivity = (props: { userId: string }) => {
                 </Show>
                 <Show when={isMusic() || isVideo()}>
                   <RichProgressBar
+                    updatedAt={activity()?.updatedAt}
+                    speed={activity()?.speed}
                     startedAt={activity()?.startedAt!}
                     endsAt={activity()?.endsAt!}
                   />

@@ -260,6 +260,8 @@ export interface ActivityStatus {
   name: string;
   startedAt: number;
   endsAt?: number;
+  speed?: number;
+  updatedAt?: number;
 
   imgSrc?: string;
   title?: string;

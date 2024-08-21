@@ -566,6 +566,9 @@ export const UserActivity = (props: {
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
 
+  const isLiveStream = () =>
+    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+
   createEffect(
     on(activity, () => {
       if (!activity()) return;
@@ -617,7 +620,9 @@ export const UserActivity = (props: {
               <img
                 src={imgSrc()}
                 class={styles.activityImg + " activityImage"}
-                classList={{ [styles.videoActivityImg!]: isVideo() }}
+                classList={{
+                  [styles.videoActivityImg!]: isVideo() || isLiveStream(),
+                }}
               />
               <div class={styles.richInfo}>
                 <Text
@@ -639,7 +644,9 @@ export const UserActivity = (props: {
                 </Show>
                 <Show when={isMusic() || isVideo()}>
                   <RichProgressBar
+                    updatedAt={activity()?.updatedAt}
                     primaryColor={props.primaryColor}
+                    speed={activity()?.speed}
                     startedAt={activity()?.startedAt!}
                     endsAt={activity()?.endsAt!}
                   />

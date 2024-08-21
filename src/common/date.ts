@@ -13,28 +13,30 @@ export function formatTimestamp(timestamp: number) {
 
   const sameYear = today.getFullYear() === date.getFullYear();
 
-  if (sameYear && date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
+  if (
+    sameYear &&
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth()
+  ) {
     return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  }
-  else if (sameYear && yesterday.toDateString() === date.toDateString()) {
+  } else if (sameYear && yesterday.toDateString() === date.toDateString()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  }
-  
-  else {
-    return `${Intl.DateTimeFormat("en-GB", {day: "2-digit", month: "short", year: "numeric"}).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  } else {
+    return `${Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
-
 
 // get days ago from timestamp
 export function getDaysAgo(timestamp: number) {
   const rtf = new Intl.RelativeTimeFormat("en", {
-    numeric: "auto"
+    numeric: "auto",
   });
   const oneDayInMs = 1000 * 60 * 60 * 24;
-  const daysDifference = Math.round(
-    (timestamp - Date.now()) / oneDayInMs
-  );
+  const daysDifference = Math.round((timestamp - Date.now()) / oneDayInMs);
 
   return rtf.format(daysDifference, "day");
 }
@@ -57,31 +59,61 @@ export function timeSince(timestamp: number, showSeconds = false) {
   return formatTimestamp(timestamp);
 }
 
-export function timeElapsed(timestamp: number, onlyPadSeconds = false) {
-  let seconds = Math.floor((Date.now() - timestamp) / 1000);
+export function timeElapsed(
+  timestamp: number,
+  onlyPadSeconds = false,
+  speed = 1,
+  updatedAt?: number
+) {
+  const ms = Date.now() - timestamp;
+
+  let seconds = ms / 1000;
+
+  if (updatedAt) {
+    const seekedSeconds = (updatedAt - timestamp) / 1000;
+    const seekedSecondsWithSpeed = seekedSeconds * speed;
+    const seekedSpeed = -(seekedSeconds - seekedSecondsWithSpeed);
+    seconds = seconds * speed - seekedSpeed;
+  }
+
+  seconds = Math.floor(seconds);
+
   const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds - (hours * 3600)) / 60);
+  const minutes = Math.floor((seconds - hours * 3600) / 60);
   seconds -= hours * 3600 + minutes * 60;
-  const formattedTime = (hours ? (hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":") : "") +
-    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":" +
+  const formattedTime =
+    (hours
+      ? hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":"
+      : "") +
+    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") +
+    ":" +
     seconds.toString().padStart(2, "0");
   return formattedTime;
 }
-export function millisecondsToHhMmSs(timestamp: number, onlyPadSeconds = false) {
-  let seconds = Math.floor((timestamp) / 1000);
+export function millisecondsToHhMmSs(
+  timestamp: number,
+  onlyPadSeconds = false
+) {
+  let seconds = Math.floor(timestamp / 1000);
   const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds - (hours * 3600)) / 60);
+  const minutes = Math.floor((seconds - hours * 3600) / 60);
   seconds -= hours * 3600 + minutes * 60;
-  const formattedTime = (hours ? (hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":") : "") +
-    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":" +
+  const formattedTime =
+    (hours
+      ? hours.toString().padStart(onlyPadSeconds ? 1 : 2, "0") + ":"
+      : "") +
+    minutes.toString().padStart(onlyPadSeconds ? 1 : 2, "0") +
+    ":" +
     seconds.toString().padStart(2, "0");
   return formattedTime;
 }
 
-
-
-
-export function calculateTimeElapsedForActivityStatus(startTime: number, music = false) {
+export function calculateTimeElapsedForActivityStatus(
+  startTime: number,
+  music = false,
+  speed = 1,
+  updatedAt?: number
+) {
   // Get the current time in milliseconds.
   const now = Date.now();
   // Calculate the time elapsed in milliseconds.
@@ -90,7 +122,7 @@ export function calculateTimeElapsedForActivityStatus(startTime: number, music =
   const timeElapsedInSeconds = timeElapsedMS / 1000;
 
   if (music) {
-    return timeElapsed(startTime, true);
+    return timeElapsed(startTime, true, speed, updatedAt);
   }
 
   // Return the time elapsed in seconds.
@@ -98,10 +130,10 @@ export function calculateTimeElapsedForActivityStatus(startTime: number, music =
 }
 
 function convertSecondsForActivityStatus(totalSeconds: number) {
-  const days = Math.floor(totalSeconds / (24*60*60));
-  totalSeconds %= 24*60*60;
-  const hours = Math.floor(totalSeconds / (60*60));
-  totalSeconds %= 60*60;
+  const days = Math.floor(totalSeconds / (24 * 60 * 60));
+  totalSeconds %= 24 * 60 * 60;
+  const hours = Math.floor(totalSeconds / (60 * 60));
+  totalSeconds %= 60 * 60;
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
