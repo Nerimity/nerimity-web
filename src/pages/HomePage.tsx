@@ -1,6 +1,6 @@
 import env from "@/common/env";
 import Button from "@/components/ui/Button";
-import {useNavigate } from "solid-navigator";
+import { useNavigate } from "solid-navigator";
 import PageHeader from "../components/PageHeader";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
@@ -54,7 +54,7 @@ const TopContainer = styled("div")`
 `;
 
 const ButtonsContainer = styled("div")`
-  margin-top: 10px;;
+  margin-top: 10px;
   display: flex;
   margin-left: -5px;
 
@@ -74,56 +74,112 @@ const Logo = styled("img")`
   backdrop-filter: blur(34px);
 `;
 
-export default function HomePage () {
+export default function HomePage() {
   const [t] = useTransContext();
-  
-  const releaseLink = `https://github.com/Nerimity/nerimity-web/releases/${env.APP_VERSION ? `tag/${env.APP_VERSION}` : "" }`;
+
+  const isRelease = env.APP_VERSION?.startsWith("v");
+
+  const releaseLink = isRelease
+    ? `https://github.com/Nerimity/nerimity-web/releases/${
+        env.APP_VERSION ? `tag/${env.APP_VERSION}` : ""
+      }`
+    : "https://github.com/Nerimity/nerimity-web/commits/main";
 
   return (
     <HomePageContainer class="home-page-container">
       <PageHeader showLogo={false} />
-      <Content class='content'>
-        <TopContainer class='top-container'>
-          <Logo src={appLogoUrl()} alt="logo"/>
-          <Text class="title" size={60}>Nerimity</Text>
-          <Text class="slogan" opacity={0.7}>{t("homePage.slogan")}</Text>
-          <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>
+      <Content class="content">
+        <TopContainer class="top-container">
+          <Logo src={appLogoUrl()} alt="logo" />
+          <Text class="title" size={60}>
+            Nerimity
+          </Text>
+          <Text class="slogan" opacity={0.7}>
+            {t("homePage.slogan")}
+          </Text>
+          <a href={releaseLink} target="_blank" rel="noopener noreferrer">
+            {env.APP_VERSION || "Unknown Version"}
+          </a>
           <ButtonsContainer class="buttons-container">
-            <a href='/register'><Button iconName='open_in_browser' label={t("homePage.joinButton", {appName: "Nerimity"})!} primary={true} /></a>
-            <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t("homePage.viewGitHubButton")!}  /></a>
+            <a href="/register">
+              <Button
+                iconName="open_in_browser"
+                label={t("homePage.joinButton", { appName: "Nerimity" })!}
+                primary={true}
+              />
+            </a>
+            <a
+              href="https://github.com/Nerimity/nerimity-web"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                color="white"
+                iconName="code"
+                label={t("homePage.viewGitHubButton")!}
+              />
+            </a>
           </ButtonsContainer>
-          <PlatformDownloadLinks/>
+          <PlatformDownloadLinks />
         </TopContainer>
-        <FeatureList/>
-        <ArtImage src="./assets/home-page-art.svg" alt=""/>
+        <FeatureList />
+        <ArtImage src="./assets/home-page-art.svg" alt="" />
       </Content>
-      <PageFooter/>
+      <PageFooter />
     </HomePageContainer>
   );
 }
 
-
-
-
 const PlatformDownloadLinks = () => {
   const navigate = useNavigate();
   return (
-    <FlexColumn gap={10} itemsCenter style={{"margin-top": "10px"}}>
-      <Text size={16} opacity={0.7} style={{}}>Available on</Text>
+    <FlexColumn gap={10} itemsCenter style={{ "margin-top": "10px" }}>
+      <Text size={16} opacity={0.7} style={{}}>
+        Available on
+      </Text>
       <FlexRow wrap justifyCenter>
-        <Button onClick={() => navigate("/register")} color='' label='Browser' iconName='public' primary />
-        <Button onClick={() => window.open("https://github.com/Nerimity/nerimity-desktop/releases/latest", "_blank")} color='' label='Windows' iconName='grid_view' primary />
-        <Button  onClick={() => window.open("https://github.com/Nerimity/NerimityReactNative/releases/latest", "_blank")} color='#31a952' customChildren={
-          <FlexRow itemsCenter>
-            <Text>Android</Text>
-            <Text opacity={0.8} size={12}>(Experimental)</Text>
-          </FlexRow>
-        } iconName='android' primary />
-      </FlexRow>  
+        <Button
+          onClick={() => navigate("/register")}
+          color=""
+          label="Browser"
+          iconName="public"
+          primary
+        />
+        <Button
+          onClick={() =>
+            window.open(
+              "https://github.com/Nerimity/nerimity-desktop/releases/latest",
+              "_blank"
+            )
+          }
+          color=""
+          label="Windows"
+          iconName="grid_view"
+          primary
+        />
+        <Button
+          onClick={() =>
+            window.open(
+              "https://github.com/Nerimity/NerimityReactNative/releases/latest",
+              "_blank"
+            )
+          }
+          color="#31a952"
+          customChildren={
+            <FlexRow itemsCenter>
+              <Text>Android</Text>
+              <Text opacity={0.8} size={12}>
+                (Experimental)
+              </Text>
+            </FlexRow>
+          }
+          iconName="android"
+          primary
+        />
+      </FlexRow>
     </FlexColumn>
   );
 };
-
 
 const FeatureListContainer = styled("div")`
   display: grid;
@@ -151,28 +207,37 @@ const FeatureListContainer = styled("div")`
 function FeatureList() {
   return (
     <FeatureListContainer>
-      <Feature icon='gif' label='Free animated avatars & emojis'/>
-      <Feature icon='preview' label='Sleek design'/>
-      <Feature icon='sell' label='Change your tag for free'/>
-      <Feature icon='add' label='Create posts on your profile'/>
-      <Feature icon='dns' label='Create your own community'/>
-      <Feature icon='explore' label='Find new communities'/>
-      <Feature icon='volunteer_activism' label='Runs from donations'/>
-      <Feature icon='code' label='Full source code on GitHub'/>
+      <Feature icon="gif" label="Free animated avatars & emojis" />
+      <Feature icon="preview" label="Sleek design" />
+      <Feature icon="sell" label="Change your tag for free" />
+      <Feature icon="add" label="Create posts on your profile" />
+      <Feature icon="dns" label="Create your own community" />
+      <Feature icon="explore" label="Find new communities" />
+      <Feature icon="volunteer_activism" label="Runs from donations" />
+      <Feature icon="code" label="Full source code on GitHub" />
     </FeatureListContainer>
   );
 }
-
 
 const FeatureContainer = styled(FlexRow)`
   align-items: center;
 `;
 
-function Feature(props: {icon: string, label: string;}) {
+function Feature(props: { icon: string; label: string }) {
   return (
     <FeatureContainer gap={10}>
-      <Icon style={{background: "rgba(255,255,255,0.05)", padding: "10px", "border-radius": "50%"}} name={props.icon} size={26} />
-      <Text style={{"font-weight": "bold"}} size={14} opacity={0.8}>{props.label}</Text>
+      <Icon
+        style={{
+          background: "rgba(255,255,255,0.05)",
+          padding: "10px",
+          "border-radius": "50%",
+        }}
+        name={props.icon}
+        size={26}
+      />
+      <Text style={{ "font-weight": "bold" }} size={14} opacity={0.8}>
+        {props.label}
+      </Text>
     </FeatureContainer>
   );
 }
