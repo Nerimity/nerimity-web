@@ -35,6 +35,7 @@ jobs:
           VITE_APP_URL: "https://latest.nerimity.com"
           VITE_MOBILE_WIDTH: 850
           VITE_TURNSTILE_SITEKEY: "0x4AAAAAAABO1ilip_YaVHJk"
+          VITE_APP_VERSION: ${GITHUB_SHA::6}
           VITE_EMOJI_URL: "https://nerimity.com/twemojis/"
           VITE_NERIMITY_CDN: "https://cdn.nerimity.com/"
           VITE_GOOGLE_CLIENT_ID: "833085928210-2ksk1asgbmqvsg6jb3es4asnmug2a4iu.apps.googleusercontent.com"
