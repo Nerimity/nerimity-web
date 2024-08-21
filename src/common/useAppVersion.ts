@@ -1,4 +1,4 @@
-import { getLatestRelease, Release } from "@/github-api";
+import { getLatestRelease, getLatestSha, Release } from "@/github-api";
 import { createSignal } from "solid-js";
 import env from "./env";
 import {
@@ -39,14 +39,27 @@ const checkForUpdate = async () => {
     return;
   }
 
+  let hasUpdate = false;
+
+  // latest.nerimity.com
+  let isLatest = !env.APP_VERSION?.startsWith("v");
+
   const appVersion = env.APP_VERSION;
-  const latestRelease = await getLatestRelease();
-  const latestVersion = latestRelease.tag_name;
-  setLatestRelease(latestRelease);
+  let latestVersion = "";
+
+  if (!isLatest) {
+    const latestRelease = await getLatestRelease();
+    latestVersion = latestRelease.tag_name;
+    setLatestRelease(latestRelease);
+    hasUpdate = latestVersion !== appVersion;
+  } else {
+    const sha = await getLatestSha();
+    latestVersion = sha;
+    hasUpdate = sha !== appVersion;
+  }
 
   console.log(`[UPDATE] Current: ${appVersion} Latest: ${latestVersion}`);
 
-  const hasUpdate = latestVersion !== appVersion;
   setUpdateAvailable(hasUpdate);
 
   if (hasUpdate) console.log("[UPDATE] Update available!");

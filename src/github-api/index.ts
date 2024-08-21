@@ -21,11 +21,17 @@ function getReleases() {
 
 function getRelease(releaseId: string) {
   const url = `https://api.github.com/repos/${owner}/${repo}/releases/${releaseId}`;
-  return fetchJson<Release>(url); 
+  return fetchJson<Release>(url);
 }
 
 export function getLatestRelease() {
   const url = `https://api.github.com/repos/${owner}/${repo}/releases/latest`;
-  return fetchJson<Release>(url); 
+  return fetchJson<Release>(url);
 }
 
+export function getLatestSha() {
+  const url = `https://api.github.com/repos/${owner}/${repo}/commits/main`;
+
+  const res = fetchJson<{ sha: string }>(url);
+  return res.then((x) => x.sha?.substring(0, 7));
+}
