@@ -41,13 +41,13 @@ const checkForUpdate = async () => {
 
   let hasUpdate = false;
 
-  // latest.nerimity.com
-  let isLatest = !env.APP_VERSION?.startsWith("v");
+  // NOT latest.nerimity.com
+  let isRelease = !env.APP_VERSION?.startsWith("v");
 
   const appVersion = env.APP_VERSION;
   let latestVersion = "";
 
-  if (!isLatest) {
+  if (isRelease) {
     const latestRelease = await getLatestRelease();
     latestVersion = latestRelease.tag_name;
     setLatestRelease(latestRelease);

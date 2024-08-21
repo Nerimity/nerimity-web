@@ -53,6 +53,7 @@ import { Tooltip } from "../ui/Tooltip";
 import { logout } from "@/common/logout";
 import { isExperimentEnabled, ShowExperiment } from "@/common/experiments";
 import { CreateServerModal } from "./create-server-modal/CreateServerModal";
+import env from "@/common/env";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -770,6 +771,8 @@ const ServerListSkeleton = () => {
 function UpdateModal(props: { close: () => void }) {
   const { latestRelease } = useAppVersion();
 
+  const isRelease = env.APP_VERSION?.startsWith("v");
+
   const date = () => {
     const release = latestRelease();
     if (!release) return undefined;
@@ -811,10 +814,12 @@ function UpdateModal(props: { close: () => void }) {
             padding: "10px",
           }}
         >
-          <Text size={24}>{latestRelease()?.name || ""}</Text>
-          <Text opacity={0.7}>Released at {date() || ""}</Text>
-          <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
-          <Marked value={latestRelease()?.body!} />
+          <Show when={isRelease}>
+            <Text size={24}>{latestRelease()?.name || ""}</Text>
+            <Text opacity={0.7}>Released at {date() || ""}</Text>
+            <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
+            <Marked value={latestRelease()?.body!} />
+          </Show>
         </FlexColumn>
       </FlexColumn>
     </LegacyModal>

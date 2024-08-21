@@ -6,9 +6,13 @@ import Button from "./ui/Button";
 import { FlexColumn } from "./ui/Flexbox";
 import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import Text from "./ui/Text";
+import env from "@/common/env";
+import { Show } from "solid-js";
 
 export function ChangelogModal(props: { close: () => void }) {
   const { latestRelease } = useAppVersion();
+
+  const isRelease = env.APP_VERSION?.startsWith("v");
 
   const date = () => {
     const release = latestRelease();
@@ -19,7 +23,11 @@ export function ChangelogModal(props: { close: () => void }) {
   const ActionButtons = (
     <A
       style={{ "text-decoration": "none" }}
-      href="https://github.com/Nerimity/Nerimity-Web/releases"
+      href={
+        isRelease
+          ? "https://github.com/Nerimity/Nerimity-Web/releases"
+          : "https://github.com/Nerimity/nerimity-web/commits/main"
+      }
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -42,10 +50,12 @@ export function ChangelogModal(props: { close: () => void }) {
             padding: "5px",
           }}
         >
-          <Text size={24}>{latestRelease()?.name || ""}</Text>
-          <Text opacity={0.7}>Released at {date() || ""}</Text>
-          <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
-          <Marked value={latestRelease()?.body!} />
+          <Show when={isRelease}>
+            <Text size={24}>{latestRelease()?.name || ""}</Text>
+            <Text opacity={0.7}>Released at {date() || ""}</Text>
+            <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
+            <Marked value={latestRelease()?.body!} />
+          </Show>
         </FlexColumn>
       </FlexColumn>
     </LegacyModal>
