@@ -49,6 +49,7 @@ import { css } from "solid-styled-components";
 import { Emoji } from "../ui/Emoji";
 import { t } from "i18next";
 import { PostItem } from "../post-area/PostItem";
+import { Skeleton } from "../ui/skeleton/Skeleton";
 
 interface Props {
   dmPane?: boolean;
@@ -320,28 +321,39 @@ const DesktopProfileFlyout = (props: {
               userId={props.userId}
               showOffline
             />
-            <Text size={12} opacity={0.6}>
-              <Show when={isMe() || !details()?.hideFollowing}>
-                <CustomLink
-                  href={RouterEndpoints.PROFILE(user()!.id + "/following")}
-                >
-                  {followingCount()} Following
-                </CustomLink>
-              </Show>
-              <Show
-                when={
-                  isMe() ||
-                  (!details()?.hideFollowers && !details()?.hideFollowing)
-                }
-              >{` | `}</Show>
-              <Show when={isMe() || !details()?.hideFollowers}>
-                <CustomLink
-                  href={RouterEndpoints.PROFILE(user()!.id + "/followers")}
-                >
-                  {followersCount()} Followers
-                </CustomLink>
-              </Show>
-            </Text>
+            <Show when={!details()}>
+              <Skeleton.Item
+                height="20px"
+                style={{
+                  "margin-top": "5px",
+                  "border-radius": "4px",
+                }}
+              />
+            </Show>
+            <Show when={details()}>
+              <Text size={12} opacity={0.6}>
+                <Show when={isMe() || !details()?.hideFollowing}>
+                  <CustomLink
+                    href={RouterEndpoints.PROFILE(user()!.id + "/following")}
+                  >
+                    {followingCount()} Following
+                  </CustomLink>
+                </Show>
+                <Show
+                  when={
+                    isMe() ||
+                    (!details()?.hideFollowers && !details()?.hideFollowing)
+                  }
+                >{` | `}</Show>
+                <Show when={isMe() || !details()?.hideFollowers}>
+                  <CustomLink
+                    href={RouterEndpoints.PROFILE(user()!.id + "/followers")}
+                  >
+                    {followersCount()} Followers
+                  </CustomLink>
+                </Show>
+              </Text>
+            </Show>
           </div>
         </div>
       </>
@@ -408,6 +420,9 @@ const DesktopProfileFlyout = (props: {
         primaryColor={colors()?.primary || undefined}
       />
 
+      <Show when={!details()}>
+        <Skeleton.Item height="50px" style={{ "margin-bottom": "6px" }} />
+      </Show>
       <Show when={bio()?.length}>
         <FlyoutTitle
           icon="info"
@@ -448,50 +463,51 @@ const DesktopProfileFlyout = (props: {
   );
 
   return (
-    <Show when={details()}>
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      ref={setFlyoutRef}
+      class={classNames("modal", styles.flyoutContainer)}
+      style={style()}
+    >
       <div
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        ref={setFlyoutRef}
-        class={classNames("modal", styles.flyoutContainer)}
-        style={style()}
+        class={styles.flyoutInnerContainer}
+        style={{
+          background: `linear-gradient(180deg, ${
+            colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"
+          }, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"})`,
+        }}
+        classList={{
+          [styles.dmPane]: props.dmPane,
+          [styles.mobile]: props.mobile,
+        }}
       >
+        <StickyArea />
         <div
-          class={styles.flyoutInnerContainer}
-          style={{
-            background: `linear-gradient(180deg, ${
-              colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"
-            }, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"})`,
-          }}
-          classList={{
-            [styles.dmPane]: props.dmPane,
-            [styles.mobile]: props.mobile,
-          }}
+          class={classNames(
+            styles.flyoutOuterScrollableContainer,
+            conditionalClass(
+              colors().primary,
+              css`
+                ::-webkit-scrollbar-thumb {
+                  background-color: ${colors().primary!};
+                }
+              `
+            )
+          )}
         >
-          <StickyArea />
-          <div
-            class={classNames(
-              styles.flyoutOuterScrollableContainer,
-              conditionalClass(
-                colors().primary,
-                css`
-                  ::-webkit-scrollbar-thumb {
-                    background-color: ${colors().primary!};
-                  }
-                `
-              )
-            )}
-          >
-            <div class={styles.flyoutScrollableContainer}>
-              <ProfileArea />
-              <Show when={latestPost()}>
-                <PostArea primaryColor={colors()?.primary || undefined} />
-              </Show>
-            </div>
+          <div class={styles.flyoutScrollableContainer}>
+            <ProfileArea />
+            <Show when={!details()}>
+              <Skeleton.Item height="200px" />
+            </Show>
+            <Show when={latestPost()}>
+              <PostArea primaryColor={colors()?.primary || undefined} />
+            </Show>
           </div>
         </div>
       </div>
-    </Show>
+    </div>
   );
 };
 
