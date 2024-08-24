@@ -63,6 +63,6 @@ export function electronWindowAPI(): WindowAPI | undefined {
   return (window as any).WindowAPI;
 }
 
-electronWindowAPI()?.onSpellcheck((suggestions) => {
+electronWindowAPI()?.onSpellcheck?.((suggestions) => {
   setSpellcheckSuggestions(suggestions);
 });
