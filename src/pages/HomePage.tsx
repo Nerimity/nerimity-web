@@ -80,10 +80,10 @@ export default function HomePage() {
   const isRelease = env.APP_VERSION?.startsWith("v");
 
   const releaseLink = isRelease
-    ? `https://github.com/Nerimity/nerimity-web/releases/${
+    ? `https://github.com/ADSChat/adschat-web/releases/${
         env.APP_VERSION ? `tag/${env.APP_VERSION}` : ""
       }`
-    : "https://github.com/Nerimity/nerimity-web/commits/main";
+    : "https://github.com/ADSChat/adschat-web/commits/main";
 
   return (
     <HomePageContainer class="home-page-container">
@@ -92,7 +92,7 @@ export default function HomePage() {
         <TopContainer class="top-container">
           <Logo src={appLogoUrl()} alt="logo" />
           <Text class="title" size={60}>
-            Nerimity
+            Canary
           </Text>
           <Text class="slogan" opacity={0.7}>
             {t("homePage.slogan")}
@@ -104,12 +104,12 @@ export default function HomePage() {
             <a href="/register">
               <Button
                 iconName="open_in_browser"
-                label={t("homePage.joinButton", { appName: "Nerimity" })!}
+                label={t("homePage.joinButton", { appName: "Canary" })!}
                 primary={true}
               />
             </a>
             <a
-              href="https://github.com/Nerimity/nerimity-web"
+              href="https://github.com/ADSChat/adschat-web"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -145,6 +145,7 @@ const PlatformDownloadLinks = () => {
           iconName="public"
           primary
         />
+        {/*/
         <Button
           onClick={() =>
             window.open(
@@ -176,6 +177,7 @@ const PlatformDownloadLinks = () => {
           iconName="android"
           primary
         />
+        /*/}
       </FlexRow>
     </FlexColumn>
   );
