@@ -1,94 +1,89 @@
 .flyoutContainer {
-  display: flex;
   position: fixed;
   z-index: 100111111111110;
-  gap: 10px;
-  width: 350px;
+  display: flex;
   align-items: flex-start;
+  width: 350px;
+  gap: 10px;
 }
 
 .flyoutInnerContainer {
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-
-  backdrop-filter: blur(34px);
-  background-color: rgba(40, 40, 40, 0.86);
-  
-  outline: solid 1px rgba(255, 255, 255, 0.2);
   width: 100%;
   max-height: 700px;
-  
-  
+  border-radius: 8px;
+
+  outline: solid 1px rgba(255, 255, 255, 0.2);
+  background-color: rgba(40, 40, 40, 0.86);
+
+  backdrop-filter: blur(34px);
+
+  &.mobile {
+    max-height: initial;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &.dmPane {
+    overflow: hidden;
+    max-height: initial;
+    padding-top: 0;
+    border-radius: 0;
+    outline: none;
+    background-color: transparent;
+    backdrop-filter: none;
+  }
+
   .flyoutOuterScrollableContainer {
     display: flex;
-
-    margin: 6px;
+    overflow: hidden;
     padding: 6px;
 
-    margin-top: 6px;
-    background-color: rgba(0,0,0,0.4);
-    border-radius: 6px;
-    overflow: hidden;
+    margin: 6px;
 
+    margin-top: 6px;
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.4);
   }
 
   .flyoutScrollableContainer {
+    display: flex;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: overlay;
-    display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
     &::-webkit-scrollbar {
       width: 2px;
     }
   }
-
-
-  &.mobile {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
-    max-height: initial;
-  }
-
-  &.dmPane {
-    border-radius: 0;
-    background-color: transparent;
-    backdrop-filter: none;
-    outline: none;
-    padding-top: 0;
-    max-height: initial;
-    overflow: hidden;
-  }
 }
 
 .flyoutDetailsContainer {
-  display: flex;
-  flex-direction: column;
   position: relative;
 
   z-index: 111111111;
+  display: flex;
+  flex-direction: column;
   margin-top: -40px;
 }
 
 .flyoutOtherDetailsContainer {
   display: flex;
-  flex-direction: column;
   overflow: hidden;
+  flex-direction: column;
+  padding: 6px;
 
   margin: 6px;
   margin-top: 12px;
   margin-bottom: 0;
-  padding: 6px;
-
-  background-color: rgba(0,0,0,0.4);
   border-radius: 6px;
 
-
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .flyoutAvatarStyles {
@@ -98,36 +93,35 @@
 
 .rolesContainer {
   display: flex;
-  gap: 2px;
-  margin-bottom: 5px;
   flex-wrap: wrap;
+  margin-bottom: 5px;
+  gap: 2px;
 }
 
 body .postItemContainer {
-  box-shadow: none;
-  background-color: rgba(255,255,255,0.05);
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 6px;
-
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: none;
 }
 
 .roleContainer {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
   padding: 6px;
   padding-top: 4px;
   padding-bottom: 4px;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
   transition: 0.2s;
+  gap: 4px;
 
   &.selectable {
-    cursor: pointer;
-    width: 14px;
     align-items: center;
     justify-content: center;
+    width: 14px;
+    cursor: pointer;
     &:hover {
       background-color: rgba(0, 0, 0, 0.6);
     }
@@ -135,75 +129,87 @@ body .postItemContainer {
 }
 
 .bioContainer {
-  border-radius: 6px;
-  margin-bottom: 5px;
   flex-shrink: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-  white-space: pre-line;
   line-height: 14px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  word-break: break-word;
+  white-space: pre-wrap;
+  white-space: pre-line;
 }
 
 .backgroundContainer {
   position: fixed;
+  z-index: 1111;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1111;
 }
-
 
 .userActivityContainer {
   display: flex;
-  gap: 6px;
-  margin-top: 4px; 
+  margin-top: 4px;
   margin-bottom: 4px;
+  gap: 6px;
   .icon {
     margin-top: 2px;
   }
   .richPresence {
-    margin-top: 4px;  
+    position: relative;
     display: flex;
+    overflow: hidden;
     align-items: center;
+    padding: 4px;
+    margin-top: 4px;
     margin-left: -20px;
+    border-radius: 8px;
     gap: 6px;
+
+    .backgroundImage {
+      position: absolute;
+      z-index: -1;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100% 100%;
+      filter: blur(20px) brightness(0.6);
+      inset: -20px;
+    }
     .richInfo {
       display: flex;
-      flex-direction: column;
       flex: 1;
+      flex-direction: column;
       margin-right: 2px;
     }
-
   }
   .activityImg {
     width: 60px;
     height: 60px;
-    object-fit: cover;
     border-radius: 6px;
+    object-fit: cover;
     &.videoActivityImg {
-      aspect-ratio: 16/9;
       width: initial;
+      aspect-ratio: 16/9;
     }
   }
   .activityInfo {
     display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
     .activityInfoRow {
       display: flex;
-      gap: 4px;      
+      gap: 4px;
     }
   }
 }
 
 .flyoutTitle {
   display: flex;
-  gap: 5px;
   align-items: center;
-  font-weight: bold; 
+  font-weight: bold;
+  gap: 5px;
 }
