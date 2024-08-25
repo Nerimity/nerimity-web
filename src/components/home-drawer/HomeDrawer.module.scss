@@ -19,6 +19,17 @@
     padding-left: 8px;
     font-size: 14px;
     gap: 6px;
+    &:hover .label {
+      opacity: 1;
+    }
+
+    &.selected .label {
+      opacity: 1;
+    }
+    .label {
+      opacity: 0.6;
+      transition: 0.2s;
+    }
   }
 }
 .separator {

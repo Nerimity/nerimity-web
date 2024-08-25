@@ -13,6 +13,7 @@ import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDraw
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
 import { Modal } from "../ui/modal";
+import { cn } from "@/common/classNames";
 
 export default function HomeDrawer() {
   return (
@@ -66,9 +67,12 @@ function Item(props: ItemProps) {
 
   return (
     <CustomLink href={props.href} onClick={props.onClick}>
-      <ItemContainer class={style.item} selected={props.selected || selected()}>
+      <ItemContainer
+        class={cn(style.item, (selected() || props.selected) && style.selected)}
+        selected={props.selected || selected()}
+      >
         <Icon name={props.icon} size={18} />
-        {props.label}
+        <div class={style.label}>{props.label}</div>
       </ItemContainer>
     </CustomLink>
   );

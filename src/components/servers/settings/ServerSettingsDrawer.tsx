@@ -22,17 +22,17 @@ const SettingsListContainer = styled("div")`
   padding-bottom: 3px;
 `;
 
-const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
+const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
   height: 32px;
   gap: 5px;
-  padding-left: ${props => props.nested ? "25px" : "10px"};
+  padding-left: ${(props) => (props.nested ? "25px" : "10px")};
   margin-left: 3px;
   margin-right: 3px;
 
   .label {
-    opacity: ${props => props.selected ? 1 : 0.6};
+    opacity: ${(props) => (props.selected ? 1 : 0.6)};
     transition: 0.2s;
-    font-size: 16px;
+    font-size: 14px;
     color: white;
   }
 
@@ -41,20 +41,21 @@ const SettingItemContainer = styled(ItemContainer)<{nested?: boolean}>`
   }
 `;
 
-
 export default function ServerSettingsDrawer() {
   return (
-    <div style={{display: "flex", "flex-direction": "column", "height": "100%"}}>
+    <div
+      style={{ display: "flex", "flex-direction": "column", height: "100%" }}
+    >
       <SettingsList />
       <InVoiceActions />
     </div>
   );
 }
 
-function SettingsList () {
+function SettingsList() {
   const [t] = useTransContext();
   const params = useParams();
-  const {serverMembers, account, servers} = useStore();
+  const { serverMembers, account, servers } = useStore();
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
   const server = () => servers.get(params.serverId);
 
@@ -74,7 +75,12 @@ function SettingsList () {
           // const isChannels = () => setting.path === "channels";
           return (
             <Show when={hasPermission(setting.requiredRolePermission)}>
-              <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} selected={selected()} />
+              <Item
+                path={setting.path || "#  "}
+                icon={setting.icon}
+                label={t(setting.name)}
+                selected={selected()}
+              />
               {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
             </Show>
           );
@@ -84,8 +90,14 @@ function SettingsList () {
   );
 }
 
-
-function Item (props: {path: string,icon: string, label: string, selected?: boolean, nested?: boolean, onClick?: () => void}) {
+function Item(props: {
+  path: string;
+  icon: string;
+  label: string;
+  selected?: boolean;
+  nested?: boolean;
+  onClick?: () => void;
+}) {
   const params = useParams();
 
   const href = () => {
@@ -96,10 +108,7 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
   const selected = useMatch(() => href() + "/*");
 
   return (
-    <A 
-      href={href()}
-      style={{"text-decoration": "none"}}
-    >
+    <A href={href()} style={{ "text-decoration": "none" }}>
       <SettingItemContainer nested={props.nested} selected={selected()}>
         <Icon name={props.icon} size={18} />
         <div class="label">{props.label}</div>
@@ -108,17 +117,31 @@ function Item (props: {path: string,icon: string, label: string, selected?: bool
   );
 }
 
-function ServerChannelsList () {
+function ServerChannelsList() {
   const params = useParams();
-  const {channels} = useStore();
-  const sortedServerChannels = () =>channels.getSortedChannelsByServerId(params.serverId);
+  const { channels } = useStore();
+  const sortedServerChannels = () =>
+    channels.getSortedChannelsByServerId(params.serverId);
 
   return (
     <For each={sortedServerChannels()}>
       {(channel) => {
-        const path = RouterEndpoints.SERVER_SETTINGS_CHANNEL(params.serverId, channel!.id);
-        const selected = () =>params.id === channel!.id;
-        return <Item nested={true} icon={channel!.type === ChannelType.CATEGORY ? "segment" : "storage"} label={channel!.name} path={path} selected={selected()} />;
+        const path = RouterEndpoints.SERVER_SETTINGS_CHANNEL(
+          params.serverId,
+          channel!.id
+        );
+        const selected = () => params.id === channel!.id;
+        return (
+          <Item
+            nested={true}
+            icon={
+              channel!.type === ChannelType.CATEGORY ? "segment" : "storage"
+            }
+            label={channel!.name}
+            path={path}
+            selected={selected()}
+          />
+        );
       }}
     </For>
   );
