@@ -49,6 +49,11 @@ const Items = () => {
         icon="block"
         onClick={controller?.friends.showBlockedUsersModal}
       />
+      <Item
+        label="Add Friend"
+        icon="person_add"
+        onClick={controller?.friends.showAddFriendModel}
+      />
     </div>
   );
 };
@@ -106,8 +111,6 @@ function Friends() {
         <FriendOfflineHeader />
         <FriendsList friends={controller?.friends?.offlineFriends()} />
       </Show>
-      <div class={style.separator} />
-      <AddFriendButton />
     </div>
   );
 }
@@ -159,20 +162,6 @@ const FriendsList = (props: {
           />
         )}
       </For>
-    </div>
-  );
-};
-
-const AddFriendButton = () => {
-  const controller = useHomeDrawerController();
-
-  return (
-    <div
-      onClick={controller?.friends?.showAddFriendModel}
-      class={style.addFriend}
-    >
-      <Icon name="group_add" size={18} />
-      Add Friend
     </div>
   );
 };

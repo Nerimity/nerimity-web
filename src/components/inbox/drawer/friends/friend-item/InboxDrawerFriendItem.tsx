@@ -84,8 +84,6 @@ export default function InboxDrawerFriendItem(props: {
   const FriendContainer = styled(ItemContainer)`
     padding-left: 10px;
     height: 40px;
-    margin-left: 3px;
-    margin-right: 3px;
 
     .username {
       opacity: ${(props) => (props.selected ? 1 : 0.6)};
