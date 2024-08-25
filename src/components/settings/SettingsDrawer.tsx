@@ -250,7 +250,7 @@ function SupportItem() {
       href="https://ko-fi.com/supertiger"
       target="_blank"
       rel="noopener noreferrer"
-      style={{ "text-decoration": "none" }}
+      style={{ "display": "none" }}
     >
       <SettingItemContainer
         style={{
