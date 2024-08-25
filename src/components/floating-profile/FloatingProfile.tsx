@@ -633,6 +633,14 @@ export const UserActivity = (props: {
           </div>
           <Show when={activity()?.imgSrc}>
             <div class={styles.richPresence}>
+              <Show when={imgSrc()}>
+                <div
+                  class={styles.backgroundImage}
+                  style={{
+                    "background-image": `url(${imgSrc()})`,
+                  }}
+                ></div>
+              </Show>
               <img
                 src={imgSrc()}
                 class={styles.activityImg + " activityImage"}
