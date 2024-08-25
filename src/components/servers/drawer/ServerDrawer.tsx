@@ -205,9 +205,9 @@ const ChannelListSkeleton = () => {
 };
 
 const ChannelContainer = styled(ItemContainer)`
-  height: 34px;
+  height: 32px;
   padding-left: 10px;
-  gap: 5px;
+  gap: 8px;
 
   .label {
     opacity: ${(props) => (props.selected ? 1 : 0.6)};
@@ -215,8 +215,9 @@ const ChannelContainer = styled(ItemContainer)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 16px;
+    font-size: 14px;
     color: white;
+    flex: 1;
   }
   &:hover .label {
     opacity: 1;
@@ -228,9 +229,8 @@ const ChannelContainer = styled(ItemContainer)`
 `;
 const CategoryContainer = styled(FlexColumn)`
   background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   border-radius: 8px;
-  padding: 5px;
+  padding: 0px;
 
   margin-top: 2px;
   margin-bottom: 2px;
@@ -240,6 +240,8 @@ const CategoryItemContainer = styled(FlexRow)`
   margin-bottom: 5px;
   align-items: center;
   cursor: pointer;
+  padding: 4px;
+  padding-left: 8px;
 
   .label {
     user-select: none;
@@ -248,6 +250,7 @@ const CategoryItemContainer = styled(FlexRow)`
     text-overflow: ellipsis;
     flex: 1;
     font-size: 14px;
+    font-weight: bold;
     transition: 0.2s;
   }
   .expand_icon {
@@ -295,7 +298,7 @@ function CategoryItem(props: {
       onmouseleave={() => setHovered(false)}
     >
       <CategoryItemContainer
-        gap={5}
+        gap={8}
         onClick={() => setExpanded(!expanded())}
         classList={{ hide: !expanded() }}
       >
@@ -389,6 +392,7 @@ function ChannelItem(props: {
             type={props.channel.type}
             hovered={hovered()}
           />
+          <div class="label">{channel.name}</div>
           <Show when={isPrivateChannel()}>
             <Icon
               name="lock"
@@ -396,7 +400,6 @@ function ChannelItem(props: {
               style={{ opacity: 0.3, "margin-right": "5px" }}
             />
           </Show>
-          <div class="label">{channel.name}</div>
           <Show when={props.channel.mentionCount()}>
             <MentionCountContainer>
               {props.channel.mentionCount()}
