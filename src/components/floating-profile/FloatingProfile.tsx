@@ -279,7 +279,7 @@ const DesktopProfileFlyout = (props: {
 
   const StickyArea = () => {
     return (
-      <>
+      <Show when={user()}>
         <Banner
           maxHeight={200}
           margin={props.dmPane ? 6 : 0}
@@ -356,7 +356,7 @@ const DesktopProfileFlyout = (props: {
             </Show>
           </div>
         </div>
-      </>
+      </Show>
     );
   };
   const ProfileArea = () => (

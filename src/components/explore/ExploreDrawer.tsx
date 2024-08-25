@@ -11,8 +11,6 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import { t } from "i18next";
 import InVoiceActions from "../InVoiceActions";
 
-
-
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
 `;
@@ -33,7 +31,7 @@ const ExploreItemContainer = styled(ItemContainer)`
   margin-right: 3px;
 
   .label {
-    opacity: ${props => props.selected ? 1 : 0.6};
+    opacity: ${(props) => (props.selected ? 1 : 0.6)};
     transition: 0.2s;
   }
 
@@ -42,12 +40,11 @@ const ExploreItemContainer = styled(ItemContainer)`
   }
 `;
 
-
 export default function SettingsDrawer() {
   return (
     <DrawerContainer>
       <ExploreList />
-      <Footer/>
+      <Footer />
     </DrawerContainer>
   );
 }
@@ -58,55 +55,55 @@ function ExploreList() {
     <ExploreListContainer>
       <DrawerHeader text={t("explore.drawer.title")} />
       <For each={exploreRoutes}>
-        {(setting) =>
-          <Item path={setting.path || "#  "} icon={setting.icon} label={t(setting.name)} />
-        }
+        {(setting) => (
+          <Item
+            path={setting.path || "#  "}
+            icon={setting.icon}
+            label={t(setting.name)}
+          />
+        )}
       </For>
     </ExploreListContainer>
   );
 }
 
-
-
-
-function Item(props: { path: string, icon: string, label: string, onClick?: () => void }) {
+function Item(props: {
+  path: string;
+  icon: string;
+  label: string;
+  onClick?: () => void;
+}) {
   const href = () => {
     return "/app/explore/" + props.path;
   };
   const selected = useMatch(() => href() + "/*");
 
   return (
-    <A
-      href={href()}
-      style={{ "text-decoration": "none" }}
-    >
+    <A href={href()} style={{ "text-decoration": "none" }}>
       <ExploreItemContainer selected={selected()}>
         <Icon name={props.icon} size={18} />
-        <Text class="label">{props.label}</Text>
+        <Text class="label" size={14}>
+          {props.label}
+        </Text>
       </ExploreItemContainer>
     </A>
   );
 }
-
 
 const FooterContainer = styled(FlexColumn)`
   margin-bottom: 2px;
 `;
 
 function Footer() {
-
-
   return (
     <FooterContainer gap={2}>
-      <SupportItem/>
+      <SupportItem />
       <InVoiceActions />
     </FooterContainer>
   );
 }
 
-
 function SupportItem() {
-
   return (
     <A
       href="https://ko-fi.com/supertiger"
@@ -114,15 +111,37 @@ function SupportItem() {
       rel="noopener noreferrer"
       style={{ "text-decoration": "none" }}
     >
-      <ExploreItemContainer style={{ background: "var(--alert-color)", height: "initial", "padding": "10px" }}>
-        <Icon style={{ "align-self": "start", "margin-top": "3px" }} name="favorite" size={18} />
+      <ExploreItemContainer
+        style={{
+          background: "var(--alert-color)",
+          height: "initial",
+          padding: "10px",
+        }}
+      >
+        <Icon
+          style={{ "align-self": "start", "margin-top": "3px" }}
+          name="favorite"
+          size={18}
+        />
         <div>
-          <Text style={{ "font-weight": "bold" }}>{t("settings.drawer.supportMe")}</Text>
+          <Text style={{ "font-weight": "bold" }}>
+            {t("settings.drawer.supportMe")}
+          </Text>
           <div>
-            <Text size={12}>Support this project on Ko-fi to get a supporter badge!</Text>
+            <Text size={12}>
+              Support this project on Ko-fi to get a supporter badge!
+            </Text>
           </div>
         </div>
-        <Icon class={css`margin-left: auto;`} style={{ "align-self": "start", "margin-top": "3px" }} color="rgba(255,255,255,0.6)" name="launch" size={16} />
+        <Icon
+          class={css`
+            margin-left: auto;
+          `}
+          style={{ "align-self": "start", "margin-top": "3px" }}
+          color="rgba(255,255,255,0.6)"
+          name="launch"
+          size={16}
+        />
       </ExploreItemContainer>
     </A>
   );

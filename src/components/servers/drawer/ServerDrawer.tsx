@@ -3,10 +3,20 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import Header from "./header/ServerDrawerHeader";
 import { A, useMatch, useNavigate, useParams } from "solid-navigator";
 import useStore from "@/chat-api/store/useStore";
-import { For, Match, Show, Switch, createEffect, createMemo, on, onCleanup, onMount } from "solid-js";
+import {
+  For,
+  Match,
+  Show,
+  Switch,
+  createEffect,
+  createMemo,
+  on,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import { Channel } from "@/chat-api/store/useChannels";
 import ItemContainer from "@/components/ui/Item";
-import {  styled } from "solid-styled-components";
+import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { ChannelType } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
@@ -24,18 +34,24 @@ import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 import Button from "@/components/ui/Button";
 import { ChannelIcon } from "@/components/ChannelIcon";
 
-
-
-
 const ServerDrawer = () => {
-  const params = useParams<{serverId: string}>();
+  const params = useParams<{ serverId: string }>();
   const store = useStore();
   const server = () => store.servers.get(params.serverId);
   return (
     <div class={styles.serverDrawer}>
-      <div style={{display: "flex", "flex-direction": "column", height: "100%", overflow: "auto"}}>
+      <div
+        style={{
+          display: "flex",
+          "flex-direction": "column",
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
         <Header />
-        <Show when={server()?._count?.welcomeQuestions}><CustomizeItem/></Show>
+        <Show when={server()?._count?.welcomeQuestions}>
+          <CustomizeItem />
+        </Show>
         <ChannelList />
       </div>
       <InVoiceActions />
@@ -44,11 +60,16 @@ const ServerDrawer = () => {
 };
 
 const CustomizeItem = () => {
-  const params = useParams<{serverId: string}>();
-  const match = useMatch(() => RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome"));
+  const params = useParams<{ serverId: string }>();
+  const match = useMatch(() =>
+    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")
+  );
   return (
     <div class={styles.welcomeItemContainer}>
-      <A style={{ "text-decoration": "none" }} href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")}>
+      <A
+        style={{ "text-decoration": "none" }}
+        href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "welcome")}
+      >
         <ChannelContainer selected={match()}>
           <Icon name="tune" color="rgba(255,255,255,0.6)" size={16} />
           <div class="label">Customize</div>
@@ -58,19 +79,32 @@ const CustomizeItem = () => {
   );
 };
 
-
 const ChannelList = () => {
   const params = useParams();
   const { channels, account } = useStore();
   const navigate = useNavigate();
 
-  const [contextMenuDetails, setContextMenuDetails] = createSignal<{ position: {x: number, y: number}, serverId: string, channelId: string } | undefined>();
+  const [contextMenuDetails, setContextMenuDetails] = createSignal<
+    | {
+        position: { x: number; y: number };
+        serverId: string;
+        channelId: string;
+      }
+    | undefined
+  >();
 
-
-  const sortedChannels = () => channels.getSortedChannelsByServerId(params.serverId, true);
-  const sortedRootChannels = () => sortedChannels().filter(channel => !channel?.categoryId);
-  const channelsWithoutCategory = () => sortedChannels().filter(channel => channel?.type !== ChannelType.CATEGORY);
-  const selectedChannelIndex = () => channelsWithoutCategory().findIndex(channel => channel?.id === params.channelId);
+  const sortedChannels = () =>
+    channels.getSortedChannelsByServerId(params.serverId, true);
+  const sortedRootChannels = () =>
+    sortedChannels().filter((channel) => !channel?.categoryId);
+  const channelsWithoutCategory = () =>
+    sortedChannels().filter(
+      (channel) => channel?.type !== ChannelType.CATEGORY
+    );
+  const selectedChannelIndex = () =>
+    channelsWithoutCategory().findIndex(
+      (channel) => channel?.id === params.channelId
+    );
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (!event.altKey) return;
@@ -81,11 +115,14 @@ const ChannelList = () => {
 
       if (selectedChannelIndex() < channelsWithoutCategory().length - 1) {
         newIndex = selectedChannelIndex() + 1;
-      }
-      else {
+      } else {
         newIndex = 0;
       }
-      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`);
+      navigate(
+        `/app/servers/${params.serverId}/${
+          channelsWithoutCategory()[newIndex]?.id
+        }`
+      );
     }
 
     if (event.key === "ArrowDown") {
@@ -94,42 +131,62 @@ const ChannelList = () => {
 
       if (selectedChannelIndex() > 0) {
         newIndex = selectedChannelIndex() - 1;
-      }
-      else {
+      } else {
         newIndex = channelsWithoutCategory().length - 1;
       }
-      navigate(`/app/servers/${params.serverId}/${channelsWithoutCategory()[newIndex]?.id}`);
+      navigate(
+        `/app/servers/${params.serverId}/${
+          channelsWithoutCategory()[newIndex]?.id
+        }`
+      );
     }
-
   };
 
   onMount(() => {
     document.addEventListener("keydown", onKeyDown);
     onCleanup(() => {
-      document.removeEventListener("keydown", onKeyDown);      
+      document.removeEventListener("keydown", onKeyDown);
     });
   });
 
   const onChannelContextMenu = (event: MouseEvent, channelId: string) => {
     event.preventDefault();
-    setContextMenuDetails({ 
-      position: {x: event.clientX, y: event.clientY},
+    setContextMenuDetails({
+      position: { x: event.clientX, y: event.clientY },
       serverId: params.serverId!,
-      channelId
+      channelId,
     });
-
   };
 
   return (
     <div class={styles.channelList}>
-      <ContextMenuServerChannel {...contextMenuDetails()} onClose={() => setContextMenuDetails(undefined)} />
+      <ContextMenuServerChannel
+        {...contextMenuDetails()}
+        onClose={() => setContextMenuDetails(undefined)}
+      />
 
-      <Show when={account.lastAuthenticatedAt()} fallback={<ChannelListSkeleton/>}>
+      <Show
+        when={account.lastAuthenticatedAt()}
+        fallback={<ChannelListSkeleton />}
+      >
         <For each={sortedRootChannels()}>
-          {channel => (
-            <Switch fallback={<ChannelItem expanded onContextMenu={e => onChannelContextMenu(e, channel!.id)} channel={channel!} selected={params.channelId === channel!.id} />}>
+          {(channel) => (
+            <Switch
+              fallback={
+                <ChannelItem
+                  expanded
+                  onContextMenu={(e) => onChannelContextMenu(e, channel!.id)}
+                  channel={channel!}
+                  selected={params.channelId === channel!.id}
+                />
+              }
+            >
               <Match when={channel!.type === ChannelType.CATEGORY}>
-                <CategoryItem onChannelContextMenu={onChannelContextMenu} channel={channel!} selected={params.channelId === channel!.id} />
+                <CategoryItem
+                  onChannelContextMenu={onChannelContextMenu}
+                  channel={channel!}
+                  selected={params.channelId === channel!.id}
+                />
               </Match>
             </Switch>
           )}
@@ -139,32 +196,28 @@ const ChannelList = () => {
   );
 };
 
-
 const ChannelListSkeleton = () => {
   return (
     <Skeleton.List>
-      <Skeleton.Item height="34px" width='100%'  />
+      <Skeleton.Item height="34px" width="100%" />
     </Skeleton.List>
   );
 };
 
-
-
-
 const ChannelContainer = styled(ItemContainer)`
-  height: 34px;
+  height: 32px;
   padding-left: 10px;
-  gap: 5px;
+  gap: 8px;
 
-  
   .label {
-    opacity: ${props => props.selected ? 1 : 0.6};
+    opacity: ${(props) => (props.selected ? 1 : 0.6)};
     transition: 0.2s;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 16px;
+    font-size: 14px;
     color: white;
+    flex: 1;
   }
   &:hover .label {
     opacity: 1;
@@ -173,14 +226,12 @@ const ChannelContainer = styled(ItemContainer)`
   .channelDefaultIcon {
     opacity: 0.4;
   }
-
 `;
 const CategoryContainer = styled(FlexColumn)`
   background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
   border-radius: 8px;
-  padding: 5px;
-  
+  padding: 0px;
+
   margin-top: 2px;
   margin-bottom: 2px;
 `;
@@ -189,7 +240,8 @@ const CategoryItemContainer = styled(FlexRow)`
   margin-bottom: 5px;
   align-items: center;
   cursor: pointer;
-
+  padding: 4px;
+  padding-left: 8px;
 
   .label {
     user-select: none;
@@ -198,18 +250,17 @@ const CategoryItemContainer = styled(FlexRow)`
     text-overflow: ellipsis;
     flex: 1;
     font-size: 14px;
+    font-weight: bold;
     transition: 0.2s;
   }
   .expand_icon {
     transition: 0.2s;
   }
 
-
-
   &.hide {
     .expand_icon {
       transform: rotate(180deg);
-    } 
+    }
     .label {
       opacity: 0.6;
       &:hover {
@@ -217,42 +268,71 @@ const CategoryItemContainer = styled(FlexRow)`
       }
     }
   }
-
-
-
-  
 `;
 
-function CategoryItem(props: { channel: Channel, selected: boolean, onChannelContextMenu: (event: MouseEvent, channelId: string) => void }) {
+function CategoryItem(props: {
+  channel: Channel;
+  selected: boolean;
+  onChannelContextMenu: (event: MouseEvent, channelId: string) => void;
+}) {
   const params = useParams();
   const { channels } = useStore();
   const [hovered, setHovered] = createSignal(false);
 
-  const sortedServerChannels = createMemo(() => channels.getSortedChannelsByServerId(params.serverId, true).filter(channel => channel?.categoryId === props.channel.id));
-  const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
-
+  const sortedServerChannels = createMemo(() =>
+    channels
+      .getSortedChannelsByServerId(params.serverId, true)
+      .filter((channel) => channel?.categoryId === props.channel.id)
+  );
+  const isPrivateChannel = () =>
+    hasBit(
+      props.channel.permissions || 0,
+      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+    );
 
   const [expanded, setExpanded] = createSignal(true);
 
-
   return (
-    <CategoryContainer onmouseenter={() => setHovered(true)} onmouseleave={() => setHovered(false)}>
-
-      <CategoryItemContainer gap={5} onClick={() => setExpanded(!expanded())} classList={{"hide": !expanded()}} >
-        <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={hovered()} />
+    <CategoryContainer
+      onmouseenter={() => setHovered(true)}
+      onmouseleave={() => setHovered(false)}
+    >
+      <CategoryItemContainer
+        gap={8}
+        onClick={() => setExpanded(!expanded())}
+        classList={{ hide: !expanded() }}
+      >
+        <ChannelIcon
+          icon={props.channel.icon}
+          type={props.channel.type}
+          hovered={hovered()}
+        />
         <Show when={isPrivateChannel()}>
-          <Icon name='lock' size={14} style={{ opacity: 0.3 }} />
+          <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
         </Show>
         <div class="label">{props.channel.name}</div>
 
-        <Button iconClass="expand_icon" padding={2} margin={[0,2,0,0]} iconName="expand_more" iconSize={16} />
+        <Button
+          iconClass="expand_icon"
+          padding={2}
+          margin={[0, 2, 0, 0]}
+          iconName="expand_more"
+          iconSize={16}
+        />
       </CategoryItemContainer>
 
       <Show when={sortedServerChannels().length}>
         <div class={styles.categoryChannelList}>
           <For each={sortedServerChannels()}>
-            {channel => (
-              <ChannelItem expanded={expanded()} onContextMenu={e => props.onChannelContextMenu(e, channel!.id!)} channel={channel!} selected={params.channelId === channel!.id} />
+            {(channel) => (
+              <ChannelItem
+                expanded={expanded()}
+                onContextMenu={(e) =>
+                  props.onChannelContextMenu(e, channel!.id!)
+                }
+                channel={channel!}
+                selected={params.channelId === channel!.id}
+              />
             )}
           </For>
         </div>
@@ -260,8 +340,6 @@ function CategoryItem(props: { channel: Channel, selected: boolean, onChannelCon
     </CategoryContainer>
   );
 }
-
-
 
 const MentionCountContainer = styled(FlexRow)`
   align-items: center;
@@ -278,38 +356,59 @@ const MentionCountContainer = styled(FlexRow)`
   margin-right: 5px;
 `;
 
-function ChannelItem(props: { expanded: boolean, channel: Channel, selected: boolean, onContextMenu: (event: MouseEvent) => void }) {
+function ChannelItem(props: {
+  expanded: boolean;
+  channel: Channel;
+  selected: boolean;
+  onContextMenu: (event: MouseEvent) => void;
+}) {
   const { channel } = props;
   const [hovered, setHovered] = createSignal(false);
 
   const hasNotifications = () => channel.hasNotifications();
 
-  const isPrivateChannel = () => hasBit(props.channel.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
-
+  const isPrivateChannel = () =>
+    hasBit(
+      props.channel.permissions || 0,
+      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+    );
 
   return (
-
     <Show when={props.expanded || props.selected || hasNotifications()}>
-      <A 
+      <A
         onClick={() => emitDrawerGoToMain()}
         onContextMenu={props.onContextMenu}
         href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}
         style={{ "text-decoration": "none" }}
       >
-        <ChannelContainer onMouseEnter={() => setHovered(true)} onmouseleave={() => setHovered(false)} selected={props.selected} alert={hasNotifications()}>
-          <ChannelIcon icon={props.channel.icon} type={props.channel.type} hovered={hovered()} />
-          <Show when={isPrivateChannel()}>
-            <Icon name='lock' size={14} style={{ opacity: 0.3, "margin-right": "5px" }} />
-          </Show>
+        <ChannelContainer
+          onMouseEnter={() => setHovered(true)}
+          onmouseleave={() => setHovered(false)}
+          selected={props.selected}
+          alert={hasNotifications()}
+        >
+          <ChannelIcon
+            icon={props.channel.icon}
+            type={props.channel.type}
+            hovered={hovered()}
+          />
           <div class="label">{channel.name}</div>
+          <Show when={isPrivateChannel()}>
+            <Icon
+              name="lock"
+              size={14}
+              style={{ opacity: 0.3, "margin-right": "5px" }}
+            />
+          </Show>
           <Show when={props.channel.mentionCount()}>
-            <MentionCountContainer>{props.channel.mentionCount()}</MentionCountContainer>
+            <MentionCountContainer>
+              {props.channel.mentionCount()}
+            </MentionCountContainer>
           </Show>
         </ChannelContainer>
         <ChannelItemVoiceUsers channelId={props.channel.id} />
       </A>
     </Show>
-
   );
 }
 
@@ -342,13 +441,13 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
     <Show when={channelVoiceUsers().length}>
       <ChannelVoiceUsersContainer>
         <ChannelVoiceUsersTitle size={12}>
-          <Icon name='call' size={16} color='rgba(255,255,255,0.4)' />
+          <Icon name="call" size={16} color="rgba(255,255,255,0.4)" />
           In Voice
           <CallTime channelId={props.channelId} />
         </ChannelVoiceUsersTitle>
         <ChannelVoiceUsersListContainer>
           <For each={channelVoiceUsers()}>
-            {voiceUser => <Avatar user={voiceUser!.user()} size={20} />}
+            {(voiceUser) => <Avatar user={voiceUser!.user()} size={20} />}
           </For>
         </ChannelVoiceUsersListContainer>
       </ChannelVoiceUsersContainer>
@@ -362,25 +461,32 @@ function CallTime(props: { channelId: string }) {
 
   const [time, setTime] = createSignal<null | string>(null);
 
-  createEffect(on(() => channel()?.callJoinedAt, (joinedAt) => {
-    let interval: number;
-    if (joinedAt) {
-      setTime(timeElapsed(joinedAt));
-      interval = window.setInterval(() =>
-        setTime(timeElapsed(joinedAt))
-      , 1000);
-    }
-    onCleanup(() => {
-      interval && clearInterval(interval);
-    });
-  }));
+  createEffect(
+    on(
+      () => channel()?.callJoinedAt,
+      (joinedAt) => {
+        let interval: number;
+        if (joinedAt) {
+          setTime(timeElapsed(joinedAt));
+          interval = window.setInterval(
+            () => setTime(timeElapsed(joinedAt)),
+            1000
+          );
+        }
+        onCleanup(() => {
+          interval && clearInterval(interval);
+        });
+      }
+    )
+  );
 
   return (
     <Show when={channel()?.callJoinedAt}>
-      <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>{time()}</Text>
+      <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>
+        {time()}
+      </Text>
     </Show>
   );
 }
-
 
 export default ServerDrawer;

@@ -13,6 +13,7 @@ import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDraw
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
 import { Modal } from "../ui/modal";
+import { cn } from "@/common/classNames";
 
 export default function HomeDrawer() {
   return (
@@ -48,6 +49,11 @@ const Items = () => {
         icon="block"
         onClick={controller?.friends.showBlockedUsersModal}
       />
+      <Item
+        label="Add Friend"
+        icon="person_add"
+        onClick={controller?.friends.showAddFriendModel}
+      />
     </div>
   );
 };
@@ -66,9 +72,12 @@ function Item(props: ItemProps) {
 
   return (
     <CustomLink href={props.href} onClick={props.onClick}>
-      <ItemContainer class={style.item} selected={props.selected || selected()}>
+      <ItemContainer
+        class={cn(style.item, (selected() || props.selected) && style.selected)}
+        selected={props.selected || selected()}
+      >
         <Icon name={props.icon} size={18} />
-        {props.label}
+        <div class={style.label}>{props.label}</div>
       </ItemContainer>
     </CustomLink>
   );
@@ -102,8 +111,6 @@ function Friends() {
         <FriendOfflineHeader />
         <FriendsList friends={controller?.friends?.offlineFriends()} />
       </Show>
-      <div class={style.separator} />
-      <AddFriendButton />
     </div>
   );
 }
@@ -155,20 +162,6 @@ const FriendsList = (props: {
           />
         )}
       </For>
-    </div>
-  );
-};
-
-const AddFriendButton = () => {
-  const controller = useHomeDrawerController();
-
-  return (
-    <div
-      onClick={controller?.friends?.showAddFriendModel}
-      class={style.addFriend}
-    >
-      <Icon name="group_add" size={18} />
-      Add Friend
     </div>
   );
 };

@@ -45,11 +45,15 @@ export interface ContextMenuProps {
 }
 
 export default function ContextMenu(props: ContextMenuProps) {
-  let contextMenuElement: HTMLDivElement | undefined;
+  let [contextMenuEl, setContextMenuEl] = createSignal<HTMLDivElement | null>(
+    null
+  );
   const [pos, setPos] = createSignal({ top: "0", left: "0" });
   const { isMobileWidth, hasFocus } = useWindowProperties();
 
   const [items, setItems] = createStore(props.items);
+
+  const { height, width } = useResizeObserver(contextMenuEl);
 
   createEffect(() => {
     setItems(reconcile(props.items));
@@ -116,34 +120,37 @@ export default function ContextMenu(props: ContextMenuProps) {
 
   const left = () => {
     if (!props.position) return;
-    if (!contextMenuElement) return;
+    if (!contextMenuEl()) return;
     // move the context menu to the left if it's off the screen.
-    if (props.position.x + contextMenuElement.clientWidth > window.innerWidth) {
-      return props.position.x - contextMenuElement.clientWidth + "px";
+    if (props.position.x + width() > window.innerWidth) {
+      return props.position.x - width() + "px";
     }
+
     return props.position.x + "px";
   };
 
   const top = () => {
     if (!props.position) return;
-    if (!contextMenuElement) return;
+    if (!contextMenuEl()) return;
+
+    let y = props.position.y;
     // move the context menu to the top if it's off the screen.
-    if (
-      props.position.y + contextMenuElement.clientHeight >
-      window.innerHeight
-    ) {
-      return props.position.y - contextMenuElement.clientHeight + "px";
+    if (props.position.y + height() > window.innerHeight) {
+      y = props.position.y - height();
     }
-    return props.position.y + "px";
+
+    // move the context menu to the bottom if it's off the screen.
+    if (props.position.y + height() > window.innerHeight) {
+      y = props.position.y - height();
+    }
+
+    return y + "px";
   };
 
   createEffect(
-    on(
-      () => props.position,
-      () => {
-        setPos({ left: left() || "0", top: top() || "0" });
-      }
-    )
+    on([() => props.position, height, width], () => {
+      setPos({ left: left() || "0", top: top() || "0" });
+    })
   );
 
   const onItemClick = (item: ContextMenuItem) => {
@@ -159,7 +166,7 @@ export default function ContextMenu(props: ContextMenuProps) {
           <div class={styles.darkBackground} />
         </Show>
         <div
-          ref={contextMenuElement}
+          ref={setContextMenuEl}
           class={classNames(
             styles.contextMenu,
             conditionalClass(isMobileWidth(), styles.mobile)

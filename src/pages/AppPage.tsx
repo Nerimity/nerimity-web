@@ -43,6 +43,7 @@ import { useReactNativeEvent } from "@/common/ReactNative";
 import { registerFCM } from "@/chat-api/services/UserService";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import MobileBottomPane from "@/components/ui/MobileBottomPane";
+import { MetaTitle } from "@/common/MetaTitle";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -208,6 +209,7 @@ function MainPane() {
 
   return (
     <OuterMainPaneContainer ref={setOuterPaneElement}>
+      <MetaTitle>Dashboard</MetaTitle>
       <MainPaneContainer
         hasLeftDrawer={hasLeftDrawer()}
         hasRightDrawer={hasRightDrawer()}

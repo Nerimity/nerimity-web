@@ -1,7 +1,10 @@
-import {createStore, reconcile} from "solid-js/store";
+import { createStore, reconcile } from "solid-js/store";
 import { ActivityStatus, FriendStatus, RawUser } from "../RawData";
 import useInbox from "./useInbox";
-import { closeDMChannelRequest, openDMChannelRequest } from "../services/UserService";
+import {
+  closeDMChannelRequest,
+  openDMChannelRequest,
+} from "../services/UserService";
 import useChannels from "./useChannels";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { useNavigate } from "solid-navigator";
@@ -23,81 +26,84 @@ export interface Presence {
   userId: string;
   custom?: string | null;
   status: UserStatus;
-  activity?: ActivityStatus
+  activity?: ActivityStatus;
 }
 
-export const avatarUrl = (item: {avatar?: string}): string | null => item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
+export const avatarUrl = (item: { avatar?: string }): string | null =>
+  item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
 
-export const bannerUrl = (item: {banner?: string}): string | null => item?.banner ? env.NERIMITY_CDN + item?.banner : null;
+export const bannerUrl = (item: { banner?: string }): string | null =>
+  item?.banner ? env.NERIMITY_CDN + item?.banner : null;
 
-export type User =  {
-  presence: () => Presence | undefined,
-  inboxChannelId?: string
-  voiceChannelId?: string
+export type User = {
+  presence: () => Presence | undefined;
+  inboxChannelId?: string;
+  voiceChannelId?: string;
   setInboxChannelId: (this: User, channelId: string | undefined) => void;
   setVoiceChannelId: (this: User, channelId: string | undefined) => void;
   openDM: (this: User) => Promise<void>;
   closeDM: (this: User) => Promise<void>;
-  avatarUrl(this: User): string | null
-  update(this: User, update: Partial<RawUser>): void
+  avatarUrl(this: User): string | null;
+  update(this: User, update: Partial<RawUser>): void;
 } & RawUser;
 
 const [users, setUsers] = createStore<Record<string, User>>({});
-const [userPresences, setUserPresences] = createStore<Record<string, Presence>>({});
+const [userPresences, setUserPresences] = createStore<Record<string, Presence>>(
+  {}
+);
 
-const set = (user: RawUser) => runWithContext(() => {
+const set = (user: RawUser) =>
+  runWithContext(() => {
+    const newUser: User = {
+      ...user,
+      presence: getPresence,
+      setInboxChannelId,
+      setVoiceChannelId,
+      openDM: openDMScoped,
+      closeDM,
+      avatarUrl: function () {
+        return avatarUrl(this);
+      },
+      update,
+    };
 
-  const newUser: User = {
-    ...user,
-    presence: getPresence,
-    setInboxChannelId,
-    setVoiceChannelId,
-    openDM: openDMScoped,
-    closeDM,
-    avatarUrl: function () {
-      return avatarUrl(this);
-    },
-    update
-  };
+    setUsers(user.id, newUser);
+  });
 
-  setUsers(user.id, newUser);
-});
-
-function getPresence (this: User) {
+function getPresence(this: User) {
   return userPresences[this.id];
 }
 
-function setVoiceChannelId (this: User, channelId: string | undefined) {
+function setVoiceChannelId(this: User, channelId: string | undefined) {
   setUsers(this.id, "voiceChannelId", channelId);
 }
-function setInboxChannelId (this: User, channelId: string | undefined) {
+function setInboxChannelId(this: User, channelId: string | undefined) {
   setUsers(this.id, "inboxChannelId", channelId);
 }
 
-function update (this: User, update: Partial<RawUser>) {
+function update(this: User, update: Partial<RawUser>) {
   setUsers(this.id, update);
 }
-function openDMScoped (this: User) {
+function openDMScoped(this: User) {
   return openDM(this.id);
 }
 
-
-const openDM = async (userId: string) => runWithContext(async () =>{
-  const navigate = useNavigate();
-  const inbox = useInbox();
-  const channels = useChannels();
-  const user = () => get(userId);
-  const inboxItem = () => inbox.get(user()?.inboxChannelId!);
-  // check if dm already exists
-  if (!inboxItem()) {
-    const rawInbox = await openDMChannelRequest(userId);
-    channels.set(rawInbox.channel);
-    inbox.set({...rawInbox, channelId: rawInbox.channel.id});
-    user()?.setInboxChannelId(rawInbox.channel.id);
-  }
-  navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem()?.channelId!));
-});
-
+const openDM = async (userId: string) =>
+  runWithContext(async () => {
+    const navigate = useNavigate();
+    const inbox = useInbox();
+    const channels = useChannels();
+    const user = () => get(userId);
+    const inboxItem = () => inbox.get(user()?.inboxChannelId!);
+    // check if dm already exists
+    if (!inboxItem()) {
+      const rawInbox = await openDMChannelRequest(userId);
+      channels.set(rawInbox.channel);
+      inbox.set({ ...rawInbox, channelId: rawInbox.channel.id });
+      user()?.setInboxChannelId(rawInbox.channel.id);
+    }
+    navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem()?.channelId!));
+  });
 
 async function closeDM(this: User) {
   await closeDMChannelRequest(this.inboxChannelId!);
@@ -109,29 +115,33 @@ const array = () => Object.values(users);
 
 const setPresence = (userId: string, presence: Partial<Presence>) => {
   const account = useAccount();
-  
-  if (account.user()?.id === userId) {    
+
+  if (account.user()?.id === userId) {
     account.setUser({
-      ...(presence.custom !== undefined ? {
-        customStatus: presence.custom || undefined
-      } : undefined)
+      ...(presence.custom !== undefined
+        ? {
+            customStatus: presence.custom || undefined,
+          }
+        : undefined),
     });
   }
-  const isOffline = presence.status !== undefined && presence.status === UserStatus.OFFLINE;
+  const isOffline =
+    presence.status !== undefined && presence.status === UserStatus.OFFLINE;
   if (isOffline) {
     setUserPresences(userId, undefined!);
     return;
   }
   if (presence.custom === null) presence.custom = undefined;
   if (presence.activity === null) presence.activity = undefined;
-  setUserPresences(userId, {...presence, userId});
+  setUserPresences(userId, { ...presence, userId });
 };
 
 const removePresence = (userId: string) => {
-  setPresence(userId, {status: UserStatus.OFFLINE});
+  setPresence(userId, { status: UserStatus.OFFLINE });
 };
 
 const reset = () => {
+  setUserPresences(reconcile({}));
   setUsers(reconcile({}));
 };
 
@@ -142,7 +152,10 @@ const updateLastOnlineAt = (userId: string) => {
   const friends = useFriends();
   const user = get(userId);
   if (!user) return;
-  if (account.user()?.id === userId && user.lastOnlineStatus !== LastOnlineStatus.HIDDEN) {
+  if (
+    account.user()?.id === userId &&
+    user.lastOnlineStatus !== LastOnlineStatus.HIDDEN
+  ) {
     setUsers(userId, "lastOnlineAt", Date.now());
     return;
   }
@@ -158,7 +171,7 @@ const updateLastOnlineAt = (userId: string) => {
     }
   }
   setUsers(userId, "lastOnlineAt", undefined);
-}
+};
 
 export default function useUsers() {
   return {
@@ -170,6 +183,6 @@ export default function useUsers() {
     openDM,
     reset,
     presencesArray,
-    updateLastOnlineAt
+    updateLastOnlineAt,
   };
 }
