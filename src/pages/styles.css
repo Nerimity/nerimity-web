@@ -1,111 +1,36 @@
-/* styles.css */
 body {
-    font-family: "Times New Roman", Times, serif;
-    margin: 0;
-    padding: 0;
-    background-color: #40E0D0; /* Turquoise background */
-}
-
-.banner {
-    width: 100%;
-    background-color: #F9B006; /* Canary yellow */
-    color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-.banner-title {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.banner-buttons {
-    display: flex;
-    gap: 10px;
-    margin-right: 20px; /* Adjust this value to move buttons further left */
-}
-
-.banner-buttons button {
-    background-color: white;
-    color: #F9B006; /* Canary yellow */
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 20px; /* Rounded corners for buttons */
-    text-align: center;
-    font-size: 1em; /* Adjust font size as needed */
-}
-
-.banner-buttons button:hover {
-    background-color: #f0f0f0; /* Light gray background on hover */
+  background-color: #40E0D0; /* Turquoise */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 .container {
-    margin-top: 60px; /* Adjust this value based on the height of your banner */
-    padding: 20px;
-    text-align: center; /* Center text and buttons */
+  text-align: center;
 }
 
 .logo img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px; /* Rounded corners for the image if desired */
+  width: 150px; /* Adjust size as needed */
+  margin-bottom: 20px;
 }
 
 h1 {
-    font-size: 2em; /* Adjust font size as needed */
-    color: #333; /* Darker text color for better readability */
+  margin-bottom: 20px;
 }
 
-.buttons {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center buttons horizontally */
-    gap: 10px; /* Space between buttons */
+.buttons .btn {
+  background-color: #FFEF00; /* Canary Yellow */
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.btn {
-    background-color: #F9B006;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 20px; /* Rounded corners for buttons */
-    text-align: center;
-    font-size: 1em; /* Adjust font size as needed */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+.buttons .btn:hover {
+  opacity: 0.8;
 }
-
-.btn:hover {
-    background-color: #e0a700; /* Slightly darker yellow on hover */
-}
-
-/* Add responsive design */
-@media (max-width: 600px) {
-    .banner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .banner-buttons {
-        margin-top: 10px;
-        margin-right: 10px; /* Adjust if needed for smaller screens */
-        gap: 5px;
-    }
-
-    .container {
-        padding: 10px;
-    }
-
-    .buttons {
-        flex-direction: column;
-    }
-}
- 
