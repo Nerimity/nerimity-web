@@ -458,7 +458,11 @@ const DesktopProfileFlyout = (props: {
         title="Latest Post"
         primaryColor={props.primaryColor || undefined}
       />
-      <PostItem class={styles.postItemContainer} post={latestPost()!} />
+      <PostItem
+        primaryColor={props.primaryColor}
+        class={styles.postItemContainer}
+        post={latestPost()!}
+      />
     </>
   );
 

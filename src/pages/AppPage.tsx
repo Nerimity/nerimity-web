@@ -211,6 +211,7 @@ function MainPane() {
     <OuterMainPaneContainer ref={setOuterPaneElement}>
       <MetaTitle>Dashboard</MetaTitle>
       <MainPaneContainer
+        style={{ background: windowProperties.paneBackgroundColor() }}
         hasLeftDrawer={hasLeftDrawer()}
         hasRightDrawer={hasRightDrawer()}
         class={classNames(

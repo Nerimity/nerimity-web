@@ -20,6 +20,7 @@ import { ImageEmbed } from "../ui/ImageEmbed";
 import { RawPostChoice, RawPostPoll, RawUser } from "@/chat-api/RawData";
 import { RadioBoxItem } from "../ui/RadioBox";
 import { DeletePostModal, EditPostModal } from "../PostsArea";
+import { css } from "solid-styled-components";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -30,6 +31,8 @@ viewsEnabledAt.setUTCMinutes(54);
 const timestampViewsEnabledAt = viewsEnabledAt.getTime();
 
 export function PostItem(props: {
+  primaryColor?: string;
+  bgColor?: string;
   showFullDate?: boolean;
   disableClick?: boolean;
   hideDelete?: boolean;
@@ -78,10 +81,18 @@ export function PostItem(props: {
   return (
     <div
       class={cn(
+        "postItem",
         props.class,
         style.postContainer,
-        props.disableClick && style.disableClick
+        props.disableClick && style.disableClick,
+        props.primaryColor &&
+          css`
+            .markup a {
+              color: ${props.primaryColor};
+            }
+          `
       )}
+      style={{ "background-color": props.bgColor }}
       tabIndex="0"
       onMouseDown={onMouseDown}
       onClick={onClick}
@@ -118,7 +129,11 @@ export function PostItem(props: {
             />
             <Content post={props.post} hovered={hovered()} />
 
-            <Actions hideDelete={props.hideDelete} post={props.post} />
+            <Actions
+              primaryColor={props.primaryColor}
+              hideDelete={props.hideDelete}
+              post={props.post}
+            />
           </div>
         </div>
       </Show>
@@ -169,7 +184,11 @@ const Content = (props: { post: Post; hovered: boolean }) => {
   );
 };
 
-const Actions = (props: { post: Post; hideDelete?: boolean }) => {
+const Actions = (props: {
+  primaryColor?: string;
+  post: Post;
+  hideDelete?: boolean;
+}) => {
   const navigate = useNavigate();
   const { account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
@@ -223,6 +242,7 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
         margin={0}
         onClick={onCommentClick}
         class={style.postButtonStyle}
+        color={props.primaryColor}
         iconClass={style.icon}
         iconName="comment"
         label={props.post._count?.comments.toLocaleString()}
@@ -248,6 +268,7 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
             }
             margin={0}
             iconClass={style.icon}
+            color={props.primaryColor}
             class={style.postButtonStyle}
             iconName="security"
           />
@@ -261,6 +282,7 @@ const Actions = (props: { post: Post; hideDelete?: boolean }) => {
             onClick={onEditClicked}
             margin={0}
             class={style.postButtonStyle}
+            color={props.primaryColor}
             iconClass={style.icon}
             iconName="edit"
           />

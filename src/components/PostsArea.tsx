@@ -78,7 +78,11 @@ const EmojiPickerContainer = styled("div")`
   z-index: 111111;
 `;
 
-function NewPostArea(props: { postId?: string }) {
+function NewPostArea(props: {
+  bgColor?: string;
+  postId?: string;
+  primaryColor?: string;
+}) {
   const { posts } = useStore();
   const [content, setContent] = createSignal("");
   const { isPortalOpened } = useCustomPortal();
@@ -167,7 +171,7 @@ function NewPostArea(props: { postId?: string }) {
 
   const hasContentOrFocused = () => inputFocused() || content().length;
   return (
-    <NewPostContainer>
+    <NewPostContainer style={{ "background-color": props.bgColor }}>
       <Show when={hasContentOrFocused()}>
         <Notice
           type="warn"
@@ -183,10 +187,12 @@ function NewPostArea(props: { postId?: string }) {
         class={css`
           margin-top: 10px;
         `}
+        primaryColor={props.primaryColor}
         inputElement={textAreaEl()!}
         updateText={setContent}
       />
       <Input
+        primaryColor={props.primaryColor}
         maxLength={500}
         margin={[0, 0, 10, 0]}
         onBlur={() => setTimeout(() => setInputFocused(false), 100)}
@@ -222,6 +228,7 @@ function NewPostArea(props: { postId?: string }) {
         <Button
           margin={0}
           padding={5}
+          color={props.primaryColor}
           class={css`
             width: 20px;
             height: 20px;
@@ -233,6 +240,7 @@ function NewPostArea(props: { postId?: string }) {
         <Button
           margin={0}
           padding={5}
+          color={props.primaryColor}
           class={css`
             width: 20px;
             height: 20px;
@@ -244,6 +252,7 @@ function NewPostArea(props: { postId?: string }) {
         <Button
           margin={0}
           padding={5}
+          color={props.primaryColor}
           class={classNames(
             "emojiPickerButton",
             css`
@@ -258,6 +267,7 @@ function NewPostArea(props: { postId?: string }) {
         <Button
           margin={0}
           padding={5}
+          color={props.primaryColor}
           iconSize={16}
           onClick={onCreateClick}
           label={
@@ -448,6 +458,8 @@ export function PostsArea(props: {
   userId?: string;
   showCreateNew?: boolean;
   style?: JSX.CSSProperties;
+  primaryColor?: string;
+  bgColor?: string;
 }) {
   const [loading, setLoading] = createSignal(false);
   const { posts } = useStore();
@@ -572,14 +584,27 @@ export function PostsArea(props: {
   return (
     <PostsContainer gap={2} style={props.style}>
       <Show when={props.showCreateNew}>
-        <NewPostArea />
+        <NewPostArea
+          bgColor={props.bgColor}
+          primaryColor={props.primaryColor}
+        />
       </Show>
       <Show when={props.postId}>
-        <NewPostArea postId={props.postId} />
+        <NewPostArea
+          bgColor={props.bgColor}
+          primaryColor={props.primaryColor}
+          postId={props.postId}
+        />
       </Show>
       <FlexColumn gap={2} ref={postsContainerRef}>
         <For each={cachedReplies()}>
-          {(post, i) => <PostItem post={post} />}
+          {(post, i) => (
+            <PostItem
+              bgColor={props.bgColor}
+              post={post}
+              primaryColor={props.primaryColor}
+            />
+          )}
         </For>
 
         <Show when={hasMorePosts() || loading()}>

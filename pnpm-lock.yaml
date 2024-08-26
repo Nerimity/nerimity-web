@@ -44,6 +44,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.39)
+      chroma-js:
+        specifier: ^3.0.0
+        version: 3.0.0
       croppie:
         specifier: ^2.6.5
         version: 2.6.5
@@ -108,6 +111,9 @@ importers:
       '@maxim_mazurok/gapi.client.drive-v3':
         specifier: ^0.0.20230927
         version: 0.0.20230927
+      '@types/chroma-js':
+        specifier: ^2.4.4
+        version: 2.4.4
       '@types/croppie':
         specifier: ^2.6.4
         version: 2.6.4
@@ -635,6 +641,9 @@ packages:
   '@types/babel__traverse@7.20.6':
     resolution: {integrity: sha512-r1bzfrm0tomOI8g1SzvCaQHo6Lcv6zu0EA+W2kHrt8dyrHQxGzBBL4kdkzIS+jBMV+EYcMAEAqXqYaLJq5rOZg==}
 
+  '@types/chroma-js@2.4.4':
+    resolution: {integrity: sha512-/DTccpHTaKomqussrn+ciEvfW4k6NAHzNzs/sts1TCqg333qNxOhy8TNIoQCmbGG3Tl8KdEhkGAssb1n3mTXiQ==}
+
   '@types/croppie@2.6.4':
     resolution: {integrity: sha512-rxKLA5S+QarlaMVlsMqhn2fMMC5XlvogFzTYdMlkeupPgxT1mWaheucdZNzkUJACn61+JjN/eJYt5dS9GMoeXw==}
 
@@ -856,6 +865,9 @@ packages:
 
   chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
+
+  chroma-js@3.0.0:
+    resolution: {integrity: sha512-ZFn4qxtZTvRJ7XatOLgaHGJYN10LoS6T0EMsu7IVayFG5+b6Yw8wCGQL5qLgo4B+wrRZ9niCrozOQ4a584bvaA==}
 
   clamp@1.0.1:
     resolution: {integrity: sha512-kgMuFyE78OC6Dyu3Dy7vcx4uy97EIbVxJB/B0eJ3bUNAkwdNcxYzgKltnyADiYwsR7SEqkkUPsEUT//OVS6XMA==}
@@ -2159,6 +2171,8 @@ snapshots:
     dependencies:
       '@babel/types': 7.24.9
 
+  '@types/chroma-js@2.4.4': {}
+
   '@types/croppie@2.6.4': {}
 
   '@types/estree@1.0.5': {}
@@ -2415,6 +2429,8 @@ snapshots:
       fsevents: 2.3.3
 
   chownr@1.1.4: {}
+
+  chroma-js@3.0.0: {}
 
   clamp@1.0.1: {}
 
