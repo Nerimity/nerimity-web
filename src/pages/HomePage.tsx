@@ -24,10 +24,10 @@ const HomePage: React.FC = () => {
         </div>
         <h1>Welcome to ADS-Chat</h1>
         <div className="buttons">
-          <button className="btn login-btn" onClick={() => window.location.href='login.html'}>
+          <button className="btn login-btn" onClick={() => window.location.href='https://chat.quizzity.tech/login'}>
             Login
           </button>
-          <button className="btn register-btn" onClick={() => window.location.href='register.html'}>
+          <button className="btn register-btn" onClick={() => window.location.href='https://chat.quizzity.tech/register'}>
             Register
           </button>
           <button className="btn download-btn" onClick={() => window.location.href='https://download.quizzity.tech/'}>
