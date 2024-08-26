@@ -13,7 +13,7 @@ const ADSChat: React.FC = () => {
             </div>
             <div className="container">
                 <div className="logo">
-                    <img src="logo.png" alt="ADS-Chat Logo" />
+                    <img src="/logo.png" alt="ADS-Chat Logo" />
                 </div>
                 <h1>Welcome to ADS-Chat</h1>
                 <div className="buttons">
