@@ -7,13 +7,13 @@ const HomePage: React.FC = () => {
       <header className="banner">
         <div className="banner-title">ADS-Chat</div>
         <div className="banner-buttons">
-          <button onClick={() => window.location.href='https://example-login.com'}>
+          <button onClick={() => window.location.href='https://chat.quizzity.tech/login'}>
             Login
           </button>
-          <button onClick={() => window.location.href='https://example-signup.com'}>
+          <button onClick={() => window.location.href='https://chat.quizzity.com/register'}>
             Register
           </button>
-          <button onClick={() => window.location.href='https://download.quizzity.tech/'}>
+          <button onClick={() => window.location.href='https://chat.quizzity.com/app/'}>
             Open App
           </button>
         </div>
