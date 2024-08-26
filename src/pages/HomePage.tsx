@@ -5,13 +5,16 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <header className="banner">
-        <div className="name">ADS-Chat</div>
-        <div className="top-buttons">
+        <div className="banner-title">ADS-Chat</div>
+        <div className="banner-buttons">
           <button onClick={() => window.location.href='https://example-login.com'}>
             Login
           </button>
           <button onClick={() => window.location.href='https://example-signup.com'}>
-            Sign Up
+            Register
+          </button>
+          <button onClick={() => window.location.href='https://download.quizzity.tech/'}>
+            Open App
           </button>
         </div>
       </header>
