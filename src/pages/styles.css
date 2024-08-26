@@ -28,6 +28,7 @@ body {
 .banner-buttons {
     display: flex;
     gap: 10px;
+    margin-right: 20px; /* Adjust this value to move buttons further left */
 }
 
 .banner-buttons button {
@@ -95,6 +96,7 @@ h1 {
 
     .banner-buttons {
         margin-top: 10px;
+        margin-right: 10px; /* Adjust if needed for smaller screens */
         gap: 5px;
     }
 
