@@ -76,31 +76,81 @@ const Logo = styled("img")`
   backdrop-filter: blur(34px);
 `;
 
-export default function HomePage() {
+export default function () {
   const [t] = useTransContext();
   
   const releaseLink = `https://github.com/Nerimity/nerimity-web/releases/${env.APP_VERSION ? `tag/${env.APP_VERSION}` : ""}`;
 
   return (
-    <HomePageContainer class="home-page-container">
-      <PageHeader showLogo={false} />
-      <Content class='content'>
-        <TopContainer class='top-container'>
-          <Logo src={appLogoUrl()} alt="logo"/>
-          <Text class="title" size={60}>ADS-Chat</Text>
-          <Text>Based off Nerimity! Independent!</Text>
-          <a href={releaseLink} target="_blank" rel="noopener noreferrer">{env.APP_VERSION || "Unknown Version"}</a>
-          <ButtonsContainer class="buttons-container">
-            <a href='/register'><Button iconName='open_in_browser' label={t("homePage.joinButton", {appName: "ADS-Chat"})!} primary={true} /></a>
-            <a href="https://github.com/Nerimity/nerimity-web" target="_blank" rel="noopener noreferrer"><Button color='white' iconName='code' label={t("homePage.viewGitHubButton")!} /></a>
-          </ButtonsContainer>
-          <PlatformDownloadLinks/>
-        </TopContainer>
-        <FeatureList/>
-        <ArtImage src="./assets/home-page-art.svg" alt=""/>
-      </Content>
-      <PageFooter/>
-    </HomePageContainer>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADS-Chat</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+        }
+        .banner {
+            width: 100%;
+            background-color: #F9B006; /* Canary yellow */
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .banner .name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .banner .top-buttons {
+            display: flex;
+            gap: 10px;
+            margin-right: 20px; /* Adjust this value to move buttons further left */
+        }
+        .banner .top-buttons button {
+            background-color: white;
+            color: #F9B006; /* Canary yellow */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .container {
+            margin-top: 60px; /* Adjust this value based on the height of your banner */
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="name">ADS-Chat</div>
+        <div class="top-buttons">
+            <button onclick="window.location.href='https://example-login.com'">Login</button>
+            <button onclick="window.location.href='https://example-signup.com'">Sign Up</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="logo">
+            <!-- Placeholder for logo -->
+            <img src="logo.png" alt="ADS-Chat Logo">
+        </div>
+        <h1>Welcome to ADS-Chat</h1>
+        <div class="buttons">
+            <button class="btn login-btn" onclick="window.location.href='login.html'">Login</button>
+            <button class="btn register-btn" onclick="window.location.href='register.html'">Register</button>
+            <button class="btn download-btn" onclick="window.location.href='https://download.quizzity.tech/'">Downloads</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
   );
 }
 
