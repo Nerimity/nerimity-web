@@ -7,13 +7,13 @@ const HomePage: React.FC = () => {
       <header className="banner">
         <div className="banner-title">ADS-Chat</div>
         <div className="banner-buttons">
-          <button onClick={() => window.location.href='https://chat.quizzity.tech/login'}>
+          <button onClick={() => window.location.href='https://example-login.com'}>
             Login
           </button>
-          <button onClick={() => window.location.href='https://chat.quizzity.com/register'}>
+          <button onClick={() => window.location.href='https://example-signup.com'}>
             Register
           </button>
-          <button onClick={() => window.location.href='https://chat.quizzity.com/app/'}>
+          <button onClick={() => window.location.href='https://download.quizzity.tech/'}>
             Open App
           </button>
         </div>
@@ -24,10 +24,10 @@ const HomePage: React.FC = () => {
         </div>
         <h1>Welcome to ADS-Chat</h1>
         <div className="buttons">
-          <button className="btn login-btn" onClick={() => window.location.href='https://chat.quizzity.tech/login'}>
+          <button className="btn login-btn" onClick={() => window.location.href='login.html'}>
             Login
           </button>
-          <button className="btn register-btn" onClick={() => window.location.href='https://chat.quizzity.tech/register'}>
+          <button className="btn register-btn" onClick={() => window.location.href='register.html'}>
             Register
           </button>
           <button className="btn download-btn" onClick={() => window.location.href='https://download.quizzity.tech/'}>
