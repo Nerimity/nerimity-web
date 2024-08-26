@@ -1,36 +1,102 @@
+/* styles.css */
 body {
-  background-color: #40E0D0; /* Turquoise */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  font-family: Arial, sans-serif;
+    font-family: "Times New Roman", Times, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Light gray background for contrast */
+}
+
+.banner {
+    width: 100%;
+    background-color: #F9B006; /* Canary yellow */
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.banner-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.banner-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.banner-buttons button {
+    background-color: white;
+    color: #F9B006; /* Canary yellow */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners for buttons */
+}
+
+.banner-buttons button:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
 }
 
 .container {
-  text-align: center;
+    margin-top: 60px; /* Adjust this value based on the height of your banner */
+    padding: 20px;
 }
 
 .logo img {
-  width: 150px; /* Adjust size as needed */
-  margin-bottom: 20px;
+    max-width: 100%;
+    height: auto;
 }
 
 h1 {
-  margin-bottom: 20px;
+    font-size: 2em; /* Adjust font size as needed */
+    color: #333; /* Darker text color for better readability */
 }
 
-.buttons .btn {
-  background-color: #FFEF00; /* Canary Yellow */
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between buttons */
 }
 
-.buttons .btn:hover {
-  opacity: 0.8;
+.btn {
+    background-color: #F9B006;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners for buttons */
+    text-align: center;
+    font-size: 1em; /* Adjust font size as needed */
+}
+
+.btn:hover {
+    background-color: #e0a700; /* Slightly darker yellow on hover */
+}
+
+/* Add responsive design */
+@media (max-width: 600px) {
+    .banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .banner-buttons {
+        margin-top: 10px;
+        gap: 5px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
 }
