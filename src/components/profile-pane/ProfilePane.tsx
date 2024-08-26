@@ -652,75 +652,83 @@ const UserActivity = (props: { userId: string }) => {
 
   return (
     <Show when={activity()}>
-      <FlexRow
-        gap={6}
+      <FlexColumn
+        gap={4}
         class={css`
           margin-top: 4px;
           margin-bottom: 4px;
           margin-left: 5px;
         `}
       >
-        <Icon
-          class={css`
-            margin-top: 2px;
-          `}
-          name={getActivityIconName(activity()!)}
-          size={18}
-          color="var(--primary-color)"
-        />
-        <FlexColumn style={{ flex: 1 }}>
+        <FlexRow gap={4} style={{ flex: 1 }}>
+          <Icon
+            class={css`
+              margin-top: 2px;
+            `}
+            name={getActivityIconName(activity()!)}
+            size={18}
+            color="var(--primary-color)"
+          />
           <span>
             <Text size={14}>{activity()?.action} </Text>
             <Text size={14} opacity={0.6}>
               {activity()?.name}
             </Text>
           </span>
+        </FlexRow>
 
-          <Show when={activity()?.imgSrc}>
-            <div class={styles.richPresence}>
-              <img
-                src={imgSrc()}
-                class={styles.activityImg}
-                classList={{
-                  [styles.videoActivityImg!]: isVideo() || isLiveStream(),
+        <Show when={activity()?.imgSrc}>
+          <div class={styles.richPresence}>
+            <Show when={imgSrc()}>
+              <div
+                class={styles.backgroundImage}
+                style={{
+                  "background-image": `url(${imgSrc()})`,
                 }}
-              />
-              <div class={styles.richInfo}>
-                <Text
-                  size={13}
-                  opacity={0.9}
-                  href={activity()?.link}
-                  isDangerousLink
-                  newTab
-                >
-                  {activity()?.title}
-                </Text>
+              ></div>
+            </Show>
+            <img
+              src={imgSrc()}
+              class={styles.activityImg}
+              classList={{
+                [styles.videoActivityImg!]: isVideo() || isLiveStream(),
+              }}
+            />
+            <div class={styles.richInfo}>
+              <Text
+                size={13}
+                opacity={0.9}
+                href={activity()?.link}
+                isDangerousLink
+                newTab
+              >
+                {activity()?.title}
+              </Text>
 
+              <Text size={13} opacity={0.6}>
+                {activity()?.subtitle}
+              </Text>
+              <Show when={!isMusic() && !isVideo()}>
                 <Text size={13} opacity={0.6}>
-                  {activity()?.subtitle}
+                  {playedFor()}
                 </Text>
-                <Show when={!isMusic() && !isVideo()}>
-                  <Text size={13} opacity={0.6}>
-                    {playedFor()}
-                  </Text>
-                </Show>
-                <Show when={isMusic() || isVideo()}>
-                  <RichProgressBar
-                    updatedAt={activity()?.updatedAt}
-                    speed={activity()?.speed}
-                    startedAt={activity()?.startedAt!}
-                    endsAt={activity()?.endsAt!}
-                  />
-                </Show>
-              </div>
+              </Show>
+              <Show when={isMusic() || isVideo()}>
+                <RichProgressBar
+                  updatedAt={activity()?.updatedAt}
+                  speed={activity()?.speed}
+                  startedAt={activity()?.startedAt!}
+                  endsAt={activity()?.endsAt!}
+                />
+              </Show>
             </div>
-          </Show>
+          </div>
+        </Show>
 
-          <Show when={!activity()?.imgSrc}>
-            <Text size={14}>For {playedFor()}</Text>
-          </Show>
-        </FlexColumn>
-      </FlexRow>
+        <Show when={!activity()?.imgSrc}>
+          <Text size={14}>For {playedFor()}</Text>
+        </Show>
+      </FlexColumn>
     </Show>
   );
 };
@@ -838,15 +846,15 @@ function SidePaneItem(props: {
 }) {
   return (
     <div class={styles.SidePaneItem} onClick={props.onClick}>
-      <Icon
-        name={props.icon}
-        size={18}
-        color={props.color || "var(--primary-color)"}
-      />
-      <FlexColumn>
+      <FlexRow gap={4}>
+        <Icon
+          name={props.icon}
+          size={18}
+          color={props.color || "var(--primary-color)"}
+        />
         <div class={styles.label}>{props.label}</div>
-        <div class={styles.value}>{props.value}</div>
-      </FlexColumn>
+      </FlexRow>
+      <div class={styles.value}>{props.value}</div>
     </div>
   );
 }
