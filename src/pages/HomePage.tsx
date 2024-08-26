@@ -7,8 +7,8 @@ const ADSChat: React.FC = () => {
             <div className="banner">
                 <div className="name">ADS-Chat</div>
                 <div className="top-buttons">
-                    <button onClick={() => window.location.href='https://example-login.com'}>Login</button>
-                    <button onClick={() => window.location.href='https://example-signup.com'}>Sign Up</button>
+                    <button onClick={() => window.location.href='https://chat.quizzity.tech/login'}>Login</button>
+                    <button onClick={() => window.location.href='https://chat.quizzity.tech/register'}>Sign Up</button>
                 </div>
             </div>
             <div className="container">
@@ -17,8 +17,8 @@ const ADSChat: React.FC = () => {
                 </div>
                 <h1>Welcome to ADS-Chat</h1>
                 <div className="buttons">
-                    <button className="btn login-btn" onClick={() => window.location.href='login.html'}>Login</button>
-                    <button className="btn register-btn" onClick={() => window.location.href='register.html'}>Register</button>
+                    <button className="btn login-btn" onClick={() => window.location.href='https://chat.quizzity.tech/login'}>Login</button>
+                    <button className="btn register-btn" onClick={() => window.location.href='https://chat.quizzity.tech/register'}>Register</button>
                     <button className="btn download-btn" onClick={() => window.location.href='https://download.quizzity.tech/'}>Downloads</button>
                 </div>
             </div>
