@@ -1,42 +1,36 @@
-import React from 'react';
-import './styles.css'; // Import the CSS file if you have additional styles
-
-const HomePage: React.FC = () => {
-  return (
-    <div>
-      <header className="banner">
-        <div className="banner-title">ADS-Chat</div>
-        <div className="banner-buttons">
-          <button onClick={() => window.location.href='https://example-login.com'}>
-            Login
-          </button>
-          <button onClick={() => window.location.href='https://example-signup.com'}>
-            Register
-          </button>
-          <button onClick={() => window.location.href='https://download.quizzity.tech/'}>
-            Open App
-          </button>
-        </div>
-      </header>
-      <main className="container">
-        <div className="logo">
-          <img src="logo.png" alt="ADS-Chat Logo" />
-        </div>
-        <h1>Welcome to ADS-Chat</h1>
-        <div className="buttons">
-          <button className="btn login-btn" onClick={() => window.location.href='login.html'}>
-            Login
-          </button>
-          <button className="btn register-btn" onClick={() => window.location.href='register.html'}>
-            Register
-          </button>
-          <button className="btn download-btn" onClick={() => window.location.href='https://download.quizzity.tech/'}>
-            Downloads
-          </button>
-        </div>
-      </main>
-    </div>
-  );
+body {
+  background-color: #40E0D0; /* Turquoise */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
-export default HomePage;
+.container {
+  text-align: center;
+}
+
+.logo img {
+  width: 150px; /* Adjust size as needed */
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.buttons .btn {
+  background-color: #FFEF00; /* Canary Yellow */
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.buttons .btn:hover {
+  opacity: 0.8;
+}
