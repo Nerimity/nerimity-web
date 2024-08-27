@@ -175,7 +175,8 @@ const DesktopProfileFlyout = (props: {
       details()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
       details()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
     ])
-      .luminance(0.01)
+      .luminance(0.02)
+      .alpha(0.9)
       .hex();
   });
 
