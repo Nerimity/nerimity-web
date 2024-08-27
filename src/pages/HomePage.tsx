@@ -22,7 +22,7 @@ const ADSChat: React.FC = () => {
                     <button className="btn download-btn" onClick={() => window.location.href='https://download.quizzity.tech/'}>Downloads</button>
                 </div>
             </div>
-            <style jsx>{
+            <style jsx>{`
                 body {
                     font-family: "Times New Roman", Times, serif;
                 }
@@ -58,7 +58,7 @@ const ADSChat: React.FC = () => {
                 .container {
                     margin-top: 60px; /* Adjust this value based on the height of your banner */
                 }
-            }</style>
+            `}</style>
         </div>
     );
 };
