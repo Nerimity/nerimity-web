@@ -3,7 +3,8 @@ import { keyframes, styled } from "solid-styled-components";
 interface ItemContainer {
   selected?: any;
   alert?: any;
-  handlePosition?: "top" | "bottom" | "left" | "right"
+  handlePosition?: "top" | "bottom" | "left" | "right";
+  handleColor?: string;
 }
 
 const handleLeftBottomAnimate = keyframes`
@@ -34,55 +35,81 @@ const ItemContainer = styled("div")<ItemContainer>`
   align-items: center;
   text-decoration: none;
 
-  ${props => props.handlePosition === "top" || props.handlePosition === "bottom" ? "justify-content: center;" : "" }
+  ${(props) =>
+    props.handlePosition === "top" || props.handlePosition === "bottom"
+      ? "justify-content: center;"
+      : ""}
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 3px;
     height: 15px;
 
-    ${props => props.handlePosition === "left" || !props.handlePosition ? "left: 0" : undefined};
-    ${props => props.handlePosition === "right" ? "right: 0" : undefined};
+    ${(props) =>
+      props.handlePosition === "left" || !props.handlePosition
+        ? "left: 0"
+        : undefined};
+    ${(props) => (props.handlePosition === "right" ? "right: 0" : undefined)};
 
-    ${props => props.handlePosition === "top" ? `
+    ${(props) =>
+      props.handlePosition === "top"
+        ? `
       top: 0;
       height: 3px;
       width: 15px;
-    ` : undefined}
+    `
+        : undefined}
 
-    ${props => props.handlePosition === "bottom" ? `
+    ${(props) =>
+      props.handlePosition === "bottom"
+        ? `
       bottom: 0;
       height: 3px;
       width: 15px;
-    ` : undefined}
+    `
+        : undefined}
 
     border-radius: 3px;
     transition: 0.2s;
-  }  
+  }
 
   &:hover {
     background-color: hsl(216deg 7% 28% / 40%);
   }
 
   && {
-    ${props => props.selected ? `
+    ${(props) =>
+      props.selected
+        ? `
       background-color: hsl(216deg 7% 28% / 60%);
       &:after {
-        animation: ${ (props.handlePosition === "top" || props.handlePosition === "bottom") ? handleTopBottomAnimate : handleLeftBottomAnimate} 0.2s ease-in-out;
-        background-color: var(--primary-color);
+        animation: ${
+          props.handlePosition === "top" || props.handlePosition === "bottom"
+            ? handleTopBottomAnimate
+            : handleLeftBottomAnimate
+        } 0.2s ease-in-out;
+        background-color: ${props.handleColor || "var(--primary-color)"};
       } 
-      ` : undefined}
-    }
-    
-    && {
-      ${props => props.alert ? `
+      `
+        : undefined}
+  }
+
+  && {
+    ${(props) =>
+      props.alert
+        ? `
       &:after {
-        animation: ${ (props.handlePosition === "top" || props.handlePosition === "bottom") ? handleTopBottomAnimate : handleLeftBottomAnimate} 0.2s ease-in-out;
+        animation: ${
+          props.handlePosition === "top" || props.handlePosition === "bottom"
+            ? handleTopBottomAnimate
+            : handleLeftBottomAnimate
+        } 0.2s ease-in-out;
         background-color: var(--alert-color);
       } 
-    ` : undefined}
-    }
+    `
+        : undefined}
+  }
 `;
 
 export default ItemContainer;

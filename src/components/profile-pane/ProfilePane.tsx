@@ -2,6 +2,7 @@ import styles from "./styles.module.scss";
 import { A, useNavigate, useParams } from "solid-navigator";
 import {
   createEffect,
+  createMemo,
   createSignal,
   For,
   on,
@@ -61,6 +62,7 @@ import {
 } from "@/components/activity/Activity";
 import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
+import chroma from "chroma-js";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -109,6 +111,7 @@ export default function ProfilePane() {
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [animateAvatar, setAnimateAvatar] = createSignal(false);
 
+  const { setPaneBackgroundColor } = useWindowProperties();
   createEffect(
     on(
       () => params.userId,
@@ -129,6 +132,22 @@ export default function ProfilePane() {
     }, 100);
   };
 
+  const colors = () => {
+    const bgColorOne = userDetails()?.profile?.bgColorOne;
+    const bgColorTwo = userDetails()?.profile?.bgColorTwo;
+    const primaryColor = userDetails()?.profile?.primaryColor;
+    return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
+  };
+  const bgColor = createMemo(() => {
+    return chroma
+      .average([
+        userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
+        userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+      ])
+      .luminance(0.01)
+      .hex();
+  });
+
   const user = () => {
     if (userDetails()) return userDetails()?.user;
     if (isMe()) return account.user();
@@ -136,8 +155,24 @@ export default function ProfilePane() {
     if (user) return user;
   };
 
+  onCleanup(() => {
+    setPaneBackgroundColor(undefined);
+  });
+
   createEffect(
     on(user, () => {
+      if (!colors().bg) {
+        setPaneBackgroundColor(undefined);
+      } else {
+        setPaneBackgroundColor(`
+          linear-gradient(
+            180deg,
+            ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
+            ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
+          )
+        `);
+      }
+
       if (!user()) return;
       header.updateHeader({
         subName: "Profile",
@@ -147,37 +182,12 @@ export default function ProfilePane() {
     })
   );
 
-  const colors = () => {
-    const bgColorOne = userDetails()?.profile?.bgColorOne;
-    const bgColorTwo = userDetails()?.profile?.bgColorTwo;
-    const primaryColor = userDetails()?.profile?.primaryColor;
-    return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
-  };
-
   return (
     <>
       <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
       <Show when={user()}>
         <div class={styles.profilePane}>
-          <div
-            class={classNames(
-              styles.topArea,
-              css`
-                background: linear-gradient(
-                  180deg,
-                  ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
-                  ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
-                );
-                &:after {
-                  background: linear-gradient(
-                    180deg,
-                    ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
-                    ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
-                  );
-                }
-              `
-            )}
-          >
+          <div class={classNames(styles.topArea)}>
             <Banner
               maxHeight={250}
               animate
@@ -204,7 +214,7 @@ export default function ProfilePane() {
                 <Show when={!isMe() && !isMobileWidth()}>
                   <ActionButtons
                     class={css`
-                      background-color: rgba(0, 0, 0, 0.4);
+                      background-color: ${bgColor()};
                       border-radius: 10px;
                       padding: 4px;
                       margin-right: 6px;
@@ -212,12 +222,16 @@ export default function ProfilePane() {
                     `}
                     updateUserDetails={() => fetchUserDetails(params.userId)}
                     userDetails={userDetails()}
+                    primaryColor={colors().primary}
                     user={user()}
                   />
                 </Show>
               </FlexRow>
 
-              <div class={styles.informationContainer}>
+              <div
+                class={styles.informationContainer}
+                style={{ background: bgColor() }}
+              >
                 <div class={styles.details}>
                   <div class={styles.usernameTag}>
                     <span class={styles.username}>{user()!.username}</span>
@@ -286,7 +300,7 @@ export default function ProfilePane() {
             </div>
           </Show>
           <Show when={userDetails()}>
-            <Content user={userDetails()!} />
+            <Content user={userDetails()!} bgColor={bgColor()} />
           </Show>
         </div>
       </Show>
@@ -299,6 +313,7 @@ const ActionButtons = (props: {
   updateUserDetails(): void;
   userDetails?: UserDetails | null;
   user?: RawUser | null;
+  primaryColor?: string;
 }) => {
   const params = useParams<{ userId: string }>();
   const { friends, users, account } = useStore();
@@ -370,7 +385,7 @@ const ActionButtons = (props: {
           <ActionButton
             icon="security"
             label="Admin Panel"
-            color="var(--primary-color)"
+            color={props.primaryColor || "var(--primary-color)"}
           />
         </CustomLink>
       </Show>
@@ -380,7 +395,7 @@ const ActionButtons = (props: {
           icon="add_circle"
           label={t("profile.followButton")}
           onClick={followClick}
-          color="var(--primary-color)"
+          color={props.primaryColor || "var(--primary-color)"}
         />
       )}
       {isFollowing() && (
@@ -403,7 +418,7 @@ const ActionButtons = (props: {
         <ActionButton
           icon="group_add"
           label={t("profile.addFriendButton")}
-          color="var(--primary-color)"
+          color={props.primaryColor || "var(--primary-color)"}
           onClick={addClicked}
         />
       )}
@@ -435,12 +450,12 @@ const ActionButtons = (props: {
       <ActionButton
         icon="mail"
         label={t("profile.messageButton")}
-        color="var(--primary-color)"
+        color={props.primaryColor || "var(--primary-color)"}
         onClick={onMessageClicked}
       />
       <ActionButton
         icon="more_vert"
-        color="var(--primary-color)"
+        color={props.primaryColor || "var(--primary-color)"}
         class="profile-context-button"
         onClick={showProfileContext}
       />
@@ -531,11 +546,11 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
   return <ContextMenu {...props} items={items()} />;
 }
 
-function Content(props: { user: UserDetails }) {
+function Content(props: { user: UserDetails; bgColor: string }) {
   return (
     <div class={styles.content}>
-      <PostsContainer user={props.user} />
-      <SideBar user={props.user} />
+      <PostsContainer user={props.user} bgColor={props.bgColor} />
+      <SideBar bgColor={props.bgColor} user={props.user} />
     </div>
   );
 }
@@ -564,7 +579,7 @@ function BioContainer(props: {
   );
 }
 
-function SideBar(props: { user: UserDetails }) {
+function SideBar(props: { user: UserDetails; bgColor: string }) {
   const [toggleJoinedDateType, setToggleJoinedDateType] = createSignal(false);
   const joinedAt = () => {
     if (!toggleJoinedDateType()) return getDaysAgo(props.user.user.joinedAt!);
@@ -575,6 +590,7 @@ function SideBar(props: { user: UserDetails }) {
     <div class={styles.sidePane}>
       <Show when={props.user.suspensionExpiresAt !== undefined}>
         <SidePaneItem
+          bgColor="var(--alert-color)"
           icon="block"
           label="This user is suspended"
           color="var(--alert-color)"
@@ -587,26 +603,45 @@ function SideBar(props: { user: UserDetails }) {
       </Show>
       <Show when={props.user.block}>
         <SidePaneItem
+          bgColor="var(--alert-color)"
           icon="block"
           label="You've been blocked"
           color="var(--alert-color)"
           value="This user has blocked you."
         />
       </Show>
-      <UserActivity userId={props.user.user.id} />
+      <UserActivity
+        bgColor={props.bgColor}
+        color={props.user.profile?.primaryColor}
+        userId={props.user.user.id}
+      />
       <SidePaneItem
+        bgColor={props.bgColor}
         icon="event"
         label="Joined"
+        color={props.user.profile?.primaryColor}
         value={joinedAt()}
         onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
       />
-      <MutualFriendList mutualFriendIds={props.user.mutualFriendIds} />
-      <MutualServerList mutualServerIds={props.user.mutualServerIds} />
+      <MutualFriendList
+        bgColor={props.bgColor}
+        color={props.user.profile?.primaryColor}
+        mutualFriendIds={props.user.mutualFriendIds}
+      />
+      <MutualServerList
+        bgColor={props.bgColor}
+        color={props.user.profile?.primaryColor}
+        mutualServerIds={props.user.mutualServerIds}
+      />
     </div>
   );
 }
 
-const UserActivity = (props: { userId: string }) => {
+const UserActivity = (props: {
+  userId: string;
+  color?: string;
+  bgColor: string;
+}) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
   const activity = () => user()?.presence()?.activity;
@@ -652,80 +687,102 @@ const UserActivity = (props: { userId: string }) => {
 
   return (
     <Show when={activity()}>
-      <FlexRow
-        gap={6}
+      <FlexColumn
         class={css`
           margin-top: 4px;
           margin-bottom: 4px;
-          margin-left: 5px;
+          border-radius: 8px;
+          background: ${props.bgColor};
         `}
       >
-        <Icon
-          class={css`
-            margin-top: 2px;
-          `}
-          name={getActivityIconName(activity()!)}
-          size={18}
-          color="var(--primary-color)"
-        />
-        <FlexColumn style={{ flex: 1 }}>
+        <FlexRow gap={4} style={{ flex: 1, padding: "8px" }}>
+          <Icon
+            class={css`
+              margin-top: 2px;
+            `}
+            name={getActivityIconName(activity()!)}
+            size={18}
+            color={props.color || "var(--primary-color)"}
+          />
           <span>
             <Text size={14}>{activity()?.action} </Text>
             <Text size={14} opacity={0.6}>
               {activity()?.name}
             </Text>
           </span>
+        </FlexRow>
 
-          <Show when={activity()?.imgSrc}>
-            <div class={styles.richPresence}>
-              <img
-                src={imgSrc()}
-                class={styles.activityImg}
-                classList={{
-                  [styles.videoActivityImg!]: isVideo() || isLiveStream(),
+        <Show when={activity()?.imgSrc}>
+          <div class={styles.richPresence}>
+            <Show when={imgSrc()}>
+              <div
+                class={styles.backgroundImage}
+                style={{
+                  "background-image": `url(${imgSrc()})`,
                 }}
-              />
-              <div class={styles.richInfo}>
-                <Text
-                  size={13}
-                  opacity={0.9}
-                  href={activity()?.link}
-                  isDangerousLink
-                  newTab
-                >
-                  {activity()?.title}
-                </Text>
+              ></div>
+            </Show>
+            <img
+              src={imgSrc()}
+              class={styles.activityImg}
+              classList={{
+                [styles.videoActivityImg!]: isVideo() || isLiveStream(),
+              }}
+            />
+            <div class={styles.richInfo}>
+              <Text
+                size={13}
+                opacity={0.9}
+                href={activity()?.link}
+                isDangerousLink
+                newTab
+              >
+                {activity()?.title}
+              </Text>
 
+              <Text size={13} opacity={0.6}>
+                {activity()?.subtitle}
+              </Text>
+              <Show when={!isMusic() && !isVideo()}>
                 <Text size={13} opacity={0.6}>
-                  {activity()?.subtitle}
+                  {playedFor()}
                 </Text>
-                <Show when={!isMusic() && !isVideo()}>
-                  <Text size={13} opacity={0.6}>
-                    {playedFor()}
-                  </Text>
-                </Show>
-                <Show when={isMusic() || isVideo()}>
-                  <RichProgressBar
-                    updatedAt={activity()?.updatedAt}
-                    speed={activity()?.speed}
-                    startedAt={activity()?.startedAt!}
-                    endsAt={activity()?.endsAt!}
-                  />
-                </Show>
-              </div>
+              </Show>
+              <Show when={isMusic() || isVideo()}>
+                <RichProgressBar
+                  updatedAt={activity()?.updatedAt}
+                  speed={activity()?.speed}
+                  startedAt={activity()?.startedAt!}
+                  endsAt={activity()?.endsAt!}
+                />
+              </Show>
             </div>
-          </Show>
+          </div>
+        </Show>
 
-          <Show when={!activity()?.imgSrc}>
-            <Text size={14}>For {playedFor()}</Text>
-          </Show>
-        </FlexColumn>
-      </FlexRow>
+        <Show when={!activity()?.imgSrc}>
+          <Text
+            style={{
+              "margin-left": "8px",
+              "margin-top": "-4px",
+              "margin-bottom": "8px",
+            }}
+            size={14}
+            opacity={0.6}
+          >
+            For {playedFor()}
+          </Text>
+        </Show>
+      </FlexColumn>
     </Show>
   );
 };
 
-function MutualFriendList(props: { mutualFriendIds: string[] }) {
+function MutualFriendList(props: {
+  mutualFriendIds: string[];
+  bgColor: string;
+  color?: string;
+}) {
   const { users } = useStore();
   const { isMobileWidth } = useWindowProperties();
   const [show, setShow] = createSignal(false);
@@ -742,9 +799,15 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
         styles.block,
         conditionalClass(isMobileWidth(), styles.mobileBlock)
       )}
+      style={{ "background-color": props.bgColor }}
     >
       <div class={styles.title} onClick={() => setShow(!show())}>
-        <Icon name="group" size={18} class={styles.icon} />
+        <Icon
+          name="group"
+          size={18}
+          class={styles.icon}
+          color={props.color || "var(--primary-color)"}
+        />
         <Text size={14} style={{ "margin-right": "auto" }}>
           {t("profile.mutualFriends", { count: props.mutualFriendIds.length })}
         </Text>
@@ -778,7 +841,11 @@ function MutualFriendList(props: { mutualFriendIds: string[] }) {
     </div>
   );
 }
-function MutualServerList(props: { mutualServerIds: string[] }) {
+function MutualServerList(props: {
+  mutualServerIds: string[];
+  bgColor: string;
+  color?: string;
+}) {
   const { servers } = useStore();
   const { isMobileWidth } = useWindowProperties();
   const [show, setShow] = createSignal(false);
@@ -789,9 +856,15 @@ function MutualServerList(props: { mutualServerIds: string[] }) {
         styles.block,
         conditionalClass(isMobileWidth(), styles.mobileBlock)
       )}
+      style={{ "background-color": props.bgColor }}
     >
       <div class={styles.title} onClick={() => setShow(!show())}>
-        <Icon name="dns" size={18} class={styles.icon} />
+        <Icon
+          name="dns"
+          size={18}
+          class={styles.icon}
+          color={props.color || "var(--primary-color)"}
+        />
         <Text size={14} style={{ "margin-right": "auto" }}>
           {t("profile.mutualServers", { count: props.mutualServerIds.length })}
         </Text>
@@ -834,24 +907,29 @@ function SidePaneItem(props: {
   label: string;
   value: string;
   color?: string;
+  bgColor: string;
   onClick?: () => void;
 }) {
   return (
-    <div class={styles.SidePaneItem} onClick={props.onClick}>
-      <Icon
-        name={props.icon}
-        size={18}
-        color={props.color || "var(--primary-color)"}
-      />
-      <FlexColumn>
+    <div
+      class={styles.SidePaneItem}
+      style={{ "background-color": props.bgColor }}
+      onClick={props.onClick}
+    >
+      <FlexRow gap={4}>
+        <Icon
+          name={props.icon}
+          size={18}
+          color={props.color || "var(--primary-color)"}
+        />
         <div class={styles.label}>{props.label}</div>
-        <div class={styles.value}>{props.value}</div>
-      </FlexColumn>
+      </FlexRow>
+      <div class={styles.value}>{props.value}</div>
     </div>
   );
 }
 
-function PostsContainer(props: { user: UserDetails }) {
+function PostsContainer(props: { user: UserDetails; bgColor: string }) {
   const { account } = useStore();
   const navigate = useNavigate();
   const params = useParams<{
@@ -860,6 +938,8 @@ function PostsContainer(props: { user: UserDetails }) {
 
   const postCount = () => props.user.user._count.posts.toLocaleString();
   const likeCount = () => props.user.user._count.likedPosts.toLocaleString();
+
+  const primaryColor = () => props.user.profile?.primaryColor;
 
   const currentPage = () => {
     switch (params.tab) {
@@ -898,10 +978,16 @@ function PostsContainer(props: { user: UserDetails }) {
   const isMe = () => account.user()?.id === props.user.user.id;
 
   return (
-    <div class={styles.postsContainer}>
+    <div
+      class={styles.postsContainer}
+      style={{
+        background: props.bgColor,
+      }}
+    >
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": "wrap" }}>
         <ItemContainer
           handlePosition="bottom"
+          handleColor={primaryColor()}
           class={styles.postsTabButton}
           selected={currentPage() === 0}
           onClick={() => setCurrentPage(0)}
@@ -915,6 +1001,7 @@ function PostsContainer(props: { user: UserDetails }) {
         </ItemContainer>
         <ItemContainer
           handlePosition="bottom"
+          handleColor={primaryColor()}
           class={styles.postsTabButton}
           selected={currentPage() === 1}
           onClick={() => setCurrentPage(1)}
@@ -928,6 +1015,7 @@ function PostsContainer(props: { user: UserDetails }) {
         </ItemContainer>
         <ItemContainer
           handlePosition="bottom"
+          handleColor={primaryColor()}
           class={styles.postsTabButton}
           selected={currentPage() === 2}
           onClick={() => setCurrentPage(2)}
@@ -942,6 +1030,7 @@ function PostsContainer(props: { user: UserDetails }) {
         <Show when={isMe() || !props.user.hideFollowing}>
           <ItemContainer
             handlePosition="bottom"
+            handleColor={primaryColor()}
             class={styles.postsTabButton}
             selected={currentPage() === 3}
             onClick={() => setCurrentPage(3)}
@@ -957,6 +1046,7 @@ function PostsContainer(props: { user: UserDetails }) {
         <Show when={isMe() || !props.user.hideFollowers}>
           <ItemContainer
             handlePosition="bottom"
+            handleColor={primaryColor()}
             class={styles.postsTabButton}
             selected={currentPage() === 4}
             onClick={() => setCurrentPage(4)}
@@ -972,6 +1062,7 @@ function PostsContainer(props: { user: UserDetails }) {
       </FlexRow>
       <Show when={props.user && currentPage() <= 2}>
         <PostsArea
+          primaryColor={primaryColor()}
           showLiked={currentPage() === 2}
           showReplies={currentPage() === 1}
           style={{ width: "100%" }}

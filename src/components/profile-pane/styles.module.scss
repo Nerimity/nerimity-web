@@ -1,39 +1,37 @@
 .profilePane {
   display: flex;
-  flex-direction: column;
+  align-self: center;
   flex: 1;
+  flex-direction: column;
 
   width: 100%;
   max-width: 900px;
-  align-self: center;
-
 }
 .topArea {
-  display: flex;
   position: relative;
+  z-index: 1111;
+  display: flex;
   flex-direction: column;
-  border-radius: 8px;
+  flex-shrink: 0;
   margin: 10px;
   margin-bottom: 0;
-  flex-shrink: 0;
-  z-index: 1111;
-  outline: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
 
-  &:after { 
-    content: ""; 
-    position: absolute; 
-    inset: 0; 
+  &:after {
+    position: absolute;
+    z-index: -1;
     opacity: 0.6;
+    content: "";
 
-    filter: blur(2em); 
-    z-index: -1; 
-  } 
-  &:before {
-    content: ""; 
-    position: absolute; 
+    filter: blur(2em);
     inset: 0;
-    border-radius: 8px;
+  }
+  &:before {
+    position: absolute;
     z-index: 1;
+    border-radius: 8px;
+    content: "";
+    inset: 0;
   }
 
   .avatar {
@@ -42,36 +40,31 @@
   .topAreaContent {
     z-index: 111;
   }
-
 }
 
 .informationContainer {
   padding: 8px;
-  border-radius: 6px;
-  background-color: rgba(0,0,0,0.4);
 
   margin-top: 8px;
-  margin-left: 6px;
-  margin-right: 6px;
   margin-bottom: 6px;
-  
+  border-radius: 6px;
 }
 
 .postsTabButton {
+  z-index: 1111;
   padding-top: 6px;
+  padding-right: 6px;
   padding-bottom: 6px;
   padding-left: 6px;
-  padding-right: 6px;
   border-radius: 6px;
-  background-color: rgba(255,255,255,0.04);
-  z-index: 1111;
+  background-color: rgba(255, 255, 255, 0.04);
 }
 
 .followingAndFollowersContainer {
   display: flex;
-  gap: 12px; 
-  font-size: 14px;
   margin-top: 12px;
+  font-size: 14px;
+  gap: 12px;
 }
 
 .details {
@@ -79,19 +72,19 @@
 }
 
 .usernameTag {
-  font-size: 16px;
+  display: -webkit-box;
+  overflow: hidden;
   margin-bottom: 5px;
   overflow-wrap: anywhere;
-  overflow: hidden;
-  display: -webkit-box;
+  font-size: 16px;
   -webkit-line-clamp: 2; /* number of lines to show */
-          line-clamp: 2; 
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
 .dropDown {
-  margin-left: -2px;
   max-width: 190px;
+  margin-left: -2px;
 }
 
 .tag {
@@ -100,44 +93,40 @@
 
 .bannerFloatingItems {
   position: absolute;
-  display: flex;
-  align-items: start;
   z-index: 1;
   right: 0;
-  
-
-
+  display: flex;
+  align-items: start;
 
   .addFriendButton {
-    text-decoration: none;
     align-self: center;
-    margin-left: auto;
-    margin-right: 20px;
     margin-top: 30px;
+    margin-right: 20px;
+    margin-left: auto;
+    text-decoration: none;
   }
 }
 
 .content {
   display: flex;
-  margin-top: 10px;
   height: 100%;
+  margin-top: 10px;
 }
 
 .bioContainer {
   display: flex;
-  
-  white-space: pre-wrap;
-  word-break: break-word;
-  white-space: pre-line;
-  max-height: 500px;
-  flex-shrink: 0;
   overflow: auto;
-  
-  margin-top: 14px;
+  flex-shrink: 0;
+  max-height: 500px;
   padding-top: 14px;
 
-  border-top: solid 1px rgba(255, 255, 255, 0.4);
+  margin-top: 14px;
 
+  border-top: solid 1px rgba(255, 255, 255, 0.4);
+  word-break: break-word;
+
+  white-space: pre-wrap;
+  white-space: pre-line;
 }
 
 .sidePane {
@@ -146,18 +135,16 @@
   margin-right: 10px;
   margin-left: 5px;
   .title {
-    user-select: none;
     display: flex;
     align-items: center;
     margin: 5px;
+    user-select: none;
     .icon {
       margin-right: 3px;
     }
   }
   .block {
-    background-color: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
-    padding: 5px;
+    padding: 4px;
     margin-bottom: 5px;
     border-radius: 8px;
   }
@@ -169,50 +156,67 @@
   .list {
     .item {
       display: flex;
+      overflow: hidden;
       align-items: center;
       padding: 5px;
-      border-radius: 8px;
       margin: 4px;
-      margin-left: 0;
       margin-right: 0;
+      margin-left: 0;
+      border-radius: 8px;
       color: white;
-      text-decoration: none;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       cursor: pointer;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-decoration: none;
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
     }
     .name {
-      margin-left: 5px;
-      white-space: nowrap;
       overflow: hidden;
+      margin-left: 5px;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
 
 .postsContainer {
   display: flex;
-  flex-direction: column;
-  margin-left: 10px;
+  overflow: hidden;
   flex: 1;
+  flex-direction: column;
+  padding: 8px;
+  margin-left: 10px;
+  border-radius: 8px;
+  text-overflow: ellipsis;
 
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
+  :global .postItem {
+    position: relative;
+    background: transparent;
+    &:before {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+      content: "";
+    }
+  }
+}
 
 .SidePaneItem {
   display: flex;
-  font-size: 14px;
-  margin-bottom: 9px;
+  flex-direction: column;
+  padding: 8px;
   margin-top: 9px;
-  margin-left: 5px;
+  margin-bottom: 9px;
+  border-radius: 8px;
+  font-size: 14px;
   gap: 4px;
+
   .label {
     margin-right: 5px;
   }
@@ -222,34 +226,44 @@
 }
 
 .richPresence {
-  margin-top: 4px;  
+  position: relative;
+  z-index: 1111;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
 
+  padding: 6px;
+  border-radius: 8px;
+
   gap: 6px;
+  .backgroundImage {
+    position: absolute;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    filter: blur(20px) brightness(0.6);
+    inset: -20px;
+  }
   .richInfo {
     display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
     margin-right: 2px;
   }
 }
 .activityImg {
   width: 60px;
-  aspect-ratio: 1/1;
-  object-fit: cover;
   border-radius: 6px;
+  object-fit: cover;
+  aspect-ratio: 1/1;
 
   &.videoActivityImg {
-    aspect-ratio: 16/9;
     width: 100%;
     max-width: 200px;
+    aspect-ratio: 16/9;
   }
-
 }
-
-
-
 
 @media (max-width: 860px) {
   .content {
@@ -262,8 +276,8 @@
   }
   .postsContainer {
     order: 2;
-    margin-left: 10px;
-    margin-right: 10px;;
     margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
   }
 }

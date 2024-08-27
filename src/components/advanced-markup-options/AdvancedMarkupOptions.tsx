@@ -59,6 +59,7 @@ export const AdvancedMarkupOptions = (props: {
   class?: string;
   inputElement: HTMLInputElement | HTMLTextAreaElement;
   updateText(text: string): void;
+  primaryColor?: string;
 }) => {
   const { createPortal } = useCustomPortal();
   let colorHistory: null | string = null;
@@ -210,6 +211,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="format_bold"
+        color={props.primaryColor}
         class={styles.button}
       />
       <Button
@@ -218,6 +220,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="format_italic"
+        color={props.primaryColor}
         class={styles.button}
       />
       <Button
@@ -226,6 +229,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="strikethrough_s"
+        color={props.primaryColor}
         class={styles.button}
       />
       <Button
@@ -234,6 +238,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="title"
+        color={props.primaryColor}
         class={styles.button}
       />
       <Button
@@ -242,6 +247,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="link"
+        color={props.primaryColor}
         class={styles.button}
       />
       <Button
@@ -250,6 +256,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="visibility_off"
+        color={props.primaryColor}
         class={styles.button}
       />
       <Button
@@ -258,6 +265,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="schedule"
+        color={props.primaryColor}
         class={styles.button}
       />
       <Button
@@ -266,6 +274,7 @@ export const AdvancedMarkupOptions = (props: {
         iconSize={18}
         margin={0}
         iconName="palette"
+        color={props.primaryColor}
         class={styles.button}
       />
 
@@ -276,6 +285,7 @@ export const AdvancedMarkupOptions = (props: {
           iconSize={18}
           margin={0}
           iconName="face"
+          color={props.primaryColor}
           class={classNames(styles.button, "emojiPickerButton")}
         />
       </Show>

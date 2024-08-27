@@ -38,6 +38,7 @@ interface Props {
   margin?: number | number[];
   maxLength?: number;
   onInput?: (event: InputEvent) => void;
+  primaryColor?: string;
 }
 
 const Base = styled("div")<{ margin?: number | number[] }>`
@@ -91,7 +92,10 @@ const SuffixLabel = styled(Text)`
   padding-right: 10px;
 `;
 
-const InputContainer = styled(FlexRow)<{ focused: boolean }>`
+const InputContainer = styled(FlexRow)<{
+  focused: boolean;
+  primaryColor?: string;
+}>`
   position: relative;
   border-radius: 8px;
   border: solid 1px rgba(255, 255, 255, 0.2);
@@ -100,7 +104,11 @@ const InputContainer = styled(FlexRow)<{ focused: boolean }>`
   transition: 0.2s;
   cursor: text;
   ${(props) =>
-    props.focused ? "border-bottom: solid 2px var(--primary-color);" : ""}
+    props.focused
+      ? `border-bottom: solid 2px ${
+          props.primaryColor || "var(--primary-color)"
+        };`
+      : ""}
 `;
 
 export default function Input(props: Props) {
@@ -174,7 +182,7 @@ export default function Input(props: Props) {
           {props.label}
         </Label>
       </Show>
-      <InputContainer focused={isFocused()}>
+      <InputContainer primaryColor={props.primaryColor} focused={isFocused()}>
         <Show when={props.prefix}>
           <PrefixLabel opacity={0.6} onmousedown={focus} size={12}>
             {props.prefix}

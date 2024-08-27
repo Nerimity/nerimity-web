@@ -12,6 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@maxim_mazurok/gapi.client.drive-v3": "^0.0.20230927",
+    "@types/chroma-js": "^2.4.4",
     "@types/croppie": "^2.6.4",
     "@types/gapi": "^0.0.45",
     "@types/markdown-it": "^13.0.8",
@@ -44,6 +45,7 @@
     "@solidjs/meta": "^0.29.4",
     "@thaunknown/simple-peer": "^10.0.10",
     "autoprefixer": "^10.4.19",
+    "chroma-js": "^3.0.0",
     "croppie": "^2.6.5",
     "eventemitter3": "^5.0.1",
     "highlight.js": "^11.10.0",
