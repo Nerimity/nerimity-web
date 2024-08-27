@@ -421,6 +421,8 @@ const PresenceItemContainer = styled(FlexRow)`
   display: flex;
   padding: 4px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 11;
 
   width: 240px;
   overflow: hidden;
@@ -459,6 +461,16 @@ const activityDetailsStyles = css`
   padding-bottom: 2px;
 `;
 
+const presenceBackgroundImageStyles = css`
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  filter: blur(20px) brightness(0.6);
+  z-index: -1;
+  inset: -20px;
+`;
+
 const PresenceItem = (props: { presence: Presence }) => {
   const navigate = useNavigate();
   const store = useStore();
@@ -481,6 +493,12 @@ const PresenceItem = (props: { presence: Presence }) => {
       onClick={() => navigate(RouterEndpoints.PROFILE(props.presence.userId))}
     >
       <Show when={imgSrc()}>
+        <div
+          class={presenceBackgroundImageStyles}
+          style={{
+            "background-image": `url(${imgSrc()})`,
+          }}
+        ></div>
         <img src={imgSrc()} class={activityImageStyles} />
       </Show>
 
