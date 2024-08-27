@@ -40,7 +40,7 @@ import { addFriend } from "@/chat-api/services/FriendService";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { PostsArea } from "../PostsArea";
 import { CustomLink } from "../ui/CustomLink";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { Banner } from "../ui/Banner";
 import { Markup } from "../Markup";
 import { t } from "i18next";
@@ -914,7 +914,7 @@ function SidePaneItem(props: {
 }) {
   return (
     <div
-      class={styles.SidePaneItem}
+      class={cn(styles.SidePaneItem, props.onClick ? styles.clickable : "")}
       style={{ "background-color": props.bgColor }}
       onClick={props.onClick}
     >
