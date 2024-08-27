@@ -29,6 +29,7 @@ import env from "@/common/env";
 import { getActivityIconName } from "@/components/activity/Activity";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { t } from "i18next";
+import { MetaTitle } from "@/common/MetaTitle";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -79,6 +80,7 @@ export default function DashboardPane() {
   });
   return (
     <DashboardPaneContainer>
+      <MetaTitle>Dashboard</MetaTitle>
       <DashboardPaneContent gap={10}>
         <Show when={account.user()}>
           <ActivityList />
