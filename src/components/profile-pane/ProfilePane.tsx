@@ -289,7 +289,6 @@ export default function ProfilePane() {
               style={{
                 margin: "4px",
                 "margin-top": "0px",
-                "margin-bottom": "-4px",
               }}
             >
               <ActionButtons
