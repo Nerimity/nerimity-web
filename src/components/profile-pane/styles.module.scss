@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  margin: 10px;
+  margin: 4px;
   margin-bottom: 0;
   border-radius: 8px;
 
@@ -110,7 +110,6 @@
 .content {
   display: flex;
   height: 100%;
-  margin-top: 10px;
 }
 
 .bioContainer {
@@ -130,10 +129,13 @@
 }
 
 .sidePane {
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
   width: 200px;
-  margin-right: 10px;
-  margin-left: 5px;
+  margin-right: 4px;
+  margin-left: 4px;
+  gap: 4px;
   .title {
     display: flex;
     align-items: center;
@@ -145,7 +147,6 @@
   }
   .block {
     padding: 4px;
-    margin-bottom: 5px;
     border-radius: 8px;
   }
   .mobileBlock {
@@ -187,7 +188,7 @@
   flex: 1;
   flex-direction: column;
   padding: 8px;
-  margin-left: 10px;
+  margin-left: 4px;
   border-radius: 8px;
   text-overflow: ellipsis;
 
@@ -211,8 +212,6 @@
   display: flex;
   flex-direction: column;
   padding: 8px;
-  margin-top: 9px;
-  margin-bottom: 9px;
   border-radius: 8px;
   font-size: 14px;
   gap: 4px;
@@ -280,7 +279,7 @@
   .postsContainer {
     order: 2;
     margin-top: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 4px;
+    margin-left: 4px;
   }
 }

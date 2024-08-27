@@ -286,12 +286,17 @@ export default function ProfilePane() {
           <Show when={!isMe() && isMobileWidth()}>
             <div
               style={{
-                "align-self": "center",
                 margin: "4px",
-                "margin-top": "8px",
+                "margin-top": "0px",
+                "margin-bottom": "-4px",
               }}
             >
               <ActionButtons
+                class={css`
+                  background-color: ${bgColor()};
+                  border-radius: 8px;
+                  padding: 4px;
+                `}
                 updateUserDetails={() => fetchUserDetails(params.userId)}
                 userDetails={userDetails()}
                 user={user()}
@@ -691,7 +696,6 @@ const UserActivity = (props: {
     <Show when={activity()}>
       <FlexColumn
         class={css`
-          margin-top: 4px;
           margin-bottom: 4px;
           border-radius: 8px;
           background: ${props.bgColor};
