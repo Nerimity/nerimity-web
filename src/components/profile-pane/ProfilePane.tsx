@@ -62,7 +62,7 @@ import {
 } from "@/components/activity/Activity";
 import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
-import chroma from "chroma-js";
+import { average } from "chroma-js";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -139,11 +139,10 @@ export default function ProfilePane() {
     return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
   };
   const bgColor = createMemo(() => {
-    return chroma
-      .average([
-        userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
-        userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
-      ])
+    return average([
+      userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
+      userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+    ])
       .luminance(0.01)
       .hex();
   });
@@ -568,6 +567,9 @@ function BioContainer(props: {
             ? css`
                 a {
                   color: ${props.primaryColor};
+                }
+                .markup blockquote {
+                  border-left-color: ${props.primaryColor};
                 }
               `
             : ""

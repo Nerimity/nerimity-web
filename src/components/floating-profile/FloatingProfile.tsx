@@ -50,6 +50,7 @@ import { Emoji } from "../ui/Emoji";
 import { t } from "i18next";
 import { PostItem } from "../post-area/PostItem";
 import { Skeleton } from "../ui/skeleton/Skeleton";
+import { average } from "chroma-js";
 
 interface Props {
   dmPane?: boolean;
@@ -168,6 +169,16 @@ const DesktopProfileFlyout = (props: {
     const primaryColor = details()?.profile?.primaryColor;
     return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
   };
+
+  const bgColor = createMemo(() => {
+    return average([
+      details()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
+      details()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+    ])
+      .luminance(0.01)
+      .hex();
+  });
+
   const bio = () => {
     if (props.bio !== undefined) return props.bio;
     return details()?.profile?.bio;
@@ -301,7 +312,10 @@ const DesktopProfileFlyout = (props: {
               size={82}
             />
           </CustomLink>
-          <div class={styles.flyoutOtherDetailsContainer}>
+          <div
+            class={styles.flyoutOtherDetailsContainer}
+            style={{ background: bgColor() }}
+          >
             <span>
               <CustomLink
                 decoration
@@ -404,7 +418,10 @@ const DesktopProfileFlyout = (props: {
               colors()?.primary
                 ? css`
                     a {
-                      color: ${colors()?.primary};
+                      color: ${colors()?.primary!};
+                    }
+                    .markup blockquote {
+                      border-left-color: ${colors()?.primary!};
                     }
                   `
                 : ""
@@ -438,6 +455,9 @@ const DesktopProfileFlyout = (props: {
                 ? css`
                     a {
                       color: ${colors()?.primary};
+                    }
+                    .markup blockquote {
+                      border-left-color: ${colors()?.primary!};
                     }
                   `
                 : ""
@@ -488,6 +508,7 @@ const DesktopProfileFlyout = (props: {
       >
         <StickyArea />
         <div
+          style={{ background: bgColor() }}
           class={classNames(
             styles.flyoutOuterScrollableContainer,
             conditionalClass(

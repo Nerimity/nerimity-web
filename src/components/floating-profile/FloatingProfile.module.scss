@@ -47,7 +47,6 @@
 
     margin-top: 6px;
     border-radius: 6px;
-    background-color: rgba(0, 0, 0, 0.4);
   }
 
   .flyoutScrollableContainer {
@@ -82,8 +81,6 @@
   margin-top: 12px;
   margin-bottom: 0;
   border-radius: 6px;
-
-  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .flyoutAvatarStyles {
@@ -161,6 +158,7 @@ body .postItemContainer {
   }
   .richPresence {
     position: relative;
+    z-index: 111;
     display: flex;
     overflow: hidden;
     align-items: center;
