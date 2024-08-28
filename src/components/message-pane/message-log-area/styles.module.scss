@@ -1,25 +1,25 @@
 .messageLogArea {
   display: flex;
-  flex-direction: column;
-  padding-top: 30px;
   flex: 1;
+  flex-direction: column;
   height: 100%;
+  padding-top: 30px;
   padding-bottom: 30px;
 }
 
 .unreadMarkerContainer {
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   transition: 0.2s;
   &:before {
     position: absolute;
-    content: "";
-    background-color: var(--alert-color);
-    height: 1px;
-    left: 0;
     right: 0;
+    left: 0;
+    height: 1px;
+    background-color: var(--alert-color);
+    content: "";
   }
   &:hover {
     opacity: 0.6;
@@ -27,23 +27,23 @@
 }
 
 .unreadMarker {
-  display: flex;
   position: relative;
-  gap: 5px;
+  display: flex;
   align-items: center;
   align-self: center;
-  border-radius: 8px;
   padding: 5px;
-  font-size: 12px;
-  background-color: var(--alert-color);
   margin-left: 3px;
+  border-radius: 8px;
+  background-color: var(--alert-color);
   cursor: pointer;
   user-select: none;
+  font-size: 12px;
+  gap: 5px;
 
   .closeButton {
-    border-radius: 4px;
     padding: 0;
     margin: 0;
+    border-radius: 4px;
     span {
       font-size: 13px;
     }
@@ -56,21 +56,21 @@
 }
 .viewReactionsContainer {
   display: flex;
+  overflow: auto;
   flex-direction: column;
   height: 100%;
-  overflow: auto;
   .reactionTabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 8px;
     padding: 4px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.4);
+    gap: 4px;
     .reactionItem {
       display: flex;
       align-items: center;
-      gap: 2px;
       padding: 4px;
+      gap: 2px;
       .name {
         font-size: 13px;
       }
@@ -78,20 +78,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-        background: rgba(255, 255, 255, 0.1);
+        padding-right: 4px;
+        padding-left: 4px;
+        margin-left: 6px;
         border: solid 1px rgba(255, 255, 255, 0.2);
         border-radius: 4px;
-        padding-left: 4px;
-        padding-right: 4px;
-        margin-left: 6px;
+        color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 12px;
       }
       .emoji {
-        height: 1.4em;
         width: 1.4em;
-        border-radius: 4px;
+        height: 1.4em;
         margin-right: 3px;
+        border-radius: 4px;
         object-fit: contain;
       }
     }
@@ -103,24 +103,72 @@
     margin-top: 18px;
     .reactedUserItem {
       display: flex;
-      gap: 8px;
       align-items: center;
       padding: 6px;
-      transition: 0.2s;
-      user-select: none;
       cursor: pointer;
+      user-select: none;
+      transition: 0.2s;
+      gap: 8px;
+      &:hover {
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
       .reactedUsername {
         flex: 1;
       }
       .reactedAt {
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
         margin-left: 8px;
-      }
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
       }
     }
+  }
+}
+
+.noMessages {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  gap: 8px;
+}
+.noMessagesTitle {
+  text-align: center;
+  font-size: 16px;
+}
+.noMessagesText {
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  font-size: 14px;
+}
+
+.skeletonList {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+
+  .base {
+    display: flex;
+    flex: 1;
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-left: 8px;
+    gap: 8px;
+  }
+  .avatar {
+    border-radius: 50%;
+  }
+  .content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .username {
+    border-radius: 4px;
+  }
+  .text {
+    border-radius: 6px;
   }
 }

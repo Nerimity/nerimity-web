@@ -378,7 +378,6 @@ const updateMessageReaction = (
 
   const message = channelMessages[index];
   const reactionIndex = message.reactions.findIndex((r) => {
-    console.log(r, reaction);
     return r.emojiId === reaction.emojiId && r.name === reaction.name;
   });
 
