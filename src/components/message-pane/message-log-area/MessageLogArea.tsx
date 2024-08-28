@@ -706,7 +706,7 @@ function createScrollTracker(
   const [scrollTop, setScrollTop] = createSignal(scrollElement.scrollTop);
 
   const LOAD_MORE_LENGTH = () => topSkeletonHeight();
-  const SCROLLED_BOTTOM_LENGTH = () => bottomSkeletonHeight();
+  const SCROLLED_BOTTOM_LENGTH = () => bottomSkeletonHeight() || 20;
 
   const onScroll = () => {
     const scrollBottom =
