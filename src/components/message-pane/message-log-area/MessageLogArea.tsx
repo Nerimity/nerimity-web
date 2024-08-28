@@ -648,8 +648,16 @@ const MessageSkeleton = () => {
     <div class={styles.base}>
       <Skeleton.Item width="42px" height="42px" class={styles.avatar} />
       <div class={styles.content}>
-        <Skeleton.Item width="80px" height="18px" class={styles.username} />
-        <Skeleton.Item width="100%" height="24px" class={styles.text} />
+        <Skeleton.Item
+          width={`${generateRandom(10, 30)}%`}
+          height="18px"
+          class={styles.username}
+        />
+        <Skeleton.Item
+          width={`${generateRandom(10, 100)}%`}
+          height="18px"
+          class={styles.text}
+        />
       </div>
     </div>
   );
@@ -1001,4 +1009,8 @@ const ReactedUserItem = (props: { reactedUser: ReactedUser }) => {
       </div>
     </div>
   );
+};
+
+const generateRandom = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min) + min);
 };
