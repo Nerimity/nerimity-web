@@ -1,6 +1,7 @@
 import {
   createEffect,
   createSignal,
+  JSX,
   JSXElement,
   Match,
   on,
@@ -39,7 +40,7 @@ interface Props {
   maxLength?: number;
   onInput?: (event: InputEvent) => void;
   primaryColor?: string;
-  onChange?: (event: Event) => void;
+  onChange?: JSX.ChangeEventHandlerUnion<HTMLInputElement, Event>;
 }
 
 const Base = styled("div")<{ margin?: number | number[] }>`

@@ -185,6 +185,7 @@ function MessageArea(props: {
   );
 
   const channelProperty = () => channelProperties.get(params.channelId);
+  const channel = () => channels.get(params.channelId!);
   const message = () => channelProperty()?.content || "";
   const editMessageId = () => channelProperty()?.editMessageId;
 
@@ -259,7 +260,6 @@ function MessageArea(props: {
     textAreaEl()?.focus();
     const trimmedMessage = message().trim();
     setMessage("");
-    const channel = channels.get(params.channelId!)!;
 
     const formattedMessage = formatMessage(
       trimmedMessage,
@@ -365,6 +365,9 @@ function MessageArea(props: {
         />
       </Show>
       <div class={styles.floatingItems}>
+        <Show when={channel()?.slowModeSeconds}>
+          <SlowModeIndicator />
+        </Show>
         <FloatingSuggestions textArea={textAreaEl()} />
         <Show when={channelProperty()?.attachment}>
           <FloatingAttachment />
@@ -808,6 +811,20 @@ function TypingIndicator() {
             are typing...
           </Match>
         </Switch>
+      </Text>
+    </Floating>
+  );
+}
+function SlowModeIndicator() {
+  const params = useParams<{ channelId: string; serverId: string }>();
+  const { channels } = useStore();
+  const channel = () => channels.get(params.channelId);
+
+  return (
+    <Floating class={styles.floatingSlowModeIndicator}>
+      <Icon name="schedule" size={14} color="var(--primary-color)" />
+      <Text opacity={0.8} size={10}>
+        Slow Mode ({channel()?.slowModeSeconds}s)
       </Text>
     </Floating>
   );

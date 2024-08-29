@@ -8,7 +8,7 @@ import { FlexRow } from "../Flexbox";
 interface Props {
   confirmText: string;
   errorMessage?: string | null;
-  onDeleteClick?: (value: string) => Promise<string | undefined> | void;
+  onDeleteClick?: (value?: string) => Promise<string | undefined | void> | void;
   close: () => void;
   password?: boolean;
   title: string;

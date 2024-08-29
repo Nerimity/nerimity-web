@@ -201,6 +201,8 @@ export interface RawChannel {
   createdAt: number;
   lastMessagedAt?: number;
   order?: number;
+  slowModeSeconds?: number;
+
   _count?: { attachments: number };
 }
 
