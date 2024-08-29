@@ -39,6 +39,7 @@ interface Props {
   maxLength?: number;
   onInput?: (event: InputEvent) => void;
   primaryColor?: string;
+  onChange?: (event: Event) => void;
 }
 
 const Base = styled("div")<{ margin?: number | number[] }>`
@@ -222,6 +223,7 @@ export default function Input(props: Props) {
         </Show>
         <Show when={props.type !== "textarea"}>
           <CustomInput
+            onchange={props.onChange}
             maxlength={props.maxLength}
             placeholder={props.placeholder}
             ref={inputEl}
