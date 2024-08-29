@@ -50,6 +50,21 @@ const Base = styled("div")<{ margin?: number | number[] }>`
         ? props.margin.join("px ")
         : props.margin
       : 0}px;
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  input[type="datetime-local"] {
+    color-scheme: dark;
+  }
 `;
 
 const Label = styled(Text)`

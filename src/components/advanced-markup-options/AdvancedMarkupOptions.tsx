@@ -9,6 +9,7 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import Input from "../ui/input/Input";
 
 const formats = {
   named_link: (url: string) => ({
@@ -314,7 +315,7 @@ const DateTimePickerModal = (props: {
       ]}
     >
       <div class={styles.datePickerModal}>
-        <input
+        <Input
           type="datetime-local"
           value={date()}
           style={{ "font-size": "18px" }}
