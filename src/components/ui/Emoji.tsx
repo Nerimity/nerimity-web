@@ -1,5 +1,5 @@
 import { Show } from "solid-js";
-import { styled } from "solid-styled-components";
+import { css, styled } from "solid-styled-components";
 import env from "@/common/env";
 import { unicodeToTwemojiUrl } from "@/emoji";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -10,6 +10,12 @@ const ChannelIconImage = styled("img")`
   height: 18px;
   width: 18px;
   flex-shrink: 0;
+`;
+
+const tooltipStyles = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Emoji = (props: {
@@ -39,7 +45,7 @@ export const Emoji = (props: {
 
   return (
     <Show when={props.icon}>
-      <Tooltip tooltip={props.title} anchor="right">
+      <Tooltip tooltip={props.title} anchor="right" class={tooltipStyles}>
         <ChannelIconImage
           src={url()}
           style={{ height: `${props.size}px`, width: `${props.size}px` }}

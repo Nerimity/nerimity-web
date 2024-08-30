@@ -89,6 +89,7 @@ export default function InboxDrawerFriendItem(props: {
       opacity: ${(props) => (props.selected ? 1 : 0.6)};
       transition: 0.2s;
       font-size: 14px;
+      height: 17px;
     }
 
     &:hover .username {
