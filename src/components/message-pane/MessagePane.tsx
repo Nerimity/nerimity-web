@@ -174,7 +174,7 @@ function MessageArea(props: {
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
   const { createPortal } = useCustomPortal();
 
-  const { channels, messages } = useStore();
+  const { channels, messages, serverMembers } = useStore();
 
   const setMessage = (content: string) => {
     channelProperties.updateContent(params.channelId, content);
@@ -243,6 +243,12 @@ function MessageArea(props: {
     }
   };
 
+  const isAdmin = () => {
+    if (!channel()?.serverId) return;
+    const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
+    return member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+  };
+
   const sendMessage = () => {
     if (!editMessageId() && channelProperty()?.attachment) {
       const attachment = channelProperty()?.attachment!;
@@ -257,7 +263,11 @@ function MessageArea(props: {
         return;
       }
     }
-    if (!editMessageId() && channelProperty()?.slowDownMode?.ttl) {
+    if (
+      !editMessageId() &&
+      channelProperty()?.slowDownMode?.ttl &&
+      !isAdmin()
+    ) {
       return;
     }
 
@@ -821,10 +831,16 @@ function TypingIndicator() {
 }
 function SlowModeIndicator() {
   const params = useParams<{ channelId: string; serverId: string }>();
-  const { channels, account, channelProperties } = useStore();
+  const { channels, account, channelProperties, serverMembers } = useStore();
   const channel = () => channels.get(params.channelId);
   const properties = () => channelProperties.get(params.channelId);
   const slowDownProperties = () => properties()?.slowDownMode;
+
+  const isAdmin = () => {
+    if (!channel()?.serverId) return;
+    const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
+    return member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+  };
 
   const [currentSlowModeMs, setCurrentSlowModeMs] = createSignal(0);
 
@@ -834,7 +850,7 @@ function SlowModeIndicator() {
   const readableRemainingMs = () => millisecondsToReadable(currentSlowModeMs());
 
   createEffect(() => {
-    if (!slowDownProperties()) {
+    if (!slowDownProperties() || isAdmin()) {
       channelProperties.updateSlowDownMode(params.channelId, undefined);
       setCurrentSlowModeMs(0);
       return;
