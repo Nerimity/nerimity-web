@@ -19,6 +19,11 @@ export type ChannelProperties = {
   moreTopToLoad?: boolean;
   moreBottomToLoad?: boolean;
 
+  slowDownMode?: {
+    ttl: number;
+    startedAt: number;
+  };
+
   stale?: boolean;
 };
 
@@ -122,6 +127,14 @@ const setMoreBottomToLoad = (channelId: string, value: boolean) => {
   setChannelProperties(channelId, { moreBottomToLoad: value });
 };
 
+const updateSlowDownMode = (
+  channelId: string,
+  slowDownMode?: { ttl: number; startedAt: number }
+) => {
+  if (!get(channelId)) return;
+  setChannelProperties(channelId, "slowDownMode", slowDownMode);
+};
+
 export default function useChannelProperties() {
   return {
     updateContent,
@@ -138,5 +151,6 @@ export default function useChannelProperties() {
     removeReplies,
     toggleMentionReplies,
     staleAll,
+    updateSlowDownMode,
   };
 }

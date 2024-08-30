@@ -265,6 +265,15 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     onUploadProgress,
   }).catch((err) => {
     console.log(err);
+
+    if (err.slowMode) {
+      if (channel?.slowModeSeconds) {
+        channelProperties.updateSlowDownMode(channelId, {
+          startedAt: Date.now(),
+          ttl: err.ttl,
+        });
+      }
+    }
     pushMessage(channelId, {
       channelId: channelId,
       createdAt: Date.now(),
@@ -288,6 +297,12 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     });
   });
 
+  if (message && channel?.slowModeSeconds) {
+    channelProperties.updateSlowDownMode(message.channelId, {
+      startedAt: message.createdAt,
+      ttl: channel.slowModeSeconds * 1000,
+    });
+  }
   channel?.updateLastSeen(message?.createdAt! + 1);
   channel?.updateLastMessaged?.(message?.createdAt!);
 

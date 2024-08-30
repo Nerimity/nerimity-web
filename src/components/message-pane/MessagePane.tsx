@@ -74,6 +74,7 @@ import { prettyBytes } from "@/common/prettyBytes";
 import Checkbox from "../ui/Checkbox";
 import { ChannelIcon } from "../ChannelIcon";
 import { MetaTitle } from "@/common/MetaTitle";
+import { millisecondsToReadable } from "@/common/date";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -256,6 +257,9 @@ function MessageArea(props: {
         return;
       }
     }
+    if (!editMessageId() && channelProperty()?.slowDownMode?.ttl) {
+      return;
+    }
 
     textAreaEl()?.focus();
     const trimmedMessage = message().trim();
@@ -289,8 +293,8 @@ function MessageArea(props: {
       cancelEdit();
     } else {
       if (!trimmedMessage && !channelProperty()?.attachment) return;
-      messages.sendAndStoreMessage(channel.id, formattedMessage);
-      channelProperties.setAttachment(channel.id, undefined);
+      messages.sendAndStoreMessage(channel()!.id, formattedMessage);
+      channelProperties.setAttachment(channel()!.id, undefined);
       !channelProperty()?.moreBottomToLoad &&
         (props.mainPaneEl!.scrollTop = props.mainPaneEl!.scrollHeight);
     }
@@ -817,14 +821,63 @@ function TypingIndicator() {
 }
 function SlowModeIndicator() {
   const params = useParams<{ channelId: string; serverId: string }>();
-  const { channels } = useStore();
+  const { channels, account, channelProperties } = useStore();
   const channel = () => channels.get(params.channelId);
+  const properties = () => channelProperties.get(params.channelId);
+  const slowDownProperties = () => properties()?.slowDownMode;
+
+  const [currentSlowModeMs, setCurrentSlowModeMs] = createSignal(0);
+
+  const toMs = () => channel()?.slowModeSeconds! * 1000;
+  const toReadable = () => millisecondsToReadable(toMs());
+
+  const readableRemainingMs = () => millisecondsToReadable(currentSlowModeMs());
+
+  createEffect(() => {
+    if (!slowDownProperties()) {
+      channelProperties.updateSlowDownMode(params.channelId, undefined);
+      setCurrentSlowModeMs(0);
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      updateRemaining(intervalId);
+    }, 1000);
+    updateRemaining(intervalId);
+
+    onCleanup(() => clearTimeout(intervalId));
+  });
+
+  const updateRemaining = (intervalId: NodeJS.Timeout) => {
+    const now = Date.now();
+    const ttl = slowDownProperties()?.ttl!;
+    const startedAt = slowDownProperties()?.startedAt!;
+
+    const diff = now - startedAt;
+
+    const remainingMs = ttl - diff;
+
+    if (remainingMs < 0) {
+      channelProperties.updateSlowDownMode(params.channelId, undefined);
+      setCurrentSlowModeMs(0);
+      clearInterval(intervalId);
+      return;
+    }
+    setCurrentSlowModeMs(remainingMs);
+  };
 
   return (
     <Floating class={styles.floatingSlowModeIndicator}>
-      <Icon name="schedule" size={14} color="var(--primary-color)" />
-      <Text opacity={0.8} size={10}>
-        Slow Mode ({channel()?.slowModeSeconds}s)
+      <Icon
+        name="schedule"
+        size={14}
+        color={
+          currentSlowModeMs() ? "var(--alert-color)" : "var(--primary-color)"
+        }
+      />
+      <Text opacity={0.8} size={10} title={toReadable()}>
+        Slow Mode
+        {` ${currentSlowModeMs() ? `(${readableRemainingMs() || "0s"})` : ""}`}
       </Text>
     </Floating>
   );
