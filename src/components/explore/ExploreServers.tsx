@@ -30,6 +30,7 @@ import env from "@/common/env";
 import { CustomLink } from "../ui/CustomLink";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { classNames } from "@/common/classNames";
+import { MetaTitle } from "@/common/MetaTitle";
 
 const Container = styled("div")`
   display: flex;
@@ -130,6 +131,8 @@ export default function ExploreServers() {
   };
   return (
     <Container>
+      <MetaTitle>Explore Servers</MetaTitle>
+
       <Notice
         type="info"
         description={t("explore.servers.noticeMessage", {

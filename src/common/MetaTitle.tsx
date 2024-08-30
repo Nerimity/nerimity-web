@@ -1,11 +1,11 @@
 import { Title } from "@solidjs/meta";
-import { JSXElement } from "solid-js";
+import { children, createEffect, JSXElement } from "solid-js";
 import env from "./env";
 
 export const MetaTitle = (props: { children: JSXElement }) => {
-  return (
-    <Title>
-      {props.children} - Nerimity {env.DEV_MODE ? "DEV" : ""}
-    </Title>
-  );
+  const el = children(() => props.children);
+  const text = el.toArray().join(" ");
+  const full = `${text || ""} - Nerimity ${env.DEV_MODE ? "DEV" : ""}`;
+
+  return <Title>{full}</Title>;
 };
