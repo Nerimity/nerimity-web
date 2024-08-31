@@ -337,7 +337,7 @@ function MessageArea(props: {
     }, 4000);
   };
 
-  const onEmojiPicked = (shortcode: string) => {
+  const onEmojiPicked = (shortcode: string, shiftDown?: boolean) => {
     if (!textAreaEl()) return;
     textAreaEl()!.focus();
     textAreaEl()!.setRangeText(
@@ -347,7 +347,7 @@ function MessageArea(props: {
       "end"
     );
     setMessage(textAreaEl()!.value);
-    setShowEmojiPicker(false);
+    if (!shiftDown) setShowEmojiPicker(false);
   };
 
   const onGifPicked = (gif: TenorImage) => {
