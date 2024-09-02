@@ -5,25 +5,24 @@
 }
 
 .title {
-  font-size: 24px;
   margin-bottom: 10px;
+  font-size: 24px;
 }
 
 .form {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
+  flex-direction: column;
 }
 .error {
+  margin-top: 5px;
   color: var(--alert-color);
   font-size: 12px;
-  margin-top: 5px;
 }
 
 .saveButton {
   align-self: flex-end;
 }
-
 
 .permissionItem {
   border-top-left-radius: 0;
@@ -32,4 +31,8 @@
     margin-bottom: 1px;
     border-radius: 0;
   }
+}
+
+.slowdownInput {
+  width: 84px;
 }

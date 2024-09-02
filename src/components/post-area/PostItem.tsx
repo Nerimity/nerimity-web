@@ -90,6 +90,9 @@ export function PostItem(props: {
             .markup a {
               color: ${props.primaryColor};
             }
+            .markup blockquote {
+              border-left-color: ${props.primaryColor};
+            }
           `
       )}
       style={{ "background-color": props.bgColor }}

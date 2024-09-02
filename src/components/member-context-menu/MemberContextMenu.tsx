@@ -367,6 +367,7 @@ export function ServerMemberRoleModal(props: Props & { close: () => void }) {
   const rolesThatCanBeApplied = () =>
     roles().filter((role) => {
       if (role!.id === server()?.defaultRoleId!) return false;
+      if (role?.botRole) return false;
       if (selfMember()?.server().isCurrentUserCreator()) return true;
       if (role!.order >= selfTopRole()?.order!) return false;
 

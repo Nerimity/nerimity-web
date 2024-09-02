@@ -68,6 +68,7 @@ import ItemContainer from "@/components/ui/Item";
 import Avatar from "@/components/ui/Avatar";
 import { formatTimestamp } from "@/common/date";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
+import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -82,6 +83,13 @@ export const MessageLogArea = (props: {
   }>();
 
   let messageLogElement: undefined | HTMLDivElement;
+
+  const [topSkeletonRef, setTopSkeletonRef] = createSignal<HTMLDivElement>();
+  const [bottomSkeletonRef, setBottomSkeletonRef] =
+    createSignal<HTMLDivElement>();
+
+  const { height: topSkeletonHeight } = useResizeObserver(topSkeletonRef);
+  const { height: bottomSkeletonHeight } = useResizeObserver(bottomSkeletonRef);
 
   const drawer = useDrawer();
   const { createPortal } = useCustomPortal();
@@ -105,7 +113,11 @@ export const MessageLogArea = (props: {
   >({ position: undefined, message: undefined });
 
   const [areMessagesLoading, setAreMessagesLoading] = createSignal(false);
-  const scrollTracker = createScrollTracker(props.mainPaneEl);
+  const scrollTracker = createScrollTracker(
+    props.mainPaneEl,
+    topSkeletonHeight,
+    bottomSkeletonHeight
+  );
 
   const channel = () => channels.get(params.channelId!)!;
 
@@ -569,6 +581,32 @@ export const MessageLogArea = (props: {
           }
         />
       </Show>
+      <Show when={channelMessages()?.length === 0}>
+        <div class={styles.noMessages}>
+          <Icon name="message" size={40} color="var(--primary-color)" />
+          <div>
+            <div class={styles.noMessagesTitle}>No messages</div>
+            <div class={styles.noMessagesText}>
+              There are no messages in this channel.
+            </div>
+          </div>
+        </div>
+      </Show>
+
+      <Show
+        when={
+          properties()?.moreTopToLoad &&
+          (!channelMessages() ||
+            channelMessages()?.length! >= env.MESSAGE_LIMIT)
+        }
+      >
+        <div ref={setTopSkeletonRef}>
+          <Skeleton.List count={20} class={styles.skeletonList}>
+            <MessageSkeleton />
+          </Skeleton.List>
+        </div>
+      </Show>
+
       <For each={channelMessages()}>
         {(message, i) => (
           <>
@@ -594,6 +632,33 @@ export const MessageLogArea = (props: {
           </>
         )}
       </For>
+      <Show when={properties()?.moreBottomToLoad}>
+        <div ref={setBottomSkeletonRef}>
+          <Skeleton.List count={20} class={styles.skeletonList}>
+            <MessageSkeleton />
+          </Skeleton.List>
+        </div>
+      </Show>
+    </div>
+  );
+};
+
+const MessageSkeleton = () => {
+  return (
+    <div class={styles.base}>
+      <Skeleton.Item width="42px" height="42px" class={styles.avatar} />
+      <div class={styles.content}>
+        <Skeleton.Item
+          width={`${generateRandom(10, 30)}%`}
+          height="18px"
+          class={styles.username}
+        />
+        <Skeleton.Item
+          width={`${generateRandom(10, 100)}%`}
+          height="18px"
+          class={styles.text}
+        />
+      </div>
     </div>
   );
 };
@@ -611,7 +676,9 @@ const useScrollPositionRetainer = (
     el = logElement()?.querySelector(".messageItem") as HTMLDivElement;
 
     if (trackFrom === "last") {
-      el = logElement().lastElementChild as HTMLDivElement;
+      const messageItemEls = logElement().querySelectorAll(".messageItem");
+
+      el = messageItemEls[messageItemEls.length - 1] as HTMLDivElement;
     }
 
     const rect = el.getBoundingClientRect();
@@ -628,23 +695,27 @@ const useScrollPositionRetainer = (
   return { save, load };
 };
 
-function createScrollTracker(scrollElement: HTMLElement) {
+function createScrollTracker(
+  scrollElement: HTMLElement,
+  topSkeletonHeight: () => number,
+  bottomSkeletonHeight: () => number
+) {
   const [loadMoreTop, setLoadMoreTop] = createSignal(false);
   const [loadMoreBottom, setLoadMoreBottom] = createSignal(true);
   const [scrolledBottom, setScrolledBottom] = createSignal(true);
   const [scrollTop, setScrollTop] = createSignal(scrollElement.scrollTop);
 
-  const LOAD_MORE_LENGTH = 200;
-  const SCROLLED_BOTTOM_LENGTH = 20;
+  const LOAD_MORE_LENGTH = () => topSkeletonHeight();
+  const SCROLLED_BOTTOM_LENGTH = () => bottomSkeletonHeight() || 20;
 
   const onScroll = () => {
     const scrollBottom =
       scrollElement.scrollHeight -
       (scrollElement.scrollTop + scrollElement.clientHeight);
 
-    const isLoadMoreTop = scrollElement.scrollTop <= LOAD_MORE_LENGTH;
-    const isLoadMoreBottom = scrollBottom <= LOAD_MORE_LENGTH;
-    const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH;
+    const isLoadMoreTop = scrollElement.scrollTop <= LOAD_MORE_LENGTH();
+    const isLoadMoreBottom = scrollBottom <= LOAD_MORE_LENGTH();
+    const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH();
 
     if (loadMoreTop() !== isLoadMoreTop) setLoadMoreTop(isLoadMoreTop);
     if (loadMoreBottom() !== isLoadMoreBottom)
@@ -938,4 +1009,8 @@ const ReactedUserItem = (props: { reactedUser: ReactedUser }) => {
       </div>
     </div>
   );
+};
+
+const generateRandom = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min) + min);
 };

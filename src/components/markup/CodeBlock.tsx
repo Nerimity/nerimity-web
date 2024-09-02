@@ -27,8 +27,8 @@ export default function CodeBlock(props: Props) {
     const { name, hljs: hljsModule } = await register(props.lang!);
     hljs = hljsModule;
 
-    setLanguageName(name || "");
-    setLanguageLoaded(true);
+    setLanguageName(props.lang || "");
+    if (name) setLanguageLoaded(true);
   });
 
   function getLanguageIcon(): string {

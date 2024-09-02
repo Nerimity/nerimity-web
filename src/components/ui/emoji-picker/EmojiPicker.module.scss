@@ -1,4 +1,3 @@
-
 :global body.disableBlur {
   :local {
     .outerEmojiPicker:before {
@@ -10,23 +9,26 @@
       background-color: rgb(37, 37, 37);
     }
   }
-  .go1741493984 { // emoji picker search bar
+  .go1741493984 {
+    // emoji picker search bar
     backdrop-filter: none;
     background-color: rgb(37, 37, 37);
   }
-  .go2985996624 { // emoji picker footer details
+  .go2985996624 {
+    // emoji picker footer details
     backdrop-filter: none;
     background-color: rgb(37, 37, 37);
   }
 }
 
 :global {
-
-  .go2985996624 { // emoji picker footer details
+  .go2985996624 {
+    // emoji picker footer details
     background-color: rgba(37, 37, 37, 0.86);
   }
 
-  .go1741493984 { // emoji picker search bar
+  .go1741493984 {
+    // emoji picker search bar
     background-color: rgba(37, 37, 37, 0.86);
   }
   body .go2318203860 {
@@ -44,11 +46,12 @@
   max-height: 420px;
   height: 100%;
   overflow: hidden;
-  
+  user-select: none;
+
   &:before {
     border: solid 1px rgba(255, 255, 255, 0.2);
     background-color: rgba(0, 0, 0, 0.86);
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     backdrop-filter: blur(34px);
@@ -69,14 +72,12 @@
 }
 
 .emojiPicker {
-
   overflow: hidden;
   background: none;
   border: none;
   z-index: 11111;
   width: 100%;
   height: 100%;
-  
 
   :global {
     .categoriesContainer .customEmojiImage,
@@ -84,8 +85,6 @@
       border-radius: 50%;
     }
   }
-  
-
 }
 
 .gifPickerSearchBar {
@@ -110,7 +109,6 @@
     border-radius: 6px;
     padding: 10px;
   }
-
 }
 
 .gifPickerContainer {
@@ -139,7 +137,6 @@
     height: 2px;
     width: 2px;
   }
-
 }
 
 .gifCategoryItem {
@@ -159,7 +156,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-
   }
 
   .name {
@@ -181,5 +177,4 @@
   &:hover {
     outline: 2px var(--primary-color) solid;
   }
-
 }

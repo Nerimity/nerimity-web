@@ -40,7 +40,7 @@ import { addFriend } from "@/chat-api/services/FriendService";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { PostsArea } from "../PostsArea";
 import { CustomLink } from "../ui/CustomLink";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { Banner } from "../ui/Banner";
 import { Markup } from "../Markup";
 import { t } from "i18next";
@@ -62,7 +62,7 @@ import {
 } from "@/components/activity/Activity";
 import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
-import chroma from "chroma-js";
+import { average } from "chroma-js";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -139,12 +139,12 @@ export default function ProfilePane() {
     return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
   };
   const bgColor = createMemo(() => {
-    return chroma
-      .average([
-        userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
-        userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
-      ])
+    return average([
+      userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
+      userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+    ])
       .luminance(0.01)
+      .alpha(0.9)
       .hex();
   });
 
@@ -287,12 +287,16 @@ export default function ProfilePane() {
           <Show when={!isMe() && isMobileWidth()}>
             <div
               style={{
-                "align-self": "center",
                 margin: "4px",
-                "margin-top": "8px",
+                "margin-top": "0px",
               }}
             >
               <ActionButtons
+                class={css`
+                  background-color: ${bgColor()};
+                  border-radius: 8px;
+                  padding: 4px;
+                `}
                 updateUserDetails={() => fetchUserDetails(params.userId)}
                 userDetails={userDetails()}
                 user={user()}
@@ -569,6 +573,9 @@ function BioContainer(props: {
                 a {
                   color: ${props.primaryColor};
                 }
+                .markup blockquote {
+                  border-left-color: ${props.primaryColor};
+                }
               `
             : ""
         }
@@ -689,7 +696,6 @@ const UserActivity = (props: {
     <Show when={activity()}>
       <FlexColumn
         class={css`
-          margin-top: 4px;
           margin-bottom: 4px;
           border-radius: 8px;
           background: ${props.bgColor};
@@ -912,7 +918,7 @@ function SidePaneItem(props: {
 }) {
   return (
     <div
-      class={styles.SidePaneItem}
+      class={cn(styles.SidePaneItem, props.onClick ? styles.clickable : "")}
       style={{ "background-color": props.bgColor }}
       onClick={props.onClick}
     >

@@ -1,8 +1,7 @@
 .userPresence {
   display: flex;
   overflow: hidden;
-
-
+  gap: 2px;
 }
 
 .full .lastOnline {
@@ -13,15 +12,13 @@
 }
 
 .lastOnline {
-  
   overflow: hidden;
   opacity: 0.6;
   text-overflow: ellipsis;
   white-space: nowrap;
-  
 }
 body .full .value > span,
-.full span, 
+.full span,
 .full .activity {
   overflow: initial;
   text-overflow: initial;
@@ -46,26 +43,20 @@ body .full .value > span,
   text-overflow: ellipsis;
   white-space: nowrap;
   gap: 4px;
-
 }
 .activityAction {
   color: white;
-
 }
 .activityName {
-
 }
-
 
 .value {
   display: flex;
   overflow: hidden;
   align-items: center;
-  margin-left: 3px;
   color: rgba(255, 255, 255, 0.8);
   font-size: 12px;
 }
-
 
 .dot {
   flex-shrink: 0;

@@ -9,6 +9,7 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import Input from "../ui/input/Input";
 
 const formats = {
   named_link: (url: string) => ({
@@ -129,7 +130,7 @@ export const AdvancedMarkupOptions = (props: {
   };
 
   let opened: any = null;
-  const onEmojiPicked = (shortcode: string) => {
+  const onEmojiPicked = (shortcode: string, shiftDown?: boolean) => {
     props.inputElement!.focus();
     props.inputElement!.setRangeText(
       `:${shortcode}: `,
@@ -138,8 +139,10 @@ export const AdvancedMarkupOptions = (props: {
       "end"
     );
     props.updateText(props.inputElement.value);
-    opened?.();
-    opened = null;
+    if (!shiftDown) {
+      opened?.();
+      opened = null;
+    }
   };
 
   const showEmojiPicker = (event: MouseEvent) => {
@@ -314,7 +317,7 @@ const DateTimePickerModal = (props: {
       ]}
     >
       <div class={styles.datePickerModal}>
-        <input
+        <Input
           type="datetime-local"
           value={date()}
           style={{ "font-size": "18px" }}

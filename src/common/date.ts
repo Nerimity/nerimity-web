@@ -108,6 +108,29 @@ export function millisecondsToHhMmSs(
   return formattedTime;
 }
 
+export function millisecondsToReadable(timestamp: number) {
+  let seconds = Math.floor(timestamp / 1000);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - hours * 3600) / 60);
+  seconds -= hours * 3600 + minutes * 60;
+
+  let text = [];
+
+  if (hours) {
+    text.push(`${hours}h`);
+  }
+
+  if (minutes) {
+    text.push(`${minutes}m`);
+  }
+
+  if (seconds) {
+    text.push(`${seconds}s`);
+  }
+
+  return text.join(" ");
+}
+
 export function calculateTimeElapsedForActivityStatus(
   startTime: number,
   music = false,

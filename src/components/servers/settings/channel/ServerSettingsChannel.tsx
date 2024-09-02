@@ -62,6 +62,7 @@ export default function ServerSettingsChannel() {
     name: channel()?.name || "",
     icon: channel()?.icon || null,
     permissions: channel()?.permissions || 0,
+    slowModeSeconds: channel()?.slowModeSeconds || 0,
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -189,6 +190,21 @@ export default function ServerSettingsChannel() {
             close={() => setEmojiPickerPosition(null)}
           />
         </Show>
+      </SettingsBlock>
+
+      {/* Slowmode */}
+      <SettingsBlock
+        icon="speed"
+        label="Slow mode"
+        description="Specify how long a user must wait before they can send a message."
+      >
+        <Input
+          class={styles.slowdownInput}
+          suffix="s"
+          type="number"
+          value={inputValues().slowModeSeconds.toString()}
+          onText={(v) => setInputValue("slowModeSeconds", v ? parseInt(v) : "")}
+        />
       </SettingsBlock>
 
       <div>

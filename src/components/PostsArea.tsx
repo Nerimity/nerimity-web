@@ -150,7 +150,7 @@ function NewPostArea(props: {
     setAttachedFile(undefined);
   };
 
-  const onEmojiPicked = (shortcode: string) => {
+  const onEmojiPicked = (shortcode: string, shiftMode?: boolean) => {
     textAreaEl()!.focus();
     textAreaEl()!.setRangeText(
       `:${shortcode}: `,
@@ -159,6 +159,7 @@ function NewPostArea(props: {
       "end"
     );
     setContent(textAreaEl()!.value);
+    if (!shiftMode) setShowEmojiPicker(false);
   };
 
   const togglePollOptions = () => {

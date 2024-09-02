@@ -1,6 +1,7 @@
 import {
   createEffect,
   createSignal,
+  JSX,
   JSXElement,
   Match,
   on,
@@ -39,6 +40,7 @@ interface Props {
   maxLength?: number;
   onInput?: (event: InputEvent) => void;
   primaryColor?: string;
+  onChange?: JSX.ChangeEventHandlerUnion<HTMLInputElement, Event>;
 }
 
 const Base = styled("div")<{ margin?: number | number[] }>`
@@ -50,6 +52,21 @@ const Base = styled("div")<{ margin?: number | number[] }>`
         ? props.margin.join("px ")
         : props.margin
       : 0}px;
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  input[type="datetime-local"] {
+    color-scheme: dark;
+  }
 `;
 
 const Label = styled(Text)`
@@ -207,6 +224,7 @@ export default function Input(props: Props) {
         </Show>
         <Show when={props.type !== "textarea"}>
           <CustomInput
+            onchange={props.onChange}
             maxlength={props.maxLength}
             placeholder={props.placeholder}
             ref={inputEl}
