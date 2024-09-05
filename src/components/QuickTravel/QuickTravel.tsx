@@ -94,7 +94,7 @@ export function QuickTravel(props: { close: () => void }) {
         [...mappedUsers, ...mappedChannels, ...mappedSettings],
         inputValue(),
         {
-          keys: ["username", "name"],
+          keys: ["name"],
         }
       )
         .sort((a, b) => {
