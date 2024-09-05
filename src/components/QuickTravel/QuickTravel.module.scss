@@ -1,0 +1,41 @@
+.quickTravelRoot {
+  width: 600px;
+  height: 60vh;
+  min-height: 200px;
+}
+
+.quickTravelBody {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quickTravelInput {
+  flex: 1;
+}
+
+.items {
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+}
+
+.quickTravelItem {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  gap: 8px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+}

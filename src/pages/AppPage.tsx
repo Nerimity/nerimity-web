@@ -44,6 +44,8 @@ import { registerFCM } from "@/chat-api/services/UserService";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import MobileBottomPane from "@/components/ui/MobileBottomPane";
 import { MetaTitle } from "@/common/MetaTitle";
+import { QuickTravel } from "@/components/QuickTravel";
+import { useExperiment } from "@/common/experiments";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -89,6 +91,8 @@ export default function AppPage() {
   const [searchParams] = useSearchParams<{ postId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useQuickTravel();
 
   const { createPortal, closePortalById } = useCustomPortal();
 
@@ -272,4 +276,24 @@ function useUserNotices() {
       }
     )
   );
+}
+
+function useQuickTravel() {
+  const { experiment } = useExperiment(() => "QUICK_TRAVEL");
+  const { createPortal } = useCustomPortal();
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (!experiment()) return;
+    if (!event.ctrlKey) return;
+    if (event.key === " ") {
+      createPortal((close) => <QuickTravel close={close} />, "quick-travel");
+    }
+  };
+
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown);
+
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown);
+    });
+  });
 }
