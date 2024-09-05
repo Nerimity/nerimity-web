@@ -56,21 +56,23 @@ export function QuickTravel(props: { close: () => void }) {
         {
           keys: ["username", "name"],
         }
-      ).sort((a, b) => {
-        const inboxA = !!store.inbox.get(a.id);
-        const inboxB = !!store.inbox.get(b.id);
+      )
+        .sort((a, b) => {
+          const inboxA = !!store.inbox.get(a.id);
+          const inboxB = !!store.inbox.get(b.id);
 
-        const friendA = !!store.friends.get(a.id);
-        const friendB = !!store.friends.get(b.id);
+          const friendA = !!store.friends.get(a.id);
+          const friendB = !!store.friends.get(b.id);
 
-        if (inboxA && !inboxB) return -1;
-        if (!inboxA && inboxB) return 1;
+          if (inboxA && !inboxB) return -1;
+          if (!inboxA && inboxB) return 1;
 
-        if (friendA && !friendB) return -1;
-        if (!friendA && friendB) return 1;
+          if (friendA && !friendB) return -1;
+          if (!friendA && friendB) return 1;
 
-        return 0;
-      });
+          return 0;
+        })
+        .slice(0, 20);
 
       setItems(reconcile(searched));
     })
