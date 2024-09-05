@@ -1,4 +1,11 @@
-import { createEffect, createSignal, For, on, Show } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  For,
+  JSXElement,
+  on,
+  Show,
+} from "solid-js";
 import Input from "../ui/input/Input";
 import { Modal } from "../ui/modal";
 import style from "./QuickTravel.module.scss";
@@ -8,14 +15,25 @@ import { createStore, reconcile } from "solid-js/store";
 import Avatar from "../ui/Avatar";
 import { Server } from "@/chat-api/store/useServers";
 import { User } from "@/chat-api/store/useUsers";
-import { useNavigate } from "solid-navigator";
+import { A, useNavigate } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import settings from "@/common/Settings";
+import { t } from "i18next";
+import { CustomLink } from "../ui/CustomLink";
+import Icon from "../ui/icon/Icon";
+import { ChannelIcon } from "../ChannelIcon";
+import { Inbox } from "@/chat-api/store/useInbox";
+import { ChannelType } from "@/chat-api/RawData";
 
 interface SearchItem {
-  id: string;
+  id?: string;
   name: string;
   user?: User;
   server?: Server;
+  path?: string;
+  icon?: string | (() => JSXElement);
+  subText?: string;
+  inbox?: Inbox;
 }
 
 export function QuickTravel(props: { close: () => void }) {
@@ -36,33 +54,55 @@ export function QuickTravel(props: { close: () => void }) {
       const users = store.users.array();
       const channels = store.channels.array();
 
-      const mappedUsers = users.map(
-        (user) =>
-          ({
-            id: user.id,
-            name: user.username,
-            user,
-          } as SearchItem)
-      );
+      const mappedUsers = users.map((user) => {
+        const friend = store.friends.get(user.id);
+        const inbox = user.inboxChannelId
+          ? store.inbox.get(user.inboxChannelId)
+          : undefined;
+        return {
+          id: user.id,
+          name: user.username,
+          inbox,
+          user,
+          subText: friend ? "Friend" : inbox ? "Inbox" : "User",
+          path: user.inboxChannelId
+            ? RouterEndpoints.INBOX_MESSAGES(user.inboxChannelId!)
+            : undefined,
+        } as SearchItem;
+      });
 
-      const mappedChannels: SearchItem[] = channels.map((channel) => ({
-        id: channel.id,
-        name: channel.name,
-      }));
+      const mappedChannels: SearchItem[] = channels
+        .filter((c) => c.type === ChannelType.SERVER_TEXT)
+        .map((channel) => ({
+          id: channel.id,
+          name: channel.name,
+          subText: store.servers.get(channel.serverId!)?.name,
+          path: RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id),
+          icon: () => <ChannelIcon icon={channel.icon} type={channel.type} />,
+        }));
+
+      const mappedSettings: SearchItem[] = settings
+        .filter((s) => !s.hide)
+        .map((setting) => ({
+          icon: setting.icon,
+          name: t(setting.name),
+          path: `/app/settings/${setting.path}`,
+          subText: "Settings",
+        }));
 
       const searched = matchSorter(
-        [...mappedUsers, ...mappedChannels],
+        [...mappedUsers, ...mappedChannels, ...mappedSettings],
         inputValue(),
         {
           keys: ["username", "name"],
         }
       )
         .sort((a, b) => {
-          const inboxA = !!store.inbox.get(a.id);
-          const inboxB = !!store.inbox.get(b.id);
+          const inboxA = "inbox" in a && !!a.inbox;
+          const inboxB = "inbox" in b && !!b.inbox;
 
-          const friendA = !!store.friends.get(a.id);
-          const friendB = !!store.friends.get(b.id);
+          const friendA = "id" in a && !!store.friends.get(a.id!);
+          const friendB = "id" in b && !!store.friends.get(b.id!);
 
           if (inboxA && !inboxB) return -1;
           if (!inboxA && inboxB) return 1;
@@ -89,29 +129,40 @@ export function QuickTravel(props: { close: () => void }) {
         />
 
         <div class={style.items}>
-          <For each={items}>{(item) => <Item item={item} />}</For>
+          <For each={items}>
+            {(item) => <Item close={props.close} item={item} />}
+          </For>
         </div>
       </Modal.Body>
     </Modal.Root>
   );
 }
 
-const Item = (props: { item: SearchItem }) => {
-  const navigate = useNavigate();
+const Item = (props: { item: SearchItem; close: () => void }) => {
   return (
-    <div
+    <CustomLink
+      onClick={props.close}
       class={style.quickTravelItem}
-      onClick={() => navigate(RouterEndpoints.PROFILE(props.item.id))}
+      href={props.item.path || RouterEndpoints.PROFILE(props.item.id!)}
     >
-      <Show when={props.item.user || props.item.server}>
-        <Avatar
-          resize={40}
-          server={props.item.server}
-          user={props.item.user}
-          size={24}
-        />
-      </Show>
+      <div class={style.icon}>
+        <Show when={props.item.user || props.item.server}>
+          <Avatar
+            resize={40}
+            server={props.item.server}
+            user={props.item.user}
+            size={24}
+          />
+        </Show>
+        <Show when={typeof props.item.icon === "string"}>
+          <Icon name={props.item.icon as string} size={24} />
+        </Show>
+        <Show when={typeof props.item.icon === "function"}>
+          {(props.item.icon as () => JSXElement)()}
+        </Show>
+      </div>
       <div class={style.label}>{props.item.name}</div>
-    </div>
+      <div class={style.subText}>{props.item.subText}</div>
+    </CustomLink>
   );
 };

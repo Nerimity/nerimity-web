@@ -34,8 +34,26 @@
   }
   .label {
     overflow: hidden;
+    flex: 1;
+    flex-shrink: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 14px;
+  }
+  .subText {
+    overflow: hidden;
+    max-width: 30%;
+    color: rgba(255, 255, 255, 0.4);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 26px;
   }
 }
