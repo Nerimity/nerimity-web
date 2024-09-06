@@ -36,7 +36,7 @@ const Body = (props: { close: () => void }) => {
   const controller = useQuickTravelController();
 
   return (
-    <div>
+    <>
       <Input
         class={style.quickTravelInput}
         placeholder="Search for servers, channels, users and more!"
@@ -56,7 +56,7 @@ const Body = (props: { close: () => void }) => {
           )}
         </For>
       </div>
-    </div>
+    </>
   );
 };
 
