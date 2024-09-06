@@ -1,4 +1,4 @@
-import { ChannelType, FriendStatus } from "@/chat-api/RawData";
+import { ChannelType } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
 import { createContextProvider } from "@solid-primitives/context";
 import {
@@ -10,8 +10,6 @@ import {
   onCleanup,
   onMount,
 } from "solid-js";
-import AddFriendModal from "../inbox/drawer/add-friend/AddFriendModal";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { User } from "@/chat-api/store/useUsers";
 import { Server } from "@/chat-api/store/useServers";
 import { Inbox } from "@/chat-api/store/useInbox";

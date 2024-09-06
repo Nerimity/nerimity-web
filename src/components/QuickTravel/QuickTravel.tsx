@@ -34,12 +34,13 @@ export function QuickTravel(props: { close: () => void }) {
 
 const Body = (props: { close: () => void }) => {
   const controller = useQuickTravelController();
+
   return (
-    <>
+    <div>
       <Input
         class={style.quickTravelInput}
         placeholder="Search for servers, channels, users and more!"
-        ref={controller?.setInputRef}
+        ref={(el) => controller?.setInputRef(el as HTMLInputElement)}
         onText={controller?.setInputValue}
       />
 
@@ -55,7 +56,7 @@ const Body = (props: { close: () => void }) => {
           )}
         </For>
       </div>
-    </>
+    </div>
   );
 };
 
