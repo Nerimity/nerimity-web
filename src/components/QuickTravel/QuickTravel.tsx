@@ -1,10 +1,7 @@
 import {
   createEffect,
-  createMemo,
-  createSignal,
   For,
   JSXElement,
-  on,
   onCleanup,
   onMount,
   Show,
@@ -12,180 +9,55 @@ import {
 import Input from "../ui/input/Input";
 import { Modal } from "../ui/modal";
 import style from "./QuickTravel.module.scss";
-import { matchSorter, defaultBaseSortFn } from "match-sorter";
-import useStore from "@/chat-api/store/useStore";
-import { createStore, reconcile } from "solid-js/store";
 import Avatar from "../ui/Avatar";
-import { Server } from "@/chat-api/store/useServers";
-import { User } from "@/chat-api/store/useUsers";
-import { A, useNavigate } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import settings from "@/common/Settings";
-import { t } from "i18next";
 import { CustomLink } from "../ui/CustomLink";
 import Icon from "../ui/icon/Icon";
-import { ChannelIcon } from "../ChannelIcon";
-import { Inbox } from "@/chat-api/store/useInbox";
-import { ChannelType } from "@/chat-api/RawData";
 import { cn } from "@/common/classNames";
-import { isExperimentEnabled } from "@/common/experiments";
-
-interface SearchItem {
-  id?: string;
-  name: string;
-  user?: User;
-  server?: Server;
-  path?: string;
-  icon?: string | (() => JSXElement);
-  subText?: string;
-  inbox?: Inbox;
-}
+import {
+  QuickTravelControllerProvider,
+  SearchItem,
+  useQuickTravelController,
+} from "./QuickTravelController";
 
 export function QuickTravel(props: { close: () => void }) {
-  const store = useStore();
-  const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
-  const [inputValue, setInputValue] = createSignal("");
-  const [selectedIndex, setSelectedIndex] = createSignal(0);
-
-  const [items, setItems] = createStore<SearchItem[]>([]);
-
-  createEffect(
-    on(inputRef, () => {
-      inputRef()?.focus();
-    })
-  );
-
-  const mappedUsers = createMemo(() => {
-    const users = store.users.array();
-
-    return users.map((user) => {
-      const friend = store.friends.get(user.id);
-      const inbox = user.inboxChannelId
-        ? store.inbox.get(user.inboxChannelId)
-        : undefined;
-      return {
-        id: user.id,
-        name: user.username,
-        inbox,
-        user,
-        subText: friend ? "Friend" : inbox ? "Inbox" : "User",
-        path: user.inboxChannelId
-          ? RouterEndpoints.INBOX_MESSAGES(user.inboxChannelId!)
-          : undefined,
-      } as SearchItem;
-    });
-  });
-
-  const mappedChannels = createMemo(() => {
-    const channels = store.channels.serverChannelsWithPerm();
-
-    return channels
-      .filter((c) => c.type === ChannelType.SERVER_TEXT)
-      .map((channel) => ({
-        id: channel.id,
-        name: channel.name,
-        subText: store.servers.get(channel.serverId!)?.name,
-        path: RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id),
-        icon: () => <ChannelIcon icon={channel.icon} type={channel.type} />,
-      }));
-  });
-
-  createEffect(
-    on([inputValue, mappedChannels, mappedUsers], () => {
-      setSelectedIndex(0);
-      const mappedSettings: SearchItem[] = settings
-        .filter((s) => !s.hide)
-        .filter((s) =>
-          !s.experimentId ? true : isExperimentEnabled(s.experimentId)
-        )
-        .map((setting) => ({
-          icon: setting.icon,
-          name: t(setting.name),
-          path: `/app/settings/${setting.path}`,
-          subText: "Settings",
-        }));
-
-      const searched = matchSorter(
-        [...mappedUsers(), ...mappedChannels(), ...mappedSettings],
-        inputValue(),
-        {
-          keys: ["name"],
-        }
-      )
-        .sort((a, b) => {
-          const inboxA = "inbox" in a && !!a.inbox;
-          const inboxB = "inbox" in b && !!b.inbox;
-
-          const friendA = "id" in a && !!store.friends.get(a.id!);
-          const friendB = "id" in b && !!store.friends.get(b.id!);
-
-          if (inboxA && !inboxB) return -1;
-          if (!inboxA && inboxB) return 1;
-
-          if (friendA && !friendB) return -1;
-          if (!friendA && friendB) return 1;
-
-          return 0;
-        })
-        .slice(0, 20);
-
-      setItems(reconcile(searched));
-    })
-  );
-
-  const onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (selectedIndex() < items.length - 1) {
-        setSelectedIndex(selectedIndex() + 1);
-      } else {
-        setSelectedIndex(0);
-      }
-    }
-
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (selectedIndex() > 0) {
-        setSelectedIndex(selectedIndex() - 1);
-      } else {
-        setSelectedIndex(items.length - 1);
-      }
-    }
-  };
-
-  onMount(() => {
-    document.addEventListener("keydown", onKeyDown);
-    onCleanup(() => {
-      document.removeEventListener("keydown", onKeyDown);
-    });
-  });
-
   return (
-    <Modal.Root close={props.close} class={style.quickTravelRoot}>
-      <Modal.Body class={style.quickTravelBody}>
-        <Input
-          class={style.quickTravelInput}
-          placeholder="Search for servers, channels, users and more!"
-          ref={setInputRef}
-          onText={setInputValue}
-        />
-
-        <div class={style.items}>
-          <For each={items}>
-            {(item, i) => (
-              <Item
-                close={props.close}
-                item={item}
-                selected={i() === selectedIndex()}
-                onMouseMove={() => setSelectedIndex(i())}
-              />
-            )}
-          </For>
-        </div>
-      </Modal.Body>
-    </Modal.Root>
+    <QuickTravelControllerProvider>
+      <Modal.Root close={props.close} class={style.quickTravelRoot}>
+        <Modal.Body class={style.quickTravelBody}>
+          <Body close={props.close} />
+        </Modal.Body>
+      </Modal.Root>
+    </QuickTravelControllerProvider>
   );
 }
+
+const Body = (props: { close: () => void }) => {
+  const controller = useQuickTravelController();
+  return (
+    <>
+      <Input
+        class={style.quickTravelInput}
+        placeholder="Search for servers, channels, users and more!"
+        ref={controller?.setInputRef}
+        onText={controller?.setInputValue}
+      />
+
+      <div class={style.items}>
+        <For each={controller?.items}>
+          {(item, i) => (
+            <Item
+              close={props.close}
+              item={item}
+              selected={i() === controller?.selectedIndex()}
+              onMouseMove={() => controller?.setSelectedIndex(i())}
+            />
+          )}
+        </For>
+      </div>
+    </>
+  );
+};
 
 const Item = (props: {
   item: SearchItem;
@@ -194,6 +66,7 @@ const Item = (props: {
   onMouseMove?: () => void;
 }) => {
   let itemRef: HTMLAnchorElement | undefined;
+
   createEffect(() => {
     if (props.selected) {
       itemRef?.scrollIntoView({
