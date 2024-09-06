@@ -1,9 +1,15 @@
 import { runWithContext } from "@/common/runWithContext";
 import { batch } from "solid-js";
-import {createStore, reconcile} from "solid-js/store";
+import { createStore, reconcile } from "solid-js/store";
 import { useWindowProperties } from "../../common/useWindowProperties";
-import {dismissChannelNotification} from "../emits/userEmits";
-import { CHANNEL_PERMISSIONS, getAllPermissions, Bitwise, hasBit, ROLE_PERMISSIONS } from "../Bitwise";
+import { dismissChannelNotification } from "../emits/userEmits";
+import {
+  CHANNEL_PERMISSIONS,
+  getAllPermissions,
+  Bitwise,
+  hasBit,
+  ROLE_PERMISSIONS,
+} from "../Bitwise";
 import { RawChannel } from "../RawData";
 import useMessages from "./useMessages";
 import useUsers from "./useUsers";
@@ -22,7 +28,7 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   update: (this: Channel, update: Partial<RawChannel>) => void;
 
   permissionList: typeof permissionList;
-  recipient: typeof recipient
+  recipient: typeof recipient;
   recipientId?: string;
   lastSeen?: number;
   hasNotifications: typeof hasNotifications;
@@ -31,14 +37,13 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   leaveCall: () => void;
   callJoinedAt?: number;
   setCallJoinedAt: (this: Channel, joinedAt: number | undefined) => void;
-}
+};
 
+const [channels, setChannels] = createStore<
+  Record<string, Channel | undefined>
+>({});
 
-const [channels, setChannels] = createStore<Record<string, Channel | undefined>>({});
-
-
-const set = (channel: RawChannel & {lastSeen?: number}) => {
-
+const set = (channel: RawChannel & { lastSeen?: number }) => {
   const newChannel: Channel = {
     ...channel,
     recipient,
@@ -52,32 +57,36 @@ const set = (channel: RawChannel & {lastSeen?: number}) => {
     setCallJoinedAt,
     update,
     joinCall,
-    leaveCall
+    leaveCall,
   };
 
-  setChannels(channel.id, newChannel); 
+  setChannels(channel.id, newChannel);
 };
 
-function permissionList (this: Channel) {
+function permissionList(this: Channel) {
   const permissions = this.permissions || 0;
   return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
 }
 
-function mentionCount (this: Channel) {
+function mentionCount(this: Channel) {
   const mention = useMention();
   const count = mention.get(this.id)?.count || 0;
 
   return count;
 }
 
-function hasNotifications (this: Channel) {
+function hasNotifications(this: Channel) {
   const serverMembers = useServerMembers();
   const account = useAccount();
   const mentions = useMention();
-  const isAdminChannel = () => hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+  const isAdminChannel = () =>
+    hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
 
   if (this.serverId && isAdminChannel()) {
-    const member = serverMembers.get(this.serverId, account.user()?.id as string);
+    const member = serverMembers.get(
+      this.serverId,
+      account.user()?.id as string
+    );
     const hasAdminPermission = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
     if (!hasAdminPermission) return false;
   }
@@ -90,28 +99,26 @@ function hasNotifications (this: Channel) {
   const lastSeenAt = this.lastSeen! || 0;
   if (!lastSeenAt) return true;
   return lastMessagedAt > lastSeenAt;
-} 
+}
 
-
-function recipient (this: Channel) {
+function recipient(this: Channel) {
   const users = useUsers();
   return users.get(this.recipientId!);
 }
 
-
 function joinCall(this: Channel) {
-  const {setCurrentVoiceChannelId} = useVoiceUsers();
+  const { setCurrentVoiceChannelId } = useVoiceUsers();
   postJoinVoice(this.id, socketClient.id()!).then(() => {
     setCurrentVoiceChannelId(this.id);
   });
 }
-function leaveCall (this: Channel) {
-  const {setCurrentVoiceChannelId} = useVoiceUsers();
+function leaveCall(this: Channel) {
+  const { setCurrentVoiceChannelId } = useVoiceUsers();
   postLeaveVoice(this.id).then(() => {
     setCurrentVoiceChannelId(null);
   });
 }
-function update (this: Channel, update: Partial<RawChannel>) {
+function update(this: Channel, update: Partial<RawChannel>) {
   setChannels(this.id, update);
 }
 
@@ -123,9 +130,9 @@ function setRecipientId(this: Channel, userId: string) {
   setChannels(this.id, "recipientId", userId);
 }
 
-function dismissNotification (this: Channel, force = false) {
+function dismissNotification(this: Channel, force = false) {
   if (force) return dismissChannelNotification(this.id);
-  const {hasFocus} = useWindowProperties();
+  const { hasFocus } = useWindowProperties();
   if (!hasFocus()) return;
   if (!this.hasNotifications()) return;
   dismissChannelNotification(this.id);
@@ -139,19 +146,15 @@ function updateLastSeen(this: Channel, timestamp?: number) {
   setChannels(this.id, "lastSeen", timestamp);
 }
 
+const deleteChannel = (channelId: string, serverId?: string) =>
+  runWithContext(() => {
+    const messages = useMessages();
 
-
-
-const deleteChannel = (channelId: string, serverId?: string) => runWithContext(() => {
-  const messages = useMessages();
-
-
-  batch(() => {
-    messages.deleteChannelMessages(channelId);
-    setChannels(channelId, undefined);
+    batch(() => {
+      messages.deleteChannelMessages(channelId);
+      setChannels(channelId, undefined);
+    });
   });
-});
-
 
 const get = (channelId?: string) => {
   if (!channelId) return undefined;
@@ -160,50 +163,71 @@ const get = (channelId?: string) => {
 
 const array = () => Object.values(channels) as Channel[];
 
-const getChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = false) => {
-  if (!hidePrivateIfNoPerm) return array().filter(channel => channel?.serverId === serverId);
+const serverChannelsWithPerm = () => {
+  const serverMembers = useServerMembers();
+  const account = useAccount();
+
+  return array().filter((channel) => {
+    if (!channel.serverId) return;
+    const member = serverMembers.get(channel.serverId, account.user()?.id!);
+    const hasAdminPerm = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+    if (hasAdminPerm) return true;
+
+    const isPrivateChannel = hasBit(
+      channel?.permissions || 0,
+      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+    );
+    return !isPrivateChannel;
+  });
+};
+
+const getChannelsByServerId = (
+  serverId: string,
+  hidePrivateIfNoPerm = false
+) => {
+  if (!hidePrivateIfNoPerm)
+    return array().filter((channel) => channel?.serverId === serverId);
   const serverMembers = useServerMembers();
   const account = useAccount();
   const member = serverMembers.get(serverId, account.user()?.id!);
   const hasAdminPerm = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
-  if (hasAdminPerm) return array().filter(channel => channel?.serverId === serverId);
+  if (hasAdminPerm)
+    return array().filter((channel) => channel?.serverId === serverId);
 
-
-  return array().filter(channel => {
+  return array().filter((channel) => {
     const isServerChannel = channel?.serverId === serverId;
-    const isPrivateChannel = hasBit(channel?.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+    const isPrivateChannel = hasBit(
+      channel?.permissions || 0,
+      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+    );
     return isServerChannel && !isPrivateChannel;
   });
 };
 
-
 // if order field exists, sort by order, else, sort by created date
-const getSortedChannelsByServerId = (serverId: string, hidePrivateIfNoPerm = false) => {
+const getSortedChannelsByServerId = (
+  serverId: string,
+  hidePrivateIfNoPerm = false
+) => {
   return getChannelsByServerId(serverId, hidePrivateIfNoPerm).sort((a, b) => {
     if (a!.order && b!.order) {
       return a!.order - b!.order;
-    }
-    else {
+    } else {
       return a!.createdAt - b!.createdAt;
     }
   });
 };
-
-
 
 const removeAllServerChannels = (serverId: string) => {
   const channelsArr = array();
   batch(() => {
     for (let i = 0; i < channelsArr.length; i++) {
       const channel = channelsArr[i];
-      if (channel?.serverId !== serverId) continue; 
+      if (channel?.serverId !== serverId) continue;
       deleteChannel(channel.id);
     }
   });
 };
-
-
-
 
 const reset = () => {
   setChannels(reconcile({}));
@@ -217,6 +241,7 @@ export default function useChannels() {
     deleteChannel,
     get,
     set,
-    removeAllServerChannels
+    removeAllServerChannels,
+    serverChannelsWithPerm,
   };
 }

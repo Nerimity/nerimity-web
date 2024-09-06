@@ -435,9 +435,10 @@ function CustomTextArea(props: CustomTextAreaProps) {
   const [attachmentFileBrowserRef, setAttachmentFileBrowserRef] = createSignal<
     FileBrowserRef | undefined
   >(undefined);
-  const { createPortal } = useCustomPortal();
+  const { createPortal, openedPortals } = useCustomPortal();
 
   const onKeyDown = (event: KeyboardEvent) => {
+    if (openedPortals().length) return;
     if (event.target instanceof HTMLElement) {
       if (event.target.tagName === "TEXTAREA") return;
       if (event.target.tagName === "INPUT") return;
@@ -1816,6 +1817,8 @@ function BeforeYouChatNotice(props: {
   const { isMobileWidth } = useWindowProperties();
   const [buttonClickable, setButtonClickable] = createSignal(false);
 
+  const { openedPortals } = useCustomPortal();
+
   const showNotice = () => notice() && !hasAlreadySeenNotice();
 
   const onDocClick = (e: MouseEvent) => {
@@ -1826,6 +1829,7 @@ function BeforeYouChatNotice(props: {
   };
 
   const onInput = (event: Event) => {
+    if (openedPortals().length) return;
     if (event.target instanceof HTMLElement) {
       event.preventDefault();
       event.stopPropagation();

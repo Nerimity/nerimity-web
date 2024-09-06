@@ -1,9 +1,12 @@
 import {
   createEffect,
+  createMemo,
   createSignal,
   For,
   JSXElement,
   on,
+  onCleanup,
+  onMount,
   Show,
 } from "solid-js";
 import Input from "../ui/input/Input";
@@ -24,6 +27,8 @@ import Icon from "../ui/icon/Icon";
 import { ChannelIcon } from "../ChannelIcon";
 import { Inbox } from "@/chat-api/store/useInbox";
 import { ChannelType } from "@/chat-api/RawData";
+import { cn } from "@/common/classNames";
+import { isExperimentEnabled } from "@/common/experiments";
 
 interface SearchItem {
   id?: string;
@@ -40,6 +45,7 @@ export function QuickTravel(props: { close: () => void }) {
   const store = useStore();
   const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
   const [inputValue, setInputValue] = createSignal("");
+  const [selectedIndex, setSelectedIndex] = createSignal(0);
 
   const [items, setItems] = createStore<SearchItem[]>([]);
 
@@ -49,40 +55,49 @@ export function QuickTravel(props: { close: () => void }) {
     })
   );
 
+  const mappedUsers = createMemo(() => {
+    const users = store.users.array();
+
+    return users.map((user) => {
+      const friend = store.friends.get(user.id);
+      const inbox = user.inboxChannelId
+        ? store.inbox.get(user.inboxChannelId)
+        : undefined;
+      return {
+        id: user.id,
+        name: user.username,
+        inbox,
+        user,
+        subText: friend ? "Friend" : inbox ? "Inbox" : "User",
+        path: user.inboxChannelId
+          ? RouterEndpoints.INBOX_MESSAGES(user.inboxChannelId!)
+          : undefined,
+      } as SearchItem;
+    });
+  });
+
+  const mappedChannels = createMemo(() => {
+    const channels = store.channels.serverChannelsWithPerm();
+
+    return channels
+      .filter((c) => c.type === ChannelType.SERVER_TEXT)
+      .map((channel) => ({
+        id: channel.id,
+        name: channel.name,
+        subText: store.servers.get(channel.serverId!)?.name,
+        path: RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id),
+        icon: () => <ChannelIcon icon={channel.icon} type={channel.type} />,
+      }));
+  });
+
   createEffect(
-    on(inputValue, () => {
-      const users = store.users.array();
-      const channels = store.channels.array();
-
-      const mappedUsers = users.map((user) => {
-        const friend = store.friends.get(user.id);
-        const inbox = user.inboxChannelId
-          ? store.inbox.get(user.inboxChannelId)
-          : undefined;
-        return {
-          id: user.id,
-          name: user.username,
-          inbox,
-          user,
-          subText: friend ? "Friend" : inbox ? "Inbox" : "User",
-          path: user.inboxChannelId
-            ? RouterEndpoints.INBOX_MESSAGES(user.inboxChannelId!)
-            : undefined,
-        } as SearchItem;
-      });
-
-      const mappedChannels: SearchItem[] = channels
-        .filter((c) => c.type === ChannelType.SERVER_TEXT)
-        .map((channel) => ({
-          id: channel.id,
-          name: channel.name,
-          subText: store.servers.get(channel.serverId!)?.name,
-          path: RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id),
-          icon: () => <ChannelIcon icon={channel.icon} type={channel.type} />,
-        }));
-
+    on([inputValue, mappedChannels, mappedUsers], () => {
+      setSelectedIndex(0);
       const mappedSettings: SearchItem[] = settings
         .filter((s) => !s.hide)
+        .filter((s) =>
+          !s.experimentId ? true : isExperimentEnabled(s.experimentId)
+        )
         .map((setting) => ({
           icon: setting.icon,
           name: t(setting.name),
@@ -91,7 +106,7 @@ export function QuickTravel(props: { close: () => void }) {
         }));
 
       const searched = matchSorter(
-        [...mappedUsers, ...mappedChannels, ...mappedSettings],
+        [...mappedUsers(), ...mappedChannels(), ...mappedSettings],
         inputValue(),
         {
           keys: ["name"],
@@ -118,6 +133,33 @@ export function QuickTravel(props: { close: () => void }) {
     })
   );
 
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (selectedIndex() < items.length - 1) {
+        setSelectedIndex(selectedIndex() + 1);
+      } else {
+        setSelectedIndex(0);
+      }
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (selectedIndex() > 0) {
+        setSelectedIndex(selectedIndex() - 1);
+      } else {
+        setSelectedIndex(items.length - 1);
+      }
+    }
+  };
+
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown);
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown);
+    });
+  });
+
   return (
     <Modal.Root close={props.close} class={style.quickTravelRoot}>
       <Modal.Body class={style.quickTravelBody}>
@@ -130,7 +172,14 @@ export function QuickTravel(props: { close: () => void }) {
 
         <div class={style.items}>
           <For each={items}>
-            {(item) => <Item close={props.close} item={item} />}
+            {(item, i) => (
+              <Item
+                close={props.close}
+                item={item}
+                selected={i() === selectedIndex()}
+                onMouseMove={() => setSelectedIndex(i())}
+              />
+            )}
           </For>
         </div>
       </Modal.Body>
@@ -138,12 +187,42 @@ export function QuickTravel(props: { close: () => void }) {
   );
 }
 
-const Item = (props: { item: SearchItem; close: () => void }) => {
+const Item = (props: {
+  item: SearchItem;
+  close: () => void;
+  selected: boolean;
+  onMouseMove?: () => void;
+}) => {
+  let itemRef: HTMLAnchorElement | undefined;
+  createEffect(() => {
+    if (props.selected) {
+      itemRef?.scrollIntoView({
+        block: "nearest",
+        inline: "start",
+      });
+    }
+  });
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (props.selected && e.key === "Enter") {
+      itemRef?.click();
+    }
+  };
+
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown);
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown);
+    });
+  });
+
   return (
     <CustomLink
+      ref={itemRef}
       onClick={props.close}
-      class={style.quickTravelItem}
+      class={cn(style.quickTravelItem, props.selected && style.selected)}
       href={props.item.path || RouterEndpoints.PROFILE(props.item.id!)}
+      onMouseMove={props.onMouseMove}
     >
       <div class={style.icon}>
         <Show when={props.item.user || props.item.server}>
