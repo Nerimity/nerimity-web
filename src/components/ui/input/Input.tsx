@@ -41,6 +41,8 @@ interface Props {
   onInput?: (event: InputEvent) => void;
   primaryColor?: string;
   onChange?: JSX.ChangeEventHandlerUnion<HTMLInputElement, Event>;
+  disabled?: boolean;
+  onClick?: (event: MouseEvent) => void;
 }
 
 const Base = styled("div")<{ margin?: number | number[] }>`
@@ -224,6 +226,7 @@ export default function Input(props: Props) {
         </Show>
         <Show when={props.type !== "textarea"}>
           <CustomInput
+            disabled={props.disabled}
             onchange={props.onChange}
             maxlength={props.maxLength}
             placeholder={props.placeholder}
@@ -233,6 +236,7 @@ export default function Input(props: Props) {
             onInput={onChange}
             type={props.type || "text"}
             value={props.value || ""}
+            onClick={props.onClick}
           />
         </Show>
         <Show when={props.suffix}>

@@ -18,6 +18,8 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import InVoiceActions from "@/components/InVoiceActions";
 import { Delay } from "@/common/Delay";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
+import Input from "@/components/ui/input/Input";
+import { QuickTravel } from "@/components/QuickTravel";
 
 const HomeDrawer = lazy(() => import("@/components/home-drawer/HomeDrawer"));
 
@@ -77,16 +79,36 @@ function HeaderItem(props: {
 
 const InboxDrawer = () => {
   const newDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
+  const quickTravelExperimentEnabled = isExperimentEnabled("QUICK_TRAVEL");
 
   return (
-    <Switch>
-      <Match when={newDrawerExperimentEnabled()}>
-        <HomeDrawer />
-      </Match>
-      <Match when={!newDrawerExperimentEnabled()}>
-        <CurrentDrawer />
-      </Match>
-    </Switch>
+    <>
+      <Show when={quickTravelExperimentEnabled()}>
+        <SearchBar />
+      </Show>
+      <Switch>
+        <Match when={newDrawerExperimentEnabled()}>
+          <HomeDrawer />
+        </Match>
+        <Match when={!newDrawerExperimentEnabled()}>
+          <CurrentDrawer />
+        </Match>
+      </Switch>
+    </>
+  );
+};
+
+const SearchBar = () => {
+  const { createPortal } = useCustomPortal();
+  const onClick = () => {
+    console.log("onclick");
+    createPortal?.((close) => <QuickTravel close={close} />, "quick-travel");
+  };
+
+  return (
+    <div onClick={onClick}>
+      <Input class={styles.searchBar} placeholder="Search (Ctrl + Space)" />
+    </div>
   );
 };
 
