@@ -107,7 +107,11 @@ const SearchBar = () => {
 
   return (
     <div onClick={onClick}>
-      <Input class={styles.searchBar} placeholder="Search (Ctrl + Space)" />
+      <Input
+        class={styles.searchBar}
+        disabled
+        placeholder="Search (Ctrl + Space)"
+      />
     </div>
   );
 };
