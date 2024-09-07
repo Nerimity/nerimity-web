@@ -6,6 +6,7 @@ import AddFriendModal from "../inbox/drawer/add-friend/AddFriendModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { useParams } from "solid-navigator";
 import { BlockedUsersModal } from "./HomeDrawer";
+import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 
 const useFriendsController = () => {
   const store = useStore();
@@ -127,6 +128,7 @@ const useInboxController = () => {
     if (!id) return;
     const user = store.users.get(id);
     user?.openDM();
+    emitDrawerGoToMain();
   };
   const isSavedNotesOpened = () => {
     const id = store.account.user()?.id;

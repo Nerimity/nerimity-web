@@ -24,6 +24,8 @@ export default function HomeDrawer() {
     <HomeDrawerControllerProvider>
       <div class={style.container}>
         <SearchBar />
+        <HorizontalItems />
+
         <Items />
         <Friends />
         <Inbox />
@@ -50,6 +52,50 @@ const SearchBar = () => {
   );
 };
 
+const HorizontalItems = () => {
+  const controller = useHomeDrawerController();
+
+  return (
+    <div class={style.horizontalItems}>
+      <HorizontalItem
+        icon="note_alt"
+        name="Notes"
+        selected={controller?.inbox.isSavedNotesOpened()}
+        onClick={controller?.inbox.openSavedNotes}
+      />
+      <HorizontalItem
+        icon="person_add"
+        name="Add Friend"
+        onClick={controller?.friends.showAddFriendModel}
+      />
+      <HorizontalItem
+        icon="block"
+        name="Blocked"
+        onClick={controller?.friends.showBlockedUsersModal}
+      />
+    </div>
+  );
+};
+
+const HorizontalItem = (props: {
+  icon: string;
+  name: string;
+  selected?: boolean;
+  href?: string;
+  onClick?: () => void;
+}) => {
+  return (
+    <CustomLink
+      href={props.href}
+      class={cn(style.horizontalItem, props.selected && style.selected)}
+      onClick={props.onClick}
+    >
+      <Icon name={props.icon} size={18} />
+      <span>{props.name}</span>
+    </CustomLink>
+  );
+};
+
 const Items = () => {
   const controller = useHomeDrawerController();
 
@@ -60,22 +106,6 @@ const Items = () => {
         label={t("explore.drawer.title")}
         icon="explore"
         href="/app/explore/servers"
-      />
-      <Item
-        label={t("inbox.drawer.savedNotesButton")}
-        icon="note_alt"
-        onClick={controller?.inbox.openSavedNotes}
-        selected={controller?.inbox.isSavedNotesOpened()}
-      />
-      <Item
-        label="Blocked Users"
-        icon="block"
-        onClick={controller?.friends.showBlockedUsersModal}
-      />
-      <Item
-        label="Add Friend"
-        icon="person_add"
-        onClick={controller?.friends.showAddFriendModel}
       />
     </div>
   );
