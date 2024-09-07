@@ -79,40 +79,16 @@ function HeaderItem(props: {
 
 const InboxDrawer = () => {
   const newDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
-  const quickTravelExperimentEnabled = isExperimentEnabled("QUICK_TRAVEL");
 
   return (
-    <>
-      <Show when={quickTravelExperimentEnabled()}>
-        <SearchBar />
-      </Show>
-      <Switch>
-        <Match when={newDrawerExperimentEnabled()}>
-          <HomeDrawer />
-        </Match>
-        <Match when={!newDrawerExperimentEnabled()}>
-          <CurrentDrawer />
-        </Match>
-      </Switch>
-    </>
-  );
-};
-
-const SearchBar = () => {
-  const { createPortal } = useCustomPortal();
-  const onClick = () => {
-    console.log("onclick");
-    createPortal?.((close) => <QuickTravel close={close} />, "quick-travel");
-  };
-
-  return (
-    <div onClick={onClick}>
-      <Input
-        class={styles.searchBar}
-        disabled
-        placeholder="Search (Ctrl + Space)"
-      />
-    </div>
+    <Switch>
+      <Match when={newDrawerExperimentEnabled()}>
+        <HomeDrawer />
+      </Match>
+      <Match when={!newDrawerExperimentEnabled()}>
+        <CurrentDrawer />
+      </Match>
+    </Switch>
   );
 };
 

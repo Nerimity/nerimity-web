@@ -14,11 +14,16 @@ import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
 import { Modal } from "../ui/modal";
 import { cn } from "@/common/classNames";
+import { DrawerHeader } from "../drawer-header/DrawerHeader";
+import { isExperimentEnabled } from "@/common/experiments";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { QuickTravel } from "../QuickTravel";
 
 export default function HomeDrawer() {
   return (
     <HomeDrawerControllerProvider>
       <div class={style.container}>
+        <SearchBar />
         <Items />
         <Friends />
         <Inbox />
@@ -26,6 +31,24 @@ export default function HomeDrawer() {
     </HomeDrawerControllerProvider>
   );
 }
+
+const SearchBar = () => {
+  const { createPortal } = useCustomPortal();
+  const quickTravelExperimentEnabled = isExperimentEnabled("QUICK_TRAVEL");
+  const onClick = () => {
+    createPortal?.((close) => <QuickTravel close={close} />, "quick-travel");
+  };
+  return (
+    <Show when={quickTravelExperimentEnabled()}>
+      <DrawerHeader>
+        <div onClick={onClick} class={style.searchBar}>
+          <Icon name="search" size={18} />
+          Search (Ctrl + Space)
+        </div>
+      </DrawerHeader>
+    </Show>
+  );
+};
 
 const Items = () => {
   const controller = useHomeDrawerController();
