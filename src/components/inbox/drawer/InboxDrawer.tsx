@@ -18,6 +18,8 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import InVoiceActions from "@/components/InVoiceActions";
 import { Delay } from "@/common/Delay";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
+import Input from "@/components/ui/input/Input";
+import { QuickTravel } from "@/components/QuickTravel";
 
 const HomeDrawer = lazy(() => import("@/components/home-drawer/HomeDrawer"));
 

@@ -16,6 +16,11 @@ export const Experiments = [
     description:
       "Enable the new home drawer, which replaces the current inbox drawer.",
   },
+  {
+    id: "QUICK_TRAVEL",
+    name: "Quick Travel",
+    description: "Press CTRL + SPACE to open Quick Travel.",
+  },
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];

@@ -1,0 +1,59 @@
+.quickTravelRoot {
+  width: 600px;
+  height: 60vh;
+  min-height: 200px;
+}
+
+.quickTravelBody {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quickTravelInput {
+  flex: 1;
+}
+
+.items {
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+}
+
+.quickTravelItem {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  gap: 8px;
+  &.selected {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .label {
+    overflow: hidden;
+    flex: 1;
+    flex-shrink: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .subText {
+    overflow: hidden;
+    max-width: 30%;
+    color: rgba(255, 255, 255, 0.4);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 26px;
+  }
+}

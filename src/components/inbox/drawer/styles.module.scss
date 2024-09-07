@@ -1,24 +1,37 @@
 .header {
   display: flex;
-  align-items: center;
   overflow: hidden;
-  
-  background-color: rgba(255, 255, 255, 0.05);
+  align-items: center;
+  flex-shrink: 0;
   margin: 5px;
   border-radius: 8px;
-  flex-shrink: 0;
-  
+
+  background-color: rgba(255, 255, 255, 0.05);
+
   .headerItem {
-    padding: 7px;
-    flex: 1;
     display: flex;
+    overflow: hidden;
     align-items: center;
+    flex: 1;
     justify-content: center;
+    height: 30px;
+    padding: 7px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.2s;
-    height: 30px;
-    overflow: hidden;
-    border-radius: 8px;
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    &.selected .notificationCount {
+      color: var(--primary-color);
+      background-color: white;
+    }
+    &.selected {
+      color: white;
+      background-color: var(--primary-color);
+    }
 
     .headerIcon {
       margin-right: 5px;
@@ -27,28 +40,15 @@
     .notificationCount {
       display: flex;
       align-items: center;
-      justify-content: center;
       flex-shrink: 0;
-      color: white;
-      margin-left: 5px;
-      font-size: 0.8em;
-      background-color: var(--alert-color);
-      border-radius: 50%;
-      height: 17px;
+      justify-content: center;
       width: 17px;
-    }
-    &.selected .notificationCount {
-      color: var(--primary-color);
-      background-color: white;
-    }
-
-    &:hover {
-      color: rgba(255, 255, 255, 0.8);
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    &.selected {
+      height: 17px;
+      margin-left: 5px;
+      border-radius: 50%;
       color: white;
-      background-color: var(--primary-color);
+      background-color: var(--alert-color);
+      font-size: 0.8em;
     }
   }
 }
@@ -61,32 +61,32 @@
 
 .list {
   display: flex;
-  gap: 2px;
-  flex-direction: column;
   overflow: auto;
   flex: 1;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .items {
   display: flex;
-  background-color: rgba(255, 255, 255, 0.05);
-  margin: 5px;
   overflow: hidden;
+  margin: 5px;
   border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
   .item {
-    transition: 0.2s;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    flex: 1;
+    flex-direction: column;
     flex-shrink: 0;
+    justify-content: center;
     height: 45px;
     border-radius: 8px;
-    flex: 1;
-    text-align: center;
-    user-select: none;
-    font-size: 12px;
     cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+    text-align: center;
+    font-size: 12px;
     &:hover {
       background-color: rgba(255, 255, 255, 0.12);
     }

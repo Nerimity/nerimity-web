@@ -14,11 +14,18 @@ import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
 import { Modal } from "../ui/modal";
 import { cn } from "@/common/classNames";
+import { DrawerHeader } from "../drawer-header/DrawerHeader";
+import { isExperimentEnabled } from "@/common/experiments";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { QuickTravel } from "../QuickTravel";
 
 export default function HomeDrawer() {
   return (
     <HomeDrawerControllerProvider>
       <div class={style.container}>
+        <SearchBar />
+        <HorizontalItems />
+
         <Items />
         <Friends />
         <Inbox />
@@ -26,6 +33,68 @@ export default function HomeDrawer() {
     </HomeDrawerControllerProvider>
   );
 }
+
+const SearchBar = () => {
+  const { createPortal } = useCustomPortal();
+  const quickTravelExperimentEnabled = isExperimentEnabled("QUICK_TRAVEL");
+  const onClick = () => {
+    createPortal?.((close) => <QuickTravel close={close} />, "quick-travel");
+  };
+  return (
+    <Show when={quickTravelExperimentEnabled()}>
+      <DrawerHeader class={style.searchBarOuter}>
+        <div onClick={onClick} class={style.searchBar}>
+          <Icon name="search" size={18} />
+          Search (Ctrl + Space)
+        </div>
+      </DrawerHeader>
+    </Show>
+  );
+};
+
+const HorizontalItems = () => {
+  const controller = useHomeDrawerController();
+
+  return (
+    <div class={style.horizontalItems}>
+      <HorizontalItem
+        icon="note_alt"
+        name="Notes"
+        selected={controller?.inbox.isSavedNotesOpened()}
+        onClick={controller?.inbox.openSavedNotes}
+      />
+      <HorizontalItem
+        icon="person_add"
+        name="Add Friend"
+        onClick={controller?.friends.showAddFriendModel}
+      />
+      <HorizontalItem
+        icon="block"
+        name="Blocked"
+        onClick={controller?.friends.showBlockedUsersModal}
+      />
+    </div>
+  );
+};
+
+const HorizontalItem = (props: {
+  icon: string;
+  name: string;
+  selected?: boolean;
+  href?: string;
+  onClick?: () => void;
+}) => {
+  return (
+    <CustomLink
+      href={props.href}
+      class={cn(style.horizontalItem, props.selected && style.selected)}
+      onClick={props.onClick}
+    >
+      <Icon name={props.icon} size={18} />
+      <span>{props.name}</span>
+    </CustomLink>
+  );
+};
 
 const Items = () => {
   const controller = useHomeDrawerController();
@@ -37,22 +106,6 @@ const Items = () => {
         label={t("explore.drawer.title")}
         icon="explore"
         href="/app/explore/servers"
-      />
-      <Item
-        label={t("inbox.drawer.savedNotesButton")}
-        icon="note_alt"
-        onClick={controller?.inbox.openSavedNotes}
-        selected={controller?.inbox.isSavedNotesOpened()}
-      />
-      <Item
-        label="Blocked Users"
-        icon="block"
-        onClick={controller?.friends.showBlockedUsersModal}
-      />
-      <Item
-        label="Add Friend"
-        icon="person_add"
-        onClick={controller?.friends.showAddFriendModel}
       />
     </div>
   );
