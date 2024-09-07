@@ -42,7 +42,7 @@ const SearchBar = () => {
   };
   return (
     <Show when={quickTravelExperimentEnabled()}>
-      <DrawerHeader>
+      <DrawerHeader class={style.searchBarOuter}>
         <div onClick={onClick} class={style.searchBar}>
           <Icon name="search" size={18} />
           Search (Ctrl + Space)

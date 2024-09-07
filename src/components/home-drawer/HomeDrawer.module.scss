@@ -94,6 +94,9 @@
   max-height: 50vh;
 }
 
+body .searchBarOuter {
+  margin-bottom: -4px;
+}
 .searchBar {
   display: flex;
   align-items: center;
@@ -112,7 +115,7 @@
 
 .horizontalItems {
   display: flex;
-  margin-top: -4px;
+  margin-top: 4px;
   margin-right: 4px;
   margin-bottom: -4px;
   margin-left: 4px;
