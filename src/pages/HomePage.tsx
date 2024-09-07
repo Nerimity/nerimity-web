@@ -1,11 +1,11 @@
 import React from 'react';
 import './styles.css';
 
-const ADSChat: React.FC = () => {
+const CanaryChat: React.FC = () => {
     return (
         <div>
             <div className="banner">
-                <div className="name">ADS-Chat</div>
+                <div className="name">Canary-Chat</div>
                 <div className="top-buttons">
                     <button onClick={() => window.location.href='https://chat.quizzity.tech/login'}>Login</button>
                     <button onClick={() => window.location.href='https://chat.quizzity.tech/register'}>Sign Up</button>
@@ -13,9 +13,9 @@ const ADSChat: React.FC = () => {
             </div>
             <div className="container">
                 <div className="logo">
-                    <img src="/logo.png" alt="ADS-Chat Logo" />
+                    <img src="/logo.png" alt="Canary-Chat Logo" />
                 </div>
-                <h1>Welcome to ADS-Chat</h1>
+                <h1>Welcome to Canary-Chat</h1>
                 <div className="buttons">
                     <button className="btn login-btn" onClick={() => window.location.href='https://chat.quizzity.tech/login'}>Login</button>
                     <button className="btn register-btn" onClick={() => window.location.href='https://chat.quizzity.tech/register'}>Register</button>
@@ -25,9 +25,10 @@ const ADSChat: React.FC = () => {
             <style jsx>{`
                 body {
                     font-family: "Times New Roman", Times, serif;
+                    background-color: #49c992; /* Main background color */
                 }
                 .banner {
-                    width: 100%;
+                    width: calc(100% - 60px); /* Adjust width to leave more space on the sides */
                     background-color: #F9B006; /* Canary yellow */
                     color: white;
                     padding: 10px;
@@ -35,8 +36,10 @@ const ADSChat: React.FC = () => {
                     justify-content: space-between;
                     align-items: center;
                     position: fixed;
-                    top: 0;
-                    left: 0;
+                    top: 10px; /* Adjust top position to leave space above */
+                    left: 20px; /* Center the banner */
+                    right: 40px; /* More space on the right */
+                    border-radius: 20px; /* Rounded corners */
                     z-index: 1000;
                 }
                 .banner .name {
@@ -54,13 +57,14 @@ const ADSChat: React.FC = () => {
                     border: none;
                     padding: 10px 20px;
                     cursor: pointer;
+                    border-radius: 20px; /* More rounded corners */
                 }
                 .container {
-                    margin-top: 60px; /* Adjust this value based on the height of your banner */
+                    margin-top: 80px; /* Adjust this value based on the height of your banner */
                 }
             `}</style>
         </div>
     );
 };
 
-export default ADSChat;
+export default CanaryChat;
