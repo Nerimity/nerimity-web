@@ -50,7 +50,7 @@ import { Emoji } from "../ui/Emoji";
 import { t } from "i18next";
 import { PostItem } from "../post-area/PostItem";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import { average } from "chroma-js";
+import average from "@/common/chromaJS";
 
 interface Props {
   dmPane?: boolean;
@@ -171,13 +171,17 @@ const DesktopProfileFlyout = (props: {
   };
 
   const bgColor = createMemo(() => {
-    return average([
-      colors().bg?.[0] || "rgba(40, 40, 40, 0.86)",
-      colors().bg?.[1] || "rgba(40, 40, 40, 0.86)",
-    ])
-      .luminance(0.01)
-      .alpha(0.9)
-      .hex();
+    try {
+      return average([
+        colors().bg?.[0] || "rgba(40, 40, 40, 0.86)",
+        colors().bg?.[1] || "rgba(40, 40, 40, 0.86)",
+      ])
+        .luminance(0.01)
+        .alpha(0.9)
+        .hex();
+    } catch {
+      return "rgba(40, 40, 40, 0.86)";
+    }
   });
 
   const bio = () => {

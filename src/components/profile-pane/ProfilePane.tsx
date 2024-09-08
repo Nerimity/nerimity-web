@@ -62,7 +62,7 @@ import {
 } from "@/components/activity/Activity";
 import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
-import { average } from "chroma-js";
+import average from "@/common/chromaJS";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -139,13 +139,17 @@ export default function ProfilePane() {
     return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
   };
   const bgColor = createMemo(() => {
-    return average([
-      userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
-      userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
-    ])
-      .luminance(0.01)
-      .alpha(0.9)
-      .hex();
+    try {
+      return average([
+        userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
+        userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+      ])
+        .luminance(0.01)
+        .alpha(0.9)
+        .hex();
+    } catch {
+      return "rgba(40, 40, 40, 0.86)";
+    }
   });
 
   const user = () => {
