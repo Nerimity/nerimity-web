@@ -8,9 +8,10 @@
 </p> 
 
 # Nerimity Web (SolidJS)
+[![Nerimity](https://raw.githubusercontent.com/Nerimity/assets/main/src/nerimity-badge-88x31.png)](https://nerimity.com)
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y1FN57Z)
 
-Chat App made using SolidJS. Work in progress.
+Chat App made using SolidJS.
 
 
 ## Repos
