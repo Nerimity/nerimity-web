@@ -172,8 +172,8 @@ const DesktopProfileFlyout = (props: {
 
   const bgColor = createMemo(() => {
     return average([
-      details()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
-      details()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+      colors().bg?.[0] || "rgba(40, 40, 40, 0.86)",
+      colors().bg?.[1] || "rgba(40, 40, 40, 0.86)",
     ])
       .luminance(0.01)
       .alpha(0.9)
