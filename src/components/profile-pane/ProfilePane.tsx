@@ -762,6 +762,7 @@ const UserActivity = (props: {
                 <RichProgressBar
                   updatedAt={activity()?.updatedAt}
                   speed={activity()?.speed}
+                  primaryColor={props.color}
                   startedAt={activity()?.startedAt!}
                   endsAt={activity()?.endsAt!}
                 />
