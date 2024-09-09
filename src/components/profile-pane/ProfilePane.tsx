@@ -303,6 +303,7 @@ export default function ProfilePane() {
                 `}
                 updateUserDetails={() => fetchUserDetails(params.userId)}
                 userDetails={userDetails()}
+                primaryColor={colors().primary}
                 user={user()}
               />
             </div>
