@@ -4,6 +4,7 @@ export const theme = {
   "background-color": "hsl(216deg 9% 8%)",
   "header-background-color": "rgba(48, 48, 48, 0.86)",
   "header-background-color-blur-disabled": "rgb(48, 48, 48)",
+  "tooltip-background-color": "rgb(40, 40, 40)",
   "primary-color": "#4c93ff",
   "alert-color": "#eb6e6e",
   "warn-color": "#e8a859",
