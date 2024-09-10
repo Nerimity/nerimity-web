@@ -70,8 +70,9 @@ export default function DeleteConfirmModal(props: Props) {
       close={props.close}
       title={props.title}
       icon="delete"
+      color="var(--alert-color)"
       actionButtons={ActionButtons}
-      maxWidth={300}
+      maxWidth={400}
     >
       <div class={styles.deleteConfirmModal}>
         <Show when={props.custom}>{props.custom!}</Show>
