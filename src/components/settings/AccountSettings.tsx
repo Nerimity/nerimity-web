@@ -481,7 +481,7 @@ function DeleteAccountBlock() {
             checked={scheduleDeleteContent()}
             onChange={setScheduleDeleteContent}
             labelSize={14}
-            label="Schedule to delete my posts and messages"
+            label="Delete my posts and messages"
           />
         </div>
       );
