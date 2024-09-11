@@ -142,6 +142,8 @@
       flex-wrap: nowrap;
       justify-content: start;
       width: 80px;
+      height: 100%;
+      box-sizing: border-box;
       margin-left: 5px;
     }
     .voiceParticipantItem {
