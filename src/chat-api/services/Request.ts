@@ -1,5 +1,6 @@
 import { getStorageString, StorageKeys } from "../../common/localStorage";
 
+// most, if not all of these messages come from cloudflare
 const ErrorCodeToMessage: Record<number, string> = {
   500: "Internal Server Error",
   501: "Not Implemented",
