@@ -46,6 +46,7 @@ import MobileBottomPane from "@/components/ui/MobileBottomPane";
 import { MetaTitle } from "@/common/MetaTitle";
 import { QuickTravel } from "@/components/QuickTravel";
 import { useExperiment } from "@/common/experiments";
+import { applyCustomCss } from "@/common/customCss";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -206,6 +207,7 @@ function MainPane() {
 
   useServerRedirect();
   useUserNotices();
+  applyCustomCss();
 
   createEffect(() => {
     windowProperties.setPaneWidth(width());

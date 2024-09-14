@@ -13,6 +13,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ["@codemirror/state", "@codemirror/view"],
+  },
   plugins: [solidPlugin()],
   css: {
     postcss: {
