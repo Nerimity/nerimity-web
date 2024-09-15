@@ -5,6 +5,7 @@ import {
   createMemo,
   createSignal,
   For,
+  JSXElement,
   on,
   onCleanup,
   onMount,
@@ -634,6 +635,29 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
         value={joinedAt()}
         onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
       />
+      <Show when={props.user.user.application?.creatorAccount}>
+        <SidePaneItem
+          bgColor={props.bgColor}
+          icon="person"
+          label="Bot Creator"
+          color={props.user.profile?.primaryColor}
+        >
+          <A
+            href={RouterEndpoints.PROFILE(
+              props.user.user?.application?.creatorAccount.user.id!
+            )}
+            class={cn(styles.item, styles.botCreatorItem)}
+          >
+            <Avatar
+              user={props.user.user?.application?.creatorAccount.user!}
+              size={20}
+            />
+            <div class={styles.name}>
+              {props.user.user.application?.creatorAccount.user.username}
+            </div>
+          </A>
+        </SidePaneItem>
+      </Show>
       <MutualFriendList
         bgColor={props.bgColor}
         color={props.user.profile?.primaryColor}
@@ -916,10 +940,11 @@ function MutualServerList(props: {
 function SidePaneItem(props: {
   icon: string;
   label: string;
-  value: string;
+  value?: string;
   color?: string;
   bgColor: string;
   onClick?: () => void;
+  children?: JSXElement;
 }) {
   return (
     <div
@@ -935,7 +960,10 @@ function SidePaneItem(props: {
         />
         <div class={styles.label}>{props.label}</div>
       </FlexRow>
-      <div class={styles.value}>{props.value}</div>
+      {props.children}
+      <Show when={props.value}>
+        <div class={styles.value}>{props.value}</div>
+      </Show>
     </div>
   );
 }

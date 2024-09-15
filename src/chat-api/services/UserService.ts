@@ -151,6 +151,18 @@ export interface UserDetails {
   block: boolean;
   suspensionExpiresAt?: number;
   user: RawUser & {
+    application?: {
+      creatorAccount: {
+        user: {
+          username: string;
+          tag: string;
+          id: string;
+          avatar?: string;
+          badges: number;
+          hexColor: string;
+        };
+      };
+    };
     _count: {
       followers: number;
       following: number;
