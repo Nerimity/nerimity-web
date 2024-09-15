@@ -601,7 +601,7 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
     <div class={styles.sidePane}>
       <Show when={props.user.suspensionExpiresAt !== undefined}>
         <SidePaneItem
-          bgColor="var(--alert-color)"
+          bgColor={props.bgColor}
           icon="block"
           label="This user is suspended"
           color="var(--alert-color)"
@@ -614,7 +614,7 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
       </Show>
       <Show when={props.user.block}>
         <SidePaneItem
-          bgColor="var(--alert-color)"
+          bgColor={props.bgColor}
           icon="block"
           label="You've been blocked"
           color="var(--alert-color)"
