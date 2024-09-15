@@ -130,10 +130,10 @@ const MemberItem = (props: { member: ServerMember }) => {
             anchor="left"
           >
             <Show when={isCreator()}>
-              <img src="https://nerimity.com/twemojis//1f451.svg" />
+              <img src="https://nerimity.com/twemojis/1f451.svg" />
             </Show>
             <Show when={!isCreator()}>
-              <Icon name="shield_person" color="var(--primary-color)" />
+              <img src="https://nerimity.com/twemojis/1f6e1.svg" />
             </Show>
           </Tooltip>
         </Show>
