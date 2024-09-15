@@ -16,12 +16,16 @@ export enum StorageKeys {
   ENABLED_EXPERIMENTS = "enabledExperiments",
   DISABLED_ADVANCED_MARKUP = "disabledAdvancedMarkup",
   NOTIFICATION_SOUNDS = "notificationSounds",
+  CUSTOM_CSS = "customCss",
   CUSTOM_COLORS = "customColors",
   inputDeviceId = "inputDeviceId",
   outputDeviceId = "outputDeviceId",
 }
 
-export function getStorageBoolean(key: StorageKeys, defaultValue: boolean): boolean {
+export function getStorageBoolean(
+  key: StorageKeys,
+  defaultValue: boolean
+): boolean {
   const value = localStorage.getItem(key);
   if (!value) return defaultValue;
   return JSON.parse(value);
@@ -51,7 +55,6 @@ export function setStorageNumber(key: StorageKeys, value: number) {
   localStorage.setItem(key, value.toString());
 }
 
-
 export function getStorageObject<T>(key: StorageKeys, defaultValue: T): T {
   const value = getStorageString(key, null);
   if (value === null) {
@@ -64,15 +67,9 @@ export function setStorageObject<T>(key: StorageKeys, value: T) {
   setStorageString(key, JSON.stringify(value));
 }
 
-
-
 export function removeStorage(key: StorageKeys) {
   localStorage.removeItem(key);
 }
-
-
-
-
 
 export function useReactiveLocalStorage<T>(key: StorageKeys, defaultValue: T) {
   const [value, setValue] = createSignal<T>(defaultValue);
@@ -82,9 +79,8 @@ export function useReactiveLocalStorage<T>(key: StorageKeys, defaultValue: T) {
 
   const setCustomValue = (value: T) => {
     setValue(() => value);
-    setStorageString(key, JSON.stringify(value)); 
+    setStorageString(key, JSON.stringify(value));
   };
 
   return [value, setCustomValue] as const;
-
 }

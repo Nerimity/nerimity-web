@@ -41,6 +41,14 @@ const settings: Setting[] = [
     element: lazy(() => import("@/components/settings/InterfaceSettings")),
   },
   {
+    path: "/interface/custom-css",
+    routePath: "/interface/custom-css",
+    name: "settings.drawer.interface",
+    icon: "code",
+    element: lazy(() => import("@/components/settings/CustomCssSettings")),
+    hide: true,
+  },
+  {
     path: "notifications",
     routePath: "/notifications",
     name: "settings.drawer.notifications",

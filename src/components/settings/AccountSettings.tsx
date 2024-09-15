@@ -47,6 +47,7 @@ import Icon from "../ui/icon/Icon";
 import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
 import { formatMessage } from "../message-pane/MessagePane";
 import { logout } from "@/common/logout";
+import Checkbox from "../ui/Checkbox";
 
 const ImageCropModal = lazy(() => import("../ui/ImageCropModal"));
 
@@ -439,13 +440,14 @@ const deleteAccountBlockStyles = css`
 
 function DeleteAccountBlock() {
   const { createPortal } = useCustomPortal();
+  const [scheduleDeleteContent, setScheduleDeleteContent] = createSignal(true);
   const { array } = useServers();
 
   const serverCount = () => array().length;
 
   const onDeleteClick = async (password: string) => {
     let err = "";
-    await deleteAccount(password).catch((error) => {
+    await deleteAccount(password, scheduleDeleteContent()).catch((error) => {
       err = error.message;
     });
     if (!err) {
@@ -457,19 +459,30 @@ function DeleteAccountBlock() {
   const onClick = () => {
     const ModalInfo = () => {
       return (
-        <div style={{ "margin-bottom": "15px" }}>
+        <div style={{ "margin-top": "-12px", "font-size": "14px" }}>
+          <div style={{ "margin-bottom": "12px" }}>
+            We're sad to see you go :( If you didn't like something, please let
+            us know in the official Nerimity server.
+          </div>
           What will get deleted:
           <div>• Email</div>
           <div>• Username</div>
           <div>• IP Address</div>
           <div>• Bio</div>
-          <div>• And More</div>
-          <div style={{ "margin-top": "15px" }}>What will not get deleted:</div>
           <div>• Your Messages</div>
           <div>• Your Posts</div>
-          <div style={{ "margin-top": "5px", "font-size": "12px" }}>
-            You may manually delete them before deleting your account.
-          </div>
+          <Notice
+            style={{ "margin-top": "15px" }}
+            type="info"
+            description="Your posts and messages may take weeks to delete."
+          />
+          <Checkbox
+            style={{ "margin-top": "8px", "margin-bottom": "18px" }}
+            checked={scheduleDeleteContent()}
+            onChange={setScheduleDeleteContent}
+            labelSize={14}
+            label="Delete my posts and messages"
+          />
         </div>
       );
     };

@@ -121,6 +121,14 @@ export default function ExploreServers() {
     current[index] = newPublicServer;
     setPublicServers(current);
   };
+  const updateRecentlyBumped = (
+    newPublicServer: RawPublicServer,
+    index: number
+  ) => {
+    const current = [...recentlyBumpedServers()!];
+    current[index] = newPublicServer;
+    setRecentlyBumpedServers(current);
+  };
 
   const viewMoreRecentlyBumpedServers = () => {
     document.querySelector(".servers-list-grid")?.scrollIntoView();
@@ -166,7 +174,7 @@ export default function ExploreServers() {
                   width: 350px;
                   flex-shrink: 0;
                 `}
-                update={(newServer) => update(newServer, i())}
+                update={(newServer) => updateRecentlyBumped(newServer, i())}
                 publicServer={server}
               />
             )}

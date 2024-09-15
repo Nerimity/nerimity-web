@@ -5,6 +5,7 @@ import {
   createMemo,
   createSignal,
   For,
+  JSXElement,
   on,
   onCleanup,
   onMount,
@@ -62,7 +63,7 @@ import {
 } from "@/components/activity/Activity";
 import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
-import { average } from "chroma-js";
+import average from "@/common/chromaJS";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -139,13 +140,17 @@ export default function ProfilePane() {
     return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
   };
   const bgColor = createMemo(() => {
-    return average([
-      userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
-      userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
-    ])
-      .luminance(0.01)
-      .alpha(0.9)
-      .hex();
+    try {
+      return average([
+        userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
+        userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+      ])
+        .luminance(0.01)
+        .alpha(0.9)
+        .hex();
+    } catch {
+      return "rgba(40, 40, 40, 0.86)";
+    }
   });
 
   const user = () => {
@@ -217,7 +222,6 @@ export default function ProfilePane() {
                       background-color: ${bgColor()};
                       border-radius: 10px;
                       padding: 4px;
-                      margin-right: 6px;
                       margin-top: 8px;
                     `}
                     updateUserDetails={() => fetchUserDetails(params.userId)}
@@ -299,6 +303,7 @@ export default function ProfilePane() {
                 `}
                 updateUserDetails={() => fetchUserDetails(params.userId)}
                 userDetails={userDetails()}
+                primaryColor={colors().primary}
                 user={user()}
               />
             </div>
@@ -597,7 +602,7 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
     <div class={styles.sidePane}>
       <Show when={props.user.suspensionExpiresAt !== undefined}>
         <SidePaneItem
-          bgColor="var(--alert-color)"
+          bgColor={props.bgColor}
           icon="block"
           label="This user is suspended"
           color="var(--alert-color)"
@@ -610,7 +615,7 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
       </Show>
       <Show when={props.user.block}>
         <SidePaneItem
-          bgColor="var(--alert-color)"
+          bgColor={props.bgColor}
           icon="block"
           label="You've been blocked"
           color="var(--alert-color)"
@@ -630,6 +635,29 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
         value={joinedAt()}
         onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
       />
+      <Show when={props.user.user.application?.creatorAccount}>
+        <SidePaneItem
+          bgColor={props.bgColor}
+          icon="person"
+          label="Bot Creator"
+          color={props.user.profile?.primaryColor}
+        >
+          <A
+            href={RouterEndpoints.PROFILE(
+              props.user.user?.application?.creatorAccount.user.id!
+            )}
+            class={cn(styles.item, styles.botCreatorItem)}
+          >
+            <Avatar
+              user={props.user.user?.application?.creatorAccount.user!}
+              size={20}
+            />
+            <div class={styles.name}>
+              {props.user.user.application?.creatorAccount.user.username}
+            </div>
+          </A>
+        </SidePaneItem>
+      </Show>
       <MutualFriendList
         bgColor={props.bgColor}
         color={props.user.profile?.primaryColor}
@@ -758,6 +786,7 @@ const UserActivity = (props: {
                 <RichProgressBar
                   updatedAt={activity()?.updatedAt}
                   speed={activity()?.speed}
+                  primaryColor={props.color}
                   startedAt={activity()?.startedAt!}
                   endsAt={activity()?.endsAt!}
                 />
@@ -911,10 +940,11 @@ function MutualServerList(props: {
 function SidePaneItem(props: {
   icon: string;
   label: string;
-  value: string;
+  value?: string;
   color?: string;
   bgColor: string;
   onClick?: () => void;
+  children?: JSXElement;
 }) {
   return (
     <div
@@ -930,7 +960,10 @@ function SidePaneItem(props: {
         />
         <div class={styles.label}>{props.label}</div>
       </FlexRow>
-      <div class={styles.value}>{props.value}</div>
+      {props.children}
+      <Show when={props.value}>
+        <div class={styles.value}>{props.value}</div>
+      </Show>
     </div>
   );
 }

@@ -1,0 +1,32 @@
+.container {
+  all: unset;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
+  padding: 5px;
+
+  margin: 5px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s background-color, 0.2s opacity;
+  text-align: center;
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  &.primary {
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+  :nth-child(2) {
+    margin-left: 5px;
+  }
+}

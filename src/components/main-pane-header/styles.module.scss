@@ -1,36 +1,33 @@
-
 :global body.disableBlur {
   :local {
     .header {
-      background-color: rgb(48, 48, 48);
+      background-color: var(--header-background-color-blur-disabled);
       backdrop-filter: none;
     }
     .headerVoiceParticipants {
-      background-color: rgb(48, 48, 48);
+      background-color: var(--header-background-color-blur-disabled);
       backdrop-filter: none;
     }
   }
 }
 
-
 .header {
   position: sticky;
+  z-index: 11111;
   top: 0;
-  left: 0;
   right: 0;
+  left: 0;
   display: flex;
-  height: 45px;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
   align-items: center;
+  flex-shrink: 0;
+  height: 45px;
+  padding-left: 10px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+
+  background-color: var(--header-background-color);
   user-select: none;
   transition: 0.2s;
-  padding-left: 10px;
-  z-index: 11111;
-  
-  background-color: rgba(48, 48, 48, 0.86);
   backdrop-filter: blur(34px);
-
 }
 
 .toggleLeftDrawerContainer {
@@ -39,72 +36,69 @@
 
 .notificationCounter {
   position: absolute;
-  right: 0;
   top: -4px;
-  min-width: 15px;
-  height: 15px;
-  font-size: 12px;
-  border-radius: 50%;
-  background-color: var(--alert-color);
-  color: white;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  color: white;
+  background-color: var(--alert-color);
+  font-size: 12px;
 }
 
 .details {
-  margin-left: 10px;
   overflow: hidden;
+  margin-left: 10px;
 }
 
 .title {
-  font-size: 12px;
-  margin-right: 1px;
-  white-space: nowrap;
   overflow: hidden;
+  margin-right: 1px;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
 }
 
 .subTitle {
-  opacity: 0.6;
-  font-size: 11px;
-  white-space: nowrap;
   overflow: hidden;
-      white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  opacity: 0.6;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  white-space: nowrap;
+  font-size: 11px;
 }
-
 
 .icon.hasAvatar {
   position: absolute;
-  z-index: 1;;
-  font-size: 11px;
-  left: 25px;
-  top: 26px;
-  text-shadow: 0px 0px 5px black;
+  z-index: 1;
   z-index: 1111;
+  top: 26px;
+  left: 25px;
+  text-shadow: 0px 0px 5px black;
+  font-size: 11px;
 }
-
 
 .rightIcons {
   display: flex;
-  margin-left: auto;
-  margin-right: 0;
   padding-left: 5px;
-
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .drawerIcon {
-  height: 100%;
   display: flex;
-  padding-left: 5px;
-  align-items: center;
   align-content: center;
+  align-items: center;
   flex-shrink: 0;
+  height: 100%;
   padding-right: 5px;
-  cursor: pointer;
+  padding-left: 5px;
   opacity: 0.8;
+  cursor: pointer;
   &:hover {
     opacity: 1;
   }
@@ -119,123 +113,124 @@
 
 .headerVoiceParticipants {
   position: sticky;
-  top:46px;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-  align-items: center;
-  user-select: none;
-  padding-left: 10px;
   z-index: 11111;
-  background-color: rgba(48, 48, 48, 0.86);
-  backdrop-filter: blur(34px);
-  padding-left: 10px;
-  padding-right: 10px;
-  resize: vertical;
-  min-height: 100px;
+  top: 46px;
+  right: 0;
+  left: 0;
+  display: flex;
   overflow: auto;
+  align-items: center;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-height: 100px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-left: 10px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  background-color: var(--header-background-color);
+  resize: vertical;
+  user-select: none;
+  backdrop-filter: blur(34px);
+  &.videoStream {
+    display: flex;
+    height: 60vh;
+    padding-right: 0;
+    padding-left: 0;
+    .voiceParticipants {
+      align-self: flex-start;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: start;
+      width: 80px;
+      height: 100%;
+      box-sizing: border-box;
+      margin-left: 5px;
+    }
+    .voiceParticipantItem {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-radius: 6px;
+      transition: 0.2s;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      .muteIcon {
+        right: 0px;
+        bottom: 0px;
+        padding: 3px;
+      }
+      .videoStreamIcon {
+        bottom: 0px;
+        left: 0px;
+        padding: 3px;
+      }
+    }
+  }
+
+  &.miniView {
+    height: initial;
+    min-height: initial;
+    resize: none;
+  }
 
   .voiceParticipantItem {
     position: relative;
+    &.selected {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
     .muteIcon {
       position: absolute;
-      bottom: -3px;
-      right: -3px;
-      background-color: var(--alert-color);
-      border-radius: 50%;
-      padding: 5px;
       z-index: 111111;
+      right: -3px;
+      bottom: -3px;
+      padding: 5px;
+      border-radius: 50%;
+      background-color: var(--alert-color);
     }
     .videoStreamIcon {
       position: absolute;
+      z-index: 11111;
       bottom: -10px;
       left: -10px;
-      background-color: var(--primary-color);
-      border-radius: 50%;
       padding: 3px;
-      z-index: 11111;
-    }
-    &.selected {
-      background-color: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      background-color: var(--primary-color);
     }
   }
 
   .top {
     display: flex;
     overflow: hidden;
+    flex: 1;
     width: 100%;
     height: 100%;
-    flex: 1;
   }
   .voiceParticipants {
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
     align-items: center;
     align-self: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
     justify-content: center;
     width: 100%;
     height: 20vh;
-    flex-shrink: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
     padding-top: 5px;
     padding-bottom: 5px;
-  }
-  &.videoStream {
-    display: flex;
-    height: 60vh;
-    padding-left: 0;
-    padding-right: 0;
-    .voiceParticipants {
-      flex-direction: column;
-      flex-wrap: nowrap;
-      width: 80px;
-      align-self: flex-start;
-      justify-content: start;
-      margin-left: 5px;
-    }  
-    .voiceParticipantItem {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      padding-top: 5px;
-      padding-bottom: 5px;
-      border-radius: 6px;
-      justify-content: center;
-      transition: 0.2s;
-      .muteIcon {
-        padding: 3px;
-        bottom: 0px;
-        right: 0px;
-      }
-      .videoStreamIcon {
-        padding: 3px;
-        left: 0px;
-        bottom: 0px;
-      }
-      &:hover {
-        background-color: rgba(255,255,255,0.1);
-      }
-    }
-  }
-
-  
-  &.miniView {
-    resize: none;
-    height: initial;
-    min-height: initial;
+    gap: 10px;
   }
 
   .videoContainer {
-    background-color: black;
+    overflow: hidden;
     width: 100%;
     margin: 5px;
     border-radius: 8px;
-    overflow: hidden;
+    background-color: black;
     video {
       width: 100%;
       height: 100%;
@@ -247,46 +242,45 @@
   }
 }
 
-
 .mentionListContainer {
   position: absolute;
-  max-width: 400px;
-  width: calc(100% - 30px);
-  top: 60px;
-  max-height: 500px;
   z-index: 1111111111111;
+  top: 60px;
+  right: 5px;
+  overflow: auto;
+  width: calc(100% - 30px);
+  max-width: 400px;
+  max-height: 500px;
   padding: 8px;
+  border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   background-color: var(--pane-color);
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  overflow: auto;
-  right: 5px;
   &.mobile {
-    max-height: initial;
-    max-width: initial;
-    width: initial;
-    width: initial;
-    left: 10px;
+    top: 50px;
     right: 10px;
     bottom: 10px;
-    top: 50px;
+    left: 10px;
+    width: initial;
+    width: initial;
+    max-width: initial;
+    max-height: initial;
   }
   .noMentions {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     padding-top: 50px;
-    gap: 10px;
     padding-bottom: 50px;
+    gap: 10px;
   }
   .mentionServerHeader {
     display: flex;
     align-items: center;
     padding: 10px;
+    margin-top: 10px;
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.326);
     gap: 10px;
-    margin-top: 10px;
     .mentionHeaderDetails {
       display: flex;
       flex-direction: column;
@@ -296,26 +290,25 @@
     position: relative;
     .messageOverlay {
       position: absolute;
-      inset: 0;
       z-index: 11111;
-      cursor: pointer;
-      background-color: rgba(0, 0, 0, 0.1);
       opacity: 0;
+      background-color: rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      inset: 0;
       &:hover {
         opacity: 1;
       }
     }
     .jumpToMessage {
       position: absolute;
-      right: 4px;
-      top: 4px;
-      background-color: rgba(0,0,0,0.4);
-      border-radius: 6px;
-      padding: 4px;
       z-index: 111111111;
+      top: 4px;
+      right: 4px;
+      padding: 4px;
+      border-radius: 6px;
+      background-color: rgba(0, 0, 0, 0.4);
       cursor: pointer;
       font-size: 14px;
-
     }
   }
 }

@@ -75,6 +75,7 @@ import Checkbox from "../ui/Checkbox";
 import { ChannelIcon } from "../ChannelIcon";
 import { MetaTitle } from "@/common/MetaTitle";
 import { millisecondsToReadable } from "@/common/date";
+import { useResizeObserver } from "@/common/useResizeObserver";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -174,6 +175,8 @@ function MessageArea(props: {
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
   const { createPortal } = useCustomPortal();
 
+  const { height } = useResizeObserver(textAreaEl);
+
   const { channels, messages, serverMembers } = useStore();
 
   const setMessage = (content: string) => {
@@ -198,7 +201,7 @@ function MessageArea(props: {
     }
   });
 
-  createEffect(on(message, () => adjustHeight()));
+  createEffect(on([message, height], () => adjustHeight()));
 
   const cancelEdit = () => {
     channelProperties.setEditMessage(params.channelId, undefined);

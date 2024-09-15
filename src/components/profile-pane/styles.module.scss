@@ -154,32 +154,37 @@
       cursor: pointer;
     }
   }
-  .list {
-    .item {
-      display: flex;
-      overflow: hidden;
-      align-items: center;
-      padding: 5px;
-      margin: 4px;
-      margin-right: 0;
-      margin-left: 0;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      text-decoration: none;
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-    }
-    .name {
-      overflow: hidden;
-      margin-left: 5px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+}
+
+.item {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  padding: 5px;
+  margin: 4px;
+  margin-right: 0;
+  margin-left: 0;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
+  &.botCreatorItem {
+    margin: 0;
+    margin-right: -4px;
+    margin-bottom: -4px;
+    margin-left: -4px;
+  }
+}
+.name {
+  overflow: hidden;
+  margin-left: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .postsContainer {

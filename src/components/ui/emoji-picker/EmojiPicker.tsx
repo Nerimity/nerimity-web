@@ -135,7 +135,7 @@ export function EmojiPicker(props: {
         <EmojiPickerComponent
           class={styles.emojiPicker}
           focusOnMount={!isMobileAgent()}
-          spriteUrl="/assets/emojiSprites.png?cache=1"
+          spriteUrl="/assets/emojiSprites.png?cache=2"
           emojis={emojis}
           customEmojis={customEmojis()}
           onEmojiClick={(e: any) =>

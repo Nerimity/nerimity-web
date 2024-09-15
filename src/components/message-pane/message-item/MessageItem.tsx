@@ -1009,14 +1009,21 @@ function ServerInviteEmbed(props: { code: string }) {
 function OGEmbed(props: { message: RawMessage }) {
   const embed = () => props.message.embed!;
 
+  const origSrc = () => {
+    const rawUrl = embed().imageUrl!;
+    if (rawUrl.startsWith("https://") || rawUrl.startsWith("http://"))
+      return rawUrl;
+    return `https://${embed().domain}/${rawUrl}`;
+  };
+
   return (
     <Switch>
       <Match when={embed().type === "image"}>
         <ImageEmbed
           attachment={{
             id: "",
-            origSrc: embed().imageUrl!,
-            path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${
+            origSrc: origSrc()!,
+            path: `proxy/${encodeURIComponent(origSrc()!)}/embed.${
               embed().imageMime?.split("/")[1]
             }`,
             width: embed().imageWidth,
@@ -1038,8 +1045,15 @@ const NormalEmbed = (props: { message: RawMessage }) => {
 
   const embed = () => props.message.embed!;
 
+  const origSrc = () => {
+    const rawUrl = embed().imageUrl!;
+    if (rawUrl.startsWith("https://") || rawUrl.startsWith("http://"))
+      return rawUrl;
+    return `https://${embed().domain}/${rawUrl}`;
+  };
+
   const imageUrl = () =>
-    `${env.NERIMITY_CDN}proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${
+    `${env.NERIMITY_CDN}proxy/${encodeURIComponent(origSrc()!)}/embed.${
       embed().imageMime?.split("/")[1]
     }`;
   const isGif = () => imageUrl().endsWith(".gif");
@@ -1059,11 +1073,7 @@ const NormalEmbed = (props: { message: RawMessage }) => {
       return onLinkClick();
     }
     createPortal((close) => (
-      <ImagePreviewModal
-        close={close}
-        url={url(true)}
-        origUrl={embed().imageUrl}
-      />
+      <ImagePreviewModal close={close} url={url(true)} origUrl={origSrc()} />
     ));
   };
 
@@ -1098,8 +1108,8 @@ const NormalEmbed = (props: { message: RawMessage }) => {
               ignoreClick
               attachment={{
                 id: "",
-                origSrc: embed().imageUrl!,
-                path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${
+                origSrc: origSrc(),
+                path: `proxy/${encodeURIComponent(origSrc()!)}/embed.${
                   embed().imageMime?.split("/")[1]
                 }`,
                 width: embed().imageWidth,
