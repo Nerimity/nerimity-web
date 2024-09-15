@@ -82,7 +82,6 @@ export interface RawEmbed {
   // for youtube
   uploadDate: string;
   channelName: string;
-  domain: string;
 }
 
 export interface RawMessageReaction {

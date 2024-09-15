@@ -1,24 +1,23 @@
 .headerContainer {
   position: relative;
   display: flex;
-  align-items: center;
-  flex: 1;
+  gap: 5px;
   flex-shrink: 0;
-  width: 100%;
+  align-items: center;
   user-select: none;
   transition: 0.2s;
-  gap: 5px;
-
+  width: 100%;
+  flex: 1;
+  
   .serverName {
-    overflow: hidden;
-    padding-left: 10px;
-    text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 10px;
   }
-
+  
   .showMoreIcon {
-    margin: 0;
-    margin-right: 6px;
     margin-left: auto;
+    margin-right: 6px;
   }
 }
