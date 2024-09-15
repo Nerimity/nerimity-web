@@ -50,10 +50,7 @@ import { Emoji } from "../ui/Emoji";
 import { t } from "i18next";
 import { PostItem } from "../post-area/PostItem";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import average from "@/common/chromaJS";
-import Button from "../ui/Button";
-import { FlexRow } from "../ui/Flexbox";
-import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import { average } from "chroma-js";
 
 interface Props {
   dmPane?: boolean;
@@ -174,17 +171,13 @@ const DesktopProfileFlyout = (props: {
   };
 
   const bgColor = createMemo(() => {
-    try {
-      return average([
-        colors().bg?.[0] || "rgba(40, 40, 40, 0.86)",
-        colors().bg?.[1] || "rgba(40, 40, 40, 0.86)",
-      ])
-        .luminance(0.01)
-        .alpha(0.9)
-        .hex();
-    } catch {
-      return "rgba(40, 40, 40, 0.86)";
-    }
+    return average([
+      details()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
+      details()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+    ])
+      .luminance(0.01)
+      .alpha(0.9)
+      .hex();
   });
 
   const bio = () => {
@@ -295,10 +288,6 @@ const DesktopProfileFlyout = (props: {
       />
     ));
   };
-  const onMessageClicked = () => {
-    users.openDM(props.userId);
-    emitDrawerGoToMain();
-  };
 
   const StickyArea = () => {
     return (
@@ -324,7 +313,6 @@ const DesktopProfileFlyout = (props: {
               size={82}
             />
           </CustomLink>
-
           <div
             class={styles.flyoutOtherDetailsContainer}
             style={{ background: bgColor() }}
@@ -341,7 +329,6 @@ const DesktopProfileFlyout = (props: {
                 <Text color="rgba(255,255,255,0.6)">:{user()!.tag}</Text>
               </CustomLink>
             </span>
-
             <UserPresence
               showFull
               hideActivity
@@ -381,30 +368,6 @@ const DesktopProfileFlyout = (props: {
                   </CustomLink>
                 </Show>
               </Text>
-              <div class={styles.buttonsContainer}>
-                <Button
-                  padding={4}
-                  textSize={12}
-                  iconSize={16}
-                  href={RouterEndpoints.PROFILE(user()!.id)}
-                  color={colors().primary}
-                  class={styles.button}
-                  label="Full Profile"
-                  iconName="person"
-                  margin={0}
-                />
-                <Button
-                  padding={4}
-                  textSize={12}
-                  iconSize={16}
-                  color={colors().primary}
-                  class={styles.button}
-                  label="Message"
-                  onClick={onMessageClicked}
-                  iconName="mail"
-                  margin={0}
-                />
-              </div>
             </Show>
           </div>
         </div>

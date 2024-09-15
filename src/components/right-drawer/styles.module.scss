@@ -47,7 +47,6 @@
     gap: 4px;
   }
   .roleExpandButton {
-    margin: 0;
     margin-left: 8px;
   }
   .roleCount {
@@ -227,17 +226,4 @@
   word-break: break-word;
   white-space: pre-wrap;
   font-size: 12px;
-}
-
-.adminOrCreatorBadge {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  margin-left: auto;
-  img {
-    width: 20px;
-    height: 20px;
-  }
 }

@@ -1,16 +1,17 @@
 .container {
+
 }
 
 .tooltip {
   position: absolute;
-  left: 0;
-  overflow: hidden;
-  max-width: 300px;
+  pointer-events: none;
+  background-color: rgb(40, 40, 40);
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-radius: 6px;
-  background-color: var(--tooltip-background-color);
+  left: 0;
   font-size: 12px;
-  pointer-events: none;
+  max-width: 300px;
+  overflow: hidden;
 }
 .tooltipContent {
   padding: 6px;

@@ -1,13 +1,5 @@
 import style from "./Modal.module.scss";
-import {
-  createContext,
-  createEffect,
-  JSXElement,
-  onCleanup,
-  onMount,
-  Show,
-  useContext,
-} from "solid-js";
+import { createContext, JSXElement, Show, useContext } from "solid-js";
 import Button, { ButtonProps } from "../Button";
 import Icon from "../icon/Icon";
 import { cn } from "@/common/classNames";
@@ -21,10 +13,6 @@ interface RootProps {
   children: JSXElement;
   close?: () => void;
   class?: string;
-  /**
-   @default true
-  */
-  closeOnEscape?: boolean;
 }
 const Root = (props: RootProps) => {
   const { isMobileWidth } = useWindowProperties();
@@ -32,17 +20,6 @@ const Root = (props: RootProps) => {
   const onBackgroundClick = (event: MouseEvent) => {
     if (event.target === event.currentTarget) props.close?.();
   };
-
-  onMount(() => {
-    const closeOnEscape = props.closeOnEscape ?? true;
-    if (!closeOnEscape) return;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") props.close?.();
-    };
-    document.addEventListener("keydown", onKeyDown);
-    onCleanup(() => document.removeEventListener("keydown", onKeyDown));
-  });
 
   return (
     <ModalContext.Provider value={{ close: props.close }}>
