@@ -39,6 +39,8 @@ import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
 import { Markup } from "../Markup";
 import { t } from "i18next";
+import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { Tooltip } from "../ui/Tooltip";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -57,6 +59,13 @@ const MemberItem = (props: { member: ServerMember }) => {
   const onContextMenu = (event: MouseEvent) => {
     event.preventDefault();
     setContextPosition({ x: event.clientX, y: event.clientY });
+  };
+
+  const isAdmin = () => {
+    return props.member.hasPermission(ROLE_PERMISSIONS.ADMIN, false, true);
+  };
+  const isCreator = () => {
+    return props.member.isServerCreator();
   };
 
   const onClick = (e: MouseEvent) => {
@@ -114,6 +123,20 @@ const MemberItem = (props: { member: ServerMember }) => {
             showOffline={false}
           />
         </div>
+        <Show when={isAdmin() || isCreator()}>
+          <Tooltip
+            tooltip={isCreator() ? "Creator" : "Admin"}
+            class={styles.adminOrCreatorBadge}
+            anchor="left"
+          >
+            <Show when={isCreator()}>
+              <img src="https://nerimity.com/twemojis//1f451.svg" />
+            </Show>
+            <Show when={!isCreator()}>
+              <Icon name="shield_person" color="var(--primary-color)" />
+            </Show>
+          </Tooltip>
+        </Show>
       </div>
     </div>
   );
