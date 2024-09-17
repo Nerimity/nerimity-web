@@ -228,7 +228,7 @@ const Details = (props: DetailsProps) => (
     </Show>
     <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
     <Show when={props.message.silent}>
-      <Tooltip tooltip="Silent">
+      <Tooltip tooltip="Silent" anchor="left">
         <Icon
           name="notifications_off"
           color="rgba(255, 255, 255, 0.4)"
