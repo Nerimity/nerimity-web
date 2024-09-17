@@ -54,6 +54,7 @@ interface PostMessageOpts {
   attachment?: File;
   replyToMessageIds?: string[];
   mentionReplies?: boolean;
+  silent?: boolean;
   googleDriveAttachment?: {
     id: string;
     mime: string;
@@ -64,6 +65,8 @@ interface PostMessageOpts {
 export const postMessage = async (opts: PostMessageOpts) => {
   let body: any = {
     content: opts.content?.trim() || undefined,
+
+    ...(opts.silent ? { silent: true } : {}),
 
     ...(opts.replyToMessageIds?.length
       ? {
@@ -88,6 +91,9 @@ export const postMessage = async (opts: PostMessageOpts) => {
     if (opts.replyToMessageIds?.length) {
       fd.append("replyToMessageIds", JSON.stringify(opts.replyToMessageIds));
       fd.append("mentionReplies", String(opts.mentionReplies));
+    }
+    if (opts.silent) {
+      fd.append("silent", String(opts.silent));
     }
     fd.append("attachment", opts.attachment);
     body = fd;

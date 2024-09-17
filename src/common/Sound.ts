@@ -1,4 +1,9 @@
-import { getStorageBoolean, getStorageNumber, getStorageObject, StorageKeys } from "./localStorage";
+import {
+  getStorageBoolean,
+  getStorageNumber,
+  getStorageObject,
+  StorageKeys,
+} from "./localStorage";
 import useStore from "@/chat-api/store/useStore";
 import { UserStatus } from "@/chat-api/store/useUsers";
 import { RawMessage, ServerNotificationSoundMode } from "@/chat-api/RawData";
@@ -22,13 +27,11 @@ export const Sounds = [
   "soft-notice",
   "start",
   "system-notification",
-  "the-notification-email"
+  "the-notification-email",
 ] as const;
 
-
-
 const audio = new Audio();
-export function playSound(name: typeof Sounds[number] = "default") {
+export function playSound(name: (typeof Sounds)[number] = "default") {
   if (name === "nerimity-mute") return;
   audio.src = `/assets/sounds/${name}.mp3`;
   audio.volume = getStorageNumber(StorageKeys.NOTIFICATION_VOLUME, 10) / 100;
@@ -36,56 +39,76 @@ export function playSound(name: typeof Sounds[number] = "default") {
   audio.play();
 }
 
-
 interface MessageNotificationOpts {
-  force?: boolean
-  message?: RawMessage
+  force?: boolean;
+  message?: RawMessage;
   serverId?: string;
 }
 
 export function playMessageNotification(opts?: MessageNotificationOpts) {
+  if (opts?.message?.silent) return;
   if (opts?.force) return playSound(getCustomSound("MESSAGE"));
   if (getStorageBoolean(StorageKeys.ARE_NOTIFICATIONS_MUTED, false)) return;
-  const {account, users, serverMembers} = useStore();
+  const { account, users, serverMembers } = useStore();
   const userId = account.user()?.id;
   const user = users.get(userId!);
   if (user?.presence()?.status === UserStatus.DND) return;
 
-  const notificationSoundMode = !opts?.serverId ? undefined : account.getCombinedNotificationSettings(opts.serverId, opts.message?.channelId)?.notificationSoundMode;
+  const notificationSoundMode = !opts?.serverId
+    ? undefined
+    : account.getCombinedNotificationSettings(
+        opts.serverId,
+        opts.message?.channelId
+      )?.notificationSoundMode;
 
   if (notificationSoundMode === ServerNotificationSoundMode.MUTE) return;
-  
+
   if (opts?.message) {
-    const mentionedMe = opts.message.mentions?.find(m => m.id === account.user()?.id);
+    const mentionedMe = opts.message.mentions?.find(
+      (m) => m.id === account.user()?.id
+    );
     if (mentionedMe) {
       return playSound(getCustomSound("MESSAGE_MENTION"));
     }
 
-    const quoteMention = opts.message.quotedMessages?.find(m => m.createdBy?.id === userId);
+    const quoteMention = opts.message.quotedMessages?.find(
+      (m) => m.createdBy?.id === userId
+    );
 
-    const replyMention = opts.message.mentionReplies && opts.message.replyMessages.find(m => m.replyToMessage?.createdBy?.id === userId);
+    const replyMention =
+      opts.message.mentionReplies &&
+      opts.message.replyMessages.find(
+        (m) => m.replyToMessage?.createdBy?.id === userId
+      );
 
     if (quoteMention || replyMention) {
       return playSound(getCustomSound("MESSAGE_MENTION"));
     }
 
-    
     const everyoneMentioned = opts.message.content?.includes("[@:e]");
     if (everyoneMentioned && opts.serverId) {
-      const member = serverMembers.get(opts.serverId, opts.message.createdBy.id);
-      const hasPerm = member?.isServerCreator() || member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
+      const member = serverMembers.get(
+        opts.serverId,
+        opts.message.createdBy.id
+      );
+      const hasPerm =
+        member?.isServerCreator() ||
+        member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
       if (hasPerm) {
         return playSound(getCustomSound("MESSAGE_MENTION"));
       }
     }
   }
-  
-  if (notificationSoundMode === ServerNotificationSoundMode.MENTIONS_ONLY) return;
+
+  if (notificationSoundMode === ServerNotificationSoundMode.MENTIONS_ONLY)
+    return;
 
   playSound(getCustomSound("MESSAGE"));
 }
 
-function getCustomSound (type: "MESSAGE" | "MESSAGE_MENTION") {
-  const storage = getStorageObject<{[key: string]: typeof Sounds[number] | undefined}>(StorageKeys.NOTIFICATION_SOUNDS, {});
+function getCustomSound(type: "MESSAGE" | "MESSAGE_MENTION") {
+  const storage = getStorageObject<{
+    [key: string]: (typeof Sounds)[number] | undefined;
+  }>(StorageKeys.NOTIFICATION_SOUNDS, {});
   return storage[type];
 }

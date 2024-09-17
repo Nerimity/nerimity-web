@@ -80,6 +80,7 @@ import { stat } from "fs";
 import { AudioEmbed } from "./AudioEmbed";
 import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 import { ButtonsEmbed } from "./ButtonsEmbed";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -226,6 +227,15 @@ const Details = (props: DetailsProps) => (
       <div class={styles.ownerBadge}>Bot</div>
     </Show>
     <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
+    <Show when={props.message.silent}>
+      <Tooltip tooltip="Silent">
+        <Icon
+          name="notifications_off"
+          color="rgba(255, 255, 255, 0.4)"
+          size={12}
+        />
+      </Tooltip>
+    </Show>
   </div>
 );
 

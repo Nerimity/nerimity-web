@@ -143,12 +143,27 @@ const updateLocalMessage = async (
   setMessages(channelId, index, message);
 };
 
+const silentRegex = /^@silent([\s]|$)/;
+
 const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const channels = useChannels();
   const channelProperties = useChannelProperties();
   const properties = channelProperties.get(channelId);
+  const file = properties?.attachment;
   const tempMessageId = `${Date.now()}-${Math.random()}`;
   const channel = channels.get(channelId);
+
+  const isSilent = !!content && silentRegex.test(content);
+
+  if (content && isSilent) {
+    if (content === "@silent") {
+      content = undefined;
+      if (!file) return;
+    } else {
+      content = content.replace(silentRegex, "").trim();
+      if (!content && !file) return;
+    }
+  }
 
   const user = account.user();
   if (!user) return;
@@ -156,6 +171,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const localMessage: Message = {
     id: "",
     tempId: tempMessageId,
+    silent: isSilent,
     channelId,
     content,
     createdAt: Date.now(),
@@ -204,7 +220,6 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     properties?.attachment && properties.attachment.size > 12 * 1024 * 1024;
   const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
 
-  const file = properties?.attachment;
   let googleDriveFileId: string | undefined;
   if (file && shouldUploadToGoogleDrive) {
     try {
@@ -254,6 +269,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
 
   const message: void | Message = await postMessage({
     content,
+    silent: isSilent,
     channelId,
     socketId: socketClient.id(),
     replyToMessageIds,

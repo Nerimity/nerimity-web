@@ -1515,6 +1515,13 @@ function FloatingUserSuggestions(props: {
             username: "someone",
           }),
         },
+        {
+          user: () => ({
+            special: true,
+            id: "si",
+            username: "silent",
+          }),
+        },
       ] as any[],
       props.search,
       {
@@ -1623,6 +1630,9 @@ function UserSuggestionItem(props: {
       </Show>
       <Show when={props.user?.special && props.user.id === "s"}>
         <div class={styles.suggestionInfo}>Mentions someone.</div>
+      </Show>
+      <Show when={props.user?.special && props.user.id === "si"}>
+        <div class={styles.suggestionInfo}>Silent message.</div>
       </Show>
     </ItemContainer>
   );

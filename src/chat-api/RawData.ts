@@ -39,6 +39,7 @@ export interface HtmlEmbedItem {
 export interface RawMessage {
   id: string;
   channelId: string;
+  silent?: boolean;
   content?: string;
   createdBy: RawUser;
   type: MessageType;
