@@ -272,6 +272,10 @@
   }
 }
 
+.playedFor {
+  font-variant-numeric: tabular-nums;
+}
+
 @media (max-width: 860px) {
   .content {
     flex-direction: column;

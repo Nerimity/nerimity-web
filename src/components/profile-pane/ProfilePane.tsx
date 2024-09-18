@@ -778,7 +778,7 @@ const UserActivity = (props: {
                 {activity()?.subtitle}
               </Text>
               <Show when={!isMusic() && !isVideo()}>
-                <Text size={13} opacity={0.6}>
+                <Text class={styles.playedFor} size={13} opacity={0.6}>
                   {playedFor()}
                 </Text>
               </Show>
@@ -797,6 +797,7 @@ const UserActivity = (props: {
 
         <Show when={!activity()?.imgSrc}>
           <Text
+            class={styles.playedFor}
             style={{
               "margin-left": "8px",
               "margin-top": "-4px",
