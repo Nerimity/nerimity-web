@@ -307,32 +307,6 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
 
   const channel = () => channels.get(params.channelId!);
 
-  const incrAttachments = (channelId: string) => {
-    const channel = channels.get(channelId);
-
-    const count = channel?._count?.attachments || 0;
-    channel?.update({ _count: { attachments: count + 1 } });
-  };
-
-  const decrAttachments = (channelId: string) => {
-    const channel = channels.get(channelId);
-
-    const count = channel?._count?.attachments || 1;
-    channel?.update({ _count: { attachments: count - 1 } });
-  };
-
-  const onMessage = (payload: { message: RawMessage }) => {
-    const attachment = payload?.message.attachments?.[0];
-    if (!attachment) return;
-    incrAttachments(payload.message.channelId);
-  };
-  socketClient.useSocketOn(ServerEvents.MESSAGE_CREATED, onMessage);
-
-  const onDelete = (payload: { messageId: string; channelId: string }) => {
-    decrAttachments(payload.channelId);
-  };
-  socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete);
-
   const cachedNotice = () =>
     params.channelId ? getCachedNotice(() => params.channelId!) : undefined;
 
