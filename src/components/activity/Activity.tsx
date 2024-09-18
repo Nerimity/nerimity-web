@@ -82,10 +82,10 @@ export const RichProgressBar = (props: {
   return (
     <div class={styles.richProgressBar}>
       <div class={styles.progressDetails}>
-        <Text size={13} opacity={0.6}>
+        <Text class={styles.playedFor} size={13} opacity={0.6}>
           {playedFor()}
         </Text>
-        <Text size={13} opacity={0.6}>
+        <Text class={styles.endsAt} size={13} opacity={0.6}>
           {endsAt()}
         </Text>
       </div>

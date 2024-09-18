@@ -725,7 +725,7 @@ export const UserActivity = (props: {
                   {activity()?.subtitle}
                 </Text>
                 <Show when={!isMusic() && !isVideo()}>
-                  <Text size={13} opacity={0.6}>
+                  <Text class={styles.playedFor} size={13} opacity={0.6}>
                     {playedFor()}
                   </Text>
                 </Show>
@@ -742,7 +742,9 @@ export const UserActivity = (props: {
             </div>
           </Show>
           <Show when={!activity()?.imgSrc}>
-            <Text size={13}>For {playedFor()}</Text>
+            <Text class={styles.playedFor} size={13}>
+              For {playedFor()}
+            </Text>
           </Show>
         </div>
       </div>

@@ -1,6 +1,6 @@
 .markup {
-  white-space: pre-wrap;
   line-height: 1.3;
+  white-space: pre-wrap;
 }
 
 .markup .heading {
@@ -25,39 +25,39 @@
 }
 
 .markup .code {
+  padding-right: 1px;
+  padding-left: 1px;
+  border-radius: 4px;
   color: #d0d0d0;
   background: rgba(0, 0, 0, 0.6);
-  padding-left: 1px;
-  padding-right: 1px;
-  border-radius: 4px;
 }
 
 .markup blockquote {
-  margin: 0;
-  padding: 0.3rem 0.6rem;
-  border-left: 2px var(--primary-color) solid;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
   width: fit-content;
+  padding: 0.3rem 0.6rem;
+  margin: 0;
+  border-left: 2px var(--primary-color) solid;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
   &.inline {
     display: inline;
     padding: 0;
-    padding-left: 4px;
     padding-right: 4px;
+    padding-left: 4px;
   }
 }
 
 .markup .quoteContainer {
   display: flex;
-  flex-direction: column;
-  background: rgba(255, 255, 255, 0.02);
-  padding: 6px;
-  gap: 3px;
-  border-radius: 6px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
   align-items: start;
-  border-left: 2px var(--primary-color) solid;
+  flex-direction: column;
   width: fit-content;
+  padding: 6px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-left: 2px var(--primary-color) solid;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  gap: 3px;
 }
 
 .markup .quoteContainer .headerContainer {
@@ -79,56 +79,56 @@
 
 .markup .hiddenQuote {
   display: inline-flex;
-  color: rgba(255, 255, 255, 0.5);
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  align-items: baseline;
   padding: 2px;
-  padding-left: 5px;
   padding-right: 5px;
+  padding-left: 5px;
   margin-top: 1px;
   margin-bottom: 1px;
-  align-items: baseline;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .markup .code-block {
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
   padding: 5px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
 
   &.no-wrap {
     .content {
+      overflow: auto;
       word-break: keep-all;
       white-space: pre;
-      overflow: auto;
     }
   }
 
   .header {
     display: flex;
     align-items: center;
-    font-weight: bold;
     padding: 3px;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.4);
     margin-bottom: 5px;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.4);
+    font-weight: bold;
 
     .lang-name {
       margin-right: 10px;
     }
 
     .button {
+      padding: 3px;
+      border-radius: 4px;
+      opacity: 0.8;
       cursor: pointer;
       user-select: none;
-      opacity: 0.8;
-      border-radius: 4px;
       transition: 0.2s;
-      padding: 3px;
-      &.active {
-        color: var(--primary-color);
-        opacity: 1;
-      }
       &:hover {
         opacity: 1;
         background-color: rgb(71, 71, 71);
+      }
+      &.active {
+        opacity: 1;
+        color: var(--primary-color);
       }
     }
   }
@@ -139,12 +139,19 @@
   border-radius: 3px;
 
   &:not(.spoiled) {
-    background-color: #0e0f10;
-    user-select: none;
-    cursor: pointer;
     border-radius: 4px;
+    background-color: #0e0f10;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: #1c1e20;
+      .code-block::before {
+        background-color: #1c1e20;
+      }
+    }
 
     .emoji {
       opacity: 0;
@@ -154,67 +161,63 @@
       position: relative;
       overflow: hidden;
       &::before {
-        content: "spoiler";
         position: absolute;
-        inset: 0;
-        background-color: #0e0f10;
         z-index: 11111111;
+        background-color: #0e0f10;
+        content: "spoiler";
+        inset: 0;
       }
     }
 
     * {
-      pointer-events: none;
       color: transparent;
-    }
-
-    &:hover {
-      background-color: #1c1e20;
-      .code-block::before {
-        background-color: #1c1e20;
-      }
+      pointer-events: none;
     }
   }
 }
 
 .markup.largeEmoji .emoji {
-  height: 48px;
   width: 48px;
+  height: 48px;
 }
 
 .markup .emoji {
-  height: 1.572em;
   width: 1.572em;
-  vertical-align: -0.4em;
+  height: 1.572em;
   cursor: pointer;
+  vertical-align: -0.4em;
   object-fit: contain;
 }
 
 .markup .mention {
   display: inline-flex;
-  color: var(--primary-color);
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  align-items: baseline;
   padding: 3px;
-  padding-left: 5px;
   padding-right: 5px;
+  padding-left: 5px;
   margin-top: 1px;
   margin-bottom: 1px;
-  align-items: baseline;
+  border-radius: 8px;
+  color: var(--primary-color);
+  background: rgba(0, 0, 0, 0.2);
   text-decoration: none;
+  &:hover {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  &.timestamp {
+    font-variant-numeric: tabular-nums;
+  }
   .icon {
     align-self: center;
     margin-right: 4px;
     opacity: 0.8;
   }
   .type {
-    opacity: 0.5;
     margin-right: 5px;
+    opacity: 0.5;
   }
   .avatar {
-    margin-right: 5px;
     align-self: center;
-  }
-  &:hover {
-    background: rgba(0, 0, 0, 0.6);
+    margin-right: 5px;
   }
 }
