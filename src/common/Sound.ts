@@ -64,39 +64,9 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
   if (notificationSoundMode === ServerNotificationSoundMode.MUTE) return;
 
   if (opts?.message) {
-    const mentionedMe = opts.message.mentions?.find(
-      (m) => m.id === account.user()?.id
-    );
-    if (mentionedMe) {
+    const mentioned = isMentioned(opts.message, opts.serverId);
+    if (mentioned) {
       return playSound(getCustomSound("MESSAGE_MENTION"));
-    }
-
-    const quoteMention = opts.message.quotedMessages?.find(
-      (m) => m.createdBy?.id === userId
-    );
-
-    const replyMention =
-      opts.message.mentionReplies &&
-      opts.message.replyMessages.find(
-        (m) => m.replyToMessage?.createdBy?.id === userId
-      );
-
-    if (quoteMention || replyMention) {
-      return playSound(getCustomSound("MESSAGE_MENTION"));
-    }
-
-    const everyoneMentioned = opts.message.content?.includes("[@:e]");
-    if (everyoneMentioned && opts.serverId) {
-      const member = serverMembers.get(
-        opts.serverId,
-        opts.message.createdBy.id
-      );
-      const hasPerm =
-        member?.isServerCreator() ||
-        member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
-      if (hasPerm) {
-        return playSound(getCustomSound("MESSAGE_MENTION"));
-      }
     }
   }
 
@@ -111,4 +81,41 @@ function getCustomSound(type: "MESSAGE" | "MESSAGE_MENTION") {
     [key: string]: (typeof Sounds)[number] | undefined;
   }>(StorageKeys.NOTIFICATION_SOUNDS, {});
   return storage[type];
+}
+
+export function isMentioned(message: RawMessage, serverId?: string) {
+  const { account, serverMembers } = useStore();
+  const userId = account.user()?.id;
+
+  const mentionedMe = message.mentions?.find(
+    (m) => m.id === account.user()?.id
+  );
+  if (mentionedMe) {
+    return true;
+  }
+
+  const quoteMention = message.quotedMessages?.find(
+    (m) => m.createdBy?.id === userId
+  );
+
+  const replyMention =
+    message.mentionReplies &&
+    message.replyMessages.find(
+      (m) => m.replyToMessage?.createdBy?.id === userId
+    );
+
+  if (quoteMention || replyMention) {
+    return true;
+  }
+
+  const everyoneMentioned = message.content?.includes("[@:e]");
+  if (everyoneMentioned && serverId) {
+    const member = serverMembers.get(serverId, message.createdBy.id);
+    const hasPerm =
+      member?.isServerCreator() ||
+      member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
+    if (hasPerm) {
+      return true;
+    }
+  }
 }

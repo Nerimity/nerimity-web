@@ -13,6 +13,7 @@ import { createDesktopNotification } from "@/common/desktopNotification";
 import useServerMembers from "../store/useServerMembers";
 import { ROLE_PERMISSIONS } from "../Bitwise";
 import useFriends from "../store/useFriends";
+import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
 
 export function onMessageCreated(payload: {
   socketId: string;
@@ -123,6 +124,7 @@ export function onMessageCreated(payload: {
       serverId: channel?.serverId,
     });
     createDesktopNotification(payload.message);
+    pushMessageNotification(payload.message);
   }
 }
 

@@ -21,6 +21,11 @@ export const Experiments = [
     name: "Quick Travel",
     description: "Press CTRL + SPACE to open Quick Travel.",
   },
+  {
+    id: "IN_APP_NOTIFICATION_PREVIEWS",
+    name: "In-App Notification Previews",
+    description: "Show popup notifications in app.",
+  },
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];

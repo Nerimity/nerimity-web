@@ -7,6 +7,7 @@ export enum StorageKeys {
   APP_LANGUAGE = "appLanguage",
   FIRST_TIME = "firstTime", // After registering, this is set to true.
   ARE_NOTIFICATIONS_MUTED = "areNotificationsMuted",
+  IN_APP_NOTIFICATIONS_PREVIEW = "inAppNotificationsPreview",
   NOTIFICATION_VOLUME = "notificationVolume",
   ENABLE_DESKTOP_NOTIFICATION = "enableDesktopNotification",
   LAST_SELECTED_SERVER_CHANNELS = "lastSelectedServerChannels",

@@ -69,6 +69,7 @@ import Avatar from "@/components/ui/Avatar";
 import { formatTimestamp } from "@/common/date";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
+import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -266,6 +267,7 @@ export const MessageLogArea = (props: {
           serverId: channel().serverId,
         });
         createDesktopNotification(payload.message);
+        pushMessageNotification(payload.message);
       }
     }
   };

@@ -16,6 +16,11 @@ import { Delay } from "./common/Delay";
 const ConnectingStatusHeader = lazy(
   () => import("@/components/connecting-status-header/ConnectingStatusHeader")
 );
+
+const InAppNotificationPreviews = lazy(
+  () => import("@/components/in-app-notification-previews")
+);
+
 export default function App() {
   const [, actions] = useTransContext();
   const isAppPage = useMatch(() => "/app/*");
@@ -47,6 +52,7 @@ export default function App() {
       </Show>
       <Show when={isAppPage()}>
         <ConnectingStatusHeader />
+        <InAppNotificationPreviews />
       </Show>
     </>
   );
