@@ -1,34 +1,34 @@
 .pane {
   display: flex;
+  flex: 1;
   flex-direction: column;
   padding: 10px;
-  flex: 1;
 }
 
 .welcomeMessage {
   display: flex;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
   flex-direction: column;
   margin-bottom: 8px;
   .title {
-    text-overflow: ellipsis;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
 .questionList {
   display: flex;
-  gap: 8px;
   flex-direction: column;
+  gap: 8px;
 }
 
 .questionItem {
   display: flex;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.05);
   padding: 8px;
   border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
 
   .title {
     word-break: break-word;
@@ -39,7 +39,6 @@
 .answerList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   margin-top: 8px;
 }
 
@@ -50,40 +49,71 @@
     flex: 1;
   }
   .radioBox {
-    margin: 0;
-    padding: 0;
-    background-color: transparent;
     flex: 1;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
   }
   .userCount {
     display: flex;
     align-items: center;
-    font-size: 12px;
-    gap: 4px;
+    padding: 2px 6px;
     border-radius: 999px;
     background-color: rgba(0, 0, 0, 0.2);
-    padding: 2px 6px;
+    font-size: 12px;
+    gap: 4px;
+  }
+}
+.outerAnswerItem {
+  display: flex;
+  flex-direction: column;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 4px;
+}
+.roleList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  .roleIcon {
+    margin-right: 2px;
+    margin-left: 2px;
+  }
+
+  .roleItem {
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.04);
+    font-size: 12px;
+    gap: 3px;
   }
 }
 
 .continueFooter {
+  position: sticky;
+  z-index: 111;
+  bottom: 10px;
   display: flex;
   align-items: center;
-
-  font-size: 14px;
-  backdrop-filter: blur(34px);
-  position: sticky;
-  bottom: 10px;
-  z-index: 111;
   margin: 10px;
   margin-bottom: 0;
 
   border-radius: 8px;
 
+  font-size: 14px;
+  backdrop-filter: blur(34px);
+
   .button {
+    overflow: hidden;
     flex: 1;
     padding: 12px;
-    overflow: hidden;
   }
   .button > span:nth-child(1) {
     width: 100%;
