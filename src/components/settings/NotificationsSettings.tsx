@@ -231,7 +231,7 @@ const RadioBoxContainer = styled("div")`
 function InAppNotificationBlock() {
   const [value, setValue] = useReactiveLocalStorage(
     StorageKeys.IN_APP_NOTIFICATIONS_PREVIEW,
-    2
+    "INHERIT"
   );
   const NotificationPingItems: RadioBoxItem[] = [
     { id: "OFF", label: "Off" },
