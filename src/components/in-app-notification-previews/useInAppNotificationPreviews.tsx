@@ -20,6 +20,8 @@ interface InAppPreviewNotification {
   icon?: string;
   color?: string;
   message?: Message;
+  channel?: Channel;
+  onClick?: () => void;
 }
 
 const [notifications, setNotifications] = createStore<
@@ -35,22 +37,27 @@ const removeNotification = (notification: InAppPreviewNotification) => {
 
 const buildMessageNotification = (
   message: Message,
-  channel: Channel,
-  mentioned: boolean
+  mentioned: boolean,
+  channel?: Channel
 ) => {
-  const { servers, serverMembers } = useStore();
-  const server = servers.get(channel.serverId!);
-  const member = serverMembers.get(channel.serverId!, message.createdBy.id);
+  const { servers, serverMembers, users } = useStore();
+  const server = servers.get(channel?.serverId!);
+  const member = serverMembers.get(channel?.serverId!, message.createdBy.id);
   const nickname = member?.nickname;
   const displayName = nickname || message.createdBy.username;
 
   pushNotification({
     title: `${displayName} ${
-      server ? `(#${channel.name} ${server?.name})` : ""
+      server ? `(#${channel?.name} ${server?.name})` : ""
     }`,
     body: message.content || "Attachment",
     color: mentioned ? "var(--alert-color)" : undefined,
+    channel,
     message,
+    onClick: () => {
+      if (channel?.recipient()?.inboxChannelId) return;
+      users.openDM(message.createdBy.id);
+    },
   });
 };
 const inAppNotificationPreviewsEnabled = isExperimentEnabled(
@@ -67,17 +74,16 @@ export const pushMessageNotification = (message: Message) => {
 
   const { channels, account } = useStore();
   const channel = channels.get(message.channelId);
-  if (!channel) return;
-  const serverId = channel.serverId;
-  const channelId = channel.id;
+  const serverId = channel?.serverId;
+  const channelId = channel?.id;
   const mentioned = !!isMentioned(message, serverId);
 
   if (mode === "ALL") {
-    return buildMessageNotification(message, channel, mentioned);
+    return buildMessageNotification(message, mentioned, channel);
   }
 
   if (mode === "INHERIT") {
-    if (!serverId) return buildMessageNotification(message, channel, mentioned);
+    if (!serverId) return buildMessageNotification(message, mentioned, channel);
     const pingMode = account.getCombinedNotificationSettings(
       serverId,
       channelId
@@ -91,11 +97,11 @@ export const pushMessageNotification = (message: Message) => {
 
   if (mode === "MENTIONS_ONLY") {
     if (mentioned) {
-      return buildMessageNotification(message, channel, mentioned);
+      return buildMessageNotification(message, mentioned, channel);
     }
     return;
   }
-  return buildMessageNotification(message, channel, mentioned);
+  return buildMessageNotification(message, mentioned, channel);
 };
 
 const obj = {

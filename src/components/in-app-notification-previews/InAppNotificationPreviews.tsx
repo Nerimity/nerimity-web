@@ -4,6 +4,9 @@ import style from "./InAppNotificationPreviews.module.scss";
 import { useInAppNotificationPreviews } from "./useInAppNotificationPreviews";
 import { Markup } from "../Markup";
 import Avatar from "../ui/Avatar";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import { Dynamic } from "solid-js/web";
+import { CustomLink } from "../ui/CustomLink";
 
 export default function InAppNotificationPreviews() {
   const { notifications, removeNotification } = useInAppNotificationPreviews();
@@ -25,14 +28,38 @@ export default function InAppNotificationPreviews() {
       );
       anim.onfinish = () => {
         anim.cancel();
-        // removeNotification(notification()!);
+        removeNotification(notification()!);
       };
     })
   );
 
+  const href = () => {
+    const message = notification()?.message;
+    const channel = notification()?.channel;
+    const serverId = channel?.serverId;
+
+    if (!message) return;
+    if (serverId) {
+      return RouterEndpoints.SERVER_MESSAGES(serverId, message.channelId);
+    }
+    const inboxChannelId = channel?.recipient()?.inboxChannelId;
+    if (inboxChannelId) {
+      return RouterEndpoints.INBOX_MESSAGES(inboxChannelId);
+    }
+  };
+  const onClick = () => {
+    notification()?.onClick();
+    removeNotification(notification()!);
+  };
+
   return (
     <Show when={notification()}>
-      <div class={style.backgroundContainer}>
+      <Dynamic
+        onClick={onClick}
+        component={href() ? CustomLink : "div"}
+        href={href()}
+        class={style.backgroundContainer}
+      >
         <div class={style.container}>
           <div class={style.infoContainer}>
             <Switch>
@@ -80,7 +107,7 @@ export default function InAppNotificationPreviews() {
             ></div>
           </div>
         </div>
-      </div>
+      </Dynamic>
     </Show>
   );
 }
