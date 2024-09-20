@@ -59,6 +59,7 @@ const buildMessageNotification = (
     channel,
     message,
     onClick: () => {
+      if (channel?.serverId) return;
       if (channel?.recipient()?.inboxChannelId) return;
       users.openDM(message.createdBy.id);
     },
