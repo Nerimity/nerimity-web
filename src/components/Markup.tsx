@@ -8,10 +8,14 @@ import {
   Entity,
   parseMarkup,
   Span,
-  UnreachableCaseError
+  UnreachableCaseError,
 } from "@nerimity/nevula";
 import { createMemo, JSXElement, on } from "solid-js";
-import { emojiShortcodeToUnicode, emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
+import {
+  emojiShortcodeToUnicode,
+  emojiUnicodeToShortcode,
+  unicodeToTwemojiUrl,
+} from "@/emoji";
 import { Emoji } from "./markup/Emoji";
 import useChannels from "@/chat-api/store/useChannels";
 import { MentionChannel } from "./markup/MentionChannel";
@@ -21,7 +25,11 @@ import { Message } from "@/chat-api/store/useMessages";
 import env from "@/common/env";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { Link } from "./markup/Link";
-import { QuoteMessage, QuoteMessageHidden, QuoteMessageInvalid } from "./markup/QuoteMessage";
+import {
+  QuoteMessage,
+  QuoteMessageHidden,
+  QuoteMessageInvalid,
+} from "./markup/QuoteMessage";
 import { GenericMention } from "./markup/GenericMention";
 import { TimestampMention, TimestampType } from "./markup/TimestampMention";
 import { Dynamic } from "solid-js/web";
@@ -31,7 +39,8 @@ export interface Props {
   inline?: boolean;
   message?: Message;
   isQuote?: boolean;
-  animateEmoji?: boolean
+  animateEmoji?: boolean;
+  class?: string;
 }
 
 type RenderContext = {
@@ -44,7 +53,11 @@ type RenderContext = {
 const transformEntities = (entity: Entity, ctx: RenderContext) =>
   entity.entities.map((e) => transformEntity(e, ctx));
 
-const sliceText = (ctx: RenderContext, span: Span, { countText = true } = {}) => {
+const sliceText = (
+  ctx: RenderContext,
+  span: Span,
+  { countText = true } = {}
+) => {
   const text = ctx.props().text.slice(span.start, span.end);
   if (countText && !/^\s+$/.test(text)) {
     ctx.textCount += text.length;
@@ -70,7 +83,8 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
     }
     case "@": {
       const message = ctx.props().message;
-      const user = message?.mentions?.find(u => u.id === expr) || users.get(expr);
+      const user =
+        message?.mentions?.find((u) => u.id === expr) || users.get(expr);
       const everyoneOrSomeone = ["e", "s"].includes(expr);
       if (user) {
         ctx.textCount += expr.length;
@@ -82,12 +96,15 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       }
       break;
     }
-    case "q": { // quoted messages
+    case "q": {
+      // quoted messages
       if (ctx.props().isQuote || ctx.props().inline) {
         return <QuoteMessageHidden />;
       }
-      const quote = ctx.props().message?.quotedMessages?.find(m => m.id === expr);
-      
+      const quote = ctx
+        .props()
+        .message?.quotedMessages?.find((m) => m.id === expr);
+
       if (quote) {
         if (ctx.quoteCount >= 10) {
           break;
@@ -95,40 +112,54 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         ctx.quoteCount += 1;
         return <QuoteMessage message={ctx.props().message} quote={quote} />;
       }
-      
-      return <QuoteMessageInvalid/>;
+
+      return <QuoteMessageInvalid />;
     }
     case "ace": // animated custom emoji
-    case "ce": { // custom emoji
+    case "ce": {
+      // custom emoji
       const [id, name] = expr.split(":");
       ctx.emojiCount += 1;
       const animated = type === "ace";
-      const shouldAnimate = animated && ctx.props().animateEmoji === false ? "?type=webp" : "";
-      return <Emoji custom clickable {...{
-        id,
-        animated,
-        name,
-        url: `${env.NERIMITY_CDN}emojis/${id}${animated ? ".gif" : ".webp"}${shouldAnimate}`
-      }} />;
+      const shouldAnimate =
+        animated && ctx.props().animateEmoji === false ? "?type=webp" : "";
+      return (
+        <Emoji
+          custom
+          clickable
+          {...{
+            id,
+            animated,
+            name,
+            url: `${env.NERIMITY_CDN}emojis/${id}${
+              animated ? ".gif" : ".webp"
+            }${shouldAnimate}`,
+          }}
+        />
+      );
     }
     case "link": {
       const [url, text] = expr.split("->").map((s) => s.trim());
 
       if (url && text) {
         ctx.textCount += text.length;
-        return <Link {...{url, text}} />;
+        return <Link {...{ url, text }} />;
       }
       break;
     }
-    case "tr" : {
-
+    case "tr": {
       const stamp = parseInt(expr);
       const date = new Date(stamp * 1000);
       if (isNaN(date as any)) {
         break;
       }
       ctx.textCount += expr.length;
-      return <TimestampMention type={type as TimestampType} timestamp={stamp * 1000} />;
+      return (
+        <TimestampMention
+          type={type as TimestampType}
+          timestamp={stamp * 1000}
+        />
+      );
     }
     default: {
       console.warn("Unknown custom entity:", type);
@@ -137,21 +168,18 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   return <span>{sliceText(ctx, entity.outerSpan)}</span>;
 }
 
-
-
 function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
   switch (entity.type) {
     case "text": {
       if (entity.entities.length > 0) {
         return <span>{transformEntities(entity, ctx)}</span>;
-      }
-      else {
+      } else {
         return <span>{sliceText(ctx, entity.innerSpan)}</span>;
       }
     }
     case "link": {
       const url = sliceText(ctx, entity.innerSpan);
-      return <Link {...{url}} />;
+      return <Link {...{ url }} />;
     }
     case "code": {
       return <code class={entity.type}>{transformEntities(entity, ctx)}</code>;
@@ -168,8 +196,11 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       return <CodeBlock value={value} lang={lang} />;
     }
     case "blockquote": {
-
-      return <blockquote classList={{"inline": ctx.props().inline}}>{transformEntities(entity, ctx)}</blockquote>;
+      return (
+        <blockquote classList={{ inline: ctx.props().inline }}>
+          {transformEntities(entity, ctx)}
+        </blockquote>
+      );
     }
     case "color": {
       const { color } = entity.params;
@@ -178,15 +209,13 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
 
       if (color.startsWith("#")) {
         el = <span style={{ color }}>{transformEntities(entity, ctx)}</span>;
-      }
-      else {
+      } else {
         el = transformEntities(entity, ctx);
       }
 
       if (lastCount !== ctx.textCount) {
         return el;
-      }
-      else {
+      } else {
         return sliceText(ctx, entity.outerSpan);
       }
     }
@@ -194,7 +223,7 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       const name = entity.params.name;
       const url = entity.params.url;
       ctx.textCount += name.length;
-      return <Link {...{url, text: name}} />;
+      return <Link {...{ url, text: name }} />;
     }
     case "bold":
     case "italic":
@@ -214,7 +243,13 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
     case "emoji": {
       const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
       ctx.emojiCount += 1;
-      return <Emoji clickable name={emojiUnicodeToShortcode(emoji)} url={unicodeToTwemojiUrl(emoji)} />;
+      return (
+        <Emoji
+          clickable
+          name={emojiUnicodeToShortcode(emoji)}
+          url={unicodeToTwemojiUrl(emoji)}
+        />
+      );
     }
     case "heading": {
       const level = entity.params.level;
@@ -223,7 +258,11 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       if (ctx.props().inline) {
         return <span>{text}</span>;
       }
-      return <Dynamic component={`h${level}`} class="heading">{text}</Dynamic>;
+      return (
+        <Dynamic component={`h${level}`} class="heading">
+          {text}
+        </Dynamic>
+      );
     }
     case "custom": {
       return transformCustomEntity(entity, ctx);
@@ -235,19 +274,40 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
 }
 
 export function Markup(props: Props) {
-  const _ctx = { props: () => props, emojiCount: 0, textCount: 0, quoteCount: 0 };
+  const _ctx = {
+    props: () => props,
+    emojiCount: 0,
+    textCount: 0,
+    quoteCount: 0,
+  };
 
-  const output = createMemo(on(() => props.text, () => {
-    const entity = addTextSpans(parseMarkup(_ctx.props().text));
-    _ctx.emojiCount = 0;
-    _ctx.textCount = 0;
-    _ctx.quoteCount = 0;
-    return transformEntity(entity, _ctx);
-  }));
+  const output = createMemo(
+    on(
+      () => props.text,
+      () => {
+        const entity = addTextSpans(parseMarkup(_ctx.props().text));
+        _ctx.emojiCount = 0;
+        _ctx.textCount = 0;
+        _ctx.quoteCount = 0;
+        return transformEntity(entity, _ctx);
+      }
+    )
+  );
 
   const ctx = on(output, () => _ctx);
 
-  const largeEmoji = !ctx().props().inline && ctx().emojiCount <= 5 && ctx().textCount === 0;
+  const largeEmoji =
+    !ctx().props().inline && ctx().emojiCount <= 5 && ctx().textCount === 0;
 
-  return <span class={classNames("markup", conditionalClass(largeEmoji, "largeEmoji"))}>{output()}</span>;
+  return (
+    <span
+      class={classNames(
+        "markup",
+        props.class,
+        conditionalClass(largeEmoji, "largeEmoji")
+      )}
+    >
+      {output()}
+    </span>
+  );
 }

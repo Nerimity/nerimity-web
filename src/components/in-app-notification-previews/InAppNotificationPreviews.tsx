@@ -54,7 +54,18 @@ export default function InAppNotificationPreviews() {
             <div class={style.info}>
               <div class={style.title}>{notification()?.title}</div>
               <div class={style.body}>
-                <Markup text={notification()?.body || ""} inline />
+                <Show when={notification()?.message?.attachments?.length}>
+                  <Icon
+                    name="attach_file"
+                    size={16}
+                    color="rgba(255,255,255,0.6)"
+                  />
+                </Show>
+                <Markup
+                  class={style.markup}
+                  text={notification()?.body || ""}
+                  inline
+                />
               </div>
             </div>
           </div>
