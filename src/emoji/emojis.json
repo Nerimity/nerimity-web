@@ -3522,7 +3522,7 @@
   {
     "emoji": "🍄",
     "short_names": ["mushroom"],
-    "category": "Food & Drink"
+    "category": "Animals & Nature"
   },
   {
     "emoji": "🍇",
@@ -5577,7 +5577,7 @@
   {
     "emoji": "🔫",
     "short_names": ["gun"],
-    "category": "Objects"
+    "category": "Activities"
   },
   {
     "emoji": "🎱",
@@ -6692,7 +6692,7 @@
   {
     "emoji": "💣",
     "short_names": ["bomb"],
-    "category": "Smileys & Emotion"
+    "category": "Objects"
   },
   {
     "emoji": "🪃",
@@ -7002,12 +7002,12 @@
   {
     "emoji": "🧿",
     "short_names": ["nazar_amulet"],
-    "category": "Activities"
+    "category": "Objects"
   },
   {
     "emoji": "🪬",
     "short_names": ["hamsa"],
-    "category": "Activities"
+    "category": "Objects"
   },
   {
     "emoji": "🗿",
