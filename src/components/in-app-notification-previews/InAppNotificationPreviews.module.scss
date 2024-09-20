@@ -44,15 +44,40 @@
 }
 
 .title {
+  display: inline-block;
+  overflow: hidden;
+  flex: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 12px;
   font-weight: bold;
 }
+.info {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+}
 .body {
+  display: flex;
+  overflow: hidden;
   opacity: 0.8;
   font-size: 12px;
+
+  & > span {
+    display: inline-block;
+    overflow: hidden;
+    flex: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .infoContainer {
   display: flex;
   gap: 4px;
+}
+
+.avatar {
+  margin-right: 4px;
+  margin-left: 4px;
 }

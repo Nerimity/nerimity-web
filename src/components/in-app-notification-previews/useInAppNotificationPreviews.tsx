@@ -19,7 +19,7 @@ interface InAppPreviewNotification {
   body: string;
   icon?: string;
   color?: string;
-  avatar?: string;
+  message?: Message;
 }
 
 const [notifications, setNotifications] = createStore<
@@ -38,10 +38,19 @@ const buildMessageNotification = (
   channel: Channel,
   mentioned: boolean
 ) => {
+  const { servers, serverMembers } = useStore();
+  const server = servers.get(channel.serverId!);
+  const member = serverMembers.get(channel.serverId!, message.createdBy.id);
+  const nickname = member?.nickname;
+  const displayName = nickname || message.createdBy.username;
+
   pushNotification({
-    title: message.createdBy.username,
+    title: `${displayName} ${
+      server ? `(#${channel.name} ${server?.name})` : ""
+    }`,
     body: message.content || "Attachment",
     color: mentioned ? "var(--alert-color)" : undefined,
+    message,
   });
 };
 const inAppNotificationPreviewsEnabled = isExperimentEnabled(
@@ -54,10 +63,9 @@ export const pushMessageNotification = (message: Message) => {
     StorageKeys.IN_APP_NOTIFICATIONS_PREVIEW,
     '"INHERIT"'
   );
-  console.log(mode);
   if (mode === "OFF") return;
 
-  const { channels, account, serverMembers } = useStore();
+  const { channels, account } = useStore();
   const channel = channels.get(message.channelId);
   if (!channel) return;
   const serverId = channel.serverId;

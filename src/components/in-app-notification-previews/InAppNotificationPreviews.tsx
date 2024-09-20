@@ -1,8 +1,9 @@
-import { createEffect, createSignal, on, Show } from "solid-js";
+import { createEffect, createSignal, Match, on, Show, Switch } from "solid-js";
 import Icon from "../ui/icon/Icon";
 import style from "./InAppNotificationPreviews.module.scss";
 import { useInAppNotificationPreviews } from "./useInAppNotificationPreviews";
 import { Markup } from "../Markup";
+import Avatar from "../ui/Avatar";
 
 export default function InAppNotificationPreviews() {
   const { notifications, removeNotification } = useInAppNotificationPreviews();
@@ -24,7 +25,7 @@ export default function InAppNotificationPreviews() {
       );
       anim.onfinish = () => {
         anim.cancel();
-        removeNotification(notification()!);
+        // removeNotification(notification()!);
       };
     })
   );
@@ -34,12 +35,23 @@ export default function InAppNotificationPreviews() {
       <div class={style.backgroundContainer}>
         <div class={style.container}>
           <div class={style.infoContainer}>
-            <Icon
-              size={28}
-              name={notification()?.icon || "info"}
-              color={notification()?.color || "var(--primary-color)"}
-            />
-            <div>
+            <Switch>
+              <Match when={notification()?.message}>
+                <Avatar
+                  class={style.avatar}
+                  size={28}
+                  user={notification()?.message?.createdBy!}
+                />
+              </Match>
+              <Match when={true}>
+                <Icon
+                  size={28}
+                  name={notification()?.icon || "info"}
+                  color={notification()?.color || "var(--primary-color)"}
+                />
+              </Match>
+            </Switch>
+            <div class={style.info}>
               <div class={style.title}>{notification()?.title}</div>
               <div class={style.body}>
                 <Markup text={notification()?.body || ""} inline />
