@@ -1,3 +1,4 @@
+import { useInAppNotificationPreviews } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
 import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
 import { JSXElement, Show } from "solid-js";
 
@@ -7,6 +8,7 @@ export interface Experiment {
   description?: string;
   electron?: boolean;
   reloadRequired?: boolean;
+  onToggle?: () => void;
 }
 
 export const Experiments = [
@@ -25,6 +27,11 @@ export const Experiments = [
     id: "IN_APP_NOTIFICATION_PREVIEWS",
     name: "In-App Notification Previews",
     description: "Show popup notifications in app.",
+    onToggle: () => {
+      const { clearNotifications } = useInAppNotificationPreviews();
+
+      clearNotifications();
+    },
   },
 ] as const;
 

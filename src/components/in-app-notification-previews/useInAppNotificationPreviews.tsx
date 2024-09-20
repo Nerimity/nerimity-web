@@ -12,7 +12,7 @@ import {
   StorageKeys,
 } from "@/common/localStorage";
 import { isMentioned } from "@/common/Sound";
-import { createStore } from "solid-js/store";
+import { createStore, reconcile } from "solid-js/store";
 
 interface InAppPreviewNotification {
   title: string;
@@ -33,6 +33,10 @@ const pushNotification = (notification: InAppPreviewNotification) => {
 };
 const removeNotification = (notification: InAppPreviewNotification) => {
   setNotifications(notifications.filter((n) => n !== notification));
+};
+
+const clearNotifications = () => {
+  setNotifications(reconcile([]));
 };
 
 const buildMessageNotification = (
@@ -109,6 +113,7 @@ const obj = {
   pushNotification,
   removeNotification,
   pushMessageNotification,
+  clearNotifications,
 };
 export const useInAppNotificationPreviews = () => {
   return obj;

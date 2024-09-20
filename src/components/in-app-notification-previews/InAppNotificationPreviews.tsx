@@ -14,12 +14,15 @@ export default function InAppNotificationPreviews() {
 
   const notification = () => notifications()[0];
 
+  let anim: Animation | undefined;
+
   createEffect(
     on([notification, progressEl], () => {
+      anim?.cancel();
       const progressElement = progressEl();
       if (!notification()) return;
       if (!progressElement) return;
-      const anim = progressElement.animate(
+      anim = progressElement.animate(
         [
           { composite: "replace", width: "100%" },
           { composite: "replace", width: "0%" },
@@ -27,7 +30,7 @@ export default function InAppNotificationPreviews() {
         { duration: 5000, fill: "forwards", endDelay: 300, delay: 300 }
       );
       anim.onfinish = () => {
-        anim.cancel();
+        anim?.cancel();
         removeNotification(notification()!);
       };
     })
@@ -48,7 +51,7 @@ export default function InAppNotificationPreviews() {
     }
   };
   const onClick = () => {
-    notification()?.onClick();
+    notification()?.onClick?.();
     removeNotification(notification()!);
   };
 

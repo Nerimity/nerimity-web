@@ -69,6 +69,7 @@ const ExperimentItem = (props: { experiment: Experiment }) => {
     if (props.experiment.reloadRequired) {
       createPortal((close) => <ReloadRequiredModal close={close} />);
     }
+    props.experiment.onToggle?.();
     toggleExperiment();
   };
 
