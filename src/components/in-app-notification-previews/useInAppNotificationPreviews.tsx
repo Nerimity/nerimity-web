@@ -73,7 +73,7 @@ export const pushMessageNotification = (message: Message) => {
   if (message.silent) return;
   let mode = getStorageObject(
     StorageKeys.IN_APP_NOTIFICATIONS_PREVIEW,
-    '"INHERIT"'
+    "INHERIT"
   );
   if (mode === "OFF") return;
 
