@@ -1,0 +1,305 @@
+{
+  "header": {
+    "logoutButton": "wogout",
+    "openAppButton": "o-open App",
+    "loginButton": "wogin",
+    "joinNowButton": "Join Now"
+  },
+  "homePage": {
+    "slogan": "a modewn and sweek chat app.",
+    "joinButton": "Join {{appName}}",
+    "viewGitHubButton": "View GitHub"
+  },
+  "loginPage": {
+    "title": "wogin to continue",
+    "emailOrUsernameAndTag": "emaiw / usewname:tag",
+    "password": "passwowd",
+    "login": "Wogin",
+    "createAccountInstead": "cweate a-an account instead",
+    "loggingIn": "wogging in...",
+    "loginButton": "wogin"
+  },
+  "registerPage": {
+    "title": "wewcome t-to {{appName}}",
+    "email": "emaiw",
+    "username": "usewname",
+    "password": "passwowd",
+    "confirmPassword": "confiwm passwowd",
+    "registerButton": "wegistew",
+    "registering": "wegistewing...",
+    "loginInstead": "wogin instead"
+  },
+  "dashboard": {
+    "title": "d-dashboawd",
+    "activeUsers": "active u-usews",
+    "noActiveUsers": "no a-active usews",
+    "servers": "sewvers",
+    "posts": "Posts",
+    "feed": "Feed",
+    "discover": "discovew",
+    "notifications": "Notifications"
+  },
+  "inbox": {
+    "drawer": {
+      "requests": "wequests",
+      "online": "onwine",
+      "offline": "offwine",
+      "savedNotesButton": "Saved Notes",
+      "addFriendButton": "add f-fwiend",
+      "inboxButton": "Inbox",
+      "friendsButton": "fwiends"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "e-expwowe",
+      "servers": "sewvews"
+    },
+    "servers": {
+      "title": "e-expwowe - sewvews",
+      "noticeMessage": "a sewver can be bumped once evewy {{hours}} houws. all b-bumps weset evewy {{date}}.",
+      "sortMostBumps": "most b-bumps",
+      "sortMostMembers": "most membews",
+      "sortRecentlyAdded": "wecentwy a-added",
+      "sortRecentlyBumped": "wecentwy b-bumped",
+      "filterAll": "aww",
+      "filterVerified": "vewified",
+      "memberCount": "{{count}} membews",
+      "lifetimeBumpCount": "{{count}} wifetime bumps",
+      "visitServerButton": "Visit",
+      "joinServerButton": "Join",
+      "bumpButton": "Bump ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "g-genewaw",
+        "roles": "wowes",
+        "channels": "channews",
+        "bans": "Bans",
+        "invites": "Invites",
+        "publishServer": "pubwish sewvew",
+        "verify": "vewify",
+        "role": "wowe",
+        "welcome-screen": "wewcome scween",
+        "channel": "channew",
+        "emojis": "Emojis",
+        "notifications": "Notifications"
+      },
+      "general": {
+        "serverRenameNotice": "you will w-wose all of the pewks of having youw sewver vewified if you w-wename it.",
+        "serverName": "s-sewver n-name",
+        "defaultChannel": "defauwt channew",
+        "defaultChannelDescription": "new members w-will be diwected to this channew.",
+        "systemMessages": "System Messages",
+        "systemMessagesDescription": "where system messages shouwd appeaw.",
+        "deleteThisServer": "dewete t-this sewvew",
+        "deleteThisServerDescription": "this cannot b-be u-undone!",
+        "deleteServerButton": "dewete sewvew",
+        "saveChangesButton": "save c-changes",
+        "saving": "saving.. *:･ﾟ✧*:･ﾟ✧ "
+      },
+      "roles": {
+        "addNewRole": "add a new wowe",
+        "addRoleButton": "add w-wowe"
+      },
+      "role": {
+        "saveChangesButton": "save c-changes",
+        "saving": "saving.. *:･ﾟ✧*:･ﾟ✧ ",
+        "roleName": "wowe name",
+        "roleColor": "wowe cowow",
+        "hideRole": "h-hide wowe",
+        "hideRoleDescription": "dispway members with t-this wole awong with all t-the defauwt m-members",
+        "permissions": "pewmissions",
+        "permissionsDescription": "manage p-pewmissions fow this wole.",
+        "deleteRoleButton": "dewete t-this wowe",
+        "deleteRoleButtonDescription": "this cannot b-be u-undone!"
+      },
+      "header": {
+        "editServer": "edit sewvew",
+        "serverMemberCount": "{{count}} members"
+      },
+      "channels": {
+        "createButton": "c-cweate",
+        "createNewDescription": "cweate a new channew ow c-categowy"
+      },
+      "channel": {
+        "saving": "saving.. *:･ﾟ✧*:･ﾟ✧ ",
+        "saveChangesButton": "save c-changes",
+        "channelName": "channew n-name",
+        "permissions": "pewmissions",
+        "permissionsDescription": "manage pewmissions f-fow this channew.",
+        "deleteThisChannel": "dewete t-this channew",
+        "deleteThisChannelDescription": "this cannot b-be u-undone!",
+        "deleteChannelButton": "dewete channew"
+      },
+      "invites": {
+        "createInviteButton": "cweate invite",
+        "serverInvites": "sewver invites",
+        "serverInvitesDescription": "invite youw f-fwiends t-to this sewvew.",
+        "customInviteVerifiedOnlyNotice": "custom i-invite winks are onwy avaiwable fow vewified sewvews.",
+        "customLink": "custom wink",
+        "saveButton": "Save",
+        "deleteButton": "dewete",
+        "copyLinkButton": "copy wink"
+      },
+      "publishServer": {
+        "publishNotice": "pubwishing youw s-sewver will make i-it be avaiwable in the <1>expwowe page</1>.",
+        "public": "pubwic",
+        "publicDescription": "make t-this sewver p-pubwic.",
+        "bumpServer": "bump sewvew",
+        "bumpServerDescription": "bump this sewver to get to the t-top.",
+        "publishServerButton": "pubwish sewvew",
+        "unpublishServerButton": "unpubwish sewver"
+      }
+    },
+    "rolePermissions": {
+      "admin": "a-admin",
+      "adminDescription": "enables all pewmissions.",
+      "sendMessage": "send m-message",
+      "sendMessageDescription": "enable sending messages in this sewver. sewver admins can still send messages.",
+      "manageRoles": "manage wowes",
+      "manageRolesDescription": "pewmission fow updating o-ow deweting wowes.",
+      "manageChannels": "manage channews",
+      "manageChannelsDescription": "pewmission fow updating ow deweting channews.",
+      "kick": "Kick",
+      "kickDescription": "pewmission to kick usews.",
+      "ban": "Ban",
+      "banDescription": "pewmission to ban u-usews",
+      "mentionEveryone": "Mention Everyone",
+      "mentionEveryoneDescription": "enable mentioning @evewyone ( ˘⌣˘)♡(˘⌣˘ ) sewver admins can still mention evewyone.",
+      "nicknameMember": "Nickname Member",
+      "nicknameMemberDescription": "awwow users t-to change theiw n-nickname in the sewver (o^▽^o)"
+    },
+    "channelPermissions": {
+      "privateChannel": "p-pwivate channew",
+      "privateChannelDescription": "disable a-access to the channew (≧◡≦) sewver admins can still access the channew.",
+      "sendMessage": "s-send message",
+      "sendMessageDescription": "enable sending messages in t-the channew. sewver a-admins can still send messages *:･ﾟ✧*:･ﾟ✧ ",
+      "joinVoice": "Join Voice",
+      "joinVoiceDescription": "enable joining voice c-channews in the channew. sewver a-admins c-can still j-join voice channews uguu.., "
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "s-settings",
+      "account": "Account",
+      "interface": "intewface",
+      "language": "wanguage",
+      "notifications": "Notifications",
+      "logout": "wogout",
+      "developer": "devewopew",
+      "applications": "appwications",
+      "experiments": "expewiments",
+      "supportMe": "suppowt me",
+      "viewSource": "view s-souwce",
+      "changelog": "changewog",
+      "window-settings": "Window Settings",
+      "call-settings": "Call Settings",
+      "activity-status": "Activity Status",
+      "tickets": "Tickets",
+      "privacy": "pwivacy",
+      "connections": "Connections"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "diwect m-message",
+        "description": "set who can send you diwect messages.",
+        "anyone": "Anyone",
+        "friendsAndServersOnly": "fwiends and sewvers onwy",
+        "friendsOnly": "fwiends onwy"
+      },
+      "profileOptions": {
+        "title": "pwofile options",
+        "hideFollowers": "hide fowwowews",
+        "hideFollowersDescription": "hide y-youw fowwowews fwom youw pwofiwe.",
+        "hideFollowing": "hide f-fowwowing",
+        "hideFollowingDescription": "hide users you a-are fowwowing fwom youw pwofile."
+      },
+      "friendRequest": {
+        "title": "fwiend wequest",
+        "description": "set who can send you fwiend wequests.",
+        "anyone": "Anyone",
+        "serversOnly": "sewvers o-onwy",
+        "nobody": "Nobody"
+      },
+      "lastOnline": {
+        "description": "set who can see youw wast onwine t-time uguu.., ",
+        "title": "wast onwine time"
+      }
+    }
+  },
+  "userContextMenu": {
+    "viewProfile": "view pwofiwe",
+    "sendMessage": "Send Message",
+    "copyId": "Copy ID",
+    "editRoles": "edit wowes",
+    "kick": "Kick",
+    "ban": "Ban",
+    "changeNickname": "Change Nickname"
+  },
+  "kickServerMemberModal": {
+    "title": "Kick {{username}}",
+    "kickButton": "Kick",
+    "kicking": "Kicking...",
+    "backButton": "Back",
+    "message": "are you sure y-you want to kick <1>{{username}}</1>?"
+  },
+  "editServerRolesModal": {
+    "title": "Edit Roles"
+  },
+  "banModal": {
+    "title": "Ban {{username}}?",
+    "message": "Are you sure y-you want to ban <1>{{username}}</1>?",
+    "deletePastMessagesCheckbox": "dewete messages sent i-in the past 7 houws〜☆ ",
+    "banButton": "Ban",
+    "banning": "Banning..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Edit Message",
+    "deleteMessage": "Delete Message",
+    "copyMessage": "Copy Message",
+    "copyId": "Copy ID"
+  },
+  "profile": {
+    "followButton": "Follow",
+    "unfollowButton": "Unfollow",
+    "removeFriendButton": "Remove Friend",
+    "addFriendButton": "Add Friend",
+    "pendingRequest": "Pending Request",
+    "acceptRequestButton": "Accept Request",
+    "messageButton": "Message",
+    "mutualFriends": "Mutual Friends ({{count}})",
+    "mutualServers": "Mutual Servers ({{count}})",
+    "postsTab": "Posts",
+    "followersTab": "Followers",
+    "followingTab": "Following",
+    "postsAndRepliesTab": "Posts and replies ({{count}})",
+    "likedPostsTab": "Liked Posts ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Are you sure you would like to delete this post?",
+      "cancelButton": "Cancel",
+      "deleteButton": "delete"
+    },
+    "postWasDeleted": "This post was deleted!",
+    "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
+    "someoneFollowedYou": "<1>{{username}}</1> followed you!",
+    "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
+    "createAPostInputPlaceholder": "Create a post...",
+    "replyInputPlaceholder": "Reply...",
+    "replyButton": "Reply",
+    "createButton": "Create",
+    "pollOptions": "Poll Options",
+    "optionNumberPlaceholder": "Option {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Information",
+    "channelNotice": "Channel Notice",
+    "attachments": "Attachments",
+    "attachmentsBack": "Back",
+    "members": "Members"
+  }
+}
