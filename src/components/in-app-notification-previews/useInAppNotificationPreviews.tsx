@@ -29,6 +29,9 @@ const [notifications, setNotifications] = createStore<
 >([]);
 
 const pushNotification = (notification: InAppPreviewNotification) => {
+  if (notifications.length >= 2) {
+    setNotifications(reconcile([notifications[0]!, notification]));
+  }
   setNotifications([...notifications, notification]);
 };
 const removeNotification = (notification: InAppPreviewNotification) => {
