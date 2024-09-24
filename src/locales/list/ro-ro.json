@@ -1,63 +1,74 @@
 {
   "header": {
-    "openAppButton": "Deschideți aplicația",
-    "loginButton": "Conectați-vă",
-    "joinNowButton": "Înregistrați-vă acum"
+    "logoutButton": "Deconectare",
+    "openAppButton": "Deschide aplicația",
+    "loginButton": "Conectare",
+    "joinNowButton": "Alăturați-vă acum"
   },
   "homePage": {
-    "slogan": "O aplicație de chat modernă și raționalizată.",
-    "joinButton": "Join {{appName}}",
-    "viewGitHubButton": "vezi în GitHub"
+    "slogan": "O aplicație de chat modernă și elegantă.",
+    "joinButton": "Alăturați-vă {{appName}}",
+    "viewGitHubButton": "Vedeți codul sursa"
   },
   "loginPage": {
-    "title": "Conectați-vă",
-    "emailOrUsernameAndTag": "Adresa de Email / nume de utilisator:tag",
-    "password": "Parolă",
+    "title": "Conectați-vă pentru a continua",
+    "emailOrUsernameAndTag": "Email / nume de utilisator:tag",
+    "password": "Parola",
     "login": "Conectare",
-    "createAccountInstead": "Creați un cont",
-    "loggingIn": "Conexiune în curs de realizare...",
+    "createAccountInstead": "Creați un cont în schimb",
+    "loggingIn": "Conectarea...",
     "loginButton": "Autentificare"
   },
   "registerPage": {
-    "title": "Bine ai venit pe {{appName}}",
-    "email": "Adresa de Email",
+    "title": "Bine ați venit la {{appName}}",
+    "email": "Email",
     "username": "Nume de utilisator",
-    "password": "Parolă",
+    "password": "Parola",
     "confirmPassword": "Confirmați parola",
-    "registerButton": "Înscrieți-vă",
-    "registering": "Înregistrare în curs de desfășurare...",
-    "loginInstead": "Conectați-vă"
+    "registerButton": "Înregistrare",
+    "registering": "Înregistrare...",
+    "loginInstead": "Conectați-vă în schimb"
+  },
+  "dashboard": {
+    "title": "Tablou de bord",
+    "activeUsers": "Utilisatorii activi",
+    "noActiveUsers": "Niciun utilizator activ",
+    "servers": "Servere",
+    "posts": "Postări",
+    "feed": "Feed-uri",
+    "discover": "Descoperă",
+    "notifications": "Notificări"
   },
   "inbox": {
     "drawer": {
-      "requests": "Cerere",
+      "requests": "Cereri",
       "online": "Online",
       "offline": "Offline",
-      "savedNotesButton": "Note înregistrate",
-      "addFriendButton": "Ajouter un ami",
-      "inboxButton": "Mesaje",
+      "savedNotesButton": "Note salvate",
+      "addFriendButton": "Adaugare prieten",
+      "inboxButton": "Cutia poștală",
       "friendsButton": "Prieteni"
     }
   },
   "explore": {
     "drawer": {
-      "title": "Explorați",
+      "title": "Explorează",
       "servers": "Servere"
     },
     "servers": {
-      "title": "Explorarea serverelor",
-      "noticeMessage": "Un server poate fi Bump o dată la fiecare {{hours}} ora. Bumps sunt resetate la fiecare {{date}}.",
-      "sortMostBumps": "Cele mai multer Bumpuri",
+      "title": "Explorează - Servere",
+      "noticeMessage": "Un server poate fi boostat la fiecare {{hours}} ora. Toate boost-urile se resetează la fiecare {{date}}.",
+      "sortMostBumps": "Cele mai multe boost-uri",
       "sortMostMembers": "Cei mai mulți membri",
-      "sortRecentlyAdded": "Adăugate recent",
-      "sortRecentlyBumped": "Bumpuri recente",
+      "sortRecentlyAdded": "Adaugate recent",
+      "sortRecentlyBumped": "Boost-ate recent",
       "filterAll": "Toate",
       "filterVerified": "Verificate",
-      "memberCount": "{{count}} Membrii",
-      "lifetimeBumpCount": "{{count}} Bumpuri totale",
-      "visitServerButton": "Visitatorii",
-      "joinServerButton": "Alăturați-vă",
-      "bumpButton": "Bump ({{count}})"
+      "memberCount": "{{count}} Membri",
+      "lifetimeBumpCount": "{{count}} lifetime bumps",
+      "visitServerButton": "Visitează",
+      "joinServerButton": "Alătură-te",
+      "bumpButton": "Boost : ({{count}})"
     }
   },
   "servers": {
@@ -65,179 +76,231 @@
       "drawer": {
         "general": "General",
         "roles": "Roluri",
-        "channels": "Saloane",
-        "bans": "Interdicții",
-        "invites": "Invitații",
-        "publishServer": "Publicați serverul",
-        "verify": "Verificați",
+        "channels": "Canale",
+        "bans": "Interzicerii",
+        "invites": "Invitați",
+        "publishServer": "Publică serverul",
+        "verify": "Verificare",
         "role": "Roluri",
-        "channel": "Salon",
+        "welcome-screen": "Ecran de bun venir",
+        "channel": "Canel",
         "emojis": "Emoticoane",
-        "notifications": "Notificări"
+        "notifications": "notificări"
       },
       "general": {
-        "serverRenameNotice": "Dacă îl redenumiți, veți pierde toate avantajele oferite de verificarea serverului dumneavoastră.",
+        "serverRenameNotice": "Veți pierde toate avantajele de a avea serverul verificat dacă îl redenumiți.",
         "serverName": "Numele serverului",
-        "defaultChannel": "Salon implicit",
-        "defaultChannelDescription": "Membrii noi vor fi direcționați către acest salon.",
+        "defaultChannel": "Canal implicit",
+        "defaultChannelDescription": "Noii membri vor fi direcționați către acest canal.",
         "systemMessages": "Mesaje de sistem",
         "systemMessagesDescription": "Unde ar trebui să apară mesajele de sistem.",
-        "deleteThisServer": "Ștergeți acest server",
-        "deleteThisServerDescription": "Este ireversibil! (Pentru totdeauna)",
-        "deleteServerButton": "Ștergeți",
+        "deleteThisServer": "Sterge acest server",
+        "deleteThisServerDescription": "Acest lucru nu poate fi anulat!",
+        "deleteServerButton": "STERGE server-ul",
         "saveChangesButton": "Salvați modificările",
-        "saving": "Înregistrare..."
+        "saving": "Salvare..."
       },
       "roles": {
-        "addNewRole": "Adăugați un nou rol",
-        "addRoleButton": "Adăugați"
+        "addNewRole": "Adaugare rol nou",
+        "addRoleButton": "Adaugare rol"
       },
       "role": {
         "saveChangesButton": "Salvați modificările",
-        "saving": "Înregistrare...",
+        "saving": "Salvare...",
         "roleName": "Numele rolului",
-        "roleColor": "Culoarea rolului",
-        "hideRole": "Ascundeți rolul",
-        "hideRoleDescription": "Afișați membrii cu acest rol împreună cu toți ceilalți membri în mod implicit.",
-        "permissions": "Autorizații",
-        "permissionsDescription": "Gestionați autorizațiile pentru acest rol.",
-        "deleteRoleButton": "Ștergeți acest rol",
-        "deleteRoleButtonDescription": "Este ireversibil!"
+        "roleColor": "Culoare rolului",
+        "hideRole": "Ascunde rolul",
+        "hideRoleDescription": "Afișați membrii cu acest rol împreună cu toți membrii implicițis",
+        "permissions": "Permisiuni",
+        "permissionsDescription": "Gestionați permisiunile pentru acest rol.",
+        "deleteRoleButton": "Sterge aces rol",
+        "deleteRoleButtonDescription": "Acest lucru nu poate fi anulat!"
       },
       "header": {
-        "editServer": "Modificați serverul",
-        "serverMemberCount": "{{count}} Membrii"
+        "editServer": "Editează server-ul",
+        "serverMemberCount": "{{count}} membri"
       },
       "channels": {
         "createButton": "Creează",
-        "createNewDescription": "Creați un salon sau o categorie nouă"
+        "createNewDescription": "Creați un canal sau o categorie nouă"
       },
       "channel": {
-        "saving": "Înregistrare...",
+        "saving": "Salvare...",
         "saveChangesButton": "Salvați modificările",
-        "channelName": "Numele salonului",
-        "permissions": "Autorizații",
-        "permissionsDescription": "Gestionați autorizațiile pentru acest salon.",
-        "deleteThisChannel": "Ștergeți acest salon",
-        "deleteThisChannelDescription": "Este ireversibil!",
-        "deleteChannelButton": "Ștergeți"
+        "channelName": "Numele canalului",
+        "permissions": "Permisiuni",
+        "permissionsDescription": "Gestionați permisiunile pentru acest canal.",
+        "deleteThisChannel": "Sterge acest canal",
+        "deleteThisChannelDescription": "Acest lucru nu poate fi anulat!",
+        "deleteChannelButton": "STERGE canal"
       },
       "invites": {
-        "createInviteButton": "Creați o invitație",
-        "serverInvites": "Invitații",
-        "serverInvitesDescription": "Invitați-vă prietenii pe acest server.",
-        "customInviteVerifiedOnlyNotice": "Linkurile de invitații personalizate sunt disponibile numai pentru serverele verificate.",
-        "customLink": "Link invitație personalizată",
-        "saveButton": "Înregistrare",
-        "deleteButton": "Ștergeți",
-        "copyLinkButton": "Copiere"
+        "createInviteButton": "Creează invitație",
+        "serverInvites": "Invitațiile serverului",
+        "serverInvitesDescription": "Invitați-vă prietenii la acest server.",
+        "customInviteVerifiedOnlyNotice": "Link-urile de invitație personalizate sunt disponibile numai pentru serverele verificate.",
+        "customLink": "Link de invitație personalizat",
+        "saveButton": "Salvează",
+        "deleteButton": "Sterge",
+        "copyLinkButton": "Copiați link-ul"
       },
       "publishServer": {
-        "publishNotice": "Publicarea serverului dvs. îl va face accesibil din meniul <1>explore</1>.",
+        "publishNotice": "Publicarea serverului va face ca acesta să fie disponibil în pagina <1>explore</1>.",
         "public": "Public",
         "publicDescription": "Faceți acest server public.",
-        "bumpServer": "Bump serverul",
-        "bumpServerDescription": "Bump acest server pentru a ajunge în top.",
-        "publishServerButton": "Publicați serverul",
-        "unpublishServerButton": "Anularea publicării serverului"
+        "bumpServer": "Bump Server",
+        "bumpServerDescription": "Boost-ati acestui server pentru a ajunge la partea de sus.",
+        "publishServerButton": "Publică serverul",
+        "unpublishServerButton": "Anulați publicarea server-ului"
       }
     },
     "rolePermissions": {
-      "admin": "Administrator",
-      "adminDescription": "Activează toate autorizațiile.",
-      "sendMessage": "Trimite mesaje",
-      "sendMessageDescription": "Permite trimiterea de mesaje către acest server. Administratorii pot trimite întotdeauna mesaje.",
+      "admin": "Admin",
+      "adminDescription": "Activează toate permisiunile.",
+      "sendMessage": "Trimite mesaj",
+      "sendMessageDescription": "Activați trimiterea de mesaje în acest server. Administratorii serverului pot trimite în continuare mesaje.",
       "manageRoles": "Gestionarea rolurilor",
-      "manageRolesDescription": "Autorizația de a actualiza sau de a șterge roluri.",
-      "manageChannels": "Gestionare saloane",
-      "manageChannelsDescription": "Autorizarea de a actualiza sau de a șterge saloane.",
-      "kick": "Excludere",
-      "kickDescription": "Autorizarea de a exclude membri de pe server.",
+      "manageRolesDescription": "Permisiune pentru actualizarea sau ștergerea rolurilor.",
+      "manageChannels": "Gestionarea Canalelor",
+      "manageChannelsDescription": "Permisiunea de a actualiza sau șterge canale.",
+      "kick": "Explusare",
+      "kickDescription": "Permisiunea de a expulsa utilizatori",
       "ban": "Ban",
-      "banDescription": "Autorizarea de a interzice membrii de pe server."
+      "banDescription": "Permisiunea de a interzice utilizatori.",
+      "mentionEveryone": "Menționați pe toată lumea",
+      "mentionEveryoneDescription": "Permiteți menționarea @everyone. Administratorii de servere pot menționa în continuare pe toată lumea.",
+      "nicknameMember": "Schimbati Porecla",
+      "nicknameMemberDescription": "Permiteți utilizatorilor să își schimbe porecla în server."
     },
     "channelPermissions": {
-      "privateChannel": "Salon Privat",
-      "privateChannelDescription": "Dezactivați accesul la salon. Administratorii pot accesa în continuare salonul.",
+      "privateChannel": "Canal privat",
+      "privateChannelDescription": "Dezactivează accesul la canal. Administratorii serverului pot accesa în continuare canalul.",
       "sendMessage": "Trimite mesaje",
-      "sendMessageDescription": "Permiteți trimiterea de mesaje în salon. Administratorii pot trimite întotdeauna mesaje."
+      "sendMessageDescription": "Activați trimiterea de mesaje în canal. Administratorii serverului pot trimite în continuare mesaje.",
+      "joinVoice": "Alăturare apel vocal",
+      "joinVoiceDescription": "Permite aderarea la canalele vocale din canal. Administratorii serverului se pot alătura în continuare canalelor vocale."
     }
   },
   "settings": {
     "drawer": {
       "title": "Setări",
-      "account": "Compt",
-      "language": "Limba",
+      "account": "Cont",
+      "interface": "Interfață",
+      "language": "Limbă",
       "notifications": "Notificări",
-      "logout": "Deconectați",
-      "supportMe": "Sprijină-mă",
+      "logout": "Deconectare",
+      "developer": "Setări Dezvoltator",
+      "applications": "Aplicații",
+      "experiments": "Experimente",
+      "supportMe": "Susține-mă",
       "viewSource": "Vezi codul sursa",
-      "changelog": "Journalul modificărilor",
-      "window-settings": "Setări Windows",
-      "privacy": "Confidențialitate"
+      "changelog": "Schimbări",
+      "window-settings": "Setări fereastră",
+      "call-settings": "Setări de apel",
+      "activity-status": "Activity Status",
+      "tickets": "Bilete",
+      "privacy": "Confidențialitate",
+      "connections": "Conexiuni"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "Mesaje directe",
+        "description": "Setați cine vă poate trimite mesaje directe.",
+        "anyone": "Toate lumea",
+        "friendsAndServersOnly": "Doar de la Prieteni si membri din serverele mele",
+        "friendsOnly": "Doar de la Prieteni"
+      },
+      "profileOptions": {
+        "title": "Setări de profil",
+        "hideFollowers": "Ascundeți urmăritorii",
+        "hideFollowersDescription": "Ascundeți urmăritorii din profilul dvs.",
+        "hideFollowing": "Hide Following",
+        "hideFollowingDescription": "Ascundeți utilizatorii pe care îi urmăriți din profilul dvs."
+      },
+      "friendRequest": {
+        "title": "Cerere de prietenie",
+        "description": "Setați cine vă poate trimite cereri de prietenie.",
+        "anyone": "Toate lumea",
+        "serversOnly": "Doar din servere",
+        "nobody": "Nimeni"
+      },
+      "lastOnline": {
+        "description": "Setați cine poate vedea ultima dvs. oră online.",
+        "title": "Ultima data Online"
+      }
     }
   },
 
   "userContextMenu": {
-    "viewProfile": "Vezi Profilul",
+    "viewProfile": "Vezi profil-ul",
     "sendMessage": "Trimite mesaj",
-    "copyId": "Copiază ID-ului",
-    "editRoles": "Modifică Rolulile",
-    "kick": "Exclude",
-    "ban": "Ban"
+    "copyId": "Copiaza ID",
+    "editRoles": "Editează Rolurile",
+    "kick": "Explusare",
+    "ban": "Ban",
+    "changeNickname": "Schimbati Porecla"
   },
   "kickServerMemberModal": {
-    "title": "Exclude {{username}}",
-    "kickButton": "Exclude",
-    "kicking": "Excludere...",
-    "backButton": "Înapoi la",
-    "message": "Sunteți sigur că doriți să excludeți <1>{{username}}</1>?"
+    "title": "Explusare {{username}}",
+    "kickButton": "Expulseaza",
+    "kicking": "Explusare...",
+    "backButton": "Înapoi",
+    "message": "Ești sigur că vrei să expulsezi pe <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
-    "title": "Modifică Rolurile"
+    "title": "Editează Roles"
   },
   "banModal": {
-    "title": "Ban {{username}}?",
-    "message": "Esti sigur că vrei să interzici pe <1>{{username}}</1>?",
+    "title": "interzice {{username}}?",
+    "message": "Ești sigur că vrei să interzici pe <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Ștergeți mesajele trimise în ultimele 7 ore.",
-    "banButton": "Interzice",
-    "banning": "Interzicere..."
+    "banButton": "interzicere",
+    "banning": "interzicere..."
   },
   "messageContextMenu": {
-    "editMessage": "Modifică",
-    "deleteMessage": "Sterge",
-    "copyMessage": "Copiază mesaj",
-    "copyId": "Copiază ID-ul"
+    "editMessage": "Editează Mesaj",
+    "deleteMessage": "Stergere Mesaj",
+    "copyMessage": "Copiaza Mesaj",
+    "copyId": "Copiaza ID"
   },
   "profile": {
-    "followButton": "Urmăreste",
-    "unfollowButton": "Nu mai urmări",
-    "removeFriendButton": "Sterge prieten",
-    "addFriendButton": "Adaugă prieten",
+    "followButton": "Urmărește",
+    "unfollowButton": "Unfollow",
+    "removeFriendButton": "Sterge Prieten",
+    "addFriendButton": "Adaugare Prieten",
     "pendingRequest": "Cerere în așteptare",
-    "acceptRequestButton": "Acceptați cererea",
-    "messageButton": "masaj",
+    "acceptRequestButton": "Cereri acceptate",
+    "messageButton": "Mesaje",
     "mutualFriends": "Prieteni comuni ({{count}})",
     "mutualServers": "Servere comune ({{count}})",
-    "postsTab": "Publicații",
-    "followersTab": "Abonați",
-    "followingTab": "Abonamente",
-    "postsAndRepliesTab": "Publicații și răspunsuri ({{count}})",
-    "likedPostsTab": "Publicații apreciate ({{count}})"
+    "postsTab": "Postări",
+    "followersTab": "Urmăritori",
+    "followingTab": "Urmariri",
+    "postsAndRepliesTab": "Postări si răspunsuri : ({{count}})",
+    "likedPostsTab": "Postări apreciate : ({{count}})"
   },
   "posts": {
     "deletePostModal": {
-      "message": "Sunteți sigur că doriți să ștergeți această publicație?",
-      "cancelButton": "anularea",
+      "message": "Sunteți sigur că doriți să ștergeți această postare?",
+      "cancelButton": "Anulați",
       "deleteButton": "Sterge"
     },
-    "postWasDeleted": "Această publicație a fost eliminată!",
-    "someoneLikedYourPost": "<1>{{username}}</1> a apreciat publicația dumneavoastră!",
-    "someoneFollowedYou": "<1>{{username}}</1> te urmărește!",
-    "someoneRepliedToPost": "<1>{{username}}</1> a răspuns la publicația dumneavoastră!",
-    "createAPostInputPlaceholder": "Creați o publicație...",
-    "replyInputPlaceholder": "Răspundeți...",
+    "postWasDeleted": "Această postare a fost ștearsă!",
+    "someoneLikedYourPost": "<1>{{username}}</1> a apreciat postarea ta!",
+    "someoneFollowedYou": "<1>{{username}}</1> te urmareste!",
+    "someoneRepliedToPost": "<1>{{username}}</1> a răspuns la postarea dvs.!",
+    "createAPostInputPlaceholder": "Creați o postare...",
+    "replyInputPlaceholder": "Răspunde...",
     "replyButton": "Răspunde",
-    "createButton": "Creează"
+    "createButton": "Creează",
+    "pollOptions": "Opțiuni sondaj",
+    "optionNumberPlaceholder": "Opțiuni : {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Informații",
+    "channelNotice": "Anunț de canal",
+    "attachments": "Atașamente",
+    "attachmentsBack": "Înapoi",
+    "members": "Membri"
   }
 }
