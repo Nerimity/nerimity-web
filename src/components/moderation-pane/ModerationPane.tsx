@@ -875,7 +875,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         <FlexRow gap={3} itemsCenter style={{ "margin-bottom": "2px" }}>
           <Show when={props.auditLog.actionType === AuditLogType.ipBan}>
             <Text size={14}>
-              {props.auditLog.count || 1}IP(s) Banned for 7 days
+              {props.auditLog.count || 1} IP(s) Banned for 7 days
             </Text>
             <Text size={14}>
               <A
