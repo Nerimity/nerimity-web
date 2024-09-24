@@ -187,6 +187,7 @@ export interface AuditLog {
   username?: string;
 
   ipAddress?: string;
+  count?: number;
   reason?: string;
   expireAt?: number;
 }
