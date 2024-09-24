@@ -1,9 +1,13 @@
-import { StorageKeys, getStorageString, setStorageString } from "@/common/localStorage";
+import {
+  StorageKeys,
+  getStorageString,
+  setStorageString,
+} from "@/common/localStorage";
 
 export interface Language {
-  name: string,
-  emoji: string,
-  contributors: string[],
+  name: string;
+  emoji: string;
+  contributors: string[];
 }
 
 // name: Display name
@@ -14,78 +18,89 @@ export const languages = {
   "en-gb": {
     name: "English",
     emoji: "🇬🇧",
-    contributors: ["https://github.com/SupertigerDev"]
+    contributors: ["https://github.com/SupertigerDev"],
   },
   "af-za": {
     name: "Afrikaans",
     emoji: "🇿🇦",
-    contributors: ["https://github.com/mooocksadev"]
+    contributors: ["https://github.com/mooocksadev"],
   },
   "be-by": {
     name: "Belarusian",
     emoji: "🇧🇾",
-    contributors: ["https://github.com/1enify"]
+    contributors: ["https://github.com/1enify"],
   },
   "pt-br": {
     name: "Brazilian Portuguese",
     emoji: "🇧🇷",
-    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Gersonzao"]
+    contributors: [
+      "https://github.com/Jerkycat",
+      "https://gitlab.com/Gersonzao",
+    ],
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
     emoji: "🇹🇼",
-    contributors: ["Dsiahrz"]
+    contributors: ["Dsiahrz"],
   },
   "nl-nl": {
     name: "Dutch",
     emoji: "🇳🇱",
-    contributors: ["https://github.com/captainqdev"]
+    contributors: ["https://github.com/captainqdev"],
   },
   "fr-FR": {
     name: "French",
     emoji: "🇫🇷",
-    contributors: ["https://github.com/guiguitator"]
+    contributors: ["https://github.com/guiguitator"],
   },
   "de-de": {
     name: "German",
     emoji: "🇩🇪",
-    contributors: ["https://github.com/F-iiral", "https://github.com/Deutscher775"]
+    contributors: [
+      "https://github.com/F-iiral",
+      "https://github.com/Deutscher775",
+    ],
   },
   "hu-hu": {
     name: "Hungarian",
     emoji: "🇭🇺",
-    contributors: ["https://github.com/andrasdaradici"]
+    contributors: ["https://github.com/andrasdaradici"],
   },
   "fil-ph": {
     name: "Filipino",
     emoji: "🇵🇭",
-    contributors: ["https://github.com/serenemm"]
+    contributors: ["https://github.com/serenemm"],
   },
   "pl-pl": {
     name: "Polish",
     emoji: "🇵🇱",
-    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"]
+    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
   },
   "ro-ro": {
     name: "Romanian",
     emoji: "🇷🇴",
-    contributors: ["GNU/Alex"]
+    contributors: ["GNU/Alex"],
   },
   "ru-ru": {
     name: "Russian",
     emoji: "🇷🇺",
-    contributors: ["https://github.com/FAYSi223"]
+    contributors: ["https://github.com/FAYSi223"],
   },
   "es-es": {
     name: "Spanish",
     emoji: "🇪🇸",
-    contributors: ["Linterna001"]
+    contributors: ["Linterna001"],
   },
   "tr-tr": {
     name: "Turkish",
     emoji: "🇹🇷",
-    contributors: ["https://github.com/slideglide"]
-  }
+    contributors: ["https://github.com/slideglide"],
+  },
+  "uw-uw": {
+    name: "UwU",
+    emoji: "🐱",
+    contributors: ["https://github.com/spookehneko123"],
+  },
 };
 
 export function getCurrentLanguage() {
