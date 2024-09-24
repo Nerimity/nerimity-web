@@ -27,7 +27,7 @@ export const languages = {
   },
   "be-by": {
     name: "Belarusian (Traditional)",
-    emoji: "🚩",
+    emoji: "🇧🇾",
     contributors: ["https://github.com/Dzi-Mieha"],
   },
   "pt-br": {
