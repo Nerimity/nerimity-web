@@ -26,9 +26,9 @@ export const languages = {
     contributors: ["https://github.com/mooocksadev"],
   },
   "be-by": {
-    name: "Belarusian",
-    emoji: "🇧🇾",
-    contributors: ["https://github.com/1enify"],
+    name: "Belarusian (Traditional)",
+    emoji: "🚩",
+    contributors: ["https://github.com/Dzi-Mieha"],
   },
   "pt-br": {
     name: "Brazilian Portuguese",
