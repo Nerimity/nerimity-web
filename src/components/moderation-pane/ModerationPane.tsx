@@ -8,7 +8,7 @@ import {
   lazy,
   on,
   onMount,
-  Show
+  Show,
 } from "solid-js";
 import {
   AuditLog,
@@ -26,7 +26,7 @@ import {
   searchUsers,
   getPosts,
   searchPosts,
-  deletePosts
+  deletePosts,
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
@@ -47,7 +47,7 @@ import Icon from "../ui/icon/Icon";
 
 import {
   emitModerationUserSuspended,
-  useModerationUserSuspendedListener
+  useModerationUserSuspendedListener,
 } from "@/common/GlobalEvents";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { classNames } from "@/common/classNames";
@@ -94,9 +94,7 @@ const PaneContainer = styled("div")`
   max-height: 500px;
 `;
 
-const UserPaneContainer = styled(PaneContainer)`
-
-`;
+const UserPaneContainer = styled(PaneContainer)``;
 
 const ListContainer = styled("div")`
   display: flex;
@@ -117,7 +115,7 @@ const itemStyles = css`
   text-decoration: none;
   color: white;
 
-  border-top: solid 1px rgba(0,0,0,0.4);
+  border-top: solid 1px rgba(0, 0, 0, 0.4);
   padding-top: 10px;
   padding-bottom: 10px;
 
@@ -165,7 +163,7 @@ export default function ModerationPane() {
     if (!account.isAuthenticated() || !account.hasModeratorPerm()) return;
     header.updateHeader({
       title: "Moderation",
-      iconName: "security"
+      iconName: "security",
     });
     setLoad(true);
     if (!stats()) {
@@ -190,11 +188,12 @@ export default function ModerationPane() {
             margin: isMobileWidth() ? 0 : "8px 8px 8px 0",
             "border-radius": isMobileWidth() ? 0 : "8px",
             "padding-top": "40px",
-            "z-index": "1111"
+            "z-index": "1111",
           }}
         >
-
-          <PageContainer><Outlet name="moderationPane" /></PageContainer>
+          <PageContainer>
+            <Outlet name="moderationPane" />
+          </PageContainer>
           {/* <Routes>
             <Route path="/servers/:serverId" element={<ServerPage />} />
             <Route path="/users/:userId" element={<UserPage />} />
@@ -280,7 +279,7 @@ function ModerationPage() {
 }
 
 const TicketsPane = () => {
-  const {tickets} = useStore();
+  const { tickets } = useStore();
   onMount(async () => {
     tickets.updateModerationTicketNotification();
   });
@@ -295,15 +294,23 @@ const TicketsPane = () => {
       `}
     >
       <Show when={tickets.hasModerationTicketNotification()}>
-        <div class={css`position: absolute; top:10px; left: 6px;`}>
-          <Icon name="error" color="var(--alert-color)" size={18}/>
+        <div
+          class={css`
+            position: absolute;
+            top: 10px;
+            left: 6px;
+          `}
+        >
+          <Icon name="error" color="var(--alert-color)" size={18} />
         </div>
       </Show>
       <SettingsBlock
         icon="sell"
         description={
           <Show when={tickets.hasModerationTicketNotification()}>
-            <Text size={12} color="var(--warn-color)">There are ticket(s) waiting for moderator response.</Text>
+            <Text size={12} color="var(--warn-color)">
+              There are ticket(s) waiting for moderator response.
+            </Text>
           </Show>
         }
         label="Tickets"
@@ -397,7 +404,7 @@ function UsersPane() {
         onText={onSearchText}
         value={search()}
       />
-      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px"}}>
+      <FlexRow gap={5} itemsCenter style={{ "padding-left": "10px" }}>
         <Button
           iconName="add"
           iconSize={14}
@@ -444,7 +451,11 @@ function OnlineUsersPane() {
 
   return (
     <UserPaneContainer class="pane users">
-      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px", "padding-top": "10px"}}>
+      <FlexRow
+        gap={5}
+        itemsCenter
+        style={{ "padding-left": "10px", "padding-top": "10px" }}
+      >
         <Button
           iconName="add"
           iconSize={14}
@@ -532,7 +543,7 @@ function ServersPane() {
         value={search()}
       />
 
-      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px"}}>
+      <FlexRow gap={5} itemsCenter style={{ "padding-left": "10px" }}>
         <Button
           iconName="add"
           iconSize={14}
@@ -558,7 +569,7 @@ function ServersPane() {
   );
 }
 
-export function User(props: { user: any, class?: string }) {
+export function User(props: { user: any; class?: string }) {
   const joined = formatTimestamp(props.user.joinedAt);
   const [hovered, setHovered] = createSignal(false);
 
@@ -586,12 +597,21 @@ export function User(props: { user: any, class?: string }) {
     >
       <Checkbox checked={selected()} onChange={onCheckChanged} />
       <CustomLink href={RouterEndpoints.PROFILE(props.user.id)}>
-        <Avatar animate={hovered()} user={props.user} size={28} class={css`margin-top: 2px;`} />
+        <Avatar
+          animate={hovered()}
+          user={props.user}
+          size={28}
+          class={css`
+            margin-top: 2px;
+          `}
+        />
       </CustomLink>
       <ItemDetailContainer class="details">
         <FlexRow>
           <Text size={14}>{props.user.username}</Text>
-          <Text size={14} opacity={0.6}>:{props.user.tag}</Text>
+          <Text size={14} opacity={0.6}>
+            :{props.user.tag}
+          </Text>
         </FlexRow>
         <FlexRow gap={3} itemsCenter>
           <Text size={12} opacity={0.6}>
@@ -604,7 +624,7 @@ export function User(props: { user: any, class?: string }) {
               style={{
                 background: "var(--alert-color)",
                 "border-radius": "4px",
-                padding: "3px"
+                padding: "3px",
               }}
             >
               Suspended
@@ -616,7 +636,7 @@ export function User(props: { user: any, class?: string }) {
               style={{
                 background: "var(--primary-color)",
                 "border-radius": "4px",
-                padding: "3px"
+                padding: "3px",
               }}
             >
               Bot
@@ -659,10 +679,7 @@ export function Server(props: { server: any }) {
             Created By:
           </Text>
           <Text size={12}>
-            <A
-              class={linkStyle}
-              href={`/app/moderation/users/${createdBy.id}`}
-            >
+            <A class={linkStyle} href={`/app/moderation/users/${createdBy.id}`}>
               {createdBy.username}:{createdBy.tag}
             </A>
           </Text>
@@ -756,7 +773,11 @@ function AuditLogPane() {
 
   return (
     <PaneContainer class="pane servers">
-      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px", "padding-top": "10px"}}>
+      <FlexRow
+        gap={5}
+        itemsCenter
+        style={{ "padding-left": "10px", "padding-top": "10px" }}
+      >
         <Button
           iconName="add"
           iconSize={14}
@@ -783,7 +804,6 @@ function AuditLogPane() {
 }
 
 function AuditLogItem(props: { auditLog: AuditLog }) {
-
   const [expanded, setExpanded] = createSignal(false);
   const created = formatTimestamp(props.auditLog.createdAt);
   const by = props.auditLog.actionBy;
@@ -800,31 +820,31 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         return {
           icon: "dns",
           color: "var(--alert-color)",
-          title: "Server Delete"
+          title: "Server Delete",
         };
       case AuditLogType.serverUpdate:
         return {
           icon: "dns",
           color: "var(--success-color)",
-          title: "Server Update"
+          title: "Server Update",
         };
       case AuditLogType.userSuspend:
         return {
           icon: "person",
           color: "var(--alert-color)",
-          title: "User Suspend"
+          title: "User Suspend",
         };
       case AuditLogType.userUnsuspend:
         return {
           icon: "person",
           color: "var(--success-color)",
-          title: "User Unsuspend"
+          title: "User Unsuspend",
         };
       case AuditLogType.userUpdate:
         return {
           icon: "person",
           color: "var(--success-color)",
-          title: "User Update"
+          title: "User Update",
         };
       default:
         return { icon: "texture", color: "gray", title: "Unknown Action" };
@@ -837,7 +857,9 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         return true;
       case AuditLogType.userWarned:
         return true;
-      default: return false;
+
+      default:
+        return false;
     }
   };
 
@@ -846,18 +868,24 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       class={itemStyles}
-      style={{cursor: "initial", overflow: "hidden"}}
+      style={{ cursor: "initial", overflow: "hidden" }}
     >
       <Avatar animate={hovered()} class={avatarStyle} user={by} size={28} />
       <ItemDetailContainer class="details">
-        
-
-        <FlexRow gap={3} itemsCenter style={{"margin-bottom": "2px"}}>
-
-          <Show when={props.auditLog.actionType === AuditLogType.userWarned}>
-            <Text size={14} >
-              Warned{" "}
+        <FlexRow gap={3} itemsCenter style={{ "margin-bottom": "2px" }}>
+          <Show when={props.auditLog.actionType === AuditLogType.ipBan}>
+            <Text size={14}>IP Banned for 7 days</Text>
+            <Text size={14}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.auditLog.userId}`}
+              >
+                {props.auditLog.username}
+              </A>
             </Text>
+          </Show>
+          <Show when={props.auditLog.actionType === AuditLogType.userWarned}>
+            <Text size={14}>Warned </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -868,9 +896,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
           <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
-            <Text size={14} >
-              Suspend{" "}
-            </Text>
+            <Text size={14}>Suspend </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -881,10 +907,10 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
 
-          <Show when={props.auditLog.actionType === AuditLogType.userSuspendUpdate}>
-            <Text size={14} >
-              Updated Suspension for {" "}
-            </Text>
+          <Show
+            when={props.auditLog.actionType === AuditLogType.userSuspendUpdate}
+          >
+            <Text size={14}>Updated Suspension for </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -894,12 +920,9 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
               </A>
             </Text>
           </Show>
-
 
           <Show when={props.auditLog.actionType === AuditLogType.postDelete}>
-            <Text size={14} >
-              Post From{" "}
-            </Text>
+            <Text size={14}>Post From </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -908,16 +931,11 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
                 {props.auditLog.username}
               </A>
             </Text>
-            <Text size={14} >
-              Was Deleted{" "}
-            </Text>
+            <Text size={14}>Was Deleted </Text>
           </Show>
 
-
           <Show when={props.auditLog.actionType === AuditLogType.userUnsuspend}>
-            <Text size={14} >
-              Unsuspend{" "}
-            </Text>
+            <Text size={14}>Unsuspend </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -929,9 +947,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.userUpdate}>
-            <Text size={14}>
-              Updated{" "}
-            </Text>
+            <Text size={14}>Updated </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -943,16 +959,12 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.serverDelete}>
-            <Text size={14}>
-              Deleted{" "}
-            </Text>
+            <Text size={14}>Deleted </Text>
             <Text size={14}>{props.auditLog.serverName}</Text>
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.serverUpdate}>
-            <Text size={14}>
-              Updated{" "}
-            </Text>
+            <Text size={14}>Updated </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -963,9 +975,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
 
-          <Text size={14}>
-            By{" "}
-          </Text>
+          <Text size={14}>By </Text>
           <Text size={14}>
             <A class={linkStyle} href={`/app/moderation/users/${by.id}`}>
               {by.username}:{by.tag}
@@ -975,44 +985,44 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
 
         <FlexRow gap={3}>
           <Text size={12} opacity={0.6}>
-              At:{" "}
+            At:{" "}
           </Text>
-          <Text size={12}>
-            {created}
-          </Text>
+          <Text size={12}>{created}</Text>
         </FlexRow>
 
         <Show when={expanded()}>
           <Show when={props.auditLog.reason}>
             <FlexRow gap={3}>
-              <Text size={12} opacity={0.6} >
-              Reason:{" "}
+              <Text size={12} opacity={0.6}>
+                Reason:{" "}
               </Text>
-              <Text size={12} style={{"white-space": "initial"}}>{props.auditLog.reason}</Text>
+              <Text size={12} style={{ "white-space": "initial" }}>
+                {props.auditLog.reason}
+              </Text>
             </FlexRow>
           </Show>
           <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
             <FlexRow gap={3}>
               <Text size={12} opacity={0.6}>
-              Expires{" "}
+                Expires{" "}
               </Text>
               <Text size={12}>{expireAt}</Text>
             </FlexRow>
           </Show>
         </Show>
-        
       </ItemDetailContainer>
       <Show when={isExpandable()}>
-        <Button padding={4} margin={[0,6,0,0]} styles={{"margin-left": "auto", "align-self": "start"}} iconName="arrow_drop_down" onClick={() => setExpanded(!expanded())}/>
+        <Button
+          padding={4}
+          margin={[0, 6, 0, 0]}
+          styles={{ "margin-left": "auto", "align-self": "start" }}
+          iconName="arrow_drop_down"
+          onClick={() => setExpanded(!expanded())}
+        />
       </Show>
     </div>
   );
 }
-
-
-
-
-
 
 function PostsPane() {
   const LIMIT = 30;
@@ -1022,22 +1032,21 @@ function PostsPane() {
   const [search, setSearch] = createSignal("");
   let pageContainerEl: HTMLDivElement | undefined;
 
-  const [searchParams, setSearchParams] = useSearchParams<{"search-post-id": string}>();
-
+  const [searchParams, setSearchParams] = useSearchParams<{
+    "search-post-id": string;
+  }>();
 
   onMount(() => {
     if (searchParams["search-post-id"]) {
       setSearch(searchParams["search-post-id"]);
-      setSearchParams({ "search-post-id": undefined! }, {replace: true});
+      setSearchParams({ "search-post-id": undefined! }, { replace: true });
       const el = document.querySelector(".main-pane-container")!;
 
       setTimeout(() => {
         el.scrollTo(0, el.scrollHeight);
       }, 100);
-
     }
   });
-
 
   const [showAll, setShowAll] = createSignal(false);
 
@@ -1109,7 +1118,7 @@ function PostsPane() {
         value={search()}
       />
 
-      <FlexRow gap={5} itemsCenter style={{"padding-left": "10px"}}>
+      <FlexRow gap={5} itemsCenter style={{ "padding-left": "10px" }}>
         <Button
           iconName="add"
           iconSize={14}
@@ -1135,20 +1144,28 @@ function PostsPane() {
   );
 }
 
-
-export function Post(props: { post: RawPost, onDelete?: (postId: string) => void }) {
+export function Post(props: {
+  post: RawPost;
+  onDelete?: (postId: string) => void;
+}) {
   const created = formatTimestamp(props.post.createdAt);
   const createdBy = props.post.createdBy;
   const [hovered, setHovered] = createSignal(false);
-  const [searchParams, setSearchParams] = useSearchParams<{ postId?: string }>();
-  const {createPortal} = useCustomPortal();
+  const [searchParams, setSearchParams] = useSearchParams<{
+    postId?: string;
+  }>();
+  const { createPortal } = useCustomPortal();
 
   const onPostDeleteClick = (e: MouseEvent) => {
     e.stopPropagation();
-    createPortal(close => <DeletePostsModal close={close} postIds={[props.post.id]} done={() => props.onDelete?.(props.post.id)}/>);
-    
+    createPortal((close) => (
+      <DeletePostsModal
+        close={close}
+        postIds={[props.post.id]}
+        done={() => props.onDelete?.(props.post.id)}
+      />
+    ));
   };
-
 
   return (
     <div
@@ -1167,10 +1184,15 @@ export function Post(props: { post: RawPost, onDelete?: (postId: string) => void
         size={28}
       />
       <ItemDetailContainer class="details">
-        <Show when={props.post.attachments?.length}><Icon style={{"vertical-align": "-2px", "margin-right": "4px"}} size={14} name="image" color="rgba(255,255,255,0.6)" /></Show>
-        <Text size={14}>
-          {props.post.content}
-        </Text>
+        <Show when={props.post.attachments?.length}>
+          <Icon
+            style={{ "vertical-align": "-2px", "margin-right": "4px" }}
+            size={14}
+            name="image"
+            color="rgba(255,255,255,0.6)"
+          />
+        </Show>
+        <Text size={14}>{props.post.content}</Text>
         <FlexRow gap={3}>
           <Text size={12} opacity={0.6}>
             Created:
@@ -1182,10 +1204,7 @@ export function Post(props: { post: RawPost, onDelete?: (postId: string) => void
             Created By:
           </Text>
           <Text size={12}>
-            <A
-              class={linkStyle}
-              href={`/app/moderation/users/${createdBy.id}`}
-            >
+            <A class={linkStyle} href={`/app/moderation/users/${createdBy.id}`}>
               {createdBy.username}:{createdBy.tag}
             </A>
           </Text>
@@ -1201,15 +1220,20 @@ export function Post(props: { post: RawPost, onDelete?: (postId: string) => void
                 class={linkStyle}
                 href={`/app/moderation/users/${props.post.commentTo?.createdBy.id}`}
               >
-                {props.post.commentTo?.createdBy.username}:{props.post.commentTo?.createdBy.tag}
+                {props.post.commentTo?.createdBy.username}:
+                {props.post.commentTo?.createdBy.tag}
               </A>
             </Text>
           </FlexRow>
         </Show>
-
       </ItemDetailContainer>
 
-      <Button onClick={onPostDeleteClick} styles={{"margin-left": "auto", "align-self": "start"}} iconName="delete" color="var(--alert-color)" />
+      <Button
+        onClick={onPostDeleteClick}
+        styles={{ "margin-left": "auto", "align-self": "start" }}
+        iconName="delete"
+        color="var(--alert-color)"
+      />
     </div>
   );
 }

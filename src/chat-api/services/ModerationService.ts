@@ -1,10 +1,14 @@
-
 import env from "../../common/env";
-import { RawApplication, RawFriend, RawServer, RawTicket, RawUser, TicketStatus } from "../RawData";
+import {
+  RawApplication,
+  RawFriend,
+  RawServer,
+  RawTicket,
+  RawUser,
+  TicketStatus,
+} from "../RawData";
 import { request } from "./Request";
 import Endpoints from "./ServiceEndpoints";
-
-
 
 interface GetTicketsOpts {
   limit: number;
@@ -16,12 +20,12 @@ export const getModerationTickets = async (opts: GetTicketsOpts) => {
   const data = await request<RawTicket[]>({
     method: "GET",
     params: {
-      ...(opts.afterId ? {after: opts.afterId} : undefined),
-      ...(opts.status !== undefined ? {status: opts.status} : undefined),
-      limit: opts.limit
+      ...(opts.afterId ? { after: opts.afterId } : undefined),
+      ...(opts.status !== undefined ? { status: opts.status } : undefined),
+      limit: opts.limit,
     },
     url: env.SERVER_URL + "/api/moderation/tickets",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
@@ -29,32 +33,33 @@ export const getModerationTicket = async (id: string) => {
   const data = await request<RawTicket>({
     method: "GET",
     url: env.SERVER_URL + `/api/moderation/tickets/${id}`,
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-
-export const updateModerationTicket = async (id: string, status: TicketStatus) => {
+export const updateModerationTicket = async (
+  id: string,
+  status: TicketStatus
+) => {
   const data = await request<RawTicket>({
     method: "POST",
     url: env.SERVER_URL + `/api/moderation/tickets/${id}`,
-    body: {status},
-    useToken: true
+    body: { status },
+    useToken: true,
   });
   return data;
 };
-
 
 export const getServers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + "/api/moderation/servers",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
@@ -62,83 +67,95 @@ export const getPosts = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + "/api/moderation/posts",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const searchPosts = async (query: string, limit: number, afterId?: string) => {
+export const searchPosts = async (
+  query: string,
+  limit: number,
+  afterId?: string
+) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
       q: query,
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + "/api/moderation/posts/search",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-
-export const deletePosts = async (confirmPassword: string, postIds: string[]) => {
+export const deletePosts = async (
+  confirmPassword: string,
+  postIds: string[]
+) => {
   const data = await request<any[]>({
     method: "POST",
     body: {
       postIds,
-      password: confirmPassword
+      password: confirmPassword,
     },
     url: env.SERVER_URL + "/api/moderation/posts/delete",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
-
 
 export const getUsers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + "/api/moderation/users",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
-export const getUsersWithSameIPAddress = async (userId: string, limit: number, afterId?: string) => {
+export const getUsersWithSameIPAddress = async (
+  userId: string,
+  limit: number,
+  afterId?: string
+) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + `/api/moderation/users/${userId}/users-with-same-ip`,
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const searchUsers = async (query: string, limit: number, afterId?: string) => {
+export const searchUsers = async (
+  query: string,
+  limit: number,
+  afterId?: string
+) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
       q: query,
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + "/api/moderation/users/search",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
-
 
 export const AuditLogType = {
   userSuspend: 0,
@@ -148,7 +165,8 @@ export const AuditLogType = {
   serverUpdate: 4,
   postDelete: 5,
   userSuspendUpdate: 6,
-  userWarned: 7
+  userWarned: 7,
+  ipBan: 8,
 } as const;
 
 export interface AuditLog {
@@ -156,8 +174,8 @@ export interface AuditLog {
   createdAt: number;
 
   actionById: string;
-  actionBy: RawUser
-  actionType: typeof AuditLogType[keyof typeof AuditLogType];
+  actionBy: RawUser;
+  actionType: (typeof AuditLogType)[keyof typeof AuditLogType];
 
   serverName?: string;
   serverId?: string;
@@ -167,47 +185,54 @@ export interface AuditLog {
 
   userId?: string;
   username?: string;
-  
+
   ipAddress?: string;
   reason?: string;
-  expireAt?: number
+  expireAt?: number;
 }
 
 export const getAuditLog = async (limit: number, afterId?: string) => {
   const data = await request<AuditLog[]>({
     method: "GET",
     params: {
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + "/api/moderation/audit-logs",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const searchServers = async (query: string, limit: number, afterId?: string) => {
+export const searchServers = async (
+  query: string,
+  limit: number,
+  afterId?: string
+) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
       q: query,
-      ...(afterId ? {after: afterId} : undefined),
-      limit
+      ...(afterId ? { after: afterId } : undefined),
+      limit,
     },
     url: env.SERVER_URL + "/api/moderation/servers/search",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const deleteServer = async (serverId: string, confirmPassword: string) => {
+export const deleteServer = async (
+  serverId: string,
+  confirmPassword: string
+) => {
   const data = await request<any[]>({
     method: "DELETE",
     body: {
-      password: confirmPassword
+      password: confirmPassword,
     },
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
-    useToken: true
+    useToken: true,
   });
   return data;
 };
@@ -230,61 +255,75 @@ export const suspendUsers = async (opts: SuspendUsersOpts) => {
       reason: opts.reason,
       ipBan: opts.ipBan,
       password: opts.confirmPassword,
-      deleteRecentMessages: opts.deleteRecentMessages
+      deleteRecentMessages: opts.deleteRecentMessages,
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const warnUsers = async (confirmPassword: string, userIds: string[], reason?: string) => {
+export const warnUsers = async (
+  confirmPassword: string,
+  userIds: string[],
+  reason?: string
+) => {
   const data = await request<any[]>({
     method: "POST",
     body: {
       userIds,
       reason,
-      password: confirmPassword
+      password: confirmPassword,
     },
     url: env.SERVER_URL + "/api/moderation/users/warn",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const editSuspendUsers = async (confirmPassword: string, userIds: string[], update: {days?: number, reason?: string}) => {
+export const editSuspendUsers = async (
+  confirmPassword: string,
+  userIds: string[],
+  update: { days?: number; reason?: string }
+) => {
   const data = await request<any[]>({
     method: "PATCH",
     body: {
       userIds,
       ...update,
-      password: confirmPassword
+      password: confirmPassword,
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const unsuspendUsers = async (confirmPassword: string, userIds: string[]) => {
+export const unsuspendUsers = async (
+  confirmPassword: string,
+  userIds: string[]
+) => {
   const data = await request<any[]>({
     method: "DELETE",
     body: {
       userIds,
-      password: confirmPassword
+      password: confirmPassword,
     },
     url: env.SERVER_URL + "/api/moderation/users/suspend",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-export const updateServer = async (serverId: string, update: {name?: string, verified?: boolean, password?: string}) => {
+export const updateServer = async (
+  serverId: string,
+  update: { name?: string; verified?: boolean; password?: string }
+) => {
   const data = await request<any[]>({
     method: "POST",
     body: update,
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
-    useToken: true
+    useToken: true,
   });
   return data;
 };
@@ -293,42 +332,48 @@ export const getServer = async (serverId: string) => {
   const data = await request<any[]>({
     method: "GET",
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
-    useToken: true
+    useToken: true,
   });
   return data;
 };
-
 
 export const getOnlineUsers = async () => {
   const data = await request<ModerationUser[]>({
     method: "GET",
     url: env.SERVER_URL + "/api/moderation/online-users",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
-
-export type  ModerationUser = RawUser & {
-  account?: {email: string; emailConfirmed?: boolean, warnCount?: number, warnExpiresAt?: number},
-  application?: RawApplication
-  suspension?: ModerationSuspension
-  servers?: RawServer[]
-}
+export type ModerationUser = RawUser & {
+  account?: {
+    email: string;
+    emailConfirmed?: boolean;
+    warnCount?: number;
+    warnExpiresAt?: number;
+  };
+  application?: RawApplication;
+  suspension?: ModerationSuspension;
+  servers?: RawServer[];
+};
 
 export interface ModerationSuspension {
-  expireAt?: number | null
-  reason?: string
-  suspendedAt: number
-  suspendBy: RawUser
+  expireAt?: number | null;
+  reason?: string;
+  suspendedAt: number;
+  suspendBy: RawUser;
 }
 
-export const updateUser = async (userId: string, update: {email?: string, username?: string, tag?: string}) => {
+export const updateUser = async (
+  userId: string,
+  update: { email?: string; username?: string; tag?: string }
+) => {
   const data = await request<any[]>({
     method: "POST",
     body: update,
     url: env.SERVER_URL + `/api/moderation/users/${userId}`,
-    useToken: true
+    useToken: true,
   });
   return data;
 };
@@ -337,24 +382,24 @@ export const getUser = async (userId: string) => {
   const data = await request<ModerationUser>({
     method: "GET",
     url: env.SERVER_URL + `/api/moderation/users/${userId}`,
-    useToken: true
+    useToken: true,
   });
   return data;
 };
 
 export interface ModerationStats {
-  totalRegisteredUsers: number,
-  weeklyRegisteredUsers: number,
-  totalCreatedServers: number,
-  totalCreatedMessages: number,
-  weeklyCreatedMessages: number,
+  totalRegisteredUsers: number;
+  weeklyRegisteredUsers: number;
+  totalCreatedServers: number;
+  totalCreatedMessages: number;
+  weeklyCreatedMessages: number;
 }
 
 export const getStats = async () => {
   const data = await request<ModerationStats>({
     method: "GET",
     url: env.SERVER_URL + "/api/moderation/stats",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
