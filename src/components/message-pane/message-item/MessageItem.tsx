@@ -1244,6 +1244,14 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
     return attributes;
   };
 
+  const replaceEscaped = (str: string) => {
+    return str
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&gt;", ">")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&#039;", "'");
+  };
   return (
     <For each={props.items}>
       {(item) => (
@@ -1264,7 +1272,9 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
                     }
                   >
                     <Match when={typeof content === "string"}>
-                      <Markup text={content as string} />
+                      <Markup
+                        text={replaceEscaped(content as string) as string}
+                      />
                     </Match>
                     <Match when={(content as HtmlEmbedItem).tag === "style"}>
                       <></>
@@ -1276,7 +1286,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
           }
         >
           <Match when={typeof item === "string"}>
-            <Markup text={item as string} />
+            <Markup text={replaceEscaped(item as string)} />
           </Match>
           <Match when={(item as HtmlEmbedItem).tag === "style"}>
             <></>
