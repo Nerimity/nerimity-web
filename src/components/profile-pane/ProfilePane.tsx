@@ -216,7 +216,7 @@ export default function ProfilePane() {
                   user={user()!}
                   size={width() <= 500 ? 92 : 110}
                 />
-                <Show when={!isMe() && !isMobileWidth()}>
+                <Show when={!isMobileWidth()}>
                   <ActionButtons
                     class={css`
                       background-color: ${bgColor()};
@@ -288,7 +288,7 @@ export default function ProfilePane() {
               </div>
             </FlexColumn>
           </div>
-          <Show when={!isMe() && isMobileWidth()}>
+          <Show when={isMobileWidth()}>
             <div
               style={{
                 margin: "4px",
@@ -335,6 +335,7 @@ const ActionButtons = (props: {
   const showProfileContext = (event: MouseEvent) => {
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
+  const isMe = () => account.user()?.id === params.userId;
 
   const friend = () => friends.get(params.userId);
 
@@ -399,7 +400,7 @@ const ActionButtons = (props: {
         </CustomLink>
       </Show>
 
-      {!isFollowing() && !isBlocked() && (
+      {!isFollowing() && !isBlocked() && !isMe() && (
         <ActionButton
           icon="add_circle"
           label={t("profile.followButton")}
@@ -423,7 +424,7 @@ const ActionButtons = (props: {
           onClick={removeClicked}
         />
       )}
-      {showAddFriend() && (
+      {showAddFriend() && !isMe() && (
         <ActionButton
           icon="group_add"
           label={t("profile.addFriendButton")}
@@ -456,9 +457,10 @@ const ActionButtons = (props: {
           onClick={unblockClicked}
         />
       </Show>
+
       <ActionButton
-        icon="mail"
-        label={t("profile.messageButton")}
+        icon={isMe() ? "note_alt" : "mail"}
+        label={isMe() ? "Saved Notes" : t("profile.messageButton")}
         color={props.primaryColor || "var(--primary-color)"}
         onClick={onMessageClicked}
       />
@@ -485,43 +487,55 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
   const friend = () => friends.get(params.userId);
 
   const isBlocked = () => friend()?.status === FriendStatus.BLOCKED;
+  const isMe = () => account.user()?.id === params.userId;
 
   const items = () => {
     const items: ContextMenuItem[] = [
       {
         id: "message",
-        label: "Message",
-        icon: "mail",
+        label: isMe() ? "Saved Notes" : "Message",
+        icon: isMe() ? "note_alt" : "mail",
         onClick: onMessageClicked,
       },
-      { separator: true },
     ];
 
     if (isBlocked()) {
-      items.push({
-        label: "Unblock",
-        icon: "block",
-        alert: true,
-        onClick: unblockClicked,
-      });
+      items.push(
+        { separator: true },
+        {
+          label: "Unblock",
+          icon: "block",
+          alert: true,
+          onClick: unblockClicked,
+        }
+      );
     } else {
-      items.push({
-        label: "Block",
-        icon: "block",
-        alert: true,
-        onClick: blockClicked,
-      });
+      if (!isMe()) {
+        items.push({
+          label: "Block",
+          icon: "block",
+          alert: true,
+          onClick: blockClicked,
+        });
+      }
     }
 
-    items.push({
-      id: "report",
-      label: "Report",
-      icon: "flag",
-      alert: true,
-      onClick: reportClicked,
-    });
+    if (!isMe()) {
+      items.push({
+        id: "report",
+        label: "Report",
+        icon: "flag",
+        alert: true,
+        onClick: reportClicked,
+      });
+    }
     items.push(
       { separator: true },
+      {
+        label: "Copy Profile URL",
+        icon: "content_copy",
+        onClick: copyProfileClick,
+      },
       { label: "Copy ID", icon: "content_copy", onClick: copyIdClick }
     );
     return items;
@@ -550,6 +564,10 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
 
   const copyIdClick = () => {
     copyToClipboard(params.userId);
+  };
+  const copyProfileClick = () => {
+    console.log(`${env.APP_URL}/app/profile/${params.userId}`);
+    copyToClipboard(`${env.APP_URL}/app/profile/${params.userId}`);
   };
 
   return <ContextMenu {...props} items={items()} />;
