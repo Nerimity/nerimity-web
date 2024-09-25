@@ -280,11 +280,11 @@
   },
   "posts": {
     "deletePostModal": {
-      "message": "Are you sure you would like to delete this post?",
+      "message": "are you sure you w-wouwd wike to dewete this post?",
       "cancelButton": "Cancel",
-      "deleteButton": "delete"
+      "deleteButton": "dewete"
     },
-    "postWasDeleted": "This post was deleted!",
+    "postWasDeleted": "This post was deweted!",
     "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
     "someoneFollowedYou": "<1>{{username}}</1> followed you!",
     "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
@@ -297,7 +297,7 @@
   },
   "informationDrawer": {
     "title": "Information",
-    "channelNotice": "Channel Notice",
+    "channelNotice": "channew notice",
     "attachments": "Attachments",
     "attachmentsBack": "Back",
     "members": "Members"
