@@ -1192,9 +1192,10 @@ function HTMLEmbed(props: { message: RawMessage }) {
         }
       />
       <Show when={styleItem()}>
+        {/* @scope (.htmlEmbed${id}) { */}
         <style>
           {`
-            @scope (.htmlEmbed${id}) {
+            .htmlEmbed${id} {
               ${replaceImageUrl(styleItem()!, hasFocus())}
             }
           `}
