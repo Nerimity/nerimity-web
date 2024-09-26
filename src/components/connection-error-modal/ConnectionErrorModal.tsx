@@ -100,6 +100,11 @@ function SuspendMessage(props: {
       <div class={styles.message}>
         By: <span class={styles.messageDim}>{props.by?.username}</span>
       </div>
+      <Show when={!props.expire}>
+        <div class={styles.notice}>
+          Your account and data will be deleted in 15 days
+        </div>
+      </Show>
     </div>
   );
 }
@@ -110,6 +115,10 @@ function IPBanMessage(props: { reason?: string; expire?: number }) {
       <div class={styles.message}>
         Until:{" "}
         <span class={styles.messageDim}>{formatTimestamp(props.expire!)}</span>
+        <div class={styles.notice}>
+          Someone with the same IP has been suspended from Nerimity. Your
+          account is not affected.
+        </div>
       </div>
     </>
   );
