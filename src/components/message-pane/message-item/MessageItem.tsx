@@ -453,15 +453,25 @@ const Content = (props: { message: Message; hovered: boolean }) => {
 
 const UploadAttachment = (props: { message: Message }) => {
   const attachment = () => props.message.uploadingAttachment!;
+
   return (
     <div class={styles.uploadProgress}>
-      <div class={styles.name}>{attachment().file.name}</div>
-      <div class={styles.size}>{prettyBytes(attachment().file.size, 0)}</div>
-      <Show when={attachment().speed}>
-        <div class={styles.speed}>
-          {attachment().progress}% {attachment().speed}
+      <div class={styles.attachmentDetails}>
+        <Icon name="publish" size={38} color="var(--primary-color)" />
+        <div class={styles.attachmentDetailsInner}>
+          <div class={styles.name}>{attachment().file.name}</div>
+          <div class={styles.otherDetails}>
+            <div class={styles.size}>
+              {prettyBytes(attachment().file.size, 0)}
+            </div>
+            <Show when={attachment().speed}>
+              <div class={styles.speed}>
+                {attachment().progress}% • {attachment().speed}
+              </div>
+            </Show>
+          </div>
         </div>
-      </Show>
+      </div>
 
       <div class={styles.progressBarContainer}>
         <div
