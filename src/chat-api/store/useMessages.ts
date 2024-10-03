@@ -18,6 +18,7 @@ import useChannels from "./useChannels";
 import { getGoogleAccessToken } from "../services/UserService";
 import { uploadFileGoogleDrive } from "@/common/driveAPI";
 import { batch } from "solid-js";
+import { uploadAttachment } from "../services/nerimityCDNService";
 
 const account = useAccount();
 
@@ -29,7 +30,7 @@ export enum MessageSentStatus {
 export type Message = RawMessage & {
   tempId?: string;
   sentStatus?: MessageSentStatus;
-  uploadingAttachment?: { file: File; progress: number };
+  uploadingAttachment?: { file: File; progress: number, speed?: string };
 };
 
 const [messages, setMessages] = createStore<
@@ -149,7 +150,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const channels = useChannels();
   const channelProperties = useChannelProperties();
   const properties = channelProperties.get(channelId);
-  const file = properties?.attachment;
+  const file = properties?.attachment?.file;
   const tempMessageId = `${Date.now()}-${Math.random()}`;
   const channel = channels.get(channelId);
 
@@ -179,7 +180,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     type: MessageType.CONTENT,
     ...(!properties?.attachment
       ? undefined
-      : { uploadingAttachment: { file: properties.attachment, progress: 0 } }),
+      : { uploadingAttachment: { file: properties.attachment.file, progress: 0 } }),
     reactions: [],
     quotedMessages: [],
     replyMessages:
@@ -201,7 +202,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       [channelId]: sliceBeginning([...messages[channelId]!, localMessage]),
     });
 
-  const onUploadProgress = (percent: number) => {
+  const onUploadProgress = (percent: number, speed: string) => {
     const messageIndex = messages[channelId]!.findIndex(
       (m) => m.tempId === tempMessageId
     );
@@ -210,15 +211,18 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       channelId,
       messageIndex,
       "uploadingAttachment",
-      "progress",
-      percent
+      {
+        progress: percent,
+        speed
+      }
     );
   };
 
-  const isImage = properties?.attachment?.type?.startsWith("image/");
-  const isMoreThan12MB =
-    properties?.attachment && properties.attachment.size > 12 * 1024 * 1024;
-  const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
+  const isImage = properties?.attachment?.file.type?.startsWith("image/");
+  const isMoreThan12MB = file && file.size > 12 * 1024 * 1024;
+
+  const shouldUploadToGoogleDrive = properties?.attachment?.uploadTo === "google_drive";
+  const shouldUploadToNerimityCdn = properties?.attachment?.uploadTo === "nerimity_cdn";
 
   let googleDriveFileId: string | undefined;
   if (file && shouldUploadToGoogleDrive) {
@@ -231,29 +235,14 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       );
       googleDriveFileId = res.id;
     } catch (err: any) {
-      pushMessage(channelId, {
-        channelId: channelId,
-        createdAt: Date.now(),
-        createdBy: {
-          username: "Nerimity",
-          tag: "owo",
-          badges: 0,
-          hexColor: "0",
-          id: "0",
-        },
-        reactions: [],
-        quotedMessages: [],
-        id: Math.random().toString(),
-        type: MessageType.CONTENT,
-        content:
-          "Failed to upload file to Google Drive. ```Error\n" +
-          err.message +
-          "\nbody: " +
-          content +
-          "\nFilename: " +
-          file.name +
-          "```",
-      });
+      pushFailedMessage(channelId,
+        "Failed to upload file to Google Drive. ```Error\n" +
+        err.message +
+        "\nbody: " +
+        content +
+        "\nFilename: " +
+        file.name +
+        "```");
       const index = messages[channelId]?.findIndex(
         (m) => m.tempId === tempMessageId
       );
@@ -267,6 +256,11 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
 
   channelProperties.removeReplies(channelId);
 
+  if (shouldUploadToNerimityCdn && file) {
+    const data = await uploadAttachment(channelId, { file, onUploadProgress });
+    console.log(data)
+  }
+
   const message: void | Message = await postMessage({
     content,
     silent: isSilent,
@@ -274,7 +268,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     socketId: socketClient.id(),
     replyToMessageIds,
     mentionReplies,
-    attachment: !shouldUploadToGoogleDrive ? properties?.attachment : undefined,
+    attachment: !shouldUploadToGoogleDrive ? properties?.attachment?.file : undefined,
     googleDriveAttachment: googleDriveFileId
       ? { id: googleDriveFileId, mime: file?.type! }
       : undefined,
@@ -290,27 +284,13 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
         });
       }
     }
-    pushMessage(channelId, {
-      channelId: channelId,
-      createdAt: Date.now(),
-      createdBy: {
-        username: "Nerimity",
-        tag: "owo",
-        badges: 0,
-        hexColor: "0",
-        id: "0",
-      },
-      reactions: [],
-      quotedMessages: [],
-      id: Math.random().toString(),
-      type: MessageType.CONTENT,
-      content:
-        "This message couldn't be sent. Try again later. ```Error\n" +
-        err.message +
-        "\nbody: " +
-        content +
-        "```",
-    });
+    pushFailedMessage(channelId,
+      "This message couldn't be sent. Try again later. ```Error\n" +
+      err.message +
+      "\nbody: " +
+      content +
+      "```"
+    )
   });
 
   if (message && channel?.slowModeSeconds) {
@@ -346,6 +326,25 @@ const pushMessage = (channelId: string, message: Message) => {
       [channelId]: sliceBeginning([...messages[channelId]!, message]),
     });
 };
+
+const pushFailedMessage = (channelId: string, content: string) => {
+  pushMessage(channelId, {
+    channelId: channelId,
+    createdAt: Date.now(),
+    createdBy: {
+      username: "Nerimity",
+      tag: "owo",
+      badges: 0,
+      hexColor: "0",
+      id: "0",
+    },
+    reactions: [],
+    quotedMessages: [],
+    id: Math.random().toString(),
+    type: MessageType.CONTENT,
+    content
+  });
+}
 
 const locallyRemoveMessage = (channelId: string, messageId: string) => {
   const channelMessages = messages[channelId];

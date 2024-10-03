@@ -432,6 +432,12 @@ body .reactionItem {
   }
   .size {
     opacity: 0.5;
+    font-size: 14px;
+  }
+  .speed {
+    opacity: 0.5;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
   }
   .progressBarContainer {
     overflow: hidden;

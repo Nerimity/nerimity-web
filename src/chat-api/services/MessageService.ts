@@ -1,5 +1,6 @@
 import env from "../../common/env";
 import { RawAttachment, RawMessage, RawUser } from "../RawData";
+import { uploadAttachment } from "./nerimityCDNService";
 import { request, xhrRequest } from "./Request";
 import Endpoints from "./ServiceEndpoints";
 
@@ -70,9 +71,9 @@ export const postMessage = async (opts: PostMessageOpts) => {
 
     ...(opts.replyToMessageIds?.length
       ? {
-          replyToMessageIds: opts.replyToMessageIds,
-          mentionReplies: opts.mentionReplies,
-        }
+        replyToMessageIds: opts.replyToMessageIds,
+        mentionReplies: opts.mentionReplies,
+      }
       : {}),
 
     ...(opts.googleDriveAttachment
@@ -81,35 +82,13 @@ export const postMessage = async (opts: PostMessageOpts) => {
     ...(opts.socketId ? { socketId: opts.socketId } : {}),
   };
 
-  if (opts.attachment) {
-    const fd = new FormData();
-    opts.content && fd.append("content", opts.content);
-    if (opts.socketId) {
-      fd.append("socketId", opts.socketId);
-    }
+  // if (opts.attachment) {
 
-    if (opts.replyToMessageIds?.length) {
-      fd.append("replyToMessageIds", JSON.stringify(opts.replyToMessageIds));
-      fd.append("mentionReplies", String(opts.mentionReplies));
-    }
-    if (opts.silent) {
-      fd.append("silent", String(opts.silent));
-    }
-    fd.append("attachment", opts.attachment);
-    body = fd;
+  //   const data = await uploadAttachment(opts.channelId, { file: opts.attachment, onUploadProgress: opts.onUploadProgress });
 
-    const data = await xhrRequest<RawMessage>(
-      {
-        method: "POST",
-        url: env.SERVER_URL + "/api" + Endpoints.messages(opts.channelId),
-        useToken: true,
-        body,
-      },
-      opts.onUploadProgress
-    );
+  //   console.log(data);
 
-    return data;
-  }
+  // }
 
   const data = await request<RawMessage>({
     method: "POST",
@@ -119,7 +98,6 @@ export const postMessage = async (opts: PostMessageOpts) => {
   });
   return data;
 };
-
 interface UpdateMessageOpts {
   content: string;
   channelId: string;

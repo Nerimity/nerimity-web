@@ -457,6 +457,12 @@ const UploadAttachment = (props: { message: Message }) => {
     <div class={styles.uploadProgress}>
       <div class={styles.name}>{attachment().file.name}</div>
       <div class={styles.size}>{prettyBytes(attachment().file.size, 0)}</div>
+      <Show when={attachment().speed}>
+        <div class={styles.speed}>
+          {attachment().progress}% {attachment().speed}
+        </div>
+      </Show>
+
       <div class={styles.progressBarContainer}>
         <div
           class={styles.currentProgress}
