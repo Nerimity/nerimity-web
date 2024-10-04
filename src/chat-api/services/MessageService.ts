@@ -52,10 +52,10 @@ interface PostMessageOpts {
   content?: string;
   channelId: string;
   socketId?: string;
-  attachment?: File;
   replyToMessageIds?: string[];
   mentionReplies?: boolean;
   silent?: boolean;
+  nerimityCdnFileId?: string;
   googleDriveAttachment?: {
     id: string;
     mime: string;
@@ -76,19 +76,15 @@ export const postMessage = async (opts: PostMessageOpts) => {
       }
       : {}),
 
+    ...(opts.nerimityCdnFileId ? { nerimityCdnFileId: opts.nerimityCdnFileId } : {}),
+
     ...(opts.googleDriveAttachment
       ? { googleDriveAttachment: opts.googleDriveAttachment }
       : {}),
     ...(opts.socketId ? { socketId: opts.socketId } : {}),
   };
 
-  // if (opts.attachment) {
 
-  //   const data = await uploadAttachment(opts.channelId, { file: opts.attachment, onUploadProgress: opts.onUploadProgress });
-
-  //   console.log(data);
-
-  // }
 
   const data = await request<RawMessage>({
     method: "POST",

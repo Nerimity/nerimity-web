@@ -202,7 +202,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       [channelId]: sliceBeginning([...messages[channelId]!, localMessage]),
     });
 
-  const onUploadProgress = (percent: number, speed: string) => {
+  const onUploadProgress = (percent: number, speed?: string) => {
     const messageIndex = messages[channelId]!.findIndex(
       (m) => m.tempId === tempMessageId
     );
@@ -256,9 +256,27 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
 
   channelProperties.removeReplies(channelId);
 
+  let nerimityCdnFileId: string | undefined;
   if (shouldUploadToNerimityCdn && file) {
-    const data = await uploadAttachment(channelId, { file, onUploadProgress });
-    console.log(data)
+    const data = await uploadAttachment(channelId, { file, onUploadProgress }).catch((err) => {
+      pushFailedMessage(channelId,
+        "Failed to upload file. ```Error\n" +
+        err.message +
+        "\nbody: " +
+        content +
+        "\nFilename: " +
+        file.name +
+        "```");
+      const index = messages[channelId]?.findIndex(
+        (m) => m.tempId === tempMessageId
+      );
+      setMessages(channelId, index!, "sentStatus", MessageSentStatus.FAILED);
+      return;
+    })
+    if (!data) {
+      return;
+    }
+    nerimityCdnFileId = data.fileId;
   }
 
   const message: void | Message = await postMessage({
@@ -268,7 +286,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     socketId: socketClient.id(),
     replyToMessageIds,
     mentionReplies,
-    attachment: !shouldUploadToGoogleDrive ? properties?.attachment?.file : undefined,
+    nerimityCdnFileId,
     googleDriveAttachment: googleDriveFileId
       ? { id: googleDriveFileId, mime: file?.type! }
       : undefined,

@@ -9,6 +9,7 @@ import {
   getModerationTicket,
   updateModerationTicket,
 } from "@/chat-api/services/ModerationService";
+import { uploadAttachment } from "@/chat-api/services/nerimityCDNService";
 import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
@@ -250,9 +251,22 @@ const MessageInputArea = (props: {
     setAttachment(undefined);
     setValue("");
     if (!formattedValue) return;
+
+    let fileId;
+    if (file) {
+      const uploadRes = await uploadAttachment(props.channelId, {
+        file,
+      }).catch((err) => {
+        alert(err.message);
+      });
+      if (!uploadRes) return;
+
+      fileId = uploadRes.fileId;
+    }
+
     const message = await postMessage({
       content: formattedValue,
-      attachment: file,
+      nerimityCdnFileId: fileId,
       channelId: props.channelId,
     }).catch((err) => {
       alert(err.message);
