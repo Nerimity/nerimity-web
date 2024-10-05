@@ -13,9 +13,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  optimizeDeps: {
-    include: ["@codemirror/state", "@codemirror/view"],
-  },
   plugins: [solidPlugin()],
   css: {
     postcss: {
@@ -28,7 +25,13 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 3000,
+    port: 80,
     open: true,
+    proxy: {
+      "/cdn": {
+        target: "http://localhost:8003",
+        rewrite: (path) => path.replace(/^\/cdn/,""),
+      },
+    },
   },
 });
