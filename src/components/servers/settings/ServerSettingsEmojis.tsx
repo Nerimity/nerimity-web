@@ -1,6 +1,11 @@
-
 import { RawUser } from "@/chat-api/RawData";
-import { addServerEmoji, deleteServerEmoji, getServerEmojis, RawCustomEmojiWithCreator, updateServerEmoji } from "@/chat-api/services/ServerService";
+import {
+  addServerEmoji,
+  deleteServerEmoji,
+  getServerEmojis,
+  RawCustomEmojiWithCreator,
+  updateServerEmoji,
+} from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import { classNames } from "@/common/classNames";
 import env from "@/common/env";
@@ -9,7 +14,7 @@ import { Emoji } from "@/components/markup/Emoji";
 import Avatar from "@/components/ui/Avatar";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
-import FileBrowser, { FileBrowserRef, getBase64 } from "@/components/ui/FileBrowser";
+import FileBrowser, { FileBrowserRef } from "@/components/ui/FileBrowser";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Input from "@/components/ui/input/Input";
 import { Notice } from "@/components/ui/Notice/Notice";
@@ -18,7 +23,15 @@ import Text from "@/components/ui/Text";
 import { useParams } from "solid-navigator";
 import { createSign } from "crypto";
 import { t } from "i18next";
-import { createEffect, createSignal, For, Match, onMount, Show, Switch } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  For,
+  Match,
+  onMount,
+  Show,
+  Switch,
+} from "solid-js";
 import { css, styled } from "solid-styled-components";
 
 const Container = styled("div")`
@@ -34,7 +47,9 @@ const ListContainer = styled(FlexColumn)`
 export default function ServerSettingsBans() {
   const params = useParams<{ serverId: string }>();
   const { servers, header, account } = useStore();
-  const [fileBrowser, setFileBrowser] = createSignal<FileBrowserRef | undefined>(undefined);
+  const [fileBrowser, setFileBrowser] = createSignal<
+    FileBrowserRef | undefined
+  >(undefined);
 
   const [emojis, setEmojis] = createSignal<RawCustomEmojiWithCreator[]>([]);
 
@@ -42,34 +57,35 @@ export default function ServerSettingsBans() {
     header.updateHeader({
       title: "Settings - Emojis",
       serverId: params.serverId!,
-      iconName: "settings"
+      iconName: "settings",
     });
   });
 
   const server = () => servers.get(params.serverId);
 
-  
   const onFilePick = async (files: FileList) => {
-    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
 
-    const promiseFuncs = Array.from(files).map( file => {
-
+    const promiseFuncs = Array.from(files).map((file) => {
       return async () => {
-        const base64Image = await getBase64(file);
         const name = file.name.split(".")[0];
         if (!name) return;
-        await addServerEmoji(params.serverId, name.substring(0, 15), base64Image!).then(newEmoji => {
-          setEmojis(() => [{ ...newEmoji, uploadedBy: account.user() as RawUser }, ...emojis()]);
-        });
+        await addServerEmoji(params.serverId, name.substring(0, 15), file).then(
+          (newEmoji) => {
+            setEmojis(() => [
+              { ...newEmoji, uploadedBy: account.user() as RawUser },
+              ...emojis(),
+            ]);
+          }
+        );
         await sleep(800);
       };
-      
     });
-    
+
     for (let index = 0; index < promiseFuncs.length; index++) {
       await promiseFuncs[index]?.();
     }
-
   };
 
   onMount(() => {
@@ -77,63 +93,87 @@ export default function ServerSettingsBans() {
   });
 
   const deleteEmoji = (emoji: RawCustomEmojiWithCreator) => {
-    setEmojis(emojis().filter(e => e !== emoji));
+    setEmojis(emojis().filter((e) => e !== emoji));
   };
-
 
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem
+          href={RouterEndpoints.SERVER_MESSAGES(
+            params.serverId,
+            server()?.defaultChannelId!
+          )}
+          icon="home"
+          title={server()?.name}
+        />
         <BreadcrumbItem title={t("servers.settings.drawer.emojis")} />
       </Breadcrumb>
 
-
-      <Text size={24} style={{ "margin-bottom": "10px" }}>Emojis</Text>
-      <SettingsBlock icon="face" label="Custom Emojis" description="Add your own emojis!" class={css`&&{ border-bottom-left-radius: 0; border-bottom-right-radius: 0; margin-bottom: 1px;}`}>
-        <FileBrowser multiple accept="images" ref={setFileBrowser} onChange={onFilePick} />
+      <Text size={24} style={{ "margin-bottom": "10px" }}>
+        Emojis
+      </Text>
+      <SettingsBlock
+        icon="face"
+        label="Custom Emojis"
+        description="Add your own emojis!"
+        class={css`
+          && {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            margin-bottom: 1px;
+          }
+        `}
+      >
+        <FileBrowser
+          multiple
+          accept="images"
+          ref={setFileBrowser}
+          onChange={onFilePick}
+        />
         <Button label="Add Emojis" onClick={() => fileBrowser()?.open()} />
       </SettingsBlock>
-      <EmojiCountPane count={emojis().length} serverVerified={server()?.verified}/>
+      <EmojiCountPane
+        count={emojis().length}
+        serverVerified={server()?.verified}
+      />
       <Show when={emojis()?.length}>
         <For each={emojis()!}>
           {(emoji) => <EmojiItem emoji={emoji} onDelete={deleteEmoji(emoji)} />}
         </For>
       </Show>
-
-
     </Container>
   );
 }
 
-
 const EmojiCountPaneContainer = styled("div")`
   margin-bottom: 1px;
-  padding: 5px;  
+  padding: 5px;
   background: rgba(255, 255, 255, 0.06);
   padding-left: 10px;
 `;
 
-const EmojiCountPane = (props: {count: number, serverVerified?: boolean}) => {
-  const maxCount = () => props.serverVerified ? 200 : 80;
+const EmojiCountPane = (props: { count: number; serverVerified?: boolean }) => {
+  const maxCount = () => (props.serverVerified ? 200 : 80);
   return (
     <EmojiCountPaneContainer>
-      <Text size={13} opacity={0.6}>({props.count}/{maxCount()})</Text>
+      <Text size={13} opacity={0.6}>
+        ({props.count}/{maxCount()})
+      </Text>
     </EmojiCountPaneContainer>
   );
 };
-
 
 const EmojiItemContainer = styled(FlexRow)`
   align-items: center;
 
   margin-bottom: 2px;
-  padding: 10px;  
+  padding: 10px;
   background: rgba(255, 255, 255, 0.06);
-  
+
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  
+
   &:not(:last-child) {
     border-radius: 0;
     margin-bottom: 1px;
@@ -149,9 +189,10 @@ const EmojiInput = styled("input")`
   max-width: 110px;
 `;
 
-
-
-function EmojiItem(props: { emoji: RawCustomEmojiWithCreator, onDelete():void }) {
+function EmojiItem(props: {
+  emoji: RawCustomEmojiWithCreator;
+  onDelete(): void;
+}) {
   const [name, setName] = createSignal(props.emoji.name);
   const params = useParams<{ serverId: string }>();
 
@@ -169,21 +210,47 @@ function EmojiItem(props: { emoji: RawCustomEmojiWithCreator, onDelete():void })
     deleteServerEmoji(params.serverId, props.emoji.id).then(props.onDelete);
   };
 
-
-
   return (
     <EmojiItemContainer>
       <div class={classNames("markup", "largeEmoji")}>
-        <Emoji name={props.emoji.name} animated={props.emoji.gif} url={`${env.NERIMITY_CDN}emojis/${props.emoji.id}${props.emoji.gif ? ".gif" : ".webp"}`} />
+        <Emoji
+          name={props.emoji.name}
+          animated={props.emoji.gif}
+          url={`${env.NERIMITY_CDN}emojis/${props.emoji.id}${
+            props.emoji.gif ? ".gif" : ".webp"
+          }`}
+        />
       </div>
       <FlexColumn>
-        <EmojiInput onblur={onBlur} spellcheck="false" maxlength={15} value={name()} onInput={onInput} />
-        <FlexRow gap={5} style={{ "align-items": "center", "margin-left": "15px", "margin-top": "5px" }}>
+        <EmojiInput
+          onblur={onBlur}
+          spellcheck="false"
+          maxlength={15}
+          value={name()}
+          onInput={onInput}
+        />
+        <FlexRow
+          gap={5}
+          style={{
+            "align-items": "center",
+            "margin-left": "15px",
+            "margin-top": "5px",
+          }}
+        >
           <Avatar user={props.emoji.uploadedBy} size={15} />
           <Text size={13}>{props.emoji.uploadedBy.username}</Text>
         </FlexRow>
       </FlexColumn>
-      <Button class={css`margin-left: auto;`} onClick={deleteEmoji} padding={5} iconSize={16} color="var(--alert-color)" iconName="delete" />
+      <Button
+        class={css`
+          margin-left: auto;
+        `}
+        onClick={deleteEmoji}
+        padding={5}
+        iconSize={16}
+        color="var(--alert-color)"
+        iconName="delete"
+      />
     </EmojiItemContainer>
   );
 }

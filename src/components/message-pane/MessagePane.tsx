@@ -256,10 +256,8 @@ function MessageArea(props: {
   const sendMessage = () => {
     if (!editMessageId() && channelProperty()?.attachment) {
       const attachment = channelProperty()?.attachment!;
-      const isImage = attachment?.file.type?.startsWith("image/");
-      const isMoreThan12MB =
-        attachment && attachment.file.size > 12 * 1024 * 1024;
-      const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
+
+      const shouldUploadToGoogleDrive = attachment.uploadTo === "google_drive";
       if (
         shouldUploadToGoogleDrive &&
         !account.user()?.connections.find((c) => c.provider === "GOOGLE")

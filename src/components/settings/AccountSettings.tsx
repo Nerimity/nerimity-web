@@ -48,6 +48,10 @@ import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkup
 import { formatMessage } from "../message-pane/MessagePane";
 import { logout } from "@/common/logout";
 import Checkbox from "../ui/Checkbox";
+import {
+  uploadAvatar,
+  uploadBanner,
+} from "@/chat-api/services/nerimityCDNService";
 
 const ImageCropModal = lazy(() => import("../ui/ImageCropModal"));
 
@@ -120,9 +124,9 @@ export function EditAccountPage(props: {
     password: "",
     newPassword: "",
     confirmNewPassword: "",
-    avatar: "",
+    avatar: undefined as File | undefined,
+    banner: undefined as File | undefined,
     avatarPoints: null as null | number[],
-    banner: "",
   });
 
   onCleanup(() => {
@@ -154,12 +158,31 @@ export function EditAccountPage(props: {
       }
     }
 
-    const values = {
+    const { avatar, banner, avatarPoints, ...values } = {
       ...updatedInputValues(),
       socketId: socketClient.id(),
       confirmNewPassword: undefined,
     };
-    await updateUser(values, props.botToken)
+
+    let avatarId;
+    let bannerId;
+
+    if (avatar) {
+      const res = await uploadAvatar(account.user()?.id!, {
+        file: avatar,
+        points: avatarPoints!,
+      });
+      avatarId = res.fileId;
+    }
+
+    if (banner) {
+      const res = await uploadBanner(account.user()?.id!, {
+        file: banner,
+      });
+      bannerId = res.fileId;
+    }
+
+    await updateUser({ ...values, bannerId, avatarId }, props.botToken)
       .then((res) => {
         if (!props.bot) {
           if (res.newToken) {
@@ -174,9 +197,9 @@ export function EditAccountPage(props: {
         setInputValue("password", "");
         setInputValue("newPassword", "");
         setInputValue("confirmNewPassword", "");
-        setInputValue("avatar", "");
+        setInputValue("avatar", undefined);
         setInputValue("avatarPoints", null);
-        setInputValue("banner", "");
+        setInputValue("banner", undefined);
         setSettingsHeaderPreview(reconcile({}));
         props.onUpdated?.();
       })
@@ -195,19 +218,19 @@ export function EditAccountPage(props: {
     setSettingsHeaderPreview({ avatarPoints: points });
   };
 
-  const onAvatarPick = (files: string[]) => {
+  const onAvatarPick = (files: string[], rawFiles: FileList) => {
     if (files[0]) {
       createPortal((close) => (
         <ImageCropModal close={close} image={files[0]} onCropped={onCropped} />
       ));
-      setInputValue("avatar", files[0]);
+      setInputValue("avatar", rawFiles[0]);
       setSettingsHeaderPreview({ avatar: files[0] });
     }
   };
 
-  const onBannerPick = (files: string[]) => {
+  const onBannerPick = (files: string[], rawFiles: FileList) => {
     if (files[0]) {
-      setInputValue("banner", files[0]);
+      setInputValue("banner", rawFiles[0]);
       setSettingsHeaderPreview({ banner: files[0] });
     }
   };
@@ -298,7 +321,7 @@ export function EditAccountPage(props: {
             iconSize={18}
             iconName="close"
             onClick={() => {
-              setInputValue("avatar", "");
+              setInputValue("avatar", undefined);
               setInputValue("avatarPoints", null);
               setSettingsHeaderPreview({
                 avatar: undefined,
@@ -333,7 +356,7 @@ export function EditAccountPage(props: {
             iconSize={18}
             iconName="close"
             onClick={() => {
-              setInputValue("banner", "");
+              setInputValue("banner", undefined);
               setSettingsHeaderPreview({ banner: undefined });
             }}
           />
