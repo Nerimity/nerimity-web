@@ -168,7 +168,7 @@ export function EditAccountPage(props: {
     let bannerId;
 
     if (avatar) {
-      const res = await uploadAvatar(account.user()?.id!, {
+      const res = await uploadAvatar(props.bot?.id || account.user()?.id!, {
         file: avatar,
         points: avatarPoints!,
       });
@@ -176,7 +176,7 @@ export function EditAccountPage(props: {
     }
 
     if (banner) {
-      const res = await uploadBanner(account.user()?.id!, {
+      const res = await uploadBanner(props.bot?.id || account.user()?.id!, {
         file: banner,
       });
       bannerId = res.fileId;
