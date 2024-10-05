@@ -29,7 +29,7 @@ import socketClient from "../../chat-api/socketClient";
 import { ServerEvents } from "../../chat-api/EventNames";
 import Icon from "@/components/ui/icon/Icon";
 import { postChannelTyping } from "@/chat-api/services/MessageService";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { emojiShortcodeToUnicode, unicodeToTwemojiUrl } from "@/emoji";
 
 import env from "@/common/env";
@@ -76,6 +76,7 @@ import { ChannelIcon } from "../ChannelIcon";
 import { MetaTitle } from "@/common/MetaTitle";
 import { millisecondsToReadable } from "@/common/date";
 import { useResizeObserver } from "@/common/useResizeObserver";
+import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -255,9 +256,8 @@ function MessageArea(props: {
   const sendMessage = () => {
     if (!editMessageId() && channelProperty()?.attachment) {
       const attachment = channelProperty()?.attachment!;
-      const isImage = attachment?.type?.startsWith("image/");
-      const isMoreThan12MB = attachment && attachment.size > 12 * 1024 * 1024;
-      const shouldUploadToGoogleDrive = !isImage || isMoreThan12MB;
+
+      const shouldUploadToGoogleDrive = attachment.uploadTo === "google_drive";
       if (
         shouldUploadToGoogleDrive &&
         !account.user()?.connections.find((c) => c.provider === "GOOGLE")
@@ -1020,13 +1020,19 @@ function FloatingAttachment(props: {}) {
   const { createPortal } = useCustomPortal();
   const { channelProperties } = useStore();
   const [dataUrl, setDataUrl] = createSignal<string | undefined>(undefined);
+  const { paneWidth } = useWindowProperties();
 
   const getAttachmentFile = () =>
     channelProperties.get(params.channelId)?.attachment;
-  const isImage = () => getAttachmentFile()?.type.startsWith("image/");
+  const isImage = () => getAttachmentFile()?.file.type.startsWith("image/");
+
+  const isMoreThan12MB = () =>
+    getAttachmentFile()!.file.size > 12 * 1024 * 1024;
+  const isMoreThan50MB = () =>
+    getAttachmentFile()!.file.size > 50 * 1024 * 1024;
 
   createEffect(async () => {
-    const file = getAttachmentFile();
+    const file = getAttachmentFile()?.file;
     if (!file) return;
     if (!isImage()) return;
     const getDataUrl = await fileToDataUrl(file);
@@ -1042,39 +1048,64 @@ function FloatingAttachment(props: {}) {
     ));
   };
 
+  const uploadToOptions = () => {
+    return [
+      ...(isMoreThan50MB()
+        ? []
+        : [{ id: "nerimity_cdn", label: "Nerimity CDN" }]),
+      { id: "google_drive", label: "Google Drive" },
+    ] satisfies DropDownItem[];
+  };
+
+  const isMobileWidth = () => (paneWidth() || 0) <= 400;
+
   return (
-    <Floating class={styles.floatingAttachment}>
-      <Icon
-        name="attach_file"
-        size={17}
-        color="var(--primary-color)"
-        class={styles.attachIcon}
-      />
-      <Show when={isImage()}>
-        <img
-          onClick={showImageEditor}
-          class={styles.attachmentImage}
-          src={dataUrl()}
-          alt=""
-        />
-      </Show>
-      <div class={styles.attachmentInfo}>
-        <div class={styles.attachmentFilename}>{getAttachmentFile()?.name}</div>
-        <div class={styles.attachmentSize}>
-          {prettyBytes(getAttachmentFile()!.size, 0)}
+    <Floating
+      class={cn(styles.floatingAttachment, !!isMobileWidth() && styles.mobile)}
+    >
+      <div class={styles.attachmentContent}>
+        <Show when={isImage() && !isMoreThan12MB()}>
+          <div class={styles.attachmentImageContainer}>
+            <img
+              onClick={showImageEditor}
+              class={styles.attachmentImage}
+              src={dataUrl()}
+              alt=""
+            />
+            <Button
+              onClick={showImageEditor}
+              class={styles.attachmentEditImageButton}
+              margin={0}
+              padding={6}
+              iconSize={18}
+              styles={{ "margin-left": "auto" }}
+              iconName="brush"
+            />
+          </div>
+        </Show>
+        <div class={styles.attachmentInfo}>
+          <div class={styles.attachmentFilename}>
+            {getAttachmentFile()?.file.name}
+          </div>
+          <div class={styles.attachmentSize}>
+            {prettyBytes(getAttachmentFile()!.file.size, 0)}
+          </div>
+
+          <DropDown
+            class={styles.attachmentUploadToDropDown}
+            title="Upload To"
+            onChange={(item) =>
+              channelProperties.setAttachment(
+                params.channelId,
+                undefined,
+                item.id
+              )
+            }
+            items={uploadToOptions()}
+            selectedId={getAttachmentFile()?.uploadTo}
+          />
         </div>
       </div>
-
-      <Show when={isImage()}>
-        <Button
-          onClick={showImageEditor}
-          margin={0}
-          padding={14}
-          iconSize={18}
-          styles={{ "margin-left": "auto" }}
-          iconName="brush"
-        />
-      </Show>
     </Floating>
   );
 }

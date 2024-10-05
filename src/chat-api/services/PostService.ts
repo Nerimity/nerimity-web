@@ -3,6 +3,8 @@ import { RawPost, RawPostNotification, RawUser } from "../RawData";
 import { Post } from "../store/usePosts";
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
+import { uploadAttachment } from "./nerimityCDNService";
+import useAccount from "../store/useAccount";
 
 interface GetFeedPostsOpts {
   limit?: number
@@ -15,9 +17,9 @@ export const getFeedPosts = async (opts?: GetFeedPostsOpts) => {
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.feedPosts(),
     params: {
-      ...(opts?.limit ? {limit: opts.limit} : undefined),
-      ...(opts?.beforeId ? {beforeId: opts.beforeId} : undefined),
-      ...(opts?.afterId ? {afterId: opts.afterId} : undefined)
+      ...(opts?.limit ? { limit: opts.limit } : undefined),
+      ...(opts?.beforeId ? { beforeId: opts.beforeId } : undefined),
+      ...(opts?.afterId ? { afterId: opts.afterId } : undefined)
     },
     useToken: true
   });
@@ -35,9 +37,9 @@ export const getDiscoverPosts = async (opts?: GetDiscoverPostsOpts) => {
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.post("discover"),
     params: {
-      ...(opts?.limit ? {limit: opts.limit} : undefined),
-      ...(opts?.beforeId ? {beforeId: opts.beforeId} : undefined),
-      ...(opts?.afterId ? {afterId: opts.afterId} : undefined)
+      ...(opts?.limit ? { limit: opts.limit } : undefined),
+      ...(opts?.beforeId ? { beforeId: opts.beforeId } : undefined),
+      ...(opts?.afterId ? { afterId: opts.afterId } : undefined)
     },
     useToken: true
   });
@@ -60,10 +62,10 @@ export const getPosts = async (opts: GetPostsOpts) => {
   const data = await request<RawPost[]>({
     method: "GET",
     params: {
-      ...(defaultOpts.withReplies ? {withReplies: defaultOpts.withReplies} : undefined),
-      ...(defaultOpts.limit ? {limit: defaultOpts.limit} : undefined),
-      ...(defaultOpts.beforeId ? {beforeId: defaultOpts.beforeId} : undefined),
-      ...(defaultOpts.afterId ? {afterId: defaultOpts.afterId} : undefined)
+      ...(defaultOpts.withReplies ? { withReplies: defaultOpts.withReplies } : undefined),
+      ...(defaultOpts.limit ? { limit: defaultOpts.limit } : undefined),
+      ...(defaultOpts.beforeId ? { beforeId: defaultOpts.beforeId } : undefined),
+      ...(defaultOpts.afterId ? { afterId: defaultOpts.afterId } : undefined)
     },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.posts(defaultOpts.userId),
     useToken: true
@@ -100,7 +102,7 @@ export const editPost = async (postId: string, content: string) => {
   const data = await request<Post>({
     method: "PATCH",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.post(postId),
-    body: { content},
+    body: { content },
     useToken: true
   });
   return data;
@@ -128,16 +130,16 @@ export const getCommentPosts = async (opts: GetCommentPostsOpts) => {
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.postComments(opts.postId),
     params: {
-      ...(opts.limit ? {limit: opts.limit} : undefined),
-      ...(opts.beforeId ? {beforeId: opts.beforeId} : undefined),
-      ...(opts.afterId ? {afterId: opts.afterId} : undefined)
+      ...(opts.limit ? { limit: opts.limit } : undefined),
+      ...(opts.beforeId ? { beforeId: opts.beforeId } : undefined),
+      ...(opts.afterId ? { afterId: opts.afterId } : undefined)
     },
     useToken: true
   });
   return data;
 };
 
-export interface LikedPost {likedBy: RawUser, createdAt: number}
+export interface LikedPost { likedBy: RawUser, createdAt: number }
 
 export const getLikesPosts = async (postId: string) => {
   const data = await request<LikedPost[]>({
@@ -175,27 +177,25 @@ export const getPostNotificationDismiss = async () => {
 };
 
 
-export const createPost = async (opts: {content?: string, attachment?: File,  replyToPostId?: string, poll?: {choices: string[]}}) => {
+export const createPost = async (opts: { content?: string, attachment?: File, replyToPostId?: string, poll?: { choices: string[] } }) => {
+  const account = useAccount();
+  const userId = account.user()?.id;
+
+
+  let fileId;
+  if (opts.attachment) {
+    const res = await uploadAttachment(userId!, {
+      file: opts.attachment,
+    })
+    fileId = res.fileId;
+  }
 
   let body: any = {
     content: opts.content,
     poll: opts.poll,
-    ...(opts.replyToPostId ? {postId: opts.replyToPostId} : undefined)
+    ...(fileId ? { nerimityCdnFileId: fileId } : undefined),
+    ...(opts.replyToPostId ? { postId: opts.replyToPostId } : undefined)
   };
-
-  if (opts.attachment) {
-    const fd = new FormData();
-
-    if (opts.content?.trim()) {
-      fd.append("content", opts.content);
-    }
-    if (opts.poll) {
-      fd.append("poll", JSON.stringify(opts.poll));
-    }
-    if (opts.replyToPostId) fd.append("postId", opts.replyToPostId);
-    fd.append("attachment", opts.attachment);
-    body = fd;
-  }
 
 
   const data = await request<RawPost>({

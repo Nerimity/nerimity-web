@@ -1,11 +1,20 @@
-import { createEffect, createRenderEffect, createSignal, For, JSXElement, on, onCleanup, onMount, Show } from "solid-js";
-import { classNames, conditionalClass } from "@/common/classNames";
+import {
+  createEffect,
+  createRenderEffect,
+  createSignal,
+  For,
+  JSXElement,
+  on,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import Icon from "@/components/ui/icon/Icon";
 import styles from "./styles.module.scss";
 import { Portal } from "solid-js/web";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
-
 
 export interface DropDownItem {
   id: string;
@@ -20,20 +29,26 @@ export interface DropDownItem {
 }
 
 export interface DropDownProps {
-  items: DropDownItem[]
-  selectedId?: string
-  title?: string
+  items: DropDownItem[];
+  selectedId?: string;
+  title?: string;
   onChange?: (item: DropDownItem) => void;
   class?: string;
 }
 
-
 export default function DropDown(props: DropDownProps) {
-  const [selectedId, setSelectedId] = createSignal<string | null>(props.selectedId || null);
-  const [popupLocation, setPopupLocation] = createSignal<null | {top: number, left: number, minWidth: number}>(null);
+  const [selectedId, setSelectedId] = createSignal<string | null>(
+    props.selectedId || null
+  );
+  const [popupLocation, setPopupLocation] = createSignal<null | {
+    top: number;
+    left: number;
+    minWidth: number;
+  }>(null);
   let element: undefined | HTMLDivElement;
 
-  const selectedItem = () => props.items.find(item => item.id === selectedId());
+  const selectedItem = () =>
+    props.items.find((item) => item.id === selectedId());
 
   const onItemClick = (item: DropDownItem) => {
     if (item.id === selectedId()) return;
@@ -42,9 +57,14 @@ export default function DropDown(props: DropDownProps) {
     item.onClick?.(item);
   };
 
-  createEffect(on(() => props.selectedId, () => {
-    setSelectedId(props.selectedId || null);
-  }));
+  createEffect(
+    on(
+      () => props.selectedId,
+      () => {
+        setSelectedId(props.selectedId || null);
+      }
+    )
+  );
 
   const togglePopup = () => {
     if (popupLocation()) {
@@ -52,21 +72,28 @@ export default function DropDown(props: DropDownProps) {
     }
     if (!element) return;
     const rect = element.getBoundingClientRect();
-    setPopupLocation({top: rect.top, left: rect.left, minWidth: rect.width});
+    setPopupLocation({ top: rect.top, left: rect.left, minWidth: rect.width });
   };
 
-
   return (
-    <div class={classNames(styles.dropDown, props.class)} >
+    <div class={classNames(styles.dropDown, props.class)}>
       <Show when={props.title}>
-        <div class={styles.title}>{props.title}</div>
+        <div class={cn(styles.title, "title")}>{props.title}</div>
       </Show>
-      <div class={styles.box} ref={element} onClick={togglePopup}>
+      <div class={cn(styles.box, "box")} ref={element} onClick={togglePopup}>
         <ItemTemplate item={selectedItem()} />
-        <Icon name='expand_more' class={styles.expandIcon} />
+        <Icon name="expand_more" class={styles.expandIcon} />
       </div>
       <Show when={popupLocation()}>
-        <Portal><Popup selectedId={selectedId()} position={popupLocation()!} items={props.items} onClose={() => setPopupLocation(null)} onClick={onItemClick} /></Portal>
+        <Portal>
+          <Popup
+            selectedId={selectedId()}
+            position={popupLocation()!}
+            items={props.items}
+            onClose={() => setPopupLocation(null)}
+            onClick={onItemClick}
+          />
+        </Portal>
       </Show>
     </div>
   );
@@ -77,27 +104,44 @@ function ItemTemplate(props: { item?: DropDownItem }) {
     <div class={styles.itemTemplate}>
       <CircleColor color={props.item?.circleColor} />
       <div class={styles.details}>
-        <div class={styles.label}>{props.item?.label || "Select Item"}{props.item?.suffix}</div>
-        <Show when={props.item?.description}><div class={styles.description}>{props.item?.description}</div></Show>
+        <div class={styles.label}>
+          {props.item?.label || "Select Item"}
+          {props.item?.suffix}
+        </div>
+        <Show when={props.item?.description}>
+          <div class={styles.description}>{props.item?.description}</div>
+        </Show>
       </div>
     </div>
   );
 }
 
 function CircleColor(props: { color?: string }) {
-  return <Show when={props.color}>
-    <div class={styles.circleColor} style={{ background: props.color }} />
-  </Show>;
+  return (
+    <Show when={props.color}>
+      <div class={styles.circleColor} style={{ background: props.color }} />
+    </Show>
+  );
 }
 
-
-
-function Popup(props: { items: DropDownItem[], position: {top: number, left: number, minWidth: number}, selectedId: string | null, onClose: () => void, onClick?: (item: DropDownItem) => void }) {
+function Popup(props: {
+  items: DropDownItem[];
+  position: { top: number; left: number; minWidth: number };
+  selectedId: string | null;
+  onClose: () => void;
+  onClick?: (item: DropDownItem) => void;
+}) {
   let element: HTMLDivElement | undefined;
-  const [selectedElement, setSelectedElement] = createSignal<HTMLDivElement | undefined>();
+  const [selectedElement, setSelectedElement] = createSignal<
+    HTMLDivElement | undefined
+  >();
   const resizeObserver = useResizeObserver(() => element);
-  const {width, height} = useWindowProperties();
-  const [position, setPosition] = createSignal({top: "0px", left: "0px", "min-width": "0px"});
+  const { width, height } = useWindowProperties();
+  const [position, setPosition] = createSignal({
+    top: "0px",
+    left: "0px",
+    "min-width": "0px",
+  });
 
   const onDocumentClick = (event: any) => {
     if (event.target.closest("." + styles.popup)) return;
@@ -117,19 +161,23 @@ function Popup(props: { items: DropDownItem[], position: {top: number, left: num
     props.onClick?.(item);
   };
 
-  createEffect(on(width, () => {
-    props.onClose();
-  }, {defer: true}));
-
+  createEffect(
+    on(
+      width,
+      () => {
+        props.onClose();
+      },
+      { defer: true }
+    )
+  );
 
   createRenderEffect(() => {
     let top = props.position.top;
     let left = props.position.left;
 
-
     const selElement = selectedElement();
     if (selElement) {
-      selElement.scrollIntoView({behavior: "instant", block: "center"});
+      selElement.scrollIntoView({ behavior: "instant", block: "center" });
       top = top - selElement.offsetTop;
       // remove scroll position
       top = top + element!.scrollTop;
@@ -138,33 +186,37 @@ function Popup(props: { items: DropDownItem[], position: {top: number, left: num
     const elWidth = resizeObserver.width();
     const right = left + elWidth;
     if (right > width()) {
-      left = (width() - elWidth) - 10;
+      left = width() - elWidth - 10;
     }
 
     const elHeight = resizeObserver.height();
     const bottom = top + elHeight;
 
     if (bottom > height()) {
-      top = top - ( bottom - height());
+      top = top - (bottom - height());
     }
-
 
     setPosition({
       top: top + "px",
       left: left + "px",
 
-      "min-width": props.position.minWidth + "px"
+      "min-width": props.position.minWidth + "px",
     });
   });
 
   return (
     <div class={styles.popup} ref={element} style={position()}>
       <For each={props.items}>
-        {item => (
-          <div class={
-            classNames(styles.item, conditionalClass(props.selectedId === item.id, styles.selected))}
-          onClick={() => onItemClick(item)}
-          ref={el => props.selectedId === item.id ? setSelectedElement(el) : undefined}
+        {(item) => (
+          <div
+            class={classNames(
+              styles.item,
+              conditionalClass(props.selectedId === item.id, styles.selected)
+            )}
+            onClick={() => onItemClick(item)}
+            ref={(el) =>
+              props.selectedId === item.id ? setSelectedElement(el) : undefined
+            }
           >
             <ItemTemplate item={item} />
           </div>

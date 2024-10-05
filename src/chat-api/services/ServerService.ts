@@ -1,7 +1,8 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
-import {ChannelType, RawChannel, RawCustomEmoji, RawPublicServer, RawServer, RawServerRole, RawServerWelcomeAnswer, RawServerWelcomeQuestion, RawUser} from "../RawData";
+import { ChannelType, RawChannel, RawCustomEmoji, RawPublicServer, RawServer, RawServerRole, RawServerWelcomeAnswer, RawServerWelcomeQuestion, RawUser } from "../RawData";
 import env from "../../common/env";
+import { uploadEmoji } from "./nerimityCDNService";
 
 
 export async function getInvites(serverId: string): Promise<any> {
@@ -68,8 +69,8 @@ export async function createServerChannel(opts: CreateServerChannelOpts): Promis
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannels(opts.serverId),
     body: {
-      ...(opts.name ? {name: opts.name} : undefined),
-      ...(opts.type ? {type: opts.type} : undefined)
+      ...(opts.name ? { name: opts.name } : undefined),
+      ...(opts.type ? { type: opts.type } : undefined)
     },
     useToken: true
   });
@@ -85,16 +86,16 @@ export async function createServerRole(serverId: string): Promise<RawServerRole>
 export async function updateServerOrder(serverIds: string[]): Promise<RawServerRole> {
   return request({
     method: "POST",
-    body: {serverIds},
+    body: { serverIds },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverOrder(),
     useToken: true
   });
 }
 
-export async function updateServerChannelOrder(serverId: string, updated: {channelIds: string[], categoryId?: string}): Promise<RawServerRole> {
+export async function updateServerChannelOrder(serverId: string, updated: { channelIds: string[], categoryId?: string }): Promise<RawServerRole> {
   return request({
     method: "POST",
-    body: {channelIds: updated.channelIds, categoryId: updated.categoryId},
+    body: { channelIds: updated.channelIds, categoryId: updated.categoryId },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverChannelOrder(serverId),
     useToken: true
   });
@@ -111,7 +112,7 @@ export async function updateServerRole(serverId: string, roleId: string, update:
 export async function updateServerRoleOrder(serverId: string, roleIds: string[]): Promise<any> {
   return request({
     method: "POST",
-    body: {roleIds},
+    body: { roleIds },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverRolesOrder(serverId),
     useToken: true
   });
@@ -124,7 +125,7 @@ export async function deleteServerRole(serverId: string, roleId: string): Promis
   });
 }
 
-export async function updateServerMemberProfile(serverId: string, userId: string, update: {nickname?: null | string}): Promise<any> {
+export async function updateServerMemberProfile(serverId: string, userId: string, update: { nickname?: null | string }): Promise<any> {
   return request({
     method: "POST",
     body: update,
@@ -166,7 +167,7 @@ export async function createServer(serverName: string): Promise<RawServer> {
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.servers(),
     useToken: true,
-    body: {name: serverName}
+    body: { name: serverName }
   });
 }
 
@@ -189,7 +190,7 @@ export async function createCustomInvite(code: string, serverId: string): Promis
   return request({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverInvites(serverId) + "/custom",
-    body: {code},
+    body: { code },
     useToken: true
   });
 }
@@ -218,15 +219,15 @@ export async function joinServerByInviteCode(inviteCode: string) {
   });
 }
 export async function inviteBot(serverId: string, appId: string, permissions: number) {
-  return request<{success: boolean}>({
+  return request<{ success: boolean }>({
     method: "POST",
     url: env.SERVER_URL + `/api/servers/${serverId}/invites/applications/${appId}/bot`,
-    params: {permissions},
+    params: { permissions },
     useToken: true
   });
 }
 
-export type ServerWithMemberCount = RawServer & { memberCount: number }; 
+export type ServerWithMemberCount = RawServer & { memberCount: number };
 
 
 export async function serverDetailsByInviteCode(inviteCode: string) {
@@ -248,15 +249,15 @@ export async function publicServerByEmojiId(id: string) {
 export async function joinPublicServer(serverId: string) {
   return request<RawServer>({
     method: "POST",
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId) + "/join" ,
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId) + "/join",
     useToken: true
   });
 }
 export async function BumpPublicServer(serverId: string, token: string) {
   return request<RawPublicServer>({
     method: "POST",
-    body: {token},
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId) + "/bump" ,
+    body: { token },
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId) + "/bump",
     useToken: true
   });
 }
@@ -271,7 +272,7 @@ export async function getPublicServer(serverId: string) {
 
 export async function getPublicServers(sort: "most_bumps" | "most_members" | "recently_added" | "recently_bumped", filter: "all" | "verified", limit?: number) {
   return request<RawPublicServer[]>({
-    params: {sort, filter, limit},
+    params: { sort, filter, limit },
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(""),
     useToken: true
@@ -282,7 +283,7 @@ export async function updatePublicServer(serverId: string, description: string) 
   return request<RawPublicServer>({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
-    body: {description},
+    body: { description },
     useToken: true
   });
 }
@@ -295,19 +296,27 @@ export async function deletePublicServer(serverId: string) {
 }
 
 
-export async function addServerEmoji(serverId: string, emojiName: string, base64: string) {
+export async function addServerEmoji(serverId: string, emojiName: string, file: File) {
+
+
+  const { fileId } = await uploadEmoji({
+    file
+  });
+
+
+
   return request<RawCustomEmoji>({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/emojis",
     body: {
       name: emojiName,
-      emoji: base64
+      fileId,
     },
     useToken: true
   });
 }
 
-export type RawCustomEmojiWithCreator = RawCustomEmoji & {uploadedBy: RawUser};
+export type RawCustomEmojiWithCreator = RawCustomEmoji & { uploadedBy: RawUser };
 
 export async function getServerEmojis(serverId: string) {
   return request<RawCustomEmojiWithCreator[]>({
@@ -393,7 +402,7 @@ export async function getWelcomeQuestion(serverId: string, questionId: string) {
 }
 
 export async function deleteWelcomeQuestion(serverId: string, questionId: string) {
-  return request<{status: boolean}>({
+  return request<{ status: boolean }>({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/questions/" + questionId,
     useToken: true
@@ -401,14 +410,14 @@ export async function deleteWelcomeQuestion(serverId: string, questionId: string
 }
 
 export async function addAnswerToMember(serverId: string, answerId: string) {
-  return request<{status: boolean}>({
+  return request<{ status: boolean }>({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/answers/" + answerId + "/answer",
     useToken: true
   });
 }
 export async function removeAnswerFromMember(serverId: string, answerId: string) {
-  return request<{status: boolean}>({
+  return request<{ status: boolean }>({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/welcome/answers/" + answerId + "/answer",
     useToken: true

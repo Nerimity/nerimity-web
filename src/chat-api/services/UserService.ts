@@ -280,8 +280,8 @@ export async function updatePresence(presence: Partial<Presence>) {
 interface UpdateUserOptions {
   email?: string;
   username?: string;
-  avatar?: string;
-  banner?: string;
+  avatarId?: string;
+  bannerId?: string;
   tag?: string;
   password?: string;
   newPassword?: string;

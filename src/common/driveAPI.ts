@@ -1,9 +1,10 @@
 import { createSignal } from "solid-js";
 import env from "./env";
+import { createProgressHandler } from "@/chat-api/services/Request";
 
 export const [googleApiInitialized, setGoogleApiInitialized] = createSignal(false);
 
-let initializing  = false;
+let initializing = false;
 export const initializeGoogleDrive = (accessToken?: string) => new Promise<void>(res => {
   if (googleApiInitialized()) return;
   if (initializing) return;
@@ -14,7 +15,7 @@ export const initializeGoogleDrive = (accessToken?: string) => new Promise<void>
       discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
       clientId: env.GOOGLE_CLIENT_ID
     });
-    accessToken && gapi.client.setToken({access_token: accessToken});
+    accessToken && gapi.client.setToken({ access_token: accessToken });
     initializing = false;
     setGoogleApiInitialized(true);
     res();
@@ -37,7 +38,7 @@ export const getOrCreateUploadsFolder = async (accessToken: string) => {
     nerimityUploadsFolder = folder;
     return nerimityUploadsFolder;
   }
-  
+
   const newFolder = await gapi.client.drive.files.create({
     resource: {
       name: "nerimity_uploads",
@@ -51,9 +52,9 @@ export const getOrCreateUploadsFolder = async (accessToken: string) => {
 
 
 // https://stackoverflow.com/questions/53839499/google-drive-api-and-file-uploads-from-the-browser
-export const uploadFileGoogleDrive = async (file: File, accessToken: string, onProgress?: (percent: number) => void) => {
+export const uploadFileGoogleDrive = async (file: File, accessToken: string, onProgress?: (percent: number, speed?: string) => void) => {
   if (!googleApiInitialized()) await initializeGoogleDrive(accessToken);
-  gapi.client.setToken({access_token: accessToken});
+  gapi.client.setToken({ access_token: accessToken });
   const folder = await getOrCreateUploadsFolder(accessToken);
   const metadata = {
     "name": file.name,
@@ -63,40 +64,37 @@ export const uploadFileGoogleDrive = async (file: File, accessToken: string, onP
 
 
   const form = new FormData();
-  form.append("metadata", new Blob([JSON.stringify(metadata)], {type: "application/json"}));
+  form.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
   form.append("file", file);
-  
+
   const xhr = new XMLHttpRequest();
   xhr.open("post", "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,kind");
   xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
   xhr.responseType = "json";
 
-  
+  const progressHandler = createProgressHandler(onProgress);
   xhr.upload.onprogress = e => {
-    if (e.lengthComputable) {
-      const percentComplete = (e.loaded / e.total) * 100;
-      onProgress?.(Math.round(percentComplete));
-    }
+    progressHandler(e);
   };
 
-  return new Promise<{id: string}>((resolve, reject) => {
-    xhr.onload = async  () => {
+  return new Promise<{ id: string }>((resolve, reject) => {
+    xhr.onload = async () => {
 
       if (xhr.status === 0) {
-        return reject({message: "Could not connect to server."});
+        return reject({ message: "Could not connect to server." });
       }
       if (xhr.status !== 200) {
         nerimityUploadsFolder = undefined;
         return reject(xhr.response);
       }
       const id = xhr.response.id;
-  
+
       const body = {
         value: "default",
         type: "anyone",
         role: "reader"
       };
-        
+
       await gapi.client.drive.permissions
         .create({
           fileId: id,
@@ -116,5 +114,5 @@ export const getFile = async (fileId: string, fields?: string) => {
     fields: fields || "*"
   });
   return res.result;
-  
+
 };
