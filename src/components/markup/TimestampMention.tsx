@@ -1,4 +1,4 @@
-import { formatTimestamp } from "@/common/date";
+import { formatTimestamp, timeSinceMentions } from "@/common/date";
 import { createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import Icon from "../ui/icon/Icon";
 
@@ -14,7 +14,7 @@ export function TimestampMention(props: {
 
   const updateTime = () => {
     if (props.type === TimestampType.RELATIVE) {
-      return setFormattedTime(timeSince(props.timestamp));
+      return setFormattedTime(timeSinceMentions(props.timestamp));
     }
   };
 
@@ -40,59 +40,4 @@ export function TimestampMention(props: {
       {formattedTime()}
     </div>
   );
-}
-
-function timeSince(timestamp: number) {
-  const now = new Date();
-  const rawSecondsPast = (now.getTime() - timestamp) / 1000;
-  const secondsPast = Math.abs(rawSecondsPast);
-
-  const text = (value: string) =>
-    rawSecondsPast < 0 ? `In ${value}` : `${value} ago`;
-
-  if (secondsPast < 60) {
-    return text(Math.trunc(secondsPast) + " seconds");
-  }
-  if (secondsPast < 3600) {
-    return text(
-      Math.trunc(secondsPast / 60) +
-        " minutes " +
-        (Math.trunc(secondsPast) % 60) +
-        " seconds"
-    );
-  }
-  if (secondsPast <= 86400) {
-    return text(
-      Math.trunc(secondsPast / 3600) +
-        " hours " +
-        (Math.trunc(secondsPast / 60) % 60) +
-        " minutes"
-    );
-  }
-  if (secondsPast <= 604800) {
-    return text(
-      Math.trunc(secondsPast / 86400) +
-        " days " +
-        (Math.trunc(secondsPast / 3600) % 24) +
-        " hours"
-    );
-  }
-  if (secondsPast <= 2629743) {
-    return text(
-      Math.trunc(secondsPast / 604800) +
-        " weeks " +
-        (Math.trunc(secondsPast / 86400) % 7) +
-        " days"
-    );
-  }
-  if (secondsPast <= 31556926) {
-    return text(
-      Math.trunc(secondsPast / 2629743) +
-        " months " +
-        (Math.trunc(secondsPast / 604800) % 4) +
-        " weeks"
-    );
-  }
-
-  return text(Math.trunc(secondsPast / 31556926) + " years");
 }

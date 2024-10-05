@@ -1,10 +1,11 @@
 import styles from "./styles.module.scss";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import {
   formatTimestamp,
   millisecondsToHhMmSs,
   timeElapsed,
   timeSince,
+  timeSinceMentions,
 } from "@/common/date";
 import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
@@ -607,9 +608,8 @@ export function Embeds(props: {
   return (
     <div class={styles.embeds}>
       <Show when={props.message.attachments?.[0]?.provider === "local"}>
-        <ImageEmbed
+        <LocalCdnEmbeds
           attachment={props.message.attachments?.[0]!}
-          widthOffset={-90}
           maxWidth={props.maxWidth}
           maxHeight={props.maxHeight}
         />
@@ -646,13 +646,81 @@ export function Embeds(props: {
   );
 }
 
+const LocalCdnEmbeds = (props: {
+  attachment: RawAttachment;
+  maxWidth?: number;
+  maxHeight?: number;
+}) => {
+  const isImageCompressed = () => {
+    return props.attachment.width;
+  };
+
+  const isVideo = () => {
+    return props.attachment.mime?.startsWith("video/");
+  };
+
+  return (
+    <Switch>
+      <Match when={isImageCompressed()}>
+        <ImageEmbed
+          attachment={props.attachment}
+          widthOffset={-90}
+          maxWidth={props.maxWidth}
+          maxHeight={props.maxHeight}
+        />
+      </Match>
+      <Match when={isVideo()}>
+        <LocalVideoEmbed attachment={props.attachment} />
+      </Match>
+      <Match when={true}>
+        <LocalFileEmbed attachment={props.attachment} />
+      </Match>
+    </Switch>
+  );
+};
+
+const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
+  const isExpired = () => {
+    return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
+  };
+  return (
+    <VideoEmbed
+      error={isExpired() ? "File expired." : undefined}
+      file={{
+        name: props.attachment.path?.split("/").reverse()[0]!,
+        size: props.attachment.filesize!,
+        url: env.NERIMITY_CDN + props.attachment.path!,
+        expireAt: props.attachment.expireAt,
+      }}
+    />
+  );
+};
+const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
+  const isExpired = () => {
+    return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
+  };
+  return (
+    <FileEmbed
+      error={isExpired() ? "File expired." : undefined}
+      file={{
+        name: props.attachment.path?.split("/").reverse()[0]!,
+        mime: props.attachment.mime!,
+        size: props.attachment.filesize!,
+        url: env.NERIMITY_CDN + props.attachment.path!,
+        previewUrl: env.NERIMITY_CDN + props.attachment.path!,
+        expireAt: props.attachment.expireAt,
+      }}
+    />
+  );
+};
+
 const allowedVideoMimes = ["video/mp4", "video/webm"];
 const allowedAudioMimes = ["audio/mp3", "audio/mpeg", "audio/ogg"];
 
 const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
   return (
     <>
-      <Switch fallback={<FileEmbed attachment={props.attachment} />}>
+      <Switch fallback={<GoogleDriveFileEmbed attachment={props.attachment} />}>
         <Match when={allowedVideoMimes.includes(props.attachment.mime!)}>
           <VideoEmbed attachment={props.attachment} />
         </Match>
@@ -740,7 +808,7 @@ const YoutubeEmbed = (props: {
   );
 };
 
-const VideoEmbed = (props: { attachment: RawAttachment }) => {
+const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
   const [error, setError] = createSignal<string | undefined>();
   const [playVideo, setPlayVideo] = createSignal<boolean>(false);
@@ -762,10 +830,38 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
       return setError("Video was modified.");
 
     const fileTime = new Date(file.modifiedTime!).getTime();
-    const diff = fileTime - props.attachment.createdAt;
+    const diff = fileTime - props.attachment.createdAt!;
     if (diff >= 5000) return setError("Video was modified.");
     setFile(file);
   });
+
+  return (
+    <VideoEmbed
+      error={error()}
+      file={
+        file()
+          ? {
+              url: file()!.webContentLink!,
+              name: file()!.name!,
+              size: parseInt(file()!.size! || "0"),
+              thumbnailLink: file()?.thumbnailLink,
+            }
+          : undefined
+      }
+    />
+  );
+};
+const VideoEmbed = (props: {
+  file?: {
+    url: string;
+    name: string;
+    size: number;
+    thumbnailLink?: string;
+    expireAt?: number;
+  };
+  error?: string;
+}) => {
+  const [playVideo, setPlayVideo] = createSignal<boolean>(false);
 
   const onPlayClick = () => {
     if (reactNativeAPI()?.isReactNative) {
@@ -773,7 +869,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
       return;
     }
 
-    if (!electronWindowAPI()?.isElectron) {
+    if (!electronWindowAPI()?.isElectron && !props.file?.expireAt) {
       alert(
         "Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App."
       );
@@ -784,50 +880,62 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
   return (
     <div class={styles.videoEmbed}>
       <div class={styles.videoInfo}>
-        <Show when={!file() && !error()}>
+        <Show when={!props.file && !props.error}>
           <Skeleton.Item height="100%" width="100%" />
         </Show>
-        <Show when={error()}>
+        <Show when={props.error}>
           <Icon name="error" color="var(--alert-color)" size={30} />
           <div class={styles.fileEmbedDetails}>
-            <div class={styles.fileEmbedName}>{error()}</div>
+            <div class={styles.fileEmbedName}>{props.error}</div>
           </div>
           <Button
             iconName="info"
             iconSize={16}
             onClick={() =>
               alert(
-                "This Video was modified/deleted by the creator in their Google Drive. "
+                props.file?.expireAt
+                  ? "Video expired."
+                  : "This Video was modified/deleted by the creator in their Google Drive. "
               )
             }
           />
         </Show>
-        <Show when={file() && !error()}>
+        <Show when={props.file && !props.error}>
           <Icon
             name="insert_drive_file"
             color="var(--primary-color)"
             size={30}
           />
           <div class={styles.fileEmbedDetails}>
-            <div class={styles.fileEmbedName}>{file()?.name}</div>
+            <div class={styles.fileEmbedName}>{props.file?.name}</div>
             <div class={styles.fileEmbedSize}>
-              {prettyBytes(parseInt(file()?.size! || "0"), 0)}
+              {prettyBytes(props.file?.size || 0, 0)}
             </div>
           </div>
           <Button
             iconName="download"
-            onClick={() => window.open(file()?.webContentLink!, "_blank")}
+            onClick={() => window.open(props.file?.url, "_blank")}
           />
         </Show>
       </div>
-
+      <Show when={props.file?.expireAt}>
+        <div class={styles.expiresAt}>
+          <Icon
+            name="timer"
+            size={14}
+            color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
+          />
+          {props.error ? "Expired " : "Expires "}
+          {timeSinceMentions(props.file?.expireAt!)}
+        </div>
+      </Show>
       <div class={styles.video}>
-        <Show when={!file() && !error()}>
+        <Show when={!props.file && !props.error}>
           <Skeleton.Item height="100%" width="100%" />
         </Show>
-        <Show when={file() && !error()}>
+        <Show when={props.file && !props.error}>
           <Show when={!playVideo()}>
-            <Show when={file()?.thumbnailLink}>
+            <Show when={props.file?.thumbnailLink}>
               <img
                 crossorigin="anonymous"
                 style={{
@@ -835,7 +943,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
                   height: "100%",
                   "object-fit": "contain",
                 }}
-                src={file()?.thumbnailLink}
+                src={props.file?.thumbnailLink}
                 alt=""
               />
             </Show>
@@ -854,7 +962,7 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
               crossorigin="anonymous"
               style={{ width: "100%", height: "100%", "object-fit": "contain" }}
               autoplay
-              src={file()?.webContentLink!}
+              src={props.file?.url!}
               controls
             />
           </Show>
@@ -864,18 +972,119 @@ const VideoEmbed = (props: { attachment: RawAttachment }) => {
   );
 };
 
-const FileEmbed = (props: { attachment: RawAttachment }) => {
+const FileEmbed = (props: {
+  error?: string;
+  file?: {
+    size: number;
+    name: string;
+    url: string;
+    expireAt?: number;
+    mime: string;
+    previewUrl?: string;
+    originalPreviewUrl?: string;
+  };
+}) => {
+  const { createPortal } = useCustomPortal();
+  const isImage = () => props.file?.mime.startsWith("image/");
+
+  const previewClick = () => {
+    createPortal((close) => (
+      <ImagePreviewModal
+        close={close}
+        url={props.file?.previewUrl!}
+        origUrl={props.file?.originalPreviewUrl}
+      />
+    ));
+  };
+
+  return (
+    <div
+      class={cn(styles.fileEmbed, !!props.file?.expireAt && styles.willExpire)}
+    >
+      <Show when={!props.file && !props.error}>
+        <Skeleton.Item height="100%" width="100%" />
+      </Show>
+      <Show when={props.error}>
+        <div class={styles.fileEmbedErrorContainer}>
+          <Icon name="error" color="var(--alert-color)" size={30} />
+          <div class={styles.fileEmbedDetails}>
+            <div class={styles.fileEmbedName}>{props.error}</div>
+          </div>
+          <Button
+            iconName="info"
+            iconSize={16}
+            margin={0}
+            onClick={() =>
+              alert(
+                props.file?.expireAt
+                  ? "File expired."
+                  : "This file was modified/deleted by the creator in their Google Drive. "
+              )
+            }
+          />
+        </div>
+      </Show>
+      <Show when={props.file && !props.error}>
+        <div class={styles.fileEmbedContainer}>
+          <Icon
+            name="insert_drive_file"
+            color="var(--primary-color)"
+            size={30}
+          />
+          <div class={styles.fileEmbedDetails}>
+            <div class={styles.fileEmbedName}>{props.file?.name}</div>
+            <div class={styles.fileEmbedSize}>
+              {prettyBytes(props.file?.size! || 0, 0)}
+            </div>
+          </div>
+          <div class={styles.fileEmbedActions}>
+            <Show when={isImage()}>
+              <Button
+                iconName="visibility"
+                margin={0}
+                onClick={previewClick}
+                title="View Image"
+              />
+            </Show>
+            <Button
+              iconName="download"
+              margin={0}
+              title="Download"
+              onClick={() => window.open(props.file?.url, "_blank")}
+            />
+          </div>
+        </div>
+      </Show>
+      <Show when={props.file?.expireAt}>
+        <div class={styles.expiresAt}>
+          <Icon
+            name="timer"
+            size={14}
+            color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
+          />
+          {props.error ? "Expired " : "Expires "}
+          {timeSinceMentions(props.file?.expireAt!)}
+        </div>
+      </Show>
+    </div>
+  );
+};
+const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
   const [error, setError] = createSignal<string | undefined>();
   onMount(async () => {
     await initializeGoogleDrive();
   });
 
+  const previewUrl = () => file()?.thumbnailLink?.slice(0, -5);
+  const originalPreview = () =>
+    "https://drive.google.com/uc?id=" + props.attachment.fileId;
+
   createEffect(async () => {
     if (!googleApiInitialized()) return;
     const file = await getFile(
       props.attachment.fileId!,
-      "name, size, modifiedTime, webContentLink, mimeType"
+      "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink"
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
     if (!file) return setError("Could not get file.");
@@ -884,45 +1093,27 @@ const FileEmbed = (props: { attachment: RawAttachment }) => {
       return setError("File was modified.");
 
     const fileTime = new Date(file.modifiedTime!).getTime();
-    const diff = fileTime - props.attachment.createdAt;
+    const diff = fileTime - props.attachment.createdAt!;
     if (diff >= 5000) return setError("File was modified.");
     setFile(file);
   });
 
   return (
-    <div class={styles.fileEmbed}>
-      <Show when={!file() && !error()}>
-        <Skeleton.Item height="100%" width="100%" />
-      </Show>
-      <Show when={error()}>
-        <Icon name="error" color="var(--alert-color)" size={30} />
-        <div class={styles.fileEmbedDetails}>
-          <div class={styles.fileEmbedName}>{error()}</div>
-        </div>
-        <Button
-          iconName="info"
-          iconSize={16}
-          onClick={() =>
-            alert(
-              "This file was modified/deleted by the creator in their Google Drive. "
-            )
-          }
-        />
-      </Show>
-      <Show when={file() && !error()}>
-        <Icon name="insert_drive_file" color="var(--primary-color)" size={30} />
-        <div class={styles.fileEmbedDetails}>
-          <div class={styles.fileEmbedName}>{file()?.name}</div>
-          <div class={styles.fileEmbedSize}>
-            {prettyBytes(parseInt(file()?.size! || "0"), 0)}
-          </div>
-        </div>
-        <Button
-          iconName="download"
-          onClick={() => window.open(file()?.webContentLink!, "_blank")}
-        />
-      </Show>
-    </div>
+    <FileEmbed
+      error={error()}
+      file={
+        file()
+          ? {
+              name: file()?.name!,
+              mime: file()?.mimeType!,
+              size: parseInt(file()?.size!),
+              url: file()?.webContentLink!,
+              previewUrl: previewUrl(),
+              originalPreviewUrl: originalPreview(),
+            }
+          : undefined
+      }
+    />
   );
 };
 
