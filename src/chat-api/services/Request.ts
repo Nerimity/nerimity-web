@@ -73,7 +73,7 @@ interface XHROpts {
 
 export function xhrRequest<T>(
   opts: XHROpts,
-  onProgress?: (percent: number) => void
+  onProgress?: (percent: number, speed?: string) => void
 ): Promise<T> {
   const token = getStorageString(StorageKeys.USER_TOKEN, "");
   const url = new URL(opts.url);
@@ -82,13 +82,14 @@ export function xhrRequest<T>(
   const xhr = new XMLHttpRequest();
   xhr.open(opts.method, opts.url, true);
 
-  xhr.setRequestHeader("Authorization", token);
+  if (opts.useToken) {
+    xhr.setRequestHeader("Authorization", token);
+  }
+
+  const progressHandler = createProgressHandler(onProgress);
 
   xhr.upload.onprogress = (e) => {
-    if (e.lengthComputable) {
-      const percentComplete = (e.loaded / e.total) * 100;
-      onProgress?.(Math.round(percentComplete));
-    }
+    progressHandler(e);
   };
 
   return new Promise((res, rej) => {
@@ -118,4 +119,37 @@ export function xhrRequest<T>(
 
     xhr.send(opts.body);
   });
+}
+
+
+export const createProgressHandler = (onProgress?: (percent: number, speed?: string) => void) => {
+  let startTime = 0;
+  let uploadedSize = 0;
+  return (e: ProgressEvent) => {
+    if (!startTime) {
+      startTime = Date.now();
+    }
+    uploadedSize = e.loaded;
+
+    const elapsedTime = Date.now() - startTime;
+    const uploadSpeed = uploadedSize / (elapsedTime / 1000); // Bytes per second
+    const uploadSpeedKBps = uploadSpeed / 1024; // Kilobytes per second
+    const uploadSpeedMBps = uploadSpeedKBps / 1024; // Megabytes per second
+
+    // Choose the appropriate unit based on the speed
+    let unit = ' KB/s';
+    if (uploadSpeedMBps >= 1) {
+      unit = ' MB/s';
+    }
+    let speed: string | undefined = uploadSpeedMBps >= 1 ? uploadSpeedMBps.toFixed(2) + unit : uploadSpeedKBps.toFixed(0) + unit;
+
+    if (uploadSpeedMBps == Infinity) {
+      speed = "0 KB/s"
+    }
+
+    if (e.lengthComputable) {
+      const percentComplete = (e.loaded / e.total) * 100;
+      onProgress?.(Math.round(percentComplete), speed);
+    }
+  };
 }

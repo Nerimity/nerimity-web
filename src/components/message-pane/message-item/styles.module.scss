@@ -420,28 +420,53 @@ body .reactionItem {
 .uploadProgress {
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: 8px;
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.02);
+  .attachmentDetailsInner {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 2px;
+  }
+  .attachmentDetails {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .otherDetails {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 14px;
   }
   .size {
     opacity: 0.5;
+    font-size: 14px;
+  }
+  .speed {
+    opacity: 0.5;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
   }
   .progressBarContainer {
     overflow: hidden;
     width: 100%;
-    height: 10px;
+    height: 6px;
     margin-top: 5px;
-    border-radius: 18px;
+    border-radius: 99999px;
     background-color: rgba(0, 0, 0, 0.6);
     .currentProgress {
       height: 100%;
+      border-radius: 99999px;
       background-color: var(--primary-color);
     }
   }
@@ -550,19 +575,51 @@ body .reactionItem {
     gap: 4px;
   }
 }
+
 .fileEmbed {
   display: flex;
 
   overflow: hidden;
-  align-items: center;
+  flex-direction: column;
   min-width: 200px;
   max-width: 500px;
-  height: 42px;
+  height: 36px;
   padding: 5px;
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.02);
   gap: 4px;
+  &.willExpire {
+    height: 54px;
+  }
+
+  .fileEmbedErrorContainer {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 36px;
+    gap: 4px;
+  }
+  .expiresAt {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+    margin-left: 4px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .fileEmbedContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  .fileEmbedActions {
+    display: flex;
+    gap: 4px;
+  }
 
   .fileEmbedDetails {
     display: flex;
@@ -662,6 +719,17 @@ body .reactionItem {
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.02);
+
+  .expiresAt {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+    margin-left: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    gap: 4px;
+  }
   .videoInfo {
     display: flex;
     overflow: hidden;

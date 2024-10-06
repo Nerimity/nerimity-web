@@ -1,6 +1,6 @@
 import { createStore } from "solid-js/store";
 import { Message } from "./useMessages";
-import { RawMessage } from "../RawData";
+import { RawAttachment, RawMessage } from "../RawData";
 import { batch } from "solid-js";
 
 export type ChannelProperties = {
@@ -10,7 +10,10 @@ export type ChannelProperties = {
   replyToMessages: RawMessage[];
   mentionReplies?: boolean;
 
-  attachment?: File;
+  attachment?: {
+    file: File,
+    uploadTo: "google_drive" | "nerimity_cdn"
+  };
 
   scrollTop?: number;
 
@@ -100,11 +103,23 @@ const setEditMessage = (channelId: string, message?: Message) => {
   });
 };
 
-const setAttachment = (channelId: string, file?: File) => {
+const setAttachment = (channelId: string, file?: File, uploadTo?: "google_drive" | "nerimity_cdn") => {
   initIfMissing(channelId);
-  setChannelProperties(channelId, {
-    attachment: file,
-  });
+  if (!file && !uploadTo) {
+    setChannelProperties(channelId, "attachment", undefined);
+    return;
+  }
+
+  const isMoreThan50MB = file && (file.size > 50 * 1024 * 1024);
+
+  const _uploadTo = uploadTo || isMoreThan50MB
+    ? "google_drive"
+    : "nerimity_cdn";
+
+  setChannelProperties(channelId, "attachment", {
+    ...(file ? { file } : undefined),
+    uploadTo: _uploadTo,
+  })
 };
 
 const setScrollTop = (channelId: string, scrollTop: number) => {

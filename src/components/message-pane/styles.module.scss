@@ -15,130 +15,130 @@
 }
 
 .messagePane {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
   position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .emailUnconfirmedNotice {
+  position: sticky;
+  z-index: 111;
+  bottom: 10px;
   display: flex;
   align-items: center;
+  padding: 5px;
+  padding-left: 20px;
+  margin: 10px;
+  margin-bottom: 0;
+  border-radius: 8px;
 
   background-color: rgba(0, 0, 0, 0.86);
   font-size: 14px;
   backdrop-filter: blur(34px);
-  position: sticky;
-  bottom: 10px;
-  z-index: 111;
-  margin: 10px;
-  margin-bottom: 0;
-  padding: 5px;
-  padding-left: 20px;
-  border-radius: 8px;
   .text {
     flex: 1;
   }
 }
 
 .observePoint {
-  display: flex;
   position: absolute;
+  display: flex;
   width: 10px;
   background: red;
 }
 
 .floatingTypingContainer {
-  display: flex;
   position: absolute;
   top: -25px;
-  height: 20px;
+  display: flex;
   overflow: hidden;
-  white-space: nowrap;
-  margin-bottom: 5px;
   max-width: calc(100% - 80px);
+  height: 20px;
+  margin-bottom: 5px;
+  white-space: nowrap;
   .typingText {
     display: flex;
-    gap: 4px;
     line-height: 20px;
+    gap: 4px;
   }
   .username {
-    max-width: 200px;
     display: block;
     overflow: hidden;
-    white-space: nowrap;
+    max-width: 200px;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
 body .floating.floatingSlowModeIndicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
   position: absolute;
+
+  z-index: 1;
   top: -25px;
 
   right: 4px;
-  height: 20px;
+  display: flex;
   overflow: hidden;
-  white-space: nowrap;
-  margin-bottom: 5px;
+  align-items: center;
+  justify-content: center;
   max-width: calc(100% - 80px);
+  height: 20px;
+  height: 20px;
 
   padding: 0px;
-  padding-left: 4px;
   padding-right: 4px;
-  height: 20px;
-
-  z-index: 1;
+  padding-left: 4px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  gap: 4px;
 }
 
 .messageArea {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
   position: sticky;
-  bottom: 0;
-  flex-shrink: 0;
   z-index: 111111111;
-  padding-left: 5px;
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  flex-shrink: 0;
   padding-right: 5px;
   padding-bottom: 5px;
+  padding-left: 5px;
 
   .button {
-    padding: 7px;
     width: 35px;
     height: 25px;
+    padding: 7px;
     margin: 0;
     backdrop-filter: blur(34px);
   }
 
   .backToBottom {
+    position: absolute;
+    z-index: 11111;
+    top: -10px;
+    top: -60px;
+    right: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    backdrop-filter: blur(34px);
-    background-color: rgba(40, 40, 40, 0.86);
+    min-width: 50px;
+    min-height: 50px;
     border: solid 1px rgba(255, 255, 255, 0.2);
 
     border-radius: 8px;
-    min-height: 50px;
-    min-width: 50px;
-    right: 10px;
-    top: -10px;
-    z-index: 11111;
-    top: -60px;
+    background-color: rgba(40, 40, 40, 0.86);
     cursor: pointer;
+    backdrop-filter: blur(34px);
+
+    &:hover {
+      background-color: rgba(58, 58, 58, 0.6);
+    }
 
     .text {
       margin-left: 10px;
       color: var(--alert-color);
-    }
-
-    &:hover {
-      background-color: rgba(58, 58, 58, 0.6);
     }
   }
 
@@ -149,110 +149,109 @@ body .floating.floatingSlowModeIndicator {
   }
 
   .floating {
-    background-color: rgba(40, 40, 40, 0.86);
-    backdrop-filter: blur(34px);
+    z-index: 11111;
+    padding: 3px;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin-right: 4px;
+    margin-left: 4px;
     border: solid 1px rgba(255, 255, 255, 0.2);
     border-radius: 6px;
-    padding: 3px;
-    padding-left: 8px;
-    padding-right: 8px;
+    background-color: rgba(40, 40, 40, 0.86);
     font-size: 14px;
-    margin-left: 45px;
-    margin-right: 4px;
-    // align-self: flex-start;
-    z-index: 11111;
+    backdrop-filter: blur(34px);
 
     &:last-child {
       margin-bottom: 3px;
     }
 
     &.floatingSuggestion {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      padding: 5px;
       z-index: 11111111;
       right: 60px;
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      gap: 2px;
 
       .suggestionItem {
         height: 30px;
-        padding-left: 10px;
         padding-right: 5px;
+        padding-left: 10px;
         gap: 5px;
 
         .suggestionInfo {
-          opacity: 0.6;
           margin-left: auto;
+          opacity: 0.6;
           font-size: 12px;
         }
         .channelIcon {
           opacity: 0.5;
         }
         .suggestLabel {
-          white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }
 
     &.floatingMessageEmojiPicker {
       position: absolute;
-      left: 60px;
-      backdrop-filter: none;
-      background-color: transparent;
-      padding: 0;
+      z-index: 9999999;
       right: 0;
       bottom: 50px;
-      margin-right: 6px;
-      z-index: 9999999;
+      left: 60px;
       left: initial;
-      border: none;
+      padding: 0;
       padding-bottom: 2px;
+      margin-right: 6px;
+      border: none;
+      background-color: transparent;
+      backdrop-filter: none;
     }
     &.replyIndicator {
       display: flex;
       flex-direction: column;
-      padding-left: 4px;
-      padding-right: 4px;
       padding-top: 6px;
+      padding-right: 4px;
       padding-bottom: 2px;
+      padding-left: 4px;
       .replyIndicatorTitle {
-        margin-left: 2px;
         margin-bottom: 4px;
+        margin-left: 2px;
       }
       .replyIndicatorInner {
         display: flex;
         align-items: center;
-        gap: 4px;
+        padding-top: 4px;
         padding-right: 2px;
         padding-bottom: 4px;
-        padding-top: 4px;
+        gap: 4px;
       }
       .message {
-        font-size: 12px;
-        opacity: 0.7;
-        overflow: hidden;
         display: -webkit-box;
+        overflow: hidden;
+        flex: 1;
+        opacity: 0.7;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        color: rgba(255, 255, 255, 0.8);
-        flex: 1;
       }
     }
     &.editIndicator {
-      word-break: break-word;
       display: flex;
       align-items: center;
+      word-break: break-word;
 
       .message {
-        font-size: 12px;
-        opacity: 0.7;
-        overflow: hidden;
         display: -webkit-box;
+        overflow: hidden;
+        opacity: 0.7;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        color: rgba(255, 255, 255, 0.8);
       }
 
       .editIcon {
@@ -262,79 +261,103 @@ body .floating.floatingSlowModeIndicator {
 
     &.floatingAttachment {
       display: flex;
-      align-items: center;
-      padding-right: 4px;
-      height: 50px;
+      flex-direction: column;
+      padding: 6px;
+      gap: 2px;
+
+      .attachmentContent {
+        display: flex;
+        align-items: center;
+        height: 92px;
+        margin-bottom: 2px;
+        gap: 6px;
+      }
+
       .attachmentInfo {
         overflow: hidden;
+        padding-left: 2px;
         word-break: break-all;
-        margin-left: 5px;
+      }
+      .attachmentUploadToDropDown {
+        margin-top: 6px;
+
+        :global .box {
+          padding: 6px;
+        }
       }
     }
 
-    .attachIcon {
-      margin-right: 5px;
-    }
     .attachmentFilename {
+      overflow: hidden;
+      text-overflow: ellipsis;
       word-break: break-all;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
     .attachmentSize {
-      opacity: 0.6;
-      white-space: nowrap;
       overflow: hidden;
+      opacity: 0.6;
       text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .attachmentEditImageButton {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      background-color: rgb(34, 34, 34);
+    }
+    .attachmentImageContainer {
+      position: relative;
+      display: flex;
+      height: 100%;
     }
     .attachmentImage {
-      aspect-ratio: 16/9;
-      object-fit: contain;
       flex-shrink: 0;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.24);
       border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.6);
       cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      object-fit: contain;
+      aspect-ratio: 16/9;
     }
   }
 }
 
 .textAreaContainer {
-  display: flex;
   position: relative;
-  border-radius: 8px;
+  z-index: 1111111;
+  display: flex;
+  flex: 1;
   border: solid 1px rgba(255, 255, 255, 0.2);
-  background-color: rgba(0, 0, 0, 0.86);
-  backdrop-filter: blur(34px);
 
   border-bottom: solid 2px rgba(255, 255, 255, 0.3);
-  transition: 0.2s;
-  flex: 1;
-  z-index: 1111111;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.86);
   cursor: text;
+  transition: 0.2s;
+  backdrop-filter: blur(34px);
 
   &.focused {
     border-bottom: solid 2px var(--primary-color);
   }
   &.advancedMarkupShown {
     margin-top: 0;
+    border-top: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    border-top: 0;
   }
 }
 
 .textArea {
-  outline: none;
-  background: transparent;
   width: 100%;
-  resize: none;
   height: 100%;
-  border: none;
-  color: white;
   padding: 10px;
   padding-top: 14px;
+  border: none;
+  outline: none;
+  color: white;
+  background: transparent;
+  resize: none;
   font-size: 12px;
 }
 
@@ -347,20 +370,20 @@ body .floating.floatingSlowModeIndicator {
   inset: 0;
 }
 .beforeYouChatNotice {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
   position: absolute;
-  background-color: var(--pane-color);
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-
-  left: 0;
   right: 0;
   bottom: -2px;
 
+  left: 0;
+  display: flex;
+  flex-direction: column;
+
   max-width: 300px;
   max-height: 300px;
+  box-sizing: border-box;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background-color: var(--pane-color);
 
   &.mobile {
     max-width: initial;
@@ -369,21 +392,44 @@ body .floating.floatingSlowModeIndicator {
   .title {
     display: flex;
     align-items: center;
-    gap: 5px;
-    color: var(--primary-color);
-    font-weight: bold;
-    font-size: 18px;
     margin-top: 10px;
-    margin-left: 10px;
     margin-right: 10px;
+    margin-left: 10px;
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: bold;
+    gap: 5px;
   }
   .info {
-    margin: 10px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.8);
     overflow: auto;
+    margin: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
   }
   .noticeButton {
     margin-top: auto;
+  }
+}
+
+body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
+  overflow: hidden;
+  align-items: start;
+  flex-direction: column;
+  height: initial;
+  box-sizing: border-box;
+  .attachmentImageContainer {
+    overflow: hidden;
+    width: 100%;
+    height: initial;
+    box-sizing: border-box;
+  }
+  .attachmentImage {
+    overflow: hidden;
+    width: 100%;
+    height: initial;
+    box-sizing: border-box;
+  }
+  .attachmentInfo {
+    width: 100%;
   }
 }

@@ -113,6 +113,9 @@ export interface RawAttachment {
   width?: number;
   height?: number;
   createdAt?: number;
+
+  filesize?: number;
+  expireAt?: number;
 }
 
 export interface RawUser {
@@ -312,12 +315,12 @@ export interface RawPostPoll {
   _count: { votedUsers: number };
   choices: RawPostChoice[];
   votedUsers:
-    | [
-        {
-          pollChoiceId: string;
-        }
-      ]
-    | [];
+  | [
+    {
+      pollChoiceId: string;
+    }
+  ]
+  | [];
 }
 export interface RawPostChoice {
   id: string;
