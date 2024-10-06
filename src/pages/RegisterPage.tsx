@@ -122,77 +122,77 @@ export default function RegisterPage() {
     navigate(redirectTo);
   };
 
-  return (
-    <RegisterPageContainer class="register-page-container">
-      <MetaTitle>Register</MetaTitle>
-      <PageHeader />
-      <Content>
-        <Container>
-          <form
-            style={{ display: "flex", "flex-direction": "column" }}
-            action="#"
-            onSubmit={registerClicked}
-          >
-            <TitleContainer>
-              {t("registerPage.title", { appName: "Nerimity" })}
-            </TitleContainer>
-            <NoticesContainer gap={5}>
-              <Text style={{ "font-weight": "bold" }} color="var(--warn-color)">
-                Notices
-              </Text>
+return (
+  <RegisterPageContainer class="register-page-container" style={{ background: "linear-gradient(to right, #FFEB3B, #00BCD4)" }}>
+    <MetaTitle>Canary Chat</MetaTitle>
+    <PageHeader />
+    <Content>
+      <Container>
+        <form
+          style={{ display: "flex", "flex-direction": "column" }}
+          action="#"
+          onSubmit={registerClicked}
+        >
+          <TitleContainer>
+            {t("registerPage.title", { appName: "Canary Chat" })}
+          </TitleContainer>
+          <NoticesContainer gap={5}>
+            <Text style={{ "font-weight": "bold" }} color="var(--warn-color)">
+              Notices
+            </Text>
 
-              <Text
-                color="rgba(255, 255, 255, 0.8)"
-                style={{ "align-items": "center", display: "flex", gap: "5px" }}
-                size={14}
-              >
-                <Icon name="info" size={14} color="var(--warn-color)" /> Please
-                keep toxicity out of here.
-              </Text>
-              <Text
-                color="rgba(255, 255, 255, 0.8)"
-                style={{ "align-items": "center", display: "flex", gap: "5px" }}
-                size={14}
-              >
-                <Icon name="info" size={14} color="var(--warn-color)" /> NSFW
-                content is against the TOS.
-              </Text>
-              <Text
-                color="rgba(255, 255, 255, 0.8)"
-                style={{ "align-items": "center", display: "flex", gap: "5px" }}
-                size={14}
-              >
-                <Icon name="info" size={14} color="var(--warn-color)" /> You
-                must be over the age of 14 to use Nerimity.
-              </Text>
-            </NoticesContainer>
-            <Input
-              margin={[10, 0, 10, 0]}
-              label={t("registerPage.email")}
-              type="email"
-              error={error()}
-              onText={setEmail}
-            />
-            <Input
-              margin={[10, 0, 10, 0]}
-              label={t("registerPage.username")}
-              error={error()}
-              onText={setUsername}
-            />
-            <Input
-              margin={[10, 0, 10, 0]}
-              label={t("registerPage.password")}
-              type="password"
-              error={error()}
-              onText={setPassword}
-            />
-            <Input
-              margin={[10, 0, 10, 0]}
-              label={t("registerPage.confirmPassword")}
-              type="password"
-              error={error()}
-              onText={setConfirmPassword}
-            />
+            <Text
+              color="rgba(255, 255, 255, 0.8)"
+              style={{ "align-items": "center", display: "flex", gap: "5px" }}
+              size={14}
+            >
+              <Icon name="info" size={14} color="var(--warn-color)" /> Please
+              be kind to one another!
+            </Text>
+            <Text
+              color="rgba(255, 255, 255, 0.8)"
+              style={{ "align-items": "center", display: "flex", gap: "5px" }}
+              size={14}
+            >
+              <Icon name="info" size={14} color="var(--warn-color)" /> NSFW
+              content is against the TOS.
+            </Text>
+            <Text
+              color="rgba(255, 255, 255, 0.8)"
+              style={{ "align-items": "center", display: "flex", gap: "5px" }}
+              size={14}
+            >
+              <Icon name="info" size={14} color="var(--warn-color)" /> You
+              must be over the age that your country allows social media to use Canary Chat.
+            </Text>
+          </NoticesContainer>
+          <Input
+            margin={[10, 0, 10, 0]}
+            label={t("registerPage.email")}
+            type="email"
+            error={error()}
+            onText={setEmail}
+          />
+          <Input
+            margin={[10, 0, 10, 0]}
+            label={t("registerPage.username")}
+            error={error()}
+            onText={setUsername}
+          />
+          <Input
+            margin={[10, 0, 10, 0]}
+            label={t("registerPage.password")}
+            type="password"
+            error={error()}
+            onText={setPassword}
+          />
+          <Input
+            margin={[10, 0, 10, 0]}
+            label={t("registerPage.confirmPassword")}
+            type="password"
+            error={error()}
+            onText={setConfirmPassword}
+          />
             <Turnstile
               ref={turnstileRef}
               sitekey={env.TURNSTILE_SITEKEY}
