@@ -1,4 +1,13 @@
-import { createEffect, createSignal, Match, on, Show, Switch } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  Match,
+  on,
+  onCleanup,
+  onMount,
+  Show,
+  Switch,
+} from "solid-js";
 import Icon from "../ui/icon/Icon";
 import style from "./InAppNotificationPreviews.module.scss";
 import { useInAppNotificationPreviews } from "./useInAppNotificationPreviews";
@@ -7,10 +16,18 @@ import Avatar from "../ui/Avatar";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Dynamic } from "solid-js/web";
 import { CustomLink } from "../ui/CustomLink";
+import { cn } from "@/common/classNames";
+import Button from "../ui/Button";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import useStore from "@/chat-api/store/useStore";
 
 export default function InAppNotificationPreviews() {
-  const { notifications, removeNotification } = useInAppNotificationPreviews();
+  const { notifications, removeNotification, pushNotification } =
+    useInAppNotificationPreviews();
   const [progressEl, setProgressEl] = createSignal<HTMLDivElement>();
+  const [expanded, setExpanded] = createSignal(false);
+  const { isMobileAgent } = useWindowProperties();
+  const store = useStore();
 
   const notification = () => notifications()[0];
 
@@ -20,8 +37,12 @@ export default function InAppNotificationPreviews() {
     on([notification, progressEl], () => {
       anim?.cancel();
       const progressElement = progressEl();
-      if (!notification()) return;
+      if (!notification()) {
+        setExpanded(false);
+        return;
+      }
       if (!progressElement) return;
+
       anim = progressElement.animate(
         [
           { composite: "replace", width: "100%" },
@@ -29,9 +50,12 @@ export default function InAppNotificationPreviews() {
         ],
         { duration: 5000, fill: "forwards", endDelay: 300, delay: 300 }
       );
+
+      if (expanded()) anim.pause();
       anim.onfinish = () => {
         anim?.cancel();
         removeNotification(notification()!);
+        setExpanded(false);
       };
     })
   );
@@ -50,8 +74,29 @@ export default function InAppNotificationPreviews() {
       return RouterEndpoints.INBOX_MESSAGES(inboxChannelId);
     }
   };
-  const onClick = () => {
+  const onClick = (event: MouseEvent) => {
+    if (event.target instanceof HTMLElement) {
+      if (event.target.closest(".ipnpActions")) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+    }
     notification()?.onClick?.();
+    removeNotification(notification()!);
+  };
+  createEffect(
+    on(expanded, () => {
+      if (expanded()) {
+        anim?.pause();
+      } else {
+        anim?.play();
+      }
+    })
+  );
+
+  const dismissNotification = () => {
+    store.channels.get(notification()?.channel?.id!)?.dismissNotification();
     removeNotification(notification()!);
   };
 
@@ -61,54 +106,81 @@ export default function InAppNotificationPreviews() {
         onClick={onClick}
         component={href() ? CustomLink : "div"}
         href={href()}
-        class={style.backgroundContainer}
+        class={cn(
+          style.backgroundContainer,
+          expanded() && style.expanded,
+          isMobileAgent() && style.mobile
+        )}
+        onMouseOver={() => !isMobileAgent() && setExpanded(true)}
+        onMouseLeave={() => setExpanded(false)}
+        onContextMenu={(e: MouseEvent) => {
+          e.preventDefault();
+          setExpanded(true);
+        }}
       >
         <div class={style.container}>
-          <div class={style.infoContainer}>
-            <Switch>
-              <Match when={notification()?.message}>
-                <Avatar
-                  class={style.avatar}
-                  size={28}
-                  user={notification()?.message?.createdBy!}
-                />
-              </Match>
-              <Match when={true}>
-                <Icon
-                  size={28}
-                  name={notification()?.icon || "info"}
-                  color={notification()?.color || "var(--primary-color)"}
-                />
-              </Match>
-            </Switch>
-            <div class={style.info}>
-              <div class={style.title}>{notification()?.title}</div>
-              <div class={style.body}>
-                <Show when={notification()?.message?.attachments?.length}>
-                  <Icon
-                    name="attach_file"
-                    size={16}
-                    color="rgba(255,255,255,0.6)"
+          <div class={style.innerContainer}>
+            <div class={style.infoContainer}>
+              <Switch>
+                <Match when={notification()?.message}>
+                  <Avatar
+                    class={style.avatar}
+                    size={28}
+                    user={notification()?.message?.createdBy!}
                   />
-                </Show>
-                <Markup
-                  class={style.markup}
-                  text={notification()?.body || ""}
-                  inline
+                </Match>
+                <Match when={true}>
+                  <Icon
+                    size={28}
+                    name={notification()?.icon || "info"}
+                    color={notification()?.color || "var(--primary-color)"}
+                  />
+                </Match>
+              </Switch>
+              <div class={style.info}>
+                <div class={style.title}>{notification()?.title}</div>
+                <div class={style.body}>
+                  <Show when={notification()?.message?.attachments?.length}>
+                    <Icon
+                      name="attach_file"
+                      size={16}
+                      color="rgba(255,255,255,0.6)"
+                    />
+                  </Show>
+                  <Markup
+                    class={style.markup}
+                    text={notification()?.body || ""}
+                    inline
+                  />
+                </div>
+              </div>
+            </div>
+            <div class={style.progressBar}>
+              <div
+                ref={setProgressEl}
+                class={style.progress}
+                style={{
+                  "background-color":
+                    notification()?.color || "var(--primary-color)",
+                }}
+              ></div>
+            </div>
+          </div>
+          <Show when={notification()?.message}>
+            <div class={cn(style.actions, "ipnpActions")}>
+              <div class={style.actionsContainer}>
+                <Button
+                  label="Mark as Read"
+                  title="Mark as Read"
+                  onClick={dismissNotification}
+                  padding={3}
+                  iconSize={16}
+                  margin={0}
+                  iconName="markunread_mailbox"
                 />
               </div>
             </div>
-          </div>
-          <div class={style.progressBar}>
-            <div
-              ref={setProgressEl}
-              class={style.progress}
-              style={{
-                "background-color":
-                  notification()?.color || "var(--primary-color)",
-              }}
-            ></div>
-          </div>
+          </Show>
         </div>
       </Dynamic>
     </Show>
