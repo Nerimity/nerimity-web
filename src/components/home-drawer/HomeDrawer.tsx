@@ -9,7 +9,7 @@ import {
   useHomeDrawerController,
 } from "./useHomeDrawerController";
 import { createEffect, For, on, Show } from "solid-js";
-import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDrawerFriendItem";
+import HomeDrawerFriendItem from "./friend-item/HomeDrawerFriendItem";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
 import { Modal } from "../ui/modal";
@@ -36,19 +36,16 @@ export default function HomeDrawer() {
 
 const SearchBar = () => {
   const { createPortal } = useCustomPortal();
-  const quickTravelExperimentEnabled = isExperimentEnabled("QUICK_TRAVEL");
   const onClick = () => {
     createPortal?.((close) => <QuickTravel close={close} />, "quick-travel");
   };
   return (
-    <Show when={quickTravelExperimentEnabled()}>
-      <DrawerHeader class={style.searchBarOuter}>
-        <div onClick={onClick} class={style.searchBar}>
-          <Icon name="search" size={18} />
-          Search (Ctrl + Space)
-        </div>
-      </DrawerHeader>
-    </Show>
+    <DrawerHeader class={style.searchBarOuter}>
+      <div onClick={onClick} class={style.searchBar}>
+        <Icon name="search" size={18} />
+        Search (Ctrl + Space)
+      </div>
+    </DrawerHeader>
   );
 };
 
@@ -208,7 +205,7 @@ const FriendsList = (props: {
     <div class={style.friendsList}>
       <For each={props.friends || props.users!}>
         {(friend) => (
-          <InboxDrawerFriendItem
+          <HomeDrawerFriendItem
             isInboxTab={props.inbox}
             friend={props.friends ? (friend as Friend) : undefined}
             user={props.users ? (friend as User) : undefined}
@@ -250,7 +247,7 @@ export const BlockedUsersModal = (props: { close: () => void }) => {
       <Modal.Body>
         <div class={style.blockedUsersList}>
           <For each={controller?.friends.blockedUsers()}>
-            {(user) => <InboxDrawerFriendItem friend={user} />}
+            {(user) => <HomeDrawerFriendItem friend={user} />}
           </For>
         </div>
       </Modal.Body>

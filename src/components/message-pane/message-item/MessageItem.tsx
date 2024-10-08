@@ -560,6 +560,12 @@ const SystemMessage = (props: { message: Message }) => {
           color: "var(--success-color)",
           message: "started a call.",
         };
+      case MessageType.BUMP_SERVER:
+        return {
+          icon: "trending_up",
+          color: "var(--primary-color)",
+          message: "bumped the server.",
+        };
       default:
         return undefined;
     }

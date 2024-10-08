@@ -140,6 +140,13 @@ export default function ExploreServers() {
   return (
     <Container>
       <MetaTitle>Explore Servers</MetaTitle>
+      <div
+        class={css`
+          align-self: flex-start;
+        `}
+      >
+        <Button margin={0} href="/app" label="Back" iconName="arrow_back" />
+      </div>
 
       <Notice
         type="info"

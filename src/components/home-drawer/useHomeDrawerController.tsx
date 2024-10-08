@@ -2,7 +2,7 @@ import { FriendStatus } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
 import { createContextProvider } from "@solid-primitives/context";
 import { createMemo, createSignal } from "solid-js";
-import AddFriendModal from "../inbox/drawer/add-friend/AddFriendModal";
+import AddFriendModal from "./add-friend/AddFriendModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { useParams } from "solid-navigator";
 import { BlockedUsersModal } from "./HomeDrawer";

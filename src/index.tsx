@@ -60,7 +60,7 @@ const SettingsDrawer = lazy(
 const ServerDrawer = lazy(
   () => import("@/components/servers/drawer/ServerDrawer")
 );
-const InboxDrawer = lazy(() => import("@/components/inbox/drawer/InboxDrawer"));
+const HomeDrawer = lazy(() => import("@/components/home-drawer/HomeDrawer"));
 const ExploreDrawer = lazy(() => import("@/components/explore/ExploreDrawer"));
 const ServerSettingsDrawer = lazy(
   () => import("@/components/servers/settings/ServerSettingsDrawer")
@@ -199,7 +199,7 @@ render(() => {
         <Route
           path="/app"
           component={AppPage}
-          components={{ leftDrawer: InboxDrawer, mainPane: DashboardPane }}
+          components={{ leftDrawer: HomeDrawer, mainPane: DashboardPane }}
         >
           <Route
             path="/inbox/:channelId"
@@ -283,7 +283,7 @@ render(() => {
           <Show when={account.hasModeratorPerm()}>
             <Route
               path="/moderation"
-              components={{ mainPane: ModerationPane, leftDrawer: InboxDrawer }}
+              components={{ mainPane: ModerationPane, leftDrawer: HomeDrawer }}
             >
               <Route
                 path="/servers/:serverId"
@@ -311,7 +311,7 @@ render(() => {
             components={{
               mainPane: DashboardPane,
               RightDrawer: undefined,
-              leftDrawer: InboxDrawer,
+              leftDrawer: HomeDrawer,
             }}
           />
         </Route>
