@@ -18,6 +18,11 @@ export default defineConfig({
   },
   plugins: [solidPlugin()],
   css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
+      },
+    },
     postcss: {
       plugins: [autoprefixer()],
     },

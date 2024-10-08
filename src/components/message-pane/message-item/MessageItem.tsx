@@ -1760,7 +1760,7 @@ const MessageReplies = (props: { message: Message }) => {
   }) {
     if (!repliesIds().includes(payload.messageId)) return;
 
-    let replyMessages = [...props.message.replyMessages];
+    const replyMessages = [...props.message.replyMessages];
     const index = replyMessages.findIndex(
       (q) => q.replyToMessage?.id === payload.messageId
     );
