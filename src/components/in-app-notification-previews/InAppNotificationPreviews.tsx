@@ -95,8 +95,11 @@ export default function InAppNotificationPreviews() {
     })
   );
 
-  const dismissNotification = () => {
+  const markAsRead = () => {
     store.channels.get(notification()?.channel?.id!)?.dismissNotification();
+    removeNotification(notification()!);
+  };
+  const dismissNotification = () => {
     removeNotification(notification()!);
   };
 
@@ -166,21 +169,30 @@ export default function InAppNotificationPreviews() {
               ></div>
             </div>
           </div>
-          <Show when={notification()?.message}>
-            <div class={cn(style.actions, "ipnpActions")}>
-              <div class={style.actionsContainer}>
+          <div class={cn(style.actions, "ipnpActions")}>
+            <div class={style.actionsContainer}>
+              <Show when={notification()?.message}>
                 <Button
                   label="Mark as Read"
                   title="Mark as Read"
-                  onClick={dismissNotification}
+                  onClick={markAsRead}
                   padding={3}
                   iconSize={16}
                   margin={0}
                   iconName="markunread_mailbox"
                 />
-              </div>
+              </Show>
+              <Button
+                label="Dismiss"
+                title="Dismiss"
+                onClick={dismissNotification}
+                padding={3}
+                iconSize={16}
+                margin={0}
+                iconName="close"
+              />
             </div>
-          </Show>
+          </div>
         </div>
       </Dynamic>
     </Show>
