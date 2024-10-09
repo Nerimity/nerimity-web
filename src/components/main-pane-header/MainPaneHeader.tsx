@@ -346,12 +346,10 @@ function VoiceHeader(props: { channelId?: string }) {
               size={isSomeoneVideoStreaming() ? "small" : undefined}
             />
             <Show when={isSomeoneVideoStreaming()}>
-              <div class={styles.videoContainer}>
-                <VideoStream
-                  mediaStream={selectedVoiceUser()?.videoStream!}
-                  mute={selectedVoiceUser()?.userId === account.user()?.id}
-                />
-              </div>
+              <VideoStream
+                mediaStream={selectedVoiceUser()?.videoStream!}
+                mute={selectedVoiceUser()?.userId === account.user()?.id}
+              />
             </Show>
           </div>
         </Show>
@@ -364,12 +362,52 @@ function VoiceHeader(props: { channelId?: string }) {
 function VideoStream(props: { mediaStream: MediaStream; mute?: boolean }) {
   let videoEl: HTMLVideoElement | undefined;
 
+  const [muted, setMuted] = createSignal(false);
+
   createEffect(() => {
     if (!videoEl) return;
     videoEl.srcObject = props.mediaStream;
   });
 
-  return <video ref={videoEl} autoplay muted={props.mute} />;
+  return (
+    <div class={styles.videoContainer}>
+      <video ref={videoEl} autoplay muted={props.mute || muted()} />
+      <div class={styles.videoOverlay}>
+        <Show when={!props.mute}>
+          <div class={styles.volumeSlider}>
+            <Button
+              iconName={muted() ? "volume_off" : "volume_up"}
+              iconSize={18}
+              padding={6}
+              color={muted() ? "var(--alert-color)" : "var(--primary-color)"}
+              margin={0}
+              onClick={() => setMuted(!muted())}
+            />
+            <input
+              type="range"
+              min={0}
+              value={muted() ? 0 : videoEl!.volume}
+              max={1}
+              step={0.01}
+              onChange={(e) => {
+                console.log("wtf");
+                videoEl!.volume = parseFloat(e.target.value);
+                setMuted(false);
+              }}
+            />
+          </div>
+        </Show>
+        <Button
+          iconName="fullscreen"
+          iconSize={18}
+          title="Fullscreen"
+          padding={6}
+          margin={0}
+          onClick={() => videoEl?.requestFullscreen({ navigationUI: "hide" })}
+        />
+      </div>
+    </div>
+  );
 }
 
 function VoiceParticipants(props: {
