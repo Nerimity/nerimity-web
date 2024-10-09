@@ -462,7 +462,7 @@ function OnlineUsersPane() {
           padding={4}
           onClick={() => setShowAll(!showAll())}
         />
-        <Text>Online Users</Text>
+        <Text>Online Users ({users()?.length})</Text>
       </FlexRow>
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : users()}>

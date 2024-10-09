@@ -560,6 +560,12 @@ const SystemMessage = (props: { message: Message }) => {
           color: "var(--success-color)",
           message: "started a call.",
         };
+      case MessageType.BUMP_SERVER:
+        return {
+          icon: "trending_up",
+          color: "var(--primary-color)",
+          message: "bumped the server.",
+        };
       default:
         return undefined;
     }
@@ -1754,7 +1760,7 @@ const MessageReplies = (props: { message: Message }) => {
   }) {
     if (!repliesIds().includes(payload.messageId)) return;
 
-    let replyMessages = [...props.message.replyMessages];
+    const replyMessages = [...props.message.replyMessages];
     const index = replyMessages.findIndex(
       (q) => q.replyToMessage?.id === payload.messageId
     );

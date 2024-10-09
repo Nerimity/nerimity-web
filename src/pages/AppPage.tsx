@@ -281,10 +281,8 @@ function useUserNotices() {
 }
 
 function useQuickTravel() {
-  const { experiment } = useExperiment(() => "QUICK_TRAVEL");
   const { createPortal } = useCustomPortal();
   const onKeyDown = (event: KeyboardEvent) => {
-    if (!experiment()) return;
     if (!event.ctrlKey) return;
     if (event.key === " ") {
       createPortal((close) => <QuickTravel close={close} />, "quick-travel");

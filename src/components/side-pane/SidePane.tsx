@@ -70,17 +70,12 @@ export default function SidePane() {
     createPortal?.((close) => <CreateServerModal close={close} />);
   };
 
-  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
-
   return (
     <div
       class={cn(styles.sidePane, isMobileWidth() ? styles.mobile : undefined)}
     >
       <Show when={!isMobileWidth()}>
-        <InboxItem />
-        <Show when={!homeDrawerExperimentEnabled()}>
-          <ExploreItem />
-        </Show>
+        <HomeItem />
       </Show>
       <div class={styles.scrollable}>
         <ServerList />
@@ -100,24 +95,7 @@ export default function SidePane() {
   );
 }
 
-function ExploreItem() {
-  const selected = useMatch(() => "/app/explore/*");
-
-  return (
-    <Tooltip tooltip="Explore">
-      <A
-        href={RouterEndpoints.EXPLORE_SERVER("")}
-        style={{ "text-decoration": "none" }}
-      >
-        <SidebarItemContainer selected={selected()}>
-          <Icon name="explore" />
-        </SidebarItemContainer>
-      </A>
-    </Tooltip>
-  );
-}
-
-function InboxItem() {
+function HomeItem() {
   const { inbox, friends, servers } = useStore();
   const location = useLocation();
   const isSelected = () => {
@@ -138,16 +116,12 @@ function InboxItem() {
     updateTitleAlert(count() || servers.hasNotifications() ? true : false);
   });
 
-  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
-
   return (
-    <Tooltip
-      tooltip={homeDrawerExperimentEnabled() ? "Home" : "Dashboard / Inbox"}
-    >
+    <Tooltip tooltip="Home">
       <A href="/app" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={isSelected()} alert={count()}>
           <NotificationCountBadge count={count()} top={10} right={10} />
-          <Icon name={homeDrawerExperimentEnabled() ? "home" : "all_inbox"} />
+          <Icon name="home" />
         </SidebarItemContainer>
       </A>
     </Tooltip>

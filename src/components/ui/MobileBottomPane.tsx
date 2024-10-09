@@ -24,8 +24,6 @@ export default function MobileBottomPane() {
 
   const showPane = () => drawer?.currentPage() === 0;
 
-  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
-
   return (
     <div
       class={classNames(
@@ -34,14 +32,8 @@ export default function MobileBottomPane() {
         showPane() ? style.show : undefined
       )}
     >
-      <InboxItem />
-      <Show when={!homeDrawerExperimentEnabled()}>
-        <AnchorItem
-          href={RouterEndpoints.EXPLORE_SERVER("")}
-          title="Explore"
-          icon="explore"
-        />
-      </Show>
+      <HomeItem />
+
       <ModerationItem />
       <SettingsItem />
       <UserItem />
@@ -49,7 +41,7 @@ export default function MobileBottomPane() {
   );
 }
 
-function InboxItem() {
+function HomeItem() {
   const { inbox, friends, servers } = useStore();
   const location = useLocation();
   const isSelected = () => {
@@ -70,13 +62,11 @@ function InboxItem() {
     updateTitleAlert(count() || servers.hasNotifications() ? true : false);
   });
 
-  const homeDrawerExperimentEnabled = isExperimentEnabled("HOME_DRAWER");
-
   return (
     <AnchorItem
       selected={isSelected()}
-      title={homeDrawerExperimentEnabled() ? "Home" : "Inbox"}
-      icon={homeDrawerExperimentEnabled() ? "home" : "all_inbox"}
+      title="Home"
+      icon="home"
       href="/app"
       notify={count() ? { count: count(), top: 3, right: 16 } : undefined}
     />

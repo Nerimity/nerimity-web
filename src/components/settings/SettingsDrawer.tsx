@@ -247,7 +247,7 @@ function FooterItem(props: FooterItemProps) {
 function SupportItem() {
   return (
     <A
-      href="https://ko-fi.com/supertiger"
+      href="https://boosty.to/supertigerdev/donate"
       target="_blank"
       rel="noopener noreferrer"
       style={{ "text-decoration": "none" }}
@@ -270,7 +270,7 @@ function SupportItem() {
           </Text>
           <div>
             <Text size={12}>
-              Support this project on Ko-fi to get a supporter badge!
+              Support this project on Boosty to get a supporter badge!
             </Text>
           </div>
         </div>

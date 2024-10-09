@@ -13,17 +13,6 @@ export interface Experiment {
 
 export const Experiments = [
   {
-    id: "HOME_DRAWER",
-    name: "New Home Drawer",
-    description:
-      "Enable the new home drawer, which replaces the current inbox drawer.",
-  },
-  {
-    id: "QUICK_TRAVEL",
-    name: "Quick Travel",
-    description: "Press CTRL + SPACE to open Quick Travel.",
-  },
-  {
     id: "IN_APP_NOTIFICATION_PREVIEWS",
     name: "In-App Notification Previews",
     description: "Show popup notifications in app.",
