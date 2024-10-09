@@ -32,7 +32,7 @@ export function ScreenShareModal(props: { close: () => void }) {
 
   const isServerVerified = () => server()?.verified;
   const hasSupporterBadge = () =>
-    hasBit(channel()?.recipient()?.badges || 0, USER_BADGES.SUPPORTER.bit);
+    hasBit(store.account.user()?.badges || 0, USER_BADGES.SUPPORTER.bit);
 
   const premiumQuality = () => isServerVerified() || hasSupporterBadge();
 
