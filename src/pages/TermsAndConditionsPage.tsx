@@ -103,7 +103,7 @@ export default function TermsAndConditionsPage() {
             <strong>you are over the age of 14</strong> and the age of consent
             in your country. If you are caught underage, your account will be
             suspended. If you think we made a false decision in banning you, you
-            may email us at nerimity@gmail.com with proof of your age to
+            may email us at nerimityapp@gmail.com with proof of your age to
             un-suspend your account.
           </Block>
           <Block title="3. Behavior">
