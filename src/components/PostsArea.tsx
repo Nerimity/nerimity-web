@@ -686,13 +686,15 @@ function PostNotification(props: { notification: RawPostNotification }) {
             post={cachedPost()!}
             disableClick
             class={css`
-              margin: 0;
-              padding: 0;
-              background: none;
-              &:hover {
+              && {
+                margin: 0;
+                padding: 0;
                 background: none;
+                &:hover {
+                  background: none;
+                }
+                box-shadow: none;
               }
-              box-shadow: none;
             `}
           />
         </FlexColumn>
