@@ -22,11 +22,15 @@ Forked from Nerimity (Originally made by Superkitten), and forked by Quizzity.
 - QuizzityMC
 - ZXMushroom68
 - Henry Wauzivuff
-- And others... (Continue the list with the names of contributors) 
+- And others currently unnamed.
+  
+  (Continue the list with the names of contributors) 
 
 ## Repos
 - Canary Web - Frontend (You Are Here)
-- [Canary/Nerimity Server - Backend](https://github.com/Supertigerr/chat-server)
+- [Canary Server - Backend](https://github.com/ADSChat/adschat-server) (This repository may be outdated)
+- [Nerimity Web - Frontend](https://github.com/Supertigerr/Nerimity/nerimity-web)
+- [Nerimity Server - Backend](https://github.com/Supertigerr/chat-server)
 
 ## Setup
 
@@ -39,6 +43,7 @@ Forked from Nerimity (Originally made by Superkitten), and forked by Quizzity.
 
 ### Planned Features:
 - [ ] Explore Themes
+- [ ] Change certain designs
 
 ### Completed Features:
 - [x] Explore Servers
