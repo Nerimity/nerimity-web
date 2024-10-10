@@ -734,7 +734,11 @@ function PostNotification(props: { notification: RawPostNotification }) {
               >
                 <strong
                   class={notificationUsernameStyles}
-                  style="display: inline-block; max-width: 200px; vertical-align: bottom;"
+                  style={{
+                    display: "inline-block",
+                    "max-width": "200px",
+                    "vertical-align": "bottom",
+                  }}
                 >
                   {"username"}
                 </strong>
@@ -782,7 +786,11 @@ function PostNotification(props: { notification: RawPostNotification }) {
               >
                 <strong
                   class={notificationUsernameStyles}
-                  style="display: inline-block; max-width: 200px; vertical-align: bottom;"
+                  style={{
+                    display: "inline-block",
+                    "max-width": "200px",
+                    "vertical-align": "bottom",
+                  }}
                 >
                   {"username"}
                 </strong>
@@ -912,7 +920,7 @@ export function ViewPostModal(props: { close(): void }) {
         <Show when={post()}>
           <FlexColumn gap={6}>
             <For each={commentToList()}>
-              {(post) => <PostItem showFullDate disableClick post={post!} />}
+              {(post) => <PostItem showFullDate post={post!} />}
             </For>
           </FlexColumn>
           <FlexRow

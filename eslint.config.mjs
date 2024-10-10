@@ -40,16 +40,10 @@ export default [
       "brace-style": ["error", "stroustrup"],
       quotes: ["error", "double"],
 
-      indent: [
-        "error",
-        2,
-        {
-          SwitchCase: 1,
-        },
-      ],
+      indent: "off",
 
       semi: ["error", "always"],
-      "comma-dangle": ["error", "always-multiline"],
+      "comma-dangle": "off",
     },
   },
   solid,

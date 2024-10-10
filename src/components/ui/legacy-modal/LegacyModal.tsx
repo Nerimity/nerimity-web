@@ -25,35 +25,50 @@ interface Props {
 
 export default function LegacyModal(props: Props) {
   const { isMobileWidth } = useWindowProperties();
-  let mouseDownTarget: HTMLDivElement | null = null;
 
-  const modalContainerStyle = () =>
-    ({
-      ...(props.maxWidth
-        ? {
-            "max-width": `${props.maxWidth}px`,
-          }
-        : {}),
+  const modalContainerStyle = () => {
+    const s = {} as JSX.CSSProperties;
+    if (props.maxWidth) {
+      s["max-width"] = `${props.maxWidth}px`;
+    }
 
-      ...(props.maxHeight
-        ? {
-            "max-height": `${props.maxHeight}px`,
-            height: `${isMobileWidth() ? "calc(100% - 20px)" : "100%"}`,
-          }
-        : {}),
-    } as JSX.CSSProperties);
+    if (props.maxHeight) {
+      s["max-height"] = `${props.maxHeight}px`;
+      s.height = `${isMobileWidth() ? "calc(100% - 20px)" : "100%"}`;
+    }
 
+    return s;
+  };
+  let startClick = { x: 0, y: 0 };
+  let textSelected = false;
   const onBackgroundClick = (event: MouseEvent) => {
     if (props.ignoreBackgroundClick) return;
-    if (mouseDownTarget?.closest(".modal")) return;
+    if (event.target !== event.currentTarget) return;
+
+    const xDistance = Math.abs(startClick.x - event.clientX);
+    const yDistance = Math.abs(startClick.y - event.clientY);
+
+    const clickedPos = xDistance > 3 || yDistance > 3;
+    if (clickedPos || textSelected) {
+      return;
+    }
+
     props.close?.();
+  };
+
+  const onMouseDown = (event: MouseEvent) => {
+    startClick = {
+      x: event.clientX,
+      y: event.clientY,
+    };
+    textSelected = !!window.getSelection()?.toString();
   };
   return (
     <Portal>
       <div
         class={classNames(styles.backgroundContainer, "modal-bg")}
         onClick={onBackgroundClick}
-        onMouseDown={(e) => (mouseDownTarget = e.target as HTMLDivElement)}
+        onMouseDown={onMouseDown}
       >
         <div
           style={modalContainerStyle()}
