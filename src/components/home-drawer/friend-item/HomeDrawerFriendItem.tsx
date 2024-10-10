@@ -111,7 +111,7 @@ export default function HomeDrawerFriendItem(props: {
       <FriendContainer
         onmouseenter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        selected={!isBlocked() && isSelected()}
+        selected={props.isInboxTab && !isBlocked() && isSelected()}
         alert={mentionCount() || showAccept()}
         onClick={onFriendClick}
       >
