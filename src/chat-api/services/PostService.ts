@@ -12,6 +12,14 @@ interface GetFeedPostsOpts {
   afterId?: string
 }
 
+export const getAnnouncementPosts = async () => {
+  const data = await request<RawPost[]>({
+    method: "GET",
+    url: env.SERVER_URL + "/api/posts/announcement",
+    useToken: true
+  });
+  return data;
+};
 export const getFeedPosts = async (opts?: GetFeedPostsOpts) => {
   const data = await request<RawPost[]>({
     method: "GET",
@@ -186,11 +194,11 @@ export const createPost = async (opts: { content?: string, attachment?: File, re
   if (opts.attachment) {
     const res = await uploadAttachment(userId!, {
       file: opts.attachment,
-    })
+    });
     fileId = res.fileId;
   }
 
-  let body: any = {
+  const body: any = {
     content: opts.content,
     poll: opts.poll,
     ...(fileId ? { nerimityCdnFileId: fileId } : undefined),

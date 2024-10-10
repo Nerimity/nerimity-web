@@ -1,4 +1,7 @@
-import { deletePosts } from "@/chat-api/services/ModerationService";
+import {
+  addAnnouncePost,
+  removeAnnouncePost,
+} from "@/chat-api/services/ModerationService";
 import { createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "../ui/Button";
@@ -7,7 +10,7 @@ import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 
-const DeletePostsContainer = styled("div")`
+const Container = styled("div")`
   min-width: 260px;
   margin-bottom: 10px;
   padding-left: 8px;
@@ -20,31 +23,31 @@ const DeletePostsContainer = styled("div")`
 `;
 
 interface Props {
-  postIds: string[];
+  postId: string;
   close: () => void;
   done: () => void;
 }
 
-export default function DeletePostsModal(props: Props) {
+export default function DeleteAnnouncePostsModal(props: Props) {
   const [password, setPassword] = createSignal("");
   const [error, setError] = createSignal<{
     message: string;
     path?: string;
   } | null>(null);
-  const [deleting, setDeleting] = createSignal(false);
+  const [requestSent, setRequestSent] = createSignal(false);
 
   const onDeleteClicked = () => {
-    if (deleting()) return;
-    setDeleting(true);
+    if (requestSent()) return;
+    setRequestSent(true);
     setError(null);
 
-    deletePosts(password(), props.postIds)
+    removeAnnouncePost(password(), props.postId)
       .then(() => {
         props.done();
         props.close();
       })
       .catch((err) => setError(err))
-      .finally(() => setDeleting(false));
+      .finally(() => setRequestSent(false));
   };
 
   const ActionButtons = (
@@ -59,8 +62,8 @@ export default function DeletePostsModal(props: Props) {
       <Button
         onClick={onDeleteClicked}
         margin={0}
-        label={deleting() ? "Suspending..." : "Suspend"}
-        color="var(--alert-color)"
+        label={requestSent() ? "Deleting..." : "Delete"}
+        color="var(--primary-color)"
         primary
       />
     </FlexRow>
@@ -69,12 +72,12 @@ export default function DeletePostsModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={`Delete ${props.postIds.length} post(s)`}
+      title={"Announce Post"}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
-      color="var(--alert-color)"
     >
-      <DeletePostsContainer>
+      <Container>
+        <Text size={14}>Delete announcement for this post.</Text>
         <Input
           label="Confirm Password"
           type="password"
@@ -87,7 +90,7 @@ export default function DeletePostsModal(props: Props) {
             {error()?.message}
           </Text>
         </Show>
-      </DeletePostsContainer>
+      </Container>
     </LegacyModal>
   );
 }

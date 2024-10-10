@@ -52,6 +52,8 @@ import {
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { classNames } from "@/common/classNames";
 import DeletePostsModal from "./DeletePostsModal";
+import AnnouncePostsModal from "./AnnouncePostsModal";
+import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -1110,6 +1112,22 @@ function PostsPane() {
   const onDelete = (postId: string) => {
     setPosts(posts().filter((post) => post.id !== postId));
   };
+  const onAnnouncementAdd = (postId: string) => {
+    setPosts(
+      posts().map((post) => {
+        if (post.id !== postId) return post;
+        return { ...post, announcement: true };
+      })
+    );
+  };
+  const onAnnouncementRemove = (postId: string) => {
+    setPosts(
+      posts().map((post) => {
+        if (post.id !== postId) return post;
+        return { ...post, announcement: false };
+      })
+    );
+  };
 
   return (
     <PaneContainer class="pane posts" ref={pageContainerEl}>
@@ -1132,7 +1150,14 @@ function PostsPane() {
 
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : posts()}>
-          {(post) => <Post post={post} onDelete={onDelete} />}
+          {(post) => (
+            <Post
+              post={post}
+              onDelete={onDelete}
+              onAnnouncementAdd={onAnnouncementAdd}
+              onAnnouncementRemove={onAnnouncementRemove}
+            />
+          )}
         </For>
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
@@ -1149,6 +1174,8 @@ function PostsPane() {
 export function Post(props: {
   post: RawPost;
   onDelete?: (postId: string) => void;
+  onAnnouncementAdd?: (postId: string) => void;
+  onAnnouncementRemove?: (postId: string) => void;
 }) {
   const created = formatTimestamp(props.post.createdAt);
   const createdBy = props.post.createdBy;
@@ -1165,6 +1192,26 @@ export function Post(props: {
         close={close}
         postIds={[props.post.id]}
         done={() => props.onDelete?.(props.post.id)}
+      />
+    ));
+  };
+  const onPostAnnounceClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    createPortal((close) => (
+      <AnnouncePostsModal
+        close={close}
+        postId={props.post.id}
+        done={() => props.onAnnouncementAdd?.(props.post.id)}
+      />
+    ));
+  };
+  const onRemoveAnnounceClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    createPortal((close) => (
+      <DeleteAnnouncePostsModal
+        close={close}
+        postId={props.post.id}
+        done={() => props.onAnnouncementRemove?.(props.post.id)}
       />
     ));
   };
@@ -1230,12 +1277,41 @@ export function Post(props: {
         </Show>
       </ItemDetailContainer>
 
-      <Button
-        onClick={onPostDeleteClick}
-        styles={{ "margin-left": "auto", "align-self": "start" }}
-        iconName="delete"
-        color="var(--alert-color)"
-      />
+      <FlexColumn style={{ "margin-left": "auto" }} gap={4}>
+        <Show when={props.post.announcement}>
+          <Button
+            onClick={onRemoveAnnounceClick}
+            iconName="horizontal_rule"
+            label="Remove Announce"
+            textSize={12}
+            iconSize={16}
+            margin={0}
+            padding={4}
+            color="var(--alert-color)"
+          />
+        </Show>
+        <Show when={!props.post.announcement}>
+          <Button
+            onClick={onPostAnnounceClick}
+            iconName="add"
+            label="Announce"
+            textSize={12}
+            iconSize={16}
+            margin={0}
+            padding={4}
+          />
+        </Show>
+        <Button
+          onClick={onPostDeleteClick}
+          iconName="delete"
+          label="Delete"
+          textSize={12}
+          iconSize={16}
+          color="var(--alert-color)"
+          margin={0}
+          padding={4}
+        />
+      </FlexColumn>
     </div>
   );
 }

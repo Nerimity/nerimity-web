@@ -1,6 +1,7 @@
 import { RawPost } from "@/chat-api/RawData";
 import {
   createPost,
+  getAnnouncementPosts,
   getPostNotificationCount,
   getPostNotificationDismiss,
   getPostNotifications,
@@ -10,7 +11,7 @@ import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A, useNavigate } from "solid-navigator";
+import { A, useNavigate, useSearchParams } from "solid-navigator";
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
@@ -30,6 +31,7 @@ import { getActivityIconName } from "@/components/activity/Activity";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { t } from "i18next";
 import { MetaTitle } from "@/common/MetaTitle";
+import { MentionUser } from "./markup/MentionUser";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -83,6 +85,7 @@ export default function DashboardPane() {
       <MetaTitle>Dashboard</MetaTitle>
       <DashboardPaneContent gap={10}>
         <Show when={account.user()}>
+          <Announcements />
           <ActivityList />
           <ServerList />
           <PostsContainer />
@@ -91,6 +94,67 @@ export default function DashboardPane() {
     </DashboardPaneContainer>
   );
 }
+
+const Announcements = () => {
+  const [posts, setPosts] = createSignal<RawPost[]>([]);
+  onMount(() => {
+    getAnnouncementPosts()
+      .then(setPosts)
+      .catch(() => {});
+  });
+  return (
+    <Show when={posts().length}>
+      <FlexColumn gap={8}>
+        <Text size={18} style={{ "margin-left": "5px" }}>
+          Announcements
+        </Text>
+        <FlexColumn gap={4}>
+          <For each={posts()}>{(post) => <PostItem post={post} />}</For>
+        </FlexColumn>
+      </FlexColumn>
+    </Show>
+  );
+};
+
+const PostItem = (props: { post: RawPost }) => {
+  const [, setSearchParams] = useSearchParams<{ postId: string }>();
+
+  return (
+    <FlexColumn
+      onClick={() => {
+        setSearchParams({ postId: props.post.id });
+      }}
+      class={css`
+        background: rgba(255, 255, 255, 0.06);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.08);
+        }
+      `}
+      style={{
+        padding: "12px",
+        "border-radius": "6px",
+        cursor: "pointer",
+      }}
+    >
+      <Show when={props.post.content}>
+        <FlexRow itemsCenter gap={4}>
+          <Text>{formatTimestamp(props.post.createdAt)} by </Text>
+          <div class="markup" style={{ "font-size": "14px" }}>
+            <MentionUser user={props.post.createdBy} />
+          </div>
+        </FlexRow>
+        <Markup
+          text={props.post.content!}
+          class={css`
+            font-size: 14px;
+            opacity: 0.8;
+          `}
+        />
+      </Show>
+    </FlexColumn>
+  );
+};
 
 const NotificationCountContainer = styled(FlexRow)<{ selected: boolean }>`
   align-items: center;
@@ -500,7 +564,7 @@ const PresenceItem = (props: { presence: Presence }) => {
           style={{
             "background-image": `url(${imgSrc()})`,
           }}
-        ></div>
+        />
         <img src={imgSrc()} class={activityImageStyles} />
       </Show>
 

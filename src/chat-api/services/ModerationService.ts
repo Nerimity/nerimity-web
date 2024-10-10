@@ -109,6 +109,34 @@ export const deletePosts = async (
   });
   return data;
 };
+export const addAnnouncePost = async (
+  confirmPassword: string,
+  postId: string
+) => {
+  const data = await request<any[]>({
+    method: "POST",
+    body: {
+      password: confirmPassword,
+    },
+    url: env.SERVER_URL + `/api/moderation/posts/${postId}/announcement`,
+    useToken: true,
+  });
+  return data;
+};
+export const removeAnnouncePost = async (
+  confirmPassword: string,
+  postId: string
+) => {
+  const data = await request<any[]>({
+    method: "DELETE",
+    body: {
+      password: confirmPassword,
+    },
+    url: env.SERVER_URL + `/api/moderation/posts/${postId}/announcement`,
+    useToken: true,
+  });
+  return data;
+};
 
 export const getUsers = async (limit: number, afterId?: string) => {
   const data = await request<any[]>({
