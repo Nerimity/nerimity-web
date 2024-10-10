@@ -7,16 +7,26 @@
   <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot3.png" width="32%"/>
 </p> 
 
-# Nerimity Web (SolidJS)
+# Canary Chat Web (SolidJS)
 [![Nerimity](https://raw.githubusercontent.com/Nerimity/assets/main/src/nerimity-badge-88x31.png)](https://nerimity.com)
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y1FN57Z)
 
 Chat App made using SolidJS.
+Forked from Nerimity (Originally made by Superkitten), and forked by Quizzity.
 
+[Canary Chat Site](https://chat.quizzity.tech)
+
+## Contributors
+### Add your name here as a contributor
+- Superkitten
+- QuizzityMC
+- ZXMushroom68
+- Henry Wauzivuff
+- And others... (Continue the list with the names of contributors) 
 
 ## Repos
-- Nerimity Web - Frontend (You Are Here)
-- [Nerimity Server - Backend](https://github.com/Supertigerr/chat-server)
+- Canary Web - Frontend (You Are Here)
+- [Canary/Nerimity Server - Backend](https://github.com/Supertigerr/chat-server)
 
 ## Setup
 
