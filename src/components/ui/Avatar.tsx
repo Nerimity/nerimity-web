@@ -45,7 +45,7 @@ export default function Avatar(props: Props) {
 
     if (!rawUrl?.endsWith(".gif")) return url.href;
 
-    if(!hasFocus() || !props.animate) {
+    if (!hasFocus() || !props.animate) {
       url.searchParams.set("type", "webp");
     }
 
@@ -120,6 +120,15 @@ function AvatarBorder(props: {
   return (
     <>
       <Switch>
+        <Match when={props.badge?.bit === USER_BADGES.MOD.bit}>
+          <ModBorder
+            size={props.size}
+            avatarUrl={props.url}
+            hovered={props.hovered}
+            color={props.color}
+            children={props.children}
+          />
+        </Match>
         <Match when={props.badge?.bit === USER_BADGES.SUPPORTER.bit}>
           <SupporterBorder
             size={props.size}
@@ -277,7 +286,7 @@ function BasicBorder(props: {
                 "border-radius": (props.size / 100) * 8 + "px",
                 bottom: -((props.size / 100) * 15) + "px",
                 padding: (props.size / 100) * 5 + "px",
-                background: props.color
+                background: props.color,
               }}
             >
               {props.label}
@@ -289,6 +298,23 @@ function BasicBorder(props: {
   );
 }
 
+function ModBorder(props: {
+  size: number;
+  avatarUrl?: string;
+  hovered?: boolean;
+  color?: string;
+  children?: JSXElement;
+}) {
+  return (
+    <FounderAdminSupporterBorder
+      type="mod"
+      children={props.children}
+      color={props.color}
+      url={props.avatarUrl}
+      hovered={props.hovered}
+    />
+  );
+}
 function SupporterBorder(props: {
   size: number;
   avatarUrl?: string;
@@ -325,8 +351,7 @@ function AdminBorder(props: {
   );
 }
 
-
-function  FounderBorder(props: {
+function FounderBorder(props: {
   size: number;
   avatarUrl?: string;
   hovered?: boolean;
@@ -343,7 +368,7 @@ function  FounderBorder(props: {
     />
   );
 }
-function  PalestineBorder(props: {
+function PalestineBorder(props: {
   size: number;
   avatarUrl?: string;
   hovered?: boolean;
