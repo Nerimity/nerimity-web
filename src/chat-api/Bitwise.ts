@@ -26,6 +26,7 @@ export const USER_BADGES = {
     name: "Moderator",
     bit: 64,
     description: "Moderator of Nerimity",
+    color: "linear-gradient(90deg, #57acfa 0%, #1485ed 100%)",
     credit: "Avatar Border by upklyak on Freepik",
   },
   SUPPORTER: {
