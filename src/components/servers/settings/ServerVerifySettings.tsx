@@ -1,4 +1,3 @@
-
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
@@ -33,10 +32,10 @@ export default function ServerSettingsBans() {
     header.updateHeader({
       title: "Settings - Verify",
       serverId: params.serverId!,
-      iconName: "settings"
+      iconName: "settings",
     });
   });
-  const TARGET_MEMBERS = 20;
+  const TARGET_MEMBERS = 30;
   const server = () => servers.get(params.serverId);
   const isVerified = () => server()?.verified;
   const memberCount = () => serverMembers.array(params.serverId).length;
@@ -45,17 +44,21 @@ export default function ServerSettingsBans() {
 
   const verifyClick = () => {
     return createPortal((close) => (
-      <CreateTicketModal
-        close={close}
-        ticket={{ id: "SERVER_VERIFICATION" }}
-      />
+      <CreateTicketModal close={close} ticket={{ id: "SERVER_VERIFICATION" }} />
     ));
   };
 
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem
+          href={RouterEndpoints.SERVER_MESSAGES(
+            params.serverId,
+            server()?.defaultChannelId!
+          )}
+          icon="home"
+          title={server()?.name}
+        />
         <BreadcrumbItem title={t("servers.settings.drawer.verify")} />
       </Breadcrumb>
       {/* Notices depending on how many members the server has and if it's verified.  */}
@@ -64,25 +67,91 @@ export default function ServerSettingsBans() {
           <Notice type="info" description="Your server is already verified." />
         </Match>
         <Match when={membersNeeded() > 0}>
-          <Notice type="warn" description={`You need ${membersNeeded()} more member(s) to apply for a verification.`} />
+          <Notice
+            type="warn"
+            description={`You need ${membersNeeded()} more member(s) to apply for a verification.`}
+          />
         </Match>
         <Match when={membersNeeded() <= 0}>
-          <Notice type="success" description={"You have enough members to verify your server!"} children={<Button onClick={verifyClick} label="Verify" styles={{"margin-left": "auto"}} margin={0} color="var(--success-color)" />} />
+          <Notice
+            type="success"
+            description={"You have enough members to verify your server!"}
+            children={
+              <Button
+                onClick={verifyClick}
+                label="Verify"
+                styles={{ "margin-left": "auto" }}
+                margin={0}
+                color="var(--success-color)"
+              />
+            }
+          />
         </Match>
       </Switch>
       <ListContainer>
-        <Text size={24} style={{ "margin-bottom": "10px" }}>Requirements</Text>
-        <SettingsBlock icon="people" label={`${TARGET_MEMBERS} or more members`} description={`Your server must have at least ${TARGET_MEMBERS} members.`} />
-        <SettingsBlock icon="cleaning_services" label="Profanity free" description="Server name, avatar and banner should be profanity free." />
-        <SettingsBlock icon="landscape" label="Avatar & Banner" description="Server should have an avatar and a banner." />
-        <SettingsBlock icon="gavel" label="Server rules" description="Server should have a rules channel." />
+        <Text size={24} style={{ "margin-bottom": "10px" }}>
+          Requirements
+        </Text>
+        <SettingsBlock
+          icon="translate"
+          label="English Only"
+          description="Servers that are not English are harder to moderate."
+        />
+        <SettingsBlock
+          icon="calendar_month"
+          label="At least 1 month OR supporter badge"
+          description="Your server must be at least 1 month old OR the owner of the server must have the supporter badge"
+        />
+        <SettingsBlock
+          icon="people"
+          label={`${TARGET_MEMBERS} or more members`}
+          description={`Your server must have at least ${TARGET_MEMBERS} members.`}
+        />
+        <SettingsBlock
+          icon="cleaning_services"
+          label="Profanity free"
+          description="Server name, avatar and banner should be profanity free."
+        />
+        <SettingsBlock
+          icon="landscape"
+          label="Avatar & Banner"
+          description="Server should have an avatar and a banner."
+        />
+        <SettingsBlock
+          icon="gavel"
+          label="Server rules"
+          description="Server should have a rules channel."
+        />
       </ListContainer>
       <ListContainer>
-        <Text size={24} style={{ "margin-bottom": "10px" }}>Perks</Text>
-        <SettingsBlock icon="verified" label="Verified badge" description="A badge to show that your server is special." />
-        <SettingsBlock icon="explore" label="Explore" description="Your server can be displayed in the explore page." />
-        <SettingsBlock icon="link" label="Custom invite link" description="Create your own invite link from the invites page." />
-        <SettingsBlock icon="face" label="More emoji slots" description="200 emoji slots for your server." />
+        <Text size={24} style={{ "margin-bottom": "10px" }}>
+          Perks
+        </Text>
+        <SettingsBlock
+          icon="verified"
+          label="Verified badge"
+          description="A badge to show that your server is special."
+        />
+        <SettingsBlock
+          icon="explore"
+          label="Explore"
+          description="Your server can be displayed in the explore page."
+        />
+        <SettingsBlock
+          icon="link"
+          label="Custom invite link"
+          description="Create your own invite link from the invites page."
+        />
+        <SettingsBlock
+          icon="face"
+          label="More emoji slots"
+          description="200 emoji slots for your server."
+        />
+        <SettingsBlock
+          icon="video_camera_front"
+          label="1080p@60fps screenshare"
+          description="Screenshare in 1080p at 60fps."
+        />
       </ListContainer>
     </Container>
   );
