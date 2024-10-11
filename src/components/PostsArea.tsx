@@ -1023,9 +1023,9 @@ export function DeletePostModal(props: { post: Post; close: () => void }) {
       />
       <Button
         onClick={onDeleteClick}
-        iconName={t("posts.deletePostModal.deleteButton")}
+        iconName="delete"
         color="var(--alert-color)"
-        label="Delete"
+        label={t("posts.deletePostModal.deleteButton")}
       />
     </FlexRow>
   );
