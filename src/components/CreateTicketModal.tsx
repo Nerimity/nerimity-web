@@ -39,6 +39,7 @@ export function CreateTicketModal(props: {
   const [body, setBody] = createSignal("");
   const [error, setError] = createSignal<null | string>(null);
   const [serverInviteUrl, setServerInviteUrl] = createSignal<string>("");
+  const [requestSent, setRequestSent] = createSignal(false);
 
   const Categories: DropDownItem[] = [
     { id: "SERVER_VERIFICATION", label: "Verify Server" },
@@ -49,6 +50,8 @@ export function CreateTicketModal(props: {
   ];
 
   const createTicketClick = async () => {
+    if (requestSent()) return;
+
     setError(null);
 
     if (selectedCategoryId() === "SELECT") {
@@ -92,6 +95,8 @@ export function CreateTicketModal(props: {
       setTitle("Server Verification");
     }
 
+    setRequestSent(true);
+
     const ticket = await createTicket({
       body: customBody,
       category:
@@ -99,6 +104,7 @@ export function CreateTicketModal(props: {
       title: title(),
     }).catch((err) => {
       setError(err.message);
+      setRequestSent(false);
     });
     if (!ticket) return;
     navigate(`/app/settings/tickets/${ticket.id}`);
@@ -114,7 +120,7 @@ export function CreateTicketModal(props: {
         iconName="close"
       />
       <Button
-        label="Create Ticket"
+        label={requestSent() ? "Creating..." : "Create Ticket"}
         onClick={createTicketClick}
         iconName="add"
         primary
