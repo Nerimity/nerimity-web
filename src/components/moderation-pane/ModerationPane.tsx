@@ -46,7 +46,9 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import Icon from "../ui/icon/Icon";
 
 import {
+  emitModerationServerDeleted,
   emitModerationUserSuspended,
+  useModerationServerDeletedListener,
   useModerationUserSuspendedListener,
 } from "@/common/GlobalEvents";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
@@ -54,6 +56,7 @@ import { classNames } from "@/common/classNames";
 import DeletePostsModal from "./DeletePostsModal";
 import AnnouncePostsModal from "./AnnouncePostsModal";
 import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
+import DeleteServersModal from "./DeleteServersModal";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -62,6 +65,10 @@ const ServerPage = lazy(() => import("./ServerPage"));
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
 const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
+const [selectedServers, setSelectedServers] = createSignal<any[]>([]);
+
+const isServerSelected = (id: string) =>
+  selectedServers().find((s) => s.id === id);
 const isUserSelected = (id: string) => selectedUsers().find((u) => u.id === id);
 
 const ModerationPaneContainer = styled("div")`
@@ -209,15 +216,10 @@ export default function ModerationPane() {
 }
 
 const SelectedUserActionsContainer = styled(FlexRow)`
-  position: sticky;
-  right: 0px;
-  bottom: 10px;
-  left: 0px;
   flex-shrink: 0;
   align-items: center;
   height: 50px;
-  margin: 10px;
-  margin-top: 5px;
+
   border-radius: 8px;
   backdrop-filter: blur(34px);
   background-color: rgba(0, 0, 0, 0.86);
@@ -258,6 +260,48 @@ function SelectedUserActions() {
     </SelectedUserActionsContainer>
   );
 }
+function SelectedServerActions() {
+  const { createPortal } = useCustomPortal();
+
+  const onDeleted = () => {
+    emitModerationServerDeleted();
+    setSelectedServers([]);
+  };
+
+  const showDeleteModal = () => {
+    createPortal?.((close) => (
+      <DeleteServersModal
+        close={close}
+        servers={selectedServers()}
+        done={onDeleted}
+      />
+    ));
+  };
+  return (
+    <SelectedUserActionsContainer>
+      <Text>{selectedServers().length} Server(s) Selected</Text>
+      <Button
+        class="suspendButton"
+        onClick={showDeleteModal}
+        label="Delete Selected"
+        primary
+        color="var(--alert-color)"
+      />
+    </SelectedUserActionsContainer>
+  );
+}
+
+const SelectedActionsContainer = styled.div`
+  position: sticky;
+  right: 0px;
+  bottom: 10px;
+  left: 0px;
+  margin: 10px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
 
 function ModerationPage() {
   return (
@@ -273,8 +317,15 @@ function ModerationPage() {
         <ServersPane />
         <PostsPane />
       </ModerationPaneContainer>
-      <Show when={selectedUsers().length}>
-        <SelectedUserActions />
+      <Show when={selectedServers().length || selectedUsers().length}>
+        <SelectedActionsContainer>
+          <Show when={selectedServers().length}>
+            <SelectedServerActions />
+          </Show>
+          <Show when={selectedUsers().length}>
+            <SelectedUserActions />
+          </Show>
+        </SelectedActionsContainer>
       </Show>
     </>
   );
@@ -484,6 +535,17 @@ function ServersPane() {
 
   const [showAll, setShowAll] = createSignal(false);
 
+  const moderationServerDeletedListener = useModerationServerDeletedListener();
+
+  moderationServerDeletedListener(() => {
+    setServers(
+      servers().filter((u) => {
+        const wasSuspended = selectedServers().find((su) => su.id === u.id);
+        return !wasSuspended;
+      })
+    );
+  });
+
   createEffect(
     on(afterId, async () => {
       if (search() && afterId()) {
@@ -655,13 +717,43 @@ export function Server(props: { server: any }) {
   const createdBy = props.server.createdBy;
   const [hovered, setHovered] = createSignal(false);
 
+  const onClick = (e: MouseEvent) => {
+    if (e.target instanceof HTMLElement) {
+      if (e.target.closest(".checkbox")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+  };
+
+  const selected = createMemo(() => isServerSelected(props.server.id));
+
+  const onCheckChanged = () => {
+    if (selected()) {
+      setSelectedServers(
+        selectedUsers().filter((u) => u.id !== props.server.id)
+      );
+      return;
+    }
+    setSelectedServers([...selectedServers(), props.server]);
+  };
+
   return (
     <A
+      onClick={onClick}
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
       href={`/app/moderation/servers/${props.server.id}`}
       class={itemStyles}
     >
+      <Checkbox
+        onChange={onCheckChanged}
+        checked={selected()}
+        class={css`
+          place-self: start;
+          margin-top: 6px;
+        `}
+      />
       <Avatar
         animate={hovered()}
         class={avatarStyle}
