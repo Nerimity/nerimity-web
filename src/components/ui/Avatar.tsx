@@ -315,6 +315,23 @@ function ModBorder(props: {
     />
   );
 }
+function EmoSupporterBorder(props: {
+  size: number;
+  avatarUrl?: string;
+  hovered?: boolean;
+  color?: string;
+  children?: JSXElement;
+}) {
+  return (
+    <FounderAdminSupporterBorder
+      type="emo-supporter"
+      children={props.children}
+      color={props.color}
+      url={props.avatarUrl}
+      hovered={props.hovered}
+    />
+  );
+}
 function SupporterBorder(props: {
   size: number;
   avatarUrl?: string;

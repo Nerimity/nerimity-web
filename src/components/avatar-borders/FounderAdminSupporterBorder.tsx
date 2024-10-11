@@ -7,7 +7,13 @@ export function FounderAdminSupporterBorder(props: {
   color?: string;
   url?: string;
   hovered?: boolean;
-  type: "founder" | "supporter" | "admin" | "palestine" | "mod";
+  type:
+    | "founder"
+    | "supporter"
+    | "admin"
+    | "palestine"
+    | "mod"
+    | "emo-supporter";
 }) {
   return (
     <div
