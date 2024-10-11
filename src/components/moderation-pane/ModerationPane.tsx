@@ -89,18 +89,23 @@ const UserColumn = styled(FlexColumn)`
   flex-shrink: 0;
 `;
 
-const PaneContainer = styled("div")`
+const PaneContainer = styled("div")<{ expanded: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   overflow: hidden;
 
+  ${(props) =>
+    props.expanded
+      ? "resize: vertical; height: 500px;"
+      : "  max-height: 500px;"}
+
   flex-shrink: 0;
   margin: 5px;
   margin-left: 10px;
   margin-right: 10px;
-  max-height: 500px;
+  min-height: 80px;
 `;
 
 const UserPaneContainer = styled(PaneContainer)``;
@@ -450,7 +455,11 @@ function UsersPane() {
   };
 
   return (
-    <UserPaneContainer class="pane users">
+    <UserPaneContainer
+      class="pane users"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <Input
         placeholder="Search"
         margin={[10, 10, 10, 30]}
@@ -503,7 +512,11 @@ function OnlineUsersPane() {
   });
 
   return (
-    <UserPaneContainer class="pane users">
+    <UserPaneContainer
+      class="pane users"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <FlexRow
         gap={5}
         itemsCenter
@@ -599,7 +612,11 @@ function ServersPane() {
   };
 
   return (
-    <PaneContainer class="pane servers">
+    <PaneContainer
+      class="pane servers"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <Input
         placeholder="Search"
         margin={[10, 10, 10, 30]}
@@ -731,7 +748,7 @@ export function Server(props: { server: any }) {
   const onCheckChanged = () => {
     if (selected()) {
       setSelectedServers(
-        selectedUsers().filter((u) => u.id !== props.server.id)
+        selectedServers().filter((u) => u.id !== props.server.id)
       );
       return;
     }
@@ -866,7 +883,11 @@ function AuditLogPane() {
   };
 
   return (
-    <PaneContainer class="pane servers">
+    <PaneContainer
+      class="pane servers"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <FlexRow
         gap={5}
         itemsCenter
@@ -1222,7 +1243,12 @@ function PostsPane() {
   };
 
   return (
-    <PaneContainer class="pane posts" ref={pageContainerEl}>
+    <PaneContainer
+      class="pane posts"
+      ref={pageContainerEl}
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <Input
         placeholder="Search by post id / user id"
         margin={[10, 10, 10, 30]}
