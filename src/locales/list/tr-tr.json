@@ -283,7 +283,7 @@
     "deletePostModal": {
       "message": "Bu gönderiyi silmek istediğinden emin misin?",
       "cancelButton": "İptal Et",
-      "deleteButton": "Sil"
+      "deleteButton": "Kaldir"
     },
     "postWasDeleted": "Bu gönderi silinmişti!",
     "someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
