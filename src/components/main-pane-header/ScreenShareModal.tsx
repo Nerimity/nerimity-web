@@ -145,10 +145,11 @@ const constructConstraints = async (
       width: 0,
       frameRate: 0,
       resizeMode: "none",
+      echoCancellation: true,
     },
     audio: {
       autoGainControl: false,
-      echoCancellation: false,
+      echoCancellation: true,
       googAutoGainControl: false,
       noiseSuppression: false,
     },
