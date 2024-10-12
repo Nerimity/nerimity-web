@@ -168,7 +168,7 @@
       "ban": "Banir",
       "banDescription": "Permissão para banir usuários.",
       "mentionEveryone": "Mencionar Todos",
-      "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos."
+      "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos.",
       "nicknameMember": "Apelidar Membro",
       "nicknameMemberDescription": "Permite que usuários alterem seus apelidos no servidor."
     },
@@ -292,7 +292,7 @@
     "createAPostInputPlaceholder": "Criar uma postagem...",
     "replyInputPlaceholder": "Responder...",
     "replyButton": "Responder",
-    "createButton": "Criar"
+    "createButton": "Criar",
     "pollOptions": "Opções de Enquete",
     "optionNumberPlaceholder": "Opção {{number}}"
   },
