@@ -364,9 +364,11 @@ function VideoStream(props: { mediaStream: MediaStream; mute?: boolean }) {
 
   const [muted, setMuted] = createSignal(false);
 
+  const mediaStream = createMemo(() => props.mediaStream);
+
   createEffect(() => {
     if (!videoEl) return;
-    videoEl.srcObject = props.mediaStream;
+    videoEl.srcObject = mediaStream();
   });
 
   return (

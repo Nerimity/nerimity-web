@@ -18,6 +18,7 @@ import { DrawerHeader } from "../drawer-header/DrawerHeader";
 import { isExperimentEnabled } from "@/common/experiments";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { QuickTravel } from "../QuickTravel";
+import InVoiceActions from "../InVoiceActions";
 
 export default function HomeDrawer() {
   return (
@@ -30,6 +31,7 @@ export default function HomeDrawer() {
         <Friends />
         <Inbox />
       </div>
+      <InVoiceActions />
     </HomeDrawerControllerProvider>
   );
 }
