@@ -54,31 +54,12 @@ export function ScreenShareModal(props: { close: () => void }) {
 
     if (electronWindowAPI()?.isElectron) {
       const sourceId = electronSourceIdRef();
-      if (!sourceId) return;
-      stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          mandatory: {
-            chromeMediaSource: "desktop",
-          },
-        },
-        video: {
-          mandatory: {
-            chromeMediaSource: "desktop",
-            chromeMediaSourceId: sourceId,
-            maxFrameRate: constraints.video.frameRate,
-            minWidth: constraints.video.width,
-            maxWidth: constraints.video.width,
-            minHeight: constraints.video.height,
-            maxHeight: constraints.video.height,
-          },
-        },
-      });
-      await stream.getAudioTracks()[0].applyConstraints(constraints.audio);
-    } else {
-      stream = await navigator.mediaDevices
-        .getDisplayMedia(constraints)
-        .catch(() => {});
+      electronWindowAPI()?.setDesktopCaptureSourceId(sourceId);
     }
+
+    stream = await navigator.mediaDevices
+      .getDisplayMedia(constraints)
+      .catch(() => {});
 
     if (!stream) return;
     voiceUsers.setVideoStream(stream);
