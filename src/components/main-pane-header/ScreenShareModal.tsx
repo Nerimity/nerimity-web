@@ -145,11 +145,11 @@ const constructConstraints = async (
       width: 0,
       frameRate: 0,
       resizeMode: "none",
-      echoCancellation: true,
+      echoCancellation: true, // fixes screenshare echo
     },
     audio: {
       autoGainControl: false,
-      echoCancellation: true,
+      echoCancellation: true, // fixes screenshare echo
       googAutoGainControl: false,
       noiseSuppression: false,
     },
