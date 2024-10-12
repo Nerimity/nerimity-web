@@ -163,7 +163,7 @@ const remove = (serverId: string, userId: string) => {
   const voiceChannelId = user?.voiceChannelId;
   if (voiceChannelId) {
     const channel = channels.get(voiceChannelId);
-    if (channel?.id === voiceChannelId) {
+    if (serverId === channel?.serverId) {
       voiceUsers.removeUserInVoice(voiceChannelId, userId);
     }
   }

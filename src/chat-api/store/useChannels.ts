@@ -19,6 +19,9 @@ import useMention from "./useMention";
 import socketClient from "../socketClient";
 import { postJoinVoice, postLeaveVoice } from "../services/VoiceService";
 import useVoiceUsers from "./useVoiceUsers";
+import { useMatch, useNavigate, useParams } from "solid-navigator";
+import RouterEndpoints from "@/common/RouterEndpoints";
+import useServers from "./useServers";
 
 export type Channel = Omit<RawChannel, "recipient"> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -149,8 +152,28 @@ function updateLastSeen(this: Channel, timestamp?: number) {
 const deleteChannel = (channelId: string, serverId?: string) =>
   runWithContext(() => {
     const messages = useMessages();
+    const voice = useVoiceUsers();
+    const voiceChannelId = voice.currentVoiceChannelId();
+
+    if (serverId) {
+      const servers = useServers();
+      const defaultChannelId = servers.get(serverId)?.defaultChannelId;
+      if (defaultChannelId) {
+        const match = useMatch(() => "/app/servers/:serverId/:channelId")();
+        const matchedChannelId = match?.params.channelId;
+        if (matchedChannelId === channelId) {
+          useNavigate()(RouterEndpoints.SERVER_MESSAGES(serverId, defaultChannelId), { replace: true });
+        }
+      }
+
+    }
+
 
     batch(() => {
+      if (voiceChannelId && voiceChannelId === channelId) {
+        voice.setCurrentVoiceChannelId(null);
+      }
+
       messages.deleteChannelMessages(channelId);
       setChannels(channelId, undefined);
     });
@@ -212,7 +235,8 @@ const getSortedChannelsByServerId = (
   return getChannelsByServerId(serverId, hidePrivateIfNoPerm).sort((a, b) => {
     if (a!.order && b!.order) {
       return a!.order - b!.order;
-    } else {
+    }
+    else {
       return a!.createdAt - b!.createdAt;
     }
   });
