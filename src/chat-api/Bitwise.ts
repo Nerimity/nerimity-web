@@ -30,14 +30,6 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #57acfa 0%, #1485ed 100%)",
     credit: "Avatar Border by upklyak on Freepik",
   },
-  SUPPORTER: {
-    name: "Supporter",
-    description: "Supported this project by donating money",
-    bit: 8,
-    color:
-      "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
-    credit: "Avatar Border by upklyak on Freepik",
-  },
   EMO_SUPPORTER: {
     name: "Emo Supporter",
     description: "Supported this project by donating money",
@@ -47,6 +39,15 @@ export const USER_BADGES = {
       "linear-gradient(90deg, #424242 0%, #303030 100%)",
     credit: "Avatar Border by upklyak on Freepik",
   },
+  SUPPORTER: {
+    name: "Supporter",
+    description: "Supported this project by donating money",
+    bit: 8,
+    color:
+      "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
+    credit: "Avatar Border by upklyak on Freepik",
+  },
+
   CONTRIBUTOR: {
     name: "Contributor",
     description: "Helped with this project in some way",
