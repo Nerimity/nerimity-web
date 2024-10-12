@@ -129,6 +129,16 @@ function AvatarBorder(props: {
             children={props.children}
           />
         </Match>
+
+        <Match when={props.badge?.bit === USER_BADGES.EMO_SUPPORTER.bit}>
+          <EmoSupporterBorder
+            size={props.size}
+            avatarUrl={props.url}
+            hovered={props.hovered}
+            color={props.color}
+            children={props.children}
+          />
+        </Match>
         <Match when={props.badge?.bit === USER_BADGES.SUPPORTER.bit}>
           <SupporterBorder
             size={props.size}

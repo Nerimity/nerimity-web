@@ -3,6 +3,7 @@ export interface Bitwise {
   description?: string;
   bit: number;
   icon?: string;
+  textColor?: string;
   showSettings?: boolean; // determine should this permission reveal the "settings" option context menu
 }
 
@@ -35,6 +36,15 @@ export const USER_BADGES = {
     bit: 8,
     color:
       "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
+    credit: "Avatar Border by upklyak on Freepik",
+  },
+  EMO_SUPPORTER: {
+    name: "Emo Supporter",
+    description: "Supported this project by donating money",
+    bit: 128,
+    textColor: "rgba(255,255,255,0.8)",
+    color:
+      "linear-gradient(90deg, #424242 0%, #303030 100%)",
     credit: "Avatar Border by upklyak on Freepik",
   },
   CONTRIBUTOR: {
