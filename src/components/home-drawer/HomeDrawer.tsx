@@ -45,7 +45,7 @@ const SearchBar = () => {
     <DrawerHeader class={style.searchBarOuter}>
       <div onClick={onClick} class={style.searchBar}>
         <Icon name="search" size={18} />
-        Search (Ctrl + Space)
+        {t("inbox.drawer.searchBarPlaceholder")} (Ctrl + Space)
       </div>
     </DrawerHeader>
   );
@@ -58,18 +58,18 @@ const HorizontalItems = () => {
     <div class={style.horizontalItems}>
       <HorizontalItem
         icon="note_alt"
-        name="Notes"
+        name={t("inbox.drawer.notes")}
         selected={controller?.inbox.isSavedNotesOpened()}
         onClick={controller?.inbox.openSavedNotes}
       />
       <HorizontalItem
         icon="person_add"
-        name="Add Friend"
+        name={t("inbox.drawer.addFriendButton")}
         onClick={controller?.friends.showAddFriendModel}
       />
       <HorizontalItem
         icon="block"
-        name="Blocked"
+        name={t("inbox.drawer.blockedUsersButton")}
         onClick={controller?.friends.showBlockedUsersModal}
       />
     </div>
@@ -172,7 +172,11 @@ const FriendOfflineHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller?.friends?.offlineFriends().length} Offline Friends</div>
+      <div>
+        {t("inbox.drawer.offlineFriends", {
+          count: controller?.friends?.offlineFriends().length,
+        })}
+      </div>
     </div>
   );
 };
@@ -181,9 +185,11 @@ const OnlineFriendsHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller?.friends?.onlineFriends().length} Online Friends</div>
+      {t("inbox.drawer.onlineFriends", {
+        count: controller?.friends?.offlineFriends().length,
+      })}
       <CustomLink decoration onclick={controller?.friends.toggleViewAllFriends}>
-        View All
+        {t("inbox.drawer.viewAll")}
       </CustomLink>
     </div>
   );
@@ -193,7 +199,11 @@ const FriendRequestsHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller?.friends?.friendRequests().length} Friend Requests</div>
+      <div>
+        {t("inbox.drawer.friendRequests", {
+          count: controller?.friends?.friendRequests().length,
+        })}
+      </div>
     </div>
   );
 };
@@ -223,7 +233,7 @@ const Inbox = () => {
 
   return (
     <div class={style.inbox}>
-      <div class={style.header}>Inbox</div>
+      <div class={style.header}>{t("inbox.drawer.inboxTitle")}</div>
       <FriendsList users={controller?.inbox?.inboxUsers()} inbox />
     </div>
   );

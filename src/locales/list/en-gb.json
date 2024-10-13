@@ -41,13 +41,16 @@
   },
   "inbox": {
     "drawer": {
-      "requests": "Requests",
-      "online": "Online",
-      "offline": "Offline",
-      "savedNotesButton": "Saved Notes",
+      "searchBarPlaceholder": "Search",
+      "friendRequests": "{{count}} Friend Requests",
+      "onlineFriends": "{{count}} Online Friends",
+      "offlineFriends": "{{count}} Offline Friends",
+      "notes": "Notes",
       "addFriendButton": "Add Friend",
-      "inboxButton": "Inbox",
-      "friendsButton": "Friends"
+      "blockedUsersButton": "Blocked",
+      "inboxTitle": "Inbox",
+      "friendsButton": "Friends",
+      "viewAll": "View All"
     }
   },
   "explore": {
@@ -230,7 +233,19 @@
       }
     }
   },
-
+  "serverContextMenu": {
+    "markAsRead": "Mark as Read",
+    "invites": "Invites",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "copyId": "Copy ID",
+    "leave": "Leave",
+    "notificationOptions": {
+      "everything": "Everything",
+      "mentionsOnly": "Mentions Only",
+      "mute": "Mute"
+    }
+  },
   "userContextMenu": {
     "viewProfile": "View Profile",
     "sendMessage": "Send Message",
