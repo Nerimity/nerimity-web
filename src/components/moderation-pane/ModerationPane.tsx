@@ -57,6 +57,7 @@ import DeletePostsModal from "./DeletePostsModal";
 import AnnouncePostsModal from "./AnnouncePostsModal";
 import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
 import DeleteServersModal from "./DeleteServersModal";
+import { UsersPane } from "./UsersPane";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -64,7 +65,7 @@ const ServerPage = lazy(() => import("./ServerPage"));
 
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
-const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
+export const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const [selectedServers, setSelectedServers] = createSignal<any[]>([]);
 
 const isServerSelected = (id: string) =>
@@ -108,7 +109,7 @@ const PaneContainer = styled("div")<{ expanded: boolean }>`
   min-height: 80px;
 `;
 
-const UserPaneContainer = styled(PaneContainer)``;
+export const UserPaneContainer = styled(PaneContainer)``;
 
 const ListContainer = styled("div")`
   display: flex;
@@ -380,116 +381,6 @@ const TicketsPane = () => {
     </div>
   );
 };
-
-function UsersPane() {
-  const LIMIT = 30;
-  const [users, setUsers] = createSignal<RawUser[]>([]);
-  const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
-  const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
-  const [search, setSearch] = createSignal("");
-
-  const [showAll, setShowAll] = createSignal(false);
-
-  const moderationUserSuspendedListener = useModerationUserSuspendedListener();
-
-  moderationUserSuspendedListener((suspension) => {
-    setUsers(
-      users().map((u) => {
-        const wasSuspended = selectedUsers().find((su) => su.id === u.id);
-        if (!wasSuspended) return u;
-        return { ...u, suspension };
-      })
-    );
-  });
-
-  createEffect(
-    on(afterId, async () => {
-      if (search() && afterId()) {
-        return fetchSearch();
-      }
-      fetchUsers();
-    })
-  );
-
-  const onLoadMoreClick = () => {
-    const user = users()[users().length - 1];
-    setAfterId(user.id);
-  };
-
-  const firstFive = () => users().slice(0, 5);
-
-  let timeout: number | null = null;
-  const onSearchText = (text: string) => {
-    setSearch(text);
-    timeout && clearTimeout(timeout);
-    timeout = window.setTimeout(() => {
-      setAfterId(undefined);
-      setUsers([]);
-      if (!search().trim()) {
-        fetchUsers();
-        return;
-      }
-      setShowAll(true);
-      fetchSearch();
-    }, 1000);
-  };
-
-  const fetchSearch = () => {
-    setLoadMoreClicked(true);
-    searchUsers(search(), LIMIT, afterId())
-      .then((newUsers) => {
-        setUsers([...users(), ...newUsers]);
-        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
-      })
-      .catch(() => setLoadMoreClicked(false));
-  };
-
-  const fetchUsers = () => {
-    setLoadMoreClicked(true);
-    getUsers(LIMIT, afterId())
-      .then((newUsers) => {
-        setUsers([...users(), ...newUsers]);
-        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
-      })
-      .catch(() => setLoadMoreClicked(false));
-  };
-
-  return (
-    <UserPaneContainer
-      class="pane users"
-      expanded={showAll()}
-      style={!showAll() ? { height: "initial" } : undefined}
-    >
-      <Input
-        placeholder="Search"
-        margin={[10, 10, 10, 30]}
-        onText={onSearchText}
-        value={search()}
-      />
-      <FlexRow gap={5} itemsCenter style={{ "padding-left": "10px" }}>
-        <Button
-          iconName="add"
-          iconSize={14}
-          padding={4}
-          onClick={() => setShowAll(!showAll())}
-        />
-        <Text>Registered Users</Text>
-      </FlexRow>
-      <ListContainer class="list">
-        <For each={!showAll() ? firstFive() : users()}>
-          {(user) => <User user={user} />}
-        </For>
-        <Show when={showAll() && !loadMoreClicked()}>
-          <Button
-            iconName="refresh"
-            label="Load More"
-            onClick={onLoadMoreClick}
-          />
-        </Show>
-      </ListContainer>
-    </UserPaneContainer>
-  );
-}
 
 function OnlineUsersPane() {
   const [users, { mutate: setUsers }] =

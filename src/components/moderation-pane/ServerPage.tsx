@@ -18,6 +18,7 @@ import { bannerUrl } from "@/chat-api/store/useServers";
 import DeleteServerModal from "./DeleteServerModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { UsersPane } from "./UsersPane";
 
 export default function ServerPage() {
   const params = useParams<{ serverId: string }>();
@@ -25,23 +26,24 @@ export default function ServerPage() {
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal<string | null>(null);
 
-
-  const [server, setServer] = createSignal<RawServer & {createdBy: RawUser} | null>(null);
+  const [server, setServer] = createSignal<
+    (RawServer & { createdBy: RawUser }) | null
+  >(null);
 
   const defaultInput = () => ({
     name: server()?.name || "",
     verified: server()?.verified || false,
-    password: ""
+    password: "",
   });
 
-  const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
-
+  const [inputValues, updatedInputValues, setInputValue] =
+    createUpdatedSignal(defaultInput);
 
   onMount(() => {
     getServer(params.serverId).then(setServer);
   });
 
-  const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
+  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
     setRequestSent(true);
@@ -51,7 +53,7 @@ export default function ServerPage() {
       .then(() => {
         setServer(() => ({ ...server()!, ...values, password: "" }));
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err.message);
       })
       .finally(() => setRequestSent(false));
@@ -61,58 +63,123 @@ export default function ServerPage() {
     <Show when={server()}>
       <ServerPageContainer>
         <ServerPageInnerContainer>
-          <Banner class={css`margin-bottom: 15px;`} margin={0} maxHeight={250} animate url={bannerUrl(server()!)} hexColor={server()!.hexColor}>
+          <Banner
+            class={css`
+              margin-bottom: 15px;
+            `}
+            margin={0}
+            maxHeight={250}
+            animate
+            url={bannerUrl(server()!)}
+            hexColor={server()!.hexColor}
+          >
             <ServerBannerContainer>
-              {server && <Avatar animate server={server()!} size={width() <= 1100 ? 70 : 100} />}
+              {server && (
+                <Avatar
+                  animate
+                  server={server()!}
+                  size={width() <= 1100 ? 70 : 100}
+                />
+              )}
               <ServerBannerDetails>
                 <div>{server()!.name}</div>
-                <Text opacity={0.7} size={14}>{JSON.stringify(server()!._count.serverMembers)} members</Text>
+                <Text opacity={0.7} size={14}>
+                  {JSON.stringify(server()!._count.serverMembers)} members
+                </Text>
               </ServerBannerDetails>
             </ServerBannerContainer>
           </Banner>
           <Breadcrumb>
-            <BreadcrumbItem href={"../../"} icon='home' title="Moderation" />
+            <BreadcrumbItem href={"../../"} icon="home" title="Moderation" />
             <BreadcrumbItem title={server()?.name} icon="dns" />
           </Breadcrumb>
 
-          <div style={{display: "flex", "flex-direction": "column", gap: "4px", "margin-bottom": "10px"}}>
-            <Text size={14} style={{"margin-left": "45px"}}>Created By</Text>
-            <User  user={server()?.createdBy} class={css`border: none; border-radius: 6px; background: rgba(255, 255, 255, 0.05);`} />
+          <div
+            style={{
+              display: "flex",
+              "flex-direction": "column",
+              gap: "4px",
+              "margin-bottom": "10px",
+            }}
+          >
+            <Text size={14} style={{ "margin-left": "45px" }}>
+              Created By
+            </Text>
+            <User
+              user={server()?.createdBy}
+              class={css`
+                border: none;
+                border-radius: 6px;
+                background: rgba(255, 255, 255, 0.05);
+              `}
+            />
           </div>
 
-
           <SettingsBlock label="Server Name" icon="edit">
-            <Input value={inputValues().name} onText={v => setInputValue("name", v)} />
+            <Input
+              value={inputValues().name}
+              onText={(v) => setInputValue("name", v)}
+            />
           </SettingsBlock>
           <SettingsBlock label="Verified" icon="verified">
-            <Checkbox checked={inputValues().verified} onChange={v => setInputValue("verified", v)} />
+            <Checkbox
+              checked={inputValues().verified}
+              onChange={(v) => setInputValue("verified", v)}
+            />
           </SettingsBlock>
-          <Show when={Object.keys(updatedInputValues()).length}>
-            <SettingsBlock label="Confirm Admin Password" icon="security" class={css`margin-top: 10px;`}>
-              <Input type="password" value={inputValues().password} onText={v => setInputValue("password", v)} />
-            </SettingsBlock>
-            <Show when={error()}><Text color="var(--alert-color)">{error()}</Text></Show>
 
-            <Button iconName='save' label={requestStatus()} class={css`align-self: flex-end;`} onClick={onSaveButtonClicked} />
+          <div style={{ "margin-bottom": "10px" }}>
+            <UsersPane
+              title="Users In Server"
+              search={params.serverId}
+              hideSearchBar
+              noMargin
+            />
+          </div>
+
+          <Show when={Object.keys(updatedInputValues()).length}>
+            <SettingsBlock
+              label="Confirm Admin Password"
+              icon="security"
+              class={css`
+                margin-top: 10px;
+              `}
+            >
+              <Input
+                type="password"
+                value={inputValues().password}
+                onText={(v) => setInputValue("password", v)}
+              />
+            </SettingsBlock>
+            <Show when={error()}>
+              <Text color="var(--alert-color)">{error()}</Text>
+            </Show>
+
+            <Button
+              iconName="save"
+              label={requestStatus()}
+              class={css`
+                align-self: flex-end;
+              `}
+              onClick={onSaveButtonClicked}
+            />
           </Show>
           <DeleteServerBlock serverId={server()?.id!} />
-          
         </ServerPageInnerContainer>
       </ServerPageContainer>
     </Show>
   );
 }
 
-
 const ServerPageContainer = styled(FlexColumn)`
-    height: 100%;
-    width: 100%;
-    max-width: 900px;
-    align-self: center;
-    margin-top: 10px;
+  height: 100%;
+  width: 100%;
+  max-width: 900px;
+  align-self: center;
+  margin-top: 10px;
 `;
 const ServerPageInnerContainer = styled(FlexColumn)`
-    margin: 10px;
+  margin: 10px;
 `;
 const ServerBannerContainer = styled(FlexRow)`
   display: flex;
@@ -126,25 +193,33 @@ const ServerBannerDetails = styled(FlexColumn)`
   margin-right: 20px;
   font-size: 18px;
   z-index: 1111;
-  background: rgba(0,0,0,0.86);
+  background: rgba(0, 0, 0, 0.86);
   backdrop-filter: blur(34px);
   padding: 10px;
   border-radius: 8px;
 `;
 
+const DeleteServerBlock = (props: { serverId: string }) => {
+  const { createPortal } = useCustomPortal();
 
-
-
-const DeleteServerBlock = (props: {serverId: string}) => {
-  const {createPortal} = useCustomPortal();
-  
   const showSuspendModal = () => {
-    createPortal(close => <DeleteServerModal close={close} serverId={props.serverId} done={() => {}} />);
+    createPortal((close) => (
+      <DeleteServerModal
+        close={close}
+        serverId={props.serverId}
+        done={() => {}}
+      />
+    ));
   };
 
   return (
-    <SettingsBlock icon='delete' label='Delete Server'>
-      <Button onClick={showSuspendModal} label="Delete Server" color="var(--alert-color)" primary />
+    <SettingsBlock icon="delete" label="Delete Server">
+      <Button
+        onClick={showSuspendModal}
+        label="Delete Server"
+        color="var(--alert-color)"
+        primary
+      />
     </SettingsBlock>
   );
 };
