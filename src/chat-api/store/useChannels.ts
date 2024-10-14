@@ -17,7 +17,7 @@ import useServerMembers from "./useServerMembers";
 import useAccount from "./useAccount";
 import useMention from "./useMention";
 import socketClient from "../socketClient";
-import { postJoinVoice, postLeaveVoice } from "../services/VoiceService";
+import { postGenerateCredential, postJoinVoice, postLeaveVoice } from "../services/VoiceService";
 import useVoiceUsers from "./useVoiceUsers";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -109,8 +109,9 @@ function recipient(this: Channel) {
   return users.get(this.recipientId!);
 }
 
-function joinCall(this: Channel) {
+async function joinCall(this: Channel) {
   const { setCurrentVoiceChannelId } = useVoiceUsers();
+  await postGenerateCredential();
   postJoinVoice(this.id, socketClient.id()!).then(() => {
     setCurrentVoiceChannelId(this.id);
   });

@@ -22,3 +22,28 @@ export const postLeaveVoice = async (channelId: string) => {
   });
   return data;
 };
+
+
+const lastCredentials = {
+  generatedAt: null as null | number,
+  result: null as null | any
+};
+export const postGenerateCredential = async () => {
+  if (lastCredentials.generatedAt) {
+    const diff = Date.now() - lastCredentials.generatedAt;
+    // 1 hour after last generated
+    if (diff < 60 * 60 * 1000) {
+      return lastCredentials as { result: any };
+    }
+  }
+  const data = await request<{ result: any }>({
+    method: "POST",
+    url: env.SERVER_URL + "/api/voice/generate",
+    useToken: true
+  });
+
+  lastCredentials.generatedAt = Date.now();
+  lastCredentials.result = data.result;
+
+  return data;
+};
