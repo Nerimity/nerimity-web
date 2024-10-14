@@ -50,18 +50,17 @@ export function ScreenShareModal(props: { close: () => void }) {
       selectedFramerate()
     );
 
-    let stream: MediaStream | void;
-
     if (electronWindowAPI()?.isElectron) {
       const sourceId = electronSourceIdRef();
       electronWindowAPI()?.setDesktopCaptureSourceId(sourceId);
     }
 
-    stream = await navigator.mediaDevices
+    const stream = await navigator.mediaDevices
       .getDisplayMedia(constraints)
       .catch(() => {});
 
     if (!stream) return;
+
     voiceUsers.setVideoStream(stream);
     props.close();
   };
