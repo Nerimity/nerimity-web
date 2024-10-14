@@ -61,9 +61,7 @@ export function ScreenShareModal(props: { close: () => void }) {
 
     if (!stream) return;
 
-    setTimeout(() => {
-      voiceUsers.setVideoStream(stream);
-    }, 500);
+    voiceUsers.setVideoStream(stream);
     props.close();
   };
 
