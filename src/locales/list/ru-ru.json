@@ -253,7 +253,8 @@
     "editRoles": "Редактировать роли",
     "kick": "Выгнать",
     "ban": "Забанить",
-    "changeNickname": "Изменить имя"
+    "changeNickname": "Изменить имя",
+    "callVolume": "Громкость звука"
   },
   "kickServerMemberModal": {
     "title": "Выгнать {{username}}",

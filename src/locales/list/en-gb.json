@@ -253,7 +253,8 @@
     "editRoles": "Edit Roles",
     "kick": "Kick",
     "ban": "Ban",
-    "changeNickname": "Change Nickname"
+    "changeNickname": "Change Nickname",
+    "callVolume": "Call Volume"
   },
   "kickServerMemberModal": {
     "title": "Kick {{username}}",
