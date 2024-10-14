@@ -79,6 +79,7 @@ const set = async (voiceUser: RawVoice) => {
     addSignal,
     addPeer,
   };
+  console.log("test");
 
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, reconcile(newVoice));
 };
@@ -311,7 +312,7 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
   stream.onremovetrack = () => {
     setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
       [streamType]: null,
-      voiceActivity: false,
+      ...(streamType === "audioStream" ? { audio: mic, voiceActivity: false, } : {}),
     });
     stream.onremovetrack = null;
   };
@@ -329,7 +330,7 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
   }
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
     [streamType]: stream,
-    audio: mic,
+    ...(streamType === "audioStream" ? { audio: mic } : {}),
   });
 };
 
