@@ -728,7 +728,7 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
     <>
       <Switch fallback={<GoogleDriveFileEmbed attachment={props.attachment} />}>
         <Match when={allowedVideoMimes.includes(props.attachment.mime!)}>
-          <VideoEmbed attachment={props.attachment} />
+          <GoogleDriveVideoEmbed attachment={props.attachment} />
         </Match>
         <Match when={allowedAudioMimes.includes(props.attachment.mime!)}>
           <AudioEmbed attachment={props.attachment} />
@@ -871,7 +871,7 @@ const VideoEmbed = (props: {
 
   const onPlayClick = () => {
     if (reactNativeAPI()?.isReactNative) {
-      reactNativeAPI()?.playVideo(file()!.webContentLink!);
+      reactNativeAPI()?.playVideo(props.file?.url!);
       return;
     }
 
