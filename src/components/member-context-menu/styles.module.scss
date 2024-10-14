@@ -68,3 +68,38 @@
     margin-top: 10px;
   }
 }
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+.headerDetails {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  margin-left: 6px;
+  font-size: 14px;
+
+  .username {
+    position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    white-space: nowrap;
+    left: 30px;
+    right: 0;
+  }
+}
+
+.voiceVolume {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  .label {
+    font-size: 14px;
+    margin-left: 4px;
+  }
+}

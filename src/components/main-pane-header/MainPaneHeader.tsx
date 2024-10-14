@@ -40,6 +40,7 @@ import {
   hasBit,
 } from "@/chat-api/Bitwise";
 import { WebcamModal } from "./WebcamModal";
+import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 
 export default function MainPaneHeader() {
   const {
@@ -444,6 +445,11 @@ function VoiceParticipantItem(props: {
   onClick: () => void;
 }) {
   const { voiceUsers } = useStore();
+  const params = useParams<{ serverId?: string; channelId?: string }>();
+  const [contextPosition, setContextPosition] = createSignal<null | {
+    x: number;
+    y: number;
+  }>(null);
 
   const isMuted = () => {
     return !voiceUsers.micEnabled(
@@ -467,9 +473,14 @@ function VoiceParticipantItem(props: {
       event.preventDefault();
     }
   };
+  const onContextMenu = (event: MouseEvent) => {
+    event.preventDefault();
+    setContextPosition({ x: event.clientX, y: event.clientY });
+  };
 
   return (
     <CustomLink
+      onContextMenu={onContextMenu}
       onClick={onClick}
       href={RouterEndpoints.PROFILE(user().id)}
       class={classNames(
@@ -477,6 +488,14 @@ function VoiceParticipantItem(props: {
         conditionalClass(props.selected, styles.selected)
       )}
     >
+      <MemberContextMenu
+        position={contextPosition()}
+        serverId={params.serverId}
+        userId={user().id}
+        onClose={() => {
+          setContextPosition(null);
+        }}
+      />
       <Avatar
         user={user()}
         size={props.size === "small" ? 40 : 60}

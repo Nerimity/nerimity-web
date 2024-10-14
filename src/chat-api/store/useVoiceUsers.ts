@@ -25,6 +25,7 @@ export type VoiceUser = RawVoice & {
   videoStream?: MediaStream;
   vad?: VADInstance;
   voiceActivity: boolean;
+  audio?: HTMLAudioElement
 };
 
 // voiceUsers[channelId][userId] = VoiceUser
@@ -185,7 +186,7 @@ const getVoiceUsers = (channelId: string): VoiceUser[] => {
 };
 
 const getVoiceUser = (channelId: string, userId: string) => {
-  return voiceUsers[channelId][userId];
+  return voiceUsers[channelId]?.[userId];
 };
 
 export async function createPeer(voiceUser: VoiceUser | RawVoice) {
@@ -315,9 +316,10 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
     stream.onremovetrack = null;
   };
 
+  let mic: HTMLAudioElement | undefined = undefined;
   if (streamType === "audioStream") {
     setVAD(stream, voiceUser);
-    const mic = new Audio();
+    mic = new Audio();
     const deviceId = getStorageString(StorageKeys.outputDeviceId, undefined);
     if (deviceId) {
       mic.setSinkId(JSON.parse(deviceId));
@@ -327,6 +329,7 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
   }
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
     [streamType]: stream,
+    audio: mic,
   });
 };
 

@@ -991,7 +991,7 @@ const FileEmbed = (props: {
   };
 }) => {
   const { createPortal } = useCustomPortal();
-  const isImage = () => props.file?.mime.startsWith("image/");
+  const isImage = () => props.file?.mime?.startsWith("image/");
 
   const previewClick = () => {
     createPortal((close) => (
