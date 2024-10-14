@@ -391,8 +391,7 @@ function VideoStream(props: { mediaStream: MediaStream; mute?: boolean }) {
               value={muted() ? 0 : videoEl!.volume}
               max={1}
               step={0.01}
-              onChange={(e) => {
-                console.log("wtf");
+              onInput={(e) => {
                 videoEl!.volume = parseFloat(e.target.value);
                 setMuted(false);
               }}
