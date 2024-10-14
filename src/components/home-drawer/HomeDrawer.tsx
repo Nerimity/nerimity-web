@@ -186,7 +186,7 @@ const OnlineFriendsHeader = () => {
   return (
     <div class={style.header}>
       {t("inbox.drawer.onlineFriends", {
-        count: controller?.friends?.offlineFriends().length,
+        count: controller?.friends?.onlineFriends().length,
       })}
       <CustomLink decoration onclick={controller?.friends.toggleViewAllFriends}>
         {t("inbox.drawer.viewAll")}
