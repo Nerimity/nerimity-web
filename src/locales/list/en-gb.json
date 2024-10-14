@@ -167,7 +167,7 @@
       "manageChannels": "Manage Channels",
       "manageChannelsDescription": "Permission for updating or deleting channels.",
       "kick": "Kick",
-      "kickDescription": "Permission to kick users",
+      "kickDescription": "Permission to kick users.",
       "ban": "Ban",
       "banDescription": "Permission to ban users.",
       "mentionEveryone": "Mention Everyone",

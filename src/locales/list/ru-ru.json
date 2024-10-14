@@ -25,18 +25,18 @@
     "username": "Имя пользователя",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
-    "registerButton": "Регистрация",
+    "registerButton": "Зарегистрироваться",
     "registering": "Регистрация...",
     "loginInstead": "Войти в существующий аккаунт"
   },
   "dashboard": {
-    "title": "Панель управления",
+    "title": "Главная страница",
     "activeUsers": "Активные пользователи",
     "noActiveUsers": "Нет активных пользователей",
     "servers": "Серверы",
     "posts": "Посты",
-    "feed": "Лента",
-    "discover": "Открыть",
+    "feed": "Моя лента",
+    "discover": "Все посты",
     "notifications": "Уведомления"
   },
   "inbox": {
@@ -47,7 +47,7 @@
       "offlineFriends": "{{count}} Друзей оффлайн",
       "notes": "Заметки",
       "addFriendButton": "Добавить друга",
-      "blockedUsersButton": "Заблокированные пользователи",
+      "blockedUsersButton": "Черный список",
       "inboxTitle": "Личные сообщения",
       "friendsButton": "Друзья",
       "viewAll": "Посмотреть все"
@@ -77,13 +77,13 @@
   "servers": {
     "settings": {
       "drawer": {
-        "general": "Основные",
+        "general": "Основные настройки",
         "roles": "Роли",
         "channels": "Каналы",
         "bans": "Баны",
         "invites": "Приглашения",
-        "publishServer": "Опубликовать сервер",
-        "verify": "Проверить",
+        "publishServer": "Открытость сервера",
+        "verify": "Верификация",
         "role": "Роль",
         "welcome-screen": "Экран приветствия",
         "channel": "Канал",
@@ -148,11 +148,11 @@
         "copyLinkButton": "Скопировать ссылку"
       },
       "publishServer": {
-        "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>Исследовать</1>.",
+        "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>исследовать</1>.",
         "public": "Публичный",
         "publicDescription": "Сделать этот сервер публичным.",
         "bumpServer": "Продвинуть сервер",
-        "bumpServerDescription": "Продвинуть этот сервер в топ.",
+        "bumpServerDescription": "Продвинет сервер вверх списка.",
         "publishServerButton": "Опубликовать сервер",
         "unpublishServerButton": "Снять сервер с публикации"
       }
@@ -160,19 +160,19 @@
     "rolePermissions": {
       "admin": "Администратор",
       "adminDescription": "Включает все разрешения.",
-      "sendMessage": "Отправить сообщение",
+      "sendMessage": "Отправлять сообщения",
       "sendMessageDescription": "Разрешение на отправку сообщений на этом сервере. Администраторы сервера могут отправлять сообщения.",
-      "manageRoles": "Управление ролями",
+      "manageRoles": "Управлять ролями",
       "manageRolesDescription": "Разрешение на обновление или удаление ролей.",
-      "manageChannels": "Управление каналами",
+      "manageChannels": "Управлять каналами",
       "manageChannelsDescription": "Разрешение на обновление или удаление каналов.",
-      "kick": "Выгнать",
-      "kickDescription": "Разрешение выгонять пользователей",
-      "ban": "Забанить",
-      "banDescription": "Разрешение на бан пользователей.",
-      "mentionEveryone": "Упомянуть всех",
+      "kick": "Выгонять",
+      "kickDescription": "Разрешение выгонять пользователей.",
+      "ban": "Банить",
+      "banDescription": "Разрешение на блокировку пользователей.",
+      "mentionEveryone": "Упомянать всех",
       "mentionEveryoneDescription": "Разрешение упоминать @everyone. Администраторы сервера могут упоминать всех.",
-      "nicknameMember": "Поменять ник",
+      "nicknameMember": "Менять свое имя",
       "nicknameMemberDescription": "Разрешить пользователям менять свой ник на сервере."
     },
     "channelPermissions": {
@@ -238,7 +238,7 @@
     "invites": "Приглашения",
     "notifications": "Уведомления",
     "settings": "Настройки",
-    "copyId": "Копировать ID сервера",
+    "copyId": "Скопировать ID сервера",
     "leave": "Выйти",
     "notificationOptions": {
       "everything": "Все уведомления",
@@ -249,11 +249,11 @@
   "userContextMenu": {
     "viewProfile": "Просмотреть профиль",
     "sendMessage": "Отправить сообщение",
-    "copyId": "Копировать ID пользователя",
+    "copyId": "Скопировать ID пользователя",
     "editRoles": "Редактировать роли",
     "kick": "Выгнать",
     "ban": "Забанить",
-    "changeNickname": "Изменить ник"
+    "changeNickname": "Изменить имя"
   },
   "kickServerMemberModal": {
     "title": "Выгнать {{username}}",
@@ -276,7 +276,7 @@
     "editMessage": "Редактировать сообщение",
     "deleteMessage": "Удалить сообщение",
     "copyMessage": "Скопировать сообщение",
-    "copyId": "Копировать ID сообщения"
+    "copyId": "Скопировать ID сообщения"
   },
   "profile": {
     "followButton": "Подписаться",
@@ -284,7 +284,7 @@
     "removeFriendButton": "Удалить из друзей",
     "addFriendButton": "Добавить в друзья",
     "pendingRequest": "Запрос дружбы отправлен",
-    "acceptRequestButton": "Принять запрос",
+    "acceptRequestButton": "Принять запрос дружбы",
     "messageButton": "Сообщение",
     "mutualFriends": "Общие друзья ({{count}})",
     "mutualServers": "Общие серверы ({{count}})",
@@ -304,12 +304,12 @@
     "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",
     "someoneFollowedYou": "<1>{{username}}</1> подписался на вас!",
     "someoneRepliedToPost": "<1>{{username}}</1> ответил на ваш пост!",
-    "createAPostInputPlaceholder": "Создать пост...",
-    "replyInputPlaceholder": "Ответить...",
+    "createAPostInputPlaceholder": "Написать пост...",
+    "replyInputPlaceholder": "Написать ответ...",
     "replyButton": "Ответить",
-    "createButton": "Создать",
-    "pollOptions": "Опции опроса",
-    "optionNumberPlaceholder": "Опция {{number}}"
+    "createButton": "Опубликовать",
+    "pollOptions": "Варианты голосования",
+    "optionNumberPlaceholder": "Ответ {{number}}"
   },
   "informationDrawer": {
     "title": "Информация",
