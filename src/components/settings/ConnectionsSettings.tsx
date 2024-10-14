@@ -15,12 +15,12 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function NotificationsSettings() {
+export default function ConnectionsSettings() {
   const { header } = useStore();
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Notifications",
+      title: "Settings - Connections",
       iconName: "settings"
     });
   });
@@ -29,7 +29,7 @@ export default function NotificationsSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.connections")} />
       </Breadcrumb>
       <Connections/>

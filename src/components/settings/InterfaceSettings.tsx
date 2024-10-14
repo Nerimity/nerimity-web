@@ -48,7 +48,7 @@ export default function InterfaceSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Notifications",
+      title: "Settings - Interface",
       iconName: "settings",
     });
   });
@@ -56,7 +56,7 @@ export default function InterfaceSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.interface")} />
       </Breadcrumb>
       <BlurEffect />

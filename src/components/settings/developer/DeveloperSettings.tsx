@@ -31,7 +31,7 @@ export default function DeveloperSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.developer")} />
       </Breadcrumb>
 

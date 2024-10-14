@@ -128,10 +128,10 @@ function SupportItem() {
           />
           <div>
             <Text style={{ "font-weight": "bold" }}>
-              {t("settings.drawer.supportMe")}
+              {t("supportBlock.support")}
             </Text>
             <div>
-              <Text size={12}>Donate to get a supporter badge!</Text>
+              <Text size={12}>{t("supportBlock.supportDescription")}</Text>
             </div>
           </div>
         </FlexRow>
