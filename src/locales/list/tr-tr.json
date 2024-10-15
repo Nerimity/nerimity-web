@@ -50,12 +50,7 @@
 			"blockedUsersButton": "Engellenmiş Kullanıcılar",
 			"inboxTitle": "Gelen Kutusu",
 			"friendsButton": "Arkadaşlar",
-			"viewAll": "Hepsini Görüntüle",
-			"requests": "İstekler",
-			"online": "Çevrimiçi",
-			"offline": "Çevrimdışı",
-			"savedNotesButton": "Kayıtlı Notlar",
-			"inboxButton": "Gelen Kutusu"
+			"viewAll": "Hepsini Görüntüle"
 		}
 	},
 	"explore": {
@@ -207,22 +202,56 @@
 			"activity-status": "Aktivite Durumları",
 			"tickets": "Destek Biletleri",
 			"privacy": "Gizlilik",
-			"connections": "Bağlantılar"
+			"connections": "Bağlantılar",
+			"profile": "Profil"
 		},
+		"header": {
+      "servers": "Sunucular",
+      "friends": "Arkadaşlar",
+      "manageAccount": "Hesabı Yönet"
+    },
+		"account": {
+      "title": "Ayarlar - Hesap",
+      "email": "E-Posta",
+      "username": "Kullanıcı Adı",
+      "tag": "Etiket",
+      "avatar": "Avatar",
+      "banner": "Afiş",
+      "supported": "Desteklenen",
+      "browse": "Seç",
+      "profile": "Profil",
+      "profileDescription": "Hakkımdanızı ve renklerinizi ayarlayın",
+      "changePassword": "Şifreyi Değiştir",
+      "forgotPassword": "Şifremi Unuttum",
+      "newPassword": "Yeni Şifre",
+      "newPasswordDescription": "Şifrenizi değiştirmeniz diğer cihazlardan çıkış yapmanıza sebep olur.",
+      "confirmNewPassword": "Yeni Şifreyi Onaylayın",
+      "confirmNewPasswordDescription": "Yeni şifrenizi tekrar yazın.",
+      "confirmCurrentPassword": "Şuanki Şifrenizi Onaylayın",
+      "channelNotice": "Kanal Hatırlatması",
+      "channelNoticeDescription": "Kullanıcılar sizinle ilk defa sohbet ettiğinde görünür. Değişiklikler sayfayı yeniledikten sonra uygulanır.",
+      "saving": "Kaydediliyor...",
+      "saveButton": "Kaydet",
+      "saveChangesButton": "Değişiklikleri Kaydet",
+      "deleteAccount": "Hesabımı Sil",
+      "deleteAccountDescription": "Bu geri alınamaz!",
+      "deleteAccountNotice": "Hesabınızı silmeden önce bulunduğunuz bütün sunucuları silmeli yada ayrılmalısınız.",
+      "understoodButton": "Anlıyorum"
+    },
 		"privacy": {
+			"lastOnline": {
+        "title": "Son Görülme Zamanı",
+        "description": "Son görülme zamanınızı kimin görebileceğini ayarlayın.",
+        "hidden": "Gizli",
+        "friendsOnly": "Sadece Arkadaşlar",
+        "friendsAndServers": "Arkadaşlar ve Sunucu Üyeleri"
+      },
 			"directMessage": {
 				"title": "Direkt Mesaj",
 				"description": "Sana kimin mesaj gönderebileceğini ayarla.",
 				"anyone": "Herkes",
 				"friendsAndServersOnly": "Sadece Arkadaşlar ve Sunucu Üyeleri",
 				"friendsOnly": "Sadece Arkadaşlar"
-			},
-			"profileOptions": {
-				"title": "Profil Seçenekleri",
-				"hideFollowers": "Takipçileri Gizle",
-				"hideFollowersDescription": "Takipçilerinizi profilinizden gizleyin.",
-				"hideFollowing": "Takip Edilenleri Gizle",
-				"hideFollowingDescription": "Takip ettiğiniz kişileri profilinizden gizleyin."
 			},
 			"friendRequest": {
 				"title": "Arkadaşlık İstekleri",
@@ -231,15 +260,28 @@
 				"serversOnly": "Sunucu Üyeleri",
 				"nobody": "Hiç Kimse"
 			},
-			"lastOnline": {
-				"description": "En son ne zaman aktif olduğunuzu kimin görebileceğini ayarla.",
-				"title": "Son Görülme Zamanı"
+			"profileOptions": {
+				"title": "Profil Seçenekleri",
+				"hideFollowers": "Takipçileri Gizle",
+				"hideFollowersDescription": "Takipçilerinizi profilinizden gizleyin.",
+				"hideFollowing": "Takip Edilenleri Gizle",
+				"hideFollowingDescription": "Takip ettiğiniz kişileri profilinizden gizleyin."
 			}
 		}
 	},
 	"supportBlock": {
-		"support": "Geliştiriciyi Destekle!"
+		"support": "Geliştiriciyi Destekle!",
+		"supportDescription": "Destekçi rozeti kazanmak için bağış yapın!"
 	},
+	"createServerModal": {
+    "title": "Sunucu Oluştur",
+    "notice": "NSFW içerik yasaktır.",
+    "serverName": "Sunucu İsmi",
+    "placeholder": "Benim Harika Sunucum",
+    "creating": "Oluşturuluyor...",
+    "createServerButton": "Sunucu Oluştur",
+    "closeButton": "Kapat"
+  },
 	"serverContextMenu": {
 		"markAsRead": "Okunmuş Olarak İşaretle",
 		"invites": "Davetler",
@@ -260,7 +302,8 @@
 		"editRoles": "Rolleri Yönet",
 		"kick": "At",
 		"ban": "Yasakla",
-		"changeNickname": "İsim Değiştir"
+		"changeNickname": "İsim Değiştir",
+		"callvolume": "Arama Sesi"
 	},
 	"kickServerMemberModal": {
 		"title": "{{username}} Kullanıcısını At",
