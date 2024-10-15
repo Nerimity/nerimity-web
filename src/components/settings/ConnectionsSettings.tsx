@@ -50,7 +50,7 @@ function Connections() {
 
 function GoogleLink() {
   const {account} = useStore();
-  const isConnected = () => account.user()?.connections.find(c => c.provider === "GOOGLE");
+  const isConnected = () => account.user()?.connections?.find(c => c.provider === "GOOGLE");
 
   const linkGoogle = () => {
     createGoogleAccountLink().then(url => {
