@@ -84,7 +84,7 @@ export const languages = {
   "ru-ru": {
     name: "Russian",
     emoji: "🇷🇺",
-    contributors: ["https://github.com/FAYSi223"],
+    contributors: ["https://github.com/FAYSi223", "https://github.com/eshkq"],
   },
   "es-es": {
     name: "Spanish",
