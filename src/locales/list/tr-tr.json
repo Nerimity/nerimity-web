@@ -41,7 +41,7 @@
 	},
 	"inbox": {
 		"drawer": {
-			"searchBarPlaceholder": "Search",
+			"searchBarPlaceholder": "Ara",
 			"friendRequests": "{{count}} Arkadaşlık İsteği",
 			"onlineFriends": "{{count}} Çevrimiçi Arkadaş",
 			"offlineFriends": "{{count}} Çevrimdışı Arkadaş",
