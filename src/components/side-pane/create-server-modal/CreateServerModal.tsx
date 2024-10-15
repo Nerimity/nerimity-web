@@ -10,7 +10,7 @@ export function CreateServerModal(props: { close: () => void }) {
 
   return (
     <Modal.Root close={props.close} class={style.modalRoot}>
-      <Modal.Header title={t("createServerModal.header")} icon="dns" />
+      <Modal.Header title={t("createServerModal.title")} icon="dns" />
       <Modal.Body class={style.modalBody}>
         <Notice type="warn" description={t("createServerModal.notice")} />
         <Input

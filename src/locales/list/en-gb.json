@@ -274,7 +274,7 @@
     "supportDescription": "Donate to get a supporter badge!"
   },
   "createServerModal": {
-    "header": "Create Server",
+    "title": "Create Server",
     "notice": "NSFW content is not allowed.",
     "serverName": "Server Name",
     "placeholder": "My Amazing Server",
