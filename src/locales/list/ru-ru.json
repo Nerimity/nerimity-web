@@ -234,7 +234,7 @@
       "saveButton": "Сохранить",
       "saveChangesButton": "Сохранить изменения",
       "deleteAccount": "Удалить мой аккаунт",
-      "deleteAccountDescription": "Это нелья будет отменить!",
+      "deleteAccountDescription": "Это действие нельзя отменить!",
       "deleteAccountNotice": "Вы должны покинуть / удалить все серверы, прежде чем сможете удалить свою учетную запись.",
       "understoodButton": "Понял"
     },
