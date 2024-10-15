@@ -35,7 +35,7 @@ export const languages = {
     emoji: "🇧🇷",
     contributors: [
       "https://github.com/Jerkycat",
-      "https://gitlab.com/Gersonzao",
+      "https://gitlab.com/Cirnos",
     ],
   },
   "zn-hant": {
