@@ -195,7 +195,6 @@
       "developer": "Для разработчиков",
       "applications": "Приложения",
       "experiments": "Эксперименты",
-      "supportMe": "Поддержать меня",
       "viewSource": "Посмотреть исходник",
       "changelog": "Изменения",
       "window-settings": "Настройки окна",
@@ -203,15 +202,63 @@
       "activity-status": "Статус активности",
       "tickets": "Тикеты",
       "privacy": "Конфиденциальность",
-      "connections": "Подключения"
+      "connections": "Подключения",
+      "profile": "Профиль"
+    },
+    "header": {
+      "servers": "сервера(ов)",
+      "friends": "друга(ей)",
+      "manageAccount": "Управление аккаунтом"
+    },
+    "account": {
+      "title": "Настройки - Аккаунт",
+      "email": "Email",
+      "username": "Имя пользователя",
+      "tag": "Тег",
+      "avatar": "Аватар",
+      "banner": "Баннер",
+      "supported": "Поддерживается",
+      "browse": "Выбрать",
+      "profile": "Профиль",
+      "profileDescription": "Изменить описание профиля или цвета",
+      "changePassword": "Изменить пароль",
+      "forgotPassword": "Забыли пароль",
+      "newPassword": "Новый пароль",
+      "newPasswordDescription": "Изменение вашего пароля приведет к выходу из системы в любом другом месте.",
+      "confirmNewPassword": "Подтвердите новый пароль",
+      "confirmNewPasswordDescription": "Подтвердите свой новый пароль",
+      "confirmCurrentPassword": "Введите текущий пароль",
+      "channelNotice": "Уведомление при ЛС",
+      "channelNoticeDescription": "Отображается, когда пользователь собирается написать вам в первый раз. Изменения вступят в силу после перезагрузки у стороны.",
+      "saving": "Сохранение...",
+      "saveButton": "Сохранить",
+      "saveChangesButton": "Сохранить изменения",
+      "deleteAccount": "Удалить мой аккаунт",
+      "deleteAccountDescription": "Это нелья будет отменить!",
+      "deleteAccountNotice": "Вы должны покинуть / удалить все серверы, прежде чем сможете удалить свою учетную запись.",
+      "understoodButton": "Понял"
     },
     "privacy": {
+      "lastOnline": {
+        "title": "Последнее время онлайн",
+        "description": "Настроить, кто может видеть ваше последнее время онлайн.",
+        "hidden": "Скрыто",
+        "friendsOnly": "Только друзья",
+        "friendsAndServers": "Друзья и участники серверов"
+      },
       "directMessage": {
         "title": "Личное сообщение",
-        "description": "Установить, кто может отправлять вам личные сообщения.",
+        "description": "Настроить, кто может отправлять вам личные сообщения.",
         "anyone": "Все пользователи",
         "friendsAndServersOnly": "Только друзья и участники серверов",
         "friendsOnly": "Только друзья"
+      },
+      "friendRequest": {
+        "title": "Запрос на добавление в друзья",
+        "description": "Настроить, кто может отправлять вам запросы на добавление в друзья.",
+        "anyone": "Все пользователи",
+        "serversOnly": "Только участники серверов",
+        "nobody": "Никто"
       },
       "profileOptions": {
         "title": "Настройки профиля",
@@ -219,19 +266,21 @@
         "hideFollowersDescription": "Скрыть ваших подписчиков в профиле.",
         "hideFollowing": "Скрыть подписки",
         "hideFollowingDescription": "Скрыть пользователей, на которых вы подписаны из вашего профиля."
-      },
-      "friendRequest": {
-        "title": "Запрос на добавление в друзья",
-        "description": "Установить, кто может отправлять вам запросы на добавление в друзья.",
-        "anyone": "Все пользователи",
-        "serversOnly": "Участники серверов",
-        "nobody": "Никто"
-      },
-      "lastOnline": {
-        "description": "Установить, кто может видеть ваше последнее время онлайн.",
-        "title": "Последнее время онлайн"
       }
     }
+  },
+  "supportBlock": {
+    "support": "Пожертвование",
+    "supportDescription": "Получите специальное украшение!"
+  },
+  "createServerModal": {
+    "header": "Создать сервер",
+    "notice": "18+ контент запрещён в любом виде.",
+    "serverName": "Имя сервера",
+    "placeholder": "Мой замечательный сервер",
+    "creating": "Создание...",
+    "createServerButton": "Создать",
+    "closeButton": "Отмена"
   },
   "serverContextMenu": {
     "markAsRead": "Отметить прочитанным",
