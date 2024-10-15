@@ -1,5 +1,6 @@
 {
   "header": {
+    "logoutButton": "Sair",
     "openAppButton": "Abrir Aplicativo",
     "loginButton": "Entrar",
     "joinNowButton": "Junte-se Agora"
@@ -27,6 +28,16 @@
     "registerButton": "Registrar-se",
     "registering": "Registrando...",
     "loginInstead": "Em vez disso, entrar"
+  },
+  "dashboard": {
+    "title": "Painel",
+    "activeUsers": "Usuários Ativos",
+    "noActiveUsers": "Sem usuários ativos",
+    "servers": "Servidores",
+    "posts": "Postagens",
+    "feed": "Fluxo",
+    "discover": "Descobrir",
+    "notifications": "Notificações"
   },
   "inbox": {
     "drawer": {
@@ -157,7 +168,9 @@
       "ban": "Banir",
       "banDescription": "Permissão para banir usuários.",
       "mentionEveryone": "Mencionar Todos",
-      "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos."
+      "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos.",
+      "nicknameMember": "Apelidar Membro",
+      "nicknameMemberDescription": "Permite que usuários alterem seus apelidos no servidor."
     },
     "channelPermissions": {
       "privateChannel": "Canal Privado",
@@ -183,10 +196,38 @@
       "viewSource": "Ver Código Fonte",
       "changelog": "Novidades",
       "window-settings": "Configurações de Janela",
+      "call-settings": "Configurações de Chamada",
       "activity-status": "Estatus de Atividade",
       "tickets": "Bilhetes",
       "privacy": "Privacidade",
       "connections": "Conexões"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "Mensagem Direta",
+        "description": "Define quem pode lhe enviar mensagens diretas.",
+        "anyone": "Todos",
+        "friendsAndServersOnly": "Somente Amigos e Servidores",
+        "friendsOnly": "Somente Amigos"
+      },
+      "profileOptions": {
+        "title": "Opções de Perfil",
+        "hideFollowers": "Esconder Seguidores",
+        "hideFollowersDescription": "Esconda seus seguidores de seu perfil.",
+        "hideFollowing": "Esconder Seguindo",
+        "hideFollowingDescription": "Esconder usuários que você segue de seu perfil."
+      },
+      "friendRequest": {
+        "title": "Solicitação de Amizade",
+        "description": "Define quem pode lhe enviar solicitações de amizade.",
+        "anyone": "Todos",
+        "serversOnly": "Somente Servidores",
+        "nobody": "Ninguém"
+      },
+      "lastOnline": {
+        "description": "Define quem pode ver seu último horário ativo.",
+        "title": "Último Horário Ativo"
+      }
     }
   },
 
@@ -197,6 +238,7 @@
     "editRoles": "Editar Cargos",
     "kick": "Expulsar",
     "ban": "Banir"
+    "changeNickname": "Alterar Apelido"
   },
   "kickServerMemberModal": {
     "title": "Expulsar {{username}}",
@@ -250,6 +292,15 @@
     "createAPostInputPlaceholder": "Criar uma postagem...",
     "replyInputPlaceholder": "Responder...",
     "replyButton": "Responder",
-    "createButton": "Criar"
+    "createButton": "Criar",
+    "pollOptions": "Opções de Enquete",
+    "optionNumberPlaceholder": "Opção {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Informação",
+    "channelNotice": "Aviso de Canal",
+    "attachments": "Anexos",
+    "attachmentsBack": "Voltar",
+    "members": "Membros"
   }
 }
