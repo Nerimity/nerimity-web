@@ -192,7 +192,6 @@
       "developer": "devewopew",
       "applications": "appwications",
       "experiments": "expewiments",
-      "supportMe": "suppowt me",
       "viewSource": "view s-souwce",
       "changelog": "changewog",
       "window-settings": "Window Settings",
@@ -229,6 +228,9 @@
         "title": "wast onwine time"
       }
     }
+  },
+  "supportBlock": {
+    "support": "suppowt me"
   },
   "userContextMenu": {
     "viewProfile": "view pwofiwe",

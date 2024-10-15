@@ -164,9 +164,11 @@
       "language": "Nyelv",
       "notifications": "Értesítések",
       "logout": "Kilépés",
-      "supportMe": "Támogass!",
       "viewSource": "Forráskód Megtekintése",
       "changelog": "Csere Napló"
     }
+  },
+  "supportBlock": {
+    "support": "Támogass!"
   }
 }
