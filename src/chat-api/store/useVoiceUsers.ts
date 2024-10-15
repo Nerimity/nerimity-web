@@ -27,8 +27,8 @@ export type VoiceUser = RawVoice & {
   voiceActivity: boolean;
   audio?: HTMLAudioElement
 
-  waitingForStreamId?: string;
-  waitingForStreamType?: "video" | "audio";
+  waitingForVideoStreamId?: string;
+  waitingForAudioStreamId?: string;
 };
 
 // voiceUsers[channelId][userId] = VoiceUser
@@ -133,9 +133,7 @@ async function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
         },
       ],
     },
-    streams: [localStreams.audioStream, localStreams.videoStream].filter(
-      (stream) => stream
-    ) as MediaStream[],
+    streams: []
   });
 
   peer.on("signal", (signal) => {
@@ -153,6 +151,12 @@ async function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
   });
   peer.on("connect", () => {
     console.log("connect");
+    if (localStreams.audioStream) {
+      sendStreamToPeer(localStreams.audioStream, "audio");
+    }
+    if (localStreams.videoStream) {
+      sendStreamToPeer(localStreams.videoStream, "video");
+    }
   });
   peer.on("end", () => {
     console.log(user.username + " peer removed");
@@ -240,9 +244,7 @@ export async function createPeer(voiceUser: VoiceUser | RawVoice) {
         },
       ],
     },
-    streams: [localStreams.audioStream, localStreams.videoStream].filter(
-      (stream) => stream
-    ) as MediaStream[],
+    streams: []
   });
 
   peer.on("signal", (signal) => {
@@ -258,6 +260,12 @@ export async function createPeer(voiceUser: VoiceUser | RawVoice) {
   });
   peer.on("connect", () => {
     console.log("connect");
+    if (localStreams.audioStream) {
+      sendStreamToPeer(localStreams.audioStream, "audio");
+    }
+    if (localStreams.videoStream) {
+      sendStreamToPeer(localStreams.videoStream, "video");
+    }
   });
   peer.on("end", () => {
     console.log(user.username, "end");
@@ -320,18 +328,18 @@ const onData = (rawVoice: RawVoice, data?: { type: "video" | "audio", streamId: 
   if (!voiceUser) return;
 
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
-    waitingForStreamId: data.streamId,
-    waitingForStreamType: data.type,
+    ...(data.type === "audio" ? { waitingForAudioStreamId: data.streamId } : {}),
+    ...(data.type === "video" ? { waitingForVideoStreamId: data.streamId } : {}),
   });
 };
 
 const onStream = (rawVoiceUser: RawVoice, stream: MediaStream) => {
   const voiceUser = getVoiceUser(rawVoiceUser.channelId, rawVoiceUser.userId);
   if (!voiceUser) return;
-  if (!voiceUser.waitingForStreamId) return;
-  if (!voiceUser.waitingForStreamType) return;
+  if (!voiceUser.waitingForAudioStreamId && !voiceUser.waitingForVideoStreamId) return;
 
-  const streamType = voiceUser.waitingForStreamType === "video" ? "videoStream" : "audioStream";
+
+  const streamType = voiceUser.waitingForAudioStreamId === stream.id ? "audioStream" : "videoStream";
 
   stream.onremovetrack = () => {
     setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
