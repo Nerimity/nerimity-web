@@ -237,7 +237,7 @@
     "copyId": "Copiar ID",
     "editRoles": "Editar Cargos",
     "kick": "Expulsar",
-    "ban": "Banir"
+    "ban": "Banir",
     "changeNickname": "Alterar Apelido"
   },
   "kickServerMemberModal": {
