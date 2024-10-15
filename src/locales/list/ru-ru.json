@@ -25,18 +25,18 @@
     "username": "Имя пользователя",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
-    "registerButton": "Зарегистрироваться",
+    "registerButton": "Регистрация",
     "registering": "Регистрация...",
     "loginInstead": "Войти в существующий аккаунт"
   },
   "dashboard": {
-    "title": "Главная страница",
+    "title": "Панель управления",
     "activeUsers": "Активные пользователи",
     "noActiveUsers": "Нет активных пользователей",
     "servers": "Серверы",
     "posts": "Посты",
-    "feed": "Моя лента",
-    "discover": "Все посты",
+    "feed": "Лента",
+    "discover": "Открыть",
     "notifications": "Уведомления"
   },
   "inbox": {
@@ -47,7 +47,7 @@
       "offlineFriends": "{{count}} Друзей оффлайн",
       "notes": "Заметки",
       "addFriendButton": "Добавить друга",
-      "blockedUsersButton": "Черный список",
+      "blockedUsersButton": "Заблокированные пользователи",
       "inboxTitle": "Личные сообщения",
       "friendsButton": "Друзья",
       "viewAll": "Посмотреть все"
@@ -77,13 +77,13 @@
   "servers": {
     "settings": {
       "drawer": {
-        "general": "Основные настройки",
+        "general": "Основные",
         "roles": "Роли",
         "channels": "Каналы",
         "bans": "Баны",
         "invites": "Приглашения",
-        "publishServer": "Открытость сервера",
-        "verify": "Верификация",
+        "publishServer": "Опубликовать сервер",
+        "verify": "Проверить",
         "role": "Роль",
         "welcome-screen": "Экран приветствия",
         "channel": "Канал",
@@ -148,11 +148,11 @@
         "copyLinkButton": "Скопировать ссылку"
       },
       "publishServer": {
-        "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>исследовать</1>.",
+        "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>Исследовать</1>.",
         "public": "Публичный",
         "publicDescription": "Сделать этот сервер публичным.",
         "bumpServer": "Продвинуть сервер",
-        "bumpServerDescription": "Продвинет сервер вверх списка.",
+        "bumpServerDescription": "Продвинуть этот сервер в топ.",
         "publishServerButton": "Опубликовать сервер",
         "unpublishServerButton": "Снять сервер с публикации"
       }
@@ -160,19 +160,19 @@
     "rolePermissions": {
       "admin": "Администратор",
       "adminDescription": "Включает все разрешения.",
-      "sendMessage": "Отправлять сообщения",
+      "sendMessage": "Отправить сообщение",
       "sendMessageDescription": "Разрешение на отправку сообщений на этом сервере. Администраторы сервера могут отправлять сообщения.",
-      "manageRoles": "Управлять ролями",
+      "manageRoles": "Управление ролями",
       "manageRolesDescription": "Разрешение на обновление или удаление ролей.",
-      "manageChannels": "Управлять каналами",
+      "manageChannels": "Управление каналами",
       "manageChannelsDescription": "Разрешение на обновление или удаление каналов.",
-      "kick": "Выгонять",
-      "kickDescription": "Разрешение выгонять пользователей.",
-      "ban": "Банить",
-      "banDescription": "Разрешение на блокировку пользователей.",
-      "mentionEveryone": "Упомянать всех",
+      "kick": "Выгнать",
+      "kickDescription": "Разрешение выгонять пользователей",
+      "ban": "Забанить",
+      "banDescription": "Разрешение на бан пользователей.",
+      "mentionEveryone": "Упомянуть всех",
       "mentionEveryoneDescription": "Разрешение упоминать @everyone. Администраторы сервера могут упоминать всех.",
-      "nicknameMember": "Менять свое имя",
+      "nicknameMember": "Поменять ник",
       "nicknameMemberDescription": "Разрешить пользователям менять свой ник на сервере."
     },
     "channelPermissions": {
@@ -195,6 +195,7 @@
       "developer": "Для разработчиков",
       "applications": "Приложения",
       "experiments": "Эксперименты",
+      "supportMe": "Поддержать меня",
       "viewSource": "Посмотреть исходник",
       "changelog": "Изменения",
       "window-settings": "Настройки окна",
@@ -202,63 +203,15 @@
       "activity-status": "Статус активности",
       "tickets": "Тикеты",
       "privacy": "Конфиденциальность",
-      "connections": "Подключения",
-      "profile": "Профиль"
-    },
-    "header": {
-      "servers": "сервера(ов)",
-      "friends": "друга(ей)",
-      "manageAccount": "Управление аккаунтом"
-    },
-    "account": {
-      "title": "Настройки - Аккаунт",
-      "email": "Email",
-      "username": "Имя пользователя",
-      "tag": "Тег",
-      "avatar": "Аватар",
-      "banner": "Баннер",
-      "supported": "Поддерживается",
-      "browse": "Выбрать",
-      "profile": "Профиль",
-      "profileDescription": "Изменить описание профиля или цвета",
-      "changePassword": "Изменить пароль",
-      "forgotPassword": "Забыли пароль",
-      "newPassword": "Новый пароль",
-      "newPasswordDescription": "Изменение вашего пароля приведет к выходу из системы в любом другом месте.",
-      "confirmNewPassword": "Подтвердите новый пароль",
-      "confirmNewPasswordDescription": "Подтвердите свой новый пароль",
-      "confirmCurrentPassword": "Введите текущий пароль",
-      "channelNotice": "Уведомление при ЛС",
-      "channelNoticeDescription": "Отображается, когда пользователь собирается написать вам в первый раз. Изменения вступят в силу после перезагрузки у стороны.",
-      "saving": "Сохранение...",
-      "saveButton": "Сохранить",
-      "saveChangesButton": "Сохранить изменения",
-      "deleteAccount": "Удалить мой аккаунт",
-      "deleteAccountDescription": "Это действие нельзя отменить!",
-      "deleteAccountNotice": "Вы должны покинуть / удалить все серверы, прежде чем сможете удалить свою учетную запись.",
-      "understoodButton": "Понял"
+      "connections": "Подключения"
     },
     "privacy": {
-      "lastOnline": {
-        "title": "Последнее время онлайн",
-        "description": "Настроить, кто может видеть ваше последнее время онлайн.",
-        "hidden": "Скрыто",
-        "friendsOnly": "Только друзья",
-        "friendsAndServers": "Друзья и участники серверов"
-      },
       "directMessage": {
         "title": "Личное сообщение",
-        "description": "Настроить, кто может отправлять вам личные сообщения.",
+        "description": "Установить, кто может отправлять вам личные сообщения.",
         "anyone": "Все пользователи",
         "friendsAndServersOnly": "Только друзья и участники серверов",
         "friendsOnly": "Только друзья"
-      },
-      "friendRequest": {
-        "title": "Запрос на добавление в друзья",
-        "description": "Настроить, кто может отправлять вам запросы на добавление в друзья.",
-        "anyone": "Все пользователи",
-        "serversOnly": "Только участники серверов",
-        "nobody": "Никто"
       },
       "profileOptions": {
         "title": "Настройки профиля",
@@ -266,28 +219,26 @@
         "hideFollowersDescription": "Скрыть ваших подписчиков в профиле.",
         "hideFollowing": "Скрыть подписки",
         "hideFollowingDescription": "Скрыть пользователей, на которых вы подписаны из вашего профиля."
+      },
+      "friendRequest": {
+        "title": "Запрос на добавление в друзья",
+        "description": "Установить, кто может отправлять вам запросы на добавление в друзья.",
+        "anyone": "Все пользователи",
+        "serversOnly": "Участники серверов",
+        "nobody": "Никто"
+      },
+      "lastOnline": {
+        "description": "Установить, кто может видеть ваше последнее время онлайн.",
+        "title": "Последнее время онлайн"
       }
     }
-  },
-  "supportBlock": {
-    "support": "Пожертвование",
-    "supportDescription": "Получите специальное украшение!"
-  },
-  "createServerModal": {
-    "title": "Создать сервер",
-    "notice": "18+ контент запрещён в любом виде.",
-    "serverName": "Имя сервера",
-    "placeholder": "Мой замечательный сервер",
-    "creating": "Создание...",
-    "createServerButton": "Создать",
-    "closeButton": "Отмена"
   },
   "serverContextMenu": {
     "markAsRead": "Отметить прочитанным",
     "invites": "Приглашения",
     "notifications": "Уведомления",
     "settings": "Настройки",
-    "copyId": "Скопировать ID сервера",
+    "copyId": "Копировать ID сервера",
     "leave": "Выйти",
     "notificationOptions": {
       "everything": "Все уведомления",
@@ -298,12 +249,11 @@
   "userContextMenu": {
     "viewProfile": "Просмотреть профиль",
     "sendMessage": "Отправить сообщение",
-    "copyId": "Скопировать ID пользователя",
+    "copyId": "Копировать ID пользователя",
     "editRoles": "Редактировать роли",
     "kick": "Выгнать",
     "ban": "Забанить",
-    "changeNickname": "Изменить имя",
-    "callVolume": "Громкость звука"
+    "changeNickname": "Изменить ник"
   },
   "kickServerMemberModal": {
     "title": "Выгнать {{username}}",
@@ -326,7 +276,7 @@
     "editMessage": "Редактировать сообщение",
     "deleteMessage": "Удалить сообщение",
     "copyMessage": "Скопировать сообщение",
-    "copyId": "Скопировать ID сообщения"
+    "copyId": "Копировать ID сообщения"
   },
   "profile": {
     "followButton": "Подписаться",
@@ -334,7 +284,7 @@
     "removeFriendButton": "Удалить из друзей",
     "addFriendButton": "Добавить в друзья",
     "pendingRequest": "Запрос дружбы отправлен",
-    "acceptRequestButton": "Принять запрос дружбы",
+    "acceptRequestButton": "Принять запрос",
     "messageButton": "Сообщение",
     "mutualFriends": "Общие друзья ({{count}})",
     "mutualServers": "Общие серверы ({{count}})",
@@ -354,12 +304,12 @@
     "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",
     "someoneFollowedYou": "<1>{{username}}</1> подписался на вас!",
     "someoneRepliedToPost": "<1>{{username}}</1> ответил на ваш пост!",
-    "createAPostInputPlaceholder": "Написать пост...",
-    "replyInputPlaceholder": "Написать ответ...",
+    "createAPostInputPlaceholder": "Создать пост...",
+    "replyInputPlaceholder": "Ответить...",
     "replyButton": "Ответить",
-    "createButton": "Опубликовать",
-    "pollOptions": "Варианты голосования",
-    "optionNumberPlaceholder": "Ответ {{number}}"
+    "createButton": "Создать",
+    "pollOptions": "Опции опроса",
+    "optionNumberPlaceholder": "Опция {{number}}"
   },
   "informationDrawer": {
     "title": "Информация",

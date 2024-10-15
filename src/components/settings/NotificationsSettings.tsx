@@ -47,7 +47,7 @@ export default function NotificationsSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
+        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.notifications")} />
       </Breadcrumb>
       <DesktopNotification />

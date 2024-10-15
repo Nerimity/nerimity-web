@@ -221,7 +221,7 @@ function Header(props: { userId: string }) {
 
       <Show when={audio() && !isMe()}>
         <div class={styles.voiceVolume}>
-          <div class={styles.label}>{t("userContextMenu.callVolume")}</div>
+          <div class={styles.label}>Call Volume</div>
           <input
             type="range"
             min={0}

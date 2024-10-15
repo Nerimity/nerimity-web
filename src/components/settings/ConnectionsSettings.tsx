@@ -15,12 +15,12 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function ConnectionsSettings() {
+export default function NotificationsSettings() {
   const { header } = useStore();
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Connections",
+      title: "Settings - Notifications",
       iconName: "settings"
     });
   });
@@ -29,7 +29,7 @@ export default function ConnectionsSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.connections")} />
       </Breadcrumb>
       <Connections/>
@@ -50,7 +50,7 @@ function Connections() {
 
 function GoogleLink() {
   const {account} = useStore();
-  const isConnected = () => account.user()?.connections?.find(c => c.provider === "GOOGLE");
+  const isConnected = () => account.user()?.connections.find(c => c.provider === "GOOGLE");
 
   const linkGoogle = () => {
     createGoogleAccountLink().then(url => {

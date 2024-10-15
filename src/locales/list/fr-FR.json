@@ -170,15 +170,14 @@
       "language": "Langue",
       "notifications": "Notifications",
       "logout": "Se Déconnecter",
+      "supportMe": "Me Soutenir",
       "viewSource": "Voir le Code Source",
       "changelog": "Journal des Mise à Jour",
       "window-settings": "Paramètres Windows",
       "privacy": "Confidentialité"
     }
   },
-  "supportBlock": {
-    "support": "Me Soutenir"
-  },
+
   "userContextMenu": {
     "viewProfile": "Voir le Profil",
     "sendMessage": "Envoyer un Message",

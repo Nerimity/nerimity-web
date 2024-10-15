@@ -66,7 +66,7 @@ export default function AccountSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.account.title"),
+      title: "Settings - Account",
       iconName: "settings",
     });
   });
@@ -74,7 +74,7 @@ export default function AccountSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
+        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
         <BreadcrumbItem
           title={t("settings.drawer.account")}
           href="../account"
@@ -217,7 +217,7 @@ export function EditAccountPage(props: {
       .finally(() => setRequestSent(false));
   };
 
-  const requestStatus = () => (requestSent() ? t("settings.account.saving") : t("settings.account.saveChangesButton"));
+  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
 
   const { createPortal } = useCustomPortal();
 
@@ -285,7 +285,7 @@ export function EditAccountPage(props: {
             z-index: 111;
           `}
           icon="email"
-          label={t("settings.account.email")}
+          label="Email"
         >
           <Input
             value={inputValues().email}
@@ -294,14 +294,14 @@ export function EditAccountPage(props: {
         </SettingsBlock>
       </Show>
 
-      <SettingsBlock icon="face" label={t("settings.account.username")}>
+      <SettingsBlock icon="face" label="Username">
         <Input
           value={inputValues().username}
           onText={(v) => setInputValue("username", v)}
         />
       </SettingsBlock>
 
-      <SettingsBlock icon="local_offer" label={t("settings.account.tag")}>
+      <SettingsBlock icon="local_offer" label="Tag">
         <Input
           class={css`
             width: 52px;
@@ -313,8 +313,8 @@ export function EditAccountPage(props: {
 
       <SettingsBlock
         icon="wallpaper"
-        label={t("settings.account.avatar")}
-        description={t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"}
+        label="Avatar"
+        description="Supported: JPG, PNG, GIF, WEBP, Max 12 MB"
       >
         <FileBrowser
           accept="images"
@@ -341,15 +341,15 @@ export function EditAccountPage(props: {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label={t("settings.account.browse")}
+          label="Browse"
           onClick={avatarFileBrowserRef()?.open}
         />
       </SettingsBlock>
 
       <SettingsBlock
         icon="panorama"
-        label={t("settings.account.banner")}
-        description={t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"}
+        label="Banner"
+        description="Supported: JPG, PNG, GIF, WEBP, Max 12 MB"
       >
         <FileBrowser
           accept="images"
@@ -372,15 +372,15 @@ export function EditAccountPage(props: {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label={t("settings.account.browse")}
+          label="Browse"
           onClick={bannerFileBrowserRef()?.open}
         />
       </SettingsBlock>
 
       <SettingsBlock
         icon="info"
-        label={t("settings.account.profile")}
-        description={t("settings.account.profileDescription")}
+        label="Profile"
+        description="Edit your bio or colors"
         href="./profile"
       >
         <Icon name="keyboard_arrow_right" />
@@ -390,21 +390,21 @@ export function EditAccountPage(props: {
           onClick={onChangePasswordClick}
           style={{ "margin-bottom": "5px" }}
         >
-          {t("settings.account.changePassword")}
+          Change Password
         </ChangePasswordButton>
         <ChangePasswordButton
           onClick={onForgotPasswordClick}
           style={{ "margin-bottom": "5px" }}
         >
-          {t("settings.account.forgotPassword")}
+          Forgot Password
         </ChangePasswordButton>
       </Show>
 
       <Show when={!props.bot && showResetPassword()}>
         <SettingsBlock
           icon="password"
-          label={t("settings.account.newPassword")}
-          description={t("settings.account.newPasswordDescription")}
+          label="New Password"
+          description="Changing your password will log you out everywhere else."
         >
           <Input
             type="password"
@@ -414,8 +414,8 @@ export function EditAccountPage(props: {
         </SettingsBlock>
         <SettingsBlock
           icon="password"
-          label={t("settings.account.confirmNewPassword")}
-          description={t("settings.account.confirmNewPasswordDescription")}
+          label="Confirm New Password"
+          description="Confirm your new password"
         >
           <Input
             type="password"
@@ -426,10 +426,7 @@ export function EditAccountPage(props: {
       </Show>
 
       <Show when={!props.bot && Object.keys(updatedInputValues()).length}>
-        <SettingsBlock
-          icon="password"
-          label={t("settings.account.confirmCurrentPassword")}
-        >
+        <SettingsBlock icon="password" label="Confirm Password">
           <Input
             type="password"
             value={inputValues().password}
@@ -540,8 +537,8 @@ function DeleteAccountBlock() {
     <SettingsBlock
       class={deleteAccountBlockStyles}
       icon="delete"
-      label={t("settings.account.deleteAccount")}
-      description={t("settings.account.deleteAccountDescription")}
+      label="Delete My Account"
+      description="This cannot be undone!"
     >
       <Button
         onClick={onClick}
@@ -549,7 +546,7 @@ function DeleteAccountBlock() {
         primary
         color="var(--alert-color)"
         iconName="delete"
-        label={t("settings.account.deleteAccount")}
+        label="Delete My Account"
       />
     </SettingsBlock>
   );
@@ -564,14 +561,14 @@ function DeleteAccountNoticeModal(props: { close(): void }) {
         <Button
           iconName="check"
           styles={{ "margin-left": "auto" }}
-          label={t("settings.account.understoodButton")}
+          label="Understood"
           onClick={props.close}
         />
       }
       maxWidth={300}
     >
       <Text style={{ padding: "10px" }}>
-        {t("settings.account.deleteAccountNotice")}
+        You must leave/delete all servers before you can delete your account.
       </Text>
     </LegacyModal>
   );
@@ -653,9 +650,9 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
     >
       <SettingsBlock
         icon="info"
-        label={t("settings.account.channelNotice")}
+        label="Channel Notice"
         class={NoticeBlockStyle}
-        description={t("settings.account.channelNoticeDescription")}
+        description="Shows when the user is about to chat for the first time. Changes apply after reload."
       >
         <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>
           ({inputValues().content.length} / 300)
@@ -694,7 +691,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
             />
           </Show>
           <Show when={updatedInputValues().content}>
-            <Button label={t("settings.account.saveButton")} iconName="save" onClick={save} />
+            <Button label="Save" iconName="save" onClick={save} />
           </Show>
         </div>
       </SettingsBlock>

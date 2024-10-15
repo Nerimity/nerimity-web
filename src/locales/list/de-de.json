@@ -170,15 +170,14 @@
       "language": "Sprache",
       "notifications": "Benachrichtigungen",
       "logout": "Abmelden",
+      "supportMe": "Unterstütze Mich",
       "viewSource": "Quellcode ansehen",
       "changelog": "Änderungsprotokoll",
       "window-settings": "Fenstereinstellungen",
       "privacy": "Privatsphäre"
     }
   },
-  "supportBlock": {
-    "support": "Unterstütze Mich"
-  },
+
   "userContextMenu": {
     "viewProfile": "Profil anzeigen",
     "sendMessage": "Nachricht senden",

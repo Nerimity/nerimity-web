@@ -3,33 +3,32 @@ import style from "./CreateServerModal.module.scss";
 import Input from "@/components/ui/input/Input";
 import { useCreateServerModalController } from "./useCreateServerModalController";
 import { Notice } from "@/components/ui/Notice/Notice";
-import { t } from "i18next";
 
 export function CreateServerModal(props: { close: () => void }) {
   const controller = useCreateServerModalController(props);
 
   return (
     <Modal.Root close={props.close} class={style.modalRoot}>
-      <Modal.Header title={t("createServerModal.title")} icon="dns" />
+      <Modal.Header title="Create Server" icon="dns" />
       <Modal.Body class={style.modalBody}>
-        <Notice type="warn" description={t("createServerModal.notice")} />
+        <Notice type="warn" description="NSFW content is not allowed." />
         <Input
-          label={t("createServerModal.serverName")}
+          label="Server Name"
           onText={controller.setName}
           value={controller.name()}
           error={controller.error().message}
-          placeholder={t("createServerModal.placeholder")}
+          placeholder="My Amazing Server"
         />
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("createServerModal.closeButton")}
+          label="Close"
           alert
           iconName="close"
           onClick={props.close}
         />
         <Modal.Button
-          label={controller.requestSent() ? t("createServerModal.creating") : t("createServerModal.createServerButton")}
+          label={controller.requestSent() ? "Creating..." : "Create Server"}
           iconName="add"
           primary
           onClick={controller.onCreateClick}

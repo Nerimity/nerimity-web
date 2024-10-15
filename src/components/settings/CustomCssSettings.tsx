@@ -44,7 +44,7 @@ export default function CustomCssSettings() {
   return (
     <Container>
       <Breadcrumb style={{ "margin-bottom": "8px" }}>
-        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
+        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.interface")} href="../" />
         <BreadcrumbItem title="Custom CSS" />
       </Breadcrumb>

@@ -179,6 +179,7 @@
       "developer": "Developer",
       "applications": "Mga aplikasyon",
       "experiments": "Mga eksperimento",
+      "supportMe": "Suportahan Ako",
       "viewSource": "Tingnan ang Pinagmulan",
       "changelog": "Changelog",
       "window-settings": "Mga Setting ng Window",
@@ -188,9 +189,7 @@
       "connections": "Mga koneksyon"
     }
   },
-  "supportBlock": {
-    "support": "Suportahan Ako"
-  },
+
   "userContextMenu": {
     "viewProfile": "Tingnan ang Profile",
     "sendMessage": "Magpadala ng mensahe",

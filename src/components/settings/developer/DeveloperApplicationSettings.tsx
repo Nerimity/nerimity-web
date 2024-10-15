@@ -82,7 +82,7 @@ export default function DeveloperApplicationSetting() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem href="/app/settings/developer" title={t("settings.drawer.developer")} />
         <BreadcrumbItem href="/app/settings/developer/applications" title={t("settings.drawer.applications")} />
         <BreadcrumbItem title={application() ? application()!.name : "loading..."} />

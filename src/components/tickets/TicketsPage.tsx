@@ -61,7 +61,7 @@ const TicketsPage = () => {
       >
         <Breadcrumb>
           <Show when={!isModeration()}>
-            <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
+            <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
           </Show>
           <Show when={isModeration()}>
             <BreadcrumbItem

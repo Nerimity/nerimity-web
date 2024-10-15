@@ -23,7 +23,7 @@ const Container = styled("div")`
 
 
 
-export default function CallSettings() {
+export default function NotificationsSettings() {
   const { header } = useStore();
 
 
@@ -38,7 +38,7 @@ export default function CallSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.call-settings")} />
       </Breadcrumb>
       <Notice type="info" description="Changes will be applied on your next calls." />

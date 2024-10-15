@@ -46,9 +46,9 @@ export default function ProfileSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
         <BreadcrumbItem title={t("settings.drawer.account")} href='../' />
-        <BreadcrumbItem title={t("settings.drawer.profile")} />
+        <BreadcrumbItem title="Profile" />
       </Breadcrumb>
       <PalestineBorder/>
       <EditProfilePage />

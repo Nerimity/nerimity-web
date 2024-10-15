@@ -192,6 +192,7 @@
       "developer": "Для распрацоўшчыкаў",
       "applications": "Боты",
       "experiments": "Экспэрымэнты",
+      "supportMe": "Падтрымаць мяне",
       "viewSource": "Глядзець код",
       "changelog": "Сьпіс зьменаў",
       "window-settings": "Налады акна",
@@ -229,9 +230,7 @@
       }
     }
   },
-  "supportBlock": {
-    "support": "Падтрымаць мяне"
-  },
+
   "userContextMenu": {
     "viewProfile": "Праглядзець профіль",
     "sendMessage": "Адправіць паведамленьне",

@@ -192,6 +192,7 @@
       "developer": "Setări Dezvoltator",
       "applications": "Aplicații",
       "experiments": "Experimente",
+      "supportMe": "Susține-mă",
       "viewSource": "Vezi codul sursa",
       "changelog": "Schimbări",
       "window-settings": "Setări fereastră",
@@ -229,9 +230,7 @@
       }
     }
   },
-  "supportBlock": {
-    "support": "Susține-mă"
-  },
+
   "userContextMenu": {
     "viewProfile": "Vezi profil-ul",
     "sendMessage": "Trimite mesaj",

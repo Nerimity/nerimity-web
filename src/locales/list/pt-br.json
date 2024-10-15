@@ -192,6 +192,7 @@
       "developer": "Desenvolvedor",
       "applications": "Aplicativos",
       "experiments": "Experimentos",
+      "supportMe": "Apoie-me",
       "viewSource": "Ver Código Fonte",
       "changelog": "Novidades",
       "window-settings": "Configurações de Janela",
@@ -229,9 +230,7 @@
       }
     }
   },
-  "supportBlock": {
-    "support": "Apoie-me"
-  },
+
   "userContextMenu": {
     "viewProfile": "Ver Perfil",
     "sendMessage": "Enviar Mensagem",

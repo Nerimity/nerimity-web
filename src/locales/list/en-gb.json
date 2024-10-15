@@ -167,7 +167,7 @@
       "manageChannels": "Manage Channels",
       "manageChannelsDescription": "Permission for updating or deleting channels.",
       "kick": "Kick",
-      "kickDescription": "Permission to kick users.",
+      "kickDescription": "Permission to kick users",
       "ban": "Ban",
       "banDescription": "Permission to ban users.",
       "mentionEveryone": "Mention Everyone",
@@ -195,6 +195,7 @@
       "developer": "Developer",
       "applications": "Applications",
       "experiments": "Experiments",
+      "supportMe": "Support Me",
       "viewSource": "View Source",
       "changelog": "Changelog",
       "window-settings": "Window Settings",
@@ -202,63 +203,15 @@
       "activity-status": "Activity Status",
       "tickets": "Tickets",
       "privacy": "Privacy",
-      "connections": "Connections",
-      "profile": "Profile"
-    },
-    "header": {
-      "servers": "servers",
-      "friends": "friends",
-      "manageAccount": "Manage Account"
-    },
-    "account": {
-      "title": "Settings - Account",
-      "email": "Email",
-      "username": "Username",
-      "tag": "Tag",
-      "avatar": "Avatar",
-      "banner": "Banner",
-      "supported": "Supported",
-      "browse": "Browse",
-      "profile": "Profile",
-      "profileDescription": "Edit your bio or colors",
-      "changePassword": "Change Password",
-      "forgotPassword": "Forgot Password",
-      "newPassword": "New Password",
-      "newPasswordDescription": "Changing your password will log you out everywhere else.",
-      "confirmNewPassword": "Confirm New Password",
-      "confirmNewPasswordDescription": "Confirm your new password",
-      "confirmCurrentPassword": "Confirm Current Password",
-      "channelNotice": "Channel Notice",
-      "channelNoticeDescription": "Shows when the user is about to chat for the first time. Changes apply after reload.",
-      "saving": "Saving...",
-      "saveButton": "Save",
-      "saveChangesButton": "Save Changes",
-      "deleteAccount": "Delete My Account",
-      "deleteAccountDescription": "This cannot be undone!",
-      "deleteAccountNotice": "You must leave/delete all servers before you can delete your account.",
-      "understoodButton": "Understood"
+      "connections": "Connections"
     },
     "privacy": {
-      "lastOnline": {
-        "title": "Last Online Time",
-        "description": "Set who can see your last online time.",
-        "hidden": "Hidden",
-        "friendsOnly": "Friends only",
-        "friendsAndServers": "Friends and servers"
-      },
       "directMessage": {
         "title": "Direct Message",
         "description": "Set Who can send you direct messages.",
         "anyone": "Anyone",
-        "friendsAndServersOnly": "Friends & Servers only",
-        "friendsOnly": "Friends only"
-      },
-      "friendRequest": {
-        "title": "Friend Request",
-        "description": "Set who can send you friend requests.",
-        "anyone": "Anyone",
-        "serversOnly": "Servers only",
-        "nobody": "Nobody"
+        "friendsAndServersOnly": "Friends and Servers Only",
+        "friendsOnly": "Friends Only"
       },
       "profileOptions": {
         "title": "Profile Options",
@@ -266,21 +219,19 @@
         "hideFollowersDescription": "Hide your followers from your profile.",
         "hideFollowing": "Hide Following",
         "hideFollowingDescription": "Hide users you are following from your profile."
+      },
+      "friendRequest": {
+        "title": "Friend Request",
+        "description": "Set who can send you friend requests.",
+        "anyone": "Anyone",
+        "serversOnly": "Servers Only",
+        "nobody": "Nobody"
+      },
+      "lastOnline": {
+        "description": "Set who can see your last online time.",
+        "title": "Last Online Time"
       }
     }
-  },
-  "supportBlock": {
-    "support": "Support Me",
-    "supportDescription": "Donate to get a supporter badge!"
-  },
-  "createServerModal": {
-    "title": "Create Server",
-    "notice": "NSFW content is not allowed.",
-    "serverName": "Server Name",
-    "placeholder": "My Amazing Server",
-    "creating": "Creating...",
-    "createServerButton": "Create Server",
-    "closeButton": "Close"
   },
   "serverContextMenu": {
     "markAsRead": "Mark as Read",
@@ -302,8 +253,7 @@
     "editRoles": "Edit Roles",
     "kick": "Kick",
     "ban": "Ban",
-    "changeNickname": "Change Nickname",
-    "callVolume": "Call Volume"
+    "changeNickname": "Change Nickname"
   },
   "kickServerMemberModal": {
     "title": "Kick {{username}}",
