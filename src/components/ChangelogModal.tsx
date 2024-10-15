@@ -7,6 +7,7 @@ import { FlexColumn } from "./ui/Flexbox";
 import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import Text from "./ui/Text";
 import env from "@/common/env";
+import { t } from "i18next";
 import { Show } from "solid-js";
 
 export function ChangelogModal(props: { close: () => void }) {
@@ -37,7 +38,7 @@ export function ChangelogModal(props: { close: () => void }) {
 
   return (
     <LegacyModal
-      title="Changelog"
+      title={t("settings.drawer.changelog")}
       close={props.close}
       actionButtons={ActionButtons}
     >
