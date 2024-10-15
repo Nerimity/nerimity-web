@@ -174,7 +174,6 @@
       "language": "Lenguaje",
       "notifications": "Notificaciones",
       "logout": "Cerrar sesión",
-      "supportMe": "Apoyame",
       "viewSource": "Ver codigo fuente",
       "changelog": "Registro de cambios",
       "window-settings": "Configuración de ventanas",
@@ -183,7 +182,9 @@
       "connections": "Connecciones"
     }
   },
-
+  "supportBlock": {
+    "support": "Apoyame"
+  },
   "userContextMenu": {
     "viewProfile": "Ver perfil",
     "sendMessage": "Enviar mensaje",

@@ -200,7 +200,6 @@
 			"developer": "Geliştirici",
 			"applications": "Uygulamalar",
 			"experiments": "Deneysel Özellikler",
-			"supportMe": "Geliştiriciyi Destekle!",
 			"viewSource": "Kaynak Kodu",
 			"changelog": "Değişiklikler",
 			"window-settings": "İstemci Ayarları",
@@ -237,6 +236,9 @@
 				"title": "Son Görülme Zamanı"
 			}
 		}
+	},
+	"supportBlock": {
+		"support": "Geliştiriciyi Destekle!"
 	},
 	"serverContextMenu": {
 		"markAsRead": "Okunmuş Olarak İşaretle",

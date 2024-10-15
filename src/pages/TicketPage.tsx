@@ -146,7 +146,7 @@ export default function TicketPage() {
             />
           </Show>
           <Show when={!isModeration()}>
-            <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+            <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
           </Show>
           <BreadcrumbItem
             title={t("settings.drawer.tickets")!}

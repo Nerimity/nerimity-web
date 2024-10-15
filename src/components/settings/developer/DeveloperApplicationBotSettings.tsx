@@ -86,7 +86,7 @@ export default function DeveloperApplicationBotSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
         <BreadcrumbItem href="/app/settings/developer" title={t("settings.drawer.developer")} />
         <BreadcrumbItem href="/app/settings/developer/applications" title={t("settings.drawer.applications")} />
         <BreadcrumbItem href="../" title={application() ? application()!.name : "loading..."} />

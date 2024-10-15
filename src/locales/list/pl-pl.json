@@ -179,7 +179,6 @@
       "developer": "Opcje programistyczne",
       "applications": "Aplikacje",
       "experiments": "Eksperymenty",
-      "supportMe": "Wesprzyj Mnie",
       "viewSource": "Zobacz kod",
       "changelog": "Dziennik zmian",
       "window-settings": "Ustawienia okna",
@@ -189,7 +188,9 @@
       "connections": "Połączenia"
     }
   },
-
+  "supportBlock": {
+    "support": "Wesprzyj Mnie"
+  },
   "userContextMenu": {
     "viewProfile": "Wyświetl Profil",
     "sendMessage": "Wyślij Wiadomość",

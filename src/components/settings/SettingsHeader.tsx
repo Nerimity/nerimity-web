@@ -15,6 +15,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { FriendStatus, RawUser } from "@/chat-api/RawData";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { settingsHeaderPreview } from "./SettingsPane";
+import { t } from "i18next";
 
 
 const HeaderContainer = styled("div")`
@@ -121,11 +122,11 @@ const SettingsHeader = (props: {bot?: RawUser}) => {
             </UsernameTagContainer>
             <Show when={!props.bot}>
               <FlexRow gap={5}>
-                <Text size={14} opacity={0.8}>{serverCount()} servers</Text>
+                <Text size={14} opacity={0.8}>{serverCount()} {t("settings.header.servers")}</Text>
                 <Text size={14}>•</Text>
-                <Text size={14} opacity={0.8}>{friendCount()} friends</Text>
+                <Text size={14} opacity={0.8}>{friendCount()} {t("settings.header.friends")}</Text>
               </FlexRow>
-              <Text size={14}><A href="/app/settings/account">Manage Account</A></Text>
+              <Text size={14}><A href="/app/settings/account">{t("settings.header.manageAccount")}</A></Text>
             </Show>
           </DetailsContainer>
         </HeaderContainer>

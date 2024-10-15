@@ -41,7 +41,7 @@ export default function PrivacySettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title="Dashboard" />
+        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.privacy")} />
       </Breadcrumb>
 
@@ -60,9 +60,9 @@ function LastOnlineOptions() {
   const friendRequestStatus = () => account.user()?.lastOnlineStatus;
 
   const radioboxItems = [
-    { id: 0, label: "Hidden" },
-    { id: 1, label: "Friends only" },
-    { id: 2, label: "Friends and servers" }
+    { id: 0, label: t("settings.privacy.lastOnline.hidden") },
+    { id: 1, label: t("settings.privacy.lastOnline.friendsOnly") },
+    { id: 2, label: t("settings.privacy.lastOnline.friendsAndServers") }
   ];
 
   const onChange = (item: RadioBoxItem) => {
@@ -92,9 +92,9 @@ function DMOptions() {
   const friendRequestStatus = () => account.user()?.friendRequestStatus;
 
   const radioboxItems = [
-    { id: 0, label: "Anyone" },
-    { id: 1, label: "Servers only" },
-    { id: 2, label: "Nobody" }
+    { id: 0, label: t("settings.privacy.friendRequest.anyone") },
+    { id: 1, label: t("settings.privacy.friendRequest.serversOnly") },
+    { id: 2, label: t("settings.privacy.friendRequest.nobody") }
   ];
 
   const onChange = (item: RadioBoxItem) => {
@@ -124,9 +124,9 @@ const DirectMessageBlock = () => {
   const currentDmStatus = () => account.user()?.dmStatus;
 
   const radioboxItems = [
-    { id: 0, label: "Anyone" },
-    { id: 1, label: "Friends & Servers only" },
-    { id: 2, label: "Friends only" }
+    { id: 0, label: t("settings.privacy.directMessage.anyone") },
+    { id: 1, label: t("settings.privacy.directMessage.friendsAndServersOnly") },
+    { id: 2, label: t("settings.privacy.directMessage.friendsOnly") }
   ];
 
   const onChange = (item: RadioBoxItem) => {

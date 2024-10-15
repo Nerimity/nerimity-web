@@ -170,12 +170,13 @@
       "language": "Taal",
       "notifications": "Meldingen",
       "logout": "Uitloggen",
-      "supportMe": "Support Me",
       "viewSource": "View Source",
       "changelog": "Wijzigingenlijst"
     }
   },
-
+  "supportBlock": {
+    "support": "Support Me"
+  },
   "userContextMenu": {
     "viewProfile": "Profiel bekijken",
     "sendMessage": "Bericht versturen",
