@@ -29,6 +29,7 @@ export enum MessageType {
   KICK_USER = 3,
   BAN_USER = 4,
   CALL_STARTED = 5,
+  BUMP_SERVER = 6,
 }
 
 export interface HtmlEmbedItem {
@@ -306,6 +307,7 @@ export interface RawPost {
   likedBy: { id: string }[]; // if you liked this post, array will not be empty
   _count: { likedBy: number; comments: number };
   views: number;
+  announcement: any;
 
   poll?: RawPostPoll;
 }

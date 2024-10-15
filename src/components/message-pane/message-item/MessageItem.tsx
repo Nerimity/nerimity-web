@@ -560,6 +560,12 @@ const SystemMessage = (props: { message: Message }) => {
           color: "var(--success-color)",
           message: "started a call.",
         };
+      case MessageType.BUMP_SERVER:
+        return {
+          icon: "trending_up",
+          color: "var(--primary-color)",
+          message: "bumped the server.",
+        };
       default:
         return undefined;
     }
@@ -722,7 +728,7 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
     <>
       <Switch fallback={<GoogleDriveFileEmbed attachment={props.attachment} />}>
         <Match when={allowedVideoMimes.includes(props.attachment.mime!)}>
-          <VideoEmbed attachment={props.attachment} />
+          <GoogleDriveVideoEmbed attachment={props.attachment} />
         </Match>
         <Match when={allowedAudioMimes.includes(props.attachment.mime!)}>
           <AudioEmbed attachment={props.attachment} />
@@ -865,7 +871,7 @@ const VideoEmbed = (props: {
 
   const onPlayClick = () => {
     if (reactNativeAPI()?.isReactNative) {
-      reactNativeAPI()?.playVideo(file()!.webContentLink!);
+      reactNativeAPI()?.playVideo(props.file?.url!);
       return;
     }
 
@@ -985,7 +991,7 @@ const FileEmbed = (props: {
   };
 }) => {
   const { createPortal } = useCustomPortal();
-  const isImage = () => props.file?.mime.startsWith("image/");
+  const isImage = () => props.file?.mime?.startsWith("image/");
 
   const previewClick = () => {
     createPortal((close) => (
@@ -1754,7 +1760,7 @@ const MessageReplies = (props: { message: Message }) => {
   }) {
     if (!repliesIds().includes(payload.messageId)) return;
 
-    let replyMessages = [...props.message.replyMessages];
+    const replyMessages = [...props.message.replyMessages];
     const index = replyMessages.findIndex(
       (q) => q.replyToMessage?.id === payload.messageId
     );

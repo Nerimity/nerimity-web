@@ -3,7 +3,7 @@ import { copyToClipboard } from "@/common/clipboard";
 import ContextMenu, {
   ContextMenuProps,
 } from "@/components/ui/context-menu/ContextMenu";
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, For, on, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
@@ -29,6 +29,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 import Input from "../ui/input/Input";
 import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
+import Avatar from "../ui/Avatar";
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
   userId: string;
@@ -153,6 +154,7 @@ export default function MemberContextMenu(props: Props) {
   return (
     <>
       <ContextMenu
+        header={<Header userId={props.userId} />}
         {...props}
         items={[
           {
@@ -175,6 +177,62 @@ export default function MemberContextMenu(props: Props) {
         ]}
       />
     </>
+  );
+}
+
+function Header(props: { userId: string }) {
+  const [voiceVolume, setVoiceVolume] = createSignal(1);
+  const store = useStore();
+  const user = () => store.users.get(props.userId);
+
+  const voiceUser = () =>
+    store.voiceUsers.getVoiceUser(
+      store.voiceUsers.currentVoiceChannelId()!,
+      props.userId
+    );
+  const audio = () => voiceUser()?.audio;
+
+  createEffect(
+    on(audio, () => {
+      const audio = voiceUser()?.audio;
+      if (!audio) return;
+      console.log(audio.volume);
+      setVoiceVolume(audio.volume);
+    })
+  );
+
+  const isMe = () => user()?.id === store.account.user()?.id;
+
+  const onVolumeChange = (e: any) => {
+    setVoiceVolume(Number(e.currentTarget?.value!));
+    const audio = voiceUser()?.audio;
+    if (!audio) return;
+    audio.volume = Number(e.currentTarget?.value!);
+  };
+
+  return (
+    <Show when={user()}>
+      <div class={styles.header}>
+        <div class={styles.headerDetails}>
+          <Avatar user={user()} size={24} />
+          <div class={styles.username}>{user()!.username}</div>
+        </div>
+      </div>
+
+      <Show when={audio() && !isMe()}>
+        <div class={styles.voiceVolume}>
+          <div class={styles.label}>Call Volume</div>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            value={voiceVolume()}
+            onInput={onVolumeChange}
+          />
+        </div>
+      </Show>
+    </Show>
   );
 }
 

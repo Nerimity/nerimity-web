@@ -686,13 +686,15 @@ function PostNotification(props: { notification: RawPostNotification }) {
             post={cachedPost()!}
             disableClick
             class={css`
-              margin: 0;
-              padding: 0;
-              background: none;
-              &:hover {
+              && {
+                margin: 0;
+                padding: 0;
                 background: none;
+                &:hover {
+                  background: none;
+                }
+                box-shadow: none;
               }
-              box-shadow: none;
             `}
           />
         </FlexColumn>
@@ -734,7 +736,11 @@ function PostNotification(props: { notification: RawPostNotification }) {
               >
                 <strong
                   class={notificationUsernameStyles}
-                  style="display: inline-block; max-width: 200px; vertical-align: bottom;"
+                  style={{
+                    display: "inline-block",
+                    "max-width": "200px",
+                    "vertical-align": "bottom",
+                  }}
                 >
                   {"username"}
                 </strong>
@@ -782,7 +788,11 @@ function PostNotification(props: { notification: RawPostNotification }) {
               >
                 <strong
                   class={notificationUsernameStyles}
-                  style="display: inline-block; max-width: 200px; vertical-align: bottom;"
+                  style={{
+                    display: "inline-block",
+                    "max-width": "200px",
+                    "vertical-align": "bottom",
+                  }}
                 >
                   {"username"}
                 </strong>
@@ -912,7 +922,7 @@ export function ViewPostModal(props: { close(): void }) {
         <Show when={post()}>
           <FlexColumn gap={6}>
             <For each={commentToList()}>
-              {(post) => <PostItem showFullDate disableClick post={post!} />}
+              {(post) => <PostItem showFullDate post={post!} />}
             </For>
           </FlexColumn>
           <FlexRow
@@ -1013,9 +1023,9 @@ export function DeletePostModal(props: { post: Post; close: () => void }) {
       />
       <Button
         onClick={onDeleteClick}
-        iconName={t("posts.deletePostModal.deleteButton")}
+        iconName="delete"
         color="var(--alert-color)"
-        label="Delete"
+        label={t("posts.deletePostModal.deleteButton")}
       />
     </FlexRow>
   );

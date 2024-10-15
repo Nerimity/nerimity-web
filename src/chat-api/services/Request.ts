@@ -37,7 +37,9 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
       ...(!(opts.body instanceof FormData)
         ? { "Content-Type": "application/json" }
         : undefined),
-      Authorization: opts.useToken ? opts.token || token : "",
+      ...(opts.useToken || opts.token
+        ? { Authorization: opts.token || token }
+        : {}),
     },
   }).catch((err) => {
     throw { message: "Could not connect to server. " + err.message };
@@ -121,8 +123,9 @@ export function xhrRequest<T>(
   });
 }
 
-
-export const createProgressHandler = (onProgress?: (percent: number, speed?: string) => void) => {
+export const createProgressHandler = (
+  onProgress?: (percent: number, speed?: string) => void
+) => {
   let startTime = 0;
   let uploadedSize = 0;
   return (e: ProgressEvent) => {
@@ -137,14 +140,17 @@ export const createProgressHandler = (onProgress?: (percent: number, speed?: str
     const uploadSpeedMBps = uploadSpeedKBps / 1024; // Megabytes per second
 
     // Choose the appropriate unit based on the speed
-    let unit = ' KB/s';
+    let unit = " KB/s";
     if (uploadSpeedMBps >= 1) {
-      unit = ' MB/s';
+      unit = " MB/s";
     }
-    let speed: string | undefined = uploadSpeedMBps >= 1 ? uploadSpeedMBps.toFixed(2) + unit : uploadSpeedKBps.toFixed(0) + unit;
+    let speed: string | undefined =
+      uploadSpeedMBps >= 1
+        ? uploadSpeedMBps.toFixed(2) + unit
+        : uploadSpeedKBps.toFixed(0) + unit;
 
     if (uploadSpeedMBps == Infinity) {
-      speed = "0 KB/s"
+      speed = "0 KB/s";
     }
 
     if (e.lengthComputable) {
@@ -152,4 +158,4 @@ export const createProgressHandler = (onProgress?: (percent: number, speed?: str
       onProgress?.(Math.round(percentComplete), speed);
     }
   };
-}
+};

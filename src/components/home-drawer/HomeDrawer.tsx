@@ -9,7 +9,7 @@ import {
   useHomeDrawerController,
 } from "./useHomeDrawerController";
 import { createEffect, For, on, Show } from "solid-js";
-import InboxDrawerFriendItem from "../inbox/drawer/friends/friend-item/InboxDrawerFriendItem";
+import HomeDrawerFriendItem from "./friend-item/HomeDrawerFriendItem";
 import { Friend } from "@/chat-api/store/useFriends";
 import { User } from "@/chat-api/store/useUsers";
 import { Modal } from "../ui/modal";
@@ -18,6 +18,7 @@ import { DrawerHeader } from "../drawer-header/DrawerHeader";
 import { isExperimentEnabled } from "@/common/experiments";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { QuickTravel } from "../QuickTravel";
+import InVoiceActions from "../InVoiceActions";
 
 export default function HomeDrawer() {
   return (
@@ -30,25 +31,23 @@ export default function HomeDrawer() {
         <Friends />
         <Inbox />
       </div>
+      <InVoiceActions />
     </HomeDrawerControllerProvider>
   );
 }
 
 const SearchBar = () => {
   const { createPortal } = useCustomPortal();
-  const quickTravelExperimentEnabled = isExperimentEnabled("QUICK_TRAVEL");
   const onClick = () => {
     createPortal?.((close) => <QuickTravel close={close} />, "quick-travel");
   };
   return (
-    <Show when={quickTravelExperimentEnabled()}>
-      <DrawerHeader class={style.searchBarOuter}>
-        <div onClick={onClick} class={style.searchBar}>
-          <Icon name="search" size={18} />
-          Search (Ctrl + Space)
-        </div>
-      </DrawerHeader>
-    </Show>
+    <DrawerHeader class={style.searchBarOuter}>
+      <div onClick={onClick} class={style.searchBar}>
+        <Icon name="search" size={18} />
+        {t("inbox.drawer.searchBarPlaceholder")} (Ctrl + Space)
+      </div>
+    </DrawerHeader>
   );
 };
 
@@ -59,18 +58,18 @@ const HorizontalItems = () => {
     <div class={style.horizontalItems}>
       <HorizontalItem
         icon="note_alt"
-        name="Notes"
+        name={t("inbox.drawer.notes")}
         selected={controller?.inbox.isSavedNotesOpened()}
         onClick={controller?.inbox.openSavedNotes}
       />
       <HorizontalItem
         icon="person_add"
-        name="Add Friend"
+        name={t("inbox.drawer.addFriendButton")}
         onClick={controller?.friends.showAddFriendModel}
       />
       <HorizontalItem
         icon="block"
-        name="Blocked"
+        name={t("inbox.drawer.blockedUsersButton")}
         onClick={controller?.friends.showBlockedUsersModal}
       />
     </div>
@@ -173,7 +172,11 @@ const FriendOfflineHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller?.friends?.offlineFriends().length} Offline Friends</div>
+      <div>
+        {t("inbox.drawer.offlineFriends", {
+          count: controller?.friends?.offlineFriends().length,
+        })}
+      </div>
     </div>
   );
 };
@@ -182,9 +185,11 @@ const OnlineFriendsHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller?.friends?.onlineFriends().length} Online Friends</div>
+      {t("inbox.drawer.onlineFriends", {
+        count: controller?.friends?.onlineFriends().length,
+      })}
       <CustomLink decoration onclick={controller?.friends.toggleViewAllFriends}>
-        View All
+        {t("inbox.drawer.viewAll")}
       </CustomLink>
     </div>
   );
@@ -194,7 +199,11 @@ const FriendRequestsHeader = () => {
 
   return (
     <div class={style.header}>
-      <div>{controller?.friends?.friendRequests().length} Friend Requests</div>
+      <div>
+        {t("inbox.drawer.friendRequests", {
+          count: controller?.friends?.friendRequests().length,
+        })}
+      </div>
     </div>
   );
 };
@@ -208,7 +217,7 @@ const FriendsList = (props: {
     <div class={style.friendsList}>
       <For each={props.friends || props.users!}>
         {(friend) => (
-          <InboxDrawerFriendItem
+          <HomeDrawerFriendItem
             isInboxTab={props.inbox}
             friend={props.friends ? (friend as Friend) : undefined}
             user={props.users ? (friend as User) : undefined}
@@ -224,7 +233,7 @@ const Inbox = () => {
 
   return (
     <div class={style.inbox}>
-      <div class={style.header}>Inbox</div>
+      <div class={style.header}>{t("inbox.drawer.inboxTitle")}</div>
       <FriendsList users={controller?.inbox?.inboxUsers()} inbox />
     </div>
   );
@@ -250,7 +259,7 @@ export const BlockedUsersModal = (props: { close: () => void }) => {
       <Modal.Body>
         <div class={style.blockedUsersList}>
           <For each={controller?.friends.blockedUsers()}>
-            {(user) => <InboxDrawerFriendItem friend={user} />}
+            {(user) => <HomeDrawerFriendItem friend={user} />}
           </For>
         </div>
       </Modal.Body>

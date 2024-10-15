@@ -46,12 +46,18 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import Icon from "../ui/icon/Icon";
 
 import {
+  emitModerationServerDeleted,
   emitModerationUserSuspended,
+  useModerationServerDeletedListener,
   useModerationUserSuspendedListener,
 } from "@/common/GlobalEvents";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { classNames } from "@/common/classNames";
 import DeletePostsModal from "./DeletePostsModal";
+import AnnouncePostsModal from "./AnnouncePostsModal";
+import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
+import DeleteServersModal from "./DeleteServersModal";
+import { UsersPane } from "./UsersPane";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -59,7 +65,11 @@ const ServerPage = lazy(() => import("./ServerPage"));
 
 const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
-const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
+export const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
+const [selectedServers, setSelectedServers] = createSignal<any[]>([]);
+
+const isServerSelected = (id: string) =>
+  selectedServers().find((s) => s.id === id);
 const isUserSelected = (id: string) => selectedUsers().find((u) => u.id === id);
 
 const ModerationPaneContainer = styled("div")`
@@ -80,21 +90,26 @@ const UserColumn = styled(FlexColumn)`
   flex-shrink: 0;
 `;
 
-const PaneContainer = styled("div")`
+const PaneContainer = styled("div")<{ expanded: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   overflow: hidden;
 
+  ${(props) =>
+    props.expanded
+      ? "resize: vertical; height: 500px;"
+      : "  max-height: 500px;"}
+
   flex-shrink: 0;
   margin: 5px;
   margin-left: 10px;
   margin-right: 10px;
-  max-height: 500px;
+  min-height: 80px;
 `;
 
-const UserPaneContainer = styled(PaneContainer)``;
+export const UserPaneContainer = styled(PaneContainer)``;
 
 const ListContainer = styled("div")`
   display: flex;
@@ -207,15 +222,10 @@ export default function ModerationPane() {
 }
 
 const SelectedUserActionsContainer = styled(FlexRow)`
-  position: sticky;
-  right: 0px;
-  bottom: 10px;
-  left: 0px;
   flex-shrink: 0;
   align-items: center;
   height: 50px;
-  margin: 10px;
-  margin-top: 5px;
+
   border-radius: 8px;
   backdrop-filter: blur(34px);
   background-color: rgba(0, 0, 0, 0.86);
@@ -256,6 +266,48 @@ function SelectedUserActions() {
     </SelectedUserActionsContainer>
   );
 }
+function SelectedServerActions() {
+  const { createPortal } = useCustomPortal();
+
+  const onDeleted = () => {
+    emitModerationServerDeleted();
+    setSelectedServers([]);
+  };
+
+  const showDeleteModal = () => {
+    createPortal?.((close) => (
+      <DeleteServersModal
+        close={close}
+        servers={selectedServers()}
+        done={onDeleted}
+      />
+    ));
+  };
+  return (
+    <SelectedUserActionsContainer>
+      <Text>{selectedServers().length} Server(s) Selected</Text>
+      <Button
+        class="suspendButton"
+        onClick={showDeleteModal}
+        label="Delete Selected"
+        primary
+        color="var(--alert-color)"
+      />
+    </SelectedUserActionsContainer>
+  );
+}
+
+const SelectedActionsContainer = styled.div`
+  position: sticky;
+  right: 0px;
+  bottom: 10px;
+  left: 0px;
+  margin: 10px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
 
 function ModerationPage() {
   return (
@@ -271,8 +323,15 @@ function ModerationPage() {
         <ServersPane />
         <PostsPane />
       </ModerationPaneContainer>
-      <Show when={selectedUsers().length}>
-        <SelectedUserActions />
+      <Show when={selectedServers().length || selectedUsers().length}>
+        <SelectedActionsContainer>
+          <Show when={selectedServers().length}>
+            <SelectedServerActions />
+          </Show>
+          <Show when={selectedUsers().length}>
+            <SelectedUserActions />
+          </Show>
+        </SelectedActionsContainer>
       </Show>
     </>
   );
@@ -323,112 +382,6 @@ const TicketsPane = () => {
   );
 };
 
-function UsersPane() {
-  const LIMIT = 30;
-  const [users, setUsers] = createSignal<RawUser[]>([]);
-  const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
-  const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
-  const [search, setSearch] = createSignal("");
-
-  const [showAll, setShowAll] = createSignal(false);
-
-  const moderationUserSuspendedListener = useModerationUserSuspendedListener();
-
-  moderationUserSuspendedListener((suspension) => {
-    setUsers(
-      users().map((u) => {
-        const wasSuspended = selectedUsers().find((su) => su.id === u.id);
-        if (!wasSuspended) return u;
-        return { ...u, suspension };
-      })
-    );
-  });
-
-  createEffect(
-    on(afterId, async () => {
-      if (search() && afterId()) {
-        return fetchSearch();
-      }
-      fetchUsers();
-    })
-  );
-
-  const onLoadMoreClick = () => {
-    const user = users()[users().length - 1];
-    setAfterId(user.id);
-  };
-
-  const firstFive = () => users().slice(0, 5);
-
-  let timeout: number | null = null;
-  const onSearchText = (text: string) => {
-    setSearch(text);
-    timeout && clearTimeout(timeout);
-    timeout = window.setTimeout(() => {
-      setAfterId(undefined);
-      setUsers([]);
-      if (!search().trim()) {
-        fetchUsers();
-        return;
-      }
-      setShowAll(true);
-      fetchSearch();
-    }, 1000);
-  };
-
-  const fetchSearch = () => {
-    setLoadMoreClicked(true);
-    searchUsers(search(), LIMIT, afterId())
-      .then((newUsers) => {
-        setUsers([...users(), ...newUsers]);
-        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
-      })
-      .catch(() => setLoadMoreClicked(false));
-  };
-
-  const fetchUsers = () => {
-    setLoadMoreClicked(true);
-    getUsers(LIMIT, afterId())
-      .then((newUsers) => {
-        setUsers([...users(), ...newUsers]);
-        if (newUsers.length >= LIMIT) setLoadMoreClicked(false);
-      })
-      .catch(() => setLoadMoreClicked(false));
-  };
-
-  return (
-    <UserPaneContainer class="pane users">
-      <Input
-        placeholder="Search"
-        margin={[10, 10, 10, 30]}
-        onText={onSearchText}
-        value={search()}
-      />
-      <FlexRow gap={5} itemsCenter style={{ "padding-left": "10px" }}>
-        <Button
-          iconName="add"
-          iconSize={14}
-          padding={4}
-          onClick={() => setShowAll(!showAll())}
-        />
-        <Text>Registered Users</Text>
-      </FlexRow>
-      <ListContainer class="list">
-        <For each={!showAll() ? firstFive() : users()}>
-          {(user) => <User user={user} />}
-        </For>
-        <Show when={showAll() && !loadMoreClicked()}>
-          <Button
-            iconName="refresh"
-            label="Load More"
-            onClick={onLoadMoreClick}
-          />
-        </Show>
-      </ListContainer>
-    </UserPaneContainer>
-  );
-}
-
 function OnlineUsersPane() {
   const [users, { mutate: setUsers }] =
     createResource<ModerationUser[]>(getOnlineUsers);
@@ -450,7 +403,11 @@ function OnlineUsersPane() {
   });
 
   return (
-    <UserPaneContainer class="pane users">
+    <UserPaneContainer
+      class="pane users"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <FlexRow
         gap={5}
         itemsCenter
@@ -462,7 +419,7 @@ function OnlineUsersPane() {
           padding={4}
           onClick={() => setShowAll(!showAll())}
         />
-        <Text>Online Users</Text>
+        <Text>Online Users ({users()?.length})</Text>
       </FlexRow>
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : users()}>
@@ -481,6 +438,17 @@ function ServersPane() {
   const [search, setSearch] = createSignal("");
 
   const [showAll, setShowAll] = createSignal(false);
+
+  const moderationServerDeletedListener = useModerationServerDeletedListener();
+
+  moderationServerDeletedListener(() => {
+    setServers(
+      servers().filter((u) => {
+        const wasSuspended = selectedServers().find((su) => su.id === u.id);
+        return !wasSuspended;
+      })
+    );
+  });
 
   createEffect(
     on(afterId, async () => {
@@ -535,7 +503,11 @@ function ServersPane() {
   };
 
   return (
-    <PaneContainer class="pane servers">
+    <PaneContainer
+      class="pane servers"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <Input
         placeholder="Search"
         margin={[10, 10, 10, 30]}
@@ -653,13 +625,43 @@ export function Server(props: { server: any }) {
   const createdBy = props.server.createdBy;
   const [hovered, setHovered] = createSignal(false);
 
+  const onClick = (e: MouseEvent) => {
+    if (e.target instanceof HTMLElement) {
+      if (e.target.closest(".checkbox")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+  };
+
+  const selected = createMemo(() => isServerSelected(props.server.id));
+
+  const onCheckChanged = () => {
+    if (selected()) {
+      setSelectedServers(
+        selectedServers().filter((u) => u.id !== props.server.id)
+      );
+      return;
+    }
+    setSelectedServers([...selectedServers(), props.server]);
+  };
+
   return (
     <A
+      onClick={onClick}
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
       href={`/app/moderation/servers/${props.server.id}`}
       class={itemStyles}
     >
+      <Checkbox
+        onChange={onCheckChanged}
+        checked={selected()}
+        class={css`
+          place-self: start;
+          margin-top: 6px;
+        `}
+      />
       <Avatar
         animate={hovered()}
         class={avatarStyle}
@@ -772,7 +774,11 @@ function AuditLogPane() {
   };
 
   return (
-    <PaneContainer class="pane servers">
+    <PaneContainer
+      class="pane servers"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <FlexRow
         gap={5}
         itemsCenter
@@ -1110,9 +1116,30 @@ function PostsPane() {
   const onDelete = (postId: string) => {
     setPosts(posts().filter((post) => post.id !== postId));
   };
+  const onAnnouncementAdd = (postId: string) => {
+    setPosts(
+      posts().map((post) => {
+        if (post.id !== postId) return post;
+        return { ...post, announcement: true };
+      })
+    );
+  };
+  const onAnnouncementRemove = (postId: string) => {
+    setPosts(
+      posts().map((post) => {
+        if (post.id !== postId) return post;
+        return { ...post, announcement: false };
+      })
+    );
+  };
 
   return (
-    <PaneContainer class="pane posts" ref={pageContainerEl}>
+    <PaneContainer
+      class="pane posts"
+      ref={pageContainerEl}
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
       <Input
         placeholder="Search by post id / user id"
         margin={[10, 10, 10, 30]}
@@ -1132,7 +1159,14 @@ function PostsPane() {
 
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : posts()}>
-          {(post) => <Post post={post} onDelete={onDelete} />}
+          {(post) => (
+            <Post
+              post={post}
+              onDelete={onDelete}
+              onAnnouncementAdd={onAnnouncementAdd}
+              onAnnouncementRemove={onAnnouncementRemove}
+            />
+          )}
         </For>
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
@@ -1149,6 +1183,8 @@ function PostsPane() {
 export function Post(props: {
   post: RawPost;
   onDelete?: (postId: string) => void;
+  onAnnouncementAdd?: (postId: string) => void;
+  onAnnouncementRemove?: (postId: string) => void;
 }) {
   const created = formatTimestamp(props.post.createdAt);
   const createdBy = props.post.createdBy;
@@ -1165,6 +1201,26 @@ export function Post(props: {
         close={close}
         postIds={[props.post.id]}
         done={() => props.onDelete?.(props.post.id)}
+      />
+    ));
+  };
+  const onPostAnnounceClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    createPortal((close) => (
+      <AnnouncePostsModal
+        close={close}
+        postId={props.post.id}
+        done={() => props.onAnnouncementAdd?.(props.post.id)}
+      />
+    ));
+  };
+  const onRemoveAnnounceClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    createPortal((close) => (
+      <DeleteAnnouncePostsModal
+        close={close}
+        postId={props.post.id}
+        done={() => props.onAnnouncementRemove?.(props.post.id)}
       />
     ));
   };
@@ -1230,12 +1286,41 @@ export function Post(props: {
         </Show>
       </ItemDetailContainer>
 
-      <Button
-        onClick={onPostDeleteClick}
-        styles={{ "margin-left": "auto", "align-self": "start" }}
-        iconName="delete"
-        color="var(--alert-color)"
-      />
+      <FlexColumn style={{ "margin-left": "auto" }} gap={4}>
+        <Show when={props.post.announcement}>
+          <Button
+            onClick={onRemoveAnnounceClick}
+            iconName="horizontal_rule"
+            label="Remove Announce"
+            textSize={12}
+            iconSize={16}
+            margin={0}
+            padding={4}
+            color="var(--alert-color)"
+          />
+        </Show>
+        <Show when={!props.post.announcement}>
+          <Button
+            onClick={onPostAnnounceClick}
+            iconName="add"
+            label="Announce"
+            textSize={12}
+            iconSize={16}
+            margin={0}
+            padding={4}
+          />
+        </Show>
+        <Button
+          onClick={onPostDeleteClick}
+          iconName="delete"
+          label="Delete"
+          textSize={12}
+          iconSize={16}
+          color="var(--alert-color)"
+          margin={0}
+          padding={4}
+        />
+      </FlexColumn>
     </div>
   );
 }

@@ -20,7 +20,7 @@ import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 import { Modal } from "@/components/ui/modal";
 
-export default function InboxDrawerFriendItem(props: {
+export default function HomeDrawerFriendItem(props: {
   friend?: Friend;
   user?: User;
   isInboxTab?: boolean;
@@ -111,7 +111,7 @@ export default function InboxDrawerFriendItem(props: {
       <FriendContainer
         onmouseenter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        selected={!isBlocked() && isSelected()}
+        selected={props.isInboxTab && !isBlocked() && isSelected()}
         alert={mentionCount() || showAccept()}
         onClick={onFriendClick}
       >

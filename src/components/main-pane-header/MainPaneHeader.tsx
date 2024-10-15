@@ -40,6 +40,7 @@ import {
   hasBit,
 } from "@/chat-api/Bitwise";
 import { WebcamModal } from "./WebcamModal";
+import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 
 export default function MainPaneHeader() {
   const {
@@ -346,12 +347,10 @@ function VoiceHeader(props: { channelId?: string }) {
               size={isSomeoneVideoStreaming() ? "small" : undefined}
             />
             <Show when={isSomeoneVideoStreaming()}>
-              <div class={styles.videoContainer}>
-                <VideoStream
-                  mediaStream={selectedVoiceUser()?.videoStream!}
-                  mute={selectedVoiceUser()?.userId === account.user()?.id}
-                />
-              </div>
+              <VideoStream
+                mediaStream={selectedVoiceUser()?.videoStream!}
+                mute={selectedVoiceUser()?.userId === account.user()?.id}
+              />
             </Show>
           </div>
         </Show>
@@ -364,12 +363,53 @@ function VoiceHeader(props: { channelId?: string }) {
 function VideoStream(props: { mediaStream: MediaStream; mute?: boolean }) {
   let videoEl: HTMLVideoElement | undefined;
 
+  const [muted, setMuted] = createSignal(false);
+
+  const mediaStream = createMemo(() => props.mediaStream);
+
   createEffect(() => {
     if (!videoEl) return;
-    videoEl.srcObject = props.mediaStream;
+    videoEl.srcObject = mediaStream();
   });
 
-  return <video ref={videoEl} autoplay muted={props.mute} />;
+  return (
+    <div class={styles.videoContainer}>
+      <video ref={videoEl} autoplay muted={props.mute || muted()} />
+      <div class={styles.videoOverlay}>
+        <Show when={!props.mute}>
+          <div class={styles.volumeSlider}>
+            <Button
+              iconName={muted() ? "volume_off" : "volume_up"}
+              iconSize={18}
+              padding={6}
+              color={muted() ? "var(--alert-color)" : "var(--primary-color)"}
+              margin={0}
+              onClick={() => setMuted(!muted())}
+            />
+            <input
+              type="range"
+              min={0}
+              value={muted() ? 0 : videoEl!.volume}
+              max={1}
+              step={0.01}
+              onInput={(e) => {
+                videoEl!.volume = parseFloat(e.target.value);
+                setMuted(false);
+              }}
+            />
+          </div>
+        </Show>
+        <Button
+          iconName="fullscreen"
+          iconSize={18}
+          title="Fullscreen"
+          padding={6}
+          margin={0}
+          onClick={() => videoEl?.requestFullscreen({ navigationUI: "hide" })}
+        />
+      </div>
+    </div>
+  );
 }
 
 function VoiceParticipants(props: {
@@ -405,6 +445,11 @@ function VoiceParticipantItem(props: {
   onClick: () => void;
 }) {
   const { voiceUsers } = useStore();
+  const params = useParams<{ serverId?: string; channelId?: string }>();
+  const [contextPosition, setContextPosition] = createSignal<null | {
+    x: number;
+    y: number;
+  }>(null);
 
   const isMuted = () => {
     return !voiceUsers.micEnabled(
@@ -428,9 +473,14 @@ function VoiceParticipantItem(props: {
       event.preventDefault();
     }
   };
+  const onContextMenu = (event: MouseEvent) => {
+    event.preventDefault();
+    setContextPosition({ x: event.clientX, y: event.clientY });
+  };
 
   return (
     <CustomLink
+      onContextMenu={onContextMenu}
       onClick={onClick}
       href={RouterEndpoints.PROFILE(user().id)}
       class={classNames(
@@ -438,6 +488,14 @@ function VoiceParticipantItem(props: {
         conditionalClass(props.selected, styles.selected)
       )}
     >
+      <MemberContextMenu
+        position={contextPosition()}
+        serverId={params.serverId}
+        userId={user().id}
+        onClose={() => {
+          setContextPosition(null);
+        }}
+      />
       <Avatar
         user={user()}
         size={props.size === "small" ? 40 : 60}

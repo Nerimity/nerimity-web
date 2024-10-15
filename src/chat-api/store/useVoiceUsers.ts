@@ -9,6 +9,7 @@ import useChannels from "./useChannels";
 import env from "@/common/env";
 import vad from "voice-activity-detection";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
+import { postGenerateCredential } from "../services/VoiceService";
 
 interface VADInstance {
   connect: () => void;
@@ -24,6 +25,7 @@ export type VoiceUser = RawVoice & {
   videoStream?: MediaStream;
   vad?: VADInstance;
   voiceActivity: boolean;
+  audio?: HTMLAudioElement
 };
 
 // voiceUsers[channelId][userId] = VoiceUser
@@ -77,6 +79,7 @@ const set = async (voiceUser: RawVoice) => {
     addSignal,
     addPeer,
   };
+  console.log("test");
 
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, reconcile(newVoice));
 };
@@ -90,12 +93,15 @@ async function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
   console.log(user.username, "peer added");
 
   const { default: LazySimplePeer } = await import("@thaunknown/simple-peer");
+  const turnServer = await postGenerateCredential();
+
 
   const peer = new LazySimplePeer({
     initiator: false,
     trickle: true,
     config: {
       iceServers: [
+        turnServer.result,
         {
           urls: ["stun:stun.l.google.com:19302"],
         },
@@ -181,7 +187,7 @@ const getVoiceUsers = (channelId: string): VoiceUser[] => {
 };
 
 const getVoiceUser = (channelId: string, userId: string) => {
-  return voiceUsers[channelId][userId];
+  return voiceUsers[channelId]?.[userId];
 };
 
 export async function createPeer(voiceUser: VoiceUser | RawVoice) {
@@ -190,12 +196,15 @@ export async function createPeer(voiceUser: VoiceUser | RawVoice) {
   console.log(user.username, "peer created");
 
   const { default: LazySimplePeer } = await import("@thaunknown/simple-peer");
+  const turnServer = await postGenerateCredential();
+
 
   const peer = new LazySimplePeer({
     initiator: true,
     trickle: true,
     config: {
       iceServers: [
+        turnServer.result,
         {
           urls: ["stun:stun.l.google.com:19302"],
         },
@@ -303,14 +312,15 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
   stream.onremovetrack = () => {
     setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
       [streamType]: null,
-      voiceActivity: false,
+      ...(streamType === "audioStream" ? { audio: mic, voiceActivity: false, } : {}),
     });
     stream.onremovetrack = null;
   };
 
+  let mic: HTMLAudioElement | undefined = undefined;
   if (streamType === "audioStream") {
     setVAD(stream, voiceUser);
-    const mic = new Audio();
+    mic = new Audio();
     const deviceId = getStorageString(StorageKeys.outputDeviceId, undefined);
     if (deviceId) {
       mic.setSinkId(JSON.parse(deviceId));
@@ -320,6 +330,7 @@ const onStream = (voiceUser: VoiceUser | RawVoice, stream: MediaStream) => {
   }
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
     [streamType]: stream,
+    ...(streamType === "audioStream" ? { audio: mic } : {}),
   });
 };
 

@@ -89,9 +89,9 @@ export const onServerLeft = (payload: { serverId: string }) =>
       for (let i = 0; i < serverChannels.length; i++) {
         const channel = serverChannels[i]!;
         account.removeNotificationSettings(channel.id);
-      }
-      if (currentVoiceChannelId) {
-        voiceUsers.setCurrentVoiceChannelId(null);
+        if (currentVoiceChannelId === channel.id) {
+          voiceUsers.setCurrentVoiceChannelId(null);
+        }
       }
     });
   });
@@ -334,32 +334,32 @@ export const onServerChannelOrderUpdated = (
 
       const updateOrAddCategoryId =
         payload.categoryId &&
-        payload.categoryId !== channel.categoryId &&
-        payload.orderedChannelIds.includes(channel.id)
+          payload.categoryId !== channel.categoryId &&
+          payload.orderedChannelIds.includes(channel.id)
           ? {
-              categoryId: payload.categoryId,
-            }
+            categoryId: payload.categoryId,
+          }
           : undefined;
 
       const removeCategoryId =
         !payload.categoryId &&
-        channel.categoryId &&
-        payload.orderedChannelIds.includes(channel.id)
+          channel.categoryId &&
+          payload.orderedChannelIds.includes(channel.id)
           ? {
-              categoryId: undefined,
-            }
+            categoryId: undefined,
+          }
           : undefined;
 
       const updatePermissions =
         payload.orderedChannelIds.includes(channel.id) &&
-        payload.categoryId &&
-        isPrivateCategory()
+          payload.categoryId &&
+          isPrivateCategory()
           ? {
-              permissions: addBit(
-                channel.permissions || 0,
-                CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
-              ),
-            }
+            permissions: addBit(
+              channel.permissions || 0,
+              CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+            ),
+          }
           : undefined;
 
       channel?.update({

@@ -171,15 +171,23 @@ export function EditAccountPage(props: {
       const res = await uploadAvatar(props.bot?.id || account.user()?.id!, {
         file: avatar,
         points: avatarPoints!,
+      }).catch((err) => {
+        setError(err.message);
       });
-      avatarId = res.fileId;
+      if (res) {
+        avatarId = res.fileId;
+      }
     }
 
     if (banner) {
       const res = await uploadBanner(props.bot?.id || account.user()?.id!, {
         file: banner,
+      }).catch((err) => {
+        setError(err.message);
       });
-      bannerId = res.fileId;
+      if (res) {
+        bannerId = res.fileId;
+      }
     }
 
     await updateUser({ ...values, bannerId, avatarId }, props.botToken)

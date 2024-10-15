@@ -1,6 +1,6 @@
 .backgroundContainer {
   position: absolute;
-  z-index: 111;
+  z-index: 1111;
   top: 0;
   right: 0;
   left: 0;
@@ -24,9 +24,24 @@
   user-select: none;
   transition: 0.2s;
   pointer-events: all;
-  gap: 4px;
 
-  &:hover {
+  .innerContainer {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .actions {
+    overflow: hidden;
+    height: 0;
+    transition: 0.2s;
+  }
+}
+.expanded {
+  .container {
     height: auto;
     .markup {
       display: block;
@@ -37,11 +52,19 @@
       line-break: anywhere;
     }
   }
+
+  .actions {
+    height: 30px;
+  }
 }
 
+.actionsContainer {
+  display: flex;
+  margin-top: 3px;
+  gap: 4px;
+}
 .infoContainer {
   display: flex;
-  align-items: center;
   flex: 1;
 }
 .progressBar {

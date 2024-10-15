@@ -25,7 +25,8 @@ export function WelcomeModal(props: { close: () => void }) {
         <EditProfileItem />
         <ServerItem />
         <SourceCodeItem />
-        <SupportItem />
+        <SupportKofiItem />
+        <SupportBoostyItem />
       </div>
     </LegacyModal>
   );
@@ -63,7 +64,7 @@ function EditProfileItem() {
   );
 }
 
-function SupportItem() {
+function SupportKofiItem() {
   return (
     <CustomLink
       href="https://ko-fi.com/supertiger"
@@ -72,7 +73,22 @@ function SupportItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="favorite" />
-        <div style={{ flex: 1 }}>Support me on Ko-fi</div>
+        <div style={{ flex: 1 }}>Support me on Ko-Fi</div>
+        <Icon name="open_in_new" />
+      </div>
+    </CustomLink>
+  );
+}
+function SupportBoostyItem() {
+  return (
+    <CustomLink
+      href="https://boosty.to/supertigerdev/donate"
+      target="_blank"
+      style={{ "text-decoration": "none" }}
+    >
+      <div class={styles.itemContainer}>
+        <Icon name="favorite" />
+        <div style={{ flex: 1 }}>Support me on Boosty</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>

@@ -6,15 +6,11 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
+import { useParams } from "solid-navigator";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
-const QualityOptions = ["480p", "720p", "1080p", "Source"] as const;
-const FramerateOptions = [
-  "1fps 💀",
-  "10fps",
-  "30fps",
-  "60fps",
-  "Source",
-] as const;
+const QualityOptions = ["480p", "720p", "1080p"] as const;
+const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps"] as const;
 
 const OptionContainer = styled(FlexRow)``;
 
@@ -28,6 +24,18 @@ const OptionTitle = styled(Text)`
 `;
 
 export function ScreenShareModal(props: { close: () => void }) {
+  const params = useParams<{ channelId?: string }>();
+  const store = useStore();
+
+  const channel = () => store.channels.get(params.channelId);
+  const server = () => store.servers.get(channel()?.serverId!);
+
+  const isServerVerified = () => server()?.verified;
+  const hasSupporterBadge = () =>
+    hasBit(store.account.user()?.badges || 0, USER_BADGES.SUPPORTER.bit);
+
+  const premiumQuality = () => isServerVerified() || hasSupporterBadge();
+
   const { voiceUsers } = useStore();
   const [selectedQuality, setSelectedQuality] =
     createSignal<(typeof QualityOptions)[number]>("480p");
@@ -42,37 +50,17 @@ export function ScreenShareModal(props: { close: () => void }) {
       selectedFramerate()
     );
 
-    let stream: MediaStream | void;
-
     if (electronWindowAPI()?.isElectron) {
       const sourceId = electronSourceIdRef();
-      if (!sourceId) return;
-      stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          mandatory: {
-            chromeMediaSource: "desktop",
-          },
-        },
-        video: {
-          mandatory: {
-            chromeMediaSource: "desktop",
-            chromeMediaSourceId: sourceId,
-            maxFrameRate: constraints.video.frameRate,
-            minWidth: constraints.video.width,
-            maxWidth: constraints.video.width,
-            minHeight: constraints.video.height,
-            maxHeight: constraints.video.height,
-          },
-        },
-      });
-      await stream.getAudioTracks()[0].applyConstraints(constraints.audio);
-    } else {
-      stream = await navigator.mediaDevices
-        .getDisplayMedia(constraints)
-        .catch(() => {});
+      electronWindowAPI()?.setDesktopCaptureSourceId(sourceId);
     }
 
+    const stream = await navigator.mediaDevices
+      .getDisplayMedia(constraints)
+      .catch(() => {});
+
     if (!stream) return;
+
     voiceUsers.setVideoStream(stream);
     props.close();
   };
@@ -94,11 +82,13 @@ export function ScreenShareModal(props: { close: () => void }) {
       <OptionContainer>
         <For each={QualityOptions}>
           {(quality) => (
-            <Button
-              onClick={() => setSelectedQuality(quality)}
-              label={quality}
-              primary={selectedQuality() === quality}
-            />
+            <Show when={quality !== "1080p" || premiumQuality()}>
+              <Button
+                onClick={() => setSelectedQuality(quality)}
+                label={quality}
+                primary={selectedQuality() === quality}
+              />
+            </Show>
           )}
         </For>
       </OptionContainer>
@@ -107,11 +97,13 @@ export function ScreenShareModal(props: { close: () => void }) {
       <OptionContainer>
         <For each={FramerateOptions}>
           {(framerate) => (
-            <Button
-              onClick={() => setFramerate(framerate)}
-              label={framerate}
-              primary={selectedFramerate() === framerate}
-            />
+            <Show when={framerate !== "60fps" || premiumQuality()}>
+              <Button
+                onClick={() => setFramerate(framerate)}
+                label={framerate}
+                primary={selectedFramerate() === framerate}
+              />
+            </Show>
           )}
         </For>
       </OptionContainer>
@@ -133,10 +125,11 @@ const constructConstraints = async (
       width: 0,
       frameRate: 0,
       resizeMode: "none",
+      echoCancellation: true, // fixes screenshare echo
     },
     audio: {
       autoGainControl: false,
-      echoCancellation: false,
+      echoCancellation: true, // fixes screenshare echo
       googAutoGainControl: false,
       noiseSuppression: false,
     },

@@ -41,7 +41,7 @@ export function PostItem(props: {
   post: Post;
 }) {
   const { posts } = useStore();
-  const [, setSearchParams] = useSearchParams<{ postId: string }>();
+  const [search, setSearchParams] = useSearchParams<{ postId: string }>();
   const [hovered, setHovered] = createSignal(false);
 
   const replyingTo = createMemo(() => {
@@ -61,6 +61,8 @@ export function PostItem(props: {
   };
 
   const onClick = (event: any) => {
+    const alreadyOpened = search.postId === props.post.id;
+    if (alreadyOpened) return;
     if (props.disableClick) return;
     if (props.post.deleted) return;
     if (event.target.closest(".button")) return;

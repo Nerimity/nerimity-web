@@ -1,6 +1,5 @@
 import env from "@/common/env";
-import { xhrRequest } from "./Request";
-
+import { request, xhrRequest } from "./Request";
 
 interface NerimityCDNRequestOpts {
   url: string;
@@ -9,56 +8,93 @@ interface NerimityCDNRequestOpts {
   onUploadProgress?: (progress: number) => void;
 }
 
-
-
-export function uploadBanner(groupId: string, opts: Omit<NerimityCDNRequestOpts, "url">) {
-  return nerimityCDNRequest({
-    ...opts,
-    url: `${env.NERIMITY_CDN}banners/${groupId}`,
-  })
+export async function uploadBanner(
+  groupId: string,
+  opts: Omit<NerimityCDNRequestOpts, "url">
+) {
+  return nerimityCDNUploadRequest({ ...opts, image: true }).then((res) => {
+    return nerimityCDNRequest({
+      ...opts,
+      url: `${env.NERIMITY_CDN}banners/${groupId}/${res.fileId}`,
+    });
+  });
 }
-export function uploadAvatar(groupId: string, opts: Omit<NerimityCDNRequestOpts, "url"> & { points?: number[] }) {
-  return nerimityCDNRequest({
-    ...opts,
-    query: {
-      points: opts.points ? JSON.stringify(opts.points) : undefined,
-    },
-    url: `${env.NERIMITY_CDN}avatars/${groupId}`,
-  })
-}
-
-
-export function uploadEmoji(opts: Omit<NerimityCDNRequestOpts, "url">) {
-  return nerimityCDNRequest({
-    ...opts,
-    url: `${env.NERIMITY_CDN}emojis`,
-  })
-}
-
-export function uploadAttachment(groupId: string, opts: Omit<NerimityCDNRequestOpts, "url">) {
-  return nerimityCDNRequest({
-    ...opts,
-    url: `${env.NERIMITY_CDN}attachments/${groupId}`,
-  })
+export async function uploadAvatar(
+  groupId: string,
+  opts: Omit<NerimityCDNRequestOpts, "url"> & { points?: number[] }
+) {
+  return nerimityCDNUploadRequest({ ...opts, image: true }).then((res) => {
+    return nerimityCDNRequest({
+      ...opts,
+      query: {
+        points: opts.points ? JSON.stringify(opts.points) : undefined,
+      },
+      url: `${env.NERIMITY_CDN}avatars/${groupId}/${res.fileId}`,
+    });
+  });
 }
 
-function nerimityCDNRequest(opts: NerimityCDNRequestOpts) {
-  const url = new URL(opts.url);
+export async function uploadEmoji(opts: Omit<NerimityCDNRequestOpts, "url">) {
+  return nerimityCDNUploadRequest({ ...opts, image: true }).then((res) => {
+    return nerimityCDNRequest({
+      ...opts,
+      url: `${env.NERIMITY_CDN}emojis/${res.fileId}`,
+    });
+  });
+}
 
-  if (opts.query) {
-    url.search = new URLSearchParams(JSON.parse(JSON.stringify(opts.query))).toString();
+export async function uploadAttachment(
+  groupId: string,
+  opts: Omit<NerimityCDNRequestOpts, "url">
+) {
+  return nerimityCDNUploadRequest({ ...opts }).then((res) => {
+    return nerimityCDNRequest({
+      ...opts,
+      url: `${env.NERIMITY_CDN}attachments/${groupId}/${res.fileId}`,
+    });
+  });
+}
+
+function nerimityCDNUploadRequest(opts: {
+  image?: boolean;
+  file: File;
+  onUploadProgress?: (percent: number, speed?: string) => void;
+}) {
+  const url = new URL(`${env.NERIMITY_CDN}upload`);
+
+  if (opts.image) {
+    url.search = new URLSearchParams({ image: "true" }).toString();
   }
 
   const formData = new FormData();
-  formData.append("attachment", opts.file);
+  formData.append("f", opts.file);
 
   return xhrRequest<{ fileId: string }>(
     {
       method: "POST",
       url: url.href,
       body: formData,
-      useToken: false
+      useToken: false,
     },
     opts.onUploadProgress
   );
+}
+
+function nerimityCDNRequest(opts: NerimityCDNRequestOpts) {
+  const url = new URL(opts.url);
+
+  if (opts.query) {
+    url.search = new URLSearchParams(
+      JSON.parse(JSON.stringify(opts.query))
+    ).toString();
+  }
+
+  const formData = new FormData();
+  formData.append("attachment", opts.file);
+
+  return request<{ fileId: string }>({
+    method: "POST",
+    url: url.href,
+    useToken: false,
+  });
 }

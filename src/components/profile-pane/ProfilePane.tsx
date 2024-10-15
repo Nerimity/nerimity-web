@@ -778,7 +778,7 @@ const UserActivity = (props: {
                 style={{
                   "background-image": `url(${imgSrc()})`,
                 }}
-              ></div>
+              />
             </Show>
             <img
               src={imgSrc()}
@@ -1222,11 +1222,11 @@ function UsersList(props: { users: RawUser[] }) {
 
 type Badge = typeof USER_BADGES.SUPPORTER;
 
-const BadgeContainer = styled("button")<{ color: string }>`
+const BadgeContainer = styled("button")<{ color: string; textColor?: string }>`
   background: ${(props) => props.color};
   border-radius: 4px;
   padding: 3px;
-  color: rgba(0, 0, 0, 0.7);
+  color: ${(props) => props.textColor || "rgba(0, 0, 0, 0.7)"};
   font-weight: bold;
   font-size: 12px;
   border: none;
@@ -1240,7 +1240,11 @@ function Badge(props: { badge: Badge; user: UserDetails }) {
     createPortal((close) => <BadgeDetailModal {...props} close={close} />);
 
   return (
-    <BadgeContainer {...{ onClick }} color={props.badge.color}>
+    <BadgeContainer
+      {...{ onClick }}
+      textColor={props.badge.textColor}
+      color={props.badge.color}
+    >
       {props.badge.name}
     </BadgeContainer>
   );

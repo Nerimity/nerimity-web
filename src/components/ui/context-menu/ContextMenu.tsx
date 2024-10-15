@@ -42,10 +42,11 @@ export interface ContextMenuProps {
     x: number;
     y: number;
   } | null;
+  header?: JSXElement;
 }
 
 export default function ContextMenu(props: ContextMenuProps) {
-  let [contextMenuEl, setContextMenuEl] = createSignal<HTMLDivElement | null>(
+  const [contextMenuEl, setContextMenuEl] = createSignal<HTMLDivElement | null>(
     null
   );
   const [pos, setPos] = createSignal({ top: "0", left: "0" });
@@ -174,6 +175,7 @@ export default function ContextMenu(props: ContextMenuProps) {
           style={isMobileWidth() ? {} : pos()}
         >
           <div class={styles.contextMenuInner}>
+            {props.header}
             <For each={items}>
               {(item, i) => (
                 <Show when={item.show !== false}>
