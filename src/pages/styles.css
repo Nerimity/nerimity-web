@@ -1,11 +1,11 @@
 body {
-  background-color: #40E0D0; /* Turquoise */
+  background-color: #00509d; /* Blue */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Sans-Serif; /* Font */
 }
 
 .container {
@@ -22,7 +22,7 @@ h1 {
 }
 
 .buttons .btn {
-  background-color: #FFEF00; /* Canary Yellow */
+  background-color: #FFFF8F; /* Canary Yellow */
   border: none;
   padding: 10px 20px;
   margin: 10px;
