@@ -1,0 +1,305 @@
+{
+  "header": {
+    "logoutButton": "ログアウト",
+    "openAppButton": "アプリを開く",
+    "loginButton": "ログイン",
+    "joinNowButton": "今すぐ参加"
+  },
+  "homePage": {
+    "slogan": "モダンで洗練されたチャット アプリ。",
+    "joinButton": "参加する {{appName}}",
+    "viewGitHubButton": "GitHub を見る"
+  },
+  "loginPage": {
+    "title": "続行するにはログインしてください",
+    "emailOrUsernameAndTag": "メールアドレス / ユーザー名:タグ",
+    "password": "パスワード",
+    "login": "ログイン",
+    "createAccountInstead": "代わりにアカウントを作成してください",
+    "loggingIn": "ログイン中...",
+    "loginButton": "ログイン"
+  },
+  "registerPage": {
+    "title": "へようこそ {{appName}}",
+    "email": "電子メール",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを認証する",
+    "registerButton": "登録する",
+    "registering": "登録中...",
+    "loginInstead": "代わりにログインしてください"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "activeUsers": "アクティブユーザー",
+    "noActiveUsers": "アクティブなユーザーはいません",
+    "servers": "サーバー",
+    "posts": "投稿",
+    "feed": "餌",
+    "discover": "発見する",
+    "notifications": "通知"
+  },
+  "inbox": {
+    "drawer": {
+      "requests": "リクエスト",
+      "online": "オンライン",
+      "offline": "オフライン",
+      "savedNotesButton": "保存されたメモ",
+      "addFriendButton": "友達を追加",
+      "inboxButton": "受信箱",
+      "friendsButton": "友達"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "探検する",
+      "servers": "サーバー"
+    },
+    "servers": {
+      "title": "探索 - サーバー",
+      "noticeMessage": "サーバーは毎回 1 回バンプされる可能性があります {{hours}} 何時間も。 {{date}}。",
+      "sortMostBumps": "ほとんどのバンプ",
+      "sortMostMembers": "ほとんどのメンバー",
+      "sortRecentlyAdded": "最近追加された",
+      "sortRecentlyBumped": "最近ぶつかった",
+      "filterAll": "全て",
+      "filterVerified": "確認済み",
+      "memberCount": "{{count}} メンバー",
+      "lifetimeBumpCount": "{{count}} 生涯の困難",
+      "visitServerButton": "訪問",
+      "joinServerButton": "参加する",
+      "bumpButton": "バンプ ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "一般的な",
+        "roles": "役割",
+        "channels": "チャンネル",
+        "bans": "禁止事項",
+        "invites": "招待します",
+        "publishServer": "サーバーの公開",
+        "verify": "確認する",
+        "role": "役割",
+        "welcome-screen": "ようこそ画面",
+        "channel": "チャネル",
+        "emojis": "絵文字",
+        "notifications": "通知"
+      },
+      "general": {
+        "serverRenameNotice": "サーバーの名前を変更すると、サーバーを検証する特典がすべて失われます。",
+        "serverName": "サーバー名",
+        "defaultChannel": "デフォルトチャンネル",
+        "defaultChannelDescription": "新しいメンバーはこのチャンネルに誘導されます。",
+        "systemMessages": "システムメッセージ",
+        "systemMessagesDescription": "システムメッセージが表示される場所。",
+        "deleteThisServer": "このサーバーを削除します",
+        "deleteThisServerDescription": "これは取り消しできません!",
+        "deleteServerButton": "サーバーの削除",
+        "saveChangesButton": "変更を保存",
+        "saving": "保存中..."
+      },
+      "roles": {
+        "addNewRole": "新しい役割を追加する",
+        "addRoleButton": "役割の追加"
+      },
+      "role": {
+        "saveChangesButton": "変更を保存",
+        "saving": "保存中...",
+        "roleName": "役割名",
+        "roleColor": "役割の色",
+        "hideRole": "役割を非表示にする",
+        "hideRoleDescription": "このロールを持つメンバーをすべてのデフォルトメンバーとともに表示します",
+        "permissions": "権限",
+        "permissionsDescription": "この役割の権限を管理します。",
+        "deleteRoleButton": "この役割を削除します",
+        "deleteRoleButtonDescription": "これは取り消しできません!"
+      },
+      "header": {
+        "editServer": "サーバーの編集",
+        "serverMemberCount": "{{count}} メンバー"
+      },
+      "channels": {
+        "createButton": "作成する",
+        "createNewDescription": "新しいチャンネルまたはカテゴリを作成する"
+      },
+      "channel": {
+        "saving": "保存中...",
+        "saveChangesButton": "変更を保存",
+        "channelName": "チャンネル名",
+        "permissions": "権限",
+        "permissionsDescription": "このチャンネルの権限を管理します。",
+        "deleteThisChannel": "このチャンネルを削除します",
+        "deleteThisChannelDescription": "これは取り消しできません!",
+        "deleteChannelButton": "チャンネルの削除"
+      },
+      "invites": {
+        "createInviteButton": "招待状の作成",
+        "serverInvites": "サーバーの招待",
+        "serverInvitesDescription": "友達をこのサーバーに招待してください。",
+        "customInviteVerifiedOnlyNotice": "カスタム招待リンクは、検証済みサーバーでのみ使用できます。",
+        "customLink": "カスタムリンク",
+        "saveButton": "保存",
+        "deleteButton": "消去",
+        "copyLinkButton": "リンクをコピー"
+      },
+      "publishServer": {
+        "publishNotice": "サーバーを公開すると、 <1>探検する</1> ページ。",
+        "public": "公共",
+        "publicDescription": "このサーバーを公開します。",
+        "bumpServer": "バンプサーバー",
+        "bumpServerDescription": "このサーバーをバンプしてトップに到達します。",
+        "publishServerButton": "パブリッシュサーバー",
+        "unpublishServerButton": "サーバーの非公開"
+      }
+    },
+    "rolePermissions": {
+      "admin": "管理者",
+      "adminDescription": "すべての権限を有効にします。",
+      "sendMessage": "メッセージを送信する",
+      "sendMessageDescription": "このサーバーでのメッセージの送信を有効にします。",
+      "manageRoles": "役割の管理",
+      "manageRolesDescription": "ロールを更新または削除するための権限。",
+      "manageChannels": "チャネルの管理",
+      "manageChannelsDescription": "チャンネルを更新または削除するための許可。",
+      "kick": "キック",
+      "kickDescription": "ユーザーをキックする許可",
+      "ban": "禁止",
+      "banDescription": "ユーザーを禁止する許可。",
+      "mentionEveryone": "全員に言及する",
+      "mentionEveryoneDescription": "@everyone へのメンションを有効にします。",
+      "nicknameMember": "ニックネームメンバー",
+      "nicknameMemberDescription": "ユーザーがサーバー内でニックネームを変更できるようにします。"
+    },
+    "channelPermissions": {
+      "privateChannel": "プライベートチャンネル",
+      "privateChannelDescription": "チャンネルへのアクセスを無効にします。",
+      "sendMessage": "メッセージを送信する",
+      "sendMessageDescription": "チャネルでのメッセージの送信を有効にします。",
+      "joinVoice": "音声に参加する",
+      "joinVoiceDescription": "チャンネル内の音声チャンネルへの参加を有効にします。"
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "設定",
+      "account": "アカウント",
+      "interface": "インタフェース",
+      "language": "言語",
+      "notifications": "通知",
+      "logout": "ログアウト",
+      "developer": "開発者",
+      "applications": "アプリケーション",
+      "experiments": "実験",
+      "supportMe": "サポートしてください",
+      "viewSource": "ソースを表示",
+      "changelog": "変更履歴",
+      "window-settings": "ウィンドウの設定",
+      "call-settings": "通話設定",
+      "activity-status": "活動状況",
+      "tickets": "チケット",
+      "privacy": "プライバシー",
+      "connections": "接続"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "ダイレクトメッセージ",
+        "description": "あなたにダイレクトメッセージを送信できる人を設定します。",
+        "anyone": "誰でも",
+        "friendsAndServersOnly": "友人とサーバーのみ",
+        "friendsOnly": "友達限定"
+      },
+      "profileOptions": {
+        "title": "プロファイルオプション",
+        "hideFollowers": "フォロワーを非表示にする",
+        "hideFollowersDescription": "プロフィールからフォロワーを非表示にします。",
+        "hideFollowing": "フォローを隠す",
+        "hideFollowingDescription": "フォローしているユーザーをプロフィールから非表示にします。"
+      },
+      "friendRequest": {
+        "title": "友達リクエスト",
+        "description": "友達リクエストを送信できる人を設定します。",
+        "anyone": "誰でも",
+        "serversOnly": "サーバーのみ",
+        "nobody": "誰でもない"
+      },
+      "lastOnline": {
+        "description": "あなたの最後のオンライン時間を閲覧できる人を設定します。",
+        "title": "前回のオンライン時間"
+      }
+    }
+  },
+  "userContextMenu": {
+    "viewProfile": "プロフィールを見る",
+    "sendMessage": "メッセージを送信する",
+    "copyId": "IDをコピーする",
+    "editRoles": "役割の編集",
+    "kick": "キック",
+    "ban": "禁止",
+    "changeNickname": "ニックネームの変更"
+  },
+  "kickServerMemberModal": {
+    "title": "キック {{username}}",
+    "kickButton": "キック",
+    "kicking": "蹴る…",
+    "backButton": "戻る",
+    "message": "本当にキックしますか？ <1>{{username}}</1>?"
+  },
+  "editServerRolesModal": {
+    "title": "役割の編集"
+  },
+  "banModal": {
+    "title": "禁止 {{username}}?",
+    "message": "本当に禁止しますか? <1>{{username}}</1>?",
+    "deletePastMessagesCheckbox": "過去 7 時間以内に送信されたメッセージを削除します。",
+    "banButton": "禁止",
+    "banning": "禁止中..."
+  },
+  "messageContextMenu": {
+    "editMessage": "メッセージの編集",
+    "deleteMessage": "メッセージの削除",
+    "copyMessage": "メッセージをコピー",
+    "copyId": "IDをコピーする"
+  },
+  "profile": {
+    "followButton": "フォローする",
+    "unfollowButton": "フォローを解除する",
+    "removeFriendButton": "友達を削除する",
+    "addFriendButton": "友達を追加",
+    "pendingRequest": "保留中のリクエスト",
+    "acceptRequestButton": "リクエストを受け入れる",
+    "messageButton": "メッセージ",
+    "mutualFriends": "共通の友人 ({{count}})",
+    "mutualServers": "相互サーバー ({{count}})",
+    "postsTab": "投稿",
+    "followersTab": "フォロワー",
+    "followingTab": "続く",
+    "postsAndRepliesTab": "投稿と返信 ({{count}})",
+    "likedPostsTab": "「いいね！」の投稿 ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "この投稿を削除してもよろしいですか?",
+      "cancelButton": "キャンセル",
+      "deleteButton": "消去"
+    },
+    "postWasDeleted": "この投稿は削除されました!",
+    "someoneLikedYourPost": "<1>{{username}}</1> あなたの投稿にいいね！",
+    "someoneFollowedYou": "<1>{{username}}</1> あなたをフォローしました！",
+    "someoneRepliedToPost": "<1>{{username}}</1> あなたの投稿に返信しました！",
+    "createAPostInputPlaceholder": "投稿を作成...",
+    "replyInputPlaceholder": "返事...",
+    "replyButton": "返事",
+    "createButton": "作成する",
+    "pollOptions": "投票オプション",
+    "optionNumberPlaceholder": "オプション {{number}}"
+  },
+  "informationDrawer": {
+    "title": "情報",
+    "channelNotice": "チャンネル通知",
+    "attachments": "添付ファイル",
+    "attachmentsBack": "戻る",
+    "members": "メンバー"
+  }
+}
