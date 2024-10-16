@@ -25,10 +25,10 @@ export type VoiceUser = RawVoice & {
   videoStream?: MediaStream;
   vad?: VADInstance;
   voiceActivity: boolean;
-  audio?: HTMLAudioElement
+  audio?: HTMLAudioElement;
 
-  waitingForStreamId?: string;
-  waitingForStreamType?: "video" | "audio";
+  waitingForVideoStreamId?: string;
+  waitingForAudioStreamId?: string;
 };
 
 // voiceUsers[channelId][userId] = VoiceUser
@@ -98,7 +98,6 @@ async function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
   const { default: LazySimplePeer } = await import("@thaunknown/simple-peer");
   const turnServer = await postGenerateCredential();
 
-
   const peer = new LazySimplePeer({
     initiator: false,
     trickle: true,
@@ -149,10 +148,15 @@ async function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
 
   peer.on("data", (chunk: Uint8Array) => {
     onData(this, Uint8ArrayToJson(chunk));
-
   });
   peer.on("connect", () => {
     console.log("connect");
+    if (localStreams.audioStream) {
+      sendStreamToPeer(localStreams.audioStream, "audio");
+    }
+    if (localStreams.videoStream) {
+      sendStreamToPeer(localStreams.videoStream, "video");
+    }
   });
   peer.on("end", () => {
     console.log(user.username + " peer removed");
@@ -204,7 +208,6 @@ export async function createPeer(voiceUser: VoiceUser | RawVoice) {
 
   const { default: LazySimplePeer } = await import("@thaunknown/simple-peer");
   const turnServer = await postGenerateCredential();
-
 
   const peer = new LazySimplePeer({
     initiator: true,
@@ -258,6 +261,12 @@ export async function createPeer(voiceUser: VoiceUser | RawVoice) {
   });
   peer.on("connect", () => {
     console.log("connect");
+    // if (localStreams.audioStream) {
+    //   sendStreamToPeer(localStreams.audioStream, "audio");
+    // }
+    // if (localStreams.videoStream) {
+    //   sendStreamToPeer(localStreams.videoStream, "video");
+    // }
   });
   peer.on("end", () => {
     console.log(user.username, "end");
@@ -314,29 +323,40 @@ function setVAD(stream: MediaStream, voiceUser: RawVoice) {
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, { vad: vadInstance });
 }
 
-const onData = (rawVoice: RawVoice, data?: { type: "video" | "audio", streamId: string }) => {
+const onData = (
+  rawVoice: RawVoice,
+  data?: { type: "video" | "audio"; streamId: string }
+) => {
   if (!data?.type || !data?.streamId) return;
   const voiceUser = getVoiceUser(rawVoice.channelId, rawVoice.userId);
   if (!voiceUser) return;
 
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
-    waitingForStreamId: data.streamId,
-    waitingForStreamType: data.type,
+    ...(data.type === "audio"
+      ? { waitingForAudioStreamId: data.streamId }
+      : {}),
+    ...(data.type === "video"
+      ? { waitingForVideoStreamId: data.streamId }
+      : {}),
   });
 };
 
-const onStream = (rawVoiceUser: RawVoice, stream: MediaStream) => {
-  const voiceUser = getVoiceUser(rawVoiceUser.channelId, rawVoiceUser.userId);
-  if (!voiceUser) return;
-  if (!voiceUser.waitingForStreamId) return;
-  if (!voiceUser.waitingForStreamType) return;
+const onStream = (voiceUser: RawVoice, stream: MediaStream) => {
+  // const voiceUser = getVoiceUser(rawVoiceUser.channelId, rawVoiceUser.userId);
+  // if (!voiceUser) return;
+  // if (!voiceUser.waitingForAudioStreamId && !voiceUser.waitingForVideoStreamId) return;
 
-  const streamType = voiceUser.waitingForStreamType === "video" ? "videoStream" : "audioStream";
+  // const streamType = voiceUser.waitingForAudioStreamId === stream.id ? "audioStream" : "videoStream";
+
+  const videoTracks = stream.getVideoTracks();
+  const streamType = videoTracks.length ? "videoStream" : "audioStream";
 
   stream.onremovetrack = () => {
     setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
       [streamType]: null,
-      ...(streamType === "audioStream" ? { audio: mic, voiceActivity: false, } : {}),
+      ...(streamType === "audioStream"
+        ? { audio: mic, voiceActivity: false }
+        : {}),
     });
     stream.onremovetrack = null;
   };
@@ -355,8 +375,6 @@ const onStream = (rawVoiceUser: RawVoice, stream: MediaStream) => {
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
     [streamType]: stream,
     ...(streamType === "audioStream" ? { audio: mic } : {}),
-    waitingForStreamId: undefined,
-    waitingForStreamType: undefined,
   });
 };
 
@@ -430,10 +448,12 @@ const sendStreamToPeer = (stream: MediaStream, type: "audio" | "video") => {
   const voiceUsers = getVoiceUsers(currentVoiceChannelId()!);
   for (let i = 0; i < voiceUsers.length; i++) {
     const voiceUser = voiceUsers[i];
-    voiceUser?.peer?.write(jsonToUint8Array({
-      type,
-      streamId: stream.id,
-    }));
+    // voiceUser?.peer?.write(
+    //   jsonToUint8Array({
+    //     type,
+    //     streamId: stream.id,
+    //   })
+    // );
     voiceUser?.peer?.addStream(stream);
   }
 };
@@ -525,8 +545,7 @@ function jsonToUint8Array<T extends object>(json: T) {
 function Uint8ArrayToJson(array: Uint8Array) {
   try {
     return JSON.parse(new TextDecoder().decode(array));
-  }
-  catch {
+  } catch {
     return null;
   }
 }

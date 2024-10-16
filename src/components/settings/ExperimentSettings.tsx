@@ -20,7 +20,7 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-export default function LanguageSettings() {
+export default function ExperimentsSettings() {
   const { header } = useStore();
 
   createEffect(() => {
@@ -33,7 +33,7 @@ export default function LanguageSettings() {
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title="Dashboard" />
+        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.experiments")} />
       </Breadcrumb>
 

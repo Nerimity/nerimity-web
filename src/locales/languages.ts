@@ -74,7 +74,10 @@ export const languages = {
   "pl-pl": {
     name: "Polish",
     emoji: "🇵🇱",
-    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
+    contributors: [
+      "https://github.com/Ciach0",
+      "https://github.com/CyberL1"
+    ],
   },
   "ro-ro": {
     name: "Romanian",
@@ -84,7 +87,11 @@ export const languages = {
   "ru-ru": {
     name: "Russian",
     emoji: "🇷🇺",
-    contributors: ["https://github.com/FAYSi223", "https://github.com/eshkq"],
+    contributors: [
+      "https://github.com/FAYSi223",
+      "https://github.com/eshkq",
+      "https://github.com/Effently"
+    ],
   },
   "es-es": {
     name: "Spanish",
