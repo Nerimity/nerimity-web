@@ -462,7 +462,7 @@ const ActionButtons = (props: {
         icon={isMe() ? "note_alt" : "mail"}
         label={
           isMe()
-            ? t("inbox.drawer.savedNotesButton")
+            ? t("inbox.drawer.notes")
             : t("profile.messageButton")
         }
         color={props.primaryColor || "var(--primary-color)"}
@@ -498,7 +498,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
       {
         id: "message",
         label: isMe()
-          ? t("inbox.drawer.savedNotesButton")
+          ? t("inbox.drawer.notes")
           : t("profile.messageButton"),
         icon: isMe() ? "note_alt" : "mail",
         onClick: onMessageClicked,
