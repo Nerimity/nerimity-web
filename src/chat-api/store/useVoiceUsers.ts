@@ -79,6 +79,15 @@ const setCurrentChannelId = (channelId: string | null) => {
     removeAllPeers(current?.channelId);
     current.vadInstance?.destroy();
     current.vadAudioStream?.getAudioTracks()[0]?.stop();
+    batch(() => {
+      getVoiceUsersByChannelId(current.channelId).forEach((voiceUser) => {
+        voiceUser.vadInstance?.destroy();
+        setVoiceUsers(current.channelId, voiceUser.userId, {
+          voiceActivity: false,
+          vadInstance: undefined,
+        });
+      });
+    });
   }
   if (!channelId) {
     setCurrentVoiceUser(undefined);
@@ -88,6 +97,8 @@ const setCurrentChannelId = (channelId: string | null) => {
     channelId,
     audioStream: null,
     videoStream: null,
+    vadAudioStream: null,
+    vadInstance: undefined,
     micMuted: true,
   });
 };
