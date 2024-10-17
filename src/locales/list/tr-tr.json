@@ -350,7 +350,7 @@
 			"cancelButton": "İptal Et",
 			"deleteButton": "Kaldır"
 		},
-		"postWasDeleted": "Bu gönderi silinmişti!",
+		"postWasDeleted": "Bu gönderi silindi.",
 		"someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
 		"someoneFollowedYou": "<1>{{username}}</1> seni takip etti!",
 		"someoneRepliedToPost": "<1>{{username}}</1> gönderine yanıt verdi!",
