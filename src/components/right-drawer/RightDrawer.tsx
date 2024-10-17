@@ -149,6 +149,7 @@ const Header = () => {
 const RightDrawer = () => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const [showAttachments, setShowAttachments] = createSignal(false);
+  const [hovered, setHovered] = createSignal(false);
 
   createEffect(
     on(
@@ -160,10 +161,17 @@ const RightDrawer = () => {
   );
 
   return (
-    <div class={styles.drawerContainer}>
+    <div
+      class={styles.drawerContainer}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <Header />
       <Show when={!showAttachments()}>
-        <MainDrawer onShowAttachmentClick={() => setShowAttachments(true)} />
+        <MainDrawer
+          hovered={hovered()}
+          onShowAttachmentClick={() => setShowAttachments(true)}
+        />
       </Show>
       <Show when={showAttachments()}>
         <AttachmentDrawer
@@ -301,7 +309,10 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
   );
 };
 
-const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
+const MainDrawer = (props: {
+  onShowAttachmentClick(): void;
+  hovered: boolean;
+}) => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const { channels } = useStore();
 
@@ -313,7 +324,7 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
   return (
     <>
       <Show when={channel()?.serverId}>
-        <BannerItem />
+        <BannerItem hovered={props.hovered} />
       </Show>
       <Show when={channel()?.serverId}>
         <ServerChannelNotice />
@@ -356,7 +367,7 @@ const MainDrawer = (props: { onShowAttachmentClick(): void }) => {
   );
 };
 
-const BannerItem = () => {
+const BannerItem = (props: { hovered: boolean }) => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const { servers, channels } = useStore();
 
@@ -376,6 +387,7 @@ const BannerItem = () => {
         `}
         margin={0}
         brightness={100}
+        animate={props.hovered}
         hexColor={bannerData()?.hexColor}
         url={bannerUrl(bannerData()!)}
       />
