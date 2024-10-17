@@ -28,6 +28,9 @@ const lastCredentials = {
   generatedAt: null as null | number,
   result: null as null | any
 };
+
+
+export const getCachedCredentials = () => lastCredentials.result;
 export const postGenerateCredential = async () => {
   if (lastCredentials.generatedAt) {
     const diff = Date.now() - lastCredentials.generatedAt;

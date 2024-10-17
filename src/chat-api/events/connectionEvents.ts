@@ -210,8 +210,8 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     }
 
     for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
-      const voiceChannelUser = payload.voiceChannelUsers[i];
-      voiceUsers.set(voiceChannelUser);
+      const voiceChannelUser = payload.voiceChannelUsers[i]!;
+      voiceUsers.createVoiceUser(voiceChannelUser);
     }
   });
 

@@ -60,8 +60,8 @@ export const onServerJoined = (payload: ServerJoinedPayload) => {
       users.setPresence(presence.userId, presence);
     }
     for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
-      const rawVoice = payload.voiceChannelUsers[i];
-      voiceUsers.set(rawVoice);
+      const rawVoice = payload.voiceChannelUsers[i]!;
+      voiceUsers.createVoiceUser(rawVoice);
     }
   });
 };
@@ -75,7 +75,7 @@ export const onServerLeft = (payload: { serverId: string }) =>
     const roles = useServerRoles();
     const voiceUsers = useVoiceUsers();
 
-    const currentVoiceChannelId = voiceUsers.currentVoiceChannelId();
+    const currentVoiceChannelId = voiceUsers.currentUser()?.channelId;
 
     const serverChannels = channels.getChannelsByServerId(payload.serverId);
 
@@ -90,7 +90,7 @@ export const onServerLeft = (payload: { serverId: string }) =>
         const channel = serverChannels[i]!;
         account.removeNotificationSettings(channel.id);
         if (currentVoiceChannelId === channel.id) {
-          voiceUsers.setCurrentVoiceChannelId(null);
+          voiceUsers.setCurrentChannelId(null);
         }
       }
     });

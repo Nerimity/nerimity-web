@@ -109,17 +109,18 @@ function recipient(this: Channel) {
   return users.get(this.recipientId!);
 }
 
+
 async function joinCall(this: Channel) {
-  const { setCurrentVoiceChannelId } = useVoiceUsers();
+  const { setCurrentChannelId } = useVoiceUsers();
   await postGenerateCredential();
   postJoinVoice(this.id, socketClient.id()!).then(() => {
-    setCurrentVoiceChannelId(this.id);
+    setCurrentChannelId(this.id);
   });
 }
 function leaveCall(this: Channel) {
-  const { setCurrentVoiceChannelId } = useVoiceUsers();
+  const { setCurrentChannelId } = useVoiceUsers();
   postLeaveVoice(this.id).then(() => {
-    setCurrentVoiceChannelId(null);
+    setCurrentChannelId(null);
   });
 }
 function update(this: Channel, update: Partial<RawChannel>) {
@@ -154,7 +155,7 @@ const deleteChannel = (channelId: string, serverId?: string) =>
   runWithContext(() => {
     const messages = useMessages();
     const voice = useVoiceUsers();
-    const voiceChannelId = voice.currentVoiceChannelId();
+    const voiceChannelId = voice.currentUser();
 
     if (serverId) {
       const servers = useServers();
@@ -172,7 +173,7 @@ const deleteChannel = (channelId: string, serverId?: string) =>
 
     batch(() => {
       if (voiceChannelId && voiceChannelId === channelId) {
-        voice.setCurrentVoiceChannelId(null);
+        voice.setCurrentChannelId(null);
       }
 
       messages.deleteChannelMessages(channelId);

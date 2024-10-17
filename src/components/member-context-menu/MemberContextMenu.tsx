@@ -187,7 +187,7 @@ function Header(props: { userId: string }) {
 
   const voiceUser = () =>
     store.voiceUsers.getVoiceUser(
-      store.voiceUsers.currentVoiceChannelId()!,
+      store.voiceUsers.currentUser()?.channelId!,
       props.userId
     );
   const audio = () => voiceUser()?.audio;
