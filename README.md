@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/banner.png" />
+<img src="https://raw.githubusercontent.com/Nerimity/canarychat-web/main/readme-assets/panda.png" />
 </p> 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot1.png" width="32%"/> 
