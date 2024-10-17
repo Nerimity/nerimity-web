@@ -62,6 +62,24 @@ const CanaryChat: React.FC = () => {
                 .container {
                     margin-top: 80px; /* Adjust this value based on the height of your banner */
                 }
+                .buttons .btn {
+                    background-color: #F9B006; /* Canary yellow */
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                    border-radius: 20px; /* More rounded corners */
+                    margin: 5px; /* Adjust margin for spacing between buttons */
+                }
+                .buttons .btn.login-btn {
+                    /* Specific styles for login button if needed */
+                }
+                .buttons .btn.register-btn {
+                    /* Specific styles for register button if needed */
+                }
+                .buttons .btn.download-btn {
+                    /* Specific styles for download button if needed */
+                }
             `}</style>
         </div>
     );
