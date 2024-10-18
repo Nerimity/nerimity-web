@@ -22,7 +22,9 @@ const onKeyDown = (e: KeyboardEvent) => {
   if (code.startsWith("Key")) {
     code = code.slice(3);
   }
-  setDownKeys([...downKeys, code]);
+  if (!downKeys.includes(code)) {
+    setDownKeys([...downKeys, code]);
+  }
 };
 
 const onKeyUp = (e: KeyboardEvent) => {
