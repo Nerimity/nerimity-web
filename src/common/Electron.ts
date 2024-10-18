@@ -26,6 +26,17 @@ export const [spellcheckSuggestions, setSpellcheckSuggestions] = createSignal<
   string[]
 >([]);
 
+type KeyState = "DOWN" | "UP";
+
+interface GlobalKeyEvent {
+  event: {
+    name: string;
+    vKey: number;
+    state: KeyState;
+  };
+  down: Record<string, boolean>;
+}
+
 interface WindowAPI {
   isElectron: boolean;
   minimize(): void;
@@ -58,6 +69,10 @@ interface WindowAPI {
   clipboardPaste(): void;
   clipboardCopy(text: string): void;
   clipboardCut(): void;
+
+  startGlobalKeyListener: () => void;
+  stopGlobalKeyListener: () => void;
+  onGlobalKey: (callback: (event: GlobalKeyEvent) => void) => void;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {
