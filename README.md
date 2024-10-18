@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/adschat/canarychat-web/main/readme-assets/panda.png" />
+<img src="https://raw.githubusercontent.com/adschat/canarychat-web/main/readme-assets/canary-banner white.png" />
 </p> 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot1.png" width="32%"/> 
