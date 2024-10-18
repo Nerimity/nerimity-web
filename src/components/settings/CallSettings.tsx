@@ -193,16 +193,19 @@ function PushToTalk() {
     })
   );
 
-  createEffect(
-    on([() => downKeys.length, () => [...downKeys]], (input, prevInput) => {
-      if (!bindMode()) return;
+  createEffect(() => {
+    if (!bindMode()) return;
 
-      if (prevInput && input < prevInput) {
-        setPTTBoundKeys(prevInput[1]!);
-        setBindMode(false);
-      }
-    })
-  );
+    const currentKeys = [...downKeys];
+
+    if (currentKeys.length === 0 && PTTBoundKeys().length > 0) {
+      // User has released all keys, stop binding
+      setBindMode(false);
+    } else if (currentKeys.length > 0) {
+      // Update bound keys
+      setPTTBoundKeys(currentKeys);
+    }
+  });
 
   const value = () => {
     if (bindMode()) {
