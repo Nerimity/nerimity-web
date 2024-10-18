@@ -115,9 +115,7 @@ export default function MainPaneHeader() {
       .array()
       .filter((friend) => friend.status === FriendStatus.PENDING).length;
 
-    const ticketNotifications =
-      tickets.hasModerationTicketNotification() ||
-      tickets.hasTicketNotification();
+    const ticketNotifications = tickets.hasTicketNotification();
 
     const mentionsCount = mentions.array().reduce((count, mention) => {
       return count + (mention?.count || 0);
