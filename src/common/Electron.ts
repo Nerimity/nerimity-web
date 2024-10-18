@@ -58,6 +58,15 @@ interface WindowAPI {
   clipboardPaste(): void;
   clipboardCopy(text: string): void;
   clipboardCut(): void;
+
+  startGlobalKeyListener: () => void;
+  stopGlobalKeyListener: () => void;
+  onGlobalKey: (
+    callback: (event: {
+      down: any;
+      event: { name: string; vKey: number; state: "DOWN" | "UP" };
+    }) => void
+  ) => void;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {

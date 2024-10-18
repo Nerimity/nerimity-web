@@ -21,6 +21,8 @@ export enum StorageKeys {
   CUSTOM_COLORS = "customColors",
   inputDeviceId = "inputDeviceId",
   outputDeviceId = "outputDeviceId",
+  voiceInputMode = "voiceInputMode",
+  PTTBoundKeys = "pttBoundKeys",
 }
 
 export function getStorageBoolean(
@@ -85,3 +87,9 @@ export function useReactiveLocalStorage<T>(key: StorageKeys, defaultValue: T) {
 
   return [value, setCustomValue] as const;
 }
+
+const voiceInputMode = useReactiveLocalStorage<
+  "OPEN" | "VOICE_ACTIVITY" | "PTT"
+>(StorageKeys.voiceInputMode, "VOICE_ACTIVITY");
+
+export const useVoiceInputMode = () => voiceInputMode;
