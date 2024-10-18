@@ -7,7 +7,9 @@ export const [downKeys, setDownKeys] = createStore<(string | number)[]>([]);
 const onMouseDown = (e: MouseEvent) => {
   if (e.button === 0) return;
   const code = `MOUSE ${e.button}`;
-  setDownKeys([...downKeys, code]);
+  if (!downKeys.includes(code)) {
+    setDownKeys([...downKeys, code]);
+  }
 };
 const onMouseUp = (e: MouseEvent) => {
   if (e.button === 0) return;
