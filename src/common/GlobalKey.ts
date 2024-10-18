@@ -37,13 +37,14 @@ const onKeyUp = (e: KeyboardEvent) => {
 
 if (electronWindowAPI()?.isElectron) {
   electronWindowAPI()?.onGlobalKey(({ event }) => {
+    const key = event.name || event.vKey;
     if (event.name === "MOUSE LEFT") return;
     if (event.state === "DOWN") {
-      setDownKeys([...downKeys, event.name.trim() || event.vKey]);
+      if (!downKeys.includes(key)) {
+        setDownKeys([...downKeys, key]);
+      }
     } else {
-      setDownKeys(
-        downKeys.filter((k) => k !== event.name.trim() && k !== event.vKey)
-      );
+      setDownKeys(downKeys.filter((k) => k !== key));
     }
   });
 }

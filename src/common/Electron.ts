@@ -26,6 +26,17 @@ export const [spellcheckSuggestions, setSpellcheckSuggestions] = createSignal<
   string[]
 >([]);
 
+type KeyState = "DOWN" | "UP";
+
+interface GlobalKeyEvent {
+  event: {
+    name: string;
+    vKey: number;
+    state: KeyState;
+  };
+  down: Record<string, boolean>;
+}
+
 interface WindowAPI {
   isElectron: boolean;
   minimize(): void;
@@ -61,12 +72,7 @@ interface WindowAPI {
 
   startGlobalKeyListener: () => void;
   stopGlobalKeyListener: () => void;
-  onGlobalKey: (
-    callback: (event: {
-      down: any;
-      event: { name: string; vKey: number; state: "DOWN" | "UP" };
-    }) => void
-  ) => void;
+  onGlobalKey: (callback: (event: GlobalKeyEvent) => void) => void;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {
