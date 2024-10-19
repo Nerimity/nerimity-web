@@ -4,13 +4,16 @@ import useAccount from "../store/useAccount";
 import useVoiceUsers from "../store/useVoiceUsers";
 
 export function onVoiceUserJoined(payload: RawVoice) {
-  const {createVoiceUser} = useVoiceUsers();
+  const { createVoiceUser } = useVoiceUsers();
 
   createVoiceUser(payload);
 }
-export function onVoiceUserLeft(payload: {userId: string, channelId: string}) {
-  const {removeVoiceUser, setCurrentChannelId} = useVoiceUsers();
-  const {user} = useAccount();
+export function onVoiceUserLeft(payload: {
+  userId: string;
+  channelId: string;
+}) {
+  const { removeVoiceUser, setCurrentChannelId } = useVoiceUsers();
+  const { user } = useAccount();
 
   if (user()?.id === payload.userId) {
     setCurrentChannelId(null);
@@ -27,7 +30,11 @@ interface VoiceSignalReceivedPayload {
 
 export function onVoiceSignalReceived(payload: VoiceSignalReceivedPayload) {
   const voiceUsers = useVoiceUsers();
-  const voiceUser = voiceUsers.getVoiceUser(payload.channelId, payload.fromUserId);
+
+  const voiceUser = voiceUsers.getVoiceUser(
+    payload.channelId,
+    payload.fromUserId
+  );
   if (!voiceUser) return;
 
   if (!voiceUser.peer) {

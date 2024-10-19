@@ -136,12 +136,22 @@ const InputModeRadioBoxContainer = styled(FlexColumn)`
 
 function InputMode() {
   const [inputMode, setInputMode] = useVoiceInputMode();
+  const store = useStore();
+
+  const isInCall = () => store.voiceUsers.currentUser()?.channelId;
 
   return (
     <div>
       <SettingsBlock icon="steppers" label="Input Mode" header />
-      <InputModeRadioBoxContainer>
+      <InputModeRadioBoxContainer
+        onClick={() => {
+          if (isInCall()) {
+            alert("You must leave the call first.");
+          }
+        }}
+      >
         <RadioBox
+          style={isInCall() ? { "pointer-events": "none" } : {}}
           initialId={inputMode()}
           onChange={(e) => setInputMode(e.id)}
           items={[
