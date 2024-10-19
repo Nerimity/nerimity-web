@@ -77,6 +77,7 @@ import { MetaTitle } from "@/common/MetaTitle";
 import { millisecondsToReadable } from "@/common/date";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
+import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -87,9 +88,22 @@ export default function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
   const params = useParams<{ channelId: string; serverId?: string }>();
   const { channels, header, serverMembers, account, servers } = useStore();
+  const { setMarginBottom, setMarginTop } = useCustomScrollbar();
   const [textAreaEl, setTextAreaEl] = createSignal<
     undefined | HTMLTextAreaElement
   >(undefined);
+
+  onMount(() => {
+    const disabledAdvancedMarkup = getStorageBoolean(
+      StorageKeys.DISABLED_ADVANCED_MARKUP,
+      false
+    );
+    setMarginBottom(disabledAdvancedMarkup ? 48 : 84);
+
+    onCleanup(() => {
+      setMarginBottom(0);
+    });
+  });
   const channel = () => channels.get(params.channelId!);
   createEffect(() => {
     if (!channel()) return;

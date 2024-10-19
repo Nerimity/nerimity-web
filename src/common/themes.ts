@@ -3,8 +3,8 @@ import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
 export const theme = {
   "background-color": "hsl(216deg 9% 8%)",
   "pane-color": "hsl(216deg 8% 15%)",
-  "header-background-color": "rgba(48, 48, 48, 0.86)",
-  "header-background-color-blur-disabled": "rgb(48, 48, 48)",
+  "header-background-color": "hsla(216deg 8% 15% / 80%)",
+  "header-background-color-blur-disabled": "hsl(216deg 8% 15%)",
   "tooltip-background-color": "rgb(40, 40, 40)",
   "primary-color": "#4c93ff",
   "alert-color": "#eb6e6e",
