@@ -114,6 +114,9 @@ const updateUserNotificationSettings = (opts: {serverId?: string, channelId?: st
 };
 
 
+const isMe = (userId: string) => account.user &&  account.user.id === userId;
+
+
 export default function useAccount() {
   return {
     user,
@@ -129,6 +132,7 @@ export default function useAccount() {
     updateUserNotificationSettings,
     removeNotificationSettings,
     hasModeratorPerm,
-    lastAuthenticatedAt
+    lastAuthenticatedAt,
+    isMe
   };
 }

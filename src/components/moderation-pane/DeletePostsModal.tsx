@@ -59,7 +59,7 @@ export default function DeletePostsModal(props: Props) {
       <Button
         onClick={onDeleteClicked}
         margin={0}
-        label={deleting() ? "Suspending..." : "Suspend"}
+        label={deleting() ? "Deleting..." : "Delete"}
         color="var(--alert-color)"
         primary
       />
