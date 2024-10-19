@@ -83,7 +83,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
     const thumbHeightRatio =
       scrollbarHeight * (height() / props.scrollElement.scrollHeight);
 
-    if (thumbHeightRatio <= 20) return 15;
+    if (thumbHeightRatio < 15) return 15;
 
     return thumbHeightRatio;
   };
