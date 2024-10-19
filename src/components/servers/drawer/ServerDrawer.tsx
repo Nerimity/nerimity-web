@@ -115,7 +115,8 @@ const ChannelList = () => {
 
       if (selectedChannelIndex() < channelsWithoutCategory().length - 1) {
         newIndex = selectedChannelIndex() + 1;
-      } else {
+      }
+ else {
         newIndex = 0;
       }
       navigate(
@@ -131,7 +132,8 @@ const ChannelList = () => {
 
       if (selectedChannelIndex() > 0) {
         newIndex = selectedChannelIndex() - 1;
-      } else {
+      }
+ else {
         newIndex = channelsWithoutCategory().length - 1;
       }
       navigate(
@@ -435,7 +437,7 @@ const ChannelVoiceUsersTitle = styled(Text)`
 function ChannelItemVoiceUsers(props: { channelId: string }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId);
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsersByChannelId(props.channelId);
 
   return (
     <Show when={channelVoiceUsers().length}>

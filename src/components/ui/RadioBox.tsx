@@ -1,7 +1,7 @@
 import { styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "./Flexbox";
 import Text from "./Text";
-import { For, createEffect, createSignal } from "solid-js";
+import { For, JSX, createEffect, createSignal } from "solid-js";
 import { classNames, conditionalClass } from "@/common/classNames";
 
 export interface RadioBoxItem {
@@ -11,12 +11,12 @@ export interface RadioBoxItem {
 
 interface RadioBoxProps {
   onChange?(item: RadioBoxItem): void;
-  items: RadioBoxItem[]
+  items: RadioBoxItem[];
   initialId: string | number;
+  style?: JSX.CSSProperties;
 }
 
-const RadioBoxContainer = styled(FlexColumn)`
-`;
+const RadioBoxContainer = styled(FlexColumn)``;
 
 export function RadioBox(props: RadioBoxProps) {
   const [selectedId, setSelectedId] = createSignal(props.initialId);
@@ -32,28 +32,33 @@ export function RadioBox(props: RadioBoxProps) {
   };
 
   return (
-    <RadioBoxContainer>
+    <RadioBoxContainer style={props.style}>
       <For each={props.items}>
-        {item => <RadioBoxItem onClick={() => onClick(item)} item={item} selected={item.id === selectedId()} />}
+        {(item) => (
+          <RadioBoxItem
+            onClick={() => onClick(item)}
+            item={item}
+            selected={item.id === selectedId()}
+          />
+        )}
       </For>
     </RadioBoxContainer>
   );
 }
 
-
-export const RadioBoxItemCheckBox = styled(FlexRow)<{size?: number}>`
+export const RadioBoxItemCheckBox = styled(FlexRow)<{ size?: number }>`
   position: relative;
-  width: ${props => props.size || 10}px;
-  height: ${props => props.size || 10}px;
+  width: ${(props) => props.size || 10}px;
+  height: ${(props) => props.size || 10}px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.1);
   transition: 0.2s;
-  border: solid ${props => (props.size || 10) / 2}px transparent;
+  border: solid ${(props) => (props.size || 10) / 2}px transparent;
 
   &:after {
     position: absolute;
     content: "";
-    inset: -${props => (props.size || 10) / 2}px;
+    inset: -${(props) => (props.size || 10) / 2}px;
     border: solid 1px rgba(255, 255, 255, 0.2);
     border-radius: 50%;
   }
@@ -63,10 +68,6 @@ export const RadioBoxItemCheckBox = styled(FlexRow)<{size?: number}>`
     border-color: var(--primary-color);
   }
   flex-shrink: 0;
-
-
-
-  
 `;
 
 const RadioBoxItemContainer = styled(FlexRow)`
@@ -84,8 +85,8 @@ const RadioBoxItemContainer = styled(FlexRow)`
 
   &:not(.selected):hover {
     .radio-box-circle {
-      background-color: rgba(255,255,255,0.6);
-      border-color: rgba(0,0,0,0.4);
+      background-color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(0, 0, 0, 0.4);
     }
   }
 `;
@@ -101,9 +102,25 @@ interface RadioBoxItemProps {
 
 export function RadioBoxItem(props: RadioBoxItemProps) {
   return (
-    <RadioBoxItemContainer class={classNames(props.class, conditionalClass(props.selected, "selected"))}  gap={5} onClick={props.onClick}>
-      <RadioBoxItemCheckBox size={props.checkboxSize} class={classNames("radio-box-circle", conditionalClass(props.selected, "selected"))} classList={{selected: props.selected}} />
-      <Text class="label" size={props.labelSize}>{props.item.label}</Text>
+    <RadioBoxItemContainer
+      class={classNames(
+        props.class,
+        conditionalClass(props.selected, "selected")
+      )}
+      gap={5}
+      onClick={props.onClick}
+    >
+      <RadioBoxItemCheckBox
+        size={props.checkboxSize}
+        class={classNames(
+          "radio-box-circle",
+          conditionalClass(props.selected, "selected")
+        )}
+        classList={{ selected: props.selected }}
+      />
+      <Text class="label" size={props.labelSize}>
+        {props.item.label}
+      </Text>
     </RadioBoxItemContainer>
   );
 }
