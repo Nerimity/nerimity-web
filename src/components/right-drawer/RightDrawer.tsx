@@ -381,6 +381,7 @@ const BannerItem = (props: { hovered: boolean }) => {
   return (
     <Show when={bannerData()?.banner}>
       <Banner
+        resize={400}
         class={css`
           margin-left: 5px;
           margin-right: 5px;

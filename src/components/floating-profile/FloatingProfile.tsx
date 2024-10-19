@@ -304,6 +304,7 @@ const DesktopProfileFlyout = (props: {
     return (
       <Show when={user()}>
         <Banner
+          resize={900}
           maxHeight={200}
           margin={props.dmPane ? 6 : 0}
           animate={!props.dmPane ? true : hover()}
