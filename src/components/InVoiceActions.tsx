@@ -25,7 +25,7 @@ const DetailsContainer = styled(FlexColumn)`
 export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
   const { voiceUsers, channels, servers } = useStore();
 
-  const channelId = () => voiceUsers.currentVoiceChannelId();
+  const channelId = () => voiceUsers.currentUser()?.channelId;
 
   const channel = () => channels.get(channelId()!);
   const server = () => servers.get(channel()?.serverId!);

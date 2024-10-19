@@ -1,551 +1,533 @@
-import { batch, createSignal } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { RawVoice } from "../RawData";
-import useUsers, { User } from "./useUsers";
-import type SimplePeer from "@thaunknown/simple-peer";
-import useAccount from "./useAccount";
+import { batch, createEffect, createSignal } from "solid-js";
+import { getCachedCredentials } from "../services/VoiceService";
 import { emitVoiceSignal } from "../emits/voiceEmits";
-import useChannels from "./useChannels";
-import env from "@/common/env";
-import vad from "voice-activity-detection";
-import { getStorageString, StorageKeys } from "@/common/localStorage";
-import { postGenerateCredential } from "../services/VoiceService";
 
-interface VADInstance {
-  connect: () => void;
-  disconnect: () => void;
-  destroy: () => void;
-}
+import type SimplePeer from "@thaunknown/simple-peer";
+import useUsers, { User } from "./useUsers";
+import LazySimplePeer from "@/components/LazySimplePeer";
+import { getStorageString, StorageKeys } from "@/common/localStorage";
+import useAccount from "./useAccount";
+import { set } from "idb-keyval";
+import vad from "voice-activity-detection";
+
+const createIceServers = () => [
+  getCachedCredentials(),
+  {
+    urls: ["stun:stun.l.google.com:19302"],
+  },
+  {
+    urls: "stun:stun.relay.metered.ca:80",
+  },
+  {
+    urls: "turn:a.relay.metered.ca:80",
+    username: "b9fafdffb3c428131bd9ae10",
+    credential: "DTk2mXfXv4kJYPvD",
+  },
+  {
+    urls: "turn:a.relay.metered.ca:80?transport=tcp",
+    username: "b9fafdffb3c428131bd9ae10",
+    credential: "DTk2mXfXv4kJYPvD",
+  },
+  {
+    urls: "turn:a.relay.metered.ca:443",
+    username: "b9fafdffb3c428131bd9ae10",
+    credential: "DTk2mXfXv4kJYPvD",
+  },
+  {
+    urls: "turn:a.relay.metered.ca:443?transport=tcp",
+    username: "b9fafdffb3c428131bd9ae10",
+    credential: "DTk2mXfXv4kJYPvD",
+  },
+];
+
+type StreamWithTracks = {
+  stream: MediaStream;
+  tracks: MediaStreamTrack[];
+};
+
 export type VoiceUser = RawVoice & {
   user: () => User;
   peer?: SimplePeer.Instance;
-  addSignal(this: VoiceUser, signal: SimplePeer.SignalData): void;
-  addPeer(this: VoiceUser, signal: SimplePeer.SignalData): void;
-  audioStream?: MediaStream;
-  videoStream?: MediaStream;
-  vad?: VADInstance;
-  voiceActivity: boolean;
+  streamWithTracks?: StreamWithTracks[];
   audio?: HTMLAudioElement;
-
-  waitingForVideoStreamId?: string;
-  waitingForAudioStreamId?: string;
+  voiceActivity?: boolean;
+  vadInstance?: ReturnType<typeof vad>;
 };
+
+type ChannelUsersMap = Record<string, VoiceUser | undefined>;
+type VoiceUsersMap = Record<string, ChannelUsersMap>;
 
 // voiceUsers[channelId][userId] = VoiceUser
-const [voiceUsers, setVoiceUsers] = createStore<
-  Record<string, Record<string, VoiceUser | undefined>>
->({});
-const [currentVoiceChannelId, _setCurrentVoiceChannelId] = createSignal<
-  null | string
->(null);
+const [voiceUsers, setVoiceUsers] = createStore<VoiceUsersMap>({});
 
-interface LocalStreams {
+interface CurrentVoiceUser {
+  channelId: string;
   audioStream: MediaStream | null;
   videoStream: MediaStream | null;
-  vadStream: MediaStream | null;
-  vad: VADInstance | null;
+  vadInstance?: ReturnType<typeof vad>;
+  vadAudioStream?: MediaStream | null;
 }
-const [localStreams, setLocalStreams] = createStore<LocalStreams>({
-  audioStream: null,
-  videoStream: null,
-  vad: null,
-  vadStream: null,
-});
+const [currentVoiceUser, setCurrentVoiceUser] = createSignal<
+  CurrentVoiceUser | undefined
+>(undefined);
 
-const set = async (voiceUser: RawVoice) => {
-  const users = useUsers();
-  const account = useAccount();
-
-  if (!voiceUsers[voiceUser.channelId]) {
-    setVoiceUsers(voiceUser.channelId, {});
+const setCurrentChannelId = (channelId: string | null) => {
+  const current = currentVoiceUser();
+  if (current?.channelId) {
+    removeAllPeers(current?.channelId);
+    current.vadInstance?.destroy();
+    current.vadAudioStream?.getAudioTracks()[0]?.stop();
+    batch(() => {
+      getVoiceUsersByChannelId(current.channelId).forEach((voiceUser) => {
+        voiceUser.vadInstance?.destroy();
+        setVoiceUsers(current.channelId, voiceUser.userId, {
+          voiceActivity: false,
+          vadInstance: undefined,
+        });
+      });
+    });
   }
-
-  let peer: SimplePeer.Instance | undefined;
-
-  {
-    const isSelf = voiceUser.userId === account.user()?.id;
-    const isInVoice = currentVoiceChannelId() === voiceUser.channelId;
-
-    if (!isSelf && isInVoice) {
-      peer = await createPeer(voiceUser);
-    }
-
-    const user = users.get(voiceUser.userId);
-    user.setVoiceChannelId(voiceUser.channelId);
+  if (!channelId) {
+    setCurrentVoiceUser(undefined);
+    return;
   }
-
-  const newVoice: VoiceUser = {
-    ...voiceUser,
-    peer,
-    voiceActivity: false,
-    user,
-    addSignal,
-    addPeer,
-  };
-  console.log("test");
-
-  setVoiceUsers(voiceUser.channelId, voiceUser.userId, reconcile(newVoice));
+  setCurrentVoiceUser({
+    channelId,
+    audioStream: null,
+    videoStream: null,
+    vadAudioStream: null,
+    vadInstance: undefined,
+    micMuted: true,
+  });
 };
 
-function addSignal(this: VoiceUser, signal: SimplePeer.SignalData) {
-  this.peer?.signal(signal);
-}
+const activeRemoteStream = (userId: string, kind: "audio" | "video") => {
+  const current = currentVoiceUser();
+  if (!current) return;
+  const voiceUser = getVoiceUser(current.channelId, userId);
+  if (!voiceUser) return;
 
-async function addPeer(this: VoiceUser, signal: SimplePeer.SignalData) {
-  const user = this.user();
-  console.log(user.username, "peer added");
+  if (kind === "audio") {
+    return voiceUser.streamWithTracks?.find((stream) =>
+      stream.tracks.every((track) => track.kind === kind)
+    )?.stream;
+  } else {
+    return voiceUser.streamWithTracks?.find((stream) =>
+      stream.tracks.find((track) => track.kind === kind)
+    )?.stream;
+  }
+};
 
-  const { default: LazySimplePeer } = await import("@thaunknown/simple-peer");
-  const turnServer = await postGenerateCredential();
-
-  const peer = new LazySimplePeer({
-    initiator: false,
-    trickle: true,
-    config: {
-      iceServers: [
-        turnServer.result,
-        {
-          urls: ["stun:stun.l.google.com:19302"],
-        },
-        {
-          urls: "stun:stun.relay.metered.ca:80",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:80",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:80?transport=tcp",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:443",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:443?transport=tcp",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-      ],
-    },
-    streams: [localStreams.audioStream, localStreams.videoStream].filter(
-      (stream) => stream
-    ) as MediaStream[],
-  });
-
-  peer.on("signal", (signal) => {
-    emitVoiceSignal(this.channelId, this.userId, signal);
-  });
-
-  peer.on("stream", (stream) => {
-    console.log("stream");
-    onStream(this, stream);
-  });
-
-  peer.on("data", (chunk: Uint8Array) => {
-    onData(this, Uint8ArrayToJson(chunk));
-  });
-  peer.on("connect", () => {
-    console.log("connect");
-    if (localStreams.audioStream) {
-      sendStreamToPeer(localStreams.audioStream, "audio");
-    }
-    if (localStreams.videoStream) {
-      sendStreamToPeer(localStreams.videoStream, "video");
-    }
-  });
-  peer.on("end", () => {
-    console.log(user.username + " peer removed");
-  });
-  peer.on("error", (err) => {
-    console.log(err);
-  });
-  peer.signal(signal);
-
-  setVoiceUsers(this.channelId, this.userId, "peer", peer);
-}
-
-function user(this: VoiceUser) {
-  const users = useUsers();
-  return users.get(this.userId);
-}
-
-const removeUserInVoice = (channelId: string, userId: string) => {
-  const voiceUser = voiceUsers[channelId][userId];
+const removeAllPeers = (channelIdToRemove?: string) => {
   batch(() => {
-    voiceUser?.vad?.destroy();
-    voiceUser?.user().setVoiceChannelId(undefined);
-    voiceUser?.peer?.destroy();
+    for (const channelId in voiceUsers) {
+      for (const userId in voiceUsers[channelId]) {
+        const voiceUser = getVoiceUser(channelId, userId);
+        if (!voiceUser) continue;
+        if (channelIdToRemove && voiceUser?.channelId !== channelIdToRemove)
+          continue;
+        voiceUser.peer?.destroy();
+        voiceUser.vadInstance?.destroy();
+        voiceUser.audio?.remove();
+        setVoiceUsers(channelId, userId, "peer", undefined);
+        setVoiceUsers(channelId, userId, "streamWithTracks", []);
+      }
+    }
+  });
+};
+
+const getVoiceUsersByChannelId = (id: string) => {
+  return Object.values(voiceUsers[id] || {}) as VoiceUser[];
+};
+
+const getVoiceUser = (channelId?: string, userId?: string) => {
+  return voiceUsers[channelId!]?.[userId!];
+};
+const removeVoiceUser = (channelId: string, userId: string) => {
+  const voiceUser = getVoiceUser(channelId, userId);
+  if (!voiceUser) return;
+  batch(() => {
+    voiceUser?.vadInstance?.destroy();
+    voiceUser.peer?.destroy();
+    voiceUser.audio?.remove();
     setVoiceUsers(channelId, userId, undefined);
   });
 };
 
-const getVoiceUsers = (channelId: string): VoiceUser[] => {
-  const account = useAccount();
-  const selfUserId = account.user()?.id!;
-  return Object.values(voiceUsers[channelId] || {}).map((v) => {
-    if (v?.userId !== selfUserId) return v;
-    return {
-      ...v,
-      audioStream: localStreams.audioStream || undefined,
-      videoStream: localStreams.videoStream || undefined,
-    };
-  }) as VoiceUser[];
-};
-
-const getVoiceUser = (channelId: string, userId: string) => {
-  return voiceUsers[channelId]?.[userId];
-};
-
-export async function createPeer(voiceUser: VoiceUser | RawVoice) {
+const createVoiceUser = (rawVoice: RawVoice) => {
   const users = useUsers();
-  const user = users.get(voiceUser.userId);
-  console.log(user.username, "peer created");
 
-  const { default: LazySimplePeer } = await import("@thaunknown/simple-peer");
-  const turnServer = await postGenerateCredential();
+  if (!voiceUsers[rawVoice.channelId]) {
+    setVoiceUsers(rawVoice.channelId, {});
+  }
 
-  const peer = new LazySimplePeer({
-    initiator: true,
-    trickle: true,
-    config: {
-      iceServers: [
-        turnServer.result,
-        {
-          urls: ["stun:stun.l.google.com:19302"],
-        },
-        {
-          urls: "stun:stun.relay.metered.ca:80",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:80",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:80?transport=tcp",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:443",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-        {
-          urls: "turn:a.relay.metered.ca:443?transport=tcp",
-          username: "b9fafdffb3c428131bd9ae10",
-          credential: "DTk2mXfXv4kJYPvD",
-        },
-      ],
-    },
-    streams: [localStreams.audioStream, localStreams.videoStream].filter(
-      (stream) => stream
-    ) as MediaStream[],
-  });
+  {
+    const user = users.get(rawVoice.userId);
+    user?.setVoiceChannelId(rawVoice.channelId);
+  }
 
-  peer.on("signal", (signal) => {
-    emitVoiceSignal(voiceUser.channelId, voiceUser.userId, signal);
-  });
-
-  peer.on("stream", (stream) => {
-    console.log("stream");
-    onStream(voiceUser, stream);
-  });
-  peer.on("data", (chunk: Uint8Array) => {
-    onData(voiceUser, Uint8ArrayToJson(chunk));
-  });
-  peer.on("connect", () => {
-    console.log("connect");
-    // if (localStreams.audioStream) {
-    //   sendStreamToPeer(localStreams.audioStream, "audio");
-    // }
-    // if (localStreams.videoStream) {
-    //   sendStreamToPeer(localStreams.videoStream, "video");
-    // }
-  });
-  peer.on("end", () => {
-    console.log(user.username, "end");
-  });
-  peer.on("error", (err) => {
-    console.log(err);
-  });
-  return peer;
-}
-
-function setLocalVAD(stream: MediaStream) {
-  const account = useAccount();
-
-  const audioContext = new AudioContext();
-  const track = localStreams.audioStream?.getAudioTracks()[0]!;
-  const vadInstance = vad(audioContext, stream, {
-    minNoiseLevel: 0.15,
-    noiseCaptureDuration: 0,
-
-    onVoiceStart: function () {
-      setVoiceUsers(currentVoiceChannelId()!, account.user()?.id!, {
-        voiceActivity: true,
-      });
-      track.enabled = true;
-    },
-    onVoiceStop: function () {
-      setVoiceUsers(currentVoiceChannelId()!, account.user()?.id!, {
-        voiceActivity: false,
-      });
-      track.enabled = false;
-    },
-  });
-  setLocalStreams({ vad: vadInstance });
-}
-
-function setVAD(stream: MediaStream, voiceUser: RawVoice) {
-  const audioContext = new AudioContext();
-  const vadInstance = vad(audioContext, stream, {
-    minNoiseLevel: 0,
-
-    noiseCaptureDuration: 0,
-    avgNoiseMultiplier: 0.1,
-    onVoiceStart: function () {
-      setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
-        voiceActivity: true,
-      });
-    },
-    onVoiceStop: function () {
-      setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
-        voiceActivity: false,
-      });
-    },
-  });
-  setVoiceUsers(voiceUser.channelId, voiceUser.userId, { vad: vadInstance });
-}
-
-const onData = (
-  rawVoice: RawVoice,
-  data?: { type: "video" | "audio"; streamId: string }
-) => {
-  if (!data?.type || !data?.streamId) return;
-  const voiceUser = getVoiceUser(rawVoice.channelId, rawVoice.userId);
-  if (!voiceUser) return;
-
-  setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
-    ...(data.type === "audio"
-      ? { waitingForAudioStreamId: data.streamId }
-      : {}),
-    ...(data.type === "video"
-      ? { waitingForVideoStreamId: data.streamId }
-      : {}),
-  });
-};
-
-const onStream = (voiceUser: RawVoice, stream: MediaStream) => {
-  // const voiceUser = getVoiceUser(rawVoiceUser.channelId, rawVoiceUser.userId);
-  // if (!voiceUser) return;
-  // if (!voiceUser.waitingForAudioStreamId && !voiceUser.waitingForVideoStreamId) return;
-
-  // const streamType = voiceUser.waitingForAudioStreamId === stream.id ? "audioStream" : "videoStream";
-
-  const videoTracks = stream.getVideoTracks();
-  const streamType = videoTracks.length ? "videoStream" : "audioStream";
-
-  stream.onremovetrack = () => {
-    setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
-      [streamType]: null,
-      ...(streamType === "audioStream"
-        ? { audio: mic, voiceActivity: false }
-        : {}),
-    });
-    stream.onremovetrack = null;
+  const newVoiceUser: VoiceUser = {
+    ...rawVoice,
+    user,
+    streamWithTracks: [],
   };
 
-  let mic: HTMLAudioElement | undefined = undefined;
-  if (streamType === "audioStream") {
-    setVAD(stream, voiceUser);
-    mic = new Audio();
-    const deviceId = getStorageString(StorageKeys.outputDeviceId, undefined);
-    if (deviceId) {
-      mic.setSinkId(JSON.parse(deviceId));
-    }
-    mic.srcObject = stream;
-    mic.play();
+  setVoiceUsers(rawVoice.channelId, rawVoice.userId, newVoiceUser);
+
+  const isCurrentUserInVoice =
+    rawVoice.channelId === currentVoiceUser()?.channelId;
+  if (isCurrentUserInVoice) {
+    createPeer(newVoiceUser);
   }
-  setVoiceUsers(voiceUser.channelId, voiceUser.userId, {
-    [streamType]: stream,
-    ...(streamType === "audioStream" ? { audio: mic } : {}),
-  });
 };
 
-const isLocalMicMuted = () => localStreams.audioStream === null;
+function user(this: VoiceUser) {
+  const users = useUsers();
+  return users.get(this.userId)!;
+}
 
-const toggleMic = async () => {
-  const deviceId = getStorageString(StorageKeys.inputDeviceId, undefined);
-  if (isLocalMicMuted()) {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
-      video: false,
-    });
-    const vadStream = await navigator.mediaDevices.getUserMedia({
-      audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
-      video: false,
-    });
+const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
+  const initiator = !signal;
 
-    setLocalStreams({ audioStream: stream, vadStream });
-    setLocalVAD(vadStream);
-    sendStreamToPeer(stream, "audio");
+  const streams: MediaStream[] = [];
+  const current = currentVoiceUser();
+  if (current?.audioStream) {
+    streams.push(current.audioStream);
+  }
+  if (current?.videoStream) {
+    streams.push(current.videoStream);
+  }
+
+  const peer = new LazySimplePeer({
+    initiator,
+    trickle: true,
+    config: {
+      iceServers: createIceServers(),
+    },
+    streams,
+  });
+
+  setVoiceUsers(voiceUser.channelId, voiceUser.userId, "peer", peer);
+
+  peer.on("connect", () => {
+    console.log("RTC> Connected to", voiceUser.user().username + "!");
+  });
+  peer.on("end", () => {
+    console.log("RTC> Disconnected from", voiceUser.user().username + ".");
+  });
+  peer.on("close", () => {
+    console.log("RTC>", voiceUser.user().username, "disconnected.");
+  });
+  peer.on("error", (err) => {
+    console.error(err);
+  });
+  peer.on("signal", (data) => {
+    emitVoiceSignal(voiceUser.channelId, voiceUser.userId, data);
+  });
+
+  peer.on("track", (track, stream) => {
+    const channelId = voiceUser.channelId;
+    const userId = voiceUser.userId;
+
+    stream.onremovetrack = (event) => {
+      const newVoiceUser = getVoiceUser(channelId, userId);
+      const activeAudioStream = activeRemoteStream(userId, "audio");
+      if (activeAudioStream?.id === stream.id) {
+        newVoiceUser?.vadInstance?.destroy();
+        setVoiceUsers(channelId, userId, {
+          voiceActivity: false,
+          vadInstance: undefined,
+        });
+      }
+
+      const streams = newVoiceUser?.streamWithTracks;
+      if (!streams) return;
+      const streamWithTracksIndex = streams.findIndex(
+        (s) => s.stream?.id === stream?.id
+      );
+      const tracks = streams[streamWithTracksIndex]?.tracks;
+
+      const newTracks = tracks?.filter((t) => t.id !== event.track.id);
+      if (!newTracks?.length) {
+        const newStreamWithTracks = streams.filter(
+          (s) => s.stream?.id !== stream?.id
+        );
+        setVoiceUsers(
+          channelId,
+          userId,
+          "streamWithTracks",
+          newStreamWithTracks
+        );
+        return;
+      }
+
+      setVoiceUsers(
+        channelId,
+        userId,
+        "streamWithTracks",
+        streamWithTracksIndex,
+        "tracks",
+        newTracks
+      );
+    };
+
+    pushVoiceUserTrack(voiceUser, track, stream);
+
+    const newVoiceUser = getVoiceUser(channelId, userId);
+
+    const streams = newVoiceUser?.streamWithTracks;
+    if (!streams) return;
+
+    const audio = newVoiceUser.audio || new Audio();
+    const deviceId = getStorageString(StorageKeys.outputDeviceId, undefined);
+    if (deviceId) {
+      audio.setSinkId(JSON.parse(deviceId));
+    }
+    const activeAudio = activeRemoteStream(userId, "audio");
+
+    newVoiceUser.vadInstance?.destroy();
+
+    const vadInstance = createVadInstance(activeAudio, undefined, userId);
+    batch(() => {
+      setVoiceUsers(channelId, userId, "vadInstance", vadInstance);
+
+      audio.srcObject = activeAudio || null;
+      audio.play();
+      if (!audio.srcObject) {
+        setVoiceUsers(channelId, userId, "audio", undefined);
+      }
+      setVoiceUsers(channelId, userId, "audio", audio);
+    });
+  });
+
+  if (signal) {
+    peer.signal(signal);
+  }
+};
+
+function createVadInstance(
+  vadStream?: MediaStream,
+  originalStream?: MediaStream,
+  userId?: string
+) {
+  if (!vadStream) return;
+  const account = useAccount();
+
+  const originalStreamTrack = originalStream?.getAudioTracks()[0];
+
+  const current = currentVoiceUser();
+  if (!current) return;
+  const audioContext = new AudioContext();
+  const vadInstance = vad(audioContext, vadStream, {
+    ...(!userId
+      ? {
+          minNoiseLevel: 0.15,
+          noiseCaptureDuration: 0,
+        }
+      : {
+          minNoiseLevel: 0,
+          noiseCaptureDuration: 0,
+          avgNoiseMultiplier: 0.1,
+        }),
+
+    onVoiceStart: function () {
+      setVoiceUsers(current.channelId, userId || account.user()?.id!, {
+        voiceActivity: true,
+      });
+      if (originalStreamTrack) {
+        originalStreamTrack.enabled = true;
+      }
+    },
+    onVoiceStop: function () {
+      setVoiceUsers(current.channelId, userId || account.user()?.id!, {
+        voiceActivity: false,
+      });
+      if (originalStreamTrack) {
+        originalStreamTrack.enabled = false;
+      }
+    },
+  });
+
+  return vadInstance;
+}
+
+const pushVoiceUserTrack = (
+  voiceUser: VoiceUser,
+  track: MediaStreamTrack,
+  stream: MediaStream
+) => {
+  const channelId = voiceUser.channelId;
+  const userId = voiceUser.userId;
+
+  const newVoiceUser = getVoiceUser(channelId, userId);
+
+  const streams = newVoiceUser?.streamWithTracks;
+  if (!streams) return;
+
+  const streamWithTracksIndex = streams.findIndex(
+    (s) => s.stream.id === stream.id
+  );
+  const streamWithTracks = streams[streamWithTracksIndex];
+
+  if (streamWithTracks && streamWithTracksIndex >= 0) {
+    setVoiceUsers(
+      channelId,
+      userId,
+      "streamWithTracks",
+      streamWithTracksIndex,
+      {
+        tracks: [...streamWithTracks.tracks, track],
+      }
+    );
     return;
   }
-  const account = useAccount();
-  localStreams.vadStream?.getAudioTracks()[0].stop();
-  localStreams.vad?.destroy();
-  stopStream(localStreams.audioStream!);
-  setLocalStreams({ audioStream: null });
-  setVoiceUsers(currentVoiceChannelId()!, account.user()?.id!, {
-    voiceActivity: false,
+
+  setVoiceUsers(channelId, userId, "streamWithTracks", streams.length, {
+    stream,
+    tracks: [track],
+  });
+};
+const toggleMic = async () => {
+  const userId = useAccount().user()?.id!;
+  const current = currentVoiceUser();
+  if (!current) return;
+
+  if (current.audioStream) {
+    current.vadInstance?.destroy();
+
+    current.vadAudioStream?.getTracks().forEach((track) => {
+      track.stop();
+    });
+    removeStream(current.audioStream);
+    setCurrentVoiceUser({ ...current, audioStream: null });
+    setVoiceUsers(current.channelId, userId, {
+      voiceActivity: false,
+    });
+
+    return;
+  }
+  const deviceId = getStorageString(StorageKeys.inputDeviceId, undefined);
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
+    video: false,
+  });
+  const vadStream = await navigator.mediaDevices.getUserMedia({
+    audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
+    video: false,
+  });
+  addStreamToPeers(stream);
+  const vadInstance = createVadInstance(vadStream, stream);
+  setCurrentVoiceUser({
+    ...current,
+    audioStream: stream,
+    vadInstance,
+    vadAudioStream: vadStream,
   });
 };
 
 const setVideoStream = (stream: MediaStream | null) => {
-  if (localStreams.videoStream) {
-    localStreams.videoStream.getTracks().forEach((t) => t.stop());
-    removeStreamFromPeer(localStreams.videoStream);
+  const current = currentVoiceUser();
+  if (!current) return;
+  if (current.videoStream) {
+    removeStream(current.videoStream);
   }
-  setLocalStreams({ videoStream: stream });
+  setCurrentVoiceUser({ ...current, videoStream: stream });
 
   if (!stream) return;
 
-  sendStreamToPeer(stream, "video");
+  addStreamToPeers(stream);
 
-  const videoTrack = stream.getVideoTracks()[0];
+  const videoTrack = stream.getVideoTracks()[0]!;
 
   videoTrack.onended = () => {
-    stopStream(stream);
-    setLocalStreams({ videoStream: null });
+    removeStream(stream);
+    setCurrentVoiceUser({ ...current, videoStream: null });
     videoTrack.onended = null;
   };
 };
 
-const micEnabled = (channelId: string, userId: string) => {
-  const account = useAccount();
-  if (account.user()?.id === userId) {
-    return !!localStreams.audioStream;
-  }
-  return !!voiceUsers[channelId][userId]?.audioStream;
-};
-const videoEnabled = (channelId: string, userId: string) => {
-  const account = useAccount();
-  if (account.user()?.id === userId) {
-    return !!localStreams.videoStream;
-  }
-  return !!voiceUsers[channelId][userId]?.videoStream;
-};
-
-const sendStreamToPeer = (stream: MediaStream, type: "audio" | "video") => {
-  console.log("sending stream...");
-
-  const voiceUsers = getVoiceUsers(currentVoiceChannelId()!);
-  for (let i = 0; i < voiceUsers.length; i++) {
-    const voiceUser = voiceUsers[i];
-    // voiceUser?.peer?.write(
-    //   jsonToUint8Array({
-    //     type,
-    //     streamId: stream.id,
-    //   })
-    // );
-    voiceUser?.peer?.addStream(stream);
-  }
-};
-const removeStreamFromPeer = (stream: MediaStream) => {
-  console.log("removing stream...");
-  const voiceUsers = getVoiceUsers(currentVoiceChannelId()!);
-  for (let i = 0; i < voiceUsers.length; i++) {
-    const voiceUser = voiceUsers[i];
-    voiceUser?.peer?.removeStream(stream);
-  }
-};
-
-const stopStream = (mediaStream: MediaStream) => {
-  removeStreamFromPeer(mediaStream);
-  mediaStream.getTracks().forEach((track) => track.stop());
-};
-
-const setCurrentVoiceChannelId = (channelId: string | null) => {
-  const channels = useChannels();
-
-  const oldChannelId = currentVoiceChannelId();
-  if (oldChannelId) {
-    const channel = channels.get(oldChannelId);
-    channel?.setCallJoinedAt(undefined);
-  }
-
-  const channel = channels.get(channelId!);
-  channel?.setCallJoinedAt(Date.now());
-
-  const voiceUsers = getVoiceUsers(currentVoiceChannelId()!);
-  _setCurrentVoiceChannelId(channelId);
-
-  localStreams.videoStream && stopStream(localStreams.videoStream);
-  if (localStreams.audioStream) {
-    localStreams.vadStream?.getAudioTracks()[0].stop();
-    localStreams.vad?.destroy();
-    stopStream(localStreams.audioStream);
-  }
-
-  setLocalStreams({ videoStream: null, audioStream: null });
-  if (!voiceUsers) return;
-
-  batch(() => {
-    voiceUsers.forEach((voiceUser) => {
-      voiceUser?.peer?.destroy();
-      voiceUser?.vad?.destroy();
-      setVoiceUsers(voiceUser?.channelId!, voiceUser?.userId!, {
-        peer: undefined,
-        audioStream: undefined,
-        videoStream: undefined,
-        vad: undefined,
-        voiceActivity: false,
-      });
-    });
+const removeStream = (stream: MediaStream) => {
+  removeStreamFromPeers(stream);
+  stream.getTracks().forEach((track) => {
+    track.stop();
   });
+};
+
+const addStreamToPeers = (stream: MediaStream) => {
+  const current = currentVoiceUser();
+  if (!current) return;
+  const voiceUsers = getVoiceUsersByChannelId(current.channelId);
+
+  voiceUsers.forEach((voiceUser) => {
+    voiceUser.peer?.addStream(stream);
+  });
+};
+
+const removeStreamFromPeers = (stream: MediaStream) => {
+  const current = currentVoiceUser();
+  if (!current) return;
+  const voiceUsers = getVoiceUsersByChannelId(current.channelId);
+
+  voiceUsers.forEach((voiceUser) => {
+    voiceUser.peer?.removeStream(stream);
+  });
+};
+
+const signal = (voiceUser: VoiceUser, signal: SimplePeer.SignalData) => {
+  if (!voiceUser.peer) {
+    console.error("No peer for voice user", voiceUser);
+    return;
+  }
+
+  voiceUser.peer.signal(signal);
 };
 
 function resetAll() {
   batch(() => {
-    if (currentVoiceChannelId()) {
-      setCurrentVoiceChannelId(null);
-    }
+    removeAllPeers();
+    setCurrentVoiceUser(undefined);
     setVoiceUsers(reconcile({}));
   });
 }
 
+const micEnabled = (userId: string) => {
+  const account = useAccount();
+  if (account.user()?.id === userId) {
+    const currentUser = currentVoiceUser();
+    return !!currentUser?.audioStream;
+  }
+  return activeRemoteStream(userId, "audio");
+};
+
+const videoEnabled = (userId: string) => {
+  const account = useAccount();
+  if (account.user()?.id === userId) {
+    const currentUser = currentVoiceUser();
+    return currentUser?.videoStream;
+  }
+  return activeRemoteStream(userId, "video");
+};
+
 export default function useVoiceUsers() {
   return {
-    set,
+    createPeer,
+    createVoiceUser,
     getVoiceUser,
-    getVoiceUsers,
-    removeUserInVoice,
-    currentVoiceChannelId,
-    setCurrentVoiceChannelId,
-    isLocalMicMuted,
-    micEnabled,
+    getVoiceUsersByChannelId,
+    signal,
+    removeVoiceUser,
+    setCurrentChannelId,
+    currentUser: currentVoiceUser,
+    activeRemoteStream,
     videoEnabled,
     toggleMic,
     setVideoStream,
     resetAll,
-    localStreams,
+
+    isLocalMicMuted: () => !currentVoiceUser()?.audioStream,
+
+    micEnabled,
   };
-}
-
-function jsonToUint8Array<T extends object>(json: T) {
-  return new TextEncoder().encode(JSON.stringify(json));
-}
-
-function Uint8ArrayToJson(array: Uint8Array) {
-  try {
-    return JSON.parse(new TextDecoder().decode(array));
-  } catch {
-    return null;
-  }
 }

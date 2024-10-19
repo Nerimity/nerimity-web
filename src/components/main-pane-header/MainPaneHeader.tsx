@@ -86,7 +86,7 @@ export default function MainPaneHeader() {
   };
 
   const onCallClick = async () => {
-    if (voiceUsers.currentVoiceChannelId() === channel()?.id) return;
+    if (voiceUsers.currentUser()?.channelId === channel()?.id) return;
     channel()?.joinCall();
   };
 
@@ -115,9 +115,7 @@ export default function MainPaneHeader() {
       .array()
       .filter((friend) => friend.status === FriendStatus.PENDING).length;
 
-    const ticketNotifications =
-      tickets.hasModerationTicketNotification() ||
-      tickets.hasTicketNotification();
+    const ticketNotifications = tickets.hasTicketNotification();
 
     const mentionsCount = mentions.array().reduce((count, mention) => {
       return count + (mention?.count || 0);
@@ -307,9 +305,9 @@ function VoiceHeader(props: { channelId?: string }) {
 
   const [selectedUserId, setSelectedUserId] = createSignal<null | string>(null);
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!);
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsersByChannelId(props.channelId!);
   const videoStreamingUsers = () =>
-    channelVoiceUsers().filter((v) => v.videoStream);
+    channelVoiceUsers().filter((v) => voiceUsers.videoEnabled(v.userId));
 
   createEffect(
     on(videoStreamingUsers, (now, prev) => {
@@ -326,8 +324,10 @@ function VoiceHeader(props: { channelId?: string }) {
   };
 
   const isSomeoneVideoStreaming = () =>
-    voiceUsers.videoEnabled(props.channelId!, account.user()?.id!) ||
-    channelVoiceUsers().find((v) => v?.videoStream);
+    channelVoiceUsers().find((v) => voiceUsers.videoEnabled(v.userId));
+
+
+
 
   return (
     <Show when={channelVoiceUsers().length}>
@@ -348,7 +348,7 @@ function VoiceHeader(props: { channelId?: string }) {
             />
             <Show when={isSomeoneVideoStreaming()}>
               <VideoStream
-                mediaStream={selectedVoiceUser()?.videoStream!}
+                mediaStream={voiceUsers.videoEnabled(selectedVoiceUser()?.userId!)!}
                 mute={selectedVoiceUser()?.userId === account.user()?.id}
               />
             </Show>
@@ -420,7 +420,7 @@ function VoiceParticipants(props: {
 }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsers(props.channelId!);
+  const channelVoiceUsers = () => voiceUsers.getVoiceUsersByChannelId(props.channelId!);
 
   return (
     <div class={styles.voiceParticipants}>
@@ -453,16 +453,15 @@ function VoiceParticipantItem(props: {
 
   const isMuted = () => {
     return !voiceUsers.micEnabled(
-      props.voiceUser.channelId,
       props.voiceUser.userId
     );
   };
 
   const isVideoStreaming = () =>
-    voiceUsers.videoEnabled(props.voiceUser.channelId, props.voiceUser.userId);
+    voiceUsers.videoEnabled(props.voiceUser.userId);
 
   const isInCall = () =>
-    voiceUsers.currentVoiceChannelId() === props.voiceUser.channelId;
+    voiceUsers.currentUser()?.channelId === props.voiceUser.channelId;
   const talking = () => props.voiceUser.voiceActivity;
   const user = () => props.voiceUser.user()!;
 
@@ -522,6 +521,8 @@ function VoiceActions(props: { channelId: string }) {
   const { createPortal } = useCustomPortal();
   const { isMobileAgent } = useWindowProperties();
 
+  const currentVoiceUser = () =>  voiceUsers.currentUser();
+
   const channel = () => channels.get(props.channelId);
 
   const onCallClick = async () => {
@@ -532,7 +533,7 @@ function VoiceActions(props: { channelId: string }) {
     channel()?.leaveCall();
   };
 
-  const isInCall = () => voiceUsers.currentVoiceChannelId() === props.channelId;
+  const isInCall = () => voiceUsers.currentUser()?.channelId === props.channelId;
 
   const onScreenShareClick = () => {
     createPortal((close) => <ScreenShareModal close={close} />);
@@ -571,13 +572,13 @@ function VoiceActions(props: { channelId: string }) {
         />
       </Show>
       <Show when={isInCall()}>
-        <Show when={!voiceUsers.localStreams.videoStream && !isMobileAgent()}>
+        <Show when={!currentVoiceUser()?.videoStream && !isMobileAgent()}>
           <Button iconName="monitor" onClick={onScreenShareClick} />
         </Show>
-        <Show when={!voiceUsers.localStreams.videoStream && !isMobileAgent()}>
+        <Show when={!currentVoiceUser()?.videoStream && !isMobileAgent()}>
           <Button iconName="videocam" onClick={onWebCamClick} />
         </Show>
-        <Show when={voiceUsers.localStreams.videoStream}>
+        <Show when={currentVoiceUser()?.videoStream}>
           <Button
             iconName="desktop_access_disabled"
             onClick={onStopScreenShareClick}
