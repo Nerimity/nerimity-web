@@ -1,16 +1,23 @@
 import { createStore, reconcile } from "solid-js/store";
 import { RawVoice } from "../RawData";
-import { batch, createEffect, createSignal } from "solid-js";
+import { batch, createEffect, createMemo, createSignal, on } from "solid-js";
 import { getCachedCredentials } from "../services/VoiceService";
 import { emitVoiceSignal } from "../emits/voiceEmits";
 
 import type SimplePeer from "@thaunknown/simple-peer";
 import useUsers, { User } from "./useUsers";
 import LazySimplePeer from "@/components/LazySimplePeer";
-import { getStorageString, StorageKeys } from "@/common/localStorage";
+import {
+  getStorageObject,
+  getStorageString,
+  StorageKeys,
+  useVoiceInputMode,
+} from "@/common/localStorage";
 import useAccount from "./useAccount";
 import { set } from "idb-keyval";
 import vad from "voice-activity-detection";
+import { downKeys, useGlobalKey } from "@/common/GlobalKey";
+import { arrayEquals } from "@/common/arrayEquals";
 
 const createIceServers = () => [
   getCachedCredentials(),
@@ -72,6 +79,49 @@ interface CurrentVoiceUser {
 const [currentVoiceUser, setCurrentVoiceUser] = createSignal<
   CurrentVoiceUser | undefined
 >(undefined);
+
+const { start, stop } = useGlobalKey();
+const [voiceMode] = useVoiceInputMode();
+
+createEffect(
+  on(currentVoiceUser, (current) => {
+    stop();
+    if (!current?.channelId) return;
+    if (voiceMode() !== "PTT") return;
+    start();
+  })
+);
+
+const micTrack = createMemo(() => {
+  const current = currentVoiceUser();
+  return current?.audioStream?.getAudioTracks()[0];
+});
+
+createEffect(
+  on(
+    () => downKeys.length,
+    () => {
+      const bound = getStorageObject(StorageKeys.PTTBoundKeys, []);
+      if (!bound.length) return;
+      const mic = micTrack();
+      if (!mic) return;
+      const current = currentVoiceUser();
+      if (!current) return;
+
+      if (!arrayEquals(downKeys, bound)) {
+        mic.enabled = false;
+        setVoiceUsers(current.channelId, useAccount().user()?.id!, {
+          voiceActivity: false,
+        });
+        return;
+      }
+      mic.enabled = true;
+      setVoiceUsers(current.channelId, useAccount().user()?.id!, {
+        voiceActivity: true,
+      });
+    }
+  )
+);
 
 const setCurrentChannelId = (channelId: string | null) => {
   const current = currentVoiceUser();
@@ -328,8 +378,10 @@ function createVadInstance(
         }
       : {
           minNoiseLevel: 0,
-          noiseCaptureDuration: 0,
+          noiseCaptureDuration: 100,
           avgNoiseMultiplier: 0.1,
+          maxNoiseLevel: 0.01,
+          onUpdate: console.log,
         }),
 
     onVoiceStart: function () {
@@ -413,12 +465,30 @@ const toggleMic = async () => {
     audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
     video: false,
   });
-  const vadStream = await navigator.mediaDevices.getUserMedia({
-    audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
-    video: false,
-  });
+
+  let vadStream: MediaStream | undefined;
+  let vadInstance: ReturnType<typeof vad> | undefined;
+
+  if (voiceMode() === "OPEN") {
+    setVoiceUsers(current.channelId, useAccount().user()?.id!, {
+      voiceActivity: true,
+    });
+  }
+
+  if (voiceMode() !== "OPEN") {
+    stream.getAudioTracks()[0]!.enabled = false;
+  }
+
+  if (voiceMode() === "VOICE_ACTIVITY") {
+    vadStream = await navigator.mediaDevices.getUserMedia({
+      audio: !deviceId ? true : { deviceId: JSON.parse(deviceId) },
+      video: false,
+    });
+    vadInstance = createVadInstance(vadStream, stream);
+  }
+
   addStreamToPeers(stream);
-  const vadInstance = createVadInstance(vadStream, stream);
+
   setCurrentVoiceUser({
     ...current,
     audioStream: stream,
