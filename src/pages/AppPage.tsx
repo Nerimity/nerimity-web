@@ -44,15 +44,12 @@ import { useReactNativeEvent } from "@/common/ReactNative";
 import { registerFCM } from "@/chat-api/services/UserService";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import MobileBottomPane from "@/components/ui/MobileBottomPane";
-import { MetaTitle } from "@/common/MetaTitle";
 import { QuickTravel } from "@/components/QuickTravel";
-import { useExperiment } from "@/common/experiments";
 import { applyCustomCss } from "@/common/customCss";
 import {
   CustomScrollbar,
   CustomScrollbarProvider,
 } from "@/components/custom-scrollbar/CustomScrollbar";
-import { createFilter } from "vite";
 
 const mobileMainPaneStyles = css`
   height: 100%;
