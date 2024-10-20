@@ -55,12 +55,10 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   setMarginBottom(props.marginBottom || 0);
   setMarginTop(props.marginTop || 0);
 
-  const { height, width } = useResizeObserver(() => props.scrollElement!);
+  const scrollElement = () => props.scrollElement;
+  const { height, width } = useResizeObserver(scrollElement);
   const [thumbHeight, setThumbHeight] = createSignal(0);
   const [thumbTop, setThumbTop] = createSignal(0);
-  const [scrollbarHeight, setScrollbarHeight] = createSignal(0);
-
-  const scrollElement = () => props.scrollElement;
 
   createEffect(
     on(scrollElement, (el) => {
@@ -70,13 +68,13 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   );
 
   const calculateThumbHeight = () => {
-    if (!props.scrollElement) return;
+    if (!scrollElement()) return;
     if (!scrollBarEl) return;
 
     const scrollbarHeight = scrollBarEl.clientHeight;
 
     const thumbHeightRatio =
-      scrollbarHeight * (height() / props.scrollElement.scrollHeight);
+      scrollbarHeight * (height() / scrollElement()!.scrollHeight);
 
     if (thumbHeightRatio < 15) return 15;
 
@@ -84,18 +82,18 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   };
 
   function calculateThumbTopPosition() {
-    if (!props.scrollElement) return;
+    if (!scrollElement()) return;
     if (!scrollBarEl) return;
 
-    const viewportHeight = props.scrollElement.clientHeight;
-    const contentHeight = props.scrollElement.scrollHeight;
+    const viewportHeight = scrollElement()!.clientHeight;
+    const contentHeight = scrollElement()!.scrollHeight;
     const scrollbarHeight = scrollBarEl.clientHeight;
 
     const scrollableDistance = contentHeight - viewportHeight;
 
     const thumbHeight = (viewportHeight / contentHeight) * scrollbarHeight;
 
-    const scrollPosition = props.scrollElement.scrollTop;
+    const scrollPosition = scrollElement()!.scrollTop;
     const thumbTopPosition =
       (scrollPosition / scrollableDistance) * (scrollbarHeight - thumbHeight);
 
@@ -105,15 +103,15 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   const update = () => {
     setThumbHeight(calculateThumbHeight() || 0);
     setThumbTop(calculateThumbTopPosition() || 0);
-    setScrollbarHeight(scrollBarEl?.scrollHeight || 0);
-    setIsVisible(thumbHeight() !== scrollbarHeight());
+
+    setIsVisible(scrollElement()!.scrollHeight > scrollElement()!.clientHeight);
   };
 
   const onDomChange = () => {
     update();
   };
 
-  useMutationObserver(() => props.scrollElement!, onDomChange);
+  useMutationObserver(scrollElement!, onDomChange);
 
   const dimensions = [width, height];
   createEffect(on(dimensions, update));
@@ -124,7 +122,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
 
   const onMouseDown = (e: MouseEvent) => {
     e.preventDefault();
-    if (!props.scrollElement) return;
+    if (!scrollElement()) return;
     if (!scrollBarEl) return;
     if (!thumbEl) return;
 
@@ -136,7 +134,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   };
 
   const onMouseMove = (e: MouseEvent) => {
-    if (!props.scrollElement) return;
+    if (!scrollElement()) return;
     if (!thumbEl) return;
     if (!scrollBarEl) return;
 
@@ -145,12 +143,12 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
     const thumbHeight = thumbEl.clientHeight;
 
     const scrollableDistance =
-      props.scrollElement.scrollHeight - props.scrollElement.clientHeight;
+      scrollElement()!.scrollHeight - scrollElement()!.clientHeight;
 
     const scrollPosition =
       (top / (scrollBarEl.clientHeight - thumbHeight)) * scrollableDistance;
 
-    props.scrollElement.scrollTop = scrollPosition;
+    scrollElement()!.scrollTop = scrollPosition;
 
     // thumbEl.style.top = `${top}px`;
   };

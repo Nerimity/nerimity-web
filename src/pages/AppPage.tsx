@@ -49,6 +49,7 @@ import { applyCustomCss } from "@/common/customCss";
 import {
   CustomScrollbar,
   CustomScrollbarProvider,
+  useCustomScrollbar,
 } from "@/components/custom-scrollbar/CustomScrollbar";
 
 const mobileMainPaneStyles = css`
@@ -83,6 +84,16 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   ${(props) => (props.hasRightDrawer ? "margin-right: 0;" : "")}
   background: var(--pane-color);
 
+  &[data-is-mobile-agent="false"] {
+    &:-webkit-scrollbar {
+      display: none;
+    }
+
+    scrollbar-width: none; /* Firefox */
+  }
+`;
+
+const LeftDrawerContainer = styled("div")`
   &[data-is-mobile-agent="false"] {
     &:-webkit-scrollbar {
       display: none;
@@ -199,11 +210,46 @@ export default function AppPage() {
   return (
     <DrawerLayout
       Content={() => <MainPane />}
-      LeftDrawer={() => <Outlet name="leftDrawer" />}
+      LeftDrawer={() => (
+        <CustomScrollbarProvider>
+          <LeftDrawer />
+        </CustomScrollbarProvider>
+      )}
       RightDrawer={() => <Outlet name="rightDrawer" />}
     >
       <MobileBottomPane />
     </DrawerLayout>
+  );
+}
+
+function LeftDrawer() {
+  const { isMobileAgent, isMobileWidth } = useWindowProperties();
+  const [scrollEl, setScrollEl] = createSignal<HTMLDivElement | undefined>();
+  return (
+    <LeftDrawerContainer
+      data-is-mobile-agent={isMobileAgent()}
+      ref={setScrollEl}
+      style={{
+        display: "flex",
+        "flex-direction": "column",
+        gap: "4px",
+        overflow: "auto",
+        height: "100%",
+      }}
+    >
+      <Outlet name="leftDrawer" />
+      <Show when={!isMobileAgent()}>
+        <CustomScrollbar
+          scrollElement={scrollEl()}
+          class={css`
+            position: absolute;
+            right: 2px;
+            top: ${isMobileWidth() ? "50px" : "50px"};
+            bottom: ${isMobileWidth() ? "58px" : "6px"};
+          `}
+        />
+      </Show>
+    </LeftDrawerContainer>
   );
 }
 
