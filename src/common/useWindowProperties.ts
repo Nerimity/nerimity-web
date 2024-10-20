@@ -26,8 +26,7 @@ function setPaneWidth(val: number) {
   setWindowProperties({ paneWidth: val });
 }
 
-const isMobileAgent = () =>
-  /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const isMobileAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 const isFirefox = navigator.userAgent.includes("Firefox");
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 const isChrome = /^((?!chrome|android).)*chrome/i.test(navigator.userAgent);
@@ -57,7 +56,7 @@ export function useWindowProperties() {
     isMobileWidth: () => windowProperties.width <= env.MOBILE_WIDTH,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
-    isMobileAgent,
+    isMobileAgent: () => isMobileAgent,
     isSafari,
     paneBackgroundColor,
     setPaneBackgroundColor,

@@ -32,6 +32,7 @@ import { Skeleton } from "./ui/skeleton/Skeleton";
 import { t } from "i18next";
 import { MetaTitle } from "@/common/MetaTitle";
 import { MentionUser } from "./markup/MentionUser";
+import { useCustomScrollbar } from "./custom-scrollbar/CustomScrollbar";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -74,6 +75,7 @@ const SidebarItemContainer = styled(ItemContainer)`
 
 export default function DashboardPane() {
   const { header, account } = useStore();
+  const { isVisible } = useCustomScrollbar();
   createEffect(() => {
     header.updateHeader({
       title: t("dashboard.title"),
@@ -81,7 +83,9 @@ export default function DashboardPane() {
     });
   });
   return (
-    <DashboardPaneContainer>
+    <DashboardPaneContainer
+      style={isVisible() ? { "margin-right": "6px" } : {}}
+    >
       <MetaTitle>Dashboard</MetaTitle>
       <DashboardPaneContent gap={10}>
         <Show when={account.user()}>

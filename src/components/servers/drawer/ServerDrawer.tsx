@@ -33,29 +33,32 @@ import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 import Button from "@/components/ui/Button";
 import { ChannelIcon } from "@/components/ChannelIcon";
+import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
   const store = useStore();
+  const { isVisible } = useCustomScrollbar();
+
   const server = () => store.servers.get(params.serverId);
   return (
-    <div class={styles.serverDrawer}>
-      <div
-        style={{
-          display: "flex",
-          "flex-direction": "column",
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <Header />
-        <Show when={server()?._count?.welcomeQuestions}>
-          <CustomizeItem />
-        </Show>
-        <ChannelList />
+    <>
+      <Header />
+      <div class={styles.serverDrawer} data-scrollbar-visible={isVisible()}>
+        <div
+          style={{
+            display: "flex",
+            "flex-direction": "column",
+          }}
+        >
+          <Show when={server()?._count?.welcomeQuestions}>
+            <CustomizeItem />
+          </Show>
+          <ChannelList />
+          <InVoiceActions />
+        </div>
       </div>
-      <InVoiceActions />
-    </div>
+    </>
   );
 };
 
@@ -115,8 +118,7 @@ const ChannelList = () => {
 
       if (selectedChannelIndex() < channelsWithoutCategory().length - 1) {
         newIndex = selectedChannelIndex() + 1;
-      }
- else {
+      } else {
         newIndex = 0;
       }
       navigate(
@@ -132,8 +134,7 @@ const ChannelList = () => {
 
       if (selectedChannelIndex() > 0) {
         newIndex = selectedChannelIndex() - 1;
-      }
- else {
+      } else {
         newIndex = channelsWithoutCategory().length - 1;
       }
       navigate(
@@ -437,7 +438,8 @@ const ChannelVoiceUsersTitle = styled(Text)`
 function ChannelItemVoiceUsers(props: { channelId: string }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsersByChannelId(props.channelId);
+  const channelVoiceUsers = () =>
+    voiceUsers.getVoiceUsersByChannelId(props.channelId);
 
   return (
     <Show when={channelVoiceUsers().length}>

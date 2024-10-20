@@ -20,9 +20,13 @@ import { t } from "i18next";
 import InVoiceActions from "../InVoiceActions";
 import { ShowExperiment } from "@/common/experiments";
 import { logout } from "@/common/logout";
+import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
+  &[data-scrollbar-visible="true"] {
+    margin-right: 8px;
+  }
 `;
 
 const SettingsListContainer = styled("div")`
@@ -30,7 +34,6 @@ const SettingsListContainer = styled("div")`
   flex-direction: column;
   gap: 2px;
   flex: 1;
-  overflow: auto;
 `;
 
 const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
@@ -56,7 +59,11 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
 `;
 
 const FooterContainer = styled(FlexColumn)`
-  margin-bottom: 2px;
+  padding-bottom: 2px;
+  margin-top: 8px;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--pane-color);
 `;
 
 function Footer() {
@@ -99,11 +106,16 @@ function Footer() {
 }
 
 export default function SettingsDrawer() {
+  const { isVisible } = useCustomScrollbar();
+
   return (
-    <DrawerContainer>
-      <SettingsList />
-      <Footer />
-    </DrawerContainer>
+    <>
+      <DrawerHeader text={t("settings.drawer.title")} />
+      <DrawerContainer data-scrollbar-visible={isVisible()}>
+        <SettingsList />
+        <Footer />
+      </DrawerContainer>
+    </>
   );
 }
 
@@ -112,7 +124,6 @@ function SettingsList() {
   const [t] = useTransContext();
   return (
     <SettingsListContainer>
-      <DrawerHeader text={t("settings.drawer.title")} />
       <For each={settings.filter((setting) => !setting.hide)}>
         {(setting) => (
           <ShowExperiment id={setting.experimentId}>

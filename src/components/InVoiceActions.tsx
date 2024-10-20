@@ -9,18 +9,20 @@ import { CustomLink } from "./ui/CustomLink";
 import { timeElapsed } from "@/common/date";
 import Button from "./ui/Button";
 
-
 const InVoiceActionsContainer = styled(FlexRow)`
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgb(15, 15, 15);
   margin: 5px;
+  margin-bottom: 0;
   border-radius: 8px;
   height: 50px;
   flex-shrink: 0;
   align-items: center;
-`;
-const DetailsContainer = styled(FlexColumn)`
 
+  position: sticky;
+  bottom: 5px;
+  z-index: 11111111;
 `;
+const DetailsContainer = styled(FlexColumn)``;
 
 export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
   const { voiceUsers, channels, servers } = useStore();
@@ -36,17 +38,23 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
   };
 
   const href = () => {
-    if (!server())
-      return RouterEndpoints.INBOX_MESSAGES(channel()?.id!);
+    if (!server()) return RouterEndpoints.INBOX_MESSAGES(channel()?.id!);
     return RouterEndpoints.SERVER_MESSAGES(server()?.id!, channel()?.id!);
   };
 
   return (
     <Show when={channelId()}>
       <InVoiceActionsContainer style={props?.style}>
-        <Icon name="call" color="var(--success-color)" size={18} style={{ padding: "10px", "padding-right": "5px" }} />
+        <Icon
+          name="call"
+          color="var(--success-color)"
+          size={18}
+          style={{ padding: "10px", "padding-right": "5px" }}
+        />
         <DetailsContainer>
-          <Text size={12}>Connected for <CallTime channelId={channelId()!} /></Text>
+          <Text size={12}>
+            Connected for <CallTime channelId={channelId()!} />
+          </Text>
           <CustomLink href={href()} decoration style={{ "font-size": "12px" }}>
             {name()}
           </CustomLink>
@@ -63,29 +71,48 @@ const ActionButtonsContainer = styled(FlexRow)`
   margin-right: 10px;
 `;
 
-function ActionButtons(props: {channelId: string}) {
+function ActionButtons(props: { channelId: string }) {
   const { channels } = useStore();
   const channel = () => channels.get(props.channelId);
   return (
     <ActionButtonsContainer>
-      <VoiceMicButton channelId={props.channelId}/>
-      <Button margin={0} iconName="call_end" color="var(--alert-color)" iconSize={16} onClick={() => channel()?.leaveCall()} />
+      <VoiceMicButton channelId={props.channelId} />
+      <Button
+        margin={0}
+        iconName="call_end"
+        color="var(--alert-color)"
+        iconSize={16}
+        onClick={() => channel()?.leaveCall()}
+      />
     </ActionButtonsContainer>
   );
 }
 
-
 function VoiceMicButton(props: { channelId: string }) {
-  const { voiceUsers: {isLocalMicMuted, toggleMic} } = useStore();
+  const {
+    voiceUsers: { isLocalMicMuted, toggleMic },
+  } = useStore();
 
   return (
     <>
       <Show when={isLocalMicMuted()}>
-        <Button margin={0} iconName='mic_off' iconSize={16} color='var(--alert-color)' onClick={toggleMic} />
+        <Button
+          margin={0}
+          iconName="mic_off"
+          iconSize={16}
+          color="var(--alert-color)"
+          onClick={toggleMic}
+        />
       </Show>
       <Show when={!isLocalMicMuted()}>
-        <Button margin={0} iconName='mic' iconSize={16} color='var(--success-color)' onClick={toggleMic} />
-      </Show> 
+        <Button
+          margin={0}
+          iconName="mic"
+          iconSize={16}
+          color="var(--success-color)"
+          onClick={toggleMic}
+        />
+      </Show>
     </>
   );
 }
@@ -96,22 +123,30 @@ function CallTime(props: { channelId: string }) {
 
   const [time, setTime] = createSignal<null | string>(null);
 
-  createEffect(on(() => channel()?.callJoinedAt, (joinedAt) => {
-    let interval: number;
-    if (joinedAt) {
-      setTime(timeElapsed(joinedAt));
-      interval = window.setInterval(() =>
-        setTime(timeElapsed(joinedAt))
-      , 1000);
-    }
-    onCleanup(() => {
-      interval && clearInterval(interval);
-    });
-  }));
+  createEffect(
+    on(
+      () => channel()?.callJoinedAt,
+      (joinedAt) => {
+        let interval: number;
+        if (joinedAt) {
+          setTime(timeElapsed(joinedAt));
+          interval = window.setInterval(
+            () => setTime(timeElapsed(joinedAt)),
+            1000
+          );
+        }
+        onCleanup(() => {
+          interval && clearInterval(interval);
+        });
+      }
+    )
+  );
 
   return (
     <Show when={channel()?.callJoinedAt}>
-      <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>{time()}</Text>
+      <Text size={12} opacity={0.6} style={{ "margin-left": "auto" }}>
+        {time()}
+      </Text>
     </Show>
   );
 }
