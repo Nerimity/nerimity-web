@@ -34,7 +34,6 @@ const SettingsListContainer = styled("div")`
   flex-direction: column;
   gap: 2px;
   flex: 1;
-  overflow: auto;
 `;
 
 const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
