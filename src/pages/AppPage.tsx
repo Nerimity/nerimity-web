@@ -15,7 +15,6 @@ import {
   StorageKeys,
 } from "../common/localStorage";
 import socketClient from "../chat-api/socketClient";
-import RightDrawer from "@/components/right-drawer/RightDrawer";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { getCache, LocalCacheKey } from "@/common/localCache";
 import useStore from "@/chat-api/store/useStore";
@@ -93,7 +92,7 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   }
 `;
 
-const LeftDrawerContainer = styled("div")`
+const DrawerContainer = styled("div")`
   &[data-is-mobile-agent="false"] {
     &:-webkit-scrollbar {
       display: none;
@@ -215,18 +214,54 @@ export default function AppPage() {
           <LeftDrawer />
         </CustomScrollbarProvider>
       )}
-      RightDrawer={() => <Outlet name="rightDrawer" />}
+      RightDrawer={() => (
+        <CustomScrollbarProvider>
+          <RightDrawer />
+        </CustomScrollbarProvider>
+      )}
     >
       <MobileBottomPane />
     </DrawerLayout>
   );
 }
 
+function RightDrawer() {
+  const { isMobileAgent, isMobileWidth } = useWindowProperties();
+  const [scrollEl, setScrollEl] = createSignal<HTMLDivElement | undefined>();
+  const { isVisible } = useCustomScrollbar();
+  return (
+    <DrawerContainer
+      data-is-scroll-visible={isVisible()}
+      data-is-mobile-agent={isMobileAgent()}
+      ref={setScrollEl}
+      style={{
+        display: "flex",
+        "flex-direction": "column",
+        gap: "4px",
+        overflow: "auto",
+        height: "100%",
+      }}
+    >
+      <Outlet name="rightDrawer" />
+      <Show when={!isMobileAgent()}>
+        <CustomScrollbar
+          scrollElement={scrollEl()}
+          class={css`
+            position: absolute;
+            right: 2px;
+            top: ${isMobileWidth() ? "50px" : "50px"};
+            bottom: ${isMobileWidth() ? "58px" : "6px"};
+          `}
+        />
+      </Show>
+    </DrawerContainer>
+  );
+}
 function LeftDrawer() {
   const { isMobileAgent, isMobileWidth } = useWindowProperties();
   const [scrollEl, setScrollEl] = createSignal<HTMLDivElement | undefined>();
   return (
-    <LeftDrawerContainer
+    <DrawerContainer
       data-is-mobile-agent={isMobileAgent()}
       ref={setScrollEl}
       style={{
@@ -249,7 +284,7 @@ function LeftDrawer() {
           `}
         />
       </Show>
-    </LeftDrawerContainer>
+    </DrawerContainer>
   );
 }
 
