@@ -1,12 +1,15 @@
 .container {
   display: flex;
 
-  overflow: auto;
   flex-direction: column;
   padding-bottom: 4px;
   user-select: none;
 
   gap: 4px;
+
+  &[data-scrollbar-visible="true"] {
+    margin-right: 8px;
+  }
 }
 .items {
   display: flex;

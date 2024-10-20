@@ -12,14 +12,17 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import { Bitwise } from "@/chat-api/Bitwise";
 import { ChannelType } from "@/chat-api/RawData";
 import InVoiceActions from "@/components/InVoiceActions";
+import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
 
 const SettingsListContainer = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  overflow: auto;
-  height: 100%;
   padding-bottom: 3px;
+
+  &[data-scrollbar-visible="true"] {
+    margin-right: 8px;
+  }
 `;
 
 const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
@@ -58,6 +61,7 @@ function SettingsList() {
   const { serverMembers, account, servers } = useStore();
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
   const server = () => servers.get(params.serverId);
+  const { isVisible } = useCustomScrollbar();
 
   const hasPermission = (role?: Bitwise) => {
     if (!role) return true;
@@ -66,27 +70,29 @@ function SettingsList() {
   };
 
   return (
-    <SettingsListContainer>
+    <>
       <ServerDrawerHeader />
-      <For each={serverSettings}>
-        {(setting) => {
-          if (setting.hideDrawer) return null;
-          const selected = () => params.path === setting.path;
-          // const isChannels = () => setting.path === "channels";
-          return (
-            <Show when={hasPermission(setting.requiredRolePermission)}>
-              <Item
-                path={setting.path || "#  "}
-                icon={setting.icon}
-                label={t(setting.name)}
-                selected={selected()}
-              />
-              {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
-            </Show>
-          );
-        }}
-      </For>
-    </SettingsListContainer>
+      <SettingsListContainer data-scrollbar-visible={isVisible()}>
+        <For each={serverSettings}>
+          {(setting) => {
+            if (setting.hideDrawer) return null;
+            const selected = () => params.path === setting.path;
+            // const isChannels = () => setting.path === "channels";
+            return (
+              <Show when={hasPermission(setting.requiredRolePermission)}>
+                <Item
+                  path={setting.path || "#  "}
+                  icon={setting.icon}
+                  label={t(setting.name)}
+                  selected={selected()}
+                />
+                {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
+              </Show>
+            );
+          }}
+        </For>
+      </SettingsListContainer>
+    </>
   );
 }
 

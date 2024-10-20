@@ -1,8 +1,12 @@
+[data-is-scroll-visible="true"] {
+  .drawerContainer {
+    margin-right: 8px;
+  }
+}
+
 .drawerContainer {
   display: flex;
-  overflow: auto;
   flex-direction: column;
-  height: 100%;
   padding-bottom: 5px;
   gap: 5px;
 }

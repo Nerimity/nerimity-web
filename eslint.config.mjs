@@ -37,7 +37,7 @@ export default [
 
     rules: {
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-      "brace-style": ["error", "stroustrup"],
+      "brace-style": "off",
       quotes: ["error", "double"],
 
       indent: "off",

@@ -64,6 +64,7 @@ import {
 import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
 import average from "@/common/chromaJS";
+import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -111,6 +112,7 @@ export default function ProfilePane() {
   const isMe = () => account.user()?.id === params.userId;
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [animateAvatar, setAnimateAvatar] = createSignal(false);
+  const { isVisible } = useCustomScrollbar();
 
   const { setPaneBackgroundColor } = useWindowProperties();
   createEffect(
@@ -191,7 +193,10 @@ export default function ProfilePane() {
     <>
       <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
       <Show when={user()}>
-        <div class={styles.profilePane}>
+        <div
+          class={styles.profilePane}
+          style={isVisible() ? { "margin-right": "10px" } : {}}
+        >
           <div class={classNames(styles.topArea)}>
             <Banner
               maxHeight={250}
@@ -460,11 +465,7 @@ const ActionButtons = (props: {
 
       <ActionButton
         icon={isMe() ? "note_alt" : "mail"}
-        label={
-          isMe()
-            ? t("inbox.drawer.notes")
-            : t("profile.messageButton")
-        }
+        label={isMe() ? t("inbox.drawer.notes") : t("profile.messageButton")}
         color={props.primaryColor || "var(--primary-color)"}
         onClick={onMessageClicked}
       />
@@ -497,9 +498,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     const items: ContextMenuItem[] = [
       {
         id: "message",
-        label: isMe()
-          ? t("inbox.drawer.notes")
-          : t("profile.messageButton"),
+        label: isMe() ? t("inbox.drawer.notes") : t("profile.messageButton"),
         icon: isMe() ? "note_alt" : "mail",
         onClick: onMessageClicked,
       },

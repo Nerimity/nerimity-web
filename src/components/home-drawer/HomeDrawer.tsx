@@ -19,19 +19,22 @@ import { isExperimentEnabled } from "@/common/experiments";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { QuickTravel } from "../QuickTravel";
 import InVoiceActions from "../InVoiceActions";
+import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 
 export default function HomeDrawer() {
+  const { isVisible } = useCustomScrollbar();
+
   return (
     <HomeDrawerControllerProvider>
-      <div class={style.container}>
-        <SearchBar />
+      <SearchBar />
+      <div class={style.container} data-scrollbar-visible={isVisible()}>
         <HorizontalItems />
 
         <Items />
         <Friends />
         <Inbox />
       </div>
-      <InVoiceActions />
+      <InVoiceActions style={{ "margin-top": "-4px" }} />
     </HomeDrawerControllerProvider>
   );
 }

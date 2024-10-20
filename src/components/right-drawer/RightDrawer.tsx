@@ -161,24 +161,26 @@ const RightDrawer = () => {
   );
 
   return (
-    <div
-      class={styles.drawerContainer}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <>
       <Header />
-      <Show when={!showAttachments()}>
-        <MainDrawer
-          hovered={hovered()}
-          onShowAttachmentClick={() => setShowAttachments(true)}
-        />
-      </Show>
-      <Show when={showAttachments()}>
-        <AttachmentDrawer
-          onHideAttachmentClick={() => setShowAttachments(false)}
-        />
-      </Show>
-    </div>
+      <div
+        class={styles.drawerContainer}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <Show when={!showAttachments()}>
+          <MainDrawer
+            hovered={hovered()}
+            onShowAttachmentClick={() => setShowAttachments(true)}
+          />
+        </Show>
+        <Show when={showAttachments()}>
+          <AttachmentDrawer
+            onHideAttachmentClick={() => setShowAttachments(false)}
+          />
+        </Show>
+      </div>
+    </>
   );
 };
 

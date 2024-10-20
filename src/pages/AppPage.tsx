@@ -5,6 +5,7 @@ import {
   on,
   onCleanup,
   onMount,
+  Show,
 } from "solid-js";
 import MainPaneHeader from "../components/main-pane-header/MainPaneHeader";
 
@@ -14,7 +15,6 @@ import {
   StorageKeys,
 } from "../common/localStorage";
 import socketClient from "../chat-api/socketClient";
-import RightDrawer from "@/components/right-drawer/RightDrawer";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { getCache, LocalCacheKey } from "@/common/localCache";
 import useStore from "@/chat-api/store/useStore";
@@ -43,10 +43,13 @@ import { useReactNativeEvent } from "@/common/ReactNative";
 import { registerFCM } from "@/chat-api/services/UserService";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import MobileBottomPane from "@/components/ui/MobileBottomPane";
-import { MetaTitle } from "@/common/MetaTitle";
 import { QuickTravel } from "@/components/QuickTravel";
-import { useExperiment } from "@/common/experiments";
 import { applyCustomCss } from "@/common/customCss";
+import {
+  CustomScrollbar,
+  CustomScrollbarProvider,
+  useCustomScrollbar,
+} from "@/components/custom-scrollbar/CustomScrollbar";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -79,6 +82,24 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   ${(props) => (props.hasLeftDrawer ? "margin-left: 0;" : "")}
   ${(props) => (props.hasRightDrawer ? "margin-right: 0;" : "")}
   background: var(--pane-color);
+
+  &[data-is-mobile-agent="false"] {
+    &:-webkit-scrollbar {
+      display: none;
+    }
+
+    scrollbar-width: none; /* Firefox */
+  }
+`;
+
+const DrawerContainer = styled("div")`
+  &[data-is-mobile-agent="false"] {
+    &:-webkit-scrollbar {
+      display: none;
+    }
+
+    scrollbar-width: none; /* Firefox */
+  }
 `;
 
 async function loadAllCache() {
@@ -188,11 +209,82 @@ export default function AppPage() {
   return (
     <DrawerLayout
       Content={() => <MainPane />}
-      LeftDrawer={() => <Outlet name="leftDrawer" />}
-      RightDrawer={() => <Outlet name="rightDrawer" />}
+      LeftDrawer={() => (
+        <CustomScrollbarProvider>
+          <LeftDrawer />
+        </CustomScrollbarProvider>
+      )}
+      RightDrawer={() => (
+        <CustomScrollbarProvider>
+          <RightDrawer />
+        </CustomScrollbarProvider>
+      )}
     >
       <MobileBottomPane />
     </DrawerLayout>
+  );
+}
+
+function RightDrawer() {
+  const { isMobileAgent, isMobileWidth } = useWindowProperties();
+  const [scrollEl, setScrollEl] = createSignal<HTMLDivElement | undefined>();
+  const { isVisible } = useCustomScrollbar();
+  return (
+    <DrawerContainer
+      data-is-scroll-visible={isVisible()}
+      data-is-mobile-agent={isMobileAgent()}
+      ref={setScrollEl}
+      style={{
+        display: "flex",
+        "flex-direction": "column",
+        gap: "4px",
+        overflow: "auto",
+        height: "100%",
+      }}
+    >
+      <Outlet name="rightDrawer" />
+      <Show when={!isMobileAgent()}>
+        <CustomScrollbar
+          scrollElement={scrollEl()}
+          class={css`
+            position: absolute;
+            right: 2px;
+            top: ${isMobileWidth() ? "50px" : "50px"};
+            bottom: ${isMobileWidth() ? "58px" : "6px"};
+          `}
+        />
+      </Show>
+    </DrawerContainer>
+  );
+}
+function LeftDrawer() {
+  const { isMobileAgent, isMobileWidth } = useWindowProperties();
+  const [scrollEl, setScrollEl] = createSignal<HTMLDivElement | undefined>();
+  return (
+    <DrawerContainer
+      data-is-mobile-agent={isMobileAgent()}
+      ref={setScrollEl}
+      style={{
+        display: "flex",
+        "flex-direction": "column",
+        gap: "4px",
+        overflow: "auto",
+        height: "100%",
+      }}
+    >
+      <Outlet name="leftDrawer" />
+      <Show when={!isMobileAgent()}>
+        <CustomScrollbar
+          scrollElement={scrollEl()}
+          class={css`
+            position: absolute;
+            right: 2px;
+            top: ${isMobileWidth() ? "50px" : "50px"};
+            bottom: ${isMobileWidth() ? "58px" : "6px"};
+          `}
+        />
+      </Show>
+    </DrawerContainer>
   );
 }
 
@@ -202,6 +294,10 @@ function MainPane() {
   const [outerPaneElement, setOuterPaneElement] = createSignal<
     HTMLDivElement | undefined
   >(undefined);
+
+  const [mainPaneEl, setMainPaneEl] = createSignal<HTMLDivElement | undefined>(
+    undefined
+  );
 
   const { width } = useResizeObserver(outerPaneElement);
 
@@ -213,23 +309,42 @@ function MainPane() {
     windowProperties.setPaneWidth(width());
   });
 
+  const isMobileWithOrHasRightDrawer = () => {
+    return windowProperties.isMobileWidth() || hasRightDrawer();
+  };
+
   return (
     <OuterMainPaneContainer ref={setOuterPaneElement}>
-      <MainPaneContainer
-        style={{ background: windowProperties.paneBackgroundColor() }}
-        hasLeftDrawer={hasLeftDrawer()}
-        hasRightDrawer={hasRightDrawer()}
-        class={classNames(
-          "main-pane-container",
-          conditionalClass(
-            windowProperties.isMobileWidth(),
-            mobileMainPaneStyles
-          )
-        )}
-      >
-        <MainPaneHeader />
-        <Outlet name="mainPane" />
-      </MainPaneContainer>
+      <CustomScrollbarProvider>
+        <MainPaneContainer
+          data-is-mobile-agent={windowProperties.isMobileAgent()}
+          ref={setMainPaneEl}
+          style={{ background: windowProperties.paneBackgroundColor() }}
+          hasLeftDrawer={hasLeftDrawer()}
+          hasRightDrawer={hasRightDrawer()}
+          class={classNames(
+            "main-pane-container",
+            conditionalClass(
+              windowProperties.isMobileWidth(),
+              mobileMainPaneStyles
+            )
+          )}
+        >
+          <MainPaneHeader />
+          <Outlet name="mainPane" />
+          <Show when={!windowProperties.isMobileAgent()}>
+            <CustomScrollbar
+              scrollElement={mainPaneEl()}
+              class={css`
+                position: absolute;
+                right: ${isMobileWithOrHasRightDrawer() ? "2px" : "10px"};
+                bottom: ${windowProperties.isMobileWidth() ? "4px" : "14px"};
+                top: ${windowProperties.isMobileWidth() ? "50px" : "58px"};
+              `}
+            />
+          </Show>
+        </MainPaneContainer>
+      </CustomScrollbarProvider>
     </OuterMainPaneContainer>
   );
 }
