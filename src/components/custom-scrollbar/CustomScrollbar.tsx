@@ -5,13 +5,7 @@ import {
   useMutationObserver,
   useResizeObserver,
 } from "@/common/useResizeObserver";
-import {
-  createContext,
-  createEffect,
-  createSignal,
-  on,
-  onCleanup,
-} from "solid-js";
+import { createEffect, createSignal, on, onCleanup } from "solid-js";
 import { createContextProvider } from "@solid-primitives/context";
 
 interface CustomScrollbarProps {
@@ -49,6 +43,7 @@ export const [CustomScrollbarProvider, useCustomScrollbar] =
 
 export const CustomScrollbar = (props: CustomScrollbarProps) => {
   let scrollBarEl: HTMLDivElement | undefined;
+  let thumbEl: HTMLDivElement | undefined;
   const {
     marginBottom,
     marginTop,
@@ -69,7 +64,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
 
   createEffect(
     on(scrollElement, (el) => {
-      el?.addEventListener("scroll", update);
+      el?.addEventListener("scroll", update, { passive: true });
       onCleanup(() => el?.removeEventListener("scroll", update));
     })
   );
@@ -123,6 +118,48 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   const dimensions = [width, height];
   createEffect(on(dimensions, update));
 
+  // handle thumb drag
+
+  let yOffset = 0;
+
+  const onMouseDown = (e: MouseEvent) => {
+    e.preventDefault();
+    if (!props.scrollElement) return;
+    if (!scrollBarEl) return;
+    if (!thumbEl) return;
+
+    const rect = thumbEl.getBoundingClientRect();
+    yOffset = e.clientY - rect.top;
+
+    document.addEventListener("mousemove", onMouseMove, { passive: true });
+    document.addEventListener("mouseup", onMouseUp, { once: true });
+  };
+
+  const onMouseMove = (e: MouseEvent) => {
+    if (!props.scrollElement) return;
+    if (!thumbEl) return;
+    if (!scrollBarEl) return;
+
+    const top = e.clientY - scrollBarEl.getBoundingClientRect().top - yOffset;
+
+    const thumbHeight = thumbEl.clientHeight;
+
+    const scrollableDistance =
+      props.scrollElement.scrollHeight - props.scrollElement.clientHeight;
+
+    const scrollPosition =
+      (top / (scrollBarEl.clientHeight - thumbHeight)) * scrollableDistance;
+
+    props.scrollElement.scrollTop = scrollPosition;
+
+    // thumbEl.style.top = `${top}px`;
+  };
+
+  const onMouseUp = () => {
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
   return (
     <div
       ref={scrollBarEl}
@@ -134,6 +171,8 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
       }}
     >
       <div
+        onMouseDown={onMouseDown}
+        ref={thumbEl}
         class={style.scrollbarThumb}
         style={{
           height: `${thumbHeight()}px`,
