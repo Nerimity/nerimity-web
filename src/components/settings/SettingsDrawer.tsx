@@ -23,6 +23,7 @@ import { logout } from "@/common/logout";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 
 const DrawerContainer = styled(FlexColumn)`
+  height: 100%;
   &[data-scrollbar-visible="true"] {
     margin-right: 8px;
   }
