@@ -303,7 +303,7 @@
 		"kick": "At",
 		"ban": "Yasakla",
 		"changeNickname": "İsim Değiştir",
-		"callvolume": "Arama Sesi"
+		"callVolume": "Arama Sesi"
 	},
 	"kickServerMemberModal": {
 		"title": "{{username}} Kullanıcısını At",
