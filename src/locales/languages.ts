@@ -101,7 +101,10 @@ export const languages = {
   "tr-tr": {
     name: "Turkish",
     emoji: "🇹🇷",
-    contributors: ["https://github.com/slideglide"],
+    contributors: [
+      "https://github.com/lexerotk",
+      "https://github.com/slideglide"
+    ],
   },
   "uw-uw": {
     name: "UwU",
