@@ -1,0 +1,371 @@
+{
+  "header": {
+    "logoutButton": "Logout",
+    "openAppButton": "Buka App",
+    "loginButton": "Login",
+    "joinNowButton": "Ikut Sekarang"
+  },
+  "homePage": {
+    "slogan": "A modern and sleek chat app.",
+    "joinButton": "Join {{appName}}",
+    "viewGitHubButton": "Lihat GitHub"
+  },
+  "loginPage": {
+    "title": "Login to continue",
+    "emailOrUsernameAndTag": "Email / username:tag",
+    "password": "Password",
+    "login": "Login",
+    "createAccountInstead": "Create an account instead",
+    "loggingIn": "Logging in...",
+    "loginButton": "Login"
+  },
+  "registerPage": {
+    "title": "Welcome to {{appName}}",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Register",
+    "registering": "Registering...",
+    "loginInstead": "Login Instead"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "activeUsers": "Active Users",
+    "noActiveUsers": "No active users",
+    "servers": "Servers",
+    "posts": "Posts",
+    "feed": "Feed",
+    "discover": "Discover",
+    "notifications": "Notifications"
+  },
+  "inbox": {
+    "drawer": {
+      "searchBarPlaceholder": "Search",
+      "friendRequests": "{{count}} Friend Requests",
+      "onlineFriends": "{{count}} Online Friends",
+      "offlineFriends": "{{count}} Offline Friends",
+      "notes": "Notes",
+      "addFriendButton": "Add Friend",
+      "blockedUsersButton": "Blocked",
+      "inboxTitle": "Inbox",
+      "friendsButton": "Friends",
+      "viewAll": "View All"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Explore",
+      "servers": "Servers"
+    },
+    "servers": {
+      "title": "Explore - Servers",
+      "noticeMessage": "A server can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
+      "sortMostBumps": "Most bumps",
+      "sortMostMembers": "Most Members",
+      "sortRecentlyAdded": "Recently added",
+      "sortRecentlyBumped": "Recently bumped",
+      "filterAll": "All",
+      "filterVerified": "Verified",
+      "memberCount": "{{count}} members",
+      "lifetimeBumpCount": "{{count}} lifetime bumps",
+      "visitServerButton": "Visit",
+      "joinServerButton": "Join",
+      "bumpButton": "Bump ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "General",
+        "roles": "Roles",
+        "channels": "Channels",
+        "bans": "Bans",
+        "invites": "Invites",
+        "publishServer": "Publish Server",
+        "verify": "Verify",
+        "role": "Role",
+        "welcome-screen": "Welcome Screen",
+        "channel": "Channel",
+        "emojis": "Emojis",
+        "notifications": "Notifications"
+      },
+      "general": {
+        "serverRenameNotice": "You will lose all of the perks of having your server verified if you rename it.",
+        "serverName": "Server Name",
+        "defaultChannel": "Default Channel",
+        "defaultChannelDescription": "New members will be directed to this channel.",
+        "systemMessages": "System Messages",
+        "systemMessagesDescription": "Where system messages should appear.",
+        "deleteThisServer": "Delete this server",
+        "deleteThisServerDescription": "This cannot be undone!",
+        "deleteServerButton": "Delete Server",
+        "saveChangesButton": "Save Changes",
+        "saving": "Saving..."
+      },
+      "roles": {
+        "addNewRole": "Add a new role",
+        "addRoleButton": "Add Role"
+      },
+      "role": {
+        "saveChangesButton": "Save Changes",
+        "saving": "Saving...",
+        "roleName": "Role Name",
+        "roleColor": "Role Color",
+        "hideRole": "Hide Role",
+        "hideRoleDescription": "Display members with this role along with all the default members",
+        "permissions": "Permissions",
+        "permissionsDescription": "Manage permissions for this role.",
+        "deleteRoleButton": "Delete this role",
+        "deleteRoleButtonDescription": "This cannot be undone!"
+      },
+      "header": {
+        "editServer": "Edit Server",
+        "serverMemberCount": "{{count}} members"
+      },
+      "channels": {
+        "createButton": "Create",
+        "createNewDescription": "Create a new channel or category"
+      },
+      "channel": {
+        "saving": "Saving...",
+        "saveChangesButton": "Save Changes",
+        "channelName": "Channel Name",
+        "permissions": "Permissions",
+        "permissionsDescription": "Manage permissions for this channel.",
+        "deleteThisChannel": "Delete this channel",
+        "deleteThisChannelDescription": "This cannot be undone!",
+        "deleteChannelButton": "Delete Channel"
+      },
+      "invites": {
+        "createInviteButton": "Create Invite",
+        "serverInvites": "Server Invites",
+        "serverInvitesDescription": "Invite your friends to this server.",
+        "customInviteVerifiedOnlyNotice": "Custom invite links are only available for verified servers.",
+        "customLink": "Custom Link",
+        "saveButton": "Save",
+        "deleteButton": "Delete",
+        "copyLinkButton": "Copy Link"
+      },
+      "publishServer": {
+        "publishNotice": "Publishing your server will make it be available in the <1>explore</1> page.",
+        "public": "Public",
+        "publicDescription": "Make this server public.",
+        "bumpServer": "Bump Server",
+        "bumpServerDescription": "Bump this server to get to the top.",
+        "publishServerButton": "Publish server",
+        "unpublishServerButton": "Unpublish server"
+      }
+    },
+    "rolePermissions": {
+      "admin": "Admin",
+      "adminDescription": "Enables all permissions.",
+      "sendMessage": "Send Message",
+      "sendMessageDescription": "Enable sending messages in this server. Server admins can still send messages.",
+      "manageRoles": "Manage Roles",
+      "manageRolesDescription": "Permission for updating or deleting roles.",
+      "manageChannels": "Manage Channels",
+      "manageChannelsDescription": "Permission for updating or deleting channels.",
+      "kick": "Kick",
+      "kickDescription": "Permission to kick users.",
+      "ban": "Ban",
+      "banDescription": "Permission to ban users.",
+      "mentionEveryone": "Mention Everyone",
+      "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone.",
+      "nicknameMember": "Nickname Member",
+      "nicknameMemberDescription": "Allow users to change their nickname in the server."
+    },
+    "channelPermissions": {
+      "privateChannel": "Private Channel",
+      "privateChannelDescription": "Disable access to the channel. Server admins can still access the channel.",
+      "sendMessage": "Send Message",
+      "sendMessageDescription": "Enable sending messages in the channel. Server admins can still send messages.",
+      "joinVoice": "Join Voice",
+      "joinVoiceDescription": "Enable joining voice channels in the channel. Server admins can still join voice channels."
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "Settings",
+      "account": "Account",
+      "interface": "Interface",
+      "language": "Language",
+      "notifications": "Notifications",
+      "logout": "Logout",
+      "developer": "Developer",
+      "applications": "Applications",
+      "experiments": "Experiments",
+      "viewSource": "View Source",
+      "changelog": "Changelog",
+      "window-settings": "Window Settings",
+      "call-settings": "Call Settings",
+      "activity-status": "Activity Status",
+      "tickets": "Tickets",
+      "privacy": "Privacy",
+      "connections": "Connections",
+      "profile": "Profile"
+    },
+    "header": {
+      "servers": "servers",
+      "friends": "friends",
+      "manageAccount": "Manage Account"
+    },
+    "account": {
+      "title": "Settings - Account",
+      "email": "Email",
+      "username": "Username",
+      "tag": "Tag",
+      "avatar": "Avatar",
+      "banner": "Banner",
+      "supported": "Supported",
+      "browse": "Browse",
+      "profile": "Profile",
+      "profileDescription": "Edit your bio or colors",
+      "changePassword": "Change Password",
+      "forgotPassword": "Forgot Password",
+      "newPassword": "New Password",
+      "newPasswordDescription": "Changing your password will log you out everywhere else.",
+      "confirmNewPassword": "Confirm New Password",
+      "confirmNewPasswordDescription": "Confirm your new password",
+      "confirmCurrentPassword": "Confirm Current Password",
+      "channelNotice": "Channel Notice",
+      "channelNoticeDescription": "Shows when the user is about to chat for the first time. Changes apply after reload.",
+      "saving": "Saving...",
+      "saveButton": "Save",
+      "saveChangesButton": "Save Changes",
+      "deleteAccount": "Delete My Account",
+      "deleteAccountDescription": "This cannot be undone!",
+      "deleteAccountNotice": "You must leave/delete all servers before you can delete your account.",
+      "understoodButton": "Understood"
+    },
+    "privacy": {
+      "lastOnline": {
+        "title": "Last Online Time",
+        "description": "Set who can see your last online time.",
+        "hidden": "Hidden",
+        "friendsOnly": "Friends only",
+        "friendsAndServers": "Friends and servers"
+      },
+      "directMessage": {
+        "title": "Direct Message",
+        "description": "Set Who can send you direct messages.",
+        "anyone": "Anyone",
+        "friendsAndServersOnly": "Friends & Servers only",
+        "friendsOnly": "Friends only"
+      },
+      "friendRequest": {
+        "title": "Friend Request",
+        "description": "Set who can send you friend requests.",
+        "anyone": "Anyone",
+        "serversOnly": "Servers only",
+        "nobody": "Nobody"
+      },
+      "profileOptions": {
+        "title": "Profile Options",
+        "hideFollowers": "Hide Followers",
+        "hideFollowersDescription": "Hide your followers from your profile.",
+        "hideFollowing": "Hide Following",
+        "hideFollowingDescription": "Hide users you are following from your profile."
+      }
+    }
+  },
+  "supportBlock": {
+    "support": "Support Me",
+    "supportDescription": "Donate to get a supporter badge!"
+  },
+  "createServerModal": {
+    "title": "Create Server",
+    "notice": "NSFW content is not allowed.",
+    "serverName": "Server Name",
+    "placeholder": "My Amazing Server",
+    "creating": "Creating...",
+    "createServerButton": "Create Server",
+    "closeButton": "Close"
+  },
+  "serverContextMenu": {
+    "markAsRead": "Mark as Read",
+    "invites": "Invites",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "copyId": "Copy ID",
+    "leave": "Leave",
+    "notificationOptions": {
+      "everything": "Everything",
+      "mentionsOnly": "Mentions Only",
+      "mute": "Mute"
+    }
+  },
+  "userContextMenu": {
+    "viewProfile": "View Profile",
+    "sendMessage": "Send Message",
+    "copyId": "Copy ID",
+    "editRoles": "Edit Roles",
+    "kick": "Kick",
+    "ban": "Ban",
+    "changeNickname": "Change Nickname",
+    "callVolume": "Call Volume"
+  },
+  "kickServerMemberModal": {
+    "title": "Kick {{username}}",
+    "kickButton": "Kick",
+    "kicking": "Kicking...",
+    "backButton": "Back",
+    "message": "Are you sure you want to kick <1>{{username}}</1>?"
+  },
+  "editServerRolesModal": {
+    "title": "Edit Roles"
+  },
+  "banModal": {
+    "title": "Ban {{username}}?",
+    "message": "Are you sure you want to ban <1>{{username}}</1>?",
+    "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
+    "banButton": "Ban",
+    "banning": "Banning..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Edit Message",
+    "deleteMessage": "Delete Message",
+    "copyMessage": "Copy Message",
+    "copyId": "Copy ID"
+  },
+  "profile": {
+    "followButton": "Follow",
+    "unfollowButton": "Unfollow",
+    "removeFriendButton": "Remove Friend",
+    "addFriendButton": "Add Friend",
+    "pendingRequest": "Pending Request",
+    "acceptRequestButton": "Accept Request",
+    "messageButton": "Message",
+    "mutualFriends": "Mutual Friends ({{count}})",
+    "mutualServers": "Mutual Servers ({{count}})",
+    "postsTab": "Posts",
+    "followersTab": "Followers",
+    "followingTab": "Following",
+    "postsAndRepliesTab": "Posts and replies ({{count}})",
+    "likedPostsTab": "Liked Posts ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Are you sure you would like to delete this post?",
+      "cancelButton": "Cancel",
+      "deleteButton": "delete"
+    },
+    "postWasDeleted": "This post was deleted!",
+    "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
+    "someoneFollowedYou": "<1>{{username}}</1> followed you!",
+    "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
+    "createAPostInputPlaceholder": "Create a post...",
+    "replyInputPlaceholder": "Reply...",
+    "replyButton": "Reply",
+    "createButton": "Create",
+    "pollOptions": "Poll Options",
+    "optionNumberPlaceholder": "Option {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Information",
+    "channelNotice": "Channel Notice",
+    "attachments": "Attachments",
+    "attachmentsBack": "Back",
+    "members": "Members"
+  }
+}
