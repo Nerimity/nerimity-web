@@ -99,7 +99,7 @@ export const languages = {
     contributors: ["Linterna001"],
   },
   "th-th": {
-    name: "English",
+    name: "Thai",
     emoji: "🇹🇭",
     contributors: ["ccsleep"],
   },
