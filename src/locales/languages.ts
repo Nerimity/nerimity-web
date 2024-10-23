@@ -98,6 +98,11 @@ export const languages = {
     emoji: "🇪🇸",
     contributors: ["Linterna001"],
   },
+  "th-th": {
+    name: "Thai",
+    emoji: "🇹🇭",
+    contributors: ["ccsleep"],
+  },
   "tr-tr": {
     name: "Turkish",
     emoji: "🇹🇷",
