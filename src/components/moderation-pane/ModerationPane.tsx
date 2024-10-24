@@ -58,6 +58,7 @@ import AnnouncePostsModal from "./AnnouncePostsModal";
 import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
 import DeleteServersModal from "./DeleteServersModal";
 import { UsersPane } from "./UsersPane";
+import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -322,6 +323,7 @@ function ModerationPage() {
         </UserColumn>
         <ServersPane />
         <PostsPane />
+        <UsersAuditLogsPane />
       </ModerationPaneContainer>
       <Show when={selectedServers().length || selectedUsers().length}>
         <SelectedActionsContainer>

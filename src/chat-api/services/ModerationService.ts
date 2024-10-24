@@ -432,3 +432,35 @@ export const getStats = async () => {
   });
   return data;
 };
+
+export interface UserAuditLog {
+  actionType: string;
+  actionById: string;
+  createdAt: number;
+  serverId?: string;
+  data?: {
+    serverName?: string;
+  };
+}
+interface UserAuditLogResponse {
+  users: RawUser[];
+  servers: RawServer[];
+  auditLogs: UserAuditLog[];
+}
+export const getUsersAuditLogs = async (opts: {
+  query?: string;
+  afterId?: string;
+  limit?: number;
+}) => {
+  const data = await request<UserAuditLogResponse>({
+    method: "GET",
+    url: env.SERVER_URL + "/api/moderation/users/audit-logs",
+    params: {
+      ...(opts.query ? { q: opts.query } : {}),
+      ...(opts.afterId ? { after: opts.afterId } : {}),
+      limit: opts.limit,
+    },
+    useToken: true,
+  });
+  return data;
+};
