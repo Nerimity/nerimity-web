@@ -1,6 +1,7 @@
 import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
+import { isHalloween } from "./worldEvents";
 
-export const theme = {
+const theme = {
   "background-color": "hsl(216deg 9% 8%)",
   "pane-color": "hsl(216deg 8% 15%)",
   "header-background-color": "hsla(216deg 8% 15% / 80%)",
@@ -15,6 +16,19 @@ export const theme = {
   "alert-color-dark": "#3e2626",
   "warn-color-dark": "#3a3229",
 };
+
+if (isHalloween) {
+  theme["primary-color"] = "#d76623";
+  theme["primary-color-dark"] = "#241e1a";
+  theme["alert-color"] = "#866ebf";
+  theme["alert-color-dark"] = "#27242e";
+}
+// if (isChristmas) {
+//   document.documentElement.style.setProperty("--primary-color", "#34a65f");
+//   document.documentElement.style.setProperty("--primary-color-dark", "#222c26");
+// }
+
+export { theme };
 
 type ThemeKey = keyof typeof theme;
 
