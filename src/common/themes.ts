@@ -17,12 +17,12 @@ const theme = {
   "warn-color-dark": "#3a3229",
 };
 
-if (isHalloween) {
-  theme["primary-color"] = "#d76623";
-  theme["primary-color-dark"] = "#241e1a";
-  theme["alert-color"] = "#866ebf";
-  theme["alert-color-dark"] = "#27242e";
-}
+// if (isHalloween) {
+//   theme["primary-color"] = "#d76623";
+//   theme["primary-color-dark"] = "#241e1a";
+//   theme["alert-color"] = "#866ebf";
+//   theme["alert-color-dark"] = "#27242e";
+// }
 // if (isChristmas) {
 //   document.documentElement.style.setProperty("--primary-color", "#34a65f");
 //   document.documentElement.style.setProperty("--primary-color-dark", "#222c26");
