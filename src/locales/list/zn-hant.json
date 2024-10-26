@@ -36,6 +36,9 @@
       "addFriendButton": "新增好友",
       "inboxButton": "收件匣",
       "friendsButton": "朋友"
+    },
+    "blockedUsersModal": {
+      "title": "Blocked Users"
     }
   },
   "explore": {

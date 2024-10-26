@@ -36,6 +36,9 @@
       "addFriendButton": "Magdagdag ng kaibigan",
       "inboxButton": "Inbox",
       "friendsButton": "Mga Kaibigan"
+    },
+    "blockedUsersModal": {
+      "title": "Mga Naka-block na User"
     }
   },
   "explore": {

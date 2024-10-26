@@ -47,6 +47,9 @@
       "addFriendButton": "Adicionar Amigo",
       "inboxButton": "Caixa de Entrada",
       "friendsButton": "Amigos"
+    },
+    "blockedUsersModal": {
+      "title": "Usuários bloqueados"
     }
   },
   "explore": {

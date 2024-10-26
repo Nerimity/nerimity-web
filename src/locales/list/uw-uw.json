@@ -47,6 +47,9 @@
       "addFriendButton": "add f-fwiend",
       "inboxButton": "Inbox",
       "friendsButton": "fwiends"
+    },
+    "blockedUsersModal": {
+      "title": "Blocked Users"
     }
   },
   "explore": {

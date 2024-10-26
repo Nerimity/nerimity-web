@@ -36,6 +36,9 @@
       "addFriendButton": "Vriend Toevoegen",
       "inboxButton": "Inbox",
       "friendsButton": "Vrienden"
+    },
+    "blockedUsersModal": {
+      "title": "Geblokkeerde gebruikers"
     }
   },
   "explore": {

@@ -51,6 +51,9 @@
       "inboxTitle": "Личные сообщения",
       "friendsButton": "Друзья",
       "viewAll": "Посмотреть все"
+    },
+    "blockedUsersModal": {
+      "title": "Заблокированные пользователи"
     }
   },
   "explore": {

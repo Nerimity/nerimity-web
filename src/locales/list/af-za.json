@@ -36,6 +36,9 @@
       "addFriendButton": "Voeg Vriend By",
       "inboxButton": "Posbus",
       "friendsButton": "Vriende"
+    },
+    "blockedUsersModal": {
+      "title": "Geblokkeerde gebruikers"
     }
   },
   "explore": {

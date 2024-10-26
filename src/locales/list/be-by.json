@@ -47,6 +47,9 @@
       "addFriendButton": "Дадаць сябра",
       "inboxButton": "Уваходныя",
       "friendsButton": "Сябры"
+    },
+    "blockedUsersModal": {
+      "title": "Заблакіраваныя карыстальнікі"
     }
   },
   "explore": {

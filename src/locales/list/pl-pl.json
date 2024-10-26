@@ -36,6 +36,9 @@
       "addFriendButton": "Dodaj Znajomego",
       "inboxButton": "Wiadomości",
       "friendsButton": "Znajomi"
+    },
+    "blockedUsersModal": {
+      "title": "Zablokowani użytkownicy"
     }
   },
   "explore": {

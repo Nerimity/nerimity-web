@@ -35,6 +35,9 @@
       "addFriendButton": "Barát Hozzáadása",
       "inboxButton": "Postaláda",
       "friendsButton": "Barátok"
+    },
+    "blockedUsersModal": {
+      "title": "Letiltott felhasználók"
     }
   },
   "explore": {

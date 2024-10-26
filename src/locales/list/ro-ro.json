@@ -47,6 +47,9 @@
       "addFriendButton": "Adaugare prieten",
       "inboxButton": "Cutia poștală",
       "friendsButton": "Prieteni"
+    },
+    "blockedUsersModal": {
+      "title": "Utilizatori blocați"
     }
   },
   "explore": {

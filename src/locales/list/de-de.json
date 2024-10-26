@@ -36,6 +36,9 @@
       "addFriendButton": "Freund hinzufügen",
       "inboxButton": "Posteingang",
       "friendsButton": "Freunde"
+    },
+    "blockedUsersModal": {
+      "title": "Blockierte Benutzer"
     }
   },
   "explore": {
