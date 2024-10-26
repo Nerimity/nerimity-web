@@ -19,6 +19,7 @@ import DeleteServerModal from "./DeleteServerModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { UsersPane } from "./UsersPane";
+import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
 
 export default function ServerPage() {
   const params = useParams<{ serverId: string }>();
@@ -130,7 +131,15 @@ export default function ServerPage() {
 
           <div style={{ "margin-bottom": "10px" }}>
             <UsersPane
-              title="Users In Server"
+              title="Members"
+              search={params.serverId}
+              hideSearchBar
+              noMargin
+            />
+          </div>
+          <div style={{ "margin-bottom": "10px" }}>
+            <UsersAuditLogsPane
+              title="Audit Logs"
               search={params.serverId}
               hideSearchBar
               noMargin
