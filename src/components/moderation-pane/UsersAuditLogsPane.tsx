@@ -12,6 +12,7 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import Text from "../ui/Text";
 import { styled } from "solid-styled-components";
 import { formatTimestamp } from "@/common/date";
+import { getServerAuditLogs } from "@/chat-api/services/ServerService";
 
 const ListContainer = styled("div")`
   display: flex;
@@ -25,7 +26,9 @@ export function UsersAuditLogsPane(props: {
   search?: string;
   hideSearchBar?: boolean;
   title?: string;
+  alwaysExpanded?: boolean;
   noMargin?: boolean;
+  serverId?: string;
 }) {
   const LIMIT = 30;
   const [auditLogs, setAuditLogs] = createSignal<UserAuditLog[]>([]);
@@ -35,7 +38,7 @@ export function UsersAuditLogsPane(props: {
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
   const [search, setSearch] = createSignal(props.search || "");
 
-  const [showAll, setShowAll] = createSignal(false);
+  const [showAll, setShowAll] = createSignal(props.alwaysExpanded ?? false);
 
   createEffect(
     on(afterId, async () => {
@@ -67,11 +70,19 @@ export function UsersAuditLogsPane(props: {
 
   const fetchUsers = () => {
     setLoadMoreClicked(true);
-    getUsersAuditLogs({
-      limit: LIMIT,
-      afterId: afterId(),
-      ...(search().trim ? { query: search().trim() } : {}),
-    })
+
+    (props.serverId
+      ? getServerAuditLogs({
+          serverId: props.serverId,
+          limit: LIMIT,
+          afterId: afterId(),
+        })
+      : getUsersAuditLogs({
+          limit: LIMIT,
+          afterId: afterId(),
+          ...(search().trim ? { query: search().trim() } : {}),
+        })
+    )
       .then((newUsers) => {
         setAuditLogs([...auditLogs(), ...newUsers.auditLogs]);
         setUsers([...new Set([...users(), ...newUsers.users])]);
@@ -88,6 +99,9 @@ export function UsersAuditLogsPane(props: {
       style={{
         ...(!showAll() ? { height: "initial" } : undefined),
         ...(props.noMargin ? { margin: 0 } : {}),
+        ...(props.alwaysExpanded
+          ? { height: "initial", resize: "none" }
+          : undefined),
       }}
     >
       <Show when={!props.hideSearchBar}>
@@ -101,13 +115,23 @@ export function UsersAuditLogsPane(props: {
       <Show when={props.hideSearchBar}>
         <div style={{ height: "10px" }} />
       </Show>
-      <FlexRow gap={5} itemsCenter style={{ "padding-left": "10px" }}>
-        <Button
-          iconName="add"
-          iconSize={14}
-          padding={4}
-          onClick={() => setShowAll(!showAll())}
-        />
+      <FlexRow
+        gap={5}
+        itemsCenter
+        style={{
+          "padding-left": "10px",
+          "padding-top": props.alwaysExpanded ? "4px" : "0px",
+          "flex-shrink": "0",
+        }}
+      >
+        <Show when={!props.alwaysExpanded}>
+          <Button
+            iconName="add"
+            iconSize={14}
+            padding={4}
+            onClick={() => setShowAll(!showAll())}
+          />
+        </Show>
         <Text>{props.title || "User Audit Logs"}</Text>
       </FlexRow>
       <ListContainer class="list">

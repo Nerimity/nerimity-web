@@ -78,6 +78,7 @@
     "settings": {
       "drawer": {
         "general": "General",
+        "audit-logs": "Audit Logs",
         "roles": "Roles",
         "channels": "Channels",
         "bans": "Bans",
