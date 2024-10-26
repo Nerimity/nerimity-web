@@ -819,20 +819,26 @@ function MessageContextMenu(props: MessageContextMenuProps) {
       items={[
         {
           icon: "face",
-          label: "View Reactions",
+          label: t("messageContextMenu.viewReactions"),
           onClick: onViewReactionsClick,
         },
         ...(showQuote()
           ? [
               {
                 icon: "format_quote",
-                label: "Quote Message",
+                label: t("messageContextMenu.quoteMessage"),
                 onClick: props.quoteMessage,
               },
             ]
           : []),
         ...(showReply()
-          ? [{ icon: "reply", label: "Reply", onClick: props.replyMessage }]
+          ? [
+              {
+                icon: "reply",
+                label: t("messageContextMenu.reply"),
+                onClick: props.replyMessage,
+              },
+            ]
           : []),
         ...(showEdit()
           ? [
@@ -857,7 +863,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
           ? [
               {
                 icon: "flag",
-                label: "Report Message",
+                label: t("messageContextMenu.reportMessage")!,
                 onClick: onReportClick,
                 alert: true,
               },

@@ -78,6 +78,7 @@ import { millisecondsToReadable } from "@/common/date";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
+import { t } from "i18next";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -421,7 +422,17 @@ function MessageArea(props: {
       </Show>
       <CustomTextArea
         ref={setTextAreaEl}
-        placeholder="Message"
+        placeholder={
+          channel()?.name
+            ? t("messageArea.messageBoxChannelPlaceholder", {
+                channelName: channel()!.name,
+              })
+            : channel()?.recipient()?.username
+            ? t("messageArea.messageBoxPlaceholder", {
+                username: channel()?.recipient()?.username,
+              })
+            : ""
+        }
         onkeydown={onKeyDown}
         onInput={onInput}
         value={message()}

@@ -39,7 +39,14 @@
     "discover": "Discover",
     "notifications": "Notifications"
   },
+  "messageArea": {
+    "messageBoxPlaceholder": "Message {{username}}",
+    "messageBoxChannelPlaceholder": "Message in {{channelName}}"
+  },
   "inbox": {
+    "blockedUsersModal": {
+      "title": "Blocked Users"
+    },
     "drawer": {
       "searchBarPlaceholder": "Search",
       "friendRequests": "{{count}} Friend Requests",
@@ -136,7 +143,9 @@
         "permissionsDescription": "Manage permissions for this channel.",
         "deleteThisChannel": "Delete this channel",
         "deleteThisChannelDescription": "This cannot be undone!",
-        "deleteChannelButton": "Delete Channel"
+        "deleteChannelButton": "Delete Channel",
+        "removeNoticeButton": "Remove Notice"
+
       },
       "invites": {
         "createInviteButton": "Create Invite",
@@ -327,7 +336,11 @@
     "editMessage": "Edit Message",
     "deleteMessage": "Delete Message",
     "copyMessage": "Copy Message",
-    "copyId": "Copy ID"
+    "copyId": "Copy ID",
+    "viewReactions": "View Reactions",
+    "quoteMessage": "Quote Message",
+    "reportMessage": "Report Message",
+    "reply": "Reply"
   },
   "profile": {
     "followButton": "Follow",

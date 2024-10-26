@@ -37,6 +37,7 @@ import {
 } from "@/chat-api/services/ChannelService";
 import { RawChannelNotice } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
+import { t } from "i18next";
 
 type ChannelParams = {
   serverId: string;
@@ -368,7 +369,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
         >
           <Show when={channelNotice()?.content}>
             <Button
-              label="Remove Notice"
+              label={t("servers.settings.channel.removeNoticeButton")}
               color="var(--alert-color)"
               iconName="delete"
               onClick={deleteNotice}

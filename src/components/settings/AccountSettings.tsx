@@ -217,7 +217,10 @@ export function EditAccountPage(props: {
       .finally(() => setRequestSent(false));
   };
 
-  const requestStatus = () => (requestSent() ? t("settings.account.saving") : t("settings.account.saveChangesButton"));
+  const requestStatus = () =>
+    requestSent()
+      ? t("settings.account.saving")
+      : t("settings.account.saveChangesButton");
 
   const { createPortal } = useCustomPortal();
 
@@ -314,7 +317,9 @@ export function EditAccountPage(props: {
       <SettingsBlock
         icon="wallpaper"
         label={t("settings.account.avatar")}
-        description={t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"}
+        description={
+          t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"
+        }
       >
         <FileBrowser
           accept="images"
@@ -349,7 +354,9 @@ export function EditAccountPage(props: {
       <SettingsBlock
         icon="panorama"
         label={t("settings.account.banner")}
-        description={t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"}
+        description={
+          t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"
+        }
       >
         <FileBrowser
           accept="images"
@@ -687,14 +694,18 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
         >
           <Show when={channelNotice()?.content}>
             <Button
-              label="Remove Notice"
+              label={t("servers.settings.channel.removeNoticeButton")}
               color="var(--alert-color)"
               iconName="delete"
               onClick={deleteNotice}
             />
           </Show>
           <Show when={updatedInputValues().content}>
-            <Button label={t("settings.account.saveButton")} iconName="save" onClick={save} />
+            <Button
+              label={t("settings.account.saveButton")}
+              iconName="save"
+              onClick={save}
+            />
           </Show>
         </div>
       </SettingsBlock>

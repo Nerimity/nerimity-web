@@ -359,6 +359,16 @@ body .floating.floatingSlowModeIndicator {
   background: transparent;
   resize: none;
   font-size: 12px;
+  
+  &:placeholder-shown {
+    text-overflow: ellipsis;
+  }
+  
+  &::placeholder {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .inputButtons {

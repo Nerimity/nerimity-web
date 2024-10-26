@@ -258,7 +258,7 @@ export const BlockedUsersModal = (props: { close: () => void }) => {
 
   return (
     <Modal.Root close={props.close} class={style.blockedUsersModal}>
-      <Modal.Header title="Blocked Users" icon="block" />
+      <Modal.Header title={t("inbox.blockedUsersModal.title")} icon="block" />
       <Modal.Body>
         <div class={style.blockedUsersList}>
           <For each={controller?.friends.blockedUsers()}>
