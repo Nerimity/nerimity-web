@@ -129,7 +129,7 @@ export default function ServerPage() {
             />
           </SettingsBlock>
 
-          <div style={{ "margin-bottom": "10px" }}>
+          <div style={{ "margin-bottom": "4px" }}>
             <UsersPane
               title="Members"
               search={params.serverId}
