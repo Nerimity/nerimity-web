@@ -51,7 +51,7 @@ interface WindowAPI {
 
   setNotification(value: boolean): void;
   getDesktopCaptureSources(): Promise<ElectronCaptureSource[]>;
-  setDesktopCaptureSourceId(sourceId: string): void;
+  setDesktopCaptureSourceId(sourceId: string): Promise<true>;
 
   getRunningPrograms(ignoredPrograms?: Program[]): Promise<Program[]>;
   restartActivityStatus(listenToPrograms: Program[]): void;

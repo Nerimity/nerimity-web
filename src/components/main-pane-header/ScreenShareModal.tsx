@@ -52,7 +52,7 @@ export function ScreenShareModal(props: { close: () => void }) {
 
     if (electronWindowAPI()?.isElectron) {
       const sourceId = electronSourceIdRef();
-      electronWindowAPI()?.setDesktopCaptureSourceId(sourceId);
+      await electronWindowAPI()?.setDesktopCaptureSourceId(sourceId);
     }
 
     const stream = await navigator.mediaDevices
