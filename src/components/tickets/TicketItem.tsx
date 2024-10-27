@@ -1,5 +1,6 @@
 import { RawTicket, TicketCategory, TicketStatus } from "@/chat-api/RawData";
-import { Dynamic, Show } from "solid-js/web";
+import { Show } from "solid-js";
+import { Dynamic } from "solid-js/web";
 import { css, styled } from "solid-styled-components";
 import { CustomLink } from "../ui/CustomLink";
 import Text from "../ui/Text";
@@ -141,7 +142,7 @@ export const TicketStatusToName = (as: "mod" | "user") =>
   ({
     [TicketStatus.CLOSED_AS_DONE]: {
       text: "Resolved",
-      color: "var(--primary-color)",
+      color: "var(--success-color)",
     },
     [TicketStatus.CLOSED_AS_INVALID]: {
       text: "Invalid",
@@ -149,10 +150,10 @@ export const TicketStatusToName = (as: "mod" | "user") =>
     },
     [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
       text: as === "user" ? "Reply Sent" : "Response Needed",
-      color: as === "user" ? "var(--success-color)" : "var(--warn-color)",
+      color: as === "user" ? "var(--primary-color)" : "var(--warn-color)",
     },
     [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
       text: as === "user" ? "Response Needed" : "Reply Sent",
-      color: as === "user" ? "var(--warn-color)" : "var(--success-color)",
+      color: as === "user" ? "var(--warn-color)" : "var(--primary-color)",
     },
   } as Record<string, { text: string; color: string }>);

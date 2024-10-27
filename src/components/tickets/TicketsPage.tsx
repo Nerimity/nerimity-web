@@ -61,7 +61,11 @@ const TicketsPage = () => {
       >
         <Breadcrumb>
           <Show when={!isModeration()}>
-            <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
+            <BreadcrumbItem
+              href="/app"
+              icon="home"
+              title={t("dashboard.title")}
+            />
           </Show>
           <Show when={isModeration()}>
             <BreadcrumbItem
@@ -115,7 +119,7 @@ const TicketStatusButtons = (props: {
 }) => {
   return (
     <FlexColumn gap={4}>
-      <Text>Sort:</Text>
+      <Text>Filter:</Text>
       <FlexRow wrap gap={4}>
         <For each={Object.keys(TicketStatusToName("mod"))}>
           {(key) => {
