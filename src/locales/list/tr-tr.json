@@ -39,7 +39,14 @@
 		"discover": "Keşfet",
 		"notifications": "Bildirimler"
 	},
+	"messageArea": {
+    "messageBoxPlaceholder": "{{username}} kullanıcısına mesaj yaz",
+    "messageBoxChannelPlaceholder": "{{channelName}} kanalında mesaj yaz"
+  	},
 	"inbox": {
+		"blockedUsersModal": {
+      		"title": "Engellenmiş Kullanıcılar"
+    	},
 		"drawer": {
 			"searchBarPlaceholder": "Ara",
 			"friendRequests": "{{count}} Arkadaşlık İsteği",
@@ -78,6 +85,7 @@
 		"settings": {
 			"drawer": {
 				"general": "Genel",
+				"audit-logs": "Denetim Kaydı",
 				"roles": "Roller",
 				"channels": "Kanallar",
 				"bans": "Yasaklar",
@@ -135,7 +143,8 @@
 				"permissionsDescription": "Bu kanalın izinlerini yönet.",
 				"deleteThisChannel": "Bu kanalı sil",
 				"deleteThisChannelDescription": "Bu geri alınamaz!",
-				"deleteChannelButton": "Kanalı Sil"
+				"deleteChannelButton": "Kanalı Sil",
+				"removeNoticeButton": "Hatırlatmayı Sil"
 			},
 			"invites": {
 				"createInviteButton": "Davet Oluştur",
@@ -326,7 +335,11 @@
 		"editMessage": "Mesajı Düzenle",
 		"deleteMessage": "Mesajı Sil",
 		"copyMessage": "Mesajı Kopyala",
-		"copyId": "ID'yi Kopyala"
+		"copyId": "ID'yi Kopyala",
+		"viewReactions": "Tepkileri Görüntüle",
+    "quoteMessage": "Mesajı Alıntıla",
+    "reportMessage": "Mesajı Bildir",
+    "reply": "Yanıtla"
 	},
 	"profile": {
 		"followButton": "Takip Et",
