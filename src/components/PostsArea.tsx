@@ -586,7 +586,7 @@ export function PostsArea(props: {
 
   return (
     <PostsContainer gap={2} style={props.style}>
-      <Show when={props.showCreateNew && !sort()}>
+      <Show when={props.showCreateNew && (!props.showDiscover || !sort())}>
         <NewPostArea
           bgColor={props.bgColor}
           primaryColor={props.primaryColor}
