@@ -145,7 +145,6 @@
         "deleteThisChannelDescription": "This cannot be undone!",
         "deleteChannelButton": "Delete Channel",
         "removeNoticeButton": "Remove Notice"
-
       },
       "invites": {
         "createInviteButton": "Create Invite",
