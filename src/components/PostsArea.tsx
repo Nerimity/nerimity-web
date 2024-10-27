@@ -4,6 +4,7 @@ import {
   RawPostNotification,
 } from "@/chat-api/RawData";
 import {
+  DiscoverSort,
   getLikesPosts,
   getPostNotifications,
   LikedPost,
@@ -53,6 +54,7 @@ import { Notice } from "./ui/Notice/Notice";
 import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";
 import { PostItem } from "./post-area/PostItem";
 import { MetaTitle } from "@/common/MetaTitle";
+import DropDown from "./ui/drop-down/DropDown";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -463,6 +465,9 @@ export function PostsArea(props: {
   bgColor?: string;
 }) {
   const [loading, setLoading] = createSignal(false);
+  const [sort, setSort] = createSignal<DiscoverSort | undefined>(
+    "mostLiked7Days"
+  );
   const { posts } = useStore();
   const [lastFetchCount, setLastFetchCount] = createSignal(0);
   let postsContainerRef: HTMLDivElement | undefined;
@@ -500,7 +505,7 @@ export function PostsArea(props: {
   const fetchDiscover = async () => {
     if (!props.showDiscover) return;
     setLoading(true);
-    const newPosts = await posts.fetchDiscover();
+    const newPosts = await posts.fetchDiscover(sort());
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
   };
@@ -514,14 +519,11 @@ export function PostsArea(props: {
   };
 
   createEffect(
-    on(
-      () => props.postId,
-      () => {
-        fetchFeed();
-        fetchDiscover();
-        fetchReplies();
-      }
-    )
+    on([() => props.postId, sort], () => {
+      fetchFeed();
+      fetchDiscover();
+      fetchReplies();
+    })
   );
 
   const hasMorePosts = () => lastFetchCount() >= 30;
@@ -555,7 +557,7 @@ export function PostsArea(props: {
   const loadMoreDiscover = async () => {
     if (loading()) return;
     setLoading(true);
-    const newPosts = await posts.fetchMoreDiscover();
+    const newPosts = await posts.fetchMoreDiscover(sort());
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
   };
@@ -584,7 +586,7 @@ export function PostsArea(props: {
 
   return (
     <PostsContainer gap={2} style={props.style}>
-      <Show when={props.showCreateNew}>
+      <Show when={props.showCreateNew && !sort()}>
         <NewPostArea
           bgColor={props.bgColor}
           primaryColor={props.primaryColor}
@@ -595,6 +597,24 @@ export function PostsArea(props: {
           bgColor={props.bgColor}
           primaryColor={props.primaryColor}
           postId={props.postId}
+        />
+      </Show>
+      <Show when={props.showDiscover}>
+        <DropDown
+          class={css`
+            margin-left: 2px;
+            margin-bottom: 6px;
+          `}
+          onChange={(v) =>
+            setSort(v.id === "0" ? undefined : (v.id as DiscoverSort))
+          }
+          selectedId={sort() || "0"}
+          items={[
+            { id: "0", label: "Latest" },
+            { id: "mostLiked7Days", label: "Most Liked (7 days)" },
+            { id: "mostLiked30days", label: "Most Liked (30 days)" },
+            { id: "mostLikedAllTime", label: "Most Liked (All time)" },
+          ]}
         />
       </Show>
       <FlexColumn gap={2} ref={postsContainerRef}>
