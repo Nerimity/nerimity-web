@@ -2,7 +2,7 @@ import { getTickets } from "@/chat-api/services/TicketService.ts";
 import { For, Setter, Show, createEffect, createSignal, on } from "solid-js";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
-import { RawTicket } from "@/chat-api/RawData";
+import { RawTicket, TicketStatus } from "@/chat-api/RawData";
 import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
 import { t } from "i18next";
@@ -30,7 +30,7 @@ const TicketsPage = () => {
 
   const [ticketSortStatus, setTicketSortStatus] = createSignal<
     undefined | number
-  >(undefined);
+  >(isModeration() ? TicketStatus.WAITING_FOR_MODERATOR_RESPONSE : undefined);
 
   createEffect(
     on(ticketSortStatus, async () => {
