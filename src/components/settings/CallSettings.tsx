@@ -48,10 +48,7 @@ export default function CallSettings() {
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.call-settings")} />
       </Breadcrumb>
-      <Notice
-        type="info"
-        description="Changes will be applied on your next calls."
-      />
+      <Notice type="info" description={t("settings.call.nextCallNotice")} />
       <InputDevices />
       <OutputDevices />
       <InputMode />
@@ -83,10 +80,10 @@ function InputDevices() {
   });
 
   return (
-    <SettingsBlock icon="mic" label="Input Device">
+    <SettingsBlock icon="mic" label={t("settings.call.inputDevices")}>
       <DropDown
         items={dropDownItem()}
-        selectedId={inputDeviceId() || "default"}
+        selectedId={inputDeviceId() || t("settings.call.default")}
         onChange={(e) => setInputDeviceId(e.id)}
       />
     </SettingsBlock>
@@ -116,10 +113,10 @@ function OutputDevices() {
   });
 
   return (
-    <SettingsBlock icon="speaker" label="Output Device">
+    <SettingsBlock icon="speaker" label={t("settings.call.outputDevices")}>
       <DropDown
         items={dropDownItem()}
-        selectedId={outputDeviceId() || "default"}
+        selectedId={outputDeviceId() || t("settings.call.default")}
         onChange={(e) => setOutputDeviceId(e.id)}
       />
     </SettingsBlock>
@@ -142,7 +139,11 @@ function InputMode() {
 
   return (
     <div>
-      <SettingsBlock icon="steppers" label="Input Mode" header />
+      <SettingsBlock
+        icon="steppers"
+        label={t("settings.call.inputMode")}
+        header
+      />
       <InputModeRadioBoxContainer
         onClick={() => {
           if (isInCall()) {
@@ -155,9 +156,9 @@ function InputMode() {
           initialId={inputMode()}
           onChange={(e) => setInputMode(e.id)}
           items={[
-            { id: "OPEN", label: "Open Mic" },
-            { id: "VOICE_ACTIVITY", label: "Voice Activity" },
-            { id: "PTT", label: "Push To Talk" },
+            { id: "OPEN", label: t("settings.call.openMic") },
+            { id: "VOICE_ACTIVITY", label: t("settings.call.voiceActivity") },
+            { id: "PTT", label: t("settings.call.pushToTalk") },
           ]}
         />
       </InputModeRadioBoxContainer>
@@ -226,10 +227,10 @@ function PushToTalk() {
         <Show when={!electronWindowAPI()?.isElectron}>
           <Notice
             type="info"
-            description="Download the Nerimity desktop app to use this feature without window tab focus."
+            description={t("settings.call.downloadAppNotice")}
           />
         </Show>
-        <SettingsBlock icon="keyboard" label="Push To Talk">
+        <SettingsBlock icon="keyboard" label={t("settings.call.pushToTalk")}>
           <Input
             disabled
             value={value()}
@@ -237,7 +238,11 @@ function PushToTalk() {
               <Button
                 onkeydown={(e) => e.preventDefault()}
                 color={bindMode() ? "var(--alert-color)" : undefined}
-                label={bindMode() ? "Stop" : "Bind"}
+                label={
+                  bindMode()
+                    ? t("settings.call.stopButton")
+                    : t("settings.call.bindButton")
+                }
                 onClick={toggleBindMode}
               />
             }

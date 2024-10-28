@@ -301,6 +301,20 @@
         "inheritFromPingSettings": "Inherit from Ping Settings",
         "all": "All"
       }
+    },
+    "call": {
+      "nextCallNotice": "Changes will be applied on your next calls.",
+      "inputDevices": "Input Devices",
+      "outputDevices": "Output Devices",
+      "default": "Default",
+      "inputMode": "Input Mode",
+      "openMic": "Open Mic",
+      "voiceActivity": "Voice Activity",
+      "pushToTalk": "Push to Talk",
+      "bindButton": "Bind",
+      "stopButton": "Stop",
+      "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
+
     }
   },
   "supportBlock": {
