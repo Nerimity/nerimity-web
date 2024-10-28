@@ -315,6 +315,14 @@
       "stopButton": "Stop",
       "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
 
+    },
+    "interface": {
+      "blurEffect": "Blur Effect",
+      "blurEffectDescription": "Enables transparent blur effect. Disabled by default on mobile. Can cause performance issues.",
+      "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
+      "disableAdvancedMarkupBarDescription": "Disable advanced markup bar from text channels.",
+      "customizeColors": "Customize Colors",
+      "customizeColorsDescription": "Customize the colors of the interface."
     }
   },
   "supportBlock": {

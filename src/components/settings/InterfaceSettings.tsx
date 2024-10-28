@@ -76,8 +76,8 @@ function BlurEffect() {
   return (
     <SettingsBlock
       icon="dvr"
-      label="Blur Effect"
-      description="Enables transparent blur effect. Disabled by default on mobile. Can cause performance issues."
+      label={t("settings.interface.blurEffect")}
+      description={t("settings.interface.blurEffectDescription")}
     >
       <Checkbox onChange={toggleBlurEffect} checked={blurEffectEnabled()} />
     </SettingsBlock>
@@ -92,8 +92,8 @@ function AdvancedMarkup() {
   return (
     <SettingsBlock
       icon="dvr"
-      label="Disable Advanced Markup Bar"
-      description="Disable advanced markup bar from text channels."
+      label={t("settings.interface.disableAdvancedMarkupBar")}
+      description={t("settings.interface.disableAdvancedMarkupBarDescription")}
     >
       <Checkbox onChange={setEnabled} checked={enabled()} />
     </SettingsBlock>
@@ -105,8 +105,8 @@ function CustomizeColors() {
     <div>
       <SettingsBlock
         icon="palette"
-        label="Customize Colors"
-        description="Customize the colors of the interface."
+        label={t("settings.interface.customizeColors")}
+        description={t("settings.interface.customizeColorsDescription")}
         header
       />
       <For each={Object.entries(currentTheme())}>
