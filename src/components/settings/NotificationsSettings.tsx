@@ -82,8 +82,8 @@ function DesktopNotification() {
   return (
     <SettingsBlock
       icon="dvr"
-      label="Desktop Notifications"
-      description="Show desktop notifications even when the app is minimized."
+      label={t("settings.notifications.desktopNotifications")}
+      description={t("settings.notifications.desktopNotificationsDescription")}
     >
       <Checkbox onChange={onChange} checked={isEnabled()} />
     </SettingsBlock>
@@ -112,8 +112,8 @@ function NotificationSound() {
     <FlexColumn>
       <SettingsBlock
         icon="notifications_active"
-        label="Sounds"
-        description="If the notification sounds are too annoying, you can disable them."
+        label={t("settings.notifications.sounds")}
+        description={t("settings.notifications.soundsDescription")}
       >
         <Checkbox onChange={onNotificationSoundChange} checked={!isMuted()} />
       </SettingsBlock>
@@ -121,8 +121,8 @@ function NotificationSound() {
       <Show when={!isMuted()}>
         <SettingsBlock
           icon="volume_up"
-          label="Volume"
-          description="Change the volume of the notification sounds."
+          label={t("settings.notifications.volume")}
+          description={t("settings.notifications.volumeDescription")}
         >
           <div style={{ display: "flex" }}>
             <Slider
@@ -148,13 +148,13 @@ function NotificationSoundSelection() {
       <SettingsBlock
         header
         icon="music_note"
-        label="Sounds"
-        description="Change the sound of notifications with these royalty free sounds."
+        label={t("settings.notifications.sounds")}
+        description={t("settings.notifications.changeSoundsDescription")}
       />
       <SettingsBlock
         icon="chat"
-        label="Message"
-        description="Sound when receiving a message."
+        label={t("settings.notifications.message")}
+        description={t("settings.notifications.messageDescription")}
         borderTopRadius={false}
         borderBottomRadius={false}
       >
@@ -162,8 +162,8 @@ function NotificationSoundSelection() {
       </SettingsBlock>
       <SettingsBlock
         icon="alternate_email"
-        label="Mention"
-        description="Sound when receiving a mention."
+        label={t("settings.notifications.mention")}
+        description={t("settings.notifications.mentionDescription")}
         borderTopRadius={false}
       >
         <NotificationSoundDropDown typeId="MESSAGE_MENTION" />
@@ -234,10 +234,18 @@ function InAppNotificationBlock() {
     "INHERIT"
   );
   const NotificationPingItems: RadioBoxItem[] = [
-    { id: "OFF", label: "Off" },
-    { id: "MENTIONS_ONLY", label: "Mentions Only" },
-    { id: "INHERIT", label: "Inherit from Ping Settings" },
-    { id: "ALL", label: "All" },
+    { id: "OFF", label: t("settings.notifications.inAppPreviewModes.off") },
+    {
+      id: "MENTIONS_ONLY",
+      label: t("settings.notifications.inAppPreviewModes.mentionsOnly"),
+    },
+    {
+      id: "INHERIT",
+      label: t(
+        "settings.notifications.inAppPreviewModes.inheritFromPingSettings"
+      ),
+    },
+    { id: "ALL", label: t("settings.notifications.inAppPreviewModes.all") },
   ];
 
   return (
@@ -248,9 +256,9 @@ function InAppNotificationBlock() {
         `}
         header
         icon="priority_high"
-        label="In App Preview"
-        description="Display In App Notification popups."
-      ></SettingsBlock>
+        label={t("settings.notifications.inAppPreview")}
+        description={t("settings.notifications.inAppPreviewDescription")}
+      />
 
       <RadioBoxContainer>
         <RadioBox

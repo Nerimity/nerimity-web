@@ -277,6 +277,30 @@
         "hideFollowing": "Hide Following",
         "hideFollowingDescription": "Hide users you are following from your profile."
       }
+    },
+    "notifications": {
+      "desktopNotifications": "Desktop Notifications",
+      "desktopNotificationsDescription": "Show desktop notifications even when the app is minimized.",
+      "sounds": "Sounds",
+      "soundsDescription": "If the notification sounds are too annoying, you can disable them.",
+      "volume": "Volume",
+      "volumeDescription": "Change the volume of the notification sounds.",
+      "changeSoundsDescription": "Change the sound of notifications with these royalty free sounds.",
+
+      "message": "Message",
+      "messageDescription": "Sound when receiving a message.",
+      "mention": "Mention",
+      "mentionDescription": "Sound when receiving a mention.",
+
+      "inAppPreview": "In App Preview",
+      "inAppPreviewDescription": "Display In App Notification popups.",
+
+      "inAppPreviewModes": {
+        "off": "Off",
+        "mentionsOnly": "Mentions Only",
+        "inheritFromPingSettings": "Inherit from Ping Settings",
+        "all": "All"
+      }
     }
   },
   "supportBlock": {
