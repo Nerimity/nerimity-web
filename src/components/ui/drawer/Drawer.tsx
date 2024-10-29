@@ -69,11 +69,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     transformX = value;
     transformString = "translate3d(" + value + "px, 0, 0)";
 
-    animationFrame && window.cancelAnimationFrame(animationFrame);
-
-    animationFrame = window.requestAnimationFrame(function () {
-      containerEl!.style.transform = transformString;
-    });
+    containerEl!.style.transform = transformString;
   };
 
   createEffect(
@@ -96,13 +92,11 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   const addEvents = () => {
     window.addEventListener("touchstart", onTouchStart, false);
-    window.addEventListener("touchmove", onTouchMove, false);
     window.addEventListener("touchend", onTouchEnd, false);
     window.addEventListener("scroll", onScroll, true);
   };
   const removeEvents = () => {
     window.removeEventListener("touchstart", onTouchStart);
-    window.removeEventListener("touchmove", onTouchMove);
     window.removeEventListener("touchend", onTouchEnd);
     window.removeEventListener("scroll", onScroll);
   };
@@ -166,6 +160,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     }
 
     pauseTouches = false;
+    window.addEventListener("touchmove", onTouchMove, false);
 
     containerEl!.style.transition = "";
     startTransformX = transformX;
@@ -179,45 +174,55 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   let ignoreDistance = false;
 
   const onTouchMove = (event: TouchEvent) => {
-    if (pauseTouches) return;
-    const x = event.touches[0].clientX;
-    const y = event.touches[0].clientY;
-    const touchDistance = x - startPos.x;
-
-    const XDistance = Math.abs(startTransformX - transformX);
-    const YDistance = Math.abs(y - startPos.y);
-    if (XDistance <= 3 && YDistance >= 7 && !ignoreDistance)
-      return (pauseTouches = true);
-
-    ignoreDistance = true;
-
-    if (currentPage() === 0 && -touchDistance >= rightDrawerWidth()) {
-      return setTransformX(-rightDrawerWidth());
+    if (animationFrame) {
+      window.cancelAnimationFrame(animationFrame);
     }
+    animationFrame = window.requestAnimationFrame(() => {
+      if (pauseTouches) {
+        window.removeEventListener("touchmove", onTouchMove, false);
+        return;
+      }
+      const x = event.touches[0].clientX;
+      const y = event.touches[0].clientY;
+      const touchDistance = x - startPos.x;
 
-    if (currentPage() === 2 && -touchDistance <= rightDrawerWidth()) {
-      return setTransformX(-rightDrawerWidth());
-    }
+      const XDistance = Math.abs(startTransformX - transformX);
+      const YDistance = Math.abs(y - startPos.y);
+      if (XDistance <= 3 && YDistance >= 7 && !ignoreDistance)
+        return (pauseTouches = true);
 
-    if (touchDistance >= 0) {
-      startPos.x = x;
-      return setTransformX(0);
-    }
+      ignoreDistance = true;
 
-    if (!hasRightDrawer() && -touchDistance >= leftDrawerWidth()) {
-      return setTransformX(-leftDrawerWidth());
-    }
+      if (currentPage() === 0 && -touchDistance >= rightDrawerWidth()) {
+        return setTransformX(-rightDrawerWidth());
+      }
 
-    if (touchDistance <= -totalWidth() + width()) {
-      startPos.x = x - transformX;
-      return setTransformX(-totalWidth() + width());
-    }
+      if (currentPage() === 2 && -touchDistance <= rightDrawerWidth()) {
+        return setTransformX(-rightDrawerWidth());
+      }
 
-    setTransformX(touchDistance);
+      if (touchDistance >= 0) {
+        startPos.x = x;
+        return setTransformX(0);
+      }
+
+      if (!hasRightDrawer() && -touchDistance >= leftDrawerWidth()) {
+        return setTransformX(-leftDrawerWidth());
+      }
+
+      if (touchDistance <= -totalWidth() + width()) {
+        startPos.x = x - transformX;
+        return setTransformX(-totalWidth() + width());
+      }
+
+      setTransformX(touchDistance);
+    });
   };
   const onTouchEnd = (event: TouchEvent) => {
+    window.removeEventListener("touchmove", onTouchMove, false);
+
     ignoreDistance = false;
-    pauseTouches = false;
+    pauseTouches = true;
     const isOnLeftDrawer =
       transformX - -leftDrawerWidth() >= leftDrawerWidth() / 2;
     const isOnRightDrawer =
