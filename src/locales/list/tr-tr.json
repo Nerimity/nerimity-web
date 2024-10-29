@@ -276,6 +276,48 @@
 				"hideFollowing": "Takip Edilenleri Gizle",
 				"hideFollowingDescription": "Takip ettiğiniz kişileri profilinizden gizleyin."
 			}
+		},
+    "notifications": {
+      "desktopNotifications": "Masaüstü Bildirimleri",
+      "desktopNotificationsDescription": "Uygulama penceresi küçültülmüş olsa bile bildirimleri göster.",
+      "sounds": "Sesler",
+      "soundsDescription": "Eğer bildirim seslerinden rahatsız oluyorsanız, devre dışı bırakabilirsiniz.",
+      "volume": "Ses",
+      "volumeDescription": "Bildirim seslerinin ses düzeyini ayarlayın.",
+      "changeSoundsDescription": "Bildirim sesini bu telifsiz sesler ile değiştirin.",
+      "message": "Mesaj",
+      "messageDescription": "Mesaj aldığınızda çalan ses.",
+      "mention": "Bahsetme",
+      "mentionDescription": "Birisi sizden bahsettiğinde çalan ses.",
+      "inAppPreview": "Uygulama İçi Bildirim Önizlemeleri",
+      "inAppPreviewDescription": "Uygulama içerisinde bildirim aldığınızda bir önizleme görün.",
+      "inAppPreviewModes": {
+        "off": "Kapalı",
+        "mentionsOnly": "Sadece Bahsetmelerde",
+        "inheritFromPingSettings": "Bildirim Ayarlarıyla Aynı",
+        "all": "Bütün Mesajlar"
+			  }
+			},
+    "call": {
+      "nextCallNotice": "Değişiklikler sonraki aramalarınızda geçerli olacak.",
+      "inputDevices": "Giriş Cihazları",
+      "outputDevices": "Çıkış Cihazları",
+      "default": "Varsayılan",
+      "inputMode": "Giriş Modu",
+      "openMic": "Sürekli Açık Mikrofon",
+      "voiceActivity": "Ses Etkinliği",
+      "pushToTalk": "Bas-Konuş",
+      "bindButton": "Tuş Ata",
+      "stopButton": "Dur",
+      "downloadAppNotice": "Bu özelliği sekmeye odaklanmanda kullanmak için Nerimity masaüstü uygulamasını indirin."
+			},
+    "interface": {
+      "blurEffect": "Bulanıklık Efekti",
+      "blurEffectDescription": "Saydam bulanıklık efektini aktive eder. Mobilde varsayılan olarak kapalı olur. Performans kayıplarına neden olabilir.",
+      "disableAdvancedMarkupBar": "Gelişmiş İşaretleme Barını Devre Dışı Bırak",
+      "disableAdvancedMarkupBarDescription": "Gelişmiş işaretleme barını metin kanallarında devre dışı bırakır.",
+      "customizeColors": "Renkleri Kişiselleştir",
+      "customizeColorsDescription": "Arayüz renklerini isteğinize göre kişiselleştirin."
 		}
 	},
 	"supportBlock": {
