@@ -3,24 +3,23 @@ import { RPC } from "./Electron";
 export class LocalRPC {
   onUpdateRPC: (data: RPC | false) => void = () => {};
 
-  RPCs: {data: RPC, id: string}[] = [];
+  RPCs: { data: RPC; id: string }[] = [];
 
   constructor() {
-
-
-    window.addEventListener("message", (ev) => {
-      const payload = ev.data;
-      const id = payload.id;
-      if (payload.name === "UPDATE_RPC") {
-        this.updateRPC(id, payload.data);
-      }
-    }, true); 
-
-
-
+    window.addEventListener(
+      "message",
+      (ev) => {
+        const payload = ev.data;
+        const id = payload.id;
+        if (payload.name === "UPDATE_RPC") {
+          this.updateRPC(id, payload.data);
+        }
+      },
+      true
+    );
   }
   start() {
-    window.postMessage({name: "NERIMITY_READY"}, "*");
+    window.parent.postMessage({ name: "NERIMITY_READY" }, "*");
   }
   emitEvent() {
     const firstRPC = this.RPCs[0];
@@ -36,7 +35,7 @@ export class LocalRPC {
     if (index === -1) {
       this.RPCs.push({
         id,
-        data: sanitizedData(data)
+        data: sanitizedData(data),
       });
       if (this.RPCs.length === 1) this.emitEvent();
       return;
@@ -58,14 +57,11 @@ export class LocalRPC {
       this.emitEvent();
     }
   }
-
-  
 }
 
 function JSONCompare(a?: Record<any, any>, b?: Record<any, any>) {
   return JSON.stringify(a) === JSON.stringify(b);
 }
-
 
 const sanitizedData = (data: any) => {
   // name: "Spotify",
@@ -74,18 +70,20 @@ const sanitizedData = (data: any) => {
   // title: data.title,
   // subtitle: data.subtitle
   // startedAt: data.startedAt
-  return JSON.parse(JSON.stringify({
-    name: data.name?.substring(0, 30),
-    action: data.action?.substring(0, 20),
-    imgSrc: data.imgSrc?.substring(0, 250),
-    title: data.title?.substring(0, 30),
-    subtitle: data.subtitle?.substring(0, 30),
-    link: data.link?.substring(0, 250),
-    startedAt: data.startedAt,
-    endsAt: data.endsAt,
-    speed: data.speed,
-    updatedAt: data.updatedAt
-  }));
+  return JSON.parse(
+    JSON.stringify({
+      name: data.name?.substring(0, 30),
+      action: data.action?.substring(0, 20),
+      imgSrc: data.imgSrc?.substring(0, 250),
+      title: data.title?.substring(0, 30),
+      subtitle: data.subtitle?.substring(0, 30),
+      link: data.link?.substring(0, 250),
+      startedAt: data.startedAt,
+      endsAt: data.endsAt,
+      speed: data.speed,
+      updatedAt: data.updatedAt,
+    })
+  );
 };
 
 export const localRPC = new LocalRPC();
