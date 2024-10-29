@@ -133,24 +133,28 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
     document.addEventListener("mouseup", onMouseUp, { once: true });
   };
 
+  let frameAnimation: number | undefined;
   const onMouseMove = (e: MouseEvent) => {
-    if (!scrollElement()) return;
-    if (!thumbEl) return;
-    if (!scrollBarEl) return;
+    if (frameAnimation) {
+      window.cancelAnimationFrame(frameAnimation);
+    }
+    frameAnimation = window.requestAnimationFrame(() => {
+      if (!scrollElement()) return;
+      if (!thumbEl) return;
+      if (!scrollBarEl) return;
 
-    const top = e.clientY - scrollBarEl.getBoundingClientRect().top - yOffset;
+      const top = e.clientY - scrollBarEl.getBoundingClientRect().top - yOffset;
 
-    const thumbHeight = thumbEl.clientHeight;
+      const thumbHeight = thumbEl.clientHeight;
 
-    const scrollableDistance =
-      scrollElement()!.scrollHeight - scrollElement()!.clientHeight;
+      const scrollableDistance =
+        scrollElement()!.scrollHeight - scrollElement()!.clientHeight;
 
-    const scrollPosition =
-      (top / (scrollBarEl.clientHeight - thumbHeight)) * scrollableDistance;
+      const scrollPosition =
+        (top / (scrollBarEl.clientHeight - thumbHeight)) * scrollableDistance;
 
-    scrollElement()!.scrollTop = scrollPosition;
-
-    // thumbEl.style.top = `${top}px`;
+      scrollElement()!.scrollTop = scrollPosition;
+    });
   };
 
   const onMouseUp = () => {
