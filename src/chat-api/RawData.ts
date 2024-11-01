@@ -103,10 +103,11 @@ export interface RawChannelNotice {
   userId: string;
 }
 
+export type  AttachmentProviders = "local" | "google_drive";
 export interface RawAttachment {
   id: string;
 
-  provider?: "local" | "google_drive";
+  provider?: AttachmentProviders;
   fileId?: string;
   mime?: string;
   messageId?: string;

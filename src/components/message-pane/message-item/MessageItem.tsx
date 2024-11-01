@@ -10,6 +10,7 @@ import {
 import Avatar from "@/components/ui/Avatar";
 import Icon from "@/components/ui/icon/Icon";
 import {
+  AttachmentProviders,
   HtmlEmbedItem,
   MessageType,
   RawAttachment,
@@ -78,7 +79,11 @@ import { ServerEvents } from "@/chat-api/EventNames";
 import { electronWindowAPI } from "@/common/Electron";
 import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
 import { stat } from "fs";
-import { AudioEmbed } from "./AudioEmbed";
+import {
+  AudioEmbed,
+  GoogleDriveAudioEmbed,
+  LocalAudioEmbed,
+} from "./AudioEmbed";
 import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 import { ButtonsEmbed } from "./ButtonsEmbed";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -665,6 +670,10 @@ const LocalCdnEmbeds = (props: {
     return props.attachment.mime?.startsWith("video/");
   };
 
+  const isAudio = () => {
+    return props.attachment.mime?.startsWith("audio/");
+  };
+
   return (
     <Switch>
       <Match when={isImageCompressed()}>
@@ -677,6 +686,12 @@ const LocalCdnEmbeds = (props: {
       </Match>
       <Match when={isVideo()}>
         <LocalVideoEmbed attachment={props.attachment} />
+      </Match>
+      <Match when={isVideo()}>
+        <LocalVideoEmbed attachment={props.attachment} />
+      </Match>
+      <Match when={isAudio()}>
+        <LocalAudioEmbed attachment={props.attachment} />
       </Match>
       <Match when={true}>
         <LocalFileEmbed attachment={props.attachment} />
@@ -697,6 +712,7 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
         expireAt: props.attachment.expireAt,
+        provider: "local",
       }}
     />
   );
@@ -731,7 +747,7 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
           <GoogleDriveVideoEmbed attachment={props.attachment} />
         </Match>
         <Match when={allowedAudioMimes.includes(props.attachment.mime!)}>
-          <AudioEmbed attachment={props.attachment} />
+          <GoogleDriveAudioEmbed attachment={props.attachment} />
         </Match>
       </Switch>
     </>
@@ -851,6 +867,7 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
               name: file()!.name!,
               size: parseInt(file()!.size! || "0"),
               thumbnailLink: file()?.thumbnailLink,
+              provider: "google_drive",
             }
           : undefined
       }
@@ -864,6 +881,7 @@ const VideoEmbed = (props: {
     size: number;
     thumbnailLink?: string;
     expireAt?: number;
+    provider: AttachmentProviders;
   };
   error?: string;
 }) => {
@@ -875,10 +893,15 @@ const VideoEmbed = (props: {
       return;
     }
 
-    if (!electronWindowAPI()?.isElectron && !props.file?.expireAt) {
-      alert(
-        "Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App."
-      );
+    if (props.file?.provider === "google_drive") {
+      if (
+        !electronWindowAPI()?.isElectron &&
+        !reactNativeAPI()?.isReactNative
+      ) {
+        alert(
+          "Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App."
+        );
+      }
     }
     setPlayVideo(!playVideo());
   };

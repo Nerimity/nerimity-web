@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { RawAttachment } from "@/chat-api/RawData";
+import { AttachmentProviders, RawAttachment } from "@/chat-api/RawData";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { millisecondsToHhMmSs } from "@/common/date";
 import {
@@ -8,6 +8,7 @@ import {
   initializeGoogleDrive,
 } from "@/common/driveAPI";
 import { electronWindowAPI } from "@/common/Electron";
+import env from "@/common/env";
 import { prettyBytes } from "@/common/prettyBytes";
 import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
 import Button from "@/components/ui/Button";
@@ -22,12 +23,27 @@ import {
   Show,
 } from "solid-js";
 
-export const AudioEmbed = (props: { attachment: RawAttachment }) => {
-  const audio = useAudio();
+export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
+  const isExpired = () => {
+    return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
+  };
+  return (
+    <AudioEmbed
+      error={isExpired() ? "File expired." : undefined}
+      file={{
+        name: props.attachment.path?.split("/").reverse()[0]!,
+        size: props.attachment.filesize!,
+        url: env.NERIMITY_CDN + props.attachment.path!,
+        expireAt: props.attachment.expireAt,
+        provider: "local",
+      }}
+    />
+  );
+};
+
+export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
   const [error, setError] = createSignal<string | undefined>();
-
-  let progressBarRef: HTMLDivElement | undefined;
 
   onMount(async () => {
     await initializeGoogleDrive();
@@ -51,6 +67,37 @@ export const AudioEmbed = (props: { attachment: RawAttachment }) => {
     setFile(file);
   });
 
+  return (
+    <AudioEmbed
+      error={error()}
+      file={
+        file()
+          ? {
+              url: file()!.webContentLink!,
+              provider: "google_drive",
+              name: file()!.name!,
+              size: parseInt(file()!.size! || "0"),
+            }
+          : undefined
+      }
+    />
+  );
+};
+
+export const AudioEmbed = (props: {
+  file?: {
+    url: string;
+    name: string;
+    size: number;
+    expireAt?: number;
+    provider: AttachmentProviders;
+  };
+  error?: string;
+}) => {
+  const audio = useAudio();
+
+  let progressBarRef: HTMLDivElement | undefined;
+
   const statusIcon = () => {
     if (audio.state() === "STOPPED") return "play_arrow";
     if (audio.state() === "PAUSED") return "play_arrow";
@@ -72,16 +119,21 @@ export const AudioEmbed = (props: { attachment: RawAttachment }) => {
   };
 
   const onPlayClick = () => {
-    if (!electronWindowAPI()?.isElectron && !reactNativeAPI()?.isReactNative) {
-      alert(
-        "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
-      );
+    if (props.file?.provider === "google_drive") {
+      if (
+        !electronWindowAPI()?.isElectron &&
+        !reactNativeAPI()?.isReactNative
+      ) {
+        alert(
+          "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
+        );
+      }
     }
     if (audio.loaded()) {
       audio.togglePlay();
       return;
     }
-    audio.playUrl(file()?.webContentLink!);
+    audio.playUrl(props.file?.url!);
   };
 
   return (
@@ -93,25 +145,27 @@ export const AudioEmbed = (props: { attachment: RawAttachment }) => {
       )}
     >
       <div class={styles.innerAudioEmbed}>
-        <Show when={!file() && !error()}>
+        <Show when={!props.file && !props.error}>
           <Skeleton.Item height="100%" width="100%" />
         </Show>
-        <Show when={error()}>
+        <Show when={props.error}>
           <Icon name="error" color="var(--alert-color)" size={30} />
           <div class={styles.fileEmbedDetails}>
-            <div class={styles.fileEmbedName}>{error()}</div>
+            <div class={styles.fileEmbedName}>{props.error}</div>
           </div>
           <Button
             iconName="info"
             iconSize={16}
             onClick={() =>
               alert(
-                "This file was modified/deleted by the creator in their Google Drive. "
+                props.file?.expireAt
+                  ? "File expired."
+                  : "This file was modified/deleted by the creator in their Google Drive. "
               )
             }
           />
         </Show>
-        <Show when={file() && !error()}>
+        <Show when={props.file && !props.error}>
           <Button
             onClick={onPlayClick}
             iconName={statusIcon()}
@@ -119,14 +173,14 @@ export const AudioEmbed = (props: { attachment: RawAttachment }) => {
             styles={{ "border-radius": "50%" }}
           />
           <div class={styles.fileEmbedDetails}>
-            <div class={styles.fileEmbedName}>{file()?.name}</div>
+            <div class={styles.fileEmbedName}>{props.file?.name}</div>
             <div class={styles.fileEmbedSize}>
-              {prettyBytes(parseInt(file()?.size! || "0"), 0)}
+              {prettyBytes(props.file?.size! || 0, 0)}
             </div>
           </div>
           <Button
             iconName="download"
-            onClick={() => window.open(file()?.webContentLink!, "_blank")}
+            onClick={() => window.open(props.file?.url!, "_blank")}
           />
         </Show>
       </div>
