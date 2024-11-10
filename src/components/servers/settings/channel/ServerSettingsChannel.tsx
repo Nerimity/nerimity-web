@@ -38,6 +38,7 @@ import {
 import { RawChannelNotice } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { t } from "i18next";
+import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 
 type ChannelParams = {
   serverId: string;
@@ -69,9 +70,6 @@ export default function ServerSettingsChannel() {
   const [inputValues, updatedInputValues, setInputValue] =
     createUpdatedSignal(defaultInput);
 
-  const permissions = () =>
-    getAllPermissions(CHANNEL_PERMISSIONS, inputValues().permissions);
-
   createEffect(
     on(channel, () => {
       header.updateHeader({
@@ -97,23 +95,6 @@ export default function ServerSettingsChannel() {
       ? t("servers.settings.channel.saving")
       : t("servers.settings.channel.saveChangesButton");
 
-  const onPermissionChanged = (checked: boolean, bit: number) => {
-    let newPermission = inputValues().permissions;
-    if (checked) {
-      newPermission = addBit(newPermission, bit);
-    }
-    if (!checked) {
-      newPermission = removeBit(newPermission, bit);
-    }
-    setInputValue("permissions", newPermission);
-  };
-
-  const showDeleteConfirmModal = () => {
-    createPortal?.((close) => (
-      <ChannelDeleteConfirmModal close={close} channel={channel()!} />
-    ));
-  };
-
   const server = () => servers.get(params.serverId);
 
   const openChannelIconPicker = (event: MouseEvent) => {
@@ -130,7 +111,11 @@ export default function ServerSettingsChannel() {
       unicode || `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`;
     setInputValue("icon", icon);
   };
-
+  const showDeleteConfirmModal = () => {
+    createPortal?.((close) => (
+      <ChannelDeleteConfirmModal close={close} channel={channel()!} />
+    ));
+  };
   return (
     <div class={styles.channelPane}>
       <Breadcrumb>
@@ -208,31 +193,10 @@ export default function ServerSettingsChannel() {
         />
       </SettingsBlock>
 
-      <div>
-        <SettingsBlock
-          icon="security"
-          label={t("servers.settings.channel.permissions")}
-          description={t("servers.settings.channel.permissionsDescription")}
-          header={true}
-        />
-        <For each={permissions()}>
-          {(permission) => (
-            <SettingsBlock
-              icon={permission.icon}
-              label={t(permission.name)}
-              description={t(permission.description)}
-              class={styles.permissionItem}
-            >
-              <Checkbox
-                checked={permission.hasPerm}
-                onChange={(checked) =>
-                  onPermissionChanged(checked, permission.bit)
-                }
-              />
-            </SettingsBlock>
-          )}
-        </For>
-      </div>
+      <ChannelPermissionsBlock
+        permissions={inputValues().permissions}
+        setPermissions={(v) => setInputValue("permissions", v)}
+      />
 
       <ChannelNoticeBlock
         channelId={params.channelId}
@@ -265,6 +229,101 @@ export default function ServerSettingsChannel() {
     </div>
   );
 }
+
+const ChannelPermissionsBlock = (props: {
+  permissions: number;
+  setPermissions: (permissions: number) => void;
+}) => {
+  const params = useParams<{ serverId: string }>();
+  const store = useStore();
+  const roles = () => store.serverRoles.getAllByServerId(params.serverId);
+  const server = () => store.servers.get(params.serverId);
+  const defaultRoleId = () => server()?.defaultRoleId;
+
+  createEffect(() => {
+    console.log(props.permissions[0]);
+  });
+
+  const rolesDropdownItems = () =>
+    roles().map(
+      (role) =>
+        ({
+          id: role!.id,
+          suffix:
+            defaultRoleId() === role!.id ? (
+              <div
+                class={css`
+                  margin-left: 4px;
+                  opacity: 0.5;
+                  font-size: 12px;
+                `}
+              >
+                (everyone)
+              </div>
+            ) : null,
+          label: role!.name,
+        } satisfies DropDownItem)
+    );
+
+  const allPermissions = () =>
+    getAllPermissions(CHANNEL_PERMISSIONS, props.permissions);
+
+  const onPermissionChanged = (checked: boolean, bit: number) => {
+    let newPermission = props.permissions;
+    console.log(newPermission);
+    if (checked) {
+      newPermission = addBit(newPermission, bit);
+    }
+    if (!checked) {
+      newPermission = removeBit(newPermission, bit);
+    }
+    props.setPermissions(newPermission);
+  };
+
+  return (
+    <div>
+      <SettingsBlock
+        icon="security"
+        label={t("servers.settings.channel.permissions")}
+        description={t("servers.settings.channel.permissionsDescription")}
+        header={true}
+        class={css`
+          && {
+            flex-direction: column;
+            align-items: start;
+            gap: 6px;
+          }
+        `}
+      >
+        <DropDown
+          class={css`
+            align-self: stretch;
+            margin-left: 40px;
+          `}
+          items={rolesDropdownItems()}
+          selectedId={defaultRoleId()}
+        />
+      </SettingsBlock>
+      <For each={allPermissions()}>
+        {(permission) => (
+          <SettingsBlock
+            icon={permission.icon}
+            label={t(permission.name)}
+            description={t(permission.description!)}
+            class={styles.permissionItem}
+          >
+            <Checkbox
+              checked={permission.hasPerm}
+              onChange={(checked) =>
+                onPermissionChanged(checked, permission.bit)
+              }
+            />
+          </SettingsBlock>
+        )}
+      </For>
+    </div>
+  );
+};
 
 const NoticeBlockStyle = css`
   && {
