@@ -199,18 +199,6 @@
 
   white-space: nowrap;
 
-  :global .postItem {
-    position: relative;
-    background: transparent;
-    &:before {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      border-bottom: solid 1px rgba(255, 255, 255, 0.2);
-      content: "";
-    }
-  }
 }
 
 .SidePaneItem {

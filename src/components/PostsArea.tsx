@@ -421,9 +421,12 @@ const PostOuterContainer = styled(FlexColumn)`
   scroll-margin-top: 50px;
   padding: 10px;
 
-  border-radius: 8px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
 
-  background: rgba(255, 255, 255, 0.06);
+  &:first-child {
+    border-top: solid 1px rgba(255, 255, 255, 0.2);
+  }
+
   &:hover {
     background: rgba(255, 255, 255, 0.07);
   }
@@ -638,7 +641,7 @@ export function PostsArea(props: {
           ]}
         />
       </Show>
-      <FlexColumn gap={2} ref={postsContainerRef}>
+      <FlexColumn ref={postsContainerRef}>
         <For each={cachedReplies()}>
           {(post, i) => (
             <PostItem
@@ -653,6 +656,12 @@ export function PostsArea(props: {
           <For each={Array(10).fill(0)}>
             {() => (
               <Skeleton.Item
+                class={css`
+                  && {
+                    border-radius: 0;
+                    border-top: solid 1px rgba(255, 255, 255, 0.2);
+                  }
+                `}
                 onInView={() => loadMore()}
                 height="100px"
                 width="100%"
@@ -735,6 +744,12 @@ function PostNotification(props: { notification: RawPostNotification }) {
                   background: none;
                 }
                 box-shadow: none;
+                &::before {
+                  border: none;
+                }
+                &:first-child {
+                  border: none;
+                }
               }
             `}
           />
@@ -894,7 +909,7 @@ export function PostNotificationsArea(props: { style?: JSX.CSSProperties }) {
     setNotifications(fetchNotifications);
   });
   return (
-    <PostsContainer gap={6} style={props.style}>
+    <PostsContainer style={props.style}>
       <For each={notifications()}>
         {(notification) => <PostNotification notification={notification} />}
       </For>
@@ -961,7 +976,7 @@ export function ViewPostModal(props: { close(): void }) {
       </MetaTitle>
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
-          <FlexColumn gap={6}>
+          <FlexColumn>
             <For each={commentToList()}>
               {(post) => <PostItem showFullDate post={post!} />}
             </For>
