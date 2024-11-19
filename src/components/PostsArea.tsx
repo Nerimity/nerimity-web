@@ -55,6 +55,7 @@ import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupO
 import { PostItem } from "./post-area/PostItem";
 import { MetaTitle } from "@/common/MetaTitle";
 import DropDown from "./ui/drop-down/DropDown";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -91,7 +92,10 @@ function NewPostArea(props: {
   postId?: string;
   primaryColor?: string;
 }) {
-  const { posts } = useStore();
+  const { posts, account } = useStore();
+
+  const isSupporter = () =>
+    hasBit(account.user()?.badges || 0, USER_BADGES.SUPPORTER.bit);
   const [content, setContent] = createSignal("");
   const { isPortalOpened } = useCustomPortal();
   const [attachedFile, setAttachedFile] = createSignal<File | undefined>(
@@ -209,7 +213,7 @@ function NewPostArea(props: {
       >
         <Input
           primaryColor={props.primaryColor}
-          maxLength={500}
+          maxLength={isSupporter() ? 1500 : 500}
           margin={[0, 0, 4, 0]}
           onBlur={() => setTimeout(() => setInputFocused(false), 100)}
           onFocus={() => setTimeout(() => setInputFocused(true), 100)}
