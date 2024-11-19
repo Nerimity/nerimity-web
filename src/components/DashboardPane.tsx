@@ -214,20 +214,32 @@ function PostsContainer() {
   });
 
   return (
-    <FlexColumn>
-      <Text
+    <FlexColumn
+      class={css`
+        background-color: rgba(255, 255, 255, 0.07);
+        border-radius: 8px;
+        margin-left: 6px;
+        margin-right: 6px;
+      `}
+    >
+      {/* <Text
         size={18}
         style={{
           "margin-left": "5px",
           "margin-bottom": "5px",
-          "margin-top": "20px",
+          "margin-top": "4px",
         }}
       >
         {t("dashboard.posts")}
-      </Text>
+      </Text> */}
       <FlexRow
         gap={5}
-        style={{ "margin-bottom": "5px", "margin-left": "5px", height: "28px" }}
+        style={{
+          "margin-bottom": "5px",
+          "margin-left": "5px",
+          height: "28px",
+          "margin-top": "6px",
+        }}
       >
         <ItemContainer
           class={TabStyle}

@@ -55,22 +55,29 @@ import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupO
 import { PostItem } from "./post-area/PostItem";
 import { MetaTitle } from "@/common/MetaTitle";
 import DropDown from "./ui/drop-down/DropDown";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
 const NewPostContainer = styled(FlexColumn)`
-  padding-bottom: 5px;
-  background: rgba(255, 255, 255, 0.06);
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   margin-bottom: 15px;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-top: none;
+  transition: 0.2s;
+  &[data-focused="true"] {
+    border-bottom-color: var(--primary-color);
+    border-bottom-width: 2px;
+  }
 `;
+const NewPostOuterContainer = styled(FlexColumn)``;
 
 const ButtonsContainer = styled(FlexRow)`
   position: relative;
   align-self: end;
+  margin: 4px;
 `;
 
 const EmojiPickerContainer = styled("div")`
@@ -85,7 +92,10 @@ function NewPostArea(props: {
   postId?: string;
   primaryColor?: string;
 }) {
-  const { posts } = useStore();
+  const { posts, account } = useStore();
+
+  const isSupporter = () =>
+    hasBit(account.user()?.badges || 0, USER_BADGES.SUPPORTER.bit);
   const [content, setContent] = createSignal("");
   const { isPortalOpened } = useCustomPortal();
   const [attachedFile, setAttachedFile] = createSignal<File | undefined>(
@@ -174,13 +184,12 @@ function NewPostArea(props: {
 
   const hasContentOrFocused = () => inputFocused() || content().length;
   return (
-    <NewPostContainer style={{ "background-color": props.bgColor }}>
+    <NewPostOuterContainer>
       <Show when={hasContentOrFocused()}>
         <Notice
           type="warn"
           class={css`
-            margin-top: 10px;
-            margin-bottom: -6px;
+            margin-bottom 4px;
           `}
           description={"Self-harm content is not allowed on Nerimity."}
         />
@@ -188,106 +197,121 @@ function NewPostArea(props: {
       <AdvancedMarkupOptions
         hideEmojiPicker
         class={css`
-          margin-top: 10px;
+          && {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            margin-bottom: 0;
+          }
         `}
         primaryColor={props.primaryColor}
         inputElement={textAreaEl()!}
         updateText={setContent}
       />
-      <Input
-        primaryColor={props.primaryColor}
-        maxLength={500}
-        margin={[0, 0, 10, 0]}
-        onBlur={() => setTimeout(() => setInputFocused(false), 100)}
-        onFocus={() => setTimeout(() => setInputFocused(true), 100)}
-        minHeight={hasContentOrFocused() ? 60 : undefined}
-        ref={setTextAreaEl}
-        placeholder={
-          props.postId
-            ? t("posts.replyInputPlaceholder")
-            : t("posts.createAPostInputPlaceholder")
-        }
-        onText={setContent}
-        value={content()}
-        type="textarea"
-      />
-      <Show when={showPollOptions()}>
-        <PollOptions options={pollOptions} setOptions={setPollOptions} />
-      </Show>
-      <Show when={attachedFile()}>
-        <AttachFileItem
-          cancel={() => setAttachedFile(undefined)}
-          file={attachedFile()!}
-          onEditClick={openEditor}
+      <NewPostContainer
+        data-focused={inputFocused()}
+        style={{ "background-color": props.bgColor }}
+      >
+        <Input
+          primaryColor={props.primaryColor}
+          maxLength={isSupporter() ? 1500 : 500}
+          margin={[0, 0, 4, 0]}
+          onBlur={() => setTimeout(() => setInputFocused(false), 100)}
+          onFocus={() => setTimeout(() => setInputFocused(true), 100)}
+          minHeight={hasContentOrFocused() ? 60 : undefined}
+          class={css`
+            div {
+              background-color: transparent;
+              border: transparent;
+            }
+          `}
+          ref={setTextAreaEl}
+          placeholder={
+            props.postId
+              ? t("posts.replyInputPlaceholder")
+              : t("posts.createAPostInputPlaceholder")
+          }
+          onText={setContent}
+          value={content()}
+          type="textarea"
         />
-      </Show>
-      <ButtonsContainer gap={6}>
-        <FileBrowser
-          accept="images"
-          ref={setFileBrowserRef}
-          onChange={onFilePicked}
-        />
+        <Show when={showPollOptions()}>
+          <PollOptions options={pollOptions} setOptions={setPollOptions} />
+        </Show>
+        <Show when={attachedFile()}>
+          <AttachFileItem
+            cancel={() => setAttachedFile(undefined)}
+            file={attachedFile()!}
+            onEditClick={openEditor}
+          />
+        </Show>
+        <ButtonsContainer gap={6}>
+          <FileBrowser
+            accept="images"
+            ref={setFileBrowserRef}
+            onChange={onFilePicked}
+          />
 
-        <Button
-          margin={0}
-          padding={5}
-          color={props.primaryColor}
-          class={css`
-            width: 20px;
-            height: 20px;
-          `}
-          iconSize={16}
-          onClick={() => fileBrowserRef()?.open()}
-          iconName="attach_file"
-        />
-        <Button
-          margin={0}
-          padding={5}
-          color={props.primaryColor}
-          class={css`
-            width: 20px;
-            height: 20px;
-          `}
-          iconSize={16}
-          onClick={togglePollOptions}
-          iconName="poll"
-        />
-        <Button
-          margin={0}
-          padding={5}
-          color={props.primaryColor}
-          class={classNames(
-            "emojiPickerButton",
-            css`
+          <Button
+            margin={0}
+            padding={5}
+            color={props.primaryColor}
+            class={css`
               width: 20px;
               height: 20px;
-            `
-          )}
-          iconSize={16}
-          onClick={() => setShowEmojiPicker(!showEmojiPicker())}
-          iconName="face"
-        />
-        <Button
-          margin={0}
-          padding={5}
-          color={props.primaryColor}
-          iconSize={16}
-          onClick={onCreateClick}
-          label={
-            props.postId ? t("posts.replyButton") : t("posts.createButton")
-          }
-          iconName="send"
-        />
-        <Show when={showEmojiPicker()}>
-          <EmojiPickerContainer>
-            <EmojiPicker
-              close={() => setShowEmojiPicker(false)}
-              onClick={onEmojiPicked}
-            />
-          </EmojiPickerContainer>
-        </Show>
-      </ButtonsContainer>
-    </NewPostContainer>
+            `}
+            iconSize={16}
+            onClick={() => fileBrowserRef()?.open()}
+            iconName="attach_file"
+          />
+          <Button
+            margin={0}
+            padding={5}
+            color={props.primaryColor}
+            class={css`
+              width: 20px;
+              height: 20px;
+            `}
+            iconSize={16}
+            onClick={togglePollOptions}
+            iconName="poll"
+          />
+          <Button
+            margin={0}
+            padding={5}
+            color={props.primaryColor}
+            class={classNames(
+              "emojiPickerButton",
+              css`
+                width: 20px;
+                height: 20px;
+              `
+            )}
+            iconSize={16}
+            onClick={() => setShowEmojiPicker(!showEmojiPicker())}
+            iconName="face"
+          />
+          <Button
+            margin={0}
+            padding={5}
+            color={props.primaryColor}
+            iconSize={16}
+            onClick={onCreateClick}
+            label={
+              props.postId ? t("posts.replyButton") : t("posts.createButton")
+            }
+            iconName="send"
+          />
+          <Show when={showEmojiPicker()}>
+            <EmojiPickerContainer>
+              <EmojiPicker
+                close={() => setShowEmojiPicker(false)}
+                onClick={onEmojiPicked}
+              />
+            </EmojiPickerContainer>
+          </Show>
+        </ButtonsContainer>
+      </NewPostContainer>
+    </NewPostOuterContainer>
   );
 }
 
@@ -299,7 +323,7 @@ const PollOptions = (props: {
     props.setOptions(i, text);
   };
   return (
-    <FlexColumn gap={6}>
+    <FlexColumn gap={6} style={{ margin: "10px" }}>
       <Text>{t("posts.pollOptions")}</Text>
       <FlexColumn gap={4}>
         <Index each={props.options}>
@@ -346,6 +370,7 @@ const PollOptionItem = (props: {
 
 const AttachFileItemContainer = styled(FlexRow)`
   align-items: center;
+  margin: 10px;
 `;
 
 const attachmentImageStyle = css`
@@ -400,9 +425,12 @@ const PostOuterContainer = styled(FlexColumn)`
   scroll-margin-top: 50px;
   padding: 10px;
 
-  border-radius: 8px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
 
-  background: rgba(255, 255, 255, 0.06);
+  &:first-child {
+    border-top: solid 1px rgba(255, 255, 255, 0.2);
+  }
+
   &:hover {
     background: rgba(255, 255, 255, 0.07);
   }
@@ -617,7 +645,7 @@ export function PostsArea(props: {
           ]}
         />
       </Show>
-      <FlexColumn gap={2} ref={postsContainerRef}>
+      <FlexColumn ref={postsContainerRef}>
         <For each={cachedReplies()}>
           {(post, i) => (
             <PostItem
@@ -632,6 +660,12 @@ export function PostsArea(props: {
           <For each={Array(10).fill(0)}>
             {() => (
               <Skeleton.Item
+                class={css`
+                  && {
+                    border-radius: 0;
+                    border-top: solid 1px rgba(255, 255, 255, 0.2);
+                  }
+                `}
                 onInView={() => loadMore()}
                 height="100px"
                 width="100%"
@@ -714,6 +748,12 @@ function PostNotification(props: { notification: RawPostNotification }) {
                   background: none;
                 }
                 box-shadow: none;
+                &::before {
+                  border: none;
+                }
+                &:first-child {
+                  border: none;
+                }
               }
             `}
           />
@@ -873,7 +913,7 @@ export function PostNotificationsArea(props: { style?: JSX.CSSProperties }) {
     setNotifications(fetchNotifications);
   });
   return (
-    <PostsContainer gap={6} style={props.style}>
+    <PostsContainer style={props.style}>
       <For each={notifications()}>
         {(notification) => <PostNotification notification={notification} />}
       </For>
@@ -940,7 +980,7 @@ export function ViewPostModal(props: { close(): void }) {
       </MetaTitle>
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
         <Show when={post()}>
-          <FlexColumn gap={6}>
+          <FlexColumn>
             <For each={commentToList()}>
               {(post) => <PostItem showFullDate post={post!} />}
             </For>
