@@ -8,6 +8,7 @@ import Icon from "./icon/Icon";
 interface BreadcrumbProps {
   children: JSXElement;
   style?: JSX.CSSProperties;
+  class?: string;
 }
 
 interface BreadcrumbItemProps {
@@ -24,7 +25,13 @@ const BreadcrumbContainer = styled(FlexRow)`
 `;
 
 export default function Breadcrumb(props: BreadcrumbProps) {
-  return <BreadcrumbContainer children={props.children} style={props.style} />;
+  return (
+    <BreadcrumbContainer
+      class={props.class}
+      children={props.children}
+      style={props.style}
+    />
+  );
 }
 
 const breadcrumbItemStyles = css`

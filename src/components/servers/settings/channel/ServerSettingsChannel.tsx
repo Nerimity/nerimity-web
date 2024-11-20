@@ -1,7 +1,16 @@
 import styles from "./styles.module.scss";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useNavigate, useParams } from "solid-navigator";
-import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
+import { A, useNavigate, useParams } from "solid-navigator";
+import {
+  createEffect,
+  createSignal,
+  For,
+  Match,
+  on,
+  onMount,
+  Show,
+  Switch,
+} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
@@ -39,22 +48,85 @@ import { RawChannelNotice } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { t } from "i18next";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
+import ItemContainer from "@/components/ui/Item";
+import { CustomLink } from "@/components/ui/CustomLink";
 
 type ChannelParams = {
   serverId: string;
   channelId: string;
+  tab?: "permissions";
 };
 
 export default function ServerSettingsChannel() {
+  const params = useParams<ChannelParams>();
+  const store = useStore();
+
+  const channel = () => store.channels.get(params.channelId);
+
+  const server = () => store.servers.get(params.serverId);
+
+  return (
+    <>
+      <Breadcrumb class={styles.breadcrumb}>
+        <BreadcrumbItem
+          href={RouterEndpoints.SERVER_MESSAGES(
+            params.serverId,
+            server()?.defaultChannelId!
+          )}
+          icon="home"
+          title={server()?.name}
+        />
+        <BreadcrumbItem
+          href="../"
+          title={t("servers.settings.drawer.channels")}
+        />
+        <BreadcrumbItem title={channel()?.name} />
+      </Breadcrumb>
+      <Tabs />
+      <Switch>
+        <Match when={params.tab !== "permissions"}>
+          <GeneralTab />
+        </Match>
+        <Match when={params.tab === "permissions"}>
+          <PermissionsTab />
+        </Match>
+      </Switch>
+    </>
+  );
+}
+
+function Tabs() {
+  const params = useParams<ChannelParams>();
+
+  return (
+    <div class={styles.tabs}>
+      <CustomLink href="../">
+        <ItemContainer
+          class={styles.tabItem}
+          handlePosition="bottom"
+          selected={params.tab !== "permissions"}
+        >
+          General
+        </ItemContainer>
+      </CustomLink>
+      <CustomLink href="./permissions">
+        <ItemContainer
+          class={styles.tabItem}
+          handlePosition="bottom"
+          selected={params.tab === "permissions"}
+        >
+          Permissions
+        </ItemContainer>
+      </CustomLink>
+    </div>
+  );
+}
+
+function PermissionsTab() {
   const [t] = useTransContext();
   const params = useParams<ChannelParams>();
-  const { header, channels, servers } = useStore();
-  const { createPortal } = useCustomPortal();
+  const { header, channels } = useStore();
 
-  const [emojiPickerPosition, setEmojiPickerPosition] = createSignal<null | {
-    x: number;
-    y: number;
-  }>(null);
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
 
@@ -95,7 +167,75 @@ export default function ServerSettingsChannel() {
       ? t("servers.settings.channel.saving")
       : t("servers.settings.channel.saveChangesButton");
 
-  const server = () => servers.get(params.serverId);
+  return (
+    <div class={styles.channelPane}>
+      <ChannelPermissionsBlock
+        permissions={inputValues().permissions}
+        setPermissions={(v) => setInputValue("permissions", v)}
+      />
+      {/* Errors & buttons */}
+      <Show when={error()}>
+        <div class={styles.error}>{error()}</div>
+      </Show>
+      <Show when={Object.keys(updatedInputValues()).length}>
+        <Button
+          iconName="save"
+          label={saveRequestStatus()}
+          class={styles.saveButton}
+          onClick={onSaveButtonClicked}
+        />
+      </Show>
+    </div>
+  );
+}
+function GeneralTab() {
+  const [t] = useTransContext();
+  const params = useParams<ChannelParams>();
+  const { header, channels, servers } = useStore();
+  const { createPortal } = useCustomPortal();
+
+  const [emojiPickerPosition, setEmojiPickerPosition] = createSignal<null | {
+    x: number;
+    y: number;
+  }>(null);
+  const [saveRequestSent, setSaveRequestSent] = createSignal(false);
+  const [error, setError] = createSignal<null | string>(null);
+
+  const channel = () => channels.get(params.channelId);
+
+  const defaultInput = () => ({
+    name: channel()?.name || "",
+    icon: channel()?.icon || null,
+    slowModeSeconds: channel()?.slowModeSeconds || 0,
+  });
+
+  const [inputValues, updatedInputValues, setInputValue] =
+    createUpdatedSignal(defaultInput);
+
+  createEffect(
+    on(channel, () => {
+      header.updateHeader({
+        title: "Settings - " + channel()?.name,
+        serverId: params.serverId!,
+        iconName: "settings",
+      });
+    })
+  );
+
+  const onSaveButtonClicked = async () => {
+    if (saveRequestSent()) return;
+    setSaveRequestSent(true);
+    setError(null);
+    const values = updatedInputValues();
+    await updateServerChannel(params.serverId!, channel()?.id!, values)
+      .catch((err) => setError(err.message))
+      .finally(() => setSaveRequestSent(false));
+  };
+
+  const saveRequestStatus = () =>
+    saveRequestSent()
+      ? t("servers.settings.channel.saving")
+      : t("servers.settings.channel.saveChangesButton");
 
   const openChannelIconPicker = (event: MouseEvent) => {
     setEmojiPickerPosition({
@@ -118,22 +258,6 @@ export default function ServerSettingsChannel() {
   };
   return (
     <div class={styles.channelPane}>
-      <Breadcrumb>
-        <BreadcrumbItem
-          href={RouterEndpoints.SERVER_MESSAGES(
-            params.serverId,
-            server()?.defaultChannelId!
-          )}
-          icon="home"
-          title={server()?.name}
-        />
-        <BreadcrumbItem
-          href="../"
-          title={t("servers.settings.drawer.channels")}
-        />
-        <BreadcrumbItem title={channel()?.name} />
-      </Breadcrumb>
-
       {/* Channel Name */}
       <SettingsBlock
         icon="edit"
@@ -192,11 +316,6 @@ export default function ServerSettingsChannel() {
           onText={(v) => setInputValue("slowModeSeconds", v ? parseInt(v) : "")}
         />
       </SettingsBlock>
-
-      <ChannelPermissionsBlock
-        permissions={inputValues().permissions}
-        setPermissions={(v) => setInputValue("permissions", v)}
-      />
 
       <ChannelNoticeBlock
         channelId={params.channelId}
