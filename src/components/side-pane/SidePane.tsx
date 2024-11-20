@@ -25,7 +25,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { updateTitleAlert } from "@/common/BrowserTitle";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
-import ItemContainer from "../ui/Item";
+import ItemContainer from "../ui/LegacyItem";
 import { css, styled } from "solid-styled-components";
 import { useAppVersion } from "@/common/useAppVersion";
 import { useWindowProperties } from "@/common/useWindowProperties";

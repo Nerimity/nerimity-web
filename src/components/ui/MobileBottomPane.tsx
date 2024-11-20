@@ -2,7 +2,7 @@ import style from "./MobileBottomPane.module.scss";
 import { createEffect, createSignal, Show } from "solid-js";
 import { useDrawer } from "./drawer/Drawer";
 import Icon from "./icon/Icon";
-import ItemContainer from "./Item";
+import ItemContainer from "./LegacyItem";
 import { A, useLocation, useMatch } from "solid-navigator";
 import { CustomLink } from "./CustomLink";
 import useStore from "@/chat-api/store/useStore";

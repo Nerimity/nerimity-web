@@ -15,7 +15,7 @@ import {
   onMount,
 } from "solid-js";
 import { Channel } from "@/chat-api/store/useChannels";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { ChannelType } from "@/chat-api/RawData";

@@ -19,7 +19,7 @@ import Slider from "../ui/Slider";
 import { playMessageNotification, playSound, Sounds } from "@/common/Sound";
 import DropDown from "../ui/drop-down/DropDown";
 import Button from "../ui/Button";
-import ItemContainer from "../ui/Item";
+import ItemContainer from "../ui/LegacyItem";
 import { RadioBox, RadioBoxItem } from "../ui/RadioBox";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 

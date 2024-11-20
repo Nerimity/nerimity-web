@@ -44,7 +44,7 @@ import emojis from "@/emoji/emojis.json";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { matchSorter } from "match-sorter";
-import ItemContainer from "../ui/Item";
+import ItemContainer from "../ui/LegacyItem";
 import { User } from "@/chat-api/store/useUsers";
 import Avatar from "../ui/Avatar";
 import useChannelProperties from "@/chat-api/store/useChannelProperties";

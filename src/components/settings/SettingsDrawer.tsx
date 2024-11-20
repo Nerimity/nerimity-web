@@ -4,7 +4,7 @@ import { For, JSXElement, Match, Show, Switch } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import settings from "@/common/Settings";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";

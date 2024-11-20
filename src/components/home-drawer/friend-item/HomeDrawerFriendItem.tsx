@@ -10,7 +10,7 @@ import useStore from "@/chat-api/store/useStore";
 import UserPresence from "@/components/user-presence/UserPresence";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { createSignal, Show } from "solid-js";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";

@@ -9,7 +9,7 @@ import {
   setCurrentLanguage,
 } from "@/locales/languages";
 
-import ItemContainer from "../ui/Item";
+import ItemContainer from "../ui/LegacyItem";
 import twemoji from "twemoji";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";

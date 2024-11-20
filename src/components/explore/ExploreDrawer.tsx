@@ -2,7 +2,7 @@ import Icon from "@/components/ui/icon/Icon";
 import { A, useMatch } from "solid-navigator";
 import { For } from "solid-js";
 import exploreRoutes from "@/common/exploreRoutes";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";

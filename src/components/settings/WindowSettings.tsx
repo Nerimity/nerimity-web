@@ -1,9 +1,15 @@
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
-import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from "@/locales/languages";
+import {
+  getCurrentLanguage,
+  getLanguage,
+  Language,
+  languages,
+  setCurrentLanguage,
+} from "@/locales/languages";
 
-import ItemContainer from "../ui/Item";
+import ItemContainer from "../ui/LegacyItem";
 import twemoji from "twemoji";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
@@ -11,7 +17,13 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import env from "@/common/env";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "../markup/Emoji";
-import { getStorageBoolean, getStorageNumber, setStorageBoolean, setStorageNumber, StorageKeys } from "@/common/localStorage";
+import {
+  getStorageBoolean,
+  getStorageNumber,
+  setStorageBoolean,
+  setStorageNumber,
+  StorageKeys,
+} from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
@@ -29,7 +41,6 @@ const Container = styled("div")`
   flex-shrink: 0;
 `;
 
-
 const Options = styled("div")`
   position: relative;
   display: flex;
@@ -37,9 +48,7 @@ const Options = styled("div")`
   gap: 5px;
   padding-top: 10px;
   flex-shrink: 0;
-
 `;
-
 
 const BlockContent = styled("div")`
   position: absolute;
@@ -47,43 +56,42 @@ const BlockContent = styled("div")`
   cursor: not-allowed;
 `;
 
-
 export default function WindowSettings() {
   const { header } = useStore();
-
 
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Window Settings",
-      iconName: "settings"
+      iconName: "settings",
     });
   });
 
   const isElectron = electronWindowAPI()?.isElectron;
 
-
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.window-settings")} />
       </Breadcrumb>
       <Show when={!isElectron}>
-        <Notice type='info' description='To modify these settings, you must download the Nerimity desktop app.' />
+        <Notice
+          type="info"
+          description="To modify these settings, you must download the Nerimity desktop app."
+        />
       </Show>
 
       <Options>
-        <Show when={!isElectron}><BlockContent/></Show>
+        <Show when={!isElectron}>
+          <BlockContent />
+        </Show>
         <StartupOptions />
       </Options>
-
     </Container>
   );
 }
 
-
 function StartupOptions() {
-
   const [autostart, setAutostart] = createSignal(false);
   const [autostartMinimized, setAutostartMinimized] = createSignal(false);
 
@@ -102,15 +110,27 @@ function StartupOptions() {
   };
 
   return (
-
     <FlexColumn>
-      <SettingsBlock icon='launch' label='Startup Options' header />
-      <SettingsBlock icon='restart_alt' label={"Open Nerimity on startup"} borderTopRadius={false} borderBottomRadius={!autostart()} >
+      <SettingsBlock icon="launch" label="Startup Options" header />
+      <SettingsBlock
+        icon="restart_alt"
+        label={"Open Nerimity on startup"}
+        borderTopRadius={false}
+        borderBottomRadius={!autostart()}
+      >
         <Checkbox checked={autostart()} onChange={onAutostartChange} />
       </SettingsBlock>
       <Show when={autostart()}>
-        <SettingsBlock icon='horizontal_rule' label='Start Minimized' description={"Minimize Nerimity to the tray automatically."} borderTopRadius={false}>
-          <Checkbox checked={autostartMinimized()} onChange={onAutostartMinimizedChange} />
+        <SettingsBlock
+          icon="horizontal_rule"
+          label="Start Minimized"
+          description={"Minimize Nerimity to the tray automatically."}
+          borderTopRadius={false}
+        >
+          <Checkbox
+            checked={autostartMinimized()}
+            onChange={onAutostartMinimizedChange}
+          />
         </SettingsBlock>
       </Show>
     </FlexColumn>

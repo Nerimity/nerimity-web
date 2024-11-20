@@ -1,9 +1,15 @@
 import { createEffect, createSignal, For, Show } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
-import { getCurrentLanguage, getLanguage, Language, languages, setCurrentLanguage } from "@/locales/languages";
+import {
+  getCurrentLanguage,
+  getLanguage,
+  Language,
+  languages,
+  setCurrentLanguage,
+} from "@/locales/languages";
 
-import ItemContainer from "../ui/Item";
+import ItemContainer from "../ui/LegacyItem";
 import twemoji from "twemoji";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
@@ -35,18 +41,18 @@ export default function LanguageSettings() {
   const { header } = useStore();
   const [, actions] = useTransContext();
 
-  const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(getCurrentLanguage() || "en_gb");
+  const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(
+    getCurrentLanguage() || "en_gb"
+  );
 
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Language",
-      iconName: "settings"
+      iconName: "settings",
     });
   });
 
   const languageKeys = Object.keys(languages);
-
-
 
   const setLanguage = async (key: string) => {
     key = key.replace("-", "_");
@@ -60,21 +66,30 @@ export default function LanguageSettings() {
     setCurrentLocalLanguage(key);
   };
 
-
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.language")} />
       </Breadcrumb>
       <For each={languageKeys}>
-        {key => <LanguageItem selected={currentLocalLanguage().replace("_", "-") === key} onClick={() => setLanguage(key)} key={key} />}
+        {(key) => (
+          <LanguageItem
+            selected={currentLocalLanguage().replace("_", "-") === key}
+            onClick={() => setLanguage(key)}
+            key={key}
+          />
+        )}
       </For>
     </Container>
   );
 }
 
-function LanguageItem(props: { key: string, selected: boolean, onClick: () => void }) {
+function LanguageItem(props: {
+  key: string;
+  selected: boolean;
+  onClick: () => void;
+}) {
   const language = (languages as any)[props.key] as Language;
 
   const onClick = (event: any) => {
@@ -85,7 +100,14 @@ function LanguageItem(props: { key: string, selected: boolean, onClick: () => vo
 
   return (
     <LanguageItemContainer onclick={onClick} selected={props.selected}>
-      <Emoji class={css`height: 30px; width: 30px;`} name={emojiUnicodeToShortcode(language.emoji)} url={unicodeToTwemojiUrl(language.emoji)} />
+      <Emoji
+        class={css`
+          height: 30px;
+          width: 30px;
+        `}
+        name={emojiUnicodeToShortcode(language.emoji)}
+        url={unicodeToTwemojiUrl(language.emoji)}
+      />
       <FlexColumn>
         <Text>{language.name}</Text>
         <Contributors contributors={language.contributors} />
@@ -101,13 +123,28 @@ const ContributorContainer = styled(FlexRow)`
 function Contributors(props: { contributors: string[] }) {
   return (
     <FlexRow>
-      <Text size={14} style={{ "margin-right": "5px" }}>Contributors:</Text>
+      <Text size={14} style={{ "margin-right": "5px" }}>
+        Contributors:
+      </Text>
       <For each={props.contributors}>
         {(contributor, i) => (
           <ContributorContainer gap={5}>
             <Show when={i() > 0}>{", "}</Show>
-            <Show when={isUrl(contributor)}><CustomLink decoration href={contributor} target="_blank" rel="noopener noreferrer">{lastPath(contributor)}</CustomLink></Show>
-            <Show when={!isUrl(contributor)}><Text size={14} opacity={0.8}>{contributor}</Text></Show>
+            <Show when={isUrl(contributor)}>
+              <CustomLink
+                decoration
+                href={contributor}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {lastPath(contributor)}
+              </CustomLink>
+            </Show>
+            <Show when={!isUrl(contributor)}>
+              <Text size={14} opacity={0.8}>
+                {contributor}
+              </Text>
+            </Show>
           </ContributorContainer>
         )}
       </For>
@@ -119,8 +156,7 @@ function isUrl(url: string) {
   try {
     new URL(url);
     return true;
-  }
-  catch (e) {
+  } catch (e) {
     return false;
   }
 }
