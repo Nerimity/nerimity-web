@@ -9,7 +9,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { RadioBox, RadioBoxItem } from "@/components/ui/RadioBox";
 import { updateNotificationSettings } from "@/chat-api/services/UserService";
 import { Notice } from "@/components/ui/Notice/Notice";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import Avatar from "@/components/ui/Avatar";
 import {
   ChannelType,

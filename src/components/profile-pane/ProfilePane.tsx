@@ -49,7 +49,7 @@ import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
-import ItemContainer from "../ui/Item";
+import ItemContainer from "../ui/LegacyItem";
 import ContextMenu, {
   ContextMenuItem,
   ContextMenuProps,

@@ -12,7 +12,14 @@ import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useNavigate, useSearchParams } from "solid-navigator";
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  For,
+  JSXElement,
+  onMount,
+  Show,
+} from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import { PostNotificationsArea, PostsArea } from "./PostsArea";
@@ -21,7 +28,7 @@ import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
 import Input from "./ui/input/Input";
-import ItemContainer from "./ui/Item";
+import ItemContainer from "./ui/LegacyItem";
 import Text from "./ui/Text";
 import { Delay } from "@/common/Delay";
 import { Presence } from "@/chat-api/store/useUsers";
@@ -33,6 +40,7 @@ import { t } from "i18next";
 import { MetaTitle } from "@/common/MetaTitle";
 import { MentionUser } from "./markup/MentionUser";
 import { useCustomScrollbar } from "./custom-scrollbar/CustomScrollbar";
+import { Item } from "./ui/Item";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -184,6 +192,27 @@ const TabStyle = css`
   background: rgba(255, 255, 255, 0.04);
 `;
 
+const PostTabItem = (props: {
+  label: string;
+  selected: boolean;
+  onClick?: () => void;
+  suffix?: JSXElement;
+  icon?: JSXElement;
+}) => {
+  return (
+    <Item.Root
+      gap={4}
+      onClick={props.onClick}
+      handlePosition="bottom"
+      selected={props.selected}
+    >
+      <Item.Icon>{props.icon}</Item.Icon>
+      <Item.Label>{props.label}</Item.Label>
+      {props.suffix}
+    </Item.Root>
+  );
+};
+
 function PostsContainer() {
   const [selectedTab, setSelectedTab] = createSignal<
     "FEED" | "DISCOVER" | "NOTIFICATIONS"
@@ -241,32 +270,26 @@ function PostsContainer() {
           "margin-top": "6px",
         }}
       >
-        <ItemContainer
-          class={TabStyle}
-          handlePosition="bottom"
+        <PostTabItem
+          label={t("dashboard.feed")}
           selected={selectedTab() === "FEED"}
-          onclick={() => setSelectedTab("FEED")}
-        >
-          <Text size={14}>{t("dashboard.feed")}</Text>
-        </ItemContainer>
-        <ItemContainer
-          class={TabStyle}
-          handlePosition="bottom"
-          selected={selectedTab() === "DISCOVER"}
-          onclick={() => setSelectedTab("DISCOVER")}
-        >
-          <Text size={14}>{t("dashboard.discover")}</Text>
-        </ItemContainer>
+          onClick={() => setSelectedTab("FEED")}
+          icon="home"
+        />
 
-        <ItemContainer
-          class={TabStyle}
-          handlePosition="bottom"
+        <PostTabItem
+          label={t("dashboard.discover")}
+          selected={selectedTab() === "DISCOVER"}
+          icon="public"
+          onClick={() => setSelectedTab("DISCOVER")}
+        />
+        <PostTabItem
+          label={t("dashboard.notifications")}
           selected={selectedTab() === "NOTIFICATIONS"}
-          onclick={() => setSelectedTab("NOTIFICATIONS")}
-        >
-          <Text size={14}>{t("dashboard.notifications")}</Text>
-          <NotificationIndicator />
-        </ItemContainer>
+          onClick={() => setSelectedTab("NOTIFICATIONS")}
+          icon="notifications"
+          suffix={<NotificationIndicator />}
+        />
       </FlexRow>
       <Delay>
         <>

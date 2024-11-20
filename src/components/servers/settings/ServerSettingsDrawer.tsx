@@ -5,7 +5,7 @@ import { For, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import serverSettings from "@/common/ServerSettings";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { useTransContext } from "@mbarzda/solid-i18next";

@@ -64,7 +64,7 @@ import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { FlexRow } from "@/components/ui/Flexbox";
 import { Emoji } from "@/components/markup/Emoji";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import Avatar from "@/components/ui/Avatar";
 import { formatTimestamp } from "@/common/date";
 import { CreateTicketModal } from "@/components/CreateTicketModal";

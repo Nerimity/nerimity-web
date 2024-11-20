@@ -48,7 +48,7 @@ import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
 import { t } from "i18next";
 import { Trans } from "@mbarzda/solid-i18next";
-import ItemContainer from "./ui/Item";
+import ItemContainer from "./ui/LegacyItem";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
 import { AdvancedMarkupOptions } from "./advanced-markup-options/AdvancedMarkupOptions";

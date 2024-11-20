@@ -9,9 +9,13 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { RadioBox, RadioBoxItem } from "@/components/ui/RadioBox";
 import { updateNotificationSettings } from "@/chat-api/services/UserService";
 import { Notice } from "@/components/ui/Notice/Notice";
-import ItemContainer from "@/components/ui/Item";
+import ItemContainer from "@/components/ui/LegacyItem";
 import Avatar from "@/components/ui/Avatar";
-import { ChannelType, ServerNotificationPingMode, ServerNotificationSoundMode } from "@/chat-api/RawData";
+import {
+  ChannelType,
+  ServerNotificationPingMode,
+  ServerNotificationSoundMode,
+} from "@/chat-api/RawData";
 import Button from "@/components/ui/Button";
 
 const Container = styled("div")`
@@ -31,7 +35,7 @@ const RadioBoxContainer = styled("div")`
 
 export default function ServerNotificationSettings() {
   const [t] = useTransContext();
-  const params = useParams<{ serverId: string, channelId?: string; }>();
+  const params = useParams<{ serverId: string; channelId?: string }>();
   const { header, servers, account, channels } = useStore();
   const server = () => servers.get(params.serverId);
 
@@ -41,88 +45,146 @@ export default function ServerNotificationSettings() {
     header.updateHeader({
       title: "Settings - Notifications",
       serverId: params.serverId!,
-      iconName: "settings"
+      iconName: "settings",
     });
   });
 
-  const currentNotificationSoundMode = () => account.getRawNotificationSettings(channel()?.id || params.serverId)?.notificationSoundMode ?? (channel()?.id ? null : 0);
-  const currentNotificationPingMode = () => account.getRawNotificationSettings(channel()?.id || params.serverId)?.notificationPingMode ?? (channel()?.id ? null : 0);
-  
-  const NotificationSoundItems: () => RadioBoxItem[] = () => ([
-    ...(currentNotificationPingMode() === null ? [{id: null, label: "Inherit" }] : []),
-    ...(currentNotificationPingMode() !== ServerNotificationPingMode.MENTIONS_ONLY ? [{id: 0, label: "Everything" }] : []),
+  const currentNotificationSoundMode = () =>
+    account.getRawNotificationSettings(channel()?.id || params.serverId)
+      ?.notificationSoundMode ?? (channel()?.id ? null : 0);
+  const currentNotificationPingMode = () =>
+    account.getRawNotificationSettings(channel()?.id || params.serverId)
+      ?.notificationPingMode ?? (channel()?.id ? null : 0);
+
+  const NotificationSoundItems: () => RadioBoxItem[] = () => [
+    ...(currentNotificationPingMode() === null
+      ? [{ id: null, label: "Inherit" }]
+      : []),
+    ...(currentNotificationPingMode() !==
+    ServerNotificationPingMode.MENTIONS_ONLY
+      ? [{ id: 0, label: "Everything" }]
+      : []),
     { id: 1, label: "Mentions Only" },
-    { id: 2, label: "Mute" }
-  ]);
+    { id: 2, label: "Mute" },
+  ];
 
   const onNotificationSoundChange = (item: RadioBoxItem) => {
     account.updateUserNotificationSettings({
       notificationSoundMode: item.id,
       channelId: params.channelId,
-      serverId: params.serverId
+      serverId: params.serverId,
     });
   };
 
   const NotificationPingItems: RadioBoxItem[] = [
-    ...(channel()?.serverId ? [{id: null, label: "Inherit"}] : []),
+    ...(channel()?.serverId ? [{ id: null, label: "Inherit" }] : []),
     { id: 0, label: "Everything" },
     { id: 1, label: "Mentions Only" },
-    { id: 2, label: "Mute" }
+    { id: 2, label: "Mute" },
   ];
 
   const onNotificationPingChange = (item: RadioBoxItem) => {
     account.updateUserNotificationSettings({
       notificationPingMode: item.id,
       channelId: params.channelId,
-      serverId: params.serverId
+      serverId: params.serverId,
     });
   };
 
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
-        <BreadcrumbItem href={channel()?.serverId ? "../" : undefined} title={t("servers.settings.drawer.notifications")} />
+        <BreadcrumbItem
+          href={RouterEndpoints.SERVER_MESSAGES(
+            params.serverId,
+            server()?.defaultChannelId!
+          )}
+          icon="home"
+          title={server()?.name}
+        />
+        <BreadcrumbItem
+          href={channel()?.serverId ? "../" : undefined}
+          title={t("servers.settings.drawer.notifications")}
+        />
 
-        <Show when={channel()?.serverId}><BreadcrumbItem title={channel()?.name} /></Show>
-
+        <Show when={channel()?.serverId}>
+          <BreadcrumbItem title={channel()?.name} />
+        </Show>
       </Breadcrumb>
 
-      <Notice type='info' description='These settings will only change for you.' />
-      <SettingsBlock class={css`margin-top: 10px;`} header icon='priority_high' label='Notification Ping' description='Display a red notification icon.'>
-        <ItemContainer alert={currentNotificationPingMode() !== ServerNotificationPingMode.MUTE} style={{ "padding-left": "10px", "pointer-events": "none" }}><Avatar server={{ hexColor: "rgba(255,255,255)", verified: false }} size={30} /></ItemContainer>
+      <Notice
+        type="info"
+        description="These settings will only change for you."
+      />
+      <SettingsBlock
+        class={css`
+          margin-top: 10px;
+        `}
+        header
+        icon="priority_high"
+        label="Notification Ping"
+        description="Display a red notification icon."
+      >
+        <ItemContainer
+          alert={
+            currentNotificationPingMode() !== ServerNotificationPingMode.MUTE
+          }
+          style={{ "padding-left": "10px", "pointer-events": "none" }}
+        >
+          <Avatar
+            server={{ hexColor: "rgba(255,255,255)", verified: false }}
+            size={30}
+          />
+        </ItemContainer>
       </SettingsBlock>
 
       <RadioBoxContainer>
-        <RadioBox onChange={onNotificationPingChange} items={NotificationPingItems} initialId={currentNotificationPingMode()} />
+        <RadioBox
+          onChange={onNotificationPingChange}
+          items={NotificationPingItems}
+          initialId={currentNotificationPingMode()}
+        />
       </RadioBoxContainer>
 
-      <Show when={currentNotificationPingMode() !== ServerNotificationPingMode.MUTE}>
-        <SettingsBlock class={css`margin-top: 10px;`} header icon='notifications_active' label='Notification Sound' description='Make a notification sound.' />
+      <Show
+        when={currentNotificationPingMode() !== ServerNotificationPingMode.MUTE}
+      >
+        <SettingsBlock
+          class={css`
+            margin-top: 10px;
+          `}
+          header
+          icon="notifications_active"
+          label="Notification Sound"
+          description="Make a notification sound."
+        />
         <RadioBoxContainer>
-          <RadioBox onChange={onNotificationSoundChange} items={NotificationSoundItems()} initialId={currentNotificationSoundMode()} />
+          <RadioBox
+            onChange={onNotificationSoundChange}
+            items={NotificationSoundItems()}
+            initialId={currentNotificationSoundMode()}
+          />
         </RadioBoxContainer>
       </Show>
 
-
-      <Show when={!channel()?.serverId}><ChannelNotificationsBlock/></Show>
-
+      <Show when={!channel()?.serverId}>
+        <ChannelNotificationsBlock />
+      </Show>
     </Container>
   );
 }
-
-
 
 const ChannelNotificationsBlock = () => {
   const params = useParams<{ serverId: string }>();
   const store = useStore();
 
-  const channels = () => store.channels.getSortedChannelsByServerId(params.serverId, true).filter(c => c.type === ChannelType.SERVER_TEXT);
-
-
+  const channels = () =>
+    store.channels
+      .getSortedChannelsByServerId(params.serverId, true)
+      .filter((c) => c.type === ChannelType.SERVER_TEXT);
 
   const hasOverride = (channelId: string) => {
-    const setting =  store.account.getRawNotificationSettings(channelId);
+    const setting = store.account.getRawNotificationSettings(channelId);
     const pingMode = setting?.notificationPingMode;
     const soundMode = setting?.notificationSoundMode;
     const combined = pingMode || soundMode;
@@ -130,10 +192,11 @@ const ChannelNotificationsBlock = () => {
   };
 
   const overrides = () => {
-    return channels().filter(c => hasOverride(c.id));
+    return channels().filter((c) => hasOverride(c.id));
   };
 
-  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   const resetOverrides = async () => {
     const oChannels = [...overrides()];
@@ -142,35 +205,52 @@ const ChannelNotificationsBlock = () => {
       await updateNotificationSettings({
         notificationPingMode: null,
         notificationSoundMode: null,
-        channelId: channel.id
+        channelId: channel.id,
       });
       await sleep(800);
     }
   };
 
-  const sortedChannels = () => [...overrides(), ...channels().filter(c => !hasOverride(c.id))];
-
-
+  const sortedChannels = () => [
+    ...overrides(),
+    ...channels().filter((c) => !hasOverride(c.id)),
+  ];
 
   return (
     <>
-      <SettingsBlock class={css`margin-top: 10px;`} header icon='storage' label='Channels' description='Manage notifications per channel.'>
-        <Show when={overrides().length}><Button onClick={resetOverrides} iconName="refresh" label={`Reset Overrides (${overrides().length})`}  /></Show>
+      <SettingsBlock
+        class={css`
+          margin-top: 10px;
+        `}
+        header
+        icon="storage"
+        label="Channels"
+        description="Manage notifications per channel."
+      >
+        <Show when={overrides().length}>
+          <Button
+            onClick={resetOverrides}
+            iconName="refresh"
+            label={`Reset Overrides (${overrides().length})`}
+          />
+        </Show>
       </SettingsBlock>
 
       <For each={sortedChannels()}>
         {(channel, i) => (
-          <SettingsBlock 
-            href={"./" + channel.id} 
-            class={css`padding-top: 0; padding-bottom: 0;`} 
-            label={`${hasOverride(channel.id) ? "*" : ""}${channel.name}`} 
+          <SettingsBlock
+            href={"./" + channel.id}
+            class={css`
+              padding-top: 0;
+              padding-bottom: 0;
+            `}
+            label={`${hasOverride(channel.id) ? "*" : ""}${channel.name}`}
             icon="tag"
             borderTopRadius={false}
-            borderBottomRadius={i() === sortedChannels().length - 1} 
+            borderBottomRadius={i() === sortedChannels().length - 1}
           />
         )}
       </For>
-
     </>
   );
 };
