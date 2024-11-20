@@ -48,7 +48,7 @@ import { RawChannelNotice } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { t } from "i18next";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
-import ItemContainer from "@/components/ui/Item";
+import { Item } from "@/components/ui/Item";
 import { CustomLink } from "@/components/ui/CustomLink";
 
 type ChannelParams = {
@@ -95,29 +95,40 @@ export default function ServerSettingsChannel() {
   );
 }
 
+const TabItem = (props: {
+  selected: boolean;
+  label: string;
+  href?: string;
+  icon?: string;
+}) => (
+  <Item.Root
+    selected={props.selected}
+    href={props.href}
+    handlePosition="bottom"
+    gap={4}
+  >
+    <Item.Icon>{props.icon}</Item.Icon>
+    <Item.Label>{props.label}</Item.Label>
+  </Item.Root>
+);
+
 function Tabs() {
   const params = useParams<ChannelParams>();
 
   return (
     <div class={styles.tabs}>
-      <CustomLink href="../">
-        <ItemContainer
-          class={styles.tabItem}
-          handlePosition="bottom"
-          selected={params.tab !== "permissions"}
-        >
-          General
-        </ItemContainer>
-      </CustomLink>
-      <CustomLink href="./permissions">
-        <ItemContainer
-          class={styles.tabItem}
-          handlePosition="bottom"
-          selected={params.tab === "permissions"}
-        >
-          Permissions
-        </ItemContainer>
-      </CustomLink>
+      <TabItem
+        label="General"
+        selected={params.tab !== "permissions"}
+        icon="settings"
+        href="../"
+      />
+      <TabItem
+        label="Permissions"
+        selected={params.tab === "permissions"}
+        icon="lock"
+        href="./permissions"
+      />
     </div>
   );
 }
