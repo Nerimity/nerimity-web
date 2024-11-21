@@ -8,6 +8,7 @@ import Text from "./Text";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
+import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
 
 interface Props {
   url?: string | null;
@@ -390,6 +391,7 @@ function FounderBorder(props: {
       type="founder"
       children={props.children}
       color={props.color}
+      overlay={<CatEarsBorder size={props.size} />}
       url={props.avatarUrl}
       hovered={props.hovered}
     />

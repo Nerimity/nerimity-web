@@ -7,6 +7,7 @@ export function FounderAdminSupporterBorder(props: {
   color?: string;
   url?: string;
   hovered?: boolean;
+  overlay?: JSXElement;
   type:
     | "founder"
     | "supporter"
@@ -30,6 +31,7 @@ export function FounderAdminSupporterBorder(props: {
       </Show>
       <img src={`/borders/${props.type}.png`} class={styles.border} />
       <RawAvatar {...props} />
+      {props.overlay}
       <Show when={props.type !== "palestine"}>
         <img
           src={`/borders/${props.type}-right-wing.png`}
