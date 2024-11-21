@@ -136,12 +136,50 @@ function Tabs() {
 function PermissionsTab() {
   const [t] = useTransContext();
   const params = useParams<ChannelParams>();
-  const { header, channels } = useStore();
+  const store = useStore();
 
   const [saveRequestSent, setSaveRequestSent] = createSignal(false);
   const [error, setError] = createSignal<null | string>(null);
+  const [selectedRoleId, setSelectedRoleId] = createSignal<string | undefined>(
+    undefined
+  );
 
-  const channel = () => channels.get(params.channelId);
+  const channel = () => store.channels.get(params.channelId);
+
+  const roles = () =>
+    store.serverRoles.getAllByServerId(params.serverId).sort((a, b) => {
+      if (!defaultRoleId()) return 0;
+      if (a!.id === defaultRoleId()) return -1;
+      if (b!.id === defaultRoleId()) return 1;
+      return b!.order - a!.order;
+    });
+  const server = () => store.servers.get(params.serverId);
+  const defaultRoleId = () => server()?.defaultRoleId;
+
+  createEffect(() => {
+    setSelectedRoleId(defaultRoleId());
+  });
+
+  const rolesDropdownItems = () =>
+    roles().map(
+      (role) =>
+        ({
+          id: role!.id,
+          suffix:
+            defaultRoleId() === role!.id ? (
+              <div
+                class={css`
+                  margin-left: 4px;
+                  opacity: 0.5;
+                  font-size: 12px;
+                `}
+              >
+                (everyone)
+              </div>
+            ) : null,
+          label: role!.name,
+        } satisfies DropDownItem)
+    );
 
   const defaultInput = () => ({
     name: channel()?.name || "",
@@ -155,7 +193,7 @@ function PermissionsTab() {
 
   createEffect(
     on(channel, () => {
-      header.updateHeader({
+      store.header.updateHeader({
         title: "Settings - " + channel()?.name,
         serverId: params.serverId!,
         iconName: "settings",
@@ -180,10 +218,33 @@ function PermissionsTab() {
 
   return (
     <div class={styles.channelPane}>
-      <ChannelPermissionsBlock
-        permissions={inputValues().permissions}
-        setPermissions={(v) => setInputValue("permissions", v)}
-      />
+      <SettingsBlock
+        icon="security"
+        label={t("servers.settings.channel.permissions")}
+        description={t("servers.settings.channel.permissionsDescription")}
+        header={true}
+        class={css`
+          && {
+            flex-direction: column;
+            align-items: start;
+            gap: 6px;
+          }
+        `}
+      >
+        <DropDown
+          class={css`
+            align-self: stretch;
+            margin-left: 40px;
+          `}
+          items={rolesDropdownItems()}
+          selectedId={selectedRoleId()}
+          onChange={(item) => setSelectedRoleId(item.id)}
+        />
+      </SettingsBlock>
+
+      <Show when={selectedRoleId()} keyed>
+        <ChannelPermissionsBlock roleId={selectedRoleId()!} />
+      </Show>
       {/* Errors & buttons */}
       <Show when={error()}>
         <div class={styles.error}>{error()}</div>
@@ -360,46 +421,31 @@ function GeneralTab() {
   );
 }
 
-const ChannelPermissionsBlock = (props: {
-  permissions: number;
-  setPermissions: (permissions: number) => void;
-}) => {
-  const params = useParams<{ serverId: string }>();
+const ChannelPermissionsBlock = (props: { roleId: string }) => {
+  const params = useParams<{ serverId: string; channelId: string }>();
   const store = useStore();
-  const roles = () => store.serverRoles.getAllByServerId(params.serverId);
   const server = () => store.servers.get(params.serverId);
-  const defaultRoleId = () => server()?.defaultRoleId;
+  const channel = () => store.channels.get(params.channelId);
+  const roleChannelPermissions = () =>
+    channel()?.permissions?.find((p) => p.roleId === props.roleId);
 
-  createEffect(() => {
-    console.log(props.permissions[0]);
-  });
+  const [permissions, setPermissions] = createSignal<number>(0);
 
-  const rolesDropdownItems = () =>
-    roles().map(
-      (role) =>
-        ({
-          id: role!.id,
-          suffix:
-            defaultRoleId() === role!.id ? (
-              <div
-                class={css`
-                  margin-left: 4px;
-                  opacity: 0.5;
-                  font-size: 12px;
-                `}
-              >
-                (everyone)
-              </div>
-            ) : null,
-          label: role!.name,
-        } satisfies DropDownItem)
-    );
+  createEffect(
+    on(
+      () => roleChannelPermissions()?.permissions,
+      (p) => {
+        console.log(channel()?.permissions);
+        setPermissions(p || 0);
+      }
+    )
+  );
 
   const allPermissions = () =>
-    getAllPermissions(CHANNEL_PERMISSIONS, props.permissions);
+    getAllPermissions(CHANNEL_PERMISSIONS, permissions() || 0);
 
   const onPermissionChanged = (checked: boolean, bit: number) => {
-    let newPermission = props.permissions;
+    let newPermission = permissions();
     console.log(newPermission);
     if (checked) {
       newPermission = addBit(newPermission, bit);
@@ -407,51 +453,25 @@ const ChannelPermissionsBlock = (props: {
     if (!checked) {
       newPermission = removeBit(newPermission, bit);
     }
-    props.setPermissions(newPermission);
+    // props.setPermissions(newPermission);
   };
 
   return (
-    <div>
-      <SettingsBlock
-        icon="security"
-        label={t("servers.settings.channel.permissions")}
-        description={t("servers.settings.channel.permissionsDescription")}
-        header={true}
-        class={css`
-          && {
-            flex-direction: column;
-            align-items: start;
-            gap: 6px;
-          }
-        `}
-      >
-        <DropDown
-          class={css`
-            align-self: stretch;
-            margin-left: 40px;
-          `}
-          items={rolesDropdownItems()}
-          selectedId={defaultRoleId()}
-        />
-      </SettingsBlock>
-      <For each={allPermissions()}>
-        {(permission) => (
-          <SettingsBlock
-            icon={permission.icon}
-            label={t(permission.name)}
-            description={t(permission.description!)}
-            class={styles.permissionItem}
-          >
-            <Checkbox
-              checked={permission.hasPerm}
-              onChange={(checked) =>
-                onPermissionChanged(checked, permission.bit)
-              }
-            />
-          </SettingsBlock>
-        )}
-      </For>
-    </div>
+    <For each={allPermissions()}>
+      {(permission) => (
+        <SettingsBlock
+          icon={permission.icon}
+          label={t(permission.name)}
+          description={t(permission.description!)}
+          class={styles.permissionItem}
+        >
+          <Checkbox
+            checked={permission.hasPerm}
+            onChange={(checked) => onPermissionChanged(checked, permission.bit)}
+          />
+        </SettingsBlock>
+      )}
+    </For>
   );
 };
 
