@@ -207,6 +207,7 @@ const NoBorder = (props: {
 }) => {
   return (
     <div class={styles.imageContainer}>
+      <CatEarsBorder size={props.size} offset={-0.15} />
       <Switch>
         <Match when={props.children}>{props.children}</Match>
 
@@ -391,7 +392,7 @@ function FounderBorder(props: {
       type="founder"
       children={props.children}
       color={props.color}
-      overlay={<CatEarsBorder size={props.size} />}
+      overlay={<CatEarsBorder size={props.size} offset={-0.7} />}
       url={props.avatarUrl}
       hovered={props.hovered}
     />

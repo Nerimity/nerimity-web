@@ -4,6 +4,7 @@ export function CatEarsBorder(props: {
   children?: JSXElement;
   hovered?: boolean;
   size: number;
+  offset?: number;
 }) {
   return (
     <img
@@ -11,7 +12,8 @@ export function CatEarsBorder(props: {
       style={{
         position: "absolute",
         width: "100%",
-        "margin-bottom": props.size / 1 + "px",
+        "margin-top": (props.offset || 0) * props.size + "px",
+        "z-index": "11111111111111",
       }}
       src="/borders/cat-ears.png"
     />
