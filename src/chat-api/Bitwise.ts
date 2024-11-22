@@ -7,17 +7,46 @@ export interface Bitwise {
   showSettings?: boolean; // determine should this permission reveal the "settings" option context menu
 }
 
+const USER_BADGE_BITS = {
+  FOUNDER: 1,
+  ADMIN: 2,
+  CONTRIBUTOR: 4,
+  SUPPORTER: 8,
+  PALESTINE: 16,
+  BOT: 32,
+  MOD: 64,
+  EMO_SUPPORTER: 128,
+  CAT_EARS_WHITE: 256,
+  CAT_EARS_BLUE: 512,
+};
+
 export const USER_BADGES = {
+  // overlays
+  CAT_EARS_BLUE: {
+    name: "Kitty",
+    bit: USER_BADGE_BITS.CAT_EARS_BLUE,
+    color: "linear-gradient(90deg, #78a5ff 0%, #ffffff 100%);",
+    overlay: true,
+    description: "Blue Ears Kitty",
+  },
+  CAT_EARS_WHITE: {
+    name: "Kitty",
+    bit: USER_BADGE_BITS.CAT_EARS_WHITE,
+    color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
+    overlay: true,
+    description: "White Ears Kitty",
+  },
+
   FOUNDER: {
     name: "Founder",
-    bit: 1,
+    bit: USER_BADGE_BITS.FOUNDER,
     description: "Creator of Nerimity",
     color: "linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%);",
     credit: "Avatar Border by upklyak on Freepik",
   },
   ADMIN: {
     name: "Admin",
-    bit: 2,
+    bit: USER_BADGE_BITS.ADMIN,
     description: "Admin of Nerimity",
     color:
       "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%);",
@@ -25,7 +54,7 @@ export const USER_BADGES = {
   },
   MOD: {
     name: "Moderator",
-    bit: 64,
+    bit: USER_BADGE_BITS.MOD,
     description: "Moderator of Nerimity",
     color: "linear-gradient(90deg, #57acfa 0%, #1485ed 100%)",
     credit: "Avatar Border by upklyak on Freepik",
@@ -33,16 +62,15 @@ export const USER_BADGES = {
   EMO_SUPPORTER: {
     name: "Emo Supporter",
     description: "Supported this project by donating money",
-    bit: 128,
+    bit: USER_BADGE_BITS.EMO_SUPPORTER,
     textColor: "rgba(255,255,255,0.8)",
-    color:
-      "linear-gradient(90deg, #424242 0%, #303030 100%)",
+    color: "linear-gradient(90deg, #424242 0%, #303030 100%)",
     credit: "Avatar Border by upklyak on Freepik",
   },
   SUPPORTER: {
     name: "Supporter",
     description: "Supported this project by donating money",
-    bit: 8,
+    bit: USER_BADGE_BITS.SUPPORTER,
     color:
       "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
     credit: "Avatar Border by upklyak on Freepik",
@@ -51,20 +79,20 @@ export const USER_BADGES = {
   CONTRIBUTOR: {
     name: "Contributor",
     description: "Helped with this project in some way",
-    bit: 4,
+    bit: USER_BADGE_BITS.CONTRIBUTOR,
     color: "#ffffff",
   },
   PALESTINE: {
     name: "Palestine",
     description: "[Click To Help](https://arab.org/click-to-help/palestine/)",
-    bit: 16,
+    bit: USER_BADGE_BITS.PALESTINE,
     credit: "Avatar Border by upklyak on Freepik, edited by Supertiger",
     color: "linear-gradient(90deg, red, white, green);",
   },
   BOT: {
     name: "Bot User",
     description: "Bot User",
-    bit: 32,
+    bit: USER_BADGE_BITS.BOT,
     color: "var(--primary-color)",
   },
 };
