@@ -144,6 +144,8 @@ function PermissionsTab() {
     undefined
   );
 
+  const [permissions, setPermissions] = createSignal(0);
+
   const channel = () => store.channels.get(params.channelId);
 
   const roles = () =>
@@ -156,8 +158,15 @@ function PermissionsTab() {
   const server = () => store.servers.get(params.serverId);
   const defaultRoleId = () => server()?.defaultRoleId;
 
+  const roleChannelPermissions = () =>
+    channel()?.permissions?.find((p) => p.roleId === selectedRoleId());
+
   createEffect(() => {
     setSelectedRoleId(defaultRoleId());
+  });
+
+  createEffect(() => {
+    setPermissions(roleChannelPermissions()?.permissions || 0);
   });
 
   const rolesDropdownItems = () =>
@@ -180,16 +189,6 @@ function PermissionsTab() {
           label: role!.name,
         } satisfies DropDownItem)
     );
-
-  const defaultInput = () => ({
-    name: channel()?.name || "",
-    icon: channel()?.icon || null,
-    permissions: channel()?.permissions || 0,
-    slowModeSeconds: channel()?.slowModeSeconds || 0,
-  });
-
-  const [inputValues, updatedInputValues, setInputValue] =
-    createUpdatedSignal(defaultInput);
 
   createEffect(
     on(channel, () => {
@@ -216,6 +215,9 @@ function PermissionsTab() {
       ? t("servers.settings.channel.saving")
       : t("servers.settings.channel.saveChangesButton");
 
+  createEffect(() => {
+    console.log(permissions());
+  });
   return (
     <div class={styles.channelPane}>
       <SettingsBlock
@@ -243,13 +245,16 @@ function PermissionsTab() {
       </SettingsBlock>
 
       <Show when={selectedRoleId()} keyed>
-        <ChannelPermissionsBlock roleId={selectedRoleId()!} />
+        <ChannelPermissionsBlock
+          permissions={permissions()}
+          setPermissions={setPermissions}
+        />
       </Show>
       {/* Errors & buttons */}
       <Show when={error()}>
         <div class={styles.error}>{error()}</div>
       </Show>
-      <Show when={Object.keys(updatedInputValues()).length}>
+      <Show when={false}>
         <Button
           iconName="save"
           label={saveRequestStatus()}
@@ -421,39 +426,24 @@ function GeneralTab() {
   );
 }
 
-const ChannelPermissionsBlock = (props: { roleId: string }) => {
+const ChannelPermissionsBlock = (props: {
+  permissions: number;
+  setPermissions: (permissions: number) => void;
+}) => {
   const params = useParams<{ serverId: string; channelId: string }>();
-  const store = useStore();
-  const server = () => store.servers.get(params.serverId);
-  const channel = () => store.channels.get(params.channelId);
-  const roleChannelPermissions = () =>
-    channel()?.permissions?.find((p) => p.roleId === props.roleId);
-
-  const [permissions, setPermissions] = createSignal<number>(0);
-
-  createEffect(
-    on(
-      () => roleChannelPermissions()?.permissions,
-      (p) => {
-        console.log(channel()?.permissions);
-        setPermissions(p || 0);
-      }
-    )
-  );
 
   const allPermissions = () =>
-    getAllPermissions(CHANNEL_PERMISSIONS, permissions() || 0);
+    getAllPermissions(CHANNEL_PERMISSIONS, props.permissions);
 
   const onPermissionChanged = (checked: boolean, bit: number) => {
-    let newPermission = permissions();
-    console.log(newPermission);
+    let newPermission = props.permissions;
     if (checked) {
       newPermission = addBit(newPermission, bit);
     }
     if (!checked) {
       newPermission = removeBit(newPermission, bit);
     }
-    // props.setPermissions(newPermission);
+    props.setPermissions(newPermission);
   };
 
   return (
