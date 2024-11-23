@@ -16,8 +16,12 @@ const USER_BADGE_BITS = {
   BOT: 32,
   MOD: 64,
   EMO_SUPPORTER: 128,
+
   CAT_EARS_WHITE: 256,
   CAT_EARS_BLUE: 512,
+
+  FOX_EARS_GOLD: 1024,
+  FOX_EARS_BROWN: 2048,
 };
 
 export const USER_BADGES = {
@@ -35,6 +39,20 @@ export const USER_BADGES = {
     color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
     overlay: true,
     description: "White Ears Kitty",
+  },
+  FOX_EARS_GOLD: {
+    name: "Foxy",
+    bit: USER_BADGE_BITS.FOX_EARS_GOLD,
+    color: "linear-gradient(90deg, #ffb100 0%, #ffffff 100%);",
+    overlay: true,
+    description: "Gold Ears Fox",
+  },
+  FOX_EARS_BROWN: {
+    name: "Foxy",
+    bit: USER_BADGE_BITS.FOX_EARS_BROWN,
+    color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%);",
+    overlay: true,
+    description: "Brown Ears Fox",
   },
 
   FOUNDER: {

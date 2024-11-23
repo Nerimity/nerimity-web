@@ -9,6 +9,7 @@ import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
+import { FoxEarsBorder } from "../avatar-borders/FoxEarBorder";
 
 interface Props {
   url?: string | null;
@@ -455,6 +456,22 @@ function Overlays(props: { badges?: number; offset?: number; size: number }) {
   return (
     <Show when={props.badges}>
       <Switch>
+        <Match when={hasBit(props.badges!, USER_BADGES.FOX_EARS_BROWN.bit)}>
+          <FoxEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.2}
+            color="brown"
+          />
+        </Match>
+
+        <Match when={hasBit(props.badges!, USER_BADGES.FOX_EARS_GOLD.bit)}>
+          <FoxEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.2}
+            color="gold"
+          />
+        </Match>
+
         <Match when={hasBit(props.badges!, USER_BADGES.CAT_EARS_BLUE.bit)}>
           <CatEarsBorder size={props.size} offset={props.offset} color="blue" />
         </Match>
