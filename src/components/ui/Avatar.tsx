@@ -8,6 +8,8 @@ import Text from "./Text";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
+import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
+import { FoxEarsBorder } from "../avatar-borders/FoxEarBorder";
 
 interface Props {
   url?: string | null;
@@ -55,7 +57,7 @@ export default function Avatar(props: Props) {
   const badge = createMemo(() => {
     const badges = serverOrUser()?.badges;
     if (!badges) return;
-    return badgesArr.find((b) => hasBit(badges, b.bit));
+    return badgesArr.find((b) => !b.overlay && hasBit(badges, b.bit));
   });
 
   return (
@@ -75,6 +77,7 @@ export default function Avatar(props: Props) {
             color={serverOrUser()?.hexColor}
             serverOrUser={serverOrUser()}
             url={url() || undefined}
+            badges={props.user?.badges}
           />
         }
       >
@@ -86,10 +89,11 @@ export default function Avatar(props: Props) {
             hovered={props.animate}
             hideBorder={!props.animate}
             serverOrUser={serverOrUser()}
+            badges={props.user?.badges}
           />
         </Match>
 
-        <Match when={props.server?.verified || props.user?.badges}>
+        <Match when={props.server?.verified || badge()}>
           <AvatarBorder
             size={props.size}
             hovered={props.animate || props.showBorder}
@@ -98,6 +102,7 @@ export default function Avatar(props: Props) {
             color={serverOrUser()?.hexColor}
             children={props.children}
             badge={badge()}
+            badges={props.user?.badges}
           />
         </Match>
       </Switch>
@@ -115,6 +120,7 @@ function AvatarBorder(props: {
   color?: string;
   children?: JSXElement;
   badge?: (typeof USER_BADGES)[keyof typeof USER_BADGES];
+  badges?: number;
   voiceIndicator?: boolean;
 }) {
   return (
@@ -126,6 +132,7 @@ function AvatarBorder(props: {
             avatarUrl={props.url}
             hovered={props.hovered}
             color={props.color}
+            badges={props.badges}
             children={props.children}
           />
         </Match>
@@ -136,6 +143,7 @@ function AvatarBorder(props: {
             avatarUrl={props.url}
             hovered={props.hovered}
             color={props.color}
+            badges={props.badges}
             children={props.children}
           />
         </Match>
@@ -145,6 +153,7 @@ function AvatarBorder(props: {
             avatarUrl={props.url}
             hovered={props.hovered}
             color={props.color}
+            badges={props.badges}
             children={props.children}
           />
         </Match>
@@ -154,6 +163,7 @@ function AvatarBorder(props: {
             avatarUrl={props.url}
             hovered={props.hovered}
             color={props.color}
+            badges={props.badges}
             children={props.children}
           />
         </Match>
@@ -163,6 +173,7 @@ function AvatarBorder(props: {
             avatarUrl={props.url}
             hovered={props.hovered}
             color={props.color}
+            badges={props.badges}
             children={props.children}
           />
         </Match>
@@ -171,6 +182,7 @@ function AvatarBorder(props: {
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
+            badges={props.badges}
             color={props.color}
             children={props.children}
           />
@@ -203,9 +215,11 @@ const NoBorder = (props: {
   serverOrUser?: ServerOrUser;
   color?: string;
   children?: JSXElement;
+  badges?: number;
 }) => {
   return (
     <div class={styles.imageContainer}>
+      <Overlays size={props.size} offset={-0.12} badges={props.badges} />
       <Switch>
         <Match when={props.children}>{props.children}</Match>
 
@@ -279,6 +293,7 @@ function BasicBorder(props: {
   serverOrUser?: ServerOrUser;
   children?: JSXElement;
   hideBorder?: boolean;
+  badges?: number;
 }) {
   return (
     <>
@@ -314,11 +329,15 @@ function ModBorder(props: {
   hovered?: boolean;
   color?: string;
   children?: JSXElement;
+  badges?: number;
 }) {
   return (
     <FounderAdminSupporterBorder
       type="mod"
       children={props.children}
+      overlay={
+        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+      }
       color={props.color}
       url={props.avatarUrl}
       hovered={props.hovered}
@@ -331,12 +350,16 @@ function EmoSupporterBorder(props: {
   hovered?: boolean;
   color?: string;
   children?: JSXElement;
+  badges?: number;
 }) {
   return (
     <FounderAdminSupporterBorder
       type="emo-supporter"
       children={props.children}
       color={props.color}
+      overlay={
+        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+      }
       url={props.avatarUrl}
       hovered={props.hovered}
     />
@@ -348,11 +371,15 @@ function SupporterBorder(props: {
   hovered?: boolean;
   color?: string;
   children?: JSXElement;
+  badges?: number;
 }) {
   return (
     <FounderAdminSupporterBorder
       type="supporter"
       children={props.children}
+      overlay={
+        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+      }
       color={props.color}
       url={props.avatarUrl}
       hovered={props.hovered}
@@ -365,6 +392,7 @@ function AdminBorder(props: {
   avatarUrl?: string;
   hovered?: boolean;
   color?: string;
+  badges?: number;
   children?: JSXElement;
 }) {
   return (
@@ -372,6 +400,9 @@ function AdminBorder(props: {
       type="admin"
       children={props.children}
       color={props.color}
+      overlay={
+        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+      }
       url={props.avatarUrl}
       hovered={props.hovered}
     />
@@ -383,6 +414,7 @@ function FounderBorder(props: {
   avatarUrl?: string;
   hovered?: boolean;
   color?: string;
+  badges?: number;
   children?: JSXElement;
 }) {
   return (
@@ -390,6 +422,9 @@ function FounderBorder(props: {
       type="founder"
       children={props.children}
       color={props.color}
+      overlay={
+        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+      }
       url={props.avatarUrl}
       hovered={props.hovered}
     />
@@ -401,14 +436,53 @@ function PalestineBorder(props: {
   hovered?: boolean;
   color?: string;
   children?: JSXElement;
+  badges?: number;
 }) {
   return (
     <FounderAdminSupporterBorder
       type="palestine"
       children={props.children}
+      overlay={
+        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+      }
       color={props.color}
       url={props.avatarUrl}
       hovered={props.hovered}
     />
+  );
+}
+
+function Overlays(props: { badges?: number; offset?: number; size: number }) {
+  return (
+    <Show when={props.badges}>
+      <Switch>
+        <Match when={hasBit(props.badges!, USER_BADGES.FOX_EARS_BROWN.bit)}>
+          <FoxEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.2}
+            color="brown"
+          />
+        </Match>
+
+        <Match when={hasBit(props.badges!, USER_BADGES.FOX_EARS_GOLD.bit)}>
+          <FoxEarsBorder
+            size={props.size}
+            offset={(props.offset || 0) - 0.2}
+            color="gold"
+          />
+        </Match>
+
+        <Match when={hasBit(props.badges!, USER_BADGES.CAT_EARS_BLUE.bit)}>
+          <CatEarsBorder size={props.size} offset={props.offset} color="blue" />
+        </Match>
+        <Match when={hasBit(props.badges!, USER_BADGES.CAT_EARS_WHITE.bit)}>
+          <CatEarsBorder
+            size={props.size}
+            offset={props.offset}
+            color="white"
+          />
+        </Match>
+      </Switch>
+    </Show>
   );
 }

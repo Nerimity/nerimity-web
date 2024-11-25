@@ -1119,6 +1119,10 @@ const editPostModalStyles = css`
 
 export function EditPostModal(props: { post: Post; close: () => void }) {
   const [content, setContent] = createSignal(props.post.content || "");
+  const store = useStore();
+
+  const isSupporter = () =>
+    hasBit(store.account.user()?.badges || 0, USER_BADGES.SUPPORTER.bit);
 
   const onEditClick = () => {
     const formattedContent = formatMessage(content().trim());
@@ -1148,7 +1152,7 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
     >
       <DeletePostModalContainer>
         <Input
-          maxLength={500}
+          maxLength={isSupporter() ? 1500 : 500}
           height={100}
           type="textarea"
           value={content()}
