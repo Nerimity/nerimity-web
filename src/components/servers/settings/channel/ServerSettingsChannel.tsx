@@ -19,6 +19,7 @@ import Button from "@/components/ui/Button";
 import {
   deleteServerChannel,
   updateServerChannel,
+  updateServerChannelPermissions,
 } from "@/chat-api/services/ServerService";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { Channel } from "@/chat-api/store/useChannels";
@@ -169,6 +170,10 @@ function PermissionsTab() {
     setPermissions(roleChannelPermissions()?.permissions || 0);
   });
 
+  const hasUpdated = () => {
+    return (roleChannelPermissions()?.permissions || 0) !== permissions();
+  };
+
   const rolesDropdownItems = () =>
     roles().map(
       (role) =>
@@ -204,8 +209,13 @@ function PermissionsTab() {
     if (saveRequestSent()) return;
     setSaveRequestSent(true);
     setError(null);
-    const values = updatedInputValues();
-    await updateServerChannel(params.serverId!, channel()?.id!, values)
+
+    updateServerChannelPermissions({
+      serverId: params.serverId,
+      channelId: params.channelId,
+      roleId: selectedRoleId()!,
+      permissions: permissions(),
+    })
       .catch((err) => setError(err.message))
       .finally(() => setSaveRequestSent(false));
   };
@@ -215,9 +225,6 @@ function PermissionsTab() {
       ? t("servers.settings.channel.saving")
       : t("servers.settings.channel.saveChangesButton");
 
-  createEffect(() => {
-    console.log(permissions());
-  });
   return (
     <div class={styles.channelPane}>
       <SettingsBlock
@@ -254,7 +261,7 @@ function PermissionsTab() {
       <Show when={error()}>
         <div class={styles.error}>{error()}</div>
       </Show>
-      <Show when={false}>
+      <Show when={hasUpdated()}>
         <Button
           iconName="save"
           label={saveRequestStatus()}

@@ -289,7 +289,13 @@ export const onServerRoleDeleted = (payload: {
 }) => {
   const serverRoles = useServerRoles();
   const serverMembers = useServerMembers();
+  const channels = useChannels();
   const members = serverMembers.array(payload.serverId);
+  const serverChannels = channels.getChannelsByServerId(
+    payload.serverId,
+    false
+  );
+
   batch(() => {
     for (let i = 0; i < members.length; i++) {
       const member = members[i];
@@ -298,8 +304,48 @@ export const onServerRoleDeleted = (payload: {
         roleIds: member.roleIds.filter((ids) => ids !== payload.roleId),
       });
     }
+
+    for (let i = 0; i < serverChannels.length; i++) {
+      const channel = serverChannels[i]!;
+      const channelWithoutRole = channel.permissions?.filter(
+        (p) => p.roleId !== payload.roleId
+      );
+      if (channelWithoutRole?.length !== channel.permissions?.length) {
+        channel.update({
+          permissions: channelWithoutRole,
+        });
+      }
+    }
+
     serverRoles.deleteRole(payload.serverId, payload.roleId);
   });
+};
+
+interface ServerChannelPermissionsUpdated {
+  permissions: number;
+  roleId: string;
+  serverId: string;
+  channelId: string;
+}
+
+export const onServerChannelPermissionsUpdated = (
+  payload: ServerChannelPermissionsUpdated
+) => {
+  const channels = useChannels();
+  const channel = channels.get(payload.channelId);
+  if (!channel) return;
+  const permissions = [...(channel.permissions || [])];
+  const roleChannelIndex = permissions.findIndex(
+    (p) => p.roleId === payload.roleId
+  );
+  if (roleChannelIndex === -1) {
+    permissions.push(payload);
+    channel.update({ permissions });
+    return;
+  }
+
+  permissions[roleChannelIndex]! = payload;
+  channel.update({ permissions });
 };
 
 interface ServerChannelOrderUpdatedPayload {
@@ -334,32 +380,32 @@ export const onServerChannelOrderUpdated = (
 
       const updateOrAddCategoryId =
         payload.categoryId &&
-          payload.categoryId !== channel.categoryId &&
-          payload.orderedChannelIds.includes(channel.id)
+        payload.categoryId !== channel.categoryId &&
+        payload.orderedChannelIds.includes(channel.id)
           ? {
-            categoryId: payload.categoryId,
-          }
+              categoryId: payload.categoryId,
+            }
           : undefined;
 
       const removeCategoryId =
         !payload.categoryId &&
-          channel.categoryId &&
-          payload.orderedChannelIds.includes(channel.id)
+        channel.categoryId &&
+        payload.orderedChannelIds.includes(channel.id)
           ? {
-            categoryId: undefined,
-          }
+              categoryId: undefined,
+            }
           : undefined;
 
       const updatePermissions =
         payload.orderedChannelIds.includes(channel.id) &&
-          payload.categoryId &&
-          isPrivateCategory()
+        payload.categoryId &&
+        isPrivateCategory()
           ? {
-            permissions: addBit(
-              channel.permissions || 0,
-              CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
-            ),
-          }
+              permissions: addBit(
+                channel.permissions || 0,
+                CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+              ),
+            }
           : undefined;
 
       channel?.update({
