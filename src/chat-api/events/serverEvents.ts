@@ -16,7 +16,7 @@ import useServerMembers from "../store/useServerMembers";
 import useServerRoles from "../store/useServerRoles";
 import useServers from "../store/useServers";
 import useUsers from "../store/useUsers";
-import { CHANNEL_PERMISSIONS, addBit, hasBit } from "../Bitwise";
+import { CHANNEL_PERMISSIONS, addBit, hasBit, removeBit } from "../Bitwise";
 import { useParams } from "solid-navigator";
 import useVoiceUsers from "../store/useVoiceUsers";
 import useChannelProperties from "../store/useChannelProperties";
@@ -208,28 +208,28 @@ export const onServerChannelUpdated = (payload: ServerChannelUpdated) => {
   const channelProperties = useChannelProperties();
   const channel = channels.get(payload.channelId);
 
-  const isCategoryChannel = channel?.type === ChannelType.CATEGORY;
-  const isPrivateCategory = hasBit(
-    payload.updated.permissions || 0,
-    CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
-  );
+  // const isCategoryChannel = channel?.type === ChannelType.CATEGORY;
+  // const isPrivateCategory = !hasBit(
+  //   payload.updated.permissions || 0,
+  //   CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
+  // );
 
-  if (isCategoryChannel && isPrivateCategory) {
-    const serverChannels = channels.getChannelsByServerId(payload.serverId);
+  // if (isCategoryChannel && isPrivateCategory) {
+  //   const serverChannels = channels.getChannelsByServerId(payload.serverId);
 
-    batch(() => {
-      for (let i = 0; i < serverChannels.length; i++) {
-        const channel = serverChannels[i];
-        if (channel?.categoryId !== payload.channelId) continue;
-        channel?.update({
-          permissions: addBit(
-            channel.permissions || 0,
-            CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
-          ),
-        });
-      }
-    });
-  }
+  //   batch(() => {
+  //     for (let i = 0; i < serverChannels.length; i++) {
+  //       const channel = serverChannels[i];
+  //       if (channel?.categoryId !== payload.channelId) continue;
+  //       channel?.update({
+  //         permissions: addBit(
+  //           channel.permissions || 0,
+  //           CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
+  //         ),
+  //       });
+  //     }
+  //   });
+  // }
 
   console.log(payload.updated.slowModeSeconds);
   if (
@@ -364,9 +364,9 @@ export const onServerChannelOrderUpdated = (
 
   const categoryChannel = () => channels.get(payload.categoryId!)!;
   const isPrivateCategory = () =>
-    hasBit(
+    !hasBit(
       categoryChannel().permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
     );
 
   batch(() => {
@@ -401,9 +401,9 @@ export const onServerChannelOrderUpdated = (
         payload.categoryId &&
         isPrivateCategory()
           ? {
-              permissions: addBit(
+              permissions: removeBit(
                 channel.permissions || 0,
-                CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+                CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
               ),
             }
           : undefined;

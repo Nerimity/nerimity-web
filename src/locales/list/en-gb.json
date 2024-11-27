@@ -145,7 +145,6 @@
         "deleteThisChannelDescription": "This cannot be undone!",
         "deleteChannelButton": "Delete Channel",
         "removeNoticeButton": "Remove Notice"
-
       },
       "invites": {
         "createInviteButton": "Create Invite",
@@ -186,8 +185,8 @@
       "nicknameMemberDescription": "Allow users to change their nickname in the server."
     },
     "channelPermissions": {
-      "privateChannel": "Private Channel",
-      "privateChannelDescription": "Disable access to the channel. Server admins can still access the channel.",
+      "publicChannel": "Public Channel",
+      "publicChannelDescription": "Enable access to the channel. Server admins can access any channel.",
       "sendMessage": "Send Message",
       "sendMessageDescription": "Enable sending messages in the channel. Server admins can still send messages.",
       "joinVoice": "Join Voice",
@@ -314,7 +313,6 @@
       "bindButton": "Bind",
       "stopButton": "Stop",
       "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
-
     },
     "interface": {
       "blurEffect": "Blur Effect",

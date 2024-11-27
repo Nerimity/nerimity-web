@@ -172,8 +172,6 @@
       "nicknameMemberDescription": "awwow users t-to change theiw n-nickname in the sewver (o^▽^o)"
     },
     "channelPermissions": {
-      "privateChannel": "p-pwivate channew",
-      "privateChannelDescription": "disable a-access to the channew (≧◡≦) sewver admins can still access the channew.",
       "sendMessage": "s-send message",
       "sendMessageDescription": "enable sending messages in t-the channew. sewver a-admins can still send messages *:･ﾟ✧*:･ﾟ✧ ",
       "joinVoice": "Join Voice",

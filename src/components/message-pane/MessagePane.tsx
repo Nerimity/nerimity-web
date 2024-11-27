@@ -135,6 +135,7 @@ export default function MessagePane() {
     if (!channel()?.serverId) return true;
     const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
     if (!member) return false;
+    return true;
     if (member.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
 
     if (
@@ -1509,9 +1510,9 @@ function ChannelSuggestionItem(props: {
   onclick(channel: Channel): void;
 }) {
   const isPrivateChannel = () =>
-    hasBit(
+    !hasBit(
       props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
     );
 
   return (

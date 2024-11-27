@@ -17,7 +17,11 @@ import useServerMembers from "./useServerMembers";
 import useAccount from "./useAccount";
 import useMention from "./useMention";
 import socketClient from "../socketClient";
-import { postGenerateCredential, postJoinVoice, postLeaveVoice } from "../services/VoiceService";
+import {
+  postGenerateCredential,
+  postJoinVoice,
+  postLeaveVoice,
+} from "../services/VoiceService";
 import useVoiceUsers from "./useVoiceUsers";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -83,7 +87,7 @@ function hasNotifications(this: Channel) {
   const account = useAccount();
   const mentions = useMention();
   const isAdminChannel = () =>
-    hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+    !hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit);
 
   if (this.serverId && isAdminChannel()) {
     const member = serverMembers.get(
@@ -108,7 +112,6 @@ function recipient(this: Channel) {
   const users = useUsers();
   return users.get(this.recipientId!);
 }
-
 
 async function joinCall(this: Channel) {
   const { setCurrentChannelId } = useVoiceUsers();
@@ -164,12 +167,13 @@ const deleteChannel = (channelId: string, serverId?: string) =>
         const match = useMatch(() => "/app/servers/:serverId/:channelId")();
         const matchedChannelId = match?.params.channelId;
         if (matchedChannelId === channelId) {
-          useNavigate()(RouterEndpoints.SERVER_MESSAGES(serverId, defaultChannelId), { replace: true });
+          useNavigate()(
+            RouterEndpoints.SERVER_MESSAGES(serverId, defaultChannelId),
+            { replace: true }
+          );
         }
       }
-
     }
-
 
     batch(() => {
       if (voiceChannelId && voiceChannelId === channelId) {
@@ -198,9 +202,9 @@ const serverChannelsWithPerm = () => {
     const hasAdminPerm = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
     if (hasAdminPerm) return true;
 
-    const isPrivateChannel = hasBit(
+    const isPrivateChannel = !hasBit(
       channel?.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
     );
     return !isPrivateChannel;
   });
@@ -221,9 +225,9 @@ const getChannelsByServerId = (
 
   return array().filter((channel) => {
     const isServerChannel = channel?.serverId === serverId;
-    const isPrivateChannel = hasBit(
+    const isPrivateChannel = !hasBit(
       channel?.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
     );
     return isServerChannel && !isPrivateChannel;
   });
@@ -237,8 +241,7 @@ const getSortedChannelsByServerId = (
   return getChannelsByServerId(serverId, hidePrivateIfNoPerm).sort((a, b) => {
     if (a!.order && b!.order) {
       return a!.order - b!.order;
-    }
-    else {
+    } else {
       return a!.createdAt - b!.createdAt;
     }
   });

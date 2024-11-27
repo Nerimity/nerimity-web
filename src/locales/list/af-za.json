@@ -158,8 +158,6 @@
       "mentionEveryoneDescription": "Aktiveer die vermelding van @everyone. Server administrateurs kan steeds almal vermeld."
     },
     "channelPermissions": {
-      "privateChannel": "Privaat Kanaal",
-      "privateChannelDescription": "Deaktiveer toegang tot die kanaal.",
       "sendMessage": "Stuur boodskappe",
       "sendMessageDescription": "Aktiveer die stuur van boodskappe in die kanaal. Server administrateurs kan steeds boodskappe stuur.",
       "joinVoice": "Sluit aan met Stem",

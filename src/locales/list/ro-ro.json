@@ -172,8 +172,6 @@
       "nicknameMemberDescription": "Permiteți utilizatorilor să își schimbe porecla în server."
     },
     "channelPermissions": {
-      "privateChannel": "Canal privat",
-      "privateChannelDescription": "Dezactivează accesul la canal. Administratorii serverului pot accesa în continuare canalul.",
       "sendMessage": "Trimite mesaje",
       "sendMessageDescription": "Activați trimiterea de mesaje în canal. Administratorii serverului pot trimite în continuare mesaje.",
       "joinVoice": "Alăturare apel vocal",

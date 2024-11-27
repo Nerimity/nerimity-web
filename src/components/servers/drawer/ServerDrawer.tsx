@@ -288,9 +288,9 @@ function CategoryItem(props: {
       .filter((channel) => channel?.categoryId === props.channel.id)
   );
   const isPrivateChannel = () =>
-    hasBit(
+    !hasBit(
       props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
     );
 
   const [expanded, setExpanded] = createSignal(true);
@@ -371,9 +371,9 @@ function ChannelItem(props: {
   const hasNotifications = () => channel.hasNotifications();
 
   const isPrivateChannel = () =>
-    hasBit(
+    !hasBit(
       props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
     );
 
   return (

@@ -172,8 +172,6 @@
       "nicknameMemberDescription": "Permite que usuários alterem seus apelidos no servidor."
     },
     "channelPermissions": {
-      "privateChannel": "Canal Privado",
-      "privateChannelDescription": "Desabilitar acesso ao canal. Administradores do servidor ainda poderão acessar o canal.",
       "sendMessage": "Enviar Mensagens",
       "sendMessageDescription": "Habilita o envio de mensagens neste canal. Administradores do servidor ainda poderão enviar mensagens.",
       "joinVoice": "Entrar em Canal de Voz",

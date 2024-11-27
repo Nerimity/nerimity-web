@@ -159,8 +159,6 @@
       "mentionEveryoneDescription": "Umożliw oznaczanie @everyone. Administratorzy dalej będą mogli oznaczać everyone."
     },
     "channelPermissions": {
-      "privateChannel": "Kanał Prywatny",
-      "privateChannelDescription": "Zablokuj dostęp do kanału. Administratorzy dalej będą mieć do niego dostęp.",
       "sendMessage": "Wysyłanie wiadomości",
       "sendMessageDescription": "Umożliw wysyłanie wiadomości na kanale. Administratorzy dalej będą mogli wysyłać wiadomości.",
       "joinVoice": "Dołącz do rozmowy głosowej",

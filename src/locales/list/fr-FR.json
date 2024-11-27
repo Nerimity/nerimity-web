@@ -156,8 +156,6 @@
       "banDescription": "Autorisation de bannir des membres du serveur."
     },
     "channelPermissions": {
-      "privateChannel": "Salon Privé",
-      "privateChannelDescription": "Désactiver l'accès au salon. Les administrateurs peuvent toujours accéder au salon.",
       "sendMessage": "Envoyer des messages",
       "sendMessageDescription": "Activer l'envoi de messages dans le salon. Les administrateurs peuvent toujours envoyer des messages."
     }

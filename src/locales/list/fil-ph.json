@@ -159,8 +159,6 @@
       "mentionEveryoneDescription": "Paganahin ang pagbanggit sa @everyone. Maaari pa ring banggitin ng mga admin ng server ang @everyone."
     },
     "channelPermissions": {
-      "privateChannel": "Pribadong Channel",
-      "privateChannelDescription": "Huwag paganahin ang pag-access sa channel. Maa-access pa rin ng mga admin ng server ang channel.",
       "sendMessage": "Mag-send ng mga mensahe",
       "sendMessageDescription": "Paganahin ang pagpapadala ng mga mensahe sa channel. Maaari pa ring magpadala ng mga mensahe ang mga admin ng server.",
       "joinVoice": "Pagsasali sa voice",

@@ -156,8 +156,6 @@
       "banDescription": "Toestemming om gebruikers te verbannen."
     },
     "channelPermissions": {
-      "privateChannel": "Privé kanaal",
-      "privateChannelDescription": "Schakel de toegang tot het kanaal uit. Serverbeheerders hebben nog steeds toegang tot het kanaal.",
       "sendMessage": "Bericht versturen",
       "sendMessageDescription": "Schakel het verzenden van berichten in het kanaal in. Serverbeheerders kunnen nog steeds berichten verzenden."
     }
