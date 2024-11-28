@@ -41,10 +41,7 @@ function ChannelItem(props: { channel: Channel }) {
   );
 
   const isPrivateChannel = () =>
-    !hasBit(
-      props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-    );
+    !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
   return (
     <CustomLink noContextMenu href={link} class={styles.channelItem}>
@@ -103,10 +100,7 @@ function CategoryItem(props: { channel: Channel }) {
   };
 
   const isPrivateChannel = () =>
-    !hasBit(
-      props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-    );
+    !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
   return (
     <div class={styles.categoryItem}>

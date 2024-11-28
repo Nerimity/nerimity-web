@@ -135,12 +135,9 @@ export default function MessagePane() {
     if (!channel()?.serverId) return true;
     const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
     if (!member) return false;
-    return true;
     if (member.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
 
-    if (
-      !hasBit(channel()?.permissions || 0, CHANNEL_PERMISSIONS.SEND_MESSAGE.bit)
-    ) {
+    if (!channel()?.hasPermission(CHANNEL_PERMISSIONS.SEND_MESSAGE)) {
       return false;
     }
 

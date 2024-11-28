@@ -21,7 +21,11 @@ import Text from "@/components/ui/Text";
 import { ChannelType } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { CHANNEL_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
+import {
+  CHANNEL_PERMISSIONS,
+  hasBit,
+  ROLE_PERMISSIONS,
+} from "@/chat-api/Bitwise";
 import env from "@/common/env";
 import { unicodeToTwemojiUrl } from "@/emoji";
 import { createSignal } from "solid-js";
@@ -371,10 +375,11 @@ function ChannelItem(props: {
   const hasNotifications = () => channel.hasNotifications();
 
   const isPrivateChannel = () =>
-    !hasBit(
-      props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-    );
+    !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
+  // !hasBit(
+  //   props.channel.permissions || 0,
+  //   CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
+  // );
 
   return (
     <Show when={props.expanded || props.selected || hasNotifications()}>

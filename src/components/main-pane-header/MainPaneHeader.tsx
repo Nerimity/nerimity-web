@@ -100,9 +100,8 @@ export default function MainPaneHeader() {
     if (!header.details().channelId) return;
     if (!channel()?.serverId) return true;
 
-    const hasChannelGotCallPermission = hasBit(
-      channel()?.permissions || 0,
-      CHANNEL_PERMISSIONS.JOIN_VOICE.bit
+    const hasChannelGotCallPermission = channel()?.hasPermission(
+      CHANNEL_PERMISSIONS.JOIN_VOICE
     );
     if (hasChannelGotCallPermission) return true;
     const member = serverMembers.get(channel()?.serverId!, account.user()?.id!);
@@ -305,7 +304,8 @@ function VoiceHeader(props: { channelId?: string }) {
 
   const [selectedUserId, setSelectedUserId] = createSignal<null | string>(null);
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsersByChannelId(props.channelId!);
+  const channelVoiceUsers = () =>
+    voiceUsers.getVoiceUsersByChannelId(props.channelId!);
   const videoStreamingUsers = () =>
     channelVoiceUsers().filter((v) => voiceUsers.videoEnabled(v.userId));
 
@@ -326,9 +326,6 @@ function VoiceHeader(props: { channelId?: string }) {
   const isSomeoneVideoStreaming = () =>
     channelVoiceUsers().find((v) => voiceUsers.videoEnabled(v.userId));
 
-
-
-
   return (
     <Show when={channelVoiceUsers().length}>
       <div
@@ -348,7 +345,9 @@ function VoiceHeader(props: { channelId?: string }) {
             />
             <Show when={isSomeoneVideoStreaming()}>
               <VideoStream
-                mediaStream={voiceUsers.videoEnabled(selectedVoiceUser()?.userId!)!}
+                mediaStream={
+                  voiceUsers.videoEnabled(selectedVoiceUser()?.userId!)!
+                }
                 mute={selectedVoiceUser()?.userId === account.user()?.id}
               />
             </Show>
@@ -420,7 +419,8 @@ function VoiceParticipants(props: {
 }) {
   const { voiceUsers } = useStore();
 
-  const channelVoiceUsers = () => voiceUsers.getVoiceUsersByChannelId(props.channelId!);
+  const channelVoiceUsers = () =>
+    voiceUsers.getVoiceUsersByChannelId(props.channelId!);
 
   return (
     <div class={styles.voiceParticipants}>
@@ -452,9 +452,7 @@ function VoiceParticipantItem(props: {
   }>(null);
 
   const isMuted = () => {
-    return !voiceUsers.micEnabled(
-      props.voiceUser.userId
-    );
+    return !voiceUsers.micEnabled(props.voiceUser.userId);
   };
 
   const isVideoStreaming = () =>
@@ -521,7 +519,7 @@ function VoiceActions(props: { channelId: string }) {
   const { createPortal } = useCustomPortal();
   const { isMobileAgent } = useWindowProperties();
 
-  const currentVoiceUser = () =>  voiceUsers.currentUser();
+  const currentVoiceUser = () => voiceUsers.currentUser();
 
   const channel = () => channels.get(props.channelId);
 
@@ -533,7 +531,8 @@ function VoiceActions(props: { channelId: string }) {
     channel()?.leaveCall();
   };
 
-  const isInCall = () => voiceUsers.currentUser()?.channelId === props.channelId;
+  const isInCall = () =>
+    voiceUsers.currentUser()?.channelId === props.channelId;
 
   const onScreenShareClick = () => {
     createPortal((close) => <ScreenShareModal close={close} />);
