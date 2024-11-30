@@ -265,7 +265,7 @@ const getChannelsByServerId = (
   return array().filter((channel) => {
     const isServerChannel = channel?.serverId === serverId;
     if (channel.type === ChannelType.CATEGORY && showPrivateCategories)
-      return true;
+      return isServerChannel;
     const isPrivateChannel = !channel.hasPermission(
       CHANNEL_PERMISSIONS.PUBLIC_CHANNEL
     );
