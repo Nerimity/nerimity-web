@@ -11,7 +11,7 @@ import {
   ROLE_PERMISSIONS,
   addBit,
 } from "../Bitwise";
-import { RawChannel } from "../RawData";
+import { ChannelType, RawChannel } from "../RawData";
 import useMessages from "./useMessages";
 import useUsers from "./useUsers";
 import useServerMembers from "./useServerMembers";
@@ -250,7 +250,8 @@ const serverChannelsWithPerm = () => {
 
 const getChannelsByServerId = (
   serverId: string,
-  hidePrivateIfNoPerm = false
+  hidePrivateIfNoPerm = false,
+  showPrivateCategories = false
 ) => {
   if (!hidePrivateIfNoPerm)
     return array().filter((channel) => channel?.serverId === serverId);
@@ -263,6 +264,8 @@ const getChannelsByServerId = (
 
   return array().filter((channel) => {
     const isServerChannel = channel?.serverId === serverId;
+    if (channel.type === ChannelType.CATEGORY && showPrivateCategories)
+      return true;
     const isPrivateChannel = !channel.hasPermission(
       CHANNEL_PERMISSIONS.PUBLIC_CHANNEL
     );
@@ -273,9 +276,14 @@ const getChannelsByServerId = (
 // if order field exists, sort by order, else, sort by created date
 const getSortedChannelsByServerId = (
   serverId: string,
-  hidePrivateIfNoPerm = false
+  hidePrivateIfNoPerm = false,
+  showPrivateCategories = false
 ) => {
-  return getChannelsByServerId(serverId, hidePrivateIfNoPerm).sort((a, b) => {
+  return getChannelsByServerId(
+    serverId,
+    hidePrivateIfNoPerm,
+    showPrivateCategories
+  ).sort((a, b) => {
     if (a!.order && b!.order) {
       return a!.order - b!.order;
     } else {

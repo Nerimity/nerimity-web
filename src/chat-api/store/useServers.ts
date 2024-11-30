@@ -1,28 +1,35 @@
 import env from "@/common/env";
-import {createStore} from "solid-js/store";
-import { ChannelType, RawCustomEmoji, RawServer, ServerNotificationPingMode } from "../RawData";
+import { createStore } from "solid-js/store";
+import {
+  ChannelType,
+  RawCustomEmoji,
+  RawServer,
+  ServerNotificationPingMode,
+} from "../RawData";
 import { deleteServer, leaveServer } from "../services/ServerService";
 import useAccount from "./useAccount";
 import useChannels from "./useChannels";
 import useMention from "./useMention";
 import { createEffect, createMemo, createRoot } from "solid-js";
 import { emojiShortcodeToUnicode } from "@/emoji";
+import { CHANNEL_PERMISSIONS } from "../Bitwise";
 
 export type Server = RawServer & {
   hasNotifications: () => boolean;
-  isCurrentUserCreator: () => boolean | undefined
+  isCurrentUserCreator: () => boolean | undefined;
   update: (this: Server, update: Partial<RawServer>) => void;
   leave: () => Promise<RawServer>;
   mentionCount: () => number;
-  avatarUrl(this: Server): string | null
-}
-const [servers, setServers] = createStore<Record<string, Server | undefined>>({});
+  avatarUrl(this: Server): string | null;
+};
+const [servers, setServers] = createStore<Record<string, Server | undefined>>(
+  {}
+);
 
-
-export const avatarUrl = (item: {avatar?: string}): string | null => item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
-export const bannerUrl = (item: {banner?: string}): string | null => item?.banner ? env.NERIMITY_CDN + item?.banner : null;
-
-
+export const avatarUrl = (item: { avatar?: string }): string | null =>
+  item?.avatar ? env.NERIMITY_CDN + item?.avatar : null;
+export const bannerUrl = (item: { banner?: string }): string | null =>
+  item?.banner ? env.NERIMITY_CDN + item?.banner : null;
 
 const set = (server: RawServer) => {
   const newServer: Server = {
@@ -34,48 +41,57 @@ const set = (server: RawServer) => {
     mentionCount,
     avatarUrl: function () {
       return avatarUrl(this);
-    }
+    },
   };
-  
+
   setServers(server.id, newServer);
 };
 
-function hasNotifications (this: Server) {
+function hasNotifications(this: Server) {
   const channels = useChannels();
 
   const account = useAccount();
-  
-  return channels.getChannelsByServerId(this.id).some(channel => {
-    const notificationPingMode = account.getCombinedNotificationSettings(this.id, channel.id)?.notificationPingMode;
+
+  return channels.getChannelsByServerId(this.id).some((channel) => {
+    const notificationPingMode = account.getCombinedNotificationSettings(
+      this.id,
+      channel.id
+    )?.notificationPingMode;
     if (notificationPingMode === ServerNotificationPingMode.MUTE) return false;
     const hasNotification = channel!.hasNotifications();
-    if (hasNotification !== "mention" && notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY ) return false;
+    if (
+      hasNotification !== "mention" &&
+      notificationPingMode === ServerNotificationPingMode.MENTIONS_ONLY
+    )
+      return false;
     return hasNotification && channel?.type === ChannelType.SERVER_TEXT;
   });
 }
 
-function mentionCount (this: Server) {
+function mentionCount(this: Server) {
   const mention = useMention();
+  const channels = useChannels();
   let count = 0;
-  const mentions = mention.array().filter(mention => mention!.serverId === this.id);
+  const mentions = mention
+    .array()
+    .filter((mention) => mention!.serverId === this.id);
   for (let i = 0; i < mentions.length; i++) {
     const mention = mentions[i];
+    const channel = channels.get(mention?.channelId!);
+    if (!channel?.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL)) continue;
     count += mention?.count || 0;
   }
   return count;
 }
 
-
-function leave (this: Server) {
+function leave(this: Server) {
   return leaveServer(this.id);
 }
-function update (this: Server, update: Partial<RawServer>) {
+function update(this: Server, update: Partial<RawServer>) {
   setServers(this.id, update);
 }
 
-  
-
-const remove = (serverId: string) => {  
+const remove = (serverId: string) => {
   setServers(serverId, undefined);
 };
 
@@ -84,7 +100,6 @@ function isCurrentUserCreator(this: Server) {
   if (!account.user()) return;
   return this.createdById === account.user()?.id;
 }
-
 
 const get = (serverId: string) => servers[serverId];
 
@@ -97,7 +112,7 @@ const orderedArray = () => {
   serverIdsArray?.forEach((a, i) => {
     order[a] = i;
   });
-  
+
   return array()
     .sort((a, b) => a.createdAt - b.createdAt)
     .sort((a, b) => {
@@ -113,40 +128,47 @@ const orderedArray = () => {
     });
 };
 
-
-const hasAllNotifications =  () => {
-  return array().find(s => s?.hasNotifications());
+const hasAllNotifications = () => {
+  return array().find((s) => s?.hasNotifications());
 };
-const emojis = createRoot(() => createMemo(() => orderedArray().map(s => (s.customEmojis.map(emoji => ({...emoji, serverId: s.id})))).flat()));
+const emojis = createRoot(() =>
+  createMemo(() =>
+    orderedArray()
+      .map((s) => s.customEmojis.map((emoji) => ({ ...emoji, serverId: s.id })))
+      .flat()
+  )
+);
 
-const emojisUpdatedDupName = createRoot(() => createMemo(() => {
-  const uniqueNamedEmojis: RawCustomEmoji[] = [];
-  const counts: {[key: string]: number} = {};
-  
-  for (let i = 0; i < emojis().length; i++) {
-    const emoji = emojis()[i];
-    let count = counts[emoji.name] || 0;
-    const hasEmojiShortcode = emojiShortcodeToUnicode(emoji.name);
-    if (hasEmojiShortcode) count++;
-    const newName = count ? `${emoji.name}-${count}` : emoji.name;
-    if (!hasEmojiShortcode) count++;
-    counts[emoji.name] = count;
-    uniqueNamedEmojis.push({ ...emoji, name: newName });
-  }
-  return uniqueNamedEmojis;
-}));
+const emojisUpdatedDupName = createRoot(() =>
+  createMemo(() => {
+    const uniqueNamedEmojis: RawCustomEmoji[] = [];
+    const counts: { [key: string]: number } = {};
 
+    for (let i = 0; i < emojis().length; i++) {
+      const emoji = emojis()[i];
+      let count = counts[emoji.name] || 0;
+      const hasEmojiShortcode = emojiShortcodeToUnicode(emoji.name);
+      if (hasEmojiShortcode) count++;
+      const newName = count ? `${emoji.name}-${count}` : emoji.name;
+      if (!hasEmojiShortcode) count++;
+      counts[emoji.name] = count;
+      uniqueNamedEmojis.push({ ...emoji, name: newName });
+    }
+    return uniqueNamedEmojis;
+  })
+);
 
-const customEmojiNamesToEmoji = createRoot(() => createMemo(() => {
-  const obj: {[key: string]: RawCustomEmoji} = {};
+const customEmojiNamesToEmoji = createRoot(() =>
+  createMemo(() => {
+    const obj: { [key: string]: RawCustomEmoji } = {};
 
-  for (let index = 0; index < emojisUpdatedDupName().length; index++) {
-    const emoji = emojisUpdatedDupName()[index];
-    obj[emoji.name] = emoji;   
-  }
-  return obj;
-}));
-
+    for (let index = 0; index < emojisUpdatedDupName().length; index++) {
+      const emoji = emojisUpdatedDupName()[index];
+      obj[emoji.name] = emoji;
+    }
+    return obj;
+  })
+);
 
 export default function useServers() {
   return {
@@ -158,6 +180,6 @@ export default function useServers() {
     set,
     hasNotifications: hasAllNotifications,
     orderedArray,
-    remove
+    remove,
   };
 }
