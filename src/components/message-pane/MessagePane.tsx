@@ -1507,10 +1507,7 @@ function ChannelSuggestionItem(props: {
   onclick(channel: Channel): void;
 }) {
   const isPrivateChannel = () =>
-    !hasBit(
-      props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-    );
+    !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
   return (
     <ItemContainer

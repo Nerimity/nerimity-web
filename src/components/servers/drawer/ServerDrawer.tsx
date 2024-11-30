@@ -376,10 +376,6 @@ function ChannelItem(props: {
 
   const isPrivateChannel = () =>
     !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
-  // !hasBit(
-  //   props.channel.permissions || 0,
-  //   CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-  // );
 
   return (
     <Show when={props.expanded || props.selected || hasNotifications()}>

@@ -208,30 +208,6 @@ export const onServerChannelUpdated = (payload: ServerChannelUpdated) => {
   const channelProperties = useChannelProperties();
   const channel = channels.get(payload.channelId);
 
-  // const isCategoryChannel = channel?.type === ChannelType.CATEGORY;
-  // const isPrivateCategory = !hasBit(
-  //   payload.updated.permissions || 0,
-  //   CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-  // );
-
-  // if (isCategoryChannel && isPrivateCategory) {
-  //   const serverChannels = channels.getChannelsByServerId(payload.serverId);
-
-  //   batch(() => {
-  //     for (let i = 0; i < serverChannels.length; i++) {
-  //       const channel = serverChannels[i];
-  //       if (channel?.categoryId !== payload.channelId) continue;
-  //       channel?.update({
-  //         permissions: addBit(
-  //           channel.permissions || 0,
-  //           CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-  //         ),
-  //       });
-  //     }
-  //   });
-  // }
-
-  console.log(payload.updated.slowModeSeconds);
   if (
     payload.updated.slowModeSeconds ||
     payload.updated.slowModeSeconds === null
@@ -362,13 +338,6 @@ export const onServerChannelOrderUpdated = (
     payload.serverId
   );
 
-  const categoryChannel = () => channels.get(payload.categoryId!)!;
-  const isPrivateCategory = () =>
-    !hasBit(
-      categoryChannel().permissions || 0,
-      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-    );
-
   batch(() => {
     for (let i = 0; i < orderedChannels.length; i++) {
       const channel = orderedChannels[i];
@@ -396,20 +365,7 @@ export const onServerChannelOrderUpdated = (
             }
           : undefined;
 
-      const updatePermissions =
-        payload.orderedChannelIds.includes(channel.id) &&
-        payload.categoryId &&
-        isPrivateCategory()
-          ? {
-              permissions: removeBit(
-                channel.permissions || 0,
-                CHANNEL_PERMISSIONS.PUBLIC_CHANNEL.bit
-              ),
-            }
-          : undefined;
-
       channel?.update({
-        ...updatePermissions,
         ...updateOrder,
         ...updateOrAddCategoryId,
         ...removeCategoryId,
