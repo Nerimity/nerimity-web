@@ -151,7 +151,7 @@ const AnswerItem = (props: {
   updateQuestions: SetStoreFunction<RawServerWelcomeQuestion[]>;
 }) => {
   const params = useParams<{ serverId: string }>();
-  const { serverRoles } = useStore();
+  const { serverRoles, channels } = useStore();
   const onChange = async (newVal: boolean) => {
     if (newVal) {
       await addAnswerToMember(params.serverId, props.answer.id);
@@ -202,6 +202,15 @@ const AnswerItem = (props: {
       .map((roleId) => serverRoles.get(params.serverId, roleId)!)
       .sort((a, b) => a?.order - b?.order)
       .filter((r) => r);
+
+  const serverChannels = () =>
+    channels.getSortedChannelsByServerId(params.serverId, false, false);
+
+  const questionChannels = () =>
+    serverChannels().filter((c) =>
+      c.permissions?.find((p) => props.answer.roleIds.includes(p.roleId))
+    );
+
   return (
     <div class={styles.outerAnswerItem}>
       <div class={styles.answerItem}>
@@ -229,16 +238,24 @@ const AnswerItem = (props: {
       </div>
       <Show when={roles().length}>
         <div class={styles.roleList}>
-          <Icon
-            class={styles.roleIcon}
-            name="leaderboard"
-            size={14}
-            color="rgba(255,255,255,0.8)"
-          />
           <For each={roles()}>
             {(role) => (
               <div class={styles.roleItem}>
+                <Icon
+                  class={styles.roleIcon}
+                  name="leaderboard"
+                  size={14}
+                  color="rgba(255,255,255,0.8)"
+                />
                 <div style={{ color: role.hexColor }}>{role.name}</div>
+              </div>
+            )}
+          </For>
+          <For each={questionChannels()}>
+            {(channel) => (
+              <div class={styles.roleItem}>
+                <div class={styles.hash}>#</div>
+                <div>{channel.name}</div>
               </div>
             )}
           </For>
