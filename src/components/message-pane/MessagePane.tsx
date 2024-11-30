@@ -125,11 +125,10 @@ export default function MessagePane() {
     }
   });
 
-  const isServerAndEmailNotConfirmed = () =>
-    channel()?.serverId && !account.user()?.emailConfirmed;
+  const isEmailNotConfirmed = () => !account.user()?.emailConfirmed;
 
   const canSendMessage = () => {
-    if (isServerAndEmailNotConfirmed()) {
+    if (isEmailNotConfirmed()) {
       return false;
     }
     if (!channel()?.serverId) return true;
@@ -154,7 +153,7 @@ export default function MessagePane() {
       </MetaTitle>
       <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
 
-      <Show when={isServerAndEmailNotConfirmed()}>
+      <Show when={isEmailNotConfirmed()}>
         <EmailUnconfirmedNotice />
       </Show>
 
