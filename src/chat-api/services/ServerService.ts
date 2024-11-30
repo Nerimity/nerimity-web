@@ -211,6 +211,24 @@ export async function updateServerMember(
   });
 }
 
+export async function updateServerChannelPermissions(opts: {
+  serverId: string;
+  channelId: string;
+  roleId: string;
+  permissions: number;
+}): Promise<any> {
+  return request({
+    method: "POST",
+    body: { permissions: opts.permissions },
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.serverChannel(opts.serverId, opts.channelId) +
+      `/permissions/${opts.roleId}`,
+    useToken: true,
+  });
+}
+
 export async function updateServerChannel(
   serverId: string,
   channelId: string,

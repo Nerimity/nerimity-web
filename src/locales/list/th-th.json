@@ -176,8 +176,6 @@
       "nicknameMemberDescription": "อนุญาตให้ผู้ใช้เปลี่ยนชื่อเล่นของตนในเซิร์ฟเวอร์"
     },
     "channelPermissions": {
-      "privateChannel": "ช่องส่วนตัว",
-      "privateChannelDescription": "ปิดการเข้าถึงช่อง โดยแอดมินเซิร์ฟเวอร์ยังสามารถเข้าถึงช่องได้",
       "sendMessage": "ส่งข้อความ",
       "sendMessageDescription": "อนุญาตการส่งข้อความในช่อง โดยแอดมินเซิร์ฟเวอร์ยังสามารถส่งข้อความได้",
       "joinVoice": "เข้าร่วมเสียง",

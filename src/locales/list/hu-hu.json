@@ -150,8 +150,6 @@
       "banDescription": "Engedély tagok bannolásának."
     },
     "channelPermissions": {
-      "privateChannel": "Privát Csatorna",
-      "privateChannelDescription": "A csatorna elérésének kikapcsolása. Az adminok csak elérhetik majd.",
       "sendMessage": "Üzenet Küldése",
       "sendMessageDescription": "Megengedi hogy üzenetet lehessen küldeni eme csatornába. Az adminok csak küldhetnek majd."
     }

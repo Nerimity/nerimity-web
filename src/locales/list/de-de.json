@@ -156,8 +156,6 @@
       "banDescription": "Erlaubt es Benutzern vom Server zu bannen."
     },
     "channelPermissions": {
-      "privateChannel": "Privater Kanal",
-      "privateChannelDescription": "Deaktiviere den Zugriff auf den Kanal. Administratoren können weiterhin auf den Kanal zugreifen.",
       "sendMessage": "Nachricht senden",
       "sendMessageDescription": "Erlaubt das Senden von Nachrichten auf diesem Server. Administratoren können weiterhin Nachrichten senden."
     }

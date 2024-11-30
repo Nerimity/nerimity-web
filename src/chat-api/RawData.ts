@@ -103,7 +103,7 @@ export interface RawChannelNotice {
   userId: string;
 }
 
-export type  AttachmentProviders = "local" | "google_drive";
+export type AttachmentProviders = "local" | "google_drive";
 export interface RawAttachment {
   id: string;
 
@@ -204,13 +204,18 @@ export interface RawChannel {
   createdById?: string;
   serverId?: string;
   type: ChannelType;
-  permissions?: number;
+  permissions?: ServerChannelPermissions[];
   createdAt: number;
   lastMessagedAt?: number;
   order?: number;
   slowModeSeconds?: number;
 
   _count?: { attachments: number };
+}
+
+interface ServerChannelPermissions {
+  permissions: number;
+  roleId: string;
 }
 
 export interface RawCustomEmoji {
@@ -318,12 +323,12 @@ export interface RawPostPoll {
   _count: { votedUsers: number };
   choices: RawPostChoice[];
   votedUsers:
-  | [
-    {
-      pollChoiceId: string;
-    }
-  ]
-  | [];
+    | [
+        {
+          pollChoiceId: string;
+        }
+      ]
+    | [];
 }
 export interface RawPostChoice {
   id: string;

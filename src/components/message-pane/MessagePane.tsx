@@ -137,9 +137,7 @@ export default function MessagePane() {
     if (!member) return false;
     if (member.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
 
-    if (
-      !hasBit(channel()?.permissions || 0, CHANNEL_PERMISSIONS.SEND_MESSAGE.bit)
-    ) {
+    if (!channel()?.hasPermission(CHANNEL_PERMISSIONS.SEND_MESSAGE)) {
       return false;
     }
 
@@ -1509,10 +1507,7 @@ function ChannelSuggestionItem(props: {
   onclick(channel: Channel): void;
 }) {
   const isPrivateChannel = () =>
-    hasBit(
-      props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
-    );
+    !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
   return (
     <ItemContainer

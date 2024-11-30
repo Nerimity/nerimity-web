@@ -21,7 +21,11 @@ import Text from "@/components/ui/Text";
 import { ChannelType } from "@/chat-api/RawData";
 import Icon from "@/components/ui/icon/Icon";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { CHANNEL_PERMISSIONS, hasBit } from "@/chat-api/Bitwise";
+import {
+  CHANNEL_PERMISSIONS,
+  hasBit,
+  ROLE_PERMISSIONS,
+} from "@/chat-api/Bitwise";
 import env from "@/common/env";
 import { unicodeToTwemojiUrl } from "@/emoji";
 import { createSignal } from "solid-js";
@@ -97,7 +101,7 @@ const ChannelList = () => {
   >();
 
   const sortedChannels = () =>
-    channels.getSortedChannelsByServerId(params.serverId, true);
+    channels.getSortedChannelsByServerId(params.serverId, true, true);
   const sortedRootChannels = () =>
     sortedChannels().filter((channel) => !channel?.categoryId);
   const channelsWithoutCategory = () =>
@@ -287,60 +291,59 @@ function CategoryItem(props: {
       .getSortedChannelsByServerId(params.serverId, true)
       .filter((channel) => channel?.categoryId === props.channel.id)
   );
-  const isPrivateChannel = () =>
-    hasBit(
-      props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
-    );
+  const isPrivateCategory = () =>
+    !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
   const [expanded, setExpanded] = createSignal(true);
 
   return (
-    <CategoryContainer
-      onmouseenter={() => setHovered(true)}
-      onmouseleave={() => setHovered(false)}
-    >
-      <CategoryItemContainer
-        gap={8}
-        onClick={() => setExpanded(!expanded())}
-        classList={{ hide: !expanded() }}
+    <Show when={!isPrivateCategory() || sortedServerChannels().length}>
+      <CategoryContainer
+        onmouseenter={() => setHovered(true)}
+        onmouseleave={() => setHovered(false)}
       >
-        <ChannelIcon
-          icon={props.channel.icon}
-          type={props.channel.type}
-          hovered={hovered()}
-        />
-        <Show when={isPrivateChannel()}>
-          <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
+        <CategoryItemContainer
+          gap={8}
+          onClick={() => setExpanded(!expanded())}
+          classList={{ hide: !expanded() }}
+        >
+          <ChannelIcon
+            icon={props.channel.icon}
+            type={props.channel.type}
+            hovered={hovered()}
+          />
+          <Show when={isPrivateCategory()}>
+            <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
+          </Show>
+          <div class="label">{props.channel.name}</div>
+
+          <Button
+            iconClass="expand_icon"
+            padding={2}
+            margin={[0, 2, 0, 0]}
+            iconName="expand_more"
+            iconSize={16}
+          />
+        </CategoryItemContainer>
+
+        <Show when={sortedServerChannels().length}>
+          <div class={styles.categoryChannelList}>
+            <For each={sortedServerChannels()}>
+              {(channel) => (
+                <ChannelItem
+                  expanded={expanded()}
+                  onContextMenu={(e) =>
+                    props.onChannelContextMenu(e, channel!.id!)
+                  }
+                  channel={channel!}
+                  selected={params.channelId === channel!.id}
+                />
+              )}
+            </For>
+          </div>
         </Show>
-        <div class="label">{props.channel.name}</div>
-
-        <Button
-          iconClass="expand_icon"
-          padding={2}
-          margin={[0, 2, 0, 0]}
-          iconName="expand_more"
-          iconSize={16}
-        />
-      </CategoryItemContainer>
-
-      <Show when={sortedServerChannels().length}>
-        <div class={styles.categoryChannelList}>
-          <For each={sortedServerChannels()}>
-            {(channel) => (
-              <ChannelItem
-                expanded={expanded()}
-                onContextMenu={(e) =>
-                  props.onChannelContextMenu(e, channel!.id!)
-                }
-                channel={channel!}
-                selected={params.channelId === channel!.id}
-              />
-            )}
-          </For>
-        </div>
-      </Show>
-    </CategoryContainer>
+      </CategoryContainer>
+    </Show>
   );
 }
 
@@ -371,10 +374,7 @@ function ChannelItem(props: {
   const hasNotifications = () => channel.hasNotifications();
 
   const isPrivateChannel = () =>
-    hasBit(
-      props.channel.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
-    );
+    !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
   return (
     <Show when={props.expanded || props.selected || hasNotifications()}>

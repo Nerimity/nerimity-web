@@ -1,7 +1,16 @@
 import styles from "./styles.module.scss";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useNavigate, useParams } from "solid-navigator";
-import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
+import { A, useNavigate, useParams } from "solid-navigator";
+import {
+  createEffect,
+  createSignal,
+  For,
+  Match,
+  on,
+  onMount,
+  Show,
+  Switch,
+} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
@@ -10,6 +19,7 @@ import Button from "@/components/ui/Button";
 import {
   deleteServerChannel,
   updateServerChannel,
+  updateServerChannelPermissions,
 } from "@/chat-api/services/ServerService";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { Channel } from "@/chat-api/store/useChannels";
@@ -38,13 +48,231 @@ import {
 import { RawChannelNotice } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { t } from "i18next";
+import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
+import { Item } from "@/components/ui/Item";
+import { CustomLink } from "@/components/ui/CustomLink";
 
 type ChannelParams = {
   serverId: string;
   channelId: string;
+  tab?: "permissions";
 };
 
 export default function ServerSettingsChannel() {
+  const params = useParams<ChannelParams>();
+  const store = useStore();
+
+  const channel = () => store.channels.get(params.channelId);
+
+  const server = () => store.servers.get(params.serverId);
+
+  return (
+    <>
+      <Breadcrumb class={styles.breadcrumb}>
+        <BreadcrumbItem
+          href={RouterEndpoints.SERVER_MESSAGES(
+            params.serverId,
+            server()?.defaultChannelId!
+          )}
+          icon="home"
+          title={server()?.name}
+        />
+        <BreadcrumbItem
+          href="../"
+          title={t("servers.settings.drawer.channels")}
+        />
+        <BreadcrumbItem title={channel()?.name} />
+      </Breadcrumb>
+      <Tabs />
+      <Switch>
+        <Match when={params.tab !== "permissions"}>
+          <GeneralTab />
+        </Match>
+        <Match when={params.tab === "permissions"}>
+          <PermissionsTab />
+        </Match>
+      </Switch>
+    </>
+  );
+}
+
+const TabItem = (props: {
+  selected: boolean;
+  label: string;
+  href?: string;
+  icon?: string;
+}) => (
+  <Item.Root
+    selected={props.selected}
+    href={props.href}
+    handlePosition="bottom"
+    gap={4}
+  >
+    <Item.Icon>{props.icon}</Item.Icon>
+    <Item.Label>{props.label}</Item.Label>
+  </Item.Root>
+);
+
+function Tabs() {
+  const params = useParams<ChannelParams>();
+
+  return (
+    <div class={styles.tabs}>
+      <TabItem
+        label="General"
+        selected={params.tab !== "permissions"}
+        icon="settings"
+        href="../"
+      />
+      <TabItem
+        label="Permissions"
+        selected={params.tab === "permissions"}
+        icon="lock"
+        href="./permissions"
+      />
+    </div>
+  );
+}
+
+function PermissionsTab() {
+  const [t] = useTransContext();
+  const params = useParams<ChannelParams>();
+  const store = useStore();
+
+  const [saveRequestSent, setSaveRequestSent] = createSignal(false);
+  const [error, setError] = createSignal<null | string>(null);
+  const [selectedRoleId, setSelectedRoleId] = createSignal<string | undefined>(
+    undefined
+  );
+
+  const [permissions, setPermissions] = createSignal(0);
+
+  const channel = () => store.channels.get(params.channelId);
+
+  const roles = () =>
+    store.serverRoles.getAllByServerId(params.serverId).sort((a, b) => {
+      if (!defaultRoleId()) return 0;
+      if (a!.id === defaultRoleId()) return -1;
+      if (b!.id === defaultRoleId()) return 1;
+      return b!.order - a!.order;
+    });
+  const server = () => store.servers.get(params.serverId);
+  const defaultRoleId = () => server()?.defaultRoleId;
+
+  const roleChannelPermissions = () =>
+    channel()?.permissions?.find((p) => p.roleId === selectedRoleId());
+
+  createEffect(() => {
+    setSelectedRoleId(defaultRoleId());
+  });
+
+  createEffect(() => {
+    setPermissions(roleChannelPermissions()?.permissions || 0);
+  });
+
+  const hasUpdated = () => {
+    return (roleChannelPermissions()?.permissions || 0) !== permissions();
+  };
+
+  const rolesDropdownItems = () =>
+    roles().map(
+      (role) =>
+        ({
+          id: role!.id,
+          suffix:
+            defaultRoleId() === role!.id ? (
+              <div
+                class={css`
+                  margin-left: 4px;
+                  opacity: 0.5;
+                  font-size: 12px;
+                `}
+              >
+                (everyone)
+              </div>
+            ) : null,
+          label: role!.name,
+        } satisfies DropDownItem)
+    );
+
+  createEffect(
+    on(channel, () => {
+      store.header.updateHeader({
+        title: "Settings - " + channel()?.name,
+        serverId: params.serverId!,
+        iconName: "settings",
+      });
+    })
+  );
+
+  const onSaveButtonClicked = async () => {
+    if (saveRequestSent()) return;
+    setSaveRequestSent(true);
+    setError(null);
+
+    updateServerChannelPermissions({
+      serverId: params.serverId,
+      channelId: params.channelId,
+      roleId: selectedRoleId()!,
+      permissions: permissions(),
+    })
+      .catch((err) => setError(err.message))
+      .finally(() => setSaveRequestSent(false));
+  };
+
+  const saveRequestStatus = () =>
+    saveRequestSent()
+      ? t("servers.settings.channel.saving")
+      : t("servers.settings.channel.saveChangesButton");
+
+  return (
+    <div class={styles.channelPane}>
+      <SettingsBlock
+        icon="security"
+        label={t("servers.settings.channel.permissions")}
+        description={t("servers.settings.channel.permissionsDescription")}
+        header={true}
+        class={css`
+          && {
+            flex-direction: column;
+            align-items: start;
+            gap: 6px;
+          }
+        `}
+      >
+        <DropDown
+          class={css`
+            align-self: stretch;
+            margin-left: 40px;
+          `}
+          items={rolesDropdownItems()}
+          selectedId={selectedRoleId()}
+          onChange={(item) => setSelectedRoleId(item.id)}
+        />
+      </SettingsBlock>
+
+      <Show when={selectedRoleId()} keyed>
+        <ChannelPermissionsBlock
+          permissions={permissions()}
+          setPermissions={setPermissions}
+        />
+      </Show>
+      {/* Errors & buttons */}
+      <Show when={error()}>
+        <div class={styles.error}>{error()}</div>
+      </Show>
+      <Show when={hasUpdated()}>
+        <Button
+          iconName="save"
+          label={saveRequestStatus()}
+          class={styles.saveButton}
+          onClick={onSaveButtonClicked}
+        />
+      </Show>
+    </div>
+  );
+}
+function GeneralTab() {
   const [t] = useTransContext();
   const params = useParams<ChannelParams>();
   const { header, channels, servers } = useStore();
@@ -62,15 +290,11 @@ export default function ServerSettingsChannel() {
   const defaultInput = () => ({
     name: channel()?.name || "",
     icon: channel()?.icon || null,
-    permissions: channel()?.permissions || 0,
     slowModeSeconds: channel()?.slowModeSeconds || 0,
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
     createUpdatedSignal(defaultInput);
-
-  const permissions = () =>
-    getAllPermissions(CHANNEL_PERMISSIONS, inputValues().permissions);
 
   createEffect(
     on(channel, () => {
@@ -97,25 +321,6 @@ export default function ServerSettingsChannel() {
       ? t("servers.settings.channel.saving")
       : t("servers.settings.channel.saveChangesButton");
 
-  const onPermissionChanged = (checked: boolean, bit: number) => {
-    let newPermission = inputValues().permissions;
-    if (checked) {
-      newPermission = addBit(newPermission, bit);
-    }
-    if (!checked) {
-      newPermission = removeBit(newPermission, bit);
-    }
-    setInputValue("permissions", newPermission);
-  };
-
-  const showDeleteConfirmModal = () => {
-    createPortal?.((close) => (
-      <ChannelDeleteConfirmModal close={close} channel={channel()!} />
-    ));
-  };
-
-  const server = () => servers.get(params.serverId);
-
   const openChannelIconPicker = (event: MouseEvent) => {
     setEmojiPickerPosition({
       x: event.clientX,
@@ -130,25 +335,13 @@ export default function ServerSettingsChannel() {
       unicode || `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`;
     setInputValue("icon", icon);
   };
-
+  const showDeleteConfirmModal = () => {
+    createPortal?.((close) => (
+      <ChannelDeleteConfirmModal close={close} channel={channel()!} />
+    ));
+  };
   return (
     <div class={styles.channelPane}>
-      <Breadcrumb>
-        <BreadcrumbItem
-          href={RouterEndpoints.SERVER_MESSAGES(
-            params.serverId,
-            server()?.defaultChannelId!
-          )}
-          icon="home"
-          title={server()?.name}
-        />
-        <BreadcrumbItem
-          href="../"
-          title={t("servers.settings.drawer.channels")}
-        />
-        <BreadcrumbItem title={channel()?.name} />
-      </Breadcrumb>
-
       {/* Channel Name */}
       <SettingsBlock
         icon="edit"
@@ -208,32 +401,6 @@ export default function ServerSettingsChannel() {
         />
       </SettingsBlock>
 
-      <div>
-        <SettingsBlock
-          icon="security"
-          label={t("servers.settings.channel.permissions")}
-          description={t("servers.settings.channel.permissionsDescription")}
-          header={true}
-        />
-        <For each={permissions()}>
-          {(permission) => (
-            <SettingsBlock
-              icon={permission.icon}
-              label={t(permission.name)}
-              description={t(permission.description)}
-              class={styles.permissionItem}
-            >
-              <Checkbox
-                checked={permission.hasPerm}
-                onChange={(checked) =>
-                  onPermissionChanged(checked, permission.bit)
-                }
-              />
-            </SettingsBlock>
-          )}
-        </For>
-      </div>
-
       <ChannelNoticeBlock
         channelId={params.channelId}
         serverId={params.serverId}
@@ -265,6 +432,45 @@ export default function ServerSettingsChannel() {
     </div>
   );
 }
+
+const ChannelPermissionsBlock = (props: {
+  permissions: number;
+  setPermissions: (permissions: number) => void;
+}) => {
+  const params = useParams<{ serverId: string; channelId: string }>();
+
+  const allPermissions = () =>
+    getAllPermissions(CHANNEL_PERMISSIONS, props.permissions);
+
+  const onPermissionChanged = (checked: boolean, bit: number) => {
+    let newPermission = props.permissions;
+    if (checked) {
+      newPermission = addBit(newPermission, bit);
+    }
+    if (!checked) {
+      newPermission = removeBit(newPermission, bit);
+    }
+    props.setPermissions(newPermission);
+  };
+
+  return (
+    <For each={allPermissions()}>
+      {(permission) => (
+        <SettingsBlock
+          icon={permission.icon}
+          label={t(permission.name)}
+          description={t(permission.description!)}
+          class={styles.permissionItem}
+        >
+          <Checkbox
+            checked={permission.hasPerm}
+            onChange={(checked) => onPermissionChanged(checked, permission.bit)}
+          />
+        </SettingsBlock>
+      )}
+    </For>
+  );
+};
 
 const NoticeBlockStyle = css`
   && {

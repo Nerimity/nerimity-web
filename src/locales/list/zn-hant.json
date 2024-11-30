@@ -158,8 +158,6 @@
       "mentionEveryoneDescription": "啟用提及@everyone。伺服器管理員仍可提及所有人。"
     },
     "channelPermissions": {
-      "privateChannel": "私人頻道",
-      "privateChannelDescription": "禁止存取該頻道。伺服器管理員仍可存取該頻道。",
       "sendMessage": "傳送訊息",
       "sendMessageDescription": "啟用在頻道中傳送訊息。伺服器管理員仍可傳送訊息。",
       "joinVoice": "加入語音",

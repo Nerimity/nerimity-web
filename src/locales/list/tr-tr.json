@@ -1,225 +1,223 @@
 {
-	"header": {
-		"logoutButton": "Çıkış Yap",
-		"openAppButton": "Uygulamayı Aç",
-		"loginButton": "Giriş Yap",
-		"joinNowButton": "Katıl"
-	},
-	"homePage": {
-		"slogan": "Modern ve şık bir sohbet uygulaması.",
-		"joinButton": "{{appName}}'e Katıl",
-		"viewGitHubButton": "Kaynak Kodu"
-	},
-	"loginPage": {
-		"title": "Devam etmek için giriş yapın",
-		"emailOrUsernameAndTag": "E-posta / kullanıcı adı:etiket",
-		"password": "Şifre",
-		"login": "Giriş Yap",
-		"createAccountInstead": "Ya da hesap oluştur",
-		"loggingIn": "Giriş Yapılıyor...",
-		"loginButton": "Giriş Yap"
-	},
-	"registerPage": {
-		"title": "{{appName}}'ye Hoşgeldin!",
-		"email": "E-posta",
-		"username": "Kullanıcı Adı",
-		"password": "Şifre",
-		"confirmPassword": "Şifreyi Doğrula",
-		"registerButton": "Kayıt Ol",
-		"registering": "Kayıt Olunuyor...",
-		"loginInstead": "Ya da giriş yap"
-	},
-	"dashboard": {
-		"title": "Panel",
-		"activeUsers": "Çevrimiçi Kullanıcılar",
-		"noActiveUsers": "Çevrimiçi kullanıcı yok.",
-		"servers": "Sunucular",
-		"posts": "Gönderiler",
-		"feed": "Akış",
-		"discover": "Keşfet",
-		"notifications": "Bildirimler"
-	},
-	"messageArea": {
+  "header": {
+    "logoutButton": "Çıkış Yap",
+    "openAppButton": "Uygulamayı Aç",
+    "loginButton": "Giriş Yap",
+    "joinNowButton": "Katıl"
+  },
+  "homePage": {
+    "slogan": "Modern ve şık bir sohbet uygulaması.",
+    "joinButton": "{{appName}}'e Katıl",
+    "viewGitHubButton": "Kaynak Kodu"
+  },
+  "loginPage": {
+    "title": "Devam etmek için giriş yapın",
+    "emailOrUsernameAndTag": "E-posta / kullanıcı adı:etiket",
+    "password": "Şifre",
+    "login": "Giriş Yap",
+    "createAccountInstead": "Ya da hesap oluştur",
+    "loggingIn": "Giriş Yapılıyor...",
+    "loginButton": "Giriş Yap"
+  },
+  "registerPage": {
+    "title": "{{appName}}'ye Hoşgeldin!",
+    "email": "E-posta",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre",
+    "confirmPassword": "Şifreyi Doğrula",
+    "registerButton": "Kayıt Ol",
+    "registering": "Kayıt Olunuyor...",
+    "loginInstead": "Ya da giriş yap"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "activeUsers": "Çevrimiçi Kullanıcılar",
+    "noActiveUsers": "Çevrimiçi kullanıcı yok.",
+    "servers": "Sunucular",
+    "posts": "Gönderiler",
+    "feed": "Akış",
+    "discover": "Keşfet",
+    "notifications": "Bildirimler"
+  },
+  "messageArea": {
     "messageBoxPlaceholder": "{{username}} kullanıcısına mesaj yaz",
     "messageBoxChannelPlaceholder": "{{channelName}} kanalında mesaj yaz"
-  	},
-	"inbox": {
-		"blockedUsersModal": {
-      		"title": "Engellenmiş Kullanıcılar"
-    	},
-		"drawer": {
-			"searchBarPlaceholder": "Ara",
-			"friendRequests": "{{count}} Arkadaşlık İsteği",
-			"onlineFriends": "{{count}} Çevrimiçi Arkadaş",
-			"offlineFriends": "{{count}} Çevrimdışı Arkadaş",
-			"notes": "Notlar",
-			"addFriendButton": "Arkadaş Ekle",
-			"blockedUsersButton": "Engellenmiş Kullanıcılar",
-			"inboxTitle": "Gelen Kutusu",
-			"friendsButton": "Arkadaşlar",
-			"viewAll": "Hepsini Görüntüle"
-		}
-	},
-	"explore": {
-		"drawer": {
-			"title": "Keşfet",
-			"servers": "Sunucular"
-		},
-		"servers": {
-			"title": "Keşfet - Sunucular",
-			"noticeMessage": "Sunucular her {{hours}} saatte bir öne çıkarılabilir! Öne çıkarmalar her {{date}} tarihinde sıfırlanır.",
-			"sortMostBumps": "En Çok Öne Çıkarılanlar",
-			"sortMostMembers": "En Çok Üyeler",
-			"sortRecentlyAdded": "Yakın zamanda eklenenler",
-			"sortRecentlyBumped": "Yakın zamanda öne çıkarılanlar",
-			"filterAll": "Hepsi",
-			"filterVerified": "Doğrulanmış",
-			"memberCount": "{{count}} üye",
-			"lifetimeBumpCount": "{{count}} öne çıkarma",
-			"visitServerButton": "Ziyaret Et",
-			"joinServerButton": "Katıl",
-			"bumpButton": "Öne Çıkar ({{count}})"
-		}
-	},
-	"servers": {
-		"settings": {
-			"drawer": {
-				"general": "Genel",
-				"audit-logs": "Denetim Kaydı",
-				"roles": "Roller",
-				"channels": "Kanallar",
-				"bans": "Yasaklar",
-				"invites": "Davetler",
-				"publishServer": "Sunucuyu Yayımla",
-				"verify": "Doğrula",
-				"role": "Rol",
-				"welcome-screen": "Karşılama Ekranı",
-				"channel": "Kanal",
-				"emojis": "Emojiler",
-				"notifications": "Bildirimler"
-			},
-			"general": {
-				"serverRenameNotice": "Sunucunuzu yeniden adlandırmanız doğrulama avantajlarını kaybetmenize neden olur.",
-				"serverName": "Sunucu Adı",
-				"defaultChannel": "Varsayılan Kanal",
-				"defaultChannelDescription": "Yeni üyeler bu kanala yönlendirilecektir.",
-				"systemMessages": "Sistem Mesajları",
-				"systemMessagesDescription": "Sistem mesajlarının görüneceği yer.",
-				"deleteThisServer": "Bu sunucuyu sil",
-				"deleteThisServerDescription": "Bu işlem geri alınamaz!",
-				"deleteServerButton": "Sunucuyu Sil",
-				"saveChangesButton": "Değişiklikleri Kaydet",
-				"saving": "Kaydediliyor..."
-			},
-			"roles": {
-				"addNewRole": "Yeni Bir Rol Ekle",
-				"addRoleButton": "Rol Ekle"
-			},
-			"role": {
-				"saveChangesButton": "Değişiklikleri Kaydet",
-				"saving": "Kaydediliyor...",
-				"roleName": "Rol İsmi",
-				"roleColor": "Rol Rengi",
-				"hideRole": "Rolü Gizle",
-				"hideRoleDescription": "Tüm varsayılan üyelerle birlikte bu role sahip üyeleri görüntüleyin",
-				"permissions": "İzinler",
-				"permissionsDescription": "Bu rolün izinlerini yönet.",
-				"deleteRoleButton": "Bu Rolü Sil",
-				"deleteRoleButtonDescription": "Bu işlem geri alınamaz!"
-			},
-			"header": {
-				"editServer": "Sunucuyu Düzenle",
-				"serverMemberCount": "{{count}} üye"
-			},
-			"channels": {
-				"createButton": "Oluştur",
-				"createNewDescription": "Yeni bir kanal veya bir kategori oluştur"
-			},
-			"channel": {
-				"saving": "Kaydediliyor...",
-				"saveChangesButton": "Değişiklikleri Kaydet",
-				"channelName": "Kanal İsmi",
-				"permissions": "İzinler",
-				"permissionsDescription": "Bu kanalın izinlerini yönet.",
-				"deleteThisChannel": "Bu kanalı sil",
-				"deleteThisChannelDescription": "Bu geri alınamaz!",
-				"deleteChannelButton": "Kanalı Sil",
-				"removeNoticeButton": "Hatırlatmayı Sil"
-			},
-			"invites": {
-				"createInviteButton": "Davet Oluştur",
-				"serverInvites": "Sunucu Davetleri",
-				"serverInvitesDescription": "Arkadaşlarını bu sunucuya davet et.",
-				"customInviteVerifiedOnlyNotice": "Özel davet bağlantıları sadece doğrulanmış sunucular için geçerlidir.",
-				"customLink": "Özel Bağlantı",
-				"saveButton": "Kaydet",
-				"deleteButton": "Sil",
-				"copyLinkButton": "Bağlantıyı Kopyala"
-			},
-			"publishServer": {
-				"publishNotice": "Sunucunuzu yayınlamak, <1>Keşfet</1> sayfasında görünür olmasını sağlayacaktır.",
-				"public": "Herkese Açık",
-				"publicDescription": "Bu sunucuyu herkese açık yap.",
-				"bumpServer": "Sunucuyu Öne Çıkar",
-				"bumpServerDescription": "Sunucuyu üste çıkartmak için sunucuyu öne çıkar",
-				"publishServerButton": "Sunucuyu yayınla",
-				"unpublishServerButton": "Sunucuyu yayından kaldır"
-			}
-		},
-		"rolePermissions": {
-			"admin": "Yönetici",
-			"adminDescription": "Tüm izinleri etkinleştirir.",
-			"sendMessage": "Mesaj Gönder",
-			"sendMessageDescription": "Bu sunucuda mesaj göndermeyi etkinleştirin. Sunucu yöneticileri her zaman mesaj gönderebilir.",
-			"manageRoles": "Rolleri Yönet",
-			"manageRolesDescription": "Bu role sahip kişilerin sunucu kanallarını silmesine ve yönetmesine olanak tanır.",
-			"manageChannels": "Kanalları Yönet",
-			"manageChannelsDescription": "Bu role sahip kişilerin sunucu rollerini silmesine ve yönetmesine olanak tanır.",
-			"kick": "Atma",
-			"kickDescription": "Bu role sahip kişiler kullanıcıları sunucudan atabilmesine olanak tanır.",
-			"ban": "Yasaklama",
-			"banDescription": "Bu role sahip kişilerin kullanıcıları sunucudan yasaklamasına olanak tanır.",
-			"mentionEveryone": "Herkesten Bahset",
-			"mentionEveryoneDescription": "Bu role sahip lişilerin @everyone'dan bahsetmesine olarak tanır. Sunucu yöneticileri her zaman @everyone'dan bahsedebilir.",
-			"nicknameMember": "İsim Değiştir",
-			"nicknameMemberDescription": "Bu role sahip kişilerin sunucu üyelerinin isimlerini değiştirmeye olanak tanır."
-		},
-		"channelPermissions": {
-			"privateChannel": "Gizli Kanal",
-			"privateChannelDescription": "Kanala erişimi devre dışı bırakır. Sunucu yöneticileri kanala hâlâ erişebilir.",
-			"sendMessage": "Mesaj Gönder",
-			"sendMessageDescription": "Kanalda mesaj göndermeyi etkinleştirir. Yine de sunucu yöneticileri mesaj gönderebilir.",
-			"joinVoice": "Join Voice",
-			"joinVoiceDescription": "Ses kanalllarına katılmayı etkinleştirir. Sunucu yöneticileri yinede ses kanallarına katılabilir."
-		}
-	},
-	"settings": {
-		"drawer": {
-			"title": "Ayarlar",
-			"account": "Hesap",
-			"interface": "Arayüz",
-			"language": "Dil",
-			"notifications": "Bildirimler",
-			"logout": "Çıkış Yap",
-			"developer": "Geliştirici",
-			"applications": "Uygulamalar",
-			"experiments": "Deneysel Özellikler",
-			"viewSource": "Kaynak Kodu",
-			"changelog": "Değişiklikler",
-			"window-settings": "İstemci Ayarları",
-			"call-settings": "Arama Ayarları",
-			"activity-status": "Aktivite Durumları",
-			"tickets": "Destek Biletleri",
-			"privacy": "Gizlilik",
-			"connections": "Bağlantılar",
-			"profile": "Profil"
-		},
-		"header": {
+  },
+  "inbox": {
+    "blockedUsersModal": {
+      "title": "Engellenmiş Kullanıcılar"
+    },
+    "drawer": {
+      "searchBarPlaceholder": "Ara",
+      "friendRequests": "{{count}} Arkadaşlık İsteği",
+      "onlineFriends": "{{count}} Çevrimiçi Arkadaş",
+      "offlineFriends": "{{count}} Çevrimdışı Arkadaş",
+      "notes": "Notlar",
+      "addFriendButton": "Arkadaş Ekle",
+      "blockedUsersButton": "Engellenmiş Kullanıcılar",
+      "inboxTitle": "Gelen Kutusu",
+      "friendsButton": "Arkadaşlar",
+      "viewAll": "Hepsini Görüntüle"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "Keşfet",
+      "servers": "Sunucular"
+    },
+    "servers": {
+      "title": "Keşfet - Sunucular",
+      "noticeMessage": "Sunucular her {{hours}} saatte bir öne çıkarılabilir! Öne çıkarmalar her {{date}} tarihinde sıfırlanır.",
+      "sortMostBumps": "En Çok Öne Çıkarılanlar",
+      "sortMostMembers": "En Çok Üyeler",
+      "sortRecentlyAdded": "Yakın zamanda eklenenler",
+      "sortRecentlyBumped": "Yakın zamanda öne çıkarılanlar",
+      "filterAll": "Hepsi",
+      "filterVerified": "Doğrulanmış",
+      "memberCount": "{{count}} üye",
+      "lifetimeBumpCount": "{{count}} öne çıkarma",
+      "visitServerButton": "Ziyaret Et",
+      "joinServerButton": "Katıl",
+      "bumpButton": "Öne Çıkar ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "Genel",
+        "audit-logs": "Denetim Kaydı",
+        "roles": "Roller",
+        "channels": "Kanallar",
+        "bans": "Yasaklar",
+        "invites": "Davetler",
+        "publishServer": "Sunucuyu Yayımla",
+        "verify": "Doğrula",
+        "role": "Rol",
+        "welcome-screen": "Karşılama Ekranı",
+        "channel": "Kanal",
+        "emojis": "Emojiler",
+        "notifications": "Bildirimler"
+      },
+      "general": {
+        "serverRenameNotice": "Sunucunuzu yeniden adlandırmanız doğrulama avantajlarını kaybetmenize neden olur.",
+        "serverName": "Sunucu Adı",
+        "defaultChannel": "Varsayılan Kanal",
+        "defaultChannelDescription": "Yeni üyeler bu kanala yönlendirilecektir.",
+        "systemMessages": "Sistem Mesajları",
+        "systemMessagesDescription": "Sistem mesajlarının görüneceği yer.",
+        "deleteThisServer": "Bu sunucuyu sil",
+        "deleteThisServerDescription": "Bu işlem geri alınamaz!",
+        "deleteServerButton": "Sunucuyu Sil",
+        "saveChangesButton": "Değişiklikleri Kaydet",
+        "saving": "Kaydediliyor..."
+      },
+      "roles": {
+        "addNewRole": "Yeni Bir Rol Ekle",
+        "addRoleButton": "Rol Ekle"
+      },
+      "role": {
+        "saveChangesButton": "Değişiklikleri Kaydet",
+        "saving": "Kaydediliyor...",
+        "roleName": "Rol İsmi",
+        "roleColor": "Rol Rengi",
+        "hideRole": "Rolü Gizle",
+        "hideRoleDescription": "Tüm varsayılan üyelerle birlikte bu role sahip üyeleri görüntüleyin",
+        "permissions": "İzinler",
+        "permissionsDescription": "Bu rolün izinlerini yönet.",
+        "deleteRoleButton": "Bu Rolü Sil",
+        "deleteRoleButtonDescription": "Bu işlem geri alınamaz!"
+      },
+      "header": {
+        "editServer": "Sunucuyu Düzenle",
+        "serverMemberCount": "{{count}} üye"
+      },
+      "channels": {
+        "createButton": "Oluştur",
+        "createNewDescription": "Yeni bir kanal veya bir kategori oluştur"
+      },
+      "channel": {
+        "saving": "Kaydediliyor...",
+        "saveChangesButton": "Değişiklikleri Kaydet",
+        "channelName": "Kanal İsmi",
+        "permissions": "İzinler",
+        "permissionsDescription": "Bu kanalın izinlerini yönet.",
+        "deleteThisChannel": "Bu kanalı sil",
+        "deleteThisChannelDescription": "Bu geri alınamaz!",
+        "deleteChannelButton": "Kanalı Sil",
+        "removeNoticeButton": "Hatırlatmayı Sil"
+      },
+      "invites": {
+        "createInviteButton": "Davet Oluştur",
+        "serverInvites": "Sunucu Davetleri",
+        "serverInvitesDescription": "Arkadaşlarını bu sunucuya davet et.",
+        "customInviteVerifiedOnlyNotice": "Özel davet bağlantıları sadece doğrulanmış sunucular için geçerlidir.",
+        "customLink": "Özel Bağlantı",
+        "saveButton": "Kaydet",
+        "deleteButton": "Sil",
+        "copyLinkButton": "Bağlantıyı Kopyala"
+      },
+      "publishServer": {
+        "publishNotice": "Sunucunuzu yayınlamak, <1>Keşfet</1> sayfasında görünür olmasını sağlayacaktır.",
+        "public": "Herkese Açık",
+        "publicDescription": "Bu sunucuyu herkese açık yap.",
+        "bumpServer": "Sunucuyu Öne Çıkar",
+        "bumpServerDescription": "Sunucuyu üste çıkartmak için sunucuyu öne çıkar",
+        "publishServerButton": "Sunucuyu yayınla",
+        "unpublishServerButton": "Sunucuyu yayından kaldır"
+      }
+    },
+    "rolePermissions": {
+      "admin": "Yönetici",
+      "adminDescription": "Tüm izinleri etkinleştirir.",
+      "sendMessage": "Mesaj Gönder",
+      "sendMessageDescription": "Bu sunucuda mesaj göndermeyi etkinleştirin. Sunucu yöneticileri her zaman mesaj gönderebilir.",
+      "manageRoles": "Rolleri Yönet",
+      "manageRolesDescription": "Bu role sahip kişilerin sunucu kanallarını silmesine ve yönetmesine olanak tanır.",
+      "manageChannels": "Kanalları Yönet",
+      "manageChannelsDescription": "Bu role sahip kişilerin sunucu rollerini silmesine ve yönetmesine olanak tanır.",
+      "kick": "Atma",
+      "kickDescription": "Bu role sahip kişiler kullanıcıları sunucudan atabilmesine olanak tanır.",
+      "ban": "Yasaklama",
+      "banDescription": "Bu role sahip kişilerin kullanıcıları sunucudan yasaklamasına olanak tanır.",
+      "mentionEveryone": "Herkesten Bahset",
+      "mentionEveryoneDescription": "Bu role sahip lişilerin @everyone'dan bahsetmesine olarak tanır. Sunucu yöneticileri her zaman @everyone'dan bahsedebilir.",
+      "nicknameMember": "İsim Değiştir",
+      "nicknameMemberDescription": "Bu role sahip kişilerin sunucu üyelerinin isimlerini değiştirmeye olanak tanır."
+    },
+    "channelPermissions": {
+      "sendMessage": "Mesaj Gönder",
+      "sendMessageDescription": "Kanalda mesaj göndermeyi etkinleştirir. Yine de sunucu yöneticileri mesaj gönderebilir.",
+      "joinVoice": "Join Voice",
+      "joinVoiceDescription": "Ses kanalllarına katılmayı etkinleştirir. Sunucu yöneticileri yinede ses kanallarına katılabilir."
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "Ayarlar",
+      "account": "Hesap",
+      "interface": "Arayüz",
+      "language": "Dil",
+      "notifications": "Bildirimler",
+      "logout": "Çıkış Yap",
+      "developer": "Geliştirici",
+      "applications": "Uygulamalar",
+      "experiments": "Deneysel Özellikler",
+      "viewSource": "Kaynak Kodu",
+      "changelog": "Değişiklikler",
+      "window-settings": "İstemci Ayarları",
+      "call-settings": "Arama Ayarları",
+      "activity-status": "Aktivite Durumları",
+      "tickets": "Destek Biletleri",
+      "privacy": "Gizlilik",
+      "connections": "Bağlantılar",
+      "profile": "Profil"
+    },
+    "header": {
       "servers": "Sunucular",
       "friends": "Arkadaşlar",
       "manageAccount": "Hesabı Yönet"
     },
-		"account": {
+    "account": {
       "title": "Ayarlar - Hesap",
       "email": "E-Posta",
       "username": "Kullanıcı Adı",
@@ -247,36 +245,36 @@
       "deleteAccountNotice": "Hesabınızı silmeden önce bulunduğunuz bütün sunucuları silmeli yada ayrılmalısınız.",
       "understoodButton": "Anlıyorum"
     },
-		"privacy": {
-			"lastOnline": {
+    "privacy": {
+      "lastOnline": {
         "title": "Son Görülme Zamanı",
         "description": "Son görülme zamanınızı kimin görebileceğini ayarlayın.",
         "hidden": "Gizli",
         "friendsOnly": "Sadece Arkadaşlar",
         "friendsAndServers": "Arkadaşlar ve Sunucu Üyeleri"
       },
-			"directMessage": {
-				"title": "Direkt Mesaj",
-				"description": "Sana kimin mesaj gönderebileceğini ayarla.",
-				"anyone": "Herkes",
-				"friendsAndServersOnly": "Sadece Arkadaşlar ve Sunucu Üyeleri",
-				"friendsOnly": "Sadece Arkadaşlar"
-			},
-			"friendRequest": {
-				"title": "Arkadaşlık İstekleri",
-				"description": "Sana kimin arkadaşlık isteği gönderebileceğini ayarla.",
-				"anyone": "Herkes",
-				"serversOnly": "Sunucu Üyeleri",
-				"nobody": "Hiç Kimse"
-			},
-			"profileOptions": {
-				"title": "Profil Seçenekleri",
-				"hideFollowers": "Takipçileri Gizle",
-				"hideFollowersDescription": "Takipçilerinizi profilinizden gizleyin.",
-				"hideFollowing": "Takip Edilenleri Gizle",
-				"hideFollowingDescription": "Takip ettiğiniz kişileri profilinizden gizleyin."
-			}
-		},
+      "directMessage": {
+        "title": "Direkt Mesaj",
+        "description": "Sana kimin mesaj gönderebileceğini ayarla.",
+        "anyone": "Herkes",
+        "friendsAndServersOnly": "Sadece Arkadaşlar ve Sunucu Üyeleri",
+        "friendsOnly": "Sadece Arkadaşlar"
+      },
+      "friendRequest": {
+        "title": "Arkadaşlık İstekleri",
+        "description": "Sana kimin arkadaşlık isteği gönderebileceğini ayarla.",
+        "anyone": "Herkes",
+        "serversOnly": "Sunucu Üyeleri",
+        "nobody": "Hiç Kimse"
+      },
+      "profileOptions": {
+        "title": "Profil Seçenekleri",
+        "hideFollowers": "Takipçileri Gizle",
+        "hideFollowersDescription": "Takipçilerinizi profilinizden gizleyin.",
+        "hideFollowing": "Takip Edilenleri Gizle",
+        "hideFollowingDescription": "Takip ettiğiniz kişileri profilinizden gizleyin."
+      }
+    },
     "notifications": {
       "desktopNotifications": "Masaüstü Bildirimleri",
       "desktopNotificationsDescription": "Uygulama penceresi küçültülmüş olsa bile bildirimleri göster.",
@@ -296,8 +294,8 @@
         "mentionsOnly": "Sadece Bahsetmelerde",
         "inheritFromPingSettings": "Bildirim Ayarlarıyla Aynı",
         "all": "Bütün Mesajlar"
-			  }
-			},
+      }
+    },
     "call": {
       "nextCallNotice": "Değişiklikler sonraki aramalarınızda geçerli olacak.",
       "inputDevices": "Giriş Cihazları",
@@ -310,7 +308,7 @@
       "bindButton": "Tuş Ata",
       "stopButton": "Dur",
       "downloadAppNotice": "Bu özelliği tarayıcı sekmesine odaklanmak zorunda kalmadan kullanmak için Nerimity masaüstü uygulamasını indirin."
-			},
+    },
     "interface": {
       "blurEffect": "Bulanıklık Efekti",
       "blurEffectDescription": "Saydam bulanıklık efektini aktive eder. Mobilde varsayılan olarak kapalı olur. Performans kayıplarına neden olabilir.",
@@ -318,13 +316,13 @@
       "disableAdvancedMarkupBarDescription": "Gelişmiş işaretleme barını metin kanallarında devre dışı bırakır.",
       "customizeColors": "Renkleri Kişiselleştir",
       "customizeColorsDescription": "Arayüz renklerini isteğinize göre kişiselleştirin."
-		}
-	},
-	"supportBlock": {
-		"support": "Geliştiriciyi Destekle!",
-		"supportDescription": "Destekçi rozeti kazanmak için bağış yapın!"
-	},
-	"createServerModal": {
+    }
+  },
+  "supportBlock": {
+    "support": "Geliştiriciyi Destekle!",
+    "supportDescription": "Destekçi rozeti kazanmak için bağış yapın!"
+  },
+  "createServerModal": {
     "title": "Sunucu Oluştur",
     "notice": "NSFW içerik yasaktır.",
     "serverName": "Sunucu İsmi",
@@ -333,94 +331,94 @@
     "createServerButton": "Sunucu Oluştur",
     "closeButton": "Kapat"
   },
-	"serverContextMenu": {
-		"markAsRead": "Okunmuş Olarak İşaretle",
-		"invites": "Davetler",
-		"notifications": "Bildirimler",
-		"settings": "Ayarlar",
-		"copyId": "ID'yi Kopyala",
-		"leave": "Ayrıl",
-		"notificationOptions": {
-			"everything": "Herşey",
-			"mentionsOnly": "Sadece Bahsetmeler",
-			"mute": "Sustur"
-		}
-	},
-	"userContextMenu": {
-		"viewProfile": "Profili Görüntüle",
-		"sendMessage": "Mesaj Gönder",
-		"copyId": "ID'yi Kopyala",
-		"editRoles": "Rolleri Yönet",
-		"kick": "At",
-		"ban": "Yasakla",
-		"changeNickname": "İsim Değiştir",
-		"callVolume": "Arama Sesi"
-	},
-	"kickServerMemberModal": {
-		"title": "{{username}} Kullanıcısını At",
-		"kickButton": "At",
-		"kicking": "Atılıyor...",
-		"backButton": "Geri",
-		"message": "<1>{{username}}</1> kullanıcısını sunucudan atmak istediğinden emin misin?"
-	},
-	"editServerRolesModal": {
-		"title": "Rolleri Düzenle"
-	},
-	"banModal": {
-		"title": "{{username}} Kullanıcısını Yasakla",
-		"message": "<1>{{username}}</1> kullanıcısını sunucudan yasaklamak istediğinden emin misin?",
-		"deletePastMessagesCheckbox": "Son 7 saat içinde gönderilen mesajları sil.",
-		"banButton": "Yasakla",
-		"banning": "Yasaklanıyor..."
-	},
-	"messageContextMenu": {
-		"editMessage": "Mesajı Düzenle",
-		"deleteMessage": "Mesajı Sil",
-		"copyMessage": "Mesajı Kopyala",
-		"copyId": "ID'yi Kopyala",
-		"viewReactions": "Tepkileri Görüntüle",
+  "serverContextMenu": {
+    "markAsRead": "Okunmuş Olarak İşaretle",
+    "invites": "Davetler",
+    "notifications": "Bildirimler",
+    "settings": "Ayarlar",
+    "copyId": "ID'yi Kopyala",
+    "leave": "Ayrıl",
+    "notificationOptions": {
+      "everything": "Herşey",
+      "mentionsOnly": "Sadece Bahsetmeler",
+      "mute": "Sustur"
+    }
+  },
+  "userContextMenu": {
+    "viewProfile": "Profili Görüntüle",
+    "sendMessage": "Mesaj Gönder",
+    "copyId": "ID'yi Kopyala",
+    "editRoles": "Rolleri Yönet",
+    "kick": "At",
+    "ban": "Yasakla",
+    "changeNickname": "İsim Değiştir",
+    "callVolume": "Arama Sesi"
+  },
+  "kickServerMemberModal": {
+    "title": "{{username}} Kullanıcısını At",
+    "kickButton": "At",
+    "kicking": "Atılıyor...",
+    "backButton": "Geri",
+    "message": "<1>{{username}}</1> kullanıcısını sunucudan atmak istediğinden emin misin?"
+  },
+  "editServerRolesModal": {
+    "title": "Rolleri Düzenle"
+  },
+  "banModal": {
+    "title": "{{username}} Kullanıcısını Yasakla",
+    "message": "<1>{{username}}</1> kullanıcısını sunucudan yasaklamak istediğinden emin misin?",
+    "deletePastMessagesCheckbox": "Son 7 saat içinde gönderilen mesajları sil.",
+    "banButton": "Yasakla",
+    "banning": "Yasaklanıyor..."
+  },
+  "messageContextMenu": {
+    "editMessage": "Mesajı Düzenle",
+    "deleteMessage": "Mesajı Sil",
+    "copyMessage": "Mesajı Kopyala",
+    "copyId": "ID'yi Kopyala",
+    "viewReactions": "Tepkileri Görüntüle",
     "quoteMessage": "Mesajı Alıntıla",
     "reportMessage": "Mesajı Bildir",
     "reply": "Yanıtla"
-	},
-	"profile": {
-		"followButton": "Takip Et",
-		"unfollowButton": "Takibi Bırak",
-		"removeFriendButton": "Arkadaşlıktan Kaldır",
-		"addFriendButton": "Arkadaş Ekle",
-		"pendingRequest": "Bekleyen İstek",
-		"acceptRequestButton": "İsteği Kabul Et",
-		"messageButton": "Mesaj Yaz",
-		"mutualFriends": "Ortak Arkadaşlar ({{count}})",
-		"mutualServers": "Ortak Sunucular ({{count}})",
-		"postsTab": "Gönderiler",
-		"followersTab": "Takipçiler",
-		"followingTab": "Takip Edilenler",
-		"postsAndRepliesTab": "Gönderiler Ve Cevaplar ({{count}})",
-		"likedPostsTab": "Beğenilen Gönderiler ({{count}})"
-	},
-	"posts": {
-		"deletePostModal": {
-			"message": "Bu gönderiyi silmek istediğinden emin misin?",
-			"cancelButton": "İptal Et",
-			"deleteButton": "Kaldır"
-		},
-		"postWasDeleted": "Bu gönderi silindi.",
-		"someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
-		"someoneFollowedYou": "<1>{{username}}</1> seni takip etti!",
-		"someoneRepliedToPost": "<1>{{username}}</1> gönderine yanıt verdi!",
-		"createAPostInputPlaceholder": "Bir gönderi oluştur...",
-		"replyInputPlaceholder": "Yanıtla...",
-		"replyButton": "Yanıtla",
-		"createButton": "Oluştur",
-		"pollOptions": "Anket Seçenekleri",
-		"optionNumberPlaceholder": "Seçenek {{number}}"
-	},
-	"informationDrawer": {
-		"title": "Bilgilendirme",
-		"channelNotice": "Kanal Hatırlatması",
-		"attachments": "Ekler",
-		"attachmentsBack": "Geri",
-		"members": "Üyeler"
-	}
+  },
+  "profile": {
+    "followButton": "Takip Et",
+    "unfollowButton": "Takibi Bırak",
+    "removeFriendButton": "Arkadaşlıktan Kaldır",
+    "addFriendButton": "Arkadaş Ekle",
+    "pendingRequest": "Bekleyen İstek",
+    "acceptRequestButton": "İsteği Kabul Et",
+    "messageButton": "Mesaj Yaz",
+    "mutualFriends": "Ortak Arkadaşlar ({{count}})",
+    "mutualServers": "Ortak Sunucular ({{count}})",
+    "postsTab": "Gönderiler",
+    "followersTab": "Takipçiler",
+    "followingTab": "Takip Edilenler",
+    "postsAndRepliesTab": "Gönderiler Ve Cevaplar ({{count}})",
+    "likedPostsTab": "Beğenilen Gönderiler ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "Bu gönderiyi silmek istediğinden emin misin?",
+      "cancelButton": "İptal Et",
+      "deleteButton": "Kaldır"
+    },
+    "postWasDeleted": "Bu gönderi silindi.",
+    "someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
+    "someoneFollowedYou": "<1>{{username}}</1> seni takip etti!",
+    "someoneRepliedToPost": "<1>{{username}}</1> gönderine yanıt verdi!",
+    "createAPostInputPlaceholder": "Bir gönderi oluştur...",
+    "replyInputPlaceholder": "Yanıtla...",
+    "replyButton": "Yanıtla",
+    "createButton": "Oluştur",
+    "pollOptions": "Anket Seçenekleri",
+    "optionNumberPlaceholder": "Seçenek {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Bilgilendirme",
+    "channelNotice": "Kanal Hatırlatması",
+    "attachments": "Ekler",
+    "attachmentsBack": "Geri",
+    "members": "Üyeler"
+  }
 }

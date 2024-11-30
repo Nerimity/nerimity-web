@@ -116,11 +116,11 @@ export const USER_BADGES = {
 };
 
 export const CHANNEL_PERMISSIONS = {
-  PRIVATE_CHANNEL: {
-    name: "servers.channelPermissions.privateChannel",
-    description: "servers.channelPermissions.privateChannelDescription",
+  PUBLIC_CHANNEL: {
+    name: "servers.channelPermissions.publicChannel",
+    description: "servers.channelPermissions.publicChannelDescription",
     bit: 1,
-    icon: "lock",
+    icon: "public",
   },
   SEND_MESSAGE: {
     name: "servers.channelPermissions.sendMessage",

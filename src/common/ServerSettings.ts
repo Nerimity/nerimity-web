@@ -96,7 +96,7 @@ const serverSettings: ServerSetting[] = [
   },
   {
     path: "channels/:channelId",
-    routePath: "/channels/:channelId",
+    routePath: "/channels/:channelId/:tab?",
     name: "servers.settings.drawer.channel",
     icon: "storage",
     requiredRolePermission: ROLE_PERMISSIONS.MANAGE_CHANNELS,

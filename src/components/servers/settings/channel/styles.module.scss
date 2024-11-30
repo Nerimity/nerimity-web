@@ -1,7 +1,24 @@
+.breadcrumb {
+  padding: 10px;
+  padding-bottom: 0;
+}
+
+.tabs {
+  display: flex;
+  padding-right: 10px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  gap: 4px;
+  .tabItem {
+    padding: 6px;
+    font-size: 14px;
+  }
+}
 .channelPane {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  padding-top: 0;
 }
 
 .title {

@@ -158,8 +158,6 @@
       "mentionEveryoneDescription": "Permite utilizar el comando @everyone el cual mencionara a todos los integrantes del servidor. Los administradores del servidor aún podran utilizar el comando @everyone."
     },
     "channelPermissions": {
-      "privateChannel": "Canal privado",
-      "privateChannelDescription": "Restringir acceso a este canal. Los administradores del servidor aun podran acceder al canal.",
       "sendMessage": "Send Message",
       "sendMessageDescription": "Permitir enviar mensajes en este canal. Los administradores del servidor aún podrán enviar mensajes.",
       "joinVoice": "Join Voice",

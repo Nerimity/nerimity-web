@@ -9,15 +9,20 @@ import {
   Bitwise,
   hasBit,
   ROLE_PERMISSIONS,
+  addBit,
 } from "../Bitwise";
-import { RawChannel } from "../RawData";
+import { ChannelType, RawChannel } from "../RawData";
 import useMessages from "./useMessages";
 import useUsers from "./useUsers";
 import useServerMembers from "./useServerMembers";
 import useAccount from "./useAccount";
 import useMention from "./useMention";
 import socketClient from "../socketClient";
-import { postGenerateCredential, postJoinVoice, postLeaveVoice } from "../services/VoiceService";
+import {
+  postGenerateCredential,
+  postJoinVoice,
+  postLeaveVoice,
+} from "../services/VoiceService";
 import useVoiceUsers from "./useVoiceUsers";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -40,6 +45,11 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   leaveCall: () => void;
   callJoinedAt?: number;
   setCallJoinedAt: (this: Channel, joinedAt: number | undefined) => void;
+  hasPermission: (
+    this: Channel,
+    bitwise: Bitwise,
+    defaultRoleOnly?: boolean
+  ) => boolean;
 };
 
 const [channels, setChannels] = createStore<
@@ -61,6 +71,7 @@ const set = (channel: RawChannel & { lastSeen?: number }) => {
     update,
     joinCall,
     leaveCall,
+    hasPermission,
   };
 
   setChannels(channel.id, newChannel);
@@ -68,7 +79,39 @@ const set = (channel: RawChannel & { lastSeen?: number }) => {
 
 function permissionList(this: Channel) {
   const permissions = this.permissions || 0;
+
   return getAllPermissions(CHANNEL_PERMISSIONS, permissions);
+}
+
+function hasPermission(
+  this: Channel,
+  bitwise: Bitwise,
+  defaultRoleOnly = false
+) {
+  if (!this.serverId) return false;
+
+  const account = useAccount();
+  const serverMembers = useServerMembers();
+  const member = serverMembers.get(this.serverId, account.user()?.id as string);
+  const defaultRoleId = member?.server().defaultRoleId;
+
+  if (defaultRoleOnly) {
+    const permissions = this.permissions?.find(
+      (p) => p.roleId === defaultRoleId!
+    )?.permissions;
+    return hasBit(permissions || 0, bitwise.bit);
+  }
+
+  const roleIds = [...(member?.roleIds || []), defaultRoleId];
+  let permissions = 0;
+  for (let i = 0; i < this.permissions!.length; i++) {
+    const perm = this.permissions![i]!;
+    if (roleIds.includes(perm.roleId)) {
+      permissions = addBit(permissions, perm?.permissions);
+    }
+  }
+
+  return hasBit(permissions, bitwise.bit);
 }
 
 function mentionCount(this: Channel) {
@@ -83,7 +126,7 @@ function hasNotifications(this: Channel) {
   const account = useAccount();
   const mentions = useMention();
   const isAdminChannel = () =>
-    hasBit(this.permissions || 0, CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit);
+    !this.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL);
 
   if (this.serverId && isAdminChannel()) {
     const member = serverMembers.get(
@@ -108,7 +151,6 @@ function recipient(this: Channel) {
   const users = useUsers();
   return users.get(this.recipientId!);
 }
-
 
 async function joinCall(this: Channel) {
   const { setCurrentChannelId } = useVoiceUsers();
@@ -164,12 +206,13 @@ const deleteChannel = (channelId: string, serverId?: string) =>
         const match = useMatch(() => "/app/servers/:serverId/:channelId")();
         const matchedChannelId = match?.params.channelId;
         if (matchedChannelId === channelId) {
-          useNavigate()(RouterEndpoints.SERVER_MESSAGES(serverId, defaultChannelId), { replace: true });
+          useNavigate()(
+            RouterEndpoints.SERVER_MESSAGES(serverId, defaultChannelId),
+            { replace: true }
+          );
         }
       }
-
     }
-
 
     batch(() => {
       if (voiceChannelId && voiceChannelId === channelId) {
@@ -198,9 +241,8 @@ const serverChannelsWithPerm = () => {
     const hasAdminPerm = member?.hasPermission(ROLE_PERMISSIONS.ADMIN);
     if (hasAdminPerm) return true;
 
-    const isPrivateChannel = hasBit(
-      channel?.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+    const isPrivateChannel = !channel.hasPermission(
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL
     );
     return !isPrivateChannel;
   });
@@ -208,7 +250,8 @@ const serverChannelsWithPerm = () => {
 
 const getChannelsByServerId = (
   serverId: string,
-  hidePrivateIfNoPerm = false
+  hidePrivateIfNoPerm = false,
+  showPrivateCategories = false
 ) => {
   if (!hidePrivateIfNoPerm)
     return array().filter((channel) => channel?.serverId === serverId);
@@ -221,9 +264,10 @@ const getChannelsByServerId = (
 
   return array().filter((channel) => {
     const isServerChannel = channel?.serverId === serverId;
-    const isPrivateChannel = hasBit(
-      channel?.permissions || 0,
-      CHANNEL_PERMISSIONS.PRIVATE_CHANNEL.bit
+    if (channel.type === ChannelType.CATEGORY && showPrivateCategories)
+      return true;
+    const isPrivateChannel = !channel.hasPermission(
+      CHANNEL_PERMISSIONS.PUBLIC_CHANNEL
     );
     return isServerChannel && !isPrivateChannel;
   });
@@ -232,13 +276,17 @@ const getChannelsByServerId = (
 // if order field exists, sort by order, else, sort by created date
 const getSortedChannelsByServerId = (
   serverId: string,
-  hidePrivateIfNoPerm = false
+  hidePrivateIfNoPerm = false,
+  showPrivateCategories = false
 ) => {
-  return getChannelsByServerId(serverId, hidePrivateIfNoPerm).sort((a, b) => {
+  return getChannelsByServerId(
+    serverId,
+    hidePrivateIfNoPerm,
+    showPrivateCategories
+  ).sort((a, b) => {
     if (a!.order && b!.order) {
       return a!.order - b!.order;
-    }
-    else {
+    } else {
       return a!.createdAt - b!.createdAt;
     }
   });
