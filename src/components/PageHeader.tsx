@@ -57,6 +57,11 @@ const NavigationContainer = styled("nav")`
   gap: 10px;
   margin-left: auto;
   margin-right: 10px;
+
+  .register-button div {
+    background: #4c93ff;
+    background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
+  }
 `;
 
 const LinkContainer = styled("div")<{ primary: boolean }>`
@@ -203,7 +208,7 @@ function LoggedOutLinks() {
       <HeaderLink
         href="/register"
         label={t("header.joinNowButton")}
-        primary={true}
+        class="register-button"
         icon="add"
       />
     </NavigationContainer>
@@ -214,6 +219,7 @@ function HeaderLink(props: {
   icon?: string;
   href: string;
   label: string;
+  class?: string;
   primary?: boolean;
   onClick?: () => void;
 }) {
@@ -222,6 +228,7 @@ function HeaderLink(props: {
       href={props.href}
       onClick={props.onClick}
       style={{ "text-decoration": "none" }}
+      class={props.class}
     >
       <LinkContainer primary={props.primary || false}>
         <Show when={props.icon}>

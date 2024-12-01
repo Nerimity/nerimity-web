@@ -7,7 +7,6 @@
   },
   "homePage": {
     "slogan": "แอพแชทสุดทันสมัย",
-    "joinButton": "สมัคร {{appName}}",
     "viewGitHubButton": "หน้า GitHub"
   },
   "loginPage": {

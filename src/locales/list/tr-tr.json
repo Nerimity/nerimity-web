@@ -7,7 +7,6 @@
   },
   "homePage": {
     "slogan": "Modern ve şık bir sohbet uygulaması.",
-    "joinButton": "{{appName}}'e Katıl",
     "viewGitHubButton": "Kaynak Kodu"
   },
   "loginPage": {

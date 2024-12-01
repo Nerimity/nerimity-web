@@ -6,7 +6,6 @@
   },
   "homePage": {
     "slogan": "'n Moderne en stylvolle chat gesels app.",
-    "joinButton": "Sluit aan by {{appName}}",
     "viewGitHubButton": "Besoek GitHub"
   },
   "loginPage": {

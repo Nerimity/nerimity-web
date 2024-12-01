@@ -7,8 +7,8 @@
   },
   "homePage": {
     "slogan": "A modern and sleek chat app.",
-    "joinButton": "Join {{appName}}",
-    "viewGitHubButton": "View GitHub"
+    "viewGitHubButton": "View GitHub",
+    "getStarted": "Get Started"
   },
   "loginPage": {
     "title": "Login to continue",
@@ -285,15 +285,12 @@
       "volume": "Volume",
       "volumeDescription": "Change the volume of the notification sounds.",
       "changeSoundsDescription": "Change the sound of notifications with these royalty free sounds.",
-
       "message": "Message",
       "messageDescription": "Sound when receiving a message.",
       "mention": "Mention",
       "mentionDescription": "Sound when receiving a mention.",
-
       "inAppPreview": "In App Preview",
       "inAppPreviewDescription": "Display In App Notification popups.",
-
       "inAppPreviewModes": {
         "off": "Off",
         "mentionsOnly": "Mentions Only",

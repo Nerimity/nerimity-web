@@ -7,7 +7,6 @@
   },
   "homePage": {
     "slogan": "Современное и стильное чат-приложение.",
-    "joinButton": "Присоединиться к {{appName}}",
     "viewGitHubButton": "Посмотреть на GitHub"
   },
   "loginPage": {

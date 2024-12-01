@@ -6,7 +6,6 @@
   },
   "homePage": {
     "slogan": "Nowoczesna i elegancka aplikacja do czatowania.",
-    "joinButton": "Dołącz do {{appName}}",
     "viewGitHubButton": "Zobacz GitHuba"
   },
   "loginPage": {

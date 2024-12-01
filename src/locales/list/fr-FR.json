@@ -6,7 +6,6 @@
   },
   "homePage": {
     "slogan": "Une application de chat moderne et épuré.",
-    "joinButton": "Rejoindre {{appName}}",
     "viewGitHubButton": "Voir sûr GitHub"
   },
   "loginPage": {

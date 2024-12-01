@@ -6,7 +6,6 @@
   },
   "homePage": {
     "slogan": "Isang moderno at matikas na chat app.",
-    "joinButton": "Magparehistro {{appName}}",
     "viewGitHubButton": "Tingnan ang GitHub"
   },
   "loginPage": {

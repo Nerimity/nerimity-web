@@ -50,7 +50,14 @@ const TopContainer = styled("div")`
   align-items: center;
   justify-content: center;
   height: 490px;
+  text-align: center;
   flex-shrink: 0;
+  .slogan {
+    background: #4c93ff;
+    background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 const ButtonsContainer = styled("div")`
@@ -64,6 +71,10 @@ const ButtonsContainer = styled("div")`
       width: 130px;
     }
   }
+  .get-started-button {
+    background: #4c93ff;
+    background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
+  }
 `;
 
 const Logo = styled("img")`
@@ -72,6 +83,18 @@ const Logo = styled("img")`
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.86);
   backdrop-filter: blur(34px);
+`;
+
+const VersionAnchor = styled("a")`
+  margin-bottom: 26px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--primary-color);
+  text-decoration: none;
+  padding: 6px;
+  font-size: 14px;
+  padding-left: 12px;
+  padding-right: 12px;
 `;
 
 export default function HomePage() {
@@ -87,25 +110,35 @@ export default function HomePage() {
 
   return (
     <HomePageContainer class="home-page-container">
-      <PageHeader showLogo={false} />
+      <PageHeader />
       <Content class="content">
         <TopContainer class="top-container">
-          <Logo src={appLogoUrl()} alt="logo" />
-          <Text class="title" size={60}>
-            Nerimity
-          </Text>
-          <Text class="slogan" opacity={0.7}>
+          <VersionAnchor
+            href={releaseLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {env.APP_VERSION || "Unknown Version"}
+          </VersionAnchor>
+
+          <Text class="slogan" size={36} bold>
             {t("homePage.slogan")}
           </Text>
-          <a href={releaseLink} target="_blank" rel="noopener noreferrer">
-            {env.APP_VERSION || "Unknown Version"}
-          </a>
+          <Text
+            size={18}
+            opacity={0.7}
+            style={{ "margin-top": "10px", "margin-bottom": "10px" }}
+          >
+            Nerimity offers an elegant and feature-rich experience that sets it
+            apart.
+          </Text>
           <ButtonsContainer class="buttons-container">
             <a href="/register">
               <Button
+                class="get-started-button"
                 iconName="open_in_browser"
-                label={t("homePage.joinButton", { appName: "Nerimity" })!}
-                primary={true}
+                label={t("homePage.getStarted")!}
+                color={"white"}
               />
             </a>
             <a

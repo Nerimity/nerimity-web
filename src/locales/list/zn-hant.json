@@ -6,7 +6,6 @@
   },
   "homePage": {
     "slogan": "一款現代而時尚的聊天應用程式。",
-    "joinButton": "加入 {{appName}}",
     "viewGitHubButton": "看 GitHub"
   },
   "loginPage": {

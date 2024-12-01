@@ -6,7 +6,6 @@
   },
   "homePage": {
     "slogan": "Egy modern, elegáns chat alkalmazás.",
-    "joinButton": "Csatlakozás {{appName}}-hoz",
     "viewGitHubButton": "GitHub Adattár Megtekíntése"
   },
   "loginPage": {

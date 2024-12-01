@@ -7,7 +7,6 @@
   },
   "homePage": {
     "slogan": "O aplicație de chat modernă și elegantă.",
-    "joinButton": "Alăturați-vă {{appName}}",
     "viewGitHubButton": "Vedeți codul sursa"
   },
   "loginPage": {
