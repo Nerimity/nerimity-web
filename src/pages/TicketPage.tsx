@@ -1,11 +1,13 @@
 import {
   CloseTicketStatuses,
+  RawChannel,
   RawMessage,
   RawTicket,
   TicketStatus,
 } from "@/chat-api/RawData";
 import { fetchMessages, postMessage } from "@/chat-api/services/MessageService";
 import {
+  getMessages,
   getModerationTicket,
   updateModerationTicket,
 } from "@/chat-api/services/ModerationService";
@@ -13,6 +15,7 @@ import { uploadAttachment } from "@/chat-api/services/nerimityCDNService";
 import { getTicket, updateTicket } from "@/chat-api/services/TicketService.ts";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
+import { useModerationShowMessages } from "@/common/GlobalEvents";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { Markup } from "@/components/Markup";
@@ -24,17 +27,20 @@ import Avatar from "@/components/ui/Avatar";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
+import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { CustomLink } from "@/components/ui/CustomLink";
 import FileBrowser, { FileBrowserRef } from "@/components/ui/FileBrowser";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { ImageEmbed } from "@/components/ui/ImageEmbed";
 import Input from "@/components/ui/input/Input";
+import { Modal } from "@/components/ui/modal";
 import { Notice } from "@/components/ui/Notice/Notice";
 import Text from "@/components/ui/Text";
 import { t } from "i18next";
 import { createSignal, For, onCleanup, onMount, Setter, Show } from "solid-js";
 import { useMatch, useParams } from "solid-navigator";
 import { css, styled } from "solid-styled-components";
+import MessageItemComponent from "@/components/message-pane/message-item/MessageItem";
 
 const Container = styled("div")`
   display: flex;
@@ -93,6 +99,68 @@ const MessageItemContainer = styled(FlexRow)`
   padding-right: 4px;
 `;
 
+const MessageListModalContainer = styled(FlexColumn)`
+  overflow: auto;
+`;
+
+const MessageModalStyle = css`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const messageHighlightStyle = css`
+  && {
+    background-color: rgba(255, 255, 255, 0.1);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+`;
+const MessagesModal = (props: {
+  messageId: string;
+  channelId: string;
+  close: () => void;
+}) => {
+  let messageListRef: HTMLDivElement | undefined;
+  const [messages, setMessages] = createSignal<RawMessage[] | null>(null);
+  const [channel, setChannel] = createSignal<RawChannel | null>(null);
+
+  onMount(() => {
+    getMessages(props.channelId, props.messageId).then((data) => {
+      setMessages(data.messages);
+      setChannel(data.channel);
+      messageListRef
+        ?.querySelector(`#message-${props.messageId}`)
+        ?.scrollIntoView({
+          block: "center",
+        });
+    });
+  });
+  return (
+    <Modal.Root close={props.close}>
+      <Modal.Header title="Messages" />
+
+      <Modal.Body class={MessageModalStyle}>
+        <MessageListModalContainer ref={messageListRef}>
+          <For each={messages() || []}>
+            {(message, i) => (
+              <MessageItemComponent
+                message={message}
+                beforeMessage={messages()?.[i() - 1]}
+                class={
+                  message.id === props.messageId ? messageHighlightStyle : ""
+                }
+                hideFloating
+              />
+            )}
+          </For>
+        </MessageListModalContainer>
+      </Modal.Body>
+    </Modal.Root>
+  );
+};
+
 export default function TicketPage() {
   const { height } = useWindowProperties();
   const params = useParams<{ id: string }>();
@@ -100,7 +168,21 @@ export default function TicketPage() {
   const [ticket, setTicket] = createSignal<RawTicket | null>(null);
   const [messages, setMessages] = createSignal<RawMessage[]>([]);
 
+  const { createPortal } = useCustomPortal();
+
   const isModeration = useMatch(() => "/app/moderation/*");
+
+  const showMessagesListener = useModerationShowMessages();
+
+  showMessagesListener(({ messageId, channelId }) => {
+    createPortal((close) => (
+      <MessagesModal
+        close={close}
+        messageId={messageId}
+        channelId={channelId}
+      />
+    ));
+  });
 
   onMount(async () => {
     refreshData();
@@ -146,7 +228,11 @@ export default function TicketPage() {
             />
           </Show>
           <Show when={!isModeration()}>
-            <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
+            <BreadcrumbItem
+              href="/app"
+              icon="home"
+              title={t("dashboard.title")}
+            />
           </Show>
           <BreadcrumbItem
             title={t("settings.drawer.tickets")!}

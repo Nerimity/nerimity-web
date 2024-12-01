@@ -6,21 +6,30 @@ export const GlobalEventName = {
   SCROLL_TO_MESSAGE: "scrollToMessage",
   MODERATION_USER_SUSPENDED: "moderationUserSuspended",
   MODERATION_SERVER_DELETED: "moderationServerDeleted",
-  DRAWER_GO_TO_MAIN: "drawerGoToMain"
+  MODERATION_SHOW_MESSAGES: "moderationShowMessages",
+  DRAWER_GO_TO_MAIN: "drawerGoToMain",
 } as const;
-
 
 const EE = new EventEmitter();
 
 export function emitScrollToMessage(payload: { messageId: string }) {
   EE.emit("scrollToMessage", payload);
 }
-
-
 export function useScrollToMessageListener() {
   return useEventListen<{ messageId: string }>("scrollToMessage");
 }
+export function emitModerationShowMessages(payload: {
+  messageId: string;
+  channelId: string;
+}) {
+  EE.emit("moderationShowMessages", payload);
+}
 
+export function useModerationShowMessages() {
+  return useEventListen<{ messageId: string; channelId: string }>(
+    "moderationShowMessages"
+  );
+}
 
 export function emitModerationServerDeleted() {
   EE.emit("moderationServerDeleted", {});
@@ -33,7 +42,6 @@ export function emitDrawerGoToMain() {
   EE.emit("drawerGoToMain");
 }
 
-
 export function useModerationUserSuspendedListener() {
   return useEventListen<ModerationSuspension>("moderationUserSuspended");
 }
@@ -42,7 +50,9 @@ export function useModerationServerDeletedListener() {
   return useEventListen<unknown>("moderationServerDeleted");
 }
 
-export function useEventListen<TReturn>(name: typeof GlobalEventName[keyof typeof GlobalEventName]) {
+export function useEventListen<TReturn>(
+  name: (typeof GlobalEventName)[keyof typeof GlobalEventName]
+) {
   return (callback: (event: TReturn) => void) => {
     EE.addListener(name, callback);
     onCleanup(() => {

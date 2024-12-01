@@ -1,7 +1,9 @@
 import env from "../../common/env";
 import {
   RawApplication,
+  RawChannel,
   RawFriend,
+  RawMessage,
   RawServer,
   RawTicket,
   RawUser,
@@ -71,6 +73,18 @@ export const getPosts = async (limit: number, afterId?: string) => {
       limit,
     },
     url: env.SERVER_URL + "/api/moderation/posts",
+    useToken: true,
+  });
+  return data;
+};
+export const getMessages = async (channelId: string, messageId: string) => {
+  const data = await request<{ messages: RawMessage[]; channel: RawChannel }>({
+    method: "GET",
+    url:
+      env.SERVER_URL + "/api/moderation/channels/" + channelId + "/messages/",
+    params: {
+      aroundId: messageId,
+    },
     useToken: true,
   });
   return data;
