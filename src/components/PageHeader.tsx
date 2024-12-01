@@ -10,6 +10,7 @@ import { appLogoUrl } from "@/common/worldEvents";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { logout } from "@/common/logout";
 import { Skeleton } from "./ui/skeleton/Skeleton";
+import Avatar from "./ui/Avatar";
 
 const HeaderContainer = styled("header")`
   display: flex;
@@ -103,7 +104,9 @@ export default function PageHeader(props: { hideAccountInfo?: boolean }) {
     if (!getStorageString(StorageKeys.USER_TOKEN, null)) {
       return setUser(false);
     }
-    loadUserDetails();
+    setTimeout(() => {
+      loadUserDetails();
+    }, 1000);
   });
 
   const loadUserDetails = async () => {
@@ -145,8 +148,17 @@ export default function PageHeader(props: { hideAccountInfo?: boolean }) {
 function LogInLogOutSkeleton() {
   return (
     <NavigationContainer class="navigation-container">
-      <Skeleton.Item width="140px" height="50px" />
       <Skeleton.Item width="110px" height="50px" />
+      <Skeleton.Item width="140px" height="50px" />
+      <Skeleton.Item
+        width="38px"
+        height="38px"
+        style={{
+          "border-radius": "50%",
+          "margin-left": "6px",
+          "margin-right": "6px",
+        }}
+      />
     </NavigationContainer>
   );
 }
@@ -170,6 +182,14 @@ function LoggedInLinks(props: { user: RawUser }) {
         label={t("header.openAppButton")}
         primary={true}
         icon="open_in_browser"
+      />
+      <Avatar
+        size={38}
+        user={props.user}
+        class={css`
+          margin-left: 6px;
+          margin-right: 6px;
+        `}
       />
     </NavigationContainer>
   );
