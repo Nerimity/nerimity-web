@@ -2,6 +2,7 @@ import {
   CloseTicketStatuses,
   RawChannel,
   RawMessage,
+  RawServer,
   RawTicket,
   TicketStatus,
 } from "@/chat-api/RawData";
@@ -41,6 +42,7 @@ import { createSignal, For, onCleanup, onMount, Setter, Show } from "solid-js";
 import { useMatch, useParams } from "solid-navigator";
 import { css, styled } from "solid-styled-components";
 import MessageItemComponent from "@/components/message-pane/message-item/MessageItem";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
 const Container = styled("div")`
   display: flex;
@@ -89,6 +91,12 @@ const TicketStatusButtons = (props: {
 
 const MessageLogsContainer = styled(FlexColumn)`
   border-top: solid 1px rgba(255, 255, 255, 0.2);
+
+  &[data-isMod="true"] {
+    .markup .modShowMessagesButton {
+      display: flex;
+    }
+  }
 `;
 
 const MessageItemContainer = styled(FlexRow)`
@@ -103,7 +111,13 @@ const MessageListModalContainer = styled(FlexColumn)`
   overflow: auto;
 `;
 
-const MessageModalStyle = css`
+const MessagesModalChannelInfoContainer = styled(FlexRow)``;
+const MessageModalRootStyle = css`
+  width: 600px;
+  height: 60vh;
+  min-height: 90vh;
+`;
+const MessageModalBodyStyle = css`
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -124,7 +138,9 @@ const MessagesModal = (props: {
 }) => {
   let messageListRef: HTMLDivElement | undefined;
   const [messages, setMessages] = createSignal<RawMessage[] | null>(null);
-  const [channel, setChannel] = createSignal<RawChannel | null>(null);
+  const [channel, setChannel] = createSignal<
+    (RawChannel & { server?: RawServer }) | null
+  >(null);
 
   onMount(() => {
     getMessages(props.channelId, props.messageId).then((data) => {
@@ -138,10 +154,17 @@ const MessagesModal = (props: {
     });
   });
   return (
-    <Modal.Root close={props.close}>
-      <Modal.Header title="Messages" />
-
-      <Modal.Body class={MessageModalStyle}>
+    <Modal.Root close={props.close} class={MessageModalRootStyle}>
+      <Modal.Header
+        title={
+          !channel()
+            ? "Loading..."
+            : `${channel()?.name ? `#${channel()?.name}` : "DMs"}${
+                channel()?.server?.name ? ` - ${channel()?.server?.name}` : ""
+              }`
+        }
+      />
+      <Modal.Body class={MessageModalBodyStyle}>
         <MessageListModalContainer ref={messageListRef}>
           <For each={messages() || []}>
             {(message, i) => (
@@ -463,8 +486,12 @@ const MessageInputArea = (props: {
   );
 };
 const MessageLogs = (props: { messages: RawMessage[] }) => {
+  const { account } = useStore();
+  const hasModeratorPerm = () =>
+    hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
+    hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
   return (
-    <MessageLogsContainer>
+    <MessageLogsContainer data-isMod={hasModeratorPerm()}>
       <For each={props.messages}>
         {(message) => <MessageItem message={message} />}
       </For>

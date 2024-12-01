@@ -100,21 +100,19 @@ export function QuoteMessage(props: {
             onClick={() => emitScrollToMessage({ messageId: props.quote.id! })}
           />
         </Show>
-        <Show when={true}>
-          <Button
-            class="goToMessageButton"
-            iconName="visibility"
-            padding={4}
-            iconSize={14}
-            title="View Messages"
-            onClick={() =>
-              emitModerationShowMessages({
-                messageId: props.quote.id!,
-                channelId: props.quote.channelId!,
-              })
-            }
-          />
-        </Show>
+        <Button
+          class="goToMessageButton modShowMessagesButton"
+          iconName="visibility"
+          padding={4}
+          iconSize={14}
+          title="View Messages"
+          onClick={() =>
+            emitModerationShowMessages({
+              messageId: props.quote.id!,
+              channelId: props.quote.channelId!,
+            })
+          }
+        />
       </div>
       <div>
         <Markup
