@@ -9,7 +9,7 @@ import Icon from "./ui/icon/Icon";
 import { appLogoUrl } from "@/common/worldEvents";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { logout } from "@/common/logout";
-
+import { Skeleton } from "./ui/skeleton/Skeleton";
 
 const HeaderContainer = styled("header")`
   display: flex;
@@ -58,7 +58,7 @@ const NavigationContainer = styled("nav")`
   margin-right: 10px;
 `;
 
-const LinkContainer = styled("div")<{primary: boolean}>`
+const LinkContainer = styled("div")<{ primary: boolean }>`
   display: flex;
   align-items: center;
   font-size: 18px;
@@ -69,31 +69,31 @@ const LinkContainer = styled("div")<{primary: boolean}>`
   height: 50px;
   padding-left: 10px;
   padding-right: 15px;
-  
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
-  }  
+  }
 
   && {
-    ${props => (
-    props.primary ? `
+    ${(props) =>
+      props.primary
+        ? `
         background-color: var(--primary-color);
         opacity: 0.9;
         transition: 0.2s;
         &:hover {
           opacity: 1;
         }
-      ` : undefined
-  )}
+      `
+        : undefined}
   }
-
 `;
 
 const linkIconStyle = css`
   margin-right: 5px;
 `;
 
-export default function PageHeader(props: { hideAccountInfo?: boolean}) {
+export default function PageHeader(props: { hideAccountInfo?: boolean }) {
   const [user, setUser] = createSignal<null | false | RawUser>(null);
 
   onMount(async () => {
@@ -103,26 +103,55 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
     if (!getStorageString(StorageKeys.USER_TOKEN, null)) {
       return setUser(false);
     }
-    const details = await getUserDetailsRequest();
+    loadUserDetails();
+  });
+
+  const loadUserDetails = async () => {
+    const details = await getUserDetailsRequest().catch((err) => {
+      if (err.code === 0) {
+        setTimeout(() => {
+          loadUserDetails();
+        }, 5000);
+        return "retrying";
+      }
+    });
+    if (details === "retrying") {
+      return;
+    }
     if (!details) {
       return setUser(false);
     }
     setUser(details.user);
-  });
+  };
 
   return (
     <HeaderContainer class="header-container">
       <A href="/" class={titleContainerStyle}>
-        <Logo src={appLogoUrl()} alt="logo"/>
+        <Logo src={appLogoUrl()} alt="logo" />
         <Title>Nerimity</Title>
       </A>
-      <Show when={user() === false}><LoggedOutLinks/></Show>
-      <Show when={user()}><LoggedInLinks user={user() as RawUser}/></Show>
+      <Switch fallback={<LogInLogOutSkeleton />}>
+        <Match when={user() === false}>
+          <LoggedOutLinks />
+        </Match>
+        <Match when={user()}>
+          <LoggedInLinks user={user() as RawUser} />
+        </Match>
+      </Switch>
     </HeaderContainer>
   );
 }
 
-function LoggedInLinks (props: {user: RawUser}) {
+function LogInLogOutSkeleton() {
+  return (
+    <NavigationContainer class="navigation-container">
+      <Skeleton.Item width="140px" height="50px" />
+      <Skeleton.Item width="110px" height="50px" />
+    </NavigationContainer>
+  );
+}
+
+function LoggedInLinks(props: { user: RawUser }) {
   const [t] = useTransContext();
   const onLogoutClick = () => {
     logout();
@@ -130,8 +159,18 @@ function LoggedInLinks (props: {user: RawUser}) {
 
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='#' onClick={onLogoutClick} label={t("header.logoutButton")} icon="logout" />
-      <HeaderLink href='/app' label={t("header.openAppButton")} primary={true} icon='open_in_browser' />
+      <HeaderLink
+        href="#"
+        onClick={onLogoutClick}
+        label={t("header.logoutButton")}
+        icon="logout"
+      />
+      <HeaderLink
+        href="/app"
+        label={t("header.openAppButton")}
+        primary={true}
+        icon="open_in_browser"
+      />
     </NavigationContainer>
   );
 }
@@ -140,17 +179,34 @@ function LoggedOutLinks() {
   const [t] = useTransContext();
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='/login' label={t("header.loginButton")} icon='login' />
-      <HeaderLink href='/register' label={t("header.joinNowButton")} primary={true} icon="add" />
+      <HeaderLink href="/login" label={t("header.loginButton")} icon="login" />
+      <HeaderLink
+        href="/register"
+        label={t("header.joinNowButton")}
+        primary={true}
+        icon="add"
+      />
     </NavigationContainer>
   );
 }
 
-function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean, onClick?: () => void}) {
+function HeaderLink(props: {
+  icon?: string;
+  href: string;
+  label: string;
+  primary?: boolean;
+  onClick?: () => void;
+}) {
   return (
-    <a href={props.href} onClick={props.onClick} style={{"text-decoration": "none"}}>
+    <a
+      href={props.href}
+      onClick={props.onClick}
+      style={{ "text-decoration": "none" }}
+    >
       <LinkContainer primary={props.primary || false}>
-        <Show when={props.icon}><Icon name={props.icon} class={linkIconStyle} /></Show>
+        <Show when={props.icon}>
+          <Icon name={props.icon} class={linkIconStyle} />
+        </Show>
         {props.label}
       </LinkContainer>
     </a>

@@ -168,9 +168,6 @@ const PlatformDownloadLinks = () => {
           customChildren={
             <FlexRow itemsCenter>
               <Text>Android</Text>
-              <Text opacity={0.8} size={12}>
-                (Experimental)
-              </Text>
             </FlexRow>
           }
           iconName="android"

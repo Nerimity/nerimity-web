@@ -42,7 +42,7 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
         : {}),
     },
   }).catch((err) => {
-    throw { message: "Could not connect to server. " + err.message };
+    throw { message: "Could not connect to server. " + err.message, code: 0 };
   });
 
   const text = await response.text();
