@@ -5,6 +5,8 @@ import { StorageKeys, getStorageString } from "@/common/localStorage";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useMatch } from "solid-navigator";
 import { createEffect, createSignal, on } from "solid-js";
+import socketClient from "@/chat-api/socketClient";
+import { ServerEvents } from "@/chat-api/EventNames";
 
 export default function ConnectingStatusHeader() {
   const { account } = useStore();
@@ -12,7 +14,15 @@ export default function ConnectingStatusHeader() {
     color: string;
     text: string;
   } | null>(null);
+  const [queuePos, setQueuePos] = createSignal(0);
   const { isMobileWidth } = useWindowProperties();
+
+  socketClient.useSocketOn(
+    ServerEvents.USER_AUTH_QUEUE_POSITION,
+    (payload: { pos: number }) => {
+      setQueuePos(payload.pos);
+    }
+  );
 
   let interval: number | undefined;
   let alreadyConnected = false;
@@ -27,6 +37,18 @@ export default function ConnectingStatusHeader() {
     return true;
   };
 
+  createEffect(
+    on(
+      [
+        account.authenticationError,
+        account.isConnected,
+        account.isAuthenticated,
+      ],
+      () => {
+        setQueuePos(0);
+      }
+    )
+  );
   createEffect(() => {
     window.clearInterval(interval);
 
@@ -51,7 +73,9 @@ export default function ConnectingStatusHeader() {
     if (!account.isAuthenticated()) {
       setStatus({
         color: "var(--warn-color)",
-        text: "Authenticating...",
+        text: queuePos()
+          ? `In Queue: ${queuePos()} User(s) Ahead Of You`
+          : "Authenticating...",
       });
       return;
     }

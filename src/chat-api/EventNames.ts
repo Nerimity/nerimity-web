@@ -18,6 +18,7 @@ export const ServerEvents = {
 
   USER_NOTIFICATION_SETTINGS_UPDATE: "user:notification_settings_update",
 
+  USER_AUTH_QUEUE_POSITION: "user:auth_queue_position",
   USER_AUTHENTICATED: "user:authenticated",
 
   USER_PRESENCE_UPDATE: "user:presence_update",
