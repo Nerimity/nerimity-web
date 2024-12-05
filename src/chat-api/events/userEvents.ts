@@ -11,6 +11,7 @@ import {
   RawUser,
   RawUserConnection,
   RawNotice,
+  RawReminder,
 } from "../RawData";
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
@@ -139,4 +140,13 @@ export function onUserNoticeUpdated(payload: RawNotice) {
   const notices: RawNotice[] = [...(account.user()?.notices || [])];
   notices.push(payload);
   account.setUser({ notices });
+}
+
+export function onUserReminderAdd(payload: RawReminder) {
+  const account = useAccount();
+  account.addReminder(payload);
+}
+export function onUserReminderRemove(payload: { id: string }) {
+  const account = useAccount();
+  account.removeReminder(payload.id);
 }

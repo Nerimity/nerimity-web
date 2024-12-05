@@ -79,6 +79,7 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { t } from "i18next";
+import { RemindersModal } from "../reminders-modal/RemindersModal";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -451,6 +452,7 @@ interface CustomTextAreaProps
 }
 
 function CustomTextArea(props: CustomTextAreaProps) {
+  const store = useStore();
   let textAreaRef: HTMLInputElement | undefined;
   const params = useParams<{ channelId: string; serverId?: string }>();
 
@@ -498,6 +500,14 @@ function CustomTextArea(props: CustomTextAreaProps) {
     StorageKeys.DISABLED_ADVANCED_MARKUP,
     false
   );
+
+  const reminders = createMemo(() => store.account.reminders(params.channelId));
+
+  const showRemindersModal = () => {
+    createPortal((close) => (
+      <RemindersModal close={close} channelId={params.channelId} />
+    ));
+  };
 
   return (
     <div
@@ -556,6 +566,19 @@ function CustomTextArea(props: CustomTextAreaProps) {
         maxLength={2000}
         class={styles.textArea}
       />
+      <Show when={reminders().length}>
+        <Button
+          class={classNames(styles.inputButtons, styles.reminderButton)}
+          iconName="calendar_month"
+          title={`Reminders (${reminders().length})`}
+          padding={[8, 8, 8, 8]}
+          onClick={showRemindersModal}
+          margin={[3, 0, 3, 3]}
+          iconSize={18}
+          customChildren={<div class={styles.reminderDot} />}
+        />
+      </Show>
+
       <Show when={!value().trim() && !pickedFile() && !props.isEditing}>
         <MicButton
           onBlob={(blob) => {

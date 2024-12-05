@@ -26,6 +26,9 @@ export const ServerEvents = {
   USER_BLOCKED: "user:blocked",
   USER_UNBLOCKED: "user:unblocked",
 
+  USER_REMINDER_ADD: "user:reminder_add",
+  USER_REMINDER_REMOVE: "user:reminder_remove",
+
   FRIEND_REQUEST_SENT: "friend:request_sent",
   FRIEND_REQUEST_PENDING: "friend:request_pending",
   FRIEND_REQUEST_ACCEPTED: "friend:request_accepted",

@@ -1,10 +1,24 @@
-import { RawChannel, RawFriend, RawInboxWithoutChannel, RawPresence, RawServer, RawServerMember, RawServerRole, RawUserNotificationSettings, RawUser, RawUserConnection, RawVoice, RawNotice } from "../RawData";
+import {
+  RawChannel,
+  RawFriend,
+  RawInboxWithoutChannel,
+  RawPresence,
+  RawServer,
+  RawServerMember,
+  RawServerRole,
+  RawUserNotificationSettings,
+  RawUser,
+  RawUserConnection,
+  RawVoice,
+  RawNotice,
+  RawReminder,
+} from "../RawData";
 
 export interface AuthenticatedPayload {
   user: SelfUser;
   servers: RawServer[];
   serverMembers: RawServerMember[];
-  messageMentions: MessageMention[]
+  messageMentions: MessageMention[];
   channels: RawChannel[];
   serverRoles: RawServerRole[];
   notificationSettings: RawUserNotificationSettings[];
@@ -13,8 +27,6 @@ export interface AuthenticatedPayload {
   inbox: RawInboxWithoutChannel[];
   lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
   voiceChannelUsers: RawVoice[];
-
-
 }
 
 interface MessageMention {
@@ -22,7 +34,7 @@ interface MessageMention {
   mentionedBy: RawUser;
   count: number;
   serverId?: string;
-  channelId: string
+  channelId: string;
   createdAt: number;
 }
 export enum LastOnlineStatus {
@@ -42,7 +54,6 @@ export enum FriendRequestStatus {
   CLOSED = 2,
 }
 
-
 export interface SelfUser {
   id: string;
   email: string;
@@ -53,14 +64,15 @@ export interface SelfUser {
   badges: number;
   tag: string;
   customStatus?: string;
-  orderedServerIds: string[]
-  dmStatus: DmStatus
-  friendRequestStatus: FriendRequestStatus
-  lastOnlineStatus?: number
-  emailConfirmed: boolean
-  connections: RawUserConnection[]
-  notices: RawNotice[]
+  orderedServerIds: string[];
+  dmStatus: DmStatus;
+  friendRequestStatus: FriendRequestStatus;
+  lastOnlineStatus?: number;
+  emailConfirmed: boolean;
+  connections: RawUserConnection[];
+  notices: RawNotice[];
 
   hideFollowers: boolean;
   hideFollowing: boolean;
+  reminders: RawReminder[];
 }

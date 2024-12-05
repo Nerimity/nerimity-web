@@ -209,6 +209,7 @@
     background: rgba(0, 0, 0, 0.6);
   }
   &.timestamp {
+    cursor: pointer;
     font-variant-numeric: tabular-nums;
   }
   .icon {

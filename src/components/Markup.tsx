@@ -158,6 +158,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         <TimestampMention
           type={type as TimestampType}
           timestamp={stamp * 1000}
+          message={ctx.props().message}
         />
       );
     }

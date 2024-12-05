@@ -394,3 +394,12 @@ export interface RawNotice {
   createdAt: number;
   createdBy: { username: string };
 }
+
+export interface RawReminder {
+  id: string;
+  message?: RawMessage;
+  post?: RawPost;
+  channelId?: string;
+  createdAt: number;
+  remindAt: number;
+}

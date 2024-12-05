@@ -1,0 +1,45 @@
+.reminderList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.reminderItem {
+  position: relative;
+  border-radius: 8px;
+  background-color: rgba(0,0,0,0.4);
+  .reminderTimestamp {
+    margin-top: 6px;
+    margin-left: 6px;
+    user-select: none;
+    pointer-events: none;
+  }
+  .messageItem {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    user-select: none;
+    pointer-events: none;
+  }
+  .reminderDeleted {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    justify-content: center;
+    height: 38px;
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .reminderActions {
+    display: flex;
+    flex: 1;
+    margin: 6px;
+    gap: 6px;
+
+    .button {
+      flex: 1;
+      justify-self: stretch;
+    }
+  }
+}
