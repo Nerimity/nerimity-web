@@ -33,11 +33,13 @@ import {
 import { GenericMention } from "./markup/GenericMention";
 import { TimestampMention, TimestampType } from "./markup/TimestampMention";
 import { Dynamic } from "solid-js/web";
+import { Post } from "@/chat-api/store/usePosts";
 
 export interface Props {
   text: string;
   inline?: boolean;
   message?: Message;
+  post?: Post;
   isQuote?: boolean;
   animateEmoji?: boolean;
   class?: string;
@@ -159,6 +161,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
           type={type as TimestampType}
           timestamp={stamp * 1000}
           message={ctx.props().message}
+          post={ctx.props().post}
         />
       );
     }

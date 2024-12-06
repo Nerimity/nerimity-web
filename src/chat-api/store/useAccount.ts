@@ -149,8 +149,8 @@ const isMe = (userId: string) => account.user && account.user.id === userId;
 const reminders = (channelId?: string) => {
   if (!account.user?.reminders) return [];
   if (!channelId)
-    return account.user.reminders.sort((a, b) => a.remindAt - b.remindAt);
-  return account.user.reminders
+    return [...account.user.reminders].sort((a, b) => a.remindAt - b.remindAt);
+  return [...account.user.reminders]
     .filter((r) => r.channelId === channelId)
     .sort((a, b) => a.remindAt - b.remindAt);
 };

@@ -80,13 +80,15 @@ const Header = (props: HeaderProps) => {
           {props.title}
         </span>
       </div>
-      <Button
-        iconName="close"
-        color="var(--alert-color)"
-        onClick={modal?.close}
-        padding={0}
-        margin={0}
-      />
+      <Show when={modal?.close}>
+        <Button
+          iconName="close"
+          color="var(--alert-color)"
+          onClick={modal?.close}
+          padding={0}
+          margin={0}
+        />
+      </Show>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { useParams } from "solid-navigator";
 import { BlockedUsersModal } from "./HomeDrawer";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import { RemindersModal } from "../reminders-modal/RemindersModal";
 
 const useFriendsController = () => {
   const store = useStore();
@@ -148,12 +149,25 @@ const useInboxController = () => {
 
 const [HomeDrawerControllerProvider, useHomeDrawerController] =
   createContextProvider(() => {
+    const store = useStore();
+    const { createPortal } = useCustomPortal();
     const friendsController = useFriendsController();
     const inboxController = useInboxController();
+
+    const hasReminders = () => store.account.reminders().length;
+
+    const openReminders = () => {
+      createPortal(
+        (close) => <RemindersModal close={close} />,
+        "reminders-modal"
+      );
+    };
 
     return {
       friends: friendsController,
       inbox: inboxController,
+      hasReminders,
+      openReminders,
     };
   });
 

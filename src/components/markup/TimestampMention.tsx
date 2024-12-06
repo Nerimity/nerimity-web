@@ -22,6 +22,7 @@ export function TimestampMention(props: {
   type: TimestampType;
   timestamp: number;
   message?: Message;
+  post?: Post;
 }) {
   const { createPortal } = useCustomPortal();
   const [formattedTime, setFormattedTime] = createSignal("...");
@@ -46,6 +47,7 @@ export function TimestampMention(props: {
 
   const onClick = () => {
     if (isInPast()) return;
+    if (!props.message && !props.post) return;
 
     createPortal((close) => {
       const [error, setError] = createSignal<string | null>(null);
@@ -64,6 +66,7 @@ export function TimestampMention(props: {
         const reminder = await addReminder({
           timestamp: props.timestamp,
           messageId: props.message?.id,
+          postId: props.post?.id,
         }).catch((err) => {
           setError(err.message);
         });

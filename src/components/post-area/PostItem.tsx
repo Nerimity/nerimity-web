@@ -68,6 +68,7 @@ export function PostItem(props: {
     if (event.target.closest(".button")) return;
     if (event.target.closest(".imageEmbedContainer")) return;
     if (event.target.closest(".pollEmbedContainer")) return;
+    if (event.target.closest(".mention.timestamp")) return;
     if (event.target.closest(".spoiler")) return;
     if (event.target.closest("a")) return;
     const clickedPos =
@@ -175,7 +176,7 @@ const Details = (props: {
 const Content = (props: { post: Post; hovered: boolean }) => {
   return (
     <div class={style.postContentContainer}>
-      <Markup text={props.post.content || ""} />
+      <Markup text={props.post.content || ""} post={props.post} />
       <Show when={props.post.editedAt}>
         <Icon
           name="edit"

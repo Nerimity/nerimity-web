@@ -1,12 +1,32 @@
+.remindersModalRoot {
+  width: 600px;
+  min-height: 200px;
+  max-height: 80vh;
+}
+
+.remindersModalBody {
+  display: flex;
+  overflow: hidden;
+  flex: 1;
+  flex-direction: column;
+}
+
 .reminderList {
   display: flex;
+  overflow: auto;
   flex-direction: column;
   gap: 4px;
 }
 .reminderItem {
   position: relative;
+
+  border: solid 1px rgba(255,255,255,0.2);
+
   border-radius: 8px;
   background-color: rgba(0,0,0,0.4);
+  &.active {
+    border: solid 1px var(--alert-color);
+  }
   .reminderTimestamp {
     margin-top: 6px;
     margin-left: 6px;

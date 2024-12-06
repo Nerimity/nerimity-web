@@ -504,9 +504,10 @@ function CustomTextArea(props: CustomTextAreaProps) {
   const reminders = createMemo(() => store.account.reminders(params.channelId));
 
   const showRemindersModal = () => {
-    createPortal((close) => (
-      <RemindersModal close={close} channelId={params.channelId} />
-    ));
+    createPortal(
+      (close) => <RemindersModal close={close} channelId={params.channelId} />,
+      "reminders-modal"
+    );
   };
 
   return (

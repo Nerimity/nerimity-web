@@ -109,6 +109,13 @@ const Items = () => {
         icon="explore"
         href="/app/explore/servers"
       />
+      <Show when={controller?.hasReminders()}>
+        <Item
+          label="Reminders"
+          icon="calendar_month"
+          onClick={controller?.openReminders}
+        />
+      </Show>
     </div>
   );
 };
