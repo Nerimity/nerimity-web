@@ -169,11 +169,14 @@ const useReminderService = () => {
   const { createPortal } = useCustomPortal();
   const reminders = createMemo(() => store.account.reminders());
 
+  const isAuthenticated = createMemo(() => store.account.isAuthenticated());
   let timeoutId: number;
 
   createEffect(
-    on(reminders, () => {
-      reminderService(checkReminders());
+    on([reminders, isAuthenticated], () => {
+      if (isAuthenticated()) {
+        reminderService(checkReminders());
+      }
     })
   );
   onCleanup(() => {
