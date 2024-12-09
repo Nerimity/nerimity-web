@@ -249,15 +249,16 @@ const MessageItem = (props: MessageItemProps) => {
   const params = useParams();
   const { serverMembers, servers, account, friends } = useStore();
   const [hovered, setHovered] = createSignal(false);
-  const serverMember = () =>
+  const serverMember = createMemo(() =>
     params.serverId
       ? serverMembers.get(params.serverId, props.message.createdBy.id)
-      : undefined;
+      : undefined
+  );
+  const server = createMemo(() => servers.get(params.serverId!));
 
   const isServerCreator = () =>
-    params.serverId
-      ? servers.get(params.serverId)?.createdById === props.message.createdBy.id
-      : undefined;
+    server()?.createdById === props.message.createdBy.id;
+
   const { createPortal } = useCustomPortal();
 
   const currentTime = props.message?.createdAt;
@@ -294,11 +295,15 @@ const MessageItem = (props: MessageItemProps) => {
     return member.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
   };
 
+  const selfMember = createMemo(() =>
+    serverMembers.get(params.serverId!, account.user()?.id!)
+  );
   createEffect(
     on(
       [
         () => props.message.mentions?.length,
         () => props.message.quotedMessages?.length,
+        () => props.message.roleMentions?.length,
       ],
       () => {
         setTimeout(() => {
@@ -313,10 +318,19 @@ const MessageItem = (props: MessageItemProps) => {
           const isReplied = props.message.replyMessages?.find(
             (m) => m.replyToMessage?.createdBy?.id === account.user()?.id
           );
+          const isRoleMentioned =
+            serverMember()?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
+            props.message.roleMentions.find(
+              (r) =>
+                r.id !== server()?.defaultRoleId && selfMember()?.hasRole(r.id)
+            );
           const isMentioned =
             isEveryoneMentioned ||
             props.message.mentions?.find((u) => u.id === account.user()?.id);
-          setIsMentioned(!!isQuoted || !!isMentioned || !!isReplied);
+
+          setIsMentioned(
+            !!isQuoted || !!isMentioned || !!isReplied || !!isRoleMentioned
+          );
           setIsSomeoneMentioned(isSomeoneMentioned);
         });
       }
@@ -442,9 +456,14 @@ const MessageItem = (props: MessageItemProps) => {
 };
 
 const Content = (props: { message: Message; hovered: boolean }) => {
+  const params = useParams<{ serverId?: string }>();
   return (
     <div class={styles.content}>
-      <Markup message={props.message} text={props.message.content || ""} />
+      <Markup
+        message={props.message}
+        text={props.message.content || ""}
+        serverId={params.serverId}
+      />
       <Show
         when={
           !props.message.uploadingAttachment || props.message.content?.trim()

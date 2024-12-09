@@ -58,6 +58,7 @@ export interface RawMessage {
   }[];
 
   buttons: RawMessageButton[];
+  roleMentions: RawServerRole[];
 }
 
 export interface RawMessageButton {

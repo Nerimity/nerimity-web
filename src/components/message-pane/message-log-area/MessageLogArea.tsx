@@ -120,7 +120,7 @@ export const MessageLogArea = (props: {
     bottomSkeletonHeight
   );
 
-  const channel = () => channels.get(params.channelId!)!;
+  const channel = createMemo(() => channels.get(params.channelId!));
 
   const properties = () => channelProperties.get(params.channelId);
 

@@ -190,6 +190,12 @@ export const ROLE_PERMISSIONS = {
     bit: 128,
     icon: "edit",
   },
+  MENTION_ROLES: {
+    name: "Mention Roles",
+    bit: 256,
+    description: "Allow users to mention roles",
+    icon: "alternate_email",
+  },
 };
 
 export const hasBit = (permissions: number, bit: number) => {

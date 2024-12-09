@@ -84,8 +84,12 @@ function getCustomSound(type: "MESSAGE" | "MESSAGE_MENTION") {
 }
 
 export function isMentioned(message: RawMessage, serverId?: string) {
-  const { account, serverMembers } = useStore();
+  const { account, serverMembers, servers } = useStore();
   const userId = account.user()?.id;
+
+  const member = serverMembers.get(serverId!, message.createdBy.id);
+  const selfMember = serverMembers.get(serverId!, userId!);
+  const server = servers.get(serverId!);
 
   const mentionedMe = message.mentions?.find(
     (m) => m.id === account.user()?.id
@@ -104,13 +108,18 @@ export function isMentioned(message: RawMessage, serverId?: string) {
       (m) => m.replyToMessage?.createdBy?.id === userId
     );
 
-  if (quoteMention || replyMention) {
+  const isRoleMentioned =
+    member?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
+    message.roleMentions.find(
+      (r) => r.id !== server?.defaultRoleId && selfMember?.hasRole(r.id)
+    );
+
+  if (quoteMention || replyMention || isRoleMentioned) {
     return true;
   }
 
   const everyoneMentioned = message.content?.includes("[@:e]");
   if (everyoneMentioned && serverId) {
-    const member = serverMembers.get(serverId, message.createdBy.id);
     const hasPerm =
       member?.isServerCreator() ||
       member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);

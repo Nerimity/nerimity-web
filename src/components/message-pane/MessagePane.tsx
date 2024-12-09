@@ -80,6 +80,7 @@ import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { t } from "i18next";
 import { RemindersModal } from "../reminders-modal/RemindersModal";
+import useServerRoles from "@/chat-api/store/useServerRoles";
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
@@ -1195,6 +1196,7 @@ function Floating(props: {
 const emojiRegex = /:[\w+-]+:/g;
 const channelMentionRegex = /#([^#]+)#/g;
 const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/g;
+const roleMentionRegex = /@([^#]+)@/g;
 
 function randomIndex(arrLength: number) {
   return Math.floor(Math.random() * arrLength);
@@ -1213,6 +1215,9 @@ export function formatMessage(
   const serverMembers = useServerMembers();
   const account = useAccount();
   const servers = useServers();
+  const roles = useServerRoles();
+
+  const serverRoles = roles.getAllByServerId(serverId!);
 
   const serverChannels = channels.getChannelsByServerId(serverId!);
   const members = serverMembers.array(serverId!);
@@ -1277,6 +1282,11 @@ export function formatMessage(
         return `[@:${member.user().id}]`;
       }
     );
+    finalString = finalString.replace(roleMentionRegex, (match, group) => {
+      const channel = serverRoles.find((c) => c!.name === group);
+      if (!channel) return match;
+      return `[r:${channel.id}]`;
+    });
     // replace channel mentions
     finalString = finalString.replaceAll(
       channelMentionRegex,
@@ -1557,9 +1567,15 @@ function FloatingUserSuggestions(props: {
   textArea?: HTMLTextAreaElement;
 }) {
   const params = useParams<{ serverId?: string; channelId: string }>();
-  const { serverMembers, channels, account } = useStore();
+  const { serverMembers, channels, account, serverRoles, servers } = useStore();
+
+  const server = createMemo(() => servers.get(params.serverId!));
 
   const members = () => serverMembers.array(params.serverId!);
+  const roles = () =>
+    serverRoles
+      .getAllByServerId(params.serverId!)
+      .filter((r) => r.id !== server()?.defaultRoleId);
 
   const hasPermissionToMentionEveryone = () => {
     if (!params.serverId) return false;
@@ -1567,10 +1583,17 @@ function FloatingUserSuggestions(props: {
     return member?.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
   };
 
+  const hasPermissionToMentionRoles = () => {
+    if (!params.serverId) return false;
+    const member = serverMembers.get(params.serverId, account.user()?.id!);
+    return member?.hasPermission?.(ROLE_PERMISSIONS.MENTION_ROLES);
+  };
+
   const searchedServerUsers = () =>
     matchSorter(
       [
         ...members(),
+        ...(hasPermissionToMentionRoles() ? roles() : []),
         ...(hasPermissionToMentionEveryone()
           ? [
               {
@@ -1599,14 +1622,14 @@ function FloatingUserSuggestions(props: {
       ] as any[],
       props.search,
       {
-        keys: [(e) => e.user().username, (e) => e.nickname],
+        keys: [(e) => e.user?.().username, (e) => e.nickname, (e) => e.name],
       }
     )
       .slice(0, 10)
       .sort((a, b) => {
         // move all special users to the bottom
-        if (a.user().special && !b.user().special) return 1;
-        if (!a.user().special && b.user().special) return -1;
+        if (a.user?.().special && !b.user?.().special) return 1;
+        if (!a.user?.().special && b.user?.().special) return -1;
         return 0;
       });
 
@@ -1628,14 +1651,15 @@ function FloatingUserSuggestions(props: {
     )
   );
 
-  const onUserClick = (user: User) => {
+  const onUserClick = (user: User & { name?: string }) => {
+    console.log(user);
     if (!props.textArea) return;
     if (!user.tag) {
       appendText(
         params.channelId,
         props.textArea,
         props.search,
-        `${user.username} `
+        `${user.username || user.name}${user.name ? "@" : ""} `
       );
       return;
     }
@@ -1680,7 +1704,7 @@ function UserSuggestionItem(props: {
   nickname?: string;
   onHover: () => void;
   selected: boolean;
-  user: User & { special?: boolean };
+  user: User & { special?: boolean; name?: string };
   onclick(user: User): void;
 }) {
   return (
@@ -1689,12 +1713,16 @@ function UserSuggestionItem(props: {
       selected={props.selected}
       class={styles.suggestionItem}
       onclick={() => props.onclick(props.user)}
+      style={{ color: props.user.name ? props.user.hexColor : undefined }}
     >
-      <Show when={!props.user?.special} fallback={<div>@</div>}>
+      <Show
+        when={props.user.username && !props.user?.special}
+        fallback={<div>@</div>}
+      >
         <Avatar user={props.user} animate={props.selected} size={15} />
       </Show>
       <div class={styles.suggestLabel}>
-        {props.nickname || props.user.username}
+        {props.nickname || props.user.username || props.user.name}
       </div>
       <Show when={props.nickname}>
         <div class={styles.suggestionInfo}>{props.user.username}</div>

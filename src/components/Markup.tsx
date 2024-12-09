@@ -34,6 +34,7 @@ import { GenericMention } from "./markup/GenericMention";
 import { TimestampMention, TimestampType } from "./markup/TimestampMention";
 import { Dynamic } from "solid-js/web";
 import { Post } from "@/chat-api/store/usePosts";
+import useServerRoles from "@/chat-api/store/useServerRoles";
 
 export interface Props {
   text: string;
@@ -43,6 +44,7 @@ export interface Props {
   isQuote?: boolean;
   animateEmoji?: boolean;
   class?: string;
+  serverId?: string;
 }
 
 type RenderContext = {
@@ -72,6 +74,7 @@ type CustomEntity = Entity & { type: "custom" };
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   const channels = useChannels();
   const users = useUsers();
+  const serverRoles = useServerRoles();
   const type = entity.params.type;
   const expr = sliceText(ctx, entity.innerSpan, { countText: false });
   switch (type) {
@@ -81,6 +84,22 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
         ctx.textCount += expr.length;
         return <MentionChannel channel={channel} />;
       }
+      break;
+    }
+    // Role mentions
+    case "r": {
+      const serverId = ctx.props().serverId;
+
+      if (!serverId) {
+        break;
+      }
+
+      const role = serverRoles.get(serverId, expr);
+      if (role) {
+        ctx.textCount += expr.length;
+        return <GenericMention name={role.name} color={role.hexColor} />;
+      }
+
       break;
     }
     case "@": {

@@ -14,6 +14,7 @@ import useServerMembers from "../store/useServerMembers";
 import { ROLE_PERMISSIONS } from "../Bitwise";
 import useFriends from "../store/useFriends";
 import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
+import useServers from "../store/useServers";
 
 export function onMessageCreated(payload: {
   socketId: string;
@@ -42,12 +43,17 @@ export function onMessageCreated(payload: {
   const users = useUsers();
   const account = useAccount();
   const friends = useFriends();
+  const servers = useServers();
   const { hasFocus } = useWindowProperties();
 
   const accountUser = account.user();
 
   const hasBlockedRecipient =
     friends.get(payload.message.createdBy.id)?.status === FriendStatus.BLOCKED;
+
+  const member = members.get(channel?.serverId!, payload.message.createdBy.id);
+  const selfMember = members.get(channel?.serverId!, accountUser?.id!);
+  const server = servers.get(channel?.serverId!);
 
   batch(() => {
     channel?.updateLastMessaged(payload.message.createdAt);
@@ -68,10 +74,6 @@ export function onMessageCreated(payload: {
       if (hasBlockedRecipient) return false;
       const everyoneMentioned = payload.message.content?.includes("[@:e]");
       if (everyoneMentioned && channel?.serverId) {
-        const member = members.get(
-          channel.serverId,
-          payload.message.createdBy.id
-        );
         const hasPerm =
           member?.isServerCreator() ||
           member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
@@ -86,6 +88,14 @@ export function onMessageCreated(payload: {
       );
 
       if (quoteMention) return true;
+
+      const isRoleMentioned =
+        member?.hasPermission(ROLE_PERMISSIONS.MENTION_ROLES) &&
+        payload.message.roleMentions.find(
+          (r) => server?.defaultRoleId !== r.id && selfMember?.hasRole(r.id)
+        );
+
+      if (isRoleMentioned) return true;
 
       const replyMention =
         payload.message.mentionReplies &&
