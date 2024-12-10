@@ -45,6 +45,7 @@ export interface Props {
   animateEmoji?: boolean;
   class?: string;
   serverId?: string;
+  prefix?: JSXElement;
 }
 
 type RenderContext = {
@@ -330,6 +331,7 @@ export function Markup(props: Props) {
         conditionalClass(largeEmoji, "largeEmoji")
       )}
     >
+      {props.prefix}
       {output()}
     </span>
   );

@@ -6,34 +6,43 @@ import { MessageType, ServerNotificationPingMode } from "@/chat-api/RawData";
 import env from "./env";
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { getSystemMessage } from "./SystemMessage";
 
 export function createDesktopNotification(message: Message) {
-  const enabled = getStorageBoolean(StorageKeys.ENABLE_DESKTOP_NOTIFICATION, false);
+  const enabled = getStorageBoolean(
+    StorageKeys.ENABLE_DESKTOP_NOTIFICATION,
+    false
+  );
   if (!enabled) return;
-  const {channels, account, serverMembers} = useStore();
+  const { channels, account, serverMembers } = useStore();
   const channel = channels.get(message.channelId);
 
   const serverId = channel?.serverId;
   const channelId = channel?.id;
 
-  const notificationPing = !serverId? undefined : account.getCombinedNotificationSettings(serverId, channelId)?.notificationPingMode;
+  const notificationPing = !serverId
+    ? undefined
+    : account.getCombinedNotificationSettings(serverId, channelId)
+        ?.notificationPingMode;
 
   if (notificationPing === ServerNotificationPingMode.MUTE) return;
 
-
   let showNotification = false;
 
-
   if (notificationPing === ServerNotificationPingMode.MENTIONS_ONLY) {
-    const mentionedMe = message.mentions?.find(m => m.id === account.user()?.id);
+    const mentionedMe = message.mentions?.find(
+      (m) => m.id === account.user()?.id
+    );
     if (mentionedMe) {
       showNotification = true;
     }
-    
+
     const everyoneMentioned = message.content?.includes("[@:e]");
-    if (!showNotification && (everyoneMentioned && serverId)) {
+    if (!showNotification && everyoneMentioned && serverId) {
       const member = serverMembers.get(serverId, message.createdBy.id);
-      const hasPerm = member?.isServerCreator() || member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
+      const hasPerm =
+        member?.isServerCreator() ||
+        member?.hasPermission(ROLE_PERMISSIONS.MENTION_EVERYONE);
       if (hasPerm) {
         showNotification = true;
       }
@@ -43,16 +52,15 @@ export function createDesktopNotification(message: Message) {
     showNotification = true;
   }
 
-
   if (!showNotification) return;
 
-  if (channel?.serverId) return createServerDesktopNotification(message, channel);
+  if (channel?.serverId)
+    return createServerDesktopNotification(message, channel);
   else return createDMDesktopNotification(message);
-
 }
 
 function createServerDesktopNotification(message: Message, channel: Channel) {
-  const {servers, serverMembers} = useStore();
+  const { servers, serverMembers } = useStore();
   const server = servers.get(channel.serverId!);
   const member = serverMembers.get(server?.id || "", message.createdBy.id);
   let title = `${message.createdBy.username} (${server?.name} #${channel.name})`;
@@ -63,27 +71,11 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   if (!body && message.attachments?.length) {
     body = "Image Message";
   }
-  if (message.type === MessageType.BAN_USER) {
-    body = `${username} has been banned.`,
+  const systemMessage = getSystemMessage(message.type);
+  if (systemMessage) {
+    body = `${username} ${systemMessage}`;
     title = `${server?.name} #${channel.name}`;
   }
-  if (message.type === MessageType.KICK_USER) {
-    body = `${username} has been kicked.`,
-    title = `${server?.name} #${channel.name}`;
-  }
-  if (message.type === MessageType.JOIN_SERVER) {
-    body = `${username} joined the server.`,
-    title = `${server?.name} #${channel.name}`;
-  }
-  if (message.type === MessageType.LEAVE_SERVER) {
-    body = `${username} left the server.`,
-    title = `${server?.name} #${channel.name}`;
-  }
-  if (message.type === MessageType.CALL_STARTED) {
-    body = `${username} started a call.`,
-    title = `${server?.name} #${channel.name}`;
-  }
-
 
   new Notification(title, {
     body,
@@ -91,7 +83,7 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
     tag: channel.id,
     renotify: true,
 
-    icon: server?.avatarUrl() || undefined
+    icon: server?.avatarUrl() || undefined,
   });
 }
 function createDMDesktopNotification(message: Message) {
@@ -110,6 +102,6 @@ function createDMDesktopNotification(message: Message) {
     silent: true,
     tag: message.channelId,
     renotify: true,
-    icon: avatarUrl(message.createdBy) || undefined
+    icon: avatarUrl(message.createdBy) || undefined,
   });
 }

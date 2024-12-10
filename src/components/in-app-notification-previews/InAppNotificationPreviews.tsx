@@ -1,5 +1,6 @@
 import {
   createEffect,
+  createMemo,
   createSignal,
   Match,
   on,
@@ -20,6 +21,7 @@ import { cn } from "@/common/classNames";
 import Button from "../ui/Button";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import useStore from "@/chat-api/store/useStore";
+import { getSystemMessage } from "@/common/SystemMessage";
 
 export default function InAppNotificationPreviews() {
   const { notifications, removeNotification, pushNotification } =
@@ -31,10 +33,16 @@ export default function InAppNotificationPreviews() {
 
   const notification = () => notifications()[0];
 
+  const systemMessage = createMemo(
+    () =>
+      notification()?.message &&
+      getSystemMessage(notification?.()?.message?.type!)
+  );
+
   let anim: Animation | undefined;
 
   createEffect(
-    on([notification, progressEl], () => {
+    on([notification, progressEl, expanded], () => {
       anim?.cancel();
       const progressElement = progressEl();
       if (!notification()) {
@@ -143,16 +151,32 @@ export default function InAppNotificationPreviews() {
               <div class={style.info}>
                 <div class={style.title}>{notification()?.title}</div>
                 <div class={style.body}>
-                  <Show when={notification()?.message?.attachments?.length}>
-                    <Icon
-                      name="attach_file"
-                      size={16}
-                      color="rgba(255,255,255,0.6)"
-                    />
-                  </Show>
                   <Markup
+                    prefix={
+                      <Show
+                        when={
+                          systemMessage() ||
+                          notification()?.message?.attachments?.length
+                        }
+                      >
+                        <Icon
+                          name={systemMessage()?.icon || "attach_file"}
+                          size={16}
+                          style={{ "vertical-align": "sub" }}
+                          color={
+                            systemMessage()?.color || "rgba(255,255,255,0.6)"
+                          }
+                        />
+                      </Show>
+                    }
                     class={style.markup}
-                    text={notification()?.body || ""}
+                    text={
+                      systemMessage()?.message
+                        ? `[@:${notification()?.message?.createdBy?.id}] ${
+                            systemMessage()?.message
+                          }`
+                        : notification()?.body || ""
+                    }
                     inline
                   />
                 </div>
@@ -166,7 +190,7 @@ export default function InAppNotificationPreviews() {
                   "background-color":
                     notification()?.color || "var(--primary-color)",
                 }}
-              ></div>
+              />
             </div>
           </div>
           <div class={cn(style.actions, "ipnpActions")}>

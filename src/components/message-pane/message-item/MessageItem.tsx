@@ -87,6 +87,7 @@ import {
 import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 import { ButtonsEmbed } from "./ButtonsEmbed";
 import { Tooltip } from "@/components/ui/Tooltip";
+import { getSystemMessage } from "@/common/SystemMessage";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -552,49 +553,7 @@ const SentStatus = (props: { message: Message }) => {
 };
 
 const SystemMessage = (props: { message: Message }) => {
-  const systemMessage = () => {
-    switch (props.message.type) {
-      case MessageType.JOIN_SERVER:
-        return {
-          icon: "login",
-          color: "var(--primary-color)",
-          message: "has joined the server.",
-        };
-      case MessageType.LEAVE_SERVER:
-        return {
-          icon: "logout",
-          color: "var(--alert-color)",
-          message: "has left the server.",
-        };
-      case MessageType.KICK_USER:
-        return {
-          icon: "logout",
-          color: "var(--alert-color)",
-          message: "has been kicked.",
-        };
-      case MessageType.BAN_USER:
-        return {
-          icon: "block",
-          color: "var(--alert-color)",
-          message: "has been banned.",
-        };
-      case MessageType.CALL_STARTED:
-        return {
-          icon: "call",
-          color: "var(--success-color)",
-          message: "started a call.",
-        };
-      case MessageType.BUMP_SERVER:
-        return {
-          icon: "trending_up",
-          color: "var(--primary-color)",
-          message: "bumped the server.",
-        };
-      default:
-        return undefined;
-    }
-  };
-
+  const systemMessage = createMemo(() => getSystemMessage(props.message.type));
   return (
     <Show when={systemMessage()}>
       <div class={styles.systemMessage}>
