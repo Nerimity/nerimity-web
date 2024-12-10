@@ -332,7 +332,7 @@ function MessageArea(props: {
   const adjustHeight = () => {
     const MAX_HEIGHT = 100;
     textAreaEl()!.style.height = "0px";
-    let newHeight = textAreaEl()!.scrollHeight - 24;
+    let newHeight = textAreaEl()!.scrollHeight - 22;
     if (newHeight > MAX_HEIGHT) newHeight = MAX_HEIGHT;
     textAreaEl()!.style.height = newHeight + "px";
     textAreaEl()!.scrollTop = textAreaEl()!.scrollHeight;
