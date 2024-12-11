@@ -10,27 +10,34 @@ interface TextProps {
   children: JSX.Element;
   class?: string;
   href?: string;
-  newTab?: boolean
-  isDangerousLink?: boolean
+  newTab?: boolean;
+  isDangerousLink?: boolean;
 }
 
 const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
-  
-  const style = () => ({
-    ...props.style as JSX.CSSProperties,
-    color: props.color || "white",
-    "font-size": `${props.size || "16"}px`,
-    opacity: props.opacity || "1",
-    ...(props.bold ? { "font-weight": "bold" } : {})
-  } as JSX.CSSProperties);
+  const style = () =>
+    ({
+      ...(props.style as JSX.CSSProperties),
+      color: props.color || "var(--text-color)",
+      "font-size": `${props.size || "16"}px`,
+      opacity: props.opacity || "1",
+      ...(props.bold ? { "font-weight": "bold" } : {}),
+    } as JSX.CSSProperties);
   return (
-    <Dynamic component={props.href ? CustomLink : "span"} isDangerous={props.isDangerousLink} onClick={props.onClick} {...(props.newTab ? {target: "_blank", rel: "noopener noreferrer"} : {})} href={props.href} style={style()} class={props.class}>
+    <Dynamic
+      component={props.href ? CustomLink : "span"}
+      isDangerous={props.isDangerousLink}
+      onClick={props.onClick}
+      {...(props.newTab
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+      href={props.href}
+      style={style()}
+      class={props.class}
+    >
       {props.children}
     </Dynamic>
   );
 };
-
-
-
 
 export default Text;

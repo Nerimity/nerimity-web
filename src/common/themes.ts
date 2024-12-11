@@ -1,7 +1,7 @@
 import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
 import { isHalloween } from "./worldEvents";
 
-const theme = {
+const DarkTheme = {
   "background-color": "hsl(216deg 9% 8%)",
   "pane-color": "hsl(216deg 8% 15%)",
   "header-background-color": "hsla(216deg 8% 15% / 80%)",
@@ -15,7 +15,18 @@ const theme = {
   "primary-color-dark": "#2d3746",
   "alert-color-dark": "#3e2626",
   "warn-color-dark": "#3a3229",
+  "text-color": "white",
 };
+
+const LightTheme = {
+  "background-color": "#f1f1f1",
+  "pane-color": "white",
+  "header-background-color": "white",
+  "header-background-color-blur-disabled": "white",
+  "text-color": "black",
+};
+
+const theme = { ...DarkTheme };
 
 // if (isHalloween) {
 //   theme["primary-color"] = "#d76623";

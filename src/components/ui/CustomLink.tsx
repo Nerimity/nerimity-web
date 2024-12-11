@@ -14,7 +14,7 @@ interface CustomLinkProps extends AProps {
 
 const noDecoration = css`
   text-decoration: none;
-  color: white;
+  color: var(--text-color);
 `;
 
 const decoration = css`

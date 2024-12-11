@@ -18,7 +18,7 @@
       background-color: rgba(255, 255, 255, 0.1);
     }
     .label {
-      color: white;
+      opacity: 1;
     }
  
   }
@@ -57,13 +57,13 @@
       }
     }
     .label {
-      color: white;
+      opacity: 1;
     }
   }
 }
 
 .label {
-  color: rgba(255, 255, 255, 0.6);
+  opacity: 0.6;
   transition: 0.2s;
   font-size: 14px;
 }

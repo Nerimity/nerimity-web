@@ -53,7 +53,7 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  color: white;
+  color: var(--text-color);
   background: var(--background-color);
   font-family: "Inter", sans-serif;
   font-weight: 300;
