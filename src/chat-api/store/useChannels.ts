@@ -157,6 +157,7 @@ async function joinCall(this: Channel) {
   await postGenerateCredential();
   postJoinVoice(this.id, socketClient.id()!).then(() => {
     setCurrentChannelId(this.id);
+    this.setCallJoinedAt(Date.now());
   });
 }
 function leaveCall(this: Channel) {

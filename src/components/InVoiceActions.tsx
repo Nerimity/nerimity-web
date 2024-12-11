@@ -22,7 +22,10 @@ const InVoiceActionsContainer = styled(FlexRow)`
   bottom: 5px;
   z-index: 11111111;
 `;
-const DetailsContainer = styled(FlexColumn)``;
+const DetailsContainer = styled(FlexColumn)`
+  overflow: hidden;
+  gap: 2px;
+`;
 
 export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
   const { voiceUsers, channels, servers } = useStore();
@@ -34,7 +37,7 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
 
   const name = () => {
     if (!server()) return channel()?.recipient()?.username;
-    return `${server()?.name} #${channel()?.name}`;
+    return `${server()?.name}#${channel()?.name}`;
   };
 
   const href = () => {
@@ -55,7 +58,16 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
           <Text size={12}>
             Connected for <CallTime channelId={channelId()!} />
           </Text>
-          <CustomLink href={href()} decoration style={{ "font-size": "12px" }}>
+          <CustomLink
+            href={href()}
+            decoration
+            style={{
+              "font-size": "12px",
+              "white-space": "nowrap",
+              overflow: "hidden",
+              "text-overflow": "ellipsis",
+            }}
+          >
             {name()}
           </CustomLink>
         </DetailsContainer>
