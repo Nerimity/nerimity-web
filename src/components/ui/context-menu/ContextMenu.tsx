@@ -52,12 +52,16 @@ export default function ContextMenu(props: ContextMenuProps) {
   const [pos, setPos] = createSignal({ top: "0", left: "0" });
   const { isMobileWidth, hasFocus } = useWindowProperties();
 
-  const [items, setItems] = createStore(props.items);
+  const [items, setItems] = createStore<ContextMenuItem[]>([]);
 
   const { height, width } = useResizeObserver(contextMenuEl);
 
   createEffect(() => {
-    setItems(reconcile(props.items));
+    if (props.position) {
+      setItems(reconcile(props.items));
+    } else {
+      setItems([]);
+    }
   });
 
   const handleOutsideClick = (e: any) => {

@@ -84,13 +84,11 @@ export default function MemberContextMenu(props: Props) {
     const clickedOnMyself = props.userId === account.user()?.id;
     const items: any = [];
 
-    const hasAdminPermission = selfMember()?.hasPermission(
-      ROLE_PERMISSIONS.ADMIN
-    );
-    const hasNicknamePermission = selfMember()?.hasPermission(
-      ROLE_PERMISSIONS.NICKNAME_MEMBER
-    );
-    if (hasNicknamePermission && (hasAdminPermission || clickedOnMyself)) {
+    const hasNicknamePermission =
+      selfMember()?.hasPermission(ROLE_PERMISSIONS.NICKNAME_MEMBER) ||
+      clickedOnMyself;
+
+    if (hasNicknamePermission) {
       items.push(nickname);
     }
     const hasManageRolePermission = selfMember()?.hasPermission(
@@ -122,6 +120,7 @@ export default function MemberContextMenu(props: Props) {
 
     const createArr = [];
 
+    hasNicknamePermission && createArr.push(nickname);
     if (hasBanPermission || hasKickPermission) {
       createArr.push(separator);
     }
