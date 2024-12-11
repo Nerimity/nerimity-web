@@ -2,7 +2,7 @@
 .serverDrawer {
   display: flex;
   flex-direction: column;
-
+  height: 100%;
   &[data-scrollbar-visible="true"] {
     margin-right: 8px;
   }
@@ -11,10 +11,10 @@
 .channelList {
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding-top: 3px;
   padding-bottom: 5px;
   margin-right: 5px;
-
   margin-left: 5px;
   gap: 3px;
 }

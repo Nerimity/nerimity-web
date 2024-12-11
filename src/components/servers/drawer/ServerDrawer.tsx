@@ -53,6 +53,7 @@ const ServerDrawer = () => {
           style={{
             display: "flex",
             "flex-direction": "column",
+            flex: 1,
           }}
         >
           <Show when={server()?._count?.welcomeQuestions}>

@@ -19,6 +19,7 @@ const SettingsListContainer = styled("div")`
   flex-direction: column;
   gap: 2px;
   padding-bottom: 3px;
+  flex: 1;
 
   &[data-scrollbar-visible="true"] {
     margin-right: 8px;

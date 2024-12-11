@@ -34,7 +34,7 @@ export default function HomeDrawer() {
         <Friends />
         <Inbox />
       </div>
-      <InVoiceActions style={{ "margin-top": "-4px" }} />
+      <InVoiceActions />
     </HomeDrawerControllerProvider>
   );
 }
