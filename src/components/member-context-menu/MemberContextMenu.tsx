@@ -121,6 +121,9 @@ export default function MemberContextMenu(props: Props) {
     const createArr = [];
 
     hasNicknamePermission && createArr.push(nickname);
+    if (hasManageRolePermission) {
+      createArr.push(editRoles);
+    }
     if (hasBanPermission || hasKickPermission) {
       createArr.push(separator);
     }
