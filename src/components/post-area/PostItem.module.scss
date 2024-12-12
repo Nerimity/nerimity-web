@@ -123,6 +123,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.pinnedContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
 .embedContainer {
   display: flex;

@@ -175,6 +175,7 @@ export interface UserDetails {
   mutualFriendIds: string[];
   mutualServerIds: string[];
   latestPost: RawPost;
+  pinnedPosts: RawPost[];
   profile?: UserProfile;
   hideFollowers?: boolean;
   hideFollowing?: boolean;
@@ -186,10 +187,14 @@ export interface UserProfile {
   primaryColor?: string;
 }
 
-export async function getUserDetailsRequest(userId?: string) {
+export async function getUserDetailsRequest(
+  userId?: string,
+  includePinnedPosts?: boolean
+) {
   return request<UserDetails>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId || ""),
     method: "GET",
+    params: { ...(includePinnedPosts ? { includePinnedPosts } : {}) },
     useToken: true,
   });
 }

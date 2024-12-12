@@ -15,7 +15,9 @@ import { formatTimestamp, timeSince } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useSearchParams } from "solid-navigator";
 import {
+  batch,
   createEffect,
+  createMemo,
   createSignal,
   For,
   Index,
@@ -482,6 +484,7 @@ const PostsContainer = styled(FlexColumn)`
 
 export function PostsArea(props: {
   showLiked?: boolean;
+  pinnedPosts?: Post[];
   showFeed?: boolean;
   showDiscover?: boolean;
   showReplies?: boolean;
@@ -499,6 +502,24 @@ export function PostsArea(props: {
   const { posts } = useStore();
   const [lastFetchCount, setLastFetchCount] = createSignal(0);
   let postsContainerRef: HTMLDivElement | undefined;
+
+  createEffect(() => {
+    if (props.pinnedPosts?.length) {
+      batch(() => {
+        for (let i = 0; i < props.pinnedPosts!.length; i++) {
+          const post = props.pinnedPosts![i]!;
+          posts.pushPost(post);
+        }
+      });
+    }
+  });
+
+  const pinnedPosts = createMemo(() => {
+    if (!props.pinnedPosts?.length) return [];
+    return props.pinnedPosts
+      .map((post) => posts.cachedPost(post.id))
+      .filter((post) => post) as Post[];
+  });
 
   const cachedReplies = () => {
     if (props.showDiscover) return posts.cachedDiscover();
@@ -646,6 +667,16 @@ export function PostsArea(props: {
         />
       </Show>
       <FlexColumn ref={postsContainerRef}>
+        <For each={pinnedPosts()}>
+          {(post) => (
+            <PostItem
+              bgColor={props.bgColor}
+              post={post}
+              pinned
+              primaryColor={props.primaryColor}
+            />
+          )}
+        </For>
         <For each={cachedReplies()}>
           {(post, i) => (
             <PostItem

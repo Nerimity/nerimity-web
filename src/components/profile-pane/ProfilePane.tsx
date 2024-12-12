@@ -128,7 +128,7 @@ export default function ProfilePane() {
 
   const fetchUserDetails = async (userId: string) => {
     setAnimateAvatar(false);
-    const userDetails = await getUserDetailsRequest(userId);
+    const userDetails = await getUserDetailsRequest(userId, true);
     setUserDetails(userDetails);
     setTimeout(() => {
       setAnimateAvatar(true);
@@ -1125,6 +1125,7 @@ function PostsContainer(props: { user: UserDetails; bgColor: string }) {
       </FlexRow>
       <Show when={props.user && currentPage() <= 2}>
         <PostsArea
+          pinnedPosts={currentPage() <= 1 ? props.user.pinnedPosts : []}
           primaryColor={primaryColor()}
           showLiked={currentPage() === 2}
           showReplies={currentPage() === 1}

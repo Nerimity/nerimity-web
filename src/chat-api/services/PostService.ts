@@ -102,6 +102,23 @@ export const getPostsLiked = async (userId: string) => {
   return data;
 };
 
+export const pinPost = async (postId: string) => {
+  const data = await request<RawPost>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.post(postId) + "/pin",
+    useToken: true,
+  });
+  return data;
+};
+
+export const unpinPost = async (postId: string) => {
+  const data = await request<RawPost>({
+    method: "DELETE",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.post(postId) + "/pin",
+    useToken: true,
+  });
+  return data;
+};
 export const getPost = async (postId: string) => {
   const data = await request<RawPost>({
     method: "GET",

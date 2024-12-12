@@ -21,6 +21,8 @@ import { RawPostChoice, RawPostPoll, RawUser } from "@/chat-api/RawData";
 import { RadioBoxItem } from "../ui/RadioBox";
 import { DeletePostModal, EditPostModal } from "../PostsArea";
 import { css } from "solid-styled-components";
+import ContextMenu from "../ui/context-menu/ContextMenu";
+import { pinPost, unpinPost } from "@/chat-api/services/PostService";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -39,10 +41,13 @@ export function PostItem(props: {
   class?: string;
   onClick?: (id: Post) => void;
   post: Post;
+  pinned?: boolean;
 }) {
   const { posts } = useStore();
   const [search, setSearchParams] = useSearchParams<{ postId: string }>();
   const [hovered, setHovered] = createSignal(false);
+
+  const [pinned, setPinned] = createSignal(props.pinned);
 
   const replyingTo = createMemo(() => {
     if (!props.post.commentToId) return;
@@ -115,6 +120,9 @@ export function PostItem(props: {
         <Show when={replyingTo()}>
           <ReplyTo user={replyingTo()!.createdBy} />
         </Show>
+        <Show when={pinned()}>
+          <Pinned />
+        </Show>
         <div class={style.postInnerContainer}>
           <A
             onClick={(e) => e.stopPropagation()}
@@ -136,9 +144,11 @@ export function PostItem(props: {
             <Content post={props.post} hovered={hovered()} />
 
             <Actions
+              onTogglePinned={() => setPinned(!pinned())}
               primaryColor={props.primaryColor}
               hideDelete={props.hideDelete}
               post={props.post}
+              pinned={pinned()}
             />
           </div>
         </div>
@@ -194,6 +204,8 @@ const Actions = (props: {
   primaryColor?: string;
   post: Post;
   hideDelete?: boolean;
+  pinned?: boolean;
+  onTogglePinned?: () => void;
 }) => {
   const navigate = useNavigate();
   const { account } = useStore();
@@ -223,6 +235,19 @@ const Actions = (props: {
       <DeletePostModal close={close} post={props.post} />
     ));
 
+  const [pinRequestSent, setPinRequestSent] = createSignal(false);
+
+  const togglePin = async () => {
+    if (pinRequestSent()) return;
+    setPinRequestSent(true);
+    if (props.pinned) {
+      await unpinPost(props.post.id).finally(() => setPinRequestSent(false));
+    } else {
+      await pinPost(props.post.id).finally(() => setPinRequestSent(false));
+    }
+    props.onTogglePinned?.();
+  };
+
   const onEditClicked = () =>
     createPortal?.((close) => (
       <EditPostModal close={close} post={props.post} />
@@ -230,6 +255,58 @@ const Actions = (props: {
 
   const showViews = () => {
     return props.post.createdAt > timestampViewsEnabledAt;
+  };
+
+  const showDeleteAndEdit = () =>
+    props.post.createdBy?.id === account.user()?.id && !props.hideDelete;
+
+  const showContextMenu = (event: MouseEvent) => {
+    if (event.target instanceof HTMLElement) {
+      const rect = event.target?.getBoundingClientRect()!;
+      createPortal(
+        (close) => (
+          <ContextMenu
+            items={[
+              ...(showDeleteAndEdit()
+                ? [
+                    {
+                      label: props.pinned ? "Unpin" : "Pin",
+                      onClick: togglePin,
+                      alert: props.pinned,
+                      icon: "push_pin",
+                    },
+                    { label: "Edit", onClick: onEditClicked, icon: "edit" },
+                    { separator: true },
+                    {
+                      label: "Delete",
+                      onClick: onDeleteClick,
+                      alert: true,
+                      icon: "delete",
+                    },
+                  ]
+                : []),
+              ...(account.hasModeratorPerm()
+                ? [
+                    {
+                      label: "Moderation Pane",
+                      onClick: () =>
+                        navigate(
+                          "/app/moderation?search-post-id=" + props.post.id
+                        ),
+                      icon: "security",
+                    },
+                  ]
+                : []),
+            ]}
+            position={rect}
+            onClose={close}
+            triggerClassName="post-more-button"
+          />
+        ),
+        "post-context-menu",
+        true
+      );
+    }
   };
 
   return (
@@ -267,40 +344,13 @@ const Actions = (props: {
       </Show>
 
       <div class={style.rightActions}>
-        <Show when={account.hasModeratorPerm()}>
-          <Button
-            onClick={() =>
-              navigate("/app/moderation?search-post-id=" + props.post.id)
-            }
-            margin={0}
-            iconClass={style.icon}
-            color={props.primaryColor}
-            class={style.postButtonStyle}
-            iconName="security"
-          />
-        </Show>
-        <Show
-          when={
-            props.post.createdBy?.id === account.user()?.id && !props.hideDelete
-          }
-        >
-          <Button
-            onClick={onEditClicked}
-            margin={0}
-            class={style.postButtonStyle}
-            color={props.primaryColor}
-            iconClass={style.icon}
-            iconName="edit"
-          />
-          <Button
-            onClick={onDeleteClick}
-            margin={0}
-            class={style.postButtonStyle}
-            color="var(--alert-color)"
-            iconClass={style.icon}
-            iconName="delete"
-          />
-        </Show>
+        <Button
+          onclick={showContextMenu}
+          margin={0}
+          class={cn(style.postButtonStyle, "post-more-button")}
+          iconClass={style.icon}
+          iconName="more_vert"
+        />
       </div>
     </div>
   );
@@ -463,6 +513,16 @@ const ReplyTo = (props: { user: RawUser }) => {
       >
         {props.user?.username}
       </CustomLink>
+    </div>
+  );
+};
+const Pinned = () => {
+  return (
+    <div class={style.pinnedContainer}>
+      <Icon name="push_pin" color="var(--primary-color)" size={16} />
+      <Text size={14} style={{ "margin-right": "5px" }}>
+        Pinned
+      </Text>
     </div>
   );
 };
