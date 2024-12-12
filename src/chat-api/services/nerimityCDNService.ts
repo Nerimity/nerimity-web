@@ -87,7 +87,7 @@ function nerimityCDNRequest(opts: NerimityCDNRequestOpts) {
   return request<{ fileId: string }>({
     method: "POST",
     url: opts.url,
-    params: JSON.parse(JSON.stringify(opts.query)),
+    params: JSON.parse(JSON.stringify(opts.query || {})),
     useToken: false,
   });
 }
