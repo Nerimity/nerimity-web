@@ -117,11 +117,11 @@ export function PostItem(props: {
         <Text>This user has blocked you.</Text>
       </Show>
       <Show when={!props.post.deleted && !props.post.block}>
-        <Show when={replyingTo()}>
-          <ReplyTo user={replyingTo()!.createdBy} />
-        </Show>
         <Show when={pinned()}>
           <Pinned />
+        </Show>
+        <Show when={replyingTo()}>
+          <ReplyTo user={replyingTo()!.createdBy} />
         </Show>
         <div class={style.postInnerContainer}>
           <A
