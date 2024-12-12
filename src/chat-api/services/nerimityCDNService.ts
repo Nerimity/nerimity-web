@@ -81,20 +81,13 @@ function nerimityCDNUploadRequest(opts: {
 }
 
 function nerimityCDNRequest(opts: NerimityCDNRequestOpts) {
-  const url = new URL(opts.url);
-
-  if (opts.query) {
-    url.search = new URLSearchParams(
-      JSON.parse(JSON.stringify(opts.query))
-    ).toString();
-  }
-
   const formData = new FormData();
   formData.append("attachment", opts.file);
 
   return request<{ fileId: string }>({
     method: "POST",
-    url: url.href,
+    url: opts.url,
+    params: JSON.parse(JSON.stringify(opts.query)),
     useToken: false,
   });
 }
