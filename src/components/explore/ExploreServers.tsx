@@ -288,8 +288,8 @@ const ButtonsContainer = styled(FlexRow)`
   margin-top: auto;
   padding-top: 10px;
   padding-bottom: 4px;
-  margin-left: auto;
-  margin-right: 4px;
+  margin-right: 8px;
+  justify-content: end;
   flex-shrink: 0;
 `;
 
@@ -302,6 +302,7 @@ function PublicServerItem(props: {
   const server = props.publicServer.server!;
   const [joinClicked, setJoinClicked] = createSignal(false);
   const [hovered, setHovered] = createSignal(false);
+  const store = useStore();
   const navigate = useNavigate();
 
   const { createPortal } = useCustomPortal();
@@ -416,11 +417,12 @@ function PublicServerItem(props: {
       <Text class={descriptionStyles} size={12} opacity={0.6}>
         {props.publicServer.description}
       </Text>
-      <ButtonsContainer>
+      <ButtonsContainer gap={4}>
         <Button
           padding={8}
           iconSize={18}
           onClick={bumpClick}
+          margin={0}
           iconName="arrow_upward"
           label={t("explore.servers.bumpButton", {
             count: props.publicServer.bumpCount.toLocaleString(),
@@ -436,6 +438,7 @@ function PublicServerItem(props: {
           >
             <Button
               padding={8}
+              margin={0}
               iconSize={18}
               iconName="login"
               label={t("explore.servers.visitServerButton")}
@@ -444,11 +447,21 @@ function PublicServerItem(props: {
         </Show>
         <Show when={!cacheServer()}>
           <Button
+            margin={0}
             padding={8}
             iconSize={18}
             onClick={joinServerClick}
             iconName="login"
             label={t("explore.servers.joinServerButton")}
+          />
+        </Show>
+        <Show when={store.account.hasModeratorPerm()}>
+          <Button
+            margin={0}
+            padding={8}
+            iconSize={18}
+            href={`/app/moderation/servers/${props.publicServer.serverId}`}
+            iconName="security"
           />
         </Show>
       </ButtonsContainer>
