@@ -552,7 +552,6 @@ const activityImageStyles = css`
   height: 100%;
   object-fit: contain;
   border-radius: 6px;
-  background: black;
 `;
 
 const activityDetailsStyles = css`
@@ -590,7 +589,7 @@ const PresenceItem = (props: { presence: Presence }) => {
 
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {
-      return emojiToUrl(activity()?.emoji!, false);
+      return emojiToUrl(activity()?.emoji!, false, 90);
     }
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(

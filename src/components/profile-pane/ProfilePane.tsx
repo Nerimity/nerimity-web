@@ -720,7 +720,7 @@ const UserActivity = (props: {
 
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {
-      return emojiToUrl(activity()?.emoji!, false);
+      return emojiToUrl(activity()?.emoji!, false, 90);
     }
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(

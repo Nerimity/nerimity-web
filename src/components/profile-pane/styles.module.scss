@@ -250,12 +250,13 @@
 .activityImg {
   width: 60px;
   border-radius: 6px;
-  object-fit: cover;
+  object-fit: contain;
   aspect-ratio: 1/1;
-
+  
   &.videoActivityImg {
     width: 100%;
     max-width: 200px;
+    object-fit: cover;
     aspect-ratio: 16/9;
   }
 }

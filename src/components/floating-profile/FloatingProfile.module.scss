@@ -191,9 +191,10 @@ body .postItemContainer {
     width: 60px;
     height: 60px;
     border-radius: 6px;
-    object-fit: cover;
+    object-fit: contain;
     &.videoActivityImg {
       width: initial;
+      object-fit: cover;
       aspect-ratio: 16/9;
     }
   }
