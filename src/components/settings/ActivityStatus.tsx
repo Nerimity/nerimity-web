@@ -319,7 +319,14 @@ function ProgramOptions() {
               `}
             >
               <Show when={emojiUrl(item.emoji)}>
-                {(emojiUrl) => <img src={emojiUrl()} height={40} width={40} />}
+                {(emojiUrl) => (
+                  <img
+                    style={{ "object-fit": "contain" }}
+                    src={emojiUrl()}
+                    height={40}
+                    width={40}
+                  />
+                )}
               </Show>
               <FlexColumn
                 gap={4}
