@@ -1,5 +1,6 @@
 import {
   createEffect,
+  createMemo,
   createSignal,
   For,
   onCleanup,
@@ -17,7 +18,7 @@ import { Notice } from "../ui/Notice/Notice";
 import {
   electronWindowAPI,
   Program,
-  ProgramWithAction,
+  ProgramWithExtras,
 } from "@/common/Electron";
 import Button from "../ui/Button";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
@@ -34,6 +35,10 @@ import Input from "../ui/input/Input";
 import { UserActivity } from "../floating-profile/FloatingProfile";
 import { CustomLink } from "../ui/CustomLink";
 import Icon from "../ui/icon/Icon";
+import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
+import { Modal } from "../ui/modal";
+import { emojiShortcodeToUnicode } from "@/emoji";
+import { emojiToUrl } from "@/common/emojiToUrl";
 
 const Container = styled("div")`
   display: flex;
@@ -210,7 +215,7 @@ export default function WindowSettings() {
 function ProgramOptions() {
   const [programs, setPrograms] = createSignal<Program[]>([]);
   const [addedPrograms, setAddedPrograms] = useReactiveLocalStorage<
-    (Program & { action: string })[]
+    ProgramWithExtras[]
   >(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
 
   const { createPortal } = useCustomPortal();
@@ -223,14 +228,14 @@ function ProgramOptions() {
     electronWindowAPI()?.restartActivityStatus(addedPrograms());
   };
 
-  const updateProgram = (index: number, program: ProgramWithAction) => {
+  const updateProgram = (index: number, program: ProgramWithExtras) => {
     const programs = [...addedPrograms()];
     programs[index] = program;
     setAddedPrograms(programs);
     restartActivityStatus();
   };
 
-  const showEditModal = (i: number, program: ProgramWithAction) => {
+  const showEditModal = (i: number, program: ProgramWithExtras) => {
     createPortal((close) => (
       <EditActivityStatusModal
         onEdit={(p) => updateProgram(i, p)}
@@ -276,6 +281,11 @@ function ProgramOptions() {
     restartActivityStatus();
   };
 
+  const emojiUrl = (emoji?: string) => {
+    if (!emoji) return undefined;
+    return emojiToUrl(emoji, false);
+  };
+
   return (
     <FlexColumn>
       <SettingsBlock
@@ -302,10 +312,15 @@ function ProgramOptions() {
             borderBottomRadius={i() === addedPrograms().length - 1}
           >
             <FlexRow
+              gap={12}
               class={css`
                 flex: 1;
+                align-items: center;
               `}
             >
+              <Show when={emojiUrl(item.emoji)}>
+                {(emojiUrl) => <img src={emojiUrl()} height={40} width={40} />}
+              </Show>
               <FlexColumn
                 gap={4}
                 class={css`
@@ -320,17 +335,19 @@ function ProgramOptions() {
                   {item.filename}
                 </Text>
               </FlexColumn>
-              <Button
-                iconName="delete"
-                onClick={() => removeProgram(item)}
-                label="Delete"
-                color="var(--alert-color)"
-              />
-              <Button
-                iconName="edit"
-                label="Edit"
-                onClick={() => showEditModal(i(), item)}
-              />
+              <FlexRow>
+                <Button
+                  iconName="delete"
+                  onClick={() => removeProgram(item)}
+                  label="Delete"
+                  color="var(--alert-color)"
+                />
+                <Button
+                  iconName="edit"
+                  label="Edit"
+                  onClick={() => showEditModal(i(), item)}
+                />
+              </FlexRow>
             </FlexRow>
           </Block>
         )}
@@ -340,64 +357,94 @@ function ProgramOptions() {
 }
 
 const EditActivityStatusModal = (props: {
-  onEdit(newProgram: ProgramWithAction): void;
-  program: ProgramWithAction;
+  onEdit(newProgram: ProgramWithExtras): void;
+  program: ProgramWithExtras;
   close: () => void;
 }) => {
   const [newValues, setValues] = createSignal(props.program);
 
-  const actionButtons = (
-    <FlexRow style={{ flex: 1, margin: "5px" }}>
-      <Button
-        class={css`
-          flex: 1;
-          width: initial;
-        `}
-        color="var(--alert-color)"
-        onClick={props.close}
-        iconName="close"
-        label="Back"
-      />
-      <Button
-        class={css`
-          flex: 1;
-          width: initial;
-        `}
-        iconName="edit"
-        label="Edit"
-        primary
-        onClick={() => {
-          props.onEdit(newValues());
-          props.close();
-        }}
-      />
-    </FlexRow>
-  );
+  const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
+  const store = useStore();
+
+  const emojiPicked = (shortcode: string) => {
+    const customEmoji = store.servers.customEmojiNamesToEmoji()[shortcode];
+    const unicode = emojiShortcodeToUnicode(shortcode);
+    const icon =
+      unicode || `${customEmoji.id}.${customEmoji.gif ? "gif" : "webp"}`;
+
+    setValues({ ...newValues(), emoji: icon });
+    setShowEmojiPicker(false);
+  };
+
+  const emojiUrl = createMemo(() => {
+    if (!newValues().emoji) return undefined;
+    return emojiToUrl(newValues().emoji!, false);
+  });
 
   return (
-    <LegacyModal
-      title="Edit Activity Status"
-      icon="games"
-      close={props.close}
-      actionButtons={actionButtons}
-    >
-      <FlexColumn padding={6} gap={6}>
-        <Input
-          label="Executable"
-          value={newValues().filename}
-          onText={(v) => setValues({ ...newValues(), filename: v })}
+    <Modal.Root close={props.close}>
+      <Modal.Header title="Edit Activity Status" icon="edit" />
+      <Modal.Body
+        class={css`
+          overflow: auto;
+          min-width: 420px;
+        `}
+      >
+        <FlexColumn padding={6} gap={6}>
+          <Input
+            label="Executable"
+            value={newValues().filename}
+            onText={(v) => setValues({ ...newValues(), filename: v })}
+          />
+          <Input
+            label="Action"
+            value={newValues().action}
+            onText={(v) => setValues({ ...newValues(), action: v })}
+          />
+          <Input
+            label="Name"
+            value={newValues().name}
+            onText={(v) => setValues({ ...newValues(), name: v })}
+          />
+          <div>
+            <SettingsBlock
+              header={showEmojiPicker()}
+              label="Emoji"
+              icon={emojiUrl() ? undefined : "face"}
+              iconSrc={emojiUrl()}
+              onClick={() => setShowEmojiPicker(!showEmojiPicker())}
+              onClickIcon="keyboard_arrow_down"
+            />
+            <div
+              style={{
+                background: "rgba(255, 255, 255, 0.05)",
+                "margin-top": "-1px",
+              }}
+            >
+              <Show when={showEmojiPicker()}>
+                <EmojiPicker close={() => {}} onClick={emojiPicked} />
+              </Show>
+            </div>
+          </div>
+        </FlexColumn>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label="Back"
+          onClick={props.close}
+          iconName="close"
+          alert
         />
-        <Input
-          label="Action"
-          value={newValues().action}
-          onText={(v) => setValues({ ...newValues(), action: v })}
+        <Modal.Button
+          label="Save"
+          onClick={() => {
+            props.onEdit(newValues());
+            props.close();
+          }}
+          iconName="edit"
+          primary
         />
-        <Input
-          label="Name"
-          value={newValues().name}
-          onText={(v) => setValues({ ...newValues(), name: v })}
-        />
-      </FlexColumn>
-    </LegacyModal>
+      </Modal.Footer>
+    </Modal.Root>
   );
 };

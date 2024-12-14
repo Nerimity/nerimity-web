@@ -54,6 +54,7 @@ import average from "@/common/chromaJS";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import { emojiToUrl } from "@/common/emojiToUrl";
 
 interface Props {
   dmPane?: boolean;
@@ -373,7 +374,9 @@ const DesktopProfileFlyout = (props: {
                     isMe() ||
                     (!details()?.hideFollowers && !details()?.hideFollowing)
                   }
-                >{` | `}</Show>
+                >
+                  {" | "}
+                </Show>
                 <Show when={isMe() || !details()?.hideFollowers}>
                   <CustomLink
                     href={RouterEndpoints.PROFILE(user()!.id + "/followers")}
@@ -671,12 +674,15 @@ export const UserActivity = (props: {
     })
   );
 
-  const imgSrc = () => {
+  const imgSrc = createMemo(() => {
+    if (activity()?.emoji) {
+      return emojiToUrl(activity()?.emoji!, false);
+    }
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
       activity()?.imgSrc!
     )}/a`;
-  };
+  });
 
   return (
     <Show when={activity()}>
@@ -695,7 +701,7 @@ export const UserActivity = (props: {
               {activity()?.name}
             </Text>
           </div>
-          <Show when={activity()?.imgSrc}>
+          <Show when={activity()?.imgSrc || activity()?.emoji}>
             <div class={styles.richPresence}>
               <Show when={imgSrc()}>
                 <div
@@ -703,7 +709,7 @@ export const UserActivity = (props: {
                   style={{
                     "background-image": `url(${imgSrc()})`,
                   }}
-                ></div>
+                />
               </Show>
               <img
                 src={imgSrc()}
@@ -720,7 +726,7 @@ export const UserActivity = (props: {
                   size={13}
                   opacity={0.9}
                 >
-                  {activity()?.title}
+                  {activity()?.title || activity()?.name}
                 </Text>
                 <Text size={13} opacity={0.6}>
                   {activity()?.subtitle}
@@ -742,7 +748,7 @@ export const UserActivity = (props: {
               </div>
             </div>
           </Show>
-          <Show when={!activity()?.imgSrc}>
+          <Show when={!activity()?.imgSrc && !activity()?.emoji}>
             <Text class={styles.playedFor} size={13}>
               For {playedFor()}
             </Text>

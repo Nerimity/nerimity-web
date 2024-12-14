@@ -16,7 +16,7 @@ import {
 import useFriends from "../store/useFriends";
 import useAccount from "../store/useAccount";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
-import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
+import { ProgramWithExtras, electronWindowAPI } from "@/common/Electron";
 import { isExperimentEnabled } from "@/common/experiments";
 import { userInfo } from "os";
 
@@ -34,7 +34,7 @@ export function onUserPresenceUpdate(payload: {
     const wasOffline =
       !user?.presence()?.status && payload.status !== UserStatus.OFFLINE;
     if (wasOffline) {
-      const programs = getStorageObject<ProgramWithAction[]>(
+      const programs = getStorageObject<ProgramWithExtras[]>(
         StorageKeys.PROGRAM_ACTIVITY_STATUS,
         []
       );

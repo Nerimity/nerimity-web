@@ -282,6 +282,7 @@ export interface ActivityStatus {
   title?: string;
   subtitle?: string;
   link?: string;
+  emoji?: string;
 }
 export interface RawPresence {
   userId: string;

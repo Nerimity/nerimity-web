@@ -65,6 +65,7 @@ import { CreateTicketModal } from "../CreateTicketModal";
 import { MetaTitle } from "@/common/MetaTitle";
 import average from "@/common/chromaJS";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
+import { emojiToUrl } from "@/common/emojiToUrl";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -717,12 +718,15 @@ const UserActivity = (props: {
   const isLiveStream = () =>
     !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
 
-  const imgSrc = () => {
+  const imgSrc = createMemo(() => {
+    if (activity()?.emoji) {
+      return emojiToUrl(activity()?.emoji!, false);
+    }
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
       activity()?.imgSrc!
     )}/a`;
-  };
+  });
 
   createEffect(
     on(activity, () => {
@@ -769,7 +773,7 @@ const UserActivity = (props: {
           </span>
         </FlexRow>
 
-        <Show when={activity()?.imgSrc}>
+        <Show when={activity()?.imgSrc || activity()?.emoji}>
           <div class={styles.richPresence}>
             <Show when={imgSrc()}>
               <div
@@ -794,7 +798,7 @@ const UserActivity = (props: {
                 isDangerousLink
                 newTab
               >
-                {activity()?.title}
+                {activity()?.title || activity()?.name}
               </Text>
 
               <Text size={13} opacity={0.6}>
@@ -818,7 +822,7 @@ const UserActivity = (props: {
           </div>
         </Show>
 
-        <Show when={!activity()?.imgSrc}>
+        <Show when={!activity()?.imgSrc && !activity()?.emoji}>
           <Text
             class={styles.playedFor}
             style={{

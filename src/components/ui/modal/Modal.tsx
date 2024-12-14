@@ -29,8 +29,29 @@ interface RootProps {
 const Root = (props: RootProps) => {
   const { isMobileWidth } = useWindowProperties();
 
+  let startClick = { x: 0, y: 0 };
+  let textSelected = false;
+
   const onBackgroundClick = (event: MouseEvent) => {
-    if (event.target === event.currentTarget) props.close?.();
+    if (event.target !== event.currentTarget) return;
+
+    const xDistance = Math.abs(startClick.x - event.clientX);
+    const yDistance = Math.abs(startClick.y - event.clientY);
+
+    const clickedPos = xDistance > 3 || yDistance > 3;
+    if (clickedPos || textSelected) {
+      return;
+    }
+
+    props.close?.();
+  };
+
+  const onMouseDown = (event: MouseEvent) => {
+    startClick = {
+      x: event.clientX,
+      y: event.clientY,
+    };
+    textSelected = !!window.getSelection()?.toString();
   };
 
   onMount(() => {
@@ -48,6 +69,7 @@ const Root = (props: RootProps) => {
     <ModalContext.Provider value={{ close: props.close }}>
       <div
         onMouseUp={onBackgroundClick}
+        onMouseDown={onMouseDown}
         class={cn(
           style.modalBackground,
           isMobileWidth() ? style.mobile : undefined

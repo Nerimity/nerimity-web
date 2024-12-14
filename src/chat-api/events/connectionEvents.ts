@@ -7,7 +7,7 @@ import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 import useVoiceUsers from "../store/useVoiceUsers";
 import { StorageKeys, getStorageObject } from "@/common/localStorage";
-import { ProgramWithAction, electronWindowAPI } from "@/common/Electron";
+import { ProgramWithExtras, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 import { localRPC } from "@/common/LocalRPC";
@@ -61,7 +61,7 @@ electronWindowAPI()?.activityStatusChanged((window) => {
   if (!window) {
     return emitActivityStatus(null);
   }
-  const programs = getStorageObject<ProgramWithAction[]>(
+  const programs = getStorageObject<ProgramWithExtras[]>(
     StorageKeys.PROGRAM_ACTIVITY_STATUS,
     []
   );
@@ -77,12 +77,13 @@ electronWindowAPI()?.activityStatusChanged((window) => {
     action: program.action || "Playing",
     name: program.name,
     startedAt: window.createdAt,
+    emoji: program.emoji,
   });
 });
 
 electronWindowAPI()?.rpcChanged((data) => {
   if (!data) {
-    const programs = getStorageObject<ProgramWithAction[]>(
+    const programs = getStorageObject<ProgramWithExtras[]>(
       StorageKeys.PROGRAM_ACTIVITY_STATUS,
       []
     );
@@ -218,7 +219,7 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   const t1 = performance.now();
   console.log(`${t1 - t0} milliseconds.`);
 
-  const programs = getStorageObject<ProgramWithAction[]>(
+  const programs = getStorageObject<ProgramWithExtras[]>(
     StorageKeys.PROGRAM_ACTIVITY_STATUS,
     []
   );

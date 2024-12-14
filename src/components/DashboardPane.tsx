@@ -14,6 +14,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useNavigate, useSearchParams } from "solid-navigator";
 import {
   createEffect,
+  createMemo,
   createSignal,
   For,
   JSXElement,
@@ -41,6 +42,7 @@ import { MetaTitle } from "@/common/MetaTitle";
 import { MentionUser } from "./markup/MentionUser";
 import { useCustomScrollbar } from "./custom-scrollbar/CustomScrollbar";
 import { Item } from "./ui/Item";
+import { emojiToUrl } from "@/common/emojiToUrl";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -586,12 +588,15 @@ const PresenceItem = (props: { presence: Presence }) => {
     return store.users.get(props.presence.userId);
   };
 
-  const imgSrc = () => {
+  const imgSrc = createMemo(() => {
+    if (activity()?.emoji) {
+      return emojiToUrl(activity()?.emoji!, false);
+    }
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
       activity()?.imgSrc!
     )}/a`;
-  };
+  });
 
   return (
     <PresenceItemContainer

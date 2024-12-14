@@ -10,8 +10,9 @@ export interface Program {
   name: string;
   filename: string;
 }
-export type ProgramWithAction = Program & {
+export type ProgramWithExtras = Program & {
   action: string;
+  emoji?: string;
 };
 
 export interface RPC {
