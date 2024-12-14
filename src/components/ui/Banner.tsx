@@ -53,6 +53,7 @@ export function Banner(props: {
   maxHeight?: number;
   animate?: boolean;
   children?: JSXElement;
+  style?: JSX.CSSProperties;
 }) {
   const { hasFocus } = useWindowProperties();
 
@@ -76,6 +77,7 @@ export function Banner(props: {
   const getStyles = () => {
     const styles: JSX.CSSProperties = {
       flex: "1",
+      ...props.style,
     };
 
     if (props.maxHeight !== undefined) {

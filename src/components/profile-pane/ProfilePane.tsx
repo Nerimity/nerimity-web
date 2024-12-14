@@ -194,21 +194,23 @@ export default function ProfilePane() {
     <>
       <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
       <Show when={user()}>
+        <Banner
+          maxHeight={320}
+          animate
+          margin={0}
+          hexColor={user()?.hexColor}
+          url={bannerUrl(user()!)}
+          class={css`
+            z-index: 111;
+            margin: 4px;
+          `}
+          style={isVisible() ? { "margin-right": "10px" } : {}}
+        />
         <div
           class={styles.profilePane}
           style={isVisible() ? { "margin-right": "10px" } : {}}
         >
           <div class={classNames(styles.topArea)}>
-            <Banner
-              maxHeight={250}
-              animate
-              margin={0}
-              hexColor={user()?.hexColor}
-              url={bannerUrl(user()!)}
-              class={css`
-                z-index: 111;
-              `}
-            />
             <FlexColumn class={styles.topAreaContent}>
               <FlexRow>
                 <Avatar
