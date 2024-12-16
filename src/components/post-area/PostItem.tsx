@@ -343,15 +343,17 @@ const Actions = (props: {
         </Tooltip>
       </Show>
 
-      <div class={style.rightActions}>
-        <Button
-          onclick={showContextMenu}
-          margin={0}
-          class={cn(style.postButtonStyle, "post-more-button")}
-          iconClass={style.icon}
-          iconName="more_vert"
-        />
-      </div>
+      <Show when={showDeleteAndEdit() || account.hasModeratorPerm()}>
+        <div class={style.rightActions}>
+          <Button
+            onclick={showContextMenu}
+            margin={0}
+            class={cn(style.postButtonStyle, "post-more-button")}
+            iconClass={style.icon}
+            iconName="more_vert"
+          />
+        </div>
+      </Show>
     </div>
   );
 };
