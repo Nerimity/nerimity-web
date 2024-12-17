@@ -199,16 +199,18 @@ export default function ProfilePane() {
           style={isVisible() ? { "margin-right": "10px" } : {}}
         >
           <div class={classNames(styles.topArea)}>
-            <Banner
-              maxHeight={250}
-              animate
-              margin={0}
-              hexColor={user()?.hexColor}
-              url={bannerUrl(user()!)}
-              class={css`
-                z-index: 111;
-              `}
-            />
+            <Show when={user()?.banner || true} keyed={true}>
+              <Banner
+                maxHeight={250}
+                animate
+                margin={0}
+                hexColor={user()?.hexColor}
+                url={bannerUrl(user()!)}
+                class={css`
+                  z-index: 111;
+                `}
+              />
+            </Show>
             <FlexColumn class={styles.topAreaContent}>
               <FlexRow>
                 <Avatar
