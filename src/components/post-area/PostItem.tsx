@@ -22,7 +22,11 @@ import { RadioBoxItem } from "../ui/RadioBox";
 import { DeletePostModal, EditPostModal } from "../PostsArea";
 import { css } from "solid-styled-components";
 import ContextMenu from "../ui/context-menu/ContextMenu";
-import { pinPost, unpinPost } from "@/chat-api/services/PostService";
+import {
+  pinPost,
+  repostPost,
+  unpinPost,
+} from "@/chat-api/services/PostService";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -35,6 +39,7 @@ const timestampViewsEnabledAt = viewsEnabledAt.getTime();
 export function PostItem(props: {
   primaryColor?: string;
   bgColor?: string;
+  reposted?: boolean;
   showFullDate?: boolean;
   disableClick?: boolean;
   hideDelete?: boolean;
@@ -44,6 +49,12 @@ export function PostItem(props: {
   pinned?: boolean;
 }) {
   const { posts } = useStore();
+
+  if (props.post.repost) {
+    posts.pushPost(props.post.repost);
+    const post = () => posts.cachedPost(props.post.repost?.id!);
+    return <PostItem {...props} post={post()!} reposted />;
+  }
   const [search, setSearchParams] = useSearchParams<{ postId: string }>();
   const [hovered, setHovered] = createSignal(false);
 
@@ -119,6 +130,9 @@ export function PostItem(props: {
       <Show when={!props.post.deleted && !props.post.block}>
         <Show when={pinned()}>
           <Pinned />
+        </Show>
+        <Show when={props.reposted}>
+          <Reposted post={props.post} />
         </Show>
         <Show when={replyingTo()}>
           <ReplyTo user={replyingTo()!.createdBy} />
@@ -216,6 +230,8 @@ const Actions = (props: {
   const onCommentClick = () => setSearchParams({ postId: props.post.id });
 
   const isLikedByMe = () => props.post?.likedBy?.length;
+  const isRepostedByMe = () =>
+    props.post?.reposts?.find((r) => r.createdBy.id === account.user()?.id);
   const likedIcon = () => (isLikedByMe() ? "favorite" : "favorite_border");
 
   const onLikeClick = async () => {
@@ -228,6 +244,14 @@ const Actions = (props: {
     }
     await props.post.like();
     setRequestSent(false);
+  };
+
+  const onRepostClick = () => {
+    if (isRepostedByMe()) {
+      props.post.unRepostPost();
+    } else {
+      props.post.repostPost();
+    }
   };
 
   const onDeleteClick = () =>
@@ -329,6 +353,16 @@ const Actions = (props: {
         iconClass={style.icon}
         iconName="comment"
         label={props.post._count?.comments.toLocaleString()}
+      />
+      <Button
+        margin={0}
+        onClick={onRepostClick}
+        class={style.postButtonStyle}
+        color="var(--success-color)"
+        primary={!!isRepostedByMe()}
+        iconClass={style.icon}
+        iconName="repeat"
+        label={props.post._count?.reposts.toLocaleString()}
       />
       <Show when={showViews()}>
         <Tooltip tooltip="Estimated Views">
@@ -524,6 +558,29 @@ const Pinned = () => {
       <Icon name="push_pin" color="var(--primary-color)" size={16} />
       <Text size={14} style={{ "margin-right": "5px" }}>
         Pinned
+      </Text>
+    </div>
+  );
+};
+const Reposted = (props: { post: Post }) => {
+  const repostUsers = createMemo(() =>
+    props.post.reposts.map((r) => r.createdBy)
+  );
+  return (
+    <div class={style.pinnedContainer}>
+      <Icon name="repeat" color="var(--success-color)" size={16} />
+      <Text size={14} style={{ "margin-right": "5px" }}>
+        Reposted by{" "}
+        <For each={repostUsers()}>
+          {(user, i) => (
+            <>
+              {i() ? ", " : null}
+              <CustomLink decoration href={RouterEndpoints.PROFILE(user?.id!)}>
+                {user?.username}
+              </CustomLink>
+            </>
+          )}
+        </For>
       </Text>
     </div>
   );

@@ -407,6 +407,7 @@
     },
     "postWasDeleted": "This post was deleted!",
     "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
+    "someoneRepostedYourPost": "<1>{{username}}</1> reposted your post!",
     "someoneFollowedYou": "<1>{{username}}</1> followed you!",
     "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
     "createAPostInputPlaceholder": "Create a post...",

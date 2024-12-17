@@ -14,12 +14,15 @@ import {
   getPostsLiked,
   likePost,
   postVotePoll,
+  repostPost,
   unlikePost,
 } from "../services/PostService";
 import useAccount from "./useAccount";
 
 export type Post = RawPost & {
   like(this: Post): Promise<string>;
+  repostPost(this: Post): Promise<string>;
+  unRepostPost(this: Post): Promise<string>;
   delete(this: Post): Promise<void>;
   unlike(this: Post): Promise<string>;
   loadComments(this: Post): Promise<RawPost[]>;
@@ -70,6 +73,41 @@ export function usePosts() {
             deleted: true,
           });
         },
+
+        async repostPost() {
+          await repostPost(this.id).then((res) => {
+            setState("posts", this.id, res.repost);
+          });
+          return this.id;
+        },
+        async unRepostPost() {
+          const account = useAccount();
+          const userId = account.user()?.id;
+
+          const repostId = this.reposts.find(
+            (r) => r.createdBy.id === userId
+          )?.id;
+
+          if (!repostId) return "";
+
+          await deletePost(repostId).then(() => {
+            setState(
+              "posts",
+              this.id,
+              reconcile({
+                ...this,
+                reposts: this.reposts.filter((r) => r.createdBy.id !== userId),
+                _count: {
+                  ...this._count,
+                  reposts: this._count.reposts - 1,
+                },
+              })
+            );
+          });
+
+          return this.id;
+        },
+
         async like() {
           const newPost = await likePost(this.id);
           setState("posts", newPost.id, { ...this, ...newPost });

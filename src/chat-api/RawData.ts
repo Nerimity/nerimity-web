@@ -313,7 +313,9 @@ export interface RawPost {
   createdAt: number;
   editedAt: number;
   likedBy: { id: string }[]; // if you liked this post, array will not be empty
-  _count: { likedBy: number; comments: number };
+  reposts: { id: string; createdBy: { id: string; username: string } }[];
+  repost?: RawPost;
+  _count: { likedBy: number; comments: number; reposts: number };
   views: number;
   announcement: any;
 
@@ -342,6 +344,7 @@ export enum PostNotificationType {
   LIKED = 0,
   REPLIED = 1,
   FOLLOWED = 2,
+  REPOSTED = 3,
 }
 
 export interface RawPostNotification {

@@ -523,9 +523,20 @@ export function PostsArea(props: {
 
   const cachedReplies = () => {
     if (props.showDiscover) return posts.cachedDiscover();
+    if (props.showFeed) return removeDuplicateReposts(posts.cachedFeed());
     if (props.showFeed) return posts.cachedFeed();
     if (props.userId) return posts.cachedUserPosts(props.userId!);
     return posts.cachedPost(props.postId!)?.cachedComments();
+  };
+
+  const removeDuplicateReposts = (posts: Post[]) => {
+    const duplicateIds: string[] = [];
+    return posts.filter((post) => {
+      if (!post.repost?.id) return true;
+      if (duplicateIds.includes(post.repost?.id)) return false;
+      duplicateIds.push(post.repost?.id!);
+      return true;
+    });
   };
 
   createEffect(async () => {
@@ -916,6 +927,75 @@ function PostNotification(props: { notification: RawPostNotification }) {
       </FlexRow>
     );
   };
+  const Reposted = () => {
+    posts.pushPost(props.notification.post!);
+    const cachedPost = () => posts.cachedPost(props.notification.post?.id!);
+
+    const showPost = () =>
+      setSearchParams({ postId: props.notification.post?.id! });
+
+    return (
+      <FlexRow gap={6} onclick={showPost}>
+        <Icon
+          class={css`
+            margin-top: 4px;
+          `}
+          name="repeat"
+          color="var(--success-color)"
+        />
+        <A
+          onclick={(e) => e.stopPropagation()}
+          href={RouterEndpoints.PROFILE(props.notification.by.id)}
+          style={{ "margin-left": "6px", "margin-right": "6px" }}
+        >
+          <Avatar user={props.notification.by} size={30} />
+        </A>
+        <FlexColumn gap={2} style={{ overflow: "hidden" }}>
+          <FlexRow gap={6} style={{ "align-items": "center" }}>
+            <Text size={14} class={notificationUsernameStyles}>
+              <Trans
+                key="posts.someoneRepostedYourPost"
+                options={{ username: props.notification.by.username }}
+              >
+                <strong
+                  class={notificationUsernameStyles}
+                  style={{
+                    display: "inline-block",
+                    "max-width": "200px",
+                    "vertical-align": "bottom",
+                  }}
+                >
+                  {"username"}
+                </strong>
+                reposted your post!
+              </Trans>
+            </Text>
+            <Text opacity={0.6} size={12}>
+              {formatTimestamp(props.notification.createdAt)}
+            </Text>
+          </FlexRow>
+          <div
+            style={{
+              opacity: 0.6,
+              "font-size": "14px",
+              overflow: "hidden",
+              "text-overflow": "ellipsis",
+              "-webkit-line-clamp": "3",
+              display: "-webkit-box",
+              "-webkit-box-orient": "vertical",
+            }}
+          >
+            <Show when={!cachedPost()?.deleted}>
+              <Markup text={cachedPost()?.content || ""} />
+            </Show>
+            <Show when={cachedPost()?.deleted}>
+              {t("posts.postWasDeleted")}
+            </Show>
+          </div>
+        </FlexColumn>
+      </FlexRow>
+    );
+  };
 
   return (
     <PostOuterContainer>
@@ -929,6 +1009,9 @@ function PostNotification(props: { notification: RawPostNotification }) {
 
       <Show when={props.notification.type === PostNotificationType.REPLIED}>
         <Reply />
+      </Show>
+      <Show when={props.notification.type === PostNotificationType.REPOSTED}>
+        <Reposted />
       </Show>
     </PostOuterContainer>
   );

@@ -111,6 +111,15 @@ export const pinPost = async (postId: string) => {
   return data;
 };
 
+export const repostPost = async (postId: string) => {
+  const data = await request<RawPost>({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.post(postId) + "/repost",
+    useToken: true,
+  });
+  return data;
+};
+
 export const unpinPost = async (postId: string) => {
   const data = await request<RawPost>({
     method: "DELETE",
