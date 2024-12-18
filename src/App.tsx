@@ -21,7 +21,10 @@ import ContextMenu, {
 } from "./components/ui/context-menu/ContextMenu";
 import { Delay } from "./common/Delay";
 import useStore from "./chat-api/store/useStore";
-import { RemindersModal } from "./components/reminders-modal/RemindersModal";
+
+const RemindersModal = lazy(
+  () => import("./components/reminders-modal/RemindersModal")
+);
 
 const ConnectingStatusHeader = lazy(
   () => import("@/components/connecting-status-header/ConnectingStatusHeader")

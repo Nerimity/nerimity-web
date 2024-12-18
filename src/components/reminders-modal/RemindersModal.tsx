@@ -23,10 +23,10 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { deleteReminder } from "@/chat-api/services/ReminderService";
 import { PostItem } from "../post-area/PostItem";
 
-export const RemindersModal = (props: {
+export default function RemindersModal(props: {
   channelId?: string;
   close: () => void;
-}) => {
+}) {
   const [showAll, setShowAll] = createSignal(false);
   const [now, setNow] = createSignal(Date.now());
 
@@ -87,7 +87,7 @@ export const RemindersModal = (props: {
       </Show>
     </Modal.Root>
   );
-};
+}
 
 const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
   const navigate = useNavigate();

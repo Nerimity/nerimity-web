@@ -1,13 +1,13 @@
 import { FriendStatus } from "@/chat-api/RawData";
 import useStore from "@/chat-api/store/useStore";
 import { createContextProvider } from "@solid-primitives/context";
-import { createMemo, createSignal } from "solid-js";
+import { createMemo, createSignal, lazy } from "solid-js";
 import AddFriendModal from "./add-friend/AddFriendModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { useParams } from "solid-navigator";
 import { BlockedUsersModal } from "./HomeDrawer";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
-import { RemindersModal } from "../reminders-modal/RemindersModal";
+const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
 const useFriendsController = () => {
   const store = useStore();

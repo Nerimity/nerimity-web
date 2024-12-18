@@ -79,8 +79,9 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { t } from "i18next";
-import { RemindersModal } from "../reminders-modal/RemindersModal";
 import useServerRoles from "@/chat-api/store/useServerRoles";
+
+const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
 const DeleteMessageModal = lazy(
   () => import("./message-delete-modal/MessageDeleteModal")
