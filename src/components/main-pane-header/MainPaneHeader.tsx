@@ -584,6 +584,7 @@ function VoiceActions(props: { channelId: string }) {
             color="var(--alert-color)"
           />
         </Show>
+        <VoiceDeafenActions channelId={props.channelId} />
         <VoiceMicActions channelId={props.channelId} />
         <Button
           iconName="call_end"
@@ -598,11 +599,11 @@ function VoiceActions(props: { channelId: string }) {
 
 function VoiceMicActions(props: { channelId: string }) {
   const {
-    voiceUsers: { isLocalMicMuted, toggleMic },
+    voiceUsers: { isLocalMicMuted, toggleMic, deafened },
   } = useStore();
 
   return (
-    <>
+    <Show when={!deafened.enabled}>
       <Show when={isLocalMicMuted()}>
         <Button
           iconName="mic_off"
@@ -616,6 +617,31 @@ function VoiceMicActions(props: { channelId: string }) {
           iconName="mic"
           color="var(--success-color)"
           onClick={toggleMic}
+        />
+      </Show>
+    </Show>
+  );
+}
+function VoiceDeafenActions(props: { channelId: string }) {
+  const { voiceUsers } = useStore();
+
+  const isDeafened = () => voiceUsers.deafened.enabled;
+
+  return (
+    <>
+      <Show when={isDeafened()}>
+        <Button
+          iconName="headset_off"
+          color="var(--alert-color)"
+          label="Deafened"
+          onClick={voiceUsers.toggleDeafen}
+        />
+      </Show>
+      <Show when={!isDeafened()}>
+        <Button
+          iconName="headset_mic"
+          color="var(--primary-color)"
+          onClick={voiceUsers.toggleDeafen}
         />
       </Show>
     </>

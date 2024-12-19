@@ -68,6 +68,10 @@ type VoiceUsersMap = Record<string, ChannelUsersMap>;
 
 // voiceUsers[channelId][userId] = VoiceUser
 const [voiceUsers, setVoiceUsers] = createStore<VoiceUsersMap>({});
+const [deafened, setDeafened] = createStore({
+  enabled: false,
+  wasMicEnabled: false,
+});
 
 interface CurrentVoiceUser {
   channelId: string;
@@ -91,6 +95,34 @@ createEffect(
     start();
   })
 );
+
+function toggleDeafen() {
+  const newDeafenEnabled = !deafened.enabled;
+  const currentUser = currentVoiceUser();
+  if (!currentUser) return;
+
+  const isMicEnabled = !!currentUser.audioStream;
+
+  const voiceUsers = getVoiceUsersByChannelId(currentUser.channelId);
+  voiceUsers.forEach((voiceUser) => {
+    if (voiceUser.audio) {
+      voiceUser.audio.muted = newDeafenEnabled;
+    }
+  });
+
+  if (!newDeafenEnabled && deafened.wasMicEnabled) {
+    enableMic();
+  }
+
+  if (newDeafenEnabled && isMicEnabled) {
+    disableMic();
+  }
+
+  batch(() => {
+    setDeafened("enabled", newDeafenEnabled);
+    setDeafened("wasMicEnabled", isMicEnabled);
+  });
+}
 
 const micTrack = createMemo(() => {
   const current = currentVoiceUser();
@@ -141,6 +173,7 @@ const setCurrentChannelId = (channelId: string | null) => {
   }
   if (!channelId) {
     setCurrentVoiceUser(undefined);
+    setDeafened("wasMicEnabled", false);
     return;
   }
   setCurrentVoiceUser({
@@ -331,6 +364,7 @@ const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
     if (!streams) return;
 
     const audio = newVoiceUser.audio || new Audio();
+    audio.muted = deafened();
     const deviceId = getStorageString(StorageKeys.outputDeviceId, undefined);
     if (deviceId) {
       audio.setSinkId(JSON.parse(deviceId));
@@ -441,7 +475,8 @@ const pushVoiceUserTrack = (
     tracks: [track],
   });
 };
-const toggleMic = async () => {
+
+const disableMic = () => {
   const userId = useAccount().user()?.id!;
   const current = currentVoiceUser();
   if (!current) return;
@@ -458,6 +493,15 @@ const toggleMic = async () => {
       voiceActivity: false,
     });
 
+    return;
+  }
+};
+
+const enableMic = async () => {
+  const current = currentVoiceUser();
+  if (!current) return;
+
+  if (current.audioStream) {
     return;
   }
   const deviceId = getStorageString(StorageKeys.inputDeviceId, undefined);
@@ -495,6 +539,17 @@ const toggleMic = async () => {
     vadInstance,
     vadAudioStream: vadStream,
   });
+};
+
+const toggleMic = async () => {
+  const current = currentVoiceUser();
+  if (!current) return;
+
+  if (current.audioStream) {
+    disableMic();
+    return;
+  }
+  enableMic();
 };
 
 const setVideoStream = (stream: MediaStream | null) => {
@@ -599,5 +654,7 @@ export default function useVoiceUsers() {
     isLocalMicMuted: () => !currentVoiceUser()?.audioStream,
 
     micEnabled,
+    toggleDeafen,
+    deafened,
   };
 }

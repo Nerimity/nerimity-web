@@ -9,14 +9,13 @@ import { CustomLink } from "./ui/CustomLink";
 import { timeElapsed } from "@/common/date";
 import Button from "./ui/Button";
 
-const InVoiceActionsContainer = styled(FlexRow)`
+const InVoiceActionsContainer = styled(FlexColumn)`
   background-color: rgb(15, 15, 15);
   margin: 5px;
   margin-bottom: 0;
   border-radius: 8px;
-  height: 50px;
   flex-shrink: 0;
-  align-items: center;
+  padding-top: 6px;
 
   position: sticky;
   bottom: 5px;
@@ -25,6 +24,7 @@ const InVoiceActionsContainer = styled(FlexRow)`
 const DetailsContainer = styled(FlexColumn)`
   overflow: hidden;
   gap: 2px;
+  margin-right: 5px;
 `;
 
 export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
@@ -48,29 +48,31 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
   return (
     <Show when={channelId()}>
       <InVoiceActionsContainer style={props?.style}>
-        <Icon
-          name="call"
-          color="var(--success-color)"
-          size={18}
-          style={{ padding: "10px", "padding-right": "5px" }}
-        />
-        <DetailsContainer>
-          <Text size={12}>
-            Connected for <CallTime channelId={channelId()!} />
-          </Text>
-          <CustomLink
-            href={href()}
-            decoration
-            style={{
-              "font-size": "12px",
-              "white-space": "nowrap",
-              overflow: "hidden",
-              "text-overflow": "ellipsis",
-            }}
-          >
-            {name()}
-          </CustomLink>
-        </DetailsContainer>
+        <FlexRow>
+          <Icon
+            name="call"
+            color="var(--success-color)"
+            size={18}
+            style={{ padding: "10px", "padding-right": "5px" }}
+          />
+          <DetailsContainer>
+            <Text size={12}>
+              Connected for <CallTime channelId={channelId()!} />
+            </Text>
+            <CustomLink
+              href={href()}
+              decoration
+              style={{
+                "font-size": "12px",
+                "white-space": "nowrap",
+                overflow: "hidden",
+                "text-overflow": "ellipsis",
+              }}
+            >
+              {name()}
+            </CustomLink>
+          </DetailsContainer>
+        </FlexRow>
         <ActionButtons channelId={channelId()!} />
       </InVoiceActionsContainer>
     </Show>
@@ -79,8 +81,11 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
 
 const ActionButtonsContainer = styled(FlexRow)`
   gap: 5px;
-  margin-left: auto;
-  margin-right: 10px;
+  padding: 5px;
+  padding-top: 0;
+  button {
+    flex: 1;
+  }
 `;
 
 function ActionButtons(props: { channelId: string }) {
@@ -88,6 +93,7 @@ function ActionButtons(props: { channelId: string }) {
   const channel = () => channels.get(props.channelId);
   return (
     <ActionButtonsContainer>
+      <VoiceDeafenButton channelId={props.channelId} />
       <VoiceMicButton channelId={props.channelId} />
       <Button
         margin={0}
@@ -102,11 +108,13 @@ function ActionButtons(props: { channelId: string }) {
 
 function VoiceMicButton(props: { channelId: string }) {
   const {
-    voiceUsers: { isLocalMicMuted, toggleMic },
+    voiceUsers: { isLocalMicMuted, toggleMic, deafened },
   } = useStore();
 
+  const isDeafened = () => deafened.enabled;
+
   return (
-    <>
+    <Show when={!isDeafened()}>
       <Show when={isLocalMicMuted()}>
         <Button
           margin={0}
@@ -123,6 +131,34 @@ function VoiceMicButton(props: { channelId: string }) {
           iconSize={16}
           color="var(--success-color)"
           onClick={toggleMic}
+        />
+      </Show>
+    </Show>
+  );
+}
+function VoiceDeafenButton(props: { channelId: string }) {
+  const { voiceUsers } = useStore();
+
+  const isDeafened = () => voiceUsers.deafened.enabled;
+
+  return (
+    <>
+      <Show when={isDeafened()}>
+        <Button
+          margin={0}
+          iconName="headset_off"
+          iconSize={16}
+          color="var(--alert-color)"
+          onClick={voiceUsers.toggleDeafen}
+        />
+      </Show>
+      <Show when={!isDeafened()}>
+        <Button
+          margin={0}
+          iconName="headset_mic"
+          iconSize={16}
+          color="var(--primary-color)"
+          onClick={voiceUsers.toggleDeafen}
         />
       </Show>
     </>
