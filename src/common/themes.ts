@@ -9,7 +9,7 @@ const DarkTheme = {
   "tooltip-background-color": "rgb(40, 40, 40)",
   "primary-color": "#4c93ff",
   "alert-color": "#eb6e6e",
-  "warn-color": "#e8a859",
+  "warn-color": "#ff8f2c",
   "success-color": "#78e380",
   "success-color-dark": "#1c221d",
   "primary-color-dark": "#2d3746",
