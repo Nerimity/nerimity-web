@@ -49,6 +49,9 @@ export function CreateTicketModal(props: {
     { id: "OTHER", label: "Other" },
   ];
 
+  const hasProblem = () =>
+    ["ABUSE", "OTHER", "ACCOUNT", "QUESTION"].includes(selectedCategoryId());
+
   const createTicketClick = async () => {
     if (requestSent()) return;
 
@@ -62,6 +65,13 @@ export function CreateTicketModal(props: {
     if (!body()) {
       setError("Please enter a body");
       return;
+    }
+
+    if (hasProblem()) {
+      if (body().length < 100) {
+        setError("Description must be at least 200 characters.");
+        return;
+      }
     }
 
     if (selectedCategoryId() !== "ABUSE") {
@@ -173,11 +183,7 @@ export function CreateTicketModal(props: {
             />
           </Show>
 
-          <Show
-            when={["ABUSE", "OTHER", "ACCOUNT", "QUESTION"].includes(
-              selectedCategoryId()
-            )}
-          >
+          <Show when={hasProblem()}>
             <Input
               label="In one short sentence, what is the problem?"
               value={title()}
