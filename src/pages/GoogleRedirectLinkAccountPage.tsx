@@ -18,7 +18,6 @@ const PageContainer = styled("div")`
 const Content = styled("div")`
   display: flex;
   flex-direction: column;
-  background: var(--pane-color);
   margin: 8px;
   margin-top: 0;
   margin-bottom: 0;
@@ -37,7 +36,7 @@ const CenterContainer = styled(FlexColumn)`
 `;
 
 export default function GoogleRedirectLinkAccountPage() {
-  const [searchParams] = useSearchParams<{state: string, code: string}>();
+  const [searchParams] = useSearchParams<{ state: string; code: string }>();
   const [error, setError] = createSignal("");
   const [success, setSuccess] = createSignal(false);
 
@@ -45,7 +44,7 @@ export default function GoogleRedirectLinkAccountPage() {
     const code = searchParams.code;
     const userToken = searchParams.state;
 
-    const res = await linkAccountWithGoogle(code!, userToken!).catch(err => {
+    const res = await linkAccountWithGoogle(code!, userToken!).catch((err) => {
       setError(err.message);
     });
 
@@ -55,22 +54,23 @@ export default function GoogleRedirectLinkAccountPage() {
     }
   });
 
-
-
   return (
     <PageContainer class="page-container">
-      <PageHeader hideAccountInfo  />
-      <Content class='content'>
+      <PageHeader hideAccountInfo />
+      <Content class="content">
         <CenterContainer>
-
           Linking your account with Google...
-
-          <Show when={error()}><Text color='var(--alert-color)'>{error()}</Text></Show>
-          <Show when={success()}><Text color='var(--success-color)'>Account linked! You may close this window now.</Text></Show>
-
+          <Show when={error()}>
+            <Text color="var(--alert-color)">{error()}</Text>
+          </Show>
+          <Show when={success()}>
+            <Text color="var(--success-color)">
+              Account linked! You may close this window now.
+            </Text>
+          </Show>
         </CenterContainer>
       </Content>
-      <PageFooter/>
+      <PageFooter />
     </PageContainer>
   );
 }

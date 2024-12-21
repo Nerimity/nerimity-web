@@ -23,7 +23,6 @@ const LoginPageContainer = styled("div")`
 `;
 
 const Content = styled(FlexColumn)`
-  background: var(--pane-color);
   height: 100%;
   border-radius: 8px;
   margin: 8px;

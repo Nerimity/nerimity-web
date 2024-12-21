@@ -14,30 +14,45 @@ import Avatar from "./ui/Avatar";
 
 const HeaderContainer = styled("header")`
   display: flex;
-  height: 70px;
+  height: 58px;
   flex-shrink: 0;
+  background-color: var(--pane-color);
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+  align-self: center;
+  margin-top: 14px;
+  box-sizing: border-box;
+
+  @media (max-width: 820px) {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100% - 20px);
+  }
 `;
 
 const titleContainerStyle = css`
   display: flex;
   align-items: center;
-  font-size: 24px;
+  font-size: 20px;
   align-self: center;
-  margin-left: 10px;
   height: 50px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-left: 3px;
   color: white;
   text-decoration: none;
   transition: 0.2s;
   border-radius: 8px;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 `;
 
 const Title = styled("div")`
   margin-left: 10px;
+  padding-right: 4px;
   @media (max-width: 500px) {
     display: none;
   }
@@ -54,9 +69,9 @@ const Logo = styled("img")`
 const NavigationContainer = styled("nav")`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   margin-left: auto;
-  margin-right: 10px;
+  margin-right: 4px;
 
   .register-button div {
     background: #4c93ff;
@@ -67,7 +82,7 @@ const NavigationContainer = styled("nav")`
 const LinkContainer = styled("div")<{ primary: boolean }>`
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
   transition: 0.2s;
   color: white;
   text-decoration: none;
@@ -77,7 +92,7 @@ const LinkContainer = styled("div")<{ primary: boolean }>`
   padding-right: 15px;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 
   && {
@@ -138,14 +153,16 @@ export default function PageHeader(props: { hideAccountInfo?: boolean }) {
         <Logo src={appLogoUrl()} alt="logo" />
         <Title>Nerimity</Title>
       </A>
-      <Switch fallback={<LogInLogOutSkeleton />}>
-        <Match when={user() === false}>
-          <LoggedOutLinks />
-        </Match>
-        <Match when={user()}>
-          <LoggedInLinks user={user() as RawUser} />
-        </Match>
-      </Switch>
+      <Show when={!props.hideAccountInfo}>
+        <Switch fallback={<LogInLogOutSkeleton />}>
+          <Match when={user() === false}>
+            <LoggedOutLinks />
+          </Match>
+          <Match when={user()}>
+            <LoggedInLinks user={user() as RawUser} />
+          </Match>
+        </Switch>
+      </Show>
     </HeaderContainer>
   );
 }
@@ -153,8 +170,8 @@ export default function PageHeader(props: { hideAccountInfo?: boolean }) {
 function LogInLogOutSkeleton() {
   return (
     <NavigationContainer class="navigation-container">
-      <Skeleton.Item width="110px" height="50px" />
-      <Skeleton.Item width="140px" height="50px" />
+      <Skeleton.Item width="106px" height="50px" />
+      <Skeleton.Item width="130px" height="50px" />
       <Skeleton.Item
         width="38px"
         height="38px"
@@ -178,6 +195,7 @@ function LoggedInLinks(props: { user: RawUser }) {
     <NavigationContainer class="navigation-container">
       <HeaderLink
         href="#"
+        color="var(--alert-color)"
         onClick={onLogoutClick}
         label={t("header.logoutButton")}
         icon="logout"
@@ -220,6 +238,7 @@ function HeaderLink(props: {
   href: string;
   label: string;
   class?: string;
+  color?: string;
   primary?: boolean;
   onClick?: () => void;
 }) {
@@ -230,9 +249,12 @@ function HeaderLink(props: {
       style={{ "text-decoration": "none" }}
       class={props.class}
     >
-      <LinkContainer primary={props.primary || false}>
+      <LinkContainer
+        primary={props.primary || false}
+        style={{ color: props.color }}
+      >
         <Show when={props.icon}>
-          <Icon name={props.icon} class={linkIconStyle} />
+          <Icon name={props.icon} color={props.color} class={linkIconStyle} />
         </Show>
         {props.label}
       </LinkContainer>

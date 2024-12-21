@@ -7,7 +7,7 @@ import {
   StorageKeys,
 } from "../common/localStorage";
 import { A, useNavigate, useLocation } from "solid-navigator";
-import { createSignal, onMount, Show } from "solid-js";
+import { createSignal, onMount, Show, For } from "solid-js";
 import env from "../common/env";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
@@ -28,7 +28,6 @@ const RegisterPageContainer = styled("div")`
 `;
 
 const Content = styled(FlexColumn)`
-  background: var(--pane-color);
   height: 100%;
   border-radius: 8px;
   margin: 8px;
@@ -58,8 +57,9 @@ const linkStyle = css`
 `;
 
 const NoticesContainer = styled(FlexColumn)`
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 5px;
+  background-color: var(--pane-color);
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  padding: 10px;
   border-radius: 6px;
 `;
 
@@ -122,6 +122,12 @@ export default function RegisterPage() {
     navigate(redirectTo);
   };
 
+  const notices = [
+    "Don't be toxic.",
+    "No NSFW content.",
+    "You must be over the age of 14.",
+  ];
+
   return (
     <RegisterPageContainer class="register-page-container">
       <MetaTitle>Register</MetaTitle>
@@ -137,34 +143,38 @@ export default function RegisterPage() {
               {t("registerPage.title", { appName: "Nerimity" })}
             </TitleContainer>
             <NoticesContainer gap={5}>
-              <Text style={{ "font-weight": "bold" }} color="var(--warn-color)">
-                Notices
-              </Text>
+              <span style={{ "margin-bottom": "6px" }}>
+                <Icon
+                  name="info"
+                  color="var(--warn-color)"
+                  style={{ "vertical-align": "middle", "margin-top": "-2px" }}
+                  size={18}
+                />{" "}
+                <Text
+                  style={{ "font-weight": "bold" }}
+                  color="var(--warn-color)"
+                >
+                  Notices
+                </Text>
+              </span>
 
-              <Text
-                color="rgba(255, 255, 255, 0.8)"
-                style={{ "align-items": "center", display: "flex", gap: "5px" }}
-                size={14}
-              >
-                <Icon name="info" size={14} color="var(--warn-color)" /> Please
-                keep toxicity out of here.
-              </Text>
-              <Text
-                color="rgba(255, 255, 255, 0.8)"
-                style={{ "align-items": "center", display: "flex", gap: "5px" }}
-                size={14}
-              >
-                <Icon name="info" size={14} color="var(--warn-color)" /> NSFW
-                content is against the TOS.
-              </Text>
-              <Text
-                color="rgba(255, 255, 255, 0.8)"
-                style={{ "align-items": "center", display: "flex", gap: "5px" }}
-                size={14}
-              >
-                <Icon name="info" size={14} color="var(--warn-color)" /> You
-                must be over the age of 14 to use Nerimity.
-              </Text>
+              <For each={notices}>
+                {(notice) => (
+                  <Text
+                    color="rgba(255, 255, 255, 0.8)"
+                    style={{ display: "flex", gap: "5px" }}
+                    size={14}
+                  >
+                    <div
+                      style={{ "margin-top": "-4px", "font-size": "20px" }}
+                      color="var(--warn-color)"
+                    >
+                      •
+                    </div>{" "}
+                    {notice}
+                  </Text>
+                )}
+              </For>
             </NoticesContainer>
             <Input
               margin={[10, 0, 10, 0]}

@@ -22,7 +22,6 @@ const Content = styled("div")`
   position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--pane-color);
   margin: 8px;
   margin-top: 0;
   margin-bottom: 0;
@@ -36,7 +35,7 @@ const ArtImage = styled("img")`
   right: 0;
   width: auto;
   height: 100%;
-  opacity: 0.02;
+  opacity: 0.01;
   pointer-events: none;
   @media (orientation: portrait) {
     width: 100%;
@@ -156,8 +155,8 @@ export default function HomePage() {
           <PlatformDownloadLinks />
         </TopContainer>
         <FeatureList />
-        <ArtImage src="./assets/home-page-art.svg" alt="" />
       </Content>
+      <ArtImage src="./assets/home-page-art.svg" alt="" />
       <PageFooter />
     </HomePageContainer>
   );
@@ -219,7 +218,8 @@ const FeatureListContainer = styled("div")`
   column-gap: 20px;
   align-self: center;
   margin-top: 100px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--pane-color);
+  border: solid 1px rgba(255, 255, 255, 0.1);
   padding: 10px;
   border-radius: 8px;
   backdrop-filter: blur(34px);

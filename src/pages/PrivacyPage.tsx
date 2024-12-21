@@ -23,7 +23,6 @@ const PageContainer = styled("div")`
 const Content = styled("div")`
   display: flex;
   flex-direction: column;
-  background: var(--pane-color);
   margin: 8px;
   margin-top: 0;
   margin-bottom: 0;
