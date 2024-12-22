@@ -86,7 +86,11 @@ export function QuoteMessage(props: {
         <CustomLink
           decoration
           href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)}
-          style={{ "font-size": "16px", color: serverMember()?.roleColor() }}
+          style={{
+            "font-size": "16px",
+            color: serverMember()?.roleColor(),
+            "line-height": "1",
+          }}
         >
           {serverMember()?.nickname || props.quote.createdBy!.username}
         </CustomLink>

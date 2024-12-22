@@ -544,7 +544,7 @@ const ReplyTo = (props: { user: RawUser }) => {
       </Text>
       <CustomLink
         decoration
-        style={{ "font-size": "14px" }}
+        style={{ "font-size": "14px", "line-height": "1" }}
         href={RouterEndpoints.PROFILE(props.user?.id!)}
       >
         {props.user?.username}
@@ -575,7 +575,11 @@ const Reposted = (props: { post: Post }) => {
           {(user, i) => (
             <>
               {i() ? ", " : null}
-              <CustomLink decoration href={RouterEndpoints.PROFILE(user?.id!)}>
+              <CustomLink
+                style={{ "line-height": "1" }}
+                decoration
+                href={RouterEndpoints.PROFILE(user?.id!)}
+              >
                 {user?.username}
               </CustomLink>
             </>

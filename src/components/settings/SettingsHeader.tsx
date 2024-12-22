@@ -1,4 +1,3 @@
-
 import { A } from "solid-navigator";
 import { Show, createEffect, createSignal, on } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
@@ -17,7 +16,6 @@ import { useResizeObserver } from "@/common/useResizeObserver";
 import { settingsHeaderPreview } from "./SettingsPane";
 import { t } from "i18next";
 
-
 const HeaderContainer = styled("div")`
   position: relative;
   display: flex;
@@ -35,7 +33,7 @@ const DetailsContainer = styled(FlexColumn)`
   margin-right: 20px;
   font-size: 18px;
   z-index: 1111;
-  background: rgba(0,0,0,0.86);
+  background: rgba(0, 0, 0, 0.86);
   backdrop-filter: blur(34px);
   padding: 10px;
   border-radius: 8px;
@@ -46,9 +44,10 @@ const UsernameTagContainer = styled(FlexRow)`
   margin-bottom: 5px;
   overflow-wrap: anywhere;
   overflow: hidden;
+  line-height: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
-          line-clamp: 2; 
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 `;
 
@@ -56,48 +55,61 @@ const avatarStyles = css`
   z-index: 111;
 `;
 
-const CustomAvatar = styled("div")<{cropPosition: string}>`
+const CustomAvatar = styled("div")<{ cropPosition: string }>`
   width: 100%;
   height: 100%;
   background-repeat: no-repeat !important;
   border-radius: 50%;
-  ${props => props.cropPosition}
+  ${(props) => props.cropPosition}
 `;
 
-const SettingsHeader = (props: {bot?: RawUser}) => {
+const SettingsHeader = (props: { bot?: RawUser }) => {
   const [avatarEl, setAvatarEl] = createSignal<HTMLDivElement | undefined>();
   const { account, servers, friends } = useStore();
   const user = () => account.user();
   const serverCount = () => servers.array().length || "0";
-  const friendCount = () => friends.array().filter(friend => friend.status === FriendStatus.FRIENDS).length || "0";
-  const {width} = useWindowProperties();
+  const friendCount = () =>
+    friends.array().filter((friend) => friend.status === FriendStatus.FRIENDS)
+      .length || "0";
+  const { width } = useWindowProperties();
 
-  const [imageDimensions, setImageDimensions] = createSignal({height: 0, width: 0});
+  const [imageDimensions, setImageDimensions] = createSignal({
+    height: 0,
+    width: 0,
+  });
 
+  createEffect(
+    on(
+      () => settingsHeaderPreview.avatar,
+      (val) => {
+        if (!val) return;
+        getImageDimensions(val).then(setImageDimensions);
+      }
+    )
+  );
 
-  createEffect(on(() => settingsHeaderPreview.avatar, (val) => {
-    if (!val) return;
-    getImageDimensions(val).then(setImageDimensions);
-  }));
-
-  const avatarSize = () => width() <= 500 ? 70 : 100;
+  const avatarSize = () => (width() <= 500 ? 70 : 100);
 
   const cropPosition = () => {
-    const coordinates  = settingsHeaderPreview.avatarPoints;
-    if (!coordinates ) return "";
+    const coordinates = settingsHeaderPreview.avatarPoints;
+    if (!coordinates) return "";
 
-    const viewWidth = avatarSize() && avatarEl()?.clientWidth || 0;
-    const viewHeight = avatarSize() && avatarEl()?.clientHeight || 0;
+    const viewWidth = (avatarSize() && avatarEl()?.clientWidth) || 0;
+    const viewHeight = (avatarSize() && avatarEl()?.clientHeight) || 0;
     const imageWidth = imageDimensions().width;
     const imageHeight = imageDimensions().height;
 
-    const offsetX = coordinates [0];
-    const offsetY = coordinates [1];
-    const scaleX = viewWidth / (coordinates [2] - coordinates [0]);
-    const scaleY = viewHeight / (coordinates [3] - coordinates [1]);
+    const offsetX = coordinates[0];
+    const offsetY = coordinates[1];
+    const scaleX = viewWidth / (coordinates[2] - coordinates[0]);
+    const scaleY = viewHeight / (coordinates[3] - coordinates[1]);
     return `
-      background-position: -${offsetX * scaleX}px -${offsetY * scaleY}px !important;
-      background-size: ${imageWidth * scaleX}px ${imageHeight * scaleY}px !important;
+      background-position: -${offsetX * scaleX}px -${
+      offsetY * scaleY
+    }px !important;
+      background-size: ${imageWidth * scaleX}px ${
+      imageHeight * scaleY
+    }px !important;
     `;
   };
 
@@ -105,28 +117,59 @@ const SettingsHeader = (props: {bot?: RawUser}) => {
     const img = new Image();
     img.src = imageUrl;
     await img.decode();
-    return {width: img.width, height: img.height};
+    return { width: img.width, height: img.height };
   }
 
   return (
     <Show when={user()}>
-      <Banner maxHeight={250} margin={props.bot ? 0 : undefined} animate hexColor={props.bot?.hexColor || user()?.hexColor} url={settingsHeaderPreview.banner || bannerUrl(props.bot || user()!)}>
+      <Banner
+        maxHeight={250}
+        margin={props.bot ? 0 : undefined}
+        animate
+        hexColor={props.bot?.hexColor || user()?.hexColor}
+        url={settingsHeaderPreview.banner || bannerUrl(props.bot || user()!)}
+      >
         <HeaderContainer>
-          <Avatar animate user={props.bot || account.user()!} size={avatarSize()} class={avatarStyles}>
-            {settingsHeaderPreview.avatar  ? <CustomAvatar ref={setAvatarEl} cropPosition={cropPosition()} style={{background: `url("${settingsHeaderPreview.avatar}")`}} /> : null}
+          <Avatar
+            animate
+            user={props.bot || account.user()!}
+            size={avatarSize()}
+            class={avatarStyles}
+          >
+            {settingsHeaderPreview.avatar ? (
+              <CustomAvatar
+                ref={setAvatarEl}
+                cropPosition={cropPosition()}
+                style={{ background: `url("${settingsHeaderPreview.avatar}")` }}
+              />
+            ) : null}
           </Avatar>
           <DetailsContainer>
             <UsernameTagContainer>
-              <Text>{settingsHeaderPreview.username || props.bot?.username || user()!.username}</Text>
-              <Text opacity={0.7}>:{settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}</Text>
+              <Text>
+                {settingsHeaderPreview.username ||
+                  props.bot?.username ||
+                  user()!.username}
+              </Text>
+              <Text opacity={0.7}>
+                :{settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}
+              </Text>
             </UsernameTagContainer>
             <Show when={!props.bot}>
               <FlexRow gap={5}>
-                <Text size={14} opacity={0.8}>{serverCount()} {t("settings.header.servers")}</Text>
+                <Text size={14} opacity={0.8}>
+                  {serverCount()} {t("settings.header.servers")}
+                </Text>
                 <Text size={14}>•</Text>
-                <Text size={14} opacity={0.8}>{friendCount()} {t("settings.header.friends")}</Text>
+                <Text size={14} opacity={0.8}>
+                  {friendCount()} {t("settings.header.friends")}
+                </Text>
               </FlexRow>
-              <Text size={14}><A href="/app/settings/account">{t("settings.header.manageAccount")}</A></Text>
+              <Text size={14}>
+                <A href="/app/settings/account">
+                  {t("settings.header.manageAccount")}
+                </A>
+              </Text>
             </Show>
           </DetailsContainer>
         </HeaderContainer>
@@ -134,6 +177,5 @@ const SettingsHeader = (props: {bot?: RawUser}) => {
     </Show>
   );
 };
-
 
 export default SettingsHeader;

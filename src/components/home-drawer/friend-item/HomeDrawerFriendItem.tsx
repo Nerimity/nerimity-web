@@ -89,7 +89,7 @@ export default function HomeDrawerFriendItem(props: {
       opacity: ${(props) => (props.selected ? 1 : 0.6)};
       transition: 0.2s;
       font-size: 14px;
-      height: 17px;
+      line-height: 1;
     }
 
     &:hover .username {

@@ -9,7 +9,7 @@
 
 .username {
   overflow: hidden;
-  height: 20px;
+  line-height: 1;
   text-overflow: ellipsis;
 }
 
@@ -150,6 +150,7 @@
         overflow: hidden;
         flex-shrink: 0;
         max-width: 200px;
+        line-height: 1;
         opacity: 0.6;
         text-overflow: ellipsis;
         white-space: nowrap;

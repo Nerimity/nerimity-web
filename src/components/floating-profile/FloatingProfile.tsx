@@ -337,7 +337,7 @@ const DesktopProfileFlyout = (props: {
                 style={{ color: "white" }}
                 href={RouterEndpoints.PROFILE(props.userId)}
               >
-                <Text style={{ "overflow-wrap": "anywhere" }}>
+                <Text style={{ "overflow-wrap": "anywhere", "line-height": 1 }}>
                   {user()!.username}
                 </Text>
                 <Text color="rgba(255,255,255,0.6)">:{user()!.tag}</Text>

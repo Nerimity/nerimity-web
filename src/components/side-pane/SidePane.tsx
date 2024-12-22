@@ -269,7 +269,7 @@ const UserItem = () => {
           <div>
             Profile{" "}
             <Show when={user()}>
-              <div>
+              <div style={{ "line-height": "1" }}>
                 {user()!.username}:{user()!.tag}
               </div>
             </Show>
@@ -492,6 +492,7 @@ export function FloatingUserModal(props: {
                   "white-space": "nowrap",
                   overflow: "hidden",
                   "text-overflow": "ellipsis",
+                  "line-height": "1",
                 }}
               >
                 {user().username}
