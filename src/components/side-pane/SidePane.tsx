@@ -486,13 +486,12 @@ export function FloatingUserModal(props: {
         <BannerContainer>
           <Avatar animate size={60} user={user()} />
           <DetailsContainer>
-            <FlexRow>
+            <FlexRow style={{ "line-height": "1" }}>
               <Text
                 style={{
                   "white-space": "nowrap",
                   overflow: "hidden",
                   "text-overflow": "ellipsis",
-                  "line-height": "1",
                 }}
               >
                 {user().username}
