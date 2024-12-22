@@ -334,10 +334,10 @@ const DesktopProfileFlyout = (props: {
             <span>
               <CustomLink
                 decoration
-                style={{ color: "white" }}
+                style={{ color: "white", "line-height": "1" }}
                 href={RouterEndpoints.PROFILE(props.userId)}
               >
-                <Text style={{ "overflow-wrap": "anywhere", "line-height": 1 }}>
+                <Text style={{ "overflow-wrap": "anywhere" }}>
                   {user()!.username}
                 </Text>
                 <Text color="rgba(255,255,255,0.6)">:{user()!.tag}</Text>
