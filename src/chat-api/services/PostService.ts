@@ -205,6 +205,15 @@ export const getLikesPosts = async (postId: string) => {
   return data;
 };
 
+export const getPostReposts = async (postId: string) => {
+  const data = await request<RawPost[]>({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.postReposts(postId),
+    useToken: true,
+  });
+  return data;
+};
+
 export const getPostNotifications = async () => {
   const data = await request<RawPostNotification[]>({
     method: "GET",

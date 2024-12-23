@@ -1,12 +1,15 @@
 import {
   PostNotificationType,
+  RawPost,
   RawPostChoice,
   RawPostNotification,
+  RawUser,
 } from "@/chat-api/RawData";
 import {
   DiscoverSort,
   getLikesPosts,
   getPostNotifications,
+  getPostReposts,
   LikedPost,
 } from "@/chat-api/services/PostService";
 import { Post } from "@/chat-api/store/usePosts";
@@ -469,6 +472,39 @@ function LikedUsers(props: { postId: string }) {
               </FlexRow>
               <Text opacity={0.6} size={12}>
                 {formatTimestamp(user.createdAt)}
+              </Text>
+            </LikedUserContainer>
+          </CustomLink>
+        )}
+      </For>
+    </FlexColumn>
+  );
+}
+function RepostedUsers(props: { postId: string }) {
+  const [reposts, setReposts] = createSignal<RawPost[]>([]);
+
+  const fetchAndSetReposts = async () => {
+    const newReposts = await getPostReposts(props.postId);
+    return setReposts(newReposts);
+  };
+
+  createEffect(() => {
+    fetchAndSetReposts();
+  });
+
+  return (
+    <FlexColumn gap={3}>
+      <For each={reposts()}>
+        {(repost) => (
+          <CustomLink href={RouterEndpoints.PROFILE(repost.createdBy.id)}>
+            <LikedUserContainer gap={10}>
+              <Avatar user={repost.createdBy} size={20} />
+              <FlexRow style={{ "margin-right": "auto" }}>
+                <Text>{repost.createdBy.username}</Text>
+                <Text opacity={0.6}>:{repost.createdBy.tag}</Text>
+              </FlexRow>
+              <Text opacity={0.6} size={12}>
+                {formatTimestamp(repost.createdAt)}
               </Text>
             </LikedUserContainer>
           </CustomLink>
@@ -1037,9 +1073,9 @@ export function PostNotificationsArea(props: { style?: JSX.CSSProperties }) {
 
 export function ViewPostModal(props: { close(): void }) {
   const [searchParams, setSearchParams] = useSearchParams<{ postId: string }>();
-  const [selectedTab, setSelectedTab] = createSignal<"comments" | "likes">(
-    "comments"
-  );
+  const [selectedTab, setSelectedTab] = createSignal<
+    "comments" | "likes" | "reposts"
+  >("comments");
   const { paneWidth } = useWindowProperties();
 
   const postId = () => searchParams.postId;
@@ -1137,7 +1173,25 @@ export function ViewPostModal(props: { close(): void }) {
                       : "rgba(255,255,255,0.6)"
                   }
                 >
-                  {`Liked by (${post()?._count?.likedBy})`}
+                  {`Likes (${post()?._count?.likedBy})`}
+                </Text>
+              </ItemContainer>
+              <ItemContainer
+                handlePosition="bottom"
+                selected={selectedTab() === "reposts"}
+                style={{ padding: "8px", gap: "4px" }}
+                onClick={() => setSelectedTab("reposts")}
+              >
+                <Icon size={14} name="repeat" />
+                <Text
+                  size={14}
+                  color={
+                    selectedTab() === "reposts"
+                      ? "white"
+                      : "rgba(255,255,255,0.6)"
+                  }
+                >
+                  {`Reposts (${post()?._count?.reposts})`}
                 </Text>
               </ItemContainer>
             </Show>
@@ -1147,10 +1201,10 @@ export function ViewPostModal(props: { close(): void }) {
               <PostsArea style={{ overflow: "initial" }} postId={post()?.id} />
             </Match>
             <Match when={selectedTab() === "likes"}>
-              <LikedUsers
-                style={{ overflow: "initial" }}
-                postId={post()?.id!}
-              />
+              <LikedUsers postId={post()?.id!} />
+            </Match>
+            <Match when={selectedTab() === "reposts"}>
+              <RepostedUsers postId={post()?.id!} />
             </Match>
           </Switch>
         </Show>
