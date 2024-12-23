@@ -68,6 +68,9 @@ const [stats, setStats] = createSignal<ModerationStats | null>(null);
 
 export const [selectedUsers, setSelectedUsers] = createSignal<any[]>([]);
 const [selectedServers, setSelectedServers] = createSignal<any[]>([]);
+const [onlineUsersCount, setOnlineUsersCount] = createSignal<
+  number | undefined
+>();
 
 const isServerSelected = (id: string) =>
   selectedServers().find((s) => s.id === id);
@@ -387,6 +390,10 @@ const TicketsPane = () => {
 function OnlineUsersPane() {
   const [users, { mutate: setUsers }] =
     createResource<ModerationUser[]>(getOnlineUsers);
+
+  createEffect(() => {
+    setOnlineUsersCount(users()?.length || undefined);
+  });
 
   const [showAll, setShowAll] = createSignal(false);
 
@@ -724,6 +731,10 @@ function StatsArea() {
       <StatCard
         title="Registered Users"
         description={stats()?.totalRegisteredUsers?.toLocaleString()}
+      />
+      <StatCard
+        title="Online Users"
+        description={onlineUsersCount()?.toLocaleString()}
       />
       <StatCard
         title="Messages"
