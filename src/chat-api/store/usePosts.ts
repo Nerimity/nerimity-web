@@ -207,6 +207,7 @@ export function usePosts() {
               ...this.commentIds!,
             ]);
           });
+          return true;
         },
         cachedComments() {
           return this.commentIds?.map((postId) => state.posts[postId] as Post);
@@ -247,9 +248,12 @@ export function usePosts() {
       alert(err.message);
     });
     if (!post) return;
-    pushPost(post, account.user()?.id!);
-    setState("feedPostIds", [post.id, ...state.feedPostIds]);
-    setState("discoverPostIds", [post.id, ...state.discoverPostIds]);
+    batch(() => {
+      pushPost(post, account.user()?.id!);
+      setState("feedPostIds", [post.id, ...state.feedPostIds]);
+      setState("discoverPostIds", [post.id, ...state.discoverPostIds]);
+    });
+    return true;
   };
 
   const fetchUserPosts = async (userId: string, withReplies?: boolean) => {

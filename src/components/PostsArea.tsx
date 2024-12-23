@@ -149,18 +149,32 @@ function NewPostArea(props: {
   };
 
   const onCreateClick = () => {
+    const tempContent = content();
     const formattedContent = formatMessage(content().trim());
     if (props.postId) {
-      posts.cachedPost(props.postId)?.submitReply({
-        content: formattedContent,
-        attachment: attachedFile(),
-      });
+      posts
+        .cachedPost(props.postId)
+        ?.submitReply({
+          content: formattedContent,
+          attachment: attachedFile(),
+        })
+        .then((res) => {
+          if (!res) {
+            setContent(tempContent);
+          }
+        });
     } else {
-      posts.submitPost({
-        content: formattedContent,
-        file: attachedFile(),
-        poll: showPollOptions() ? { choices: pollOptions } : undefined,
-      });
+      posts
+        .submitPost({
+          content: formattedContent,
+          file: attachedFile(),
+          poll: showPollOptions() ? { choices: pollOptions } : undefined,
+        })
+        .then((res) => {
+          if (!res) {
+            setContent(tempContent);
+          }
+        });
     }
     setContent("");
     setPollOptions(reconcile([""]));
