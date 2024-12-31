@@ -4,7 +4,7 @@ import {
   ModerationSuspension,
   suspendUsers,
 } from "@/chat-api/services/ModerationService";
-import { createSignal, Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
@@ -13,6 +13,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import Checkbox from "../ui/Checkbox";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -38,13 +39,43 @@ interface Props {
 
 export default function DeleteServersModal(props: Props) {
   const [password, setPassword] = createSignal("");
+  const [reason, setReason] = createSignal("");
+
+  const [templates, setTemplates] = createSignal({
+    "NSFW Server": false,
+    "Non-English Server": false,
+    Other: false,
+  } as Record<string, boolean>);
+
   const [error, setError] = createSignal<{
     message: string;
     path?: string;
   } | null>(null);
   const [requestSent, setRequestSent] = createSignal(false);
 
+  const constructedReason = () => {
+    const values: string[] = [];
+    // append the template key to value if the template is true.
+    Object.keys(templates()).forEach((key) => {
+      if (!templates()[key]) return;
+      if (key === "Other") {
+        values.push(reason());
+        return;
+      }
+      if (templates()[key]) {
+        values.push(key);
+      }
+    });
+    return values.join(", ");
+  };
+
   const onSuspendClicked = async () => {
+    console.log(constructedReason());
+    if (!constructedReason().trim()) {
+      setError({ message: "Please provide a reason." });
+      return;
+    }
+
     if (requestSent()) return;
     setRequestSent(true);
     setError(null);
@@ -56,7 +87,11 @@ export default function DeleteServersModal(props: Props) {
     for (let i = 0; i < serverIds.length; i++) {
       const serverId = serverIds[i]!;
 
-      const result = await deleteServer(serverId, password()).catch((err) => {
+      const result = await deleteServer(
+        serverId,
+        password(),
+        constructedReason()
+      ).catch((err) => {
         hasErrors = true;
         if (err.path === "password") {
           invalidPassword = true;
@@ -106,6 +141,24 @@ export default function DeleteServersModal(props: Props) {
       ignoreBackgroundClick
     >
       <Container>
+        <For each={Object.keys(templates())}>
+          {(template) => (
+            <Checkbox
+              label={template}
+              checked={templates()[template] || false}
+              onChange={() => {
+                setTemplates((prev) => ({
+                  ...prev,
+                  [template]: !prev[template],
+                }));
+              }}
+            />
+          )}
+        </For>
+        <Show when={templates().Other}>
+          <Input label="Reason" value={reason()} onText={setReason} />
+        </Show>
+
         <Input
           label="Confirm Password"
           type="password"

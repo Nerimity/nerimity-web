@@ -267,12 +267,14 @@ export const searchServers = async (
 
 export const deleteServer = async (
   serverId: string,
-  confirmPassword: string
+  confirmPassword: string,
+  reason: string
 ) => {
   const data = await request<any[]>({
     method: "DELETE",
     body: {
       password: confirmPassword,
+      reason,
     },
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
     useToken: true,

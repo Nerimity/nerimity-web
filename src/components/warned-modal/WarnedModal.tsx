@@ -40,6 +40,7 @@ export const WarnedModal = (props: {
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
       <Button
+        color="var(--warn-color)"
         onClick={onClick}
         label={countdown() === 0 ? "Understood" : `${countdown()}s`}
         primary
@@ -48,7 +49,11 @@ export const WarnedModal = (props: {
   );
 
   return (
-    <LegacyModal title="You Have Been Warned!" actionButtons={ActionButtons}>
+    <LegacyModal
+      color="var(--warn-color)"
+      title="You Have Been Warned!"
+      actionButtons={ActionButtons}
+    >
       <div class={styles.container}>
         <div class={styles.suspendContainer}>
           <span>{props.reason || "Violating the TOS"}</span>
