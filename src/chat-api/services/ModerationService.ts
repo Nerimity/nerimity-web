@@ -456,6 +456,8 @@ export interface UserAuditLog {
   serverId?: string;
   data?: {
     serverName?: string;
+    bannedUserId?: string;
+    kickedUserId?: string;
   };
 }
 interface UserAuditLogResponse {
