@@ -47,6 +47,7 @@ export function PostItem(props: {
   onClick?: (id: Post) => void;
   post: Post;
   pinned?: boolean;
+  showRepostsAsSelf?: boolean | any;
 }) {
   const { posts } = useStore();
 
@@ -132,7 +133,10 @@ export function PostItem(props: {
           <Pinned />
         </Show>
         <Show when={props.reposted}>
-          <Reposted post={props.post} />
+          <Reposted
+            post={props.post}
+            showRepostsAsSelf={props.showRepostsAsSelf}
+          />
         </Show>
         <Show when={replyingTo()}>
           <ReplyTo user={replyingTo()!.createdBy} />
@@ -562,7 +566,7 @@ const Pinned = () => {
     </div>
   );
 };
-const Reposted = (props: { post: Post }) => {
+const Reposted = (props: { post: Post; showRepostsAsSelf: boolean | any }) => {
   const repostUsers = createMemo(() =>
     props.post.reposts.map((r) => r.createdBy)
   );
@@ -570,21 +574,24 @@ const Reposted = (props: { post: Post }) => {
     <div class={style.pinnedContainer}>
       <Icon name="repeat" color="var(--success-color)" size={16} />
       <Text size={14} style={{ "margin-right": "5px" }}>
-        Reposted by{" "}
-        <For each={repostUsers()}>
-          {(user, i) => (
-            <>
-              {i() ? ", " : null}
-              <CustomLink
-                style={{ "line-height": "1" }}
-                decoration
-                href={RouterEndpoints.PROFILE(user?.id!)}
-              >
-                {user?.username}
-              </CustomLink>
-            </>
-          )}
-        </For>
+        <Show when={props.showRepostsAsSelf}>Reposted</Show>
+        <Show when={!props.showRepostsAsSelf}>
+          Reposted by{" "}
+          <For each={repostUsers()}>
+            {(user, i) => (
+              <>
+                {i() ? ", " : null}
+                <CustomLink
+                  style={{ "line-height": "1" }}
+                  decoration
+                  href={RouterEndpoints.PROFILE(user?.id!)}
+                >
+                  {user?.username}
+                </CustomLink>
+              </>
+            )}
+          </For>
+        </Show>
       </Text>
     </div>
   );
