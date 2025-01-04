@@ -174,6 +174,14 @@ const setCurrentChannelId = (channelId: string | null) => {
   if (!channelId) {
     setCurrentVoiceUser(undefined);
     setDeafened("wasMicEnabled", false);
+
+    current?.audioStream?.getTracks().forEach((track) => {
+      track.stop();
+    });
+    current?.videoStream?.getTracks().forEach((track) => {
+      track.stop();
+    });
+
     return;
   }
   setCurrentVoiceUser({
