@@ -25,7 +25,7 @@ export const languages = {
     emoji: "🇿🇦",
     contributors: ["https://github.com/mooocksadev"],
   },
-  "be-ts": {
+  "be-xo": {
     name: "Belarusian (Traditional)",
     emoji: "🇧🇾",
     contributors: [
