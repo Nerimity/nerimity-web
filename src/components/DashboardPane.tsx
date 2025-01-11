@@ -587,9 +587,10 @@ const PresenceItem = (props: { presence: Presence }) => {
     return store.users.get(props.presence.userId);
   };
 
+  const isEmoji = () => activity().emoji;
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {
-      return emojiToUrl(activity()?.emoji!, false, 90);
+      return emojiToUrl(activity()?.emoji!, false);
     }
     if (!activity()?.imgSrc) return;
     return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
@@ -608,7 +609,13 @@ const PresenceItem = (props: { presence: Presence }) => {
             "background-image": `url(${imgSrc()})`,
           }}
         />
-        <img src={imgSrc()} class={activityImageStyles} />
+        <img
+          src={imgSrc()}
+          class={activityImageStyles}
+          style={{
+            "background-color": isEmoji() ? "transparent" : "black",
+          }}
+        />
       </Show>
 
       <div class={activityDetailsStyles}>

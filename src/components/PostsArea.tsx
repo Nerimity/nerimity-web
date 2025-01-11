@@ -743,6 +743,7 @@ export function PostsArea(props: {
             <PostItem
               bgColor={props.bgColor}
               post={post}
+              showRepostsAsSelf={props.userId}
               primaryColor={props.primaryColor}
             />
           )}

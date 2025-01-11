@@ -7,7 +7,8 @@
   },
   "homePage": {
     "slogan": "Modern ve şık bir sohbet uygulaması.",
-    "viewGitHubButton": "Kaynak Kodu"
+    "viewGitHubButton": "Kaynak Kodu",
+    "getStarted": "Aramıza Katıl"
   },
   "loginPage": {
     "title": "Devam etmek için giriş yapın",
@@ -184,10 +185,12 @@
       "nicknameMemberDescription": "Bu role sahip kişilerin sunucu üyelerinin isimlerini değiştirmeye olanak tanır."
     },
     "channelPermissions": {
+      "publicChannel": "Herkese Açık Kanal",
+      "publicChannelDescription": "Herkesin kanala erişbilmesini ve mesajları görmesini sağlar. Sunucu yöneticileri yine de bütün kanalları görebilir.",
       "sendMessage": "Mesaj Gönder",
       "sendMessageDescription": "Kanalda mesaj göndermeyi etkinleştirir. Yine de sunucu yöneticileri mesaj gönderebilir.",
-      "joinVoice": "Join Voice",
-      "joinVoiceDescription": "Ses kanalllarına katılmayı etkinleştirir. Sunucu yöneticileri yinede ses kanallarına katılabilir."
+      "joinVoice": "Ses Kanalına Katıl",
+      "joinVoiceDescription": "Kanal için sesli sohbete katılmayı etkinleştirir. Sunucu yöneticileri her zaman sesli sohbete katılabilir."
     }
   },
   "settings": {
@@ -404,6 +407,7 @@
     },
     "postWasDeleted": "Bu gönderi silindi.",
     "someoneLikedYourPost": "<1>{{username}}</1> gönderini beğendi!",
+    "someoneRepostedYourPost": "<1>{{username}}</1> gönderini tekrar paylaştı!",
     "someoneFollowedYou": "<1>{{username}}</1> seni takip etti!",
     "someoneRepliedToPost": "<1>{{username}}</1> gönderine yanıt verdi!",
     "createAPostInputPlaceholder": "Bir gönderi oluştur...",

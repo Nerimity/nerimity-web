@@ -177,6 +177,20 @@ const AuditLogItem = (props: {
     return props.item.data?.serverName || server()?.name;
   };
 
+  const actionTo = () => {
+    const kickedUserId = props.item.data?.kickedUserId;
+    const bannedUserId = props.item.data?.bannedUserId;
+    if (!kickedUserId && !bannedUserId) return;
+    const user = props.users.find(
+      (u) => u.id === (kickedUserId || bannedUserId)
+    );
+    const action = kickedUserId ? "Kicked" : "Banned";
+    return {
+      user,
+      action,
+    };
+  };
+
   const timestamp = () => {
     return formatTimestamp(props.item.createdAt);
   };
@@ -189,6 +203,14 @@ const AuditLogItem = (props: {
         </Text>{" "}
         {actionBy()?.username}
       </Text>
+      <Show when={actionTo()}>
+        <Text size={14}>
+          <Text size={14} opacity={0.6}>
+            {actionTo()?.action}:
+          </Text>{" "}
+          {actionTo()?.user?.username}
+        </Text>
+      </Show>
       <Show when={serverName() !== undefined}>
         <Text size={14}>
           <Text size={14} opacity={0.6}>

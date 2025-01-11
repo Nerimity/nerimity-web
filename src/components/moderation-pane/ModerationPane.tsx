@@ -877,6 +877,9 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
       case AuditLogType.userWarned:
         return true;
 
+      case AuditLogType.serverDelete:
+        return true;
+
       default:
         return false;
     }

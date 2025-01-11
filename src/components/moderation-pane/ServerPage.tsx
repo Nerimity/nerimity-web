@@ -20,6 +20,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
+import DeleteServersModal from "./DeleteServersModal";
 
 export default function ServerPage() {
   const params = useParams<{ serverId: string }>();
@@ -213,9 +214,9 @@ const DeleteServerBlock = (props: { serverId: string }) => {
 
   const showSuspendModal = () => {
     createPortal((close) => (
-      <DeleteServerModal
+      <DeleteServersModal
         close={close}
-        serverId={props.serverId}
+        servers={[{ id: props.serverId }]}
         done={() => {}}
       />
     ));

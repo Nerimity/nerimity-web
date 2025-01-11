@@ -1,13 +1,14 @@
 import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Button from "../ui/Button";
-import { styled } from "solid-styled-components";
+import { css, styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 import { useParams } from "solid-navigator";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import Checkbox from "../ui/Checkbox";
 
 const QualityOptions = ["480p", "720p", "1080p"] as const;
 const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps"] as const;
@@ -42,12 +43,15 @@ export function ScreenShareModal(props: { close: () => void }) {
   const [selectedFramerate, setFramerate] =
     createSignal<(typeof FramerateOptions)[number]>("30fps");
 
+  const [shareSystemAudio, setShareSystemAudio] = createSignal(false);
+
   let electronSourceIdRef: any;
 
   const chooseWindowClick = async () => {
     const constraints = await constructConstraints(
       selectedQuality(),
-      selectedFramerate()
+      selectedFramerate(),
+      shareSystemAudio()
     );
 
     if (electronWindowAPI()?.isElectron) {
@@ -108,6 +112,18 @@ export function ScreenShareModal(props: { close: () => void }) {
         </For>
       </OptionContainer>
       <Show when={electronWindowAPI()?.isElectron}>
+        <Checkbox
+          label="Share System Audio"
+          checked={shareSystemAudio()}
+          onChange={setShareSystemAudio}
+          class={css`
+            margin-left: 6px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+          `}
+        />
+      </Show>
+      <Show when={electronWindowAPI()?.isElectron}>
         <ElectronCaptureSourceList ref={electronSourceIdRef} />
       </Show>
     </LegacyModal>
@@ -116,7 +132,8 @@ export function ScreenShareModal(props: { close: () => void }) {
 
 const constructConstraints = async (
   quality: (typeof QualityOptions)[number],
-  framerate: (typeof FramerateOptions)[number]
+  framerate: (typeof FramerateOptions)[number],
+  audio?: boolean
 ) => {
   // const supportedConstraints = navigator.mediaDevices?.getSupportedConstraints();
   const constraints = {
@@ -127,12 +144,15 @@ const constructConstraints = async (
       resizeMode: "none",
       echoCancellation: true, // fixes screenshare echo
     },
-    audio: {
-      autoGainControl: false,
-      echoCancellation: true, // fixes screenshare echo
-      googAutoGainControl: false,
-      noiseSuppression: false,
-    },
+    audio:
+      electronWindowAPI()?.isElectron && !audio
+        ? false
+        : {
+            autoGainControl: false,
+            echoCancellation: true, // fixes screenshare echo
+            googAutoGainControl: false,
+            noiseSuppression: false,
+          },
   };
 
   // if (supportedConstraints?.suppressLocalAudioPlayback) {
