@@ -144,7 +144,7 @@
         "deleteThisChannel": "Выдаліць гэты канал",
         "deleteThisChannelDescription": "Гэта дзеяньне нельга адрабіць!",
         "deleteChannelButton": "Выдаліць канал"
-        "removeNoticeButton": "Паведамленьне аб выдаленьні"
+        "removeNoticeButton": "Выдаліць папярэджаньне"
       },
       "invites": {
         "createInviteButton": "Стварыць запрашэньне",
