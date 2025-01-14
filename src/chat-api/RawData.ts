@@ -14,6 +14,9 @@ export interface RawServer {
   _count?: {
     welcomeQuestions: number;
   };
+  scheduledForDeletion: {
+    scheduledAt: number;
+  }
 }
 
 export interface RawVoice {

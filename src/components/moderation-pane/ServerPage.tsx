@@ -21,6 +21,7 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
 import DeleteServersModal from "./DeleteServersModal";
+import { formatTimestamp } from "@/common/date";
 
 export default function ServerPage() {
   const params = useParams<{ serverId: string }>();
@@ -117,6 +118,16 @@ export default function ServerPage() {
             />
           </div>
 
+          <Show when={!server()?.scheduledForDeletion}>
+            <DeleteServerBlock serverId={server()?.id!} />
+          </Show>
+
+          <Show when={server()?.scheduledForDeletion}>
+            <UndoDeleteServerBlock server={server()!} />
+          </Show>
+
+
+
           <SettingsBlock label="Server Name" icon="edit">
             <Input
               value={inputValues().name}
@@ -174,7 +185,6 @@ export default function ServerPage() {
               onClick={onSaveButtonClicked}
             />
           </Show>
-          <DeleteServerBlock serverId={server()?.id!} />
         </ServerPageInnerContainer>
       </ServerPageContainer>
     </Show>
@@ -223,10 +233,41 @@ const DeleteServerBlock = (props: { serverId: string }) => {
   };
 
   return (
-    <SettingsBlock icon="delete" label="Delete Server">
+    <SettingsBlock  class={css`&& {margin-bottom: 40px;}`} icon="delete" label="Delete Server">
       <Button
         onClick={showSuspendModal}
         label="Delete Server"
+        color="var(--alert-color)"
+        primary
+      />
+    </SettingsBlock>
+  );
+};
+
+
+const UndoDeleteServerBlock = (props: { server: RawServer }) => {
+  const { createPortal } = useCustomPortal();
+
+  const showSuspendModal = () => {
+    createPortal((close) => (
+      <DeleteServersModal
+        close={close}
+        servers={[{ id: props.serverId }]}
+        done={() => {}}
+      />
+    ));
+  };
+  const fiveDaysToMs = 5 * 24 * 60 * 60 * 1000;
+
+  const deletedMs = props.server.scheduledForDeletion.scheduledAt + fiveDaysToMs;
+  const deletionDate = () => formatTimestamp(deletedMs);
+
+  return (
+    <SettingsBlock  class={css`&& {margin-bottom: 40px;}`} icon="undo" label="Scheduled for Deletion"
+     description={`Server will be deleted ${deletionDate()}`}>
+      <Button
+        onClick={showSuspendModal}
+        label="Undo"
         color="var(--alert-color)"
         primary
       />

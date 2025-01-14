@@ -31,8 +31,8 @@ export function useModerationShowMessages() {
   );
 }
 
-export function emitModerationServerDeleted() {
-  EE.emit("moderationServerDeleted", {});
+export function emitModerationServerDeleted(servers: any[]) {
+  EE.emit("moderationServerDeleted", servers);
 }
 export function emitModerationUserSuspended(payload: ModerationSuspension) {
   EE.emit("moderationUserSuspended", payload);
@@ -47,7 +47,7 @@ export function useModerationUserSuspendedListener() {
 }
 
 export function useModerationServerDeletedListener() {
-  return useEventListen<unknown>("moderationServerDeleted");
+  return useEventListen<any[]>("moderationServerDeleted");
 }
 
 export function useEventListen<TReturn>(

@@ -274,7 +274,6 @@ function SelectedServerActions() {
   const { createPortal } = useCustomPortal();
 
   const onDeleted = () => {
-    emitModerationServerDeleted();
     setSelectedServers([]);
   };
 
@@ -450,11 +449,12 @@ function ServersPane() {
 
   const moderationServerDeletedListener = useModerationServerDeletedListener();
 
-  moderationServerDeletedListener(() => {
+  moderationServerDeletedListener((deletedServers) => {
     setServers(
-      servers().filter((u) => {
-        const wasSuspended = selectedServers().find((su) => su.id === u.id);
-        return !wasSuspended;
+      servers().map((u) => {
+        const wasSuspended = deletedServers.find((su) => su.id === u.id);
+        if (!wasSuspended) return u; 
+        return {...u, scheduledForDeletion: {scheduledAt: Date.now()}};
       })
     );
   });
@@ -695,6 +695,22 @@ export function Server(props: { server: any }) {
             </A>
           </Text>
         </FlexRow>
+        <Show when={props.server.scheduledForDeletion}>
+            <div  style={{
+                background: "var(--alert-color)",
+                "border-radius": "4px",
+                padding: "2px 8px",
+                "margin-top": "4px",
+                "display": "inline-block"
+              }}>
+            <Text
+              size={12}
+             
+            >
+              Scheduled Deletion
+            </Text>
+            </div>
+          </Show>
       </ItemDetailContainer>
     </A>
   );
