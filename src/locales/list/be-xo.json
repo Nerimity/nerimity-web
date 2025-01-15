@@ -411,7 +411,7 @@
     "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
     "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашую публікацыю!",
     "createAPostInputPlaceholder": "Дадаць публікацыю...",
-    "replyInputPlaceholder": "Адказваем...",
+    "replyInputPlaceholder": "Адказ...",
     "replyButton": "Адказаць",
     "createButton": "Дадаць",
     "pollOptions": "Варыянты апытаньня",
