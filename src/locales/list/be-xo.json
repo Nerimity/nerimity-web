@@ -143,7 +143,7 @@
         "permissionsDescription": "Кіраваньне дазволамі гэтага каналу.",
         "deleteThisChannel": "Выдаліць гэты канал",
         "deleteThisChannelDescription": "Гэта дзеяньне нельга адрабіць!",
-        "deleteChannelButton": "Выдаліць канал"
+        "deleteChannelButton": "Выдаліць канал",
         "removeNoticeButton": "Выдаліць папярэджаньне"
       },
       "invites": {
@@ -212,7 +212,7 @@
       "tickets": "Квіткі",
       "privacy": "Прыватнасьць",
       "connections": "Злучэньні",
-      "profile": "Профіль",
+      "profile": "Профіль"
     },
     "header": {
       "servers": "сэрвэры",
@@ -275,7 +275,7 @@
         "hideFollowersDescription": "Схаваць падпісантаў з вашага профілю.",
         "hideFollowing": "Схаваць падпіскі",
         "hideFollowingDescription": "Схаваць карыстальнікаў, на якіх вы падпісаны, з вашага профілю."
-      },
+      }
     },
     "notifications": {
       "desktopNotifications": "Апавяшчэньні на працоўным сталу",
@@ -320,17 +320,9 @@
       "stopButton": "Спыніць",
       "downloadAppNotice": "Спампуйце праграму Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
     },
-    "interface": {
-      "blurEffect": "Эфэкт размыцьця",
-      "blurEffectDescription": "Уключае празрысты эфэкт размыцьця. Па змаўчанні выключана на тэлэфонах. Можа выклікаць праблемы зь прадуктыўнасьцью.",
-      "disableAdvancedMarkupBar": "Выключыць панэль пашыранае разьметкі",
-      "disableAdvancedMarkupBarDescription": "Не паказваць панэль пашыранае разьметкі ў тэкставых каналах.",
-      "customizeColors": "Дапасаваць колеры",
-      "customizeColorsDescription": "Наладзіць колеры інтэрфэйсу."
-    }
   },
   "supportBlock": {
-    "support": "Падтрымаць мяне"
+    "support": "Падтрымаць мяне",
     "supportDescription": "Падтрымайце мяне, каб атрымаць бэйдж!"
   },
   "createServerModal": {
@@ -386,7 +378,7 @@
     "editMessage": "Адрэдагаваць паведамленьне",
     "deleteMessage": "Выдаліць паведамленьне",
     "copyMessage": "Скапіяваць паведамленьне",
-    "copyId": "Скапіяваць ID"
+    "copyId": "Скапіяваць ID",
     "viewReactions": "Праглядзець рэакцыйі",
     "quoteMessage": "Цытатаваць паведамленьне",
     "reportMessage": "Паскардзіцца",
@@ -433,4 +425,5 @@
     "attachmentsBack": "Назад",
     "members": "Удзельнікі"
   }
+}
 }
