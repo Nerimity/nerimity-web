@@ -2,8 +2,8 @@ import { RawServer, RawUser } from "@/chat-api/RawData";
 import { getServer, updateServer } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { useParams } from "solid-navigator";
-import { Show, createSignal, onMount } from "solid-js";
+import { useNavigate, useParams } from "solid-navigator";
+import { Show, createEffect, createSignal, onMount } from "solid-js";
 import { User } from "./ModerationPane";
 import Text from "../ui/Text";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
@@ -22,6 +22,11 @@ import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
 import DeleteServersModal from "./DeleteServersModal";
 import { formatTimestamp } from "@/common/date";
+import UndoServerDeleteModal from "./UndoServerDeleteModal";
+import { useModerationServerDeletedListener } from "@/common/GlobalEvents";
+import { joinPublicServer } from "@/chat-api/services/ServerService";
+import useStore from "@/chat-api/store/useStore";
+import RouterEndpoints from "@/common/RouterEndpoints";
 
 export default function ServerPage() {
   const params = useParams<{ serverId: string }>();
@@ -37,6 +42,19 @@ export default function ServerPage() {
     name: server()?.name || "",
     verified: server()?.verified || false,
     password: "",
+  });
+
+  const deleteListener = useModerationServerDeletedListener();
+
+  deleteListener((servers) => {
+    if (servers[0].id === server()?.id) {
+      setServer({
+        ...server()!,
+        scheduledForDeletion: {
+          scheduledAt: Date.now(),
+        },
+      });
+    }
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -118,15 +136,21 @@ export default function ServerPage() {
             />
           </div>
 
+          <Show when={server()?.publicServer}>
+            <PublicServerBlock server={server()} />
+          </Show>
           <Show when={!server()?.scheduledForDeletion}>
             <DeleteServerBlock serverId={server()?.id!} />
           </Show>
 
           <Show when={server()?.scheduledForDeletion}>
-            <UndoDeleteServerBlock server={server()!} />
+            <UndoDeleteServerBlock
+              server={server()!}
+              done={() => {
+                setServer({ ...server()!, scheduledForDeletion: undefined });
+              }}
+            />
           </Show>
-
-
 
           <SettingsBlock label="Server Name" icon="edit">
             <Input
@@ -219,6 +243,53 @@ const ServerBannerDetails = styled(FlexColumn)`
   border-radius: 8px;
 `;
 
+const PublicServerBlock = (props: { server: RawServer }) => {
+  const [joinClicked, setJoinClicked] = createSignal(false);
+  const navigate = useNavigate();
+  const store = useStore();
+
+  const cacheServer = () => store.servers.get(props.server.id);
+
+  const onClick = async () => {
+    setJoinClicked(true);
+    if (cacheServer()) return;
+    await joinPublicServer(props.server.id).catch((err) => {
+      alert(err.message);
+      setJoinClicked(false);
+    });
+  };
+
+  createEffect(() => {
+    if (joinClicked() && cacheServer()) {
+      navigate(
+        RouterEndpoints.SERVER_MESSAGES(
+          cacheServer()!.id,
+          cacheServer()!.defaultChannelId
+        )
+      );
+    }
+  });
+
+  return (
+    <SettingsBlock
+      class={css`
+        && {
+          margin-bottom: 20px;
+        }
+      `}
+      icon="public"
+      label="Public Server"
+    >
+      <Button
+        onClick={onClick}
+        label={
+          cacheServer() ? "Visit" : joinClicked() ? "Joining..." : "Join Server"
+        }
+        primary
+      />
+    </SettingsBlock>
+  );
+};
 const DeleteServerBlock = (props: { serverId: string }) => {
   const { createPortal } = useCustomPortal();
 
@@ -233,7 +304,15 @@ const DeleteServerBlock = (props: { serverId: string }) => {
   };
 
   return (
-    <SettingsBlock  class={css`&& {margin-bottom: 40px;}`} icon="delete" label="Delete Server">
+    <SettingsBlock
+      class={css`
+        && {
+          margin-bottom: 20px;
+        }
+      `}
+      icon="delete"
+      label="Delete Server"
+    >
       <Button
         onClick={showSuspendModal}
         label="Delete Server"
@@ -244,29 +323,40 @@ const DeleteServerBlock = (props: { serverId: string }) => {
   );
 };
 
-
-const UndoDeleteServerBlock = (props: { server: RawServer }) => {
+const UndoDeleteServerBlock = (props: {
+  server: RawServer;
+  done: () => void;
+}) => {
   const { createPortal } = useCustomPortal();
 
-  const showSuspendModal = () => {
+  const onClick = () => {
     createPortal((close) => (
-      <DeleteServersModal
+      <UndoServerDeleteModal
         close={close}
-        servers={[{ id: props.serverId }]}
-        done={() => {}}
+        server={props.server}
+        done={props.done}
       />
     ));
   };
   const fiveDaysToMs = 5 * 24 * 60 * 60 * 1000;
 
-  const deletedMs = props.server.scheduledForDeletion.scheduledAt + fiveDaysToMs;
-  const deletionDate = () => formatTimestamp(deletedMs);
+  const deletedMs = () =>
+    props.server.scheduledForDeletion!.scheduledAt + fiveDaysToMs;
+  const deletionDate = () => formatTimestamp(deletedMs());
 
   return (
-    <SettingsBlock  class={css`&& {margin-bottom: 40px;}`} icon="undo" label="Scheduled for Deletion"
-     description={`Server will be deleted ${deletionDate()}`}>
+    <SettingsBlock
+      class={css`
+        && {
+          margin-bottom: 20px;
+        }
+      `}
+      icon="undo"
+      label="Scheduled for Deletion"
+      description={`Server will be deleted ${deletionDate()}`}
+    >
       <Button
-        onClick={showSuspendModal}
+        onClick={onClick}
         label="Undo"
         color="var(--alert-color)"
         primary

@@ -60,6 +60,9 @@ export const ServerEvents = {
   SERVER_EMOJI_REMOVE: "server:emoji_remove",
   SERVER_EMOJI_UPDATE: "server:emoji_update",
 
+  SERVER_SCHEDULE_DELETE: "server:schedule_delete",
+  SERVER_REMOVE_SCHEDULE_DELETE: "server:remove_schedule_delete",
+
   CHANNEL_TYPING: "channel:typing",
   MESSAGE_CREATED: "message:created",
   MESSAGE_UPDATED: "message:updated",

@@ -38,10 +38,12 @@ import {
   onServerMemberLeft,
   onServerMemberUpdated,
   onServerOrderUpdated,
+  onServerRemoveScheduleDelete,
   onServerRoleCreated,
   onServerRoleDeleted,
   onServerRoleOrderUpdated,
   onServerRoleUpdated,
+  onServerScheduleDelete,
   onServerUpdated,
 } from "./events/serverEvents";
 import {
@@ -159,6 +161,11 @@ socket.on(ServerEvents.SERVER_MEMBER_UPDATED, onServerMemberUpdated);
 socket.on(ServerEvents.SERVER_EMOJI_ADD, onServerEmojiAdd);
 socket.on(ServerEvents.SERVER_EMOJI_UPDATE, onServerEmojiUpdate);
 socket.on(ServerEvents.SERVER_EMOJI_REMOVE, onServerEmojiRemove);
+
+
+
+socket.on(ServerEvents.SERVER_SCHEDULE_DELETE, onServerScheduleDelete);
+socket.on(ServerEvents.SERVER_REMOVE_SCHEDULE_DELETE, onServerRemoveScheduleDelete);
 
 socket.on(ServerEvents.SERVER_CHANNEL_CREATED, onServerChannelCreated);
 socket.on(ServerEvents.SERVER_CHANNEL_UPDATED, onServerChannelUpdated);

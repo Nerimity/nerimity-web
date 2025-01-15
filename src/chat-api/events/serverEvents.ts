@@ -171,6 +171,20 @@ export const onServerEmojiRemove = (payload: {
   });
 };
 
+
+
+
+export const onServerScheduleDelete = (payload: {serverId: string, scheduleAt: number}) => {
+  const servers = useServers();
+  const server = servers.get(payload.serverId);
+  server?.update({scheduledForDeletion: {scheduledAt: payload.scheduleAt}});
+};
+export const onServerRemoveScheduleDelete = (payload: {serverId: string}) => {
+  const servers = useServers();
+  const server = servers.get(payload.serverId);
+  server?.update({scheduledForDeletion: undefined});
+};
+
 export const onServerUpdated = (payload: ServerUpdated) => {
   const servers = useServers();
   const server = servers.get(payload.serverId);

@@ -13,6 +13,7 @@ export interface CheckboxProps {
   class?: string;
   boxStyles?: JSX.CSSProperties;
   style?: JSX.CSSProperties;
+  disabled?: boolean
 }
 
 const boxStyle = css`
@@ -51,6 +52,7 @@ export default function Checkbox (props: CheckboxProps) {
   ));
 
   const onClick = () => {
+    if (props.disabled) return;
     const newState = !checked(); 
     !props.disableLocalUpdate &&  setChecked(newState);
     props.onChange?.(newState);

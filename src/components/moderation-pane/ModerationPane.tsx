@@ -49,6 +49,7 @@ import {
   emitModerationServerDeleted,
   emitModerationUserSuspended,
   useModerationServerDeletedListener,
+  useModerationUndoServerDeleteListener,
   useModerationUserSuspendedListener,
 } from "@/common/GlobalEvents";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
@@ -448,13 +449,24 @@ function ServersPane() {
   const [showAll, setShowAll] = createSignal(false);
 
   const moderationServerDeletedListener = useModerationServerDeletedListener();
+  const moderationUndoServerDeleteListener =
+    useModerationUndoServerDeleteListener();
 
   moderationServerDeletedListener((deletedServers) => {
     setServers(
       servers().map((u) => {
         const wasSuspended = deletedServers.find((su) => su.id === u.id);
-        if (!wasSuspended) return u; 
-        return {...u, scheduledForDeletion: {scheduledAt: Date.now()}};
+        if (!wasSuspended) return u;
+        return { ...u, scheduledForDeletion: { scheduledAt: Date.now() } };
+      })
+    );
+  });
+
+  moderationUndoServerDeleteListener((serverId) => {
+    setServers(
+      servers().map((u) => {
+        if (u.id !== serverId) return u;
+        return { ...u, scheduledForDeletion: undefined };
       })
     );
   });
@@ -629,7 +641,7 @@ export function User(props: { user: any; class?: string }) {
   );
 }
 
-export function Server(props: { server: any }) {
+export function Server(props: { server: RawServer }) {
   const created = formatTimestamp(props.server.createdAt);
   const createdBy = props.server.createdBy;
   const [hovered, setHovered] = createSignal(false);
@@ -666,6 +678,7 @@ export function Server(props: { server: any }) {
       <Checkbox
         onChange={onCheckChanged}
         checked={selected()}
+        disabled={!!props.server.scheduledForDeletion}
         class={css`
           place-self: start;
           margin-top: 6px;
@@ -695,22 +708,34 @@ export function Server(props: { server: any }) {
             </A>
           </Text>
         </FlexRow>
-        <Show when={props.server.scheduledForDeletion}>
-            <div  style={{
+        <FlexRow gap={2} wrap>
+          <Show when={props.server.scheduledForDeletion}>
+            <div
+              style={{
                 background: "var(--alert-color)",
                 "border-radius": "4px",
                 padding: "2px 8px",
                 "margin-top": "4px",
-                "display": "inline-block"
-              }}>
-            <Text
-              size={12}
-             
+                display: "inline-block",
+              }}
             >
-              Scheduled Deletion
-            </Text>
+              <Text size={12}>Scheduled Deletion</Text>
             </div>
           </Show>
+          <Show when={props.server.publicServer}>
+            <div
+              style={{
+                background: "var(--primary-color)",
+                "border-radius": "4px",
+                padding: "2px 8px",
+                "margin-top": "4px",
+                display: "inline-block",
+              }}
+            >
+              <Icon name="public" size={13} />
+            </div>
+          </Show>
+        </FlexRow>
       </ItemDetailContainer>
     </A>
   );
@@ -1000,6 +1025,12 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
 
           <Show when={props.auditLog.actionType === AuditLogType.serverDelete}>
             <Text size={14}>Deleted </Text>
+            <Text size={14}>{props.auditLog.serverName}</Text>
+          </Show>
+          <Show
+            when={props.auditLog.actionType === AuditLogType.serverUndoDelete}
+          >
+            <Text size={14}>Undo Delete </Text>
             <Text size={14}>{props.auditLog.serverName}</Text>
           </Show>
 

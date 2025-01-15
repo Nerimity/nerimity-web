@@ -209,6 +209,7 @@ export const AuditLogType = {
   userSuspendUpdate: 6,
   userWarned: 7,
   ipBan: 8,
+  serverUndoDelete: 9,
 } as const;
 
 export interface AuditLog {
@@ -277,6 +278,20 @@ export const deleteServer = async (
       reason,
     },
     url: env.SERVER_URL + `/api/moderation/servers/${serverId}`,
+    useToken: true,
+  });
+  return data;
+};
+export const undoDeleteServer = async (
+  serverId: string,
+  confirmPassword: string,
+) => {
+  const data = await request<any[]>({
+    method: "DELETE",
+    body: {
+      password: confirmPassword,
+    },
+    url: env.SERVER_URL + `/api/moderation/servers/${serverId}/schedule-delete`,
     useToken: true,
   });
   return data;

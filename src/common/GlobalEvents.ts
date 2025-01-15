@@ -6,6 +6,7 @@ export const GlobalEventName = {
   SCROLL_TO_MESSAGE: "scrollToMessage",
   MODERATION_USER_SUSPENDED: "moderationUserSuspended",
   MODERATION_SERVER_DELETED: "moderationServerDeleted",
+  MODERATION_UNDO_SERVER_DELETE: "moderationUndoServerDelete",
   MODERATION_SHOW_MESSAGES: "moderationShowMessages",
   DRAWER_GO_TO_MAIN: "drawerGoToMain",
 } as const;
@@ -34,6 +35,10 @@ export function useModerationShowMessages() {
 export function emitModerationServerDeleted(servers: any[]) {
   EE.emit("moderationServerDeleted", servers);
 }
+
+export function emitModerationUndoServerDelete(serverId: string) {
+  EE.emit(GlobalEventName.MODERATION_UNDO_SERVER_DELETE, serverId);
+}
 export function emitModerationUserSuspended(payload: ModerationSuspension) {
   EE.emit("moderationUserSuspended", payload);
 }
@@ -48,6 +53,9 @@ export function useModerationUserSuspendedListener() {
 
 export function useModerationServerDeletedListener() {
   return useEventListen<any[]>("moderationServerDeleted");
+}
+export function useModerationUndoServerDeleteListener() {
+  return useEventListen<string>(GlobalEventName.MODERATION_UNDO_SERVER_DELETE);
 }
 
 export function useEventListen<TReturn>(
