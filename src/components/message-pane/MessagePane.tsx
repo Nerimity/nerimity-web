@@ -80,6 +80,8 @@ import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { t } from "i18next";
 import useServerRoles from "@/chat-api/store/useServerRoles";
+import { deleteServer } from "@/chat-api/services/ServerService";
+import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
@@ -88,7 +90,26 @@ const DeleteMessageModal = lazy(
 );
 const PhotoEditor = lazy(() => import("../ui/photo-editor/PhotoEditor"));
 
-export default function MessagePane() {
+export default function MessagePaneMain() {
+  const store = useStore();
+  const params = useParams<{ channelId: string; serverId?: string }>();
+
+  const server = () => store.servers.get(params.serverId!);
+
+  const isScheduledDelete = createMemo(() => server()?.scheduledForDeletion);
+  return (
+    <Switch>
+      <Match when={isScheduledDelete()}>
+        <ScheduledDelete />
+      </Match>
+      <Match when={!isScheduledDelete()}>
+        <MessagePane />
+      </Match>
+    </Switch>
+  );
+}
+
+function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
   const params = useParams<{ channelId: string; serverId?: string }>();
   const { channels, header, serverMembers, account, servers } = useStore();
@@ -2015,5 +2036,40 @@ function BeforeYouChatNotice(props: {
         </div>
       </Show>
     </>
+  );
+}
+
+function ScheduledDelete() {
+  const params = useParams<{ serverId?: string }>();
+  const store = useStore();
+  const server = () => store.servers.get(params.serverId!);
+  const isCreator = () => server()?.isCurrentUserCreator();
+  const { createPortal } = useCustomPortal();
+
+  const onLeaveClick = () => {
+    if (isCreator()) {
+      createPortal((close) => (
+        <ServerDeleteConfirmModal server={server()!} close={close} />
+      ));
+      return;
+    }
+    server()?.leave();
+  };
+
+  return (
+    <div class={styles.scheduledDeleteContainer}>
+      <div class={styles.scheduledDeleteTitle}>Schedule Delete</div>
+      <div class={styles.scheduledDeleteDesc}>
+        This server did not comply with our Terms of Service, and will be
+        deleted soon.
+      </div>
+      <Button
+        onclick={onLeaveClick}
+        iconName={isCreator() ? "delete" : "logout"}
+        label={isCreator() ? "Delete Now" : "Leave Server"}
+        color="var(--alert-color)"
+        primary
+      />
+    </div>
   );
 }

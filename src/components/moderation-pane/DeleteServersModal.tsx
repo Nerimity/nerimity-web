@@ -14,6 +14,7 @@ import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Checkbox from "../ui/Checkbox";
+import { emitModerationServerDeleted } from "@/common/GlobalEvents";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -70,7 +71,6 @@ export default function DeleteServersModal(props: Props) {
   };
 
   const onSuspendClicked = async () => {
-    console.log(constructedReason());
     if (!constructedReason().trim()) {
       setError({ message: "Please provide a reason." });
       return;
@@ -110,6 +110,7 @@ export default function DeleteServersModal(props: Props) {
         "Some servers could not be deleted due to an error. Please try again."
       );
     }
+    emitModerationServerDeleted(props.servers);
     props.done();
     props.close();
   };

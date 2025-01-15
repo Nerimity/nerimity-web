@@ -322,7 +322,7 @@ export default function ServerGeneralSettings() {
   );
 }
 
-function ServerDeleteConfirmModal(props: {
+export function ServerDeleteConfirmModal(props: {
   server: Server;
   close: () => void;
 }) {
