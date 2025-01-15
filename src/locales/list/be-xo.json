@@ -282,6 +282,15 @@
       "desktopNotificationsDescription": "Паказваць апавяшчэньні на працоўным сталу, нават калі праграма згарнутая.",
       "sounds": "Ґукі",
       "soundsDescription": "Калі ґукі апавяшчэньняў занадта дакучлівыя, вы можаце іх адключыць.",
+      "interface": {
+        "blurEffect": "Эфэкт размыцьця",
+        "blurEffectDescription": "Уключае празрысты эфэкт размыцьця. Па змаўчанні выключана на тэлэфонах. Можа выклікаць праблемы зь прадуктыўнасьцью.",
+        "disableAdvancedMarkupBar": "Выключыць панэль пашыранае разьметкі",
+        "disableAdvancedMarkupBarDescription": "Не паказваць панэль пашыранае разьметкі ў тэкставых каналах.",
+        "customizeColors": "Дапасаваць колеры",
+        "customizeColorsDescription": "Наладзіць колеры інтэрфэйсу."
+      },
+      "supportBlock": {
       "volume": "Ґучнасьць",
       "volumeDescription": "Зьмяніце ґучнасьць паведамленьняў.",
       "changeSoundsDescription": "Зьмяніце ґук паведамленьняў зь гэтымі ґукамі без аўтарскіх правоў.",
