@@ -25,10 +25,13 @@ export const languages = {
     emoji: "🇿🇦",
     contributors: ["https://github.com/mooocksadev"],
   },
-  "be-by": {
+  "be-xo": {
     name: "Belarusian (Traditional)",
     emoji: "🇧🇾",
-    contributors: ["https://github.com/Dzi-Mieha"],
+    contributors: [
+      "https://github.com/Dzi-Mieha",
+      "https://github.com/1enify",
+    ],
   },
   "pt-br": {
     name: "Brazilian Portuguese",

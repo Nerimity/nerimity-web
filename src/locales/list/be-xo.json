@@ -7,11 +7,12 @@
   },
   "homePage": {
     "slogan": "Сучасная й элегантная праґрама для памену паведамленьнямі.",
-    "viewGitHubButton": "Праглядзець на GitHub"
+    "viewGitHubButton": "Праглядзець на GitHub",
+    "getStarted": "Пачнем"
   },
   "loginPage": {
     "title": "Увайдзіце, каб працягнуць",
-    "emailOrUsernameAndTag": "Эл. адрас / імя карыстальніка:тэг",
+    "emailOrUsernameAndTag": "Эл. адрэса / імя карыстальніка:тэг",
     "password": "Пароль",
     "login": "Увайсьці",
     "createAccountInstead": "Замест гэтага стварыць уліковы запіс",
@@ -38,14 +39,25 @@
     "discover": "Дасьледваць",
     "notifications": "Апавяшчэньні"
   },
+   "messageArea": {
+    "messageBoxPlaceholder": "Напісаць {{username}}",
+    "messageBoxChannelPlaceholder": "Напісаць у {{channelName}}"
+  },
   "inbox": {
+    "blockedUsersModal": {
+      "title": "Заблякаваныя карыстальнікі"
+    },
     "drawer": {
-      "requests": "Запыты",
-      "online": "У сетцы",
-      "offline": "Па-за сеткай",
+      "searchBarPlaceholder": "Пошук",
+      "friendRequests": "{{count}} запытаў сяброўства",
+      "onlineFriends": "{{count}} сяброў у сетцы",
+      "offlineFriends": "{{count}} сяброў па-за сеткай",
+      "notes": "Нататкі",
       "addFriendButton": "Дадаць сябра",
-      "inboxButton": "Уваходныя",
-      "friendsButton": "Сябры"
+      "blockedUsersButton": "Блякаваныя",
+      "inboxTitle": "Уваходныя",
+      "friendsButton": "Сябры",
+      "viewAll": "Праглядзець усіх"
     }
   },
   "explore": {
@@ -73,6 +85,7 @@
     "settings": {
       "drawer": {
         "general": "Агульныя",
+        "audit-logs": "Журнал падзей",
         "roles": "Ролі",
         "channels": "Каналы",
         "bans": "Блякаваньня",
@@ -129,8 +142,9 @@
         "permissions": "Дазволы",
         "permissionsDescription": "Кіраваньне дазволамі гэтага каналу.",
         "deleteThisChannel": "Выдаліць гэты канал",
-        "deleteThisChannelDescription": "Гэта дзеяньне нельга адмяніць!",
-        "deleteChannelButton": "Выдаліць канал"
+        "deleteThisChannelDescription": "Гэта дзеяньне нельга адрабіць!",
+        "deleteChannelButton": "Выдаліць канал",
+        "removeNoticeButton": "Выдаліць папярэджаньне"
       },
       "invites": {
         "createInviteButton": "Стварыць запрашэньне",
@@ -171,6 +185,8 @@
       "nicknameMemberDescription": "Дазваляе карыстальнікам зьмяняць іх нікнэйм на сэрвэры."
     },
     "channelPermissions": {
+      "publicChannel": "Публічны канал",
+      "publicChannelDescription": "Уключыць доступ да каналу. Адміны сэрвэру могуць праглядваць усі каналы.",
       "sendMessage": "Адпраўляць паведамленьні",
       "sendMessageDescription": "Дазваляе адпараўляць паведамленьні ў гэтым канале. Адміны могуць адпраўляць паведамленьні незалежна ад гэтага дазволу.",
       "joinVoice": "Далучацца да выкліку",
@@ -195,22 +211,56 @@
       "activity-status": "Статус",
       "tickets": "Квіткі",
       "privacy": "Прыватнасьць",
-      "connections": "Злучэньні"
+      "connections": "Злучэньні",
+      "profile": "Профіль"
+    },
+    "header": {
+      "servers": "сэрвэры",
+      "friends": "сябры",
+      "manageAccount": "Кіраваньне ўліковым запісам"
+    },
+    "account": {
+      "title": "Налады - Уліковы запіс",
+      "email": "Электроная адрэса",
+      "username": "Імя карыстальніка",
+      "tag": "Тэг",
+      "avatar": "Аватар",
+      "banner": "Банер",
+      "supported": "Падтрымліваюцца",
+      "browse": "Выбраць",
+      "profile": "Профіль",
+      "profileDescription": "Адрэдагуйце ваша апісаньне й колеры",
+      "changePassword": "Зьмяніць пароль",
+      "forgotPassword": "Забылі пароль",
+      "newPassword": "Новы пароль",
+      "newPasswordDescription": "Зьмена пароля прывядзе да выхаду з усіх астатніх прылад.",
+      "confirmNewPassword": "Пацьвердзіць новы пароль",
+      "confirmNewPasswordDescription": "Падцьвярдзіце ваш новы пароль",
+      "confirmCurrentPassword": "Падцьвярдзіце ваш бягучы пароль",
+      "channelNotice": "Папярэджаньне карыстальніка",
+      "channelNoticeDescription": "Паказваецца, калі карыстальнік піша вам упершыню. Зьмены прымяняюцца пасьля перазагрузкі.",
+      "saving": "Захоўваем...",
+      "saveButton": "Захаваць",
+      "saveChangesButton": "Захаваць зьмены",
+      "deleteAccount": "Выдаліць мой уліковы запіс",
+      "deleteAccountDescription": "Гэта нельга адрабіць!",
+      "deleteAccountNotice": "Вы павінны выйсьці з/выдаліць усе вашы сэрвэры перад выдаленьнем вашага ўліковага запісу.",
+      "understoodButton": "Зразумела"
     },
     "privacy": {
+      "lastOnline": {
+        "title": "Апошні час у сетцы",
+        "description": "Абярыце, хто можа бачыць, калі вы апошні раз былі ў сетцы.",
+        "hidden": "Сьхаваны",
+        "friendsOnly": "Толькі сябры",
+        "friendsAndServers": "Сябры й удзельнікі агульных са мной сэрвэраў"
+      },
       "directMessage": {
         "title": "Асабістыя паведамленьні",
         "description": "Хто можа гутарыць са мной у васабістых паведамленьнях.",
         "anyone": "Усе",
         "friendsAndServersOnly": "Толькі сябры й удзельнікі агульных са мной сэрвэраў",
-        "friendsOnly": "Толькі сябры"
-      },
-      "profileOptions": {
-        "title": "Налады профілю",
-        "hideFollowers": "Схаваць падпісантаў",
-        "hideFollowersDescription": "Схаваць падпісантаў з вашага профілю.",
-        "hideFollowing": "Схаваць падпіскі",
-        "hideFollowingDescription": "Схаваць карыстальнікаў, на якіх вы падпісаны, з вашага профілю."
+        "friendsOnly": "Толькі сябры" 
       },
       "friendRequest": {
         "title": "Запыты сяброўства",
@@ -219,14 +269,83 @@
         "serversOnly": "Толькі ўдзельнікі агульных са мной сэрвэраў",
         "nobody": "Аніхто"
       },
-      "lastOnline": {
-        "description": "Хто можа бачыць, калі вы былі ў сетцы ў апошні раз.",
-        "title": "Апошні раз у сетцы"
+      "profileOptions": {
+        "title": "Налады профілю",
+        "hideFollowers": "Схаваць падпісантаў",
+        "hideFollowersDescription": "Схаваць падпісантаў з вашага профілю.",
+        "hideFollowing": "Схаваць падпіскі",
+        "hideFollowingDescription": "Схаваць карыстальнікаў, на якіх вы падпісаны, з вашага профілю."
       }
-    }
+    },
+    "notifications": {
+      "desktopNotifications": "Апавяшчэньні на працоўным сталу",
+      "desktopNotificationsDescription": "Паказваць апавяшчэньні на працоўным сталу, нават калі праграма згарнутая.",
+      "sounds": "Ґукі",
+      "soundsDescription": "Калі ґукі апавяшчэньняў занадта дакучлівыя, вы можаце іх адключыць.",
+      "interface": {
+        "blurEffect": "Эфэкт размыцьця",
+        "blurEffectDescription": "Уключае празрысты эфэкт размыцьця. Па змаўчанні выключана на тэлэфонах. Можа выклікаць праблемы зь прадуктыўнасьцью.",
+        "disableAdvancedMarkupBar": "Выключыць панэль пашыранае разьметкі",
+        "disableAdvancedMarkupBarDescription": "Не паказваць панэль пашыранае разьметкі ў тэкставых каналах.",
+        "customizeColors": "Дапасаваць колеры",
+        "customizeColorsDescription": "Наладзіць колеры інтэрфэйсу."
+      },
+      "supportBlock": {
+      "volume": "Ґучнасьць",
+      "volumeDescription": "Зьмяніце ґучнасьць паведамленьняў.",
+      "changeSoundsDescription": "Зьмяніце ґук паведамленьняў зь гэтымі ґукамі без аўтарскіх правоў.",
+      "message": "Паведамленьне",
+      "messageDescription": "Ґук, калі вы атрымлівайце паведамленьне.",
+      "mention": "Згадваньне",
+      "mentionDescription": "Ґук, калі вас згадваюць.",
+      "inAppPreview": "Перадпрагляд у праграме",
+      "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў праграме.",
+      "inAppPreviewModes": {
+        "off": "Выключана",
+        "mentionsOnly": "Толькі згадваньні",
+        "inheritFromPingSettings": "Узяць з налад згадвання",
+        "all": "Усі"
+      }
+    },
+    "call": {
+      "nextCallNotice": "Зьмены будуць прымененыя ў вашым наступным выкліку.",
+      "inputDevices": "Прылады ўводу",
+      "outputDevices": "Прылады вываду",
+      "default": "Прадвызначаныя",
+      "inputMode": "Метад уводу",
+      "openMic": "Заўсёды запісваць",
+      "voiceActivity": "Калі гаварыце",
+      "pushToTalk": "Націсьніце, каб гаварыць",
+      "bindButton": "Прывязаць",
+      "stopButton": "Спыніць",
+      "downloadAppNotice": "Спампуйце праграму Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
+    },
   },
   "supportBlock": {
-    "support": "Падтрымаць мяне"
+    "support": "Падтрымаць мяне",
+    "supportDescription": "Падтрымайце мяне, каб атрымаць бэйдж!"
+  },
+  "createServerModal": {
+    "title": "Стварыць сэрвэр",
+    "notice": "18+ кантэнт не дазволены.",
+    "serverName": "Імя сэрвэру",
+    "placeholder": "Мой цудоўны сэрвэр",
+    "creating": "Ствараем...",
+    "createServerButton": "Стварыць сэрвэр",
+    "closeButton": "Закрыць"
+  },
+  "serverContextMenu": {
+    "markAsRead": "Адзначыць як прачытанае",
+    "invites": "Запрашэньні",
+    "notifications": "Апавяшчэньні",
+    "settings": "Налады",
+    "copyId": "Капіяваць ID",
+    "leave": "Выйсьці",
+    "notificationOptions": {
+      "everything": "Усё",
+      "mentionsOnly": "Толькі згадваньні",
+      "mute": "Адключаны"
+    }
   },
   "userContextMenu": {
     "viewProfile": "Праглядзець профіль",
@@ -235,7 +354,8 @@
     "editRoles": "Рэдагаваць ролі",
     "kick": "Выгнаць",
     "ban": "Заблякаваць",
-    "changeNickname": "Зьмяніць нікнэйм"
+    "changeNickname": "Зьмяніць нікнэйм",
+    "callVolume": "Ґучнасьць у выкліку"
   },
   "kickServerMemberModal": {
     "title": "Выгнаць {{username}}",
@@ -258,7 +378,11 @@
     "editMessage": "Адрэдагаваць паведамленьне",
     "deleteMessage": "Выдаліць паведамленьне",
     "copyMessage": "Скапіяваць паведамленьне",
-    "copyId": "Скапіяваць ID"
+    "copyId": "Скапіяваць ID",
+    "viewReactions": "Праглядзець рэакцыйі",
+    "quoteMessage": "Цытатаваць паведамленьне",
+    "reportMessage": "Паскардзіцца",
+    "reply": "Адказаць"
   },
   "profile": {
     "followButton": "Падпісацца",
@@ -284,10 +408,11 @@
     },
     "postWasDeleted": "Гэта публікацыя была выдалена!",
     "someoneLikedYourPost": "<1>{{username}}</1> упадабаў вашую публікацыю!",
+    "someoneRepostedYourPost": "<1>{{username}}</1> пашырыў вашую публікацыю!",
     "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
     "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашую публікацыю!",
     "createAPostInputPlaceholder": "Дадаць публікацыю...",
-    "replyInputPlaceholder": "Адказваем...",
+    "replyInputPlaceholder": "Адказ...",
     "replyButton": "Адказаць",
     "createButton": "Дадаць",
     "pollOptions": "Варыянты апытаньня",
@@ -300,4 +425,5 @@
     "attachmentsBack": "Назад",
     "members": "Удзельнікі"
   }
+}
 }
