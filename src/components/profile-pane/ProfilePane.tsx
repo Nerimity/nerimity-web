@@ -230,7 +230,7 @@ export default function ProfilePane() {
                       background-color: ${bgColor()};
                       border-radius: 10px;
                       padding: 4px;
-                      margin-top: 8px;
+                      margin-top: 4px;
                     `}
                     updateUserDetails={() => fetchUserDetails(params.userId)}
                     userDetails={userDetails()}
