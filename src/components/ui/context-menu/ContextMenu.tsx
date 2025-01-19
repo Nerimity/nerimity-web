@@ -43,6 +43,7 @@ export interface ContextMenuProps {
     y: number;
   } | null;
   header?: JSXElement;
+  clickEvent?: MouseEvent;
 }
 
 export default function ContextMenu(props: ContextMenuProps) {
@@ -56,9 +57,29 @@ export default function ContextMenu(props: ContextMenuProps) {
 
   const { height, width } = useResizeObserver(contextMenuEl);
 
+  const itemsWithExtra = () => {
+    if (!props.clickEvent) return props.items;
+    const tempItems = [...props.items];
+    const target = props.clickEvent.target as HTMLElement;
+    const imageSrc = target.getAttribute("data-contextmenu-src");
+    const url = target.getAttribute("href");
+    if (url || imageSrc) {
+      if (!tempItems[0]?.separator) tempItems.unshift({ separator: true });
+      tempItems.unshift({
+        label: "Copy Link",
+        icon: "content_copy",
+        onClick: () => {
+          navigator.clipboard.writeText(imageSrc || url || "");
+        },
+      });
+    }
+
+    return tempItems;
+  };
+
   createEffect(() => {
     if (props.position) {
-      setItems(reconcile(props.items));
+      setItems(reconcile(itemsWithExtra()));
     } else {
       setItems([]);
     }
