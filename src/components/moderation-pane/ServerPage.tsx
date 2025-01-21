@@ -4,7 +4,7 @@ import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useNavigate, useParams } from "solid-navigator";
 import { Show, createEffect, createSignal, onMount } from "solid-js";
-import { User } from "./ModerationPane";
+import { AuditLogPane, User } from "./ModerationPane";
 import Text from "../ui/Text";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Input from "../ui/input/Input";
@@ -175,12 +175,14 @@ export default function ServerPage() {
           </div>
           <div style={{ "margin-bottom": "10px" }}>
             <UsersAuditLogsPane
-              title="Audit Logs"
+              title="Server Audit Logs"
               search={params.serverId}
               hideSearchBar
               noMargin
             />
           </div>
+
+          <AuditLogPane search={params.serverId} style={{ margin: 0 }} />
 
           <Show when={Object.keys(updatedInputValues()).length}>
             <SettingsBlock

@@ -5,6 +5,7 @@ import {
   createResource,
   createSignal,
   For,
+  JSX,
   lazy,
   on,
   onMount,
@@ -797,7 +798,10 @@ function StatsArea() {
   );
 }
 
-function AuditLogPane() {
+export function AuditLogPane(props: {
+  search: string;
+  style?: JSX.CSSProperties;
+}) {
   const LIMIT = 30;
   const [items, setItems] = createSignal<AuditLog[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
@@ -807,7 +811,7 @@ function AuditLogPane() {
 
   createEffect(
     on(afterId, async () => {
-      fetchServers();
+      fetchLogs();
     })
   );
 
@@ -817,9 +821,13 @@ function AuditLogPane() {
   };
   const firstFive = () => items().slice(0, 5);
 
-  const fetchServers = () => {
+  const fetchLogs = () => {
     setLoadMoreClicked(true);
-    getAuditLog(LIMIT, afterId())
+    getAuditLog({
+      limit: LIMIT,
+      afterId: afterId(),
+      search: props.search,
+    })
       .then((newItems) => {
         setItems([...items(), ...newItems]);
         if (newItems.length >= LIMIT) setLoadMoreClicked(false);
@@ -831,7 +839,10 @@ function AuditLogPane() {
     <PaneContainer
       class="pane servers"
       expanded={showAll()}
-      style={!showAll() ? { height: "initial" } : undefined}
+      style={{
+        ...(!showAll() ? { height: "initial" } : undefined),
+        ...props.style,
+      }}
     >
       <FlexRow
         gap={5}

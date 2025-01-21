@@ -234,15 +234,20 @@ export interface AuditLog {
   reason?: string;
   expireAt?: number;
 }
-
-export const getAuditLog = async (limit: number, afterId?: string) => {
+interface getAuditLogOpts {
+  search?: string;
+  limit: number;
+  afterId?: string;
+}
+export const getAuditLog = async ({ limit, afterId, search }: getAuditLogOpts) => {
   const data = await request<AuditLog[]>({
     method: "GET",
     params: {
       ...(afterId ? { after: afterId } : undefined),
+      ...(search ? { q: search } : undefined),
       limit,
     },
-    url: env.SERVER_URL + "/api/moderation/audit-logs",
+    url: env.SERVER_URL + "/api/moderation/audit-logs" + (search ? "/search" : ""),
     useToken: true,
   });
   return data;
