@@ -21,6 +21,14 @@ export async function getInvites(serverId: string): Promise<any> {
     useToken: true,
   });
 }
+export async function transferOwnership(serverId: string, password: string, newOwnerUserId: string): Promise<any> {
+  return request({
+    method: "POST",
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/transfer-ownership",
+    body: { password, newOwnerUserId },
+    useToken: true,
+  });
+}
 
 export async function updateServer(
   serverId: string,

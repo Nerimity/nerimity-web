@@ -11,6 +11,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import {
   BanServerMember,
   kickServerMember,
+  transferOwnership,
   updateServerMember,
   updateServerMemberProfile,
 } from "@/chat-api/services/ServerService";
@@ -30,6 +31,9 @@ import Input from "../ui/input/Input";
 import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import Avatar from "../ui/Avatar";
+import { Modal } from "../ui/modal";
+import { User } from "@/chat-api/store/useUsers";
+import { Server } from "@/chat-api/store/useServers";
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
   userId: string;
@@ -79,6 +83,12 @@ export default function MemberContextMenu(props: Props) {
       icon: "edit",
       onClick: onNicknameClick,
     };
+    const transferOwnership = {
+      label: t("userContextMenu.transferOwnership"),
+      icon: "next_week",
+      onClick: onTransferOwnershipClick,
+      alert: true,
+    };
 
     const isCurrentUserCreator = server()?.isCurrentUserCreator();
     const clickedOnMyself = props.userId === account.user()?.id;
@@ -110,6 +120,8 @@ export default function MemberContextMenu(props: Props) {
         separator,
         ...(member() ? [kick] : []),
         ban,
+        separator,
+        transferOwnership,
       ];
     }
 
@@ -150,6 +162,11 @@ export default function MemberContextMenu(props: Props) {
   const onNicknameClick = () => {
     createPortal?.((close) => (
       <ServerNicknameModal close={close} member={member()!} />
+    ));
+  };
+  const onTransferOwnershipClick = () => {
+    createPortal?.((close) => (
+      <TransferOwnershipModal close={close} member={member()!} />
     ));
   };
 
@@ -353,6 +370,98 @@ function ServerNicknameModal(props: {
         </Show>
       </div>
     </LegacyModal>
+  );
+}
+
+function TransferOwnershipModal(props: {
+  member: ServerMember;
+  close: () => void;
+}) {
+  const [requestSent, setRequestSent] = createSignal(false);
+  const [error, setError] = createSignal<string | null>(null);
+  const [password, setPassword] = createSignal(props.member.nickname || "");
+
+  const store = useStore();
+
+  const server = () => store.servers.get(props.member.serverId!);
+
+  const onUpdate = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+    await transferOwnership(
+      props.member.serverId!,
+      password(),
+      props.member.userId
+    )
+      .then(() => {
+        props.close();
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => {
+        setRequestSent(false);
+      });
+  };
+
+  return (
+    <Modal.Root close={props.close} doNotCloseOnBackgroundClick>
+      <Modal.Header title="Transfer Ownership" icon="next_week" alert />
+      <Modal.Body>
+        <Notice
+          style={{ "margin-bottom": "10px" }}
+          type="error"
+          description="You will not be able to undo this action."
+        />
+        <Show when={server()?.verified}>
+          <Notice
+            style={{ "margin-bottom": "10px" }}
+            type="error"
+            description="This server will be unverified."
+          />
+        </Show>
+        <div>Server:</div>
+        <TransferOwnershipOwnerBox server={server()} />
+        <div>New Owner:</div>
+        <TransferOwnershipOwnerBox user={props.member.user()} />
+        <Input
+          label="Confirm Password"
+          type="password"
+          value={password()}
+          onText={setPassword}
+          primaryColor="var(--alert-color)"
+        />
+        <Show when={error()}>
+          <Text color="var(--alert-color)">{error()}</Text>
+        </Show>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label={"Don't Transfer"}
+          iconName="arrow_back"
+          onClick={props.close}
+        />
+        <Modal.Button
+          label={requestSent() ? "Transferring..." : "Transfer"}
+          alert
+          iconName="next_week"
+          primary
+          onClick={onUpdate}
+        />
+      </Modal.Footer>
+    </Modal.Root>
+  );
+}
+
+function TransferOwnershipOwnerBox(props: { user?: User; server?: Server }) {
+  return (
+    <div class={styles.transferOwnershipOwnerBox}>
+      <Avatar user={props.user} server={props.server} size={38} />
+      <Text>
+        {props.server?.name || props.user.username}
+        <Show when={props.user}>
+          <span class={styles.tag}>:{props.user?.tag}</span>
+        </Show>
+      </Text>
+    </div>
   );
 }
 

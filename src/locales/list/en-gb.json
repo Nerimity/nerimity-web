@@ -354,6 +354,7 @@
     "kick": "Kick",
     "ban": "Ban",
     "changeNickname": "Change Nickname",
+    "transferOwnership": "Transfer Ownership",
     "callVolume": "Call Volume"
   },
   "kickServerMemberModal": {

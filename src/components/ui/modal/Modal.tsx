@@ -25,6 +25,7 @@ interface RootProps {
    @default true
   */
   closeOnEscape?: boolean;
+  doNotCloseOnBackgroundClick?: boolean;
 }
 const Root = (props: RootProps) => {
   const { isMobileWidth } = useWindowProperties();
@@ -33,6 +34,7 @@ const Root = (props: RootProps) => {
   let textSelected = false;
 
   const onBackgroundClick = (event: MouseEvent) => {
+    if (props.doNotCloseOnBackgroundClick) return;
     if (event.target !== event.currentTarget) return;
 
     const xDistance = Math.abs(startClick.x - event.clientX);
