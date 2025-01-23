@@ -69,7 +69,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
-import { Dynamic } from "solid-js/web";
+import { Dynamic, Portal } from "solid-js/web";
 import { Emoji as RoleEmoji } from "@/components/ui/Emoji";
 import { prettyBytes } from "@/common/prettyBytes";
 import { unzipJson } from "@/common/zip";
@@ -1397,25 +1397,27 @@ function HTMLEmbed(props: { message: RawMessage }) {
   );
 
   return (
-    <div class={classNames(styles.htmlEmbedContainer, `htmlEmbed${id}`)}>
-      <HTMLEmbedItem
-        items={
-          Array.isArray(embed())
-            ? (embed() as HtmlEmbedItem[])
-            : [embed() as HtmlEmbedItem]
-        }
-      />
-      <Show when={styleItem()}>
-        {/* @scope (.htmlEmbed${id}) { */}
-        <style>
-          {`
+    <ShadowRoot>
+      <div class={classNames(styles.htmlEmbedContainer, `htmlEmbed${id}`)}>
+        <HTMLEmbedItem
+          items={
+            Array.isArray(embed())
+              ? (embed() as HtmlEmbedItem[])
+              : [embed() as HtmlEmbedItem]
+          }
+        />
+        <Show when={styleItem()}>
+          {/* @scope (.htmlEmbed${id}) { */}
+          <style>
+            {`
             .htmlEmbed${id} {
               ${replaceImageUrl(styleItem()!, hasFocus())}
             }
           `}
-        </style>
-      </Show>
-    </div>
+          </style>
+        </Show>
+      </div>
+    </ShadowRoot>
   );
 }
 
@@ -1851,6 +1853,23 @@ const MessageReplyItem = (props: {
           <div class={styles.replyContent}>Message was deleted.</div>
         </Show>
       </div>
+    </div>
+  );
+};
+
+/**
+ * A declarative shadow root component
+ *
+ * Hooks into SolidJS' Portal's `useShadow` prop
+ * to handle shadow DOM and the component lifecycle
+ */
+const ShadowRoot: ParentComponent = (props) => {
+  let div: HTMLDivElement;
+  return (
+    <div ref={div!}>
+      <Portal mount={div!} useShadow={true}>
+        {props.children}
+      </Portal>
     </div>
   );
 };
