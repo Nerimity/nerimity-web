@@ -56,6 +56,10 @@ export function ImageEmbed(props: ImageEmbedProps) {
     return url.href;
   };
 
+  const contextMenuSrc = () => {
+    return props.attachment.origSrc || url(true);
+  };
+
   const style = () => {
     const maxWidth = clamp(
       (props.customWidth || paneWidth()!) + (props.widthOffset || 0),
@@ -93,7 +97,13 @@ export function ImageEmbed(props: ImageEmbedProps) {
         conditionalClass(isGif() && !hasFocus(), "gif")
       )}
     >
-      <img loading="lazy" src={url()} style={style()} alt="" />
+      <img
+        data-contextmenu-src={contextMenuSrc()}
+        loading="lazy"
+        src={url()}
+        style={style()}
+        alt=""
+      />
     </ImageEmbedContainer>
   );
 }

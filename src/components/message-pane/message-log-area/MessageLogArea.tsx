@@ -107,7 +107,12 @@ export const MessageLogArea = (props: {
   }>({ lastSeenAt: null, messageId: null });
 
   const [messageContextDetails, setMessageContextDetails] = createSignal<
-    { position: { x: number; y: number }; message: Message } | undefined
+    | {
+        position: { x: number; y: number };
+        message: Message;
+        clickEvent: MouseEvent;
+      }
+    | undefined
   >(undefined);
   const [userContextMenuDetails, setUserContextMenuDetails] = createSignal<
     { position?: { x: number; y: number }; message?: Message } | undefined
@@ -500,6 +505,7 @@ export const MessageLogArea = (props: {
     event.preventDefault();
     setMessageContextDetails({
       message,
+      clickEvent: event,
       position: {
         x: event.clientX,
         y: event.clientY,
@@ -755,6 +761,7 @@ function UnreadMarker(props: { onClick: () => void }) {
 
 type MessageContextMenuProps = Omit<ContextMenuProps, "items"> & {
   message: Message;
+  clickEvent: MouseEvent;
   quoteMessage(): void;
   replyMessage(): void;
 };
