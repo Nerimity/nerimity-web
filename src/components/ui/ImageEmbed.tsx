@@ -7,6 +7,7 @@ import { RawAttachment } from "@/chat-api/RawData";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import env from "@/common/env";
 import { ImagePreviewModal } from "./ImagePreviewModal";
+import { transitionViewIfSupported } from "@/common/transitionViewIfSupported";
 
 const ImageEmbedContainer = styled(FlexRow)`
   user-select: none;
@@ -44,6 +45,7 @@ interface ImageEmbedProps {
 export function ImageEmbed(props: ImageEmbedProps) {
   const { paneWidth, height, hasFocus } = useWindowProperties();
   const { createPortal } = useCustomPortal();
+  const [previewModalOpened, setPreviewModalOpened] = createSignal(false);
 
   const isGif = () => props.attachment.path?.endsWith(".gif");
   const url = (ignoreFocus?: boolean) => {
@@ -68,25 +70,43 @@ export function ImageEmbed(props: ImageEmbedProps) {
     const maxHeight = props.maxHeight
       ? clamp((props.customHeight || height()) / 2, props.maxHeight)
       : (props.customHeight || height()) / 2;
-    return clampImageSize(
-      props.attachment.width!,
-      props.attachment.height!,
-      maxWidth,
-      maxHeight
-    );
+
+    return {
+      ...clampImageSize(
+        props.attachment.width!,
+        props.attachment.height!,
+        maxWidth,
+        maxHeight
+      ),
+      ...(previewModalOpened()
+        ? { "view-transition-name": "embed-image" }
+        : {}),
+    };
   };
 
   const onClicked = () => {
     if (props.ignoreClick) return;
-    createPortal((close) => (
-      <ImagePreviewModal
-        close={close}
-        url={url(true)}
-        origUrl={props.attachment.origSrc}
-        width={props.attachment.width}
-        height={props.attachment.height}
-      />
-    ));
+    setPreviewModalOpened(true);
+    transitionViewIfSupported(() => {
+      setPreviewModalOpened(false);
+      createPortal((close) => (
+        <ImagePreviewModal
+          close={() => {
+            transitionViewIfSupported(() => {
+              close();
+              setPreviewModalOpened(true);
+              setTimeout(() => {
+                setPreviewModalOpened(false);
+              }, 100);
+            });
+          }}
+          url={url(true)}
+          origUrl={props.attachment.origSrc}
+          width={props.attachment.width}
+          height={props.attachment.height}
+        />
+      ));
+    });
   };
 
   return (

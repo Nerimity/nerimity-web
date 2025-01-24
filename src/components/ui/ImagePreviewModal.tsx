@@ -36,6 +36,7 @@ const ImagePreviewContainer = styled(FlexRow)`
   img {
     max-width: 100%;
     max-height: 100%;
+    view-transition-name: embed-image;
   }
 `;
 const ImagePreview = styled(FlexRow)`
@@ -66,8 +67,8 @@ export function ImagePreviewModal(props: {
 }) {
   let imageRef: HTMLImageElement | undefined;
   let zoomistContainerRef: HTMLImageElement | undefined;
-  let location = useLocation();
-  let navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { createPortal } = useCustomPortal();
 
   createEffect(
