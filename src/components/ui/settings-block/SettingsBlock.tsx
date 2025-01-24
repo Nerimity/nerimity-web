@@ -8,7 +8,7 @@ import { CustomLink } from "../CustomLink";
 
 interface BlockProps {
   label: string;
-  icon?: string;
+  icon?: string | JSXElement;
   iconSrc?: string;
   description?: string | JSXElement;
   children?: JSX.Element | undefined;
@@ -21,12 +21,16 @@ interface BlockProps {
   href?: string;
   hrefBlank?: boolean;
   historyState?: any;
+  onMouseOver?: () => void;
+  onMouseLeave?: () => void;
 }
 
 export default function SettingsBlock(props: BlockProps) {
   const child = children(() => props.children);
   return (
     <Dynamic
+      onmouseleave={props.onMouseLeave}
+      onmouseover={props.onMouseOver}
       component={props.href ? CustomLink : "div"}
       {...(props.hrefBlank
         ? { target: "_blank", rel: "noopener noreferrer" }
@@ -72,7 +76,13 @@ export default function SettingsBlock(props: BlockProps) {
       <div class={styles.outerContainer}>
         <Show
           when={props.iconSrc}
-          fallback={<Icon name={props.icon || "texture"} />}
+          fallback={
+            !props.icon || typeof props.icon === "string" ? (
+              <Icon name={props.icon || "texture"} />
+            ) : (
+              props.icon
+            )
+          }
         >
           <img class={styles.icon} src={props.iconSrc} alt="" />
         </Show>

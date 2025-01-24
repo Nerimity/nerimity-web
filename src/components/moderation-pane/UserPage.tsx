@@ -1,4 +1,10 @@
-import { USER_BADGES, addBit, hasBit, removeBit } from "@/chat-api/Bitwise";
+import {
+  Bitwise,
+  USER_BADGES,
+  addBit,
+  hasBit,
+  removeBit,
+} from "@/chat-api/Bitwise";
 import {
   ModerationUser,
   getUser,
@@ -30,6 +36,7 @@ import { RawServer, RawUser } from "@/chat-api/RawData";
 import { AuditLogPane, Server, User } from "./ModerationPane";
 import EditUserSuspensionModal from "./EditUserSuspensionModal";
 import WarnUserModal from "./WarnUserModal";
+import { UserDetails } from "@/chat-api/services/UserService";
 
 const UserPageContainer = styled(FlexColumn)`
   height: 100%;
@@ -258,16 +265,12 @@ export default function UserPage() {
           <FlexColumn gap={1}>
             <For each={Object.values(USER_BADGES)}>
               {(badge) => (
-                <SettingsBlock
-                  class={BadgeItemStyles}
-                  label={badge.name}
-                  description={badge.description}
-                >
-                  <Checkbox
-                    checked={hasBit(inputValues().badges, badge.bit)}
-                    onChange={(checked) => onBadgeUpdate(checked, badge.bit)}
-                  />
-                </SettingsBlock>
+                <BadgeItem
+                  badge={badge}
+                  user={user()!}
+                  badges={inputValues().badges}
+                  onBadgeUpdate={onBadgeUpdate}
+                />
               )}
             </For>
           </FlexColumn>
@@ -329,6 +332,36 @@ export default function UserPage() {
     </Show>
   );
 }
+
+const BadgeItem = (props: {
+  badge: Bitwise;
+  user: RawUser;
+  badges: number;
+  onBadgeUpdate: (checked: boolean, badgeBit: number) => void;
+}) => {
+  const [hovered, setHovered] = createSignal(false);
+  return (
+    <SettingsBlock
+      onMouseOver={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      class={BadgeItemStyles}
+      label={props.badge.name}
+      description={props.badge.description}
+      icon={
+        <Avatar
+          user={{ ...props.user, badges: props.badge.bit }}
+          size={42}
+          animate={hovered()}
+        />
+      }
+    >
+      <Checkbox
+        checked={hasBit(props.badges, props.badge.bit)}
+        onChange={(checked) => props.onBadgeUpdate(checked, props.badge.bit)}
+      />
+    </SettingsBlock>
+  );
+};
 
 const UsersWithSameIPAddressContainer = styled(FlexColumn)`
   background: rgba(255, 255, 255, 0.05);
