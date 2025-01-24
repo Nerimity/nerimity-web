@@ -55,8 +55,8 @@ export default function MainPaneHeader() {
     tickets,
     friends,
   } = useStore();
-  const { toggleLeftDrawer, toggleRightDrawer, hasRightDrawer, currentPage } =
-    useDrawer();
+  const { hasRightDrawer, ...drawer } = useDrawer();
+
   const { isMobileWidth } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);
 
@@ -64,6 +64,14 @@ export default function MainPaneHeader() {
   const user = () => users.get(header.details().userId!);
 
   const channel = () => channels.get(header.details().channelId!);
+  const toggleLeftDrawer = () => {
+    if (isMobileWidth()) drawer.toggleLeftDrawer();
+    else drawer.toggleHideLeftDrawer();
+  };
+  const toggleRightDrawer = () => {
+    if (isMobileWidth()) drawer.toggleRightDrawer();
+    else drawer.toggleHideRightDrawer();
+  };
 
   const details = () => {
     let subName = null;
@@ -133,20 +141,16 @@ export default function MainPaneHeader() {
           conditionalClass(isMobileWidth(), styles.isMobile)
         )}
       >
-        <Show when={isMobileWidth()}>
-          <div class={styles.toggleLeftDrawerContainer}>
-            <Show when={notificationCount()}>
-              <div class={styles.notificationCounter}>
-                {notificationCount()}
-              </div>
-            </Show>
-            <Button
-              iconName="menu"
-              margin={[0, 8, 0, 5]}
-              onClick={toggleLeftDrawer}
-            />
-          </div>
-        </Show>
+        <div class={styles.toggleLeftDrawerContainer}>
+          <Show when={notificationCount()}>
+            <div class={styles.notificationCounter}>{notificationCount()}</div>
+          </Show>
+          <Button
+            iconName="menu"
+            margin={[0, 8, 0, 5]}
+            onClick={toggleLeftDrawer}
+          />
+        </div>
         {header.details().iconName && (
           <Icon
             name={header.details().iconName}
@@ -181,7 +185,7 @@ export default function MainPaneHeader() {
             onClick={onMentionButtonClick}
             class="mentionListIcon"
           />
-          <Show when={hasRightDrawer() && isMobileWidth()}>
+          <Show when={hasRightDrawer()}>
             <Button margin={3} iconName="group" onClick={toggleRightDrawer} />
           </Show>
         </div>

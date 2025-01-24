@@ -20,7 +20,7 @@ import {
 import env from "@/common/env";
 import SidePane from "@/components/side-pane/SidePane";
 import { classNames, conditionalClass } from "@/common/classNames";
-import { matchComponent } from "solid-navigator";
+import { matchComponent, useLocation } from "solid-navigator";
 import { GlobalEventName, useEventListen } from "@/common/GlobalEvents";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 
@@ -38,12 +38,27 @@ interface DrawerContext {
   toggleLeftDrawer: () => void;
   toggleRightDrawer: () => void;
   goToMain: () => void;
+  toggleHideLeftDrawer: () => void;
+  toggleHideRightDrawer: () => void;
 }
 
 const DrawerContext = createContext<DrawerContext>();
 
 export default function DrawerLayout(props: DrawerLayoutProps) {
   const { openedPortals } = useCustomPortal();
+  const location = useLocation();
+  const [hideLeftDrawer, setHideLeftDrawer] = createSignal(false);
+  const [hideRightDrawer, setHideRightDrawer] = createSignal(false);
+
+  createEffect(
+    on(
+      () => location.pathname,
+      () => {
+        setHideLeftDrawer(false);
+        setHideRightDrawer(false);
+      }
+    )
+  );
 
   let containerEl: HTMLDivElement | undefined;
   const startPos = { x: 0, y: 0 };
@@ -128,6 +143,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (currentPage() === 0) setTransformX(0);
     if (currentPage() === 1) setTransformX(-leftDrawerWidth());
     if (currentPage() === 2) setTransformX(-totalWidth() - -width());
+    console.trace(currentPage());
   };
 
   const onTouchStart = (event: TouchEvent) => {
@@ -291,13 +307,15 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   goToMainListener(() => goToMain());
 
-  const drawer = {
+  const drawer: DrawerContext = {
     currentPage,
     hasLeftDrawer,
     hasRightDrawer,
     toggleLeftDrawer,
     toggleRightDrawer,
     goToMain,
+    toggleHideLeftDrawer: () => setHideLeftDrawer(!hideLeftDrawer()),
+    toggleHideRightDrawer: () => setHideRightDrawer(!hideRightDrawer()),
   };
 
   const onOpacityClicked = () => {
@@ -327,7 +345,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               width: isMobileWidth()
                 ? leftDrawerWidth() + "px"
                 : hasLeftDrawer()
-                ? "330px"
+                ? hideLeftDrawer()
+                  ? "70px"
+                  : "330px"
                 : "65px",
               display: "flex",
               "flex-shrink": 0,
@@ -335,7 +355,16 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
           >
             <SidePane />
             {hasLeftDrawer() && (
-              <div class={styles.leftDrawer}>{LeftDrawer()}</div>
+              <div
+                class={styles.leftDrawer}
+                style={
+                  hideLeftDrawer() && !isMobileWidth()
+                    ? { display: "none" }
+                    : {}
+                }
+              >
+                {LeftDrawer()}
+              </div>
             )}
           </div>
           <div
@@ -357,13 +386,22 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               width: isMobileWidth()
                 ? rightDrawerWidth() + "px"
                 : hasRightDrawer()
-                ? "300px"
+                ? hideRightDrawer()
+                  ? "6px"
+                  : "300px"
                 : "0",
               display: "flex",
               "flex-shrink": 0,
             }}
           >
-            <div class={styles.rightPane}>{RightDrawer()}</div>
+            <div
+              class={styles.rightPane}
+              style={
+                hideRightDrawer() && !isMobileWidth() ? { display: "none" } : {}
+              }
+            >
+              {RightDrawer()}
+            </div>
           </div>
         </div>
       </div>
