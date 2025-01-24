@@ -1364,8 +1364,8 @@ const NormalEmbed = (props: { message: RawMessage }) => {
 };
 
 const replaceImageUrl = (val: string, hasFocus: boolean) => {
-  const regex = /url\((.*?)\)/gm;
-  const regex2 = /url\((.*?)\)/m;
+  const regex = /url\((.*?)\)/gim;
+  const regex2 = /url\((.*?)\)/im;
 
   return val.replaceAll(regex, (r) => {
     let url = regex2.exec(r)?.[1];
