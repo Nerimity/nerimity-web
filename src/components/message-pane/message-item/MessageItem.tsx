@@ -1392,7 +1392,7 @@ function HTMLEmbed(props: { message: RawMessage }) {
 
   const styleItem = createMemo(
     () =>
-      (embed() as HtmlEmbedItem[]).find?.((item) => item.tag === "style")
+      (embed() as HtmlEmbedItem[]).find?.((item) => item?.tag === "style")
         ?.content[0] as string | undefined
   );
 
@@ -1437,7 +1437,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
   };
 
   const cleanAttributes = (item: HtmlEmbedItem) => {
-    if (!item.attributes) return undefined;
+    if (!item?.attributes) return undefined;
     const attributes = { ...item.attributes };
     if (attributes.href) {
       if (
@@ -1475,10 +1475,10 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
         <Switch
           fallback={
             <Dynamic
-              component={(item as HtmlEmbedItem).tag}
+              component={(item as HtmlEmbedItem)?.tag}
               {...cleanAttributes(item as HtmlEmbedItem)}
               onClick={
-                (item as HtmlEmbedItem).tag === "a" ? onLinkClick : undefined
+                (item as HtmlEmbedItem)?.tag === "a" ? onLinkClick : undefined
               }
             >
               <For each={(item as HtmlEmbedItem).content}>
@@ -1493,7 +1493,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
                         text={replaceEscaped(content as string) as string}
                       />
                     </Match>
-                    <Match when={(content as HtmlEmbedItem).tag === "style"}>
+                    <Match when={(content as HtmlEmbedItem)?.tag === "style"}>
                       <></>
                     </Match>
                   </Switch>
@@ -1505,7 +1505,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
           <Match when={typeof item === "string"}>
             <Markup text={replaceEscaped(item as string)} />
           </Match>
-          <Match when={(item as HtmlEmbedItem).tag === "style"}>
+          <Match when={(item as HtmlEmbedItem)?.tag === "style"}>
             <></>
           </Match>
         </Switch>
