@@ -19,6 +19,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { A, useSearchParams } from "solid-navigator";
 import {
   batch,
+  children,
   createEffect,
   createMemo,
   createSignal,
@@ -30,6 +31,7 @@ import {
   on,
   onCleanup,
   onMount,
+  ParentComponent,
   Show,
   Switch,
 } from "solid-js";
@@ -52,7 +54,7 @@ import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
 import { t } from "i18next";
-import { Trans } from "@mbarzda/solid-i18next";
+import { Trans, TransProps } from "@mbarzda/solid-i18next";
 import ItemContainer from "./ui/LegacyItem";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
@@ -61,6 +63,7 @@ import { PostItem } from "./post-area/PostItem";
 import { MetaTitle } from "@/common/MetaTitle";
 import DropDown from "./ui/drop-down/DropDown";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { escape } from "solid-js/web";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -883,7 +886,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
             class={notificationUsernameStyles}
           >
             <Text size={14} class={notificationUsernameStyles}>
-              <Trans
+              <UnescapedTrans
                 key="posts.someoneFollowedYou"
                 options={{ username: props.notification.by.username }}
               >
@@ -898,7 +901,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
                   {"username"}
                 </strong>
                 followed you!
-              </Trans>
+              </UnescapedTrans>
             </Text>
             <Text opacity={0.6} size={12}>
               {formatTimestamp(props.notification.createdAt)}
@@ -935,9 +938,11 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <FlexColumn gap={2} style={{ overflow: "hidden" }}>
           <FlexRow gap={6} style={{ "align-items": "center" }}>
             <Text size={14} class={notificationUsernameStyles}>
-              <Trans
+              <UnescapedTrans
                 key="posts.someoneLikedYourPost"
-                options={{ username: props.notification.by.username }}
+                options={{
+                  username: props.notification.by.username,
+                }}
               >
                 <strong
                   class={notificationUsernameStyles}
@@ -950,7 +955,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
                   {"username"}
                 </strong>
                 liked your post!
-              </Trans>
+              </UnescapedTrans>
             </Text>
             <Text opacity={0.6} size={12}>
               {formatTimestamp(props.notification.createdAt)}
@@ -1004,7 +1009,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
         <FlexColumn gap={2} style={{ overflow: "hidden" }}>
           <FlexRow gap={6} style={{ "align-items": "center" }}>
             <Text size={14} class={notificationUsernameStyles}>
-              <Trans
+              <UnescapedTrans
                 key="posts.someoneRepostedYourPost"
                 options={{ username: props.notification.by.username }}
               >
@@ -1019,7 +1024,7 @@ function PostNotification(props: { notification: RawPostNotification }) {
                   {"username"}
                 </strong>
                 reposted your post!
-              </Trans>
+              </UnescapedTrans>
             </Text>
             <Text opacity={0.6} size={12}>
               {formatTimestamp(props.notification.createdAt)}
@@ -1345,3 +1350,24 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
     </LegacyModal>
   );
 }
+
+const getUnescapeChildrenRef = (ref: HTMLDivElement) => {
+  createEffect(() => {
+    Array.from(ref.childNodes).forEach((node) => {
+      const nodeEl = node as HTMLDivElement;
+      if (!nodeEl.innerText) {
+        return node;
+      }
+      nodeEl.innerHTML = nodeEl?.textContent || "";
+    });
+  });
+};
+
+const UnescapedTrans: ParentComponent<TransProps> = (props: TransProps) => (
+  <div ref={getUnescapeChildrenRef}>
+    <Trans
+      {...props}
+      options={{ interpolation: { escapeValue: true }, ...props.options }}
+    />
+  </div>
+);

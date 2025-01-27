@@ -143,7 +143,6 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     if (currentPage() === 0) setTransformX(0);
     if (currentPage() === 1) setTransformX(-leftDrawerWidth());
     if (currentPage() === 2) setTransformX(-totalWidth() - -width());
-    console.trace(currentPage());
   };
 
   const onTouchStart = (event: TouchEvent) => {

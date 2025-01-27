@@ -447,10 +447,12 @@ function MessageArea(props: {
           channel()?.name
             ? t("messageArea.messageBoxChannelPlaceholder", {
                 channelName: channel()!.name,
+                interpolation: { escapeValue: false },
               })
             : channel()?.recipient()?.username
             ? t("messageArea.messageBoxPlaceholder", {
                 username: channel()?.recipient()?.username,
+                interpolation: { escapeValue: false },
               })
             : ""
         }
