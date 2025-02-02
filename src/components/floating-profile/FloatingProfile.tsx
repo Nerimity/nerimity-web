@@ -55,6 +55,7 @@ import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import { emojiToUrl } from "@/common/emojiToUrl";
+import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 
 interface Props {
   dmPane?: boolean;
@@ -196,6 +197,11 @@ const DesktopProfileFlyout = (props: {
   const member = () =>
     props.serverId
       ? serverMembers.get(props.serverId, props.userId)
+      : undefined;
+
+  const accountMember = () =>
+    props.serverId
+      ? serverMembers.get(props.serverId, account.user()?.id!)
       : undefined;
 
   createEffect(
@@ -437,12 +443,14 @@ const DesktopProfileFlyout = (props: {
               </div>
             )}
           </For>
-          <div
-            class={classNames(styles.roleContainer, styles.selectable)}
-            onClick={showRoleModal}
-          >
-            <Icon name="add" size={14} />
-          </div>
+          <Show when={accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)}>
+            <div
+              class={classNames(styles.roleContainer, styles.selectable)}
+              onClick={showRoleModal}
+            >
+              <Icon name="add" size={14} />
+            </div>
+          </Show>
         </div>
       </Show>
 
