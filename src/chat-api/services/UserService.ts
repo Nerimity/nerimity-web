@@ -199,6 +199,21 @@ export async function getUserDetailsRequest(
   });
 }
 
+
+export async function getSearchUsers(
+  search: string,
+) {
+  return request<RawUser[]>({
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.user("search"),
+    method: "GET",
+    params: { q: search },
+    useToken: true,
+  });
+}
+
+
+
+
 export interface RawNotification {
   message: RawMessage;
   server: RawServer;
