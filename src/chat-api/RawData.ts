@@ -314,6 +314,7 @@ export interface RawPost {
   commentTo?: RawPost;
   createdBy: RawUser;
   createdAt: number;
+  mentions: RawUser[];
   editedAt: number;
   likedBy: { id: string }[]; // if you liked this post, array will not be empty
   reposts: { id: string; createdBy: { id: string; username: string } }[];

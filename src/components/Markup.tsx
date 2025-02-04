@@ -104,7 +104,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       break;
     }
     case "@": {
-      const message = ctx.props().message;
+      const message = ctx.props().message || ctx.props().post;
       const user =
         message?.mentions?.find((u) => u.id === expr) || users.get(expr);
       const everyoneOrSomeone = ["e", "s"].includes(expr);
