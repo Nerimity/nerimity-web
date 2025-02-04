@@ -348,6 +348,7 @@ export enum PostNotificationType {
   REPLIED = 1,
   FOLLOWED = 2,
   REPOSTED = 3,
+  MENTIONED = 4,
 }
 
 export interface RawPostNotification {

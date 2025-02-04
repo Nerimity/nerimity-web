@@ -82,6 +82,7 @@ import { t } from "i18next";
 import useServerRoles from "@/chat-api/store/useServerRoles";
 import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
+import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
@@ -1443,55 +1444,6 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
       </Switch>
     </Show>
   );
-}
-
-function useSelectedSuggestion(
-  length: () => number,
-  textArea: HTMLTextAreaElement,
-  onEnterClick: (i: number) => void
-) {
-  const [current, setCurrent] = createSignal(0);
-
-  createEffect(() => {
-    textArea.addEventListener("keydown", onKey);
-    onCleanup(() => {
-      textArea.removeEventListener("keydown", onKey);
-    });
-  });
-
-  const next = () => {
-    if (current() + 1 >= length()) {
-      setCurrent(0);
-    } else {
-      setCurrent(current() + 1);
-    }
-  };
-
-  const previous = () => {
-    if (current() - 1 < 0) {
-      setCurrent(length() - 1);
-    } else {
-      setCurrent(current() - 1);
-    }
-  };
-
-  const onKey = (event: KeyboardEvent) => {
-    if (!length()) return;
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      next();
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-      previous();
-    }
-    if (event.key === "Enter" || event.key === "Tab") {
-      event.stopPropagation();
-      event.preventDefault();
-      onEnterClick(current());
-    }
-  };
-
-  return [current, next, previous, setCurrent] as const;
 }
 
 function FloatingChannelSuggestions(props: {

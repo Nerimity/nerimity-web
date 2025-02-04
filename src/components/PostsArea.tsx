@@ -23,6 +23,7 @@ import {
   createEffect,
   createMemo,
   createSignal,
+  createUniqueId,
   For,
   Index,
   JSX,
@@ -63,8 +64,10 @@ import { PostItem } from "./post-area/PostItem";
 import { MetaTitle } from "@/common/MetaTitle";
 import DropDown from "./ui/drop-down/DropDown";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
-import { escape } from "solid-js/web";
+import { escape, Portal } from "solid-js/web";
 import { getSearchUsers } from "@/chat-api/services/UserService";
+import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
+import { createFilter } from "vite";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -260,7 +263,11 @@ function NewPostArea(props: {
           value={content()}
           type="textarea"
         />
-        <Suggestions textArea={textAreaEl()} />
+        <Suggestions
+          textArea={textAreaEl()}
+          content={content()}
+          updateContent={setContent}
+        />
         <Show when={showPollOptions()}>
           <PollOptions options={pollOptions} setOptions={setPollOptions} />
         </Show>
@@ -342,16 +349,21 @@ function NewPostArea(props: {
   );
 }
 
-function Suggestions(props: { textArea?: HTMLTextAreaElement }) {
-  const { channelProperties } = useStore();
-
+function Suggestions(props: {
+  textArea?: HTMLTextAreaElement;
+  content: string;
+  updateContent: (content: string) => void;
+}) {
   const [textBefore, setTextBefore] = createSignal("");
   const [isFocus, setIsFocus] = createSignal(false);
 
   const onFocus = () => setIsFocus(true);
 
   const onClick = (e: any) => {
-    setIsFocus(e.target.closest(".newPostInput"));
+    setIsFocus(
+      e.target.closest(".newPostInput") ===
+        props.textArea?.parentElement?.parentElement
+    );
   };
 
   const update = () => {
@@ -380,10 +392,14 @@ function Suggestions(props: { textArea?: HTMLTextAreaElement }) {
 
   const suggestUsers = () => textBefore().startsWith("@");
 
+  createEffect(on(() => props.content, update));
+
   // search={textBefore().substring(1)}
   return (
     <Show when={isFocus() && suggestUsers()}>
       <SuggestUsers
+        updateContent={props.updateContent}
+        content={props.content}
         search={textBefore().substring(1)}
         textAreaEl={props.textArea}
       />
@@ -448,9 +464,33 @@ function getCursorPositionPx(
 function SuggestUsers(props: {
   search: string;
   textAreaEl?: HTMLTextAreaElement;
+  content: string;
+  updateContent: (content: string) => void;
 }) {
   const [users, setUsers] = createSignal<RawUser[]>([]);
+
+  const onUserClick = (user?: RawUser) => {
+    appendText(
+      props.textAreaEl!,
+      props.search,
+      `${user?.username}:${user?.tag} `,
+      props.content,
+      props.updateContent
+    );
+  };
+
+  const [current, , , setCurrent] = useSelectedSuggestion(
+    () => users().length,
+    props.textAreaEl!,
+    (i) => onUserClick(users()[i])
+  );
+
   let timeoutId: number | undefined;
+  const [position, setPosition] = createSignal({
+    top: "0px",
+    left: "0px",
+    textAreaWidth: 0,
+  });
 
   const fetchAndSetUsers = async () => {
     if (!props.search.trim()) {
@@ -458,8 +498,16 @@ function SuggestUsers(props: {
       return;
     }
     const users = await getSearchUsers(props.search);
+    setCurrent(0);
     setUsers(users);
     const pos = getCursorPositionPx(props.textAreaEl!);
+    const rect = props.textAreaEl?.getBoundingClientRect()!;
+    if (pos && rect)
+      setPosition({
+        top: `${pos.y}px`,
+        left: `${rect.left}px`,
+        textAreaWidth: rect?.width,
+      });
   };
   createEffect(
     on(
@@ -472,9 +520,104 @@ function SuggestUsers(props: {
   );
 
   return (
-    <div>
-      <For each={users()}>{(user) => <div>{user.username}</div>}</For>
-    </div>
+    <Show when={users().length}>
+      <Portal>
+        <FlexColumn
+          class={css`
+            background: var(--pane-color);
+            position: absolute;
+            margin-left: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 6px;
+            border-radius: 6px;
+            border: solid 1px rgba(255, 255, 255, 0.2);
+            z-index: 11111111111111111111111111111111;
+          `}
+          style={{
+            ...position(),
+            "max-width": `${position().textAreaWidth - 30}px`,
+          }}
+        >
+          <For each={users()}>
+            {(user, i) => (
+              <SuggestUserItem
+                onHover={() => setCurrent(i())}
+                selected={current() === i()}
+                onClick={onUserClick}
+                user={user}
+              />
+            )}
+          </For>
+        </FlexColumn>
+      </Portal>
+    </Show>
+  );
+}
+
+function appendText(
+  textArea: HTMLTextAreaElement,
+  query: string,
+  name: string,
+  content: string,
+  updateContent: (content: string) => void
+) {
+  const cursorPosition = textArea.selectionStart!;
+  const removeCurrentQuery = removeByIndex(
+    content,
+    cursorPosition - query.length,
+    query.length
+  );
+  const result =
+    removeCurrentQuery.slice(0, cursorPosition - query.length) +
+    name +
+    removeCurrentQuery.slice(cursorPosition - query.length);
+
+  updateContent(result);
+
+  textArea.focus();
+  textArea.selectionStart = cursorPosition + (name.length - query.length);
+  textArea.selectionEnd = cursorPosition + (name.length - query.length);
+}
+
+function removeByIndex(val: string, index: number, remove: number) {
+  return val.substring(0, index) + val.substring(index + remove);
+}
+
+const SuggestUserItemContainer = styled(FlexRow)`
+  padding: 6px;
+  &[data-selected="true"] {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  border-radius: 4px;
+`;
+
+function SuggestUserItem(props: {
+  user: RawUser;
+  onHover: () => void;
+  onClick: (user: RawUser) => void;
+  selected: boolean;
+}) {
+  let ref: HTMLDivElement | undefined;
+
+  createEffect(() => {
+    if (props.selected) {
+      ref?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+  });
+  return (
+    <SuggestUserItemContainer
+      gap={6}
+      itemsCenter
+      onmousemove={props.onHover}
+      data-selected={props.selected}
+      onclick={() => props.onClick(props.user)}
+      ref={ref}
+    >
+      <Avatar user={props.user} size={30} />
+      <div>{props.user.username}</div>
+    </SuggestUserItemContainer>
   );
 }
 
@@ -1006,6 +1149,52 @@ function PostNotification(props: { notification: RawPostNotification }) {
       </FlexRow>
     );
   };
+  const Mention = () => {
+    posts.pushPost(props.notification.post!);
+    const cachedPost = () => posts.cachedPost(props.notification.post?.id!);
+
+    const showPost = () =>
+      setSearchParams({ postId: props.notification.post?.id! });
+
+    return (
+      <FlexRow gap={6} onclick={showPost}>
+        <Icon
+          class={css`
+            margin-top: 6px;
+          `}
+          name="alternate_email"
+          color="var(--primary-color)"
+        />
+        <FlexColumn
+          gap={2}
+          class={notificationUsernameStyles}
+          style={{ width: "100%" }}
+        >
+          <PostItem
+            post={cachedPost()!}
+            disableClick
+            class={css`
+              && {
+                margin: 0;
+                padding: 0;
+                background: none;
+                &:hover {
+                  background: none;
+                }
+                box-shadow: none;
+                &::before {
+                  border: none;
+                }
+                &:first-child {
+                  border: none;
+                }
+              }
+            `}
+          />
+        </FlexColumn>
+      </FlexRow>
+    );
+  };
 
   const Followed = () => {
     return (
@@ -1217,6 +1406,9 @@ function PostNotification(props: { notification: RawPostNotification }) {
       </Show>
       <Show when={props.notification.type === PostNotificationType.REPOSTED}>
         <Reposted />
+      </Show>
+      <Show when={props.notification.type === PostNotificationType.MENTIONED}>
+        <Mention />
       </Show>
     </PostOuterContainer>
   );
