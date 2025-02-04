@@ -23,6 +23,7 @@ import {
   createEffect,
   createMemo,
   createSignal,
+  createUniqueId,
   For,
   Index,
   JSX,
@@ -49,7 +50,7 @@ import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import Text from "./ui/Text";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { classNames } from "@/common/classNames";
+import { classNames, cn } from "@/common/classNames";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
@@ -63,7 +64,10 @@ import { PostItem } from "./post-area/PostItem";
 import { MetaTitle } from "@/common/MetaTitle";
 import DropDown from "./ui/drop-down/DropDown";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
-import { escape } from "solid-js/web";
+import { escape, Portal } from "solid-js/web";
+import { getSearchUsers } from "@/chat-api/services/UserService";
+import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
+import { createFilter } from "vite";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -240,12 +244,15 @@ function NewPostArea(props: {
           onBlur={() => setTimeout(() => setInputFocused(false), 100)}
           onFocus={() => setTimeout(() => setInputFocused(true), 100)}
           minHeight={hasContentOrFocused() ? 60 : undefined}
-          class={css`
-            div {
-              background-color: transparent;
-              border: transparent;
-            }
-          `}
+          class={cn(
+            css`
+              div {
+                background-color: transparent;
+                border: transparent;
+              }
+            `,
+            "newPostInput"
+          )}
           ref={setTextAreaEl}
           placeholder={
             props.postId
@@ -255,6 +262,11 @@ function NewPostArea(props: {
           onText={setContent}
           value={content()}
           type="textarea"
+        />
+        <Suggestions
+          textArea={textAreaEl()}
+          content={content()}
+          updateContent={setContent}
         />
         <Show when={showPollOptions()}>
           <PollOptions options={pollOptions} setOptions={setPollOptions} />
@@ -335,6 +347,286 @@ function NewPostArea(props: {
       </NewPostContainer>
     </NewPostOuterContainer>
   );
+}
+
+function Suggestions(props: {
+  textArea?: HTMLTextAreaElement;
+  content: string;
+  updateContent: (content: string) => void;
+}) {
+  const [textBefore, setTextBefore] = createSignal("");
+  const [isFocus, setIsFocus] = createSignal(false);
+
+  const onFocus = () => setIsFocus(true);
+
+  const onClick = (e: any) => {
+    setIsFocus(
+      e.target.closest(".newPostInput") ===
+        props.textArea?.parentElement?.parentElement
+    );
+  };
+
+  const update = () => {
+    if (props.textArea?.selectionStart !== props.textArea?.selectionEnd)
+      return setIsFocus(false);
+    setIsFocus(true);
+    const textBefore = getTextBeforeCursor(props.textArea);
+    setTextBefore(textBefore);
+  };
+
+  const onSelectionChange = () => {
+    if (!isFocus()) return;
+    update();
+  };
+
+  createEffect(() => {
+    props.textArea?.addEventListener("focus", onFocus);
+    document.addEventListener("click", onClick);
+    document.addEventListener("selectionchange", onSelectionChange);
+    onCleanup(() => {
+      props.textArea?.removeEventListener("focus", onFocus);
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("selectionchange", onSelectionChange);
+    });
+  });
+
+  const suggestUsers = () => textBefore().startsWith("@");
+
+  createEffect(on(() => props.content, update));
+
+  // search={textBefore().substring(1)}
+  return (
+    <Show when={isFocus() && suggestUsers()}>
+      <SuggestUsers
+        updateContent={props.updateContent}
+        content={props.content}
+        search={textBefore().substring(1)}
+        textAreaEl={props.textArea}
+      />
+    </Show>
+  );
+}
+
+function getCursorPositionPx(
+  textarea: HTMLTextAreaElement
+): { x: number; y: number } | null {
+  if (!textarea) {
+    return null; // Handle cases where the textarea is not provided or doesn't exist
+  }
+
+  try {
+    // Create a dummy element to measure text width
+    const temp = document.createElement("span");
+    temp.style.cssText = `
+      position: absolute;
+      left: -9999px; /* Hide off-screen */
+      top: 0;
+      white-space: pre-wrap; /* Preserve whitespace */
+    `;
+
+    // Copy styles from the textarea to the dummy element
+    const styles = window.getComputedStyle(textarea);
+    temp.style.font = styles.font;
+    temp.style.padding = styles.padding;
+    temp.style.border = styles.border;
+    temp.style.letterSpacing = styles.letterSpacing; // Important for accurate positioning
+    temp.style.textTransform = styles.textTransform;
+
+    document.body.appendChild(temp);
+
+    const value = textarea.value;
+    const position = textarea.selectionStart; // Get cursor/selection start
+
+    // Calculate text before cursor
+    const textBeforeCursor = value.substring(0, position);
+
+    temp.textContent = textBeforeCursor;
+
+    // Get width and height of the text before the cursor
+    const width = temp.offsetWidth;
+    const height = temp.offsetHeight;
+
+    // Get textarea's position relative to the document
+    const textareaRect = textarea.getBoundingClientRect();
+
+    // Calculate the absolute position based on the text width, height, and textarea position.
+    const x = textareaRect.left + width;
+    const y = textareaRect.top + height;
+
+    document.body.removeChild(temp); // Clean up
+
+    return { x, y };
+  } catch (error) {
+    console.error("Error getting cursor position:", error);
+    return null;
+  }
+}
+function SuggestUsers(props: {
+  search: string;
+  textAreaEl?: HTMLTextAreaElement;
+  content: string;
+  updateContent: (content: string) => void;
+}) {
+  const [users, setUsers] = createSignal<RawUser[]>([]);
+
+  const onUserClick = (user?: RawUser) => {
+    appendText(
+      props.textAreaEl!,
+      props.search,
+      `${user?.username}:${user?.tag} `,
+      props.content,
+      props.updateContent
+    );
+  };
+
+  const [current, , , setCurrent] = useSelectedSuggestion(
+    () => users().length,
+    props.textAreaEl!,
+    (i) => onUserClick(users()[i])
+  );
+
+  let timeoutId: number | undefined;
+  const [position, setPosition] = createSignal({
+    top: "0px",
+    left: "0px",
+    textAreaWidth: 0,
+  });
+
+  const fetchAndSetUsers = async () => {
+    if (!props.search.trim()) {
+      setUsers([]);
+      return;
+    }
+    const users = await getSearchUsers(props.search);
+    setCurrent(0);
+    setUsers(users);
+    const pos = getCursorPositionPx(props.textAreaEl!);
+    const rect = props.textAreaEl?.getBoundingClientRect()!;
+    if (pos && rect)
+      setPosition({
+        top: `${pos.y}px`,
+        left: `${rect.left}px`,
+        textAreaWidth: rect?.width,
+      });
+  };
+  createEffect(
+    on(
+      () => props.search,
+      () => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(fetchAndSetUsers, 500);
+      }
+    )
+  );
+
+  return (
+    <Show when={users().length}>
+      <Portal>
+        <FlexColumn
+          class={css`
+            background: var(--pane-color);
+            position: absolute;
+            margin-left: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 6px;
+            border-radius: 6px;
+            border: solid 1px rgba(255, 255, 255, 0.2);
+            z-index: 11111111111111111111111111111111;
+          `}
+          style={{
+            ...position(),
+            "max-width": `${position().textAreaWidth - 30}px`,
+          }}
+        >
+          <For each={users()}>
+            {(user, i) => (
+              <SuggestUserItem
+                onHover={() => setCurrent(i())}
+                selected={current() === i()}
+                onClick={onUserClick}
+                user={user}
+              />
+            )}
+          </For>
+        </FlexColumn>
+      </Portal>
+    </Show>
+  );
+}
+
+function appendText(
+  textArea: HTMLTextAreaElement,
+  query: string,
+  name: string,
+  content: string,
+  updateContent: (content: string) => void
+) {
+  const cursorPosition = textArea.selectionStart!;
+  const removeCurrentQuery = removeByIndex(
+    content,
+    cursorPosition - query.length,
+    query.length
+  );
+  const result =
+    removeCurrentQuery.slice(0, cursorPosition - query.length) +
+    name +
+    removeCurrentQuery.slice(cursorPosition - query.length);
+
+  updateContent(result);
+
+  textArea.focus();
+  textArea.selectionStart = cursorPosition + (name.length - query.length);
+  textArea.selectionEnd = cursorPosition + (name.length - query.length);
+}
+
+function removeByIndex(val: string, index: number, remove: number) {
+  return val.substring(0, index) + val.substring(index + remove);
+}
+
+const SuggestUserItemContainer = styled(FlexRow)`
+  padding: 6px;
+  &[data-selected="true"] {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  border-radius: 4px;
+`;
+
+function SuggestUserItem(props: {
+  user: RawUser;
+  onHover: () => void;
+  onClick: (user: RawUser) => void;
+  selected: boolean;
+}) {
+  let ref: HTMLDivElement | undefined;
+
+  createEffect(() => {
+    if (props.selected) {
+      ref?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+  });
+  return (
+    <SuggestUserItemContainer
+      gap={6}
+      itemsCenter
+      onmousemove={props.onHover}
+      data-selected={props.selected}
+      onclick={() => props.onClick(props.user)}
+      ref={ref}
+    >
+      <Avatar user={props.user} size={30} />
+      <div>{props.user.username}</div>
+    </SuggestUserItemContainer>
+  );
+}
+
+function getTextBeforeCursor(element?: HTMLTextAreaElement) {
+  if (!element) return "";
+  const cursorPosition = element.selectionStart;
+  const textBeforeCursor = element.value.substring(0, cursorPosition);
+  const lastWord = textBeforeCursor.split(/\s+/).reverse()[0];
+  return lastWord;
 }
 
 const PollOptions = (props: {
@@ -857,6 +1149,52 @@ function PostNotification(props: { notification: RawPostNotification }) {
       </FlexRow>
     );
   };
+  const Mention = () => {
+    posts.pushPost(props.notification.post!);
+    const cachedPost = () => posts.cachedPost(props.notification.post?.id!);
+
+    const showPost = () =>
+      setSearchParams({ postId: props.notification.post?.id! });
+
+    return (
+      <FlexRow gap={6} onclick={showPost}>
+        <Icon
+          class={css`
+            margin-top: 6px;
+          `}
+          name="alternate_email"
+          color="var(--primary-color)"
+        />
+        <FlexColumn
+          gap={2}
+          class={notificationUsernameStyles}
+          style={{ width: "100%" }}
+        >
+          <PostItem
+            post={cachedPost()!}
+            disableClick
+            class={css`
+              && {
+                margin: 0;
+                padding: 0;
+                background: none;
+                &:hover {
+                  background: none;
+                }
+                box-shadow: none;
+                &::before {
+                  border: none;
+                }
+                &:first-child {
+                  border: none;
+                }
+              }
+            `}
+          />
+        </FlexColumn>
+      </FlexRow>
+    );
+  };
 
   const Followed = () => {
     return (
@@ -1068,6 +1406,9 @@ function PostNotification(props: { notification: RawPostNotification }) {
       </Show>
       <Show when={props.notification.type === PostNotificationType.REPOSTED}>
         <Reposted />
+      </Show>
+      <Show when={props.notification.type === PostNotificationType.MENTIONED}>
+        <Mention />
       </Show>
     </PostOuterContainer>
   );
