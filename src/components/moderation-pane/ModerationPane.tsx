@@ -181,7 +181,7 @@ export default function ModerationPane() {
   const { isMobileWidth } = useWindowProperties();
 
   createEffect(() => {
-    if (!account.isAuthenticated() || !account.hasModeratorPerm()) return;
+    if (!account.hasModeratorPerm()) return;
     header.updateHeader({
       title: "Moderation",
       iconName: "security",
