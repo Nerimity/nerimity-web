@@ -1,11 +1,20 @@
 .profilePane {
   display: flex;
-  align-self: center;
+  flex: 1;
+  justify-content: center;
+  margin-top: 10px;
+  border-radius: 10px;
+
+}
+.profilePaneInner {
+  display: flex;
+  overflow: hidden;
   flex: 1;
   flex-direction: column;
+  
 
-  width: 100%;
-  max-width: 900px;
+  width: 100vw;
+  max-width: 820px;
 }
 .topArea {
   position: relative;
@@ -14,6 +23,9 @@
   flex-direction: column;
   flex-shrink: 0;
   margin: 4px;
+  
+  margin-top: 0;
+  margin-right: 0;
   margin-bottom: 0;
   border-radius: 8px;
 
@@ -132,11 +144,13 @@
 
 .sidePane {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   flex-shrink: 0;
   width: 200px;
+  max-width: 200px;
   margin-right: 4px;
-  margin-left: 4px;
+  margin-left: 6px;
   gap: 4px;
   .title {
     display: flex;
@@ -267,19 +281,20 @@
   font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 860px) {
-  .content {
-    flex-direction: column;
-  }
+
+
+.mobile {
   .sidePane {
-    order: 1;
     width: initial;
-    margin-right: 5px;
-  }
-  .postsContainer {
-    order: 2;
-    margin-top: 10px;
-    margin-right: 4px;
+    max-width: initial;
+    margin-right: 0;
+    margin-bottom: 4px;
     margin-left: 4px;
+    
+  
+  }
+  .topArea {
+    margin: 4px;
+    margin-right: 0;
   }
 }

@@ -109,11 +109,11 @@ export default function ProfilePane() {
   const params = useParams();
   const { users, friends, account, header } = useStore();
   const drawer = useDrawer();
-  const { width, isMobileWidth } = useWindowProperties();
+  const { width, isMobileWidth, paneWidth } = useWindowProperties();
   const isMe = () => account.user()?.id === params.userId;
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [animateAvatar, setAnimateAvatar] = createSignal(false);
-  const { isVisible } = useCustomScrollbar();
+  const { isVisible, setThumbColor } = useCustomScrollbar();
 
   const { setPaneBackgroundColor } = useWindowProperties();
   createEffect(
@@ -169,6 +169,9 @@ export default function ProfilePane() {
 
   createEffect(
     on(user, () => {
+      setThumbColor(
+        userDetails()?.profile?.primaryColor || "var(--primary-color)"
+      );
       if (!colors().bg) {
         setPaneBackgroundColor(undefined);
       } else {
@@ -195,129 +198,144 @@ export default function ProfilePane() {
       <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
       <Show when={user()}>
         <div
-          class={styles.profilePane}
-          style={isVisible() ? { "margin-right": "10px" } : {}}
+          class={cn(
+            styles.profilePane,
+            (paneWidth() || 0) < 1170 ? styles.mobile : false
+          )}
+          style={{
+            "max-width": `${paneWidth()}px`,
+            ...(isVisible() ? { "margin-right": "10px" } : {}),
+          }}
         >
-          <div class={classNames(styles.topArea)}>
-            <Show when={user()?.banner || true} keyed={true}>
-              <Banner
-                maxHeight={250}
-                animate
-                margin={0}
-                hexColor={user()?.hexColor}
-                url={bannerUrl(user()!)}
-                class={css`
-                  z-index: 111;
-                `}
-              />
-            </Show>
-            <FlexColumn class={styles.topAreaContent}>
-              <FlexRow>
-                <Avatar
-                  class={classNames(
-                    styles.avatar,
-                    css`
-                      margin-top: -${width() <= 500 ? "50" : "52"}px;
-                    `
-                  )}
-                  animate={animateAvatar()}
-                  user={user()!}
-                  size={width() <= 500 ? 92 : 110}
+          <div class={styles.profilePaneInner}>
+            <div class={classNames(styles.topArea)}>
+              <Show when={user()?.banner || true} keyed={true}>
+                <Banner
+                  maxHeight={250}
+                  animate
+                  margin={0}
+                  hexColor={user()?.hexColor}
+                  url={bannerUrl(user()!)}
+                  class={css`
+                    z-index: 111;
+                  `}
                 />
-                <Show when={!isMobileWidth()}>
-                  <ActionButtons
-                    class={css`
-                      background-color: ${bgColor()};
-                      border-radius: 10px;
-                      padding: 4px;
-                      margin-top: 4px;
-                    `}
-                    updateUserDetails={() => fetchUserDetails(params.userId)}
-                    userDetails={userDetails()}
-                    primaryColor={colors().primary}
-                    user={user()}
+              </Show>
+              <FlexColumn class={styles.topAreaContent}>
+                <FlexRow>
+                  <Avatar
+                    class={classNames(
+                      styles.avatar,
+                      css`
+                        margin-top: -${width() <= 500 ? "50" : "52"}px;
+                      `
+                    )}
+                    animate={animateAvatar()}
+                    user={user()!}
+                    size={width() <= 500 ? 92 : 110}
                   />
-                </Show>
-              </FlexRow>
-
-              <div
-                class={styles.informationContainer}
-                style={{ background: bgColor() }}
-              >
-                <div class={styles.details}>
-                  <div class={styles.usernameTag}>
-                    <span class={styles.username}>{user()!.username}</span>
-                    <span class={styles.tag}>{`:${user()!.tag}`}</span>
-                  </div>
-                  <UserPresence
-                    showFull
-                    hideActivity
-                    animate
-                    userId={user()!.id}
-                    showOffline={true}
-                  />
-                  <Show when={userDetails()}>
-                    <Badges user={userDetails()!} />
+                  <Show when={!isMobileWidth()}>
+                    <ActionButtons
+                      class={css`
+                        background-color: ${bgColor()};
+                        border-radius: 10px;
+                        padding: 4px;
+                        margin-top: 4px;
+                      `}
+                      updateUserDetails={() => fetchUserDetails(params.userId)}
+                      userDetails={userDetails()}
+                      primaryColor={colors().primary}
+                      user={user()}
+                    />
                   </Show>
-                  <div class={styles.followingAndFollowersContainer}>
-                    <Show when={isMe() || !userDetails()?.hideFollowing}>
-                      <CustomLink
-                        href={RouterEndpoints.PROFILE(
-                          user()!.id + "/following"
-                        )}
-                      >
-                        {userDetails()?.user._count.following.toLocaleString()}{" "}
-                        <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                          Following
-                        </span>
-                      </CustomLink>
-                    </Show>
-                    <Show when={isMe() || !userDetails()?.hideFollowers}>
-                      <CustomLink
-                        href={RouterEndpoints.PROFILE(
-                          user()!.id + "/followers"
-                        )}
-                      >
-                        {userDetails()?.user._count.followers.toLocaleString()}{" "}
-                        <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                          Followers
-                        </span>
-                      </CustomLink>
-                    </Show>
-                  </div>
-                </div>
+                </FlexRow>
 
-                <Show when={userDetails()?.profile?.bio}>
-                  <BioContainer
-                    primaryColor={colors()?.primary}
-                    userDetails={userDetails()!}
-                  />
-                </Show>
-              </div>
-            </FlexColumn>
-          </div>
-          <Show when={isMobileWidth()}>
-            <div
-              style={{
-                margin: "4px",
-                "margin-top": "0px",
-              }}
-            >
-              <ActionButtons
-                class={css`
-                  background-color: ${bgColor()};
-                  border-radius: 8px;
-                  padding: 4px;
-                `}
-                updateUserDetails={() => fetchUserDetails(params.userId)}
-                userDetails={userDetails()}
-                primaryColor={colors().primary}
-                user={user()}
-              />
+                <div
+                  class={styles.informationContainer}
+                  style={{ background: bgColor() }}
+                >
+                  <div class={styles.details}>
+                    <div class={styles.usernameTag}>
+                      <span class={styles.username}>{user()!.username}</span>
+                      <span class={styles.tag}>{`:${user()!.tag}`}</span>
+                    </div>
+                    <UserPresence
+                      showFull
+                      hideActivity
+                      animate
+                      userId={user()!.id}
+                      showOffline={true}
+                    />
+                    <Show when={userDetails()}>
+                      <Badges user={userDetails()!} />
+                    </Show>
+                    <div class={styles.followingAndFollowersContainer}>
+                      <Show when={isMe() || !userDetails()?.hideFollowing}>
+                        <CustomLink
+                          href={RouterEndpoints.PROFILE(
+                            user()!.id + "/following"
+                          )}
+                        >
+                          {userDetails()?.user._count.following.toLocaleString()}{" "}
+                          <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                            Following
+                          </span>
+                        </CustomLink>
+                      </Show>
+                      <Show when={isMe() || !userDetails()?.hideFollowers}>
+                        <CustomLink
+                          href={RouterEndpoints.PROFILE(
+                            user()!.id + "/followers"
+                          )}
+                        >
+                          {userDetails()?.user._count.followers.toLocaleString()}{" "}
+                          <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                            Followers
+                          </span>
+                        </CustomLink>
+                      </Show>
+                    </div>
+                  </div>
+
+                  <Show when={userDetails()?.profile?.bio}>
+                    <BioContainer
+                      primaryColor={colors()?.primary}
+                      userDetails={userDetails()!}
+                    />
+                  </Show>
+                </div>
+              </FlexColumn>
             </div>
-          </Show>
-          <Show when={userDetails()}>
-            <Content user={userDetails()!} bgColor={bgColor()} />
+            <Show when={isMobileWidth()}>
+              <div
+                style={{
+                  margin: "4px",
+                  "margin-right": "0",
+                  "margin-top": "0px",
+                }}
+              >
+                <ActionButtons
+                  class={css`
+                    background-color: ${bgColor()};
+                    border-radius: 8px;
+                    padding: 4px;
+                  `}
+                  updateUserDetails={() => fetchUserDetails(params.userId)}
+                  userDetails={userDetails()}
+                  primaryColor={colors().primary}
+                  user={user()}
+                />
+              </div>
+            </Show>
+            <Show when={userDetails()}>
+              <Show when={(paneWidth() || 0) < 1170}>
+                <SideBar mobilePane bgColor={bgColor()} user={userDetails()!} />
+              </Show>
+              <Content user={userDetails()!} bgColor={bgColor()} />
+            </Show>
+          </div>
+          <Show when={(paneWidth() || 0) >= 1170}>
+            <SideBar bgColor={bgColor()} user={userDetails()!} />
           </Show>
         </div>
       </Show>
@@ -585,7 +603,6 @@ function Content(props: { user: UserDetails; bgColor: string }) {
   return (
     <div class={styles.content}>
       <PostsContainer user={props.user} bgColor={props.bgColor} />
-      <SideBar bgColor={props.bgColor} user={props.user} />
     </div>
   );
 }
@@ -617,16 +634,22 @@ function BioContainer(props: {
   );
 }
 
-function SideBar(props: { user: UserDetails; bgColor: string }) {
+function SideBar(props: {
+  user: UserDetails;
+  bgColor: string;
+  mobilePane?: boolean;
+}) {
   const [toggleJoinedDateType, setToggleJoinedDateType] = createSignal(false);
   const joinedAt = () => {
-    if (!toggleJoinedDateType()) return getDaysAgo(props.user.user.joinedAt!);
+    if (!toggleJoinedDateType()) return getDaysAgo(props.user.user?.joinedAt!);
     return formatTimestamp(props.user.user.joinedAt!);
   };
 
   return (
-    <div class={styles.sidePane}>
-      <Show when={props.user.suspensionExpiresAt !== undefined}>
+    <div
+      class={cn(props.mobilePane ? styles.mobilePane : false, styles.sidePane)}
+    >
+      <Show when={props.user?.suspensionExpiresAt !== undefined}>
         <SidePaneItem
           bgColor={props.bgColor}
           icon="block"
@@ -639,7 +662,7 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
           }`}
         />
       </Show>
-      <Show when={props.user.block}>
+      <Show when={props.user?.block}>
         <SidePaneItem
           bgColor={props.bgColor}
           icon="block"
@@ -651,22 +674,24 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
       <UserActivity
         bgColor={props.bgColor}
         color={props.user.profile?.primaryColor}
-        userId={props.user.user.id}
+        userId={props.user?.user?.id}
       />
-      <SidePaneItem
-        bgColor={props.bgColor}
-        icon="event"
-        label="Joined"
-        color={props.user.profile?.primaryColor}
-        value={joinedAt()}
-        onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
-      />
-      <Show when={props.user.user.application?.creatorAccount}>
+      <Show when={props.user}>
+        <SidePaneItem
+          bgColor={props.bgColor}
+          icon="event"
+          label="Joined"
+          color={props.user?.profile?.primaryColor}
+          value={joinedAt()}
+          onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
+        />
+      </Show>
+      <Show when={props.user?.user?.application?.creatorAccount}>
         <SidePaneItem
           bgColor={props.bgColor}
           icon="person"
           label="Bot Creator"
-          color={props.user.profile?.primaryColor}
+          color={props.user?.profile?.primaryColor}
         >
           <A
             href={RouterEndpoints.PROFILE(
@@ -684,16 +709,18 @@ function SideBar(props: { user: UserDetails; bgColor: string }) {
           </A>
         </SidePaneItem>
       </Show>
-      <MutualFriendList
-        bgColor={props.bgColor}
-        color={props.user.profile?.primaryColor}
-        mutualFriendIds={props.user.mutualFriendIds}
-      />
-      <MutualServerList
-        bgColor={props.bgColor}
-        color={props.user.profile?.primaryColor}
-        mutualServerIds={props.user.mutualServerIds}
-      />
+      <Show when={props.user}>
+        <MutualFriendList
+          bgColor={props.bgColor}
+          color={props.user?.profile?.primaryColor}
+          mutualFriendIds={props.user?.mutualFriendIds}
+        />
+        <MutualServerList
+          bgColor={props.bgColor}
+          color={props.user.profile?.primaryColor}
+          mutualServerIds={props.user?.mutualServerIds}
+        />
+      </Show>
     </div>
   );
 }
@@ -849,7 +876,9 @@ function MutualFriendList(props: {
   color?: string;
 }) {
   const { users } = useStore();
-  const { isMobileWidth } = useWindowProperties();
+  const { paneWidth } = useWindowProperties();
+
+  const isMobileWidth = () => (paneWidth() || 0) < 1170;
   const [show, setShow] = createSignal(false);
 
   const mutualFriends = () => {
@@ -912,7 +941,9 @@ function MutualServerList(props: {
   color?: string;
 }) {
   const { servers } = useStore();
-  const { isMobileWidth } = useWindowProperties();
+  const { paneWidth } = useWindowProperties();
+
+  const isMobileWidth = () => (paneWidth() || 0) < 1170;
   const [show, setShow] = createSignal(false);
 
   return (

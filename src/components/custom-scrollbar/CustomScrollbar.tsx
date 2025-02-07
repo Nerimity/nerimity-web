@@ -5,7 +5,7 @@ import {
   useMutationObserver,
   useResizeObserver,
 } from "@/common/useResizeObserver";
-import { createEffect, createSignal, on, onCleanup } from "solid-js";
+import { createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import { createContextProvider } from "@solid-primitives/context";
 
 interface CustomScrollbarProps {
@@ -15,31 +15,45 @@ interface CustomScrollbarProps {
   marginBottom?: number;
 }
 
-export const [CustomScrollbarProvider, useCustomScrollbar] =
-  createContextProvider(
-    () => {
-      const [isVisible, setIsVisible] = createSignal(false);
-      const [marginTop, setMarginTop] = createSignal(0);
-      const [marginBottom, setMarginBottom] = createSignal(0);
+const [CustomScrollbarProvider, _useCustomScrollbar] = createContextProvider(
+  () => {
+    const [isVisible, setIsVisible] = createSignal(false);
+    const [marginTop, setMarginTop] = createSignal(0);
+    const [marginBottom, setMarginBottom] = createSignal(0);
+    const [thumbColor, setThumbColor] = createSignal("var(--primary-color)");
 
-      return {
-        marginTop,
-        marginBottom,
-        setMarginTop,
-        setMarginBottom,
-        isVisible,
-        setIsVisible,
-      };
-    },
-    {
-      marginTop: () => 0,
-      marginBottom: () => 0,
-      setMarginBottom: () => {},
-      setMarginTop: () => {},
-      isVisible: () => false,
-      setIsVisible: () => {},
-    }
-  );
+    return {
+      marginTop,
+      marginBottom,
+      setMarginTop,
+      setMarginBottom,
+      isVisible,
+      setIsVisible,
+      thumbColor,
+      setThumbColor,
+    };
+  },
+  {
+    marginTop: () => 0,
+    marginBottom: () => 0,
+    setMarginBottom: () => {},
+    setMarginTop: () => {},
+    isVisible: () => false,
+    setIsVisible: () => {},
+    thumbColor: () => "var(--primary-color)",
+    setThumbColor: () => {},
+  }
+);
+
+export { CustomScrollbarProvider };
+
+export const useCustomScrollbar = () => {
+  const hook = _useCustomScrollbar();
+  onCleanup(() => {
+    hook.setThumbColor("var(--primary-color)");
+  });
+  return hook;
+};
 
 export const CustomScrollbar = (props: CustomScrollbarProps) => {
   let scrollBarEl: HTMLDivElement | undefined;
@@ -51,6 +65,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
     setMarginTop,
     isVisible,
     setIsVisible,
+    thumbColor,
   } = useCustomScrollbar();
   setMarginBottom(props.marginBottom || 0);
   setMarginTop(props.marginTop || 0);
@@ -179,6 +194,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
         style={{
           height: `${thumbHeight()}px`,
           top: `${thumbTop()}px`,
+          background: thumbColor(),
         }}
       />
     </div>
