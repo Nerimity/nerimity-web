@@ -27,6 +27,7 @@ import {
   repostPost,
   unpinPost,
 } from "@/chat-api/services/PostService";
+import env from "@/common/env";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -325,6 +326,22 @@ const Actions = (props: {
                     },
                   ]
                 : []),
+              {
+                label: "Copy Link",
+                onClick: () => {
+                  navigator.clipboard.writeText(
+                    env.APP_URL + "/p/" + props.post.id
+                  );
+                },
+                icon: "content_copy",
+              },
+              {
+                label: "Copy ID",
+                icon: "content_copy",
+                onClick: () => {
+                  navigator.clipboard.writeText(props.post.id);
+                },
+              },
             ]}
             position={rect}
             onClose={close}
@@ -381,17 +398,15 @@ const Actions = (props: {
         </Tooltip>
       </Show>
 
-      <Show when={showDeleteAndEdit() || account.hasModeratorPerm()}>
-        <div class={style.rightActions}>
-          <Button
-            onclick={showContextMenu}
-            margin={0}
-            class={cn(style.postButtonStyle, "post-more-button")}
-            iconClass={style.icon}
-            iconName="more_vert"
-          />
-        </div>
-      </Show>
+      <div class={style.rightActions}>
+        <Button
+          onclick={showContextMenu}
+          margin={0}
+          class={cn(style.postButtonStyle, "post-more-button")}
+          iconClass={style.icon}
+          iconName="more_vert"
+        />
+      </div>
     </div>
   );
 };
