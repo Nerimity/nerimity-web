@@ -158,12 +158,15 @@ function NewPostArea(props: {
   const onCreateClick = () => {
     const tempContent = content();
     const formattedContent = formatMessage(content().trim());
+    const pollOpts = [...pollOptions];
+
     if (props.postId) {
       posts
         .cachedPost(props.postId)
         ?.submitReply({
           content: formattedContent,
           attachment: attachedFile(),
+          poll: showPollOptions() ? { choices: pollOpts } : undefined,
         })
         .then((res) => {
           if (!res) {
@@ -171,11 +174,12 @@ function NewPostArea(props: {
           }
         });
     } else {
+      console.log(pollOpts);
       posts
         .submitPost({
           content: formattedContent,
           file: attachedFile(),
-          poll: showPollOptions() ? { choices: pollOptions } : undefined,
+          poll: showPollOptions() ? { choices: pollOpts } : undefined,
         })
         .then((res) => {
           if (!res) {

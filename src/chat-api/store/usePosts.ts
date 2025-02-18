@@ -34,7 +34,7 @@ export type Post = RawPost & {
   cachedComments(this: Post): Post[] | undefined;
   submitReply(
     this: Post,
-    opts: { content: string; attachment?: File }
+    opts: { content: string; attachment?: File, poll?: { choices: string[] };  }
   ): Promise<any>;
 };
 
@@ -193,6 +193,7 @@ export function usePosts() {
             content: formattedContent,
             attachment: opts.attachment,
             replyToPostId: this.id,
+            poll: opts.poll,
           }).catch((err) => {
             alert(err.message);
           });
