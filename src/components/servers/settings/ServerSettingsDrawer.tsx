@@ -13,17 +13,21 @@ import { Bitwise } from "@/chat-api/Bitwise";
 import { ChannelType } from "@/chat-api/RawData";
 import InVoiceActions from "@/components/InVoiceActions";
 import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
+import { SupportBlock } from "@/components/SupportBlock";
+import { FlexColumn } from "@/components/ui/Flexbox";
 
+const MainContainer = styled(FlexColumn)`
+  height: 100%;
+  &[data-scrollbar-visible="true"] {
+    margin-right: 8px;
+  }
+`;
 const SettingsListContainer = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding-bottom: 3px;
   flex: 1;
-
-  &[data-scrollbar-visible="true"] {
-    margin-right: 8px;
-  }
 `;
 
 const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
@@ -46,13 +50,15 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
 `;
 
 export default function ServerSettingsDrawer() {
+  const { isVisible } = useCustomScrollbar();
+
   return (
-    <div
-      style={{ display: "flex", "flex-direction": "column", height: "100%" }}
-    >
-      <SettingsList />
-      <InVoiceActions />
-    </div>
+    <>
+      <MainContainer data-scrollbar-visible={isVisible()}>
+        <SettingsList />
+        <Footer />
+      </MainContainer>
+    </>
   );
 }
 
@@ -62,7 +68,6 @@ function SettingsList() {
   const { serverMembers, account, servers } = useStore();
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
   const server = () => servers.get(params.serverId);
-  const { isVisible } = useCustomScrollbar();
 
   const hasPermission = (role?: Bitwise) => {
     if (!role) return true;
@@ -73,7 +78,7 @@ function SettingsList() {
   return (
     <>
       <ServerDrawerHeader />
-      <SettingsListContainer data-scrollbar-visible={isVisible()}>
+      <SettingsListContainer>
         <For each={serverSettings}>
           {(setting) => {
             if (setting.hideDrawer) return null;
@@ -124,32 +129,19 @@ function Item(props: {
   );
 }
 
-function ServerChannelsList() {
-  const params = useParams();
-  const { channels } = useStore();
-  const sortedServerChannels = () =>
-    channels.getSortedChannelsByServerId(params.serverId);
+const FooterContainer = styled(FlexColumn)`
+  padding-bottom: 0px;
+  margin-top: 8px;
+  position: sticky;
+  bottom: 2px;
+  background-color: var(--pane-color);
+`;
 
+function Footer() {
   return (
-    <For each={sortedServerChannels()}>
-      {(channel) => {
-        const path = RouterEndpoints.SERVER_SETTINGS_CHANNEL(
-          params.serverId,
-          channel!.id
-        );
-        const selected = () => params.id === channel!.id;
-        return (
-          <Item
-            nested={true}
-            icon={
-              channel!.type === ChannelType.CATEGORY ? "segment" : "storage"
-            }
-            label={channel!.name}
-            path={path}
-            selected={selected()}
-          />
-        );
-      }}
-    </For>
+    <FooterContainer gap={2}>
+      <SupportBlock />
+      <InVoiceActions style={{ bottom: "0" }} />
+    </FooterContainer>
   );
 }

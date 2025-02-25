@@ -21,6 +21,7 @@ import InVoiceActions from "../InVoiceActions";
 import { ShowExperiment } from "@/common/experiments";
 import { logout } from "@/common/logout";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
+import { SupportBlock } from "../SupportBlock";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
@@ -81,7 +82,7 @@ function Footer() {
 
   return (
     <FooterContainer gap={2}>
-      <SupportItem />
+      <SupportBlock />
       <FooterItem
         href="https://github.com/Nerimity/Nerimity-Web"
         external
@@ -252,60 +253,5 @@ function FooterItem(props: FooterItemProps) {
         <div children={Content} onClick={props.onClick} />
       </Match>
     </Switch>
-  );
-}
-
-function SupportItem() {
-  return (
-    <A
-      href="https://boosty.to/supertigerdev/donate"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ "text-decoration": "none" }}
-    >
-      <SettingItemContainer
-        style={{
-          background: "var(--alert-color)",
-          height: "initial",
-          padding: "6px",
-          "align-items": "start",
-          "flex-direction": "column",
-        }}
-      >
-        <FlexRow gap={4}>
-          <Icon
-            style={{ "align-self": "start", "margin-top": "3px" }}
-            name="favorite"
-            size={18}
-          />
-          <div>
-            <Text style={{ "font-weight": "bold" }}>
-              {t("supportBlock.support")}
-            </Text>
-            <div>
-              <Text size={12}>{t("supportBlock.supportDescription")}</Text>
-            </div>
-          </div>
-        </FlexRow>
-        <FlexRow style={{ "align-self": "center" }} gap={6}>
-          <a target="_blank" href="https://ko-fi.com/supertiger">
-            <img
-              style={{ "border-radius": "50%" }}
-              src="/assets/kofi.png"
-              width={28}
-              height={28}
-            />
-          </a>
-          <a target="_blank" href="https://boosty.to/supertigerdev/donate">
-            <img
-              style={{ "border-radius": "50%" }}
-              src="/assets/boosty.jpg"
-              width={28}
-              height={28}
-            />
-          </a>
-        </FlexRow>
-      </SettingItemContainer>
-    </A>
   );
 }

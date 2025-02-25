@@ -25,6 +25,7 @@ const settings: Setting[] = [
     icon: "account_circle",
     element: lazy(() => import("@/components/settings/AccountSettings")),
   },
+
   {
     path: "/account/profile",
     routePath: "/account/profile",
@@ -32,6 +33,13 @@ const settings: Setting[] = [
     icon: "account_circle",
     element: lazy(() => import("@/components/settings/ProfileSettings")),
     hide: true,
+  },
+  {
+    path: "badges",
+    routePath: "/badges",
+    name: "settings.drawer.badges",
+    icon: "local_police",
+    element: lazy(() => import("@/components/settings/BadgeSettings")),
   },
   {
     path: "interface",

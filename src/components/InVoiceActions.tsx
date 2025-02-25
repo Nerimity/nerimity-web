@@ -11,9 +11,9 @@ import Button from "./ui/Button";
 
 const InVoiceActionsContainer = styled(FlexColumn)`
   background-color: rgb(15, 15, 15);
-  margin: 5px;
+  margin: 3px;
   margin-bottom: 0;
-  border-radius: 8px;
+  border-radius: 6px;
   flex-shrink: 0;
   padding-top: 6px;
 
