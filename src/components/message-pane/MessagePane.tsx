@@ -83,6 +83,7 @@ import useServerRoles from "@/chat-api/store/useServerRoles";
 import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
+import { Portal } from "solid-js/web";
 
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
@@ -113,13 +114,46 @@ export default function MessagePaneMain() {
 function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
   const params = useParams<{ channelId: string; serverId?: string }>();
-  const { channels, header, serverMembers, account, servers } = useStore();
+  const {
+    channels,
+    header,
+    serverMembers,
+    account,
+    servers,
+    channelProperties,
+  } = useStore();
   const { setMarginBottom, setMarginTop } = useCustomScrollbar();
   const [textAreaEl, setTextAreaEl] = createSignal<
     undefined | HTMLTextAreaElement
   >(undefined);
+  const [isDragging, setIsDragging] = createSignal(false);
+
+  const onDragOver = (event: DragEvent) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const onDragLeave = (event: DragEvent) => {
+    if (event.relatedTarget == null) {
+      event.preventDefault();
+      setIsDragging(false);
+    }
+  };
+
+  const onDrop = (event: DragEvent) => {
+    event.preventDefault();
+    setIsDragging(false);
+    if (!event.dataTransfer?.files.length) return;
+    if (!canSendMessage()) return;
+
+    const file = event.dataTransfer.files[0];
+    channelProperties.setAttachment(params.channelId, file);
+  };
 
   onMount(() => {
+    document.addEventListener("dragover", onDragOver);
+    document.addEventListener("dragleave", onDragLeave);
+    document.addEventListener("drop", onDrop);
     const disabledAdvancedMarkup = getStorageBoolean(
       StorageKeys.DISABLED_ADVANCED_MARKUP,
       false
@@ -128,6 +162,9 @@ function MessagePane() {
 
     onCleanup(() => {
       setMarginBottom(0);
+      document.removeEventListener("dragover", onDragOver);
+      document.removeEventListener("dragleave", onDragLeave);
+      document.removeEventListener("drop", onDrop);
     });
   });
   const channel = () => channels.get(params.channelId!);
@@ -172,6 +209,11 @@ function MessagePane() {
 
   return (
     <div class={styles.messagePane}>
+      <Portal>
+        <Show when={isDragging()}>
+          <DropOverlay />
+        </Show>
+      </Portal>
       <MetaTitle>
         {channel()?.name || channel()?.recipient()?.username}
         {params.serverId ? ` (${server()?.name})` : ""}
@@ -269,7 +311,10 @@ function MessageArea(props: {
       const msg = [...(messages.get(params.channelId) || [])]
         .reverse()
         ?.find(
-          (m) => m.type === MessageType.CONTENT && m.createdBy.id === myId
+          (m) =>
+            m.type === MessageType.CONTENT &&
+            m.createdBy.id === myId &&
+            !m.tempId
         );
       if (msg) {
         channelProperties.setEditMessage(params.channelId, msg);
@@ -2024,6 +2069,17 @@ function ScheduledDelete() {
         color="var(--alert-color)"
         primary
       />
+    </div>
+  );
+}
+
+function DropOverlay() {
+  return (
+    <div class={styles.dropOverlayContainer}>
+      <div class={styles.dropOverlayInnerContainer}>
+        <Icon name="place_item" color="var(--primary-color)" size={40} />
+        <div>Drop File</div>
+      </div>
     </div>
   );
 }

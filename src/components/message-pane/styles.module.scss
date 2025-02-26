@@ -480,3 +480,28 @@ body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
     font-size: 16px;
   }
 }
+
+
+
+.dropOverlayContainer {
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  .dropOverlayInnerContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    border: solid 1px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--primary-color);
+    background-color: var(--pane-color);
+    font-size: 18px;
+    gap: 10px;
+  }
+}
