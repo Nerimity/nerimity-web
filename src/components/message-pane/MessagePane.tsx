@@ -295,7 +295,7 @@ function MessageArea(props: {
       const msg = [...(messages.get(params.channelId) || [])]
         .reverse()
         ?.find(
-          (m) => m.type === MessageType.CONTENT && m.createdBy.id === myId
+          (m) => m.type === MessageType.CONTENT && m.createdBy.id === myId && !m.tempId
         );
       if (msg) {
         channelProperties.setEditMessage(params.channelId, msg);
