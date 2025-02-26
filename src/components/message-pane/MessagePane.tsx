@@ -113,7 +113,14 @@ export default function MessagePaneMain() {
 function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
   const params = useParams<{ channelId: string; serverId?: string }>();
-  const { channels, header, serverMembers, account, servers, channelProperties } = useStore();
+  const {
+    channels,
+    header,
+    serverMembers,
+    account,
+    servers,
+    channelProperties,
+  } = useStore();
   const { setMarginBottom, setMarginTop } = useCustomScrollbar();
   const [textAreaEl, setTextAreaEl] = createSignal<
     undefined | HTMLTextAreaElement
@@ -123,22 +130,22 @@ function MessagePane() {
   const onDragOver = (event: DragEvent) => {
     event.preventDefault();
     setIsDragging(true);
-  }
+  };
 
   const onDragLeave = (event: DragEvent) => {
     event.preventDefault();
     setIsDragging(false);
-  }
+  };
 
   const onDrop = (event: DragEvent) => {
     event.preventDefault();
     setIsDragging(false);
-    if(!event.dataTransfer?.files.length) return;
-    if(!canSendMessage()) return;
+    if (!event.dataTransfer?.files.length) return;
+    if (!canSendMessage()) return;
 
     const file = event.dataTransfer.files[0];
     channelProperties.setAttachment(params.channelId, file);
-  }
+  };
 
   onMount(() => {
     const disabledAdvancedMarkup = getStorageBoolean(
@@ -192,7 +199,7 @@ function MessagePane() {
   const server = () => servers.get(channel()?.serverId!);
 
   return (
-    <div 
+    <div
       class={styles.messagePane}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
@@ -295,7 +302,10 @@ function MessageArea(props: {
       const msg = [...(messages.get(params.channelId) || [])]
         .reverse()
         ?.find(
-          (m) => m.type === MessageType.CONTENT && m.createdBy.id === myId && !m.tempId
+          (m) =>
+            m.type === MessageType.CONTENT &&
+            m.createdBy.id === myId &&
+            !m.tempId
         );
       if (msg) {
         channelProperties.setEditMessage(params.channelId, msg);
