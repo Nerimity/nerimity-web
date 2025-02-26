@@ -148,6 +148,9 @@ function MessagePane() {
   };
 
   onMount(() => {
+    document.addEventListener("dragover", onDragOver);
+    document.addEventListener("dragleave", onDragLeave);
+    document.addEventListener("drop", onDrop);
     const disabledAdvancedMarkup = getStorageBoolean(
       StorageKeys.DISABLED_ADVANCED_MARKUP,
       false
@@ -199,12 +202,7 @@ function MessagePane() {
   const server = () => servers.get(channel()?.serverId!);
 
   return (
-    <div
-      class={styles.messagePane}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-    >
+    <div class={styles.messagePane}>
       <MetaTitle>
         {channel()?.name || channel()?.recipient()?.username}
         {params.serverId ? ` (${server()?.name})` : ""}
