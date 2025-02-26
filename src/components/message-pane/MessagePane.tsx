@@ -314,7 +314,7 @@ function MessageArea(props: {
           (m) =>
             m.type === MessageType.CONTENT &&
             m.createdBy.id === myId &&
-            !m.tempId
+            m.sentStatus === undefined
         );
       if (msg) {
         channelProperties.setEditMessage(params.channelId, msg);
