@@ -83,6 +83,7 @@ import useServerRoles from "@/chat-api/store/useServerRoles";
 import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
+import { Portal } from "solid-js/web";
 
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
@@ -133,8 +134,10 @@ function MessagePane() {
   };
 
   const onDragLeave = (event: DragEvent) => {
-    event.preventDefault();
-    setIsDragging(false);
+    if (event.relatedTarget == null) {
+      event.preventDefault();
+      setIsDragging(false);
+    }
   };
 
   const onDrop = (event: DragEvent) => {
@@ -206,6 +209,11 @@ function MessagePane() {
 
   return (
     <div class={styles.messagePane}>
+      <Portal>
+        <Show when={isDragging()}>
+          <DropOverlay />
+        </Show>
+      </Portal>
       <MetaTitle>
         {channel()?.name || channel()?.recipient()?.username}
         {params.serverId ? ` (${server()?.name})` : ""}
@@ -2061,6 +2069,17 @@ function ScheduledDelete() {
         color="var(--alert-color)"
         primary
       />
+    </div>
+  );
+}
+
+function DropOverlay() {
+  return (
+    <div class={styles.dropOverlayContainer}>
+      <div class={styles.dropOverlayInnerContainer}>
+        <Icon name="place_item" color="var(--primary-color)" size={40} />
+        <div>Drop File</div>
+      </div>
     </div>
   );
 }
