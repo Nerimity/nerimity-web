@@ -159,6 +159,9 @@ function MessagePane() {
 
     onCleanup(() => {
       setMarginBottom(0);
+      document.removeEventListener("dragover", onDragOver);
+      document.removeEventListener("dragleave", onDragLeave);
+      document.removeEventListener("drop", onDrop);
     });
   });
   const channel = () => channels.get(params.channelId!);
