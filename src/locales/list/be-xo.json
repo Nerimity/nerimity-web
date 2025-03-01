@@ -123,7 +123,7 @@
         "hideRole": "Схаваць ролю",
         "hideRoleDescription": "Паказваць гэтую ролю ў сьпісе ўдзельнікаў",
         "permissions": "Дазволы",
-        "permissionsDescription": "Кіраваньне дазволамі гэтай ролі.",
+        "permissionsDescription": "Кіраваньне дазволамі гэтае ролі.",
         "deleteRoleButton": "Выдаліць гэту ролю",
         "deleteRoleButtonDescription": "Гэта дзеяньне нельга адмяніць!"
       },
@@ -245,7 +245,7 @@
       "saveChangesButton": "Захаваць зьмены",
       "deleteAccount": "Выдаліць мой уліковы запіс",
       "deleteAccountDescription": "Гэта нельга адрабіць!",
-      "deleteAccountNotice": "Вы мусіце выйсьці з/выдаліць усе вашы сэрвэры перад выдаленьнем вашага ўліковага запісу.",
+      "deleteAccountNotice": "Вы мусіце выйсьці зь усіх сэрвэроў, альбо выдаліць іх перад выдаленьнем вашага ўліковага запісу.",
       "understoodButton": "Зразумела"
     },
     "privacy": {
@@ -319,7 +319,7 @@
       "pushToTalk": "Націсьніце, каб гаварыць",
       "bindButton": "Прывязаць",
       "stopButton": "Спыніць",
-      "downloadAppNotice": "Спампуйце праґраму Nerimity для ПК, каб карыстацца гэтай функцыяй без факусаваньня на ўкладцы."
+      "downloadAppNotice": "Спампуйце праґраму Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
     }
   },
   "supportBlock": {
