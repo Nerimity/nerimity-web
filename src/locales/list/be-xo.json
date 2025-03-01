@@ -39,7 +39,7 @@
     "discover": "Дасьледваць",
     "notifications": "Апавяшчэньні"
   },
-   "messageArea": {
+  "messageArea": {
     "messageBoxPlaceholder": "Напісаць {{username}}",
     "messageBoxChannelPlaceholder": "Напісаць у {{channelName}}"
   },
@@ -261,7 +261,7 @@
         "description": "Хто можа гутарыць са мной у асабістых паведамленьнях.",
         "anyone": "Усе",
         "friendsAndServersOnly": "Толькі сябры й удзельнікі агульных са мной сэрвэраў",
-        "friendsOnly": "Толькі сябры" 
+        "friendsOnly": "Толькі сябры"
       },
       "friendRequest": {
         "title": "Запыты сяброўства",
@@ -292,138 +292,139 @@
         "customizeColorsDescription": "Наладзіць колеры інтэрфэйсу."
       },
       "supportBlock": {
-      "volume": "Гучнасьць",
-      "volumeDescription": "Зьмяніць гучнасьць паведамленьняў.",
-      "changeSoundsDescription": "Зьмяніце гук паведамленьняў зь гэтымі гукамі без аўтарскіх правоў.",
-      "message": "Паведамленьне",
-      "messageDescription": "Гук, калі вы атрымлівайце паведамленьне.",
-      "mention": "Згадваньне",
-      "mentionDescription": "Гук, калі вас згадваюць.",
-      "inAppPreview": "Перадпрагляд у праґраме",
-      "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў праґраме.",
-      "inAppPreviewModes": {
-        "off": "Выключана",
-        "mentionsOnly": "Толькі згадваньні",
-        "inheritFromPingSettings": "Узяць з наладаў згадвання",
-        "all": "Усе"
+        "volume": "Гучнасьць",
+        "volumeDescription": "Зьмяніць гучнасьць паведамленьняў.",
+        "changeSoundsDescription": "Зьмяніце гук паведамленьняў зь гэтымі гукамі без аўтарскіх правоў.",
+        "message": "Паведамленьне",
+        "messageDescription": "Гук, калі вы атрымлівайце паведамленьне.",
+        "mention": "Згадваньне",
+        "mentionDescription": "Гук, калі вас згадваюць.",
+        "inAppPreview": "Перадпрагляд у праґраме",
+        "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў праґраме.",
+        "inAppPreviewModes": {
+          "off": "Выключана",
+          "mentionsOnly": "Толькі згадваньні",
+          "inheritFromPingSettings": "Узяць з наладаў згадвання",
+          "all": "Усе"
+        }
+      },
+      "call": {
+        "nextCallNotice": "Зьмены будуць ужытыя ў вашым наступным выкліку.",
+        "inputDevices": "Прылады ўводу",
+        "outputDevices": "Прылады вываду",
+        "default": "Прадвызначаныя",
+        "inputMode": "Мэтад уводу",
+        "openMic": "Заўсёды запісваць",
+        "voiceActivity": "Калі гаворыце",
+        "pushToTalk": "Націсьніце, каб гаварыць",
+        "bindButton": "Прывязаць",
+        "stopButton": "Спыніць",
+        "downloadAppNotice": "Спампуйце праґраму Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
       }
     },
-    "call": {
-      "nextCallNotice": "Зьмены будуць ужытыя ў вашым наступным выкліку.",
-      "inputDevices": "Прылады ўводу",
-      "outputDevices": "Прылады вываду",
-      "default": "Прадвызначаныя",
-      "inputMode": "Мэтад уводу",
-      "openMic": "Заўсёды запісваць",
-      "voiceActivity": "Калі гаворыце",
-      "pushToTalk": "Націсьніце, каб гаварыць",
-      "bindButton": "Прывязаць",
-      "stopButton": "Спыніць",
-      "downloadAppNotice": "Спампуйце праґраму Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
-    }
-  },
-  "supportBlock": {
-    "support": "Падтрымаць мяне",
-    "supportDescription": "Падтрымайце мяне, каб атрымаць бэйдж!"
-  },
-  "createServerModal": {
-    "title": "Стварыць сэрвэр",
-    "notice": "18+ кантэнт забаронены.",
-    "serverName": "Імя сэрвэра",
-    "placeholder": "Мой цудоўны сэрвэр",
-    "creating": "Ствараем...",
-    "createServerButton": "Стварыць сэрвэр",
-    "closeButton": "Закрыць"
-  },
-  "serverContextMenu": {
-    "markAsRead": "Адзначыць як прачытанае",
-    "invites": "Запрашэньні",
-    "notifications": "Апавяшчэньні",
-    "settings": "Налады",
-    "copyId": "Скапіяваць ID",
-    "leave": "Выйсьці",
-    "notificationOptions": {
-      "everything": "Усё",
-      "mentionsOnly": "Толькі згадваньні",
-      "mute": "Заглушаныя"
-    }
-  },
-  "userContextMenu": {
-    "viewProfile": "Праглядзець профіль",
-    "sendMessage": "Адправіць паведамленьне",
-    "copyId": "Скапіяваць ID",
-    "editRoles": "Рэдагаваць ролі",
-    "kick": "Выгнаць",
-    "ban": "Заблякаваць",
-    "changeNickname": "Зьмяніць нікнэйм",
-    "callVolume": "Гучнасьць у выкліку"
-  },
-  "kickServerMemberModal": {
-    "title": "Выгнаць {{username}}",
-    "kickButton": "Выгнаць",
-    "kicking": "Выганяем...",
-    "backButton": "Назад",
-    "message": "Вы ўпэўненыя, што хочаце выгнаць <1>{{username}}</1>?"
-  },
-  "editServerRolesModal": {
-    "title": "Рэдагаваць ролі"
-  },
-  "banModal": {
-    "title": "Заблякаваць {{username}}?",
-    "message": "Вы ўпэўненыя, што хочаце заблякаваць <1>{{username}}</1>?",
-    "deletePastMessagesCheckbox": "Выдаліць паведамленьні, адпраўленыя за апошнія 7 гадзін.",
-    "banButton": "Заблякаваць",
-    "banning": "Блякуем..."
-  },
-  "messageContextMenu": {
-    "editMessage": "Адрэдагаваць паведамленьне",
-    "deleteMessage": "Выдаліць паведамленьне",
-    "copyMessage": "Скапіяваць паведамленьне",
-    "copyId": "Скапіяваць ID",
-    "viewReactions": "Праглядзець рэакцыйі",
-    "quoteMessage": "Цытаваць паведамленьне",
-    "reportMessage": "Паскардзіцца",
-    "reply": "Адказаць"
-  },
-  "profile": {
-    "followButton": "Падпісацца",
-    "unfollowButton": "Адпісацца",
-    "removeFriendButton": "Выдаліць зь сяброў",
-    "addFriendButton": "Дадаць у сябры",
-    "pendingRequest": "У чаканьні",
-    "acceptRequestButton": "Прыняць запыт",
-    "messageButton": "Напісаць",
-    "mutualFriends": "Агульныя сябры ({{count}})",
-    "mutualServers": "Агульныя сэрвэры ({{count}})",
-    "postsTab": "Публікацыйі",
-    "followersTab": "Падпісанты",
-    "followingTab": "Падпіскі",
-    "postsAndRepliesTab": "Публікацыйі й адказы ({{count}})",
-    "likedPostsTab": "Упадабаныя публікацыйі ({{count}})"
-  },
-  "posts": {
-    "deletePostModal": {
-      "message": "Вы ўпэўненыя, што хочаце выдаліць гэтую публікацыю?",
-      "cancelButton": "Скасаваць",
-      "deleteButton": "Выдаліць"
+    "supportBlock": {
+      "support": "Падтрымаць мяне",
+      "supportDescription": "Падтрымайце мяне, каб атрымаць бэйдж!"
     },
-    "postWasDeleted": "Гэта публікацыя была выдалена!",
-    "someoneLikedYourPost": "<1>{{username}}</1> упадабаў вашую публікацыю!",
-    "someoneRepostedYourPost": "<1>{{username}}</1> пашырыў вашую публікацыю!",
-    "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
-    "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашую публікацыю!",
-    "createAPostInputPlaceholder": "Дадаць публікацыю...",
-    "replyInputPlaceholder": "Адказ...",
-    "replyButton": "Адказаць",
-    "createButton": "Дадаць",
-    "pollOptions": "Варыянты апытаньня",
-    "optionNumberPlaceholder": "Вырыянт {{number}}"
-  },
-  "informationDrawer": {
-    "title": "Інфармацыя",
-    "channelNotice": "Папярэджаньне каналу",
-    "attachments": "Далучаныя файлы",
-    "attachmentsBack": "Назад",
-    "members": "Удзельнікі"
+    "createServerModal": {
+      "title": "Стварыць сэрвэр",
+      "notice": "18+ кантэнт забаронены.",
+      "serverName": "Імя сэрвэра",
+      "placeholder": "Мой цудоўны сэрвэр",
+      "creating": "Ствараем...",
+      "createServerButton": "Стварыць сэрвэр",
+      "closeButton": "Закрыць"
+    },
+    "serverContextMenu": {
+      "markAsRead": "Адзначыць як прачытанае",
+      "invites": "Запрашэньні",
+      "notifications": "Апавяшчэньні",
+      "settings": "Налады",
+      "copyId": "Скапіяваць ID",
+      "leave": "Выйсьці",
+      "notificationOptions": {
+        "everything": "Усё",
+        "mentionsOnly": "Толькі згадваньні",
+        "mute": "Заглушаныя"
+      }
+    },
+    "userContextMenu": {
+      "viewProfile": "Праглядзець профіль",
+      "sendMessage": "Адправіць паведамленьне",
+      "copyId": "Скапіяваць ID",
+      "editRoles": "Рэдагаваць ролі",
+      "kick": "Выгнаць",
+      "ban": "Заблякаваць",
+      "changeNickname": "Зьмяніць нікнэйм",
+      "callVolume": "Гучнасьць у выкліку"
+    },
+    "kickServerMemberModal": {
+      "title": "Выгнаць {{username}}",
+      "kickButton": "Выгнаць",
+      "kicking": "Выганяем...",
+      "backButton": "Назад",
+      "message": "Вы ўпэўненыя, што хочаце выгнаць <1>{{username}}</1>?"
+    },
+    "editServerRolesModal": {
+      "title": "Рэдагаваць ролі"
+    },
+    "banModal": {
+      "title": "Заблякаваць {{username}}?",
+      "message": "Вы ўпэўненыя, што хочаце заблякаваць <1>{{username}}</1>?",
+      "deletePastMessagesCheckbox": "Выдаліць паведамленьні, адпраўленыя за апошнія 7 гадзін.",
+      "banButton": "Заблякаваць",
+      "banning": "Блякуем..."
+    },
+    "messageContextMenu": {
+      "editMessage": "Адрэдагаваць паведамленьне",
+      "deleteMessage": "Выдаліць паведамленьне",
+      "copyMessage": "Скапіяваць паведамленьне",
+      "copyId": "Скапіяваць ID",
+      "viewReactions": "Праглядзець рэакцыйі",
+      "quoteMessage": "Цытаваць паведамленьне",
+      "reportMessage": "Паскардзіцца",
+      "reply": "Адказаць"
+    },
+    "profile": {
+      "followButton": "Падпісацца",
+      "unfollowButton": "Адпісацца",
+      "removeFriendButton": "Выдаліць зь сяброў",
+      "addFriendButton": "Дадаць у сябры",
+      "pendingRequest": "У чаканьні",
+      "acceptRequestButton": "Прыняць запыт",
+      "messageButton": "Напісаць",
+      "mutualFriends": "Агульныя сябры ({{count}})",
+      "mutualServers": "Агульныя сэрвэры ({{count}})",
+      "postsTab": "Публікацыйі",
+      "followersTab": "Падпісанты",
+      "followingTab": "Падпіскі",
+      "postsAndRepliesTab": "Публікацыйі й адказы ({{count}})",
+      "likedPostsTab": "Упадабаныя публікацыйі ({{count}})"
+    },
+    "posts": {
+      "deletePostModal": {
+        "message": "Вы ўпэўненыя, што хочаце выдаліць гэтую публікацыю?",
+        "cancelButton": "Скасаваць",
+        "deleteButton": "Выдаліць"
+      },
+      "postWasDeleted": "Гэта публікацыя была выдалена!",
+      "someoneLikedYourPost": "<1>{{username}}</1> упадабаў вашую публікацыю!",
+      "someoneRepostedYourPost": "<1>{{username}}</1> пашырыў вашую публікацыю!",
+      "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
+      "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашую публікацыю!",
+      "createAPostInputPlaceholder": "Дадаць публікацыю...",
+      "replyInputPlaceholder": "Адказ...",
+      "replyButton": "Адказаць",
+      "createButton": "Дадаць",
+      "pollOptions": "Варыянты апытаньня",
+      "optionNumberPlaceholder": "Вырыянт {{number}}"
+    },
+    "informationDrawer": {
+      "title": "Інфармацыя",
+      "channelNotice": "Папярэджаньне каналу",
+      "attachments": "Далучаныя файлы",
+      "attachmentsBack": "Назад",
+      "members": "Удзельнікі"
+    }
   }
-}  
+}
