@@ -8,18 +8,18 @@ const ExplorePaneContainer = styled("div")`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1530px;
   align-self: center;
 `;
 
 export default function ExplorePane() {
-  const {account} = useStore();
+  const { account } = useStore();
   const user = () => account.user();
 
   return (
     <Show when={user()}>
       <ExplorePaneContainer>
-        <Outlet name="explorePane"/>
+        <Outlet name="explorePane" />
       </ExplorePaneContainer>
     </Show>
   );

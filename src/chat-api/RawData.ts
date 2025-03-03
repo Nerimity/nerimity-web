@@ -301,6 +301,7 @@ export interface RawPublicServer {
   bumpedAt: number;
   description: string;
   bumpCount: number;
+  pinnedAt?: number;
   lifetimeBumpCount: number;
   server?: RawServer & { _count: { serverMembers: number } };
 }

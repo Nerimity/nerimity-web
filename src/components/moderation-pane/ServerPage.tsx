@@ -1,5 +1,10 @@
-import { RawServer, RawUser } from "@/chat-api/RawData";
-import { getServer, updateServer } from "@/chat-api/services/ModerationService";
+import { RawPublicServer, RawServer, RawUser } from "@/chat-api/RawData";
+import {
+  getServer,
+  pinServer,
+  unpinServer,
+  updateServer,
+} from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useNavigate, useParams } from "solid-navigator";
@@ -245,10 +250,15 @@ const ServerBannerDetails = styled(FlexColumn)`
   border-radius: 8px;
 `;
 
-const PublicServerBlock = (props: { server: RawServer }) => {
+const PublicServerBlock = (props: {
+  server: RawServer & { publicServer: RawPublicServer };
+}) => {
   const [joinClicked, setJoinClicked] = createSignal(false);
   const navigate = useNavigate();
   const store = useStore();
+  const [isPinned, setIsPinned] = createSignal(
+    !!props.server.publicServer.pinnedAt
+  );
 
   const cacheServer = () => store.servers.get(props.server.id);
 
@@ -259,6 +269,15 @@ const PublicServerBlock = (props: { server: RawServer }) => {
       alert(err.message);
       setJoinClicked(false);
     });
+  };
+  const onPinClicked = async () => {
+    if (isPinned())
+      return unpinServer(props.server.id)
+        .then(() => setIsPinned(false))
+        .catch((err) => alert(err.message));
+    pinServer(props.server.id)
+      .then(() => setIsPinned(true))
+      .catch((err) => alert(err.message));
   };
 
   createEffect(() => {
@@ -273,23 +292,37 @@ const PublicServerBlock = (props: { server: RawServer }) => {
   });
 
   return (
-    <SettingsBlock
-      class={css`
-        && {
-          margin-bottom: 20px;
-        }
-      `}
-      icon="public"
-      label="Public Server"
-    >
-      <Button
-        onClick={onClick}
-        label={
-          cacheServer() ? "Visit" : joinClicked() ? "Joining..." : "Join Server"
-        }
-        primary
-      />
-    </SettingsBlock>
+    <>
+      <SettingsBlock icon="public" label="Public Server">
+        <Button
+          onClick={onClick}
+          label={
+            cacheServer()
+              ? "Visit"
+              : joinClicked()
+              ? "Joining..."
+              : "Join Server"
+          }
+          primary
+        />
+      </SettingsBlock>
+      <SettingsBlock
+        class={css`
+          && {
+            margin-bottom: 20px;
+          }
+        `}
+        icon="public"
+        label="Pin Server"
+      >
+        <Button
+          onClick={onPinClicked}
+          label={isPinned() ? "Unpin Server" : "Pin Server"}
+          color={isPinned() ? "var(--alert-color)" : "var(--primary-color)"}
+          primary
+        />
+      </SettingsBlock>
+    </>
   );
 };
 const DeleteServerBlock = (props: { serverId: string }) => {

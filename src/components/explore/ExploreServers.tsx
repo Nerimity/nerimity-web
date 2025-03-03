@@ -69,8 +69,9 @@ export default function ExploreServers() {
   const [afterId, setAfterId] = createSignal<string | null>(null);
   const [showSkeleton, setShowSkeleton] = createSignal(true);
 
-  const [nerimityServer, setNerimityServer] =
-    createSignal<RawPublicServer | null>(null);
+  const [pinnedServers, setPinnedServers] = createSignal<
+    RawPublicServer[] | null
+  >(null);
 
   createEffect(() => {
     header.updateHeader({
@@ -78,8 +79,8 @@ export default function ExploreServers() {
       iconName: "explore",
     });
 
-    getPublicServer("1289157729608441856")
-      .then((server) => setNerimityServer(server))
+    getPublicServers({ filter: "pinned", sort: "pinned_at" })
+      .then((servers) => setPinnedServers(servers))
       .catch(() => {});
   });
 
@@ -159,16 +160,32 @@ export default function ExploreServers() {
         description="Servers are not moderated by Nerimity. Please report servers that break the TOS."
       />
 
-      <Show when={nerimityServer()}>
-        <PublicServerItem
-          publicServer={nerimityServer()!}
-          update={setNerimityServer}
-          display
-        />
-      </Show>
-      <Show when={!nerimityServer()}>
-        <Skeleton.Item height="334px" width="100%" />
-      </Show>
+      <Text>Pinned Servers</Text>
+      <GridLayout class="servers-list-grid" style={{ "margin-bottom": "10px" }}>
+        <For each={pinnedServers()}>
+          {(server, i) => (
+            <PublicServerItem
+              update={(newServer) => update(newServer, i())}
+              publicServer={server}
+            />
+          )}
+        </For>
+        <Show when={pinnedServers() === null}>
+          <For each={Array(4).fill(null)}>
+            {() => (
+              <Skeleton.Item
+                height="334px"
+                width="100%"
+                onInView={() => {
+                  const servers = publicServers();
+                  if (!servers?.length) return;
+                  setAfterId(servers[servers.length - 1]?.id || null);
+                }}
+              />
+            )}
+          </For>
+        </Show>
+      </GridLayout>
 
       <FlexRow gap={10} wrap>
         <Input

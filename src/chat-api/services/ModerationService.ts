@@ -239,7 +239,11 @@ interface getAuditLogOpts {
   limit: number;
   afterId?: string;
 }
-export const getAuditLog = async ({ limit, afterId, search }: getAuditLogOpts) => {
+export const getAuditLog = async ({
+  limit,
+  afterId,
+  search,
+}: getAuditLogOpts) => {
   const data = await request<AuditLog[]>({
     method: "GET",
     params: {
@@ -247,7 +251,8 @@ export const getAuditLog = async ({ limit, afterId, search }: getAuditLogOpts) =
       ...(search ? { q: search } : undefined),
       limit,
     },
-    url: env.SERVER_URL + "/api/moderation/audit-logs" + (search ? "/search" : ""),
+    url:
+      env.SERVER_URL + "/api/moderation/audit-logs" + (search ? "/search" : ""),
     useToken: true,
   });
   return data;
@@ -287,9 +292,27 @@ export const deleteServer = async (
   });
   return data;
 };
+
+export const pinServer = async (serverId: string) => {
+  const data = await request<any[]>({
+    method: "POST",
+    url: env.SERVER_URL + `/api/moderation/servers/${serverId}/pin`,
+    useToken: true,
+  });
+  return data;
+};
+export const unpinServer = async (serverId: string) => {
+  const data = await request<any[]>({
+    method: "DELETE",
+    url: env.SERVER_URL + `/api/moderation/servers/${serverId}/pin`,
+    useToken: true,
+  });
+  return data;
+};
+
 export const undoDeleteServer = async (
   serverId: string,
-  confirmPassword: string,
+  confirmPassword: string
 ) => {
   const data = await request<any[]>({
     method: "DELETE",

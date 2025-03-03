@@ -412,11 +412,12 @@ export async function getPublicServer(serverId: string) {
 }
 
 export type PublicServerSort =
+  | "pinned_at"
   | "most_bumps"
   | "most_members"
   | "recently_added"
   | "recently_bumped";
-export type PublicServerFilter = "all" | "verified";
+export type PublicServerFilter = "pinned" | "all" | "verified";
 
 interface getPublicServersOpts {
   sort: PublicServerSort;
