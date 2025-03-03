@@ -204,7 +204,9 @@ export default function ProfilePane() {
           )}
           style={{
             "max-width": `${paneWidth()}px`,
-            ...(isVisible() ? { "margin-right": "10px" } : {}),
+            ...(isVisible()
+              ? { "margin-right": "10px" }
+              : { "margin-right": "4px" }),
           }}
         >
           <div class={styles.profilePaneInner}>
