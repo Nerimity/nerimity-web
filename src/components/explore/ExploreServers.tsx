@@ -1,16 +1,18 @@
 import { RawPublicServer } from "@/chat-api/RawData";
 import {
   BumpPublicServer,
+  getPublicServer,
   getPublicServers,
   joinPublicServer,
+  PublicServerFilter,
+  PublicServerSort,
 } from "@/chat-api/services/ServerService";
-import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
+import { bannerUrl } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { A, useNavigate } from "solid-navigator";
-import { update } from "idb-keyval";
-import { createSignal, For, onMount, Show } from "solid-js";
+import { batch, createSignal, For, on, Show } from "solid-js";
 import { createEffect } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
@@ -27,10 +29,10 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import env from "@/common/env";
-import { CustomLink } from "../ui/CustomLink";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import { classNames } from "@/common/classNames";
+import { classNames, cn } from "@/common/classNames";
 import { MetaTitle } from "@/common/MetaTitle";
+import Input from "../ui/input/Input";
 
 const Container = styled("div")`
   display: flex;
@@ -46,62 +48,71 @@ const GridLayout = styled("div")`
   scroll-margin-top: 120px;
 `;
 
-const recentlyBumpedServerContainer = css`
-  margin-bottom: 18px;
-  margin-top: 10px;
-  overflow: auto;
-
-  padding-bottom: 5px;
-  padding-left: 2px;
-  padding-right: 2px;
-`;
-
-const ViewMoreContainer = styled(FlexColumn)`
-  width: 350px;
-  height: 345px;
-  flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
-  justify-content: center;
-  user-select: none;
-  cursor: pointer;
-`;
-
 export default function ExploreServers() {
+  const MAX_LIMIT = 30;
   const [t] = useTransContext();
   const { header } = useStore();
   const [publicServers, setPublicServers] = createSignal<
     null | RawPublicServer[]
   >(null);
-  const [recentlyBumpedServers, setRecentlyBumpedServers] = createSignal<
-    null | RawPublicServer[]
-  >(null);
-  const [query, setQuery] = createSignal({
-    sort: "most_members",
-    filter: "verified",
+
+  const [query, setQuery] = createSignal<{
+    sort: PublicServerSort;
+    filter: PublicServerFilter;
+    search: string;
+  }>({
+    sort: "recently_bumped",
+    filter: "all",
+    search: "",
   });
+
+  const [afterId, setAfterId] = createSignal<string | null>(null);
+  const [showSkeleton, setShowSkeleton] = createSignal(true);
+
+  const [nerimityServer, setNerimityServer] =
+    createSignal<RawPublicServer | null>(null);
 
   createEffect(() => {
     header.updateHeader({
       title: t("explore.servers.title"),
       iconName: "explore",
     });
+
+    getPublicServer("1289157729608441856")
+      .then((server) => setNerimityServer(server))
+      .catch(() => {});
   });
 
-  onMount(() => {
-    getPublicServers("recently_bumped", "all", 10).then((servers) => {
-      setRecentlyBumpedServers(servers.slice(0, 10));
-    });
-  });
+  createEffect(
+    on(query, () => {
+      batch(() => {
+        setPublicServers(null);
+        setAfterId(null);
+        setShowSkeleton(true);
+      });
+    })
+  );
 
+  let timerId = 0;
   createEffect(() => {
-    setPublicServers(null);
-    getPublicServers(query().sort as any, query().filter as any).then(
-      (servers) => {
-        setPublicServers(servers);
-      }
-    );
+    clearTimeout(timerId);
+    const _afterId = afterId();
+    const search = query().search.trim();
+    const opts = {
+      sort: query().sort,
+      filter: query().filter,
+      limit: MAX_LIMIT,
+      ...(_afterId ? { afterId: _afterId } : {}),
+      ...(search ? { search } : {}),
+    };
+    timerId = window.setTimeout(() => {
+      getPublicServers(opts).then((servers) => {
+        batch(() => {
+          setPublicServers([...(publicServers() || []), ...servers]);
+          setShowSkeleton(servers.length >= MAX_LIMIT);
+        });
+      });
+    }, 500);
   });
 
   const sortOpts: DropDownItem[] = [
@@ -121,22 +132,7 @@ export default function ExploreServers() {
     current[index] = newPublicServer;
     setPublicServers(current);
   };
-  const updateRecentlyBumped = (
-    newPublicServer: RawPublicServer,
-    index: number
-  ) => {
-    const current = [...recentlyBumpedServers()!];
-    current[index] = newPublicServer;
-    setRecentlyBumpedServers(current);
-  };
 
-  const viewMoreRecentlyBumpedServers = () => {
-    document.querySelector(".servers-list-grid")?.scrollIntoView();
-    if (query().sort === "recently_bumped" && query().filter === "all") {
-      return;
-    }
-    setQuery({ sort: "recently_bumped", filter: "all" });
-  };
   return (
     <Container>
       <MetaTitle>Explore Servers</MetaTitle>
@@ -163,59 +159,47 @@ export default function ExploreServers() {
         description="Servers are not moderated by Nerimity. Please report servers that break the TOS."
       />
 
-      <Text bold opacity={0.8}>
-        Recently Bumped
-      </Text>
+      <Show when={nerimityServer()}>
+        <PublicServerItem
+          publicServer={nerimityServer()!}
+          update={setNerimityServer}
+          display
+        />
+      </Show>
+      <Show when={!nerimityServer()}>
+        <Skeleton.Item height="334px" width="100%" />
+      </Show>
 
-      <FlexRow gap={8} class={recentlyBumpedServerContainer}>
-        <Show when={!recentlyBumpedServers()}>
-          <For each={Array(20).fill(null)}>
-            {() => <Skeleton.Item height="334px" width="350px" />}
-          </For>
-        </Show>
-        <Show when={recentlyBumpedServers()}>
-          <For each={recentlyBumpedServers()}>
-            {(server, i) => (
-              <PublicServerItem
-                class={css`
-                  width: 350px;
-                  flex-shrink: 0;
-                `}
-                update={(newServer) => updateRecentlyBumped(newServer, i())}
-                publicServer={server}
-              />
-            )}
-          </For>
-          <ViewMoreContainer
-            itemsCenter
-            onclick={viewMoreRecentlyBumpedServers}
-          >
-            View All
-          </ViewMoreContainer>
-        </Show>
-      </FlexRow>
-
-      <FlexRow gap={10}>
+      <FlexRow gap={10} wrap>
+        <Input
+          label="Search"
+          value={query().search}
+          onText={(text) => setQuery({ ...query(), search: text })}
+          class={css`
+            span {
+              margin-bottom: 2px;
+            }
+          `}
+        />
         <DropDown
           title="Sort"
           items={sortOpts}
           selectedId={query().sort}
-          onChange={(i) => setQuery({ ...query(), sort: i.id })}
+          onChange={(i) =>
+            setQuery({ ...query(), sort: i.id as PublicServerSort })
+          }
         />
         <DropDown
           title="Filter"
           items={filterOpts}
           selectedId={query().filter}
-          onChange={(i) => setQuery({ ...query(), filter: i.id })}
+          onChange={(i) =>
+            setQuery({ ...query(), filter: i.id as PublicServerFilter })
+          }
         />
       </FlexRow>
 
       <GridLayout class="servers-list-grid">
-        <Show when={!publicServers()}>
-          <For each={Array(20).fill(null)}>
-            {() => <Skeleton.Item height="334px" width="100%" />}
-          </For>
-        </Show>
         <For each={publicServers()}>
           {(server, i) => (
             <PublicServerItem
@@ -224,6 +208,21 @@ export default function ExploreServers() {
             />
           )}
         </For>
+        <Show when={showSkeleton()}>
+          <For each={Array(20).fill(null)}>
+            {() => (
+              <Skeleton.Item
+                height="334px"
+                width="100%"
+                onInView={() => {
+                  const servers = publicServers();
+                  if (!servers?.length) return;
+                  setAfterId(servers[servers.length - 1]?.id || null);
+                }}
+              />
+            )}
+          </For>
+        </Show>
       </GridLayout>
     </Container>
   );
@@ -235,6 +234,13 @@ const ServerItemContainer = styled(FlexColumn)`
   border-radius: 8px;
   max-height: 400px;
   user-select: none;
+  &.display {
+    max-height: initial;
+    margin-bottom: 10px;
+    .banner {
+      max-height: 160px;
+    }
+  }
 `;
 const DetailsContainer = styled(FlexColumn)`
   white-space: nowrap;
@@ -297,6 +303,7 @@ function PublicServerItem(props: {
   class?: string;
   publicServer: RawPublicServer;
   update: (newServer: RawPublicServer) => void;
+  display?: boolean;
 }) {
   const [t] = useTransContext();
   const server = props.publicServer.server!;
@@ -363,7 +370,11 @@ function PublicServerItem(props: {
 
   return (
     <ServerItemContainer
-      class={classNames("serverItemContainer", props.class)}
+      class={classNames(
+        "serverItemContainer",
+        props.class,
+        props.display && "display"
+      )}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -371,9 +382,12 @@ function PublicServerItem(props: {
         margin={0}
         radius={6}
         animate={hovered()}
-        class={css`
-          width: 100%;
-        `}
+        class={cn(
+          css`
+            width: 100%;
+          `,
+          "banner"
+        )}
         url={bannerUrl(props.publicServer.server!)}
         hexColor={props.publicServer.server?.hexColor}
       />
@@ -452,6 +466,7 @@ function PublicServerItem(props: {
             iconSize={18}
             onClick={joinServerClick}
             iconName="login"
+            primary
             label={t("explore.servers.joinServerButton")}
           />
         </Show>

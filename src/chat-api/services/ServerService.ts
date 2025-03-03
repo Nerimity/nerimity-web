@@ -21,10 +21,18 @@ export async function getInvites(serverId: string): Promise<any> {
     useToken: true,
   });
 }
-export async function transferOwnership(serverId: string, password: string, newOwnerUserId: string): Promise<any> {
+export async function transferOwnership(
+  serverId: string,
+  password: string,
+  newOwnerUserId: string
+): Promise<any> {
   return request({
     method: "POST",
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.server(serverId) + "/transfer-ownership",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.server(serverId) +
+      "/transfer-ownership",
     body: { password, newOwnerUserId },
     useToken: true,
   });
@@ -403,13 +411,23 @@ export async function getPublicServer(serverId: string) {
   });
 }
 
-export async function getPublicServers(
-  sort: "most_bumps" | "most_members" | "recently_added" | "recently_bumped",
-  filter: "all" | "verified",
-  limit?: number
-) {
+export type PublicServerSort =
+  | "most_bumps"
+  | "most_members"
+  | "recently_added"
+  | "recently_bumped";
+export type PublicServerFilter = "all" | "verified";
+
+interface getPublicServersOpts {
+  sort: PublicServerSort;
+  filter: PublicServerFilter;
+  limit?: number;
+  afterId?: string;
+  search?: string;
+}
+export async function getPublicServers(opts: getPublicServersOpts) {
   return request<RawPublicServer[]>({
-    params: { sort, filter, limit },
+    params: opts,
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(""),
     useToken: true,

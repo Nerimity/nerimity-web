@@ -16,7 +16,7 @@ export interface RawServer {
   };
   scheduledForDeletion?: {
     scheduledAt: number;
-  }
+  };
 }
 
 export interface RawVoice {
@@ -295,6 +295,7 @@ export interface RawPresence {
 }
 
 export interface RawPublicServer {
+  id: string;
   serverId: string;
   createdAt: number;
   bumpedAt: number;
