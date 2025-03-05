@@ -67,7 +67,7 @@ import {
   onVoiceUserLeft,
 } from "./events/voiceEvents";
 
-const socket = io(env.SERVER_URL, {
+const socket = io(env.WS_URL || env.SERVER_URL, {
   transports: ["websocket"],
   autoConnect: false,
 });
@@ -162,10 +162,11 @@ socket.on(ServerEvents.SERVER_EMOJI_ADD, onServerEmojiAdd);
 socket.on(ServerEvents.SERVER_EMOJI_UPDATE, onServerEmojiUpdate);
 socket.on(ServerEvents.SERVER_EMOJI_REMOVE, onServerEmojiRemove);
 
-
-
 socket.on(ServerEvents.SERVER_SCHEDULE_DELETE, onServerScheduleDelete);
-socket.on(ServerEvents.SERVER_REMOVE_SCHEDULE_DELETE, onServerRemoveScheduleDelete);
+socket.on(
+  ServerEvents.SERVER_REMOVE_SCHEDULE_DELETE,
+  onServerRemoveScheduleDelete
+);
 
 socket.on(ServerEvents.SERVER_CHANNEL_CREATED, onServerChannelCreated);
 socket.on(ServerEvents.SERVER_CHANNEL_UPDATED, onServerChannelUpdated);
