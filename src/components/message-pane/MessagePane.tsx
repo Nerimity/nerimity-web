@@ -129,6 +129,13 @@ function MessagePane() {
   const [isDragging, setIsDragging] = createSignal(false);
 
   const onDragOver = (event: DragEvent) => {
+    const dataTransfer = event.dataTransfer;
+    if (
+      dataTransfer?.types.length !== 1 ||
+      dataTransfer?.types[0] !== "Files"
+    ) {
+      return;
+    }
     event.preventDefault();
     setIsDragging(true);
   };
