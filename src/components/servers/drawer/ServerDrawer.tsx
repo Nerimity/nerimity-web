@@ -291,7 +291,7 @@ function CategoryItem(props: {
   const { createPortal } = useCustomPortal();
 
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
-  const hasModeratorPermission = () => member()?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+  const hasModeratorPermission = () => member()?.hasPermission(ROLE_PERMISSIONS.MANAGE_CHANNELS);
 
   const sortedServerChannels = createMemo(() =>
     channels
