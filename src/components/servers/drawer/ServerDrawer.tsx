@@ -38,6 +38,8 @@ import ContextMenuServerChannel from "../context-menu/ContextMenuServerChannel";
 import Button from "@/components/ui/Button";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
+import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { CreateChannelModal } from "../modals/CreateChannelModal";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
@@ -284,8 +286,12 @@ function CategoryItem(props: {
   onChannelContextMenu: (event: MouseEvent, channelId: string) => void;
 }) {
   const params = useParams();
-  const { channels } = useStore();
+  const { channels, account, serverMembers } = useStore();
   const [hovered, setHovered] = createSignal(false);
+  const { createPortal } = useCustomPortal();
+
+  const member = () => serverMembers.get(params.serverId, account.user()?.id!);
+  const hasModeratorPermission = () => member()?.hasPermission(ROLE_PERMISSIONS.ADMIN);
 
   const sortedServerChannels = createMemo(() =>
     channels
@@ -296,6 +302,11 @@ function CategoryItem(props: {
     !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
   const [expanded, setExpanded] = createSignal(true);
+
+  const onAddChannelClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    createPortal?.((close) => <CreateChannelModal close={close} serverId={params.serverId!} categoryId={props.channel.id} />);
+  };
 
   return (
     <Show when={!isPrivateCategory() || sortedServerChannels().length}>
@@ -317,6 +328,17 @@ function CategoryItem(props: {
             <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
           </Show>
           <div class="label">{props.channel.name}</div>
+
+          <Show when={hasModeratorPermission()}>
+            <Button
+              class="add-channel-button"
+              padding={2}
+              margin={[0, 2, 0, 0]}
+              iconName="add"
+              iconSize={16}
+              onClick={onAddChannelClick}
+            />
+          </Show>
 
           <Button
             iconClass="expand_icon"

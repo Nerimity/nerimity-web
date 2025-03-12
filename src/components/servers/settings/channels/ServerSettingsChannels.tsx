@@ -85,6 +85,7 @@ function CategoryItem(props: { channel: Channel }) {
   const [temp, setTemp, resetTemp] = createTemporarySignal(categoryChannels);
 
   const onAdd = () => {
+    console.log(temp)
     updateServerChannelOrder(serverId, {
       channelIds: temp().map((c) => c.id),
       categoryId: props.channel.id,
