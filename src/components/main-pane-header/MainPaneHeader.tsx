@@ -142,7 +142,7 @@ export default function MainPaneHeader() {
         )}
       >
         <div class={styles.toggleLeftDrawerContainer}>
-          <Show when={notificationCount()}>
+          <Show when={notificationCount() && isMobileWidth()}>
             <div class={styles.notificationCounter}>{notificationCount()}</div>
           </Show>
           <Button
