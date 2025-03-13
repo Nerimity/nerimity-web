@@ -33,3 +33,22 @@
   margin-bottom: 3px;
   border-bottom: solid 1px rgba(255,255,255,0.1);
 }
+
+.categoryButtons {
+  display: flex;
+  margin: 6px;
+  button {
+    border-radius: 4px;
+  }
+  
+  button:nth-child(2) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  button:nth-child(1):has(+ button:nth-child(2)) {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

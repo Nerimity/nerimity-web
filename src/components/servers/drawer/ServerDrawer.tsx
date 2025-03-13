@@ -246,11 +246,14 @@ const CategoryContainer = styled(FlexColumn)`
   margin-bottom: 2px;
 `;
 const CategoryItemContainer = styled(FlexRow)`
-  margin-top: 5px;
-  margin-bottom: 5px;
   align-items: center;
   cursor: pointer;
-  padding: 4px;
+  border-radius: 8px;
+  transition: 0.2s;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
   padding-left: 8px;
 
   .label {
@@ -291,7 +294,8 @@ function CategoryItem(props: {
   const { createPortal } = useCustomPortal();
 
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
-  const hasModeratorPermission = () => member()?.hasPermission(ROLE_PERMISSIONS.MANAGE_CHANNELS);
+  const hasModeratorPermission = () =>
+    member()?.hasPermission(ROLE_PERMISSIONS.MANAGE_CHANNELS);
 
   const sortedServerChannels = createMemo(() =>
     channels
@@ -305,7 +309,13 @@ function CategoryItem(props: {
 
   const onAddChannelClick = (event: MouseEvent) => {
     event.stopPropagation();
-    createPortal?.((close) => <CreateChannelModal close={close} serverId={params.serverId!} categoryId={props.channel.id} />);
+    createPortal?.((close) => (
+      <CreateChannelModal
+        close={close}
+        serverId={params.serverId!}
+        categoryId={props.channel.id}
+      />
+    ));
   };
 
   return (
@@ -329,24 +339,27 @@ function CategoryItem(props: {
           </Show>
           <div class="label">{props.channel.name}</div>
 
-          <Show when={hasModeratorPermission()}>
-            <Button
-              class="add-channel-button"
-              padding={2}
-              margin={[0, 2, 0, 0]}
-              iconName="add"
-              iconSize={16}
-              onClick={onAddChannelClick}
-            />
-          </Show>
+          <div class={styles.categoryButtons}>
+            <Show when={hasModeratorPermission()}>
+              <Button
+                class={styles.addChannelButton}
+                padding={4}
+                margin={0}
+                iconName="add"
+                iconSize={14}
+                onClick={onAddChannelClick}
+              />
+            </Show>
 
-          <Button
-            iconClass="expand_icon"
-            padding={2}
-            margin={[0, 2, 0, 0]}
-            iconName="expand_more"
-            iconSize={16}
-          />
+            <Button
+              iconClass="expand_icon"
+              padding={4}
+              class={styles.expandCategoryButton}
+              margin={0}
+              iconName="expand_more"
+              iconSize={14}
+            />
+          </div>
         </CategoryItemContainer>
 
         <Show when={sortedServerChannels().length}>
