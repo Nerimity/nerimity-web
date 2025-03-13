@@ -1,11 +1,18 @@
 import { Modal } from "@/components/ui/modal";
 import { createSignal } from "solid-js";
 import Input from "@/components/ui/input/Input";
-import { createServerChannel, updateServerChannelOrder } from "@/chat-api/services/ServerService";
+import {
+  createServerChannel,
+  updateServerChannelOrder,
+} from "@/chat-api/services/ServerService";
 import { ChannelType } from "@/chat-api/RawData";
 import { t } from "i18next";
 
-export function CreateChannelModal(props: { close: () => void; serverId: string; categoryId?: string; }) {
+export function CreateChannelModal(props: {
+  close: () => void;
+  serverId: string;
+  categoryId?: string;
+}) {
   const [requestSent, setRequestSent] = createSignal(false);
   const [error, setError] = createSignal({ message: "", path: "" });
   const [name, setName] = createSignal("");
@@ -18,7 +25,7 @@ export function CreateChannelModal(props: { close: () => void; serverId: string;
     const channel = await createServerChannel({
       serverId: props.serverId,
       name: name(),
-      type: ChannelType.SERVER_TEXT
+      type: ChannelType.SERVER_TEXT,
     }).catch((err) => {
       setError(err);
       setRequestSent(false);
@@ -27,14 +34,17 @@ export function CreateChannelModal(props: { close: () => void; serverId: string;
     if (channel && props.categoryId) {
       await updateServerChannelOrder(props.serverId, {
         channelIds: [channel.id],
-        categoryId: props.categoryId
+        categoryId: props.categoryId,
       }).catch(console.error);
+    }
+    if (channel) {
+      props.close();
     }
   };
 
   return (
     <Modal.Root close={props.close}>
-      <Modal.Header title={"Create a new channel"} icon="add" />
+      <Modal.Header title={"New Channel"} icon="add" />
       <Modal.Body>
         <Input
           label={t("servers.settings.channel.channelName")}
@@ -45,11 +55,7 @@ export function CreateChannelModal(props: { close: () => void; serverId: string;
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={
-            requestSent()
-              ? t("servers.settings.channel.saving")
-              : t("servers.settings.channels.createButton")
-          }
+          label={requestSent() ? "Creating..." : "Create"}
           iconName="add"
           primary
           onClick={onCreateClick}
