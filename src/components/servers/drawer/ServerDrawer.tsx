@@ -346,7 +346,7 @@ function CategoryItem(props: {
                 padding={4}
                 margin={0}
                 iconName="add"
-                iconSize={14}
+                iconSize={16}
                 onClick={onAddChannelClick}
               />
             </Show>
@@ -357,7 +357,7 @@ function CategoryItem(props: {
               class={styles.expandCategoryButton}
               margin={0}
               iconName="expand_more"
-              iconSize={14}
+              iconSize={16}
             />
           </div>
         </CategoryItemContainer>
