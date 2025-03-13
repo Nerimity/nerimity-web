@@ -1,6 +1,5 @@
 import styles from "./styles.module.scss";
 import {
-  joinServerByInviteCode,
   serverDetailsByInviteCode,
   ServerWithMemberCount,
 } from "@/chat-api/services/ServerService";
@@ -25,6 +24,7 @@ import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
 import { Banner } from "@/components/ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { MetaTitle } from "@/common/MetaTitle";
+import { useJoinServer } from "@/chat-api/useJoinServer";
 
 export default function ExploreServerPane() {
   const params = useParams();
@@ -84,31 +84,17 @@ const ServerPage = (props: {
   inviteCode?: string;
 }) => {
   const { servers } = useStore();
-  const navigate = useNavigate();
-  const [joinClicked, setJoinClicked] = createSignal(false);
   const { server } = props;
   const { width } = useWindowProperties();
+  const { joinByInviteCode, joining: joinClicked } = useJoinServer();
 
   const cacheServer = () => servers.get(server.id);
-
-  createEffect(() => {
-    if (joinClicked() && cacheServer()) {
-      navigate(
-        RouterEndpoints.SERVER_MESSAGES(
-          cacheServer()!.id,
-          cacheServer()!.defaultChannelId
-        )
-      );
-    }
-  });
 
   const joinServerClick = () => {
     if (joinClicked()) return;
     if (!props.inviteCode) return;
-    setJoinClicked(true);
-    joinServerByInviteCode(props.inviteCode).catch((err) => {
-      alert(err.message);
-    });
+
+    joinByInviteCode(props.inviteCode, server.id);
   };
 
   const isLoggedIn = getStorageString(StorageKeys.USER_TOKEN, null);
@@ -152,7 +138,6 @@ const ServerPage = (props: {
         </Match>
         <Match when={!cacheServer()}>
           <Button
-            margin={0}
             class={styles.joinButton}
             iconName="login"
             label="Join Server"

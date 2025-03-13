@@ -5,11 +5,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
 import { Show, createEffect, createSignal, onMount } from "solid-js";
-import {
-  joinPublicServer,
-  joinServerByInviteCode,
-  publicServerByEmojiId,
-} from "@/chat-api/services/ServerService";
+import { publicServerByEmojiId } from "@/chat-api/services/ServerService";
 import { RawPublicServer } from "@/chat-api/RawData";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
@@ -17,6 +13,7 @@ import useStore from "@/chat-api/store/useStore";
 import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
 import { useNavigate } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import { useJoinServer } from "@/chat-api/useJoinServer";
 
 export function Emoji(props: {
   clickable?: boolean;
@@ -187,7 +184,7 @@ function PublicServer(props: {
   close: () => void;
 }) {
   const [hovered, setHovered] = createSignal(false);
-  const [joining, setJoining] = createSignal(false);
+  const { joinPublicById, joining } = useJoinServer();
   const navigate = useNavigate();
   const { servers } = useStore();
 
@@ -200,18 +197,6 @@ function PublicServer(props: {
   const server = () => props.publicServer?.server! || servers.get(serverId()!);
   const isInServer = () => servers.get(serverId()!);
 
-  createEffect(() => {
-    if (joining() && isInServer()) {
-      props.close();
-      navigate(
-        RouterEndpoints.SERVER_MESSAGES(
-          server()!.id,
-          server()!.defaultChannelId
-        )
-      );
-    }
-  });
-
   const joinOrVisitServer = () => {
     if (isInServer())
       return navigate(
@@ -219,13 +204,8 @@ function PublicServer(props: {
       );
 
     if (joining()) return;
-    setJoining(true);
 
-    joinPublicServer(serverId()!)
-      .catch((err) => {
-        alert(err.message);
-      })
-      .finally(() => setJoining(false));
+    joinPublicById(serverId()!);
   };
 
   return (

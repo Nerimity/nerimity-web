@@ -1,9 +1,7 @@
 import { RawPublicServer } from "@/chat-api/RawData";
 import {
   BumpPublicServer,
-  getPublicServer,
   getPublicServers,
-  joinPublicServer,
   PublicServerFilter,
   PublicServerSort,
 } from "@/chat-api/services/ServerService";
@@ -33,6 +31,7 @@ import { Skeleton } from "../ui/skeleton/Skeleton";
 import { classNames, cn } from "@/common/classNames";
 import { MetaTitle } from "@/common/MetaTitle";
 import Input from "../ui/input/Input";
+import { useJoinServer } from "@/chat-api/useJoinServer";
 
 const Container = styled("div")`
   display: flex;
@@ -324,10 +323,9 @@ function PublicServerItem(props: {
 }) {
   const [t] = useTransContext();
   const server = props.publicServer.server!;
-  const [joinClicked, setJoinClicked] = createSignal(false);
+  const { joinPublicById, joining: joinClicked } = useJoinServer();
   const [hovered, setHovered] = createSignal(false);
   const store = useStore();
-  const navigate = useNavigate();
 
   const { createPortal } = useCustomPortal();
 
@@ -337,11 +335,7 @@ function PublicServerItem(props: {
 
   const joinServerClick = async () => {
     if (joinClicked()) return;
-    setJoinClicked(true);
-    await joinPublicServer(props.publicServer.serverId).catch((err) => {
-      alert(err.message);
-      setJoinClicked(false);
-    });
+    await joinPublicById(props.publicServer.serverId);
   };
 
   const bumpClick = () => {
@@ -367,17 +361,6 @@ function PublicServerItem(props: {
       />
     ));
   };
-
-  createEffect(() => {
-    if (joinClicked() && cacheServer()) {
-      navigate(
-        RouterEndpoints.SERVER_MESSAGES(
-          cacheServer()!.id,
-          cacheServer()!.defaultChannelId
-        )
-      );
-    }
-  });
 
   const bumpedUnder24Hours = () => {
     const millisecondsSinceLastBump =

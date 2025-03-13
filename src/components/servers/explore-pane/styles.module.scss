@@ -1,32 +1,32 @@
 
 .topArea {
   display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
+  align-self: center;
 
   flex: 1;
+  flex-direction: column;
+  flex-shrink: 0;
   width: 100%;
   max-width: 1100px;
-  align-self: center;
 
 
 }
 
 .bannerItems {
+  z-index: 11111;
   display: flex;
   align-items: center;
-  margin-left: 30px;
   height: 100%;
-  z-index: 11111;
+  margin-left: 30px;
   .details {
-    margin-left: 20px;
-    margin-right: 20px;
-    font-size: 18px;
     z-index: 1111;
-    background: rgba(0,0,0,0.86);
-    backdrop-filter: blur(34px);
     padding: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
     border-radius: 8px;
+    background: rgba(0,0,0,0.86);
+    font-size: 18px;
+    backdrop-filter: blur(34px);
   }
   .name {
     font-size: 16px;
@@ -37,17 +37,17 @@
   }
 }
 .joinButton {
-  text-decoration: none;
-  align-self: center;
-  margin-left: auto;
+  align-self: flex-end;
   margin-right: 10px;
+  margin-left: auto;
+  text-decoration: none;
 }
 
 .invalidServerPage {
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   margin-top: 20px;
   .errorMessage {
     color: var(--alert-color);

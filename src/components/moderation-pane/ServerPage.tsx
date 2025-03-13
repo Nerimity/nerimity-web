@@ -29,9 +29,9 @@ import DeleteServersModal from "./DeleteServersModal";
 import { formatTimestamp } from "@/common/date";
 import UndoServerDeleteModal from "./UndoServerDeleteModal";
 import { useModerationServerDeletedListener } from "@/common/GlobalEvents";
-import { joinPublicServer } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import { useJoinServer } from "@/chat-api/useJoinServer";
 
 export default function ServerPage() {
   const params = useParams<{ serverId: string }>();
@@ -253,8 +253,7 @@ const ServerBannerDetails = styled(FlexColumn)`
 const PublicServerBlock = (props: {
   server: RawServer & { publicServer: RawPublicServer };
 }) => {
-  const [joinClicked, setJoinClicked] = createSignal(false);
-  const navigate = useNavigate();
+  const { joinPublicById, joining: joinClicked } = useJoinServer();
   const store = useStore();
   const [isPinned, setIsPinned] = createSignal(
     !!props.server.publicServer.pinnedAt
@@ -263,12 +262,8 @@ const PublicServerBlock = (props: {
   const cacheServer = () => store.servers.get(props.server.id);
 
   const onClick = async () => {
-    setJoinClicked(true);
     if (cacheServer()) return;
-    await joinPublicServer(props.server.id).catch((err) => {
-      alert(err.message);
-      setJoinClicked(false);
-    });
+    await joinPublicById(props.server.id);
   };
   const onPinClicked = async () => {
     if (isPinned())
@@ -279,17 +274,6 @@ const PublicServerBlock = (props: {
       .then(() => setIsPinned(true))
       .catch((err) => alert(err.message));
   };
-
-  createEffect(() => {
-    if (joinClicked() && cacheServer()) {
-      navigate(
-        RouterEndpoints.SERVER_MESSAGES(
-          cacheServer()!.id,
-          cacheServer()!.defaultChannelId
-        )
-      );
-    }
-  });
 
   return (
     <>

@@ -57,7 +57,6 @@ import { DangerousLinkModal } from "@/components/ui/DangerousLinkModal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import {
   ServerWithMemberCount,
-  joinServerByInviteCode,
   serverDetailsByInviteCode,
 } from "@/chat-api/services/ServerService";
 import { ServerVerifiedIcon } from "@/components/servers/ServerVerifiedIcon";
@@ -88,6 +87,7 @@ import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 import { ButtonsEmbed } from "./ButtonsEmbed";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { getSystemMessage } from "@/common/SystemMessage";
+import { useJoinServer } from "@/chat-api/useJoinServer";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -1132,8 +1132,9 @@ function ServerInviteEmbed(props: { code: string }) {
   const [invite, setInvite] = createSignal<
     ServerWithMemberCount | null | false
   >(null);
-  const [joining, setJoining] = createSignal(false);
   const [hovered, setHovered] = createSignal(false);
+
+  const { joinByInviteCode, joining } = useJoinServer();
 
   onMount(async () => {
     if (inviteCache.has(props.code))
@@ -1149,17 +1150,6 @@ function ServerInviteEmbed(props: { code: string }) {
     return servers.get(_invite.id);
   };
 
-  createEffect(() => {
-    if (joining() && cachedServer()) {
-      navigate(
-        RouterEndpoints.SERVER_MESSAGES(
-          cachedServer()!.id,
-          cachedServer()!.defaultChannelId
-        )
-      );
-    }
-  });
-
   const joinOrVisitServer = () => {
     const _invite = invite();
     if (!_invite) return;
@@ -1169,13 +1159,8 @@ function ServerInviteEmbed(props: { code: string }) {
       );
 
     if (joining()) return;
-    setJoining(true);
 
-    joinServerByInviteCode(props.code)
-      .catch((err) => {
-        alert(err.message);
-      })
-      .finally(() => setJoining(false));
+    joinByInviteCode(props.code, _invite.id);
   };
 
   return (
