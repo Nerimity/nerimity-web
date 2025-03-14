@@ -248,14 +248,22 @@ const ServerItemContainer = styled(FlexColumn)`
   background: rgba(255, 255, 255, 0.04);
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
   border-radius: 8px;
-  max-height: 400px;
   user-select: none;
+  position: relative;
+  overflow: hidden;
   &.display {
     max-height: initial;
     margin-bottom: 10px;
     .banner {
       max-height: 160px;
     }
+  }
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: initial;
+    filter: blur(29px) brightness(0.4);
+    scale: 1.5;
   }
 `;
 const DetailsContainer = styled(FlexColumn)`
@@ -269,6 +277,7 @@ const DetailsContainer = styled(FlexColumn)`
   padding-left: 6px;
   padding-right: 6px;
   flex-shrink: 0;
+  z-index: 1111;
 `;
 
 const MemberContainer = styled(FlexRow)`
@@ -313,6 +322,7 @@ const ButtonsContainer = styled(FlexRow)`
   margin-right: 8px;
   justify-content: end;
   flex-shrink: 0;
+  z-index: 1111;
 `;
 
 function PublicServerItem(props: {
@@ -378,6 +388,19 @@ function PublicServerItem(props: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      <Banner
+        margin={0}
+        radius={6}
+        animate={hovered()}
+        class={cn(
+          css`
+            width: 100%;
+          `,
+          "backdrop"
+        )}
+        url={bannerUrl(props.publicServer.server!)}
+        hexColor={props.publicServer.server?.hexColor}
+      />
       <Banner
         margin={0}
         radius={6}
@@ -486,6 +509,7 @@ function PublicServerItem(props: {
           "margin-left": "auto",
           "margin-right": "10px",
           "margin-bottom": "8px",
+          "z-index": "1111",
         }}
         gap={5}
       >
