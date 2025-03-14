@@ -215,7 +215,7 @@ function SettingsItem() {
           <Show when={tickets.hasTicketNotification()}>
             <NotificationCountBadge count={"!"} top={5} right={10} />
           </Show>
-          <Icon name="settings" title="Settings" />
+          <Icon name="settings" />
         </SidebarItemContainer>
       </A>
     </Tooltip>
