@@ -195,7 +195,7 @@ function ModerationItem() {
             <Show when={tickets.hasModerationTicketNotification()}>
               <NotificationCountBadge count={"!"} top={5} right={10} />
             </Show>
-            <Icon name="security" title="Moderation" />
+            <Icon name="security" />
           </SidebarItemContainer>
         </A>
       </Tooltip>
