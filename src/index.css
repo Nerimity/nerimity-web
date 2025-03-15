@@ -93,3 +93,7 @@ a {
 .cm-editor {
   height: 100%;
 }
+
+.twitter-tweet {
+  margin-bottom: 0 !important;
+}

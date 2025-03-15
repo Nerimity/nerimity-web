@@ -88,6 +88,12 @@ import { ButtonsEmbed } from "./ButtonsEmbed";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { getSystemMessage } from "@/common/SystemMessage";
 import { useJoinServer } from "@/chat-api/useJoinServer";
+import { Modal } from "@/components/ui/modal";
+import Text from "@/components/ui/Text";
+import Checkbox from "@/components/ui/Checkbox";
+import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
+import { css } from "solid-styled-components";
+import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -582,6 +588,9 @@ const inviteLinkRegex = new RegExp(`${env.APP_URL}/i/([\\S]+)`);
 const youtubeLinkRegex =
   /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/;
 
+const twitterStatusLinkRegex =
+  /https:\/\/(www.)?(twitter|x)\.com(\/[a-zA-Z0-9_]+\/status\/[0-9]+)/;
+
 export function Embeds(props: {
   message: Message;
   hovered: boolean;
@@ -610,6 +619,7 @@ export function Embeds(props: {
         <Match when={inviteEmbedCode()}>
           {(code) => <ServerInviteEmbed code={code()} />}
         </Match>
+
         <Match when={youtubeEmbed()}>
           {(youtubeEmbed) => (
             <YoutubeEmbed
@@ -804,6 +814,41 @@ const YoutubeEmbed = (props: {
         </div>
         <div class={styles.description}>{props.embed.description}</div>
       </div>
+    </div>
+  );
+};
+
+const TwitterEmbed = (props: { path: string }) => {
+  let ref: HTMLDivElement | undefined;
+  let containerRef: HTMLDivElement | undefined;
+  const existingScript = document.getElementById("twitter-wjs");
+  if (!existingScript) {
+    const scriptEl = document.createElement("script");
+    scriptEl.src = "https://platform.twitter.com/widgets.js";
+    scriptEl.async = true;
+    scriptEl.id = "twitter-wjs";
+
+    document.body.appendChild(scriptEl);
+  }
+  onMount(() => {
+    window.twttr?.widgets.load(ref);
+  });
+  onCleanup(() => {
+    containerRef?.remove();
+  });
+
+  return (
+    <div ref={containerRef} style={{ width: "100%" }}>
+      <blockquote
+        ref={ref}
+        class="twitter-tweet"
+        data-dnt="true"
+        data-width="100%"
+        data-conversation="none"
+        data-theme="dark"
+      >
+        <a href={`https://twitter.com${props.path}?ref_src=twsrc%5Etfw`} />
+      </blockquote>
     </div>
   );
 };
@@ -1217,7 +1262,8 @@ function ServerInviteEmbed(props: { code: string }) {
 
 function OGEmbed(props: { message: RawMessage }) {
   const embed = () => props.message.embed!;
-
+  const { createPortal } = useCustomPortal();
+  const [showDetailed, setShowDetailed] = createSignal(false);
   const origSrc = () => {
     const rawUrl = embed().imageUrl!;
     if (rawUrl.startsWith("https://") || rawUrl.startsWith("http://"))
@@ -1225,26 +1271,89 @@ function OGEmbed(props: { message: RawMessage }) {
     return `https://${embed().domain}/${rawUrl}`;
   };
 
+  const twitterStatusEmbed = () =>
+    props.message.content?.match(twitterStatusLinkRegex);
+
+  const showDetailedTwitterEmbed = () => {
+    const [useTwitterEmbed, setUseTwitterEmbed] = useReactiveLocalStorage(
+      StorageKeys.USE_TWITTER_EMBED,
+      false
+    );
+    if (showDetailed()) {
+      return setShowDetailed(false);
+    }
+    if (useTwitterEmbed()) return setShowDetailed(true);
+    createPortal((close) => (
+      <Modal.Root close={close} desktopMaxWidth={400}>
+        <Modal.Header title="Detailed Twitter Embed" />
+        <Modal.Body>
+          <FlexColumn gap={8}>
+            <Text opacity={0.8} size={14}>
+              When using the official Twitter embed, your data will collected by
+              elmo musk.
+            </Text>
+            <Checkbox
+              label="Don't show this again."
+              checked={useTwitterEmbed()}
+              onChange={setUseTwitterEmbed}
+            />
+          </FlexColumn>
+        </Modal.Body>
+        <Modal.Footer>
+          <Modal.Button
+            label="Don't show"
+            iconName="close"
+            onClick={() => {
+              setUseTwitterEmbed(false);
+              close();
+            }}
+          />
+          <Modal.Button
+            label="Show"
+            primary
+            iconName="check"
+            onclick={() => {
+              setShowDetailed(true);
+              close();
+            }}
+          />
+        </Modal.Footer>
+      </Modal.Root>
+    ));
+  };
+
   return (
-    <Switch>
-      <Match when={embed().type === "image"}>
-        <ImageEmbed
-          attachment={{
-            id: "",
-            origSrc: origSrc()!,
-            path: `proxy/${encodeURIComponent(origSrc()!)}/embed.${
-              embed().imageMime?.split("/")[1]
-            }`,
-            width: embed().imageWidth,
-            height: embed().imageHeight,
-          }}
-          widthOffset={-90}
+    <>
+      <Switch>
+        <Match when={showDetailed()}>
+          <TwitterEmbed path={twitterStatusEmbed()?.[3]!} />
+        </Match>
+        <Match when={embed().type === "image"}>
+          <ImageEmbed
+            attachment={{
+              id: "",
+              origSrc: origSrc()!,
+              path: `proxy/${encodeURIComponent(origSrc()!)}/embed.${
+                embed().imageMime?.split("/")[1]
+              }`,
+              width: embed().imageWidth,
+              height: embed().imageHeight,
+            }}
+            widthOffset={-90}
+          />
+        </Match>
+        <Match when={embed().type !== "image"}>
+          <NormalEmbed message={props.message} />
+        </Match>
+      </Switch>
+      <Show when={twitterStatusEmbed()}>
+        <Button
+          label={showDetailed() ? "Basic Embed" : "Detailed Embed"}
+          onclick={showDetailedTwitterEmbed}
+          margin={[4, 0, 0, 0]}
         />
-      </Match>
-      <Match when={embed().type !== "image"}>
-        <NormalEmbed message={props.message} />
-      </Match>
-    </Switch>
+      </Show>
+    </>
   );
 }
 

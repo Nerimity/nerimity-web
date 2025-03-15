@@ -23,6 +23,7 @@ export enum StorageKeys {
   outputDeviceId = "outputDeviceId",
   voiceInputMode = "voiceInputMode",
   PTTBoundKeys = "pttBoundKeys",
+  USE_TWITTER_EMBED = "useTwitterEmbed",
 }
 
 export function getStorageBoolean(
