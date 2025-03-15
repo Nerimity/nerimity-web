@@ -37,6 +37,8 @@ import { AuditLogPane, Server, User } from "./ModerationPane";
 import EditUserSuspensionModal from "./EditUserSuspensionModal";
 import WarnUserModal from "./WarnUserModal";
 import { UserDetails } from "@/chat-api/services/UserService";
+import ShadowBanUserModal from "./ShadowBanUserModal";
+import UndoShadowBanUserModal from "./UndoShadowBanUserModal";
 
 const UserPageContainer = styled(FlexColumn)`
   height: 100%;
@@ -226,9 +228,16 @@ export default function UserPage() {
                 margin-bottom: 10px;
               `}
             >
-              <SuspendOrUnsuspendBlock user={user()!} setUser={setUser} />
+              <Show when={!user()?.shadowBan}>
+                <SuspendOrUnsuspendBlock user={user()!} setUser={setUser} />
+              </Show>
               <Show when={user()?.account}>
-                <WarnBlock user={user()!} setUser={setUser} />
+                <Show when={!user()?.shadowBan}>
+                  <WarnBlock user={user()!} setUser={setUser} />
+                </Show>
+                <Show when={!user()?.suspension}>
+                  <ShadowBanBlock user={user()!} setUser={setUser} />
+                </Show>
               </Show>
             </FlexColumn>
           </Show>
@@ -594,6 +603,73 @@ function WarnBlock(props: {
             primary
             margin={0}
           />
+        </FlexColumn>
+      </SettingsBlock>
+    </div>
+  );
+}
+function ShadowBanBlock(props: {
+  user: ModerationUser;
+  setUser: (user: ModerationUser) => void;
+}) {
+  const { createPortal } = useCustomPortal();
+
+  const showShadowBanModal = () => {
+    createPortal?.((close) => (
+      <ShadowBanUserModal
+        done={() =>
+          props.setUser({
+            ...props.user,
+            shadowBan: true,
+          })
+        }
+        close={close}
+        user={props.user}
+      />
+    ));
+  };
+
+  const showUndoModal = () => {
+    createPortal?.((close) => (
+      <UndoShadowBanUserModal
+        done={() =>
+          props.setUser({
+            ...props.user,
+            shadowBan: false,
+          })
+        }
+        close={close}
+        user={props.user}
+      />
+    ));
+  };
+
+  return (
+    <div>
+      <SettingsBlock
+        icon="tonality"
+        label="Shadow Ban (Raid/Spammers)"
+        description={"New messages and posts will be hidden and not be sent."}
+      >
+        <FlexColumn gap={4}>
+          <Show when={!props.user?.shadowBan}>
+            <Button
+              onClick={showShadowBanModal}
+              label="Shadow Ban"
+              color="var(--warn-color)"
+              primary
+              margin={0}
+            />
+          </Show>
+          <Show when={props.user?.shadowBan}>
+            <Button
+              onClick={showUndoModal}
+              label="Undo"
+              color="var(--alert-color)"
+              primary
+              margin={0}
+            />
+          </Show>
         </FlexColumn>
       </SettingsBlock>
     </div>

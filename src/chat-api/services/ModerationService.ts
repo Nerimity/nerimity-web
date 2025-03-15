@@ -210,6 +210,8 @@ export const AuditLogType = {
   userWarned: 7,
   ipBan: 8,
   serverUndoDelete: 9,
+  userShadowBanned: 10,
+  userShadowUnbanned: 11,
 } as const;
 
 export interface AuditLog {
@@ -368,6 +370,38 @@ export const warnUsers = async (
   });
   return data;
 };
+export const shadowBan = async (
+  confirmPassword: string,
+  userIds: string[],
+  reason?: string
+) => {
+  const data = await request<any[]>({
+    method: "POST",
+    body: {
+      userIds,
+      reason,
+      password: confirmPassword,
+    },
+    url: env.SERVER_URL + "/api/moderation/users/shadow-ban",
+    useToken: true,
+  });
+  return data;
+};
+export const undoShadowBan = async (
+  confirmPassword: string,
+  userIds: string[]
+) => {
+  const data = await request<any[]>({
+    method: "DELETE",
+    body: {
+      userIds,
+      password: confirmPassword,
+    },
+    url: env.SERVER_URL + "/api/moderation/users/shadow-ban",
+    useToken: true,
+  });
+  return data;
+};
 
 export const editSuspendUsers = async (
   confirmPassword: string,
@@ -443,6 +477,7 @@ export type ModerationUser = RawUser & {
   };
   application?: RawApplication;
   suspension?: ModerationSuspension;
+  shadowBan?: any;
   servers?: RawServer[];
 };
 

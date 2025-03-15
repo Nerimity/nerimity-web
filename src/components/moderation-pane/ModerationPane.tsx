@@ -932,6 +932,9 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
       case AuditLogType.serverDelete:
         return true;
 
+      case AuditLogType.userShadowBanned:
+        return true;
+
       default:
         return false;
     }
@@ -962,6 +965,32 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
           <Show when={props.auditLog.actionType === AuditLogType.userWarned}>
             <Text size={14}>Warned </Text>
+            <Text size={14}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.auditLog.userId}`}
+              >
+                {props.auditLog.username}
+              </A>
+            </Text>
+          </Show>
+          <Show
+            when={props.auditLog.actionType === AuditLogType.userShadowUnbanned}
+          >
+            <Text size={14}>Undo Shadow Banned </Text>
+            <Text size={14}>
+              <A
+                class={linkStyle}
+                href={`/app/moderation/users/${props.auditLog.userId}`}
+              >
+                {props.auditLog.username}
+              </A>
+            </Text>
+          </Show>
+          <Show
+            when={props.auditLog.actionType === AuditLogType.userShadowBanned}
+          >
+            <Text size={14}>Shadow Banned </Text>
             <Text size={14}>
               <A
                 class={linkStyle}
