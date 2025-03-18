@@ -2,9 +2,10 @@
 <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/banner.png" />
 </p> 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot1.png" width="32%"/> 
-  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot2.png" width="32%"/>
-  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/screenshot3.png" width="32%"/>
+  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/Dashboard.png" width="32%"/> 
+  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/Profile.png" width="32%"/>
+  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/Server.png" width="32%"/>
+  <img src="https://raw.githubusercontent.com/Nerimity/nerimity-web/main/readme-assets/ServerSettings.png" width="32%"/>
 </p> 
 
 # Nerimity Web (SolidJS)
