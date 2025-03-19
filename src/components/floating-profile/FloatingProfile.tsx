@@ -16,6 +16,7 @@ import Icon from "../ui/icon/Icon";
 import Text from "../ui/Text";
 import {
   calculateTimeElapsedForActivityStatus,
+  formatTimestamp,
   millisecondsToHhMmSs,
   timeElapsed,
 } from "@/common/date";
@@ -740,7 +741,7 @@ export const UserActivity = (props: {
                   {activity()?.subtitle}
                 </Text>
                 <Show when={!isMusic() && !isVideo()}>
-                  <Text class={styles.playedFor} size={13} opacity={0.6}>
+                  <Text class={styles.playedFor} size={13} opacity={0.6} title={formatTimestamp(activity()?.startedAt || 0)}>
                     {playedFor()}
                   </Text>
                 </Show>
@@ -757,7 +758,7 @@ export const UserActivity = (props: {
             </div>
           </Show>
           <Show when={!activity()?.imgSrc && !activity()?.emoji}>
-            <Text class={styles.playedFor} size={13}>
+            <Text class={styles.playedFor} size={13} title={formatTimestamp(activity()?.startedAt || 0)}>
               For {playedFor()}
             </Text>
           </Show>
