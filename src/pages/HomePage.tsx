@@ -244,7 +244,7 @@ function FeatureList() {
       <Feature icon="explore" label={t("homePage.featureList.feature6")} />
       <Feature icon="volunteer_activism" label={t("homePage.featureList.feature7")} />
       <Feature icon="code" label={t("homePage.featureList.feature8")} />
-      <Feature icon="circle" label={t("homePage.featureList.feature9")} />
+      <Feature icon="account_circle" label={t("homePage.featureList.feature9")} />
     </FeatureListContainer>
   );
 }
