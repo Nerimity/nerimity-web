@@ -28,6 +28,7 @@ const Text = (props: TextProps & JSX.HTMLAttributes<HTMLSpanElement>) => {
       component={props.href ? CustomLink : "span"}
       isDangerous={props.isDangerousLink}
       onClick={props.onClick}
+      title={props.title}
       {...(props.newTab
         ? { target: "_blank", rel: "noopener noreferrer" }
         : {})}

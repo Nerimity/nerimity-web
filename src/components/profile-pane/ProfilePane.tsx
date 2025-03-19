@@ -836,7 +836,7 @@ const UserActivity = (props: {
                 {activity()?.subtitle}
               </Text>
               <Show when={!isMusic() && !isVideo()}>
-                <Text class={styles.playedFor} size={13} opacity={0.6}>
+                <Text class={styles.playedFor} size={13} opacity={0.6} title={formatTimestamp(activity()?.startedAt || 0)}>
                   {playedFor()}
                 </Text>
               </Show>
@@ -861,6 +861,7 @@ const UserActivity = (props: {
               "margin-top": "-4px",
               "margin-bottom": "8px",
             }}
+            title={formatTimestamp(activity()?.startedAt || 0)}
             size={14}
             opacity={0.6}
           >

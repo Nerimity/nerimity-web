@@ -1,3 +1,6 @@
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
 // make a function where if the number is less than 10, it will add a 0 in front of it
 function pad(num: number) {
   return num < 10 ? `0${num}` : num;
@@ -44,18 +47,32 @@ export function getDaysAgo(timestamp: number) {
 export function timeSince(timestamp: number, showSeconds = false) {
   const now = new Date();
   const secondsPast = Math.abs((now.getTime() - timestamp) / 1000);
+
+
   if (secondsPast < 60) {
     if (showSeconds) {
-      return Math.trunc(secondsPast) + " seconds ago";
+      return pluralize(Math.trunc(secondsPast), "second", "ago");
     }
     return "few seconds ago";
   }
-  if (secondsPast < 3600) {
-    return Math.trunc(secondsPast / 60) + " minutes ago";
+
+  const duration = dayjs.duration(Math.abs(timestamp - Date.now()));
+
+  const hrs = duration.hours();
+  const mins = duration.minutes();
+
+  if (duration.asHours() >= 24) {
+  return formatTimestamp(timestamp);
+
   }
-  if (secondsPast <= 86400) {
-    return Math.trunc(secondsPast / 3600) + " hours ago";
+
+  if (hrs) {
+    return pluralize(hrs,  "hour") + " ago";
   }
+  if (mins) {
+    return pluralize(mins, "minute") + " ago";
+  }
+
   return formatTimestamp(timestamp);
 }
 
@@ -114,7 +131,7 @@ export function millisecondsToReadable(timestamp: number) {
   const minutes = Math.floor((seconds - hours * 3600) / 60);
   seconds -= hours * 3600 + minutes * 60;
 
-  let text = [];
+  const text = [];
 
   if (hours) {
     text.push(`${hours}h`);
@@ -153,80 +170,101 @@ export function calculateTimeElapsedForActivityStatus(
 }
 
 function convertSecondsForActivityStatus(totalSeconds: number) {
-  const days = Math.floor(totalSeconds / (24 * 60 * 60));
-  totalSeconds %= 24 * 60 * 60;
-  const hours = Math.floor(totalSeconds / (60 * 60));
-  totalSeconds %= 60 * 60;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
+  const secondsToMs = totalSeconds * 1000;
+  const duration = dayjs.duration(secondsToMs);
 
-  const roundedSeconds = Math.round(seconds);
+  const yrs = duration.years();
+  const mnts = duration.months();
+  const wks = duration.weeks();
+  const days = duration.days();
+  const hrs = duration.hours();
+  const mins = duration.minutes();
+  const secs = duration.seconds();
 
+
+  const values = [];
+  if (yrs) {
+    values.push(yrs + "y");
+  }
+  if (mnts) {
+    values.push(mnts +  "m");
+  }
+  if (wks) {
+    values.push(wks +  "w");
+  }
   if (days) {
-    return `${days}d ${hours}h`;
+    values.push(days +  "d");
+  }
+  if (hrs) {
+    values.push(hrs +  "h");
+  }
+  if (mins) {
+    values.push(mins +  "m");
+  }
+  if (secs) {
+    values.push(secs +  "s");
   }
 
-  if (hours) {
-    return `${hours}h ${minutes}m`;
-  }
-  if (minutes) {
-    return `${minutes} minute${minutes <= 1 ? "" : "s"}`;
-  }
-  return `${roundedSeconds} second${roundedSeconds <= 1 ? "" : "s"}`;
+  return values.slice(0, 2).join(" ");
+
+
+
+
+
 }
 
 
 export function timeSinceMentions(timestamp: number) {
+
+  const duration = dayjs.duration(Math.abs(Date.now() - timestamp));
   const now = new Date();
+
   const rawSecondsPast = (now.getTime() - timestamp) / 1000;
-  const secondsPast = Math.abs(rawSecondsPast);
 
-  const text = (value: string) =>
-    rawSecondsPast < 0 ? `In ${value}` : `${value} ago`;
+  const text = (...values: string[]) => {
+    const value = values.filter(Boolean).join(" ");
+    return rawSecondsPast < 0 ? `In ${value}` : `${value} ago`;
+  };
 
-  if (secondsPast < 60) {
-    return text(Math.trunc(secondsPast) + " seconds");
+
+  const yrs = duration.years();
+  const mnts = duration.months();
+  const wks = duration.weeks();
+  const days = duration.days();
+  const hrs = duration.hours();
+  const mins = duration.minutes();
+  const secs = duration.seconds();
+
+
+  const values = [];
+  if (yrs) {
+    values.push(pluralize(yrs, "year"));
   }
-  if (secondsPast < 3600) {
-    return text(
-      Math.trunc(secondsPast / 60) +
-      " minutes " +
-      (Math.trunc(secondsPast) % 60) +
-      " seconds"
-    );
+  if (mnts) {
+    values.push(pluralize(mnts, "month"));
   }
-  if (secondsPast <= 86400) {
-    return text(
-      Math.trunc(secondsPast / 3600) +
-      " hours " +
-      (Math.trunc(secondsPast / 60) % 60) +
-      " minutes"
-    );
+  if (wks) {
+    values.push(pluralize(wks, "week"));
   }
-  if (secondsPast <= 604800) {
-    return text(
-      Math.trunc(secondsPast / 86400) +
-      " days " +
-      (Math.trunc(secondsPast / 3600) % 24) +
-      " hours"
-    );
+  if (days) {
+    values.push(pluralize(days, "day"));
   }
-  if (secondsPast <= 2629743) {
-    return text(
-      Math.trunc(secondsPast / 604800) +
-      " weeks " +
-      (Math.trunc(secondsPast / 86400) % 7) +
-      " days"
-    );
+  if (hrs) {
+    values.push(pluralize(hrs, "hour"));
   }
-  if (secondsPast <= 31556926) {
-    return text(
-      Math.trunc(secondsPast / 2629743) +
-      " months " +
-      (Math.trunc(secondsPast / 604800) % 4) +
-      " weeks"
-    );
+  if (mins) {
+    values.push(pluralize(mins, "minute"));
+  }
+  if (secs) {
+    values.push(pluralize(secs, "second"));
   }
 
-  return text(Math.trunc(secondsPast / 31556926) + " years");
+  return text(values.slice(0, 2).join(" "));
+  
+}
+
+
+function pluralize(count: number,word: string, suffix?: string, hideIfZero = false) {
+  if (hideIfZero && !count) return "";
+  return (count + " ") + (count > 1 ? `${word}s` : word + (suffix? ` ${suffix}` : ""));
 }

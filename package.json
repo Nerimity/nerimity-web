@@ -56,6 +56,7 @@
     "autoprefixer": "^10.4.20",
     "chroma-js": "^3.1.2",
     "croppie": "^2.6.5",
+    "dayjs": "^1.11.13",
     "eventemitter3": "^5.0.1",
     "highlight.js": "^11.11.0",
     "html-parse-string": "^0.0.9",
