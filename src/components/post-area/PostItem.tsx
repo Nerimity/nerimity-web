@@ -3,7 +3,15 @@ import style from "./PostItem.module.scss";
 import { Post } from "@/chat-api/store/usePosts";
 import useStore from "@/chat-api/store/useStore";
 import { A, useNavigate, useSearchParams } from "solid-navigator";
-import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  Match,
+  Show,
+  Switch,
+} from "solid-js";
 import Text from "../ui/Text";
 import { t } from "i18next";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -16,8 +24,13 @@ import Button from "../ui/Button";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { Tooltip } from "../ui/Tooltip";
 import { useResizeObserver } from "@/common/useResizeObserver";
-import { ImageEmbed } from "../ui/ImageEmbed";
-import { RawPostChoice, RawPostPoll, RawUser } from "@/chat-api/RawData";
+import { clamp, clampImageSize, ImageEmbed } from "../ui/ImageEmbed";
+import {
+  RawEmbed,
+  RawPostChoice,
+  RawPostPoll,
+  RawUser,
+} from "@/chat-api/RawData";
 import { RadioBoxItem } from "../ui/RadioBox";
 import { DeletePostModal, EditPostModal } from "../PostsArea";
 import { css } from "solid-styled-components";
@@ -28,6 +41,10 @@ import {
   unpinPost,
 } from "@/chat-api/services/PostService";
 import env from "@/common/env";
+import { OGEmbed, ServerInviteEmbed } from "../message-pane/message-item/MessageItem";
+import { inviteLinkRegex, youtubeLinkRegex } from "@/common/regex";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { RawYoutubeEmbed } from "../message-pane/message-item/RawYoutubeEmbed";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -417,6 +434,9 @@ function Embeds(props: { post: Post; hovered: boolean }) {
     () => element?.parentElement?.parentElement?.parentElement
   );
 
+  const youtubeEmbed = () => props.post.embed?.origUrl?.match(youtubeLinkRegex);
+  const inviteEmbedCode = () =>
+    props.post.content?.match(inviteLinkRegex)?.[1];
   return (
     <div ref={element} class={cn("embeds", style.embedContainer)}>
       <Show when={props.post.attachments?.[0]}>
@@ -427,6 +447,31 @@ function Embeds(props: { post: Post; hovered: boolean }) {
           customWidth={width()}
         />
       </Show>
+      <Switch>
+        <Match when={inviteEmbedCode()}>
+          {(code) => <ServerInviteEmbed code={code()} />}
+        </Match>
+
+        <Match when={youtubeEmbed()}>
+          {(youtubeEmbed) => (
+            <YoutubeEmbed
+              code={youtubeEmbed()[3]}
+              embed={props.post.embed!}
+              shorts={youtubeEmbed()[1].endsWith("shorts")}
+              containerWidth={width()}
+            />
+          )}
+        </Match>
+
+        <Match when={props.post.embed}>
+          <OGEmbed
+            message={{ embed: props.post.embed!, content: props.post.content }}
+            customWidthOffset={-50}
+            customHeight={1120}
+            customWidth={width()}
+          />
+        </Match>
+      </Switch>
 
       <Show when={props.post.poll}>
         <PollEmbed poll={props.post.poll!} post={props.post} />
@@ -434,6 +479,42 @@ function Embeds(props: { post: Post; hovered: boolean }) {
     </div>
   );
 }
+
+export const YoutubeEmbed = (props: {
+  code: string;
+  embed: RawEmbed;
+  shorts: boolean;
+  containerWidth: number;
+}) => {
+  const { height } = useWindowProperties();
+
+  const widthOffset = -64;
+  const customHeight = 0;
+  const customWidth = 0;
+
+  const style = () => {
+    if (props.shorts) {
+      const maxWidth = clamp(
+        (customWidth || props.containerWidth) + (widthOffset || 0),
+        600
+      );
+      const maxHeight =
+        props.containerWidth <= 600
+          ? (customHeight || height()) / 1.4
+          : (customHeight || height()) / 2;
+      return clampImageSize(1080, 1920, maxWidth, maxHeight);
+    }
+
+    const maxWidth = clamp(
+      (customWidth || props.containerWidth) + (widthOffset || 0),
+      600
+    );
+
+    return clampImageSize(1920, 1080, maxWidth, 999999);
+  };
+
+  return <RawYoutubeEmbed {...props} style={style()} />;
+};
 
 const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
   const votedChoiceId = () => props.poll.votedUsers[0]?.pollChoiceId;

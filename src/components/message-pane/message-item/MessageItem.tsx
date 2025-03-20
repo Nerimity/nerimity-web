@@ -94,6 +94,8 @@ import Checkbox from "@/components/ui/Checkbox";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { css } from "solid-styled-components";
 import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
+import { inviteLinkRegex, youtubeLinkRegex, twitterStatusLinkRegex } from "@/common/regex";
+import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -583,13 +585,6 @@ const SystemMessage = (props: { message: Message }) => {
 
 export default MessageItem;
 
-const inviteLinkRegex = new RegExp(`${env.APP_URL}/i/([\\S]+)`);
-
-const youtubeLinkRegex =
-  /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/;
-
-const twitterStatusLinkRegex =
-  /https:\/\/(www.)?(twitter|x)\.com(\/[a-zA-Z0-9_]+\/status\/[0-9]+)/;
 
 export function Embeds(props: {
   message: Message;
@@ -742,13 +737,12 @@ const GoogleDriveEmbeds = (props: { attachment: RawAttachment }) => {
   );
 };
 
-const YoutubeEmbed = (props: {
+export const YoutubeEmbed = (props: {
   code: string;
   embed: RawEmbed;
   shorts: boolean;
 }) => {
   const { paneWidth, height, width: windowWidth } = useWindowProperties();
-  const [playVideo, setPlayVideo] = createSignal<boolean>(false);
 
   const widthOffset = -90;
   const customHeight = 0;
@@ -771,51 +765,12 @@ const YoutubeEmbed = (props: {
       (customWidth || paneWidth()!) + (widthOffset || 0),
       600
     );
-    return clampImageSize(1920, 1080, maxWidth, (customHeight || height()) / 2);
+    return clampImageSize(1920, 1080, maxWidth, 999999);
   };
 
-  const thumbnailUrl = () => {
-    return `https://i.ytimg.com/vi/${props.code}/maxresdefault.jpg`;
-  };
+  return <RawYoutubeEmbed {...props} style={style()}/>;
 
-  return (
-    <div class={styles.youtubeEmbed}>
-      <div class={styles.video} style={style()}>
-        <Show when={!playVideo()}>
-          <img
-            style={{ width: "100%", height: "100%", "object-fit": "cover" }}
-            src={thumbnailUrl()}
-          />
-          <div
-            onClick={() => setPlayVideo(!playVideo())}
-            class={styles.playButtonContainer}
-          >
-            <div class={styles.playButton}>
-              <Icon name="play_arrow" color="var(--primary-color)" size={28} />
-            </div>
-          </div>
-        </Show>
-        <Show when={playVideo()}>
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube-nocookie.com/embed/${props.code}?autoplay=1`}
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          />
-        </Show>
-      </div>
-      <div class={styles.youtubeEmbedDetails}>
-        <div class={styles.title}>{props.embed.title}</div>
-        <div class={styles.info}>
-          {props.embed.channelName} •{" "}
-          <span class={styles.date}>{props.embed.uploadDate}</span>
-        </div>
-        <div class={styles.description}>{props.embed.description}</div>
-      </div>
-    </div>
-  );
+
 };
 
 const TwitterEmbed = (props: { path: string }) => {
@@ -1171,7 +1126,7 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
 
 const inviteCache = new Map<string, ServerWithMemberCount | false>();
 
-function ServerInviteEmbed(props: { code: string }) {
+export function ServerInviteEmbed(props: { code: string }) {
   const navigate = useNavigate();
   const { servers } = useStore();
   const [invite, setInvite] = createSignal<
@@ -1260,7 +1215,7 @@ function ServerInviteEmbed(props: { code: string }) {
   );
 }
 
-function OGEmbed(props: { message: RawMessage }) {
+export function OGEmbed(props: { message: {content?: string, embed: RawEmbed}, customWidth?: number; customHeight?: number; customWidthOffset?: number }) {
   const embed = () => props.message.embed!;
   const { createPortal } = useCustomPortal();
   const [showDetailed, setShowDetailed] = createSignal(false);
@@ -1339,7 +1294,9 @@ function OGEmbed(props: { message: RawMessage }) {
               width: embed().imageWidth,
               height: embed().imageHeight,
             }}
-            widthOffset={-90}
+            widthOffset={props.customWidthOffset || -90}
+            customWidth={props.customWidth}
+            customHeight={props.customHeight}
           />
         </Match>
         <Match when={embed().type !== "image"}>
@@ -1464,7 +1421,7 @@ const replaceImageUrl = (val: string, hasFocus: boolean) => {
   return val.replaceAll(regex, (r) => {
     let url = regex2.exec(r)?.[1];
     if (!url) return r;
-    if (url.startsWith('"') || url.startsWith("'")) {
+    if (url.startsWith("\"") || url.startsWith("'")) {
       url = url.slice(1, -1);
     }
     return `url("${
@@ -1560,7 +1517,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
       .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
       .replaceAll("&gt;", ">")
-      .replaceAll("&quot;", '"')
+      .replaceAll("&quot;", "\"")
       .replaceAll("&#039;", "'");
   };
   return (
