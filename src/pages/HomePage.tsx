@@ -235,6 +235,7 @@ const FeatureListContainer = styled("div")`
 `;
 
 function FeatureList() {
+  const [t] = useTransContext();
   return (
     <FeatureListContainer>
       <Feature icon="gif" label={t("homePage.featureList.feature1")} />
