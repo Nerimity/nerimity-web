@@ -162,6 +162,7 @@ export default function HomePage() {
 }
 
 const PlatformDownloadLinks = () => {
+  const [t] = useTransContext();
   const navigate = useNavigate();
   return (
     <FlexColumn gap={10} itemsCenter style={{ "margin-top": "10px" }}>
