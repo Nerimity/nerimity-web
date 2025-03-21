@@ -128,8 +128,7 @@ export default function HomePage() {
             opacity={0.7}
             style={{ "margin-top": "10px", "margin-bottom": "10px" }}
           >
-            Nerimity offers an elegant and feature-rich experience that sets it
-            apart.
+            {t("homePage.subslogan")}
           </Text>
           <ButtonsContainer class="buttons-container">
             <a href="/register">
@@ -163,17 +162,18 @@ export default function HomePage() {
 }
 
 const PlatformDownloadLinks = () => {
+  const [t] = useTransContext();
   const navigate = useNavigate();
   return (
     <FlexColumn gap={10} itemsCenter style={{ "margin-top": "10px" }}>
       <Text size={16} opacity={0.7} style={{}}>
-        Available on
+        {t("homePage.availableOn")}
       </Text>
       <FlexRow wrap justifyCenter>
         <Button
           onClick={() => navigate("/register")}
           color=""
-          label="Browser"
+          label={t("homePage.browser")}
           iconName="public"
           primary
         />
@@ -235,16 +235,18 @@ const FeatureListContainer = styled("div")`
 `;
 
 function FeatureList() {
+  const [t] = useTransContext();
   return (
     <FeatureListContainer>
-      <Feature icon="gif" label="Free animated avatars & emojis" />
-      <Feature icon="preview" label="Sleek design" />
-      <Feature icon="sell" label="Change your tag for free" />
-      <Feature icon="add" label="Create posts on your profile" />
-      <Feature icon="dns" label="Create your own community" />
-      <Feature icon="explore" label="Find new communities" />
-      <Feature icon="volunteer_activism" label="Runs from donations" />
-      <Feature icon="code" label="Full source code on GitHub" />
+      <Feature icon="gif" label={t("homePage.featureList.feature1")} />
+      <Feature icon="preview" label={t("homePage.featureList.feature2")} />
+      <Feature icon="sell" label={t("homePage.featureList.feature3")} />
+      <Feature icon="add" label={t("homePage.featureList.feature4")} />
+      <Feature icon="dns" label={t("homePage.featureList.feature5")} />
+      <Feature icon="explore" label={t("homePage.featureList.feature6")} />
+      <Feature icon="volunteer_activism" label={t("homePage.featureList.feature7")} />
+      <Feature icon="code" label={t("homePage.featureList.feature8")} />
+      <Feature icon="account_circle" label={t("homePage.featureList.feature9")} />
     </FeatureListContainer>
   );
 }

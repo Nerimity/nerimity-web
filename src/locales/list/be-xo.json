@@ -7,12 +7,26 @@
   },
   "homePage": {
     "slogan": "Сучасная й элегантная праґрама для памену паведамленьнямі.",
+    "subslogan": "Nerimity прапаноўвае элегантны й насычаны вопыт, які робіць яе асабліваю.",
     "viewGitHubButton": "Праглядзець на GitHub",
-    "getStarted": "Пачнем"
+    "getStarted": "Пачнем",
+    "availableOn": "Даступнае на",
+    "browser": "Браўзэр",
+      "featureList": {
+        "feature1": "Бясплатныя аніміраваныя аватары й эмодзі",
+        "feature2": "Элегантны дызайн",
+        "feature3": "Бясплатная зьмена тэга",
+        "feature4": "Стварэньне пастоў на вашым профілі",
+        "feature5": "Стварыце вашу асабістую супольнасьць",
+        "feature6": "Адкрыйце для сябе новыя супольнасьці",
+        "feature7": "Працуе на ахвяраваньнях",
+        "feature8": "Поўны зыходны код на GitHub",
+        "feature9": "Выражайце сябе пры дапамозе аблямовак"
+      }
   },
   "loginPage": {
     "title": "Увайдзіце, каб працягнуць",
-    "emailOrUsernameAndTag": "Эл. пошта / імя карыстальніка:тэг",
+    "emailOrUsernameAndTag": "Эл. пошта / імя карыстача:тэг",
     "password": "Пароль",
     "login": "Увайсьці",
     "createAccountInstead": "Замест гэтага стварыць уліковы запіс",
@@ -22,7 +36,7 @@
   "registerPage": {
     "title": "Вітаем у {{appName}}",
     "email": "Электронная адрэса",
-    "username": "Імя карыстальніка",
+    "username": "Імя карыстача",
     "password": "Пароль",
     "confirmPassword": "Пацьвердзіце пароль",
     "registerButton": "Зарэгістравацца",
@@ -32,7 +46,7 @@
   "dashboard": {
     "title": "Панэль кіраваньня",
     "activeUsers": "Зараз у сетцы",
-    "noActiveUsers": "Няма актыўных карыстальнікаў",
+    "noActiveUsers": "Няма актыўных карыстачоў",
     "servers": "Сэрвэры",
     "posts": "Публікацыйі",
     "feed": "Стужка",
@@ -45,7 +59,7 @@
   },
   "inbox": {
     "blockedUsersModal": {
-      "title": "Заблякаваныя карыстальнікі"
+      "title": "Заблякаваныя карыстачы"
     },
     "drawer": {
       "searchBarPlaceholder": "Пошук",
@@ -182,7 +196,7 @@
       "mentionEveryone": "Згадваць усіх",
       "mentionEveryoneDescription": "Дазваляе згадваньне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу.",
       "nicknameMember": "Зьмяняць нікнэймы",
-      "nicknameMemberDescription": "Дазваляе карыстальнікам зьмяняць іх нікнэйм на сэрвэры."
+      "nicknameMemberDescription": "Дазваляе карыстачам зьмяняць іх нікнэйм на сэрвэры."
     },
     "channelPermissions": {
       "publicChannel": "Публічны канал",
@@ -223,7 +237,7 @@
     "account": {
       "title": "Налады - Уліковы запіс",
       "email": "Электроная пошта",
-      "username": "Імя карыстальніка",
+      "username": "Імя карыстача",
       "tag": "Тэг",
       "avatar": "Аватар",
       "banner": "Банар",
@@ -238,8 +252,8 @@
       "confirmNewPassword": "Сьцьвердзіць новы пароль",
       "confirmNewPasswordDescription": "Сьцьвердзіце ваш новы пароль",
       "confirmCurrentPassword": "Сьцьвердзіце ваш бягучы пароль",
-      "channelNotice": "Папярэджаньне карыстальніка",
-      "channelNoticeDescription": "Паказваецца, калі карыстальнік піша вам упершыню. Зьмены ўжываюцца пасьля перазагрузкі.",
+      "channelNotice": "Папярэджаньне карыстача",
+      "channelNoticeDescription": "Паказваецца, калі карыстач піша вам упершыню. Зьмены ўжываюцца пасьля перазагрузкі.",
       "saving": "Захоўваем...",
       "saveButton": "Захаваць",
       "saveChangesButton": "Захаваць зьмены",
@@ -275,7 +289,7 @@
         "hideFollowers": "Прыбраць падпісантаў",
         "hideFollowersDescription": "Прыбраць людзей, якія падпісаныя на вас, з вашага профілю.",
         "hideFollowing": "Прыбраць вашыя падпіскі",
-        "hideFollowingDescription": "Прыбраць карыстальнікаў, на якіх вы падпісаныя, з вашага профілю."
+        "hideFollowingDescription": "Прыбраць карыстачоў, на якіх вы падпісаныя, з вашага профілю."
       }
     },
     "notifications": {

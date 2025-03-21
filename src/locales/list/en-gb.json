@@ -7,8 +7,22 @@
   },
   "homePage": {
     "slogan": "A modern and sleek chat app.",
+    "subslogan": "Nerimity offers an elegant and feature-rich experience that sets it apart.",
     "viewGitHubButton": "View GitHub",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "availableOn": "Available on",
+    "browser": "Browser",
+      "featureList": {
+        "feature1": "Free animated avatars & emojis",
+        "feature2": "Sleek design",
+        "feature3": "Change your tag for free",
+        "feature4": "Create posts on your profile",
+        "feature5": "Create your own community",
+        "feature6": "Find new communities",
+        "feature7": "Runs from donations",
+        "feature8": "Full source code on GitHub",
+        "feature9": "Express yourself with borders"
+      }
   },
   "loginPage": {
     "title": "Login to continue",
