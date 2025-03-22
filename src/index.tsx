@@ -110,9 +110,13 @@ const ModerationPane = lazy(
 const ModerationUserPage = lazy(
   () => import("@/components/moderation-pane/UserPage")
 );
+const ModerationUsersPage = lazy(
+  () => import("@/components/moderation-pane/users-page/UsersPage")
+);
 const ModerationServerPage = lazy(
   () => import("@/components/moderation-pane/ServerPage")
 );
+
 
 const useBlurEffect = () => {
   const { isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
@@ -288,6 +292,10 @@ render(() => {
               <Route
                 path="/servers/:serverId"
                 components={{ moderationPane: ModerationServerPage }}
+              />
+              <Route
+                path="/users"
+                components={{ moderationPane: ModerationUsersPage }}
               />
               <Route
                 path="/users/:userId"
