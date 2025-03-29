@@ -173,6 +173,28 @@ export function onMessageDeleted(payload: {
   }
 }
 
+
+export function onMessageMarkUnread(payload: {
+  channelId: string;
+  at: number;
+}) {
+  const channels = useChannels();
+  const mentions = useMention();
+
+  const channel = channels.get(payload.channelId);
+  if (!channel) return;
+  channel?.updateLastSeen(payload.at);
+
+  if (!channel.serverId) {
+    mentions.set({
+      channelId: channel.id,
+      userId: channel.recipientId!,
+      count: 1,
+      serverId: channel.serverId,
+    });
+  }
+}
+
 export function onMessageDeletedBatch(payload: {
   userId: string;
   serverId: string;
