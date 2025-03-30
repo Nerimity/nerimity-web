@@ -48,7 +48,7 @@ export default function ServerSettingsInvite() {
   createEffect(() => {
 
     header.updateHeader({
-      title: "Settings - Invites",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.invites"),
       serverId: params.serverId!,
       iconName: "settings"
     });
@@ -163,7 +163,7 @@ const InviteItem = (props: { invite: any, onDeleted: () => void }) => {
             <Icon name='person' size={14} class={styles.icon} />
             {props.invite.createdBy.username}
             <Icon name='whatshot' size={14} class={styles.icon} />
-            {props.invite.uses} uses
+            {props.invite.uses}{t("servers.settings.invites.uses")}
             <Icon name='today' size={14} class={styles.icon} />
             {formatTimestamp(props.invite.createdAt)}</div>
         </div>

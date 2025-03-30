@@ -18,6 +18,7 @@ import MessageItem from "../message-pane/message-item/MessageItem";
 import Button from "../ui/Button";
 import { TimestampMention, TimestampType } from "../markup/TimestampMention";
 import { cn } from "@/common/classNames";
+import { t } from "i18next";
 import { useNavigate, useSearchParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { deleteReminder } from "@/chat-api/services/ReminderService";
@@ -64,7 +65,7 @@ export default function RemindersModal(props: {
   };
   return (
     <Modal.Root close={close} class={style.remindersModalRoot}>
-      <Modal.Header title="Reminders" alert={!!hasActiveReminders()} />
+      <Modal.Header title={t("explore.drawer.reminders")} alert={!!hasActiveReminders()} />
       <Modal.Body class={style.remindersModalBody}>
         <div class={style.reminderList}>
           <For each={reminders()}>
@@ -78,7 +79,7 @@ export default function RemindersModal(props: {
       <Show when={props.channelId && !showAll()}>
         <Modal.Footer>
           <Modal.Button
-            label="Show All Reminders"
+            label={t("explore.reminders.showAll")}
             iconName="filter_alt_off"
             primary
             onClick={() => setShowAll(true)}
@@ -135,7 +136,7 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
       </div>
       <Switch
         fallback={
-          <div class={style.reminderDeleted}>Deleted Post Or Message</div>
+          <div class={style.reminderDeleted}>{t("explore.reminders.deleted")}</div>
         }
       >
         <Match when={props.reminder.message}>
@@ -156,11 +157,11 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
           label={
             isActive()
               ? deleteClicked()
-                ? "Dismissing"
-                : "Dismiss"
+                ? t("explore.reminders.dismissing")
+                : t("explore.reminders.dismissButton")
               : deleteClicked()
-              ? "Deleting..."
-              : "Delete"
+              ? t("explore.reminders.deleting")
+              : t("explore.reminders.deleteButton")
           }
           alert={!isActive()}
           color={isActive() ? "var(--success-color)" : undefined}
@@ -172,7 +173,7 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
         />
         <Button
           iconName="visibility"
-          label="View"
+          label={t("explore.reminders.viewButton")}
           onClick={onViewClick}
           iconSize={20}
           padding={4}

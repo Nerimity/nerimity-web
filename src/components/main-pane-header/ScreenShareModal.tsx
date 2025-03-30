@@ -9,6 +9,7 @@ import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 import { useParams } from "solid-navigator";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import Checkbox from "../ui/Checkbox";
+import { t } from "i18next";
 
 const QualityOptions = ["480p", "720p", "1080p"] as const;
 const FramerateOptions = ["1fps 💀", "10fps", "30fps", "60fps"] as const;
@@ -71,14 +72,14 @@ export function ScreenShareModal(props: { close: () => void }) {
 
   const ActionButtons = (
     <ActionButtonsContainer>
-      <Button label="Back" color="var(--alert-color)" onClick={props.close} />
-      <Button label="Choose Window" onClick={chooseWindowClick} />
+      <Button label={t("call.screenShareModal.back")} color="var(--alert-color)" onClick={props.close} />
+      <Button label={t("call.screenShareModal.chooseWindow")} onClick={chooseWindowClick} />
     </ActionButtonsContainer>
   );
 
   return (
     <LegacyModal
-      title="Screen Share"
+      title={t("call.screenShareModal.title")}
       close={props.close}
       actionButtons={ActionButtons}
     >
@@ -113,7 +114,7 @@ export function ScreenShareModal(props: { close: () => void }) {
       </OptionContainer>
       <Show when={electronWindowAPI()?.isElectron}>
         <Checkbox
-          label="Share System Audio"
+          label={t("call.screenShareModal.systemAudio")}
           checked={shareSystemAudio()}
           onChange={setShareSystemAudio}
           class={css`
@@ -190,7 +191,7 @@ const constructConstraints = async (
     case "60fps":
       constraints.video.frameRate = 60;
       break;
-    case "Source":
+    case t("call.screenShareModal.sourceFramerate"):
       constraints.video.frameRate = await getRoundedFps();
       break;
     default:

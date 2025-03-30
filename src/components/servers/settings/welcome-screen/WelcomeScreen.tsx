@@ -31,7 +31,7 @@ export default function SettingsPage() {
 
   onMount(() => {
     header.updateHeader({
-      title: "Settings - Self Assign Roles",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.self-assign-roles"),
       serverId: params.serverId!,
       iconName: "settings"
     });
@@ -61,7 +61,7 @@ export default function SettingsPage() {
 
   const onAddQuestionClick = async () => {
     const question = await createWelcomeQuestion(params.serverId, {
-      title: "Untitled Question",
+      title: t("servers.settings.selfRoles.untitledQuestion"),
       multiselect: false,
       answers: []
     }).catch(e => alert(e.message));
@@ -76,8 +76,8 @@ export default function SettingsPage() {
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId || "")} icon='home' title={server()?.name} />
         <BreadcrumbItem title={t("servers.settings.drawer.welcome-screen")} />
       </Breadcrumb>
-      <SettingsBlock label="Questions" header={!!questions().length} description="Setup questions. Let users assign roles." icon='task_alt'>
-        <Button label="Add Question" onClick={onAddQuestionClick} />
+      <SettingsBlock label={t("servers.settings.selfRoles.questions")} header={!!questions().length} description="Setup questions. Let users assign roles." icon='task_alt'>
+        <Button label={t("servers.settings.selfRoles.addQuestionButton")} onClick={onAddQuestionClick} />
       </SettingsBlock>
       <QuestionList questions={questions()}  onEditQuestion={onQuestionEdited} onQuestionDelete={onQuestionDeleted} />
     </div>
@@ -96,7 +96,7 @@ const QuestionList = (props: {questions: RawServerWelcomeQuestion[], onQuestionD
 const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolean, onQuestionDelete: () => void; onEditQuestion?: (question: RawServerWelcomeQuestion) => void}) => {
   const params = useParams<{serverId: string}>();
   const answerList = () => props.question.answers.map(answer => answer.title).join(" • ");
-  
+  const [t] = useTransContext();
 
   const onDeleteClick = (event: MouseEvent) => {
     event.stopPropagation();
@@ -114,8 +114,8 @@ const QuestionItem = (props: {question: RawServerWelcomeQuestion, isLast: boolea
       borderTopRadius={false} 
       borderBottomRadius={props.isLast} 
       label={props.question.title} >
-      <Button label="Delete" iconName="delete" margin={[0, 4]} iconSize={16} color="var(--alert-color)" onClick={onDeleteClick} />
-      <CustomLink href={`./${props.question.id}`}><Button label="Edit" iconName="edit" iconSize={16} margin={0}  /></CustomLink>
+      <Button label={t("servers.settings.selfRoles.deleteButton")} iconName="delete" margin={[0, 4]} iconSize={16} color="var(--alert-color)" onClick={onDeleteClick} />
+      <CustomLink href={`./${props.question.id}`}><Button label={t("servers.settings.selfRoles.editButton")} iconName="edit" iconSize={16} margin={0}  /></CustomLink>
     </SettingsBlock>
   );
 };

@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { createSignal } from "solid-js";
 
 
@@ -15,7 +16,7 @@ export interface HeaderDetail {
 }
 
 const [details, setDetails] = createSignal<HeaderDetail>({
-  title: "Nothing Selected"
+  title: t("misc.nothingSelected")
 });
 
 

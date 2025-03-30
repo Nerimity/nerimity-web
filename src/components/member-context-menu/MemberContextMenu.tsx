@@ -189,8 +189,8 @@ export default function MemberContextMenu(props: Props) {
           ...adminItems(),
           { separator: true },
           {
-            icon: "content_copy",
             label: t("userContextMenu.copyId"),
+            icon: "content_copy",
             onClick: () => copyToClipboard(props.userId),
           },
         ]}
@@ -344,7 +344,7 @@ function ServerNicknameModal(props: {
         onClick={props.close}
       />
       <Button
-        label={requestSent() ? "Saving..." : "Save Changes"}
+        label={requestSent() ? t("updateNickname.saving") : t("updateNickname.saveChangesButton")}
         iconName="save"
         primary
         onClick={onUpdate}
@@ -355,16 +355,16 @@ function ServerNicknameModal(props: {
   return (
     <LegacyModal
       close={props.close}
-      title={"Update Server Profile"}
+      title={t("updateNickname.title")}
       actionButtons={ActionButtons}
     >
       <div class={styles.kickModal} style={{ margin: "10px" }}>
         <Notice
           style={{ "margin-bottom": "10px" }}
           type="info"
-          description="Everyone in the server will see this nickname."
+          description={t("updateNickname.description")}
         />
-        <Input label="Nickname" value={nickname()} onText={setNickname} />
+        <Input label={t("updateNickname.placeholder")} value={nickname()} onText={setNickname} />
         <Show when={error()}>
           <Text color="var(--alert-color)">{error()}</Text>
         </Show>
@@ -404,26 +404,26 @@ function TransferOwnershipModal(props: {
 
   return (
     <Modal.Root close={props.close} doNotCloseOnBackgroundClick>
-      <Modal.Header title="Transfer Ownership" icon="next_week" alert />
+      <Modal.Header title={t("transferOwnership.title")} icon="next_week" alert />
       <Modal.Body>
         <Notice
           style={{ "margin-bottom": "10px" }}
           type="error"
-          description="You will not be able to undo this action."
+          description={t("transferOwnership.description")}
         />
         <Show when={server()?.verified}>
           <Notice
             style={{ "margin-bottom": "10px" }}
             type="error"
-            description="This server will be unverified."
+            description={t("transferOwnership.notice")}
           />
         </Show>
-        <div>Server:</div>
+        <div>{t("transferOwnership.server")}</div>
         <TransferOwnershipOwnerBox server={server()} />
-        <div>New Owner:</div>
+        <div>{t("transferOwnership.newOwner")}</div>
         <TransferOwnershipOwnerBox user={props.member.user()} />
         <Input
-          label="Confirm Password"
+          label={t("transferOwnership.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}
@@ -435,12 +435,12 @@ function TransferOwnershipModal(props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={"Don't Transfer"}
+          label={t("transferOwnership.doNotTransfer")}
           iconName="arrow_back"
           onClick={props.close}
         />
         <Modal.Button
-          label={requestSent() ? "Transferring..." : "Transfer"}
+          label={requestSent() ? t("transferOwnership.transfering") : t("transferOwnership.transferButton")}
           alert
           iconName="next_week"
           primary
@@ -489,7 +489,7 @@ function BanModal(props: {
 
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button label="Back" iconName="arrow_back" onClick={props.close} />
+      <Button label={t("banModal.backButton")} iconName="arrow_back" onClick={props.close} />
       <Button
         label={requestSent() ? t("banModal.banning") : t("banModal.banButton")}
         iconName="block"
@@ -549,7 +549,7 @@ export function ServerMemberRoleModal(props: Props & { close: () => void }) {
       maxWidth={350}
       class={styles.roleModal}
       close={props.close}
-      title="Edit Roles"
+      title={t("editServerRolesModal.title")}
     >
       <div class={styles.roleModalContainer}>
         <For each={rolesThatCanBeApplied()}>

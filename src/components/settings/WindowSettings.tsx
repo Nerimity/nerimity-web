@@ -61,7 +61,7 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Window Settings",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.window-settings"),
       iconName: "settings",
     });
   });
@@ -77,7 +77,7 @@ export default function WindowSettings() {
       <Show when={!isElectron}>
         <Notice
           type="info"
-          description="To modify these settings, you must download the Nerimity desktop app."
+          description={t("settings.downloadAppNotice")}
         />
       </Show>
 
@@ -111,10 +111,10 @@ function StartupOptions() {
 
   return (
     <FlexColumn>
-      <SettingsBlock icon="launch" label="Startup Options" header />
+      <SettingsBlock icon="launch" label={t("settings.windowSettings.startupOptions")} header />
       <SettingsBlock
         icon="restart_alt"
-        label={"Open Nerimity on startup"}
+        label={t("settings.windowSettings.startupOptionsDescription")}
         borderTopRadius={false}
         borderBottomRadius={!autostart()}
       >
@@ -123,8 +123,8 @@ function StartupOptions() {
       <Show when={autostart()}>
         <SettingsBlock
           icon="horizontal_rule"
-          label="Start Minimized"
-          description={"Minimize Nerimity to the tray automatically."}
+          label={t("settings.windowSettings.startMinimised")}
+          description={t("settings.windowSettings.startMinimisedDescription")}
           borderTopRadius={false}
         >
           <Checkbox

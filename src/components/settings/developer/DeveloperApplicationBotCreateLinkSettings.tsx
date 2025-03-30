@@ -28,7 +28,7 @@ export default function DeveloperApplicationBotCreateLinkSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Application Bot Create Link",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer") + " - " + t("settings.developer.application") + " - " + t("settings.developer.bot") + " - " + t("settings.developer.createLink.title"),
       iconName: "settings"
     });
   });
@@ -65,14 +65,14 @@ export default function DeveloperApplicationBotCreateLinkSettings() {
         <BreadcrumbItem href="/app/settings/developer" title={t("settings.drawer.developer")} />
         <BreadcrumbItem href="/app/settings/developer/applications" title={t("settings.drawer.applications")} />
         <BreadcrumbItem href="../../" title={application() ? application()!.name : "loading..."} />
-        <BreadcrumbItem href="../" title="Bot" />
-        <BreadcrumbItem title="Create Link" />
+        <BreadcrumbItem href="../" title={t("settings.developer.bot")} />
+        <BreadcrumbItem title={t("settings.developer.createLink.title")} />
       </Breadcrumb>  
       <Show when={application()}>
 
 
         <div>
-          <SettingsBlock icon="security" label={t("servers.settings.role.permissions")} description="Modify permissions for this link." header={true} class={css`flex-wrap: wrap; gap: 8px;`}>
+          <SettingsBlock icon="security" label={t("servers.settings.role.permissions")} description={t("settings.developer.createLink.permissionsDescription")} header={true} class={css`flex-wrap: wrap; gap: 8px;`}>
             <FlexRow itemsCenter gap={4} style={{background: "rgba(0,0,0,0.4)", "padding-left": "8px", "border-radius": "8px"}}>
               <CustomLink style={{"font-size": "12px"}} target="_blank" rel="noopener noreferrer" decoration href={link()}>{link()}</CustomLink>
               <Button iconName="content_copy" iconSize={18} onClick={() => navigator.clipboard.writeText(link())}  />

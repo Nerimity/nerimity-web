@@ -27,7 +27,7 @@ export default function BadgeSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Badges",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.badges"),
       iconName: "settings",
     });
   });
@@ -47,7 +47,7 @@ export default function BadgeSettings() {
       </Breadcrumb>
 
       <Notice
-        description="Support this project by donating money."
+        description={t("settings.badges.description")}
         type="info"
       />
       <SupportMethodBlock />
@@ -57,7 +57,7 @@ export default function BadgeSettings() {
         badges={[
           {
             ...USER_BADGES.PALESTINE,
-            description: "Can be obtained by going to Account -> Profile",
+            description: t("settings.badges.palestine"),
           },
         ]}
         price={0}
@@ -75,7 +75,7 @@ const BadgesPreview = (props: { badges: Bitwise[]; price: number }) => {
       <div>
         <SettingsBlock
           header
-          label={`$${props.price} Badges`}
+          label={t("settings.badges.paidBadges", { price: props.price })}
           icon="favorite"
         />
         <For each={props.badges}>
@@ -122,7 +122,7 @@ const BadgeItem = (props: {
 const SupportMethodBlock = () => {
   return (
     <div>
-      <SettingsBlock label="Support Methods" icon="info" header />
+      <SettingsBlock label={t("settings.badges.supportMethods")} icon="info" header />
       <SettingsBlock
         label="Ko-Fi"
         borderBottomRadius={false}

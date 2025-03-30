@@ -111,7 +111,7 @@ const Items = () => {
       />
       <Show when={controller?.hasReminders()}>
         <Item
-          label="Reminders"
+          label={t("explore.drawer.reminders")}
           icon="calendar_month"
           onClick={controller?.openReminders}
         />

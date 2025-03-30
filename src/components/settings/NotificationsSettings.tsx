@@ -35,7 +35,7 @@ export default function NotificationsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Notifications",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.notifications"),
       iconName: "settings",
     });
   });
@@ -73,8 +73,8 @@ function DesktopNotification() {
 
     await Notification.requestPermission();
     isEnabled() &&
-      new Notification("It worked.", {
-        body: "Desktop notifications enabled!",
+      new Notification(t("settings.notifications.previewTitle"), {
+        body: t("settings.notifications.previewSubtitle"),
         icon: "/assets/logo.png",
       });
   };
@@ -198,7 +198,7 @@ function NotificationSoundDropDown(props: {
           setSelectedSounds({ ...selectedSounds(), [props.typeId]: sound }),
         label:
           sound === "nerimity-mute"
-            ? "Mute"
+            ? t("settings.notifications.mute")
             : capitalizeFirstLetter(sound.replaceAll("-", " ")),
         suffix: (
           <Show when={sound !== "nerimity-mute"}>

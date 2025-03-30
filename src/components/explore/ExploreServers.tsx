@@ -156,7 +156,7 @@ export default function ExploreServers() {
           margin-bottom: 10px;
         `}
         type="warn"
-        description="Servers are not moderated by Nerimity. Please report servers that break the TOS."
+        description={t("explore.servers.pleaseReport")}
       />
 
       <Text>Pinned Servers</Text>
@@ -188,7 +188,7 @@ export default function ExploreServers() {
 
       <FlexRow gap={10} wrap>
         <Input
-          label="Search"
+          label={t("explore.servers.search")}
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
@@ -198,7 +198,7 @@ export default function ExploreServers() {
           `}
         />
         <DropDown
-          title="Sort"
+          title={t("explore.servers.sort")}
           items={sortOpts}
           selectedId={query().sort}
           onChange={(i) =>
@@ -206,7 +206,7 @@ export default function ExploreServers() {
           }
         />
         <DropDown
-          title="Filter"
+          title={t("explore.servers.filter")}
           items={filterOpts}
           selectedId={query().filter}
           onChange={(i) =>
@@ -554,23 +554,25 @@ export function ServerBumpModal(props: {
       });
   };
 
+  const [t] = useTransContext();
+
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", width: "100%" }}>
       <Button
         iconName="close"
         onClick={props.close}
         color="var(--alert-color)"
-        label="Back"
+        label={t("explore.servers.back")}
       />
       <Show when={verifyToken()}>
-        <Button iconName="arrow_upward" label="Bump" onClick={bumpServer} />
+        <Button iconName="arrow_upward" label={t("explore.servers.bump")} onClick={bumpServer} />
       </Show>
     </FlexRow>
   );
 
   return (
     <LegacyModal
-      title={`Bump ${props.publicServer.server?.name}`}
+      title={t("explore.servers.bump") + `${props.publicServer.server?.name}`}
       close={props.close}
       actionButtons={ActionButtons}
     >

@@ -15,6 +15,7 @@ import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
+import { t } from "i18next";
 
 const SuspendUsersContainer = styled("div")`
   min-width: 260px;
@@ -128,11 +129,11 @@ export default function EditUserSuspensionModal(props: Props) {
         gap: "4px",
       }}
     >
-      <Button onClick={onPreviewClick} margin={0} label="Preview" />
+      <Button onClick={onPreviewClick} margin={0} label={t("suspension.preview")} />
       <Button
         onClick={onSuspendClicked}
         margin={0}
-        label={suspending() ? "Editing..." : "Edit Suspension"}
+        label={suspending() ? t("suspension.editing") : t("suspension.editSuspension")}
         primary
       />
     </FlexRow>
@@ -141,23 +142,23 @@ export default function EditUserSuspensionModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={"Edit Suspension"}
+      title={t("suspension.editSuspension")}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
       <SuspendUsersContainer>
         <Input
-          label="Reason"
+          label={t("suspension.reason")}
           value={inputValues().reason}
           onText={(t) => setInputValue("reason", t)}
         />
         <Input
           class={suspendInputStyle}
-          label="Suspend for"
+          label={t("suspension.suspendFor")}
           type="number"
           value={inputValues().suspendFor}
           onText={(t) => setInputValue("suspendFor", t)}
-          suffix="days"
+          suffix={t("suspension.days")}
         />
         <Text
           size={12}

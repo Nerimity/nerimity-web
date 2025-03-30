@@ -1,4 +1,5 @@
 import useStore from "@/chat-api/store/useStore";
+import { useTransContext } from "@mbarzda/solid-i18next";
 import { createSignal } from "solid-js";
 
 export function useAddFriendModalController() {
@@ -15,14 +16,16 @@ export function useAddFriendModalController() {
     setError({ message: "", path: "" });
     setSuccess(false);
 
+    const [t] = useTransContext();
+
     const split = userTag().split(":");
     if (split.length <= 1) {
-      setError({ message: "Please enter a username:tag.", path: "" });
+      setError({ message: t("inbox.drawer.addFriend.usernameNotRight"), path: "" });
       setRequestSent(false);
       return;
     }
     if (split.length >= 3) {
-      setError({ message: "Username must not contain a colon.", path: "" });
+      setError({ message: t("inbox.drawer.addFriend.usernameColon"), path: "" });
       setRequestSent(false);
       return;
     }

@@ -11,6 +11,7 @@ import Text from "@/components/ui/Text";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createResource, createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components";
+import { t } from "i18next"
 
 const BansContainer = styled("div")`
   display: flex;
@@ -29,7 +30,7 @@ export default function ServerSettingsBans() {
     <BansContainer>
       <Breadcrumb>
         <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(params.serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
-        <BreadcrumbItem title='Bans' />
+        <BreadcrumbItem title={t("servers.settings.drawer.bans")} />
       </Breadcrumb>
       <Show when={bannedMembers()}>
         <For each={bannedMembers()}>
@@ -96,7 +97,7 @@ function BanItem(props: { ban: Ban, refetch: () => void }) {
       </A>
       <UnbanButtonContainer gap={5} onclick={onUnbanClick}>
         <Icon color="var(--alert-color)" name="undo" size={14} />
-        <Text color="var(--alert-color)" size={14}>{requestSent() ? "Unbanning" : "Unban"}</Text>
+        <Text color="var(--alert-color)" size={14}>{requestSent() ? t("banModal.unbanning") : t("banModal.unbanButton")}</Text>
       </UnbanButtonContainer>
     </BanContainer>
   );

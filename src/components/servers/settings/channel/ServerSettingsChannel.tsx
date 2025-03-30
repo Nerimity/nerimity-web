@@ -32,7 +32,7 @@ import {
 } from "@/chat-api/Bitwise";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
@@ -47,7 +47,6 @@ import {
 } from "@/chat-api/services/ChannelService";
 import { RawChannelNotice } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
-import { t } from "i18next";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import { Item } from "@/components/ui/Item";
 import { CustomLink } from "@/components/ui/CustomLink";
@@ -119,13 +118,13 @@ function Tabs() {
   return (
     <div class={styles.tabs}>
       <TabItem
-        label="General"
+        label={t("servers.settings.channel.general")}
         selected={params.tab !== "permissions"}
         icon="settings"
         href="../"
       />
       <TabItem
-        label="Permissions"
+        label={t("servers.settings.channel.permissions")}
         selected={params.tab === "permissions"}
         icon="lock"
         href="./permissions"
@@ -135,7 +134,6 @@ function Tabs() {
 }
 
 function PermissionsTab() {
-  const [t] = useTransContext();
   const params = useParams<ChannelParams>();
   const store = useStore();
 
@@ -198,7 +196,7 @@ function PermissionsTab() {
   createEffect(
     on(channel, () => {
       store.header.updateHeader({
-        title: "Settings - " + channel()?.name,
+        title: t("servers.settings.drawer.title") + " - " + channel()?.name,
         serverId: params.serverId!,
         iconName: "settings",
       });
@@ -273,7 +271,6 @@ function PermissionsTab() {
   );
 }
 function GeneralTab() {
-  const [t] = useTransContext();
   const params = useParams<ChannelParams>();
   const { header, channels, servers } = useStore();
   const { createPortal } = useCustomPortal();
@@ -299,7 +296,7 @@ function GeneralTab() {
   createEffect(
     on(channel, () => {
       header.updateHeader({
-        title: "Settings - " + channel()?.name,
+        title: t("servers.settings.drawer.title") + " - " + channel()?.name,
         serverId: params.serverId!,
         iconName: "settings",
       });
@@ -354,7 +351,7 @@ function GeneralTab() {
       </SettingsBlock>
 
       {/* Channel Icon */}
-      <SettingsBlock icon="face" label="Channel Icon">
+      <SettingsBlock icon="face" label={t("servers.settings.channel.icon")}>
         <Show when={inputValues().icon}>
           <Button
             iconName="delete"
@@ -389,12 +386,12 @@ function GeneralTab() {
       {/* Slowmode */}
       <SettingsBlock
         icon="speed"
-        label="Slow mode"
-        description="Specify how long a user must wait before they can send a message."
+        label={t("servers.settings.channel.slowmode")}
+        description={t("servers.settings.channel.slowmodeDescription")}
       >
         <Input
           class={styles.slowdownInput}
-          suffix="s"
+          suffix={t("time.short.second")}
           type="number"
           value={inputValues().slowModeSeconds.toString()}
           onText={(v) => setInputValue("slowModeSeconds", v ? parseInt(v) : "")}
@@ -512,7 +509,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
   const save = async () => {
     setError("");
     if (inputValues().content.length > 300)
-      return setError("Channel notice cannot be longer than 300 characters.");
+      return setError(t("servers.settings.channel.channelNoticeLengthError"));
     const res = await updateChannelNotice(
       props.serverId,
       props.channelId,
@@ -547,9 +544,9 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
     >
       <SettingsBlock
         icon="info"
-        label="Channel Notice"
+        label={t("servers.settings.channel.channelNotice")}
         class={NoticeBlockStyle}
-        description="Shows when the user is about to chat for the first time. Changes apply after reload."
+        description={t("servers.settings.channel.channelNoticeDescription")}
       >
         <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>
           ({inputValues().content.length} / 300)
@@ -582,7 +579,7 @@ function ChannelNoticeBlock(props: { serverId: string; channelId: string }) {
             />
           </Show>
           <Show when={updatedInputValues().content}>
-            <Button label="Save" iconName="save" onClick={save} />
+            <Button label={t("servers.settings.channel.saveButton")} iconName="save" onClick={save} />
           </Show>
         </div>
       </SettingsBlock>
@@ -613,7 +610,7 @@ function ChannelDeleteConfirmModal(props: {
 
   return (
     <DeleteConfirmModal
-      title={`Delete ${props.channel?.name}`}
+      title={t("servers.settings.channel.deleteChannelConfirmation", { name: props.channel?.name })}
       close={props.close}
       errorMessage={error()}
       confirmText={props.channel?.name}

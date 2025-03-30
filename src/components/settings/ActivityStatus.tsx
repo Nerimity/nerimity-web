@@ -95,7 +95,7 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Activity Status",
+      title: t("settings.drawer.title") + " - " + t("settings.activity.title"),
       iconName: "settings",
     });
   });
@@ -113,10 +113,9 @@ export default function WindowSettings() {
         <FlexRow gap={12} itemsCenter>
           <Icon name="extension" />
           <FlexColumn gap={4}>
-            <Text size={14}>Chrome Extension</Text>
+            <Text size={14}>{t("settings.activity.rpc.title")}</Text>
             <Text size={12} opacity={0.6}>
-              Our RPC extension allows you to share your activity from Spotify
-              and YouTube with users on Nerimity!
+              {t("settings.activity.rpc.description")}
             </Text>
           </FlexColumn>
         </FlexRow>
@@ -133,14 +132,14 @@ export default function WindowSettings() {
           <ExampleActivityContainer>
             <UserActivity
               exampleActivity={{
-                action: "Watching",
+                action: t("settings.activity.rpc.watching"),
                 name: "YouTube",
                 startedAt: Date.now() - 3000,
                 endsAt: Date.now() + 10000,
                 imgSrc: "https://nerimity.com/assets/logo.png",
                 link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                title: "Why Nerimity is the best",
-                subtitle: "Good YouTuber",
+                title: t("settings.activity.rpc.videoTitle", { appName: "Nerimity" }),
+                subtitle: t("settings.activity.rpc.videoAuthor"),
               }}
             />
           </ExampleActivityContainer>
@@ -148,14 +147,14 @@ export default function WindowSettings() {
           <ExampleActivityContainer>
             <UserActivity
               exampleActivity={{
-                action: "Listening to",
+                action: t("settings.activity.rpc.listening"),
                 name: "Spotify",
                 startedAt: Date.now() - 30000,
                 endsAt: Date.now() + 100000,
                 imgSrc: "https://nerimity.com/assets/logo.png",
-                link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                title: "Ner Ner Nerimity!",
-                subtitle: "Nerimity",
+                link: "https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8?si=2fd41c64b0ad4d3b",
+                title: t("settings.activity.rpc.songTitle"),
+                subtitle: t("settings.activity.rpc.songAuthor"),
               }}
             />
           </ExampleActivityContainer>
@@ -177,7 +176,7 @@ export default function WindowSettings() {
               margin={[10, 0, 0, 0]}
               iconName="extension"
               primary
-              label="Visit Firefox Add-ons"
+              label={t("settings.activity.rpc.visit", { store: "Firefox Add-ons" })}
             />
           </CustomLink>
           <CustomLink
@@ -189,7 +188,7 @@ export default function WindowSettings() {
               margin={[10, 0, 0, 0]}
               iconName="extension"
               primary
-              label="Visit Chrome Web Store"
+              label={t("settings.activity.rpc.visit", { store: "Chrome Web Store" })}
             />
           </CustomLink>
         </FlexRow>
@@ -198,7 +197,7 @@ export default function WindowSettings() {
       <Show when={!isElectron}>
         <Notice
           type="info"
-          description="To modify these settings, you must download the Nerimity desktop app."
+          description={t("settings.downloadAppNotice")}
         />
       </Show>
 
@@ -268,7 +267,7 @@ function ProgramOptions() {
   const addProgram = (item: DropDownItem) => {
     const program = {
       ...item.data,
-      action: "Playing",
+      action: t("settings.activity.playing"),
     };
     setAddedPrograms([...addedPrograms(), program]);
     getPrograms();
@@ -290,8 +289,8 @@ function ProgramOptions() {
     <FlexColumn>
       <SettingsBlock
         icon="games"
-        label="Activity Status"
-        description="Share what you're up to with everyone."
+        label={t("settings.activity.title")}
+        description={t("settings.activity.description")}
         header={!!addedPrograms().length}
       >
         <Show when={addedPrograms().length + 1} keyed>
@@ -346,12 +345,12 @@ function ProgramOptions() {
                 <Button
                   iconName="delete"
                   onClick={() => removeProgram(item)}
-                  label="Delete"
+                  label={t("settings.activity.deleteButton")}
                   color="var(--alert-color)"
                 />
                 <Button
                   iconName="edit"
-                  label="Edit"
+                  label={t("settings.activity.editButton")}
                   onClick={() => showEditModal(i(), item)}
                 />
               </FlexRow>
@@ -390,7 +389,7 @@ const EditActivityStatusModal = (props: {
 
   return (
     <Modal.Root close={props.close}>
-      <Modal.Header title="Edit Activity Status" icon="edit" />
+      <Modal.Header title={t("settings.activity.editStatus")} icon="edit" />
       <Modal.Body
         class={css`
           overflow: auto;
@@ -399,24 +398,24 @@ const EditActivityStatusModal = (props: {
       >
         <FlexColumn padding={6} gap={6}>
           <Input
-            label="Executable"
+            label={t("settings.activity.executable")}
             value={newValues().filename}
             onText={(v) => setValues({ ...newValues(), filename: v })}
           />
           <Input
-            label="Action"
+            label={t("settings.activity.action")}
             value={newValues().action}
             onText={(v) => setValues({ ...newValues(), action: v })}
           />
           <Input
-            label="Name"
+            label={t("settings.activity.name")}
             value={newValues().name}
             onText={(v) => setValues({ ...newValues(), name: v })}
           />
           <div>
             <SettingsBlock
               header={showEmojiPicker()}
-              label="Emoji"
+              label={t("settings.activity.emoji")}
               icon={emojiUrl() ? undefined : "face"}
               iconSrc={emojiUrl()}
               onClick={() => setShowEmojiPicker(!showEmojiPicker())}
@@ -437,13 +436,13 @@ const EditActivityStatusModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label="Back"
+          label={t("settings.activity.backButton")}
           onClick={props.close}
           iconName="close"
           alert
         />
         <Modal.Button
-          label="Save"
+          label={t("settings.activity.saveButton")}
           onClick={() => {
             props.onEdit(newValues());
             props.close();

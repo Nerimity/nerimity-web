@@ -125,7 +125,7 @@ export default function LoginPage() {
             />
           </form>
           <A class={linkStyle} href="/reset-password">
-            Reset Password
+            {t("loginPage.resetPassword")}
           </A>
           <A class={linkStyle} href="/register">
             {t("loginPage.createAccountInstead")}

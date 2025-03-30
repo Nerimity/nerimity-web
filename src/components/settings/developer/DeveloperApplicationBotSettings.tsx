@@ -36,7 +36,7 @@ export default function DeveloperApplicationBotSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Application Bot",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer") + " - " + t("settings.developer.application") + " - " + t("settings.developer.bot"),
       iconName: "settings"
     });
   });
@@ -61,19 +61,19 @@ export default function DeveloperApplicationBotSettings() {
   const copyToken = async () => {
     if (token()) {
       navigator.clipboard.writeText(token()!);
-      return alert("Copied token to clipboard.");
+      return alert(t("settings.developer.botSettings.tokenCopied"));
     }
     const res = await getAppBotToken(params.id);
     setToken(res.token);
     navigator.clipboard.writeText(token()!);
-    alert("Copied token to clipboard.");
+    alert(t("settings.developer.botSettings.tokenCopied"));
   };
   
   const onRefreshClick = async () => {
     refreshAppBotToken(params.id).then(async () => {
       const res = await getAppBotToken(params.id);
       setToken(res.token);
-      alert("Token refreshed.");
+      alert(t("settings.developer.botSettings.tokenRefreshed"));
     }).catch(err => {
       alert(err.message);
     });
@@ -90,9 +90,9 @@ export default function DeveloperApplicationBotSettings() {
         <BreadcrumbItem href="/app/settings/developer" title={t("settings.drawer.developer")} />
         <BreadcrumbItem href="/app/settings/developer/applications" title={t("settings.drawer.applications")} />
         <BreadcrumbItem href="../" title={application() ? application()!.name : "loading..."} />
-        <BreadcrumbItem title="Bot" href={showProfilePage() ? "../": undefined} />
+        <BreadcrumbItem title={t("settings.developer.bot")} href={showProfilePage() ? "../": undefined} />
         <Show when={showProfilePage()}>
-          <BreadcrumbItem title="Profile" />
+          <BreadcrumbItem title={t("profile.title")} />
         </Show>
       </Breadcrumb>
 
@@ -103,15 +103,15 @@ export default function DeveloperApplicationBotSettings() {
         <SettingsHeader bot={application()?.botUser} />
 
 
-        <SettingsBlock icon='link' label='Create Invite Link' href="./create-link">
+        <SettingsBlock icon='link' label={t("settings.developer.createLink.title")} href="./create-link">
           <Icon name="keyboard_arrow_right" />
         </SettingsBlock>
 
 
         
-        <SettingsBlock icon='key' label='Token' class={css`margin-bottom: 20px;`}>
-          <Button label="Refresh" onClick={onRefreshClick} iconName="refresh"/>
-          <Button onClick={copyToken} label="Copy" iconName="content_copy"/>
+        <SettingsBlock icon='key' label={t("settings.developer.botSettings.token")} class={css`margin-bottom: 20px;`}>
+          <Button label={t("settings.developer.botSettings.refreshButton")} onClick={onRefreshClick} iconName="refresh"/>
+          <Button onClick={copyToken} label={t("settings.developer.botSettings.copyButton")} iconName="content_copy"/>
         </SettingsBlock>
 
 

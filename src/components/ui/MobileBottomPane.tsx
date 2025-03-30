@@ -18,6 +18,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { FloatingUserModal } from "../side-pane/SidePane";
 import { isExperimentEnabled } from "@/common/experiments";
+import { t } from "i18next";
 
 export default function MobileBottomPane() {
   const drawer = useDrawer();
@@ -65,7 +66,7 @@ function HomeItem() {
   return (
     <AnchorItem
       selected={isSelected()}
-      title="Home"
+      title={t("sidePane.home")}
       icon="home"
       href="/app"
       notify={count() ? { count: count(), top: 3, right: 16 } : undefined}
@@ -76,7 +77,7 @@ function SettingsItem() {
   const { tickets } = useStore();
   return (
     <AnchorItem
-      title="Settings"
+      title={t("sidePane.settings")}
       icon="settings"
       href="/app/settings/account"
       notify={
@@ -97,7 +98,7 @@ function ModerationItem() {
   return (
     <Show when={hasModeratorPerm()}>
       <AnchorItem
-        title="Mod"
+        title={t("sidePane.moderationPane")}
         icon="security"
         href="/app/moderation/"
         selected={!!selected()}

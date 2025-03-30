@@ -94,6 +94,8 @@ import Checkbox from "@/components/ui/Checkbox";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { css } from "solid-styled-components";
 import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -516,9 +518,10 @@ const UploadAttachment = (props: { message: Message }) => {
 };
 
 const SentStatus = (props: { message: Message }) => {
+  const [t] = useTransContext();
   const editedAt = () => {
     if (!props.message.editedAt) return;
-    return "Edited at " + formatTimestamp(props.message.editedAt);
+    return t("embed.editedAt") + formatTimestamp(props.message.editedAt);
   };
 
   return (
@@ -694,7 +697,7 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
   };
   return (
     <VideoEmbed
-      error={isExpired() ? "File expired." : undefined}
+      error={isExpired() ? t("embed.fileExpired") : undefined}
       file={{
         name: props.attachment.path?.split("/").reverse()[0]!,
         size: props.attachment.filesize!,
@@ -711,7 +714,7 @@ const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
   };
   return (
     <FileEmbed
-      error={isExpired() ? "File expired." : undefined}
+      error={isExpired() ? t("embed.fileExpired") : undefined}
       file={{
         name: props.attachment.path?.split("/").reverse()[0]!,
         mime: props.attachment.mime!,
@@ -861,6 +864,8 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
     await initializeGoogleDrive();
   });
 
+  const [t] = useTransContext();
+
   // eslint-disable-next-line solid/reactivity
   createEffect(async () => {
     if (!googleApiInitialized()) return;
@@ -869,14 +874,14 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
       "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata"
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("Could not get Video.");
+    if (!file) return setError(t("embed.couldNotGetVideo"));
 
     if (file.mimeType !== props.attachment.mime)
-      return setError("Video was modified.");
+      return setError(t("embed.videoModified"));
 
     const fileTime = new Date(file.modifiedTime!).getTime();
     const diff = fileTime - props.attachment.createdAt!;
-    if (diff >= 5000) return setError("Video was modified.");
+    if (diff >= 5000) return setError(t("embed.videoModified"));
     setFile(file);
   });
 
@@ -911,6 +916,7 @@ const VideoEmbed = (props: {
   const [playVideo, setPlayVideo] = createSignal<boolean>(false);
 
   const onPlayClick = () => {
+    const [t] = useTransContext();
     if (reactNativeAPI()?.isReactNative) {
       reactNativeAPI()?.playVideo(props.file?.url!);
       return;
@@ -922,7 +928,7 @@ const VideoEmbed = (props: {
         !reactNativeAPI()?.isReactNative
       ) {
         alert(
-          "Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App."
+          t("embed.googleDrivePolicyAlert")
         );
       }
     }
@@ -946,8 +952,8 @@ const VideoEmbed = (props: {
             onClick={() =>
               alert(
                 props.file?.expireAt
-                  ? "Video expired."
-                  : "This Video was modified/deleted by the creator in their Google Drive. "
+                  ? t("embed.videoExpired")
+                  : t("embed.googleDriveVideo")
               )
             }
           />
@@ -977,7 +983,7 @@ const VideoEmbed = (props: {
             size={14}
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
-          {props.error ? "Expired " : "Expires "}
+          {props.error ? t("embed.expired") : t("embed.expires")}
           {timeSinceMentions(props.file?.expireAt!)}
         </div>
       </Show>
@@ -1069,8 +1075,8 @@ const FileEmbed = (props: {
             onClick={() =>
               alert(
                 props.file?.expireAt
-                  ? "File expired."
-                  : "This file was modified/deleted by the creator in their Google Drive. "
+                  ? t("embed.fileExpired")
+                  : t("embed.googleDriveFile")
               )
             }
           />
@@ -1095,13 +1101,13 @@ const FileEmbed = (props: {
                 iconName="visibility"
                 margin={0}
                 onClick={previewClick}
-                title="View Image"
+                title={t("embed.viewImage")}
               />
             </Show>
             <Button
               iconName="download"
               margin={0}
-              title="Download"
+              title={t("embed.download")}
               onClick={() => window.open(props.file?.url, "_blank")}
             />
           </div>
@@ -1114,7 +1120,7 @@ const FileEmbed = (props: {
             size={14}
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
-          {props.error ? "Expired " : "Expires "}
+          {props.error ? t("embed.expired") : t("embed.expires")}
           {timeSinceMentions(props.file?.expireAt!)}
         </div>
       </Show>
@@ -1139,14 +1145,14 @@ const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
       "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink"
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("Could not get file.");
+    if (!file) return setError(t("embed.couldNotGetFile"));
 
     if (file.mimeType !== props.attachment.mime)
-      return setError("File was modified.");
+      return setError(t("embed.fileModified"));
 
     const fileTime = new Date(file.modifiedTime!).getTime();
     const diff = fileTime - props.attachment.createdAt!;
-    if (diff >= 5000) return setError("File was modified.");
+    if (diff >= 5000) return setError(t("embed.fileModified"));
     setFile(file);
   });
 
@@ -1221,7 +1227,7 @@ function ServerInviteEmbed(props: { code: string }) {
             <Show when={invite() === false}>
               <Icon name="error" color="var(--alert-color)" />
             </Show>
-            {invite() === false ? "Invalid Invite Code" : "Loading Invite..."}
+            {invite() === false ? t("embed.inviteInvalid") : t("embed.loadingInvite")}
           </div>
         }
       >
@@ -1248,7 +1254,7 @@ function ServerInviteEmbed(props: { code: string }) {
             </div>
             <Button
               label={
-                joining() ? "Joining..." : cachedServer() ? "Visit" : "Join"
+                joining() ? t("embed.joining") : cachedServer() ? t("embed.visit") : t("embed.join")
               }
               iconName="login"
               onClick={joinOrVisitServer}
@@ -1285,15 +1291,14 @@ function OGEmbed(props: { message: RawMessage }) {
     if (useTwitterEmbed()) return setShowDetailed(true);
     createPortal((close) => (
       <Modal.Root close={close} desktopMaxWidth={400}>
-        <Modal.Header title="Detailed Twitter Embed" />
+        <Modal.Header title={t("embed.detailedXEmbed")} />
         <Modal.Body>
           <FlexColumn gap={8}>
             <Text opacity={0.8} size={14}>
-              When using the official Twitter embed, your data will collected by
-              elmo musk.
+              {t("embed.detailedXEmbedDescription")}
             </Text>
             <Checkbox
-              label="Don't show this again."
+              label={t("embed.doNotShowModalAgain")}
               checked={useTwitterEmbed()}
               onChange={setUseTwitterEmbed}
             />
@@ -1301,7 +1306,7 @@ function OGEmbed(props: { message: RawMessage }) {
         </Modal.Body>
         <Modal.Footer>
           <Modal.Button
-            label="Don't show"
+            label={t("embed.doNotShow")}
             iconName="close"
             onClick={() => {
               setUseTwitterEmbed(false);
@@ -1309,7 +1314,7 @@ function OGEmbed(props: { message: RawMessage }) {
             }}
           />
           <Modal.Button
-            label="Show"
+            label={t("embed.show")}
             primary
             iconName="check"
             onclick={() => {
@@ -1348,7 +1353,7 @@ function OGEmbed(props: { message: RawMessage }) {
       </Switch>
       <Show when={twitterStatusEmbed()}>
         <Button
-          label={showDetailed() ? "Basic Embed" : "Detailed Embed"}
+          label={showDetailed() ? t("embed.basicEmbed") : t("embed.detailedEmbed")}
           onclick={showDetailedTwitterEmbed}
           margin={[4, 0, 0, 0]}
         />

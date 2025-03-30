@@ -10,6 +10,7 @@ import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import Input from "../ui/input/Input";
+import { t } from "i18next";
 
 const formats = {
   named_link: (url: string) => ({
@@ -209,7 +210,7 @@ export const AdvancedMarkupOptions = (props: {
       )}
     >
       <Button
-        hoverText="Bold"
+        hoverText={t("messageArea.markup.bold")}
         onClick={() => applyFormat("bold")}
         iconSize={18}
         margin={0}
@@ -218,7 +219,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Italic"
+        hoverText={t("messageArea.markup.italic")}
         onClick={() => applyFormat("italic")}
         iconSize={18}
         margin={0}
@@ -227,7 +228,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Strikethrough"
+        hoverText={t("messageArea.markup.strikethrough")}
         onClick={() => applyFormat("strikethrough")}
         iconSize={18}
         margin={0}
@@ -236,7 +237,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Header"
+        hoverText={t("messageArea.markup.header")}
         onClick={() => applyFormat("header")}
         iconSize={18}
         margin={0}
@@ -245,7 +246,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Named Link"
+        hoverText={t("messageArea.markup.link")}
         onClick={() => applyFormat("named_link")}
         iconSize={18}
         margin={0}
@@ -254,7 +255,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Spoiler"
+        hoverText={t("messageArea.markup.spoiler")}
         onClick={() => applyFormat("spoiler")}
         iconSize={18}
         margin={0}
@@ -263,7 +264,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Timestamp"
+        hoverText={t("messageArea.markup.timestamp")}
         onClick={() => applyFormat("timestamp")}
         iconSize={18}
         margin={0}
@@ -272,7 +273,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Color"
+        hoverText={t("messageArea.markup.colour")}
         onClick={() => applyFormat("color")}
         iconSize={18}
         margin={0}
@@ -283,7 +284,7 @@ export const AdvancedMarkupOptions = (props: {
 
       <Show when={!props.hideEmojiPicker}>
         <Button
-          hoverText="Emoji Picker"
+          hoverText={t("messageArea.markup.emojiPicker")}
           onClick={showEmojiPicker}
           iconSize={18}
           margin={0}
@@ -310,10 +311,10 @@ const DateTimePickerModal = (props: {
   };
   return (
     <LegacyModal
-      title="Pick date and time"
+      title={t("messageArea.markup.pickTime")}
       close={props.close}
       actionButtonsArr={[
-        { label: "Done", onClick: onDone, iconName: "done", primary: true },
+        { label: t("messageArea.markup.done"), onClick: onDone, iconName: "done", primary: true },
       ]}
     >
       <div class={styles.datePickerModal}>

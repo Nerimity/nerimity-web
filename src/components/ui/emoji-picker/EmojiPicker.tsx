@@ -31,6 +31,7 @@ import {
 } from "@/chat-api/services/TenorService";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useParams } from "solid-navigator";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -228,11 +229,13 @@ const GifPickerSearchBar = () => {
     }
   });
 
+  const [t] = useTransContext();
+
   return (
     <div class={styles.gifPickerSearchBar}>
       <input
         ref={inputRef}
-        placeholder="Search GIFs"
+        placeholder={t("messageArea.markup.searchGifs")}
         value={gifPickerSearch()}
         onInput={onInput}
       />

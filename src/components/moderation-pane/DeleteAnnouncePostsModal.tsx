@@ -9,6 +9,7 @@ import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
+import { t } from "i18next";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -62,7 +63,7 @@ export default function DeleteAnnouncePostsModal(props: Props) {
       <Button
         onClick={onDeleteClicked}
         margin={0}
-        label={requestSent() ? "Deleting..." : "Delete"}
+        label={requestSent() ? t("deletionModal.deleting") : t("deletionModal.deleteButton")}
         color="var(--primary-color)"
         primary
       />
@@ -72,14 +73,14 @@ export default function DeleteAnnouncePostsModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={"Announce Post"}
+      title={t("posts.announcements.title")}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
       <Container>
-        <Text size={14}>Delete announcement for this post.</Text>
+        <Text size={14}>{t("posts.announcements.deletionDescription")}</Text>
         <Input
-          label="Confirm Password"
+          label={t("deletionModal.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

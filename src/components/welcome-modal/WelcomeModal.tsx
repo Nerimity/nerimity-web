@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import Icon from "../ui/icon/Icon";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { CustomLink } from "../ui/CustomLink";
+import { t } from "i18next";
 
 export function WelcomeModal(props: { close: () => void }) {
   const ActionButtons = (
@@ -16,12 +17,12 @@ export function WelcomeModal(props: { close: () => void }) {
   return (
     <LegacyModal
       ignoreBackgroundClick
-      title={"Welcome to Nerimity!"}
+      title={t("welcome.title")}
       maxWidth={600}
       actionButtons={ActionButtons}
     >
       <div class={styles.modalContainer}>
-        <div>Thanks for trying out Nerimity!</div>
+        <div>{t("welcome.description")}</div>
         <EditProfileItem />
         <ServerItem />
         <SourceCodeItem />
@@ -41,7 +42,7 @@ function ServerItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="dns" />
-        <div style={{ flex: 1 }}>Join the official Nerimity server!</div>
+        <div style={{ flex: 1 }}>{t("welcome.joinServer")}</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -57,7 +58,7 @@ function EditProfileItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="edit" />
-        <div style={{ flex: 1 }}>Edit my profile</div>
+        <div style={{ flex: 1 }}>{t("welcome.editProfile")}</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -73,7 +74,7 @@ function SupportKofiItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="favorite" />
-        <div style={{ flex: 1 }}>Support me on Ko-Fi</div>
+        <div style={{ flex: 1 }}>{t("welcome.supportMe", { platform: "Ko-Fi" })}</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -88,7 +89,7 @@ function SupportBoostyItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="favorite" />
-        <div style={{ flex: 1 }}>Support me on Boosty</div>
+        <div style={{ flex: 1 }}>{t("welcome.supportMe", { platform: "Boosty" })}</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>
@@ -103,7 +104,7 @@ function SourceCodeItem() {
     >
       <div class={styles.itemContainer}>
         <Icon name="code" />
-        <div style={{ flex: 1 }}>Contribute to Nerimity on GitHub</div>
+        <div style={{ flex: 1 }}>{t("welcome.contribute")}</div>
         <Icon name="open_in_new" />
       </div>
     </CustomLink>

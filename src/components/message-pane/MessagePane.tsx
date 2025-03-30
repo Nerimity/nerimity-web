@@ -1414,7 +1414,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
       <div class={styles.backToBottom} onClick={onClick}>
         <Show when={newMessages()}>
           <Text class={styles.text} size={14}>
-            New messages
+            {t("misc.newMessages")}
           </Text>
         </Show>
         <Icon

@@ -30,6 +30,7 @@ import { css } from "solid-styled-components";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { Emoji } from "@/components/ui/Emoji";
+import { t } from "i18next";
 
 type RoleParams = {
   serverId: string;
@@ -69,7 +70,7 @@ export default function ServerSettingsRole() {
   createEffect(
     on(role, () => {
       header.updateHeader({
-        title: "Settings - " + role()?.name,
+        title: t("servers.settings.drawer.title") + " - " + role()?.name,
         serverId: params.serverId!,
         iconName: "settings",
       });
@@ -151,9 +152,7 @@ export default function ServerSettingsRole() {
             margin-bottom: 8px;
           `}
           type="warn"
-          description={`This role is managed by ${
-            bot()?.username
-          }. You cannot delete or add members to this role. Kick this bot to remove this role.`}
+          description={t("servers.settings.role.managedByBot", { name: bot()?.username })}
         />
       </Show>
 
@@ -177,7 +176,7 @@ export default function ServerSettingsRole() {
       </SettingsBlock>
 
       {/* Icon */}
-      <SettingsBlock icon="face" label="Icon">
+      <SettingsBlock icon="face" label={t("servers.settings.role.icon")}>
         <Show when={inputValues().icon}>
           <Button
             iconName="delete"
@@ -251,7 +250,7 @@ export default function ServerSettingsRole() {
         description={t("servers.settings.role.deleteRoleButtonDescription")}
       >
         <Button
-          label="Delete Role"
+          label={t("servers.settings.role.deleteRoleConfirmationButton")}
           color="var(--alert-color)"
           onClick={showDeleteConfirm}
         />
@@ -305,7 +304,7 @@ function RoleDeleteConfirmModal(props: {
   return (
     <DeleteConfirmModal
       close={props.close}
-      title={`Delete ${props.role?.name}`}
+      title={t("servers.settings.role.deleteRoleConfirmation", { name: props.role?.name })}
       errorMessage={error()}
       confirmText={props.role?.name}
       onDeleteClick={onDeleteClick}

@@ -76,7 +76,7 @@ export default function SettingsPage() {
 
   onMount(async () => {
     header.updateHeader({
-      title: "Settings - Self Assign Roles",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.self-assign-roles"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -134,7 +134,7 @@ export default function SettingsPage() {
         {
           id: "",
           roleIds: [],
-          title: "Untitled Answer",
+          title: t("servers.settings.selfRoles.untitledAnswer"),
           order: q.answers.length,
         },
       ],
@@ -163,17 +163,17 @@ export default function SettingsPage() {
           title={t("servers.settings.drawer.welcome-screen")}
           href="../"
         />
-        <BreadcrumbItem title={question() ? question()?.title : "Loading..."} />
+        <BreadcrumbItem title={question() ? question()?.title : t("servers.settings.selfRoles.loading")} />
       </Breadcrumb>
-      <SettingsBlock label="Question" icon="edit">
+      <SettingsBlock label={t("servers.settings.selfRoles.question")} icon="edit">
         <Input
-          placeholder="Cats or dogs?"
+          placeholder={t("servers.settings.selfRoles.placeholderQuestion")}
           value={question()?.title}
           onText={(text) => setQuestion({ ...question()!, title: text })}
         />
       </SettingsBlock>
 
-      <SettingsBlock label="Multiselect" icon="library_add_check">
+      <SettingsBlock label={t("servers.settings.selfRoles.multiselect")} icon="library_add_check">
         <Checkbox
           checked={!!question()?.multiselect}
           onChange={(checked) =>
@@ -183,12 +183,12 @@ export default function SettingsPage() {
       </SettingsBlock>
 
       <SettingsBlock
-        label="Answers"
+        label={t("servers.settings.selfRoles.answers")}
         header={!!question()?.answers.length}
         icon="question_answer"
       >
         <Button
-          label="Add Answer"
+          label={t("servers.settings.selfRoles.addAnswerButton")}
           iconName="add"
           iconSize={16}
           margin={0}
@@ -205,7 +205,7 @@ export default function SettingsPage() {
             borderBottomRadius={i() === question()!.answers.length - 1}
           >
             <Button
-              label="Delete"
+              label={t("servers.settings.selfRoles.deleteButton")}
               iconName="delete"
               iconSize={16}
               margin={[0, 4]}
@@ -213,7 +213,7 @@ export default function SettingsPage() {
               onClick={() => onDeleteClick(i())}
             />
             <Button
-              label="Edit"
+              label={t("servers.settings.selfRoles.editButton")}
               iconName="edit"
               iconSize={16}
               margin={0}
@@ -227,7 +227,7 @@ export default function SettingsPage() {
         <Text color="var(--alert-color)">{error()}</Text>
       </Show>
       <Show when={showSaveButton()}>
-        <Button label="Save Changes" onClick={onSaveClick} iconName="save" />
+        <Button label={t("servers.settings.selfRoles.saveChangesButton")} onClick={onSaveClick} iconName="save" />
       </Show>
     </div>
   );
@@ -241,6 +241,7 @@ const EditAnswerModal = (props: {
 }) => {
   const [answerTitle, setAnswerTitle] = createSignal("");
   const [roleIds, setRoleIds] = createSignal<string[]>([]);
+  const [t] = useTransContext();
 
   createEffect(() => {
     setAnswerTitle(props.answer.title);
@@ -257,13 +258,13 @@ const EditAnswerModal = (props: {
 
   return (
     <LegacyModal
-      title="Edit Answer"
+      title={t("servers.settings.selfRoles.editAnswer")}
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
         {
           iconName: "edit",
-          label: "Edit Answer",
+          label: t("servers.settings.selfRoles.editAnswer"),
           onClick: onEditQuestionClick,
           primary: true,
         },
@@ -289,6 +290,7 @@ const AnswerForEditModal = (props: {
 }) => {
   const params = useParams<{ serverId: string }>();
   const store = useStore();
+  const [t] = useTransContext();
 
   const server = () => store.servers.get(params.serverId!);
 
@@ -310,8 +312,8 @@ const AnswerForEditModal = (props: {
     <div class={styles.answerForEditModalContainer}>
       <Input
         class={styles.answerInput}
-        label="Answer"
-        placeholder="Cats"
+        label={t("servers.settings.selfRoles.answer")}
+        placeholder={t("servers.settings.selfRoles.placeholderAnswer")}
         value={props.title}
         onText={(t) => props.onTitleChange(t)}
       />
@@ -321,7 +323,7 @@ const AnswerForEditModal = (props: {
         onChange={(items) =>
           props.onRoleIdsChange(items.map((item) => item.id))
         }
-        title="Select Roles"
+        title={t("servers.settings.selfRoles.selectRoles")}
       />
     </div>
   );

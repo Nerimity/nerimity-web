@@ -44,7 +44,7 @@ export function CreateChannelModal(props: {
 
   return (
     <Modal.Root close={props.close}>
-      <Modal.Header title={"New Channel"} icon="add" />
+      <Modal.Header title={t("servers.settings.channels.newChannel")} icon="add" />
       <Modal.Body>
         <Input
           label={t("servers.settings.channel.channelName")}
@@ -55,7 +55,7 @@ export function CreateChannelModal(props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={requestSent() ? "Creating..." : "Create"}
+          label={requestSent() ? t("servers.settings.channels.creating") : t("servers.settings.channels.createButton")}
           iconName="add"
           primary
           onClick={onCreateClick}

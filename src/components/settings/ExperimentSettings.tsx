@@ -25,7 +25,7 @@ export default function ExperimentsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Experiments",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.experiments"),
       iconName: "settings",
     });
   });
@@ -89,12 +89,12 @@ const ReloadRequiredModal = (props: { close: () => void }) => {
   const restart = () => electronWindowAPI()?.relaunchApp();
   return (
     <LegacyModal
-      title="Reload Required"
+      title={t("settings.experiments.reloadRequired")}
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
-        { label: "Restart Later", onClick: props.close },
-        { label: "Restart Now", primary: true, onClick: restart },
+        { label: t("settings.experiments.restartLater"), onClick: props.close },
+        { label: t("settings.experiments.restartNow"), primary: true, onClick: restart },
       ]}
     >
       <div
@@ -104,7 +104,7 @@ const ReloadRequiredModal = (props: { close: () => void }) => {
           text-align: center;
         `}
       >
-        <Text>Nerimity needs to be restarted to take effect.</Text>
+        <Text>{t("settings.experiments.restartDescription")}</Text>
       </div>
     </LegacyModal>
   );

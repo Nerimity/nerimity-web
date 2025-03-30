@@ -19,6 +19,7 @@ import {
   SearchItem,
   useQuickTravelController,
 } from "./QuickTravelController";
+import { t } from "i18next";
 
 export function QuickTravel(props: { close: () => void }) {
   return (
@@ -39,7 +40,7 @@ const Body = (props: { close: () => void }) => {
     <>
       <Input
         class={style.quickTravelInput}
-        placeholder="Search for servers, channels, users and more!"
+        placeholder={t("inbox.drawer.searchModalPlaceholder")}
         ref={(el) => controller?.setInputRef(el as HTMLInputElement)}
         onText={controller?.setInputValue}
       />

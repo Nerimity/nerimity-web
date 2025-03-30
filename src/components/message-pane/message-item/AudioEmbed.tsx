@@ -14,6 +14,8 @@ import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
 import Button from "@/components/ui/Button";
 import Icon from "@/components/ui/icon/Icon";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
 import {
   createEffect,
   createSignal,
@@ -29,7 +31,7 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
   };
   return (
     <AudioEmbed
-      error={isExpired() ? "File expired." : undefined}
+      error={isExpired() ? t("embed.fileExpired") : undefined}
       file={{
         name: props.attachment.path?.split("/").reverse()[0]!,
         size: props.attachment.filesize!,
@@ -56,14 +58,14 @@ export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
       "name, size, modifiedTime, webContentLink, mimeType"
     ).catch((e) => console.log(e));
     // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("Could not get file.");
+    if (!file) return setError(t("embed.couldNotGetFile"));
 
     if (file.mimeType !== props.attachment.mime)
-      return setError("File was modified.");
+      return setError(t("embed.fileModified"));
 
     const fileTime = new Date(file.modifiedTime!).getTime();
     const diff = fileTime - (props.attachment?.createdAt || 0);
-    if (diff >= 5000) return setError("File was modified.");
+    if (diff >= 5000) return setError(t("embed.fileModified"));
     setFile(file);
   });
 
@@ -119,13 +121,14 @@ export const AudioEmbed = (props: {
   };
 
   const onPlayClick = () => {
+    const [t] = useTransContext();
     if (props.file?.provider === "google_drive") {
       if (
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
         alert(
-          "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
+          t("embed.googleDrivePolicyAlert")
         );
       }
     }
@@ -159,8 +162,8 @@ export const AudioEmbed = (props: {
             onClick={() =>
               alert(
                 props.file?.expireAt
-                  ? "File expired."
-                  : "This file was modified/deleted by the creator in their Google Drive. "
+                  ? t("embed.fileExpired")
+                  : t("embed.googleDriveFile")
               )
             }
           />

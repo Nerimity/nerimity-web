@@ -11,7 +11,8 @@ import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { Trans } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
@@ -27,7 +28,6 @@ const buttonStyle = css`
 `;
 
 export default function PublishServerSettings() {
-  const [t] = useTransContext();
   const params = useParams<{ serverId: string }>();
   const { header, servers } = useStore();
 
@@ -40,7 +40,7 @@ export default function PublishServerSettings() {
   const MAX_DESCRIPTION_LENGTH = 150;
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Publish Server",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.publishServer"),
       serverId: params.serverId!,
       iconName: "settings"
     });

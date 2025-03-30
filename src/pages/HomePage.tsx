@@ -128,7 +128,7 @@ export default function HomePage() {
             opacity={0.7}
             style={{ "margin-top": "10px", "margin-bottom": "10px" }}
           >
-            {t("homePage.subslogan")}
+            {t("homePage.subslogan", { appName: "Nerimity" })}
           </Text>
           <ButtonsContainer class="buttons-container">
             <a href="/register">

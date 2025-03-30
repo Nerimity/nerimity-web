@@ -15,6 +15,7 @@ import styles from "./styles.module.scss";
 import { Portal } from "solid-js/web";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 export interface DropDownItem {
   id: string;
@@ -100,12 +101,13 @@ export default function DropDown(props: DropDownProps) {
 }
 
 function ItemTemplate(props: { item?: DropDownItem }) {
-  return (
+  const [t] = useTransContext();
+    return (
     <div class={styles.itemTemplate}>
       <CircleColor color={props.item?.circleColor} />
       <div class={styles.details}>
         <div class={styles.label}>
-          {props.item?.label || "Select Item"}
+          {props.item?.label || t("misc.selectItem")}
           {props.item?.suffix}
         </div>
         <Show when={props.item?.description}>

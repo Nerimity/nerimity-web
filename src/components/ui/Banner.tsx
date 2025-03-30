@@ -2,6 +2,7 @@ import { JSX, JSXElement, Show, createMemo } from "solid-js";
 import { FlexColumn } from "./Flexbox";
 import { styled } from "solid-styled-components";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const BannerContainer = styled(FlexColumn)<{ radius: number }>`
   display: flex;
@@ -94,6 +95,8 @@ export function Banner(props: {
     };
   };
 
+  const [t] = useTransContext();
+
   return (
     <div style={getOuterStyles()}>
       <BannerContainer
@@ -107,7 +110,7 @@ export function Banner(props: {
             radius={props.radius || 8}
             brightness={props.brightness}
             src={url()}
-            alt="Banner"
+            alt={t("profile.banner")}
           />
         </Show>
         <Show when={!url()}>

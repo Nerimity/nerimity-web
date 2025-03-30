@@ -20,6 +20,7 @@ import Icon from "../icon/Icon";
 import Button from "../Button";
 import { FlexRow } from "../Flexbox";
 import { ColorPicker } from "../color-picker/ColorPicker";
+import { t } from "i18next";
 import Text from "../Text";
 
 interface PhotoEditorProps {
@@ -379,13 +380,13 @@ export default function PhotoEditor(props: PhotoEditorProps) {
   return (
     <LegacyModal
       actionButtons={isMobileAgent() ? <MobileNotices /> : <DesktopNotices />}
-      title="Photo Editor"
+      title={t("photoEditor.title")}
       class={styles.modal}
       close={props.close}
       actionButtonsArr={[
         {
           iconName: "close",
-          label: "Cancel",
+          label: t("photoEditor.cancelButton"),
           onClick: props.close,
           color: "var(--alert-color)",
         },
@@ -397,20 +398,20 @@ export default function PhotoEditor(props: PhotoEditorProps) {
 
       <div class={styles.buttons}>
         <Button
-          hoverText="Undo (Ctrl + Z)"
+          hoverText={t("photoEditor.undoButton")}
           onClick={undo}
           iconName="undo"
           margin={0}
         />
         <Button
-          hoverText="Brush"
+          hoverText={t("photoEditor.brush")}
           onClick={() => setMode("brush")}
           primary={mode() === "brush"}
           iconName="brush"
           margin={0}
         />
         <Button
-          hoverText="Erase"
+          hoverText={t("photoEditor.erase")}
           onClick={() => setMode("erase")}
           primary={mode() === "erase"}
           iconName="ink_eraser"
@@ -432,7 +433,7 @@ export default function PhotoEditor(props: PhotoEditorProps) {
             onInput={(e) => {
               setStrokeWidth(parseInt(e.target.value));
             }}
-            title="Stroke Width"
+            title={t("photoEditor.strokeWidth")}
             value={strokeWidth()}
           />
         </div>

@@ -3,7 +3,7 @@ import { For, Show, createEffect } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import { css, styled } from "solid-styled-components";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { RadioBox, RadioBoxItem } from "@/components/ui/RadioBox";
@@ -35,7 +35,6 @@ const RadioBoxContainer = styled("div")`
 `;
 
 export default function ServerNotificationSettings() {
-  const [t] = useTransContext();
   const params = useParams<{ serverId: string; channelId?: string }>();
   const { header, servers, account, channels } = useStore();
   const server = () => servers.get(params.serverId);
@@ -44,7 +43,7 @@ export default function ServerNotificationSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Audit Logs",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.audit-logs"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -74,7 +73,7 @@ export default function ServerNotificationSettings() {
         serverId={params.serverId}
         hideSearchBar
         noMargin
-        title="Audit Logs"
+        title={t("servers.settings.drawer.audit-logs")}
       />
     </Container>
   );

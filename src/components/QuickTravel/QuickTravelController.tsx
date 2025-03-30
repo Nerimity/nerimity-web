@@ -59,7 +59,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
           name: user.username,
           inbox,
           user,
-          subText: friend ? "Friend" : inbox ? "Inbox" : "User",
+          subText: friend ? t("inbox.drawer.searchResults.friend") : inbox ? t("inbox.drawer.searchResults.inbox") : t("inbox.drawer.searchResults.user"),
           path: user.inboxChannelId
             ? RouterEndpoints.INBOX_MESSAGES(user.inboxChannelId!)
             : undefined,
@@ -93,7 +93,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
             icon: setting.icon,
             name: t(setting.name),
             path: `/app/settings/${setting.path}`,
-            subText: "Settings",
+            subText: t("inbox.drawer.searchResults.settings"),
           }));
 
         const searched = matchSorter(

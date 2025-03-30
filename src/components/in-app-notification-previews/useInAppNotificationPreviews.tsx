@@ -12,6 +12,7 @@ import {
   StorageKeys,
 } from "@/common/localStorage";
 import { isMentioned } from "@/common/Sound";
+import { useTransContext } from "@mbarzda/solid-i18next";
 import { createStore, reconcile } from "solid-js/store";
 
 interface InAppPreviewNotification {
@@ -52,12 +53,13 @@ const buildMessageNotification = (
   const member = serverMembers.get(channel?.serverId!, message.createdBy.id);
   const nickname = member?.nickname;
   const displayName = nickname || message.createdBy.username;
+  const [t] = useTransContext();
 
   pushNotification({
     title: `${displayName} ${
       server ? `(#${channel?.name} ${server?.name})` : ""
     }`,
-    body: message.content || "Attachment",
+    body: message.content || t("inAppNotifiactions.attachment"),
     color: mentioned ? "var(--alert-color)" : undefined,
     channel,
     message,

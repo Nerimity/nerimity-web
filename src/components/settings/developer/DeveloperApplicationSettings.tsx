@@ -36,7 +36,7 @@ export default function DeveloperApplicationSetting() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Developer Application",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.developer") + " - " + t("settings.developer.application"),
       iconName: "settings"
     });
   });
@@ -55,7 +55,7 @@ export default function DeveloperApplicationSetting() {
   });
 
   const [inputValues, updatedInputValues, setInputValue] = createUpdatedSignal(defaultInput);
-  const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
+  const requestStatus = () => requestSent() ? t("settings.account.saving") : t("settings.account.saveChangesButton");
 
   const createBot = async () => {
     await createAppBotUser(params.id);
@@ -91,17 +91,17 @@ export default function DeveloperApplicationSetting() {
 
   
       <Show when={application()}>
-        <SettingsBlock icon='edit' label='Name'>
+        <SettingsBlock icon='edit' label={t("settings.developer.botName")}>
           <Input value={inputValues().name} onText={(v) => setInputValue("name", v)}/>
         </SettingsBlock>
 
         <SettingsBlock 
           href={application()?.botUserId ? "./bot" : undefined} 
           icon='smart_toy' 
-          label='Bot User'
-          description={application()?.botUserId ? "Edit bot" : "Create a new bot user."}>
+          label={t("profile.badges.bot")}
+          description={application()?.botUserId ? t("settings.developer.editBotButton") : t("settings.developer.createNew")}>
           <Show when={!application()?.botUserId}>
-            <Button label="Create" iconName= "add" onClick={createBot} />
+            <Button label={t("settings.developer.createButton")} iconName= "add" onClick={createBot} />
           </Show>
           <Show when={application()?.botUserId}>
             <Icon name="keyboard_arrow_right" />
@@ -150,26 +150,26 @@ function DeleteApplicationBlock(props: {id: string, name: string}) {
     const ModalInfo = () => {
       return (
         <div style={{"margin-bottom": "15px"}}>
-          What will get deleted:
-          <div >• Email</div>
-          <div>• Username</div>
-          <div>• IP Address</div>
-          <div>• Bio</div>
-          <div >• And More</div>
-          <div style={{"margin-top": "15px"}}>What will not get deleted:</div>
-          <div>• Your Messages</div>
-          <div>• Your Posts</div>
-          <div style={{"margin-top": "5px", "font-size": "12px"}}>You may manually delete them before deleting your app.</div>
+          {t("settings.developer.deleteApp.willBeDeleted")}
+          <div >{t("settings.developer.deleteApp.email")}</div>
+          <div>{t("settings.developer.deleteApp.username")}</div>
+          <div>{t("settings.developer.deleteApp.ipAddress")}</div>
+          <div>{t("settings.developer.deleteApp.bio")}</div>
+          <div >{t("settings.developer.deleteApp.more")}</div>
+          <div style={{"margin-top": "15px"}}>{t("settings.developer.deleteApp.willNotBeDeleted")}</div>
+          <div>{t("settings.developer.deleteApp.messages")}</div>
+          <div>{t("settings.developer.deleteApp.posts")}</div>
+          <div style={{"margin-top": "5px", "font-size": "12px"}}>{t("settings.developer.deleteApp.notDeletedNotice")}</div>
         </div>
       );
     };
 
-    createPortal(close => <DeleteConfirmModal onDeleteClick={onDeleteClick} custom={<ModalInfo/>} close={close} confirmText={props.name} title='Delete Application' />);
+    createPortal(close => <DeleteConfirmModal onDeleteClick={onDeleteClick} custom={<ModalInfo/>} close={close} confirmText={props.name} title={t("settings.developer.deleteApp.title")} />);
   };
   
   return (
-    <SettingsBlock class={deleteBlockStyles} icon='delete' label='Delete Application' description='This cannot be undone!'>
-      <Button onClick={onClick} iconSize={18} primary color='var(--alert-color)' iconName='delete' label='Delete App' />
+    <SettingsBlock class={deleteBlockStyles} icon='delete' label={t("settings.developer.deleteApp.title")} description={t("settings.developer.deleteApp.description")}>
+      <Button onClick={onClick} iconSize={18} primary color='var(--alert-color)' iconName='delete' label={t("settings.developer.deleteApp.confirm")} />
     </SettingsBlock>
   );
 }

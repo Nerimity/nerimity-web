@@ -7,6 +7,7 @@ import env from "./env";
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { getSystemMessage } from "./SystemMessage";
+import { t } from "i18next";
 
 export function createDesktopNotification(message: Message) {
   const enabled = getStorageBoolean(
@@ -69,7 +70,7 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   const username = member?.nickname || message.createdBy.username;
 
   if (!body && message.attachments?.length) {
-    body = "Image Message";
+    body = t("desktopNotifications.imageMessage");
   }
   const systemMessage = getSystemMessage(message.type);
   if (systemMessage) {
@@ -87,14 +88,15 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   });
 }
 function createDMDesktopNotification(message: Message) {
+
   const title = message.createdBy.username;
   let body = message.content;
 
   if (!body && message.attachments?.length) {
-    body = "Image Message";
+    body = t("desktopNotifications.imageMessage");
   }
   if (message.type === MessageType.CALL_STARTED) {
-    body = `${message.createdBy.username} started a call.`;
+    body = `${message.createdBy.username}` + t("desktopNotifications.startedCall");
   }
 
   new Notification(title, {

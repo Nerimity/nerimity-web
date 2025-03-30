@@ -40,6 +40,7 @@ import { ChannelIcon } from "@/components/ChannelIcon";
 import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { CreateChannelModal } from "../modals/CreateChannelModal";
+import { t } from "i18next";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
@@ -482,7 +483,7 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
       <ChannelVoiceUsersContainer>
         <ChannelVoiceUsersTitle size={12}>
           <Icon name="call" size={16} color="rgba(255,255,255,0.4)" />
-          In Voice
+          {t("servers.inVoice")}
           <CallTime channelId={props.channelId} />
         </ChannelVoiceUsersTitle>
         <ChannelVoiceUsersListContainer>

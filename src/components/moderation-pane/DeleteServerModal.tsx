@@ -6,6 +6,7 @@ import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import { deleteServer } from "@/chat-api/services/ModerationService";
+import { t } from "i18next";
 
 const DeleteServerModalContainer = styled("div")`
   min-width: 260px;
@@ -45,7 +46,7 @@ export default function DeleteServerModal(props: Props) {
       <Button
         onClick={onDeleteClick}
         margin={0}
-        label={deleting() ? "Deleting..." : "Delete"}
+        label={deleting() ? t("deletionModal.deleting") : t("deletionModal.deleteButton")}
         color="var(--alert-color)"
         primary
       />
@@ -55,12 +56,12 @@ export default function DeleteServerModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title="Delete Server"
+      title={t("deletionModal.deleteServer")}
       actionButtons={ActionButtons}
     >
       <DeleteServerModalContainer>
         <Input
-          label="Confirm Password"
+          label={t("deletionModal.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

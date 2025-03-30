@@ -22,6 +22,7 @@ import Button from "../ui/Button";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import useStore from "@/chat-api/store/useStore";
 import { getSystemMessage } from "@/common/SystemMessage";
+import { t } from "i18next";
 
 export default function InAppNotificationPreviews() {
   const { notifications, removeNotification, pushNotification } =
@@ -197,8 +198,8 @@ export default function InAppNotificationPreviews() {
             <div class={style.actionsContainer}>
               <Show when={notification()?.message}>
                 <Button
-                  label="Mark as Read"
-                  title="Mark as Read"
+                  label={t("inAppNotifiactions.markAsRead")}
+                  title={t("inAppNotifiactions.markAsRead")}
                   onClick={markAsRead}
                   padding={3}
                   iconSize={16}
@@ -207,8 +208,8 @@ export default function InAppNotificationPreviews() {
                 />
               </Show>
               <Button
-                label="Dismiss"
-                title="Dismiss"
+                label={t("inAppNotifiactions.dismiss")}
+                title={t("inAppNotifiactions.dismiss")}
                 onClick={dismissNotification}
                 padding={3}
                 iconSize={16}

@@ -1,6 +1,7 @@
 import { createSignal } from "solid-js";
 import env from "./env";
 import { createProgressHandler } from "@/chat-api/services/Request";
+import { t } from "i18next";
 
 export const [googleApiInitialized, setGoogleApiInitialized] = createSignal(false);
 
@@ -81,7 +82,7 @@ export const uploadFileGoogleDrive = async (file: File, accessToken: string, onP
     xhr.onload = async () => {
 
       if (xhr.status === 0) {
-        return reject({ message: "Could not connect to server." });
+        return reject({ message: t("errorMessages.couldNotConnect") });
       }
       if (xhr.status !== 200) {
         nerimityUploadsFolder = undefined;

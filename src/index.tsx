@@ -7,7 +7,7 @@ import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
 import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
-import { TransProvider } from "@mbarzda/solid-i18next";
+import { TransProvider, useTransContext } from "@mbarzda/solid-i18next";
 import { useWindowProperties } from "./common/useWindowProperties";
 import { For, Show, createEffect, lazy, on, onMount } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
@@ -110,9 +110,13 @@ const ModerationPane = lazy(
 const ModerationUserPage = lazy(
   () => import("@/components/moderation-pane/UserPage")
 );
+const ModerationUsersPage = lazy(
+  () => import("@/components/moderation-pane/users-page/UsersPage")
+);
 const ModerationServerPage = lazy(
   () => import("@/components/moderation-pane/ServerPage")
 );
+
 
 const useBlurEffect = () => {
   const { isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
@@ -290,6 +294,10 @@ render(() => {
                 components={{ moderationPane: ModerationServerPage }}
               />
               <Route
+                path="/users"
+                components={{ moderationPane: ModerationUsersPage }}
+              />
+              <Route
                 path="/users/:userId"
                 components={{ moderationPane: ModerationUserPage }}
               />
@@ -342,11 +350,12 @@ function AllOther() {
   return <></>;
 }
 function NotFound() {
+  const [t] = useTransContext();
   return (
     <div>
-      <h2>Nothing to see here!</h2>
+      <h2>{t("notFound.title")}</h2>
       <p>
-        <A href="/">Go to the home page</A>
+        <A href="/">{t("notFound.button")}</A>
       </p>
     </div>
   );

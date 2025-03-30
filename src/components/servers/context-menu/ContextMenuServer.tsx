@@ -132,7 +132,7 @@ export default function ContextMenuServer(props: Props) {
   const notificationItems = () => {
     const items: ContextMenuItem[] = [];
     items.push(
-      { title: "Ping" },
+      { title: t("serverContextMenu.notificationOptions.ping") },
       notificationItem({
         type: "PING",
         label: t("serverContextMenu.notificationOptions.everything"),
@@ -151,7 +151,7 @@ export default function ContextMenuServer(props: Props) {
     );
 
     items.push(
-      { title: "Sound" },
+      { title: t("serverContextMenu.notificationOptions.sound") },
       notificationItem({
         type: "SOUND",
         label: t("serverContextMenu.notificationOptions.everything"),

@@ -10,6 +10,7 @@ import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import { Notice } from "../ui/Notice/Notice";
+import { t } from "i18next";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -67,7 +68,7 @@ export default function ShadowBanUserModal(props: Props) {
         onClick={onWarnClick}
         margin={0}
         color="var(--warn-color)"
-        label={requestSending() ? "Shadow Banning..." : "Shadow Ban User"}
+        label={requestSending() ? t("moderationPane.shadowBan.shadowBanning") : t("moderationPane.shadowBan.shadowBanUser")}
         primary
       />
     </FlexRow>
@@ -76,22 +77,22 @@ export default function ShadowBanUserModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title="Shadow Ban User"
+      title={t("moderationPane.shadowBan.shadowBanUser")}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
       <Container>
         <div>
-          <Notice type="warn" description="ONLY shadow ban raiders/spammers." />
+          <Notice type="warn" description={t("moderationPane.shadowBan.notice")} />
           <Notice
             type="warn"
-            description="Last 7 day messages will be deleted."
+            description={t("moderationPane.shadowBan.description")}
           />
         </div>
-        <Input label="Reason" value={reason()} onText={setReason} />
+        <Input label={t("moderationPane.shadowBan.reason")} value={reason()} onText={setReason} />
 
         <Input
-          label="Confirm Password"
+          label={t("moderationPane.shadowBan.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

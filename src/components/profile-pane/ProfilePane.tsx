@@ -186,7 +186,7 @@ export default function ProfilePane() {
 
       if (!user()) return;
       header.updateHeader({
-        subName: "Profile",
+        subName: t("profile.title"),
         title: user()!.username,
         iconName: "person",
       });
@@ -195,7 +195,7 @@ export default function ProfilePane() {
 
   return (
     <>
-      <MetaTitle>{!user() ? "Profile" : user()?.username}</MetaTitle>
+      <MetaTitle>{!user() ? t("profile.title") : user()?.username}</MetaTitle>
       <Show when={user()}>
         <div
           class={cn(
@@ -280,7 +280,7 @@ export default function ProfilePane() {
                         >
                           {userDetails()?.user._count.following.toLocaleString()}{" "}
                           <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                            Following
+                            {t("profile.followingTab")}
                           </span>
                         </CustomLink>
                       </Show>
@@ -292,7 +292,7 @@ export default function ProfilePane() {
                         >
                           {userDetails()?.user._count.followers.toLocaleString()}{" "}
                           <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                            Followers
+                            {t("profile.followersTab")}
                           </span>
                         </CustomLink>
                       </Show>
@@ -422,7 +422,7 @@ const ActionButtons = (props: {
         <CustomLink href={"/app/moderation/users/" + params.userId}>
           <ActionButton
             icon="security"
-            label="Admin Panel"
+            label={t("profile.moderatorsOnly.title")}
             color={props.primaryColor || "var(--primary-color)"}
           />
         </CustomLink>
@@ -480,7 +480,7 @@ const ActionButtons = (props: {
       <Show when={isBlocked()}>
         <ActionButton
           icon="block"
-          label="Unblock"
+          label={t("profile.unblock")}
           color="var(--alert-color)"
           onClick={unblockClicked}
         />
@@ -531,7 +531,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
       items.push(
         { separator: true },
         {
-          label: "Unblock",
+          label: t("profile.unblock"),
           icon: "block",
           alert: true,
           onClick: unblockClicked,
@@ -540,7 +540,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     } else {
       if (!isMe()) {
         items.push({
-          label: "Block",
+          label: t("profile.block"),
           icon: "block",
           alert: true,
           onClick: blockClicked,
@@ -551,7 +551,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     if (!isMe()) {
       items.push({
         id: "report",
-        label: "Report",
+        label: t("profile.report"),
         icon: "flag",
         alert: true,
         onClick: reportClicked,
@@ -560,11 +560,11 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     items.push(
       { separator: true },
       {
-        label: "Copy Profile URL",
+        label: t("profile.copyUrl"),
         icon: "content_copy",
         onClick: copyProfileClick,
       },
-      { label: "Copy ID", icon: "content_copy", onClick: copyIdClick }
+      { label: t("profile.copyId"), icon: "content_copy", onClick: copyIdClick }
     );
     return items;
   };
@@ -655,11 +655,11 @@ function SideBar(props: {
         <SidePaneItem
           bgColor={props.bgColor}
           icon="block"
-          label="This user is suspended"
+          label={t("profile.userSuspended")}
           color="var(--alert-color)"
-          value={`Expires ${
+          value={t("profile.expires") + `${
             !props.user.suspensionExpiresAt
-              ? "never"
+              ? t("profile.never")
               : getDaysAgo(props.user.suspensionExpiresAt!)
           }`}
         />
@@ -668,9 +668,9 @@ function SideBar(props: {
         <SidePaneItem
           bgColor={props.bgColor}
           icon="block"
-          label="You've been blocked"
+          label={t("profile.youAreBlocked")}
           color="var(--alert-color)"
-          value="This user has blocked you."
+          value={t("profile.blockedDescription")}
         />
       </Show>
       <UserActivity
@@ -682,7 +682,7 @@ function SideBar(props: {
         <SidePaneItem
           bgColor={props.bgColor}
           icon="event"
-          label="Joined"
+          label={t("profile.joined")}
           color={props.user?.profile?.primaryColor}
           value={joinedAt()}
           onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
@@ -692,7 +692,7 @@ function SideBar(props: {
         <SidePaneItem
           bgColor={props.bgColor}
           icon="person"
-          label="Bot Creator"
+          label={t("profile.botCreator")}
           color={props.user?.profile?.primaryColor}
         >
           <A
@@ -738,16 +738,16 @@ const UserActivity = (props: {
   const [playedFor, setPlayedFor] = createSignal("");
 
   const isMusic = () =>
-    !!activity()?.action.startsWith("Listening") &&
+    !!activity()?.action.startsWith(t("profile.float.listening")) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
   const isVideo = () =>
-    !!activity()?.action.startsWith("Watching") &&
+    !!activity()?.action.startsWith(t("profile.float.watching")) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
 
   const isLiveStream = () =>
-    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+    !!activity()?.action.startsWith(t("profile.float.watching")) && !activity()?.endsAt;
 
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {
@@ -865,7 +865,7 @@ const UserActivity = (props: {
             size={14}
             opacity={0.6}
           >
-            For {playedFor()}
+            {t("profile.beenPlayingFor", { time: playedFor() })}
           </Text>
         </Show>
       </FlexColumn>
@@ -1205,7 +1205,7 @@ function FollowersArea(props: { userId: string; usuallyHidden?: boolean }) {
       <Show when={props.usuallyHidden}>
         <Notice
           type="info"
-          description="Only you can see your followers list."
+          description={t("profile.followersTabDescription")}
         />
       </Show>
       <UsersList users={followers()} />
@@ -1225,7 +1225,7 @@ function FollowingArea(props: { userId: string; usuallyHidden?: boolean }) {
       <Show when={props.usuallyHidden}>
         <Notice
           type="info"
-          description="Only you can see your following list."
+          description={t("profile.followingTabDescription")}
         />
       </Show>
       <UsersList users={following()} />
@@ -1342,7 +1342,7 @@ function BadgeDetailModal(props: {
   });
 
   return (
-    <LegacyModal title={`${props.badge.name} Badge`} close={props.close}>
+    <LegacyModal title={t("profile.badges.modalTitle", { name: props.badge.name })} close={props.close}>
       <BadgeDetailsModalContainer gap={30}>
         <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />

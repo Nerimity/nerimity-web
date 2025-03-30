@@ -54,6 +54,7 @@ import { logout } from "@/common/logout";
 import { isExperimentEnabled, ShowExperiment } from "@/common/experiments";
 import { CreateServerModal } from "./create-server-modal/CreateServerModal";
 import env from "@/common/env";
+import { t } from "i18next";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -79,7 +80,7 @@ export default function SidePane() {
       </Show>
       <div class={styles.scrollable}>
         <ServerList />
-        <Tooltip tooltip="Create Server">
+        <Tooltip tooltip={t("sidePane.createServer")}>
           <SidebarItemContainer onClick={showAddServerModal}>
             <Icon name="add_box" size={40} />
           </SidebarItemContainer>
@@ -117,7 +118,7 @@ function HomeItem() {
   });
 
   return (
-    <Tooltip tooltip="Home">
+    <Tooltip tooltip={t("sidePane.home")}>
       <A href="/app" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={isSelected()} alert={count()}>
           <NotificationCountBadge count={count()} top={10} right={10} />
@@ -171,7 +172,7 @@ function UpdateItem() {
 
   return (
     <Show when={updateAvailable()}>
-      <Tooltip tooltip="Update Available">
+      <Tooltip tooltip={t("sidePane.updateAvailable")}>
         <SidebarItemContainer onclick={showUpdateModal}>
           <Icon name="get_app" color="var(--success-color)" />
         </SidebarItemContainer>
@@ -189,7 +190,7 @@ function ModerationItem() {
 
   return (
     <Show when={hasModeratorPerm()}>
-      <Tooltip tooltip="Moderation Pane">
+      <Tooltip tooltip={t("sidePane.moderationPane")}>
         <A href="/app/moderation" style={{ "text-decoration": "none" }}>
           <SidebarItemContainer selected={selected()}>
             <Show when={tickets.hasModerationTicketNotification()}>
@@ -209,7 +210,7 @@ function SettingsItem() {
   const selected = useMatch(() => "/app/settings/*");
 
   return (
-    <Tooltip tooltip="Settings">
+    <Tooltip tooltip={t("sidePane.settings")}>
       <A href="/app/settings/account" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={selected()}>
           <Show when={tickets.hasTicketNotification()}>
@@ -521,7 +522,7 @@ export function FloatingUserModal(props: {
             iconSize={18}
             padding={8}
             iconName="person"
-            label="View Profile"
+            label={t("sidePane.profile.viewProfile")}
             margin={0}
           />
         </CustomLink>
@@ -533,7 +534,7 @@ export function FloatingUserModal(props: {
             iconSize={18}
             padding={8}
             iconName="settings"
-            label="Edit Profile"
+            label={t("sidePane.profile.editProfile")}
             margin={0}
           />
         </CustomLink>
@@ -547,7 +548,7 @@ export function FloatingUserModal(props: {
             padding={8}
             iconName="logout"
             color="var(--alert-color)"
-            label="Logout"
+            label={t("sidePane.profile.logout")}
             margin={0}
           />
         </div>
@@ -584,7 +585,7 @@ function CustomStatus() {
 
   return (
     <>
-      <Text opacity={0.8}>Custom Status</Text>
+      <Text opacity={0.8}>{t("sidePane.profile.customStatus")}</Text>
       <FlexColumn>
         <AdvancedMarkupOptions
           class="advancedMarkupOptions"
@@ -602,7 +603,7 @@ function CustomStatus() {
         />
         <Show when={changes()}>
           <Button
-            label="Save"
+            label={t("sidePane.profile.saveButton")}
             onClick={save}
             iconName="save"
             iconSize={16}
@@ -625,7 +626,7 @@ function PresenceDropDown() {
     return {
       circleColor: item.color,
       id: item.id,
-      label: item.name === "Offline" ? "Appear As Offline" : item.name,
+      label: item.name === t("sidePane.profile.offline") ? t("sidePane.profile.appearOffline") : item.name,
       index: i,
       onClick: (item: { index: number }) => {
         updatePresence({
@@ -639,7 +640,7 @@ function PresenceDropDown() {
 
   return (
     <DropDown
-      title="Presence"
+      title={t("sidePane.profile.presence")}
       class={styles.presenceDropdown}
       items={DropDownItems}
       selectedId={presenceStatus().id}
@@ -762,12 +763,12 @@ function UpdateModal(props: { close: () => void }) {
       <Button
         iconName="close"
         onClick={props.close}
-        label="Later"
+        label={t("sidePane.later")}
         color="var(--alert-color)"
       />
       <Button
         iconName="get_app"
-        label="Update Now"
+        label={t("sidePane.update")}
         onClick={onUpdateClick}
         primary
       />
@@ -775,7 +776,7 @@ function UpdateModal(props: { close: () => void }) {
   );
   return (
     <LegacyModal
-      title="Update Available"
+      title={t("sidePane.updateAvailable")}
       actionButtons={ActionButtons}
       close={props.close}
     >
@@ -790,7 +791,7 @@ function UpdateModal(props: { close: () => void }) {
         >
           <Show when={isRelease}>
             <Text size={24}>{latestRelease()?.name || ""}</Text>
-            <Text opacity={0.7}>Released at {date() || ""}</Text>
+            <Text opacity={0.7}>{t("sidePane.releasedAt")}{date() || ""}</Text>
             <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
             <Marked value={latestRelease()?.body!} />
           </Show>

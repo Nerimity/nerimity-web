@@ -58,7 +58,7 @@ export const USER_BADGES = {
   FOUNDER: {
     name: "Founder",
     bit: USER_BADGE_BITS.FOUNDER,
-    description: "Creator of Nerimity",
+    description: "The creator of Nerimity",
     color: "linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%);",
     credit: "Avatar Border by upklyak on Freepik",
   },
@@ -79,7 +79,7 @@ export const USER_BADGES = {
   },
   EMO_SUPPORTER: {
     name: "Emo Supporter",
-    description: "Supported this project by donating money",
+    description: "Supported the project by donating money",
     bit: USER_BADGE_BITS.EMO_SUPPORTER,
     textColor: "rgba(255,255,255,0.8)",
     color: "linear-gradient(90deg, #424242 0%, #303030 100%)",
@@ -87,7 +87,7 @@ export const USER_BADGES = {
   },
   SUPPORTER: {
     name: "Supporter",
-    description: "Supported this project by donating money",
+    description: "Supported the project by donating money",
     bit: USER_BADGE_BITS.SUPPORTER,
     color:
       "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
@@ -96,7 +96,7 @@ export const USER_BADGES = {
 
   CONTRIBUTOR: {
     name: "Contributor",
-    description: "Helped with this project in some way",
+    description: "Helped with the project in some way",
     bit: USER_BADGE_BITS.CONTRIBUTOR,
     color: "#ffffff",
   },
@@ -191,9 +191,9 @@ export const ROLE_PERMISSIONS = {
     icon: "edit",
   },
   MENTION_ROLES: {
-    name: "Mention Roles",
+    name: "servers.rolePermissions.mentionRoles",
     bit: 256,
-    description: "Allow users to mention roles",
+    description: "servers.rolePermissions.mentionRolesDescription",
     icon: "alternate_email",
   },
 };

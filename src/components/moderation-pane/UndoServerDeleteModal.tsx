@@ -8,6 +8,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import { RawServer } from "@/chat-api/RawData";
 import { emitModerationUndoServerDelete } from "@/common/GlobalEvents";
+import { t } from "i18next";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -62,7 +63,7 @@ export default function UndoServerDeleteModal(props: Props) {
       <Button
         onClick={onRestoreClick}
         margin={0}
-        label={restoring() ? "Restoring..." : "Restore"}
+        label={restoring() ? t("moderationPane.restoring") : t("moderationPane.restoreButton")}
         primary
       />
     </FlexRow>
@@ -71,13 +72,13 @@ export default function UndoServerDeleteModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={`Undo Delete ${props.server.name}`}
+      title={t("moderationPane.undoServerDeletion", { name: props.server.name})}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
       <Container>
         <Input
-          label="Confirm Password"
+          label={t("moderationPane.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

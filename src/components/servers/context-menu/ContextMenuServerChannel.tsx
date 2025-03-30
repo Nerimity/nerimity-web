@@ -10,6 +10,7 @@ import { ChannelType, ServerNotificationPingMode, ServerNotificationSoundMode } 
 import { RadioBox, RadioBoxItem, RadioBoxItemCheckBox } from "@/components/ui/RadioBox";
 import { updateNotificationSettings } from "@/chat-api/services/UserService";
 import { css } from "solid-styled-components";
+import { t } from "i18next"
 
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string
@@ -89,19 +90,19 @@ export default function ContextMenuServerChannel (props: Props) {
     const items: ContextMenuItem[] = [];
     items.push(
       {title: "Ping"},
-      notificationItem({type: "PING", label: "Initial", value: null}),
-      notificationItem({type: "PING", label: "Everything", value: ServerNotificationPingMode.ALL}),
-      notificationItem({type: "PING", label: "Mentions Only", value: ServerNotificationPingMode.MENTIONS_ONLY}),      
-      notificationItem({type: "PING", label: "Mute", value: ServerNotificationPingMode.MUTE})
+      notificationItem({type: "PING", label: t("channelContextMenu.notificationOptions.initial"), value: null}),
+      notificationItem({type: "PING", label: t("channelContextMenu.notificationOptions.everything"), value: ServerNotificationPingMode.ALL}),
+      notificationItem({type: "PING", label: t("channelContextMenu.notificationOptions.mentionsOnly"), value: ServerNotificationPingMode.MENTIONS_ONLY}),      
+      notificationItem({type: "PING", label: t("channelContextMenu.notificationOptions.mute"), value: ServerNotificationPingMode.MUTE})
     );
 
     items.push(
         
       {title: "Sound"},
-      notificationItem({type: "SOUND", label: "Initial", value: null}),
-      notificationItem({type: "SOUND", label: "Everything", value: ServerNotificationSoundMode.ALL}),
-      notificationItem({type: "SOUND", label: "Mentions Only", value: ServerNotificationSoundMode.MENTIONS_ONLY}),      
-      notificationItem({type: "SOUND", label: "Mute", value: ServerNotificationSoundMode.MUTE})
+      notificationItem({type: "SOUND", label: t("channelContextMenu.notificationOptions.initial"), value: null}),
+      notificationItem({type: "SOUND", label: t("channelContextMenu.notificationOptions.everything"), value: ServerNotificationSoundMode.ALL}),
+      notificationItem({type: "SOUND", label: t("channelContextMenu.notificationOptions.mentionsOnly"), value: ServerNotificationSoundMode.MENTIONS_ONLY}),      
+      notificationItem({type: "SOUND", label: t("channelContextMenu.notificationOptions.mute"), value: ServerNotificationSoundMode.MUTE})
     );
 
 
@@ -110,12 +111,12 @@ export default function ContextMenuServerChannel (props: Props) {
 
   return (
     <ContextMenu {...props} items={[
-      {icon: "markunread_mailbox", label: "Mark As Read", disabled: !hasNotifications(), onClick: dismissNotifications},
+      {icon: "markunread_mailbox", label: t("channelContextMenu.markAsRead"), disabled: !hasNotifications(), onClick: dismissNotifications},
       {separator: true},
-      {icon: "notifications", label: "Notification Settings", sub: notificationItems(), onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!) + "/" + props.channelId!)},
-      ...(showSettings() ? [{icon: "settings", label: "Channel Settings", onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(props.serverId!, props.channelId!))}] : []),
+      {icon: "notifications", label: t("channelContextMenu.notificationSettings"), sub: notificationItems(), onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_NOTIFICATIONS(props.serverId!) + "/" + props.channelId!)},
+      ...(showSettings() ? [{icon: "settings", label: t("channelContextMenu.channelSettings"), onClick: () => navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(props.serverId!, props.channelId!))}] : []),
       {separator: true},
-      {icon: "content_copy", label: "Copy ID", onClick: () => copyToClipboard(props.channelId!)}
+      {icon: "content_copy", label: t("channelContextMenu.copyId"), onClick: () => copyToClipboard(props.channelId!)}
     ]} />
   );
 }

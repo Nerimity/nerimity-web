@@ -71,7 +71,7 @@ const TicketsPage = () => {
             <BreadcrumbItem
               href="/app/moderation"
               icon="home"
-              title="Moderation"
+              title={t("tickets.moderation")}
             />
           </Show>
           <BreadcrumbItem title={t("settings.drawer.tickets")!} />
@@ -85,10 +85,10 @@ const TicketsPage = () => {
         />
       </Show>
       <Show when={!isModeration()}>
-        <SettingsBlock icon="sell" label="Tickets">
+        <SettingsBlock icon="sell" label={t("settings.drawer.tickets")}>
           <Button
             iconName="add"
-            label="Create Ticket"
+            label={t("tickets.createTicket")}
             onClick={createTicketClick}
           />
         </SettingsBlock>

@@ -4,6 +4,7 @@ import Button from "../Button";
 import Input from "../input/Input";
 import LegacyModal from "../legacy-modal/LegacyModal";
 import { FlexRow } from "../Flexbox";
+import { t } from "i18next";
 
 interface Props {
   confirmText: string;
@@ -35,7 +36,7 @@ export default function DeleteConfirmModal(props: Props) {
   const onDeleteClick = async () => {
     setError(null);
     if (!props.password && confirmInput() !== props.confirmText) {
-      setError(`Input did not match "${props.confirmText}".`);
+      setError(t("deletionModal.errorDoNotMatch", { text: props.confirmText }));
       return;
     }
     if (requestSent()) return;
@@ -78,14 +79,12 @@ export default function DeleteConfirmModal(props: Props) {
         <Show when={props.custom}>{props.custom!}</Show>
         <Show when={!props.password}>
           <div class={styles.confirmText}>
-            Confirm by typing{" "}
-            <span class={styles.highlight}>{props.confirmText}</span> in the box
-            below.
+          {t("deletionModal.confirm", { text: <span class={styles.highlight}>{props.confirmText}</span> })}
           </div>
         </Show>
         <Show when={props.password}>
           <div class={styles.confirmText}>
-            Confirm by typing your password in the box below.
+          {t("deletionModal.confirm", { text: "your password" })}
           </div>
         </Show>
         <Input

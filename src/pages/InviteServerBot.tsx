@@ -24,6 +24,7 @@ import {
 import { t } from "i18next";
 import Checkbox from "@/components/ui/Checkbox";
 import { inviteBot } from "@/chat-api/services/ServerService";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -69,12 +70,15 @@ export default function InviteServerBotPage() {
   });
 
   const addBot = async () => {
+    const [t] = useTransContext();
     if (!serverId()) {
-      alert("Please select a server!");
+      alert(t("botInvitePage.notSelected"));
       return;
     }
     inviteBot(serverId()!, params.appId, permissions()!);
   };
+
+  const [t] = useTransContext();
 
   return (
     <HomePageContainer>
@@ -95,7 +99,7 @@ export default function InviteServerBotPage() {
               <Text size={18}>{bot()?.username}</Text>
             </FlexColumn>
             <FlexRow itemsCenter gap={8}>
-              <Text>Creator </Text>
+              <Text>{t("botInvitePage.creator")}</Text>
               <Avatar
                 animate
                 user={bot()!.application.creatorAccount.user}
@@ -110,7 +114,7 @@ export default function InviteServerBotPage() {
 
             <DropDown
               onChange={(item) => setServerId(item.id)}
-              title="Select Server"
+              title={t("botInvitePage.serverSelect")}
               class={css`
                 width: 240px;
               `}
@@ -120,7 +124,7 @@ export default function InviteServerBotPage() {
               }))}
             />
             <Button
-              label="Add Bot"
+              label={t("botInvitePage.add")}
               styles={{ opacity: serverId() ? 1 : 0.5 }}
               iconName="add"
               primary
@@ -152,6 +156,8 @@ const PermissionList = (props: {
     );
   };
 
+  const [t] = useTransContext();
+
   return (
     <FlexColumn
       gap={8}
@@ -159,7 +165,7 @@ const PermissionList = (props: {
         width: 230px;
       `}
     >
-      <Text opacity={0.8}>Bot Permissions</Text>
+      <Text opacity={0.8}>{t("botInvitePage.permissions")}</Text>
       <FlexColumn gap={4}>
         <For each={permissionsList}>
           {(permission) => (

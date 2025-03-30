@@ -22,6 +22,7 @@ import useStore from "@/chat-api/store/useStore";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
 import { avatarUrl, bannerUrl } from "@/chat-api/store/useServers";
 import { Banner } from "@/components/ui/Banner";
+import { t } from "i18next";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { MetaTitle } from "@/common/MetaTitle";
 import { useJoinServer } from "@/chat-api/useJoinServer";
@@ -55,15 +56,15 @@ export default function ExploreServerPane() {
   onMount(() => {
     setError("");
     header.updateHeader({
-      title: "Explore",
-      subName: "Join Server",
+      title: t("explore.drawer.title"),
+      subName: t("explore.pane.joinServer"),
       iconName: "explore",
     });
   });
 
   return (
     <>
-      <MetaTitle>{server()?.name || "Explore Servers"}</MetaTitle>
+      <MetaTitle>{server()?.name || t("explore.pane.exploreServers")}</MetaTitle>
       {!!error() && (
         <InvalidServerPage
           inviteId={params.inviteId}
@@ -71,7 +72,7 @@ export default function ExploreServerPane() {
           onJoinClick={errorJoinClick}
         />
       )}
-      {!error() && !server() && <div>Loading...</div>}
+      {!error() && !server() && <div>{t("explore.pane.loading")}</div>}
       {!error() && server() && (
         <ServerPage server={server()!} inviteCode={params.inviteId} />
       )}
@@ -112,7 +113,7 @@ const ServerPage = (props: {
           )}
           <div class={styles.details}>
             <div class={styles.name}>{server.name}</div>
-            <div class={styles.memberCount}>{server.memberCount} members</div>
+            <div class={styles.memberCount}>{server.memberCount}{t("explore.pane.members")}</div>
           </div>
         </div>
       </Banner>
@@ -122,7 +123,7 @@ const ServerPage = (props: {
             href={RouterEndpoints.LOGIN(location.pathname)}
             class={styles.joinButton}
           >
-            <Button margin={0} iconName="login" label="Login To Join" />
+            <Button margin={0} iconName="login" label={t("explore.pane.login")} />
           </A>
         </Match>
         <Match when={cacheServer()}>
@@ -133,14 +134,14 @@ const ServerPage = (props: {
             )}
             class={styles.joinButton}
           >
-            <Button margin={0} iconName="login" label="Visit Server" />
+            <Button margin={0} iconName="login" label={t("explore.pane.visit")} />
           </A>
         </Match>
         <Match when={!cacheServer()}>
           <Button
             class={styles.joinButton}
             iconName="login"
-            label="Join Server"
+            label={t("explore.pane.visit")}
             onClick={joinServerClick}
             color="var(--success-color)"
           />
@@ -163,10 +164,10 @@ function InvalidServerPage(props: {
     <div class={styles.invalidServerPage}>
       <Icon name="error" color="var(--alert-color)" size={80} />
       <div class={styles.errorMessage}>{props.message}</div>
-      <div class={styles.message}>Please try again later.</div>
-      <Input label="Invite Code" value={inviteCode()} onText={setInviteCode} />
+      <div class={styles.message}>{t("explore.pane.tryAgainDescription")}</div>
+      <Input label={t("explore.pane.code")} value={inviteCode()} onText={setInviteCode} />
       <Button
-        label="Try Again"
+        label={t("explore.pane.tryAgainButton")}
         iconName="refresh"
         onClick={() => props.onJoinClick?.(inviteCode())}
       />

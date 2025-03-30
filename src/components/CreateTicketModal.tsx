@@ -9,6 +9,7 @@ import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import { Notice } from "./ui/Notice/Notice";
 import Input from "./ui/input/Input";
 import Text from "./ui/Text";
+import { t } from "i18next";
 
 interface AbuseTicket {
   id: "ABUSE";
@@ -42,11 +43,11 @@ export function CreateTicketModal(props: {
   const [requestSent, setRequestSent] = createSignal(false);
 
   const Categories: DropDownItem[] = [
-    { id: "SERVER_VERIFICATION", label: "Verify Server" },
-    { id: "QUESTION", label: "Question" },
-    { id: "ACCOUNT", label: "Account" },
-    { id: "ABUSE", label: "Abuse" },
-    { id: "OTHER", label: "Other" },
+    { id: "SERVER_VERIFICATION", label: t("tickets.categories.verify") },
+    { id: "QUESTION", label: t("tickets.categories.question") },
+    { id: "ACCOUNT", label: t("tickets.categories.account") },
+    { id: "ABUSE", label: t("tickets.categories.abuse") },
+    { id: "OTHER", label: t("tickets.categories.other") },
   ];
 
   const hasProblem = () =>
@@ -58,18 +59,18 @@ export function CreateTicketModal(props: {
     setError(null);
 
     if (selectedCategoryId() === "SELECT") {
-      setError("Please select a category");
+      setError(t("tickets.noCategory"));
       return;
     }
 
     if (!body()) {
-      setError("Please enter a body");
+      setError(t("tickets.noBody"));
       return;
     }
 
     if (hasProblem()) {
       if (body().length < 100) {
-        setError("Description must be at least 200 characters.");
+        setError(t("tickets.descriptionTooShort"));
         return;
       }
     }
@@ -124,13 +125,13 @@ export function CreateTicketModal(props: {
   const actionButtons = (
     <FlexRow style={{ flex: 1, "justify-content": "end" }}>
       <Button
-        label="Back"
+        label={t("tickets.backButton")}
         color="var(--alert-color)"
         onClick={props.close}
         iconName="close"
       />
       <Button
-        label={requestSent() ? "Creating..." : "Create Ticket"}
+        label={requestSent() ? t("tickets.creating") : t("tickets.createTicket")}
         onClick={createTicketClick}
         iconName="add"
         primary
@@ -140,7 +141,7 @@ export function CreateTicketModal(props: {
 
   return (
     <LegacyModal
-      title="Create Ticket"
+      title={t("tickets.createTicket")}
       icon="help"
       close={props.close}
       ignoreBackgroundClick
@@ -151,12 +152,12 @@ export function CreateTicketModal(props: {
         <FlexColumn gap={6}>
           <Notice
             style={{ "margin-left": "12px", "margin-right": "12px" }}
-            description="Tickets must be written in ENGLISH. Tickets that are not written in English will be closed."
+            description={t("tickets.notice1")}
             type="warn"
           />
           <Notice
             style={{ "margin-left": "12px", "margin-right": "12px" }}
-            description="Creating multiple false tickets may affect your account."
+            description={t("tickets.notice2")}
             type="warn"
           />
         </FlexColumn>
@@ -204,7 +205,7 @@ export function CreateTicketModal(props: {
             />
             <Input
               label="Existing Server Invite URL"
-              placeholder="https://nerimity.com/i/xxxxxxxxxx"
+              placeholder="https://nerimity.com/i/xxxxx"
               value={serverInviteUrl()}
               onText={setServerInviteUrl}
             />

@@ -13,6 +13,7 @@ import Text from "../ui/Text";
 import { styled } from "solid-styled-components";
 import { formatTimestamp } from "@/common/date";
 import { getServerAuditLogs } from "@/chat-api/services/ServerService";
+import { t } from "i18next";
 
 const ListContainer = styled("div")`
   display: flex;
@@ -106,7 +107,7 @@ export function UsersAuditLogsPane(props: {
     >
       <Show when={!props.hideSearchBar}>
         <Input
-          placeholder="Search"
+          placeholder={t("userAuditLogs.search")}
           margin={[10, 10, 10, 30]}
           onText={onSearchText}
           value={search()}
@@ -132,7 +133,7 @@ export function UsersAuditLogsPane(props: {
             onClick={() => setShowAll(!showAll())}
           />
         </Show>
-        <Text>{props.title || "User Audit Logs"}</Text>
+        <Text>{props.title || t("userAuditLogs.title")}</Text>
       </FlexRow>
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : auditLogs()}>
@@ -143,7 +144,7 @@ export function UsersAuditLogsPane(props: {
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
             iconName="refresh"
-            label="Load More"
+            label={t("userAuditLogs.loadMore")}
             onClick={onLoadMoreClick}
           />
         </Show>
@@ -184,7 +185,7 @@ const AuditLogItem = (props: {
     const user = props.users.find(
       (u) => u.id === (kickedUserId || bannedUserId)
     );
-    const action = kickedUserId ? "Kicked" : "Banned";
+    const action = kickedUserId ? t("userAuditLogs.kicked") : t("userAuditLogs.banned");
     return {
       user,
       action,
@@ -199,7 +200,7 @@ const AuditLogItem = (props: {
       <Text size={14}>{props.item.actionType}</Text>
       <Text size={14}>
         <Text size={14} opacity={0.6}>
-          By:
+          {t("userAuditLogs.by")}
         </Text>{" "}
         {actionBy()?.username}
       </Text>
@@ -214,13 +215,13 @@ const AuditLogItem = (props: {
       <Show when={serverName() !== undefined}>
         <Text size={14}>
           <Text size={14} opacity={0.6}>
-            Server:
+            {t("userAuditLogs.server")}
           </Text>{" "}
           {serverName()}
         </Text>
       </Show>
       <Text size={14} opacity={0.6}>
-        At {timestamp()}
+        {t("userAuditLogs.at")}{timestamp()}
       </Text>
     </AuditLogItemContainer>
   );

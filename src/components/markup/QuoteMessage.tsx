@@ -16,6 +16,7 @@ import {
   emitScrollToMessage,
 } from "@/common/GlobalEvents";
 import { Embeds } from "../message-pane/message-item/MessageItem";
+import { t } from "i18next";
 
 export function QuoteMessage(props: {
   message: Message;
@@ -109,7 +110,7 @@ export function QuoteMessage(props: {
           iconName="visibility"
           padding={4}
           iconSize={14}
-          title="View Messages"
+          title={t("markupMessage.viewMessages")}
           onClick={() =>
             emitModerationShowMessages({
               messageId: props.quote.id!,

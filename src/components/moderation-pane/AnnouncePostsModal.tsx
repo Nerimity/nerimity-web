@@ -6,6 +6,7 @@ import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
+import { t } from "i18next";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -59,7 +60,7 @@ export default function AnnouncePostsModal(props: Props) {
       <Button
         onClick={onDeleteClicked}
         margin={0}
-        label={requestSent() ? "Announcing..." : "Announce"}
+        label={requestSent() ? t("posts.announcements.announcing") : t("posts.announcements.announce")}
         color="var(--primary-color)"
         primary
       />
@@ -69,16 +70,16 @@ export default function AnnouncePostsModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={"Announce Post"}
+      title={t("posts.announcements.title")}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
       <Container>
         <Text size={14}>
-          Announcing a post will show on everyone's Dashboard.
+          {t("posts.announcements.announcementDescription")}
         </Text>
         <Input
-          label="Confirm Password"
+          label={t("deletionModal.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

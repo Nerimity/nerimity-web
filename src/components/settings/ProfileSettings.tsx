@@ -34,7 +34,7 @@ export default function ProfileSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Account",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.account"),
       iconName: "settings"
     });
   });
@@ -69,7 +69,7 @@ const PalestineBorder = () => {
   }
 
   return (
-    <SettingsBlock icon="favorite" label="Add Palestine border to your avatar." onClick={onToggle}>
+    <SettingsBlock icon="favorite" label={t("settings.account.profileEditing.palestine")} onClick={onToggle}>
       <Checkbox checked={hasBorder()} />
     </SettingsBlock>
   )
@@ -120,7 +120,7 @@ export function EditProfilePage(props: {bot?: RawUser | null, botToken?: string 
     getUserDetailsRequest(props.bot?.id || account.user()?.id).then(setUserDetails);
   }));
 
-  const requestStatus = () => requestSent() ? "Saving..." : "Save Changes";
+  const requestStatus = () => requestSent() ? t("settings.account.saving") : t("settings.account.saveButton");
 
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
@@ -166,7 +166,7 @@ export function EditProfilePage(props: {bot?: RawUser | null, botToken?: string 
 const EditBioBlock = (props: {bio: string, setBio: (bio: string) => void}) => {
   const [inputRef, setInputRef] = createSignal<HTMLInputElement | null>(null);
   return <>
-    <SettingsBlock icon='info' label='Bio' class={bioBlockStyles} description='Multiline and markup support'>
+    <SettingsBlock icon='info' label={t("settings.account.profileEditing.bio")} class={bioBlockStyles} description={t("settings.account.profileEditing.supportsMarkup")}>
       <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>({props.bio.length} / 1000)</Text>
       <AdvancedMarkupOptions class="advancedMarkupOptions" updateText={props.setBio} inputElement={inputRef()!}/>
       <Input ref={setInputRef} class='inputContainer' type='textarea' value={props.bio} onText={(v) => props.setBio(v)} />
@@ -206,11 +206,11 @@ const ProfileColorBlock = (props: {userId?: string, children: JSXElement, values
     <ProfileColorContainer gap={6}>
       <ColorPickerContainer>
       
-        <SettingsBlock icon="palette" label="Gradient Color 1"><Show when={props.values.bgColorOne}><Button onClick={() => props.setValues("bgColorOne", "")} iconName="restart_alt" padding={2}/></Show><ColorPicker color={props.values.bgColorOne!} onChange={ v => props.setValues("bgColorOne", v)} /></SettingsBlock>
-        <SettingsBlock icon="palette" label="Gradient Color 2"><Show when={props.values.bgColorTwo}><Button onClick={() => props.setValues("bgColorTwo", "")} iconName="restart_alt" padding={2}/></Show><ColorPicker color={props.values.bgColorTwo!} onChange={v => props.setValues("bgColorTwo", v)} /></SettingsBlock>
-        <SettingsBlock icon="palette" label="Primary Color"><Show when={props.values.primaryColor}><Button onClick={() => props.setValues("primaryColor", "")} iconName="restart_alt" padding={2}/></Show><ColorPicker color={props.values.primaryColor!} onChange={v => props.setValues("primaryColor", v)} /></SettingsBlock>
+        <SettingsBlock icon="palette" label={t("settings.account.profileEditing.gradient1")}><Show when={props.values.bgColorOne}><Button onClick={() => props.setValues("bgColorOne", "")} iconName="restart_alt" padding={2}/></Show><ColorPicker color={props.values.bgColorOne!} onChange={ v => props.setValues("bgColorOne", v)} /></SettingsBlock>
+        <SettingsBlock icon="palette" label={t("settings.account.profileEditing.gradient2")}><Show when={props.values.bgColorTwo}><Button onClick={() => props.setValues("bgColorTwo", "")} iconName="restart_alt" padding={2}/></Show><ColorPicker color={props.values.bgColorTwo!} onChange={v => props.setValues("bgColorTwo", v)} /></SettingsBlock>
+        <SettingsBlock icon="palette" label={t("settings.account.profileEditing.primary")}><Show when={props.values.primaryColor}><Button onClick={() => props.setValues("primaryColor", "")} iconName="restart_alt" padding={2}/></Show><ColorPicker color={props.values.primaryColor!} onChange={v => props.setValues("primaryColor", v)} /></SettingsBlock>
         <FlexRow style={{"align-self": "flex-end"}}>
-          <Show when={hidePreview()}><Button label="Preview" iconName="visibility" onClick={showPreview} /></Show>
+          <Show when={hidePreview()}><Button label={t("settings.account.profileEditing.preview")} iconName="visibility" onClick={showPreview} /></Show>
           {props.children}
         </FlexRow>
 

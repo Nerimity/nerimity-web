@@ -14,6 +14,7 @@ import { localRPC } from "@/common/LocalRPC";
 import { reactNativeAPI } from "@/common/ReactNative";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import useChannelProperties from "../store/useChannelProperties";
+import { t } from "i18next";
 
 export const onConnect = (socket: Socket, token?: string) => {
   const account = useAccount();
@@ -74,7 +75,7 @@ electronWindowAPI()?.activityStatusChanged((window) => {
   }
 
   emitActivityStatus({
-    action: program.action || "Playing",
+    action: program.action || t("profile.activityDefault"),
     name: program.name,
     startedAt: window.createdAt,
     emoji: program.emoji,

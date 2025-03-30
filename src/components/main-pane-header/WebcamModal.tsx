@@ -7,6 +7,7 @@ import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
+import { t } from "i18next";
 
 const ActionButtonsContainer = styled(FlexRow)`
   justify-content: flex-end;
@@ -50,8 +51,8 @@ export function WebcamModal(props: { close: () => void }) {
 
   const ActionButtons = (
     <ActionButtonsContainer>
-      <Button label="Back" color="var(--alert-color)" onClick={props.close} />
-      <Button label="Share Camera" onClick={shareCameraClick} />
+      <Button label={t("call.webcamModal.back")} color="var(--alert-color)" onClick={props.close} />
+      <Button label={t("call.webcamModal.confirm")} onClick={shareCameraClick} />
     </ActionButtonsContainer>
   );
 
@@ -65,7 +66,7 @@ export function WebcamModal(props: { close: () => void }) {
 
   return (
     <LegacyModal
-      title="Share Webcam"
+      title={t("call.webcamModal.title")}
       close={props.close}
       actionButtons={ActionButtons}
     >

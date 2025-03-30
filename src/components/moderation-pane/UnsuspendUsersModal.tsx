@@ -10,6 +10,7 @@ import { FlexRow } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
+import { t } from "i18next";
 
 const SuspendUsersContainer = styled("div")`
   min-width: 260px;
@@ -59,7 +60,7 @@ export default function UnsuspendUsersModal(props: Props) {
       <Button
         onClick={onUnsuspendClicked}
         margin={0}
-        label={suspending() ? "Suspending..." : "Suspend"}
+        label={suspending() ? t("suspension.suspending") : t("suspension.suspend")}
         color="var(--alert-color)"
         primary
       />
@@ -69,12 +70,12 @@ export default function UnsuspendUsersModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={`Unsuspend ${props.users.length} User(s)`}
+      title={t("suspension.unsuspendUsers", { number: props.users.length})}
       actionButtons={ActionButtons}
     >
       <SuspendUsersContainer>
         <Input
-          label="Confirm Password"
+          label={t("suspension.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

@@ -1,0 +1,20 @@
+.nameField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.tagsField {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+
+  .tag {
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: white;
+    background-color: var(--color);
+    font-size: 12px;
+  }
+}

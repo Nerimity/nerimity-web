@@ -10,6 +10,7 @@ import styles from "./AvatarStyles.module.scss";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
 import { FoxEarsBorder } from "../avatar-borders/FoxEarBorder";
+import { t } from "i18next";
 
 interface Props {
   url?: string | null;
@@ -196,7 +197,7 @@ function AvatarBorder(props: {
                 : props.badge!.color
             }
             label={
-              props.serverOrUser?.verified ? "Verified" : props.badge!.name
+              props.serverOrUser?.verified ? t("profile.verified") : props.badge!.name
             }
             hovered={props.hovered}
             serverOrUser={props.serverOrUser}
@@ -235,7 +236,7 @@ const NoBorder = (props: {
             class={styles.image}
             loading="lazy"
             src={props.url || "/assets/profile.png"}
-            alt="User Avatar"
+            alt={t("profile.avatar")}
           />
         </Match>
       </Switch>

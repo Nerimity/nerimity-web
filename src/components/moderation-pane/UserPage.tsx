@@ -39,6 +39,7 @@ import WarnUserModal from "./WarnUserModal";
 import { UserDetails } from "@/chat-api/services/UserService";
 import ShadowBanUserModal from "./ShadowBanUserModal";
 import UndoShadowBanUserModal from "./UndoShadowBanUserModal";
+import { t } from "i18next";
 
 const UserPageContainer = styled(FlexColumn)`
   height: 100%;
@@ -126,7 +127,7 @@ export default function UserPage() {
     )
   );
 
-  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
+  const requestStatus = () => (requestSent() ? t("settings.account.saving") : t("settings.account.saveChangesButton"));
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
     setRequestSent(true);
@@ -158,7 +159,7 @@ export default function UserPage() {
   };
 
   const botApplicationUser = () => user()?.application?.creatorAccount?.user;
-
+  
   return (
     <Show when={user()} keyed>
       <UserPageContainer>
@@ -189,13 +190,13 @@ export default function UserPage() {
                   `}
                   href={RouterEndpoints.PROFILE(user()!.id)}
                 >
-                  Visit Profile
+                  {t("profile.moderatorsOnly.visitProfile")}
                 </A>
               </UserBannerDetails>
             </UserBannerContainer>
           </Banner>
           <Breadcrumb>
-            <BreadcrumbItem href={"../../"} icon="home" title="Moderation" />
+            <BreadcrumbItem href={"../../"} icon="home" title={t("moderationPane.title")} />
             <BreadcrumbItem title={user()?.username} icon="person" />
           </Breadcrumb>
 
@@ -209,7 +210,7 @@ export default function UserPage() {
               }}
             >
               <Text size={14} style={{ "margin-left": "0px" }}>
-                Bot Created By
+                {t("profile.moderatorsOnly.botCreator")}
               </Text>
               <User
                 user={botApplicationUser()}
@@ -243,14 +244,14 @@ export default function UserPage() {
           </Show>
 
           <Show when={user()?.account}>
-            <SettingsBlock label="Email" icon="email">
+            <SettingsBlock label={t("settings.account.email")} icon="email">
               <Input
                 value={inputValues().email}
                 onText={(v) => setInputValue("email", v)}
               />
             </SettingsBlock>
 
-            <SettingsBlock label="Email Confirmed">
+            <SettingsBlock label={t("profile.moderatorsOnly.emailConfirmed")}>
               <Checkbox
                 checked={inputValues().emailConfirmed}
                 onChange={(checked) => setInputValue("emailConfirmed", checked)}
@@ -258,19 +259,19 @@ export default function UserPage() {
             </SettingsBlock>
           </Show>
 
-          <SettingsBlock label="Username" icon="face">
+          <SettingsBlock label={t("settings.account.username")} icon="face">
             <Input
               value={inputValues().username}
               onText={(v) => setInputValue("username", v)}
             />
           </SettingsBlock>
-          <SettingsBlock label="Tag" icon="local_offer">
+          <SettingsBlock label={t("settings.account.tag")} icon="local_offer">
             <Input
               value={inputValues().tag}
               onText={(v) => setInputValue("tag", v)}
             />
           </SettingsBlock>
-          <SettingsBlock icon="badge" label="Badges" header />
+          <SettingsBlock icon="badge" label={t("profile.moderatorsOnly.badges")} header />
           <FlexColumn gap={1}>
             <For each={Object.values(USER_BADGES)}>
               {(badge) => (
@@ -287,14 +288,14 @@ export default function UserPage() {
             onClick={onChangePasswordClick}
             style={{ "margin-bottom": "5px", "margin-top": "5px" }}
           >
-            Change Password
+            {t("profile.moderatorsOnly.changePassword")}
           </ChangePasswordButton>
 
           <Show when={showChangePassword()}>
             <SettingsBlock
               icon="password"
-              label="New Password"
-              description="Changing the password will log them out everywhere."
+              label={t("profile.moderatorsOnly.newPassword")}
+              description={t("profile.moderatorsOnly.changePassowrdDescription")}
             >
               <Input
                 type="password"
@@ -306,7 +307,7 @@ export default function UserPage() {
 
           <Show when={Object.keys(updatedInputValues()).length}>
             <SettingsBlock
-              label="Confirm Admin Password"
+              label={t("profile.moderatorsOnly.confirmAdminPassword")}
               icon="security"
               class={css`
                 margin-top: 10px;
@@ -391,7 +392,7 @@ const UsersWithSameIPAddress = (props: { userId: string }) => {
       <SettingsBlock
         icon="dns"
         borderBottomRadius={false}
-        label="Users With Same IP Address"
+        label={t("profile.moderatorsOnly.sameIP")}
       />
       <UsersWithSameIPAddressContainer>
         <For each={users()}>{(user) => <User user={user} />}</For>
@@ -416,7 +417,7 @@ const UserServersList = (props: {
       <SettingsBlock
         icon="dns"
         borderBottomRadius={false}
-        label="Joined Servers"
+        label={t("profile.moderatorsOnly.joinedServers")}
       />
       <UsersWithSameIPAddressContainer>
         <For each={sortOwnedFirst()}>
@@ -464,7 +465,7 @@ function SuspendOrUnsuspendBlock(props: {
   };
 
   const expiredAt = () => {
-    if (!props.user.suspension?.expireAt) return "Never";
+    if (!props.user.suspension?.expireAt) return t("profile.never");
 
     return formatTimestamp(props.user.suspension.expireAt);
   };
@@ -476,7 +477,7 @@ function SuspendOrUnsuspendBlock(props: {
   const Description = () => (
     <span>
       <Text size={12} opacity={0.8}>
-        By{" "}
+        {t("connectionError.by")}{" "}
       </Text>
       <Text size={12} opacity={0.6}>
         {props.user.suspension?.suspendBy.username}
@@ -485,7 +486,7 @@ function SuspendOrUnsuspendBlock(props: {
       <br />
 
       <Text size={12} opacity={0.8}>
-        At{" "}
+        {t("time.at")}{" "}
       </Text>
       <Text size={12} opacity={0.6}>
         {suspendedAt()}
@@ -495,7 +496,7 @@ function SuspendOrUnsuspendBlock(props: {
 
       <Text size={12} opacity={0.8}>
         {" "}
-        Expires
+        {t("moderationPane.auditLog.expires")}
       </Text>
       <Text size={12} opacity={0.6}>
         {" "}
@@ -509,12 +510,12 @@ function SuspendOrUnsuspendBlock(props: {
       <Show when={!props.user?.suspension}>
         <SettingsBlock
           icon="block"
-          label="Suspend"
-          description={"Deny this user to access Nerimity"}
+          label={t("suspension.suspend")}
+          description={t("profile.moderatorsOnly.suspendDescription")}
         >
           <Button
             onClick={showSuspendModal}
-            label="Suspend"
+            label={t("suspension.suspend")}
             color="var(--alert-color)"
             primary
           />
@@ -524,14 +525,14 @@ function SuspendOrUnsuspendBlock(props: {
       <Show when={props.user?.suspension}>
         <SettingsBlock
           icon="block"
-          label={`Suspended for: ${props.user.suspension?.reason}`}
+          label={t("profile.moderatorsOnly.suspendedFor", { reason: props.user.suspension?.reason })}
           description={<Description />}
         >
           <FlexColumn gap={4}>
             <Button onClick={showEditModal} label="Edit" margin={0} />
             <Button
               onClick={showUnsuspendModal}
-              label="Unsuspend"
+              label={t("profile.moderatorsOnly.unsuspend")}
               color="var(--alert-color)"
               primary
               margin={0}
@@ -576,14 +577,14 @@ function WarnBlock(props: {
   const Description = () => (
     <span>
       <Text size={12} opacity={0.6}>
-        Warned
+        {t("profile.moderatorsOnly.warned")}
       </Text>
       <Text size={12} opacity={0.8}>
         {" "}
         {warnCount()}{" "}
       </Text>
       <Text size={12} opacity={0.6}>
-        time(s) in the last 6 months.
+        {t("profile.moderatorsOnly.times")}
       </Text>
     </span>
   );
@@ -592,13 +593,13 @@ function WarnBlock(props: {
     <div>
       <SettingsBlock
         icon="warning"
-        label="Warn User"
+        label={t("profile.moderatorsOnly.warnUser")}
         description={<Description />}
       >
         <FlexColumn gap={4}>
           <Button
             onClick={showWarnModal}
-            label="Warn User"
+            label={t("profile.moderatorsOnly.warnUser")}
             color="var(--warn-color)"
             primary
             margin={0}
@@ -648,14 +649,14 @@ function ShadowBanBlock(props: {
     <div>
       <SettingsBlock
         icon="tonality"
-        label="Shadow Ban (Raid/Spammers)"
-        description={"New messages and posts will be hidden and not be sent."}
+        label={t("profile.moderatorsOnly.shadowBan")}
+        description={t("profile.moderatorsOnly.shadowBanDescription")}
       >
         <FlexColumn gap={4}>
           <Show when={!props.user?.shadowBan}>
             <Button
               onClick={showShadowBanModal}
-              label="Shadow Ban"
+              label={t("moderationPane.shadowBan.shadowBanUser")}
               color="var(--warn-color)"
               primary
               margin={0}
@@ -664,7 +665,7 @@ function ShadowBanBlock(props: {
           <Show when={props.user?.shadowBan}>
             <Button
               onClick={showUndoModal}
-              label="Undo"
+              label={t("moderationPane.shadowBan.undoButton")}
               color="var(--alert-color)"
               primary
               margin={0}

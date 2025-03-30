@@ -3,7 +3,7 @@ import { For, Show, createEffect } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import { css, styled } from "solid-styled-components";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { t } from "i18next";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { RadioBox, RadioBoxItem } from "@/components/ui/RadioBox";
@@ -34,7 +34,6 @@ const RadioBoxContainer = styled("div")`
 `;
 
 export default function ServerNotificationSettings() {
-  const [t] = useTransContext();
   const params = useParams<{ serverId: string; channelId?: string }>();
   const { header, servers, account, channels } = useStore();
   const server = () => servers.get(params.serverId);
@@ -43,7 +42,7 @@ export default function ServerNotificationSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Notifications",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.notifications"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -58,14 +57,14 @@ export default function ServerNotificationSettings() {
 
   const NotificationSoundItems: () => RadioBoxItem[] = () => [
     ...(currentNotificationPingMode() === null
-      ? [{ id: null, label: "Inherit" }]
+      ? [{ id: null, label: t("servers.settings.notifications.inherit") }]
       : []),
     ...(currentNotificationPingMode() !==
     ServerNotificationPingMode.MENTIONS_ONLY
-      ? [{ id: 0, label: "Everything" }]
+      ? [{ id: 0, label: t("servers.settings.notifications.everything") }]
       : []),
-    { id: 1, label: "Mentions Only" },
-    { id: 2, label: "Mute" },
+    { id: 1, label: t("servers.settings.notifications.mentionsOnly") },
+    { id: 2, label: t("servers.settings.notifications.mute") },
   ];
 
   const onNotificationSoundChange = (item: RadioBoxItem) => {
@@ -77,10 +76,10 @@ export default function ServerNotificationSettings() {
   };
 
   const NotificationPingItems: RadioBoxItem[] = [
-    ...(channel()?.serverId ? [{ id: null, label: "Inherit" }] : []),
-    { id: 0, label: "Everything" },
-    { id: 1, label: "Mentions Only" },
-    { id: 2, label: "Mute" },
+    ...(channel()?.serverId ? [{ id: null, label: t("servers.settings.notifications.inherit") }] : []),
+    { id: 0, label: t("servers.settings.notifications.everything") },
+    { id: 1, label: t("servers.settings.notifications.mentionsOnly") },
+    { id: 2, label: t("servers.settings.notifications.mute") },
   ];
 
   const onNotificationPingChange = (item: RadioBoxItem) => {
@@ -114,7 +113,7 @@ export default function ServerNotificationSettings() {
 
       <Notice
         type="info"
-        description="These settings will only change for you."
+        description={t("servers.settings.notifications.notice")}
       />
       <SettingsBlock
         class={css`
@@ -122,8 +121,8 @@ export default function ServerNotificationSettings() {
         `}
         header
         icon="priority_high"
-        label="Notification Ping"
-        description="Display a red notification icon."
+        label={t("servers.settings.notifications.ping")}
+        description={t("servers.settings.notifications.pingDescription")}
       >
         <ItemContainer
           alert={
@@ -155,8 +154,8 @@ export default function ServerNotificationSettings() {
           `}
           header
           icon="notifications_active"
-          label="Notification Sound"
-          description="Make a notification sound."
+          label={t("servers.settings.notifications.sound")}
+          description={t("servers.settings.notifications.soundDescription")}
         />
         <RadioBoxContainer>
           <RadioBox
@@ -224,14 +223,14 @@ const ChannelNotificationsBlock = () => {
         `}
         header
         icon="storage"
-        label="Channels"
-        description="Manage notifications per channel."
+        label={t("servers.settings.notifications.channels")}
+        description={t("servers.settings.notifications.channelsDescription")}
       >
         <Show when={overrides().length}>
           <Button
             onClick={resetOverrides}
             iconName="refresh"
-            label={`Reset Overrides (${overrides().length})`}
+            label={t("servers.settings.notifications.resetOverrides", { count: overrides().length })}
           />
         </Show>
       </SettingsBlock>

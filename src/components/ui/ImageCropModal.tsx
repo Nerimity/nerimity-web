@@ -3,6 +3,7 @@ import LegacyModal from "./legacy-modal/LegacyModal";
 import Croppie from "croppie";
 import "croppie/croppie.css";
 import Button from "./Button";
+import { t } from "i18next";
 
 export default function ImageCropModal(props: {
   close(): void;
@@ -34,7 +35,7 @@ export default function ImageCropModal(props: {
   const ActionButtons = (
     <Button
       iconName="done"
-      label="Done"
+      label={t("settings.account.crop.doneButton")}
       onClick={onClick}
       styles={{ flex: 1 }}
       primary
@@ -44,7 +45,7 @@ export default function ImageCropModal(props: {
 
   return (
     <LegacyModal
-      title="Crop Image"
+      title={t("settings.account.crop.title")}
       close={props.close}
       maxWidth={500}
       actionButtons={ActionButtons}

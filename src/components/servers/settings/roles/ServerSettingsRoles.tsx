@@ -67,7 +67,7 @@ export default function ServerSettingsRole() {
 
   onMount(() => {
     header.updateHeader({
-      title: "Settings - Roles",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.roles"),
       serverId: serverId!,
       iconName: "settings"
     });

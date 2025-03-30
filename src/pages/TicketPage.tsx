@@ -43,6 +43,7 @@ import { useMatch, useParams } from "solid-navigator";
 import { css, styled } from "solid-styled-components";
 import MessageItemComponent from "@/components/message-pane/message-item/MessageItem";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const Container = styled("div")`
   display: flex;
@@ -153,13 +154,14 @@ const MessagesModal = (props: {
         });
     });
   });
+  const [t] = useTransContext();
   return (
     <Modal.Root close={props.close} class={MessageModalRootStyle}>
       <Modal.Header
         title={
           !channel()
-            ? "Loading..."
-            : `${channel()?.name ? `#${channel()?.name}` : "DMs"}${
+            ? t("tickets.loading")
+            : `${channel()?.name ? `#${channel()?.name}` : t("tickets.dms")}${
                 channel()?.server?.name ? ` - ${channel()?.server?.name}` : ""
               }`
         }
@@ -247,7 +249,7 @@ export default function TicketPage() {
             <BreadcrumbItem
               href={"/app/moderation"}
               icon="home"
-              title="Moderation"
+              title={t("tickets.moderation")}
             />
           </Show>
           <Show when={!isModeration()}>
@@ -265,11 +267,11 @@ export default function TicketPage() {
                 : "/app/settings/tickets"
             }
           />
-          <BreadcrumbItem title={"Ticket"} />
+          <BreadcrumbItem title={t("tickets.title")} />
         </Breadcrumb>
       </div>
       <Show when={ticket()}>
-        <Notice type="info" description="Page updates every 2 minutes." />
+        <Notice type="info" description={t("tickets.update")} />
         <div
           class={css`
             ${height() >= 500
@@ -345,15 +347,18 @@ const MessageInputArea = (props: {
   };
 
   const sendClick = async () => {
+
+    const [t] = useTransContext();
+
     const status = selectedStatus();
     if (status === undefined && isModeration()) {
-      alert("You must select a status.");
+      alert(t("tickets.noStatus"));
       return;
     }
 
     const formattedValue = value().trim();
     if (!formattedValue.length) {
-      alert("Your message cannot be empty.");
+      alert(t("tickets.noMessage"));
       return;
     }
     const file = attachment();
@@ -447,7 +452,7 @@ const MessageInputArea = (props: {
           />
           <Show when={!attachment()}>
             <Button
-              label="Attach"
+              label={t("tickets.attach")}
               iconName="attach_file"
               margin={0}
               class={css`
@@ -459,7 +464,7 @@ const MessageInputArea = (props: {
           </Show>
           <Show when={attachment()}>
             <Button
-              label="Remove Attachment"
+              label={t("tickets.removeAttachment")}
               iconName="close"
               color="var(--alert-color)"
               margin={0}
@@ -471,7 +476,7 @@ const MessageInputArea = (props: {
             />
           </Show>
           <Button
-            label="Send"
+            label={t("tickets.send")}
             iconName="send"
             margin={0}
             class={css`

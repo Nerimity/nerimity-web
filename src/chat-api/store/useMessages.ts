@@ -19,6 +19,7 @@ import { getGoogleAccessToken } from "../services/UserService";
 import { uploadFileGoogleDrive } from "@/common/driveAPI";
 import { batch } from "solid-js";
 import { uploadAttachment } from "../services/nerimityCDNService";
+import { t } from "i18next";
 
 const account = useAccount();
 
@@ -240,7 +241,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     } catch (err: any) {
       pushFailedMessage(
         channelId,
-        "Failed to upload file to Google Drive. ```Error\n" +
+        t("errorMessages.googleDriveUploadFailed") + "```Error\n" +
           err.message +
           "\nbody: " +
           content +
@@ -269,7 +270,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     }).catch((err) => {
       pushFailedMessage(
         channelId,
-        "Failed to upload file. ```Error\n" +
+        t("errorMessages.uploadFailed") + "```Error\n" +
           err.message +
           "\nbody: " +
           content +
@@ -314,7 +315,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     }
     pushFailedMessage(
       channelId,
-      "This message couldn't be sent. Try again later. ```Error\n" +
+        t("errorMessages.couldNotSend") + "```Error\n" +
         err.message +
         "\nbody: " +
         content +

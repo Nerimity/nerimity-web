@@ -1,10 +1,10 @@
+import { t } from "i18next";
 
 interface Status {
   name: string;
   id: string;
   color: string;
 }
-
 
 // OFFLINE = 0,
 // ONLINE = 1,
@@ -13,11 +13,11 @@ interface Status {
 // DND = 4, // Do not disturb
 
 export const UserStatuses: Status[] = [
-  { name: "Offline", id: "offline", color: "#adadad" },
-  { name: "Online", id: "online", color: "#78e380" },
-  { name: "Looking To Play", id: "ltp", color: "#78a5e3" },
-  { name: "Away From Keyboard", id: "afk", color: "#e3a878" },
-  { name: "Do Not Disturb", id: "dnd", color: "#e37878" }
+  { name: t("profile.status.offline"), id: "offline", color: "#adadad" },
+  { name: t("profile.status.online"), id: "online", color: "#78e380" },
+  { name: t("profile.status.ltp"), id: "ltp", color: "#78a5e3" },
+  { name: t("profile.status.afk"), id: "afk", color: "#e3a878" },
+  { name: t("profile.status.dnd"), id: "dnd", color: "#e37878" }
 ];
 
 export function userStatusDetail(status: number): Status {

@@ -28,6 +28,7 @@ import {
   unpinPost,
 } from "@/chat-api/services/PostService";
 import env from "@/common/env";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -127,7 +128,7 @@ export function PostItem(props: {
         <Text>{t("posts.postWasDeleted")}</Text>
       </Show>
       <Show when={props.post.block}>
-        <Text>This user has blocked you.</Text>
+        <Text>{t("posts.blocked")}</Text>
       </Show>
       <Show when={!props.post.deleted && !props.post.block}>
         <Show when={pinned()}>
@@ -211,7 +212,7 @@ const Content = (props: { post: Post; hovered: boolean }) => {
           name="edit"
           class={style.editIconStyles}
           size={14}
-          title={`Edited at ${formatTimestamp(props.post.editedAt)}`}
+          title={t("posts.editedAt", { time : formatTimestamp(props.post.editedAt) })}
         />
       </Show>
       <Embeds post={props.post} hovered={props.hovered} />
@@ -292,6 +293,7 @@ const Actions = (props: {
   const showContextMenu = (event: MouseEvent) => {
     if (event.target instanceof HTMLElement) {
       const rect = event.target?.getBoundingClientRect()!;
+      const [t] = useTransContext();
       createPortal(
         (close) => (
           <ContextMenu
@@ -299,15 +301,15 @@ const Actions = (props: {
               ...(showDeleteAndEdit()
                 ? [
                     {
-                      label: props.pinned ? "Unpin" : "Pin",
+                      label: props.pinned ? t("posts.unpin") : t("posts.pin"),
                       onClick: togglePin,
                       alert: props.pinned,
                       icon: "push_pin",
                     },
-                    { label: "Edit", onClick: onEditClicked, icon: "edit" },
+                    { label: t("posts.edit"), onClick: onEditClicked, icon: "edit" },
                     { separator: true },
                     {
-                      label: "Delete",
+                      label: t("posts.delete"),
                       onClick: onDeleteClick,
                       alert: true,
                       icon: "delete",
@@ -317,7 +319,7 @@ const Actions = (props: {
               ...(account.hasModeratorPerm()
                 ? [
                     {
-                      label: "Moderation Pane",
+                      label: t("posts.moderationPane"),
                       onClick: () =>
                         navigate(
                           "/app/moderation?search-post-id=" + props.post.id
@@ -327,7 +329,7 @@ const Actions = (props: {
                   ]
                 : []),
               {
-                label: "Copy Link",
+                label: t("posts.copyLinkButton"),
                 onClick: () => {
                   navigator.clipboard.writeText(
                     env.APP_URL + "/p/" + props.post.id
@@ -336,7 +338,7 @@ const Actions = (props: {
                 icon: "content_copy",
               },
               {
-                label: "Copy ID",
+                label: t("posts.copyId"),
                 icon: "content_copy",
                 onClick: () => {
                   navigator.clipboard.writeText(props.post.id);
@@ -386,7 +388,7 @@ const Actions = (props: {
         label={props.post._count?.reposts.toLocaleString()}
       />
       <Show when={showViews()}>
-        <Tooltip tooltip="Estimated Views">
+        <Tooltip tooltip={t("posts.views")}>
           <Button
             margin={0}
             color="rgba(255,255,255,0.6)"
@@ -476,7 +478,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
         <span class={style.votes}>
           <Text size={12}>{props.poll._count.votedUsers} </Text>
           <Text size={12} opacity={0.6}>
-            votes
+            {t("posts.votes")}
           </Text>
         </span>
 
@@ -485,7 +487,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
             onClick={onVoteClick}
             class={style.voteButton}
             primary
-            label="Vote"
+            label={t("posts.vote")}
             iconName="done"
             padding={4}
             margin={0}
@@ -559,7 +561,7 @@ const ReplyTo = (props: { user: RawUser }) => {
   return (
     <div class={style.replyToContainer}>
       <Text size={14} style={{ "margin-right": "5px" }}>
-        Replying to
+        {t("posts.replyingTo")}
       </Text>
       <CustomLink
         decoration
@@ -576,7 +578,7 @@ const Pinned = () => {
     <div class={style.pinnedContainer}>
       <Icon name="push_pin" color="var(--primary-color)" size={16} />
       <Text size={14} style={{ "margin-right": "5px" }}>
-        Pinned
+        {t("posts.pinned")}
       </Text>
     </div>
   );
@@ -591,7 +593,7 @@ const Reposted = (props: { post: Post; showRepostsAsSelf: boolean | any }) => {
       <Text size={14} style={{ "margin-right": "5px" }}>
         <Show when={props.showRepostsAsSelf}>Reposted</Show>
         <Show when={!props.showRepostsAsSelf}>
-          Reposted by{" "}
+          {t("posts.reposted")}
           <For each={repostUsers()}>
             {(user, i) => (
               <>

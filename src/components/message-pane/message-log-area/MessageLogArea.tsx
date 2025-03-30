@@ -752,7 +752,7 @@ function UnreadMarker(props: { onClick: () => void }) {
     <div onClick={props.onClick} class={styles.unreadMarkerContainer}>
       <div class={styles.unreadMarker}>
         <Icon name="mark_chat_unread" size={12} />
-        New Messages
+        {t("misc.newMessages")}
         <Button class={styles.closeButton} iconName="close" color="white" />
       </div>
     </div>
@@ -925,7 +925,7 @@ const ViewReactionsModal = (props: { close: () => void; message: Message }) => {
       maxWidth={600}
       maxHeight={500}
       class={styles.viewReactionsModal}
-      title="Reactions"
+      title={t("messageContextMenu.reactions")}
       icon="face"
       close={props.close}
     >

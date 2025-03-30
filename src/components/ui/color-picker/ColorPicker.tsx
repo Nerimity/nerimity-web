@@ -8,6 +8,7 @@ import LegacyModal from "../legacy-modal/LegacyModal";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames, conditionalClass } from "@/common/classNames";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 init();
 
@@ -88,9 +89,11 @@ export const ColorPickerModal = (props: {
     props.done?.(color!);
   };
 
+  const [t] = useTransContext();
+
   return (
     <LegacyModal
-      title="Color Picker"
+      title={t("misc.colourPicker")}
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[

@@ -12,8 +12,8 @@ export function CreateServerModal(props: { close: () => void }) {
     <Modal.Root close={props.close} class={style.modalRoot}>
       <Modal.Header title={t("createServerModal.title")} icon="dns" />
       <Modal.Body class={style.modalBody}>
-        <Notice type="warn" description={t("createServerModal.notice")} />
-        <Notice type="warn" description="Server MUST be in English." />
+        <Notice type="warn" description={t("createServerModal.notice1")} />
+        <Notice type="warn" description={t("createServerModal.notice2")} />
         <Input
           label={t("createServerModal.serverName")}
           onText={controller.setName}

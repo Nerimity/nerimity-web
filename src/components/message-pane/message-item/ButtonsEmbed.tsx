@@ -10,6 +10,7 @@ import { ServerEvents } from "@/chat-api/EventNames";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { Markup } from "@/components/Markup";
+import { t } from "i18next";
 
 export function ButtonsEmbed(props: { message: RawMessage }) {
   const buttons = () => props.message.buttons || [];
@@ -107,7 +108,7 @@ const ResponseModal = (props: {
 }) => {
   const title =
     `${props.payload.title} (${props.message.createdBy.username})` ||
-    `Response from ${props.message.createdBy.username}`;
+    t("embed.responseFrom") + `${props.message.createdBy.username}`;
 
   return (
     <LegacyModal
@@ -115,7 +116,7 @@ const ResponseModal = (props: {
       close={props.close}
       title={title}
       icon="robot"
-      actionButtonsArr={[{ label: "Close", onClick: props.close }]}
+      actionButtonsArr={[{ label: t("embed.close"), onClick: props.close }]}
     >
       <div class={style.modalContent}>
         <Markup text={props.payload.content || ""} />

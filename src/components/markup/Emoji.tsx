@@ -14,6 +14,7 @@ import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
 import { useNavigate } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useJoinServer } from "@/chat-api/useJoinServer";
+import { t } from "i18next";
 
 export function Emoji(props: {
   clickable?: boolean;
@@ -111,7 +112,7 @@ function EmojiDetailsModal(props: {
     <LegacyModal
       close={props.close}
       icon="face"
-      title={props.custom ? "Custom Emoji" : "Emoji"}
+      title={props.custom ? t("markupMessage.customEmoji") : t("markupMessage.emoji")}
     >
       <EmojiDetailsContainer>
         <MainEmojiContainer>
@@ -138,7 +139,7 @@ function EmojiDetailsModal(props: {
               :
             </Text>
             <Text size={12} opacity={0.6}>
-              {props.custom ? "Custom Emoji" : "Emoji"}
+              {props.custom ? t("markupMessage.customEmoji") : t("markupMessage.emoji")}
             </Text>
           </EmojiNameContainer>
         </MainEmojiContainer>
@@ -231,7 +232,7 @@ function PublicServer(props: {
             onClick={joinOrVisitServer}
             styles={{ "align-self": "flex-start" }}
             iconName="login"
-            label={isInServer() ? "Visit Server" : "Join Server"}
+            label={isInServer() ? t("markupMessage.visitServer") : t("markupMessage.joinServer")}
             margin={0}
           />
         </PublicServerDetailsContainer>

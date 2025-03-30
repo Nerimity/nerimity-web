@@ -11,6 +11,7 @@ import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import { Notice } from "../ui/Notice/Notice";
+import { t } from "i18next";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -66,7 +67,7 @@ export default function UndoShadowBanUserModal(props: Props) {
         onClick={onWarnClick}
         margin={0}
         color="var(--warn-color)"
-        label={requestSending() ? "Undoing..." : "Undo"}
+        label={requestSending() ? t("moderationPane.shadowBan.undoing") : t("moderationPane.shadowBan.undoButton")}
         primary
       />
     </FlexRow>
@@ -75,13 +76,13 @@ export default function UndoShadowBanUserModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title="Undo Shadow Ban User"
+      title={t("moderationPane.shadowBan.undoShadowBan")}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
       <Container>
         <Input
-          label="Confirm Password"
+          label={t("moderationPane.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

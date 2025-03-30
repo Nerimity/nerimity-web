@@ -8,6 +8,7 @@ import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Text from "../ui/Text";
 import { styled } from "solid-styled-components";
+import { t } from "i18next";
 
 const ListContainer = styled("div")`
   display: flex;
@@ -106,7 +107,7 @@ export function UsersPane(props: {
     >
       <Show when={!props.hideSearchBar}>
         <Input
-          placeholder="Search"
+          placeholder={t("moderationPane.search")}
           margin={[10, 10, 10, 30]}
           onText={onSearchText}
           value={search()}
@@ -122,7 +123,7 @@ export function UsersPane(props: {
           padding={4}
           onClick={() => setShowAll(!showAll())}
         />
-        <Text>{props.title || "Registered Users"}</Text>
+        <Text>{props.title || t("moderationPane.statistics.registered")}</Text>
       </FlexRow>
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : users()}>
@@ -131,7 +132,7 @@ export function UsersPane(props: {
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
             iconName="refresh"
-            label="Load More"
+            label={t("moderationPane.loadMore")}
             onClick={onLoadMoreClick}
           />
         </Show>

@@ -15,6 +15,7 @@ import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Checkbox from "../ui/Checkbox";
 import { emitModerationServerDeleted } from "@/common/GlobalEvents";
+import { t } from "i18next";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -72,7 +73,7 @@ export default function DeleteServersModal(props: Props) {
 
   const onSuspendClicked = async () => {
     if (!constructedReason().trim()) {
-      setError({ message: "Please provide a reason." });
+      setError({ message: t("deletionModal.reasonForDeletion") });
       return;
     }
 
@@ -107,7 +108,7 @@ export default function DeleteServersModal(props: Props) {
 
     if (hasErrors) {
       alert(
-        "Some servers could not be deleted due to an error. Please try again."
+        t("deletionModal.couldNotDeleteServers")
       );
     }
     emitModerationServerDeleted(props.servers);
@@ -127,7 +128,7 @@ export default function DeleteServersModal(props: Props) {
       <Button
         onClick={onSuspendClicked}
         margin={0}
-        label={requestSent() ? "Deleting..." : "Delete"}
+        label={requestSent() ? t("deletionModal.deleting") : t("deletionModal.deleteButton")}
         color="var(--alert-color)"
         primary
       />
@@ -137,7 +138,7 @@ export default function DeleteServersModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={`Delete ${props.servers.length} Server(s)`}
+      title={t("deletionModal.deleteServers", { number: props.servers.length } )}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
@@ -157,11 +158,11 @@ export default function DeleteServersModal(props: Props) {
           )}
         </For>
         <Show when={templates().Other}>
-          <Input label="Reason" value={reason()} onText={setReason} />
+          <Input label={t("deletionModal.reason")} value={reason()} onText={setReason} />
         </Show>
 
         <Input
-          label="Confirm Password"
+          label={t("deletionModal.deleteServer")}
           type="password"
           value={password()}
           onText={setPassword}

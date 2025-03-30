@@ -3,6 +3,7 @@ import Button from "./Button";
 import { FlexColumn, FlexRow } from "./Flexbox";
 import LegacyModal from "./legacy-modal/LegacyModal";
 import Text from "./Text";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const ModalContainer = styled(FlexColumn)`
   align-items: center;
@@ -36,28 +37,30 @@ export function DangerousLinkModal(props: {
     window.open(url(), "_blank")?.focus();
   };
 
+  const [t] = useTransContext();
+
   const ActionButtons = (
     <FlexRow style={{ "margin-left": "auto" }}>
       <Button
-        label="Don't Visit"
+        label={t("dangerousLink.cancelButton")}
         onClick={props.close}
         color="var(--alert-color)"
         iconName="close"
       />
-      <Button label="Visit" iconName="done" onClick={visitLink} />
+      <Button label={t("dangerousLink.visitButton")} iconName="done" onClick={visitLink} />
     </FlexRow>
   );
 
   return (
     <LegacyModal
-      title="Custom Link"
+      title={t("dangerousLink.title")}
       icon="link"
       actionButtons={ActionButtons}
       maxWidth={400}
       close={props.close}
     >
       <ModalContainer gap={10}>
-        <Text>This link will take you to</Text>
+        <Text>{t("dangerousLink.text")}</Text>
         <LinkContainer>{url()}</LinkContainer>
       </ModalContainer>
     </LegacyModal>

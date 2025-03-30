@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import { Portal } from "solid-js/web";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 
 export interface MultiSelectDropDownItem {
@@ -76,11 +77,12 @@ export default function MultiSelectDropDown(props: MultiSelectDropDownProps) {
 }
 
 function ItemTemplate(props: { items?: MultiSelectDropDownItem[], item?: MultiSelectDropDownItem }) {
+  const [t] = useTransContext();
   return (
     <div class={styles.itemTemplate}>
       <div class={styles.details}>
         <div>
-          <Show when={props.items}>{props.items ? `${props.items.length} item(s) selected` :"Select Item(s)"}</Show>
+          <Show when={props.items}>{props.items ? t("misc.itemsSelected", { count: props.items.length }) : t("misc.selectItems")}</Show>
           <Show when={props.item}>{props.item?.label}</Show>
         </div>
       </div>

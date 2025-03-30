@@ -8,6 +8,7 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
+import { t } from "i18next";
 
 function NotificationCircle() {
   return (
@@ -50,11 +51,11 @@ const TicketItemStyle = css`
 `;
 
 const CategoryToName = {
-  [TicketCategory.QUESTION]: "Question",
-  [TicketCategory.ACCOUNT]: "Account",
-  [TicketCategory.ABUSE]: "Abuse",
-  [TicketCategory.OTHER]: "Other",
-  [TicketCategory.SERVER_VERIFICATION]: "Verify Server",
+  [TicketCategory.QUESTION]: t("tickets.categories.question"),
+  [TicketCategory.ACCOUNT]: t("tickets.categories.account"),
+  [TicketCategory.ABUSE]: t("tickets.categories.abuse"),
+  [TicketCategory.SERVER_VERIFICATION]: t("tickets.categories.verify"),
+  [TicketCategory.OTHER]: t("tickets.categories.other"),
 } as const;
 
 export const TicketItem = (props: {
@@ -141,19 +142,19 @@ export const TicketItem = (props: {
 export const TicketStatusToName = (as: "mod" | "user") =>
   ({
     [TicketStatus.CLOSED_AS_DONE]: {
-      text: "Resolved",
+      text: t("tickets.status.resolved"),
       color: "var(--success-color)",
     },
     [TicketStatus.CLOSED_AS_INVALID]: {
-      text: "Invalid",
+      text: t("tickets.status.invalid"),
       color: "var(--alert-color)",
     },
     [TicketStatus.WAITING_FOR_MODERATOR_RESPONSE]: {
-      text: as === "user" ? "Reply Sent" : "Response Needed",
+      text: as === "user" ? t("tickets.status.replySent") : t("tickets.status.responseNeeded"),
       color: as === "user" ? "var(--primary-color)" : "var(--warn-color)",
     },
     [TicketStatus.WAITING_FOR_USER_RESPONSE]: {
-      text: as === "user" ? "Response Needed" : "Reply Sent",
+      text: as === "user" ? t("tickets.status.responseNeeded") : t("tickets.status.replySent"),
       color: as === "user" ? "var(--warn-color)" : "var(--primary-color)",
     },
   } as Record<string, { text: string; color: string }>);

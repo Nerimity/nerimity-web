@@ -55,7 +55,7 @@ export default function ServerSettingsBans() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Emojis",
+      title: t("servers.settings.drawer.title") + " - " + t("servers.settings.drawer.emojis"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -115,8 +115,8 @@ export default function ServerSettingsBans() {
       </Text>
       <SettingsBlock
         icon="face"
-        label="Custom Emojis"
-        description="Add your own emojis!"
+        label={t("servers.settings.emojis.title")}
+        description={t("servers.settings.emojis.description")}
         class={css`
           && {
             border-bottom-left-radius: 0;
@@ -131,7 +131,7 @@ export default function ServerSettingsBans() {
           ref={setFileBrowser}
           onChange={onFilePick}
         />
-        <Button label="Add Emojis" onClick={() => fileBrowser()?.open()} />
+        <Button label={t("servers.settings.emojis.addEmojiButton")} onClick={() => fileBrowser()?.open()} />
       </SettingsBlock>
       <EmojiCountPane
         count={emojis().length}

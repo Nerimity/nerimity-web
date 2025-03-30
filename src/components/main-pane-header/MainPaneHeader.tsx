@@ -41,6 +41,7 @@ import {
 } from "@/chat-api/Bitwise";
 import { WebcamModal } from "./WebcamModal";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
+import { t } from "i18next";
 
 export default function MainPaneHeader() {
   const {
@@ -249,7 +250,7 @@ const MentionListPopup = (props: { close: () => void }) => {
       <Show when={notifications() && !notifications()?.length}>
         <div class={styles.noMentions}>
           <Icon name="alternate_email" size={40} />
-          <Text>No Mentions</Text>
+          <Text>{t("misc.noMentions")}</Text>
         </div>
       </Show>
       <Show when={notifications()}>
@@ -405,7 +406,7 @@ function VideoStream(props: { mediaStream: MediaStream; mute?: boolean }) {
         <Button
           iconName="fullscreen"
           iconSize={18}
-          title="Fullscreen"
+          title={t("call.fullscreen")}
           padding={6}
           margin={0}
           onClick={() => videoEl?.requestFullscreen({ navigationUI: "hide" })}
@@ -571,7 +572,7 @@ function VoiceActions(props: { channelId: string }) {
           iconName="call"
           color="var(--success-color)"
           onClick={onCallClick}
-          label="Join"
+          label={t("call.join")}
         />
       </Show>
       <Show when={isInCall()}>
@@ -594,7 +595,7 @@ function VoiceActions(props: { channelId: string }) {
           iconName="call_end"
           color="var(--alert-color)"
           onClick={onCallEndClick}
-          label="Leave"
+          label={t("call.leave")}
         />
       </Show>
     </div>
@@ -612,7 +613,7 @@ function VoiceMicActions(props: { channelId: string }) {
         <Button
           iconName="mic_off"
           color="var(--alert-color)"
-          label="Muted"
+          label={t("call.muted")}
           onClick={toggleMic}
         />
       </Show>
@@ -637,7 +638,7 @@ function VoiceDeafenActions(props: { channelId: string }) {
         <Button
           iconName="headset_off"
           color="var(--alert-color)"
-          label="Deafened"
+          label={t("call.deafen")}
           onClick={voiceUsers.toggleDeafen}
         />
       </Show>

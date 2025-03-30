@@ -13,6 +13,7 @@ import { Modal } from "../ui/modal";
 import { addReminder } from "@/chat-api/services/ReminderService";
 import { Message } from "@/chat-api/store/useMessages";
 import Text from "../ui/Text";
+import { t } from "i18next";
 
 export enum TimestampType {
   RELATIVE = "tr",
@@ -76,7 +77,7 @@ export function TimestampMention(props: {
       };
       return (
         <Modal.Root close={close}>
-          <Modal.Header title="Reminder" />
+          <Modal.Header title={t("markupMessage.reminder")} />
           <Modal.Body>
             <div>Set A Reminder For</div>
             <div
@@ -97,14 +98,14 @@ export function TimestampMention(props: {
           </Modal.Body>
           <Modal.Footer>
             <Modal.Button
-              label="Close"
+              label={t("markupMessage.close")}
               iconName="close"
               alert
               onClick={close}
             />
             <Modal.Button
               primary
-              label={requestSent() ? "Creating..." : "Set Reminder"}
+              label={requestSent() ? t("markupMessage.creating") : t("markupMessage.setReminder")}
               iconName="schedule"
               onClick={setReminder}
             />

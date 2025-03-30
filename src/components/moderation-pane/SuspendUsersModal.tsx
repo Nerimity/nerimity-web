@@ -16,6 +16,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { RadioBox } from "../ui/RadioBox";
 import { createStore } from "solid-js/store";
+import { t } from "i18next";
 
 const SuspendUsersContainer = styled("div")`
   min-width: 260px;
@@ -70,12 +71,12 @@ export default function SuspendUsersModal(props: Props) {
   ]);
 
   const checkboxItems: CheckboxProps[] = [
-    { label: "Bypassing Suspensions (Alt)", checked: false },
-    { label: "Being Racist", checked: false },
-    { label: "Threating Harm or Violence", checked: false },
-    { label: "Being Hateful", checked: false },
-    { label: "Sharing NSFW Content", checked: false },
-    { label: "Other", checked: false },
+    { label: t("suspension.reasons.alt"), checked: false },
+    { label: t("suspension.reasons.racism"), checked: false },
+    { label: t("suspension.reasons.harm"), checked: false },
+    { label: t("suspension.reasons.hate"), checked: false },
+    { label: t("suspension.reasons.nsfw"), checked: false },
+    { label: t("suspension.reasons.other"), checked: false },
   ];
 
   createEffect(() => {
@@ -156,11 +157,11 @@ export default function SuspendUsersModal(props: Props) {
         gap: "4px",
       }}
     >
-      <Button onClick={onPreviewClick} margin={0} label="Preview" />
+      <Button onClick={onPreviewClick} margin={0} label={t("suspension.preview")} />
       <Button
         onClick={onSuspendClicked}
         margin={0}
-        label={suspending() ? "Suspending..." : "Suspend"}
+        label={suspending() ? t("suspension.suspending") : t("suspension.suspend")}
         color="var(--alert-color)"
         primary
       />
@@ -170,7 +171,7 @@ export default function SuspendUsersModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title={`Suspend ${props.users.length} User(s)`}
+      title={t("suspension.suspendUsers", { number: props.users.length })}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
@@ -185,15 +186,15 @@ export default function SuspendUsersModal(props: Props) {
           )}
         </For>
         <Show when={checkedViolation[5]}>
-          <Input label="Reason" value={reason()} onText={setReason} />
+          <Input label={t("suspension.reason")} value={reason()} onText={setReason} />
         </Show>
         <Input
           class={suspendInputStyle}
-          label="Suspend for"
+          label={t("suspension.suspendFor")}
           type="number"
           value={suspendFor()}
           onText={setSuspendFor}
-          suffix="days"
+          suffix={t("suspension.days")}
         />
         <Text
           size={12}
@@ -202,7 +203,7 @@ export default function SuspendUsersModal(props: Props) {
             margin-top: -4px;
           `}
         >
-          0 days will suspend them indefinitely
+          {t("suspension.infSuspend")}
         </Text>
 
         <div style={{ "margin-top": "6px", "margin-bottom": "2px" }}>
@@ -210,7 +211,7 @@ export default function SuspendUsersModal(props: Props) {
             labelSize={14}
             checked={ipBan()}
             onChange={setIpBan}
-            label="IP ban for a week"
+            label={t("suspension.ipBan")}
           />
         </div>
         <div style={{ "margin-top": "2px", "margin-bottom": "6px" }}>
@@ -218,12 +219,12 @@ export default function SuspendUsersModal(props: Props) {
             labelSize={14}
             checked={deleteRecentMessages()}
             onChange={setDeleteRecentMessages}
-            label="Delete past 7 days of messages (raids only)"
+            label={t("suspension.deleteMessages")}
           />
         </div>
 
         <Input
-          label="Confirm Password"
+          label={t("suspension.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

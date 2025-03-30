@@ -1019,10 +1019,10 @@ export function PostsArea(props: {
           }
           selectedId={sort() || "0"}
           items={[
-            { id: "0", label: "Latest" },
-            { id: "mostLiked7Days", label: "Most Liked (7 days)" },
-            { id: "mostLiked30days", label: "Most Liked (30 days)" },
-            { id: "mostLikedAllTime", label: "Most Liked (All time)" },
+            { id: "0", label: t("posts.latest") },
+            { id: "mostLiked7Days", label: t("posts.mostLiked7") },
+            { id: "mostLiked30days", label: t("posts.mostLiked30") },
+            { id: "mostLikedAllTime", label: t("posts.mostLikedAll") },
           ]}
         />
       </Show>
@@ -1479,7 +1479,7 @@ export function ViewPostModal(props: { close(): void }) {
   return (
     <LegacyModal
       close={onClose}
-      title="Post"
+      title={t("posts.post")}
       class={css`
         display: flex;
         flex-direction: column;
@@ -1490,7 +1490,7 @@ export function ViewPostModal(props: { close(): void }) {
     >
       <MetaTitle>
         {!post() || post()?.deleted
-          ? "Post"
+          ? t("posts.post")
           : `${post()?.createdBy.username}: ${post()?.content}`}
       </MetaTitle>
       <FlexColumn style={{ overflow: "auto", height: "100%" }}>
@@ -1520,7 +1520,7 @@ export function ViewPostModal(props: { close(): void }) {
                       : "rgba(255,255,255,0.6)"
                   }
                 >
-                  {`Replies (${post()?._count?.comments})`}
+                  {t("posts.replies", { count: post()?._count?.comments })}
                 </Text>
               </ItemContainer>
               <ItemContainer
@@ -1556,7 +1556,7 @@ export function ViewPostModal(props: { close(): void }) {
                       : "rgba(255,255,255,0.6)"
                   }
                 >
-                  {`Reposts (${post()?._count?.reposts})`}
+                  {t("posts.reposts", { count: post()?._count?.reposts })}
                 </Text>
               </ItemContainer>
             </Show>
@@ -1625,7 +1625,7 @@ export function DeletePostModal(props: { post: Post; close: () => void }) {
   return (
     <LegacyModal
       close={props.close}
-      title="Delete Post?"
+      title={t("posts.deletePostModal.deletePost")}
       icon="delete"
       class={deletePostModalStyles}
       actionButtons={ActionButtons}
@@ -1669,7 +1669,7 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
         onClick={props.close}
         color="var(--alert-color)"
         iconName="close"
-        label="Cancel"
+        label={t("posts.cancelButton")}
       />
       <Button onClick={onEditClick} iconName="edit" label="Edit" />
     </FlexRow>
@@ -1678,7 +1678,7 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
   return (
     <LegacyModal
       close={props.close}
-      title="Edit Post"
+      title={t("posts.editPost")}
       icon="delete"
       class={editPostModalStyles}
       actionButtons={ActionButtons}

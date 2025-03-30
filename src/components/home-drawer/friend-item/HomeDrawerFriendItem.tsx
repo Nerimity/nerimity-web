@@ -19,6 +19,7 @@ import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 import { Modal } from "@/components/ui/modal";
+import { t } from "i18next";
 
 export default function HomeDrawerFriendItem(props: {
   friend?: Friend;
@@ -192,19 +193,19 @@ const ConfirmRemoveFriendRequestModal = (props: {
 
   return (
     <Modal.Root close={props.close} class={styles.removeFriendRequestModal}>
-      <Modal.Header title="Remove Friend Request" icon="delete" alert />
+      <Modal.Header title={t("inbox.drawer.removeFriend")} icon="delete" alert />
       <Modal.Body class={styles.removeFriendRequestBody}>
         Are you sure you want to remove
         <b> {props.friend?.recipient()?.username}</b>?
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label="Don't Remove"
+          label={t("inbox.drawer.cancelRemoval")}
           onClick={props.close}
           iconName="close"
         />
         <Modal.Button
-          label="Remove"
+          label={t("inbox.drawer.confirmRemoval")}
           color="var(--alert-color)"
           onClick={remove}
           primary

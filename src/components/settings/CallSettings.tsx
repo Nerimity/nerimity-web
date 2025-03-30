@@ -37,7 +37,7 @@ export default function CallSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Call",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.call-settings"),
       iconName: "settings",
     });
   });
@@ -147,7 +147,7 @@ function InputMode() {
       <InputModeRadioBoxContainer
         onClick={() => {
           if (isInCall()) {
-            alert("You must leave the call first.");
+            alert(t("settings.call.leaveTheCall"));
           }
         }}
       >
@@ -191,7 +191,7 @@ function PushToTalk() {
     on(bindMode, (bindMode) => {
       if (bindMode) {
         if (isInCall()) {
-          alert("You must leave the call first.");
+          alert(t("settings.call.leaveTheCall"));
           setBindMode(false);
           return;
         }

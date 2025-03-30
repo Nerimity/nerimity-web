@@ -8,6 +8,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { CustomLink } from "./ui/CustomLink";
 import { timeElapsed } from "@/common/date";
 import Button from "./ui/Button";
+import { t } from "i18next";
 
 const InVoiceActionsContainer = styled(FlexColumn)`
   background-color: rgb(15, 15, 15);
@@ -57,7 +58,7 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
           />
           <DetailsContainer>
             <Text size={12}>
-              Connected for <CallTime channelId={channelId()!} />
+              {t("call.connectedFor")}<CallTime channelId={channelId()!} />
             </Text>
             <CustomLink
               href={href()}

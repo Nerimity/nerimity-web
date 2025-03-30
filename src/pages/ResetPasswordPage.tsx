@@ -94,7 +94,7 @@ export default function ResetPasswordPage() {
     });
 
     if (res && res.token) {
-      setSuccess("Password reset successful.");
+      setSuccess(t("resetPasswordPage.successful"));
       setTimeout(() => {
         setStorageString(StorageKeys.USER_TOKEN, res.token);
         navigate(redirectTo);
@@ -118,13 +118,13 @@ export default function ResetPasswordPage() {
                 <TitleContainer>Reset Password</TitleContainer>
                 <Input
                   margin={[10, 0, 10, 0]}
-                  label="New Password"
+                  label={t("resetPasswordPage.newPassword")}
                   type="password"
                   onText={setNewPassword}
                 />
                 <Input
                   margin={[10, 0, 10, 0]}
-                  label="Confirm New Password"
+                  label={t("resetPasswordPage.confirmPassword")}
                   type="password"
                   onText={setConfirmNewPassword}
                 />
@@ -139,7 +139,7 @@ export default function ResetPasswordPage() {
                   styles={{ flex: 1 }}
                   margin={[10, 0, 0, 0]}
                   iconName="key"
-                  label={requestSent() ? "Resetting..." : "Reset Password"}
+                  label={requestSent() ? t("resetPasswordPage.resetting") : t("resetPasswordPage.resetPassword")}
                   onClick={resetPasswordClicked}
                 />
               </form>
@@ -185,10 +185,10 @@ const SendCodePage = () => {
             action="#"
             onSubmit={resetPasswordClicked}
           >
-            <TitleContainer>Reset Password</TitleContainer>
+            <TitleContainer>{t("resetPasswordPage.title")}</TitleContainer>
             <Input
               margin={[10, 0, 10, 0]}
-              label="Email"
+              label={t("resetPasswordPage.email")}
               type="text"
               onText={setEmail}
             />
@@ -203,7 +203,7 @@ const SendCodePage = () => {
               styles={{ flex: 1 }}
               margin={[10, 0, 0, 0]}
               iconName="mail"
-              label={requestSent() ? "Sending Email..." : "Send Email"}
+              label={requestSent() ? t("resetPasswordPage.sending") : t("resetPasswordPage.sendEmail")}
               onClick={resetPasswordClicked}
             />
           </form>

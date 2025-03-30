@@ -5,6 +5,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { createSignal, onCleanup, onMount } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { userNoticeDismiss } from "@/chat-api/services/UserService";
+import { t } from "i18next";
 
 export const WarnedModal = (props: {
   id?: string;
@@ -42,7 +43,7 @@ export const WarnedModal = (props: {
       <Button
         color="var(--warn-color)"
         onClick={onClick}
-        label={countdown() === 0 ? "Understood" : `${countdown()}s`}
+        label={countdown() === 0 ? t("warned.understoodButton") : `${countdown()}s`}
         primary
       />
     </FlexRow>
@@ -51,14 +52,14 @@ export const WarnedModal = (props: {
   return (
     <LegacyModal
       color="var(--warn-color)"
-      title="You Have Been Warned!"
+      title={t("warned.title")}
       actionButtons={ActionButtons}
     >
       <div class={styles.container}>
         <div class={styles.suspendContainer}>
-          <span>{props.reason || "Violating the TOS"}</span>
+          <span>{props.reason || t("warned.defaultReason")}</span>
           <div class={styles.message}>
-            By: <span class={styles.messageDim}>{props.by?.username}</span>
+            {t("warned.by")} <span class={styles.messageDim}>{props.by?.username}</span>
           </div>
           <div
             class={styles.messageDim}
@@ -68,7 +69,7 @@ export const WarnedModal = (props: {
               "max-width": "300px",
             }}
           >
-            if you continue with this behavior, your account will be suspended.
+            {t("warned.description")}
           </div>
         </div>
       </div>

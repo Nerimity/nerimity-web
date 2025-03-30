@@ -32,6 +32,7 @@ import { useModerationServerDeletedListener } from "@/common/GlobalEvents";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useJoinServer } from "@/chat-api/useJoinServer";
+import { t } from "i18next";
 
 export default function ServerPage() {
   const params = useParams<{ serverId: string }>();
@@ -69,7 +70,7 @@ export default function ServerPage() {
     getServer(params.serverId).then(setServer);
   });
 
-  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
+  const requestStatus = () => (requestSent() ? t("servers.moderationPane.saving") : t("servers.moderationPane.saveChangesButton"));
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
     setRequestSent(true);
@@ -116,7 +117,7 @@ export default function ServerPage() {
             </ServerBannerContainer>
           </Banner>
           <Breadcrumb>
-            <BreadcrumbItem href={"../../"} icon="home" title="Moderation" />
+            <BreadcrumbItem href={"../../"} icon="home" title={t("servers.moderationPane.moderation")} />
             <BreadcrumbItem title={server()?.name} icon="dns" />
           </Breadcrumb>
 
@@ -157,13 +158,13 @@ export default function ServerPage() {
             />
           </Show>
 
-          <SettingsBlock label="Server Name" icon="edit">
+          <SettingsBlock label={t("servers.settings.general.serverName")} icon="edit">
             <Input
               value={inputValues().name}
               onText={(v) => setInputValue("name", v)}
             />
           </SettingsBlock>
-          <SettingsBlock label="Verified" icon="verified">
+          <SettingsBlock label={t("servers.moderationPane.verified")} icon="verified">
             <Checkbox
               checked={inputValues().verified}
               onChange={(v) => setInputValue("verified", v)}
@@ -172,7 +173,7 @@ export default function ServerPage() {
 
           <div style={{ "margin-bottom": "4px" }}>
             <UsersPane
-              title="Members"
+              title={t("servers.moderationPane.members")}
               search={params.serverId}
               hideSearchBar
               noMargin
@@ -180,7 +181,7 @@ export default function ServerPage() {
           </div>
           <div style={{ "margin-bottom": "10px" }}>
             <UsersAuditLogsPane
-              title="Server Audit Logs"
+              title={t("servers.moderationPane.auditLogs")}
               search={params.serverId}
               hideSearchBar
               noMargin
@@ -191,7 +192,7 @@ export default function ServerPage() {
 
           <Show when={Object.keys(updatedInputValues()).length}>
             <SettingsBlock
-              label="Confirm Admin Password"
+              label={t("servers.moderationPane.confirmAdminPassword")}
               icon="security"
               class={css`
                 margin-top: 10px;
@@ -277,15 +278,15 @@ const PublicServerBlock = (props: {
 
   return (
     <>
-      <SettingsBlock icon="public" label="Public Server">
+      <SettingsBlock icon="public" label={t("servers.moderationPane.publicServer")}>
         <Button
           onClick={onClick}
           label={
             cacheServer()
-              ? "Visit"
+              ? t("servers.moderationPane.visit")
               : joinClicked()
-              ? "Joining..."
-              : "Join Server"
+              ? t("servers.moderationPane.joining")
+              : t("servers.moderationPane.join")
           }
           primary
         />
@@ -297,11 +298,11 @@ const PublicServerBlock = (props: {
           }
         `}
         icon="public"
-        label="Pin Server"
+        label={t("servers.moderationPane.pinServer")}
       >
         <Button
           onClick={onPinClicked}
-          label={isPinned() ? "Unpin Server" : "Pin Server"}
+          label={isPinned() ? t("servers.moderationPane.unpinServer") : t("servers.moderationPane.pinServer")}
           color={isPinned() ? "var(--alert-color)" : "var(--primary-color)"}
           primary
         />
@@ -330,11 +331,11 @@ const DeleteServerBlock = (props: { serverId: string }) => {
         }
       `}
       icon="delete"
-      label="Delete Server"
+      label={t("servers.moderationPane.deleteServer")}
     >
       <Button
         onClick={showSuspendModal}
-        label="Delete Server"
+        label={t("servers.moderationPane.deleteServer")}
         color="var(--alert-color)"
         primary
       />
@@ -371,12 +372,12 @@ const UndoDeleteServerBlock = (props: {
         }
       `}
       icon="undo"
-      label="Scheduled for Deletion"
-      description={`Server will be deleted ${deletionDate()}`}
+      label={t("servers.moderationPane.scheduledForDeletion")}
+      description={t("servers.moderationPane.scheduledDescription", { when: deletionDate() })}
     >
       <Button
         onClick={onClick}
-        label="Undo"
+        label={t("servers.moderationPane.undo")}
         color="var(--alert-color)"
         primary
       />

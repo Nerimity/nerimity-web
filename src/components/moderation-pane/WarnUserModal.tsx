@@ -16,6 +16,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { WarnedModal } from "../warned-modal/WarnedModal";
 import { Notice } from "../ui/Notice/Notice";
+import { t } from "i18next";
 
 const Container = styled("div")`
   min-width: 260px;
@@ -90,12 +91,12 @@ export default function WarnUserModal(props: Props) {
         gap: "4px",
       }}
     >
-      <Button onClick={onPreviewClick} margin={0} label="Preview" />
+      <Button onClick={onPreviewClick} margin={0} label={t("suspension.preview")} />
       <Button
         onClick={onWarnClick}
         margin={0}
         color="var(--warn-color)"
-        label={requestSending() ? "Warning..." : "Warn User"}
+        label={requestSending() ? t("suspension.warnings.warning") : t("suspension.warnings.warnUserButton")}
         primary
       />
     </FlexRow>
@@ -104,7 +105,7 @@ export default function WarnUserModal(props: Props) {
   return (
     <LegacyModal
       close={props.close}
-      title="Warn User"
+      title={t("suspension.warnings.title")}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
     >
@@ -112,13 +113,13 @@ export default function WarnUserModal(props: Props) {
         <Show when={warnCount() >= 2}>
           <Notice
             type="warn"
-            description="This user has been warned more than 2 times. Suspension is recommended."
+            description={t("suspension.warnings.description")}
           />
         </Show>
-        <Input label="Reason" value={reason()} onText={setReason} />
+        <Input label={t("suspension.reason")} value={reason()} onText={setReason} />
 
         <Input
-          label="Confirm Password"
+          label={t("suspension.confirmPassword")}
           type="password"
           value={password()}
           onText={setPassword}

@@ -61,6 +61,7 @@ import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
 import DeleteServersModal from "./DeleteServersModal";
 import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
+import { t } from "i18next";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -183,7 +184,7 @@ export default function ModerationPane() {
   createEffect(() => {
     if (!account.hasModeratorPerm()) return;
     header.updateHeader({
-      title: "Moderation",
+      title: t("moderationPane.title"),
       iconName: "security",
     });
     setLoad(true);
@@ -261,11 +262,11 @@ function SelectedUserActions() {
   };
   return (
     <SelectedUserActionsContainer>
-      <Text>{selectedUsers().length} User(s) Selected</Text>
+      <Text>{selectedUsers().length} {t("moderationPane.usersSelected")}</Text>
       <Button
         class="suspendButton"
         onClick={showSuspendModal}
-        label="Suspend Selected"
+        label={t("moderationPane.suspendSelected")}
         primary
         color="var(--alert-color)"
       />
@@ -290,11 +291,11 @@ function SelectedServerActions() {
   };
   return (
     <SelectedUserActionsContainer>
-      <Text>{selectedServers().length} Server(s) Selected</Text>
+      <Text>{selectedServers().length} {t("moderationPane.serversSelected")}</Text>
       <Button
         class="suspendButton"
         onClick={showDeleteModal}
-        label="Delete Selected"
+        label={t("moderationPane.deleteSelected")}
         primary
         color="var(--alert-color)"
       />
@@ -374,14 +375,14 @@ const TicketsPane = () => {
         description={
           <Show when={tickets.hasModerationTicketNotification()}>
             <Text size={12} color="var(--warn-color)">
-              There are ticket(s) waiting for moderator response.
+              {t("moderationPane.ticketsAwaiting")}
             </Text>
           </Show>
         }
-        label="Tickets"
+        label={t("moderationPane.tickets")}
       >
         <CustomLink href="./tickets">
-          <Button tabIndex="-1" label="View Tickets" iconName="visibility" />
+          <Button tabIndex="-1" label={t("moderationPane.viewTickets")} iconName="visibility" />
         </CustomLink>
       </SettingsBlock>
     </div>
@@ -429,7 +430,7 @@ function OnlineUsersPane() {
           padding={4}
           onClick={() => setShowAll(!showAll())}
         />
-        <Text>Online Users ({users()?.length})</Text>
+        <Text>{t("moderationPane.statistics.online")} ({users()?.length})</Text>
       </FlexRow>
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : users()}>
@@ -531,7 +532,7 @@ function ServersPane() {
       style={!showAll() ? { height: "initial" } : undefined}
     >
       <Input
-        placeholder="Search"
+        placeholder={t("moderationPane.search")}
         margin={[10, 10, 10, 30]}
         onText={onSearchText}
         value={search()}
@@ -544,7 +545,7 @@ function ServersPane() {
           padding={4}
           onClick={() => setShowAll(!showAll())}
         />
-        <Text>Servers</Text>
+        <Text>{t("dashboard.servers")}</Text>
       </FlexRow>
 
       <ListContainer class="list">
@@ -554,7 +555,7 @@ function ServersPane() {
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
             iconName="refresh"
-            label="Load More"
+            label={t("moderationPane.loadMore")}
             onClick={onLoadMoreClick}
           />
         </Show>
@@ -609,7 +610,7 @@ export function User(props: { user: any; class?: string }) {
         </FlexRow>
         <FlexRow gap={3} itemsCenter>
           <Text size={12} opacity={0.6}>
-            Registered:
+            {t("moderationPane.registered")}
           </Text>
           <Text size={12}>{joined}</Text>
           <Show when={props.user.suspension}>
@@ -621,7 +622,7 @@ export function User(props: { user: any; class?: string }) {
                 padding: "3px",
               }}
             >
-              Suspended
+              {t("moderationPane.suspended")}
             </Text>
           </Show>
           <Show when={props.user.bot}>
@@ -633,7 +634,7 @@ export function User(props: { user: any; class?: string }) {
                 padding: "3px",
               }}
             >
-              Bot
+              {t("moderationPane.bot")}
             </Text>
           </Show>
         </FlexRow>
@@ -695,13 +696,13 @@ export function Server(props: { server: RawServer }) {
         <Text>{props.server.name}</Text>
         <FlexRow gap={3}>
           <Text size={12} opacity={0.6}>
-            Created:
+            {t("moderationPane.created")}
           </Text>
           <Text size={12}>{created}</Text>
         </FlexRow>
         <FlexRow gap={3}>
           <Text size={12} opacity={0.6}>
-            Created By:
+            {t("moderationPane.createdBy")}
           </Text>
           <Text size={12}>
             <A class={linkStyle} href={`/app/moderation/users/${createdBy.id}`}>
@@ -720,7 +721,7 @@ export function Server(props: { server: RawServer }) {
                 display: "inline-block",
               }}
             >
-              <Text size={12}>Scheduled Deletion</Text>
+              <Text size={12}>{t("moderationPane.scheduledDeletion")}</Text>
             </div>
           </Show>
           <Show when={props.server.publicServer}>
@@ -771,27 +772,27 @@ function StatsArea() {
   return (
     <StatsAreaContainer gap={5} wrap>
       <StatCard
-        title="Registered Users"
+        title={t("moderationPane.statistics.registered")}
         description={stats()?.totalRegisteredUsers?.toLocaleString()}
       />
       <StatCard
-        title="Online Users"
+        title={t("moderationPane.statistics.online")}
         description={onlineUsersCount()?.toLocaleString()}
       />
       <StatCard
-        title="Messages"
+        title={t("moderationPane.statistics.messages")}
         description={stats()?.totalCreatedMessages?.toLocaleString()}
       />
       <StatCard
-        title="Servers"
+        title={t("moderationPane.statistics.servers")}
         description={stats()?.totalCreatedServers?.toLocaleString()}
       />
       <StatCard
-        title="Weekly Registered Users"
+        title={t("moderationPane.statistics.weeklyRegistered")}
         description={stats()?.weeklyRegisteredUsers?.toLocaleString()}
       />
       <StatCard
-        title="Weekly Messages"
+        title={t("moderationPane.statistics.weeklyMessages")}
         description={stats()?.weeklyCreatedMessages?.toLocaleString()}
       />
     </StatsAreaContainer>
@@ -855,7 +856,7 @@ export function AuditLogPane(props: {
           padding={4}
           onClick={() => setShowAll(!showAll())}
         />
-        <Text>Audit Logs</Text>
+        <Text>{t("moderationPane.auditLogs")}</Text>
       </FlexRow>
 
       <ListContainer class="list">
@@ -865,7 +866,7 @@ export function AuditLogPane(props: {
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
             iconName="refresh"
-            label="Load More"
+            label={t("moderationPane.loadMore")}
             onClick={onLoadMoreClick}
           />
         </Show>
@@ -881,7 +882,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
 
   const expireAt = props.auditLog.expireAt
     ? formatTimestamp(props.auditLog.expireAt)
-    : "Never";
+    : t("moderationPane.auditLog.expireNever");
 
   const [hovered, setHovered] = createSignal(false);
 
@@ -891,34 +892,34 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         return {
           icon: "dns",
           color: "var(--alert-color)",
-          title: "Server Delete",
+          title: t("moderationPane.auditLog.serverDelete"),
         };
       case AuditLogType.serverUpdate:
         return {
           icon: "dns",
           color: "var(--success-color)",
-          title: "Server Update",
+          title: t("moderationPane.auditLog.serverUpdate"),
         };
       case AuditLogType.userSuspend:
         return {
           icon: "person",
           color: "var(--alert-color)",
-          title: "User Suspend",
+          title: t("moderationPane.auditLog.userSuspend"),
         };
       case AuditLogType.userUnsuspend:
         return {
           icon: "person",
           color: "var(--success-color)",
-          title: "User Unsuspend",
+          title: t("moderationPane.auditLog.userUnsuspend"),
         };
       case AuditLogType.userUpdate:
         return {
           icon: "person",
           color: "var(--success-color)",
-          title: "User Update",
+          title: t("moderationPane.auditLog.userUpdate"),
         };
       default:
-        return { icon: "texture", color: "gray", title: "Unknown Action" };
+        return { icon: "texture", color: "gray", title: t("moderationPane.auditLog.unknownAction") };
     }
   };
 
@@ -952,7 +953,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
         <FlexRow gap={3} itemsCenter style={{ "margin-bottom": "2px" }}>
           <Show when={props.auditLog.actionType === AuditLogType.ipBan}>
             <Text size={14}>
-              {props.auditLog.count || 1} IP(s) Banned for 7 days
+              {props.auditLog.count || 1} {t("moderationPane.auditLog.ipBanned")}
             </Text>
             <Text size={14}>
               <A
@@ -964,7 +965,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
           <Show when={props.auditLog.actionType === AuditLogType.userWarned}>
-            <Text size={14}>Warned </Text>
+            <Text size={14}>{t("moderationPane.auditLog.warned")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -977,7 +978,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           <Show
             when={props.auditLog.actionType === AuditLogType.userShadowUnbanned}
           >
-            <Text size={14}>Undo Shadow Banned </Text>
+            <Text size={14}>{t("moderationPane.auditLog.undoShadowBanned")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -990,7 +991,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           <Show
             when={props.auditLog.actionType === AuditLogType.userShadowBanned}
           >
-            <Text size={14}>Shadow Banned </Text>
+            <Text size={14}>{t("moderationPane.auditLog.shadowBanned")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -1001,7 +1002,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
           <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
-            <Text size={14}>Suspend </Text>
+            <Text size={14}>{t("moderationPane.auditLog.suspend")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -1015,7 +1016,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           <Show
             when={props.auditLog.actionType === AuditLogType.userSuspendUpdate}
           >
-            <Text size={14}>Updated Suspension for </Text>
+            <Text size={14}>{t("moderationPane.auditLog.udpatedSuspension")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -1027,7 +1028,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.postDelete}>
-            <Text size={14}>Post From </Text>
+            <Text size={14}>{t("moderationPane.auditLog.postFrom")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -1036,11 +1037,11 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
                 {props.auditLog.username}
               </A>
             </Text>
-            <Text size={14}>Was Deleted </Text>
+            <Text size={14}>{t("moderationPane.auditLog.wasDeleted")}</Text>
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.userUnsuspend}>
-            <Text size={14}>Unsuspend </Text>
+            <Text size={14}>{t("moderationPane.auditLog.unsuspend")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -1052,7 +1053,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.userUpdate}>
-            <Text size={14}>Updated </Text>
+            <Text size={14}>{t("moderationPane.auditLog.updated")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -1064,18 +1065,18 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.serverDelete}>
-            <Text size={14}>Deleted </Text>
+            <Text size={14}>{t("moderationPane.auditLog.deleted")}</Text>
             <Text size={14}>{props.auditLog.serverName}</Text>
           </Show>
           <Show
             when={props.auditLog.actionType === AuditLogType.serverUndoDelete}
           >
-            <Text size={14}>Undo Delete </Text>
+            <Text size={14}>{t("moderationPane.auditLog.undoDelete")}</Text>
             <Text size={14}>{props.auditLog.serverName}</Text>
           </Show>
 
           <Show when={props.auditLog.actionType === AuditLogType.serverUpdate}>
-            <Text size={14}>Updated </Text>
+            <Text size={14}>{t("moderationPane.auditLog.updated")}</Text>
             <Text size={14}>
               <A
                 class={linkStyle}
@@ -1086,7 +1087,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
             </Text>
           </Show>
 
-          <Text size={14}>By </Text>
+          <Text size={14}>{t("moderationPane.auditLog.by")}</Text>
           <Text size={14}>
             <A class={linkStyle} href={`/app/moderation/users/${by.id}`}>
               {by.username}:{by.tag}
@@ -1096,7 +1097,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
 
         <FlexRow gap={3}>
           <Text size={12} opacity={0.6}>
-            At:{" "}
+            {t("moderationPane.auditLog.at")}{" "}
           </Text>
           <Text size={12}>{created}</Text>
         </FlexRow>
@@ -1105,7 +1106,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           <Show when={props.auditLog.reason}>
             <FlexRow gap={3}>
               <Text size={12} opacity={0.6}>
-                Reason:{" "}
+                {t("moderationPane.auditLog.reason")}{" "}
               </Text>
               <Text size={12} style={{ "white-space": "initial" }}>
                 {props.auditLog.reason}
@@ -1115,7 +1116,7 @@ function AuditLogItem(props: { auditLog: AuditLog }) {
           <Show when={props.auditLog.actionType === AuditLogType.userSuspend}>
             <FlexRow gap={3}>
               <Text size={12} opacity={0.6}>
-                Expires{" "}
+                {t("moderationPane.auditLog.expires")}
               </Text>
               <Text size={12}>{expireAt}</Text>
             </FlexRow>
@@ -1244,7 +1245,7 @@ function PostsPane() {
       style={!showAll() ? { height: "initial" } : undefined}
     >
       <Input
-        placeholder="Search by post id / user id"
+        placeholder={t("moderationPane.searchByID")}
         margin={[10, 10, 10, 30]}
         onText={onSearchText}
         value={search()}
@@ -1274,7 +1275,7 @@ function PostsPane() {
         <Show when={showAll() && !loadMoreClicked()}>
           <Button
             iconName="refresh"
-            label="Load More"
+            label={t("moderationPane.loadMore")}
             onClick={onLoadMoreClick}
           />
         </Show>
@@ -1356,13 +1357,13 @@ export function Post(props: {
         <Text size={14}>{props.post.content}</Text>
         <FlexRow gap={3}>
           <Text size={12} opacity={0.6}>
-            Created:
+            {t("moderationPane.created")}
           </Text>
           <Text size={12}>{created}</Text>
         </FlexRow>
         <FlexRow gap={3}>
           <Text size={12} opacity={0.6}>
-            Created By:
+            {t("moderationPane.createdBy")}
           </Text>
           <Text size={12}>
             <A class={linkStyle} href={`/app/moderation/users/${createdBy.id}`}>
@@ -1374,7 +1375,7 @@ export function Post(props: {
         <Show when={props.post.commentTo}>
           <FlexRow gap={3}>
             <Text size={12} opacity={0.6}>
-              Replying To:
+              {t("moderationPane.replyingTo")}
             </Text>
             <Text size={12}>
               <A
@@ -1394,7 +1395,7 @@ export function Post(props: {
           <Button
             onClick={onRemoveAnnounceClick}
             iconName="horizontal_rule"
-            label="Remove Announce"
+            label={t("posts.announcements.removeAnnounce")}
             textSize={12}
             iconSize={16}
             margin={0}
@@ -1406,7 +1407,7 @@ export function Post(props: {
           <Button
             onClick={onPostAnnounceClick}
             iconName="add"
-            label="Announce"
+            label={t("posts.announcements.announce")}
             textSize={12}
             iconSize={16}
             margin={0}
@@ -1416,7 +1417,7 @@ export function Post(props: {
         <Button
           onClick={onPostDeleteClick}
           iconName="delete"
-          label="Delete"
+          label={t("deletionModal.deleteButton")}
           textSize={12}
           iconSize={16}
           color="var(--alert-color)"

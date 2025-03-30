@@ -17,6 +17,7 @@ import { Portal } from "solid-js/web";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { createStore, reconcile } from "solid-js/store";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 export interface ContextMenuItem {
   id?: any;
@@ -63,10 +64,11 @@ export default function ContextMenu(props: ContextMenuProps) {
     const target = props.clickEvent.target as HTMLElement;
     const imageSrc = target.getAttribute("data-contextmenu-src");
     const url = target.getAttribute("href");
+    const [t] = useTransContext();
     if (url || imageSrc) {
       if (!tempItems[0]?.separator) tempItems.unshift({ separator: true });
       tempItems.unshift({
-        label: "Copy Link",
+        label: t("posts.copyLinkButton"),
         icon: "content_copy",
         onClick: () => {
           navigator.clipboard.writeText(imageSrc || url || "");

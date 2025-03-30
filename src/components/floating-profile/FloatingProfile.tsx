@@ -400,7 +400,7 @@ const DesktopProfileFlyout = (props: {
                   href={RouterEndpoints.PROFILE(user()!.id)}
                   color={colors().primary}
                   class={styles.button}
-                  label="Full Profile"
+                  label={t("profile.float.fullProfile")}
                   iconName="person"
                   margin={0}
                 />
@@ -410,7 +410,7 @@ const DesktopProfileFlyout = (props: {
                   iconSize={16}
                   color={colors().primary}
                   class={styles.button}
-                  label="Message"
+                  label={t("profile.float.message")}
                   onClick={onMessageClicked}
                   iconName="mail"
                   margin={0}
@@ -429,7 +429,7 @@ const DesktopProfileFlyout = (props: {
           primaryColor={colors()?.primary || undefined}
           style={{ "margin-bottom": "5px" }}
           icon="leaderboard"
-          title="Roles"
+          title={t("profile.float.roles")}
         />
         <div class={styles.rolesContainer}>
           <For each={member()?.roles(true)!}>
@@ -494,7 +494,7 @@ const DesktopProfileFlyout = (props: {
       <Show when={bio()?.length}>
         <FlyoutTitle
           icon="info"
-          title="Bio"
+          title={t("profile.float.bio")}
           primaryColor={colors()?.primary || undefined}
         />
         <div class={styles.bioContainer}>
@@ -526,7 +526,7 @@ const DesktopProfileFlyout = (props: {
       <FlyoutTitle
         style={{ "margin-bottom": "5px" }}
         icon="chat"
-        title="Latest Post"
+        title={t("profile.float.latestPost")}
         primaryColor={props.primaryColor || undefined}
       />
       <PostItem
@@ -650,16 +650,16 @@ export const UserActivity = (props: {
   const [playedFor, setPlayedFor] = createSignal("");
 
   const isMusic = () =>
-    !!activity()?.action.startsWith("Listening") &&
+    !!activity()?.action.startsWith(t("profile.float.listening")) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
   const isVideo = () =>
-    !!activity()?.action.startsWith("Watching") &&
+    !!activity()?.action.startsWith(t("profile.float.watching")) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
 
   const isLiveStream = () =>
-    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+    !!activity()?.action.startsWith(t("profile.float.watching")) && !activity()?.endsAt;
 
   createEffect(
     on(activity, () => {

@@ -32,6 +32,14 @@ export function formatTimestamp(timestamp: number) {
     }).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
+export const fullDateTime = (timestamp: number) => {
+  const date = new Date(timestamp);
+  return `${Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
 
 // get days ago from timestamp
 export function getDaysAgo(timestamp: number) {

@@ -5,6 +5,7 @@ import "highlight.js/styles/felipec.css";
 
 import { createEffect, createSignal, Show } from "solid-js";
 import Icon from "../ui/icon/Icon";
+import { t } from "i18next";
 
 interface Props {
   lang?: string;
@@ -88,14 +89,14 @@ export default function CodeBlock(props: Props) {
         </span>
         <Icon
           onClick={toggleWrap}
-          title="Toggle Wrap"
+          title={t("markupMessage.toggleWrap")}
           name="wrap_text"
           class={classNames("button", conditionalClass(wrap(), "active"))}
           size={16}
         />
         <Icon
           onClick={copy}
-          title="Copy"
+          title={t("markupMessage.copy")}
           name="content_copy"
           class="button"
           size={16}

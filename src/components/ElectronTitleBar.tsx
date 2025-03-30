@@ -6,6 +6,7 @@ import { electronWindowAPI } from "@/common/Electron";
 import Icon from "./ui/icon/Icon";
 import { classNames } from "@/common/classNames";
 import { createSignal } from "solid-js";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const BarContainer = styled(FlexRow)`
   height: 35px;
@@ -105,6 +106,7 @@ export function ElectronTitleBar() {
 }
 
 const CopyLinkButton = () => {
+  const [t] = useTransContext();
   const [clicked, setClicked] = createSignal(false);
   const copyLinkClick = () => {
     setClicked(true);
@@ -114,7 +116,7 @@ const CopyLinkButton = () => {
   return (
     <Icon
       onClick={copyLinkClick}
-      title="Copy Page URL"
+      title={t("misc.copyPageUrl")}
       class={classNames(
         windowControlButtonStyles,
         copyLink,
