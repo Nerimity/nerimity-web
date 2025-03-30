@@ -60,7 +60,7 @@ const buildMessageNotification = (
     title: `${displayName} ${
       server ? `(#${channel?.name} ${server?.name})` : ""
     }`,
-    body: message.content || t("inAppNotifiactions.attachment"),
+    body: message.content || t("inAppNotifications.attachment"),
     color: mentioned ? "var(--alert-color)" : undefined,
     channel,
     message,

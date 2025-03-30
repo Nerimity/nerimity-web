@@ -13,7 +13,7 @@ export default function AddFriendModal(props: { close: () => void }) {
       <Modal.Header title={t("inbox.drawer.addFriend.title")} icon="group_add" />
       <Modal.Body class={style.body}>
         <div class={style.description}>
-          Enter your friends username and tag to add them.
+          {t("inbox.drawer.addFriend.description")}
         </div>
         <Input
           placeholder={t("inbox.drawer.addFriend.placeholder")}

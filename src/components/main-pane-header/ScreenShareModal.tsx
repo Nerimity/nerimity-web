@@ -191,7 +191,7 @@ const constructConstraints = async (
     case "60fps":
       constraints.video.frameRate = 60;
       break;
-    case t("call.screenShareModal.sourceFramerate"):
+    case "Source":
       constraints.video.frameRate = await getRoundedFps();
       break;
     default:

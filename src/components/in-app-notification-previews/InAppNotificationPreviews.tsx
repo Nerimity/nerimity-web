@@ -198,8 +198,8 @@ export default function InAppNotificationPreviews() {
             <div class={style.actionsContainer}>
               <Show when={notification()?.message}>
                 <Button
-                  label={t("inAppNotifiactions.markAsRead")}
-                  title={t("inAppNotifiactions.markAsRead")}
+                  label={t("inAppNotifications.markAsRead")}
+                  title={t("inAppNotifications.markAsRead")}
                   onClick={markAsRead}
                   padding={3}
                   iconSize={16}
@@ -208,8 +208,8 @@ export default function InAppNotificationPreviews() {
                 />
               </Show>
               <Button
-                label={t("inAppNotifiactions.dismiss")}
-                title={t("inAppNotifiactions.dismiss")}
+                label={t("inAppNotifications.dismiss")}
+                title={t("inAppNotifications.dismiss")}
                 onClick={dismissNotification}
                 padding={3}
                 iconSize={16}

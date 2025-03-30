@@ -195,7 +195,7 @@ const ConfirmRemoveFriendRequestModal = (props: {
     <Modal.Root close={props.close} class={styles.removeFriendRequestModal}>
       <Modal.Header title={t("inbox.drawer.removeFriend")} icon="delete" alert />
       <Modal.Body class={styles.removeFriendRequestBody}>
-        Are you sure you want to remove
+        {t("inbox.drawer.removeConfirmation")}
         <b> {props.friend?.recipient()?.username}</b>?
       </Modal.Body>
       <Modal.Footer>

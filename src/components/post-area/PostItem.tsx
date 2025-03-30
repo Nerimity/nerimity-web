@@ -45,7 +45,6 @@ import { OGEmbed, ServerInviteEmbed } from "../message-pane/message-item/Message
 import { inviteLinkRegex, youtubeLinkRegex } from "@/common/regex";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { RawYoutubeEmbed } from "../message-pane/message-item/RawYoutubeEmbed";
-import { useTransContext } from "@mbarzda/solid-i18next";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -310,7 +309,6 @@ const Actions = (props: {
   const showContextMenu = (event: MouseEvent) => {
     if (event.target instanceof HTMLElement) {
       const rect = event.target?.getBoundingClientRect()!;
-      const [t] = useTransContext();
       createPortal(
         (close) => (
           <ContextMenu

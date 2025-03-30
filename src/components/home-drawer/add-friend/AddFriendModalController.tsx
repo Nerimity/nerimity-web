@@ -4,6 +4,7 @@ import { createSignal } from "solid-js";
 
 export function useAddFriendModalController() {
   const { friends } = useStore();
+  const [t] = useTransContext();
   const [userTag, setUserTag] = createSignal("");
 
   const [requestSent, setRequestSent] = createSignal(false);
@@ -15,8 +16,6 @@ export function useAddFriendModalController() {
     setRequestSent(true);
     setError({ message: "", path: "" });
     setSuccess(false);
-
-    const [t] = useTransContext();
 
     const split = userTag().split(":");
     if (split.length <= 1) {

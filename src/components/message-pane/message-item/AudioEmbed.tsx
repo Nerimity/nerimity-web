@@ -97,6 +97,7 @@ export const AudioEmbed = (props: {
   error?: string;
 }) => {
   const audio = useAudio();
+  const [t] = useTransContext();
 
   let progressBarRef: HTMLDivElement | undefined;
 
@@ -121,7 +122,6 @@ export const AudioEmbed = (props: {
   };
 
   const onPlayClick = () => {
-    const [t] = useTransContext();
     if (props.file?.provider === "google_drive") {
       if (
         !electronWindowAPI()?.isElectron &&

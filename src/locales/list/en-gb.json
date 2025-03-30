@@ -176,11 +176,13 @@
       "inboxTitle": "Inbox",
       "friendsButton": "Friends",
       "removeFriend": "Remove Friend Request",
+      "removeConfirmation": "Are you sure you want to remove",
       "confirmRemoval": "Remove",
       "cancelRemoval": "Don't Remove",
       "viewAll": "View All",
       "addFriend": {
         "title": "Add Friend",
+        "description": "Enter your friends username and tag to add them.",
         "placeholder": "Username:ABC1",
         "sendRequest": "Send Request",
         "sending": "Sending...",
@@ -1295,7 +1297,7 @@
     "imageMessage": "Image Message",
     "startedCall": " started a call."
   },
-  "inAppNotifiactions": {
+  "inAppNotifications": {
     "attachment": "Attachment",
     "markAsRead": "Mark as Read",
     "dismiss": "Dismiss"
