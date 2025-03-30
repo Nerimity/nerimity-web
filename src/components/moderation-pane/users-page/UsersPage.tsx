@@ -39,6 +39,7 @@ const TagsField = (props: { user: ModerationUser }) => {
       {isSuspended ? <Tag tag={t("profile.moderatorsOnly.usersPage.suspended")} color="var(--alert-color)" /> : ""}
       {shadowBanned ? (
         <Tag tag={t("profile.moderatorsOnly.usersPage.shadowBanned")} color="var(--alert-color)" />
+
       ) : (
         ""
       )}
@@ -57,13 +58,17 @@ export default function UsersPage() {
 
   return (
     <div>
+
       <h1>{t("profile.moderatorsOnly.usersPage.title")}</h1>
       <Table.Root headers={[t("profile.moderatorsOnly.usersPage.name"), t("profile.moderatorsOnly.usersPage.joined"), t("profile.moderatorsOnly.usersPage.tags")]}>
+
         <For each={users.data() || []}>
           {(user) => (
             <Table.Item href={`./${user.id}`}>
               <Table.Field><NameField user={user} /></Table.Field>
+
               <Table.Field mobileTitle={t("profile.moderatorsOnly.usersPage.joined")}><div>{fullDateTime(user.joinedAt)}</div></Table.Field>
+
               <Table.Field><TagsField user={user} /></Table.Field>
             </Table.Item>
           )}

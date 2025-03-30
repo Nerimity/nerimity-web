@@ -11,6 +11,7 @@ import {
   ReactedUser,
   addMessageReaction,
   fetchMessageReactedUsers,
+  markMessageUnread,
 } from "@/chat-api/services/MessageService";
 import socketClient from "@/chat-api/socketClient";
 import { Message } from "@/chat-api/store/useMessages";
@@ -215,7 +216,7 @@ export const MessageLogArea = (props: {
 
   const updateUnreadMarker = (ignoreFocus = false) => {
     if (!ignoreFocus && hasFocus()) return;
-    const lastSeenAt = channel().lastSeen || -1;
+    const lastSeenAt = channel()?.lastSeen || -1;
     const message = channelMessages()?.find(
       (m) => m.createdAt - lastSeenAt >= 0
     );
@@ -225,6 +226,21 @@ export const MessageLogArea = (props: {
     });
   };
 
+  createRenderEffect(
+    on(
+      [() => channelMessages()?.length, () => channel()?.lastSeen],
+      (now, prev) => {
+        if (!prev) return;
+        const [prevMessageLength, prevLastSeen] = prev;
+        const [nowMessageLength, nowLastSeen] = now;
+        if (prevMessageLength !== nowMessageLength) return;
+        if (!nowLastSeen) return;
+        if (!prevLastSeen) return;
+        if (nowLastSeen >= prevLastSeen) return;
+        updateUnreadMarker(true);
+      }
+    )
+  );
   createRenderEffect(
     on(
       () => channelMessages()?.length,
@@ -819,6 +835,13 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const isSelfMessage = () => account.user()?.id === props.message.createdBy.id;
   const showReportMessage = () => !isSelfMessage();
 
+  const onMarkUnreadClick = () => {
+    markMessageUnread({
+      channelId: props.message.channelId,
+      messageId: props.message.id,
+    });
+  };
+
   return (
     <ContextMenu
       triggerClassName="floatingShowMore"
@@ -828,6 +851,11 @@ function MessageContextMenu(props: MessageContextMenuProps) {
           icon: "face",
           label: t("messageContextMenu.viewReactions"),
           onClick: onViewReactionsClick,
+        },
+        {
+          icon: "mark_chat_unread",
+          label: "Mark Unread",
+          onClick: onMarkUnreadClick,
         },
         ...(showQuote()
           ? [

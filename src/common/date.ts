@@ -1,6 +1,10 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
+
+// Weeks are not working as intended. update package when this gets merged.
+// https://github.com/iamkun/dayjs/pull/2811
+
 // make a function where if the number is less than 10, it will add a 0 in front of it
 function pad(num: number) {
   return num < 10 ? `0${num}` : num;

@@ -30,6 +30,7 @@ const [notifications, setNotifications] = createStore<
 >([]);
 
 const pushNotification = (notification: InAppPreviewNotification) => {
+  if (!document.hasFocus()) return;
   if (notifications.length >= 2) {
     setNotifications(reconcile([notifications[0]!, notification]));
   }
@@ -70,11 +71,8 @@ const buildMessageNotification = (
     },
   });
 };
-const inAppNotificationPreviewsEnabled = isExperimentEnabled(
-  "IN_APP_NOTIFICATION_PREVIEWS"
-);
+
 export const pushMessageNotification = (message: Message) => {
-  if (!inAppNotificationPreviewsEnabled()) return;
   if (message.silent) return;
   let mode = getStorageObject(
     StorageKeys.IN_APP_NOTIFICATIONS_PREVIEW,

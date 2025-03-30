@@ -315,6 +315,7 @@ export interface RawPost {
   commentToId: string;
   commentTo?: RawPost;
   createdBy: RawUser;
+  embed?: RawEmbed;
   createdAt: number;
   mentions: RawUser[];
   editedAt: number;

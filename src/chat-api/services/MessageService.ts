@@ -64,7 +64,7 @@ interface PostMessageOpts {
 }
 
 export const postMessage = async (opts: PostMessageOpts) => {
-  let body: any = {
+  const body: any = {
     content: opts.content?.trim() || undefined,
 
     ...(opts.silent ? { silent: true } : {}),
@@ -100,6 +100,23 @@ interface UpdateMessageOpts {
   messageId: string;
 }
 
+
+interface MarkMessageUnreadOpts {
+  channelId: string;
+  messageId: string;
+}
+
+export const markMessageUnread = async (opts: MarkMessageUnreadOpts) => {
+  const data = await request<Partial<{ status: boolean }>>({
+    method: "POST",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      Endpoints.message(opts.channelId, opts.messageId) + "/mark-unread",
+    useToken: true,
+  });
+  return data;
+};
 export const updateMessage = async (opts: UpdateMessageOpts) => {
   const data = await request<Partial<{ updated: RawMessage }>>({
     method: "PATCH",

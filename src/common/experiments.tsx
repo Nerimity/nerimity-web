@@ -12,16 +12,16 @@ export interface Experiment {
 }
 
 export const Experiments = [
-  {
-    id: "IN_APP_NOTIFICATION_PREVIEWS",
-    name: "In-App Notification Previews",
-    description: "Show popup notifications in app.",
-    onToggle: () => {
-      const { clearNotifications } = useInAppNotificationPreviews();
+  // {
+  //   id: "IN_APP_NOTIFICATION_PREVIEWS",
+  //   name: "In-App Notification Previews",
+  //   description: "Show popup notifications in app.",
+  //   onToggle: () => {
+  //     const { clearNotifications } = useInAppNotificationPreviews();
 
-      clearNotifications();
-    },
-  },
+  //     clearNotifications();
+  //   },
+  // },
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];

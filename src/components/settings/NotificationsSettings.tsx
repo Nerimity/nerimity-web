@@ -40,10 +40,7 @@ export default function NotificationsSettings() {
     });
   });
 
-  const inAppNotificationPreviewsEnabled = isExperimentEnabled(
-    "IN_APP_NOTIFICATION_PREVIEWS"
-  );
-  isExperimentEnabled;
+
   return (
     <Container>
       <Breadcrumb>
@@ -55,9 +52,7 @@ export default function NotificationsSettings() {
 
       <NotificationSoundSelection />
 
-      <Show when={inAppNotificationPreviewsEnabled()}>
         <InAppNotificationBlock />
-      </Show>
     </Container>
   );
 }

@@ -19,6 +19,7 @@ import {
   onMessageCreated,
   onMessageDeleted,
   onMessageDeletedBatch,
+  onMessageMarkUnread,
   onMessageReactionAdded,
   onMessageReactionRemoved,
   onMessageUpdated,
@@ -133,6 +134,7 @@ socket.on(ServerEvents.NOTIFICATION_DISMISSED, onNotificationDismissed);
 
 socket.on(ServerEvents.MESSAGE_CREATED, onMessageCreated);
 socket.on(ServerEvents.MESSAGE_UPDATED, onMessageUpdated);
+socket.on(ServerEvents.MESSAGE_MARK_UNREAD, onMessageMarkUnread);
 socket.on(ServerEvents.MESSAGE_DELETED, onMessageDeleted);
 socket.on(ServerEvents.MESSAGE_DELETED_BATCH, onMessageDeletedBatch);
 
