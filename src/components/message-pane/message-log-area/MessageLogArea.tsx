@@ -71,6 +71,7 @@ import { formatTimestamp } from "@/common/date";
 import { CreateTicketModal } from "@/components/CreateTicketModal";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
+import { fetchTranslation } from "@/common/GoogleTranslate";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -581,6 +582,15 @@ export const MessageLogArea = (props: {
     ));
   };
 
+  const [translateMessageIds, setTranslateMessageIds] = createSignal<string[]>(
+    []
+  );
+  const translateMessage = async () => {
+    const messageId = messageContextDetails()?.message.id;
+    if (translateMessageIds().includes(messageId!)) return;
+    setTranslateMessageIds([...translateMessageIds(), messageId!]);
+  };
+
   return (
     <div class={styles.messageLogArea} ref={messageLogElement}>
       <Show when={messageContextDetails()}>
@@ -588,6 +598,7 @@ export const MessageLogArea = (props: {
           {...messageContextDetails()!}
           replyMessage={() => replyMessage(messageContextDetails()?.message!)}
           quoteMessage={() => quoteMessage(messageContextDetails()?.message!)}
+          translateMessage={translateMessage}
           onClose={() => setMessageContextDetails(undefined)}
         />
       </Show>
@@ -638,6 +649,7 @@ export const MessageLogArea = (props: {
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
+              translateMessage={translateMessageIds().includes(message.id!)}
               reactionPickerClick={(event) =>
                 reactionPickerClick(event, message)
               }
@@ -780,6 +792,7 @@ type MessageContextMenuProps = Omit<ContextMenuProps, "items"> & {
   clickEvent: MouseEvent;
   quoteMessage(): void;
   replyMessage(): void;
+  translateMessage?(): void;
 };
 
 function MessageContextMenu(props: MessageContextMenuProps) {
@@ -842,6 +855,10 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     });
   };
 
+  const onTranslateClick = () => {
+    props.translateMessage?.();
+  };
+
   return (
     <ContextMenu
       triggerClassName="floatingShowMore"
@@ -851,6 +868,11 @@ function MessageContextMenu(props: MessageContextMenuProps) {
           icon: "face",
           label: t("messageContextMenu.viewReactions"),
           onClick: onViewReactionsClick,
+        },
+        {
+          icon: "translate",
+          label: "Translate",
+          onClick: onTranslateClick,
         },
         {
           icon: "mark_chat_unread",
