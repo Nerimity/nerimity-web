@@ -94,10 +94,15 @@ import Checkbox from "@/components/ui/Checkbox";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { css } from "solid-styled-components";
 import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
-import { inviteLinkRegex, youtubeLinkRegex, twitterStatusLinkRegex } from "@/common/regex";
+import {
+  inviteLinkRegex,
+  youtubeLinkRegex,
+  twitterStatusLinkRegex,
+} from "@/common/regex";
 import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { t } from "i18next";
+import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -200,6 +205,7 @@ interface MessageItemProps {
   userContextMenu?: (event: MouseEvent) => void;
   reactionPickerClick?: (event: MouseEvent) => void;
   quoteClick?: () => void;
+  translateMessage?: boolean;
 }
 
 interface DetailsProps {
@@ -260,6 +266,8 @@ const MessageItem = (props: MessageItemProps) => {
   const params = useParams();
   const { serverMembers, servers, account, friends } = useStore();
   const [hovered, setHovered] = createSignal(false);
+  const [translatedContent, setTranslatedContent] =
+    createSignal<TranslateRes>();
   const serverMember = createMemo(() =>
     params.serverId
       ? serverMembers.get(params.serverId, props.message.createdBy.id)
@@ -305,6 +313,23 @@ const MessageItem = (props: MessageItemProps) => {
     if (member.isServerCreator()) return true;
     return member.hasPermission?.(ROLE_PERMISSIONS.MENTION_EVERYONE);
   };
+
+  const updateTranslation = async () => {
+    const translated = await fetchTranslation(props.message.content!).catch(
+      () => {
+        alert("Something went wrong, try again later.");
+      }
+    );
+    if (!translated) return;
+    setTranslatedContent(translated);
+  };
+
+  createEffect(() => {
+    if (!props.translateMessage) return;
+    if (!props.message.content) return;
+    if (translatedContent()) return;
+    updateTranslation();
+  });
 
   const selfMember = createMemo(() =>
     serverMembers.get(params.serverId!, account.user()?.id!)
@@ -446,6 +471,17 @@ const MessageItem = (props: MessageItemProps) => {
                   />
                 </Show>
                 <Content message={props.message} hovered={hovered()} />
+                <Show when={translatedContent()}>
+                  <div class={styles.translationArea}>
+                    <span class={styles.title}>
+                      Translation{" "}
+                      <span class={styles.translationSource}>
+                        ({translatedContent()?.src})
+                      </span>
+                    </span>
+                    <Markup text={translatedContent()?.translationString!} />
+                  </div>
+                </Show>
                 <Show when={props.message.uploadingAttachment}>
                   <UploadAttachment message={props.message} />
                 </Show>
@@ -587,7 +623,6 @@ const SystemMessage = (props: { message: Message }) => {
 };
 
 export default MessageItem;
-
 
 export function Embeds(props: {
   message: Message;
@@ -771,9 +806,7 @@ export const YoutubeEmbed = (props: {
     return clampImageSize(1920, 1080, maxWidth, 999999);
   };
 
-  return <RawYoutubeEmbed {...props} style={style()}/>;
-
-
+  return <RawYoutubeEmbed {...props} style={style()} />;
 };
 
 const TwitterEmbed = (props: { path: string }) => {
@@ -1221,7 +1254,12 @@ export function ServerInviteEmbed(props: { code: string }) {
   );
 }
 
-export function OGEmbed(props: { message: {content?: string, embed: RawEmbed}, customWidth?: number; customHeight?: number; customWidthOffset?: number }) {
+export function OGEmbed(props: {
+  message: { content?: string; embed: RawEmbed };
+  customWidth?: number;
+  customHeight?: number;
+  customWidthOffset?: number;
+}) {
   const embed = () => props.message.embed!;
   const { createPortal } = useCustomPortal();
   const [showDetailed, setShowDetailed] = createSignal(false);
@@ -1426,7 +1464,7 @@ const replaceImageUrl = (val: string, hasFocus: boolean) => {
   return val.replaceAll(regex, (r) => {
     let url = regex2.exec(r)?.[1];
     if (!url) return r;
-    if (url.startsWith("\"") || url.startsWith("'")) {
+    if (url.startsWith('"') || url.startsWith("'")) {
       url = url.slice(1, -1);
     }
     return `url("${
@@ -1522,7 +1560,7 @@ function HTMLEmbedItem(props: { items: HtmlEmbedItem[] | string[] }) {
       .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
       .replaceAll("&gt;", ">")
-      .replaceAll("&quot;", "\"")
+      .replaceAll("&quot;", '"')
       .replaceAll("&#039;", "'");
   };
   return (
