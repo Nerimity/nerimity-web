@@ -374,13 +374,7 @@ body .reactionItem {
   align-items: start;
   flex-direction: column;
 }
-.htmlEmbedContainer {
-  position: relative;
-  display: flex;
-  overflow: auto;
-  align-self: normal;
-  max-height: 500px;
-}
+
 .ogEmbedContainer {
   display: flex;
   max-width: 500px;

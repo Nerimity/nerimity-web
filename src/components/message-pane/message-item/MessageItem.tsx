@@ -34,6 +34,7 @@ import {
   createSignal,
   createUniqueId,
   For,
+  JSX,
   lazy,
   Match,
   on,
@@ -1471,6 +1472,13 @@ const replaceImageUrl = (val: string, hasFocus: boolean) => {
     }")`;
   });
 };
+const htmlEmbedContainerStyles: JSX.CSSProperties = {
+  position: "relative",
+  display: "flex",
+  overflow: "auto",
+  "align-self": "normal",
+  "max-height": "500px",
+};
 
 function HTMLEmbed(props: { message: RawMessage }) {
   const id = createUniqueId();
@@ -1487,7 +1495,10 @@ function HTMLEmbed(props: { message: RawMessage }) {
 
   return (
     <ShadowRoot>
-      <div class={classNames(styles.htmlEmbedContainer, `htmlEmbed${id}`)}>
+      <div
+        class={classNames(`htmlEmbed${id}`)}
+        style={htmlEmbedContainerStyles}
+      >
         <HTMLEmbedItem
           items={
             Array.isArray(embed())
@@ -1955,7 +1966,7 @@ const MessageReplyItem = (props: {
 const ShadowRoot: ParentComponent = (props) => {
   let div: HTMLDivElement;
   return (
-    <div ref={div!}>
+    <div ref={div!} style={{ width: "100%" }}>
       <Portal mount={div!} useShadow={true}>
         {props.children}
       </Portal>
