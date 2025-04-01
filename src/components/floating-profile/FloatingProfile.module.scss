@@ -7,6 +7,21 @@
   gap: 10px;
 }
 
+.mobile {
+  &.backgroundContainer {
+    overflow: auto;
+    align-items: initial;
+    justify-content: initial;
+  }
+  .flyoutContainer {
+    position: relative;
+    width: 100%;
+  }
+  .flyoutInnerContainer {
+    max-height: initial;
+  }
+}
+
 .flyoutInnerContainer {
   display: flex;
   flex-direction: column;
@@ -19,14 +34,7 @@
 
   backdrop-filter: blur(34px);
 
-  &.mobile {
-    max-height: initial;
-    border-right: none;
-    border-bottom: none;
-    border-left: none;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+
 
   &.dmPane {
     overflow: hidden;

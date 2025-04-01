@@ -3,6 +3,7 @@ import {
   For,
   JSX,
   Match,
+  Setter,
   Show,
   Switch,
   createEffect,
@@ -38,7 +39,7 @@ import { Markup } from "../Markup";
 import { bannerUrl } from "@/chat-api/store/useUsers";
 import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu";
 import { electronWindowAPI } from "@/common/Electron";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { useLocation } from "solid-navigator";
 import env from "@/common/env";
 import {
@@ -131,6 +132,7 @@ const DesktopProfileFlyout = (props: {
   bio?: string;
   colors?: { bg?: [string | null, string | null]; primary?: string | null };
   triggerEl?: HTMLElement;
+  style?: JSX.CSSProperties;
   dmPane?: boolean;
   mobile?: boolean;
   close?(): void;
@@ -138,6 +140,7 @@ const DesktopProfileFlyout = (props: {
   serverId?: string;
   left?: number;
   top?: number;
+  ref?: Setter<HTMLDivElement | undefined>;
   anchor?: "left" | "right";
 }) => {
   const { createPortal } = useCustomPortal();
@@ -272,18 +275,7 @@ const DesktopProfileFlyout = (props: {
   const style = () =>
     ({
       left: left(),
-      ...(props.mobile
-        ? {
-            top: "initial",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            width: "initial",
-            "align-items": "initial",
-            "max-height": "70%",
-            height: "initial",
-          }
-        : undefined),
+
       ...(props.dmPane
         ? {
             position: "relative",
@@ -444,7 +436,9 @@ const DesktopProfileFlyout = (props: {
               </div>
             )}
           </For>
-          <Show when={accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)}>
+          <Show
+            when={accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)}
+          >
             <div
               class={classNames(styles.roleContainer, styles.selectable)}
               onClick={showRoleModal}
@@ -541,9 +535,12 @@ const DesktopProfileFlyout = (props: {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      ref={setFlyoutRef}
+      ref={(el) => {
+        setFlyoutRef(el);
+        props.ref?.(el);
+      }}
       class={classNames("modal", styles.flyoutContainer)}
-      style={style()}
+      style={{ ...style(), ...props.style }}
     >
       <div
         class={styles.flyoutInnerContainer}
@@ -554,7 +551,6 @@ const DesktopProfileFlyout = (props: {
         }}
         classList={{
           [styles.dmPane]: props.dmPane,
-          [styles.mobile]: props.mobile,
         }}
       >
         <StickyArea />
@@ -596,21 +592,36 @@ function MobileFlyout(props: {
   close?: () => void;
 }) {
   let mouseDownTarget: HTMLDivElement | null = null;
+  const [flyoutEl, setFlyoutEl] = createSignal<HTMLDivElement>();
+  const { height: flyoutHeight } = useResizeObserver(
+    () => flyoutEl()?.firstChild! as HTMLDivElement
+  );
+  const { height } = useWindowProperties();
 
   const onBackgroundClick = (event: MouseEvent) => {
     if (mouseDownTarget?.closest(".modal")) return;
     props.close?.();
   };
 
+  const style = () => {
+    const seventyPercentOfHeight = height() * 0.7;
+    const top = height() - flyoutHeight();
+    const res = flyoutHeight() > seventyPercentOfHeight ? "70%" : `${top}px`;
+    return {
+      "margin-top": res,
+    } as JSX.CSSProperties;
+  };
   return (
     <div
-      class={styles.backgroundContainer}
+      class={cn(styles.backgroundContainer, styles.mobile)}
       onClick={onBackgroundClick}
       onMouseDown={(e) => (mouseDownTarget = e.target as any)}
     >
       <DesktopProfileFlyout
+        ref={setFlyoutEl}
         channelNotice={props.channelNotice}
         bio={props.bio}
+        style={style()}
         colors={props.colors}
         mobile
         close={props.close}
@@ -741,7 +752,12 @@ export const UserActivity = (props: {
                   {activity()?.subtitle}
                 </Text>
                 <Show when={!isMusic() && !isVideo()}>
-                  <Text class={styles.playedFor} size={13} opacity={0.6} title={formatTimestamp(activity()?.startedAt || 0)}>
+                  <Text
+                    class={styles.playedFor}
+                    size={13}
+                    opacity={0.6}
+                    title={formatTimestamp(activity()?.startedAt || 0)}
+                  >
                     {playedFor()}
                   </Text>
                 </Show>
@@ -758,7 +774,11 @@ export const UserActivity = (props: {
             </div>
           </Show>
           <Show when={!activity()?.imgSrc && !activity()?.emoji}>
-            <Text class={styles.playedFor} size={13} title={formatTimestamp(activity()?.startedAt || 0)}>
+            <Text
+              class={styles.playedFor}
+              size={13}
+              title={formatTimestamp(activity()?.startedAt || 0)}
+            >
               For {playedFor()}
             </Text>
           </Show>
