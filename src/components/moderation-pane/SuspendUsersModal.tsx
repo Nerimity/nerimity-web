@@ -218,7 +218,7 @@ export default function SuspendUsersModal(props: Props) {
             labelSize={14}
             checked={deleteRecentMessages()}
             onChange={setDeleteRecentMessages}
-            label="Delete past 7 days of messages (raids only)"
+            label="Delete past 7 hours of messages (raids only)"
           />
         </div>
 
