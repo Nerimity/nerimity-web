@@ -120,6 +120,7 @@ function createDMDesktopNotification(message: Message) {
 
 const UserMentionRegex = /\[@:(.*?)\]/g;
 const RoleMentionRegex = /\[r:(.*?)\]/g;
+const CustomEmojiRegex = /\[[a]?ce:(.*?):(.*?)\]/g;
 
 function formatMessage(message: RawMessage) {
   const content = message.content;
@@ -135,5 +136,9 @@ function formatMessage(message: RawMessage) {
     return role ? `@${role.name}` : _;
   });
 
-  return roleReplace;
+  const cEmojiReplace = roleReplace.replace(CustomEmojiRegex, (_, __, p2) => {
+    return `:${p2}:`;
+  });
+
+  return cEmojiReplace;
 }
