@@ -2,7 +2,11 @@ import { Channel } from "@/chat-api/store/useChannels";
 import { Message } from "@/chat-api/store/useMessages";
 import useStore from "@/chat-api/store/useStore";
 import { StorageKeys, getStorageBoolean } from "./localStorage";
-import { MessageType, ServerNotificationPingMode } from "@/chat-api/RawData";
+import {
+  MessageType,
+  RawMessage,
+  ServerNotificationPingMode,
+} from "@/chat-api/RawData";
 import env from "./env";
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
@@ -66,6 +70,10 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   let title = `${message.createdBy.username} (${server?.name} #${channel.name})`;
   let body = message.content;
 
+  if (body) {
+    body = formatMessage(message);
+  }
+
   const username = member?.nickname || message.createdBy.username;
 
   if (!body && message.attachments?.length) {
@@ -90,6 +98,10 @@ function createDMDesktopNotification(message: Message) {
   const title = message.createdBy.username;
   let body = message.content;
 
+  if (body) {
+    body = formatMessage(message);
+  }
+
   if (!body && message.attachments?.length) {
     body = "Image Message";
   }
@@ -104,4 +116,24 @@ function createDMDesktopNotification(message: Message) {
     renotify: true,
     icon: avatarUrl(message.createdBy) || undefined,
   });
+}
+
+const UserMentionRegex = /\[@:(.*?)\]/g;
+const RoleMentionRegex = /\[r:(.*?)\]/g;
+
+function formatMessage(message: RawMessage) {
+  const content = message.content;
+  if (!content) return;
+
+  const mentionReplace = content.replace(UserMentionRegex, (_, id) => {
+    const user = message.mentions?.find((m) => m.id === id);
+    return user ? `@${user.username}` : _;
+  });
+
+  const roleReplace = mentionReplace.replace(RoleMentionRegex, (_, id) => {
+    const role = message.roleMentions?.find((m) => m.id === id);
+    return role ? `@${role.name}` : _;
+  });
+
+  return roleReplace;
 }
