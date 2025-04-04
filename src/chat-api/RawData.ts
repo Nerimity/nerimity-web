@@ -306,6 +306,12 @@ export interface RawPublicServer {
   server?: RawServer & { _count: { serverMembers: number } };
 }
 
+export interface BotCommand {
+  name: string;
+  description: string;
+  args: string;
+}
+
 export interface RawPost {
   id: string;
   content?: string;

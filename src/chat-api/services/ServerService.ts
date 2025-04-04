@@ -1,6 +1,7 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 import {
+  BotCommand,
   ChannelType,
   RawChannel,
   RawCustomEmoji,
@@ -34,6 +35,19 @@ export async function transferOwnership(
       ServiceEndpoints.server(serverId) +
       "/transfer-ownership",
     body: { password, newOwnerUserId },
+    useToken: true,
+  });
+}
+export async function getServerBotCommands(
+  serverId: string
+): Promise<{ commands: BotCommand[] }> {
+  return request({
+    method: "GET",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.server(serverId) +
+      "/bot-commands",
     useToken: true,
   });
 }
