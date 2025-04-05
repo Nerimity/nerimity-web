@@ -1439,7 +1439,10 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const onFocus = () => setIsFocus(true);
 
   const onClick = (e: any) => {
-    setIsFocus(e.target.closest("." + styles.textArea));
+    setIsFocus(
+      e.target.closest("." + styles.textArea) ||
+        e.target.closest(".clickableCommandSuggestionItem")
+    );
   };
 
   const update = () => {
@@ -1690,7 +1693,6 @@ function FloatingUserSuggestions(props: {
   );
 
   const onUserClick = (user: User & { name?: string }) => {
-    console.log(user);
     if (!props.textArea) return;
     if (!user.tag) {
       appendText(
@@ -1926,6 +1928,7 @@ function FloatingCommandSuggestions(props: {
         <For each={searched()}>
           {(cmd, i) => (
             <CommandSuggestionItem
+              class="clickableCommandSuggestionItem"
               selected={current() === i()}
               onHover={() => setCurrent(i())}
               cmd={cmd}
@@ -1943,6 +1946,7 @@ function CommandSuggestionItem(props: {
   selected: boolean;
   cmd: RawBotCommand;
   onclick(cmd: RawBotCommand): void;
+  class?: string;
 }) {
   const { users } = useStore();
   const user = () => users.get(props.cmd.botUserId);
@@ -1950,7 +1954,11 @@ function CommandSuggestionItem(props: {
     <ItemContainer
       onmousemove={props.onHover}
       selected={props.selected}
-      class={cn(styles.suggestionItem, styles.commandSuggestionItem)}
+      class={cn(
+        styles.suggestionItem,
+        styles.commandSuggestionItem,
+        props.class
+      )}
       onclick={() => props.onclick(props.cmd)}
     >
       <Avatar size={32} user={user()!} />
