@@ -1893,6 +1893,7 @@ function FloatingCommandSuggestions(props: {
 
   const onItemClick = (cmd: RawBotCommand) => {
     if (!props.textArea) return;
+    props.textArea.focus();
 
     setTimeout(() => {
       channelProperties.updateSelectedBotCommand(params.channelId, cmd);
