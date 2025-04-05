@@ -1,7 +1,7 @@
 import { request } from "./Request";
 import ServiceEndpoints from "./ServiceEndpoints";
 import {
-  BotCommand,
+  RawBotCommand,
   ChannelType,
   RawChannel,
   RawCustomEmoji,
@@ -40,7 +40,7 @@ export async function transferOwnership(
 }
 export async function getServerBotCommands(
   serverId: string
-): Promise<{ commands: BotCommand[] }> {
+): Promise<{ commands: RawBotCommand[] }> {
   return request({
     method: "GET",
     url:

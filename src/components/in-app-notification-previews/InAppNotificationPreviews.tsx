@@ -152,6 +152,7 @@ export default function InAppNotificationPreviews() {
                 <div class={style.title}>{notification()?.title}</div>
                 <div class={style.body}>
                   <Markup
+                    replaceCommandBotId
                     prefix={
                       <Show
                         when={

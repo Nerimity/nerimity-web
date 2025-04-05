@@ -46,6 +46,7 @@ export interface Props {
   class?: string;
   serverId?: string;
   prefix?: JSXElement;
+  replaceCommandBotId?: boolean;
 }
 
 type RenderContext = {
@@ -297,9 +298,15 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
   }
 }
 
+const commandRegex = /^(\/[^:\s]*):\d+( .*)?$/m;
 export function Markup(props: Props) {
   const _ctx = {
-    props: () => props,
+    props: () => ({
+      ...props,
+      text: props.replaceCommandBotId
+        ? props.text.replace(commandRegex, "$1$2")
+        : props.text,
+    }),
     emojiCount: 0,
     textCount: 0,
     quoteCount: 0,

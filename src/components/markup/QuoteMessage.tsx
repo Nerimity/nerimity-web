@@ -120,6 +120,7 @@ export function QuoteMessage(props: {
       </div>
       <div>
         <Markup
+          replaceCommandBotId
           text={props.quote.content || ""}
           message={props.quote as Message}
           isQuote

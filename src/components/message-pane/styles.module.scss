@@ -179,6 +179,25 @@ body .floating.floatingSlowModeIndicator {
         padding-left: 10px;
         gap: 5px;
 
+        &.commandSuggestionItem {
+          height: 40px;
+          .suggestContent {
+            display: flex;
+            flex-direction: column;
+            margin-left: 4px;
+            gap: 2px;
+          }
+          .suggestHeader {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          }
+          .suggestDescription {
+            opacity: 0.6;
+            font-size: 12px;
+          }
+        }
+
         .suggestionInfo {
           margin-left: auto;
           opacity: 0.6;
@@ -191,6 +210,10 @@ body .floating.floatingSlowModeIndicator {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+        .suggestArgs {
+          opacity: 0.6;
+          font-size: 12px;
         }
       }
     }

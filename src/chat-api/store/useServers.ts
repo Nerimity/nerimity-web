@@ -1,12 +1,17 @@
 import env from "@/common/env";
 import { createStore } from "solid-js/store";
 import {
+  RawBotCommand,
   ChannelType,
   RawCustomEmoji,
   RawServer,
   ServerNotificationPingMode,
 } from "../RawData";
-import { deleteServer, leaveServer } from "../services/ServerService";
+import {
+  deleteServer,
+  getServerBotCommands,
+  leaveServer,
+} from "../services/ServerService";
 import useAccount from "./useAccount";
 import useChannels from "./useChannels";
 import useMention from "./useMention";
@@ -21,6 +26,7 @@ export type Server = RawServer & {
   leave: () => Promise<RawServer>;
   mentionCount: () => number;
   avatarUrl(this: Server): string | null;
+  botCommands?: RawBotCommand[];
 };
 const [servers, setServers] = createStore<Record<string, Server | undefined>>(
   {}
@@ -170,6 +176,16 @@ const customEmojiNamesToEmoji = createRoot(() =>
   })
 );
 
+const fetchAndStoreServerBotCommands = async (serverId: string) => {
+  const server = servers[serverId];
+  if (server?.botCommands) return;
+  const result = await getServerBotCommands(serverId).catch(() => ({
+    commands: [],
+  }));
+
+  setServers(serverId, "botCommands", result.commands);
+};
+
 export default function useServers() {
   return {
     emojis,
@@ -181,5 +197,6 @@ export default function useServers() {
     hasNotifications: hasAllNotifications,
     orderedArray,
     remove,
+    fetchAndStoreServerBotCommands,
   };
 }

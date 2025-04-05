@@ -1,6 +1,6 @@
 import { createStore } from "solid-js/store";
 import { Message } from "./useMessages";
-import { RawAttachment, RawMessage } from "../RawData";
+import { RawAttachment, RawBotCommand, RawMessage } from "../RawData";
 import { batch } from "solid-js";
 
 export type ChannelProperties = {
@@ -11,8 +11,8 @@ export type ChannelProperties = {
   mentionReplies?: boolean;
 
   attachment?: {
-    file: File,
-    uploadTo: "google_drive" | "nerimity_cdn"
+    file: File;
+    uploadTo: "google_drive" | "nerimity_cdn";
   };
 
   scrollTop?: number;
@@ -28,6 +28,7 @@ export type ChannelProperties = {
   };
 
   stale?: boolean;
+  selectedBotCommand?: RawBotCommand;
 };
 
 const [properties, setChannelProperties] = createStore<
@@ -103,23 +104,26 @@ const setEditMessage = (channelId: string, message?: Message) => {
   });
 };
 
-const setAttachment = (channelId: string, file?: File, uploadTo?: "google_drive" | "nerimity_cdn") => {
+const setAttachment = (
+  channelId: string,
+  file?: File,
+  uploadTo?: "google_drive" | "nerimity_cdn"
+) => {
   initIfMissing(channelId);
   if (!file && !uploadTo) {
     setChannelProperties(channelId, "attachment", undefined);
     return;
   }
 
-  const isMoreThan50MB = file && (file.size > 50 * 1024 * 1024);
+  const isMoreThan50MB = file && file.size > 50 * 1024 * 1024;
 
-  const _uploadTo = uploadTo || isMoreThan50MB
-    ? "google_drive"
-    : "nerimity_cdn";
+  const _uploadTo =
+    uploadTo || isMoreThan50MB ? "google_drive" : "nerimity_cdn";
 
   setChannelProperties(channelId, "attachment", {
     ...(file ? { file } : undefined),
     uploadTo: _uploadTo,
-  })
+  });
 };
 
 const setScrollTop = (channelId: string, scrollTop: number) => {
@@ -150,6 +154,14 @@ const updateSlowDownMode = (
   setChannelProperties(channelId, "slowDownMode", slowDownMode);
 };
 
+const updateSelectedBotCommand = (
+  channelId: string,
+  botCommand?: RawBotCommand
+) => {
+  if (!get(channelId)) return;
+  setChannelProperties(channelId, "selectedBotCommand", botCommand);
+};
+
 export default function useChannelProperties() {
   return {
     updateContent,
@@ -167,5 +179,6 @@ export default function useChannelProperties() {
     toggleMentionReplies,
     staleAll,
     updateSlowDownMode,
+    updateSelectedBotCommand,
   };
 }

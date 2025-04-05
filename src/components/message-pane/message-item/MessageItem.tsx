@@ -478,7 +478,10 @@ const MessageItem = (props: MessageItemProps) => {
                         ({translatedContent()?.src})
                       </span>
                     </span>
-                    <Markup text={translatedContent()?.translationString!} />
+                    <Markup
+                      text={translatedContent()?.translationString!}
+                      replaceCommandBotId
+                    />
                   </div>
                 </Show>
                 <Show when={props.message.uploadingAttachment}>
@@ -506,6 +509,7 @@ const Content = (props: { message: Message; hovered: boolean }) => {
   return (
     <div class={styles.content}>
       <Markup
+        replaceCommandBotId
         message={props.message}
         text={props.message.content || ""}
         serverId={params.serverId}
@@ -1943,6 +1947,7 @@ const MessageReplyItem = (props: {
           </Show>
           <div class={styles.replyContent}>
             <Markup
+              replaceCommandBotId
               inline
               message={props.replyToMessage!}
               text={props.replyToMessage!.content || ""}
