@@ -158,6 +158,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
     const args = content?.split(" ");
     args[0] = `${args[0]}:${properties.selectedBotCommand.botUserId}`;
     content = args.join(" ");
+    channelProperties.updateSelectedBotCommand(channelId, undefined);
   }
 
   const isSilent = !!content && silentRegex.test(content);
