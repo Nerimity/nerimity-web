@@ -199,10 +199,21 @@ const deleteChannel = (channelId: string, serverId?: string) =>
     const messages = useMessages();
     const voice = useVoiceUsers();
     const voiceChannelId = voice.currentUser();
-
     if (serverId) {
       const servers = useServers();
       const defaultChannelId = servers.get(serverId)?.defaultChannelId;
+      const channel = get(channelId);
+      if (channel?.type === ChannelType.CATEGORY) {
+        const serverChannels = getChannelsByServerId(serverId, false, true);
+        batch(() => {
+          for (let i = 0; i < serverChannels.length; i++) {
+            const serverChannel = serverChannels[i]!;
+            if (serverChannel.categoryId === channelId) {
+              setChannels(serverChannel.id, "categoryId", undefined);
+            }
+          }
+        });
+      }
       if (defaultChannelId) {
         const match = useMatch(() => "/app/servers/:serverId/:channelId")();
         const matchedChannelId = match?.params.channelId;
