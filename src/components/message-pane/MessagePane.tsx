@@ -1435,7 +1435,9 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const [textBefore, setTextBefore] = createSignal("");
   const [isFocus, setIsFocus] = createSignal(false);
 
-  const content = () => channelProperties.get(params.channelId)?.content || "";
+  const properties = () => channelProperties.get(params.channelId);
+
+  const content = () => properties()?.content || "";
   const onFocus = () => setIsFocus(true);
 
   const onClick = (e: any) => {
@@ -1476,38 +1478,42 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const suggestEmojis = () =>
     textBefore().startsWith(":") && textBefore().length >= 3;
 
-  const suggestCommands = () => content().startsWith("/");
+  const suggestCommands = () =>
+    content().startsWith("/") || properties()?.selectedBotCommand;
 
   return (
-    <Show when={isFocus()}>
-      <Switch>
-        <Match when={suggestChannels()}>
-          <FloatingChannelSuggestions
-            search={textBefore().substring(1)}
-            textArea={props.textArea}
-          />
-        </Match>
-        <Match when={suggestUsers()}>
-          <FloatingUserSuggestions
-            search={textBefore().substring(1)}
-            textArea={props.textArea}
-          />
-        </Match>
-        <Match when={suggestEmojis()}>
-          <FloatingEmojiSuggestions
-            search={textBefore().substring(1)}
-            textArea={props.textArea}
-          />
-        </Match>
-        <Match when={suggestCommands()}>
-          <FloatingCommandSuggestions
-            search={content().substring(1).split(" ")[0] || ""}
-            textArea={props.textArea}
-            content={content()}
-          />
-        </Match>
-      </Switch>
-    </Show>
+    <>
+      <Show when={isFocus()}>
+        <Switch>
+          <Match when={suggestChannels()}>
+            <FloatingChannelSuggestions
+              search={textBefore().substring(1)}
+              textArea={props.textArea}
+            />
+          </Match>
+          <Match when={suggestUsers()}>
+            <FloatingUserSuggestions
+              search={textBefore().substring(1)}
+              textArea={props.textArea}
+            />
+          </Match>
+          <Match when={suggestEmojis()}>
+            <FloatingEmojiSuggestions
+              search={textBefore().substring(1)}
+              textArea={props.textArea}
+            />
+          </Match>
+        </Switch>
+      </Show>
+      <Show when={suggestCommands() && !properties()?.editMessageId}>
+        <FloatingCommandSuggestions
+          focused={isFocus()}
+          search={content().substring(1).split(" ")[0] || ""}
+          textArea={props.textArea}
+          content={content()}
+        />
+      </Show>
+    </>
   );
 }
 
@@ -1845,6 +1851,7 @@ function FloatingCommandSuggestions(props: {
   search: string;
   textArea?: HTMLTextAreaElement;
   content: string;
+  focused: boolean;
 }) {
   const params = useParams<{ channelId: string; serverId?: string }>();
   const { servers, serverMembers, channelProperties } = useStore();
@@ -1863,11 +1870,18 @@ function FloatingCommandSuggestions(props: {
     on([() => props.search, () => props.content], (now, prev) => {
       if (!selectedBotCommand()) return;
       if (props.content.length < `/${selectedBotCommand()!.name} `.length) {
-        channelProperties.updateSelectedBotCommand(params.channelId, undefined);
+        setTimeout(() => {
+          channelProperties.updateSelectedBotCommand(
+            params.channelId,
+            undefined
+          );
+        });
       }
       if (prev?.[0] === undefined) return;
       if (now?.[0] === prev?.[0]) return;
-      channelProperties.updateSelectedBotCommand(params.channelId, undefined);
+      setTimeout(() => {
+        channelProperties.updateSelectedBotCommand(params.channelId, undefined);
+      });
     })
   );
 
@@ -1915,7 +1929,14 @@ function FloatingCommandSuggestions(props: {
   );
 
   return (
-    <Show when={searched().length || selectedBotCommand()}>
+    <Show
+      when={
+        selectedBotCommand() ||
+        props.focused ||
+        searched().length ||
+        selectedBotCommand()
+      }
+    >
       <Floating class={styles.floatingSuggestion}>
         <Show when={selectedBotCommand()}>
           <CommandSuggestionItem

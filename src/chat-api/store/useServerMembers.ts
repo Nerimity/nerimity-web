@@ -7,25 +7,30 @@ import useUsers, { User } from "./useUsers";
 import useVoiceUsers from "./useVoiceUsers";
 import useChannels from "./useChannels";
 
-
 export type ServerMember = Omit<RawServerMember, "user"> & {
-  userId: string
-  user: () => User
-  server: () => Server
-  roles: (sorted?: boolean) => ServerRole[]
+  userId: string;
+  user: () => User;
+  server: () => Server;
+  roles: (sorted?: boolean) => ServerRole[];
   update: (this: ServerMember, update: Partial<ServerMember>) => void;
   hasRole: (this: ServerMember, roleId: string) => boolean | undefined;
   permissions: () => number;
-  hasPermission: (this: ServerMember, bitwise: Bitwise, ignoreAdmin?: boolean, ignoreCreator?: boolean) => boolean | void;
+  hasPermission: (
+    this: ServerMember,
+    bitwise: Bitwise,
+    ignoreAdmin?: boolean,
+    ignoreCreator?: boolean
+  ) => boolean | void;
   topRole: () => ServerRole;
   topRoleWithIcon: () => ServerRole | undefined;
   roleColor: () => string;
   unhiddenRole: () => ServerRole | undefined;
   isServerCreator: () => boolean | undefined;
-}
+};
 
-const [serverMembers, setMember] = createStore<Record<string, Record<string, ServerMember | undefined> | undefined>>({});
-
+const [serverMembers, setMember] = createStore<
+  Record<string, Record<string, ServerMember | undefined> | undefined>
+>({});
 
 const set = (member: RawServerMember) => {
   const users = useUsers();
@@ -49,15 +54,11 @@ const set = (member: RawServerMember) => {
     roleColor,
     unhiddenRole,
     permissions,
-    hasPermission
+    hasPermission,
   };
-
-
-
 
   setMember(member.serverId, member.user.id, reconcile(newMember));
 };
-
 
 function user(this: ServerMember) {
   const users = useUsers();
@@ -99,7 +100,9 @@ function topRoleWithIcon(this: ServerMember) {
   const servers = useServers();
   const roles = useServerRoles();
 
-  const sortedRoles = this.roles().filter(r => r.icon).sort((a, b) => b?.order! - a?.order!);
+  const sortedRoles = this.roles()
+    .filter((r) => r?.icon)
+    .sort((a, b) => b?.order! - a?.order!);
   const defaultRoleId = () => servers.get(this.serverId)?.defaultRoleId;
   const defaultRole = () => roles.get(this.serverId, defaultRoleId()!);
 
@@ -115,7 +118,7 @@ function roleColor(this: ServerMember) {
 }
 function unhiddenRole(this: ServerMember) {
   const sortedRoles = this.roles().sort((a, b) => b?.order! - a?.order!);
-  return sortedRoles.find(role => !role?.hideRole);
+  return sortedRoles.find((role) => !role?.hideRole);
 }
 function permissions(this: ServerMember) {
   const servers = useServers();
@@ -134,7 +137,12 @@ function permissions(this: ServerMember) {
 
   return currentPermissions;
 }
-function hasPermission(this: ServerMember, bitwise: Bitwise, ignoreAdmin = false, ignoreCreator = false) {
+function hasPermission(
+  this: ServerMember,
+  bitwise: Bitwise,
+  ignoreAdmin = false,
+  ignoreCreator = false
+) {
   if (!ignoreCreator) {
     if (this.server().createdById === this.userId) return true;
   }
@@ -146,13 +154,11 @@ function hasPermission(this: ServerMember, bitwise: Bitwise, ignoreAdmin = false
 
 function roles(this: ServerMember, sorted = false) {
   const serverRoles = useServerRoles();
-  const roles = this.roleIds.map(id => serverRoles.get(this.serverId, id)!) || [];
+  const roles =
+    this.roleIds.map((id) => serverRoles.get(this.serverId, id)!) || [];
   if (!sorted) return roles;
   return roles.sort((a, b) => b?.order! - a?.order!);
 }
-
-
-
 
 const remove = (serverId: string, userId: string) => {
   const users = useUsers();
@@ -175,8 +181,10 @@ const removeAllServerMembers = (serverId: string) => {
   setMember(serverId, undefined);
 };
 
-const array = (serverId: string) => Object.values(serverMembers?.[serverId] || []);
-const get = (serverId: string, userId: string) => serverMembers[serverId]?.[userId];
+const array = (serverId: string) =>
+  Object.values(serverMembers?.[serverId] || []);
+const get = (serverId: string, userId: string) =>
+  serverMembers[serverId]?.[userId];
 
 const reset = () => {
   setMember(reconcile({}));
@@ -189,6 +197,6 @@ export default function useServerMembers() {
     set,
     remove,
     removeAllServerMembers,
-    get
+    get,
   };
 }
