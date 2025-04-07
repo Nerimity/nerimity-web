@@ -621,7 +621,31 @@ export function User(props: { user: any; class?: string }) {
                 padding: "3px",
               }}
             >
-              Suspended
+              Banned
+            </Text>
+          </Show>
+          <Show when={props.user._count?.devices}>
+            <Text
+              size={12}
+              style={{
+                background: "var(--alert-color)",
+                "border-radius": "4px",
+                padding: "3px",
+              }}
+            >
+              IP Banned
+            </Text>
+          </Show>
+          <Show when={props.user.shadowBan}>
+            <Text
+              size={12}
+              style={{
+                background: "var(--warn-color)",
+                "border-radius": "4px",
+                padding: "3px",
+              }}
+            >
+              Shadow Banned
             </Text>
           </Show>
           <Show when={props.user.bot}>
