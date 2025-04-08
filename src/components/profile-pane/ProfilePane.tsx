@@ -374,7 +374,10 @@ const BotCommands = (props: { commands: RawBotCommand[]; bgColor: string }) => {
 const BotCommandItem = (props: { command: RawBotCommand }) => {
   return (
     <div class={styles.botCommandItem}>
-      <div>/{props.command.name}</div>
+      <div class={styles.botCommandHeader}>
+        <div class={styles.botCommandName}>/{props.command.name}</div>
+        <div class={styles.botCommandArgs}>{props.command.args}</div>
+      </div>
       <div class={styles.botCommandDescription}>
         {props.command.description}
       </div>
