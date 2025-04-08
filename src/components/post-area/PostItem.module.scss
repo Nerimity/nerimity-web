@@ -48,6 +48,15 @@
   margin-left: 6px;
   gap: 3px;
 }
+.botTag {
+  padding-top: 1px;
+  padding-right: 2px;
+  padding-bottom: 1px;
+  padding-left: 2px;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  font-size: 12px;
+}
 
 .postDetailsContainer {
   display: flex;

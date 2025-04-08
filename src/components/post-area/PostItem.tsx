@@ -41,7 +41,10 @@ import {
   unpinPost,
 } from "@/chat-api/services/PostService";
 import env from "@/common/env";
-import { OGEmbed, ServerInviteEmbed } from "../message-pane/message-item/MessageItem";
+import {
+  OGEmbed,
+  ServerInviteEmbed,
+} from "../message-pane/message-item/MessageItem";
 import { inviteLinkRegex, youtubeLinkRegex } from "@/common/regex";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { RawYoutubeEmbed } from "../message-pane/message-item/RawYoutubeEmbed";
@@ -208,6 +211,9 @@ const Details = (props: {
     >
       {props.post.createdBy?.username}
     </CustomLink>
+    <Show when={props.post.createdBy.bot}>
+      <div class={style.botTag}>Bot</div>
+    </Show>
     <Text
       style={{ "flex-shrink": 0 }}
       title={formatTimestamp(props.post.createdAt)}
@@ -435,8 +441,7 @@ function Embeds(props: { post: Post; hovered: boolean }) {
   );
 
   const youtubeEmbed = () => props.post.embed?.origUrl?.match(youtubeLinkRegex);
-  const inviteEmbedCode = () =>
-    props.post.content?.match(inviteLinkRegex)?.[1];
+  const inviteEmbedCode = () => props.post.content?.match(inviteLinkRegex)?.[1];
   return (
     <div ref={element} class={cn("embeds", style.embedContainer)}>
       <Show when={props.post.attachments?.[0]}>
