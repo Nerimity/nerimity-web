@@ -1,5 +1,6 @@
 import env from "../../common/env";
 import {
+  RawBotCommand,
   RawChannel,
   RawChannelNotice,
   RawInboxWithoutChannel,
@@ -152,6 +153,7 @@ export interface UserDetails {
   suspensionExpiresAt?: number;
   user: RawUser & {
     application?: {
+      botCommands?: RawBotCommand[];
       creatorAccount: {
         user: {
           username: string;
@@ -189,20 +191,21 @@ export interface UserProfile {
 
 export async function getUserDetailsRequest(
   userId?: string,
-  includePinnedPosts?: boolean
+  includePinnedPosts?: boolean,
+  includeBotCommands?: boolean
 ) {
   return request<UserDetails>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user(userId || ""),
     method: "GET",
-    params: { ...(includePinnedPosts ? { includePinnedPosts } : {}) },
+    params: {
+      ...(includePinnedPosts ? { includePinnedPosts } : {}),
+      ...(includeBotCommands ? { includeBotCommands } : {}),
+    },
     useToken: true,
   });
 }
 
-
-export async function getSearchUsers(
-  search: string,
-) {
+export async function getSearchUsers(search: string) {
   return request<RawUser[]>({
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("search"),
     method: "GET",
@@ -210,9 +213,6 @@ export async function getSearchUsers(
     useToken: true,
   });
 }
-
-
-
 
 export interface RawNotification {
   message: RawMessage;

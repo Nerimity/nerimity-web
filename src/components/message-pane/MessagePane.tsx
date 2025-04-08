@@ -1899,7 +1899,7 @@ function FloatingCommandSuggestions(props: {
   const searched = () =>
     matchSorter(commands(), props.search, {
       keys: ["name"],
-    }).slice(0, 10);
+    }).slice(0, 8);
 
   createEffect(
     on(searched, () => {
@@ -1929,36 +1929,34 @@ function FloatingCommandSuggestions(props: {
   );
 
   return (
-    <Show
-      when={
-        selectedBotCommand() ||
-        props.focused ||
-        searched().length ||
-        selectedBotCommand()
-      }
-    >
-      <Floating class={styles.floatingSuggestion}>
-        <Show when={selectedBotCommand()}>
+    <>
+      <Show when={selectedBotCommand()}>
+        <Floating class={styles.floatingSuggestion}>
           <CommandSuggestionItem
             selected={false}
             onHover={() => {}}
             onclick={() => {}}
             cmd={selectedBotCommand()!}
           />
-        </Show>
-        <For each={searched()}>
-          {(cmd, i) => (
-            <CommandSuggestionItem
-              class="clickableCommandSuggestionItem"
-              selected={current() === i()}
-              onHover={() => setCurrent(i())}
-              cmd={cmd}
-              onclick={onItemClick}
-            />
-          )}
-        </For>
-      </Floating>
-    </Show>
+        </Floating>
+      </Show>
+
+      <Show when={props.focused && searched().length}>
+        <Floating class={styles.floatingSuggestion}>
+          <For each={searched()}>
+            {(cmd, i) => (
+              <CommandSuggestionItem
+                class="clickableCommandSuggestionItem"
+                selected={current() === i()}
+                onHover={() => setCurrent(i())}
+                cmd={cmd}
+                onclick={onItemClick}
+              />
+            )}
+          </For>
+        </Floating>
+      </Show>
+    </>
   );
 }
 

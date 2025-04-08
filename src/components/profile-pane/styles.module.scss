@@ -298,3 +298,38 @@
     margin-right: 0;
   }
 }
+
+
+.botCommandsContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 8px;
+  margin-bottom: 6px;
+  margin-left: 4px;
+  border-radius: 8px;
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  .botCommandsTitle {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .botCommandItem {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+    &:first-child{
+      border-top: solid 1px rgba(255, 255, 255, 0.2);
+
+    }
+  }
+  .botCommandDescription {
+    opacity: 0.6;
+  
+  }
+}

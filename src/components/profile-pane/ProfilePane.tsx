@@ -11,7 +11,7 @@ import {
   onMount,
   Show,
 } from "solid-js";
-import { FriendStatus, RawUser } from "@/chat-api/RawData";
+import { FriendStatus, RawBotCommand, RawUser } from "@/chat-api/RawData";
 import {
   blockUser,
   followUser,
@@ -129,7 +129,7 @@ export default function ProfilePane() {
 
   const fetchUserDetails = async (userId: string) => {
     setAnimateAvatar(false);
-    const userDetails = await getUserDetailsRequest(userId, true);
+    const userDetails = await getUserDetailsRequest(userId, true, true);
     setUserDetails(userDetails);
     setTimeout(() => {
       setAnimateAvatar(true);
@@ -333,6 +333,14 @@ export default function ProfilePane() {
               <Show when={(paneWidth() || 0) < 1170}>
                 <SideBar mobilePane bgColor={bgColor()} user={userDetails()!} />
               </Show>
+              <Show
+                when={userDetails()?.user?.application?.botCommands?.length}
+              >
+                <BotCommands
+                  bgColor={bgColor()}
+                  commands={userDetails()?.user?.application?.botCommands!}
+                />
+              </Show>
               <Content user={userDetails()!} bgColor={bgColor()} />
             </Show>
           </div>
@@ -344,6 +352,35 @@ export default function ProfilePane() {
     </>
   );
 }
+
+const BotCommands = (props: { commands: RawBotCommand[]; bgColor: string }) => {
+  return (
+    <div
+      class={styles.botCommandsContainer}
+      style={{
+        background: props.bgColor,
+      }}
+    >
+      <div class={styles.botCommandsTitle}>Available Commands</div>
+      <div class={styles.botCommands}>
+        <For each={props.commands}>
+          {(command) => <BotCommandItem command={command} />}
+        </For>
+      </div>
+    </div>
+  );
+};
+
+const BotCommandItem = (props: { command: RawBotCommand }) => {
+  return (
+    <div class={styles.botCommandItem}>
+      <div>/{props.command.name}</div>
+      <div class={styles.botCommandDescription}>
+        {props.command.description}
+      </div>
+    </div>
+  );
+};
 
 const ActionButtons = (props: {
   class?: string;
@@ -836,7 +873,12 @@ const UserActivity = (props: {
                 {activity()?.subtitle}
               </Text>
               <Show when={!isMusic() && !isVideo()}>
-                <Text class={styles.playedFor} size={13} opacity={0.6} title={formatTimestamp(activity()?.startedAt || 0)}>
+                <Text
+                  class={styles.playedFor}
+                  size={13}
+                  opacity={0.6}
+                  title={formatTimestamp(activity()?.startedAt || 0)}
+                >
                   {playedFor()}
                 </Text>
               </Show>
