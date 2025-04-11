@@ -2,6 +2,8 @@ import styles from "./styles.module.scss";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
 import {
   formatTimestamp,
+  fullDate,
+  fullDateTime,
   millisecondsToHhMmSs,
   timeElapsed,
   timeSince,
@@ -279,6 +281,18 @@ const MessageItem = (props: MessageItemProps) => {
 
   const { createPortal } = useCustomPortal();
 
+  const isNewDay = createMemo(() => {
+    if (!props.beforeMessage) return true;
+    const beforeCreatedAt = new Date(props.beforeMessage.createdAt);
+    const createdAt = new Date(props.message.createdAt);
+
+    const nextDay = new Date(beforeCreatedAt);
+    nextDay.setDate(nextDay.getDate() + 1);
+    nextDay.setHours(0, 0, 0, 0);
+
+    return createdAt >= nextDay;
+  });
+
   const currentTime = props.message?.createdAt;
   const beforeMessageTime = () => props.beforeMessage?.createdAt!;
 
@@ -397,110 +411,117 @@ const MessageItem = (props: MessageItemProps) => {
   };
 
   return (
-    <div
-      class={classNames(
-        styles.messageItem,
-        conditionalClass(isCompact(), styles.compact),
-        conditionalClass(isMentioned(), styles.mentioned),
-        conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
-        props.class,
-        "messageItem"
-      )}
-      onContextMenu={props.contextMenu}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      id={`message-${props.message.id}`}
-    >
-      <Show when={!props.hideFloating}>
-        <FloatOptions
-          textAreaEl={props.textAreaEl}
-          reactionPickerClick={props.reactionPickerClick}
-          showContextMenu={props.contextMenu}
-          isCompact={isCompact()}
-          message={props.message}
-        />
+    <>
+      <Show when={isNewDay()}>
+        <div class={styles.newDayMarker}>
+          {fullDate(props.message.createdAt, "long", "long")}
+        </div>
       </Show>
-      <Switch
-        fallback={
-          <Show when={blockedMessage()}>
-            <div
-              onClick={() => setBlockedMessage(false)}
-              class={classNames(
-                styles.blockedMessage,
-                conditionalClass(isCompact(), styles.compact)
-              )}
-            >
-              You have blocked this user. Click to show.
-            </div>
-          </Show>
-        }
+      <div
+        class={classNames(
+          styles.messageItem,
+          conditionalClass(isCompact(), styles.compact),
+          conditionalClass(isMentioned(), styles.mentioned),
+          conditionalClass(isSomeoneMentioned(), styles.someoneMentioned),
+          props.class,
+          "messageItem"
+        )}
+        onContextMenu={props.contextMenu}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        id={`message-${props.message.id}`}
       >
-        <Match when={isSystemMessage()}>
-          <SystemMessage message={props.message} />
-        </Match>
-        <Match when={!isSystemMessage() && !blockedMessage()}>
-          <div class={styles.messageInner}>
-            <MessageReplies message={props.message} />
-            <div class={styles.messageInnerInner}>
-              <Show when={!isCompact()}>
-                <A
-                  onClick={showProfileFlyout}
-                  onContextMenu={props.userContextMenu}
-                  href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
-                  class={classNames(styles.avatar, "trigger-profile-flyout")}
-                >
-                  <Avatar
-                    animate={hovered()}
-                    user={props.message.createdBy}
-                    size={40}
-                    resize={96}
-                  />
-                </A>
-              </Show>
-              <div class={styles.messageInnerInnerInner}>
+        <Show when={!props.hideFloating}>
+          <FloatOptions
+            textAreaEl={props.textAreaEl}
+            reactionPickerClick={props.reactionPickerClick}
+            showContextMenu={props.contextMenu}
+            isCompact={isCompact()}
+            message={props.message}
+          />
+        </Show>
+        <Switch
+          fallback={
+            <Show when={blockedMessage()}>
+              <div
+                onClick={() => setBlockedMessage(false)}
+                class={classNames(
+                  styles.blockedMessage,
+                  conditionalClass(isCompact(), styles.compact)
+                )}
+              >
+                You have blocked this user. Click to show.
+              </div>
+            </Show>
+          }
+        >
+          <Match when={isSystemMessage()}>
+            <SystemMessage message={props.message} />
+          </Match>
+          <Match when={!isSystemMessage() && !blockedMessage()}>
+            <div class={styles.messageInner}>
+              <MessageReplies message={props.message} />
+              <div class={styles.messageInnerInner}>
                 <Show when={!isCompact()}>
-                  <Details
-                    hovered={hovered()}
-                    message={props.message}
-                    isServerCreator={isServerCreator()}
-                    isSystemMessage={isSystemMessage()}
-                    serverMember={serverMember()}
-                    showProfileFlyout={showProfileFlyout}
-                    userContextMenu={props.userContextMenu}
-                  />
-                </Show>
-                <Content message={props.message} hovered={hovered()} />
-                <Show when={translatedContent()}>
-                  <div class={styles.translationArea}>
-                    <span class={styles.title}>
-                      Translation{" "}
-                      <span class={styles.translationSource}>
-                        ({translatedContent()?.src})
-                      </span>
-                    </span>
-                    <Markup
-                      text={translatedContent()?.translationString!}
-                      replaceCommandBotId
+                  <A
+                    onClick={showProfileFlyout}
+                    onContextMenu={props.userContextMenu}
+                    href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
+                    class={classNames(styles.avatar, "trigger-profile-flyout")}
+                  >
+                    <Avatar
+                      animate={hovered()}
+                      user={props.message.createdBy}
+                      size={40}
+                      resize={96}
                     />
-                  </div>
+                  </A>
                 </Show>
-                <Show when={props.message.uploadingAttachment}>
-                  <UploadAttachment message={props.message} />
-                </Show>
-                <Show when={props.message.reactions?.length}>
-                  <Reactions
-                    textAreaEl={props.textAreaEl}
-                    reactionPickerClick={props.reactionPickerClick}
-                    hovered={hovered()}
-                    message={props.message}
-                  />
-                </Show>
+                <div class={styles.messageInnerInnerInner}>
+                  <Show when={!isCompact()}>
+                    <Details
+                      hovered={hovered()}
+                      message={props.message}
+                      isServerCreator={isServerCreator()}
+                      isSystemMessage={isSystemMessage()}
+                      serverMember={serverMember()}
+                      showProfileFlyout={showProfileFlyout}
+                      userContextMenu={props.userContextMenu}
+                    />
+                  </Show>
+                  <Content message={props.message} hovered={hovered()} />
+                  <Show when={translatedContent()}>
+                    <div class={styles.translationArea}>
+                      <span class={styles.title}>
+                        Translation{" "}
+                        <span class={styles.translationSource}>
+                          ({translatedContent()?.src})
+                        </span>
+                      </span>
+                      <Markup
+                        text={translatedContent()?.translationString!}
+                        replaceCommandBotId
+                      />
+                    </div>
+                  </Show>
+                  <Show when={props.message.uploadingAttachment}>
+                    <UploadAttachment message={props.message} />
+                  </Show>
+                  <Show when={props.message.reactions?.length}>
+                    <Reactions
+                      textAreaEl={props.textAreaEl}
+                      reactionPickerClick={props.reactionPickerClick}
+                      hovered={hovered()}
+                      message={props.message}
+                    />
+                  </Show>
+                </div>
               </div>
             </div>
-          </div>
-        </Match>
-      </Switch>
-    </div>
+          </Match>
+        </Switch>
+      </div>
+    </>
   );
 };
 

@@ -36,13 +36,19 @@ export function formatTimestamp(timestamp: number) {
     }).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
+
+export const fullDate = (timestamp: number, month: "short" | "long" = "short", weekday?: "long") => {
+    return Intl.DateTimeFormat("en-GB", {
+      weekday: weekday,
+      day: "2-digit",
+      month,
+      year: "numeric",
+    }).format(timestamp);
+};
+
 export const fullDateTime = (timestamp: number) => {
   const date = new Date(timestamp);
-  return `${Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `${fullDate(timestamp)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
 };
 
 // get days ago from timestamp

@@ -7,6 +7,14 @@
   }
 }
 
+.newDayMarker {
+  align-self: center;
+  padding: 6px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+}
 
 .translationArea {
   display: flex;
