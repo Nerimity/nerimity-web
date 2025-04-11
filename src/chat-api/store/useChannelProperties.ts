@@ -118,7 +118,7 @@ const setAttachment = (
   const isMoreThan50MB = file && file.size > 50 * 1024 * 1024;
 
   const _uploadTo =
-    uploadTo || isMoreThan50MB ? "google_drive" : "nerimity_cdn";
+    uploadTo || (isMoreThan50MB ? "google_drive" : "nerimity_cdn");
 
   setChannelProperties(channelId, "attachment", {
     ...(file ? { file } : undefined),

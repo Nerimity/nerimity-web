@@ -506,6 +506,7 @@ const MessageItem = (props: MessageItemProps) => {
 
 const Content = (props: { message: Message; hovered: boolean }) => {
   const params = useParams<{ serverId?: string }>();
+  const store = useStore();
   return (
     <div class={styles.content}>
       <Markup
@@ -522,6 +523,19 @@ const Content = (props: { message: Message; hovered: boolean }) => {
         <SentStatus message={props.message} />
       </Show>
       <Embeds {...props} />
+      <Show when={props.message.local}>
+        <Button
+          label="Dismiss"
+          margin={0}
+          padding={4}
+          onClick={() => {
+            store.messages.locallyRemoveMessage(
+              props.message.channelId,
+              props.message.id
+            );
+          }}
+        />
+      </Show>
     </div>
   );
 };
