@@ -130,7 +130,7 @@ export default function ExploreServers() {
 
   const update = (newPublicServer: RawPublicServer, index: number) => {
     const current = [...publicServers()!];
-    current[index] = newPublicServer;
+    current[index] = { ...current[index], ...newPublicServer };
     setPublicServers(current);
   };
 
