@@ -607,7 +607,14 @@ const SystemMessage = (props: { message: Message }) => {
     <Show when={systemMessage()}>
       <div class={styles.systemMessage}>
         <div class={styles.iconContainer}>
-          <Icon name={systemMessage()?.icon} color={systemMessage()?.color} />
+          <Icon
+            name={systemMessage()?.icon}
+            class={cn(
+              styles.icon,
+              systemMessage()?.icon === "logout" ? styles.logoutIcon : undefined
+            )}
+            color={systemMessage()?.color}
+          />
         </div>
         <span class="markup">
           <MentionUser user={props.message.createdBy} />

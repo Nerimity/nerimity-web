@@ -103,6 +103,13 @@
     width: 40px;
     padding-right: 6px;
     padding-left: 6px;
+    .icon {
+      border-radius: 4px;
+      background: black;
+      &.logoutIcon {
+        rotate: 180deg;
+      }
+    }
   }
   .date {
     margin-left: 6px;
