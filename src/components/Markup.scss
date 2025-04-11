@@ -95,7 +95,6 @@
 }
 
 .markup .code-block {
-  padding: 5px;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.6);
 
@@ -107,20 +106,26 @@
     }
   }
 
+  .content {
+    padding: 4px;
+  }
   .header {
     display: flex;
     align-items: center;
-    padding: 3px;
-    margin-bottom: 5px;
+    padding: 2px;
     border-bottom: solid 1px rgba(255, 255, 255, 0.4);
     font-weight: bold;
 
     .lang-name {
-      margin-right: 10px;
+      margin-right: 6px;
+    }
+    .lang-icon {
+      width: 18px;
+      margin-left: 42x;
     }
 
     .button {
-      padding: 3px;
+      padding: 4px;
       border-radius: 4px;
       opacity: 0.8;
       cursor: pointer;
@@ -133,6 +138,9 @@
       &.active {
         opacity: 1;
         color: var(--primary-color);
+      }
+      &.copyButton {
+        padding: 5px;
       }
     }
   }
