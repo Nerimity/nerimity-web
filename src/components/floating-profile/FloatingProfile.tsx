@@ -26,6 +26,7 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import {
   UserDetails,
   getUserDetailsRequest,
+  updatePresence,
 } from "@/chat-api/services/UserService";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
@@ -40,7 +41,7 @@ import { bannerUrl } from "@/chat-api/store/useUsers";
 import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu";
 import { electronWindowAPI } from "@/common/Electron";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
-import { useLocation } from "solid-navigator";
+import { A, useLocation, useNavigate } from "solid-navigator";
 import env from "@/common/env";
 import {
   RichProgressBar,
@@ -54,14 +55,26 @@ import { PostItem } from "../post-area/PostItem";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import average from "@/common/chromaJS";
 import Button from "../ui/Button";
-import { FlexRow } from "../ui/Flexbox";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { userStatusDetail, UserStatuses } from "@/common/userStatus";
+import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
+import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
+import Input from "../ui/input/Input";
+import { formatMessage } from "../message-pane/MessagePane";
+import { logout } from "@/common/logout";
 
 interface Props {
   dmPane?: boolean;
-  position?: { left: number; top: number; anchor?: "left" | "right" };
+  position?: {
+    left: number;
+    top: number;
+    anchor?: "left" | "right";
+    bottom?: number;
+  };
+  hideLatestPost?: boolean;
   userId?: string;
   serverId?: string;
   close?: () => void;
@@ -69,6 +82,7 @@ interface Props {
   colors?: { bg?: [string | null, string | null]; primary?: string | null };
   bio?: string;
   channelNotice?: string;
+  showProfileSettings?: boolean;
 }
 
 export const ProfileFlyout = (props: Props) => {
@@ -108,19 +122,24 @@ export const ProfileFlyout = (props: Props) => {
           anchor={props.position?.anchor}
           left={props.position?.left}
           top={props.position?.top}
+          hideLatestPost={props.hideLatestPost}
+          bottom={props.position?.bottom}
           dmPane={props.dmPane}
           userId={props.userId}
           serverId={props.serverId}
+          showProfileSettings={props.showProfileSettings}
         />
       </Match>
       <Match when={showMobileFlyout()}>
         <MobileFlyout
           bio={props.bio}
           channelNotice={props.channelNotice}
+          hideLatestPost={props.hideLatestPost}
           colors={props.colors}
           close={props?.close}
           serverId={props.serverId}
           userId={props.userId}
+          showProfileSettings={props.showProfileSettings}
         />
       </Match>
     </Switch>
@@ -138,10 +157,13 @@ const DesktopProfileFlyout = (props: {
   close?(): void;
   userId: string;
   serverId?: string;
+  hideLatestPost?: boolean;
   left?: number;
+  bottom?: number;
   top?: number;
   ref?: Setter<HTMLDivElement | undefined>;
   anchor?: "left" | "right";
+  showProfileSettings?: boolean;
 }) => {
   const { createPortal } = useCustomPortal();
   const { users, account, serverMembers, posts } = useStore();
@@ -236,6 +258,11 @@ const DesktopProfileFlyout = (props: {
   createEffect(() => {
     if (!flyoutRef()) return;
     if (props.mobile) return;
+
+    if (props.bottom) {
+      flyoutRef()!.style.bottom = props.bottom + "px";
+      return;
+    }
     let newTop = props.top!;
     if (flyoutHeight() + props.top! > height())
       newTop =
@@ -253,9 +280,11 @@ const DesktopProfileFlyout = (props: {
   const onBackgroundClick = (event: MouseEvent) => {
     if (props.mobile) return;
     if (event.target instanceof Element) {
+      if (event.target.closest(".emoji-picker")) return;
       if (event.target.closest(".modal-bg")) return;
       if (event.target.closest(".modal")) return;
       if (event.target.closest(`.${styles.flyoutContainer}`)) return;
+
       if (props.triggerEl) {
         if (
           event.target.closest(".trigger-profile-flyout") ===
@@ -263,6 +292,7 @@ const DesktopProfileFlyout = (props: {
         )
           return;
       }
+
       props.close?.();
     }
   };
@@ -384,30 +414,32 @@ const DesktopProfileFlyout = (props: {
                   </CustomLink>
                 </Show>
               </Text>
-              <div class={styles.buttonsContainer}>
-                <Button
-                  padding={4}
-                  textSize={12}
-                  iconSize={16}
-                  href={RouterEndpoints.PROFILE(user()!.id)}
-                  color={colors().primary}
-                  class={styles.button}
-                  label="Full Profile"
-                  iconName="person"
-                  margin={0}
-                />
-                <Button
-                  padding={4}
-                  textSize={12}
-                  iconSize={16}
-                  color={colors().primary}
-                  class={styles.button}
-                  label="Message"
-                  onClick={onMessageClicked}
-                  iconName="mail"
-                  margin={0}
-                />
-              </div>
+              <Show when={!props.showProfileSettings}>
+                <div class={styles.buttonsContainer}>
+                  <Button
+                    padding={4}
+                    textSize={12}
+                    iconSize={16}
+                    href={RouterEndpoints.PROFILE(user()!.id)}
+                    color={colors().primary}
+                    class={styles.button}
+                    label="Full Profile"
+                    iconName="person"
+                    margin={0}
+                  />
+                  <Button
+                    padding={4}
+                    textSize={12}
+                    iconSize={16}
+                    color={colors().primary}
+                    class={styles.button}
+                    label={isMe() ? "Notes" : "Message"}
+                    onClick={onMessageClicked}
+                    iconName={isMe() ? "note_alt" : "mail"}
+                    margin={0}
+                  />
+                </div>
+              </Show>
             </Show>
           </div>
         </div>
@@ -539,8 +571,17 @@ const DesktopProfileFlyout = (props: {
         setFlyoutRef(el);
         props.ref?.(el);
       }}
-      class={classNames("modal", styles.flyoutContainer)}
-      style={{ ...style(), ...props.style }}
+      class={classNames(
+        "modal",
+        styles.flyoutContainer,
+        props.showProfileSettings ? styles.profileSettingsShown : ""
+      )}
+      style={{
+        ...style(),
+        ...props.style,
+        "--floating-bg-color": bgColor(),
+        "--floating-primary-color": colors()?.primary || "var(--primary-color)",
+      }}
     >
       <div
         class={styles.flyoutInnerContainer}
@@ -554,6 +595,9 @@ const DesktopProfileFlyout = (props: {
         }}
       >
         <StickyArea />
+        <Show when={isMe() && props.showProfileSettings}>
+          <SelfArea bg={bgColor()} />
+        </Show>
         <div
           style={{ background: bgColor() }}
           class={classNames(
@@ -573,7 +617,7 @@ const DesktopProfileFlyout = (props: {
             <Show when={!details()}>
               <Skeleton.Item height="200px" />
             </Show>
-            <Show when={latestPost()}>
+            <Show when={!props.hideLatestPost && latestPost()}>
               <PostArea primaryColor={colors()?.primary || undefined} />
             </Show>
           </div>
@@ -588,7 +632,9 @@ function MobileFlyout(props: {
   bio?: string;
   colors?: { bg?: [string | null, string | null]; primary?: string | null };
   userId: string;
+  hideLatestPost?: boolean;
   serverId?: string;
+  showProfileSettings?: boolean;
   close?: () => void;
 }) {
   let mouseDownTarget: HTMLDivElement | null = null;
@@ -621,9 +667,11 @@ function MobileFlyout(props: {
         ref={setFlyoutEl}
         channelNotice={props.channelNotice}
         bio={props.bio}
+        hideLatestPost={props.hideLatestPost}
         style={style()}
         colors={props.colors}
         mobile
+        showProfileSettings={props.showProfileSettings}
         close={props.close}
         serverId={props.serverId}
         userId={props.userId}
@@ -787,3 +835,158 @@ export const UserActivity = (props: {
     </Show>
   );
 };
+
+function SelfArea(props: { bg: string }) {
+  const store = useStore();
+  const navigate = useNavigate();
+
+  const userId = () => store.account.user()?.id;
+  const navigateToProfile = () => {
+    navigate(RouterEndpoints.PROFILE(userId()!));
+  };
+  const navigateToEditProfile = () => {
+    navigate("/app/settings/account");
+  };
+
+  const goToNotes = () => {
+    store.users.openDM(userId()!);
+    emitDrawerGoToMain();
+  };
+
+  return (
+    <>
+      <PresenceDropDown />
+      <CustomStatus />
+      <div class={styles.selfArea} style={{ background: props.bg }}>
+        <SelfAreaButton
+          onClick={navigateToProfile}
+          label="Profile"
+          icon="person"
+        />
+        <SelfAreaButton label="Notes" icon="note_alt" onClick={goToNotes} />
+        <SelfAreaButton
+          label="Edit Profile"
+          icon="settings"
+          onClick={navigateToEditProfile}
+        />
+        <SelfAreaButton label="Logout" icon="logout" alert onClick={logout} />
+      </div>
+    </>
+  );
+}
+
+const SelfAreaButton = (props: {
+  label: string;
+  icon: string;
+  onClick?: () => void;
+  alert?: boolean;
+}) => {
+  const color = () =>
+    props.alert ? "var(--alert-color)" : "var(--floating-primary-color)";
+  return (
+    <div class={styles.selfAreaButton} onClick={props.onClick}>
+      <Icon name={props.icon} size={20} color={color()} />
+      <div
+        style={{
+          color: color(),
+        }}
+      >
+        {props.label}
+      </div>
+    </div>
+  );
+};
+
+function PresenceDropDown() {
+  const { account, users } = useStore();
+  const user = () => users.get(account.user()?.id!);
+
+  const presenceStatus = () =>
+    userStatusDetail(user()?.presence()?.status || 0);
+
+  const DropDownItems = UserStatuses.map((item, i) => {
+    return {
+      circleColor: item.color,
+      id: item.id,
+      label: item.name === "Offline" ? "Appear As Offline" : item.name,
+      index: i,
+      onClick: (item: { index: number }) => {
+        updatePresence({
+          status: item.index,
+        });
+      },
+    } satisfies DropDownItem;
+  });
+  // move invisible to the bottom.
+  DropDownItems.push(DropDownItems.shift()!);
+
+  return (
+    <DropDown
+      title="Presence"
+      class={styles.presenceDropdown}
+      items={DropDownItems}
+      selectedId={presenceStatus().id}
+    />
+  );
+}
+
+function CustomStatus() {
+  const { account, users } = useStore();
+  const [customStatus, setCustomStatus] = createSignal("");
+  const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
+
+  createEffect(
+    on(
+      () => account.user()?.customStatus,
+      (custom) => {
+        setCustomStatus(custom || "");
+      }
+    )
+  );
+
+  const save = (event: FocusEvent) => {
+    console.log(event);
+    const formattedStatus = formatMessage(customStatus().trim() || "");
+    updatePresence({
+      custom: customStatus().trim() ? formattedStatus : null,
+    });
+  };
+
+  const changes = () => {
+    return (customStatus() || "") !== (account.user()?.customStatus || "");
+  };
+
+  return (
+    <div class={styles.customStatusContainer}>
+      <Text opacity={0.8} size={14}>
+        Custom Status
+      </Text>
+      <FlexColumn>
+        <AdvancedMarkupOptions
+          class="advancedMarkupOptions"
+          inputElement={inputRef()!}
+          updateText={setCustomStatus}
+          zeroBottomBorderRadius
+        />
+        <Input
+          type="textarea"
+          height={30}
+          ref={setInputRef}
+          class={styles.customStatusInput}
+          placeholder=""
+          onText={setCustomStatus}
+          value={customStatus()}
+        />
+        <Show when={changes()}>
+          <Button
+            label="Save"
+            onClick={save}
+            iconName="save"
+            iconSize={16}
+            margin={[6, 0, 0, 0]}
+          />
+        </Show>
+      </FlexColumn>
+    </div>
+  );
+}

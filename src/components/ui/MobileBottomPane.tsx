@@ -16,8 +16,8 @@ import { userStatusDetail } from "@/common/userStatus";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
-import { FloatingUserModal } from "../side-pane/SidePane";
 import { isExperimentEnabled } from "@/common/experiments";
+import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 
 export default function MobileBottomPane() {
   const drawer = useDrawer();
@@ -186,20 +186,24 @@ function UserItem() {
     }
     if (!user()) return;
 
-    createPortal((close) => (
-      <div class={style.userModal}>
-        <FloatingUserModal
+    createPortal(
+      (close) => (
+        <ProfileFlyout
+          showProfileSettings
           close={close}
-          currentDrawerPage={drawer?.currentPage()}
+          userId={userId()}
+          hideLatestPost
         />
-      </div>
-    ));
+      ),
+      "profile-pane-flyout-" + userId(),
+      true
+    );
   };
 
   return (
     <ItemContainer
       onclick={onClicked}
-      class={style.item}
+      class={cn(style.item, "trigger-profile-flyout")}
       handlePosition="bottom"
     >
       <div class={style.user}>

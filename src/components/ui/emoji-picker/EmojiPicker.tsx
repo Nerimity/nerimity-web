@@ -31,6 +31,7 @@ import {
 } from "@/chat-api/services/TenorService";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useParams } from "solid-navigator";
+import { cn } from "@/common/classNames";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -133,7 +134,7 @@ export function EmojiPicker(props: {
     >
       <Show when={selectedTab() === "EMOJI"}>
         <EmojiPickerComponent
-          class={styles.emojiPicker}
+          class={cn(styles.emojiPicker, "emoji-picker")}
           focusOnMount={!isMobileAgent()}
           spriteUrl="/assets/emojiSprites.png?cache=2"
           emojis={emojis}

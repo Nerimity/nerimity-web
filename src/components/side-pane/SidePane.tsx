@@ -54,6 +54,7 @@ import { logout } from "@/common/logout";
 import { isExperimentEnabled, ShowExperiment } from "@/common/experiments";
 import { CreateServerModal } from "./create-server-modal/CreateServerModal";
 import env from "@/common/env";
+import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -243,22 +244,34 @@ const UserItem = () => {
   const showConnecting = () =>
     !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
 
-  const onClicked = () => {
+  const onClicked = (event: MouseEvent) => {
     if (authErrorMessage()) {
       return createPortal?.((close) => <ConnectionErrorModal close={close} />);
     }
 
-    if (isMobileWidth()) {
-      createPortal((close) => (
-        <FloatingUserModal
+    if (!user()) return;
+    const el = event.target as HTMLElement;
+    const rect = el?.getBoundingClientRect()!;
+    const pos = {
+      left: 67,
+      top: rect.top + 10,
+      bottom: 8,
+      anchor: "left",
+    } as const;
+    return createPortal(
+      (close) => (
+        <ProfileFlyout
+          hideLatestPost
+          triggerEl={el}
+          showProfileSettings
+          position={pos}
           close={close}
-          currentDrawerPage={drawer?.currentPage()}
+          userId={userId()}
         />
-      ));
-      return;
-    }
-
-    setModalOpened(!modalOpened());
+      ),
+      "profile-pane-flyout-" + userId(),
+      true
+    );
   };
 
   return (
@@ -277,7 +290,11 @@ const UserItem = () => {
         }
       >
         <SidebarItemContainer
-          class={classNames(styles.user, "sidePaneUser")}
+          class={classNames(
+            styles.user,
+            "sidePaneUser",
+            "trigger-profile-flyout"
+          )}
           onclick={onClicked}
           selected={modalOpened()}
           onMouseEnter={() => setHovered(true)}
@@ -315,337 +332,9 @@ const UserItem = () => {
           )}
         </SidebarItemContainer>
       </Tooltip>
-      <Show when={user() && modalOpened()}>
-        <FloatingUserModal
-          close={() => setModalOpened(false)}
-          currentDrawerPage={drawer?.currentPage()}
-        />
-      </Show>
     </>
   );
 };
-
-const FloatingUserModalContainer = styled(FlexColumn)<{ isMobile: boolean }>`
-  position: absolute;
-  left: 67px;
-  bottom: 5px;
-  max-width: 300px;
-  width: 100%;
-  z-index: 1111111111111;
-  height: 440px;
-  border-radius: 6px;
-  background-color: var(--pane-color);
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  overflow: auto;
-  padding-bottom: 4px;
-
-  ${(props) =>
-    props.isMobile
-      ? `
-    left: 0;
-    right: 0;
-    bottom: 0;
-    max-width: initial;
-    width: initial;
-    height: initial;
-    max-height: 68%;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  `
-      : ""}
-
-  .buttonContainer .button {
-    background-color: transparent;
-    border: none;
-    justify-content: initial;
-    margin: 0;
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-`;
-
-const BannerContainer = styled(FlexRow)`
-  display: flex;
-  height: 100%;
-  align-items: center;
-  padding: 10px;
-  padding-left: 20px;
-  overflow: hidden;
-`;
-
-const DetailsContainer = styled(FlexColumn)`
-  z-index: 1;
-  margin-left: 15px;
-  background: rgba(0, 0, 0, 0.86);
-  backdrop-filter: blur(24px);
-  padding: 5px;
-  border-radius: 8px;
-  overflow: hidden;
-`;
-
-const ButtonContainer = styled(FlexRow)`
-  padding-top: 30px;
-  margin-top: auto;
-  margin-left: 4px;
-  margin-right: 4px;
-  > * {
-    flex: 1;
-    display: flex;
-    .button {
-      flex: 1;
-    }
-  }
-`;
-
-const customButtonStyles = css`
-  flex-direction: column;
-  gap: 4px;
-  .label {
-    margin: 0;
-  }
-`;
-
-export function FloatingUserModal(props: {
-  close(): void;
-  currentDrawerPage?: number;
-}) {
-  const { account, users } = useStore();
-  const { isMobileWidth, width } = useWindowProperties();
-  const { openedPortals } = useCustomPortal();
-
-  const userId = () => account.user()?.id;
-  const user = () => users.get(userId()!);
-
-  const onLogoutClick = async () => {
-    logout();
-  };
-
-  onMount(() => {
-    document.addEventListener("mousedown", onDocMouseDown, { capture: true });
-    document.addEventListener("click", onDocClick, { capture: true });
-    onCleanup(() => {
-      document.removeEventListener("mousedown", onDocMouseDown, {
-        capture: true,
-      });
-      document.removeEventListener("click", onDocClick, { capture: true });
-    });
-  });
-
-  const memoIsMobileWidth = createMemo(() => isMobileWidth());
-
-  createEffect(
-    on(
-      [() => props.currentDrawerPage, memoIsMobileWidth],
-      () => {
-        props.close();
-      },
-      { defer: true }
-    )
-  );
-
-  let pos = { x: 0, y: 0 };
-  const onDocMouseDown = (event: MouseEvent) => {
-    pos = { x: event.x, y: event.y };
-  };
-
-  const onDocClick = (event: any) => {
-    if (pos.x !== event.x || pos.y !== event.y) return;
-
-    let portals = openedPortals().length;
-    if (isMobileWidth()) {
-      portals--;
-    }
-
-    if (portals) {
-      return;
-    }
-
-    const clickedInside =
-      event.target.closest(".floatingUserModalContainer") ||
-      event.target.closest(".sidePaneUser");
-
-    if (clickedInside) return;
-    props.close();
-  };
-
-  return (
-    <FloatingUserModalContainer
-      class="floatingUserModalContainer"
-      isMobile={isMobileWidth()}
-      gap={5}
-    >
-      <Banner
-        margin={0}
-        radius={6}
-        brightness={50}
-        animate
-        hexColor={user()?.hexColor}
-        url={bannerUrl(user())}
-      >
-        <BannerContainer>
-          <Avatar animate size={60} user={user()} />
-          <DetailsContainer>
-            <FlexRow style={{ "line-height": "1" }}>
-              <Text
-                style={{
-                  "white-space": "nowrap",
-                  overflow: "hidden",
-                  "text-overflow": "ellipsis",
-                }}
-              >
-                {user().username}
-              </Text>
-              <Text color="rgba(255,255,255,0.6)">:{user().tag}</Text>
-            </FlexRow>
-            <UserPresence animate showOffline userId={userId()!} />
-          </DetailsContainer>
-        </BannerContainer>
-      </Banner>
-      <FlexColumn
-        gap={4}
-        style={{ "margin-left": "4px", "margin-right": "4px" }}
-      >
-        <PresenceDropDown />
-        <CustomStatus />
-      </FlexColumn>
-
-      <ButtonContainer class="buttonContainer">
-        <CustomLink
-          onclick={props.close}
-          href={RouterEndpoints.PROFILE(userId()!)}
-        >
-          <Button
-            textSize={12}
-            class={customButtonStyles}
-            iconSize={18}
-            padding={8}
-            iconName="person"
-            label="View Profile"
-            margin={0}
-          />
-        </CustomLink>
-
-        <CustomLink onclick={props.close} href="/app/settings/account">
-          <Button
-            textSize={12}
-            class={customButtonStyles}
-            iconSize={18}
-            padding={8}
-            iconName="settings"
-            label="Edit Profile"
-            margin={0}
-          />
-        </CustomLink>
-
-        <div>
-          <Button
-            textSize={12}
-            class={customButtonStyles}
-            onClick={onLogoutClick}
-            iconSize={18}
-            padding={8}
-            iconName="logout"
-            color="var(--alert-color)"
-            label="Logout"
-            margin={0}
-          />
-        </div>
-      </ButtonContainer>
-    </FloatingUserModalContainer>
-  );
-}
-
-function CustomStatus() {
-  const { account, users } = useStore();
-  const [customStatus, setCustomStatus] = createSignal("");
-  const [inputRef, setInputRef] = createSignal<HTMLInputElement>();
-
-  createEffect(
-    on(
-      () => account.user()?.customStatus,
-      (custom) => {
-        setCustomStatus(custom || "");
-      }
-    )
-  );
-
-  const save = (event: FocusEvent) => {
-    console.log(event);
-    const formattedStatus = formatMessage(customStatus().trim() || "");
-    updatePresence({
-      custom: customStatus().trim() ? formattedStatus : null,
-    });
-  };
-
-  const changes = () => {
-    return (customStatus() || "") !== (account.user()?.customStatus || "");
-  };
-
-  return (
-    <>
-      <Text opacity={0.8}>Custom Status</Text>
-      <FlexColumn>
-        <AdvancedMarkupOptions
-          class="advancedMarkupOptions"
-          inputElement={inputRef()!}
-          updateText={setCustomStatus}
-        />
-        <Input
-          type="textarea"
-          height={30}
-          ref={setInputRef}
-          class={styles.customStatusInput}
-          placeholder=""
-          onText={setCustomStatus}
-          value={customStatus()}
-        />
-        <Show when={changes()}>
-          <Button
-            label="Save"
-            onClick={save}
-            iconName="save"
-            iconSize={16}
-            margin={[6, 0, 0, 0]}
-          />
-        </Show>
-      </FlexColumn>
-    </>
-  );
-}
-
-function PresenceDropDown() {
-  const { account, users } = useStore();
-  const user = () => users.get(account.user()?.id!);
-
-  const presenceStatus = () =>
-    userStatusDetail(user()?.presence()?.status || 0);
-
-  const DropDownItems = UserStatuses.map((item, i) => {
-    return {
-      circleColor: item.color,
-      id: item.id,
-      label: item.name === "Offline" ? "Appear As Offline" : item.name,
-      index: i,
-      onClick: (item: { index: number }) => {
-        updatePresence({
-          status: item.index,
-        });
-      },
-    };
-  });
-  // move invisible to the bottom.
-  DropDownItems.push(DropDownItems.shift()!);
-
-  return (
-    <DropDown
-      title="Presence"
-      class={styles.presenceDropdown}
-      items={DropDownItems}
-      selectedId={presenceStatus().id}
-    />
-  );
-}
 
 function ServerItem(props: {
   server: Server;

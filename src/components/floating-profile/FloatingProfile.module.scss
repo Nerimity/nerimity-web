@@ -9,10 +9,11 @@
 
 .mobile {
   &.backgroundContainer {
+    z-index: 111111111111111111111111111111111111;
     overflow: auto;
     align-items: initial;
     justify-content: initial;
-    scrollbar-width: none;;
+    scrollbar-width: none;
   }
   .flyoutContainer {
     position: relative;
@@ -21,6 +22,28 @@
   .flyoutInnerContainer {
     max-height: initial;
   }
+}
+
+.profileSettingsShown {
+  .flyoutContainer {
+    position: relative;
+    width: 100%;
+  }
+  .flyoutInnerContainer {
+    overflow: auto;
+    scrollbar-width: 0px;
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
+    .flyoutScrollableContainer {
+      overflow: initial;
+    }
+
+    .flyoutOuterScrollableContainer {
+      overflow: initial;
+    }
+  } 
+
 }
 
 .flyoutInnerContainer {
@@ -235,4 +258,56 @@ body .postItemContainer {
 
 .playedFor {
   font-variant-numeric: tabular-nums;
+}
+
+
+.selfArea {
+  display: flex;
+  margin: 6px;
+  margin-bottom: 0;
+  border-radius: 6px;
+
+  .selfAreaButton {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+    font-size: 12px;
+    gap: 4px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+}
+
+.presenceDropdown {
+  padding: 6px;
+  margin: 6px;
+  margin-bottom: 0;
+  border-radius: 6px;
+  background-color: var(--floating-bg-color);
+
+}
+
+.customStatusContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  margin: 6px;
+  margin-bottom: 0;
+  border-radius: 6px;
+  background-color: var(--floating-bg-color);
+  gap: 4px;
+  .customStatusInput{
+    & > div {
+      border-top: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
 }
