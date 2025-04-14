@@ -50,7 +50,7 @@
 }
 
 .popup {
-  position: absolute;
+  position: fixed;
   z-index: 111111111111;
   display: flex;
   overflow: auto;
