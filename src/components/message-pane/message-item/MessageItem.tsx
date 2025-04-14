@@ -216,7 +216,7 @@ interface DetailsProps {
   isServerCreator?: boolean;
   serverMember?: ServerMember;
   showProfileFlyout?: (event: MouseEvent) => void;
-  hovered?: boolean;
+  hovered: boolean;
 }
 const Details = (props: DetailsProps) => (
   <div class={classNames(styles.details)}>
@@ -242,7 +242,12 @@ const Details = (props: DetailsProps) => (
       )}
     </Show>
     <Show when={props.isSystemMessage}>
-      <SystemMessage message={props.message} />
+      <SystemMessage
+        message={props.message}
+        hovered={props.hovered}
+        showProfileFlyout={props.showProfileFlyout}
+        onUserContextMenu={props.userContextMenu}
+      />
     </Show>
     <Show when={props.isServerCreator}>
       <div class={styles.ownerBadge}>Owner</div>
@@ -456,7 +461,12 @@ const MessageItem = (props: MessageItemProps) => {
           }
         >
           <Match when={isSystemMessage()}>
-            <SystemMessage message={props.message} />
+            <SystemMessage
+              message={props.message}
+              hovered={hovered()}
+              onUserContextMenu={props.userContextMenu}
+              showProfileFlyout={showProfileFlyout}
+            />
           </Match>
           <Match when={!isSystemMessage() && !blockedMessage()}>
             <div class={styles.messageInner}>
@@ -636,7 +646,12 @@ const SentStatus = (props: { message: Message }) => {
   );
 };
 
-const SystemMessage = (props: { message: Message }) => {
+const SystemMessage = (props: {
+  message: Message;
+  hovered: boolean;
+  onUserContextMenu?: (event: MouseEvent) => void;
+  showProfileFlyout?: (event: MouseEvent) => void;
+}) => {
   const systemMessage = createMemo(() => getSystemMessage(props.message.type));
   return (
     <Show when={systemMessage()}>
@@ -651,16 +666,28 @@ const SystemMessage = (props: { message: Message }) => {
             color={systemMessage()?.color}
           />
         </div>
-        <span class="markup">
-          <MentionUser user={props.message.createdBy} />
-
-          <span>
-            <span> {systemMessage()?.message}</span>
+        <div class={styles.contentContainer}>
+          <A
+            href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
+            onContextMenu={props.onUserContextMenu}
+            onClick={props.showProfileFlyout}
+          >
+            <Avatar
+              animate={props.hovered}
+              user={props.message.createdBy}
+              size={30}
+            />
+          </A>
+          <div class={styles.content}>
+            <span class="markup">
+              <MentionUser user={props.message.createdBy} />
+              <span> {systemMessage()?.message}</span>
+            </span>
             <span class={styles.date}>
               {formatTimestamp(props.message.createdAt)}
             </span>
-          </span>
-        </span>
+          </div>
+        </div>
       </div>
     </Show>
   );

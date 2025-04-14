@@ -5,7 +5,7 @@ export const getSystemMessage = (messageType: MessageType) => {
     case MessageType.JOIN_SERVER:
       return {
         icon: "login",
-        color: "var(--primary-color)",
+        color: "var(--success-color)",
         message: "has joined the server.",
       };
     case MessageType.LEAVE_SERVER:

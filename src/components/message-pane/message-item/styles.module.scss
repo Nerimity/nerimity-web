@@ -8,12 +8,34 @@
 }
 
 .newDayMarker {
-  align-self: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px;
   margin-top: 10px;
   border-radius: 6px;
   color: rgba(255, 255, 255, 0.4);
+  text-align: center;
   font-size: 12px;
+
+  &:before {
+    flex: 1;
+    height: 1px;
+    margin-right: 6px;
+    margin-left: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    
+    content: '';
+  }
+  &:after {
+    flex: 1;
+    height: 1px;
+    margin-right: 8px;
+    margin-left: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    content: '';
+  }
 }
 
 .translationArea {
@@ -104,6 +126,31 @@
     white-space: pre-line;
   }
 
+  .contentContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  :global .mention  {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    &:hover{
+      background-color: transparent;
+      text-decoration: underline;
+    }
+    .avatar {
+      display: none;
+    }
+  }
+
   .iconContainer {
     display: flex;
     align-items: center;
@@ -113,14 +160,12 @@
     padding-left: 6px;
     .icon {
       border-radius: 4px;
-      background: rgba(0, 0, 0, 0.6);
       &.logoutIcon {
         rotate: 180deg;
       }
     }
   }
   .date {
-    margin-left: 6px;
     color: rgba(255, 255, 255, 0.6);
     font-size: 12px;
   }

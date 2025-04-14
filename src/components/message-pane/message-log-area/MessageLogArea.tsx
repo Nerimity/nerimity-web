@@ -657,11 +657,7 @@ export const MessageLogArea = (props: {
               contextMenu={(event) => onContextMenu(event, message)}
               userContextMenu={(event) => onUserContextMenu(event, message)}
               message={message}
-              beforeMessage={
-                message.type === MessageType.CONTENT
-                  ? channelMessages()?.[i() - 1]
-                  : undefined
-              }
+              beforeMessage={channelMessages()?.[i() - 1]}
               messagePaneEl={props.mainPaneEl}
               textAreaEl={props.textAreaEl}
             />
