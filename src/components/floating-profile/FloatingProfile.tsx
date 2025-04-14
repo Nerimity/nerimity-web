@@ -272,14 +272,20 @@ const DesktopProfileFlyout = (props: {
 
   onMount(() => {
     document.addEventListener("mouseup", onBackgroundClick);
+    document.addEventListener("mousedown", onMouseDown);
     onCleanup(() => {
       document.removeEventListener("mouseup", onBackgroundClick);
+      document.removeEventListener("mousedown", onMouseDown);
     });
   });
+
+  let startClick = { x: 0, y: 0 };
+  let textSelected = false;
 
   const onBackgroundClick = (event: MouseEvent) => {
     if (props.mobile) return;
     if (event.target instanceof Element) {
+      if (event.target.closest(".dropdown-popup")) return;
       if (event.target.closest(".emoji-picker")) return;
       if (event.target.closest(".modal-bg")) return;
       if (event.target.closest(".modal")) return;
@@ -293,10 +299,25 @@ const DesktopProfileFlyout = (props: {
           return;
       }
 
+      const xDistance = Math.abs(startClick.x - event.clientX);
+      const yDistance = Math.abs(startClick.y - event.clientY);
+
+      const clickedPos = xDistance > 3 || yDistance > 3;
+      if (clickedPos || textSelected) {
+        return;
+      }
+
       props.close?.();
     }
   };
 
+  const onMouseDown = (event: MouseEvent) => {
+    startClick = {
+      x: event.clientX,
+      y: event.clientY,
+    };
+    textSelected = !!window.getSelection()?.toString();
+  };
   const left = () => {
     if (props.anchor == "left") return props.left + "px";
     return props.left! - 350 + "px";

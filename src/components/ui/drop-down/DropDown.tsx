@@ -205,7 +205,11 @@ function Popup(props: {
   });
 
   return (
-    <div class={styles.popup} ref={element} style={position()}>
+    <div
+      class={cn(styles.popup, "dropdown-popup")}
+      ref={element}
+      style={position()}
+    >
       <For each={props.items}>
         {(item) => (
           <div
