@@ -14,6 +14,7 @@ import { localRPC } from "@/common/LocalRPC";
 import { reactNativeAPI } from "@/common/ReactNative";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import useChannelProperties from "../store/useChannelProperties";
+import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
 
 export const onConnect = (socket: Socket, token?: string) => {
   const account = useAccount();
@@ -96,6 +97,11 @@ electronWindowAPI()?.rpcChanged((data) => {
 localRPC.onUpdateRPC = (data) => {
   if (!data) {
     emitActivityStatus(null);
+    const programs = getStorageObject<ProgramWithExtras[]>(
+      StorageKeys.PROGRAM_ACTIVITY_STATUS,
+      []
+    );
+    electronWindowAPI()?.restartActivityStatus(programs);
   }
   emitActivityStatus({ startedAt: Date.now(), ...data });
 };
@@ -227,4 +233,5 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
 
   electronWindowAPI()?.restartRPCServer();
   localRPC.start();
+  useDiscordActivityTracker().restart();
 };

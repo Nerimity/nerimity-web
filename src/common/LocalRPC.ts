@@ -29,7 +29,7 @@ export class LocalRPC {
     this.onUpdateRPC(firstRPC.data);
   }
 
-  updateRPC(id: string, data: RPC) {
+  updateRPC(id: string, data?: RPC) {
     if (!data) return this.removeRPC(id);
     const index = this.RPCs.findIndex((rpc) => rpc.id === id);
     if (index === -1) {

@@ -25,6 +25,8 @@ import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import Block from "../ui/settings-block/Block";
 import {
   getStorageObject,
+  getStorageString,
+  setStorageString,
   StorageKeys,
   useReactiveLocalStorage,
 } from "@/common/localStorage";
@@ -39,6 +41,7 @@ import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { Modal } from "../ui/modal";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { emojiToUrl } from "@/common/emojiToUrl";
+import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
 
 const Container = styled("div")`
   display: flex;
@@ -74,7 +77,7 @@ const RPCAdContainer = styled("div")`
   border-radius: 8px;
   padding: 10px;
 
-  margin-bottom: 16px;
+  margin-bottom: 6px;
 `;
 
 const ExampleActivityContainer = styled("div")`
@@ -194,6 +197,7 @@ export default function WindowSettings() {
           </CustomLink>
         </FlexRow>
       </RPCAdContainer>
+      <DiscordActivity />
 
       <Show when={!isElectron}>
         <Notice
@@ -450,6 +454,97 @@ const EditActivityStatusModal = (props: {
           }}
           iconName="edit"
           primary
+        />
+      </Modal.Footer>
+    </Modal.Root>
+  );
+};
+
+const DiscordActivity = () => {
+  const { createPortal } = useCustomPortal();
+  const discordActivityTracker = useDiscordActivityTracker();
+  const [userId, setUserId] = createSignal<string>(
+    getStorageString(StorageKeys.DISCORD_USER_ID, "")
+  );
+
+  const onBlur = () => {
+    const id = userId()?.trim();
+    if (!id) {
+      setStorageString(StorageKeys.DISCORD_USER_ID, "");
+      discordActivityTracker.restart();
+      return;
+    }
+    createPortal((close) => {
+      const onCloseClick = () => {
+        setStorageString(StorageKeys.DISCORD_USER_ID, "");
+        setUserId("");
+        discordActivityTracker.restart();
+        close();
+      };
+      const onJoinedClick = () => {
+        setStorageString(StorageKeys.DISCORD_USER_ID, id);
+        setUserId(id);
+        discordActivityTracker.restart();
+        close();
+      };
+      return (
+        <DiscordServerJoinedConfirmModal
+          close={onCloseClick}
+          onJoinedClick={onJoinedClick}
+        />
+      );
+    });
+  };
+  return (
+    <SettingsBlock
+      label="Discord Activity"
+      description="Share your Discord activity with users on Nerimity!"
+    >
+      <Input
+        placeholder="Discord User Id"
+        onText={setUserId}
+        value={userId()}
+        onBlur={onBlur}
+      />
+    </SettingsBlock>
+  );
+};
+
+const DiscordServerJoinedConfirmModal = (props: {
+  close: () => void;
+  onJoinedClick: () => void;
+}) => {
+  return (
+    <Modal.Root
+      close={props.close}
+      doNotCloseOnBackgroundClick
+      desktopMaxWidth={500}
+    >
+      <Modal.Header title="Discord Activity" icon="edit" />
+      <Modal.Body>
+        <FlexColumn padding={6} gap={6}>
+          <Text>
+            Please join the Discord server to enable Activity Sharing.
+            <div>
+              <a target="_blank" href="https://discord.gg/ggrd2wr4pe">
+                https://discord.gg/ggrd2wr4pe
+              </a>
+            </div>
+          </Text>
+        </FlexColumn>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label="Cancel"
+          alert
+          onClick={props.close}
+          iconName="close"
+        />
+        <Modal.Button
+          label="I have joined"
+          onClick={props.onJoinedClick}
+          primary
+          iconName="check"
         />
       </Modal.Footer>
     </Modal.Root>

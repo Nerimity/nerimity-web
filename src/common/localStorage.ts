@@ -24,6 +24,7 @@ export enum StorageKeys {
   voiceInputMode = "voiceInputMode",
   PTTBoundKeys = "pttBoundKeys",
   USE_TWITTER_EMBED = "useTwitterEmbed",
+  DISCORD_USER_ID = "discordUserId",
 }
 
 export function getStorageBoolean(
