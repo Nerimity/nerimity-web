@@ -84,21 +84,23 @@ export const useDiscordActivityTracker = () => {
         setStorageString(StorageKeys.DISCORD_USER_ID, "");
         return;
       }
-      const activity = (data.activities as FormattedActivity[]).sort((a, b) => {
-        const isASpotify = !!a.assets?.largeImage?.startsWith("spotify:");
-        const isBSpotify = !!b.assets?.largeImage?.startsWith("spotify:");
+      const activity = (data.activities as FormattedActivity[])
+        .filter((a) => a.type !== ActivityType.CUSTOM)
+        .sort((a, b) => {
+          const isASpotify = !!a.assets?.largeImage?.startsWith("spotify:");
+          const isBSpotify = !!b.assets?.largeImage?.startsWith("spotify:");
 
-        // Ensure Spotify activities are placed at the end of the list
-        if (isASpotify && !isBSpotify) {
-          return 1; // a comes after b
-        }
-        if (!isASpotify && isBSpotify) {
-          return -1; // a comes before b
-        }
+          // Ensure Spotify activities are placed at the end of the list
+          if (isASpotify && !isBSpotify) {
+            return 1; // a comes after b
+          }
+          if (!isASpotify && isBSpotify) {
+            return -1; // a comes before b
+          }
 
-        // If neither or both are Spotify, maintain the original order (or add another sorting criteria)
-        return 0;
-      })[0];
+          // If neither or both are Spotify, maintain the original order (or add another sorting criteria)
+          return 0;
+        })[0];
       if (!activity) {
         localRPC.updateRPC(NERIMITY_APP_ID);
         return;
