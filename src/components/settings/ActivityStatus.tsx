@@ -526,8 +526,8 @@ const DiscordServerJoinedConfirmModal = (props: {
           <Text>
             Please join the Discord server to enable Activity Sharing.
             <div>
-              <a target="_blank" href="https://discord.gg/ggrd2wr4pe">
-                https://discord.gg/ggrd2wr4pe
+              <a target="_blank" href="https://discord.gg/kdArWJ8DU2">
+                https://discord.gg/kdArWJ8DU2
               </a>
             </div>
           </Text>
