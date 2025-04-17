@@ -5,6 +5,7 @@ import {
   StorageKeys,
 } from "./localStorage";
 import { localRPC } from "./LocalRPC";
+import { debounce } from "./debounce";
 
 const URL = "https://supertiger.nerimity.com/trackdispresence";
 const NERIMITY_APP_ID = "1630300334100500480";
@@ -84,7 +85,11 @@ export const useDiscordActivityTracker = () => {
         setStorageString(StorageKeys.DISCORD_USER_ID, "");
         return;
       }
-      const activity = (data.activities as FormattedActivity[])
+
+      handleActivity(data);
+    };
+    const handleActivity = debounce((data: FormattedPresence) => {
+      const activity = data.activities
         .filter((a) => a.type !== ActivityType.CUSTOM)
         .sort((a, b) => {
           const isASpotify = !!a.assets?.largeImage?.startsWith("spotify:");
@@ -126,7 +131,8 @@ export const useDiscordActivityTracker = () => {
         link: url || activity.url,
         ...ActivityTypeToNameAndAction(activity),
       });
-    };
+    }, 500);
+
     ws.onclose = () => {
       localRPC.updateRPC(NERIMITY_APP_ID);
       clearInterval(intervalId);

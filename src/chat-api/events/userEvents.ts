@@ -29,20 +29,6 @@ export function onUserPresenceUpdate(payload: {
   const users = useUsers();
   const account = useAccount();
 
-  if (payload.status !== undefined && account.user()?.id === payload.userId) {
-    const user = users.get(payload.userId);
-    const wasOffline =
-      !user?.presence()?.status && payload.status !== UserStatus.OFFLINE;
-    if (wasOffline) {
-      const programs = getStorageObject<ProgramWithExtras[]>(
-        StorageKeys.PROGRAM_ACTIVITY_STATUS,
-        []
-      );
-      electronWindowAPI()?.restartActivityStatus(programs);
-      electronWindowAPI()?.restartRPCServer();
-    }
-  }
-
   if (payload.status === UserStatus.OFFLINE) {
     users.updateLastOnlineAt(payload.userId);
   }

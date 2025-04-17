@@ -116,7 +116,9 @@ const array = () => Object.values(users);
 const setPresence = (userId: string, presence: Partial<Presence>) => {
   const account = useAccount();
 
-  if (account.user()?.id === userId) {
+  const isSelf = account.user()?.id === userId;
+
+  if (isSelf) {
     account.setUser({
       ...(presence.custom !== undefined
         ? {
@@ -127,7 +129,7 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
   }
   const isOffline =
     presence.status !== undefined && presence.status === UserStatus.OFFLINE;
-  if (isOffline) {
+  if (isOffline && !isSelf) {
     setUserPresences(userId, undefined!);
     return;
   }
