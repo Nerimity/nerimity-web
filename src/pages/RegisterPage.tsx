@@ -123,14 +123,14 @@ export default function RegisterPage() {
   };
 
   const notices = [
-    "Don't be toxic.",
-    "No NSFW content.",
-    "You must be over the age of 14.",
+    t("registerPage.notices.toxic"),
+    t("registerPage.notices.nsfw"),
+    t("registerPage.notices.age"),
   ];
 
   return (
     <RegisterPageContainer class="register-page-container">
-      <MetaTitle>Register</MetaTitle>
+      <MetaTitle>{t("registerPage.header")}</MetaTitle>
       <PageHeader />
       <Content>
         <Container>
@@ -154,7 +154,7 @@ export default function RegisterPage() {
                   style={{ "font-weight": "bold" }}
                   color="var(--warn-color)"
                 >
-                  Notices
+                  {t("registerPage.notices.title")}
                 </Text>
               </span>
 
@@ -221,8 +221,7 @@ export default function RegisterPage() {
               </Text>
             </Show>
             <Text style={{ "margin-top": "10px" }} size={12} opacity={0.8}>
-              By creating an account, you are agreeing to the Terms and
-              conditions and the privacy policy.
+              {t("registerPage.agreement")}
             </Text>
             <Button
               primary

@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
 
     if (newPassword() !== confirmNewPassword()) {
       setError({
-        message: "Confirm password does not match.",
+        message: t("resetPassword.passwordsDoNotMatch"),
         path: "Confirm Password",
       });
       setRequestSent(false);
@@ -94,7 +94,7 @@ export default function ResetPasswordPage() {
     });
 
     if (res && res.token) {
-      setSuccess("Password reset successful.");
+      setSuccess(t("resetPassword.resetSuccessful"));
       setTimeout(() => {
         setStorageString(StorageKeys.USER_TOKEN, res.token);
         navigate(redirectTo);
@@ -115,16 +115,16 @@ export default function ResetPasswordPage() {
                 action="#"
                 onSubmit={resetPasswordClicked}
               >
-                <TitleContainer>Reset Password</TitleContainer>
+                <TitleContainer>{t("resetPassword.")}</TitleContainer>
                 <Input
                   margin={[10, 0, 10, 0]}
-                  label="New Password"
+                  label={t("settings.account.newPassword")}
                   type="password"
                   onText={setNewPassword}
                 />
                 <Input
                   margin={[10, 0, 10, 0]}
-                  label="Confirm New Password"
+                  label={t("settings.account.confirmNewPassword")}
                   type="password"
                   onText={setConfirmNewPassword}
                 />
@@ -139,7 +139,7 @@ export default function ResetPasswordPage() {
                   styles={{ flex: 1 }}
                   margin={[10, 0, 0, 0]}
                   iconName="key"
-                  label={requestSent() ? "Resetting..." : "Reset Password"}
+                  label={requestSent() ? t("resetPassword.resetting") : t("resetPassword.resetPasswordButton")}
                   onClick={resetPasswordClicked}
                 />
               </form>
@@ -188,7 +188,7 @@ const SendCodePage = () => {
             <TitleContainer>Reset Password</TitleContainer>
             <Input
               margin={[10, 0, 10, 0]}
-              label="Email"
+              label={t("resetPassword.email")}
               type="text"
               onText={setEmail}
             />
@@ -203,7 +203,7 @@ const SendCodePage = () => {
               styles={{ flex: 1 }}
               margin={[10, 0, 0, 0]}
               iconName="mail"
-              label={requestSent() ? "Sending Email..." : "Send Email"}
+              label={requestSent() ? t("resetPassword.sending") : t("resetPassword.sendEmailButton")}
               onClick={resetPasswordClicked}
             />
           </form>

@@ -86,7 +86,7 @@ export default function LoginPage() {
 
   return (
     <LoginPageContainer class="login-page-container">
-      <MetaTitle>Login</MetaTitle>
+      <MetaTitle>{t("loginPage.login")}</MetaTitle>
       <PageHeader />
       <Content>
         <Container class="container">
@@ -125,7 +125,7 @@ export default function LoginPage() {
             />
           </form>
           <A class={linkStyle} href="/reset-password">
-            Reset Password
+            {t("resetPassword.resetPasswordButton")}
           </A>
           <A class={linkStyle} href="/register">
             {t("loginPage.createAccountInstead")}

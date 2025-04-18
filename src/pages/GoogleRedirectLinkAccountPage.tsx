@@ -7,6 +7,7 @@ import { Show, createSignal, onMount } from "solid-js";
 import { linkAccountWithGoogle } from "@/chat-api/services/UserService";
 import Text from "@/components/ui/Text";
 import { getOrCreateUploadsFolder } from "@/common/driveAPI";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 const PageContainer = styled("div")`
   display: flex;
@@ -36,6 +37,7 @@ const CenterContainer = styled(FlexColumn)`
 `;
 
 export default function GoogleRedirectLinkAccountPage() {
+  const [t] = useTransContext();
   const [searchParams] = useSearchParams<{ state: string; code: string }>();
   const [error, setError] = createSignal("");
   const [success, setSuccess] = createSignal(false);
@@ -59,13 +61,13 @@ export default function GoogleRedirectLinkAccountPage() {
       <PageHeader hideAccountInfo />
       <Content class="content">
         <CenterContainer>
-          Linking your account with Google...
+          {t("googleAccountLink.linking")}
           <Show when={error()}>
             <Text color="var(--alert-color)">{error()}</Text>
           </Show>
           <Show when={success()}>
             <Text color="var(--success-color)">
-              Account linked! You may close this window now.
+              {t("googleAccountLink.success")}
             </Text>
           </Show>
         </CenterContainer>

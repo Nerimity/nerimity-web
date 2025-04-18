@@ -70,7 +70,7 @@ export default function InviteServerBotPage() {
 
   const addBot = async () => {
     if (!serverId()) {
-      alert("Please select a server!");
+      alert(t("botInvite.serverSelect"));
       return;
     }
     inviteBot(serverId()!, params.appId, permissions()!);
@@ -95,7 +95,7 @@ export default function InviteServerBotPage() {
               <Text size={18}>{bot()?.username}</Text>
             </FlexColumn>
             <FlexRow itemsCenter gap={8}>
-              <Text>Creator </Text>
+              <Text>{t("botInvite.creator")}</Text>
               <Avatar
                 animate
                 user={bot()!.application.creatorAccount.user}
@@ -110,7 +110,7 @@ export default function InviteServerBotPage() {
 
             <DropDown
               onChange={(item) => setServerId(item.id)}
-              title="Select Server"
+              title={t("botInvite.selectButton")}
               class={css`
                 width: 240px;
               `}
@@ -120,7 +120,7 @@ export default function InviteServerBotPage() {
               }))}
             />
             <Button
-              label="Add Bot"
+              label={t("botInvite.addButton")}
               styles={{ opacity: serverId() ? 1 : 0.5 }}
               iconName="add"
               primary
@@ -159,7 +159,7 @@ const PermissionList = (props: {
         width: 230px;
       `}
     >
-      <Text opacity={0.8}>Bot Permissions</Text>
+      <Text opacity={0.8}>{t("botInvite.permissions")}</Text>
       <FlexColumn gap={4}>
         <For each={permissionsList}>
           {(permission) => (
