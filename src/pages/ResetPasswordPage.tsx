@@ -115,7 +115,7 @@ export default function ResetPasswordPage() {
                 action="#"
                 onSubmit={resetPasswordClicked}
               >
-                <TitleContainer>{t("resetPassword.")}</TitleContainer>
+                <TitleContainer>{t("resetPassword.title")}</TitleContainer>
                 <Input
                   margin={[10, 0, 10, 0]}
                   label={t("settings.account.newPassword")}
@@ -185,7 +185,7 @@ const SendCodePage = () => {
             action="#"
             onSubmit={resetPasswordClicked}
           >
-            <TitleContainer>Reset Password</TitleContainer>
+            <TitleContainer>{t("resetPassword.title")}</TitleContainer>
             <Input
               margin={[10, 0, 10, 0]}
               label={t("resetPassword.email")}
