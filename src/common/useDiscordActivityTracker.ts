@@ -128,7 +128,7 @@ export const useDiscordActivityTracker = () => {
           undefined,
         title: activity.details || undefined,
         subtitle: activity.state || undefined,
-        link: url || activity.url,
+        link: url || activity.url || undefined,
         ...ActivityTypeToNameAndAction(activity),
       });
     }, 500);
