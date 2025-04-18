@@ -72,12 +72,12 @@ const sanitizedData = (data: any) => {
   // startedAt: data.startedAt
   return JSON.parse(
     JSON.stringify({
-      name: data.name?.substring(0, 30),
-      action: data.action?.substring(0, 20),
-      imgSrc: data.imgSrc?.substring(0, 250),
-      title: data.title?.substring(0, 30),
-      subtitle: data.subtitle?.substring(0, 30),
-      link: data.link?.substring(0, 250),
+      name: data.name,
+      action: data.action,
+      imgSrc: data.imgSrc,
+      title: data.title,
+      subtitle: data.subtitle,
+      link: data.link,
       startedAt: data.startedAt,
       endsAt: data.endsAt,
       speed: data.speed,
