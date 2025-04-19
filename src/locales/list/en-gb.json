@@ -34,14 +34,32 @@
     "loginButton": "Login"
   },
   "registerPage": {
+    "header": "Register",
+    "notices": {
+      "title": "Notices",
+      "toxic": "Don't be toxic.",
+      "nsfw": "No NSFW content.",
+      "age": "You must be over the age of 14."
+    },
     "title": "Welcome to {{appName}}",
     "email": "Email",
     "username": "Username",
     "password": "Password",
     "confirmPassword": "Confirm Password",
+    "agreement": "By creating an account, you agree to the Terms And Conditions and the Privacy Policy.",
     "registerButton": "Register",
     "registering": "Registering...",
     "loginInstead": "Login Instead"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "resetSuccessful": "Password reset successful.",
+    "passwordsDoNotMatch": "Confirm password does not match.",
+    "resetPasswordButton": "Reset Password",
+    "resetting": "Resetting...",
+    "email": "Email",
+    "sendEmailButton": "Send Email",
+    "sending": "Sending Email..."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -439,5 +457,16 @@
     "attachments": "Attachments",
     "attachmentsBack": "Back",
     "members": "Members"
+  },
+  "botInvite": {
+    "serverSelect": "Please select a server!",
+    "creator": "Created by ",
+    "selectButton": "Select Server",
+    "addButton": "Add bot",
+    "permissions": "Bot Permissions"
+  },
+  "googleAccountLink": {
+    "linking": "Linking your account with Google...",
+    "success": "Account linked! You may now close this window."
   }
 }
