@@ -117,7 +117,7 @@ export default function HomePage() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {env.APP_VERSION || t("homePage.unknownVersion")}
+            {env.APP_VERSION || "Unknown Version"}
           </VersionAnchor>
 
           <Text class="slogan" size={36} bold>
