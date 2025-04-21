@@ -6,11 +6,14 @@ import {
 } from "./localStorage";
 import { localRPC } from "./LocalRPC";
 import { debounce } from "./debounce";
+import { constrainedMemory } from "process";
 
 const URL = "https://supertiger.nerimity.com/trackdispresence";
 const NERIMITY_APP_ID = "1630300334100500480";
 
 let ws: WebSocket | null = null;
+let pingIntervalId: NodeJS.Timeout;
+let restartDelayTimeoutId: NodeJS.Timeout;
 
 interface FormattedPresence {
   status: string;
@@ -65,13 +68,12 @@ const ActivityTypeToNameAndAction = (activity: FormattedActivity) => {
   }
 };
 export const useDiscordActivityTracker = () => {
-  let intervalId: NodeJS.Timeout;
-
   const start = () => {
+    clearTimeout(restartDelayTimeoutId);
     const userId = getStorageString(StorageKeys.DISCORD_USER_ID, "");
     if (!userId) return;
     if (ws) return;
-    clearInterval(intervalId);
+    clearInterval(pingIntervalId);
     ws = new WebSocket(URL + "/" + userId);
     ws.onopen = () => {
       console.log("discord activity tracker connected");
@@ -135,23 +137,29 @@ export const useDiscordActivityTracker = () => {
 
     ws.onclose = () => {
       localRPC.updateRPC(NERIMITY_APP_ID);
-      clearInterval(intervalId);
-      setTimeout(() => {
+      clearInterval(pingIntervalId);
+      clearTimeout(restartDelayTimeoutId);
+      restartDelayTimeoutId = setTimeout(() => {
         restart();
       }, 5000);
     };
   };
 
   const startPingInterval = () => {
-    intervalId = setInterval(() => {
+    pingIntervalId = setInterval(() => {
       ws?.send("ping");
     }, 30000);
   };
 
   const restart = () => {
+    clearTimeout(restartDelayTimeoutId);
+
     localRPC.updateRPC(NERIMITY_APP_ID);
-    clearInterval(intervalId);
-    if (ws) ws.close();
+    clearInterval(pingIntervalId);
+    if (ws) {
+      ws.onclose = () => {};
+      ws.close();
+    }
     ws = null;
     start();
   };
