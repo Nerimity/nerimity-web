@@ -350,6 +350,14 @@ const Actions = (props: {
                   ]
                 : []),
               {
+                label: "Copy Post",
+                onClick: () => {
+                  if (!props.post.content?.trim()) return;
+                  navigator.clipboard.writeText(props.post.content);
+                },
+                icon: "content_copy",
+              },
+              {
                 label: "Copy Link",
                 onClick: () => {
                   navigator.clipboard.writeText(
