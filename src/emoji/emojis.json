@@ -285,6 +285,11 @@
     "category": "Smileys & Emotion"
   },
   {
+    "emoji": "🫩",
+    "short_names": ["face_with_bags_under_eyes"],
+    "category": "Smileys & Emotion"
+  },
+  {
     "emoji": "😷",
     "short_names": ["mask"],
     "category": "Smileys & Emotion"
@@ -2760,6 +2765,11 @@
     "category": "People & Body"
   },
   {
+    "emoji": "🫆",
+    "short_names": ["fingerprint"],
+    "category": "People & Body"
+  },
+  {
     "emoji": "🐵",
     "short_names": ["monkey_face"],
     "category": "Animals & Nature"
@@ -3305,6 +3315,31 @@
     "category": "Animals & Nature"
   },
   {
+    "emoji": "🦀",
+    "short_names": ["crab"],
+    "category": "Animals & Nature"
+  },
+  {
+    "emoji": "🦞",
+    "short_names": ["lobster"],
+    "category": "Animals & Nature"
+  },
+  {
+    "emoji": "🦐",
+    "short_names": ["shrimp"],
+    "category": "Animals & Nature"
+  },
+  {
+    "emoji": "🦑",
+    "short_names": ["squid"],
+    "category": "Animals & Nature"
+  },
+  {
+    "emoji": "🦪",
+    "short_names": ["oyster"],
+    "category": "Animals & Nature"
+  },
+  {
     "emoji": "🐌",
     "short_names": ["snail"],
     "category": "Animals & Nature"
@@ -3525,6 +3560,11 @@
     "category": "Animals & Nature"
   },
   {
+    "emoji": "🪾",
+    "short_names": ["leafless_tree"],
+    "category": "Animals & Nature"
+  },
+  {
     "emoji": "🍇",
     "short_names": ["grapes"],
     "category": "Food & Drink"
@@ -3712,6 +3752,11 @@
   {
     "emoji": "🍄‍🟫",
     "short_names": ["brown_mushroom"],
+    "category": "Food & Drink"
+  },
+  {
+    "emoji": "🫜",
+    "short_names": ["root_vegetable"],
     "category": "Food & Drink"
   },
   {
@@ -3967,31 +4012,6 @@
   {
     "emoji": "🥡",
     "short_names": ["takeout_box"],
-    "category": "Food & Drink"
-  },
-  {
-    "emoji": "🦀",
-    "short_names": ["crab"],
-    "category": "Food & Drink"
-  },
-  {
-    "emoji": "🦞",
-    "short_names": ["lobster"],
-    "category": "Food & Drink"
-  },
-  {
-    "emoji": "🦐",
-    "short_names": ["shrimp"],
-    "category": "Food & Drink"
-  },
-  {
-    "emoji": "🦑",
-    "short_names": ["squid"],
-    "category": "Food & Drink"
-  },
-  {
-    "emoji": "🦪",
-    "short_names": ["oyster"],
     "category": "Food & Drink"
   },
   {
@@ -6095,6 +6115,11 @@
     "category": "Objects"
   },
   {
+    "emoji": "🪉",
+    "short_names": ["harp"],
+    "category": "Objects"
+  },
+  {
     "emoji": "📱",
     "short_names": ["iphone"],
     "category": "Objects"
@@ -6782,6 +6807,11 @@
   {
     "emoji": "🪜",
     "short_names": ["ladder"],
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪏",
+    "short_names": ["shovel"],
     "category": "Objects"
   },
   {
@@ -7710,6 +7740,11 @@
     "category": "Symbols"
   },
   {
+    "emoji": "🫟",
+    "short_names": ["splatter"],
+    "category": "Symbols"
+  },
+  {
     "emoji": "#️⃣",
     "short_names": ["hash"],
     "category": "Symbols"
@@ -8435,6 +8470,11 @@
     "category": "Flags"
   },
   {
+    "emoji": "🇨🇶",
+    "short_names": ["flag_sark"],
+    "category": "Flags"
+  },
+  {
     "emoji": "🇨🇷",
     "short_names": ["costa_rica", "flag_cr"],
     "category": "Flags"
@@ -8721,7 +8761,7 @@
   },
   {
     "emoji": "🇮🇲",
-    "short_names": ["isle_of_man", "flag_im"],
+    "short_names": ["isle_of_man"],
     "category": "Flags"
   },
   {
