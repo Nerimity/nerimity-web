@@ -32,6 +32,7 @@ import {
 import { Skeleton } from "../skeleton/Skeleton";
 import { useParams } from "solid-navigator";
 import { cn } from "@/common/classNames";
+import { useDocumentListener } from "@/common/useDocumentListener";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -49,6 +50,11 @@ export function EmojiPicker(props: {
 
   const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF">("EMOJI");
 
+  useDocumentListener("keydown", e => {
+    if (e.key === "Escape") {
+      props.close();
+    }
+  })
   onMount(() => {
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleKeyDown);
