@@ -94,7 +94,6 @@ const DesktopTable = (props: TableProps) => {
                   <Show when={isHeaderSortable(i())}>
                     <Icon name="unfold_more" size={14} class={style.sortIcon} />
                   </Show>
-                  <Show when={isHeaderSorted(i())}>{props.sort?.mode}</Show>
                 </div>
               </th>
             )}

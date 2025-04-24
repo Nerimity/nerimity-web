@@ -11,14 +11,25 @@
 
 }
 
-
+thead {
+  
+  position: relative;
+  &::after {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.04);
+    content: "";
+    pointer-events: none;
+    inset: 0;
+  }
+}
 
 .table_component th {
 
   top: 0;
   padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: rgba(255, 255, 255, 0.04);
+
   font-size: 12px;
   font-weight: normal;
 
@@ -29,7 +40,7 @@
   overflow: hidden;
   max-width: 100px;
   padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
 }
@@ -61,9 +72,10 @@
 }
 
 .header {
+  border-radius: 6px;
   user-select: none;
   &.clickable:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
     cursor: pointer;
     .sortIcon {
       opacity: 1;
