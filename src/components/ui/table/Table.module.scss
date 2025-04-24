@@ -1,7 +1,11 @@
 
 
 .table_component{
-  width: 100%;
+  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex-shrink: 0;
+  border-radius: 6px;
   table-layout: fixed;
   border-collapse: collapse;
   text-align: left;
@@ -15,17 +19,21 @@
 
   top: 0;
   padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 255, 255, 0.04);
+  font-size: 12px;
   font-weight: normal;
 
 
 }
 
 .table_component td {
+  overflow: hidden;
+  max-width: 100px;
   padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
 }
 
 .table_component tr:nth-child(even) td {
@@ -44,14 +52,49 @@
   border-bottom: solid 1px rgba(255, 255, 255, 0.1);
   font-size: 14px;
   gap: 4px;
-  &:first-child {
-    border-top: solid 1px rgba(255, 255, 255, 0.1);
-  }
+
   .mobileField {
     display: flex;
     gap: 4px;
   }
   .mobileTitle {
     color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.header {
+  user-select: none;
+  &.clickable:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    .sortIcon {
+      opacity: 1;
+    }
+  }
+  &.sorted {
+    background-color: rgba(255, 255, 255, 0.1);
+    .sortIcon {
+      opacity: 1;
+    }
+  }
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  .sortIcon {
+    margin-left: 4px;
+    opacity: 0.4;
+  }
+}
+
+.mobileSortOptions {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  gap: 8px;
+  .sortOptions {
+    display: flex;
+    gap: 4px;
   }
 }

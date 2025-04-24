@@ -84,6 +84,9 @@ const ExploreServerPane = lazy(
 const ServerCustomizePane = lazy(
   () => import("@/components/servers/customize-pane/ServerCustomizePane")
 );
+const ServerMembersPane = lazy(
+  () => import("@/components/servers/members-pane/ServerMembersPane")
+);
 
 // Pages
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -116,7 +119,6 @@ const ModerationUsersPage = lazy(
 const ModerationServerPage = lazy(
   () => import("@/components/moderation-pane/ServerPage")
 );
-
 
 const useBlurEffect = () => {
   const { isWindowFocusedAndBlurEffectEnabled } = useWindowProperties();
@@ -217,6 +219,10 @@ render(() => {
             <Route
               path="/welcome"
               components={{ mainPane: ServerCustomizePane }}
+            />
+            <Route
+              path="/members"
+              components={{ mainPane: ServerMembersPane }}
             />
             <Route path="/:channelId" components={{ mainPane: ChannelPane }} />
 

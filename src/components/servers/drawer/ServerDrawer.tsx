@@ -40,6 +40,7 @@ import { ChannelIcon } from "@/components/ChannelIcon";
 import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { CreateChannelModal } from "../modals/CreateChannelModal";
+import { useExperiment } from "@/common/experiments";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
@@ -58,6 +59,7 @@ const ServerDrawer = () => {
             flex: 1,
           }}
         >
+          <MembersItem />
           <Show when={server()?._count?.welcomeQuestions}>
             <CustomizeItem />
           </Show>
@@ -86,6 +88,28 @@ const CustomizeItem = () => {
         </ChannelContainer>
       </A>
     </div>
+  );
+};
+const MembersItem = () => {
+  const params = useParams<{ serverId: string }>();
+  const { experiment } = useExperiment(() => "SERVER_MEMBERS_PANE");
+  const match = useMatch(() =>
+    RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")
+  );
+  return (
+    <Show when={experiment()}>
+      <div class={styles.membersItemContainer}>
+        <A
+          style={{ "text-decoration": "none" }}
+          href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")}
+        >
+          <ChannelContainer selected={match()}>
+            <Icon name="group" color="rgba(255,255,255,0.6)" size={16} />
+            <div class="label">Members</div>
+          </ChannelContainer>
+        </A>
+      </div>
+    </Show>
   );
 };
 

@@ -1,0 +1,21 @@
+.pane {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 10px;
+}
+
+
+.memberField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nickname {
+  font-weight: bold;
+}
+.usernameAndTag {
+  opacity: 0.6;
+  font-size: 12px;
+}

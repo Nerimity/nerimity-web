@@ -12,16 +12,12 @@ export interface Experiment {
 }
 
 export const Experiments = [
-  // {
-  //   id: "IN_APP_NOTIFICATION_PREVIEWS",
-  //   name: "In-App Notification Previews",
-  //   description: "Show popup notifications in app.",
-  //   onToggle: () => {
-  //     const { clearNotifications } = useInAppNotificationPreviews();
-
-  //     clearNotifications();
-  //   },
-  // },
+  {
+    id: "SERVER_MEMBERS_PANE",
+    name: "Server Members Page",
+    description:
+      "Adds a new item to the server drawer that lets you view all server members, and the ability to sort them.",
+  },
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];
