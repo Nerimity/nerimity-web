@@ -211,23 +211,23 @@ const MobileSortOptions = (props: TableProps) => {
     });
   };
   return (
-    <div class={style.mobileSortOptions}>
-      <div>Sort By</div>
-      <div class={style.sortOptions}>
-        <For each={props.headers}>
-          {(header, i) => (
-            <Item.Root
-              selected={i() === props.sort?.index}
-              handlePosition="bottom"
-              onClick={() => onHeaderClick(i())}
-            >
-              <Item.Label>{header}</Item.Label>
-            </Item.Root>
-          )}
-        </For>
-      </div>
+    <Show when={props.sort}>
+      <div class={style.mobileSortOptions}>
+        <div>Sort By</div>
+        <div class={style.sortOptions}>
+          <For each={props.headers}>
+            {(header, i) => (
+              <Item.Root
+                selected={i() === props.sort?.index}
+                handlePosition="bottom"
+                onClick={() => onHeaderClick(i())}
+              >
+                <Item.Label>{header}</Item.Label>
+              </Item.Root>
+            )}
+          </For>
+        </div>
 
-      <Show when={props.sort}>
         <div>Order By</div>
         <div class={style.sortOptions}>
           <Item.Root
@@ -247,8 +247,8 @@ const MobileSortOptions = (props: TableProps) => {
             <Item.Label>Descending</Item.Label>
           </Item.Root>
         </div>
-      </Show>
-    </div>
+      </div>
+    </Show>
   );
 };
 

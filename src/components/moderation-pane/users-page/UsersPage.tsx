@@ -55,15 +55,21 @@ export default function UsersPage() {
   // };
 
   return (
-    <div>
+    <div class={style.usersPage}>
       <h1>Users</h1>
       <Table.Root headers={["Name", "Joined", "Tags"]}>
         <For each={users.data() || []}>
           {(user) => (
             <Table.Item href={`./${user.id}`}>
-              <Table.Field><NameField user={user} /></Table.Field>
-              <Table.Field mobileTitle="Joined"><div>{fullDateTime(user.joinedAt)}</div></Table.Field>
-              <Table.Field><TagsField user={user} /></Table.Field>
+              <Table.Field>
+                <NameField user={user} />
+              </Table.Field>
+              <Table.Field mobileTitle="Joined">
+                <div>{fullDateTime(user.joinedAt)}</div>
+              </Table.Field>
+              <Table.Field>
+                <TagsField user={user} />
+              </Table.Field>
             </Table.Item>
           )}
         </For>
