@@ -54,6 +54,8 @@ export function useWindowProperties() {
     width: () => windowProperties.width,
     height: () => windowProperties.height,
     isMobileWidth: () => windowProperties.width <= env.MOBILE_WIDTH,
+    isMainPaneMobileWidth: () =>
+      (windowProperties.paneWidth || windowProperties.width) <= 600,
     paneWidth: () => windowProperties.paneWidth,
     hasFocus: () => windowProperties.hasFocus,
     isMobileAgent: () => isMobileAgent,

@@ -22,14 +22,14 @@ interface TableProps {
   sort?: TableSort;
 }
 const Root = (props: TableProps) => {
-  const { isMobileWidth } = useWindowProperties();
+  const { isMainPaneMobileWidth } = useWindowProperties();
 
   return (
     <Switch>
-      <Match when={!isMobileWidth()}>
+      <Match when={!isMainPaneMobileWidth()}>
         <DesktopTable {...props} />
       </Match>
-      <Match when={isMobileWidth()}>
+      <Match when={isMainPaneMobileWidth()}>
         <MobileTable {...props} />
       </Match>
     </Switch>
@@ -38,18 +38,20 @@ const Root = (props: TableProps) => {
 
 interface ItemProp {
   children?: JSXElement;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent) => void;
+  onContextMenu?: (event: MouseEvent) => void;
   href?: string;
+  class?: string;
 }
 
 const TableItem = (props: ItemProp) => {
-  const { isMobileWidth } = useWindowProperties();
+  const { isMainPaneMobileWidth } = useWindowProperties();
   return (
     <Switch>
-      <Match when={!isMobileWidth()}>
+      <Match when={!isMainPaneMobileWidth()}>
         <DesktopItem {...props} />
       </Match>
-      <Match when={isMobileWidth()}>
+      <Match when={isMainPaneMobileWidth()}>
         <MobileItem {...props} />
       </Match>
     </Switch>
@@ -111,13 +113,13 @@ interface FieldProps {
 }
 
 const Field = (props: FieldProps) => {
-  const { isMobileWidth } = useWindowProperties();
+  const { isMainPaneMobileWidth } = useWindowProperties();
   return (
     <Switch>
-      <Match when={!isMobileWidth()}>
+      <Match when={!isMainPaneMobileWidth()}>
         <DesktopField {...props} />
       </Match>
-      <Match when={isMobileWidth()}>
+      <Match when={isMainPaneMobileWidth()}>
         <MobileField {...props} />
       </Match>
     </Switch>
@@ -129,12 +131,12 @@ const DesktopField = (props: FieldProps) => {
 };
 const MobileField = (props: FieldProps) => {
   return (
-    <div class={style.mobileField}>
+    <span class={style.mobileField}>
       <Show when={props.mobileTitle}>
-        <span class={style.mobileTitle}>{props.mobileTitle}:</span>
+        <span class={style.mobileTitle}>{props.mobileTitle}: </span>
       </Show>
       {props.children}
-    </div>
+    </span>
   );
 };
 
@@ -142,10 +144,15 @@ const DesktopItem = (props: ItemProp) => {
   const child = children(() => props.children);
   const els = () => child.toArray();
   return (
-    <tr>
+    <tr
+      class={cn(
+        props.class,
+        props.onClick || props.href ? style.clickable : null
+      )}
+    >
       <For each={els()}>
         {(el) => (
-          <td>
+          <td onClick={props.onClick} onContextMenu={props.onContextMenu}>
             <Dynamic
               component={props.href ? CustomLink : Fragment}
               href={props.href}
@@ -166,7 +173,13 @@ const MobileItem = (props: ItemProp) => {
       <Dynamic
         component={props.href ? CustomLink : "div"}
         href={props.href}
-        class={style.mobileItem}
+        class={cn(
+          props.class,
+          style.mobileItem,
+          props.onClick || props.href ? style.clickable : null
+        )}
+        onClick={props.onClick}
+        onContextMenu={props.onContextMenu}
       >
         {child()}
       </Dynamic>

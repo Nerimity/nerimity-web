@@ -5,6 +5,19 @@
   padding: 10px;
 }
 
+.filter {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  gap: 4px;
+}
+
+.search {
+  align-self: flex-start;
+  margin-bottom: 12px;
+
+}
+
 
 .memberField {
   display: flex;
