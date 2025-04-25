@@ -12,12 +12,12 @@ export interface Experiment {
 }
 
 export const Experiments = [
-  {
-    id: "SERVER_MEMBERS_PANE",
-    name: "Server Members Page",
-    description:
-      "Adds a new item to the server drawer that lets you view all server members, and the ability to sort them.",
-  },
+  // {
+  //   id: "SERVER_MEMBERS_PANE",
+  //   name: "Server Members Page",
+  //   description:
+  //     "Adds a new item to the server drawer that lets you view all server members, and the ability to sort them.",
+  // },
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];

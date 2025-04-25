@@ -92,24 +92,21 @@ const CustomizeItem = () => {
 };
 const MembersItem = () => {
   const params = useParams<{ serverId: string }>();
-  const { experiment } = useExperiment(() => "SERVER_MEMBERS_PANE");
   const match = useMatch(() =>
     RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")
   );
   return (
-    <Show when={experiment()}>
-      <div class={styles.membersItemContainer}>
-        <A
-          style={{ "text-decoration": "none" }}
-          href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")}
-        >
-          <ChannelContainer selected={match()}>
-            <Icon name="group" color="rgba(255,255,255,0.6)" size={16} />
-            <div class="label">Members</div>
-          </ChannelContainer>
-        </A>
-      </div>
-    </Show>
+    <div class={styles.membersItemContainer}>
+      <A
+        style={{ "text-decoration": "none" }}
+        href={RouterEndpoints.SERVER_MESSAGES(params.serverId!, "members")}
+      >
+        <ChannelContainer selected={match()}>
+          <Icon name="group" color="rgba(255,255,255,0.6)" size={16} />
+          <div class="label">Members</div>
+        </ChannelContainer>
+      </A>
+    </div>
   );
 };
 
