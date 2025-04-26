@@ -16,6 +16,7 @@ import Text from "../ui/Text";
 
 export enum TimestampType {
   RELATIVE = "tr",
+  OFFSET = "to",
 }
 
 export function TimestampMention(props: {
@@ -30,6 +31,22 @@ export function TimestampMention(props: {
   const updateTime = () => {
     if (props.type === TimestampType.RELATIVE) {
       return setFormattedTime(timeSinceMentions(props.timestamp));
+    }
+    if (props.type === TimestampType.OFFSET) {
+      const offsetFromUTC = props.timestamp; // UTC offset in minutes
+
+      const date = new Date();
+      const utcDate = new Date(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds()
+      );
+
+      utcDate.setMinutes(utcDate.getMinutes() + offsetFromUTC);
+      setFormattedTime(formatTimestamp(utcDate.getTime()));
     }
   };
 
@@ -46,6 +63,7 @@ export function TimestampMention(props: {
   const isInPast = () => Date.now() > props.timestamp;
 
   const onClick = () => {
+    if (props.type !== TimestampType.RELATIVE) return;
     if (isInPast()) return;
     if (!props.message && !props.post) return;
 

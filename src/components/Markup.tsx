@@ -170,6 +170,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       }
       break;
     }
+    case "to":
     case "tr": {
       const stamp = parseInt(expr);
       const date = new Date(stamp * 1000);
@@ -180,7 +181,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       return (
         <TimestampMention
           type={type as TimestampType}
-          timestamp={stamp * 1000}
+          timestamp={type === TimestampType.RELATIVE ? stamp * 1000 : stamp}
           message={ctx.props().message}
           post={ctx.props().post}
         />
