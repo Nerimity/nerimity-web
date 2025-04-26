@@ -101,13 +101,13 @@ const CustomTextArea = styled("textarea")`
 `;
 
 const PrefixLabel = styled(Text)`
-  padding-top: 10px;
   padding-left: 10px;
   margin-right: -10px;
+  place-self: center;
 `;
 
 const SuffixLabel = styled(Text)`
-  padding-top: 10px;
+  place-self: center;
   padding-right: 10px;
 `;
 

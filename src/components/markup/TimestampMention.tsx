@@ -1,6 +1,7 @@
 import { formatTimestamp, timeSinceMentions } from "@/common/date";
 import {
   createEffect,
+  createMemo,
   createSignal,
   on,
   onCleanup,
@@ -13,6 +14,7 @@ import { Modal } from "../ui/modal";
 import { addReminder } from "@/chat-api/services/ReminderService";
 import { Message } from "@/chat-api/store/useMessages";
 import Text from "../ui/Text";
+import { WorldTimezones } from "@/common/WorldTimezones";
 
 export enum TimestampType {
   RELATIVE = "tr",
@@ -28,12 +30,24 @@ export function TimestampMention(props: {
   const { createPortal } = useCustomPortal();
   const [formattedTime, setFormattedTime] = createSignal("...");
 
+  const isValidTimezone = createMemo(() => {
+    return WorldTimezones.includes(props.timestamp as unknown as string);
+  });
+
   const updateTime = () => {
     if (props.type === TimestampType.RELATIVE) {
       return setFormattedTime(timeSinceMentions(props.timestamp));
     }
     if (props.type === TimestampType.OFFSET) {
-      const offsetFromUTC = props.timestamp; // UTC offset in minutes
+      const offset = props.timestamp as unknown as string;
+
+      if (isValidTimezone()) {
+        const date = new Date().toLocaleString("en-GB", { timeZone: offset });
+        return setFormattedTime(date.split(",")[1]?.trim() || "...");
+      }
+      const offsetSign = offset[0] as "+" | "-";
+      const offsetHours = Number(offsetSign + offset.slice(1, 3));
+      const offsetMinutes = Number(offsetSign + offset.slice(3, 6));
 
       const date = new Date();
       const utcDate = new Date(
@@ -45,8 +59,9 @@ export function TimestampMention(props: {
         date.getUTCSeconds()
       );
 
-      utcDate.setMinutes(utcDate.getMinutes() + offsetFromUTC);
-      setFormattedTime(formatTimestamp(utcDate.getTime()));
+      utcDate.setMinutes(utcDate.getMinutes() + offsetMinutes);
+      utcDate.setHours(utcDate.getHours() + offsetHours);
+      setFormattedTime(formatTimestamp(utcDate.getTime(), true));
     }
   };
 
@@ -135,7 +150,11 @@ export function TimestampMention(props: {
   return (
     <div
       class="mention timestamp"
-      title={formatTimestamp(props.timestamp)}
+      title={
+        props.type === TimestampType.OFFSET
+          ? formattedTime()
+          : formatTimestamp(props.timestamp)
+      }
       onClick={onClick}
     >
       <Icon

@@ -1,5 +1,12 @@
 import styles from "./styles.module.scss";
-import { Show, createEffect, createSignal, on } from "solid-js";
+import {
+  Show,
+  createEffect,
+  createSignal,
+  on,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import Button from "../ui/Button";
 import { ColorPickerModal } from "../ui/color-picker/ColorPicker";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -10,6 +17,12 @@ import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import Input from "../ui/input/Input";
+import { Modal } from "../ui/modal";
+import { Item } from "../ui/Item";
+import { off } from "process";
+import { TimestampType } from "../markup/TimestampMention";
+import DropDown from "../ui/drop-down/DropDown";
+import { WorldTimezones } from "@/common/WorldTimezones";
 
 const formats = {
   named_link: (url: string) => ({
@@ -47,10 +60,10 @@ const formats = {
     offsetEnd: color!.length + 2 + text.length,
     res: `[${color}]${text || ""}`,
   }),
-  timestamp: (text: string, schedule?: number) => ({
+  timestamp: (text: string, schedule?: number, type?: TimestampType) => ({
     offsetStart: 5 + schedule!.toString().length,
     offsetEnd: 5 + schedule!.toString().length,
-    res: `[tr:${schedule}]`,
+    res: `[${type === TimestampType.RELATIVE ? "tr" : "to"}:${schedule}]`,
   }),
 } as const;
 
@@ -79,7 +92,8 @@ export const AdvancedMarkupOptions = (props: {
       | "header"
       | "named_link",
     color?: string,
-    schedule?: number
+    schedule?: number | string,
+    type?: TimestampType
   ) => {
     if (format === "color" && !color) {
       createPortal?.((close) => (
@@ -100,8 +114,8 @@ export const AdvancedMarkupOptions = (props: {
       createPortal?.((close) => (
         <DateTimePickerModal
           close={close}
-          done={(val) => {
-            applyFormat(format, undefined, val);
+          done={(val, type) => {
+            applyFormat(format, undefined, val, type);
           }}
         />
       ));
@@ -116,7 +130,7 @@ export const AdvancedMarkupOptions = (props: {
     const allText = props.inputElement.value;
     const sel = allText.substring(start, finish);
 
-    const modifySel = transformFunc(sel, schedule || color);
+    const modifySel = transformFunc(sel, schedule || color, type);
     const newText =
       allText.substring(0, start) +
       modifySel.res +
@@ -296,35 +310,86 @@ export const AdvancedMarkupOptions = (props: {
   );
 };
 
+const offsetPlaceholderExamples = ["-01:00", "+01:00"];
+
+function getTimezone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
 const DateTimePickerModal = (props: {
   close: () => void;
-  done: (val: number) => void;
+  done: (val: number | string, type: TimestampType) => void;
 }) => {
+  const [tab, setTab] = createSignal<"REL" | "OFF">("REL");
   const [date, setDate] = createSignal(toLocalISOString(new Date()));
+  const [offset, setOffset] = createSignal(getTimezone());
+
+  const [offsetPlaceholder, setOffsetPlaceholder] = createSignal(0);
+  onMount(() => {
+    const id = setInterval(() => {
+      if (offsetPlaceholder() === offsetPlaceholderExamples.length - 1) {
+        setOffsetPlaceholder(0);
+        return;
+      }
+      setOffsetPlaceholder(offsetPlaceholder() + 1);
+    }, 3000);
+    onCleanup(() => clearInterval(id));
+  });
 
   const onDone = () => {
+    if (tab() === "OFF") {
+      props.done(offset(), TimestampType.OFFSET);
+      props.close();
+      return;
+    }
+
     const dateObj = new Date(date());
     dateObj.setSeconds(new Date().getSeconds());
-    props.done(dateObj.getTime() / 1000);
+    props.done(dateObj.getTime() / 1000, TimestampType.RELATIVE);
     props.close();
   };
   return (
-    <LegacyModal
-      title="Pick date and time"
-      close={props.close}
-      actionButtonsArr={[
-        { label: "Done", onClick: onDone, iconName: "done", primary: true },
-      ]}
-    >
-      <div class={styles.datePickerModal}>
-        <Input
-          type="datetime-local"
-          value={date()}
-          style={{ "font-size": "18px" }}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-    </LegacyModal>
+    <Modal.Root close={props.close}>
+      <Modal.Header title="Time Markup" />
+      <Modal.Body class={styles.datePickerModal}>
+        <div class={styles.tabs}>
+          <Item.Root
+            selected={tab() === "REL"}
+            onClick={() => setTab("REL")}
+            handlePosition="bottom"
+          >
+            <Item.Icon>schedule</Item.Icon>
+            <Item.Label>Relative</Item.Label>
+          </Item.Root>
+          <Item.Root
+            selected={tab() === "OFF"}
+            onClick={() => setTab("OFF")}
+            handlePosition="bottom"
+          >
+            <Item.Icon>globe_uk</Item.Icon>
+            <Item.Label>Offset</Item.Label>
+          </Item.Root>
+        </div>
+        <Show when={tab() === "REL"}>
+          <Input
+            type="datetime-local"
+            value={date()}
+            style={{ "font-size": "18px" }}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </Show>
+        <Show when={tab() === "OFF"}>
+          <DropDown
+            selectedId={offset()}
+            onChange={(item) => setOffset(item.id)}
+            items={WorldTimezones.map((tz) => ({ id: tz, label: tz }))}
+          />
+        </Show>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button label="Done" iconName="done" primary onClick={onDone} />
+      </Modal.Footer>
+    </Modal.Root>
   );
 };
 

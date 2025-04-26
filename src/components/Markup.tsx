@@ -35,6 +35,7 @@ import { TimestampMention, TimestampType } from "./markup/TimestampMention";
 import { Dynamic } from "solid-js/web";
 import { Post } from "@/chat-api/store/usePosts";
 import useServerRoles from "@/chat-api/store/useServerRoles";
+import { WorldTimezones } from "@/common/WorldTimezones";
 
 export interface Props {
   text: string;
@@ -72,6 +73,8 @@ const sliceText = (
 };
 
 type CustomEntity = Entity & { type: "custom" };
+
+const TimeOffsetRegex = /^[+-]\d{4}$/;
 
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   const channels = useChannels();
@@ -170,7 +173,23 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       }
       break;
     }
-    case "to":
+    case "to": {
+      const isValidTimezone = WorldTimezones.includes(expr);
+      const isValidRegex = TimeOffsetRegex.test(expr);
+      if (!isValidTimezone && !isValidRegex) {
+        break;
+      }
+
+      ctx.textCount += expr.length;
+      return (
+        <TimestampMention
+          type={type as TimestampType}
+          timestamp={expr}
+          message={ctx.props().message}
+          post={ctx.props().post}
+        />
+      );
+    }
     case "tr": {
       const stamp = parseInt(expr);
       const date = new Date(stamp * 1000);
@@ -181,7 +200,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       return (
         <TimestampMention
           type={type as TimestampType}
-          timestamp={type === TimestampType.RELATIVE ? stamp * 1000 : stamp}
+          timestamp={stamp * 1000}
           message={ctx.props().message}
           post={ctx.props().post}
         />

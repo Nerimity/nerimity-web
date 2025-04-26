@@ -11,7 +11,7 @@ function pad(num: number) {
 }
 
 // convert timestamp to today at 13:00 or yesterday at 13:00 or date. add zero if single digit
-export function formatTimestamp(timestamp: number) {
+export function formatTimestamp(timestamp: number, seconds = false) {
   const date = new Date(timestamp);
   const today = new Date();
 
@@ -25,7 +25,9 @@ export function formatTimestamp(timestamp: number) {
     date.getDate() === today.getDate() &&
     date.getMonth() === today.getMonth()
   ) {
-    return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    return `${pad(date.getHours())}:${pad(date.getMinutes())}${
+      seconds ? `:${pad(date.getSeconds())}` : ""
+    }`;
   } else if (sameYear && yesterday.toDateString() === date.toDateString()) {
     return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   } else {
@@ -37,18 +39,24 @@ export function formatTimestamp(timestamp: number) {
   }
 }
 
-export const fullDate = (timestamp: number, month: "short" | "long" = "short", weekday?: "long") => {
-    return Intl.DateTimeFormat("en-GB", {
-      weekday: weekday,
-      day: "2-digit",
-      month,
-      year: "numeric",
-    }).format(timestamp);
+export const fullDate = (
+  timestamp: number,
+  month: "short" | "long" = "short",
+  weekday?: "long"
+) => {
+  return Intl.DateTimeFormat("en-GB", {
+    weekday: weekday,
+    day: "2-digit",
+    month,
+    year: "numeric",
+  }).format(timestamp);
 };
 
 export const fullDateTime = (timestamp: number) => {
   const date = new Date(timestamp);
-  return `${fullDate(timestamp)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `${fullDate(timestamp)} at ${pad(date.getHours())}:${pad(
+    date.getMinutes()
+  )}`;
 };
 
 // get days ago from timestamp
@@ -66,7 +74,6 @@ export function timeSince(timestamp: number, showSeconds = false) {
   const now = new Date();
   const secondsPast = Math.abs((now.getTime() - timestamp) / 1000);
 
-
   if (secondsPast < 60) {
     if (showSeconds) {
       return pluralize(Math.trunc(secondsPast), "second", "ago");
@@ -80,12 +87,11 @@ export function timeSince(timestamp: number, showSeconds = false) {
   const mins = duration.minutes();
 
   if (duration.asHours() >= 24) {
-  return formatTimestamp(timestamp);
-
+    return formatTimestamp(timestamp);
   }
 
   if (hrs) {
-    return pluralize(hrs,  "hour") + " ago";
+    return pluralize(hrs, "hour") + " ago";
   }
   if (mins) {
     return pluralize(mins, "minute") + " ago";
@@ -199,41 +205,33 @@ function convertSecondsForActivityStatus(totalSeconds: number) {
   const mins = duration.minutes();
   const secs = duration.seconds();
 
-
   const values = [];
   if (yrs) {
     values.push(yrs + "y");
   }
   if (mnts) {
-    values.push(mnts +  "m");
+    values.push(mnts + "m");
   }
   if (wks) {
-    values.push(wks +  "w");
+    values.push(wks + "w");
   }
   if (days) {
-    values.push(days +  "d");
+    values.push(days + "d");
   }
   if (hrs) {
-    values.push(hrs +  "h");
+    values.push(hrs + "h");
   }
   if (mins) {
-    values.push(mins +  "m");
+    values.push(mins + "m");
   }
   if (secs) {
-    values.push(secs +  "s");
+    values.push(secs + "s");
   }
 
   return values.slice(0, 2).join(" ");
-
-
-
-
-
 }
 
-
 export function timeSinceMentions(timestamp: number) {
-
   const duration = dayjs.duration(Math.abs(Date.now() - timestamp));
   const now = new Date();
 
@@ -244,7 +242,6 @@ export function timeSinceMentions(timestamp: number) {
     return rawSecondsPast < 0 ? `In ${value}` : `${value} ago`;
   };
 
-
   const yrs = duration.years();
   const mnts = duration.months();
   const wks = duration.weeks();
@@ -252,7 +249,6 @@ export function timeSinceMentions(timestamp: number) {
   const hrs = duration.hours();
   const mins = duration.minutes();
   const secs = duration.seconds();
-
 
   const values = [];
   if (yrs) {
@@ -278,11 +274,16 @@ export function timeSinceMentions(timestamp: number) {
   }
 
   return text(values.slice(0, 2).join(" "));
-  
 }
 
-
-function pluralize(count: number,word: string, suffix?: string, hideIfZero = false) {
+function pluralize(
+  count: number,
+  word: string,
+  suffix?: string,
+  hideIfZero = false
+) {
   if (hideIfZero && !count) return "";
-  return (count + " ") + (count > 1 ? `${word}s` : word + (suffix? ` ${suffix}` : ""));
+  return (
+    count + " " + (count > 1 ? `${word}s` : word + (suffix ? ` ${suffix}` : ""))
+  );
 }

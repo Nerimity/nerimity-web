@@ -10,24 +10,24 @@
 .container {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  height: 30px;
   padding: 2px;
   padding-left: 4px;
-  gap: 2px;
+  margin-bottom: 1px;
   border: solid 1px rgba(255, 255, 255, 0.2);
-
-  background-color: rgba(0, 0, 0, 0.86);
-  backdrop-filter: blur(34px);
 
 
   border-radius: 6px;
-  height: 30px;
-  flex-shrink: 0;
-  margin-bottom: 1px;
+
+  background-color: rgba(0, 0, 0, 0.86);
+  gap: 2px;
+  backdrop-filter: blur(34px);
 
   &.zeroBottomBorderRadius {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
     margin-bottom: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
 
@@ -43,9 +43,9 @@
 body .button {
   width: 16px;
   height: 16px;
-  background-color: transparent;
   border: none;
   border-radius: 4px;
+  background-color: transparent;
 }
 .colorBlock {
   display: flex;
@@ -53,12 +53,16 @@ body .button {
   justify-content: center;
   width: 18px;
   height: 18px;
-  background-color: var(--primary-color);
   border-radius: 4px;
+  background-color: var(--primary-color);
 }
 
 .datePickerModal {
   display: flex;
-  align-items: center;
-  justify-content: center; 
+  flex-direction: column;
+  gap: 8px;
+  .tabs {
+    display: flex;
+    gap: 4px;
+  }
 }
