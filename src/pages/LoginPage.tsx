@@ -7,7 +7,7 @@ import {
   StorageKeys,
 } from "../common/localStorage";
 import { A, useNavigate, useLocation } from "solid-navigator";
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onMount, Show } from "solid-js";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
 import { FlexColumn } from "@/components/ui/Flexbox";
@@ -15,6 +15,7 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import PageFooter from "@/components/PageFooter";
 import { Title } from "@solidjs/meta";
 import { MetaTitle } from "@/common/MetaTitle";
+import Text from "@/components/ui/Text";
 
 const LoginPageContainer = styled("div")`
   display: flex;
@@ -76,7 +77,7 @@ export default function LoginPage() {
       email().trim(),
       password().trim()
     ).catch((err) => {
-      setError({ message: err.message, path: err.path });
+      setError({ message: err.message, path: err.path || "unk" });
     });
     setRequestSent(false);
     if (!response) return;
@@ -111,6 +112,11 @@ export default function LoginPage() {
               error={error()}
               onText={setPassword}
             />
+            <Show when={error().path === "unk"}>
+              <Text size={16} color="var(--alert-color)">
+                {error().message}
+              </Text>
+            </Show>
             <Button
               primary
               styles={{ flex: 1 }}

@@ -1,35 +1,13 @@
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
-import Text from "@/components/ui/Text";
-import { css, styled } from "solid-styled-components";
-import {
-  getCurrentLanguage,
-  getLanguage,
-  Language,
-  languages,
-  setCurrentLanguage,
-} from "@/locales/languages";
+import { createEffect, createSignal, onMount, Show } from "solid-js";
+import { styled } from "solid-styled-components";
 
-import ItemContainer from "../ui/LegacyItem";
-import twemoji from "twemoji";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { FlexColumn } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import env from "@/common/env";
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
-import { Emoji } from "../markup/Emoji";
-import {
-  getStorageBoolean,
-  getStorageNumber,
-  setStorageBoolean,
-  setStorageNumber,
-  StorageKeys,
-} from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
-import Slider from "../ui/Slider";
-import { playMessageNotification } from "@/common/Sound";
+
 import { Notice } from "../ui/Notice/Notice";
 import { electronWindowAPI } from "@/common/Electron";
 
@@ -86,6 +64,7 @@ export default function WindowSettings() {
           <BlockContent />
         </Show>
         <StartupOptions />
+        <HardwareAccelerationOptions />
       </Options>
     </Container>
   );
@@ -113,6 +92,7 @@ function StartupOptions() {
     <FlexColumn>
       <SettingsBlock icon="launch" label="Startup Options" header />
       <SettingsBlock
+        onClick={() => onAutostartChange(!autostart())}
         icon="restart_alt"
         label={"Open Nerimity on startup"}
         borderTopRadius={false}
@@ -122,6 +102,7 @@ function StartupOptions() {
       </SettingsBlock>
       <Show when={autostart()}>
         <SettingsBlock
+          onClick={() => onAutostartMinimizedChange(!autostartMinimized())}
           icon="horizontal_rule"
           label="Start Minimized"
           description={"Minimize Nerimity to the tray automatically."}
@@ -133,6 +114,39 @@ function StartupOptions() {
           />
         </SettingsBlock>
       </Show>
+    </FlexColumn>
+  );
+}
+function HardwareAccelerationOptions() {
+  const [hardwareAccelerationDisabled, setHardwareAccelerationDisabled] =
+    createSignal(false);
+
+  onMount(async () => {
+    electronWindowAPI()
+      ?.getHardwareAccelerationDisabled()
+      .then(setHardwareAccelerationDisabled);
+  });
+
+  const onHardwareAccelerationChange = (checked: boolean) => {
+    electronWindowAPI()?.setHardwareAccelerationDisabled(checked);
+    setHardwareAccelerationDisabled(checked);
+  };
+
+  return (
+    <FlexColumn>
+      <SettingsBlock
+        onClick={() =>
+          onHardwareAccelerationChange(!hardwareAccelerationDisabled())
+        }
+        icon="speed"
+        label={"Disable Hardware Acceleration"}
+        description="You must reopen the app for the change to take effect."
+      >
+        <Checkbox
+          checked={hardwareAccelerationDisabled()}
+          onChange={onHardwareAccelerationChange}
+        />
+      </SettingsBlock>
     </FlexColumn>
   );
 }

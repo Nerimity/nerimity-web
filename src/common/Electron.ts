@@ -47,6 +47,9 @@ interface WindowAPI {
   getAutostart(): Promise<boolean>;
   setAutostart(value: boolean): void;
 
+  getHardwareAccelerationDisabled(): Promise<boolean>;
+  setHardwareAccelerationDisabled(value: boolean): void;
+
   getAutostartMinimized(): Promise<boolean>;
   setAutostartMinimized(value: boolean): void;
 
