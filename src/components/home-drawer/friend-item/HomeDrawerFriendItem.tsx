@@ -10,7 +10,6 @@ import useStore from "@/chat-api/store/useStore";
 import UserPresence from "@/components/user-presence/UserPresence";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { createSignal, Show } from "solid-js";
-import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -19,6 +18,7 @@ import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { formatTimestamp } from "@/common/date";
 import { unblockUser } from "@/chat-api/services/UserService";
 import { Modal } from "@/components/ui/modal";
+import { Item } from "@/components/ui/Item";
 
 export default function HomeDrawerFriendItem(props: {
   friend?: Friend;
@@ -81,22 +81,6 @@ export default function HomeDrawerFriendItem(props: {
 
   const mentionCount = () => mentions.getDmCount(user()!.id);
 
-  const FriendContainer = styled(ItemContainer)`
-    padding-left: 10px;
-    height: 40px;
-
-    .username {
-      opacity: ${(props) => (props.selected ? 1 : 0.6)};
-      transition: 0.2s;
-      font-size: 14px;
-      line-height: 1;
-    }
-
-    &:hover .username {
-      opacity: 1;
-    }
-  `;
-
   const showCloseButton = () => {
     if (!props.isInboxTab) return false;
     if (isMobileAgent()) {
@@ -108,18 +92,21 @@ export default function HomeDrawerFriendItem(props: {
 
   return (
     <Show when={user()}>
-      <FriendContainer
-        onmouseenter={() => setHovered(true)}
+      <Item.Root
+        class={styles.friendContainer}
+        onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         selected={props.isInboxTab && !isBlocked() && isSelected()}
-        alert={mentionCount() || showAccept()}
+        handleColor={
+          mentionCount() || showAccept() ? "var(--alert-color)" : undefined
+        }
         onClick={onFriendClick}
       >
         <A href={RouterEndpoints.PROFILE(user().id)} class="link">
           <Avatar animate={hovered()} user={user()} size={28} />
         </A>
         <div class={styles.details}>
-          <div class="username">{user().username}</div>
+          <div class={styles.username}>{user().username}</div>
           <Show when={isBlocked()}>
             <Text class={styles.blockedText} size={12} opacity={0.6}>
               Blocked at {formatTimestamp(props.friend?.createdAt || 0)}
@@ -161,22 +148,23 @@ export default function HomeDrawerFriendItem(props: {
         <Show when={showCloseButton()}>
           <Button
             class={styles.button}
-            iconSize={12}
+            iconSize={16}
             color="var(--alert-color)"
             iconName="close"
+            margin={0}
             onClick={onCloseDMClick}
           />
         </Show>
         <Show when={isBlocked()}>
           <Button
             class={styles.button}
-            iconSize={12}
+            iconSize={16}
             color="var(--alert-color)"
             iconName="close"
             onClick={() => unblockUser(props.friend?.recipientId!)}
           />
         </Show>
-      </FriendContainer>
+      </Item.Root>
     </Show>
   );
 }

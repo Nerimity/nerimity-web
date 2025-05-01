@@ -224,17 +224,19 @@ const FriendsList = (props: {
   inbox?: boolean;
 }) => {
   return (
-    <div class={style.friendsList}>
-      <For each={props.friends || props.users!}>
-        {(friend) => (
-          <HomeDrawerFriendItem
-            isInboxTab={props.inbox}
-            friend={props.friends ? (friend as Friend) : undefined}
-            user={props.users ? (friend as User) : undefined}
-          />
-        )}
-      </For>
-    </div>
+    <Show when={props.friends?.length || props.users?.length}>
+      <div class={style.friendsList}>
+        <For each={props.friends || props.users!}>
+          {(friend) => (
+            <HomeDrawerFriendItem
+              isInboxTab={props.inbox}
+              friend={props.friends ? (friend as Friend) : undefined}
+              user={props.users ? (friend as User) : undefined}
+            />
+          )}
+        </For>
+      </div>
+    </Show>
   );
 };
 
@@ -243,7 +245,10 @@ const Inbox = () => {
 
   return (
     <div class={style.inbox}>
-      <div class={style.header}>{t("inbox.drawer.inboxTitle")}</div>
+      <div class={style.header}>
+        {controller?.inbox?.inboxUsers().length + " "}
+        {t("inbox.drawer.inboxTitle")}
+      </div>
       <FriendsList users={controller?.inbox?.inboxUsers()} inbox />
     </div>
   );

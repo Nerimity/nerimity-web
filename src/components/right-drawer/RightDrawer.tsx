@@ -498,9 +498,9 @@ function RoleItem(props: {
         </div>
         <Button
           class={styles.roleExpandButton}
-          padding={5}
+          padding={1}
           iconName={expanded() ? "expand_more" : "expand_less"}
-          iconSize={12}
+          iconSize={16}
         />
       </div>
       <Show when={expanded()}>
