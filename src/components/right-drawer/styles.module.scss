@@ -214,13 +214,14 @@
     pointer-events: none;
   }
   .memberInfo {
-    margin-left: 8px;
-  }
-  .memberInfo {
+    display: flex;
     overflow: hidden;
+    flex-direction: column;
+    margin-left: 8px;
     margin-left: 10px;
     text-overflow: ellipsis;
     white-space: nowrap;
+    gap: 2px;
   }
   .username {
     overflow: hidden;
