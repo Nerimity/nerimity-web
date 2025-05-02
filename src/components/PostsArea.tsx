@@ -75,7 +75,6 @@ const NewPostContainer = styled(FlexColumn)`
   background: rgba(0, 0, 0, 0.6);
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  margin-bottom: 15px;
   border: solid 1px rgba(255, 255, 255, 0.2);
   border-top: none;
   transition: 0.2s;
@@ -84,7 +83,9 @@ const NewPostContainer = styled(FlexColumn)`
     border-bottom-width: 2px;
   }
 `;
-const NewPostOuterContainer = styled(FlexColumn)``;
+const NewPostOuterContainer = styled(FlexColumn)`
+  margin-bottom: 6px;
+`;
 
 const ButtonsContainer = styled(FlexRow)`
   position: relative;
@@ -215,15 +216,6 @@ function NewPostArea(props: {
   const hasContentOrFocused = () => inputFocused() || content().length;
   return (
     <NewPostOuterContainer>
-      <Show when={hasContentOrFocused()}>
-        <Notice
-          type="warn"
-          class={css`
-            margin-bottom 4px;
-          `}
-          description={"Self-harm content is not allowed on Nerimity."}
-        />
-      </Show>
       <AdvancedMarkupOptions
         hideEmojiPicker
         class={css`
@@ -349,6 +341,17 @@ function NewPostArea(props: {
           </Show>
         </ButtonsContainer>
       </NewPostContainer>
+      <Show when={hasContentOrFocused()}>
+        <Notice
+          type="warn"
+          class={css`
+            margin-top: 6px;
+          `}
+          description={
+            "Self-harm content is not allowed, account action will be taken."
+          }
+        />
+      </Show>
     </NewPostOuterContainer>
   );
 }

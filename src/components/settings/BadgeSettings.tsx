@@ -48,7 +48,9 @@ export default function BadgeSettings() {
 
       <Notice
         description="Support this project by donating money."
-        type="info"
+        type="error"
+        title="Donations"
+        icon="favorite"
       />
       <SupportMethodBlock />
       <BadgesPreview badges={[USER_BADGES.SUPPORTER]} price={10} />

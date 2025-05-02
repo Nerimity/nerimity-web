@@ -2,7 +2,7 @@ import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
 import { isHalloween } from "./worldEvents";
 
 const DarkTheme = {
-  "background-color": "hsl(216deg 9% 8%)",
+  "background-color": "black",
   "pane-color": "hsl(216deg 8% 15%)",
   "header-background-color": "hsla(216deg 8% 15% / 80%)",
   "header-background-color-blur-disabled": "hsl(216deg 8% 15%)",

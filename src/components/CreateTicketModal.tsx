@@ -151,12 +151,10 @@ export function CreateTicketModal(props: {
         <FlexColumn gap={6}>
           <Notice
             style={{ "margin-left": "12px", "margin-right": "12px" }}
-            description="Tickets must be written in ENGLISH. Tickets that are not written in English will be closed."
-            type="warn"
-          />
-          <Notice
-            style={{ "margin-left": "12px", "margin-right": "12px" }}
-            description="Creating multiple false tickets may affect your account."
+            description={[
+              "Tickets must be written in ENGLISH. Tickets that are not written in English will be closed.",
+              "Creating multiple false tickets may affect your account.",
+            ]}
             type="warn"
           />
         </FlexColumn>

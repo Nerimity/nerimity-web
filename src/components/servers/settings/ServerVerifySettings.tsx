@@ -75,6 +75,7 @@ export default function ServerSettingsBans() {
         <Match when={membersNeeded() <= 0}>
           <Notice
             type="success"
+            title="Ready To Verify"
             description={"You have enough members to verify your server!"}
             children={
               <Button

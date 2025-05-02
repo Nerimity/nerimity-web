@@ -82,10 +82,12 @@ export default function ShadowBanUserModal(props: Props) {
     >
       <Container>
         <div>
-          <Notice type="warn" description="ONLY shadow ban raiders/spammers." />
           <Notice
             type="warn"
-            description="Last 7 hours of messages will be deleted."
+            description={[
+              "ONLY shadow ban raiders/spammers.",
+              "Last 7 hours of messages will be deleted.",
+            ]}
           />
         </div>
         <Input label="Reason" value={reason()} onText={setReason} />

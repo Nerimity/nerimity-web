@@ -408,16 +408,13 @@ function TransferOwnershipModal(props: {
       <Modal.Body>
         <Notice
           style={{ "margin-bottom": "10px" }}
-          type="error"
-          description="You will not be able to undo this action."
+          type="caution"
+          description={[
+            "This will transfer ownership to the new owner.",
+            ...(server()?.verified ? ["This server will be unverified."] : []),
+          ]}
         />
-        <Show when={server()?.verified}>
-          <Notice
-            style={{ "margin-bottom": "10px" }}
-            type="error"
-            description="This server will be unverified."
-          />
-        </Show>
+
         <div>Server:</div>
         <TransferOwnershipOwnerBox server={server()} />
         <div>New Owner:</div>
