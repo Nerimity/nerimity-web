@@ -26,22 +26,25 @@ export default function Pane() {
 
   const [search, setSearch] = createSignal("");
 
-  const [sort, setSort] = createSignal<TableSort>({ index: 1, mode: "desc" });
+  const [sort, setSort] = createSignal<TableSort>({
+    headerId: "joined",
+    mode: "desc",
+  });
 
   const members = () =>
     (serverMembers.array(params.serverId!) as ServerMember[])
       .sort((a, b) => {
-        if (sort().index === 0) {
+        if (sort().headerId === "member") {
           const aNick = a?.nickname || a?.user().username;
           const bNick = b?.nickname || b?.user().username;
           if (sort().mode === "desc") return bNick?.localeCompare(aNick);
           if (sort().mode === "asc") return aNick?.localeCompare(bNick);
         }
-        if (sort().index === 1) {
+        if (sort().headerId === "joined") {
           if (sort().mode === "desc") return b?.joinedAt - a?.joinedAt;
           if (sort().mode === "asc") return a?.joinedAt - b?.joinedAt;
         }
-        if (sort().index === 2) {
+        if (sort().headerId === "joinedNerimity") {
           const userA = a?.user()!;
           const userB = b?.user()!;
           if (sort().mode === "desc") return userB.joinedAt! - userA.joinedAt!;
@@ -136,8 +139,13 @@ export default function Pane() {
           </Item.Root>
         </div>
         <Table.Root
-          headers={["Member", "Joined", "Joined Nerimity"]}
-          sortableHeaderIndexes={[0, 1, 2]}
+          // "Member", "Joined", "Joined Nerimity"
+          headers={[
+            { title: "Member", id: "member" },
+            { title: "Joined", id: "joined" },
+            { title: "Joined Nerimity", id: "joinedNerimity" },
+          ]}
+          sortableHeaderIds={["member", "joined", "joinedNerimity"]}
           onHeaderClick={onHeaderClick}
           sort={sort()}
         >

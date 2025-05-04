@@ -22,3 +22,14 @@
     font-size: 12px;
   }
 }
+
+
+.filtersContainer {
+display: flex;
+flex-direction: column;
+margin-bottom: 10px;
+gap: 8px;
+}
+.filters {
+  display: flex;
+}

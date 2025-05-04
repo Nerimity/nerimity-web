@@ -152,11 +152,23 @@ export const removeAnnouncePost = async (
   return data;
 };
 
-export const getUsers = async (limit: number, afterId?: string) => {
+export const getUsers = async (
+  limit: number,
+  afterId?: string,
+  opts?: {
+    orderBy?: "joinedAt" | "username";
+    order?: "asc" | "desc";
+    filters?: string[] | string;
+  }
+) => {
   const data = await request<any[]>({
     method: "GET",
     params: {
       ...(afterId ? { after: afterId } : undefined),
+
+      ...(opts?.orderBy ? { orderBy: opts.orderBy } : undefined),
+      ...(opts?.order ? { order: opts.order } : undefined),
+      ...(opts?.filters ? { filters: opts.filters } : undefined),
       limit,
     },
     url: env.SERVER_URL + "/api/moderation/users",

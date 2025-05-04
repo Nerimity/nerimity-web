@@ -11,13 +11,17 @@ import { Item } from "../Item";
 export type TableSortMode = "asc" | "desc";
 
 export interface TableSort {
-  index?: number;
-  mode?: TableSortMode;
+  headerId: string;
+  mode: TableSortMode;
+}
+export interface TableHeader {
+  title: JSXElement;
+  id: string;
 }
 interface TableProps {
-  headers: JSXElement[];
+  headers: TableHeader[];
   children?: JSXElement[] | JSXElement;
-  sortableHeaderIndexes?: number[];
+  sortableHeaderIds?: string[];
   onHeaderClick?: (sort: TableSort) => void;
   sort?: TableSort;
 }
@@ -59,21 +63,21 @@ const TableItem = (props: ItemProp) => {
 };
 
 const DesktopTable = (props: TableProps) => {
-  const isHeaderSortable = (i: number) => {
-    return props.sortableHeaderIndexes?.includes(i);
+  const isHeaderSortable = (tableHeader: TableHeader) => {
+    return props.sortableHeaderIds?.includes(tableHeader.id);
   };
-  const isHeaderSorted = (i: number) => {
-    return props.sort?.index === i;
+  const isHeaderSorted = (header: TableHeader) => {
+    return props.sort?.headerId === header.id;
   };
-  const onHeaderClick = (i: number) => {
-    if (!isHeaderSortable(i)) return;
-    const mode = isHeaderSorted(i)
+  const onHeaderClick = (header: TableHeader) => {
+    if (!isHeaderSortable(header)) return;
+    const mode = isHeaderSorted(header)
       ? props.sort?.mode === "asc"
         ? "desc"
         : "asc"
       : "asc";
     props.onHeaderClick?.({
-      index: i,
+      headerId: header.id,
       mode,
     });
   };
@@ -82,18 +86,18 @@ const DesktopTable = (props: TableProps) => {
       <thead>
         <tr>
           <For each={props.headers}>
-            {(header, i) => (
+            {(header) => (
               <th
-                onClick={() => onHeaderClick(i())}
+                onClick={() => onHeaderClick(header)}
                 class={cn(
                   style.header,
-                  isHeaderSortable(i()) ? style.clickable : null,
-                  isHeaderSorted(i()) ? style.sorted : null
+                  isHeaderSortable(header) ? style.clickable : null,
+                  isHeaderSorted(header) ? style.sorted : null
                 )}
               >
                 <div class={style.headerContainer}>
-                  {header}
-                  <Show when={isHeaderSortable(i())}>
+                  {header.title}
+                  <Show when={isHeaderSortable(header)}>
                     <Icon name="unfold_more" size={14} class={style.sortIcon} />
                   </Show>
                 </div>
@@ -199,26 +203,27 @@ const MobileTable = (props: TableProps) => {
 };
 
 const MobileSortOptions = (props: TableProps) => {
-  const isHeaderSortable = (i: number) => {
-    return props.sortableHeaderIndexes?.includes(i);
+  const isHeaderSortable = (header: TableHeader) => {
+    return props.sortableHeaderIds?.includes(header.id);
   };
-  const onHeaderClick = (i: number) => {
-    if (!isHeaderSortable(i)) return;
+  const onHeaderClick = (header: TableHeader) => {
+    if (!isHeaderSortable(header)) return;
     const mode =
-      props.sort?.index === i
+      props.sort?.headerId === header.id
         ? props.sort?.mode === "asc"
           ? "desc"
           : "asc"
         : "asc";
     props.onHeaderClick?.({
-      index: i,
+      headerId: header.id,
       mode,
     });
   };
 
   const changeSortMode = (mode: "asc" | "desc") => {
+    if (!props.sort?.headerId) return;
     props.onHeaderClick?.({
-      index: props.sort?.index ?? 0,
+      headerId: props.sort.headerId,
       mode,
     });
   };
@@ -227,14 +232,18 @@ const MobileSortOptions = (props: TableProps) => {
       <div class={style.mobileSortOptions}>
         <div>Sort By</div>
         <div class={style.sortOptions}>
-          <For each={props.headers}>
-            {(header, i) => (
+          <For each={props.sortableHeaderIds}>
+            {(headerId) => (
               <Item.Root
-                selected={i() === props.sort?.index}
+                selected={headerId === props.sort?.headerId}
                 handlePosition="bottom"
-                onClick={() => onHeaderClick(i())}
+                onClick={() =>
+                  onHeaderClick(props.headers.find((h) => h.id === headerId)!)
+                }
               >
-                <Item.Label>{header}</Item.Label>
+                <Item.Label>
+                  {props.headers.find((h) => h.id === headerId)!.title}
+                </Item.Label>
               </Item.Root>
             )}
           </For>

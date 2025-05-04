@@ -7,8 +7,9 @@ import {
 import { fullDateTime } from "@/common/date";
 import { usePromise } from "@/common/usePromise";
 import Avatar from "@/components/ui/Avatar";
-import { Table } from "@/components/ui/table/Table";
-import { For } from "solid-js";
+import { Item } from "@/components/ui/Item";
+import { Table, TableSort } from "@/components/ui/table/Table";
+import { createSignal, For } from "solid-js";
 
 const NameField = (props: { user: RawUser }) => {
   return (
@@ -46,18 +47,86 @@ const TagsField = (props: { user: ModerationUser }) => {
 };
 
 export default function UsersPage() {
-  const users = usePromise(() => getUsers(50));
+  const [sort, setSort] = createSignal<TableSort>({
+    headerId: "joined",
+    mode: "desc",
+  });
+  const [selectedFilter, setSelectedFilter] = createSignal<string>("all");
 
-  // const itemsForTable = () => {
-  //   return users.data()?.map((user) => (
-  //     [<NameField user={user} />, fullDateTime(user.joinedAt), <TagsField user={user}/>]
-  //   )) || [];
-  // };
+  const headerIdToOrderBy = (id: string) => {
+    switch (id) {
+      case "name":
+        return "username";
+      case "joined":
+        return "joinedAt";
+    }
+  };
+  const users = usePromise(() =>
+    getUsers(50, undefined, {
+      orderBy: headerIdToOrderBy(sort().headerId),
+      order: sort().mode,
+      filters: selectedFilter(),
+    })
+  );
 
   return (
     <div class={style.usersPage}>
       <h1>Users</h1>
-      <Table.Root headers={["Name", "Joined", "Tags"]}>
+
+      <div class={style.filtersContainer}>
+        <div>Filter By</div>
+        <div class={style.filters}>
+          <Item.Root
+            handlePosition="bottom"
+            onClick={() => setSelectedFilter("all")}
+            selected={selectedFilter() === "all"}
+          >
+            <Item.Label>All</Item.Label>
+          </Item.Root>
+          <Item.Root
+            handlePosition="bottom"
+            onClick={() => setSelectedFilter("suspension")}
+            selected={selectedFilter() === "suspension"}
+          >
+            <Item.Label>Suspended</Item.Label>
+          </Item.Root>
+          <Item.Root
+            handlePosition="bottom"
+            onClick={() => setSelectedFilter("shadowBan")}
+            selected={selectedFilter() === "shadowBan"}
+          >
+            <Item.Label>Shadow Banned</Item.Label>
+          </Item.Root>
+          <Item.Root
+            onClick={() => setSelectedFilter("bot")}
+            handlePosition="bottom"
+            selected={selectedFilter() === "bot"}
+          >
+            <Item.Label>Bots</Item.Label>
+          </Item.Root>
+        </div>
+      </div>
+
+      <Table.Root
+        // "Name", "Joined", "Tags"
+        headers={[
+          {
+            id: "name",
+            title: "Name",
+          },
+          {
+            id: "joined",
+            title: "Joined",
+          },
+          {
+            id: "tags",
+            title: "Tags",
+          },
+        ]}
+        sort={sort()}
+        sortableHeaderIds={["name", "joined"]}
+        onHeaderClick={setSort}
+      >
         <For each={users.data() || []}>
           {(user) => (
             <Table.Item href={`./${user.id}`}>

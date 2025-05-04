@@ -26,7 +26,6 @@ const Root = (props: RootProps) => (
     style={{ "--handle-color": props.handleColor }}
     onClick={props.onClick}
     data-handle-position={props.handlePosition || "left"}
-    data-selected={props.selected}
     onMouseEnter={props.onMouseEnter}
     onMouseLeave={props.onMouseLeave}
   >
