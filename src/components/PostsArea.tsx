@@ -68,6 +68,7 @@ import { escape, Portal } from "solid-js/web";
 import { getSearchUsers } from "@/chat-api/services/UserService";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { createFilter } from "vite";
+import { TenorImage } from "@/chat-api/services/TenorService";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -204,6 +205,17 @@ function NewPostArea(props: {
     setContent(textAreaEl()!.value);
     if (!shiftMode) setShowEmojiPicker(false);
   };
+  const gifPicked = (gif: TenorImage) => {
+    textAreaEl()!.focus();
+    textAreaEl()!.setRangeText(
+      `${gif.url} `,
+      textAreaEl()!.selectionStart,
+      textAreaEl()!.selectionEnd,
+      "end"
+    );
+    setContent(textAreaEl()!.value);
+    setShowEmojiPicker(false);
+  };
 
   const togglePollOptions = () => {
     const newVal = !showPollOptions();
@@ -334,7 +346,9 @@ function NewPostArea(props: {
           <Show when={showEmojiPicker()}>
             <EmojiPickerContainer>
               <EmojiPicker
+                showGifPicker
                 close={() => setShowEmojiPicker(false)}
+                gifPicked={gifPicked}
                 onClick={onEmojiPicked}
               />
             </EmojiPickerContainer>
