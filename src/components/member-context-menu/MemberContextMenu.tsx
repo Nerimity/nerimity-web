@@ -188,6 +188,16 @@ export default function MemberContextMenu(props: Props) {
           },
           ...adminItems(),
           { separator: true },
+          ...(account.hasModeratorPerm()
+            ? [
+                {
+                  label: "Moderation Pane",
+                  onClick: () =>
+                    navigate("/app/moderation/users/" + props.userId),
+                  icon: "security",
+                },
+              ]
+            : []),
           {
             icon: "content_copy",
             label: t("userContextMenu.copyId"),

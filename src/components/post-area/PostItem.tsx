@@ -48,6 +48,7 @@ import {
 import { inviteLinkRegex, youtubeLinkRegex } from "@/common/regex";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { RawYoutubeEmbed } from "../message-pane/message-item/RawYoutubeEmbed";
+import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -79,6 +80,10 @@ export function PostItem(props: {
   }
   const [search, setSearchParams] = useSearchParams<{ postId: string }>();
   const [hovered, setHovered] = createSignal(false);
+  const [contextMenuPos, setContextMenuPos] = createSignal<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   const [pinned, setPinned] = createSignal(props.pinned);
 
@@ -119,6 +124,11 @@ export function PostItem(props: {
     setSearchParams({ postId: props.post.id });
   };
 
+  const onUserContextMenu = (event: MouseEvent) => {
+    event?.preventDefault();
+    setContextMenuPos({ x: event.clientX, y: event.clientY });
+  };
+
   return (
     <div
       class={cn(
@@ -143,6 +153,12 @@ export function PostItem(props: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      <MemberContextMenu
+        position={contextMenuPos()}
+        user={props.post.createdBy}
+        userId={props.post.createdBy?.id}
+        onClose={() => setContextMenuPos(null)}
+      />
       <Show when={props.post.deleted}>
         <Text>{t("posts.postWasDeleted")}</Text>
       </Show>
@@ -166,6 +182,7 @@ export function PostItem(props: {
           <A
             onClick={(e) => e.stopPropagation()}
             href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
+            onContextMenu={onUserContextMenu}
           >
             <Avatar
               resize={96}
@@ -176,6 +193,7 @@ export function PostItem(props: {
           </A>
           <div class={style.postInnerInnerContainer}>
             <Details
+              onRequestUserContextMenu={onUserContextMenu}
               hovered={hovered()}
               showFullDate={props.showFullDate}
               post={props.post}
@@ -200,9 +218,11 @@ const Details = (props: {
   showFullDate?: boolean;
   hovered: boolean;
   post: Post;
+  onRequestUserContextMenu?: (event: MouseEvent) => void;
 }) => (
   <div class={style.postDetailsContainer}>
     <CustomLink
+      onContextMenu={props.onRequestUserContextMenu}
       class={style.postUsernameStyle}
       style={{ color: "white" }}
       onClick={(e) => e.stopPropagation()}

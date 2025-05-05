@@ -179,8 +179,10 @@ export default function ContextMenu(props: ContextMenuProps) {
     })
   );
 
-  const onItemClick = (item: ContextMenuItem) => {
+  const onItemClick = (item: ContextMenuItem, e: MouseEvent) => {
     if (item.disabled) return;
+    e.preventDefault();
+    e.stopPropagation();
     props.onClick?.(item);
     setTimeout(() => item.closeOnClick !== false && props.onClose?.(), 10);
   };
@@ -211,7 +213,7 @@ export default function ContextMenu(props: ContextMenuProps) {
                         hovered={i() === hoveredItemIndex()}
                         onEnter={() => onMouseEnter(item, i())}
                         onLeave={() => onMouseLeave(item, i())}
-                        onClick={() => onItemClick(item)}
+                        onClick={(e) => onItemClick(item, e)}
                         item={item}
                       />
                     }
@@ -236,16 +238,16 @@ export default function ContextMenu(props: ContextMenuProps) {
 function Item(props: {
   close?: () => void;
   item: ContextMenuItem;
-  onClick?(): void;
+  onClick?(event: MouseEvent): void;
   onEnter?(): void;
   onLeave?(): void;
   hovered?: boolean;
 }) {
   let itemElement: HTMLDivElement | undefined;
   const { width } = useResizeObserver(() => itemElement);
-  const onClick = () => {
+  const onClick = (e: MouseEvent) => {
     if (props.item.disabled) return;
-    props.onClick?.();
+    props.onClick?.(e);
     props.item.onClick?.();
   };
 
