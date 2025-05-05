@@ -336,8 +336,12 @@ export function ServerDeleteConfirmModal(props: {
 
   const onDeleteClick = async () => {
     setError(null);
-
-    deleteServer(props.server.id).catch((e) => setError(e));
+    let error = "";
+    deleteServer(props.server.id).catch((e) => {
+      error = e.message;
+      setError(e);
+    });
+    return error;
   };
 
   return (

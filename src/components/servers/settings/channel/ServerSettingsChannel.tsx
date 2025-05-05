@@ -600,15 +600,19 @@ function ChannelDeleteConfirmModal(props: {
   const onDeleteClick = async () => {
     const serverId = props.channel.serverId!;
     setError(null);
-    deleteServerChannel(serverId, props.channel.id)
+    let err = "";
+    await deleteServerChannel(serverId, props.channel.id)
       .then(() => {
         const path = RouterEndpoints.SERVER_SETTINGS_CHANNELS(serverId);
         navigate(path);
         props.close();
       })
-      .catch((err) => {
-        setError(err.message);
+      .catch((error) => {
+        err = error.message;
+        setError(error.message);
       });
+
+    return err;
   };
 
   return (
