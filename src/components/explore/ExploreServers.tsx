@@ -33,6 +33,7 @@ import { MetaTitle } from "@/common/MetaTitle";
 import Input from "../ui/input/Input";
 import { useJoinServer } from "@/chat-api/useJoinServer";
 import { CustomLink } from "../ui/CustomLink";
+import { deepMerge } from "@/common/deepMerge";
 
 const Container = styled("div")`
   display: flex;
@@ -554,7 +555,7 @@ export function ServerBumpModal(props: {
   const bumpServer = () => {
     BumpPublicServer(props.publicServer.serverId, verifyToken())
       .then((newPublicServer) => {
-        props.update(newPublicServer);
+        props.update(deepMerge(props.publicServer, newPublicServer));
         props.close();
       })
       .catch((err) => {
