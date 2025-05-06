@@ -360,6 +360,7 @@ const MessageItem = (props: MessageItemProps) => {
         () => props.message.roleMentions?.length,
       ],
       () => {
+        if (blockedMessage()) return;
         setTimeout(() => {
           const isEveryoneMentioned =
             props.message.content?.includes("[@:e]") &&
