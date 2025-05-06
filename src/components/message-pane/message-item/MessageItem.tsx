@@ -358,6 +358,7 @@ const MessageItem = (props: MessageItemProps) => {
         () => props.message.mentions?.length,
         () => props.message.quotedMessages?.length,
         () => props.message.roleMentions?.length,
+        blockedMessage,
       ],
       () => {
         if (blockedMessage()) return;
