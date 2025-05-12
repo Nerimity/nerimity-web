@@ -20,7 +20,7 @@ export default function ConnectionsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Connections",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.connections"),
       iconName: "settings"
     });
   });
@@ -66,9 +66,9 @@ function GoogleLink() {
   };
   
   return (
-    <SettingsBlock iconSrc='/assets/Google.svg' label='Google' description='Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.'>
-      <Show when={!isConnected()}><Button label='Link' iconName='link' onClick={linkGoogle}  /></Show>
-      <Show when={isConnected()}><Button label='Unlink' color='var(--alert-color)' iconName='link_off' onClick={unlinkGoogle}  /></Show>
+    <SettingsBlock iconSrc='/assets/Google.svg' label='Google' description={t("settings.connections.description")}>
+      <Show when={!isConnected()}><Button label={t("settings.connections.linkButton")} iconName='link' onClick={linkGoogle}  /></Show>
+      <Show when={isConnected()}><Button label={t("settings.connections.unlinkButton")} color='var(--alert-color)' iconName='link_off' onClick={unlinkGoogle}  /></Show>
     </SettingsBlock>
   );
 

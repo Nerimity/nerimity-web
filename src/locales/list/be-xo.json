@@ -61,6 +61,21 @@
     "sendEmailButton": "Адаслаць ліст",
     "sending": "Адсылаем..."
   },
+  "accountDeletion": {
+    "title": "Выдаленьне ўліковага запіса",
+    "message": "Шкада, што вы нас пакідайце :( Калі вам штосьці не спадабалася, калі ласка, скажыце аб гэтым на афіцыйным сэрвэры Nerimity.",
+    "deleted": "Што будзе выдалена:",
+    "notDeleted": "Што не будзе выдалена:",
+    "email": "• Эл. пошта",
+    "username": "• Імя карыстача",
+    "ip": "• IP адрэс",
+    "bio": "• Апісаньне",
+    "messages": "• Вашыя паведамленьні",
+    "posts": "• Вашыя публікацыйі",
+    "postsAndMessagesDeletionNotice": "На выдаленьне вашых паведамленьняў і публікацый можа ўйсьці некалькі тыдняў.",
+    "deletePostsAndMessages": "Выдаліць мае публікацыйі й паведамленьні",
+    "deleteAccountButton": "Выдаліць уліковы запіс"
+  },
   "dashboard": {
     "title": "Панэль кіраваньня",
     "activeUsers": "Зараз у сетцы",
@@ -253,18 +268,27 @@
       "manageAccount": "Кіраваньне ўліковым запісам"
     },
     "account": {
-      "title": "Налады - Уліковы запіс",
       "email": "Электроная пошта",
       "username": "Імя карыстача",
       "tag": "Тэг",
       "avatar": "Аватар",
-      "banner": "Банар",
+      "banner": "Банэр",
       "supported": "Падтрымліваюцца",
       "browse": "Абраць",
       "profile": "Профіль",
-      "profileDescription": "Адрэдагуйце вашае апісаньне й колеры",
+      "profileDescription": "Адрэдагуйце ваша апісаньне й колеры",
+      "confirmEmail": "Сьцьвердзіце пошту",
+      "confirmEmailDescription": "Сьцьвердзіце ваш адрэс электронай пошты",
+      "sendCodeButton": "Адаслаць код",
+      "resendTimer": "Адаслаць ізноў праз {{time}}",
+      "cancelButton": "Скасаваць",
+      "confirmButton": "Сьцьвердзіць",
+      "popupText": "Увядзіце код з 5 лічбаў з вашае эл. пошты:",
       "changePassword": "Зьмяніць пароль",
-      "forgotPassword": "Забылі пароль",
+      "errorNotMatching": "Пароль сьцьвярджэньня не супадае.",
+      "errorTooLong": "Пароль мусіць быць меньш за 72 сымбаляў.",
+      "errorNoticeTooLong": "Папярэджаньне канала не можа быць больш за 300 сымбаляў.",
+      "forgotPassword": "Забыліся на пароль",
       "newPassword": "Новы пароль",
       "newPasswordDescription": "Зьмена пароля прывядзе да выхаду з усіх астатніх прылад.",
       "confirmNewPassword": "Сьцьвердзіць новы пароль",
@@ -275,6 +299,14 @@
       "saving": "Захоўваем...",
       "saveButton": "Захаваць",
       "saveChangesButton": "Захаваць зьмены",
+      "profileSettings": {
+        "palestineBadge": "Дадаць палестынскую аблямоўку да аватара",
+        "markupNotice": "Падтрымка multiline і markup",
+        "gradientColor1": "Градыентавы колер 1",
+        "gradientColor2": "Градыентавы колер 2",
+        "primaryColor": "Асноўны колер",
+        "preview": "Перадпрагляд"
+      },
       "deleteAccount": "Выдаліць мой уліковы запіс",
       "deleteAccountDescription": "Гэта нельга адрабіць!",
       "deleteAccountNotice": "Вы мусіце выйсьці зь усіх сэрвэроў, альбо выдаліць іх перад выдаленьнем вашага ўліковага запісу.",
@@ -322,6 +354,9 @@
       "messageDescription": "Гук, калі вы атрымлівайце паведамленьне.",
       "mention": "Згадваньне",
       "mentionDescription": "Гук, калі вас згадваюць.",
+      "notificationExample": "Яно працуе!",
+      "notificationExampleSubtext": "Апавяшчэньні на працоўным стале ўключаныя.",
+      "noSound": "Няма",
       "inAppPreview": "Перадпрагляд у праґраме",
       "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў праґраме.",
       "inAppPreviewModes": {
@@ -350,8 +385,66 @@
       "disableAdvancedMarkupBar": "Выключыць панэль пашыранае разьметкі",
       "disableAdvancedMarkupBarDescription": "Не паказваць панэль пашыранае разьметкі ў тэкставых каналах.",
       "customizeColors": "Дапасаваць колеры",
-      "customizeColorsDescription": "Наладзіць колеры інтэрфэйсу."
-    }
+      "customizeColorsDescription": "Наладзіць колеры інтэрфэйсу.",
+      "customCss": "Карыстальніцкі CSS",
+      "customCssWarning": "Не ўстаўляйце код ад людзей, якім вы не давяраеце",
+      "applyButton": "Захаваць і прымяніць"
+    },
+    "activityStatus": {
+      "title": "Браўзэрнае пашырэньне",
+      "description": "Наша RPC-пашырэеньне дазваляе вам абагульваць вашу актыўнасьць у Spotify і YouTube з карыстачамі Nerimity!",
+      "videoAction": "Глядзіць",
+      "videoTitle": "Чаму Nerimity найлепшая",
+      "videoAuthor": "Добры Юцьюбер",
+      "songAction": "Слухае",
+      "openExtensionStore": "Наведаць {{storeName}}",
+      "activityStatus": "Статус актыўнасьці",
+      "activityStatusDescription": "Пакажыце ўсім, што вы робіце.",
+      "defaultAction": "Гуляе ў",
+      "editButton": "Рэдагаваць",
+      "deleteButton": "Выдаліць",
+      "editActivityStatus": "Рэдагаваць актыўнасьць",
+      "executable": "Працэс",
+      "action": "Дзеяньне",
+      "name": "Назва",
+      "emoji": "Эмодзі",
+      "backButton": "Назад",
+      "saveButton": "Захаваць",
+      "discordActivity": "Актыўнасьць Discord",
+      "discordActivityDescription": "Абагульце вашу актыўнасьць Discord з карыстачамі Nerimity!",
+      "userIdPlaceholder": "ID карыстача Discord",
+      "popupText": "Калі ласка, далучыцеся да сэрвэру Discord, каб ўключыць абагульненьне актыўнасьці.",
+      "cancelButton": "Скасаваць",
+      "joinedButton": "Я ўжо там"
+    },
+    "badges": {
+      "title": "Ахвяраваньні",
+      "notice": "Падтрымайце праект ахвяраваньнем.",
+      "palestineBadge": "Можна атрымаць у наладах профіля",
+      "badgePrice": "Бэйджы ў ${{price}}",
+      "supportMethods": "Мэтады падтрымкі"
+    },
+    "connections": {
+      "description": "Далучыўшы уліковы запіс Google, вы зможаце загружаць файлы ў Nerimity. Файлы будуць захоўвацца на вашым Google Drive.",
+      "linkButton": "Далучыць",
+      "unlinkButton": "Адлучыць"
+    },
+    "window": {
+      "startupOptions": "Опцыйі запуска",
+      "openOnStartup": "Адкрываць пры ўключэньні",
+      "openOnStartupDescription": "Запускаць Nerimity з вашым кампьютарам",
+      "startMinimized": "Запускаць загорнутай",
+      "startMinimizedDescription": "Аўтаматычна хаваць Nerimity у панэль задач.",
+      "disableHardwareAcceleration": "Выключыць апаратнае паскарэньне",
+      "disableHardwareAccelerationDescription": "Вам спатрэбіцца адкрыць праграму паўторна каб прымяніць зьмены."
+    },
+    "language": {
+      "contributors": "Удзельнікі:"
+    },
+    "experiments": {
+      "noExperiments": "Пакуль што экспэрымэнтаў няма"
+    },
+    "desktopAppNeeded": "Каб зьмяняць гэтыя налады, калі ласка, спампуйце Nerimity для ПК."
   },
   "supportBlock": {
     "support": "Падтрымаць мяне",
@@ -464,6 +557,10 @@
     "selectButton": "Абраць сэрвэр",
     "addButton": "Дадаць бота",
     "permissions": "Дазволы бота"
+  },
+  "notFound": {
+    "title": "Тут нічога няма!",
+    "goHomeButton": "Вярнуцца на галоўную"
   },
   "googleAccountLink": {
     "linking": "Злучаем ваш уліковы запіс зь Google...",

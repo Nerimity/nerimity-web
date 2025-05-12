@@ -33,7 +33,7 @@ export default function PrivacySettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Privacy",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.privacy"),
       iconName: "settings"
     });
   });

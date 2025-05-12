@@ -47,7 +47,7 @@ export default function LanguageSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Language",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.language"),
       iconName: "settings",
     });
   });
@@ -124,7 +124,7 @@ function Contributors(props: { contributors: string[] }) {
   return (
     <FlexRow>
       <Text size={14} style={{ "margin-right": "5px" }}>
-        Contributors:
+        {t("settings.language.contributors")}
       </Text>
       <For each={props.contributors}>
         {(contributor, i) => (

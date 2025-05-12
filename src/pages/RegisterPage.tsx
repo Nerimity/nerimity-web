@@ -91,7 +91,7 @@ export default function RegisterPage() {
 
     if (password() !== confirmPassword()) {
       setError({
-        message: "Confirm password does not match.",
+        message: t("settings.account.errorNotMatching"),
         path: "Confirm Password",
       });
       setRequestSent(false);
@@ -100,7 +100,7 @@ export default function RegisterPage() {
 
     if (password().length > 72) {
       setError({
-        message: "Password must be less than 72 characters.",
+        message: t("settings.account.errorTooLong"),
         path: "Password",
       });
       setRequestSent(false);

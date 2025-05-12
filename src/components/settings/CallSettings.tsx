@@ -37,7 +37,7 @@ export default function CallSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Call",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.call-settings"),
       iconName: "settings",
     });
   });

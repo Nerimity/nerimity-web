@@ -48,7 +48,7 @@ export default function InterfaceSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Interface",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
       iconName: "settings",
     });
   });
@@ -62,7 +62,7 @@ export default function InterfaceSettings() {
       <BlurEffect />
       <AdvancedMarkup />
       <CustomizeColors />
-      <SettingsBlock icon="code" label="Custom CSS" href="./custom-css" />
+      <SettingsBlock icon="code" label={t("settings.interface.customCss")} href="./custom-css" />
     </Container>
   );
 }

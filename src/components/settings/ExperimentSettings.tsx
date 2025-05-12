@@ -25,7 +25,7 @@ export default function ExperimentsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Experiments",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.experiments"),
       iconName: "settings",
     });
   });
@@ -38,7 +38,7 @@ export default function ExperimentsSettings() {
       </Breadcrumb>
 
       <Show when={!Experiments.length}>
-        <div>There are currently no experiments available.</div>
+        <div>{t("settings.experiments.noExperiments")}</div>
       </Show>
 
       <For each={Experiments}>

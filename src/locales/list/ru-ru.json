@@ -208,7 +208,6 @@
       "manageAccount": "Управление аккаунтом"
     },
     "account": {
-      "title": "Настройки - Аккаунт",
       "email": "Email",
       "username": "Имя пользователя",
       "tag": "Тег",

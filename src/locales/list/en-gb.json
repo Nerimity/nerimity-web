@@ -61,6 +61,21 @@
     "sendEmailButton": "Send Email",
     "sending": "Sending Email..."
   },
+  "accountDeletion": {
+    "title": "Delete account",
+    "message": "We're sad to see you go :( If you didn't like something, please let us know in the official Nerimity server.",
+    "deleted": "What will get deleted:",
+    "notDeleted": "What will not get deleted:",
+    "email": "• Email",
+    "username": "• Username",
+    "ip": "• IP Address",
+    "bio": "• Bio",
+    "messages": "• Your Messages",
+    "posts": "• Your Posts",
+    "postsAndMessagesDeletionNotice": "Your posts and messages may take weeks to delete.",
+    "deletePostsAndMessages": "Delete my posts and messages",
+    "deleteAccountButton": "Delete Account"
+  },
   "dashboard": {
     "title": "Dashboard",
     "activeUsers": "Active Users",
@@ -253,7 +268,6 @@
       "manageAccount": "Manage Account"
     },
     "account": {
-      "title": "Settings - Account",
       "email": "Email",
       "username": "Username",
       "tag": "Tag",
@@ -263,7 +277,17 @@
       "browse": "Browse",
       "profile": "Profile",
       "profileDescription": "Edit your bio or colors",
+      "confirmEmail": "Confirm Email",
+      "confirmEmailDescription": "Confirm your email",
+      "sendCodeButton": "Send code",
+      "resendTimer": "Resend in {{time}}",
+      "cancelButton": "Cancel",
+      "confirmButton": "Confirm",
+      "popupText": "Enter the 5 digit code sent to your email:",
       "changePassword": "Change Password",
+      "errorNotMatching": "Confirm password does not match.",
+      "errorTooLong": "Password mush be less than 72 characters.",
+      "errorNoticeTooLong": "Channel notice cannot be longer than 300 characters.",
       "forgotPassword": "Forgot Password",
       "newPassword": "New Password",
       "newPasswordDescription": "Changing your password will log you out everywhere else.",
@@ -275,6 +299,14 @@
       "saving": "Saving...",
       "saveButton": "Save",
       "saveChangesButton": "Save Changes",
+      "profileSettings": {
+        "palestineBadge": "Add Palestine border to your avatar",
+        "markupNotice": "Multiline and markup support",
+        "gradientColor1": "Gradient Color 1",
+        "gradientColor2": "Gradient Color 2",
+        "primaryColor": "Primary Color",
+        "preview": "Preview"
+      },
       "deleteAccount": "Delete My Account",
       "deleteAccountDescription": "This cannot be undone!",
       "deleteAccountNotice": "You must leave/delete all servers before you can delete your account.",
@@ -322,6 +354,9 @@
       "messageDescription": "Sound when receiving a message.",
       "mention": "Mention",
       "mentionDescription": "Sound when receiving a mention.",
+      "notificationExample": "It worked!",
+      "notificationExampleSubtext": "Desktop notifications enabled.",
+      "noSound": "Mute",
       "inAppPreview": "In App Preview",
       "inAppPreviewDescription": "Display In App Notification popups.",
       "inAppPreviewModes": {
@@ -350,8 +385,66 @@
       "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
       "disableAdvancedMarkupBarDescription": "Disable advanced markup bar from text channels.",
       "customizeColors": "Customize Colors",
-      "customizeColorsDescription": "Customize the colors of the interface."
-    }
+      "customizeColorsDescription": "Customize the colors of the interface.",
+      "customCss": "Custom CSS",
+      "customCssWarning": "Do not paste code from people you don't trust",
+      "applyButton": "Save & Apply"
+    },
+    "activityStatus": {
+      "title": "Browser Extension",
+      "description": "Our RPC extension allows you to share your activity from Spotify and YouTube with users on Nerimity!",
+      "videoAction": "Watching",
+      "videoTitle": "Why Nerimity is the best",
+      "videoAuthor": "Good YouTuber",
+      "songAction": "Listening to",
+      "openExtensionStore": "Visit {{storeName}}",
+      "activityStatus": "Activity Status",
+      "activityStatusDescription": "Share what you're up to with everyone.",
+      "defaultAction": "Playing",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
+      "editActivityStatus": "Edit Activity Status",
+      "executable": "Executable",
+      "action": "Action",
+      "name": "Name",
+      "emoji": "Emoji",
+      "backButton": "Back",
+      "saveButton": "Save",
+      "discordActivity": "Discord Activity",
+      "discordActivityDescription": "Share your Discord activity with users on Nerimity!",
+      "userIdPlaceholder": "Discord user ID",
+      "popupText": "Please join the Discord server to enable activity sharing.",
+      "cancelButton": "Cancel",
+      "joinedButton": "I've joined"
+    },
+    "badges": {
+      "title": "Donations",
+      "notice": "Support this project by donating money.",
+      "palestineBadge": "Can be obtained by going to Account -> Profile",
+      "badgePrice": "${{price}} Badges",
+      "supportMethods": "Support Methods"
+    },
+    "connections": {
+      "description": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
+      "linkButton": "Link",
+      "unlinkButton": "Unlink"
+    },
+    "window": {
+      "startupOptions": "Startup Options",
+      "openOnStartup": "Open on startup",
+      "openOnStartupDescription": "Start Nerimity with your computer",
+      "startMinimized": "Start minimized",
+      "startMinimizedDescription": "Minimize Nerimity to tray automatically.",
+      "disableHardwareAcceleration": "Disable Hardware Acceleration",
+      "disableHardwareAccelerationDescription": "You must restart the app for the change to take effect."
+    },
+    "language": {
+      "contributors": "Contributors:"
+    },
+    "experiments": {
+      "noExperiments": "There are currently no experiments available"
+    },
+    "desktopAppNeeded": "To modify these settings, please download the Nerimity desktop app."
   },
   "supportBlock": {
     "support": "Support Me",
@@ -464,6 +557,10 @@
     "selectButton": "Select Server",
     "addButton": "Add bot",
     "permissions": "Bot Permissions"
+  },
+  "notFound": {
+    "title": "Nothing to see here!",
+    "goHomeButton": "Go to the homepage"
   },
   "googleAccountLink": {
     "linking": "Linking your account with Google...",
