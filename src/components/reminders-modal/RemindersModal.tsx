@@ -22,6 +22,7 @@ import { useNavigate, useSearchParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { deleteReminder } from "@/chat-api/services/ReminderService";
 import { PostItem } from "../post-area/PostItem";
+import { formatTimestamp } from "@/common/date";
 
 export default function RemindersModal(props: {
   channelId?: string;
@@ -117,21 +118,22 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
       setSearchParams({ postId: props.reminder.post.id });
       return;
     }
-    if (!channel()?.serverId) return;
-    navigate(
-      RouterEndpoints.SERVER_MESSAGES(serverId(), channel()?.id!) +
-        "?messageId=" +
-        props.reminder.message?.id
-    );
+    
+    if (channel()?.serverId) {
+      navigate(
+        RouterEndpoints.SERVER_MESSAGES(serverId(), channel()?.id!) +
+          "?messageId=" +
+          props.reminder.message?.id
+      );
+    } else {
+      store.users.openDM(props.reminder.message?.createdBy.id!, props.reminder.message?.id);
+    }
     props.close();
   };
   return (
     <div class={cn(style.reminderItem, isActive() && style.active)}>
-      <div class={cn("markup", style.reminderTimestamp)}>
-        <TimestampMention
-          timestamp={props.reminder.remindAt}
-          type={TimestampType.RELATIVE}
-        />
+      <div class={style.dateContainer}>
+        {formatTimestamp(props.reminder.remindAt)}
       </div>
       <Switch
         fallback={

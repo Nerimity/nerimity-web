@@ -88,7 +88,7 @@ function openDMScoped(this: User) {
   return openDM(this.id);
 }
 
-const openDM = async (userId: string) =>
+const openDM = async (userId: string, messageId?: string) =>
   runWithContext(async () => {
     const navigate = useNavigate();
     const inbox = useInbox();
@@ -102,7 +102,7 @@ const openDM = async (userId: string) =>
       inbox.set({ ...rawInbox, channelId: rawInbox.channel.id });
       user()?.setInboxChannelId(rawInbox.channel.id);
     }
-    navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem()?.channelId!));
+    navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem()?.channelId!) + (messageId ?"?messageId=" + messageId : ""));
   });
 
 async function closeDM(this: User) {
@@ -122,8 +122,8 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
     account.setUser({
       ...(presence.custom !== undefined
         ? {
-            customStatus: presence.custom || undefined,
-          }
+          customStatus: presence.custom || undefined,
+        }
         : undefined),
     });
   }

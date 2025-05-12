@@ -18,14 +18,22 @@
   gap: 4px;
 }
 .reminderItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   position: relative;
+  padding: 8px;
 
   border: solid 1px rgba(255,255,255,0.2);
 
   border-radius: 8px;
-  background-color: rgba(0,0,0,0.4);
   &.active {
     border: solid 1px var(--alert-color);
+  }
+
+  .dateContainer {
+    opacity: 0.6;
+    font-size: 14px;
   }
   .reminderTimestamp {
     margin-top: 6px;
@@ -34,11 +42,37 @@
     pointer-events: none;
   }
   .messageItem {
-    margin-top: 10px;
-    margin-bottom: 10px;
     background-color: transparent;
     user-select: none;
     pointer-events: none;
+    padding: 0;
+    margin: 0;
+    &:before {
+      border: none;
+    }
+    :global {
+      .postDetailsContainer {
+        display: none;
+      }
+      .postInnerContainer {
+        margin: 0;
+        padding: 0;
+        gap: 0;
+      }
+      .postInnerInnerContainer {
+        margin: 0;
+        padding: 0;
+      }
+      .avatar {
+        display: none;
+      }
+      .postActions {
+        display: none;
+      }
+      .details {
+        display: none;
+      }
+    }
   }
   .reminderDeleted {
     display: flex;
@@ -53,12 +87,10 @@
 
   .reminderActions {
     display: flex;
-    flex: 1;
-    margin: 6px;
+
     gap: 6px;
 
     .button {
-      flex: 1;
       justify-self: stretch;
     }
   }

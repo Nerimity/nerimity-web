@@ -220,7 +220,7 @@ interface DetailsProps {
   hovered: boolean;
 }
 const Details = (props: DetailsProps) => (
-  <div class={classNames(styles.details)}>
+  <div class={classNames(styles.details, "details")}>
     <CustomLink
       onClick={props.showProfileFlyout}
       decoration
@@ -481,7 +481,7 @@ const MessageItem = (props: MessageItemProps) => {
                     onClick={showProfileFlyout}
                     onContextMenu={props.userContextMenu}
                     href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
-                    class={classNames(styles.avatar, "trigger-profile-flyout")}
+                    class={classNames(styles.avatar, "avatar", "trigger-profile-flyout")}
                   >
                     <Avatar
                       animate={hovered()}

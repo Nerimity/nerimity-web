@@ -178,7 +178,7 @@ export function PostItem(props: {
         <Show when={replyingTo()}>
           <ReplyTo user={replyingTo()!.createdBy} />
         </Show>
-        <div class={style.postInnerContainer}>
+        <div class={cn(style.postInnerContainer, "postInnerContainer")}>
           <A
             onClick={(e) => e.stopPropagation()}
             href={RouterEndpoints.PROFILE(props.post.createdBy?.id)}
@@ -187,11 +187,12 @@ export function PostItem(props: {
             <Avatar
               resize={96}
               animate={hovered()}
+              class="avatar"
               user={props.post.createdBy}
               size={40}
             />
           </A>
-          <div class={style.postInnerInnerContainer}>
+          <div class={cn(style.postInnerInnerContainer, "postInnerInnerContainer")}>
             <Details
               onRequestUserContextMenu={onUserContextMenu}
               hovered={hovered()}
@@ -220,7 +221,7 @@ const Details = (props: {
   post: Post;
   onRequestUserContextMenu?: (event: MouseEvent) => void;
 }) => (
-  <div class={style.postDetailsContainer}>
+  <div class={cn(style.postDetailsContainer, "postDetailsContainer")}>
     <CustomLink
       onContextMenu={props.onRequestUserContextMenu}
       class={style.postUsernameStyle}
@@ -406,7 +407,7 @@ const Actions = (props: {
   };
 
   return (
-    <div class={style.postActionsContainer}>
+    <div class={cn(style.postActionsContainer, "postActions")}>
       <Button
         margin={0}
         onClick={onLikeClick}
