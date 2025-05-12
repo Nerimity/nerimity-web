@@ -649,6 +649,7 @@ export const MessageLogArea = (props: {
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
+            showNewDayMarker
               translateMessage={translateMessageIds().includes(message.id!)}
               reactionPickerClick={(event) =>
                 reactionPickerClick(event, message)

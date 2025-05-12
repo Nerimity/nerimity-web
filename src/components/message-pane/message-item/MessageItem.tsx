@@ -207,6 +207,7 @@ interface MessageItemProps {
   reactionPickerClick?: (event: MouseEvent) => void;
   quoteClick?: () => void;
   translateMessage?: boolean;
+  showNewDayMarker?: boolean;
 }
 
 interface DetailsProps {
@@ -287,6 +288,7 @@ const MessageItem = (props: MessageItemProps) => {
   const { createPortal } = useCustomPortal();
 
   const isNewDay = createMemo(() => {
+    if (!props.showNewDayMarker) return false;
     if (!props.beforeMessage) return true;
     const beforeCreatedAt = new Date(props.beforeMessage.createdAt);
     const createdAt = new Date(props.message.createdAt);
