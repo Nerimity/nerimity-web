@@ -17,7 +17,7 @@ export interface Language {
 export const languages = {
   "en-gb": {
     name: "English",
-    emoji: "🇺🇸",
+    emoji: "🇬🇧",
     contributors: ["https://github.com/SupertigerDev"],
   },
   "af-za": {

@@ -39,7 +39,7 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.window-settings"),
+      title: "Settings - Window Settings",
       iconName: "settings",
     });
   });
@@ -55,7 +55,7 @@ export default function WindowSettings() {
       <Show when={!isElectron}>
         <Notice
           type="info"
-          description={t("settings.desktopAppNeeded")}
+          description="To modify these settings, you must download the Nerimity desktop app."
         />
       </Show>
 
@@ -94,8 +94,7 @@ function StartupOptions() {
       <SettingsBlock
         onClick={() => onAutostartChange(!autostart())}
         icon="restart_alt"
-        label={t("settings.window.openOnStartup")}
-        description={t("settings.window.openOnStartupDescription")}
+        label={"Open Nerimity on startup"}
         borderTopRadius={false}
         borderBottomRadius={!autostart()}
       >
@@ -105,8 +104,8 @@ function StartupOptions() {
         <SettingsBlock
           onClick={() => onAutostartMinimizedChange(!autostartMinimized())}
           icon="horizontal_rule"
-          label={t("settings.window.startMinimized")}
-          description={t("settings.window.startMinimizedDescription")}
+          label="Start Minimized"
+          description={"Minimize Nerimity to the tray automatically."}
           borderTopRadius={false}
         >
           <Checkbox
@@ -140,8 +139,8 @@ function HardwareAccelerationOptions() {
           onHardwareAccelerationChange(!hardwareAccelerationDisabled())
         }
         icon="speed"
-        label={t("settings.window.disableHardwareAcceleration")}
-        description={t("settings.window.disableHardwareAccelerationDescription")}
+        label={"Disable Hardware Acceleration"}
+        description="You must reopen the app for the change to take effect."
       >
         <Checkbox
           checked={hardwareAccelerationDisabled()}

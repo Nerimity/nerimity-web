@@ -66,7 +66,7 @@ export default function AccountSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.account"),
+      title: t("settings.account.title"),
       iconName: "settings",
     });
   });
@@ -146,13 +146,13 @@ export function EditAccountPage(props: {
         updatedInputValues().newPassword !==
         updatedInputValues().confirmNewPassword
       ) {
-        setError(t("settings.account.errorNotMatching"));
+        setError("Confirm password does not match.");
         setRequestSent(false);
         return;
       }
 
       if (updatedInputValues().newPassword!.length > 72) {
-        setError(t("settings.account.errorTooLong"));
+        setError("Password must be less than 72 characters.");
         setRequestSent(false);
         return;
       }
@@ -266,7 +266,7 @@ export function EditAccountPage(props: {
       <LegacyModal
         close={close}
         ignoreBackgroundClick
-        title={t("resetPassword.title")}
+        title="Reset Password"
         actionButtonsArr={[{ label: "OK", onClick: close }]}
       >
         {res.message}
@@ -502,26 +502,27 @@ function DeleteAccountBlock() {
       return (
         <div style={{ "margin-top": "-12px", "font-size": "14px" }}>
           <div style={{ "margin-bottom": "12px" }}>
-            {t("accountDeletion.message")}
+            We're sad to see you go :( If you didn't like something, please let
+            us know in the official Nerimity server.
           </div>
-          {t("accountDeletion.deleted")}
-          <div>{t("accountDeletion.email")}</div>
-          <div>{t("accountDeletion.username")}</div>
-          <div>{t("accountDeletion.ip")}</div>
-          <div>{t("accountDeletion.bio")}</div>
-          <div>{t("accountDeletion.messages")}</div>
-          <div>{t("accountDeletion.posts")}</div>
+          What will get deleted:
+          <div>• Email</div>
+          <div>• Username</div>
+          <div>• IP Address</div>
+          <div>• Bio</div>
+          <div>• Your Messages</div>
+          <div>• Your Posts</div>
           <Notice
             style={{ "margin-top": "15px" }}
             type="info"
-            description={t("accountDeletion.postsAndMessagesDeletionNotice")}
+            description="Your posts and messages may take weeks to delete."
           />
           <Checkbox
             style={{ "margin-top": "8px", "margin-bottom": "18px" }}
             checked={scheduleDeleteContent()}
             onChange={setScheduleDeleteContent}
             labelSize={14}
-            label={t("accountDeletion.deletePostsAndMessages")}
+            label="Delete my posts and messages"
           />
         </div>
       );
@@ -536,7 +537,7 @@ function DeleteAccountBlock() {
         custom={<ModalInfo />}
         close={close}
         confirmText="account"
-        title={t("accountDeletion.deleteAccountButton")}
+        title="Delete Account"
         password
       />
     ));
@@ -564,7 +565,7 @@ function DeleteAccountBlock() {
 function DeleteAccountNoticeModal(props: { close(): void }) {
   return (
     <LegacyModal
-      title={t("accountDeletion.title")}
+      title="Delete Account"
       icon="delete"
       actionButtons={
         <Button
@@ -628,7 +629,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
     setError("");
     const formattedContent = formatMessage(inputValues().content.trim());
     if (formattedContent.length > 300)
-      return setError(t("settings.account.errorNoticeTooLong"));
+      return setError("Channel notice cannot be longer than 300 characters.");
     const res = await updateDMChannelNotice(
       formattedContent,
       props.botToken
@@ -761,7 +762,7 @@ const ConfirmEmailNotice = () => {
   return (
     <Notice
       type="warn"
-      description={t("settings.account.confirmEmailDescription")}
+      description="Confirm your email"
       class={css`
         margin-bottom: 10px;
       `}
@@ -770,8 +771,8 @@ const ConfirmEmailNotice = () => {
       <Button
         label={
           remainingTimeInSeconds()
-            ? t("settings.account.resendTimer", { time: remainingTimeInSeconds() })
-            : t("settings.account.sendCodeButton")
+            ? `Resend in ${remainingTimeInSeconds()}`
+            : "Send Code"
         }
         primary
         margin={0}
@@ -803,13 +804,13 @@ const ConfirmEmailModal = (props: { close(): void; message: string }) => {
         onClick={props.close}
         styles={{ flex: 1 }}
         iconName="close"
-        label={t("settings.account.cancelButton")}
+        label="Cancel"
         color="var(--alert-color)"
       />
       <Button
         styles={{ flex: 1 }}
         iconName="check"
-        label={t("settings.account.confirmButton")}
+        label="Confirm"
         onClick={confirmClicked}
         primary
       />
@@ -819,7 +820,7 @@ const ConfirmEmailModal = (props: { close(): void; message: string }) => {
   return (
     <LegacyModal
       ignoreBackgroundClick
-      title={t("settings.account.confirmEmail")}
+      title="Confirm Email"
       close={props.close}
       actionButtons={actionButtons}
     >
@@ -831,7 +832,7 @@ const ConfirmEmailModal = (props: { close(): void; message: string }) => {
         gap={10}
       >
         <Text color="var(--success-color)">{props.message}</Text>
-        <Text size={14}>{t("settings.account.popupText")}</Text>
+        <Text size={14}>Enter the 5 digit code sent to your email:</Text>
 
         <Input
           value={code()}

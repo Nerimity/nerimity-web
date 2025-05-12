@@ -98,7 +98,7 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.activity-status"),
+      title: "Settings - Activity Status",
       iconName: "settings",
     });
   });
@@ -116,9 +116,10 @@ export default function WindowSettings() {
         <FlexRow gap={12} itemsCenter>
           <Icon name="extension" />
           <FlexColumn gap={4}>
-            <Text size={14}>{t("settings.activityStatus.title")}</Text>
+            <Text size={14}>Chrome Extension</Text>
             <Text size={12} opacity={0.6}>
-              {t("settings.activityStatus.description")}
+              Our RPC extension allows you to share your activity from Spotify
+              and YouTube with users on Nerimity!
             </Text>
           </FlexColumn>
         </FlexRow>
@@ -135,14 +136,14 @@ export default function WindowSettings() {
           <ExampleActivityContainer>
             <UserActivity
               exampleActivity={{
-                action: t("settings.activityStatus.videoAction"),
+                action: "Watching",
                 name: "YouTube",
                 startedAt: Date.now() - 3000,
                 endsAt: Date.now() + 10000,
                 imgSrc: "https://nerimity.com/assets/logo.png",
                 link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                title: t("settings.activityStatus.videoTitle"),
-                subtitle: t("settings.activityStatus.videoAuthor"),
+                title: "Why Nerimity is the best",
+                subtitle: "Good YouTuber",
               }}
             />
           </ExampleActivityContainer>
@@ -150,12 +151,12 @@ export default function WindowSettings() {
           <ExampleActivityContainer>
             <UserActivity
               exampleActivity={{
-                action: t("settings.activityStatus.songAction"),
+                action: "Listening to",
                 name: "Spotify",
                 startedAt: Date.now() - 30000,
                 endsAt: Date.now() + 100000,
                 imgSrc: "https://nerimity.com/assets/logo.png",
-                link: "https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8?si=02c00fb6ca5b462b",
+                link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 title: "Ner Ner Nerimity!",
                 subtitle: "Nerimity",
               }}
@@ -179,7 +180,7 @@ export default function WindowSettings() {
               margin={[10, 0, 0, 0]}
               iconName="extension"
               primary
-              label={t("settings.activityStatus.openExtensionStore", { storeName: "FireFox Add-ons" })}
+              label="Visit Firefox Add-ons"
             />
           </CustomLink>
           <CustomLink
@@ -191,7 +192,7 @@ export default function WindowSettings() {
               margin={[10, 0, 0, 0]}
               iconName="extension"
               primary
-              label={t("settings.activityStatus.openExtensionStore", { storeName: "Chrome Web Store" })}
+              label="Visit Chrome Web Store"
             />
           </CustomLink>
         </FlexRow>
@@ -201,7 +202,7 @@ export default function WindowSettings() {
       <Show when={!isElectron}>
         <Notice
           type="info"
-          description={t("settings.desktopAppNeeded")}
+          description="To modify these settings, you must download the Nerimity desktop app."
         />
       </Show>
 
@@ -271,7 +272,7 @@ function ProgramOptions() {
   const addProgram = (item: DropDownItem) => {
     const program = {
       ...item.data,
-      action: t("settings.activityStatus.defaultAction"),
+      action: "Playing",
     };
     setAddedPrograms([...addedPrograms(), program]);
     getPrograms();
@@ -293,8 +294,8 @@ function ProgramOptions() {
     <FlexColumn>
       <SettingsBlock
         icon="games"
-        label={t("settings.activityStatus.activityStatus")}
-        description={t("settings.activityStatus.activityStatusDescription")}
+        label="Activity Status"
+        description="Share what you're up to with everyone."
         header={!!addedPrograms().length}
       >
         <Show when={addedPrograms().length + 1} keyed>
@@ -349,12 +350,12 @@ function ProgramOptions() {
                 <Button
                   iconName="delete"
                   onClick={() => removeProgram(item)}
-                  label={t("settings.activityStatus.deleteButton")}
+                  label="Delete"
                   color="var(--alert-color)"
                 />
                 <Button
                   iconName="edit"
-                  label={t("settings.activityStatus.editButton")}
+                  label="Edit"
                   onClick={() => showEditModal(i(), item)}
                 />
               </FlexRow>
@@ -393,7 +394,7 @@ const EditActivityStatusModal = (props: {
 
   return (
     <Modal.Root close={props.close}>
-      <Modal.Header title={t("settings.activityStatus.editActivityStatus")} icon="edit" />
+      <Modal.Header title="Edit Activity Status" icon="edit" />
       <Modal.Body
         class={css`
           overflow: auto;
@@ -402,24 +403,24 @@ const EditActivityStatusModal = (props: {
       >
         <FlexColumn padding={6} gap={6}>
           <Input
-            label={t("settings.activityStatus.executable")}
+            label="Executable"
             value={newValues().filename}
             onText={(v) => setValues({ ...newValues(), filename: v })}
           />
           <Input
-            label={t("settings.activityStatus.action")}
+            label="Action"
             value={newValues().action}
             onText={(v) => setValues({ ...newValues(), action: v })}
           />
           <Input
-            label={t("settings.activityStatus.name")}
+            label="Name"
             value={newValues().name}
             onText={(v) => setValues({ ...newValues(), name: v })}
           />
           <div>
             <SettingsBlock
               header={showEmojiPicker()}
-              label={t("settings.activityStatus.emoji")}
+              label="Emoji"
               icon={emojiUrl() ? undefined : "face"}
               iconSrc={emojiUrl()}
               onClick={() => setShowEmojiPicker(!showEmojiPicker())}
@@ -440,13 +441,13 @@ const EditActivityStatusModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("settings.activityStatus.backButton")}
+          label="Back"
           onClick={props.close}
           iconName="close"
           alert
         />
         <Modal.Button
-          label={t("settings.activityStatus.saveButton")}
+          label="Save"
           onClick={() => {
             props.onEdit(newValues());
             props.close();
@@ -496,11 +497,11 @@ const DiscordActivity = () => {
   };
   return (
     <SettingsBlock
-      label={t("settings.activityStatus.discordActivity")}
-      description={t("settings.activityStatus.discordActivityDescription")}
+      label="Discord Activity"
+      description="Share your Discord activity with users on Nerimity!"
     >
       <Input
-        placeholder={t("settings.activityStatus.userIdPlaceholder")}
+        placeholder="Discord User Id"
         onText={setUserId}
         value={userId()}
         onBlur={onBlur}
@@ -519,11 +520,11 @@ const DiscordServerJoinedConfirmModal = (props: {
       doNotCloseOnBackgroundClick
       desktopMaxWidth={500}
     >
-      <Modal.Header title={t("settings.activityStatus.discordActivity")} icon="edit" />
+      <Modal.Header title="Discord Activity" icon="edit" />
       <Modal.Body>
         <FlexColumn padding={6} gap={6}>
           <Text>
-            {t("settings.activityStatus.popupText")}
+            Please join the Discord server to enable Activity Sharing.
             <div>
               <a target="_blank" href="https://discord.gg/kdArWJ8DU2">
                 https://discord.gg/kdArWJ8DU2
@@ -534,13 +535,13 @@ const DiscordServerJoinedConfirmModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("settings.activityStatus.cancelButton")}
+          label="Cancel"
           alert
           onClick={props.close}
           iconName="close"
         />
         <Modal.Button
-          label={t("settings.activityStatus.joinedButton")}
+          label="I have joined"
           onClick={props.onJoinedClick}
           primary
           iconName="check"
