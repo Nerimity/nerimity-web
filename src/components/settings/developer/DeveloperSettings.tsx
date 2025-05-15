@@ -15,30 +15,37 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
-
 export default function DeveloperSettings() {
   const { header } = useStore();
 
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Developer",
-      iconName: "settings"
+      iconName: "settings",
     });
   });
-
-
 
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.developer")} />
       </Breadcrumb>
 
-      <SettingsBlock href="./applications" icon="extension" label="Applications" description="Create Nerimity Bots." children={<Icon name="keyboard_arrow_right" />}  />
-      <SettingsBlock href="https://github.com/Nerimity/nerimity-api-docs" hrefBlank icon="article" label="API Documentation (incomplete)" children={<Icon name="launch" style={{"margin-right": "6px"}} />}  />
-
+      <SettingsBlock
+        href="./applications"
+        icon="extension"
+        label="Applications"
+        description="Create Nerimity Bots."
+        children={<Icon name="keyboard_arrow_right" />}
+      />
+      <SettingsBlock
+        href="https://docs.nerimity.com"
+        hrefBlank
+        icon="article"
+        label="API Documentation (incomplete)"
+        children={<Icon name="launch" style={{ "margin-right": "6px" }} />}
+      />
     </Container>
   );
 }
-
