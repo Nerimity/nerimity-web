@@ -166,6 +166,16 @@ const serverSettings: ServerSetting[] = [
       () => import("@/components/servers/settings/ServerVerifySettings")
     ),
   },
+  {
+    path: "external-embed",
+    routePath: "/external-embed",
+    name: "servers.settings.drawer.external-embed",
+    icon: "link",
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
+    element: lazy(
+      () => import("@/components/servers/settings/ExternalEmbedSettings")
+    ),
+  },
 ];
 
 export default serverSettings;

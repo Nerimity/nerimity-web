@@ -693,3 +693,19 @@ export const getServerAuditLogs = async (opts: {
   });
   return data;
 };
+
+export async function createServerExternalEmbed(
+  serverId: string,
+  inviteId: string
+): Promise<{ id: string }> {
+  return request({
+    method: "POST",
+    params: { inviteId },
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.server(serverId) +
+      "/external-embed",
+    useToken: true,
+  });
+}

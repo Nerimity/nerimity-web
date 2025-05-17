@@ -128,7 +128,8 @@
         "welcome-screen": "Welcome Screen",
         "channel": "Channel",
         "emojis": "Emojis",
-        "notifications": "Notifications"
+        "notifications": "Notifications",
+        "external-embed": "External Embed"
       },
       "general": {
         "serverRenameNotice": "You will lose all of the perks of having your server verified if you rename it.",

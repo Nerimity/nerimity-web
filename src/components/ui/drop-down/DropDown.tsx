@@ -34,6 +34,7 @@ export interface DropDownProps {
   title?: string;
   onChange?: (item: DropDownItem) => void;
   class?: string;
+  placeholder?: string;
 }
 
 export default function DropDown(props: DropDownProps) {
@@ -81,7 +82,7 @@ export default function DropDown(props: DropDownProps) {
         <div class={cn(styles.title, "title")}>{props.title}</div>
       </Show>
       <div class={cn(styles.box, "box")} ref={element} onClick={togglePopup}>
-        <ItemTemplate item={selectedItem()} />
+        <ItemTemplate item={selectedItem()} placeholder={props.placeholder} />
         <Icon name="expand_more" class={styles.expandIcon} />
       </div>
       <Show when={popupLocation()}>
@@ -99,13 +100,13 @@ export default function DropDown(props: DropDownProps) {
   );
 }
 
-function ItemTemplate(props: { item?: DropDownItem }) {
+function ItemTemplate(props: { item?: DropDownItem; placeholder?: string }) {
   return (
     <div class={styles.itemTemplate}>
       <CircleColor color={props.item?.circleColor} />
       <div class={styles.details}>
         <div class={styles.label}>
-          {props.item?.label || "Select Item"}
+          {props.item?.label || props.placeholder || "Select Item"}
           {props.item?.suffix}
         </div>
         <Show when={props.item?.description}>
