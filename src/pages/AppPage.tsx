@@ -113,6 +113,7 @@ export default function AppPage() {
   const [searchParams] = useSearchParams<{ postId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  useGoogleApi();
 
   useQuickTravel();
 
@@ -410,5 +411,15 @@ function useQuickTravel() {
     onCleanup(() => {
       document.removeEventListener("keydown", onKeyDown);
     });
+  });
+}
+
+//  Needed to verify if a Google Drive file is not modified and to get metadata and additional info.
+function useGoogleApi() {
+  onMount(() => {
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/api.js";
+    script.async = true;
+    document.body.appendChild(script);
   });
 }
