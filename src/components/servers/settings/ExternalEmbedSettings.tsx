@@ -71,7 +71,7 @@ export default function ExternalEmbedSettings() {
   };
 
   const embedLink = () => {
-    const url = "https://nerimity.com/external-embed/server";
+    const url = "https://nerimity.com/external-embed/server/";
     const enabledOptions = Object.entries(opts()).reduce(
       (acc, [key, value]) => {
         if (value) acc[key] = value;
