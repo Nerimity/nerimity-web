@@ -709,3 +709,30 @@ export async function createServerExternalEmbed(
     useToken: true,
   });
 }
+export async function getServerExternalEmbed(
+  serverId: string
+): Promise<{ id: string }> {
+  return request({
+    method: "GET",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.server(serverId) +
+      "/external-embed",
+    useToken: true,
+  });
+}
+
+export async function deleteServerExternalEmbed(
+  serverId: string
+): Promise<{ id: string }> {
+  return request({
+    method: "DELETE",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.server(serverId) +
+      "/external-embed",
+    useToken: true,
+  });
+}
