@@ -36,7 +36,7 @@ const ArtImage = styled("img")`
   right: 0;
   width: auto;
   height: 100%;
-  opacity: 0.01;
+  opacity: 0.04;
   pointer-events: none;
   @media (orientation: portrait) {
     width: 100%;
@@ -75,14 +75,6 @@ const ButtonsContainer = styled("div")`
     background: #4c93ff;
     background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
   }
-`;
-
-const Logo = styled("img")`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.86);
-  backdrop-filter: blur(34px);
 `;
 
 const VersionAnchor = styled("a")`
@@ -291,11 +283,8 @@ const FeatureListContainer = styled("div")`
   column-gap: 20px;
   align-self: center;
   margin-top: 100px;
-  background-color: var(--pane-color);
-  border: solid 1px rgba(255, 255, 255, 0.1);
+
   padding: 10px;
-  border-radius: 8px;
-  backdrop-filter: blur(34px);
   z-index: 1111;
   margin: 10px;
 
@@ -332,6 +321,10 @@ function FeatureList() {
 
 const FeatureContainer = styled(FlexRow)`
   align-items: center;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background-color: var(--pane-color);
+  padding: 6px;
 `;
 
 function Feature(props: { icon: string; label: string }) {
@@ -339,14 +332,14 @@ function Feature(props: { icon: string; label: string }) {
     <FeatureContainer gap={10}>
       <Icon
         style={{
-          background: "rgba(255,255,255,0.05)",
+          background: "rgba(255,255,255,0.06)",
           padding: "10px",
-          "border-radius": "50%",
+          "border-radius": "12px",
         }}
         name={props.icon}
         size={26}
       />
-      <Text style={{ "font-weight": "bold" }} size={14} opacity={0.8}>
+      <Text size={14} opacity={0.7}>
         {props.label}
       </Text>
     </FeatureContainer>
