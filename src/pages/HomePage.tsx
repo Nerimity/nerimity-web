@@ -2,7 +2,7 @@ import env from "@/common/env";
 import Button from "@/components/ui/Button";
 import { useNavigate } from "solid-navigator";
 import PageHeader from "../components/PageHeader";
-import { styled } from "solid-styled-components";
+import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { appLogoUrl } from "@/common/worldEvents";
 import { useTransContext } from "@mbarzda/solid-i18next";
@@ -10,6 +10,7 @@ import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Icon from "@/components/ui/icon/Icon";
 import { CustomLink } from "@/components/ui/CustomLink";
 import PageFooter from "@/components/PageFooter";
+import { getPlatformDownloadLinks } from "@/github-api";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -161,9 +162,42 @@ export default function HomePage() {
   );
 }
 
+const downloadButtonStyle = css`
+  :nth-child(2) {
+    margin-left: 0;
+    text-align: end;
+  }
+
+  text-align: start;
+`;
 const PlatformDownloadLinks = () => {
   const [t] = useTransContext();
   const navigate = useNavigate();
+
+  const onClick = async (
+    platform: "windows" | "linux" | "android",
+    e?: "deb" | "AppImage"
+  ) => {
+    const platforms = await getPlatformDownloadLinks();
+    const filtered = platforms.filter((x) => {
+      if (x.platform !== platform) return false;
+      if (e) {
+        if (x.ext === e) return true;
+        return false;
+      }
+      return true;
+    });
+    if (filtered.length === 0) {
+      alert("No platforms found");
+      console.log(platforms);
+      return;
+    }
+    if (filtered[0]?.downloadUrl) {
+      window.open(filtered[0].downloadUrl, "_blank");
+      return;
+    }
+  };
+
   return (
     <FlexColumn gap={10} itemsCenter style={{ "margin-top": "10px" }}>
       <Text size={16} opacity={0.7} style={{}}>
@@ -173,36 +207,75 @@ const PlatformDownloadLinks = () => {
         <Button
           onClick={() => navigate("/register")}
           color=""
-          label={t("homePage.browser")}
+          customChildren={
+            <FlexColumn class={downloadButtonStyle}>
+              <Text>{t("homePage.browser")}</Text>
+              <Text opacity={0.8} size={12}>
+                web
+              </Text>
+            </FlexColumn>
+          }
           iconName="public"
           primary
         />
         <Button
-          onClick={() =>
-            window.open(
-              "https://github.com/Nerimity/nerimity-desktop/releases/latest",
-              "_blank"
-            )
-          }
+          onClick={() => onClick("windows")}
           color=""
-          label="Windows"
+          customChildren={
+            <FlexColumn class={downloadButtonStyle}>
+              <Text>Windows</Text>
+              <Text opacity={0.8} size={12}>
+                exe
+              </Text>
+            </FlexColumn>
+          }
           iconName="grid_view"
           primary
         />
         <Button
-          onClick={() =>
-            window.open(
-              "https://github.com/Nerimity/NerimityReactNative/releases/latest",
-              "_blank"
-            )
-          }
+          onClick={() => onClick("android")}
           color="#31a952"
           customChildren={
-            <FlexRow itemsCenter>
+            <FlexColumn class={downloadButtonStyle}>
               <Text>Android</Text>
-            </FlexRow>
+              <Text opacity={0.8} size={12}>
+                apk
+              </Text>
+            </FlexColumn>
           }
           iconName="android"
+          primary
+        />
+        <Button
+          onClick={() => onClick("linux", "deb")}
+          color="#db5c13"
+          customChildren={
+            <FlexRow itemsCenter>
+              <img src="/assets/linux.svg" width={24} />
+              <FlexColumn class={downloadButtonStyle}>
+                <Text>Linux</Text>
+                <Text opacity={0.8} size={12}>
+                  deb
+                </Text>
+              </FlexColumn>
+            </FlexRow>
+          }
+          primary
+        />
+        <Button
+          onClick={() => onClick("linux", "AppImage")}
+          color="#db5c13"
+          customChildren={
+            <FlexRow itemsCenter>
+              <img src="/assets/linux.svg" width={24} />
+              <FlexColumn class={downloadButtonStyle}>
+                <Text>Linux</Text>
+                <Text opacity={0.8} size={12}>
+                  AppImage
+                </Text>
+              </FlexColumn>
+            </FlexRow>
+          }
           primary
         />
       </FlexRow>
@@ -244,9 +317,15 @@ function FeatureList() {
       <Feature icon="add" label={t("homePage.featureList.feature4")} />
       <Feature icon="dns" label={t("homePage.featureList.feature5")} />
       <Feature icon="explore" label={t("homePage.featureList.feature6")} />
-      <Feature icon="volunteer_activism" label={t("homePage.featureList.feature7")} />
+      <Feature
+        icon="volunteer_activism"
+        label={t("homePage.featureList.feature7")}
+      />
       <Feature icon="code" label={t("homePage.featureList.feature8")} />
-      <Feature icon="account_circle" label={t("homePage.featureList.feature9")} />
+      <Feature
+        icon="account_circle"
+        label={t("homePage.featureList.feature9")}
+      />
     </FeatureListContainer>
   );
 }

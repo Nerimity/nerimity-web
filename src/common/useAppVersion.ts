@@ -42,7 +42,7 @@ const checkForUpdate = async () => {
   let hasUpdate = false;
 
   // NOT latest.nerimity.com
-  let isRelease = env.APP_VERSION?.startsWith("v");
+  const isRelease = env.APP_VERSION?.startsWith("v");
 
   const appVersion = env.APP_VERSION;
   let latestVersion = "";
