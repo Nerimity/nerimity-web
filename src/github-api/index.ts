@@ -53,9 +53,7 @@ interface Platform {
   ext: AvailableExtensions;
 }
 
-let cachedPlatforms = JSON.parse(
-  localStorage.getItem("cachedPlatforms") || "[]"
-) as Platform[];
+let cachedPlatforms: Platform[] = [];
 
 export async function getPlatformDownloadLinks() {
   if (cachedPlatforms.length > 0) {
@@ -91,8 +89,6 @@ export async function getPlatformDownloadLinks() {
     }
   });
 
-  // Cache the platforms in local storage
-  localStorage.setItem("cachedPlatforms", JSON.stringify(platforms));
   cachedPlatforms = platforms;
 
   return platforms;
