@@ -1,9 +1,15 @@
 .modalRoot {
-  min-width: 254px;
+  width: 100%;
 }
 
 .modalBody {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
   gap: 8px;
 }

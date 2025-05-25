@@ -15,6 +15,7 @@ export default {
   SERVER_SETTINGS_ROLE: (serverId: string, roleId: string) => `/app/servers/${serverId}/settings/roles/${roleId}`,
   
   EXPLORE_SERVER: (serverId: string) => `/app/explore/servers/${serverId}`,
+  EXPLORE_SERVERS: () => "/app/explore/servers",
   
   PROFILE: (userId: string) => `/app/profile/${userId}`,
 

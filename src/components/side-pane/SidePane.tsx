@@ -29,7 +29,7 @@ import { updateServerOrder } from "@/chat-api/services/ServerService";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { Tooltip } from "../ui/Tooltip";
-import { CreateServerModal } from "./create-server-modal/CreateServerModal";
+import { AddServerModal } from "./add-server-modal/AddServerModal";
 import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { useResizeObserver } from "@/common/useResizeObserver";
@@ -52,7 +52,7 @@ export default function SidePane() {
   );
 
   const showAddServerModal = () => {
-    createPortal?.((close) => <CreateServerModal close={close} />);
+    createPortal?.((close) => <AddServerModal close={close} />);
   };
 
   const resizeObserver = useResizeObserver(() => containerEl);
@@ -92,9 +92,12 @@ export default function SidePane() {
       </Show>
       <div class={styles.scrollable}>
         <ServerList size={resizeObserver.width()} />
-        <Tooltip tooltip="Create Server">
+        <Tooltip tooltip="Add Server">
           <SidebarItemContainer onClick={showAddServerModal}>
-            <Icon name="add_box" size={40} />
+            <Icon
+              name="add_box"
+              size={resizeObserver.width() - resizeObserver.width() * 0.378}
+            />
           </SidebarItemContainer>
         </Tooltip>
       </div>
