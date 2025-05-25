@@ -34,6 +34,7 @@
   width: 100%;
   overflow: hidden;
   position: relative;
+
 }
 
 .rightPane {
@@ -60,3 +61,22 @@
 //   margin: 0;
 //   border-radius: 0;
 // }
+
+
+.resizeHandle {
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  bottom: 8px;
+  width: 4px;
+  border-radius: 999px;
+  cursor: ew-resize;
+  user-select: none;
+  z-index: 111111;
+  &:active,
+  &:hover {
+    opacity: 0.6;
+    background-color: white;
+    background-color: var(--primary-color);
+  }
+}

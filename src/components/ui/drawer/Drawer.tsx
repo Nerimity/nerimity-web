@@ -4,7 +4,6 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import {
   Accessor,
   children,
-  ChildrenReturn,
   createContext,
   createEffect,
   createMemo,
@@ -13,7 +12,6 @@ import {
   JSXElement,
   on,
   onCleanup,
-  onMount,
   Show,
   useContext,
 } from "solid-js";
@@ -23,6 +21,8 @@ import { classNames, conditionalClass } from "@/common/classNames";
 import { matchComponent, useLocation } from "solid-navigator";
 import { GlobalEventName, useEventListen } from "@/common/GlobalEvents";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
+import { useResizeObserver } from "@/common/useResizeObserver";
+import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
 
 interface DrawerLayoutProps {
   LeftDrawer: any;
@@ -322,6 +322,37 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     updatePage();
   };
 
+  const leftDrawerResizeObserver = useResizeObserver(
+    () => containerEl?.querySelector(".leftPane") as HTMLDivElement
+  );
+
+  const [leftDrawerDesktopWidth, setLeftDrawerDesktopWidth] =
+    useReactiveLocalStorage(StorageKeys.LEFT_DRAWER_WIDTH, 330);
+
+  let startLeftDrawerX = 0;
+  let startLeftDrawerWidth = 0;
+  const onLeftDrawerResizeMove = (event: MouseEvent) => {
+    const newWidth = startLeftDrawerWidth + (event.clientX - startLeftDrawerX);
+    if (newWidth < 200) return; // Minimum width
+    if (newWidth >= 400) return; // Maximum width
+    if (containerEl) {
+      setLeftDrawerDesktopWidth(newWidth);
+    }
+  };
+
+  const onLeftDrawerResizeUp = () => {
+    document.removeEventListener("mousemove", onLeftDrawerResizeMove);
+    document.removeEventListener("mouseup", onLeftDrawerResizeUp);
+  };
+  const onLeftDrawerResizeDown = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    startLeftDrawerWidth = leftDrawerResizeObserver.width();
+    startLeftDrawerX = event.clientX;
+    document.addEventListener("mousemove", onLeftDrawerResizeMove);
+    document.addEventListener("mouseup", onLeftDrawerResizeUp);
+  };
+
   return (
     <DrawerContext.Provider value={drawer}>
       {props.children}
@@ -340,16 +371,18 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
           }}
         >
           <div
+            class={"leftPane"}
             style={{
               width: isMobileWidth()
                 ? leftDrawerWidth() + "px"
                 : hasLeftDrawer()
                 ? hideLeftDrawer()
                   ? "70px"
-                  : "330px"
+                  : leftDrawerDesktopWidth() + "px"
                 : "65px",
               display: "flex",
               "flex-shrink": 0,
+              position: "relative",
             }}
           >
             <SidePane />
@@ -365,6 +398,12 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                 {LeftDrawer()}
               </div>
             )}
+            <Show when={!isMobileWidth()}>
+              <div
+                class={styles.resizeHandle}
+                onMouseDown={onLeftDrawerResizeDown}
+              />
+            </Show>
           </div>
           <div
             class={styles.content}

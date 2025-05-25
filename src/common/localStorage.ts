@@ -26,6 +26,7 @@ export enum StorageKeys {
   USE_TWITTER_EMBED = "useTwitterEmbed",
   DISCORD_USER_ID = "discordUserId",
   SIDEBAR_WIDTH = "sidebarWidth",
+  LEFT_DRAWER_WIDTH = "leftDrawerWidth",
 }
 
 export function getStorageBoolean(
