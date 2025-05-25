@@ -33,6 +33,7 @@ import { CreateServerModal } from "./create-server-modal/CreateServerModal";
 import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { useResizeObserver } from "@/common/useResizeObserver";
+import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -45,7 +46,10 @@ export default function SidePane() {
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
 
-  const [width, setWidth] = createSignal(65);
+  const [width, setWidth] = useReactiveLocalStorage(
+    StorageKeys.SIDEBAR_WIDTH,
+    65
+  );
 
   const showAddServerModal = () => {
     createPortal?.((close) => <CreateServerModal close={close} />);
@@ -57,6 +61,8 @@ export default function SidePane() {
   let startWidth = 0;
   const onResizeMove = (event: MouseEvent) => {
     const newWidth = startWidth + (event.clientX - startX);
+    if (newWidth < 0) return; // Minimum width
+    if (newWidth >= 400) return; // Maximum width
     if (containerEl) {
       setWidth(newWidth);
     }
@@ -79,7 +85,7 @@ export default function SidePane() {
     <div
       ref={containerEl}
       class={cn(styles.sidePane, isMobileWidth() ? styles.mobile : undefined)}
-      style={isMobileWidth() ? {} : { width: `${width()}px` }}
+      style={isMobileWidth() ? { width: "65px" } : { width: `${width()}px` }}
     >
       <Show when={!isMobileWidth()}>
         <HomeItem size={resizeObserver.width()} />
@@ -98,7 +104,9 @@ export default function SidePane() {
         <SettingsItem size={resizeObserver.width()} />
         <UserItem size={resizeObserver.width()} />
       </Show>
-      <div class={styles.resizeHandle} onMouseDown={onResizeDown} />
+      <Show when={!isMobileWidth()}>
+        <div class={styles.resizeHandle} onMouseDown={onResizeDown} />
+      </Show>
     </div>
   );
 }
