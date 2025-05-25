@@ -2,31 +2,21 @@ import styles from "./styles.module.scss";
 import Icon from "@/components/ui/icon/Icon";
 import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
-import { classNames, cn, conditionalClass } from "@/common/classNames";
+import { classNames, cn } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import {
-  createEffect,
-  createMemo,
-  createResource,
-  createSignal,
-  For,
-  on,
-  onCleanup,
-  onMount,
-  Show,
-} from "solid-js";
+import { createEffect, createSignal, on, Show } from "solid-js";
 import useStore from "../../chat-api/store/useStore";
-import { A, useLocation, useParams, useMatch } from "solid-navigator";
-import { FriendStatus, TicketStatus } from "../../chat-api/RawData";
+import { A, useLocation, useMatch } from "solid-navigator";
+import { FriendStatus } from "../../chat-api/RawData";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
-import { UserStatuses, userStatusDetail } from "../../common/userStatus";
+import { userStatusDetail } from "../../common/userStatus";
 import { Server } from "../../chat-api/store/useServers";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { updateTitleAlert } from "@/common/BrowserTitle";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import ItemContainer from "../ui/LegacyItem";
-import { css, styled } from "solid-styled-components";
+import { styled } from "solid-styled-components";
 import { useAppVersion } from "@/common/useAppVersion";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
@@ -36,22 +26,9 @@ import Marked from "@/components/marked/Marked";
 import { formatTimestamp } from "@/common/date";
 import { Draggable } from "../ui/Draggable";
 import { updateServerOrder } from "@/chat-api/services/ServerService";
-import { Banner } from "../ui/Banner";
-import { User, UserStatus, bannerUrl } from "@/chat-api/store/useUsers";
-import UserPresence from "../user-presence/UserPresence";
-import DropDown from "../ui/drop-down/DropDown";
-import { updatePresence } from "@/chat-api/services/UserService";
-import { CustomLink } from "../ui/CustomLink";
-import { clearCache } from "@/common/localCache";
-import { useDrawer } from "../ui/drawer/Drawer";
-import Input from "../ui/input/Input";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkupOptions";
-import { formatMessage } from "../message-pane/MessagePane";
 import { Tooltip } from "../ui/Tooltip";
-import { logout } from "@/common/logout";
-import { isExperimentEnabled, ShowExperiment } from "@/common/experiments";
 import { CreateServerModal } from "./create-server-modal/CreateServerModal";
 import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
@@ -225,16 +202,13 @@ function SettingsItem() {
 
 const UserItem = () => {
   const { account, users } = useStore();
-  const { createPortal } = useCustomPortal();
-  const drawer = useDrawer();
+  const { createPortal, isPortalOpened } = useCustomPortal();
   const [hovered, setHovered] = createSignal(false);
-  const [modalOpened, setModalOpened] = createSignal(false);
-  const { isMobileWidth } = useWindowProperties();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
   const presenceColor = () =>
-    user() && userStatusDetail(user().presence()?.status || 0).color;
+    user() && userStatusDetail(user()?.presence()?.status || 0).color;
 
   const isAuthenticated = account.isAuthenticated;
   const authErrorMessage = account.authenticationError;
@@ -244,6 +218,9 @@ const UserItem = () => {
   const showConnecting = () =>
     !authErrorMessage() && !isAuthenticated() && !isAuthenticating();
 
+  const modalOpened = () => {
+    return isPortalOpened("profile-pane-flyout-" + userId());
+  };
   const onClicked = (event: MouseEvent) => {
     if (authErrorMessage()) {
       return createPortal?.((close) => <ConnectionErrorModal close={close} />);

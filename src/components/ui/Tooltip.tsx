@@ -1,22 +1,41 @@
 import styles from "./Tooltip.module.scss";
-import { JSXElement, onCleanup, createUniqueId, createSignal, createEffect, on } from "solid-js";
+import {
+  JSXElement,
+  onCleanup,
+  createUniqueId,
+  createSignal,
+  createEffect,
+  on,
+} from "solid-js";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames } from "@/common/classNames";
-import { Delay } from "@/common/Delay";
 
-export const Tooltip = (props: { disable?: boolean; onBeforeShow?: (el: HTMLDivElement) => boolean; children: JSXElement, tooltip: JSXElement, anchor?: "left" | "right", class?: string }) => {
-  const {isMobileAgent} = useWindowProperties();
-  const {createPortal, closePortalById} = useCustomPortal();
+export const Tooltip = (props: {
+  disable?: boolean;
+  onBeforeShow?: (el: HTMLDivElement) => boolean;
+  children: JSXElement;
+  tooltip: JSXElement;
+  anchor?: "left" | "right";
+  class?: string;
+}) => {
+  const { isMobileAgent } = useWindowProperties();
+  const { createPortal, closePortalById } = useCustomPortal();
   const id = createUniqueId();
 
   const portalId = "tooltip" + id;
 
-  createEffect(on(() => props.disable, () => {
-    onMouseLeave();
-  }))
-  
+  createEffect(
+    on(
+      () => props.disable,
+      () => {
+        if (props.disable) {
+          onMouseLeave();
+        }
+      }
+    )
+  );
 
   const onMouseEnter = (e: MouseEvent) => {
     if (props.disable) return;
@@ -28,7 +47,16 @@ export const Tooltip = (props: { disable?: boolean; onBeforeShow?: (el: HTMLDivE
       if (!shouldShow) return;
     }
 
-    createPortal(() => <TooltipItem  rect={rect} children={props.tooltip} anchor={props.anchor} />, portalId);
+    createPortal(
+      () => (
+        <TooltipItem
+          rect={rect}
+          children={props.tooltip}
+          anchor={props.anchor}
+        />
+      ),
+      portalId
+    );
   };
   const onMouseLeave = () => {
     closePortalById(portalId);
@@ -38,26 +66,35 @@ export const Tooltip = (props: { disable?: boolean; onBeforeShow?: (el: HTMLDivE
     onMouseLeave();
   });
 
-
   return (
-    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} class={classNames(styles.container, props.class)}>
+    <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      class={classNames(styles.container, props.class)}
+    >
       {props.children}
     </div>
   );
 };
 
-const TooltipItem = (props: {rect: DOMRect, children: JSXElement, anchor?: "left" | "right"}) => {
+const TooltipItem = (props: {
+  rect: DOMRect;
+  children: JSXElement;
+  anchor?: "left" | "right";
+}) => {
   const [el, setEl] = createSignal<HTMLElement | undefined>();
-  const {height, width} = useResizeObserver(el);
+  const { height, width } = useResizeObserver(el);
 
-  const style = () => {    
+  const style = () => {
     if (!width()) {
       return undefined;
     }
-    let left = (props.rect.left + (props.anchor === "left" ? -width() - 4  : props.rect.width));
+    let left =
+      props.rect.left +
+      (props.anchor === "left" ? -width() - 4 : props.rect.width);
 
     if (props.anchor === "right") {
-      if (((width() + left) + 10) > window.innerWidth) {
+      if (width() + left + 10 > window.innerWidth) {
         left = window.innerWidth - (width() + 20);
       }
     }
@@ -66,16 +103,15 @@ const TooltipItem = (props: {rect: DOMRect, children: JSXElement, anchor?: "left
         left = 0;
       }
     }
-    
 
     return {
-      top: (props.rect.top + (props.rect.height / 2) - (height() / 2)) + "px", 
-      left: left + "px"
+      top: props.rect.top + props.rect.height / 2 - height() / 2 + "px",
+      left: left + "px",
     };
   };
 
   return (
-    <div ref={setEl}  class={styles.tooltip} style={style()}>
+    <div ref={setEl} class={styles.tooltip} style={style()}>
       <div class={styles.tooltipContent}>{props.children}</div>
     </div>
   );
