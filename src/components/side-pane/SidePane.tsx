@@ -32,48 +32,78 @@ import { Tooltip } from "../ui/Tooltip";
 import { CreateServerModal } from "./create-server-modal/CreateServerModal";
 import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
+import { useResizeObserver } from "@/common/useResizeObserver";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
   justify-content: center;
-  height: 50px;
-  width: 60px;
+  aspect-ratio: 1/0.768;
 `;
 
 export default function SidePane() {
+  let containerEl: HTMLDivElement | undefined;
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
+
+  const [width, setWidth] = createSignal(65);
 
   const showAddServerModal = () => {
     createPortal?.((close) => <CreateServerModal close={close} />);
   };
 
+  const resizeObserver = useResizeObserver(() => containerEl);
+
+  let startX = 0;
+  let startWidth = 0;
+  const onResizeMove = (event: MouseEvent) => {
+    const newWidth = startWidth + (event.clientX - startX);
+    if (containerEl) {
+      setWidth(newWidth);
+    }
+  };
+
+  const onResizeUp = () => {
+    document.removeEventListener("mousemove", onResizeMove);
+    document.removeEventListener("mouseup", onResizeUp);
+  };
+  const onResizeDown = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    startWidth = resizeObserver.width();
+    startX = event.clientX;
+    document.addEventListener("mousemove", onResizeMove);
+    document.addEventListener("mouseup", onResizeUp);
+  };
+
   return (
     <div
+      ref={containerEl}
       class={cn(styles.sidePane, isMobileWidth() ? styles.mobile : undefined)}
+      style={isMobileWidth() ? {} : { width: `${width()}px` }}
     >
       <Show when={!isMobileWidth()}>
-        <HomeItem />
+        <HomeItem size={resizeObserver.width()} />
       </Show>
       <div class={styles.scrollable}>
-        <ServerList />
+        <ServerList size={resizeObserver.width()} />
         <Tooltip tooltip="Create Server">
           <SidebarItemContainer onClick={showAddServerModal}>
             <Icon name="add_box" size={40} />
           </SidebarItemContainer>
         </Tooltip>
       </div>
-      <UpdateItem />
+      <UpdateItem size={resizeObserver.width()} />
       <Show when={!isMobileWidth()}>
-        <ModerationItem />
-        <SettingsItem />
-        <UserItem />
+        <ModerationItem size={resizeObserver.width()} />
+        <SettingsItem size={resizeObserver.width()} />
+        <UserItem size={resizeObserver.width()} />
       </Show>
+      <div class={styles.resizeHandle} onMouseDown={onResizeDown} />
     </div>
   );
 }
 
-function HomeItem() {
+function HomeItem(props: { size: number }) {
   const { inbox, friends, servers } = useStore();
   const location = useLocation();
   const isSelected = () => {
@@ -99,7 +129,7 @@ function HomeItem() {
       <A href="/app" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={isSelected()} alert={count()}>
           <NotificationCountBadge count={count()} top={10} right={10} />
-          <Icon name="home" />
+          <Icon name="home" size={props.size - props.size * 0.6308} />
         </SidebarItemContainer>
       </A>
     </Tooltip>
@@ -126,7 +156,7 @@ function NotificationCountBadge(props: {
   );
 }
 
-function UpdateItem() {
+function UpdateItem(props: { size: number }) {
   const checkAfterMS = 600000; // 10 minutes
   const { checkForUpdate, updateAvailable } = useAppVersion();
   const { createPortal } = useCustomPortal();
@@ -151,13 +181,17 @@ function UpdateItem() {
     <Show when={updateAvailable()}>
       <Tooltip tooltip="Update Available">
         <SidebarItemContainer onclick={showUpdateModal}>
-          <Icon name="get_app" color="var(--success-color)" />
+          <Icon
+            name="get_app"
+            color="var(--success-color)"
+            size={props.size - props.size * 0.6308}
+          />
         </SidebarItemContainer>
       </Tooltip>
     </Show>
   );
 }
-function ModerationItem() {
+function ModerationItem(props: { size: number }) {
   const { account, tickets } = useStore();
   const hasModeratorPerm = () =>
     hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
@@ -173,7 +207,7 @@ function ModerationItem() {
             <Show when={tickets.hasModerationTicketNotification()}>
               <NotificationCountBadge count={"!"} top={5} right={10} />
             </Show>
-            <Icon name="security" />
+            <Icon name="security" size={props.size - props.size * 0.6308} />
           </SidebarItemContainer>
         </A>
       </Tooltip>
@@ -181,7 +215,7 @@ function ModerationItem() {
   );
 }
 
-function SettingsItem() {
+function SettingsItem(props: { size: number }) {
   const { tickets } = useStore();
 
   const selected = useMatch(() => "/app/settings/*");
@@ -193,14 +227,14 @@ function SettingsItem() {
           <Show when={tickets.hasTicketNotification()}>
             <NotificationCountBadge count={"!"} top={5} right={10} />
           </Show>
-          <Icon name="settings" />
+          <Icon name="settings" size={props.size - props.size * 0.6308} />
         </SidebarItemContainer>
       </A>
     </Tooltip>
   );
 }
 
-const UserItem = () => {
+const UserItem = (props: { size: number }) => {
   const { account, users } = useStore();
   const { createPortal, isPortalOpened } = useCustomPortal();
   const [hovered, setHovered] = createSignal(false);
@@ -230,7 +264,7 @@ const UserItem = () => {
     const el = event.target as HTMLElement;
     const rect = el?.getBoundingClientRect()!;
     const pos = {
-      left: 67,
+      left: props.size + 6,
       top: rect.top + 10,
       bottom: 8,
       anchor: "left",
@@ -280,7 +314,7 @@ const UserItem = () => {
           {account.user() && (
             <Avatar
               animate={hovered()}
-              size={40}
+              size={props.size - props.size * 0.4}
               user={account.user()!}
               resize={96}
             />
@@ -301,11 +335,15 @@ const UserItem = () => {
                 styles.connectingIcon,
                 styles.authenticatingIcon
               )}
-              size={24}
+              size={props.size - props.size * 0.6308}
             />
           )}
           {authErrorMessage() && (
-            <Icon name="error" class={styles.errorIcon} size={24} />
+            <Icon
+              name="error"
+              class={styles.errorIcon}
+              size={props.size - props.size * 0.6308}
+            />
           )}
         </SidebarItemContainer>
       </Tooltip>
@@ -316,6 +354,7 @@ const UserItem = () => {
 function ServerItem(props: {
   server: Server;
   onContextMenu?: (e: MouseEvent) => void;
+  size: number;
 }) {
   const { id, defaultChannelId } = props.server;
   const hasNotifications = () => props.server.hasNotifications();
@@ -342,7 +381,7 @@ function ServerItem(props: {
           <Avatar
             resize={128}
             animate={hovered()}
-            size={40}
+            size={props.size - props.size * 0.4}
             server={props.server}
           />
         </SidebarItemContainer>
@@ -351,7 +390,7 @@ function ServerItem(props: {
   );
 }
 
-const ServerList = () => {
+const ServerList = (props: { size: number }) => {
   const { servers, account } = useStore();
   const [contextPosition, setContextPosition] = createSignal<
     { x: number; y: number } | undefined
@@ -380,7 +419,7 @@ const ServerList = () => {
       />
       <Show
         when={account.lastAuthenticatedAt()}
-        fallback={<ServerListSkeleton />}
+        fallback={<ServerListSkeleton size={props.size} />}
       >
         <Draggable
           onStart={() => setContextPosition(undefined)}
@@ -391,6 +430,7 @@ const ServerList = () => {
           {(server) => (
             <ServerItem
               server={server!}
+              size={props.size}
               onContextMenu={(e) => onContextMenu(e, server!.id)}
             />
           )}
@@ -400,10 +440,13 @@ const ServerList = () => {
   );
 };
 
-const ServerListSkeleton = () => {
+const ServerListSkeleton = (props: { size: number }) => {
   return (
     <Skeleton.List>
-      <Skeleton.Item height="50px" width="60px" />
+      <Skeleton.Item
+        style={{ "aspect-ratio": "1/0.768" }}
+        width={props.size + "px"}
+      />
     </Skeleton.List>
   );
 };

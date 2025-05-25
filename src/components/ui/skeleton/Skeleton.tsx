@@ -46,15 +46,15 @@ const SkeletonItem = (props: {
     }
   });
 
-  const style: JSX.CSSProperties = {
+  const style: () => JSX.CSSProperties = () => ({
     ...(props.height ? { height: props.height } : undefined),
     ...(props.width ? { width: props.width } : undefined),
     ...props.style,
-  };
+  });
   return (
     <div
       ref={element}
-      style={style}
+      style={style()}
       class={classNames(
         styles.skeletonItem,
         props.class,
