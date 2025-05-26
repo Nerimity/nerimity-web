@@ -67,6 +67,8 @@ export const useResizeBar = (opts: ResizeBarOpts) => {
   return {
     Handle,
     width: () => {
+      if (width() < opts.minWidth) return opts.defaultWidth;
+      if (width() >= opts.maxWidth) return opts.maxWidth;
       if (isMobileWidth()) return opts.defaultWidth;
       return width();
     },
