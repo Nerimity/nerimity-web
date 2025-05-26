@@ -28,7 +28,7 @@ import {
   getStorageString,
   setStorageString,
   StorageKeys,
-  useReactiveLocalStorage,
+  useLocalStorage,
 } from "@/common/localStorage";
 import { emitActivityStatus } from "@/chat-api/emits/userEmits";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
@@ -218,7 +218,7 @@ export default function WindowSettings() {
 
 function ProgramOptions() {
   const [programs, setPrograms] = createSignal<Program[]>([]);
-  const [addedPrograms, setAddedPrograms] = useReactiveLocalStorage<
+  const [addedPrograms, setAddedPrograms] = useLocalStorage<
     ProgramWithExtras[]
   >(StorageKeys.PROGRAM_ACTIVITY_STATUS, []);
 

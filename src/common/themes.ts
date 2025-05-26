@@ -1,9 +1,10 @@
-import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
+import { StorageKeys, useLocalStorage } from "./localStorage";
 import { isHalloween } from "./worldEvents";
 
 const DarkTheme = {
   "background-color": "hsl(216deg 9% 8%)",
   "pane-color": "hsl(216deg 8% 15%)",
+  "side-pane-color": "hsl(216deg 7.82% 12.55%)",
   "header-background-color": "hsla(216deg 8% 15% / 80%)",
   "header-background-color-blur-disabled": "hsl(216deg 8% 15%)",
   "tooltip-background-color": "rgb(40, 40, 40)",
@@ -43,7 +44,7 @@ export { theme };
 
 type ThemeKey = keyof typeof theme;
 
-const [customColors, setCustomColors] = useReactiveLocalStorage<
+const [customColors, setCustomColors] = useLocalStorage<
   Partial<Record<ThemeKey, string>>
 >(StorageKeys.CUSTOM_COLORS, {});
 

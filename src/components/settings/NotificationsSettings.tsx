@@ -9,7 +9,7 @@ import {
   setStorageBoolean,
   setStorageNumber,
   StorageKeys,
-  useReactiveLocalStorage,
+  useLocalStorage,
 } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
@@ -40,7 +40,6 @@ export default function NotificationsSettings() {
     });
   });
 
-
   return (
     <Container>
       <Breadcrumb>
@@ -52,7 +51,7 @@ export default function NotificationsSettings() {
 
       <NotificationSoundSelection />
 
-        <InAppNotificationBlock />
+      <InAppNotificationBlock />
     </Container>
   );
 }
@@ -170,7 +169,7 @@ function NotificationSoundSelection() {
 function NotificationSoundDropDown(props: {
   typeId: "MESSAGE" | "MESSAGE_MENTION";
 }) {
-  const [selectedSounds, setSelectedSounds] = useReactiveLocalStorage<{
+  const [selectedSounds, setSelectedSounds] = useLocalStorage<{
     [key: string]: (typeof Sounds)[number] | undefined;
   }>(StorageKeys.NOTIFICATION_SOUNDS, {});
 
@@ -224,7 +223,7 @@ const RadioBoxContainer = styled("div")`
 `;
 
 function InAppNotificationBlock() {
-  const [value, setValue] = useReactiveLocalStorage(
+  const [value, setValue] = useLocalStorage(
     StorageKeys.IN_APP_NOTIFICATIONS_PREVIEW,
     "INHERIT"
   );

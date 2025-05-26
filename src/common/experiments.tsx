@@ -1,5 +1,5 @@
 import { useInAppNotificationPreviews } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
-import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
+import { StorageKeys, useLocalStorage } from "./localStorage";
 import { JSXElement, Show } from "solid-js";
 
 export interface Experiment {
@@ -22,9 +22,10 @@ export const Experiments = [
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];
 
-const [enabledExperiments, setEnabledExperiments] = useReactiveLocalStorage<
-  string[]
->(StorageKeys.ENABLED_EXPERIMENTS, []);
+const [enabledExperiments, setEnabledExperiments] = useLocalStorage<string[]>(
+  StorageKeys.ENABLED_EXPERIMENTS,
+  []
+);
 
 export const isExperimentEnabled = (experimentId: ExperimentIds) => {
   return () => enabledExperiments().includes(experimentId);

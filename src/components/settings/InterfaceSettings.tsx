@@ -23,7 +23,7 @@ import {
   setStorageBoolean,
   setStorageNumber,
   StorageKeys,
-  useReactiveLocalStorage,
+  useLocalStorage,
 } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
@@ -84,7 +84,7 @@ function BlurEffect() {
   );
 }
 function AdvancedMarkup() {
-  const [enabled, setEnabled] = useReactiveLocalStorage(
+  const [enabled, setEnabled] = useLocalStorage(
     StorageKeys.DISABLED_ADVANCED_MARKUP,
     false
   );

@@ -22,7 +22,7 @@ import { matchComponent, useLocation } from "solid-navigator";
 import { GlobalEventName, useEventListen } from "@/common/GlobalEvents";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useResizeObserver } from "@/common/useResizeObserver";
-import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
+import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 
 interface DrawerLayoutProps {
   LeftDrawer: any;
@@ -326,8 +326,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     () => containerEl?.querySelector(".leftPane") as HTMLDivElement
   );
 
-  const [leftDrawerDesktopWidth, setLeftDrawerDesktopWidth] =
-    useReactiveLocalStorage(StorageKeys.LEFT_DRAWER_WIDTH, 330);
+  const [leftDrawerDesktopWidth, setLeftDrawerDesktopWidth] = useLocalStorage(
+    StorageKeys.LEFT_DRAWER_WIDTH,
+    330
+  );
 
   let startLeftDrawerX = 0;
   let startLeftDrawerWidth = 0;

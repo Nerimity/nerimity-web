@@ -33,7 +33,7 @@ import { AddServerModal } from "./add-server-modal/AddServerModal";
 import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { useResizeObserver } from "@/common/useResizeObserver";
-import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
+import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -46,10 +46,7 @@ export default function SidePane() {
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
 
-  const [width, setWidth] = useReactiveLocalStorage(
-    StorageKeys.SIDEBAR_WIDTH,
-    65
-  );
+  const [width, setWidth] = useLocalStorage(StorageKeys.SIDEBAR_WIDTH, 65);
 
   const showAddServerModal = () => {
     createPortal?.((close) => <AddServerModal close={close} />);

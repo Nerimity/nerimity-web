@@ -10,7 +10,7 @@ import { css, styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
 import {
   StorageKeys,
-  useReactiveLocalStorage,
+  useLocalStorage,
   useVoiceInputMode,
 } from "@/common/localStorage";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
@@ -59,9 +59,10 @@ export default function CallSettings() {
 
 function InputDevices() {
   const [devices, setDevices] = createSignal<MediaDeviceInfo[]>([]);
-  const [inputDeviceId, setInputDeviceId] = useReactiveLocalStorage<
-    string | undefined
-  >(StorageKeys.inputDeviceId, undefined);
+  const [inputDeviceId, setInputDeviceId] = useLocalStorage<string | undefined>(
+    StorageKeys.inputDeviceId,
+    undefined
+  );
 
   const dropDownItem = () => {
     return devices().map((d) => ({
@@ -92,7 +93,7 @@ function InputDevices() {
 
 function OutputDevices() {
   const [devices, setDevices] = createSignal<MediaDeviceInfo[]>([]);
-  const [outputDeviceId, setOutputDeviceId] = useReactiveLocalStorage<
+  const [outputDeviceId, setOutputDeviceId] = useLocalStorage<
     string | undefined
   >(StorageKeys.outputDeviceId, undefined);
 
@@ -169,7 +170,7 @@ function InputMode() {
 function PushToTalk() {
   const [inputMode] = useVoiceInputMode();
   const [bindMode, setBindMode] = createSignal(false);
-  const [PTTBoundKeys, setPTTBoundKeys] = useReactiveLocalStorage(
+  const [PTTBoundKeys, setPTTBoundKeys] = useLocalStorage(
     StorageKeys.PTTBoundKeys,
     [] as (string | number)[]
   );

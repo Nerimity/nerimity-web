@@ -78,7 +78,7 @@ export function removeStorage(key: StorageKeys) {
   localStorage.removeItem(key);
 }
 
-export function useReactiveLocalStorage<T>(key: StorageKeys, defaultValue: T) {
+export function useLocalStorage<T>(key: StorageKeys, defaultValue: T) {
   const [value, setValue] = createSignal<T>(defaultValue);
 
   const storedValue = getStorageObject<T>(key, defaultValue);
@@ -92,8 +92,10 @@ export function useReactiveLocalStorage<T>(key: StorageKeys, defaultValue: T) {
   return [value, setCustomValue] as const;
 }
 
-const voiceInputMode = useReactiveLocalStorage<
-  "OPEN" | "VOICE_ACTIVITY" | "PTT"
->(StorageKeys.voiceInputMode, "VOICE_ACTIVITY");
+type VoiceInputMode = "OPEN" | "VOICE_ACTIVITY" | "PTT";
+const voiceInputMode = useLocalStorage<VoiceInputMode>(
+  StorageKeys.voiceInputMode,
+  "VOICE_ACTIVITY"
+);
 
 export const useVoiceInputMode = () => voiceInputMode;

@@ -1,7 +1,7 @@
 import { createStore } from "solid-js/store";
 import env from "./env";
 import { createSignal } from "solid-js";
-import { StorageKeys, useReactiveLocalStorage } from "./localStorage";
+import { StorageKeys, useLocalStorage } from "./localStorage";
 
 const [windowProperties, setWindowProperties] = createStore({
   width: window.innerWidth,
@@ -31,7 +31,7 @@ const isFirefox = navigator.userAgent.includes("Firefox");
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 const isChrome = /^((?!chrome|android).)*chrome/i.test(navigator.userAgent);
 
-const [blurEffectEnabled, setBlurEffectEnabled] = useReactiveLocalStorage(
+const [blurEffectEnabled, setBlurEffectEnabled] = useLocalStorage(
   StorageKeys.BLUR_EFFECT_ENABLED,
   isChrome
 );

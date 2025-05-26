@@ -96,7 +96,7 @@ import Text from "@/components/ui/Text";
 import Checkbox from "@/components/ui/Checkbox";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { css } from "solid-styled-components";
-import { StorageKeys, useReactiveLocalStorage } from "@/common/localStorage";
+import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 import {
   inviteLinkRegex,
   youtubeLinkRegex,
@@ -481,7 +481,11 @@ const MessageItem = (props: MessageItemProps) => {
                     onClick={showProfileFlyout}
                     onContextMenu={props.userContextMenu}
                     href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
-                    class={classNames(styles.avatar, "avatar", "trigger-profile-flyout")}
+                    class={classNames(
+                      styles.avatar,
+                      "avatar",
+                      "trigger-profile-flyout"
+                    )}
                   >
                     <Avatar
                       animate={hovered()}
@@ -1346,7 +1350,7 @@ export function OGEmbed(props: {
     props.message.content?.match(twitterStatusLinkRegex);
 
   const showDetailedTwitterEmbed = () => {
-    const [useTwitterEmbed, setUseTwitterEmbed] = useReactiveLocalStorage(
+    const [useTwitterEmbed, setUseTwitterEmbed] = useLocalStorage(
       StorageKeys.USE_TWITTER_EMBED,
       false
     );
