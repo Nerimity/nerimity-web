@@ -365,7 +365,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                 ? hideLeftDrawer()
                   ? "70px"
                   : leftDrawerResizeBar.width() + "px"
-                : "65px",
+                : "initial",
               display: "flex",
               "flex-shrink": 0,
               position: "relative",
@@ -384,7 +384,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                 >
                   {LeftDrawer()}
                 </div>
-                <leftDrawerResizeBar.Handle right={2} />
+                <Show when={!hideLeftDrawer()}>
+                  <leftDrawerResizeBar.Handle right={2} />
+                </Show>
               </>
             )}
           </div>
@@ -417,7 +419,9 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               position: "relative",
             }}
           >
-            <rightDrawerResizeBar.Handle left={2} />
+            <Show when={!hideRightDrawer()}>
+              <rightDrawerResizeBar.Handle left={2} />
+            </Show>
 
             <div
               class={styles.rightPane}
