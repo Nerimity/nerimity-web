@@ -32,8 +32,8 @@ import { Tooltip } from "../ui/Tooltip";
 import { AddServerModal } from "./add-server-modal/AddServerModal";
 import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
-import { useResizeObserver } from "@/common/useResizeObserver";
-import { StorageKeys, useLocalStorage } from "@/common/localStorage";
+import { StorageKeys } from "@/common/localStorage";
+import { useResizeBar } from "../ui/ResizeBar";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -46,67 +46,49 @@ export default function SidePane() {
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
 
-  const [width, setWidth] = useLocalStorage(StorageKeys.SIDEBAR_WIDTH, 65);
-
   const showAddServerModal = () => {
     createPortal?.((close) => <AddServerModal close={close} />);
   };
 
-  const resizeObserver = useResizeObserver(() => containerEl);
-
-  let startX = 0;
-  let startWidth = 0;
-  const onResizeMove = (event: MouseEvent) => {
-    const newWidth = startWidth + (event.clientX - startX);
-    if (newWidth < 0) return; // Minimum width
-    if (newWidth >= 400) return; // Maximum width
-    if (containerEl) {
-      setWidth(newWidth);
-    }
-  };
-
-  const onResizeUp = () => {
-    document.removeEventListener("mousemove", onResizeMove);
-    document.removeEventListener("mouseup", onResizeUp);
-  };
-  const onResizeDown = (event: MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    startWidth = resizeObserver.width();
-    startX = event.clientX;
-    document.addEventListener("mousemove", onResizeMove);
-    document.addEventListener("mouseup", onResizeUp);
-  };
+  const resizeBar = useResizeBar({
+    storageKey: StorageKeys.SIDEBAR_WIDTH,
+    defaultWidth: 65,
+    minWidth: 40,
+    maxWidth: 65,
+    element: () => containerEl,
+  });
 
   return (
     <div
       ref={containerEl}
       class={cn(styles.sidePane, isMobileWidth() ? styles.mobile : undefined)}
-      style={isMobileWidth() ? { width: "65px" } : { width: `${width()}px` }}
+      style={
+        isMobileWidth()
+          ? { width: "65px" }
+          : { width: `${resizeBar.width()}px` }
+      }
     >
       <Show when={!isMobileWidth()}>
-        <HomeItem size={resizeObserver.width()} />
+        <HomeItem size={resizeBar.width()} />
       </Show>
       <div class={styles.scrollable}>
-        <ServerList size={resizeObserver.width()} />
+        <ServerList size={resizeBar.width()} />
         <Tooltip tooltip="Add Server">
           <SidebarItemContainer onClick={showAddServerModal}>
             <Icon
               name="add_box"
-              size={resizeObserver.width() - resizeObserver.width() * 0.378}
+              size={resizeBar.width() - resizeBar.width() * 0.378}
             />
           </SidebarItemContainer>
         </Tooltip>
       </div>
-      <UpdateItem size={resizeObserver.width()} />
+      <UpdateItem size={resizeBar.width()} />
       <Show when={!isMobileWidth()}>
-        <ModerationItem size={resizeObserver.width()} />
-        <SettingsItem size={resizeObserver.width()} />
-        <UserItem size={resizeObserver.width()} />
+        <ModerationItem size={resizeBar.width()} />
+        <SettingsItem size={resizeBar.width()} />
+        <UserItem size={resizeBar.width()} />
       </Show>
-      <Show when={!isMobileWidth()}>
-        <div class={styles.resizeHandle} onMouseDown={onResizeDown} />
-      </Show>
+      <resizeBar.Handle />
     </div>
   );
 }

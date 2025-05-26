@@ -23,6 +23,7 @@ import { GlobalEventName, useEventListen } from "@/common/GlobalEvents";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { StorageKeys, useLocalStorage } from "@/common/localStorage";
+import { useResizeBar } from "../ResizeBar";
 
 interface DrawerLayoutProps {
   LeftDrawer: any;
@@ -322,38 +323,21 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     updatePage();
   };
 
-  const leftDrawerResizeObserver = useResizeObserver(
-    () => containerEl?.querySelector(".leftPane") as HTMLDivElement
-  );
-
-  const [leftDrawerDesktopWidth, setLeftDrawerDesktopWidth] = useLocalStorage(
-    StorageKeys.LEFT_DRAWER_WIDTH,
-    330
-  );
-
-  let startLeftDrawerX = 0;
-  let startLeftDrawerWidth = 0;
-  const onLeftDrawerResizeMove = (event: MouseEvent) => {
-    const newWidth = startLeftDrawerWidth + (event.clientX - startLeftDrawerX);
-    if (newWidth < 200) return; // Minimum width
-    if (newWidth >= 400) return; // Maximum width
-    if (containerEl) {
-      setLeftDrawerDesktopWidth(newWidth);
-    }
-  };
-
-  const onLeftDrawerResizeUp = () => {
-    document.removeEventListener("mousemove", onLeftDrawerResizeMove);
-    document.removeEventListener("mouseup", onLeftDrawerResizeUp);
-  };
-  const onLeftDrawerResizeDown = (event: MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    startLeftDrawerWidth = leftDrawerResizeObserver.width();
-    startLeftDrawerX = event.clientX;
-    document.addEventListener("mousemove", onLeftDrawerResizeMove);
-    document.addEventListener("mouseup", onLeftDrawerResizeUp);
-  };
+  const leftDrawerResizeBar = useResizeBar({
+    storageKey: StorageKeys.LEFT_DRAWER_WIDTH,
+    defaultWidth: 330,
+    minWidth: 200,
+    maxWidth: 400,
+    element: () => containerEl?.querySelector(".leftPane"),
+  });
+  const rightDrawerResizeBar = useResizeBar({
+    storageKey: StorageKeys.RIGHT_DRAWER_WIDTH,
+    defaultWidth: 300,
+    minWidth: 200,
+    maxWidth: 400,
+    element: () => containerEl?.querySelector(".outerRightPane"),
+    invert: true,
+  });
 
   return (
     <DrawerContext.Provider value={drawer}>
@@ -380,7 +364,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                 : hasLeftDrawer()
                 ? hideLeftDrawer()
                   ? "70px"
-                  : leftDrawerDesktopWidth() + "px"
+                  : leftDrawerResizeBar.width() + "px"
                 : "65px",
               display: "flex",
               "flex-shrink": 0,
@@ -389,23 +373,20 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
           >
             <SidePane />
             {hasLeftDrawer() && (
-              <div
-                class={styles.leftDrawer}
-                style={
-                  hideLeftDrawer() && !isMobileWidth()
-                    ? { display: "none" }
-                    : {}
-                }
-              >
-                {LeftDrawer()}
-              </div>
+              <>
+                <div
+                  class={styles.leftDrawer}
+                  style={
+                    hideLeftDrawer() && !isMobileWidth()
+                      ? { display: "none" }
+                      : {}
+                  }
+                >
+                  {LeftDrawer()}
+                </div>
+                <leftDrawerResizeBar.Handle right={2} />
+              </>
             )}
-            <Show when={!isMobileWidth()}>
-              <div
-                class={styles.resizeHandle}
-                onMouseDown={onLeftDrawerResizeDown}
-              />
-            </Show>
           </div>
           <div
             class={styles.content}
@@ -422,18 +403,22 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             <props.Content />
           </div>
           <div
+            class={"outerRightPane"}
             style={{
               width: isMobileWidth()
                 ? rightDrawerWidth() + "px"
                 : hasRightDrawer()
                 ? hideRightDrawer()
                   ? "6px"
-                  : "300px"
+                  : rightDrawerResizeBar.width() + "px"
                 : "0",
               display: "flex",
               "flex-shrink": 0,
+              position: "relative",
             }}
           >
+            <rightDrawerResizeBar.Handle left={2} />
+
             <div
               class={styles.rightPane}
               style={

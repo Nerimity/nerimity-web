@@ -1,33 +1,36 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal } from "solid-js";
 
-export enum StorageKeys {
-  USER_TOKEN = "userToken",
-  SEEN_APP_VERSION = "seenAppVersion",
-  INBOX_DRAWER_SELECTED_INDEX = "inboxDrawerSelectedIndex",
-  APP_LANGUAGE = "appLanguage",
-  FIRST_TIME = "firstTime", // After registering, this is set to true.
-  ARE_NOTIFICATIONS_MUTED = "areNotificationsMuted",
-  IN_APP_NOTIFICATIONS_PREVIEW = "inAppNotificationsPreview",
-  NOTIFICATION_VOLUME = "notificationVolume",
-  ENABLE_DESKTOP_NOTIFICATION = "enableDesktopNotification",
-  LAST_SELECTED_SERVER_CHANNELS = "lastSelectedServerChannels",
-  LAST_SEEN_CHANNEL_NOTICES = "lastSeenChannelNotices",
-  PROGRAM_ACTIVITY_STATUS = "programActivityStatus",
-  BLUR_EFFECT_ENABLED = "blurEffectEnabled",
-  ENABLED_EXPERIMENTS = "enabledExperiments",
-  DISABLED_ADVANCED_MARKUP = "disabledAdvancedMarkup",
-  NOTIFICATION_SOUNDS = "notificationSounds",
-  CUSTOM_CSS = "customCss",
-  CUSTOM_COLORS = "customColors",
-  inputDeviceId = "inputDeviceId",
-  outputDeviceId = "outputDeviceId",
-  voiceInputMode = "voiceInputMode",
-  PTTBoundKeys = "pttBoundKeys",
-  USE_TWITTER_EMBED = "useTwitterEmbed",
-  DISCORD_USER_ID = "discordUserId",
-  SIDEBAR_WIDTH = "sidebarWidth",
-  LEFT_DRAWER_WIDTH = "leftDrawerWidth",
-}
+export const StorageKeys = {
+  USER_TOKEN: "userToken",
+  SEEN_APP_VERSION: "seenAppVersion",
+  INBOX_DRAWER_SELECTED_INDEX: "inboxDrawerSelectedIndex",
+  APP_LANGUAGE: "appLanguage",
+  FIRST_TIME: "firstTime", // After registering, this is set to true.
+  ARE_NOTIFICATIONS_MUTED: "areNotificationsMuted",
+  IN_APP_NOTIFICATIONS_PREVIEW: "inAppNotificationsPreview",
+  NOTIFICATION_VOLUME: "notificationVolume",
+  ENABLE_DESKTOP_NOTIFICATION: "enableDesktopNotification",
+  LAST_SELECTED_SERVER_CHANNELS: "lastSelectedServerChannels",
+  LAST_SEEN_CHANNEL_NOTICES: "lastSeenChannelNotices",
+  PROGRAM_ACTIVITY_STATUS: "programActivityStatus",
+  BLUR_EFFECT_ENABLED: "blurEffectEnabled",
+  ENABLED_EXPERIMENTS: "enabledExperiments",
+  DISABLED_ADVANCED_MARKUP: "disabledAdvancedMarkup",
+  NOTIFICATION_SOUNDS: "notificationSounds",
+  CUSTOM_CSS: "customCss",
+  CUSTOM_COLORS: "customColors",
+  inputDeviceId: "inputDeviceId",
+  outputDeviceId: "outputDeviceId",
+  voiceInputMode: "voiceInputMode",
+  PTTBoundKeys: "pttBoundKeys",
+  USE_TWITTER_EMBED: "useTwitterEmbed",
+  DISCORD_USER_ID: "discordUserId",
+  SIDEBAR_WIDTH: "sidebarWidth",
+  LEFT_DRAWER_WIDTH: "leftDrawerWidth",
+  RIGHT_DRAWER_WIDTH: "rightDrawerWidth",
+} as const;
+
+export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];
 
 export function getStorageBoolean(
   key: StorageKeys,
