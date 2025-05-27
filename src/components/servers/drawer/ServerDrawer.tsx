@@ -41,6 +41,10 @@ import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollba
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { CreateChannelModal } from "../modals/CreateChannelModal";
 import { useExperiment } from "@/common/experiments";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { cn } from "@/common/classNames";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { useCollapsedServerCategories } from "@/common/localStorage";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
@@ -258,51 +262,6 @@ const ChannelContainer = styled(ItemContainer)`
     opacity: 0.4;
   }
 `;
-const CategoryContainer = styled(FlexColumn)`
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 0px;
-
-  margin-top: 2px;
-  margin-bottom: 2px;
-`;
-const CategoryItemContainer = styled(FlexRow)`
-  align-items: center;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: 0.2s;
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-
-  padding-left: 8px;
-
-  .label {
-    user-select: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
-    font-size: 14px;
-    font-weight: bold;
-    transition: 0.2s;
-  }
-  .expand_icon {
-    transition: 0.2s;
-  }
-
-  &.hide {
-    .expand_icon {
-      transform: rotate(180deg);
-    }
-    .label {
-      opacity: 0.6;
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-`;
 
 function CategoryItem(props: {
   channel: Channel;
@@ -313,6 +272,9 @@ function CategoryItem(props: {
   const { channels, account, serverMembers } = useStore();
   const [hovered, setHovered] = createSignal(false);
   const { createPortal } = useCustomPortal();
+
+  const [collapsedServerCategories, setCollapsedServerCategories] =
+    useCollapsedServerCategories();
 
   const member = () => serverMembers.get(params.serverId, account.user()?.id!);
   const hasModeratorPermission = () =>
@@ -326,7 +288,22 @@ function CategoryItem(props: {
   const isPrivateCategory = () =>
     !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
 
-  const [expanded, setExpanded] = createSignal(true);
+  const expanded = () => {
+    return !collapsedServerCategories().includes(props.channel.id);
+  };
+
+  const setExpanded = (value: boolean) => {
+    const newCollapsedCategories = [...collapsedServerCategories()];
+    if (value) {
+      const index = newCollapsedCategories.indexOf(props.channel.id);
+      if (index > -1) {
+        newCollapsedCategories.splice(index, 1);
+      }
+    } else {
+      newCollapsedCategories.push(props.channel.id);
+    }
+    setCollapsedServerCategories(newCollapsedCategories);
+  };
 
   const onAddChannelClick = (event: MouseEvent) => {
     event.stopPropagation();
@@ -341,15 +318,22 @@ function CategoryItem(props: {
 
   return (
     <Show when={!isPrivateCategory() || sortedServerChannels().length}>
-      <CategoryContainer
-        onmouseenter={() => setHovered(true)}
-        onmouseleave={() => setHovered(false)}
+      <div
+        class={styles.categoryContainer}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
-        <CategoryItemContainer
-          gap={8}
+        <div
+          class={styles.categoryItemContainer}
           onClick={() => setExpanded(!expanded())}
-          classList={{ hide: !expanded() }}
+          classList={{ [styles.hide!]: !expanded() }}
         >
+          <Icon
+            size={14}
+            name="expand_more"
+            class={cn(expanded() && styles.expanded, styles.expandIcon)}
+          />
+
           <ChannelIcon
             icon={props.channel.icon}
             type={props.channel.type}
@@ -358,30 +342,23 @@ function CategoryItem(props: {
           <Show when={isPrivateCategory()}>
             <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
           </Show>
-          <div class="label">{props.channel.name}</div>
+          <div class={styles.label}>{props.channel.name}</div>
 
           <div class={styles.categoryButtons}>
             <Show when={hasModeratorPermission()}>
-              <Button
-                class={styles.addChannelButton}
-                padding={4}
-                margin={0}
-                iconName="add"
-                iconSize={16}
-                onClick={onAddChannelClick}
-              />
+              <Tooltip tooltip="Add Channel">
+                <Button
+                  class={styles.addChannelButton}
+                  padding={4}
+                  margin={0}
+                  iconName="add"
+                  iconSize={16}
+                  onClick={onAddChannelClick}
+                />
+              </Tooltip>
             </Show>
-
-            <Button
-              iconClass="expand_icon"
-              padding={4}
-              class={styles.expandCategoryButton}
-              margin={0}
-              iconName="expand_more"
-              iconSize={16}
-            />
           </div>
-        </CategoryItemContainer>
+        </div>
 
         <Show when={sortedServerChannels().length}>
           <div class={styles.categoryChannelList}>
@@ -399,7 +376,7 @@ function CategoryItem(props: {
             </For>
           </div>
         </Show>
-      </CategoryContainer>
+      </div>
     </Show>
   );
 }

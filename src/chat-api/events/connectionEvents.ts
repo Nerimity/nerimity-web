@@ -6,7 +6,11 @@ import useAccount from "../store/useAccount";
 import useStore from "../store/useStore";
 import { AuthenticatedPayload } from "./connectionEventTypes";
 import useVoiceUsers from "../store/useVoiceUsers";
-import { StorageKeys, getStorageObject } from "@/common/localStorage";
+import {
+  StorageKeys,
+  getStorageObject,
+  useCollapsedServerCategories,
+} from "@/common/localStorage";
 import { ProgramWithExtras, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
 import { isExperimentEnabled, useExperiment } from "@/common/experiments";
@@ -234,4 +238,12 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
   electronWindowAPI()?.restartRPCServer();
   localRPC.start();
   useDiscordActivityTracker().restart();
+
+  const [collapsedCategories, setCollapsedServerCategories] =
+    useCollapsedServerCategories();
+  const newCollapsedCategories = [...collapsedCategories()].filter((id) => {
+    const exists = channels.get(id);
+    return exists;
+  });
+  setCollapsedServerCategories(newCollapsedCategories);
 };

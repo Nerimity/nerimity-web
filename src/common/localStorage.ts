@@ -28,6 +28,7 @@ export const StorageKeys = {
   SIDEBAR_WIDTH: "sidebarWidth",
   LEFT_DRAWER_WIDTH: "leftDrawerWidth",
   RIGHT_DRAWER_WIDTH: "rightDrawerWidth",
+  COLLAPSED_SERVER_CATEGORIES: "collapsedServerCategories",
 } as const;
 
 export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];
@@ -100,5 +101,12 @@ const voiceInputMode = useLocalStorage<VoiceInputMode>(
   StorageKeys.voiceInputMode,
   "VOICE_ACTIVITY"
 );
+
+const collapsedServerCategories = useLocalStorage<string[]>(
+  StorageKeys.COLLAPSED_SERVER_CATEGORIES,
+  []
+);
+
+export const useCollapsedServerCategories = () => collapsedServerCategories;
 
 export const useVoiceInputMode = () => voiceInputMode;

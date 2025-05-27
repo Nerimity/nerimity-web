@@ -1,4 +1,3 @@
-
 .serverDrawer {
   display: flex;
   flex-direction: column;
@@ -21,31 +20,69 @@
 
 .categoryChannelList {
   display: flex;
-  overflow: auto;
   flex-direction: column;
+
   gap: 2px;
 }
 
-.welcomeItemContainer {
-  padding-bottom: 6px;
-  margin: 6px;
-  margin-top: 0;
-  margin-bottom: 3px;
-  border-bottom: solid 1px rgba(255,255,255,0.1);
+.categoryItemContainer {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    .categoryButtons {
+      display: flex;
+    }
+  }
+
+  &.hide {
+    .expand_icon {
+      transform: rotate(180deg);
+    }
+    .label {
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .label {
+    overflow: hidden;
+    flex: 1;
+    margin-left: 8px;
+    user-select: none;
+    transition: 0.2s;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .expand_icon {
+    transition: 0.2s;
+  }
 }
-.membersItemContainer {
-  margin: 6px;
-  margin-top: 0;
-  margin-bottom: 3px;
+
+:global .mobileAgent {
+  :local {
+    .categoryItemContainer {
+      .categoryButtons {
+        display: flex;
+      }
+    }
+  }
 }
 
 .categoryButtons {
-  display: flex;
+  display: none;
   margin: 6px;
+  margin-right: 0;
   button {
     border-radius: 4px;
   }
-  
+
   button:nth-child(2) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -55,5 +92,55 @@
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+}
+
+.welcomeItemContainer {
+  padding-bottom: 6px;
+  margin: 6px;
+  margin-top: 0;
+  margin-bottom: 3px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+}
+.membersItemContainer {
+  margin: 6px;
+  margin-top: 0;
+  margin-bottom: 3px;
+}
+
+.categoryContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  padding-top: 6px;
+
+  margin-top: 2px;
+  margin-bottom: 2px;
+
+
+  border-top: solid 1px rgba(255, 255, 255, 0.1);
+
+  &:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+  .categoryChannelList {
+    a:last-child {
+      margin-bottom: 8px;
+    }
+    a:first-child {
+      margin-top: 4px;
+    }
+  }
+}
+
+.expandIcon {
+  margin-left: -4px;
+  opacity: 0.6;
+  transition: 0.2s;
+  transform: rotate(180deg);
+  &.expanded {
+    opacity: 1;
+    transform: rotate(0deg);
   }
 }
