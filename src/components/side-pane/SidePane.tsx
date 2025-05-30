@@ -34,6 +34,8 @@ import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { StorageKeys } from "@/common/localStorage";
 import { useResizeBar } from "../ui/ResizeBar";
+import Sortable from "solid-sortablejs";
+import { NestedDraggable } from "../ui/NestedDraggable";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -380,14 +382,28 @@ function ServerItem(props: {
   );
 }
 
+const [folder, setFolder] = createSignal<
+  { id: string; name: string; serverIds: string[] }[]
+>([]);
+
 const ServerList = (props: { size: number }) => {
   const { servers, account } = useStore();
+
   const [contextPosition, setContextPosition] = createSignal<
     { x: number; y: number } | undefined
   >();
+
   const [contextServerId, setContextServerId] = createSignal<
     string | undefined
   >();
+
+  const [orderedServers, setOrderedServers] = createSignal<Server[]>([]);
+
+  createEffect(() => {
+    setOrderedServers(servers.orderedArray());
+  });
+
+  const serverAndFolders = () => {};
 
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
@@ -395,8 +411,8 @@ const ServerList = (props: { size: number }) => {
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
 
-  const onDrop = (servers: Server[]) => {
-    const serverIds = servers.map((server) => server.id);
+  const onDrop = () => {
+    const serverIds = orderedServers().map((server) => server.id);
     updateServerOrder(serverIds);
   };
 
@@ -411,11 +427,15 @@ const ServerList = (props: { size: number }) => {
         when={account.lastAuthenticatedAt()}
         fallback={<ServerListSkeleton size={props.size} />}
       >
-        <Draggable
-          onStart={() => setContextPosition(undefined)}
-          class={styles.serverList}
-          onDrop={onDrop}
-          items={servers.orderedArray()}
+        <NestedDraggable
+          items={orderedServers()}
+          hoverItem={() => {
+            return <div style={{ "aspect-ratio": "1/0.768" }}>test</div>;
+          }}
+          setItems={(items) => {
+            const serverIds = items.map((server) => server.id);
+            updateServerOrder(serverIds);
+          }}
         >
           {(server) => (
             <ServerItem
@@ -424,11 +444,26 @@ const ServerList = (props: { size: number }) => {
               onContextMenu={(e) => onContextMenu(e, server!.id)}
             />
           )}
-        </Draggable>
+        </NestedDraggable>
       </Show>
     </div>
   );
 };
+// <Draggable
+
+//   onStart={() => setContextPosition(undefined)}
+//   class={styles.serverList}
+//   onDrop={onDrop}
+//   items={servers.orderedArray()}
+// >
+//   {(server) => (
+//     <ServerItem
+//       server={server!}
+//       size={props.size}
+//       onContextMenu={(e) => onContextMenu(e, server!.id)}
+//     />
+//   )}
+// </Draggable>
 
 const ServerListSkeleton = (props: { size: number }) => {
   return (
