@@ -30,6 +30,7 @@ interface NestedDraggableProps<T> {
 }
 
 export function NestedDraggable<T>(props: NestedDraggableProps<T>) {
+  let ghostEl: HTMLDivElement | null = null;
   const parentContext = useContext(DraggableContext);
 
   const [draggingItemIndex, setDraggingItemIndex] = createSignal<number | null>(
@@ -48,7 +49,15 @@ export function NestedDraggable<T>(props: NestedDraggableProps<T>) {
     return Element;
   });
 
+  const handleDragOver = (event: DragEvent) => {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move'; 
+    }
+  }
+
   const handleDragMove = (event: DragEvent) => {
+
     const itemEl = document
       .elementFromPoint(event.clientX, event.clientY)
       ?.closest("." + style.item) as HTMLDivElement;
@@ -96,9 +105,32 @@ export function NestedDraggable<T>(props: NestedDraggableProps<T>) {
     const target = event.currentTarget as HTMLDivElement;
     const itemIndex = parseInt(target.dataset.index!);
     setDraggingItemIndex(itemIndex);
+
+
+    const rect = target.getBoundingClientRect();
+
+
+
+    ghostEl = target.cloneNode(true) as HTMLDivElement;
+    ghostEl.classList.add('dragging');
+    ghostEl.style.width = rect.width + "px";    
+    
+
+    document.body.appendChild(ghostEl);
+
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+  
+      event.dataTransfer?.setDragImage(
+        ghostEl,
+        event.clientX - rect.left,
+        event.clientY - rect.top
+      );
+    }
   };
 
   const handleDocDragEnd = () => {
+    ghostEl?.remove();
     const newItems = [...props.items];
     const draggingItemIndexValue = draggingItemIndex();
     const dropZoneIndexValue = dropZoneIndex();
@@ -149,6 +181,8 @@ export function NestedDraggable<T>(props: NestedDraggableProps<T>) {
               <div
                 data-drop-index={i()}
                 class={style.dropZone}
+                ondragover={handleDragOver}
+
                 classList={{
                   [style.show!]:
                     dropZoneIndex() === i() &&
@@ -167,6 +201,7 @@ export function NestedDraggable<T>(props: NestedDraggableProps<T>) {
                 draggable="true"
                 onDragStart={handleDragStart}
                 onDrag={handleDragMove}
+                ondragover={handleDragOver}
               >
                 <Show
                   when={
@@ -176,6 +211,8 @@ export function NestedDraggable<T>(props: NestedDraggableProps<T>) {
                   {hoveredItem()}
                 </Show>
                 <div
+                ondragover={handleDragOver}
+
                   style={{
                     display:
                       hoveredItem() &&

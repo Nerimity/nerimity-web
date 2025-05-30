@@ -2,9 +2,13 @@
   user-select: none;
   &.dragging {
     opacity: 0.2;
+    cursor: move !important;
+
   }
   * {
     user-select: none !important;
+  }
+  &:active {
   }
 }
 .container {
