@@ -4,7 +4,7 @@ import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { classNames, cn } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import { createEffect, createSignal, on, Show } from "solid-js";
+import { createEffect, createSignal, For, on, Show } from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useMatch } from "solid-navigator";
 import { FriendStatus } from "../../chat-api/RawData";
@@ -41,6 +41,10 @@ const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
   justify-content: center;
   aspect-ratio: 1/0.768;
+`;
+const SidebarItemFolderContainer = styled(ItemContainer)`
+  aspect-ratio: 1/0.768;
+  align-items: start;
 `;
 
 export default function SidePane() {
@@ -343,6 +347,20 @@ const UserItem = (props: { size: number }) => {
   );
 };
 
+interface ServerFolder {
+  id: string;
+  name: string;
+  serverIds: string[];
+}
+
+const [folder, setFolder] = createSignal<ServerFolder[]>([
+  {
+    id: "1",
+    name: "Folder 1",
+    serverIds: ["1473046991977226240", "1473280019831889920"],
+  },
+]);
+
 function ServerItem(props: {
   server: Server;
   onContextMenu?: (e: MouseEvent) => void;
@@ -360,6 +378,7 @@ function ServerItem(props: {
           id,
           getLastSelectedChannelId(id, defaultChannelId)
         )}
+        draggable="true"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onContextMenu={props.onContextMenu}
@@ -382,9 +401,50 @@ function ServerItem(props: {
   );
 }
 
-const [folder, setFolder] = createSignal<
-  { id: string; name: string; serverIds: string[] }[]
->([]);
+function ServerFolderItem(props: {
+  opened?: boolean;
+  folder: ServerFolder;
+  size: number;
+}) {
+  const store = useStore();
+
+  const servers = () => {
+    return props.folder.serverIds
+      .map((id) => store.servers.get(id) as Server)
+      .filter(Boolean);
+  };
+
+  return (
+    <Tooltip tooltip={props.folder.name}>
+      <SidebarItemFolderContainer draggable="true" class="root-server">
+        <For each={servers()}>
+          {(server) => (
+            <Avatar
+              resize={128}
+              size={props.size - props.size * 0.8}
+              server={server}
+            />
+          )}
+        </For>
+      </SidebarItemFolderContainer>
+      <Show when={props.opened}>
+        <div style={{ background: "gray" }}>
+          <NestedDraggable
+            handleClass="nest-server"
+            items={servers()}
+            setItems={() => {}}
+          >
+            {(server) => (
+              <div class="nest-server">
+                <ServerItem server={server} size={props.size} />
+              </div>
+            )}
+          </NestedDraggable>
+        </div>
+      </Show>
+    </Tooltip>
+  );
+}
 
 const ServerList = (props: { size: number }) => {
   const { servers, account } = useStore();
@@ -397,13 +457,14 @@ const ServerList = (props: { size: number }) => {
     string | undefined
   >();
 
-  const [orderedServers, setOrderedServers] = createSignal<Server[]>([]);
+  const serverAndFolders = () => {
+    return [
+      ...folder().map((f) => ({ ...f, type: "folder" })),
+      ...servers.orderedArray().map((s) => ({ ...s, type: "server" })),
+    ];
+  };
 
-  createEffect(() => {
-    setOrderedServers(servers.orderedArray());
-  });
-
-  const serverAndFolders = () => {};
+  type ServerAndFolder = ReturnType<typeof serverAndFolders>[number];
 
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
@@ -411,9 +472,32 @@ const ServerList = (props: { size: number }) => {
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
 
-  const onDrop = () => {
-    const serverIds = orderedServers().map((server) => server.id);
+  const onDrop = (items: ServerAndFolder[]) => {
+    const serverIds = items
+      .filter((i) => i.type === "server")
+      .map((server) => server.id);
     updateServerOrder(serverIds);
+  };
+
+  const hoveredItem = (item: ServerAndFolder, hoveredItem: ServerAndFolder) => {
+    if (item.type === "folder") return;
+
+    const folder = () => {
+      if (hoveredItem.type === "folder") {
+        const hoveredFolder = hoveredItem as ServerFolder;
+        return {
+          ...hoveredFolder,
+          serverIds: [...hoveredFolder.serverIds, item.id],
+        };
+      }
+      return {
+        id: "1",
+        name: "Folder 1",
+        serverIds: [item?.id, hoveredItem?.id],
+      };
+    };
+
+    return <ServerFolderItem size={props.size} folder={folder()} />;
   };
 
   return (
@@ -428,21 +512,30 @@ const ServerList = (props: { size: number }) => {
         fallback={<ServerListSkeleton size={props.size} />}
       >
         <NestedDraggable
-          items={orderedServers()}
-          hoverItem={() => {
-            return <div style={{ "aspect-ratio": "1/0.768" }}>test</div>;
-          }}
-          setItems={(items) => {
-            const serverIds = items.map((server) => server.id);
-            updateServerOrder(serverIds);
-          }}
+          items={serverAndFolders()}
+          handleClass="root-server"
+          hoverItem={hoveredItem}
+          setItems={onDrop}
         >
           {(server) => (
-            <ServerItem
-              server={server!}
-              size={props.size}
-              onContextMenu={(e) => onContextMenu(e, server!.id)}
-            />
+            <Show
+              when={server.type === "server"}
+              fallback={
+                <ServerFolderItem
+                  folder={server as ServerFolder}
+                  opened
+                  size={props.size}
+                />
+              }
+            >
+              <div class="root-server">
+                <ServerItem
+                  server={server! as Server}
+                  size={props.size}
+                  onContextMenu={(e) => onContextMenu(e, server!.id)}
+                />
+              </div>
+            </Show>
           )}
         </NestedDraggable>
       </Show>
