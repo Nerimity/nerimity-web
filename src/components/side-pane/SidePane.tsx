@@ -4,7 +4,15 @@ import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { classNames, cn } from "@/common/classNames";
 import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import { createEffect, createSignal, on, Show } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  on,
+  Setter,
+  Show,
+} from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useMatch } from "solid-navigator";
 import { FriendStatus } from "../../chat-api/RawData";
@@ -34,6 +42,8 @@ import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { StorageKeys } from "@/common/localStorage";
 import { useResizeBar } from "../ui/ResizeBar";
+import Sortable from "solid-sortablejs";
+import { useDocumentListener } from "@/common/useDocumentListener";
 
 const SidebarItemContainer = styled(ItemContainer)`
   align-items: center;
@@ -341,6 +351,13 @@ const UserItem = (props: { size: number }) => {
   );
 };
 
+const [draggingId, setDraggingId] = createSignal<string | null>(null);
+const [draggedOverId, setDraggedOverId] = createSignal<string | null>(null);
+const [draggedOverEl, setDraggedOverEl] = createSignal<HTMLElement | null>(
+  null
+);
+const [isDraggedOverItem, setIsDraggedOverItem] = createSignal(false);
+
 function ServerItem(props: {
   server: Server;
   onContextMenu?: (e: MouseEvent) => void;
@@ -380,6 +397,101 @@ function ServerItem(props: {
   );
 }
 
+interface ServerFolder {
+  id: string;
+  name: string;
+  serverIds: string[];
+}
+
+const [folders, setFolders] = createSignal<ServerFolder[]>([
+  {
+    id: "1",
+    name: "Folder 1",
+    serverIds: ["1473046991977226240", "1473280019831889920"],
+  },
+]);
+
+function ServerFolderItem(props: { folder: ServerFolder; size: number }) {
+  const [showFullList, setShowFullList] = createSignal(false);
+
+  const store = useStore();
+
+  const servers = () => {
+    const servers = props.folder.serverIds.map(
+      (id) => store.servers.get(id) as Server
+    );
+
+    return servers.filter(Boolean);
+  };
+
+  return (
+    <div>
+      <Tooltip tooltip={props.folder.name}>
+        <div
+          class={styles.folderContainer}
+          classList={{ [styles.opened!]: showFullList() }}
+          onClick={() => setShowFullList(!showFullList())}
+          onDragOver={(e) => {
+            const target = e.currentTarget;
+
+            setDraggedOverId(props.folder.id);
+            setDraggedOverEl(target);
+          }}
+          style={{
+            background:
+              draggingId() && draggedOverId() === props.folder.id
+                ? "var(--primary-color)"
+                : "",
+          }}
+          draggable="true"
+        >
+          <div
+            class={styles.folderInnerContainer}
+            style={{ width: props.size - props.size * 0.15 + "px" }}
+          >
+            <For each={servers().slice(0, 4)}>
+              {(server) => (
+                <Avatar
+                  resize={128}
+                  size={props.size - props.size * 0.63}
+                  server={server}
+                />
+              )}
+            </For>
+            <Show when={servers().length < 4}>
+              <For each={Array(4 - servers().length)}>
+                {(server) => (
+                  <div
+                    style={{
+                      width: props.size - props.size * 0.63 + "px",
+                      height: props.size - props.size * 0.63 + "px",
+                    }}
+                  />
+                )}
+              </For>
+            </Show>
+          </div>
+        </div>
+      </Tooltip>
+
+      <Show when={showFullList()}>
+        <div>
+          <Sortable
+            class={styles.folderList}
+            animation={0}
+            group="server-list"
+            idField={"id"}
+            items={servers()}
+            setItems={() => {}}
+          >
+            {(server) => <ServerItem server={server} size={props.size} />}
+          </Sortable>
+        </div>
+      </Show>
+    </div>
+  );
+}
+
 const ServerList = (props: { size: number }) => {
   const { servers, account } = useStore();
   const [contextPosition, setContextPosition] = createSignal<
@@ -395,10 +507,38 @@ const ServerList = (props: { size: number }) => {
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
 
-  const onDrop = (servers: Server[]) => {
-    const serverIds = servers.map((server) => server.id);
+  const serversAndFolders = createMemo(() => {
+    return [
+      ...folders().map((f) => ({ ...f, type: "folder" as const })),
+      ...servers.orderedArray().map((s) => ({ ...s, type: "server" as const })),
+    ];
+  });
+  type ServerOrFolder = ReturnType<typeof serversAndFolders>[number];
+
+  const onDrop = (servers: ServerOrFolder[]) => {
+    const serverIds = servers
+      .filter((e) => e.type === "server")
+      .map((server) => server.id);
     updateServerOrder(serverIds);
   };
+
+  useDocumentListener("drag", (event) => {
+    if (!draggedOverEl()) {
+      return;
+    }
+    const rect = draggedOverEl()?.getBoundingClientRect()!;
+
+    const itemTriggerHeight = rect.height / 4;
+
+    const top = rect.top;
+    const bottom = rect.bottom;
+    const isTopTriggered = event.clientY >= top + itemTriggerHeight;
+    const isBottomTriggered = event.clientY <= bottom - itemTriggerHeight;
+
+    const isItemHovered = isTopTriggered && isBottomTriggered;
+
+    setIsDraggedOverItem(isItemHovered);
+  });
 
   return (
     <div class={styles.serverListContainer}>
@@ -411,20 +551,82 @@ const ServerList = (props: { size: number }) => {
         when={account.lastAuthenticatedAt()}
         fallback={<ServerListSkeleton size={props.size} />}
       >
-        <Draggable
+        <Sortable
+          group="server-list"
           onStart={() => setContextPosition(undefined)}
           class={styles.serverList}
-          onDrop={onDrop}
-          items={servers.orderedArray()}
+          idField="id"
+          setItems={onDrop}
+          swapThreshold={0}
+          onClone={(evt) => {
+            const index = evt.oldIndex;
+            if (index === undefined) return;
+            const item = serversAndFolders()[index];
+            if (item?.type === "folder") {
+              console.log("hmm");
+              setDraggingId(null);
+              return;
+            }
+            setDraggingId(item?.id || null);
+          }}
+          onEnd={() => {
+            setDraggingId(null);
+            setDraggedOverId(null);
+            setDraggedOverEl(null);
+          }}
+          invertSwap={true}
+          animation={0}
+          items={serversAndFolders()}
         >
           {(server) => (
-            <ServerItem
-              server={server!}
-              size={props.size}
-              onContextMenu={(e) => onContextMenu(e, server!.id)}
-            />
+            <Show
+              when={server.type === "server"}
+              fallback={
+                <ServerFolderItem
+                  folder={server as ServerFolder}
+                  opened={true}
+                  size={props.size}
+                />
+              }
+            >
+              <div
+                onDragOver={(e) => {
+                  const target = e.currentTarget;
+
+                  setDraggedOverId(server.id);
+                  setDraggedOverEl(target);
+                }}
+                onDragExit={() => setDraggedOverId(null)}
+              >
+                <Show
+                  when={
+                    draggingId() &&
+                    draggedOverId() === server.id &&
+                    isDraggedOverItem() &&
+                    draggedOverId() !== draggingId()
+                  }
+                  fallback={
+                    <ServerItem
+                      server={server! as Server}
+                      size={props.size}
+                      onContextMenu={(e) => onContextMenu(e, server!.id)}
+                    />
+                  }
+                >
+                  <ServerFolderItem
+                    folder={{
+                      id: "new",
+                      name: "New Folder",
+                      serverIds: [server.id, draggingId()!],
+                    }}
+                    opened={false}
+                    size={props.size}
+                  />
+                </Show>
+              </div>
+            </Show>
           )}
-        </Draggable>
+        </Sortable>
       </Show>
     </div>
   );

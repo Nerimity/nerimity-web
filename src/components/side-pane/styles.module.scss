@@ -24,6 +24,7 @@ body .customStatusInput {
 .serverList {
   display: flex;
   flex-direction: column;
+  padding-bottom: 5px;
   margin-bottom: 5px;
   gap: 5px;
 }
@@ -144,4 +145,41 @@ body .customStatusInput {
     background-color: white;
     background-color: var(--primary-color);
   }
+}
+
+
+.folderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background-color: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: 0.2s;
+  aspect-ratio: 1/1;
+  &:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+  &.opened {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: rgba(255,255,255,0.1);
+  }
+}
+.folderInnerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  pointer-events: none;
+  gap: 4px;
+
+}
+
+.folderList {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  background-color: rgba(255,255,255,0.1);
+  gap: 4px;
 }

@@ -6,6 +6,7 @@ import {
   createSignal,
   createEffect,
   on,
+  JSX,
 } from "solid-js";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { useResizeObserver } from "@/common/useResizeObserver";
@@ -19,6 +20,7 @@ export const Tooltip = (props: {
   tooltip: JSXElement;
   anchor?: "left" | "right";
   class?: string;
+  style?: JSX.CSSProperties;
 }) => {
   const { isMobileAgent } = useWindowProperties();
   const { createPortal, closePortalById } = useCustomPortal();
@@ -71,6 +73,7 @@ export const Tooltip = (props: {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       class={classNames(styles.container, props.class)}
+      style={props.style}
     >
       {props.children}
     </div>
