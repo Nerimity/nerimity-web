@@ -408,6 +408,7 @@ const [folders, setFolders] = createSignal<ServerFolder[]>([]);
 function ServerFolderItem(props: {
   folder: ServerFolder;
   size: number;
+  ghost?: boolean;
   onContextMenu?: (e: MouseEvent, server: Server) => void;
 }) {
   const [showFullList, setShowFullList] = createSignal(false);
@@ -439,10 +440,12 @@ function ServerFolderItem(props: {
           classList={{ [styles.opened!]: showFullList() }}
           onClick={() => setShowFullList(!showFullList())}
           onPointerLeave={() => {
+            if (props.ghost) return;
             setDraggedOverId(null);
             setDraggedOverEl(null);
           }}
           onPointerMove={(e) => {
+            if (props.ghost) return;
             const target = e.currentTarget;
 
             if (props.folder.id === draggingId()) {
@@ -456,9 +459,10 @@ function ServerFolderItem(props: {
           }}
           style={{
             background:
-              isDraggedOverItem() &&
-              draggingId() &&
-              draggedOverId() === props.folder.id
+              props.ghost ||
+              (isDraggedOverItem() &&
+                draggingId() &&
+                draggedOverId() === props.folder.id)
                 ? "var(--primary-color)"
                 : "",
           }}
@@ -581,7 +585,7 @@ const ServerList = (props: { size: number }) => {
     }
     const rect = draggedOverEl()?.getBoundingClientRect()!;
 
-    const itemTriggerHeight = rect.height / 4;
+    const itemTriggerHeight = 48 / 4;
 
     const top = rect.top;
     const bottom = rect.bottom;
@@ -708,6 +712,7 @@ const ServerList = (props: { size: number }) => {
                     }
                   >
                     <ServerFolderItem
+                      ghost
                       folder={{
                         id: "new",
                         name: "New Folder",
