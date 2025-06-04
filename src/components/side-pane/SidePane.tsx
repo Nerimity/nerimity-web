@@ -1,30 +1,18 @@
-import styles from "./styles.module.scss";
+import style from "./styles.module.scss";
+import { createEffect, createSignal, on, Show } from "solid-js";
 import Icon from "@/components/ui/icon/Icon";
 import Avatar from "@/components/ui/Avatar";
 import RouterEndpoints from "../../common/RouterEndpoints";
 import { classNames, cn } from "@/common/classNames";
-import ContextMenuServer from "@/components/servers/context-menu/ContextMenuServer";
-import {
-  createEffect,
-  createMemo,
-  createSignal,
-  For,
-  on,
-  Setter,
-  Show,
-} from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useMatch } from "solid-navigator";
-import { FriendStatus, RawServerFolder } from "../../chat-api/RawData";
+import { FriendStatus } from "../../chat-api/RawData";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { userStatusDetail } from "../../common/userStatus";
-import { Server } from "../../chat-api/store/useServers";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { updateTitleAlert } from "@/common/BrowserTitle";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
-import ItemContainer from "../ui/LegacyItem";
-import { styled } from "solid-styled-components";
 import { useAppVersion } from "@/common/useAppVersion";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
@@ -32,27 +20,16 @@ import Button from "../ui/Button";
 import Text from "../ui/Text";
 import Marked from "@/components/marked/Marked";
 import { formatTimestamp } from "@/common/date";
-import {
-  createServerFolder,
-  updateServerFolder,
-  updateServerOrder,
-} from "@/chat-api/services/ServerService";
-import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
-import { Skeleton } from "../ui/skeleton/Skeleton";
+
 import { Tooltip } from "../ui/Tooltip";
 import { AddServerModal } from "./add-server-modal/AddServerModal";
 import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { StorageKeys } from "@/common/localStorage";
 import { useResizeBar } from "../ui/ResizeBar";
-import Sortable, { SortableEvent } from "solid-sortablejs";
-import { useDocumentListener } from "@/common/useDocumentListener";
-
-const SidebarItemContainer = styled(ItemContainer)`
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1/0.768;
-`;
+import { NotificationCountBadge } from "./NotificationCountBadge";
+import { SidebarItemContainer } from "./SidebarItemContainer";
+import { ServerList } from "./ServerList";
 
 export default function SidePane() {
   let containerEl: HTMLDivElement | undefined;
@@ -74,7 +51,7 @@ export default function SidePane() {
   return (
     <div
       ref={containerEl}
-      class={cn(styles.sidePane, isMobileWidth() ? styles.mobile : undefined)}
+      class={cn(style.sidePane, isMobileWidth() ? style.mobile : undefined)}
       style={
         isMobileWidth()
           ? { width: "65px" }
@@ -84,7 +61,7 @@ export default function SidePane() {
       <Show when={!isMobileWidth()}>
         <HomeItem size={resizeBar.width()} />
       </Show>
-      <div class={styles.scrollable}>
+      <div class={style.scrollable}>
         <ServerList size={resizeBar.width()} />
         <Tooltip tooltip="Add Server">
           <SidebarItemContainer onClick={showAddServerModal}>
@@ -136,26 +113,6 @@ function HomeItem(props: { size: number }) {
         </SidebarItemContainer>
       </A>
     </Tooltip>
-  );
-}
-
-function NotificationCountBadge(props: {
-  count: number | string;
-  top: number;
-  right: number;
-}) {
-  return (
-    <Show when={props.count}>
-      <div
-        class={styles.notificationCount}
-        style={{
-          top: `${props.top}px`,
-          right: `${props.right}px`,
-        }}
-      >
-        {props.count}
-      </div>
-    </Show>
   );
 }
 
@@ -305,7 +262,7 @@ const UserItem = (props: { size: number }) => {
       >
         <SidebarItemContainer
           class={classNames(
-            styles.user,
+            style.user,
             "sidePaneUser",
             "trigger-profile-flyout"
           )}
@@ -324,494 +281,30 @@ const UserItem = (props: { size: number }) => {
           )}
           {!showConnecting() && (
             <div
-              class={styles.presence}
+              class={style.presence}
               style={{ background: presenceColor() }}
             />
           )}
           {showConnecting() && (
-            <Icon name="autorenew" class={styles.connectingIcon} size={24} />
+            <Icon name="autorenew" class={style.connectingIcon} size={24} />
           )}
           {isAuthenticating() && (
             <Icon
               name="autorenew"
-              class={classNames(
-                styles.connectingIcon,
-                styles.authenticatingIcon
-              )}
+              class={classNames(style.connectingIcon, style.authenticatingIcon)}
               size={props.size - props.size * 0.6308}
             />
           )}
           {authErrorMessage() && (
             <Icon
               name="error"
-              class={styles.errorIcon}
+              class={style.errorIcon}
               size={props.size - props.size * 0.6308}
             />
           )}
         </SidebarItemContainer>
       </Tooltip>
     </>
-  );
-};
-
-const [draggingId, setDraggingId] = createSignal<string | null>(null);
-const [draggedOverId, setDraggedOverId] = createSignal<string | null>(null);
-const [draggedOverEl, setDraggedOverEl] = createSignal<HTMLElement | null>(
-  null
-);
-const [isDraggedOverItem, setIsDraggedOverItem] = createSignal(false);
-
-function ServerItem(props: {
-  server: Server;
-  onContextMenu?: (e: MouseEvent) => void;
-  size: number;
-}) {
-  const { id, defaultChannelId } = props.server;
-  const hasNotifications = () => props.server.hasNotifications();
-  const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
-  const [hovered, setHovered] = createSignal(false);
-
-  return (
-    <Tooltip tooltip={props.server.name}>
-      <A
-        href={RouterEndpoints.SERVER_MESSAGES(
-          id,
-          getLastSelectedChannelId(id, defaultChannelId)
-        )}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onContextMenu={props.onContextMenu}
-      >
-        <SidebarItemContainer
-          class={styles.serverItem}
-          alert={hasNotifications()}
-          selected={selected()}
-        >
-          <NotificationCountBadge
-            count={props.server.mentionCount()}
-            top={5}
-            right={10}
-          />
-          <Avatar
-            resize={128}
-            animate={hovered()}
-            size={props.size - props.size * 0.4}
-            server={props.server}
-          />
-        </SidebarItemContainer>
-      </A>
-    </Tooltip>
-  );
-}
-
-const [openedFolderIds, setOpenedFolderIds] = createSignal<string[]>([]);
-
-function ServerFolderItem(props: {
-  folder: RawServerFolder;
-  size: number;
-  ghost?: boolean;
-  onContextMenu?: (e: MouseEvent, server: Server) => void;
-}) {
-  const opened = () => {
-    return openedFolderIds().includes(props.folder.id);
-  };
-  const toggleOpened = () => {
-    if (opened()) {
-      setOpenedFolderIds(
-        openedFolderIds().filter((id) => id !== props.folder.id)
-      );
-      return;
-    }
-
-    if (!opened()) {
-      setOpenedFolderIds([...openedFolderIds(), props.folder.id]);
-    }
-  };
-
-  const store = useStore();
-
-  const folderServers = () => {
-    const servers = props.folder.serverIds.map(
-      (id) => store.servers.get(id) as Server
-    );
-
-    if (
-      isDraggedOverItem() &&
-      draggingId() &&
-      draggedOverId() === props.folder.id
-    ) {
-      const server = store.servers.get(draggingId()!);
-      if (server) servers.push(server);
-    }
-
-    return servers.filter(Boolean);
-  };
-
-  return (
-    <div
-      class={styles.folderOuterContainer}
-      style={{ "--folder-color": props.folder.color }}
-    >
-      <Tooltip tooltip={props.folder.name}>
-        <Show
-          when={!opened()}
-          fallback={
-            <div
-              class={styles.folderOpenedIconContainer}
-              onClick={() => toggleOpened()}
-            >
-              <Icon
-                name="folder_open"
-                color="var(--folder-color)"
-                size={props.size - props.size * 0.5}
-              />
-            </div>
-          }
-        >
-          <div
-            class={styles.folderContainer}
-            classList={{ [styles.opened!]: opened() }}
-            onClick={() => toggleOpened()}
-            onPointerLeave={() => {
-              if (props.ghost) return;
-              setDraggedOverId(null);
-              setDraggedOverEl(null);
-            }}
-            onPointerMove={(e) => {
-              if (props.ghost) return;
-              const target = e.currentTarget;
-
-              if (props.folder.id === draggingId()) {
-                setDraggedOverId(null);
-                setDraggedOverEl(null);
-                return;
-              }
-
-              setDraggedOverId(props.folder.id);
-              setDraggedOverEl(target);
-            }}
-            style={{
-              background:
-                props.ghost ||
-                (isDraggedOverItem() &&
-                  draggingId() &&
-                  draggedOverId() === props.folder.id)
-                  ? "var(--primary-color)"
-                  : "",
-            }}
-          >
-            <div
-              class={styles.folderInnerContainer}
-              style={{ width: props.size - props.size * 0.15 + "px" }}
-            >
-              <For each={folderServers().slice(0, 4)}>
-                {(server) => (
-                  <Avatar
-                    resize={128}
-                    size={props.size - props.size * 0.63}
-                    server={server}
-                  />
-                )}
-              </For>
-              <Show when={folderServers().length < 4}>
-                <For each={Array(4 - folderServers().length)}>
-                  {() => (
-                    <div
-                      style={{
-                        width: props.size - props.size * 0.63 + "px",
-                        height: props.size - props.size * 0.63 + "px",
-                      }}
-                    />
-                  )}
-                </For>
-              </Show>
-            </div>
-          </div>
-        </Show>
-      </Tooltip>
-
-      <Show when={opened()}>
-        <div>
-          <Sortable
-            class={styles.folderList}
-            animation={0}
-            group="server-list"
-            delay={300}
-            delayOnTouchOnly={true}
-            invertSwap={true}
-            swapThreshold={0.1}
-            id={`folderList-${props.folder.id}`}
-            idField={"id"}
-            items={folderServers()}
-            onEnd={(event) => {
-              if (event.from === event.to) return;
-              // when dragging a server outside of a folder.
-              const index = event.oldIndex;
-              const serverItem = folderServers()[index!];
-              if (!serverItem) return;
-
-              const newFolderItems = folderServers().filter(
-                (s) => s.id !== serverItem!.id
-              );
-
-              updateServerFolder(
-                props.folder.id,
-                newFolderItems.map((s) => s.id)
-              );
-            }}
-            setItems={(items, event) => {
-              if (event.from !== event.to) return;
-
-              // Ordering servers inside a folder.
-              updateServerFolder(
-                props.folder.id,
-                items.map((s) => s.id)
-              );
-            }}
-            forceFallback={true}
-          >
-            {(server) => (
-              <ServerItem
-                onContextMenu={(e) => props.onContextMenu?.(e, server)}
-                server={server}
-                size={props.size}
-              />
-            )}
-          </Sortable>
-        </div>
-      </Show>
-    </div>
-  );
-}
-
-const ServerList = (props: { size: number }) => {
-  const { servers, account } = useStore();
-  const [contextPosition, setContextPosition] = createSignal<
-    { x: number; y: number } | undefined
-  >();
-  const [contextServerId, setContextServerId] = createSignal<
-    string | undefined
-  >();
-
-  const onContextMenu = (event: MouseEvent, serverId: string) => {
-    event.preventDefault();
-    setContextServerId(serverId);
-    setContextPosition({ x: event.clientX, y: event.clientY });
-  };
-
-  const serversAndFolders = createMemo(() => {
-    return servers.orderedArray(true).map((s) => {
-      if (s.type === "server") {
-        const isInFolder = servers
-          .validServerFolders()
-          ?.find((f) => f.serverIds.includes(s.id));
-        if (isInFolder) {
-          return { ...s, hide: true };
-        }
-      }
-      return s;
-    });
-  });
-  type ServerOrFolder = ReturnType<typeof serversAndFolders>[number];
-
-  const draggedOverItem = () => {
-    if (isDraggedOverItem()) {
-      const isServerDragging =
-        serversAndFolders().find((s) => s.id === draggingId())?.type ===
-        "server";
-
-      const draggedOverItem = serversAndFolders().find(
-        (s) => s.id === draggedOverId()
-      );
-
-      if (isServerDragging && draggedOverItem) {
-        return draggedOverItem;
-      }
-    }
-  };
-
-  const onDrop = (servers: ServerOrFolder[], event: SortableEvent) => {
-    // is dragging over folder or out of folder
-    if (draggedOverItem()) {
-      return;
-    }
-
-    const serverIds = servers.map((item) => item.id);
-
-    const newIndex = event.newIndex!;
-    const indexToDeleteDuplicate = serverIds.findIndex(
-      (s, i) => s === serverIds[newIndex] && i !== newIndex
-    );
-
-    if (indexToDeleteDuplicate !== -1) {
-      serverIds.splice(indexToDeleteDuplicate, 1);
-    }
-    updateServerOrder(serverIds);
-  };
-
-  useDocumentListener("pointermove", (event) => {
-    if (!draggedOverEl()) {
-      return;
-    }
-    const rect = draggedOverEl()?.getBoundingClientRect()!;
-
-    const itemTriggerHeight = 48 / 4;
-
-    const top = rect.top;
-    const bottom = rect.bottom;
-    const isTopTriggered = event.clientY >= top + itemTriggerHeight;
-    const isBottomTriggered = event.clientY <= bottom - itemTriggerHeight;
-
-    const isItemHovered = isTopTriggered && isBottomTriggered;
-
-    setIsDraggedOverItem(isItemHovered);
-  });
-
-  return (
-    <div class={styles.serverListContainer}>
-      <ContextMenuServer
-        position={contextPosition()}
-        onClose={() => setContextPosition(undefined)}
-        serverId={contextServerId()}
-      />
-      <Show
-        when={account.lastAuthenticatedAt()}
-        fallback={<ServerListSkeleton size={props.size} />}
-      >
-        <Sortable
-          group="server-list"
-          onStart={() => setContextPosition(undefined)}
-          class={styles.serverList}
-          idField="id"
-          delay={300}
-          delayOnTouchOnly={true}
-          forceFallback={true}
-          setItems={onDrop}
-          onMove={(e) => {
-            if (e.from !== e.to) {
-              if (!draggingId()) return false;
-            }
-          }}
-          swapThreshold={0.1}
-          onClone={(evt) => {
-            const index = evt.oldIndex;
-            if (index === undefined) return;
-            const item = serversAndFolders()[index];
-            if (item?.type === "folder") {
-              setDraggingId(null);
-              return;
-            }
-            setDraggingId(item?.id || null);
-          }}
-          onEnd={(e) => {
-            // when dragging a server inside an opened folder
-            if (e.from !== e.to) {
-              const folderId = e.to.id.split("-")[1];
-
-              const folder = servers
-                .validServerFolders()
-                ?.find((f) => f.id === folderId)!;
-
-              const serverIds = [...folder.serverIds];
-
-              const newIndex = e.newIndex;
-
-              serverIds!.splice(newIndex!, 0, draggingId()!);
-
-              updateServerFolder(folder.id, serverIds);
-            }
-            if (draggedOverItem()) {
-              // when dragging a server over a server (create new folder)
-              if (draggedOverItem()?.type === "server") {
-                const serverIds = [draggedOverId()!, draggingId()!];
-                createServerFolder(serverIds);
-              }
-              // when dragging a server over a folder
-              if (draggedOverItem()?.type === "folder") {
-                const folder = draggedOverItem() as RawServerFolder;
-                const folderServerIds = [...folder.serverIds];
-                folderServerIds.push(draggingId()!);
-                updateServerFolder(folder.id, folderServerIds);
-              }
-            }
-
-            setDraggingId(null);
-            setDraggedOverId(null);
-            setDraggedOverEl(null);
-          }}
-          invertSwap={true}
-          animation={0}
-          items={serversAndFolders()}
-        >
-          {(server) => (
-            <Show when={!server.hide}>
-              <Show
-                when={server.type === "server"}
-                fallback={
-                  <ServerFolderItem
-                    folder={server as RawServerFolder}
-                    onContextMenu={(e, s) => onContextMenu(e, s.id)}
-                    size={props.size}
-                  />
-                }
-              >
-                <div
-                  onPointerMove={(e) => {
-                    const target = e.currentTarget;
-                    if (server.id === draggingId()) {
-                      setDraggedOverId(null);
-                      setDraggedOverEl(null);
-                      return;
-                    }
-
-                    setDraggedOverId(server.id);
-                    setDraggedOverEl(target);
-                  }}
-                  onPointerLeave={() => setDraggedOverId(null)}
-                >
-                  <Show
-                    when={
-                      draggingId() &&
-                      draggedOverId() === server.id &&
-                      isDraggedOverItem() &&
-                      draggedOverId() !== draggingId()
-                    }
-                    fallback={
-                      <ServerItem
-                        server={server! as Server}
-                        size={props.size}
-                        onContextMenu={(e) => onContextMenu(e, server!.id)}
-                      />
-                    }
-                  >
-                    <ServerFolderItem
-                      ghost
-                      folder={{
-                        id: "new",
-                        name: "New Folder",
-                        serverIds: [server.id, draggingId()!],
-                      }}
-                      size={props.size}
-                    />
-                  </Show>
-                </div>
-              </Show>
-            </Show>
-          )}
-        </Sortable>
-      </Show>
-    </div>
-  );
-};
-
-const ServerListSkeleton = (props: { size: number }) => {
-  return (
-    <Skeleton.List>
-      <Skeleton.Item
-        style={{ "aspect-ratio": "1/0.768" }}
-        width={props.size + "px"}
-      />
-    </Skeleton.List>
   );
 };
 

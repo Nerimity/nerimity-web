@@ -1,0 +1,64 @@
+.serverList {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+.folderOuterContainer {
+  position: relative;
+  &::before {
+    position: absolute;
+    border-radius: 6px;
+    opacity: 0.1;
+    background-color: var(--folder-color);
+
+    content: '';
+    pointer-events: none;
+    inset: 0;
+  }
+}
+
+.folderOpenedIconContainer,
+.folderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  
+
+  cursor: pointer;
+  transition: 0.2s;
+  aspect-ratio: 1/1;
+  &:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+  &.opened {
+    
+  }
+}
+
+.serverItem,
+.folderOuterContainer {
+  margin-bottom: 4px;
+}
+
+.folderInnerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  pointer-events: none;
+  gap: 4px;
+
+}
+
+.folderList {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  gap: 4px;
+  
+  .serverItem {
+    margin-bottom: 0;
+  }
+}
