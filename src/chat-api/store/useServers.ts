@@ -113,7 +113,7 @@ const array = () => Object.values(servers) as Server[];
 
 const validServerFolders = createMemo(() => {
   const account = useAccount();
-  return account.user()?.serverFolders.map((f) => {
+  return account.user()?.serverFolders?.map((f) => {
     return {
       ...f,
       serverIds: f.serverIds.filter((s) => get(s)),
