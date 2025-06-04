@@ -9,7 +9,7 @@
   &::before {
     position: absolute;
     border-radius: 6px;
-    opacity: 0.1;
+    opacity: 0.4;
     background-color: var(--folder-color);
 
     content: '';
