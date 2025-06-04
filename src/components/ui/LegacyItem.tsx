@@ -1,3 +1,4 @@
+import { JSX } from "solid-js/jsx-runtime";
 import { keyframes, styled } from "solid-styled-components";
 
 interface ItemContainer {
@@ -112,4 +113,8 @@ const ItemContainer = styled("div")<ItemContainer>`
   }
 `;
 
-export default ItemContainer;
+type ItemProps = ItemContainer & JSX.HTMLAttributes<HTMLDivElement>;
+
+export default (props: ItemProps) => {
+  return <ItemContainer {...props} data-selected={!!props.selected} />;
+};

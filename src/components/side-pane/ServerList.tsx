@@ -6,7 +6,7 @@ import {
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import { useDocumentListener } from "@/common/useDocumentListener";
-import { createMemo, createSignal, Show, For } from "solid-js";
+import { createMemo, createSignal, Show, For, createEffect } from "solid-js";
 import Sortable, { SortableEvent } from "solid-sortablejs";
 import ContextMenuServer from "../servers/context-menu/ContextMenuServer";
 import { Skeleton } from "../ui/skeleton/Skeleton";
@@ -15,7 +15,7 @@ import { RawServerFolder } from "@/chat-api/RawData";
 import { Server } from "@/chat-api/store/useServers";
 import Icon from "../ui/icon/Icon";
 import Avatar from "../ui/Avatar";
-import { A, useMatch } from "solid-navigator";
+import { A, useMatch, useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { NotificationCountBadge } from "./NotificationCountBadge";
@@ -35,6 +35,7 @@ function ServerFolderItem(props: {
   ghost?: boolean;
   onContextMenu?: (e: MouseEvent, server: Server) => void;
 }) {
+  const params = useParams<{ serverId?: string }>();
   const opened = () => {
     return openedFolderIds().includes(props.folder.id);
   };
@@ -70,6 +71,19 @@ function ServerFolderItem(props: {
     return servers.filter(Boolean);
   };
 
+  const folderSelected = () => {
+    if (!params.serverId) return false;
+    return props.folder.serverIds.includes(params.serverId);
+  };
+
+  const hasNotifications = () => {
+    return !!folderServers().find((s) => s.hasNotifications());
+  };
+  const mentionCount = createMemo(() => {
+    return folderServers()
+      .map((s) => s.mentionCount())
+      .reduce((a, b) => a + b, 0);
+  });
   return (
     <div
       class={style.folderOuterContainer}
@@ -86,13 +100,15 @@ function ServerFolderItem(props: {
               <Icon
                 name="folder_open"
                 color="var(--folder-color)"
-                size={props.size - props.size * 0.5}
+                size={props.size - props.size * 0.58}
               />
             </div>
           }
         >
           <div
             class={style.folderContainer}
+            data-alert={hasNotifications()}
+            data-selected={folderSelected()}
             classList={{ [style.opened!]: opened() }}
             onClick={() => toggleOpened()}
             onPointerLeave={() => {
@@ -123,15 +139,19 @@ function ServerFolderItem(props: {
                   : "",
             }}
           >
-            <div
-              class={style.folderInnerContainer}
-              style={{ width: props.size - props.size * 0.15 + "px" }}
-            >
+            <Show when={mentionCount()}>
+              <NotificationCountBadge
+                count={mentionCount()}
+                top={0}
+                right={0}
+              />
+            </Show>
+            <div class={style.folderInnerContainer}>
               <For each={folderServers().slice(0, 4)}>
                 {(server) => (
                   <Avatar
                     resize={128}
-                    size={props.size - props.size * 0.63}
+                    size={props.size - props.size * 0.65}
                     server={server}
                   />
                 )}
