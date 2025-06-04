@@ -1,7 +1,8 @@
 .quickTravelRoot {
   width: 600px;
-  height: 60vh;
+  height: 40vh;
   min-height: 200px;
+  padding: 0;
 }
 
 .quickTravelBody {
@@ -13,12 +14,25 @@
 
 .quickTravelInput {
   flex: 1;
+  > div {
+    border: none;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+    background-color: transparent;
+  }
+  input {
+    padding: 16px;
+  }
 }
 
 .items {
   display: flex;
   overflow: auto;
   flex-direction: column;
+  padding: 4px;
+  padding-top: 0;
+  margin-right: 7px;
+  margin-bottom: 4px;
 }
 
 .quickTravelItem {

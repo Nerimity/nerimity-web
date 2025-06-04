@@ -81,8 +81,23 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
         }));
     });
 
+    const mappedServers = createMemo(() => {
+      const servers = store.servers.array();
+
+      return servers.map((server) => ({
+        id: server.id,
+        name: server.name,
+        subText: "Server",
+        server,
+        path: RouterEndpoints.SERVER_MESSAGES(
+          server.id!,
+          server.defaultChannelId!
+        ),
+      }));
+    });
+
     createEffect(
-      on([inputValue, mappedChannels, mappedUsers], () => {
+      on([inputValue, mappedChannels, mappedUsers, mappedServers], () => {
         setSelectedIndex(0);
         const mappedSettings: SearchItem[] = settings
           .filter((s) => !s.hide)
@@ -97,7 +112,12 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
           }));
 
         const searched = matchSorter(
-          [...mappedUsers(), ...mappedChannels(), ...mappedSettings],
+          [
+            ...mappedUsers(),
+            ...mappedServers(),
+            ...mappedChannels(),
+            ...mappedSettings,
+          ],
           inputValue(),
           {
             keys: ["name"],
