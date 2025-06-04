@@ -71,6 +71,13 @@ export interface RawMessageButton {
   alert?: boolean;
 }
 
+export interface RawServerFolder {
+  id: string;
+  name: string;
+  color: string;
+  serverIds: string[];
+}
+
 export interface RawEmbed {
   title?: string;
   type?: string;

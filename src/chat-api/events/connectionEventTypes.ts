@@ -12,6 +12,7 @@ import {
   RawVoice,
   RawNotice,
   RawReminder,
+  RawServerFolder,
 } from "../RawData";
 
 export interface AuthenticatedPayload {
@@ -71,7 +72,7 @@ export interface SelfUser {
   emailConfirmed: boolean;
   connections: RawUserConnection[];
   notices: RawNotice[];
-
+  serverFolders: RawServerFolder[];
   hideFollowers: boolean;
   hideFollowing: boolean;
   reminders: RawReminder[];

@@ -111,8 +111,8 @@ importers:
         specifier: ^0.3.14
         version: 0.3.14(solid-js@1.9.5)
       solid-sortablejs:
-        specifier: ^2.1.4
-        version: 2.1.4(solid-js@1.9.5)
+        specifier: ^2.1.5
+        version: 2.1.5(solid-js@1.9.5)
       solid-styled-components:
         specifier: ^0.28.5
         version: 0.28.5(solid-js@1.9.5)
@@ -1835,8 +1835,8 @@ packages:
     peerDependencies:
       solid-js: ^1.3
 
-  solid-sortablejs@2.1.4:
-    resolution: {integrity: sha512-wLLXBA3bmlCvDzccgpN6i2N5DjzcPaEt4wd34O0W2bHQ2ZzUBxZU9zMquo4GVknOEPy3DycNzqiFJ7OO8WjPAg==}
+  solid-sortablejs@2.1.5:
+    resolution: {integrity: sha512-31Zw8ndknZJbcaZ66ov88fPJJGcNLocwM3SLioQJ555l3U0Nj0S4EgzJ4PiRueQQ3WYHRnisDMeuNhERvXCHlA==}
     engines: {node: '>=18', pnpm: '>=9.0.0'}
     peerDependencies:
       solid-js: ^1.6.0
@@ -3773,7 +3773,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  solid-sortablejs@2.1.4(solid-js@1.9.5):
+  solid-sortablejs@2.1.5(solid-js@1.9.5):
     dependencies:
       solid-js: 1.9.5
       sortablejs: 1.15.6

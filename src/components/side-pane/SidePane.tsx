@@ -15,7 +15,7 @@ import {
 } from "solid-js";
 import useStore from "../../chat-api/store/useStore";
 import { A, useLocation, useMatch } from "solid-navigator";
-import { FriendStatus } from "../../chat-api/RawData";
+import { FriendStatus, RawServerFolder } from "../../chat-api/RawData";
 import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { userStatusDetail } from "../../common/userStatus";
 import { Server } from "../../chat-api/store/useServers";
@@ -32,8 +32,11 @@ import Button from "../ui/Button";
 import Text from "../ui/Text";
 import Marked from "@/components/marked/Marked";
 import { formatTimestamp } from "@/common/date";
-import { Draggable } from "../ui/Draggable";
-import { updateServerOrder } from "@/chat-api/services/ServerService";
+import {
+  createServerFolder,
+  updateServerFolder,
+  updateServerOrder,
+} from "@/chat-api/services/ServerService";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { Tooltip } from "../ui/Tooltip";
@@ -42,7 +45,7 @@ import env from "@/common/env";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { StorageKeys } from "@/common/localStorage";
 import { useResizeBar } from "../ui/ResizeBar";
-import Sortable from "solid-sortablejs";
+import Sortable, { SortableEvent } from "solid-sortablejs";
 import { useDocumentListener } from "@/common/useDocumentListener";
 
 const SidebarItemContainer = styled(ItemContainer)`
@@ -379,7 +382,11 @@ function ServerItem(props: {
         onMouseLeave={() => setHovered(false)}
         onContextMenu={props.onContextMenu}
       >
-        <SidebarItemContainer alert={hasNotifications()} selected={selected()}>
+        <SidebarItemContainer
+          class={styles.serverItem}
+          alert={hasNotifications()}
+          selected={selected()}
+        >
           <NotificationCountBadge
             count={props.server.mentionCount()}
             top={5}
@@ -397,25 +404,33 @@ function ServerItem(props: {
   );
 }
 
-interface ServerFolder {
-  id: string;
-  name: string;
-  serverIds: string[];
-}
-
-const [folders, setFolders] = createSignal<ServerFolder[]>([]);
+const [openedFolderIds, setOpenedFolderIds] = createSignal<string[]>([]);
 
 function ServerFolderItem(props: {
-  folder: ServerFolder;
+  folder: RawServerFolder;
   size: number;
   ghost?: boolean;
   onContextMenu?: (e: MouseEvent, server: Server) => void;
 }) {
-  const [showFullList, setShowFullList] = createSignal(false);
+  const opened = () => {
+    return openedFolderIds().includes(props.folder.id);
+  };
+  const toggleOpened = () => {
+    if (opened()) {
+      setOpenedFolderIds(
+        openedFolderIds().filter((id) => id !== props.folder.id)
+      );
+      return;
+    }
+
+    if (!opened()) {
+      setOpenedFolderIds([...openedFolderIds(), props.folder.id]);
+    }
+  };
 
   const store = useStore();
 
-  const servers = () => {
+  const folderServers = () => {
     const servers = props.folder.serverIds.map(
       (id) => store.servers.get(id) as Server
     );
@@ -433,70 +448,89 @@ function ServerFolderItem(props: {
   };
 
   return (
-    <div>
+    <div
+      class={styles.folderOuterContainer}
+      style={{ "--folder-color": props.folder.color }}
+    >
       <Tooltip tooltip={props.folder.name}>
-        <div
-          class={styles.folderContainer}
-          classList={{ [styles.opened!]: showFullList() }}
-          onClick={() => setShowFullList(!showFullList())}
-          onPointerLeave={() => {
-            if (props.ghost) return;
-            setDraggedOverId(null);
-            setDraggedOverEl(null);
-          }}
-          onPointerMove={(e) => {
-            if (props.ghost) return;
-            const target = e.currentTarget;
-
-            if (props.folder.id === draggingId()) {
-              setDraggedOverId(null);
-              setDraggedOverEl(null);
-              return;
-            }
-
-            setDraggedOverId(props.folder.id);
-            setDraggedOverEl(target);
-          }}
-          style={{
-            background:
-              props.ghost ||
-              (isDraggedOverItem() &&
-                draggingId() &&
-                draggedOverId() === props.folder.id)
-                ? "var(--primary-color)"
-                : "",
-          }}
+        <Show
+          when={!opened()}
+          fallback={
+            <div
+              class={styles.folderOpenedIconContainer}
+              onClick={() => toggleOpened()}
+            >
+              <Icon
+                name="folder_open"
+                color="var(--folder-color)"
+                size={props.size - props.size * 0.5}
+              />
+            </div>
+          }
         >
           <div
-            class={styles.folderInnerContainer}
-            style={{ width: props.size - props.size * 0.15 + "px" }}
+            class={styles.folderContainer}
+            classList={{ [styles.opened!]: opened() }}
+            onClick={() => toggleOpened()}
+            onPointerLeave={() => {
+              if (props.ghost) return;
+              setDraggedOverId(null);
+              setDraggedOverEl(null);
+            }}
+            onPointerMove={(e) => {
+              if (props.ghost) return;
+              const target = e.currentTarget;
+
+              if (props.folder.id === draggingId()) {
+                setDraggedOverId(null);
+                setDraggedOverEl(null);
+                return;
+              }
+
+              setDraggedOverId(props.folder.id);
+              setDraggedOverEl(target);
+            }}
+            style={{
+              background:
+                props.ghost ||
+                (isDraggedOverItem() &&
+                  draggingId() &&
+                  draggedOverId() === props.folder.id)
+                  ? "var(--primary-color)"
+                  : "",
+            }}
           >
-            <For each={servers().slice(0, 4)}>
-              {(server) => (
-                <Avatar
-                  resize={128}
-                  size={props.size - props.size * 0.63}
-                  server={server}
-                />
-              )}
-            </For>
-            <Show when={servers().length < 4}>
-              <For each={Array(4 - servers().length)}>
+            <div
+              class={styles.folderInnerContainer}
+              style={{ width: props.size - props.size * 0.15 + "px" }}
+            >
+              <For each={folderServers().slice(0, 4)}>
                 {(server) => (
-                  <div
-                    style={{
-                      width: props.size - props.size * 0.63 + "px",
-                      height: props.size - props.size * 0.63 + "px",
-                    }}
+                  <Avatar
+                    resize={128}
+                    size={props.size - props.size * 0.63}
+                    server={server}
                   />
                 )}
               </For>
-            </Show>
+              <Show when={folderServers().length < 4}>
+                <For each={Array(4 - folderServers().length)}>
+                  {() => (
+                    <div
+                      style={{
+                        width: props.size - props.size * 0.63 + "px",
+                        height: props.size - props.size * 0.63 + "px",
+                      }}
+                    />
+                  )}
+                </For>
+              </Show>
+            </div>
           </div>
-        </div>
+        </Show>
       </Tooltip>
 
-      <Show when={showFullList()}>
+      <Show when={opened()}>
         <div>
           <Sortable
             class={styles.folderList}
@@ -504,10 +538,36 @@ function ServerFolderItem(props: {
             group="server-list"
             delay={300}
             delayOnTouchOnly={true}
+            invertSwap={true}
+            swapThreshold={0.1}
             id={`folderList-${props.folder.id}`}
             idField={"id"}
-            items={servers()}
-            setItems={() => {}}
+            items={folderServers()}
+            onEnd={(event) => {
+              if (event.from === event.to) return;
+              // when dragging a server outside of a folder.
+              const index = event.oldIndex;
+              const serverItem = folderServers()[index!];
+              if (!serverItem) return;
+
+              const newFolderItems = folderServers().filter(
+                (s) => s.id !== serverItem!.id
+              );
+
+              updateServerFolder(
+                props.folder.id,
+                newFolderItems.map((s) => s.id)
+              );
+            }}
+            setItems={(items, event) => {
+              if (event.from !== event.to) return;
+
+              // Ordering servers inside a folder.
+              updateServerFolder(
+                props.folder.id,
+                items.map((s) => s.id)
+              );
+            }}
             forceFallback={true}
           >
             {(server) => (
@@ -540,13 +600,16 @@ const ServerList = (props: { size: number }) => {
   };
 
   const serversAndFolders = createMemo(() => {
-    return servers.orderedArray().map((s) => {
-      const folder = folders().find((f) => f.serverIds[0] === s.id);
-      if (folder) {
-        return { ...folder, type: "folder" as const, hide: false };
+    return servers.orderedArray(true).map((s) => {
+      if (s.type === "server") {
+        const isInFolder = servers
+          .validServerFolders()
+          ?.find((f) => f.serverIds.includes(s.id));
+        if (isInFolder) {
+          return { ...s, hide: true };
+        }
       }
-      const isInFolder = folders().some((f) => f.serverIds.includes(s.id));
-      return { ...s, type: "server" as const, hide: isInFolder };
+      return s;
     });
   });
   type ServerOrFolder = ReturnType<typeof serversAndFolders>[number];
@@ -567,15 +630,22 @@ const ServerList = (props: { size: number }) => {
     }
   };
 
-  const onDrop = (servers: ServerOrFolder[]) => {
-    // is dragging over folder
+  const onDrop = (servers: ServerOrFolder[], event: SortableEvent) => {
+    // is dragging over folder or out of folder
     if (draggedOverItem()) {
       return;
     }
 
-    const serverIds = servers.map((server) =>
-      server.type === "folder" ? server.serverIds[0]! : server.id
+    const serverIds = servers.map((item) => item.id);
+
+    const newIndex = event.newIndex!;
+    const indexToDeleteDuplicate = serverIds.findIndex(
+      (s, i) => s === serverIds[newIndex] && i !== newIndex
     );
+
+    if (indexToDeleteDuplicate !== -1) {
+      serverIds.splice(indexToDeleteDuplicate, 1);
+    }
     updateServerOrder(serverIds);
   };
 
@@ -617,6 +687,11 @@ const ServerList = (props: { size: number }) => {
           delayOnTouchOnly={true}
           forceFallback={true}
           setItems={onDrop}
+          onMove={(e) => {
+            if (e.from !== e.to) {
+              if (!draggingId()) return false;
+            }
+          }}
           swapThreshold={0.1}
           onClone={(evt) => {
             const index = evt.oldIndex;
@@ -629,36 +704,34 @@ const ServerList = (props: { size: number }) => {
             setDraggingId(item?.id || null);
           }}
           onEnd={(e) => {
-            // when dragging a server inside a folder
+            // when dragging a server inside an opened folder
             if (e.from !== e.to) {
-              console.log(e.to);
+              const folderId = e.to.id.split("-")[1];
+
+              const folder = servers
+                .validServerFolders()
+                ?.find((f) => f.id === folderId)!;
+
+              const serverIds = [...folder.serverIds];
+
+              const newIndex = e.newIndex;
+
+              serverIds!.splice(newIndex!, 0, draggingId()!);
+
+              updateServerFolder(folder.id, serverIds);
             }
             if (draggedOverItem()) {
-              // when dragging a server over a server
+              // when dragging a server over a server (create new folder)
               if (draggedOverItem()?.type === "server") {
-                const newFolder: ServerFolder = {
-                  id: Math.random().toString(),
-                  name: "New Folder",
-                  serverIds: [draggedOverId()!, draggingId()!],
-                };
-                setFolders((folders) => [...folders, newFolder]);
+                const serverIds = [draggedOverId()!, draggingId()!];
+                createServerFolder(serverIds);
               }
               // when dragging a server over a folder
               if (draggedOverItem()?.type === "folder") {
-                const folder = draggedOverItem() as ServerFolder;
-                const newFolder: ServerFolder = {
-                  id: Math.random().toString(),
-                  name: "New Folder",
-                  serverIds: [...folder.serverIds, draggingId()!],
-                };
-                setFolders((folders) =>
-                  folders.map((f) => {
-                    if (f.id === folder.id) {
-                      return newFolder;
-                    }
-                    return f;
-                  })
-                );
+                const folder = draggedOverItem() as RawServerFolder;
+                const folderServerIds = [...folder.serverIds];
+                folderServerIds.push(draggingId()!);
+                updateServerFolder(folder.id, folderServerIds);
               }
             }
 
@@ -676,7 +749,7 @@ const ServerList = (props: { size: number }) => {
                 when={server.type === "server"}
                 fallback={
                   <ServerFolderItem
-                    folder={server as ServerFolder}
+                    folder={server as RawServerFolder}
                     onContextMenu={(e, s) => onContextMenu(e, s.id)}
                     size={props.size}
                   />

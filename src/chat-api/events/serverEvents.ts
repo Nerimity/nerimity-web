@@ -6,6 +6,7 @@ import {
   RawCustomEmoji,
   RawPresence,
   RawServer,
+  RawServerFolder,
   RawServerMember,
   RawServerRole,
   RawVoice,
@@ -171,18 +172,18 @@ export const onServerEmojiRemove = (payload: {
   });
 };
 
-
-
-
-export const onServerScheduleDelete = (payload: {serverId: string, scheduleAt: number}) => {
+export const onServerScheduleDelete = (payload: {
+  serverId: string;
+  scheduleAt: number;
+}) => {
   const servers = useServers();
   const server = servers.get(payload.serverId);
-  server?.update({scheduledForDeletion: {scheduledAt: payload.scheduleAt}});
+  server?.update({ scheduledForDeletion: { scheduledAt: payload.scheduleAt } });
 };
-export const onServerRemoveScheduleDelete = (payload: {serverId: string}) => {
+export const onServerRemoveScheduleDelete = (payload: { serverId: string }) => {
   const servers = useServers();
   const server = servers.get(payload.serverId);
-  server?.update({scheduledForDeletion: undefined});
+  server?.update({ scheduledForDeletion: undefined });
 };
 
 export const onServerUpdated = (payload: ServerUpdated) => {
@@ -194,6 +195,34 @@ export const onServerOrderUpdated = (payload: { serverIds: string[] }) => {
   const account = useAccount();
   account.setUser({
     orderedServerIds: payload.serverIds,
+  });
+};
+
+export const onServerFolderCreated = (payload: { folder: RawServerFolder }) => {
+  const account = useAccount();
+
+  const existingFolders = account.user()?.serverFolders || [];
+
+  account.setUser({
+    serverFolders: [...existingFolders, payload.folder],
+  });
+};
+export const onServerFolderUpdated = (payload: { folder: RawServerFolder }) => {
+  const account = useAccount();
+
+  const existingFolders = account.user()?.serverFolders || [];
+
+  if (payload.folder.serverIds.length === 0) {
+    account.setUser({
+      serverFolders: existingFolders.filter((f) => f.id !== payload.folder.id),
+    });
+    return;
+  }
+
+  account.setUser({
+    serverFolders: existingFolders.map((f) =>
+      f.id === payload.folder.id ? { ...f, ...payload.folder } : f
+    ),
   });
 };
 

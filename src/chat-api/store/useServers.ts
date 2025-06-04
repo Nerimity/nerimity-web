@@ -111,7 +111,17 @@ const get = (serverId: string) => servers[serverId];
 
 const array = () => Object.values(servers) as Server[];
 
-const orderedArray = () => {
+const validServerFolders = createMemo(() => {
+  const account = useAccount();
+  return account.user()?.serverFolders.map((f) => {
+    return {
+      ...f,
+      serverIds: f.serverIds.filter((s) => get(s)),
+    };
+  });
+});
+
+const orderedArray = (includeFolders = false) => {
   const account = useAccount();
   const serverIdsArray = account.user()?.orderedServerIds;
   const order: Record<string, number> = {};
@@ -119,19 +129,29 @@ const orderedArray = () => {
     order[a] = i;
   });
 
-  return array()
+  const servers = array()
     .sort((a, b) => a.createdAt - b.createdAt)
-    .sort((a, b) => {
-      const orderA = order[a.id];
-      const orderB = order[b.id];
-      if (orderA === undefined) {
-        return -1;
-      }
-      if (orderB === undefined) {
-        return 1;
-      }
-      return orderA - orderB;
-    });
+    .map((s) => ({ ...s, type: "server" as const }));
+  const folders = validServerFolders()?.map((f) => ({
+    ...f,
+    type: "folder" as const,
+  }))!;
+
+  const serversAndFolders = includeFolders
+    ? [...servers, ...(folders || [])]
+    : servers;
+
+  return serversAndFolders.sort((a, b) => {
+    const orderA = order[a.id];
+    const orderB = order[b.id];
+    if (orderA === undefined) {
+      return -1;
+    }
+    if (orderB === undefined) {
+      return 1;
+    }
+    return orderA - orderB;
+  });
 };
 
 const hasAllNotifications = () => {
@@ -196,6 +216,7 @@ export default function useServers() {
     set,
     hasNotifications: hasAllNotifications,
     orderedArray,
+    validServerFolders,
     remove,
     fetchAndStoreServerBotCommands,
   };

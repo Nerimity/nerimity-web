@@ -9,6 +9,8 @@ import {
 } from "../RawData";
 import { USER_BADGES, hasBit } from "../Bitwise";
 import { updateNotificationSettings } from "../services/UserService";
+import { createMemo } from "solid-js";
+import useServers from "./useServers";
 
 interface Account {
   user: SelfUser | null;
@@ -164,6 +166,7 @@ const removeReminder = (reminderId: string) => {
   const reminders = account.user.reminders.filter((r) => r.id !== reminderId);
   setUser({ reminders });
 };
+
 export default function useAccount() {
   return {
     user,

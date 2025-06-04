@@ -33,6 +33,8 @@ import {
   onServerEmojiAdd,
   onServerEmojiRemove,
   onServerEmojiUpdate,
+  onServerFolderCreated,
+  onServerFolderUpdated,
   onServerJoined,
   onServerLeft,
   onServerMemberJoined,
@@ -142,6 +144,10 @@ socket.on(ServerEvents.SERVER_JOINED, onServerJoined);
 socket.on(ServerEvents.SERVER_LEFT, onServerLeft);
 socket.on(ServerEvents.SERVER_UPDATED, onServerUpdated);
 socket.on(ServerEvents.SERVER_ORDER_UPDATED, onServerOrderUpdated);
+
+socket.on(ServerEvents.SERVER_FOLDER_CREATED, onServerFolderCreated);
+socket.on(ServerEvents.SERVER_FOLDER_UPDATED, onServerFolderUpdated);
+
 socket.on(ServerEvents.SERVER_ROLE_ORDER_UPDATED, onServerRoleOrderUpdated);
 socket.on(
   ServerEvents.SERVER_CHANNEL_ORDER_UPDATED,

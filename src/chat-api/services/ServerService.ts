@@ -11,6 +11,7 @@ import {
   RawServerWelcomeAnswer,
   RawServerWelcomeQuestion,
   RawUser,
+  RawServerFolder,
 } from "../RawData";
 import env from "../../common/env";
 import { uploadEmoji } from "./nerimityCDNService";
@@ -157,6 +158,28 @@ export async function updateServerOrder(
     method: "POST",
     body: { serverIds },
     url: env.SERVER_URL + "/api" + ServiceEndpoints.serverOrder(),
+    useToken: true,
+  });
+}
+export async function createServerFolder(
+  serverIds: string[]
+): Promise<RawServerFolder> {
+  return request({
+    method: "POST",
+    body: { serverIds },
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.server("folders"),
+    useToken: true,
+  });
+}
+export async function updateServerFolder(
+  folderId: string,
+  serverIds: string[]
+): Promise<RawServerFolder> {
+  return request({
+    method: "POST",
+    body: { serverIds },
+    url:
+      env.SERVER_URL + "/api" + ServiceEndpoints.server("folders/" + folderId),
     useToken: true,
   });
 }
