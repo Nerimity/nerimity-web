@@ -34,7 +34,7 @@ export type Post = RawPost & {
   cachedComments(this: Post): Post[] | undefined;
   submitReply(
     this: Post,
-    opts: { content: string; attachment?: File, poll?: { choices: string[] };  }
+    opts: { content: string; attachment?: File; poll?: { choices: string[] } }
   ): Promise<any>;
 };
 
@@ -331,9 +331,12 @@ export function usePosts() {
     return posts;
   };
 
-  const fetchDiscover = async (sort?: DiscoverSort) => {
+  const fetchDiscover = async (
+    sort?: DiscoverSort,
+    abortSignal?: AbortSignal
+  ) => {
     setState("discoverPostIds", []);
-    const posts = await getDiscoverPosts({ sort });
+    const posts = await getDiscoverPosts({ sort, abortSignal });
     posts.reverse();
 
     batch(() => {

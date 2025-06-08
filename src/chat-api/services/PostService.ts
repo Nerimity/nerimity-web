@@ -45,12 +45,14 @@ interface GetDiscoverPostsOpts {
   afterId?: string;
 
   sort?: DiscoverSort;
+  abortSignal?: AbortSignal;
 }
 
 export const getDiscoverPosts = async (opts?: GetDiscoverPostsOpts) => {
   const data = await request<RawPost[]>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.post("discover"),
+    abortSignal: opts?.abortSignal,
     params: {
       ...(opts?.sort ? { sort: opts.sort } : undefined),
       ...(opts?.limit ? { limit: opts.limit } : undefined),

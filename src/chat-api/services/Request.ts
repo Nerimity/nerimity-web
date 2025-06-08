@@ -23,6 +23,7 @@ interface RequestOpts {
   notJSON?: boolean;
   params?: Record<any, any>;
   token?: string | null;
+  abortSignal?: AbortSignal;
 }
 
 export async function request<T>(opts: RequestOpts): Promise<T> {
@@ -31,6 +32,7 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
   url.search = new URLSearchParams(opts.params || {}).toString();
 
   const response = await fetch(url, {
+    signal: opts.abortSignal,
     method: opts.method,
     body: opts.body instanceof FormData ? opts.body : JSON.stringify(opts.body),
     headers: {

@@ -928,10 +928,18 @@ export function PostsArea(props: {
     setLoading(false);
   };
 
+  let abortController: AbortController | undefined = undefined;
+
   const fetchDiscover = async () => {
+    if (abortController) abortController.abort();
+    abortController = new AbortController();
+    const sortValue = sort();
     if (!props.showDiscover) return;
     setLoading(true);
-    const newPosts = await posts.fetchDiscover(sort());
+    const newPosts = await posts.fetchDiscover(
+      sortValue,
+      abortController.signal
+    );
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
   };
