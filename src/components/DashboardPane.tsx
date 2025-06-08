@@ -109,31 +109,51 @@ export default function DashboardPane() {
   );
 }
 
+const [hiddenAnnouncementIds, setHiddenAnnouncementIds] = useLocalStorage<
+  string[]
+>("hiddenAnnouncementIds", []);
+
 const Announcements = () => {
   const [posts, setPosts] = useLocalStorage<RawPost[]>(
     "announcementsCache",
     []
   );
-  onMount(() => {
-    getAnnouncementPosts()
-      .then(setPosts)
-      .catch(() => {});
+
+  onMount(async () => {
+    const posts = await getAnnouncementPosts().catch(() => undefined);
+    if (!posts) return;
+
+    hiddenAnnouncementIds().forEach((id) => {
+      if (!posts.find((post) => post.id === id)) {
+        setHiddenAnnouncementIds(
+          hiddenAnnouncementIds().filter((id) => id !== id)
+        );
+      }
+    });
+
+    setPosts(posts);
   });
   return (
     <Show when={posts().length}>
-      <FlexColumn gap={8}>
-        <Text size={18} style={{ "margin-left": "5px" }}>
-          Announcements
-        </Text>
+      <FlexColumn
+        gap={8}
+        style={{ "margin-left": "6px", "margin-right": "6px" }}
+      >
         <FlexColumn gap={4}>
-          <For each={posts()}>{(post) => <PostItem post={post} />}</For>
+          <For each={posts()}>
+            {(post) => (
+              <Show when={!hiddenAnnouncementIds().includes(post.id)}>
+                <AnnouncementItem post={post} />
+              </Show>
+            )}
+          </For>
         </FlexColumn>
       </FlexColumn>
     </Show>
   );
 };
 
-const PostItem = (props: { post: RawPost }) => {
+const AnnouncementItem = (props: { post: RawPost }) => {
   const [, setSearchParams] = useSearchParams<{ postId: string }>();
 
   return (
@@ -162,6 +182,22 @@ const PostItem = (props: { post: RawPost }) => {
           </Text>
           <div class="markup" style={{ "font-size": "14px" }}>
             <MentionUser user={props.post.createdBy} />
+          </div>
+          <div style={{ "margin-left": "auto" }}>
+            <Button
+              onclick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setHiddenAnnouncementIds(
+                  hiddenAnnouncementIds().concat([props.post.id])
+                );
+              }}
+              iconName="close"
+              alert
+              padding={4}
+              iconSize={14}
+              margin={0}
+            />
           </div>
         </FlexRow>
         <Markup
@@ -364,10 +400,6 @@ const ActivityList = () => {
 
   return (
     <>
-      <Text size={18} style={{ "margin-left": "5px" }}>
-        {t("dashboard.activeUsers")}
-      </Text>
-
       <ActivityListContainer onwheel={onWheel} ref={activityListEl}>
         <Show when={!authenticatedInPast()}>
           <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
