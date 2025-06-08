@@ -486,7 +486,7 @@ const presenceBackgroundImageStyles = css`
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% 100%;
-  filter: blur(20px) brightness(0.6);
+  filter: blur(50px) brightness(0.6);
   z-index: -1;
   inset: -20px;
 `;
