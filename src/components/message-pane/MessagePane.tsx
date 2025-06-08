@@ -186,7 +186,6 @@ function MessagePane() {
       serverId: params.serverId!,
       channelId: params.channelId!,
       userId: userId,
-      iconName: params.serverId ? "dns" : "inbox",
       id: "MessagePane",
     });
 

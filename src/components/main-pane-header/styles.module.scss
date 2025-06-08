@@ -28,8 +28,16 @@
   user-select: none;
   transition: 0.2s;
   backdrop-filter: blur(34px);
+  .avatar {
+    position: relative;
+    z-index: 1;
+  }
+  .icon {
+    position: relative;
+    z-index: 1111111111111111111111111111111111111;
+  }
   .icon.hasAvatar {
-    left: 66px;
+    left: 70px;
   }
 }
 
@@ -62,7 +70,7 @@
   margin-right: 1px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .subTitle {

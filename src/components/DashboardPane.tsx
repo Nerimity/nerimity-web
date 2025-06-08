@@ -43,6 +43,7 @@ import { MentionUser } from "./markup/MentionUser";
 import { useCustomScrollbar } from "./custom-scrollbar/CustomScrollbar";
 import { Item } from "./ui/Item";
 import { emojiToUrl } from "@/common/emojiToUrl";
+import { useLocalStorage } from "@/common/localStorage";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -101,7 +102,6 @@ export default function DashboardPane() {
         <Show when={account.user()}>
           <Announcements />
           <ActivityList />
-          <ServerList />
           <PostsContainer />
         </Show>
       </DashboardPaneContent>
@@ -110,7 +110,10 @@ export default function DashboardPane() {
 }
 
 const Announcements = () => {
-  const [posts, setPosts] = createSignal<RawPost[]>([]);
+  const [posts, setPosts] = useLocalStorage<RawPost[]>(
+    "announcementsCache",
+    []
+  );
   onMount(() => {
     getAnnouncementPosts()
       .then(setPosts)
@@ -135,6 +138,7 @@ const PostItem = (props: { post: RawPost }) => {
 
   return (
     <FlexColumn
+      gap={6}
       onClick={() => {
         setSearchParams({ postId: props.post.id });
       }}
@@ -153,7 +157,9 @@ const PostItem = (props: { post: RawPost }) => {
     >
       <Show when={props.post.content}>
         <FlexRow itemsCenter gap={4}>
-          <Text>{formatTimestamp(props.post.createdAt)} by </Text>
+          <Text size={14} opacity={0.6}>
+            {formatTimestamp(props.post.createdAt)} by{" "}
+          </Text>
           <div class="markup" style={{ "font-size": "14px" }}>
             <MentionUser user={props.post.createdBy} />
           </div>
@@ -185,13 +191,6 @@ const NotificationCountContainer = styled(FlexRow)<{ selected: boolean }>`
     color: var(--primary-color);  
   `
       : ""}
-`;
-
-const TabStyle = css`
-  padding-left: 8px;
-  padding-right: 8px;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.04);
 `;
 
 const PostTabItem = (props: {
@@ -317,123 +316,6 @@ function PostsContainer() {
         </>
       </Delay>
     </FlexColumn>
-  );
-}
-
-function ServerList() {
-  const { servers } = useStore();
-  const [contextPosition, setContextPosition] = createSignal<
-    { x: number; y: number } | undefined
-  >();
-  const [contextServerId, setContextServerId] = createSignal<
-    string | undefined
-  >();
-
-  const onContextMenu = (event: MouseEvent, serverId: string) => {
-    event.preventDefault();
-    setContextServerId(serverId);
-    setContextPosition({ x: event.clientX, y: event.clientY });
-  };
-
-  let serverListEl: undefined | HTMLDivElement;
-  const onWheel = (event: any) => {
-    if (!serverListEl) return;
-    event.preventDefault();
-
-    serverListEl.scrollLeft -= event.wheelDelta;
-  };
-
-  return (
-    <FlexColumn>
-      <Text
-        size={18}
-        style={{
-          "margin-left": "5px",
-          "margin-bottom": "5px",
-          "margin-top": "20px",
-        }}
-      >
-        Servers
-      </Text>
-      <ServerListContainer ref={serverListEl} onwheel={onWheel}>
-        <ContextMenuServer
-          position={contextPosition()}
-          onClose={() => setContextPosition(undefined)}
-          serverId={contextServerId()}
-        />
-        <For each={servers.orderedArray()}>
-          {(server) => (
-            <ServerItem
-              server={server!}
-              onContextMenu={(e) => onContextMenu(e, server!.id)}
-            />
-          )}
-        </For>
-      </ServerListContainer>
-    </FlexColumn>
-  );
-}
-
-function ServerItem(props: {
-  server: Server;
-  onContextMenu?: (e: MouseEvent) => void;
-}) {
-  const { id, defaultChannelId } = props.server;
-  const hasNotifications = () => props.server.hasNotifications();
-  const [hovered, setHovered] = createSignal(false);
-
-  return (
-    <A
-      onmouseover={() => setHovered(true)}
-      onmouseout={() => setHovered(false)}
-      href={RouterEndpoints.SERVER_MESSAGES(id, defaultChannelId)}
-      onContextMenu={props.onContextMenu}
-    >
-      <SidebarItemContainer handlePosition="bottom" alert={hasNotifications()}>
-        <NotificationCountBadge
-          count={props.server.mentionCount()}
-          top={5}
-          right={2}
-        />
-        <Avatar animate={hovered()} server={props.server} size={35} />
-      </SidebarItemContainer>
-    </A>
-  );
-}
-
-const NotificationCountBadgeContainer = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  margin-left: 5px;
-  font-size: 0.8em;
-  background-color: var(--alert-color);
-  border-radius: 50%;
-  height: 17px;
-  width: 17px;
-  z-index: 111111111;
-`;
-
-function NotificationCountBadge(props: {
-  count: number;
-  top: number;
-  right: number;
-}) {
-  return (
-    <Show when={props.count}>
-      <NotificationCountBadgeContainer
-        style={{
-          top: `${props.top}px`,
-          right: `${props.right}px`,
-        }}
-      >
-        {props.count}
-      </NotificationCountBadgeContainer>
-    </Show>
   );
 }
 

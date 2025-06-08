@@ -29,6 +29,7 @@ export const StorageKeys = {
   LEFT_DRAWER_WIDTH: "leftDrawerWidth",
   RIGHT_DRAWER_WIDTH: "rightDrawerWidth",
   COLLAPSED_SERVER_CATEGORIES: "collapsedServerCategories",
+  ANNOUNCEMENTS_CACHE: "announcementsCache",
 } as const;
 
 export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];

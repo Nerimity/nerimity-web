@@ -160,8 +160,8 @@ export default function MainPaneHeader() {
             )}
           />
         )}
-        {server() && <Avatar animate={hovered()} size={25} server={server()} />}
-        {user() && <Avatar animate={hovered()} size={25} user={user()} />}
+        {server() && <Avatar size={28} server={server()} />}
+        {user() && <Avatar class={styles.avatar} size={28} user={user()} />}
         <div class={styles.details}>
           <div class={styles.title}>{details().title}</div>
           {details().subName && (
