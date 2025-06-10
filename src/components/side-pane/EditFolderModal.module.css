@@ -1,0 +1,28 @@
+.colorAndName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+}
+
+.folderOuter {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40px;
+  padding-top: 5px;
+  cursor: pointer;
+}
+.paletteIcon {
+  position: absolute;
+  align-self: center;
+  inset: 0;
+  justify-self: center;
+}
+.folderInner {
+  pointer-events: none;
+}

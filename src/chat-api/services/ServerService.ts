@@ -183,6 +183,18 @@ export async function updateServerFolder(
     useToken: true,
   });
 }
+export async function updateServerFolderExtra(
+  folderId: string,
+  update: { name?: string; color: string }
+): Promise<RawServerFolder> {
+  return request({
+    method: "POST",
+    body: { name: update.name, color: update.color },
+    url:
+      env.SERVER_URL + "/api" + ServiceEndpoints.server("folders/" + folderId),
+    useToken: true,
+  });
+}
 
 export async function updateServerChannelOrder(
   serverId: string,

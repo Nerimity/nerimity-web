@@ -20,6 +20,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
+import ContextMenuServerFolder from "./ContextMenuServerFolder";
 
 const [draggingId, setDraggingId] = createSignal<string | null>(null);
 const [draggedOverId, setDraggedOverId] = createSignal<string | null>(null);
@@ -29,14 +30,17 @@ const [draggedOverEl, setDraggedOverEl] = createSignal<HTMLElement | null>(
 const [isDraggedOverItem, setIsDraggedOverItem] = createSignal(false);
 const [openedFolderIds, setOpenedFolderIds] = createSignal<string[]>([]);
 
-function ServerFolderItem(props: {
+export function ServerFolderItem(props: {
   folder: RawServerFolder;
   size: number;
   ghost?: boolean;
-  onContextMenu?: (e: MouseEvent, server: Server) => void;
+  onServerContextMenu?: (e: MouseEvent, server: Server) => void;
+  onFolderContextMenu?: (e: MouseEvent, folder: RawServerFolder) => void;
+  openedWithoutList?: boolean;
 }) {
   const params = useParams<{ serverId?: string }>();
   const opened = () => {
+    if (props.openedWithoutList) return true;
     return openedFolderIds().includes(props.folder.id);
   };
   const toggleOpened = () => {
@@ -94,6 +98,9 @@ function ServerFolderItem(props: {
           when={!opened()}
           fallback={
             <div
+              onContextMenu={(e) =>
+                props.onFolderContextMenu?.(e, props.folder)
+              }
               class={style.folderOpenedIconContainer}
               onClick={() => toggleOpened()}
             >
@@ -106,6 +113,7 @@ function ServerFolderItem(props: {
           }
         >
           <div
+            onContextMenu={(e) => props.onFolderContextMenu?.(e, props.folder)}
             class={style.folderContainer}
             data-alert={hasNotifications()}
             data-selected={folderSelected()}
@@ -173,7 +181,7 @@ function ServerFolderItem(props: {
         </Show>
       </Tooltip>
 
-      <Show when={opened()}>
+      <Show when={opened() && !props.openedWithoutList}>
         <div>
           <Sortable
             class={style.folderList}
@@ -215,7 +223,7 @@ function ServerFolderItem(props: {
           >
             {(server) => (
               <ServerItem
-                onContextMenu={(e) => props.onContextMenu?.(e, server)}
+                onContextMenu={(e) => props.onServerContextMenu?.(e, server)}
                 server={server}
                 size={props.size}
               />
@@ -290,10 +298,23 @@ export const ServerList = (props: { size: number }) => {
     string | undefined
   >();
 
+  const [contextServerFolder, setContextServerFolder] = createSignal<null | {
+    position: { x: number; y: number };
+    folderId: string;
+  }>(null);
+
   const onContextMenu = (event: MouseEvent, serverId: string) => {
     event.preventDefault();
     setContextServerId(serverId);
     setContextPosition({ x: event.clientX, y: event.clientY });
+  };
+
+  const onFolderContextMenu = (event: MouseEvent, folderId: string) => {
+    event.preventDefault();
+    setContextServerFolder({
+      position: { x: event.clientX, y: event.clientY },
+      folderId,
+    });
   };
 
   const serversAndFolders = createMemo(() => {
@@ -371,6 +392,10 @@ export const ServerList = (props: { size: number }) => {
         onClose={() => setContextPosition(undefined)}
         serverId={contextServerId()}
       />
+      <ContextMenuServerFolder
+        {...contextServerFolder()}
+        onClose={() => setContextServerFolder(null)}
+      />
       <Show
         when={account.lastAuthenticatedAt()}
         fallback={<ServerListSkeleton size={props.size} />}
@@ -447,7 +472,8 @@ export const ServerList = (props: { size: number }) => {
                 fallback={
                   <ServerFolderItem
                     folder={server as RawServerFolder}
-                    onContextMenu={(e, s) => onContextMenu(e, s.id)}
+                    onServerContextMenu={(e, s) => onContextMenu(e, s.id)}
+                    onFolderContextMenu={(e, f) => onFolderContextMenu(e, f.id)}
                     size={props.size}
                   />
                 }

@@ -3,7 +3,14 @@ import styles from "./styles.module.scss";
 
 import "@melloware/coloris/dist/coloris.css";
 import Coloris, { coloris, init, updatePosition } from "@melloware/coloris";
-import { createEffect, createSignal, on, onMount } from "solid-js";
+import {
+  Accessor,
+  createEffect,
+  createSignal,
+  on,
+  onMount,
+  Show,
+} from "solid-js";
 import LegacyModal from "../legacy-modal/LegacyModal";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -11,9 +18,16 @@ import { classNames, conditionalClass } from "@/common/classNames";
 
 init();
 
+export interface ColorPickerRef {
+  openModal: () => void;
+}
+
 export function ColorPicker(props: {
   color: string | null;
   onChange?: (value: string) => void;
+  onDone?: (value: string) => void;
+  hide?: boolean;
+  ref?: ColorPickerRef | undefined;
 }) {
   const { createPortal } = useCustomPortal();
 
@@ -28,12 +42,21 @@ export function ColorPicker(props: {
 
   const onClicked = () => {
     createPortal?.((close) => (
-      <ColorPickerModal color={props.color} close={close} onChange={onChange} />
+      <ColorPickerModal
+        color={props.color}
+        close={close}
+        onChange={onChange}
+        done={props.onDone}
+      />
     ));
   };
 
+  props.ref?.({
+    openModal: onClicked,
+  });
+
   return (
-    <>
+    <Show when={!props.hide}>
       <div
         class={styles.colorPicker}
         style={{ background: props.color || "transparent" }}
@@ -41,7 +64,7 @@ export function ColorPicker(props: {
       >
         <Icon name="colorize" color="white" size={18} class={styles.icon} />
       </div>
-    </>
+    </Show>
   );
 }
 
