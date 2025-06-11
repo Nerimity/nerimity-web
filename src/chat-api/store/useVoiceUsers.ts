@@ -423,7 +423,6 @@ function createVadInstance(
           noiseCaptureDuration: 100,
           avgNoiseMultiplier: 0.1,
           maxNoiseLevel: 0.01,
-          onUpdate: console.log,
         }),
 
     onVoiceStart: function () {
