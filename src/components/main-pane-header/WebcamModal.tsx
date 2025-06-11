@@ -20,6 +20,12 @@ export function WebcamModal(props: { close: () => void }) {
   const [selectedId, setSelectedId] = createSignal<string>("default");
 
   onMount(async () => {
+    // requests for camera permission.
+    await navigator.mediaDevices
+      .getUserMedia({ audio: false, video: true })
+      .then((s) => s.getTracks().forEach((track) => track.stop()))
+      .catch(() => {});
+
     fetchDevices();
     const timeoutId = setTimeout(() => {
       fetchDevices();
@@ -40,10 +46,20 @@ export function WebcamModal(props: { close: () => void }) {
   };
 
   const shareCameraClick = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: { deviceId: selectedId(), frameRate: 60 },
-    });
+    const stream = await navigator.mediaDevices
+      .getUserMedia({
+        audio: false,
+        video: {
+          deviceId: selectedId(),
+          frameRate: 30,
+          width: 1280,
+          height: 720,
+        },
+      })
+      .catch(() => {
+        alert("Failed to share camera");
+      });
+    if (!stream) return;
     voiceUsers.setVideoStream(stream);
     props.close();
   };
