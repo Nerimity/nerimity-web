@@ -220,9 +220,13 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
       });
     }
 
+    const previousVoiceUserChannelId = voiceUsers.currentUser()?.channelId;
     for (let i = 0; i < payload.voiceChannelUsers.length; i++) {
       const voiceChannelUser = payload.voiceChannelUsers[i]!;
-      voiceUsers.createVoiceUser(voiceChannelUser);
+      voiceUsers.createVoiceUser(
+        voiceChannelUser,
+        !!previousVoiceUserChannelId
+      );
     }
   });
 
@@ -246,4 +250,10 @@ export const onAuthenticated = (payload: AuthenticatedPayload) => {
     return exists;
   });
   setCollapsedServerCategories(newCollapsedCategories);
+
+  const previousVoiceUserChannelId = voiceUsers.currentUser()?.channelId;
+
+  if (previousVoiceUserChannelId) {
+    channels.get(previousVoiceUserChannelId)?.joinCall(true);
+  }
 };

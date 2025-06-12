@@ -109,13 +109,19 @@ export function xhrRequest<T>(
             throw { message, code: xhr.status };
           }
           if (xhr.status !== 200) {
+            const code = xhr.status;
+            const message = ErrorCodeToMessage[code];
+            if (message) {
+              return rej({ message, code });
+            }
+
             const json = JSON.parse(text);
             return rej(json);
           }
           if (opts.notJSON) return res(text as T);
           const json = JSON.parse(text);
           return res(json);
-        } catch (e) {
+        } catch {
           throw { message: text };
         }
       }

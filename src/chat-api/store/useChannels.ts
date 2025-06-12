@@ -41,7 +41,7 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   lastSeen?: number;
   hasNotifications: typeof hasNotifications;
   mentionCount: typeof mentionCount;
-  joinCall: () => void;
+  joinCall: (reconnect?: boolean) => void;
   leaveCall: () => void;
   callJoinedAt?: number;
   setCallJoinedAt: (this: Channel, joinedAt: number | undefined) => void;
@@ -152,16 +152,23 @@ function recipient(this: Channel) {
   return users.get(this.recipientId!);
 }
 
-async function joinCall(this: Channel) {
+async function joinCall(this: Channel, reconnect = false) {
   const { setCurrentChannelId } = useVoiceUsers();
   await postGenerateCredential();
   postJoinVoice(this.id, socketClient.id()!).then(() => {
-    setCurrentChannelId(this.id);
+    if (reconnect) return;
+    setCurrentChannelId(this.id, reconnect);
     this.setCallJoinedAt(Date.now());
   });
 }
 function leaveCall(this: Channel) {
-  const { setCurrentChannelId } = useVoiceUsers();
+  const { setCurrentChannelId, removeVoiceUser } = useVoiceUsers();
+  const account = useAccount();
+  if (!account.isAuthenticated()) {
+    setCurrentChannelId(null);
+    removeVoiceUser(this.id, account.user()?.id as string);
+    return;
+  }
   postLeaveVoice(this.id).then(() => {
     setCurrentChannelId(null);
   });

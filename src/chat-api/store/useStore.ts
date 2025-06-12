@@ -30,7 +30,6 @@ interface Store {
   posts: ReturnType<typeof usePosts>;
   voiceUsers: ReturnType<typeof useVoiceUsers>;
   tickets: ReturnType<typeof useTicket>;
-
 }
 
 let store: Store | null = null;
@@ -69,10 +68,12 @@ export default function useStore() {
     channelProperties,
     posts,
     voiceUsers,
-    tickets
+    tickets,
   } satisfies Store;
 
   store = obj;
+
+  window.store = store;
 
   return obj;
 }

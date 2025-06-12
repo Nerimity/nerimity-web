@@ -158,7 +158,7 @@ createEffect(
   )
 );
 
-const setCurrentChannelId = (channelId: string | null) => {
+const setCurrentChannelId = (channelId: string | null, reconnect = false) => {
   const current = currentVoiceUser();
   if (current?.channelId) {
     removeAllPeers(current?.channelId);
@@ -187,14 +187,16 @@ const setCurrentChannelId = (channelId: string | null) => {
 
     return;
   }
-  setCurrentVoiceUser({
-    channelId,
-    audioStream: null,
-    videoStream: null,
-    vadAudioStream: null,
-    vadInstance: undefined,
-    micMuted: true,
-  });
+  if (!reconnect) {
+    setCurrentVoiceUser({
+      channelId,
+      audioStream: null,
+      videoStream: null,
+      vadAudioStream: null,
+      vadInstance: undefined,
+      micMuted: true,
+    });
+  }
 };
 
 const activeRemoteStream = (userId: string, kind: "audio" | "video") => {
@@ -250,7 +252,8 @@ const removeVoiceUser = (channelId: string, userId: string) => {
   });
 };
 
-const createVoiceUser = (rawVoice: RawVoice) => {
+const createVoiceUser = (rawVoice: RawVoice, reconnecting = false) => {
+  const account = useAccount();
   const users = useUsers();
 
   if (!voiceUsers[rawVoice.channelId]) {
@@ -269,12 +272,17 @@ const createVoiceUser = (rawVoice: RawVoice) => {
     streamWithTracks: [],
   };
 
-  setVoiceUsers(rawVoice.channelId, rawVoice.userId, newVoiceUser);
+  if (!reconnecting || rawVoice.userId !== account.user()?.id) {
+    setVoiceUsers(rawVoice.channelId, rawVoice.userId, newVoiceUser);
+  }
 
   const isCurrentUserInVoice =
     rawVoice.channelId === currentVoiceUser()?.channelId;
+
   if (isCurrentUserInVoice) {
-    createPeer(newVoiceUser);
+    if (!reconnecting) {
+      createPeer(newVoiceUser);
+    }
   }
 };
 
@@ -643,10 +651,27 @@ const signal = (voiceUser: VoiceUser, signal: SimplePeer.SignalData) => {
 };
 
 function resetAll() {
+  const account = useAccount();
+  const current = currentVoiceUser();
   batch(() => {
     removeAllPeers();
-    setCurrentVoiceUser(undefined);
-    setVoiceUsers(reconcile({}));
+    // setCurrentVoiceUser(undefined);
+
+    if (current) {
+      const currentVoiceUser = getVoiceUser(
+        current.channelId,
+        account.user()?.id!
+      );
+      if (currentVoiceUser) {
+        setVoiceUsers(
+          reconcile({
+            [current.channelId]: { [account.user()?.id!]: currentVoiceUser },
+          })
+        );
+      }
+    } else {
+      setVoiceUsers(reconcile({}));
+    }
   });
 }
 
