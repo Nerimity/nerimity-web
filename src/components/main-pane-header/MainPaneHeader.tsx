@@ -41,6 +41,7 @@ import {
 } from "@/chat-api/Bitwise";
 import { WebcamModal } from "./WebcamModal";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
+import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 
 export default function MainPaneHeader() {
   const {
@@ -448,16 +449,43 @@ function VoiceParticipantItem(props: {
   size?: "small";
   onClick: () => void;
 }) {
-  const { voiceUsers } = useStore();
+  const { createPortal } = useCustomPortal();
+  const { voiceUsers, account } = useStore();
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const [contextPosition, setContextPosition] = createSignal<null | {
     x: number;
     y: number;
   }>(null);
 
+  const showProfileFlyout = (event: MouseEvent) => {
+    event.preventDefault();
+    const el = event.target as HTMLElement;
+    const rect = el?.getBoundingClientRect()!;
+    const pos = {
+      left: rect.left + 40,
+      top: rect.top,
+      anchor: "left",
+    } as const;
+    return createPortal(
+      (close) => (
+        <ProfileFlyout
+          triggerEl={el}
+          position={pos}
+          serverId={params.serverId}
+          close={close}
+          userId={props.voiceUser.userId}
+        />
+      ),
+      "profile-pane-flyout-" + props.voiceUser.userId,
+      true
+    );
+  };
+
   const isMuted = () => {
     return !voiceUsers.micEnabled(props.voiceUser.userId);
   };
+
+  const connected = () => props.voiceUser.connectionStatus === "CONNECTED";
 
   const isVideoStreaming = () =>
     voiceUsers.videoEnabled(props.voiceUser.userId);
@@ -468,16 +496,20 @@ function VoiceParticipantItem(props: {
   const user = () => props.voiceUser.user()!;
 
   const onClick = (event: MouseEvent) => {
-    if (props.size !== "small") return;
+    if (props.size !== "small") return showProfileFlyout(event);
+    event.preventDefault();
     if (!props.selected) {
       props.onClick();
-      event.preventDefault();
+      return;
     }
+    showProfileFlyout(event);
   };
   const onContextMenu = (event: MouseEvent) => {
     event.preventDefault();
     setContextPosition({ x: event.clientX, y: event.clientY });
   };
+
+  const isSelf = () => user().id === account.user()?.id;
 
   return (
     <CustomLink
@@ -485,7 +517,9 @@ function VoiceParticipantItem(props: {
       onClick={onClick}
       href={RouterEndpoints.PROFILE(user().id)}
       class={classNames(
+        "trigger-profile-flyout",
         styles.voiceParticipantItem,
+        !connected() && !isSelf() && isInCall() ? styles.disconnected : null,
         conditionalClass(props.selected, styles.selected)
       )}
     >

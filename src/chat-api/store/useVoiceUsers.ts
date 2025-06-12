@@ -54,6 +54,8 @@ type StreamWithTracks = {
   tracks: MediaStreamTrack[];
 };
 
+export type ConnectionStatus = "CONNECTED" | "DISCONNECTED" | "CONNECTING";
+
 export type VoiceUser = RawVoice & {
   user: () => User;
   peer?: SimplePeer.Instance;
@@ -61,6 +63,7 @@ export type VoiceUser = RawVoice & {
   audio?: HTMLAudioElement;
   voiceActivity?: boolean;
   vadInstance?: ReturnType<typeof vad>;
+  connectionStatus: ConnectionStatus;
 };
 
 type ChannelUsersMap = Record<string, VoiceUser | undefined>;
@@ -260,6 +263,7 @@ const createVoiceUser = (rawVoice: RawVoice) => {
   }
 
   const newVoiceUser: VoiceUser = {
+    connectionStatus: "CONNECTING",
     ...rawVoice,
     user,
     streamWithTracks: [],
@@ -279,11 +283,28 @@ function user(this: VoiceUser) {
   return users.get(this.userId)!;
 }
 
+const updateConnectionStatus = (
+  voiceUser: VoiceUser,
+  status: ConnectionStatus
+) => {
+  try {
+    setVoiceUsers(
+      voiceUser.channelId,
+      voiceUser.userId,
+      "connectionStatus",
+      status
+    );
+  } catch {
+    /* empty */
+  }
+};
+
 const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
+  const current = currentVoiceUser();
+  if (voiceUser.userId === useAccount().user()?.id) return;
   const initiator = !signal;
 
   const streams: MediaStream[] = [];
-  const current = currentVoiceUser();
   if (current?.audioStream) {
     streams.push(current.audioStream);
   }
@@ -291,25 +312,30 @@ const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
     streams.push(current.videoStream);
   }
 
-  const peer = new LazySimplePeer({
-    initiator,
-    trickle: true,
-    config: {
-      iceServers: createIceServers(),
-    },
-    streams,
-  });
+  const peer =
+    voiceUser.peer ||
+    new LazySimplePeer({
+      initiator,
+      trickle: true,
+      config: {
+        iceServers: createIceServers(),
+      },
+      streams,
+    });
 
   setVoiceUsers(voiceUser.channelId, voiceUser.userId, "peer", peer);
 
   peer.on("connect", () => {
     console.log("RTC> Connected to", voiceUser.user().username + "!");
+    updateConnectionStatus(voiceUser, "CONNECTED");
   });
   peer.on("end", () => {
     console.log("RTC> Disconnected from", voiceUser.user().username + ".");
+    updateConnectionStatus(voiceUser, "DISCONNECTED");
   });
   peer.on("close", () => {
     console.log("RTC>", voiceUser.user().username, "disconnected.");
+    updateConnectionStatus(voiceUser, "DISCONNECTED");
   });
   peer.on("error", (err) => {
     console.error(err);
