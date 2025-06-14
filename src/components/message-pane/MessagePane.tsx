@@ -86,6 +86,9 @@ import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSetti
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
 
+const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
+
+
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
 const DeleteMessageModal = lazy(
@@ -531,7 +534,7 @@ interface CustomTextAreaProps
 
 function CustomTextArea(props: CustomTextAreaProps) {
   const store = useStore();
-  let textAreaRef: HTMLInputElement | undefined;
+  let textAreaRef: HTMLTextAreaElement | undefined;
   const params = useParams<{ channelId: string; serverId?: string }>();
 
   const value = () => props.value as string;
@@ -556,6 +559,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
     document.addEventListener("keydown", onKeyDown);
 
     onCleanup(() => {
+      setSendButtonRef(undefined);
       document.removeEventListener("keydown", onKeyDown);
     });
   });
@@ -682,6 +686,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       <Show when={pickedFile() || value().trim()}>
         <Button
           class={styles.inputButtons}
+          ref={setSendButtonRef}
           onClick={props.onSendClick}
           iconName={props.isEditing ? "edit" : "send"}
           padding={[8, 15, 8, 15]}
@@ -692,6 +697,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       <Show when={!value().trim() && props.isEditing}>
         <Button
           class={styles.inputButtons}
+          ref={setSendButtonRef}
           onClick={props.onSendClick}
           color="var(--alert-color)"
           iconName="delete"
@@ -1558,7 +1564,8 @@ function FloatingChannelSuggestions(props: {
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedChannels().length,
     props.textArea!,
-    onEnterClick
+    onEnterClick,
+    sendButtonRef
   );
 
   return (
@@ -1723,7 +1730,8 @@ function FloatingUserSuggestions(props: {
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searched().length,
     props.textArea!,
-    onEnterClick
+    onEnterClick,
+    sendButtonRef
   );
 
   return (
@@ -1826,7 +1834,8 @@ function FloatingEmojiSuggestions(props: {
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedEmojis().length,
     props.textArea!,
-    onEnterClick
+    onEnterClick,
+    sendButtonRef
   );
 
   return (
@@ -1924,8 +1933,26 @@ function FloatingCommandSuggestions(props: {
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searched().length,
     props.textArea!,
-    onEnterClick
+    onEnterClick,
+    sendButtonRef
   );
+  
+  const onKeyDown = (event: KeyboardEvent) => {
+    const exactMatch = searched().find((cmd) => cmd.name === props.search);
+    if (exactMatch && searched().length == 1 && event.key === " ") {
+      event.stopPropagation();
+      event.preventDefault();
+      onItemClick(searched()[0]!);
+    }
+  }
+
+  createEffect(() => {
+    props.textArea?.addEventListener("keydown", onKeyDown);
+    onCleanup(() => {
+      props.textArea?.removeEventListener("keydown", onKeyDown);
+    })
+  })
+  
 
   return (
     <>
