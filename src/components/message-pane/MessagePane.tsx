@@ -88,7 +88,6 @@ import { Portal } from "solid-js/web";
 
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
-
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
 const DeleteMessageModal = lazy(
@@ -1915,7 +1914,7 @@ function FloatingCommandSuggestions(props: {
     })
   );
 
-  const onItemClick = (cmd: RawBotCommand) => {
+  const onItemClick = (cmd: RawBotCommand, addSpace = true) => {
     if (!props.textArea) return;
     props.textArea.focus();
 
@@ -1923,7 +1922,10 @@ function FloatingCommandSuggestions(props: {
       channelProperties.updateSelectedBotCommand(params.channelId, cmd);
     });
 
-    channelProperties.updateContent(params.channelId, `/${cmd.name} `);
+    channelProperties.updateContent(
+      params.channelId,
+      `/${cmd.name}${addSpace ? " " : ""}`
+    );
   };
 
   const onEnterClick = (i: number) => {
@@ -1936,23 +1938,31 @@ function FloatingCommandSuggestions(props: {
     onEnterClick,
     sendButtonRef
   );
-  
+
+  // done this way because mobile keydown event is weird.
+  let lastKeyDown = "";
+
   const onKeyDown = (event: KeyboardEvent) => {
+    lastKeyDown = event.key;
+  };
+
+  const onInput = (event: Event) => {
     const exactMatch = searched().find((cmd) => cmd.name === props.search);
-    if (exactMatch && searched().length == 1 && event.key === " ") {
+    if (exactMatch && searched().length == 1 && lastKeyDown === " ") {
       event.stopPropagation();
       event.preventDefault();
-      onItemClick(searched()[0]!);
+      onItemClick(searched()[0]!, false);
     }
-  }
+  };
 
   createEffect(() => {
+    props.textArea?.addEventListener("input", onInput);
     props.textArea?.addEventListener("keydown", onKeyDown);
     onCleanup(() => {
+      props.textArea?.removeEventListener("input", onInput);
       props.textArea?.removeEventListener("keydown", onKeyDown);
-    })
-  })
-  
+    });
+  });
 
   return (
     <>
