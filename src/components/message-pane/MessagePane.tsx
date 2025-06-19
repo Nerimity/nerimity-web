@@ -1938,7 +1938,6 @@ function FloatingCommandSuggestions(props: {
 
   const onInput = (event: InputEvent) => {
     const exactMatch = searched().find((cmd) => cmd.name === props.search);
-    console.log(event.data);
     if (exactMatch && searched().length == 1 && event.data === " ") {
       event.stopPropagation();
       event.preventDefault();
