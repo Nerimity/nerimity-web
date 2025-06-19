@@ -88,7 +88,6 @@ import { Portal } from "solid-js/web";
 
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
-
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
 
 const DeleteMessageModal = lazy(
@@ -1936,23 +1935,23 @@ function FloatingCommandSuggestions(props: {
     onEnterClick,
     sendButtonRef
   );
-  
-  const onKeyDown = (event: KeyboardEvent) => {
+
+  const onInput = (event: InputEvent) => {
     const exactMatch = searched().find((cmd) => cmd.name === props.search);
-    if (exactMatch && searched().length == 1 && event.key === " ") {
+    console.log(event.data);
+    if (exactMatch && searched().length == 1 && event.data === " ") {
       event.stopPropagation();
       event.preventDefault();
       onItemClick(searched()[0]!);
     }
-  }
+  };
 
   createEffect(() => {
-    props.textArea?.addEventListener("keydown", onKeyDown);
+    props.textArea?.addEventListener("input", onInput as () => void);
     onCleanup(() => {
-      props.textArea?.removeEventListener("keydown", onKeyDown);
-    })
-  })
-  
+      props.textArea?.removeEventListener("input", onInput as () => void);
+    });
+  });
 
   return (
     <>
