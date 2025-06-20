@@ -445,7 +445,6 @@ const PresenceItemContainer = styled(FlexRow)`
   position: relative;
   z-index: 11;
 
-  width: 240px;
   overflow: hidden;
 
   cursor: pointer;
@@ -466,6 +465,12 @@ const activityImageStyles = css`
   height: 100%;
   object-fit: contain;
   border-radius: 6px;
+
+  &.videoActivityImg {
+    object-fit: contain;
+    aspect-ratio: 16/9;
+    flex-shrink: 0;
+  }
 `;
 
 const activityDetailsStyles = css`
@@ -502,6 +507,7 @@ const PresenceItem = (props: { presence: Presence }) => {
   };
 
   const isEmoji = () => activity().emoji;
+
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {
       return emojiToUrl(activity()?.emoji!, false);
@@ -511,6 +517,14 @@ const PresenceItem = (props: { presence: Presence }) => {
       activity()?.imgSrc!
     )}/a`;
   });
+
+  const isLiveStream = () =>
+    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+
+  const isVideo = () =>
+    !!activity()?.action.startsWith("Watching") &&
+    !!activity()?.startedAt &&
+    !!activity()?.endsAt;
 
   return (
     <PresenceItemContainer
@@ -525,6 +539,9 @@ const PresenceItem = (props: { presence: Presence }) => {
         />
         <img
           src={imgSrc()}
+          classList={{
+            videoActivityImg: isLiveStream() || isVideo(),
+          }}
           class={activityImageStyles}
           style={{
             "background-color": isEmoji() ? "transparent" : "black",
