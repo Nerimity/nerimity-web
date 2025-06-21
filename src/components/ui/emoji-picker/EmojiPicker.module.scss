@@ -22,6 +22,9 @@
 }
 
 :global {
+  .go1741493984 {
+    border-bottom: solid 1px var(--primary-color)
+  }
   .go2985996624 {
     // emoji picker footer details
     background-color: rgba(37, 37, 37, 0.86);
@@ -105,7 +108,7 @@
     background-color: rgba(37, 37, 37, 0.86);
     backdrop-filter: blur(34px);
     border: solid 1px rgba(255, 255, 255, 0.2);
-    border-bottom: solid 2px var(--primary-color);
+    border-bottom: solid 1px var(--primary-color);
     border-radius: 6px;
     padding: 10px;
   }

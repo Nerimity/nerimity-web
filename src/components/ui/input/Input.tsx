@@ -119,12 +119,12 @@ const InputContainer = styled(FlexRow)<{
   border-radius: 8px;
   border: solid 1px rgba(255, 255, 255, 0.2);
   background-color: rgba(0, 0, 0, 0.6);
-  border-bottom: solid 2px rgba(255, 255, 255, 0.3);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.3);
   transition: 0.2s;
   cursor: text;
   ${(props) =>
     props.focused
-      ? `border-bottom: solid 2px ${
+      ? `border-bottom: solid 1px ${
           props.primaryColor || "var(--primary-color)"
         };`
       : ""}
