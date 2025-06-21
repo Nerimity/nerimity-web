@@ -1,6 +1,6 @@
 import styles from "./DrawerHeader.module.scss";
 
-import { JSXElement, Match, Switch } from "solid-js";
+import { JSX, JSXElement, Match, Switch } from "solid-js";
 
 import { classNames } from "@/common/classNames";
 
@@ -8,13 +8,11 @@ export function DrawerHeader(props: {
   children?: JSXElement;
   class?: string;
   text?: string;
-  padding?: number;
+  style?: JSX.CSSProperties;
 }) {
   return (
     <div
-      style={{
-        padding: props.padding !== undefined ? `${props.padding}px` : undefined,
-      }}
+      style={props.style}
       class={classNames(styles.drawerHeaderContainer, props.class)}
     >
       <Switch fallback={props.children}>

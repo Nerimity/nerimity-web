@@ -36,9 +36,9 @@ const ServerDrawerHeader = () => {
         <Button
           class={styles.showMoreIcon}
           iconName="more_vert"
-          iconSize={18}
+          iconSize={20}
           onClick={onClick}
-          padding={6}
+          padding={7}
         />
       </div>
     </DrawerHeader>

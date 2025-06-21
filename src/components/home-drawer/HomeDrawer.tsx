@@ -45,7 +45,7 @@ const SearchBar = () => {
     createPortal?.((close) => <QuickTravel close={close} />, "quick-travel");
   };
   return (
-    <DrawerHeader class={style.searchBarOuter} padding={0}>
+    <DrawerHeader class={style.searchBarOuter} style={{ padding: "0" }}>
       <div onClick={onClick} class={style.searchBar}>
         <Icon name="search" size={18} />
         {t("inbox.drawer.searchBarPlaceholder")} (Ctrl + Space)
