@@ -14,12 +14,15 @@
   right: 0;
   left: 0;
   display: flex;
-  display: flex;
   overflow: hidden;
   align-items: center;
   flex-shrink: 0;
   width: 100%;
-  height: 45px;
+  height: 50px;
+  box-sizing: border-box;
+
+  padding: 4px;
+  
   margin-bottom: 3px;
   border-bottom: solid 1px rgba(255, 255, 255, 0.1);
   background-color: var(--header-background-color);

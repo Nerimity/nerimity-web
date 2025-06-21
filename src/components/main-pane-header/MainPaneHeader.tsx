@@ -148,7 +148,7 @@ export default function MainPaneHeader() {
           </Show>
           <Button
             iconName="menu"
-            margin={[0, 8, 0, 5]}
+            margin={[0, 8, 0, 8]}
             onClick={toggleLeftDrawer}
           />
         </div>
