@@ -1,8 +1,9 @@
 import style from "./ResizeBar.module.css";
-import { Show } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
+import { cn } from "@/common/classNames";
 
 interface ResizeBarOpts {
   storageKey: StorageKeys;
@@ -15,6 +16,7 @@ interface ResizeBarOpts {
 
 export const useResizeBar = (opts: ResizeBarOpts) => {
   const { isMobileWidth } = useWindowProperties();
+  const [dragging, setDragging] = createSignal(false);
 
   const [width, setWidth] = useLocalStorage(opts.storageKey, opts.defaultWidth);
 
@@ -37,9 +39,11 @@ export const useResizeBar = (opts: ResizeBarOpts) => {
   const onResizeUp = () => {
     document.removeEventListener("mousemove", onResizeMove);
     document.removeEventListener("mouseup", onResizeUp);
+    setDragging(false);
   };
 
   const onResizeDown = (event: MouseEvent) => {
+    setDragging(true);
     event.preventDefault();
     event.stopPropagation();
     startWidth = resizeObserver.width();
@@ -57,7 +61,7 @@ export const useResizeBar = (opts: ResizeBarOpts) => {
       <Show when={!isMobileWidth()}>
         <div
           style={localStyle()}
-          class={style.resizeHandle}
+          class={cn(style.resizeHandle, dragging() ? style.active : null)}
           onMouseDown={onResizeDown}
         />
       </Show>

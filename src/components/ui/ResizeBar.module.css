@@ -1,18 +1,21 @@
 .resizeHandle {
   position: absolute;
-  z-index: 111111;
+  z-index: 11111111111111;
   top: 8px;
   right: -4px;
   bottom: 8px;
-  width: 4px;
+  width: 2px;
   border-radius: 999px;
   cursor: ew-resize;
   user-select: none;
 
-  &:active,
-  &:hover {
+  &:hover,
+  &.active {
     opacity: 0.6;
     background-color: white;
     background-color: var(--primary-color);
+  }
+  &.active {
+    opacity: 1;
   }
 }

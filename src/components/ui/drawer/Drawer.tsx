@@ -391,7 +391,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                   {LeftDrawer()}
                 </div>
                 <Show when={!hideLeftDrawer()}>
-                  <leftDrawerResizeBar.Handle right={2} />
+                  <leftDrawerResizeBar.Handle right={-2} />
                 </Show>
               </>
             )}
@@ -432,7 +432,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             }}
           >
             <Show when={!hideRightDrawer()}>
-              <rightDrawerResizeBar.Handle left={2} />
+              <rightDrawerResizeBar.Handle left={-2} />
             </Show>
 
             <div
