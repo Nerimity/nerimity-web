@@ -116,6 +116,7 @@ export default function MessagePaneMain() {
 
 function MessagePane() {
   const mainPaneEl = document.querySelector(".main-pane-container")!;
+  const { isMobileWidth } = useWindowProperties();
   const params = useParams<{ channelId: string; serverId?: string }>();
   const {
     channels,
@@ -160,15 +161,29 @@ function MessagePane() {
     channelProperties.setAttachment(params.channelId, file);
   };
 
+  const disabledAdvancedMarkup = getStorageBoolean(
+    StorageKeys.DISABLED_ADVANCED_MARKUP,
+    false
+  );
+
+  createEffect(
+    on(isMobileWidth, () => {
+      setMarginBottom(
+        disabledAdvancedMarkup
+          ? isMobileWidth()
+            ? 48
+            : 40
+          : isMobileWidth()
+          ? 84
+          : 74
+      );
+    })
+  );
+
   onMount(() => {
     document.addEventListener("dragover", onDragOver);
     document.addEventListener("dragleave", onDragLeave);
     document.addEventListener("drop", onDrop);
-    const disabledAdvancedMarkup = getStorageBoolean(
-      StorageKeys.DISABLED_ADVANCED_MARKUP,
-      false
-    );
-    setMarginBottom(disabledAdvancedMarkup ? 48 : 84);
 
     onCleanup(() => {
       setMarginBottom(0);

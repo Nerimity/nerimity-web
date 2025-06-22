@@ -17,7 +17,7 @@ import {
 } from "solid-js";
 import env from "@/common/env";
 import SidePane from "@/components/side-pane/SidePane";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { matchComponent, useLocation } from "solid-navigator";
 import { GlobalEventName, useEventListen } from "@/common/GlobalEvents";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
@@ -119,7 +119,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   const leftDrawerWidth = () => {
     const dWidth = width() - 50;
-    const MAX_WIDTH = hasLeftDrawer() ? 330 : 65;
+    const MAX_WIDTH = hasLeftDrawer() ? 330 : 68;
     if (dWidth > MAX_WIDTH) return MAX_WIDTH;
     return dWidth;
   };
@@ -357,21 +357,27 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
           }}
         >
           <div
-            class={"leftPane"}
+            class={cn("leftPane", styles.leftPane)}
             style={{
               width: isMobileWidth()
                 ? leftDrawerWidth() + "px"
                 : hasLeftDrawer()
                 ? hideLeftDrawer()
-                  ? "70px"
+                  ? "initial"
                   : leftDrawerResizeBar.width() + "px"
                 : "initial",
               display: "flex",
+              gap: "4px",
               "flex-shrink": 0,
               position: "relative",
             }}
           >
-            <SidePane />
+            <SidePane
+              class={cn(
+                styles.sideBar,
+                hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : ""
+              )}
+            />
             {hasLeftDrawer() && (
               <>
                 <div
@@ -391,7 +397,13 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             )}
           </div>
           <div
-            class={styles.content}
+            class={cn(
+              styles.content,
+              hasRightDrawer() && !hideRightDrawer()
+                ? styles.hasRightDrawer
+                : "",
+              hasLeftDrawer() && !hideLeftDrawer() ? styles.hasLeftDrawer : ""
+            )}
             style={{ width: isMobileWidth() ? width() + "px" : "100%" }}
           >
             <div
@@ -411,7 +423,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
                 ? rightDrawerWidth() + "px"
                 : hasRightDrawer()
                 ? hideRightDrawer()
-                  ? "6px"
+                  ? "0"
                   : rightDrawerResizeBar.width() + "px"
                 : "0",
               display: "flex",

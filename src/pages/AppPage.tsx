@@ -77,10 +77,6 @@ const MainPaneContainer = styled("div")<MainPaneContainerProps>`
   flex-direction: column;
   flex: 1;
   flex-shrink: 0;
-  border-radius: 8px;
-  margin: 8px;
-  ${(props) => (props.hasLeftDrawer ? "margin-left: 0;" : "")}
-  ${(props) => (props.hasRightDrawer ? "margin-right: 0;" : "")}
   background: var(--pane-color);
 
   &[data-is-mobile-agent="false"] {
@@ -250,8 +246,8 @@ function RightDrawer() {
           class={css`
             position: absolute;
             right: 2px;
-            top: ${isMobileWidth() ? "50px" : "50px"};
-            bottom: ${isMobileWidth() ? "58px" : "6px"};
+            top: 54px;
+            bottom: 6px;
           `}
         />
       </Show>
@@ -280,8 +276,8 @@ function LeftDrawer() {
           class={css`
             position: absolute;
             right: 2px;
-            top: ${isMobileWidth() ? "50px" : "50px"};
-            bottom: ${isMobileWidth() ? "58px" : "6px"};
+            top: 54px;
+            bottom: ${isMobileWidth() ? "56px" : "4px"};
           `}
         />
       </Show>
@@ -338,9 +334,9 @@ function MainPane() {
               scrollElement={mainPaneEl()}
               class={css`
                 position: absolute;
-                right: ${isMobileWithOrHasRightDrawer() ? "2px" : "10px"};
+                right: 2px;
                 bottom: ${windowProperties.isMobileWidth() ? "4px" : "14px"};
-                top: ${windowProperties.isMobileWidth() ? "50px" : "58px"};
+                top: 54px;
               `}
             />
           </Show>

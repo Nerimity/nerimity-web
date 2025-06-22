@@ -31,7 +31,7 @@ import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import { ServerList } from "./ServerList";
 
-export default function SidePane() {
+export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
@@ -51,7 +51,11 @@ export default function SidePane() {
   return (
     <div
       ref={containerEl}
-      class={cn(style.sidePane, isMobileWidth() ? style.mobile : undefined)}
+      class={cn(
+        style.sidePane,
+        isMobileWidth() ? style.mobile : undefined,
+        props.class
+      )}
       style={
         isMobileWidth()
           ? { width: "65px" }
