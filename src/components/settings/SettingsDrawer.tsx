@@ -64,7 +64,7 @@ const FooterContainer = styled(FlexColumn)`
   margin-top: 8px;
   position: sticky;
   bottom: 0;
-  background-color: var(--pane-color);
+  background-color: var(--side-pane-color);
 `;
 
 function Footer() {
