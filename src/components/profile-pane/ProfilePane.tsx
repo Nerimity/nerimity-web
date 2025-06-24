@@ -23,7 +23,7 @@ import {
   UserDetails,
 } from "@/chat-api/services/UserService";
 import useStore from "@/chat-api/store/useStore";
-import { bannerUrl } from "@/chat-api/store/useUsers";
+import { bannerUrl, User } from "@/chat-api/store/useUsers";
 import {
   calculateTimeElapsedForActivityStatus,
   formatTimestamp,
@@ -66,6 +66,7 @@ import { MetaTitle } from "@/common/MetaTitle";
 import average from "@/common/chromaJS";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { emojiToUrl } from "@/common/emojiToUrl";
+import { currentTheme } from "@/common/themes";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -107,7 +108,7 @@ const ActionButton = (props: {
 
 export default function ProfilePane() {
   const params = useParams();
-  const { users, friends, account, header } = useStore();
+  const { users, account, header } = useStore();
   const drawer = useDrawer();
   const { width, isMobileWidth, paneWidth } = useWindowProperties();
   const isMe = () => account.user()?.id === params.userId;
@@ -122,7 +123,7 @@ export default function ProfilePane() {
       async (userId) => {
         setUserDetails(null);
         drawer?.goToMain();
-        fetchUserDetails(userId);
+        fetchUserDetails(userId!);
       }
     )
   );
@@ -142,24 +143,24 @@ export default function ProfilePane() {
     const primaryColor = userDetails()?.profile?.primaryColor;
     return { bg: [bgColorOne, bgColorTwo], primary: primaryColor };
   };
-  const bgColor = createMemo(() => {
+  const paneBgColor = createMemo(() => {
     try {
       return average([
-        userDetails()?.profile?.bgColorOne! || "rgba(40, 40, 40, 0.86)",
-        userDetails()?.profile?.bgColorTwo! || "rgba(40, 40, 40, 0.86)",
+        userDetails()?.profile?.bgColorOne! || currentTheme()["pane-color"],
+        userDetails()?.profile?.bgColorTwo! || currentTheme()["pane-color"],
       ])
         .luminance(0.01)
         .alpha(0.9)
         .hex();
     } catch {
-      return "rgba(40, 40, 40, 0.86)";
+      return currentTheme()["pane-color"];
     }
   });
 
   const user = () => {
     if (userDetails()) return userDetails()?.user;
     if (isMe()) return account.user();
-    const user = users.get(params.userId);
+    const user = users.get(params.userId!);
     if (user) return user;
   };
 
@@ -178,8 +179,8 @@ export default function ProfilePane() {
         setPaneBackgroundColor(`
           linear-gradient(
             180deg,
-            ${colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"},
-            ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"}
+            ${colors()?.bg?.[0] || currentTheme()["pane-color"]},
+            ${colors()?.bg?.[1] || currentTheme()["pane-color"]}
           )
         `);
       }
@@ -239,22 +240,22 @@ export default function ProfilePane() {
                   <Show when={!isMobileWidth()}>
                     <ActionButtons
                       class={css`
-                        background-color: ${bgColor()};
+                        background-color: ${paneBgColor()};
                         border-radius: 10px;
                         padding: 4px;
                         margin-top: 4px;
                       `}
-                      updateUserDetails={() => fetchUserDetails(params.userId)}
+                      updateUserDetails={() => fetchUserDetails(params.userId!)}
                       userDetails={userDetails()}
                       primaryColor={colors().primary}
-                      user={user()}
+                      user={user() as User}
                     />
                   </Show>
                 </FlexRow>
 
                 <div
                   class={styles.informationContainer}
-                  style={{ background: bgColor() }}
+                  style={{ background: paneBgColor() }}
                 >
                   <div class={styles.details}>
                     <div class={styles.usernameTag}>
@@ -318,34 +319,38 @@ export default function ProfilePane() {
               >
                 <ActionButtons
                   class={css`
-                    background-color: ${bgColor()};
+                    background-color: ${paneBgColor()};
                     border-radius: 8px;
                     padding: 4px;
                   `}
-                  updateUserDetails={() => fetchUserDetails(params.userId)}
+                  updateUserDetails={() => fetchUserDetails(params.userId!)}
                   userDetails={userDetails()}
                   primaryColor={colors().primary}
-                  user={user()}
+                  user={user() as User}
                 />
               </div>
             </Show>
             <Show when={userDetails()}>
               <Show when={(paneWidth() || 0) < 1170}>
-                <SideBar mobilePane bgColor={bgColor()} user={userDetails()!} />
+                <SideBar
+                  mobilePane
+                  paneBgColor={paneBgColor()}
+                  user={userDetails()!}
+                />
               </Show>
               <Show
                 when={userDetails()?.user?.application?.botCommands?.length}
               >
                 <BotCommands
-                  bgColor={bgColor()}
+                  paneBgColor={paneBgColor()}
                   commands={userDetails()?.user?.application?.botCommands!}
                 />
               </Show>
-              <Content user={userDetails()!} bgColor={bgColor()} />
+              <Content user={userDetails()!} paneBgColor={paneBgColor()} />
             </Show>
           </div>
           <Show when={(paneWidth() || 0) >= 1170}>
-            <SideBar bgColor={bgColor()} user={userDetails()!} />
+            <SideBar paneBgColor={paneBgColor()} user={userDetails()!} />
           </Show>
         </div>
       </Show>
@@ -353,12 +358,15 @@ export default function ProfilePane() {
   );
 }
 
-const BotCommands = (props: { commands: RawBotCommand[]; bgColor: string }) => {
+const BotCommands = (props: {
+  commands: RawBotCommand[];
+  paneBgColor: string;
+}) => {
   return (
     <div
       class={styles.botCommandsContainer}
       style={{
-        background: props.bgColor,
+        background: props.paneBgColor,
       }}
     >
       <div class={styles.botCommandsTitle}>Available Commands</div>
@@ -411,19 +419,19 @@ const ActionButtons = (props: {
 
   const friendExists = () => !!friend();
   const isPending = () =>
-    friendExists() && friend().status === FriendStatus.PENDING;
-  const isSent = () => friendExists() && friend().status === FriendStatus.SENT;
+    friendExists() && friend()?.status === FriendStatus.PENDING;
+  const isSent = () => friendExists() && friend()?.status === FriendStatus.SENT;
   const isFriend = () =>
-    friendExists() && friend().status === FriendStatus.FRIENDS;
+    friendExists() && friend()?.status === FriendStatus.FRIENDS;
 
   const showAddFriend = () => !friendExists() && !isBlocked();
 
   const acceptClicked = () => {
-    friend().accept();
+    friend()?.accept();
   };
 
   const removeClicked = () => {
-    friend().remove();
+    friend()?.remove();
   };
 
   const addClicked = () => {
@@ -641,10 +649,10 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
   return <ContextMenu {...props} items={items()} />;
 }
 
-function Content(props: { user: UserDetails; bgColor: string }) {
+function Content(props: { user: UserDetails; paneBgColor: string }) {
   return (
     <div class={styles.content}>
-      <PostsContainer user={props.user} bgColor={props.bgColor} />
+      <PostsContainer user={props.user} paneBgColor={props.paneBgColor} />
     </div>
   );
 }
@@ -678,7 +686,7 @@ function BioContainer(props: {
 
 function SideBar(props: {
   user: UserDetails;
-  bgColor: string;
+  paneBgColor: string;
   mobilePane?: boolean;
 }) {
   const [toggleJoinedDateType, setToggleJoinedDateType] = createSignal(false);
@@ -693,7 +701,7 @@ function SideBar(props: {
     >
       <Show when={props.user?.suspensionExpiresAt !== undefined}>
         <SidePaneItem
-          bgColor={props.bgColor}
+          paneBgColor={props.paneBgColor}
           icon="block"
           label="This user is suspended"
           color="var(--alert-color)"
@@ -706,7 +714,7 @@ function SideBar(props: {
       </Show>
       <Show when={props.user?.block}>
         <SidePaneItem
-          bgColor={props.bgColor}
+          paneBgColor={props.paneBgColor}
           icon="block"
           label="You've been blocked"
           color="var(--alert-color)"
@@ -714,13 +722,13 @@ function SideBar(props: {
         />
       </Show>
       <UserActivity
-        bgColor={props.bgColor}
+        paneBgColor={props.paneBgColor}
         color={props.user.profile?.primaryColor}
         userId={props.user?.user?.id}
       />
       <Show when={props.user}>
         <SidePaneItem
-          bgColor={props.bgColor}
+          paneBgColor={props.paneBgColor}
           icon="event"
           label="Joined"
           color={props.user?.profile?.primaryColor}
@@ -730,7 +738,7 @@ function SideBar(props: {
       </Show>
       <Show when={props.user?.user?.application?.creatorAccount}>
         <SidePaneItem
-          bgColor={props.bgColor}
+          paneBgColor={props.paneBgColor}
           icon="person"
           label="Bot Creator"
           color={props.user?.profile?.primaryColor}
@@ -753,12 +761,12 @@ function SideBar(props: {
       </Show>
       <Show when={props.user}>
         <MutualFriendList
-          bgColor={props.bgColor}
+          paneBgColor={props.paneBgColor}
           color={props.user?.profile?.primaryColor}
           mutualFriendIds={props.user?.mutualFriendIds}
         />
         <MutualServerList
-          bgColor={props.bgColor}
+          paneBgColor={props.paneBgColor}
           color={props.user.profile?.primaryColor}
           mutualServerIds={props.user?.mutualServerIds}
         />
@@ -770,7 +778,7 @@ function SideBar(props: {
 const UserActivity = (props: {
   userId: string;
   color?: string;
-  bgColor: string;
+  paneBgColor: string;
 }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
@@ -824,7 +832,7 @@ const UserActivity = (props: {
         class={css`
           margin-bottom: 4px;
           border-radius: 8px;
-          background: ${props.bgColor};
+          background: ${props.paneBgColor};
         `}
       >
         <FlexRow gap={4} style={{ flex: 1, padding: "8px" }}>
@@ -920,7 +928,7 @@ const UserActivity = (props: {
 
 function MutualFriendList(props: {
   mutualFriendIds: string[];
-  bgColor: string;
+  paneBgColor: string;
   color?: string;
 }) {
   const { users } = useStore();
@@ -941,7 +949,7 @@ function MutualFriendList(props: {
         styles.block,
         conditionalClass(isMobileWidth(), styles.mobileBlock)
       )}
-      style={{ "background-color": props.bgColor }}
+      style={{ "background-color": props.paneBgColor }}
     >
       <div class={styles.title} onClick={() => setShow(!show())}>
         <Icon
@@ -961,18 +969,18 @@ function MutualFriendList(props: {
         <div class={styles.list}>
           <For
             each={mutualFriends().sort((x, y) =>
-              x.username.localeCompare(y.username)
+              x!.username.localeCompare(y!.username)
             )}
           >
             {(user) => {
               return (
                 <Show when={user}>
                   <A
-                    href={RouterEndpoints.PROFILE(user.id)}
+                    href={RouterEndpoints.PROFILE(user!.id)}
                     class={styles.item}
                   >
                     <Avatar user={user} size={20} />
-                    <div class={styles.name}>{user.username}</div>
+                    <div class={styles.name}>{user!.username}</div>
                   </A>
                 </Show>
               );
@@ -985,7 +993,7 @@ function MutualFriendList(props: {
 }
 function MutualServerList(props: {
   mutualServerIds: string[];
-  bgColor: string;
+  paneBgColor: string;
   color?: string;
 }) {
   const { servers } = useStore();
@@ -1000,7 +1008,7 @@ function MutualServerList(props: {
         styles.block,
         conditionalClass(isMobileWidth(), styles.mobileBlock)
       )}
-      style={{ "background-color": props.bgColor }}
+      style={{ "background-color": props.paneBgColor }}
     >
       <div class={styles.title} onClick={() => setShow(!show())}>
         <Icon
@@ -1051,14 +1059,14 @@ function SidePaneItem(props: {
   label: string;
   value?: string;
   color?: string;
-  bgColor: string;
+  paneBgColor: string;
   onClick?: () => void;
   children?: JSXElement;
 }) {
   return (
     <div
       class={cn(styles.SidePaneItem, props.onClick ? styles.clickable : "")}
-      style={{ "background-color": props.bgColor }}
+      style={{ "background-color": props.paneBgColor }}
       onClick={props.onClick}
     >
       <FlexRow gap={4}>
@@ -1077,7 +1085,7 @@ function SidePaneItem(props: {
   );
 }
 
-function PostsContainer(props: { user: UserDetails; bgColor: string }) {
+function PostsContainer(props: { user: UserDetails; paneBgColor: string }) {
   const { account } = useStore();
   const navigate = useNavigate();
   const params = useParams<{
@@ -1129,7 +1137,7 @@ function PostsContainer(props: { user: UserDetails; bgColor: string }) {
     <div
       class={styles.postsContainer}
       style={{
-        background: props.bgColor,
+        background: props.paneBgColor,
       }}
     >
       <FlexRow gap={5} style={{ "margin-bottom": "10px", "flex-wrap": "wrap" }}>
@@ -1158,7 +1166,9 @@ function PostsContainer(props: { user: UserDetails; bgColor: string }) {
             size={14}
             color={currentPage() === 1 ? "white" : "rgba(255,255,255,0.6)"}
           >
-            {t("profile.postsAndRepliesTab", { count: postCount() })}
+            {t("profile.postsAndRepliesTab", {
+              count: postCount() as unknown as number,
+            })}
           </Text>
         </ItemContainer>
         <ItemContainer
@@ -1172,7 +1182,9 @@ function PostsContainer(props: { user: UserDetails; bgColor: string }) {
             size={14}
             color={currentPage() === 2 ? "white" : "rgba(255,255,255,0.6)"}
           >
-            {t("profile.likedPostsTab", { count: likeCount() })}
+            {t("profile.likedPostsTab", {
+              count: likeCount() as unknown as number,
+            })}
           </Text>
         </ItemContainer>
         <Show when={isMe() || !props.user.hideFollowing}>
@@ -1305,7 +1317,7 @@ function UsersList(props: { users: RawUser[] }) {
   );
 }
 
-type Badge = typeof USER_BADGES.SUPPORTER;
+type Badge = Partial<typeof USER_BADGES.SUPPORTER & { textColor?: string }>;
 
 const BadgeContainer = styled("button")<{ color: string; textColor?: string }>`
   background: ${(props) => props.color};
@@ -1328,7 +1340,7 @@ function Badge(props: { badge: Badge; user: UserDetails }) {
     <BadgeContainer
       {...{ onClick }}
       textColor={props.badge.textColor}
-      color={props.badge.color}
+      color={props.badge.color!}
     >
       {props.badge.name}
     </BadgeContainer>
@@ -1392,7 +1404,7 @@ function BadgeDetailModal(props: {
         <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />
           <Text style={{ "max-width": "200px", "text-align": "center" }}>
-            <Markup text={props.badge.description} />
+            <Markup text={props.badge.description!} />
           </Text>
         </FlexColumn>
         <FlexColumn itemsCenter gap={16}>

@@ -73,7 +73,6 @@
   .flyoutOuterScrollableContainer {
     display: flex;
     overflow: hidden;
-    padding: 6px;
 
     margin: 6px;
 
@@ -88,10 +87,18 @@
     overflow-y: overlay;
     flex: 1;
     flex-direction: column;
+    padding: 10px;
+    gap: 8px;
     &::-webkit-scrollbar {
       width: 2px;
     }
   }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .flyoutDetailsContainer {
@@ -107,11 +114,12 @@
   display: flex;
   overflow: hidden;
   flex-direction: column;
-  padding: 6px;
+  padding: 10px;
 
   margin: 6px;
   margin-bottom: 0;
   border-radius: 6px;
+  gap: 2px;
 }
 
 .flyoutAvatarStyles {
@@ -263,6 +271,7 @@ body .postItemContainer {
 
 .selfArea {
   display: flex;
+  padding: 4px;
   margin: 6px;
   margin-bottom: 0;
   border-radius: 6px;
@@ -286,7 +295,7 @@ body .postItemContainer {
 }
 
 .presenceDropdown {
-  padding: 6px;
+  padding: 10px;
   margin: 6px;
   margin-bottom: 0;
   border-radius: 6px;
@@ -297,7 +306,7 @@ body .postItemContainer {
 .customStatusContainer {
   display: flex;
   flex-direction: column;
-  padding: 6px;
+  padding: 10px;
   margin: 6px;
   margin-bottom: 0;
   border-radius: 6px;

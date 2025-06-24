@@ -850,7 +850,7 @@ const PostsContainer = styled(FlexColumn)`
 
 export function PostsArea(props: {
   showLiked?: boolean;
-  pinnedPosts?: Post[];
+  pinnedPosts?: Post[] | RawPost[];
   showFeed?: boolean;
   showDiscover?: boolean;
   showReplies?: boolean;

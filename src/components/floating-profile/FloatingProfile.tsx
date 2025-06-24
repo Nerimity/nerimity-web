@@ -65,6 +65,7 @@ import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkup
 import Input from "../ui/input/Input";
 import { formatMessage } from "../message-pane/MessagePane";
 import { logout } from "@/common/logout";
+import { currentTheme } from "@/common/themes";
 
 interface Props {
   dmPane?: boolean;
@@ -204,14 +205,14 @@ const DesktopProfileFlyout = (props: {
   const bgColor = createMemo(() => {
     try {
       return average([
-        colors().bg?.[0] || "rgba(40, 40, 40, 0.86)",
-        colors().bg?.[1] || "rgba(40, 40, 40, 0.86)",
+        colors().bg?.[0] || currentTheme()["pane-color"],
+        colors().bg?.[1] || currentTheme()["pane-color"],
       ])
         .luminance(0.01)
         .alpha(0.9)
         .hex();
     } catch {
-      return "rgba(40, 40, 40, 0.86)";
+      return currentTheme()["pane-color"];
     }
   });
 
@@ -440,7 +441,7 @@ const DesktopProfileFlyout = (props: {
                   <Button
                     padding={4}
                     textSize={12}
-                    iconSize={16}
+                    iconSize={18}
                     href={RouterEndpoints.PROFILE(user()!.id)}
                     color={colors().primary}
                     class={styles.button}
@@ -470,25 +471,27 @@ const DesktopProfileFlyout = (props: {
   const ProfileArea = () => (
     <>
       <Show when={member()}>
-        <FlyoutTitle
-          primaryColor={colors()?.primary || undefined}
-          style={{ "margin-bottom": "5px" }}
-          icon="leaderboard"
-          title="Roles"
-        />
-        <div class={styles.rolesContainer}>
-          <For each={member()?.roles(true)!}>
-            {(role) => (
-              <div class={styles.roleContainer}>
-                <Show when={role?.icon}>
-                  <Emoji size={16} resize={16} icon={role?.icon} hovered />
-                </Show>
-                <Text color={role?.hexColor} size={12}>
-                  {role?.name}
-                </Text>
-              </div>
-            )}
-          </For>
+        <div class={styles.section}>
+          <FlyoutTitle
+            primaryColor={colors()?.primary || undefined}
+            style={{ "margin-bottom": "5px" }}
+            icon="leaderboard"
+            title="Roles"
+          />
+          <div class={styles.rolesContainer}>
+            <For each={member()?.roles(true)!}>
+              {(role) => (
+                <div class={styles.roleContainer}>
+                  <Show when={role?.icon}>
+                    <Emoji size={16} resize={16} icon={role?.icon} hovered />
+                  </Show>
+                  <Text color={role?.hexColor} size={12}>
+                    {role?.name}
+                  </Text>
+                </div>
+              )}
+            </For>
+          </div>
           <Show
             when={accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)}
           >
@@ -503,30 +506,32 @@ const DesktopProfileFlyout = (props: {
       </Show>
 
       <Show when={props.channelNotice}>
-        <FlyoutTitle
-          icon="info"
-          title={t("informationDrawer.channelNotice")}
-          primaryColor={colors()?.primary || undefined}
-        />
-        <div class={styles.bioContainer}>
-          <Text
-            size={12}
-            color="rgba(255,255,255,0.7)"
-            class={
-              colors()?.primary
-                ? css`
-                    a {
-                      color: ${colors()?.primary!};
-                    }
-                    .markup blockquote {
-                      border-left-color: ${colors()?.primary!};
-                    }
-                  `
-                : ""
-            }
-          >
-            <Markup text={props.channelNotice!} />
-          </Text>
+        <div class={styles.section}>
+          <FlyoutTitle
+            icon="info"
+            title={t("informationDrawer.channelNotice")}
+            primaryColor={colors()?.primary || undefined}
+          />
+          <div class={styles.bioContainer}>
+            <Text
+              size={12}
+              color="rgba(255,255,255,0.7)"
+              class={
+                colors()?.primary
+                  ? css`
+                      a {
+                        color: ${colors()?.primary!};
+                      }
+                      .markup blockquote {
+                        border-left-color: ${colors()?.primary!};
+                      }
+                    `
+                  : ""
+              }
+            >
+              <Markup text={props.channelNotice!} />
+            </Text>
+          </div>
         </div>
       </Show>
 
@@ -539,37 +544,39 @@ const DesktopProfileFlyout = (props: {
         <Skeleton.Item height="50px" style={{ "margin-bottom": "6px" }} />
       </Show>
       <Show when={bio()?.length}>
-        <FlyoutTitle
-          icon="info"
-          title="Bio"
-          primaryColor={colors()?.primary || undefined}
-        />
-        <div class={styles.bioContainer}>
-          <Text
-            size={12}
-            color="rgba(255,255,255,0.7)"
-            class={
-              colors()?.primary
-                ? css`
-                    a {
-                      color: ${colors()?.primary};
-                    }
-                    .markup blockquote {
-                      border-left-color: ${colors()?.primary!};
-                    }
-                  `
-                : ""
-            }
-          >
-            <Markup text={bio()!} />
-          </Text>
+        <div class={styles.section}>
+          <FlyoutTitle
+            icon="info"
+            title="Bio"
+            primaryColor={colors()?.primary || undefined}
+          />
+          <div class={styles.bioContainer}>
+            <Text
+              size={12}
+              color="rgba(255,255,255,0.7)"
+              class={
+                colors()?.primary
+                  ? css`
+                      a {
+                        color: ${colors()?.primary};
+                      }
+                      .markup blockquote {
+                        border-left-color: ${colors()?.primary!};
+                      }
+                    `
+                  : ""
+              }
+            >
+              <Markup text={bio()!} />
+            </Text>
+          </div>
         </div>
       </Show>
     </>
   );
 
   const PostArea = (props: { primaryColor?: string }) => (
-    <>
+    <div class={styles.section}>
       <FlyoutTitle
         style={{ "margin-bottom": "5px" }}
         icon="chat"
@@ -581,7 +588,7 @@ const DesktopProfileFlyout = (props: {
         class={styles.postItemContainer}
         post={latestPost()!}
       />
-    </>
+    </div>
   );
 
   return (
@@ -608,8 +615,8 @@ const DesktopProfileFlyout = (props: {
         class={styles.flyoutInnerContainer}
         style={{
           background: `linear-gradient(180deg, ${
-            colors()?.bg?.[0] || "rgba(40, 40, 40, 0.86)"
-          }, ${colors()?.bg?.[1] || "rgba(40, 40, 40, 0.86)"})`,
+            colors()?.bg?.[0] || currentTheme()["pane-color"]
+          }, ${colors()?.bg?.[1] || currentTheme()["pane-color"]})`,
         }}
         classList={{
           [styles.dmPane]: props.dmPane,
