@@ -25,8 +25,6 @@
 body .mobile {
   .content {
     margin: 0;
-    border-left: none;
-    border-right: none;
     border-radius: 0;
   }
 }
@@ -46,7 +44,6 @@ body .mobile {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 
-    border-left: solid 1px rgba(255, 255, 255, 0.2);
   }
 
   &.hasRightDrawer {
@@ -54,7 +51,6 @@ body .mobile {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 
-    border-right: solid 1px rgba(255, 255, 255, 0.2);
   }
 }
 
