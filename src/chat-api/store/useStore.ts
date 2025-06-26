@@ -73,7 +73,5 @@ export default function useStore() {
 
   store = obj;
 
-  window.store = store;
-
   return obj;
 }

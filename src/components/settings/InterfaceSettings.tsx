@@ -1,40 +1,17 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
-import Text from "@/components/ui/Text";
+import { createEffect, For, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
-import {
-  getCurrentLanguage,
-  getLanguage,
-  Language,
-  languages,
-  setCurrentLanguage,
-} from "@/locales/languages";
 
-import ItemContainer from "../ui/LegacyItem";
-import twemoji from "twemoji";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import env from "@/common/env";
-import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
-import { Emoji } from "../markup/Emoji";
-import {
-  getStorageBoolean,
-  getStorageNumber,
-  setStorageBoolean,
-  setStorageNumber,
-  StorageKeys,
-  useLocalStorage,
-} from "@/common/localStorage";
+import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
-import Slider from "../ui/Slider";
-import { playMessageNotification } from "@/common/Sound";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { currentTheme, customColors, setThemeColor } from "@/common/themes";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
+import env from "@/common/env";
 
 const Container = styled("div")`
   display: flex;
@@ -63,7 +40,24 @@ export default function InterfaceSettings() {
       <AdvancedMarkup />
       <CustomizeColors />
       <SettingsBlock icon="code" label="Custom CSS" href="./custom-css" />
+      <ErudaBlock />
     </Container>
+  );
+}
+
+function ErudaBlock() {
+  return (
+    <SettingsBlock
+      icon="bug_report"
+      label={"Enable Eruda"}
+      description="Enable Eruda for debugging. Do not share any details with others."
+    >
+      <Button
+        label="Enable Once"
+        alert
+        href={env.APP_URL + "/app?eruda=true"}
+      />
+    </SettingsBlock>
   );
 }
 

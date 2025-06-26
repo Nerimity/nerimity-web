@@ -1,4 +1,18 @@
 /* @refresh reload */
+const search = new URLSearchParams(location.search);
+if (search.get("eruda") === "true" && location.pathname === "/app") {
+  alert(
+    "Eruda enabled, Do not share any details with others. Reload to disable Eruda."
+  );
+  await import("eruda").then((eruda) => {
+    eruda.default.init({ tool: ["console", "Elements", "Info"] });
+    const console = eruda.default.get("console");
+    console.config.set("jsExecution", false);
+  });
+  // remove eruda from url
+  search.delete("eruda");
+  history.replaceState(null, "", "?" + search.toString());
+}
 import "./init";
 import { render } from "solid-js/web";
 import "@material-symbols/font-400/rounded.css";
@@ -9,7 +23,7 @@ import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
 import { TransProvider } from "@mbarzda/solid-i18next";
 import { useWindowProperties } from "./common/useWindowProperties";
-import { For, Show, createEffect, lazy, on, onMount } from "solid-js";
+import { For, Show, createEffect, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
 import settings from "./common/Settings";
 import exploreRoutes from "./common/exploreRoutes";
@@ -18,9 +32,9 @@ import { updateTheme } from "./common/themes";
 import {
   getStorageString,
   removeStorage,
-  setStorageString,
   StorageKeys,
 } from "./common/localStorage";
+import { Tool } from "eruda";
 import useAccount from "./chat-api/store/useAccount";
 import { MetaProvider, Title } from "@solidjs/meta";
 
