@@ -1,0 +1,48 @@
+diff --git a/modular/sortable.esm.js b/modular/sortable.esm.js
+index 824d48148fc5b4694d10f953dcc34f1f56b4de54..d8519b78421f33b9df1b42ac5e8a6d184cfb2a2c 100644
+--- a/modular/sortable.esm.js
++++ b/modular/sortable.esm.js
+@@ -896,7 +896,6 @@ var dragEl,
+   activeGroup,
+   putSortable,
+   awaitingDragStarted = false,
+-  ignoreNextClick = false,
+   sortables = [],
+   tapEvt,
+   touchEvt,
+@@ -1028,18 +1027,7 @@ var documentExists = typeof document !== 'undefined',
+     }
+   };
+ 
+-// #1184 fix - Prevent click event on fallback if dragged but item not changed position
+-if (documentExists && !ChromeForAndroid) {
+-  document.addEventListener('click', function (evt) {
+-    if (ignoreNextClick) {
+-      evt.preventDefault();
+-      evt.stopPropagation && evt.stopPropagation();
+-      evt.stopImmediatePropagation && evt.stopImmediatePropagation();
+-      ignoreNextClick = false;
+-      return false;
+-    }
+-  }, true);
+-}
++
+ var nearestEmptyInsertDetectEvent = function nearestEmptyInsertDetectEvent(evt) {
+   if (dragEl) {
+     evt = evt.touches ? evt.touches[0] : evt;
+@@ -1611,7 +1599,6 @@ Sortable.prototype = /** @lends Sortable.prototype */{
+ 
+     // Set proper drop events
+     if (fallback) {
+-      ignoreNextClick = true;
+       _this._loopId = setInterval(_this._emulateDragOver, 50);
+     } else {
+       // Undo what was set in _prepareDragStart before drag started
+@@ -1756,7 +1743,6 @@ Sortable.prototype = /** @lends Sortable.prototype */{
+     if (dragEl.contains(evt.target) || target.animated && target.animatingX && target.animatingY || _this._ignoreWhileAnimating === target) {
+       return completed(false);
+     }
+-    ignoreNextClick = false;
+     if (activeSortable && !options.disabled && (isOwner ? canSort || (revert = parentEl !== rootEl) // Reverting item into the original list
+     : putSortable === this || (this.lastPutMode = activeGroup.checkPull(this, activeSortable, dragEl, evt)) && group.checkPut(this, activeSortable, dragEl, evt))) {
+       vertical = this._getDirection(evt, target) === 'vertical';
