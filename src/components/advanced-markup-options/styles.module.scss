@@ -57,6 +57,10 @@ body .button {
   background-color: var(--primary-color);
 }
 
+
+.datePickerOuterModal {
+  width: 100%;
+}
 .datePickerModal {
   display: flex;
   flex-direction: column;

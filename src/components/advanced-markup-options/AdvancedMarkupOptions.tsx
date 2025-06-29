@@ -23,6 +23,7 @@ import { off } from "process";
 import { TimestampType } from "../markup/TimestampMention";
 import DropDown from "../ui/drop-down/DropDown";
 import { WorldTimezones } from "@/common/WorldTimezones";
+import { DateTimePicker } from "../ui/DateTimePicker";
 
 const formats = {
   named_link: (url: string) => ({
@@ -321,7 +322,7 @@ const DateTimePickerModal = (props: {
   done: (val: number | string, type: TimestampType) => void;
 }) => {
   const [tab, setTab] = createSignal<"REL" | "OFF">("REL");
-  const [date, setDate] = createSignal(toLocalISOString(new Date()));
+  const [date, setDate] = createSignal(new Date());
   const [offset, setOffset] = createSignal(getTimezone());
 
   const [offsetPlaceholder, setOffsetPlaceholder] = createSignal(0);
@@ -343,13 +344,15 @@ const DateTimePickerModal = (props: {
       return;
     }
 
-    const dateObj = new Date(date());
-    dateObj.setSeconds(new Date().getSeconds());
-    props.done(dateObj.getTime() / 1000, TimestampType.RELATIVE);
+    props.done(date().getTime() / 1000, TimestampType.RELATIVE);
     props.close();
   };
   return (
-    <Modal.Root close={props.close}>
+    <Modal.Root
+      class={styles.datePickerOuterModal}
+      close={props.close}
+      desktopMaxWidth={270}
+    >
       <Modal.Header title="Time Markup" />
       <Modal.Body class={styles.datePickerModal}>
         <div class={styles.tabs}>
@@ -371,12 +374,7 @@ const DateTimePickerModal = (props: {
           </Item.Root>
         </div>
         <Show when={tab() === "REL"}>
-          <Input
-            type="datetime-local"
-            value={date()}
-            style={{ "font-size": "18px" }}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <DateTimePicker value={date()} onChange={setDate} />
         </Show>
         <Show when={tab() === "OFF"}>
           <DropDown

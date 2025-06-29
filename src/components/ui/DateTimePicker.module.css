@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dayAndMonthContainer {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+
+}
+body .yearInput {
+  flex: initial;
+  width: 60px;
+}
+
+.timeContainer {
+  display: flex;
+  > div {
+    width: 40px;
+  }
+  div {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+  }
+  :nth-child(1) div {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  :nth-child(2) div {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  :global .icon {
+    display: none;
+  }
+}

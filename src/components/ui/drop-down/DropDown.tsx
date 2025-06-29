@@ -194,7 +194,7 @@ function Popup(props: {
     const bottom = top + elHeight;
 
     if (bottom > height()) {
-      top = top - (bottom - height());
+      top = height() - elHeight - 20;
     }
 
     setPosition({
