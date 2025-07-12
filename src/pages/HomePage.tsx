@@ -170,6 +170,20 @@ const PlatformDownloadLinks = () => {
     platform: "windows" | "linux" | "android",
     e?: "deb" | "AppImage"
   ) => {
+    if (platform === "android") {
+      window.open(
+        "https://github.com/Nerimity/NerimityReactNative/releases/latest",
+        "_blank"
+      );
+      return;
+    }
+    window.open(
+      "https://github.com/Nerimity/nerimity-desktop/releases/latest",
+      "_blank"
+    );
+
+    return;
+
     const platforms = await getPlatformDownloadLinks();
     const filtered = platforms.filter((x) => {
       if (x.platform !== platform) return false;
