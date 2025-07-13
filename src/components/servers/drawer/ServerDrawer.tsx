@@ -338,6 +338,8 @@ function CategoryItem(props: {
             icon={props.channel.icon}
             type={props.channel.type}
             hovered={hovered()}
+            class={styles.categoryItemChannelIcon}
+
           />
           <Show when={isPrivateCategory()}>
             <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
