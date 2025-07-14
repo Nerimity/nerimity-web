@@ -30,6 +30,7 @@ export const ChannelIcon = (props: {
   icon?: string;
   type?: ChannelType;
   hovered?: boolean;
+  class?: string;
 }) => {
   const url = () => {
     if (props.icon!.includes(".")) {
@@ -48,7 +49,7 @@ export const ChannelIcon = (props: {
   };
 
   return (
-    <ChannelIconContainer>
+    <ChannelIconContainer class={props.class}>
       <Show when={!props.icon}>
         <Show
           when={props.type !== ChannelType.SERVER_TEXT}
