@@ -90,13 +90,17 @@ export function ImagePreviewModal(props: {
   onMount(() => {
     navigate("#image-preview");
 
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown, { capture: true });
     onCleanup(() => {
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keydown", onKeyDown, { capture: true });
     });
   });
 
   const onKeyDown = (event: KeyboardEvent) => {
+    console.log("owo");
+    event.stopPropagation();
+    event.preventDefault();
+    event.stopImmediatePropagation();
     if (event.key === "Escape") props.close();
   };
 
