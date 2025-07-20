@@ -51,15 +51,15 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   const [hideLeftDrawer, setHideLeftDrawer] = createSignal(false);
   const [hideRightDrawer, setHideRightDrawer] = createSignal(false);
 
-  createEffect(
-    on(
-      () => location.pathname,
-      () => {
-        setHideLeftDrawer(false);
-        setHideRightDrawer(false);
-      }
-    )
-  );
+  // createEffect(
+  //   on(
+  //     () => location.pathname,
+  //     () => {
+  //       setHideLeftDrawer(false);
+  //       setHideRightDrawer(false);
+  //     }
+  //   )
+  // );
 
   let containerEl: HTMLDivElement | undefined;
   const startPos = { x: 0, y: 0 };
