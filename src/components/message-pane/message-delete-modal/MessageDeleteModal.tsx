@@ -7,15 +7,13 @@ import LegacyModal from "@/components/ui/legacy-modal/LegacyModal";
 import { onCleanup, onMount } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import MessageItem from "../message-item/MessageItem";
+import { Modal } from "@/components/ui/modal";
 
-const DeleteMessageModalContainer = styled(FlexColumn)`
+const bodyContainerStyles = css`
   overflow: auto;
-  max-height: 200px;
-  padding-left: 8px;
-  padding-right: 8px;
-  gap: 6px;
+  max-height: 600px;
 `;
-const deleteMessageItemContainerStyles = css`
+const messageItemStyles = css`
   padding-top: 5px;
   border-radius: 8px;
   margin-top: 5px;
@@ -23,16 +21,17 @@ const deleteMessageItemContainerStyles = css`
   pointer-events: none;
 
   && {
-    padding: 0;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding: 10px;
+    border: solid 1px rgba(255, 255, 255, 0.1);
   }
 `;
 
-const deleteMessageModalStyles = css`
+const modalStyles = css`
   max-height: 800px;
   overflow: hidden;
 `;
+
+const desktopRootStyles = css``;
 
 export default function DeleteMessageModal(props: {
   instant?: boolean;
@@ -70,32 +69,36 @@ export default function DeleteMessageModal(props: {
   });
 
   return (
-    <LegacyModal
-      actionButtonsArr={[
-        { label: "Don't Delete", onClick: props.close, iconName: "close" },
-        {
-          primary: true,
-          label: "Delete",
-          onClick: onDeleteClick,
-          iconName: "delete",
-          color: "var(--alert-color)",
-        },
-      ]}
-      color="var(--alert-color)"
+    <Modal.Root
+      desktopMaxWidth={600}
+      desktopMinWidth={400}
+      desktopClass={desktopRootStyles}
       close={props.close}
-      title="Delete Message?"
-      icon="delete"
-      class={deleteMessageModalStyles}
-      maxWidth={500}
+      class={modalStyles}
     >
-      <DeleteMessageModalContainer>
+      <Modal.Header title="Delete Message?" icon="delete" alert />
+      <Modal.Body class={bodyContainerStyles}>
         <Text size={14}>Would you like to delete this message?</Text>
         <MessageItem
-          class={deleteMessageItemContainerStyles}
+          class={messageItemStyles}
           hideFloating
           message={props.message}
         />
-      </DeleteMessageModalContainer>
-    </LegacyModal>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label="Don't Delete"
+          onClick={props.close}
+          iconName="close"
+        />
+        <Modal.Button
+          primary
+          label="Delete"
+          onClick={onDeleteClick}
+          iconName="delete"
+          color="var(--alert-color)"
+        />
+      </Modal.Footer>
+    </Modal.Root>
   );
 }

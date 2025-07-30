@@ -27,6 +27,8 @@ interface RootProps {
   closeOnEscape?: boolean;
   doNotCloseOnBackgroundClick?: boolean;
   desktopMaxWidth?: number;
+  desktopMinWidth?: number;
+  desktopClass?: string;
 }
 const Root = (props: RootProps) => {
   const { isMobileWidth } = useWindowProperties();
@@ -79,10 +81,17 @@ const Root = (props: RootProps) => {
         )}
       >
         <div
-          class={cn(style.modalRoot, props.class)}
+          class={cn(
+            style.modalRoot,
+            !isMobileWidth() && props.desktopClass,
+            props.class
+          )}
           style={{
             ...(!isMobileWidth() && props.desktopMaxWidth
               ? { "max-width": props.desktopMaxWidth + "px" }
+              : {}),
+            ...(!isMobileWidth() && props.desktopMinWidth
+              ? { "min-width": props.desktopMinWidth + "px" }
               : {}),
           }}
         >
