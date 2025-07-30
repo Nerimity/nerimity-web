@@ -69,6 +69,7 @@ import { getSearchUsers } from "@/chat-api/services/UserService";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { createFilter } from "vite";
 import { TenorImage } from "@/chat-api/services/TenorService";
+import { Modal } from "./ui/modal";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -1610,20 +1611,25 @@ const DeletePostModalContainer = styled(FlexColumn)`
 `;
 const deletePostItemContainerStyles = css`
   pointer-events: none;
+  border-radius: 8px;
+  margin-top: 5px;
+
   && {
-    background-color: rgba(0, 0, 0, 0.3);
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.3);
+    &:before {
+      border-bottom: none;
     }
+    padding: 10px;
+    border: solid 1px rgba(255, 255, 255, 0.1);
   }
 `;
 
 const deletePostModalStyles = css`
-  display: flex;
-  flex-direction: column;
   max-height: 800px;
-  height: 100%;
+  overflow: hidden;
+`;
+const deletePostBodyContainerStyles = css`
   overflow: auto;
+  max-height: 600px;
 `;
 
 export function DeletePostModal(props: { post: Post; close: () => void }) {
@@ -1632,39 +1638,51 @@ export function DeletePostModal(props: { post: Post; close: () => void }) {
     props.post.delete();
   };
 
-  const ActionButtons = (
-    <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button
-        onClick={props.close}
-        iconName="close"
-        label={t("posts.deletePostModal.cancelButton")}
-      />
-      <Button
-        onClick={onDeleteClick}
-        iconName="delete"
-        color="var(--alert-color)"
-        label={t("posts.deletePostModal.deleteButton")}
-      />
-    </FlexRow>
-  );
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onDeleteClick();
+    }
+  };
+
+  onMount(() => {
+    document.addEventListener("keydown", onKeyDown);
+    onCleanup(() => {
+      document.removeEventListener("keydown", onKeyDown);
+    });
+  });
+
   return (
-    <LegacyModal
+    <Modal.Root
+      desktopMaxWidth={600}
+      desktopMinWidth={400}
       close={props.close}
-      title="Delete Post?"
-      icon="delete"
       class={deletePostModalStyles}
-      actionButtons={ActionButtons}
-      maxWidth={500}
     >
-      <DeletePostModalContainer>
-        <Text>{t("posts.deletePostModal.message")}</Text>
+      <Modal.Header title="Delete Post?" icon="delete" alert />
+      <Modal.Body class={deletePostBodyContainerStyles}>
+        <Text size={14}>{t("posts.deletePostModal.message")}</Text>
         <PostItem
           hideDelete
           class={deletePostItemContainerStyles}
           post={props.post}
         />
-      </DeletePostModalContainer>
-    </LegacyModal>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label="Don't Delete"
+          onClick={props.close}
+          iconName="close"
+        />
+        <Modal.Button
+          primary
+          label="Delete"
+          onClick={onDeleteClick}
+          iconName="delete"
+          color="var(--alert-color)"
+        />
+      </Modal.Footer>
+    </Modal.Root>
   );
 }
 

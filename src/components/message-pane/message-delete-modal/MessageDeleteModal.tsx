@@ -31,8 +31,6 @@ const modalStyles = css`
   overflow: hidden;
 `;
 
-const desktopRootStyles = css``;
-
 export default function DeleteMessageModal(props: {
   instant?: boolean;
   message: Message;
@@ -55,10 +53,6 @@ export default function DeleteMessageModal(props: {
       event.preventDefault();
       onDeleteClick();
     }
-    if (event.key === "Escape") {
-      event.preventDefault();
-      props.close();
-    }
   };
 
   onMount(() => {
@@ -72,7 +66,6 @@ export default function DeleteMessageModal(props: {
     <Modal.Root
       desktopMaxWidth={600}
       desktopMinWidth={400}
-      desktopClass={desktopRootStyles}
       close={props.close}
       class={modalStyles}
     >
