@@ -1604,11 +1604,6 @@ export function ViewPostModal(props: { close(): void }) {
   );
 }
 
-const DeletePostModalContainer = styled(FlexColumn)`
-  overflow: auto;
-  height: 100%;
-  position: relative;
-`;
 const deletePostItemContainerStyles = css`
   pointer-events: none;
   border-radius: 8px;
@@ -1697,6 +1692,8 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
   const [content, setContent] = createSignal(props.post.content || "");
   const store = useStore();
 
+  const [textAreaEl, setTextAreaEl] = createSignal<HTMLTextAreaElement>();
+
   const isSupporter = () =>
     hasBit(store.account.user()?.badges || 0, USER_BADGES.SUPPORTER.bit);
 
@@ -1706,36 +1703,60 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
     props.post.editPost(formattedContent);
   };
 
-  const ActionButtons = (
-    <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button
-        onClick={props.close}
-        color="var(--alert-color)"
-        iconName="close"
-        label="Cancel"
-      />
-      <Button onClick={onEditClick} iconName="edit" label="Edit" />
-    </FlexRow>
-  );
-
   return (
-    <LegacyModal
+    <Modal.Root
       close={props.close}
-      title="Edit Post"
-      icon="delete"
       class={editPostModalStyles}
-      actionButtons={ActionButtons}
+      desktopMaxWidth={600}
+      desktopMinWidth={400}
     >
-      <DeletePostModalContainer>
+      <Modal.Header title="Edit Post" icon="edit" />
+      <Modal.Body>
+        <AdvancedMarkupOptions
+          showGifPicker
+          class={css`
+            && {
+              border-bottom-left-radius: 0;
+              border-bottom-right-radius: 0;
+              margin-bottom: 0;
+            }
+          `}
+          inputElement={textAreaEl()!}
+          updateText={setContent}
+        />
+
         <Input
+          ref={setTextAreaEl}
           maxLength={isSupporter() ? 1500 : 500}
-          height={100}
           type="textarea"
+          minHeight={40}
+          class={css`
+            div {
+              border-top-left-radius: 0;
+              border-top-right-radius: 0;
+              border-top: none;
+              background-color: rgba(0, 0, 0, 0.6);
+            }
+          `}
           value={content()}
           onText={setContent}
         />
-      </DeletePostModalContainer>
-    </LegacyModal>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label="Don't Edit"
+          onClick={props.close}
+          iconName="close"
+          alert
+        />
+        <Modal.Button
+          label="Edit"
+          onClick={onEditClick}
+          primary
+          iconName="edit"
+        />
+      </Modal.Footer>
+    </Modal.Root>
   );
 }
 

@@ -71,6 +71,7 @@ const formats = {
 export const AdvancedMarkupOptions = (props: {
   zeroBottomBorderRadius?: boolean;
   hideEmojiPicker?: boolean;
+  showGifPicker?: boolean;
   class?: string;
   inputElement: HTMLInputElement | HTMLTextAreaElement;
   updateText(text: string): void;
@@ -201,6 +202,8 @@ export const AdvancedMarkupOptions = (props: {
           style={getPos()}
         >
           <EmojiPicker
+            showGifPicker={props.showGifPicker}
+            gifPicked={(e) => onEmojiPicked(e.url)}
             onClick={onEmojiPicked}
             close={() => {
               opened = null;
