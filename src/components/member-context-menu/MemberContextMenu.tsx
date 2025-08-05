@@ -34,6 +34,10 @@ import Avatar from "../ui/Avatar";
 import { Modal } from "../ui/modal";
 import { User } from "@/chat-api/store/useUsers";
 import { Server } from "@/chat-api/store/useServers";
+import {
+  cachedVolumes,
+  setCachedVolumes,
+} from "@/chat-api/store/useVoiceUsers";
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
   userId: string;
@@ -210,7 +214,11 @@ export default function MemberContextMenu(props: Props) {
 }
 
 function Header(props: { userId: string }) {
-  const [voiceVolume, setVoiceVolume] = createSignal(1);
+  const setVoiceVolume = (volume: number) => {
+    setCachedVolumes(props.userId, volume);
+  };
+  const voiceVolume = () => cachedVolumes[props.userId] || 1;
+
   const store = useStore();
   const user = () => store.users.get(props.userId);
 

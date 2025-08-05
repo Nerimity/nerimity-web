@@ -54,6 +54,10 @@ type StreamWithTracks = {
   tracks: MediaStreamTrack[];
 };
 
+
+
+// cachedVolumes[userId] = volume
+export const [cachedVolumes, setCachedVolumes] = createStore<Record<string, number>>({});
 export type ConnectionStatus = "CONNECTED" | "DISCONNECTED" | "CONNECTING";
 
 export type VoiceUser = RawVoice & {
@@ -406,6 +410,8 @@ const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
     if (!streams) return;
 
     const audio = newVoiceUser.audio || new Audio();
+    const volume = cachedVolumes[userId] || 1;
+    audio.volume = volume;
     audio.muted = deafened.enabled;
     const deviceId = getStorageString(StorageKeys.outputDeviceId, undefined);
     if (deviceId) {
