@@ -237,13 +237,15 @@ export default function ServerSettingsChannel() {
         : null
     );
   };
-  const createChannel = async (type: ChannelType) => {
+  const createChannel = async (type: ChannelType | "EXTERNAL") => {
     if (channelAddRequestSent()) return;
     setChannelAddRequestSent(true);
 
-    const channel = await createServerChannel({ serverId, type }).finally(() =>
-      setChannelAddRequestSent(false)
-    );
+    const channel = await createServerChannel({
+      serverId,
+      type: type === "EXTERNAL" ? ChannelType.SERVER_TEXT : type,
+      external: type === "EXTERNAL",
+    }).finally(() => setChannelAddRequestSent(false));
 
     navigate(RouterEndpoints.SERVER_SETTINGS_CHANNEL(serverId!, channel.id));
   };
@@ -291,6 +293,8 @@ function ContextMenuCreate(props: Omit<ContextMenuProps, "items">) {
       items={[
         { icon: "textsms", label: "Text Channel", id: ChannelType.SERVER_TEXT },
         { icon: "segment", label: "Category", id: ChannelType.CATEGORY },
+        { separator: true },
+        { icon: "dns", label: "External Text Channel", id: "EXTERNAL" },
       ]}
     />
   );

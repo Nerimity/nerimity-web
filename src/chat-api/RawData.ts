@@ -221,6 +221,8 @@ export interface RawChannel {
   order?: number;
   slowModeSeconds?: number;
 
+  external?: boolean;
+
   _count?: { attachments: number };
 }
 

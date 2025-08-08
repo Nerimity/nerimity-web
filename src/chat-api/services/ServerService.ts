@@ -126,6 +126,7 @@ interface CreateServerChannelOpts {
   serverId: string;
   name?: string;
   type?: ChannelType;
+  external?: boolean;
 }
 export async function createServerChannel(
   opts: CreateServerChannelOpts
@@ -137,6 +138,7 @@ export async function createServerChannel(
     body: {
       ...(opts.name ? { name: opts.name } : undefined),
       ...(opts.type ? { type: opts.type } : undefined),
+      ...(opts.external ? { external: opts.external } : undefined),
     },
     useToken: true,
   });

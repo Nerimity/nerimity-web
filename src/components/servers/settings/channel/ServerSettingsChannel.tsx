@@ -43,6 +43,7 @@ import { css } from "solid-styled-components";
 import {
   deleteChannelNotice,
   getChannelNotice,
+  serverExternalChannelGenerateToken,
   updateChannelNotice,
 } from "@/chat-api/services/ChannelService";
 import { RawChannelNotice } from "@/chat-api/RawData";
@@ -342,6 +343,13 @@ function GeneralTab() {
   };
   return (
     <div class={styles.channelPane}>
+      {/* External Channel */}
+      <Show when={channel()?.external}>
+        <ExternalChannelBlock
+          channelId={params.channelId}
+          serverId={params.serverId!}
+        />
+      </Show>
       {/* Channel Name */}
       <SettingsBlock
         icon="edit"
@@ -623,5 +631,33 @@ function ChannelDeleteConfirmModal(props: {
       confirmText={props.channel?.name}
       onDeleteClick={onDeleteClick}
     />
+  );
+}
+
+function ExternalChannelBlock(props: { serverId: string; channelId: string }) {
+  const handleGenerateToken = async () => {
+    const data = await serverExternalChannelGenerateToken(
+      props.serverId,
+      props.channelId
+    ).catch((err) => alert(err));
+
+    if (!data) return;
+
+    navigator.clipboard.writeText(data.token);
+    alert("Token copied to clipboard. Please save it somewhere safe.");
+  };
+
+  return (
+    <SettingsBlock
+      icon="dns"
+      label={"External Text Channel"}
+      description="Host your own text channel server. Suitable for webhooks."
+    >
+      <Button
+        label="Generate New Token"
+        iconName="content_copy"
+        onClick={handleGenerateToken}
+      />
+    </SettingsBlock>
   );
 }
