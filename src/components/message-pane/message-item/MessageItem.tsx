@@ -254,7 +254,9 @@ const Details = (props: DetailsProps) => (
       <div class={styles.ownerBadge}>Owner</div>
     </Show>
     <Show when={props.message.createdBy.bot}>
-      <div class={styles.ownerBadge}>Bot</div>
+      <div class={styles.ownerBadge}>
+        {props.message.webhookId ? "Webhook" : "Bot"}
+      </div>
     </Show>
     <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
     <Show when={props.message.silent}>

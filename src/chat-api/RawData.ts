@@ -62,6 +62,7 @@ export interface RawMessage {
 
   buttons: RawMessageButton[];
   roleMentions: RawServerRole[];
+  webhookId?: string;
 }
 
 export interface RawMessageButton {
