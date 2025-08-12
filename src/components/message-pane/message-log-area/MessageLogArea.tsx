@@ -532,6 +532,7 @@ export const MessageLogArea = (props: {
   const onUserContextMenu = (event: MouseEvent, message: Message) => {
     event.preventDefault();
     event.stopPropagation();
+    if (message.webhookId) return;
     setUserContextMenuDetails({
       message,
       position: {
@@ -649,7 +650,7 @@ export const MessageLogArea = (props: {
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
-            showNewDayMarker
+              showNewDayMarker
               translateMessage={translateMessageIds().includes(message.id!)}
               reactionPickerClick={(event) =>
                 reactionPickerClick(event, message)
