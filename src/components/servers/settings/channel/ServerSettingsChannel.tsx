@@ -696,6 +696,7 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
             icon="webhook"
             label={webhook.name}
             borderTopRadius={false}
+            href="./webhook"
             borderBottomRadius={i() === webhooks().length - 1}
           >
             <Button

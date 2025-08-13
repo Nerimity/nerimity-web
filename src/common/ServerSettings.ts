@@ -94,6 +94,18 @@ const serverSettings: ServerSetting[] = [
         import("@/components/servers/settings/welcome-question/WelcomeQuestion")
     ),
   },
+    {
+    path: "channels/:channelId/webhook",
+    routePath: "/channels/:channelId/webhook",
+    name: "servers.settings.drawer.channel",
+    icon: "storage",
+    requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
+    hideDrawer: true,
+    element: lazy(
+      () =>
+        import("@/components/servers/settings/ServerSettingsWebhook")
+    ),
+  },
   {
     path: "channels/:channelId",
     routePath: "/channels/:channelId/:tab?",
@@ -106,6 +118,7 @@ const serverSettings: ServerSetting[] = [
         import("@/components/servers/settings/channel/ServerSettingsChannel")
     ),
   },
+
   {
     name: "servers.settings.drawer.channels",
     path: "channels",
