@@ -1,9 +1,7 @@
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { useNavigate, useParams } from "solid-navigator";
-import { t } from "i18next";
 import { createEffect, createSignal, onMount, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
