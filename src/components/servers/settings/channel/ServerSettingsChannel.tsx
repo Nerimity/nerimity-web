@@ -634,7 +634,7 @@ function ChannelDeleteConfirmModal(props: {
 
 const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
   const [webhooks, setWebhooks] = createSignal<RawWebhook[]>([]);
-  const [tokenCache, setTokenCache] = createSignal<Record<string, string>>({});
+  const navigate = useNavigate();
 
   onMount(async () => {
     const res = await getWebhooks(props.serverId, props.channelId);
@@ -649,45 +649,16 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
       }
     );
     if (!res) return;
-    setWebhooks([res, ...webhooks()]);
-  };
-
-  const handleDelete = async (webhookId: string) => {
-    const res = await deleteWebhook(
-      props.serverId,
-      props.channelId,
-      webhookId
-    ).catch((err) => {
-      alert(err.message);
-    });
-
-    if (res) {
-      setWebhooks(webhooks().filter((w) => w.id !== webhookId));
-    }
-  };
-
-  const handleCopyUrl = async (webhookId: string) => {
-    const token = tokenCache()[webhookId];
-
-    const res = token
-      ? { token }
-      : await getWebhookToken(props.serverId, props.channelId, webhookId).catch(
-          (err) => {
-            alert(err.message);
-          }
-        );
-    if (!res) return;
-
-    setTokenCache({ ...tokenCache(), [webhookId]: res.token });
-
-    copyToClipboard(
-      `https://nerimity.com/api/webhooks/${webhookId}/${res.token}`
-    );
+    navigate(`./webhooks/${res.id}`);
   };
 
   return (
     <div>
-      <SettingsBlock icon="webhook" label="Webhooks" header={webhooks().length}>
+      <SettingsBlock
+        icon="webhook"
+        label="Webhooks"
+        header={!!webhooks().length}
+      >
         <Button label="Create" iconName="add" onClick={handleCreate} />
       </SettingsBlock>
       <For each={webhooks()}>
@@ -696,21 +667,9 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
             icon="webhook"
             label={webhook.name}
             borderTopRadius={false}
-            href="./webhook"
+            href={`./webhooks/${webhook.id}`}
             borderBottomRadius={i() === webhooks().length - 1}
-          >
-            <Button
-              label="Copy URL"
-              iconName="link"
-              onClick={() => handleCopyUrl(webhook.id)}
-            />
-            <Button
-              label="Delete"
-              iconName="delete"
-              onClick={() => handleDelete(webhook.id)}
-              alert
-            />
-          </SettingsBlock>
+          />
         )}
       </For>
     </div>

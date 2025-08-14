@@ -62,3 +62,40 @@ export const deleteWebhook = async (
   });
   return data;
 };
+
+export const getWebhook = async (
+  serverId: string,
+  channelId: string,
+  webhookId: string
+) => {
+  const data = await request<RawWebhook>({
+    method: "GET",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.serverChannel(serverId, channelId) +
+      `/webhooks/${webhookId}`,
+    useToken: true,
+  });
+  return data;
+};
+export const updateWebhook = async (
+  serverId: string,
+  channelId: string,
+  webhookId: string,
+  update: {
+    name?: string;
+  }
+) => {
+  const data = await request<RawWebhook>({
+    method: "POST",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      ServiceEndpoints.serverChannel(serverId, channelId) +
+      `/webhooks/${webhookId}`,
+    useToken: true,
+    body: update,
+  });
+  return data;
+};
