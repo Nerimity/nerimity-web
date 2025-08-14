@@ -226,7 +226,11 @@ const Details = (props: DetailsProps) => (
       decoration
       onContextMenu={props.userContextMenu}
       class={classNames("trigger-profile-flyout", styles.username)}
-      href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
+      href={
+        props.message.webhookId
+          ? "#"
+          : RouterEndpoints.PROFILE(props.message.createdBy.id)
+      }
       style={{ color: props.serverMember?.roleColor() }}
     >
       {props.serverMember?.nickname || props.message.createdBy.username}
@@ -254,7 +258,9 @@ const Details = (props: DetailsProps) => (
       <div class={styles.ownerBadge}>Owner</div>
     </Show>
     <Show when={props.message.createdBy.bot}>
-      <div class={styles.ownerBadge}>Bot</div>
+      <div class={styles.ownerBadge}>
+        {props.message.webhookId ? "Webhook" : "Bot"}
+      </div>
     </Show>
     <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
     <Show when={props.message.silent}>
@@ -397,6 +403,7 @@ const MessageItem = (props: MessageItemProps) => {
 
   const showProfileFlyout = (event: MouseEvent) => {
     event.preventDefault();
+    if (props.message.webhookId) return;
     const el = event.target as HTMLElement;
     const rect = el?.getBoundingClientRect()!;
     const pos = {
@@ -480,7 +487,11 @@ const MessageItem = (props: MessageItemProps) => {
                   <A
                     onClick={showProfileFlyout}
                     onContextMenu={props.userContextMenu}
-                    href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
+                    href={
+                      props.message.webhookId
+                        ? "#"
+                        : RouterEndpoints.PROFILE(props.message.createdBy.id)
+                    }
                     class={classNames(
                       styles.avatar,
                       "avatar",

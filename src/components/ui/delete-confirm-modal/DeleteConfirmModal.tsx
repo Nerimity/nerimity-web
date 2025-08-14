@@ -60,6 +60,7 @@ export default function DeleteConfirmModal(props: Props) {
         iconName="delete"
         label={buttonMessage()}
         color="var(--alert-color)"
+        primary
         onClick={onDeleteClick}
       />
     </FlexRow>

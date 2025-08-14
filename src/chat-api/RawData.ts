@@ -19,6 +19,17 @@ export interface RawServer {
   };
 }
 
+export interface RawWebhook {
+  name: string;
+  id: string;
+  hexColor: string;
+  avatar: string | null;
+  channelId: string;
+  serverId: string | null;
+  createdById: string;
+  createdAt: number;
+}
+
 export interface RawVoice {
   serverId?: string;
   channelId: string;
@@ -62,6 +73,7 @@ export interface RawMessage {
 
   buttons: RawMessageButton[];
   roleMentions: RawServerRole[];
+  webhookId?: string;
 }
 
 export interface RawMessageButton {
