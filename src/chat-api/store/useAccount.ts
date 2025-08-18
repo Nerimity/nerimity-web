@@ -161,6 +161,14 @@ const addReminder = (reminder: RawReminder) => {
   if (!account.user?.reminders) return;
   setUser({ reminders: [...account.user.reminders, reminder] });
 };
+const updateReminder = (reminder: RawReminder) => {
+  if (!account.user?.reminders) return;
+  setUser({
+    reminders: account.user.reminders.map((r) =>
+      r.id === reminder.id ? reminder : r
+    ),
+  });
+};
 const removeReminder = (reminderId: string) => {
   if (!account.user?.reminders) return;
   const reminders = account.user.reminders.filter((r) => r.id !== reminderId);
@@ -172,6 +180,7 @@ export default function useAccount() {
     user,
     avatarUrl,
     reminders,
+    updateReminder,
     addReminder,
     removeReminder,
     setUser,

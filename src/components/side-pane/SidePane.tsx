@@ -30,6 +30,7 @@ import { useResizeBar } from "../ui/ResizeBar";
 import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import { ServerList } from "./ServerList";
+import { useReminders } from "../useReminders";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
@@ -90,6 +91,7 @@ export default function SidePane(props: { class?: string }) {
 function HomeItem(props: { size: number }) {
   const { inbox, friends, servers } = useStore();
   const location = useLocation();
+  const { hasActiveReminder } = useReminders();
   const isSelected = () => {
     if (location.pathname === "/app") return true;
     if (location.pathname.startsWith(RouterEndpoints.INBOX())) return true;
@@ -105,7 +107,11 @@ function HomeItem(props: { size: number }) {
   const count = () => notificationCount() + friendRequestCount();
 
   createEffect(() => {
-    updateTitleAlert(count() || servers.hasNotifications() ? true : false);
+    updateTitleAlert(
+      hasActiveReminder() || count() || servers.hasNotifications()
+        ? true
+        : false
+    );
   });
 
   return (

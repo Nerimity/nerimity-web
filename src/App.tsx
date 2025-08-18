@@ -20,11 +20,6 @@ import ContextMenu, {
   ContextMenuItem,
 } from "./components/ui/context-menu/ContextMenu";
 import { Delay } from "./common/Delay";
-import useStore from "./chat-api/store/useStore";
-
-const RemindersModal = lazy(
-  () => import("./components/reminders-modal/RemindersModal")
-);
 
 const ConnectingStatusHeader = lazy(
   () => import("@/components/connecting-status-header/ConnectingStatusHeader")
@@ -39,8 +34,6 @@ export default function App() {
   const isAppPage = useMatch(() => "/app/*");
 
   useElectronContextMenu();
-
-  useReminderService();
 
   useReactNativeEvent(["registerFCM"], (e) => {
     registerFCM(e.token);
@@ -165,50 +158,4 @@ const InputContextMenu = (props: {
       />
     </Delay>
   );
-};
-
-const useReminderService = () => {
-  const store = useStore();
-  const { createPortal } = useCustomPortal();
-  const reminders = createMemo(() => store.account.reminders());
-
-  const isAuthenticated = createMemo(() => store.account.isAuthenticated());
-  let timeoutId: number;
-
-  createEffect(
-    on([reminders, isAuthenticated], () => {
-      if (isAuthenticated()) {
-        reminderService(checkReminders());
-      }
-    })
-  );
-  onCleanup(() => {
-    window.clearTimeout(timeoutId);
-  });
-
-  const checkReminders = () => {
-    const latestReminder = reminders()[0];
-    if (!latestReminder) return 10000;
-    const now = Date.now();
-
-    const isActive = latestReminder.remindAt <= now;
-
-    if (isActive) {
-      createPortal(
-        (close) => <RemindersModal close={close} />,
-        "reminders-modal"
-      );
-    }
-
-    const isInMinute = latestReminder?.remindAt - now < 60 * 1000;
-    return isInMinute ? 1000 : 10000;
-  };
-
-  const reminderService = (delay: number) => {
-    window.clearTimeout(timeoutId);
-    timeoutId = window.setTimeout(() => {
-      const nextCheckTime = checkReminders();
-      reminderService(nextCheckTime);
-    }, delay);
-  };
 };

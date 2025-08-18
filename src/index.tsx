@@ -37,6 +37,7 @@ import {
 import { Tool } from "eruda";
 import useAccount from "./chat-api/store/useAccount";
 import { MetaProvider, Title } from "@solidjs/meta";
+import { ReminderProvider } from "./components/useReminders";
 
 updateTheme();
 fixSafariMobileContextMenu();
@@ -199,8 +200,10 @@ const Root = () => {
       }}
     >
       <CustomPortalProvider>
-        <App />
-        <Outlet />
+        <ReminderProvider>
+          <App />
+          <Outlet />
+        </ReminderProvider>
       </CustomPortalProvider>
     </TransProvider>
   );

@@ -16,7 +16,12 @@ import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Slider from "../ui/Slider";
-import { playMessageNotification, playSound, Sounds } from "@/common/Sound";
+import {
+  getCustomSound,
+  playMessageNotification,
+  playSound,
+  Sounds,
+} from "@/common/Sound";
 import DropDown from "../ui/drop-down/DropDown";
 import Button from "../ui/Button";
 import ItemContainer from "../ui/LegacyItem";
@@ -162,18 +167,27 @@ function NotificationSoundSelection() {
       >
         <NotificationSoundDropDown typeId="MESSAGE_MENTION" />
       </SettingsBlock>
+      <SettingsBlock
+        icon="calendar_today"
+        label="Reminder"
+        description="Notifications for reminders"
+        borderTopRadius={false}
+      >
+        <NotificationSoundDropDown typeId="REMINDER" />
+      </SettingsBlock>
     </FlexColumn>
   );
 }
 
 function NotificationSoundDropDown(props: {
-  typeId: "MESSAGE" | "MESSAGE_MENTION";
+  typeId: "MESSAGE" | "MESSAGE_MENTION" | "REMINDER";
 }) {
   const [selectedSounds, setSelectedSounds] = useLocalStorage<{
     [key: string]: (typeof Sounds)[number] | undefined;
   }>(StorageKeys.NOTIFICATION_SOUNDS, {});
 
-  const selectedId = () => selectedSounds()[props.typeId] || "default";
+  const selectedId = () =>
+    selectedSounds()[props.typeId] || getCustomSound(props.typeId) || "default";
 
   const capitalizeFirstLetter = (val: string) => {
     return val.charAt(0).toUpperCase() + val.slice(1);
