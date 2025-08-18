@@ -112,7 +112,7 @@ export const DateTimePicker = (props: {
           selectedId={selectedMinute().toString()}
           items={minutes.map((minute) => ({
             id: minute.toString(),
-            label: `${minute}`,
+            label: `${minute.toString().padStart(2, "0")}`,
           }))}
         />
       </div>
