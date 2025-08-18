@@ -104,7 +104,7 @@ export const DateTimePicker = (props: {
           selectedId={selectedHour().toString()}
           items={hours.map((hour) => ({
             id: hour.toString(),
-            label: `${hour}`,
+            label: `${hour.toString().padStart(2, "0")}`,
           }))}
         />
         <DropDown
