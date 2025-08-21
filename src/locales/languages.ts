@@ -28,18 +28,12 @@ export const languages = {
   "be-xo": {
     name: "Belarusian (Traditional)",
     emoji: "🇧🇾",
-    contributors: [
-      "https://github.com/Dzi-Mieha",
-      "https://github.com/1enify",
-    ],
+    contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"],
   },
   "pt-br": {
     name: "Brazilian Portuguese",
     emoji: "🇧🇷",
-    contributors: [
-      "https://github.com/Jerkycat",
-      "https://gitlab.com/Cirnos",
-    ],
+    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos"],
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
@@ -62,6 +56,7 @@ export const languages = {
     contributors: [
       "https://github.com/F-iiral",
       "https://github.com/Deutscher775",
+      "https://github.com/mathiiiiiis",
     ],
   },
   "hu-hu": {
@@ -77,10 +72,7 @@ export const languages = {
   "pl-pl": {
     name: "Polish",
     emoji: "🇵🇱",
-    contributors: [
-      "https://github.com/Ciach0",
-      "https://github.com/CyberL1"
-    ],
+    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
   },
   "ro-ro": {
     name: "Romanian",
@@ -93,7 +85,7 @@ export const languages = {
     contributors: [
       "https://github.com/FAYSi223",
       "https://github.com/eshkq",
-      "https://github.com/Effently"
+      "https://github.com/Effently",
     ],
   },
   "es-es": {
@@ -111,7 +103,7 @@ export const languages = {
     emoji: "🇹🇷",
     contributors: [
       "https://github.com/lexerotk",
-      "https://github.com/slideglide"
+      "https://github.com/slideglide",
     ],
   },
   "uw-uw": {
