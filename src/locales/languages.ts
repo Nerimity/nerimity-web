@@ -35,6 +35,11 @@ export const languages = {
     emoji: "🇧🇷",
     contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos"],
   },
+  "zh-hans": {
+    name: "Chinese (Simplified)",
+    emoji: "🇹🇼",
+    contributors: ["https://github.com/Coolsigh"],
+  },
   "zn-hant": {
     name: "Chinese (Traditional)",
     emoji: "🇹🇼",
