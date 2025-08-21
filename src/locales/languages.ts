@@ -37,7 +37,7 @@ export const languages = {
   },
   "zh-hans": {
     name: "Chinese (Simplified)",
-    emoji: "🇹🇼",
+    emoji: "🇨🇳",
     contributors: ["https://github.com/Coolsigh"],
   },
   "zn-hant": {
