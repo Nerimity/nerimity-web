@@ -64,8 +64,8 @@
   "dashboard": {
     "title": "Dashboard",
     "activeUsers": "Aktive User",
-    "noActiveUsers": "Kein user ist aktiv",
-    "servers": "Servers",
+    "noActiveUsers": "Kein User ist aktiv",
+    "servers": "Server",
     "posts": "Posts",
     "feed": "Feed",
     "discover": "Entdecken",
@@ -83,9 +83,9 @@
       "searchBarPlaceholder": "Suche",
       "friendRequests": "{{count}} Freundschaftsanfrage",
       "onlineFriends": "{{count}} Online Freunde",
-      "offlineFriends": "{{count}} offline Freunde",
+      "offlineFriends": "{{count}} Offline Freunde",
       "notes": "Notizen",
-      "addFriendButton": "Freund adden",
+      "addFriendButton": "Freund hinzufügen",
       "blockedUsersButton": "Blockiert",
       "inboxTitle": "Posteingang",
       "friendsButton": "Freunde",
@@ -99,11 +99,11 @@
     },
     "servers": {
       "title": "Erkunden - Server",
-      "noticeMessage": "Ein Server kann alle {{hours}} Stunden einmal geboosted werden. Am {{date}} werden alle Boosts zurückgesetzt.",
+      "noticeMessage": "Ein Server kann alle {{hours}} Stunden einmal geboostet werden. Am {{date}} werden alle Boosts zurückgesetzt.",
       "sortMostBumps": "Meiste Boosts",
       "sortMostMembers": "Meiste Mitglieder",
       "sortRecentlyAdded": "Neu hinzugefügt",
-      "sortRecentlyBumped": "Zuletzt geboosted",
+      "sortRecentlyBumped": "Zuletzt geboostet",
       "filterAll": "Alle",
       "filterVerified": "Verifiziert",
       "memberCount": "{{count}} Mitglieder",
@@ -134,10 +134,10 @@
       "general": {
         "serverRenameNotice": "Wenn du deinen Server umbenennst, verlierst du alle Verifizierungsvorteile.",
         "serverName": "Servername",
-        "defaultChannel": "Standardkanal",
+        "defaultChannel": "Standardchannel",
         "defaultChannelDescription": "Neue Mitglieder werden zu diesem Channel weitergeleitet.",
-        "systemMessages": "Systemmeldungen",
-        "systemMessagesDescription": "Hier werden Systembenachrichtigungen reingesendet.",
+        "systemMessages": "Systemnachrichten",
+        "systemMessagesDescription": "Hier werden Systembenachrichtigungen hineingesendet.",
         "deleteThisServer": "Server löschen",
         "deleteThisServerDescription": "Aktion kann nicht rückgängig gemacht werden!",
         "deleteServerButton": "Server löschen",
@@ -176,7 +176,7 @@
         "permissionsDescription": "Verwalte Berechtigungen für diesen Channel.",
         "deleteThisChannel": "Channel löschen",
         "deleteThisChannelDescription": "Aktion kann nicht rückgängig gemacht werden!",
-        "deleteChannelButton": "Kanal löschen",
+        "deleteChannelButton": "Channel löschen",
         "removeNoticeButton": "Hinweis löschen"
       },
       "invites": {
@@ -196,7 +196,7 @@
         "bumpServer": "Server boosten",
         "bumpServerDescription": "Booste den Server, um mehr Mitglieder zu bekommen.",
         "publishServerButton": "Server veröffentlichen",
-        "unpublishServerButton": "Server Unpublishen"
+        "unpublishServerButton": "Server nicht mehr veröffentlichen"
       }
     },
     "rolePermissions": {
@@ -217,7 +217,7 @@
       "nicknameMember": "Member Nickname",
       "nicknameMemberDescription": "Erlaubt Benutzern, ihren Nickname auf dem Server zu ändern."
     },
-     "channelPermissions": {
+    "channelPermissions": {
       "publicChannel": "Öffentlicher Channel",
       "publicChannelDescription": "Erlaubt Zugriff auf den Channel. Server Admins können auf jeden Channel zugreifen.",
       "sendMessage": "Nachrichten senden",
@@ -263,7 +263,7 @@
       "supported": "Unterstützt",
       "browse": "Durchsuchen",
       "profile": "Profil",
-      "profileDescription": "Bearbeite deine Bio oder Profil Farben",
+      "profileDescription": "Bearbeite deine Bio oder Profilfarben",
       "changePassword": "Passwort ändern",
       "forgotPassword": "Passwort vergessen",
       "newPassword": "Neues Passwort",
@@ -277,7 +277,7 @@
       "saveButton": "Speichern",
       "saveChangesButton": "Änderungen speichern",
       "deleteAccount": "Meinen Account löschen",
-      "deleteAccountDescription": "Action kann nicht rückgängig gemacht werden!",
+      "deleteAccountDescription": "Aktion kann nicht rückgängig gemacht werden!",
       "deleteAccountNotice": "Du musst alle Server verlassen/löschen, bevor du deinen Account löschen kannst.",
       "understoodButton": "Verstanden"
     },
@@ -304,14 +304,14 @@
         "nobody": "Niemand"
       },
       "profileOptions": {
-        "title": "Profil Optionen",
+        "title": "Profiloptionen",
         "hideFollowers": "Follower verstecken",
         "hideFollowersDescription": "Verstecke deine Follower in deinem Profil.",
         "hideFollowing": "Folge ich verstecken",
         "hideFollowingDescription": "Verstecke Benutzer, denen du folgst, in deinem Profil."
       }
     },
-     "notifications": {
+    "notifications": {
       "desktopNotifications": "Desktop Benachrichtigungen",
       "desktopNotificationsDescription": "Zeige Desktop Benachrichtigungen auch an, wenn die App minimiert ist.",
       "sounds": "Sounds",
@@ -351,11 +351,11 @@
       "disableAdvancedMarkupBar": "Erweiterte Markup Bar deaktivieren",
       "disableAdvancedMarkupBarDescription": "Deaktiviere die erweiterte Markup Bar in Text Channels.",
       "customizeColors": "Farben anpassen",
-      "customizeColorsDescription": "Passe die Farben des Interface an."
+      "customizeColorsDescription": "Passe die Farben des Interfaces an."
     }
   },
   "supportBlock": {
-    "support": "Supporte Mich",
+    "support": "Unterstütze mich",
     "supportDescription": "Spende, um ein Unterstützer-Abzeichen zu erhalten!"
   },
   "createServerModal": {
@@ -413,7 +413,7 @@
     "deleteMessage": "Nachricht löschen",
     "copyMessage": "Nachricht kopieren",
     "copyId": "ID kopieren",
-    "viewReactions": "Reaktionen amzeigen",
+    "viewReactions": "Reaktionen anzeigen",
     "quoteMessage": "Nachricht zitieren",
     "reportMessage": "Nachricht melden",
     "reply": "Antworten"
@@ -422,7 +422,7 @@
     "followButton": "Folgen",
     "unfollowButton": "Entfolgen",
     "removeFriendButton": "Entfreunden",
-    "addFriendButton": "Freund adden",
+    "addFriendButton": "Freund hinzufügen",
     "pendingRequest": "Ausstehende Anfrage",
     "acceptRequestButton": "Anfrage annehmen",
     "messageButton": "Nachricht",
@@ -430,7 +430,7 @@
     "mutualServers": "Gemeinsame Server ({{count}})",
     "postsTab": "Posts",
     "followersTab": "Follower",
-    "followingTab": "Folgs ich",
+    "followingTab": "Folge ich",
     "postsAndRepliesTab": "Posts und Antworten ({{count}})",
     "likedPostsTab": "Gelikte Posts ({{count}})"
   },
@@ -457,7 +457,7 @@
     "channelNotice": "Channel Hinweis",
     "attachments": "Anhänge",
     "attachmentsBack": "Zurück",
-    "members": "Members"
+    "members": "Member"
   },
   "botInvite": {
     "serverSelect": "Bitte wähle einen Server aus!",
@@ -468,6 +468,6 @@
   },
   "googleAccountLink": {
     "linking": "Dein Account wird mit Google verbunden...",
-    "success": "Account Verknüpft! Du kannst das Fenster jetzt schließen."
+    "success": "Account verknüpft! Du kannst das Fenster jetzt schließen."
   }
 }
