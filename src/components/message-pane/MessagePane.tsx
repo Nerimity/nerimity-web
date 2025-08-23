@@ -472,6 +472,11 @@ function MessageArea(props: {
     setShowEmojiPicker(false);
   };
 
+  const htmlEnabled = () => channelProperty()?.htmlEnabled ?? false;
+  const toggleHtml = () => {
+    channelProperties.update(params.channelId, "htmlEnabled", !htmlEnabled());
+  };
+
   return (
     <div
       class={classNames(
@@ -509,6 +514,9 @@ function MessageArea(props: {
           hideEmojiPicker
           inputElement={textAreaEl()!}
           updateText={setMessage}
+          showHtml
+          toggleHtml={toggleHtml}
+          htmlEnabled={htmlEnabled()}
         />
       </Show>
       <CustomTextArea

@@ -1,4 +1,4 @@
-import { createStore } from "solid-js/store";
+import { createStore, SetStoreFunction } from "solid-js/store";
 import { Message } from "./useMessages";
 import { RawAttachment, RawBotCommand, RawMessage } from "../RawData";
 import { batch } from "solid-js";
@@ -29,6 +29,8 @@ export type ChannelProperties = {
 
   stale?: boolean;
   selectedBotCommand?: RawBotCommand;
+  // advanced markup html
+  htmlEnabled?: boolean;
 };
 
 const [properties, setChannelProperties] = createStore<
@@ -90,6 +92,14 @@ const toggleMentionReplies = (channelId: string) => {
 const updateContent = (channelId: string, content: string) => {
   initIfMissing(channelId);
   setChannelProperties(channelId, "content", content);
+};
+
+const update: SetStoreFunction<Record<string, ChannelProperties>> = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...args: any
+) => {
+  initIfMissing(args[0]);
+  setChannelProperties(...(args as ["1", "content", "test"]));
 };
 
 const get = (channelId: string) =>
@@ -164,6 +174,7 @@ const updateSelectedBotCommand = (
 
 export default function useChannelProperties() {
   return {
+    update,
     updateContent,
     get,
     setEditMessage,

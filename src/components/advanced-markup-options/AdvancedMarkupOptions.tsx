@@ -76,6 +76,9 @@ export const AdvancedMarkupOptions = (props: {
   inputElement: HTMLInputElement | HTMLTextAreaElement;
   updateText(text: string): void;
   primaryColor?: string;
+  showHtml?: boolean;
+  toggleHtml?: () => void;
+  htmlEnabled?: boolean;
 }) => {
   const { createPortal } = useCustomPortal();
   let colorHistory: null | string = null;
@@ -298,6 +301,18 @@ export const AdvancedMarkupOptions = (props: {
         color={props.primaryColor}
         class={styles.button}
       />
+      <Show when={props.showHtml}>
+        <Button
+          hoverText="Color"
+          onClick={props.toggleHtml}
+          iconSize={18}
+          margin={0}
+          primary={props.htmlEnabled}
+          iconName="html"
+          color={props.primaryColor}
+          class={styles.button}
+        />
+      </Show>
 
       <Show when={!props.hideEmojiPicker}>
         <Button

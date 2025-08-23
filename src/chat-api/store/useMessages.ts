@@ -155,6 +155,9 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   const tempMessageId = `${Date.now()}-${Math.random()}`;
   const channel = channels.get(channelId);
 
+  const htmlMode = properties?.htmlEnabled;
+  channelProperties.update(channelId, "htmlEnabled", false);
+
   if (properties?.selectedBotCommand && content) {
     const args = content?.split(" ");
     args[0] = `${args[0]}:${properties.selectedBotCommand.botUserId}`;
@@ -247,6 +250,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       googleDriveFileId = res.id;
     } catch (err: any) {
       channelProperties.updateContent(channelId, content || "");
+      channelProperties.update(channelId, "htmlEnabled", htmlMode);
       channelProperties.setAttachment(channelId, file, "google_drive");
       pushFailedMessage(channelId, err.message || "Failed to upload File.");
       const index = messages[channelId]?.findIndex(
@@ -269,6 +273,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       onUploadProgress,
     }).catch((err) => {
       channelProperties.updateContent(channelId, content || "");
+      channelProperties.update(channelId, "htmlEnabled", htmlMode);
       channelProperties.setAttachment(channelId, file, "nerimity_cdn");
       pushFailedMessage(channelId, err.message || "Failed to upload File. ");
       const index = messages[channelId]?.findIndex(
@@ -284,7 +289,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
   }
 
   const message: void | Message = await postMessage({
-    content,
+    ...(htmlMode ? { htmlEmbed: content } : { content }),
     silent: isSilent,
     channelId,
     socketId: socketClient.id(),
@@ -307,6 +312,7 @@ const sendAndStoreMessage = async (channelId: string, content?: string) => {
       }
     }
     channelProperties.updateContent(channelId, content || "");
+    channelProperties.update(channelId, "htmlEnabled", htmlMode);
     if (properties?.attachment) {
       channelProperties.setAttachment(
         channelId,
