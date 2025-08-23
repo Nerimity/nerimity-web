@@ -56,7 +56,9 @@ export interface RawMessage {
   channelId: string;
   silent?: boolean;
   content?: string;
-  createdBy: RawUser;
+  createdBy: RawUser & {
+    avatarUrl?: string;
+  };
   type: MessageType;
   createdAt: number;
   editedAt?: number;

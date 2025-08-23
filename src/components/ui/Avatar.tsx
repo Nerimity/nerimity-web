@@ -10,13 +10,19 @@ import styles from "./AvatarStyles.module.scss";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
 import { FoxEarsBorder } from "../avatar-borders/FoxEarBorder";
+import env from "@/common/env";
 
 interface Props {
   url?: string | null;
   size: number;
   class?: string;
   animate?: boolean;
-  user?: { avatar?: string; hexColor: string; badges?: number };
+  user?: {
+    avatar?: string;
+    hexColor: string;
+    badges?: number;
+    avatarUrl?: string;
+  };
   server?: { avatar?: string; hexColor: string; verified: boolean };
   voiceIndicator?: boolean;
   children?: JSXElement;
@@ -37,6 +43,7 @@ export default function Avatar(props: Props) {
   const serverOrUser = () => (props.server || props.user) as ServerOrUser;
 
   const url = () => {
+    if (typeof props.user?.avatarUrl === "string") return webhookAvatarUrl();
     const rawUrl = props.url || avatarUrl(serverOrUser());
     if (!rawUrl) return;
     const url = new URL(rawUrl);
@@ -52,6 +59,35 @@ export default function Avatar(props: Props) {
     }
 
     return url.href;
+  };
+
+  // used for webhook override
+  const webhookAvatarUrl = () => {
+    if (!props.user?.avatarUrl) return null;
+
+    try {
+      const baseUrl = new URL(props.user.avatarUrl);
+      const ext = baseUrl.pathname.split(".").pop();
+
+      const proxyUrl = new URL(
+        `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
+          baseUrl.href
+        )}/avatar.${ext}`
+      );
+
+      proxyUrl.searchParams.set("size", props.resize?.toString() || "500");
+
+      if (!proxyUrl.pathname.endsWith(".gif")) return proxyUrl.href;
+
+      if (!hasFocus() || !props.animate) {
+        proxyUrl.searchParams.set("type", "webp");
+      }
+
+      return proxyUrl.href;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   };
 
   const badge = createMemo(() => {
