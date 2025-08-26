@@ -1,7 +1,6 @@
 import style from "./Modal.module.scss";
 import {
   createContext,
-  createEffect,
   JSXElement,
   onCleanup,
   onMount,
@@ -12,6 +11,8 @@ import Button, { ButtonProps } from "../Button";
 import Icon from "../icon/Icon";
 import { cn } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { useCustomPortalItem } from "../custom-portal/CustomPortal";
+import { promiseTimers } from "@/common/promiseTimers";
 
 const ModalContext = createContext<{
   close?: () => void;
@@ -30,8 +31,36 @@ interface RootProps {
   desktopMinWidth?: number;
   desktopClass?: string;
 }
+
+const BodyAnim: [Keyframe[], Keyframe[]] = [
+  [{ opacity: "0", transform: "translateY(80px)" }, { opacity: "1" }],
+  [{ opacity: "1" }, { opacity: "0", transform: "translateY(80px)" }],
+];
+
+const BgAnim: [Keyframe[], Keyframe[]] = [
+  [{ opacity: "0" }, { opacity: "1" }],
+  [{ opacity: "1" }, { opacity: "0" }],
+];
+
 const Root = (props: RootProps) => {
+  let rootEl: HTMLDivElement | undefined;
+  let bgEl: HTMLDivElement | undefined;
   const { isMobileWidth } = useWindowProperties();
+
+  const { setCustomCloseHandler } = useCustomPortalItem();
+
+  setCustomCloseHandler(async () => {
+    bgEl?.animate(BgAnim[1], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    });
+    await rootEl?.animate(BodyAnim[1], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    }).finished;
+  });
 
   let startClick = { x: 0, y: 0 };
   let textSelected = false;
@@ -60,6 +89,17 @@ const Root = (props: RootProps) => {
   };
 
   onMount(() => {
+    bgEl?.animate(BgAnim[0], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    });
+    rootEl?.animate(BodyAnim[0], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    });
+
     const closeOnEscape = props.closeOnEscape ?? true;
     if (!closeOnEscape) return;
 
@@ -71,16 +111,18 @@ const Root = (props: RootProps) => {
   });
 
   return (
-    <ModalContext.Provider value={{ close: props.close }}>
+    <ModalContext.Provider value={{ close: () => props.close?.() }}>
       <div
         onMouseUp={onBackgroundClick}
         onMouseDown={onMouseDown}
+        ref={bgEl}
         class={cn(
           style.modalBackground,
           isMobileWidth() ? style.mobile : undefined
         )}
       >
         <div
+          ref={rootEl}
           class={cn(
             style.modalRoot,
             !isMobileWidth() && props.desktopClass,
