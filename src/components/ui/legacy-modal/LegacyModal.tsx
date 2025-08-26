@@ -1,12 +1,13 @@
 import styles from "./Modal.module.scss";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { For, JSX, Show } from "solid-js";
+import { For, JSX, onMount, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 
 import Icon from "../icon/Icon";
 import Text from "../Text";
 import Button, { ButtonProps } from "../Button";
 import { classNames, conditionalClass } from "@/common/classNames";
+import { useCustomPortalItem } from "../custom-portal/CustomPortal";
 
 interface Props {
   children: JSX.Element;
@@ -23,8 +24,35 @@ interface Props {
   color?: string;
 }
 
+const BodyAnim: [Keyframe[], Keyframe[]] = [
+  [{ opacity: "0", transform: "translateY(80px)" }, { opacity: "1" }],
+  [{ opacity: "1" }, { opacity: "0", transform: "translateY(80px)" }],
+];
+
+const BgAnim: [Keyframe[], Keyframe[]] = [
+  [{ opacity: "0" }, { opacity: "1" }],
+  [{ opacity: "1" }, { opacity: "0" }],
+];
+
 export default function LegacyModal(props: Props) {
   const { isMobileWidth } = useWindowProperties();
+  const { setCustomCloseHandler } = useCustomPortalItem();
+
+  let rootEl: HTMLDivElement | undefined;
+  let bgEl: HTMLDivElement | undefined;
+
+  setCustomCloseHandler(async () => {
+    bgEl?.animate(BgAnim[1], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    });
+    await rootEl?.animate(BodyAnim[1], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    }).finished;
+  });
 
   const modalContainerStyle = () => {
     const s = {} as JSX.CSSProperties;
@@ -63,15 +91,30 @@ export default function LegacyModal(props: Props) {
     };
     textSelected = !!window.getSelection()?.toString();
   };
+
+  onMount(() => {
+    bgEl?.animate(BgAnim[0], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    });
+    rootEl?.animate(BodyAnim[0], {
+      duration: 200,
+      fill: "forwards",
+      easing: "ease-in-out",
+    });
+  });
   return (
     <Portal>
       <div
+        ref={bgEl}
         class={classNames(styles.backgroundContainer, "modal-bg")}
         onClick={onBackgroundClick}
         onMouseDown={onMouseDown}
       >
         <div
           style={modalContainerStyle()}
+          ref={rootEl}
           classList={{
             modal: true,
             [props.class || ""]: true,

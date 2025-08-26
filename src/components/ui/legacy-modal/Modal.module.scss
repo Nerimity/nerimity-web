@@ -1,60 +1,57 @@
 .backgroundContainer {
   position: fixed;
+  z-index: 111111111111;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 111111111111;
 }
 
 
 .modalContainer {
-  background-color: var(--pane-color);
-  border: solid 1px rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
   overflow: hidden;
   align-self: center;
+  border: solid 1px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background-color: var(--pane-color);
 
   &.mobile {
+    align-self: flex-end;
     width: 100%;
     max-width: initial;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: none;
     border: none;
-    border-left: none;
     border-right: none;
-    align-self: flex-end;
+    border-bottom: none;
+    border-left: none;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
 }
 
 .body {
   overflow: hidden;
-  animation: showUp;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-  opacity: 1;
-  padding: 5px;
   flex: 1;
+  padding: 5px;
+  opacity: 1;
 }
 
 .header {
   display: flex;
   align-items: center;
-  padding: 10px;
-  height: 30px;
   flex-shrink: 0;
+  height: 30px;
+  padding: 10px;
 
-  .title {
-    font-size: 18px;
-    color: var(--primary-color);
-    font-weight: bold; 
+  .title { 
     margin-right: 12px;
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: bold;
   }
 
   .closeButton {
@@ -76,9 +73,9 @@
   &.mobile {
     justify-content: stretch;
     button {
-      height: 28px;
       align-self: stretch;
       flex: 1;
+      height: 28px;
     }
   }
 }
