@@ -69,7 +69,10 @@ import {
   initializeGoogleDrive,
 } from "@/common/driveAPI";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
-import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
+import {
+  ProfileFlyout,
+  userDetailsPreloader,
+} from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import { Dynamic, Portal } from "solid-js/web";
 import { Emoji as RoleEmoji } from "@/components/ui/Emoji";
@@ -224,6 +227,9 @@ const Details = (props: DetailsProps) => (
     <CustomLink
       onClick={props.showProfileFlyout}
       decoration
+      onmouseenter={() => {
+        userDetailsPreloader.preload(props.message.createdBy.id);
+      }}
       onContextMenu={props.userContextMenu}
       class={classNames("trigger-profile-flyout", styles.username)}
       href={
@@ -492,6 +498,9 @@ const MessageItem = (props: MessageItemProps) => {
                         ? "#"
                         : RouterEndpoints.PROFILE(props.message.createdBy.id)
                     }
+                    onmouseenter={() => {
+                      userDetailsPreloader.preload(props.message.createdBy.id);
+                    }}
                     class={classNames(
                       styles.avatar,
                       "avatar",

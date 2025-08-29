@@ -1,12 +1,4 @@
-import {
-  createEffect,
-  createMemo,
-  lazy,
-  on,
-  onCleanup,
-  onMount,
-  Show,
-} from "solid-js";
+import { createMemo, lazy, onCleanup, onMount, Show } from "solid-js";
 
 import { getCurrentLanguage, getLanguage } from "./locales/languages";
 import { useTransContext } from "@mbarzda/solid-i18next";

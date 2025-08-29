@@ -33,7 +33,10 @@ import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import { ProfileFlyout } from "../floating-profile/FloatingProfile";
+import {
+  ProfileFlyout,
+  userDetailsPreloader,
+} from "../floating-profile/FloatingProfile";
 import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
@@ -88,7 +91,10 @@ const MemberItem = (props: { member: ServerMember }) => {
   return (
     <div
       class="trigger-profile-flyout"
-      onMouseEnter={() => setHovering(true)}
+      onMouseEnter={() => {
+        userDetailsPreloader.preload(user().id);
+        setHovering(true);
+      }}
       onMouseLeave={() => setHovering(false)}
     >
       <MemberContextMenu
