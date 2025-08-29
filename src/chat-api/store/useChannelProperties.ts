@@ -149,10 +149,12 @@ const setScrolledBottom = (channelId: string, isScrolledBottom: boolean) => {
 };
 
 const setMoreTopToLoad = (channelId: string, value: boolean) => {
+  initIfMissing(channelId);
   setChannelProperties(channelId, { moreTopToLoad: value });
 };
 
 const setMoreBottomToLoad = (channelId: string, value: boolean) => {
+  initIfMissing(channelId);
   setChannelProperties(channelId, { moreBottomToLoad: value });
 };
 

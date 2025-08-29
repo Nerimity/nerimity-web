@@ -57,8 +57,15 @@ export function createPreloader<T, U extends unknown[]>(
 export const userDetailsPreloader = createPreloader(getUserDetailsRequest);
 
 export const messagesPreloader = createPreloader(async (channelId: string) => {
-  const { messages } = useStore();
+  const store = useStore();
 
-  await messages.fetchAndStoreMessages(channelId);
+  const messages = store.messages.getMessagesByChannelId(channelId);
+
+  if (!messages) {
+    store.channelProperties.setMoreTopToLoad(channelId, true);
+    store.channelProperties.setMoreBottomToLoad(channelId, false);
+  }
+
+  await store.messages.fetchAndStoreMessages(channelId);
   return true;
 });
