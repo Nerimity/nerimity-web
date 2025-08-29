@@ -5,6 +5,7 @@ export function createPreloader<T, U extends unknown[]>(
   let waiting: ((value: T | PromiseLike<T>) => void)[] = [];
   let argsStr: string | null = null;
   let data: T | null = null;
+  let dataSavedAt: number | null = null;
 
   const preload = (...args: U) => {
     if (timeout) {
@@ -26,8 +27,10 @@ export function createPreloader<T, U extends unknown[]>(
 
     return new Promise<T>((resolve) => {
       if (data) {
-        resolve(data);
-        return;
+        if (Date.now() - dataSavedAt! < 10000) {
+          resolve(data);
+          return;
+        }
       }
       if (waiting.length) {
         waiting.push(resolve);
@@ -37,6 +40,7 @@ export function createPreloader<T, U extends unknown[]>(
 
       fun(...args).then((newData) => {
         data = newData;
+        dataSavedAt = Date.now();
         if (argsStr !== newArgsStr) return;
         waiting.forEach((resolve) => resolve(newData));
         waiting = [];
