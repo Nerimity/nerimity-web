@@ -62,8 +62,12 @@ export const messagesPreloader = createPreloader(async (channelId: string) => {
   const messages = store.messages.getMessagesByChannelId(channelId);
 
   if (!messages) {
-    store.channelProperties.setMoreTopToLoad(channelId, true);
-    store.channelProperties.setMoreBottomToLoad(channelId, false);
+    store.channelProperties.update(channelId, {
+      scrollTop: 9999,
+      moreTopToLoad: true,
+      moreBottomToLoad: false,
+      isScrolledBottom: true,
+    });
   }
 
   await store.messages.fetchAndStoreMessages(channelId);
