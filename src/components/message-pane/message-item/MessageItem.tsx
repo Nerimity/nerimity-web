@@ -69,10 +69,7 @@ import {
   initializeGoogleDrive,
 } from "@/common/driveAPI";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
-import {
-  ProfileFlyout,
-  userDetailsPreloader,
-} from "@/components/floating-profile/FloatingProfile";
+import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import { Dynamic, Portal } from "solid-js/web";
 import { Emoji as RoleEmoji } from "@/components/ui/Emoji";
@@ -107,6 +104,7 @@ import {
 } from "@/common/regex";
 import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
+import { userDetailsPreloader } from "@/common/createPreloader";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")

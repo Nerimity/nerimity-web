@@ -45,6 +45,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { cn } from "@/common/classNames";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useCollapsedServerCategories } from "@/common/localStorage";
+import { messagesPreloader } from "@/common/createPreloader";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
@@ -339,7 +340,6 @@ function CategoryItem(props: {
             type={props.channel.type}
             hovered={hovered()}
             class={styles.categoryItemChannelIcon}
-
           />
           <Show when={isPrivateCategory()}>
             <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
@@ -415,6 +415,9 @@ function ChannelItem(props: {
   return (
     <Show when={props.expanded || props.selected || hasNotifications()}>
       <A
+        onMouseEnter={() => {
+          messagesPreloader.preload(channel.id);
+        }}
         onClick={() => emitDrawerGoToMain()}
         onContextMenu={props.onContextMenu}
         href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}

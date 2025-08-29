@@ -1,3 +1,6 @@
+import { getUserDetailsRequest } from "@/chat-api/services/UserService";
+import useStore from "@/chat-api/store/useStore";
+
 export function createPreloader<T, U extends unknown[]>(
   fun: (...args: U) => Promise<T>
 ) {
@@ -26,11 +29,12 @@ export function createPreloader<T, U extends unknown[]>(
     }
 
     return new Promise<T>((resolve) => {
-      if (data) {
+      if (data && argsStr === newArgsStr) {
         if (Date.now() - dataSavedAt! < 10000) {
           resolve(data);
           return;
         }
+        data = null;
       }
       if (waiting.length) {
         waiting.push(resolve);
@@ -49,3 +53,12 @@ export function createPreloader<T, U extends unknown[]>(
   };
   return { run, preload };
 }
+
+export const userDetailsPreloader = createPreloader(getUserDetailsRequest);
+
+export const messagesPreloader = createPreloader(async (channelId: string) => {
+  const { messages } = useStore();
+
+  await messages.fetchAndStoreMessages(channelId);
+  return true;
+});

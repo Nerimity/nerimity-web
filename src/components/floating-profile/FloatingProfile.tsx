@@ -23,11 +23,7 @@ import {
 } from "@/common/date";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import {
-  UserDetails,
-  getUserDetailsRequest,
-  updatePresence,
-} from "@/chat-api/services/UserService";
+import { UserDetails, updatePresence } from "@/chat-api/services/UserService";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -65,7 +61,7 @@ import Input from "../ui/input/Input";
 import { formatMessage } from "../message-pane/MessagePane";
 import { logout } from "@/common/logout";
 import { currentTheme } from "@/common/themes";
-import { createPreloader } from "@/common/createPreloader";
+import { userDetailsPreloader } from "@/common/createPreloader";
 
 interface Props {
   dmPane?: boolean;
@@ -85,8 +81,6 @@ interface Props {
   channelNotice?: string;
   showProfileSettings?: boolean;
 }
-
-export const userDetailsPreloader = createPreloader(getUserDetailsRequest);
 
 export const ProfileFlyout = (props: Props) => {
   const { isMobileWidth } = useWindowProperties();

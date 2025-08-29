@@ -31,6 +31,7 @@ import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import { ServerList } from "./ServerList";
 import { useReminders } from "../useReminders";
+import { userDetailsPreloader } from "@/common/createPreloader";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
@@ -278,7 +279,11 @@ const UserItem = (props: { size: number }) => {
           )}
           onclick={onClicked}
           selected={modalOpened()}
-          onMouseEnter={() => setHovered(true)}
+          onMouseEnter={() => {
+            setHovered(true);
+            if (!user()) return;
+            userDetailsPreloader.preload(userId()!);
+          }}
           onMouseLeave={() => setHovered(false)}
         >
           {account.user() && (

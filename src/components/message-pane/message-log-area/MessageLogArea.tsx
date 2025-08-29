@@ -72,6 +72,7 @@ import { CreateTicketModal } from "@/components/CreateTicketModal";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
 import { fetchTranslation } from "@/common/GoogleTranslate";
+import { messagesPreloader } from "@/common/createPreloader";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -441,7 +442,8 @@ export const MessageLogArea = (props: {
 
   const fetchMessages = async () => {
     if (channelMessages()) return;
-    await messages.fetchAndStoreMessages(params.channelId);
+    await messagesPreloader.run(params.channelId);
+    // await messages.fetchAndStoreMessages(params.channelId);
   };
 
   // Load more top when scrolled to the top

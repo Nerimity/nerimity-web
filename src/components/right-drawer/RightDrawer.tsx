@@ -33,10 +33,7 @@ import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import {
-  ProfileFlyout,
-  userDetailsPreloader,
-} from "../floating-profile/FloatingProfile";
+import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
@@ -44,6 +41,7 @@ import { Markup } from "../Markup";
 import { t } from "i18next";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { Tooltip } from "../ui/Tooltip";
+import { userDetailsPreloader } from "@/common/createPreloader";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();

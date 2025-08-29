@@ -21,6 +21,7 @@ import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel"
 import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import ContextMenuServerFolder from "./ContextMenuServerFolder";
+import { messagesPreloader } from "@/common/createPreloader";
 
 const [draggingId, setDraggingId] = createSignal<string | null>(null);
 const [draggedOverId, setDraggedOverId] = createSignal<string | null>(null);
@@ -263,7 +264,12 @@ function ServerItem(props: {
           id,
           getLastSelectedChannelId(id, defaultChannelId)
         )}
-        onMouseEnter={() => setHovered(true)}
+        onMouseEnter={() => {
+          setHovered(true);
+          messagesPreloader.preload(
+            getLastSelectedChannelId(id, defaultChannelId)
+          );
+        }}
         onMouseLeave={() => setHovered(false)}
         onContextMenu={props.onContextMenu}
       >
