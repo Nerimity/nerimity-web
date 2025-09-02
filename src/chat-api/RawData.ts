@@ -261,6 +261,7 @@ export interface RawServerRole {
   serverId: string;
   hideRole: boolean;
   botRole?: boolean;
+  applyOnJoin?: boolean;
 }
 
 export enum FriendStatus {

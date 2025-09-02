@@ -53,12 +53,15 @@ export default function ServerSettingsRole() {
   const role = () => serverRoles.get(params.serverId, params.roleId);
   const server = () => servers.get(params.serverId);
 
+  const isDefaultRole = () => role()?.id === server()?.defaultRoleId;
+
   const defaultInput = () => ({
     name: role()?.name || "",
     hexColor: role()?.hexColor || "#fff",
     permissions: role()?.permissions || 0,
     hideRole: role()?.hideRole || false,
     icon: role()?.icon || null,
+    applyOnJoin: role()?.applyOnJoin || false,
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -215,6 +218,24 @@ export default function ServerSettingsRole() {
         <Checkbox
           checked={inputValues().hideRole}
           onChange={(checked) => setInputValue("hideRole", checked)}
+        />
+      </SettingsBlock>
+      {/* Apply On Join */}
+      <SettingsBlock
+        class={
+          isDefaultRole()
+            ? css`
+                pointer-events: none;
+              `
+            : undefined
+        }
+        icon="adjust"
+        label={"Apply on Join"}
+        description={"Apply this role to members when they join the server."}
+      >
+        <Checkbox
+          checked={isDefaultRole() ? true : inputValues().applyOnJoin}
+          onChange={(checked) => setInputValue("applyOnJoin", checked)}
         />
       </SettingsBlock>
 
