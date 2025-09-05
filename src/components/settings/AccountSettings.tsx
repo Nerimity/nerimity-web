@@ -303,6 +303,11 @@ export function EditAccountPage(props: {
           onText={(v) => setInputValue("username", v)}
         />
       </SettingsBlock>
+      <Show when={props.bot}>
+        <SettingsBlock icon="id_card" label={"Bot ID"}>
+          <Input value={props.bot?.id} disabled />
+        </SettingsBlock>
+      </Show>
 
       <SettingsBlock icon="local_offer" label={t("settings.account.tag")}>
         <Input
