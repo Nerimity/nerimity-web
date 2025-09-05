@@ -303,7 +303,7 @@ export const AdvancedMarkupOptions = (props: {
       />
       <Show when={props.showHtml}>
         <Button
-          hoverText="Color"
+          hoverText="HTML Mode"
           onClick={props.toggleHtml}
           iconSize={18}
           margin={0}
