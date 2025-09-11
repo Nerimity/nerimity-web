@@ -16,7 +16,9 @@ const HeaderContainer = styled("header")`
   display: flex;
   height: 58px;
   flex-shrink: 0;
-  background-color: var(--pane-color);
+  &:after {
+    background-color: var(--pane-color);
+  }
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   max-width: 800px;

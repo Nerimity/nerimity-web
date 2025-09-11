@@ -17,6 +17,21 @@ const HomePageContainer = styled("div")`
   flex-direction: column;
   width: 100%;
   flex: 1;
+  z-index: 1111;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    max-width: 400px;
+    aspect-ratio: 1/1;
+    width: 100%;
+    background-color: var(--primary-color);
+    align-self: center;
+    border-radius: 9999px;
+    filter: blur(380px);
+    opacity: 0.9;
+    z-index: -1;
+  }
 `;
 
 const Content = styled("div")`
@@ -28,20 +43,6 @@ const Content = styled("div")`
   margin-bottom: 0;
   border-radius: 8px;
   flex: 1;
-`;
-
-const ArtImage = styled("img")`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: auto;
-  height: 100%;
-  opacity: 0.04;
-  pointer-events: none;
-  @media (orientation: portrait) {
-    width: 100%;
-    height: auto;
-  }
 `;
 
 const TopContainer = styled("div")`
@@ -148,7 +149,6 @@ export default function HomePage() {
         </TopContainer>
         <FeatureList />
       </Content>
-      <ArtImage src="./assets/home-page-art.svg" alt="" />
       <PageFooter />
     </HomePageContainer>
   );
@@ -307,6 +307,8 @@ const FeatureListContainer = styled("div")`
   }
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
+    max-width: 90%;
+    width: 100%;
   }
 `;
 
@@ -337,8 +339,8 @@ const FeatureContainer = styled(FlexRow)`
   align-items: center;
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  background-color: var(--pane-color);
   padding: 6px;
+  padding-right: 14px;
 `;
 
 function Feature(props: { icon: string; label: string }) {
