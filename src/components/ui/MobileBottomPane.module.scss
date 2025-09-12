@@ -1,43 +1,44 @@
 .container {
   position: fixed;
-  left: 0;
-  right: 0;
-  height: 60px;
-  display: flex;
   z-index: 11111111111111;
-
-  border-top-right-radius: 16px;
-  border-top-left-radius: 16px;
-  background: black;
+  bottom: -60px;
+  display: flex;
+  overflow: auto;
 
   align-items: center;
+  align-self: center;
 
   justify-content: space-around;
+  height: 60px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+
 
   opacity: 0;
+  background: var(--pane-color);
   transition: 0.2s;
-  bottom: -60px;
-  overflow: auto;
+  gap: 4px;
+
+  padding-inline: 4px;
   &.show {
-    bottom: 0;
+    bottom: 10px;
     opacity: 1;
   }
 }
 
 .item {
   display: flex;
-  gap: 4px;
 
   flex-direction: column;
-  font-size: 12px;
-
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 2px;
+  width: 50px;
 
   height: 50px;
-  width: 50px;
-  border-radius: 6px;
+  padding-right: 12px;
+
+  padding-left: 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  gap: 4px;
 }
 
 .anchor:focus {
@@ -46,75 +47,75 @@
 
 .notify {
   position: absolute;
+  z-index: 111111111;
   top: 10px;
   right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  margin-left: 5px;
-  font-size: 0.8em;
-  background-color: var(--alert-color);
-  border-radius: 50%;
-  height: 14px;
   width: 14px;
-  z-index: 111111111;
+  height: 14px;
+  margin-left: 5px;
+  border-radius: 50%;
+  color: white;
+  background-color: var(--alert-color);
+  font-size: 0.8em;
 }
 
 .user {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .presence {
+  position: absolute;
+  z-index: 1111111111;
+  right: -4px;
+  bottom: -4px;
   flex-shrink: 0;
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  position: absolute;
-  bottom: -4px;
-  right: -4px;
-  z-index: 1111111111;
 }
 
 .connectingIcon {
+  position: absolute;
+  z-index: 11111;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
   width: 38px;
   height: 38px;
-  background-color: rgba(0, 0, 0, 0.46);
-  backdrop-filter: blur(34px);
   border-radius: 50%;
-  z-index: 11111;
+  background-color: rgba(0, 0, 0, 0.46);
 
   animation-name: rotate;
   animation-duration: 2s;
-  animation-iteration-count: infinite;
   animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  backdrop-filter: blur(34px);
 
   &.authenticatingIcon {
-    animation-duration: 4s;
     color: var(--primary-color);
+    animation-duration: 4s;
   }
 }
 
 .errorIcon {
+  position: absolute;
   z-index: 11111;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
   width: 38px;
   height: 38px;
-  background-color: rgba(0, 0, 0, 0.46);
-  color: var(--alert-color);
-  backdrop-filter: blur(34px);
   border-radius: 50%;
+  color: var(--alert-color);
+  background-color: rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(34px);
 }
 
 @keyframes rotate {
@@ -128,6 +129,6 @@
 
 .userModal {
   position: absolute;
-  inset: 0;
   background-color: rgba(0, 0, 0, 0.8);
+  inset: 0;
 }

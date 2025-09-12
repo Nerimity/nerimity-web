@@ -215,7 +215,7 @@ function UserItem() {
     >
       <div class={style.user}>
         <Show when={account.user()}>
-          <Avatar size={28} user={account.user()!} resize={96} />
+          <Avatar size={24} user={account.user()!} resize={96} />
         </Show>
         <Show when={!showConnecting()}>
           <div class={style.presence} style={{ background: presenceColor() }} />
