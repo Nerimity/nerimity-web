@@ -17,9 +17,9 @@
   opacity: 0;
   background: var(--pane-color);
   transition: 0.2s;
-  gap: 4px;
+  gap: 6px;
 
-  padding-inline: 4px;
+  padding-inline: 6px;
   &.show {
     bottom: 10px;
     opacity: 1;
