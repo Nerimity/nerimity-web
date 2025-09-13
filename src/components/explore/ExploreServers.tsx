@@ -247,8 +247,8 @@ export default function ExploreServers() {
 }
 
 const ServerItemContainer = styled(FlexColumn)`
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+  background: var(--background-color);
+  border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   user-select: none;
   position: relative;
@@ -259,13 +259,6 @@ const ServerItemContainer = styled(FlexColumn)`
     .banner {
       max-height: 160px;
     }
-  }
-  .backdrop {
-    position: absolute;
-    inset: 0;
-    aspect-ratio: initial;
-    filter: blur(29px) brightness(0.4);
-    scale: 1.5;
   }
 `;
 const DetailsContainer = styled(FlexColumn)`
@@ -286,6 +279,10 @@ const MemberContainer = styled(FlexRow)`
   align-items: center;
   flex-shrink: 0;
   flex-wrap: wrap;
+  margin-top: 12px;
+  margin-left: 10px;
+  margin-right: 10px;
+  opacity: 0.8;
 `;
 
 const serverNameStyles = css`
@@ -300,30 +297,32 @@ const serverNameStyles = css`
 `;
 const avatarStyles = css`
   margin-top: -40px;
-  margin-left: 10px;
+  margin-left: 12px;
 `;
 
 const descriptionStyles = css`
-  margin-top: 6px;
+  margin-top: 12px;
+  margin-bottom: 6px;
   word-break: break-word;
   white-space: pre-line;
   flex-shrink: 0;
+  margin-bottom: auto;
 
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 11px;
+  margin-right: 11px;
 `;
 
 const ButtonsContainer = styled(FlexRow)`
-  margin-top: auto;
-  padding-top: 10px;
-  padding-bottom: 4px;
+  margin-top: 2px;
+  margin-left: 8px;
   margin-right: 8px;
-  justify-content: end;
+  margin-bottom: 8px;
+  padding-top: 10px;
   flex-shrink: 0;
   z-index: 1111;
 `;
@@ -399,19 +398,6 @@ function PublicServerItem(props: {
           css`
             width: 100%;
           `,
-          "backdrop"
-        )}
-        url={bannerUrl(props.publicServer.server!)}
-        hexColor={props.publicServer.server?.hexColor}
-      />
-      <Banner
-        margin={0}
-        radius={6}
-        animate={hovered()}
-        class={cn(
-          css`
-            width: 100%;
-          `,
           "banner"
         )}
         url={bannerUrl(props.publicServer.server!)}
@@ -435,50 +421,55 @@ function PublicServerItem(props: {
             <ServerVerifiedIcon />
           </Show>
         </FlexRow>
-        <MemberContainer gap={5}>
-          <FlexRow gap={5}>
-            <Icon name="people" size={17} color="var(--primary-color)" />
-            <Text size={12}>
-              {t("explore.servers.memberCount", {
-                count: server._count.serverMembers.toLocaleString(),
-              })}
-            </Text>
-          </FlexRow>
-          <FlexRow gap={5}>
-            <Icon name="arrow_upward" size={17} color="var(--primary-color)" />
-            <Text size={12}>
-              {t("explore.servers.lifetimeBumpCount", {
-                count: props.publicServer.lifetimeBumpCount.toLocaleString(),
-              })}
-            </Text>
-          </FlexRow>
-          <FlexRow gap={5}>
-            <Icon name="crown" size={17} color="var(--primary-color)" />
-            <Text size={12}>
-              <CustomLink href={RouterEndpoints.PROFILE(server.createdBy.id)}>
-                {props.publicServer.server?.createdBy.username}
-              </CustomLink>
-            </Text>
-          </FlexRow>
-        </MemberContainer>
+        <Text size={14} color="rgba(255,255,255,0.6)">
+          By{": "}
+          <CustomLink href={RouterEndpoints.PROFILE(server.createdBy.id)}>
+            <span
+              class={css`
+                font-weight: bold;
+              `}
+            >
+              {props.publicServer.server?.createdBy.username}
+            </span>
+          </CustomLink>
+        </Text>
       </DetailsContainer>
-      <Text class={descriptionStyles} size={12} opacity={0.6}>
+      <Text class={descriptionStyles} size={14}>
         {props.publicServer.description}
       </Text>
-      <ButtonsContainer gap={4}>
-        <Button
-          padding={8}
-          iconSize={18}
-          onClick={bumpClick}
-          margin={0}
-          iconName="arrow_upward"
-          label={t("explore.servers.bumpButton", {
-            count: props.publicServer.bumpCount.toLocaleString(),
-          })}
-        />
+
+      <MemberContainer gap={8}>
+        <FlexRow gap={5}>
+          <Icon name="people" size={17} color="var(--primary-color)" />
+          <Text size={14}>
+            {t("explore.servers.memberCount", {
+              count: server._count.serverMembers.toLocaleString(),
+            })}
+          </Text>
+        </FlexRow>
+        {/* <FlexRow gap={5}>
+          <Icon name="arrow_upward" size={17} color="var(--primary-color)" />
+          <Text size={14}>
+            {t("explore.servers.lifetimeBumpCount", {
+              count: props.publicServer.lifetimeBumpCount.toLocaleString(),
+            })}
+          </Text>
+        </FlexRow> */}
+        <FlexRow gap={5}>
+          <Icon name="schedule" size={17} color="var(--primary-color)" />
+          <Text size={14}>
+            Bumped{" "}
+            {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
+              props.publicServer.bumpedAt
+            )}
+          </Text>
+        </FlexRow>
+      </MemberContainer>
+
+      <ButtonsContainer gap={8}>
         <Show when={cacheServer()}>
           <A
-            style={{ "text-decoration": "none" }}
+            style={{ "text-decoration": "none", flex: 1, display: "flex" }}
             href={RouterEndpoints.SERVER_MESSAGES(
               cacheServer()!.id,
               cacheServer()!.defaultChannelId
@@ -487,23 +478,45 @@ function PublicServerItem(props: {
             <Button
               padding={8}
               margin={0}
+              primary
+              class={css`
+                flex: 1;
+              `}
               iconSize={18}
               iconName="login"
               label={t("explore.servers.visitServerButton")}
             />
           </A>
         </Show>
+
         <Show when={!cacheServer()}>
           <Button
             margin={0}
             padding={8}
             iconSize={18}
+            class={css`
+              flex: 1;
+            `}
             onClick={joinServerClick}
             iconName="login"
             primary
             label={t("explore.servers.joinServerButton")}
           />
         </Show>
+        <Button
+          padding={8}
+          iconSize={18}
+          onClick={bumpClick}
+          class={css`
+            flex: 1;
+          `}
+          margin={0}
+          iconName="arrow_upward"
+          label={t("explore.servers.bumpButton", {
+            count: props.publicServer.bumpCount.toLocaleString(),
+          })}
+        />
+
         <Show when={store.account.hasModeratorPerm()}>
           <Button
             margin={0}
@@ -514,24 +527,6 @@ function PublicServerItem(props: {
           />
         </Show>
       </ButtonsContainer>
-      <FlexRow
-        style={{
-          "align-items": "center",
-          "margin-left": "auto",
-          "margin-right": "10px",
-          "margin-bottom": "8px",
-          "z-index": "1111",
-        }}
-        gap={5}
-      >
-        <Icon name="schedule" size={14} color="rgba(255,255,255,0.4)" />
-        <Text size={12} color="rgba(255,255,255,0.4)">
-          Bumped{" "}
-          {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
-            props.publicServer.bumpedAt
-          )}
-        </Text>
-      </FlexRow>
     </ServerItemContainer>
   );
 }

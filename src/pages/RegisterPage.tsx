@@ -84,7 +84,7 @@ export default function RegisterPage() {
 
   const registerClicked = async (event?: SubmitEvent | MouseEvent) => {
     event?.preventDefault();
-    const redirectTo = location.query.redirect || "/app";
+    const redirectTo = location.query.redirect || "/app/explore/servers";
     if (requestSent()) return;
     setRequestSent(true);
     setError({ message: "", path: "" });
