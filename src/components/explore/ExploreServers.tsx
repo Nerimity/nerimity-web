@@ -49,6 +49,12 @@ const GridLayout = styled("div")`
   scroll-margin-top: 120px;
 `;
 
+const defaultQuery = {
+  sort: "recently_bumped",
+  filter: "all",
+  search: "",
+} as const;
+
 export default function ExploreServers() {
   const MAX_LIMIT = 30;
   const [t] = useTransContext();
@@ -61,11 +67,12 @@ export default function ExploreServers() {
     sort: PublicServerSort;
     filter: PublicServerFilter;
     search: string;
-  }>({
-    sort: "recently_bumped",
-    filter: "all",
-    search: "",
-  });
+  }>(defaultQuery);
+
+  const isDefaultQuery = () =>
+    query().sort === defaultQuery.sort &&
+    query().filter === defaultQuery.filter &&
+    query().search.trim() === defaultQuery.search;
 
   const [afterId, setAfterId] = createSignal<string | null>(null);
   const [showSkeleton, setShowSkeleton] = createSignal(true);
@@ -140,60 +147,27 @@ export default function ExploreServers() {
       <MetaTitle>Explore Servers</MetaTitle>
       <div
         class={css`
-          align-self: flex-start;
+          display: flex;
         `}
       >
         <Button margin={0} href="/app" label="Back" iconName="arrow_back" />
       </div>
-
-      <Notice
-        type="info"
-        description={t("explore.servers.noticeMessage", {
-          hours: "3",
-          date: "Monday at 0:00 UTC",
-        })}
-      />
-      <Notice
+      <FlexRow
+        gap={10}
+        wrap
         class={css`
+          flex: 1;
           margin-bottom: 10px;
+          margin-top: 10px;
         `}
-        type="warn"
-        description="Servers are not moderated by Nerimity. Please report servers that break the TOS."
-      />
-
-      <Text>Pinned Servers</Text>
-      <GridLayout class="servers-list-grid" style={{ "margin-bottom": "10px" }}>
-        <For each={pinnedServers()}>
-          {(server, i) => (
-            <PublicServerItem
-              update={(newServer) => update(newServer, i())}
-              publicServer={server}
-            />
-          )}
-        </For>
-        <Show when={pinnedServers() === null}>
-          <For each={Array(4).fill(null)}>
-            {() => (
-              <Skeleton.Item
-                height="334px"
-                width="100%"
-                onInView={() => {
-                  const servers = publicServers();
-                  if (!servers?.length) return;
-                  setAfterId(servers[servers.length - 1]?.id || null);
-                }}
-              />
-            )}
-          </For>
-        </Show>
-      </GridLayout>
-
-      <FlexRow gap={10} wrap>
+      >
         <Input
           label="Search"
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
+            flex: 1;
+            min-width: 200px;
             span {
               margin-bottom: 2px;
             }
@@ -216,6 +190,54 @@ export default function ExploreServers() {
           }
         />
       </FlexRow>
+
+      <Notice
+        type="info"
+        description={t("explore.servers.noticeMessage", {
+          hours: "3",
+          date: "Monday at 0:00 UTC",
+        })}
+      />
+      <Notice
+        class={css`
+          margin-bottom: 10px;
+        `}
+        type="warn"
+        description="Servers are not moderated by Nerimity. Please report servers that break the TOS."
+      />
+
+      <Show when={isDefaultQuery()}>
+        <Text>Pinned Servers</Text>
+        <GridLayout
+          class="servers-list-grid"
+          style={{ "margin-bottom": "10px" }}
+        >
+          <For each={pinnedServers()}>
+            {(server, i) => (
+              <PublicServerItem
+                update={(newServer) => update(newServer, i())}
+                publicServer={server}
+              />
+            )}
+          </For>
+          <Show when={pinnedServers() === null}>
+            <For each={Array(4).fill(null)}>
+              {() => (
+                <Skeleton.Item
+                  height="334px"
+                  width="100%"
+                  onInView={() => {
+                    const servers = publicServers();
+                    if (!servers?.length) return;
+                    setAfterId(servers[servers.length - 1]?.id || null);
+                  }}
+                />
+              )}
+            </For>
+          </Show>
+        </GridLayout>
+        <Text style={{ "margin-bottom": "10px" }}>Recently Bumped Servers</Text>
+      </Show>
 
       <GridLayout class="servers-list-grid">
         <For each={publicServers()}>
