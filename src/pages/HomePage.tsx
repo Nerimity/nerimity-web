@@ -24,12 +24,12 @@ const HomePageContainer = styled("div")`
     top: 0;
     max-width: 400px;
     aspect-ratio: 1/1;
-    width: 100%;
+    width: 50%;
     background-color: var(--primary-color);
     align-self: center;
     border-radius: 9999px;
-    filter: blur(380px);
-    opacity: 0.9;
+    filter: blur(200px);
+    opacity: 0.6;
     z-index: -1;
   }
 `;
