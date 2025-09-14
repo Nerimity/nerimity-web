@@ -15,6 +15,7 @@ import InVoiceActions from "@/components/InVoiceActions";
 import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
 import { SupportBlock } from "@/components/SupportBlock";
 import { FlexColumn } from "@/components/ui/Flexbox";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 const MainContainer = styled(FlexColumn)`
   height: 100%;
@@ -130,18 +131,21 @@ function Item(props: {
 }
 
 const FooterContainer = styled(FlexColumn)`
-  padding-bottom: 0px;
   margin-top: 8px;
   position: sticky;
   bottom: 2px;
   background-color: var(--pane-color);
+  &[data-mobile-width="true"] {
+    padding-bottom: 74px;
+  }
 `;
 
 function Footer() {
+  const { isMobileWidth } = useWindowProperties();
   return (
-    <FooterContainer gap={2}>
+    <FooterContainer gap={2} data-mobile-width={isMobileWidth()}>
       <SupportBlock />
-      <InVoiceActions style={{ bottom: "0" }} />
+      <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
     </FooterContainer>
   );
 }

@@ -11,7 +11,19 @@
   &[data-scrollbar-visible="true"] {
     margin-right: 8px;
   }
+
 }
+
+:global {
+  .mobileWidth {
+    :local {
+      .container {
+        padding-bottom: 76px;
+      }
+    }
+  }
+}
+
 .items {
   display: flex;
   flex-direction: column;

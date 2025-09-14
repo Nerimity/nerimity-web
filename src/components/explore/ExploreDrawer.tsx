@@ -11,6 +11,7 @@ import { useTransContext } from "@mbarzda/solid-i18next";
 import { t } from "i18next";
 import InVoiceActions from "../InVoiceActions";
 import { SupportBlock } from "../SupportBlock";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
@@ -93,13 +94,17 @@ function Item(props: {
 
 const FooterContainer = styled(FlexColumn)`
   margin-bottom: 2px;
+  &[data-mobile-width="true"] {
+    padding-bottom: 74px;
+  }
 `;
 
 function Footer() {
+  const { isMobileWidth } = useWindowProperties();
   return (
-    <FooterContainer gap={2}>
+    <FooterContainer gap={2} data-mobile-width={isMobileWidth()}>
       <SupportBlock />
-      <InVoiceActions />
+      <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
     </FooterContainer>
   );
 }

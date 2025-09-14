@@ -84,7 +84,7 @@ export default function SidePane(props: { class?: string }) {
         <SettingsItem size={resizeBar.width()} />
         <UserItem size={resizeBar.width()} />
       </Show>
-      <resizeBar.Handle />
+      <resizeBar.Handle right={-1} />
     </div>
   );
 }
@@ -237,7 +237,7 @@ const UserItem = (props: { size: number }) => {
     const pos = {
       left: props.size + 6,
       top: rect.top + 10,
-      bottom: 8,
+      bottom: 4,
       anchor: "left",
     } as const;
     return createPortal(

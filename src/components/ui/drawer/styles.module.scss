@@ -27,23 +27,22 @@ body .mobile {
     margin: 0;
     border-radius: 0;
   }
+
 }
 
 .content {
   display: flex;
   position: relative;
   overflow: hidden;
-  margin-block: 8px;
-  margin-right: 8px;
 
-  border-radius: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
   
 
   &.hasLeftDrawer {
     margin-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-
   }
 
   &.hasRightDrawer {
@@ -65,7 +64,6 @@ body .mobile {
   display: flex;
   flex-direction: column;
   background: var(--side-pane-color);
-  margin: 8px;
   margin-right: 0;
   margin-left: 0;
   border-radius: 8px;
@@ -85,23 +83,20 @@ body .mobile {
   flex-direction: column;
   background: var(--side-pane-color);
   width: 100%;
-  margin: 8px;
   margin-left: 0;
-  border-radius: 8px;
+
   overflow: hidden;
   position: relative;
 
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
 
 }
 
 .mobile .leftDrawer {
-  padding-bottom: 64px;
   border-radius: 8px;
 }
 .mobile .rightPane {
-  border-radius: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 // .mobile .leftDrawer {

@@ -51,25 +51,20 @@ const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
   const store = useStore();
   const { isVisible } = useCustomScrollbar();
+  const { isMobileWidth } = useWindowProperties();
 
   const server = () => store.servers.get(params.serverId);
   return (
     <>
       <Header />
       <div class={styles.serverDrawer} data-scrollbar-visible={isVisible()}>
-        <div
-          style={{
-            display: "flex",
-            "flex-direction": "column",
-            flex: 1,
-          }}
-        >
+        <div class={styles.serverDrawerInner}>
           <MembersItem />
           <Show when={server()?._count?.welcomeQuestions}>
             <CustomizeItem />
           </Show>
           <ChannelList />
-          <InVoiceActions />
+          <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
         </div>
       </div>
     </>

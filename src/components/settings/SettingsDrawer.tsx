@@ -22,6 +22,7 @@ import { ShowExperiment } from "@/common/experiments";
 import { logout } from "@/common/logout";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { SupportBlock } from "../SupportBlock";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
@@ -65,12 +66,16 @@ const FooterContainer = styled(FlexColumn)`
   position: sticky;
   bottom: 0;
   background-color: var(--side-pane-color);
+  &[data-mobile-width="true"] {
+    padding-bottom: 76px;
+  }
 `;
 
 function Footer() {
   const [t] = useTransContext();
   const navigate = useNavigate();
   const { createPortal } = useCustomPortal();
+  const { isMobileWidth } = useWindowProperties();
 
   const onChangelogClick = () =>
     createPortal?.((close) => <ChangelogModal close={close} />);
@@ -81,7 +86,7 @@ function Footer() {
   };
 
   return (
-    <FooterContainer gap={2}>
+    <FooterContainer gap={2} data-mobile-width={isMobileWidth()}>
       <SupportBlock />
       <FooterItem
         href="https://github.com/Nerimity/Nerimity-Web"

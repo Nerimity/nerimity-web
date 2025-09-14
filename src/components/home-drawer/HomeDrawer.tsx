@@ -20,9 +20,11 @@ import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { QuickTravel } from "../QuickTravel";
 import InVoiceActions from "../InVoiceActions";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 export default function HomeDrawer() {
   const { isVisible } = useCustomScrollbar();
+  const { isMobileWidth } = useWindowProperties();
 
   return (
     <HomeDrawerControllerProvider>
@@ -34,7 +36,7 @@ export default function HomeDrawer() {
         <Friends />
         <Inbox />
       </div>
-      <InVoiceActions />
+      <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
     </HomeDrawerControllerProvider>
   );
 }
