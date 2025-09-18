@@ -38,6 +38,7 @@ interface DrawerContext {
   hasRightDrawer: () => boolean;
   toggleLeftDrawer: () => void;
   toggleRightDrawer: () => void;
+  hideLeftDrawer: () => boolean;
   goToMain: () => void;
   toggleHideLeftDrawer: () => void;
   toggleHideRightDrawer: () => void;
@@ -314,6 +315,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     toggleLeftDrawer,
     toggleRightDrawer,
     goToMain,
+    hideLeftDrawer,
     toggleHideLeftDrawer: () => setHideLeftDrawer(!hideLeftDrawer()),
     toggleHideRightDrawer: () => setHideRightDrawer(!hideRightDrawer()),
   };

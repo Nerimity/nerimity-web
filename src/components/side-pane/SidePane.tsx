@@ -32,15 +32,21 @@ import { SidebarItemContainer } from "./SidebarItemContainer";
 import { ServerList } from "./ServerList";
 import { useReminders } from "../useReminders";
 import { userDetailsPreloader } from "@/common/createPreloader";
+import { useDrawer } from "../ui/drawer/Drawer";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
+  const { hasLeftDrawer, hideLeftDrawer } = useDrawer();
 
   const showAddServerModal = () => {
     createPortal?.((close) => <AddServerModal close={close} />);
   };
+
+  createEffect(() => {
+    console.log(hasLeftDrawer());
+  });
 
   const resizeBar = useResizeBar({
     storageKey: StorageKeys.SIDEBAR_WIDTH,
@@ -84,7 +90,9 @@ export default function SidePane(props: { class?: string }) {
         <SettingsItem size={resizeBar.width()} />
         <UserItem size={resizeBar.width()} />
       </Show>
-      <resizeBar.Handle right={-1} />
+      <resizeBar.Handle
+        right={!hideLeftDrawer() && hasLeftDrawer() ? -4 : -1}
+      />
     </div>
   );
 }
