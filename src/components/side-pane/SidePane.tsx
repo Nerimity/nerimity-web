@@ -44,10 +44,6 @@ export default function SidePane(props: { class?: string }) {
     createPortal?.((close) => <AddServerModal close={close} />);
   };
 
-  createEffect(() => {
-    console.log(hasLeftDrawer());
-  });
-
   const resizeBar = useResizeBar({
     storageKey: StorageKeys.SIDEBAR_WIDTH,
     defaultWidth: 65,
