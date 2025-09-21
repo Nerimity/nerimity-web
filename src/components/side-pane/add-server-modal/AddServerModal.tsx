@@ -11,6 +11,7 @@ import { Item } from "@/components/ui/Item";
 import { Show } from "solid-js";
 import Button from "@/components/ui/Button";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import { createSignal } from "solid-js";
 
 export function AddServerModal(props: { close: () => void }) {
   return (
@@ -101,6 +102,8 @@ function sanitizeInviteInput(value: string) {
 
 const JoinServerModal = (props: { close: () => void }) => {
   const controller = useAddServerModalController();
+  const [rawInvite, setRawInvite] = createSignal(controller.name());
+
   return (
     <>
       <Modal.Body class={style.modalBody}>
@@ -121,8 +124,8 @@ const JoinServerModal = (props: { close: () => void }) => {
         />
         <Input
           label={"Invite Code"}
-          onText={(val) => controller.setName(sanitizeInviteInput(val))}
-          value={controller.name()}
+          onText={setRawInvite} 
+          value={rawInvite()}
           error={controller.error().message}
         />
       </Modal.Body>
@@ -134,8 +137,14 @@ const JoinServerModal = (props: { close: () => void }) => {
           onClick={props.close}
         />
         <Modal.Button
-          href={RouterEndpoints.EXPLORE_SERVER_INVITE(controller.name())}
-          onClick={controller.onJoinClick}
+          onClick={() => {
+            const cleaned = sanitizeInviteInput(rawInvite());
+            controller.setName(cleaned);
+            controller.onJoinClick();
+          }}
+          href={RouterEndpoints.EXPLORE_SERVER_INVITE(
+            sanitizeInviteInput(rawInvite())
+          )}
           label="Continue"
           iconName="arrow_forward"
           primary
@@ -144,6 +153,7 @@ const JoinServerModal = (props: { close: () => void }) => {
     </>
   );
 };
+
 
 const Tabs = () => {
   const controller = useAddServerModalController();
