@@ -90,9 +90,17 @@ const CreateServerModalOwO = (props: { close: () => void }) => {
     </>
   );
 };
+
+function sanitizeInviteInput(value: string) {
+  const match = value.match(
+    /(?:\/i\/|\/app\/explore\/servers\/invites\/)([A-Za-z0-9_-]+)/
+  );
+  return match ? match[1] : value.trim();
+}
+
+
 const JoinServerModal = (props: { close: () => void }) => {
   const controller = useAddServerModalController();
-
   return (
     <>
       <Modal.Body class={style.modalBody}>
@@ -113,7 +121,7 @@ const JoinServerModal = (props: { close: () => void }) => {
         />
         <Input
           label={"Invite Code"}
-          onText={controller.setName}
+          onText={(val) => controller.setName(sanitizeInviteInput(val))}
           value={controller.name()}
           error={controller.error().message}
         />
