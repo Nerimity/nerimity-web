@@ -50,14 +50,13 @@ import { messagesPreloader } from "@/common/createPreloader";
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
   const store = useStore();
-  const { isVisible } = useCustomScrollbar();
   const { isMobileWidth } = useWindowProperties();
 
   const server = () => store.servers.get(params.serverId);
   return (
     <>
       <Header />
-      <div class={styles.serverDrawer} data-scrollbar-visible={isVisible()}>
+      <div class={styles.serverDrawer}>
         <div class={styles.serverDrawerInner}>
           <MembersItem />
           <Show when={server()?._count?.welcomeQuestions}>

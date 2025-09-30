@@ -114,7 +114,7 @@ export default function ProfilePane() {
   const isMe = () => account.user()?.id === params.userId;
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [animateAvatar, setAnimateAvatar] = createSignal(false);
-  const { isVisible, setThumbColor } = useCustomScrollbar();
+  const { setThumbColor } = useCustomScrollbar();
 
   const { setPaneBackgroundColor } = useWindowProperties();
   createEffect(
@@ -205,9 +205,6 @@ export default function ProfilePane() {
           )}
           style={{
             "max-width": `${paneWidth()}px`,
-            ...(isVisible()
-              ? { "margin-right": "10px" }
-              : { "margin-right": "4px" }),
           }}
         >
           <div class={styles.profilePaneInner}>
@@ -312,9 +309,9 @@ export default function ProfilePane() {
             <Show when={isMobileWidth()}>
               <div
                 style={{
-                  margin: "4px",
+                  "margin-bottom": "4px",
                   "margin-right": "0",
-                  "margin-top": "0px",
+                  "margin-top": "-6px",
                 }}
               >
                 <ActionButtons

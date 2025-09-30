@@ -26,9 +26,8 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
-  &[data-scrollbar-visible="true"] {
-    margin-right: 8px;
-  }
+  padding-left: 2px;
+  padding-right: 4px;
 `;
 
 const SettingsListContainer = styled("div")`
@@ -112,12 +111,10 @@ function Footer() {
 }
 
 export default function SettingsDrawer() {
-  const { isVisible } = useCustomScrollbar();
-
   return (
     <>
       <DrawerHeader text={t("settings.drawer.title")} />
-      <DrawerContainer data-scrollbar-visible={isVisible()}>
+      <DrawerContainer>
         <SettingsList />
         <Footer />
       </DrawerContainer>

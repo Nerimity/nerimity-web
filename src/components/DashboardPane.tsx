@@ -1,17 +1,13 @@
 import { RawPost } from "@/chat-api/RawData";
 import {
-  createPost,
   getAnnouncementPosts,
   getPostNotificationCount,
   getPostNotificationDismiss,
-  getPostNotifications,
-  getPosts,
 } from "@/chat-api/services/PostService";
-import { Server } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import { formatTimestamp } from "@/common/date";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { A, useNavigate, useSearchParams } from "solid-navigator";
+import { useNavigate, useSearchParams } from "solid-navigator";
 import {
   createEffect,
   createMemo,
@@ -24,12 +20,10 @@ import {
 import { css, styled } from "solid-styled-components";
 import { Markup } from "./Markup";
 import { PostNotificationsArea, PostsArea } from "./PostsArea";
-import ContextMenuServer from "./servers/context-menu/ContextMenuServer";
 import Avatar from "./ui/Avatar";
 import Button from "./ui/Button";
 import { FlexColumn, FlexRow } from "./ui/Flexbox";
-import Input from "./ui/input/Input";
-import ItemContainer from "./ui/LegacyItem";
+
 import Text from "./ui/Text";
 import { Delay } from "@/common/Delay";
 import { Presence } from "@/chat-api/store/useUsers";
@@ -40,7 +34,6 @@ import { Skeleton } from "./ui/skeleton/Skeleton";
 import { t } from "i18next";
 import { MetaTitle } from "@/common/MetaTitle";
 import { MentionUser } from "./markup/MentionUser";
-import { useCustomScrollbar } from "./custom-scrollbar/CustomScrollbar";
 import { Item } from "./ui/Item";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { useLocalStorage } from "@/common/localStorage";
@@ -59,34 +52,8 @@ const DashboardPaneContent = styled(FlexColumn)`
   align-self: center;
 `;
 
-const ServerListContainer = styled(FlexRow)`
-  overflow: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background: rgba(255, 255, 255, 0.06);
-  padding-left: 6px;
-  padding-right: 6px;
-  border-radius: 8px;
-  margin-left: 5px;
-  margin-right: 5px;
-  height: 50px;
-  scroll-behavior: smooth;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const SidebarItemContainer = styled(ItemContainer)`
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  width: 50px;
-`;
-
 export default function DashboardPane() {
   const { header, account } = useStore();
-  const { isVisible } = useCustomScrollbar();
   createEffect(() => {
     header.updateHeader({
       title: t("dashboard.title"),
@@ -94,9 +61,7 @@ export default function DashboardPane() {
     });
   });
   return (
-    <DashboardPaneContainer
-      style={isVisible() ? { "margin-right": "6px" } : {}}
-    >
+    <DashboardPaneContainer>
       <MetaTitle>Dashboard</MetaTitle>
       <DashboardPaneContent gap={10}>
         <Show when={account.user()}>

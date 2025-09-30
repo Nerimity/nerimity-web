@@ -225,10 +225,8 @@ export default function AppPage() {
 function RightDrawer() {
   const { isMobileAgent, isMobileWidth } = useWindowProperties();
   const [scrollEl, setScrollEl] = createSignal<HTMLDivElement | undefined>();
-  const { isVisible } = useCustomScrollbar();
   return (
     <DrawerContainer
-      data-is-scroll-visible={isVisible()}
       data-is-mobile-agent={isMobileAgent()}
       ref={setScrollEl}
       style={{

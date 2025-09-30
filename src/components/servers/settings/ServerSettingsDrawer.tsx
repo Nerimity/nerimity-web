@@ -19,11 +19,11 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 
 const MainContainer = styled(FlexColumn)`
   height: 100%;
-  &[data-scrollbar-visible="true"] {
-    margin-right: 8px;
-  }
+  padding-left: 2px;
+  padding-right: 4px;
 `;
 const SettingsListContainer = styled("div")`
+  padding-top: 4px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -51,11 +51,9 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
 `;
 
 export default function ServerSettingsDrawer() {
-  const { isVisible } = useCustomScrollbar();
-
   return (
     <>
-      <MainContainer data-scrollbar-visible={isVisible()}>
+      <MainContainer>
         <SettingsList />
         <Footer />
       </MainContainer>

@@ -30,7 +30,7 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
 export function SupportBlock() {
   return (
     <A
-      href="https://boosty.to/supertigerdev/donate"
+      href="https://ko-fi.com/supertiger"
       target="_blank"
       rel="noopener noreferrer"
       style={{ "text-decoration": "none" }}
@@ -59,24 +59,6 @@ export function SupportBlock() {
               <Text size={12}>{t("supportBlock.supportDescription")}</Text>
             </div>
           </div>
-        </FlexRow>
-        <FlexRow style={{ "align-self": "center" }} gap={6}>
-          <a target="_blank" href="https://ko-fi.com/supertiger">
-            <img
-              style={{ "border-radius": "50%" }}
-              src="/assets/kofi.png"
-              width={28}
-              height={28}
-            />
-          </a>
-          <a target="_blank" href="https://boosty.to/supertigerdev/donate">
-            <img
-              style={{ "border-radius": "50%" }}
-              src="/assets/boosty.jpg"
-              width={28}
-              height={28}
-            />
-          </a>
         </FlexRow>
       </SettingItemContainer>
     </A>
