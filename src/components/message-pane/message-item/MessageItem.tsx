@@ -2005,7 +2005,7 @@ const MessageReplyItem = (props: {
   const member = () =>
     store.serverMembers.get(
       params.serverId!,
-      props.replyToMessage!.createdBy.id
+      props.replyToMessage!.createdBy?.id
     );
 
   const topRoleColor = () => {
@@ -2035,7 +2035,7 @@ const MessageReplyItem = (props: {
               color: topRoleColor(),
             }}
           >
-            {member()?.nickname || props.replyToMessage!.createdBy.username}
+            {member()?.nickname || props.replyToMessage!.createdBy?.username}
           </div>
           <Show when={props.replyToMessage!.attachments?.length}>
             <Icon name="image" color="rgba(255,255,255,0.6)" size={16} />
