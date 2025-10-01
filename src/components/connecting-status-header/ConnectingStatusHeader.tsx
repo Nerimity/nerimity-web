@@ -87,7 +87,7 @@ export default function ConnectingStatusHeader() {
       });
       interval = window.setTimeout(() => {
         setStatus(null);
-      }, 3000);
+      }, 1500);
     }
   });
 
