@@ -12,17 +12,17 @@
     "getStarted": "Get Started",
     "availableOn": "Available on",
     "browser": "Browser",
-      "featureList": {
-        "feature1": "Free animated avatars & emojis",
-        "feature2": "Sleek design",
-        "feature3": "Change your tag for free",
-        "feature4": "Create posts on your profile",
-        "feature5": "Create your own community",
-        "feature6": "Find new communities",
-        "feature7": "Runs from donations",
-        "feature8": "Full source code on GitHub",
-        "feature9": "Express yourself with borders"
-      }
+    "featureList": {
+      "feature1": "Free animated avatars & emojis",
+      "feature2": "Sleek design",
+      "feature3": "Change your tag for free",
+      "feature4": "Create posts on your profile",
+      "feature5": "Create your own community",
+      "feature6": "Find new communities",
+      "feature7": "Runs from donations",
+      "feature8": "Full source code on GitHub",
+      "feature9": "Express yourself with borders"
+    }
   },
   "loginPage": {
     "title": "Login to continue",
@@ -469,5 +469,56 @@
   "googleAccountLink": {
     "linking": "Linking your account with Google...",
     "success": "Account linked! You may now close this window."
+  },
+  "invite": {
+    "loading": "Loading Invite...",
+    "invalid": "Invalid Invite Code",
+    "joinButton": "Join",
+    "joiningButton": "Joining...",
+    "visitButton": "Visit",
+    "member": "member",
+    "members": "members"
+  },
+  "fileEmbed": {
+    "expired": "Expired",
+    "modifiedOrDeleted": "This file was modified/deleted by the creator in their Google Drive.",
+    "viewImage": "View Image",
+    "download": "Download",
+    "expires": "Expires"
+  },
+  "videoEmbed": {
+    "couldNotGetVideo": "Could not get video.",
+    "videoModified": "Video was modified.",
+    "googleDrivePolicy": "Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App.",
+    "videoExpired": "Video expired.",
+    "modifiedOrDeleted": "This video was modified/deleted by the creator in their Google Drive.",
+    "expires": "Expires",
+    "expired": "Expired"
+  },
+  "message": {
+    "badge": {
+      "bot": "Bot",
+      "webhook": "Webhook",
+      "owner": "Owner"
+    },
+    "reactions": {
+      "more": "{{count}} more"
+    },
+    "deletedMessage": "Message was deleted.",
+    "editedAt": "Edited at {{time}}",
+    "twitterEmbed": {
+      "modalTitle": "Detailed Twitter Embed",
+      "modalDescription": "When using the official Twitter embed, your data will be collected by Elmo Musk.",
+      "doNotShowAgain": "Don't show this again.",
+      "closeButton": "Don't show",
+      "showButton": "Show",
+      "basicEmbed": "Basic Embed",
+      "detailedEmbed": "Detailed Embed"
+    },
+    "blocked": "You have blocked this user. Click to show.",
+    "translationError": "Could not translate this message.",
+    "translation": {
+      "title": "Translation"
+    }
   }
 }
