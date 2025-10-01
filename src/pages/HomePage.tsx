@@ -177,12 +177,12 @@ const PlatformDownloadLinks = () => {
       );
       return;
     }
-    window.open(
-      "https://github.com/Nerimity/nerimity-desktop/releases/latest",
-      "_blank"
-    );
+    // window.open(
+    //   "https://github.com/Nerimity/nerimity-desktop/releases/latest",
+    //   "_blank"
+    // );
 
-    return;
+    // return;
 
     const platforms = await getPlatformDownloadLinks();
     const filtered = platforms.filter((x) => {
