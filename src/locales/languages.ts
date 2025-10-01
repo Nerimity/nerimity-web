@@ -18,7 +18,7 @@ export const languages = {
   "en-gb": {
     name: "English",
     emoji: "🇬🇧",
-    contributors: ["https://github.com/SupertigerDev"],
+    contributors: ["https://github.com/SupertigerDev", "https://github.com/Asraye"],
   },
   "af-za": {
     name: "Afrikaans",
@@ -40,7 +40,7 @@ export const languages = {
     emoji: "🇨🇳",
     contributors: ["https://github.com/Coolsigh"],
   },
-  "zn-hant": {
+  "zh-hant": {
     name: "Chinese (Traditional)",
     emoji: "🇹🇼",
     contributors: ["Dsiahrz"],
@@ -114,7 +114,7 @@ export const languages = {
   "uw-uw": {
     name: "UwU",
     emoji: "🐱",
-    contributors: ["https://github.com/spookehneko123"],
+    contributors: ["https://github.com/spookehneko123", "https://github.com/Asraye"],
   },
 };
 
