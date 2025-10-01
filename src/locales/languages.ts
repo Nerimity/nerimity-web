@@ -40,7 +40,7 @@ export const languages = {
     emoji: "🇨🇳",
     contributors: ["https://github.com/Coolsigh"],
   },
-  "zh-hant": {
+  "zn-hant": {
     name: "Chinese (Traditional)",
     emoji: "🇹🇼",
     contributors: ["Dsiahrz"],
