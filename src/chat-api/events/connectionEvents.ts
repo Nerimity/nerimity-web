@@ -19,6 +19,7 @@ import { reactNativeAPI } from "@/common/ReactNative";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import useChannelProperties from "../store/useChannelProperties";
 import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
+import { type DisconnectDescription } from "socket.io-client/build/esm/socket";
 
 export const onConnect = (socket: Socket, token?: string) => {
   const account = useAccount();
@@ -30,7 +31,12 @@ export const onConnect = (socket: Socket, token?: string) => {
   socket.emit(ClientEvents.AUTHENTICATE, { token });
 };
 
-export const onDisconnect = () => {
+export const onDisconnect = (
+  reason: string,
+  details: DisconnectDescription
+) => {
+  console.log("SOCKET DISCONNECTED", reason, details);
+
   const account = useAccount();
   const voiceUsers = useVoiceUsers();
   const channelProperties = useChannelProperties();
