@@ -448,7 +448,6 @@ export const ServerList = (props: { size: number }) => {
               setDraggingId(null);
               return;
             }
-            console.log("start");
 
             setDraggingId(item?.id || null);
           }}
@@ -484,7 +483,6 @@ export const ServerList = (props: { size: number }) => {
               }
             }
 
-            console.log("end");
             setDraggingId(null);
             setDraggedOverId(null);
             setDraggedOverEl(null);
