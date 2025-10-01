@@ -6,7 +6,15 @@ import {
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import { useDocumentListener } from "@/common/useDocumentListener";
-import { createMemo, createSignal, Show, For, createEffect } from "solid-js";
+import {
+  createMemo,
+  createSignal,
+  Show,
+  For,
+  createEffect,
+  onMount,
+  onCleanup,
+} from "solid-js";
 import Sortable, { SortableEvent } from "solid-sortablejs";
 import ContextMenuServer from "../servers/context-menu/ContextMenuServer";
 import { Skeleton } from "../ui/skeleton/Skeleton";
@@ -391,6 +399,17 @@ export const ServerList = (props: { size: number }) => {
     setIsDraggedOverItem(isItemHovered);
   });
 
+  const onMouseUp = () => {
+    setTimeout(() => {
+      setDraggingId(null);
+    }, 10);
+  };
+  onMount(() => {
+    document.addEventListener("pointerup", onMouseUp);
+    onCleanup(() => {
+      document.removeEventListener("pointerup", onMouseUp);
+    });
+  });
   return (
     <div class={style.serverListContainer}>
       <ContextMenuServer
@@ -429,6 +448,8 @@ export const ServerList = (props: { size: number }) => {
               setDraggingId(null);
               return;
             }
+            console.log("start");
+
             setDraggingId(item?.id || null);
           }}
           onEnd={(e) => {
@@ -463,6 +484,7 @@ export const ServerList = (props: { size: number }) => {
               }
             }
 
+            console.log("end");
             setDraggingId(null);
             setDraggedOverId(null);
             setDraggedOverEl(null);
