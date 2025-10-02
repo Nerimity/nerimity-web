@@ -268,14 +268,25 @@ const TranslateModal = (props: { language: any; close: () => void }) => {
   };
 
   return (
-    <Modal.Root close={props.close} doNotCloseOnBackgroundClick>
+    <Modal.Root
+      close={props.close}
+      doNotCloseOnBackgroundClick
+      desktopMaxWidth={860}
+      class={css`
+        width: 90vw;
+      `}
+    >
       <Modal.Header title="Translate" icon="translate" />
-      <Modal.Body>
+      <Modal.Body
+        class={css`
+          height: 90vh;
+        `}
+      >
         <iframe
           src="https://supertigerdev.github.io/i18n-tool/"
-          height="800"
+          height="100%"
+          width="100%"
           ref={iframe}
-          width="600"
           onLoad={() => handleIframeLoad()}
           frameborder="0"
           id="iframe"
