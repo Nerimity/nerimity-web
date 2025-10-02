@@ -18,7 +18,10 @@ export const languages = {
   "en-gb": {
     name: "English",
     emoji: "🇬🇧",
-    contributors: ["https://github.com/SupertigerDev", "https://github.com/Asraye"],
+    contributors: [
+      "https://github.com/SupertigerDev",
+      "https://github.com/Asraye",
+    ],
   },
   "af-za": {
     name: "Afrikaans",
@@ -114,7 +117,10 @@ export const languages = {
   "uw-uw": {
     name: "UwU",
     emoji: "🐱",
-    contributors: ["https://github.com/spookehneko123", "https://github.com/Asraye"],
+    contributors: [
+      "https://github.com/spookehneko123",
+      "https://github.com/Asraye",
+    ],
   },
 };
 
@@ -127,5 +133,7 @@ export function setCurrentLanguage(key: string) {
 
 export function getLanguage(key: string) {
   if (!(languages as any)[key.replace("_", "-")]) return undefined;
-  return import(`./list/${key.replace("_", "-")}.json`);
+  return import(`./list/${key.replace("_", "-")}.json`).then(
+    (res) => res.default
+  );
 }
