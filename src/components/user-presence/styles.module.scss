@@ -65,19 +65,20 @@ body .full .value > span,
   height: 10px;
   margin-right: 2px;
   border-radius: 50%;
+
   &.offline {
-    background-color: #adadad;
+    background-color: var(--Status-Offline, #adadad);
   }
   &.online {
-    background-color: #78e380;
+    background-color: var(--Status-Online, #78e380);
   }
   &.ltp {
-    background-color: #78a5e3;
+    background-color: var(--Status-Looking-To-Play, #78a5e3);
   }
   &.afk {
-    background-color: #e3a878;
+    background-color: var(--Status-Away-From-Keyboard, #e3a878);
   }
   &.dnd {
-    background-color: #e37878;
+    background-color: var(--Status-Do-Not-Disturb, #e37878);
   }
 }
