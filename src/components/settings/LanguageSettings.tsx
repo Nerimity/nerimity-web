@@ -1,4 +1,11 @@
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
@@ -21,6 +28,8 @@ import { t } from "i18next";
 import { Notice } from "../ui/Notice/Notice";
 import Button from "../ui/Button";
 import en from "@/locales/list/en-gb.json";
+import { Modal } from "../ui/modal";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -146,12 +155,22 @@ function LanguageItem(props: {
   onClick: () => void;
   percentTranslated?: number;
 }) {
+  const { createPortal } = useCustomPortal();
   const language = (languages as any)[props.key] as Language;
 
   const onClick = (event: any) => {
     const target = event.target as HTMLElement;
     if (target.tagName === "A") return;
     props.onClick();
+  };
+
+  const handlePercentClick = async () => {
+    const key = props.key.replace("_", "-");
+    const language = await getLanguage(key);
+
+    createPortal((close) => (
+      <TranslateModal close={close} language={language} />
+    ));
   };
 
   return (
@@ -169,7 +188,18 @@ function LanguageItem(props: {
         <Contributors contributors={language.contributors} />
       </FlexColumn>
       <Show when={props.percentTranslated && props.selected}>
-        <div style={{ "margin-left": "auto", opacity: 0.4 }}>
+        <div
+          class={css`
+            margin-left: auto;
+            opacity: 0.4;
+            cursor: pointer;
+            transition: 0.2s;
+            &:hover {
+              opacity: 1;
+            }
+          `}
+          onClick={handlePercentClick}
+        >
           {props.percentTranslated?.toFixed(0)}%
         </div>
       </Show>
@@ -226,3 +256,31 @@ function lastPath(url: string) {
   const split = url.split("/");
   return split[split.length - 1];
 }
+
+const TranslateModal = (props: { language: any; close: () => void }) => {
+  let iframe: HTMLIFrameElement | undefined;
+
+  const handleIframeLoad = () => {
+    iframe?.contentWindow?.postMessage(
+      { default: en, translated: { ...props.language } },
+      "https://supertigerdev.github.io/i18n-tool/"
+    );
+  };
+
+  return (
+    <Modal.Root close={props.close} doNotCloseOnBackgroundClick>
+      <Modal.Header title="Translate" icon="translate" />
+      <Modal.Body>
+        <iframe
+          src="https://supertigerdev.github.io/i18n-tool/"
+          height="800"
+          ref={iframe}
+          width="600"
+          onLoad={() => handleIframeLoad()}
+          frameborder="0"
+          id="iframe"
+        />
+      </Modal.Body>
+    </Modal.Root>
+  );
+};

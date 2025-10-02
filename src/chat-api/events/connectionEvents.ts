@@ -13,10 +13,8 @@ import {
 } from "@/common/localStorage";
 import { ProgramWithExtras, electronWindowAPI } from "@/common/Electron";
 import { emitActivityStatus } from "../emits/userEmits";
-import { isExperimentEnabled, useExperiment } from "@/common/experiments";
 import { localRPC } from "@/common/LocalRPC";
 import { reactNativeAPI } from "@/common/ReactNative";
-import { useWindowProperties } from "@/common/useWindowProperties";
 import useChannelProperties from "../store/useChannelProperties";
 import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
 import { type DisconnectDescription } from "socket.io-client/build/esm/socket";
@@ -33,7 +31,7 @@ export const onConnect = (socket: Socket, token?: string) => {
 
 export const onDisconnect = (
   reason: string,
-  details: DisconnectDescription
+  details: DisconnectDescription | undefined
 ) => {
   console.log("SOCKET DISCONNECTED", reason, details);
 
