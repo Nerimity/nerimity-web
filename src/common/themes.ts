@@ -13,8 +13,8 @@ const DarkTheme = {
   "primary-color": "#4c93ff",
   "primary-color-dark": "#2d3746",
   // Alerts
- "alert-color": "#eb6e6e",
- "alert-color-dark": "#3e2626",
+  "alert-color": "#eb6e6e",
+  "alert-color-dark": "#3e2626",
   // Warns
   "warn-color": "#ff8f2c",
   "warn-color-dark": "#3a3229",
@@ -23,24 +23,23 @@ const DarkTheme = {
   "success-color-dark": "#1c221d",
   // Status
   "Status-Offline": "#adadad",
-  "Status-Online": "#78e380",  
+  "Status-Online": "#78e380",
   "Status-Looking-To-Play": "#78a5e3",
   "Status-Away-From-Keyboard": "#e3a878",
   "Status-Do-Not-Disturb": "#e37878",
-   // Text Color
+  // Text Color
   "text-color": "white",
-  // TODO: 
+  // TODO:
   // Add multiple text colors, rather than using one.. E.G: message-text-color, channel-text-color, etc.
 };
 
 // const LightTheme = {
-  // "background-color": "#f1f1f1",
-  // "pane-color": "white",
-  // "header-background-color": "white",
-  // "header-background-color-blur-disabled": "white",
-  // "text-color": "black",
+// "background-color": "#f1f1f1",
+// "pane-color": "white",
+// "header-background-color": "white",
+// "header-background-color-blur-disabled": "white",
+// "text-color": "black",
 // };
-
 
 const theme = { ...DarkTheme };
 
@@ -71,7 +70,7 @@ export const updateTheme = () => {
   for (const key in newTheme) {
     document.documentElement.style.setProperty(
       `--${key}`,
-      newTheme[key as ThemeKey]
+      newTheme[key as ThemeKey],
     );
   }
 };
@@ -86,5 +85,4 @@ export const setThemeColor = (key: string, value?: string) => {
   }
   updateTheme();
 };
-
 export { currentTheme, customColors };
