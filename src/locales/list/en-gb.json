@@ -346,22 +346,12 @@
       "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
     },
     "interface": {
-      "title": "Settings - Interface",
-      "customCSS": "Custom CSS",
-      "themes": "Themes",
-      "themesDescription": "Pick a preset theme or reset to default.",
-      "maintainers": "Maintainers",
-      "apply": "Apply",
-      "enableEruda": "Enable Eruda",
-      "enableErudaDescription": "Enable Eruda for debugging. Do not share any details with others.",
-      "enableOnce": "Enable Once",
       "blurEffect": "Blur Effect",
-      "blurEffectDescription": "Toggle blur effect on interface elements.",
-      "blurEffectWarning": "May reduce performance on some devices.",
+      "blurEffectDescription": "Enables transparent blur effect. Disabled by default on mobile. Can cause performance issues.",
       "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
-      "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
+      "disableAdvancedMarkupBarDescription": "Disable advanced markup bar from text channels.",
       "customizeColors": "Customize Colors",
-      "customizeColorsDescription": "Edit colors for the current theme."
+      "customizeColorsDescription": "Customize the colors of the interface."
     }
   },
   "supportBlock": {
