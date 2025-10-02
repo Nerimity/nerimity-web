@@ -839,8 +839,8 @@ const LocalCdnEmbeds = (props: {
 };
 
 const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
+  const [t] = useTransContext();
   const isExpired = () => {
-    const [t] = useTransContext();
     return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
   };
   return (
