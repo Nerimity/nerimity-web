@@ -844,8 +844,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const showQuote = () => props.message.type === MessageType.CONTENT;
   const showReply = () => props.message.type === MessageType.CONTENT;
 
-  const hasReactions = () =>
-    props.message.reactions && Object.keys(props.message.reactions).length > 0;
+  const hasReactions = () => props.message?.reactions.length;
   const hasContent = () => props.message.content;
   const isSelfMessage = () => account.user()?.id === props.message.createdBy.id;
   const showReportMessage = () => !isSelfMessage();
