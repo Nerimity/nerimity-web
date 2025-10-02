@@ -26,12 +26,12 @@
   },
   "loginPage": {
     "title": "Anmelden, um fortzufahren",
-    "emailOrUsernameAndTag": "Email / username:tag",
+    "emailOrUsernameAndTag": "E-Mail / Benutzername:Tag",
     "password": "Passwort",
-    "login": "Login",
+    "login": "Anmelden",
     "createAccountInstead": "Stattdessen Account erstellen",
     "loggingIn": "Wird eingeloggt...",
-    "loginButton": "Login"
+    "loginButton": "Anmelden"
   },
   "registerPage": {
     "header": "Registrieren",
@@ -43,10 +43,10 @@
     },
     "title": "Willkommen bei {{appName}}",
     "email": "Email",
-    "username": "Username",
+    "username": "Benutzername",
     "password": "Passwort",
     "confirmPassword": "Passwort bestätigen",
-    "agreement": "Mit Erstellung des Accounts akzeptierst du die Terms And Conditions und die Privacy Policy.",
+    "agreement": "Mit Erstellung des Accounts akzeptierst du die Nutzungsbedingungen und die Datenschutzerklärung.",
     "registerButton": "Registrieren",
     "registering": "Wird erstellt...",
     "loginInstead": "Stattdessen einloggen"
@@ -109,7 +109,7 @@
       "memberCount": "{{count}} Mitglieder",
       "lifetimeBumpCount": "{{count}} Boosts insgesamt",
       "visitServerButton": "Ansehen",
-      "joinServerButton": "Joinen",
+      "joinServerButton": "Beitreten",
       "bumpButton": "Boost ({{count}})"
     }
   },
@@ -208,9 +208,9 @@
       "manageRolesDescription": "Berechtigung zum Aktualisieren oder Löschen von Rollen.",
       "manageChannels": "Channels verwalten",
       "manageChannelsDescription": "Berechtigung zum Aktualisieren oder Löschen von Channels.",
-      "kick": "Kick",
+      "kick": "Kicken",
       "kickDescription": "Berechtigung zum Kicken von Benutzern.",
-      "ban": "Ban",
+      "ban": "Bannen",
       "banDescription": "Berechtigung zum Bannen von Benutzern.",
       "mentionEveryone": "Everyone erwähnen",
       "mentionEveryoneDescription": "Erlaubt das Erwähnen von @everyone. Server Admins können weiterhin everyone erwähnen.",
@@ -229,21 +229,21 @@
   "settings": {
     "drawer": {
       "title": "Einstellungen",
-      "account": "Account",
-      "interface": "Interface",
+      "account": "Mein Account",
+      "interface": "Erscheinungsbild",
       "language": "Sprache",
       "notifications": "Benachrichtigungen",
       "logout": "Abmelden",
-      "developer": "Developer",
-      "applications": "Applications",
+      "developer": "Entwickler",
+      "applications": "Anwendungen",
       "experiments": "Experimente",
       "badges": "Abzeichen",
       "viewSource": "Source ansehen",
-      "changelog": "Changelog",
+      "changelog": "Änderungsprotokoll",
       "window-settings": "Fenstereinstellungen",
       "call-settings": "Call Einstellungen",
       "activity-status": "Aktivitätsstatus",
-      "tickets": "Tickets",
+      "tickets": "Anfragen",
       "privacy": "Privatsphäre",
       "connections": "Verbindungen",
       "profile": "Profil"
@@ -254,7 +254,7 @@
       "manageAccount": "Account verwalten"
     },
     "account": {
-      "title": "Einstellungen - Account",
+      "title": "Einstellungen",
       "email": "Email",
       "username": "Username",
       "tag": "Tag",
@@ -416,7 +416,9 @@
     "viewReactions": "Reaktionen anzeigen",
     "quoteMessage": "Nachricht zitieren",
     "reportMessage": "Nachricht melden",
-    "reply": "Antworten"
+    "reply": "Antworten",
+    "translateMessage": "Übersetzen",
+    "markUnread": "Als ungelesen markieren"
   },
   "profile": {
     "followButton": "Folgen",
@@ -469,5 +471,57 @@
   "googleAccountLink": {
     "linking": "Dein Account wird mit Google verbunden...",
     "success": "Account verknüpft! Du kannst das Fenster jetzt schließen."
+  },
+  "fileEmbed": {
+    "expired": "Abgelaufen",
+    "modifiedOrDeleted": "Diese Datei wurde vom Ersteller in seinem Google Drive geändert oder gelöscht.",
+    "viewImage": "Show image",
+    "download": "Download",
+    "expires": "Läuft ab"
+  },
+  "invite": {
+    "loading": "Einladung wird geladen…",
+    "invalid": "Ungültiger Einladungscode",
+    "joinButton": "Beitreten",
+    "joiningButton": "Wird beigetreten…",
+    "visitButton": "Besuchen",
+    "member": "Mitglied",
+    "members": "Mitglieder"
+  },
+  "message": {
+    "badge": {
+      "bot": "Bot",
+      "webhook": "Webhook",
+      "owner": "Eigentümer"
+    },
+    "reactions": {
+      "more": "{{count}} mehr"
+    },
+    "deletedMessage": "Nachricht wurde gelöscht.",
+    "dismissButton": "Schließen",
+    "editedAt": "Bearbeitet um {{time}}",
+    "twitterEmbed": {
+      "modalTitle": "Detaillierte Twitter-Einbettung",
+      "modalDescription": "Beim Verwenden der offiziellen Twitter-Einbettung werden Ihre Daten von Elon Musk gesammelt.",
+      "doNotShowAgain": "Nicht mehr anzeigen.",
+      "closeButton": "Nicht anzeigen",
+      "showButton": "Anzeigen",
+      "basicEmbed": "Basis-Einbettung",
+      "detailedEmbed": "Detaillierte Einbettung"
+    },
+    "blocked": "Du hast diesen Nutzer blockiert. Zum Anzeigen klicken.",
+    "translationError": "Diese Nachricht konnte nicht übersetzt werden.",
+    "translation": {
+      "title": "Übersetzung"
+    }
+  },
+  "videoEmbed": {
+    "couldNotGetVideo": "Video konnte nicht geladen werden.",
+    "videoModified": "Video wurde geändert.",
+    "googleDrivePolicy": "Aufgrund der neuen Google Drive-Richtlinie können Videos nur noch über die Nerimity Desktop-App abgespielt werden.",
+    "videoExpired": "Video ist abgelaufen.",
+    "modifiedOrDeleted": "Dieses Video wurde vom Ersteller in seinem Google Drive geändert oder gelöscht.",
+    "expires": "Läuft ab",
+    "expired": "Abgelaufen"
   }
 }
