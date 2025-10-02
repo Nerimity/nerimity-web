@@ -512,6 +512,7 @@
       "more": "{{count}} mowe~"
     },
     "deletedMessage": "talky was poofed!",
+    "dismissButton": "go awae",
     "editedAt": "Edited at {{time}}~",
     "twitterEmbed": {
       "modalTitle": "Detaiwed Twittow Embed",
