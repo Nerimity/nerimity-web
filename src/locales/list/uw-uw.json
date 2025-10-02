@@ -370,12 +370,14 @@
   "messageContextMenu": {
     "editMessage": "edit talky",
     "deleteMessage": "poof talky",
+    "translateMessage": "owo wats dis?",
     "copyMessage": "copy talky",
     "copyId": "copy magic id",
     "viewReactions": "view reacties",
     "quoteMessage": "quote talky",
     "reportMessage": "wepowt talky",
-    "reply": "wepwy"
+    "reply": "wepwy",
+    "markUnread": "mawk unwead"
   },
   "profile": {
     "followButton": "fowwow uwu",
@@ -510,6 +512,7 @@
       "more": "{{count}} mowe~"
     },
     "deletedMessage": "talky was poofed!",
+    "dismissButton": "go awae",
     "editedAt": "Edited at {{time}}~",
     "twitterEmbed": {
       "modalTitle": "Detaiwed Twittow Embed",

@@ -411,12 +411,14 @@
   "messageContextMenu": {
     "editMessage": "Edit Message",
     "deleteMessage": "Delete Message",
+    "translateMessage": "Translate",
     "copyMessage": "Copy Message",
     "copyId": "Copy ID",
     "viewReactions": "View Reactions",
     "quoteMessage": "Quote Message",
     "reportMessage": "Report Message",
-    "reply": "Reply"
+    "reply": "Reply",
+    "markUnread": "Mark Unread"
   },
   "profile": {
     "followButton": "Follow",
@@ -505,6 +507,7 @@
       "more": "{{count}} more"
     },
     "deletedMessage": "Message was deleted.",
+    "dismissButton": "Dismiss",
     "editedAt": "Edited at {{time}}",
     "twitterEmbed": {
       "modalTitle": "Detailed Twitter Embed",
