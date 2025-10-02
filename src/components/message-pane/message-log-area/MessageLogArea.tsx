@@ -877,12 +877,12 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
         {
           icon: "translate",
-          label: "Translate",
+          label: t("messageContextMenu.translateMessage"),
           onClick: onTranslateClick,
         },
         {
           icon: "mark_chat_unread",
-          label: "Mark Unread",
+          label: t("messageContextMenu.markUnread"),
           onClick: onMarkUnreadClick,
         },
         ...(showQuote()
