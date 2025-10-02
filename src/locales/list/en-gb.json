@@ -507,7 +507,7 @@
       "more": "{{count}} more"
     },
     "deletedMessage": "Message was deleted.",
-    "dismissButton": "Dismiss.",
+    "dismissButton": "Dismiss",
     "editedAt": "Edited at {{time}}",
     "twitterEmbed": {
       "modalTitle": "Detailed Twitter Embed",
