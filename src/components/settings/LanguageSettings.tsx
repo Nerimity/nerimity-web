@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
@@ -20,6 +20,7 @@ import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import { Notice } from "../ui/Notice/Notice";
 import Button from "../ui/Button";
+import en from "@/locales/list/en-gb.json";
 
 const Container = styled("div")`
   display: flex;
@@ -46,6 +47,33 @@ export default function LanguageSettings() {
     getCurrentLanguage() || "en_gb"
   );
 
+  const [percentTranslated, setPercentTranslated] = createSignal(0);
+
+  const checkTranslatedStrings = (langKey: string, lang: any) => {
+    let total = 0;
+    let translated = 0;
+    const checkNested = (obj: any, nestedLang: any) => {
+      for (const key in obj) {
+        if (typeof obj[key] === "string") {
+          total++;
+          if (nestedLang?.[key] && nestedLang?.[key] !== obj) translated++;
+        } else if (typeof obj[key] === "object") {
+          checkNested(obj[key], nestedLang?.[key]);
+        }
+      }
+    };
+
+    checkNested(en, lang);
+    const percent = (translated / total) * 100;
+    setPercentTranslated(percent);
+  };
+
+  onMount(async () => {
+    const currentKey = getCurrentLanguage() || "en_gb";
+    const language = await getLanguage(currentKey);
+    checkTranslatedStrings(currentKey.replace("_", "-"), language);
+  });
+
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Language",
@@ -56,6 +84,7 @@ export default function LanguageSettings() {
   const languageKeys = Object.keys(languages);
 
   const setLanguage = async (key: string) => {
+    const oldKey = key;
     key = key.replace("-", "_");
     if (getCurrentLanguage() !== key) {
       setLanguageUpdated(true);
@@ -63,7 +92,10 @@ export default function LanguageSettings() {
     if (key !== "en_gb") {
       const language = await getLanguage(key);
       if (!language) return;
+      checkTranslatedStrings(oldKey, language);
       actions.addResources(key, "translation", language);
+    } else {
+      setPercentTranslated(100);
     }
     actions.changeLanguage(key);
     setCurrentLanguage(key);
@@ -100,6 +132,7 @@ export default function LanguageSettings() {
             selected={currentLocalLanguage().replace("_", "-") === key}
             onClick={() => setLanguage(key)}
             key={key}
+            percentTranslated={percentTranslated()}
           />
         )}
       </For>
@@ -111,6 +144,7 @@ function LanguageItem(props: {
   key: string;
   selected: boolean;
   onClick: () => void;
+  percentTranslated?: number;
 }) {
   const language = (languages as any)[props.key] as Language;
 
@@ -134,6 +168,11 @@ function LanguageItem(props: {
         <Text>{language.name}</Text>
         <Contributors contributors={language.contributors} />
       </FlexColumn>
+      <Show when={props.percentTranslated && props.selected}>
+        <div style={{ "margin-left": "auto", opacity: 0.4 }}>
+          {props.percentTranslated?.toFixed(0)}%
+        </div>
+      </Show>
     </LanguageItemContainer>
   );
 }
