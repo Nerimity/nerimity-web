@@ -10,16 +10,16 @@ import {
 } from "@/locales/languages";
 
 import ItemContainer from "../ui/LegacyItem";
-import twemoji from "twemoji";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import { useTransContext } from "@mbarzda/solid-i18next";
-import env from "@/common/env";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "../markup/Emoji";
 import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
+import { Notice } from "../ui/Notice/Notice";
+import Button from "../ui/Button";
 
 const Container = styled("div")`
   display: flex;
@@ -40,6 +40,7 @@ const LanguageItemContainer = styled(ItemContainer)`
 export default function LanguageSettings() {
   const { header } = useStore();
   const [, actions] = useTransContext();
+  const [languageUpdated, setLanguageUpdated] = createSignal(false);
 
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(
     getCurrentLanguage() || "en_gb"
@@ -56,6 +57,9 @@ export default function LanguageSettings() {
 
   const setLanguage = async (key: string) => {
     key = key.replace("-", "_");
+    if (getCurrentLanguage() !== key) {
+      setLanguageUpdated(true);
+    }
     if (key !== "en_gb") {
       const language = await getLanguage(key);
       if (!language) return;
@@ -72,6 +76,24 @@ export default function LanguageSettings() {
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.language")} />
       </Breadcrumb>
+      <Show when={languageUpdated()}>
+        <Notice
+          type="warn"
+          description="You must reload the app to fully apply the new language."
+        >
+          <div style={{ display: "flex", "justify-content": "flex-end" }}>
+            <Button
+              onClick={() => window.location.reload()}
+              label="Reload"
+              iconName="refresh"
+              primary
+              margin={0}
+              padding={4}
+              iconSize={18}
+            />
+          </div>
+        </Notice>
+      </Show>
       <For each={languageKeys}>
         {(key) => (
           <LanguageItem
