@@ -2,30 +2,45 @@ import { StorageKeys, useLocalStorage } from "./localStorage";
 import { isHalloween } from "./worldEvents";
 
 const DarkTheme = {
+  // Main
   "background-color": "hsl(216deg 9% 8%)",
   "pane-color": "hsl(216deg 8% 15%)",
   "side-pane-color": "hsl(216deg 7.82% 12.55%)",
   "header-background-color": "hsla(216deg 8% 15% / 80%)",
   "header-background-color-blur-disabled": "hsl(216deg 8% 15%)",
   "tooltip-background-color": "rgb(40, 40, 40)",
+  // Primary
   "primary-color": "#4c93ff",
-  "alert-color": "#eb6e6e",
+  "primary-color-dark": "#2d3746",
+  // Alerts
+ "alert-color": "#eb6e6e",
+ "alert-color-dark": "#3e2626",
+  // Warns
   "warn-color": "#ff8f2c",
+  "warn-color-dark": "#3a3229",
+  // Success
   "success-color": "#78e380",
   "success-color-dark": "#1c221d",
-  "primary-color-dark": "#2d3746",
-  "alert-color-dark": "#3e2626",
-  "warn-color-dark": "#3a3229",
+  // Status
+  "Status-Offline": "#adadad",
+  "Status-Online": "#78e380",  
+  "Status-Looking-To-Play": "#78a5e3",
+  "Status-Away-From-Keyboard": "#e3a878",
+  "Status-Do-Not-Disturb": "#e37878",
+   // Text Color
   "text-color": "white",
+  // TODO: 
+  // Add multiple text colors, rather than using one.. E.G: message-text-color, channel-text-color, etc.
 };
 
-const LightTheme = {
-  "background-color": "#f1f1f1",
-  "pane-color": "white",
-  "header-background-color": "white",
-  "header-background-color-blur-disabled": "white",
-  "text-color": "black",
-};
+// const LightTheme = {
+  // "background-color": "#f1f1f1",
+  // "pane-color": "white",
+  // "header-background-color": "white",
+  // "header-background-color-blur-disabled": "white",
+  // "text-color": "black",
+// };
+
 
 const theme = { ...DarkTheme };
 
