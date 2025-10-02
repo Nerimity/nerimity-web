@@ -200,7 +200,7 @@ function LanguageItem(props: {
           `}
           onClick={handlePercentClick}
         >
-          {props.percentTranslated?.toFixed(0)}%
+          {Math.floor(props.percentTranslated || 0)}%
         </div>
       </Show>
     </LanguageItemContainer>
