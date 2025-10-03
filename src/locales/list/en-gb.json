@@ -323,8 +323,11 @@
       "messageDescription": "Sound when receiving a message.",
       "mention": "Mention",
       "mentionDescription": "Sound when receiving a mention.",
+      "reminder": "Reminder",
+      "reminderDescription": "Notifications for reminders.",
       "inAppPreview": "In App Preview",
       "inAppPreviewDescription": "Display In App Notification popups.",
+      "mute": "Mute",
       "inAppPreviewModes": {
         "off": "Off",
         "mentionsOnly": "Mentions Only",
