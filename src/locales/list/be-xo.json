@@ -322,6 +322,9 @@
       "messageDescription": "Гук, калі вы атрымлівайце паведамленьне.",
       "mention": "Згадваньне",
       "mentionDescription": "Гук, калі вас згадваюць.",
+      "reminder": "Нагады",
+      "reminderDescription": "Апавяшчэньні для нагадаў.",
+      "mute": "Без гуку",
       "inAppPreview": "Перадпрагляд у праґраме",
       "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў праґраме.",
       "inAppPreviewModes": {

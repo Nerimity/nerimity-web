@@ -164,13 +164,14 @@ function NotificationSoundSelection() {
         label={t("settings.notifications.mention")}
         description={t("settings.notifications.mentionDescription")}
         borderTopRadius={false}
+        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="MESSAGE_MENTION" />
       </SettingsBlock>
       <SettingsBlock
         icon="calendar_today"
-        label="Reminder"
-        description="Notifications for reminders"
+        label={t("settings.notifications.reminder")}
+        description={t("settings.notifications.reminderDescription")}
         borderTopRadius={false}
       >
         <NotificationSoundDropDown typeId="REMINDER" />
@@ -206,7 +207,7 @@ function NotificationSoundDropDown(props: {
           setSelectedSounds({ ...selectedSounds(), [props.typeId]: sound }),
         label:
           sound === "nerimity-mute"
-            ? "Mute"
+            ? t("settings.notifications.mute")
             : capitalizeFirstLetter(sound.replaceAll("-", " ")),
         suffix: (
           <Show when={sound !== "nerimity-mute"}>
