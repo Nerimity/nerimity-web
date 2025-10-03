@@ -545,7 +545,7 @@ const MessageItem = (props: MessageItemProps) => {
                   <Show when={translatedContent()}>
                     <div class={styles.translationArea}>
                       <span class={styles.title}>
-                        {t("translation.title")}{" "}
+                        {t("message.translation.title")}{" "}
                         <span class={styles.translationSource}>
                           ({translatedContent()?.src})
                         </span>
