@@ -1,10 +1,8 @@
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import { classNames } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { read } from "fs";
-import { createMemo, JSX, JSXElement, Match, Show, Switch } from "solid-js";
+import { createMemo, JSXElement, Match, Show, Switch } from "solid-js";
 import { keyframes, styled } from "solid-styled-components";
-import Text from "./Text";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
@@ -93,7 +91,7 @@ export default function Avatar(props: Props) {
   const badge = createMemo(() => {
     const badges = serverOrUser()?.badges;
     if (!badges) return;
-    return badgesArr.find((b) => !b.overlay && hasBit(badges, b.bit));
+    return badgesArr.find((b) => "overlay" in b && !b.overlay && hasBit(badges, b.bit));
   });
 
   return (

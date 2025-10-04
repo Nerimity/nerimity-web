@@ -3,10 +3,10 @@ import twemoji from "twemoji";
 import shortcodesToUnicode from "./shortcodes-to-unicode.json";
 import unicodesToShortcode from "./unicode-to-shortcodes.json";
 
-export function emojiShortcodeToUnicode(shortcode: string): string {
+export function emojiShortcodeToUnicode(shortcode: string) {
   return (shortcodesToUnicode as Record<string, string>)[shortcode];
 }
-export function emojiUnicodeToShortcode(unicode: string): string {
+export function emojiUnicodeToShortcode(unicode: string) {
   return (unicodesToShortcode as Record<string, string>)[unicode];
 }
 

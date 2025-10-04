@@ -92,11 +92,11 @@ const CreateServerModalOwO = (props: { close: () => void }) => {
   );
 };
 
-function sanitizeInviteInput(value: string) {
+function sanitizeInviteInput(value: string): string {
   const match = value.match(
     /(?:\/i\/|\/app\/explore\/servers\/invites\/)([A-Za-z0-9_-]+)/
   );
-  return match ? match[1] : value.trim();
+  return match ? match[1]! : value.trim();
 }
 
 
@@ -137,10 +137,10 @@ const JoinServerModal = (props: { close: () => void }) => {
           onClick={props.close}
         />
         <Modal.Button
-          onClick={() => {
+          onClick={(e) => {
             const cleaned = sanitizeInviteInput(rawInvite());
             controller.setName(cleaned);
-            controller.onJoinClick();
+            controller.onJoinClick(e);
           }}
           href={RouterEndpoints.EXPLORE_SERVER_INVITE(
             sanitizeInviteInput(rawInvite())

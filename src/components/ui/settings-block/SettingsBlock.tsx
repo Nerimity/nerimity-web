@@ -77,11 +77,9 @@ export default function SettingsBlock(props: BlockProps) {
         <Show
           when={props.iconSrc}
           fallback={
-            !props.icon || typeof props.icon === "string" ? (
-              <Icon name={props.icon || "texture"} />
-            ) : (
-              props.icon
-            )
+            typeof props.icon === "string" ? <Icon name={props.icon} />
+            : !props.icon ? <Icon/> 
+            : props.icon
           }
         >
           <img class={styles.icon} src={props.iconSrc} alt="" />

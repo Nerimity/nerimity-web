@@ -1,8 +1,7 @@
 import style from "./DateTimePicker.module.css";
 import DropDown from "./drop-down/DropDown";
-import Icon from "./icon/Icon";
 import Input from "./input/Input";
-import { createEffect, createMemo, createSignal, Show } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 
 const MonthNames = [
   "Jan",
@@ -164,7 +163,7 @@ function getShortDayNameForDate(
   return date.toLocaleDateString(locale, { weekday: "short" });
 }
 
-function getDaysInMonth(year, month) {
+function getDaysInMonth(year: number, month: number) {
   // Month is 0-indexed in JavaScript (0 for January, 11 for December)
   // So, to get the last day of the 'month' passed in, we create a date
   // for the 0th day of the 'month + 1'.
