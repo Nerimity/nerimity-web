@@ -1,6 +1,7 @@
-import { StorageKeys, useLocalStorage, setStorageString } from "./localStorage";
+import { StorageKeys, useLocalStorage } from "./localStorage";
+import { isHalloween } from "./worldEvents";
 
-const theme = {
+const DarkTheme = {
   // Main
   "background-color": "hsl(216deg 9% 8%)",
   "pane-color": "hsl(216deg 8% 15%)",
@@ -32,23 +33,49 @@ const theme = {
   // Add multiple text colors, rather than using one.. E.G: message-text-color, channel-text-color, etc.
 };
 
+// const LightTheme = {
+// "background-color": "#f1f1f1",
+// "pane-color": "white",
+// "header-background-color": "white",
+// "header-background-color-blur-disabled": "white",
+// "text-color": "black",
+// };
+
+const theme = { ...DarkTheme };
+
+// if (isHalloween) {
+//   theme["primary-color"] = "#d76623";
+//   theme["primary-color-dark"] = "#241e1a";
+//   theme["alert-color"] = "#866ebf";
+//   theme["alert-color-dark"] = "#27242e";
+// }
+// if (isChristmas) {
+//   document.documentElement.style.setProperty("--primary-color", "#34a65f");
+//   document.documentElement.style.setProperty("--primary-color-dark", "#222c26");
+// }
+
+export { theme };
+
 type ThemeKey = keyof typeof theme;
 
-const [customColors, setCustomColors] = useLocalStorage<Partial<Record<ThemeKey, string>>>(
-  StorageKeys.CUSTOM_COLORS,
-  {}
-);
+const [customColors, setCustomColors] = useLocalStorage<
+  Partial<Record<ThemeKey, string>>
+>(StorageKeys.CUSTOM_COLORS, {});
 
 const currentTheme = () => ({ ...theme, ...customColors() });
 
 export const updateTheme = () => {
   const newTheme = currentTheme();
+
   for (const key in newTheme) {
-    document.documentElement.style.setProperty(`--${key}`, newTheme[key as ThemeKey]);
+    document.documentElement.style.setProperty(
+      `--${key}`,
+      newTheme[key as ThemeKey],
+    );
   }
 };
 
-export const setThemeColor = (key: ThemeKey, value?: string) => {
+export const setThemeColor = (key: string, value?: string) => {
   if (value === undefined) {
     const temp = { ...customColors() };
     delete temp[key];
