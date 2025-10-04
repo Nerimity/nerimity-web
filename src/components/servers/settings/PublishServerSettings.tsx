@@ -1,4 +1,3 @@
-
 import { RawPublicServer } from "@/chat-api/RawData";
 import { BumpPublicServer, deletePublicServer, getPublicServer, updatePublicServer } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
@@ -15,6 +14,8 @@ import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
+import { useToast } from "@/components/ui/toasts/useToast";
+import ToastContainer from "@/components/ui/toasts/ToastContainer";
 
 const Container = styled("div")`
   display: flex;
@@ -35,9 +36,11 @@ export default function PublishServerSettings() {
   const [description, setDescription] = createSignal("");
   const [error, setError] = createSignal<string | null>(null);
   const [isPublic, setIsPublic] = createSignal(false);
-  const {createPortal} = useCustomPortal();
+  const { createPortal } = useCustomPortal();
 
   const MAX_DESCRIPTION_LENGTH = 150;
+  const toastStore = useToast();
+  
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Publish Server",
@@ -88,17 +91,21 @@ export default function PublishServerSettings() {
 
     const millisecondsSinceLastBump = new Date().getTime() - publicServer()!.bumpedAt;
     const timeLeftMilliseconds = bumpAfter - millisecondsSinceLastBump;
-    const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(`You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`);
+      const timeLeft = new Date(timeLeftMilliseconds);
+      toastStore.pushToast({
+        title: "Slow down!",
+        message: `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`,
+        color: "var(--alert-color)",
+        duration: 8000,
+      });
       return;
     }
 
-
-    return createPortal(close => <ServerBumpModal update={setPublicServer} publicServer={publicServer()!} close={close} />);
-
-
+    return createPortal(close => (
+      <ServerBumpModal update={setPublicServer} publicServer={publicServer()!} close={close} />
+    ));
   };
 
   const server =() => servers.get(params.serverId);
@@ -131,6 +138,7 @@ export default function PublishServerSettings() {
       <Show when={error()}><Text color="var(--alert-color)">{error()}</Text></Show>
       <Show when={showPublishButton()}><Button class={buttonStyle} iconName="public" label={t("servers.settings.publishServer.publishServerButton")} onClick={publish} /></Show>
       <Show when={!isPublic() && publicServer()}><Button class={buttonStyle} iconName="delete" color="var(--alert-color)" label={t("servers.settings.publishServer.unpublishServerButton")} onClick={deletePublic} /></Show>
+      <ToastContainer store={toastStore} />
     </Container>
   );
 }
