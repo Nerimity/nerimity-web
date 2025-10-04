@@ -83,7 +83,7 @@ export const themePresets: Record<string, ThemePreset> = {
       "warn-color": "#ff8c00",
       "success-color": "#00ff77",
       "success-color-dark": "#00cc44",
-      "primary-color-dark": "#ffffff",
+      "primary-color-dark": "#2d3746",
       "alert-color-dark": "#ff4c4c",
       "warn-color-dark": "#ffaa33",
       "text-color": "#e0e0e0",
