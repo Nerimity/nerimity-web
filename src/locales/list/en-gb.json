@@ -89,7 +89,11 @@
       "blockedUsersButton": "Blocked",
       "inboxTitle": "Inbox",
       "friendsButton": "Friends",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "requests": "Requests",
+      "inboxButton": "Inbox",
+      "offline": "Offline",
+      "online": "Offline"
     }
   },
   "explore": {
@@ -279,7 +283,8 @@
       "deleteAccount": "Delete My Account",
       "deleteAccountDescription": "This cannot be undone!",
       "deleteAccountNotice": "You must leave/delete all servers before you can delete your account.",
-      "understoodButton": "Understood"
+      "understoodButton": "Understood",
+      "save": "Saving..."
     },
     "privacy": {
       "lastOnline": {
@@ -323,11 +328,8 @@
       "messageDescription": "Sound when receiving a message.",
       "mention": "Mention",
       "mentionDescription": "Sound when receiving a mention.",
-      "reminder": "Reminder",
-      "reminderDescription": "Notifications for reminders.",
       "inAppPreview": "In App Preview",
       "inAppPreviewDescription": "Display In App Notification popups.",
-      "mute": "Mute",
       "inAppPreviewModes": {
         "off": "Off",
         "mentionsOnly": "Mentions Only",
@@ -346,7 +348,8 @@
       "pushToTalk": "Push to Talk",
       "bindButton": "Bind",
       "stopButton": "Stop",
-      "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
+      "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus.",
+      "leaveCallNotice": "You must leave the call first."
     },
     "interface": {
       "blurEffect": "Blur Effect",
@@ -355,6 +358,36 @@
       "disableAdvancedMarkupBarDescription": "Disable advanced markup bar from text channels.",
       "customizeColors": "Customize Colors",
       "customizeColorsDescription": "Customize the colors of the interface."
+    },
+    "activity": {
+      "extensionDescription": "Our RPC extension allows you to share your activity from Spotify and YouTube with users on Nerimity!",
+      "firefoxExtensionButton": "Visit Firefox Add-ons",
+      "chromeExtensionButton": "Visit Chrome Web Store",
+      "appDownloadNotice": "To modify these settings, you must download the Nerimity desktop app.",
+      "discord": {
+        "label": "Discord Activity",
+        "description": "Share your Discord activity with users on Nerimity!",
+        "userID": "Discord User ID",
+        "joinPrompt": "Please join the Discord server to enable Activity Sharing.",
+        "joinTitle": "Discord Activity",
+        "cancelButton": "Cancel",
+        "iJoined": "I have joined"
+      }
+    },
+    "connections": {
+      "google": {
+        "description": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive."
+      },
+      "linkButton": "Link",
+      "unlinkButton": "Unlink"
+    },
+    "window": {
+      "openOnBoot": "Open Nerimity on startup",
+      "startupOptionsLabel": "Startup Options",
+      "startMinimizedLabel": "Start Minimized",
+      "startMinimizedDescription": "Minimize Nerimity to the tray automatically.",
+      "disableHwAccelLabel": "Disable Hardware Acceleration",
+      "disableHwAccelDescription": "You must reopen the app for the change to take effect."
     }
   },
   "supportBlock": {
@@ -526,5 +559,8 @@
     "translation": {
       "title": "Translation"
     }
+  },
+  "titlebar": {
+    "name": "Nerimity"
   }
 }

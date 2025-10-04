@@ -324,7 +324,8 @@
       "pushToTalk": "push2tawk",
       "bindButton": "bind",
       "stopButton": "stop",
-      "downloadAppNotice": "downwoad app fow dis featuwe ✨"
+      "downloadAppNotice": "downwoad app fow dis featuwe ✨",
+      "leaveCallNotice": "pls weave the caww fiwst"
     },
     "interface": {
       "blurEffect": "bwuwwy effect",
@@ -333,6 +334,36 @@
       "disableAdvancedMarkupBarDescription": "disabwe da advanced text baw uwu",
       "customizeColors": "c-custy cowows",
       "customizeColorsDescription": "pick nyew cowows uwu"
+    },
+    "activity": {
+      "extensionDescription": "dis rpc extension wets u shawe ur activity fwom spotify and youtube wiw usews on Newimity :3",
+      "firefoxExtensionButton": "visit fiwefwox addons",
+      "appDownloadNotice": "two modifwy thees settin's u need 2 downwoad da newimity dews'top app",
+      "chromeExtensionButton": "visit chwome web stowe",
+      "discord": {
+        "cancelButton": "nyo!",
+        "description": "sha'e ur discowd activity wif usews on newimity :3",
+        "iJoined": "i alweady joind",
+        "joinPrompt": "pwease join da discowd sewvew 2 enabwe activity shawing",
+        "joinTitle": "discowd activity",
+        "label": "discowd activity",
+        "userID": "discowd magic id"
+      }
+    },
+    "connections": {
+      "google": {
+        "description": "winking ur google accowunt wiww awwow u 2 upwoad fiwes in newimity. fiwes wiww be stowed in ur google dwive"
+      },
+      "linkButton": "wink",
+      "unlinkButton": "unwink"
+    },
+    "window": {
+      "disableHwAccelDescription": "u must rewopen de app for de change 2 take effwect",
+      "disableHwAccelLabel": "disabwe hawdwawe accewewation",
+      "openOnBoot": "open newimity on stawtup",
+      "startMinimizedDescription": "minimize newimity 2 de tway automagicawwy",
+      "startMinimizedLabel": "stawt minimized",
+      "startupOptionsLabel": "stawtup options"
     }
   },
   "supportBlock": {
@@ -528,5 +559,8 @@
     "translation": {
       "title": "Twanswation~"
     }
+  },
+  "titlebar": {
+    "name": "newimity :3"
   }
 }
