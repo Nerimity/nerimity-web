@@ -85,4 +85,53 @@ export const setThemeColor = (key: string, value?: string) => {
   }
   updateTheme();
 };
-export { currentTheme, customColors };
+
+// Theme presets
+export type ThemePreset = {
+  colors: Partial<Record<ThemeKey, string>>;
+  maintainers: string[];
+};
+
+export const themePresets: Record<string, ThemePreset> = {
+  Default: {
+    colors: {},
+    maintainers: ["Superkitten", "Asraye"],
+  },
+  AMOLED: {
+    colors: {
+      "background-color": "#000000",
+      "pane-color": "#000000",
+      "side-pane-color": "#0f0f0f",
+      "header-background-color": "#111111cc",
+      "header-background-color-blur-disabled": "#000000",
+      "tooltip-background-color": "#0a0a0a",
+      "primary-color": "#3a5a8f",
+      "alert-color": "#ff1f1f",
+      "warn-color": "#ff8c00",
+      "success-color": "#00ff77",
+      "success-color-dark": "#00cc44",
+      "primary-color-dark": "#2d3746",
+      "alert-color-dark": "#ff4c4c",
+      "warn-color-dark": "#ffaa33",
+      "text-color": "#e0e0e0",
+    },
+    maintainers: ["Asraye"],
+  },
+};
+
+// Apply a preset
+export const applyTheme = (name: string) => {
+  const preset = themePresets[name];
+  if (!preset) return;
+
+  // Clear previous
+  Object.keys(customColors()).forEach((key) => setThemeColor(key as ThemeKey, undefined));
+  // Apply preset
+  Object.entries(preset.colors).forEach(([key, value]) => setThemeColor(key as ThemeKey, value));
+  // Persist
+  setStorageString(StorageKeys.CUSTOM_COLORS, JSON.stringify(preset.colors));
+};
+
+updateTheme();
+
+export { theme, currentTheme, customColors };
