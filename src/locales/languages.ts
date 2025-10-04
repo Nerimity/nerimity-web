@@ -20,7 +20,7 @@ export const languages = {
     emoji: "🇬🇧",
     contributors: [
       "https://github.com/SupertigerDev",
-      "https://github.com/Asraye",
+      "https://nerimity.com/app/profile/1638972697616756737/Asraye",
     ],
   },
   "af-za": {
@@ -65,6 +65,7 @@ export const languages = {
       "https://github.com/F-iiral",
       "https://github.com/Deutscher775",
       "https://github.com/mathiiiiiis",
+      "https://nerimity.com/app/profile/1638972697616756737/Asraye"
     ],
   },
   "hu-hu": {
@@ -119,7 +120,7 @@ export const languages = {
     emoji: "🐱",
     contributors: [
       "https://github.com/spookehneko123",
-      "https://github.com/Asraye",
+      "https://nerimity.com/app/profile/1638972697616756737/Asraye"
     ],
   },
 };
