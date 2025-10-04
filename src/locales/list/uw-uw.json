@@ -304,8 +304,11 @@
       "messageDescription": "pway sound on talky",
       "mention": "mention sound",
       "mentionDescription": "pway sound on mention",
+      "reminder": "Wemindew",
+      "reminderDescription": "Beeww ting fow wemindews",
       "inAppPreview": "in-app pweview",
       "inAppPreviewDescription": "show smol poppies",
+      "mute": "SHUDDUP",
       "inAppPreviewModes": {
         "off": "off",
         "mentionsOnly": "mentions onwy",
