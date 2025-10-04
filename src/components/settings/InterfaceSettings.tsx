@@ -8,7 +8,13 @@ import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { themePresets, applyTheme, currentTheme, customColors, setThemeColor } from "@/common/themes";
+import {
+  themePresets,
+  applyTheme,
+  currentTheme,
+  customColors,
+  setThemeColor,
+} from "@/common/themes";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
 import env from "@/common/env";
@@ -27,6 +33,7 @@ const ThemeGrid = styled("div")`
   margin-top: 8px;
 
   @media (max-width: 600px) {
+    width: 100%;
     grid-template-columns: 1fr;
   }
 `;
@@ -38,12 +45,12 @@ const ThemeCard = styled("div")<{ colors: Record<string, string> }>`
   padding: 12px;
   background-color: ${({ colors }) => colors["pane-color"] || "#f5f5f5"};
   color: ${({ colors }) => colors["text-color"] || "#333"};
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 
   .theme-name {
@@ -64,7 +71,8 @@ const ThemeCard = styled("div")<{ colors: Record<string, string> }>`
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    margin-bottom: 8px;
+    padding-bottom: 8px;
+    margin-bottom: auto;
 
     div {
       width: 20px;
@@ -123,25 +131,32 @@ export function ThemesBlock() {
       icon="style"
       label={t("settings.interface.themes")}
       description={t("settings.interface.themesDescription")}
-      header
+      class={css`
+        && {
+          flex-direction: column;
+          align-items: start;
+        }
+      `}
     >
       <ThemeGrid>
         <For each={Object.entries(themePresets)}>
           {([name, { colors, maintainers }]) => {
-            const displayColors = Object.keys(colors).length === 0 ? currentTheme() : colors;
+            const displayColors =
+              Object.keys(colors).length === 0 ? currentTheme() : colors;
 
             return (
               <ThemeCard colors={displayColors}>
                 <div class="theme-name">{name}</div>
                 <Show when={maintainers.length > 0}>
                   <div class="maintainers">
-                    {t("settings.interface.maintainers")}: {maintainers.join(", ")}
+                    {t("settings.interface.maintainers")}:{" "}
+                    {maintainers.join(", ")}
                   </div>
                 </Show>
                 <div class="color-preview">
-                  {Object.values(displayColors).map((color) => (
-                    <div style={{ "background-color": color }} />
-                  ))}
+                  <For each={Object.values(displayColors)}>
+                    {(color) => <div style={{ "background-color": color }} />}
+                  </For>
                 </div>
                 <Button
                   label={t("settings.interface.apply")}
