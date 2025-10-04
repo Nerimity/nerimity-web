@@ -423,7 +423,7 @@
   "messageContextMenu": {
     "editMessage": "Адрэдагаваць паведамленьне",
     "deleteMessage": "Выдаліць паведамленьне",
-    "translateMessage": "Пераклясьці",
+    "translateMessage": "Перакласьці",
     "copyMessage": "Скапіяваць паведамленьне",
     "copyId": "Скапіяваць ID",
     "viewReactions": "Праглядзець рэакцыйі",
@@ -531,9 +531,9 @@
       "detailedEmbed": "Дэтальны эмбэд"
     },
     "blocked": "Вы заблякавалі гэтага карыстача. Націсьніце, каб паказаць.",
-    "translationError": "Не ўдалося пераклясьці паведамленьне.",
+    "translationError": "Не ўдалося перакласьці паведамленьне.",
     "translation": {
-      "title": "Перакляд"
+      "title": "Пераклад"
     }
   }
 }
