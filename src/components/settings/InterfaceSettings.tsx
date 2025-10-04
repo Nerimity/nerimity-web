@@ -8,7 +8,7 @@ import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "i18next";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { currentTheme, customColors, setThemeColor } from "@/common/themes";
+import { themePresets, applyTheme, currentTheme, customColors, setThemeColor } from "@/common/themes";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
 import env from "@/common/env";
@@ -18,6 +18,76 @@ const Container = styled("div")`
   flex-direction: column;
   gap: 5px;
   padding: 10px;
+`;
+
+const ThemeGrid = styled("div")`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ThemeCard = styled("div")<{ colors: Record<string, string> }>`
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 12px;
+  background-color: ${({ colors }) => colors["pane-color"] || "#f5f5f5"};
+  color: ${({ colors }) => colors["text-color"] || "#333"};
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .theme-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+    text-transform: capitalize;
+    font-size: 14px;
+  }
+
+  .maintainers {
+    font-size: 12px;
+    opacity: 0.7;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .color-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+
+    div {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: ${({ colors }) => colors["background-color"] || "#eee"};
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 10px;
+
+    .color-preview div {
+      width: 16px;
+      height: 16px;
+    }
+
+    button {
+      font-size: 12px;
+      padding: 4px 6px;
+    }
+  }
 `;
 
 export default function InterfaceSettings() {
@@ -36,12 +106,54 @@ export default function InterfaceSettings() {
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.interface")} />
       </Breadcrumb>
+      <ThemesBlock />
       <BlurEffect />
       <AdvancedMarkup />
       <CustomizeColors />
       <SettingsBlock icon="code" label="Custom CSS" href="./custom-css" />
       <ErudaBlock />
     </Container>
+  );
+}
+
+
+export function ThemesBlock() {
+  return (
+    <SettingsBlock
+      icon="style"
+      label={t("settings.interface.themes")}
+      description={t("settings.interface.themesDescription")}
+      header
+    >
+      <ThemeGrid>
+        <For each={Object.entries(themePresets)}>
+          {([name, { colors, maintainers }]) => {
+            const displayColors = Object.keys(colors).length === 0 ? currentTheme() : colors;
+
+            return (
+              <ThemeCard colors={displayColors}>
+                <div class="theme-name">{name}</div>
+                <Show when={maintainers.length > 0}>
+                  <div class="maintainers">
+                    {t("settings.interface.maintainers")}: {maintainers.join(", ")}
+                  </div>
+                </Show>
+                <div class="color-preview">
+                  {Object.values(displayColors).map((color) => (
+                    <div style={{ "background-color": color }} />
+                  ))}
+                </div>
+                <Button
+                  label={t("settings.interface.apply")}
+                  size="small"
+                  onClick={() => applyTheme(name)}
+                />
+              </ThemeCard>
+            );
+          }}
+        </For>
+      </ThemeGrid>
+    </SettingsBlock>
   );
 }
 
