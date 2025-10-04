@@ -352,10 +352,19 @@
       "leaveCallNotice": "You must leave the call first."
     },
     "interface": {
+      "title": "Settings - Interface",
+      "customCSS": "Custom CSS",
+      "themes": "Themes",
+      "themesDescription": "Pick a preset theme or reset to default.",
+      "maintainers": "Contributors",
+      "apply": "Apply",
+      "enableEruda": "Enable Eruda",
+      "enableErudaDescription": "Enable Eruda for debugging. Do not share any details with others.",
+      "enableOnce": "Enable Once",
       "blurEffect": "Blur Effect",
-      "blurEffectDescription": "Enables transparent blur effect. Disabled by default on mobile. Can cause performance issues.",
+      "blurEffectDescription": "Toggle blur effect on interface elements. (May Reduce Performance)",
       "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
-      "disableAdvancedMarkupBarDescription": "Disable advanced markup bar from text channels.",
+      "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
       "customizeColors": "Customize Colors",
       "customizeColorsDescription": "Customize the colors of the interface."
     },

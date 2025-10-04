@@ -304,8 +304,11 @@
       "messageDescription": "pway sound on talky",
       "mention": "mention sound",
       "mentionDescription": "pway sound on mention",
+      "reminder": "Wemindew",
+      "reminderDescription": "Beeww ting fow wemindews",
       "inAppPreview": "in-app pweview",
       "inAppPreviewDescription": "show smol poppies",
+      "mute": "SHUDDUP",
       "inAppPreviewModes": {
         "off": "off",
         "mentionsOnly": "mentions onwy",
@@ -329,11 +332,20 @@
     },
     "interface": {
       "blurEffect": "bwuwwy effect",
-      "blurEffectDescription": "make shinies... (may wag)",
+      "blurEffectDescription": "make shinies... Enabwing bwur may slow some devices~ >w<",
       "disableAdvancedMarkupBar": "no fancy baw",
       "disableAdvancedMarkupBarDescription": "disabwe da advanced text baw uwu",
       "customizeColors": "c-custy cowows",
-      "customizeColorsDescription": "pick nyew cowows uwu"
+      "customizeColorsDescription": "pick nyew cowows uwu",
+      "title": "S-Ssettingsy Intyface OwO",
+      "customCSS": "Cwustom shiny-stuffz >w<",
+      "themes": "Coowowful thewmesies uwu",
+      "themesDescription": "Pick a pwetty thewme owo ow wemind it to defauwt! *giggles*",
+      "maintainers": "Pwetty pewsons who made dis ✨",
+      "apply": "M-make it happen!! >w<",
+      "enableEruda": "Enabble da sneaky debuggies Ewuda~",
+      "enableErudaDescription": "Fow secret debuggy stuffs! Shhh don't teww fwends >///<",
+      "enableOnce": "One-time magic UwU!!"
     },
     "activity": {
       "extensionDescription": "dis rpc extension wets u shawe ur activity fwom spotify and youtube wiw usews on Newimity :3",
