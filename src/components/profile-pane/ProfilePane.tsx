@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { A, useNavigate, useParams } from "solid-navigator";
+import { A, useNavigate, useParams, useLocation } from "solid-navigator";
 import {
   createEffect,
   createMemo,
@@ -114,7 +114,7 @@ export default function ProfilePane() {
   const isMe = () => account.user()?.id === params.userId;
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [animateAvatar, setAnimateAvatar] = createSignal(false);
-  const { setThumbColor } = useCustomScrollbar();
+  const { isVisible, setThumbColor } = useCustomScrollbar();
 
   const { setPaneBackgroundColor } = useWindowProperties();
   createEffect(
@@ -205,6 +205,9 @@ export default function ProfilePane() {
           )}
           style={{
             "max-width": `${paneWidth()}px`,
+            ...(isVisible()
+              ? { "margin-right": "10px" }
+              : { "margin-right": "4px" }),
           }}
         >
           <div class={styles.profilePaneInner}>
@@ -309,9 +312,9 @@ export default function ProfilePane() {
             <Show when={isMobileWidth()}>
               <div
                 style={{
-                  "margin-bottom": "4px",
+                  margin: "4px",
                   "margin-right": "0",
-                  "margin-top": "-6px",
+                  "margin-top": "0px",
                 }}
               >
                 <ActionButtons
@@ -928,17 +931,20 @@ function MutualFriendList(props: {
   paneBgColor: string;
   color?: string;
 }) {
-  const { users } = useStore();
+  const { users, account } = useStore();
   const { paneWidth } = useWindowProperties();
+  const [show, setShow] = createSignal(false);
+  const location = useLocation();
 
   const isMobileWidth = () => (paneWidth() || 0) < 1170;
-  const [show, setShow] = createSignal(false);
 
-  const mutualFriends = () => {
-    return props.mutualFriendIds.map((userId) => {
-      return users.get(userId);
-    });
-  };
+  const profileId = location.pathname.split("/").pop();
+  if (profileId === account.user()?.id) return null; 
+
+  const mutualFriends = () =>
+    props.mutualFriendIds
+      .filter((id) => id !== account.user()?.id)
+      .map((userId) => users.get(userId));
 
   return (
     <div
@@ -956,7 +962,7 @@ function MutualFriendList(props: {
           color={props.color || "var(--primary-color)"}
         />
         <Text size={14} style={{ "margin-right": "auto" }}>
-          {t("profile.mutualFriends", { count: props.mutualFriendIds.length })}
+          {t("profile.mutualFriends", { count: mutualFriends().length })}
         </Text>
         <Show when={isMobileWidth()}>
           <Icon size={18} name="expand_more" />
@@ -969,35 +975,38 @@ function MutualFriendList(props: {
               x!.username.localeCompare(y!.username)
             )}
           >
-            {(user) => {
-              return (
-                <Show when={user}>
-                  <A
-                    href={RouterEndpoints.PROFILE(user!.id)}
-                    class={styles.item}
-                  >
-                    <Avatar user={user} size={20} />
-                    <div class={styles.name}>{user!.username}</div>
-                  </A>
-                </Show>
-              );
-            }}
+            {(user) => (
+              <Show when={user}>
+                <A
+                  href={RouterEndpoints.PROFILE(user!.id)}
+                  class={styles.item}
+                >
+                  <Avatar user={user} size={20} />
+                  <div class={styles.name}>{user!.username}</div>
+                </A>
+              </Show>
+            )}
           </For>
         </div>
       </Show>
     </div>
   );
 }
+
 function MutualServerList(props: {
   mutualServerIds: string[];
   paneBgColor: string;
   color?: string;
 }) {
-  const { servers } = useStore();
+  const { servers, account } = useStore();
   const { paneWidth } = useWindowProperties();
+  const [show, setShow] = createSignal(false);
+  const location = useLocation();
 
   const isMobileWidth = () => (paneWidth() || 0) < 1170;
-  const [show, setShow] = createSignal(false);
+
+  const profileId = location.pathname.split("/").pop();
+  if (profileId === account.user()?.id) return null; 
 
   return (
     <div
