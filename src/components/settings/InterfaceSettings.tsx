@@ -116,7 +116,7 @@ export default function InterfaceSettings() {
   );
 }
 
-
+// TODO: Make this look better on mobile before pushing to live
 export function ThemesBlock() {
   return (
     <SettingsBlock
