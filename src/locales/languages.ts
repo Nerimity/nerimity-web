@@ -21,6 +21,7 @@ export const languages = {
     contributors: [
       "https://github.com/SupertigerDev",
       "https://github.com/Asraye",
+      "https://github.com/undeflnedCat"
     ],
   },
   "af-za": {
@@ -120,6 +121,7 @@ export const languages = {
     contributors: [
       "https://github.com/spookehneko123",
       "https://github.com/Asraye",
+      "https://github.com/undeflnedCat"
     ],
   },
 };
