@@ -687,6 +687,7 @@ function SideBar(props: {
   mobilePane?: boolean;
 }) {
   const [toggleJoinedDateType, setToggleJoinedDateType] = createSignal(false);
+  const store = useStore();
   const joinedAt = () => {
     if (!toggleJoinedDateType()) return getDaysAgo(props.user.user?.joinedAt!);
     return formatTimestamp(props.user.user.joinedAt!);
@@ -756,7 +757,9 @@ function SideBar(props: {
           </A>
         </SidePaneItem>
       </Show>
-      <Show when={props.user}>
+      <Show
+        when={props.user && props.user.user.id !== store.account.user()?.id}
+      >
         <MutualFriendList
           paneBgColor={props.paneBgColor}
           color={props.user?.profile?.primaryColor}
