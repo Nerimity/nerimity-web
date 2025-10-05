@@ -288,6 +288,7 @@ function BasicBorder(props: {
   hideBorder?: boolean;
   badges?: number;
 }) {
+  const inset = "-" + (props.size / 100) * 5 + "px";
   return (
     <>
       <NoBorder {...props} />
@@ -296,10 +297,10 @@ function BasicBorder(props: {
           class={cn(style.basicBorderContainer, "basic-border")}
           style={{
             border: `solid ${(props.size / 100) * 8}px ${props.color}`,
-            left: `-${(props.size / 100) * 5}px`,
-            top: `-${(props.size / 100) * 5}px`,
-            right: `-${(props.size / 100) * 5}px`,
-            bottom: `-${(props.size / 100) * 5}px`,
+            left: inset,
+            top: inset,
+            right: inset,
+            bottom: inset,
           }}
         >
           <Show when={props.label && props.hovered}>
