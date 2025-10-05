@@ -55,6 +55,7 @@
     "title": "Reset Password",
     "resetSuccessful": "Password reset successful.",
     "passwordsDoNotMatch": "Confirm password does not match.",
+    "passwordTooLong": "Password must be less than 72 characters.",
     "resetPasswordButton": "Reset Password",
     "resetting": "Resetting...",
     "email": "Email",
@@ -89,7 +90,9 @@
       "blockedUsersButton": "Blocked",
       "inboxTitle": "Inbox",
       "friendsButton": "Friends",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "inboxButton": "Inbox",
+      "offline": "Offline"
     }
   },
   "explore": {
@@ -254,10 +257,10 @@
       "manageAccount": "Manage Account"
     },
     "account": {
-      "title": "Settings - Account",
       "email": "Email",
       "username": "Username",
       "tag": "Tag",
+      "botID": "Bot ID",
       "avatar": "Avatar",
       "banner": "Banner",
       "supported": "Supported",
@@ -271,15 +274,34 @@
       "confirmNewPassword": "Confirm New Password",
       "confirmNewPasswordDescription": "Confirm your new password",
       "confirmCurrentPassword": "Confirm Current Password",
+      "confirmEmail": "Confirm your email",
+      "enterCode": "Enter the 5 digit code sent to your email:",
+      "sendCodeButton": "Send Code",
+      "resendIn": "Resend in {{time}}",
+      "confirmButton": "Confirm",
+      "cancelButton": "Cancel",
       "channelNotice": "Channel Notice",
       "channelNoticeDescription": "Shows when the user is about to chat for the first time. Changes apply after reload.",
+      "channelNoticeTooLong": "Channel notice cannot be longer than 300 characters.",
       "saving": "Saving...",
       "saveButton": "Save",
       "saveChangesButton": "Save Changes",
       "deleteAccount": "Delete My Account",
       "deleteAccountDescription": "This cannot be undone!",
       "deleteAccountNotice": "You must leave/delete all servers before you can delete your account.",
-      "understoodButton": "Understood"
+      "understoodButton": "Understood",
+      "deletionNotice": "We're sad to see you go :( If you didn't like something, please let us know in the official Nerimity server.",
+      "deletedInfo": {
+        "title": "What will get deleted",
+        "email": "• Email",
+        "username": "• Username",
+        "ip": "• IP Address",
+        "bio": "• Bio",
+        "messages": "• Your Messages",
+        "posts": "• Your Posts"
+      },
+      "postsAndMessagesNotice": "Your posts and messages may take weeks to delete.",
+      "deleteCheckbox": "Delete my posts and messages"
     },
     "privacy": {
       "lastOnline": {
@@ -349,7 +371,6 @@
       "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
     },
     "interface": {
-      "title": "Settings - Interface",
       "customCSS": "Custom CSS",
       "themes": "Themes",
       "themesDescription": "Pick a preset theme or reset to default.",
