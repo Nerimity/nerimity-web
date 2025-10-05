@@ -633,7 +633,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
     setError("");
     const formattedContent = formatMessage(inputValues().content.trim());
     if (formattedContent.length > 300)
-      return setError("Channel notice cannot be longer than 300 characters.");
+      return setError(t("settings.account.channelNoticeTooLong"));
     const res = await updateDMChannelNotice(
       formattedContent,
       props.botToken
@@ -766,7 +766,7 @@ const ConfirmEmailNotice = () => {
   return (
     <Notice
       type="warn"
-      description="Confirm your email"
+      description={t("settings.account.confirmEmail")}
       class={css`
         margin-bottom: 10px;
       `}

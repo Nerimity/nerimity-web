@@ -282,6 +282,7 @@
       "cancelButton": "Cancel",
       "channelNotice": "Channel Notice",
       "channelNoticeDescription": "Shows when the user is about to chat for the first time. Changes apply after reload.",
+      "channelNoticeTooLong": "Channel notice cannot be longer than 300 characters.",
       "saving": "Saving...",
       "saveButton": "Save",
       "saveChangesButton": "Save Changes",
@@ -370,7 +371,6 @@
       "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
     },
     "interface": {
-      "title": "Settings - Interface",
       "customCSS": "Custom CSS",
       "themes": "Themes",
       "themesDescription": "Pick a preset theme or reset to default.",
