@@ -103,7 +103,7 @@ export default function InterfaceSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Interface",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
       iconName: "settings",
     });
   });
@@ -118,7 +118,7 @@ export default function InterfaceSettings() {
       <BlurEffect />
       <AdvancedMarkup />
       <CustomizeColors />
-      <SettingsBlock icon="code" label="Custom CSS" href="./custom-css" />
+      <SettingsBlock icon="code" label={t("settings.interface.customCSS")} href="./custom-css" />
       <ErudaBlock />
     </Container>
   );
@@ -176,11 +176,11 @@ function ErudaBlock() {
   return (
     <SettingsBlock
       icon="bug_report"
-      label={"Enable Eruda"}
-      description="Enable Eruda for debugging. Do not share any details with others."
+      label={t("settings.interface.enableEruda")}
+      description={t("settings.interface.enableErudaDescription")}
     >
       <Button
-        label="Enable Once"
+        label={t("settings.interface.enableOnce")}
         alert
         href={env.APP_URL + "/app?eruda=true"}
       />
