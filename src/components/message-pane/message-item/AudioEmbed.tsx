@@ -53,9 +53,9 @@ export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
     if (!googleApiInitialized()) return;
     const file = await getFile(
       props.attachment.fileId!,
-      "name, size, modifiedTime, webContentLink, mimeType"
+      "name, size, modifiedTime, webContentLink, mimeType",
     ).catch((e) => console.log(e));
-    // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
+
     if (!file) return setError("Could not get file.");
 
     if (file.mimeType !== props.attachment.mime)
@@ -95,26 +95,31 @@ export const AudioEmbed = (props: {
   error?: string;
 }) => {
   const audio = useAudio();
-
   let progressBarRef: HTMLDivElement | undefined;
 
-  const statusIcon = () => {
-    if (audio.state() === "STOPPED") return "play_arrow";
-    if (audio.state() === "PAUSED") return "play_arrow";
+  const [speed, setSpeed] = createSignal(1);
+  const speedOptions = [0.75, 1, 1.25, 1.5, 2];
 
+  const cycleSpeed = () => {
+    const current = speed();
+    const next =
+      speedOptions[(speedOptions.indexOf(current) + 1) % speedOptions.length];
+    setSpeed(next);
+    audio.setPlaybackRate(next);
+  };
+
+  const statusIcon = () => {
+    if (audio.state() === "STOPPED" || audio.state() === "PAUSED")
+      return "play_arrow";
     if (audio.state() === "PLAYING") return "pause";
     if (audio.state() === "LOADING") return "hourglass_top";
   };
 
   const onProgressClick = (event: MouseEvent) => {
     if (!progressBarRef) return;
-
     const rect = progressBarRef.getBoundingClientRect();
     const mouseX = event.clientX - rect.x;
-
     const percent = mouseX / rect.width;
-
-    // audio.currentTime = percent * audio.duration;
     audio.seek(percent * audio.duration());
   };
 
@@ -125,15 +130,17 @@ export const AudioEmbed = (props: {
         !reactNativeAPI()?.isReactNative
       ) {
         alert(
-          "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
+          "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App.",
         );
+        return;
       }
     }
+
     if (audio.loaded()) {
       audio.togglePlay();
       return;
     }
-    audio.playUrl(props.file?.url!);
+    if (props.file?.url) audio.playUrl(props.file.url);
   };
 
   return (
@@ -141,13 +148,14 @@ export const AudioEmbed = (props: {
       class={classNames(
         styles.fileEmbed,
         styles.audioEmbed,
-        conditionalClass(audio.loaded(), styles.preloadedAudio)
+        conditionalClass(audio.loaded(), styles.preloadedAudio),
       )}
     >
       <div class={styles.innerAudioEmbed}>
         <Show when={!props.file && !props.error}>
           <Skeleton.Item height="100%" width="100%" />
         </Show>
+
         <Show when={props.error}>
           <Icon name="error" color="var(--alert-color)" size={30} />
           <div class={styles.fileEmbedDetails}>
@@ -160,11 +168,12 @@ export const AudioEmbed = (props: {
               alert(
                 props.file?.expireAt
                   ? "File expired."
-                  : "This file was modified/deleted by the creator in their Google Drive. "
+                  : "This file was modified or deleted by the creator.",
               )
             }
           />
         </Show>
+
         <Show when={props.file && !props.error}>
           <Button
             onClick={onPlayClick}
@@ -179,6 +188,16 @@ export const AudioEmbed = (props: {
             </div>
           </div>
           <Button
+            label={`${speed().toFixed(2)}×`}
+            onClick={cycleSpeed}
+            styles={{
+              "font-size": "0.9em",
+              padding: "4px 8px",
+              "border-radius": "6px",
+              "background-color": "var(--background-secondary)",
+            }}
+          />
+          <Button
             iconName="download"
             onClick={() => window.open(props.file?.url!, "_blank")}
           />
@@ -188,8 +207,18 @@ export const AudioEmbed = (props: {
       <Show when={audio.loaded()}>
         <div class={styles.audioDetails}>
           <div class={styles.time}>
-            <div>{millisecondsToHhMmSs(audio.currentTime() * 1000, true)}</div>
-            <div>{millisecondsToHhMmSs(audio.duration() * 1000, true)}</div>
+            <div>
+              {millisecondsToHhMmSs(
+                isFinite(audio.currentTime()) ? audio.currentTime() * 1000 : 0,
+                true,
+              )}
+            </div>
+            <div>
+              {millisecondsToHhMmSs(
+                isFinite(audio.duration()) ? audio.duration() * 1000 : 0,
+                true,
+              )}
+            </div>
           </div>
 
           <div
@@ -200,7 +229,10 @@ export const AudioEmbed = (props: {
             <div
               class={styles.progress}
               style={{
-                width: `${(audio.currentTime() / audio.duration()) * 100}%`,
+                width: `${Math.min(
+                  100,
+                  (audio.currentTime() / (audio.duration() || 1)) * 100,
+                ).toFixed(2)}%`,
               }}
             />
           </div>
@@ -211,127 +243,115 @@ export const AudioEmbed = (props: {
 };
 
 type State = "LOADING" | "PLAYING" | "PAUSED" | "STOPPED";
+
 function useAudio() {
-  const [url, setUrl] = createSignal<null | string>(null);
+  const [url, setUrl] = createSignal<string | null>(null);
   const [state, setState] = createSignal<State>("STOPPED");
   const [duration, setDuration] = createSignal(0);
   const [currentTime, setCurrentTime] = createSignal(0);
   const [loaded, setLoaded] = createSignal(false);
-
+  const [playbackRate, setPlaybackRate] = createSignal(1);
   const isReactNative = reactNativeAPI()?.isReactNative;
 
-  const audio = new Audio();
-  audio.crossOrigin = "anonymous";
+  let audio: HTMLAudioElement | null = null;
+  let progressInterval: number | undefined;
 
-  audio.onloadedmetadata = () => {
-    setLoaded(true);
-    setState("PLAYING");
-    setDuration(audio.duration);
-    setCurrentTime(0);
-  };
-  audio.ontimeupdate = () => {
-    if (isReactNative) return;
-    setCurrentTime(audio.currentTime);
-  };
+  const createAudio = () => {
+    if (audio) return audio;
+    audio = new Audio();
+    audio.crossOrigin = "anonymous";
+    audio.playbackRate = playbackRate();
 
-  audio.onended = () => {
-    setState("STOPPED");
-  };
+    audio.onloadedmetadata = () => {
+      const updateDuration = () => {
+        if (isFinite(audio!.duration) && !isNaN(audio!.duration)) {
+          setDuration(audio!.duration);
+          clearInterval(intervalCheck);
+        }
+      };
+      const intervalCheck = setInterval(updateDuration, 100);
+      updateDuration();
 
-  createEffect(
-    on(state, (state) => {
-      if (!isReactNative) return;
-      let interval: number | undefined;
-
-      if (state === "PLAYING") {
-        const playedAt = Date.now() - currentTime() * 1000;
-        interval = window.setInterval(() => {
-          if (currentTime() > duration()) {
-            window.clearInterval(interval);
-            setState("STOPPED");
-            return;
-          }
-          setCurrentTime((Date.now() - playedAt) / 1000);
-        }, 1000);
-      }
-
-      onCleanup(() => {
-        if (interval) window.clearInterval(interval);
-      });
-    })
-  );
-
-  useReactNativeEvent(["audioLoaded", "audioLoading"], (e) => {
-    if (e.type === "audioLoading") {
-      if (e.url !== url()) {
-        reset({ pauseNative: false });
-        return;
-      }
-      setState("LOADING");
-    }
-    if (e.type === "audioLoaded" && e.url === url()) {
       setLoaded(true);
+      setCurrentTime(0);
       setState("PLAYING");
-      setDuration(e.duration);
-      setCurrentTime(e.position);
-    }
-  });
+    };
 
-  const seek = (time: number) => {
-    if (isReactNative) {
-      setState("LOADING");
-      reactNativeAPI()?.seekAudio(time);
-      setCurrentTime(time);
-      return;
-    }
-    audio.currentTime = time;
+    audio.ontimeupdate = () => {
+      if (!isReactNative) setCurrentTime(audio!.currentTime);
+    };
+
+    audio.onended = () => setState("STOPPED");
+    return audio;
   };
 
-  const reset = (opts: { pauseNative?: boolean } = {}) => {
-    audio.pause();
+  const reset = () => {
+    if (audio) {
+      audio.pause();
+      audio.src = "";
+    }
     setLoaded(false);
     setState("STOPPED");
     setDuration(0);
     setCurrentTime(0);
-    if (isReactNative && opts.pauseNative !== false) {
-      reactNativeAPI()?.pauseAudio();
-    }
   };
 
-  const playUrl = (url: string) => {
+  const playUrl = (u: string) => {
     reset();
+    const el = createAudio();
+    setUrl(u);
     setState("LOADING");
-    setUrl(url);
-    if (isReactNative) {
-      reactNativeAPI()?.playAudio(url);
-      return;
-    }
-    audio.src = url;
-    audio.play();
+
+    el.src = u;
+    el.load();
+
+    el.oncanplaythrough = () => {
+      el.play()
+        .then(() => setState("PLAYING"))
+        .catch((err) => {
+          console.error("Audio play error:", err);
+          setState("STOPPED");
+        });
+    };
   };
+
   const togglePlay = () => {
+    if (!audio) return;
     if (state() === "PLAYING") {
-      if (isReactNative) {
-        reactNativeAPI()?.pauseAudio();
-      }
       audio.pause();
       setState("PAUSED");
     } else {
-      if (isReactNative) {
-        if (currentTime() > duration()) {
-          seek(0);
-        }
-        reactNativeAPI()?.playAudio();
-        return;
-      }
+      if (audio.currentTime >= duration()) audio.currentTime = 0;
       audio.play();
       setState("PLAYING");
     }
   };
 
-  onCleanup(() => {
-    reset();
+  const seek = (time: number) => {
+    if (!audio) return;
+    audio.currentTime = time;
+    setCurrentTime(time);
+  };
+
+  const setPlaybackRateSafe = (rate: number) => {
+    setPlaybackRate(rate);
+    if (audio && !isReactNative) audio.playbackRate = rate;
+  };
+
+  createEffect(() => {
+    if (state() === "PLAYING") {
+      progressInterval = window.setInterval(() => {
+        if (audio) setCurrentTime(audio.currentTime);
+      }, 250);
+    } else if (progressInterval) {
+      window.clearInterval(progressInterval);
+    }
+    onCleanup(() => {
+      if (progressInterval) window.clearInterval(progressInterval);
+    });
   });
+
+  onCleanup(reset);
 
   return {
     url,
@@ -342,5 +362,6 @@ function useAudio() {
     duration,
     togglePlay,
     currentTime,
+    setPlaybackRate: setPlaybackRateSafe,
   };
 }
