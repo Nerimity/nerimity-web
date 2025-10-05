@@ -3,7 +3,12 @@ import { classNames } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { createMemo, JSXElement, Match, Show, Switch } from "solid-js";
 import { keyframes, styled } from "solid-styled-components";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import {
+  hasBit,
+  USER_BADGES,
+  USER_BADGES_VALUES,
+  UserBadge,
+} from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
@@ -91,7 +96,7 @@ export default function Avatar(props: Props) {
   const badge = createMemo(() => {
     const badges = serverOrUser()?.badges;
     if (!badges) return;
-    return badgesArr.find((b) => "overlay" in b && !b.overlay && hasBit(badges, b.bit));
+    return badgesArr.find((b) => !b.overlay && hasBit(badges, b.bit));
   });
 
   return (
@@ -144,7 +149,7 @@ export default function Avatar(props: Props) {
   );
 }
 
-const badgesArr = Object.values(USER_BADGES);
+const badgesArr = USER_BADGES_VALUES;
 
 function AvatarBorder(props: {
   size: number;
@@ -153,7 +158,7 @@ function AvatarBorder(props: {
   url?: string;
   color?: string;
   children?: JSXElement;
-  badge?: (typeof USER_BADGES)[keyof typeof USER_BADGES];
+  badge?: UserBadge;
   badges?: number;
   voiceIndicator?: boolean;
 }) {
