@@ -16,7 +16,7 @@
         "feature1": "Бясплатныя аніміраваныя аватары й эмодзі",
         "feature2": "Элегантны дызайн",
         "feature3": "Бясплатная зьмена тэга",
-        "feature4": "Стварэньне пастоў на вашым профілі",
+        "feature4": "Стварэньне допісаў на вашым профілі",
         "feature5": "Стварыце вашу асабістую супольнасьць",
         "feature6": "Адкрыйце для сябе новыя супольнасьці",
         "feature7": "Працуе на ахвяраваньнях",
@@ -42,7 +42,7 @@
       "age": "Вам мусіць быць больш за 14 гадоў."
     },
     "title": "Вітаем у {{appName}}",
-    "email": "Электронная пошта",
+    "email": "Электроная пошта",
     "username": "Імя карыстача",
     "password": "Пароль",
     "confirmPassword": "Сьцьвердзіце пароль",
@@ -69,7 +69,7 @@
     "posts": "Публікацыйі",
     "feed": "Стужка",
     "discover": "Дасьледваць",
-    "notifications": "Апавяшчэньні"
+    "notifications": "Абвесткі"
   },
   "messageArea": {
     "messageBoxPlaceholder": "Напісаць {{username}}",
@@ -128,7 +128,8 @@
         "welcome-screen": "Экран запрашэньня",
         "channel": "Канал",
         "emojis": "Эмодзі",
-        "notifications": "Апавяшчэньні"
+        "notifications": "Абвесткі",
+        "external-embed": "Вонкавы эмбэд"
       },
       "general": {
         "serverRenameNotice": "Вы страціце ўсе йльготы верыфікаванага сэрвэру, калі пераназавяце яго.",
@@ -231,7 +232,7 @@
       "account": "Уліковы запіс",
       "interface": "Інтэрфэйс",
       "language": "Мова",
-      "notifications": "Паведамленьні",
+      "notifications": "Абвесткі",
       "logout": "Выйсьці",
       "developer": "Для распрацоўшчыкаў",
       "applications": "Боты",
@@ -306,31 +307,31 @@
         "title": "Налады профілю",
         "hideFollowers": "Прыбраць падпісантаў",
         "hideFollowersDescription": "Прыбраць людзей, якія падпісаныя на вас, з вашага профілю.",
-        "hideFollowing": "Прыбраць вашыя падпіскі",
+        "hideFollowing": "Прыбраць падпіскі",
         "hideFollowingDescription": "Прыбраць карыстачоў, на якіх вы падпісаныя, з вашага профілю."
       }
     },
     "notifications": {
-      "desktopNotifications": "Апавяшчэньні на працоўным стале",
-      "desktopNotificationsDescription": "Паказваць апавяшчэньні на працоўным стале, нават калі праґрама згорнутая.",
+      "desktopNotifications": "Абвесткі на працоўным стале",
+      "desktopNotificationsDescription": "Паказваць абвесткі на працоўным стале, нават калі праґрама згорнутая.",
       "sounds": "Гукі",
-      "soundsDescription": "Калі гукі апавяшчэньняў надта вам дакучаюць, вы можаце йх адключыць.",
+      "soundsDescription": "Калі гукі абвестак надта вам дакучаюць, вы можаце йх адключыць.",
       "volume": "Гучнасьць",
       "volumeDescription": "Зьмяніць гучнасьць паведамленьняў.",
       "changeSoundsDescription": "Зьмяніце гук паведамленьняў зь гэтымі гукамі без аўтарскіх правоў.",
-      "message": "Паведамленьне",
-      "messageDescription": "Гук, калі вы атрымлівайце паведамленьне.",
+      "message": "Абвестка",
+      "messageDescription": "Гук, калі вы атрымлівайце абвестку.",
       "mention": "Згадваньне",
       "mentionDescription": "Гук, калі вас згадваюць.",
       "reminder": "Нагады",
-      "reminderDescription": "Апавяшчэньні для нагадаў.",
+      "reminderDescription": "Абвесткі для нагадаў.",
       "mute": "Без гуку",
       "inAppPreview": "Перадпрагляд у праґраме",
       "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў праґраме.",
       "inAppPreviewModes": {
         "off": "Выключана",
         "mentionsOnly": "Толькі згадваньні",
-        "inheritFromPingSettings": "Узяць з наладаў згадвання",
+        "inheritFromPingSettings": "Узяць з наладаў згадваньня",
         "all": "Усе"
       }
     },
@@ -341,19 +342,28 @@
       "default": "Прадвызначаныя",
       "inputMode": "Мэтад уводу",
       "openMic": "Заўсёды запісваць",
-      "voiceActivity": "Калі гаворыце",
-      "pushToTalk": "Націсьніце, каб гаварыць",
+      "voiceActivity": "Калі размаўляеце",
+      "pushToTalk": "Па націсканьню",
       "bindButton": "Прывязаць",
       "stopButton": "Спыніць",
       "downloadAppNotice": "Спампуйце праґраму Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
     },
     "interface": {
+      "title": "Налады - Інтэрфэйс",
+      "customCSS": "Уласны CSS",
+      "themes": "Тэмы",
+      "themesDescription": "Абярыце гатовую тэму альбо вярніцеся да зыходнае.",
+      "maintainers": "Удзельнікі",
+      "apply": "Прымяніць",
+      "enableEruda": "Уключыць Eruda",
+      "enableErudaDescription": "Уключыце Eruda для адладкі. Не абагульвайце аніякіх дадзеных зь іншымі.",
+      "enableOnce": "Уключыць аднойчы",
       "blurEffect": "Эфэкт размыцьця",
-      "blurEffectDescription": "Уключае празрысты эфэкт размыцьця. Па змаўчанні выключана на тэлэфонах. Можа выклікаць праблемы зь прадуктыўнасьцью.",
+      "blurEffectDescription": "Уключыць эфэкт размыцьця для элемэнтаў інтэрфэйсу. (Можа пашкодзіць прадуктыўнасьці)",
       "disableAdvancedMarkupBar": "Выключыць панэль пашыранае разьметкі",
-      "disableAdvancedMarkupBarDescription": "Не паказваць панэль пашыранае разьметкі ў тэкставых каналах.",
-      "customizeColors": "Дапасаваць колеры",
-      "customizeColorsDescription": "Наладзіць колеры інтэрфэйсу."
+      "disableAdvancedMarkupBarDescription": "Не адлюстроўваць панэль пашыранае разьметкі.",
+      "customizeColors": "Дапасаваньне колераў",
+      "customizeColorsDescription": "Адрэдагуйце колеры бягучае тэмы."
     }
   },
   "supportBlock": {
@@ -372,7 +382,7 @@
   "serverContextMenu": {
     "markAsRead": "Адзначыць як прачытанае",
     "invites": "Запрашэньні",
-    "notifications": "Апавяшчэньні",
+    "notifications": "Абвесткі",
     "settings": "Налады",
     "copyId": "Скапіяваць ID",
     "leave": "Выйсьці",
@@ -413,12 +423,14 @@
   "messageContextMenu": {
     "editMessage": "Адрэдагаваць паведамленьне",
     "deleteMessage": "Выдаліць паведамленьне",
+    "translateMessage": "Перакласьці",
     "copyMessage": "Скапіяваць паведамленьне",
     "copyId": "Скапіяваць ID",
     "viewReactions": "Праглядзець рэакцыйі",
     "quoteMessage": "Цытаваць паведамленьне",
     "reportMessage": "Паскардзіцца",
-    "reply": "Адказаць"
+    "reply": "Адказаць",
+    "markUnread": "Пазначыць непрачытаным"
   },
   "profile": {
     "followButton": "Падпісацца",
@@ -471,5 +483,57 @@
   "googleAccountLink": {
     "linking": "Злучаем ваш уліковы запіс зь Google...",
     "success": "Уліковы запіс далучаны! Цяпер вы можаце закрыць гэтае акно."
+  },
+  "invite": {
+    "loading": "Загрузка запрашэньня...",
+    "invalid": "Няправільны код запрашэньня",
+    "joinButton": "Далучыцца",
+    "joiningButton": "Далучаемся...",
+    "visitButton": "Наведаць",
+    "member": "удзельнік",
+    "members": "удзельніка(ў)"
+  },
+  "fileEmbed": {
+    "expired": "Скончыўся",
+    "modifiedOrDeleted": "Гэты файл быў зьменены/выдалены стваральнікам на йх Google Drive.",
+    "viewImage": "Праглядзець відарыс",
+    "download": "Спампаваць",
+    "expires": "Канчаецца"
+  },
+  "videoEmbed": {
+    "couldNotGetVideo": "Не ўдалося атрымаць відэа.",
+    "videoModified": "Відэа было зьмененае.",
+    "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайгрываць відэа толькі ў праґраме Nerimity для ПК.",
+    "videoExpired": "Відэа скончылася.",
+    "modifiedOrDeleted": "Гэта відэа было зьменена/выдалена стваральнікам на йх Google Drive.",
+    "expires": "Канчаецца",
+    "expired": "Скончылася"
+  },
+  "message": {
+    "badge": {
+      "bot": "Бот",
+      "webhook": "Вэбхук",
+      "owner": "Уладар"
+    },
+    "reactions": {
+      "more": "і яшчэ {{count}}"
+    },
+    "deletedMessage": "Паведамленьне было выдалена.",
+    "dismissButton": "Адхіліць",
+    "editedAt": "Адрэдагавана а {{time}}",
+    "twitterEmbed": {
+      "modalTitle": "Дэтальны эмбэд Twitter",
+      "modalDescription": "Пры выкарыстаньні афіцыйнага эмбэда Twitter, вашы дадзеныя будуць сабраныя Элмо Маскам.",
+      "doNotShowAgain": "Больш не паказваць.",
+      "closeButton": "Не паказваць",
+      "showButton": "Паказаць",
+      "basicEmbed": "Звычайны эмбэд",
+      "detailedEmbed": "Дэтальны эмбэд"
+    },
+    "blocked": "Вы заблякавалі гэтага карыстача. Націсьніце, каб паказаць.",
+    "translationError": "Не ўдалося перакласьці паведамленьне.",
+    "translation": {
+      "title": "Пераклад"
+    }
   }
 }
