@@ -1,15 +1,14 @@
 import { avatarUrl } from "@/chat-api/store/useUsers";
-import { classNames } from "@/common/classNames";
+import { classNames, cn } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { createMemo, JSXElement, Match, Show, Switch } from "solid-js";
-import { keyframes, styled } from "solid-styled-components";
 import {
   hasBit,
   USER_BADGES,
   USER_BADGES_VALUES,
   UserBadge,
 } from "@/chat-api/Bitwise";
-import styles from "./AvatarStyles.module.scss";
+import style from "./Avatar.module.css";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
 import { FoxEarsBorder } from "../avatar-borders/FoxEarBorder";
@@ -102,11 +101,7 @@ export default function Avatar(props: Props) {
   return (
     <div
       style={{ width: props.size + "px", height: props.size + "px" }}
-      class={classNames(
-        styles.avatarContainer,
-        "avatar-container",
-        props.class
-      )}
+      class={classNames(style.avatarContainer, "avatar-container", props.class)}
     >
       <Switch
         fallback={
@@ -257,7 +252,7 @@ const NoBorder = (props: {
   badges?: number;
 }) => {
   return (
-    <div class={styles.imageContainer}>
+    <div class={style.imageContainer}>
       <Overlays size={props.size} offset={-0.12} badges={props.badges} />
       <Switch>
         <Match when={props.children}>{props.children}</Match>
@@ -265,13 +260,13 @@ const NoBorder = (props: {
         <Match when={!props.children}>
           <Show when={!props.url}>
             <div
-              class={styles.avatarBackground}
+              class={style.avatarBackground}
               style={{ background: props.serverOrUser?.hexColor }}
             />
           </Show>
 
           <img
-            class={styles.image}
+            class={style.image}
             loading="lazy"
             src={props.url || "/assets/profile.png"}
             alt="User Avatar"
@@ -281,47 +276,6 @@ const NoBorder = (props: {
     </div>
   );
 };
-
-const BasicAvatarBorderContainer = styled("div")<{
-  size: number;
-  color: string;
-}>`
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  justify-content: center;
-  border-radius: 50%;
-
-  border: solid ${(props) => (props.size / 100) * 8}px ${(props) => props.color};
-
-  left: -${(props) => (props.size / 100) * 5}px;
-  top: -${(props) => (props.size / 100) * 5}px;
-  right: -${(props) => (props.size / 100) * 5}px;
-  bottom: -${(props) => (props.size / 100) * 5}px;
-
-  z-index: 1;
-`;
-
-const rotate = keyframes`
-  0% { 
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const BasicBorderLabelContainer = styled("div")`
-  pointer-events: none;
-  font-weight: bold;
-  position: absolute;
-  color: rgba(0, 0, 0, 0.7);
-
-  animation: ${rotate} 0.2s ease-out forwards;
-`;
 
 function BasicBorder(props: {
   size: number;
@@ -338,13 +292,19 @@ function BasicBorder(props: {
     <>
       <NoBorder {...props} />
       <Show when={!props.hideBorder}>
-        <BasicAvatarBorderContainer
-          class="basic-border"
-          color={props.color}
-          size={props.size}
+        <div
+          class={cn(style.basicBorderContainer, "basic-border")}
+          style={{
+            border: `solid ${(props.size / 100) * 8}px ${props.color}`,
+            left: `-${(props.size / 100) * 5}px`,
+            top: `-${(props.size / 100) * 5}px`,
+            right: `-${(props.size / 100) * 5}px`,
+            bottom: `-${(props.size / 100) * 5}px`,
+          }}
         >
           <Show when={props.label && props.hovered}>
-            <BasicBorderLabelContainer
+            <div
+              class={style.basicBorderLabel}
               style={{
                 "font-size": (props.size / 100) * 17 + "px",
                 "border-radius": (props.size / 100) * 8 + "px",
@@ -354,9 +314,9 @@ function BasicBorder(props: {
               }}
             >
               {props.label}
-            </BasicBorderLabelContainer>
+            </div>
           </Show>
-        </BasicAvatarBorderContainer>
+        </div>
       </Show>
     </>
   );
