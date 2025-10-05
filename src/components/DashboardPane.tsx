@@ -341,6 +341,7 @@ const ActivityList = () => {
   let activityListEl: HTMLDivElement | undefined;
 
   let isDragging = false;
+  let hasDragged = false;
   let startX = 0;
   let scrollLeftStart = 0;
 
@@ -348,6 +349,7 @@ const ActivityList = () => {
     if (!activityListEl) return;
 
     isDragging = true;
+    hasDragged = false;
     startX = e.pageX - activityListEl.offsetLeft;
     scrollLeftStart = activityListEl.scrollLeft;
     activityListEl.classList.add("dragging");
@@ -357,6 +359,11 @@ const ActivityList = () => {
     if (!isDragging || !activityListEl) return;
     const x = e.pageX - activityListEl.offsetLeft;
     const walk = x - startX;
+
+    if (!hasDragged && Math.abs(walk) > 4) {
+      hasDragged = true;
+    }
+
     activityListEl.scrollLeft = scrollLeftStart - walk;
   };
 
@@ -364,6 +371,13 @@ const ActivityList = () => {
     if (!activityListEl) return;
     isDragging = false;
     activityListEl.classList.remove("dragging");
+  };
+
+  const onClick = (e: MouseEvent) => {
+    if (!hasDragged) return;
+    e.preventDefault();
+    e.stopPropagation();
+    hasDragged = false;
   };
 
   const onWheel = (event: any) => {
@@ -389,6 +403,7 @@ const ActivityList = () => {
       onmousemove={onMouseMove}
       onmouseup={stopDragging}
       onmouseleave={stopDragging}
+      onclick={onClick}
     >
       <Show when={!authenticatedInPast()}>
         <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
