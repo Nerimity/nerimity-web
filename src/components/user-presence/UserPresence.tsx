@@ -7,7 +7,6 @@ import { Markup } from "../Markup";
 import Icon from "../ui/icon/Icon";
 import { getActivityIconName } from "@/components/activity/Activity";
 import { Tooltip } from "../ui/Tooltip";
-import { LastOnlineStatus } from "@/chat-api/events/connectionEventTypes";
 import { formatTimestamp } from "@/common/date";
 
 // show full will disable overflow eclipses
@@ -24,7 +23,7 @@ const UserPresence = (props: {
 
   const statusDetails = () => userStatusDetail(user()?.presence()?.status || 0);
   const activity = () =>
-    props.hideActivity ? undefined : user().presence()?.activity;
+    props.hideActivity ? undefined : user()?.presence()?.activity;
 
   const lastOnlineAt = () => {
     return user()?.lastOnlineAt;
@@ -62,7 +61,7 @@ const UserPresence = (props: {
           <Markup
             animateEmoji={props.animate}
             inline
-            text={user().presence()?.custom!}
+            text={user()?.presence()?.custom!}
           />
         </Match>
       </Switch>

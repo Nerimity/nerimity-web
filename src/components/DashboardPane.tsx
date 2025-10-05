@@ -14,6 +14,7 @@ import {
   createSignal,
   For,
   JSXElement,
+  onCleanup,
   onMount,
   Show,
 } from "solid-js";
@@ -328,8 +329,6 @@ const ActivityListContainer = styled(FlexRow)`
   margin-right: 5px;
   overflow: auto;
 
-  scroll-behavior: smooth;
-
   &::-webkit-scrollbar {
     display: none;
   }
@@ -337,67 +336,115 @@ const ActivityListContainer = styled(FlexRow)`
 
 const ActivityList = () => {
   const { account, users } = useStore();
-
   const store = useStore();
-  let activityListEl: undefined | HTMLDivElement;
+  let activityListEl: HTMLDivElement | undefined;
 
-  const onWheel = (event: any) => {
+  let isDragging = false;
+  let hasDragged = false;
+  let startX = 0;
+  let scrollLeftStart = 0;
+
+  const onMouseDown = (e: MouseEvent) => {
+    document.addEventListener("mousemove", onMouseMove, { passive: true });
+    if (!activityListEl) return;
+
+    isDragging = true;
+    hasDragged = false;
+    startX = e.pageX - activityListEl.offsetLeft;
+    scrollLeftStart = activityListEl.scrollLeft;
+    activityListEl.classList.add("dragging");
+  };
+
+  const onMouseMove = (e: MouseEvent) => {
+    if (!isDragging || !activityListEl) return;
+    const x = e.pageX - activityListEl.offsetLeft;
+    const walk = x - startX;
+
+    if (!hasDragged && Math.abs(walk) > 4) {
+      hasDragged = true;
+    }
+
+    activityListEl.scrollLeft = scrollLeftStart - walk;
+  };
+
+  const stopDragging = (e: MouseEvent) => {
+    document.removeEventListener("mousemove", onMouseMove);
+    e.preventDefault();
+    e.stopPropagation();
+    if (!activityListEl) return;
+    isDragging = false;
+    activityListEl.classList.remove("dragging");
+  };
+
+  const onClick = (e: MouseEvent) => {
+    if (!hasDragged) return;
+    e.preventDefault();
+    e.stopPropagation();
+    hasDragged = false;
+  };
+
+  const onWheel = (event: WheelEvent) => {
     if (!activityListEl) return;
     event.preventDefault();
-
-    activityListEl.scrollLeft -= event.wheelDelta;
+    activityListEl.scrollLeft += event.deltaY;
   };
 
   const activities = () => {
     const presences = store.users.presencesArray();
-    // sort by if activity img exists exists first
     return presences
-      .filter((p) => {
-        if (!p.activity) return false;
-        const user = users.get(p.userId);
-        if (user?.bot) return false;
-        return true;
-      })
+      .filter((p) => p.activity && !users.get(p.userId)?.bot)
       .sort((a, b) => b.activity!.startedAt - a.activity!.startedAt);
   };
 
   const authenticatedInPast = () => account.lastAuthenticatedAt();
 
-  return (
-    <>
-      <ActivityListContainer onwheel={onWheel} ref={activityListEl}>
-        <Show when={!authenticatedInPast()}>
-          <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
-            <Skeleton.Item height="80px" width="240px" />
-          </Skeleton.List>
-        </Show>
+  onMount(() => {
+    activityListEl?.addEventListener("click", onClick);
 
-        <Show when={authenticatedInPast() && !activities().length}>
-          <div
-            style={{
-              display: "flex",
-              "text-align": "center",
-              "flex-direction": "column",
-              "align-items": "center",
-              "justify-content": "center",
-              background: "rgba(255,255,255,0.04)",
-              width: "100%",
-              height: "100%",
-              "border-radius": "8px",
-            }}
-          >
-            <Text size={14} opacity={0.6}>
-              {t("dashboard.noActiveUsers")}
-            </Text>
-          </div>
-        </Show>
-        <Show when={authenticatedInPast() && activities().length}>
-          <For each={activities()}>
-            {(activity) => <PresenceItem presence={activity} />}
-          </For>
-        </Show>
-      </ActivityListContainer>
-    </>
+    onCleanup(() => {
+      activityListEl?.removeEventListener("click", onClick);
+    });
+  });
+
+  return (
+    <ActivityListContainer
+      ref={activityListEl}
+      onwheel={onWheel}
+      onmousedown={onMouseDown}
+      onmouseup={stopDragging}
+    >
+      <Show when={!authenticatedInPast()}>
+        <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
+          <Skeleton.Item height="80px" width="240px" />
+        </Skeleton.List>
+      </Show>
+
+      <Show when={authenticatedInPast() && !activities().length}>
+        <div
+          style={{
+            display: "flex",
+            "text-align": "center",
+            "flex-direction": "column",
+            "align-items": "center",
+            "justify-content": "center",
+            background: "rgba(255,255,255,0.04)",
+            width: "100%",
+            height: "100%",
+            "border-radius": "8px",
+          }}
+        >
+          <Text size={14} opacity={0.6}>
+            {t("dashboard.noActiveUsers")}
+          </Text>
+        </div>
+      </Show>
+
+      <Show when={authenticatedInPast() && activities().length}>
+        <For each={activities()}>
+          {(activity) => <PresenceItem presence={activity} />}
+        </For>
+      </Show>
+    </ActivityListContainer>
   );
 };
 
@@ -500,10 +547,12 @@ const PresenceItem = (props: { presence: Presence }) => {
           class={presenceBackgroundImageStyles}
           style={{
             "background-image": `url(${imgSrc()})`,
+            "pointer-events": "none",
           }}
         />
         <img
           src={imgSrc()}
+          draggable={false}
           classList={{
             videoActivityImg: isLiveStream() || isVideo(),
           }}

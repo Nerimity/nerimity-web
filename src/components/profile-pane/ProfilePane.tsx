@@ -45,7 +45,12 @@ import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { Banner } from "../ui/Banner";
 import { Markup } from "../Markup";
 import { t } from "i18next";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import {
+  hasBit,
+  USER_BADGES,
+  USER_BADGES_VALUES,
+  UserBadge,
+} from "@/chat-api/Bitwise";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
@@ -312,6 +317,7 @@ export default function ProfilePane() {
                   "margin-bottom": "4px",
                   "margin-right": "0",
                   "margin-top": "-6px",
+                  "margin-left": "4px",
                 }}
               >
                 <ActionButtons
@@ -687,6 +693,7 @@ function SideBar(props: {
   mobilePane?: boolean;
 }) {
   const [toggleJoinedDateType, setToggleJoinedDateType] = createSignal(false);
+  const store = useStore();
   const joinedAt = () => {
     if (!toggleJoinedDateType()) return getDaysAgo(props.user.user?.joinedAt!);
     return formatTimestamp(props.user.user.joinedAt!);
@@ -756,7 +763,9 @@ function SideBar(props: {
           </A>
         </SidePaneItem>
       </Show>
-      <Show when={props.user}>
+      <Show
+        when={props.user && props.user.user.id !== store.account.user()?.id}
+      >
         <MutualFriendList
           paneBgColor={props.paneBgColor}
           color={props.user?.profile?.primaryColor}
@@ -1314,8 +1323,6 @@ function UsersList(props: { users: RawUser[] }) {
   );
 }
 
-type Badge = Partial<typeof USER_BADGES.SUPPORTER & { textColor?: string }>;
-
 const BadgeContainer = styled("button")<{ color: string; textColor?: string }>`
   background: ${(props) => props.color};
   border-radius: 4px;
@@ -1327,7 +1334,7 @@ const BadgeContainer = styled("button")<{ color: string; textColor?: string }>`
   cursor: pointer;
 `;
 
-function Badge(props: { badge: Badge; user: UserDetails }) {
+function Badge(props: { badge: UserBadge; user: UserDetails }) {
   const { createPortal } = useCustomPortal();
 
   const onClick = () =>
@@ -1350,7 +1357,7 @@ const BadgesContainer = styled(FlexRow)`
 `;
 
 function Badges(props: { user: UserDetails }) {
-  const allBadges = Object.values(USER_BADGES);
+  const allBadges = USER_BADGES_VALUES;
 
   const isBot = () => props.user.user.bot;
 
@@ -1379,7 +1386,7 @@ const BadgeDetailsModalContainer = styled(FlexColumn)`
 `;
 
 function BadgeDetailModal(props: {
-  badge: Badge;
+  badge: UserBadge;
   user: UserDetails;
   close(): void;
 }) {

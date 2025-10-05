@@ -1,6 +1,7 @@
 import {
   Bitwise,
   USER_BADGES,
+  USER_BADGES_VALUES,
   addBit,
   hasBit,
   removeBit,
@@ -272,7 +273,7 @@ export default function UserPage() {
           </SettingsBlock>
           <SettingsBlock icon="badge" label="Badges" header />
           <FlexColumn gap={1}>
-            <For each={Object.values(USER_BADGES)}>
+            <For each={USER_BADGES_VALUES}>
               {(badge) => (
                 <BadgeItem
                   badge={badge}

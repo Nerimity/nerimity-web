@@ -199,8 +199,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
         window.removeEventListener("touchmove", onTouchMove, false);
         return;
       }
-      const x = event.touches[0].clientX;
-      const y = event.touches[0].clientY;
+      const x = event.touches[0]!.clientX;
+      const y = event.touches[0]!.clientY;
       const touchDistance = x - startPos.x;
 
       const XDistance = Math.abs(startTransformX - transformX);

@@ -1633,6 +1633,9 @@ function ChannelSuggestionItem(props: {
         <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
       </Show>
       <div class={styles.suggestLabel}>{props.channel.name}</div>
+      <Show when={props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
+      </Show>
     </ItemContainer>
   );
 }
@@ -1810,6 +1813,9 @@ function UserSuggestionItem(props: {
       </Show>
       <Show when={props.user?.special && props.user.id === "si"}>
         <div class={styles.suggestionInfo}>Silent message.</div>
+      </Show>
+      <Show when={!props.user?.special && props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
       </Show>
     </ItemContainer>
   );
@@ -2028,7 +2034,6 @@ function CommandSuggestionItem(props: {
       onclick={() => props.onclick(props.cmd)}
     >
       <Avatar size={32} user={user()!} />
-
       <div class={styles.suggestContent}>
         <div class={styles.suggestHeader}>
           <div class={styles.suggestLabel}>/{props.cmd.name}</div>
@@ -2036,6 +2041,9 @@ function CommandSuggestionItem(props: {
         </div>
         <div class={styles.suggestDescription}>{props.cmd.description}</div>
       </div>
+      <Show when={props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
+      </Show>
     </ItemContainer>
   );
 }
@@ -2076,6 +2084,9 @@ function EmojiSuggestionItem(props: {
         custom={props.emoji.id}
       />
       <div class={styles.suggestLabel}>{name()}</div>
+      <Show when={props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
+      </Show>
     </ItemContainer>
   );
 }

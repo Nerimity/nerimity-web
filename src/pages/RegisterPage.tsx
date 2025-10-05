@@ -167,7 +167,6 @@ export default function RegisterPage() {
                   >
                     <div
                       style={{ "margin-top": "-4px", "font-size": "20px" }}
-                      color="var(--warn-color)"
                     >
                       •
                     </div>{" "}

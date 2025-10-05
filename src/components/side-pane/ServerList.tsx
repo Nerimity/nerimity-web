@@ -11,7 +11,6 @@ import {
   createSignal,
   Show,
   For,
-  createEffect,
   onMount,
   onCleanup,
 } from "solid-js";
@@ -479,7 +478,7 @@ export const ServerList = (props: { size: number }) => {
 
             setDraggingId(item?.id || null);
           }}
-          onEnd={(e) => {
+          onEnd={(e: SortableEvent) => {
             // when dragging a server inside an opened folder
             if (e.from !== e.to) {
               const folderId = e.to.id.split("-")[1];

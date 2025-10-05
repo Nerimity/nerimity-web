@@ -1,6 +1,5 @@
 import styles from "./WelcomeModal.module.scss";
 import env from "@/common/env";
-import { Link } from "solid-navigator";
 import Button from "../ui/Button";
 import Icon from "../ui/icon/Icon";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
