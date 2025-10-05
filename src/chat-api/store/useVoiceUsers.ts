@@ -6,7 +6,6 @@ import { emitVoiceSignal } from "../emits/voiceEmits";
 
 import type SimplePeer from "@thaunknown/simple-peer";
 import useUsers, { User } from "./useUsers";
-import LazySimplePeer from "@/components/LazySimplePeer";
 import {
   getStorageObject,
   getStorageString,
@@ -14,10 +13,10 @@ import {
   useVoiceInputMode,
 } from "@/common/localStorage";
 import useAccount from "./useAccount";
-import { set } from "idb-keyval";
 import vad from "voice-activity-detection";
 import { downKeys, useGlobalKey } from "@/common/GlobalKey";
 import { arrayEquals } from "@/common/arrayEquals";
+import { LazySimplePeer } from "@/components/LazySimplePeer";
 
 const createIceServers = () => [
   getCachedCredentials(),
@@ -54,10 +53,10 @@ type StreamWithTracks = {
   tracks: MediaStreamTrack[];
 };
 
-
-
 // cachedVolumes[userId] = volume
-export const [cachedVolumes, setCachedVolumes] = createStore<Record<string, number>>({});
+export const [cachedVolumes, setCachedVolumes] = createStore<
+  Record<string, number>
+>({});
 export type ConnectionStatus = "CONNECTED" | "DISCONNECTED" | "CONNECTING";
 
 export type VoiceUser = RawVoice & {
@@ -312,6 +311,10 @@ const updateConnectionStatus = (
 };
 
 const createPeer = (voiceUser: VoiceUser, signal?: SimplePeer.SignalData) => {
+  if (!LazySimplePeer) {
+    console.log("No LazySimplePeer");
+    return;
+  }
   const current = currentVoiceUser();
   if (voiceUser.userId === useAccount().user()?.id) return;
   const initiator = !signal;
