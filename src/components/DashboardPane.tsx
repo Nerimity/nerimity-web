@@ -14,6 +14,7 @@ import {
   createSignal,
   For,
   JSXElement,
+  onCleanup,
   onMount,
   Show,
 } from "solid-js";
@@ -328,8 +329,6 @@ const ActivityListContainer = styled(FlexRow)`
   margin-right: 5px;
   overflow: auto;
 
-  scroll-behavior: smooth;
-
   &::-webkit-scrollbar {
     display: none;
   }
@@ -346,6 +345,7 @@ const ActivityList = () => {
   let scrollLeftStart = 0;
 
   const onMouseDown = (e: MouseEvent) => {
+    document.addEventListener("mousemove", onMouseMove, { passive: true });
     if (!activityListEl) return;
 
     isDragging = true;
@@ -367,7 +367,10 @@ const ActivityList = () => {
     activityListEl.scrollLeft = scrollLeftStart - walk;
   };
 
-  const stopDragging = () => {
+  const stopDragging = (e: MouseEvent) => {
+    document.removeEventListener("mousemove", onMouseMove);
+    e.preventDefault();
+    e.stopPropagation();
     if (!activityListEl) return;
     isDragging = false;
     activityListEl.classList.remove("dragging");
@@ -380,10 +383,10 @@ const ActivityList = () => {
     hasDragged = false;
   };
 
-  const onWheel = (event: any) => {
+  const onWheel = (event: WheelEvent) => {
     if (!activityListEl) return;
     event.preventDefault();
-    activityListEl.scrollLeft -= event.wheelDelta;
+    activityListEl.scrollLeft += event.deltaY;
   };
 
   const activities = () => {
@@ -395,15 +398,20 @@ const ActivityList = () => {
 
   const authenticatedInPast = () => account.lastAuthenticatedAt();
 
+  onMount(() => {
+    activityListEl?.addEventListener("click", onClick);
+
+    onCleanup(() => {
+      activityListEl?.removeEventListener("click", onClick);
+    });
+  });
+
   return (
     <ActivityListContainer
       ref={activityListEl}
       onwheel={onWheel}
       onmousedown={onMouseDown}
-      onmousemove={onMouseMove}
       onmouseup={stopDragging}
-      onmouseleave={stopDragging}
-      onclick={onClick}
     >
       <Show when={!authenticatedInPast()}>
         <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
@@ -539,7 +547,7 @@ const PresenceItem = (props: { presence: Presence }) => {
           class={presenceBackgroundImageStyles}
           style={{
             "background-image": `url(${imgSrc()})`,
-            "pointer-events": "none"
+            "pointer-events": "none",
           }}
         />
         <img
