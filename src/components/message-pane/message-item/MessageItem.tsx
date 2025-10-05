@@ -581,14 +581,28 @@ const Content = (props: { message: Message; hovered: boolean }) => {
   const params = useParams<{ serverId?: string }>();
   const store = useStore();
   const [t] = useTransContext();
+
+  const isImageEmbedOnlyMessage = () => {
+    const content = props.message.content;
+    if (!content) return false;
+    if (props.message.embed?.type !== "image") return false;
+    try {
+      new URL(content);
+      return !content.includes(" ");
+    } catch {
+      return false;
+    }
+  };
   return (
     <div class={styles.content}>
-      <Markup
-        replaceCommandBotId
-        message={props.message}
-        text={props.message.content || ""}
-        serverId={params.serverId}
-      />
+      <Show when={!isImageEmbedOnlyMessage()}>
+        <Markup
+          replaceCommandBotId
+          message={props.message}
+          text={props.message.content || ""}
+          serverId={params.serverId}
+        />
+      </Show>
       <Show
         when={
           !props.message.uploadingAttachment || props.message.content?.trim()
