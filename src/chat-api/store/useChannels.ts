@@ -27,6 +27,7 @@ import useVoiceUsers from "./useVoiceUsers";
 import { useMatch, useNavigate, useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import useServers from "./useServers";
+import { loadSimplePeer } from "@/components/LazySimplePeer";
 
 export type Channel = Omit<RawChannel, "recipient"> & {
   updateLastSeen(this: Channel, timestamp?: number): void;
@@ -154,6 +155,7 @@ function recipient(this: Channel) {
 
 async function joinCall(this: Channel, reconnect = false) {
   const { setCurrentChannelId } = useVoiceUsers();
+  await loadSimplePeer();
   await postGenerateCredential();
   postJoinVoice(this.id, socketClient.id()!).then(() => {
     if (reconnect) return;
