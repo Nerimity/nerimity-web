@@ -86,7 +86,6 @@ import {
   GoogleDriveAudioEmbed,
   LocalAudioEmbed,
 } from "./AudioEmbed";
-import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 import { ButtonsEmbed } from "./ButtonsEmbed";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { getSystemMessage } from "@/common/SystemMessage";
@@ -107,6 +106,10 @@ import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { useTransContext } from "@mbarzda/solid-i18next";
+
+const ImagePreviewModal = lazy(
+  () => import("@/components/ui/ImagePreviewModal")
+);
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")

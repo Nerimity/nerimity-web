@@ -58,7 +58,7 @@ const InfoContainer = styled(FlexRow)`
   z-index: 11111;
 `;
 
-export function ImagePreviewModal(props: {
+function ImagePreviewModal(props: {
   close: () => void;
   url: string;
   origUrl?: string;
@@ -97,7 +97,6 @@ export function ImagePreviewModal(props: {
   });
 
   const onKeyDown = (event: KeyboardEvent) => {
-    console.log("owo");
     event.stopPropagation();
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -192,3 +191,5 @@ function copyClipboard(imgSrc: string) {
     }, "image/png");
   };
 }
+
+export default ImagePreviewModal;
