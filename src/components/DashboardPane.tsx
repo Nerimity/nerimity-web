@@ -524,10 +524,12 @@ const PresenceItem = (props: { presence: Presence }) => {
           class={presenceBackgroundImageStyles}
           style={{
             "background-image": `url(${imgSrc()})`,
+            "pointer-events": "none"
           }}
         />
         <img
           src={imgSrc()}
+          draggable={false}
           classList={{
             videoActivityImg: isLiveStream() || isVideo(),
           }}
