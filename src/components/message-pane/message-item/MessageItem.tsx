@@ -446,6 +446,12 @@ const MessageItem = (props: MessageItemProps) => {
     );
   };
 
+  const processTenorLinks = (content: string) => {
+    if (!content) return content;
+    const tenorRegex =  /(https?:\/\/tenor\.com\/view\/[^\s]+)/g;
+    return content.replace(tenorRegex, "");
+  };
+
   return (
     <>
       <Show when={isNewDay()}>
@@ -541,7 +547,13 @@ const MessageItem = (props: MessageItemProps) => {
                       userContextMenu={props.userContextMenu}
                     />
                   </Show>
-                  <Content message={props.message} hovered={hovered()} />
+                  <Content
+                    message={{
+                      ...props.message,
+                      content: processTenorLinks(props.message.content || ""),
+                    }}
+                    hovered={hovered()}
+                  />
                   <Show when={translatedContent()}>
                     <div class={styles.translationArea}>
                       <span class={styles.title}>
