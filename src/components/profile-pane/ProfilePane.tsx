@@ -312,6 +312,7 @@ export default function ProfilePane() {
                   "margin-bottom": "4px",
                   "margin-right": "0",
                   "margin-top": "-6px",
+                  "margin-left": "4px",
                 }}
               >
                 <ActionButtons
