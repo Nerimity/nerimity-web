@@ -337,67 +337,91 @@ const ActivityListContainer = styled(FlexRow)`
 
 const ActivityList = () => {
   const { account, users } = useStore();
-
   const store = useStore();
-  let activityListEl: undefined | HTMLDivElement;
+  let activityListEl: HTMLDivElement | undefined;
+
+  let isDragging = false;
+  let startX = 0;
+  let scrollLeftStart = 0;
+
+  const onMouseDown = (e: MouseEvent) => {
+    if (!activityListEl) return;
+
+    isDragging = true;
+    startX = e.pageX - activityListEl.offsetLeft;
+    scrollLeftStart = activityListEl.scrollLeft;
+    activityListEl.classList.add("dragging");
+  };
+
+  const onMouseMove = (e: MouseEvent) => {
+    if (!isDragging || !activityListEl) return;
+    const x = e.pageX - activityListEl.offsetLeft;
+    const walk = x - startX;
+    activityListEl.scrollLeft = scrollLeftStart - walk;
+  };
+
+  const stopDragging = () => {
+    if (!activityListEl) return;
+    isDragging = false;
+    activityListEl.classList.remove("dragging");
+  };
 
   const onWheel = (event: any) => {
     if (!activityListEl) return;
     event.preventDefault();
-
     activityListEl.scrollLeft -= event.wheelDelta;
   };
 
   const activities = () => {
     const presences = store.users.presencesArray();
-    // sort by if activity img exists exists first
     return presences
-      .filter((p) => {
-        if (!p.activity) return false;
-        const user = users.get(p.userId);
-        if (user?.bot) return false;
-        return true;
-      })
+      .filter((p) => p.activity && !users.get(p.userId)?.bot)
       .sort((a, b) => b.activity!.startedAt - a.activity!.startedAt);
   };
 
   const authenticatedInPast = () => account.lastAuthenticatedAt();
 
   return (
-    <>
-      <ActivityListContainer onwheel={onWheel} ref={activityListEl}>
-        <Show when={!authenticatedInPast()}>
-          <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
-            <Skeleton.Item height="80px" width="240px" />
-          </Skeleton.List>
-        </Show>
+    <ActivityListContainer
+      ref={activityListEl}
+      onwheel={onWheel}
+      onmousedown={onMouseDown}
+      onmousemove={onMouseMove}
+      onmouseup={stopDragging}
+      onmouseleave={stopDragging}
+    >
+      <Show when={!authenticatedInPast()}>
+        <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
+          <Skeleton.Item height="80px" width="240px" />
+        </Skeleton.List>
+      </Show>
 
-        <Show when={authenticatedInPast() && !activities().length}>
-          <div
-            style={{
-              display: "flex",
-              "text-align": "center",
-              "flex-direction": "column",
-              "align-items": "center",
-              "justify-content": "center",
-              background: "rgba(255,255,255,0.04)",
-              width: "100%",
-              height: "100%",
-              "border-radius": "8px",
-            }}
-          >
-            <Text size={14} opacity={0.6}>
-              {t("dashboard.noActiveUsers")}
-            </Text>
-          </div>
-        </Show>
-        <Show when={authenticatedInPast() && activities().length}>
-          <For each={activities()}>
-            {(activity) => <PresenceItem presence={activity} />}
-          </For>
-        </Show>
-      </ActivityListContainer>
-    </>
+      <Show when={authenticatedInPast() && !activities().length}>
+        <div
+          style={{
+            display: "flex",
+            "text-align": "center",
+            "flex-direction": "column",
+            "align-items": "center",
+            "justify-content": "center",
+            background: "rgba(255,255,255,0.04)",
+            width: "100%",
+            height: "100%",
+            "border-radius": "8px",
+          }}
+        >
+          <Text size={14} opacity={0.6}>
+            {t("dashboard.noActiveUsers")}
+          </Text>
+        </div>
+      </Show>
+
+      <Show when={authenticatedInPast() && activities().length}>
+        <For each={activities()}>
+          {(activity) => <PresenceItem presence={activity} />}
+        </For>
+      </Show>
+    </ActivityListContainer>
   );
 };
 
