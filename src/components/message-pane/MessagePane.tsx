@@ -1448,7 +1448,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
         <Icon
           size={34}
           color={newMessages() ? "var(--alert-color)" : "var(--primary-color)"}
-          name="expand_more"
+          name="keyboard_arrow_down"
         />
       </div>
     </Show>

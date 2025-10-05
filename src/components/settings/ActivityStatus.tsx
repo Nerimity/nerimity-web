@@ -293,7 +293,7 @@ function ProgramOptions() {
   return (
     <FlexColumn>
       <SettingsBlock
-        icon="games"
+        icon="gamepad"
         label="Activity Status"
         description="Share what you're up to with everyone."
         header={!!addedPrograms().length}

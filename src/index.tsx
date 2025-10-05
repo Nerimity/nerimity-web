@@ -15,7 +15,6 @@ if (search.get("eruda") === "true" && location.pathname === "/app") {
 }
 import "./init";
 import { render } from "solid-js/web";
-import "@material-symbols/font-400/rounded.css";
 import "./index.css";
 import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";

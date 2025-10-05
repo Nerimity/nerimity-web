@@ -95,7 +95,7 @@ const settings: Setting[] = [
     path: "activity-status",
     routePath: "/activity-status",
     name: "settings.drawer.activity-status",
-    icon: "games",
+    icon: "gamepad",
     element: lazy(() => import("@/components/settings/ActivityStatus")),
   },
   {

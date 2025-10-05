@@ -147,6 +147,7 @@ export default function MainPaneHeader() {
             <div class={styles.notificationCounter}>{notificationCount()}</div>
           </Show>
           <Button
+            iconSize={24}
             iconName="menu"
             margin={[0, 8, 0, 8]}
             onClick={toggleLeftDrawer}
@@ -154,6 +155,7 @@ export default function MainPaneHeader() {
         </div>
         {header.details().iconName && (
           <Icon
+          size={24}
             name={header.details().iconName}
             class={classNames(
               styles.icon,
@@ -178,16 +180,17 @@ export default function MainPaneHeader() {
         </div>
         <div class={styles.rightIcons}>
           <Show when={canCall()}>
-            <Button margin={3} iconName="call" onClick={onCallClick} />
+            <Button iconSize={24} margin={3} iconName="call" onClick={onCallClick} />
           </Show>
           <Button
             margin={3}
+            iconSize={24}
             iconName="alternate_email"
             onClick={onMentionButtonClick}
             class="mentionListIcon"
           />
           <Show when={hasRightDrawer()}>
-            <Button margin={3} iconName="group" onClick={toggleRightDrawer} />
+            <Button iconSize={24} margin={3} iconName="group" onClick={toggleRightDrawer} />
           </Show>
         </div>
       </div>

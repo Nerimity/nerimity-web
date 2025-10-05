@@ -325,7 +325,7 @@ function CategoryItem(props: {
         >
           <Icon
             size={14}
-            name="expand_more"
+            name="keyboard_arrow_down"
             class={cn(expanded() && styles.expanded, styles.expandIcon)}
           />
 
