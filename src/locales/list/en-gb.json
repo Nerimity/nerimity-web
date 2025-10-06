@@ -413,6 +413,12 @@
       "mute": "Mute"
     }
   },
+   "typing": {
+    "single": "<1>{{username}}</1> is typing…",
+    "multiple": "<1>{{username}}</1> and <2>{{username2}}</2> are typing…",
+    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> and <2>{{username3}}</2> are typing…",
+    "andOthers": "<1>{{count}}</1> users are typing…"
+  },
   "userContextMenu": {
     "viewProfile": "View Profile",
     "sendMessage": "Send Message",

@@ -85,6 +85,7 @@ import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
+import { Trans } from "@mbarzda/solid-i18next";
 
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
@@ -930,6 +931,7 @@ function TypingIndicator() {
       class={styles.floatingTypingContainer}
       style={{
         visibility: typingUsers().length ? "visible" : "hidden",
+
         padding: "0px",
         "padding-left": "5px",
         "padding-right": "5px",
@@ -939,52 +941,56 @@ function TypingIndicator() {
       <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
         <Switch>
           <Match when={typingUserDisplayNames().length === 1}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>{" "}
-            is typing...
+            <Trans
+              key="typing.single"
+              options={{ username: typingUserDisplayNames()[0] }}
+            >
+              <strong class={styles.username}>{"username"}</strong> is typing...
+            </Trans>
           </Match>
           <Match when={typingUserDisplayNames().length === 2}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>{" "}
-            and{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>{" "}
-            are typing...
+            <Trans
+              key="typing.multiple"
+              options={{
+                username: typingUserDisplayNames()[0],
+                username2: typingUserDisplayNames()[1],
+              }}
+            >
+              <strong class={styles.username} />a
+              <strong class={styles.username} /> at
+            </Trans>
           </Match>
           <Match when={typingUserDisplayNames().length === 3}>
-            <strong>{typingUserDisplayNames()[0]}</strong>,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>{" "}
-            and{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[2]}
-            </strong>{" "}
-            are typing...
+            <Trans
+              key="typing.tripple"
+              options={{
+                username: typingUserDisplayNames()[0],
+                username2: typingUserDisplayNames()[1],
+                username3: typingUserDisplayNames()[2],
+              }}
+            >
+              <strong class={styles.username} />,
+              <strong class={styles.username} />, a
+              <strong class={styles.username} /> at
+            </Trans>
           </Match>
           <Match when={typingUserDisplayNames().length > 3}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>
-            ,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>
-            ,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[2]}
-            </strong>{" "}
-            and <strong>{typingUserDisplayNames().length - 3}</strong> others
-            are typing...
+            <Trans
+              key="typing.andOthers"
+              options={{
+                count: typingUserDisplayNames().length,
+              }}
+            >
+              <strong class={styles.username} />
+              at
+            </Trans>
           </Match>
         </Switch>
       </Text>
     </Floating>
   );
 }
+
 function SlowModeIndicator() {
   const params = useParams<{ channelId: string; serverId: string }>();
   const { channels, account, channelProperties, serverMembers } = useStore();
