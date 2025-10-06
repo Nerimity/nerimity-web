@@ -157,7 +157,7 @@ function UpdateItem(props: { size: number }) {
       <Tooltip tooltip="Update Available">
         <SidebarItemContainer onclick={showUpdateModal}>
           <Icon
-            name="get_app"
+            name="download"
             color="var(--success-color)"
             size={props.size - props.size * 0.6308}
           />
@@ -351,7 +351,7 @@ function UpdateModal(props: { close: () => void }) {
         color="var(--alert-color)"
       />
       <Button
-        iconName="get_app"
+        iconName="download"
         label="Update Now"
         onClick={onUpdateClick}
         primary
