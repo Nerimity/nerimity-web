@@ -569,7 +569,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (openedPortals().length) return;
-    if (event.target instanceof HTMLElement) {
+    if (event.target instanceof Element) {
       if (event.target.tagName === "TEXTAREA") return;
       if (event.target.tagName === "INPUT") return;
     }
@@ -2186,7 +2186,7 @@ function BeforeYouChatNotice(props: {
   const showNotice = () => notice() && !hasAlreadySeenNotice();
 
   const onDocClick = (e: MouseEvent) => {
-    if (e.target instanceof HTMLElement) {
+    if (e.target instanceof Element) {
       if (e.target.closest(".messageArea")) return;
       setTextAreaFocus(false);
     }
@@ -2194,7 +2194,7 @@ function BeforeYouChatNotice(props: {
 
   const onInput = (event: Event) => {
     if (openedPortals().length) return;
-    if (event.target instanceof HTMLElement) {
+    if (event.target instanceof Element) {
       event.preventDefault();
       event.stopPropagation();
       setTextAreaFocus(true);
@@ -2255,7 +2255,7 @@ function BeforeYouChatNotice(props: {
           <Button
             styles={{ opacity: buttonClickable() ? 1 : 0.5 }}
             label="Understood"
-            iconName="done"
+            iconName="check"
             onClick={understoodClick}
             class={styles.noticeButton}
             primary

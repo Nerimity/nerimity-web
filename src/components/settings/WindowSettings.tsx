@@ -90,7 +90,7 @@ function StartupOptions() {
 
   return (
     <FlexColumn>
-      <SettingsBlock icon="launch" label="Startup Options" header />
+      <SettingsBlock icon="open_in_new" label="Startup Options" header />
       <SettingsBlock
         onClick={() => onAutostartChange(!autostart())}
         icon="restart_alt"

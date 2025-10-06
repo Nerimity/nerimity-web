@@ -621,7 +621,7 @@ export const MessageLogArea = (props: {
       </Show>
       <Show when={channelMessages()?.length === 0}>
         <div class={styles.noMessages}>
-          <Icon name="message" size={40} color="var(--primary-color)" />
+          <Icon name="comment" size={40} color="var(--primary-color)" />
           <div>
             <div class={styles.noMessagesTitle}>No messages</div>
             <div class={styles.noMessagesText}>

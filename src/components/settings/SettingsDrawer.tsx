@@ -233,7 +233,7 @@ function FooterItem(props: FooterItemProps) {
               margin-right: 5px;
             `}
             color="rgba(255,255,255,0.6)"
-            name="launch"
+            name="open_in_new"
             size={16}
           />
         </Show>

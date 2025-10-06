@@ -462,7 +462,7 @@ function PublicServerItem(props: {
 
       <MemberContainer gap={8}>
         <FlexRow gap={5}>
-          <Icon name="people" size={17} color="var(--primary-color)" />
+          <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
             {t("explore.servers.memberCount", {
               count: server._count.serverMembers.toLocaleString(),

@@ -1387,7 +1387,7 @@ export function ServerInviteEmbed(props: { code: string }) {
               </div>
 
               <div class={styles.serverMemberCount}>
-                <Icon name="people" size={14} color="var(--primary-color)" />
+                <Icon name="group" size={14} color="var(--primary-color)" />
                 {invite().memberCount}{" "}
                 {invite().memberCount === 1
                   ? t("invite.member")

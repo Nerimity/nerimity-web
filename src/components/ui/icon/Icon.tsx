@@ -15,15 +15,32 @@ interface IconProps {
 
 const url = "https://nerimity.com/msr/";
 
+const fetchWithCache = async (url: string) => {
+  const cache = await caches.match(url, { cacheName: "icons" });
+  if (cache) return cache;
+
+  const res = await fetch(url);
+  if (!res.ok) return res;
+  await caches.open("icons").then((cache) => cache.put(url, res.clone()));
+  return res;
+};
+
 const fetchIcon = async (name = "texture", svgEl: SVGSVGElement) => {
   const border = name.endsWith("_border");
   name = name.replace("_border", "");
   if (!border) {
     name += "-fill";
   }
-  const t = await fetch(url + name + ".svg", { cache: "force-cache" }).then((r) =>
-    r.text()
-  );
+
+  const fullUrl = url + name + ".svg";
+  const res = await fetchWithCache(fullUrl);
+  if (res.status !== 200) {
+    console.error(`Icon ${fullUrl} not found`);
+    svgEl.parentElement!.innerHTML = "<span style='color:red'>!!!</span>";
+    return;
+  }
+  const t = await res.text();
+
   const _svgEl = document.createElement("div");
   _svgEl.innerHTML = t;
   svgEl?.replaceChildren(_svgEl.firstChild?.firstChild!);
@@ -51,8 +68,8 @@ export default function Icon(props: IconProps) {
     >
       <svg
         ref={svgEl}
-        width={props.size || 16}
-        height={props.size || 16}
+        width={props.size || 24}
+        height={props.size || 24}
         fill="currentColor"
       />
     </span>

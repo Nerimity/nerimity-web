@@ -149,6 +149,7 @@ export default function AppPage() {
   function handleChangelog() {
     const { showChangelog } = useAppVersion();
     if (showChangelog()) {
+      caches.delete("icons").then(() => console.log("icons cache deleted"));
       createPortal?.((close) => <ChangelogModal close={close} />);
     }
   }

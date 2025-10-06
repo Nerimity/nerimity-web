@@ -521,7 +521,7 @@ const ActionButtons = (props: {
       )}
       {isPending() && (
         <ActionButton
-          icon="done"
+          icon="check"
           label={t("profile.acceptRequestButton")}
           color="var(--success-color)"
           onClick={acceptClicked}

@@ -418,7 +418,7 @@ function fixSafariMobileContextMenu() {
         const diffX = Math.abs(startX - currentX);
         const diffY = Math.abs(startY - currentY);
         if (diffX >= 10 || diffY >= 10) return;
-        if (event.target instanceof HTMLElement) {
+        if (event.target instanceof Element) {
           isTouchDown = true;
           const e = new MouseEvent("contextmenu", { bubbles: true });
           event.target?.dispatchEvent(e);

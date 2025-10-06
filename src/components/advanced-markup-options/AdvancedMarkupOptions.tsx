@@ -403,7 +403,7 @@ const DateTimePickerModal = (props: {
         </Show>
       </Modal.Body>
       <Modal.Footer>
-        <Modal.Button label="Done" iconName="done" primary onClick={onDone} />
+        <Modal.Button label="Done" iconName="check" primary onClick={onDone} />
       </Modal.Footer>
     </Modal.Root>
   );
