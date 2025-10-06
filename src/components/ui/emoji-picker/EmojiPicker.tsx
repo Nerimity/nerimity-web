@@ -140,7 +140,7 @@ export function EmojiPicker(props: {
         height: height() + (props.heightOffset || 0) + "px",
       }}
     >
-      <Show when={selectedTab() === "EMOJI"}>
+      <Show when={selectedTab() === "EMOJI" && emojis().length}>
         <EmojiPickerComponent
           class={cn(styles.emojiPicker, "emoji-picker")}
           focusOnMount={!isMobileAgent()}

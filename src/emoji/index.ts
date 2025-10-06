@@ -1,13 +1,19 @@
 import env from "@/common/env";
-import shortcodesToUnicode from "./shortcodes-to-unicode.json";
-import unicodesToShortcode from "./unicode-to-shortcodes.json";
+
 import { createSignal } from "solid-js";
 
+export const [shortcodesToUnicode, setShortcodesToUnicode] = createSignal<
+  Record<string, string>
+>({});
+export const [unicodesToShortcode, setUnicodesToShortcode] = createSignal<
+  Record<string, string>
+>({});
+
 export function emojiShortcodeToUnicode(shortcode: string) {
-  return (shortcodesToUnicode as Record<string, string>)[shortcode];
+  return shortcodesToUnicode()[shortcode];
 }
 export function emojiUnicodeToShortcode(unicode: string) {
-  return (unicodesToShortcode as Record<string, string>)[unicode];
+  return unicodesToShortcode()[unicode];
 }
 
 const U200D = String.fromCharCode(0x200d);
@@ -57,4 +63,10 @@ export const lazyLoadEmojis = async () => {
   if (emojis().length) return;
   const res = await import("./emojis.json");
   setEmojis(res.default);
+
+  const _shortcodesToUnicode = await import("./shortcodes-to-unicode.json");
+  const _unicodesToShortcode = await import("./unicode-to-shortcodes.json");
+
+  setShortcodesToUnicode(_shortcodesToUnicode.default);
+  setUnicodesToShortcode(_unicodesToShortcode.default);
 };

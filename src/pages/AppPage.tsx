@@ -50,6 +50,7 @@ import {
   CustomScrollbarProvider,
   useCustomScrollbar,
 } from "@/components/custom-scrollbar/CustomScrollbar";
+import { lazyLoadEmojis } from "@/emoji";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -138,6 +139,7 @@ export default function AppPage() {
   });
 
   onMount(() => {
+    lazyLoadEmojis();
     loadAllCache();
     setContext();
     setTimeout(() => {
