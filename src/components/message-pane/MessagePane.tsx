@@ -85,6 +85,7 @@ import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
+import { Trans } from "@mbarzda/solid-i18next";
 
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
@@ -925,63 +926,68 @@ function TypingIndicator() {
     });
   });
 
-return (
-  <Floating
-    class={styles.floatingTypingContainer}
-    style={{
-      visibility: typingUsers().length ? "visible" : "hidden",
-      padding: "0px",
-      "padding-left": "5px",
-      "padding-right": "5px",
-      "z-index": "1",
-    }}
-  >
-    <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
-      <Switch>
-        <Match when={typingUserDisplayNames().length === 1}>
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[0]}
-          </strong>{" "}
-          {t("typing.single")}
-        </Match>
-        <Match when={typingUserDisplayNames().length === 2}>
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[0]}
-          </strong>{" "}
-          {t("typing.and")}{" "}
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[1]}
-          </strong>{" "}
-          {t("typing.multiple")}
-        </Match>
-        <Match when={typingUserDisplayNames().length === 3}>
-          <strong>{typingUserDisplayNames()[0]}</strong>,{" "}
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[1]}
-          </strong>{" "}
-          {t("typing.and")}{" "}
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[2]}
-          </strong>{" "}
-          {t("typing.multiple")}
-        </Match>
-        <Match when={typingUserDisplayNames().length > 3}>
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[0]}
-          </strong>
-          ,{" "}
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[1]}
-          </strong>
-          ,{" "}
-          <strong class={styles.username}>
-            {typingUserDisplayNames()[2]}
-          </strong>{" "}
-          {t("typing.andOthers", { count: typingUserDisplayNames().length - 3 })}
-        </Match>
-      </Switch>
-    </Text>
-  </Floating>
+  return (
+    <Floating
+      class={styles.floatingTypingContainer}
+      style={{
+        visibility: typingUsers().length ? "visible" : "hidden",
+
+        padding: "0px",
+        "padding-left": "5px",
+        "padding-right": "5px",
+        "z-index": "1",
+      }}
+    >
+      <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
+        <Switch>
+          <Match when={typingUserDisplayNames().length === 1}>
+            <Trans
+              key="typing.single"
+              options={{ username: typingUserDisplayNames()[0] }}
+            >
+              <strong class={styles.username}>{"username"}</strong> is typing...
+            </Trans>
+          </Match>
+          <Match when={typingUserDisplayNames().length === 2}>
+            <Trans
+              key="typing.multiple"
+              options={{
+                username: typingUserDisplayNames()[0],
+                username2: typingUserDisplayNames()[1],
+              }}
+            >
+              <strong class={styles.username} />a
+              <strong class={styles.username} /> at
+            </Trans>
+          </Match>
+          <Match when={typingUserDisplayNames().length === 3}>
+            <Trans
+              key="typing.tripple"
+              options={{
+                username: typingUserDisplayNames()[0],
+                username2: typingUserDisplayNames()[1],
+                username3: typingUserDisplayNames()[2],
+              }}
+            >
+              <strong class={styles.username} />,
+              <strong class={styles.username} />, a
+              <strong class={styles.username} /> at
+            </Trans>
+          </Match>
+          <Match when={typingUserDisplayNames().length > 3}>
+            <Trans
+              key="typing.andOthers"
+              options={{
+                count: typingUserDisplayNames().length,
+              }}
+            >
+              <strong class={styles.username} />
+              at
+            </Trans>
+          </Match>
+        </Switch>
+      </Text>
+    </Floating>
   );
 }
 

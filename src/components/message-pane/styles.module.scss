@@ -60,7 +60,7 @@
   .typingText {
     display: flex;
     line-height: 20px;
-    gap: 4px;
+    white-space: break-spaces;
   }
   .username {
     display: block;
@@ -386,11 +386,11 @@ body .floating.floatingSlowModeIndicator {
   background: transparent;
   resize: none;
   font-size: 12px;
-  
+
   &:placeholder-shown {
     text-overflow: ellipsis;
   }
-  
+
   &::placeholder {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -471,7 +471,6 @@ body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
   }
 }
 
-
 .reminderButton {
   position: relative;
   .reminderDot {
@@ -482,11 +481,8 @@ body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
     height: 8px;
     border-radius: 50%;
     background-color: var(--alert-color);
-
   }
 }
-
-
 
 .scheduledDeleteContainer {
   display: flex;
@@ -507,8 +503,6 @@ body .messageArea .floating.floatingAttachment.mobile .attachmentContent {
     font-size: 16px;
   }
 }
-
-
 
 .dropOverlayContainer {
   position: absolute;
