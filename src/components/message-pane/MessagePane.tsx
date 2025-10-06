@@ -925,66 +925,66 @@ function TypingIndicator() {
     });
   });
 
-  return (
-    <Floating
-      class={styles.floatingTypingContainer}
-      style={{
-        visibility: typingUsers().length ? "visible" : "hidden",
-        padding: "0px",
-        "padding-left": "5px",
-        "padding-right": "5px",
-        "z-index": "1",
-      }}
-    >
-      <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
-        <Switch>
-          <Match when={typingUserDisplayNames().length === 1}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>{" "}
-            is typing...
-          </Match>
-          <Match when={typingUserDisplayNames().length === 2}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>{" "}
-            and{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>{" "}
-            are typing...
-          </Match>
-          <Match when={typingUserDisplayNames().length === 3}>
-            <strong>{typingUserDisplayNames()[0]}</strong>,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>{" "}
-            and{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[2]}
-            </strong>{" "}
-            are typing...
-          </Match>
-          <Match when={typingUserDisplayNames().length > 3}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>
-            ,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>
-            ,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[2]}
-            </strong>{" "}
-            and <strong>{typingUserDisplayNames().length - 3}</strong> others
-            are typing...
-          </Match>
-        </Switch>
-      </Text>
-    </Floating>
+return (
+  <Floating
+    class={styles.floatingTypingContainer}
+    style={{
+      visibility: typingUsers().length ? "visible" : "hidden",
+      padding: "0px",
+      "padding-left": "5px",
+      "padding-right": "5px",
+      "z-index": "1",
+    }}
+  >
+    <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
+      <Switch>
+        <Match when={typingUserDisplayNames().length === 1}>
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[0]}
+          </strong>{" "}
+          {t("typing.single")}
+        </Match>
+        <Match when={typingUserDisplayNames().length === 2}>
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[0]}
+          </strong>{" "}
+          {t("typing.and")}{" "}
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[1]}
+          </strong>{" "}
+          {t("typing.multiple")}
+        </Match>
+        <Match when={typingUserDisplayNames().length === 3}>
+          <strong>{typingUserDisplayNames()[0]}</strong>,{" "}
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[1]}
+          </strong>{" "}
+          {t("typing.and")}{" "}
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[2]}
+          </strong>{" "}
+          {t("typing.multiple")}
+        </Match>
+        <Match when={typingUserDisplayNames().length > 3}>
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[0]}
+          </strong>
+          ,{" "}
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[1]}
+          </strong>
+          ,{" "}
+          <strong class={styles.username}>
+            {typingUserDisplayNames()[2]}
+          </strong>{" "}
+          {t("typing.andOthers", { count: typingUserDisplayNames().length - 3 })}
+        </Match>
+      </Switch>
+    </Text>
+  </Floating>
   );
 }
+
 function SlowModeIndicator() {
   const params = useParams<{ channelId: string; serverId: string }>();
   const { channels, account, channelProperties, serverMembers } = useStore();
