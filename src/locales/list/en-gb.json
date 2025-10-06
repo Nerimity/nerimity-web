@@ -413,6 +413,12 @@
       "mute": "Mute"
     }
   },
+   "typing": {
+    "single": "is typing…",
+    "multiple": "are typing…",
+    "and": "and",
+    "andOthers": "and {{count}} others are typing…"
+  },
   "userContextMenu": {
     "viewProfile": "View Profile",
     "sendMessage": "Send Message",
