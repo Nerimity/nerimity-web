@@ -260,7 +260,27 @@
       "deleteAccountDescription": "c-can't undo dis!!",
       "deleteAccountNotice": "must weave/dwop sewvews befowe dewete uwu",
       "understoodButton": "got it!",
-      "save": "saving... nya~"
+      "save": "saving... nya~",
+      "botID": "senpai id",
+      "confirmEmail": "Confywm youw emayw~",
+      "enterCode": "Entew the 5-digit codey sent to youw emayw~!",
+      "sendCodeButton": "SEND IT!!",
+      "resendIn": "Wesend in {{time}}",
+      "confirmButton": "Yee",
+      "cancelButton": "NO",
+      "channelNoticeTooLong": "Channyw nyotice can't be wongew than 300 chawactews!!",
+      "deletionNotice": "NOOO~!! Don't weave us wike dis!! If sumfin bugged you, pwetty pwease teww us in the officiaw Newimity sewvie... we can change",
+      "deletedInfo": {
+        "title": "What will poof",
+        "email": "• Youw emayww~",
+        "username": "• Usewname",
+        "ip": "• IP Addwess",
+        "bio": "• Youw bio",
+        "messages": "• Aww youw messageys",
+        "posts": "• Youw postsies"
+      },
+      "postsAndMessagesNotice": "Youw posts and messageys might take a few weeks to aww poof",
+      "deleteCheckbox": "Get rid of aww my posts and msgs, pwease!!"
     },
     "privacy": {
       "lastOnline": {
@@ -391,6 +411,12 @@
     "reply": "wepwy",
     "markUnread": "mawk unwead"
   },
+   "typing": {
+    "single": "is mashing their keyboawd",
+    "multiple": "awwe typing… nya~",
+    "and": "an'",
+    "andOthers": "an' {{count}} othews"
+  },
   "profile": {
     "followButton": "fowwow uwu",
     "unfollowButton": "unfowwow :c",
@@ -433,7 +459,8 @@
     "resetting": "wesetting...",
     "email": "emaiw",
     "sendEmailButton": "send emaiw",
-    "sending": "sending emaiw..."
+    "sending": "sending emaiw...",
+    "passwordTooLong": "Passwowd must be wess than 72 chawactews~! >w<"
   },
   "dashboard": {
     "title": "dashyboawd",
@@ -464,12 +491,12 @@
     "notifications": "nya-tifurrcations",
     "settings": "settin's",
     "copyId": "copy magic id",
-    "leave": "weave",
     "notificationOptions": {
       "everything": "evewything",
       "mentionsOnly": "mentions onwy",
       "mute": "shh~ mute"
-    }
+    },
+    "leave": "weave"
   },
   "informationDrawer": {
     "title": "info nya~",
