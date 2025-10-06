@@ -24,7 +24,7 @@ function RoleItem(props: { role: ServerRole }) {
     <CustomLink noContextMenu href={link} class={styles.roleItem}>
       <div class={styles.roleDot} style={{ background: props.role.hexColor }} />
       <div class={styles.name}>{props.role.name}</div>
-      <Icon name='navigate_next' />
+      <Icon name='keyboard_arrow_right' />
     </CustomLink>
   );
 }

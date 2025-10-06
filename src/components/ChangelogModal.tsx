@@ -32,7 +32,7 @@ export function ChangelogModal(props: { close: () => void }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Button label="View more in GitHub" iconName="launch" />
+      <Button label="View more in GitHub" iconName="open_in_new" />
     </A>
   );
 

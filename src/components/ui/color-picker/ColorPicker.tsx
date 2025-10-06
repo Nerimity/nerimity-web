@@ -117,7 +117,7 @@ export const ColorPickerModal = (props: {
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
-        { label: "Done", onClick: done, iconName: "done", primary: true },
+        { label: "Done", onClick: done, iconName: "check", primary: true },
       ]}
     >
       <div

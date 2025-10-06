@@ -660,7 +660,7 @@ export function Server(props: { server: RawServer }) {
   const [hovered, setHovered] = createSignal(false);
 
   const onClick = (e: MouseEvent) => {
-    if (e.target instanceof HTMLElement) {
+    if (e.target instanceof Element) {
       if (e.target.closest(".checkbox")) {
         e.preventDefault();
         e.stopPropagation();

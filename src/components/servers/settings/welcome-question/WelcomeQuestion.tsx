@@ -185,7 +185,7 @@ export default function SettingsPage() {
       <SettingsBlock
         label="Answers"
         header={!!question()?.answers.length}
-        icon="question_answer"
+        icon="forum"
       >
         <Button
           label="Add Answer"
@@ -199,7 +199,7 @@ export default function SettingsPage() {
         {(answer, i) => (
           <SettingsBlock
             description={roleList(i())}
-            icon="question_answer"
+            icon="forum"
             label={answer.title}
             borderTopRadius={false}
             borderBottomRadius={i() === question()!.answers.length - 1}

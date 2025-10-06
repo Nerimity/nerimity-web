@@ -15,7 +15,6 @@ if (search.get("eruda") === "true" && location.pathname === "/app") {
 }
 import "./init";
 import { render } from "solid-js/web";
-import "@material-symbols/font-400/rounded.css";
 import "./index.css";
 import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
@@ -419,7 +418,7 @@ function fixSafariMobileContextMenu() {
         const diffX = Math.abs(startX - currentX);
         const diffY = Math.abs(startY - currentY);
         if (diffX >= 10 || diffY >= 10) return;
-        if (event.target instanceof HTMLElement) {
+        if (event.target instanceof Element) {
           isTouchDown = true;
           const e = new MouseEvent("contextmenu", { bubbles: true });
           event.target?.dispatchEvent(e);

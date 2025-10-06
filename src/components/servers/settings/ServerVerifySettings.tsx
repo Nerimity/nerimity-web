@@ -104,7 +104,7 @@ export default function ServerSettingsBans() {
           description="Your server must be at least 1 month old OR the owner of the server must have the supporter badge"
         />
         <SettingsBlock
-          icon="people"
+          icon="group"
           label={`${TARGET_MEMBERS} or more members`}
           description={`Your server must have at least ${TARGET_MEMBERS} members.`}
         />

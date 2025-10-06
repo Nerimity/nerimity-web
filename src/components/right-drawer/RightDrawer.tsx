@@ -243,7 +243,7 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
     <>
       <Button
         label={t("informationDrawer.attachmentsBack")}
-        iconName="navigate_before"
+        iconName="keyboard_arrow_left"
         iconSize={16}
         onClick={props.onHideAttachmentClick}
         class={css`
@@ -353,7 +353,7 @@ const MainDrawer = (props: {
               <Icon
                 size={16}
                 color="var(--primary-color)"
-                name="navigate_next"
+                name="keyboard_arrow_right"
               />
             </>
           }
@@ -503,7 +503,7 @@ function RoleItem(props: {
         <Button
           class={styles.roleExpandButton}
           padding={1}
-          iconName={expanded() ? "expand_more" : "expand_less"}
+          iconName={expanded() ? "keyboard_arrow_down" : "keyboard_arrow_up"}
           iconSize={16}
         />
       </div>

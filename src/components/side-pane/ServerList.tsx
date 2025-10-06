@@ -282,6 +282,7 @@ function ServerItem(props: {
     <Tooltip tooltip={props.server.name}>
       <A
         onmousedown={(e) => {
+          if (e.button !== 0) return;
           mouseDownDetails = {
             x: e.clientX,
             y: e.clientY,
@@ -289,6 +290,7 @@ function ServerItem(props: {
           };
         }}
         onmouseup={(e) => {
+          if (e.button !== 0) return;
           if (Date.now() - mouseDownDetails.at < 200) {
             const distance =
               Math.abs(mouseDownDetails.x - e.clientX) +

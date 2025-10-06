@@ -88,14 +88,14 @@ const settings: Setting[] = [
     path: "window-settings",
     routePath: "/window-settings",
     name: "settings.drawer.window-settings",
-    icon: "launch",
+    icon: "open_in_new",
     element: lazy(() => import("@/components/settings/WindowSettings")),
   },
   {
     path: "activity-status",
     routePath: "/activity-status",
     name: "settings.drawer.activity-status",
-    icon: "games",
+    icon: "gamepad",
     element: lazy(() => import("@/components/settings/ActivityStatus")),
   },
   {

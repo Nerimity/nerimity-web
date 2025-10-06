@@ -287,7 +287,7 @@ export function EditAccountPage(props: {
             position: relative;
             z-index: 111;
           `}
-          icon="email"
+          icon="mail"
           label={t("settings.account.email")}
         >
           <Input
@@ -309,7 +309,7 @@ export function EditAccountPage(props: {
         </SettingsBlock>
       </Show>
 
-      <SettingsBlock icon="local_offer" label={t("settings.account.tag")}>
+      <SettingsBlock icon="sell" label={t("settings.account.tag")}>
         <Input
           class={css`
             width: 52px;

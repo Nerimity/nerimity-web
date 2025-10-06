@@ -316,7 +316,7 @@ function NewPostArea(props: {
             `}
             iconSize={16}
             onClick={togglePollOptions}
-            iconName="poll"
+            iconName="checklist"
           />
           <Button
             margin={0}

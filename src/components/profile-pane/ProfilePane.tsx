@@ -521,7 +521,7 @@ const ActionButtons = (props: {
       )}
       {isPending() && (
         <ActionButton
-          icon="done"
+          icon="check"
           label={t("profile.acceptRequestButton")}
           color="var(--success-color)"
           onClick={acceptClicked}
@@ -968,7 +968,7 @@ function MutualFriendList(props: {
           {t("profile.mutualFriends", { count: props.mutualFriendIds.length })}
         </Text>
         <Show when={isMobileWidth()}>
-          <Icon size={18} name="expand_more" />
+          <Icon size={18} name="keyboard_arrow_down" />
         </Show>
       </div>
       <Show when={!isMobileWidth() || show()}>
@@ -1027,7 +1027,7 @@ function MutualServerList(props: {
           {t("profile.mutualServers", { count: props.mutualServerIds.length })}
         </Text>
         <Show when={isMobileWidth()}>
-          <Icon size={18} name="expand_more" />
+          <Icon size={18} name="keyboard_arrow_down" />
         </Show>
       </div>
       <Show when={!isMobileWidth() || show()}>

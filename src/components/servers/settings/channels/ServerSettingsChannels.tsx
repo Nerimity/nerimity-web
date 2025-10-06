@@ -59,7 +59,7 @@ function ChannelItem(props: { channel: Channel }) {
           />
         </Show>
         <div class={styles.name}>{props.channel.name}</div>
-        <Icon name="navigate_next" />
+        <Icon name="keyboard_arrow_right" />
       </div>
     </CustomLink>
   );
@@ -118,7 +118,7 @@ function CategoryItem(props: { channel: Channel }) {
           />
         </Show>
         <div class={styles.name}>{props.channel.name}</div>
-        <Icon name="navigate_next" />
+        <Icon name="keyboard_arrow_right" />
       </CustomLink>
       <div class={styles.categoryChannels}>
         <Sortable

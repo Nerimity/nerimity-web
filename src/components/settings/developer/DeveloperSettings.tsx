@@ -44,7 +44,7 @@ export default function DeveloperSettings() {
         hrefBlank
         icon="article"
         label="API Documentation (incomplete)"
-        children={<Icon name="launch" style={{ "margin-right": "6px" }} />}
+        children={<Icon name="open_in_new" style={{ "margin-right": "6px" }} />}
       />
     </Container>
   );
