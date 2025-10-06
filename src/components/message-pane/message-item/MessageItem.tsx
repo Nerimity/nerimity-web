@@ -688,7 +688,7 @@ const SentStatus = (props: { message: Message }) => {
         <div class={styles.sentStatus}>
           <Icon
             class={styles.icon}
-            name="query_builder"
+            name="hourglass_top"
             size={14}
             color="rgba(255,255,255,0.4)"
           />

@@ -779,9 +779,14 @@ function UnreadMarker(props: { onClick: () => void }) {
   return (
     <div onClick={props.onClick} class={styles.unreadMarkerContainer}>
       <div class={styles.unreadMarker}>
-        <Icon name="mark_chat_unread" size={12} />
+        <Icon name="mark_chat_unread" size={14} />
         New Messages
-        <Button class={styles.closeButton} iconName="close" color="white" />
+        <Button
+          iconSize={14}
+          class={styles.closeButton}
+          iconName="close"
+          color="white"
+        />
       </div>
     </div>
   );
