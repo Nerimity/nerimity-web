@@ -42,7 +42,6 @@
     "@codemirror/language": "^6.11.2",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.1",
-    "@material-symbols/font-400": "^0.27.2",
     "@mbarzda/solid-i18next": "^1.4.1",
     "@melloware/coloris": "^0.25.0",
     "@nerimity/nevula": "^0.14.0",

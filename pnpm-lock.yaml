@@ -31,9 +31,6 @@ importers:
       '@codemirror/view':
         specifier: ^6.38.1
         version: 6.38.1
-      '@material-symbols/font-400':
-        specifier: ^0.27.2
-        version: 0.27.2
       '@mbarzda/solid-i18next':
         specifier: ^1.4.1
         version: 1.4.1(html-parse-string@0.0.9)(i18next@24.2.3(typescript@5.9.2))(solid-js@1.9.9)
@@ -618,9 +615,6 @@ packages:
 
   '@marijn/find-cluster-break@1.0.2':
     resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
-
-  '@material-symbols/font-400@0.27.2':
-    resolution: {integrity: sha512-hXRCp/VZ7l9V5eq9vXeJxTN47B6/ZoHjN7wzRN3T1cL3Mz0VsXs3PvjEN6AZ4EMdXJ5eL4lzeC6tkcudcZ8NSg==}
 
   '@maxim_mazurok/gapi.client.discovery-v1@0.4.20200806':
     resolution: {integrity: sha512-Jeo/KZqK39DI6ExXHcJ4lqnn1O/wEqboQ6eQ8WnNpu5eJ7wUnX/C5KazOgs1aRhnIB/dVzDe8wm62nmtkMIoaw==}
@@ -2592,8 +2586,6 @@ snapshots:
       read-yaml-file: 1.1.0
 
   '@marijn/find-cluster-break@1.0.2': {}
-
-  '@material-symbols/font-400@0.27.2': {}
 
   '@maxim_mazurok/gapi.client.discovery-v1@0.4.20200806':
     dependencies:
