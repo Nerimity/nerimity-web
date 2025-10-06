@@ -31,7 +31,12 @@ import { ServerEvents } from "../../chat-api/EventNames";
 import Icon from "@/components/ui/icon/Icon";
 import { postChannelTyping } from "@/chat-api/services/MessageService";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
-import { emojiShortcodeToUnicode, unicodeToTwemojiUrl } from "@/emoji";
+import {
+  emojis,
+  emojiShortcodeToUnicode,
+  lazyLoadEmojis,
+  unicodeToTwemojiUrl,
+} from "@/emoji";
 
 import env from "@/common/env";
 import Text from "../ui/Text";
@@ -41,7 +46,7 @@ import useServerMembers, {
 } from "@/chat-api/store/useServerMembers";
 
 import { addToHistory } from "@nerimity/solid-emoji-picker";
-import emojis from "@/emoji/emojis.json";
+import type EmojiType from "@/emoji/emojis.json";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { matchSorter } from "match-sorter";
@@ -1827,7 +1832,7 @@ function UserSuggestionItem(props: {
   );
 }
 
-type Emoji = (typeof emojis)[number];
+type Emoji = (typeof EmojiType)[number];
 
 function FloatingEmojiSuggestions(props: {
   search: string;
@@ -1835,11 +1840,18 @@ function FloatingEmojiSuggestions(props: {
 }) {
   const params = useParams<{ channelId: string }>();
   const { servers } = useStore();
+  onMount(() => {
+    lazyLoadEmojis();
+  });
 
   const searchedEmojis = () =>
-    matchSorter([...emojis, ...servers.emojisUpdatedDupName()], props.search, {
-      keys: ["short_names.*", "name"],
-    }).slice(0, 10);
+    matchSorter(
+      [...emojis(), ...servers.emojisUpdatedDupName()],
+      props.search,
+      {
+        keys: ["short_names.*", "name"],
+      }
+    ).slice(0, 10);
 
   createEffect(
     on(searchedEmojis, () => {
