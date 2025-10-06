@@ -85,6 +85,7 @@ import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
+import { Rerun } from "@solid-primitives/keyed";
 
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
@@ -242,7 +243,9 @@ function MessagePane() {
         {channel()?.name || channel()?.recipient()?.username}
         {params.serverId ? ` (${server()?.name})` : ""}
       </MetaTitle>
-      <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
+      <Rerun on={channel}>
+        <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
+      </Rerun>
 
       <Show when={isEmailNotConfirmed()}>
         <EmailUnconfirmedNotice />
