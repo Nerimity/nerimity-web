@@ -155,7 +155,7 @@ export default function MainPaneHeader() {
         </div>
         {header.details().iconName && (
           <Icon
-          size={24}
+            size={24}
             name={header.details().iconName}
             class={classNames(
               styles.icon,
@@ -180,7 +180,12 @@ export default function MainPaneHeader() {
         </div>
         <div class={styles.rightIcons}>
           <Show when={canCall()}>
-            <Button iconSize={24} margin={3} iconName="call" onClick={onCallClick} />
+            <Button
+              iconSize={24}
+              margin={3}
+              iconName="call"
+              onClick={onCallClick}
+            />
           </Show>
           <Button
             margin={3}
@@ -190,7 +195,12 @@ export default function MainPaneHeader() {
             class="mentionListIcon"
           />
           <Show when={hasRightDrawer()}>
-            <Button iconSize={24} margin={3} iconName="group" onClick={toggleRightDrawer} />
+            <Button
+              iconSize={24}
+              margin={3}
+              iconName="group"
+              onClick={toggleRightDrawer}
+            />
           </Show>
         </div>
       </div>
@@ -591,14 +601,14 @@ function VoiceActions(props: { channelId: string }) {
     <div class={styles.voiceActions}>
       <Show when={showParticipants()}>
         <Button
-          iconName="expand_less"
+          iconName="keyboard_arrow_up"
           color="rgba(255,255,255,0.6)"
           onClick={() => setShowParticipants(false)}
         />
       </Show>
       <Show when={!showParticipants()}>
         <Button
-          iconName="expand_more"
+          iconName="keyboard_arrow_down"
           color="rgba(255,255,255,0.6)"
           onClick={() => setShowParticipants(true)}
         />
