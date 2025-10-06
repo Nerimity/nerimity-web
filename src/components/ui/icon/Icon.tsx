@@ -36,7 +36,6 @@ const fetchIcon = async (name = "texture", svgEl: SVGSVGElement) => {
   const res = await fetchWithCache(fullUrl);
   if (res.status !== 200) {
     console.error(`Icon ${fullUrl} not found`);
-    svgEl.parentElement!.innerHTML = "<span style='color:red'>!!!</span>";
     return;
   }
   const t = await res.text();
