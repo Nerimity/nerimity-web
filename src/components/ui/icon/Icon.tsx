@@ -14,6 +14,7 @@ interface IconProps {
 }
 
 const url = "https://nerimity.com/msr/";
+const iconCache: Record<string, string> = {};
 
 const fetchWithCache = async (url: string) => {
   const cache = await caches.match(url, { cacheName: "icons" });
@@ -25,7 +26,7 @@ const fetchWithCache = async (url: string) => {
   return res;
 };
 
-const fetchIcon = async (name = "texture", svgEl: SVGSVGElement) => {
+const fetchIcon = async (name = "texture", el: HTMLSpanElement, size = 24) => {
   const border = name.endsWith("_border");
   name = name.replace("_border", "");
   if (!border) {
@@ -33,44 +34,41 @@ const fetchIcon = async (name = "texture", svgEl: SVGSVGElement) => {
   }
 
   const fullUrl = url + name + ".svg";
+  if (iconCache[fullUrl]) {
+    el.innerHTML = iconCache[fullUrl]!;
+    return;
+  }
   const res = await fetchWithCache(fullUrl);
   if (res.status !== 200) {
     console.error(`Icon ${fullUrl} not found`);
     return;
   }
-  const t = await res.text();
+  const raw = await res.text();
+  const transformed = raw.replace("width=\"48\" height=\"48\"", "fill=\"currentColor\"");
+  iconCache[fullUrl] = transformed;
 
-  const _svgEl = document.createElement("div");
-  _svgEl.innerHTML = t;
-  svgEl?.replaceChildren(_svgEl.firstChild?.firstChild!);
-  svgEl?.setAttribute(
-    "viewBox",
-    _svgEl.firstElementChild?.getAttribute("viewBox")!
-  );
+  el.innerHTML = transformed;
+
 };
 export default function Icon(props: IconProps) {
-  let svgEl: SVGSVGElement | undefined;
+  let el: HTMLSpanElement | undefined;
 
   createEffect(() => {
-    fetchIcon(props.name, svgEl!);
+    fetchIcon(props.name, el!, props.size);
   });
 
   return (
     <span
+    ref={el}
       class={classNames("icon", styles.icon, props.class)}
       style={{
         color: props.color,
         ...props.style,
+        width: (props.size || 24) + "px",
+        height: (props.size || 24) + "px",
       }}
       title={props.title}
       onClick={props.onClick}
-    >
-      <svg
-        ref={svgEl}
-        width={props.size || 24}
-        height={props.size || 24}
-        fill="currentColor"
-      />
-    </span>
+     />
   );
 }
