@@ -17,13 +17,13 @@ const url = "https://nerimity.com/msr/";
 const iconCache: Record<string, string> = {};
 
 const fetchWithCache = async (url: string) => {
-  const cache = await window?.caches.match(url, { cacheName: "icons" });
+  const cache = await window.caches?.match(url, { cacheName: "icons" });
   if (cache) return cache;
 
   const res = await fetch(url);
   if (!res.ok) return res;
-  await window?.caches
-    .open("icons")
+  await window.caches
+    ?.open("icons")
     .then((cache) => cache.put(url, res.clone()));
   return res;
 };
