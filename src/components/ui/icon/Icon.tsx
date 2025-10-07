@@ -18,17 +18,17 @@ const iconCache: Record<string, string> = {};
 
 const fetchWithCache = async (url: string) => {
   const cache = await window.caches?.match(url, { cacheName: "icons" });
-  if (cache) return cache;
+  if (cache) return cache.text();
 
   const res = await fetch(url);
-  if (!res.ok) return res;
+  if (!res.ok) return false;
   await window.caches
     ?.open("icons")
     .then((cache) => cache.put(url, res.clone()));
-  return res;
+  return res.text();
 };
 
-const fetchIcon = async (name = "texture", el: HTMLSpanElement) => {
+const fetchIcon = async (name = "texture", el: HTMLSpanElement, size = 24) => {
   const border = name.endsWith("_border");
   name = name.replace("_border", "");
   if (!border) {
@@ -36,21 +36,20 @@ const fetchIcon = async (name = "texture", el: HTMLSpanElement) => {
   }
 
   const fullUrl = url + name + ".svg";
-  if (iconCache[fullUrl]) {
-    el.innerHTML = iconCache[fullUrl]!;
-    return;
-  }
-  const res = await fetchWithCache(fullUrl);
-  if (res.status !== 200) {
+
+  const res = iconCache[fullUrl] || (await fetchWithCache(fullUrl));
+  if (!res) {
     console.error(`Icon ${fullUrl} not found`);
     return;
   }
-  const raw = await res.text();
-  const transformed = raw.replace(
+  iconCache[fullUrl] = res;
+
+  const strSize = size + "px";
+
+  const transformed = res.replace(
     'width="48" height="48"',
-    'fill="currentColor"'
+    `width="${strSize}" height="${strSize}" fill="currentColor"`
   );
-  iconCache[fullUrl] = transformed;
 
   el.innerHTML = transformed;
 };
@@ -58,7 +57,7 @@ export default function Icon(props: IconProps) {
   let el: HTMLSpanElement | undefined;
 
   createEffect(() => {
-    fetchIcon(props.name, el!);
+    fetchIcon(props.name, el!, props.size);
   });
 
   return (
