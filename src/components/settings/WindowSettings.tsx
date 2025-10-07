@@ -154,12 +154,12 @@ function DisableCustomTitlebar() {
 
   onMount(() => {
     electronWindowAPI()
-      ?.getCustomTitlebarDisaled()
+      ?.getCustomTitlebarDisabled()
       .then(setCustomTitlebarDisabled);
   });
 
   const onChange = (checked: boolean) => {
-    electronWindowAPI()?.setCustomTitlebarDisaled(checked);
+    electronWindowAPI()?.setCustomTitlebarDisabled(checked);
     setCustomTitlebarDisabled(checked);
   };
 

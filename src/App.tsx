@@ -37,7 +37,7 @@ export default function App() {
   onMount(() => {
     if (electronWindowAPI()?.isElectron) {
       electronWindowAPI()
-        ?.getCustomTitlebarDisaled()
+        ?.getCustomTitlebarDisabled()
         .then(setCustomTitlebarDisabled);
     }
   });
