@@ -7,5 +7,5 @@ export const MetaTitle = (props: { children: JSXElement }) => {
   const text = () => el.toArray().join(" ");
   const full = () => `${text() || ""} - Nerimity ${env.DEV_MODE ? "DEV" : ""}`;
 
-  return <Title>{full()}</Title>;
+  <Title innerText={full()}></Title>;
 };
