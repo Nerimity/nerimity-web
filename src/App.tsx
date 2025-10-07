@@ -1,4 +1,11 @@
-import { createMemo, lazy, onCleanup, onMount, Show } from "solid-js";
+import {
+  createMemo,
+  createSignal,
+  lazy,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
 
 import { getCurrentLanguage, getLanguage } from "./locales/languages";
 import { useTransContext } from "@mbarzda/solid-i18next";
@@ -24,6 +31,16 @@ const InAppNotificationPreviews = lazy(
 export default function App() {
   const [, actions] = useTransContext();
   const isAppPage = useMatch(() => "/app/*");
+  const [customTitlebarDisabled, setCustomTitlebarDisabled] =
+    createSignal(false);
+
+  onMount(() => {
+    if (electronWindowAPI()?.isElectron) {
+      electronWindowAPI()
+        ?.getCustomTitlebarDisaled()
+        .then(setCustomTitlebarDisabled);
+    }
+  });
 
   useElectronContextMenu();
 
@@ -47,7 +64,7 @@ export default function App() {
 
   return (
     <>
-      <Show when={electronWindowAPI()?.isElectron}>
+      <Show when={electronWindowAPI()?.isElectron && !customTitlebarDisabled()}>
         <ElectronTitleBar />
       </Show>
       <Show when={isAppPage()}>

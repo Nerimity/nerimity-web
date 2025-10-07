@@ -65,6 +65,7 @@ export default function WindowSettings() {
         </Show>
         <StartupOptions />
         <HardwareAccelerationOptions />
+        <DisableCustomTitlebar />
       </Options>
     </Container>
   );
@@ -142,10 +143,35 @@ function HardwareAccelerationOptions() {
         label={"Disable Hardware Acceleration"}
         description="You must reopen the app for the change to take effect."
       >
-        <Checkbox
-          checked={hardwareAccelerationDisabled()}
-          onChange={onHardwareAccelerationChange}
-        />
+        <Checkbox checked={hardwareAccelerationDisabled()} />
+      </SettingsBlock>
+    </FlexColumn>
+  );
+}
+function DisableCustomTitlebar() {
+  const [customTitlebarDisabled, setCustomTitlebarDisabled] =
+    createSignal(false);
+
+  onMount(() => {
+    electronWindowAPI()
+      ?.getCustomTitlebarDisaled()
+      .then(setCustomTitlebarDisabled);
+  });
+
+  const onChange = (checked: boolean) => {
+    electronWindowAPI()?.setCustomTitlebarDisaled(checked);
+    setCustomTitlebarDisabled(checked);
+  };
+
+  return (
+    <FlexColumn>
+      <SettingsBlock
+        onClick={() => onChange(!customTitlebarDisabled())}
+        icon="speed"
+        label="Disable Custom Titlebar"
+        description="You must reopen the app for the change to take effect."
+      >
+        <Checkbox checked={customTitlebarDisabled()} />
       </SettingsBlock>
     </FlexColumn>
   );
