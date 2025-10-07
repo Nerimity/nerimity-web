@@ -3,6 +3,7 @@ import solidPlugin from "vite-plugin-solid";
 import path from "path";
 import dns from "dns";
 import autoprefixer from "autoprefixer";
+import postcssNested from "postcss-nested";
 
 // https://vitejs.dev/config/server-options.html#server-host
 dns.setDefaultResultOrder("verbatim");
@@ -20,7 +21,7 @@ export default defineConfig({
   css: {
 
     postcss: {
-      plugins: [autoprefixer()],
+      plugins: [autoprefixer(), postcssNested()],
     },
   },
   build: {
