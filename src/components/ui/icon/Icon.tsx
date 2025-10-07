@@ -17,12 +17,14 @@ const url = "https://nerimity.com/msr/";
 const iconCache: Record<string, string> = {};
 
 const fetchWithCache = async (url: string) => {
-  const cache = await caches.match(url, { cacheName: "icons" });
+  const cache = await window?.caches.match(url, { cacheName: "icons" });
   if (cache) return cache;
 
   const res = await fetch(url);
   if (!res.ok) return res;
-  await caches.open("icons").then((cache) => cache.put(url, res.clone()));
+  await window?.caches
+    .open("icons")
+    .then((cache) => cache.put(url, res.clone()));
   return res;
 };
 
@@ -44,11 +46,13 @@ const fetchIcon = async (name = "texture", el: HTMLSpanElement) => {
     return;
   }
   const raw = await res.text();
-  const transformed = raw.replace("width=\"48\" height=\"48\"", "fill=\"currentColor\"");
+  const transformed = raw.replace(
+    'width="48" height="48"',
+    'fill="currentColor"'
+  );
   iconCache[fullUrl] = transformed;
 
   el.innerHTML = transformed;
-
 };
 export default function Icon(props: IconProps) {
   let el: HTMLSpanElement | undefined;
@@ -59,7 +63,7 @@ export default function Icon(props: IconProps) {
 
   return (
     <span
-    ref={el}
+      ref={el}
       class={classNames("icon", styles.icon, props.class)}
       style={{
         color: props.color,
@@ -69,6 +73,6 @@ export default function Icon(props: IconProps) {
       }}
       title={props.title}
       onClick={props.onClick}
-     />
+    />
   );
 }
