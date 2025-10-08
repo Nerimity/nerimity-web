@@ -5,83 +5,85 @@ import {
   updatePublicServer,
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
-import RouterEndpoints from "@/common/RouterEndpoints";
 import { ServerBumpModal } from "@/components/explore/ExploreServers";
-import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@mbarzda/solid-i18next";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
+import {
+  getExploreBotApp,
+  upsertExploreBotApp,
+} from "@/chat-api/services/ExploreService";
+import { ApplicationBotCreateLinkBlock } from "./ApplicationBotCreateLinkBlock";
+import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 
 const Container = styled("div")`
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  gap: 8px;
 `;
 
 const buttonStyle = css`
   align-self: flex-end;
 `;
 
-export default function PublishServerSettings() {
+export default function PublishBotAppSettings() {
   const [t] = useTransContext();
-  const params = useParams<{ serverId: string }>();
-  const { header, servers } = useStore();
+  const params = useParams<{ id: string }>();
 
-  const [publicServer, setPublicServer] = createSignal<RawExploreItem | null>(
-    null
-  );
+  const [publicItem, setPublicItem] = createSignal<RawExploreItem | null>(null);
   const [description, setDescription] = createSignal("");
+  const [permissions, setPermissions] = createSignal(
+    ROLE_PERMISSIONS.SEND_MESSAGE.bit
+  );
   const [error, setError] = createSignal<string | null>(null);
   const [isPublic, setIsPublic] = createSignal(false);
   const { createPortal } = useCustomPortal();
 
   const MAX_DESCRIPTION_LENGTH = 150;
   createEffect(() => {
-    header.updateHeader({
-      title: "Settings - Publish Server",
-      serverId: params.serverId!,
-      iconName: "settings",
-    });
-    loadPublicServer();
+    loadPublicBot();
   });
 
-  const loadPublicServer = () => {
-    getPublicServer(params.serverId).then((ps) => {
-      setPublicServer(ps);
+  const loadPublicBot = () => {
+    getExploreBotApp(params.id).then((ps) => {
+      setPublicItem(ps);
       setDescription(ps.description);
       setIsPublic(true);
+      setPermissions(ps.botPermissions ?? ROLE_PERMISSIONS.SEND_MESSAGE.bit);
     });
   };
 
   const publish = () => {
     setError(null);
-    updatePublicServer(params.serverId, description())
+    upsertExploreBotApp(params.id, description(), permissions())
       .then((ps) => {
-        setPublicServer(ps);
+        setPublicItem(ps);
         setDescription(ps.description);
       })
       .catch((err) => setError(err.message));
   };
 
   const deletePublic = () => {
-    deleteExploreItem(publicServer()?.id).then(() => {
-      setPublicServer(null);
+    deleteExploreItem(publicItem()?.id!).then(() => {
+      setPublicItem(null);
       setDescription("");
       setError(null);
+      setPermissions(ROLE_PERMISSIONS.SEND_MESSAGE.bit);
     });
   };
 
   const showPublishButton = () => {
     if (!isPublic()) return false;
-    if (!publicServer() && description().length) return true;
-    if (publicServer()?.description !== description()) return true;
+    if (!publicItem() && description().length) return true;
+    if (publicItem()?.description !== description()) return true;
+    if (permissions() != publicItem()?.botPermissions) return true;
     return false;
   };
 
@@ -90,7 +92,7 @@ export default function PublishServerSettings() {
     const bumpAfter = 3 * 60 * 60 * 1000;
 
     const millisecondsSinceLastBump =
-      new Date().getTime() - publicServer()!.bumpedAt;
+      new Date().getTime() - publicItem()!.bumpedAt;
     const timeLeftMilliseconds = bumpAfter - millisecondsSinceLastBump;
     const timeLeft = new Date(timeLeftMilliseconds);
 
@@ -103,56 +105,39 @@ export default function PublishServerSettings() {
 
     return createPortal((close) => (
       <ServerBumpModal
-        update={setPublicServer}
-        publicServer={publicServer()!}
+        update={setPublicItem}
+        publicServer={publicItem()!}
         close={close}
       />
     ));
   };
 
-  const server = () => servers.get(params.serverId);
-
   return (
     <Container>
-      <Breadcrumb>
-        <BreadcrumbItem
-          href={RouterEndpoints.SERVER_MESSAGES(
-            params.serverId,
-            server()?.defaultChannelId!
-          )}
-          icon="home"
-          title={server()?.name}
-        />
-        <BreadcrumbItem title={t("servers.settings.drawer.invites")} />
-      </Breadcrumb>
       <Text color="rgba(255,255,255,0.6)" style={{ "margin-bottom": "10px" }}>
-        <Trans key="servers.settings.publishServer.publishNotice">
-          Publishing your server will make it be available in the
-          <A href="/app/explore/servers">explore</A> page.
-        </Trans>
+        Publishing your bot will make it be available in the{" "}
+        <A href="/app/explore/servers">explore</A> page.
       </Text>
       <SettingsBlock
         icon="public"
         label={t("servers.settings.publishServer.public")}
-        description={t("servers.settings.publishServer.publicDescription")}
+        description={"Make this bot public."}
       >
         <Checkbox checked={isPublic()} onChange={(v) => setIsPublic(v)} />
       </SettingsBlock>
 
-      <Show when={isPublic() && publicServer()}>
+      <Show when={isPublic() && publicItem()}>
         <SettingsBlock
           icon="arrow_upward"
-          label={t("servers.settings.publishServer.bumpServer")}
-          description={t(
-            "servers.settings.publishServer.bumpServerDescription"
-          )}
+          label="Bump"
+          description={"Bump this bot to get top the top."}
         >
           <Button
             onClick={bumpClick}
             class={css`
               margin-right: 0px;
             `}
-            label={`Bump (${publicServer()?.bumpCount})`}
+            label={`Bump (${publicItem()?.bumpCount})`}
           />
         </SettingsBlock>
       </Show>
@@ -163,9 +148,14 @@ export default function PublishServerSettings() {
           onText={(t) => setDescription(t)}
           type="textarea"
           height={200}
-          label={`Server Description (${
+          label={`Bot Description (${
             description().length
           }/${MAX_DESCRIPTION_LENGTH})`}
+        />
+        <ApplicationBotCreateLinkBlock
+          value={permissions()}
+          onChange={setPermissions}
+          hideUrlBar
         />
       </Show>
       <Show when={error()}>
@@ -175,16 +165,16 @@ export default function PublishServerSettings() {
         <Button
           class={buttonStyle}
           iconName="public"
-          label={t("servers.settings.publishServer.publishServerButton")}
+          label={"Publish"}
           onClick={publish}
         />
       </Show>
-      <Show when={!isPublic() && publicServer()}>
+      <Show when={!isPublic() && publicItem()}>
         <Button
           class={buttonStyle}
           iconName="delete"
           color="var(--alert-color)"
-          label={t("servers.settings.publishServer.unpublishServerButton")}
+          label={"Unpublish"}
           onClick={deletePublic}
         />
       </Show>

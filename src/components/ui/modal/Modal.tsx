@@ -12,7 +12,6 @@ import Icon from "../icon/Icon";
 import { cn } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortalItem } from "../custom-portal/CustomPortal";
-import { promiseTimers } from "@/common/promiseTimers";
 
 const ModalContext = createContext<{
   close?: () => void;
@@ -47,9 +46,9 @@ const Root = (props: RootProps) => {
   let bgEl: HTMLDivElement | undefined;
   const { isMobileWidth } = useWindowProperties();
 
-  const { setCustomCloseHandler } = useCustomPortalItem();
+  const portalItem = useCustomPortalItem();
 
-  setCustomCloseHandler(async () => {
+  portalItem?.setCustomCloseHandler(async () => {
     bgEl?.animate(BgAnim[1], {
       duration: 200,
       fill: "forwards",

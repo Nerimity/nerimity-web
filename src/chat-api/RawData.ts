@@ -316,7 +316,7 @@ export interface RawPresence {
   activity?: ActivityStatus;
 }
 
-export interface RawPublicServer {
+export interface RawExploreItem {
   id: string;
   serverId: string;
   createdAt: number;
@@ -328,6 +328,19 @@ export interface RawPublicServer {
   server?: RawServer & {
     _count: { serverMembers: number };
     createdBy: RawUser;
+  };
+  botPermissions?: number;
+  botApplication?: {
+    id: string;
+    botUser: RawUser & {
+      online: boolean;
+      _count: {
+        servers: number;
+      };
+    };
+    creatorAccount: {
+      user: RawUser;
+    };
   };
 }
 

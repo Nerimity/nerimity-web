@@ -1,4 +1,4 @@
-import { RawPublicServer, RawServer, RawUser } from "@/chat-api/RawData";
+import { RawExploreItem, RawServer, RawUser } from "@/chat-api/RawData";
 import {
   getServer,
   pinServer,
@@ -251,7 +251,7 @@ const ServerBannerDetails = styled(FlexColumn)`
 `;
 
 const PublicServerBlock = (props: {
-  server: RawServer & { publicServer: RawPublicServer };
+  server: RawServer & { publicServer: RawExploreItem };
 }) => {
   const { joinPublicById, joining: joinClicked } = useJoinServer();
   const store = useStore();

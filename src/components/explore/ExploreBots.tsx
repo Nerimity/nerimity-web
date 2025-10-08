@@ -35,6 +35,9 @@ import {
   PublicServerFilter,
   PublicServerSort,
 } from "@/chat-api/services/ExploreService";
+import { ServerBumpModal } from "./ExploreServers";
+import { InviteBotPopup } from "@/pages/InviteServerBot";
+import { Modal } from "../ui/modal";
 
 const Container = styled("div")`
   display: flex;
@@ -56,13 +59,13 @@ const defaultQuery = {
   search: "",
 } as const;
 
-export default function ExploreServers() {
+export default function ExploreBots() {
   const MAX_LIMIT = 30;
   const [t] = useTransContext();
   const { header } = useStore();
-  const [publicServers, setPublicServers] = createSignal<
-    null | RawExploreItem[]
-  >(null);
+  const [publicItems, setPublicItems] = createSignal<null | RawExploreItem[]>(
+    null
+  );
 
   const [query, setQuery] = createSignal<{
     sort: PublicServerSort;
@@ -70,33 +73,17 @@ export default function ExploreServers() {
     search: string;
   }>(defaultQuery);
 
-  const isDefaultQuery = () =>
-    query().sort === defaultQuery.sort &&
-    query().filter === defaultQuery.filter &&
-    query().search.trim() === defaultQuery.search;
-
   const [afterId, setAfterId] = createSignal<string | null>(null);
   const [showSkeleton, setShowSkeleton] = createSignal(true);
 
-  const [pinnedServers, setPinnedServers] = createSignal<
-    RawExploreItem[] | null
-  >(null);
-
-  createEffect(() => {
-    header.updateHeader({
-      title: t("explore.servers.title"),
-      iconName: "explore",
-    });
-
-    getExploreItems({ filter: "pinned", sort: "pinned_at" })
-      .then((servers) => setPinnedServers(servers))
-      .catch(() => {});
-  });
-
   createEffect(
     on(query, () => {
+      header.updateHeader({
+        title: t("explore.bots.title"),
+        iconName: "explore",
+      });
       batch(() => {
-        setPublicServers(null);
+        setPublicItems(null);
         setAfterId(null);
         setShowSkeleton(true);
       });
@@ -114,11 +101,12 @@ export default function ExploreServers() {
       limit: MAX_LIMIT,
       ...(_afterId ? { afterId: _afterId } : {}),
       ...(search ? { search } : {}),
+      type: "bot" as const,
     };
     timerId = window.setTimeout(() => {
       getExploreItems(opts).then((servers) => {
         batch(() => {
-          setPublicServers([...(publicServers() || []), ...servers]);
+          setPublicItems([...(publicItems() || []), ...servers]);
           setShowSkeleton(servers.length >= MAX_LIMIT);
         });
       });
@@ -138,14 +126,14 @@ export default function ExploreServers() {
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
-    const current = [...publicServers()!];
+    const current = [...publicItems()!];
     current[index] = { ...current[index], ...newPublicServer };
-    setPublicServers(current);
+    setPublicItems(current);
   };
 
   return (
     <Container>
-      <MetaTitle>Explore Servers</MetaTitle>
+      <MetaTitle>Explore Bots</MetaTitle>
       <div
         class={css`
           display: flex;
@@ -182,19 +170,19 @@ export default function ExploreServers() {
             setQuery({ ...query(), sort: i.id as PublicServerSort })
           }
         />
-        <DropDown
+        {/* <DropDown
           title="Filter"
           items={filterOpts}
           selectedId={query().filter}
           onChange={(i) =>
             setQuery({ ...query(), filter: i.id as PublicServerFilter })
           }
-        />
+        /> */}
       </FlexRow>
 
       <Notice
         type="info"
-        description={t("explore.servers.noticeMessage", {
+        description={t("explore.bots.noticeMessage", {
           hours: "3",
           date: "Monday at 0:00 UTC",
         })}
@@ -204,48 +192,15 @@ export default function ExploreServers() {
           margin-bottom: 10px;
         `}
         type="warn"
-        description="Servers are not moderated by Nerimity. Please report servers that break the TOS."
+        description="Bots are not moderated by Nerimity. Please report bots that are malicious or break the TOS."
       />
 
-      <Show when={isDefaultQuery()}>
-        <Text>Pinned Servers</Text>
-        <GridLayout
-          class="servers-list-grid"
-          style={{ "margin-bottom": "10px" }}
-        >
-          <For each={pinnedServers()}>
-            {(server, i) => (
-              <PublicServerItem
-                update={(newServer) => update(newServer, i())}
-                publicServer={server}
-              />
-            )}
-          </For>
-          <Show when={pinnedServers() === null}>
-            <For each={Array(4).fill(null)}>
-              {() => (
-                <Skeleton.Item
-                  height="334px"
-                  width="100%"
-                  onInView={() => {
-                    const servers = publicServers();
-                    if (!servers?.length) return;
-                    setAfterId(servers[servers.length - 1]?.id || null);
-                  }}
-                />
-              )}
-            </For>
-          </Show>
-        </GridLayout>
-        <Text style={{ "margin-bottom": "10px" }}>Recently Bumped Servers</Text>
-      </Show>
-
       <GridLayout class="servers-list-grid">
-        <For each={publicServers()}>
-          {(server, i) => (
-            <PublicServerItem
-              update={(newServer) => update(newServer, i())}
-              publicServer={server}
+        <For each={publicItems()}>
+          {(item, i) => (
+            <PublicItem
+              update={(newItem) => update(newItem, i())}
+              item={item}
             />
           )}
         </For>
@@ -256,7 +211,7 @@ export default function ExploreServers() {
                 height="334px"
                 width="100%"
                 onInView={() => {
-                  const servers = publicServers();
+                  const servers = publicItems();
                   if (!servers?.length) return;
                   setAfterId(servers[servers.length - 1]?.id || null);
                 }}
@@ -296,6 +251,13 @@ const DetailsContainer = styled(FlexColumn)`
   padding-right: 6px;
   flex-shrink: 0;
   z-index: 1111;
+`;
+const OnlineIndicator = styled.div`
+  display: inline-block;
+  margin-right: 6px;
+  width: 10px;
+  border-radius: 50%;
+  height: 10px;
 `;
 
 const MemberContainer = styled(FlexRow)`
@@ -350,27 +312,42 @@ const ButtonsContainer = styled(FlexRow)`
   z-index: 1111;
 `;
 
-function PublicServerItem(props: {
+function PublicItem(props: {
   class?: string;
-  publicServer: RawExploreItem;
-  update: (newServer: RawExploreItem) => void;
+  item: RawExploreItem;
+  update: (newItem: RawExploreItem) => void;
   display?: boolean;
 }) {
   const [t] = useTransContext();
-  const server = props.publicServer.server!;
-  const { joinPublicById, joining: joinClicked } = useJoinServer();
+  const app = props.item.botApplication!;
+  const bot = app.botUser;
   const [hovered, setHovered] = createSignal(false);
   const store = useStore();
 
   const { createPortal } = useCustomPortal();
 
-  const { servers } = useStore();
-
-  const cacheServer = () => servers.get(server.id);
-
-  const joinServerClick = async () => {
-    if (joinClicked()) return;
-    await joinPublicById(props.publicServer.serverId);
+  const addBotClick = async () => {
+    createPortal((c) => (
+      <Modal.Root
+        close={c}
+        desktopMaxWidth={400}
+        desktopClass={css`
+          width: 100%;
+        `}
+      >
+        <Modal.Header title="Invite Bot" />
+        <Modal.Body
+          class={css`
+            overflow: auto;
+          `}
+        >
+          <InviteBotPopup
+            appId={props.item.botApplication?.id!}
+            permissions={props.item.botPermissions}
+          />
+        </Modal.Body>
+      </Modal.Root>
+    ));
   };
 
   const bumpClick = () => {
@@ -378,7 +355,7 @@ function PublicServerItem(props: {
     const bumpAfter = 3 * 60 * 60 * 1000;
 
     const millisecondsSinceLastBump =
-      new Date().getTime() - props.publicServer.bumpedAt;
+      new Date().getTime() - props.item.bumpedAt;
     const timeLeftMilliseconds = bumpAfter - millisecondsSinceLastBump;
     const timeLeft = new Date(timeLeftMilliseconds);
 
@@ -391,7 +368,7 @@ function PublicServerItem(props: {
     return createPortal((close) => (
       <ServerBumpModal
         update={props.update}
-        publicServer={props.publicServer}
+        publicServer={props.item}
         close={close}
       />
     ));
@@ -399,7 +376,7 @@ function PublicServerItem(props: {
 
   const bumpedUnder24Hours = () => {
     const millisecondsSinceLastBump =
-      new Date().getTime() - props.publicServer.bumpedAt;
+      new Date().getTime() - props.item.bumpedAt;
     return millisecondsSinceLastBump < 24 * 60 * 60 * 1000;
   };
 
@@ -423,42 +400,45 @@ function PublicServerItem(props: {
           `,
           "banner"
         )}
-        url={bannerUrl(props.publicServer.server!)}
-        hexColor={props.publicServer.server?.hexColor}
+        url={bannerUrl(props.item.server!)}
+        hexColor={bot.hexColor}
       />
-      <Avatar
-        class={avatarStyles}
-        animate={hovered()}
-        server={server}
-        size={60}
-      />
+      <Avatar class={avatarStyles} animate={hovered()} user={bot} size={60} />
       <DetailsContainer class="detailsContainer" gap={1}>
         <FlexRow
           style={{ "align-items": "center", "margin-bottom": "4px" }}
           gap={5}
         >
-          <Text class={serverNameStyles} size={18} bold>
-            {server.name}
-          </Text>
-          <Show when={server.verified}>
-            <ServerVerifiedIcon />
-          </Show>
+          <CustomLink href={RouterEndpoints.PROFILE(bot.id)}>
+            <Text class={serverNameStyles} size={18} bold>
+              <OnlineIndicator
+                style={{
+                  background: bot.online
+                    ? "var(--Status-Online)"
+                    : "var(--Status-Offline)",
+                }}
+              />
+              {bot.username}
+            </Text>
+          </CustomLink>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
           By{": "}
-          <CustomLink href={RouterEndpoints.PROFILE(server.createdBy.id)}>
+          <CustomLink
+            href={RouterEndpoints.PROFILE(app.creatorAccount.user.id)}
+          >
             <span
               class={css`
                 font-weight: bold;
               `}
             >
-              {props.publicServer.server?.createdBy.username}
+              {app.creatorAccount.user.username}
             </span>
           </CustomLink>
         </Text>
       </DetailsContainer>
       <Text class={descriptionStyles} size={14}>
-        {props.publicServer.description}
+        {props.item.description}
       </Text>
 
       <MemberContainer gap={8}>
@@ -466,66 +446,35 @@ function PublicServerItem(props: {
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
             {t("explore.servers.memberCount", {
-              count: server._count.serverMembers.toLocaleString(),
+              count: bot._count.servers,
             })}
           </Text>
         </FlexRow>
-        {/* <FlexRow gap={5}>
-          <Icon name="arrow_upward" size={17} color="var(--primary-color)" />
-          <Text size={14}>
-            {t("explore.servers.lifetimeBumpCount", {
-              count: props.publicServer.lifetimeBumpCount.toLocaleString(),
-            })}
-          </Text>
-        </FlexRow> */}
+
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
             Bumped{" "}
             {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
-              props.publicServer.bumpedAt
+              props.item.bumpedAt
             )}
           </Text>
         </FlexRow>
       </MemberContainer>
 
       <ButtonsContainer gap={8}>
-        <Show when={cacheServer()}>
-          <A
-            style={{ "text-decoration": "none", flex: 1, display: "flex" }}
-            href={RouterEndpoints.SERVER_MESSAGES(
-              cacheServer()!.id,
-              cacheServer()!.defaultChannelId
-            )}
-          >
-            <Button
-              padding={8}
-              margin={0}
-              primary
-              class={css`
-                flex: 1;
-              `}
-              iconSize={18}
-              iconName="login"
-              label={t("explore.servers.visitServerButton")}
-            />
-          </A>
-        </Show>
-
-        <Show when={!cacheServer()}>
-          <Button
-            margin={0}
-            padding={8}
-            iconSize={18}
-            class={css`
-              flex: 1;
-            `}
-            onClick={joinServerClick}
-            iconName="login"
-            primary
-            label={t("explore.servers.joinServerButton")}
-          />
-        </Show>
+        <Button
+          margin={0}
+          padding={8}
+          iconSize={18}
+          class={css`
+            flex: 1;
+          `}
+          onClick={addBotClick}
+          iconName="add"
+          primary
+          label={"Invite"}
+        />
         <Button
           padding={8}
           iconSize={18}
@@ -536,7 +485,7 @@ function PublicServerItem(props: {
           margin={0}
           iconName="arrow_upward"
           label={t("explore.servers.bumpButton", {
-            count: props.publicServer.bumpCount.toLocaleString(),
+            count: props.item.bumpCount.toLocaleString(),
           })}
         />
 
@@ -545,75 +494,11 @@ function PublicServerItem(props: {
             margin={0}
             padding={8}
             iconSize={18}
-            href={`/app/moderation/servers/${props.publicServer.serverId}`}
+            href={`/app/moderation/users/${props.item.botApplication?.botUser.id}`}
             iconName="security"
           />
         </Show>
       </ButtonsContainer>
     </ServerItemContainer>
-  );
-}
-
-const ServerBumpModalContainer = styled(FlexRow)`
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-`;
-
-export function ServerBumpModal(props: {
-  update(server: RawExploreItem): void;
-  publicServer: RawExploreItem;
-  close(): void;
-}) {
-  const [verifyToken, setVerifyKey] = createSignal<string | undefined>(
-    undefined
-  );
-  let turnstileRef: TurnstileRef | undefined;
-
-  const bumpServer = () => {
-    BumpExploreItem(props.publicServer.id, verifyToken())
-      .then((newPublicServer) => {
-        props.update(deepMerge(props.publicServer, newPublicServer));
-        props.close();
-      })
-      .catch((err) => {
-        setVerifyKey(undefined);
-        alert(err.message);
-        turnstileRef?.reset();
-      });
-  };
-
-  const ActionButtons = (
-    <FlexRow style={{ "justify-content": "flex-end", width: "100%" }}>
-      <Button
-        iconName="close"
-        onClick={props.close}
-        color="var(--alert-color)"
-        label="Back"
-      />
-      <Show when={verifyToken()}>
-        <Button iconName="arrow_upward" label="Bump" onClick={bumpServer} />
-      </Show>
-    </FlexRow>
-  );
-
-  return (
-    <LegacyModal
-      title={`Bump ${
-        props.publicServer.server?.name ||
-        props.publicServer.botApplication?.botUser.username
-      }`}
-      close={props.close}
-      actionButtons={ActionButtons}
-    >
-      <ServerBumpModalContainer>
-        <Turnstile
-          ref={turnstileRef}
-          sitekey={env.TURNSTILE_SITEKEY!}
-          onVerify={setVerifyKey}
-          autoResetOnExpire={true}
-        />
-      </ServerBumpModalContainer>
-    </LegacyModal>
   );
 }

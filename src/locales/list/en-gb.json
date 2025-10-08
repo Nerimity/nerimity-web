@@ -98,7 +98,12 @@
   "explore": {
     "drawer": {
       "title": "Explore",
-      "servers": "Servers"
+      "servers": "Servers",
+      "bots": "Bots"
+    },
+    "bots": {
+      "title": "Explore - Bots",
+      "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}."
     },
     "servers": {
       "title": "Explore - Servers",

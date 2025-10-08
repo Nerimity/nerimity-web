@@ -171,6 +171,15 @@ const settings: Setting[] = [
     element: DeveloperApplicationBotSettings,
   },
   {
+    path: "developer/applications",
+    routePath: "/developer/applications/:id/bot/publish",
+    name: "settings.drawer.developer",
+    hideHeader: true,
+    icon: "code",
+    hide: true,
+    element: DeveloperApplicationBotSettings,
+  },
+  {
     path: "experiments",
     routePath: "/experiments",
     name: "settings.drawer.experiments",
