@@ -400,7 +400,7 @@ function PublicItem(props: {
           `,
           "banner"
         )}
-        url={bannerUrl(props.item.server!)}
+        url={bannerUrl(props.item.botApplication?.botUser!)}
         hexColor={bot.hexColor}
       />
       <Avatar class={avatarStyles} animate={hovered()} user={bot} size={60} />
