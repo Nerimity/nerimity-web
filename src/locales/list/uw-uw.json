@@ -75,7 +75,8 @@
   "explore": {
     "drawer": {
       "title": "e-expwowe",
-      "servers": "sewvews"
+      "servers": "sewvews",
+      "bots": "senpais"
     },
     "servers": {
       "title": "e-expwowe - sewvews",
@@ -91,6 +92,10 @@
       "visitServerButton": "peek in~",
       "joinServerButton": "wet me in!!",
       "bumpButton": "Bump ({{count}}) 🚀"
+    },
+    "bots": {
+      "title": "e-expwowe - senpais",
+      "noticeMessage": "a senpai can be bumped once evewy {{hours}} houws. aww bumps weset evewy {{date}}. nya~"
     }
   },
   "servers": {
@@ -411,7 +416,7 @@
     "reply": "wepwy",
     "markUnread": "mawk unwead"
   },
-   "typing": {
+  "typing": {
     "single": "<1>{{username}}</1> is mashing their keyboawd",
     "multiple": "<1>{{username}}</1> an' <2>{{username2}}</2> awwe typing… nya~",
     "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> an' <2>{{username3}}</2> awwe typing… nya~",
