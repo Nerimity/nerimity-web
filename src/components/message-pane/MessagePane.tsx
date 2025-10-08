@@ -925,7 +925,6 @@ function TypingIndicator() {
   );
 
   const typingUserDisplayNames = createMemo(() => {
-    return ["<2odwo", "uwu"];
     return typingUsers().map((user) => {
       if (params.serverId) {
         const member = serverMembers.get(params.serverId, user.id);
@@ -939,7 +938,7 @@ function TypingIndicator() {
     <Floating
       class={styles.floatingTypingContainer}
       style={{
-        // visibility: typingUsers().length ? "visible" : "hidden",
+        visibility: typingUsers().length ? "visible" : "hidden",
 
         padding: "0px",
         "padding-left": "5px",
