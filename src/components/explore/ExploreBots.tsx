@@ -445,9 +445,7 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            {t("explore.servers.memberCount", {
-              count: bot._count.servers,
-            })}
+            In {bot._count.servers.toLocaleString()} servers
           </Text>
         </FlexRow>
 
