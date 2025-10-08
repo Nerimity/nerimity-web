@@ -70,6 +70,7 @@ import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { createFilter } from "vite";
 import { TenorImage } from "@/chat-api/services/TenorService";
 import { Modal } from "./ui/modal";
+import { UnescapedTrans } from "./UnescapedTrans";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -1759,24 +1760,3 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
     </Modal.Root>
   );
 }
-
-const getUnescapeChildrenRef = (ref: HTMLDivElement) => {
-  createEffect(() => {
-    Array.from(ref.childNodes).forEach((node) => {
-      const nodeEl = node as HTMLDivElement;
-      if (!nodeEl.innerText) {
-        return node;
-      }
-      nodeEl.innerHTML = nodeEl?.textContent || "";
-    });
-  });
-};
-
-const UnescapedTrans: ParentComponent<TransProps> = (props: TransProps) => (
-  <div ref={getUnescapeChildrenRef}>
-    <Trans
-      {...props}
-      options={{ interpolation: { escapeValue: true }, ...props.options }}
-    />
-  </div>
-);

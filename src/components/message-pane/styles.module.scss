@@ -61,6 +61,9 @@
     display: flex;
     line-height: 20px;
     white-space: break-spaces;
+    :global .unescaped-trans {
+      display: flex;
+    }
   }
   .username {
     display: block;

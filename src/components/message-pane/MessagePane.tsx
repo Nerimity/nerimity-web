@@ -92,6 +92,7 @@ import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
 import { Trans } from "@mbarzda/solid-i18next";
 import { Rerun } from "@solid-primitives/keyed";
+import { UnescapedTrans } from "../UnescapedTrans";
 
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
@@ -924,6 +925,7 @@ function TypingIndicator() {
   );
 
   const typingUserDisplayNames = createMemo(() => {
+    return ["<2odwo", "uwu"];
     return typingUsers().map((user) => {
       if (params.serverId) {
         const member = serverMembers.get(params.serverId, user.id);
@@ -937,7 +939,7 @@ function TypingIndicator() {
     <Floating
       class={styles.floatingTypingContainer}
       style={{
-        visibility: typingUsers().length ? "visible" : "hidden",
+        // visibility: typingUsers().length ? "visible" : "hidden",
 
         padding: "0px",
         "padding-left": "5px",
@@ -948,15 +950,15 @@ function TypingIndicator() {
       <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
         <Switch>
           <Match when={typingUserDisplayNames().length === 1}>
-            <Trans
+            <UnescapedTrans
               key="typing.single"
               options={{ username: typingUserDisplayNames()[0] }}
             >
               <strong class={styles.username}>{"username"}</strong> is typing...
-            </Trans>
+            </UnescapedTrans>
           </Match>
           <Match when={typingUserDisplayNames().length === 2}>
-            <Trans
+            <UnescapedTrans
               key="typing.multiple"
               options={{
                 username: typingUserDisplayNames()[0],
@@ -965,10 +967,10 @@ function TypingIndicator() {
             >
               <strong class={styles.username} />a
               <strong class={styles.username} /> at
-            </Trans>
+            </UnescapedTrans>
           </Match>
           <Match when={typingUserDisplayNames().length === 3}>
-            <Trans
+            <UnescapedTrans
               key="typing.tripple"
               options={{
                 username: typingUserDisplayNames()[0],
@@ -979,10 +981,10 @@ function TypingIndicator() {
               <strong class={styles.username} />,
               <strong class={styles.username} />, a
               <strong class={styles.username} /> at
-            </Trans>
+            </UnescapedTrans>
           </Match>
           <Match when={typingUserDisplayNames().length > 3}>
-            <Trans
+            <UnescapedTrans
               key="typing.andOthers"
               options={{
                 count: typingUserDisplayNames().length,
@@ -990,7 +992,7 @@ function TypingIndicator() {
             >
               <strong class={styles.username} />
               at
-            </Trans>
+            </UnescapedTrans>
           </Match>
         </Switch>
       </Text>
