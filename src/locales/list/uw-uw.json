@@ -419,7 +419,7 @@
   "typing": {
     "single": "<1>{{username}}</1> is mashing their keyboawd",
     "multiple": "<1>{{username}}</1> an' <2>{{username2}}</2> awwe typing… nya~",
-    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> an' <2>{{username3}}</2> awwe typing… nya~",
+    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> an' <3>{{username3}}</3> awwe typing… nya~",
     "andOthers": "<1>{{count}}</1> uwsers awe typing..."
   },
   "profile": {
