@@ -55,6 +55,7 @@
     "title": "Passwort zurücksetzen",
     "resetSuccessful": "Passwort wurde erfolgreich zurückgesetzt.",
     "passwordsDoNotMatch": "Passwörter stimmen nicht überein.",
+    "passwordTooLong": "Passwort darf nicht länger als 72 Zeichen sein.",
     "resetPasswordButton": "Zurücksetzen",
     "resetting": "Wird zurückgesetzt...",
     "email": "Email",
@@ -89,13 +90,20 @@
       "blockedUsersButton": "Blockiert",
       "inboxTitle": "Posteingang",
       "friendsButton": "Freunde",
-      "viewAll": "Alle anzeigen"
+      "viewAll": "Alle anzeigen",
+      "inboxButton": "Posteingang",
+      "offline": "Offline"
     }
   },
   "explore": {
     "drawer": {
       "title": "Erkunden",
-      "servers": "Server"
+      "servers": "Server",
+      "bots": "Bots"
+    },
+    "bots": {
+      "title": "Erkunden - Bots",
+      "noticeMessage": "Ein Bot kann alle {{hours}} Stunden einmal geboostet werden. Am {{date}} werden alle Boosts zurückgesetzt."
     },
     "servers": {
       "title": "Erkunden - Server",
@@ -258,6 +266,7 @@
       "email": "Email",
       "username": "Username",
       "tag": "Tag",
+      "botID": "Bot ID",
       "avatar": "Avatar",
       "banner": "Banner",
       "supported": "Unterstützt",
@@ -271,15 +280,34 @@
       "confirmNewPassword": "Neues Passwort bestätigen",
       "confirmNewPasswordDescription": "Bestätige dein neues Passwort",
       "confirmCurrentPassword": "Aktuelles Passwort bestätigen",
+      "confirmEmail": "Bestätige deine Email",
+      "enterCode": "Gib den 5-stelligen Code ein, der an deine Email gesendet wurde:",
+      "sendCodeButton": "Code senden",
+      "resendIn": "Erneut senden in {{time}}",
+      "confirmButton": "Bestätigen",
+      "cancelButton": "Abbrechen",
       "channelNotice": "Channel Hinweis",
       "channelNoticeDescription": "Wird angezeigt, wenn der Benutzer zum ersten Mal chatten möchte. Änderungen werden nach Reload angewendet.",
+      "channelNoticeTooLong": "Channel Hinweis darf nicht länger als 300 Zeichen sein.",
       "saving": "Speichern...",
       "saveButton": "Speichern",
       "saveChangesButton": "Änderungen speichern",
       "deleteAccount": "Meinen Account löschen",
       "deleteAccountDescription": "Aktion kann nicht rückgängig gemacht werden!",
       "deleteAccountNotice": "Du musst alle Server verlassen/löschen, bevor du deinen Account löschen kannst.",
-      "understoodButton": "Verstanden"
+      "understoodButton": "Verstanden",
+      "deletionNotice": "Schade, dass du gehst :( Wenn dir etwas nicht gefallen hat, lass es uns bitte im offiziellen Nerimity Server wissen.",
+      "deletedInfo": {
+        "title": "Was wird gelöscht",
+        "email": "• Email",
+        "username": "• Username",
+        "ip": "• IP-Adresse",
+        "bio": "• Bio",
+        "messages": "• Deine Nachrichten",
+        "posts": "• Deine Posts"
+      },
+      "postsAndMessagesNotice": "Das Löschen deiner Posts und Nachrichten kann mehrere Wochen dauern.",
+      "deleteCheckbox": "Lösche meine Posts und Nachrichten"
     },
     "privacy": {
       "lastOnline": {
@@ -323,8 +351,11 @@
       "messageDescription": "Sound beim Empfangen einer Nachricht.",
       "mention": "Erwähnung",
       "mentionDescription": "Sound beim Empfangen einer Erwähnung.",
+      "reminder": "Erinnerung",
+      "reminderDescription": "Benachrichtigungen für Erinnerungen.",
       "inAppPreview": "In-App Vorschau",
       "inAppPreviewDescription": "Zeige In-App Benachrichtigungs-Popups.",
+      "mute": "Stumm",
       "inAppPreviewModes": {
         "off": "Aus",
         "mentionsOnly": "Nur Erwähnungen",
@@ -346,6 +377,14 @@
       "downloadAppNotice": "Lade die Nerimity Desktop App herunter, um die Funktion ohne Fokus auf den Browser Tab zu nutzen."
     },
     "interface": {
+      "customCSS": "Custom CSS",
+      "themes": "Themes",
+      "themesDescription": "Wähle ein Theme oder setze auf Standard zurück.",
+      "maintainers": "Mitwirkende",
+      "apply": "Anwenden",
+      "enableEruda": "Eruda aktivieren",
+      "enableErudaDescription": "Aktiviere Eruda zum Debuggen. Teile keine Details mit anderen.",
+      "enableOnce": "Einmal aktivieren",
       "blurEffect": "Blur Effekt",
       "blurEffectDescription": "Aktiviert transparenten Blur Effekt. Standardmäßig auf Mobile deaktiviert. Kann Performance Probleme verursachen.",
       "disableAdvancedMarkupBar": "Erweiterte Markup Bar deaktivieren",
@@ -380,6 +419,12 @@
       "mute": "Stumm"
     }
   },
+  "typing": {
+    "single": "<1>{{username}}</1> schreibt…",
+    "multiple": "<1>{{username}}</1> und <2>{{username2}}</2> schreiben…",
+    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> und <2>{{username3}}</2> schreiben…",
+    "andOthers": "<1>{{count}}</1> Benutzer schreiben…"
+  },
   "userContextMenu": {
     "viewProfile": "Profil anzeigen",
     "sendMessage": "Nachricht senden",
@@ -411,12 +456,14 @@
   "messageContextMenu": {
     "editMessage": "Nachricht bearbeiten",
     "deleteMessage": "Nachricht löschen",
+    "translateMessage": "Übersetzen",
     "copyMessage": "Nachricht kopieren",
     "copyId": "ID kopieren",
     "viewReactions": "Reaktionen anzeigen",
     "quoteMessage": "Nachricht zitieren",
     "reportMessage": "Nachricht melden",
-    "reply": "Antworten"
+    "reply": "Antworten",
+    "markUnread": "Als ungelesen markieren"
   },
   "profile": {
     "followButton": "Folgen",
@@ -469,5 +516,57 @@
   "googleAccountLink": {
     "linking": "Dein Account wird mit Google verbunden...",
     "success": "Account verknüpft! Du kannst das Fenster jetzt schließen."
+  },
+  "invite": {
+    "loading": "Lade Einladung...",
+    "invalid": "Ungültiger Einladungscode",
+    "joinButton": "Beitreten",
+    "joiningButton": "Trete bei...",
+    "visitButton": "Ansehen",
+    "member": "Mitglied",
+    "members": "Mitglieder"
+  },
+  "fileEmbed": {
+    "expired": "Abgelaufen",
+    "modifiedOrDeleted": "Diese Datei wurde vom Ersteller in Google Drive geändert/gelöscht.",
+    "viewImage": "Bild ansehen",
+    "download": "Herunterladen",
+    "expires": "Läuft ab"
+  },
+  "videoEmbed": {
+    "couldNotGetVideo": "Video konnte nicht geladen werden.",
+    "videoModified": "Video wurde geändert.",
+    "googleDrivePolicy": "Aufgrund neuer Google Drive Richtlinien kannst du Videos nur von der Nerimity Desktop App abspielen.",
+    "videoExpired": "Video abgelaufen.",
+    "modifiedOrDeleted": "Dieses Video wurde vom Ersteller in Google Drive geändert/gelöscht.",
+    "expires": "Läuft ab",
+    "expired": "Abgelaufen"
+  },
+  "message": {
+    "badge": {
+      "bot": "Bot",
+      "webhook": "Webhook",
+      "owner": "Owner"
+    },
+    "reactions": {
+      "more": "{{count}} weitere"
+    },
+    "deletedMessage": "Nachricht wurde gelöscht.",
+    "dismissButton": "Verwerfen",
+    "editedAt": "Bearbeitet um {{time}}",
+    "twitterEmbed": {
+      "modalTitle": "Detailliertes Twitter Embed",
+      "modalDescription": "Wenn du das offizielle Twitter Embed verwendest, werden deine Daten von Elmo Musk gesammelt.",
+      "doNotShowAgain": "Nicht mehr anzeigen.",
+      "closeButton": "Nicht anzeigen",
+      "showButton": "Anzeigen",
+      "basicEmbed": "Einfaches Embed",
+      "detailedEmbed": "Detailliertes Embed"
+    },
+    "blocked": "Du hast diesen Benutzer blockiert. Klicke, um anzuzeigen.",
+    "translationError": "Diese Nachricht konnte nicht übersetzt werden.",
+    "translation": {
+      "title": "Übersetzung"
+    }
   }
 }
