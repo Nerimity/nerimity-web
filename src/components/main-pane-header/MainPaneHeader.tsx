@@ -525,17 +525,7 @@ function VoiceParticipantItem(props: {
   const isSelf = () => user().id === account.user()?.id;
 
   return (
-    <CustomLink
-      onContextMenu={onContextMenu}
-      onClick={onClick}
-      href={RouterEndpoints.PROFILE(user().id)}
-      class={classNames(
-        "trigger-profile-flyout",
-        styles.voiceParticipantItem,
-        !connected() && !isSelf() && isInCall() ? styles.disconnected : null,
-        conditionalClass(props.selected, styles.selected)
-      )}
-    >
+    <>
       <MemberContextMenu
         position={contextPosition()}
         serverId={params.serverId}
@@ -544,24 +534,41 @@ function VoiceParticipantItem(props: {
           setContextPosition(null);
         }}
       />
-      <Avatar
-        user={user()}
-        size={props.size === "small" ? 40 : 60}
-        voiceIndicator
-        animate={talking()}
-      />
-      <Show when={isMuted() && isInCall()}>
-        <Icon class={styles.muteIcon} name="mic_off" color="white" size={16} />
-      </Show>
-      <Show when={isVideoStreaming()}>
-        <Icon
-          class={styles.videoStreamIcon}
-          name="monitor"
-          color="white"
-          size={16}
+      <CustomLink
+        onContextMenu={onContextMenu}
+        onClick={onClick}
+        href={RouterEndpoints.PROFILE(user().id)}
+        class={classNames(
+          "trigger-profile-flyout",
+          styles.voiceParticipantItem,
+          !connected() && !isSelf() && isInCall() ? styles.disconnected : null,
+          conditionalClass(props.selected, styles.selected)
+        )}
+      >
+        <Avatar
+          user={user()}
+          size={props.size === "small" ? 40 : 60}
+          voiceIndicator
+          animate={talking()}
         />
-      </Show>
-    </CustomLink>
+        <Show when={isMuted() && isInCall()}>
+          <Icon
+            class={styles.muteIcon}
+            name="mic_off"
+            color="white"
+            size={16}
+          />
+        </Show>
+        <Show when={isVideoStreaming()}>
+          <Icon
+            class={styles.videoStreamIcon}
+            name="monitor"
+            color="white"
+            size={16}
+          />
+        </Show>
+      </CustomLink>
+    </>
   );
 }
 
