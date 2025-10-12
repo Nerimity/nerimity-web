@@ -137,7 +137,7 @@ export { setCurrentLanguage };
 
 export function getLanguage(key: string) {
   if (!(languages as any)[key.replace("_", "-")]) return undefined;
-  return import(`./list/${key.replace("_", "-")}.json`).then(
+  return import(`./list/${key.replace("_", "-")}.json?raw`).then(
     (res) => res.default
   );
 }

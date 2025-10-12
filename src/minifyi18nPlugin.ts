@@ -2,6 +2,7 @@ import * as path from "path";
 import { sha256 } from "js-sha256";
 import { Plugin } from "vite";
 import MagicString from "magic-string";
+import fs from "fs";
 
 export const minifyi18nPlugin = (localeDir: string): Plugin => {
   const absoluteLocaleDir = path.resolve(process.cwd(), localeDir);
@@ -71,14 +72,13 @@ export const minifyi18nPlugin = (localeDir: string): Plugin => {
 
       // --- 1. Handle Locale Files (JSON) ---
       if (normalizedId.startsWith(normalizedLocaleDir)) {
-        const locales = JSON.parse(code);
+        const locales = JSON.parse(
+          fs.readFileSync(id.split("?raw")?.[0]!, "utf-8")
+        );
         const transformedCode = JSON.stringify(localeToCodedFlat(locales));
 
-        // FIX: Return an object with the code and a null map to silence the warning.
-        // Returning null for the map tells the bundler that this transformation is fine
-        // without a sourcemap (or that one is not applicable).
         return {
-          code: transformedCode,
+          code: "export default " + transformedCode,
           map: null,
         };
       }

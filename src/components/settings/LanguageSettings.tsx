@@ -27,7 +27,7 @@ import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
 import { Notice } from "../ui/Notice/Notice";
 import Button from "../ui/Button";
-import en from "@/locales/list/en-gb.json";
+import en from "@/locales/list/en-gb.json?raw";
 import { Modal } from "../ui/modal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { Rerun } from "@solid-primitives/keyed";
