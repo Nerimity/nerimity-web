@@ -31,6 +31,7 @@
     "global": "^4.4.0",
     "globals": "^15.15.0",
     "js-sha256": "^0.11.1",
+    "magic-string": "^0.30.19",
     "process": "^0.11.10",
     "typescript": "^5.9.2",
     "vite": "^7.1.2",
