@@ -1,10 +1,11 @@
 import { lazy } from "solid-js";
 import { ExperimentIds } from "./experiments";
+import { t } from "@nerimity/i18lite";
 
 export interface Setting {
   path: string;
   routePath: string;
-  name: string;
+  name: () => string;
   icon: string;
   element: any;
   hide?: boolean;
@@ -21,7 +22,7 @@ const settings: Setting[] = [
   {
     path: "account",
     routePath: "/account",
-    name: "settings.drawer.account",
+    name: () => t("settings.drawer.account"),
     icon: "account_circle",
     element: lazy(() => import("@/components/settings/AccountSettings")),
   },
@@ -29,7 +30,7 @@ const settings: Setting[] = [
   {
     path: "/account/profile",
     routePath: "/account/profile",
-    name: "settings.drawer.account",
+    name: () => t("settings.drawer.account"),
     icon: "account_circle",
     element: lazy(() => import("@/components/settings/ProfileSettings")),
     hide: true,
@@ -37,21 +38,21 @@ const settings: Setting[] = [
   {
     path: "badges",
     routePath: "/badges",
-    name: "settings.drawer.badges",
+    name: () => t("settings.drawer.badges"),
     icon: "local_police",
     element: lazy(() => import("@/components/settings/BadgeSettings")),
   },
   {
     path: "interface",
     routePath: "/interface",
-    name: "settings.drawer.interface",
+    name: () => t("settings.drawer.interface"),
     icon: "brush",
     element: lazy(() => import("@/components/settings/InterfaceSettings")),
   },
   {
     path: "/interface/custom-css",
     routePath: "/interface/custom-css",
-    name: "settings.drawer.interface",
+    name: () => t("settings.drawer.interface"),
     icon: "code",
     element: lazy(() => import("@/components/settings/CustomCssSettings")),
     hide: true,
@@ -59,56 +60,56 @@ const settings: Setting[] = [
   {
     path: "notifications",
     routePath: "/notifications",
-    name: "settings.drawer.notifications",
+    name: () => t("settings.drawer.notifications"),
     icon: "notifications",
     element: lazy(() => import("@/components/settings/NotificationsSettings")),
   },
   {
     path: "call-settings",
     routePath: "/call-settings",
-    name: "settings.drawer.call-settings",
+    name: () => t("settings.drawer.call-settings"),
     icon: "call",
     element: lazy(() => import("@/components/settings/CallSettings")),
   },
   {
     path: "connections",
     routePath: "/connections",
-    name: "settings.drawer.connections",
+    name: () => t("settings.drawer.connections"),
     icon: "hub",
     element: lazy(() => import("@/components/settings/ConnectionsSettings")),
   },
   {
     path: "privacy",
     routePath: "/privacy",
-    name: "settings.drawer.privacy",
+    name: () => t("settings.drawer.privacy"),
     icon: "shield",
     element: lazy(() => import("@/components/settings/PrivacySettings")),
   },
   {
     path: "window-settings",
     routePath: "/window-settings",
-    name: "settings.drawer.window-settings",
+    name: () => t("settings.drawer.window-settings"),
     icon: "open_in_new",
     element: lazy(() => import("@/components/settings/WindowSettings")),
   },
   {
     path: "activity-status",
     routePath: "/activity-status",
-    name: "settings.drawer.activity-status",
+    name: () => t("settings.drawer.activity-status"),
     icon: "gamepad",
     element: lazy(() => import("@/components/settings/ActivityStatus")),
   },
   {
     path: "language",
     routePath: "/language",
-    name: "settings.drawer.language",
+    name: () => t("settings.drawer.language"),
     icon: "flag",
     element: lazy(() => import("@/components/settings/LanguageSettings")),
   },
   {
     path: "developer",
     routePath: "/developer",
-    name: "settings.drawer.developer",
+    name: () => t("settings.drawer.developer"),
     icon: "code",
     element: lazy(
       () => import("@/components/settings/developer/DeveloperSettings")
@@ -117,7 +118,7 @@ const settings: Setting[] = [
   {
     path: "developer/applications",
     routePath: "/developer/applications",
-    name: "settings.drawer.developer",
+    name: () => t("settings.drawer.developer"),
     icon: "code",
     hide: true,
     element: lazy(
@@ -128,7 +129,7 @@ const settings: Setting[] = [
   {
     path: "developer/applications",
     routePath: "/developer/applications/:id",
-    name: "settings.drawer.developer",
+    name: () => t("settings.drawer.developer"),
     hideHeader: true,
     icon: "code",
     hide: true,
@@ -140,7 +141,7 @@ const settings: Setting[] = [
   {
     path: "developer/applications",
     routePath: "/developer/applications/:id/bot/create-link",
-    name: "settings.drawer.developer",
+    name: () => t("settings.drawer.developer"),
     hideHeader: true,
     icon: "code",
     hide: true,
@@ -154,7 +155,7 @@ const settings: Setting[] = [
   {
     path: "developer/applications",
     routePath: "/developer/applications/:id/bot/profile",
-    name: "settings.drawer.developer",
+    name: () => t("settings.drawer.developer"),
     hideHeader: true,
     icon: "code",
     hide: true,
@@ -164,7 +165,7 @@ const settings: Setting[] = [
   {
     path: "developer/applications",
     routePath: "/developer/applications/:id/bot",
-    name: "settings.drawer.developer",
+    name: () => t("settings.drawer.developer"),
     hideHeader: true,
     icon: "code",
     hide: true,
@@ -173,7 +174,7 @@ const settings: Setting[] = [
   {
     path: "developer/applications",
     routePath: "/developer/applications/:id/bot/publish",
-    name: "settings.drawer.developer",
+    name: () => t("settings.drawer.developer"),
     hideHeader: true,
     icon: "code",
     hide: true,
@@ -182,14 +183,14 @@ const settings: Setting[] = [
   {
     path: "experiments",
     routePath: "/experiments",
-    name: "settings.drawer.experiments",
+    name: () => t("settings.drawer.experiments"),
     icon: "science",
     element: lazy(() => import("@/components/settings/ExperimentSettings")),
   },
   {
     path: "tickets",
     routePath: "/tickets/:id?",
-    name: "settings.drawer.tickets",
+    name: () => t("settings.drawer.tickets"),
     icon: "sell",
     element: lazy(() => import("@/components/settings/TicketSettings")),
   },

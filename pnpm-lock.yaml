@@ -35,8 +35,8 @@ importers:
         specifier: ^0.25.0
         version: 0.25.0
       '@nerimity/i18lite':
-        specifier: ^1.0.9
-        version: 1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9)
+        specifier: ^1.1.1
+        version: 1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9)
       '@nerimity/nevula':
         specifier: ^0.14.0
         version: 0.14.0
@@ -45,7 +45,7 @@ importers:
         version: 0.4.8(solid-js@1.9.9)
       '@nerimity/solid-i18lite':
         specifier: ^1.6.1
-        version: 1.6.1(@nerimity/i18lite@1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)
+        version: 1.6.1(@nerimity/i18lite@1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)
       '@nerimity/solid-opus-media-recorder':
         specifier: ^1.0.1
         version: 1.0.1(solid-js@1.9.9)
@@ -194,6 +194,9 @@ importers:
       globals:
         specifier: ^15.15.0
         version: 15.15.0
+      js-sha256:
+        specifier: ^0.11.1
+        version: 0.11.1
       process:
         specifier: ^0.11.10
         version: 0.11.10
@@ -633,8 +636,8 @@ packages:
     peerDependencies:
       solid-js: '>= 1.0.0'
 
-  '@nerimity/i18lite@1.0.9':
-    resolution: {integrity: sha512-pkfnVg65ADdYEEwn9dh9fhZnjqVxk3pSkmQR37Oj1zWIo8J41/1qidmoGYu6vbVrVcaPMXaiPJj6XEHZyeMH6w==}
+  '@nerimity/i18lite@1.1.1':
+    resolution: {integrity: sha512-Ob2jIwF7qkTLopPI3sr1JS6RtLeHMaCu3Y0GVGDmDYnA8hXYZowqFEuKkK259hW30zbf156RHSX5v2ddOjZB9g==}
     peerDependencies:
       html-parse-string: <=1.x
       solid-js: '>=1.8.x'
@@ -1459,6 +1462,9 @@ packages:
 
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+
+  js-sha256@0.11.1:
+    resolution: {integrity: sha512-o6WSo/LUvY2uC4j7mO50a2ms7E/EAdbP0swigLV+nzHKTTaYnaLIWJ02VdXrsJX0vGedDESQnLsOekr94ryfjg==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2622,7 +2628,7 @@ snapshots:
     dependencies:
       solid-js: 1.9.9
 
-  '@nerimity/i18lite@1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9)':
+  '@nerimity/i18lite@1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9)':
     dependencies:
       solid-js: 1.9.9
     optionalDependencies:
@@ -2637,9 +2643,9 @@ snapshots:
       solid-js: 1.9.9
       solid-styled-components: 0.28.5(solid-js@1.9.9)
 
-  '@nerimity/solid-i18lite@1.6.1(@nerimity/i18lite@1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)':
+  '@nerimity/solid-i18lite@1.6.1(@nerimity/i18lite@1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)':
     dependencies:
-      '@nerimity/i18lite': 1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9)
+      '@nerimity/i18lite': 1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9)
       solid-js: 1.9.9
     optionalDependencies:
       html-parse-string: 0.0.9
@@ -3425,6 +3431,8 @@ snapshots:
   is-windows@1.0.2: {}
 
   isexe@2.0.0: {}
+
+  js-sha256@0.11.1: {}
 
   js-tokens@4.0.0: {}
 

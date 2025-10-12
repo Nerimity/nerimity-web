@@ -464,8 +464,8 @@ const ChannelPermissionsBlock = (props: {
       {(permission) => (
         <SettingsBlock
           icon={permission.icon}
-          label={t(permission.name)}
-          description={t(permission.description!)}
+          label={permission.name()}
+          description={permission.description?.()}
           class={styles.permissionItem}
         >
           <Checkbox

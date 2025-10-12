@@ -106,7 +106,7 @@ const [QuickTravelControllerProvider, useQuickTravelController] =
           )
           .map((setting) => ({
             icon: setting.icon,
-            name: t(setting.name),
+            name: setting.name(),
             path: `/app/settings/${setting.path}`,
             subText: "Settings",
           }));

@@ -1,10 +1,11 @@
 import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { t } from "@nerimity/i18lite";
 import { lazy } from "solid-js";
 
 export interface ServerSetting {
   path?: string;
   routePath: string;
-  name: string;
+  name: () => string;
   icon: string;
   requiredRolePermission?: Bitwise;
   hideDrawer?: boolean;
@@ -15,7 +16,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "general",
     routePath: "/general",
-    name: "servers.settings.drawer.general",
+    name: () => t("servers.settings.drawer.general"),
     icon: "info",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
@@ -25,7 +26,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "audit-logs",
     routePath: "/audit-logs",
-    name: "servers.settings.drawer.audit-logs",
+    name: () => t("servers.settings.drawer.audit-logs"),
     icon: "history",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
@@ -35,7 +36,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "notifications",
     routePath: "/notifications",
-    name: "settings.drawer.notifications",
+    name: () => t("settings.drawer.notifications"),
     icon: "notifications",
     element: lazy(
       () => import("@/components/servers/settings/ServerNotificationSettings")
@@ -44,7 +45,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "notifications/:channelId",
     routePath: "/notifications/:channelId",
-    name: "settings.drawer.notifications",
+    name: () => t("settings.drawer.notifications"),
     icon: "notifications",
     hideDrawer: true,
     element: lazy(
@@ -54,7 +55,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "roles/:roleId",
     routePath: "/roles/:roleId",
-    name: "servers.settings.drawer.role",
+    name: () => t("servers.settings.drawer.role"),
     icon: "leaderboard",
     hideDrawer: true,
     requiredRolePermission: ROLE_PERMISSIONS.MANAGE_ROLES,
@@ -63,7 +64,7 @@ const serverSettings: ServerSetting[] = [
     ),
   },
   {
-    name: "servers.settings.drawer.roles",
+    name: () => t("servers.settings.drawer.roles"),
     path: "roles",
     routePath: "/roles",
     icon: "leaderboard",
@@ -73,7 +74,7 @@ const serverSettings: ServerSetting[] = [
     ),
   },
   {
-    name: "servers.settings.drawer.welcome-screen",
+    name: () => t("servers.settings.drawer.welcome-screen"),
     path: "welcome-screen",
     routePath: "/welcome-screen",
     icon: "task_alt",
@@ -83,7 +84,7 @@ const serverSettings: ServerSetting[] = [
     ),
   },
   {
-    name: "servers.settings.drawer.welcome-screen",
+    name: () => t("servers.settings.drawer.welcome-screen"),
     path: "welcome-screen",
     routePath: "/welcome-screen/:questionId",
     icon: "task_alt",
@@ -97,7 +98,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "channels/:channelId/webhooks/:webhookId",
     routePath: "/channels/:channelId/webhooks/:webhookId",
-    name: "servers.settings.drawer.channel",
+    name: () => t("servers.settings.drawer.channel"),
     icon: "storage",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     hideDrawer: true,
@@ -108,7 +109,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "channels/:channelId",
     routePath: "/channels/:channelId/:tab?",
-    name: "servers.settings.drawer.channel",
+    name: () => t("servers.settings.drawer.channel"),
     icon: "storage",
     requiredRolePermission: ROLE_PERMISSIONS.MANAGE_CHANNELS,
     hideDrawer: true,
@@ -119,7 +120,7 @@ const serverSettings: ServerSetting[] = [
   },
 
   {
-    name: "servers.settings.drawer.channels",
+    name: () => t("servers.settings.drawer.channels"),
     path: "channels",
     routePath: "/channels",
     icon: "storage",
@@ -132,7 +133,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "emojis",
     routePath: "/emojis",
-    name: "servers.settings.drawer.emojis",
+    name: () => t("servers.settings.drawer.emojis"),
     icon: "face",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
@@ -140,7 +141,7 @@ const serverSettings: ServerSetting[] = [
     ),
   },
   {
-    name: "servers.settings.drawer.bans",
+    name: () => t("servers.settings.drawer.bans"),
     path: "bans",
     routePath: "/bans",
     icon: "block",
@@ -152,14 +153,14 @@ const serverSettings: ServerSetting[] = [
   {
     path: "invites",
     routePath: "/invites",
-    name: "servers.settings.drawer.invites",
+    name: () => t("servers.settings.drawer.invites"),
     icon: "mail",
     element: lazy(
       () => import("@/components/servers/settings/invites/ServerSettingsInvite")
     ),
   },
   {
-    name: "servers.settings.drawer.publishServer",
+    name: () => t("servers.settings.drawer.publishServer"),
     path: "publish-server",
     routePath: "/publish-server",
     icon: "public",
@@ -171,7 +172,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "verify",
     routePath: "/verify",
-    name: "servers.settings.drawer.verify",
+    name: () => t("servers.settings.drawer.verify"),
     icon: "verified",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(
@@ -181,7 +182,7 @@ const serverSettings: ServerSetting[] = [
   {
     path: "external-embed",
     routePath: "/external-embed",
-    name: "servers.settings.drawer.external-embed",
+    name: () => t("servers.settings.drawer.external-embed"),
     icon: "link",
     requiredRolePermission: ROLE_PERMISSIONS.ADMIN,
     element: lazy(

@@ -30,6 +30,7 @@ import Button from "../ui/Button";
 import en from "@/locales/list/en-gb.json";
 import { Modal } from "../ui/modal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { Rerun } from "@solid-primitives/keyed";
 
 const Container = styled("div")`
   display: flex;
@@ -112,40 +113,46 @@ export default function LanguageSettings() {
   };
 
   return (
-    <Container>
-      <Breadcrumb>
-        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
-        <BreadcrumbItem title={t("settings.drawer.language")} />
-      </Breadcrumb>
-      <Show when={languageUpdated()}>
-        <Notice
-          type="warn"
-          description="You must reload the app to fully apply the new language."
-        >
-          <div style={{ display: "flex", "justify-content": "flex-end" }}>
-            <Button
-              onClick={() => window.location.reload()}
-              label="Reload"
-              iconName="refresh"
-              primary
-              margin={0}
-              padding={4}
-              iconSize={18}
-            />
-          </div>
-        </Notice>
-      </Show>
-      <For each={languageKeys}>
-        {(key) => (
-          <LanguageItem
-            selected={currentLocalLanguage().replace("_", "-") === key}
-            onClick={() => setLanguage(key)}
-            key={key}
-            percentTranslated={percentTranslated()}
+    <Rerun on={getCurrentLanguage}>
+      <Container>
+        <Breadcrumb>
+          <BreadcrumbItem
+            href="/app"
+            icon="home"
+            title={t("dashboard.title")}
           />
-        )}
-      </For>
-    </Container>
+          <BreadcrumbItem title={t("settings.drawer.language")} />
+        </Breadcrumb>
+        {/* <Show when={languageUpdated()}>
+          <Notice
+            type="warn"
+            description="You must reload the app to fully apply the new language."
+          >
+            <div style={{ display: "flex", "justify-content": "flex-end" }}>
+              <Button
+                onClick={() => window.location.reload()}
+                label="Reload"
+                iconName="refresh"
+                primary
+                margin={0}
+                padding={4}
+                iconSize={18}
+              />
+            </div>
+          </Notice>
+        </Show> */}
+        <For each={languageKeys}>
+          {(key) => (
+            <LanguageItem
+              selected={currentLocalLanguage().replace("_", "-") === key}
+              onClick={() => setLanguage(key)}
+              key={key}
+              percentTranslated={percentTranslated()}
+            />
+          )}
+        </For>
+      </Container>
+    </Rerun>
   );
 }
 

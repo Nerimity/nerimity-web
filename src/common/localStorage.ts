@@ -69,11 +69,15 @@ export function setStorageNumber(key: StorageKeys, value: number) {
 }
 
 export function getStorageObject<T>(key: StorageKeys, defaultValue: T): T {
-  const value = getStorageString(key, null);
-  if (value === null) {
+  try {
+    const value = getStorageString(key, null);
+    if (value === null) {
+      return defaultValue;
+    }
+    return JSON.parse(value);
+  } catch {
     return defaultValue;
   }
-  return JSON.parse(value);
 }
 
 export function setStorageObject<T>(key: StorageKeys, value: T) {

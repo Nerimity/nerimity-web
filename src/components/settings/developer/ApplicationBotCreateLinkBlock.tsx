@@ -91,8 +91,8 @@ export const ApplicationBotCreateLinkBlock = (props: {
             borderTopRadius={false}
             borderBottomRadius={i() === permissionsList.length - 1}
             icon={permission.icon}
-            label={t(permission.name)}
-            description={t(permission.description!)}
+            label={permission.name()}
+            description={permission.description?.()}
           >
             <Checkbox
               checked={hasBit(permissions(), permission.bit)}

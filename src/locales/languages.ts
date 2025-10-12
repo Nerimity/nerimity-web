@@ -2,6 +2,7 @@ import {
   StorageKeys,
   getStorageString,
   setStorageString,
+  useLocalStorage,
 } from "@/common/localStorage";
 
 export interface Language {
@@ -124,12 +125,15 @@ export const languages = {
   },
 };
 
+const [_getCurrentLanguage, setCurrentLanguage] = useLocalStorage(
+  StorageKeys.APP_LANGUAGE,
+  "en-gb"
+);
+
 export function getCurrentLanguage() {
-  return getStorageString(StorageKeys.APP_LANGUAGE, null)?.replace("-", "_");
+  return _getCurrentLanguage()?.replace("-", "_");
 }
-export function setCurrentLanguage(key: string) {
-  return setStorageString(StorageKeys.APP_LANGUAGE, key);
-}
+export { setCurrentLanguage };
 
 export function getLanguage(key: string) {
   if (!(languages as any)[key.replace("_", "-")]) return undefined;

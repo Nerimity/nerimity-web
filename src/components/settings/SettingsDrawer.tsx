@@ -23,6 +23,8 @@ import { logout } from "@/common/logout";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { SupportBlock } from "../SupportBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
+import { Rerun } from "@solid-primitives/keyed";
+import { getCurrentLanguage } from "@/locales/languages";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
@@ -112,13 +114,13 @@ function Footer() {
 
 export default function SettingsDrawer() {
   return (
-    <>
+    <Rerun on={getCurrentLanguage}>
       <DrawerHeader text={t("settings.drawer.title")} />
       <DrawerContainer>
         <SettingsList />
         <Footer />
       </DrawerContainer>
-    </>
+    </Rerun>
   );
 }
 
@@ -133,7 +135,7 @@ function SettingsList() {
             <Item
               path={setting.path || "#  "}
               icon={setting.icon}
-              label={t(setting.name)}
+              label={setting.name()}
             >
               <Show
                 when={

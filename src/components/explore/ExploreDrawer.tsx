@@ -61,7 +61,7 @@ function ExploreList() {
           <Item
             path={setting.path || "#  "}
             icon={setting.icon}
-            label={t(setting.name)}
+            label={setting.name()}
           />
         )}
       </For>

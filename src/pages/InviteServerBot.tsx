@@ -208,7 +208,7 @@ const PermissionList = (props: {
               <Checkbox
                 checked={hasBit(props.permissions, permission.bit)}
                 onChange={() => togglePermission(permission.bit)}
-                label={t(permission.name)}
+                label={permission.name()}
               />
             </FlexRow>
           )}

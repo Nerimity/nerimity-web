@@ -1,6 +1,8 @@
+import { t } from "@nerimity/i18lite";
+
 export interface Bitwise {
-  name: string;
-  description?: string;
+  name: () => string;
+  description?: () => string;
   bit: number;
   icon?: string;
   textColor?: string;
@@ -25,78 +27,78 @@ const USER_BADGE_BITS = {
 } as const;
 
 export interface UserBadge {
-  name: string;
+  name: () => string;
   bit: (typeof USER_BADGE_BITS)[keyof typeof USER_BADGE_BITS];
   color: string;
   overlay?: boolean;
-  description: string;
+  description: () => string;
   textColor?: string;
   credit?: string;
 }
 export const USER_BADGES = {
   // overlays
   CAT_EARS_BLUE: {
-    name: "Kitty",
+    name: () => "Kitty",
     bit: USER_BADGE_BITS.CAT_EARS_BLUE,
     color: "linear-gradient(90deg, #78a5ff 0%, #ffffff 100%);",
     overlay: true,
-    description: "Blue Ears Kitty",
+    description: () => "Blue Ears Kitty",
   },
   CAT_EARS_WHITE: {
-    name: "Kitty",
+    name: () => "Kitty",
     bit: USER_BADGE_BITS.CAT_EARS_WHITE,
     color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
     overlay: true,
-    description: "White Ears Kitty",
+    description: () => "White Ears Kitty",
   },
   FOX_EARS_GOLD: {
-    name: "Foxy",
+    name: () => "Foxy",
     bit: USER_BADGE_BITS.FOX_EARS_GOLD,
     color: "linear-gradient(90deg, #ffb100 0%, #ffffff 100%);",
     overlay: true,
-    description: "Gold Ears Fox",
+    description: () => "Gold Ears Fox",
   },
   FOX_EARS_BROWN: {
-    name: "Foxy",
+    name: () => "Foxy",
     bit: USER_BADGE_BITS.FOX_EARS_BROWN,
     color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%);",
     overlay: true,
-    description: "Brown Ears Fox",
+    description: () => "Brown Ears Fox",
   },
 
   FOUNDER: {
-    name: "Founder",
+    name: () => "Founder",
     bit: USER_BADGE_BITS.FOUNDER,
-    description: "Creator of Nerimity",
+    description: () => "Creator of Nerimity",
     color: "linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%);",
     credit: "Avatar Border by upklyak on Freepik",
   },
   ADMIN: {
-    name: "Admin",
+    name: () => "Admin",
     bit: USER_BADGE_BITS.ADMIN,
-    description: "Admin of Nerimity",
+    description: () => "Admin of Nerimity",
     color:
       "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%);",
     credit: "Avatar Border by upklyak on Freepik",
   },
   MOD: {
-    name: "Moderator",
+    name: () => "Moderator",
     bit: USER_BADGE_BITS.MOD,
-    description: "Moderator of Nerimity",
+    description: () => "Moderator of Nerimity",
     color: "linear-gradient(90deg, #57acfa 0%, #1485ed 100%)",
     credit: "Avatar Border by upklyak on Freepik",
   },
   EMO_SUPPORTER: {
-    name: "Emo Supporter",
-    description: "Supported this project by donating money",
+    name: () => "Emo Supporter",
+    description: () => "Supported this project by donating money",
     bit: USER_BADGE_BITS.EMO_SUPPORTER,
     textColor: "rgba(255,255,255,0.8)",
     color: "linear-gradient(90deg, #424242 0%, #303030 100%)",
     credit: "Avatar Border by upklyak on Freepik",
   },
   SUPPORTER: {
-    name: "Supporter",
-    description: "Supported this project by donating money",
+    name: () => "Supporter",
+    description: () => "Supported this project by donating money",
     bit: USER_BADGE_BITS.SUPPORTER,
     color:
       "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
@@ -104,21 +106,22 @@ export const USER_BADGES = {
   },
 
   CONTRIBUTOR: {
-    name: "Contributor",
-    description: "Helped with this project in some way",
+    name: () => "Contributor",
+    description: () => "Helped with this project in some way",
     bit: USER_BADGE_BITS.CONTRIBUTOR,
     color: "#ffffff",
   },
   PALESTINE: {
-    name: "Palestine",
-    description: "[Click To Help](https://arab.org/click-to-help/palestine/)",
+    name: () => "Palestine",
+    description: () =>
+      "[Click To Help](https://arab.org/click-to-help/palestine/)",
     bit: USER_BADGE_BITS.PALESTINE,
     credit: "Avatar Border by upklyak on Freepik, edited by Supertiger",
     color: "linear-gradient(90deg, red, white, green);",
   },
   BOT: {
-    name: "Bot User",
-    description: "Bot User",
+    name: () => "Bot User",
+    description: () => "Bot User",
     bit: USER_BADGE_BITS.BOT,
     color: "var(--primary-color)",
   },
@@ -128,14 +131,14 @@ export const USER_BADGES_VALUES = Object.values(USER_BADGES) as UserBadge[];
 
 export const CHANNEL_PERMISSIONS = {
   PUBLIC_CHANNEL: {
-    name: "servers.channelPermissions.publicChannel",
-    description: "servers.channelPermissions.publicChannelDescription",
+    name: () => t("servers.channelPermissions.publicChannel"),
+    description: () => t("servers.channelPermissions.publicChannelDescription"),
     bit: 1,
     icon: "public",
   },
   SEND_MESSAGE: {
-    name: "servers.channelPermissions.sendMessage",
-    description: "servers.channelPermissions.sendMessageDescription",
+    name: () => t("servers.channelPermissions.sendMessage"),
+    description: () => t("servers.channelPermissions.sendMessageDescription"),
     bit: 2,
     icon: "mail",
   },
@@ -149,62 +152,62 @@ export const CHANNEL_PERMISSIONS = {
 
 export const ROLE_PERMISSIONS = {
   ADMIN: {
-    name: "servers.rolePermissions.admin",
-    description: "servers.rolePermissions.adminDescription",
+    name: () => t("servers.rolePermissions.admin"),
+    description: () => t("servers.rolePermissions.adminDescription"),
     bit: 1,
     // icon: 'mail',  // looks good even without icon
     showSettings: true,
   },
   SEND_MESSAGE: {
-    name: "servers.rolePermissions.sendMessage",
-    description: "servers.rolePermissions.sendMessageDescription",
+    name: () => t("servers.rolePermissions.sendMessage"),
+    description: () => t("servers.rolePermissions.sendMessageDescription"),
     bit: 2,
     icon: "mail",
   },
   MANAGE_ROLES: {
-    name: "servers.rolePermissions.manageRoles",
-    description: "servers.rolePermissions.manageRolesDescription",
+    name: () => t("servers.rolePermissions.manageRoles"),
+    description: () => t("servers.rolePermissions.manageRolesDescription"),
     icon: "leaderboard",
     bit: 4,
     showSettings: true,
   },
   MANAGE_CHANNELS: {
-    name: "servers.rolePermissions.manageChannels",
-    description: "servers.rolePermissions.manageChannelsDescription",
+    name: () => t("servers.rolePermissions.manageChannels"),
+    description: () => t("servers.rolePermissions.manageChannelsDescription"),
     icon: "storage",
     bit: 8,
     showSettings: true,
   },
   KICK: {
-    name: "servers.rolePermissions.kick",
-    description: "servers.rolePermissions.kickDescription",
+    name: () => t("servers.rolePermissions.kick"),
+    description: () => t("servers.rolePermissions.kickDescription"),
     bit: 16,
     icon: "logout",
     showSettings: true,
   },
   BAN: {
-    name: "servers.rolePermissions.ban",
-    description: "servers.rolePermissions.banDescription",
+    name: () => t("servers.rolePermissions.ban"),
+    description: () => t("servers.rolePermissions.banDescription"),
     bit: 32,
     showSettings: true,
     icon: "block",
   },
   MENTION_EVERYONE: {
-    name: "servers.rolePermissions.mentionEveryone",
-    description: "servers.rolePermissions.mentionEveryoneDescription",
+    name: () => t("servers.rolePermissions.mentionEveryone"),
+    description: () => t("servers.rolePermissions.mentionEveryoneDescription"),
     bit: 64,
     icon: "alternate_email",
   },
   NICKNAME_MEMBER: {
-    name: "servers.rolePermissions.nicknameMember",
-    description: "servers.rolePermissions.nicknameMemberDescription",
+    name: () => t("servers.rolePermissions.nicknameMember"),
+    description: () => t("servers.rolePermissions.nicknameMemberDescription"),
     bit: 128,
     icon: "edit",
   },
   MENTION_ROLES: {
-    name: "Mention Roles",
+    name: () => "Mention Roles",
     bit: 256,
-    description: "Allow users to mention roles",
+    description: () => "Allow users to mention roles",
     icon: "alternate_email",
   },
 };

@@ -88,7 +88,7 @@ function SettingsList() {
                 <Item
                   path={setting.path || "#  "}
                   icon={setting.icon}
-                  label={t(setting.name)}
+                  label={setting.name()}
                   selected={selected()}
                 />
                 {/* <Show when={isChannels() && selected()}><ServerChannelsList/></Show> */}
