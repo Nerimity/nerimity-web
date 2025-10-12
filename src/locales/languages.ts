@@ -127,7 +127,8 @@ export const languages = {
 
 const [_getCurrentLanguage, setCurrentLanguage] = useLocalStorage(
   StorageKeys.APP_LANGUAGE,
-  "en-gb"
+  "en-gb",
+  true
 );
 
 export function getCurrentLanguage() {

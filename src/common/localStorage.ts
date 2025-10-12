@@ -88,14 +88,15 @@ export function removeStorage(key: StorageKeys) {
   localStorage.removeItem(key);
 }
 
-export function useLocalStorage<T>(key: StorageKeys, defaultValue: T) {
+export function useLocalStorage<T>(key: StorageKeys, defaultValue: T, stringMode = false) {
   const [value, setValue] = createSignal<T>(defaultValue);
 
-  const storedValue = getStorageObject<T>(key, defaultValue);
-  setValue(() => storedValue);
+  const storedValue = stringMode ? getStorageString(key, defaultValue) : getStorageObject<T>(key, defaultValue);
+  setValue(() => storedValue as T);
 
   const setCustomValue = (value: T) => {
     setValue(() => value);
+    if (stringMode) return setStorageString(key, value as string);
     setStorageString(key, JSON.stringify(value));
   };
 
