@@ -75,7 +75,8 @@
   "explore": {
     "drawer": {
       "title": "Odkrywaj",
-      "servers": "Serwery"
+      "servers": "Serwery",
+      "bots": "Boty"
     },
     "servers": {
       "title": "Odkrywaj - Serwery",
@@ -91,6 +92,10 @@
       "visitServerButton": "Odwiedź",
       "joinServerButton": "Dołącz",
       "bumpButton": "Podbij ({{count}})"
+    },
+    "bots": {
+      "title": "Odkrywaj - Boty",
+      "noticeMessage": "Bot może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}."
     }
   },
   "servers": {
@@ -259,7 +264,27 @@
       "deleteAccount": "Usuń moje konto",
       "deleteAccountDescription": "Tego działania nie można cofnąć!",
       "deleteAccountNotice": "Przed usunięciem konta należy opuścić/usunąć wszystkie serwery.",
-      "understoodButton": "Zrozumiano"
+      "understoodButton": "Zrozumiano",
+      "botID": "ID Bota",
+      "confirmEmail": "Potwierdź adres email",
+      "enterCode": "Wprowadź pięcioznakowy kod wysłany na twój adres email:",
+      "sendCodeButton": "Wyślij Kod",
+      "resendIn": "Wyślij za {{time}}",
+      "confirmButton": "Potwierdź",
+      "cancelButton": "Anuluj",
+      "channelNoticeTooLong": "Notka kanału nie może być dłuższa niż 300 znaków.",
+      "deletionNotice": "Przykro nam, że odchodzisz :( Jeśli coś Ci się nie spodobało, daj nam o tym znać na oficjalnym serwerze Nerimity.",
+      "deletedInfo": {
+        "title": "Co zostanie usunięte",
+        "email": "• Adres email",
+        "username": "• Nazwa użytkownika",
+        "ip": "• Adres IP",
+        "bio": "• Biografia",
+        "messages": "• Twoje Wiadomości",
+        "posts": "• Twoje Posty"
+      },
+      "postsAndMessagesNotice": "Usunięcie Twoich postów i wiadomości może potrwać kilka tygodni.",
+      "deleteCheckbox": "Usuń moje posty i wiadomości"
     },
     "privacy": {
       "lastOnline": {
@@ -310,7 +335,10 @@
         "mentionsOnly": "Tylko wzmianki",
         "inheritFromPingSettings": "Dziedzicz z ustawień pingów",
         "all": "Wszystkie"
-      }
+      },
+      "reminder": "Przypomnienia",
+      "reminderDescription": "Powiadomienia dla przypomnień.",
+      "mute": "Wyciszone"
     },
     "call": {
       "nextCallNotice": "Zmiany zostaną zastosowane przy Twoich następnych połączeniach.",
@@ -331,7 +359,15 @@
       "disableAdvancedMarkupBar": "Wyłącz zaawansowany pasek znaczników",
       "disableAdvancedMarkupBarDescription": "Wyłącz zaawansowany pasek znaczników na kanałach tekstowych.",
       "customizeColors": "Dostosuj kolory",
-      "customizeColorsDescription": "Dostosuj kolory interfejsu aplikacji."
+      "customizeColorsDescription": "Dostosuj kolory interfejsu aplikacji.",
+      "customCSS": "Własny CSS",
+      "themes": "Motywy",
+      "themesDescription": "Wybierz gotowy motyw lub przywróć ustawienia domyślne.",
+      "maintainers": "Współtwórcy",
+      "apply": "Zastosuj",
+      "enableEruda": "Włącz Eruda",
+      "enableErudaDescription": "Włącz Eruda do debugowania. Nie udostępniaj żadnych szczegółów innym osobom.",
+      "enableOnce": "Włącz raz"
     }
   },
   "supportBlock": {
@@ -420,7 +456,8 @@
     "resetting": "Trwa resetowanie...",
     "email": "Adres email",
     "sendEmailButton": "Wyślij wiadomość email",
-    "sending": "Trwa wysyłanie wiadomości email..."
+    "sending": "Trwa wysyłanie wiadomości email...",
+    "passwordTooLong": "Hasło musi mieć mniej niż 72 znaki długości."
   },
   "dashboard": {
     "title": "Pulpit",
@@ -527,5 +564,11 @@
     "translation": {
       "title": "Tłumaczenie"
     }
+  },
+  "typing": {
+    "single": "<1>{{username}}</1> pisze...",
+    "multiple": "<1>{{username}}</1> i <2>{{username2}}</2> piszą...",
+    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> i <3>{{username3}}</3> piszą...",
+    "andOthers": "<1>{{count}}</1> użytkowników pisze..."
   }
 }
