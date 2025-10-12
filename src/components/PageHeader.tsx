@@ -39,30 +39,31 @@ const titleContainerStyle = css`
   align-items: center;
   font-size: 20px;
   align-self: center;
-  height: 50px;
+  height: 38px;
   padding-left: 6px;
   padding-right: 6px;
-  margin-left: 3px;
+  margin-left: 8px;
   color: white;
   text-decoration: none;
   transition: 0.2s;
-  border-radius: 8px;
+  border-radius: 6px;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.08);
   }
 `;
 
 const Title = styled("div")`
   margin-left: 10px;
   padding-right: 4px;
+  font-weight: bold;
   @media (max-width: 500px) {
     display: none;
   }
 `;
 
 const Logo = styled("img")`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.86);
   backdrop-filter: blur(34px);
@@ -78,23 +79,27 @@ const NavigationContainer = styled("nav")`
   .register-button div {
     background: #4c93ff;
     background: linear-gradient(to right, #4c93ff 0%, #6a5dff 100%);
+    margin-right: 8px;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 `;
 
 const LinkContainer = styled("div")<{ primary: boolean }>`
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
   transition: 0.2s;
   color: white;
   text-decoration: none;
-  border-radius: 8px;
-  height: 50px;
-  padding-left: 10px;
-  padding-right: 15px;
+  border-radius: 6px;
+  height: 34px;
+  padding-left: 8px;
+  padding-right: 8px;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.08);
   }
 
   && {
@@ -172,8 +177,8 @@ export default function PageHeader(props: { hideAccountInfo?: boolean }) {
 function LogInLogOutSkeleton() {
   return (
     <NavigationContainer class="navigation-container">
-      <Skeleton.Item width="106px" height="50px" />
-      <Skeleton.Item width="130px" height="50px" />
+      <Skeleton.Item width="92px" height="34px" />
+      <Skeleton.Item width="112px" height="34px" />
       <Skeleton.Item
         width="38px"
         height="38px"
@@ -209,7 +214,7 @@ function LoggedInLinks(props: { user: RawUser }) {
         icon="open_in_browser"
       />
       <Avatar
-        size={38}
+        size={34}
         user={props.user}
         class={css`
           margin-left: 6px;
