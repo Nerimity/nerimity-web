@@ -3,7 +3,7 @@ import { styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import {
   getStorageString,
   setStorageString,

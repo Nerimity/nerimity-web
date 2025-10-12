@@ -2,8 +2,23 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  &[data-scrollbar-visible="true"] {
-    margin-right: 8px;
+  margin-right: 2px;
+}
+
+
+.serverDrawerInner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+:global {
+  .mobileWidth {
+    :local {
+      .serverDrawerInner {
+        padding-bottom: 60px;
+      }
+    }
   }
 }
 
@@ -143,7 +158,6 @@
 }
 
 .expandIcon {
-  margin-left: -4px;
   opacity: 0.6;
   transition: 0.2s;
   transform: rotate(180deg);

@@ -7,7 +7,7 @@ import { RawUser } from "@/chat-api/RawData";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
 import Icon from "./ui/icon/Icon";
 import { appLogoUrl } from "@/common/worldEvents";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { logout } from "@/common/logout";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import Avatar from "./ui/Avatar";
@@ -16,7 +16,9 @@ const HeaderContainer = styled("header")`
   display: flex;
   height: 58px;
   flex-shrink: 0;
-  background-color: var(--pane-color);
+  &:after {
+    background-color: var(--pane-color);
+  }
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   max-width: 800px;

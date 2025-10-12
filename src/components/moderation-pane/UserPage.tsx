@@ -1,6 +1,7 @@
 import {
   Bitwise,
   USER_BADGES,
+  USER_BADGES_VALUES,
   addBit,
   hasBit,
   removeBit,
@@ -243,7 +244,7 @@ export default function UserPage() {
           </Show>
 
           <Show when={user()?.account}>
-            <SettingsBlock label="Email" icon="email">
+            <SettingsBlock label="Email" icon="mail">
               <Input
                 value={inputValues().email}
                 onText={(v) => setInputValue("email", v)}
@@ -264,7 +265,7 @@ export default function UserPage() {
               onText={(v) => setInputValue("username", v)}
             />
           </SettingsBlock>
-          <SettingsBlock label="Tag" icon="local_offer">
+          <SettingsBlock label="Tag" icon="sell">
             <Input
               value={inputValues().tag}
               onText={(v) => setInputValue("tag", v)}
@@ -272,7 +273,7 @@ export default function UserPage() {
           </SettingsBlock>
           <SettingsBlock icon="badge" label="Badges" header />
           <FlexColumn gap={1}>
-            <For each={Object.values(USER_BADGES)}>
+            <For each={USER_BADGES_VALUES}>
               {(badge) => (
                 <BadgeItem
                   badge={badge}

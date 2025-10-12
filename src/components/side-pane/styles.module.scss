@@ -6,8 +6,8 @@
   width: 50px;
   min-width: 40px;
   max-width: 65px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   margin-left: 3px;
   gap: 5px;
 }
@@ -35,10 +35,9 @@ body .customStatusInput {
 }
 
 .mobile {
-  padding-bottom: 64px;
   .scrollable {
     padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 74px;
     border: none;
   }
 }

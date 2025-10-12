@@ -1,8 +1,7 @@
 import style from "./DateTimePicker.module.css";
 import DropDown from "./drop-down/DropDown";
-import Icon from "./icon/Icon";
 import Input from "./input/Input";
-import { createEffect, createMemo, createSignal, Show } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 
 const MonthNames = [
   "Jan",
@@ -104,7 +103,7 @@ export const DateTimePicker = (props: {
           selectedId={selectedHour().toString()}
           items={hours.map((hour) => ({
             id: hour.toString(),
-            label: `${hour}`,
+            label: `${hour.toString().padStart(2, "0")}`,
           }))}
         />
         <DropDown
@@ -112,7 +111,7 @@ export const DateTimePicker = (props: {
           selectedId={selectedMinute().toString()}
           items={minutes.map((minute) => ({
             id: minute.toString(),
-            label: `${minute}`,
+            label: `${minute.toString().padStart(2, "0")}`,
           }))}
         />
       </div>
@@ -164,7 +163,7 @@ function getShortDayNameForDate(
   return date.toLocaleDateString(locale, { weekday: "short" });
 }
 
-function getDaysInMonth(year, month) {
+function getDaysInMonth(year: number, month: number) {
   // Month is 0-indexed in JavaScript (0 for January, 11 for December)
   // So, to get the last day of the 'month' passed in, we create a date
   // for the 0th day of the 'month + 1'.

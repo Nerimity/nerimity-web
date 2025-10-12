@@ -20,7 +20,10 @@ import { TimestampMention, TimestampType } from "../markup/TimestampMention";
 import { cn } from "@/common/classNames";
 import { useNavigate, useSearchParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { deleteReminder } from "@/chat-api/services/ReminderService";
+import {
+  deleteReminder,
+  updateReminder,
+} from "@/chat-api/services/ReminderService";
 import { PostItem } from "../post-area/PostItem";
 import { formatTimestamp } from "@/common/date";
 
@@ -118,7 +121,7 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
       setSearchParams({ postId: props.reminder.post.id });
       return;
     }
-    
+
     if (channel()?.serverId) {
       navigate(
         RouterEndpoints.SERVER_MESSAGES(serverId(), channel()?.id!) +
@@ -126,10 +129,27 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
           props.reminder.message?.id
       );
     } else {
-      store.users.openDM(props.reminder.message?.createdBy.id!, props.reminder.message?.id);
+      store.users.openDM(
+        props.reminder.message?.createdBy.id!,
+        props.reminder.message?.id
+      );
     }
     props.close();
   };
+
+  const handleSnoozeClick = (snoozeFor: "5m" | "24h") => {
+    let newDate: Date | undefined;
+    if (snoozeFor === "5m") {
+      newDate = new Date();
+      newDate.setMinutes(newDate.getMinutes() + 5);
+    } else if (snoozeFor === "24h") {
+      newDate = new Date(props.reminder.remindAt);
+      newDate.setHours(newDate.getHours() + 24);
+    }
+    if (!newDate) return;
+    updateReminder(props.reminder.id!, newDate.getTime()).catch(() => {});
+  };
+
   return (
     <div class={cn(style.reminderItem, isActive() && style.active)}>
       <div class={style.dateContainer}>
@@ -172,15 +192,37 @@ const ReminderItem = (props: { reminder: RawReminder; close: () => void }) => {
           margin={0}
           class={style.button}
         />
-        <Button
-          iconName="visibility"
-          label="View"
-          onClick={onViewClick}
-          iconSize={20}
-          padding={4}
-          margin={0}
-          class={style.button}
-        />
+        <Show when={isActive()}>
+          <Button
+            iconSize={20}
+            padding={4}
+            margin={0}
+            onclick={() => handleSnoozeClick("5m")}
+            label="Snooze for 5 minutes"
+            iconName="timer"
+            class={style.button}
+          />
+          <Button
+            iconSize={20}
+            padding={4}
+            margin={0}
+            label="Snooze for 1 day"
+            onclick={() => handleSnoozeClick("24h")}
+            iconName="timer"
+            class={style.button}
+          />
+        </Show>
+        <Show when={!isActive()}>
+          <Button
+            iconName="visibility"
+            label="View"
+            onClick={onViewClick}
+            iconSize={20}
+            padding={4}
+            margin={0}
+            class={style.button}
+          />
+        </Show>
       </div>
     </div>
   );

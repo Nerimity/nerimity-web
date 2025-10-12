@@ -58,7 +58,7 @@ import MemberContextMenu from "@/components/member-context-menu/MemberContextMen
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import { copyToClipboard } from "@/common/clipboard";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";
@@ -72,6 +72,7 @@ import { CreateTicketModal } from "@/components/CreateTicketModal";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
 import { fetchTranslation } from "@/common/GoogleTranslate";
+import { messagesPreloader } from "@/common/createPreloader";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -441,7 +442,8 @@ export const MessageLogArea = (props: {
 
   const fetchMessages = async () => {
     if (channelMessages()) return;
-    await messages.fetchAndStoreMessages(params.channelId);
+    await messagesPreloader.run(params.channelId);
+    // await messages.fetchAndStoreMessages(params.channelId);
   };
 
   // Load more top when scrolled to the top
@@ -532,6 +534,7 @@ export const MessageLogArea = (props: {
   const onUserContextMenu = (event: MouseEvent, message: Message) => {
     event.preventDefault();
     event.stopPropagation();
+    if (message.webhookId) return;
     setUserContextMenuDetails({
       message,
       position: {
@@ -618,7 +621,7 @@ export const MessageLogArea = (props: {
       </Show>
       <Show when={channelMessages()?.length === 0}>
         <div class={styles.noMessages}>
-          <Icon name="message" size={40} color="var(--primary-color)" />
+          <Icon name="comment" size={40} color="var(--primary-color)" />
           <div>
             <div class={styles.noMessagesTitle}>No messages</div>
             <div class={styles.noMessagesText}>
@@ -649,7 +652,7 @@ export const MessageLogArea = (props: {
               <UnreadMarker onClick={removeUnreadMarker} />
             </Show>
             <MessageItem
-            showNewDayMarker
+              showNewDayMarker
               translateMessage={translateMessageIds().includes(message.id!)}
               reactionPickerClick={(event) =>
                 reactionPickerClick(event, message)
@@ -776,9 +779,14 @@ function UnreadMarker(props: { onClick: () => void }) {
   return (
     <div onClick={props.onClick} class={styles.unreadMarkerContainer}>
       <div class={styles.unreadMarker}>
-        <Icon name="mark_chat_unread" size={12} />
+        <Icon name="mark_chat_unread" size={14} />
         New Messages
-        <Button class={styles.closeButton} iconName="close" color="white" />
+        <Button
+          iconSize={14}
+          class={styles.closeButton}
+          iconName="close"
+          color="white"
+        />
       </div>
     </div>
   );
@@ -841,6 +849,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   const showQuote = () => props.message.type === MessageType.CONTENT;
   const showReply = () => props.message.type === MessageType.CONTENT;
 
+  const hasReactions = () => props.message?.reactions.length;
   const hasContent = () => props.message.content;
   const isSelfMessage = () => account.user()?.id === props.message.createdBy.id;
   const showReportMessage = () => !isSelfMessage();
@@ -861,19 +870,24 @@ function MessageContextMenu(props: MessageContextMenuProps) {
       triggerClassName="floatingShowMore"
       {...props}
       items={[
-        {
-          icon: "face",
-          label: t("messageContextMenu.viewReactions"),
-          onClick: onViewReactionsClick,
-        },
+        ...(hasReactions()
+          ? [
+              {
+                icon: "face",
+                label: t("messageContextMenu.viewReactions"),
+                onClick: onViewReactionsClick,
+              },
+            ]
+          : []),
+
         {
           icon: "translate",
-          label: "Translate",
+          label: t("messageContextMenu.translateMessage"),
           onClick: onTranslateClick,
         },
         {
           icon: "mark_chat_unread",
-          label: "Mark Unread",
+          label: t("messageContextMenu.markUnread"),
           onClick: onMarkUnreadClick,
         },
         ...(showQuote()

@@ -389,7 +389,7 @@ export default function PhotoEditor(props: PhotoEditorProps) {
           onClick: props.close,
           color: "var(--alert-color)",
         },
-        { iconName: "done", label: "Edit", onClick: onDone },
+        { iconName: "check", label: "Edit", onClick: onDone },
       ]}
       ignoreBackgroundClick
     >

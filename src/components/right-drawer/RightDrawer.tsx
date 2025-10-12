@@ -38,9 +38,10 @@ import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
 import { Markup } from "../Markup";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { Tooltip } from "../ui/Tooltip";
+import { userDetailsPreloader } from "@/common/createPreloader";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -88,7 +89,10 @@ const MemberItem = (props: { member: ServerMember }) => {
   return (
     <div
       class="trigger-profile-flyout"
-      onMouseEnter={() => setHovering(true)}
+      onMouseEnter={() => {
+        userDetailsPreloader.preload(user().id);
+        setHovering(true);
+      }}
       onMouseLeave={() => setHovering(false)}
     >
       <MemberContextMenu
@@ -239,7 +243,7 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
     <>
       <Button
         label={t("informationDrawer.attachmentsBack")}
-        iconName="navigate_before"
+        iconName="keyboard_arrow_left"
         iconSize={16}
         onClick={props.onHideAttachmentClick}
         class={css`
@@ -349,7 +353,7 @@ const MainDrawer = (props: {
               <Icon
                 size={16}
                 color="var(--primary-color)"
-                name="navigate_next"
+                name="keyboard_arrow_right"
               />
             </>
           }
@@ -499,7 +503,7 @@ function RoleItem(props: {
         <Button
           class={styles.roleExpandButton}
           padding={1}
-          iconName={expanded() ? "expand_more" : "expand_less"}
+          iconName={expanded() ? "keyboard_arrow_down" : "keyboard_arrow_up"}
           iconSize={16}
         />
       </div>

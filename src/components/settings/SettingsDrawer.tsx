@@ -15,19 +15,19 @@ import { ChangelogModal } from "../ChangelogModal";
 import { clearCache } from "@/common/localCache";
 import socketClient from "@/chat-api/socketClient";
 import { DrawerHeader } from "../drawer-header/DrawerHeader";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import { t } from "i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 import InVoiceActions from "../InVoiceActions";
 import { ShowExperiment } from "@/common/experiments";
 import { logout } from "@/common/logout";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { SupportBlock } from "../SupportBlock";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 const DrawerContainer = styled(FlexColumn)`
   height: 100%;
-  &[data-scrollbar-visible="true"] {
-    margin-right: 8px;
-  }
+  padding-left: 2px;
+  padding-right: 4px;
 `;
 
 const SettingsListContainer = styled("div")`
@@ -65,12 +65,16 @@ const FooterContainer = styled(FlexColumn)`
   position: sticky;
   bottom: 0;
   background-color: var(--side-pane-color);
+  &[data-mobile-width="true"] {
+    padding-bottom: 76px;
+  }
 `;
 
 function Footer() {
   const [t] = useTransContext();
   const navigate = useNavigate();
   const { createPortal } = useCustomPortal();
+  const { isMobileWidth } = useWindowProperties();
 
   const onChangelogClick = () =>
     createPortal?.((close) => <ChangelogModal close={close} />);
@@ -81,7 +85,7 @@ function Footer() {
   };
 
   return (
-    <FooterContainer gap={2}>
+    <FooterContainer gap={2} data-mobile-width={isMobileWidth()}>
       <SupportBlock />
       <FooterItem
         href="https://github.com/Nerimity/Nerimity-Web"
@@ -107,12 +111,10 @@ function Footer() {
 }
 
 export default function SettingsDrawer() {
-  const { isVisible } = useCustomScrollbar();
-
   return (
     <>
       <DrawerHeader text={t("settings.drawer.title")} />
-      <DrawerContainer data-scrollbar-visible={isVisible()}>
+      <DrawerContainer>
         <SettingsList />
         <Footer />
       </DrawerContainer>
@@ -231,7 +233,7 @@ function FooterItem(props: FooterItemProps) {
               margin-right: 5px;
             `}
             color="rgba(255,255,255,0.6)"
-            name="launch"
+            name="open_in_new"
             size={16}
           />
         </Show>

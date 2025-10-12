@@ -76,11 +76,22 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
   playSound(getCustomSound("MESSAGE"));
 }
 
-function getCustomSound(type: "MESSAGE" | "MESSAGE_MENTION") {
+const defaults: Record<
+  "MESSAGE" | "MESSAGE_MENTION" | "REMINDER",
+  (typeof Sounds)[number]
+> = {
+  MESSAGE: "default",
+  MESSAGE_MENTION: "default",
+  REMINDER: "level-up",
+};
+
+export function getCustomSound(
+  type: "MESSAGE" | "MESSAGE_MENTION" | "REMINDER"
+) {
   const storage = getStorageObject<{
     [key: string]: (typeof Sounds)[number] | undefined;
   }>(StorageKeys.NOTIFICATION_SOUNDS, {});
-  return storage[type];
+  return storage[type] || defaults[type];
 }
 
 export function isMentioned(message: RawMessage, serverId?: string) {

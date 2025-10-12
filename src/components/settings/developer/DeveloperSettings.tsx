@@ -3,7 +3,7 @@ import { styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
 
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Icon from "@/components/ui/icon/Icon";
@@ -44,7 +44,7 @@ export default function DeveloperSettings() {
         hrefBlank
         icon="article"
         label="API Documentation (incomplete)"
-        children={<Icon name="launch" style={{ "margin-right": "6px" }} />}
+        children={<Icon name="open_in_new" style={{ "margin-right": "6px" }} />}
       />
     </Container>
   );

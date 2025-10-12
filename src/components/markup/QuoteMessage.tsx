@@ -78,14 +78,22 @@ export function QuoteMessage(props: {
       <div class="headerContainer">
         <CustomLink
           decoration
-          href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)}
+          href={
+            props.quote.webhookId
+              ? "#"
+              : RouterEndpoints.PROFILE(props.quote.createdBy!.id)
+          }
           style={{ color: serverMember()?.roleColor() }}
         >
           <Avatar animate={hovered()} user={props.quote.createdBy!} size={18} />
         </CustomLink>
         <CustomLink
           decoration
-          href={RouterEndpoints.PROFILE(props.quote.createdBy!.id)}
+          href={
+            props.quote.webhookId
+              ? "#"
+              : RouterEndpoints.PROFILE(props.quote.createdBy!.id)
+          }
           style={{
             "font-size": "16px",
             color: serverMember()?.roleColor(),

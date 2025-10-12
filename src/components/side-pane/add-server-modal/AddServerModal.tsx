@@ -6,11 +6,12 @@ import {
   useAddServerModalController,
 } from "./useAddServerModalController";
 import { Notice } from "@/components/ui/Notice/Notice";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { Item } from "@/components/ui/Item";
 import { Show } from "solid-js";
 import Button from "@/components/ui/Button";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import { createSignal } from "solid-js";
 
 export function AddServerModal(props: { close: () => void }) {
   return (
@@ -90,8 +91,17 @@ const CreateServerModalOwO = (props: { close: () => void }) => {
     </>
   );
 };
+
+function sanitizeInviteInput(value: string): string {
+  const match = value.match(
+    /(?:\/i\/|\/app\/explore\/servers\/invites\/)([A-Za-z0-9_-]+)/
+  );
+  return match ? match[1]! : value.trim();
+}
+
 const JoinServerModal = (props: { close: () => void }) => {
   const controller = useAddServerModalController();
+  const [rawInvite, setRawInvite] = createSignal(controller.name());
 
   return (
     <>
@@ -113,8 +123,8 @@ const JoinServerModal = (props: { close: () => void }) => {
         />
         <Input
           label={"Invite Code"}
-          onText={controller.setName}
-          value={controller.name()}
+          onText={setRawInvite}
+          value={rawInvite()}
           error={controller.error().message}
         />
       </Modal.Body>
@@ -126,8 +136,14 @@ const JoinServerModal = (props: { close: () => void }) => {
           onClick={props.close}
         />
         <Modal.Button
-          href={RouterEndpoints.EXPLORE_SERVER_INVITE(controller.name())}
-          onClick={controller.onJoinClick}
+          onClick={(e) => {
+            const cleaned = sanitizeInviteInput(rawInvite());
+            controller.setName(cleaned);
+            controller.onJoinClick(e);
+          }}
+          href={RouterEndpoints.EXPLORE_SERVER_INVITE(
+            sanitizeInviteInput(rawInvite())
+          )}
           label="Continue"
           iconName="arrow_forward"
           primary

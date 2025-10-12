@@ -66,7 +66,7 @@ export default function MultiSelectDropDown(props: MultiSelectDropDownProps) {
       </Show>
       <div class={styles.box} onClick={togglePopup} ref={element}>
         <ItemTemplate items={selectedItems()} />
-        <Icon name='expand_more' class={styles.expandIcon} />
+        <Icon name='keyboard_arrow_down' class={styles.expandIcon} />
       </div>
       <Show when={popupLocation()}>
         <Portal><Popup selectedIds={selectedIds()} position={popupLocation()!} items={props.items} onClose={() => setPopupLocation(null)} onClick={onItemClick} /></Portal>

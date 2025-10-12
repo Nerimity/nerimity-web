@@ -24,6 +24,22 @@
   }
 }
 
+.joinedText {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  .joinedContainer {
+    display: flex;
+    flex: 1;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+}
 .profileSettingsShown {
   .flyoutContainer {
     position: relative;

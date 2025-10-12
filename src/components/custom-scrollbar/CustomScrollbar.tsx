@@ -21,13 +21,16 @@ const [CustomScrollbarProvider, _useCustomScrollbar] = createContextProvider(
     const [marginTop, setMarginTop] = createSignal(0);
     const [marginBottom, setMarginBottom] = createSignal(0);
     const [thumbColor, setThumbColor] = createSignal("var(--primary-color)");
+    const [contentHovered, setContentHovered] = createSignal(false);
 
     return {
       marginTop,
       marginBottom,
       setMarginTop,
       setMarginBottom,
-      isVisible,
+      contentHovered,
+      setContentHovered,
+      isVisible: () => isVisible() && contentHovered(),
       setIsVisible,
       thumbColor,
       setThumbColor,
@@ -36,6 +39,8 @@ const [CustomScrollbarProvider, _useCustomScrollbar] = createContextProvider(
   {
     marginTop: () => 0,
     marginBottom: () => 0,
+    setContentHovered: () => {},
+    contentHovered: () => false,
     setMarginBottom: () => {},
     setMarginTop: () => {},
     isVisible: () => false,
@@ -65,6 +70,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
     setMarginTop,
     isVisible,
     setIsVisible,
+    setContentHovered,
     thumbColor,
   } = useCustomScrollbar();
   setMarginBottom(props.marginBottom || 0);
@@ -74,6 +80,8 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   const { height, width } = useResizeObserver(scrollElement);
   const [thumbHeight, setThumbHeight] = createSignal(0);
   const [thumbTop, setThumbTop] = createSignal(0);
+  let tempHovered = false;
+  let isMouseDown = false;
 
   createEffect(
     on(scrollElement, (el) => {
@@ -118,7 +126,6 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   const update = () => {
     setThumbHeight(calculateThumbHeight() || 0);
     setThumbTop(calculateThumbTopPosition() || 0);
-
     setIsVisible(scrollElement()!.scrollHeight > scrollElement()!.clientHeight);
   };
 
@@ -136,6 +143,7 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   let yOffset = 0;
 
   const onMouseDown = (e: MouseEvent) => {
+    isMouseDown = true;
     e.preventDefault();
     if (!scrollElement()) return;
     if (!scrollBarEl) return;
@@ -173,9 +181,33 @@ export const CustomScrollbar = (props: CustomScrollbarProps) => {
   };
 
   const onMouseUp = () => {
+    isMouseDown = false;
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUp);
+    setContentHovered(tempHovered);
   };
+
+  const handleContentMouseEnter = () => {
+    tempHovered = true;
+    setContentHovered(true);
+  };
+  const handleContentMouseLeave = () => {
+    tempHovered = false;
+    if (isMouseDown) return;
+    setContentHovered(false);
+  };
+
+  createEffect(
+    on(scrollElement, () => {
+      const el = scrollElement();
+      el?.addEventListener("mouseenter", handleContentMouseEnter);
+      el?.addEventListener("mouseleave", handleContentMouseLeave);
+      onCleanup(() => {
+        el?.removeEventListener("mouseenter", handleContentMouseEnter);
+        el?.removeEventListener("mouseleave", handleContentMouseLeave);
+      });
+    })
+  );
 
   return (
     <div

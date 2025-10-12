@@ -25,8 +25,8 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { FlexRow } from "../ui/Flexbox";
 import { classNames, conditionalClass } from "@/common/classNames";
 import Icon from "../ui/icon/Icon";
-import { t } from "i18next";
-import { Trans } from "@mbarzda/solid-i18next";
+import { t } from "@nerimity/i18lite";
+import { Trans } from "@nerimity/solid-i18lite";
 import Input from "../ui/input/Input";
 import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
@@ -187,7 +187,7 @@ export default function MemberContextMenu(props: Props) {
           },
           {
             label: t("userContextMenu.sendMessage"),
-            icon: "message",
+            icon: "comment",
             onClick: () => users.openDM(props.userId),
           },
           ...adminItems(),
@@ -609,7 +609,7 @@ function RoleItem(props: { role: ServerRole; userId: string }) {
       onClick={onRoleClicked}
     >
       <div class={styles.checkbox} style={{ background: props.role.hexColor }}>
-        <Icon name="done" size={12} class={styles.icon} />
+        <Icon name="check" size={12} class={styles.icon} />
       </div>
       <div class={styles.label}>{props.role.name}</div>
     </div>

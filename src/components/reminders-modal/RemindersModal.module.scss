@@ -18,15 +18,15 @@
   gap: 4px;
 }
 .reminderItem {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  position: relative;
   padding: 8px;
 
   border: solid 1px rgba(255,255,255,0.2);
 
-  border-radius: 8px;
+  border-radius: 14px;
+  gap: 4px;
   &.active {
     border: solid 1px var(--alert-color);
   }
@@ -42,11 +42,11 @@
     pointer-events: none;
   }
   .messageItem {
+    padding: 0;
+    margin: 0;
     background-color: transparent;
     user-select: none;
     pointer-events: none;
-    padding: 0;
-    margin: 0;
     &:before {
       border: none;
     }
@@ -55,13 +55,13 @@
         display: none;
       }
       .postInnerContainer {
-        margin: 0;
         padding: 0;
+        margin: 0;
         gap: 0;
       }
       .postInnerInnerContainer {
-        margin: 0;
         padding: 0;
+        margin: 0;
       }
       .avatar {
         display: none;
@@ -87,6 +87,8 @@
 
   .reminderActions {
     display: flex;
+    flex-wrap: wrap;
+    margin-top: 2px;
 
     gap: 6px;
 

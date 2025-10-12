@@ -7,7 +7,7 @@ import { FlexColumn } from "./ui/Flexbox";
 import LegacyModal from "./ui/legacy-modal/LegacyModal";
 import Text from "./ui/Text";
 import env from "@/common/env";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { Show } from "solid-js";
 
 export function ChangelogModal(props: { close: () => void }) {
@@ -32,7 +32,7 @@ export function ChangelogModal(props: { close: () => void }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Button label="View more in GitHub" iconName="launch" />
+      <Button label="View more in GitHub" iconName="open_in_new" />
     </A>
   );
 

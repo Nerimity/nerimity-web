@@ -18,7 +18,10 @@ export const languages = {
   "en-gb": {
     name: "English",
     emoji: "🇬🇧",
-    contributors: ["https://github.com/SupertigerDev"],
+    contributors: [
+      "https://github.com/SupertigerDev",
+      "https://github.com/Asraye",
+    ],
   },
   "af-za": {
     name: "Afrikaans",
@@ -28,18 +31,17 @@ export const languages = {
   "be-xo": {
     name: "Belarusian (Traditional)",
     emoji: "🇧🇾",
-    contributors: [
-      "https://github.com/Dzi-Mieha",
-      "https://github.com/1enify",
-    ],
+    contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"],
   },
   "pt-br": {
     name: "Brazilian Portuguese",
     emoji: "🇧🇷",
-    contributors: [
-      "https://github.com/Jerkycat",
-      "https://gitlab.com/Cirnos",
-    ],
+    contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos"],
+  },
+  "zh-hans": {
+    name: "Chinese (Simplified)",
+    emoji: "🇨🇳",
+    contributors: ["https://github.com/Coolsigh"],
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
@@ -62,6 +64,7 @@ export const languages = {
     contributors: [
       "https://github.com/F-iiral",
       "https://github.com/Deutscher775",
+      "https://github.com/mathiiiiiis",
     ],
   },
   "hu-hu": {
@@ -77,10 +80,7 @@ export const languages = {
   "pl-pl": {
     name: "Polish",
     emoji: "🇵🇱",
-    contributors: [
-      "https://github.com/Ciach0",
-      "https://github.com/CyberL1"
-    ],
+    contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
   },
   "ro-ro": {
     name: "Romanian",
@@ -93,7 +93,7 @@ export const languages = {
     contributors: [
       "https://github.com/FAYSi223",
       "https://github.com/eshkq",
-      "https://github.com/Effently"
+      "https://github.com/Effently",
     ],
   },
   "es-es": {
@@ -111,13 +111,16 @@ export const languages = {
     emoji: "🇹🇷",
     contributors: [
       "https://github.com/lexerotk",
-      "https://github.com/slideglide"
+      "https://github.com/slideglide",
     ],
   },
   "uw-uw": {
     name: "UwU",
     emoji: "🐱",
-    contributors: ["https://github.com/spookehneko123"],
+    contributors: [
+      "https://github.com/spookehneko123",
+      "https://github.com/Asraye",
+    ],
   },
 };
 
@@ -130,5 +133,7 @@ export function setCurrentLanguage(key: string) {
 
 export function getLanguage(key: string) {
   if (!(languages as any)[key.replace("_", "-")]) return undefined;
-  return import(`./list/${key.replace("_", "-")}.json`);
+  return import(`./list/${key.replace("_", "-")}.json`).then(
+    (res) => res.default
+  );
 }

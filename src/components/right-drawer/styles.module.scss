@@ -1,13 +1,11 @@
-[data-is-scroll-visible="true"] {
-  .drawerContainer {
-    margin-right: 8px;
-  }
-}
+
 
 .drawerContainer {
   display: flex;
   flex-direction: column;
+  padding-right: 3px;
   padding-bottom: 5px;
+  padding-left: 3px;
   gap: 5px;
 }
 

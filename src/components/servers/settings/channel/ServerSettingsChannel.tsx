@@ -32,7 +32,7 @@ import {
 } from "@/chat-api/Bitwise";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
@@ -45,12 +45,19 @@ import {
   getChannelNotice,
   updateChannelNotice,
 } from "@/chat-api/services/ChannelService";
-import { RawChannelNotice } from "@/chat-api/RawData";
+import { RawChannelNotice, RawWebhook } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import { Item } from "@/components/ui/Item";
 import { CustomLink } from "@/components/ui/CustomLink";
+import {
+  createWebhook,
+  deleteWebhook,
+  getWebhooks,
+  getWebhookToken,
+} from "@/chat-api/services/WebhookService";
+import { copyToClipboard } from "@/common/clipboard";
 
 type ChannelParams = {
   serverId: string;
@@ -352,7 +359,6 @@ function GeneralTab() {
           onText={(v) => setInputValue("name", v)}
         />
       </SettingsBlock>
-
       {/* Channel Icon */}
       <SettingsBlock icon="face" label="Channel Icon">
         <Show when={inputValues().icon}>
@@ -385,7 +391,6 @@ function GeneralTab() {
           />
         </Show>
       </SettingsBlock>
-
       {/* Slowmode */}
       <SettingsBlock
         icon="speed"
@@ -400,11 +405,12 @@ function GeneralTab() {
           onText={(v) => setInputValue("slowModeSeconds", v ? parseInt(v) : "")}
         />
       </SettingsBlock>
-
+      <WebhooksBlock channelId={params.channelId} serverId={params.serverId} />
       <ChannelNoticeBlock
         channelId={params.channelId}
         serverId={params.serverId}
       />
+
       {/* Delete Channel */}
       <SettingsBlock
         icon="delete"
@@ -625,3 +631,47 @@ function ChannelDeleteConfirmModal(props: {
     />
   );
 }
+
+const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
+  const [webhooks, setWebhooks] = createSignal<RawWebhook[]>([]);
+  const navigate = useNavigate();
+
+  onMount(async () => {
+    const res = await getWebhooks(props.serverId, props.channelId);
+    if (!res) return;
+    setWebhooks(res);
+  });
+
+  const handleCreate = async () => {
+    const res = await createWebhook(props.serverId, props.channelId).catch(
+      (err) => {
+        alert(err.message);
+      }
+    );
+    if (!res) return;
+    navigate(`./webhooks/${res.id}`);
+  };
+
+  return (
+    <div>
+      <SettingsBlock
+        icon="webhook"
+        label="Webhooks"
+        header={!!webhooks().length}
+      >
+        <Button label="Create" iconName="add" onClick={handleCreate} />
+      </SettingsBlock>
+      <For each={webhooks()}>
+        {(webhook, i) => (
+          <SettingsBlock
+            icon="webhook"
+            label={webhook.name}
+            borderTopRadius={false}
+            href={`./webhooks/${webhook.id}`}
+            borderBottomRadius={i() === webhooks().length - 1}
+          />
+        )}
+      </For>
+    </div>
+  );
+};

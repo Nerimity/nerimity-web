@@ -15,13 +15,12 @@ if (search.get("eruda") === "true" && location.pathname === "/app") {
 }
 import "./init";
 import { render } from "solid-js/web";
-import "@material-symbols/font-400/rounded.css";
 import "./index.css";
 import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
 import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
-import { TransProvider } from "@mbarzda/solid-i18next";
+import { TransProvider } from "@nerimity/solid-i18lite";
 import { useWindowProperties } from "./common/useWindowProperties";
 import { For, Show, createEffect, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";
@@ -37,6 +36,7 @@ import {
 import { Tool } from "eruda";
 import useAccount from "./chat-api/store/useAccount";
 import { MetaProvider, Title } from "@solidjs/meta";
+import { ReminderProvider } from "./components/useReminders";
 
 updateTheme();
 fixSafariMobileContextMenu();
@@ -199,8 +199,10 @@ const Root = () => {
       }}
     >
       <CustomPortalProvider>
-        <App />
-        <Outlet />
+        <ReminderProvider>
+          <App />
+          <Outlet />
+        </ReminderProvider>
       </CustomPortalProvider>
     </TransProvider>
   );
@@ -416,7 +418,7 @@ function fixSafariMobileContextMenu() {
         const diffX = Math.abs(startX - currentX);
         const diffY = Math.abs(startY - currentY);
         if (diffX >= 10 || diffY >= 10) return;
-        if (event.target instanceof HTMLElement) {
+        if (event.target instanceof Element) {
           isTouchDown = true;
           const e = new MouseEvent("contextmenu", { bubbles: true });
           event.target?.dispatchEvent(e);

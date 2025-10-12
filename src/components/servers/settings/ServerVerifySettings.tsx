@@ -6,7 +6,7 @@ import { Notice } from "@/components/ui/Notice/Notice";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { useParams } from "solid-navigator";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { createEffect, Match, onMount, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "@/components/ui/Button";
@@ -104,7 +104,7 @@ export default function ServerSettingsBans() {
           description="Your server must be at least 1 month old OR the owner of the server must have the supporter badge"
         />
         <SettingsBlock
-          icon="people"
+          icon="group"
           label={`${TARGET_MEMBERS} or more members`}
           description={`Your server must have at least ${TARGET_MEMBERS} members.`}
         />

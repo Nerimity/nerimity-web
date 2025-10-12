@@ -18,6 +18,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { isExperimentEnabled } from "@/common/experiments";
 import { ProfileFlyout } from "../floating-profile/FloatingProfile";
+import { useReminders } from "../useReminders";
 
 export default function MobileBottomPane() {
   const drawer = useDrawer();
@@ -43,6 +44,8 @@ export default function MobileBottomPane() {
 
 function HomeItem() {
   const { inbox, friends, servers } = useStore();
+  const { hasActiveReminder } = useReminders();
+
   const location = useLocation();
   const isSelected = () => {
     if (location.pathname === "/app") return true;
@@ -59,7 +62,11 @@ function HomeItem() {
   const count = () => notificationCount() + friendRequestCount();
 
   createEffect(() => {
-    updateTitleAlert(count() || servers.hasNotifications() ? true : false);
+    updateTitleAlert(
+      hasActiveReminder() || count() || servers.hasNotifications()
+        ? true
+        : false
+    );
   });
 
   return (
@@ -208,7 +215,7 @@ function UserItem() {
     >
       <div class={style.user}>
         <Show when={account.user()}>
-          <Avatar size={28} user={account.user()!} resize={96} />
+          <Avatar size={24} user={account.user()!} resize={96} />
         </Show>
         <Show when={!showConnecting()}>
           <div class={style.presence} style={{ background: presenceColor() }} />

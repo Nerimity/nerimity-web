@@ -14,7 +14,7 @@ import {
   useVoiceInputMode,
 } from "@/common/localStorage";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { Notice } from "../ui/Notice/Notice";

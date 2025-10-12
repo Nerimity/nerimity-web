@@ -30,11 +30,15 @@ import { useResizeBar } from "../ui/ResizeBar";
 import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import { ServerList } from "./ServerList";
+import { useReminders } from "../useReminders";
+import { userDetailsPreloader } from "@/common/createPreloader";
+import { useDrawer } from "../ui/drawer/Drawer";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
   const { createPortal } = useCustomPortal();
   const { isMobileWidth } = useWindowProperties();
+  const { hasLeftDrawer, hideLeftDrawer } = useDrawer();
 
   const showAddServerModal = () => {
     createPortal?.((close) => <AddServerModal close={close} />);
@@ -82,7 +86,9 @@ export default function SidePane(props: { class?: string }) {
         <SettingsItem size={resizeBar.width()} />
         <UserItem size={resizeBar.width()} />
       </Show>
-      <resizeBar.Handle />
+      <resizeBar.Handle
+        right={!hideLeftDrawer() && hasLeftDrawer() ? -4 : -1}
+      />
     </div>
   );
 }
@@ -90,6 +96,7 @@ export default function SidePane(props: { class?: string }) {
 function HomeItem(props: { size: number }) {
   const { inbox, friends, servers } = useStore();
   const location = useLocation();
+  const { hasActiveReminder } = useReminders();
   const isSelected = () => {
     if (location.pathname === "/app") return true;
     if (location.pathname.startsWith(RouterEndpoints.INBOX())) return true;
@@ -105,7 +112,11 @@ function HomeItem(props: { size: number }) {
   const count = () => notificationCount() + friendRequestCount();
 
   createEffect(() => {
-    updateTitleAlert(count() || servers.hasNotifications() ? true : false);
+    updateTitleAlert(
+      hasActiveReminder() || count() || servers.hasNotifications()
+        ? true
+        : false
+    );
   });
 
   return (
@@ -146,7 +157,7 @@ function UpdateItem(props: { size: number }) {
       <Tooltip tooltip="Update Available">
         <SidebarItemContainer onclick={showUpdateModal}>
           <Icon
-            name="get_app"
+            name="download"
             color="var(--success-color)"
             size={props.size - props.size * 0.6308}
           />
@@ -230,7 +241,7 @@ const UserItem = (props: { size: number }) => {
     const pos = {
       left: props.size + 6,
       top: rect.top + 10,
-      bottom: 8,
+      bottom: 4,
       anchor: "left",
     } as const;
     return createPortal(
@@ -272,7 +283,11 @@ const UserItem = (props: { size: number }) => {
           )}
           onclick={onClicked}
           selected={modalOpened()}
-          onMouseEnter={() => setHovered(true)}
+          onMouseEnter={() => {
+            setHovered(true);
+            if (!user()) return;
+            userDetailsPreloader.preload(userId()!);
+          }}
           onMouseLeave={() => setHovered(false)}
         >
           {account.user() && (
@@ -336,7 +351,7 @@ function UpdateModal(props: { close: () => void }) {
         color="var(--alert-color)"
       />
       <Button
-        iconName="get_app"
+        iconName="download"
         label="Update Now"
         onClick={onUpdateClick}
         primary

@@ -44,7 +44,7 @@ export function DangerousLinkModal(props: {
         color="var(--alert-color)"
         iconName="close"
       />
-      <Button label="Visit" iconName="done" onClick={visitLink} />
+      <Button label="Visit" iconName="check" onClick={visitLink} />
     </FlexRow>
   );
 

@@ -9,7 +9,7 @@ import { Show, createSignal } from "solid-js";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
 import { FlexColumn } from "@/components/ui/Flexbox";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import PageFooter from "@/components/PageFooter";
 import Text from "@/components/ui/Text";
 import { StorageKeys, setStorageString } from "@/common/localStorage";
@@ -139,7 +139,11 @@ export default function ResetPasswordPage() {
                   styles={{ flex: 1 }}
                   margin={[10, 0, 0, 0]}
                   iconName="key"
-                  label={requestSent() ? t("resetPassword.resetting") : t("resetPassword.resetPasswordButton")}
+                  label={
+                    requestSent()
+                      ? t("resetPassword.resetting")
+                      : t("resetPassword.resetPasswordButton")
+                  }
                   onClick={resetPasswordClicked}
                 />
               </form>
@@ -203,7 +207,11 @@ const SendCodePage = () => {
               styles={{ flex: 1 }}
               margin={[10, 0, 0, 0]}
               iconName="mail"
-              label={requestSent() ? t("resetPassword.sending") : t("resetPassword.sendEmailButton")}
+              label={
+                requestSent()
+                  ? t("resetPassword.sending")
+                  : t("resetPassword.sendEmailButton")
+              }
               onClick={resetPasswordClicked}
             />
           </form>

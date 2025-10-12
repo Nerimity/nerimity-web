@@ -13,7 +13,7 @@ import {
   Switch,
 } from "solid-js";
 import Text from "../ui/Text";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Avatar from "../ui/Avatar";
 import { CustomLink } from "../ui/CustomLink";
@@ -192,7 +192,9 @@ export function PostItem(props: {
               size={40}
             />
           </A>
-          <div class={cn(style.postInnerInnerContainer, "postInnerInnerContainer")}>
+          <div
+            class={cn(style.postInnerInnerContainer, "postInnerInnerContainer")}
+          >
             <Details
               onRequestUserContextMenu={onUserContextMenu}
               hovered={hovered()}
@@ -334,7 +336,7 @@ const Actions = (props: {
     props.post.createdBy?.id === account.user()?.id && !props.hideDelete;
 
   const showContextMenu = (event: MouseEvent) => {
-    if (event.target instanceof HTMLElement) {
+    if (event.target instanceof Element) {
       const rect = event.target?.getBoundingClientRect()!;
       createPortal(
         (close) => (
@@ -346,7 +348,7 @@ const Actions = (props: {
                       label: props.pinned ? "Unpin" : "Pin",
                       onClick: togglePin,
                       alert: props.pinned,
-                      icon: "push_pin",
+                      icon: "keep",
                     },
                     { label: "Edit", onClick: onEditClicked, icon: "edit" },
                     { separator: true },
@@ -411,6 +413,7 @@ const Actions = (props: {
       <Button
         margin={0}
         onClick={onLikeClick}
+        iconSize={16}
         class={style.postButtonStyle}
         color="var(--alert-color)"
         primary={!!isLikedByMe()}
@@ -421,6 +424,7 @@ const Actions = (props: {
       <Button
         margin={0}
         onClick={onCommentClick}
+        iconSize={16}
         class={style.postButtonStyle}
         color={props.primaryColor}
         iconClass={style.icon}
@@ -430,6 +434,7 @@ const Actions = (props: {
       <Button
         margin={0}
         onClick={onRepostClick}
+        iconSize={16}
         class={style.postButtonStyle}
         color="var(--success-color)"
         primary={!!isRepostedByMe()}
@@ -441,6 +446,7 @@ const Actions = (props: {
         <Tooltip tooltip="Estimated Views">
           <Button
             margin={0}
+            iconSize={16}
             color="rgba(255,255,255,0.6)"
             class={cn(style.postButtonStyle, style.viewsStyle)}
             iconClass={style.icon}
@@ -454,6 +460,7 @@ const Actions = (props: {
         <Button
           onclick={showContextMenu}
           margin={0}
+          iconSize={16}
           class={cn(style.postButtonStyle, "post-more-button")}
           iconClass={style.icon}
           iconName="more_vert"
@@ -601,7 +608,7 @@ const PollEmbed = (props: { post: Post; poll: RawPostPoll }) => {
             class={style.voteButton}
             primary
             label="Vote"
-            iconName="done"
+            iconName="check"
             padding={4}
             margin={0}
             iconSize={16}
@@ -689,7 +696,7 @@ const ReplyTo = (props: { user: RawUser }) => {
 const Pinned = () => {
   return (
     <div class={style.pinnedContainer}>
-      <Icon name="push_pin" color="var(--primary-color)" size={16} />
+      <Icon name="keep" color="var(--primary-color)" size={16} />
       <Text size={14} style={{ "margin-right": "5px" }}>
         Pinned
       </Text>

@@ -12,7 +12,7 @@ import env from "../common/env";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import Text from "@/components/ui/Text";
 import PageFooter from "@/components/PageFooter";
@@ -84,7 +84,7 @@ export default function RegisterPage() {
 
   const registerClicked = async (event?: SubmitEvent | MouseEvent) => {
     event?.preventDefault();
-    const redirectTo = location.query.redirect || "/app";
+    const redirectTo = location.query.redirect || "/app/explore/servers";
     if (requestSent()) return;
     setRequestSent(true);
     setError({ message: "", path: "" });
@@ -165,10 +165,7 @@ export default function RegisterPage() {
                     style={{ display: "flex", gap: "5px" }}
                     size={14}
                   >
-                    <div
-                      style={{ "margin-top": "-4px", "font-size": "20px" }}
-                      color="var(--warn-color)"
-                    >
+                    <div style={{ "margin-top": "-4px", "font-size": "20px" }}>
                       •
                     </div>{" "}
                     {notice}

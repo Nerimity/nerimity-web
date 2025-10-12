@@ -17,7 +17,7 @@ import { createStore, reconcile } from "solid-js/store";
 import { matchSorter } from "match-sorter";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { ChannelIcon } from "../ChannelIcon";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { isExperimentEnabled } from "@/common/experiments";
 import settings from "@/common/Settings";
 

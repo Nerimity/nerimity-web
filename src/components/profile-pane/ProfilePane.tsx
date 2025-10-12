@@ -44,8 +44,13 @@ import { CustomLink } from "../ui/CustomLink";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { Banner } from "../ui/Banner";
 import { Markup } from "../Markup";
-import { t } from "i18next";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { t } from "@nerimity/i18lite";
+import {
+  hasBit,
+  USER_BADGES,
+  USER_BADGES_VALUES,
+  UserBadge,
+} from "@/chat-api/Bitwise";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
@@ -114,7 +119,7 @@ export default function ProfilePane() {
   const isMe = () => account.user()?.id === params.userId;
   const [userDetails, setUserDetails] = createSignal<UserDetails | null>(null);
   const [animateAvatar, setAnimateAvatar] = createSignal(false);
-  const { isVisible, setThumbColor } = useCustomScrollbar();
+  const { setThumbColor } = useCustomScrollbar();
 
   const { setPaneBackgroundColor } = useWindowProperties();
   createEffect(
@@ -205,9 +210,6 @@ export default function ProfilePane() {
           )}
           style={{
             "max-width": `${paneWidth()}px`,
-            ...(isVisible()
-              ? { "margin-right": "10px" }
-              : { "margin-right": "4px" }),
           }}
         >
           <div class={styles.profilePaneInner}>
@@ -312,9 +314,10 @@ export default function ProfilePane() {
             <Show when={isMobileWidth()}>
               <div
                 style={{
-                  margin: "4px",
+                  "margin-bottom": "4px",
                   "margin-right": "0",
-                  "margin-top": "0px",
+                  "margin-top": "-6px",
+                  "margin-left": "4px",
                 }}
               >
                 <ActionButtons
@@ -518,7 +521,7 @@ const ActionButtons = (props: {
       )}
       {isPending() && (
         <ActionButton
-          icon="done"
+          icon="check"
           label={t("profile.acceptRequestButton")}
           color="var(--success-color)"
           onClick={acceptClicked}
@@ -690,6 +693,7 @@ function SideBar(props: {
   mobilePane?: boolean;
 }) {
   const [toggleJoinedDateType, setToggleJoinedDateType] = createSignal(false);
+  const store = useStore();
   const joinedAt = () => {
     if (!toggleJoinedDateType()) return getDaysAgo(props.user.user?.joinedAt!);
     return formatTimestamp(props.user.user.joinedAt!);
@@ -759,7 +763,9 @@ function SideBar(props: {
           </A>
         </SidePaneItem>
       </Show>
-      <Show when={props.user}>
+      <Show
+        when={props.user && props.user.user.id !== store.account.user()?.id}
+      >
         <MutualFriendList
           paneBgColor={props.paneBgColor}
           color={props.user?.profile?.primaryColor}
@@ -962,7 +968,7 @@ function MutualFriendList(props: {
           {t("profile.mutualFriends", { count: props.mutualFriendIds.length })}
         </Text>
         <Show when={isMobileWidth()}>
-          <Icon size={18} name="expand_more" />
+          <Icon size={18} name="keyboard_arrow_down" />
         </Show>
       </div>
       <Show when={!isMobileWidth() || show()}>
@@ -1021,7 +1027,7 @@ function MutualServerList(props: {
           {t("profile.mutualServers", { count: props.mutualServerIds.length })}
         </Text>
         <Show when={isMobileWidth()}>
-          <Icon size={18} name="expand_more" />
+          <Icon size={18} name="keyboard_arrow_down" />
         </Show>
       </div>
       <Show when={!isMobileWidth() || show()}>
@@ -1317,8 +1323,6 @@ function UsersList(props: { users: RawUser[] }) {
   );
 }
 
-type Badge = Partial<typeof USER_BADGES.SUPPORTER & { textColor?: string }>;
-
 const BadgeContainer = styled("button")<{ color: string; textColor?: string }>`
   background: ${(props) => props.color};
   border-radius: 4px;
@@ -1330,7 +1334,7 @@ const BadgeContainer = styled("button")<{ color: string; textColor?: string }>`
   cursor: pointer;
 `;
 
-function Badge(props: { badge: Badge; user: UserDetails }) {
+function Badge(props: { badge: UserBadge; user: UserDetails }) {
   const { createPortal } = useCustomPortal();
 
   const onClick = () =>
@@ -1353,7 +1357,7 @@ const BadgesContainer = styled(FlexRow)`
 `;
 
 function Badges(props: { user: UserDetails }) {
-  const allBadges = Object.values(USER_BADGES);
+  const allBadges = USER_BADGES_VALUES;
 
   const isBot = () => props.user.user.bot;
 
@@ -1382,7 +1386,7 @@ const BadgeDetailsModalContainer = styled(FlexColumn)`
 `;
 
 function BadgeDetailModal(props: {
-  badge: Badge;
+  badge: UserBadge;
   user: UserDetails;
   close(): void;
 }) {

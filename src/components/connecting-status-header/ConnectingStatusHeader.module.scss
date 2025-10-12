@@ -1,32 +1,31 @@
 .connectingStatusHeader {
   position: relative;
   display: flex;
-  flex-shrink: 0;
   
   overflow: hidden;
-  opacity: 1;
+  flex-shrink: 0;
   height: 20px;
-  transition: 0.2s ease-in;
+  margin: 6px;
 
   border-radius: 6px;
-  margin: 6px;
-  margin-bottom: -3px;
+  opacity: 1;
+  transition: 0.2s ease-in;
 
   &.mobile {
-    border-radius: 0;
     margin: 0;
+    border-radius: 0;
   }
   
   &.hide {
-    opacity: 0;
     height: 0;
-    border-radius: 0;
     margin: 0;
+    border-radius: 0;
+    opacity: 0;
   }
 
   &::before {
-    content: "";
     position: absolute;
+    content: "";
     inset: 0;
     backdrop-filter: brightness(82%);
   }
@@ -34,13 +33,13 @@
   .text {
     position: relative;
     z-index: 1111;
-    font-size: 14px;
-    text-align: center;
+    overflow: hidden;
     flex: 1;
+    text-align: center;
+    text-overflow: ellipsis;
 
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 14px;
 
   }
 }

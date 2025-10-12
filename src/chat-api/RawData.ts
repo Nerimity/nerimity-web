@@ -19,6 +19,17 @@ export interface RawServer {
   };
 }
 
+export interface RawWebhook {
+  name: string;
+  id: string;
+  hexColor: string;
+  avatar: string | null;
+  channelId: string;
+  serverId: string | null;
+  createdById: string;
+  createdAt: number;
+}
+
 export interface RawVoice {
   serverId?: string;
   channelId: string;
@@ -45,7 +56,9 @@ export interface RawMessage {
   channelId: string;
   silent?: boolean;
   content?: string;
-  createdBy: RawUser;
+  createdBy: RawUser & {
+    avatarUrl?: string;
+  };
   type: MessageType;
   createdAt: number;
   editedAt?: number;
@@ -62,6 +75,7 @@ export interface RawMessage {
 
   buttons: RawMessageButton[];
   roleMentions: RawServerRole[];
+  webhookId?: string;
 }
 
 export interface RawMessageButton {
@@ -247,6 +261,7 @@ export interface RawServerRole {
   serverId: string;
   hideRole: boolean;
   botRole?: boolean;
+  applyOnJoin?: boolean;
 }
 
 export enum FriendStatus {
@@ -301,7 +316,7 @@ export interface RawPresence {
   activity?: ActivityStatus;
 }
 
-export interface RawPublicServer {
+export interface RawExploreItem {
   id: string;
   serverId: string;
   createdAt: number;
@@ -313,6 +328,19 @@ export interface RawPublicServer {
   server?: RawServer & {
     _count: { serverMembers: number };
     createdBy: RawUser;
+  };
+  botPermissions?: number;
+  botApplication?: {
+    id: string;
+    botUser: RawUser & {
+      online: boolean;
+      _count: {
+        servers: number;
+      };
+    };
+    creatorAccount: {
+      user: RawUser;
+    };
   };
 }
 

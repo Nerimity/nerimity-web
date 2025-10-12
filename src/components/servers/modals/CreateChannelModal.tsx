@@ -6,7 +6,7 @@ import {
   updateServerChannelOrder,
 } from "@/chat-api/services/ServerService";
 import { ChannelType } from "@/chat-api/RawData";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 
 export function CreateChannelModal(props: {
   close: () => void;

@@ -8,21 +8,22 @@ import serverSettings from "@/common/ServerSettings";
 import ItemContainer from "@/components/ui/LegacyItem";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { Bitwise } from "@/chat-api/Bitwise";
 import { ChannelType } from "@/chat-api/RawData";
 import InVoiceActions from "@/components/InVoiceActions";
 import { useCustomScrollbar } from "@/components/custom-scrollbar/CustomScrollbar";
 import { SupportBlock } from "@/components/SupportBlock";
 import { FlexColumn } from "@/components/ui/Flexbox";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 const MainContainer = styled(FlexColumn)`
   height: 100%;
-  &[data-scrollbar-visible="true"] {
-    margin-right: 8px;
-  }
+  padding-left: 2px;
+  padding-right: 4px;
 `;
 const SettingsListContainer = styled("div")`
+  padding-top: 4px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -50,11 +51,9 @@ const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
 `;
 
 export default function ServerSettingsDrawer() {
-  const { isVisible } = useCustomScrollbar();
-
   return (
     <>
-      <MainContainer data-scrollbar-visible={isVisible()}>
+      <MainContainer>
         <SettingsList />
         <Footer />
       </MainContainer>
@@ -130,18 +129,21 @@ function Item(props: {
 }
 
 const FooterContainer = styled(FlexColumn)`
-  padding-bottom: 0px;
   margin-top: 8px;
   position: sticky;
   bottom: 2px;
   background-color: var(--pane-color);
+  &[data-mobile-width="true"] {
+    padding-bottom: 74px;
+  }
 `;
 
 function Footer() {
+  const { isMobileWidth } = useWindowProperties();
   return (
-    <FooterContainer gap={2}>
+    <FooterContainer gap={2} data-mobile-width={isMobileWidth()}>
       <SupportBlock />
-      <InVoiceActions style={{ bottom: "0" }} />
+      <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
     </FooterContainer>
   );
 }

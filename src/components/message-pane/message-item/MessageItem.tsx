@@ -86,13 +86,13 @@ import {
   GoogleDriveAudioEmbed,
   LocalAudioEmbed,
 } from "./AudioEmbed";
-import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 import { ButtonsEmbed } from "./ButtonsEmbed";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { getSystemMessage } from "@/common/SystemMessage";
 import { useJoinServer } from "@/chat-api/useJoinServer";
 import { Modal } from "@/components/ui/modal";
 import Text from "@/components/ui/Text";
+import { render } from "solid-js/web";
 import Checkbox from "@/components/ui/Checkbox";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { css } from "solid-styled-components";
@@ -104,6 +104,12 @@ import {
 } from "@/common/regex";
 import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
+import { userDetailsPreloader } from "@/common/createPreloader";
+import { useTransContext } from "@nerimity/solid-i18lite";
+
+const ImagePreviewModal = lazy(
+  () => import("@/components/ui/ImagePreviewModal")
+);
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -219,58 +225,81 @@ interface DetailsProps {
   showProfileFlyout?: (event: MouseEvent) => void;
   hovered: boolean;
 }
-const Details = (props: DetailsProps) => (
-  <div class={classNames(styles.details, "details")}>
-    <CustomLink
-      onClick={props.showProfileFlyout}
-      decoration
-      onContextMenu={props.userContextMenu}
-      class={classNames("trigger-profile-flyout", styles.username)}
-      href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
-      style={{ color: props.serverMember?.roleColor() }}
-    >
-      {props.serverMember?.nickname || props.message.createdBy.username}
-    </CustomLink>
-    <Show when={props.serverMember?.topRoleWithIcon()}>
-      {(role) => (
-        <RoleEmoji
-          title={role().name}
-          size={16}
-          icon={role().icon}
+
+const Details = (props: DetailsProps) => {
+  const [t] = useTransContext();
+
+  return (
+    <div class={classNames(styles.details, "details")}>
+      <CustomLink
+        onClick={props.showProfileFlyout}
+        decoration
+        onmouseenter={() => {
+          userDetailsPreloader.preload(props.message.createdBy.id);
+        }}
+        onContextMenu={props.userContextMenu}
+        class={classNames("trigger-profile-flyout", styles.username)}
+        href={
+          props.message.webhookId
+            ? "#"
+            : RouterEndpoints.PROFILE(props.message.createdBy.id)
+        }
+        style={{ color: props.serverMember?.roleColor() }}
+      >
+        {props.serverMember?.nickname || props.message.createdBy.username}
+      </CustomLink>
+
+      <Show when={props.serverMember?.topRoleWithIcon()}>
+        {(role) => (
+          <RoleEmoji
+            title={role().name}
+            size={16}
+            icon={role().icon}
+            hovered={props.hovered}
+            resize={16}
+          />
+        )}
+      </Show>
+
+      <Show when={props.isSystemMessage}>
+        <SystemMessage
+          message={props.message}
           hovered={props.hovered}
-          resize={16}
+          showProfileFlyout={props.showProfileFlyout}
+          onUserContextMenu={props.userContextMenu}
         />
-      )}
-    </Show>
-    <Show when={props.isSystemMessage}>
-      <SystemMessage
-        message={props.message}
-        hovered={props.hovered}
-        showProfileFlyout={props.showProfileFlyout}
-        onUserContextMenu={props.userContextMenu}
-      />
-    </Show>
-    <Show when={props.isServerCreator}>
-      <div class={styles.ownerBadge}>Owner</div>
-    </Show>
-    <Show when={props.message.createdBy.bot}>
-      <div class={styles.ownerBadge}>Bot</div>
-    </Show>
-    <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
-    <Show when={props.message.silent}>
-      <Tooltip tooltip="Silent" anchor="left">
-        <Icon
-          name="notifications_off"
-          color="rgba(255, 255, 255, 0.4)"
-          size={12}
-        />
-      </Tooltip>
-    </Show>
-  </div>
-);
+      </Show>
+
+      <Show when={props.isServerCreator}>
+        <div class={styles.ownerBadge}>{t("message.badge.owner")}</div>
+      </Show>
+
+      <Show when={props.message.createdBy.bot}>
+        <div class={styles.ownerBadge}>
+          {props.message.webhookId
+            ? t("message.badge.webhook")
+            : t("message.badge.bot")}
+        </div>
+      </Show>
+
+      <div class={styles.date}>{formatTimestamp(props.message.createdAt)}</div>
+
+      <Show when={props.message.silent}>
+        <Tooltip tooltip="Silent" anchor="left">
+          <Icon
+            name="notifications_off"
+            color="rgba(255, 255, 255, 0.4)"
+            size={12}
+          />
+        </Tooltip>
+      </Show>
+    </div>
+  );
+};
 
 const MessageItem = (props: MessageItemProps) => {
   const params = useParams();
+  const [t] = useTransContext();
   const { serverMembers, servers, account, friends } = useStore();
   const [hovered, setHovered] = createSignal(false);
   const [translatedContent, setTranslatedContent] =
@@ -319,7 +348,7 @@ const MessageItem = (props: MessageItemProps) => {
   const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
 
   const [isMentioned, setIsMentioned] = createSignal(false);
-  const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false); // @someone
+  const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false);
   const [blockedMessage, setBlockedMessage] = createSignal(false);
 
   createEffect(() => {
@@ -337,7 +366,7 @@ const MessageItem = (props: MessageItemProps) => {
   const updateTranslation = async () => {
     const translated = await fetchTranslation(props.message.content!).catch(
       () => {
-        alert("Something went wrong, try again later.");
+        alert(t("message.translationError"));
       }
     );
     if (!translated) return;
@@ -397,6 +426,7 @@ const MessageItem = (props: MessageItemProps) => {
 
   const showProfileFlyout = (event: MouseEvent) => {
     event.preventDefault();
+    if (props.message.webhookId) return;
     const el = event.target as HTMLElement;
     const rect = el?.getBoundingClientRect()!;
     const pos = {
@@ -459,7 +489,7 @@ const MessageItem = (props: MessageItemProps) => {
                   conditionalClass(isCompact(), styles.compact)
                 )}
               >
-                You have blocked this user. Click to show.
+                {t("message.blocked")}
               </div>
             </Show>
           }
@@ -480,7 +510,14 @@ const MessageItem = (props: MessageItemProps) => {
                   <A
                     onClick={showProfileFlyout}
                     onContextMenu={props.userContextMenu}
-                    href={RouterEndpoints.PROFILE(props.message.createdBy.id)}
+                    href={
+                      props.message.webhookId
+                        ? "#"
+                        : RouterEndpoints.PROFILE(props.message.createdBy.id)
+                    }
+                    onmouseenter={() => {
+                      userDetailsPreloader.preload(props.message.createdBy.id);
+                    }}
                     class={classNames(
                       styles.avatar,
                       "avatar",
@@ -511,7 +548,7 @@ const MessageItem = (props: MessageItemProps) => {
                   <Show when={translatedContent()}>
                     <div class={styles.translationArea}>
                       <span class={styles.title}>
-                        Translation{" "}
+                        {t("message.translation.title")}{" "}
                         <span class={styles.translationSource}>
                           ({translatedContent()?.src})
                         </span>
@@ -546,14 +583,29 @@ const MessageItem = (props: MessageItemProps) => {
 const Content = (props: { message: Message; hovered: boolean }) => {
   const params = useParams<{ serverId?: string }>();
   const store = useStore();
+  const [t] = useTransContext();
+
+  const isImageEmbedOnlyMessage = () => {
+    const content = props.message.content;
+    if (!content) return false;
+    if (props.message.embed?.type !== "image") return false;
+    try {
+      new URL(content);
+      return !content.includes(" ");
+    } catch {
+      return false;
+    }
+  };
   return (
     <div class={styles.content}>
-      <Markup
-        replaceCommandBotId
-        message={props.message}
-        text={props.message.content || ""}
-        serverId={params.serverId}
-      />
+      <Show when={!isImageEmbedOnlyMessage()}>
+        <Markup
+          replaceCommandBotId
+          message={props.message}
+          text={props.message.content || ""}
+          serverId={params.serverId}
+        />
+      </Show>
       <Show
         when={
           !props.message.uploadingAttachment || props.message.content?.trim()
@@ -564,7 +616,7 @@ const Content = (props: { message: Message; hovered: boolean }) => {
       <Embeds {...props} />
       <Show when={props.message.local}>
         <Button
-          label="Dismiss"
+          label={t("message.dismissButton")}
           margin={0}
           padding={4}
           onClick={() => {
@@ -612,9 +664,12 @@ const UploadAttachment = (props: { message: Message }) => {
 };
 
 const SentStatus = (props: { message: Message }) => {
+  const [t] = useTransContext();
   const editedAt = () => {
     if (!props.message.editedAt) return;
-    return "Edited at " + formatTimestamp(props.message.editedAt);
+    return t("message.editedAt", {
+      time: formatTimestamp(props.message.editedAt),
+    });
   };
 
   return (
@@ -633,7 +688,7 @@ const SentStatus = (props: { message: Message }) => {
         <div class={styles.sentStatus}>
           <Icon
             class={styles.icon}
-            name="query_builder"
+            name="hourglass_top"
             size={14}
             color="rgba(255,255,255,0.4)"
           />
@@ -801,12 +856,13 @@ const LocalCdnEmbeds = (props: {
 };
 
 const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
+  const [t] = useTransContext();
   const isExpired = () => {
     return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
   };
   return (
     <VideoEmbed
-      error={isExpired() ? "File expired." : undefined}
+      error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
         name: props.attachment.path?.split("/").reverse()[0]!,
         size: props.attachment.filesize!,
@@ -817,13 +873,15 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
     />
   );
 };
+
 const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
-  const isExpired = () => {
-    return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
-  };
+  const isExpired = () =>
+    props.attachment.expireAt && Date.now() > props.attachment.expireAt;
+  const [t] = useTransContext();
+
   return (
     <FileEmbed
-      error={isExpired() ? "File expired." : undefined}
+      error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
         name: props.attachment.path?.split("/").reverse()[0]!,
         mime: props.attachment.mime!,
@@ -927,26 +985,27 @@ const GoogleDriveVideoEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
   const [error, setError] = createSignal<string | undefined>();
   const [playVideo, setPlayVideo] = createSignal<boolean>(false);
+  const [t] = useTransContext();
+
   onMount(async () => {
     await initializeGoogleDrive();
   });
 
-  // eslint-disable-next-line solid/reactivity
   createEffect(async () => {
     if (!googleApiInitialized()) return;
     const file = await getFile(
       props.attachment.fileId!,
       "name, size, modifiedTime, webContentLink, mimeType, thumbnailLink, videoMediaMetadata"
     ).catch((e) => console.log(e));
-    // const file = await getFile(props.attachment.fileId!, "*").catch((e) => console.log(e))
-    if (!file) return setError("Could not get Video.");
 
+    if (!file) return setError(t("videoEmbed.couldNotGetVideo"));
     if (file.mimeType !== props.attachment.mime)
-      return setError("Video was modified.");
+      return setError(t("videoEmbed.videoModified"));
 
     const fileTime = new Date(file.modifiedTime!).getTime();
     const diff = fileTime - props.attachment.createdAt!;
-    if (diff >= 5000) return setError("Video was modified.");
+    if (diff >= 5000) return setError(t("videoEmbed.videoModified"));
+
     setFile(file);
   });
 
@@ -979,6 +1038,7 @@ const VideoEmbed = (props: {
   error?: string;
 }) => {
   const [playVideo, setPlayVideo] = createSignal<boolean>(false);
+  const [t] = useTransContext();
 
   const onPlayClick = () => {
     if (reactNativeAPI()?.isReactNative) {
@@ -991,13 +1051,18 @@ const VideoEmbed = (props: {
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
-        alert(
-          "Due to new Google Drive policy, you can only play videos from the Nerimity Desktop App."
-        );
+        alert(t("videoEmbed.googleDrivePolicy"));
       }
     }
     setPlayVideo(!playVideo());
   };
+
+  const alertExpiredOrModified = () =>
+    alert(
+      props.file?.expireAt
+        ? t("videoEmbed.videoExpired") // Can probably move all "expired" to use a central expired string in future
+        : t("videoEmbed.modifiedOrDeleted")
+    );
 
   return (
     <div class={styles.videoEmbed}>
@@ -1005,6 +1070,7 @@ const VideoEmbed = (props: {
         <Show when={!props.file && !props.error}>
           <Skeleton.Item height="100%" width="100%" />
         </Show>
+
         <Show when={props.error}>
           <Icon name="error" color="var(--alert-color)" size={30} />
           <div class={styles.fileEmbedDetails}>
@@ -1013,15 +1079,10 @@ const VideoEmbed = (props: {
           <Button
             iconName="info"
             iconSize={16}
-            onClick={() =>
-              alert(
-                props.file?.expireAt
-                  ? "Video expired."
-                  : "This Video was modified/deleted by the creator in their Google Drive. "
-              )
-            }
+            onClick={alertExpiredOrModified}
           />
         </Show>
+
         <Show when={props.file && !props.error}>
           <Icon
             name="insert_drive_file"
@@ -1035,11 +1096,12 @@ const VideoEmbed = (props: {
             </div>
           </div>
           <Button
-            iconName="download"
             onClick={() => window.open(props.file?.url, "_blank")}
+            iconName="download"
           />
         </Show>
       </div>
+
       <Show when={props.file?.expireAt}>
         <div class={styles.expiresAt}>
           <Icon
@@ -1047,14 +1109,18 @@ const VideoEmbed = (props: {
             size={14}
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
-          {props.error ? "Expired " : "Expires "}
+          {props.error
+            ? t("videoEmbed.expired") + " "
+            : t("videoEmbed.expires") + " "}
           {timeSinceMentions(props.file?.expireAt!)}
         </div>
       </Show>
+
       <div class={styles.video}>
         <Show when={!props.file && !props.error}>
           <Skeleton.Item height="100%" width="100%" />
         </Show>
+
         <Show when={props.file && !props.error}>
           <Show when={!playVideo()}>
             <Show when={props.file?.thumbnailLink}>
@@ -1108,6 +1174,7 @@ const FileEmbed = (props: {
 }) => {
   const { createPortal } = useCustomPortal();
   const isImage = () => props.file?.mime?.startsWith("image/");
+  const [t] = useTransContext();
 
   const previewClick = () => {
     createPortal((close) => (
@@ -1119,6 +1186,13 @@ const FileEmbed = (props: {
     ));
   };
 
+  const alertExpired = () =>
+    alert(
+      props.file?.expireAt
+        ? t("fileEmbed.expired")
+        : t("fileEmbed.modifiedOrDeleted")
+    );
+
   return (
     <div
       class={cn(styles.fileEmbed, !!props.file?.expireAt && styles.willExpire)}
@@ -1126,6 +1200,7 @@ const FileEmbed = (props: {
       <Show when={!props.file && !props.error}>
         <Skeleton.Item height="100%" width="100%" />
       </Show>
+
       <Show when={props.error}>
         <div class={styles.fileEmbedErrorContainer}>
           <Icon name="error" color="var(--alert-color)" size={30} />
@@ -1136,16 +1211,11 @@ const FileEmbed = (props: {
             iconName="info"
             iconSize={16}
             margin={0}
-            onClick={() =>
-              alert(
-                props.file?.expireAt
-                  ? "File expired."
-                  : "This file was modified/deleted by the creator in their Google Drive. "
-              )
-            }
+            onClick={alertExpired}
           />
         </div>
       </Show>
+
       <Show when={props.file && !props.error}>
         <div class={styles.fileEmbedContainer}>
           <Icon
@@ -1165,18 +1235,19 @@ const FileEmbed = (props: {
                 iconName="visibility"
                 margin={0}
                 onClick={previewClick}
-                title="View Image"
+                title={t("fileEmbed.viewImage")}
               />
             </Show>
             <Button
               iconName="download"
               margin={0}
-              title="Download"
+              title={t("fileEmbed.download")}
               onClick={() => window.open(props.file?.url, "_blank")}
             />
           </div>
         </div>
       </Show>
+
       <Show when={props.file?.expireAt}>
         <div class={styles.expiresAt}>
           <Icon
@@ -1184,13 +1255,16 @@ const FileEmbed = (props: {
             size={14}
             color={props.error ? "var(--alert-color)" : "var(--primary-color)"}
           />
-          {props.error ? "Expired " : "Expires "}
+          {props.error
+            ? t("fileEmbed.expired") + " "
+            : t("fileEmbed.expires") + " "}
           {timeSinceMentions(props.file?.expireAt!)}
         </div>
       </Show>
     </div>
   );
 };
+
 const GoogleDriveFileEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
   const [error, setError] = createSignal<string | undefined>();
@@ -1244,6 +1318,7 @@ const inviteCache = new Map<string, ServerWithMemberCount | false>();
 export function ServerInviteEmbed(props: { code: string }) {
   const navigate = useNavigate();
   const { servers } = useStore();
+  const [t] = useTransContext();
   const [invite, setInvite] = createSignal<
     ServerWithMemberCount | null | false
   >(null);
@@ -1291,7 +1366,7 @@ export function ServerInviteEmbed(props: { code: string }) {
             <Show when={invite() === false}>
               <Icon name="error" color="var(--alert-color)" />
             </Show>
-            {invite() === false ? "Invalid Invite Code" : "Loading Invite..."}
+            {invite() === false ? t("invite.invalid") : t("invite.loading")}
           </div>
         }
       >
@@ -1312,13 +1387,20 @@ export function ServerInviteEmbed(props: { code: string }) {
               </div>
 
               <div class={styles.serverMemberCount}>
-                <Icon name="people" size={14} color="var(--primary-color)" />
-                {invite().memberCount} member(s)
+                <Icon name="group" size={14} color="var(--primary-color)" />
+                {invite().memberCount}{" "}
+                {invite().memberCount === 1
+                  ? t("invite.member")
+                  : t("invite.members")}
               </div>
             </div>
             <Button
               label={
-                joining() ? "Joining..." : cachedServer() ? "Visit" : "Join"
+                joining()
+                  ? t("invite.joiningButton")
+                  : cachedServer()
+                  ? t("invite.visitButton")
+                  : t("invite.joinButton")
               }
               iconName="login"
               onClick={joinOrVisitServer}
@@ -1329,7 +1411,6 @@ export function ServerInviteEmbed(props: { code: string }) {
     </div>
   );
 }
-
 export function OGEmbed(props: {
   message: { content?: string; embed: RawEmbed };
   customWidth?: number;
@@ -1339,6 +1420,8 @@ export function OGEmbed(props: {
   const embed = () => props.message.embed!;
   const { createPortal } = useCustomPortal();
   const [showDetailed, setShowDetailed] = createSignal(false);
+  const [t] = useTransContext();
+
   const origSrc = () => {
     const rawUrl = embed().imageUrl!;
     if (rawUrl.startsWith("https://") || rawUrl.startsWith("http://"))
@@ -1360,15 +1443,14 @@ export function OGEmbed(props: {
     if (useTwitterEmbed()) return setShowDetailed(true);
     createPortal((close) => (
       <Modal.Root close={close} desktopMaxWidth={400}>
-        <Modal.Header title="Detailed Twitter Embed" />
+        <Modal.Header title={t("message.twitterEmbed.modalTitle")} />
         <Modal.Body>
           <FlexColumn gap={8}>
             <Text opacity={0.8} size={14}>
-              When using the official Twitter embed, your data will collected by
-              elmo musk.
+              {t("message.twitterEmbed.modalDescription")}
             </Text>
             <Checkbox
-              label="Don't show this again."
+              label={t("message.twitterEmbed.doNotShowAgain")}
               checked={useTwitterEmbed()}
               onChange={setUseTwitterEmbed}
             />
@@ -1376,7 +1458,7 @@ export function OGEmbed(props: {
         </Modal.Body>
         <Modal.Footer>
           <Modal.Button
-            label="Don't show"
+            label={t("message.twitterEmbed.closeButton")}
             iconName="close"
             onClick={() => {
               setUseTwitterEmbed(false);
@@ -1384,7 +1466,7 @@ export function OGEmbed(props: {
             }}
           />
           <Modal.Button
-            label="Show"
+            label={t("message.twitterEmbed.showButton")}
             primary
             iconName="check"
             onclick={() => {
@@ -1425,7 +1507,11 @@ export function OGEmbed(props: {
       </Switch>
       <Show when={twitterStatusEmbed()}>
         <Button
-          label={showDetailed() ? "Basic Embed" : "Detailed Embed"}
+          label={
+            showDetailed()
+              ? t("message.twitterEmbed.basicEmbed")
+              : t("message.twitterEmbed.detailedEmbed")
+          }
           onclick={showDetailedTwitterEmbed}
           margin={[4, 0, 0, 0]}
         />
@@ -1865,6 +1951,7 @@ function WhoReactedModal(props: {
   const [users, setUsers] = createSignal<null | RawUser[]>(null);
   const [el, setEL] = createSignal<undefined | HTMLDivElement>(undefined);
   const { width, height } = useResizeObserver(el);
+  const [t] = useTransContext();
 
   onMount(() => {
     const timeoutId = window.setTimeout(async () => {
@@ -1907,7 +1994,7 @@ function WhoReactedModal(props: {
           )}
         </For>
         <Show when={plusCount()}>
-          <div class={styles.whoReactedPlusCount}>{plusCount()} more</div>
+          {t("message.reactions.more", { count: plusCount() })}
         </Show>
       </div>
     </Show>
@@ -1983,11 +2070,12 @@ const MessageReplyItem = (props: {
 }) => {
   const params = useParams<{ serverId?: string }>();
   const store = useStore();
+  const [t] = useTransContext();
 
   const member = () =>
     store.serverMembers.get(
       params.serverId!,
-      props.replyToMessage!.createdBy.id
+      props.replyToMessage!.createdBy?.id
     );
 
   const topRoleColor = () => {
@@ -2017,7 +2105,7 @@ const MessageReplyItem = (props: {
               color: topRoleColor(),
             }}
           >
-            {member()?.nickname || props.replyToMessage!.createdBy.username}
+            {member()?.nickname || props.replyToMessage!.createdBy?.username}
           </div>
           <Show when={props.replyToMessage!.attachments?.length}>
             <Icon name="image" color="rgba(255,255,255,0.6)" size={16} />
@@ -2032,7 +2120,7 @@ const MessageReplyItem = (props: {
           </div>
         </Show>
         <Show when={!props.replyToMessage}>
-          <div class={styles.replyContent}>Message was deleted.</div>
+          <div class={styles.replyContent}>{t("message.deletedMessage")}</div>
         </Show>
       </div>
     </div>

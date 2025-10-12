@@ -22,8 +22,17 @@ const USER_BADGE_BITS = {
 
   FOX_EARS_GOLD: 1024,
   FOX_EARS_BROWN: 2048,
-};
+} as const;
 
+export interface UserBadge {
+  name: string;
+  bit: (typeof USER_BADGE_BITS)[keyof typeof USER_BADGE_BITS];
+  color: string;
+  overlay?: boolean;
+  description: string;
+  textColor?: string;
+  credit?: string;
+}
 export const USER_BADGES = {
   // overlays
   CAT_EARS_BLUE: {
@@ -113,7 +122,9 @@ export const USER_BADGES = {
     bit: USER_BADGE_BITS.BOT,
     color: "var(--primary-color)",
   },
-};
+} satisfies Record<string, UserBadge>;
+
+export const USER_BADGES_VALUES = Object.values(USER_BADGES) as UserBadge[];
 
 export const CHANNEL_PERMISSIONS = {
   PUBLIC_CHANNEL: {

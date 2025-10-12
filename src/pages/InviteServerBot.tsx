@@ -9,7 +9,7 @@ import {
   RawBotUser,
   getApplicationBot,
 } from "@/chat-api/services/ApplicationService";
-import { RawServer, RawUser } from "@/chat-api/RawData";
+import { RawServer } from "@/chat-api/RawData";
 import Avatar from "@/components/ui/Avatar";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
@@ -21,9 +21,11 @@ import {
   hasBit,
   removeBit,
 } from "@/chat-api/Bitwise";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import Checkbox from "@/components/ui/Checkbox";
 import { inviteBot } from "@/chat-api/services/ServerService";
+import { Modal } from "@/components/ui/modal";
+import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -46,14 +48,43 @@ const Content = styled("div")`
 
 export default function InviteServerBotPage() {
   const params = useParams<{ appId: string }>();
-  const [searchParams, setSearchParams] = useSearchParams<{ perms: string }>();
+  const [searchParams] = useSearchParams<{ perms: string }>();
+  const permissions = () =>
+    searchParams.perms ? parseInt(searchParams.perms) : 0;
+  return (
+    <HomePageContainer>
+      <PageHeader />
+      <Content class="content">
+        <div
+          style={{
+            display: "flex",
+            "padding-top": "20px",
+            "padding-bottom": "20px",
+            margin: "auto",
+          }}
+        >
+          <InviteBotPopup appId={params.appId} permissions={permissions()} />
+        </div>
+      </Content>
+      <PageFooter />
+    </HomePageContainer>
+  );
+}
+
+export const InviteBotPopup = (props: {
+  appId: string;
+  permissions?: number;
+}) => {
   const navigate = useNavigate();
   const [bot, setBot] = createSignal<RawBotUser | null>(null);
   const [servers, setServers] = createSignal<Partial<RawServer>[]>([]);
   const [permissions, setPermissions] = createSignal<number>(
-    searchParams.perms ? parseInt(searchParams.perms) : 0
+    props.permissions ?? 0
   );
   const [serverId, setServerId] = createSignal<string | null>(null);
+  const [requestSent, setRequestSent] = createSignal(false);
+  const [error, setError] = createSignal<string | null>(null);
+  const [successMessage, setSuccessMessage] = createSignal<string | null>(null);
 
   onMount(async () => {
     if (!getStorageString(StorageKeys.USER_TOKEN, null)) {
@@ -63,38 +94,43 @@ export default function InviteServerBotPage() {
       return;
     }
 
-    const res = await getApplicationBot(params.appId, true);
+    const res = await getApplicationBot(props.appId, true);
     setBot(res.bot);
     setServers(res.servers);
   });
 
   const addBot = async () => {
+    setError(null);
+    setSuccessMessage(null);
     if (!serverId()) {
-      alert(t("botInvite.serverSelect"));
+      setError(t("botInvite.serverSelect"));
       return;
     }
-    inviteBot(serverId()!, params.appId, permissions()!);
+    if (requestSent()) return;
+    setRequestSent(true);
+    inviteBot(serverId()!, props.appId, permissions()!)
+      .then(() => setSuccessMessage("Bot added to the server."))
+      .catch((err) => setError(err.message))
+      .finally(() => setRequestSent(false));
   };
-
   return (
-    <HomePageContainer>
-      <PageHeader />
-      <Content class="content">
-        <Show when={bot()}>
-          <FlexColumn
-            itemsCenter
-            style={{
-              margin: "auto",
-              "padding-top": "40px",
-              "padding-bottom": "40px",
-            }}
-            gap={12}
-          >
-            <FlexColumn gap={12} itemsCenter>
-              <Avatar animate user={bot()!} size={120} />
-              <Text size={18}>{bot()?.username}</Text>
-            </FlexColumn>
-            <FlexRow itemsCenter gap={8}>
+    <Show when={bot()}>
+      <FlexColumn
+        style={{
+          overflow: "auto",
+          margin: "auto",
+        }}
+        gap={12}
+      >
+        <FlexRow itemsCenter gap={12}>
+          <FlexColumn gap={12}>
+            <Avatar animate user={bot()!} size={80} />
+          </FlexColumn>
+          <FlexColumn gap={8}>
+            <Text bold size={18}>
+              {bot()?.username}
+            </Text>
+            <FlexRow gap={8}>
               <Text>{t("botInvite.creator")}</Text>
               <Avatar
                 animate
@@ -103,39 +139,43 @@ export default function InviteServerBotPage() {
               />
               <Text>{bot()!.application.creatorAccount.user.username} </Text>
             </FlexRow>
-            <PermissionList
-              permissions={permissions()}
-              setPermissions={setPermissions}
-            />
-
-            <DropDown
-              onChange={(item) => setServerId(item.id)}
-              title={t("botInvite.selectButton")}
-              class={css`
-                width: 240px;
-              `}
-              items={servers().map((server) => ({
-                label: server.name!,
-                id: server.id!,
-              }))}
-            />
-            <Button
-              label={t("botInvite.addButton")}
-              styles={{ opacity: serverId() ? 1 : 0.5 }}
-              iconName="add"
-              primary
-              class={css`
-                width: 220px;
-              `}
-              onClick={addBot}
-            />
           </FlexColumn>
+        </FlexRow>
+        <PermissionList
+          permissions={permissions()}
+          setPermissions={setPermissions}
+        />
+
+        <DropDown
+          onChange={(item) => setServerId(item.id)}
+          title={t("botInvite.selectButton")}
+          class={css`
+            flex: 1;
+            width: 100%;
+          `}
+          items={servers().map((server) => ({
+            label: server.name!,
+            id: server.id!,
+          }))}
+        />
+        <Show when={error()}>
+          <Text color="var(--alert-color)">{error()}</Text>
         </Show>
-      </Content>
-      <PageFooter />
-    </HomePageContainer>
+        <Show when={successMessage()}>
+          <Text color="var(--success-color)">{successMessage()}</Text>
+        </Show>
+        <Button
+          label={t("botInvite.addButton")}
+          iconName="add"
+          primary
+          margin={0}
+          styles={{ "align-self": "stretch" }}
+          onClick={addBot}
+        />
+      </FlexColumn>
+    </Show>
   );
-}
+};
 
 const PermissionList = (props: {
   permissions: number;
@@ -156,11 +196,12 @@ const PermissionList = (props: {
     <FlexColumn
       gap={8}
       class={css`
-        width: 230px;
+        flex: 1;
+        width: 100%;
       `}
     >
       <Text opacity={0.8}>{t("botInvite.permissions")}</Text>
-      <FlexColumn gap={4}>
+      <FlexColumn gap={12}>
         <For each={permissionsList}>
           {(permission) => (
             <FlexRow gap={8}>

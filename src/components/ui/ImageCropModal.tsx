@@ -33,7 +33,7 @@ export default function ImageCropModal(props: {
 
   const ActionButtons = (
     <Button
-      iconName="done"
+      iconName="check"
       label="Done"
       onClick={onClick}
       styles={{ flex: 1 }}

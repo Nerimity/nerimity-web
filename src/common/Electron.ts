@@ -50,6 +50,9 @@ interface WindowAPI {
   getHardwareAccelerationDisabled(): Promise<boolean>;
   setHardwareAccelerationDisabled(value: boolean): void;
 
+  getCustomTitlebarDisabled(): Promise<boolean>;
+  setCustomTitlebarDisabled(value: boolean): void;
+
   getAutostartMinimized(): Promise<boolean>;
   setAutostartMinimized(value: boolean): void;
 

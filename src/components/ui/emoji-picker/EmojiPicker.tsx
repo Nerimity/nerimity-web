@@ -20,7 +20,7 @@ import {
 } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import emojis from "@/emoji/emojis.json";
+
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Button from "../Button";
 import {
@@ -33,6 +33,7 @@ import { Skeleton } from "../skeleton/Skeleton";
 import { useParams } from "solid-navigator";
 import { cn } from "@/common/classNames";
 import { useDocumentListener } from "@/common/useDocumentListener";
+import { emojis, lazyLoadEmojis } from "@/emoji";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -50,12 +51,13 @@ export function EmojiPicker(props: {
 
   const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF">("EMOJI");
 
-  useDocumentListener("keydown", e => {
+  useDocumentListener("keydown", (e) => {
     if (e.key === "Escape") {
       props.close();
     }
-  })
+  });
   onMount(() => {
+    lazyLoadEmojis();
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
@@ -138,12 +140,12 @@ export function EmojiPicker(props: {
         height: height() + (props.heightOffset || 0) + "px",
       }}
     >
-      <Show when={selectedTab() === "EMOJI"}>
+      <Show when={selectedTab() === "EMOJI" && emojis().length}>
         <EmojiPickerComponent
           class={cn(styles.emojiPicker, "emoji-picker")}
           focusOnMount={!isMobileAgent()}
           spriteUrl="/assets/emojiSprites-16.png"
-          emojis={emojis}
+          emojis={emojis()}
           customEmojis={customEmojis()}
           onEmojiClick={(e: any) =>
             props.onClick(e.name || e.short_names[0], shiftDown())

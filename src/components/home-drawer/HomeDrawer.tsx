@@ -2,7 +2,7 @@ import { useLocation, useMatch } from "solid-navigator";
 import ItemContainer from "../ui/LegacyItem";
 import style from "./HomeDrawer.module.scss";
 import Icon from "../ui/icon/Icon";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { CustomLink } from "../ui/CustomLink";
 import {
   HomeDrawerControllerProvider,
@@ -15,26 +15,25 @@ import { User } from "@/chat-api/store/useUsers";
 import { Modal } from "../ui/modal";
 import { cn } from "@/common/classNames";
 import { DrawerHeader } from "../drawer-header/DrawerHeader";
-import { isExperimentEnabled } from "@/common/experiments";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { QuickTravel } from "../QuickTravel";
 import InVoiceActions from "../InVoiceActions";
-import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
+import { useWindowProperties } from "@/common/useWindowProperties";
 
 export default function HomeDrawer() {
-  const { isVisible } = useCustomScrollbar();
+  const { isMobileWidth } = useWindowProperties();
 
   return (
     <HomeDrawerControllerProvider>
       <SearchBar />
-      <div class={style.container} data-scrollbar-visible={isVisible()}>
+      <div class={style.container}>
         <HorizontalItems />
 
         <Items />
         <Friends />
         <Inbox />
       </div>
-      <InVoiceActions />
+      <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
     </HomeDrawerControllerProvider>
   );
 }

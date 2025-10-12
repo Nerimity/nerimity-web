@@ -83,7 +83,7 @@ export default function InAppNotificationPreviews() {
     }
   };
   const onClick = (event: MouseEvent) => {
-    if (event.target instanceof HTMLElement) {
+    if (event.target instanceof Element) {
       if (event.target.closest(".ipnpActions")) {
         event.preventDefault();
         event.stopPropagation();

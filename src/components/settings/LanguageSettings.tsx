@@ -1,4 +1,11 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
@@ -10,16 +17,19 @@ import {
 } from "@/locales/languages";
 
 import ItemContainer from "../ui/LegacyItem";
-import twemoji from "twemoji";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import env from "@/common/env";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
 import { Emoji } from "../markup/Emoji";
 import { CustomLink } from "../ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
+import { Notice } from "../ui/Notice/Notice";
+import Button from "../ui/Button";
+import en from "@/locales/list/en-gb.json";
+import { Modal } from "../ui/modal";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -40,10 +50,38 @@ const LanguageItemContainer = styled(ItemContainer)`
 export default function LanguageSettings() {
   const { header } = useStore();
   const [, actions] = useTransContext();
+  const [languageUpdated, setLanguageUpdated] = createSignal(false);
 
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(
     getCurrentLanguage() || "en_gb"
   );
+
+  const [percentTranslated, setPercentTranslated] = createSignal(0);
+
+  const checkTranslatedStrings = (langKey: string, lang: any) => {
+    let total = 0;
+    let translated = 0;
+    const checkNested = (obj: any, nestedLang: any) => {
+      for (const key in obj) {
+        if (typeof obj[key] === "string") {
+          total++;
+          if (nestedLang?.[key] && nestedLang?.[key] !== obj) translated++;
+        } else if (typeof obj[key] === "object") {
+          checkNested(obj[key], nestedLang?.[key]);
+        }
+      }
+    };
+
+    checkNested(en, lang);
+    const percent = (translated / total) * 100;
+    setPercentTranslated(percent);
+  };
+
+  onMount(async () => {
+    const currentKey = getCurrentLanguage() || "en_gb";
+    const language = await getLanguage(currentKey);
+    checkTranslatedStrings(currentKey.replace("_", "-"), language);
+  });
 
   createEffect(() => {
     header.updateHeader({
@@ -55,11 +93,18 @@ export default function LanguageSettings() {
   const languageKeys = Object.keys(languages);
 
   const setLanguage = async (key: string) => {
+    const oldKey = key;
     key = key.replace("-", "_");
+    if (getCurrentLanguage() !== key) {
+      setLanguageUpdated(true);
+    }
     if (key !== "en_gb") {
       const language = await getLanguage(key);
       if (!language) return;
+      checkTranslatedStrings(oldKey, language);
       actions.addResources(key, "translation", language);
+    } else {
+      setPercentTranslated(100);
     }
     actions.changeLanguage(key);
     setCurrentLanguage(key);
@@ -72,12 +117,31 @@ export default function LanguageSettings() {
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.language")} />
       </Breadcrumb>
+      <Show when={languageUpdated()}>
+        <Notice
+          type="warn"
+          description="You must reload the app to fully apply the new language."
+        >
+          <div style={{ display: "flex", "justify-content": "flex-end" }}>
+            <Button
+              onClick={() => window.location.reload()}
+              label="Reload"
+              iconName="refresh"
+              primary
+              margin={0}
+              padding={4}
+              iconSize={18}
+            />
+          </div>
+        </Notice>
+      </Show>
       <For each={languageKeys}>
         {(key) => (
           <LanguageItem
             selected={currentLocalLanguage().replace("_", "-") === key}
             onClick={() => setLanguage(key)}
             key={key}
+            percentTranslated={percentTranslated()}
           />
         )}
       </For>
@@ -89,13 +153,24 @@ function LanguageItem(props: {
   key: string;
   selected: boolean;
   onClick: () => void;
+  percentTranslated?: number;
 }) {
+  const { createPortal } = useCustomPortal();
   const language = (languages as any)[props.key] as Language;
 
   const onClick = (event: any) => {
     const target = event.target as HTMLElement;
     if (target.tagName === "A") return;
     props.onClick();
+  };
+
+  const handlePercentClick = async () => {
+    const key = props.key.replace("_", "-");
+    const language = await getLanguage(key);
+
+    createPortal((close) => (
+      <TranslateModal close={close} language={language} />
+    ));
   };
 
   return (
@@ -112,6 +187,22 @@ function LanguageItem(props: {
         <Text>{language.name}</Text>
         <Contributors contributors={language.contributors} />
       </FlexColumn>
+      <Show when={props.percentTranslated && props.selected}>
+        <div
+          class={css`
+            margin-left: auto;
+            opacity: 0.4;
+            cursor: pointer;
+            transition: 0.2s;
+            &:hover {
+              opacity: 1;
+            }
+          `}
+          onClick={handlePercentClick}
+        >
+          {Math.floor(props.percentTranslated || 0)}%
+        </div>
+      </Show>
     </LanguageItemContainer>
   );
 }
@@ -165,3 +256,42 @@ function lastPath(url: string) {
   const split = url.split("/");
   return split[split.length - 1];
 }
+
+const TranslateModal = (props: { language: any; close: () => void }) => {
+  let iframe: HTMLIFrameElement | undefined;
+
+  const handleIframeLoad = () => {
+    iframe?.contentWindow?.postMessage(
+      { default: en, translated: { ...props.language } },
+      "https://supertigerdev.github.io/i18n-tool/"
+    );
+  };
+
+  return (
+    <Modal.Root
+      close={props.close}
+      doNotCloseOnBackgroundClick
+      desktopMaxWidth={860}
+      class={css`
+        width: 90vw;
+      `}
+    >
+      <Modal.Header title="Translate" icon="translate" />
+      <Modal.Body
+        class={css`
+          height: 90vh;
+        `}
+      >
+        <iframe
+          src="https://supertigerdev.github.io/i18n-tool/"
+          height="100%"
+          width="100%"
+          ref={iframe}
+          onLoad={() => handleIframeLoad()}
+          frameborder="0"
+          id="iframe"
+        />
+      </Modal.Body>
+    </Modal.Root>
+  );
+};

@@ -49,6 +49,7 @@ export const fetchChannelAttachments = async (
 };
 
 interface PostMessageOpts {
+  htmlEmbed?: string;
   content?: string;
   channelId: string;
   socketId?: string;
@@ -66,25 +67,25 @@ interface PostMessageOpts {
 export const postMessage = async (opts: PostMessageOpts) => {
   const body: any = {
     content: opts.content?.trim() || undefined,
-
+    ...(opts.htmlEmbed ? { htmlEmbed: opts.htmlEmbed } : {}),
     ...(opts.silent ? { silent: true } : {}),
 
     ...(opts.replyToMessageIds?.length
       ? {
-        replyToMessageIds: opts.replyToMessageIds,
-        mentionReplies: opts.mentionReplies,
-      }
+          replyToMessageIds: opts.replyToMessageIds,
+          mentionReplies: opts.mentionReplies,
+        }
       : {}),
 
-    ...(opts.nerimityCdnFileId ? { nerimityCdnFileId: opts.nerimityCdnFileId } : {}),
+    ...(opts.nerimityCdnFileId
+      ? { nerimityCdnFileId: opts.nerimityCdnFileId }
+      : {}),
 
     ...(opts.googleDriveAttachment
       ? { googleDriveAttachment: opts.googleDriveAttachment }
       : {}),
     ...(opts.socketId ? { socketId: opts.socketId } : {}),
   };
-
-
 
   const data = await request<RawMessage>({
     method: "POST",
@@ -100,7 +101,6 @@ interface UpdateMessageOpts {
   messageId: string;
 }
 
-
 interface MarkMessageUnreadOpts {
   channelId: string;
   messageId: string;
@@ -112,7 +112,8 @@ export const markMessageUnread = async (opts: MarkMessageUnreadOpts) => {
     url:
       env.SERVER_URL +
       "/api" +
-      Endpoints.message(opts.channelId, opts.messageId) + "/mark-unread",
+      Endpoints.message(opts.channelId, opts.messageId) +
+      "/mark-unread",
     useToken: true,
   });
   return data;

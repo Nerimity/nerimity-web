@@ -6,7 +6,7 @@ import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
 import { Show, createEffect, createSignal, onMount } from "solid-js";
 import { publicServerByEmojiId } from "@/chat-api/services/ServerService";
-import { RawPublicServer } from "@/chat-api/RawData";
+import { RawExploreItem } from "@/chat-api/RawData";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
 import useStore from "@/chat-api/store/useStore";
@@ -98,7 +98,7 @@ function EmojiDetailsModal(props: {
   custom?: boolean;
   id?: string;
 }) {
-  const [publicServer, setPublicServer] = createSignal<RawPublicServer | null>(
+  const [publicServer, setPublicServer] = createSignal<RawExploreItem | null>(
     null
   );
   const { hasFocus } = useWindowProperties();
@@ -179,7 +179,7 @@ const PublicServerNameContainer = styled.span`
 `;
 
 function PublicServer(props: {
-  publicServer?: RawPublicServer;
+  publicServer?: RawExploreItem;
   name: string;
   close: () => void;
 }) {

@@ -132,6 +132,10 @@ export function onUserReminderAdd(payload: RawReminder) {
   const account = useAccount();
   account.addReminder(payload);
 }
+export function onUserReminderUpdate(payload: RawReminder) {
+  const account = useAccount();
+  account.updateReminder(payload);
+}
 export function onUserReminderRemove(payload: { id: string }) {
   const account = useAccount();
   account.removeReminder(payload.id);

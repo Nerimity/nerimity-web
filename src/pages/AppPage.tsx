@@ -50,6 +50,7 @@ import {
   CustomScrollbarProvider,
   useCustomScrollbar,
 } from "@/components/custom-scrollbar/CustomScrollbar";
+import { lazyLoadEmojis } from "@/emoji";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -138,6 +139,7 @@ export default function AppPage() {
   });
 
   onMount(() => {
+    lazyLoadEmojis();
     loadAllCache();
     setContext();
     setTimeout(() => {
@@ -149,6 +151,7 @@ export default function AppPage() {
   function handleChangelog() {
     const { showChangelog } = useAppVersion();
     if (showChangelog()) {
+      caches.delete("icons").then(() => console.log("icons cache deleted"));
       createPortal?.((close) => <ChangelogModal close={close} />);
     }
   }
@@ -225,10 +228,8 @@ export default function AppPage() {
 function RightDrawer() {
   const { isMobileAgent, isMobileWidth } = useWindowProperties();
   const [scrollEl, setScrollEl] = createSignal<HTMLDivElement | undefined>();
-  const { isVisible } = useCustomScrollbar();
   return (
     <DrawerContainer
-      data-is-scroll-visible={isVisible()}
       data-is-mobile-agent={isMobileAgent()}
       ref={setScrollEl}
       style={{

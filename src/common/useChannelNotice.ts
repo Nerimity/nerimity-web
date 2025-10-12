@@ -1,4 +1,4 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal, createEffect } from "solid-js";
 import { RawChannelNotice } from "../chat-api/RawData";
 import { getChannelNotice } from "../chat-api/services/ChannelService";
 import { StorageKeys, getStorageObject, setStorageObject } from "@/common/localStorage";
@@ -12,18 +12,21 @@ export const useNotice = (channelId: () => string) => {
 
   const [notice, setNotice] = createSignal<RawChannelNotice | null>(null);
 
-  onMount(async () => {
-    const cachedNotice = cachedNotices[channelId()];
+  createEffect(async () => {
+    const id = channelId();
+    if (!id) return;
+    const cachedNotice = cachedNotices[id];
     if (cachedNotice !== undefined) {
       setNotice(cachedNotice);
       return;
     }
-    const noticeRes = await getChannelNotice(channelId()).catch(() => { });
+    const noticeRes = await getChannelNotice(id).catch(() => { });
     if (!noticeRes) {
-      setCachedNotices(channelId(), null);
+      setCachedNotices(id, null);
+      setNotice(null);
       return;
     }
-    setCachedNotices(channelId(), noticeRes.notice);
+    setCachedNotices(id, noticeRes.notice);
     setNotice(noticeRes.notice);
   });
 

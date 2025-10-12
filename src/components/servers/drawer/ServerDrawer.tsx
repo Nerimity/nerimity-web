@@ -45,30 +45,25 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { cn } from "@/common/classNames";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useCollapsedServerCategories } from "@/common/localStorage";
+import { messagesPreloader } from "@/common/createPreloader";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
   const store = useStore();
-  const { isVisible } = useCustomScrollbar();
+  const { isMobileWidth } = useWindowProperties();
 
   const server = () => store.servers.get(params.serverId);
   return (
     <>
       <Header />
-      <div class={styles.serverDrawer} data-scrollbar-visible={isVisible()}>
-        <div
-          style={{
-            display: "flex",
-            "flex-direction": "column",
-            flex: 1,
-          }}
-        >
+      <div class={styles.serverDrawer}>
+        <div class={styles.serverDrawerInner}>
           <MembersItem />
           <Show when={server()?._count?.welcomeQuestions}>
             <CustomizeItem />
           </Show>
           <ChannelList />
-          <InVoiceActions />
+          <InVoiceActions style={isMobileWidth() ? { bottom: "76px" } : {}} />
         </div>
       </div>
     </>
@@ -330,7 +325,7 @@ function CategoryItem(props: {
         >
           <Icon
             size={14}
-            name="expand_more"
+            name="keyboard_arrow_down"
             class={cn(expanded() && styles.expanded, styles.expandIcon)}
           />
 
@@ -339,7 +334,6 @@ function CategoryItem(props: {
             type={props.channel.type}
             hovered={hovered()}
             class={styles.categoryItemChannelIcon}
-
           />
           <Show when={isPrivateCategory()}>
             <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
@@ -415,6 +409,9 @@ function ChannelItem(props: {
   return (
     <Show when={props.expanded || props.selected || hasNotifications()}>
       <A
+        onMouseEnter={() => {
+          messagesPreloader.preload(channel.id);
+        }}
         onClick={() => emitDrawerGoToMain()}
         onContextMenu={props.onContextMenu}
         href={RouterEndpoints.SERVER_MESSAGES(channel.serverId!, channel.id)}

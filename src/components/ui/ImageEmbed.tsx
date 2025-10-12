@@ -4,10 +4,11 @@ import { styled } from "solid-styled-components";
 import { classNames, conditionalClass } from "@/common/classNames";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { RawAttachment } from "@/chat-api/RawData";
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, lazy, onCleanup, onMount } from "solid-js";
 import env from "@/common/env";
-import { ImagePreviewModal } from "./ImagePreviewModal";
 import { transitionViewIfSupported } from "@/common/transitionViewIfSupported";
+
+const ImagePreviewModal = lazy(() => import("./ImagePreviewModal"));
 
 const ImageEmbedContainer = styled(FlexRow)`
   user-select: none;
@@ -84,7 +85,8 @@ export function ImageEmbed(props: ImageEmbedProps) {
     };
   };
 
-  const onClicked = () => {
+  const onClicked = async () => {
+    await ImagePreviewModal.preload();
     if (props.ignoreClick) return;
     setPreviewModalOpened(true);
     transitionViewIfSupported(() => {

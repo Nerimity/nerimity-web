@@ -14,7 +14,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { FriendStatus, RawUser } from "@/chat-api/RawData";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { settingsHeaderPreview } from "./SettingsPane";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 
 const HeaderContainer = styled("div")`
   position: relative;

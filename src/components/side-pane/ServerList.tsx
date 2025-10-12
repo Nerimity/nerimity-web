@@ -6,7 +6,14 @@ import {
 } from "@/chat-api/services/ServerService";
 import useStore from "@/chat-api/store/useStore";
 import { useDocumentListener } from "@/common/useDocumentListener";
-import { createMemo, createSignal, Show, For, createEffect } from "solid-js";
+import {
+  createMemo,
+  createSignal,
+  Show,
+  For,
+  onMount,
+  onCleanup,
+} from "solid-js";
 import Sortable, { SortableEvent } from "solid-sortablejs";
 import ContextMenuServer from "../servers/context-menu/ContextMenuServer";
 import { Skeleton } from "../ui/skeleton/Skeleton";
@@ -15,12 +22,13 @@ import { RawServerFolder } from "@/chat-api/RawData";
 import { Server } from "@/chat-api/store/useServers";
 import Icon from "../ui/icon/Icon";
 import Avatar from "../ui/Avatar";
-import { A, useMatch, useParams } from "solid-navigator";
+import { A, useMatch, useNavigate, useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import { NotificationCountBadge } from "./NotificationCountBadge";
 import { SidebarItemContainer } from "./SidebarItemContainer";
 import ContextMenuServerFolder from "./ContextMenuServerFolder";
+import { messagesPreloader } from "@/common/createPreloader";
 
 const [draggingId, setDraggingId] = createSignal<string | null>(null);
 const [draggedOverId, setDraggedOverId] = createSignal<string | null>(null);
@@ -246,6 +254,12 @@ const ServerListSkeleton = (props: { size: number }) => {
   );
 };
 
+let mouseDownDetails = {
+  x: 0,
+  y: 0,
+  at: 0,
+};
+
 function ServerItem(props: {
   server: Server;
   onContextMenu?: (e: MouseEvent) => void;
@@ -256,14 +270,43 @@ function ServerItem(props: {
   const selected = useMatch(() => RouterEndpoints.SERVER(id) + "/*");
   const [hovered, setHovered] = createSignal(false);
 
+  const navigate = useNavigate();
+
+  const href = () =>
+    RouterEndpoints.SERVER_MESSAGES(
+      id,
+      getLastSelectedChannelId(id, defaultChannelId)
+    );
+
   return (
     <Tooltip tooltip={props.server.name}>
       <A
-        href={RouterEndpoints.SERVER_MESSAGES(
-          id,
-          getLastSelectedChannelId(id, defaultChannelId)
-        )}
-        onMouseEnter={() => setHovered(true)}
+        onmousedown={(e) => {
+          if (e.button !== 0) return;
+          mouseDownDetails = {
+            x: e.clientX,
+            y: e.clientY,
+            at: Date.now(),
+          };
+        }}
+        onmouseup={(e) => {
+          if (e.button !== 0) return;
+          if (Date.now() - mouseDownDetails.at < 200) {
+            const distance =
+              Math.abs(mouseDownDetails.x - e.clientX) +
+              Math.abs(mouseDownDetails.y - e.clientY);
+            if (distance < 20) {
+              navigate(href());
+            }
+          }
+        }}
+        href={href()}
+        onMouseEnter={() => {
+          setHovered(true);
+          messagesPreloader.preload(
+            getLastSelectedChannelId(id, defaultChannelId)
+          );
+        }}
         onMouseLeave={() => setHovered(false)}
         onContextMenu={props.onContextMenu}
       >
@@ -385,6 +428,17 @@ export const ServerList = (props: { size: number }) => {
     setIsDraggedOverItem(isItemHovered);
   });
 
+  const onMouseUp = () => {
+    setTimeout(() => {
+      setDraggingId(null);
+    }, 10);
+  };
+  onMount(() => {
+    document.addEventListener("pointerup", onMouseUp);
+    onCleanup(() => {
+      document.removeEventListener("pointerup", onMouseUp);
+    });
+  });
   return (
     <div class={style.serverListContainer}>
       <ContextMenuServer
@@ -423,9 +477,10 @@ export const ServerList = (props: { size: number }) => {
               setDraggingId(null);
               return;
             }
+
             setDraggingId(item?.id || null);
           }}
-          onEnd={(e) => {
+          onEnd={(e: SortableEvent) => {
             // when dragging a server inside an opened folder
             if (e.from !== e.to) {
               const folderId = e.to.id.split("-")[1];

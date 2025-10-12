@@ -23,14 +23,9 @@ import {
 } from "@/common/date";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import {
-  UserDetails,
-  getUserDetailsRequest,
-  updatePresence,
-} from "@/chat-api/services/UserService";
+import { UserDetails, updatePresence } from "@/chat-api/services/UserService";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
-import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Banner } from "../ui/Banner";
 import { CustomLink } from "../ui/CustomLink";
@@ -41,7 +36,7 @@ import { bannerUrl } from "@/chat-api/store/useUsers";
 import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu";
 import { electronWindowAPI } from "@/common/Electron";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
-import { A, useLocation, useNavigate } from "solid-navigator";
+import { useLocation, useNavigate } from "solid-navigator";
 import env from "@/common/env";
 import {
   RichProgressBar,
@@ -50,12 +45,12 @@ import {
 import { ActivityStatus } from "@/chat-api/RawData";
 import { css } from "solid-styled-components";
 import { Emoji } from "../ui/Emoji";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { PostItem } from "../post-area/PostItem";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import average from "@/common/chromaJS";
 import Button from "../ui/Button";
-import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import { FlexColumn } from "../ui/Flexbox";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
@@ -66,6 +61,7 @@ import Input from "../ui/input/Input";
 import { formatMessage } from "../message-pane/MessagePane";
 import { logout } from "@/common/logout";
 import { currentTheme } from "@/common/themes";
+import { userDetailsPreloader } from "@/common/createPreloader";
 
 interface Props {
   dmPane?: boolean;
@@ -236,7 +232,7 @@ const DesktopProfileFlyout = (props: {
       () => props.userId,
       async () => {
         setDetails(undefined);
-        const details = await getUserDetailsRequest(props.userId);
+        const details = await userDetailsPreloader.run(props.userId);
         setDetails(details);
         if (!details.latestPost) return;
         posts.pushPost(details.latestPost);
@@ -468,6 +464,16 @@ const DesktopProfileFlyout = (props: {
       </Show>
     );
   };
+
+  const memberJoinedAt = () => {
+    if (!member()) return undefined;
+    return formatTimestamp(member()!.joinedAt || 0);
+  };
+  const userJoinedAt = () => {
+    if (!user()?.joinedAt) return undefined;
+    return formatTimestamp(user()?.joinedAt || 0);
+  };
+
   const ProfileArea = () => (
     <>
       <Show when={member()}>
@@ -542,6 +548,34 @@ const DesktopProfileFlyout = (props: {
 
       <Show when={!details()}>
         <Skeleton.Item height="50px" style={{ "margin-bottom": "6px" }} />
+      </Show>
+      <Show when={details()}>
+        <div class={styles.section}>
+          <FlyoutTitle
+            title="Joined"
+            icon="calendar_month"
+            primaryColor={colors()?.primary || undefined}
+          />
+          <Text
+            class={styles.joinedText}
+            size={12}
+            color="rgba(255,255,255,0.7)"
+          >
+            <div class={styles.joinedContainer} title="Nerimity">
+              <Avatar url="https://nerimity.com/assets/logo.png" size={16} />
+              {userJoinedAt()}
+            </div>
+            <Show when={member()}>
+              <div class={styles.joinedContainer} title="Server">
+                <Avatar
+                  server={{ ...member()?.server()!, verified: false }}
+                  size={16}
+                />
+                {memberJoinedAt()}
+              </div>
+            </Show>
+          </Text>
+        </div>
       </Show>
       <Show when={bio()?.length}>
         <div class={styles.section}>

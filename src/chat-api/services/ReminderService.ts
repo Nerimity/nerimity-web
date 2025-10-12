@@ -25,3 +25,11 @@ export const deleteReminder = async (reminderId: string) => {
     useToken: true,
   });
 };
+export const updateReminder = async (reminderId: string, timestamp: number) => {
+  return await request<RawReminder>({
+    method: "POST",
+    url: env.SERVER_URL + "/api/reminders/" + reminderId,
+    useToken: true,
+    body: { timestamp },
+  });
+};

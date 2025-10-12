@@ -1,22 +1,30 @@
 import { avatarUrl } from "@/chat-api/store/useUsers";
-import { classNames } from "@/common/classNames";
+import { classNames, cn } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { read } from "fs";
-import { createMemo, JSX, JSXElement, Match, Show, Switch } from "solid-js";
-import { keyframes, styled } from "solid-styled-components";
-import Text from "./Text";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
-import styles from "./AvatarStyles.module.scss";
+import { createMemo, JSXElement, Match, Show, Switch } from "solid-js";
+import {
+  hasBit,
+  USER_BADGES,
+  USER_BADGES_VALUES,
+  UserBadge,
+} from "@/chat-api/Bitwise";
+import style from "./Avatar.module.css";
 import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 import { CatEarsBorder } from "../avatar-borders/CatEarBorder";
 import { FoxEarsBorder } from "../avatar-borders/FoxEarBorder";
+import env from "@/common/env";
 
 interface Props {
   url?: string | null;
   size: number;
   class?: string;
   animate?: boolean;
-  user?: { avatar?: string; hexColor: string; badges?: number };
+  user?: {
+    avatar?: string;
+    hexColor: string;
+    badges?: number;
+    avatarUrl?: string;
+  };
   server?: { avatar?: string; hexColor: string; verified: boolean };
   voiceIndicator?: boolean;
   children?: JSXElement;
@@ -37,6 +45,7 @@ export default function Avatar(props: Props) {
   const serverOrUser = () => (props.server || props.user) as ServerOrUser;
 
   const url = () => {
+    if (typeof props.user?.avatarUrl === "string") return webhookAvatarUrl();
     const rawUrl = props.url || avatarUrl(serverOrUser());
     if (!rawUrl) return;
     const url = new URL(rawUrl);
@@ -54,6 +63,35 @@ export default function Avatar(props: Props) {
     return url.href;
   };
 
+  // used for webhook override
+  const webhookAvatarUrl = () => {
+    if (!props.user?.avatarUrl) return null;
+
+    try {
+      const baseUrl = new URL(props.user.avatarUrl);
+      const ext = baseUrl.pathname.split(".").pop();
+
+      const proxyUrl = new URL(
+        `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
+          baseUrl.href
+        )}/avatar.${ext}`
+      );
+
+      proxyUrl.searchParams.set("size", props.resize?.toString() || "500");
+
+      if (!proxyUrl.pathname.endsWith(".gif")) return proxyUrl.href;
+
+      if (!hasFocus() || !props.animate) {
+        proxyUrl.searchParams.set("type", "webp");
+      }
+
+      return proxyUrl.href;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  };
+
   const badge = createMemo(() => {
     const badges = serverOrUser()?.badges;
     if (!badges) return;
@@ -63,11 +101,7 @@ export default function Avatar(props: Props) {
   return (
     <div
       style={{ width: props.size + "px", height: props.size + "px" }}
-      class={classNames(
-        styles.avatarContainer,
-        "avatar-container",
-        props.class
-      )}
+      class={classNames(style.avatarContainer, "avatar-container", props.class)}
     >
       <Switch
         fallback={
@@ -110,7 +144,7 @@ export default function Avatar(props: Props) {
   );
 }
 
-const badgesArr = Object.values(USER_BADGES);
+const badgesArr = USER_BADGES_VALUES;
 
 function AvatarBorder(props: {
   size: number;
@@ -119,7 +153,7 @@ function AvatarBorder(props: {
   url?: string;
   color?: string;
   children?: JSXElement;
-  badge?: (typeof USER_BADGES)[keyof typeof USER_BADGES];
+  badge?: UserBadge;
   badges?: number;
   voiceIndicator?: boolean;
 }) {
@@ -218,7 +252,7 @@ const NoBorder = (props: {
   badges?: number;
 }) => {
   return (
-    <div class={styles.imageContainer}>
+    <div class={style.imageContainer}>
       <Overlays size={props.size} offset={-0.12} badges={props.badges} />
       <Switch>
         <Match when={props.children}>{props.children}</Match>
@@ -226,13 +260,13 @@ const NoBorder = (props: {
         <Match when={!props.children}>
           <Show when={!props.url}>
             <div
-              class={styles.avatarBackground}
+              class={style.avatarBackground}
               style={{ background: props.serverOrUser?.hexColor }}
             />
           </Show>
 
           <img
-            class={styles.image}
+            class={style.image}
             loading="lazy"
             src={props.url || "/assets/profile.png"}
             alt="User Avatar"
@@ -242,47 +276,6 @@ const NoBorder = (props: {
     </div>
   );
 };
-
-const BasicAvatarBorderContainer = styled("div")<{
-  size: number;
-  color: string;
-}>`
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  justify-content: center;
-  border-radius: 50%;
-
-  border: solid ${(props) => (props.size / 100) * 8}px ${(props) => props.color};
-
-  left: -${(props) => (props.size / 100) * 5}px;
-  top: -${(props) => (props.size / 100) * 5}px;
-  right: -${(props) => (props.size / 100) * 5}px;
-  bottom: -${(props) => (props.size / 100) * 5}px;
-
-  z-index: 1;
-`;
-
-const rotate = keyframes`
-  0% { 
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const BasicBorderLabelContainer = styled("div")`
-  pointer-events: none;
-  font-weight: bold;
-  position: absolute;
-  color: rgba(0, 0, 0, 0.7);
-
-  animation: ${rotate} 0.2s ease-out forwards;
-`;
 
 function BasicBorder(props: {
   size: number;
@@ -295,17 +288,24 @@ function BasicBorder(props: {
   hideBorder?: boolean;
   badges?: number;
 }) {
+  const inset = "-" + (props.size / 100) * 5 + "px";
   return (
     <>
       <NoBorder {...props} />
       <Show when={!props.hideBorder}>
-        <BasicAvatarBorderContainer
-          class="basic-border"
-          color={props.color}
-          size={props.size}
+        <div
+          class={cn(style.basicBorderContainer, "basic-border")}
+          style={{
+            border: `solid ${(props.size / 100) * 8}px ${props.color}`,
+            left: inset,
+            top: inset,
+            right: inset,
+            bottom: inset,
+          }}
         >
           <Show when={props.label && props.hovered}>
-            <BasicBorderLabelContainer
+            <div
+              class={style.basicBorderLabel}
               style={{
                 "font-size": (props.size / 100) * 17 + "px",
                 "border-radius": (props.size / 100) * 8 + "px",
@@ -315,9 +315,9 @@ function BasicBorder(props: {
               }}
             >
               {props.label}
-            </BasicBorderLabelContainer>
+            </div>
           </Show>
-        </BasicAvatarBorderContainer>
+        </div>
       </Show>
     </>
   );

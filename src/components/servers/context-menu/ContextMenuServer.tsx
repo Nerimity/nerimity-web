@@ -17,7 +17,7 @@ import {
 import { RadioBoxItem, RadioBoxItemCheckBox } from "@/components/ui/RadioBox";
 import { conditionalClass } from "@/common/classNames";
 import { css } from "solid-styled-components";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;

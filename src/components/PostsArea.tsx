@@ -54,8 +54,8 @@ import { classNames, cn } from "@/common/classNames";
 import FileBrowser, { FileBrowserRef } from "./ui/FileBrowser";
 import { EmojiPicker } from "./ui/emoji-picker/EmojiPicker";
 import { formatMessage } from "./message-pane/MessagePane";
-import { t } from "i18next";
-import { Trans, TransProps } from "@mbarzda/solid-i18next";
+import { t } from "@nerimity/i18lite";
+import { Trans, TransProps } from "@nerimity/solid-i18lite";
 import ItemContainer from "./ui/LegacyItem";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import { Notice } from "./ui/Notice/Notice";
@@ -70,6 +70,7 @@ import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { createFilter } from "vite";
 import { TenorImage } from "@/chat-api/services/TenorService";
 import { Modal } from "./ui/modal";
+import { UnescapedTrans } from "./UnescapedTrans";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -316,7 +317,7 @@ function NewPostArea(props: {
             `}
             iconSize={16}
             onClick={togglePollOptions}
-            iconName="poll"
+            iconName="checklist"
           />
           <Button
             margin={0}
@@ -1759,24 +1760,3 @@ export function EditPostModal(props: { post: Post; close: () => void }) {
     </Modal.Root>
   );
 }
-
-const getUnescapeChildrenRef = (ref: HTMLDivElement) => {
-  createEffect(() => {
-    Array.from(ref.childNodes).forEach((node) => {
-      const nodeEl = node as HTMLDivElement;
-      if (!nodeEl.innerText) {
-        return node;
-      }
-      nodeEl.innerHTML = nodeEl?.textContent || "";
-    });
-  });
-};
-
-const UnescapedTrans: ParentComponent<TransProps> = (props: TransProps) => (
-  <div ref={getUnescapeChildrenRef}>
-    <Trans
-      {...props}
-      options={{ interpolation: { escapeValue: true }, ...props.options }}
-    />
-  </div>
-);

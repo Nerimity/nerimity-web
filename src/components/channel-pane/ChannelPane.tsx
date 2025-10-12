@@ -13,11 +13,8 @@ export default function ChannelPane() {
   const channel = () => channels.get(params.channelId!);
 
   return (
-    <Rerun on={() => params.channelId}>
-      <Switch>
-        <Match when={TextChannels.includes(channel()?.type!)}><MessagePane /></Match>
-      </Switch>
-
-    </Rerun>
+    <Switch>
+      <Match when={TextChannels.includes(channel()?.type!)}><MessagePane /></Match>
+    </Switch>
   );
 }

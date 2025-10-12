@@ -10,7 +10,7 @@ import Text from "../ui/Text";
 export const getActivityIconName = (activity: ActivityStatus) => {
   if (activity.action.startsWith("Listening")) return "music_note";
   if (activity.action.startsWith("Watching")) return "movie";
-  return "games";
+  return "gamepad";
 };
 
 export const RichProgressBar = (props: {

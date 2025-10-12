@@ -83,7 +83,7 @@ export default function DropDown(props: DropDownProps) {
       </Show>
       <div class={cn(styles.box, "box")} ref={element} onClick={togglePopup}>
         <ItemTemplate item={selectedItem()} placeholder={props.placeholder} />
-        <Icon name="expand_more" class={styles.expandIcon} />
+        <Icon name="keyboard_arrow_down" class={styles.expandIcon} />
       </div>
       <Show when={popupLocation()}>
         <Portal>

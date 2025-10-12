@@ -6,14 +6,15 @@ import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 import Icon from "@/components/ui/icon/Icon";
-import { createServerRole, updateServerRoleOrder } from "@/chat-api/services/ServerService";
+import {
+  createServerRole,
+  updateServerRoleOrder,
+} from "@/chat-api/services/ServerService";
 import { ServerRole } from "@/chat-api/store/useServerRoles";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { Draggable } from "@/components/ui/Draggable";
 import { CustomLink } from "@/components/ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-
-
 
 function RoleItem(props: { role: ServerRole }) {
   const { serverId } = useParams();
@@ -24,38 +25,29 @@ function RoleItem(props: { role: ServerRole }) {
     <CustomLink noContextMenu href={link} class={styles.roleItem}>
       <div class={styles.roleDot} style={{ background: props.role.hexColor }} />
       <div class={styles.name}>{props.role.name}</div>
-      <Icon name='navigate_next' />
+      <Icon name="keyboard_arrow_right" />
     </CustomLink>
   );
 }
-
 
 function RoleList() {
   const { serverId } = useParams();
   const { serverRoles } = useStore();
   const roles = () => serverRoles.getAllByServerId(serverId) as ServerRole[];
 
-
-
-
-
   const onDrop = (items: ServerRole[], revert: () => void) => {
-    const ids = items.map(item => item.id);
-    updateServerRoleOrder(serverId, [...ids].reverse())
-      .catch(() => {
-        revert();
-      });
+    const ids = items.map((item) => item.id);
+    updateServerRoleOrder(serverId, [...ids].reverse()).catch(() => {
+      revert();
+    });
   };
 
   return (
     <Draggable onDrop={onDrop} class={styles.roleList} items={roles()}>
-      {role => <RoleItem role={role!} />}
+      {(role) => <RoleItem role={role!} />}
     </Draggable>
   );
 }
-
-
-
 
 export default function ServerSettingsRole() {
   const [t] = useTransContext();
@@ -64,12 +56,11 @@ export default function ServerSettingsRole() {
   const { header, servers } = useStore();
   const [roleAddRequestSent, setRoleAddRequestSent] = createSignal(false);
 
-
   onMount(() => {
     header.updateHeader({
       title: "Settings - Roles",
       serverId: serverId!,
-      iconName: "settings"
+      iconName: "settings",
     });
   });
 
@@ -77,26 +68,35 @@ export default function ServerSettingsRole() {
     if (roleAddRequestSent()) return;
     setRoleAddRequestSent(true);
 
-    const role = await createServerRole(serverId!)
-      .finally(() => setRoleAddRequestSent(false));
+    const role = await createServerRole(serverId!).finally(() =>
+      setRoleAddRequestSent(false)
+    );
 
     navigate(RouterEndpoints.SERVER_SETTINGS_ROLE(serverId!, role.id));
   };
 
   const server = () => servers.get(serverId);
 
-
   return (
     <div class={styles.rolesPane}>
       <Breadcrumb>
-        <BreadcrumbItem href={RouterEndpoints.SERVER_MESSAGES(serverId, server()?.defaultChannelId!)} icon='home' title={server()?.name} />
+        <BreadcrumbItem
+          href={RouterEndpoints.SERVER_MESSAGES(
+            serverId,
+            server()?.defaultChannelId!
+          )}
+          icon="home"
+          title={server()?.name}
+        />
         <BreadcrumbItem title={t("servers.settings.drawer.roles")} />
       </Breadcrumb>
-      <SettingsBlock label={t("servers.settings.roles.addNewRole")} icon='add'>
-        <Button label={t("servers.settings.roles.addRoleButton")} onClick={onAddRoleClicked} />
+      <SettingsBlock label={t("servers.settings.roles.addNewRole")} icon="add">
+        <Button
+          label={t("servers.settings.roles.addRoleButton")}
+          onClick={onAddRoleClicked}
+        />
       </SettingsBlock>
       <RoleList />
     </div>
   );
 }
-

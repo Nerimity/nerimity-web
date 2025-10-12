@@ -5,7 +5,7 @@ import { FlexColumn } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 
 import { Notice } from "../ui/Notice/Notice";
@@ -65,6 +65,7 @@ export default function WindowSettings() {
         </Show>
         <StartupOptions />
         <HardwareAccelerationOptions />
+        <DisableCustomTitlebar />
       </Options>
     </Container>
   );
@@ -90,7 +91,7 @@ function StartupOptions() {
 
   return (
     <FlexColumn>
-      <SettingsBlock icon="launch" label="Startup Options" header />
+      <SettingsBlock icon="open_in_new" label="Startup Options" header />
       <SettingsBlock
         onClick={() => onAutostartChange(!autostart())}
         icon="restart_alt"
@@ -142,10 +143,35 @@ function HardwareAccelerationOptions() {
         label={"Disable Hardware Acceleration"}
         description="You must reopen the app for the change to take effect."
       >
-        <Checkbox
-          checked={hardwareAccelerationDisabled()}
-          onChange={onHardwareAccelerationChange}
-        />
+        <Checkbox checked={hardwareAccelerationDisabled()} />
+      </SettingsBlock>
+    </FlexColumn>
+  );
+}
+function DisableCustomTitlebar() {
+  const [customTitlebarDisabled, setCustomTitlebarDisabled] =
+    createSignal(false);
+
+  onMount(() => {
+    electronWindowAPI()
+      ?.getCustomTitlebarDisabled()
+      .then(setCustomTitlebarDisabled);
+  });
+
+  const onChange = (checked: boolean) => {
+    electronWindowAPI()?.setCustomTitlebarDisabled(checked);
+    setCustomTitlebarDisabled(checked);
+  };
+
+  return (
+    <FlexColumn>
+      <SettingsBlock
+        onClick={() => onChange(!customTitlebarDisabled())}
+        icon="speed"
+        label="Disable Custom Titlebar"
+        description="You must reopen the app for the change to take effect."
+      >
+        <Checkbox checked={customTitlebarDisabled()} />
       </SettingsBlock>
     </FlexColumn>
   );

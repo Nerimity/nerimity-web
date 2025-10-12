@@ -59,6 +59,7 @@ import {
   onUserPresenceUpdate,
   onUserReminderAdd,
   onUserReminderRemove,
+  onUserReminderUpdate,
   onUserUnblocked,
   onUserUpdated,
   onUserUpdatedSelf,
@@ -123,6 +124,7 @@ socket.on(ServerEvents.USER_UNBLOCKED, onUserUnblocked);
 socket.on(ServerEvents.USER_PRESENCE_UPDATE, onUserPresenceUpdate);
 
 socket.on(ServerEvents.USER_REMINDER_ADD, onUserReminderAdd);
+socket.on(ServerEvents.USER_REMINDER_UPDATE, onUserReminderUpdate);
 socket.on(ServerEvents.USER_REMINDER_REMOVE, onUserReminderRemove);
 
 socket.on(ServerEvents.FRIEND_REQUEST_SENT, onFriendRequestSent);

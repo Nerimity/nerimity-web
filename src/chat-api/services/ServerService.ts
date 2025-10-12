@@ -5,7 +5,7 @@ import {
   ChannelType,
   RawChannel,
   RawCustomEmoji,
-  RawPublicServer,
+  RawExploreItem,
   RawServer,
   RawServerRole,
   RawServerWelcomeAnswer,
@@ -420,7 +420,7 @@ export async function serverDetailsByInviteCode(inviteCode: string) {
 }
 
 export async function publicServerByEmojiId(id: string) {
-  return request<RawPublicServer>({
+  return request<RawExploreItem>({
     method: "GET",
     url: env.SERVER_URL + `/api/emojis/${id}/server`,
     useToken: true,
@@ -439,47 +439,11 @@ export async function joinPublicServer(serverId: string) {
     useToken: true,
   });
 }
-export async function BumpPublicServer(serverId: string, token: string) {
-  return request<RawPublicServer>({
-    method: "POST",
-    body: { token },
-    url:
-      env.SERVER_URL +
-      "/api" +
-      ServiceEndpoints.exploreServer(serverId) +
-      "/bump",
-    useToken: true,
-  });
-}
 
 export async function getPublicServer(serverId: string) {
-  return request<RawPublicServer>({
+  return request<RawExploreItem>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
-    useToken: true,
-  });
-}
-
-export type PublicServerSort =
-  | "pinned_at"
-  | "most_bumps"
-  | "most_members"
-  | "recently_added"
-  | "recently_bumped";
-export type PublicServerFilter = "pinned" | "all" | "verified";
-
-interface getPublicServersOpts {
-  sort: PublicServerSort;
-  filter: PublicServerFilter;
-  limit?: number;
-  afterId?: string;
-  search?: string;
-}
-export async function getPublicServers(opts: getPublicServersOpts) {
-  return request<RawPublicServer[]>({
-    params: opts,
-    method: "GET",
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(""),
     useToken: true,
   });
 }
@@ -488,17 +452,17 @@ export async function updatePublicServer(
   serverId: string,
   description: string
 ) {
-  return request<RawPublicServer>({
+  return request<RawExploreItem>({
     method: "POST",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
     body: { description },
     useToken: true,
   });
 }
-export async function deletePublicServer(serverId: string) {
-  return request<RawPublicServer>({
+export async function deleteExploreItem(id: string) {
+  return request<{ status: boolean }>({
     method: "DELETE",
-    url: env.SERVER_URL + "/api" + ServiceEndpoints.exploreServer(serverId),
+    url: env.SERVER_URL + "/api" + ServiceEndpoints.explore(id),
     useToken: true,
   });
 }

@@ -13,10 +13,15 @@ import {
 } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Slider from "../ui/Slider";
-import { playMessageNotification, playSound, Sounds } from "@/common/Sound";
+import {
+  getCustomSound,
+  playMessageNotification,
+  playSound,
+  Sounds,
+} from "@/common/Sound";
 import DropDown from "../ui/drop-down/DropDown";
 import Button from "../ui/Button";
 import ItemContainer from "../ui/LegacyItem";
@@ -159,21 +164,31 @@ function NotificationSoundSelection() {
         label={t("settings.notifications.mention")}
         description={t("settings.notifications.mentionDescription")}
         borderTopRadius={false}
+        borderBottomRadius={false}
       >
         <NotificationSoundDropDown typeId="MESSAGE_MENTION" />
+      </SettingsBlock>
+      <SettingsBlock
+        icon="calendar_today"
+        label={t("settings.notifications.reminder")}
+        description={t("settings.notifications.reminderDescription")}
+        borderTopRadius={false}
+      >
+        <NotificationSoundDropDown typeId="REMINDER" />
       </SettingsBlock>
     </FlexColumn>
   );
 }
 
 function NotificationSoundDropDown(props: {
-  typeId: "MESSAGE" | "MESSAGE_MENTION";
+  typeId: "MESSAGE" | "MESSAGE_MENTION" | "REMINDER";
 }) {
   const [selectedSounds, setSelectedSounds] = useLocalStorage<{
     [key: string]: (typeof Sounds)[number] | undefined;
   }>(StorageKeys.NOTIFICATION_SOUNDS, {});
 
-  const selectedId = () => selectedSounds()[props.typeId] || "default";
+  const selectedId = () =>
+    selectedSounds()[props.typeId] || getCustomSound(props.typeId) || "default";
 
   const capitalizeFirstLetter = (val: string) => {
     return val.charAt(0).toUpperCase() + val.slice(1);
@@ -192,7 +207,7 @@ function NotificationSoundDropDown(props: {
           setSelectedSounds({ ...selectedSounds(), [props.typeId]: sound }),
         label:
           sound === "nerimity-mute"
-            ? "Mute"
+            ? t("settings.notifications.mute")
             : capitalizeFirstLetter(sound.replaceAll("-", " ")),
         suffix: (
           <Show when={sound !== "nerimity-mute"}>

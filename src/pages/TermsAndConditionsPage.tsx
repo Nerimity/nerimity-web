@@ -1,13 +1,7 @@
-import env from "@/common/env";
-import Button from "@/components/ui/Button";
-import { Link } from "solid-navigator";
 import PageHeader from "../components/PageHeader";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
-import { appLogoUrl } from "@/common/worldEvents";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import Icon from "@/components/ui/icon/Icon";
+import { FlexColumn } from "@/components/ui/Flexbox";
 import { JSXElement } from "solid-js";
 import { CustomLink } from "@/components/ui/CustomLink";
 import PageFooter from "@/components/PageFooter";
@@ -59,7 +53,7 @@ export default function TermsAndConditionsPage() {
     <PageContainer class="page-container">
       <MetaTitle>Terms and Conditions</MetaTitle>
 
-      <PageHeader showLogo={false} />
+      <PageHeader />
       <Content class="content">
         <CenterContainer>
           <InformationContainer>

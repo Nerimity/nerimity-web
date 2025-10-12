@@ -1,12 +1,15 @@
-import { Show, createEffect} from "solid-js";
+import { Show, createEffect } from "solid-js";
 import { styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Button from "../ui/Button";
-import { createGoogleAccountLink, unlinkAccountWithGoogle } from "@/chat-api/services/UserService";
+import {
+  createGoogleAccountLink,
+  unlinkAccountWithGoogle,
+} from "@/chat-api/services/UserService";
 
 const Container = styled("div")`
   display: flex;
@@ -21,56 +24,66 @@ export default function ConnectionsSettings() {
   createEffect(() => {
     header.updateHeader({
       title: "Settings - Connections",
-      iconName: "settings"
+      iconName: "settings",
     });
   });
-
 
   return (
     <Container>
       <Breadcrumb>
-        <BreadcrumbItem href='/app' icon='home' title={t("dashboard.title")} />
+        <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.connections")} />
       </Breadcrumb>
-      <Connections/>
+      <Connections />
     </Container>
   );
 }
 
-
 function Connections() {
-
-
   return (
     <>
-      <GoogleLink/>
+      <GoogleLink />
     </>
   );
 }
 
 function GoogleLink() {
-  const {account} = useStore();
-  const isConnected = () => account.user()?.connections?.find(c => c.provider === "GOOGLE");
+  const { account } = useStore();
+  const isConnected = () =>
+    account.user()?.connections?.find((c) => c.provider === "GOOGLE");
 
   const linkGoogle = () => {
-    createGoogleAccountLink().then(url => {
-      window.open(url, "_blank");
-    }).catch(err => {
-      alert(err.message);
-    });
+    createGoogleAccountLink()
+      .then((url) => {
+        window.open(url, "_blank");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
   const unlinkGoogle = async () => {
-    await unlinkAccountWithGoogle().catch(err => {
+    await unlinkAccountWithGoogle().catch((err) => {
       alert(err.message);
     });
   };
-  
+
   return (
-    <SettingsBlock iconSrc='/assets/Google.svg' label='Google' description='Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.'>
-      <Show when={!isConnected()}><Button label='Link' iconName='link' onClick={linkGoogle}  /></Show>
-      <Show when={isConnected()}><Button label='Unlink' color='var(--alert-color)' iconName='link_off' onClick={unlinkGoogle}  /></Show>
+    <SettingsBlock
+      iconSrc="/assets/Google.svg"
+      label="Google"
+      description="Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive."
+    >
+      <Show when={!isConnected()}>
+        <Button label="Link" iconName="link" onClick={linkGoogle} />
+      </Show>
+      <Show when={isConnected()}>
+        <Button
+          label="Unlink"
+          color="var(--alert-color)"
+          iconName="link_off"
+          onClick={unlinkGoogle}
+        />
+      </Show>
     </SettingsBlock>
   );
-
-
 }

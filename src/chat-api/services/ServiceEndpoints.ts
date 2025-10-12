@@ -26,6 +26,7 @@ export default {
     `/servers/${serverId}/bans/${userId}`,
 
   exploreServer: (serverId: string) => `/explore/servers/${serverId}`,
+  explore: (id: string) => `/explore/${id}`,
 
   user: (userId: string) => `/users/${userId}`,
 

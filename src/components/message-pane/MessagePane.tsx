@@ -31,7 +31,12 @@ import { ServerEvents } from "../../chat-api/EventNames";
 import Icon from "@/components/ui/icon/Icon";
 import { postChannelTyping } from "@/chat-api/services/MessageService";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
-import { emojiShortcodeToUnicode, unicodeToTwemojiUrl } from "@/emoji";
+import {
+  emojis,
+  emojiShortcodeToUnicode,
+  lazyLoadEmojis,
+  unicodeToTwemojiUrl,
+} from "@/emoji";
 
 import env from "@/common/env";
 import Text from "../ui/Text";
@@ -41,7 +46,7 @@ import useServerMembers, {
 } from "@/chat-api/store/useServerMembers";
 
 import { addToHistory } from "@nerimity/solid-emoji-picker";
-import emojis from "@/emoji/emojis.json";
+import type EmojiType from "@/emoji/emojis.json";
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { matchSorter } from "match-sorter";
@@ -79,12 +84,15 @@ import { millisecondsToReadable } from "@/common/date";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import useServerRoles from "@/chat-api/store/useServerRoles";
 import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
+import { Trans } from "@nerimity/solid-i18lite";
+import { Rerun } from "@solid-primitives/keyed";
+import { UnescapedTrans } from "../UnescapedTrans";
 
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
@@ -242,8 +250,9 @@ function MessagePane() {
         {channel()?.name || channel()?.recipient()?.username}
         {params.serverId ? ` (${server()?.name})` : ""}
       </MetaTitle>
-      <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
-
+      <Rerun on={channel}>
+        <MessageLogArea mainPaneEl={mainPaneEl} textAreaEl={textAreaEl()} />
+      </Rerun>
       <Show when={isEmailNotConfirmed()}>
         <EmailUnconfirmedNotice />
       </Show>
@@ -472,6 +481,11 @@ function MessageArea(props: {
     setShowEmojiPicker(false);
   };
 
+  const htmlEnabled = () => channelProperty()?.htmlEnabled ?? false;
+  const toggleHtml = () => {
+    channelProperties.update(params.channelId, "htmlEnabled", !htmlEnabled());
+  };
+
   return (
     <div
       class={classNames(
@@ -509,6 +523,9 @@ function MessageArea(props: {
           hideEmojiPicker
           inputElement={textAreaEl()!}
           updateText={setMessage}
+          showHtml
+          toggleHtml={toggleHtml}
+          htmlEnabled={htmlEnabled()}
         />
       </Show>
       <CustomTextArea
@@ -561,7 +578,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (openedPortals().length) return;
-    if (event.target instanceof HTMLElement) {
+    if (event.target instanceof Element) {
       if (event.target.tagName === "TEXTAREA") return;
       if (event.target.tagName === "INPUT") return;
     }
@@ -922,6 +939,7 @@ function TypingIndicator() {
       class={styles.floatingTypingContainer}
       style={{
         visibility: typingUsers().length ? "visible" : "hidden",
+
         padding: "0px",
         "padding-left": "5px",
         "padding-right": "5px",
@@ -931,52 +949,56 @@ function TypingIndicator() {
       <Text size={paneWidth()! < 500 ? 10 : 12} class={styles.typingText}>
         <Switch>
           <Match when={typingUserDisplayNames().length === 1}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>{" "}
-            is typing...
+            <UnescapedTrans
+              key="typing.single"
+              options={{ username: typingUserDisplayNames()[0] }}
+            >
+              <strong class={styles.username}>{"username"}</strong> is typing...
+            </UnescapedTrans>
           </Match>
           <Match when={typingUserDisplayNames().length === 2}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>{" "}
-            and{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>{" "}
-            are typing...
+            <UnescapedTrans
+              key="typing.multiple"
+              options={{
+                username: typingUserDisplayNames()[0],
+                username2: typingUserDisplayNames()[1],
+              }}
+            >
+              <strong class={styles.username} />a
+              <strong class={styles.username} /> at
+            </UnescapedTrans>
           </Match>
           <Match when={typingUserDisplayNames().length === 3}>
-            <strong>{typingUserDisplayNames()[0]}</strong>,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>{" "}
-            and{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[2]}
-            </strong>{" "}
-            are typing...
+            <UnescapedTrans
+              key="typing.tripple"
+              options={{
+                username: typingUserDisplayNames()[0],
+                username2: typingUserDisplayNames()[1],
+                username3: typingUserDisplayNames()[2],
+              }}
+            >
+              <strong class={styles.username} />,
+              <strong class={styles.username} />, a
+              <strong class={styles.username} /> at
+            </UnescapedTrans>
           </Match>
           <Match when={typingUserDisplayNames().length > 3}>
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[0]}
-            </strong>
-            ,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[1]}
-            </strong>
-            ,{" "}
-            <strong class={styles.username}>
-              {typingUserDisplayNames()[2]}
-            </strong>{" "}
-            and <strong>{typingUserDisplayNames().length - 3}</strong> others
-            are typing...
+            <UnescapedTrans
+              key="typing.andOthers"
+              options={{
+                count: typingUserDisplayNames().length,
+              }}
+            >
+              <strong class={styles.username} />
+              at
+            </UnescapedTrans>
           </Match>
         </Switch>
       </Text>
     </Floating>
   );
 }
+
 function SlowModeIndicator() {
   const params = useParams<{ channelId: string; serverId: string }>();
   const { channels, account, channelProperties, serverMembers } = useStore();
@@ -1440,7 +1462,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
         <Icon
           size={34}
           color={newMessages() ? "var(--alert-color)" : "var(--primary-color)"}
-          name="expand_more"
+          name="keyboard_arrow_down"
         />
       </div>
     </Show>
@@ -1625,6 +1647,9 @@ function ChannelSuggestionItem(props: {
         <Icon name="lock" size={14} style={{ opacity: 0.3 }} />
       </Show>
       <div class={styles.suggestLabel}>{props.channel.name}</div>
+      <Show when={props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
+      </Show>
     </ItemContainer>
   );
 }
@@ -1803,11 +1828,14 @@ function UserSuggestionItem(props: {
       <Show when={props.user?.special && props.user.id === "si"}>
         <div class={styles.suggestionInfo}>Silent message.</div>
       </Show>
+      <Show when={!props.user?.special && props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
+      </Show>
     </ItemContainer>
   );
 }
 
-type Emoji = (typeof emojis)[number];
+type Emoji = (typeof EmojiType)[number];
 
 function FloatingEmojiSuggestions(props: {
   search: string;
@@ -1815,11 +1843,18 @@ function FloatingEmojiSuggestions(props: {
 }) {
   const params = useParams<{ channelId: string }>();
   const { servers } = useStore();
+  onMount(() => {
+    lazyLoadEmojis();
+  });
 
   const searchedEmojis = () =>
-    matchSorter([...emojis, ...servers.emojisUpdatedDupName()], props.search, {
-      keys: ["short_names.*", "name"],
-    }).slice(0, 10);
+    matchSorter(
+      [...emojis(), ...servers.emojisUpdatedDupName()],
+      props.search,
+      {
+        keys: ["short_names.*", "name"],
+      }
+    ).slice(0, 10);
 
   createEffect(
     on(searchedEmojis, () => {
@@ -2020,7 +2055,6 @@ function CommandSuggestionItem(props: {
       onclick={() => props.onclick(props.cmd)}
     >
       <Avatar size={32} user={user()!} />
-
       <div class={styles.suggestContent}>
         <div class={styles.suggestHeader}>
           <div class={styles.suggestLabel}>/{props.cmd.name}</div>
@@ -2028,6 +2062,9 @@ function CommandSuggestionItem(props: {
         </div>
         <div class={styles.suggestDescription}>{props.cmd.description}</div>
       </div>
+      <Show when={props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
+      </Show>
     </ItemContainer>
   );
 }
@@ -2068,6 +2105,9 @@ function EmojiSuggestionItem(props: {
         custom={props.emoji.id}
       />
       <div class={styles.suggestLabel}>{name()}</div>
+      <Show when={props.selected}>
+        <Icon class={styles.suggestIcon} name="keyboard_return" />
+      </Show>
     </ItemContainer>
   );
 }
@@ -2167,7 +2207,7 @@ function BeforeYouChatNotice(props: {
   const showNotice = () => notice() && !hasAlreadySeenNotice();
 
   const onDocClick = (e: MouseEvent) => {
-    if (e.target instanceof HTMLElement) {
+    if (e.target instanceof Element) {
       if (e.target.closest(".messageArea")) return;
       setTextAreaFocus(false);
     }
@@ -2175,7 +2215,7 @@ function BeforeYouChatNotice(props: {
 
   const onInput = (event: Event) => {
     if (openedPortals().length) return;
-    if (event.target instanceof HTMLElement) {
+    if (event.target instanceof Element) {
       event.preventDefault();
       event.stopPropagation();
       setTextAreaFocus(true);
@@ -2236,7 +2276,7 @@ function BeforeYouChatNotice(props: {
           <Button
             styles={{ opacity: buttonClickable() ? 1 : 0.5 }}
             label="Understood"
-            iconName="done"
+            iconName="check"
             onClick={understoodClick}
             class={styles.noticeButton}
             primary

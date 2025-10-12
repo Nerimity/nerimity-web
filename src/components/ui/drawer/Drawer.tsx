@@ -38,6 +38,7 @@ interface DrawerContext {
   hasRightDrawer: () => boolean;
   toggleLeftDrawer: () => void;
   toggleRightDrawer: () => void;
+  hideLeftDrawer: () => boolean;
   goToMain: () => void;
   toggleHideLeftDrawer: () => void;
   toggleHideRightDrawer: () => void;
@@ -119,7 +120,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   const leftDrawerWidth = () => {
     const dWidth = width() - 50;
-    const MAX_WIDTH = hasLeftDrawer() ? 330 : 68;
+    const MAX_WIDTH = hasLeftDrawer() ? 330 : 72;
     if (dWidth > MAX_WIDTH) return MAX_WIDTH;
     return dWidth;
   };
@@ -198,8 +199,8 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
         window.removeEventListener("touchmove", onTouchMove, false);
         return;
       }
-      const x = event.touches[0].clientX;
-      const y = event.touches[0].clientY;
+      const x = event.touches[0]!.clientX;
+      const y = event.touches[0]!.clientY;
       const touchDistance = x - startPos.x;
 
       const XDistance = Math.abs(startTransformX - transformX);
@@ -314,6 +315,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
     toggleLeftDrawer,
     toggleRightDrawer,
     goToMain,
+    hideLeftDrawer,
     toggleHideLeftDrawer: () => setHideLeftDrawer(!hideLeftDrawer()),
     toggleHideRightDrawer: () => setHideRightDrawer(!hideRightDrawer()),
   };
@@ -381,7 +383,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
             {hasLeftDrawer() && (
               <>
                 <div
-                  class={styles.leftDrawer}
+                  class={cn(
+                    styles.leftDrawer,
+                    isMobileWidth() && "mobileWidth"
+                  )}
                   style={
                     hideLeftDrawer() && !isMobileWidth()
                       ? { display: "none" }
@@ -431,7 +436,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
               position: "relative",
             }}
           >
-            <Show when={!hideRightDrawer()}>
+            <Show when={!hideRightDrawer() && hasRightDrawer()}>
               <rightDrawerResizeBar.Handle left={-2} />
             </Show>
 
