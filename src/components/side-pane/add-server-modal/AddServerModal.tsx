@@ -6,7 +6,7 @@ import {
   useAddServerModalController,
 } from "./useAddServerModalController";
 import { Notice } from "@/components/ui/Notice/Notice";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { Item } from "@/components/ui/Item";
 import { Show } from "solid-js";
 import Button from "@/components/ui/Button";
@@ -99,7 +99,6 @@ function sanitizeInviteInput(value: string): string {
   return match ? match[1]! : value.trim();
 }
 
-
 const JoinServerModal = (props: { close: () => void }) => {
   const controller = useAddServerModalController();
   const [rawInvite, setRawInvite] = createSignal(controller.name());
@@ -124,7 +123,7 @@ const JoinServerModal = (props: { close: () => void }) => {
         />
         <Input
           label={"Invite Code"}
-          onText={setRawInvite} 
+          onText={setRawInvite}
           value={rawInvite()}
           error={controller.error().message}
         />
@@ -153,7 +152,6 @@ const JoinServerModal = (props: { close: () => void }) => {
     </>
   );
 };
-
 
 const Tabs = () => {
   const controller = useAddServerModalController();

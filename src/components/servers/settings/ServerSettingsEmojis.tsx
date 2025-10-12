@@ -22,7 +22,7 @@ import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { useParams } from "solid-navigator";
 import { createSign } from "crypto";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import {
   createEffect,
   createSignal,

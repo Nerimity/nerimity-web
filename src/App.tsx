@@ -8,7 +8,7 @@ import {
 } from "solid-js";
 
 import { getCurrentLanguage, getLanguage } from "./locales/languages";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { electronWindowAPI, spellcheckSuggestions } from "./common/Electron";
 import { ElectronTitleBar } from "./components/ElectronTitleBar";
 import { useMatch } from "solid-navigator";

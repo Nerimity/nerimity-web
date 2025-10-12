@@ -13,7 +13,7 @@ import {
   Switch,
 } from "solid-js";
 import Text from "../ui/Text";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Avatar from "../ui/Avatar";
 import { CustomLink } from "../ui/CustomLink";

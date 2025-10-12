@@ -12,7 +12,7 @@ import env from "../common/env";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import Text from "@/components/ui/Text";
 import PageFooter from "@/components/PageFooter";
@@ -165,9 +165,7 @@ export default function RegisterPage() {
                     style={{ display: "flex", gap: "5px" }}
                     size={14}
                   >
-                    <div
-                      style={{ "margin-top": "-4px", "font-size": "20px" }}
-                    >
+                    <div style={{ "margin-top": "-4px", "font-size": "20px" }}>
                       •
                     </div>{" "}
                     {notice}

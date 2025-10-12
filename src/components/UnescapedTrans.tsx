@@ -1,4 +1,4 @@
-import { Trans, TransProps } from "@mbarzda/solid-i18next";
+import { Trans, TransProps } from "@nerimity/solid-i18lite";
 import { createEffect, ParentComponent } from "solid-js";
 
 const getUnescapeChildrenRef = (ref: HTMLSpanElement) => {

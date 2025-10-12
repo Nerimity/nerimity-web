@@ -2,7 +2,7 @@ import { useLocation, useMatch } from "solid-navigator";
 import ItemContainer from "../ui/LegacyItem";
 import style from "./HomeDrawer.module.scss";
 import Icon from "../ui/icon/Icon";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { CustomLink } from "../ui/CustomLink";
 import {
   HomeDrawerControllerProvider,

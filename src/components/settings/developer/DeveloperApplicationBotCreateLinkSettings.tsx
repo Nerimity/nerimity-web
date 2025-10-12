@@ -1,7 +1,7 @@
 import { Show, createEffect, createSignal, onMount } from "solid-js";
 import { styled } from "solid-styled-components";
 import useStore from "@/chat-api/store/useStore";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { getApplication } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";

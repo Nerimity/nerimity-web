@@ -6,7 +6,7 @@ import { Notice } from "@/components/ui/Notice/Notice";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
 import { useParams } from "solid-navigator";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { createEffect, Match, onMount, Show, Switch } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "@/components/ui/Button";

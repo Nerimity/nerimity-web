@@ -31,18 +31,21 @@ importers:
       '@codemirror/view':
         specifier: ^6.38.1
         version: 6.38.1
-      '@mbarzda/solid-i18next':
-        specifier: ^1.4.1
-        version: 1.4.1(html-parse-string@0.0.9)(i18next@24.2.3(typescript@5.9.2))(solid-js@1.9.9)
       '@melloware/coloris':
         specifier: ^0.25.0
         version: 0.25.0
+      '@nerimity/i18lite':
+        specifier: ^1.0.9
+        version: 1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9)
       '@nerimity/nevula':
         specifier: ^0.14.0
         version: 0.14.0
       '@nerimity/solid-emoji-picker':
         specifier: ^0.4.8
         version: 0.4.8(solid-js@1.9.9)
+      '@nerimity/solid-i18lite':
+        specifier: ^1.6.1
+        version: 1.6.1(@nerimity/i18lite@1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)
       '@nerimity/solid-opus-media-recorder':
         specifier: ^1.0.1
         version: 1.0.1(solid-js@1.9.9)
@@ -85,9 +88,6 @@ importers:
       html-parse-string:
         specifier: ^0.0.9
         version: 0.0.9
-      i18next:
-        specifier: ^24.2.3
-        version: 24.2.3(typescript@5.9.2)
       idb-keyval:
         specifier: ^6.2.2
         version: 6.2.2
@@ -625,16 +625,6 @@ packages:
   '@maxim_mazurok/gapi.client.drive-v3@0.0.20250811':
     resolution: {integrity: sha512-hexYbwEHQRdd8oY+SRZwOI3rp5OaOqGxKmbvKSizxPj73ntKJtIJN2SOMXFebfR8wRjZ+y8mEEmZl4GP9VFZTg==}
 
-  '@mbarzda/solid-i18next@1.4.1':
-    resolution: {integrity: sha512-QC/mrD9aMibcjuSNpdr9uky+JNupVedOB2CLNYJrFrZCMyY8+HXK3q1Lda+P2WoNBWToS+6BCwbB1D9sKBCXSQ==}
-    peerDependencies:
-      html-parse-string: <=1.x
-      i18next: '>=23.x'
-      solid-js: '>=1.8.x'
-    peerDependenciesMeta:
-      html-parse-string:
-        optional: true
-
   '@melloware/coloris@0.25.0':
     resolution: {integrity: sha512-RBWVFLjWbup7GRkOXb9g3+ZtR9AevFtJinrRz2cYPLjZ3TCkNRGMWuNbmQWbZ5cF3VU7aQDZwUsYgIY/bGrh2g==}
 
@@ -643,6 +633,15 @@ packages:
     peerDependencies:
       solid-js: '>= 1.0.0'
 
+  '@nerimity/i18lite@1.0.9':
+    resolution: {integrity: sha512-pkfnVg65ADdYEEwn9dh9fhZnjqVxk3pSkmQR37Oj1zWIo8J41/1qidmoGYu6vbVrVcaPMXaiPJj6XEHZyeMH6w==}
+    peerDependencies:
+      html-parse-string: <=1.x
+      solid-js: '>=1.8.x'
+    peerDependenciesMeta:
+      html-parse-string:
+        optional: true
+
   '@nerimity/nevula@0.14.0':
     resolution: {integrity: sha512-LPoswLxCMuxdB6Fe4wyVW3RqhnCTzf/PUaqWm39rweVgPg0SharUYyLkJ02rYPSQkyMFmJtnrjuK7TH4xyGtFA==}
 
@@ -650,6 +649,16 @@ packages:
     resolution: {integrity: sha512-dolM0ncAry0M77K9xlULC+AgHKPwAxARlEM2mTgz4huORupGzajhK3jiOxMPtH1j0M6MREY+B9NQ3YHxFDga0A==}
     peerDependencies:
       solid-js: ^1.6.0
+
+  '@nerimity/solid-i18lite@1.6.1':
+    resolution: {integrity: sha512-FuyZS2KGjp5i0OlPj7UP1fVCjcItlTpcS/jhGhaKzw02MUZgHloky/D/Dg08fgBITZj/aoKeqA+1LUU+nh3qDg==}
+    peerDependencies:
+      '@nerimity/i18lite': <=1.x
+      html-parse-string: <=1.x
+      solid-js: '>=1.8.x'
+    peerDependenciesMeta:
+      html-parse-string:
+        optional: true
 
   '@nerimity/solid-opus-media-recorder@1.0.1':
     resolution: {integrity: sha512-bcf3KtT2FmYIm5JEFGovlFGp3t7rYwkI4Mm04t9/QkdAjDyLDkxE1bd/84cXvZedGrNXKN3tVzZ3iXNRWbeauQ==}
@@ -1381,14 +1390,6 @@ packages:
   human-id@4.1.1:
     resolution: {integrity: sha512-3gKm/gCSUipeLsRYZbbdA1BD83lBoWUkZ7G9VFrhWPAU76KwYo5KR8V28bpoPm/ygy0x5/GCbpRQdY7VLYCoIg==}
     hasBin: true
-
-  i18next@24.2.3:
-    resolution: {integrity: sha512-lfbf80OzkocvX7nmZtu7nSTNbrTYR52sLWxPtlXX1zAhVw8WEnFk4puUkCR4B1dNQwbSpEHHHemcZu//7EcB7A==}
-    peerDependencies:
-      typescript: ^5
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -2615,18 +2616,17 @@ snapshots:
       '@types/gapi.client': 1.0.8
       '@types/gapi.client.discovery-v1': 0.0.4
 
-  '@mbarzda/solid-i18next@1.4.1(html-parse-string@0.0.9)(i18next@24.2.3(typescript@5.9.2))(solid-js@1.9.9)':
-    dependencies:
-      i18next: 24.2.3(typescript@5.9.2)
-      solid-js: 1.9.9
-    optionalDependencies:
-      html-parse-string: 0.0.9
-
   '@melloware/coloris@0.25.0': {}
 
   '@minht11/solid-virtual-container@0.2.1(solid-js@1.9.9)':
     dependencies:
       solid-js: 1.9.9
+
+  '@nerimity/i18lite@1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9)':
+    dependencies:
+      solid-js: 1.9.9
+    optionalDependencies:
+      html-parse-string: 0.0.9
 
   '@nerimity/nevula@0.14.0': {}
 
@@ -2636,6 +2636,13 @@ snapshots:
       match-sorter: 6.3.4
       solid-js: 1.9.9
       solid-styled-components: 0.28.5(solid-js@1.9.9)
+
+  '@nerimity/solid-i18lite@1.6.1(@nerimity/i18lite@1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)':
+    dependencies:
+      '@nerimity/i18lite': 1.0.9(html-parse-string@0.0.9)(solid-js@1.9.9)
+      solid-js: 1.9.9
+    optionalDependencies:
+      html-parse-string: 0.0.9
 
   '@nerimity/solid-opus-media-recorder@1.0.1(solid-js@1.9.9)':
     dependencies:
@@ -3368,12 +3375,6 @@ snapshots:
   html-tags@3.3.1: {}
 
   human-id@4.1.1: {}
-
-  i18next@24.2.3(typescript@5.9.2):
-    dependencies:
-      '@babel/runtime': 7.28.3
-    optionalDependencies:
-      typescript: 5.9.2
 
   iconv-lite@0.4.24:
     dependencies:

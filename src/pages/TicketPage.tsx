@@ -37,7 +37,7 @@ import Input from "@/components/ui/input/Input";
 import { Modal } from "@/components/ui/modal";
 import { Notice } from "@/components/ui/Notice/Notice";
 import Text from "@/components/ui/Text";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { createSignal, For, onCleanup, onMount, Setter, Show } from "solid-js";
 import { useMatch, useParams } from "solid-navigator";
 import { css, styled } from "solid-styled-components";

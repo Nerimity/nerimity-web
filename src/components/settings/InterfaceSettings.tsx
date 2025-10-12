@@ -5,7 +5,7 @@ import useStore from "@/chat-api/store/useStore";
 import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import {
@@ -103,7 +103,8 @@ export default function InterfaceSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
       iconName: "settings",
     });
   });
@@ -118,7 +119,11 @@ export default function InterfaceSettings() {
       <BlurEffect />
       <AdvancedMarkup />
       <CustomizeColors />
-      <SettingsBlock icon="code" label={t("settings.interface.customCSS")} href="./custom-css" />
+      <SettingsBlock
+        icon="code"
+        label={t("settings.interface.customCSS")}
+        href="./custom-css"
+      />
       <ErudaBlock />
     </Container>
   );

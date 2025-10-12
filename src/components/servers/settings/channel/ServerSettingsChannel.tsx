@@ -32,7 +32,7 @@ import {
 } from "@/chat-api/Bitwise";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
@@ -47,7 +47,7 @@ import {
 } from "@/chat-api/services/ChannelService";
 import { RawChannelNotice, RawWebhook } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
 import { Item } from "@/components/ui/Item";
 import { CustomLink } from "@/components/ui/CustomLink";

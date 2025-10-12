@@ -7,7 +7,7 @@ import { Show, createSignal, onMount } from "solid-js";
 import { linkAccountWithGoogle } from "@/chat-api/services/UserService";
 import Text from "@/components/ui/Text";
 import { getOrCreateUploadsFolder } from "@/common/driveAPI";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 
 const PageContainer = styled("div")`
   display: flex;

@@ -27,7 +27,7 @@ import {
 import FileBrowser, { FileBrowserRef } from "../ui/FileBrowser";
 import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { CustomLink } from "../ui/CustomLink";
 import {
   getStorageString,

@@ -3,7 +3,7 @@ import { RawExploreItem } from "@/chat-api/RawData";
 import { bannerUrl } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { A, useNavigate } from "solid-navigator";
 import { batch, createSignal, For, on, Show } from "solid-js";
 import { createEffect } from "solid-js";

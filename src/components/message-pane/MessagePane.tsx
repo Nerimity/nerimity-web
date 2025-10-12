@@ -84,13 +84,13 @@ import { millisecondsToReadable } from "@/common/date";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import useServerRoles from "@/chat-api/store/useServerRoles";
 import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
-import { Trans } from "@mbarzda/solid-i18next";
+import { Trans } from "@nerimity/solid-i18lite";
 import { Rerun } from "@solid-primitives/keyed";
 import { UnescapedTrans } from "../UnescapedTrans";
 

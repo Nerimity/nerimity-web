@@ -32,7 +32,7 @@ import Icon from "./ui/icon/Icon";
 import env from "@/common/env";
 import { getActivityIconName } from "@/components/activity/Activity";
 import { Skeleton } from "./ui/skeleton/Skeleton";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { MetaTitle } from "@/common/MetaTitle";
 import { MentionUser } from "./markup/MentionUser";
 import { Item } from "./ui/Item";

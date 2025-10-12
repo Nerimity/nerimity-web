@@ -3,7 +3,7 @@ import { Show, createEffect } from "solid-js";
 import SettingsHeader from "./SettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { createStore } from "solid-js/store";
 import settings from "@/common/Settings";
 
@@ -18,25 +18,25 @@ const SettingsPaneContainer = styled("div")`
 
 interface SettingsHeaderPreview {
   username?: string;
-  tag?: string; 
+  tag?: string;
   banner?: string;
   avatar?: any;
   avatarPoints?: number[];
 }
 
-export const [settingsHeaderPreview, setSettingsHeaderPreview] = createStore<SettingsHeaderPreview>({});
+export const [settingsHeaderPreview, setSettingsHeaderPreview] =
+  createStore<SettingsHeaderPreview>({});
 
 export default function SettingsPane() {
-  const { account} = useStore();
+  const { account } = useStore();
   const user = () => account.user();
 
   const matchingSettingsPane = () => {
-    return settings.find(s => {
+    return settings.find((s) => {
       const match = useMatch(() => `/app/settings/${s.routePath}`);
       return match();
     });
   };
-
 
   return (
     <Show when={user()}>
@@ -44,7 +44,7 @@ export default function SettingsPane() {
         <Show when={!matchingSettingsPane()?.hideHeader}>
           <SettingsHeader />
         </Show>
-        <Outlet name='settingsPane' />
+        <Outlet name="settingsPane" />
       </SettingsPaneContainer>
     </Show>
   );

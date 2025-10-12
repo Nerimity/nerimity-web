@@ -38,7 +38,7 @@ import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
 import { Markup } from "../Markup";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { Tooltip } from "../ui/Tooltip";
 import { userDetailsPreloader } from "@/common/createPreloader";

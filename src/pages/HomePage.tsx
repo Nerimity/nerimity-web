@@ -5,7 +5,7 @@ import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { appLogoUrl } from "@/common/worldEvents";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Icon from "@/components/ui/icon/Icon";
 import { CustomLink } from "@/components/ui/CustomLink";

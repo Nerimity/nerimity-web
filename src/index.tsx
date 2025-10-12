@@ -20,7 +20,7 @@ import App from "./App";
 import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
 import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json";
-import { TransProvider } from "@mbarzda/solid-i18next";
+import { TransProvider } from "@nerimity/solid-i18lite";
 import { useWindowProperties } from "./common/useWindowProperties";
 import { For, Show, createEffect, lazy, on } from "solid-js";
 import RouterEndpoints from "./common/RouterEndpoints";

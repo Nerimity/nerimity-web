@@ -3,7 +3,7 @@ import { css, styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { Experiment, Experiments, useExperiment } from "@/common/experiments";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
 import Checkbox from "../ui/Checkbox";

@@ -11,7 +11,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import { CustomLink } from "@/components/ui/CustomLink";
 import { FlexRow } from "@/components/ui/Flexbox";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { createEffect, createSignal, For, Show } from "solid-js";
 import { css } from "solid-styled-components";
 

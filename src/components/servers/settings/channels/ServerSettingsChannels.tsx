@@ -21,7 +21,7 @@ import {
   createServerChannel,
   updateServerChannelOrder,
 } from "@/chat-api/services/ServerService";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import Sortable from "solid-sortablejs";
 import ContextMenu, {
   ContextMenuProps,

@@ -58,7 +58,7 @@ import MemberContextMenu from "@/components/member-context-menu/MemberContextMen
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import { copyToClipboard } from "@/common/clipboard";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { useDrawer } from "@/components/ui/drawer/Drawer";
 import { fileToDataUrl } from "@/common/fileToDataUrl";
 import { PhotoEditor } from "@/components/ui/photo-editor/PhotoEditor";

@@ -4,7 +4,7 @@ import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import { useNavigate, useParams } from "solid-navigator";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { createEffect, createSignal, onMount, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import Button from "@/components/ui/Button";

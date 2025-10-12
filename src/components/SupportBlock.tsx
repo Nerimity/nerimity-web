@@ -3,7 +3,7 @@ import { styled } from "solid-styled-components";
 import ItemContainer from "./ui/LegacyItem";
 import { FlexRow } from "./ui/Flexbox";
 import Icon from "./ui/icon/Icon";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import Text from "./ui/Text";
 const SettingItemContainer = styled(ItemContainer)<{ nested?: boolean }>`
   height: 32px;

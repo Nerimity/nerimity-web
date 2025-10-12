@@ -44,7 +44,7 @@ import { CustomLink } from "../ui/CustomLink";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { Banner } from "../ui/Banner";
 import { Markup } from "../Markup";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import {
   hasBit,
   USER_BADGES,

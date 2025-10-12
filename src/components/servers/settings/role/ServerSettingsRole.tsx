@@ -23,7 +23,7 @@ import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfi
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import Icon from "@/components/ui/icon/Icon";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { Notice } from "@/components/ui/Notice/Notice";
 import { css } from "solid-styled-components";

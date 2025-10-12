@@ -21,7 +21,7 @@ import {
   hasBit,
   removeBit,
 } from "@/chat-api/Bitwise";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import Checkbox from "@/components/ui/Checkbox";
 import { inviteBot } from "@/chat-api/services/ServerService";
 import { Modal } from "@/components/ui/modal";

@@ -5,7 +5,7 @@ import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { RawTicket, TicketStatus } from "@/chat-api/RawData";
 import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { getModerationTickets } from "@/chat-api/services/ModerationService";
 import { useMatch } from "solid-navigator";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";

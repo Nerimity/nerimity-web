@@ -45,7 +45,7 @@ import {
 import { ActivityStatus } from "@/chat-api/RawData";
 import { css } from "solid-styled-components";
 import { Emoji } from "../ui/Emoji";
-import { t } from "i18next";
+import { t } from "@nerimity/i18lite";
 import { PostItem } from "../post-area/PostItem";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import average from "@/common/chromaJS";

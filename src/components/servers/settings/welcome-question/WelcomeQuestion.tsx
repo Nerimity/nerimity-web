@@ -21,7 +21,7 @@ import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/input/Input";

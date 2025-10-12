@@ -11,7 +11,7 @@ import { createSignal, onMount, Show } from "solid-js";
 import PageHeader from "../components/PageHeader";
 import { css, styled } from "solid-styled-components";
 import { FlexColumn } from "@/components/ui/Flexbox";
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@nerimity/solid-i18lite";
 import PageFooter from "@/components/PageFooter";
 import { Title } from "@solidjs/meta";
 import { MetaTitle } from "@/common/MetaTitle";
