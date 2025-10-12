@@ -1,12 +1,28 @@
 {
   "header": {
-    "openAppButton": "Otwórz Aplikację",
-    "loginButton": "Zaloguj Się",
-    "joinNowButton": "Dołącz Teraz"
+    "openAppButton": "Otwórz apkę",
+    "loginButton": "Zaloguj się",
+    "joinNowButton": "Dołącz teraz",
+    "logoutButton": "Wyloguj się"
   },
   "homePage": {
-    "slogan": "Nowoczesna i elegancka aplikacja do czatowania.",
-    "viewGitHubButton": "Zobacz GitHuba"
+    "slogan": "Nowoczesny i elegancki komunikator.",
+    "viewGitHubButton": "Zobacz GitHuba",
+    "getStarted": "Rozpocznij",
+    "subslogan": "Nerimity oferuje eleganckie i bogate w funkcje doświadczenie, które wyróżnia go na tle innych.",
+    "availableOn": "Dostępny na",
+    "browser": "Przeglądarka",
+    "featureList": {
+      "feature1": "Bezpłatne animowane awatary i emoji",
+      "feature2": "Elegancki wygląd",
+      "feature3": "Zmień swój tag za darmo",
+      "feature4": "Twórz posty na swoim profilu",
+      "feature5": "Stwórz własną społeczność",
+      "feature6": "Znajdź nowe społeczności",
+      "feature7": "Utrzymywany z darowizn",
+      "feature8": "Pełny kod źródłowy na GitHubie",
+      "feature9": "Wyraź siebie za pomocą ramek"
+    }
   },
   "loginPage": {
     "title": "Zaloguj się, aby kontynuować",
@@ -25,7 +41,15 @@
     "confirmPassword": "Potwierdź hasło",
     "registerButton": "Zarejestruj się",
     "registering": "Trwa rejestrowanie...",
-    "loginInstead": "Chcę się zalogować"
+    "loginInstead": "Chcę się zalogować",
+    "header": "Zarejestruj się",
+    "notices": {
+      "title": "Informacje",
+      "toxic": "Nie umieszczaj toksycznych treści.",
+      "nsfw": "Treści NSFW są zabronione.",
+      "age": "Musisz być co najmniej w wieku 14 lat."
+    },
+    "agreement": "Tworząc konto, wyrażasz zgodę na Warunki Użytkowania i Politykę Prywatności."
   },
   "inbox": {
     "drawer": {
@@ -34,13 +58,25 @@
       "offline": "Niedostępni",
       "addFriendButton": "Dodaj Znajomego",
       "inboxButton": "Wiadomości",
-      "friendsButton": "Znajomi"
+      "friendsButton": "Znajomi",
+      "searchBarPlaceholder": "Wyszukaj",
+      "friendRequests": "Zaproszenia do znajomych: {{count}}",
+      "onlineFriends": "Znajomych online: {{count}}",
+      "offlineFriends": "Znajomych offline: {{count}}",
+      "notes": "Notatki",
+      "blockedUsersButton": "Zablokowani",
+      "inboxTitle": "Skrzynka",
+      "viewAll": "Pokaż Wszystko"
+    },
+    "blockedUsersModal": {
+      "title": "Zablokowani Użytkownicy"
     }
   },
   "explore": {
     "drawer": {
       "title": "Odkrywaj",
-      "servers": "Serwery"
+      "servers": "Serwery",
+      "bots": "Boty"
     },
     "servers": {
       "title": "Odkrywaj - Serwery",
@@ -56,6 +92,10 @@
       "visitServerButton": "Odwiedź",
       "joinServerButton": "Dołącz",
       "bumpButton": "Podbij ({{count}})"
+    },
+    "bots": {
+      "title": "Odkrywaj - Boty",
+      "noticeMessage": "Bot może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}."
     }
   },
   "servers": {
@@ -72,7 +112,9 @@
         "welcome-screen": "Ekran powitalny",
         "channel": "Kanał",
         "emojis": "Emoji",
-        "notifications": "Powiadomienia"
+        "notifications": "Powiadomienia",
+        "audit-logs": "Dziennik Zdarzeń",
+        "external-embed": "Zewnętrzne Osadzenie"
       },
       "general": {
         "serverRenameNotice": "Jeśli zmienisz nazwę serwera, stracisz jego weryfikację oraz wszystkie korzyści, które z niej płyną.",
@@ -119,7 +161,8 @@
         "permissionsDescription": "Zarządzaj uprawnieniami dla tego kanału.",
         "deleteThisChannel": "Usuń ten kanał",
         "deleteThisChannelDescription": "Ta akcja jest nieodwracalna!",
-        "deleteChannelButton": "Usuń kanał"
+        "deleteChannelButton": "Usuń kanał",
+        "removeNoticeButton": "Usuń notkę"
       },
       "invites": {
         "createInviteButton": "Stwórz zaproszenie",
@@ -129,7 +172,7 @@
         "customLink": "Własny Link",
         "saveButton": "Zapisz",
         "deleteButton": "Usuń",
-        "copyLinkButton": "Skopiuj Link"
+        "copyLinkButton": "Skopiuj link"
       },
       "publishServer": {
         "publishNotice": "Opublikowanie serwera sprawi, że będzie on widoczny w <1>wyszukiwarce serwerów</1>",
@@ -149,19 +192,23 @@
       "manageRoles": "Zarządzanie rolami",
       "manageRolesDescription": "Uprawnienie do aktualizacji lub usuwania ról.",
       "manageChannels": "Zarządzanie kanałami",
-      "manageChannelsDescription": "Uprawnienie do aktualizacji lub usuwania kanałów..",
+      "manageChannelsDescription": "Uprawnienie do aktualizacji lub usuwania kanałów.",
       "kick": "Wyrzucanie",
       "kickDescription": "Uprawnienie do wyrzucania użytkowników.",
       "ban": "Banowanie",
       "banDescription": "Uprawnienie do banowania użytkowników.",
       "mentionEveryone": "Oznacz Everyone",
-      "mentionEveryoneDescription": "Umożliw oznaczanie @everyone. Administratorzy dalej będą mogli oznaczać everyone."
+      "mentionEveryoneDescription": "Umożliw oznaczanie @everyone. Administratorzy dalej będą mogli oznaczać everyone.",
+      "nicknameMember": "Ustawianie pseudonimów",
+      "nicknameMemberDescription": "Pozwala użytkownikom zmienić swój pseudonim na serwerze."
     },
     "channelPermissions": {
       "sendMessage": "Wysyłanie wiadomości",
       "sendMessageDescription": "Umożliw wysyłanie wiadomości na kanale. Administratorzy dalej będą mogli wysyłać wiadomości.",
       "joinVoice": "Dołącz do rozmowy głosowej",
-      "joinVoiceDescription": "Umożliw dołączanie do kanałów głosowych na kanale. Administratorzy dalej będą mogli dołączać do kanałów głosowych."
+      "joinVoiceDescription": "Umożliw dołączanie do kanałów głosowych na kanale. Administratorzy dalej będą mogli dołączać do kanałów głosowych.",
+      "publicChannel": "Kanał publiczny",
+      "publicChannelDescription": "Umożliw dostęp do kanału. Administratorzy serwera mają dostęp do każdego kanału."
     }
   },
   "settings": {
@@ -181,19 +228,162 @@
       "activity-status": "Status aktywności",
       "tickets": "Zgłoszenia",
       "privacy": "Prywatność",
-      "connections": "Połączenia"
+      "connections": "Połączenia",
+      "badges": "Odznaki",
+      "call-settings": "Ustawienia połączeń",
+      "profile": "Profil"
+    },
+    "header": {
+      "servers": "serwery",
+      "friends": "znajomi",
+      "manageAccount": "Zarządzanie Kontem"
+    },
+    "account": {
+      "title": "Ustawienia - Konto",
+      "email": "Adres email",
+      "username": "Nazwa użytkownika",
+      "tag": "Tag",
+      "avatar": "Awatar",
+      "banner": "Baner",
+      "supported": "Wspierane formaty",
+      "browse": "Przeglądaj",
+      "profile": "Profil",
+      "profileDescription": "Edytuj swoją biografię lub kolory",
+      "changePassword": "Zmień hasło",
+      "forgotPassword": "Zapomniałem hasła",
+      "newPassword": "Nowe hasło",
+      "newPasswordDescription": "Zmiana hasła spowoduje wylogowanie ze wszystkich innych urządzeń.",
+      "confirmNewPassword": "Potwierdź nowe hasło",
+      "confirmNewPasswordDescription": "Potwierdź swoje nowe hasło",
+      "confirmCurrentPassword": "Potwierdź aktualne hasło",
+      "channelNotice": "Notka kanału",
+      "channelNoticeDescription": "Wyświetla się, kiedy użytkownik zamierza rozpocząć czat po raz pierwszy. Zmiany obowiązują po ponownym załadowaniu strony.",
+      "saving": "Trwa zapisywanie...",
+      "saveButton": "Zapisz",
+      "saveChangesButton": "Zapisz zmiany",
+      "deleteAccount": "Usuń moje konto",
+      "deleteAccountDescription": "Tego działania nie można cofnąć!",
+      "deleteAccountNotice": "Przed usunięciem konta należy opuścić/usunąć wszystkie serwery.",
+      "understoodButton": "Zrozumiano",
+      "botID": "ID Bota",
+      "confirmEmail": "Potwierdź adres email",
+      "enterCode": "Wprowadź pięcioznakowy kod wysłany na twój adres email:",
+      "sendCodeButton": "Wyślij Kod",
+      "resendIn": "Wyślij za {{time}}",
+      "confirmButton": "Potwierdź",
+      "cancelButton": "Anuluj",
+      "channelNoticeTooLong": "Notka kanału nie może być dłuższa niż 300 znaków.",
+      "deletionNotice": "Przykro nam, że odchodzisz :( Jeśli coś Ci się nie spodobało, daj nam o tym znać na oficjalnym serwerze Nerimity.",
+      "deletedInfo": {
+        "title": "Co zostanie usunięte",
+        "email": "• Adres email",
+        "username": "• Nazwa użytkownika",
+        "ip": "• Adres IP",
+        "bio": "• Biografia",
+        "messages": "• Twoje Wiadomości",
+        "posts": "• Twoje Posty"
+      },
+      "postsAndMessagesNotice": "Usunięcie Twoich postów i wiadomości może potrwać kilka tygodni.",
+      "deleteCheckbox": "Usuń moje posty i wiadomości"
+    },
+    "privacy": {
+      "lastOnline": {
+        "title": "Ostatni czas online",
+        "description": "Ustaw, kto może zobaczyć Twój ostatni czas online.",
+        "hidden": "Ukryty",
+        "friendsOnly": "Tylko znajomi",
+        "friendsAndServers": "Znajomi i serwery"
+      },
+      "directMessage": {
+        "title": "Wiadomości prywatne",
+        "description": "Ustaw, kto może wysyłać Ci wiadomości prywatne.",
+        "anyone": "Ktokolwiek",
+        "friendsAndServersOnly": "Tylko znajomi i serwery",
+        "friendsOnly": "Tylko znajomi"
+      },
+      "friendRequest": {
+        "title": "Zaproszenia do znajomych",
+        "description": "Ustaw, kto może zaprosić Cię do znajomych.",
+        "anyone": "Ktokolwiek",
+        "serversOnly": "Tylko serwery",
+        "nobody": "Nikt"
+      },
+      "profileOptions": {
+        "title": "Opcje profilowe",
+        "hideFollowers": "Ukryj obserwujących",
+        "hideFollowersDescription": "Ukryj swoich obserwujących z profilu.",
+        "hideFollowing": "Ukryj obserwowanych",
+        "hideFollowingDescription": "Ukrywa z profilu użytkowników, których Ty obserwujesz."
+      }
+    },
+    "notifications": {
+      "desktopNotifications": "Powiadomienia na pulpicie",
+      "desktopNotificationsDescription": "Wyświetla powiadomienia na pulpicie, nawet kiedy aplikacja jest zminimalizowana.",
+      "sounds": "Dźwięki",
+      "soundsDescription": "Jeśli dźwięki powiadomień są zbyt irytujące, można je wyłączyć.",
+      "volume": "Głośność",
+      "volumeDescription": "Zmień głośność dźwięków powiadomień.",
+      "changeSoundsDescription": "Zmień dźwięk powiadomień dzięki tym darmowym dźwiękom.",
+      "message": "Wiadomości",
+      "messageDescription": "Dźwięk przy otrzymaniu wiadomości.",
+      "mention": "Wzmianka",
+      "mentionDescription": "Dźwięk przy otrzymaniu wzmianki.",
+      "inAppPreview": "Podgląd w aplikacji",
+      "inAppPreviewDescription": "Wyświetla podgląd powiadomień w aplikacji.",
+      "inAppPreviewModes": {
+        "off": "Wyłączony",
+        "mentionsOnly": "Tylko wzmianki",
+        "inheritFromPingSettings": "Dziedzicz z ustawień pingów",
+        "all": "Wszystkie"
+      },
+      "reminder": "Przypomnienia",
+      "reminderDescription": "Powiadomienia dla przypomnień.",
+      "mute": "Wyciszone"
+    },
+    "call": {
+      "nextCallNotice": "Zmiany zostaną zastosowane przy Twoich następnych połączeniach.",
+      "inputDevices": "Urządzenia wejściowe",
+      "outputDevices": "Urządzenia wyjściowe",
+      "default": "Domyślne",
+      "inputMode": "Tryb wejścia",
+      "openMic": "Transmisja ciągła",
+      "voiceActivity": "Aktywność głosowa",
+      "pushToTalk": "Naciśnij, aby mówić",
+      "bindButton": "Powiąż przycisk",
+      "stopButton": "Stop",
+      "downloadAppNotice": "Pobierz aplikację komputerową Nerimity, aby korzystać z tej funkcji bez konieczności przełączania się między kartami okien."
+    },
+    "interface": {
+      "blurEffect": "Efekt rozmycia",
+      "blurEffectDescription": "Włącza przeźroczysty efekt rozmycia. Domyślnie wyłączone na urządzeniach mobilnych. Może powodować problemy z wydajnością.",
+      "disableAdvancedMarkupBar": "Wyłącz zaawansowany pasek znaczników",
+      "disableAdvancedMarkupBarDescription": "Wyłącz zaawansowany pasek znaczników na kanałach tekstowych.",
+      "customizeColors": "Dostosuj kolory",
+      "customizeColorsDescription": "Dostosuj kolory interfejsu aplikacji.",
+      "customCSS": "Własny CSS",
+      "themes": "Motywy",
+      "themesDescription": "Wybierz gotowy motyw lub przywróć ustawienia domyślne.",
+      "maintainers": "Współtwórcy",
+      "apply": "Zastosuj",
+      "enableEruda": "Włącz Eruda",
+      "enableErudaDescription": "Włącz Eruda do debugowania. Nie udostępniaj żadnych szczegółów innym osobom.",
+      "enableOnce": "Włącz raz"
     }
   },
   "supportBlock": {
-    "support": "Wesprzyj Mnie"
+    "support": "Wesprzyj Mnie",
+    "supportDescription": "Przekaż darowiznę, aby otrzymać odznakę wspierającego!"
   },
   "userContextMenu": {
-    "viewProfile": "Wyświetl Profil",
-    "sendMessage": "Wyślij Wiadomość",
-    "copyId": "Skopiuj ID",
-    "editRoles": "Edytuj Role",
+    "viewProfile": "Wyświetl profil",
+    "sendMessage": "Wyślij wiadomość",
+    "copyId": "Kopiuj ID",
+    "editRoles": "Edytuj role",
     "kick": "Wyrzuć",
-    "ban": "Zbanuj"
+    "ban": "Zbanuj",
+    "changeNickname": "Zmień pseudonim",
+    "transferOwnership": "Przenieś status właściciela",
+    "callVolume": "Głośność połączeń"
   },
   "kickServerMemberModal": {
     "title": "Wyrzuć {{username}}",
@@ -203,7 +393,7 @@
     "message": "Czy jesteś pewien, że chcesz wyrzucić <1>{{username}}</1>?"
   },
   "editServerRolesModal": {
-    "title": "Edytuj Role"
+    "title": "Edytuj role"
   },
   "banModal": {
     "title": "Zbanuj {{username}}?",
@@ -213,26 +403,32 @@
     "banning": "Trwa banowanie..."
   },
   "messageContextMenu": {
-    "editMessage": "Edytuj Wiadomość",
-    "deleteMessage": "Usuń Wiadomość",
-    "copyMessage": "Skopiuj Wiadomość",
-    "copyId": "Skopiuj ID"
+    "editMessage": "Edytuj wiadomość",
+    "deleteMessage": "Usuń wiadomość",
+    "copyMessage": "Kopiuj treść",
+    "copyId": "Kopiuj ID",
+    "translateMessage": "Tłumacz",
+    "viewReactions": "Wyświetl reakcje",
+    "quoteMessage": "Cytuj wiadomość",
+    "reportMessage": "Zgłoś wiadomość",
+    "reply": "Odpowiedz",
+    "markUnread": "Oznacz jako nieprzeczytane"
   },
   "profile": {
     "followButton": "Obserwuj",
     "unfollowButton": "Przestań obserwować",
     "removeFriendButton": "Usuń ze znajomych",
     "addFriendButton": "Dodaj do znajomych",
-    "pendingRequest": "Oczekujące Zaproszenie",
-    "acceptRequestButton": "Zaakceptuj Zaproszenie",
-    "messageButton": "Wyślij Wiadomość",
-    "mutualFriends": "Wspólni Znajomi ({{count}})",
-    "mutualServers": "Wspólne Serwery ({{count}})",
+    "pendingRequest": "Oczekujące zaproszenie",
+    "acceptRequestButton": "Zaakceptuj zaproszenie",
+    "messageButton": "Wyślij wiadomość",
+    "mutualFriends": "Wspólni znajomi ({{count}})",
+    "mutualServers": "Wspólne serwery ({{count}})",
     "postsTab": "Posty",
     "followersTab": "Obserwujący",
     "followingTab": "Obserwowani",
     "postsAndRepliesTab": "Posty i odpowiedzi ({{count}})",
-    "likedPostsTab": "Polubione Posty ({{count}})"
+    "likedPostsTab": "Polubione posty ({{count}})"
   },
   "posts": {
     "deletePostModal": {
@@ -247,6 +443,132 @@
     "createAPostInputPlaceholder": "Stwórz posta...",
     "replyInputPlaceholder": "Odpowiedz...",
     "replyButton": "Odpowiedz",
-    "createButton": "Opublikuj"
+    "createButton": "Opublikuj",
+    "someoneRepostedYourPost": "<1>{{username}}</1> podał(-a) dalej Twój post!",
+    "pollOptions": "Opcje ankiety",
+    "optionNumberPlaceholder": "Opcja {{number}}"
+  },
+  "resetPassword": {
+    "title": "Zresetuj hasło",
+    "resetSuccessful": "Resetowanie hasła przebiegło pomyślnie.",
+    "passwordsDoNotMatch": "Pole \"Potwierdź hasło\" nie jest zgodne z hasłem.",
+    "resetPasswordButton": "Zresetuj hasło",
+    "resetting": "Trwa resetowanie...",
+    "email": "Adres email",
+    "sendEmailButton": "Wyślij wiadomość email",
+    "sending": "Trwa wysyłanie wiadomości email...",
+    "passwordTooLong": "Hasło musi mieć mniej niż 72 znaki długości."
+  },
+  "dashboard": {
+    "title": "Pulpit",
+    "activeUsers": "Aktywni Użytkownicy",
+    "noActiveUsers": "Brak aktywnych użytkowników",
+    "servers": "Serwery",
+    "posts": "Posty",
+    "feed": "Tablica",
+    "discover": "Odkrywaj",
+    "notifications": "Powiadomienia"
+  },
+  "messageArea": {
+    "messageBoxPlaceholder": "Napisz do {{username}}",
+    "messageBoxChannelPlaceholder": "Napisz na {{channelName}}"
+  },
+  "createServerModal": {
+    "title": "Stwórz serwer",
+    "notice": "Treści NSFW są zabronione.",
+    "serverName": "Nazwa serwera",
+    "placeholder": "Mój Fajny Serwer",
+    "creating": "Trwa towrzenie...",
+    "createServerButton": "Stwórz serwer",
+    "closeButton": "Zamknij"
+  },
+  "serverContextMenu": {
+    "markAsRead": "Oznacz jako przeczytane",
+    "invites": "Zaproszenia",
+    "notifications": "Powiadomienia",
+    "settings": "Ustawienia",
+    "copyId": "Kopiuj ID",
+    "leave": "Opuść",
+    "notificationOptions": {
+      "everything": "Wszystkie",
+      "mentionsOnly": "Tylko wzmianki",
+      "mute": "Wycisz"
+    }
+  },
+  "informationDrawer": {
+    "title": "Informacje",
+    "channelNotice": "Notka kanału",
+    "attachments": "Załączniki",
+    "attachmentsBack": "Wstecz",
+    "members": "Członkowie"
+  },
+  "botInvite": {
+    "serverSelect": "Wybierz serwer!",
+    "creator": "Stworzono przez",
+    "selectButton": "Wybierz serwer",
+    "addButton": "Dodaj bota",
+    "permissions": "Uprawnienia bota"
+  },
+  "googleAccountLink": {
+    "linking": "Trwa łączenie Twojego konta z usługą Google...",
+    "success": "Konto zostało połączone! Możesz teraz zamknąć to okno."
+  },
+  "invite": {
+    "loading": "Trwa ładowanie zaproszenia...",
+    "invalid": "Niepoprawny kod zaproszeniowy",
+    "joinButton": "Dołącz",
+    "joiningButton": "Trwa dołączanie...",
+    "visitButton": "Odwiedź",
+    "member": "członek",
+    "members": "członkowie"
+  },
+  "fileEmbed": {
+    "expired": "Wygasł",
+    "modifiedOrDeleted": "Ten plik został zmodyfikowany/usunięty przez autora na Google Drive.",
+    "viewImage": "Pokaż zdjęcie",
+    "download": "Pobierz",
+    "expires": "Wygasa"
+  },
+  "videoEmbed": {
+    "couldNotGetVideo": "Nie udało się pobrać filnu.",
+    "videoModified": "Film został zmodyfikowany.",
+    "googleDrivePolicy": "W związku z nową polityką Google Drive, filmy można wyświetlać tylko z aplikacji Nerimity na komputery.",
+    "videoExpired": "Film wygasł.",
+    "modifiedOrDeleted": "Ten film został zmodyfikowany/usunięty przez autora na Google Drive.",
+    "expires": "Wygasa",
+    "expired": "Wygasł"
+  },
+  "message": {
+    "badge": {
+      "bot": "Bot",
+      "webhook": "Webhook",
+      "owner": "Właściciel"
+    },
+    "reactions": {
+      "more": "{{count}} więcej"
+    },
+    "deletedMessage": "Wiadomość została usunięta.",
+    "dismissButton": "Odrzuć",
+    "editedAt": "Edytowano o {{time}}",
+    "twitterEmbed": {
+      "modalTitle": "Szczegółowe osadzenie Twittera",
+      "modalDescription": "Podczas korzystania z oficjalnego osadzenia Twittera, Twoje dane zostaną zebrane przez Elmo Muska.",
+      "doNotShowAgain": "Nie pokazuj tego ponownie.",
+      "closeButton": "Nie pokazuj",
+      "showButton": "Pokaż",
+      "basicEmbed": "Podstawowe osadzenie",
+      "detailedEmbed": "Szczegółowe osadzenie"
+    },
+    "blocked": "Ten użytkownik został przez ciebie zablokowany. Kliknij, aby pokazać.",
+    "translationError": "Nie udało się przetłumaczyć tej wiadomości.",
+    "translation": {
+      "title": "Tłumaczenie"
+    }
+  },
+  "typing": {
+    "single": "<1>{{username}}</1> pisze...",
+    "multiple": "<1>{{username}}</1> i <2>{{username2}}</2> piszą...",
+    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> i <3>{{username3}}</3> piszą...",
+    "andOthers": "<1>{{count}}</1> użytkowników pisze..."
   }
 }
