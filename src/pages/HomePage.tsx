@@ -11,6 +11,8 @@ import Icon from "@/components/ui/icon/Icon";
 import { CustomLink } from "@/components/ui/CustomLink";
 import PageFooter from "@/components/PageFooter";
 import { getPlatformDownloadLinks } from "@/github-api";
+import ContextMenu, { ContextMenuItem } from "@/components/ui/context-menu/ContextMenu";
+import { createSignal } from "solid-js";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -165,10 +167,12 @@ const downloadButtonStyle = css`
 const PlatformDownloadLinks = () => {
   const [t] = useTransContext();
   const navigate = useNavigate();
+  const [macOSMenuPos, setMacOSMenuPos] = createSignal<{ x: number; y: number } | undefined>();
+  const [linuxMenuPos, setLinuxMenuPos] = createSignal<{ x: number; y: number } | undefined>();
 
   const onClick = async (
-    platform: "windows" | "linux" | "android",
-    e?: "deb" | "AppImage"
+    platform: "windows" | "linux" | "android" | "macos",
+    e?: "deb" | "AppImage" | "x64" | "arm64"
   ) => {
     if (platform === "android") {
       window.open(
@@ -189,6 +193,18 @@ const PlatformDownloadLinks = () => {
       if (x.platform !== platform) return false;
       if (e) {
         if (x.ext === e) return true;
+        // For macOS architectures
+        if (platform === "macos") {
+          const name = x.name.toLowerCase();
+          if (e === "arm64") {
+            // ARM64 version
+            return name.includes("arm64");
+          }
+          if (e === "x64") {
+            // Intel version
+            return x.ext === "dmg" && !name.includes("arm64");
+          }
+        }
         return false;
       }
       return true;
@@ -203,6 +219,48 @@ const PlatformDownloadLinks = () => {
       return;
     }
   };
+
+  const onMacOSButtonClick = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    setMacOSMenuPos({ x: rect.left, y: rect.bottom + 5 });
+  };
+
+  const onLinuxButtonClick = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    setLinuxMenuPos({ x: rect.left, y: rect.bottom + 5 });
+  };
+
+  const macOSMenuItems: ContextMenuItem[] = [
+    {
+      label: "Intel",
+      icon: "laptop_mac",
+      onClick: () => onClick("macos", "x64"),
+    },
+    {
+      label: "Apple Silicon (M1/M2/M3/...)",
+      icon: "laptop_mac",
+      onClick: () => onClick("macos", "arm64"),
+    },
+  ];
+
+  const linuxMenuItems: ContextMenuItem[] = [
+    {
+      label: "Debian/Ubuntu (deb)",
+      icon: "download",
+      onClick: () => onClick("linux", "deb"),
+    },
+    {
+      label: "AppImage",
+      icon: "download",
+      onClick: () => onClick("linux", "AppImage"),
+    },
+  ];
 
   return (
     <FlexColumn gap={10} itemsCenter style={{ "margin-top": "10px" }}>
@@ -239,6 +297,22 @@ const PlatformDownloadLinks = () => {
           primary
         />
         <Button
+          onClick={(e) => onMacOSButtonClick(e as MouseEvent)}
+          color=""
+          customChildren={
+            <FlexRow itemsCenter>
+              <img src="/assets/apple.svg" width={24} />
+              <FlexColumn class={downloadButtonStyle}>
+                <Text>macOS</Text>
+                <Text opacity={0.8} size={12}>
+                  dmg
+                </Text>
+              </FlexColumn>
+            </FlexRow>
+          }
+          primary
+        />
+        <Button
           onClick={() => onClick("android")}
           color="#31a952"
           customChildren={
@@ -253,7 +327,7 @@ const PlatformDownloadLinks = () => {
           primary
         />
         <Button
-          onClick={() => onClick("linux", "deb")}
+          onClick={(e) => onLinuxButtonClick(e as MouseEvent)}
           color="#db5c13"
           customChildren={
             <FlexRow itemsCenter>
@@ -261,23 +335,7 @@ const PlatformDownloadLinks = () => {
               <FlexColumn class={downloadButtonStyle}>
                 <Text>Linux</Text>
                 <Text opacity={0.8} size={12}>
-                  deb
-                </Text>
-              </FlexColumn>
-            </FlexRow>
-          }
-          primary
-        />
-        <Button
-          onClick={() => onClick("linux", "AppImage")}
-          color="#db5c13"
-          customChildren={
-            <FlexRow itemsCenter>
-              <img src="/assets/linux.svg" width={24} />
-              <FlexColumn class={downloadButtonStyle}>
-                <Text>Linux</Text>
-                <Text opacity={0.8} size={12}>
-                  AppImage
+                  deb / AppImage
                 </Text>
               </FlexColumn>
             </FlexRow>
@@ -285,6 +343,16 @@ const PlatformDownloadLinks = () => {
           primary
         />
       </FlexRow>
+      <ContextMenu
+        items={macOSMenuItems}
+        position={macOSMenuPos()}
+        onClose={() => setMacOSMenuPos(undefined)}
+      />
+      <ContextMenu
+        items={linuxMenuItems}
+        position={linuxMenuPos()}
+        onClose={() => setLinuxMenuPos(undefined)}
+      />
     </FlexColumn>
   );
 };
