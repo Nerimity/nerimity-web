@@ -99,6 +99,10 @@ export default function LanguageSettings() {
     if (getCurrentLanguage() !== key) {
       setLanguageUpdated(true);
     }
+    
+    // Set language attribute without changing layout direction
+    document.documentElement.setAttribute("lang", oldKey || "en");
+    
     if (key !== "en_gb") {
       const language = await getLanguage(key);
       if (!language) return;

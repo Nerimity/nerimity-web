@@ -1,0 +1,572 @@
+{
+  "header": {
+    "logoutButton": "تسجيل الخروج",
+    "openAppButton": "فتح التطبيق",
+    "loginButton": "تسجيل الدخول",
+    "joinNowButton": "انضم الآن"
+  },
+  "homePage": {
+    "slogan": "تطبيق محادثة عصري وأنيق.",
+    "subslogan": "\u202Bتقدم Nerimity تجربة أنيقة وغنية بالمميزات تميزها عن غيرها.\u202C",
+    "viewGitHubButton": "\u202Bعرض GitHub\u202C",
+    "getStarted": "ابدأ الآن",
+    "availableOn": "متاح على",
+    "browser": "المتصفح",
+    "featureList": {
+      "feature1": "صور رمزية وإيموجي متحركة مجانية",
+      "feature2": "تصميم أنيق",
+      "feature3": "غيّر الوسم الخاص بك مجاناً",
+      "feature4": "أنشئ منشورات على ملفك الشخصي",
+      "feature5": "أنشئ مجتمعك الخاص",
+      "feature6": "اكتشف مجتمعات جديدة",
+      "feature7": "يعمل من التبرعات",
+      "feature8": "\u202Bالكود المصدري الكامل على GitHub\u202C",
+      "feature9": "عبّر عن نفسك بالإطارات"
+    }
+  },
+  "loginPage": {
+    "title": "تسجيل الدخول للمتابعة",
+    "emailOrUsernameAndTag": "البريد الإلكتروني / اسم المستخدم:الوسم",
+    "password": "كلمة المرور",
+    "login": "تسجيل الدخول",
+    "createAccountInstead": "إنشاء حساب بدلاً من ذلك",
+    "loggingIn": "جارٍ تسجيل الدخول...",
+    "loginButton": "تسجيل الدخول"
+  },
+  "registerPage": {
+    "header": "التسجيل",
+    "notices": {
+      "title": "ملاحظات",
+      "toxic": "لا تكن توكسيك.",
+      "nsfw": "ممنوع المحتوى الإباحي.",
+      "age": "يجب أن يكون عمرك أكثر من 14 سنة."
+    },
+    "title": "مرحباً بك في {{appName}}",
+    "email": "البريد الإلكتروني",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "agreement": "بإنشاء حساب، أنت توافق على الشروط والأحكام وسياسة الخصوصية.",
+    "registerButton": "تسجيل",
+    "registering": "جارٍ التسجيل...",
+    "loginInstead": "تسجيل الدخول بدلاً من ذلك"
+  },
+  "resetPassword": {
+    "title": "إعادة تعيين كلمة المرور",
+    "resetSuccessful": "تمت إعادة تعيين كلمة المرور بنجاح.",
+    "passwordsDoNotMatch": "كلمة المرور غير متطابقة.",
+    "passwordTooLong": "يجب أن تكون كلمة المرور أقل من 72 حرفاً.",
+    "resetPasswordButton": "إعادة تعيين كلمة المرور",
+    "resetting": "جارٍ إعادة التعيين...",
+    "email": "البريد الإلكتروني",
+    "sendEmailButton": "إرسال البريد",
+    "sending": "جارٍ إرسال البريد..."
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "activeUsers": "المستخدمون النشطون",
+    "noActiveUsers": "لا يوجد مستخدمون نشطون",
+    "servers": "السيرفرات",
+    "posts": "المنشورات",
+    "feed": "الخلاصة",
+    "discover": "اكتشف",
+    "notifications": "الإشعارات"
+  },
+  "messageArea": {
+    "messageBoxPlaceholder": "أرسل رسالة إلى {{username}}",
+    "messageBoxChannelPlaceholder": "أرسل رسالة في {{channelName}}"
+  },
+  "inbox": {
+    "blockedUsersModal": {
+      "title": "المستخدمون المحظورون"
+    },
+    "drawer": {
+      "searchBarPlaceholder": "بحث",
+      "friendRequests": "{{count}} طلبات صداقة",
+      "onlineFriends": "{{count}} أصدقاء متصلون",
+      "offlineFriends": "{{count}} أصدقاء غير متصلين",
+      "notes": "ملاحظات",
+      "addFriendButton": "إضافة صديق",
+      "blockedUsersButton": "محظور",
+      "inboxTitle": "صندوق الوارد",
+      "friendsButton": "الأصدقاء",
+      "viewAll": "عرض الكل",
+      "inboxButton": "صندوق الوارد",
+      "offline": "غير متصل"
+    }
+  },
+  "explore": {
+    "drawer": {
+      "title": "استكشف",
+      "servers": "السيرفرات",
+      "bots": "البوتات"
+    },
+    "bots": {
+      "title": "استكشف - البوتات",
+      "noticeMessage": "يمكن الترويج للبوت مرة واحدة كل {{hours}} ساعة. جميع الترويجات تُعاد تعيينها كل {{date}}."
+    },
+    "servers": {
+      "title": "استكشف - السيرفرات",
+      "noticeMessage": "يمكن الترويج للسيرفر مرة واحدة كل {{hours}} ساعة. جميع الترويجات تُعاد تعيينها كل {{date}}.",
+      "sortMostBumps": "الأكثر ترويجاً",
+      "sortMostMembers": "الأكثر أعضاءً",
+      "sortRecentlyAdded": "المضافة مؤخراً",
+      "sortRecentlyBumped": "المروجة مؤخراً",
+      "filterAll": "الكل",
+      "filterVerified": "موثّق",
+      "memberCount": "{{count}} عضو",
+      "lifetimeBumpCount": "{{count}} ترويج إجمالي",
+      "visitServerButton": "زيارة",
+      "joinServerButton": "انضم",
+      "bumpButton": "ترويج ({{count}})"
+    }
+  },
+  "servers": {
+    "settings": {
+      "drawer": {
+        "general": "عام",
+        "audit-logs": "سجلات المراجعة",
+        "roles": "الأدوار",
+        "channels": "القنوات",
+        "bans": "الحظر",
+        "invites": "الدعوات",
+        "publishServer": "نشر السيرفر",
+        "verify": "توثيق",
+        "role": "الدور",
+        "welcome-screen": "شاشة الترحيب",
+        "channel": "القناة",
+        "emojis": "الإيموجي",
+        "notifications": "الإشعارات",
+        "external-embed": "التضمين الخارجي"
+      },
+      "general": {
+        "serverRenameNotice": "ستفقد جميع مزايا السيرفر الموثّق إذا قمت بإعادة تسميته.",
+        "serverName": "اسم السيرفر",
+        "defaultChannel": "القناة الافتراضية",
+        "defaultChannelDescription": "سيتم توجيه الأعضاء الجدد إلى هذه القناة.",
+        "systemMessages": "رسائل النظام",
+        "systemMessagesDescription": "أين يجب أن تظهر رسائل النظام.",
+        "deleteThisServer": "حذف هذا السيرفر",
+        "deleteThisServerDescription": "لا يمكن التراجع عن هذا!",
+        "deleteServerButton": "حذف السيرفر",
+        "saveChangesButton": "حفظ التغييرات",
+        "saving": "جارٍ الحفظ..."
+      },
+      "roles": {
+        "addNewRole": "إضافة دور جديد",
+        "addRoleButton": "إضافة دور"
+      },
+      "role": {
+        "saveChangesButton": "حفظ التغييرات",
+        "saving": "جارٍ الحفظ...",
+        "roleName": "اسم الدور",
+        "roleColor": "لون الدور",
+        "hideRole": "إخفاء الدور",
+        "hideRoleDescription": "عرض الأعضاء بهذا الدور مع جميع الأعضاء الافتراضيين",
+        "permissions": "الصلاحيات",
+        "permissionsDescription": "إدارة صلاحيات هذا الدور.",
+        "deleteRoleButton": "حذف هذا الدور",
+        "deleteRoleButtonDescription": "لا يمكن التراجع عن هذا!"
+      },
+      "header": {
+        "editServer": "تعديل السيرفر",
+        "serverMemberCount": "{{count}} عضو"
+      },
+      "channels": {
+        "createButton": "إنشاء",
+        "createNewDescription": "إنشاء قناة أو فئة جديدة"
+      },
+      "channel": {
+        "saving": "جارٍ الحفظ...",
+        "saveChangesButton": "حفظ التغييرات",
+        "channelName": "اسم القناة",
+        "permissions": "الصلاحيات",
+        "permissionsDescription": "إدارة صلاحيات هذه القناة.",
+        "deleteThisChannel": "حذف هذه القناة",
+        "deleteThisChannelDescription": "لا يمكن التراجع عن هذا!",
+        "deleteChannelButton": "حذف القناة",
+        "removeNoticeButton": "إزالة الإشعار"
+      },
+      "invites": {
+        "createInviteButton": "إنشاء دعوة",
+        "serverInvites": "دعوات السيرفر",
+        "serverInvitesDescription": "ادعُ أصدقائك إلى هذا السيرفر.",
+        "customInviteVerifiedOnlyNotice": "روابط الدعوة المخصصة متاحة فقط للسيرفرات الموثّقة.",
+        "customLink": "رابط مخصص",
+        "saveButton": "حفظ",
+        "deleteButton": "حذف",
+        "copyLinkButton": "نسخ الرابط"
+      },
+      "publishServer": {
+        "publishNotice": "نشر السيرفر سيجعله متاحاً في صفحة <1>الاستكشاف</1>.",
+        "public": "عام",
+        "publicDescription": "اجعل هذا السيرفر عاماً.",
+        "bumpServer": "ترويج السيرفر",
+        "bumpServerDescription": "روّج لهذا السيرفر للوصول إلى القمة.",
+        "publishServerButton": "نشر السيرفر",
+        "unpublishServerButton": "إلغاء نشر السيرفر"
+      }
+    },
+    "rolePermissions": {
+      "admin": "مدير",
+      "adminDescription": "تفعيل جميع الصلاحيات.",
+      "sendMessage": "إرسال رسالة",
+      "sendMessageDescription": "تفعيل إرسال الرسائل في هذا السيرفر. مدراء السيرفر يمكنهم إرسال الرسائل دائماً.",
+      "manageRoles": "إدارة الأدوار",
+      "manageRolesDescription": "صلاحية تحديث أو حذف الأدوار.",
+      "manageChannels": "إدارة القنوات",
+      "manageChannelsDescription": "صلاحية تحديث أو حذف القنوات.",
+      "kick": "طرد",
+      "kickDescription": "صلاحية طرد المستخدمين.",
+      "ban": "حظر",
+      "banDescription": "صلاحية حظر المستخدمين.",
+      "mentionEveryone": "ذكر الجميع",
+      "mentionEveryoneDescription": "\u202Bتفعيل ذكر @everyone. مدراء السيرفر يمكنهم ذكر الجميع دائماً.\u202C",
+      "nicknameMember": "تغيير اللقب",
+      "nicknameMemberDescription": "السماح للمستخدمين بتغيير ألقابهم في السيرفر."
+    },
+    "channelPermissions": {
+      "publicChannel": "قناة عامة",
+      "publicChannelDescription": "تفعيل الوصول إلى القناة. مدراء السيرفر يمكنهم الوصول لأي قناة.",
+      "sendMessage": "إرسال رسالة",
+      "sendMessageDescription": "تفعيل إرسال الرسائل في القناة. مدراء السيرفر يمكنهم إرسال الرسائل دائماً.",
+      "joinVoice": "الانضمام للصوت",
+      "joinVoiceDescription": "تفعيل الانضمام للقنوات الصوتية. مدراء السيرفر يمكنهم الانضمام دائماً."
+    }
+  },
+  "settings": {
+    "drawer": {
+      "title": "الإعدادات",
+      "account": "الحساب",
+      "interface": "الواجهة",
+      "language": "اللغة",
+      "notifications": "الإشعارات",
+      "logout": "تسجيل الخروج",
+      "developer": "المطور",
+      "applications": "التطبيقات",
+      "experiments": "التجارب",
+      "badges": "الشارات",
+      "viewSource": "عرض المصدر",
+      "changelog": "سجل التغييرات",
+      "window-settings": "إعدادات النافذة",
+      "call-settings": "إعدادات المكالمة",
+      "activity-status": "حالة النشاط",
+      "tickets": "التذاكر",
+      "privacy": "الخصوصية",
+      "connections": "الاتصالات",
+      "profile": "الملف الشخصي"
+    },
+    "header": {
+      "servers": "السيرفرات",
+      "friends": "الأصدقاء",
+      "manageAccount": "إدارة الحساب"
+    },
+    "account": {
+      "email": "البريد الإلكتروني",
+      "username": "اسم المستخدم",
+      "tag": "الوسم",
+      "botID": "معرف البوت",
+      "avatar": "الصورة الرمزية",
+      "banner": "الغلاف",
+      "supported": "مدعوم",
+      "browse": "تصفح",
+      "profile": "الملف الشخصي",
+      "profileDescription": "عدّل نبذتك أو ألوانك",
+      "changePassword": "تغيير كلمة المرور",
+      "forgotPassword": "نسيت كلمة المرور",
+      "newPassword": "كلمة المرور الجديدة",
+      "newPasswordDescription": "تغيير كلمة المرور سيسجل خروجك من كل الأجهزة الأخرى.",
+      "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+      "confirmNewPasswordDescription": "أكد كلمة المرور الجديدة",
+      "confirmCurrentPassword": "تأكيد كلمة المرور الحالية",
+      "confirmEmail": "تأكيد بريدك الإلكتروني",
+      "enterCode": "أدخل الرمز المكون من 5 أرقام المرسل إلى بريدك:",
+      "sendCodeButton": "إرسال الرمز",
+      "resendIn": "إعادة الإرسال في {{time}}",
+      "confirmButton": "تأكيد",
+      "cancelButton": "إلغاء",
+      "channelNotice": "إشعار القناة",
+      "channelNoticeDescription": "يظهر عندما يكون المستخدم على وشك المحادثة لأول مرة. التغييرات تطبّق بعد إعادة التحميل.",
+      "channelNoticeTooLong": "إشعار القناة لا يمكن أن يكون أطول من 300 حرف.",
+      "saving": "جارٍ الحفظ...",
+      "saveButton": "حفظ",
+      "saveChangesButton": "حفظ التغييرات",
+      "deleteAccount": "حذف حسابي",
+      "deleteAccountDescription": "لا يمكن التراجع عن هذا!",
+      "deleteAccountNotice": "يجب أن تغادر/تحذف جميع السيرفرات قبل أن تتمكن من حذف حسابك.",
+      "understoodButton": "مفهوم",
+      "deletionNotice": "\u202Bنحن حزينون لرؤيتك تذهب :( إذا لم يعجبك شيء، يرجى إعلامنا في سيرفر Nerimity الرسمي.\u202C",
+      "deletedInfo": {
+        "title": "ما سيتم حذفه",
+        "email": "• البريد الإلكتروني",
+        "username": "• اسم المستخدم",
+        "ip": "\u202B• عنوان IP\u202C",
+        "bio": "• النبذة",
+        "messages": "• رسائلك",
+        "posts": "• منشوراتك"
+      },
+      "postsAndMessagesNotice": "قد تستغرق منشوراتك ورسائلك أسابيع للحذف.",
+      "deleteCheckbox": "احذف منشوراتي ورسائلي"
+    },
+    "privacy": {
+      "lastOnline": {
+        "title": "آخر ظهور",
+        "description": "حدد من يمكنه رؤية آخر ظهور لك.",
+        "hidden": "مخفي",
+        "friendsOnly": "الأصدقاء فقط",
+        "friendsAndServers": "الأصدقاء والسيرفرات"
+      },
+      "directMessage": {
+        "title": "الرسائل المباشرة",
+        "description": "حدد من يمكنه إرسال رسائل مباشرة لك.",
+        "anyone": "أي شخص",
+        "friendsAndServersOnly": "الأصدقاء والسيرفرات فقط",
+        "friendsOnly": "الأصدقاء فقط"
+      },
+      "friendRequest": {
+        "title": "طلبات الصداقة",
+        "description": "حدد من يمكنه إرسال طلبات صداقة لك.",
+        "anyone": "أي شخص",
+        "serversOnly": "السيرفرات فقط",
+        "nobody": "لا أحد"
+      },
+      "profileOptions": {
+        "title": "خيارات الملف الشخصي",
+        "hideFollowers": "إخفاء المتابعين",
+        "hideFollowersDescription": "إخفاء متابعيك من ملفك الشخصي.",
+        "hideFollowing": "إخفاء المتابَعين",
+        "hideFollowingDescription": "إخفاء من تتابعهم من ملفك الشخصي."
+      }
+    },
+    "notifications": {
+      "desktopNotifications": "إشعارات سطح المكتب",
+      "desktopNotificationsDescription": "عرض إشعارات سطح المكتب حتى عندما يكون التطبيق مصغّراً.",
+      "sounds": "الأصوات",
+      "soundsDescription": "إذا كانت أصوات الإشعارات مزعجة، يمكنك تعطيلها.",
+      "volume": "مستوى الصوت",
+      "volumeDescription": "تغيير مستوى صوت الإشعارات.",
+      "changeSoundsDescription": "تغيير صوت الإشعارات بهذه الأصوات المجانية.",
+      "message": "رسالة",
+      "messageDescription": "الصوت عند استلام رسالة.",
+      "mention": "إشارة",
+      "mentionDescription": "الصوت عند تلقي إشارة.",
+      "reminder": "تذكير",
+      "reminderDescription": "إشعارات التذكيرات.",
+      "inAppPreview": "معاينة في التطبيق",
+      "inAppPreviewDescription": "عرض نوافذ الإشعارات داخل التطبيق.",
+      "mute": "كتم",
+      "inAppPreviewModes": {
+        "off": "إيقاف",
+        "mentionsOnly": "الإشارات فقط",
+        "inheritFromPingSettings": "الوراثة من إعدادات الإشعارات",
+        "all": "الكل"
+      }
+    },
+    "call": {
+      "nextCallNotice": "سيتم تطبيق التغييرات في مكالماتك القادمة.",
+      "inputDevices": "أجهزة الإدخال",
+      "outputDevices": "أجهزة الإخراج",
+      "default": "افتراضي",
+      "inputMode": "وضع الإدخال",
+      "openMic": "ميكروفون مفتوح",
+      "voiceActivity": "نشاط صوتي",
+      "pushToTalk": "اضغط للتحدث",
+      "bindButton": "ربط",
+      "stopButton": "إيقاف",
+      "downloadAppNotice": "\u202Bحمّل تطبيق Nerimity لسطح المكتب لاستخدام هذه الميزة بدون تركيز نافذة المتصفح.\u202C"
+    },
+    "interface": {
+      "customCSS": "\u202BCSS مخصص\u202C",
+      "themes": "السمات",
+      "themesDescription": "اختر سمة محددة مسبقاً أو أعد التعيين للافتراضي.",
+      "maintainers": "المساهمون",
+      "apply": "تطبيق",
+      "enableEruda": "\u202Bتفعيل Eruda\u202C",
+      "enableErudaDescription": "\u202Bتفعيل Eruda لتصحيح الأخطاء. لا تشارك أي تفاصيل مع الآخرين.\u202C",
+      "enableOnce": "تفعيل مرة واحدة",
+      "blurEffect": "تأثير الضبابية",
+      "blurEffectDescription": "تبديل تأثير الضبابية على عناصر الواجهة. (قد يقلل الأداء)",
+      "disableAdvancedMarkupBar": "تعطيل شريط التنسيق المتقدم",
+      "disableAdvancedMarkupBarDescription": "منع ظهور شريط التنسيق المتقدم.",
+      "customizeColors": "تخصيص الألوان",
+      "customizeColorsDescription": "تعديل ألوان السمة الحالية."
+    }
+  },
+  "supportBlock": {
+    "support": "ادعمني",
+    "supportDescription": "تبرّع للحصول على شارة الداعم!"
+  },
+  "createServerModal": {
+    "title": "إنشاء سيرفر",
+    "notice": "المحتوى الإباحي ممنوع.",
+    "serverName": "اسم السيرفر",
+    "placeholder": "سيرفري الرائع",
+    "creating": "جارٍ الإنشاء...",
+    "createServerButton": "إنشاء سيرفر",
+    "closeButton": "إغلاق"
+  },
+  "serverContextMenu": {
+    "markAsRead": "وضع علامة كمقروء",
+    "invites": "الدعوات",
+    "notifications": "الإشعارات",
+    "settings": "الإعدادات",
+    "copyId": "نسخ المعرّف",
+    "leave": "مغادرة",
+    "notificationOptions": {
+      "everything": "كل شيء",
+      "mentionsOnly": "الإشارات فقط",
+      "mute": "كتم"
+    }
+  },
+  "typing": {
+    "single": "<1>{{username}}</1> يكتب...",
+    "multiple": "<1>{{username}}</1> و <2>{{username2}}</2> يكتبان...",
+    "tripple": "<1>{{username}}</1> و <2>{{username2}}</2> و <3>{{username3}}</3> يكتبون...",
+    "andOthers": "<1>{{count}}</1> مستخدمين يكتبون..."
+  },
+  "userContextMenu": {
+    "viewProfile": "عرض الملف الشخصي",
+    "sendMessage": "إرسال رسالة",
+    "copyId": "نسخ المعرّف",
+    "editRoles": "تعديل الأدوار",
+    "kick": "طرد",
+    "ban": "حظر",
+    "changeNickname": "تغيير اللقب",
+    "transferOwnership": "نقل الملكية",
+    "callVolume": "مستوى صوت المكالمة"
+  },
+  "kickServerMemberModal": {
+    "title": "طرد {{username}}",
+    "kickButton": "طرد",
+    "kicking": "جارٍ الطرد...",
+    "backButton": "رجوع",
+    "message": "هل أنت متأكد أنك تريد طرد <1>{{username}}</1>؟"
+  },
+  "editServerRolesModal": {
+    "title": "تعديل الأدوار"
+  },
+  "banModal": {
+    "title": "حظر {{username}}؟",
+    "message": "هل أنت متأكد أنك تريد حظر <1>{{username}}</1>؟",
+    "deletePastMessagesCheckbox": "حذف الرسائل المرسلة في الـ 7 ساعات الماضية.",
+    "banButton": "حظر",
+    "banning": "جارٍ الحظر..."
+  },
+  "messageContextMenu": {
+    "editMessage": "تعديل الرسالة",
+    "deleteMessage": "حذف الرسالة",
+    "translateMessage": "ترجمة",
+    "copyMessage": "نسخ الرسالة",
+    "copyId": "نسخ المعرّف",
+    "viewReactions": "عرض التفاعلات",
+    "quoteMessage": "اقتباس الرسالة",
+    "reportMessage": "الإبلاغ عن الرسالة",
+    "reply": "رد",
+    "markUnread": "وضع علامة كغير مقروء"
+  },
+  "profile": {
+    "followButton": "متابعة",
+    "unfollowButton": "إلغاء المتابعة",
+    "removeFriendButton": "إزالة صديق",
+    "addFriendButton": "إضافة صديق",
+    "pendingRequest": "طلب معلق",
+    "acceptRequestButton": "قبول الطلب",
+    "messageButton": "رسالة",
+    "mutualFriends": "أصدقاء مشتركون ({{count}})",
+    "mutualServers": "سيرفرات مشتركة ({{count}})",
+    "postsTab": "المنشورات",
+    "followersTab": "المتابعون",
+    "followingTab": "المتابَعون",
+    "postsAndRepliesTab": "المنشورات والردود ({{count}})",
+    "likedPostsTab": "المنشورات المعجَب بها ({{count}})"
+  },
+  "posts": {
+    "deletePostModal": {
+      "message": "هل أنت متأكد أنك تريد حذف هذا المنشور؟",
+      "cancelButton": "إلغاء",
+      "deleteButton": "حذف"
+    },
+    "postWasDeleted": "تم حذف هذا المنشور!",
+    "someoneLikedYourPost": "<1>{{username}}</1> أعجب بمنشورك!",
+    "someoneRepostedYourPost": "<1>{{username}}</1> أعاد نشر منشورك!",
+    "someoneFollowedYou": "<1>{{username}}</1> تابعك!",
+    "someoneRepliedToPost": "<1>{{username}}</1> رد على منشورك!",
+    "createAPostInputPlaceholder": "أنشئ منشوراً...",
+    "replyInputPlaceholder": "رد...",
+    "replyButton": "رد",
+    "createButton": "إنشاء",
+    "pollOptions": "خيارات التصويت",
+    "optionNumberPlaceholder": "الخيار {{number}}"
+  },
+  "informationDrawer": {
+    "title": "معلومات",
+    "channelNotice": "إشعار القناة",
+    "attachments": "المرفقات",
+    "attachmentsBack": "رجوع",
+    "members": "الأعضاء"
+  },
+  "botInvite": {
+    "serverSelect": "الرجاء اختيار سيرفر!",
+    "creator": "أُنشئ بواسطة ",
+    "selectButton": "اختر سيرفر",
+    "addButton": "إضافة بوت",
+    "permissions": "صلاحيات البوت"
+  },
+  "googleAccountLink": {
+    "linking": "\u202Bجارٍ ربط حسابك مع Google...\u202C",
+    "success": "تم ربط الحساب! يمكنك الآن إغلاق هذه النافذة."
+  },
+  "invite": {
+    "loading": "جارٍ تحميل الدعوة...",
+    "invalid": "رمز دعوة غير صالح",
+    "joinButton": "انضم",
+    "joiningButton": "جارٍ الانضمام...",
+    "visitButton": "زيارة",
+    "member": "عضو",
+    "members": "أعضاء"
+  },
+  "fileEmbed": {
+    "expired": "منتهي الصلاحية",
+    "modifiedOrDeleted": "\u202Bتم تعديل/حذف هذا الملف بواسطة المنشئ في Google Drive.\u202C",
+    "viewImage": "عرض الصورة",
+    "download": "تحميل",
+    "expires": "ينتهي"
+  },
+  "videoEmbed": {
+    "couldNotGetVideo": "تعذّر الحصول على الفيديو.",
+    "videoModified": "تم تعديل الفيديو.",
+    "googleDrivePolicy": "\u202Bبسبب سياسة Google Drive الجديدة، يمكنك تشغيل الفيديوهات فقط من تطبيق Nerimity لسطح المكتب.\u202C",
+    "videoExpired": "انتهت صلاحية الفيديو.",
+    "modifiedOrDeleted": "\u202Bتم تعديل/حذف هذا الفيديو بواسطة المنشئ في Google Drive.\u202C",
+    "expires": "ينتهي",
+    "expired": "منتهي الصلاحية"
+  },
+  "message": {
+    "badge": {
+      "bot": "بوت",
+      "webhook": "ويب هوك",
+      "owner": "المالك"
+    },
+    "reactions": {
+      "more": "{{count}} أكثر"
+    },
+    "deletedMessage": "تم حذف الرسالة.",
+    "dismissButton": "تجاهل",
+    "editedAt": "عُدّلت في {{time}}",
+    "twitterEmbed": {
+      "modalTitle": "تضمين تويتر المفصّل",
+      "modalDescription": "عند استخدام تضمين تويتر الرسمي، سيتم جمع بياناتك بواسطة إيلون ماسك.",
+      "doNotShowAgain": "لا تظهر هذا مرة أخرى.",
+      "closeButton": "لا تظهر",
+      "showButton": "عرض",
+      "basicEmbed": "تضمين أساسي",
+      "detailedEmbed": "تضمين مفصّل"
+    },
+    "blocked": "لقد حظرت هذا المستخدم. اضغط للعرض.",
+    "translationError": "تعذّرت ترجمة هذه الرسالة.",
+    "translation": {
+      "title": "الترجمة"
+    }
+  }
+}
+
