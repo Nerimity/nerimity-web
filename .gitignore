@@ -1,4 +1,4 @@
 node_modules
 dist
 .env
-dev-dist
+dev-dist.DS_Store
