@@ -67,18 +67,18 @@ body .full .value > span,
   border-radius: 50%;
 
   &.offline {
-    background-color: var(--Status-Offline, #adadad);
+    background-color: var(--status-offline, #adadad);
   }
   &.online {
-    background-color: var(--Status-Online, #78e380);
+    background-color: var(--status-online, #78e380);
   }
   &.ltp {
-    background-color: var(--Status-Looking-To-Play, #78a5e3);
+    background-color: var(--status-looking-to-play, #78a5e3);
   }
   &.afk {
-    background-color: var(--Status-Away-From-Keyboard, #e3a878);
+    background-color: var(--status-away-from-keyboard, #e3a878);
   }
   &.dnd {
-    background-color: var(--Status-Do-Not-Disturb, #e37878);
+    background-color: var(--status-do-not-disturb, #e37878);
   }
 }

@@ -1,5 +1,4 @@
 import { createEffect, For, Show } from "solid-js";
-import { css, styled } from "solid-styled-components";
 
 import useStore from "@/chat-api/store/useStore";
 import { StorageKeys, useLocalStorage } from "@/common/localStorage";
@@ -19,85 +18,7 @@ import {
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
 import env from "@/common/env";
-
-const Container = styled("div")`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 10px;
-`;
-
-const ThemeGrid = styled("div")`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
-  margin-top: 8px;
-
-  @media (max-width: 600px) {
-    width: 100%;
-    grid-template-columns: 1fr;
-  }
-`;
-
-const ThemeCard = styled("div")<{ colors: Record<string, string> }>`
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  padding: 12px;
-  background-color: ${({ colors }) => colors["pane-color"] || "#f5f5f5"};
-  color: ${({ colors }) => colors["text-color"] || "#333"};
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .theme-name {
-    font-weight: bold;
-    margin-bottom: 4px;
-    text-transform: capitalize;
-    font-size: 14px;
-  }
-
-  .maintainers {
-    font-size: 12px;
-    opacity: 0.7;
-    font-style: italic;
-    margin-bottom: 8px;
-  }
-
-  .color-preview {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding-bottom: 8px;
-    margin-bottom: auto;
-
-    div {
-      width: 20px;
-      height: 20px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      background-color: ${({ colors }) => colors["background-color"] || "#eee"};
-    }
-  }
-
-  @media (max-width: 600px) {
-    padding: 10px;
-
-    .color-preview div {
-      width: 16px;
-      height: 16px;
-    }
-
-    button {
-      font-size: 12px;
-      padding: 4px 6px;
-    }
-  }
-`;
+import style from "./InterfaceSettings.module.css";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
@@ -111,7 +32,7 @@ export default function InterfaceSettings() {
   });
 
   return (
-    <Container>
+    <div class={style.container}>
       <Breadcrumb>
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.interface")} />
@@ -126,7 +47,7 @@ export default function InterfaceSettings() {
         href="./custom-css"
       />
       <ErudaBlock />
-    </Container>
+    </div>
   );
 }
 
@@ -137,14 +58,9 @@ export function ThemesBlock() {
       icon="style"
       label={t("settings.interface.themes")}
       description={t("settings.interface.themesDescription")}
-      class={css`
-        && {
-          flex-direction: column;
-          align-items: start;
-        }
-      `}
+      class={style.themeSettingsBlock}
     >
-      <ThemeGrid>
+      <div class={style.themeGrid}>
         <For each={Object.entries(themePresets)}>
           {([name, { colors, maintainers }]) => {
             const displayColors =
@@ -153,28 +69,39 @@ export function ThemesBlock() {
                 : { ...DefaultTheme, ...colors };
 
             return (
-              <ThemeCard colors={displayColors}>
-                <div class="theme-name">{name}</div>
+              <div
+                class={style.themeCard}
+                style={{
+                  "background-color": colors["pane-color"],
+                  color: colors["text-color"],
+                }}
+              >
+                <div class={style.themeName}>{name}</div>
                 <Show when={maintainers.length > 0}>
-                  <div class="maintainers">
+                  <div class={style.maintainers}>
                     {t("settings.interface.maintainers")}:{" "}
                     {maintainers.join(", ")}
                   </div>
                 </Show>
-                <div class="color-preview">
+                <div class={style.colorPreview}>
                   <For each={Object.values(displayColors)}>
-                    {(color) => <div style={{ "background-color": color }} />}
+                    {(color) => (
+                      <div
+                        class={style.colorBlock}
+                        style={{ "background-color": color }}
+                      />
+                    )}
                   </For>
                 </div>
                 <Button
                   label={t("settings.interface.apply")}
                   onClick={() => applyTheme(name)}
                 />
-              </ThemeCard>
+              </div>
             );
           }}
         </For>
-      </ThemeGrid>
+      </div>
     </SettingsBlock>
   );
 }
@@ -241,9 +168,7 @@ function CustomizeColors() {
         {([name, value], i) => (
           <SettingsBlock
             icon="colors"
-            class={css`
-              text-transform: capitalize;
-            `}
+            class={style.themeItem}
             label={name.replaceAll("-", " ")}
             borderBottomRadius={i() === Object.keys(currentTheme()).length - 1}
             borderTopRadius={false}

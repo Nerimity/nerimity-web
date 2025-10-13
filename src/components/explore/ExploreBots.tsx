@@ -414,8 +414,8 @@ function PublicItem(props: {
               <OnlineIndicator
                 style={{
                   background: bot.online
-                    ? "var(--Status-Online)"
-                    : "var(--Status-Offline)",
+                    ? "var(--status-online)"
+                    : "var(--status-offline)",
                 }}
               />
               {bot.username}

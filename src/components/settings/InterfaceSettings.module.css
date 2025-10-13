@@ -1,0 +1,84 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+}
+
+.themeGrid {
+  display: grid;
+  margin-top: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.themeSettingsBlock {
+  align-items: start;
+  flex-direction: column;
+}
+
+.themeItem {
+  text-transform: capitalize;
+}
+
+.themeCard {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .colorPreview {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 8px;
+    margin-bottom: auto;
+    gap: 4px;
+  }
+
+  .colorBlock {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .themeName {
+    margin-bottom: 4px;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .maintainers {
+    margin-bottom: 8px;
+    opacity: 0.7;
+    font-size: 12px;
+    font-style: italic;
+  }
+}
+
+@media (max-width: 600px) {
+  .themeGrid {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+  .themeCard {
+    padding: 10px;
+  }
+
+  .colorPreview div {
+    width: 16px;
+    height: 16px;
+  }
+
+  button {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+}

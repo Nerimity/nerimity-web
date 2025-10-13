@@ -11,13 +11,21 @@ interface Status {
 // DND = 4, // Do not disturb
 
 export const UserStatuses: Status[] = [
-  { name: "Offline", id: "offline", color: "var(--Status-Offline)" },
-  { name: "Online", id: "online", color: "var(--Status-Online)" },
-  { name: "Looking To Play", id: "ltp", color: "var(--Status-Looking-To-Play)" },
-  { name: "Away From Keyboard", id: "afk", color: "var(--Status-Away-From-Keyboard)" },
-  { name: "Do Not Disturb", id: "dnd", color: "var(--Status-Do-Not-Disturb)" }
+  { name: "Offline", id: "offline", color: "var(--status-offline)" },
+  { name: "Online", id: "online", color: "var(--status-online)" },
+  {
+    name: "Looking To Play",
+    id: "ltp",
+    color: "var(--status-looking-to-play)",
+  },
+  {
+    name: "Away From Keyboard",
+    id: "afk",
+    color: "var(--status-away-from-keyboard)",
+  },
+  { name: "Do Not Disturb", id: "dnd", color: "var(--status-do-not-disturb)" },
 ];
 
-export function userStatusDetail(status: number): Status {
-  return UserStatuses[status];
+export function userStatusDetail(status: number) {
+  return UserStatuses[status] || (UserStatuses[0] as Status);
 }

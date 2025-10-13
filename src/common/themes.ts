@@ -21,11 +21,11 @@ export const DefaultTheme = {
   "success-color": "#78e380",
   "success-color-dark": "#1c221d",
   // Status
-  "Status-Offline": "#adadad",
-  "Status-Online": "#78e380",
-  "Status-Looking-To-Play": "#78a5e3",
-  "Status-Away-From-Keyboard": "#e3a878",
-  "Status-Do-Not-Disturb": "#e37878",
+  "status-offline": "#adadad",
+  "status-online": "#78e380",
+  "status-looking-to-play": "#78a5e3",
+  "status-away-from-keyboard": "#e3a878",
+  "status-do-not-disturb": "#e37878",
   // Text Color
   "text-color": "white",
   // TODO:
