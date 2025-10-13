@@ -44,12 +44,12 @@ export function getLatestSha({ owner, repo } = repos.nerimityWeb) {
   return res.then((x) => x.sha?.substring(0, 7));
 }
 
-const AvailableExtensions = ["apk", "exe", "AppImage", "deb"] as const;
+const AvailableExtensions = ["apk", "exe", "AppImage", "deb", "dmg"] as const;
 type AvailableExtensions = (typeof AvailableExtensions)[number];
 interface Platform {
   name: string;
   downloadUrl: string;
-  platform: "windows" | "linux" | "android";
+  platform: "windows" | "linux" | "android" | "macos";
   ext: AvailableExtensions;
 }
 
@@ -79,6 +79,9 @@ export async function getPlatformDownloadLinks() {
       }
       if (extName === "AppImage" || extName === "deb") {
         platformName = "linux";
+      }
+      if (extName === "dmg") {
+        platformName = "macos";
       }
       platforms.push({
         name: asset.name,
