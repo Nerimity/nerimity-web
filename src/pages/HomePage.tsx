@@ -223,6 +223,13 @@ const PlatformDownloadLinks = () => {
   const onMacOSButtonClick = (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
+    
+    // when clicking, if already open, close it
+    if (macOSMenuPos()) {
+      setMacOSMenuPos(undefined);
+      return;
+    }
+    
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     setMacOSMenuPos({ x: rect.left, y: rect.bottom + 5 });
@@ -231,6 +238,13 @@ const PlatformDownloadLinks = () => {
   const onLinuxButtonClick = (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
+    
+    // when clicking, if already open, close it
+    if (linuxMenuPos()) {
+      setLinuxMenuPos(undefined);
+      return;
+    }
+    
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     setLinuxMenuPos({ x: rect.left, y: rect.bottom + 5 });
