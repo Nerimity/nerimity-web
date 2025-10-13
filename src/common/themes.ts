@@ -1,6 +1,6 @@
 import { StorageKeys, useLocalStorage, setStorageString } from "./localStorage";
 
-const theme = {
+export const DefaultTheme = {
   // Main
   "background-color": "hsl(216deg 9% 8%)",
   "pane-color": "hsl(216deg 8% 15%)",
@@ -32,19 +32,21 @@ const theme = {
   // Add multiple text colors, rather than using one.. E.G: message-text-color, channel-text-color, etc.
 };
 
-type ThemeKey = keyof typeof theme;
+type ThemeKey = keyof typeof DefaultTheme;
 
-const [customColors, setCustomColors] = useLocalStorage<Partial<Record<ThemeKey, string>>>(
-  StorageKeys.CUSTOM_COLORS,
-  {}
-);
+const [customColors, setCustomColors] = useLocalStorage<
+  Partial<Record<ThemeKey, string>>
+>(StorageKeys.CUSTOM_COLORS, {});
 
-const currentTheme = () => ({ ...theme, ...customColors() });
+const currentTheme = () => ({ ...DefaultTheme, ...customColors() });
 
 export const updateTheme = () => {
   const newTheme = currentTheme();
   for (const key in newTheme) {
-    document.documentElement.style.setProperty(`--${key}`, newTheme[key as ThemeKey]);
+    document.documentElement.style.setProperty(
+      `--${key}`,
+      newTheme[key as ThemeKey]
+    );
   }
 };
 
@@ -67,7 +69,7 @@ export type ThemePreset = {
 
 export const themePresets: Record<string, ThemePreset> = {
   Default: {
-    colors: {},
+    colors: DefaultTheme,
     maintainers: ["Superkitten", "Asraye"],
   },
   AMOLED: {
@@ -78,15 +80,6 @@ export const themePresets: Record<string, ThemePreset> = {
       "header-background-color": "#111111cc",
       "header-background-color-blur-disabled": "#000000",
       "tooltip-background-color": "#0a0a0a",
-      "primary-color": "#3a5a8f",
-      "alert-color": "#ff1f1f",
-      "warn-color": "#ff8c00",
-      "success-color": "#00ff77",
-      "success-color-dark": "#00cc44",
-      "primary-color-dark": "#2d3746",
-      "alert-color-dark": "#ff4c4c",
-      "warn-color-dark": "#ffaa33",
-      "text-color": "#e0e0e0",
     },
     maintainers: ["Asraye"],
   },
@@ -98,13 +91,17 @@ export const applyTheme = (name: string) => {
   if (!preset) return;
 
   // Clear previous
-  Object.keys(customColors()).forEach((key) => setThemeColor(key as ThemeKey, undefined));
+  Object.keys(customColors()).forEach((key) =>
+    setThemeColor(key as ThemeKey, undefined)
+  );
   // Apply preset
-  Object.entries(preset.colors).forEach(([key, value]) => setThemeColor(key as ThemeKey, value));
+  Object.entries(preset.colors).forEach(([key, value]) =>
+    setThemeColor(key as ThemeKey, value)
+  );
   // Persist
   setStorageString(StorageKeys.CUSTOM_COLORS, JSON.stringify(preset.colors));
 };
 
 updateTheme();
 
-export { theme, currentTheme, customColors };
+export { DefaultTheme as theme, currentTheme, customColors };

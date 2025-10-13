@@ -14,6 +14,7 @@ import {
   currentTheme,
   customColors,
   setThemeColor,
+  DefaultTheme,
 } from "@/common/themes";
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
@@ -147,7 +148,9 @@ export function ThemesBlock() {
         <For each={Object.entries(themePresets)}>
           {([name, { colors, maintainers }]) => {
             const displayColors =
-              Object.keys(colors).length === 0 ? currentTheme() : colors;
+              Object.keys(colors).length === 0
+                ? currentTheme()
+                : { ...DefaultTheme, ...colors };
 
             return (
               <ThemeCard colors={displayColors}>
@@ -165,7 +168,6 @@ export function ThemesBlock() {
                 </div>
                 <Button
                   label={t("settings.interface.apply")}
-                  size="small"
                   onClick={() => applyTheme(name)}
                 />
               </ThemeCard>
