@@ -346,6 +346,7 @@ const ActivityList = () => {
 
   const onMouseDown = (e: MouseEvent) => {
     document.addEventListener("mousemove", onMouseMove, { passive: true });
+    document.addEventListener("mouseup", stopDragging, { once: true });
     if (!activityListEl) return;
 
     isDragging = true;
@@ -411,7 +412,6 @@ const ActivityList = () => {
       ref={activityListEl}
       onwheel={onWheel}
       onmousedown={onMouseDown}
-      onmouseup={stopDragging}
     >
       <Show when={!authenticatedInPast()}>
         <Skeleton.List count={5} style={{ "flex-direction": "row" }}>
