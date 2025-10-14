@@ -26,18 +26,18 @@
 
 .joinedText {
   display: flex;
-  gap: 4px;
-  margin-bottom: 4px;
-  margin-top: 2px;
   flex-shrink: 0;
   flex-wrap: wrap;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  gap: 4px;
   .joinedContainer {
     display: flex;
+    align-items: center;
     flex: 1;
     flex-shrink: 0;
-    align-items: center;
-    gap: 6px;
     white-space: nowrap;
+    gap: 6px;
   }
 }
 .profileSettingsShown {
@@ -58,8 +58,7 @@
     .flyoutOuterScrollableContainer {
       overflow: initial;
     }
-  } 
-
+  }
 }
 
 .flyoutInnerContainer {
@@ -73,8 +72,6 @@
   background-color: rgba(40, 40, 40, 0.86);
 
   backdrop-filter: blur(34px);
-
-
 
   &.dmPane {
     overflow: hidden;
@@ -206,64 +203,6 @@ body .postItemContainer {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.userActivityContainer {
-  display: flex;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  gap: 6px;
-  .icon {
-    margin-top: 2px;
-  }
-  .richPresence {
-    position: relative;
-    z-index: 111;
-    display: flex;
-    overflow: hidden;
-    align-items: center;
-    padding: 4px;
-    margin-top: 4px;
-    margin-left: -20px;
-    border-radius: 8px;
-    gap: 6px;
-
-    .backgroundImage {
-      position: absolute;
-      z-index: -1;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 100% 100%;
-      filter: blur(50px) brightness(0.6);
-      inset: -20px;
-    }
-    .richInfo {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      margin-right: 2px;
-    }
-  }
-  .activityImg {
-    width: 60px;
-    height: 60px;
-    border-radius: 6px;
-    object-fit: contain;
-    &.videoActivityImg {
-      width: initial;
-      object-fit: cover;
-      aspect-ratio: 16/9;
-    }
-  }
-  .activityInfo {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    .activityInfoRow {
-      display: flex;
-      gap: 4px;
-    }
-  }
-}
-
 .flyoutTitle {
   display: flex;
   align-items: center;
@@ -283,7 +222,6 @@ body .postItemContainer {
 .playedFor {
   font-variant-numeric: tabular-nums;
 }
-
 
 .selfArea {
   display: flex;
@@ -317,7 +255,6 @@ body .postItemContainer {
   margin-bottom: 0;
   border-radius: 6px;
   background-color: var(--floating-bg-color);
-
 }
 
 .customStatusContainer {
@@ -329,7 +266,7 @@ body .postItemContainer {
   border-radius: 6px;
   background-color: var(--floating-bg-color);
   gap: 4px;
-  .customStatusInput{
+  .customStatusInput {
     & > div {
       border-top: 0;
       border-top-left-radius: 0;

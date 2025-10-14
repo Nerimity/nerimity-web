@@ -9,6 +9,7 @@ import {
   createSignal,
   For,
   JSX,
+  lazy,
   mapArray,
   on,
   onCleanup,
@@ -33,7 +34,8 @@ import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
 import { emitScrollToMessage } from "@/common/GlobalEvents";
 import { Skeleton } from "../ui/skeleton/Skeleton";
-import { ProfileFlyout } from "../floating-profile/FloatingProfile";
+
+const ProfileFlyout = lazy(() => import("../floating-profile/FloatingProfile"));
 import { Delay } from "@/common/Delay";
 import { getCachedNotice } from "@/common/useChannelNotice";
 import { Emoji } from "../ui/Emoji";
@@ -51,7 +53,7 @@ const MemberItem = (props: { member: ServerMember }) => {
     { x: number; y: number } | undefined
   >(undefined);
   const [hovering, setHovering] = createSignal(false);
-  const { createPortal, isPortalOpened } = useCustomPortal();
+  const { createRegisteredPortal, isPortalOpened } = useCustomPortal();
 
   const isProfileFlyoutOpened = () => {
     return isPortalOpened("profile-pane-flyout-" + user().id);
@@ -71,16 +73,16 @@ const MemberItem = (props: { member: ServerMember }) => {
 
   const onClick = (e: MouseEvent) => {
     const rect = elementRef?.getBoundingClientRect()!;
-    return createPortal(
-      (close) => (
-        <ProfileFlyout
-          triggerEl={e.target as HTMLElement}
-          position={{ left: rect.left, top: rect.top }}
-          serverId={params.serverId}
-          close={close}
-          userId={user().id}
-        />
-      ),
+
+    createRegisteredPortal(
+      "ProfileFlyout",
+      {
+        triggerEl: e.target as HTMLElement,
+        position: { left: rect.left, top: rect.top },
+        serverId: params.serverId,
+        close: close,
+        userId: user().id,
+      },
       "profile-pane-flyout-" + user().id,
       true
     );

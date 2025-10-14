@@ -14,10 +14,7 @@ import { classNames, cn } from "@/common/classNames";
 import Avatar from "./Avatar";
 import { userStatusDetail } from "@/common/userStatus";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
-import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
-import { isExperimentEnabled } from "@/common/experiments";
-import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { useReminders } from "../useReminders";
 
 export default function MobileBottomPane() {
@@ -172,7 +169,7 @@ function Notify(props: { notify?: ItemProps["notify"] }) {
 function UserItem() {
   const { account, users } = useStore();
   const drawer = useDrawer();
-  const { createPortal } = useCustomPortal();
+  const { createPortal, createRegisteredPortal } = useCustomPortal();
 
   const userId = () => account.user()?.id;
   const user = () => users.get(userId()!);
@@ -193,15 +190,14 @@ function UserItem() {
     }
     if (!user()) return;
 
-    createPortal(
-      (close) => (
-        <ProfileFlyout
-          showProfileSettings
-          close={close}
-          userId={userId()}
-          hideLatestPost
-        />
-      ),
+    createRegisteredPortal(
+      "ProfileFlyout",
+      {
+        hideLatestPost: true,
+        showProfileSettings: true,
+        close: close,
+        userId: userId(),
+      },
       "profile-pane-flyout-" + userId(),
       true
     );

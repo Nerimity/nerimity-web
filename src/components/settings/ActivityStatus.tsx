@@ -34,7 +34,6 @@ import { emitActivityStatus } from "@/chat-api/emits/userEmits";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Input from "../ui/input/Input";
-import { UserActivity } from "../floating-profile/FloatingProfile";
 import { CustomLink } from "../ui/CustomLink";
 import Icon from "../ui/icon/Icon";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
@@ -42,6 +41,7 @@ import { Modal } from "../ui/modal";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { useDiscordActivityTracker } from "@/common/useDiscordActivityTracker";
+import { UserActivity } from "../user-activity/UserActivity";
 
 const Container = styled("div")`
   display: flex;

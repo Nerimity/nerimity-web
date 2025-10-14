@@ -15,12 +15,7 @@ import {
 } from "solid-js";
 import Icon from "../ui/icon/Icon";
 import Text from "../ui/Text";
-import {
-  calculateTimeElapsedForActivityStatus,
-  formatTimestamp,
-  millisecondsToHhMmSs,
-  timeElapsed,
-} from "@/common/date";
+import { formatTimestamp } from "@/common/date";
 import useStore from "@/chat-api/store/useStore";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { UserDetails, updatePresence } from "@/chat-api/services/UserService";
@@ -37,12 +32,7 @@ import { ServerMemberRoleModal } from "../member-context-menu/MemberContextMenu"
 import { electronWindowAPI } from "@/common/Electron";
 import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { useLocation, useNavigate } from "solid-navigator";
-import env from "@/common/env";
-import {
-  RichProgressBar,
-  getActivityIconName,
-} from "@/components/activity/Activity";
-import { ActivityStatus } from "@/chat-api/RawData";
+
 import { css } from "solid-styled-components";
 import { Emoji } from "../ui/Emoji";
 import { t } from "@nerimity/i18lite";
@@ -52,7 +42,6 @@ import average from "@/common/chromaJS";
 import Button from "../ui/Button";
 import { FlexColumn } from "../ui/Flexbox";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
-import { emojiToUrl } from "@/common/emojiToUrl";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { userStatusDetail, UserStatuses } from "@/common/userStatus";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
@@ -62,6 +51,7 @@ import { formatMessage } from "../message-pane/MessagePane";
 import { logout } from "@/common/logout";
 import { currentTheme } from "@/common/themes";
 import { userDetailsPreloader } from "@/common/createPreloader";
+import { UserActivity } from "../user-activity/UserActivity";
 
 interface Props {
   dmPane?: boolean;
@@ -82,7 +72,7 @@ interface Props {
   showProfileSettings?: boolean;
 }
 
-export const ProfileFlyout = (props: Props) => {
+const ProfileFlyout = (props: Props) => {
   const { isMobileWidth } = useWindowProperties();
   const location = useLocation();
 
@@ -142,6 +132,7 @@ export const ProfileFlyout = (props: Props) => {
     </Switch>
   );
 };
+export default ProfileFlyout;
 
 const DesktopProfileFlyout = (props: {
   channelNotice?: string;
@@ -759,144 +750,6 @@ function FlyoutTitle(props: {
     </div>
   );
 }
-
-export const UserActivity = (props: {
-  primaryColor?: string;
-  userId?: string;
-  exampleActivity?: ActivityStatus;
-}) => {
-  const { users, account } = useStore();
-  const user = () => users.get(props.userId! || account.user()?.id!);
-  const activity = () => props.exampleActivity || user()?.presence()?.activity;
-  const [playedFor, setPlayedFor] = createSignal("");
-
-  const isMusic = () =>
-    !!activity()?.action.startsWith("Listening") &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
-  const isVideo = () =>
-    !!activity()?.action.startsWith("Watching") &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
-
-  const isLiveStream = () =>
-    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
-
-  createEffect(
-    on(activity, () => {
-      if (!activity()) return;
-
-      setPlayedFor(
-        calculateTimeElapsedForActivityStatus(activity()?.startedAt!, isMusic())
-      );
-      const intervalId = setInterval(() => {
-        setPlayedFor(
-          calculateTimeElapsedForActivityStatus(
-            activity()?.startedAt!,
-            isMusic()
-          )
-        );
-      }, 1000);
-
-      onCleanup(() => {
-        clearInterval(intervalId);
-      });
-    })
-  );
-
-  const imgSrc = createMemo(() => {
-    if (activity()?.emoji) {
-      return emojiToUrl(activity()?.emoji!, false);
-    }
-    if (!activity()?.imgSrc) return;
-    return `${env.NERIMITY_CDN}proxy/${encodeURIComponent(
-      activity()?.imgSrc!
-    )}/a`;
-  });
-
-  return (
-    <Show when={activity()}>
-      <div class={styles.userActivityContainer}>
-        <Icon
-          class={styles.icon}
-          name={getActivityIconName(activity()!)}
-          size={14}
-          color={props.primaryColor || "var(--primary-color)"}
-        />
-
-        <div class={styles.activityInfo}>
-          <div class={styles.activityInfoRow}>
-            <Text size={13}>{activity()?.action}</Text>
-            <Text size={13} opacity={0.6}>
-              {activity()?.name}
-            </Text>
-          </div>
-          <Show when={activity()?.imgSrc || activity()?.emoji}>
-            <div class={styles.richPresence}>
-              <Show when={imgSrc()}>
-                <div
-                  class={styles.backgroundImage}
-                  style={{
-                    "background-image": `url(${imgSrc()})`,
-                  }}
-                />
-              </Show>
-              <img
-                src={imgSrc()}
-                class={styles.activityImg + " activityImage"}
-                classList={{
-                  [styles.videoActivityImg!]: isVideo() || isLiveStream(),
-                }}
-              />
-              <div class={styles.richInfo}>
-                <Text
-                  href={activity()?.link}
-                  isDangerousLink
-                  newTab
-                  size={13}
-                  opacity={0.9}
-                >
-                  {activity()?.title || activity()?.name}
-                </Text>
-                <Text size={13} opacity={0.6}>
-                  {activity()?.subtitle}
-                </Text>
-                <Show when={!isMusic() && !isVideo()}>
-                  <Text
-                    class={styles.playedFor}
-                    size={13}
-                    opacity={0.6}
-                    title={formatTimestamp(activity()?.startedAt || 0)}
-                  >
-                    {playedFor()}
-                  </Text>
-                </Show>
-                <Show when={isMusic() || isVideo()}>
-                  <RichProgressBar
-                    updatedAt={activity()?.updatedAt}
-                    primaryColor={props.primaryColor}
-                    speed={activity()?.speed}
-                    startedAt={activity()?.startedAt!}
-                    endsAt={activity()?.endsAt!}
-                  />
-                </Show>
-              </div>
-            </div>
-          </Show>
-          <Show when={!activity()?.imgSrc && !activity()?.emoji}>
-            <Text
-              class={styles.playedFor}
-              size={13}
-              title={formatTimestamp(activity()?.startedAt || 0)}
-            >
-              For {playedFor()}
-            </Text>
-          </Show>
-        </div>
-      </div>
-    </Show>
-  );
-};
 
 function SelfArea(props: { bg: string }) {
   const store = useStore();

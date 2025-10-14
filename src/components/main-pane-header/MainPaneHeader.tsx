@@ -16,8 +16,6 @@ import {
   Show,
 } from "solid-js";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { postJoinVoice } from "@/chat-api/services/VoiceService";
-import socketClient from "@/chat-api/socketClient";
 import { useNavigate, useParams } from "solid-navigator";
 import Button from "../ui/Button";
 import { VoiceUser } from "@/chat-api/store/useVoiceUsers";
@@ -26,22 +24,16 @@ import {
   RawNotification,
   getUserNotificationsRequest,
 } from "@/chat-api/services/UserService";
-import { FriendStatus, RawMessage, RawServer } from "@/chat-api/RawData";
+import { FriendStatus } from "@/chat-api/RawData";
 import MessageItem from "../message-pane/message-item/MessageItem";
-import { Message } from "@/chat-api/store/useMessages";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Text from "../ui/Text";
 import { CustomLink } from "../ui/CustomLink";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { ScreenShareModal } from "./ScreenShareModal";
-import {
-  CHANNEL_PERMISSIONS,
-  ROLE_PERMISSIONS,
-  hasBit,
-} from "@/chat-api/Bitwise";
+import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { WebcamModal } from "./WebcamModal";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
-import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 
 export default function MainPaneHeader() {
   const {
@@ -462,7 +454,7 @@ function VoiceParticipantItem(props: {
   size?: "small";
   onClick: () => void;
 }) {
-  const { createPortal } = useCustomPortal();
+  const { createRegisteredPortal } = useCustomPortal();
   const { voiceUsers, account } = useStore();
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const [contextPosition, setContextPosition] = createSignal<null | {
@@ -479,16 +471,16 @@ function VoiceParticipantItem(props: {
       top: rect.top,
       anchor: "left",
     } as const;
-    return createPortal(
-      (close) => (
-        <ProfileFlyout
-          triggerEl={el}
-          position={pos}
-          serverId={params.serverId}
-          close={close}
-          userId={props.voiceUser.userId}
-        />
-      ),
+
+    createRegisteredPortal(
+      "ProfileFlyout",
+      {
+        triggerEl: el,
+        position: pos,
+        serverId: params.serverId,
+        close: close,
+        userId: props.voiceUser.userId,
+      },
       "profile-pane-flyout-" + props.voiceUser.userId,
       true
     );

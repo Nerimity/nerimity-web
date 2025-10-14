@@ -24,7 +24,6 @@ import { formatTimestamp } from "@/common/date";
 import { Tooltip } from "../ui/Tooltip";
 import { AddServerModal } from "./add-server-modal/AddServerModal";
 import env from "@/common/env";
-import { ProfileFlyout } from "../floating-profile/FloatingProfile";
 import { StorageKeys } from "@/common/localStorage";
 import { useResizeBar } from "../ui/ResizeBar";
 import { NotificationCountBadge } from "./NotificationCountBadge";
@@ -211,7 +210,8 @@ function SettingsItem(props: { size: number }) {
 
 const UserItem = (props: { size: number }) => {
   const { account, users } = useStore();
-  const { createPortal, isPortalOpened } = useCustomPortal();
+  const { createPortal, createRegisteredPortal, isPortalOpened } =
+    useCustomPortal();
   const [hovered, setHovered] = createSignal(false);
 
   const userId = () => account.user()?.id;
@@ -244,17 +244,17 @@ const UserItem = (props: { size: number }) => {
       bottom: 4,
       anchor: "left",
     } as const;
-    return createPortal(
-      (close) => (
-        <ProfileFlyout
-          hideLatestPost
-          triggerEl={el}
-          showProfileSettings
-          position={pos}
-          close={close}
-          userId={userId()}
-        />
-      ),
+
+    createRegisteredPortal(
+      "ProfileFlyout",
+      {
+        hideLatestPost: true,
+        showProfileSettings: true,
+        triggerEl: el,
+        position: pos,
+        close: close,
+        userId: userId(),
+      },
       "profile-pane-flyout-" + userId(),
       true
     );

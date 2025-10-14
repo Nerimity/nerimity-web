@@ -69,7 +69,6 @@ import {
   initializeGoogleDrive,
 } from "@/common/driveAPI";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
-import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import { Dynamic, Portal } from "solid-js/web";
 import { Emoji as RoleEmoji } from "@/components/ui/Emoji";
@@ -314,7 +313,7 @@ const MessageItem = (props: MessageItemProps) => {
   const isServerCreator = () =>
     server()?.createdById === props.message.createdBy.id;
 
-  const { createPortal } = useCustomPortal();
+  const { createRegisteredPortal } = useCustomPortal();
 
   const isNewDay = createMemo(() => {
     if (!props.showNewDayMarker) return false;
@@ -434,16 +433,16 @@ const MessageItem = (props: MessageItemProps) => {
       top: rect.top,
       anchor: "left",
     } as const;
-    return createPortal(
-      (close) => (
-        <ProfileFlyout
-          triggerEl={el}
-          position={pos}
-          serverId={params.serverId}
-          close={close}
-          userId={props.message.createdBy.id}
-        />
-      ),
+
+    createRegisteredPortal(
+      "ProfileFlyout",
+      {
+        triggerEl: el,
+        position: pos,
+        serverId: params.serverId,
+        close: close,
+        userId: props.message.createdBy.id,
+      },
       "profile-pane-flyout-" + props.message.createdBy.id,
       true
     );

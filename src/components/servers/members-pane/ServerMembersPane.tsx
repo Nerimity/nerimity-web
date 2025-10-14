@@ -9,14 +9,14 @@ import { ServerMember } from "@/chat-api/store/useServerMembers";
 import Avatar from "@/components/ui/Avatar";
 import MemberContextMenu from "@/components/member-context-menu/MemberContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { ProfileFlyout } from "@/components/floating-profile/FloatingProfile";
 import Input from "@/components/ui/input/Input";
 import { Item } from "@/components/ui/Item";
 
 export default function Pane() {
   const params = useParams<{ serverId: string }>();
   const { header, serverMembers } = useStore();
-  const { createPortal, openedPortals, closePortalById } = useCustomPortal();
+  const { createRegisteredPortal, openedPortals, closePortalById } =
+    useCustomPortal();
   const [filter, setFilter] = createSignal<"ALL" | "24H">("24H");
   const [contextMenu, setContextMenu] = createSignal<{
     position: { x: number; y: number };
@@ -89,16 +89,16 @@ export default function Pane() {
     if (openedPortal && !openedPortal.endsWith(member.userId)) {
       closePortalById(openedPortal);
     }
-    return createPortal(
-      (close) => (
-        <ProfileFlyout
-          triggerEl={e.target as HTMLElement}
-          position={{ left: e.clientX, top: e.clientY }}
-          serverId={member.serverId}
-          close={close}
-          userId={member.userId}
-        />
-      ),
+
+    createRegisteredPortal(
+      "ProfileFlyout",
+      {
+        triggerEl: e.target as HTMLElement,
+        position: { left: e.clientX, top: e.clientY },
+        serverId: member.serverId,
+        close: close,
+        userId: member.userId,
+      },
       "profile-pane-flyout-" + member.userId,
       true
     );

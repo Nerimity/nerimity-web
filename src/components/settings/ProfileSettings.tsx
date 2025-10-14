@@ -2,6 +2,7 @@ import {
   createEffect,
   createSignal,
   JSXElement,
+  lazy,
   on,
   onCleanup,
   Show,
@@ -25,7 +26,7 @@ import { t } from "@nerimity/i18lite";
 
 import { setSettingsHeaderPreview } from "./SettingsPane";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
-import { ProfileFlyout } from "../floating-profile/FloatingProfile";
+const ProfileFlyout = lazy(() => import("../floating-profile/FloatingProfile"));
 import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -33,7 +34,7 @@ import { AdvancedMarkupOptions } from "../advanced-markup-options/AdvancedMarkup
 import { formatMessage } from "../message-pane/MessagePane";
 import { RawUser } from "@/chat-api/RawData";
 import Checkbox from "../ui/Checkbox";
-import { addBit, hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
 const Container = styled("div")`
   display: flex;

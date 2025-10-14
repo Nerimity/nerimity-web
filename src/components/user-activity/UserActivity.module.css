@@ -1,0 +1,57 @@
+.userActivityContainer {
+  display: flex;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  gap: 6px;
+  .icon {
+    margin-top: 2px;
+  }
+  .richPresence {
+    position: relative;
+    z-index: 111;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    padding: 4px;
+    margin-top: 4px;
+    margin-left: -20px;
+    border-radius: 8px;
+    gap: 6px;
+
+    .backgroundImage {
+      position: absolute;
+      z-index: -1;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100% 100%;
+      filter: blur(50px) brightness(0.6);
+      inset: -20px;
+    }
+    .richInfo {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin-right: 2px;
+    }
+  }
+  .activityImg {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: contain;
+    &.videoActivityImg {
+      width: initial;
+      object-fit: cover;
+      aspect-ratio: 16/9;
+    }
+  }
+  .activityInfo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    .activityInfoRow {
+      display: flex;
+      gap: 4px;
+    }
+  }
+}

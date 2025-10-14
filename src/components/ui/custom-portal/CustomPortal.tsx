@@ -1,8 +1,29 @@
-import { createContext, useContext, JSX, For } from "solid-js";
+import {
+  createContext,
+  useContext,
+  JSX,
+  For,
+  lazy,
+  ComponentProps,
+} from "solid-js";
 import { createStore, produce, SetStoreFunction } from "solid-js/store";
-import { Portal } from "solid-js/web";
+import { Dynamic, Portal } from "solid-js/web";
+
+const registeredPortals = {
+  ProfileFlyout: lazy(
+    () => import("@/components/floating-profile/FloatingProfile")
+  ),
+};
+
+type RegisteredPortal = typeof registeredPortals;
 
 interface PortalBaseValue {
+  createRegisteredPortal: <T extends keyof RegisteredPortal>(
+    component: T,
+    props: ComponentProps<RegisteredPortal[T]>,
+    id?: string,
+    toggle?: boolean
+  ) => void;
   createPortal: (
     element: (close: () => void) => JSX.Element,
     id?: string,
@@ -37,8 +58,28 @@ interface Item {
   customCloseHandler?: CustomCloseHandler;
   closing?: boolean;
 }
+
 export function CustomPortalProvider(props: CustomPortalProps) {
   const [elements, setElements] = createStore<Item[]>([]);
+
+  function createRegisteredPortal<T extends keyof RegisteredPortal>(
+    component: T,
+    props: ComponentProps<RegisteredPortal[T]>,
+    id?: string,
+    toggle?: boolean
+  ) {
+    createPortal(
+      (c) => (
+        <Dynamic
+          component={registeredPortals[component]}
+          {...props}
+          close={c}
+        />
+      ),
+      id,
+      toggle
+    );
+  }
 
   const createPortal = (
     element: (close: () => void) => JSX.Element,
@@ -84,6 +125,7 @@ export function CustomPortalProvider(props: CustomPortalProps) {
     closePortalById,
     isPortalOpened,
     openedPortals,
+    createRegisteredPortal,
   };
 
   return (
