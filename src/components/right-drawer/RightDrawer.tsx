@@ -271,7 +271,8 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
 };
 
 const AttachmentImage = (props: { attachment: RawAttachment }) => {
-  const isFile = () => props.attachment.fileId;
+  const isFile = () =>
+    !props.attachment.height && !props.attachment.mime?.endsWith("image");
   const isGif = () => props.attachment.path?.endsWith(".gif");
 
   const url = (ignoreFocus?: boolean) => {
@@ -304,11 +305,7 @@ const AttachmentImage = (props: { attachment: RawAttachment }) => {
       </Show>
       <Show when={isFile()}>
         <div class={styles.fileAttachment}>
-          <Icon
-            name="insert_drive_file"
-            color="var(--primary-color)"
-            size={40}
-          />
+          <Icon name="draft" color="var(--primary-color)" size={40} />
         </div>
       </Show>
     </div>

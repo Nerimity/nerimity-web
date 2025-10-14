@@ -1084,11 +1084,7 @@ const VideoEmbed = (props: {
         </Show>
 
         <Show when={props.file && !props.error}>
-          <Icon
-            name="insert_drive_file"
-            color="var(--primary-color)"
-            size={30}
-          />
+          <Icon name="draft" color="var(--primary-color)" size={30} />
           <div class={styles.fileEmbedDetails}>
             <div class={styles.fileEmbedName}>{props.file?.name}</div>
             <div class={styles.fileEmbedSize}>
@@ -1218,11 +1214,7 @@ const FileEmbed = (props: {
 
       <Show when={props.file && !props.error}>
         <div class={styles.fileEmbedContainer}>
-          <Icon
-            name="insert_drive_file"
-            color="var(--primary-color)"
-            size={30}
-          />
+          <Icon name="draft" color="var(--primary-color)" size={30} />
           <div class={styles.fileEmbedDetails}>
             <div class={styles.fileEmbedName}>{props.file?.name}</div>
             <div class={styles.fileEmbedSize}>
