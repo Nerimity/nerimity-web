@@ -173,7 +173,7 @@ function CustomizeColors() {
             borderBottomRadius={i() === Object.keys(currentTheme()).length - 1}
             borderTopRadius={false}
           >
-            <Show when={customColors()[name]}>
+            <Show when={customColors()[name] && DefaultTheme[name] !== value}>
               <Button
                 iconName="restart_alt"
                 padding={2}
