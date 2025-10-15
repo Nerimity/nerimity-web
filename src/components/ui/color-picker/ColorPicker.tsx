@@ -28,6 +28,7 @@ export function ColorPicker(props: {
   onDone?: (value: string) => void;
   hide?: boolean;
   ref?: ColorPickerRef | undefined;
+  alpha?: boolean;
 }) {
   const { createPortal } = useCustomPortal();
 
@@ -43,6 +44,7 @@ export function ColorPicker(props: {
   const onClicked = () => {
     createPortal?.((close) => (
       <ColorPickerModal
+        alpha={props.alpha}
         color={props.color}
         close={close}
         onChange={onChange}
@@ -73,6 +75,7 @@ export const ColorPickerModal = (props: {
   done?: (color: string) => void;
   close: () => void;
   onChange: (value: string) => void;
+  alpha?: boolean;
 }) => {
   const { isMobileWidth, width } = useWindowProperties();
   let color = props.color || "#000000";
@@ -84,6 +87,7 @@ export const ColorPickerModal = (props: {
   const initColoris = () =>
     coloris({
       themeMode: "dark",
+      alpha: props.alpha,
       parent: "#coloris",
       defaultColor: props.color || "black",
       inline: true,

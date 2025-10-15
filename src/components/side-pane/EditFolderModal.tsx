@@ -68,6 +68,7 @@ export const EditFolderModal = (props: {
       <Modal.Body class={style.modalBody}>
         <div class={style.colorAndName}>
           <ColorPicker
+            alpha
             hide
             ref={colorPickerRef}
             color={folderColor()}

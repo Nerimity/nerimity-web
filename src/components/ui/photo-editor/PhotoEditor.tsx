@@ -418,7 +418,7 @@ export default function PhotoEditor(props: PhotoEditorProps) {
         />
 
         <Show when={mode() === "brush"}>
-          <ColorPicker color={strokeColor()} onChange={setStrokeColor} />
+          <ColorPicker alpha color={strokeColor()} onChange={setStrokeColor} />
         </Show>
         <div class={styles.strokeWidth}>
           <Text style={{ "margin-left": "2px" }} size={12} opacity={0.8}>

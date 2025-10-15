@@ -181,6 +181,7 @@ function CustomizeColors() {
               />
             </Show>
             <ColorPicker
+              alpha
               color={value}
               onChange={(v) => setThemeColor(name, v)}
             />

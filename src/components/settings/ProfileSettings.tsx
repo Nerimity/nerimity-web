@@ -311,6 +311,7 @@ const ProfileColorBlock = (props: {
             />
           </Show>
           <ColorPicker
+            alpha
             color={props.values.bgColorOne!}
             onChange={(v) => props.setValues("bgColorOne", v)}
           />
@@ -324,6 +325,7 @@ const ProfileColorBlock = (props: {
             />
           </Show>
           <ColorPicker
+            alpha
             color={props.values.bgColorTwo!}
             onChange={(v) => props.setValues("bgColorTwo", v)}
           />
@@ -337,6 +339,7 @@ const ProfileColorBlock = (props: {
             />
           </Show>
           <ColorPicker
+            alpha
             color={props.values.primaryColor!}
             onChange={(v) => props.setValues("primaryColor", v)}
           />
