@@ -6,7 +6,12 @@ import ContextMenu, {
 } from "@/components/ui/context-menu/ContextMenu";
 import useStore from "@/chat-api/store/useStore";
 import { useMatch, useNavigate } from "solid-navigator";
-import { Bitwise, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import {
+  Bitwise,
+  hasBit,
+  ROLE_PERMISSIONS,
+  USER_BADGES,
+} from "@/chat-api/Bitwise";
 import { dismissChannelNotification } from "@/chat-api/emits/userEmits";
 import { createEffect } from "solid-js";
 import {
@@ -31,6 +36,10 @@ export default function ContextMenuServer(props: Props) {
 
   const isServerCreator = () => account.user()?.id === server()?.createdById;
   const isOnServerPage = useMatch(() => `/app/servers/${props.serverId}/*`);
+
+  const isNerimityAdmin = () =>
+    hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
+    hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
 
   const onLeaveClicked = async () => {
     await server()?.leave();
@@ -211,6 +220,15 @@ export default function ContextMenuServer(props: Props) {
             ]
           : []),
         { separator: true },
+        isNerimityAdmin()
+          ? {
+              icon: "security",
+              label: "Admin Pane",
+              onClick: () => {
+                navigate("/app/moderation/servers/" + props.serverId);
+              },
+            }
+          : {},
         {
           icon: "content_copy",
           label: t("serverContextMenu.copyId"),
