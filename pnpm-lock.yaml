@@ -35,8 +35,8 @@ importers:
         specifier: ^0.25.0
         version: 0.25.0
       '@nerimity/i18lite':
-        specifier: ^1.1.1
-        version: 1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9)
+        specifier: ^1.1.2
+        version: 1.1.2(html-parse-string@0.0.9)(solid-js@1.9.9)
       '@nerimity/nevula':
         specifier: ^0.14.0
         version: 0.14.0
@@ -45,7 +45,7 @@ importers:
         version: 0.4.8(solid-js@1.9.9)
       '@nerimity/solid-i18lite':
         specifier: ^1.6.1
-        version: 1.6.1(@nerimity/i18lite@1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)
+        version: 1.6.1(@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)
       '@nerimity/solid-opus-media-recorder':
         specifier: ^1.0.1
         version: 1.0.1(solid-js@1.9.9)
@@ -639,8 +639,8 @@ packages:
     peerDependencies:
       solid-js: '>= 1.0.0'
 
-  '@nerimity/i18lite@1.1.1':
-    resolution: {integrity: sha512-Ob2jIwF7qkTLopPI3sr1JS6RtLeHMaCu3Y0GVGDmDYnA8hXYZowqFEuKkK259hW30zbf156RHSX5v2ddOjZB9g==}
+  '@nerimity/i18lite@1.1.2':
+    resolution: {integrity: sha512-licSIena3g1efBTPPvfMGbm23KwWKGhVAQ1eOTkW3i0l4dsh6NqTwUxAGLnywc4VDZa1jWJlMZ4oQ5+YVAk6dw==}
     peerDependencies:
       html-parse-string: <=1.x
       solid-js: '>=1.8.x'
@@ -2634,7 +2634,7 @@ snapshots:
     dependencies:
       solid-js: 1.9.9
 
-  '@nerimity/i18lite@1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9)':
+  '@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.9)':
     dependencies:
       solid-js: 1.9.9
     optionalDependencies:
@@ -2649,9 +2649,9 @@ snapshots:
       solid-js: 1.9.9
       solid-styled-components: 0.28.5(solid-js@1.9.9)
 
-  '@nerimity/solid-i18lite@1.6.1(@nerimity/i18lite@1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)':
+  '@nerimity/solid-i18lite@1.6.1(@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.9))(html-parse-string@0.0.9)(solid-js@1.9.9)':
     dependencies:
-      '@nerimity/i18lite': 1.1.1(html-parse-string@0.0.9)(solid-js@1.9.9)
+      '@nerimity/i18lite': 1.1.2(html-parse-string@0.0.9)(solid-js@1.9.9)
       solid-js: 1.9.9
     optionalDependencies:
       html-parse-string: 0.0.9
