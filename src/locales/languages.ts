@@ -9,6 +9,7 @@ export interface Language {
   name: string;
   emoji: string;
   contributors: string[];
+  rtl?: boolean;
 }
 
 // name: Display name
@@ -28,6 +29,12 @@ export const languages = {
     name: "Afrikaans",
     emoji: "🇿🇦",
     contributors: ["https://github.com/mooocksadev"],
+  },
+  "ar-ps": {
+    name: "Arabic",
+    emoji: "🇵🇸",
+    contributors: ["https://github.com/TrueLuna"],
+    rtl: true,
   },
   "be-xo": {
     name: "Belarusian (Traditional)",
