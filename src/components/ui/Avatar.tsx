@@ -23,7 +23,7 @@ interface Props {
     avatar?: string;
     hexColor: string;
     badges?: number;
-    avatarUrl?: string;
+    avatarUrl?: string | (() => string | null | undefined) | null;
   };
   server?: { avatar?: string; hexColor: string; verified: boolean };
   voiceIndicator?: boolean;

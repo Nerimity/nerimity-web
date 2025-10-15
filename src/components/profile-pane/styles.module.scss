@@ -324,7 +324,6 @@
     .botCommandName {
       overflow: hidden;
       text-overflow: ellipsis;
-
     }
     .botCommandArgs {
       overflow: hidden;
@@ -355,5 +354,19 @@
     overflow: hidden;
     opacity: 0.6;
     text-overflow: ellipsis;
+  }
+}
+
+.unfriendConfirmContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  .unfriendConfirmPreviewContainer {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    gap: 8px;
   }
 }

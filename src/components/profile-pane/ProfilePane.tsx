@@ -10,6 +10,7 @@ import {
   onCleanup,
   onMount,
   Show,
+  untrack,
 } from "solid-js";
 import { FriendStatus, RawBotCommand, RawUser } from "@/chat-api/RawData";
 import {
@@ -72,6 +73,7 @@ import average from "@/common/chromaJS";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { currentTheme } from "@/common/themes";
+import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -406,6 +408,7 @@ const ActionButtons = (props: {
   const params = useParams<{ userId: string }>();
   const { friends, users, account } = useStore();
 
+  const { createPortal } = useCustomPortal();
   const [contextPosition, setContextPosition] = createSignal<{
     x: number;
     y: number;
@@ -433,8 +436,32 @@ const ActionButtons = (props: {
     friend()?.accept();
   };
 
+  const removeFriend = async () => {
+    await friend()?.remove();
+  };
   const removeClicked = () => {
-    friend()?.remove();
+    const recipient = untrack(() => friend()?.recipient());
+
+    createPortal((c) => (
+      <DeleteConfirmModal
+        buttonText={{
+          loading: "Removing...",
+          main: "Remove Friend",
+        }}
+        onDeleteClick={removeFriend}
+        title={"Unfriend " + recipient?.username}
+        custom={
+          <div class={styles.unfriendConfirmContainer}>
+            <div>Are you sure you want to unfriend {recipient?.username}?</div>
+            <div class={styles.unfriendConfirmPreviewContainer}>
+              <Avatar user={recipient} size={40} />
+              <div>{recipient?.username}</div>
+            </div>
+          </div>
+        }
+        close={c}
+      />
+    ));
   };
 
   const addClicked = () => {

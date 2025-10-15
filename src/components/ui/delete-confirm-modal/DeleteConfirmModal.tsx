@@ -6,11 +6,15 @@ import LegacyModal from "../legacy-modal/LegacyModal";
 import { FlexRow } from "../Flexbox";
 
 interface Props {
-  confirmText: string;
+  confirmText?: string;
   errorMessage?: string | null;
   onDeleteClick?: (value?: string) => Promise<string | undefined | void> | void;
   close: () => void;
   password?: boolean;
+  buttonText?: {
+    main: string;
+    loading: string;
+  };
   title: string;
   custom?: JSXElement;
 }
@@ -34,9 +38,11 @@ export default function DeleteConfirmModal(props: Props) {
 
   const onDeleteClick = async () => {
     setError(null);
-    if (!props.password && confirmInput() !== props.confirmText) {
-      setError(`Input did not match "${props.confirmText}".`);
-      return;
+    if (props.confirmText || props.password) {
+      if (!props.password && confirmInput() !== props.confirmText) {
+        setError(`Input did not match "${props.confirmText}".`);
+        return;
+      }
     }
     if (requestSent()) return;
     setRequestSent(true);
@@ -51,7 +57,9 @@ export default function DeleteConfirmModal(props: Props) {
   };
 
   const buttonMessage = () =>
-    requestSent() ? "Deleting..." : `Delete ${props.confirmText}`;
+    requestSent()
+      ? props.buttonText?.loading || "Deleting..."
+      : props.buttonText?.main || `Delete ${props.confirmText}`;
 
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
@@ -77,23 +85,25 @@ export default function DeleteConfirmModal(props: Props) {
     >
       <div class={styles.deleteConfirmModal}>
         <Show when={props.custom}>{props.custom!}</Show>
-        <Show when={!props.password}>
-          <div class={styles.confirmText}>
-            Confirm by typing{" "}
-            <span class={styles.highlight}>{props.confirmText}</span> in the box
-            below.
-          </div>
+        <Show when={props.confirmText || props.password}>
+          <Show when={!props.password}>
+            <div class={styles.confirmText}>
+              Confirm by typing{" "}
+              <span class={styles.highlight}>{props.confirmText}</span> in the
+              box below.
+            </div>
+          </Show>
+          <Show when={props.password}>
+            <div class={styles.confirmText}>
+              Confirm by typing your password in the box below.
+            </div>
+          </Show>
+          <Input
+            type={props.password ? "password" : "text"}
+            error={error()}
+            onText={(v) => setConfirmInput(v)}
+          />
         </Show>
-        <Show when={props.password}>
-          <div class={styles.confirmText}>
-            Confirm by typing your password in the box below.
-          </div>
-        </Show>
-        <Input
-          type={props.password ? "password" : "text"}
-          error={error()}
-          onText={(v) => setConfirmInput(v)}
-        />
       </div>
     </LegacyModal>
   );
