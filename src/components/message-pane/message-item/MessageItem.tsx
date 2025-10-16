@@ -677,7 +677,7 @@ const SentStatus = (props: { message: Message }) => {
         <div class={styles.sentStatus}>
           <Icon
             class={styles.icon}
-            name="error_outline"
+            name="error_border"
             size={14}
             color="var(--alert-color)"
           />
@@ -687,7 +687,7 @@ const SentStatus = (props: { message: Message }) => {
         <div class={styles.sentStatus}>
           <Icon
             class={styles.icon}
-            name="hourglass_top"
+            name="schedule"
             size={14}
             color="rgba(255,255,255,0.4)"
           />
