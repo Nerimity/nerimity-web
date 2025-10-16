@@ -59,14 +59,14 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
         const code = response.status;
         const message = ErrorCodeToMessage[code];
         if (message) {
-          throw { message, code };
+          return Promise.reject({ message, code });
         }
         const json = JSON.parse(text);
         return Promise.reject(json);
       }
       if (opts.notJSON) return text as T;
       return JSON.parse(text);
-    } catch (e) {
+    } catch {
       throw { message: text };
     }
   });
@@ -91,7 +91,7 @@ export function xhrRequest<T>(
     url.search = new URLSearchParams(opts.params || {}).toString();
 
     const xhr = new XMLHttpRequest();
-    xhr.open(opts.method, opts.url, true);
+    xhr.open(opts.method, url, true);
 
     if (opts.useToken) {
       xhr.setRequestHeader("Authorization", token);
