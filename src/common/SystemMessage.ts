@@ -38,6 +38,12 @@ export const getSystemMessage = (messageType: MessageType) => {
         color: "var(--primary-color)",
         message: "bumped the server.",
       };
+    case MessageType.PINNED_MESSAGE:
+      return {
+        icon: "keep",
+        color: "var(--primary-color)",
+        message: "pinned a message.",
+      };
     default:
       return undefined;
   }

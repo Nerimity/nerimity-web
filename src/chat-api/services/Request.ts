@@ -56,17 +56,17 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
 
     try {
       if (!response.ok) {
-        const code = response.status;
-        const message = ErrorCodeToMessage[code];
-        if (message) {
-          return Promise.reject({ message, code });
-        }
         const json = JSON.parse(text);
         return Promise.reject(json);
       }
       if (opts.notJSON) return text as T;
       return JSON.parse(text);
     } catch {
+      const code = response.status;
+      const message = ErrorCodeToMessage[code];
+      if (message) {
+        return Promise.reject({ message, code });
+      }
       throw { message: text };
     }
   });
@@ -111,24 +111,15 @@ export function xhrRequest<T>(
             if (xhr.status === 0) {
               return rej({ message: "Could not connect to server." });
             }
-            const message = ErrorCodeToMessage[xhr.status];
-            if (message) {
-              throw { message, code: xhr.status };
-            }
-            if (xhr.status !== 200) {
-              const code = xhr.status;
-              const message = ErrorCodeToMessage[code];
-              if (message) {
-                return rej({ message, code });
-              }
 
-              const json = JSON.parse(text);
-              return rej(json);
-            }
             if (opts.notJSON) return res(text as T);
             const json = JSON.parse(text);
             return res(json);
           } catch {
+            const message = ErrorCodeToMessage[xhr.status];
+            if (message) {
+              throw { message, code: xhr.status };
+            }
             throw { message: text };
           }
         }

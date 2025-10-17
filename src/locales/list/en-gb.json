@@ -418,7 +418,7 @@
       "mute": "Mute"
     }
   },
-   "typing": {
+  "typing": {
     "single": "<1>{{username}}</1> is typing…",
     "multiple": "<1>{{username}}</1> and <2>{{username2}}</2> are typing…",
     "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> and <3>{{username3}}</3> are typing…",
@@ -462,7 +462,9 @@
     "quoteMessage": "Quote Message",
     "reportMessage": "Report Message",
     "reply": "Reply",
-    "markUnread": "Mark Unread"
+    "markUnread": "Mark Unread",
+    "pinMessage": "Pin",
+    "unpinMessage": "Unpin"
   },
   "profile": {
     "followButton": "Follow",

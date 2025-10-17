@@ -29,6 +29,42 @@ export const fetchMessages = async (
   return data;
 };
 
+export const pinMessage = async (channelId: string, messageId: string) => {
+  const data = await request<{ status: boolean }>({
+    method: "POST",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      Endpoints.messages(channelId) +
+      `/pins/${messageId}`,
+
+    useToken: true,
+  });
+  return data;
+};
+export const unpinMessage = async (channelId: string, messageId: string) => {
+  const data = await request<{ status: boolean }>({
+    method: "DELETE",
+    url:
+      env.SERVER_URL +
+      "/api" +
+      Endpoints.messages(channelId) +
+      `/pins/${messageId}`,
+
+    useToken: true,
+  });
+  return data;
+};
+export const fetchPinnedMessages = async (channelId: string) => {
+  const data = await request<{ status: boolean }>({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + Endpoints.messages(channelId) + "/pins",
+
+    useToken: true,
+  });
+  return data;
+};
+
 export const fetchChannelAttachments = async (
   channelId: string,
   limit = 50,

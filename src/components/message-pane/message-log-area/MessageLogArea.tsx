@@ -12,6 +12,8 @@ import {
   addMessageReaction,
   fetchMessageReactedUsers,
   markMessageUnread,
+  pinMessage,
+  unpinMessage,
 } from "@/chat-api/services/MessageService";
 import socketClient from "@/chat-api/socketClient";
 import { Message } from "@/chat-api/store/useMessages";
@@ -846,6 +848,13 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
   };
 
+  const showPin = () => {
+    if (props.message.type !== MessageType.CONTENT) return false;
+    if (!params.serverId) return true;
+    const member = serverMembers.get(params.serverId, account.user()?.id!);
+    return member?.hasPermission?.(ROLE_PERMISSIONS.MANAGE_CHANNELS);
+  };
+
   const showQuote = () => props.message.type === MessageType.CONTENT;
   const showReply = () => props.message.type === MessageType.CONTENT;
 
@@ -863,6 +872,14 @@ function MessageContextMenu(props: MessageContextMenuProps) {
 
   const onTranslateClick = () => {
     props.translateMessage?.();
+  };
+
+  const onPinClick = () => {
+    if (props.message.pinned) {
+      unpinMessage(props.message.channelId, props.message.id);
+      return;
+    }
+    pinMessage(props.message.channelId, props.message.id);
   };
 
   return (
@@ -890,6 +907,16 @@ function MessageContextMenu(props: MessageContextMenuProps) {
           label: t("messageContextMenu.markUnread"),
           onClick: onMarkUnreadClick,
         },
+        showPin()
+          ? {
+              icon: "keep",
+              label: props.message.pinned
+                ? t("messageContextMenu.unpinMessage")
+                : t("messageContextMenu.pinMessage"),
+              alert: props.message.pinned,
+              onClick: onPinClick,
+            }
+          : {},
         ...(showQuote()
           ? [
               {

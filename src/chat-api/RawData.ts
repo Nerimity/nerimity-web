@@ -44,6 +44,7 @@ export enum MessageType {
   BAN_USER = 4,
   CALL_STARTED = 5,
   BUMP_SERVER = 6,
+  PINNED_MESSAGE = 7,
 }
 
 export interface HtmlEmbedItem {
@@ -61,6 +62,7 @@ export interface RawMessage {
   };
   type: MessageType;
   createdAt: number;
+  pinned?: boolean;
   editedAt?: number;
   mentions?: Array<RawUser>;
   attachments?: Array<RawAttachment>;

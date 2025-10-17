@@ -2,6 +2,7 @@ import { JSX } from "solid-js/jsx-runtime";
 import styles from "./styles.module.scss";
 import { classNames } from "@/common/classNames";
 import { createEffect } from "solid-js";
+import env from "@/common/env";
 
 interface IconProps {
   name?: string;
@@ -63,6 +64,7 @@ export default function Icon(props: IconProps) {
   return (
     <span
       ref={el}
+      {...(env.DEV_MODE ? { "data-icon": props.name } : undefined)}
       class={classNames("icon", styles.icon, props.class)}
       style={{
         color: props.color,

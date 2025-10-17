@@ -205,7 +205,9 @@ export default function ContextMenu(props: ContextMenuProps) {
             {props.header}
             <For each={items}>
               {(item, i) => (
-                <Show when={item.show !== false}>
+                <Show
+                  when={(item.label || item.separator) && item.show !== false}
+                >
                   <Switch
                     fallback={
                       <Item

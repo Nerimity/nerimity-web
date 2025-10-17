@@ -165,11 +165,9 @@ function FloatOptions(props: FloatingOptionsProps) {
           {formatTimestamp(props.message.createdAt)}
         </div>
       )}
-      <Show when={isContentType()}>
-        <div class={styles.item} onClick={props.reactionPickerClick}>
-          <Icon size={18} name="face" class={styles.icon} />
-        </div>
-      </Show>
+      <div class={styles.item} onClick={props.reactionPickerClick}>
+        <Icon size={18} name="face" class={styles.icon} />
+      </div>
       <Show when={isContentType()}>
         <div class={styles.item} onClick={replyClick}>
           <Icon size={18} name="reply" class={styles.icon} />
@@ -339,12 +337,14 @@ const MessageItem = (props: MessageItemProps) => {
   const isBeforeMessageContent = () =>
     props.beforeMessage && props.beforeMessage.type === MessageType.CONTENT;
 
+  const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
+
   const isCompact = () =>
+    !isSystemMessage() &&
     !props.message.replyMessages?.length &&
     isSameCreator() &&
     isDateUnderFiveMinutes() &&
     isBeforeMessageContent();
-  const isSystemMessage = () => props.message.type !== MessageType.CONTENT;
 
   const [isMentioned, setIsMentioned] = createSignal(false);
   const [isSomeoneMentioned, setIsSomeoneMentioned] = createSignal(false);
@@ -469,7 +469,7 @@ const MessageItem = (props: MessageItemProps) => {
         onMouseLeave={() => setHovered(false)}
         id={`message-${props.message.id}`}
       >
-        <Show when={!props.hideFloating}>
+        <Show when={!props.hideFloating && hovered()}>
           <FloatOptions
             textAreaEl={props.textAreaEl}
             reactionPickerClick={props.reactionPickerClick}
@@ -494,12 +494,24 @@ const MessageItem = (props: MessageItemProps) => {
           }
         >
           <Match when={isSystemMessage()}>
-            <SystemMessage
-              message={props.message}
-              hovered={hovered()}
-              onUserContextMenu={props.userContextMenu}
-              showProfileFlyout={showProfileFlyout}
-            />
+            <div>
+              <SystemMessage
+                message={props.message}
+                hovered={hovered()}
+                onUserContextMenu={props.userContextMenu}
+                showProfileFlyout={showProfileFlyout}
+              />
+              <Show when={props.message.reactions?.length}>
+                <div class={styles.systemMessageReactions}>
+                  <Reactions
+                    textAreaEl={props.textAreaEl}
+                    reactionPickerClick={props.reactionPickerClick}
+                    hovered={hovered()}
+                    message={props.message}
+                  />
+                </div>
+              </Show>
+            </div>
           </Match>
           <Match when={!isSystemMessage() && !blockedMessage()}>
             <div class={styles.messageInner}>
