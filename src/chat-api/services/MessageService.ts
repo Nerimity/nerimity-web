@@ -56,7 +56,7 @@ export const unpinMessage = async (channelId: string, messageId: string) => {
   return data;
 };
 export const fetchPinnedMessages = async (channelId: string) => {
-  const data = await request<{ status: boolean }>({
+  const data = await request<{messages: RawMessage[]}>({
     method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.messages(channelId) + "/pins",
 

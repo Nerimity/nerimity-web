@@ -24,7 +24,7 @@ import {
   RawNotification,
   getUserNotificationsRequest,
 } from "@/chat-api/services/UserService";
-import { FriendStatus } from "@/chat-api/RawData";
+import { FriendStatus, RawMessage } from "@/chat-api/RawData";
 import MessageItem from "../message-pane/message-item/MessageItem";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Text from "../ui/Text";
@@ -34,6 +34,7 @@ import { ScreenShareModal } from "./ScreenShareModal";
 import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { WebcamModal } from "./WebcamModal";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
+import { fetchPinnedMessages } from "@/chat-api/services/MessageService";
 
 export default function MainPaneHeader() {
   const {
@@ -91,11 +92,20 @@ export default function MainPaneHeader() {
     channel()?.joinCall();
   };
 
-  const [mentionListPosition, setMentionListPosition] =
+  const [showMentionList, setShowMentionList] =
     createSignal<boolean>(false);
+  const [showPinsList, setShowPinsList] =
+    createSignal<boolean>(false);
+
   const onMentionButtonClick = (event: MouseEvent) => {
-    setMentionListPosition(!mentionListPosition());
+    setShowPinsList(false);
+    setShowMentionList(!showMentionList());
   };
+  
+  const togglePinPopup = () => {
+    setShowMentionList(false);
+    setShowPinsList(!showPinsList());
+  }
 
   const canCall = () => {
     if (!header.details().channelId) return;
@@ -182,6 +192,13 @@ export default function MainPaneHeader() {
           <Button
             margin={3}
             iconSize={24}
+            iconName="keep"
+            onClick={togglePinPopup}
+            class="mentionListIcon"
+          />
+          <Button
+            margin={3}
+            iconSize={24}
             iconName="alternate_email"
             onClick={onMentionButtonClick}
             class="mentionListIcon"
@@ -196,8 +213,11 @@ export default function MainPaneHeader() {
           </Show>
         </div>
       </div>
-      <Show when={mentionListPosition()}>
-        <MentionListPopup close={() => setMentionListPosition(false)} />
+      <Show when={showMentionList()}>
+        <MentionListPopup close={() => setShowMentionList(false)} />
+      </Show>
+      <Show when={showPinsList()}>
+        <PinsListPopup close={() => setShowPinsList(false)} />
       </Show>
       <VoiceHeader channelId={header.details().channelId} />
     </>
@@ -275,6 +295,82 @@ const MentionListPopup = (props: { close: () => void }) => {
                 </div>
 
                 <MessageItem message={notification.message} hideFloating />
+              </div>
+            </div>
+          )}
+        </For>
+      </Show>
+    </div>
+  );
+};
+const PinsListPopup = (props: { close: () => void }) => {
+  const params = useParams<{ channelId: string }>();
+  const { isMobileWidth } = useWindowProperties();
+  const [elementRef, setElementRef] = createSignal<undefined | HTMLDivElement>(
+    undefined
+  );
+  const { width } = useResizeObserver(elementRef);
+  const navigate = useNavigate();
+  const [messages, setMessages] = createSignal<
+    RawMessage[] | null
+  >(null);
+
+  const fetchAndSetMessages = async () => {
+    const result = await fetchPinnedMessages(params.channelId)
+    setMessages(result.messages);
+  };
+
+  onMount(() => {
+    fetchAndSetMessages();
+    document.addEventListener("click", onDocClick);
+    onCleanup(() => {
+      document.removeEventListener("click", onDocClick);
+    });
+  });
+
+  const onDocClick = (event: any) => {
+    if (event.target.closest(".mentionListIcon")) return;
+    if (!event.target.closest(`.${styles.mentionListContainer}`)) props.close();
+  };
+
+  const onJump = (message: RawMessage) => {
+    const channelId = message.channelId;
+    // navigate(
+    //   RouterEndpoints.SERVER_MESSAGES(serverId, channelId) +
+    //     "?messageId=" +
+    //     notification.message.id
+    // );
+    props.close();
+  };
+
+  return (
+    <div
+      ref={setElementRef}
+      class={classNames(
+        styles.mentionListContainer,
+        conditionalClass(isMobileWidth(), styles.mobile)
+      )}
+    >
+      <Show when={messages() && !messages()?.length}>
+        <div class={styles.noMentions}>
+          <Icon name="keep" size={40} />
+          <Text>No Pins</Text>
+        </div>
+      </Show>
+      <Show when={messages()}>
+        <For each={messages()}>
+          {(message) => (
+            <div>
+              
+              <div class={styles.messageContainer}>
+                <div
+                  onClick={() => onJump(message)}
+                  class={styles.messageOverlay}
+                >
+                  <div class={styles.jumpToMessage}>Jump</div>
+                </div>
+
+                <MessageItem message={message} hideFloating />
               </div>
             </div>
           )}
