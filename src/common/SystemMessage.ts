@@ -45,6 +45,10 @@ export const getSystemMessage = (messageType: MessageType) => {
         message: "pinned a message.",
       };
     default:
-      return undefined;
+      return {
+        icon: "info",
+        color: "var(--alert-color)",
+        message: "Unsupported message.",
+      };
   }
 };
