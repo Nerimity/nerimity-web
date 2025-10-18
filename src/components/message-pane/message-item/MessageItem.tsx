@@ -159,7 +159,7 @@ function FloatOptions(props: FloatingOptionsProps) {
   const isContentType = () => props.message.type === MessageType.CONTENT;
 
   return (
-    <div class={styles.floatOptions}>
+    <div class={cn(styles.floatOptions, "floatOptions")}>
       {props.isCompact && (
         <div class={styles.floatDate}>
           {formatTimestamp(props.message.createdAt)}

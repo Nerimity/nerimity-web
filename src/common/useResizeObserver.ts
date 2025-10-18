@@ -23,11 +23,11 @@ export function useResizeObserver(element: () => HTMLElement | undefined | null)
 }
 
 
-export function useMutationObserver(element: () => HTMLElement | undefined | null, callback: () => void) {
+export function useMutationObserver(element: () => HTMLElement | undefined | null, callback: MutationCallback) {
   createEffect(on(element, (el) => {
     if (!el) return;
     const resizeObserver = new MutationObserver(callback);
-    resizeObserver.observe(el, {childList: true, subtree: true});
+    resizeObserver.observe(el,{childList: true, subtree: true});
 
     onCleanup(() => {
       resizeObserver.disconnect();

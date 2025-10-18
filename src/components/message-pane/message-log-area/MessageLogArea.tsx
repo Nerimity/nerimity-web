@@ -207,9 +207,16 @@ export const MessageLogArea = (props: {
 
   useMutationObserver(
     () => messageLogElement,
-    () => {
+    (mutations) => {
       if (scrollTracker.scrolledBottom()) {
-        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
+        const floatingOptionsHovered = mutations.find(e =>  {
+          if (e.type !== "childList") return;
+          const addedFloating = [...e.addedNodes].find(e => e instanceof HTMLElement &&  e.closest(".floatOptions"))
+          const removedFloating =  [...e.removedNodes].find(e => e instanceof HTMLElement &&  e.closest(".floatOptions"))
+          return addedFloating || removedFloating
+        })
+        if (floatingOptionsHovered) return
+        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight; 
       }
     }
   );
