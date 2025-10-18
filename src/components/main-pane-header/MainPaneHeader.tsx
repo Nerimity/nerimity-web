@@ -92,20 +92,18 @@ export default function MainPaneHeader() {
     channel()?.joinCall();
   };
 
-  const [showMentionList, setShowMentionList] =
-    createSignal<boolean>(false);
-  const [showPinsList, setShowPinsList] =
-    createSignal<boolean>(false);
+  const [showMentionList, setShowMentionList] = createSignal<boolean>(false);
+  const [showPinsList, setShowPinsList] = createSignal<boolean>(false);
 
   const onMentionButtonClick = (event: MouseEvent) => {
     setShowPinsList(false);
     setShowMentionList(!showMentionList());
   };
-  
+
   const togglePinPopup = () => {
     setShowMentionList(false);
     setShowPinsList(!showPinsList());
-  }
+  };
 
   const canCall = () => {
     if (!header.details().channelId) return;
@@ -304,19 +302,17 @@ const MentionListPopup = (props: { close: () => void }) => {
   );
 };
 const PinsListPopup = (props: { close: () => void }) => {
-  const params = useParams<{ channelId: string }>();
+  const params = useParams<{ channelId: string; serverId: string }>();
   const { isMobileWidth } = useWindowProperties();
   const [elementRef, setElementRef] = createSignal<undefined | HTMLDivElement>(
     undefined
   );
   const { width } = useResizeObserver(elementRef);
   const navigate = useNavigate();
-  const [messages, setMessages] = createSignal<
-    RawMessage[] | null
-  >(null);
+  const [messages, setMessages] = createSignal<RawMessage[] | null>(null);
 
   const fetchAndSetMessages = async () => {
-    const result = await fetchPinnedMessages(params.channelId)
+    const result = await fetchPinnedMessages(params.channelId);
     setMessages(result.messages);
   };
 
@@ -335,11 +331,17 @@ const PinsListPopup = (props: { close: () => void }) => {
 
   const onJump = (message: RawMessage) => {
     const channelId = message.channelId;
-    // navigate(
-    //   RouterEndpoints.SERVER_MESSAGES(serverId, channelId) +
-    //     "?messageId=" +
-    //     notification.message.id
-    // );
+    if (params.serverId) {
+      navigate(
+        RouterEndpoints.SERVER_MESSAGES(params.serverId, channelId) +
+          "?messageId=" +
+          message.id
+      );
+    } else {
+      navigate(
+        RouterEndpoints.INBOX_MESSAGES(channelId) + "?messageId=" + message.id
+      );
+    }
     props.close();
   };
 
@@ -361,7 +363,6 @@ const PinsListPopup = (props: { close: () => void }) => {
         <For each={messages()}>
           {(message) => (
             <div>
-              
               <div class={styles.messageContainer}>
                 <div
                   onClick={() => onJump(message)}

@@ -406,6 +406,12 @@ body .reactionItem {
   font-size: 12px;
 }
 
+.details .pinnedIcon {
+  height: 16px;
+  line-height: 1;
+  opacity: 0.4;
+}
+
 .details .date {
   flex-shrink: 0;
   color: rgba(255, 255, 255, 0.6);

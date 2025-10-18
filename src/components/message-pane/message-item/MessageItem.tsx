@@ -270,6 +270,11 @@ const Details = (props: DetailsProps) => {
       <Show when={props.isServerCreator}>
         <div class={styles.ownerBadge}>{t("message.badge.owner")}</div>
       </Show>
+      <Show when={props.message.pinned}>
+        <div class={styles.pinnedIcon} title="Pinned Message">
+          <Icon name="keep" size={16} />
+        </div>
+      </Show>
 
       <Show when={props.message.createdBy.bot}>
         <div class={styles.ownerBadge}>
