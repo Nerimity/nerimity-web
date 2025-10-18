@@ -102,7 +102,10 @@ const openDM = async (userId: string, messageId?: string) =>
       inbox.set({ ...rawInbox, channelId: rawInbox.channel.id });
       user()?.setInboxChannelId(rawInbox.channel.id);
     }
-    navigate(RouterEndpoints.INBOX_MESSAGES(inboxItem()?.channelId!) + (messageId ?"?messageId=" + messageId : ""));
+    navigate(
+      RouterEndpoints.INBOX_MESSAGES(inboxItem()?.channelId!) +
+        (messageId ? "?messageId=" + messageId : "")
+    );
   });
 
 async function closeDM(this: User) {
@@ -122,8 +125,8 @@ const setPresence = (userId: string, presence: Partial<Presence>) => {
     account.setUser({
       ...(presence.custom !== undefined
         ? {
-          customStatus: presence.custom || undefined,
-        }
+            customStatus: presence.custom || undefined,
+          }
         : undefined),
     });
   }

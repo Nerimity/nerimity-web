@@ -163,11 +163,15 @@ export const MessageLogArea = (props: {
     if (areMessagesLoading()) return;
     drawer?.goToMain();
     setAreMessagesLoading(true);
-    let messageEl = document.getElementById(`message-${event.messageId}`);
+    let messageEl = messageLogElement?.querySelector(
+      `#message-${event.messageId}`
+    ) as HTMLDivElement;
     if (!messageEl) {
       await messages.loadAroundAndStoreMessages(channel().id, event.messageId);
 
-      messageEl = document.getElementById(`message-${event.messageId}`);
+      messageEl = messageLogElement?.querySelector(
+        `#message-${event.messageId}`
+      ) as HTMLDivElement;
       setTimeout(() => {
         scrollTracker.setLoadMoreBottom(false);
         batch(() => {
