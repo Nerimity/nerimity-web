@@ -35,7 +35,7 @@ export default function InAppNotificationPreviews() {
 
   const systemMessage = createMemo(
     () =>
-      notification()?.message &&
+      !notification()?.message?.type &&
       getSystemMessage(notification?.()?.message?.type!)
   );
 
