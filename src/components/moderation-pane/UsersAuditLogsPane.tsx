@@ -179,12 +179,17 @@ const AuditLogItem = (props: {
 
   const actionTo = () => {
     const kickedUserId = props.item.data?.kickedUserId;
+    const unbannedUserId = props.item.data?.unbannedUserId;
     const bannedUserId = props.item.data?.bannedUserId;
-    if (!kickedUserId && !bannedUserId) return;
+    if (!kickedUserId && !bannedUserId && !unbannedUserId) return;
     const user = props.users.find(
-      (u) => u.id === (kickedUserId || bannedUserId)
+      (u) => u.id === (kickedUserId || bannedUserId || unbannedUserId)
     );
-    const action = kickedUserId ? "Kicked" : "Banned";
+    const action = kickedUserId
+      ? "Kicked"
+      : unbannedUserId
+      ? "Unbanned"
+      : "Banned";
     return {
       user,
       action,
