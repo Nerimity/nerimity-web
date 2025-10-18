@@ -2,6 +2,8 @@ import { MessageType } from "@/chat-api/RawData";
 
 export const getSystemMessage = (messageType: MessageType) => {
   switch (messageType) {
+    case MessageType.CONTENT:
+      return null;
     case MessageType.JOIN_SERVER:
       return {
         icon: "login",

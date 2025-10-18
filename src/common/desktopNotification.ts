@@ -31,9 +31,10 @@ export function createDesktopNotification(message: Message) {
 
   if (notificationPing === ServerNotificationPingMode.MUTE) return;
 
-  let showNotification = false;
+  let showNotification = true;
 
   if (notificationPing === ServerNotificationPingMode.MENTIONS_ONLY) {
+    showNotification = false;
     const mentionedMe = message.mentions?.find(
       (m) => m.id === account.user()?.id
     );
@@ -55,6 +56,7 @@ export function createDesktopNotification(message: Message) {
   if (!serverId) {
     showNotification = true;
   }
+
 
   if (!showNotification) return;
 
