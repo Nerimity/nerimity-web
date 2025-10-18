@@ -880,7 +880,9 @@ const LocalVideoEmbed = (props: { attachment: RawAttachment }) => {
     <VideoEmbed
       error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
-        name: props.attachment.path?.split("/").reverse()[0]!,
+        name: decodeURIComponent(
+          props.attachment.path?.split("/").reverse()[0]!
+        ),
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
         expireAt: props.attachment.expireAt,
@@ -899,7 +901,9 @@ const LocalFileEmbed = (props: { attachment: RawAttachment }) => {
     <FileEmbed
       error={isExpired() ? t("fileEmbed.expired") : undefined}
       file={{
-        name: props.attachment.path?.split("/").reverse()[0]!,
+        name: decodeURIComponent(
+          props.attachment.path?.split("/").reverse()[0]!
+        ),
         mime: props.attachment.mime!,
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
