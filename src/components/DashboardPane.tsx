@@ -393,7 +393,12 @@ const ActivityList = () => {
   const activities = () => {
     const presences = store.users.presencesArray();
     return presences
-      .filter((p) => p.activity && !users.get(p.userId)?.bot)
+      .filter(
+        (p) =>
+          p.activity &&
+          !users.get(p.userId)?.bot &&
+          !store.friends.hasBeenBlockedByMe(p.userId)
+      )
       .sort((a, b) => b.activity!.startedAt - a.activity!.startedAt);
   };
 

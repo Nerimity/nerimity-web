@@ -16,7 +16,7 @@ import {
   Show,
 } from "solid-js";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { useNavigate, useParams } from "solid-navigator";
+import { useMatch, useNavigate, useParams } from "solid-navigator";
 import Button from "../ui/Button";
 import { VoiceUser } from "@/chat-api/store/useVoiceUsers";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
@@ -50,6 +50,10 @@ export default function MainPaneHeader() {
     friends,
   } = useStore();
   const { hasRightDrawer, ...drawer } = useDrawer();
+
+  const isInboxMessages = useMatch(() => "/app/inbox/:id");
+  const isServerMessages = useMatch(() => "/app/servers/:serverId/:channelId");
+  const isMessages = () => isInboxMessages() || isServerMessages();
 
   const { isMobileWidth } = useWindowProperties();
   const [hovered, setHovered] = createSignal(false);
@@ -187,6 +191,7 @@ export default function MainPaneHeader() {
               onClick={onCallClick}
             />
           </Show>
+          <Show when={isMessages()}>
           <Button
             margin={3}
             iconSize={24}
@@ -194,6 +199,7 @@ export default function MainPaneHeader() {
             onClick={togglePinPopup}
             class="mentionListIcon"
           />
+          </Show>
           <Button
             margin={3}
             iconSize={24}
