@@ -1,7 +1,14 @@
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import { classNames, cn } from "@/common/classNames";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { createMemo, JSXElement, Match, Show, Switch } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  JSXElement,
+  Match,
+  Show,
+  Switch,
+} from "solid-js";
 import {
   hasBit,
   USER_BADGES,
@@ -20,29 +27,45 @@ interface Props {
   class?: string;
   animate?: boolean;
   user?: {
+    username: string;
     avatar?: string;
     hexColor: string;
     badges?: number;
     avatarUrl?: string | (() => string | null | undefined) | null;
   };
-  server?: { avatar?: string; hexColor: string; verified: boolean };
+  server?: {
+    name: string;
+    avatar?: string;
+    hexColor: string;
+    verified: boolean;
+  };
   voiceIndicator?: boolean;
   children?: JSXElement;
   showBorder?: boolean;
   resize?: number;
 }
 
-interface ServerOrUser {
+export interface ServerOrUserAvatar {
   avatar: string;
   hexColor: string;
   badges?: number;
   verified?: boolean;
+  username?: string;
+  name?: string;
+}
+
+function getFirstLetters(str: string) {
+  if (!str) return "";
+
+  const matches = str.split(" ");
+
+  return matches.map((match) => match[0]?.toUpperCase()).join("");
 }
 
 export default function Avatar(props: Props) {
   const { hasFocus } = useWindowProperties();
 
-  const serverOrUser = () => (props.server || props.user) as ServerOrUser;
+  const serverOrUser = () => (props.server || props.user) as ServerOrUserAvatar;
 
   const url = () => {
     if (typeof props.user?.avatarUrl === "string") return webhookAvatarUrl();
@@ -149,7 +172,7 @@ const badgesArr = USER_BADGES_VALUES;
 function AvatarBorder(props: {
   size: number;
   hovered?: boolean;
-  serverOrUser: ServerOrUser;
+  serverOrUser: ServerOrUserAvatar;
   url?: string;
   color?: string;
   children?: JSXElement;
@@ -168,6 +191,7 @@ function AvatarBorder(props: {
             color={props.color}
             badges={props.badges}
             children={props.children}
+            serverOrUser={props.serverOrUser}
           />
         </Match>
 
@@ -179,6 +203,7 @@ function AvatarBorder(props: {
             color={props.color}
             badges={props.badges}
             children={props.children}
+            serverOrUser={props.serverOrUser}
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.SUPPORTER.bit}>
@@ -189,6 +214,7 @@ function AvatarBorder(props: {
             color={props.color}
             badges={props.badges}
             children={props.children}
+            serverOrUser={props.serverOrUser}
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.ADMIN.bit}>
@@ -199,6 +225,7 @@ function AvatarBorder(props: {
             color={props.color}
             badges={props.badges}
             children={props.children}
+            serverOrUser={props.serverOrUser}
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.FOUNDER.bit}>
@@ -209,6 +236,7 @@ function AvatarBorder(props: {
             color={props.color}
             badges={props.badges}
             children={props.children}
+            serverOrUser={props.serverOrUser}
           />
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.PALESTINE.bit}>
@@ -219,6 +247,7 @@ function AvatarBorder(props: {
             badges={props.badges}
             color={props.color}
             children={props.children}
+            serverOrUser={props.serverOrUser}
           />
         </Match>
         <Match when={props.badge || props.serverOrUser?.verified}>
@@ -243,10 +272,32 @@ function AvatarBorder(props: {
   );
 }
 
+export const FirstLetterAvatar = (props: {
+  size: number;
+  serverOrUser?: ServerOrUserAvatar;
+}) => {
+  const name = () => props.serverOrUser?.username || props.serverOrUser?.name;
+  const firstLetters = () =>
+    name() ? getFirstLetters(name()!).slice(0, 10) : "";
+  const size = () =>
+    (props.size / 100) *
+      (firstLetters().length === 1
+        ? 50
+        : firstLetters().length === 2
+        ? 40
+        : 30) +
+    "px";
+  return (
+    <div style={{ "font-size": size() }} class={style.avatarText}>
+      {firstLetters()}
+    </div>
+  );
+};
+
 const NoBorder = (props: {
   size: number;
   url?: string;
-  serverOrUser?: ServerOrUser;
+  serverOrUser?: ServerOrUserAvatar;
   color?: string;
   children?: JSXElement;
   badges?: number;
@@ -265,12 +316,14 @@ const NoBorder = (props: {
             />
           </Show>
 
-          <img
-            class={style.image}
-            loading="lazy"
-            src={props.url || "/assets/profile.png"}
-            alt="User Avatar"
-          />
+          <Show when={props.url} fallback={<FirstLetterAvatar {...props} />}>
+            <img
+              class={style.image}
+              loading="lazy"
+              src={props.url}
+              alt="User Avatar"
+            />
+          </Show>
         </Match>
       </Switch>
     </div>
@@ -283,7 +336,7 @@ function BasicBorder(props: {
   color: string;
   label?: string;
   url?: string;
-  serverOrUser?: ServerOrUser;
+  serverOrUser?: ServerOrUserAvatar;
   children?: JSXElement;
   hideBorder?: boolean;
   badges?: number;
@@ -330,10 +383,13 @@ function ModBorder(props: {
   color?: string;
   children?: JSXElement;
   badges?: number;
+  serverOrUser: ServerOrUserAvatar;
 }) {
   return (
     <FounderAdminSupporterBorder
       type="mod"
+      serverOrUser={props.serverOrUser}
+      size={props.size}
       children={props.children}
       overlay={
         <Overlays size={props.size} offset={-0.68} badges={props.badges} />
@@ -351,9 +407,12 @@ function EmoSupporterBorder(props: {
   color?: string;
   children?: JSXElement;
   badges?: number;
+  serverOrUser: ServerOrUserAvatar;
 }) {
   return (
     <FounderAdminSupporterBorder
+      serverOrUser={props.serverOrUser}
+      size={props.size}
       type="emo-supporter"
       children={props.children}
       color={props.color}
@@ -372,9 +431,12 @@ function SupporterBorder(props: {
   color?: string;
   children?: JSXElement;
   badges?: number;
+  serverOrUser: ServerOrUserAvatar;
 }) {
   return (
     <FounderAdminSupporterBorder
+      serverOrUser={props.serverOrUser}
+      size={props.size}
       type="supporter"
       children={props.children}
       overlay={
@@ -394,9 +456,12 @@ function AdminBorder(props: {
   color?: string;
   badges?: number;
   children?: JSXElement;
+  serverOrUser: ServerOrUserAvatar;
 }) {
   return (
     <FounderAdminSupporterBorder
+      serverOrUser={props.serverOrUser}
+      size={props.size}
       type="admin"
       children={props.children}
       color={props.color}
@@ -416,9 +481,12 @@ function FounderBorder(props: {
   color?: string;
   badges?: number;
   children?: JSXElement;
+  serverOrUser: ServerOrUserAvatar;
 }) {
   return (
     <FounderAdminSupporterBorder
+      serverOrUser={props.serverOrUser}
+      size={props.size}
       type="founder"
       children={props.children}
       color={props.color}
@@ -437,9 +505,12 @@ function PalestineBorder(props: {
   color?: string;
   children?: JSXElement;
   badges?: number;
+  serverOrUser: ServerOrUserAvatar;
 }) {
   return (
     <FounderAdminSupporterBorder
+      serverOrUser={props.serverOrUser}
+      size={props.size}
       type="palestine"
       children={props.children}
       overlay={

@@ -1,6 +1,7 @@
 import { JSXElement, Match, Show, Switch } from "solid-js";
 import styles from "./FounderAdminSupporterBorder.module.css";
 import { classNames } from "@/common/classNames";
+import { FirstLetterAvatar, ServerOrUserAvatar } from "../ui/Avatar";
 
 export function FounderAdminSupporterBorder(props: {
   children?: JSXElement;
@@ -8,6 +9,8 @@ export function FounderAdminSupporterBorder(props: {
   url?: string;
   hovered?: boolean;
   overlay?: JSXElement;
+  serverOrUser: ServerOrUserAvatar;
+  size: number;
   type:
     | "founder"
     | "supporter"
@@ -44,6 +47,8 @@ export function FounderAdminSupporterBorder(props: {
 
 function RawAvatar(props: {
   children?: JSXElement;
+  serverOrUser?: ServerOrUserAvatar;
+  size: number;
   url?: string;
   color?: string;
 }) {
@@ -57,12 +62,15 @@ function RawAvatar(props: {
               class={styles.background}
             />
           </Show>
-          <img
-            src={props.url || "/assets/profile.png"}
-            width="100%"
-            height="100%"
-            loading="lazy"
-          />
+
+          <Show when={props.url} fallback={<FirstLetterAvatar {...props} />}>
+            <img
+              src={props.url || "/assets/profile.png"}
+              width="100%"
+              height="100%"
+              loading="lazy"
+            />
+          </Show>
         </Match>
         <Match when={props.children}>{props.children}</Match>
       </Switch>

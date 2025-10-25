@@ -21,6 +21,18 @@
     object-fit: cover;
   }
 }
+.avatarText {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-radius: 50%;
+  color: initial;
+  font-weight: bold;
+}
 
 .basicBorderContainer {
   position: absolute;
