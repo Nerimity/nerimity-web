@@ -224,6 +224,9 @@ const DesktopProfileFlyout = (props: {
       async () => {
         setDetails(undefined);
         const details = await userDetailsPreloader.run(props.userId);
+        if (details.user.bot) {
+          details.hideFollowing = true;
+        }
         setDetails(details);
         if (!details.latestPost) return;
         posts.pushPost(details.latestPost);

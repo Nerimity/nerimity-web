@@ -138,6 +138,9 @@ export default function ProfilePane() {
   const fetchUserDetails = async (userId: string) => {
     setAnimateAvatar(false);
     const userDetails = await getUserDetailsRequest(userId, true, true);
+    if (userDetails.user.bot) {
+      userDetails.hideFollowing = true;
+    }
     setUserDetails(userDetails);
     setTimeout(() => {
       setAnimateAvatar(true);
