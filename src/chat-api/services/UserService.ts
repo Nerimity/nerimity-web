@@ -151,6 +151,7 @@ export async function registerRequest(
 export interface UserDetails {
   block: boolean;
   suspensionExpiresAt?: number;
+  followsYou: boolean;
   user: RawUser & {
     application?: {
       botCommands?: RawBotCommand[];

@@ -79,15 +79,28 @@
   gap: 12px;
 }
 
-.details {
+.usernameTagOuter {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
+.followsYou {
+  padding: 2px;
+  padding-right: 4px;
+  padding-left: 4px;
+  margin-left: 4px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+}
+
 .username {
   line-height: 1;
 }
 .usernameTag {
   display: -webkit-box;
   overflow: hidden;
-  margin-bottom: 5px;
   overflow-wrap: anywhere;
   font-size: 16px;
   -webkit-line-clamp: 2; /* number of lines to show */

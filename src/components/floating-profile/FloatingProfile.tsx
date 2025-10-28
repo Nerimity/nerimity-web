@@ -369,7 +369,7 @@ const DesktopProfileFlyout = (props: {
             class={styles.flyoutOtherDetailsContainer}
             style={{ background: bgColor() }}
           >
-            <span>
+            <div class={styles.usernameDetails}>
               <CustomLink
                 decoration
                 style={{ color: "white", "line-height": "1" }}
@@ -380,7 +380,10 @@ const DesktopProfileFlyout = (props: {
                 </Text>
                 <Text color="rgba(255,255,255,0.6)">:{user()!.tag}</Text>
               </CustomLink>
-            </span>
+              <Show when={details()?.followsYou}>
+                <div class={styles.followsYou}>Follows You</div>
+              </Show>
+            </div>
 
             <UserPresence
               showFull

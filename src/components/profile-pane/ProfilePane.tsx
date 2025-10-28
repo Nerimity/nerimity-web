@@ -262,9 +262,14 @@ export default function ProfilePane() {
                   style={{ background: paneBgColor() }}
                 >
                   <div class={styles.details}>
-                    <div class={styles.usernameTag}>
-                      <span class={styles.username}>{user()!.username}</span>
-                      <span class={styles.tag}>{`:${user()!.tag}`}</span>
+                    <div class={styles.usernameTagOuter}>
+                      <div class={styles.usernameTag}>
+                        <span class={styles.username}>{user()!.username}</span>
+                        <span class={styles.tag}>{`:${user()!.tag}`}</span>
+                      </div>
+                      <Show when={userDetails()?.followsYou}>
+                        <div class={styles.followsYou}>Follows You</div>
+                      </Show>
                     </div>
                     <UserPresence
                       showFull

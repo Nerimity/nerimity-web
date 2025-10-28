@@ -113,7 +113,20 @@
   flex-direction: column;
   gap: 4px;
 }
-
+.usernameDetails {
+  display: flex;
+  align-items: center;
+}
+.followsYou {
+  padding: 2px;
+  padding-right: 4px;
+  padding-left: 4px;
+  margin-left: 4px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+}
 .flyoutDetailsContainer {
   position: relative;
 
