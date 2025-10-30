@@ -462,7 +462,9 @@
     "quoteMessage": "اقتباس الرسالة",
     "reportMessage": "الإبلاغ عن الرسالة",
     "reply": "رد",
-    "markUnread": "وضع علامة كغير مقروء"
+    "markUnread": "وضع علامة كغير مقروء",
+    "pinMessage": "تثبيت",
+    "unpinMessage": "إلغاء التثبيت"
   },
   "profile": {
     "followButton": "متابعة",
