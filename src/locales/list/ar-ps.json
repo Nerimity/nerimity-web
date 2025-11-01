@@ -68,7 +68,7 @@
     "noActiveUsers": "لا يوجد مستخدمون نشطون",
     "servers": "السيرفرات",
     "posts": "المنشورات",
-    "feed": "الخلاصة",
+    "feed": "المنشورات",
     "discover": "اكتشف",
     "notifications": "الإشعارات"
   },
@@ -462,7 +462,9 @@
     "quoteMessage": "اقتباس الرسالة",
     "reportMessage": "الإبلاغ عن الرسالة",
     "reply": "رد",
-    "markUnread": "وضع علامة كغير مقروء"
+    "markUnread": "وضع علامة كغير مقروء",
+    "pinMessage": "تثبيت",
+    "unpinMessage": "إلغاء التثبيت"
   },
   "profile": {
     "followButton": "متابعة",
