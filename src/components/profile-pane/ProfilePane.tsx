@@ -1381,7 +1381,7 @@ function Badge(props: { badge: UserBadge; user: UserDetails }) {
       textColor={props.badge.textColor}
       color={props.badge.color!}
     >
-      {props.badge.name}
+      {props.badge.name()}
     </BadgeContainer>
   );
 }
@@ -1443,7 +1443,7 @@ function BadgeDetailModal(props: {
         <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />
           <Text style={{ "max-width": "200px", "text-align": "center" }}>
-            <Markup text={props.badge.description!} />
+            <Markup text={props.badge.description()!} />
           </Text>
         </FlexColumn>
         <FlexColumn itemsCenter gap={16}>
