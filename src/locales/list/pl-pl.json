@@ -412,7 +412,9 @@
     "quoteMessage": "Cytuj wiadomość",
     "reportMessage": "Zgłoś wiadomość",
     "reply": "Odpowiedz",
-    "markUnread": "Oznacz jako nieprzeczytane"
+    "markUnread": "Oznacz jako nieprzeczytane",
+    "pinMessage": "Przypnij",
+    "unpinMessage": "Odepnij"
   },
   "profile": {
     "followButton": "Obserwuj",
@@ -530,7 +532,7 @@
     "expires": "Wygasa"
   },
   "videoEmbed": {
-    "couldNotGetVideo": "Nie udało się pobrać filnu.",
+    "couldNotGetVideo": "Nie udało się pobrać filmu.",
     "videoModified": "Film został zmodyfikowany.",
     "googleDrivePolicy": "W związku z nową polityką Google Drive, filmy można wyświetlać tylko z aplikacji Nerimity na komputery.",
     "videoExpired": "Film wygasł.",
