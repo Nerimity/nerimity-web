@@ -99,10 +99,10 @@ export default function LanguageSettings() {
     if (getCurrentLanguage() !== key) {
       setLanguageUpdated(true);
     }
-    
+
     // Set language attribute without changing layout direction
     document.documentElement.setAttribute("lang", oldKey || "en");
-    
+
     if (key !== "en_gb") {
       const language = await getLanguage(key);
       if (!language) return;
@@ -176,11 +176,8 @@ function LanguageItem(props: {
   };
 
   const handlePercentClick = async () => {
-    const key = props.key.replace("_", "-");
-    const language = await getLanguage(key);
-
     createPortal((close) => (
-      <TranslateModal close={close} language={language} />
+      <TranslateModal close={close} language={props.key} />
     ));
   };
 
@@ -268,12 +265,24 @@ function lastPath(url: string) {
   return split[split.length - 1];
 }
 
-const TranslateModal = (props: { language: any; close: () => void }) => {
+let rawEn: Record<string, string> | null = null;
+let translatedLang: Record<string, string> | null = null;
+
+const TranslateModal = (props: { language: string; close: () => void }) => {
   let iframe: HTMLIFrameElement | undefined;
 
-  const handleIframeLoad = () => {
+  const fetchLocaleFromGithub = async (language: string) => {
+    return await fetch(
+      `https://raw.githubusercontent.com/Nerimity/nerimity-web/refs/heads/main/src/locales/list/${language}.json`
+    ).then((res) => res.json());
+  };
+
+  const handleIframeLoad = async () => {
+    rawEn = rawEn || (await fetchLocaleFromGithub("en-gb"));
+    translatedLang = await fetchLocaleFromGithub(props.language);
+
     iframe?.contentWindow?.postMessage(
-      { default: en, translated: { ...props.language } },
+      { default: rawEn, translated: translatedLang },
       "https://supertigerdev.github.io/i18n-tool/"
     );
   };
