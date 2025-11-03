@@ -347,7 +347,7 @@ export function Markup(props: Props) {
 
   const ctx = on(output, () => _ctx);
 
-  const largeEmoji =
+  const largeEmoji = () =>
     !ctx().props().inline && ctx().emojiCount <= 5 && ctx().textCount === 0;
 
   return (
@@ -355,7 +355,7 @@ export function Markup(props: Props) {
       class={classNames(
         "markup",
         props.class,
-        conditionalClass(largeEmoji, "largeEmoji")
+        conditionalClass(largeEmoji(), "largeEmoji")
       )}
     >
       {props.prefix}
