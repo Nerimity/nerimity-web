@@ -75,6 +75,7 @@ import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import { pushMessageNotification } from "@/components/in-app-notification-previews/useInAppNotificationPreviews";
 import { fetchTranslation } from "@/common/GoogleTranslate";
 import { messagesPreloader } from "@/common/createPreloader";
+import { unzipJson } from "@/common/zip";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -209,14 +210,18 @@ export const MessageLogArea = (props: {
     () => messageLogElement,
     (mutations) => {
       if (scrollTracker.scrolledBottom()) {
-        const floatingOptionsHovered = mutations.find(e =>  {
+        const floatingOptionsHovered = mutations.find((e) => {
           if (e.type !== "childList") return;
-          const addedFloating = [...e.addedNodes].find(e => e instanceof HTMLElement &&  e.closest(".floatOptions"))
-          const removedFloating =  [...e.removedNodes].find(e => e instanceof HTMLElement &&  e.closest(".floatOptions"))
-          return addedFloating || removedFloating
-        })
-        if (floatingOptionsHovered) return
-        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight; 
+          const addedFloating = [...e.addedNodes].find(
+            (e) => e instanceof HTMLElement && e.closest(".floatOptions")
+          );
+          const removedFloating = [...e.removedNodes].find(
+            (e) => e instanceof HTMLElement && e.closest(".floatOptions")
+          );
+          return addedFloating || removedFloating;
+        });
+        if (floatingOptionsHovered) return;
+        props.mainPaneEl.scrollTop = props.mainPaneEl.scrollHeight;
       }
     }
   );
@@ -893,6 +898,50 @@ function MessageContextMenu(props: MessageContextMenuProps) {
     pinMessage(props.message.channelId, props.message.id);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function renderHtml(nodeOrNodes: any) {
+    // --- Internal helper function to render a single node (Recursive core logic) ---
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const renderSingleNode = (node: any) => {
+      // 1. Build the opening tag with attributes
+      let html = `<${node.tag}`;
+      if (node.attributes) {
+        for (const key in node.attributes) {
+          if (Object.prototype.hasOwnProperty.call(node.attributes, key)) {
+            // Basic sanitization for attributes
+            const encodedValue = node.attributes[key].replace(/"/g, "&quot;");
+            html += ` ${key}="${encodedValue}"`;
+          }
+        }
+      }
+      html += ">"; // 2. Process content (recursive step)
+
+      for (const contentItem of node.content) {
+        if (typeof contentItem === "string") {
+          // NOTE: For security, a real-world renderer should escape content here
+          html += contentItem;
+        } else {
+          // Recursively call the single-node renderer
+          html += renderSingleNode(contentItem);
+        }
+      } // 3. Append the closing tag
+
+      html += `</${node.tag}>`;
+      return html;
+    }; // --- Main Logic: Check the input type ---
+
+    if (typeof nodeOrNodes === "string") {
+      // 🆕 Case 0: Input is a string (plaintext content)
+      return nodeOrNodes;
+    } else if (Array.isArray(nodeOrNodes)) {
+      // Case 1: Input is an array
+      return nodeOrNodes.map(renderSingleNode).join("\n");
+    } else {
+      // Case 2: Input is a single node (object)
+      return renderSingleNode(nodeOrNodes);
+    }
+  }
+
   return (
     <ContextMenu
       triggerClassName="floatingShowMore"
@@ -986,6 +1035,18 @@ function MessageContextMenu(props: MessageContextMenuProps) {
                 icon: "content_copy",
                 label: t("messageContextMenu.copyMessage")!,
                 onClick: () => copyToClipboard(props.message.content!),
+              },
+            ]
+          : []),
+        ...(props.message.htmlEmbed
+          ? [
+              {
+                icon: "content_copy",
+                label: "Copy HTML",
+                onClick: () =>
+                  copyToClipboard(
+                    renderHtml(unzipJson(props.message.htmlEmbed!))
+                  ),
               },
             ]
           : []),
