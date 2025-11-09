@@ -127,6 +127,8 @@ const MemberItem = (props: { member: ServerMember }) => {
             animate={hovering() || !!isProfileFlyoutOpened()}
             userId={user().id}
             showOffline={false}
+            hideAction
+            useTitle
           />
         </div>
         <Show when={isAdmin() || isCreator()}>

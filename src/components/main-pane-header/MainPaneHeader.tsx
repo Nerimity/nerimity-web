@@ -179,6 +179,8 @@ export default function MainPaneHeader() {
               userId={user()?.id}
               showOffline={true}
               animate={hovered()}
+              hideAction
+              useTitle
             />
           )}
         </div>
@@ -192,13 +194,13 @@ export default function MainPaneHeader() {
             />
           </Show>
           <Show when={isMessages()}>
-          <Button
-            margin={3}
-            iconSize={24}
-            iconName="keep"
-            onClick={togglePinPopup}
-            class="mentionListIcon"
-          />
+            <Button
+              margin={3}
+              iconSize={24}
+              iconName="keep"
+              onClick={togglePinPopup}
+              class="mentionListIcon"
+            />
           </Show>
           <Button
             margin={3}

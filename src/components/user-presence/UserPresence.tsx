@@ -17,6 +17,8 @@ const UserPresence = (props: {
   showOffline: boolean;
   animate?: boolean;
   hideActivity?: boolean;
+  hideAction?: boolean;
+  useTitle?: boolean;
 }) => {
   const { users } = useStore();
   const user = () => users.get(props.userId);
@@ -43,6 +45,26 @@ const UserPresence = (props: {
     return true;
   };
 
+  const action = () => {
+    if (props.hideAction) {
+      return "";
+    }
+    return activity()?.action;
+  };
+
+  const activityName = () => {
+    const title = activity()?.title;
+    if (props.useTitle && title) {
+      const action = activity()?.action;
+      const subtitle = activity()?.subtitle;
+
+      if (action?.startsWith("Listening") || action?.startsWith("Watching")) {
+        return title + (subtitle ? ` - ${subtitle}` : "");
+      }
+    }
+    return activity()?.name;
+  };
+
   const name = () => {
     return (
       <Switch fallback={statusDetails()?.name}>
@@ -53,8 +75,8 @@ const UserPresence = (props: {
         </Match>
         <Match when={activity()}>
           <span class={styles.activity}>
-            <span class={styles.activityAction}>{activity()?.action}</span>
-            <span class={styles.activityName}> {activity()?.name}</span>
+            <span class={styles.activityAction}>{action()}</span>
+            <span class={styles.activityName}> {activityName()}</span>
           </span>
         </Match>
         <Match when={user()?.presence()?.custom}>

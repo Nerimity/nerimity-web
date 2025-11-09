@@ -118,6 +118,8 @@ export default function HomeDrawerFriendItem(props: {
               userId={user().id}
               showOffline={false}
               animate={hovered()}
+              useTitle
+              hideAction
             />
           </Show>
         </div>
