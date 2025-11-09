@@ -1,5 +1,3 @@
-
-
 .drawerContainer {
   display: flex;
   flex-direction: column;
@@ -47,7 +45,7 @@
   margin-top: 6px;
   border: solid 1px rgba(255, 255, 255, 0.06);
   border-radius: 6px;
-  background-color: rgba(255,255,255,0.04);
+  background-color: rgba(255, 255, 255, 0.04);
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
@@ -219,7 +217,7 @@
     margin-left: 10px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    gap: 2px;
+    gap: 4px;
   }
   .username {
     overflow: hidden;
