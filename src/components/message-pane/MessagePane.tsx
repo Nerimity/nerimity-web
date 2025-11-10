@@ -1911,12 +1911,13 @@ function FloatingCommandSuggestions(props: {
   focused: boolean;
 }) {
   const params = useParams<{ channelId: string; serverId?: string }>();
-  const { servers, serverMembers, channelProperties } = useStore();
+  const { servers, serverMembers, channelProperties, account } = useStore();
 
   const server = () => servers.get(params.serverId!);
 
   const channelProperty = () => channelProperties.get(params.channelId);
   const selectedBotCommand = () => channelProperty()?.selectedBotCommand;
+  const member = () => serverMembers.get(params.serverId!, account.user()?.id!);
 
   createEffect(() => {
     if (!params.serverId || !server()) return;
@@ -1946,9 +1947,13 @@ function FloatingCommandSuggestions(props: {
     const cmds = server()?.botCommands || [];
     if (props.content !== `/${props.search}`) return [];
 
-    const availableCmds = cmds.filter((cmd) =>
-      serverMembers.get(params.serverId!, cmd.botUserId)
-    );
+    const availableCmds = cmds.filter((cmd) => {
+      const bot = serverMembers.get(params.serverId!, cmd.botUserId);
+      if (!bot) return false;
+      if (cmd.permissions === null) return true;
+
+      return member()?.hasPermission({ bit: cmd.permissions });
+    });
 
     return availableCmds;
   };
@@ -1988,7 +1993,7 @@ function FloatingCommandSuggestions(props: {
 
   const onInput = (event: InputEvent) => {
     const exactMatch = searched().find((cmd) => cmd.name === props.search);
-    if (exactMatch && searched().length  && event.data === " ") {
+    if (exactMatch && searched().length && event.data === " ") {
       event.stopPropagation();
       event.preventDefault();
       onItemClick(searched()[0]!);

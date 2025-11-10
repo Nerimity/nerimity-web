@@ -17,7 +17,7 @@ export type ServerMember = Omit<RawServerMember, "user"> & {
   permissions: () => number;
   hasPermission: (
     this: ServerMember,
-    bitwise: Bitwise,
+    bitwise: { bit: number },
     ignoreAdmin?: boolean,
     ignoreCreator?: boolean
   ) => boolean | void;
@@ -139,7 +139,7 @@ function permissions(this: ServerMember) {
 }
 function hasPermission(
   this: ServerMember,
-  bitwise: Bitwise,
+  bitwise: { bit: number },
   ignoreAdmin = false,
   ignoreCreator = false
 ) {

@@ -351,6 +351,7 @@ export interface RawBotCommand {
   description: string;
   args: string;
   botUserId: string;
+  permissions: number | null;
 }
 
 export interface RawPost {
