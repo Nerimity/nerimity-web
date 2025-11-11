@@ -34,7 +34,7 @@ export const languages = {
     name: "Arabic",
     emoji: "🇵🇸",
     contributors: ["https://github.com/TrueLuna"],
-    rtl: true,
+    rtl: true,  // not really used since I manually implemented it in the code. But might be useful in the future.
   },
   "be-xo": {
     name: "Belarusian (Traditional)",
