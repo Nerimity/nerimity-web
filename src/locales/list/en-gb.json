@@ -272,6 +272,13 @@
       "browse": "Browse",
       "profile": "Profile",
       "profileDescription": "Edit your bio or colors",
+      "palestineBorder": "Add Palestine border to your avatar.",
+      "bio": "Bio",
+      "bioDescription": "Multiline and markup support",
+      "gradientColor1": "Gradient Color 1",
+      "gradientColor2": "Gradient Color 2",
+      "primaryColor": "Primary Color",
+      "preview": "Preview",
       "changePassword": "Change Password",
       "forgotPassword": "Forgot Password",
       "newPassword": "New Password",
@@ -377,6 +384,8 @@
     },
     "interface": {
       "customCSS": "Custom CSS",
+      "customCSSWarning": "Do not paste code from people you don't trust.",
+      "saveAndApply": "Save & Apply",
       "themes": "Themes",
       "themesDescription": "Pick a preset theme or reset to default.",
       "maintainers": "Contributors",
@@ -390,6 +399,17 @@
       "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
       "customizeColors": "Customize Colors",
       "customizeColorsDescription": "Edit colors for the current theme."
+    },
+    "window": {
+      "title": "Settings - Window Settings",
+      "downloadAppNotice": "To modify these settings, you must download the Nerimity desktop app.",
+      "startupOptions": "Startup Options",
+      "openOnStartup": "Open Nerimity on startup",
+      "startMinimized": "Start Minimized",
+      "startMinimizedDescription": "Minimize Nerimity to the tray automatically.",
+      "disableHardwareAcceleration": "Disable Hardware Acceleration",
+      "disableCustomTitlebar": "Disable Custom Titlebar",
+      "reopenAppNotice": "You must reopen the app for the change to take effect."
     }
   },
   "supportBlock": {

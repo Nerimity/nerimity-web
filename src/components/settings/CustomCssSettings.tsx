@@ -31,7 +31,7 @@ export default function CustomCssSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Custom CSS",
+      title: t("settings.drawer.title") + " - " + t("settings.interface.customCSS"),
       iconName: "settings",
     });
   });
@@ -46,16 +46,16 @@ export default function CustomCssSettings() {
       <Breadcrumb style={{ "margin-bottom": "8px" }}>
         <BreadcrumbItem href="/app" icon="home" title={t("dashboard.title")} />
         <BreadcrumbItem title={t("settings.drawer.interface")} href="../" />
-        <BreadcrumbItem title="Custom CSS" />
+        <BreadcrumbItem title={t("settings.interface.customCSS")} />
       </Breadcrumb>
 
       <Notice
         type="warn"
-        description="Do not paste code from people you don't trust."
+        description={t("settings.interface.customCSSWarning")}
       />
       <CodeMirror value={css()} onValueChange={setCss} />
       <Button
-        label="Save & Apply"
+        label={t("settings.interface.saveAndApply")}
         onClick={onSaveClick}
         iconName="save"
         margin={0}
