@@ -39,7 +39,7 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Window Settings",
+      title: t("settings.window.title"),
       iconName: "settings",
     });
   });
@@ -55,7 +55,7 @@ export default function WindowSettings() {
       <Show when={!isElectron}>
         <Notice
           type="info"
-          description="To modify these settings, you must download the Nerimity desktop app."
+          description={t("settings.window.downloadAppNotice")}
         />
       </Show>
 
@@ -91,11 +91,11 @@ function StartupOptions() {
 
   return (
     <FlexColumn>
-      <SettingsBlock icon="open_in_new" label="Startup Options" header />
+      <SettingsBlock icon="open_in_new" label={t("settings.window.startupOptions")} header />
       <SettingsBlock
         onClick={() => onAutostartChange(!autostart())}
         icon="restart_alt"
-        label={"Open Nerimity on startup"}
+        label={t("settings.window.openOnStartup")}
         borderTopRadius={false}
         borderBottomRadius={!autostart()}
       >
@@ -105,8 +105,8 @@ function StartupOptions() {
         <SettingsBlock
           onClick={() => onAutostartMinimizedChange(!autostartMinimized())}
           icon="horizontal_rule"
-          label="Start Minimized"
-          description={"Minimize Nerimity to the tray automatically."}
+          label={t("settings.window.startMinimized")}
+          description={t("settings.window.startMinimizedDescription")}
           borderTopRadius={false}
         >
           <Checkbox
@@ -140,8 +140,8 @@ function HardwareAccelerationOptions() {
           onHardwareAccelerationChange(!hardwareAccelerationDisabled())
         }
         icon="speed"
-        label={"Disable Hardware Acceleration"}
-        description="You must reopen the app for the change to take effect."
+        label={t("settings.window.disableHardwareAcceleration")}
+        description={t("settings.window.reopenAppNotice")}
       >
         <Checkbox checked={hardwareAccelerationDisabled()} />
       </SettingsBlock>
@@ -168,8 +168,8 @@ function DisableCustomTitlebar() {
       <SettingsBlock
         onClick={() => onChange(!customTitlebarDisabled())}
         icon="speed"
-        label="Disable Custom Titlebar"
-        description="You must reopen the app for the change to take effect."
+        label={t("settings.window.disableCustomTitlebar")}
+        description={t("settings.window.reopenAppNotice")}
       >
         <Checkbox checked={customTitlebarDisabled()} />
       </SettingsBlock>

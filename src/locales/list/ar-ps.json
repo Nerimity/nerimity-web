@@ -41,7 +41,7 @@
       "nsfw": "ممنوع المحتوى الإباحي.",
       "age": "يجب أن يكون عمرك أكثر من 14 سنة."
     },
-    "title": "مرحباً بك في {{appName}}",
+    "title": "\u202Bمرحباً بك في {{appName}}\u202C",
     "email": "البريد الإلكتروني",
     "username": "اسم المستخدم",
     "password": "كلمة المرور",
@@ -73,8 +73,8 @@
     "notifications": "الإشعارات"
   },
   "messageArea": {
-    "messageBoxPlaceholder": "أرسل رسالة إلى {{username}}",
-    "messageBoxChannelPlaceholder": "أرسل رسالة في {{channelName}}"
+    "messageBoxPlaceholder": "\u202Bأرسل رسالة إلى {{username}}\u202C",
+    "messageBoxChannelPlaceholder": "\u202Bأرسل رسالة في {{channelName}}\u202C"
   },
   "inbox": {
     "blockedUsersModal": {
@@ -272,6 +272,13 @@
       "browse": "تصفح",
       "profile": "الملف الشخصي",
       "profileDescription": "عدّل نبذتك أو ألوانك",
+      "palestineBorder": "أضف إطار فلسطين لصورتك الشخصية.",
+      "bio": "نبذة",
+      "bioDescription": "دعم متعدد الأسطر والتنسيق",
+      "gradientColor1": "تدرج اللون الاول",
+      "gradientColor2": "تدرج اللون الثاني",
+      "primaryColor": "اللون الأساسي",
+      "preview": "معاينة",
       "changePassword": "تغيير كلمة المرور",
       "forgotPassword": "نسيت كلمة المرور",
       "newPassword": "كلمة المرور الجديدة",
@@ -377,6 +384,8 @@
     },
     "interface": {
       "customCSS": "\u202BCSS مخصص\u202C",
+      "customCSSWarning": "لا تنسخ الكود من أشخاص لا تثق بهم.",
+      "saveAndApply": "حفظ وتطبيق",
       "themes": "السمات",
       "themesDescription": "اختر سمة محددة مسبقاً أو أعد التعيين للافتراضي.",
       "maintainers": "المساهمون",
@@ -390,6 +399,17 @@
       "disableAdvancedMarkupBarDescription": "منع ظهور شريط التنسيق المتقدم.",
       "customizeColors": "تخصيص الألوان",
       "customizeColorsDescription": "تعديل ألوان السمة الحالية."
+    },
+    "window": {
+      "title": "الإعدادات - إعدادات النافذة",
+      "downloadAppNotice": "\u202Bلتعديل هذه الإعدادات، يجب عليك تحميل تطبيق Nerimity لسطح المكتب.\u202C",
+      "startupOptions": "خيارات بدء التشغيل",
+      "openOnStartup": "\u202Bفتح Nerimity عند بدء التشغيل\u202C",
+      "startMinimized": "بدء التشغيل مصغّراً",
+      "startMinimizedDescription": "\u202Bتصغير Nerimity إلى شريط المهام تلقائياً.\u202C",
+      "disableHardwareAcceleration": "\u202Bتعطيل Hardware Acceleration\u202C",
+      "disableCustomTitlebar": "تعطيل شريط العنوان المخصص",
+      "reopenAppNotice": "يجب عليك إعادة فتح التطبيق لتطبيق التغيير."
     }
   },
   "supportBlock": {
@@ -436,18 +456,18 @@
     "callVolume": "مستوى صوت المكالمة"
   },
   "kickServerMemberModal": {
-    "title": "طرد {{username}}",
+    "title": "\u202Bطرد {{username}}\u202C",
     "kickButton": "طرد",
     "kicking": "جارٍ الطرد...",
     "backButton": "رجوع",
-    "message": "هل أنت متأكد أنك تريد طرد <1>{{username}}</1>؟"
+    "message": "\u202Bهل أنت متأكد أنك تريد طرد <1>{{username}}</1>؟\u202C"
   },
   "editServerRolesModal": {
     "title": "تعديل الأدوار"
   },
   "banModal": {
-    "title": "حظر {{username}}؟",
-    "message": "هل أنت متأكد أنك تريد حظر <1>{{username}}</1>؟",
+    "title": "\u202Bحظر {{username}}؟\u202C",
+    "message": "\u202Bهل أنت متأكد أنك تريد حظر <1>{{username}}</1>؟\u202C",
     "deletePastMessagesCheckbox": "حذف الرسائل المرسلة في الـ 7 ساعات الماضية.",
     "banButton": "حظر",
     "banning": "جارٍ الحظر..."
@@ -489,10 +509,10 @@
       "deleteButton": "حذف"
     },
     "postWasDeleted": "تم حذف هذا المنشور!",
-    "someoneLikedYourPost": "<1>{{username}}</1> أعجب بمنشورك!",
-    "someoneRepostedYourPost": "<1>{{username}}</1> أعاد نشر منشورك!",
-    "someoneFollowedYou": "<1>{{username}}</1> تابعك!",
-    "someoneRepliedToPost": "<1>{{username}}</1> رد على منشورك!",
+    "someoneLikedYourPost": "\u202B<1>{{username}}</1> أعجب بمنشورك!\u202C",
+    "someoneRepostedYourPost": "\u202B<1>{{username}}</1> أعاد نشر منشورك!\u202C",
+    "someoneFollowedYou": "\u202B<1>{{username}}</1> تابعك!\u202C",
+    "someoneRepliedToPost": "\u202B<1>{{username}}</1> رد على منشورك!\u202C",
     "createAPostInputPlaceholder": "أنشئ منشوراً...",
     "replyInputPlaceholder": "رد...",
     "replyButton": "رد",

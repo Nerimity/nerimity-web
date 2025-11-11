@@ -84,7 +84,7 @@ const PalestineBorder = () => {
   return (
     <SettingsBlock
       icon="favorite"
-      label="Add Palestine border to your avatar."
+      label={t("settings.account.palestineBorder")}
       onClick={onToggle}
     >
       <Checkbox checked={hasBorder()} />
@@ -142,7 +142,7 @@ export function EditProfilePage(props: {
     })
   );
 
-  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
+  const requestStatus = () => (requestSent() ? t("settings.account.saving") : t("settings.account.saveChangesButton"));
 
   const onSaveButtonClicked = async () => {
     if (requestSent()) return;
@@ -230,9 +230,9 @@ const EditBioBlock = (props: {
     <>
       <SettingsBlock
         icon="info"
-        label="Bio"
+        label={t("settings.account.bio")}
         class={bioBlockStyles}
-        description="Multiline and markup support"
+        description={t("settings.account.bioDescription")}
       >
         <Text size={12} style={{ "margin-left": "38px", "margin-top": "5px" }}>
           ({props.bio.length} / 1000)
@@ -302,7 +302,7 @@ const ProfileColorBlock = (props: {
   return (
     <ProfileColorContainer gap={6}>
       <ColorPickerContainer>
-        <SettingsBlock icon="palette" label="Gradient Color 1">
+        <SettingsBlock icon="palette" label={t("settings.account.gradientColor1")}>
           <Show when={props.values.bgColorOne}>
             <Button
               onClick={() => props.setValues("bgColorOne", "")}
@@ -316,7 +316,7 @@ const ProfileColorBlock = (props: {
             onChange={(v) => props.setValues("bgColorOne", v)}
           />
         </SettingsBlock>
-        <SettingsBlock icon="palette" label="Gradient Color 2">
+        <SettingsBlock icon="palette" label={t("settings.account.gradientColor2")}>
           <Show when={props.values.bgColorTwo}>
             <Button
               onClick={() => props.setValues("bgColorTwo", "")}
@@ -330,7 +330,7 @@ const ProfileColorBlock = (props: {
             onChange={(v) => props.setValues("bgColorTwo", v)}
           />
         </SettingsBlock>
-        <SettingsBlock icon="palette" label="Primary Color">
+        <SettingsBlock icon="palette" label={t("settings.account.primaryColor")}>
           <Show when={props.values.primaryColor}>
             <Button
               onClick={() => props.setValues("primaryColor", "")}
@@ -347,7 +347,7 @@ const ProfileColorBlock = (props: {
         <FlexRow style={{ "align-self": "flex-end" }}>
           <Show when={hidePreview()}>
             <Button
-              label="Preview"
+              label={t("settings.account.preview")}
               iconName="visibility"
               onClick={showPreview}
             />
