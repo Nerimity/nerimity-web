@@ -41,8 +41,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       '@nerimity/solid-emoji-picker':
-        specifier: ^0.4.8
-        version: 0.4.8(solid-js@1.9.10)
+        specifier: ^0.4.9
+        version: 0.4.9(solid-js@1.9.10)
       '@nerimity/solid-i18lite':
         specifier: ^1.6.1
         version: 1.6.1(@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.10))(html-parse-string@0.0.9)(solid-js@1.9.10)
@@ -655,8 +655,8 @@ packages:
   '@nerimity/nevula@0.14.0':
     resolution: {integrity: sha512-LPoswLxCMuxdB6Fe4wyVW3RqhnCTzf/PUaqWm39rweVgPg0SharUYyLkJ02rYPSQkyMFmJtnrjuK7TH4xyGtFA==}
 
-  '@nerimity/solid-emoji-picker@0.4.8':
-    resolution: {integrity: sha512-dolM0ncAry0M77K9xlULC+AgHKPwAxARlEM2mTgz4huORupGzajhK3jiOxMPtH1j0M6MREY+B9NQ3YHxFDga0A==}
+  '@nerimity/solid-emoji-picker@0.4.9':
+    resolution: {integrity: sha512-TwBeqqIrzXaKCaY+OKGX3DmPY64bnb+UITOT+UX8P66iy2v/HD0pFO+SAW4ofPkHjsveZ9TV4U2/QVnmgMGUsQ==}
     peerDependencies:
       solid-js: ^1.6.0
 
@@ -1031,8 +1031,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  baseline-browser-mapping@2.8.26:
-    resolution: {integrity: sha512-73lC1ugzwoaWCLJ1LvOgrR5xsMLTqSKIEoMHVtL9E/HNk0PXtTM76ZIm84856/SF7Nv8mPZxKoBsgpm0tR1u1Q==}
+  baseline-browser-mapping@2.8.28:
+    resolution: {integrity: sha512-gYjt7OIqdM0PcttNYP2aVrr2G0bMALkBaoehD4BuRGjAOtipg0b6wHg1yNL+s5zSnLZZrGHOw4IrND8CD+3oIQ==}
     hasBin: true
 
   better-path-resolve@1.0.0:
@@ -1503,8 +1503,8 @@ packages:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
     hasBin: true
 
-  js-yaml@4.1.0:
-    resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
+  js-yaml@4.1.1:
+    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
   jsesc@3.1.0:
@@ -1634,8 +1634,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  node-abi@3.80.0:
-    resolution: {integrity: sha512-LyPuZJcI9HVwzXK1GPxWNzrr+vr8Hp/3UqlmWxxh8p54U1ZbclOqbSog9lWHaCX+dBaiGi6n/hIX+mKu74GmPA==}
+  node-abi@3.81.0:
+    resolution: {integrity: sha512-I+SHs7vmUV9ooMDHVzFfUxFQRWeiBCGbI02+XB503WBS8RCDJl4vXSoAXzcnSWpzgItirp2EraDq7jQ2c7CIiA==}
     engines: {node: '>=10'}
 
   node-datachannel@0.12.0:
@@ -2557,7 +2557,7 @@ snapshots:
       globals: 14.0.0
       ignore: 5.3.2
       import-fresh: 3.3.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       minimatch: 3.1.2
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
@@ -2667,7 +2667,7 @@ snapshots:
 
   '@nerimity/nevula@0.14.0': {}
 
-  '@nerimity/solid-emoji-picker@0.4.8(solid-js@1.9.10)':
+  '@nerimity/solid-emoji-picker@0.4.9(solid-js@1.9.10)':
     dependencies:
       '@minht11/solid-virtual-container': 0.2.1(solid-js@1.9.10)
       match-sorter: 6.3.4
@@ -3024,7 +3024,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.8.26: {}
+  baseline-browser-mapping@2.8.28: {}
 
   better-path-resolve@1.0.0:
     dependencies:
@@ -3051,7 +3051,7 @@ snapshots:
 
   browserslist@4.28.0:
     dependencies:
-      baseline-browser-mapping: 2.8.26
+      baseline-browser-mapping: 2.8.28
       caniuse-lite: 1.0.30001754
       electron-to-chromium: 1.5.250
       node-releases: 2.0.27
@@ -3480,7 +3480,7 @@ snapshots:
       argparse: 1.0.10
       esprima: 4.0.1
 
-  js-yaml@4.1.0:
+  js-yaml@4.1.1:
     dependencies:
       argparse: 2.0.1
 
@@ -3599,7 +3599,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  node-abi@3.80.0:
+  node-abi@3.81.0:
     dependencies:
       semver: 7.7.3
 
@@ -3712,7 +3712,7 @@ snapshots:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 2.0.0
-      node-abi: 3.80.0
+      node-abi: 3.81.0
       pump: 3.0.3
       rc: 1.2.8
       simple-get: 4.0.1
