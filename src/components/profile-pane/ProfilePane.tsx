@@ -1438,7 +1438,7 @@ function BadgeDetailModal(props: {
   });
 
   return (
-    <LegacyModal title={`${props.badge.name} Badge`} close={props.close}>
+    <LegacyModal title={`${props.badge.name()} Badge`} close={props.close}>
       <BadgeDetailsModalContainer gap={30}>
         <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />
