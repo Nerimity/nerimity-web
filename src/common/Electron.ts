@@ -80,6 +80,10 @@ interface WindowAPI {
   startGlobalKeyListener: () => void;
   stopGlobalKeyListener: () => void;
   onGlobalKey: (callback: (event: GlobalKeyEvent) => void) => void;
+
+  appLoopbackStart: (captureSourceId: string) => void;
+  appLoopbackReset: () => void;
+  appLoopbackData: (callback: (data: Uint8Array) => void) => void;
 }
 
 export function electronWindowAPI(): WindowAPI | undefined {
@@ -89,3 +93,5 @@ export function electronWindowAPI(): WindowAPI | undefined {
 electronWindowAPI()?.onSpellcheck?.((suggestions) => {
   setSpellcheckSuggestions(suggestions);
 });
+
+electronWindowAPI()?.appLoopbackReset();

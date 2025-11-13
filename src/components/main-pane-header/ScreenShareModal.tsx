@@ -1,4 +1,11 @@
-import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
+import {
+  For,
+  Show,
+  createEffect,
+  createSignal,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Button from "../ui/Button";
 import { css, styled } from "solid-styled-components";
@@ -24,6 +31,37 @@ const OptionTitle = styled(Text)`
   margin-left: 5px;
 `;
 
+let audioGenerator: any | null = null;
+let writer: any | null = null;
+
+// reference: https://github.com/WerdoxDev/Huginn/blob/215c00f3a8c18b82c2cc95df8f695a077a998c73/packages/huginn-app/src/lib/voice/voice-bridge.ts#L236
+if (electronWindowAPI()?.isElectron) {
+  const { sampleRate, numChannels } = { sampleRate: 48000, numChannels: 2 };
+
+  electronWindowAPI()?.appLoopbackData?.(async (d) => {
+    const float32 = new Float32Array(d.length / 2);
+    const view = new DataView(d.buffer);
+    for (let i = 0; i < float32.length; i++) {
+      float32[i] = view.getInt16(i * 2, true) / 32768;
+    }
+
+    const audioData = new AudioData({
+      format: "f32",
+      sampleRate,
+      numberOfFrames: float32.length / numChannels,
+      numberOfChannels: numChannels,
+      timestamp: performance.now() * 1000, // In microseconds
+      data: float32,
+    });
+
+    try {
+      await writer?.write(audioData);
+    } catch {
+      electronWindowAPI()?.appLoopbackReset();
+    }
+  });
+}
+
 export function ScreenShareModal(props: { close: () => void }) {
   const params = useParams<{ channelId?: string }>();
   const store = useStore();
@@ -45,7 +83,7 @@ export function ScreenShareModal(props: { close: () => void }) {
 
   const [shareSystemAudio, setShareSystemAudio] = createSignal(false);
 
-  let electronSourceIdRef: any;
+  const [electronSourceId, setElectronSourceId] = createSignal<string>();
 
   const chooseWindowClick = async () => {
     const constraints = await constructConstraints(
@@ -54,16 +92,42 @@ export function ScreenShareModal(props: { close: () => void }) {
       shareSystemAudio()
     );
 
+    let appTrack: MediaStreamTrack | undefined = undefined;
     if (electronWindowAPI()?.isElectron) {
-      const sourceId = electronSourceIdRef();
+      const sourceId = electronSourceId();
+      if (!sourceId) return;
       await electronWindowAPI()?.setDesktopCaptureSourceId(sourceId);
+
+      if (
+        navigator?.userAgentData?.platform === "Windows" &&
+        shareSystemAudio() &&
+        sourceId.includes("window")
+      ) {
+        electronWindowAPI()?.appLoopbackStart(sourceId);
+
+        /* @ts-expect-error MediaStreamTrackGenerator is not available in standard TypeScript DOM lib */
+        audioGenerator = new MediaStreamTrackGenerator({ kind: "audio" });
+
+        writer = audioGenerator!.writable.getWriter();
+
+        appTrack = new MediaStream([audioGenerator!]).getAudioTracks()[0];
+      }
     }
 
     const stream = await navigator.mediaDevices
       .getDisplayMedia(constraints)
       .catch(() => {});
-
     if (!stream) return;
+
+    if (appTrack) {
+      const audioTrack = stream.getAudioTracks()[0]!;
+      if (audioTrack) {
+        stream.removeTrack(audioTrack);
+      }
+      if (appTrack) {
+        stream.addTrack(appTrack);
+      }
+    }
 
     voiceUsers.setVideoStream(stream);
     props.close();
@@ -113,7 +177,12 @@ export function ScreenShareModal(props: { close: () => void }) {
       </OptionContainer>
       <Show when={electronWindowAPI()?.isElectron}>
         <Checkbox
-          label="Share System Audio"
+          label={
+            navigator?.userAgentData?.platform !== "Windows" ||
+            electronSourceId()?.includes("screen")
+              ? "Share System Audio"
+              : "Share App Audio"
+          }
           checked={shareSystemAudio()}
           onChange={setShareSystemAudio}
           class={css`
@@ -124,7 +193,7 @@ export function ScreenShareModal(props: { close: () => void }) {
         />
       </Show>
       <Show when={electronWindowAPI()?.isElectron}>
-        <ElectronCaptureSourceList ref={electronSourceIdRef} />
+        <ElectronCaptureSourceList ref={setElectronSourceId} />
       </Show>
     </LegacyModal>
   );
@@ -240,7 +309,9 @@ function ElectronCaptureSourceList(props: { ref: any }) {
     null
   );
 
-  props.ref(() => selectedSourceId());
+  createEffect(() => {
+    props.ref(() => selectedSourceId());
+  });
 
   const fetchSources = async () => {
     const sources = await electronWindowAPI()?.getDesktopCaptureSources()!;
