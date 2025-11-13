@@ -1,6 +1,6 @@
 import { electronWindowAPI } from "./Electron";
 
-let alert = false;
+let alert: boolean | null = null;
 
 export const updateTitleAlert = (newAlert: boolean) => {
   if (newAlert === alert) return;
@@ -15,5 +15,5 @@ const update = () => {
   } else {
     link.href = "/favicon.ico";
   }
-  electronWindowAPI()?.setNotification(alert);
+  electronWindowAPI()?.setNotification(alert || false);
 };
