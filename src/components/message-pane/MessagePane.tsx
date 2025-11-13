@@ -920,9 +920,9 @@ function TypingIndicator() {
     });
   });
 
-  const typingUsers = createMemo(() =>
-    Object.keys(typingUserIds).filter(friends.hasBeenBlockedByMe).map((userId) => users.get(userId)!)
-  );
+const typingUsers = createMemo(() =>
+  Object.keys(typingUserIds).filter((id) =>!friends.hasBeenBlockedByMe(id)).map((userId) => users.get(userId)!)
+);
 
   const typingUserDisplayNames = createMemo(() => {
     return typingUsers().map((user) => {
