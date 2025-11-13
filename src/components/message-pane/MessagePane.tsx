@@ -865,7 +865,7 @@ interface TypingPayload {
 }
 function TypingIndicator() {
   const params = useParams<{ channelId: string; serverId: string }>();
-  const { users, serverMembers } = useStore();
+  const { users, serverMembers, friends } = useStore();
   const { paneWidth } = useWindowProperties();
 
   const [typingUserIds, setTypingUserIds] = createStore<
@@ -921,7 +921,7 @@ function TypingIndicator() {
   });
 
   const typingUsers = createMemo(() =>
-    Object.keys(typingUserIds).map((userId) => users.get(userId)!)
+    Object.keys(typingUserIds).filter(friends.hasBeenBlockedByMe).map((userId) => users.get(userId)!)
   );
 
   const typingUserDisplayNames = createMemo(() => {
