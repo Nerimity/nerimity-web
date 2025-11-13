@@ -94,4 +94,4 @@ electronWindowAPI()?.onSpellcheck?.((suggestions) => {
   setSpellcheckSuggestions(suggestions);
 });
 
-electronWindowAPI()?.appLoopbackReset();
+electronWindowAPI()?.appLoopbackReset?.();

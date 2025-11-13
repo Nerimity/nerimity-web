@@ -57,7 +57,7 @@ if (electronWindowAPI()?.isElectron) {
     try {
       await writer?.write(audioData);
     } catch {
-      electronWindowAPI()?.appLoopbackReset();
+      electronWindowAPI()?.appLoopbackReset?.();
     }
   });
 }
@@ -103,7 +103,7 @@ export function ScreenShareModal(props: { close: () => void }) {
         shareSystemAudio() &&
         sourceId.includes("window")
       ) {
-        electronWindowAPI()?.appLoopbackStart(sourceId);
+        electronWindowAPI()?.appLoopbackStart?.(sourceId);
 
         /* @ts-expect-error MediaStreamTrackGenerator is not available in standard TypeScript DOM lib */
         audioGenerator = new MediaStreamTrackGenerator({ kind: "audio" });
