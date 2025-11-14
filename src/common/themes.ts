@@ -28,6 +28,16 @@ export const DefaultTheme = {
   "status-do-not-disturb": "#e37878",
   // Text Color
   "text-color": "white",
+
+  // Markup
+  "markup-code-background-color": "rgba(0, 0, 0, 0.6)",
+  "markup-mention-background-color": "rgba(0, 0, 0, 0.2)",
+  "markup-mention-background-color-hover": "rgba(0, 0, 0, 0.6)",
+  "markup-codeblock-background-color": "rgba(0, 0, 0, 0.6)",
+
+  "markup-spoiler-background-color": "#0e0f10",
+  "markup-spoiler-background-color-hover": "#1c1e20",
+
   // TODO:
   // Add multiple text colors, rather than using one.. E.G: message-text-color, channel-text-color, etc.
 };
@@ -80,6 +90,13 @@ export const themePresets: Record<string, ThemePreset> = {
       "header-background-color": "#111111cc",
       "header-background-color-blur-disabled": "#000000",
       "tooltip-background-color": "#0a0a0a",
+      "markup-code-background-color": "rgba(255, 255, 255, 0.12)",
+      "markup-mention-background-color": "rgba(255, 255, 255, 0.1)",
+      "markup-mention-background-color-hover": "rgba(255, 255, 255, 0.12)",
+      "markup-codeblock-background-color": "rgba(255, 255, 255, 0.1)",
+
+      "markup-spoiler-background-color": "#1d1f20ff",
+      "markup-spoiler-background-color-hover": "#2b2e30ff",
     },
     maintainers: ["Asraye"],
   },

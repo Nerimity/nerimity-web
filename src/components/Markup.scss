@@ -32,7 +32,7 @@
   padding-left: 1px;
   border-radius: 4px;
   color: #d0d0d0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--markup-code-background-color);
 }
 
 .markup blockquote {
@@ -96,7 +96,7 @@
 
 .markup .code-block {
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--markup-codeblock-background-color);
 
   &.no-wrap {
     .content {
@@ -152,16 +152,16 @@
 
   &:not(.spoiled) {
     border-radius: 4px;
-    background-color: #0e0f10;
+    background-color: var(--markup-spoiler-background-color);
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     cursor: pointer;
     user-select: none;
 
     &:hover {
-      background-color: #1c1e20;
+      background-color: var(--markup-spoiler-background-color-hover);
       .code-block::before {
-        background-color: #1c1e20;
+        background-color: var(--markup-spoiler-background-color-hover);
       }
     }
 
@@ -169,13 +169,23 @@
       opacity: 0;
     }
 
+    .code {
+      opacity: 0;
+    }
+
+    .mention {
+      opacity: 0;
+    }
+    blockquote,
+    .quoteContainer,
     .code-block {
       position: relative;
       overflow: hidden;
+      border-color: transparent;
       &::before {
         position: absolute;
         z-index: 11111111;
-        background-color: #0e0f10;
+        background-color: var(--markup-spoiler-background-color);
         content: "spoiler";
         inset: 0;
       }
@@ -211,10 +221,10 @@
   margin-bottom: 1px;
   border-radius: 8px;
   color: var(--primary-color);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--markup-mention-background-color);
   text-decoration: none;
   &:hover {
-    background: rgba(0, 0, 0, 0.6);
+    background: var(--markup-mention-background-color-hover);
   }
   &.timestamp {
     cursor: pointer;
