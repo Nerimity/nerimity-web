@@ -1,5 +1,7 @@
 ### What does this PR do?
 
+### Screenshots
+
 ### Did you test your code?
 
-### Screenshots
+### Does your PR contain small, easy to understand changes?
