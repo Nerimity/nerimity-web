@@ -1,5 +1,5 @@
 import style from "./InboxList.module.css";
-import { createMemo, createSignal, For } from "solid-js";
+import { createMemo, createSignal, For, Show } from "solid-js";
 import { Tooltip } from "../ui/Tooltip";
 import Avatar from "../ui/Avatar";
 import { A, useParams } from "solid-navigator";
@@ -8,6 +8,8 @@ import { User } from "@/chat-api/store/useUsers";
 import useStore from "@/chat-api/store/useStore";
 import { NotificationCountBadge } from "./NotificationCountBadge";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import { useWindowProperties } from "@/common/useWindowProperties";
+import { cn } from "@/common/classNames";
 
 function InboxItem(props: { user: User; size: number }) {
   const params = useParams<{ channelId?: string }>();
@@ -50,6 +52,7 @@ function InboxItem(props: { user: User; size: number }) {
 
 export const InboxList = (props: { size: number }) => {
   const store = useStore();
+  const { isMobileWidth } = useWindowProperties();
 
   const mentionUsers = createMemo(() => {
     return store.mentions
@@ -62,15 +65,19 @@ export const InboxList = (props: { size: number }) => {
   });
 
   return (
-    <div>
-      <div
-        class={style.inboxList}
-        style={{ "padding-bottom": mentionUsers().length ? "4px" : "0" }}
-      >
-        <For each={mentionUsers()}>
-          {(user) => <InboxItem user={user} size={props.size} />}
-        </For>
+    <Show when={isMobileWidth() ? mentionUsers().length : true}>
+      <div>
+        <div
+          class={cn(style.inboxList, isMobileWidth() && style.mobile)}
+          style={{
+            "padding-bottom": mentionUsers().length ? "4px" : "0",
+          }}
+        >
+          <For each={mentionUsers()}>
+            {(user) => <InboxItem user={user} size={props.size} />}
+          </For>
+        </div>
       </div>
-    </div>
+    </Show>
   );
 };

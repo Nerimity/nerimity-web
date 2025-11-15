@@ -4,4 +4,8 @@
   margin-top: 4px;
   margin-bottom: 4px;
   border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+  &.mobile {
+    margin-top: 4px;
+    border: none;
+  }
 }
