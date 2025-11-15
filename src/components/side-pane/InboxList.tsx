@@ -31,7 +31,6 @@ function InboxItem(props: { user: User; size: number }) {
     <Tooltip tooltip={props.user.username}>
       <SidebarItemContainer
         onclick={handleClick}
-        class={style.serverItem}
         alert={hasNotifications()}
         selected={selected()}
         onMouseEnter={() => setHovered(true)}
@@ -63,17 +62,11 @@ export const InboxList = (props: { size: number }) => {
   });
 
   return (
-    <div class={style.serverListContainer}>
-      <div class={style.serverList}>
-        <For each={mentionUsers()}>
-          {(user) => <InboxItem user={user} size={props.size} />}
-        </For>
-        <For each={mentionUsers()}>
-          {(user) => <InboxItem user={user} size={props.size} />}
-        </For>
-        <For each={mentionUsers()}>
-          {(user) => <InboxItem user={user} size={props.size} />}
-        </For>
+    <div>
+      <div
+        class={style.inboxList}
+        style={{ "padding-bottom": mentionUsers().length ? "4px" : "0" }}
+      >
         <For each={mentionUsers()}>
           {(user) => <InboxItem user={user} size={props.size} />}
         </For>
