@@ -284,7 +284,14 @@
         "posts": "• Twoje Posty"
       },
       "postsAndMessagesNotice": "Usunięcie Twoich postów i wiadomości może potrwać kilka tygodni.",
-      "deleteCheckbox": "Usuń moje posty i wiadomości"
+      "deleteCheckbox": "Usuń moje posty i wiadomości",
+      "palestineBorder": "Dodaj ramkę z flagą Palestyny do Twojego awatara.",
+      "bio": "Biografia",
+      "bioDescription": "Wspiera wiele linijek i formatowanie markup",
+      "gradientColor1": "Kolor Gradientu 1",
+      "gradientColor2": "Kolor Gradientu 2",
+      "primaryColor": "Kolor Podstawowy",
+      "preview": "Podgląd"
     },
     "privacy": {
       "lastOnline": {
@@ -367,7 +374,20 @@
       "apply": "Zastosuj",
       "enableEruda": "Włącz Eruda",
       "enableErudaDescription": "Włącz Eruda do debugowania. Nie udostępniaj żadnych szczegółów innym osobom.",
-      "enableOnce": "Włącz raz"
+      "enableOnce": "Włącz raz",
+      "customCSSWarning": "Nie wklejaj kodu od osób, których nie znasz.",
+      "saveAndApply": "Zapisz i Zastosuj"
+    },
+    "window": {
+      "title": "Ustawienia - Okno",
+      "downloadAppNotice": "W celu zmiany tych ustawień musisz zainstalować aplikację Nerimity na komputery.",
+      "startupOptions": "Opcje Uruchamiania",
+      "openOnStartup": "Otwórz Nerimity przy starcie",
+      "startMinimized": "Uruchom w zminimalizowanym oknie",
+      "startMinimizedDescription": "Automatyczzna minimalizacja Nerimity do zasobnika systemowego.",
+      "disableHardwareAcceleration": "Wyłącz Akcelerację Sprzętową",
+      "disableCustomTitlebar": "Wyłącz niestandardowy pasek na oknie",
+      "reopenAppNotice": "Musisz otworzyć aplikację ponownie, aby zmiana została zastosowana."
     }
   },
   "supportBlock": {
