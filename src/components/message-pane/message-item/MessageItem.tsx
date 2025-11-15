@@ -42,6 +42,7 @@ import {
   on,
   onCleanup,
   onMount,
+  ParentComponent,
   Show,
   Switch,
 } from "solid-js";

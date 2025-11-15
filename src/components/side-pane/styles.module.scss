@@ -21,16 +21,12 @@ body .customStatusInput {
   margin-top: 0;
 }
 
-
-
 .scrollable {
   display: flex;
   overflow: auto;
   flex-direction: column;
   height: 100%;
-  padding-top: 5px;
   padding-bottom: 5px;
-  border-top: solid 1px rgba(255, 255, 255, 0.2);
   border-bottom: solid 1px rgba(255, 255, 255, 0.2);
 }
 
@@ -45,8 +41,6 @@ body .customStatusInput {
 .scrollable::-webkit-scrollbar {
   display: none;
 }
-
-
 
 .user {
   position: relative;
@@ -107,7 +101,6 @@ body .customStatusInput {
   }
 }
 
-
 .resizeHandle {
   position: absolute;
   top: 8px;
@@ -124,4 +117,3 @@ body .customStatusInput {
     background-color: var(--primary-color);
   }
 }
-

@@ -32,6 +32,7 @@ import { ServerList } from "./ServerList";
 import { useReminders } from "../useReminders";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { useDrawer } from "../ui/drawer/Drawer";
+import { InboxList } from "./InboxList";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
@@ -65,10 +66,11 @@ export default function SidePane(props: { class?: string }) {
           : { width: `${resizeBar.width()}px` }
       }
     >
-      <Show when={!isMobileWidth()}>
-        <HomeItem size={resizeBar.width()} />
-      </Show>
       <div class={style.scrollable}>
+        <Show when={!isMobileWidth()}>
+          <HomeItem size={resizeBar.width()} />
+        </Show>
+        <InboxList size={resizeBar.width()} />
         <ServerList size={resizeBar.width()} />
         <Tooltip tooltip="Add Server">
           <SidebarItemContainer onClick={showAddServerModal}>
@@ -103,12 +105,11 @@ function HomeItem(props: { size: number }) {
     return false;
   };
 
-  const notificationCount = () => inbox.notificationCount();
   const friendRequestCount = () =>
     friends.array().filter((friend) => friend.status === FriendStatus.PENDING)
       .length;
 
-  const count = () => notificationCount() + friendRequestCount();
+  const count = () => friendRequestCount();
 
   createEffect(() => {
     updateTitleAlert(
