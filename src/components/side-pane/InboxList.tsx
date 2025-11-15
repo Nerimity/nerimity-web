@@ -1,5 +1,5 @@
 import style from "./InboxList.module.css";
-import { createSignal, For } from "solid-js";
+import { createMemo, createSignal, For } from "solid-js";
 import { Tooltip } from "../ui/Tooltip";
 import Avatar from "../ui/Avatar";
 import { A, useParams } from "solid-navigator";
@@ -52,7 +52,7 @@ function InboxItem(props: { user: User; size: number }) {
 export const InboxList = (props: { size: number }) => {
   const store = useStore();
 
-  const mentionUsers = () => {
+  const mentionUsers = createMemo(() => {
     return store.mentions
       .array()
       .filter((m) => {
@@ -60,11 +60,20 @@ export const InboxList = (props: { size: number }) => {
         return !channel?.serverId;
       })
       .map((m) => store.users.get(m?.userId!)!);
-  };
+  });
 
   return (
     <div class={style.serverListContainer}>
       <div class={style.serverList}>
+        <For each={mentionUsers()}>
+          {(user) => <InboxItem user={user} size={props.size} />}
+        </For>
+        <For each={mentionUsers()}>
+          {(user) => <InboxItem user={user} size={props.size} />}
+        </For>
+        <For each={mentionUsers()}>
+          {(user) => <InboxItem user={user} size={props.size} />}
+        </For>
         <For each={mentionUsers()}>
           {(user) => <InboxItem user={user} size={props.size} />}
         </For>
