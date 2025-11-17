@@ -1,12 +1,12 @@
 {
   "header": {
     "logoutButton": "Выйсьці",
-    "openAppButton": "Адкрыць праґраму",
+    "openAppButton": "Адкрыць аплікацыю",
     "loginButton": "Увайсьці",
     "joinNowButton": "Далучыцца"
   },
   "homePage": {
-    "slogan": "Сучасная й элегантная праґрама для памену паведамленьнямі.",
+    "slogan": "Сучасная й элегантная аплікацыя для памену паведамленьнямі.",
     "subslogan": "Nerimity прапаноўвае элегантны й насычаны досьвед, які робіць яе асабліваю.",
     "viewGitHubButton": "Праглядзець на GitHub",
     "getStarted": "Пачнем",
@@ -15,7 +15,7 @@
       "featureList": {
         "feature1": "Бясплатныя аніміраваныя аватары й эмодзі",
         "feature2": "Элегантны дызайн",
-        "feature3": "Бясплатная зьмена тэга",
+        "feature3": "Бясплатная зьмена тэґа",
         "feature4": "Стварэньне допісаў на вашым профілі",
         "feature5": "Стварыце вашу асабістую супольнасьць",
         "feature6": "Адкрыйце для сябе новыя супольнасьці",
@@ -26,7 +26,7 @@
   },
   "loginPage": {
     "title": "Увайдзіце, каб працягнуць",
-    "emailOrUsernameAndTag": "Эл. пошта / імя карыстача:тэг",
+    "emailOrUsernameAndTag": "Эл. пошта / імя карыстача:тэґ",
     "password": "Пароль",
     "login": "Увайсьці",
     "createAccountInstead": "Замест гэтага стварыць уліковы запіс",
@@ -55,6 +55,7 @@
     "title": "Скід пароля",
     "resetSuccessful": "Пароль быў зьменены.",
     "passwordsDoNotMatch": "Паролі не супадаюць.",
+    "passwordTooLong": "Пароль мусіць быць меньш за 72 сымбалы.",
     "resetPasswordButton": "Скінуць пароль",
     "resetting": "Скідваем...",
     "email": "Эл. пошта",
@@ -89,13 +90,20 @@
       "blockedUsersButton": "Блякаваньні",
       "inboxTitle": "Уваходныя",
       "friendsButton": "Сябры",
-      "viewAll": "Праглядзець усіх"
+      "viewAll": "Праглядзець усіх",
+      "offline": "Ня ў сетцы"
     }
   },
   "explore": {
     "drawer": {
       "title": "Дасьледваць",
-      "servers": "Сэрвэры"
+      "servers": "Сэрвэры",
+      "bots": "Боты"
+    },
+
+    "bots": {
+      "title": "Дасьледваньне - Боты",
+      "noticeMessage": "Бота можна ўсхваліць раз у {{hours}} гадзін. Усе ўсхваленьні скідваюцца кожны {{date}}."
     },
     "servers": {
       "title": "Дасьледаваньне - Сэрвэры",
@@ -120,7 +128,7 @@
         "audit-logs": "Журнал падзеяў",
         "roles": "Ролі",
         "channels": "Каналы",
-        "bans": "Блякаваньня",
+        "bans": "Блякаваньні",
         "invites": "Запрашэньні",
         "publishServer": "Зрабіць сэрвэр публічным",
         "verify": "Пацьвердзіць",
@@ -134,7 +142,7 @@
       "general": {
         "serverRenameNotice": "Вы страціце ўсе йльготы верыфікаванага сэрвэру, калі пераназавяце яго.",
         "serverName": "Назва сэрвэру",
-        "defaultChannel": "Канал па змаўчаньні",
+        "defaultChannel": "Перадвызначаны канал",
         "defaultChannelDescription": "Новыя ўдзельнікі будуць накіраваныя ў гэты канал.",
         "systemMessages": "Сыстэмныя паведамленьні",
         "systemMessagesDescription": "Тут павінны зьяўляцца сыстэмныя паведамленьні.",
@@ -190,7 +198,7 @@
         "copyLinkButton": "Скапіяваць спасылку"
       },
       "publishServer": {
-        "publishNotice": "Пасьля публікацыйі, сэрвэр зьявіцца ва ўкладцы <1>*Дасьледаваць*</1>.",
+        "publishNotice": "Пасьля публікацыйі, сэрвэр зьявіцца ва ўкладцы <1>«Дасьледаваць»</1>.",
         "public": "Публічны",
         "publicDescription": "Зрабіць гэты сэрвэр публічным.",
         "bumpServer": "Усхваліць сэрвэр",
@@ -254,16 +262,23 @@
       "manageAccount": "Кіраваньне ўліковым запісам"
     },
     "account": {
-      "title": "Налады - Уліковы запіс",
       "email": "Электроная пошта",
       "username": "Імя карыстача",
-      "tag": "Тэг",
+      "tag": "Тэґ",
+      "botID": "ID бота",
       "avatar": "Аватар",
       "banner": "Банар",
       "supported": "Падтрымліваюцца",
       "browse": "Абраць",
       "profile": "Профіль",
       "profileDescription": "Адрэдагуйце вашае апісаньне й колеры",
+      "palestineBorder": "Дадаць палестынскую аблямоўку да вашага аватару.",
+      "bio": "Пра мяне",
+      "bioDescription": "Вы можаце запісаць тэкст у некалькі радкоў і фарматаваць яго",
+      "gradientColor1": "Колер градыенту 1",
+      "gradientColor2": "Колер градыенту 2",
+      "primaryColor": "Асноўны колер",
+      "preview": "Перадпрагляд",
       "changePassword": "Зьмяніць пароль",
       "forgotPassword": "Забылі пароль",
       "newPassword": "Новы пароль",
@@ -271,15 +286,34 @@
       "confirmNewPassword": "Сьцьвердзіць новы пароль",
       "confirmNewPasswordDescription": "Сьцьвердзіце ваш новы пароль",
       "confirmCurrentPassword": "Сьцьвердзіце ваш бягучы пароль",
+      "confirmEmail": "Сьцьвердзіце вашу электроную пошту",
+      "enterCode": "Увядзіце 5 лічбаў, што мы адправілі на вашу эл. пошту:",
+      "sendCodeButton": "Адаслаць код",
+      "resendIn": "Перадаслаць праз {{time}}",
+      "confirmButton": "Сьцьвердзіць",
+      "cancelButton": "Скасаваць",
       "channelNotice": "Папярэджаньне карыстача",
       "channelNoticeDescription": "Паказваецца, калі карыстач піша вам упершыню. Зьмены ўжываюцца пасьля перазагрузкі.",
+      "channelNoticeTooLong": "Папярэджаньне канала не можа быць больш за 300 сымбаляў.",
       "saving": "Захоўваем...",
       "saveButton": "Захаваць",
       "saveChangesButton": "Захаваць зьмены",
       "deleteAccount": "Выдаліць мой уліковы запіс",
       "deleteAccountDescription": "Гэта нельга адрабіць!",
-      "deleteAccountNotice": "Вы мусіце выйсьці зь усіх сэрвэроў, альбо выдаліць іх перад выдаленьнем вашага ўліковага запісу.",
-      "understoodButton": "Зразумела"
+      "deleteAccountNotice": "Вы мусіце выйсьці зь усіх сэрвэраў, альбо выдаліць іх перад выдаленьнем вашага ўліковага запісу.",
+      "understoodButton": "Зразумела",
+      "deletionNotice": "Шкада, што вы ад нас уходзіце :( Калі вам штосьці не спадабалася, паведаміце аб гэтым на афіцыйным сэрвэры Nerimity.",
+      "deletedInfo": {
+        "title": "Што будзе выдалена",
+        "email": "• Электроная пошта",
+        "username": "• Імя карыстача",
+        "ip": "• Адрэс IP",
+        "bio": "• «Пра мяне»",
+        "messages": "• Вашы паведамленьні",
+        "posts": "• Вашы допісы"
+      },
+      "postsAndMessagesNotice": "Выдаленьне вашых допісаў і паведамленьняў можа заняць некалькі тыдняў.",
+      "deleteCheckbox": "Выдаліць мае допісы і паведамленьні"
     },
     "privacy": {
       "lastOnline": {
@@ -313,7 +347,7 @@
     },
     "notifications": {
       "desktopNotifications": "Абвесткі на працоўным стале",
-      "desktopNotificationsDescription": "Паказваць абвесткі на працоўным стале, нават калі праґрама згорнутая.",
+      "desktopNotificationsDescription": "Паказваць абвесткі на працоўным стале, нават калі аплікацыя згорнутая.",
       "sounds": "Гукі",
       "soundsDescription": "Калі гукі абвестак надта вам дакучаюць, вы можаце йх адключыць.",
       "volume": "Гучнасьць",
@@ -326,8 +360,8 @@
       "reminder": "Нагады",
       "reminderDescription": "Абвесткі для нагадаў.",
       "mute": "Без гуку",
-      "inAppPreview": "Перадпрагляд у праґраме",
-      "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў праґраме.",
+      "inAppPreview": "Перадпрагляд у аплікацыйі",
+      "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў аплікацыйі.",
       "inAppPreviewModes": {
         "off": "Выключана",
         "mentionsOnly": "Толькі згадваньні",
@@ -343,14 +377,15 @@
       "inputMode": "Мэтад уводу",
       "openMic": "Заўсёды запісваць",
       "voiceActivity": "Калі размаўляеце",
-      "pushToTalk": "Па націсканьню",
+      "pushToTalk": "Па націсканьні",
       "bindButton": "Прывязаць",
       "stopButton": "Спыніць",
-      "downloadAppNotice": "Спампуйце праґраму Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
+      "downloadAppNotice": "Спампуйце аплікацыю Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
     },
     "interface": {
-      "title": "Налады - Інтэрфэйс",
       "customCSS": "Уласны CSS",
+      "customCSSWarning": "Не ўстаўляйце код ад людзей, якім не давяраеце.",
+      "saveAndApply": "Захаваць і прымяніць",
       "themes": "Тэмы",
       "themesDescription": "Абярыце гатовую тэму альбо вярніцеся да зыходнае.",
       "maintainers": "Удзельнікі",
@@ -364,6 +399,17 @@
       "disableAdvancedMarkupBarDescription": "Не адлюстроўваць панэль пашыранае разьметкі.",
       "customizeColors": "Дапасаваньне колераў",
       "customizeColorsDescription": "Адрэдагуйце колеры бягучае тэмы."
+    },
+    "window": {
+      "title": "Налады - Налады акна",
+      "downloadAppNotice": "Каб змяніць гэтыя налады, вы мусіце спампаваць аплікацыю Nerimity для ПК.",
+      "startupOptions": "Налады запуску",
+      "openOnStartup": "Адкрываць Nerimity пры ўключэньні",
+      "startMinimized": "Запускаць згарнутай",
+      "startMinimizedDescription": "Аўтаматычна згартваць Nerimity.",
+      "disableHardwareAcceleration": "Адключыць апаратнае паскарэньне",
+      "disableCustomTitlebar": "Адключыць уласную аблямоўку аплікацыйі",
+      "reopenAppNotice": "Вы мусіце перазагрузіць аплікацыю, каб зьмены набылі сілу."
     }
   },
   "supportBlock": {
@@ -391,6 +437,12 @@
       "mentionsOnly": "Толькі згадваньні",
       "mute": "Заглушаныя"
     }
+  },
+  "typing": {
+    "single": "<1>{{username}}</1> піша…",
+    "multiple": "<1>{{username}}</1> і <2>{{username2}}</2> пішуць…",
+    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> і <3>{{username3}}</3> пішуць…",
+    "andOthers": "<1>{{count}}</1> карыстача пішуць…"
   },
   "userContextMenu": {
     "viewProfile": "Праглядзець профіль",
@@ -430,7 +482,9 @@
     "quoteMessage": "Цытаваць паведамленьне",
     "reportMessage": "Паскардзіцца",
     "reply": "Адказаць",
-    "markUnread": "Пазначыць непрачытаным"
+    "markUnread": "Пазначыць непрачытаным",
+    "pinMessage": "Замацаваць",
+    "unpinMessage": "Адмацаваць"
   },
   "profile": {
     "followButton": "Падпісацца",
@@ -503,7 +557,7 @@
   "videoEmbed": {
     "couldNotGetVideo": "Не ўдалося атрымаць відэа.",
     "videoModified": "Відэа было зьмененае.",
-    "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайгрываць відэа толькі ў праґраме Nerimity для ПК.",
+    "googleDrivePolicy": "Праз новую палітыку Google Drive, вы можаце прайгрываць відэа толькі ў аплікацыйі Nerimity для ПК.",
     "videoExpired": "Відэа скончылася.",
     "modifiedOrDeleted": "Гэта відэа было зьменена/выдалена стваральнікам на йх Google Drive.",
     "expires": "Канчаецца",
