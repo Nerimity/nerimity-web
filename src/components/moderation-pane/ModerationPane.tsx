@@ -28,6 +28,7 @@ import {
   getPosts,
   searchPosts,
   deletePosts,
+  activeServers,
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
@@ -326,6 +327,7 @@ function ModerationPage() {
           <OnlineUsersPane />
         </UserColumn>
         <ServersPane />
+        <ActiveServersPane />
         <PostsPane />
         <UsersAuditLogsPane />
       </ModerationPaneContainer>
@@ -563,6 +565,75 @@ function ServersPane() {
   );
 }
 
+function ActiveServersPane() {
+  const [servers, setServers] = createSignal<RawServer[]>([]);
+
+  const [showAll, setShowAll] = createSignal(false);
+
+  const moderationServerDeletedListener = useModerationServerDeletedListener();
+  const moderationUndoServerDeleteListener =
+    useModerationUndoServerDeleteListener();
+
+  moderationServerDeletedListener((deletedServers) => {
+    setServers(
+      servers().map((u) => {
+        const wasSuspended = deletedServers.find((su) => su.id === u.id);
+        if (!wasSuspended) return u;
+        return { ...u, scheduledForDeletion: { scheduledAt: Date.now() } };
+      })
+    );
+  });
+
+  moderationUndoServerDeleteListener((serverId) => {
+    setServers(
+      servers().map((u) => {
+        if (u.id !== serverId) return u;
+        return { ...u, scheduledForDeletion: undefined };
+      })
+    );
+  });
+
+  createEffect(() => {
+    fetchServers();
+  });
+
+  const firstFive = () => servers().slice(0, 5);
+
+  const fetchServers = () => {
+    activeServers().then((newServers) => {
+      setServers([...newServers]);
+    });
+  };
+
+  return (
+    <PaneContainer
+      class="pane servers"
+      expanded={showAll()}
+      style={!showAll() ? { height: "initial" } : undefined}
+    >
+      <FlexRow
+        gap={5}
+        itemsCenter
+        style={{ "padding-left": "10px", "margin-top": "10px" }}
+      >
+        <Button
+          iconName="add"
+          iconSize={14}
+          padding={4}
+          onClick={() => setShowAll(!showAll())}
+        />
+        <Text>7 day Active Servers</Text>
+      </FlexRow>
+
+      <ListContainer class="list">
+        <For each={!showAll() ? firstFive() : servers()}>
+          {(server) => <Server server={server} />}
+        </For>
+      </ListContainer>
+    </PaneContainer>
+  );
+}
+
 export function User(props: { user: any; class?: string }) {
   const joined = formatTimestamp(props.user.joinedAt);
   const [hovered, setHovered] = createSignal(false);
@@ -654,7 +725,9 @@ export function User(props: { user: any; class?: string }) {
   );
 }
 
-export function Server(props: { server: RawServer }) {
+export function Server(props: {
+  server: RawServer & { messageCount?: number };
+}) {
   const created = formatTimestamp(props.server.createdAt);
   const createdBy = props.server.createdBy;
   const [hovered, setHovered] = createSignal(false);
@@ -721,6 +794,14 @@ export function Server(props: { server: RawServer }) {
             </A>
           </Text>
         </FlexRow>
+        <Show when={props.server.messageCount}>
+          <FlexRow gap={3}>
+            <Text size={12} opacity={0.6}>
+              Messages:
+            </Text>
+            <Text size={12}>{props.server.messageCount?.toLocaleString()}</Text>
+          </FlexRow>
+        </Show>
         <FlexRow gap={2} wrap>
           <Show when={props.server.scheduledForDeletion}>
             <div

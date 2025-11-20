@@ -289,6 +289,15 @@ export const searchServers = async (
   });
   return data;
 };
+export const activeServers = async () => {
+  const data = await request<any[]>({
+    method: "GET",
+
+    url: env.SERVER_URL + "/api/moderation/servers/active",
+    useToken: true,
+  });
+  return data;
+};
 
 export const deleteServer = async (
   serverId: string,
