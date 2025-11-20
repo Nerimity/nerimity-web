@@ -1,14 +1,14 @@
 .scrollbarContainer {
   position: absolute;
 
-  width: 3px;
+  width: 7px;
   border-radius: 999px;
   background: rgba(0,0,0,0.6);
   user-select: none;
 }
 .scrollbarThumb {
   position: absolute;
-  width: 3px;
+  width: 7px;
   border-radius: 999px;
   background: var(--primary-color);
 }
