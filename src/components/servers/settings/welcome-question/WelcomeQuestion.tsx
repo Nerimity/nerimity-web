@@ -97,6 +97,7 @@ export default function SettingsPage() {
     const roleIds = question()?.answers[answerIndex]?.roleIds || [];
     const roles = roleIds
       .map((roleId) => serverRoles.get(params.serverId, roleId)!)
+      .filter((r): r is ServerRole => r !== undefined)
       .sort((a, b) => a?.order - b?.order);
     return roles.map((r) => r.name).join(" • ");
   };
