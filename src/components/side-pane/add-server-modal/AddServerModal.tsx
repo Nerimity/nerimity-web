@@ -8,10 +8,9 @@ import {
 import { Notice } from "@/components/ui/Notice/Notice";
 import { t } from "@nerimity/i18lite";
 import { Item } from "@/components/ui/Item";
-import { Show } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import Button from "@/components/ui/Button";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { createSignal } from "solid-js";
 
 export function AddServerModal(props: { close: () => void }) {
   return (
@@ -34,12 +33,12 @@ const Content = (props: { close: () => void }) => {
         title={
           controller.tab() === "CREATE"
             ? t("createServerModal.title")
-            : "Join Server"
+            : t("joinServerModal.title")
         }
         icon="dns"
       />
       <Show when={controller.tab() === "CREATE"}>
-        <CreateServerModalOwO close={props.close} />
+        <CreateServerModal close={props.close} />
       </Show>
       <Show when={controller.tab() === "JOIN"}>
         <JoinServerModal close={props.close} />
@@ -48,7 +47,7 @@ const Content = (props: { close: () => void }) => {
   );
 };
 
-const CreateServerModalOwO = (props: { close: () => void }) => {
+const CreateServerModal = (props: { close: () => void }) => {
   const controller = useAddServerModalController();
 
   return (
@@ -59,7 +58,7 @@ const CreateServerModalOwO = (props: { close: () => void }) => {
           type="warn"
           description={[
             t("createServerModal.notice"),
-            "Server MUST be in English.",
+            t("createServerModal.mustBeEnglish"),
           ]}
         />
         <Input
@@ -109,20 +108,20 @@ const JoinServerModal = (props: { close: () => void }) => {
         <Tabs />
         <Notice
           type="info"
-          description="If you would like to explore servers, please go to the explore tab instead."
+          description={t("joinServerModal.notice")}
           children={
             <Button
               href={RouterEndpoints.EXPLORE_SERVERS()}
               onClick={props.close}
               iconName="explore"
-              label="Explore Servers"
+              label={t("joinServerModal.exploreButton")}
               iconSize={16}
               margin={0}
             />
           }
         />
         <Input
-          label={"Invite Code"}
+          label={t("joinServerModal.inviteCode")}
           onText={setRawInvite}
           value={rawInvite()}
           error={controller.error().message}
@@ -144,7 +143,7 @@ const JoinServerModal = (props: { close: () => void }) => {
           href={RouterEndpoints.EXPLORE_SERVER_INVITE(
             sanitizeInviteInput(rawInvite())
           )}
-          label="Continue"
+          label={t("joinServerModal.continueButton")}
           iconName="arrow_forward"
           primary
         />
@@ -164,7 +163,7 @@ const Tabs = () => {
         onClick={() => controller.setTab("CREATE")}
       >
         <Item.Icon>add</Item.Icon>
-        <Item.Label>Create</Item.Label>
+        <Item.Label>{t("createServerModal.tabLabel")}</Item.Label>
       </Item.Root>
       <Item.Root
         handlePosition="bottom"
@@ -172,8 +171,7 @@ const Tabs = () => {
         onClick={() => controller.setTab("JOIN")}
       >
         <Item.Icon>login</Item.Icon>
-
-        <Item.Label>Join</Item.Label>
+        <Item.Label>{t("joinServerModal.tabLabel")}</Item.Label>
       </Item.Root>
     </div>
   );
