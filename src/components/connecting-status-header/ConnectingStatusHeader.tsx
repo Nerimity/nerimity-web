@@ -7,6 +7,7 @@ import { useMatch } from "solid-navigator";
 import { createEffect, createSignal, on } from "solid-js";
 import socketClient from "@/chat-api/socketClient";
 import { ServerEvents } from "@/chat-api/EventNames";
+import { t } from "@nerimity/i18lite";
 
 export default function ConnectingStatusHeader() {
   const { account } = useStore();
@@ -49,13 +50,16 @@ export default function ConnectingStatusHeader() {
       }
     )
   );
+
   createEffect(() => {
     window.clearInterval(interval);
 
     if (account.authenticationError()) {
       setStatus({
         color: "var(--alert-color)",
-        text: account.authenticationError()?.message || "Authentication error",
+        text:
+          account.authenticationError()?.message ||
+          t("statusHeader.authenticationError"),
       });
       return;
     }
@@ -63,7 +67,9 @@ export default function ConnectingStatusHeader() {
     if (!account.isConnected()) {
       setStatus({
         color: "var(--warn-color)",
-        text: alreadyConnected ? "Reconnecting..." : "Connecting...",
+        text: alreadyConnected
+          ? t("statusHeader.reconnecting")
+          : t("statusHeader.connecting"),
       });
       return;
     }
@@ -74,8 +80,8 @@ export default function ConnectingStatusHeader() {
       setStatus({
         color: "var(--warn-color)",
         text: queuePos()
-          ? `In Queue: ${queuePos()} User(s) Ahead Of You`
-          : "Authenticating...",
+          ? t("statusHeader.inQueue", { count: queuePos() })
+          : t("statusHeader.authenticating"),
       });
       return;
     }
@@ -83,7 +89,7 @@ export default function ConnectingStatusHeader() {
     if (account.isAuthenticated()) {
       setStatus({
         color: "var(--success-color)",
-        text: "Connected!",
+        text: t("statusHeader.connected"),
       });
       interval = window.setTimeout(() => {
         setStatus(null);
