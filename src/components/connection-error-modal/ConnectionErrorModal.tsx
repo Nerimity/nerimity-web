@@ -8,8 +8,8 @@ import { Match, Show, Switch } from "solid-js";
 import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
-import Text from "../ui/Text";
 import { logout } from "@/common/logout";
+import { t } from "@nerimity/i18lite";
 
 export const ConnectionErrorModal = (props: {
   close: () => void;
@@ -37,23 +37,23 @@ export const ConnectionErrorModal = (props: {
 
   const ActionButtons = (
     <FlexRow style={{ "justify-content": "flex-end", flex: 1, margin: "5px" }}>
-      <Button onClick={props.close} label="OK" />
+      <Button onClick={props.close} label={t("connectionErrorModal.ok")} />
       <Show when={hasToken()}>
         <Button
           onClick={logoutClick}
-          label="Logout"
+          label={t("connectionErrorModal.logout")}
           color="var(--alert-color)"
         />
       </Show>
       <Show when={!hasToken()}>
-        <Button onClick={() => loginPage()} label="Login" />
+        <Button onClick={() => loginPage()} label={t("connectionErrorModal.login")} />
       </Show>
     </FlexRow>
   );
 
   return (
     <LegacyModal
-      title="Connection Error"
+      title={t("connectionErrorModal.title")}
       close={props.close}
       actionButtons={ActionButtons}
       ignoreBackgroundClick
@@ -61,7 +61,7 @@ export const ConnectionErrorModal = (props: {
       <div class={styles.connectionErrorContainer}>
         <Switch fallback={<div class={styles.message}>{err()?.message}</div>}>
           <Match when={!hasToken()}>
-            <div class={styles.message}>No token provided.</div>
+            <div class={styles.message}>{t("connectionErrorModal.noToken")}</div>
           </Match>
           <Match
             when={err()?.data?.type === "suspend" || props.suspensionPreview}
@@ -84,40 +84,38 @@ function SuspendMessage(props: {
 }) {
   return (
     <div class={styles.suspendContainer}>
-      <div class={styles.message}>You are suspended.</div>
+      <div class={styles.message}>{t("connectionErrorModal.suspended")}</div>
       <div class={styles.message}>
-        Reason:{" "}
+        {t("connectionErrorModal.reason")}:{" "}
         <span class={styles.messageDim}>
-          {props.reason || "Violating the TOS"}
+          {props.reason || t("connectionErrorModal.defaultReason")}
         </span>
       </div>
       <div class={styles.message}>
-        Until:{" "}
+        {t("connectionErrorModal.until")}:{" "}
         <span class={styles.messageDim}>
-          {props.expire ? formatTimestamp(props.expire) : "never"}
+          {props.expire ? formatTimestamp(props.expire) : t("connectionErrorModal.never")}
         </span>
       </div>
       <div class={styles.message}>
-        By: <span class={styles.messageDim}>{props.by?.username}</span>
+        {t("connectionErrorModal.by")}: <span class={styles.messageDim}>{props.by?.username}</span>
       </div>
       <Show when={!props.expire}>
-        <div class={styles.notice}>
-          Your account and data will be deleted in 15 days
-        </div>
+        <div class={styles.notice}>{t("connectionErrorModal.deletionNotice")}</div>
       </Show>
     </div>
   );
 }
+
 function IPBanMessage(props: { reason?: string; expire?: number }) {
   return (
     <>
-      <div class={styles.message}>Your IP is banned.</div>
+      <div class={styles.message}>{t("connectionErrorModal.ipBanned")}</div>
       <div class={styles.message}>
-        Until:{" "}
+        {t("connectionErrorModal.until")}:{" "}
         <span class={styles.messageDim}>{formatTimestamp(props.expire!)}</span>
         <div class={styles.notice}>
-          Someone with the same IP has been suspended from Nerimity. Your
-          account is not affected.
+          {t("connectionErrorModal.ipBanNotice")}
         </div>
       </div>
     </>
