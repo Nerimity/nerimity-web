@@ -563,6 +563,12 @@
     "expires": "Expires",
     "expired": "Expired"
   },
+  "deleteMessageModal": {
+    "title": "Delete Message?",
+    "body": "Would you like to delete this message?",
+    "cancelButton": "Don't Delete",
+    "confirmButton": "Delete"
+  },
   "message": {
     "badge": {
       "bot": "Bot",
