@@ -121,6 +121,16 @@
       "bumpButton": "Bump ({{count}})"
     }
   },
+  "editFolderModal": {
+    "title": "Edit Folder",
+    "placeholder": "Folder Name",
+    "cancelButton": "Don't Save",
+    "save": "Save",
+    "saving": "Saving...",
+    "errors": {
+      "emptyName": "Please enter a folder name."
+    }
+  },
   "servers": {
     "settings": {
       "drawer": {
