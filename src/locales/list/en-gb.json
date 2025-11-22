@@ -5,6 +5,14 @@
     "loginButton": "Login",
     "joinNowButton": "Join Now"
   },
+  "statusHeader": {
+    "authenticationError": "Authentication error",
+    "connecting": "Connecting...",
+    "reconnecting": "Reconnecting...",
+    "inQueue": "In Queue: {count} User(s) Ahead Of You",
+    "authenticating": "Authenticating...",
+    "connected": "Connected!"
+  },
   "homePage": {
     "slogan": "A modern and sleek chat app.",
     "subslogan": "Nerimity offers an elegant and feature-rich experience that sets it apart.",
