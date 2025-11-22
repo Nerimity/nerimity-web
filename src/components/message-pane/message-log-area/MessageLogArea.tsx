@@ -80,6 +80,9 @@ import { unzipJson } from "@/common/zip";
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
 );
+const PinConfirmModal = lazy(
+  () => import("../pin-confirm-modal/PinConfirmModal")
+);
 
 export const MessageLogArea = (props: {
   mainPaneEl: HTMLDivElement;
@@ -891,13 +894,11 @@ function MessageContextMenu(props: MessageContextMenuProps) {
   };
 
   const onPinClick = () => {
-    if (props.message.pinned) {
-      unpinMessage(props.message.channelId, props.message.id);
-      return;
-    }
-    pinMessage(props.message.channelId, props.message.id);
+    createPortal?.((close) => (
+      <PinConfirmModal close={close} message={props.message} />
+    ));
   };
-
+  
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function renderHtml(nodeOrNodes: any) {
     // --- Internal helper function to render a single node (Recursive core logic) ---
