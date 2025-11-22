@@ -3,6 +3,7 @@ import Button from "./Button";
 import { FlexColumn, FlexRow } from "./Flexbox";
 import LegacyModal from "./legacy-modal/LegacyModal";
 import Text from "./Text";
+import { t } from "@nerimity/i18lite";
 
 const ModalContainer = styled(FlexColumn)`
   align-items: center;
@@ -39,25 +40,29 @@ export function DangerousLinkModal(props: {
   const ActionButtons = (
     <FlexRow style={{ "margin-left": "auto" }}>
       <Button
-        label="Don't Visit"
+        label={t("dangerousLinkModal.cancelButton")}
         onClick={props.close}
         color="var(--alert-color)"
         iconName="close"
       />
-      <Button label="Visit" iconName="check" onClick={visitLink} />
+      <Button
+        label={t("dangerousLinkModal.visitButton")}
+        iconName="check"
+        onClick={visitLink}
+      />
     </FlexRow>
   );
 
   return (
     <LegacyModal
-      title="Custom Link"
+      title={t("dangerousLinkModal.title")}
       icon="link"
       actionButtons={ActionButtons}
       maxWidth={400}
       close={props.close}
     >
       <ModalContainer gap={10}>
-        <Text>This link will take you to</Text>
+        <Text>{t("dangerousLinkModal.message")}</Text>
         <LinkContainer>{url()}</LinkContainer>
       </ModalContainer>
     </LegacyModal>
