@@ -256,6 +256,14 @@
       "connections": "Connections",
       "profile": "Profile"
     },
+    "language": {
+      "reloadNotice": "You must reload the app to fully apply the new language.",
+      "reloadButton": "Reload",
+      "contributors": "Contributors",
+      "translateModal": {
+        "title": "Translate"
+      }
+    },
     "header": {
       "servers": "servers",
       "friends": "friends",
@@ -562,6 +570,19 @@
     "modifiedOrDeleted": "This video was modified/deleted by the creator in their Google Drive.",
     "expires": "Expires",
     "expired": "Expired"
+  },
+  "addFriendModal": {
+    "title": "Add Friend",
+    "description": "Enter your friend's username and tag to add them.",
+    "placeholder": "Username:ABC1",
+    "requestSent": "Request sent!",
+    "closeButton": "Close",
+    "sendRequest": "Send Request",
+    "sending": "Sending...",
+    "errors": {
+      "missingTag": "Please enter a username:tag.",
+      "colonInUsername": "Username must not contain a colon."
+    }
   },
   "deleteMessageModal": {
     "title": "Delete Message?",
