@@ -256,6 +256,14 @@
       "connections": "Connections",
       "profile": "Profile"
     },
+    "language": {
+      "reloadNotice": "You must reload the app to fully apply the new language.",
+      "reloadButton": "Reload",
+      "contributors": "Contributors",
+      "translateModal": {
+        "title": "Translate"
+      }
+    },
     "header": {
       "servers": "servers",
       "friends": "friends",
