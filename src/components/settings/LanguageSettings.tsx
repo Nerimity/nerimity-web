@@ -100,6 +100,7 @@ export default function LanguageSettings() {
       setLanguageUpdated(true);
     }
 
+    // Set language attribute without changing layout direction
     document.documentElement.setAttribute("lang", oldKey || "en");
 
     if (key !== "en_gb") {
@@ -126,24 +127,6 @@ export default function LanguageSettings() {
           />
           <BreadcrumbItem title={t("settings.drawer.language")} />
         </Breadcrumb>
-        <Show when={languageUpdated()}>
-          <Notice
-            type="warn"
-            description={t("settings.language.reloadNotice")}
-          >
-            <div style={{ display: "flex", "justify-content": "flex-end" }}>
-              <Button
-                onClick={() => window.location.reload()}
-                label={t("settings.language.reloadButton")}
-                iconName="refresh"
-                primary
-                margin={0}
-                padding={4}
-                iconSize={18}
-              />
-            </div>
-          </Notice>
-        </Show>
         <For each={languageKeys}>
           {(key) => (
             <LanguageItem
@@ -295,7 +278,10 @@ const TranslateModal = (props: { language: string; close: () => void }) => {
         width: 90vw;
       `}
     >
-      <Modal.Header title={t("settings.language.translateModal.title")} icon="translate" />
+      <Modal.Header
+        title={t("settings.language.translateModal.title")}
+        icon="translate"
+      />
       <Modal.Body
         class={css`
           height: 90vh;
