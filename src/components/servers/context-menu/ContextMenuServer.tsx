@@ -23,6 +23,8 @@ import { RadioBoxItem, RadioBoxItemCheckBox } from "@/components/ui/RadioBox";
 import { conditionalClass } from "@/common/classNames";
 import { css } from "solid-styled-components";
 import { t } from "@nerimity/i18lite";
+import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import LeaveServerModal from "../modals/LeaveServerModal";
 
 type Props = Omit<ContextMenuProps, "items"> & {
   serverId?: string;
@@ -30,6 +32,7 @@ type Props = Omit<ContextMenuProps, "items"> & {
 
 export default function ContextMenuServer(props: Props) {
   const navigate = useNavigate();
+  const { createPortal } = useCustomPortal();
   const { account, servers, serverMembers, channels } = useStore();
 
   const server = () => servers.get(props.serverId!);
@@ -41,9 +44,10 @@ export default function ContextMenuServer(props: Props) {
     hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
     hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
 
-  const onLeaveClicked = async () => {
-    await server()?.leave();
-    if (isOnServerPage()) navigate(RouterEndpoints.INBOX());
+  const onLeaveClicked = () => {
+    createPortal?.((close) => (
+      <LeaveServerModal server={server()!} close={close} />
+    ));
   };
 
   const member = () => serverMembers.get(props.serverId!, account.user()?.id!);
