@@ -571,6 +571,19 @@
     "expires": "Expires",
     "expired": "Expired"
   },
+  "addFriendModal": {
+    "title": "Add Friend",
+    "description": "Enter your friend's username and tag to add them.",
+    "placeholder": "Username:ABC1",
+    "requestSent": "Request sent!",
+    "closeButton": "Close",
+    "sendRequest": "Send Request",
+    "sending": "Sending...",
+    "errors": {
+      "missingTag": "Please enter a username:tag.",
+      "colonInUsername": "Username must not contain a colon."
+    }
+  },
   "message": {
     "badge": {
       "bot": "Bot",
