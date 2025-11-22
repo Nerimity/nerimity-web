@@ -8,6 +8,7 @@ import { onCleanup, onMount } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import MessageItem from "../message-item/MessageItem";
 import { Modal } from "@/components/ui/modal";
+import { t } from "@nerimity/i18lite";
 
 const bodyContainerStyles = css`
   overflow: auto;
@@ -69,9 +70,9 @@ export default function DeleteMessageModal(props: {
       close={props.close}
       class={modalStyles}
     >
-      <Modal.Header title="Delete Message?" icon="delete" alert />
+      <Modal.Header title={t("deleteMessageModal.title")} icon="delete" alert />
       <Modal.Body class={bodyContainerStyles}>
-        <Text size={14}>Would you like to delete this message?</Text>
+        <Text size={14}>{t("deleteMessageModal.body")}</Text>
         <MessageItem
           class={messageItemStyles}
           hideFloating
@@ -80,13 +81,13 @@ export default function DeleteMessageModal(props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label="Don't Delete"
+          label={t("deleteMessageModal.cancelButton")}
           onClick={props.close}
           iconName="close"
         />
         <Modal.Button
           primary
-          label="Delete"
+          label={t("deleteMessageModal.confirmButton")}
           onClick={onDeleteClick}
           iconName="delete"
           color="var(--alert-color)"
