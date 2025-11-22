@@ -5,52 +5,33 @@ export function createPreloader<T, U extends unknown[]>(
   fun: (...args: U) => Promise<T>
 ) {
   let timeout: undefined | NodeJS.Timeout;
-  let waiting: ((value: T | PromiseLike<T>) => void)[] = [];
-  let argsStr: string | null = null;
-  let data: T | null = null;
-  let dataSavedAt: number | null = null;
-
-  const preload = (...args: U) => {
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(() => {
-      run(...args);
-    }, 200);
-  };
+  const cache = new Map<string, { data: T; savedAt: number }>();
+  const activeRequest = new Map<string, number>();
 
   const run = (...args: U) => {
-    const newArgsStr = JSON.stringify(args);
-
-    if (argsStr !== newArgsStr) {
-      waiting = [];
-      argsStr = newArgsStr;
-      data = null;
+    const key = JSON.stringify(args);
+    const now = Date.now();
+    const cached = cache.get(key);
+    if (cached && now - cached.savedAt < 10000) {
+      return Promise.resolve(cached.data);
     }
 
-    return new Promise<T>((resolve) => {
-      if (data && argsStr === newArgsStr) {
-        if (Date.now() - dataSavedAt! < 10000) {
-          resolve(data);
-          return;
-        }
-        data = null;
-      }
-      if (waiting.length) {
-        waiting.push(resolve);
-        return;
-      }
-      waiting.push(resolve);
+    const token = (activeRequest.get(key) || 0) + 1;
+    activeRequest.set(key, token);
 
-      fun(...args).then((newData) => {
-        data = newData;
-        dataSavedAt = Date.now();
-        if (argsStr !== newArgsStr) return;
-        waiting.forEach((resolve) => resolve(newData));
-        waiting = [];
-      });
+    return fun(...args).then((result) => {
+      if (activeRequest.get(key) === token) {
+        cache.set(key, { data: result, savedAt: Date.now() });
+      }
+      return result;
     });
   };
+
+  const preload = (...args: U) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => run(...args), 200);
+  };
+
   return { run, preload };
 }
 
