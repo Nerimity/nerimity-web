@@ -72,6 +72,7 @@ export default function PinMessageModal(props: {
       class={modalStyles}
     >
       <Modal.Header
+        alert={isPinned ? true : false}
         title={isPinned ? "Unpin Message?" : "Pin Message?"}
         icon="keep"
       />
@@ -101,7 +102,7 @@ export default function PinMessageModal(props: {
           label={isPinned ? "Unpin" : "Pin"}
           onClick={onPinClick}
           iconName="keep"
-          color="var(--alert-color)"
+          color={isPinned ? "var(--alert-color)" : null}
         />
       </Modal.Footer>
     </Modal.Root>
