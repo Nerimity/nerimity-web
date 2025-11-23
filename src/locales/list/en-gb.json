@@ -450,12 +450,23 @@
   },
   "createServerModal": {
     "title": "Create Server",
-    "notice": "NSFW content is not allowed.",
+    "notice": "Server MUST be in English.",
+    "mustBeEnglish": "Server MUST be in English.",
     "serverName": "Server Name",
-    "placeholder": "My Amazing Server",
-    "creating": "Creating...",
+    "placeholder": "My Awesome Server",
+    "closeButton": "Close",
     "createServerButton": "Create Server",
-    "closeButton": "Close"
+    "creating": "Creating...",
+    "tabLabel": "Create"
+  },
+  "joinServerModal": {
+    "title": "Join Server",
+    "notice": "If you would like to explore servers, please go to the explore tab instead.",
+    "exploreButton": "Explore Servers",
+    "inviteCode": "Invite Code",
+    "continueButton": "Continue",
+    "missingInvite": "Please enter a server invite code.",
+    "tabLabel": "Join"
   },
   "serverContextMenu": {
     "markAsRead": "Mark as Read",

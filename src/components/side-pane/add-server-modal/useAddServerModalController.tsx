@@ -2,6 +2,7 @@ import { createServer } from "@/chat-api/services/ServerService";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { createContext, createSignal, JSXElement, useContext } from "solid-js";
 import { useNavigate } from "solid-navigator";
+import { t } from "@nerimity/i18lite";
 
 const useController = (close: () => void) => {
   const [requestSent, setRequestSent] = createSignal(false);
@@ -35,7 +36,10 @@ const useController = (close: () => void) => {
     if (!name().trim()) {
       event.stopPropagation();
       event.preventDefault();
-      setError({ message: "Please enter a server invite code.", path: "name" });
+      setError({
+        message: t("joinServerModal.missingInvite"),
+        path: "name",
+      });
       return;
     }
     close();
