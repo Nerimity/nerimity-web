@@ -9,7 +9,7 @@
     "authenticationError": "Authentication error",
     "connecting": "Connecting...",
     "reconnecting": "Reconnecting...",
-    "inQueue": "In Queue: {count} User(s) Ahead Of You",
+    "inQueue": "In Queue: {{count}} User(s) Ahead Of You",
     "authenticating": "Authenticating...",
     "connected": "Connected!"
   },
