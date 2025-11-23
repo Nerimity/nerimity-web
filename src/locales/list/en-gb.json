@@ -170,11 +170,17 @@
         "defaultChannelDescription": "New members will be directed to this channel.",
         "systemMessages": "System Messages",
         "systemMessagesDescription": "Where system messages should appear.",
+        "avatar": "Avatar",
+        "avatarDescription": "Supported: JPG, PNG, GIF, WEBP, Max 12 MB",
+        "banner": "Banner",
+        "bannerDescription": "Supported: JPG, PNG, GIF, WEBP, Max 12 MB",
+        "browseButton": "Browse",
         "deleteThisServer": "Delete this server",
         "deleteThisServerDescription": "This cannot be undone!",
         "deleteServerButton": "Delete Server",
         "saveChangesButton": "Save Changes",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "none": "None"
       },
       "roles": {
         "addNewRole": "Add a new role",

@@ -1,7 +1,6 @@
 import { useParams } from "solid-navigator";
-import { createEffect, createSignal, onCleanup, Setter, Show } from "solid-js";
+import { createEffect, createSignal, onCleanup, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
-import { useWindowProperties } from "@/common/useWindowProperties";
 import Input from "@/components/ui/input/Input";
 import DropDown from "@/components/ui/drop-down/DropDown";
 import Button from "@/components/ui/Button";
@@ -14,7 +13,7 @@ import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import { Notice } from "@/components/ui/Notice/Notice";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 import FileBrowser, { FileBrowserRef } from "@/components/ui/FileBrowser";
 import { reconcile } from "solid-js/store";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
@@ -33,7 +32,6 @@ const Container = styled("div")`
 `;
 
 export default function ServerGeneralSettings() {
-  const [t] = useTransContext();
   const params = useParams<{ serverId: string }>();
   const { header, servers, channels, account } = useStore();
   const [requestSent, setRequestSent] = createSignal(false);
@@ -86,7 +84,7 @@ export default function ServerGeneralSettings() {
     return [
       {
         id: null,
-        label: "None",
+        label: t("servers.settings.general.none"),
         onClick: () => {
           setInputValue("systemChannelId", null);
         },
@@ -97,7 +95,7 @@ export default function ServerGeneralSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - General",
+      title: t("servers.settings.drawer.general"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -222,8 +220,8 @@ export default function ServerGeneralSettings() {
 
       <SettingsBlock
         icon="wallpaper"
-        label="Avatar"
-        description="Supported: JPG, PNG, GIF, WEBP, Max 12 MB"
+        label={t("servers.settings.general.avatar")}
+        description={t("servers.settings.general.avatarDescription")}
       >
         <FileBrowser
           accept="images"
@@ -246,15 +244,15 @@ export default function ServerGeneralSettings() {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label="Browse"
+          label={t("servers.settings.general.browseButton")}
           onClick={avatarFileBrowserRef()?.open}
         />
       </SettingsBlock>
 
       <SettingsBlock
         icon="panorama"
-        label="Banner"
-        description="Supported: JPG, PNG, GIF, WEBP, Max 12 MB"
+        label={t("servers.settings.general.banner")}
+        description={t("servers.settings.general.bannerDescription")}
       >
         <FileBrowser
           accept="images"
@@ -277,7 +275,7 @@ export default function ServerGeneralSettings() {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label="Browse"
+          label={t("servers.settings.general.browseButton")}
           onClick={bannerFileBrowserRef()?.open}
         />
       </SettingsBlock>
@@ -346,7 +344,7 @@ export function ServerDeleteConfirmModal(props: {
 
   return (
     <DeleteConfirmModal
-      title={`Delete ${props.server?.name}`}
+      title={`${t("servers.settings.general.deleteThisServer")} ${props.server?.name}`}
       close={props.close}
       errorMessage={error()}
       confirmText={props.server?.name}
