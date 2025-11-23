@@ -13,6 +13,12 @@
     "authenticating": "Authenticating...",
     "connected": "Connected!"
   },
+  "dangerousLinkModal": {
+    "title": "Custom Link",
+    "message": "This link will take you to",
+    "cancelButton": "Don't Visit",
+    "visitButton": "Visit"
+  },
   "homePage": {
     "slogan": "A modern and sleek chat app.",
     "subslogan": "Nerimity offers an elegant and feature-rich experience that sets it apart.",
