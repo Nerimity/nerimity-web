@@ -86,7 +86,7 @@ export default function LanguageSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Language",
+      title: t("settings.drawer.language"),
       iconName: "settings",
     });
   });
@@ -127,24 +127,6 @@ export default function LanguageSettings() {
           />
           <BreadcrumbItem title={t("settings.drawer.language")} />
         </Breadcrumb>
-        {/* <Show when={languageUpdated()}>
-          <Notice
-            type="warn"
-            description="You must reload the app to fully apply the new language."
-          >
-            <div style={{ display: "flex", "justify-content": "flex-end" }}>
-              <Button
-                onClick={() => window.location.reload()}
-                label="Reload"
-                iconName="refresh"
-                primary
-                margin={0}
-                padding={4}
-                iconSize={18}
-              />
-            </div>
-          </Notice>
-        </Show> */}
         <For each={languageKeys}>
           {(key) => (
             <LanguageItem
@@ -223,7 +205,7 @@ function Contributors(props: { contributors: string[] }) {
   return (
     <FlexRow>
       <Text size={14} style={{ "margin-right": "5px" }}>
-        Contributors:
+        {t("settings.language.contributors")}:
       </Text>
       <For each={props.contributors}>
         {(contributor, i) => (
@@ -296,7 +278,10 @@ const TranslateModal = (props: { language: string; close: () => void }) => {
         width: 90vw;
       `}
     >
-      <Modal.Header title="Translate" icon="translate" />
+      <Modal.Header
+        title={t("settings.language.translateModal.title")}
+        icon="translate"
+      />
       <Modal.Body
         class={css`
           height: 90vh;
@@ -308,7 +293,7 @@ const TranslateModal = (props: { language: string; close: () => void }) => {
           width="100%"
           ref={iframe}
           onLoad={() => handleIframeLoad()}
-          frameborder="0"
+          frameBorder="0"
           id="iframe"
         />
       </Modal.Body>

@@ -5,6 +5,14 @@
     "loginButton": "Login",
     "joinNowButton": "Join Now"
   },
+  "statusHeader": {
+    "authenticationError": "Authentication error",
+    "connecting": "Connecting...",
+    "reconnecting": "Reconnecting...",
+    "inQueue": "In Queue: {{count}} User(s) Ahead Of You",
+    "authenticating": "Authenticating...",
+    "connected": "Connected!"
+  },
   "dangerousLinkModal": {
     "title": "Custom Link",
     "message": "This link will take you to",
@@ -125,6 +133,16 @@
       "visitServerButton": "Visit",
       "joinServerButton": "Join",
       "bumpButton": "Bump ({{count}})"
+    }
+  },
+  "editFolderModal": {
+    "title": "Edit Folder",
+    "placeholder": "Folder Name",
+    "cancelButton": "Don't Save",
+    "save": "Save",
+    "saving": "Saving...",
+    "errors": {
+      "emptyName": "Please enter a folder name."
     }
   },
   "servers": {
@@ -261,6 +279,14 @@
       "privacy": "Privacy",
       "connections": "Connections",
       "profile": "Profile"
+    },
+    "language": {
+      "reloadNotice": "You must reload the app to fully apply the new language.",
+      "reloadButton": "Reload",
+      "contributors": "Contributors",
+      "translateModal": {
+        "title": "Translate"
+      }
     },
     "header": {
       "servers": "servers",
@@ -569,6 +595,25 @@
     "expires": "Expires",
     "expired": "Expired"
   },
+  "addFriendModal": {
+    "title": "Add Friend",
+    "description": "Enter your friend's username and tag to add them.",
+    "placeholder": "Username:ABC1",
+    "requestSent": "Request sent!",
+    "closeButton": "Close",
+    "sendRequest": "Send Request",
+    "sending": "Sending...",
+    "errors": {
+      "missingTag": "Please enter a username:tag.",
+      "colonInUsername": "Username must not contain a colon."
+    }
+  },
+  "deleteMessageModal": {
+    "title": "Delete Message?",
+    "body": "Would you like to delete this message?",
+    "cancelButton": "Don't Delete",
+    "confirmButton": "Delete"
+  },
   "message": {
     "badge": {
       "bot": "Bot",
@@ -595,5 +640,9 @@
     "translation": {
       "title": "Translation"
     }
+  },
+  "colorPickerModal": {
+    "title": "Color Picker",
+    "done": "Done"
   }
 }
