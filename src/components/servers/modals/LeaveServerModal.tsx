@@ -2,6 +2,7 @@ import { onCleanup, onMount } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css } from "solid-styled-components";
 import { Modal } from "@/components/ui/modal";
+import { UnescapedTrans } from "../../UnescapedTrans";
 import { t } from "@nerimity/i18lite";
 
 const bodyContainerStyles = css`
@@ -38,9 +39,16 @@ export default function LeaveServerModal(props: {
 
       <Modal.Body class={bodyContainerStyles}>
         <Text size={14}>
-          {t("servers.leaveModal.bodyPart1")} <b>{props.server.name}</b>
+          <UnescapedTrans
+            key="servers.leaveModal.body.part1"
+            options={{ serverName: props.server.name }}
+          >
+            Are you sure you want to leave <b>{props.server.name}</b>?
+          </UnescapedTrans>
           <br />
-          {t("servers.leaveModal.bodyPart2")}
+          <UnescapedTrans key="servers.leaveModal.body.part2">
+            You can join back anytime!
+          </UnescapedTrans>
         </Text>
       </Modal.Body>
 
