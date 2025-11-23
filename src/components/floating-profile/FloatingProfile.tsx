@@ -471,10 +471,13 @@ const DesktopProfileFlyout = (props: {
     return formatTimestamp(user()?.joinedAt || 0);
   };
 
-  const ProfileArea = () => (
-    <>
-      <Show when={member()}>
-        <div class={styles.section}>
+  const ProfileArea = () => {
+    const memberRoles = member()?.roles(true) || [];
+
+    return (
+      <>
+       <Show when={memberRoles.length > 0 || accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)}>
+          <div class={styles.section}>
           <FlyoutTitle
             primaryColor={colors()?.primary || undefined}
             style={{ "margin-bottom": "5px" }}
@@ -605,6 +608,7 @@ const DesktopProfileFlyout = (props: {
       </Show>
     </>
   );
+};
 
   const PostArea = (props: { primaryColor?: string }) => (
     <div class={styles.section}>
