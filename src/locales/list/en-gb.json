@@ -255,6 +255,15 @@
       "nicknameMember": "Nickname Member",
       "nicknameMemberDescription": "Allow users to change their nickname in the server."
     },
+    "leaveModal": {
+      "title": "Leave Server?",
+       "body": {
+        "part1": "Are you sure you want to leave <1>{{serverName}}</1>?",
+        "part2": "You can join back anytime!"
+      },
+      "cancelButton": "Don't Leave",
+      "confirmButton": "Leave"
+    },
     "channelPermissions": {
       "publicChannel": "Public Channel",
       "publicChannelDescription": "Enable access to the channel. Server admins can access any channel.",
