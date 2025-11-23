@@ -616,5 +616,9 @@
     "translation": {
       "title": "Translation"
     }
+  },
+  "colorPickerModal": {
+    "title": "Color Picker",
+    "done": "Done"
   }
 }

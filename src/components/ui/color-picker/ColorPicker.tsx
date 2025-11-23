@@ -15,6 +15,7 @@ import LegacyModal from "../legacy-modal/LegacyModal";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames, conditionalClass } from "@/common/classNames";
+import { t } from "@nerimity/i18lite";
 
 init();
 
@@ -117,11 +118,11 @@ export const ColorPickerModal = (props: {
 
   return (
     <LegacyModal
-      title="Color Picker"
+      title={t("colorPickerModal.title")}
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
-        { label: "Done", onClick: done, iconName: "check", primary: true },
+        { label: t("colorPickerModal.done"), onClick: done, iconName: "check", primary: true },
       ]}
     >
       <div
