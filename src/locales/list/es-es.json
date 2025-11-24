@@ -235,8 +235,8 @@
       "deleteButton": "Borrar"
     },
     "postWasDeleted": "¡Esta publicación ha sido borrada!",
-    "someoneLikedYourPost": "¡<1>{{username}}</1> le dió Me Gusta a tu publicación!",
-    "someoneFollowedYou": "¡<1>{{username}}</1> te esta siguiendo!",
+    "someoneLikedYourPost": "<1>{{username}}</1> ¡le dió Me Gusta a tu publicación!",
+    "someoneFollowedYou": "<1>{{username}}</1> ¡te esta siguiendo!",
     "someoneRepliedToPost": "¡<1>{{username}}</1> respondio a tu publicación!",
     "createAPostInputPlaceholder": "Crear una publicacion...",
     "replyInputPlaceholder": "Responder...",
