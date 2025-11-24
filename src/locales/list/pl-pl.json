@@ -127,7 +127,13 @@
         "deleteThisServerDescription": "Ta akcja jest nieodwracalna!",
         "deleteServerButton": "Usuń Serwer",
         "saveChangesButton": "Zapisz zmiany",
-        "saving": "Trwa zapisywanie..."
+        "saving": "Trwa zapisywanie...",
+        "avatar": "Awatar",
+        "avatarDescription": "Wspierane: JPG, PNG, GIF, WEBP, Maks. 12 MB",
+        "banner": "Baner",
+        "bannerDescription": "Wspierane: JPG, PNG, GIF, WEBP, Maks. 12 MB",
+        "browseButton": "Przeglądaj",
+        "none": "Żadne"
       },
       "roles": {
         "addNewRole": "Dodaj nową rolę",
@@ -209,6 +215,15 @@
       "joinVoiceDescription": "Umożliw dołączanie do kanałów głosowych na kanale. Administratorzy dalej będą mogli dołączać do kanałów głosowych.",
       "publicChannel": "Kanał publiczny",
       "publicChannelDescription": "Umożliw dostęp do kanału. Administratorzy serwera mają dostęp do każdego kanału."
+    },
+    "leaveModal": {
+      "title": "Wyjść z serwera?",
+      "body": {
+        "part1": "Jesteś pewien, że chcesz wyjść z <1>{{serverName}}</1>?",
+        "part2": "Możesz wejść ponownie kiedy chcesz!"
+      },
+      "cancelButton": "Nie wychodź",
+      "confirmButton": "Wyjdź"
     }
   },
   "settings": {
@@ -388,6 +403,14 @@
       "disableHardwareAcceleration": "Wyłącz Akcelerację Sprzętową",
       "disableCustomTitlebar": "Wyłącz niestandardowy pasek na oknie",
       "reopenAppNotice": "Musisz otworzyć aplikację ponownie, aby zmiana została zastosowana."
+    },
+    "language": {
+      "reloadNotice": "Aby zastosować nowy motyw, wymagane jest przeładowanie aplikacji.",
+      "reloadButton": "Przeładuj",
+      "contributors": "Współtwórcy",
+      "translateModal": {
+        "title": "Tłumaczenia"
+      }
     }
   },
   "supportBlock": {
@@ -502,7 +525,9 @@
     "placeholder": "Mój Fajny Serwer",
     "creating": "Trwa towrzenie...",
     "createServerButton": "Stwórz serwer",
-    "closeButton": "Zamknij"
+    "closeButton": "Zamknij",
+    "mustBeEnglish": "Nazwa serwera MUSI być w języku angielskim.",
+    "tabLabel": "Stwórz"
   },
   "serverContextMenu": {
     "markAsRead": "Oznacz jako przeczytane",
@@ -592,5 +617,61 @@
     "multiple": "<1>{{username}}</1> i <2>{{username2}}</2> piszą...",
     "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> i <3>{{username3}}</3> piszą...",
     "andOthers": "<1>{{count}}</1> użytkowników pisze..."
+  },
+  "statusHeader": {
+    "authenticationError": "Błąd uwierzytelniania",
+    "connecting": "Trwa łączenie...",
+    "reconnecting": "Trwa ponowne łączenie...",
+    "inQueue": "W kolejce: {{count}} użytkownik(-ów) przed Tobą",
+    "authenticating": "Trwa uwierzytelnianie...",
+    "connected": "Połączono!"
+  },
+  "dangerousLinkModal": {
+    "title": "Link Niestandardowy",
+    "message": "Ten link przeniesie Cię do",
+    "cancelButton": "Nie odwiedzaj",
+    "visitButton": "Odwiedź"
+  },
+  "editFolderModal": {
+    "title": "Edytuj Folder",
+    "placeholder": "Nazwa Folderu",
+    "cancelButton": "Nie zapisuj",
+    "save": "Zapisz",
+    "saving": "Trwa zapisywanie...",
+    "errors": {
+      "emptyName": "Wprowadź nazwę folderu."
+    }
+  },
+  "joinServerModal": {
+    "title": "Wejdź na serwer",
+    "notice": "W celu przeglądania publicznych serwerów, prosimy przejść do zakładki Odkrywaj.",
+    "exploreButton": "Odkrywaj Serwery",
+    "inviteCode": "Kod Zaproszeniowy",
+    "continueButton": "Kontynuuj",
+    "missingInvite": "Wprowadź kod zaproszeniowy do serwera.",
+    "tabLabel": "Dołącz"
+  },
+  "addFriendModal": {
+    "title": "Dodaj Znajomego",
+    "description": "Wprowadź nazwę użytkownika i tag znajomego, aby go dodać.",
+    "placeholder": "Nazwa:ABC1",
+    "requestSent": "Wysłano prośbę!",
+    "closeButton": "Zamknij",
+    "sendRequest": "Wyślij Prośbę",
+    "sending": "Trwa wysyłanie...",
+    "errors": {
+      "missingTag": "Wprowadź tekst w formacie nazwa:tag.",
+      "colonInUsername": "Nazwa użytkownika musi zawierać dwukropek."
+    }
+  },
+  "deleteMessageModal": {
+    "title": "Usunąć wiadomość?",
+    "body": "Czy chcesz usunąć tę wiadomość?",
+    "cancelButton": "Nie usuwaj",
+    "confirmButton": "Usuń"
+  },
+  "colorPickerModal": {
+    "title": "Próbnik Kolorów",
+    "done": "Gotowe"
   }
 }
