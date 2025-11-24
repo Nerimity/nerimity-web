@@ -509,9 +509,9 @@
       "deleteButton": "حذف"
     },
     "postWasDeleted": "تم حذف هذا المنشور!",
-    "someoneLikedYourPost": "<1>{{username}}</1> أعجب بمنشورك!\u202C",
-    "someoneRepostedYourPost": "<1>{{username}}</1> أعاد نشر منشورك!\u202C",
-    "someoneFollowedYou": "<1>{{username}}</1> تابعك!\u202C",
+    "someoneLikedYourPost": "<1>{{username}}</1> :لقد اعجب بمنشورك\u202C",
+    "someoneRepostedYourPost": "<1>{{username}}</1> :لقد اعاد نشر منشورك\u202C",
+    "someoneFollowedYou": "<1>{{username}}</1> :لقد تابعك\u202C",
     "someoneRepliedToPost": "\u202B<1>{{username}}</1> رد على منشورك!\u202C",
     "createAPostInputPlaceholder": "أنشئ منشوراً...",
     "replyInputPlaceholder": "رد...",
