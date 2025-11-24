@@ -174,9 +174,19 @@ function LanguageItem(props: {
         url={unicodeToTwemojiUrl(language.emoji)}
       />
       <FlexColumn>
-        <Text>{language.name}</Text>
+        <Text>
+          {language.name}
+          <Show
+            when={language.nativeName && language.nativeName !== language.name}
+          >
+            <Text size={14} opacity={0.5} style={{ "margin-left": "4px" }}>
+              ({language.nativeName})
+            </Text>
+          </Show>
+        </Text>
         <Contributors contributors={language.contributors} />
       </FlexColumn>
+
       <Show when={props.percentTranslated && props.selected}>
         <div
           class={css`
@@ -196,6 +206,7 @@ function LanguageItem(props: {
     </LanguageItemContainer>
   );
 }
+
 
 const ContributorContainer = styled(FlexRow)`
   font-size: 14px;
