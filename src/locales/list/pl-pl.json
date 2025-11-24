@@ -661,7 +661,7 @@
     "sending": "Trwa wysyłanie...",
     "errors": {
       "missingTag": "Wprowadź tekst w formacie nazwa:tag.",
-      "colonInUsername": "Nazwa użytkownika musi zawierać dwukropek."
+      "colonInUsername": "Nazwa użytkownika nie może zawierać dwukropka."
     }
   },
   "deleteMessageModal": {
