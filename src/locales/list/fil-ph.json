@@ -241,8 +241,8 @@
       "deleteButton": "Tanggalin"
     },
     "postWasDeleted": "Ang post na ito ay tinanggal!",
-    "someoneLikedYourPost": "Ni-like ni <1>{{username}}</1> ang post mo!",
-    "someoneFollowedYou": "Sinundan ka ni <1>{{username}}</1>",
+    "someoneLikedYourPost": "<1>{{username}}</1> ay nag-like sa post mo!",
+    "someoneFollowedYou": "<1>{{username}}</1> ay sumunod sa iyo",
     "someoneRepliedToPost": "Si <1>{{username}}</1> ay sumagot sa post mo!",
     "createAPostInputPlaceholder": "Gumawa ng post...",
     "replyInputPlaceholder": "Mag-reply...",
