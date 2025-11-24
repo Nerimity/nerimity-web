@@ -1,20 +1,15 @@
 import {
   StorageKeys,
-  getStorageString,
-  setStorageString,
   useLocalStorage,
 } from "@/common/localStorage";
 
 export interface Language {
-  name: string;
-  emoji: string;
-  contributors: string[];
-  rtl?: boolean;
+  name: string;          // Display name
+  nativeName?: string;   // (Optional) Native name
+  emoji: string;         // Some unicode flag emoji, idk
+  contributors: string[]; // array of names
+  rtl?: boolean;         // (Optional) Right-to-left support (Placeholder) 
 }
-
-// name: Display name
-// emoji: Some unicode flag emoji, idk
-// contributors: array of names
 
 export const languages = {
   "en-gb": {
@@ -32,42 +27,50 @@ export const languages = {
   },
   "ar-ps": {
     name: "Arabic",
+    nativeName: "العربية",
     emoji: "🇵🇸",
     contributors: ["https://github.com/TrueLuna"],
     rtl: true,  // not really used since I manually implemented it in the code. But might be useful in the future.
   },
   "be-xo": {
     name: "Belarusian (Traditional)",
+    nativeName: "Беларуская (традыцыйная)",
     emoji: "🇧🇾",
     contributors: ["https://github.com/Dzi-Mieha", "https://github.com/1enify"],
   },
   "pt-br": {
     name: "Brazilian Portuguese",
+    nativeName: "Português (Brasil)",
     emoji: "🇧🇷",
     contributors: ["https://github.com/Jerkycat", "https://gitlab.com/Cirnos"],
   },
   "zh-hans": {
     name: "Chinese (Simplified)",
+    nativeName: "简体中文",
     emoji: "🇨🇳",
     contributors: ["https://github.com/Coolsigh"],
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
+    nativeName: "繁體中文",
     emoji: "🇹🇼",
     contributors: ["Dsiahrz"],
   },
   "nl-nl": {
     name: "Dutch",
+    nativeName: "Nederlands",
     emoji: "🇳🇱",
     contributors: ["https://github.com/captainqdev"],
   },
   "fr-FR": {
     name: "French",
+    nativeName: "Français",
     emoji: "🇫🇷",
     contributors: ["https://github.com/guiguitator"],
   },
   "de-de": {
     name: "German",
+    nativeName: "Deutsch",
     emoji: "🇩🇪",
     contributors: [
       "https://github.com/F-iiral",
@@ -77,6 +80,7 @@ export const languages = {
   },
   "hu-hu": {
     name: "Hungarian",
+    nativeName: "Magyar",
     emoji: "🇭🇺",
     contributors: ["https://github.com/andrasdaradici"],
   },
@@ -87,16 +91,19 @@ export const languages = {
   },
   "pl-pl": {
     name: "Polish",
+    nativeName: "Polski",
     emoji: "🇵🇱",
     contributors: ["https://github.com/Ciach0", "https://github.com/CyberL1"],
   },
   "ro-ro": {
     name: "Romanian",
+    nativeName: "Română",
     emoji: "🇷🇴",
     contributors: ["GNU/Alex"],
   },
   "ru-ru": {
     name: "Russian",
+    nativeName: "Русский",
     emoji: "🇷🇺",
     contributors: [
       "https://github.com/FAYSi223",
@@ -106,16 +113,19 @@ export const languages = {
   },
   "es-es": {
     name: "Spanish",
+    nativeName: "Español",
     emoji: "🇪🇸",
     contributors: ["Linterna001"],
   },
   "th-th": {
     name: "Thai",
+    nativeName: "ไทย",
     emoji: "🇹🇭",
     contributors: ["ccsleep"],
   },
   "tr-tr": {
     name: "Turkish",
+    nativeName: "Türkçe",
     emoji: "🇹🇷",
     contributors: [
       "https://github.com/lexerotk",
