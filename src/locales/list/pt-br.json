@@ -137,7 +137,13 @@
         "deleteThisServerDescription": "Isso não pode ser desfeito!",
         "deleteServerButton": "Excluir Servidor",
         "saveChangesButton": "Salvar Alterações",
-        "saving": "Salvando..."
+        "saving": "Salvando...",
+        "avatar": "Avatar",
+        "avatarDescription": "Suportado: JPG, PNG, GIF, WebP, máximo 12 MB",
+        "bannerDescription": "Suportado: JPG, PNG, GIF, WebP, máximo 12 MB",
+        "browseButton": "Explorar",
+        "none": "Nenhum",
+        "banner": "Banner"
       },
       "roles": {
         "addNewRole": "Adicionar um novo cargo",
@@ -327,9 +333,10 @@
       "confirmEmail": "Confirme seu email",
       "preview": "Pré-visualizar",
       "channelNoticeTooLong": "Nota de canal não pode ser mais longa que 300 caracteres.",
-      "channelNoticeDescription": "Aparece quando o usuário está prestes a conversar pela primeira fez. Mudanças são aplicadas apos recarregar.",
+      "channelNoticeDescription": "Aparece quando o usuário está prestes a conversar pela primeira vez. Mudanças são aplicadas após recarregar.",
       "confirmButton": "Confirmar",
-      "cancelButton": "Cancelar"
+      "cancelButton": "Cancelar",
+      "banner": "Banner"
     },
     "window": {
       "startMinimized": "Iniciar minimizado",
@@ -386,7 +393,7 @@
       "volume": "Volume",
       "volumeDescription": "Mudar o volume dos sons de notificação.",
       "changeSoundsDescription": "Mudar o som das notificações com estes sons isentos de compensação.",
-      "soundsDescription": "Se os sons de notificação, você pode os desativar",
+      "soundsDescription": "Se os sons de notificação forem irritantes demais, você pode os desativá-los.",
       "desktopNotifications": "Notificações externas",
       "desktopNotificationsDescription": "Mostrar notificações externas mesmo se o aplicativo estiver minimizado.",
       "sounds": "Sons",
@@ -395,6 +402,14 @@
       "inAppPreview": "Pré-visualização no aplicativo",
       "inAppPreviewDescription": "Mostrar caixas de notificação no aplicativo.",
       "mute": "Silenciada"
+    },
+    "language": {
+      "reloadNotice": "Você deve recarregar o aplicativo para aplicar o novo idioma completamente.",
+      "reloadButton": "Recarregar",
+      "contributors": "Contribuidores",
+      "translateModal": {
+        "title": "Traduzir"
+      }
     }
   },
   "supportBlock": {
@@ -495,7 +510,7 @@
     "sending": "Enviando email..."
   },
   "messageArea": {
-    "messageBoxPlaceholder": "Enviar mensagem para  {{username}}",
+    "messageBoxPlaceholder": "Enviar mensagem para {{username}}",
     "messageBoxChannelPlaceholder": "Enviar mensagem em {{channelName}}"
   },
   "message": {
@@ -529,7 +544,7 @@
     "expires": "Expira",
     "expired": "Expirou",
     "modifiedOrDeleted": "Este vídeo foi modificado ou excluído pelo criador em seu Google Drive.",
-    "videoExpired": "Vídeo expirad.",
+    "videoExpired": "Vídeo expirado.",
     "videoModified": "Vídeo foi modificado.",
     "couldNotGetVideo": "Não foi possível obter vídeo.",
     "googleDrivePolicy": "Devido a nova política do Google Drive, você só pode reproduzir vídeos pelo aplicativo Nerimity externo."
@@ -543,7 +558,7 @@
   },
   "invite": {
     "members": "membros",
-    "member": "mebro(a)",
+    "member": "membro(a)",
     "joiningButton": "Entrando...",
     "loading": "Carregando convite...",
     "invalid": "Código de convite inválido",
@@ -587,6 +602,64 @@
     "placeholder": "Meu Servidor Incrível",
     "serverName": "Nome do servidor",
     "notice": "Conteúdo NSFW (não seguro para o trabalho) não é permitido.",
-    "title": "Criar servidor"
+    "title": "Criar servidor",
+    "tabLabel": "Criar",
+    "mustBeEnglish": "Servidor DEVE ser em inglês."
+  },
+  "statusHeader": {
+    "connected": "Conectado!",
+    "connecting": "Conectando...",
+    "reconnecting": "Reconectando...",
+    "authenticationError": "Erro de autenticação",
+    "authenticating": "Autenticando...",
+    "inQueue": "Em fila: {{count}} usuário(s) em sua frente"
+  },
+  "dangerousLinkModal": {
+    "title": "Link customizado",
+    "message": "Este link lhe levará à:",
+    "cancelButton": "Não visitar",
+    "visitButton": "Visitar"
+  },
+  "editFolderModal": {
+    "title": "Editar pasta",
+    "placeholder": "Nome de pasta",
+    "cancelButton": "Não salvar",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "errors": {
+      "emptyName": "Por favor insira um nome de pasta."
+    }
+  },
+  "joinServerModal": {
+    "title": "Entrar em servidor",
+    "notice": "Se você quiser explorar servidores, por favor vá para a guia explorar.",
+    "exploreButton": "Explorar servidores",
+    "inviteCode": "Código de convite",
+    "continueButton": "Continuar",
+    "missingInvite": "Por favor insira um novo código de convite de servidor.",
+    "tabLabel": "Entrar"
+  },
+  "addFriendModal": {
+    "title": "Adicionar amigo",
+    "description": "Insira o nome de usuário e tag de seu amigo para o(a) adicionar.",
+    "placeholder": "Nome de usuário:ABC1",
+    "requestSent": "Pedido enviado!",
+    "closeButton": "Fechar",
+    "sendRequest": "Enviar pedido",
+    "sending": "Enviando...",
+    "errors": {
+      "missingTag": "Por favor insira um nome de usuário:tag.",
+      "colonInUsername": "Nome de usuário não deve conter dois-pontos."
+    }
+  },
+  "deleteMessageModal": {
+    "title": "Excluir mensagem?",
+    "body": "Você gostaria de excluir esta mensagem?",
+    "cancelButton": "Não excluir",
+    "confirmButton": "Excluir"
+  },
+  "colorPickerModal": {
+    "title": "Seletor de cores",
+    "done": "Feito"
   }
 }
