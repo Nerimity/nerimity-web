@@ -2,7 +2,6 @@ import styles from "./styles.module.scss";
 import {
   Show,
   createEffect,
-  createMemo,
   createSignal,
   on,
   onCleanup,
@@ -16,11 +15,11 @@ import { Line as KonvaLine } from "konva/lib/shapes/Line";
 import LegacyModal from "../legacy-modal/LegacyModal";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import Icon from "../icon/Icon";
 import Button from "../Button";
-import { FlexRow } from "../Flexbox";
 import { ColorPicker } from "../color-picker/ColorPicker";
 import Text from "../Text";
+import { t } from "@nerimity/i18lite";
+
 
 interface PhotoEditorProps {
   src: string;
@@ -357,7 +356,7 @@ export default function PhotoEditor(props: PhotoEditorProps) {
   const MobileNotices = () => {
     return (
       <div class={styles.notices}>
-        <div>Pinch to drag/zoom</div>
+       <div>{t("photoEditor.mobileNotice")}</div>
       </div>
     );
   };
@@ -370,8 +369,8 @@ export default function PhotoEditor(props: PhotoEditorProps) {
   const DesktopNotices = () => {
     return (
       <div class={styles.notices}>
-        <div>Space + Drag to Move</div>
-        <div>Scroll to Zoom</div>
+        <div>{t("photoEditor.desktopMove")}</div>
+        <div>{t("photoEditor.desktopZoom")}</div>
       </div>
     );
   };
@@ -379,17 +378,17 @@ export default function PhotoEditor(props: PhotoEditorProps) {
   return (
     <LegacyModal
       actionButtons={isMobileAgent() ? <MobileNotices /> : <DesktopNotices />}
-      title="Photo Editor"
+      title={t("photoEditor.title")}
       class={styles.modal}
       close={props.close}
       actionButtonsArr={[
         {
           iconName: "close",
-          label: "Cancel",
+          label: t("photoEditor.cancel"),
           onClick: props.close,
           color: "var(--alert-color)",
         },
-        { iconName: "check", label: "Edit", onClick: onDone },
+        { iconName: "check", label: t("photoEditor.edit"), onClick: onDone },
       ]}
       ignoreBackgroundClick
     >
@@ -397,32 +396,32 @@ export default function PhotoEditor(props: PhotoEditorProps) {
 
       <div class={styles.buttons}>
         <Button
-          hoverText="Undo (Ctrl + Z)"
+          hoverText={t("photoEditor.undo")}
           onClick={undo}
           iconName="undo"
           margin={0}
         />
         <Button
-          hoverText="Brush"
+          hoverText={t("photoEditor.brush")}
           onClick={() => setMode("brush")}
           primary={mode() === "brush"}
           iconName="brush"
           margin={0}
         />
         <Button
-          hoverText="Erase"
+          hoverText={t("photoEditor.erase")}
           onClick={() => setMode("erase")}
           primary={mode() === "erase"}
           iconName="ink_eraser"
           margin={0}
         />
 
-        <Show when={mode() === "brush"}>
+       <Show when={mode() === "brush"}>
           <ColorPicker alpha color={strokeColor()} onChange={setStrokeColor} />
         </Show>
         <div class={styles.strokeWidth}>
           <Text style={{ "margin-left": "2px" }} size={12} opacity={0.8}>
-            Stroke Width ({strokeWidth()})
+            {t("photoEditor.strokeWidth", { width: strokeWidth() })}
           </Text>
 
           <input
