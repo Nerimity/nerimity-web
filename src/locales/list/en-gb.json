@@ -257,7 +257,7 @@
     },
     "leaveModal": {
       "title": "Leave Server?",
-       "body": {
+      "body": {
         "part1": "Are you sure you want to leave <1>{{serverName}}</1>?",
         "part2": "You can join back anytime!"
       },
@@ -670,5 +670,17 @@
   "colorPickerModal": {
     "title": "Color Picker",
     "done": "Done"
+  },
+  "photoEditor": {
+    "title": "Photo Editor",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "undo": "Undo (Ctrl + Z)",
+    "brush": "Brush",
+    "erase": "Erase",
+    "strokeWidth": "Stroke width: {{width}}",
+    "mobileNotice": "Pinch to drag/zoom",
+    "desktopMove": "Space + Drag to Move",
+    "desktopZoom": "Scroll to Zoom"
   }
 }

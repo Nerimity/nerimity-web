@@ -675,5 +675,17 @@
   "colorPickerModal": {
     "title": "Cowow Picky",
     "done": "YEP!"
+  },
+  "photoEditor": {
+    "title": "Piccy Editow",
+    "cancel": "RUN AWAYYY..",
+    "edit": "DIS IS PURRFECT!",
+    "undo": "Un-doo (Ctww + Z)",
+    "brush": "Bwushie",
+    "erase": "Poof",
+    "strokeWidth": "Stwokie width: {{width}}~",
+    "mobileNotice": "Pinchy to dwag/zoom",
+    "desktopMove": "Space + dwaggy to moove",
+    "desktopZoom": "Scwoww to zoomie"
   }
 }
