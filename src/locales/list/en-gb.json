@@ -682,5 +682,9 @@
     "mobileNotice": "Pinch to drag/zoom",
     "desktopMove": "Space + Drag to Move",
     "desktopZoom": "Scroll to Zoom"
+  },
+  "imageCropModal": {
+    "title": "Crop Image",
+    "done": "Done"
   }
 }
