@@ -687,5 +687,9 @@
     "mobileNotice": "Pinchy to dwag/zoom",
     "desktopMove": "Space + dwaggy to moove",
     "desktopZoom": "Scwoww to zoomie"
+  },
+  "imageCropModal": {
+    "title": "Cwop Piccy",
+    "done": "DIS IS PURRFECT!"
   }
 }
