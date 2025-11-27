@@ -460,8 +460,8 @@
     },
     "developer": {
       "oauth2": {
-        "description": "Manage Oauth2",
-        "title": "Oauth2",
+        "description": "Manage OAuth2",
+        "title": "OAuth2",
         "generateLink": "Generate Link"
       }
     }
@@ -693,5 +693,8 @@
   "imageCropModal": {
     "title": "Crop Image",
     "done": "Done"
+  },
+  "oauth2": {
+    "AuthorizeButton": "Authorize"
   }
 }

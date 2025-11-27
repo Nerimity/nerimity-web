@@ -109,6 +109,7 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const InviteServerBotPage = lazy(() => import("./pages/InviteServerBot"));
+const OAuthAuthorizePage = lazy(() => import("./pages/OAuthAuthorizePage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const TermsAndConditionsPage = lazy(
   () => import("./pages/TermsAndConditionsPage")
@@ -358,6 +359,7 @@ render(() => {
         <Route path="/i/:inviteId" component={InviteRedirect} />
         <Route path="/p/:postId" component={PostRedirect} />
         <Route path="/bot/:appId" component={InviteServerBotPage} />
+        <Route path="/authorize" component={OAuthAuthorizePage} />
         <Route path="/reset-password" component={ResetPasswordPage} />
 
         <Route path="/404" component={NotFound} />

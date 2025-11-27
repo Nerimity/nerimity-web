@@ -344,7 +344,7 @@ const GenerateOuth2Link = (props: { application: RawApplication }) => {
 
     url.searchParams.set("clientId", props.application.id);
     if (enabledScopes.length)
-      url.searchParams.set("scope", enabledScopes.join(" "));
+      url.searchParams.set("scopes", enabledScopes.join(" "));
 
     if (redirectUri()) url.searchParams.set("redirectUri", redirectUri());
 
