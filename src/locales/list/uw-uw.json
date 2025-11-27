@@ -78,24 +78,40 @@
       "servers": "Sewvews",
       "bots": "Senpais"
     },
-    "servers": {
-      "title": "Expwowe - Sewvews",
-      "noticeMessage": "A sewvew can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~",
+    "general": {
+      "backButton": "Back~",
+      "searchLabel": "Seawchies~",
+      "sortLabel": "Sowt~",
+      "filterLabel": "Fiwtew~",
       "sortMostBumps": "Most Bumpsies",
-      "sortMostMembers": "Most Membews",
       "sortRecentlyAdded": "Fweshwy Added",
       "sortRecentlyBumped": "Just Bumpsied",
       "filterAll": "Aww",
       "filterVerified": "Shiny",
-      "memberCount": "{{count}} membews",
-      "lifetimeBumpCount": "{{count}} wifetime bumps",
+      "by": "By:",
+      "bumped": "Bumpsied {{time}}",
+      "bumpButton": "Bump ({{count}})",
+      "bumpCooldown": "You has to wait {{hours}} howws, {{minutes}} minutes, and {{seconds}} seconds to bump dis sewvew"
+    },
+    "servers": {
+      "title": "Expwowe - Sewvews",
+      "pinnedServers": "Pinned Sewvews",
+      "recentlyBumpedServers": "Just Bumpsied Sewvews",
+      "noticeMessage": "A sewvew can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}.",
+      "tosWarning": "Sewvews awe nyot pwowactively moddewated by Newwimity. Pwease wepowt sewvews dat awe bad ow viowate da TOS",
+      "sortMostMembers": "Most Membews",
+      "memberCount": "{{count}} Membews",
       "visitServerButton": "Peek In~",
-      "bumpButton": "Bump ({{count}}) 🚀",
-      "joinServerButton": "LEMME INN!!!"
+      "joinServerButton": "LEMME INN!!!",
+      "bumpModalTitle": "Bump {{name}}"
     },
     "bots": {
       "title": "Expwowe - Senpais",
-      "noticeMessage": "A senpai can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~"
+      "noticeMessage": "A senpai can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}.",
+      "tosWarning": "Senpais awe nyot pwowactively moddewated by Newwimity. Pwease wepowt senpais dat awe bad ow viowate da TOS",
+      "serverCount": "In {{count}} sewvews",
+      "inviteButton": "Invite Senpai~",
+       "sortMostServers": "Most Sewvews"
     }
   },
   "servers": {
