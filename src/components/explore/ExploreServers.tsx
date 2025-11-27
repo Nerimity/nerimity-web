@@ -3,7 +3,7 @@ import { RawExploreItem } from "@/chat-api/RawData";
 import { bannerUrl } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 import { A, useNavigate } from "solid-navigator";
 import { batch, createSignal, For, on, Show } from "solid-js";
 import { createEffect } from "solid-js";
@@ -58,7 +58,6 @@ const defaultQuery = {
 
 export default function ExploreServers() {
   const MAX_LIMIT = 30;
-  const [t] = useTransContext();
   const { header } = useStore();
   const [publicServers, setPublicServers] = createSignal<
     null | RawExploreItem[]
@@ -126,15 +125,15 @@ export default function ExploreServers() {
   });
 
   const sortOpts: DropDownItem[] = [
-    { id: "most_bumps", label: t("explore.servers.sortMostBumps") },
+    { id: "most_bumps", label: t("explore.general.sortMostBumps") },
     { id: "most_members", label: t("explore.servers.sortMostMembers") },
-    { id: "recently_added", label: t("explore.servers.sortRecentlyAdded") },
-    { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") },
+    { id: "recently_added", label: t("explore.general.sortRecentlyAdded") },
+    { id: "recently_bumped", label: t("explore.general.sortRecentlyBumped") },
   ];
 
   const filterOpts: DropDownItem[] = [
-    { id: "all", label: t("explore.servers.filterAll") },
-    { id: "verified", label: t("explore.servers.filterVerified") },
+    { id: "all", label: t("explore.general.filterAll") },
+    { id: "verified", label: t("explore.general.filterVerified") },
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
@@ -151,7 +150,12 @@ export default function ExploreServers() {
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label="Back" iconName="arrow_back" />
+        <Button
+          margin={0}
+          href="/app"
+          label={t("explore.general.backButton")}
+          iconName="arrow_back"
+        />
       </div>
       <FlexRow
         gap={10}
@@ -163,7 +167,7 @@ export default function ExploreServers() {
         `}
       >
         <Input
-          label="Search"
+          label={t("explore.general.searchLabel")}
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
@@ -175,7 +179,7 @@ export default function ExploreServers() {
           `}
         />
         <DropDown
-          title="Sort"
+          title={t("explore.general.sortLabel")}
           items={sortOpts}
           selectedId={query().sort}
           onChange={(i) =>
@@ -183,7 +187,7 @@ export default function ExploreServers() {
           }
         />
         <DropDown
-          title="Filter"
+          title={t("explore.general.filterLabel")}
           items={filterOpts}
           selectedId={query().filter}
           onChange={(i) =>
@@ -204,11 +208,11 @@ export default function ExploreServers() {
           margin-bottom: 10px;
         `}
         type="warn"
-        description="Servers are not moderated by Nerimity. Please report servers that break the TOS."
+        description={t("explore.servers.tosWarning")}
       />
 
       <Show when={isDefaultQuery()}>
-        <Text>Pinned Servers</Text>
+        <Text>{t("explore.servers.pinnedServers")}</Text>
         <GridLayout
           class="servers-list-grid"
           style={{ "margin-bottom": "10px" }}
@@ -237,7 +241,9 @@ export default function ExploreServers() {
             </For>
           </Show>
         </GridLayout>
-        <Text style={{ "margin-bottom": "10px" }}>Recently Bumped Servers</Text>
+        <Text style={{ "margin-bottom": "10px" }}>
+          {t("explore.servers.recentlyBumpedServers")}
+        </Text>
       </Show>
 
       <GridLayout class="servers-list-grid">
@@ -356,7 +362,6 @@ function PublicServerItem(props: {
   update: (newServer: RawExploreItem) => void;
   display?: boolean;
 }) {
-  const [t] = useTransContext();
   const server = props.publicServer.server!;
   const { joinPublicById, joining: joinClicked } = useJoinServer();
   const [hovered, setHovered] = createSignal(false);
@@ -384,7 +389,11 @@ function PublicServerItem(props: {
 
     if (timeLeftMilliseconds > 0) {
       alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
+        t("explore.general.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        })
       );
       return;
     }
@@ -445,7 +454,7 @@ function PublicServerItem(props: {
           </Show>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
-          By{": "}
+          {t("explore.general.by")}{" "}
           <CustomLink href={RouterEndpoints.PROFILE(server.createdBy.id)}>
             <span
               class={css`
@@ -481,10 +490,11 @@ function PublicServerItem(props: {
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            Bumped{" "}
-            {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
-              props.publicServer.bumpedAt
-            )}
+            {t("explore.general.bumped", {
+              time: (bumpedUnder24Hours() ? timeSince : getDaysAgo)(
+                props.publicServer.bumpedAt
+              ),
+            })}
           </Text>
         </FlexRow>
       </MemberContainer>
@@ -535,7 +545,7 @@ function PublicServerItem(props: {
           `}
           margin={0}
           iconName="arrow_upward"
-          label={t("explore.servers.bumpButton", {
+          label={t("explore.general.bumpButton", {
             count: props.publicServer.bumpCount.toLocaleString(),
           })}
         />
@@ -589,10 +599,14 @@ export function ServerBumpModal(props: {
         iconName="close"
         onClick={props.close}
         color="var(--alert-color)"
-        label="Back"
+        label={t("explore.general.backButton")}
       />
       <Show when={verifyToken()}>
-        <Button iconName="arrow_upward" label="Bump" onClick={bumpServer} />
+        <Button
+          iconName="arrow_upward"
+          label={t("explore.general.bumpButton")}
+          onClick={bumpServer}
+        />
       </Show>
     </FlexRow>
   );
