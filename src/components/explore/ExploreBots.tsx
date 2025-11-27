@@ -114,15 +114,15 @@ export default function ExploreBots() {
   });
 
   const sortOpts: DropDownItem[] = [
-    { id: "most_bumps", label: t("explore.servers.sortMostBumps") },
-    { id: "most_members", label: t("explore.servers.sortMostMembers") },
-    { id: "recently_added", label: t("explore.servers.sortRecentlyAdded") },
-    { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") },
+    { id: "most_bumps", label: t("explore.general.sortMostBumps") },
+    { id: "most_members", label: t("explore.bots.sortMostServers") },
+    { id: "recently_added", label: t("explore.general.sortRecentlyAdded") },
+    { id: "recently_bumped", label: t("explore.general.sortRecentlyBumped") },
   ];
 
   const filterOpts: DropDownItem[] = [
-    { id: "all", label: t("explore.servers.filterAll") },
-    { id: "verified", label: t("explore.servers.filterVerified") },
+    { id: "all", label: t("explore.general.filterAll") },
+    { id: "verified", label: t("explore.general.filterVerified") },
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
@@ -133,13 +133,18 @@ export default function ExploreBots() {
 
   return (
     <Container>
-      <MetaTitle>Explore Bots</MetaTitle>
+      <MetaTitle>{t("explore.bots.title")}</MetaTitle>
       <div
         class={css`
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label="Back" iconName="arrow_back" />
+        <Button
+          margin={0}
+          href="/app"
+          label={t("explore.general.backButton")}
+          iconName="arrow_back"
+        />
       </div>
       <FlexRow
         gap={10}
@@ -151,7 +156,7 @@ export default function ExploreBots() {
         `}
       >
         <Input
-          label="Search"
+          label={t("explore.general.searchLabel")}
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
@@ -163,7 +168,7 @@ export default function ExploreBots() {
           `}
         />
         <DropDown
-          title="Sort"
+          title={t("explore.general.sortLabel")}
           items={sortOpts}
           selectedId={query().sort}
           onChange={(i) =>
@@ -192,7 +197,7 @@ export default function ExploreBots() {
           margin-bottom: 10px;
         `}
         type="warn"
-        description="Bots are not moderated by Nerimity. Please report bots that are malicious or break the TOS."
+        description={t("explore.bots.tosWarning")}
       />
 
       <GridLayout class="servers-list-grid">
@@ -361,7 +366,11 @@ function PublicItem(props: {
 
     if (timeLeftMilliseconds > 0) {
       alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
+        t("explore.bots.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        })
       );
       return;
     }
@@ -423,7 +432,7 @@ function PublicItem(props: {
           </CustomLink>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
-          By{": "}
+          {t("explore.general.by")}{" "}
           <CustomLink
             href={RouterEndpoints.PROFILE(app.creatorAccount.user.id)}
           >
@@ -445,17 +454,20 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            In {bot._count.servers.toLocaleString()} servers
+            {t("explore.bots.serverCount", {
+              count: bot._count.servers.toLocaleString(),
+            })}
           </Text>
         </FlexRow>
 
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            Bumped{" "}
-            {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
-              props.item.bumpedAt
-            )}
+            {t("explore.general.bumped", {
+              time: (bumpedUnder24Hours() ? timeSince : getDaysAgo)(
+                props.item.bumpedAt
+              ),
+            })}
           </Text>
         </FlexRow>
       </MemberContainer>
@@ -471,7 +483,7 @@ function PublicItem(props: {
           onClick={addBotClick}
           iconName="add"
           primary
-          label={"Invite"}
+          label={t("explore.bots.inviteButton")}
         />
         <Button
           padding={8}
@@ -482,7 +494,7 @@ function PublicItem(props: {
           `}
           margin={0}
           iconName="arrow_upward"
-          label={t("explore.servers.bumpButton", {
+          label={t("explore.general.bumpButton", {
             count: props.item.bumpCount.toLocaleString(),
           })}
         />
