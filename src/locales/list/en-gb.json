@@ -115,24 +115,40 @@
       "servers": "Servers",
       "bots": "Bots"
     },
+    "general": {
+      "backButton": "Back",
+      "searchLabel": "Search",
+      "sortLabel": "Sort",
+      "filterLabel": "Filter",
+      "sortMostBumps": "Most Bumps",
+      "sortRecentlyAdded": "Recently Added",
+      "sortRecentlyBumped": "Recently Bumped",
+      "filterAll": "All",
+      "filterVerified": "Verified",
+      "by": "By:",
+      "bumpButton": "Bump ({{count}})",
+      "bumped": "Bumped {{time}}",
+      "bumpCooldown": "You must wait {{hours}} hours, {{minutes}} minutes, and {{seconds}} seconds to bump this server."
+    },
     "bots": {
       "title": "Explore - Bots",
-      "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}."
+      "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
+      "tosWarning": "Bots are not proactively moderated by Nerimity. Please report bots that are malicious or violate the TOS.",
+      "serverCount": "In {{count}} servers",
+      "inviteButton": "Invite",
+      "sortMostServers": "Most Servers"
     },
     "servers": {
       "title": "Explore - Servers",
+      "pinnedServers": "Pinned Servers",
+      "recentlyBumpedServers": "Recently Bumped Servers",
       "noticeMessage": "A server can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
-      "sortMostBumps": "Most bumps",
+      "tosWarning": "Servers are not proactively moderated by Nerimity. Please report servers that are malicious or violate the TOS.",
       "sortMostMembers": "Most Members",
-      "sortRecentlyAdded": "Recently added",
-      "sortRecentlyBumped": "Recently bumped",
-      "filterAll": "All",
-      "filterVerified": "Verified",
       "memberCount": "{{count}} members",
-      "lifetimeBumpCount": "{{count}} lifetime bumps",
       "visitServerButton": "Visit",
       "joinServerButton": "Join",
-      "bumpButton": "Bump ({{count}})"
+      "bumpModalTitle": "Bump {{name}}"
     }
   },
   "editFolderModal": {
