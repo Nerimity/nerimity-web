@@ -425,6 +425,8 @@ export interface RawApplication {
   };
   creatorAccountId: string;
   createdAt: number;
+  redirectUris: string[];
+  clientSecret?: string;
 }
 
 export interface RawServerWelcomeQuestion {

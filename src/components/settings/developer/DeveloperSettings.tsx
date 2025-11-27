@@ -42,7 +42,7 @@ export default function DeveloperSettings() {
       <SettingsBlock
         href="https://docs.nerimity.com"
         hrefBlank
-        icon="article"
+        icon="menu_book"
         label="API Documentation (incomplete)"
         children={<Icon name="open_in_new" style={{ "margin-right": "6px" }} />}
       />

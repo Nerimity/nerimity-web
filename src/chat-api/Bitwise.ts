@@ -212,6 +212,19 @@ export const ROLE_PERMISSIONS = {
   },
 };
 
+export const APPLICATION_SCOPES = {
+  USER_INFO: {
+    name: () => "User Info",
+    bit: 1,
+    icon: "person",
+  },
+  USER_EMAIL: {
+    name: () => "User Email",
+    bit: 2,
+    icon: "mail",
+  },
+};
+
 export const hasBit = (permissions: number, bit: number) => {
   return (permissions & bit) === bit;
 };

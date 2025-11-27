@@ -457,6 +457,13 @@
       "disableHardwareAcceleration": "Disable Hardware Acceleration",
       "disableCustomTitlebar": "Disable Custom Titlebar",
       "reopenAppNotice": "You must reopen the app for the change to take effect."
+    },
+    "developer": {
+      "oauth2": {
+        "description": "Manage Oauth2",
+        "title": "Oauth2",
+        "generateLink": "Generate Link"
+      }
     }
   },
   "supportBlock": {
