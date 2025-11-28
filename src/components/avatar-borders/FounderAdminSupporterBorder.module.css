@@ -1,53 +1,51 @@
 .container {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1/1;
   width: 100%;
   height: 100%;
   transition: 0.4s ease;
-  position: relative;
   transition: 0.4s ease;
-
+  aspect-ratio: 1/1;
 }
 
 .hover {
-  transform: scale(.8);
+  transform: scale(0.8);
 }
 
 .border {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
   position: absolute;
   z-index: 1111;
-  transform: scale(1.14);
+  width: 100%;
+  height: 100%;
   user-select: none;
+  transform: scale(1.14);
   pointer-events: none;
+  object-fit: contain;
 }
 
 .rawAvatar {
   position: absolute;
-  border-radius: 30%;
-  inset: 0;
-  overflow: hidden;
-  transform: scale(.9);
   z-index: 111;
+  overflow: hidden;
+  border-radius: 34%;
+  transform: scale(0.94);
+  inset: 0;
 }
 .background {
   position: absolute;
-  inset: 0;
-  user-select: none;
   z-index: -1;
+  user-select: none;
+  inset: 0;
 }
 .wing {
+  position: absolute;
   z-index: 11;
   height: 60%;
-  position: absolute;
-  transition: 0.4s ease;
   user-select: none;
+  transition: 0.4s ease;
   pointer-events: none;
-
 }
 
 .hover .wing {
@@ -58,7 +56,6 @@
 }
 .hover .rightWing {
   right: -30%;
-
 }
 .leftWing {
   left: 30%;
