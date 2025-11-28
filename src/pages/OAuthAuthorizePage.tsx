@@ -14,6 +14,7 @@ import { APPLICATION_SCOPES } from "@/chat-api/Bitwise";
 import { t } from "@nerimity/i18lite";
 import Checkbox from "@/components/ui/Checkbox";
 import {
+  Oauth2Authorize,
   OAuth2Details,
   Oauth2GetDetails,
 } from "@/chat-api/services/OAuthService";
@@ -115,7 +116,24 @@ export const OAuthAuthorizePopup = (props: {
       .catch((err) => setError(err.message));
   });
 
-  const addBot = async () => {};
+  const authorizeClick = async () => {
+    setError(null);
+    setSuccessMessage(null);
+    if (requestSent()) return;
+    setRequestSent(true);
+    Oauth2Authorize({
+      clientId: props.clientId,
+      redirectUri: props.redirectUri,
+      scopes: props.scopes,
+    })
+      .then((data) => {
+        const url = new URL(data.redirectUri);
+        url.searchParams.set("code", data.code!);
+        window.location.href = url.href;
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setRequestSent(false));
+  };
   return (
     <FlexColumn
       style={{
@@ -195,7 +213,7 @@ export const OAuthAuthorizePopup = (props: {
           primary
           margin={[10, 0, 0, 0]}
           styles={{ "align-self": "stretch" }}
-          onClick={addBot}
+          onClick={authorizeClick}
         />
       </Show>
     </FlexColumn>
