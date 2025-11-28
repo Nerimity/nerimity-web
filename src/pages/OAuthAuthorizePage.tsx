@@ -4,31 +4,22 @@ import PageFooter from "@/components/PageFooter";
 import { For, Show, createSignal, onMount } from "solid-js";
 import { StorageKeys, getStorageString } from "@/common/localStorage";
 import RouterEndpoints from "@/common/RouterEndpoints";
-import { useNavigate, useParams, useSearchParams } from "solid-navigator";
-import {
-  RawBotUser,
-  getApplicationBot,
-} from "@/chat-api/services/ApplicationService";
-import { RawServer, RawUser } from "@/chat-api/RawData";
-import Avatar, { ServerOrUserAvatar } from "@/components/ui/Avatar";
+import { A, useNavigate, useSearchParams } from "solid-navigator";
+
+import Avatar from "@/components/ui/Avatar";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import DropDown from "@/components/ui/drop-down/DropDown";
 import Button from "@/components/ui/Button";
-import {
-  APPLICATION_SCOPES,
-  ROLE_PERMISSIONS,
-  addBit,
-  hasBit,
-  removeBit,
-} from "@/chat-api/Bitwise";
+import { APPLICATION_SCOPES } from "@/chat-api/Bitwise";
 import { t } from "@nerimity/i18lite";
 import Checkbox from "@/components/ui/Checkbox";
-import { inviteBot } from "@/chat-api/services/ServerService";
 import {
   OAuth2Details,
   Oauth2GetDetails,
 } from "@/chat-api/services/OAuthService";
+import { logout } from "@/common/logout";
+import { CustomLink } from "@/components/ui/CustomLink";
+import { formatTimestamp } from "@/common/date";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -134,7 +125,17 @@ export const OAuthAuthorizePopup = (props: {
       gap={12}
     >
       <Show when={oAuth2Details()}>
-        <FlexRow gap={16}>
+        <div
+          style={{
+            "text-align": "center",
+            "font-weight": "bold",
+            "font-size": "20px",
+            "margin-bottom": "50px",
+          }}
+        >
+          {oAuth2Details()?.application.name} wants to access your account
+        </div>
+        <FlexRow gap={60} justifyCenter>
           <UserDisplay
             user={
               oAuth2Details()?.application.botUser
@@ -149,10 +150,37 @@ export const OAuthAuthorizePopup = (props: {
                   }
             }
           />
-          <UserDisplay user={oAuth2Details()?.user} />
+          <UserDisplay user={oAuth2Details()?.user} self />
         </FlexRow>
 
         <ScopesList scopes={props.scopes} />
+
+        <FlexColumn
+          gap={4}
+          style={{ "font-size": "12px", "text-decoration": "none" }}
+        >
+          <span>
+            <span style={{ opacity: "0.6", "margin-right": "4px" }}>
+              App created by
+            </span>
+            <a
+              target="_blank"
+              href={RouterEndpoints.PROFILE(
+                oAuth2Details()?.application.creatorAccount?.user.id!
+              )}
+            >
+              {oAuth2Details()?.application.creatorAccount?.user.username}
+            </a>
+          </span>
+          <span>
+            <span style={{ opacity: "0.6", "margin-right": "4px" }}>
+              App created at
+            </span>
+            <span>
+              {formatTimestamp(oAuth2Details()?.application.createdAt!)}
+            </span>
+          </span>
+        </FlexColumn>
       </Show>
       <Show when={error()}>
         <Text color="var(--alert-color)">{error()}</Text>
@@ -165,7 +193,7 @@ export const OAuthAuthorizePopup = (props: {
           label={t("oauth2.AuthorizeButton")}
           iconName="check"
           primary
-          margin={0}
+          margin={[10, 0, 0, 0]}
           styles={{ "align-self": "stretch" }}
           onClick={addBot}
         />
@@ -181,11 +209,31 @@ const UserDisplay = (props: {
     hexColor: string;
     badges?: number;
   };
+  self?: boolean;
 }) => {
+  const navigate = useNavigate();
+  const logoutClick = async () => {
+    await logout(false);
+    navigate(RouterEndpoints.LOGIN(location.pathname + location.search), {
+      replace: true,
+    });
+  };
   return (
     <FlexColumn itemsCenter gap={14}>
-      <Avatar user={props.user} size={60} />
-      <Text>{props.user?.username}</Text>
+      <Avatar user={props.user} size={100} />
+      <FlexColumn itemsCenter gap={4}>
+        <Text>{props.user?.username}</Text>
+        <Show when={props.self}>
+          <CustomLink
+            style={{ "font-size": "14px" }}
+            decoration
+            href="#"
+            onClick={logoutClick}
+          >
+            Logout
+          </CustomLink>
+        </Show>
+      </FlexColumn>
     </FlexColumn>
   );
 };
@@ -199,7 +247,7 @@ const ScopesList = (props: { scopes: string[] }) => {
         width: 100%;
       `}
     >
-      <Text opacity={0.8}>{t("botInvite.permissions")}</Text>
+      <Text opacity={0.8}>{t("oauth2.permissions")}</Text>
       <FlexColumn gap={12}>
         <For each={Object.keys(APPLICATION_SCOPES)}>
           {(scopeKey) => (
@@ -210,7 +258,7 @@ const ScopesList = (props: { scopes: string[] }) => {
                 checked={props.scopes.includes(scopeKey)}
                 label={APPLICATION_SCOPES[
                   scopeKey as keyof typeof APPLICATION_SCOPES
-                ].name()}
+                ].description()}
               />
             </FlexRow>
           )}

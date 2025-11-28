@@ -695,6 +695,7 @@
     "done": "Done"
   },
   "oauth2": {
-    "AuthorizeButton": "Authorize"
+    "AuthorizeButton": "Authorize",
+    "permissions": "Permissions"
   }
 }
