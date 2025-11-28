@@ -12,12 +12,12 @@ export interface Experiment {
 }
 
 export const Experiments = [
-  // {
-  //   id: "SERVER_MEMBERS_PANE",
-  //   name: "Server Members Page",
-  //   description:
-  //     "Adds a new item to the server drawer that lets you view all server members, and the ability to sort them.",
-  // },
+  {
+    id: "DEVELOPER_OAUTH2_SETTINGS",
+    name: "Developer OAuth2 Settings",
+    description:
+      "Enable experimental OAuth2 settings for developer applications.",
+  },
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];
