@@ -697,5 +697,9 @@
   "imageCropModal": {
     "title": "Crop Image",
     "done": "Done"
+  },
+  "oauth2": {
+    "AuthorizeButton": "Authorize",
+    "permissions": "Permissions"
   }
 }
