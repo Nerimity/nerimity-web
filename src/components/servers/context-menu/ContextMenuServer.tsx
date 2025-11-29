@@ -40,7 +40,7 @@ export default function ContextMenuServer(props: Props) {
     null
   );
   const server = () => servers.get(props.serverId!);
-
+  const isServerPublic = () => !!exploreItem();
   const isServerCreator = () => account.user()?.id === server()?.createdById;
 
   const isNerimityAdmin = () =>
@@ -236,6 +236,7 @@ export default function ContextMenuServer(props: Props) {
           icon: "arrow_upward",
           label: t("servers.settings.publishServer.bumpServer"),
           onClick: bumpClick,
+          show: isServerPublic(),
         },
         {
           icon: "notifications",
