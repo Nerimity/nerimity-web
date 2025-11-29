@@ -114,7 +114,7 @@ const EditDeveloperApplication = (props: {
 }) => {
   const application = () => props.application;
 
-  const { experiment } = useExperiment(() => "DEVELOPER_OAUTH2_SETTINGS");
+  // const { experiment } = useExperiment(() => "DEVELOPER_OAUTH2_SETTINGS");
 
   const params = useParams<{ id: string }>();
   const [requestSent, setRequestSent] = createSignal(false);
@@ -179,14 +179,14 @@ const EditDeveloperApplication = (props: {
         </Show>
       </SettingsBlock>
 
-      <Show when={experiment()}>
-        <SettingsBlock
-          href="./oauth2"
-          icon="lock"
-          label={t("settings.developer.oauth2.title")}
-          description={t("settings.developer.oauth2.description")}
-        />
-      </Show>
+      {/* <Show when={experiment()}> */}
+      <SettingsBlock
+        href="./oauth2"
+        icon="lock"
+        label={t("settings.developer.oauth2.title")}
+        description={t("settings.developer.oauth2.description")}
+      />
+      {/* </Show> */}
 
       <Show when={error()}>
         <Text

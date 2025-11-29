@@ -215,13 +215,13 @@ export const ROLE_PERMISSIONS = {
 export const APPLICATION_SCOPES = {
   USER_INFO: {
     name: () => "User Info",
-    description: () => "Has basic access to your user information.",
+    description: () => "Access to your user information.",
     bit: 1,
     icon: "person",
   },
   USER_EMAIL: {
     name: () => "User Email",
-    description: () => "Has access to your email address.",
+    description: () => "Access to your email address",
     bit: 2,
     icon: "mail",
   },

@@ -12,12 +12,12 @@ export interface Experiment {
 }
 
 export const Experiments = [
-  {
-    id: "DEVELOPER_OAUTH2_SETTINGS",
-    name: "Developer OAuth2 Settings",
-    description:
-      "Enable experimental OAuth2 settings for developer applications.",
-  },
+  // {
+  //   id: "DEVELOPER_OAUTH2_SETTINGS",
+  //   name: "Developer OAuth2 Settings",
+  //   description:
+  //     "Enable experimental OAuth2 settings for developer applications.",
+  // },
 ] as const;
 
 export type ExperimentIds = (typeof Experiments)[number]["id"];
