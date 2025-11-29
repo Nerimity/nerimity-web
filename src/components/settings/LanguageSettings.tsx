@@ -86,7 +86,7 @@ export default function LanguageSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.language"),
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.language"),
       iconName: "settings",
     });
   });
