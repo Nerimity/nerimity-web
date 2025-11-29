@@ -228,13 +228,17 @@
         "copyLinkButton": "Copy Link"
       },
       "publishServer": {
+        "headerTitle": "Settings - Publish Server",
         "publishNotice": "Publishing your server will make it be available in the <1>explore</1> page.",
         "public": "Public",
         "publicDescription": "Make this server public.",
         "bumpServer": "Bump Server",
         "bumpServerDescription": "Bump this server to get to the top.",
+        "bumpButton": "Bump ({{count}})",
+        "descriptionLabel": "Server Description ({{current}}/{{max}})",
         "publishServerButton": "Publish server",
-        "unpublishServerButton": "Unpublish server"
+        "unpublishServerButton": "Unpublish server",
+        "bumpCooldown": "You must wait {{hours}} hours, {{minutes}} minutes, and {{seconds}} seconds to bump this server."
       }
     },
     "rolePermissions": {
