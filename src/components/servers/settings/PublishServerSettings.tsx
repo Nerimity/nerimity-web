@@ -43,9 +43,10 @@ export default function PublishServerSettings() {
   const { createPortal } = useCustomPortal();
 
   const MAX_DESCRIPTION_LENGTH = 150;
+
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Publish Server",
+      title: t("servers.settings.publishServer.headerTitle"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -86,9 +87,7 @@ export default function PublishServerSettings() {
   };
 
   const bumpClick = () => {
-    // 3 hours to milliseconds
-    const bumpAfter = 3 * 60 * 60 * 1000;
-
+    const bumpAfter = 3 * 60 * 60 * 1000; // 3 hours in ms
     const millisecondsSinceLastBump =
       new Date().getTime() - publicServer()!.bumpedAt;
     const timeLeftMilliseconds = bumpAfter - millisecondsSinceLastBump;
@@ -96,7 +95,11 @@ export default function PublishServerSettings() {
 
     if (timeLeftMilliseconds > 0) {
       alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        })
       );
       return;
     }
@@ -125,12 +128,14 @@ export default function PublishServerSettings() {
         />
         <BreadcrumbItem title={t("servers.settings.drawer.invites")} />
       </Breadcrumb>
+
       <Text color="rgba(255,255,255,0.6)" style={{ "margin-bottom": "10px" }}>
         <Trans key="servers.settings.publishServer.publishNotice">
           Publishing your server will make it be available in the
           <A href="/app/explore/servers">explore</A> page.
         </Trans>
       </Text>
+
       <SettingsBlock
         icon="public"
         label={t("servers.settings.publishServer.public")}
@@ -152,7 +157,9 @@ export default function PublishServerSettings() {
             class={css`
               margin-right: 0px;
             `}
-            label={`Bump (${publicServer()?.bumpCount})`}
+            label={t("servers.settings.publishServer.bumpButton", {
+              count: publicServer()?.bumpCount,
+            })}
           />
         </SettingsBlock>
       </Show>
@@ -163,14 +170,17 @@ export default function PublishServerSettings() {
           onText={(t) => setDescription(t)}
           type="textarea"
           height={200}
-          label={`Server Description (${
-            description().length
-          }/${MAX_DESCRIPTION_LENGTH})`}
+          label={t("servers.settings.publishServer.descriptionLabel", {
+            current: description().length,
+            max: MAX_DESCRIPTION_LENGTH,
+          })}
         />
       </Show>
+
       <Show when={error()}>
         <Text color="var(--alert-color)">{error()}</Text>
       </Show>
+
       <Show when={showPublishButton()}>
         <Button
           class={buttonStyle}
@@ -179,6 +189,7 @@ export default function PublishServerSettings() {
           onClick={publish}
         />
       </Show>
+
       <Show when={!isPublic() && publicServer()}>
         <Button
           class={buttonStyle}
