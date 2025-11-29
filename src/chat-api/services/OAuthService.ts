@@ -43,3 +43,25 @@ export const Oauth2Authorize = async (opts: {
   });
   return data;
 };
+
+export interface OAuth2AuthorizedApplication {
+  application: RawApplication;
+  createdAt: number;
+  id: string;
+}
+export const OAuth2AuthorizedApplications = async () => {
+  const data = await request<OAuth2AuthorizedApplication[]>({
+    method: "GET",
+    url: env.SERVER_URL + "/api/oauth2/applications",
+    useToken: true,
+  });
+  return data;
+};
+export const OAuth2Unauthorize = async (appId: string) => {
+  const data = await request<{ status: true }>({
+    method: "DELETE",
+    url: env.SERVER_URL + `/api/oauth2/applications/${appId}`,
+    useToken: true,
+  });
+  return data;
+};
