@@ -80,8 +80,12 @@ export default function ContextMenuServer(props: Props) {
   };
 
   createEffect(() => {
-    if (props.serverId)
-      getPublicServer(props.serverId).then((ps) => setExploreItem(ps));
+    setExploreItem(null);
+    if (props.serverId) {
+      getPublicServer(props.serverId)
+        .then(setExploreItem)
+        .catch(() => {});
+    }
   });
 
   const bumpClick = () => {
@@ -236,7 +240,7 @@ export default function ContextMenuServer(props: Props) {
           icon: "arrow_upward",
           label: t("servers.settings.publishServer.bumpServer"),
           onClick: bumpClick,
-          show: isServerPublic(),
+          disabled: !isServerPublic(),
         },
         {
           icon: "notifications",
