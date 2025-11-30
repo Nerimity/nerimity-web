@@ -266,6 +266,12 @@ const EditApplicationOauth2 = (props: {
 
   return (
     <>
+      <SettingsBlock
+        icon="menu_book"
+        href="https://docs.nerimity.com/endpoints/oauth2/ExchangeCode"
+        label="OAuth2 Documentation"
+        hrefBlank
+      />
       <SettingsBlock icon="id_card" label="Client ID">
         <Input value={props.application.id} disabled />
       </SettingsBlock>

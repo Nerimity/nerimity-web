@@ -77,9 +77,13 @@ export default function SettingsBlock(props: BlockProps) {
         <Show
           when={props.iconSrc}
           fallback={
-            typeof props.icon === "string" ? <Icon name={props.icon} size={24} />
-            : !props.icon ? <Icon size={24}/> 
-            : props.icon
+            typeof props.icon === "string" ? (
+              <Icon name={props.icon} size={24} />
+            ) : !props.icon ? (
+              <Icon size={24} />
+            ) : (
+              props.icon
+            )
           }
         >
           <img class={styles.icon} src={props.iconSrc} alt="" />
@@ -93,7 +97,14 @@ export default function SettingsBlock(props: BlockProps) {
       </div>
       {child()}
       <Show when={!child() && (props.onClick || props.href)}>
-        <Icon size={24} name={props.onClickIcon || "keyboard_arrow_right"} />
+        <Icon
+          size={24}
+          name={
+            props.hrefBlank
+              ? "open_in_new"
+              : props.onClickIcon || "keyboard_arrow_right"
+          }
+        />
       </Show>
     </Dynamic>
   );
