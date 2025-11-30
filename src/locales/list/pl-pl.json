@@ -187,7 +187,11 @@
         "bumpServer": "Podbij Serwer",
         "bumpServerDescription": "Podbij ten serwer aby dostać się na górę.",
         "publishServerButton": "Opublikuj serwer",
-        "unpublishServerButton": "Wycofaj publikację"
+        "unpublishServerButton": "Wycofaj publikację",
+        "headerTitle": "Ustawienia - Opublikuj Serwer",
+        "bumpButton": "Podbij ({{count}})",
+        "descriptionLabel": "Opis Serwera ({{current}}/{{max}})",
+        "bumpCooldown": "Musisz odczekać {{hours}} godzin(-y), {{minutes}} minut(-y) i {{seconds}} sekund(-y), aby podbić ten serwer."
       }
     },
     "rolePermissions": {
@@ -410,6 +414,13 @@
       "contributors": "Współtwórcy",
       "translateModal": {
         "title": "Tłumaczenia"
+      }
+    },
+    "developer": {
+      "oauth2": {
+        "description": "Zarządzaj opcją OAuth2",
+        "title": "OAuth2",
+        "generateLink": "Wygeneruj Link"
       }
     }
   },
@@ -673,5 +684,25 @@
   "colorPickerModal": {
     "title": "Próbnik Kolorów",
     "done": "Gotowe"
+  },
+  "photoEditor": {
+    "title": "Edytor Obrazów",
+    "cancel": "Anuluj",
+    "edit": "Edytuj",
+    "undo": "Cofnij (Ctrl + Z)",
+    "brush": "Pędzel",
+    "erase": "Wymaż",
+    "strokeWidth": "Szerokość pędzla: {{width}}",
+    "mobileNotice": "Uszczypnij, aby przeciągnąć/powiększyć",
+    "desktopMove": "[Spacja] + Przeciągnij, aby przenieść",
+    "desktopZoom": "Przewiń, aby powiększyć"
+  },
+  "imageCropModal": {
+    "title": "Przytnij Obraz",
+    "done": "Gotowe"
+  },
+  "oauth2": {
+    "AuthorizeButton": "Autoryzuj",
+    "permissions": "Uprawnienia"
   }
 }
