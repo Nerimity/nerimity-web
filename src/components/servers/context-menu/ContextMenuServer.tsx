@@ -254,7 +254,7 @@ export default function ContextMenuServer(props: Props) {
           icon: "arrow_upward",
           label: t("servers.settings.publishServer.bumpServer"),
           onClick: bumpClick,
-          show: isServerPublic(),
+          disabled: !isServerPublic(),
         },
         {
           icon: "notifications",
