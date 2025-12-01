@@ -20,7 +20,7 @@ import { useMatch, useNavigate, useParams } from "solid-navigator";
 import Input from "@/components/ui/input/Input";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Text from "@/components/ui/Text";
 import {
   addBit,
@@ -225,15 +225,15 @@ const EditApplicationOauth2 = (props: {
     refreshAppClientSecret(props.application.id)
       .then((res) => {
         props.setApplication(res);
-        alert("Client secret refreshed.");
+        toast("Client secret refreshed.");
       })
-      .catch((err) => alert(err.message))
+      .catch((err) => toast(err.message))
       .finally(() => (refreshClicked = false));
   };
 
   const copyToken = async () => {
     navigator.clipboard.writeText(props.application.clientSecret!);
-    alert("Copied client secret to clipboard.");
+    toast("Copied client secret to clipboard.");
   };
 
   const defaultInput = () => ({
@@ -260,7 +260,7 @@ const EditApplicationOauth2 = (props: {
       .then((newApp) => {
         props.setApplication({ ...props.application, ...newApp });
       })
-      .catch((err) => alert(err.message))
+      .catch((err) => toast(err.message))
       .finally(() => setRequestSent(false));
   };
 

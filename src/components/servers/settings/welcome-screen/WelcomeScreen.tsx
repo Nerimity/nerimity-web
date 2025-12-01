@@ -14,7 +14,7 @@ import {
 import { useTransContext } from "@nerimity/solid-i18lite";
 
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { RawServerWelcomeQuestion } from "@/chat-api/RawData";
 import { CustomLink } from "@/components/ui/CustomLink";
 
@@ -60,7 +60,7 @@ export default function SettingsPage() {
       title: "Untitled Question",
       multiselect: false,
       answers: [],
-    }).catch((e) => alert(e.message));
+    }).catch((e) => toast(e.message));
     if (!question) return;
     onQuestionAdded(question);
   };
@@ -129,7 +129,7 @@ const QuestionItem = (props: {
     event.preventDefault();
     deleteWelcomeQuestion(params.serverId, props.question.id)
       .then(() => props.onQuestionDelete())
-      .catch((err) => alert(err.message));
+      .catch((err) => toast(err.message));
   };
 
   return (

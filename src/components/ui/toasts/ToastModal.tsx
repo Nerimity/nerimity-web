@@ -16,6 +16,7 @@ export function ToastModal(props: {
       label={t("message.dismissButton")}
       onClick={props.close}
       iconName="close"
+      color="var(--alert-color)"
     />
   );
 
@@ -23,6 +24,8 @@ export function ToastModal(props: {
     <LegacyModal
       title={props.title}
       close={props.close}
+      color="var(--alert-color)"
+      ignoreBackgroundClick
       icon={props.icon}
       actionButtons={ActionButtons}
       maxWidth={300}

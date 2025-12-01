@@ -13,6 +13,7 @@ import PageFooter from "@/components/PageFooter";
 import { getPlatformDownloadLinks } from "@/github-api";
 import ContextMenu, { ContextMenuItem } from "@/components/ui/context-menu/ContextMenu";
 import { createSignal } from "solid-js";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 
 const HomePageContainer = styled("div")`
   display: flex;
@@ -210,7 +211,7 @@ const PlatformDownloadLinks = () => {
       return true;
     });
     if (filtered.length === 0) {
-      alert("No platforms found");
+      toast("No platforms found");
       console.log(platforms);
       return;
     }

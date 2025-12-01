@@ -31,7 +31,7 @@ import {
   removeBit,
 } from "@/chat-api/Bitwise";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
@@ -645,7 +645,7 @@ const WebhooksBlock = (props: { channelId: string; serverId: string }) => {
   const handleCreate = async () => {
     const res = await createWebhook(props.serverId, props.channelId).catch(
       (err) => {
-        alert(err.message);
+        toast(err.message);
       }
     );
     if (!res) return;

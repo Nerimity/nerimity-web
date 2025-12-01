@@ -10,7 +10,10 @@ import { ServerBumpModal } from "@/components/explore/ExploreServers";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
@@ -95,18 +98,15 @@ export default function PublishServerSettings() {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      return createPortal((close) => (
-        <ToastModal
-          title={t("servers.settings.publishServer.bumpServer")}
-          body={t("servers.settings.publishServer.bumpCooldown", {
-            hours: timeLeft.getUTCHours(),
-            minutes: timeLeft.getUTCMinutes(),
-            seconds: timeLeft.getUTCSeconds(),
-          })}
-          icon="arrow_upward"
-          close={close}
-        />
-      ));
+      toast(
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
+      );
     }
 
     return createPortal((close) => (

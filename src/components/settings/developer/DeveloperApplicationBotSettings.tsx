@@ -26,6 +26,7 @@ import { EditAccountPage } from "../AccountSettings";
 import SettingsHeader from "../SettingsHeader";
 import { EditProfilePage } from "../ProfileSettings";
 import PublishBotAppSettings from "./PublishBotAppSettings";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -66,12 +67,12 @@ export default function DeveloperApplicationBotSettings() {
   const copyToken = async () => {
     if (token()) {
       navigator.clipboard.writeText(token()!);
-      return alert("Copied token to clipboard.");
+      return toast("Copied token to clipboard.");
     }
     const res = await getAppBotToken(params.id);
     setToken(res.token);
     navigator.clipboard.writeText(token()!);
-    alert("Copied token to clipboard.");
+    toast("Copied token to clipboard.");
   };
 
   const onRefreshClick = async () => {
@@ -79,10 +80,10 @@ export default function DeveloperApplicationBotSettings() {
       .then(async () => {
         const res = await getAppBotToken(params.id);
         setToken(res.token);
-        alert("Token refreshed.");
+        toast("Token refreshed.");
       })
       .catch((err) => {
-        alert(err.message);
+        toast(err.message);
       });
   };
 

@@ -18,7 +18,7 @@ import {
 } from "@/chat-api/services/WebhookService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { copyToClipboard } from "@/common/clipboard";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 
 const Container = styled("div")`
@@ -82,7 +82,7 @@ export default function ServerSettingsWebhook() {
       params.channelId,
       params.webhookId
     ).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
 
     if (res) {
@@ -113,7 +113,7 @@ export default function ServerSettingsWebhook() {
       params.channelId,
       params.webhookId
     ).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
 
     if (!res) return;
@@ -131,7 +131,7 @@ export default function ServerSettingsWebhook() {
       name: inputValues().name,
     })
       .then((res) => setWebhook(res))
-      .catch((err) => alert(err.message))
+      .catch((err) => toast(err.message))
       .finally(() => {
         setRequestSent(false);
       });

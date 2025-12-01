@@ -18,6 +18,7 @@ import {
   unlikePost,
 } from "../services/PostService";
 import useAccount from "./useAccount";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 
 export type Post = RawPost & {
   like(this: Post): Promise<string>;
@@ -137,7 +138,7 @@ export function usePosts() {
 
               setState("posts", this.id, { ...this, poll });
             })
-            .catch((e) => alert(e.message));
+            .catch((e) => toast(e.message));
         },
         async loadComments() {
           const comments = await getCommentPosts({
@@ -195,7 +196,7 @@ export function usePosts() {
             replyToPostId: this.id,
             poll: opts.poll,
           }).catch((err) => {
-            alert(err.message);
+            toast(err.message);
           });
           if (!post) return;
           batch(() => {
@@ -246,7 +247,7 @@ export function usePosts() {
       attachment: opts.file,
       poll: opts.poll,
     }).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
     if (!post) return;
     batch(() => {

@@ -28,7 +28,7 @@ import Avatar from "@/components/ui/Avatar";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import { CustomLink } from "@/components/ui/CustomLink";
 import FileBrowser, { FileBrowserRef } from "@/components/ui/FileBrowser";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
@@ -347,13 +347,13 @@ const MessageInputArea = (props: {
   const sendClick = async () => {
     const status = selectedStatus();
     if (status === undefined && isModeration()) {
-      alert("You must select a status.");
+      toast("You must select a status.");
       return;
     }
 
     const formattedValue = value().trim();
     if (!formattedValue.length) {
-      alert("Your message cannot be empty.");
+      toast("Your message cannot be empty.");
       return;
     }
     const file = attachment();
@@ -366,7 +366,7 @@ const MessageInputArea = (props: {
       const uploadRes = await uploadAttachment(props.channelId, {
         file,
       }).catch((err) => {
-        alert(err.message);
+        toast(err.message);
       });
       if (!uploadRes) return;
 
@@ -378,7 +378,7 @@ const MessageInputArea = (props: {
       nerimityCdnFileId: fileId,
       channelId: props.channelId,
     }).catch((err) => {
-      alert(err.message);
+      toast(err.message);
       setValue(formattedValue);
       setAttachment(() => file);
     });
@@ -390,7 +390,7 @@ const MessageInputArea = (props: {
       params.id,
       status || TicketStatus.WAITING_FOR_MODERATOR_RESPONSE
     ).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
     tickets.updateModerationTicketNotification();
     tickets.updateTicketNotification();

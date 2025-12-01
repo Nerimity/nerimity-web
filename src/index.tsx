@@ -1,7 +1,8 @@
+import { CustomPortalProvider, toast } from "@/components/ui/custom-portal/CustomPortal";
 /* @refresh reload */
 const search = new URLSearchParams(location.search);
 if (search.get("eruda") === "true" && location.pathname === "/app") {
-  alert(
+  toast(
     "Eruda enabled, Do not share any details with others. Reload to disable Eruda."
   );
   await import("eruda").then((eruda) => {
@@ -17,7 +18,6 @@ import "./init";
 import { render } from "solid-js/web";
 import "./index.css";
 import App from "./App";
-import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
 import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json?raw";
 import { TransProvider } from "@nerimity/solid-i18lite";

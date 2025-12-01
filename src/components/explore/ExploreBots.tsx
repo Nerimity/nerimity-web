@@ -18,7 +18,7 @@ import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import { Banner } from "../ui/Banner";
 import { getDaysAgo, timeSince } from "@/common/date";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import env from "@/common/env";
@@ -360,18 +360,15 @@ function PublicItem(props: {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      return createPortal((close) => (
-        <ToastModal
-          title={t("servers.settings.publishServer.bumpServer")}
-          body={t("servers.settings.publishServer.bumpCooldown", {
-            hours: timeLeft.getUTCHours(),
-            minutes: timeLeft.getUTCMinutes(),
-            seconds: timeLeft.getUTCSeconds(),
-          })}
-          icon="arrow_upward"
-          close={close}
-        />
-      ));
+      toast(
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
+      );
     }
 
     return createPortal((close) => (

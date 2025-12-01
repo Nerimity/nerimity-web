@@ -25,7 +25,10 @@ import { RadioBoxItem } from "@/components/ui/RadioBox";
 import { css } from "solid-styled-components";
 import { ServerBumpModal } from "../../explore/ExploreServers";
 import { t } from "@nerimity/i18lite";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import { ToastModal } from "@/components/ui/toasts/ToastModal";
 import LeaveServerModal from "../modals/LeaveServerModal";
 
@@ -99,18 +102,16 @@ export default function ContextMenuServer(props: Props) {
     if (elapsed < bumpAfter) {
       const remaining = new Date(bumpAfter - elapsed);
 
-      createPortal?.((close) => (
-        <ToastModal
-          title={t("servers.settings.publishServer.bumpServer")}
-          body={t("servers.settings.publishServer.bumpCooldown", {
-            hours: remaining.getUTCHours(),
-            minutes: remaining.getUTCMinutes(),
-            seconds: remaining.getUTCSeconds(),
-          })}
-          icon="arrow_upward"
-          close={close}
-        />
-      ));
+      toast(
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: remaining.getUTCHours(),
+          minutes: remaining.getUTCMinutes(),
+          seconds: remaining.getUTCSeconds(),
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
+      );
+
       return;
     }
 

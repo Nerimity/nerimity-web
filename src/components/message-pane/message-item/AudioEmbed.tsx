@@ -12,6 +12,7 @@ import env from "@/common/env";
 import { prettyBytes } from "@/common/prettyBytes";
 import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
 import Button from "@/components/ui/Button";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 import Icon from "@/components/ui/icon/Icon";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import {
@@ -124,7 +125,7 @@ export const AudioEmbed = (props: {
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
-        alert(
+        toast(
           "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
         );
       }
@@ -157,7 +158,7 @@ export const AudioEmbed = (props: {
             iconName="info"
             iconSize={16}
             onClick={() =>
-              alert(
+              toast(
                 props.file?.expireAt
                   ? "File expired."
                   : "This file was modified/deleted by the creator in their Google Drive. "
