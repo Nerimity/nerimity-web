@@ -26,6 +26,7 @@ import { css } from "solid-styled-components";
 import { ServerBumpModal } from "../../explore/ExploreServers";
 import { t } from "@nerimity/i18lite";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 import LeaveServerModal from "../modals/LeaveServerModal";
 
 type Props = Omit<ContextMenuProps, "items"> & {
@@ -80,24 +81,32 @@ export default function ContextMenuServer(props: Props) {
   };
 
   createEffect(() => {
-    setExploreItem(null);
-    if (props.serverId) {
-      getPublicServer(props.serverId)
-        .then(setExploreItem)
-        .catch(() => {});
-    }
+    if (props.serverId)
+      getPublicServer(props.serverId).then((ps) => setExploreItem(ps));
   });
 
   const bumpClick = () => {
     const item = exploreItem();
+    if (!item) return;
 
     const bumpAfter = 3 * 60 * 60 * 1000;
     const elapsed = Date.now() - item!.bumpedAt;
+
     if (elapsed < bumpAfter) {
       const remaining = new Date(bumpAfter - elapsed);
-      alert(
-        `You must wait ${remaining.getUTCHours()}h ${remaining.getUTCMinutes()}m ${remaining.getUTCSeconds()}s to bump this server.`
-      );
+
+      createPortal?.((close) => (
+        <ToastModal
+          title={t("servers.settings.publishServer.bumpServer")}
+          body={t("servers.settings.publishServer.bumpCooldown", {
+            hours: remaining.getUTCHours(),
+            minutes: remaining.getUTCMinutes(),
+            seconds: remaining.getUTCSeconds(),
+          })}
+          icon="arrow_upward"
+          close={close}
+        />
+      ));
       return;
     }
 
@@ -240,7 +249,7 @@ export default function ContextMenuServer(props: Props) {
           icon: "arrow_upward",
           label: t("servers.settings.publishServer.bumpServer"),
           onClick: bumpClick,
-          disabled: !isServerPublic(),
+          show: isServerPublic(),
         },
         {
           icon: "notifications",
