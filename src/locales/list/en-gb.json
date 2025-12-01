@@ -476,7 +476,7 @@
   },
   "createServerModal": {
     "title": "Create Server",
-    "notice": "Server MUST be in English.",
+    "notice": "NSFW content is not allowed.",
     "mustBeEnglish": "Server MUST be in English.",
     "serverName": "Server Name",
     "placeholder": "My Awesome Server",
