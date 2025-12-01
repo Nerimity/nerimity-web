@@ -53,7 +53,7 @@ import {
   UserBadge,
 } from "@/chat-api/Bitwise";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/LegacyItem";
 import ContextMenu, {
@@ -478,7 +478,7 @@ const ActionButtons = (props: {
       username: props.user.username,
       tag: props.user.tag,
     }).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
   };
 

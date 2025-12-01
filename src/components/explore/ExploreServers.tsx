@@ -18,7 +18,7 @@ import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import { Banner } from "../ui/Banner";
 import { getDaysAgo, timeSince } from "@/common/date";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import env from "@/common/env";
@@ -35,6 +35,7 @@ import {
   PublicServerFilter,
   PublicServerSort,
 } from "@/chat-api/services/ExploreService";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;
@@ -374,8 +375,7 @@ function PublicServerItem(props: {
   };
 
   const bumpClick = () => {
-    // 3 hours to milliseconds
-    const bumpAfter = 3 * 60 * 60 * 1000;
+    const bumpAfter = 3 * 60 * 60 * 1000; // 3 hours in ms
 
     const millisecondsSinceLastBump =
       new Date().getTime() - props.publicServer.bumpedAt;
@@ -383,11 +383,17 @@ function PublicServerItem(props: {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
+      toast(
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
       );
-      return;
     }
+
     return createPortal((close) => (
       <ServerBumpModal
         update={props.update}
@@ -578,7 +584,7 @@ export function ServerBumpModal(props: {
       })
       .catch((err) => {
         setVerifyKey(undefined);
-        alert(err.message);
+        toast(err.message);
         turnstileRef?.reset();
       });
   };

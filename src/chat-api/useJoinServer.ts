@@ -3,6 +3,9 @@ import { createEffect, createSignal } from "solid-js";
 import { useNavigate } from "solid-navigator";
 import useStore from "./store/useStore";
 import {
+  toast,
+} from "@/components/ui/custom-portal/CustomPortal";
+import {
   joinPublicServer,
   joinServerByInviteCode,
 } from "./services/ServerService";
@@ -37,7 +40,7 @@ export const useJoinServer = () => {
     setJoining(true);
 
     await joinServerByInviteCode(code).catch((err) => {
-      alert(err.message);
+      toast(err.message);
       setJoining(false);
     });
   };
@@ -47,7 +50,7 @@ export const useJoinServer = () => {
     setJoining(true);
 
     await joinPublicServer(serverId).catch((err) => {
-      alert(err.message);
+      toast(err.message);
       setJoining(false);
     });
   };

@@ -15,6 +15,7 @@ import {
 import { RawApplication } from "@/chat-api/RawData";
 import { createStore, reconcile } from "solid-js/store";
 import { useNavigate } from "solid-navigator";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -42,7 +43,7 @@ export default function DeveloperApplicationsSettings() {
 
   const addNewApp = async () => {
     const app = await createApplication().catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
     if (!app) return;
     navigate("/app/settings/developer/applications/" + app.id);

@@ -18,6 +18,7 @@ import {
 } from "@/chat-api/services/OAuthService";
 import Avatar from "../ui/Avatar";
 import Text from "../ui/Text";
+import { toast } from "../ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -110,7 +111,7 @@ const ThirdPartyConnectionItem = (props: {
         props.onUnauthorize();
       })
       .catch((err) => {
-        alert(err.message);
+        toast(err.message);
       })
       .finally(() => setRequestSent(false));
   };
@@ -152,12 +153,12 @@ function GoogleLink() {
         window.open(url, "_blank");
       })
       .catch((err) => {
-        alert(err.message);
+        toast(err.message);
       });
   };
   const unlinkGoogle = async () => {
     await unlinkAccountWithGoogle().catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
   };
 

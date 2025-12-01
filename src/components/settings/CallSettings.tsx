@@ -24,6 +24,7 @@ import { FlexColumn } from "../ui/Flexbox";
 import Input from "../ui/input/Input";
 import Button from "../ui/Button";
 import { downKeys, useGlobalKey } from "@/common/GlobalKey";
+import { toast } from "../ui/custom-portal/CustomPortal";
 
 const Container = styled("div")`
   display: flex;
@@ -148,7 +149,7 @@ function InputMode() {
       <InputModeRadioBoxContainer
         onClick={() => {
           if (isInCall()) {
-            alert("You must leave the call first.");
+            toast("You must leave the call first.");
           }
         }}
       >
@@ -192,7 +193,7 @@ function PushToTalk() {
     on(bindMode, (bindMode) => {
       if (bindMode) {
         if (isInCall()) {
-          alert("You must leave the call first.");
+          toast("You must leave the call first.");
           setBindMode(false);
           return;
         }

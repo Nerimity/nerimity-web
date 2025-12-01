@@ -26,6 +26,7 @@ import {
 } from "@/chat-api/services/ReminderService";
 import { PostItem } from "../post-area/PostItem";
 import { formatTimestamp } from "@/common/date";
+import { toast } from "../ui/custom-portal/CustomPortal";
 
 export default function RemindersModal(props: {
   channelId?: string;
@@ -57,7 +58,7 @@ export default function RemindersModal(props: {
   );
 
   const closeNotice = () =>
-    alert("You must dismiss all active reminders first.");
+    toast("You must dismiss all active reminders first.");
 
   const close = () => {
     if (hasActiveReminders()) {

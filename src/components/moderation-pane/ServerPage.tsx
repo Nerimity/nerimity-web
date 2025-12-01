@@ -21,7 +21,7 @@ import Avatar from "../ui/Avatar";
 import { css, styled } from "solid-styled-components";
 import { bannerUrl } from "@/chat-api/store/useServers";
 import DeleteServerModal from "./DeleteServerModal";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
@@ -269,10 +269,10 @@ const PublicServerBlock = (props: {
     if (isPinned())
       return unpinServer(props.server.id)
         .then(() => setIsPinned(false))
-        .catch((err) => alert(err.message));
+        .catch((err) => toast(err.message));
     pinServer(props.server.id)
       .then(() => setIsPinned(true))
-      .catch((err) => alert(err.message));
+      .catch((err) => toast(err.message));
   };
 
   return (

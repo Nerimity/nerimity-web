@@ -10,7 +10,10 @@ import { ServerBumpModal } from "@/components/explore/ExploreServers";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
@@ -18,6 +21,7 @@ import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;
@@ -94,14 +98,15 @@ export default function PublishServerSettings() {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(
+      toast(
         t("servers.settings.publishServer.bumpCooldown", {
           hours: timeLeft.getUTCHours(),
           minutes: timeLeft.getUTCMinutes(),
           seconds: timeLeft.getUTCSeconds(),
-        })
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
       );
-      return;
     }
 
     return createPortal((close) => (

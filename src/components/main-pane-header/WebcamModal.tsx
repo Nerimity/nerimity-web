@@ -7,6 +7,7 @@ import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
 import { ElectronCaptureSource, electronWindowAPI } from "@/common/Electron";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
+import { toast } from "../ui/custom-portal/CustomPortal";
 
 const ActionButtonsContainer = styled(FlexRow)`
   justify-content: flex-end;
@@ -57,7 +58,7 @@ export function WebcamModal(props: { close: () => void }) {
         },
       })
       .catch(() => {
-        alert("Failed to share camera");
+        toast("Failed to share camera");
       });
     if (!stream) return;
     voiceUsers.setVideoStream(stream);

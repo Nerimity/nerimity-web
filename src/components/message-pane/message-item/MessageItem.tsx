@@ -47,7 +47,7 @@ import {
   Switch,
 } from "solid-js";
 import { Markup } from "@/components/Markup";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ImageEmbed, clamp, clampImageSize } from "@/components/ui/ImageEmbed";
@@ -371,7 +371,7 @@ const MessageItem = (props: MessageItemProps) => {
   const updateTranslation = async () => {
     const translated = await fetchTranslation(props.message.content!).catch(
       () => {
-        alert(t("message.translationError"));
+        toast(t("message.translationError"));
       }
     );
     if (!translated) return;
@@ -1072,14 +1072,14 @@ const VideoEmbed = (props: {
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
-        alert(t("videoEmbed.googleDrivePolicy"));
+        toast(t("videoEmbed.googleDrivePolicy"));
       }
     }
     setPlayVideo(!playVideo());
   };
 
   const alertExpiredOrModified = () =>
-    alert(
+    toast(
       props.file?.expireAt
         ? t("videoEmbed.videoExpired") // Can probably move all "expired" to use a central expired string in future
         : t("videoEmbed.modifiedOrDeleted")
@@ -1204,7 +1204,7 @@ const FileEmbed = (props: {
   };
 
   const alertExpired = () =>
-    alert(
+    toast(
       props.file?.expireAt
         ? t("fileEmbed.expired")
         : t("fileEmbed.modifiedOrDeleted")
