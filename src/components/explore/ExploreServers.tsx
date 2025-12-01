@@ -35,6 +35,7 @@ import {
   PublicServerFilter,
   PublicServerSort,
 } from "@/chat-api/services/ExploreService";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;
@@ -374,8 +375,7 @@ function PublicServerItem(props: {
   };
 
   const bumpClick = () => {
-    // 3 hours to milliseconds
-    const bumpAfter = 3 * 60 * 60 * 1000;
+    const bumpAfter = 3 * 60 * 60 * 1000; // 3 hours in ms
 
     const millisecondsSinceLastBump =
       new Date().getTime() - props.publicServer.bumpedAt;
@@ -383,11 +383,20 @@ function PublicServerItem(props: {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
-      );
-      return;
+      return createPortal((close) => (
+        <ToastModal
+          title={t("servers.settings.publishServer.bumpServer")}
+          body={t("servers.settings.publishServer.bumpCooldown", {
+            hours: timeLeft.getUTCHours(),
+            minutes: timeLeft.getUTCMinutes(),
+            seconds: timeLeft.getUTCSeconds(),
+          })}
+          icon="arrow_upward"
+          close={close}
+        />
+      ));
     }
+
     return createPortal((close) => (
       <ServerBumpModal
         update={props.update}
