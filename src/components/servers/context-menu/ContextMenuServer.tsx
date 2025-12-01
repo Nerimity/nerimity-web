@@ -81,8 +81,12 @@ export default function ContextMenuServer(props: Props) {
   };
 
   createEffect(() => {
-    if (props.serverId)
-      getPublicServer(props.serverId).then((ps) => setExploreItem(ps));
+    setExploreItem(null);
+    if (props.serverId) {
+      getPublicServer(props.serverId)
+        .then(setExploreItem)
+        .catch(() => {});
+    }
   });
 
   const bumpClick = () => {
