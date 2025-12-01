@@ -76,6 +76,83 @@ type CustomEntity = Entity & { type: "custom" };
 
 const TimeOffsetRegex = /^[+-]\d{4}$/;
 
+function parseListLines(text: string): JSX.Element[] {
+  const lines = text.split("\n");
+
+  function parseLines(
+    lines: string[],
+    startIndex = 0,
+    parentLevel = 0
+  ): [JSX.Element[], number] {
+    const elements: JSX.Element[] = [];
+    let i = startIndex;
+
+    while (i < lines.length) {
+      const line = lines[i];
+      const trimmed = line.trimStart();
+      const indent = line.length - trimmed.length;
+      const lineLevel = Math.floor(indent / 2);
+
+      if (trimmed.startsWith("\\- ")) { // TODO: Fix weird indent on escaped bullet
+        const entity = addTextSpans(parseMarkup("-" + trimmed.slice(2)));
+        const ctx: RenderContext = { props: () => ({ text: "–" + trimmed.slice(2) }), textCount: 0, emojiCount: 0, quoteCount: 0 }; // HACK: render as en dash to prevent looping
+        elements.push(<span>{transformEntity(entity, ctx)}</span>, <br />);
+        i++;
+        continue;
+      }
+
+      if (trimmed.startsWith("- ") && lineLevel >= parentLevel) {
+        const listItems: JSX.Element[] = [];
+
+        while (i < lines.length) {
+          const subLine = lines[i];
+          const subTrimmed = subLine.trimStart();
+          const subIndent = subLine.length - subTrimmed.length;
+          const subLevel = Math.floor(subIndent / 2);
+          if (subTrimmed.startsWith("- ") && subLevel > parentLevel) {
+            const [nested, newIndex] = parseLines(lines, i, subLevel);
+            if (listItems.length > 0) {
+              const lastItem = listItems.pop()!;
+              listItems.push(<li>{lastItem.props?.children ?? lastItem}{nested}</li>);
+            } else {
+              listItems.push(<li>{nested}</li>);
+            }
+            i = newIndex;
+          } else if (subTrimmed.startsWith("- ") && subLevel === parentLevel) {
+            const entity = addTextSpans(parseMarkup(subTrimmed.slice(2)));
+            const ctx: RenderContext = { props: () => ({ text: subTrimmed.slice(2) }), textCount: 0, emojiCount: 0, quoteCount: 0 };
+            listItems.push(<li>{transformEntity(entity, ctx)}</li>);
+            i++;
+          } else {
+            break;
+          }
+        }
+
+        elements.push(<ul>{listItems}</ul>);
+        continue;
+      }
+      if (trimmed === "") {
+        elements.push(<br />);
+        i++;
+        continue;
+      }
+      if (parentLevel === 0) {
+        const entity = addTextSpans(parseMarkup(trimmed));
+        const ctx: RenderContext = { props: () => ({ text: trimmed }), textCount: 0, emojiCount: 0, quoteCount: 0 };
+        elements.push(<span>{transformEntity(entity, ctx)}</span>, <br />);
+        i++;
+      } else {
+        return [elements, i];
+      }
+    }
+
+    return [elements, i];
+  }
+
+  const [elements] = parseLines(lines);
+  return elements;
+}
+
 function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   const channels = useChannels();
   const users = useUsers();
@@ -212,16 +289,22 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
   }
   return <span>{sliceText(ctx, entity.outerSpan)}</span>;
 }
-
 function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
   switch (entity.type) {
     case "text": {
+      const text = sliceText(ctx, entity.innerSpan);
+
+      if (text.includes("- ")) {
+        return <>{parseListLines(text)}</>;
+      }
+
       if (entity.entities.length > 0) {
         return <span>{transformEntities(entity, ctx)}</span>;
       } else {
-        return <span>{sliceText(ctx, entity.innerSpan)}</span>;
+        return <span>{text}</span>;
       }
     }
+
     case "link": {
       const url = sliceText(ctx, entity.innerSpan);
       return <Link {...{ url }} />;
