@@ -56,7 +56,7 @@ export const unpinMessage = async (channelId: string, messageId: string) => {
   return data;
 };
 export const fetchPinnedMessages = async (channelId: string) => {
-  const data = await request<{messages: RawMessage[]}>({
+  const data = await request<{ messages: RawMessage[] }>({
     method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.messages(channelId) + "/pins",
 
@@ -272,7 +272,8 @@ export const fetchMessageReactedUsers = async (opts: {
 export const messageButtonClick = async (
   channelId: string,
   messageId: string,
-  buttonId: string
+  buttonId: string,
+  inputs: Record<string, string>
 ) => {
   const data = await request({
     method: "POST",
@@ -282,6 +283,10 @@ export const messageButtonClick = async (
       Endpoints.message(channelId, messageId) +
       "/buttons/" +
       buttonId,
+    params: {
+      type: inputs ? "modal_click" : "button_click",
+    },
+    body: inputs,
     useToken: true,
     notJSON: true,
   });
