@@ -154,19 +154,26 @@ const ResponseModal = (props: {
   payload: CallbackPayload;
 }) => {
   const [inputs, setInputs] = createSignal<Record<string, string>>({});
+  const [error, setError] = createSignal<string | null>(null);
+  const [requestSent, setRequestSent] = createSignal(false);
   const title = () =>
     props.payload.title
       ? `${props.payload.title} (${props.message.createdBy.username})`
       : `Response from ${props.message.createdBy.username}`;
 
-  const onCloseClick = () => {
-    props.close();
-    messageButtonClick(
+  const onCloseClick = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+    setError(null);
+    await messageButtonClick(
       props.message.channelId,
       props.message.id,
       props.button.id,
       inputs()
-    );
+    )
+      .then(() => props.close())
+      .catch((err) => setError(err.message))
+      .finally(() => setRequestSent(false));
   };
 
   return (
@@ -180,6 +187,15 @@ const ResponseModal = (props: {
       ]}
     >
       <div class={style.modalContent}>
+        <Show when={props.payload.components?.length}>
+          <Notice
+            type="caution"
+            description={[
+              `Data is sent to ${props.message.createdBy.username}`,
+              "Never share sensitive information",
+            ]}
+          />
+        </Show>
         <Markup text={props.payload.content || ""} />
         <Show when={props.payload.components?.length}>
           <For each={props.payload.components}>
@@ -191,13 +207,9 @@ const ResponseModal = (props: {
               />
             )}
           </For>
-          <Notice
-            type="caution"
-            description={[
-              `Data is sent to ${props.message.createdBy.username}`,
-              "Never share sensitive information",
-            ]}
-          />
+        </Show>
+        <Show when={error()}>
+          <Text color="var(--alert-color)">{error()}</Text>
         </Show>
       </div>
     </LegacyModal>
@@ -218,7 +230,7 @@ const ButtonComponent = (props: {
   return (
     <>
       <Show when={props.component.type === "text"}>
-        <Text>{text().content}</Text>
+        <Markup text={text().content} />
       </Show>
       <Show when={props.component.type === "dropdown"}>
         <DropDown
