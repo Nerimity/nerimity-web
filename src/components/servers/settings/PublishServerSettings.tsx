@@ -18,6 +18,7 @@ import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;
@@ -94,14 +95,18 @@ export default function PublishServerSettings() {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(
-        t("servers.settings.publishServer.bumpCooldown", {
-          hours: timeLeft.getUTCHours(),
-          minutes: timeLeft.getUTCMinutes(),
-          seconds: timeLeft.getUTCSeconds(),
-        })
-      );
-      return;
+      return createPortal((close) => (
+        <ToastModal
+          title={t("servers.settings.publishServer.bumpServer")}
+          body={t("servers.settings.publishServer.bumpCooldown", {
+            hours: timeLeft.getUTCHours(),
+            minutes: timeLeft.getUTCMinutes(),
+            seconds: timeLeft.getUTCSeconds(),
+          })}
+          icon="arrow_upward"
+          close={close}
+        />
+      ));
     }
 
     return createPortal((close) => (
