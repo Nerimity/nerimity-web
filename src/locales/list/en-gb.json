@@ -702,20 +702,16 @@
     "AuthorizeButton": "Authorize",
     "permissions": "Permissions"
 },
-"badges": {
-    "kittyBlue": {
-      "name": "Kitty",
-      "description": "Blue Ears Kitty"
-    },
-    "kittyWhite": {
-      "description": "White Ears Kitty"
-    },
-    "foxyGold": {
+  "badges": {
+    "kitty": { 
+       "name": "Kitty", 
+       "blueDescription": "Blue Ears Kitty",
+       "whiteDescription": "White Ears Kitty" 
+     },
+    "foxy": {
       "name": "Foxy",
-      "description": "Gold Ears Fox"
-    },
-    "foxyBrown": {
-      "description": "Brown Ears Fox"
+      "foxyGoldDescription": "Gold Ears Fox",
+      "foxyBrownDescription": "Brown Ears Fox"
     },
     "founder": {
       "name": "Founder",
@@ -754,4 +750,5 @@
       "upklyakFreepikEditedBySupertiger": "Avatar Border by upklyak on Freepik, edited by Supertiger"
     }
   }
+}
 }
