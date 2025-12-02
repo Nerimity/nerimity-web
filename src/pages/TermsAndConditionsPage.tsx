@@ -2,10 +2,11 @@ import PageHeader from "../components/PageHeader";
 import { styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn } from "@/components/ui/Flexbox";
-import { JSXElement } from "solid-js";
+import { JSXElement, For } from "solid-js";
 import { CustomLink } from "@/components/ui/CustomLink";
 import PageFooter from "@/components/PageFooter";
 import { MetaTitle } from "@/common/MetaTitle";
+import { createSignal } from "solid-js";
 
 const PageContainer = styled("div")`
   display: flex;
@@ -59,87 +60,118 @@ export default function TermsAndConditionsPage() {
           <InformationContainer>
             <Title>Nerimity Terms and Conditions of Use</Title>
             <Text opacity={0.8} size={14}>
-              Last updated: 10 October 2024
+              Last updated: 2 December 2025
             </Text>
             <Text opacity={0.6} size={14}>
-              If you find something missing or have any questions, email us at
-              nerimityapp@gmail.com.
+              If you have questions or notice something missing, you may email
+              us at{" "}
+              <a href="mailto:nerimityapp@gmail.com">nerimityapp@gmail.com</a>.
             </Text>
           </InformationContainer>
+
           <Block title="Notes" important>
             <ul>
               <li>
-                This is a hobby passion project and I reserve the right to
-                suspend anyone for any reason
+                This is currently a hobby project, but it may grow and expand in
+                the future. Moderation is flexible to help keep the community
+                safe and enjoyable for everyone.
               </li>
               <li>
-                Due to this website being so small with a small moderation team,
+                Since our moderation team is small,{" "}
                 <strong>
-                  {` everyone must make their servers and the content inside it in
-                  English `}
-                </strong>
-                (Because of legal reasons as I have to abide by British law and
-                be able to moderate the content on my platform)
+                  please create your servers and content in English
+                </strong>{" "}
+                for now. Paid supporters are exempt, and this rule may be
+                relaxed or reverted as the platform grows.
               </li>
             </ul>
           </Block>
 
           <Block title="1. Terms">
-            By accessing this website (https://nerimity.com), you agree to these
-            website terms and conditions of use. You agree that you are
-            responsible for complying with local laws. If you disagree with any
-            of these terms, you cannot access this site.
+            By accessing or using this website (https://nerimity.com), you
+            acknowledge and agree to be bound by these Terms and Conditions of
+            Use. You further agree that you are solely responsible for ensuring
+            compliance with all applicable local laws. If you do not agree to
+            any provision of these terms, you must not access or use this
+            website.{" "}
+            <strong>
+              Continued access to or use of Nerimity following the publication
+              of any amendments to these Terms and Conditions shall be deemed to
+              constitute your acceptance of those amendments.
+            </strong>{" "}
+            We encourage users to review these Terms and Conditions regularly to
+            remain informed of any updates or changes.
+          </Block>
+          <Block title="2. Age Requirements">
+            To use Nerimity or any associated services, you must be at least{" "}
+            <strong>14 years old</strong>, and meet the minimum age required by
+            the laws in your country or region. Accounts reasonably believed to
+            belong to users below the required minimum age may be suspended
+            until satisfactory proof of age is provided.
+            <div style={{ "margin-top": "10px" }}>
+              <strong>Exceptions:</strong> Certain countries or regions have a
+              higher minimum age requirement. For a list of these exceptions,
+              please expand the section below:
+            </div>
+            <AgeDropdown />
+            <div style={{ "margin-top": "10px" }}>
+              Where local law requires a higher minimum age than those listed
+              above,
+              <strong> the higher age requirement shall apply</strong>.
+            </div>
           </Block>
 
-          <Block title="2. Age requirement">
-            By creating an account on Nerimity, you agree and are positive{" "}
-            <strong>you are over the age of 14</strong> and the age of consent
-            in your country. If you are caught underage, your account will be
-            suspended. If you think we made a false decision in banning you, you
-            may email us at nerimityapp@gmail.com with proof of your age to
-            un-suspend your account.
-          </Block>
-          <Block title="3. Behavior">
+          <Block title="3. Behaviour">
             Racism, sexism, homophobia, targeted harassment, serious bullying or
-            doxxing <strong>are prohibited</strong> on Nerimity. However if
+            doxxing <strong>are prohibited</strong> on Nerimity. However, if
             someone has a different opinion from yours that isn't harming
-            anyone, we advise you to just block them instead. We would like
+            anyone, we advise you to simply block them instead. We would like
             everyone to feel safe when using this platform. We want to keep
             things positive. Anyone reported or caught violating this term will
             be suspended immediately.
             <div style={{ "margin-top": "15px" }}>
               <strong>
-                Any images, links, videos depicting mentions of bodily gore,
-                self harm, disturbing imagery, triggering or illegal topics are
+                Any images, links, or videos depicting bodily gore, self-harm,
+                disturbing imagery, triggering material, or illegal topics are
                 absolutely prohibited on Nerimity.
               </strong>
             </div>
             <div style={{ "margin-top": "15px" }}>
-              Any discussions of the aforementioned topics is also not allowed
+              Any discussion of the aforementioned topics is also not allowed
               via text. We reserve the right to suspend anyone posting
               disturbing or triggering media or content.
             </div>
           </Block>
+
           <Block title="4. Servers">
             Creating a server on Nerimity that involves exploitation of any game
-            or creating a NSFW based server will cause your account to be
-            suspended and the server to be deleted. This is to ensure our
-            members have a comfortable environment to learn and have fun in.
-            Servers must be primarily in English
+            or creating an NSFW-based server will cause your account to be
+            suspended and the server deleted. This is to ensure our members have
+            a comfortable environment to learn and have fun in. Servers must be
+            primarily in English.
           </Block>
+
           <Block title="5. Links">
             Nerimity has not reviewed all sites connected to its Website and is
             not responsible for their contents. The presence of any link does
             not imply endorsement by Nerimity of the site. Any linked website is
-            used at the user’s own risk.
+            used at the user's own risk.
           </Block>
 
-          <Block title="6. Use License">
-            Permission is granted to temporarily download a copy of the
-            materials on Nerimity's Website for personal, noncommercial use
-            only. This is the grant of a license, not a transfer of title. Under
-            this license you may not use the materials for commercial purposes.
+          <Block title="6. Use Licence">
+            For details on usage rights, please refer to the licenses provided
+            in each repository on our{" "}
+            <a
+              href="https://github.com/orgs/Nerimity/repositories"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            . These outline what you can and cannot do with the code and
+            materials.
           </Block>
+
           <Block title="7. Disclaimer">
             All Nerimity's Website materials are provided "as is". Nerimity
             makes no promises, expressly or impliedly, therefore negates all
@@ -147,15 +179,17 @@ export default function TermsAndConditionsPage() {
             accuracy or reliability of the use of the materials on its Website.
             It does not represent any sites linked to this Website.
           </Block>
+
           <Block title="8. Limitations">
             Nerimity or its suppliers will not be held accountable for any
             damages that arise from the use or inability to use the materials on
-            Nerimity’s Website. This is even if Nerimity or an authorized
-            representative of this Website has been notified, orally or written,
-            of the possibility of such damage. Some jurisdictions do not allow
-            limitations on implied warranties or liability for incidental
-            damages, so these limitations may not apply to you.
+            Nerimity's Website. This is even if Nerimity or an authorised
+            representative of this Website has been notified, orally or in
+            writing, of the possibility of such damage. Some jurisdictions do
+            not allow limitations on implied warranties or liability for
+            incidental damages, so these limitations may not apply to you.
           </Block>
+
           <Block title="9. Revisions and Errata">
             Nerimity's Website may contain technical, typographical, or
             photographic errors. Nerimity does not promise that the materials on
@@ -170,12 +204,14 @@ export default function TermsAndConditionsPage() {
               Privacy Policy.
             </CustomLink>
           </Block>
+
           <Block title="11. Governing Law">
             Any claim relating to Nerimity's Website shall be governed by the
             laws of GB without regard to its conflict of law provisions.
           </Block>
         </CenterContainer>
       </Content>
+
       <PageFooter />
     </PageContainer>
   );
@@ -213,5 +249,97 @@ function Block(props: {
         {props.children}
       </Text>
     </BlockContainer>
+  );
+}
+const DropdownContainer = styled("div")`
+  margin-top: 15px;
+  border-radius: 12px;
+  background-color: var(--background-dark);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: var(--background-dark-hover);
+  }
+`;
+
+const DropdownHeader = styled("div")`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+`;
+
+const DropdownContent = styled("div")`
+  margin-top: 12px;
+  background-color: var(--background-light-alt);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+`;
+
+const CountryItem = styled("div")`
+  font-size: 13px;
+  background-color: var(--background-light);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+`;
+
+export function AgeDropdown() {
+  const [open, setOpen] = createSignal(false);
+
+  const countries = [
+    { name: "Croatia", age: "16" },
+    { name: "Czech Republic", age: "15" },
+    { name: "France", age: "15" },
+    { name: "Germany", age: "16" },
+    { name: "Greece", age: "15" },
+    { name: "Hungary", age: "16" },
+    { name: "Ireland", age: "16" },
+    { name: "Netherlands", age: "16" },
+    { name: "Poland", age: "16" },
+    { name: "Romania", age: "16" },
+    { name: "San Marino", age: "16" },
+    { name: "Serbia", age: "16" },
+    { name: "Slovakia", age: "16" },
+    // { name: "South Korea", age: "14" },
+    // { name: "Austria", age: "14" },
+    // { name: "Bulgaria", age: "14" },
+    // { name: "Cyprus", age: "14" },
+    // { name: "Italy", age: "14" },
+    // { name: "Spain", age: "14" },
+  ];
+
+  return (
+    <DropdownContainer onClick={() => setOpen(!open())}>
+      <DropdownHeader>
+        List of minimum ages
+        <span>{open() ? "▲" : "▼"}</span>
+      </DropdownHeader>
+
+      {open() && (
+        <DropdownContent>
+          <For each={countries}>
+            {(c) => (
+              <CountryItem>
+                <span>{c.name}</span>
+                <span>{c.age}+</span>
+              </CountryItem>
+            )}
+          </For>
+        </DropdownContent>
+      )}
+    </DropdownContainer>
   );
 }
