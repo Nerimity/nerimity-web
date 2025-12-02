@@ -701,5 +701,59 @@
   "oauth2": {
     "AuthorizeButton": "Authorize",
     "permissions": "Permissions"
+},
+  "badges": {
+    "kittyBlue": {
+      "name": "Kitty",
+      "description": "Blue Ears Kitty"
+    },
+    "kittyWhite": {
+      "name": "Kitty",
+      "description": "White Ears Kitty"
+    },
+    "foxyGold": {
+      "name": "Foxy",
+      "description": "Gold Ears Fox"
+    },
+    "foxyBrown": {
+      "name": "Foxy",
+      "description": "Brown Ears Fox"
+    },
+    "founder": {
+      "name": "Founder",
+      "description": "Creator of Nerimity"
+    },
+    "admin": {
+      "name": "Admin",
+      "description": "Admin of Nerimity"
+    },
+    "mod": {
+      "name": "Moderator",
+      "description": "Moderator of Nerimity"
+    },
+    "supporter": {
+      "name": "Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "emoSupporter": {
+      "name": "Emo Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "contributor": {
+      "name": "Contributor",
+      "description": "Helped with this project in some way"
+    },
+    "palestine": {
+      "name": "Palestine",
+      "description": "[Click To Help](https://arab.org/click-to-help/palestine/)"
+    },
+    "bot": {
+      "name": "Bot User",
+      "description": "Bot User"
+     },
+     "credit": {
+      "upklyakFreepik": "Avatar Border by upklyak on Freepik",
+      "upklyakFreepikEditedBySupertiger": "Avatar Border by upklyak on Freepik, edited by Supertiger"
+    }
   }
 }
