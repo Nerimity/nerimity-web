@@ -258,6 +258,8 @@
       "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone.",
       "nicknameMember": "Nickname Member",
       "nicknameMemberDescription": "Allow users to change their nickname in the server."
+      "mentionRoles": "Mention Roles",
+      "mentionRolesDescription": "Allow users to mention roles"
     },
     "leaveModal": {
       "title": "Leave Server?",
