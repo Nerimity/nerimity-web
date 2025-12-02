@@ -702,13 +702,12 @@
     "AuthorizeButton": "Authorize",
     "permissions": "Permissions"
 },
-  "badges": {
+"badges": {
     "kittyBlue": {
       "name": "Kitty",
       "description": "Blue Ears Kitty"
     },
     "kittyWhite": {
-      "name": "Kitty",
       "description": "White Ears Kitty"
     },
     "foxyGold": {
@@ -716,7 +715,6 @@
       "description": "Gold Ears Fox"
     },
     "foxyBrown": {
-      "name": "Foxy",
       "description": "Brown Ears Fox"
     },
     "founder": {
