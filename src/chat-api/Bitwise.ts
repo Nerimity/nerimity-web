@@ -208,9 +208,9 @@ export const ROLE_PERMISSIONS = {
     icon: "edit",
   },
   MENTION_ROLES: {
-    name: () => t("servers.rolePermissions.nicknameMember"),
+    name: () => t("servers.rolePermissions.mentionRoles"),
     bit: 256,
-    description: () => t("servers.rolePermissions.nicknameMemberDescription"),
+    description: () => t("servers.rolePermissions.mentionRolesDescription"),
     icon: "alternate_email",
   },
 };
