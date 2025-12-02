@@ -47,7 +47,7 @@ export const USER_BADGES = {
     credit: () => t("badges.credit.upklyakFreepik"),
   },
   CAT_EARS_WHITE: {
-    name: () => t("badges.kittyWhite.name"),
+    name: () => t("badges.kittyBlue.name"),
     bit: USER_BADGE_BITS.CAT_EARS_WHITE,
     color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
     overlay: true,
@@ -63,7 +63,7 @@ export const USER_BADGES = {
     credit: () => t("badges.credit.upklyakFreepik"),
   },
   FOX_EARS_BROWN: {
-    name: () => t("badges.foxyBrown.name"),
+    name: () => t("badges.foxyGold.name"),
     bit: USER_BADGE_BITS.FOX_EARS_BROWN,
     color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%)",
     overlay: true,
