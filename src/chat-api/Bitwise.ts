@@ -39,35 +39,35 @@ export interface UserBadge {
 export const USER_BADGES = {
   // overlays
   CAT_EARS_BLUE: {
-    name: () => t("badges.kittyBlue.name"),
+    name: () => t("badges.kitty.name"),
     bit: USER_BADGE_BITS.CAT_EARS_BLUE,
     color: "linear-gradient(90deg, #78a5ff 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.kittyBlue.description"),
+    description: () => t("badges.kitty.blueDescription"),
     credit: () => t("badges.credit.upklyakFreepik"),
   },
   CAT_EARS_WHITE: {
-    name: () => t("badges.kittyBlue.name"),
+    name: () => t("badges.kitty.name"),
     bit: USER_BADGE_BITS.CAT_EARS_WHITE,
     color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.kittyWhite.description"),
+    description: () => t("badges.kitty.whiteDescription"),
     credit: () => t("badges.credit.upklyakFreepik"),
   },
   FOX_EARS_GOLD: {
-    name: () => t("badges.foxyGold.name"),
+    name: () => t("badges.foxy.name"),
     bit: USER_BADGE_BITS.FOX_EARS_GOLD,
     color: "linear-gradient(90deg, #ffb100 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.foxyGold.description"),
+    description: () => t("badges.foxy.foxyGoldDescription"),
     credit: () => t("badges.credit.upklyakFreepik"),
   },
   FOX_EARS_BROWN: {
-    name: () => t("badges.foxyGold.name"),
+    name: () => t("badges.foxy.name"),
     bit: USER_BADGE_BITS.FOX_EARS_BROWN,
     color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%)",
     overlay: true,
-    description: () => t("badges.foxyBrown.description"),
+    description: () => t("badges.foxy.foxyBrownDescription"),
     credit: () => t("badges.credit.upklyakFreepik"),
   },
 
