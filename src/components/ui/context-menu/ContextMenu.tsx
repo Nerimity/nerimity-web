@@ -17,6 +17,7 @@ import { Portal } from "solid-js/web";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { createStore, reconcile } from "solid-js/store";
+import { t } from "@nerimity/i18lite";
 
 export interface ContextMenuItem {
   id?: any;
@@ -66,7 +67,7 @@ export default function ContextMenu(props: ContextMenuProps) {
     if (url || imageSrc) {
       if (!tempItems[0]?.separator) tempItems.unshift({ separator: true });
       tempItems.unshift({
-        label: "Copy Link",
+        label: t("servers.settings.invites.copyLinkButton"),
         icon: "content_copy",
         onClick: () => {
           navigator.clipboard.writeText(imageSrc || url || "");
