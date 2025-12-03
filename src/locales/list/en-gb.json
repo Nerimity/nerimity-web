@@ -163,6 +163,13 @@
         "notifications": "Notifications",
         "external-embed": "External Embed"
       },
+      "webhook": {
+        "title": "Webhook Settings",
+        "name": "Name",
+        "link": "Webhook URL",
+        "linkDescription": "Execute actions using this link",
+        "delete": "Delete Webhook"
+      },
       "general": {
         "serverRenameNotice": "You will lose all of the perks of having your server verified if you rename it.",
         "serverName": "Server Name",
