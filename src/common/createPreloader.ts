@@ -11,6 +11,16 @@ export function createPreloader<T, U extends unknown[]>(
   const run = (...args: U) => {
     const key = JSON.stringify(args);
     const now = Date.now();
+
+    if (cache.size > 100) {
+      for (const [k, v] of cache.entries()) {
+        if (now - v.savedAt >= 10000) {
+          cache.delete(k);
+          activeRequest.delete(k);
+        }
+      }
+    }
+
     const cached = cache.get(key);
     if (cached && now - cached.savedAt < 10000) {
       return Promise.resolve(cached.data);
