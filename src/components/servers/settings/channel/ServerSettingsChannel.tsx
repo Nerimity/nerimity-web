@@ -45,7 +45,7 @@ import {
   getChannelNotice,
   updateChannelNotice,
 } from "@/chat-api/services/ChannelService";
-import { RawChannelNotice, RawWebhook } from "@/chat-api/RawData";
+import { RawChannelNotice, RawWebhook, ChannelType } from "@/chat-api/RawData";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { t } from "@nerimity/i18lite";
 import DropDown, { DropDownItem } from "@/components/ui/drop-down/DropDown";
@@ -122,6 +122,10 @@ const TabItem = (props: {
 
 function Tabs() {
   const params = useParams<ChannelParams>();
+  const store = useStore();
+  const channel = () => store.channels.get(params.channelId);
+
+  const isCategory = () => channel()?.type === ChannelType.CATEGORY;
 
   return (
     <div class={styles.tabs}>
@@ -131,15 +135,20 @@ function Tabs() {
         icon="settings"
         href="../"
       />
-      <TabItem
-        label="Permissions"
-        selected={params.tab === "permissions"}
-        icon="lock"
-        href="./permissions"
-      />
+
+      <Show when={!isCategory()}>
+        <TabItem
+          label="Permissions"
+          selected={params.tab === "permissions"}
+          icon="lock"
+          href="./permissions"
+        />
+      </Show>
     </div>
   );
 }
+
+
 
 function PermissionsTab() {
   const [t] = useTransContext();
@@ -279,6 +288,7 @@ function PermissionsTab() {
     </div>
   );
 }
+
 function GeneralTab() {
   const [t] = useTransContext();
   const params = useParams<ChannelParams>();
@@ -293,6 +303,8 @@ function GeneralTab() {
   const [error, setError] = createSignal<null | string>(null);
 
   const channel = () => channels.get(params.channelId);
+
+  const isCategory = () => channel()?.type === ChannelType.CATEGORY;
 
   const defaultInput = () => ({
     name: channel()?.name || "",
@@ -392,25 +404,28 @@ function GeneralTab() {
         </Show>
       </SettingsBlock>
       {/* Slowmode */}
-      <SettingsBlock
-        icon="speed"
-        label="Slow mode"
-        description="Specify how long a user must wait before they can send a message."
-      >
-        <Input
-          class={styles.slowdownInput}
-          suffix="s"
-          type="number"
-          value={inputValues().slowModeSeconds.toString()}
-          onText={(v) => setInputValue("slowModeSeconds", v ? parseInt(v) : "")}
+      <Show when={!isCategory()}>
+        <SettingsBlock
+          icon="speed"
+          label="Slow mode"
+          description="Specify how long a user must wait before they can send a message."
+        >
+          <Input
+            class={styles.slowdownInput}
+            suffix="s"
+            type="number"
+            value={inputValues().slowModeSeconds.toString()}
+            onText={(v) =>
+              setInputValue("slowModeSeconds", v ? parseInt(v) : "")
+            }
+          />
+        </SettingsBlock>
+        <WebhooksBlock channelId={params.channelId} serverId={params.serverId} />
+        <ChannelNoticeBlock
+          channelId={params.channelId}
+          serverId={params.serverId}
         />
-      </SettingsBlock>
-      <WebhooksBlock channelId={params.channelId} serverId={params.serverId} />
-      <ChannelNoticeBlock
-        channelId={params.channelId}
-        serverId={params.serverId}
-      />
-
+      </Show>
       {/* Delete Channel */}
       <SettingsBlock
         icon="delete"
@@ -438,6 +453,7 @@ function GeneralTab() {
     </div>
   );
 }
+
 
 const ChannelPermissionsBlock = (props: {
   permissions: number;
