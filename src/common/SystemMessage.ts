@@ -1,4 +1,5 @@
 import { MessageType } from "@/chat-api/RawData";
+import { t } from "@nerimity/i18lite";
 
 export const getSystemMessage = (messageType: MessageType, isBot = false) => {
   switch (messageType) {
@@ -9,56 +10,58 @@ export const getSystemMessage = (messageType: MessageType, isBot = false) => {
       return {
         icon: "login",
         color: "var(--success-color)",
-        message: isBot ? "was added to the server." : "has joined the server.",
+        message: isBot
+          ? t("systemMessages.joinServer.bot")   
+          : t("systemMessages.joinServer.user"), 
       };
 
     case MessageType.LEAVE_SERVER:
       return {
         icon: "logout",
         color: "var(--alert-color)",
-        message: "has left the server.",
+        message: t("systemMessages.leaveServer"),
       };
 
     case MessageType.KICK_USER:
       return {
         icon: "logout",
         color: "var(--alert-color)",
-        message: "has been kicked.",
+        message: t("systemMessages.kickUser"),
       };
 
     case MessageType.BAN_USER:
       return {
         icon: "block",
         color: "var(--alert-color)",
-        message: "has been banned.",
+        message: t("systemMessages.banUser"),
       };
 
     case MessageType.CALL_STARTED:
       return {
         icon: "call",
         color: "var(--success-color)",
-        message: "started a call.",
+        message: t("systemMessages.callStarted"),
       };
 
     case MessageType.BUMP_SERVER:
       return {
         icon: "trending_up",
         color: "var(--primary-color)",
-        message: "bumped the server.",
+        message: t("systemMessages.bumpServer"),
       };
 
     case MessageType.PINNED_MESSAGE:
       return {
         icon: "keep",
         color: "var(--primary-color)",
-        message: "pinned a message.",
+        message: t("systemMessages.pinnedMessage"),
       };
 
     default:
       return {
         icon: "info",
         color: "var(--alert-color)",
-        message: "Unsupported message.",
+        message: t("systemMessages.unsupported"),
       };
   }
 };
