@@ -5,6 +5,33 @@
     "loginButton": "Увайсьці",
     "joinNowButton": "Далучыцца"
   },
+  "systemMessages": {
+    "joinServer": {
+      "bot": "быў дададзены на сэрвэр.",
+      "user": "далучыўся да сэрвэра."
+    },
+    "leaveServer": "выйшаў з сэрвэра.",
+    "kickUser": "быў выгнаны.",
+    "banUser": "быў заблякаваны.",
+    "callStarted": "пачаў выклік.",
+    "bumpServer": "усхваліў сэрвэр.",
+    "pinnedMessage": "замацаваў паведамленьне.",
+    "unsupported": "Паведамленьне не падтрымліваецца."
+  },
+  "statusHeader": {
+    "authenticationError": "Памылка аўтэнтыфікацыйі",
+    "connecting": "Злучэньне...",
+    "reconnecting": "Перападлучэньне...",
+    "inQueue": "У чарзе: перад вамі {{count}} карыстач(оў)",
+    "authenticating": "Аўтэнтыфікацыя...",
+    "connected": "Злучана!"
+  },
+  "dangerousLinkModal": {
+    "title": "Невядомая спасылка",
+    "message": "Гэтая спасылка прывядзе вас да",
+    "cancelButton": "Не наведваць",
+    "visitButton": "Наведаць"
+  },
   "homePage": {
     "slogan": "Сучасная й элегантная аплікацыя для памену паведамленьнямі.",
     "subslogan": "Nerimity прапаноўвае элегантны й насычаны досьвед, які робіць яе асабліваю.",
@@ -113,12 +140,22 @@
       "sortRecentlyAdded": "Нядаўна даданыя",
       "sortRecentlyBumped": "Нядаўна ўсхвалёныя",
       "filterAll": "Усе",
-      "filterVerified": "Верыфікаваныя",
+      "filterVerified": "Вэрыфікаваныя",
       "memberCount": "{{count}} удзельнікаў",
       "lifetimeBumpCount": "{{count}} усхваленьняў за ўвесь час",
       "visitServerButton": "Наведаць",
       "joinServerButton": "Далучыцца",
       "bumpButton": "Усхваліць ({{count}})"
+    }
+  },
+  "editFolderModal": {
+    "title": "Рэдагаваньне тэчкі",
+    "placeholder": "Назва тэчкі",
+    "cancelButton": "Не захоўваць",
+    "save": "Захаваць",
+    "saving": "Захоўваем...",
+    "errors": {
+      "emptyName": "Увядзіце назву тэчкі."
     }
   },
   "servers": {
@@ -130,14 +167,21 @@
         "channels": "Каналы",
         "bans": "Блякаваньні",
         "invites": "Запрашэньні",
-        "publishServer": "Зрабіць сэрвэр публічным",
-        "verify": "Пацьвердзіць",
+        "publishServer": "Публікацыя",
+        "verify": "Вэрыфікацыя",
         "role": "Роля",
         "welcome-screen": "Экран запрашэньня",
         "channel": "Канал",
         "emojis": "Эмодзі",
         "notifications": "Абвесткі",
         "external-embed": "Вонкавы эмбэд"
+      },
+      "webhook": {
+        "title": "Налады вэбхука",
+        "name": "Назва",
+        "link": "URL-адрас вэбхука",
+        "linkDescription": "Выконваць дзеяньні праз гэтую спасылку",
+        "delete": "Выдаліць вэбхук"
       },
       "general": {
         "serverRenameNotice": "Вы страціце ўсе йльготы верыфікаванага сэрвэру, калі пераназавяце яго.",
@@ -146,11 +190,17 @@
         "defaultChannelDescription": "Новыя ўдзельнікі будуць накіраваныя ў гэты канал.",
         "systemMessages": "Сыстэмныя паведамленьні",
         "systemMessagesDescription": "Тут павінны зьяўляцца сыстэмныя паведамленьні.",
+        "avatar": "Аватар",
+        "avatarDescription": "Падтрымліваюцца: JPG, PNG, GIF, WEBP, макс. 12 MB",
+        "banner": "Банар",
+        "bannerDescription": "Падтрымліваюцца: JPG, PNG, GIF, WEBP, макс. 12 MB",
+        "browseButton": "Абраць",
         "deleteThisServer": "Выдаліць гэты сэрвэр",
         "deleteThisServerDescription": "Гэтае дзеяньне нельга адрабіць!",
         "deleteServerButton": "Выдаліць сэрвэр",
         "saveChangesButton": "Захаваць зьмены",
-        "saving": "Захоўваем..."
+        "saving": "Захоўваем...",
+        "none": "Няма"
       },
       "roles": {
         "addNewRole": "Дадаць ролю",
@@ -198,13 +248,17 @@
         "copyLinkButton": "Скапіяваць спасылку"
       },
       "publishServer": {
+        "headerTitle": "Налады - Публікацыя",
         "publishNotice": "Пасьля публікацыйі, сэрвэр зьявіцца ва ўкладцы <1>«Дасьледаваць»</1>.",
         "public": "Публічны",
         "publicDescription": "Зрабіць гэты сэрвэр публічным.",
         "bumpServer": "Усхваліць сэрвэр",
         "bumpServerDescription": "Падтрымайце сэрвэр, каб ён падняўся ўгору.",
+        "bumpButton": "Усхваліць ({{count}})",
+        "descriptionLabel": "Апісаньне сэрвэра ({{current}}/{{max}})",
         "publishServerButton": "Апублікаваць сэрвэр",
-        "unpublishServerButton": "Зрабіць сэрвэр прыватным"
+        "unpublishServerButton": "Зрабіць сэрвэр прыватным",
+        "bumpCooldown": "Вы мусіце пачакаць {{hours}} гадзін, {{minutes}} хвілін, і {{seconds}} сякунд каб усхваліць гэты сэрвэр."
       }
     },
     "rolePermissions": {
@@ -224,6 +278,15 @@
       "mentionEveryoneDescription": "Дазваляе згадваньне @everyone. Адміны могуць згадваць усіх незалежна ад гэтага дазволу.",
       "nicknameMember": "Зьмяняць нікнэймы",
       "nicknameMemberDescription": "Дазваляе карыстачам зьмяняць іх нікнэйм на сэрвэры."
+    },
+    "leaveModal": {
+      "title": "Выйсьці з сэрвэр?",
+      "body": {
+        "part1": "Вы ўпэўненыя, што хочаце выйсьці з <1>{{serverName}}</1>?",
+        "part2": "Вы можаце далучыцца йзноў калі заўгодна!"
+      },
+      "cancelButton": "Не выхадзіць",
+      "confirmButton": "Выйсьці"
     },
     "channelPermissions": {
       "publicChannel": "Публічны канал",
@@ -255,6 +318,14 @@
       "privacy": "Прыватнасьць",
       "connections": "Злучэньні",
       "profile": "Профіль"
+    },
+    "language": {
+      "reloadNotice": "Вы мусіце перазагрузіць аплікацыю каб поўнасьцю ўжыць новую мову.",
+      "reloadButton": "Перазагрузіць",
+      "contributors": "Удзельнікі",
+      "translateModal": {
+        "title": "Пераклад"
+      }
     },
     "header": {
       "servers": "сэрвэры",
@@ -410,7 +481,45 @@
       "disableHardwareAcceleration": "Адключыць апаратнае паскарэньне",
       "disableCustomTitlebar": "Адключыць уласную аблямоўку аплікацыйі",
       "reopenAppNotice": "Вы мусіце перазагрузіць аплікацыю, каб зьмены набылі сілу."
+    },
+    "activity":{
+      "extension": "Пашырэньне для браўзэра",
+      "extensionDescription": "Наша RPC-пашырэньне дазваляе вам абагульваць вашу актыўнасьць у Spotify і YouTube з карыстачамі Nerimity!",
+      "visitButton": "Наведаць {{store}}",
+      "activityStatus": "Статус актыўнасьці",
+      "activityStatusDescription": "Абагульце, чым вы займайцеся, са ўсімі",
+      "deleteButton": "Выдаліць",
+      "editButton": "Адрэдагаваць",
+      "activityStatusModal":{
+        "title": "Рэдагаваньне статусу актыўнасьці",
+        "executable": "Працэс",
+        "action": "Дзеяньне",
+        "name": "Назва",
+        "emoji": "Эмодзі",
+        "backButton": "Назад",
+        "saveButton": "Захаваць"
+      },
+      "discordActivity": "Актыўнасьць Discord",
+      "discordActivityDescription": "Абагульце вашу актыўнасьць з Discord з карыстачамі Nerimity",
+      "idPlaceholder": "ID карыстача Discord",
+      "serverModal":{
+        "text": "Далучыцеся да сэрвэра Discord, каб актываваць абагульненьне актыўнасьці.",
+        "cancelButton": "Скасаваць",
+        "doneButton": "Я ўжо там"
+      }
+    },
+    "developer": {
+      "oauth2": {
+        "description": "Кіраваньне OAuth2",
+        "title": "OAuth2",
+        "generateLink": "Згенерыраваць спасылку"
+      }
     }
+  },
+  "activityNames":{
+    "playing": "Гуляе ў",
+    "watching": "Глядзіць",
+    "listening": "Слухае"
   },
   "supportBlock": {
     "support": "Падтрымаць мяне",
@@ -419,11 +528,22 @@
   "createServerModal": {
     "title": "Стварыць сэрвэр",
     "notice": "18+ кантэнт забаронены.",
-    "serverName": "Імя сэрвэра",
+    "mustBeEnglish": "Сэрвэр МУСІЦЬ БЫЦЬ на ангельскае.",
+    "serverName": "Назва сэрвэра",
     "placeholder": "Мой цудоўны сэрвэр",
     "creating": "Ствараем...",
     "createServerButton": "Стварыць сэрвэр",
-    "closeButton": "Закрыць"
+    "closeButton": "Закрыць",
+    "tabLabel": "Стварыць"
+  },
+  "joinServerModal": {
+    "title": "Далучэньне да сэрвэра",
+    "notice": "Калі вы хочаце адкрыць для сябе новыя сэрвэры, перайдзіце ва ўкладку дасьледваньня.",
+    "exploreButton": "Дасьледаваць сэрвэры",
+    "inviteCode": "Код запрашэньня",
+    "continueButton": "Працягнуць",
+    "missingInvite": "Увядзіце код запрашэньня на сэрвэр.",
+    "tabLabel": "Далучыцца"
   },
   "serverContextMenu": {
     "markAsRead": "Адзначыць як прачытанае",
@@ -508,13 +628,13 @@
       "cancelButton": "Скасаваць",
       "deleteButton": "Выдаліць"
     },
-    "postWasDeleted": "Гэта публікацыя была выдалена!",
+    "postWasDeleted": "Гэтая публікацыя была выдаленая!",
     "someoneLikedYourPost": "<1>{{username}}</1> упадабаў вашую публікацыю!",
     "someoneRepostedYourPost": "<1>{{username}}</1> пашырыў вашую публікацыю!",
     "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
     "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашую публікацыю!",
     "createAPostInputPlaceholder": "Дадаць публікацыю...",
-    "replyInputPlaceholder": "Адказ...",
+    "replyInputPlaceholder": "Напішыце адказ...",
     "replyButton": "Адказаць",
     "createButton": "Дадаць",
     "pollOptions": "Варыянты апытаньня",
@@ -563,6 +683,25 @@
     "expires": "Канчаецца",
     "expired": "Скончылася"
   },
+  "addFriendModal": {
+    "title": "Дадаць сябра",
+    "description": "Увядзіце ймя карыстача й and тэґ, каб дадаць іх.",
+    "placeholder": "Імя_Карыстача:АБВ1",
+    "requestSent": "Запыт дасланы!",
+    "closeButton": "Закрыць",
+    "sendRequest": "Даслаць запыт",
+    "sending": "Дасылаем...",
+    "errors": {
+      "missingTag": "Увядзіце ймя карыстача:тэґ.",
+      "colonInUsername": "У ймі карыстача не павінна быць двукропья."
+    }
+  },
+  "deleteMessageModal": {
+    "title": "Выдаліць паведамленьне?",
+    "body": "Вы сапраўды хочаце выдаліць гэтае паведамленьне?",
+    "cancelButton": "Не выдаляць",
+    "confirmButton": "Выдаліць"
+  },
   "message": {
     "badge": {
       "bot": "Бот",
@@ -589,5 +728,29 @@
     "translation": {
       "title": "Пераклад"
     }
+  },
+  "colorPickerModal": {
+    "title": "Выбар колеру",
+    "done": "Гатова"
+  },
+  "photoEditor": {
+    "title": "Рэдактар фота",
+    "cancel": "Скасаваць",
+    "edit": "Адрэдагаваць",
+    "undo": "Адрабіць (Ctrl + Z)",
+    "brush": "Пэндзаль",
+    "erase": "Гумка",
+    "strokeWidth": "Шырыня пэндзалю: {{width}}",
+    "mobileNotice": "Шчыпок: перамяшчэньне/маштаб",
+    "desktopMove": "Перацягваньне з прабелам: перамяшчэньне",
+    "desktopZoom": "Прагортка: зьмена маштабу"
+  },
+  "imageCropModal": {
+    "title": "Абрэзаць відарыс",
+    "done": "Гатова"
+  },
+  "oauth2": {
+    "AuthorizeButton": "Аўтарызаваць",
+    "permissions": "Дазволы"
   }
 }

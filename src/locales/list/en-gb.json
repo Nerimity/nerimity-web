@@ -482,6 +482,32 @@
       "disableCustomTitlebar": "Disable Custom Titlebar",
       "reopenAppNotice": "You must reopen the app for the change to take effect."
     },
+    "activity":{
+      "extension": "Browser Extension",
+      "extensionDescription": "Our RPC extension allows you to share your activity from Spotify and YouTube with users on Nerimity!",
+      "visitButton": "Visit {{store}}",
+      "activityStatus": "Activity Status",
+      "activityStatusDescription": "Share what you're up to with everyone",
+      "deleteButton": "Delete",
+      "editButton": "Edit",
+      "activityStatusModal":{
+        "title": "Edit Activity Status",
+        "executable": "Executable",
+        "action": "Action",
+        "name": "Name",
+        "emoji": "Emoji",
+        "backButton": "Back",
+        "saveButton": "Save"
+      },
+      "discordActivity": "Discord Activity",
+      "discordActivityDescription": "Share your Discord activity with users on Nerimity",
+      "idPlaceholder": "Discord User ID",
+      "serverModal":{
+        "text": "Please join the Discord server to enable Activity Sharing.",
+        "cancelButton": "Cancel",
+        "doneButton": "I have joined"
+      }
+    },
     "developer": {
       "oauth2": {
         "description": "Manage OAuth2",
@@ -489,6 +515,11 @@
         "generateLink": "Generate Link"
       }
     }
+  },
+  "activityNames":{
+    "playing": "Playing",
+    "watching": "Watching",
+    "listening": "Listening to"
   },
   "supportBlock": {
     "support": "Support Me",
