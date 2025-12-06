@@ -429,6 +429,32 @@
         "title": "OAuth2",
         "generateLink": "Wygeneruj Link"
       }
+    },
+    "activity": {
+      "extension": "Rozszerzenie Przeglądarkowe",
+      "extensionDescription": "Nasze rozszerzenie RPC umożliwia udostępnianie aktywności ze Spotify i YouTube użytkownikom Nerimity!",
+      "visitButton": "Odwiedź {{store}}",
+      "activityStatus": "Status Aktywności",
+      "activityStatusDescription": "Podziel się z innymi tym, czym się zajmujesz",
+      "deleteButton": "Usuń",
+      "editButton": "Edytuj",
+      "activityStatusModal": {
+        "title": "Edytuj Status Aktywności",
+        "executable": "Plik wykonywalny",
+        "action": "Działanie",
+        "name": "Nazwa",
+        "emoji": "Emoji",
+        "backButton": "Wstecz",
+        "saveButton": "Zapisz"
+      },
+      "discordActivity": "Aktywnosc z Discord",
+      "discordActivityDescription": "Dziel się swoją aktywnością na Discord z użytkownikami Nerimity",
+      "idPlaceholder": "ID Uzytkownika na Discord",
+      "serverModal": {
+        "text": "Dołącz do serwera Discord, aby włączyć funkcję udostępniania aktywności.",
+        "cancelButton": "Anuluj",
+        "doneButton": "Dołączyłem"
+      }
     }
   },
   "supportBlock": {
@@ -724,5 +750,10 @@
     "bumpServer": "podbił serwer.",
     "pinnedMessage": "przypiął wiadomość.",
     "unsupported": "Niewspierana wiadomość."
+  },
+  "activityNames": {
+    "playing": "W grze",
+    "watching": "Ogląda",
+    "listening": "Słucha"
   }
 }
