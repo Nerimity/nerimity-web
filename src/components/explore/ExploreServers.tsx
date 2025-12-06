@@ -131,6 +131,7 @@ export default function ExploreServers() {
     { id: "most_members", label: t("explore.servers.sortMostMembers") },
     { id: "recently_added", label: t("explore.servers.sortRecentlyAdded") },
     { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") },
+    { id: "most_active", label: "Most Active (Beta)" },
   ];
 
   const filterOpts: DropDownItem[] = [

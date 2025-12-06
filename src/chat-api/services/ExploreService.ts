@@ -37,7 +37,8 @@ export type PublicServerSort =
   | "most_bumps"
   | "most_members"
   | "recently_added"
-  | "recently_bumped";
+  | "recently_bumped"
+  | "most_active";
 export type PublicServerFilter = "pinned" | "all" | "verified";
 
 interface getExploreItemsOpts {
