@@ -10,7 +10,7 @@ import { t } from "@nerimity/i18lite"
 
 export const getActivityIconName = (activity: ActivityStatus) => {
   if (activity.action.startsWith(t("activityNames.listening") || "Listening")) return "music_note";
-  if (activity.action.startsWith((t("activityNames.watching") || "Watching"))) return "movie";
+  if (activity.action.startsWith(t("activityNames.watching") || "Watching")) return "movie";
   return "gamepad";
 };
 
