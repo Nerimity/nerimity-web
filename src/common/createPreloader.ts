@@ -4,53 +4,56 @@ import useStore from "@/chat-api/store/useStore";
 export function createPreloader<T, U extends unknown[]>(
   fun: (...args: U) => Promise<T>
 ) {
-  let timeout: undefined | NodeJS.Timeout;
-  let waiting: ((value: T | PromiseLike<T>) => void)[] = [];
-  let argsStr: string | null = null;
-  let data: T | null = null;
-  let dataSavedAt: number | null = null;
+  let timeout: NodeJS.Timeout | null = null;
+
+  let currentPromise: Promise<T> | null = null;
+  let lastArgsStr: string | null = null;
+  let cache: { data: T; savedAt: number } | null = null;
+  const CACHE_TTL = 10000; // 10 seconds
+
+  const run = (...args: U): Promise<T> => {
+    const newArgsStr = JSON.stringify(args);
+
+    if (cache && lastArgsStr === newArgsStr) {
+      if (Date.now() - cache.savedAt < CACHE_TTL) {
+        return Promise.resolve(cache.data);
+      }
+      cache = null;
+    }
+
+    if (currentPromise && lastArgsStr === newArgsStr) {
+      return currentPromise;
+    }
+
+    lastArgsStr = newArgsStr;
+
+    currentPromise = fun(...args)
+      .then((newData) => {
+        if (lastArgsStr === newArgsStr) {
+          cache = { data: newData, savedAt: Date.now() };
+        }
+        return newData;
+      })
+      .catch((error) => {
+        if (currentPromise === currentPromise) {
+          currentPromise = null;
+        }
+
+        throw error;
+      });
+
+    return currentPromise;
+  };
 
   const preload = (...args: U) => {
     if (timeout) {
       clearTimeout(timeout);
     }
     timeout = setTimeout(() => {
-      run(...args);
+      run(...args).catch(() => {});
     }, 200);
   };
 
-  const run = (...args: U) => {
-    const newArgsStr = JSON.stringify(args);
-
-    if (argsStr !== newArgsStr) {
-      waiting = [];
-      argsStr = newArgsStr;
-      data = null;
-    }
-
-    return new Promise<T>((resolve) => {
-      if (data && argsStr === newArgsStr) {
-        if (Date.now() - dataSavedAt! < 10000) {
-          resolve(data);
-          return;
-        }
-        data = null;
-      }
-      if (waiting.length) {
-        waiting.push(resolve);
-        return;
-      }
-      waiting.push(resolve);
-
-      fun(...args).then((newData) => {
-        data = newData;
-        dataSavedAt = Date.now();
-        if (argsStr !== newArgsStr) return;
-        waiting.forEach((resolve) => resolve(newData));
-        waiting = [];
-      });
-    });
-  };
   return { run, preload };
 }
 
