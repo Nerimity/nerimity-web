@@ -7,14 +7,14 @@ export function createPreloader<T, U extends unknown[]>(
   let timeout: NodeJS.Timeout | null = null;
 
   let currentPromise: Promise<T> | null = null;
-  let lastArgsStr: string | null = null;
-  let cache: { data: T; savedAt: number } | null = null;
-  const CACHE_TTL = 10000; // 10 seconds
+
+  let cache: { data: T; savedAt: number; key: string } | null = null;
+  const CACHE_TTL = 10000;
 
   const run = (...args: U): Promise<T> => {
     const newArgsStr = JSON.stringify(args);
 
-    if (cache && lastArgsStr === newArgsStr) {
+    if (cache && cache.key === newArgsStr) {
       if (Date.now() - cache.savedAt < CACHE_TTL) {
         return Promise.resolve(cache.data);
       }
@@ -27,23 +27,29 @@ export function createPreloader<T, U extends unknown[]>(
 
     lastArgsStr = newArgsStr;
 
-    currentPromise = fun(...args)
+    const thisPromise = fun(...args)
       .then((newData) => {
         if (lastArgsStr === newArgsStr) {
-          cache = { data: newData, savedAt: Date.now() };
+          cache = {
+            data: newData,
+            savedAt: Date.now(),
+            key: newArgsStr, // Store the key with the data
+          };
         }
         return newData;
       })
       .catch((error) => {
-        if (currentPromise === currentPromise) {
+        if (currentPromise === thisPromise) {
           currentPromise = null;
         }
-
         throw error;
       });
 
+    currentPromise = thisPromise;
     return currentPromise;
   };
+
+  let lastArgsStr: string | null = null;
 
   const preload = (...args: U) => {
     if (timeout) {
