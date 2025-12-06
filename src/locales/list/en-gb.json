@@ -5,6 +5,19 @@
     "loginButton": "Login",
     "joinNowButton": "Join Now"
   },
+  "systemMessages": {
+    "joinServer": {
+      "bot": "was added to the server.",
+      "user": "has joined the server."
+    },
+    "leaveServer": "has left the server.",
+    "kickUser": "has been kicked.",
+    "banUser": "has been banned.",
+    "callStarted": "started a call.",
+    "bumpServer": "bumped the server.",
+    "pinnedMessage": "pinned a message.",
+    "unsupported": "Unsupported message."
+  },
   "statusHeader": {
     "authenticationError": "Authentication error",
     "connecting": "Connecting...",

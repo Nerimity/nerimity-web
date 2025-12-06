@@ -732,7 +732,10 @@ const SystemMessage = (props: {
   onUserContextMenu?: (event: MouseEvent) => void;
   showProfileFlyout?: (event: MouseEvent) => void;
 }) => {
-  const systemMessage = createMemo(() => getSystemMessage(props.message.type));
+  const systemMessage = createMemo(() =>
+    getSystemMessage(props.message.type, props.message.createdBy.bot)
+  );
+
   return (
     <Show when={systemMessage()}>
       <div class={styles.systemMessage}>
