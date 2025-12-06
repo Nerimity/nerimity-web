@@ -192,6 +192,13 @@
         "bumpButton": "Podbij ({{count}})",
         "descriptionLabel": "Opis Serwera ({{current}}/{{max}})",
         "bumpCooldown": "Musisz odczekać {{hours}} godzin(-y), {{minutes}} minut(-y) i {{seconds}} sekund(-y), aby podbić ten serwer."
+      },
+      "webhook": {
+        "title": "Ustawienia Webhooka",
+        "name": "Nazwa",
+        "link": "URL Webhooka",
+        "linkDescription": "Wykonuj akcje z użyciem tego linka",
+        "delete": "Usuń Webhooka"
       }
     },
     "rolePermissions": {
@@ -704,5 +711,18 @@
   "oauth2": {
     "AuthorizeButton": "Autoryzuj",
     "permissions": "Uprawnienia"
+  },
+  "systemMessages": {
+    "joinServer": {
+      "bot": "został dodany do serwera.",
+      "user": "dołączył do serwera."
+    },
+    "leaveServer": "wyszedł z serwera.",
+    "kickUser": "został wyrzucony.",
+    "banUser": "został zbanowany.",
+    "callStarted": "rozpoczął połączenie.",
+    "bumpServer": "podbił serwer.",
+    "pinnedMessage": "przypiął wiadomość.",
+    "unsupported": "Niewspierana wiadomość."
   }
 }
