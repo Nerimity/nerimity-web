@@ -187,7 +187,17 @@
         "bumpServer": "Bump Sewvew",
         "bumpServerDescription": "Push sewvew to da t-top!",
         "publishServerButton": "Pubwish sewvew",
-        "unpublishServerButton": "Unpubwish sewvew"
+        "unpublishServerButton": "Unpubwish sewvew",
+        "bumpButton": "Bump ({{count}})",
+        "descriptionLabel": "Sewvew Descwiption ({{current}}/{{max}})",
+        "bumpCooldown": "Pwease wait {{hours}} houws, {{minutes}} minutes, and {{seconds}} secwonds befowe bumping dis sewvew"
+      },
+      "webhook": {
+        "title": "Webbyhook Settin's",
+        "name": "Nyame",
+        "link": "Webbyhook URL",
+        "linkDescription": "Use dis winky to do stuffs",
+        "delete": "Poof Webbyhook"
       }
     },
     "rolePermissions": {
@@ -413,6 +423,13 @@
       "disableHardwareAcceleration": "Disabwe Hawdwawe Accewewation",
       "disableCustomTitlebar": "Disabwe Custom Titwebaw",
       "reopenAppNotice": "U gotta weopen da app fow da change to take effect"
+    },
+    "developer": {
+      "oauth2": {
+        "description": "Handle OAuth2y",
+        "title": "OAuth2y",
+        "generateLink": "Cweate A Winky"
+      }
     }
   },
   "supportBlock": {
@@ -691,5 +708,22 @@
   "imageCropModal": {
     "title": "Cwop Piccy",
     "done": "DIS IS PURRFECT!"
+  },
+  "systemMessages": {
+    "joinServer": {
+      "bot": "was summoned to do hooman bidding",
+      "user": "wandered into da sewvew"
+    },
+    "leaveServer": "poofed outta da sewvew",
+    "kickUser": "got yeeted fwom da sewvew",
+    "banUser": "got banished fwom da sewvew",
+    "callStarted": "has started a voicey caww",
+    "bumpServer": "bumpsied da sewvew",
+    "pinnedMessage": "stickied a talky",
+    "unsupported": "PANIC PANIC!! Dis talky is brokey"
+  },
+  "oauth2": {
+    "AuthorizeButton": "Authowy",
+    "permissions": "Powew-ups"
   }
 }
