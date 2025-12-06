@@ -827,16 +827,16 @@ const UserActivity = (props: {
   const [playedFor, setPlayedFor] = createSignal("");
 
   const isMusic = () =>
-    !!activity()?.action.startsWith("Listening") &&
+    !!activity()?.action.startsWith(t("activityNames.listening") || "Listening") &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
   const isVideo = () =>
-    !!activity()?.action.startsWith("Watching") &&
+    !!activity()?.action.startsWith((t("activityNames.watching") || "Watching")) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
 
   const isLiveStream = () =>
-    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+    !!activity()?.action.startsWith((t("activityNames.watching") || "Watching")) && !activity()?.endsAt;
 
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {

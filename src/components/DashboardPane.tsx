@@ -536,10 +536,10 @@ const PresenceItem = (props: { presence: Presence }) => {
   });
 
   const isLiveStream = () =>
-    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+    !!activity()?.action.startsWith((t("activityNames.watching") || "Watching")) && !activity()?.endsAt;
 
   const isVideo = () =>
-    !!activity()?.action.startsWith("Watching") &&
+    !!activity()?.action.startsWith((t("activityNames.watching") || "Watching")) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
 

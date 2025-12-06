@@ -6,10 +6,11 @@ import {
 } from "../../common/date";
 import { createEffect, createSignal, on, onCleanup } from "solid-js";
 import Text from "../ui/Text";
+import { t } from "@nerimity/i18lite"
 
 export const getActivityIconName = (activity: ActivityStatus) => {
-  if (activity.action.startsWith("Listening")) return "music_note";
-  if (activity.action.startsWith("Watching")) return "movie";
+  if (activity.action.startsWith(t("activityNames.listening") || "Listening")) return "music_note";
+  if (activity.action.startsWith((t("activityNames.watching") || "Watching"))) return "movie";
   return "gamepad";
 };
 
