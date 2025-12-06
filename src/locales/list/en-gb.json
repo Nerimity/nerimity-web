@@ -135,10 +135,10 @@
     "servers": {
       "title": "Explore - Servers",
       "noticeMessage": "A server can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
-      "sortMostBumps": "Most bumps",
+      "sortMostBumps": "Most Bumps",
       "sortMostMembers": "Most Members",
-      "sortRecentlyAdded": "Recently added",
-      "sortRecentlyBumped": "Recently bumped",
+      "sortRecentlyAdded": "Recently Added",
+      "sortRecentlyBumped": "Recently Bumped",
       "filterAll": "All",
       "filterVerified": "Verified",
       "memberCount": "{{count}} members",
