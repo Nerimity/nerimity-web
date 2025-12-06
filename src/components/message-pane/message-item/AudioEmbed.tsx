@@ -28,11 +28,16 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
   const isExpired = () => {
     return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
   };
+
+  const fileName = props.attachment.path
+    ? decodeURIComponent(props.attachment.path.split("/").reverse()[0]!)
+    : "Unknown";
+
   return (
     <AudioEmbed
       error={isExpired() ? "File expired." : undefined}
       file={{
-        name: props.attachment.path?.split("/").reverse()[0]!,
+        name: fileName,
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
         expireAt: props.attachment.expireAt,
@@ -41,6 +46,7 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
     />
   );
 };
+
 
 export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
