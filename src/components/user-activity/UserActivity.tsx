@@ -32,16 +32,16 @@ export const UserActivity = (props: {
   const [playedFor, setPlayedFor] = createSignal("");
 
   const isMusic = () =>
-    !!activity()?.action.startsWith(t("activityNames.listening") || "Listening") &&
+    !!activity()?.action.startsWith(t("activityNames.listening")) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
   const isVideo = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching") || "Watching")) &&
+    !!activity()?.action.startsWith((t("activityNames.watching"))) &&
     !!activity()?.startedAt &&
     !!activity()?.endsAt;
 
   const isLiveStream = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching") || "Watching")) && !activity()?.endsAt;
+    !!activity()?.action.startsWith((t("activityNames.watching"))) && !activity()?.endsAt;
 
   createEffect(
     on(activity, () => {

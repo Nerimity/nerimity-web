@@ -59,7 +59,7 @@ const UserPresence = (props: {
       const action = activity()?.action;
       const subtitle = activity()?.subtitle;
 
-      if (action?.startsWith(t("activityNames.listening") || "Listening") || action?.startsWith(t("activityNames.watching") || "Watching")) {
+      if (action?.startsWith(t("activityNames.listening")) || action?.startsWith(t("activityNames.watching"))) {
         return title + (subtitle ? ` - ${subtitle}` : "");
       }
     }
