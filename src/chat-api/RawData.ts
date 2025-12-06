@@ -138,6 +138,7 @@ export interface RawAttachment {
   fileId?: string;
   mime?: string;
   messageId?: string;
+  duration?: number;
   path?: string;
   width?: number;
   height?: number;

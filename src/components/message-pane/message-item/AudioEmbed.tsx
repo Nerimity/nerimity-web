@@ -37,6 +37,7 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
     <AudioEmbed
       error={isExpired() ? "File expired." : undefined}
       file={{
+        duration: props.attachment.duration,
         name: fileName,
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
@@ -96,12 +97,13 @@ export const AudioEmbed = (props: {
     url: string;
     name: string;
     size: number;
+    duration?: number;
     expireAt?: number;
     provider: AttachmentProviders;
   };
   error?: string;
 }) => {
-  const audio = useAudio();
+  const audio = useAudio({durationOverride: (props.file?.duration ? props.file.duration / 1000 : undefined) });
 
   let progressBarRef: HTMLDivElement | undefined;
 
@@ -218,7 +220,7 @@ export const AudioEmbed = (props: {
 };
 
 type State = "LOADING" | "PLAYING" | "PAUSED" | "STOPPED";
-function useAudio() {
+function useAudio(opts: { durationOverride?: number } = {}) {
   const [url, setUrl] = createSignal<null | string>(null);
   const [state, setState] = createSignal<State>("STOPPED");
   const [duration, setDuration] = createSignal(0);
@@ -233,7 +235,7 @@ function useAudio() {
   audio.onloadedmetadata = () => {
     setLoaded(true);
     setState("PLAYING");
-    setDuration(audio.duration);
+    setDuration(opts.durationOverride ?? audio.duration);
     setCurrentTime(0);
   };
   audio.ontimeupdate = () => {
@@ -279,7 +281,7 @@ function useAudio() {
     if (e.type === "audioLoaded" && e.url === url()) {
       setLoaded(true);
       setState("PLAYING");
-      setDuration(e.duration);
+      setDuration(opts.durationOverride ?? e.duration);
       setCurrentTime(e.position);
     }
   });
