@@ -60,6 +60,7 @@ const GitHubButton = styled(Button)`
   gap: 6px;
   background: #24292f;
   color: #ffffff;
+  align-self: flex-end;
   &:hover {
     background: #3f4448;
   }
@@ -170,6 +171,7 @@ export default function ExploreThemes() {
         <GitHubButton
           label={t("explore.themes.submitToGitHub")}
           iconName="code"
+          margin={[0, 0, 0, 4]}
           onClick={() =>
             window.open("https://github.com/Nerimity/themes", "_blank")
           }
