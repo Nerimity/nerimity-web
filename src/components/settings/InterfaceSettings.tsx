@@ -19,6 +19,7 @@ import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
 import env from "@/common/env";
 import style from "./InterfaceSettings.module.css";
+import { useNavigate } from "solid-navigator";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
@@ -51,8 +52,9 @@ export default function InterfaceSettings() {
   );
 }
 
-// TODO: Make this look better on mobile before pushing to live
 export function ThemesBlock() {
+  const navigate = useNavigate();
+
   return (
     <SettingsBlock
       icon="style"
@@ -63,48 +65,61 @@ export function ThemesBlock() {
       <div class={style.themeGrid}>
         <For each={Object.entries(themePresets)}>
           {([name, { colors, maintainers }]) => {
-            const displayColors =
-              Object.keys(colors).length === 0
-                ? currentTheme()
-                : { ...DefaultTheme, ...colors };
-
+            const displayColors = Object.keys(colors).length === 0 ? currentTheme() : { ...DefaultTheme, ...colors };
             return (
-              <div
-                class={style.themeCard}
-                style={{
-                  "background-color": colors["pane-color"],
-                  color: colors["text-color"],
-                }}
-              >
+              <div class={style.themeCard} style={{ "background-color": colors["pane-color"], color: colors["text-color"] }}>
                 <div class={style.themeName}>{name}</div>
-                <Show when={maintainers.length > 0}>
+                <Show when={maintainers.length}>
                   <div class={style.maintainers}>
-                    {t("settings.interface.maintainers")}:{" "}
-                    {maintainers.join(", ")}
+                    {t("settings.interface.maintainers")}: {maintainers.join(", ")}
                   </div>
                 </Show>
                 <div class={style.colorPreview}>
                   <For each={Object.values(displayColors)}>
-                    {(color) => (
-                      <div
-                        class={style.colorBlock}
-                        style={{ "background-color": color }}
-                      />
-                    )}
+                    {(color) => <div class={style.colorBlock} style={{ "background-color": color }} />}
                   </For>
                 </div>
-                <Button
-                  label={t("settings.interface.apply")}
-                  onClick={() => applyTheme(name)}
-                />
+                <Button label={t("settings.interface.apply")} onClick={() => applyTheme(name)} />
               </div>
             );
           }}
         </For>
+
+        <div
+          class={style.themeCard}
+          style={{
+            "background-color": "rgba(255,255,255,0.05)",
+            "backdrop-filter": "blur(6px)",
+            color: "#fff",
+            display: "flex",
+            "flex-direction": "column",
+            "justify-content": "center",
+            "align-items": "center",
+            position: "relative",
+            transition: "transform 0.2s, opacity 0.2s",
+            border: "1px dashed rgba(255, 255, 255, 0.3)",
+          }}
+          onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-3px)"}
+          onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
+        >
+          <div style={{ "font-weight": "bold", "font-size": "1rem", "text-align": "center" }}>
+            {t("settings.account.browse")}
+          </div>
+          <div style={{ "text-align": "center", "margin-top": "4px", "font-size": "0.75rem" }}>
+            {t("explore.themes.unlockDescription")}
+          </div>
+
+          <Button
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, border: "none", background: "transparent", cursor: "pointer" }}
+            onClick={() => navigate("/app/explore/themes")}
+            iconName="explore"
+          />
+        </div>
       </div>
     </SettingsBlock>
   );
 }
+
 
 function ErudaBlock() {
   return (
