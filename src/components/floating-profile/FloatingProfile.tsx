@@ -622,6 +622,7 @@ const DesktopProfileFlyout = (props: {
         primaryColor={props.primaryColor}
         class={styles.postItemContainer}
         post={latestPost()!}
+        showRepostsAsSelf
       />
     </div>
   );
