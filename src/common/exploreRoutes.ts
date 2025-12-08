@@ -24,6 +24,13 @@ const exploreRoutes: ExploreRoute[] = [
     icon: "smart_toy",
     element: lazy(() => import("@/components/explore/ExploreBots")),
   },
+    {
+    path: "themes",
+    routePath: "/themes",
+    name: () => "Themes",
+    icon: "brush",
+    element: lazy(() => import("@/components/explore/ExploreThemes")),
+  }
 ];
 
 export default exploreRoutes;

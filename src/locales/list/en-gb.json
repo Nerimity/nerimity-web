@@ -132,6 +132,16 @@
       "title": "Explore - Bots",
       "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}."
     },
+    "themes": {
+      "title": "Explore - Themes",
+      "themesHeaderDescription": "Personalize Nerimity with a custom theme.",
+      "submitToGitHub": "GitHub",
+      "officialThemes": "Official Themes",
+      "communityThemes": "Community Themes",
+      "noCommunityThemes": "No community themes found.",
+      "fetchThemesError": "Failed to fetch themes. Please try again later.",
+      "unlockDescription": "Click to explore all community themes"
+    },
     "servers": {
       "title": "Explore - Servers",
       "noticeMessage": "A server can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
@@ -482,7 +492,7 @@
       "disableCustomTitlebar": "Disable Custom Titlebar",
       "reopenAppNotice": "You must reopen the app for the change to take effect."
     },
-    "activity":{
+    "activity": {
       "extension": "Browser Extension",
       "extensionDescription": "Our RPC extension allows you to share your activity from Spotify and YouTube with users on Nerimity!",
       "visitButton": "Visit {{store}}",
@@ -490,7 +500,7 @@
       "activityStatusDescription": "Share what you're up to with everyone",
       "deleteButton": "Delete",
       "editButton": "Edit",
-      "activityStatusModal":{
+      "activityStatusModal": {
         "title": "Edit Activity Status",
         "executable": "Executable",
         "action": "Action",
@@ -502,7 +512,7 @@
       "discordActivity": "Discord Activity",
       "discordActivityDescription": "Share your Discord activity with users on Nerimity",
       "idPlaceholder": "Discord User ID",
-      "serverModal":{
+      "serverModal": {
         "text": "Please join the Discord server to enable Activity Sharing.",
         "cancelButton": "Cancel",
         "doneButton": "I have joined"
@@ -516,7 +526,7 @@
       }
     }
   },
-  "activityNames":{
+  "activityNames": {
     "playing": "Playing",
     "watching": "Watching",
     "listening": "Listening to"
