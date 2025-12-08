@@ -295,7 +295,7 @@
           "badge": "Verified badge",
           "badgeDescription": "A badge to show that your server is special.",
           "explore": "Highlight in Explore",
-          "exploreDescription": "Your server will be displayed in a separete section on the explore page.",
+          "exploreDescription": "Your server will be displayed in a separate section on the explore page.",
           "customInvite": "Custom invite link",
           "customInviteDescription": "Create your own invite link from the invites page.",
           "emojiSlots": "More emoji slots",
