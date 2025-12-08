@@ -1,11 +1,4 @@
-import {
-  createSignal,
-  createMemo,
-  For,
-  Show,
-  onMount,
-  batch,
-} from "solid-js";
+import { createSignal, createMemo, For, Show, onMount, batch } from "solid-js";
 import { styled, css } from "solid-styled-components";
 import Button from "../ui/Button";
 import Input from "../ui/input/Input";
@@ -104,11 +97,11 @@ function ThemeCard(props: { name: string; themeObj: ThemeObject }) {
   );
 }
 
-
 export default function ExploreThemes() {
   const [themes, setThemes] = createSignal<Record<string, ThemeObject>>({});
   const [loading, setLoading] = createSignal(true);
   const { header } = useStore();
+  const [search, setSearch] = createSignal("");
 
   const REMOTE_THEMES_URL =
     "https://raw.githubusercontent.com/Nerimity/themes/refs/heads/main/themes.json";
@@ -140,12 +133,17 @@ export default function ExploreThemes() {
     }
   };
 
-  const officialThemes = Object.entries(themePresets);
+  const officialThemes = () =>
+    Object.entries(themePresets).filter(([name]) =>
+      search() ? name.toLowerCase().includes(search().toLowerCase()) : true
+    );
 
   const communityThemes = createMemo(() =>
-    Object.entries(themes()).filter(
-      ([name]) => !themePresets[name] && name !== "Template"
-    )
+    Object.entries(themes())
+      .filter(([name]) => !themePresets[name] && name !== "Temsplate")
+      .filter(([name]) =>
+        search() ? name.toLowerCase().includes(search().toLowerCase()) : true
+      )
   );
 
   return (
@@ -162,9 +160,12 @@ export default function ExploreThemes() {
       >
         <Input
           label={t("inbox.drawer.searchBarPlaceholder")}
-          placeholder="This is currently disabled :c"
-          class={css`flex: 1; min-width: 200px;`}
-          disabled
+          onText={setSearch}
+          value={search()}
+          class={css`
+            flex: 1;
+            min-width: 200px;
+          `}
         />
         <GitHubButton
           label={t("explore.themes.submitToGitHub")}
@@ -176,10 +177,10 @@ export default function ExploreThemes() {
       </FlexRow>
 
       {}
-      <Show when={officialThemes.length}>
+      <Show when={officialThemes().length}>
         <SectionTitle>{t("explore.themes.officialThemes")}</SectionTitle>
         <GridLayout>
-          <For each={officialThemes}>
+          <For each={officialThemes()}>
             {([name, themeObj]) => (
               <ThemeCard name={name} themeObj={themeObj} />
             )}
