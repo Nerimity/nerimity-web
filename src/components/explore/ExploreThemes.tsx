@@ -141,7 +141,7 @@ export default function ExploreThemes() {
 
   const communityThemes = createMemo(() =>
     Object.entries(themes())
-      .filter(([name]) => !themePresets[name] && name !== "Temsplate")
+      .filter(([name]) => !themePresets[name] && name !== "Template")
       .filter(([name]) =>
         search() ? name.toLowerCase().includes(search().toLowerCase()) : true
       )
