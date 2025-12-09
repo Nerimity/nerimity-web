@@ -186,6 +186,19 @@
         "notifications": "Notifications",
         "external-embed": "External Embed"
       },
+      "bans": {
+        "sort": {
+          "title": "Sort",
+          "unsorted": "Unsorted"
+        },
+        "noResults": "No results found.",
+        "reason": "Reason",
+        "noReason": "No reason provided",
+        "bannedAt": "Banned at",
+        "unknown": "Unknown",
+        "unban": "Unban",
+        "unbanning": "Unbanning"
+      },
       "webhook": {
         "title": "Webhook Settings",
         "name": "Name",
