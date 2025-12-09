@@ -131,7 +131,7 @@ export default function PublishServerSettings() {
           icon="home"
           title={server()?.name}
         />
-        <BreadcrumbItem title={t("servers.settings.drawer.invites")} />
+        <BreadcrumbItem title={t("servers.settings.drawer.publishServer")} />
       </Breadcrumb>
 
       <Text color="rgba(255,255,255,0.6)" style={{ "margin-bottom": "10px" }}>
