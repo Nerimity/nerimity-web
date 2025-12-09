@@ -173,6 +173,7 @@ export function ThemesBlock() {
 }
 
 function ChatBar() {
+  const { isMobileAgent } = useWindowProperties();
   const [chatBarOptions, setChatBarOptions] = useChatBarOptions();
   const options = [
     {
@@ -190,11 +191,15 @@ function ChatBar() {
       icon: "face",
       label: "Emoji Picker",
     },
-    {
-      id: "send",
-      icon: "send",
-      label: "Send",
-    },
+    ...(isMobileAgent()
+      ? [
+          {
+            id: "send",
+            icon: "send",
+            label: "Send",
+          } as const,
+        ]
+      : []),
   ] as const;
 
   type OptionIds = ["vm", "gif", "emoji", "send"];
