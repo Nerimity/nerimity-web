@@ -31,6 +31,7 @@ import Input from "../ui/input/Input";
 import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import Avatar from "../ui/Avatar";
+import { FlexColumn } from "../ui/Flexbox";
 import { Modal } from "../ui/modal";
 import { User } from "@/chat-api/store/useUsers";
 import { Server } from "@/chat-api/store/useServers";
@@ -214,6 +215,7 @@ export default function MemberContextMenu(props: Props) {
     </>
   );
 }
+
 
 function Header(props: { userId: string }) {
   const setVoiceVolume = (volume: number) => {
@@ -490,17 +492,19 @@ function BanModal(props: {
   const [requestSent, setRequestSent] = createSignal(false);
   const [shouldDeleteRecentMessages, setShouldDeleteRecentMessages] =
     createSignal<boolean>(false);
+  const [reason, setReason] = createSignal("");
 
   const onBanClick = async () => {
     if (requestSent()) return;
     setRequestSent(true);
+
     await BanServerMember(
       props.serverId,
       props.user.id,
-      shouldDeleteRecentMessages()
-    ).finally(() => {
-      setRequestSent(false);
-    });
+      shouldDeleteRecentMessages(),
+      reason() || undefined
+    ).finally(() => setRequestSent(false));
+
     props.close();
   };
 
@@ -522,8 +526,8 @@ function BanModal(props: {
       title={t("banModal.title", { username: props.user.username })}
       actionButtons={ActionButtons}
     >
-      <div class={styles.kickModal}>
-        <div style={{ "margin-bottom": "15px" }}>
+      <div class={styles.kickModal} style={{ "min-width": "330px" }}>
+        <div style={{ "margin-bottom": "18px" }}>
           <Trans
             key="banModal.message"
             options={{ username: props.user.username }}
@@ -531,6 +535,22 @@ function BanModal(props: {
             Are you sure you want to ban <b>{"username"}</b>?
           </Trans>
         </div>
+
+        <FlexColumn style={{ "margin-bottom": "20px", width: "100%" }}>
+          <Text size={13} opacity={0.8} style={{ "margin-bottom": "6px" }}>
+            {t("banModal.reasonLabel") || "Reason (optional)"}
+          </Text>
+          <Input
+            placeholder={t("banModal.reasonPlaceholder")}
+            value={reason()}
+            onInput={(e) => setReason(e.currentTarget.value)}
+            style={{
+              width: "100%",
+              padding: "8px 10px",
+            }}
+          />
+        </FlexColumn>
+
         <Checkbox
           checked={shouldDeleteRecentMessages()}
           onChange={setShouldDeleteRecentMessages}
@@ -540,6 +560,7 @@ function BanModal(props: {
     </LegacyModal>
   );
 }
+
 
 export function ServerMemberRoleModal(props: Props & { close: () => void }) {
   const { serverRoles, serverMembers, servers, account } = useStore();
