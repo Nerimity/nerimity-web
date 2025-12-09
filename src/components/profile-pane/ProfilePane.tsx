@@ -74,6 +74,7 @@ import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { currentTheme } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
+import { getActivityType } from "@/common/activityType";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -826,17 +827,14 @@ const UserActivity = (props: {
   const activity = () => user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
-  const isMusic = () =>
-    !!activity()?.action.startsWith(t("activityNames.listening")) &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
-  const isVideo = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching"))) &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
+  const activityType = () => getActivityType(activity());
 
-  const isLiveStream = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching"))) && !activity()?.endsAt;
+  const isMusic = () =>
+    !!activityType().isMusic && !!activity()?.startedAt && !!activity()?.endsAt;
+  const isVideo = () =>
+    !!activityType().isVideo && !!activity()?.startedAt && !!activity()?.endsAt;
+
+  const isLiveStream = () => !!activityType().isVideo && !activity()?.endsAt;
 
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {

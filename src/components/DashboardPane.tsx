@@ -38,6 +38,7 @@ import { MentionUser } from "./markup/MentionUser";
 import { Item } from "./ui/Item";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { useLocalStorage } from "@/common/localStorage";
+import { getActivityType } from "@/common/activityType";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -535,13 +536,12 @@ const PresenceItem = (props: { presence: Presence }) => {
     )}/a`;
   });
 
-  const isLiveStream = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching"))) && !activity()?.endsAt;
+  const activityType = () => getActivityType(activity());
+
+  const isLiveStream = () => !!activityType().isVideo && !activity()?.endsAt;
 
   const isVideo = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching"))) &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
+    !!activityType().isVideo && !!activity()?.startedAt && !!activity()?.endsAt;
 
   return (
     <PresenceItemContainer

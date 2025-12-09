@@ -20,6 +20,7 @@ import Text from "../ui/Text";
 import { t } from "@nerimity/i18lite";
 
 import style from "./UserActivity.module.css";
+import { getActivityType } from "@/common/activityType";
 
 export const UserActivity = (props: {
   primaryColor?: string;
@@ -31,17 +32,14 @@ export const UserActivity = (props: {
   const activity = () => props.exampleActivity || user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
-  const isMusic = () =>
-    !!activity()?.action.startsWith(t("activityNames.listening")) &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
-  const isVideo = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching"))) &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
+  const activityType = () => getActivityType(activity());
 
-  const isLiveStream = () =>
-    !!activity()?.action.startsWith((t("activityNames.watching"))) && !activity()?.endsAt;
+  const isMusic = () =>
+    !!activityType().isMusic && !!activity()?.startedAt && !!activity()?.endsAt;
+  const isVideo = () =>
+    !!activityType().isVideo && !!activity()?.startedAt && !!activity()?.endsAt;
+
+  const isLiveStream = () => !!activityType().isVideo && !activity()?.endsAt;
 
   createEffect(
     on(activity, () => {

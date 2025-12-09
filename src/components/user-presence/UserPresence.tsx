@@ -9,6 +9,7 @@ import { getActivityIconName } from "@/components/activity/Activity";
 import { Tooltip } from "../ui/Tooltip";
 import { formatTimestamp } from "@/common/date";
 import { t } from "@nerimity/i18lite";
+import { getActivityType } from "@/common/activityType";
 
 // show full will disable overflow eclipses
 const UserPresence = (props: {
@@ -53,13 +54,15 @@ const UserPresence = (props: {
     return activity()?.action;
   };
 
+  const activityType = () => getActivityType(activity());
+
   const activityName = () => {
     const title = activity()?.title;
     if (props.useTitle && title) {
       const action = activity()?.action;
       const subtitle = activity()?.subtitle;
 
-      if (action?.startsWith(t("activityNames.listening")) || action?.startsWith(t("activityNames.watching"))) {
+      if (activityType().isMusic || activityType().isVideo) {
         return title + (subtitle ? ` - ${subtitle}` : "");
       }
     }
