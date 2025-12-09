@@ -258,7 +258,6 @@
         "copyLinkButton": "Copy Link"
       },
       "publishServer": {
-        "headerTitle": "Settings - Publish Server",
         "publishNotice": "Publishing your server will make it be available in the <1>explore</1> page.",
         "public": "Public",
         "publicDescription": "Make this server public.",
@@ -269,6 +268,41 @@
         "publishServerButton": "Publish server",
         "unpublishServerButton": "Unpublish server",
         "bumpCooldown": "You must wait {{hours}} hours, {{minutes}} minutes, and {{seconds}} seconds to bump this server."
+      },
+      "verify": {
+        "alreadyVerified": "Your server is already verified!",
+        "insufficientMembers": "You need {{count}} more member(s) to apply for verification.",
+        "verifiable": "Ready to verify",
+        "verifiableDescription": "You have enough members to verify your server!",
+        "verifyButton": "Verify",
+        "requirements":{
+          "title": "Requirements",
+          "englishOnly": "English only",
+          "englishOnlyDescription": "Servers that are not English are harder to moderate.",
+          "oneMonthOrSupporter": "At least 1 month OR supporter badge",
+          "oneMonthOrSupporterDescription": "Your server must be at least 1 month old OR the owner of the server must have the supporter badge.",
+          "members": "{{count}} or more members",
+          "membersDescription": "Your server must have at least {{count}} members.",
+          "profanityFree": "Profanity free",
+          "profanityFreeDescription": "Server name, avatar and banner must be profanity free.",
+          "avatarAndBanner": "Avatar & Banner",
+          "avatarAndBannerDescription": "Server must have an avatar and a banner.",
+          "rules": "Server rules",
+          "rulesDescription": "Server must have a rules channel."
+        },
+        "perks": {
+          "title": "Perks",
+          "badge": "Verified badge",
+          "badgeDescription": "A badge to show that your server is special.",
+          "explore": "Highlight in Explore",
+          "exploreDescription": "Your server will be displayed in a separate section on the explore page.",
+          "customInvite": "Custom invite link",
+          "customInviteDescription": "Create your own invite link from the invites page.",
+          "emojiSlots": "More emoji slots",
+          "emojiSlotsDescription": "200 emoji slots for your server.",
+          "hdScreenshare": "1080p@60fps screenshare",
+          "hdScreenshareDescription": "Screenshare in 1080p at 60fps."
+        }
       }
     },
     "rolePermissions": {
