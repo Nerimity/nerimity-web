@@ -107,7 +107,7 @@ export default function ServerSettingsBans() {
       </FlexRow>
 
       <Show
-        when={bans().length > 0}
+        when={filtered().length > 0}
         fallback={
           <Text
             size={14}
