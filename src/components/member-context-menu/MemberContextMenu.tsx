@@ -99,12 +99,14 @@ export default function MemberContextMenu(props: Props) {
     const items: any = [];
 
     const hasNicknamePermission =
-      selfMember()?.hasPermission(ROLE_PERMISSIONS.NICKNAME_MEMBER) ||
-      clickedOnMyself;
+      member() &&
+      (selfMember()?.hasPermission(ROLE_PERMISSIONS.NICKNAME_MEMBER) ||
+        clickedOnMyself);
 
     if (hasNicknamePermission) {
       items.push(nickname);
     }
+
     const hasManageRolePermission = selfMember()?.hasPermission(
       ROLE_PERMISSIONS.MANAGE_ROLES
     );
@@ -124,8 +126,8 @@ export default function MemberContextMenu(props: Props) {
         separator,
         ...(member() ? [kick] : []),
         ban,
-        separator,
-        transferOwnership,
+        ...(member() ? [separator] : []),
+        ...(member() ? [transferOwnership] : []),
       ];
     }
 
