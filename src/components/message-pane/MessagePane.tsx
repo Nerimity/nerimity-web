@@ -1124,10 +1124,18 @@ function FloatingMessageEmojiPicker(props: {
   gifPicked: (gif: TenorImage) => void;
   tab?: "EMOJI" | "GIF";
 }) {
+  const [chatBarOptions] = useChatBarOptions();
+
+  const showTabs = () => {
+    const opts = chatBarOptions();
+    if (opts.includes("gif") && opts.includes("emoji")) return false;
+    return true;
+  };
+
   return (
     <Floating class={styles.floatingMessageEmojiPicker}>
       <EmojiPicker
-        showGifPicker
+        showGifPicker={showTabs()}
         onClick={props.onClick}
         gifPicked={props.gifPicked}
         close={props.close}
