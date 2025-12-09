@@ -1,7 +1,11 @@
 import { createEffect, For, Show } from "solid-js";
 
 import useStore from "@/chat-api/store/useStore";
-import { StorageKeys, useLocalStorage } from "@/common/localStorage";
+import {
+  StorageKeys,
+  useChatBarOptions,
+  useLocalStorage,
+} from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
@@ -20,6 +24,7 @@ import Button from "../ui/Button";
 import env from "@/common/env";
 import style from "./InterfaceSettings.module.css";
 import { useNavigate } from "solid-navigator";
+import { FlexColumn } from "../ui/Flexbox";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
@@ -41,6 +46,7 @@ export default function InterfaceSettings() {
       <ThemesBlock />
       <BlurEffect />
       <AdvancedMarkup />
+      <ChatBar />
       <CustomizeColors />
       <SettingsBlock
         icon="code"
@@ -65,21 +71,39 @@ export function ThemesBlock() {
       <div class={style.themeGrid}>
         <For each={Object.entries(themePresets)}>
           {([name, { colors, maintainers }]) => {
-            const displayColors = Object.keys(colors).length === 0 ? currentTheme() : { ...DefaultTheme, ...colors };
+            const displayColors =
+              Object.keys(colors).length === 0
+                ? currentTheme()
+                : { ...DefaultTheme, ...colors };
             return (
-              <div class={style.themeCard} style={{ "background-color": colors["pane-color"], color: colors["text-color"] }}>
+              <div
+                class={style.themeCard}
+                style={{
+                  "background-color": colors["pane-color"],
+                  color: colors["text-color"],
+                }}
+              >
                 <div class={style.themeName}>{name}</div>
                 <Show when={maintainers.length}>
                   <div class={style.maintainers}>
-                    {t("settings.interface.maintainers")}: {maintainers.join(", ")}
+                    {t("settings.interface.maintainers")}:{" "}
+                    {maintainers.join(", ")}
                   </div>
                 </Show>
                 <div class={style.colorPreview}>
                   <For each={Object.values(displayColors)}>
-                    {(color) => <div class={style.colorBlock} style={{ "background-color": color }} />}
+                    {(color) => (
+                      <div
+                        class={style.colorBlock}
+                        style={{ "background-color": color }}
+                      />
+                    )}
                   </For>
                 </div>
-                <Button label={t("settings.interface.apply")} onClick={() => applyTheme(name)} />
+                <Button
+                  label={t("settings.interface.apply")}
+                  onClick={() => applyTheme(name)}
+                />
               </div>
             );
           }}
@@ -99,18 +123,46 @@ export function ThemesBlock() {
             transition: "transform 0.2s, opacity 0.2s",
             border: "1px dashed rgba(255, 255, 255, 0.3)",
           }}
-          onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-3px)"}
-          onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLDivElement).style.transform =
+              "translateY(-3px)")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLDivElement).style.transform =
+              "translateY(0)")
+          }
         >
-          <div style={{ "font-weight": "bold", "font-size": "1rem", "text-align": "center" }}>
+          <div
+            style={{
+              "font-weight": "bold",
+              "font-size": "1rem",
+              "text-align": "center",
+            }}
+          >
             {t("settings.account.browse")}
           </div>
-          <div style={{ "text-align": "center", "margin-top": "4px", "font-size": "0.75rem" }}>
+          <div
+            style={{
+              "text-align": "center",
+              "margin-top": "4px",
+              "font-size": "0.75rem",
+            }}
+          >
             {t("explore.themes.unlockDescription")}
           </div>
 
           <Button
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, border: "none", background: "transparent", cursor: "pointer" }}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              opacity: 0,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+            }}
             onClick={() => navigate("/app/explore/themes")}
             iconName="explore"
           />
@@ -120,6 +172,70 @@ export function ThemesBlock() {
   );
 }
 
+function ChatBar() {
+  const [chatBarOptions, setChatBarOptions] = useChatBarOptions();
+  const options = [
+    {
+      id: "vm",
+      icon: "mic",
+      label: "Voice message",
+    },
+    {
+      id: "gif",
+      icon: "gif",
+      label: "GIF Picker",
+    },
+    {
+      id: "emoji",
+      icon: "face",
+      label: "Emoji Picker",
+    },
+    {
+      id: "send",
+      icon: "send",
+      label: "Send",
+    },
+  ] as const;
+
+  type OptionIds = ["vm", "gif", "emoji", "send"];
+
+  return (
+    <FlexColumn>
+      <SettingsBlock
+        icon="chat"
+        label={t("settings.interface.chatBarOptions")}
+        header
+      />
+      <For each={options}>
+        {({ icon, label, id }) => (
+          <SettingsBlock
+            icon={icon}
+            label={label}
+            borderTopRadius={false}
+            borderBottomRadius={false}
+            onClick={() => {
+              const options = chatBarOptions() as unknown as OptionIds[];
+              if (chatBarOptions().includes(id)) {
+                setChatBarOptions(
+                  options.filter(
+                    (i) => i !== (id as unknown as OptionIds)
+                  ) as unknown as OptionIds
+                );
+              } else {
+                setChatBarOptions([
+                  ...chatBarOptions(),
+                  id,
+                ] as unknown as OptionIds);
+              }
+            }}
+          >
+            <Checkbox checked={chatBarOptions().includes(id)} />
+          </SettingsBlock>
+        )}
+      </For>
+    </FlexColumn>
+  );
+}
 
 function ErudaBlock() {
   return (

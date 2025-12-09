@@ -275,7 +275,7 @@
         "verifiable": "Ready to verify",
         "verifiableDescription": "You have enough members to verify your server!",
         "verifyButton": "Verify",
-        "requirements":{
+        "requirements": {
           "title": "Requirements",
           "englishOnly": "English only",
           "englishOnlyDescription": "Servers that are not English are harder to moderate.",
@@ -513,7 +513,8 @@
       "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
       "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
       "customizeColors": "Customize Colors",
-      "customizeColorsDescription": "Edit colors for the current theme."
+      "customizeColorsDescription": "Edit colors for the current theme.",
+      "chatBarOptions": "Chat bar Options"
     },
     "window": {
       "title": "Settings - Window Settings",

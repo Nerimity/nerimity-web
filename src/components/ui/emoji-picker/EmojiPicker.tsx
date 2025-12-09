@@ -43,6 +43,7 @@ export function EmojiPicker(props: {
   heightOffset?: number;
   close: () => void;
   onClick: (shortcode: string, shiftDown?: boolean) => void;
+  tab?: "EMOJI" | "GIF";
 }) {
   const params = useParams<{ serverId?: string }>();
   const { servers } = useStore();
@@ -50,6 +51,13 @@ export function EmojiPicker(props: {
   const [shiftDown, setShiftDown] = createSignal(false);
 
   const [selectedTab, setSelectedTab] = createSignal<"EMOJI" | "GIF">("EMOJI");
+
+  createEffect(
+    on(
+      () => props.tab,
+      () => setSelectedTab(props.tab ?? "EMOJI")
+    )
+  );
 
   useDocumentListener("keydown", (e) => {
     if (e.key === "Escape") {

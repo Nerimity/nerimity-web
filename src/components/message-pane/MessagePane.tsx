@@ -69,7 +69,11 @@ import { setLastSelectedServerChannelId } from "@/common/useLastSelectedServerCh
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { FlexRow } from "../ui/Flexbox";
 import { Markup } from "../Markup";
-import { getStorageBoolean, StorageKeys } from "@/common/localStorage";
+import {
+  getStorageBoolean,
+  StorageKeys,
+  useChatBarOptions,
+} from "@/common/localStorage";
 import { randomKaomoji } from "@/common/kaomoji";
 import { MessageLogArea } from "./message-log-area/MessageLogArea";
 import { TenorImage } from "@/chat-api/services/TenorService";
@@ -286,6 +290,7 @@ function MessageArea(props: {
   >(undefined);
   const { isMobileAgent, paneWidth } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
+  const [showGifPicker, setShowGifPicker] = createSignal(false);
   const { createPortal } = useCustomPortal();
 
   const { height } = useResizeObserver(textAreaEl);
@@ -497,6 +502,7 @@ function MessageArea(props: {
       <Show when={showEmojiPicker()}>
         <FloatingMessageEmojiPicker
           gifPicked={onGifPicked}
+          tab={showGifPicker() ? "GIF" : "EMOJI"}
           close={() => setShowEmojiPicker(false)}
           onClick={onEmojiPicked}
         />
@@ -549,7 +555,24 @@ function MessageArea(props: {
         isEditing={!!editMessageId()}
         onSendClick={sendMessage}
         onCancelEditClick={cancelEdit}
-        onEmojiPickerClick={() => setShowEmojiPicker(!showEmojiPicker())}
+        onEmojiPickerClick={() => {
+          if (showGifPicker()) {
+            setShowGifPicker(false);
+            setShowEmojiPicker(true);
+            return;
+          }
+          setShowGifPicker(false);
+          setShowEmojiPicker(!showEmojiPicker());
+        }}
+        onGifPickerClick={() => {
+          if (showEmojiPicker() && !showGifPicker()) {
+            setShowGifPicker(true);
+            setShowEmojiPicker(true);
+            return;
+          }
+          setShowGifPicker(!showGifPicker());
+          setShowEmojiPicker(!showEmojiPicker());
+        }}
       />
       <BackToBottomButton scrollElement={props.mainPaneEl} />
     </div>
@@ -560,10 +583,13 @@ interface CustomTextAreaProps
   isEditing: boolean;
   onSendClick: () => void;
   onEmojiPickerClick: () => void;
+  onGifPickerClick: () => void;
   onCancelEditClick: () => void;
 }
 
 function CustomTextArea(props: CustomTextAreaProps) {
+  const [chatBarOptions] = useChatBarOptions();
+
   const store = useStore();
   let textAreaRef: HTMLTextAreaElement | undefined;
   const params = useParams<{ channelId: string; serverId?: string }>();
@@ -694,7 +720,14 @@ function CustomTextArea(props: CustomTextAreaProps) {
           />
         </Show>
 
-        <Show when={!value().trim() && !pickedFile() && !props.isEditing}>
+        <Show
+          when={
+            !value().trim() &&
+            !pickedFile() &&
+            !props.isEditing &&
+            chatBarOptions().includes("vm")
+          }
+        >
           <MicButton
             onBlob={(blob) => {
               const file = new File([blob], "voice.ogg", { type: "audio/ogg" });
@@ -702,15 +735,32 @@ function CustomTextArea(props: CustomTextAreaProps) {
             }}
           />
         </Show>
-        <Button
-          class={classNames(styles.inputButtons, "emojiPickerButton")}
-          onClick={props.onEmojiPickerClick}
-          iconName="face"
-          padding={[8, 8, 8, 8]}
-          margin={0}
-          iconSize={18}
-        />
-        <Show when={pickedFile() || value().trim()}>
+        <Show when={chatBarOptions().includes("gif")}>
+          <Button
+            class={classNames(styles.inputButtons, "emojiPickerButton")}
+            onClick={props.onGifPickerClick}
+            iconName="gif"
+            padding={[5, 5, 5, 5]}
+            margin={0}
+            iconSize={24}
+          />
+        </Show>
+        <Show when={chatBarOptions().includes("emoji")}>
+          <Button
+            class={classNames(styles.inputButtons, "emojiPickerButton")}
+            onClick={props.onEmojiPickerClick}
+            iconName="face"
+            padding={[8, 8, 8, 8]}
+            margin={0}
+            iconSize={18}
+          />
+        </Show>
+        <Show
+          when={
+            chatBarOptions().includes("send") &&
+            (pickedFile() || value().trim())
+          }
+        >
           <Button
             class={styles.inputButtons}
             ref={setSendButtonRef}
@@ -1072,6 +1122,7 @@ function FloatingMessageEmojiPicker(props: {
   close: () => void;
   onClick: (shortcode: string) => void;
   gifPicked: (gif: TenorImage) => void;
+  tab?: "EMOJI" | "GIF";
 }) {
   return (
     <Floating class={styles.floatingMessageEmojiPicker}>
@@ -1081,6 +1132,7 @@ function FloatingMessageEmojiPicker(props: {
         gifPicked={props.gifPicked}
         close={props.close}
         heightOffset={-60}
+        tab={props.tab}
       />
     </Floating>
   );
