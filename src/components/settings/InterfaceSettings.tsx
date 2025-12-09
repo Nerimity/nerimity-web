@@ -178,7 +178,7 @@ function ChatBar() {
     {
       id: "vm",
       icon: "mic",
-      label: "Voice message",
+      label: "Voice Message",
     },
     {
       id: "gif",
