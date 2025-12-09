@@ -11,7 +11,7 @@ import Input from "../../ui/input/Input";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import Text from "@/components/ui/Text";
 import { A, useParams } from "solid-navigator";
-import { createSignal, For, Show, onMount } from "solid-js";
+import { createSignal, For, Show, onMount, onCleanup } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
@@ -62,8 +62,8 @@ export default function ServerSettingsBans() {
   onMount(() => {
     // Reactivity
     loadBans();
-    const interval = setInterval(loadBans, 5000); // Update bans every 5 seconds
-    return () => clearInterval(interval);
+    const interval = setInterval(loadBans, 10_000); // Update bans every 5 seconds
+    onCleanup(() => clearInterval(interval));
   });
 
   const server = () => servers.get(params.serverId);
@@ -174,7 +174,7 @@ function BanItem(props: { ban: Ban; removeLocalBan: () => void }) {
     transform: ${({ removing }) => (removing ? "scale(0.5)" : "scale(1)")};
   `;
 
-  const InfoColumn = styled(FlexColumn)` 
+  const InfoColumn = styled(FlexColumn)`
     gap: 2px;
   `; // Info column's could be collapsible in future for better readability?
 
