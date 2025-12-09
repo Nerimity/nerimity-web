@@ -191,7 +191,7 @@ function ChatBar() {
       icon: "face",
       label: "Emoji Picker",
     },
-    ...(isMobileAgent()
+    ...(!isMobileAgent()
       ? [
           {
             id: "send",
