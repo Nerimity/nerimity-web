@@ -648,7 +648,9 @@
     "message": "Are you sure you want to ban <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
     "banButton": "Ban",
-    "banning": "Banning..."
+    "banning": "Banning...",
+    "reasonLabel": "Reason (optional)",
+    "reasonPlaceholder": "Enter a reason…"
   },
   "messageContextMenu": {
     "editMessage": "Edit Message",

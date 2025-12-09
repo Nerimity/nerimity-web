@@ -80,7 +80,8 @@ export async function kickServerMember(
 export async function BanServerMember(
   serverId: string,
   userId: string,
-  shouldDeleteRecentMessages?: boolean
+  shouldDeleteRecentMessages?: boolean,
+  reason?: string
 ): Promise<any> {
   return request({
     method: "POST",
@@ -89,11 +90,15 @@ export async function BanServerMember(
       "/api" +
       ServiceEndpoints.serverMemberBan(serverId, userId),
     params: {
-      shouldDeleteRecentMessages, // delete messages sent in the last 7 hours.
+      shouldDeleteRecentMessages,// delete messages sent in the last 7 hours.
+    },
+    body: {
+      reason, 
     },
     useToken: true,
   });
 }
+
 export async function removeBanServerMember(
   serverId: string,
   userId: string
