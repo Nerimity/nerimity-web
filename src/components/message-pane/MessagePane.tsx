@@ -680,64 +680,61 @@ function CustomTextArea(props: CustomTextAreaProps) {
         maxLength={2000}
         class={styles.textArea}
       />
-      <Show when={reminders().length}>
-        <Button
-          class={classNames(styles.inputButtons, styles.reminderButton)}
-          iconName="calendar_month"
-          title={`Reminders (${reminders().length})`}
-          padding={[8, 8, 8, 8]}
-          onClick={showRemindersModal}
-          margin={[3, 0, 3, 3]}
-          iconSize={18}
-          customChildren={<div class={styles.reminderDot} />}
-        />
-      </Show>
+      <div class={styles.inputRightButtons}>
+        <Show when={reminders().length}>
+          <Button
+            class={classNames(styles.inputButtons, styles.reminderButton)}
+            iconName="calendar_month"
+            title={`Reminders (${reminders().length})`}
+            padding={[8, 8, 8, 8]}
+            onClick={showRemindersModal}
+            margin={0}
+            iconSize={18}
+            customChildren={<div class={styles.reminderDot} />}
+          />
+        </Show>
 
-      <Show when={!value().trim() && !pickedFile() && !props.isEditing}>
-        <MicButton
-          onBlob={(blob) => {
-            const file = new File([blob], "voice.ogg", { type: "audio/ogg" });
-            channelProperties.setAttachment(params.channelId, file);
-          }}
-        />
-      </Show>
-      <Button
-        class={classNames(styles.inputButtons, "emojiPickerButton")}
-        onClick={props.onEmojiPickerClick}
-        iconName="face"
-        padding={[8, 8, 8, 8]}
-        margin={[
-          3,
-          props.isEditing ? 0 : pickedFile() || value().trim() ? 0 : 3,
-          3,
-          3,
-        ]}
-        iconSize={18}
-      />
-      <Show when={pickedFile() || value().trim()}>
+        <Show when={!value().trim() && !pickedFile() && !props.isEditing}>
+          <MicButton
+            onBlob={(blob) => {
+              const file = new File([blob], "voice.ogg", { type: "audio/ogg" });
+              channelProperties.setAttachment(params.channelId, file);
+            }}
+          />
+        </Show>
         <Button
-          class={styles.inputButtons}
-          ref={setSendButtonRef}
-          onClick={props.onSendClick}
-          iconName={props.isEditing ? "edit" : "send"}
-          padding={[8, 15, 8, 15]}
-          margin={[3, 3, 3, 3]}
+          class={classNames(styles.inputButtons, "emojiPickerButton")}
+          onClick={props.onEmojiPickerClick}
+          iconName="face"
+          padding={[8, 8, 8, 8]}
+          margin={0}
           iconSize={18}
         />
-      </Show>
-      <Show when={!value().trim() && props.isEditing}>
-        <Button
-          class={styles.inputButtons}
-          ref={setSendButtonRef}
-          onClick={props.onSendClick}
-          color="var(--alert-color)"
-          iconName="delete"
-          primary
-          padding={[8, 15, 8, 15]}
-          margin={[3, 3, 3, 3]}
-          iconSize={18}
-        />
-      </Show>
+        <Show when={pickedFile() || value().trim()}>
+          <Button
+            class={styles.inputButtons}
+            ref={setSendButtonRef}
+            onClick={props.onSendClick}
+            iconName={props.isEditing ? "edit" : "send"}
+            padding={[8, 15, 8, 15]}
+            margin={0}
+            iconSize={18}
+          />
+        </Show>
+        <Show when={!value().trim() && props.isEditing}>
+          <Button
+            class={styles.inputButtons}
+            ref={setSendButtonRef}
+            onClick={props.onSendClick}
+            color="var(--alert-color)"
+            iconName="delete"
+            primary
+            padding={[8, 15, 8, 15]}
+            margin={0}
+            iconSize={18}
+          />
+        </Show>
+      </div>
     </div>
   );
 }
@@ -838,7 +835,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
         onPointerLeave={() => !isMobileAgent() && setCancelRecording(true)}
         iconName={cancelRecording() && isRecording() ? "delete" : "mic"}
         padding={[8, 8, 8, 8]}
-        margin={[3, 0, 3, 3]}
+        margin={0}
         iconSize={18}
         primary={isRecording()}
         color={
@@ -920,9 +917,11 @@ function TypingIndicator() {
     });
   });
 
-const typingUsers = createMemo(() =>
-  Object.keys(typingUserIds).filter((id) =>!friends.hasBeenBlockedByMe(id)).map((userId) => users.get(userId)!)
-);
+  const typingUsers = createMemo(() =>
+    Object.keys(typingUserIds)
+      .filter((id) => !friends.hasBeenBlockedByMe(id))
+      .map((userId) => users.get(userId)!)
+  );
 
   const typingUserDisplayNames = createMemo(() => {
     return typingUsers().map((user) => {

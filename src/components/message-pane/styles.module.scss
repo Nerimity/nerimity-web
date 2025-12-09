@@ -401,6 +401,12 @@ body .floating.floatingSlowModeIndicator {
   }
 }
 
+.inputRightButtons {
+  display: flex;
+  margin: 3px;
+  gap: 3px;
+}
+
 .inputButtons {
   align-self: flex-end;
 }
