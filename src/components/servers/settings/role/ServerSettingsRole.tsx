@@ -30,6 +30,7 @@ import { css } from "solid-styled-components";
 import { FloatingEmojiPicker } from "@/components/ui/emoji-picker/EmojiPicker";
 import { emojiShortcodeToUnicode } from "@/emoji";
 import { Emoji } from "@/components/ui/Emoji";
+import { ColorPickerModal } from "@/components/ui/color-picker/ColorPicker";
 
 type RoleParams = {
   serverId: string;
@@ -133,6 +134,21 @@ export default function ServerSettingsRole() {
     return users.get(botId);
   };
 
+  const openColorPicker = () => {
+    createPortal?.((close) => (
+      <ColorPickerModal
+        close={close}
+        color={inputValues().hexColor}
+        onChange={(v) => setInputValue("hexColor", v)}
+        onDone={(v) => {
+          setInputValue("hexColor", v);
+          close();
+        }}
+        alpha={false}
+      />
+    ));
+  };
+
   return (
     <div class={styles.channelPane}>
       <Breadcrumb>
@@ -159,7 +175,6 @@ export default function ServerSettingsRole() {
           }. You cannot delete or add members to this role. Kick this bot to remove this role.`}
         />
       </Show>
-
       {/* Role Name */}
       <SettingsBlock icon="edit" label={t("servers.settings.role.roleName")}>
         <Input
@@ -167,16 +182,36 @@ export default function ServerSettingsRole() {
           onText={(v) => setInputValue("name", v)}
         />
       </SettingsBlock>
-
       {/* Role Color */}
       <SettingsBlock
         icon="colorize"
         label={t("servers.settings.role.roleColor")}
       >
-        <ColorPicker
-          color={inputValues().hexColor}
-          onChange={(v) => setInputValue("hexColor", v)}
-        />
+        <div
+          style={{
+            display: "flex",
+            "align-items": "center",
+            gap: "8px",
+          }}
+        >
+          <div
+            onClick={openColorPicker}
+            class={styles.colorPicker}
+            style={{
+              background: inputValues().hexColor,
+            }}
+          >
+            <Icon
+              name="colorize"
+              size={16}
+              color="white"
+              style={{
+                "pointer-events": "none",
+                filter: "drop-shadow(0 0 2px rgba(0,0,0,0.5))",
+              }}
+            />
+          </div>
+        </div>
       </SettingsBlock>
 
       {/* Icon */}
@@ -331,36 +366,5 @@ function RoleDeleteConfirmModal(props: {
       confirmText={props.role?.name}
       onDeleteClick={onDeleteClick}
     />
-  );
-}
-
-function ColorPicker(props: {
-  color: string;
-  onChange?: (value: string) => void;
-}) {
-  let inputEl: undefined | HTMLInputElement;
-
-  const onClicked = () => {
-    inputEl?.click();
-  };
-  const onChange = () => {
-    props.onChange?.(inputEl?.value!);
-  };
-
-  return (
-    <div
-      class={styles.colorPicker}
-      style={{ background: props.color }}
-      onClick={onClicked}
-    >
-      <Icon name="colorize" color="white" size={18} class={styles.icon} />
-      <input
-        style={{ position: "absolute", opacity: 0 }}
-        ref={inputEl}
-        type="color"
-        value={props.color}
-        onChange={onChange}
-      />
-    </div>
   );
 }
