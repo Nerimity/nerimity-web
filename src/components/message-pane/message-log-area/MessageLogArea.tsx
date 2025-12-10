@@ -644,9 +644,9 @@ export const MessageLogArea = (props: {
         <div class={styles.noMessages}>
           <Icon name="comment" size={40} color="var(--primary-color)" />
           <div>
-            <div class={styles.noMessagesTitle}>No messages</div>
+            <div class={styles.noMessagesTitle}>{t("messageView.noMessages")}</div>
             <div class={styles.noMessagesText}>
-              There are no messages in this channel.
+              {t("messageView.noMessagesDescription")}
             </div>
           </div>
         </div>
@@ -801,7 +801,7 @@ function UnreadMarker(props: { onClick: () => void }) {
     <div onClick={props.onClick} class={styles.unreadMarkerContainer}>
       <div class={styles.unreadMarker}>
         <Icon name="mark_chat_unread" size={14} />
-        New Messages
+        {t("messageView.newMessages")}
         <Button
           iconSize={14}
           class={styles.closeButton}

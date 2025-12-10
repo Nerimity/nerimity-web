@@ -616,6 +616,11 @@
       "mute": "Mute"
     }
   },
+  "messageView": {
+    "noMessages": "No messages",
+    "noMessagesDescription": "There are no messages in this channel.",
+    "newMessages": "New messages"
+  },
   "typing": {
     "single": "<1>{{username}}</1> is typing…",
     "multiple": "<1>{{username}}</1> and <2>{{username2}}</2> are typing…",
