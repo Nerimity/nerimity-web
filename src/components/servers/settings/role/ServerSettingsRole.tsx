@@ -140,7 +140,7 @@ export default function ServerSettingsRole() {
         close={close}
         color={inputValues().hexColor}
         onChange={(v) => setInputValue("hexColor", v)}
-        onDone={(v) => {
+        done={(v) => {
           setInputValue("hexColor", v);
           close();
         }}
