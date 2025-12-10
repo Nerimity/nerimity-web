@@ -601,6 +601,11 @@
       "mute": "Заглушаныя"
     }
   },
+  "messageView": {
+    "noMessages": "Няма паведамленьняў",
+    "noMessagesDescription": "У гэтым канале адсутнічаюць паведамленьні.",
+    "newMessages": "Новыя паведамленьні"
+  },
   "typing": {
     "single": "<1>{{username}}</1> піша…",
     "multiple": "<1>{{username}}</1> і <2>{{username2}}</2> пішуць…",
