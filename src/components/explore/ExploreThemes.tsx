@@ -169,7 +169,7 @@ export default function ExploreThemes() {
           `}
         />
         <GitHubButton
-          label={t("explore.themes.submitToGitHub")}
+          label="GitHub"
           iconName="code"
           margin={[0, 0, 0, 4]}
           onClick={() =>

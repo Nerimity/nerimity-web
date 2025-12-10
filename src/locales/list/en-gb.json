@@ -135,7 +135,6 @@
     "themes": {
       "title": "Explore - Themes",
       "themesHeaderDescription": "Personalize Nerimity with a custom theme.",
-      "submitToGitHub": "GitHub",
       "officialThemes": "Official Themes",
       "communityThemes": "Community Themes",
       "noCommunityThemes": "No community themes found.",
