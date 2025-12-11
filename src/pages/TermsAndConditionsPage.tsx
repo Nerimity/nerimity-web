@@ -60,7 +60,7 @@ export default function TermsAndConditionsPage() {
           <InformationContainer>
             <Title>Nerimity Terms and Conditions of Use</Title>
             <Text opacity={0.8} size={14}>
-              Last updated: 2 December 2025
+              Last updated: 11 December 2025
             </Text>
             <Text opacity={0.6} size={14}>
               If you have questions or notice something missing, you may email
@@ -75,14 +75,6 @@ export default function TermsAndConditionsPage() {
                 This is currently a hobby project, but it may grow and expand in
                 the future. Moderation is flexible to help keep the community
                 safe and enjoyable for everyone.
-              </li>
-              <li>
-                Since our moderation team is small,{" "}
-                <strong>
-                  please create your servers and content in English
-                </strong>{" "}
-                for now. Paid supporters are exempt, and this rule may be
-                relaxed or reverted as the platform grows.
               </li>
             </ul>
           </Block>
@@ -147,8 +139,7 @@ export default function TermsAndConditionsPage() {
             Creating a server on Nerimity that involves exploitation of any game
             or creating an NSFW-based server will cause your account to be
             suspended and the server deleted. This is to ensure our members have
-            a comfortable environment to learn and have fun in. Servers must be
-            primarily in English.
+            a comfortable environment to learn and have fun in.
           </Block>
 
           <Block title="5. Links">
