@@ -58,7 +58,6 @@ const CreateServerModal = (props: { close: () => void }) => {
           type="warn"
           description={[
             t("createServerModal.notice"),
-            t("createServerModal.mustBeEnglish"),
           ]}
         />
         <Input
