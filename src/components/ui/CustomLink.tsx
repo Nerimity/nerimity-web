@@ -38,6 +38,7 @@ export function CustomLink(props: CustomLinkProps) {
   };
 
   const onLinkClick = (e: MouseEvent) => {
+    const href = props.href;
     if (props.isDangerous) {
       e.preventDefault();
       createPortal((close) => (
@@ -46,7 +47,6 @@ export function CustomLink(props: CustomLinkProps) {
       return;
     }
 
-    const href = props.href;
     const match = href?.match(POST_LINK_REGEX);
     const postId = match ? match[1] : undefined;
 
