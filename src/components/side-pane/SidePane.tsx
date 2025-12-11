@@ -168,9 +168,7 @@ function UpdateItem(props: { size: number }) {
 }
 function ModerationItem(props: { size: number }) {
   const { account, tickets } = useStore();
-  const hasModeratorPerm = () =>
-    hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
-    hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
+  const hasModeratorPerm = () => account.hasModeratorPerm(true);
 
   const selected = useMatch(() => "/app/moderation/*");
 
