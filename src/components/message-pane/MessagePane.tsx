@@ -1528,6 +1528,8 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
   );
 }
 
+const normalizeText = (str?: string) => str?.normalize("NFKC") || "";
+
 function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const { channelProperties } = useStore();
   const params = useParams<{ serverId?: string; channelId: string }>();
@@ -1552,7 +1554,7 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
       return setIsFocus(false);
     setIsFocus(true);
     const textBefore = getTextBeforeCursor(props.textArea);
-    setTextBefore(textBefore);
+    setTextBefore(normalizeText(textBefore));
   };
 
   const onSelectionChange = () => {
@@ -1587,19 +1589,19 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
         <Switch>
           <Match when={suggestChannels()}>
             <FloatingChannelSuggestions
-              search={textBefore().substring(1)}
+              search={normalizeText(textBefore().substring(1))}
               textArea={props.textArea}
             />
           </Match>
           <Match when={suggestUsers()}>
             <FloatingUserSuggestions
-              search={textBefore().substring(1)}
+              search={normalizeText(textBefore().substring(1))}
               textArea={props.textArea}
             />
           </Match>
           <Match when={suggestEmojis()}>
             <FloatingEmojiSuggestions
-              search={textBefore().substring(1)}
+              search={normalizeText(textBefore().substring(1))}
               textArea={props.textArea}
             />
           </Match>
@@ -1608,9 +1610,9 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
       <Show when={suggestCommands() && !properties()?.editMessageId}>
         <FloatingCommandSuggestions
           focused={isFocus()}
-          search={content().substring(1).split(" ")[0] || ""}
+          search={normalizeText(content().substring(1).split(" ")[0] || "")}
           textArea={props.textArea}
-          content={content()}
+          content={normalizeText(content())}
         />
       </Show>
     </>
@@ -1630,17 +1632,13 @@ function FloatingChannelSuggestions(props: {
         .getChannelsByServerId(params.serverId!, true)
         .filter((c) => c?.type !== ChannelType.CATEGORY) as Channel[]
   );
-  const searchedChannels = () =>
-    matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(
-      0,
-      10
-    );
 
-  createEffect(
-    on(searchedChannels, () => {
-      setCurrent(0);
-    })
-  );
+  const searchedChannels = () =>
+    matchSorter(serverChannels(), normalizeText(props.search), {
+      keys: [(c) => normalizeText(c.name)],
+    }).slice(0, 10);
+
+  createEffect(on(searchedChannels, () => setCurrent(0)));
 
   const onChannelClick = (channel: Channel) => {
     if (!props.textArea) return;
@@ -1648,13 +1646,11 @@ function FloatingChannelSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      channel.name + "# "
+      normalizeText(channel.name) + "# "
     );
   };
 
-  const onEnterClick = (i: number) => {
-    onChannelClick(searchedChannels()[i]);
-  };
+  const onEnterClick = (i: number) => onChannelClick(searchedChannels()[i]);
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedChannels().length,
@@ -1771,9 +1767,13 @@ function FloatingUserSuggestions(props: {
           }),
         },
       ] as any[],
-      props.search,
+      normalizeText(props.search),
       {
-        keys: [(e) => e.user?.().username, (e) => e.nickname, (e) => e.name],
+        keys: [
+          (e) => normalizeText(e.user?.().username),
+          (e) => normalizeText(e.nickname),
+          (e) => normalizeText(e.name),
+        ],
       }
     )
       .slice(0, 10)
@@ -1788,19 +1788,12 @@ function FloatingUserSuggestions(props: {
   const DMUsers = () =>
     !channel() ? [] : ([channel()?.recipient(), account.user()] as User[]);
   const searchedDMUsers = () =>
-    matchSorter(DMUsers(), props.search, { keys: ["username"] }).slice(0, 10);
+    matchSorter(DMUsers(), normalizeText(props.search), {
+      keys: [(u) => normalizeText(u.username)],
+    }).slice(0, 10);
 
   const searched = () =>
     !params.serverId ? searchedDMUsers() : searchedServerUsers();
-
-  createEffect(
-    on(
-      () => props.search,
-      () => {
-        setCurrent(0);
-      }
-    )
-  );
 
   const onUserClick = (user: User & { name?: string }) => {
     if (!props.textArea) return;
@@ -1809,7 +1802,7 @@ function FloatingUserSuggestions(props: {
         params.channelId,
         props.textArea,
         props.search,
-        `${user.username || user.name}${user.name ? "@" : ""} `
+        `${normalizeText(user.username || user.name)}${user.name ? "@" : ""} `
       );
       return;
     }
@@ -1817,7 +1810,7 @@ function FloatingUserSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      `${user.username}:${user.tag} `
+      `${normalizeText(user.username)}:${normalizeText(user.tag)} `
     );
   };
 
@@ -1840,7 +1833,7 @@ function FloatingUserSuggestions(props: {
             <UserSuggestionItem
               onHover={() => setCurrent(i())}
               selected={current() === i()}
-              nickname={member?.nickname}
+              nickname={normalizeText(member?.nickname)}
               user={(member as ServerMember)?.user?.() || member}
               onclick={onUserClick}
             />
@@ -1909,35 +1902,26 @@ function FloatingEmojiSuggestions(props: {
   const searchedEmojis = () =>
     matchSorter(
       [...emojis(), ...servers.emojisUpdatedDupName()],
-      props.search,
+      normalizeText(props.search),
       {
         keys: ["short_names.*", "name"],
       }
     ).slice(0, 10);
 
-  createEffect(
-    on(searchedEmojis, () => {
-      setCurrent(0);
-    })
-  );
-
   const onItemClick = (emoji: Emoji | RawCustomEmoji) => {
     if (!props.textArea) return;
-    addToHistory(
-      (emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0],
-      20
-    );
+    const name =
+      (emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0];
+    addToHistory(name, 20);
     appendText(
       params.channelId,
       props.textArea,
       props.search,
-      `${(emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0]}: `
+      normalizeText(name) + ": "
     );
   };
 
-  const onEnterClick = (i: number) => {
-    onItemClick(searchedEmojis()[i]);
-  };
+  const onEnterClick = (i: number) => onItemClick(searchedEmojis()[i]);
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedEmojis().length,
@@ -1963,6 +1947,7 @@ function FloatingEmojiSuggestions(props: {
     </Show>
   );
 }
+
 function FloatingCommandSuggestions(props: {
   search: string;
   textArea?: HTMLTextAreaElement;
