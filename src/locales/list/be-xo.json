@@ -585,7 +585,6 @@
   "createServerModal": {
     "title": "Стварыць сэрвэр",
     "notice": "18+ кантэнт забаронены.",
-    "mustBeEnglish": "Сэрвэр МУСІЦЬ БЫЦЬ на ангельскае.",
     "serverName": "Назва сэрвэра",
     "placeholder": "Мой цудоўны сэрвэр",
     "creating": "Ствараем...",

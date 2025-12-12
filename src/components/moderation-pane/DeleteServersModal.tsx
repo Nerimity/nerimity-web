@@ -44,7 +44,6 @@ export default function DeleteServersModal(props: Props) {
 
   const [templates, setTemplates] = createSignal({
     "NSFW Server": false,
-    "Non-English Server": false,
     Other: false,
   } as Record<string, boolean>);
 

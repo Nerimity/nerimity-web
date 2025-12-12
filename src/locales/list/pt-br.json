@@ -656,8 +656,7 @@
     "serverName": "Nome do servidor",
     "notice": "Conteúdo NSFW (não seguro para o trabalho) não é permitido.",
     "title": "Criar servidor",
-    "tabLabel": "Criar",
-    "mustBeEnglish": "Servidor DEVE ser em inglês."
+    "tabLabel": "Criar"
   },
   "statusHeader": {
     "connected": "Conectado!",

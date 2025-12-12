@@ -1,4 +1,7 @@
-import { CustomPortalProvider, toast } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  CustomPortalProvider,
+  toast,
+} from "@/components/ui/custom-portal/CustomPortal";
 /* @refresh reload */
 const search = new URLSearchParams(location.search);
 if (search.get("eruda") === "true" && location.pathname === "/app") {
@@ -307,7 +310,7 @@ render(() => {
             <Route path="/*" components={{ settingsPane: undefined }} />
           </Route>
 
-          <Show when={account.hasModeratorPerm()}>
+          <Show when={account.hasModeratorPerm(true)}>
             <Route
               path="/moderation"
               components={{ mainPane: ModerationPane, leftDrawer: HomeDrawer }}

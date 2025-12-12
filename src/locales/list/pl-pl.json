@@ -570,7 +570,6 @@
     "creating": "Trwa towrzenie...",
     "createServerButton": "Stwórz serwer",
     "closeButton": "Zamknij",
-    "mustBeEnglish": "Nazwa serwera MUSI być w języku angielskim.",
     "tabLabel": "Stwórz"
   },
   "serverContextMenu": {
