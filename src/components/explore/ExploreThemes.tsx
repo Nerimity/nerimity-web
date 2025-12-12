@@ -160,7 +160,7 @@ export default function ExploreThemes() {
         wrap
       >
         <Input
-          label={t("inbox.drawer.searchBarPlaceholder")}
+          label={t("explore.search")}
           onText={setSearch}
           value={search()}
           class={css`

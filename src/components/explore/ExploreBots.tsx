@@ -140,7 +140,7 @@ export default function ExploreBots() {
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label="Back" iconName="arrow_back" />
+        <Button margin={0} href="/app" label={t("explore.backButton")} iconName="arrow_back" />
       </div>
       <FlexRow
         gap={10}
@@ -152,7 +152,7 @@ export default function ExploreBots() {
         `}
       >
         <Input
-          label="Search"
+          label={t("explore.search")}
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
@@ -164,7 +164,7 @@ export default function ExploreBots() {
           `}
         />
         <DropDown
-          title="Sort"
+          title={t("explore.sort")}
           items={sortOpts}
           selectedId={query().sort}
           onChange={(i) =>
@@ -193,7 +193,7 @@ export default function ExploreBots() {
           margin-bottom: 10px;
         `}
         type="warn"
-        description="Bots are not moderated by Nerimity. Please report bots that are malicious or break the TOS."
+        description={t("explore.bots.moderationNotice")}
       />
 
       <GridLayout class="servers-list-grid">
@@ -429,7 +429,7 @@ function PublicItem(props: {
           </CustomLink>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
-          By{": "}
+          {t("explore.by")}{": "}
           <CustomLink
             href={RouterEndpoints.PROFILE(app.creatorAccount.user.id)}
           >
@@ -451,14 +451,14 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            In {bot._count.servers.toLocaleString()} servers
+            {t("explore.bots.serverCount", { count: bot._count.servers.toLocaleString() })}
           </Text>
         </FlexRow>
 
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            Bumped{" "}
+            {t("explore.bumped")}{" "}
             {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
               props.item.bumpedAt
             )}
@@ -477,7 +477,7 @@ function PublicItem(props: {
           onClick={addBotClick}
           iconName="add"
           primary
-          label={"Invite"}
+          label={t("explore.bots.inviteButton")}
         />
         <Button
           padding={8}
