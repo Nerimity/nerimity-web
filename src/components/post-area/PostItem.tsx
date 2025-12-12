@@ -35,10 +35,7 @@ import { RadioBoxItem } from "../ui/RadioBox";
 import { DeletePostModal, EditPostModal } from "../PostsArea";
 import { css } from "solid-styled-components";
 import ContextMenu from "../ui/context-menu/ContextMenu";
-import {
-  pinPost,
-  unpinPost,
-} from "@/chat-api/services/PostService";
+import { pinPost, unpinPost } from "@/chat-api/services/PostService";
 import env from "@/common/env";
 import {
   OGEmbed,
@@ -50,6 +47,7 @@ import { RawYoutubeEmbed } from "../message-pane/message-item/RawYoutubeEmbed";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { toast } from "../ui/custom-portal/CustomPortal";
+import { CreateTicketModal } from "@/components/CreateTicketModal";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -367,6 +365,19 @@ const Actions = (props: {
     props.onTogglePinned?.();
   };
 
+  const onReportClick = () => {
+    createPortal((close) => (
+      <CreateTicketModal
+        close={close}
+        ticket={{
+          id: "ABUSE",
+          userId: props.post.createdBy.id,
+          messageId: `https://nerimity.com/p/${props.post.id}`,
+        }}
+      />
+    ));
+  };
+
   const onEditClicked = () =>
     createPortal?.((close) => (
       <EditPostModal close={close} post={props.post} />
@@ -378,6 +389,8 @@ const Actions = (props: {
 
   const showDeleteAndEdit = () =>
     props.post.createdBy?.id === account.user()?.id && !props.hideDelete;
+
+  const canReport = () => props.post.createdBy?.id !== account.user()?.id;
 
   const showContextMenu = (event: MouseEvent) => {
     if (event.target instanceof Element) {
@@ -448,6 +461,17 @@ const Actions = (props: {
                   navigator.clipboard.writeText(props.post.id);
                 },
               },
+              ...(canReport()
+                ? [
+                    { separator: true },
+                    {
+                      label: "Report",
+                      onClick: onReportClick,
+                      alert: true,
+                      icon: "flag",
+                    },
+                  ]
+                : []),
             ]}
             position={rect}
             onClose={close}
@@ -459,7 +483,6 @@ const Actions = (props: {
       );
     }
   };
-
   return (
     <div class={cn(style.postActionsContainer, "postActions")}>
       <Button
