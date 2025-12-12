@@ -39,6 +39,8 @@ import { Item } from "./ui/Item";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { useLocalStorage } from "@/common/localStorage";
 import { getActivityType } from "@/common/activityType";
+import { PostItem } from "./post-area/PostItem";
+import { Post } from "@/chat-api/store/usePosts";
 const DashboardPaneContainer = styled(FlexColumn)`
   justify-content: center;
   align-items: center;
@@ -121,61 +123,56 @@ const Announcements = () => {
 };
 
 const AnnouncementItem = (props: { post: RawPost }) => {
-  const [, setSearchParams] = useSearchParams<{ postId: string }>();
+  const store = useStore();
+  onMount(() => {
+    store.posts.pushPost(props.post);
+  });
+  const post = () => store.posts.cachedPost(props.post.id);
 
   return (
-    <FlexColumn
-      gap={6}
-      onClick={() => {
-        setSearchParams({ postId: props.post.id });
-      }}
-      class={css`
-        background: rgba(255, 255, 255, 0.06);
+    <Show when={post()}>
+      <FlexColumn
+        gap={6}
+        class={css`
+          position: relative;
+          background: rgba(255, 255, 255, 0.06);
+          border-radius: 8px;
+          overflow: hidden;
 
-        &:hover {
-          background: rgba(255, 255, 255, 0.08);
-        }
-      `}
-      style={{
-        padding: "12px",
-        "border-radius": "6px",
-        cursor: "pointer",
-      }}
-    >
-      <Show when={props.post.content}>
-        <FlexRow itemsCenter gap={4}>
-          <Text size={14} opacity={0.6}>
-            {formatTimestamp(props.post.createdAt)} by{" "}
-          </Text>
-          <div class="markup" style={{ "font-size": "14px" }}>
-            <MentionUser user={props.post.createdBy} />
-          </div>
-          <div style={{ "margin-left": "auto" }}>
-            <Button
-              onclick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                setHiddenAnnouncementIds(
-                  hiddenAnnouncementIds().concat([props.post.id])
-                );
-              }}
-              iconName="close"
-              alert
-              padding={4}
-              iconSize={14}
-              margin={0}
-            />
-          </div>
-        </FlexRow>
-        <Markup
-          text={props.post.content!}
+          && {
+            .announcementPostInner {
+              border: none;
+              &:before {
+                border: none;
+              }
+            }
+          }
+        `}
+      >
+        <Button
+          onclick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            setHiddenAnnouncementIds(
+              hiddenAnnouncementIds().concat([props.post.id])
+            );
+          }}
+          iconName="close"
           class={css`
-            font-size: 14px;
-            opacity: 0.8;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1;
           `}
+          alert
+          padding={4}
+          iconSize={14}
+          margin={0}
         />
-      </Show>
-    </FlexColumn>
+
+        <PostItem post={post()!} class="announcementPostInner" />
+      </FlexColumn>
+    </Show>
   );
 };
 
