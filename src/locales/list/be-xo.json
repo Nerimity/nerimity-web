@@ -185,6 +185,19 @@
         "notifications": "Абвесткі",
         "external-embed": "Вонкавы эмбэд"
       },
+      "bans": {
+        "sort": {
+          "title": "Сартаваньне",
+          "unsorted": "Не сартаваць"
+        },
+        "noResults": "Рэзультатаў ня знойдзена.",
+        "reason": "Прычына",
+        "noReason": "Прычыны не пазначана",
+        "bannedAt": "Заблякавалі а",
+        "unknown": "Невядома",
+        "unban": "Разблякаваць",
+        "unbanning": "Разблякоўваем"
+      },
       "webhook": {
         "title": "Налады вэбхука",
         "name": "Назва",
@@ -512,7 +525,8 @@
       "disableAdvancedMarkupBar": "Выключыць панэль пашыранае разьметкі",
       "disableAdvancedMarkupBarDescription": "Не адлюстроўваць панэль пашыранае разьметкі.",
       "customizeColors": "Дапасаваньне колераў",
-      "customizeColorsDescription": "Адрэдагуйце колеры бягучае тэмы."
+      "customizeColorsDescription": "Адрэдагуйце колеры бягучае тэмы.",
+      "chatBarOptions": "Парамэтры панэлі паведамленьняў"
     },
     "window": {
       "title": "Налады - Налады акна",
@@ -638,7 +652,9 @@
     "message": "Вы ўпэўненыя, што хочаце заблякаваць <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Выдаліць паведамленьні, адпраўленыя за апошнія 7 гадзін.",
     "banButton": "Заблякаваць",
-    "banning": "Блякуем..."
+    "banning": "Блякуем...",
+    "reasonLabel": "Прычына (неабавязкова)",
+    "reasonPlaceholder": "Увядзіце прычыну…"
   },
   "messageContextMenu": {
     "editMessage": "Адрэдагаваць паведамленьне",
