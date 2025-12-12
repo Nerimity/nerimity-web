@@ -37,7 +37,6 @@ import { css } from "solid-styled-components";
 import ContextMenu from "../ui/context-menu/ContextMenu";
 import {
   pinPost,
-  repostPost,
   unpinPost,
 } from "@/chat-api/services/PostService";
 import env from "@/common/env";
@@ -49,6 +48,8 @@ import { inviteLinkRegex, youtubeLinkRegex } from "@/common/regex";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { RawYoutubeEmbed } from "../message-pane/message-item/RawYoutubeEmbed";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
+import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
+import { toast } from "../ui/custom-portal/CustomPortal";
 
 const viewsEnabledAt = new Date();
 viewsEnabledAt.setUTCFullYear(2024);
@@ -86,6 +87,18 @@ export function PostItem(props: {
   } | null>(null);
 
   const [pinned, setPinned] = createSignal(props.pinned);
+  const [translatedContent, setTranslatedContent] =
+    createSignal<TranslateRes>();
+  const [translatePost, setTranslatePost] = createSignal(false);
+
+  createEffect(() => {
+    if (translatePost() && !translatedContent()) {
+      if (!props.post.content) return;
+      fetchTranslation(props.post.content)
+        .then(setTranslatedContent)
+        .catch(() => toast("Translation failed"));
+    }
+  });
 
   const replyingTo = createMemo(() => {
     if (!props.post.commentToId) return;
@@ -201,7 +214,12 @@ export function PostItem(props: {
               showFullDate={props.showFullDate}
               post={props.post}
             />
-            <Content post={props.post} hovered={hovered()} />
+            <Content
+              post={props.post}
+              hovered={hovered()}
+              translatePost={translatePost()}
+              translatedContent={translatedContent()}
+            />
 
             <Actions
               onTogglePinned={() => setPinned(!pinned())}
@@ -209,6 +227,8 @@ export function PostItem(props: {
               hideDelete={props.hideDelete}
               post={props.post}
               pinned={pinned()}
+              translatePost={translatePost}
+              setTranslatePost={setTranslatePost}
             />
           </div>
         </div>
@@ -248,10 +268,16 @@ const Details = (props: {
   </div>
 );
 
-const Content = (props: { post: Post; hovered: boolean }) => {
+const Content = (props: {
+  post: Post;
+  hovered: boolean;
+  translatePost: boolean;
+  translatedContent?: TranslateRes;
+}) => {
   return (
     <div class={style.postContentContainer}>
       <Markup text={props.post.content || ""} post={props.post} />
+
       <Show when={props.post.editedAt}>
         <Icon
           name="edit"
@@ -260,7 +286,23 @@ const Content = (props: { post: Post; hovered: boolean }) => {
           title={`Edited at ${formatTimestamp(props.post.editedAt)}`}
         />
       </Show>
+
       <Embeds post={props.post} hovered={props.hovered} />
+
+      <Show when={props.translatePost && props.translatedContent}>
+        <div class={style.translationArea}>
+          <span class={style.title}>
+            {t("message.translation.title")}{" "}
+            <span class={style.translationSource}>
+              ({props.translatedContent?.src})
+            </span>
+          </span>
+          <Markup
+            text={props.translatedContent!.translationString}
+            post={props.post}
+          />
+        </div>
+      </Show>
     </div>
   );
 };
@@ -271,6 +313,8 @@ const Actions = (props: {
   hideDelete?: boolean;
   pinned?: boolean;
   onTogglePinned?: () => void;
+  translatePost?: any;
+  setTranslatePost?: any;
 }) => {
   const navigate = useNavigate();
   const { account } = useStore();
@@ -373,6 +417,14 @@ const Actions = (props: {
                   ]
                 : []),
               {
+                label: t("messageContextMenu.translateMessage"),
+                onClick: () => {
+                  props.setTranslatePost?.(!props.translatePost());
+                },
+                icon: "translate",
+              },
+              { separator: true },
+              {
                 label: "Copy Post",
                 onClick: () => {
                   if (!props.post.content?.trim()) return;
@@ -381,7 +433,7 @@ const Actions = (props: {
                 icon: "content_copy",
               },
               {
-                label: "Copy Link",
+                label: t("servers.settings.invites.copyLinkButton"),
                 onClick: () => {
                   navigator.clipboard.writeText(
                     env.APP_URL + "/p/" + props.post.id
@@ -390,7 +442,7 @@ const Actions = (props: {
                 icon: "content_copy",
               },
               {
-                label: "Copy ID",
+                label: t("userContextMenu.copyId"),
                 icon: "content_copy",
                 onClick: () => {
                   navigator.clipboard.writeText(props.post.id);
