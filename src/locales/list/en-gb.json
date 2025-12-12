@@ -456,8 +456,8 @@
     "badges": {
       "noticeTitle": "Donations",
       "notice": "Support this project by donating money.",
-      "palestineDescription": "Can be obtained by going to Account -> Profile",
-      "price": "${{price}} Badges",
+      "palestineDescription": "Can be obtained by going to {{directions}}",
+      "price": "{{price}} Badges",
       "supportMethods": "Support Methods"
     },
     "privacy": {

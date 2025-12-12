@@ -59,7 +59,7 @@ export default function BadgeSettings() {
         badges={[
           {
             ...USER_BADGES.PALESTINE,
-            description: t("settings.badges.palestineDescription"),
+            description: t("settings.badges.palestineDescription", {directions: t("settings.drawer.account") + " -> " + t("settings.drawer.profile")}),
           },
         ]}
         price={0}
@@ -77,7 +77,7 @@ const BadgesPreview = (props: { badges: Bitwise[]; price: number }) => {
       <div>
         <SettingsBlock
           header
-          label={t("settings.badges.price", { price: `${props.price}` } )}
+          label={t("settings.badges.price", { price: `$${props.price}` } )}
           icon="favorite"
         />
         <For each={props.badges}>

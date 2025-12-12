@@ -456,8 +456,8 @@
     "badges": {
       "noticeTitle": "Ахвяраваньні",
       "notice": "Падтрымайце праект грошамі.",
-      "palestineDescription": "Можна атрымаць на старонцы Уліковы запіс -> Профіль",
-      "price": "Аблямоўкі за ${{price}}",
+      "palestineDescription": "Можна атрымаць на старонцы {{directions}}",
+      "price": "Аблямоўкі за {{price}}",
       "supportMethods": "Мэтады падтрымкі"
     },
     "privacy": {
