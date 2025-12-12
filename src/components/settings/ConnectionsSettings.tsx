@@ -32,7 +32,7 @@ export default function ConnectionsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Connections",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.connections"),
       iconName: "settings",
     });
   });
@@ -71,10 +71,10 @@ function ThirdPartyConnections() {
       <SettingsBlock
         header={connections().length > 0}
         icon="info"
-        label="Third Party Connections"
+        label={t("settings.connections.thirdParty.title")}
       >
         <Text opacity={0.6} size={12}>
-          {connections().length} Connections
+          {t("settings.connections.thirdParty.connectionsCount", { count: connections().length } )}
         </Text>
       </SettingsBlock>
       <For each={connections()}>
@@ -132,7 +132,7 @@ const ThirdPartyConnectionItem = (props: {
       }
     >
       <Button
-        label={requestSent() ? "Un-authorizing..." : "Unauthorize"}
+        label={requestSent() ? t("settings.connections.thirdParty.unauthorizing") : t("settings.connections.thirdParty.unauthorizeButton")}
         alert
         iconName="link_off"
         iconSize={16}
@@ -166,14 +166,14 @@ function GoogleLink() {
     <SettingsBlock
       iconSrc="/assets/Google.svg"
       label="Google"
-      description="Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive."
+      description={t("settings.connections.googleDescription")}
     >
       <Show when={!isConnected()}>
-        <Button label="Link" iconName="link" onClick={linkGoogle} />
+        <Button label={t("settings.connections.linkButton")} iconName="link" onClick={linkGoogle} />
       </Show>
       <Show when={isConnected()}>
         <Button
-          label="Unlink"
+          label={t("settings.connections.unlinkButton")}
           color="var(--alert-color)"
           iconName="link_off"
           onClick={unlinkGoogle}

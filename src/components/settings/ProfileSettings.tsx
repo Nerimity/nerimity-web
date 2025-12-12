@@ -47,7 +47,7 @@ export default function ProfileSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Account",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.account") + " - " + t("settings.drawer.profile"),
       iconName: "settings",
     });
   });

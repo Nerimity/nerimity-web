@@ -40,7 +40,7 @@ export default function NotificationsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Notifications",
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.notifications"),
       iconName: "settings",
     });
   });
@@ -72,8 +72,8 @@ function DesktopNotification() {
 
     await Notification.requestPermission();
     isEnabled() &&
-      new Notification("It worked.", {
-        body: "Desktop notifications enabled!",
+      new Notification(t("settings.notifications.testNotification.title"), {
+        body: t("settings.notifications.testNotification.body"),
         icon: "/assets/logo.png",
       });
   };

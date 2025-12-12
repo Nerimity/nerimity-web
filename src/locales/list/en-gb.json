@@ -453,6 +453,13 @@
       "postsAndMessagesNotice": "Your posts and messages may take weeks to delete.",
       "deleteCheckbox": "Delete my posts and messages"
     },
+    "badges": {
+      "noticeTitle": "Donations",
+      "notice": "Support this project by donating money.",
+      "palestineDescription": "Can be obtained by going to Account -> Profile",
+      "price": "${{price}} Badges",
+      "supportMethods": "Support Methods"
+    },
     "privacy": {
       "lastOnline": {
         "title": "Last Online Time",
@@ -483,7 +490,22 @@
         "hideFollowingDescription": "Hide users you are following from your profile."
       }
     },
+    "connections": {
+      "thirdParty": {
+        "title": "Third Party Connections",
+        "connectionsCount": "{{count}} connection(s)",
+        "unauthorizeButton": "Unauthorize",
+        "unauthorizing": "Un-authorizing..."
+      },
+      "googleDescription": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
+      "linkButton": "Link",
+      "unlinkButton": "Unlink"
+    },
     "notifications": {
+      "testNotification": {
+        "title": "It worked!",
+        "body": "Desktop notifications enabled."
+      },
       "desktopNotifications": "Desktop Notifications",
       "desktopNotificationsDescription": "Show desktop notifications even when the app is minimized.",
       "sounds": "Sounds",
