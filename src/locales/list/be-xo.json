@@ -453,6 +453,13 @@
       "postsAndMessagesNotice": "Выдаленьне вашых допісаў і паведамленьняў можа заняць некалькі тыдняў.",
       "deleteCheckbox": "Выдаліць мае допісы і паведамленьні"
     },
+    "badges": {
+      "noticeTitle": "Ахвяраваньні",
+      "notice": "Падтрымайце праект грошамі.",
+      "palestineDescription": "Можна атрымаць на старонцы Уліковы запіс -> Профіль",
+      "price": "Аблямоўкі за ${{price}}",
+      "supportMethods": "Мэтады падтрымкі"
+    },
     "privacy": {
       "lastOnline": {
         "title": "Апошняе зьяўленьне ў сетцы",
@@ -483,7 +490,22 @@
         "hideFollowingDescription": "Прыбраць карыстачоў, на якіх вы падпісаныя, з вашага профілю."
       }
     },
+    "connections": {
+      "thirdParty": {
+        "title": "Староньнія злучэньні",
+        "connectionsCount": "{{count}} злучэньняў",
+        "unauthorizeButton": "Дэаўтарызаваць",
+        "unauthorizing": "Дэаўтарызацыя..."
+      },
+      "googleDescription": "Калі прывяжаце свой запіс Google, вы зможаце запампоўваць файлы ў Nerimity. Файлы будуць захоўвацца на вашым Google Drive.",
+      "linkButton": "Злучыць",
+      "unlinkButton": "Адлучыць"
+    },
     "notifications": {
+      "testNotification": {
+        "title": "Яно працуе!",
+        "body": "Апавяшчэньні на працоўным стале ўключаныя."
+      },
       "desktopNotifications": "Абвесткі на працоўным стале",
       "desktopNotificationsDescription": "Паказваць абвесткі на працоўным стале, нават калі аплікацыя згорнутая.",
       "sounds": "Гукі",
