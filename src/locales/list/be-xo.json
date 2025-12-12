@@ -137,15 +137,19 @@
     "drawer": {
       "title": "Дасьледваць",
       "servers": "Сэрвэры",
-      "bots": "Боты"
+      "bots": "Боты",
+      "themes": "Тэмы"
     },
     "bots": {
       "title": "Дасьледваньне - Боты",
-      "noticeMessage": "Бота можна ўсхваліць раз у {{hours}} гадзін. Усе ўсхваленьні скідваюцца кожны {{date}}."
+      "noticeMessage": "Бота можна ўсхваліць раз у {{hours}} гадзін. Усе ўсхваленьні скідваюцца кожны {{date}}.",
+      "moderationNotice": "Боты не мадэрыруюцца Nerimity. Калі вы заўважыце шкодных альбо парушаючых умовы карыстаньня ботаў, адпраўце на іх скаргу.",
+      "inviteButton": "Запрасіць",
+      "serverCount": "На {{count}} сэрвэрах"
     },
     "themes": {
       "title": "Дасьледаваньне - Тэмы",
-      "themesHeaderDescription": "Пэрсаналізуйце Nerimity з адмысловае тэмаю.",
+      "themesHeaderDescription": "Пэрсаналізуйце Nerimity зь адмысловае тэмаю.",
       "officialThemes": "Афіцыйныя тэмы",
       "communityThemes": "Тэмы супольнасьці",
       "noCommunityThemes": "Тэмаў ад супольнасьці ня знойдзена.",
@@ -155,18 +159,28 @@
     "servers": {
       "title": "Дасьледаваньне - Сэрвэры",
       "noticeMessage": "Сэрвэр можна ўсхваліць раз у {{hours}} гадзін. Усе ўсхваленьні скідваюцца кожны {{date}}.",
+      "moderationNotice": "Сэрвэры не мадэруюцца Nerimity. Калі вы заўважыце сэрвэр, які парушае ўмовы карыстаньня, адпраўце на яго скаргу.",
       "sortMostBumps": "Найбольш усхваленьняў",
       "sortMostMembers": "Найбольш удзельнікаў",
       "sortRecentlyAdded": "Нядаўна даданыя",
       "sortRecentlyBumped": "Нядаўна ўсхвалёныя",
+      "sortMostActive": "Самыя актыўныя (Бэта)",
       "filterAll": "Усе",
       "filterVerified": "Вэрыфікаваныя",
+      "pinnedServers": "Замацаваныя сэрвэры",
+      "recentlyBumped": "Нядаўна ўсхвалёныя сэрвэры",
       "memberCount": "{{count}} удзельнікаў",
       "lifetimeBumpCount": "{{count}} усхваленьняў за ўвесь час",
       "visitServerButton": "Наведаць",
       "joinServerButton": "Далучыцца",
       "bumpButton": "Усхваліць ({{count}})"
-    }
+    },
+    "search": "Пошук",
+    "sort": "Сатрыроўка",
+    "filter": "Фільтр",
+    "backButton": "Назад",
+    "by": "Ад",
+    "bumped": "Усхвалены"
   },
   "editFolderModal": {
     "title": "Рэдагаваньне тэчкі",
