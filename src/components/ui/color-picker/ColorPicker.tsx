@@ -143,7 +143,7 @@ export const ColorPickerModal = (props: {
 
   onMount(() => {
     initColoris();
-    setTimeout(() => updatePosition(), 100);
+    setTimeout(() => updatePosition(), 250);
   });
 
   let timeout: null | number = null;
