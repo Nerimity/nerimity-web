@@ -92,7 +92,13 @@ export function CreateTicketModal(props: {
       customBody += `\n\nMessage(s) to report:\n${messageIds()
         .replace(/\s/g, "")
         .split(",")
-        .map((id) => `[q:${id}]`)
+        .map((raw) => {
+          const id = raw.trim();
+          if (id.startsWith("https://nerimity.com/p/")) {
+            return id;
+          }
+          return `[q:${id}]`;
+        })
         .join("")}\n\n`;
     }
 
