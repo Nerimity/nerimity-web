@@ -99,6 +99,17 @@
     "discover": "Дасьледваць",
     "notifications": "Абвесткі"
   },
+  "sidePane": {
+    "home": "Дамашняя старонка",
+    "moderation": "Панэль мадэрацыйі",
+    "addServer": "Дадаць сэрвэр"
+  },
+  "updateModal": {
+    "title": "Даступна абнаўленьне",
+    "updateButton": "Абнавіць зараз",
+    "laterButton": "Пазней",
+    "releasedAt": "Выпушчана а"
+  },
   "messageArea": {
     "messageBoxPlaceholder": "Напісаць {{username}}",
     "messageBoxChannelPlaceholder": "Напісаць у {{channelName}}"

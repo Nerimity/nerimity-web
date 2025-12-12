@@ -35,7 +35,7 @@
   "homePage": {
     "slogan": "A modern and sleek chat app.",
     "subslogan": "Nerimity offers an elegant and feature-rich experience that sets it apart.",
-    "viewGitHubButton": "View GitHub",
+    "viewGitHubButton": "View on GitHub",
     "getStarted": "Get Started",
     "availableOn": "Available on",
     "browser": "Browser",
@@ -98,6 +98,17 @@
     "feed": "Feed",
     "discover": "Discover",
     "notifications": "Notifications"
+  },
+  "sidePane": {
+    "home": "Home",
+    "moderation": "Moderation Pane",
+    "addServer": "Add Server"
+  },
+  "updateModal": {
+    "title": "Update Available",
+    "updateButton": "Update Now",
+    "laterButton": "Later",
+    "releasedAt": "Released at"
   },
   "messageArea": {
     "messageBoxPlaceholder": "Message {{username}}",
