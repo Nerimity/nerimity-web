@@ -866,5 +866,52 @@
   "oauth2": {
     "AuthorizeButton": "Authorize",
     "permissions": "Permissions"
+  },
+  "badges": {
+    "kitty": {
+      "name": "Kitty",
+      "blueDescription": "Blue Ears Kitty",
+      "whiteDescription": "White Ears Kitty"
+    },
+    "foxy": {
+      "name": "Foxy",
+      "foxyGoldDescription": "Gold Ears Fox",
+      "foxyBrownDescription": "Brown Ears Fox"
+    },
+    "founder": {
+      "name": "Founder",
+      "description": "Creator of Nerimity"
+    },
+    "admin": {
+      "name": "Admin",
+      "description": "Admin of Nerimity"
+    },
+    "mod": {
+      "name": "Moderator",
+      "description": "Moderator of Nerimity"
+    },
+    "supporter": {
+      "name": "Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "emoSupporter": {
+      "name": "Emo Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "contributor": {
+      "name": "Contributor",
+      "description": "Helped with this project in some way"
+    },
+    "palestine": {
+      "name": "Palestine"
+    },
+    "bot": {
+      "name": "Bot User",
+      "description": "Bot User"
+    },
+    "credit": {
+      "avatarBorder": "Avatar Border by {{author}} on {{platform}}",
+      "avatarBorderEdited": "Avatar Border by {{author}} on {{platform}}, edited by {{editor}}"
+    }
   }
 }
