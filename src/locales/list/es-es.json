@@ -55,10 +55,10 @@
     "title": "Inicia sesión para continuar",
     "emailOrUsernameAndTag": "Correo electrónico / nombre:etiqueta",
     "password": "Contraseña",
-    "login": "Incia sesión",
+    "login": "Inicia sesión",
     "createAccountInstead": "Crea una cuenta en su lugar",
     "loggingIn": "Iniciando sesión…",
-    "loginButton": "Inciar sesión"
+    "loginButton": "Iniciar sesión"
   },
   "registerPage": {
     "header": "Registrarse",
@@ -202,7 +202,7 @@
           "unsorted": "Sin ordenar"
         },
         "noResults": "No se encontraron resultados.",
-        "reason": "Razon",
+        "reason": "Razón",
         "noReason": "No se ha proporcionado ninguna razón",
         "bannedAt": "Baneado el",
         "unknown": "Desconocido",
@@ -231,7 +231,7 @@
         "deleteThisServer": "Eliminar este servidor",
         "deleteThisServerDescription": "¡Esta acción no se puede deshacer!",
         "deleteServerButton": "Eliminar servidor",
-        "saveChangesButton": "Guardar canvios",
+        "saveChangesButton": "Guardar cambios",
         "saving": "Guardando..",
         "none": "Ninguno"
       },
@@ -240,7 +240,7 @@
         "addRoleButton": "Añadir rol"
       },
       "role": {
-        "saveChangesButton": "Guardar canvios",
+        "saveChangesButton": "Guardar cambios",
         "saving": "Guardando...",
         "roleName": "Nombre del rol",
         "roleColor": "Color del rol",
@@ -261,7 +261,7 @@
       },
       "channel": {
         "saving": "Guardando..",
-        "saveChangesButton": "Guardar canvios",
+        "saveChangesButton": "Guardar cambios",
         "channelName": "Nombre del canal",
         "permissions": "Permisos",
         "permissionsDescription": "Gestiona los permisos de este canal.",
@@ -337,8 +337,8 @@
       "manageRolesDescription": "Permiso para cambiar o eliminar roles.",
       "manageChannels": "Gestionar canales",
       "manageChannelsDescription": "Permiso para cambiar o eliminar canales.",
-      "kick": "Explusar",
-      "kickDescription": "Permiso para explusar a usuarios.",
+      "kick": "Expulsar",
+      "kickDescription": "Permiso para expulsar a usuarios.",
       "ban": "Banear",
       "banDescription": "Permiso para banear a usuarios.",
       "mentionEveryone": "Mencionar a @everyone",
@@ -435,7 +435,7 @@
       "channelNoticeTooLong": "El aviso del canal no puede tener más de 300 caracteres.",
       "saving": "Guardando..",
       "saveButton": "Guardar",
-      "saveChangesButton": "Guardar canvios",
+      "saveChangesButton": "Guardar cambios",
       "deleteAccount": "Eliminar mi cuenta",
       "deleteAccountDescription": "¡Esta acción no se puede deshacer!",
       "deleteAccountNotice": "Tienes que eliminar / salir de todos los servidores antes de poder eliminar tu cuenta.",
@@ -508,7 +508,7 @@
       }
     },
     "call": {
-      "nextCallNotice": "Los canvios seran aplicados en tus proximas llamadas.",
+      "nextCallNotice": "Los cambios serán aplicados en tus proximas llamadas.",
       "inputDevices": "Dispositivos de entrada",
       "outputDevices": "Dispositivos de salida",
       "default": "Predeterminado",
@@ -641,15 +641,15 @@
     "sendMessage": "Enviar mensaje",
     "copyId": "Copiar ID",
     "editRoles": "Editar roles",
-    "kick": "Explusar",
+    "kick": "Expulsar",
     "ban": "Banear",
     "changeNickname": "Cambiar apodo",
     "transferOwnership": "Transferir titularidad",
     "callVolume": "Volumen de llamada"
   },
   "kickServerMemberModal": {
-    "title": "Explusar {{username}}",
-    "kickButton": "Explusar",
+    "title": "Expulsar {{username}}",
+    "kickButton": "Expulsar",
     "kicking": "Expulsando..",
     "backButton": "Atrás",
     "message": "¿Estás seguro de que quieres expulsar a <1>{{username}}</1>?"
