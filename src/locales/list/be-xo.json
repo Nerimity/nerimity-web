@@ -112,7 +112,26 @@
   },
   "messageArea": {
     "messageBoxPlaceholder": "Напісаць {{username}}",
-    "messageBoxChannelPlaceholder": "Напісаць у {{channelName}}"
+    "messageBoxChannelPlaceholder": "Напісаць у {{channelName}}",
+    "replying": "Адказ на {{count}} паведамленьне",
+    "mention": "Згадаць",
+    "dropFile": "Адпусціце файл",
+    "uploadTo": "Запампаваць на",
+    "channelNotice": {
+      "title": "Перад тым, як пачаць...",
+      "understoodButton": "Зразумела"
+    },
+    "specialMentions": {
+      "everyone": "Згадвае ўсіх",
+      "someone": "Згадвае выпадковага карыстача",
+      "silent": "Ціхае паведамленьне"
+    },
+    "linkToGoogleDrive": {
+      "body": "Вы мусіце злучыць свой уліковы запіс з Google Drive, каб запампоўваць вялікія відарысы, відэа, альбо файлы",
+      "linkButton": "Злучыць зараз",
+      "cancelButton": "Не злучаць"
+    },
+    "emailNotice": "Сьцьвярдзіце вашу пошту, каб адпраўляць паведамленьні."
   },
   "inbox": {
     "blockedUsersModal": {
@@ -642,7 +661,14 @@
   "messageView": {
     "noMessages": "Няма паведамленьняў",
     "noMessagesDescription": "У гэтым канале адсутнічаюць паведамленьні.",
-    "newMessages": "Новыя паведамленьні"
+    "newMessages": "Новыя паведамленьні",
+    "slowMode": "Павольны рэжым",
+    "flaggedServer": {
+      "title": "Заплянавана выдаленьне",
+      "description": "Гэты сэрвэр не прытрымліваўся нашых умоваў і скора будзе выдалены.",
+      "deleteButton": "Выдаліць зараз",
+      "leaveButton": "Выйсьці з сэрвэра"
+    }
   },
   "typing": {
     "single": "<1>{{username}}</1> піша…",

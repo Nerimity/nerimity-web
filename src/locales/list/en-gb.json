@@ -112,7 +112,26 @@
   },
   "messageArea": {
     "messageBoxPlaceholder": "Message {{username}}",
-    "messageBoxChannelPlaceholder": "Message in {{channelName}}"
+    "messageBoxChannelPlaceholder": "Message in {{channelName}}",
+    "replying": "Replying to {{count}} message(s)",
+    "mention": "Mention",
+    "dropFile": "Drop File",
+    "uploadTo": "Upload To",
+    "channelNotice": {
+      "title": "Before you chat...",
+      "understoodButton": "Understood"
+    },
+    "specialMentions": {
+      "everyone": "Mentions everyone",
+      "someone": "Mentions a random user",
+      "silent": "Silent message"
+    },
+    "linkToGoogleDrive": {
+      "body": "You must link your account to Google Drive to upload large images, videos, or files",
+      "linkButton": "Link now",
+      "cancelButton": "Don't link"
+    },
+    "emailNotice": "Confirm your email to send messages."
   },
   "inbox": {
     "blockedUsersModal": {
@@ -642,7 +661,14 @@
   "messageView": {
     "noMessages": "No messages",
     "noMessagesDescription": "There are no messages in this channel.",
-    "newMessages": "New messages"
+    "newMessages": "New messages",
+    "slowMode": "Slow Mode",
+    "flaggedServer": {
+      "title": "Schedule Delete",
+      "description": "This server did not comply with our Terms of Service and will be deleted soon.",
+      "deleteButton": "Delete Now",
+      "leaveButton": "Leave Server"
+    }
   },
   "typing": {
     "single": "<1>{{username}}</1> is typing…",
