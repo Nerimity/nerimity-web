@@ -1,5 +1,12 @@
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
-import Text from "../ui/Text";
+import {
+  createEffect,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
+import Text from "@/components/ui/Text";
 import { css, styled } from "solid-styled-components";
 import {
   getCurrentLanguage,
@@ -8,49 +15,63 @@ import {
   languages,
   setCurrentLanguage,
 } from "@/locales/languages";
+
+import ItemContainer from "../ui/LegacyItem";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import useStore from "@/chat-api/store/useStore";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { Emoji } from "../markup/Emoji";
 import { emojiUnicodeToShortcode, unicodeToTwemojiUrl } from "@/emoji";
+import { Emoji } from "../markup/Emoji";
 import { CustomLink } from "../ui/CustomLink";
-import { Notice } from "../ui/Notice/Notice";
-import { Modal } from "../ui/modal";
-import { Rerun } from "@solid-primitives/keyed";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import Input from "../ui/input/Input";
-import SettingsBlock from "../ui/settings-block/SettingsBlock";
-import en from "@/locales/list/en-gb.json?raw";
+import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
+import { Notice } from "../ui/Notice/Notice";
+import Button from "../ui/Button";
+import en from "@/locales/list/en-gb.json?raw";
+import { Modal } from "../ui/modal";
+import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { Rerun } from "@solid-primitives/keyed";
+import Input from "../ui/input/Input";
 
 const Container = styled("div")`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   padding: 10px;
+`;
+
+const LanguageItemContainer = styled(ItemContainer)`
+  padding: 8px;
+  gap: 10px;
+  padding-left: 10px;
+  background-color: rgba(255, 255, 255, 0.04);
+  &:hover {
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  }
+  &:after {
+    display: none;
+  }
 `;
 
 export default function LanguageSettings() {
   const { header } = useStore();
-  const [t, actions] = useTransContext();
+  const [, actions] = useTransContext();
+  const [search, setSearch] = createSignal("");
 
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(
     getCurrentLanguage() || "en_gb"
   );
-  const [searchTerm, setSearchTerm] = createSignal("");
-  const languageKeys = Object.keys(languages);
-  const [filteredLanguages, setFilteredLanguages] = createSignal(languageKeys);
+
   const [percentTranslated, setPercentTranslated] = createSignal(0);
 
   const checkTranslatedStrings = (langKey: string, lang: any) => {
     let total = 0;
     let translated = 0;
-
     const checkNested = (obj: any, nestedLang: any) => {
       for (const key in obj) {
         if (typeof obj[key] === "string") {
           total++;
-          if (nestedLang?.[key] && nestedLang[key] !== obj[key]) translated++;
+          if (nestedLang?.[key] && nestedLang?.[key] !== obj) translated++;
         } else if (typeof obj[key] === "object") {
           checkNested(obj[key], nestedLang?.[key]);
         }
@@ -62,6 +83,21 @@ export default function LanguageSettings() {
     setPercentTranslated(percent);
   };
 
+  onMount(async () => {
+    const currentKey = getCurrentLanguage() || "en_gb";
+    const language = await getLanguage(currentKey);
+    checkTranslatedStrings(currentKey.replace("_", "-"), language);
+  });
+
+  createEffect(() => {
+    header.updateHeader({
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.language"),
+      iconName: "settings",
+    });
+  });
+
+  const languageKeys = Object.keys(languages);
+
   const normalizeForSearch = (str?: string) =>
     str
       ?.normalize("NFKD")
@@ -71,7 +107,8 @@ export default function LanguageSettings() {
       .toLowerCase() || "";
 
   const filterLanguages = () => {
-    const term = normalizeForSearch(searchTerm());
+    const term = normalizeForSearch(search());
+    if (!term.trim()) return languageKeys;
     return languageKeys.filter((key) => {
       const lang = (languages as any)[key] as Language;
       const name = normalizeForSearch(lang.name);
@@ -80,12 +117,11 @@ export default function LanguageSettings() {
     });
   };
 
-  createEffect(() => setFilteredLanguages(filterLanguages()));
-
   const setLanguage = async (key: string) => {
     const oldKey = key;
     key = key.replace("-", "_");
 
+    // Set language attribute without changing layout direction
     document.documentElement.setAttribute("lang", oldKey || "en");
 
     if (key !== "en_gb") {
@@ -96,124 +132,133 @@ export default function LanguageSettings() {
     } else {
       setPercentTranslated(100);
     }
-
     actions.changeLanguage(key);
     setCurrentLanguage(key);
     setCurrentLocalLanguage(key);
   };
 
-  onMount(async () => {
-    const currentKey = getCurrentLanguage() || "en_gb";
-    const language = await getLanguage(currentKey);
-    if (language) {
-      checkTranslatedStrings(currentKey.replace("_", "-"), language);
-    }
-  });
-
-  createEffect(() => {
-    header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.language"),
-      iconName: "settings",
-    });
-  });
-
   return (
     <Rerun on={getCurrentLanguage}>
       <Container>
+        <Breadcrumb>
+          <BreadcrumbItem
+            href="/app"
+            icon="home"
+            title={t("dashboard.title")}
+          />
+          <BreadcrumbItem title={t("settings.drawer.language")} />
+        </Breadcrumb>
+
         <Input
           label={t("inbox.drawer.searchBarPlaceholder")}
-          value={searchTerm()}
-          onText={setSearchTerm}
+          value={search()}
+          onText={setSearch}
         />
 
         <Notice type="warn" description={t("settings.language.searchNotice")} />
 
-        <For each={filteredLanguages()}>
-          {(key) => (
-            <LanguageCardItem
-              languageKey={key}
-              selected={currentLocalLanguage().replace("_", "-") === key}
-              percentTranslated={percentTranslated()}
-              onClick={() => setLanguage(key)}
-            />
-          )}
-        </For>
+        <FlexColumn
+          gap={8}
+          class={css`
+            margin-top: 8px;
+          `}
+        >
+          <For each={filterLanguages()}>
+            {(key) => (
+              <LanguageItem
+                selected={currentLocalLanguage().replace("_", "-") === key}
+                onClick={() => setLanguage(key)}
+                key={key}
+                percentTranslated={percentTranslated()}
+              />
+            )}
+          </For>
+        </FlexColumn>
       </Container>
     </Rerun>
   );
 }
 
-function LanguageCardItem(props: {
-  languageKey: string;
+function LanguageItem(props: {
+  key: string;
   selected: boolean;
-  percentTranslated?: number;
   onClick: () => void;
+  percentTranslated?: number;
 }) {
   const { createPortal } = useCustomPortal();
-  const language = (languages as any)[props.languageKey] as Language;
+  const language = (languages as any)[props.key] as Language;
 
-  const handlePercentClick = () => {
-    createPortal((close) => (
-      <TranslateModal close={close} language={props.languageKey} />
-    ));
+  const onClick = (event: any) => {
+    const target = event.target as HTMLElement;
+    if (target.tagName === "A") return;
+    props.onClick();
+  };
+
+  const handlePercentClick = async () => {
+    window.open(
+      "https://hosted.weblate.org/projects/nerimity/-/" + props.key,
+      "_blank"
+    );
+    // createPortal((close) => (
+    //   <TranslateModal close={close} language={props.key} />
+    // ));
   };
 
   return (
-    <SettingsBlock
-      header
-      icon={
-        <div
-          style={{
-            display: "flex",
-            "align-items": "center",
-            "justify-content": "center",
-            height: "100%",
-          }}
-        >
-          <Emoji
-            class={css`height: 30px; width: 30px;`}
-            name={emojiUnicodeToShortcode(language.emoji)}
-            url={unicodeToTwemojiUrl(language.emoji)}
-          />
-        </div>
-      }
-      label={language.name}
-      description={
-        <FlexColumn gap="2px">
-          {language.nativeName && language.nativeName !== language.name && (
-            <Text size={14} opacity={0.5}>
-              ({language.nativeName})
-            </Text>
-          )}
-          <Contributors contributors={language.contributors} />
-        </FlexColumn>
-      }
-      onClick={props.onClick}
-      class={css`
-        border-bottom-left-radius: 10px !important;
-        border-bottom-right-radius: 10px !important;
-      `}
+    <LanguageItemContainer
+      onclick={onClick}
+      selected={props.selected}
+      handlePosition="right"
     >
-      <FlexRow align="center" justify="space-between">
-        <Show when={props.percentTranslated && props.selected}>
-          <Text
-            size={14}
-            style={{ cursor: "pointer", opacity: 0.6 }}
-            onClick={handlePercentClick}
-          >
-            {Math.floor(props.percentTranslated || 0)}%
+      <Emoji
+        class={css`
+          height: 30px;
+          width: 30px;
+          align-self: flex-start;
+        `}
+        name={emojiUnicodeToShortcode(language.emoji)}
+        url={unicodeToTwemojiUrl(language.emoji)}
+      />
+      <FlexColumn gap={2}>
+        <Text>{language.name}</Text>
+        <Show
+          when={language.nativeName && language.nativeName !== language.name}
+        >
+          <Text opacity={0.6} size={14}>
+            {language.nativeName}
           </Text>
         </Show>
-      </FlexRow>
-    </SettingsBlock>
+        <Contributors contributors={language.contributors} />
+      </FlexColumn>
+
+      <Show when={props.percentTranslated && props.selected}>
+        <div
+          class={css`
+            margin-left: auto;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+            &:hover {
+              opacity: 1;
+            }
+          `}
+          onClick={handlePercentClick}
+        >
+          {Math.floor(props.percentTranslated || 0)}%
+        </div>
+      </Show>
+    </LanguageItemContainer>
   );
 }
 
-const ContributorContainer = styled(FlexRow)`font-size: 14px;`;
+const ContributorContainer = styled(FlexRow)`
+  font-size: 14px;
+`;
 
 function Contributors(props: { contributors: string[] }) {
   return (
-    <FlexRow gap="5px" wrap="wrap">
+    <FlexRow>
       <Text size={14} style={{ "margin-right": "5px" }}>
         {t("settings.language.contributors")}:
       </Text>
@@ -247,13 +292,14 @@ function isUrl(url: string) {
   try {
     new URL(url);
     return true;
-  } catch {
+  } catch (e) {
     return false;
   }
 }
 
 function lastPath(url: string) {
-  return url.split("/").pop() || "";
+  const split = url.split("/");
+  return split[split.length - 1];
 }
 
 let rawEn: Record<string, string> | null = null;
@@ -283,13 +329,19 @@ const TranslateModal = (props: { language: string; close: () => void }) => {
       close={props.close}
       doNotCloseOnBackgroundClick
       desktopMaxWidth={860}
-      class={css`width: 90vw;`}
+      class={css`
+        width: 90vw;
+      `}
     >
       <Modal.Header
         title={t("settings.language.translateModal.title")}
         icon="translate"
       />
-      <Modal.Body class={css`height: 90vh;`}>
+      <Modal.Body
+        class={css`
+          height: 90vh;
+        `}
+      >
         <iframe
           src="https://supertigerdev.github.io/i18n-tool/"
           height="100%"
