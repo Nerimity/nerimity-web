@@ -639,7 +639,8 @@
     "newMessages": "New messages",
     "slowMode": "Slow Mode",
     "flaggedServer": {
-      "notice": "This server did not comply with our Terms of Service and will be deleted soon.",
+      "title": "Schedule Delete",
+      "description": "This server did not comply with our Terms of Service and will be deleted soon.",
       "deleteButton": "Delete Now",
       "leaveButton": "Leave Server"
     }

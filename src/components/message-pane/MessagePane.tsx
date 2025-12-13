@@ -2369,9 +2369,9 @@ function ScheduledDelete() {
 
   return (
     <div class={styles.scheduledDeleteContainer}>
-      <div class={styles.scheduledDeleteTitle}>Schedule Delete</div>
+      <div class={styles.scheduledDeleteTitle}>{t("messageView.flaggedServer.title")}</div>
       <div class={styles.scheduledDeleteDesc}>
-        {t("messageView.flaggedServer.notice")}
+        {t("messageView.flaggedServer.description")}
       </div>
       <Button
         onclick={onLeaveClick}
