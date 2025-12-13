@@ -96,6 +96,15 @@
     "bots": {
       "title": "Odkrywaj - Boty",
       "noticeMessage": "Bot może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}."
+    },
+    "themes": {
+      "title": "Odkrywaj - Motywy",
+      "themesHeaderDescription": "Dostosuj Nerimity niestandardowym motywem.",
+      "officialThemes": "Oficjalne Motywy",
+      "communityThemes": "Motywy od Społeczności",
+      "noCommunityThemes": "Nie ma jeszcze motywów od społeczności.",
+      "fetchThemesError": "Nie udało się wczytać motywów. Spróbuj ponownie później.",
+      "unlockDescription": "Kliknij, aby odkrywać wszystkie motywy od społeczności."
     }
   },
   "servers": {
@@ -199,6 +208,54 @@
         "link": "URL Webhooka",
         "linkDescription": "Wykonuj akcje z użyciem tego linka",
         "delete": "Usuń Webhooka"
+      },
+      "bans": {
+        "sort": {
+          "title": "Sortuj",
+          "unsorted": "Bez sortowania"
+        },
+        "noResults": "Nie znaleziono wyników.",
+        "reason": "Powód",
+        "noReason": "Brak powodu",
+        "bannedAt": "Zbanowano",
+        "unknown": "Nieznane",
+        "unban": "Odbanuj",
+        "unbanning": "Odbanowywanie"
+      },
+      "verify": {
+        "alreadyVerified": "Twój serwer jest już zweryfikowany!",
+        "insufficientMembers": "Potrzebujesz {{count}} członków więcej, aby złożyć wniosek o weryfikację.",
+        "verifiable": "Gotowy do weryfikacji",
+        "verifiableDescription": "Masz wystarczającą liczbę członków, aby zweryfikować swój serwer!",
+        "verifyButton": "Zweryfikuj",
+        "requirements": {
+          "title": "Wymagania",
+          "englishOnly": "Tylko w języku angielskim",
+          "englishOnlyDescription": "Serwery, które nie są w języku angielskim, są trudniejsze do moderowania.",
+          "oneMonthOrSupporter": "Co najmniej 1 miesiąc LUB odznaka wspierającego",
+          "oneMonthOrSupporterDescription": "Twój serwer musi istnieć co najmniej od miesiąca LUB właściciel serwera musi posiadać odznakę wspierającego.",
+          "members": "{{count}} lub więcej członków",
+          "membersDescription": "Twój serwer musi mieć co najmniej {{count}} członków.",
+          "profanityFree": "Brak wulgaryzmów",
+          "profanityFreeDescription": "Nazwa, awatar i baner serwera nie mogą zawierać wulgaryzmów.",
+          "avatarAndBanner": "Awatar i Baner",
+          "avatarAndBannerDescription": "Serwer musi mieć ustawiony awatar i baner.",
+          "rules": "Regulamin serwera",
+          "rulesDescription": "Serwer musi mieć kanał z regulaminem."
+        },
+        "perks": {
+          "title": "Korzyści",
+          "badge": "Odznaka weryfikacji",
+          "badgeDescription": "Odznaka pokazująca, że Twój serwer jest wyjątkowy.",
+          "explore": "Wyróżnienie w zakładce Odkrywaj",
+          "exploreDescription": "Twój serwer zostanie wyświetlony w oddzielnej sekcji w zakładce Odkrywaj.",
+          "customInvite": "Własny link zaproszeniowy",
+          "customInviteDescription": "Stwóz własny link zaproszeniowy w ustawieniach zaproszeń.",
+          "emojiSlots": "Więcej miejsc na emoji",
+          "emojiSlotsDescription": "200 miejsc na emoji dla Twojego serwera.",
+          "hdScreenshare": "Udostępnianie ekranu w 1080p@60fps",
+          "hdScreenshareDescription": "Udostępniaj ekran w rozdzielczości 1080p w 60 klatkach na sekundę."
+        }
       }
     },
     "rolePermissions": {
@@ -402,7 +459,8 @@
       "enableErudaDescription": "Włącz Eruda do debugowania. Nie udostępniaj żadnych szczegółów innym osobom.",
       "enableOnce": "Włącz raz",
       "customCSSWarning": "Nie wklejaj kodu od osób, których nie znasz.",
-      "saveAndApply": "Zapisz i Zastosuj"
+      "saveAndApply": "Zapisz i Zastosuj",
+      "chatBarOptions": "Opcje paska wiadomości"
     },
     "window": {
       "title": "Ustawienia - Okno",
@@ -447,7 +505,7 @@
         "backButton": "Wstecz",
         "saveButton": "Zapisz"
       },
-      "discordActivity": "Aktywnosc z Discord",
+      "discordActivity": "Aktywność z Discord",
       "discordActivityDescription": "Dziel się swoją aktywnością na Discord z użytkownikami Nerimity",
       "idPlaceholder": "ID Uzytkownika na Discord",
       "serverModal": {
@@ -487,7 +545,9 @@
     "message": "Czy jesteś pewien, że chcesz zbanować <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Usuń wiadomości z poprzednich 7 godzin.",
     "banButton": "Zbanuj",
-    "banning": "Trwa banowanie..."
+    "banning": "Trwa banowanie...",
+    "reasonLabel": "Powód (opcjonalny)",
+    "reasonPlaceholder": "Wprowadź powód..."
   },
   "messageContextMenu": {
     "editMessage": "Edytuj wiadomość",
@@ -754,5 +814,21 @@
     "playing": "W grze",
     "watching": "Ogląda",
     "listening": "Słucha"
+  },
+  "sidePane": {
+    "home": "Strona Główna",
+    "moderation": "Panel Moderacji",
+    "addServer": "Dodaj Serwer"
+  },
+  "updateModal": {
+    "title": "Dostępna Aktualizacja",
+    "updateButton": "Zaktualizuj Teraz",
+    "laterButton": "Później",
+    "releasedAt": "Wydano"
+  },
+  "messageView": {
+    "noMessages": "Brak wiadomości",
+    "noMessagesDescription": "Nie ma jeszcze wiadomości na tym kanale.",
+    "newMessages": "Nowe wiadomości"
   }
 }
