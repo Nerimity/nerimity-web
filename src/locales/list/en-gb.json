@@ -747,7 +747,7 @@
       "description": "Bot User"
      },
     "credit": {
-      "avatarBorder": "Avatar {{author}} Border by {{author}} on {{platform}}",
+      "avatarBorder": "Avatar Border by {{author}} on {{platform}}",
       "avatarBorderEdited": "Avatar Border by {{author}} on {{platform}}, edited by {{editor}}"
     }
   }
