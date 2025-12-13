@@ -27,7 +27,7 @@ const exploreRoutes: ExploreRoute[] = [
     {
     path: "themes",
     routePath: "/themes",
-    name: () => "Themes",
+    name: () => t("explore.drawer.themes"),
     icon: "brush",
     element: lazy(() => import("@/components/explore/ExploreThemes")),
   }
