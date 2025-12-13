@@ -1145,7 +1145,6 @@ function FloatingMessageEmojiPicker(props: {
     </Floating>
   );
 }
-
 const [globalMention, setGlobalMention] = useLocalStorage<boolean>(
   "mentionReplies",
   true
@@ -1157,6 +1156,14 @@ function FloatingReply() {
 
   const property = () => channelProperties.get(params.channelId);
   const messages = () => property()?.replyToMessages || [];
+
+  createEffect(() => {
+    const value = globalMention();
+    if (property() && property()!.mentionReplies !== value) {
+      channelProperties.toggleMentionReplies(params.channelId);
+    }
+  });
+
   const toggleMention = (value: boolean) => {
     setGlobalMention(value);
   };
