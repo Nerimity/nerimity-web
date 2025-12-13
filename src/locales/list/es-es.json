@@ -698,7 +698,7 @@
   },
   "posts": {
     "deletePostModal": {
-      "message": "¿Seguro que quieres eliminar esta publicacion?",
+      "message": "¿Seguro que quieres eliminar esta publicación?",
       "cancelButton": "Cancelar",
       "deleteButton": "eliminar"
     },
@@ -734,7 +734,7 @@
   },
   "invite": {
     "loading": "Cargando invitación...",
-    "invalid": "Código de invitación invalido",
+    "invalid": "Código de invitación inválido",
     "joinButton": "Unirte",
     "joiningButton": "Uniéndose...",
     "visitButton": "Visitar",
