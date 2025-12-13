@@ -65,6 +65,12 @@ Chat App made using SolidJS.
 - [x] Upload Files
 - [x] Push Notifications
 
+## 🌍 Translations
+
+We use **Weblate** for managing all translations.
+
+If you would like to help translate this project, please visit our Weblate page: https://hosted.weblate.org/projects/nerimity/
+
 ## 🤝 Contributions
 
 - **Focus:** Each PR must contain small, easy to understand changes.
