@@ -10,8 +10,8 @@
             "bot": "ha sido invitado al servidor.",
             "user": "se ha unido al servidor."
         },
-        "leaveServer": "ha abandonado el servidor",
-        "kickUser": "ha sido expulsado",
+        "leaveServer": "ha abandonado el servidor.",
+        "kickUser": "ha sido expulsado.",
         "banUser": "ha sido expulsado permanentemente.",
         "callStarted": "ha iniciado una llamada.",
         "bumpServer": "ha destacado el servidor.",
@@ -154,7 +154,7 @@
     },
     "explore": {
         "drawer": {
-            "title": "Explorar",
+            "title": "Descubrir",
             "servers": "Servidores",
             "bots": "Bots",
             "themes": "Temas"
@@ -188,7 +188,7 @@
             "lifetimeBumpCount": "{{count}} destacados totales",
             "visitServerButton": "Visitar",
             "joinServerButton": "Unirse",
-            "bumpButton": "Destacar {{count}}",
+            "bumpButton": "Veces destacado ( {{count}} )",
             "moderationNotice": "Los servidores no son moderados por Nerimity. Por favor, reporta los servidores que sean maliciosos o que incumplan los TOS.",
             "sortMostActive": "Más activo (Beta)",
             "pinnedServers": "Servidores fijados",
@@ -240,7 +240,7 @@
                 "bannedAt": "Baneado el",
                 "unknown": "Desconocido",
                 "unban": "Desbanear",
-                "unbanning": "Unbaneando..."
+                "unbanning": "Unbaneando"
             },
             "webhook": {
                 "title": "Configuración de webhook",
@@ -255,7 +255,7 @@
                 "defaultChannel": "Canal predeterminado",
                 "defaultChannelDescription": "Los nuevos miembros serán dirigidos a este canal.",
                 "systemMessages": "Mensajes del sistema",
-                "systemMessagesDescription": "Donde los mensajes del sistema tendrían que aparecer.",
+                "systemMessagesDescription": "El canal donde los mensajes del sistema deberían aparecer.",
                 "avatar": "Avatar",
                 "avatarDescription": "Compatibles: JPG, PNG, GIF, WEBP. Tamaño máximo: 12 MB",
                 "banner": "Banner",
@@ -277,7 +277,7 @@
                 "saving": "Guardando...",
                 "roleName": "Nombre del rol",
                 "roleColor": "Color del rol",
-                "hideRole": "Esconder rol",
+                "hideRole": "Ocultar rol",
                 "hideRoleDescription": "Mostrar los miembros con este rol junto con todos los miembros predeterminados",
                 "permissions": "Permisos",
                 "permissionsDescription": "Gestiona los permisos de este rol.",
@@ -314,9 +314,9 @@
                 "copyLinkButton": "Copiar enlace"
             },
             "publishServer": {
-                "publishNotice": "Publicar este servidor lo hará disponible en la página <1>explore</1>",
+                "publishNotice": "Publicar este servidor lo hará disponible en la página <1>explore</1>.",
                 "public": "Público",
-                "publicDescription": "Hacer este servidor público.",
+                "publicDescription": "Marcar este servidor como público.",
                 "bumpServer": "Destacar servidor",
                 "bumpServerDescription": "Destaca este servidor hasta arriba.",
                 "bumpButton": "Destaca {{count}}",
@@ -333,11 +333,11 @@
                 "verifyButton": "Verificar",
                 "requirements": {
                     "title": "Requisitos",
-                    "englishOnly": "Solo inglés",
+                    "englishOnly": "Solo se permite el inglés",
                     "englishOnlyDescription": "Los servidores que no son de habla inglesa son más complicados de moderar.",
-                    "oneMonthOrSupporter": "Al menos 1 mes O insignia de colaborador",
-                    "oneMonthOrSupporterDescription": "Tu servidor debe tener al menos 1 mes O el dueño del servidor debe tener la insignia de colaborador.",
-                    "members": "{{count}} o más miembros.",
+                    "oneMonthOrSupporter": "Mínimo un mes o tener la insignia de donante",
+                    "oneMonthOrSupporterDescription": "Tu servidor debe tener al menos 1 mes de antigüedad o que el dueño del servidor tenga la insignia de donante.",
+                    "members": "{{count}} o más miembros",
                     "membersDescription": "Tu servidor tiene que tener al menos {{count}} miembros.",
                     "profanityFree": "Sin malas palabras",
                     "profanityFreeDescription": "El nombre del servidor, el avatar y el banner deben estar libres de malas palabras.",
@@ -376,7 +376,7 @@
             "banDescription": "Permiso para banear a usuarios.",
             "mentionEveryone": "Mencionar a @everyone",
             "mentionEveryoneDescription": "Permite mencionar a @everyone. Los administradores del servidor aún pueden mencionarlo.",
-            "nicknameMember": "Apodo a los miembros",
+            "nicknameMember": "Cambiar apodo",
             "nicknameMemberDescription": "Permite a los usuarios cambiar su apodo en el servidor."
         },
         "leaveModal": {
@@ -425,7 +425,8 @@
             "contributors": "Colaboradores",
             "translateModal": {
                 "title": "Traducir"
-            }
+            },
+            "searchNotice": "Las traducciones son mantenidas por la comunidad. Por favor, reporta cualquier traducción que sea incorrecta o inapropiada a Nerimity."
         },
         "header": {
             "servers": "servidores",
@@ -451,7 +452,7 @@
             "primaryColor": "Color principal",
             "preview": "Previsualizar",
             "changePassword": "Cambiar contraseña",
-            "forgotPassword": "Olvidar contraseña",
+            "forgotPassword": "¿Has olvidado tu contraseña?",
             "newPassword": "Nueva contraseña",
             "newPasswordDescription": "Cambiar tu contraseña cerrará sesión en todos los otros sitios.",
             "confirmNewPassword": "Confirmar nueva contraseña",
@@ -463,9 +464,9 @@
             "resendIn": "Reenviar en {{time}}",
             "confirmButton": "Confirmar",
             "cancelButton": "Cancelar",
-            "channelNotice": "Aviso en el canal",
+            "channelNotice": "Nota antes de chatear",
             "channelNoticeDescription": "Se muestra cuando el usuario está a punto de chatear por primera vez. Los cambios se aplican después de recargar.",
-            "channelNoticeTooLong": "El aviso del canal no puede tener más de 300 caracteres.",
+            "channelNoticeTooLong": "Los avisos no pueden tener más de 300 caracteres.",
             "saving": "Guardando...",
             "saveButton": "Guardar",
             "saveChangesButton": "Guardar cambios",
@@ -510,10 +511,10 @@
             },
             "profileOptions": {
                 "title": "Configuración del perfil",
-                "hideFollowers": "Esconder seguidores",
-                "hideFollowersDescription": "Esconde tus seguidores de tu perfil.",
-                "hideFollowing": "Esconder seguidos",
-                "hideFollowingDescription": "Esconde a los que sigues de tu perfil."
+                "hideFollowers": "Ocultar seguidores",
+                "hideFollowersDescription": "Oculta a tus seguidores de tu perfil.",
+                "hideFollowing": "Ocultar seguidos",
+                "hideFollowingDescription": "Oculta a los usuarios que sigues de tu perfil."
             }
         },
         "notifications": {
@@ -525,9 +526,9 @@
             "volumeDescription": "Cambia el volumen del sonido de las notificaciones.",
             "changeSoundsDescription": "Cambia el sonido de las notificaciones con estos sonidos libres de derechos.",
             "message": "Mensaje",
-            "messageDescription": "Sonido cuando recibas un mensaje",
+            "messageDescription": "Sonido cuando recibas un mensaje.",
             "mention": "Mención",
-            "mentionDescription": "Sonido cuando recibas una mencion",
+            "mentionDescription": "Sonido cuando recibas una mención.",
             "reminder": "Recordatorio",
             "reminderDescription": "Notificación de los recordatorios.",
             "inAppPreview": "Vista previa en la aplicación",
@@ -536,7 +537,7 @@
             "inAppPreviewModes": {
                 "mentionsOnly": "Solo menciones",
                 "all": "Todo",
-                "off": "Off",
+                "off": "Apagadas",
                 "inheritFromPingSettings": "Heredar de la configuración de notificaciones mencionadas"
             }
         },
@@ -546,7 +547,7 @@
             "outputDevices": "Dispositivos de salida",
             "default": "Predeterminado",
             "inputMode": "Modo de entrada",
-            "openMic": "Micrófono activado",
+            "openMic": "Micrófono siempre encendido",
             "voiceActivity": "Actividad por voz",
             "pushToTalk": "Pulsar para hablar",
             "bindButton": "Asignar",
@@ -575,7 +576,7 @@
         "window": {
             "title": "Configuración - Ajustes de ventana",
             "downloadAppNotice": "Para modificar estos ajustes, tienes que descargarte la aplicación de escritorio de Nerimity.",
-            "startupOptions": "Opciones de arrancar",
+            "startupOptions": "Opciones al arrancar",
             "openOnStartup": "Abrir Nerimity al iniciar",
             "startMinimized": "Iniciar minimizado",
             "startMinimizedDescription": "Minimizar Nerimity automáticamente a la bandeja.",
@@ -624,7 +625,7 @@
     },
     "supportBlock": {
         "support": "Apóyame",
-        "supportDescription": "¡Haz una donación para recibir la insignia de seguidor!"
+        "supportDescription": "¡Haz una donación para recibir la insignia de donante!"
     },
     "createServerModal": {
         "title": "Crear servidor",
@@ -662,7 +663,13 @@
         "noMessages": "Sin mensajes",
         "noMessagesDescription": "No hay mensajes en este canal.",
         "newMessages": "Nuevos mensajes",
-        "slowMode": "Modo lento"
+        "slowMode": "Modo calmado",
+        "flaggedServer": {
+            "title": "Eliminar programación",
+            "description": "Este servidor no cumplió con nuestros Términos de Servicio y será eliminado pronto.",
+            "deleteButton": "Eliminar ahora",
+            "leaveButton": "Abandonar servidor"
+        }
     },
     "typing": {
         "single": "<1>{{username}}</1> está escribiendo…",
@@ -698,7 +705,7 @@
         "banButton": "Banear",
         "banning": "Baneando..",
         "reasonLabel": "Razón (opcional)",
-        "reasonPlaceholder": "Introduce una razón..."
+        "reasonPlaceholder": "Introduce una razón…"
     },
     "messageContextMenu": {
         "editMessage": "Editar mensaje",
@@ -750,14 +757,14 @@
     },
     "informationDrawer": {
         "title": "Información",
-        "channelNotice": "Aviso de canal",
+        "channelNotice": "Aviso",
         "attachments": "Archivos adjuntos",
         "attachmentsBack": "Atrás",
         "members": "Miembros"
     },
     "botInvite": {
         "serverSelect": "Por favor, selecciona un servidor!",
-        "creator": "Creado por",
+        "creator": "Creado por ",
         "selectButton": "Seleccionar servidor",
         "addButton": "Añadir bot",
         "permissions": "Permisos del bot"
@@ -793,7 +800,7 @@
     },
     "addFriendModal": {
         "title": "Añadir amigo",
-        "placeholder": "Usuario: ABC1",
+        "placeholder": "Usuario:ABC1",
         "closeButton": "Cerrar",
         "sendRequest": "Enviar solicitud",
         "description": "Introduce el nombre y la etiqueta de tu amigo para añadirlo.",
@@ -801,7 +808,7 @@
         "sending": "Enviando...",
         "errors": {
             "missingTag": "Por favor, inserte un usuario:tag.",
-            "colonInUsername": "El usuario no puede contener los dos puntos ( : )"
+            "colonInUsername": "El usuario no puede contener los dos puntos ( : )."
         }
     },
     "deleteMessageModal": {
@@ -860,5 +867,52 @@
     "oauth2": {
         "permissions": "Permisos",
         "AuthorizeButton": "Autorizar"
+    },
+    "badges": {
+        "kitty": {
+            "name": "Gato",
+            "blueDescription": "Orejas de gato azules",
+            "whiteDescription": "Orejas de gato blancas"
+        },
+        "foxy": {
+            "name": "Zorro",
+            "foxyGoldDescription": "Orejas de zorro doradas",
+            "foxyBrownDescription": "Orejas de zorro marrones"
+        },
+        "founder": {
+            "name": "Fundador",
+            "description": "Creador de Nerimity"
+        },
+        "admin": {
+            "name": "Administrador",
+            "description": "Administrador de Nerimity"
+        },
+        "mod": {
+            "name": "Moderador",
+            "description": "Moderador de Nerimity"
+        },
+        "supporter": {
+            "name": "Donante",
+            "description": "Apoyó este proyecto mediante una donación"
+        },
+        "emoSupporter": {
+            "name": "Donante Emo",
+            "description": "Apoyó este proyecto mediante una donación"
+        },
+        "contributor": {
+            "name": "Contribuyente",
+            "description": "Ha ayudado en este proyecto de cualquier manera"
+        },
+        "palestine": {
+            "name": "Palestina"
+        },
+        "bot": {
+            "name": "Usuario bot",
+            "description": "Usuario bot"
+        },
+        "credit": {
+            "avatarBorder": "Borde de avatar hecho por {{author}} en {{platform}}",
+            "avatarBorderEdited": "Borde de avatar hecho por {{author}} en {{platform}}, editado por {{editor}}"
+        }
     }
 }
