@@ -6,7 +6,6 @@ import {
   For,
   JSX,
   lazy,
-  mapArray,
   Match,
   on,
   onCleanup,
@@ -15,7 +14,7 @@ import {
   Switch,
 } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
-import { A, useNavigate, useParams } from "solid-navigator";
+import { useNavigate, useParams } from "solid-navigator";
 import useStore from "../../chat-api/store/useStore";
 import Button from "@/components/ui/Button";
 import { useWindowProperties } from "../../common/useWindowProperties";
@@ -26,6 +25,10 @@ import {
   RawCustomEmoji,
   RawMessage,
 } from "../../chat-api/RawData";
+import {
+  sendEmailConfirmCode,
+  verifyEmailConfirmCode,
+} from "@/chat-api/services/UserService";
 import socketClient from "../../chat-api/socketClient";
 import { ServerEvents } from "../../chat-api/EventNames";
 import Icon from "@/components/ui/icon/Icon";
@@ -37,7 +40,7 @@ import {
   lazyLoadEmojis,
   unicodeToTwemojiUrl,
 } from "@/emoji";
-
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 import env from "@/common/env";
 import Text from "../ui/Text";
 import useChannels, { Channel } from "@/chat-api/store/useChannels";
@@ -58,7 +61,6 @@ import { Emoji } from "../markup/Emoji";
 import { css } from "solid-styled-components";
 import {
   CHANNEL_PERMISSIONS,
-  hasBit,
   ROLE_PERMISSIONS,
 } from "@/chat-api/Bitwise";
 import useAccount from "@/chat-api/store/useAccount";
@@ -67,7 +69,8 @@ import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { setLastSelectedServerChannelId } from "@/common/useLastSelectedServerChannel";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
-import { FlexRow } from "../ui/Flexbox";
+import { FlexColumn, FlexRow } from "../ui/Flexbox";
+import Input from "@/components/ui/input/Input";
 import { Markup } from "../Markup";
 import {
   getStorageBoolean,
@@ -90,11 +93,9 @@ import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
 import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { t } from "@nerimity/i18lite";
 import useServerRoles from "@/chat-api/store/useServerRoles";
-import { deleteServer } from "@/chat-api/services/ServerService";
 import { ServerDeleteConfirmModal } from "../servers/settings/ServerGeneralSettings";
 import { useSelectedSuggestion } from "@/common/useSelectedSuggestion";
 import { Portal } from "solid-js/web";
-import { Trans } from "@nerimity/solid-i18lite";
 import { Rerun } from "@solid-primitives/keyed";
 import { UnescapedTrans } from "../UnescapedTrans";
 
@@ -269,15 +270,142 @@ function MessagePane() {
 }
 
 const EmailUnconfirmedNotice = () => {
+  const { send, remainingTimeInSeconds } = useEmailConfirmation();
+
   return (
     <div class={styles.emailUnconfirmedNotice}>
       <div class={styles.text}>{t("messageArea.emailNotice")}</div>
-      <A href="/app/settings/account">
-        <Button label={t("settings.account.confirmButton")} primary />
-      </A>
+
+      <Button
+        primary
+        onClick={send}
+        label={
+          remainingTimeInSeconds()
+            ? t("settings.account.resendIn", {
+                time: remainingTimeInSeconds(),
+              })
+            : t("settings.account.sendCodeButton")
+        }
+      />
     </div>
   );
 };
+
+let lastConfirmClickedTime: number | null = null;
+
+const ConfirmEmailModal = (props: { close(): void; message: string }) => {
+  const { account } = useStore();
+  const [code, setCode] = createSignal("");
+  const [errorMessage, setErrorMessage] = createSignal("");
+
+  const confirmClicked = async () => {
+    setErrorMessage("");
+    const res = await verifyEmailConfirmCode(code()).catch((err) => {
+      setErrorMessage(err.message);
+    });
+    if (res?.status) {
+      props.close();
+      account.setUser({ emailConfirmed: true });
+    }
+  };
+
+  const actionButtons = (
+    <FlexRow style={{ flex: 1 }}>
+      <Button
+        onClick={props.close}
+        styles={{ flex: 1 }}
+        iconName="close"
+        label={t("settings.account.cancelButton")}
+        color="var(--alert-color)"
+      />
+      <Button
+        styles={{ flex: 1 }}
+        iconName="check"
+        label={t("settings.account.confirmButton")}
+        onClick={confirmClicked}
+        primary
+      />
+    </FlexRow>
+  );
+
+  return (
+    <LegacyModal
+      ignoreBackgroundClick
+      title={t("settings.account.confirmEmail")}
+      close={props.close}
+      actionButtons={actionButtons}
+    >
+      <FlexColumn
+        class={css`
+          align-items: center;
+          margin: 10px;
+        `}
+        gap={10}
+      >
+        <Text color="var(--success-color)">{props.message}</Text>
+        <Text size={14}>{t("settings.account.enterCode")}</Text>
+
+        <Input
+          value={code()}
+          onText={setCode}
+          placeholder="_ _ _ _ _"
+          class={css`
+            width: 140px;
+            input {
+              font-size: 30px;
+            }
+          `}
+        />
+        <Text color="var(--alert-color)" size={14}>
+          {errorMessage()}
+        </Text>
+      </FlexColumn>
+    </LegacyModal>
+  );
+};
+
+export function useEmailConfirmation() {
+  const { createPortal } = useCustomPortal();
+  const [now, setNow] = createSignal(Date.now());
+
+  const remainingTimeInSeconds = () => {
+    if (!lastConfirmClickedTime) return 0;
+    const t = 60 - (now() - lastConfirmClickedTime) / 1000;
+    return t > 0 ? Math.round(t) : 0;
+  };
+
+  const send = async () => {
+    if (remainingTimeInSeconds()) return;
+
+    lastConfirmClickedTime = Date.now();
+    setNow(Date.now());
+
+    const res = await sendEmailConfirmCode().catch((err) => {
+      if (err?.ttl) {
+        lastConfirmClickedTime = Date.now() - (60000 - err.ttl);
+        setNow(Date.now());
+
+        toast(
+          `${t("settings.account.resendIn", {
+            time: Math.ceil(err.ttl / 1000),
+          })} seconds`
+        );
+
+        return;
+      }
+
+      toast(err?.message);
+    });
+
+    if (!res) return;
+
+    createPortal((close) => (
+      <ConfirmEmailModal close={close} message={res.message} />
+    ));
+  };
+
+  return { send, remainingTimeInSeconds };
+}
 
 function MessageArea(props: {
   mainPaneEl: HTMLDivElement;
@@ -1872,13 +2000,19 @@ function UserSuggestionItem(props: {
         <div class={styles.suggestionInfo}>{props.user.username}</div>
       </Show>
       <Show when={props.user?.special && props.user.id === "e"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.everyone")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.everyone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "s"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.someone")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.someone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "si"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.silent")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.silent")}
+        </div>
       </Show>
       <Show when={!props.user?.special && props.selected}>
         <Icon class={styles.suggestIcon} name="keyboard_return" />
@@ -2356,12 +2490,16 @@ function ScheduledDelete() {
     <div class={styles.scheduledDeleteContainer}>
       <div class={styles.scheduledDeleteTitle}>{t("messageView.flaggedServer.title")}</div>
       <div class={styles.scheduledDeleteDesc}>
-        {t("messageView.flaggedServer.description")}
+        {t("messageView.flaggedServer.notice")}
       </div>
       <Button
         onclick={onLeaveClick}
         iconName={isCreator() ? "delete" : "logout"}
-        label={isCreator() ? t("messageView.flaggedServer.deleteButton") : t("messageView.flaggedServer.leaveButton")}
+        label={
+          isCreator()
+            ? t("messageView.flaggedServer.deleteButton")
+            : t("messageView.flaggedServer.leaveButton")
+        }
         color="var(--alert-color)"
         primary
       />
