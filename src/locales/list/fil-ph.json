@@ -1,252 +1,252 @@
 {
-  "header": {
-    "openAppButton": "Buksan ang aplikasyon",
-    "loginButton": "Login",
-    "joinNowButton": "Magparehistro na!"
-  },
-  "homePage": {
-    "slogan": "Isang moderno at matikas na chat app.",
-    "viewGitHubButton": "Tingnan ang GitHub"
-  },
-  "loginPage": {
-    "title": "Mag-login upang magpatuloy",
-    "emailOrUsernameAndTag": "Email / username:tag",
-    "password": "Password",
-    "login": "Mag-login",
-    "createAccountInstead": "Gumawa na lang ng account",
-    "loggingIn": "Nagla-log in...",
-    "loginButton": "Mag-login"
-  },
-  "registerPage": {
-    "title": "Maligayang pagdating sa {{appName}}",
-    "email": "Email",
-    "username": "Username",
-    "password": "Password",
-    "confirmPassword": "Kumpirmahin ang password",
-    "registerButton": "Magparehistro",
-    "registering": "Nagpaparehistro...",
-    "loginInstead": "Mag-login na lang"
-  },
-  "inbox": {
-    "drawer": {
-      "requests": "Requests",
-      "online": "Online",
-      "offline": "Offline",
-      "addFriendButton": "Magdagdag ng kaibigan",
-      "inboxButton": "Inbox",
-      "friendsButton": "Mga Kaibigan"
-    }
-  },
-  "explore": {
-    "drawer": {
-      "title": "Mag-explore",
-      "servers": "Mga Server"
+    "header": {
+        "openAppButton": "Buksan ang aplikasyon",
+        "loginButton": "Login",
+        "joinNowButton": "Magparehistro na!"
+    },
+    "homePage": {
+        "slogan": "Isang moderno at matikas na chat app.",
+        "viewGitHubButton": "Tingnan ang GitHub"
+    },
+    "loginPage": {
+        "title": "Mag-login upang magpatuloy",
+        "emailOrUsernameAndTag": "Email / username:tag",
+        "password": "Password",
+        "login": "Mag-login",
+        "createAccountInstead": "Gumawa na lang ng account",
+        "loggingIn": "Nagla-log in...",
+        "loginButton": "Mag-login"
+    },
+    "registerPage": {
+        "title": "Maligayang pagdating sa {{appName}}",
+        "email": "Email",
+        "username": "Username",
+        "password": "Password",
+        "confirmPassword": "Kumpirmahin ang password",
+        "registerButton": "Magparehistro",
+        "registering": "Nagpaparehistro...",
+        "loginInstead": "Mag-login na lang"
+    },
+    "inbox": {
+        "drawer": {
+            "requests": "Requests",
+            "online": "Online",
+            "offline": "Offline",
+            "addFriendButton": "Magdagdag ng kaibigan",
+            "inboxButton": "Inbox",
+            "friendsButton": "Mga Kaibigan"
+        }
+    },
+    "explore": {
+        "drawer": {
+            "title": "Mag-explore",
+            "servers": "Mga Server"
+        },
+        "servers": {
+            "title": "Mag-explore - Mga servers",
+            "noticeMessage": "Maaaring ma-bump ang isang server isang beses bawat {{hours}} na oras. Lahat ng bumps ay ni-reset bawat {{date}}.",
+            "sortMostBumps": "Pinakamaraming mga bumps",
+            "sortMostMembers": "Pinakamaraming mga miyembro",
+            "sortRecentlyAdded": "Kamakailang idinagdag",
+            "sortRecentlyBumped": "Kamakailang lang na bumped",
+            "filterAll": "Lahat",
+            "filterVerified": "Beripikado",
+            "memberCount": "{{count}} na miyembro",
+            "lifetimeBumpCount": "{{count}} lifetime na bumps",
+            "visitServerButton": "Bisitahin",
+            "joinServerButton": "Sumali",
+            "bumpButton": "Bump ({{count}})"
+        }
     },
     "servers": {
-      "title": "Mag-explore - Mga servers",
-      "noticeMessage": "Maaaring ma-bump ang isang server isang beses bawat {{hours}} na oras. Lahat ng bumps ay ni-reset bawat {{date}}.",
-      "sortMostBumps": "Pinakamaraming mga bumps",
-      "sortMostMembers": "Pinakamaraming mga miyembro",
-      "sortRecentlyAdded": "Kamakailang idinagdag",
-      "sortRecentlyBumped": "Kamakailang lang na bumped",
-      "filterAll": "Lahat",
-      "filterVerified": "Beripikado",
-      "memberCount": "{{count}} na miyembro",
-      "lifetimeBumpCount": "{{count}} lifetime na bumps",
-      "visitServerButton": "Bisitahin",
-      "joinServerButton": "Sumali",
-      "bumpButton": "Bump ({{count}})"
-    }
-  },
-  "servers": {
+        "settings": {
+            "drawer": {
+                "general": "General",
+                "roles": "Mga roles",
+                "channels": "Mga channel",
+                "bans": "Mga bans",
+                "invites": "Mga invites",
+                "publishServer": "I-publish ang server",
+                "verify": "I-pa verify",
+                "role": "Role",
+                "welcome-screen": "Welcome Screen",
+                "channel": "Channel",
+                "emojis": "Mga emojis",
+                "notifications": "Mga abiso"
+            },
+            "general": {
+                "serverRenameNotice": "Mawawala ang lahat ng mga benepisyo ng pagiging beripikado ng iyong server kapag iniba mo ang pangalan nito.",
+                "serverName": "Pangalan ng Server",
+                "defaultChannel": "Default na Channel",
+                "defaultChannelDescription": "Ididirekta ang mga bagong miyembro sa channel na ito.",
+                "systemMessages": "Mga Mensahe ng System",
+                "systemMessagesDescription": "Kung saan dapat lumabas ang mga mensahe ng system.",
+                "deleteThisServer": "Tanggalin ang server na ito",
+                "deleteThisServerDescription": "Hindi na ito maaaring bawiin!",
+                "deleteServerButton": "Burahin ang Server",
+                "saveChangesButton": "I-save ang mga pagbabago",
+                "saving": "Saving..."
+            },
+            "roles": {
+                "addNewRole": "Magdagdag ng bagong role",
+                "addRoleButton": "Magdagdag ng role"
+            },
+            "role": {
+                "saveChangesButton": "I-save ang mga pagbabago",
+                "saving": "Saving...",
+                "roleName": "Pangalan ng role",
+                "roleColor": "Kulay ng role",
+                "hideRole": "Itago ang role",
+                "hideRoleDescription": "Ipakita ang mga miyembro na may ganitong role kasama ang lahat ng default na miyembro",
+                "permissions": "Mga Pahintulot",
+                "permissionsDescription": "Pamahalaan ang mga pahintulot para sa tungkuling ito.",
+                "deleteRoleButton": "Tanggalin ang role na ito",
+                "deleteRoleButtonDescription": "Hindi na ito maaaring bawiin!"
+            },
+            "header": {
+                "editServer": "I-edit ang server",
+                "serverMemberCount": "{{count}} na mga miyembro"
+            },
+            "channels": {
+                "createButton": "Gumawa",
+                "createNewDescription": "Gumawa ng panibagong channel o kategorya"
+            },
+            "channel": {
+                "saving": "Nagsa-save...",
+                "saveChangesButton": "I-save ang mga pagbabago",
+                "channelName": "Pangalan ng channel",
+                "permissions": "Mga Pahintulot",
+                "permissionsDescription": "Baguhin ang mga pahintulot para sa channel na ito.",
+                "deleteThisChannel": "Burahin ang channel na ito",
+                "deleteThisChannelDescription": "Hindi na ito maaaring bawiin!",
+                "deleteChannelButton": "Burahin ang channel"
+            },
+            "invites": {
+                "createInviteButton": "Gumawa ng invite",
+                "serverInvites": "Mga imbitasyon ng server",
+                "serverInvitesDescription": "Imbitahan ang mga kaibigan mo sa server na ito.",
+                "customInviteVerifiedOnlyNotice": "Available lang ang mga custom na link ng imbitasyon para sa mga na-verify na server.",
+                "customLink": "Custom na link",
+                "saveButton": "I-save",
+                "deleteButton": "I-delete",
+                "copyLinkButton": "Kopyahin ang link"
+            },
+            "publishServer": {
+                "publishNotice": "Kapag na-publish ang iyong server, magiging available ito sa pahina ng <1>explore</1>.",
+                "public": "Pampubliko",
+                "publicDescription": "Gawing pampubliko ang server na ito.",
+                "bumpServer": "I-bump ang server",
+                "bumpServerDescription": "I-bump ang server na ito upang mabalik ito sa itaas.",
+                "publishServerButton": "I-publush ang server",
+                "unpublishServerButton": "I-unpublish ang server"
+            }
+        },
+        "rolePermissions": {
+            "admin": "Admin",
+            "adminDescription": "Ini-enable ang lahat ng mga pahintulot.",
+            "sendMessage": "Mag send ng mensahe",
+            "sendMessageDescription": "Paganahin ang pagpapadala ng mga mensahe sa server na ito. Maaari pa ring magpadala ng mga mensahe ang mga admin ng server.",
+            "manageRoles": "I-manage ang mga roles",
+            "manageRolesDescription": "Pahintulot para sa pag-update o pagtanggal ng mga roles.",
+            "manageChannels": "I-manage ang mga channels",
+            "manageChannelsDescription": "Pahintulot para sa pag-update o pagtanggal ng mga channel.",
+            "kick": "Puwedeng mag kick",
+            "kickDescription": "Pahintulot na i-kick ang mga user",
+            "ban": "Puwedeng mag ban",
+            "banDescription": "Pahintulot na i-ban ang mga user.",
+            "mentionEveryone": "Mention Everyone",
+            "mentionEveryoneDescription": "Paganahin ang pagbanggit sa @everyone. Maaari pa ring banggitin ng mga admin ng server ang @everyone."
+        },
+        "channelPermissions": {
+            "sendMessage": "Mag-send ng mga mensahe",
+            "sendMessageDescription": "Paganahin ang pagpapadala ng mga mensahe sa channel. Maaari pa ring magpadala ng mga mensahe ang mga admin ng server.",
+            "joinVoice": "Pagsasali sa voice",
+            "joinVoiceDescription": "Paganahin ang pagsali sa mga voice channel. Maaari pa ring sumali ang mga admin ng server sa mga voice channel."
+        }
+    },
     "settings": {
-      "drawer": {
-        "general": "General",
-        "roles": "Mga roles",
-        "channels": "Mga channel",
-        "bans": "Mga bans",
-        "invites": "Mga invites",
-        "publishServer": "I-publish ang server",
-        "verify": "I-pa verify",
-        "role": "Role",
-        "welcome-screen": "Welcome Screen",
-        "channel": "Channel",
-        "emojis": "Mga emojis",
-        "notifications": "Mga abiso"
-      },
-      "general": {
-        "serverRenameNotice": "Mawawala ang lahat ng mga benepisyo ng pagiging beripikado ng iyong server kapag iniba mo ang pangalan nito.",
-        "serverName": "Pangalan ng Server",
-        "defaultChannel": "Default na Channel",
-        "defaultChannelDescription": "Ididirekta ang mga bagong miyembro sa channel na ito.",
-        "systemMessages": "Mga Mensahe ng System",
-        "systemMessagesDescription": "Kung saan dapat lumabas ang mga mensahe ng system.",
-        "deleteThisServer": "Tanggalin ang server na ito",
-        "deleteThisServerDescription": "Hindi na ito maaaring bawiin!",
-        "deleteServerButton": "Burahin ang Server",
-        "saveChangesButton": "I-save ang mga pagbabago",
-        "saving": "Saving..."
-      },
-      "roles": {
-        "addNewRole": "Magdagdag ng bagong role",
-        "addRoleButton": "Magdagdag ng role"
-      },
-      "role": {
-        "saveChangesButton": "I-save ang mga pagbabago",
-        "saving": "Saving...",
-        "roleName": "Pangalan ng role",
-        "roleColor": "Kulay ng role",
-        "hideRole": "Itago ang role",
-        "hideRoleDescription": "Ipakita ang mga miyembro na may ganitong role kasama ang lahat ng default na miyembro",
-        "permissions": "Mga Pahintulot",
-        "permissionsDescription": "Pamahalaan ang mga pahintulot para sa tungkuling ito.",
-        "deleteRoleButton": "Tanggalin ang role na ito",
-        "deleteRoleButtonDescription": "Hindi na ito maaaring bawiin!"
-      },
-      "header": {
-        "editServer": "I-edit ang server",
-        "serverMemberCount": "{{count}} na mga miyembro"
-      },
-      "channels": {
-        "createButton": "Gumawa",
-        "createNewDescription": "Gumawa ng panibagong channel o kategorya"
-      },
-      "channel": {
-        "saving": "Nagsa-save...",
-        "saveChangesButton": "I-save ang mga pagbabago",
-        "channelName": "Pangalan ng channel",
-        "permissions": "Mga Pahintulot",
-        "permissionsDescription": "Baguhin ang mga pahintulot para sa channel na ito.",
-        "deleteThisChannel": "Burahin ang channel na ito",
-        "deleteThisChannelDescription": "Hindi na ito maaaring bawiin!",
-        "deleteChannelButton": "Burahin ang channel"
-      },
-      "invites": {
-        "createInviteButton": "Gumawa ng invite",
-        "serverInvites": "Mga imbitasyon ng server",
-        "serverInvitesDescription": "Imbitahan ang mga kaibigan mo sa server na ito.",
-        "customInviteVerifiedOnlyNotice": "Available lang ang mga custom na link ng imbitasyon para sa mga na-verify na server.",
-        "customLink": "Custom na link",
-        "saveButton": "I-save",
-        "deleteButton": "I-delete",
-        "copyLinkButton": "Kopyahin ang link"
-      },
-      "publishServer": {
-        "publishNotice": "Kapag na-publish ang iyong server, magiging available ito sa pahina ng <1>explore</1>.",
-        "public": "Pampubliko",
-        "publicDescription": "Gawing pampubliko ang server na ito.",
-        "bumpServer": "I-bump ang server",
-        "bumpServerDescription": "I-bump ang server na ito upang mabalik ito sa itaas.",
-        "publishServerButton": "I-publush ang server",
-        "unpublishServerButton": "I-unpublish ang server"
-      }
+        "drawer": {
+            "title": "Mga Setting",
+            "account": "Account",
+            "interface": "Interface",
+            "language": "Wika",
+            "notifications": "Mga abiso",
+            "logout": "Mag-logout",
+            "developer": "Developer",
+            "applications": "Mga aplikasyon",
+            "experiments": "Mga eksperimento",
+            "viewSource": "Tingnan ang Pinagmulan",
+            "changelog": "Changelog",
+            "window-settings": "Mga Setting ng Window",
+            "activity-status": "Activity Status",
+            "tickets": "Mga tiket",
+            "privacy": "Pagkapribado",
+            "connections": "Mga koneksyon"
+        }
     },
-    "rolePermissions": {
-      "admin": "Admin",
-      "adminDescription": "Ini-enable ang lahat ng mga pahintulot.",
-      "sendMessage": "Mag send ng mensahe",
-      "sendMessageDescription": "Paganahin ang pagpapadala ng mga mensahe sa server na ito. Maaari pa ring magpadala ng mga mensahe ang mga admin ng server.",
-      "manageRoles": "I-manage ang mga roles",
-      "manageRolesDescription": "Pahintulot para sa pag-update o pagtanggal ng mga roles.",
-      "manageChannels": "I-manage ang mga channels",
-      "manageChannelsDescription": "Pahintulot para sa pag-update o pagtanggal ng mga channel.",
-      "kick": "Puwedeng mag kick",
-      "kickDescription": "Pahintulot na i-kick ang mga user",
-      "ban": "Puwedeng mag ban",
-      "banDescription": "Pahintulot na i-ban ang mga user.",
-      "mentionEveryone": "Mention Everyone",
-      "mentionEveryoneDescription": "Paganahin ang pagbanggit sa @everyone. Maaari pa ring banggitin ng mga admin ng server ang @everyone."
+    "supportBlock": {
+        "support": "Suportahan Ako"
     },
-    "channelPermissions": {
-      "sendMessage": "Mag-send ng mga mensahe",
-      "sendMessageDescription": "Paganahin ang pagpapadala ng mga mensahe sa channel. Maaari pa ring magpadala ng mga mensahe ang mga admin ng server.",
-      "joinVoice": "Pagsasali sa voice",
-      "joinVoiceDescription": "Paganahin ang pagsali sa mga voice channel. Maaari pa ring sumali ang mga admin ng server sa mga voice channel."
+    "userContextMenu": {
+        "viewProfile": "Tingnan ang Profile",
+        "sendMessage": "Magpadala ng mensahe",
+        "copyId": "Kopyahin ang ID",
+        "editRoles": "I-edit ang mga roles",
+        "kick": "I-kick",
+        "ban": "I-ban"
+    },
+    "kickServerMemberModal": {
+        "title": "I-kick {{username}}",
+        "kickButton": "I-kick",
+        "kicking": "Tinatangal...",
+        "backButton": "Bumalik",
+        "message": "Sigurado ka bang gusto mong tanggalin si <1>{{username}}</1>?"
+    },
+    "editServerRolesModal": {
+        "title": "I-edit ang mga roles"
+    },
+    "banModal": {
+        "title": "I-ban {{username}}?",
+        "message": "Sigurado ka bang gusto mong i-ban <1>{{username}}</1>?",
+        "deletePastMessagesCheckbox": "Tanggalin ang mga mensaheng ipinadala sa nakalipas na 7 oras.",
+        "banButton": "I-ban",
+        "banning": "Bina-ban..."
+    },
+    "messageContextMenu": {
+        "editMessage": "I-edit ang mensahe",
+        "deleteMessage": "Tanggalin ang mensahe",
+        "copyMessage": "Kopyahin ang mensahe",
+        "copyId": "Kopyahin ang ID"
+    },
+    "profile": {
+        "followButton": "I-follow",
+        "unfollowButton": "I-unfollow",
+        "removeFriendButton": "Tanggalin sa lista ng mga kaibigan",
+        "addFriendButton": "Magdagdag ng kaibigan",
+        "pendingRequest": "Nakabinbing mga friend requests",
+        "acceptRequestButton": "Tanggapin ang friend request",
+        "messageButton": "I-message",
+        "mutualFriends": "Magkakaibigan ({{count}})",
+        "mutualServers": "Mga Mutual Server ({{count}})",
+        "postsTab": "Mga post",
+        "followersTab": "Mga followers",
+        "followingTab": "Mga fina-follow",
+        "postsAndRepliesTab": "Mga post at tugon ({{count}})",
+        "likedPostsTab": "Mga ni-like na post ({{count}})"
+    },
+    "posts": {
+        "deletePostModal": {
+            "message": "Sigurado ka bang gusto mong tanggalin ang post na ito?",
+            "cancelButton": "Kanselahin",
+            "deleteButton": "Tanggalin"
+        },
+        "postWasDeleted": "Ang post na ito ay tinanggal!",
+        "someoneLikedYourPost": "<1>{{username}}</1> ay nag-like sa post mo!",
+        "someoneFollowedYou": "<1>{{username}}</1> ay sumunod sa iyo",
+        "someoneRepliedToPost": "Si <1>{{username}}</1> ay sumagot sa post mo!",
+        "createAPostInputPlaceholder": "Gumawa ng post...",
+        "replyInputPlaceholder": "Mag-reply...",
+        "replyButton": "Mag-reply",
+        "createButton": "Gumawa"
     }
-  },
-  "settings": {
-    "drawer": {
-      "title": "Mga Setting",
-      "account": "Account",
-      "interface": "Interface",
-      "language": "Wika",
-      "notifications": "Mga abiso",
-      "logout": "Mag-logout",
-      "developer": "Developer",
-      "applications": "Mga aplikasyon",
-      "experiments": "Mga eksperimento",
-      "viewSource": "Tingnan ang Pinagmulan",
-      "changelog": "Changelog",
-      "window-settings": "Mga Setting ng Window",
-      "activity-status": "Activity Status",
-      "tickets": "Mga tiket",
-      "privacy": "Pagkapribado",
-      "connections": "Mga koneksyon"
-    }
-  },
-  "supportBlock": {
-    "support": "Suportahan Ako"
-  },
-  "userContextMenu": {
-    "viewProfile": "Tingnan ang Profile",
-    "sendMessage": "Magpadala ng mensahe",
-    "copyId": "Kopyahin ang ID",
-    "editRoles": "I-edit ang mga roles",
-    "kick": "I-kick",
-    "ban": "I-ban"
-  },
-  "kickServerMemberModal": {
-    "title": "I-kick {{username}}",
-    "kickButton": "I-kick",
-    "kicking": "Tinatangal...",
-    "backButton": "Bumalik",
-    "message": "Sigurado ka bang gusto mong tanggalin si <1>{{username}}</1>?"
-  },
-  "editServerRolesModal": {
-    "title": "I-edit ang mga roles"
-  },
-  "banModal": {
-    "title": "I-ban {{username}}?",
-    "message": "Sigurado ka bang gusto mong i-ban <1>{{username}}</1>?",
-    "deletePastMessagesCheckbox": "Tanggalin ang mga mensaheng ipinadala sa nakalipas na 7 oras.",
-    "banButton": "I-ban",
-    "banning": "Bina-ban..."
-  },
-  "messageContextMenu": {
-    "editMessage": "I-edit ang mensahe",
-    "deleteMessage": "Tanggalin ang mensahe",
-    "copyMessage": "Kopyahin ang mensahe",
-    "copyId": "Kopyahin ang ID"
-  },
-  "profile": {
-    "followButton": "I-follow",
-    "unfollowButton": "I-unfollow",
-    "removeFriendButton": "Tanggalin sa lista ng mga kaibigan",
-    "addFriendButton": "Magdagdag ng kaibigan",
-    "pendingRequest": "Nakabinbing mga friend requests",
-    "acceptRequestButton": "Tanggapin ang friend request",
-    "messageButton": "I-message",
-    "mutualFriends": "Magkakaibigan ({{count}})",
-    "mutualServers": "Mga Mutual Server ({{count}})",
-    "postsTab": "Mga post",
-    "followersTab": "Mga followers",
-    "followingTab": "Mga fina-follow",
-    "postsAndRepliesTab": "Mga post at tugon ({{count}})",
-    "likedPostsTab": "Mga ni-like na post ({{count}})"
-  },
-  "posts": {
-    "deletePostModal": {
-      "message": "Sigurado ka bang gusto mong tanggalin ang post na ito?",
-      "cancelButton": "Kanselahin",
-      "deleteButton": "Tanggalin"
-    },
-    "postWasDeleted": "Ang post na ito ay tinanggal!",
-    "someoneLikedYourPost": "<1>{{username}}</1> ay nag-like sa post mo!",
-    "someoneFollowedYou": "<1>{{username}}</1> ay sumunod sa iyo",
-    "someoneRepliedToPost": "Si <1>{{username}}</1> ay sumagot sa post mo!",
-    "createAPostInputPlaceholder": "Gumawa ng post...",
-    "replyInputPlaceholder": "Mag-reply...",
-    "replyButton": "Mag-reply",
-    "createButton": "Gumawa"
-  }
 }
