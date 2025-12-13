@@ -115,7 +115,7 @@ export const languages = {
     name: "Spanish",
     nativeName: "Español",
     emoji: "🇪🇸",
-    contributors: ["Linterna001"],
+    contributors: ["https://github.com/World170", "Linterna001"],
   },
   "th-th": {
     name: "Thai",
