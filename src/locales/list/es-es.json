@@ -35,7 +35,7 @@
   "homePage": {
     "slogan": "Una aplicación de chat moderna y elegante.",
     "subslogan": "Nerimity ofrece una experiencia elegante y repleta de funciones que la hace única.",
-    "viewGitHubButton": "Ver en Github",
+    "viewGitHubButton": "Ver en GitHub",
     "getStarted": "Comenzar",
     "availableOn": "Disponible en",
     "browser": "Navegador",
@@ -155,7 +155,7 @@
     "servers": {
       "title": "Explorar - Servidores",
       "noticeMessage": "Un servidor puede destacarse una vez cada {{hours}} horas. Todos los destacados se reinician cada {{date}}.",
-      "sortMostBumps": "Mas destacados",
+      "sortMostBumps": "Más destacados",
       "sortMostMembers": "Máximo número de miembros",
       "sortRecentlyAdded": "Añadidos recientemente",
       "sortRecentlyBumped": "Destacados recientemente",
@@ -173,7 +173,7 @@
     "placeholder": "Nombre de carpeta",
     "cancelButton": "No guardar",
     "save": "Guardar",
-    "saving": "Guardando..",
+    "saving": "Guardando...",
     "errors": {
       "emptyName": "Por favor, introduce un nombre de carpeta."
     }
@@ -206,8 +206,8 @@
         "noReason": "No se ha proporcionado ninguna razón",
         "bannedAt": "Baneado el",
         "unknown": "Desconocido",
-        "unban": "Unbanear",
-        "unbanning": "Unbaneando.."
+        "unban": "Desbanear",
+        "unbanning": "Unbaneando..."
       },
       "webhook": {
         "title": "Configuración de webhook",
@@ -217,12 +217,12 @@
         "delete": "Elimina webhook"
       },
       "general": {
-        "serverRenameNotice": "Perderas todas las ventajas de tener tu servidor verificado si cambias el nombre.",
+        "serverRenameNotice": "Perderás todas las ventajas de tener tu servidor verificado si cambias el nombre.",
         "serverName": "Nombre del servidor",
         "defaultChannel": "Canal predeterminado",
         "defaultChannelDescription": "Los nuevos miembros serán dirigidos a este canal.",
         "systemMessages": "Mensajes del sistema",
-        "systemMessagesDescription": "Donde los mensajes del sistema tendrian que aparecer.",
+        "systemMessagesDescription": "Donde los mensajes del sistema tendrían que aparecer.",
         "avatar": "Avatar",
         "avatarDescription": "Compatibles: JPG, PNG, GIF, WEBP. Tamaño máximo: 12 MB",
         "banner": "Banner",
@@ -232,7 +232,7 @@
         "deleteThisServerDescription": "¡Esta acción no se puede deshacer!",
         "deleteServerButton": "Eliminar servidor",
         "saveChangesButton": "Guardar cambios",
-        "saving": "Guardando..",
+        "saving": "Guardando...",
         "none": "Ninguno"
       },
       "roles": {
@@ -260,7 +260,7 @@
         "createNewDescription": "Crear un nuevo servidor o categoria"
       },
       "channel": {
-        "saving": "Guardando..",
+        "saving": "Guardando...",
         "saveChangesButton": "Guardar cambios",
         "channelName": "Nombre del canal",
         "permissions": "Permisos",
@@ -281,19 +281,19 @@
         "copyLinkButton": "Copiar enlace"
       },
       "publishServer": {
-        "publishNotice": "Publicar este servidor lo hara disponible en la pagina <1>explore</1>",
-        "public": "Publico",
-        "publicDescription": "Hacer este servidor publico.",
+        "publishNotice": "Publicar este servidor lo hará disponible en la página <1>explore</1>",
+        "public": "Público",
+        "publicDescription": "Hacer este servidor público.",
         "bumpServer": "Destacar servidor",
         "bumpServerDescription": "Destaca este servidor hasta arriba.",
         "bumpButton": "Destaca {{count}}",
-        "descriptionLabel": "Descripción del servidor {{current{{/{{max}}",
+        "descriptionLabel": "Descripción del servidor {{current}}/{{max}}",
         "publishServerButton": "Publicar servidor",
         "unpublishServerButton": "Despublicar servidor",
         "bumpCooldown": "Debes esperar {{hours}} horas, {{minutes}} minutos y {{seconds}} segundos para destacar este servidor."
       },
       "verify": {
-        "alreadyVerified": "¡Tu servidor ya esta verificado!",
+        "alreadyVerified": "¡Tu servidor ya está verificado!",
         "insufficientMembers": "Necesitas {{count}} miembro(s) más para poder solicitar la verificación.",
         "verifiable": "Preparado para verificar",
         "verifiableDescription": "¡Tienes los miembros suficientes para verificar tu servidor!",
@@ -305,10 +305,10 @@
           "oneMonthOrSupporter": "Al menos 1 mes O insignia de colaborador",
           "oneMonthOrSupporterDescription": "Tu servidor debe tener al menos 1 mes O el dueño del servidor debe tener la insignia de colaborador.",
           "members": "{{count}} o más miembros.",
-          "membersDescription": "Tu servidor tiene que tener almenos {{count}} miembros.",
+          "membersDescription": "Tu servidor tiene que tener al menos {{count}} miembros.",
           "profanityFree": "Sin malas palabras",
           "profanityFreeDescription": "El nombre del servidor, el avatar y el banner deben estar libres de malas palabras.",
-          "avatarAndBanner": "Avatar y Banner",
+          "avatarAndBanner": "Avatar y banner",
           "avatarAndBannerDescription": "El servidor tiene que tener un avatar y un banner.",
           "rules": "Reglas del servidor",
           "rulesDescription": "El servidor tiene que tener un canal de reglas."
@@ -320,7 +320,7 @@
           "explore": "Destacar en el explorador",
           "exploreDescription": "Tu servidor se mostrará en una sección separada en la página de Explorar.",
           "customInvite": "Enlace de invitación personalizado",
-          "customInviteDescription": "Crea tu propio enlace the invitación personalizado desde la pagina de invitaciones.",
+          "customInviteDescription": "Crea tu propio enlace de invitación personalizado desde la página de invitaciones.",
           "emojiSlots": "Más espacio para emojis",
           "emojiSlotsDescription": "200 espacios de emojis para tu servidor.",
           "hdScreenshare": "Compartir pantalla en 1080p@60fps",
@@ -349,7 +349,7 @@
     "leaveModal": {
       "title": "¿Salir del servidor?",
       "body": {
-        "part1": "¿Estas seguro que quieres salir de <1>{{serverName}}</1>?",
+        "part1": "¿Estás seguro de que quieres salir de <1>{{serverName}}</1>?",
         "part2": "¡Te puedes unir otra vez cuando quieras!"
       },
       "cancelButton": "No salirse",
@@ -402,7 +402,7 @@
     "account": {
       "email": "Correo",
       "username": "Usuario",
-      "tag": "Etiquieta",
+      "tag": "Etiqueta",
       "botID": "ID del bot",
       "avatar": "Avatar",
       "banner": "Banner",
@@ -420,27 +420,27 @@
       "changePassword": "Cambiar contraseña",
       "forgotPassword": "Olvidar contraseña",
       "newPassword": "Nueva contraseña",
-      "newPasswordDescription": "Cambiar tu contraseña cerrara sesión en todos los otros sitios.",
+      "newPasswordDescription": "Cambiar tu contraseña cerrará sesión en todos los otros sitios.",
       "confirmNewPassword": "Confirmar nueva contraseña",
       "confirmNewPasswordDescription": "Confirma tu nueva contraseña",
       "confirmCurrentPassword": "Confirma tu contraseña actual",
       "confirmEmail": "Confirma tu correo",
       "enterCode": "Introduce el código de 5 dígitos enviado a tu correo:",
-      "sendCodeButton": "Enviar codigo",
+      "sendCodeButton": "Enviar código",
       "resendIn": "Reenviar en {{time}}",
       "confirmButton": "Confirmar",
       "cancelButton": "Cancelar",
       "channelNotice": "Aviso en el canal",
       "channelNoticeDescription": "Se muestra cuando el usuario está a punto de chatear por primera vez. Los cambios se aplican después de recargar.",
       "channelNoticeTooLong": "El aviso del canal no puede tener más de 300 caracteres.",
-      "saving": "Guardando..",
+      "saving": "Guardando...",
       "saveButton": "Guardar",
       "saveChangesButton": "Guardar cambios",
       "deleteAccount": "Eliminar mi cuenta",
       "deleteAccountDescription": "¡Esta acción no se puede deshacer!",
       "deleteAccountNotice": "Tienes que eliminar / salir de todos los servidores antes de poder eliminar tu cuenta.",
       "understoodButton": "Entendido",
-      "deletionNotice": "Nos entristece verte marchar :( Si algo no te gustó, por favor háznoslo saber en el servidor oficial de Nerimity.",
+      "deletionNotice": "Nos entristece verte marchar :( Si algo no te gustó, por favor, háznoslo saber en el servidor oficial de Nerimity.",
       "deletedInfo": {
         "title": "Que se eliminara",
         "email": "Correo",
@@ -463,14 +463,14 @@
       },
       "directMessage": {
         "title": "Mensajes directos",
-        "description": "Configura quien puede ver tus mensajes directos.",
+        "description": "Configura quién puede ver tus mensajes directos.",
         "anyone": "Todos",
         "friendsAndServersOnly": "Solo amigos y servidores",
         "friendsOnly": "Solo amigos"
       },
       "friendRequest": {
-        "title": "Solicitues de amistad",
-        "description": "Configura quien puede enviarte solicitudes de amistad.",
+        "title": "Solicitudes de amistad",
+        "description": "Configura quién puede enviarte solicitudes de amistad.",
         "anyone": "Todos",
         "serversOnly": "Solo servidores",
         "nobody": "Nadie"
@@ -493,10 +493,10 @@
       "changeSoundsDescription": "Cambia el sonido de las notificaciones con estos sonidos libres de derechos.",
       "message": "Mensaje",
       "messageDescription": "Sonido cuando recibas un mensaje",
-      "mention": "Mencion",
+      "mention": "Mención",
       "mentionDescription": "Sonido cuando recibas una mencion",
       "reminder": "Recordatorio",
-      "reminderDescription": "Notificacion de los recordatiorios.",
+      "reminderDescription": "Notificación de los recordatorios.",
       "inAppPreview": "Vista previa en la aplicación",
       "inAppPreviewDescription": "Mostrar ventanas emergentes de notificación dentro de la aplicación.",
       "mute": "Silenciar",
@@ -508,12 +508,12 @@
       }
     },
     "call": {
-      "nextCallNotice": "Los cambios serán aplicados en tus proximas llamadas.",
+      "nextCallNotice": "Los cambios serán aplicados en tus próximas llamadas.",
       "inputDevices": "Dispositivos de entrada",
       "outputDevices": "Dispositivos de salida",
       "default": "Predeterminado",
       "inputMode": "Modo de entrada",
-      "openMic": "Microfono activado",
+      "openMic": "Micrófono activado",
       "voiceActivity": "Actividad por voz",
       "pushToTalk": "Pulsar para hablar",
       "bindButton": "Asignar",
@@ -522,7 +522,7 @@
     },
     "interface": {
       "customCSS": "CSS personalizado",
-      "customCSSWarning": "No copies codigo de gente que no conozcas.",
+      "customCSSWarning": "No copies código de gente que no conozcas.",
       "saveAndApply": "Guardar y aplicar",
       "themes": "Temas",
       "themesDescription": "Elige un tema predefinido o restablece al predeterminado.",
@@ -544,14 +544,14 @@
       "downloadAppNotice": "Para modificar estos ajustes, tienes que descargarte la aplicación de escritorio de Nerimity.",
       "startupOptions": "Opciones de arrancar",
       "openOnStartup": "Abrir Nerimity al iniciar",
-      "startMinimized": "Inciar minimizado",
+      "startMinimized": "Iniciar minimizado",
       "startMinimizedDescription": "Minimizar Nerimity automáticamente a la bandeja.",
       "disableHardwareAcceleration": "Desactivar aceleración por hardware",
       "disableCustomTitlebar": "Desactivar barra de título personalizada",
-      "reopenAppNotice": "Tienes que reabrir la aplicacion para que el cambio tenga efecto."
+      "reopenAppNotice": "Tienes que reabrir la aplicación para que el cambio tenga efecto."
     },
     "activity": {
-      "extension": "Extension de navegador",
+      "extension": "Extensión de navegador",
       "extensionDescription": "¡Nuestra extensión RPC te permite compartir tu actividad en Spotify y YouTube con los usuarios en Nerimity!",
       "visitButton": "Visita {{store}}",
       "activityStatus": "Estatus de actividad",
@@ -561,17 +561,17 @@
       "activityStatusModal": {
         "title": "Edita tu estatus de actividad",
         "executable": "Ejectuable",
-        "action": "Accion",
+        "action": "Acción",
         "name": "Nombre",
         "emoji": "Emoji",
-        "backButton": "Atras",
+        "backButton": "Atrás",
         "saveButton": "Guardar"
       },
       "discordActivity": "Actividad de Discord",
-      "discordActivityDescription": "Comparte tu actividad de discord con usuarios en Nerimity",
+      "discordActivityDescription": "Comparte tu actividad de Discord con usuarios en Nerimity",
       "idPlaceholder": "User ID de Discord",
       "serverModal": {
-        "text": "Porfavor, unete al servidor de Discord para poder activar la compartición de actividad.",
+        "text": "Por favor, únete al servidor de Discord para poder activar la compartición de actividad.",
         "cancelButton": "Cancelar",
         "doneButton": "Ya me he unido"
       }
@@ -607,9 +607,9 @@
     "title": "Unirse al servidor",
     "exploreButton": "Explorar servidores",
     "notice": "Si quieres explorar servidores, por favor ve a la pestaña Explorar.",
-    "inviteCode": "Codigo de invitación",
+    "inviteCode": "Código de invitación",
     "continueButton": "Continuar",
-    "missingInvite": "Porfavor, inserta un codigo de invitación a un servidor.",
+    "missingInvite": "Por favor, inserta un código de invitación a un servidor.",
     "tabLabel": "Unirse"
   },
   "serverContextMenu": {
@@ -650,7 +650,7 @@
   "kickServerMemberModal": {
     "title": "Expulsar {{username}}",
     "kickButton": "Expulsar",
-    "kicking": "Expulsando..",
+    "kicking": "Expulsando...",
     "backButton": "Atrás",
     "message": "¿Estás seguro de que quieres expulsar a <1>{{username}}</1>?"
   },
@@ -659,12 +659,12 @@
   },
   "banModal": {
     "title": "¿Banear {{username}}?",
-    "message": "Estas seguro que quieres banear a <1>{{username}}</1>?",
-    "deletePastMessagesCheckbox": "Eliminar mensajes enviados en las ultimas 7 horas.",
+    "message": "¿Estás seguro que quieres banear a <1>{{username}}</1>?",
+    "deletePastMessagesCheckbox": "Eliminar mensajes enviados en las últimas 7 horas.",
     "banButton": "Banear",
     "banning": "Baneando..",
-    "reasonLabel": "Razon (opcional)",
-    "reasonPlaceholder": "Introduce una razon..."
+    "reasonLabel": "Razón (opcional)",
+    "reasonPlaceholder": "Introduce una razón..."
   },
   "messageContextMenu": {
     "editMessage": "Editar mensaje",
@@ -676,7 +676,7 @@
     "reportMessage": "Reportar mensaje",
     "quoteMessage": "Citar mensaje",
     "reply": "Responder",
-    "markUnread": "Marcar como no leido",
+    "markUnread": "Marcar como no leído",
     "pinMessage": "Fijar",
     "unpinMessage": "Desfijar"
   },
@@ -698,17 +698,17 @@
   },
   "posts": {
     "deletePostModal": {
-      "message": "¿Seguro que quieres eliminar está publicacion?",
+      "message": "¿Seguro que quieres eliminar esta publicacion?",
       "cancelButton": "Cancelar",
       "deleteButton": "eliminar"
     },
-    "postWasDeleted": "¡Está publicación ha sido eliminada!",
+    "postWasDeleted": "¡Esta publicación ha sido eliminada!",
     "someoneLikedYourPost": "¡A <1>{{username}}</1> le ha gustado tu publicación!",
     "createAPostInputPlaceholder": "Crear una publicación...",
     "someoneRepostedYourPost": "¡<1>{{username}}</1> ha republicado tu publicación!",
     "someoneFollowedYou": "¡<1>{{username}}</1> te ha seguido!",
     "someoneRepliedToPost": "¡<1>{{username}}</1> ha respondido a tu publicación!",
-    "replyInputPlaceholder": "Responder..",
+    "replyInputPlaceholder": "Responder...",
     "replyButton": "Responder",
     "createButton": "Crear",
     "pollOptions": "Opciones de encuesta",
@@ -722,7 +722,7 @@
     "members": "Miembros"
   },
   "botInvite": {
-    "serverSelect": "Porfavor, selecciona un servidor!",
+    "serverSelect": "Por favor, selecciona un servidor!",
     "creator": "Creado por",
     "selectButton": "Seleccionar servidor",
     "addButton": "Añadir bot",
@@ -734,9 +734,9 @@
   },
   "invite": {
     "loading": "Cargando invitación...",
-    "invalid": "Codigo de invitación invalido",
+    "invalid": "Código de invitación invalido",
     "joinButton": "Unirte",
-    "joiningButton": "Uniendose..",
+    "joiningButton": "Uniéndose...",
     "visitButton": "Visitar",
     "member": "miembro",
     "members": "miembros"
@@ -764,9 +764,9 @@
     "sendRequest": "Enviar solicitud",
     "description": "Introduce el nombre y la etiqueta de tu amigo para añadirlo.",
     "requestSent": "¡Solicitud enviada!",
-    "sending": "Enviando..",
+    "sending": "Enviando...",
     "errors": {
-      "missingTag": "Porfavor, inserte un usuario:tag.",
+      "missingTag": "Por favor, inserte un usuario:tag.",
       "colonInUsername": "El usuario no puede contener los dos puntos ( : )"
     }
   },
