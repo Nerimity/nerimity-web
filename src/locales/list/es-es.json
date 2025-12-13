@@ -112,7 +112,26 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "Enviar un mensaje a {{username}}",
-        "messageBoxChannelPlaceholder": "Enviar un mensaje en {{channelName}}"
+        "messageBoxChannelPlaceholder": "Enviar un mensaje en {{channelName}}",
+        "replying": "Respondiendo a {{count}} mensaje(s)",
+        "mention": "Mención",
+        "dropFile": "Soltar archivo",
+        "uploadTo": "Subir a",
+        "channelNotice": {
+            "title": "Antes de chatear…",
+            "understoodButton": "Entendido"
+        },
+        "specialMentions": {
+            "everyone": "Menciona a todos",
+            "someone": "Menciona un usuario aleatorio",
+            "silent": "Mensaje silencioso"
+        },
+        "linkToGoogleDrive": {
+            "body": "Debes vincular tu cuenta a Google Drive para subir imágenes, vídeos o archivos grandes",
+            "linkButton": "Vincular ahora",
+            "cancelButton": "No vincular"
+        },
+        "emailNotice": "Confirma tu correo para enviar mensajes."
     },
     "inbox": {
         "blockedUsersModal": {
@@ -137,11 +156,15 @@
         "drawer": {
             "title": "Explorar",
             "servers": "Servidores",
-            "bots": "Bots"
+            "bots": "Bots",
+            "themes": "Temas"
         },
         "bots": {
             "title": "Explorar - Bots",
-            "noticeMessage": "Un bot puede destacarse una vez cada {{hours}} horas. Todos los destacados se reinician cada {{date}}."
+            "noticeMessage": "Un bot puede destacarse una vez cada {{hours}} horas. Todos los destacados se reinician cada {{date}}.",
+            "moderationNotice": "Los bots no son moderados por Nerimity. Por favor, reporta los bots que sean maliciosos o que incumplan los TOS.",
+            "inviteButton": "Invitar",
+            "serverCount": "En {{count}} servidores"
         },
         "themes": {
             "title": "Explorar - Temas",
@@ -165,8 +188,18 @@
             "lifetimeBumpCount": "{{count}} destacados totales",
             "visitServerButton": "Visitar",
             "joinServerButton": "Unirse",
-            "bumpButton": "Destacar {{count}}"
-        }
+            "bumpButton": "Destacar {{count}}",
+            "moderationNotice": "Los servidores no son moderados por Nerimity. Por favor, reporta los servidores que sean maliciosos o que incumplan los TOS.",
+            "sortMostActive": "Más activo (Beta)",
+            "pinnedServers": "Servidores fijados",
+            "recentlyBumped": "Servidores destacados recientemente"
+        },
+        "search": "Buscar",
+        "sort": "Ordenar",
+        "filter": "Filtro",
+        "backButton": "Atrás",
+        "by": "Por",
+        "bumped": "Destacado"
     },
     "editFolderModal": {
         "title": "Editar carpeta",
@@ -628,7 +661,8 @@
     "messageView": {
         "noMessages": "Sin mensajes",
         "noMessagesDescription": "No hay mensajes en este canal.",
-        "newMessages": "Nuevos mensajes"
+        "newMessages": "Nuevos mensajes",
+        "slowMode": "Modo lento"
     },
     "typing": {
         "single": "<1>{{username}}</1> está escribiendo…",
