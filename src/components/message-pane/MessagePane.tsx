@@ -271,9 +271,9 @@ function MessagePane() {
 const EmailUnconfirmedNotice = () => {
   return (
     <div class={styles.emailUnconfirmedNotice}>
-      <div class={styles.text}>Confirm your email to send messages.</div>
+      <div class={styles.text}>{t("messageArea.emailNotice")}</div>
       <A href="/app/settings/account">
-        <Button label="Confirm" primary />
+        <Button label={t("settings.account.confirmButton")} primary />
       </A>
     </div>
   );
@@ -1111,7 +1111,7 @@ function SlowModeIndicator() {
         }
       />
       <Text opacity={0.8} size={10} title={toReadable()}>
-        Slow Mode
+        {t("messageView.slowMode")}
         {` ${currentSlowModeMs() ? `(${readableRemainingMs() || "0s"})` : ""}`}
       </Text>
     </Floating>
@@ -1162,7 +1162,7 @@ function FloatingReply() {
     <Show when={messages().length}>
       <Floating class={styles.replyIndicator}>
         <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
-          Replying to {messages().length} message(s)
+          {t("messageArea.replying", { count: messages().length })}
         </Text>
         <For each={messages()}>
           {(message, i) => (
@@ -1206,7 +1206,7 @@ function FloatingReply() {
             "justify-content": "end",
           }}
           boxStyles={{ "font-size": "8px", "border-radius": "4px" }}
-          label="Mention"
+          label={t("messageArea.mention")}
           labelSize={12}
         />
       </Floating>
@@ -1318,7 +1318,7 @@ function FloatingAttachment(props: {}) {
 
           <DropDown
             class={styles.attachmentUploadToDropDown}
-            title="Upload To"
+            title={t("messageArea.uploadTo")}
             onChange={(item) =>
               channelProperties.setAttachment(
                 params.channelId,
@@ -1872,13 +1872,13 @@ function UserSuggestionItem(props: {
         <div class={styles.suggestionInfo}>{props.user.username}</div>
       </Show>
       <Show when={props.user?.special && props.user.id === "e"}>
-        <div class={styles.suggestionInfo}>Mention everyone.</div>
+        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.everyone")}</div>
       </Show>
       <Show when={props.user?.special && props.user.id === "s"}>
-        <div class={styles.suggestionInfo}>Mentions someone.</div>
+        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.someone")}</div>
       </Show>
       <Show when={props.user?.special && props.user.id === "si"}>
-        <div class={styles.suggestionInfo}>Silent message.</div>
+        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.silent")}</div>
       </Show>
       <Show when={!props.user?.special && props.selected}>
         <Icon class={styles.suggestIcon} name="keyboard_return" />
@@ -2207,13 +2207,13 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
       <Button
         styles={{ flex: 1 }}
         iconName="close"
-        label="Don't link"
+        label={t("messageArea.linkToGoogleDrive.cancelButton")}
         color="var(--alert-color)"
         onClick={props.close}
       />
       <Button
         styles={{ flex: 1 }}
-        label="Link now"
+        label={t("messageArea.linkToGoogleDrive.linkButton")}
         iconName="link"
         primary
         onClick={() => {
@@ -2233,8 +2233,7 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
       maxWidth={300}
     >
       <Text size={14} style={{ padding: "10px", "padding-top": 0 }}>
-        You must link your account to Google Drive to upload large images,
-        videos or files.
+        {t("messageArea.linkToGoogleDrive.body")}
       </Text>
     </LegacyModal>
   );
@@ -2317,14 +2316,14 @@ function BeforeYouChatNotice(props: {
         >
           <div class={styles.title}>
             <Icon name="info" color="var(--primary-color)" size={18} />
-            Before you chat...
+            {t("messageArea.channelNotice.title")}
           </div>
           <div class={styles.info}>
             <Markup inline text={notice()!.content} />
           </div>
           <Button
             styles={{ opacity: buttonClickable() ? 1 : 0.5 }}
-            label="Understood"
+            label={t("settings.account.understoodButton")}
             iconName="check"
             onClick={understoodClick}
             class={styles.noticeButton}
@@ -2355,15 +2354,14 @@ function ScheduledDelete() {
 
   return (
     <div class={styles.scheduledDeleteContainer}>
-      <div class={styles.scheduledDeleteTitle}>Schedule Delete</div>
+      <div class={styles.scheduledDeleteTitle}>{t("messageView.flaggedServer.title")}</div>
       <div class={styles.scheduledDeleteDesc}>
-        This server did not comply with our Terms of Service, and will be
-        deleted soon.
+        {t("messageView.flaggedServer.description")}
       </div>
       <Button
         onclick={onLeaveClick}
         iconName={isCreator() ? "delete" : "logout"}
-        label={isCreator() ? "Delete Now" : "Leave Server"}
+        label={isCreator() ? t("messageView.flaggedServer.deleteButton") : t("messageView.flaggedServer.leaveButton")}
         color="var(--alert-color)"
         primary
       />
@@ -2376,7 +2374,7 @@ function DropOverlay() {
     <div class={styles.dropOverlayContainer}>
       <div class={styles.dropOverlayInnerContainer}>
         <Icon name="place_item" color="var(--primary-color)" size={40} />
-        <div>Drop File</div>
+        <div>{t("messageArea.dropFile")}</div>
       </div>
     </div>
   );

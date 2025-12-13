@@ -112,7 +112,26 @@
   },
   "messageArea": {
     "messageBoxPlaceholder": "Message {{username}}",
-    "messageBoxChannelPlaceholder": "Message in {{channelName}}"
+    "messageBoxChannelPlaceholder": "Message in {{channelName}}",
+    "replying": "Replying to {{count}} message(s)",
+    "mention": "Mention",
+    "dropFile": "Drop File",
+    "uploadTo": "Upload To",
+    "channelNotice": {
+      "title": "Before you chat...",
+      "understoodButton": "Understood"
+    },
+    "specialMentions": {
+      "everyone": "Mentions everyone",
+      "someone": "Mentions a random user",
+      "silent": "Silent message"
+    },
+    "linkToGoogleDrive": {
+      "body": "You must link your account to Google Drive to upload large images, videos, or files",
+      "linkButton": "Link now",
+      "cancelButton": "Don't link"
+    },
+    "emailNotice": "Confirm your email to send messages."
   },
   "inbox": {
     "blockedUsersModal": {
@@ -137,11 +156,15 @@
     "drawer": {
       "title": "Explore",
       "servers": "Servers",
-      "bots": "Bots"
+      "bots": "Bots",
+      "themes": "Themes"
     },
     "bots": {
       "title": "Explore - Bots",
-      "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}."
+      "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
+      "moderationNotice": "Bots are not moderated by Nerimity. Please report bots that are malicious or break the TOS.",
+      "inviteButton": "Invite",
+      "serverCount": "In {{count}} servers"
     },
     "themes": {
       "title": "Explore - Themes",
@@ -155,18 +178,28 @@
     "servers": {
       "title": "Explore - Servers",
       "noticeMessage": "A server can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
+      "moderationNotice": "Servers are not moderated by Nerimity. Please report servers that break the TOS.",
       "sortMostBumps": "Most Bumps",
       "sortMostMembers": "Most Members",
       "sortRecentlyAdded": "Recently Added",
       "sortRecentlyBumped": "Recently Bumped",
+      "sortMostActive": "Most Active (Beta)",
       "filterAll": "All",
       "filterVerified": "Verified",
+      "pinnedServers": "Pinned Servers",
+      "recentlyBumped": "Recently Bumped Servers",
       "memberCount": "{{count}} members",
       "lifetimeBumpCount": "{{count}} lifetime bumps",
       "visitServerButton": "Visit",
       "joinServerButton": "Join",
       "bumpButton": "Bump ({{count}})"
-    }
+    },
+    "search": "Search",
+    "sort": "Sort",
+    "filter": "Filter",
+    "backButton": "Back",
+    "by": "By",
+    "bumped": "Bumped"
   },
   "editFolderModal": {
     "title": "Edit Folder",
@@ -388,6 +421,7 @@
     },
     "language": {
       "reloadNotice": "You must reload the app to fully apply the new language.",
+      "searchNotice": "Translations are maintained by the community. Please report any translations that are incorrect or inappropriate to Nerimity.",
       "reloadButton": "Reload",
       "contributors": "Contributors",
       "translateModal": {
@@ -650,7 +684,14 @@
   "messageView": {
     "noMessages": "No messages",
     "noMessagesDescription": "There are no messages in this channel.",
-    "newMessages": "New messages"
+    "newMessages": "New messages",
+    "slowMode": "Slow Mode",
+    "flaggedServer": {
+      "title": "Schedule Delete",
+      "description": "This server did not comply with our Terms of Service and will be deleted soon.",
+      "deleteButton": "Delete Now",
+      "leaveButton": "Leave Server"
+    }
   },
   "typing": {
     "single": "<1>{{username}}</1> is typing…",
@@ -848,5 +889,52 @@
   "oauth2": {
     "AuthorizeButton": "Authorize",
     "permissions": "Permissions"
+  },
+  "badges": {
+    "kitty": {
+      "name": "Kitty",
+      "blueDescription": "Blue Ears Kitty",
+      "whiteDescription": "White Ears Kitty"
+    },
+    "foxy": {
+      "name": "Foxy",
+      "foxyGoldDescription": "Gold Ears Fox",
+      "foxyBrownDescription": "Brown Ears Fox"
+    },
+    "founder": {
+      "name": "Founder",
+      "description": "Creator of Nerimity"
+    },
+    "admin": {
+      "name": "Admin",
+      "description": "Admin of Nerimity"
+    },
+    "mod": {
+      "name": "Moderator",
+      "description": "Moderator of Nerimity"
+    },
+    "supporter": {
+      "name": "Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "emoSupporter": {
+      "name": "Emo Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "contributor": {
+      "name": "Contributor",
+      "description": "Helped with this project in some way"
+    },
+    "palestine": {
+      "name": "Palestine"
+    },
+    "bot": {
+      "name": "Bot User",
+      "description": "Bot User"
+    },
+    "credit": {
+      "avatarBorder": "Avatar Border by {{author}} on {{platform}}",
+      "avatarBorderEdited": "Avatar Border by {{author}} on {{platform}}, edited by {{editor}}"
+    }
   }
 }

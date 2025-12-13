@@ -1,368 +1,368 @@
 {
-  "header": {
-    "logoutButton": "ออกจากระบบ",
-    "openAppButton": "เปิดแอพ",
-    "loginButton": "เข้าสู่ระบบ",
-    "joinNowButton": "สมัครเลย"
-  },
-  "homePage": {
-    "slogan": "แอพแชทสุดทันสมัย",
-    "viewGitHubButton": "หน้า GitHub"
-  },
-  "loginPage": {
-    "title": "เข้าสู่ระบบเพื่อดำเนินการต่อ",
-    "emailOrUsernameAndTag": "อีเมลหรือ username:tag",
-    "password": "รหัสผ่าน",
-    "login": "เข้าสู่ระบบ",
-    "createAccountInstead": "สมัครบัญชี Nerimity",
-    "loggingIn": "กำลังเข้าสู่ระบบ...",
-    "loginButton": "เข้าสู่ระบบ"
-  },
-  "registerPage": {
-    "title": "ยินดีต้อนรับเข้าสู่ {{appName}}",
-    "email": "อีเมล",
-    "username": "ชื่อผู้ใช้",
-    "password": "รหัสผ่าน",
-    "confirmPassword": "ยืนยันรหัสผ่าน",
-    "registerButton": "สมัคร",
-    "registering": "กำลังสร้างบัญชี...",
-    "loginInstead": "เข้าสู่ระบบ Nerimity"
-  },
-  "dashboard": {
-    "title": "แดชบอร์ด",
-    "activeUsers": "กำลังใช้งาน",
-    "noActiveUsers": "ไม่มีผู้ใช้ที่กำลังใช้งานอยู่",
-    "servers": "เซิร์ฟเวอร์",
-    "posts": "โพสต์",
-    "feed": "ฟีด",
-    "discover": "สำหรับคุณ",
-    "notifications": "การแจ้งเตือน"
-  },
-  "inbox": {
-    "drawer": {
-      "searchBarPlaceholder": "ค้นหา",
-      "friendRequests": "{{count}} คำขอเป็นเพื่อน",
-      "onlineFriends": "เพื่อนออนไลน์ {{count}} คน",
-      "offlineFriends": "เพื่อนออฟไลน์ {{count}} คน",
-      "notes": "บันทึก",
-      "addFriendButton": "เพิ่มเพื่อน",
-      "blockedUsersButton": "ถูกบล็อค",
-      "inboxTitle": "กล่องจดหมาย",
-      "friendsButton": "เพื่อน",
-      "viewAll": "แสดงทั้งหมด"
-    }
-  },
-  "explore": {
-    "drawer": {
-      "title": "ค้นพบ",
-      "servers": "เซิร์ฟเวอร์"
+    "header": {
+        "logoutButton": "ออกจากระบบ",
+        "openAppButton": "เปิดแอพ",
+        "loginButton": "เข้าสู่ระบบ",
+        "joinNowButton": "สมัครเลย"
+    },
+    "homePage": {
+        "slogan": "แอพแชทสุดทันสมัย",
+        "viewGitHubButton": "หน้า GitHub"
+    },
+    "loginPage": {
+        "title": "เข้าสู่ระบบเพื่อดำเนินการต่อ",
+        "emailOrUsernameAndTag": "อีเมลหรือ username:tag",
+        "password": "รหัสผ่าน",
+        "login": "เข้าสู่ระบบ",
+        "createAccountInstead": "สมัครบัญชี Nerimity",
+        "loggingIn": "กำลังเข้าสู่ระบบ...",
+        "loginButton": "เข้าสู่ระบบ"
+    },
+    "registerPage": {
+        "title": "ยินดีต้อนรับเข้าสู่ {{appName}}",
+        "email": "อีเมล",
+        "username": "ชื่อผู้ใช้",
+        "password": "รหัสผ่าน",
+        "confirmPassword": "ยืนยันรหัสผ่าน",
+        "registerButton": "สมัคร",
+        "registering": "กำลังสร้างบัญชี...",
+        "loginInstead": "เข้าสู่ระบบ Nerimity"
+    },
+    "dashboard": {
+        "title": "แดชบอร์ด",
+        "activeUsers": "กำลังใช้งาน",
+        "noActiveUsers": "ไม่มีผู้ใช้ที่กำลังใช้งานอยู่",
+        "servers": "เซิร์ฟเวอร์",
+        "posts": "โพสต์",
+        "feed": "ฟีด",
+        "discover": "สำหรับคุณ",
+        "notifications": "การแจ้งเตือน"
+    },
+    "inbox": {
+        "drawer": {
+            "searchBarPlaceholder": "ค้นหา",
+            "friendRequests": "{{count}} คำขอเป็นเพื่อน",
+            "onlineFriends": "เพื่อนออนไลน์ {{count}} คน",
+            "offlineFriends": "เพื่อนออฟไลน์ {{count}} คน",
+            "notes": "บันทึก",
+            "addFriendButton": "เพิ่มเพื่อน",
+            "blockedUsersButton": "ถูกบล็อค",
+            "inboxTitle": "กล่องจดหมาย",
+            "friendsButton": "เพื่อน",
+            "viewAll": "แสดงทั้งหมด"
+        }
+    },
+    "explore": {
+        "drawer": {
+            "title": "ค้นพบ",
+            "servers": "เซิร์ฟเวอร์"
+        },
+        "servers": {
+            "title": "ค้นพบ - เซิร์ฟเวอร์",
+            "noticeMessage": "สามารถสะกิดเซิร์ฟเวอร์ได้หนึ่งครั้งทุก ๆ {{hours}} ชั่วโมง การสะกิดทั้งหมดจะรีเซ็ตทุก ๆ วันที่ {{date}}",
+            "sortMostBumps": "สะกิดมากที่สุด",
+            "sortMostMembers": "สมาชิกมากที่สุด",
+            "sortRecentlyAdded": "เพิ่มล่าสุด",
+            "sortRecentlyBumped": "การเพิ่มล่าสุด",
+            "filterAll": "ทั้งหมด",
+            "filterVerified": "ตรวจสอบแล้ว",
+            "memberCount": "สมาชิก {{count}} คน",
+            "lifetimeBumpCount": "สะกิดรวมทั้งหมด {{count}} ครั้ง",
+            "visitServerButton": "เยี่ยมชม",
+            "joinServerButton": "เข้าร่วม",
+            "bumpButton": "สะกิด ({{count}})"
+        }
     },
     "servers": {
-      "title": "ค้นพบ - เซิร์ฟเวอร์",
-      "noticeMessage": "สามารถสะกิดเซิร์ฟเวอร์ได้หนึ่งครั้งทุก ๆ {{hours}} ชั่วโมง การสะกิดทั้งหมดจะรีเซ็ตทุก ๆ วันที่ {{date}}",
-      "sortMostBumps": "สะกิดมากที่สุด",
-      "sortMostMembers": "สมาชิกมากที่สุด",
-      "sortRecentlyAdded": "เพิ่มล่าสุด",
-      "sortRecentlyBumped": "การเพิ่มล่าสุด",
-      "filterAll": "ทั้งหมด",
-      "filterVerified": "ตรวจสอบแล้ว",
-      "memberCount": "สมาชิก {{count}} คน",
-      "lifetimeBumpCount": "สะกิดรวมทั้งหมด {{count}} ครั้ง",
-      "visitServerButton": "เยี่ยมชม",
-      "joinServerButton": "เข้าร่วม",
-      "bumpButton": "สะกิด ({{count}})"
-    }
-  },
-  "servers": {
+        "settings": {
+            "drawer": {
+                "general": "ทั่วไป",
+                "roles": "ยศ",
+                "channels": "ช่อง",
+                "bans": "แบน",
+                "invites": "คำเชิญ",
+                "publishServer": "เผยแพร่เซิร์ฟเวอร์",
+                "verify": "ยืนยัน",
+                "role": "ยศ",
+                "welcome-screen": "หน้าจอต้อนรับ",
+                "channel": "ช่อง",
+                "emojis": "อีโมจิ",
+                "notifications": "การแจ้งเตือน"
+            },
+            "general": {
+                "serverRenameNotice": "หากคุณเปลี่ยนชื่อ คุณจะสูญเสียโอกาสการยืนยันเซิร์ฟเวอร์ของคุณ",
+                "serverName": "ชื่อเซิร์ฟเวอร์",
+                "defaultChannel": "ช่องเริ่มต้น",
+                "defaultChannelDescription": "สมาชิกใหม่จะถูกส่งไปที่ช่องนี้",
+                "systemMessages": "ข้อความระบบ",
+                "systemMessagesDescription": "ตำแหน่งที่ข้อความระบบควรปรากฏ",
+                "deleteThisServer": "ลบเซิร์ฟเวอร์นี้",
+                "deleteThisServerDescription": "การลบเซิร์ฟเวอร์ไม่สามารถย้อนกลับได้",
+                "deleteServerButton": "ลบเซิร์ฟเวอร์",
+                "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
+                "saving": "กำลังบันทึก..."
+            },
+            "roles": {
+                "addNewRole": "เพิ่มยศใหม่",
+                "addRoleButton": "เพิ่มยศ"
+            },
+            "role": {
+                "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
+                "saving": "กำลังบันทึก...",
+                "roleName": "ชื่อยศ",
+                "roleColor": "สีของยศ",
+                "hideRole": "ซ่อนยศ",
+                "hideRoleDescription": "แสดงสมาชิกที่มียศนี้ร่วมกับสมาชิกที่ไม่มียศทั้งหมด",
+                "permissions": "สิทธิ์",
+                "permissionsDescription": "จัดการสิทธิ์สำหรับยศนี้",
+                "deleteRoleButton": "ลบยศนี้",
+                "deleteRoleButtonDescription": "การลบยศไม่สามารถย้อนกลับได้!"
+            },
+            "header": {
+                "editServer": "แก้ไขเซิร์ฟเวอร์",
+                "serverMemberCount": "สมาชิก {{count}} คน"
+            },
+            "channels": {
+                "createButton": "สร้าง",
+                "createNewDescription": "สร้างช่องหรือหมวดหมู่ใหม่"
+            },
+            "channel": {
+                "saving": "กำลังบันทึก...",
+                "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
+                "channelName": "ชื่อช่อง",
+                "permissions": "สิทธิ์",
+                "permissionsDescription": "จัดการสิทธิ์สำหรับช่องนี้",
+                "deleteThisChannel": "ลบช่องนี้",
+                "deleteThisChannelDescription": "การลบช่องไม่สามารถย้อนกลับได้",
+                "deleteChannelButton": "ลบช่อง"
+            },
+            "invites": {
+                "createInviteButton": "สร้างคำเชิญ",
+                "serverInvites": "คำเชิญเซิร์ฟเวอร์",
+                "serverInvitesDescription": "เชิญเพื่อนของคุณมาที่เซิร์ฟเวอร์นี้",
+                "customInviteVerifiedOnlyNotice": "ลิงก์คำเชิญแบบกำหนดเองใช้ได้เฉพาะกับเซิร์ฟเวอร์ที่ได้รับการยืนยันเท่านั้น",
+                "customLink": "ลิงก์แบบกำหนดเอง",
+                "saveButton": "บันทึก",
+                "deleteButton": "ลบ",
+                "copyLinkButton": "คัดลอกลิงก์"
+            },
+            "publishServer": {
+                "publishNotice": "การเผยแพร่เซิร์ฟเวอร์ของคุณจะทำให้เซิร์ฟเวอร์ของคุณพร้อมใช้งานในหน้า <1>ค้นพบ</1>",
+                "public": "สาธารณะ",
+                "publicDescription": "ทำให้เซิร์ฟเวอร์นี้เป็นเซิร์ฟเวอร์สาธารณะ",
+                "bumpServer": "สะกิดเซิร์ฟเวอร์",
+                "bumpServerDescription": "สะกิดเซิร์ฟเวอร์นี้เพื่อขึ้นไปด้านบนสุดของหน้าค้นพบ",
+                "publishServerButton": "เผยแพร่เซิร์ฟเวอร์",
+                "unpublishServerButton": "ยกเลิกการเผยแพร่เซิร์ฟเวอร์"
+            }
+        },
+        "rolePermissions": {
+            "admin": "แอดมิน",
+            "adminDescription": "อนุญาตสิทธิ์ทั้งหมด",
+            "sendMessage": "ส่งข้อความ",
+            "sendMessageDescription": "อนุญาตการส่งข้อความในเซิร์ฟเวอร์นี้ โดยแอดมินเซิร์ฟเวอร์ยังคงส่งข้อความได้",
+            "manageRoles": "จัดการยศ",
+            "manageRolesDescription": "สิทธิ์ในการอัปเดตหรือลบยศ",
+            "manageChannels": "จัดการช่อง",
+            "manageChannelsDescription": "สิทธิ์ในการอัปเดตหรือลบช่อง",
+            "kick": "เตะ",
+            "kickDescription": "สิทธิ์ในการเตะผู้ใช้",
+            "ban": "แบน",
+            "banDescription": "สิทธิ์ในการแบนผู้ใช้",
+            "mentionEveryone": "พูดถึงทุกคน",
+            "mentionEveryoneDescription": "อนุญาตการแท็ก @everyone โดยแอดมินเซิร์ฟเวอร์ยังสามารถแท็กได้",
+            "nicknameMember": "สมาชิกชื่อเล่น",
+            "nicknameMemberDescription": "อนุญาตให้ผู้ใช้เปลี่ยนชื่อเล่นของตนในเซิร์ฟเวอร์"
+        },
+        "channelPermissions": {
+            "sendMessage": "ส่งข้อความ",
+            "sendMessageDescription": "อนุญาตการส่งข้อความในช่อง โดยแอดมินเซิร์ฟเวอร์ยังสามารถส่งข้อความได้",
+            "joinVoice": "เข้าร่วมเสียง",
+            "joinVoiceDescription": "อนุญาตการเข้าร่วมช่องเสียงในช่อง โดยแอดมินเซิร์ฟเวอร์ยังสามารถเข้าร่วมช่องเสียงได้"
+        }
+    },
     "settings": {
-      "drawer": {
-        "general": "ทั่วไป",
-        "roles": "ยศ",
-        "channels": "ช่อง",
-        "bans": "แบน",
-        "invites": "คำเชิญ",
-        "publishServer": "เผยแพร่เซิร์ฟเวอร์",
-        "verify": "ยืนยัน",
-        "role": "ยศ",
-        "welcome-screen": "หน้าจอต้อนรับ",
-        "channel": "ช่อง",
-        "emojis": "อีโมจิ",
-        "notifications": "การแจ้งเตือน"
-      },
-      "general": {
-        "serverRenameNotice": "หากคุณเปลี่ยนชื่อ คุณจะสูญเสียโอกาสการยืนยันเซิร์ฟเวอร์ของคุณ",
+        "drawer": {
+            "title": "การตั้งค่า",
+            "account": "บัญชี",
+            "interface": "อินเทอร์เฟซ",
+            "language": "ภาษา",
+            "notifications": "การแจ้งเตือน",
+            "logout": "ออกจากระบบ",
+            "developer": "นักพัฒนา",
+            "applications": "แอพพลิเคชัน",
+            "experiments": "การทดลอง",
+            "viewSource": "ดูแหล่งที่มา",
+            "changelog": "รวมการเปลี่ยนแปลง",
+            "window-settings": "การตั้งค่าวินโดว์",
+            "call-settings": "การตั้งค่าการโทร",
+            "activity-status": "สถานะกิจกรรม",
+            "tickets": "ซัพพอร์ต",
+            "privacy": "ความเป็นส่วนตัว",
+            "connections": "การเชื่อมต่อ",
+            "profile": "โปรไฟล์"
+        },
+        "header": {
+            "servers": "เซิร์ฟเวอร์",
+            "friends": "เพื่อน",
+            "manageAccount": "จัดการบัญชี"
+        },
+        "account": {
+            "title": "การตั้งค่า - บัญชี",
+            "email": "อีเมล",
+            "username": "ชื่อผู้ใช้",
+            "tag": "แท็ก",
+            "avatar": "อวาตาร์",
+            "banner": "แบนเนอร์",
+            "supported": "รองรับ",
+            "browse": "เรียกดู",
+            "profile": "โปรไฟล์",
+            "profileDescription": "แก้ไขประวัติหรือสีของโปรไฟล์คุณ",
+            "changePassword": "เปลี่ยนรหัสผ่าน",
+            "forgotPassword": "ลืมรหัสผ่าน",
+            "newPassword": "รหัสผ่านใหม่",
+            "newPasswordDescription": "การเปลี่ยนรหัสผ่านจะทำให้คุณออกจากระบบทั้งหมด",
+            "confirmNewPassword": "ยืนยันรหัสผ่านใหม่",
+            "confirmNewPasswordDescription": "ยืนยันรหัสผ่านใหม่ของคุณ",
+            "confirmCurrentPassword": "ยืนยันรหัสผ่านปัจจุบัน",
+            "channelNotice": "ประกาศเกี่ยวกับช่อง",
+            "channelNoticeDescription": "แสดงเมื่อผู้ใช้กำลังจะแชทเป็นครั้งแรก การเปลี่ยนแปลงจะมีผลหลังจากรีเฟรช",
+            "save": "กำลังบันทึก...",
+            "saveButton": "บันทึก",
+            "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
+            "deleteAccount": "ลบบัญชีของฉัน",
+            "deleteAccountDescription": "การลบบัญชีไม่สามารถย้อนกลับได้",
+            "deleteAccountNotice": "คุณต้องออกจาก/ลบเซิร์ฟเวอร์ทั้งหมดก่อนจึงจะลบบัญชีของคุณได้",
+            "understoodButton": "เข้าใจแล้ว"
+        },
+        "privacy": {
+            "lastOnline": {
+                "title": "เวลาออนไลน์ล่าสุด",
+                "description": "กำหนดว่าใครสามารถดูเวลาออนไลน์ล่าสุดของคุณได้",
+                "hidden": "ซ่อน",
+                "friendsOnly": "เฉพาะเพื่อน",
+                "friendsAndServers": "เพื่อนและคนในเซิร์ฟเวอร์ใด ๆ"
+            },
+            "directMessage": {
+                "title": "ข้อความโดยตรง",
+                "description": "กำหนดว่าใครสามารถส่ง DM หาคุณได้",
+                "anyone": "ใครก็ได้",
+                "friendsAndServersOnly": "เฉพาะเพื่อนและคนในเซิร์ฟเวอร์เท่านั้น",
+                "friendsOnly": "เฉพาะเพื่อนเท่านั้น"
+            },
+            "friendRequest": {
+                "title": "คำขอเป็นเพื่อน",
+                "description": "กำหนดว่าใครสามารถส่งคำขอเป็นเพื่อนถึงคุณได้",
+                "anyone": "ใครก็ได้",
+                "serversOnly": "เฉพาะคนในเซิร์ฟเวอร์เท่านั้น",
+                "nobody": "ไม่มีใคร"
+            },
+            "profileOptions": {
+                "title": "ตัวเลือกโปรไฟล์",
+                "hideFollowers": "ซ่อนรายชื่อผู้ติดตาม",
+                "hideFollowersDescription": "ซ่อนรายชื่อผู้ติดตามของคุณจากโปรไฟล์ของคุณ",
+                "hideFollowing": "ซ่อนรายชื่อที่คุณกำลังติดตาม",
+                "hideFollowingDescription": "ซ่อนรายชื่อผู้ใช้ที่คุณกำลังติดตามจากโปรไฟล์ของคุณ"
+            }
+        }
+    },
+    "supportBlock": {
+        "support": "สนับสนุน",
+        "supportDescription": "บริจาคเพื่อรับ Badge ผู้สนับสนุนพิเศษ"
+    },
+    "createServerModal": {
+        "title": "สร้างเซิร์ฟเวอร์",
+        "notice": "ไม่อนุญาตให้เผยแพร่เนื้อหา NSFW",
         "serverName": "ชื่อเซิร์ฟเวอร์",
-        "defaultChannel": "ช่องเริ่มต้น",
-        "defaultChannelDescription": "สมาชิกใหม่จะถูกส่งไปที่ช่องนี้",
-        "systemMessages": "ข้อความระบบ",
-        "systemMessagesDescription": "ตำแหน่งที่ข้อความระบบควรปรากฏ",
-        "deleteThisServer": "ลบเซิร์ฟเวอร์นี้",
-        "deleteThisServerDescription": "การลบเซิร์ฟเวอร์ไม่สามารถย้อนกลับได้",
-        "deleteServerButton": "ลบเซิร์ฟเวอร์",
-        "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
-        "saving": "กำลังบันทึก..."
-      },
-      "roles": {
-        "addNewRole": "เพิ่มยศใหม่",
-        "addRoleButton": "เพิ่มยศ"
-      },
-      "role": {
-        "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
-        "saving": "กำลังบันทึก...",
-        "roleName": "ชื่อยศ",
-        "roleColor": "สีของยศ",
-        "hideRole": "ซ่อนยศ",
-        "hideRoleDescription": "แสดงสมาชิกที่มียศนี้ร่วมกับสมาชิกที่ไม่มียศทั้งหมด",
-        "permissions": "สิทธิ์",
-        "permissionsDescription": "จัดการสิทธิ์สำหรับยศนี้",
-        "deleteRoleButton": "ลบยศนี้",
-        "deleteRoleButtonDescription": "การลบยศไม่สามารถย้อนกลับได้!"
-      },
-      "header": {
-        "editServer": "แก้ไขเซิร์ฟเวอร์",
-        "serverMemberCount": "สมาชิก {{count}} คน"
-      },
-      "channels": {
+        "placeholder": "เซิร์ฟเวอร์ของฉัน",
+        "creating": "กำลังสร้าง...",
+        "createServerButton": "สร้างเซิร์ฟเวอร์",
+        "closeButton": "ปิด"
+    },
+    "serverContextMenu": {
+        "markAsRead": "มาร์กว่าอ่านแล้ว",
+        "invites": "คำเชิญ",
+        "notifications": "การแจ้งเตือน",
+        "settings": "การตั้งค่า",
+        "copyId": "คัดลอก ID",
+        "leave": "ออก",
+        "notificationOptions": {
+            "everything": "ทุกอย่าง",
+            "mentionsOnly": "เฉพาะเมื่อถูกแท็ก",
+            "mute": "ปิดเสียง"
+        }
+    },
+    "userContextMenu": {
+        "viewProfile": "ดูโปรไฟล์",
+        "sendMessage": "ส่งข้อความ",
+        "copyId": "คัดลอก ID",
+        "editRoles": "แก้ไขยศ",
+        "kick": "เตะ",
+        "ban": "แบน",
+        "changeNickname": "เปลี่ยนชื่อเล่น",
+        "callVolume": "ระดับเสียงการโทร"
+    },
+    "kickServerMemberModal": {
+        "title": "เตะ {{username}}",
+        "kickButton": "เตะ",
+        "kicking": "กำลังเตะ...",
+        "backButton": "ย้อนกลับ",
+        "message": "คุณแน่ใจหรือไม่ว่าคุณต้องการไล่ <1>{{username}}</1> ออก?"
+    },
+    "editServerRolesModal": {
+        "title": "แก้ไขยศ"
+    },
+    "banModal": {
+        "title": "แบน {{username}} ออกหรือไม่?",
+        "message": "คุณแน่ใจหรือไม่ว่าต้องการแบน <1>{{username}}</1> ออก?",
+        "deletePastMessagesCheckbox": "ลบข้อความที่ส่งในช่วง 7 ชั่วโมงที่ผ่านมา",
+        "banButton": "แบน",
+        "banning": "กำลังแบน..."
+    },
+    "messageContextMenu": {
+        "editMessage": "แก้ไขข้อความ",
+        "deleteMessage": "ลบข้อความ",
+        "copyMessage": "คัดลอกข้อความ",
+        "copyId": "คัดลอก ID"
+    },
+    "profile": {
+        "followButton": "ติดตาม",
+        "unfollowButton": "เลิกติดตาม",
+        "removeFriendButton": "ลบเพื่อน",
+        "addFriendButton": "เพิ่มเพื่อน",
+        "pendingRequest": "คำขอที่รอดำเนินการ",
+        "acceptRequestButton": "ยอมรับคำขอ",
+        "messageButton": "ข้อความ",
+        "mutualFriends": "เพื่อนร่วมกัน ({{count}})",
+        "mutualServers": "เซิร์ฟเวอร์ร่วมกัน ({{count}})",
+        "postsTab": "โพสต์",
+        "followersTab": "ผู้ติดตาม",
+        "followingTab": "กำลังติดตาม",
+        "postsAndRepliesTab": "โพสต์และการตอบกลับ ({{count}})",
+        "likedPostsTab": "โพสต์ที่ชอบ ({{count}})"
+    },
+    "posts": {
+        "deletePostModal": {
+            "message": "คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?",
+            "cancelButton": "ยกเลิก",
+            "deleteButton": "ลบ"
+        },
+        "postWasDeleted": "โพสต์นี้ถูกลบไปแล้ว",
+        "someoneLikedYourPost": "<1>{{username}}</1> กดไลค์โพสต์ของคุณ",
+        "someoneFollowedYou": "<1>{{username}}</1> ติดตามคุณ",
+        "someoneRepliedToPost": "<1>{{username}}</1> ตอบกลับโพสต์ของคุณ",
+        "createAPostInputPlaceholder": "สร้างโพสต์...",
+        "replyInputPlaceholder": "ตอบกลับ...",
+        "replyButton": "ตอบกลับ",
         "createButton": "สร้าง",
-        "createNewDescription": "สร้างช่องหรือหมวดหมู่ใหม่"
-      },
-      "channel": {
-        "saving": "กำลังบันทึก...",
-        "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
-        "channelName": "ชื่อช่อง",
-        "permissions": "สิทธิ์",
-        "permissionsDescription": "จัดการสิทธิ์สำหรับช่องนี้",
-        "deleteThisChannel": "ลบช่องนี้",
-        "deleteThisChannelDescription": "การลบช่องไม่สามารถย้อนกลับได้",
-        "deleteChannelButton": "ลบช่อง"
-      },
-      "invites": {
-        "createInviteButton": "สร้างคำเชิญ",
-        "serverInvites": "คำเชิญเซิร์ฟเวอร์",
-        "serverInvitesDescription": "เชิญเพื่อนของคุณมาที่เซิร์ฟเวอร์นี้",
-        "customInviteVerifiedOnlyNotice": "ลิงก์คำเชิญแบบกำหนดเองใช้ได้เฉพาะกับเซิร์ฟเวอร์ที่ได้รับการยืนยันเท่านั้น",
-        "customLink": "ลิงก์แบบกำหนดเอง",
-        "saveButton": "บันทึก",
-        "deleteButton": "ลบ",
-        "copyLinkButton": "คัดลอกลิงก์"
-      },
-      "publishServer": {
-        "publishNotice": "การเผยแพร่เซิร์ฟเวอร์ของคุณจะทำให้เซิร์ฟเวอร์ของคุณพร้อมใช้งานในหน้า <1>ค้นพบ</1>",
-        "public": "สาธารณะ",
-        "publicDescription": "ทำให้เซิร์ฟเวอร์นี้เป็นเซิร์ฟเวอร์สาธารณะ",
-        "bumpServer": "สะกิดเซิร์ฟเวอร์",
-        "bumpServerDescription": "สะกิดเซิร์ฟเวอร์นี้เพื่อขึ้นไปด้านบนสุดของหน้าค้นพบ",
-        "publishServerButton": "เผยแพร่เซิร์ฟเวอร์",
-        "unpublishServerButton": "ยกเลิกการเผยแพร่เซิร์ฟเวอร์"
-      }
+        "pollOptions": "ตัวเลือกโพล",
+        "optionNumberPlaceholder": "ตัวเลือกที่ {{number}}"
     },
-    "rolePermissions": {
-      "admin": "แอดมิน",
-      "adminDescription": "อนุญาตสิทธิ์ทั้งหมด",
-      "sendMessage": "ส่งข้อความ",
-      "sendMessageDescription": "อนุญาตการส่งข้อความในเซิร์ฟเวอร์นี้ โดยแอดมินเซิร์ฟเวอร์ยังคงส่งข้อความได้",
-      "manageRoles": "จัดการยศ",
-      "manageRolesDescription": "สิทธิ์ในการอัปเดตหรือลบยศ",
-      "manageChannels": "จัดการช่อง",
-      "manageChannelsDescription": "สิทธิ์ในการอัปเดตหรือลบช่อง",
-      "kick": "เตะ",
-      "kickDescription": "สิทธิ์ในการเตะผู้ใช้",
-      "ban": "แบน",
-      "banDescription": "สิทธิ์ในการแบนผู้ใช้",
-      "mentionEveryone": "พูดถึงทุกคน",
-      "mentionEveryoneDescription": "อนุญาตการแท็ก @everyone โดยแอดมินเซิร์ฟเวอร์ยังสามารถแท็กได้",
-      "nicknameMember": "สมาชิกชื่อเล่น",
-      "nicknameMemberDescription": "อนุญาตให้ผู้ใช้เปลี่ยนชื่อเล่นของตนในเซิร์ฟเวอร์"
-    },
-    "channelPermissions": {
-      "sendMessage": "ส่งข้อความ",
-      "sendMessageDescription": "อนุญาตการส่งข้อความในช่อง โดยแอดมินเซิร์ฟเวอร์ยังสามารถส่งข้อความได้",
-      "joinVoice": "เข้าร่วมเสียง",
-      "joinVoiceDescription": "อนุญาตการเข้าร่วมช่องเสียงในช่อง โดยแอดมินเซิร์ฟเวอร์ยังสามารถเข้าร่วมช่องเสียงได้"
+    "informationDrawer": {
+        "title": "ข้อมูล",
+        "channelNotice": "ประกาศช่อง",
+        "attachments": "ไฟล์แนบ",
+        "attachmentsBack": "ย้อนกลับ",
+        "members": "สมาชิก"
     }
-  },
-  "settings": {
-    "drawer": {
-      "title": "การตั้งค่า",
-      "account": "บัญชี",
-      "interface": "อินเทอร์เฟซ",
-      "language": "ภาษา",
-      "notifications": "การแจ้งเตือน",
-      "logout": "ออกจากระบบ",
-      "developer": "นักพัฒนา",
-      "applications": "แอพพลิเคชัน",
-      "experiments": "การทดลอง",
-      "viewSource": "ดูแหล่งที่มา",
-      "changelog": "รวมการเปลี่ยนแปลง",
-      "window-settings": "การตั้งค่าวินโดว์",
-      "call-settings": "การตั้งค่าการโทร",
-      "activity-status": "สถานะกิจกรรม",
-      "tickets": "ซัพพอร์ต",
-      "privacy": "ความเป็นส่วนตัว",
-      "connections": "การเชื่อมต่อ",
-      "profile": "โปรไฟล์"
-    },
-    "header": {
-      "servers": "เซิร์ฟเวอร์",
-      "friends": "เพื่อน",
-      "manageAccount": "จัดการบัญชี"
-    },
-    "account": {
-      "title": "การตั้งค่า - บัญชี",
-      "email": "อีเมล",
-      "username": "ชื่อผู้ใช้",
-      "tag": "แท็ก",
-      "avatar": "อวาตาร์",
-      "banner": "แบนเนอร์",
-      "supported": "รองรับ",
-      "browse": "เรียกดู",
-      "profile": "โปรไฟล์",
-      "profileDescription": "แก้ไขประวัติหรือสีของโปรไฟล์คุณ",
-      "changePassword": "เปลี่ยนรหัสผ่าน",
-      "forgotPassword": "ลืมรหัสผ่าน",
-      "newPassword": "รหัสผ่านใหม่",
-      "newPasswordDescription": "การเปลี่ยนรหัสผ่านจะทำให้คุณออกจากระบบทั้งหมด",
-      "confirmNewPassword": "ยืนยันรหัสผ่านใหม่",
-      "confirmNewPasswordDescription": "ยืนยันรหัสผ่านใหม่ของคุณ",
-      "confirmCurrentPassword": "ยืนยันรหัสผ่านปัจจุบัน",
-      "channelNotice": "ประกาศเกี่ยวกับช่อง",
-      "channelNoticeDescription": "แสดงเมื่อผู้ใช้กำลังจะแชทเป็นครั้งแรก การเปลี่ยนแปลงจะมีผลหลังจากรีเฟรช",
-      "save": "กำลังบันทึก...",
-      "saveButton": "บันทึก",
-      "saveChangesButton": "บันทึกการเปลี่ยนแปลง",
-      "deleteAccount": "ลบบัญชีของฉัน",
-      "deleteAccountDescription": "การลบบัญชีไม่สามารถย้อนกลับได้",
-      "deleteAccountNotice": "คุณต้องออกจาก/ลบเซิร์ฟเวอร์ทั้งหมดก่อนจึงจะลบบัญชีของคุณได้",
-      "understoodButton": "เข้าใจแล้ว"
-    },
-    "privacy": {
-      "lastOnline": {
-        "title": "เวลาออนไลน์ล่าสุด",
-        "description": "กำหนดว่าใครสามารถดูเวลาออนไลน์ล่าสุดของคุณได้",
-        "hidden": "ซ่อน",
-        "friendsOnly": "เฉพาะเพื่อน",
-        "friendsAndServers": "เพื่อนและคนในเซิร์ฟเวอร์ใด ๆ"
-      },
-      "directMessage": {
-        "title": "ข้อความโดยตรง",
-        "description": "กำหนดว่าใครสามารถส่ง DM หาคุณได้",
-        "anyone": "ใครก็ได้",
-        "friendsAndServersOnly": "เฉพาะเพื่อนและคนในเซิร์ฟเวอร์เท่านั้น",
-        "friendsOnly": "เฉพาะเพื่อนเท่านั้น"
-      },
-      "friendRequest": {
-        "title": "คำขอเป็นเพื่อน",
-        "description": "กำหนดว่าใครสามารถส่งคำขอเป็นเพื่อนถึงคุณได้",
-        "anyone": "ใครก็ได้",
-        "serversOnly": "เฉพาะคนในเซิร์ฟเวอร์เท่านั้น",
-        "nobody": "ไม่มีใคร"
-      },
-      "profileOptions": {
-        "title": "ตัวเลือกโปรไฟล์",
-        "hideFollowers": "ซ่อนรายชื่อผู้ติดตาม",
-        "hideFollowersDescription": "ซ่อนรายชื่อผู้ติดตามของคุณจากโปรไฟล์ของคุณ",
-        "hideFollowing": "ซ่อนรายชื่อที่คุณกำลังติดตาม",
-        "hideFollowingDescription": "ซ่อนรายชื่อผู้ใช้ที่คุณกำลังติดตามจากโปรไฟล์ของคุณ"
-      }
-    }
-  },
-  "supportBlock": {
-    "support": "สนับสนุน",
-    "supportDescription": "บริจาคเพื่อรับ Badge ผู้สนับสนุนพิเศษ"
-  },
-  "createServerModal": {
-    "title": "สร้างเซิร์ฟเวอร์",
-    "notice": "ไม่อนุญาตให้เผยแพร่เนื้อหา NSFW",
-    "serverName": "ชื่อเซิร์ฟเวอร์",
-    "placeholder": "เซิร์ฟเวอร์ของฉัน",
-    "creating": "กำลังสร้าง...",
-    "createServerButton": "สร้างเซิร์ฟเวอร์",
-    "closeButton": "ปิด"
-  },
-  "serverContextMenu": {
-    "markAsRead": "มาร์กว่าอ่านแล้ว",
-    "invites": "คำเชิญ",
-    "notifications": "การแจ้งเตือน",
-    "settings": "การตั้งค่า",
-    "copyId": "คัดลอก ID",
-    "leave": "ออก",
-    "notificationOptions": {
-      "everything": "ทุกอย่าง",
-      "mentionsOnly": "เฉพาะเมื่อถูกแท็ก",
-      "mute": "ปิดเสียง"
-    }
-  },
-  "userContextMenu": {
-    "viewProfile": "ดูโปรไฟล์",
-    "sendMessage": "ส่งข้อความ",
-    "copyId": "คัดลอก ID",
-    "editRoles": "แก้ไขยศ",
-    "kick": "เตะ",
-    "ban": "แบน",
-    "changeNickname": "เปลี่ยนชื่อเล่น",
-    "callVolume": "ระดับเสียงการโทร"
-  },
-  "kickServerMemberModal": {
-    "title": "เตะ {{username}}",
-    "kickButton": "เตะ",
-    "kicking": "กำลังเตะ...",
-    "backButton": "ย้อนกลับ",
-    "message": "คุณแน่ใจหรือไม่ว่าคุณต้องการไล่ <1>{{username}}</1> ออก?"
-  },
-  "editServerRolesModal": {
-    "title": "แก้ไขยศ"
-  },
-  "banModal": {
-    "title": "แบน {{username}} ออกหรือไม่?",
-    "message": "คุณแน่ใจหรือไม่ว่าต้องการแบน <1>{{username}}</1> ออก?",
-    "deletePastMessagesCheckbox": "ลบข้อความที่ส่งในช่วง 7 ชั่วโมงที่ผ่านมา",
-    "banButton": "แบน",
-    "banning": "กำลังแบน..."
-  },
-  "messageContextMenu": {
-    "editMessage": "แก้ไขข้อความ",
-    "deleteMessage": "ลบข้อความ",
-    "copyMessage": "คัดลอกข้อความ",
-    "copyId": "คัดลอก ID"
-  },
-  "profile": {
-    "followButton": "ติดตาม",
-    "unfollowButton": "เลิกติดตาม",
-    "removeFriendButton": "ลบเพื่อน",
-    "addFriendButton": "เพิ่มเพื่อน",
-    "pendingRequest": "คำขอที่รอดำเนินการ",
-    "acceptRequestButton": "ยอมรับคำขอ",
-    "messageButton": "ข้อความ",
-    "mutualFriends": "เพื่อนร่วมกัน ({{count}})",
-    "mutualServers": "เซิร์ฟเวอร์ร่วมกัน ({{count}})",
-    "postsTab": "โพสต์",
-    "followersTab": "ผู้ติดตาม",
-    "followingTab": "กำลังติดตาม",
-    "postsAndRepliesTab": "โพสต์และการตอบกลับ ({{count}})",
-    "likedPostsTab": "โพสต์ที่ชอบ ({{count}})"
-  },
-  "posts": {
-    "deletePostModal": {
-      "message": "คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?",
-      "cancelButton": "ยกเลิก",
-      "deleteButton": "ลบ"
-    },
-    "postWasDeleted": "โพสต์นี้ถูกลบไปแล้ว",
-    "someoneLikedYourPost": "<1>{{username}}</1> กดไลค์โพสต์ของคุณ",
-    "someoneFollowedYou": "<1>{{username}}</1> ติดตามคุณ",
-    "someoneRepliedToPost": "<1>{{username}}</1> ตอบกลับโพสต์ของคุณ",
-    "createAPostInputPlaceholder": "สร้างโพสต์...",
-    "replyInputPlaceholder": "ตอบกลับ...",
-    "replyButton": "ตอบกลับ",
-    "createButton": "สร้าง",
-    "pollOptions": "ตัวเลือกโพล",
-    "optionNumberPlaceholder": "ตัวเลือกที่ {{number}}"
-  },
-  "informationDrawer": {
-    "title": "ข้อมูล",
-    "channelNotice": "ประกาศช่อง",
-    "attachments": "ไฟล์แนบ",
-    "attachmentsBack": "ย้อนกลับ",
-    "members": "สมาชิก"
-  }
 }

@@ -35,93 +35,105 @@ export interface UserBadge {
   textColor?: string;
   credit?: string;
 }
+
 export const USER_BADGES = {
   // overlays
   CAT_EARS_BLUE: {
-    name: () => "Kitty",
+    name: () => t("badges.kitty.name"),
     bit: USER_BADGE_BITS.CAT_EARS_BLUE,
-    color: "linear-gradient(90deg, #78a5ff 0%, #ffffff 100%);",
+    color: "linear-gradient(90deg, #78a5ff 0%, #ffffff 100%)",
     overlay: true,
-    description: () => "Blue Ears Kitty",
+    description: () => t("badges.kitty.blueDescription"),
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
+
   CAT_EARS_WHITE: {
-    name: () => "Kitty",
+    name: () => t("badges.kitty.name"),
     bit: USER_BADGE_BITS.CAT_EARS_WHITE,
     color: "linear-gradient(90deg, #ffa761 0%, #ffffff 100%)",
     overlay: true,
-    description: () => "White Ears Kitty",
+    description: () => t("badges.kitty.whiteDescription"),
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
+
   FOX_EARS_GOLD: {
-    name: () => "Foxy",
+    name: () => t("badges.foxy.name"),
     bit: USER_BADGE_BITS.FOX_EARS_GOLD,
-    color: "linear-gradient(90deg, #ffb100 0%, #ffffff 100%);",
+    color: "linear-gradient(90deg, #ffb100 0%, #ffffff 100%)",
     overlay: true,
-    description: () => "Gold Ears Fox",
+    description: () => t("badges.foxy.foxyGoldDescription"),
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
+
   FOX_EARS_BROWN: {
-    name: () => "Foxy",
+    name: () => t("badges.foxy.name"),
     bit: USER_BADGE_BITS.FOX_EARS_BROWN,
-    color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%);",
+    color: "linear-gradient(90deg, #bb7435 0%, #ffffff 100%)",
     overlay: true,
-    description: () => "Brown Ears Fox",
+    description: () => t("badges.foxy.foxyBrownDescription"),
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
 
   FOUNDER: {
-    name: () => "Founder",
+    name: () => t("badges.founder.name"),
     bit: USER_BADGE_BITS.FOUNDER,
-    description: () => "Creator of Nerimity",
-    color: "linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%);",
-    credit: "Avatar Border by upklyak on Freepik",
+    description: () => t("badges.founder.description"),
+    color: "linear-gradient(90deg, #4fffbd 0%, #4a5efc 100%)",
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
+
   ADMIN: {
-    name: () => "Admin",
+    name: () => t("badges.admin.name"),
     bit: USER_BADGE_BITS.ADMIN,
-    description: () => "Admin of Nerimity",
-    color:
-      "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%);",
-    credit: "Avatar Border by upklyak on Freepik",
+    description: () => t("badges.admin.description"),
+    color: "linear-gradient(90deg, rgba(224,26,185,1) 0%, rgba(64,122,255,1) 100%)",
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
+
   MOD: {
-    name: () => "Moderator",
+    name: () => t("badges.mod.name"),
     bit: USER_BADGE_BITS.MOD,
-    description: () => "Moderator of Nerimity",
+    description: () => t("badges.mod.description"),
     color: "linear-gradient(90deg, #57acfa 0%, #1485ed 100%)",
-    credit: "Avatar Border by upklyak on Freepik",
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
+
   EMO_SUPPORTER: {
-    name: () => "Emo Supporter",
-    description: () => "Supported this project by donating money",
+    name: () => t("badges.emoSupporter.name"),
+    description: () => t("badges.emoSupporter.description"),
     bit: USER_BADGE_BITS.EMO_SUPPORTER,
     textColor: "rgba(255,255,255,0.8)",
     color: "linear-gradient(90deg, #424242 0%, #303030 100%)",
-    credit: "Avatar Border by upklyak on Freepik",
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
+
   SUPPORTER: {
-    name: () => "Supporter",
-    description: () => "Supported this project by donating money",
+    name: () => t("badges.supporter.name"),
+    description: () => t("badges.supporter.description"),
     bit: USER_BADGE_BITS.SUPPORTER,
-    color:
-      "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
-    credit: "Avatar Border by upklyak on Freepik",
+    color: "linear-gradient(90deg, rgba(235,78,209,1) 0%, rgba(243,189,247,1) 100%)",
+    credit: () => t("badges.credit.avatarBorder", { author: "upklyak", platform: "Freepik" }),
   },
 
   CONTRIBUTOR: {
-    name: () => "Contributor",
-    description: () => "Helped with this project in some way",
+    name: () => t("badges.contributor.name"),
+    description: () => t("badges.contributor.description"),
     bit: USER_BADGE_BITS.CONTRIBUTOR,
     color: "#ffffff",
   },
+
   PALESTINE: {
-    name: () => "Palestine",
-    description: () =>
-      "[Click To Help](https://arab.org/click-to-help/palestine/)",
+    name: () => t("badges.palestine.name"),
+    description: () => "[Click to help](https://arab.org/click-to-help/palestine/)",
     bit: USER_BADGE_BITS.PALESTINE,
-    credit: "Avatar Border by upklyak on Freepik, edited by Supertiger",
-    color: "linear-gradient(90deg, red, white, green);",
+    color: "linear-gradient(90deg, red, white, green)",
+    credit: () =>
+      t("badges.credit.avatarBorderEdited", { author: "upklyak", platform: "Freepik", editor: "Supertiger" }),
   },
+
   BOT: {
-    name: () => "Bot User",
-    description: () => "Bot User",
+    name: () => t("badges.bot.name"),
+    description: () => t("badges.bot.description"),
     bit: USER_BADGE_BITS.BOT,
     color: "var(--primary-color)",
   },
