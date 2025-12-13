@@ -257,7 +257,7 @@
       "mentionEveryone": "Mention Everyone",
       "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone.",
       "nicknameMember": "Nickname Member",
-      "nicknameMemberDescription": "Allow users to change their nickname in the server."
+      "nicknameMemberDescription": "Allow users to change their nickname in the server.",
       "mentionRoles": "Mention Roles",
       "mentionRolesDescription": "Allow users to mention roles"
     },
@@ -740,17 +740,15 @@
       "description": "Helped with this project in some way"
     },
     "palestine": {
-      "name": "Palestine",
-      "description": "[Click To Help](https://arab.org/click-to-help/palestine/)"
+      "name": "Palestine"
     },
     "bot": {
       "name": "Bot User",
       "description": "Bot User"
      },
-     "credit": {
-      "upklyakFreepik": "Avatar Border by upklyak on Freepik",
-      "upklyakFreepikEditedBySupertiger": "Avatar Border by upklyak on Freepik, edited by Supertiger"
+    "credit": {
+      "avatarBorder": "Avatar {{author}} Border by {{author}} on {{platform}}",
+      "avatarBorderEdited": "Avatar Border by {{author}} on {{platform}}, edited by {{editor}}"
     }
   }
-}
 }
