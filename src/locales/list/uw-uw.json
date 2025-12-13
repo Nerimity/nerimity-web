@@ -1,728 +1,728 @@
 {
-  "header": {
-    "openAppButton": "Open Appu…",
-    "loginButton": "Wogin",
-    "joinNowButton": "Join Da Pawty ✨",
-    "logoutButton": "Rage-quit (´• ω •`)"
-  },
-  "homePage": {
-    "slogan": "A m-modewn sweek chat appu",
-    "viewGitHubButton": "Peek At Da Code",
-    "subslogan": "Nerimity offews an ewegant & featuwe-rich expwience dat makes it su su shiny~",
-    "getStarted": "Wet's Gooo~",
-    "availableOn": "Avaiwabwe on",
-    "browser": "Bwowsew",
-    "featureList": {
-      "feature1": "Fwee animated avataws & emojis uwu",
-      "feature2": "Sweeky deswign",
-      "feature3": "Change youw tag fow fwee",
-      "feature4": "Cweate posts on youw pwofiwe ✨",
-      "feature5": "Cweate youw own communitea",
-      "feature6": "Find nyew communiteas",
-      "feature7": "Wuns fwom donations (｡♥‿♥｡)",
-      "feature8": "Fuww souwce code on GitHub",
-      "feature9": "Expwess youwsewf wiff bowdews"
-    }
-  },
-  "loginPage": {
-    "title": "Wogin to continue",
-    "emailOrUsernameAndTag": "Emaiw / usewnyame:tag",
-    "password": "Secwet Code",
-    "login": "Wet me innn~",
-    "createAccountInstead": "Cweate a fwesh account instead nya~",
-    "loggingIn": "Spinning Up The Hamstews…",
-    "loginButton": "Wet me innn~"
-  },
-  "registerPage": {
-    "title": "Wewcome t-to {{appName}}",
-    "email": "Emaiw (we pinky pwomise no spam!)",
-    "username": "Usewname uwu",
-    "password": "Supew Secwet Code",
-    "confirmPassword": "Doubwe Check Secwet Code",
-    "registerButton": "LEMME IN!!!",
-    "registering": "Summoning Account Spiwits…",
-    "loginInstead": "I Haz Account Awweady",
-    "header": "Wegistew",
-    "notices": {
-      "title": "Nyotices",
-      "toxic": "No bein' toxic, pwease (ノωヽ)",
-      "nsfw": "No naughty stuffie!! >:3",
-      "age": "Must be 14+ ow ewse!!"
+    "header": {
+        "openAppButton": "Open Appu…",
+        "loginButton": "Wogin",
+        "joinNowButton": "Join Da Pawty ✨",
+        "logoutButton": "Rage-quit (´• ω •`)"
     },
-    "agreement": "By cweating an account, u agwee t-to da tewms & pwivacy powicy"
-  },
-  "inbox": {
-    "drawer": {
-      "requests": "wequests",
-      "online": "onwine",
-      "offline": "Offwine",
-      "addFriendButton": "Add Fwiend",
-      "inboxButton": "Inbox",
-      "friendsButton": "Fwiends",
-      "searchBarPlaceholder": "Seawchies",
-      "friendRequests": "{{count}} Fwiend Wequests",
-      "onlineFriends": "{{count}} Onwine Fwiends",
-      "offlineFriends": "{{count}} Offwine Fwiends",
-      "notes": "Nyotes",
-      "blockedUsersButton": "Meanie >:c",
-      "inboxTitle": "Talky Box",
-      "viewAll": "View Aww"
+    "homePage": {
+        "slogan": "A m-modewn sweek chat appu",
+        "viewGitHubButton": "Peek At Da Code",
+        "subslogan": "Nerimity offews an ewegant & featuwe-rich expwience dat makes it su su shiny~",
+        "getStarted": "Wet's Gooo~",
+        "availableOn": "Avaiwabwe on",
+        "browser": "Bwowsew",
+        "featureList": {
+            "feature1": "Fwee animated avataws & emojis uwu",
+            "feature2": "Sweeky deswign",
+            "feature3": "Change youw tag fow fwee",
+            "feature4": "Cweate posts on youw pwofiwe ✨",
+            "feature5": "Cweate youw own communitea",
+            "feature6": "Find nyew communiteas",
+            "feature7": "Wuns fwom donations (｡♥‿♥｡)",
+            "feature8": "Fuww souwce code on GitHub",
+            "feature9": "Expwess youwsewf wiff bowdews"
+        }
     },
-    "blockedUsersModal": {
-      "title": "Meanie List"
-    }
-  },
-  "explore": {
-    "drawer": {
-      "title": "Expwowe",
-      "servers": "Sewvews",
-      "bots": "Senpais"
+    "loginPage": {
+        "title": "Wogin to continue",
+        "emailOrUsernameAndTag": "Emaiw / usewnyame:tag",
+        "password": "Secwet Code",
+        "login": "Wet me innn~",
+        "createAccountInstead": "Cweate a fwesh account instead nya~",
+        "loggingIn": "Spinning Up The Hamstews…",
+        "loginButton": "Wet me innn~"
+    },
+    "registerPage": {
+        "title": "Wewcome t-to {{appName}}",
+        "email": "Emaiw (we pinky pwomise no spam!)",
+        "username": "Usewname uwu",
+        "password": "Supew Secwet Code",
+        "confirmPassword": "Doubwe Check Secwet Code",
+        "registerButton": "LEMME IN!!!",
+        "registering": "Summoning Account Spiwits…",
+        "loginInstead": "I Haz Account Awweady",
+        "header": "Wegistew",
+        "notices": {
+            "title": "Nyotices",
+            "toxic": "No bein' toxic, pwease (ノωヽ)",
+            "nsfw": "No naughty stuffie!! >:3",
+            "age": "Must be 14+ ow ewse!!"
+        },
+        "agreement": "By cweating an account, u agwee t-to da tewms & pwivacy powicy"
+    },
+    "inbox": {
+        "drawer": {
+            "requests": "wequests",
+            "online": "onwine",
+            "offline": "Offwine",
+            "addFriendButton": "Add Fwiend",
+            "inboxButton": "Inbox",
+            "friendsButton": "Fwiends",
+            "searchBarPlaceholder": "Seawchies",
+            "friendRequests": "{{count}} Fwiend Wequests",
+            "onlineFriends": "{{count}} Onwine Fwiends",
+            "offlineFriends": "{{count}} Offwine Fwiends",
+            "notes": "Nyotes",
+            "blockedUsersButton": "Meanie >:c",
+            "inboxTitle": "Talky Box",
+            "viewAll": "View Aww"
+        },
+        "blockedUsersModal": {
+            "title": "Meanie List"
+        }
+    },
+    "explore": {
+        "drawer": {
+            "title": "Expwowe",
+            "servers": "Sewvews",
+            "bots": "Senpais"
+        },
+        "servers": {
+            "title": "Expwowe - Sewvews",
+            "noticeMessage": "A sewvew can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~",
+            "sortMostBumps": "Most Bumpsies",
+            "sortMostMembers": "Most Membews",
+            "sortRecentlyAdded": "Fweshwy Added",
+            "sortRecentlyBumped": "Just Bumpsied",
+            "filterAll": "Aww",
+            "filterVerified": "Shiny",
+            "memberCount": "{{count}} membews",
+            "lifetimeBumpCount": "{{count}} wifetime bumps",
+            "visitServerButton": "Peek In~",
+            "bumpButton": "Bump ({{count}}) 🚀",
+            "joinServerButton": "LEMME INN!!!"
+        },
+        "bots": {
+            "title": "Expwowe - Senpais",
+            "noticeMessage": "A senpai can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~"
+        }
     },
     "servers": {
-      "title": "Expwowe - Sewvews",
-      "noticeMessage": "A sewvew can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~",
-      "sortMostBumps": "Most Bumpsies",
-      "sortMostMembers": "Most Membews",
-      "sortRecentlyAdded": "Fweshwy Added",
-      "sortRecentlyBumped": "Just Bumpsied",
-      "filterAll": "Aww",
-      "filterVerified": "Shiny",
-      "memberCount": "{{count}} membews",
-      "lifetimeBumpCount": "{{count}} wifetime bumps",
-      "visitServerButton": "Peek In~",
-      "bumpButton": "Bump ({{count}}) 🚀",
-      "joinServerButton": "LEMME INN!!!"
+        "settings": {
+            "drawer": {
+                "general": "Genewaw",
+                "roles": "Wowes",
+                "channels": "Channews",
+                "invites": "Invite Fwens",
+                "publishServer": "Pubwish Sewvew",
+                "verify": "Shiny",
+                "role": "Wowe",
+                "channel": "Channew",
+                "emojis": "Emojisss",
+                "notifications": "Nya-tifurrcations",
+                "audit-logs": "Audit Woggies",
+                "welcome-screen": "Wewcome Scween",
+                "external-embed": "Extewnaw Embedo",
+                "bans": "Outcasties"
+            },
+            "general": {
+                "serverRenameNotice": "U w-wose aww shiny pewks if u wenyame it >w<",
+                "serverName": "Sewvew Nyame",
+                "defaultChannel": "Defauwt Channew",
+                "defaultChannelDescription": "New membews wiww wand hewe uwu",
+                "systemMessages": "System Talky",
+                "systemMessagesDescription": "Whewe sys talkys appear",
+                "deleteThisServer": "Dewete dis sewvew",
+                "deleteThisServerDescription": "Dis c-can't be undone nya!!",
+                "deleteServerButton": "Dewete Sewvew",
+                "saveChangesButton": "Save Changies",
+                "saving": "Casting Spawells...",
+                "avatar": "Ava-taw",
+                "avatarDescription": "Suppowted: JPG, PNG, GIF, WEBP~ Max 12 MB",
+                "bannerDescription": "Suppowted: JPG, PNG, GIF, WEBP~ Max 12 MB",
+                "banner": "Big Piccy",
+                "browseButton": "Snoop",
+                "none": "Nuda"
+            },
+            "roles": {
+                "addNewRole": "Add nyew wowe",
+                "addRoleButton": "Add Wowe"
+            },
+            "role": {
+                "saveChangesButton": "Save Changies",
+                "saving": "Casting Spawells...",
+                "roleName": "Wowe Nyame",
+                "roleColor": "Wowe Cowow",
+                "hideRole": "Ninja Mode~",
+                "hideRoleDescription": "Dispway membews wid dis wowe > default",
+                "permissions": "Powew-ups",
+                "permissionsDescription": "Manage pewmissions fow dis wowe",
+                "deleteRoleButton": "Dewete dis wowe",
+                "deleteRoleButtonDescription": "No take-backsies!!"
+            },
+            "header": {
+                "editServer": "Edit Sewvew",
+                "serverMemberCount": "{{count}} hoomans"
+            },
+            "channels": {
+                "createButton": "Cweate",
+                "createNewDescription": "Cweate nyew channew ow categowy"
+            },
+            "channel": {
+                "saving": "Casting spawells...",
+                "saveChangesButton": "Save Changies",
+                "channelName": "Channew Nyame",
+                "permissions": "Pewmissions",
+                "permissionsDescription": "Manage pewmissions fow channew",
+                "deleteThisChannel": "Dewete dis channew",
+                "deleteThisChannelDescription": "Dis cannot be undone!!",
+                "deleteChannelButton": "Dewete Channew",
+                "removeNoticeButton": "Wemove Nyotice"
+            },
+            "invites": {
+                "createInviteButton": "Cweate Invite",
+                "serverInvites": "Sewvew Invites",
+                "serverInvitesDescription": "Invite fwiends to sewvew",
+                "customInviteVerifiedOnlyNotice": "Custom invites = vewified sewvews onwy!",
+                "customLink": "Custom Wink",
+                "saveButton": "LETS DO DIS!",
+                "deleteButton": "Poof~",
+                "copyLinkButton": "Copy Wink"
+            },
+            "publishServer": {
+                "publishNotice": "Pubwish sewvew to appeaw in <1>expwowe</1> uwu",
+                "public": "Pubwic",
+                "publicDescription": "Make sewvew pubwic uwu",
+                "bumpServer": "Bump Sewvew",
+                "bumpServerDescription": "Push sewvew to da t-top!",
+                "publishServerButton": "Pubwish sewvew",
+                "unpublishServerButton": "Unpubwish sewvew",
+                "bumpButton": "Bump ({{count}})",
+                "descriptionLabel": "Sewvew Descwiption ({{current}}/{{max}})",
+                "bumpCooldown": "Pwease wait {{hours}} houws, {{minutes}} minutes, and {{seconds}} secwonds befowe bumping dis sewvew"
+            },
+            "webhook": {
+                "title": "Webbyhook Settin's",
+                "name": "Nyame",
+                "link": "Webbyhook URL",
+                "linkDescription": "Use dis winky to do stuffs",
+                "delete": "Poof Webbyhook"
+            }
+        },
+        "rolePermissions": {
+            "admin": "Adminny",
+            "adminDescription": "Aww da powewz!!",
+            "sendMessage": "Send Talky",
+            "sendMessageDescription": "Wet u send talkys in sewvew. Sewvew adminnies can stwill send talkys~",
+            "manageRoles": "Manage Wowes",
+            "manageRolesDescription": "Wet u edit/dwop wowes",
+            "manageChannels": "Manage Channews",
+            "manageChannelsDescription": "Wet u edit/poof channews",
+            "kick": "Yeet",
+            "kickDescription": "Wet u yeet hoomans",
+            "ban": "Banish",
+            "banDescription": "Wet u ban hoomans",
+            "mentionEveryone": "Ping Evewyone",
+            "mentionEveryoneDescription": "Wet u @everypony. Sewvew adminnies can stwill mention everypony",
+            "nicknameMember": "Nyickname Hooman",
+            "nicknameMemberDescription": "Wet hoomans change nicknames"
+        },
+        "channelPermissions": {
+            "sendMessage": "Send Talky",
+            "sendMessageDescription": "Wet u chat in channew. Sewvew adminnies can stwill send talkys",
+            "joinVoice": "Join VC",
+            "joinVoiceDescription": "wet u hop in voicey channew",
+            "publicChannel": "Pubwic Channew",
+            "publicChannelDescription": "Wet u access channew owo"
+        },
+        "leaveModal": {
+            "title": "Weave Sewvew~?",
+            "body": {
+                "part1": "Awe u suwe u wanna weave <1>{{serverName}}</1>?",
+                "part2": "U can join back anytime!!"
+            },
+            "confirmButton": "Goodbye",
+            "cancelButton": "RUN AWAYYY.."
+        }
     },
-    "bots": {
-      "title": "Expwowe - Senpais",
-      "noticeMessage": "A senpai can be bumped once evewy {{hours}} houws. Aww bumps weset evewy {{date}}. nya~"
-    }
-  },
-  "servers": {
     "settings": {
-      "drawer": {
-        "general": "Genewaw",
-        "roles": "Wowes",
-        "channels": "Channews",
-        "invites": "Invite Fwens",
-        "publishServer": "Pubwish Sewvew",
-        "verify": "Shiny",
-        "role": "Wowe",
-        "channel": "Channew",
-        "emojis": "Emojisss",
-        "notifications": "Nya-tifurrcations",
-        "audit-logs": "Audit Woggies",
-        "welcome-screen": "Wewcome Scween",
-        "external-embed": "Extewnaw Embedo",
-        "bans": "Outcasties"
-      },
-      "general": {
-        "serverRenameNotice": "U w-wose aww shiny pewks if u wenyame it >w<",
-        "serverName": "Sewvew Nyame",
-        "defaultChannel": "Defauwt Channew",
-        "defaultChannelDescription": "New membews wiww wand hewe uwu",
-        "systemMessages": "System Talky",
-        "systemMessagesDescription": "Whewe sys talkys appear",
-        "deleteThisServer": "Dewete dis sewvew",
-        "deleteThisServerDescription": "Dis c-can't be undone nya!!",
-        "deleteServerButton": "Dewete Sewvew",
-        "saveChangesButton": "Save Changies",
-        "saving": "Casting Spawells...",
-        "avatar": "Ava-taw",
-        "avatarDescription": "Suppowted: JPG, PNG, GIF, WEBP~ Max 12 MB",
-        "bannerDescription": "Suppowted: JPG, PNG, GIF, WEBP~ Max 12 MB",
-        "banner": "Big Piccy",
-        "browseButton": "Snoop",
-        "none": "Nuda"
-      },
-      "roles": {
-        "addNewRole": "Add nyew wowe",
-        "addRoleButton": "Add Wowe"
-      },
-      "role": {
-        "saveChangesButton": "Save Changies",
-        "saving": "Casting Spawells...",
-        "roleName": "Wowe Nyame",
-        "roleColor": "Wowe Cowow",
-        "hideRole": "Ninja Mode~",
-        "hideRoleDescription": "Dispway membews wid dis wowe > default",
-        "permissions": "Powew-ups",
-        "permissionsDescription": "Manage pewmissions fow dis wowe",
-        "deleteRoleButton": "Dewete dis wowe",
-        "deleteRoleButtonDescription": "No take-backsies!!"
-      },
-      "header": {
-        "editServer": "Edit Sewvew",
-        "serverMemberCount": "{{count}} hoomans"
-      },
-      "channels": {
+        "drawer": {
+            "title": "Settin's",
+            "account": "Accy",
+            "language": "Wanguage",
+            "notifications": "Nya-tifurrcations",
+            "logout": "Rage-quit",
+            "viewSource": "Peek Unda Da Hood",
+            "changelog": "Changies",
+            "window-settings": "Window Settin's",
+            "activity-status": "Watchy Stawtus",
+            "privacy": "Pwivacy",
+            "connections": "Winkies",
+            "interface": "Intewface",
+            "developer": "Devvy",
+            "applications": "Appies",
+            "experiments": "Mad Scwience!!",
+            "badges": "Badgeys",
+            "call-settings": "Cawwy Settin's",
+            "tickets": "Help Me Senpai!!",
+            "profile": "Pwofiwe"
+        },
+        "header": {
+            "servers": "Sewvews",
+            "friends": "Fwiends",
+            "manageAccount": "Manage Accy"
+        },
+        "account": {
+            "title": "settin's - accy",
+            "email": "Emaiw",
+            "username": "Usewnyame",
+            "avatar": "Ava-taw",
+            "supported": "Suppowted",
+            "profile": "Pwofiwe",
+            "profileDescription": "Edit bio & cowows ✨",
+            "changePassword": "Changie Secwet Code",
+            "forgotPassword": "Wat Secwet Code??",
+            "newPassword": "Nyew Secwet Code",
+            "newPasswordDescription": "Changin' pass = wogged out ewhewe~",
+            "confirmNewPassword": "Confywm Nyew Secwet Code",
+            "confirmNewPasswordDescription": "Confywm ur nyew secwet code",
+            "confirmCurrentPassword": "Confywm Cuwwent Secwet Code",
+            "channelNotice": "Channew Nyotice",
+            "channelNoticeDescription": "Shows nyotice befowe chat. Changies appwy after weload.",
+            "saving": "Casting Spawells...",
+            "saveButton": "Save",
+            "saveChangesButton": "Save Changies",
+            "deleteAccount": "Poof Accy",
+            "deleteAccountDescription": "Can't undo dis!!",
+            "deleteAccountNotice": "Must weave/dwop sewvews befowe poof uwu",
+            "understoodButton": "Got it!",
+            "save": "Casting Spawells...",
+            "botID": "Senpai ID",
+            "confirmEmail": "Confywm youw emayw~",
+            "enterCode": "Entew the 5-digit codey sent to youw emayw~!",
+            "sendCodeButton": "SEND IT!!",
+            "resendIn": "Wesend in {{time}}",
+            "confirmButton": "Yee",
+            "cancelButton": "RUN AWAYYY..",
+            "channelNoticeTooLong": "Channyw nyotice can't be wongew than 300 chawactews!!",
+            "deletionNotice": "NOOO~!! Don't weave us wike dis!! If sumfin bugged you, pwetty pwease teww us in the officiaw Newimity sewvie... we can change :c",
+            "deletedInfo": {
+                "title": "What will poof",
+                "email": "• Emayww~",
+                "username": "• Usewname",
+                "ip": "• IP Addwess",
+                "bio": "• Dis me!!",
+                "messages": "• Youw Talkies",
+                "posts": "• Youw Postsies"
+            },
+            "postsAndMessagesNotice": "Youw posts and messageys might take a few weeks to aww poof",
+            "deleteCheckbox": "Get rid of aww my posts and msgs, pwease!!",
+            "palestineBorder": "Add Pawwestiine bowdew to youw ava-taw",
+            "bio": "Dis Me",
+            "bioDescription": "Multiline n markup suppowt",
+            "gradientColor1": "Gwadient Cowow 1",
+            "gradientColor2": "Gwadient Cowow 2",
+            "primaryColor": "Pwimawy Cowow",
+            "preview": "Ppwwweview",
+            "tag": "Tag",
+            "banner": "Big Piccy",
+            "browse": "Snoop"
+        },
+        "privacy": {
+            "lastOnline": {
+                "title": "Wast Onwine",
+                "description": "Set who sees wast onwine",
+                "hidden": "Shh 🤫",
+                "friendsOnly": "Fwiends onwy",
+                "friendsAndServers": "Fwiends & sewvews"
+            },
+            "directMessage": {
+                "description": "Who can dm ya",
+                "friendsAndServersOnly": "Fwiends & Sewvews onwy",
+                "friendsOnly": "Fwiends onwy",
+                "title": "DM",
+                "anyone": "Everypony!"
+            },
+            "friendRequest": {
+                "title": "Fwiend Wequest",
+                "description": "Who can send fr's",
+                "anyone": "Everypony!",
+                "serversOnly": "Sewvews onwy",
+                "nobody": "Nobody :(("
+            },
+            "profileOptions": {
+                "title": "Pwofiwe Options",
+                "hideFollowers": "Hide Fowwowews",
+                "hideFollowersDescription": "Nyo show fowwowews",
+                "hideFollowing": "Hide Fowwowing",
+                "hideFollowingDescription": "Nyo show fowwowing"
+            }
+        },
+        "notifications": {
+            "desktopNotifications": "Desktop Nya-tifurrcations",
+            "desktopNotificationsDescription": "Show poppies even minimized",
+            "sounds": "Soundies",
+            "soundsDescription": "Tuwn off if annoying uwu",
+            "volume": "Vowume",
+            "volumeDescription": "Change nya notif vowume",
+            "changeSoundsDescription": "Pick cutie notif soundies",
+            "message": "Talky Sound",
+            "messageDescription": "Pway sound on talky",
+            "mention": "Mention Sound",
+            "mentionDescription": "Pway sound on mention",
+            "reminder": "Wemindew",
+            "reminderDescription": "Beeww ting fow wemindews",
+            "inAppPreview": "In-App Pweview",
+            "inAppPreviewDescription": "Show Smol Poppies",
+            "mute": "SHUDDUP",
+            "inAppPreviewModes": {
+                "off": "Off",
+                "mentionsOnly": "Mentions Onwy",
+                "inheritFromPingSettings": "Copy Ping Settin's",
+                "all": "Aww"
+            }
+        },
+        "call": {
+            "nextCallNotice": "Changies appwy next caww",
+            "inputDevices": "Input Devc's",
+            "outputDevices": "Output Devc's",
+            "default": "Defauwt",
+            "inputMode": "Input Mode",
+            "openMic": "Open Mic",
+            "voiceActivity": "Voice Acti",
+            "pushToTalk": "Push2Tawk",
+            "bindButton": "Bind",
+            "stopButton": "Stap",
+            "downloadAppNotice": "Downwoad Nerimity app fow dis featuwe ✨"
+        },
+        "interface": {
+            "blurEffect": "Bwuwwy Effect",
+            "blurEffectDescription": "Make shinies... Enabwing bwur may slow some devices~ >w<",
+            "disableAdvancedMarkupBar": "No Fancy Baw",
+            "disableAdvancedMarkupBarDescription": "Disabwe da advanced text baw uwu",
+            "customizeColors": "Custy Cowows",
+            "customizeColorsDescription": "Pick nyew cowows uwu",
+            "title": "S-Ssettingsy Intyface OwO",
+            "customCSS": "Cwustom Shiny-Stuffz >w<",
+            "themes": "Coowowful thewmesies",
+            "themesDescription": "Pick a pwetty thewme owo ow wemind it to defauwt! *giggles*",
+            "maintainers": "Pwetty pewsons who made dis ✨",
+            "apply": "Make it happen!! >w<",
+            "enableEruda": "Enabble Ewuda",
+            "enableErudaDescription": "Fow secret debuggy stuffs! Shhh don't teww fwends >///<",
+            "enableOnce": "One-Time Magic!!",
+            "customCSSWarning": "Wemembew, stwanger danger~!!",
+            "saveAndApply": "LETS DO DIS!"
+        },
+        "language": {
+            "reloadNotice": "U must wewoad da app to fuwwy apply da nyew wanguage~",
+            "reloadButton": "Taktical Wewoad",
+            "contributors": "Pwetty Pewsons",
+            "translateModal": {
+                "title": "Twanswate Dis~"
+            }
+        },
+        "window": {
+            "title": "Settins... Window Settins",
+            "downloadAppNotice": "To modifwy dese settins, u must downwoad da awww-some Nerimity desktop app~",
+            "startupOptions": "Stawtup Optsies",
+            "openOnStartup": "Open Nerimity on stawtup",
+            "startMinimized": "Stawt Smol",
+            "startMinimizedDescription": "Minimize Nerimity to da tway automaticawwy~",
+            "disableHardwareAcceleration": "Disabwe Hawdwawe Accewewation",
+            "disableCustomTitlebar": "Disabwe Custom Titwebaw",
+            "reopenAppNotice": "U gotta weopen da app fow da change to take effect"
+        },
+        "developer": {
+            "oauth2": {
+                "description": "Handle OAuth2y",
+                "title": "OAuth2y",
+                "generateLink": "Cweate A Winky"
+            }
+        }
+    },
+    "supportBlock": {
+        "support": "Buy Me Bubbwe Tea",
+        "supportDescription": "Donate4Badge"
+    },
+    "userContextMenu": {
+        "viewProfile": "Peek Pwofiwe",
+        "sendMessage": "Send Talky",
+        "copyId": "Copy Magik ID",
+        "editRoles": "Edit Wowes",
+        "kick": "Yeet",
+        "ban": "Banish",
+        "changeNickname": "Changie Nyickname",
+        "transferOwnership": "Pwoperty Swap",
+        "callVolume": "Caww Vowume"
+    },
+    "kickServerMemberModal": {
+        "title": "Yeet {{username}}!!",
+        "kickButton": "Yeet",
+        "kicking": "Yeeting...",
+        "backButton": "Backies",
+        "message": "Suwe u wanna yeet <1>{{username}}</1>??"
+    },
+    "editServerRolesModal": {
+        "title": "Edit Wowes"
+    },
+    "banModal": {
+        "title": "Banish {{username}}?",
+        "message": "Suwe u wanna banish <1>{{username}}</1>??",
+        "deletePastMessagesCheckbox": "Dewete talkys wast 7 houws",
+        "banButton": "Banish",
+        "banning": "Banishing..."
+    },
+    "messageContextMenu": {
+        "editMessage": "Edit Talky",
+        "deleteMessage": "Poof Talky",
+        "translateMessage": "Owo Wats Dis?",
+        "copyMessage": "Copy Talky",
+        "copyId": "Copy Magik ID",
+        "viewReactions": "View Reacties",
+        "quoteMessage": "Quote Talky",
+        "reportMessage": "Snitch On Talky",
+        "reply": "Wepwy",
+        "markUnread": "Mawk Unwead",
+        "pinMessage": "Sticky",
+        "unpinMessage": "Unsticky"
+    },
+    "typing": {
+        "single": "<1>{{username}}</1> is mashing their keyboawd",
+        "multiple": "<1>{{username}}</1> an' <2>{{username2}}</2> awwe typing… nya~",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> an' <3>{{username3}}</3> awwe typing… nya~",
+        "andOthers": "<1>{{count}}</1> uwsers awe typing..."
+    },
+    "profile": {
+        "followButton": "Fowwow",
+        "unfollowButton": "Unfowwow :c",
+        "removeFriendButton": "Unfwiend",
+        "addFriendButton": "Add Fwiend",
+        "pendingRequest": "Pending Wequest",
+        "acceptRequestButton": "Accept Wequest",
+        "messageButton": "Talky",
+        "mutualFriends": "Mutual Fwiends ({{count}})",
+        "mutualServers": "Mutual Sewvews ({{count}})",
+        "postsTab": "Posties",
+        "followersTab": "Fowwowews",
+        "followingTab": "Fowwowing",
+        "postsAndRepliesTab": "Posties & Wepwies ({{count}})",
+        "likedPostsTab": "Wiked Posties ({{count}})"
+    },
+    "posts": {
+        "deletePostModal": {
+            "message": "Suwe u wanna dewete dis post?",
+            "cancelButton": "RUN AWAYYY..",
+            "deleteButton": "Poof"
+        },
+        "postWasDeleted": "Postie was poofed!!!",
+        "someoneLikedYourPost": "<1>{{username}}</1> wiked youw post!",
+        "someoneFollowedYou": "<1>{{username}}</1> went staw-staw eyes on u!",
+        "someoneRepliedToPost": "<1>{{username}}</1> wepwied to postie!",
+        "createAPostInputPlaceholder": "Cweate a post...",
+        "replyInputPlaceholder": "Wepwy...",
+        "replyButton": "Wepwy",
         "createButton": "Cweate",
-        "createNewDescription": "Cweate nyew channew ow categowy"
-      },
-      "channel": {
-        "saving": "Casting spawells...",
-        "saveChangesButton": "Save Changies",
-        "channelName": "Channew Nyame",
-        "permissions": "Pewmissions",
-        "permissionsDescription": "Manage pewmissions fow channew",
-        "deleteThisChannel": "Dewete dis channew",
-        "deleteThisChannelDescription": "Dis cannot be undone!!",
-        "deleteChannelButton": "Dewete Channew",
-        "removeNoticeButton": "Wemove Nyotice"
-      },
-      "invites": {
-        "createInviteButton": "Cweate Invite",
-        "serverInvites": "Sewvew Invites",
-        "serverInvitesDescription": "Invite fwiends to sewvew",
-        "customInviteVerifiedOnlyNotice": "Custom invites = vewified sewvews onwy!",
-        "customLink": "Custom Wink",
-        "saveButton": "LETS DO DIS!",
-        "deleteButton": "Poof~",
-        "copyLinkButton": "Copy Wink"
-      },
-      "publishServer": {
-        "publishNotice": "Pubwish sewvew to appeaw in <1>expwowe</1> uwu",
-        "public": "Pubwic",
-        "publicDescription": "Make sewvew pubwic uwu",
-        "bumpServer": "Bump Sewvew",
-        "bumpServerDescription": "Push sewvew to da t-top!",
-        "publishServerButton": "Pubwish sewvew",
-        "unpublishServerButton": "Unpubwish sewvew",
-        "bumpButton": "Bump ({{count}})",
-        "descriptionLabel": "Sewvew Descwiption ({{current}}/{{max}})",
-        "bumpCooldown": "Pwease wait {{hours}} houws, {{minutes}} minutes, and {{seconds}} secwonds befowe bumping dis sewvew"
-      },
-      "webhook": {
-        "title": "Webbyhook Settin's",
-        "name": "Nyame",
-        "link": "Webbyhook URL",
-        "linkDescription": "Use dis winky to do stuffs",
-        "delete": "Poof Webbyhook"
-      }
+        "someoneRepostedYourPost": "<1>{{username}}</1> wemixed youw postie!",
+        "pollOptions": "Poww Options",
+        "optionNumberPlaceholder": "Option {{number}}"
     },
-    "rolePermissions": {
-      "admin": "Adminny",
-      "adminDescription": "Aww da powewz!!",
-      "sendMessage": "Send Talky",
-      "sendMessageDescription": "Wet u send talkys in sewvew. Sewvew adminnies can stwill send talkys~",
-      "manageRoles": "Manage Wowes",
-      "manageRolesDescription": "Wet u edit/dwop wowes",
-      "manageChannels": "Manage Channews",
-      "manageChannelsDescription": "Wet u edit/poof channews",
-      "kick": "Yeet",
-      "kickDescription": "Wet u yeet hoomans",
-      "ban": "Banish",
-      "banDescription": "Wet u ban hoomans",
-      "mentionEveryone": "Ping Evewyone",
-      "mentionEveryoneDescription": "Wet u @everypony. Sewvew adminnies can stwill mention everypony",
-      "nicknameMember": "Nyickname Hooman",
-      "nicknameMemberDescription": "Wet hoomans change nicknames"
+    "resetPassword": {
+        "title": "Weset Secwet Code",
+        "resetSuccessful": "Secwet Code weset success nya~",
+        "passwordsDoNotMatch": "Secwet Code Confirm = Nyo Match",
+        "resetPasswordButton": "Weset Secwet Code",
+        "resetting": "Wesetting...",
+        "email": "Emaiw",
+        "sendEmailButton": "Send Emaiw",
+        "sending": "Sending Emaiw...",
+        "passwordTooLong": "Secwet Code must be wess than 72 chawactews~! >w<"
     },
-    "channelPermissions": {
-      "sendMessage": "Send Talky",
-      "sendMessageDescription": "Wet u chat in channew. Sewvew adminnies can stwill send talkys",
-      "joinVoice": "Join VC",
-      "joinVoiceDescription": "wet u hop in voicey channew",
-      "publicChannel": "Pubwic Channew",
-      "publicChannelDescription": "Wet u access channew owo"
+    "dashboard": {
+        "title": "Dashyboawd",
+        "activeUsers": "Active Hoomans",
+        "noActiveUsers": "No active hoomans :c",
+        "servers": "Sewvews",
+        "posts": "Posties",
+        "feed": "Feedies",
+        "discover": "Discova",
+        "notifications": "Nya-tifurrcations"
     },
-    "leaveModal": {
-      "title": "Weave Sewvew~?",
-      "body": {
-        "part1": "Awe u suwe u wanna weave <1>{{serverName}}</1>?",
-        "part2": "U can join back anytime!!"
-      },
-      "confirmButton": "Goodbye",
-      "cancelButton": "RUN AWAYYY.."
+    "messageArea": {
+        "messageBoxPlaceholder": "Talky {{username}}",
+        "messageBoxChannelPlaceholder": "Talky In {{channelName}}"
+    },
+    "createServerModal": {
+        "title": "Cweate Sewvew",
+        "notice": "No NSFW Awwowed!!",
+        "serverName": "Sewvew Nyame",
+        "placeholder": "My AWESOME Sewvew",
+        "creating": "Cweating...",
+        "createServerButton": "Cweate Sewvew",
+        "closeButton": "Cwose",
+        "tabLabel": "Cweate"
+    },
+    "serverContextMenu": {
+        "markAsRead": "Mawk as Wead",
+        "invites": "Invites",
+        "notifications": "Nya-tifurrcations",
+        "settings": "Settin's",
+        "copyId": "Copy Magik ID",
+        "notificationOptions": {
+            "everything": "Evewything",
+            "mentionsOnly": "Mentions Onwy",
+            "mute": "SHH 🤫"
+        },
+        "leave": "Weave"
+    },
+    "informationDrawer": {
+        "title": "Info",
+        "channelNotice": "Channew Nyotice",
+        "attachments": "Attachies",
+        "attachmentsBack": "Back",
+        "members": "Membews"
+    },
+    "botInvite": {
+        "serverSelect": "Pwease sewect a sewvew!",
+        "creator": "Cweated by",
+        "selectButton": "Sewect Sewvew",
+        "addButton": "Add botty",
+        "permissions": "Bot Pewmissions"
+    },
+    "googleAccountLink": {
+        "linking": "Winkie to Google~",
+        "success": "Wink compwete! U can cwose dis now"
+    },
+    "invite": {
+        "loading": "Woading Invite…",
+        "invalid": "Invawid Invite Code >.<",
+        "joinButton": "LEMME IN~",
+        "joiningButton": "Joinin'…",
+        "visitButton": "Peek In~",
+        "member": "hooman",
+        "members": "hoomans"
+    },
+    "fileEmbed": {
+        "expired": "Expwied",
+        "modifiedOrDeleted": "This fiwe was modiwfied/deweted by da cweatow in deir Google Dwive~",
+        "viewImage": "View Image~",
+        "download": "Downwoad~",
+        "expires": "Expiwes"
+    },
+    "videoEmbed": {
+        "couldNotGetVideo": "Couwd not get video >.<",
+        "videoModified": "Video was modiwfied~",
+        "googleDrivePolicy": "Due to new Google Dwive powicy, u can onwy pway videos fwom da Nerimity Desktop App uwu",
+        "videoExpired": "Video expwied~",
+        "modifiedOrDeleted": "This video was modiwfied/deweted by da cweatow in deir Google Dwive~",
+        "expires": "Expiwes",
+        "expired": "Expwied"
+    },
+    "message": {
+        "badge": {
+            "bot": "Clanker",
+            "webhook": "Webbyhook",
+            "owner": "Senpai"
+        },
+        "reactions": {
+            "more": "{{count}} mowe~"
+        },
+        "deletedMessage": "Talky was poofed!",
+        "dismissButton": "Go Awae",
+        "editedAt": "Edited at {{time}}~",
+        "twitterEmbed": {
+            "modalTitle": "Detaiwed Twittow Embed",
+            "modalDescription": "When using da officiaw Twittow embed, youw data may be cowwected by Elongated Musk",
+            "doNotShowAgain": "Don't show dis again",
+            "closeButton": "No showie >:",
+            "showButton": "SHOWWW",
+            "basicEmbed": "Boring Embed",
+            "detailedEmbed": "Lot Of Detail Embed"
+        },
+        "blocked": "U have bwocked dis hooman~ Click to see~",
+        "translationError": "Couwd not twanswate dis talky >.<",
+        "translation": {
+            "title": "Twanswation~"
+        }
+    },
+    "statusHeader": {
+        "authenticationError": "Authwentication ewwow >.<",
+        "connecting": "Spinning up...",
+        "reconnecting": "LEMME INNNN!!...",
+        "inQueue": "In Qwueue: {{count}} Hoomans Aheawd Of U…",
+        "authenticating": "Authwenticating...",
+        "connected": "Wew’we in"
+    },
+    "dangerousLinkModal": {
+        "title": "Cwustom Winkies",
+        "message": "Dis winky wiww t-take u to~",
+        "cancelButton": "RUN AWAYYY..",
+        "visitButton": "WETS GOOOO!!!"
+    },
+    "editFolderModal": {
+        "title": "Edit Fwowdew",
+        "placeholder": "Fwowdew Nyame",
+        "cancelButton": "RUN AWAYYY..",
+        "save": "WETS DO DIS",
+        "saving": "Casting Spawells...",
+        "errors": {
+            "emptyName": "Pwease entew a fwowdew nyame"
+        }
+    },
+    "joinServerModal": {
+        "title": "Join Sewvew",
+        "notice": "If u wanna expwore sewvews, pwease go to da expwore tab instead~",
+        "exploreButton": "Expwore Sewvews",
+        "inviteCode": "Inv Code",
+        "continueButton": "LETS GOOO!!",
+        "missingInvite": "Pwease entew a sewvew invite code",
+        "tabLabel": "LEMME IN!!!"
+    },
+    "addFriendModal": {
+        "title": "Add Fwiend",
+        "description": "Entyew youw fwiend’s usewnyame & tag to add dem~",
+        "placeholder": "Usewnyame:UWU1",
+        "closeButton": "RUN AWAYYY..",
+        "requestSent": "Wequest senties!~",
+        "sendRequest": "Send Wequest",
+        "sending": "Sending…",
+        "errors": {
+            "missingTag": "Pwease entyew a usewnyame:tag",
+            "colonInUsername": "Usewnyame must nyot contain a cowon -.-"
+        }
+    },
+    "deleteMessageModal": {
+        "title": "Suwe u wanna poof dis talky?",
+        "body": "U wanna poof dis talky?",
+        "cancelButton": "RUN AWAYYY..",
+        "confirmButton": "Poof~"
+    },
+    "colorPickerModal": {
+        "title": "Cowow Picky",
+        "done": "YEP!"
+    },
+    "photoEditor": {
+        "title": "Piccy Editow",
+        "cancel": "RUN AWAYYY..",
+        "edit": "DIS IS PURRFECT!",
+        "undo": "Un-doo (Ctww + Z)",
+        "brush": "Bwushie",
+        "erase": "Poof",
+        "strokeWidth": "Stwokie width: {{width}}~",
+        "mobileNotice": "Pinchy to dwag/zoom",
+        "desktopMove": "Space + dwaggy to moove",
+        "desktopZoom": "Scwoww to zoomie"
+    },
+    "imageCropModal": {
+        "title": "Cwop Piccy",
+        "done": "DIS IS PURRFECT!"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "was summoned to do hooman bidding",
+            "user": "wandered into da sewvew"
+        },
+        "leaveServer": "poofed outta da sewvew",
+        "kickUser": "got yeeted fwom da sewvew",
+        "banUser": "got banished fwom da sewvew",
+        "callStarted": "has started a voicey caww",
+        "bumpServer": "bumpsied da sewvew",
+        "pinnedMessage": "stickied a talky",
+        "unsupported": "PANIC PANIC!! Dis talky is brokey"
+    },
+    "oauth2": {
+        "AuthorizeButton": "Authowy",
+        "permissions": "Powew-ups"
     }
-  },
-  "settings": {
-    "drawer": {
-      "title": "Settin's",
-      "account": "Accy",
-      "language": "Wanguage",
-      "notifications": "Nya-tifurrcations",
-      "logout": "Rage-quit",
-      "viewSource": "Peek Unda Da Hood",
-      "changelog": "Changies",
-      "window-settings": "Window Settin's",
-      "activity-status": "Watchy Stawtus",
-      "privacy": "Pwivacy",
-      "connections": "Winkies",
-      "interface": "Intewface",
-      "developer": "Devvy",
-      "applications": "Appies",
-      "experiments": "Mad Scwience!!",
-      "badges": "Badgeys",
-      "call-settings": "Cawwy Settin's",
-      "tickets": "Help Me Senpai!!",
-      "profile": "Pwofiwe"
-    },
-    "header": {
-      "servers": "Sewvews",
-      "friends": "Fwiends",
-      "manageAccount": "Manage Accy"
-    },
-    "account": {
-      "title": "settin's - accy",
-      "email": "Emaiw",
-      "username": "Usewnyame",
-      "avatar": "Ava-taw",
-      "supported": "Suppowted",
-      "profile": "Pwofiwe",
-      "profileDescription": "Edit bio & cowows ✨",
-      "changePassword": "Changie Secwet Code",
-      "forgotPassword": "Wat Secwet Code??",
-      "newPassword": "Nyew Secwet Code",
-      "newPasswordDescription": "Changin' pass = wogged out ewhewe~",
-      "confirmNewPassword": "Confywm Nyew Secwet Code",
-      "confirmNewPasswordDescription": "Confywm ur nyew secwet code",
-      "confirmCurrentPassword": "Confywm Cuwwent Secwet Code",
-      "channelNotice": "Channew Nyotice",
-      "channelNoticeDescription": "Shows nyotice befowe chat. Changies appwy after weload.",
-      "saving": "Casting Spawells...",
-      "saveButton": "Save",
-      "saveChangesButton": "Save Changies",
-      "deleteAccount": "Poof Accy",
-      "deleteAccountDescription": "Can't undo dis!!",
-      "deleteAccountNotice": "Must weave/dwop sewvews befowe poof uwu",
-      "understoodButton": "Got it!",
-      "save": "Casting Spawells...",
-      "botID": "Senpai ID",
-      "confirmEmail": "Confywm youw emayw~",
-      "enterCode": "Entew the 5-digit codey sent to youw emayw~!",
-      "sendCodeButton": "SEND IT!!",
-      "resendIn": "Wesend in {{time}}",
-      "confirmButton": "Yee",
-      "cancelButton": "RUN AWAYYY..",
-      "channelNoticeTooLong": "Channyw nyotice can't be wongew than 300 chawactews!!",
-      "deletionNotice": "NOOO~!! Don't weave us wike dis!! If sumfin bugged you, pwetty pwease teww us in the officiaw Newimity sewvie... we can change :c",
-      "deletedInfo": {
-        "title": "What will poof",
-        "email": "• Emayww~",
-        "username": "• Usewname",
-        "ip": "• IP Addwess",
-        "bio": "• Dis me!!",
-        "messages": "• Youw Talkies",
-        "posts": "• Youw Postsies"
-      },
-      "postsAndMessagesNotice": "Youw posts and messageys might take a few weeks to aww poof",
-      "deleteCheckbox": "Get rid of aww my posts and msgs, pwease!!",
-      "palestineBorder": "Add Pawwestiine bowdew to youw ava-taw",
-      "bio": "Dis Me",
-      "bioDescription": "Multiline n markup suppowt",
-      "gradientColor1": "Gwadient Cowow 1",
-      "gradientColor2": "Gwadient Cowow 2",
-      "primaryColor": "Pwimawy Cowow",
-      "preview": "Ppwwweview",
-      "tag": "Tag",
-      "banner": "Big Piccy",
-      "browse": "Snoop"
-    },
-    "privacy": {
-      "lastOnline": {
-        "title": "Wast Onwine",
-        "description": "Set who sees wast onwine",
-        "hidden": "Shh 🤫",
-        "friendsOnly": "Fwiends onwy",
-        "friendsAndServers": "Fwiends & sewvews"
-      },
-      "directMessage": {
-        "description": "Who can dm ya",
-        "friendsAndServersOnly": "Fwiends & Sewvews onwy",
-        "friendsOnly": "Fwiends onwy",
-        "title": "DM",
-        "anyone": "Everypony!"
-      },
-      "friendRequest": {
-        "title": "Fwiend Wequest",
-        "description": "Who can send fr's",
-        "anyone": "Everypony!",
-        "serversOnly": "Sewvews onwy",
-        "nobody": "Nobody :(("
-      },
-      "profileOptions": {
-        "title": "Pwofiwe Options",
-        "hideFollowers": "Hide Fowwowews",
-        "hideFollowersDescription": "Nyo show fowwowews",
-        "hideFollowing": "Hide Fowwowing",
-        "hideFollowingDescription": "Nyo show fowwowing"
-      }
-    },
-    "notifications": {
-      "desktopNotifications": "Desktop Nya-tifurrcations",
-      "desktopNotificationsDescription": "Show poppies even minimized",
-      "sounds": "Soundies",
-      "soundsDescription": "Tuwn off if annoying uwu",
-      "volume": "Vowume",
-      "volumeDescription": "Change nya notif vowume",
-      "changeSoundsDescription": "Pick cutie notif soundies",
-      "message": "Talky Sound",
-      "messageDescription": "Pway sound on talky",
-      "mention": "Mention Sound",
-      "mentionDescription": "Pway sound on mention",
-      "reminder": "Wemindew",
-      "reminderDescription": "Beeww ting fow wemindews",
-      "inAppPreview": "In-App Pweview",
-      "inAppPreviewDescription": "Show Smol Poppies",
-      "mute": "SHUDDUP",
-      "inAppPreviewModes": {
-        "off": "Off",
-        "mentionsOnly": "Mentions Onwy",
-        "inheritFromPingSettings": "Copy Ping Settin's",
-        "all": "Aww"
-      }
-    },
-    "call": {
-      "nextCallNotice": "Changies appwy next caww",
-      "inputDevices": "Input Devc's",
-      "outputDevices": "Output Devc's",
-      "default": "Defauwt",
-      "inputMode": "Input Mode",
-      "openMic": "Open Mic",
-      "voiceActivity": "Voice Acti",
-      "pushToTalk": "Push2Tawk",
-      "bindButton": "Bind",
-      "stopButton": "Stap",
-      "downloadAppNotice": "Downwoad Nerimity app fow dis featuwe ✨"
-    },
-    "interface": {
-      "blurEffect": "Bwuwwy Effect",
-      "blurEffectDescription": "Make shinies... Enabwing bwur may slow some devices~ >w<",
-      "disableAdvancedMarkupBar": "No Fancy Baw",
-      "disableAdvancedMarkupBarDescription": "Disabwe da advanced text baw uwu",
-      "customizeColors": "Custy Cowows",
-      "customizeColorsDescription": "Pick nyew cowows uwu",
-      "title": "S-Ssettingsy Intyface OwO",
-      "customCSS": "Cwustom Shiny-Stuffz >w<",
-      "themes": "Coowowful thewmesies",
-      "themesDescription": "Pick a pwetty thewme owo ow wemind it to defauwt! *giggles*",
-      "maintainers": "Pwetty pewsons who made dis ✨",
-      "apply": "Make it happen!! >w<",
-      "enableEruda": "Enabble Ewuda",
-      "enableErudaDescription": "Fow secret debuggy stuffs! Shhh don't teww fwends >///<",
-      "enableOnce": "One-Time Magic!!",
-      "customCSSWarning": "Wemembew, stwanger danger~!!",
-      "saveAndApply": "LETS DO DIS!"
-    },
-    "language": {
-      "reloadNotice": "U must wewoad da app to fuwwy apply da nyew wanguage~",
-      "reloadButton": "Taktical Wewoad",
-      "contributors": "Pwetty Pewsons",
-      "translateModal": {
-        "title": "Twanswate Dis~"
-      }
-    },
-    "window": {
-      "title": "Settins... Window Settins",
-      "downloadAppNotice": "To modifwy dese settins, u must downwoad da awww-some Nerimity desktop app~",
-      "startupOptions": "Stawtup Optsies",
-      "openOnStartup": "Open Nerimity on stawtup",
-      "startMinimized": "Stawt Smol",
-      "startMinimizedDescription": "Minimize Nerimity to da tway automaticawwy~",
-      "disableHardwareAcceleration": "Disabwe Hawdwawe Accewewation",
-      "disableCustomTitlebar": "Disabwe Custom Titwebaw",
-      "reopenAppNotice": "U gotta weopen da app fow da change to take effect"
-    },
-    "developer": {
-      "oauth2": {
-        "description": "Handle OAuth2y",
-        "title": "OAuth2y",
-        "generateLink": "Cweate A Winky"
-      }
-    }
-  },
-  "supportBlock": {
-    "support": "Buy Me Bubbwe Tea",
-    "supportDescription": "Donate4Badge"
-  },
-  "userContextMenu": {
-    "viewProfile": "Peek Pwofiwe",
-    "sendMessage": "Send Talky",
-    "copyId": "Copy Magik ID",
-    "editRoles": "Edit Wowes",
-    "kick": "Yeet",
-    "ban": "Banish",
-    "changeNickname": "Changie Nyickname",
-    "transferOwnership": "Pwoperty Swap",
-    "callVolume": "Caww Vowume"
-  },
-  "kickServerMemberModal": {
-    "title": "Yeet {{username}}!!",
-    "kickButton": "Yeet",
-    "kicking": "Yeeting...",
-    "backButton": "Backies",
-    "message": "Suwe u wanna yeet <1>{{username}}</1>??"
-  },
-  "editServerRolesModal": {
-    "title": "Edit Wowes"
-  },
-  "banModal": {
-    "title": "Banish {{username}}?",
-    "message": "Suwe u wanna banish <1>{{username}}</1>??",
-    "deletePastMessagesCheckbox": "Dewete talkys wast 7 houws",
-    "banButton": "Banish",
-    "banning": "Banishing..."
-  },
-  "messageContextMenu": {
-    "editMessage": "Edit Talky",
-    "deleteMessage": "Poof Talky",
-    "translateMessage": "Owo Wats Dis?",
-    "copyMessage": "Copy Talky",
-    "copyId": "Copy Magik ID",
-    "viewReactions": "View Reacties",
-    "quoteMessage": "Quote Talky",
-    "reportMessage": "Snitch On Talky",
-    "reply": "Wepwy",
-    "markUnread": "Mawk Unwead",
-    "pinMessage": "Sticky",
-    "unpinMessage": "Unsticky"
-  },
-  "typing": {
-    "single": "<1>{{username}}</1> is mashing their keyboawd",
-    "multiple": "<1>{{username}}</1> an' <2>{{username2}}</2> awwe typing… nya~",
-    "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> an' <3>{{username3}}</3> awwe typing… nya~",
-    "andOthers": "<1>{{count}}</1> uwsers awe typing..."
-  },
-  "profile": {
-    "followButton": "Fowwow",
-    "unfollowButton": "Unfowwow :c",
-    "removeFriendButton": "Unfwiend",
-    "addFriendButton": "Add Fwiend",
-    "pendingRequest": "Pending Wequest",
-    "acceptRequestButton": "Accept Wequest",
-    "messageButton": "Talky",
-    "mutualFriends": "Mutual Fwiends ({{count}})",
-    "mutualServers": "Mutual Sewvews ({{count}})",
-    "postsTab": "Posties",
-    "followersTab": "Fowwowews",
-    "followingTab": "Fowwowing",
-    "postsAndRepliesTab": "Posties & Wepwies ({{count}})",
-    "likedPostsTab": "Wiked Posties ({{count}})"
-  },
-  "posts": {
-    "deletePostModal": {
-      "message": "Suwe u wanna dewete dis post?",
-      "cancelButton": "RUN AWAYYY..",
-      "deleteButton": "Poof"
-    },
-    "postWasDeleted": "Postie was poofed!!!",
-    "someoneLikedYourPost": "<1>{{username}}</1> wiked youw post!",
-    "someoneFollowedYou": "<1>{{username}}</1> went staw-staw eyes on u!",
-    "someoneRepliedToPost": "<1>{{username}}</1> wepwied to postie!",
-    "createAPostInputPlaceholder": "Cweate a post...",
-    "replyInputPlaceholder": "Wepwy...",
-    "replyButton": "Wepwy",
-    "createButton": "Cweate",
-    "someoneRepostedYourPost": "<1>{{username}}</1> wemixed youw postie!",
-    "pollOptions": "Poww Options",
-    "optionNumberPlaceholder": "Option {{number}}"
-  },
-  "resetPassword": {
-    "title": "Weset Secwet Code",
-    "resetSuccessful": "Secwet Code weset success nya~",
-    "passwordsDoNotMatch": "Secwet Code Confirm = Nyo Match",
-    "resetPasswordButton": "Weset Secwet Code",
-    "resetting": "Wesetting...",
-    "email": "Emaiw",
-    "sendEmailButton": "Send Emaiw",
-    "sending": "Sending Emaiw...",
-    "passwordTooLong": "Secwet Code must be wess than 72 chawactews~! >w<"
-  },
-  "dashboard": {
-    "title": "Dashyboawd",
-    "activeUsers": "Active Hoomans",
-    "noActiveUsers": "No active hoomans :c",
-    "servers": "Sewvews",
-    "posts": "Posties",
-    "feed": "Feedies",
-    "discover": "Discova",
-    "notifications": "Nya-tifurrcations"
-  },
-  "messageArea": {
-    "messageBoxPlaceholder": "Talky {{username}}",
-    "messageBoxChannelPlaceholder": "Talky In {{channelName}}"
-  },
-  "createServerModal": {
-    "title": "Cweate Sewvew",
-    "notice": "No NSFW Awwowed!!",
-    "serverName": "Sewvew Nyame",
-    "placeholder": "My AWESOME Sewvew",
-    "creating": "Cweating...",
-    "createServerButton": "Cweate Sewvew",
-    "closeButton": "Cwose",
-    "tabLabel": "Cweate"
-  },
-  "serverContextMenu": {
-    "markAsRead": "Mawk as Wead",
-    "invites": "Invites",
-    "notifications": "Nya-tifurrcations",
-    "settings": "Settin's",
-    "copyId": "Copy Magik ID",
-    "notificationOptions": {
-      "everything": "Evewything",
-      "mentionsOnly": "Mentions Onwy",
-      "mute": "SHH 🤫"
-    },
-    "leave": "Weave"
-  },
-  "informationDrawer": {
-    "title": "Info",
-    "channelNotice": "Channew Nyotice",
-    "attachments": "Attachies",
-    "attachmentsBack": "Back",
-    "members": "Membews"
-  },
-  "botInvite": {
-    "serverSelect": "Pwease sewect a sewvew!",
-    "creator": "Cweated by",
-    "selectButton": "Sewect Sewvew",
-    "addButton": "Add botty",
-    "permissions": "Bot Pewmissions"
-  },
-  "googleAccountLink": {
-    "linking": "Winkie to Google~",
-    "success": "Wink compwete! U can cwose dis now"
-  },
-  "invite": {
-    "loading": "Woading Invite…",
-    "invalid": "Invawid Invite Code >.<",
-    "joinButton": "LEMME IN~",
-    "joiningButton": "Joinin'…",
-    "visitButton": "Peek In~",
-    "member": "hooman",
-    "members": "hoomans"
-  },
-  "fileEmbed": {
-    "expired": "Expwied",
-    "modifiedOrDeleted": "This fiwe was modiwfied/deweted by da cweatow in deir Google Dwive~",
-    "viewImage": "View Image~",
-    "download": "Downwoad~",
-    "expires": "Expiwes"
-  },
-  "videoEmbed": {
-    "couldNotGetVideo": "Couwd not get video >.<",
-    "videoModified": "Video was modiwfied~",
-    "googleDrivePolicy": "Due to new Google Dwive powicy, u can onwy pway videos fwom da Nerimity Desktop App uwu",
-    "videoExpired": "Video expwied~",
-    "modifiedOrDeleted": "This video was modiwfied/deweted by da cweatow in deir Google Dwive~",
-    "expires": "Expiwes",
-    "expired": "Expwied"
-  },
-  "message": {
-    "badge": {
-      "bot": "Clanker",
-      "webhook": "Webbyhook",
-      "owner": "Senpai"
-    },
-    "reactions": {
-      "more": "{{count}} mowe~"
-    },
-    "deletedMessage": "Talky was poofed!",
-    "dismissButton": "Go Awae",
-    "editedAt": "Edited at {{time}}~",
-    "twitterEmbed": {
-      "modalTitle": "Detaiwed Twittow Embed",
-      "modalDescription": "When using da officiaw Twittow embed, youw data may be cowwected by Elongated Musk",
-      "doNotShowAgain": "Don't show dis again",
-      "closeButton": "No showie >:",
-      "showButton": "SHOWWW",
-      "basicEmbed": "Boring Embed",
-      "detailedEmbed": "Lot Of Detail Embed"
-    },
-    "blocked": "U have bwocked dis hooman~ Click to see~",
-    "translationError": "Couwd not twanswate dis talky >.<",
-    "translation": {
-      "title": "Twanswation~"
-    }
-  },
-  "statusHeader": {
-    "authenticationError": "Authwentication ewwow >.<",
-    "connecting": "Spinning up...",
-    "reconnecting": "LEMME INNNN!!...",
-    "inQueue": "In Qwueue: {{count}} Hoomans Aheawd Of U…",
-    "authenticating": "Authwenticating...",
-    "connected": "Wew’we in"
-  },
-  "dangerousLinkModal": {
-    "title": "Cwustom Winkies",
-    "message": "Dis winky wiww t-take u to~",
-    "cancelButton": "RUN AWAYYY..",
-    "visitButton": "WETS GOOOO!!!"
-  },
-  "editFolderModal": {
-    "title": "Edit Fwowdew",
-    "placeholder": "Fwowdew Nyame",
-    "cancelButton": "RUN AWAYYY..",
-    "save": "WETS DO DIS",
-    "saving": "Casting Spawells...",
-    "errors": {
-      "emptyName": "Pwease entew a fwowdew nyame"
-    }
-  },
-  "joinServerModal": {
-    "title": "Join Sewvew",
-    "notice": "If u wanna expwore sewvews, pwease go to da expwore tab instead~",
-    "exploreButton": "Expwore Sewvews",
-    "inviteCode": "Inv Code",
-    "continueButton": "LETS GOOO!!",
-    "missingInvite": "Pwease entew a sewvew invite code",
-    "tabLabel": "LEMME IN!!!"
-  },
-  "addFriendModal": {
-    "title": "Add Fwiend",
-    "description": "Entyew youw fwiend’s usewnyame & tag to add dem~",
-    "placeholder": "Usewnyame:UWU1",
-    "closeButton": "RUN AWAYYY..",
-    "requestSent": "Wequest senties!~",
-    "sendRequest": "Send Wequest",
-    "sending": "Sending…",
-    "errors": {
-      "missingTag": "Pwease entyew a usewnyame:tag",
-      "colonInUsername": "Usewnyame must nyot contain a cowon -.-"
-    }
-  },
-  "deleteMessageModal": {
-    "title": "Suwe u wanna poof dis talky?",
-    "body": "U wanna poof dis talky?",
-    "cancelButton": "RUN AWAYYY..",
-    "confirmButton": "Poof~"
-  },
-  "colorPickerModal": {
-    "title": "Cowow Picky",
-    "done": "YEP!"
-  },
-  "photoEditor": {
-    "title": "Piccy Editow",
-    "cancel": "RUN AWAYYY..",
-    "edit": "DIS IS PURRFECT!",
-    "undo": "Un-doo (Ctww + Z)",
-    "brush": "Bwushie",
-    "erase": "Poof",
-    "strokeWidth": "Stwokie width: {{width}}~",
-    "mobileNotice": "Pinchy to dwag/zoom",
-    "desktopMove": "Space + dwaggy to moove",
-    "desktopZoom": "Scwoww to zoomie"
-  },
-  "imageCropModal": {
-    "title": "Cwop Piccy",
-    "done": "DIS IS PURRFECT!"
-  },
-  "systemMessages": {
-    "joinServer": {
-      "bot": "was summoned to do hooman bidding",
-      "user": "wandered into da sewvew"
-    },
-    "leaveServer": "poofed outta da sewvew",
-    "kickUser": "got yeeted fwom da sewvew",
-    "banUser": "got banished fwom da sewvew",
-    "callStarted": "has started a voicey caww",
-    "bumpServer": "bumpsied da sewvew",
-    "pinnedMessage": "stickied a talky",
-    "unsupported": "PANIC PANIC!! Dis talky is brokey"
-  },
-  "oauth2": {
-    "AuthorizeButton": "Authowy",
-    "permissions": "Powew-ups"
-  }
 }
