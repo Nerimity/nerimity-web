@@ -40,9 +40,9 @@ export default function LanguageSettings() {
   const [searchTerm, setSearchTerm] = createSignal("");
   const languageKeys = Object.keys(languages);
   const [filteredLanguages, setFilteredLanguages] = createSignal(languageKeys);
-  const [percentMap, setPercentMap] = createSignal<Record<string, number>>({});
+  const [percentTranslated, setPercentTranslated] = createSignal(0);
 
-  const computePercentTranslated = (lang: any) => {
+  const checkTranslatedStrings = (langKey: string, lang: any) => {
     let total = 0;
     let translated = 0;
 
@@ -50,7 +50,7 @@ export default function LanguageSettings() {
       for (const key in obj) {
         if (typeof obj[key] === "string") {
           total++;
-          if (nestedLang?.[key] && nestedLang?.[key] !== obj) translated++;
+          if (nestedLang?.[key] && nestedLang[key] !== obj[key]) translated++;
         } else if (typeof obj[key] === "object") {
           checkNested(obj[key], nestedLang?.[key]);
         }
@@ -58,7 +58,8 @@ export default function LanguageSettings() {
     };
 
     checkNested(en, lang);
-    return (translated / total) * 100;
+    const percent = (translated / total) * 100;
+    setPercentTranslated(percent);
   };
 
   const normalizeForSearch = (str?: string) =>
@@ -84,21 +85,17 @@ export default function LanguageSettings() {
   const setLanguage = async (key: string) => {
     const oldKey = key;
     key = key.replace("-", "_");
+
     document.documentElement.setAttribute("lang", oldKey || "en");
 
-    let langData;
     if (key !== "en_gb") {
-      langData = await getLanguage(key);
-      if (!langData) return;
-      actions.addResources(key, "translation", langData);
+      const language = await getLanguage(key);
+      if (!language) return;
+      checkTranslatedStrings(oldKey, language);
+      actions.addResources(key, "translation", language);
     } else {
-      langData = languages.en_gb;
+      setPercentTranslated(100);
     }
-
-    setPercentMap((prev) => ({
-      ...prev,
-      [key]: computePercentTranslated(langData),
-    }));
 
     actions.changeLanguage(key);
     setCurrentLanguage(key);
@@ -106,13 +103,11 @@ export default function LanguageSettings() {
   };
 
   onMount(async () => {
-    const map: Record<string, number> = {};
-    for (const key of languageKeys) {
-      const lang = key === "en_gb" ? languages.en_gb : await getLanguage(key);
-      if (!lang) continue;
-      map[key] = computePercentTranslated(lang);
+    const currentKey = getCurrentLanguage() || "en_gb";
+    const language = await getLanguage(currentKey);
+    if (language) {
+      checkTranslatedStrings(currentKey.replace("_", "-"), language);
     }
-    setPercentMap(map);
   });
 
   createEffect(() => {
@@ -138,7 +133,7 @@ export default function LanguageSettings() {
             <LanguageCardItem
               languageKey={key}
               selected={currentLocalLanguage().replace("_", "-") === key}
-              percentTranslated={percentMap()[key]}
+              percentTranslated={percentTranslated()}
               onClick={() => setLanguage(key)}
             />
           )}
@@ -288,19 +283,13 @@ const TranslateModal = (props: { language: string; close: () => void }) => {
       close={props.close}
       doNotCloseOnBackgroundClick
       desktopMaxWidth={860}
-      class={css`
-        width: 90vw;
-      `}
+      class={css`width: 90vw;`}
     >
       <Modal.Header
         title={t("settings.language.translateModal.title")}
         icon="translate"
       />
-      <Modal.Body
-        class={css`
-          height: 90vh;
-        `}
-      >
+      <Modal.Body class={css`height: 90vh;`}>
         <iframe
           src="https://supertigerdev.github.io/i18n-tool/"
           height="100%"
