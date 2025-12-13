@@ -31,6 +31,7 @@ import en from "@/locales/list/en-gb.json?raw";
 import { Modal } from "../ui/modal";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { Rerun } from "@solid-primitives/keyed";
+import Input from "../ui/input/Input";
 
 const Container = styled("div")`
   display: flex;
@@ -40,18 +41,22 @@ const Container = styled("div")`
 `;
 
 const LanguageItemContainer = styled(ItemContainer)`
-  padding: 5px;
+  padding: 8px;
   gap: 10px;
   padding-left: 10px;
+  background-color: rgba(255, 255, 255, 0.04);
   &:hover {
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
+  }
+  &:after {
+    display: none;
   }
 `;
 
 export default function LanguageSettings() {
   const { header } = useStore();
   const [, actions] = useTransContext();
-  const [languageUpdated, setLanguageUpdated] = createSignal(false);
+  const [search, setSearch] = createSignal("");
 
   const [currentLocalLanguage, setCurrentLocalLanguage] = createSignal(
     getCurrentLanguage() || "en_gb"
@@ -93,12 +98,28 @@ export default function LanguageSettings() {
 
   const languageKeys = Object.keys(languages);
 
+  const normalizeForSearch = (str?: string) =>
+    str
+      ?.normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\p{L}\p{N}]+/gu, " ")
+      .trim()
+      .toLowerCase() || "";
+
+  const filterLanguages = () => {
+    const term = normalizeForSearch(search());
+    if (!term.trim()) return languageKeys;
+    return languageKeys.filter((key) => {
+      const lang = (languages as any)[key] as Language;
+      const name = normalizeForSearch(lang.name);
+      const native = normalizeForSearch(lang.nativeName);
+      return name.includes(term) || native.includes(term);
+    });
+  };
+
   const setLanguage = async (key: string) => {
     const oldKey = key;
     key = key.replace("-", "_");
-    if (getCurrentLanguage() !== key) {
-      setLanguageUpdated(true);
-    }
 
     // Set language attribute without changing layout direction
     document.documentElement.setAttribute("lang", oldKey || "en");
@@ -127,16 +148,32 @@ export default function LanguageSettings() {
           />
           <BreadcrumbItem title={t("settings.drawer.language")} />
         </Breadcrumb>
-        <For each={languageKeys}>
-          {(key) => (
-            <LanguageItem
-              selected={currentLocalLanguage().replace("_", "-") === key}
-              onClick={() => setLanguage(key)}
-              key={key}
-              percentTranslated={percentTranslated()}
-            />
-          )}
-        </For>
+
+        <Input
+          label={t("inbox.drawer.searchBarPlaceholder")}
+          value={search()}
+          onText={setSearch}
+        />
+
+        <Notice type="warn" description={t("settings.language.searchNotice")} />
+
+        <FlexColumn
+          gap={8}
+          class={css`
+            margin-top: 8px;
+          `}
+        >
+          <For each={filterLanguages()}>
+            {(key) => (
+              <LanguageItem
+                selected={currentLocalLanguage().replace("_", "-") === key}
+                onClick={() => setLanguage(key)}
+                key={key}
+                percentTranslated={percentTranslated()}
+              />
+            )}
+          </For>
+        </FlexColumn>
       </Container>
     </Rerun>
   );
@@ -158,32 +195,39 @@ function LanguageItem(props: {
   };
 
   const handlePercentClick = async () => {
-    createPortal((close) => (
-      <TranslateModal close={close} language={props.key} />
-    ));
+    window.open(
+      "https://hosted.weblate.org/projects/nerimity/-/" + props.key,
+      "_blank"
+    );
+    // createPortal((close) => (
+    //   <TranslateModal close={close} language={props.key} />
+    // ));
   };
 
   return (
-    <LanguageItemContainer onclick={onClick} selected={props.selected}>
+    <LanguageItemContainer
+      onclick={onClick}
+      selected={props.selected}
+      handlePosition="right"
+    >
       <Emoji
         class={css`
           height: 30px;
           width: 30px;
+          align-self: flex-start;
         `}
         name={emojiUnicodeToShortcode(language.emoji)}
         url={unicodeToTwemojiUrl(language.emoji)}
       />
-      <FlexColumn>
-        <Text>
-          {language.name}
-          <Show
-            when={language.nativeName && language.nativeName !== language.name}
-          >
-            <Text size={14} opacity={0.5} style={{ "margin-left": "4px" }}>
-              ({language.nativeName})
-            </Text>
-          </Show>
-        </Text>
+      <FlexColumn gap={2}>
+        <Text>{language.name}</Text>
+        <Show
+          when={language.nativeName && language.nativeName !== language.name}
+        >
+          <Text opacity={0.6} size={14}>
+            {language.nativeName}
+          </Text>
+        </Show>
         <Contributors contributors={language.contributors} />
       </FlexColumn>
 
@@ -191,9 +235,10 @@ function LanguageItem(props: {
         <div
           class={css`
             margin-left: auto;
-            opacity: 0.4;
+            opacity: 0.6;
             cursor: pointer;
             transition: 0.2s;
+            font-size: 14px;
             &:hover {
               opacity: 1;
             }
@@ -206,7 +251,6 @@ function LanguageItem(props: {
     </LanguageItemContainer>
   );
 }
-
 
 const ContributorContainer = styled(FlexRow)`
   font-size: 14px;

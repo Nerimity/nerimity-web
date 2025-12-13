@@ -421,6 +421,7 @@
     },
     "language": {
       "reloadNotice": "You must reload the app to fully apply the new language.",
+      "searchNotice": "Translations are maintained by the community. Please report any translations that are incorrect or inappropriate to Nerimity.",
       "reloadButton": "Reload",
       "contributors": "Contributors",
       "translateModal": {
