@@ -435,7 +435,7 @@
         },
         "account": {
             "email": "Correo",
-            "username": "Usuario",
+            "username": "Nombre de usuario",
             "tag": "Etiqueta",
             "botID": "ID del bot",
             "avatar": "Avatar",
@@ -443,7 +443,7 @@
             "browse": "Navegar",
             "supported": "Compatible",
             "profile": "Perfil",
-            "profileDescription": "Edita tu biografía o colores",
+            "profileDescription": "Edita tu biografía o los colores de tu perfil",
             "palestineBorder": "Añadir un borde de Palestina a tu avatar.",
             "bio": "Biografía",
             "bioDescription": "Compatible con markup y multiline",
@@ -594,7 +594,7 @@
             "editButton": "Editar",
             "activityStatusModal": {
                 "title": "Edita tu estatus de actividad",
-                "executable": "Ejectuable",
+                "executable": "Ejecutable",
                 "action": "Acción",
                 "name": "Nombre",
                 "emoji": "Emoji",
@@ -858,7 +858,7 @@
         "strokeWidth": "Ancho del trazo: {{width}}",
         "mobileNotice": "Pellizca para arrastrar/acercar",
         "desktopMove": "Espacio + arrastrar para mover",
-        "desktopZoom": "Desplazar para acercar/alejar"
+        "desktopZoom": "Desplaza la rueda del ratón para acercar/alejar"
     },
     "imageCropModal": {
         "done": "Hecho",
