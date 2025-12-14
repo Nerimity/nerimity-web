@@ -532,6 +532,7 @@ function MessageArea(props: {
           showHtml
           toggleHtml={toggleHtml}
           htmlEnabled={htmlEnabled()}
+          class={styles.advancedMarkupOptions}
         />
       </Show>
       <CustomTextArea
@@ -1885,13 +1886,19 @@ function UserSuggestionItem(props: {
         <div class={styles.suggestionInfo}>{props.user.username}</div>
       </Show>
       <Show when={props.user?.special && props.user.id === "e"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.everyone")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.everyone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "s"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.someone")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.someone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "si"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.silent")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.silent")}
+        </div>
       </Show>
       <Show when={!props.user?.special && props.selected}>
         <Icon class={styles.suggestIcon} name="keyboard_return" />
@@ -2367,14 +2374,20 @@ function ScheduledDelete() {
 
   return (
     <div class={styles.scheduledDeleteContainer}>
-      <div class={styles.scheduledDeleteTitle}>{t("messageView.flaggedServer.title")}</div>
+      <div class={styles.scheduledDeleteTitle}>
+        {t("messageView.flaggedServer.title")}
+      </div>
       <div class={styles.scheduledDeleteDesc}>
         {t("messageView.flaggedServer.description")}
       </div>
       <Button
         onclick={onLeaveClick}
         iconName={isCreator() ? "delete" : "logout"}
-        label={isCreator() ? t("messageView.flaggedServer.deleteButton") : t("messageView.flaggedServer.leaveButton")}
+        label={
+          isCreator()
+            ? t("messageView.flaggedServer.deleteButton")
+            : t("messageView.flaggedServer.leaveButton")
+        }
         color="var(--alert-color)"
         primary
       />

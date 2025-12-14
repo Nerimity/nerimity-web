@@ -8,6 +8,13 @@ export const DefaultTheme = {
   "header-background-color": "hsla(216deg 8% 15% / 80%)",
   "header-background-color-blur-disabled": "hsl(216deg 8% 15%)",
   "tooltip-background-color": "rgb(40, 40, 40)",
+
+  "chat-input-background-color": "rgba(0, 0, 0, 0.86)",
+  "chat-input-background-color-blur-disabled": "black",
+
+  "chat-markup-bar-background-color": "rgba(0, 0, 0, 0.86)",
+  "chat-markup-bar-background-color-blur-disabled": "black",
+
   // Primary
   "primary-color": "#4c93ff",
   "primary-color-dark": "#2d3746",
