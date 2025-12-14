@@ -97,7 +97,7 @@ import { Portal } from "solid-js/web";
 import { Trans } from "@nerimity/solid-i18lite";
 import { Rerun } from "@solid-primitives/keyed";
 import { UnescapedTrans } from "../UnescapedTrans";
-
+import { useLocalStorage } from "@/common/localStorage";
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
@@ -1146,16 +1146,27 @@ function FloatingMessageEmojiPicker(props: {
   );
 }
 
+const [globalMention, setGlobalMention] = useLocalStorage<boolean>(
+  StorageKeys.MENTION_REPLIES,
+  true
+);
+
 function FloatingReply() {
   const params = useParams<{ channelId: string }>();
   const { channelProperties } = useStore();
 
   const property = () => channelProperties.get(params.channelId);
-
   const messages = () => property()?.replyToMessages || [];
-  const mention = () => property()?.mentionReplies;
-  const setMention = (value: boolean) => {
-    channelProperties.toggleMentionReplies(params.channelId);
+
+  createEffect(() => {
+    const value = globalMention();
+    if (property() && property()!.mentionReplies !== value) {
+      channelProperties.toggleMentionReplies(params.channelId);
+    }
+  });
+
+  const toggleMention = (value: boolean) => {
+    setGlobalMention(value);
   };
 
   return (
@@ -1164,6 +1175,7 @@ function FloatingReply() {
         <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
           {t("messageArea.replying", { count: messages().length })}
         </Text>
+
         <For each={messages()}>
           {(message, i) => (
             <div
@@ -1196,9 +1208,10 @@ function FloatingReply() {
             </div>
           )}
         </For>
+
         <Checkbox
-          checked={mention()!}
-          onChange={setMention}
+          checked={globalMention()}
+          onChange={toggleMention}
           style={{
             gap: "4px",
             "padding-top": "4px",
