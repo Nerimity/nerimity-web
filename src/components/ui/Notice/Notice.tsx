@@ -4,6 +4,14 @@ import { JSX, Match, Show, Switch, For } from "solid-js";
 import { classNames } from "@/common/classNames";
 import Icon from "../icon/Icon";
 
+export type NoticeLink = {
+  label: string;
+  href: string;
+  target?: "_blank" | "_self";
+};
+
+type NoticeDescription = string | NoticeLink;
+
 const noticeType = {
   warn: {
     single: "Warning",
@@ -39,7 +47,8 @@ const noticeType = {
 
 interface NoticeProps {
   class?: string;
-  description?: string | string[];
+  description?: NoticeDescription | NoticeDescription[];
+  links?: Record<string, NoticeLink>;
   type: keyof typeof noticeType;
   children?: JSX.Element;
   style?: JSX.CSSProperties;
@@ -47,8 +56,78 @@ interface NoticeProps {
   icon?: string;
 }
 
+function isNoticeLink(value: unknown): value is NoticeLink {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "label" in value &&
+    "href" in value
+  );
+}
+
+function renderLink(link: NoticeLink) {
+  return (
+    <a
+      href={link.href}
+      target={link.target ?? "_self"}
+      rel={link.target === "_blank" ? "noopener noreferrer" : undefined}
+      class={styles.noticeLink}
+    >
+      {link.label}
+    </a>
+  );
+}
+
+function renderWithTokens(
+  text: string,
+  links?: Record<string, NoticeLink>
+): JSX.Element {
+  if (!links) return text;
+
+  const parts: JSX.Element[] = [];
+  const regex = /{{(.*?)}}/g;
+
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text))) {
+    const key = match[1];
+    const link = links[key];
+
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    if (link) {
+      parts.push(renderLink(link));
+    } else {
+      parts.push(match[0]);
+    }
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return <>{parts}</>;
+}
+
+function renderDescription(
+  item: NoticeDescription,
+  links?: Record<string, NoticeLink>
+) {
+  if (isNoticeLink(item)) return renderLink(item);
+  return renderWithTokens(item, links);
+}
+
 export function Notice(props: NoticeProps) {
   const typeMeta = noticeType[props.type];
+
+  const isPlural =
+    Array.isArray(props.description) &&
+    props.description.filter((d) => typeof d === "string").length > 1;
 
   return (
     <div
@@ -68,20 +147,28 @@ export function Notice(props: NoticeProps) {
               : typeMeta.single)}
         </div>
       </div>
+
       <Show when={props.description}>
         <Switch>
           <Match when={Array.isArray(props.description)}>
             <ul class={styles.noticeList}>
-              <For each={props.description as string[]}>
-                {(item) => <li>{item}</li>}
+              <For each={props.description as NoticeDescription[]}>
+                {(item) => <li>{renderDescription(item, props.links)}</li>}
               </For>
             </ul>
           </Match>
+
           <Match when={!Array.isArray(props.description)}>
-            <div class={styles.noticeDescription}>{props.description}</div>
+            <div class={styles.noticeDescription}>
+              {renderDescription(
+                props.description as NoticeDescription,
+                props.links
+              )}
+            </div>
           </Match>
         </Switch>
       </Show>
+
       <Show when={props.children}>
         <div class={styles.noticeContent}>{props.children}</div>
       </Show>
