@@ -1145,8 +1145,9 @@ function FloatingMessageEmojiPicker(props: {
     </Floating>
   );
 }
+
 const [globalMention, setGlobalMention] = useLocalStorage<boolean>(
-  "mentionReplies",
+  StorageKeys.MENTION_REPLIES,
   true
 );
 
