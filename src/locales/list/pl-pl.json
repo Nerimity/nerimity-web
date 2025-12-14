@@ -76,7 +76,8 @@
         "drawer": {
             "title": "Odkrywaj",
             "servers": "Serwery",
-            "bots": "Boty"
+            "bots": "Boty",
+            "themes": "Motywy"
         },
         "servers": {
             "title": "Odkrywaj - Serwery",
@@ -91,11 +92,18 @@
             "lifetimeBumpCount": "{{count}} wszystkich podbić",
             "visitServerButton": "Odwiedź",
             "joinServerButton": "Dołącz",
-            "bumpButton": "Podbij ({{count}})"
+            "bumpButton": "Podbij ({{count}})",
+            "moderationNotice": "Serwery nie są moderowane przez Nerimity. Prosimy zgłaszać serwery, które łamią Warunki Użytkowania.",
+            "sortMostActive": "Najbardziej Aktywne (Beta)",
+            "pinnedServers": "Przypięte Serwery",
+            "recentlyBumped": "Ostatnio Podbite Serwery"
         },
         "bots": {
             "title": "Odkrywaj - Boty",
-            "noticeMessage": "Bot może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}."
+            "noticeMessage": "Bot może zostać podbity co {{hours}} godziny. Wszystkie podbicia resetują się co {{date}}.",
+            "moderationNotice": "Boty nie są moderowane przez Nerimity. Prosimy zgłaszać boty, które są złośliwe lub łamią Warunki Użytkowania.",
+            "inviteButton": "Zaproś",
+            "serverCount": "Serwery: {{count}}"
         },
         "themes": {
             "title": "Odkrywaj - Motywy",
@@ -104,8 +112,14 @@
             "communityThemes": "Motywy od Społeczności",
             "noCommunityThemes": "Nie ma jeszcze motywów od społeczności.",
             "fetchThemesError": "Nie udało się wczytać motywów. Spróbuj ponownie później.",
-            "unlockDescription": "Kliknij, aby odkrywać wszystkie motywy od społeczności."
-        }
+            "unlockDescription": "Kliknij, aby odkrywać wszystkie motywy od społeczności"
+        },
+        "search": "Wyszukaj",
+        "sort": "Sortowanie",
+        "filter": "Filtrowanie",
+        "backButton": "Wstecz",
+        "by": "Od",
+        "bumped": "Podbito"
     },
     "servers": {
         "settings": {
@@ -190,7 +204,7 @@
                 "copyLinkButton": "Skopiuj link"
             },
             "publishServer": {
-                "publishNotice": "Opublikowanie serwera sprawi, że będzie on widoczny w <1>wyszukiwarce serwerów</1>",
+                "publishNotice": "Opublikowanie serwera sprawi, że będzie on widoczny w <1>wyszukiwarce serwerów</1>.",
                 "public": "Publiczny",
                 "publicDescription": "Opublikuj ten serwer.",
                 "bumpServer": "Podbij Serwer",
@@ -445,7 +459,7 @@
         },
         "interface": {
             "blurEffect": "Efekt rozmycia",
-            "blurEffectDescription": "Włącza przeźroczysty efekt rozmycia. Domyślnie wyłączone na urządzeniach mobilnych. Może powodować problemy z wydajnością.",
+            "blurEffectDescription": "Włącza przeźroczysty efekt rozmycia. Domyślnie wyłączone na urządzeniach mobilnych. (Może powodować problemy z wydajnością)",
             "disableAdvancedMarkupBar": "Wyłącz zaawansowany pasek znaczników",
             "disableAdvancedMarkupBarDescription": "Wyłącz zaawansowany pasek znaczników na kanałach tekstowych.",
             "customizeColors": "Dostosuj kolory",
@@ -479,7 +493,8 @@
             "contributors": "Współtwórcy",
             "translateModal": {
                 "title": "Tłumaczenia"
-            }
+            },
+            "searchNotice": "Tłumaczenia są aktualizowane przez społeczność. Prosimy zgłaszać do Nerimity wszelkie tłumaczenia, które są niepoprawne lub niewłaściwe."
         },
         "developer": {
             "oauth2": {
@@ -521,7 +536,7 @@
     },
     "userContextMenu": {
         "viewProfile": "Wyświetl profil",
-        "sendMessage": "Wyślij wiadomość",
+        "sendMessage": "Wyślij Wiadomość",
         "copyId": "Kopiuj ID",
         "editRoles": "Edytuj role",
         "kick": "Wyrzuć",
@@ -547,7 +562,7 @@
         "banButton": "Zbanuj",
         "banning": "Trwa banowanie...",
         "reasonLabel": "Powód (opcjonalny)",
-        "reasonPlaceholder": "Wprowadź powód..."
+        "reasonPlaceholder": "Wprowadź powód…"
     },
     "messageContextMenu": {
         "editMessage": "Edytuj wiadomość",
@@ -570,7 +585,7 @@
         "addFriendButton": "Dodaj do znajomych",
         "pendingRequest": "Oczekujące zaproszenie",
         "acceptRequestButton": "Zaakceptuj zaproszenie",
-        "messageButton": "Wyślij wiadomość",
+        "messageButton": "Wiadomość prywatna",
         "mutualFriends": "Wspólni znajomi ({{count}})",
         "mutualServers": "Wspólne serwery ({{count}})",
         "postsTab": "Posty",
@@ -620,7 +635,26 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "Napisz do {{username}}",
-        "messageBoxChannelPlaceholder": "Napisz na {{channelName}}"
+        "messageBoxChannelPlaceholder": "Napisz na {{channelName}}",
+        "replying": "Odpowiedź na {{count}} wiadomości",
+        "mention": "Oznacz",
+        "dropFile": "Upuść Plik",
+        "uploadTo": "Prześlij do",
+        "channelNotice": {
+            "title": "Zanim napiszesz wiadomość...",
+            "understoodButton": "Zrozumiano"
+        },
+        "specialMentions": {
+            "everyone": "Oznacza wszystkich",
+            "someone": "Oznacza losowego użytkownika",
+            "silent": "Cicha wiadomość"
+        },
+        "linkToGoogleDrive": {
+            "body": "Musisz połączyć swoje konto Google Drive, aby przesyłać duże zdjęcia, filmy lub pliki",
+            "linkButton": "Połącz teraz",
+            "cancelButton": "Nie łącz"
+        },
+        "emailNotice": "Potwierdź adres email, aby wysyłać wiadomości."
     },
     "createServerModal": {
         "title": "Stwórz serwer",
@@ -654,7 +688,7 @@
     },
     "botInvite": {
         "serverSelect": "Wybierz serwer!",
-        "creator": "Stworzono przez",
+        "creator": "Stworzono przez ",
         "selectButton": "Wybierz serwer",
         "addButton": "Dodaj bota",
         "permissions": "Uprawnienia bota"
@@ -716,10 +750,10 @@
         }
     },
     "typing": {
-        "single": "<1>{{username}}</1> pisze...",
-        "multiple": "<1>{{username}}</1> i <2>{{username2}}</2> piszą...",
-        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> i <3>{{username3}}</3> piszą...",
-        "andOthers": "<1>{{count}}</1> użytkowników pisze..."
+        "single": "<1>{{username}}</1> pisze…",
+        "multiple": "<1>{{username}}</1> i <2>{{username2}}</2> piszą…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> i <3>{{username3}}</3> piszą…",
+        "andOthers": "<1>{{count}}</1> użytkowników pisze…"
     },
     "statusHeader": {
         "authenticationError": "Błąd uwierzytelniania",
@@ -829,6 +863,60 @@
     "messageView": {
         "noMessages": "Brak wiadomości",
         "noMessagesDescription": "Nie ma jeszcze wiadomości na tym kanale.",
-        "newMessages": "Nowe wiadomości"
+        "newMessages": "Nowe wiadomości",
+        "slowMode": "Tryb Powolny",
+        "flaggedServer": {
+            "title": "Zaplanuj Usunięcie",
+            "description": "Ten serwer nie spełniał naszych Warunków Użytkowania i wkrótce zostanie usunięty.",
+            "deleteButton": "Usuń Teraz",
+            "leaveButton": "Wyjdź z Serwera"
+        }
+    },
+    "badges": {
+        "kitty": {
+            "name": "Kotek",
+            "blueDescription": "Niebieskouchy Kotek",
+            "whiteDescription": "Białouchy Kotek"
+        },
+        "foxy": {
+            "name": "Lisek",
+            "foxyGoldDescription": "Złotouchy Lis",
+            "foxyBrownDescription": "Brązowouchy Lis"
+        },
+        "founder": {
+            "name": "Założyciel",
+            "description": "Twórca Nerimity"
+        },
+        "admin": {
+            "name": "Admin",
+            "description": "Administrator Nerimity"
+        },
+        "mod": {
+            "name": "Moderator",
+            "description": "Moderator Nerimity"
+        },
+        "supporter": {
+            "name": "Wspierający",
+            "description": "Wsparcie projektu przez przekazanie darowizny pieniężnej"
+        },
+        "emoSupporter": {
+            "name": "Emo Wspierający",
+            "description": "Wsparcie projektu przez przekazanie darowizny pieniężnej"
+        },
+        "contributor": {
+            "name": "Współtwórca",
+            "description": "Pomoc w realizacji projektu w jakikolwiek sposób"
+        },
+        "palestine": {
+            "name": "Palestyna"
+        },
+        "bot": {
+            "name": "Użytkownik - Bot",
+            "description": "Użytkownik - Bot"
+        },
+        "credit": {
+            "avatarBorder": "Obramowanie awatara od {{author}} na {{platform}}",
+            "avatarBorderEdited": "Obramwoanie awatara od {{author}} na {{platform}}, zmodyfikowane przez {{editor}}"
+        }
     }
 }
