@@ -31,8 +31,7 @@ export default function InterfaceSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title:
-        t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
       iconName: "settings",
     });
   });
@@ -179,24 +178,24 @@ function ChatBar() {
     {
       id: "vm",
       icon: "mic",
-      label: "Voice Message",
+      label: t("settings.interface.voiceMessage"),
     },
     {
       id: "gif",
       icon: "gif",
-      label: "GIF Picker",
+      label: t("settings.interface.gifPicker"),
     },
     {
       id: "emoji",
       icon: "face",
-      label: "Emoji Picker",
+      label: t("settings.interface.emojiPicker"),
     },
     ...(!isMobileAgent()
       ? [
           {
             id: "send",
             icon: "send",
-            label: "Send",
+            label: t("settings.interface.sendButton"),
           } as const,
         ]
       : []),

@@ -487,6 +487,13 @@
       "postsAndMessagesNotice": "Your posts and messages may take weeks to delete.",
       "deleteCheckbox": "Delete my posts and messages"
     },
+    "badges": {
+      "noticeTitle": "Donations",
+      "notice": "Support this project by donating money.",
+      "palestineDescription": "Can be obtained by going to {{account}} -> {{profile}}",
+      "price": "{{price}} Badges",
+      "supportMethods": "Support Methods"
+    },
     "privacy": {
       "lastOnline": {
         "title": "Last Online Time",
@@ -543,6 +550,7 @@
     },
     "call": {
       "nextCallNotice": "Changes will be applied on your next calls.",
+      "leaveCall": "You must leave the call first",
       "inputDevices": "Input Devices",
       "outputDevices": "Output Devices",
       "default": "Default",
@@ -553,6 +561,17 @@
       "bindButton": "Bind",
       "stopButton": "Stop",
       "downloadAppNotice": "Download the Nerimity desktop app to use this feature without window tab focus."
+    },
+    "connections": {
+      "thirdParty": {
+        "title": "Third Party Connections",
+        "connectionCount": "{{count}} connection(s)",
+        "unauthorizeButton": "Unauthorize",
+        "unauthorizing": "Un-authorizing..."
+      },
+      "googleDescription": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
+      "linkButton": "Link",
+      "unlinkButton": "Unlink"
     },
     "interface": {
       "customCSS": "Custom CSS",
@@ -571,7 +590,11 @@
       "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
       "customizeColors": "Customize Colors",
       "customizeColorsDescription": "Edit colors for the current theme.",
-      "chatBarOptions": "Chat bar Options"
+      "chatBarOptions": "Chat bar Options",
+      "voiceMessage": "Voice Message",
+      "gifPicker": "GIF Picker",
+      "emojiPicker": "Emoji Picker",
+      "sendButton": "Send Button"
     },
     "window": {
       "title": "Settings - Window Settings",
