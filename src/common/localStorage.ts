@@ -32,6 +32,7 @@ export const StorageKeys = {
   ANNOUNCEMENTS_CACHE: "announcementsCache",
   HIDDEN_ANNOUNCEMENT_IDS: "hiddenAnnouncementIds",
   CHAT_BAR_OPTIONS: "chatBarOptions",
+  MENTION_REPLIES: "mentionReplies",
 } as const;
 
 export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];
