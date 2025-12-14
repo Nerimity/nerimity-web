@@ -61,7 +61,12 @@ function isNoticeLink(value: unknown): value is NoticeLink {
     typeof value === "object" &&
     value !== null &&
     "label" in value &&
-    "href" in value
+    "href" in value &&
+    typeof value.label === "string" &&
+    typeof value.href === "string" &&
+    (!("target" in value) ||
+      value.target === "_blank" ||
+      value.target === "_self")
   );
 }
 
@@ -124,10 +129,6 @@ function renderDescription(
 
 export function Notice(props: NoticeProps) {
   const typeMeta = noticeType[props.type];
-
-  const isPlural =
-    Array.isArray(props.description) &&
-    props.description.filter((d) => typeof d === "string").length > 1;
 
   return (
     <div
