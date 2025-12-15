@@ -476,139 +476,146 @@ const DesktopProfileFlyout = (props: {
 
     return (
       <>
-       <Show when={memberRoles.length > 0 || accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)}>
+        <Show
+          when={
+            memberRoles.length > 0 ||
+            accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)
+          }
+        >
           <div class={styles.section}>
-          <FlyoutTitle
-            primaryColor={colors()?.primary || undefined}
-            style={{ "margin-bottom": "5px" }}
-            icon="leaderboard"
-            title="Roles"
-          />
-          <div class={styles.rolesContainer}>
-            <For each={member()?.roles(true)!}>
-              {(role) => (
-                <div class={styles.roleContainer}>
-                  <Show when={role?.icon}>
-                    <Emoji size={16} resize={16} icon={role?.icon} hovered />
-                  </Show>
-                  <Text color={role?.hexColor} size={12}>
-                    {role?.name}
-                  </Text>
-                </div>
+            <FlyoutTitle
+              primaryColor={colors()?.primary || undefined}
+              style={{ "margin-bottom": "5px" }}
+              icon="leaderboard"
+              title="Roles"
+            />
+            <div class={styles.rolesContainer}>
+              <For each={member()?.roles(true)!}>
+                {(role) => (
+                  <div class={styles.roleContainer}>
+                    <Show when={role?.icon}>
+                      <Emoji size={16} resize={16} icon={role?.icon} hovered />
+                    </Show>
+                    <Text color={role?.hexColor} size={12}>
+                      {role?.name}
+                    </Text>
+                  </div>
+                )}
+              </For>
+            </div>
+            <Show
+              when={accountMember()?.hasPermission(
+                ROLE_PERMISSIONS.MANAGE_ROLES
               )}
-            </For>
-          </div>
-          <Show
-            when={accountMember()?.hasPermission(ROLE_PERMISSIONS.MANAGE_ROLES)}
-          >
-            <div
-              class={classNames(styles.roleContainer, styles.selectable)}
-              onClick={showRoleModal}
             >
-              <Icon name="add" size={14} />
-            </div>
-          </Show>
-        </div>
-      </Show>
-
-      <Show when={props.channelNotice}>
-        <div class={styles.section}>
-          <FlyoutTitle
-            icon="info"
-            title={t("informationDrawer.channelNotice")}
-            primaryColor={colors()?.primary || undefined}
-          />
-          <div class={styles.bioContainer}>
-            <Text
-              size={12}
-              color="rgba(255,255,255,0.7)"
-              class={
-                colors()?.primary
-                  ? css`
-                      a {
-                        color: ${colors()?.primary!};
-                      }
-                      .markup blockquote {
-                        border-left-color: ${colors()?.primary!};
-                      }
-                    `
-                  : ""
-              }
-            >
-              <Markup text={props.channelNotice!} />
-            </Text>
-          </div>
-        </div>
-      </Show>
-
-      <UserActivity
-        userId={props.userId}
-        primaryColor={colors()?.primary || undefined}
-      />
-
-      <Show when={!details()}>
-        <Skeleton.Item height="50px" style={{ "margin-bottom": "6px" }} />
-      </Show>
-      <Show when={details()}>
-        <div class={styles.section}>
-          <FlyoutTitle
-            title="Joined"
-            icon="calendar_month"
-            primaryColor={colors()?.primary || undefined}
-          />
-          <Text
-            class={styles.joinedText}
-            size={12}
-            color="rgba(255,255,255,0.7)"
-          >
-            <div class={styles.joinedContainer} title="Nerimity">
-              <Avatar url="https://nerimity.com/assets/logo.png" size={16} />
-              {userJoinedAt()}
-            </div>
-            <Show when={member()}>
-              <div class={styles.joinedContainer} title="Server">
-                <Avatar
-                  server={{ ...member()?.server()!, verified: false }}
-                  size={16}
-                />
-                {memberJoinedAt()}
+              <div
+                class={classNames(styles.roleContainer, styles.selectable)}
+                onClick={showRoleModal}
+              >
+                <Icon name="add" size={14} />
               </div>
             </Show>
-          </Text>
-        </div>
-      </Show>
-      <Show when={bio()?.length}>
-        <div class={styles.section}>
-          <FlyoutTitle
-            icon="info"
-            title="Bio"
-            primaryColor={colors()?.primary || undefined}
-          />
-          <div class={styles.bioContainer}>
+          </div>
+        </Show>
+
+        <Show when={props.channelNotice}>
+          <div class={styles.section}>
+            <FlyoutTitle
+              icon="info"
+              title={t("informationDrawer.channelNotice")}
+              primaryColor={colors()?.primary || undefined}
+            />
+            <div class={styles.bioContainer}>
+              <Text
+                size={12}
+                color="rgba(255,255,255,0.7)"
+                class={
+                  colors()?.primary
+                    ? css`
+                        a {
+                          color: ${colors()?.primary!};
+                        }
+                        .markup blockquote {
+                          border-left-color: ${colors()?.primary!};
+                        }
+                      `
+                    : ""
+                }
+              >
+                <Markup text={props.channelNotice!} />
+              </Text>
+            </div>
+          </div>
+        </Show>
+
+        <UserActivity
+          userId={props.userId}
+          primaryColor={colors()?.primary || undefined}
+        />
+
+        <Show when={!details()}>
+          <Skeleton.Item height="50px" style={{ "margin-bottom": "6px" }} />
+        </Show>
+        <Show when={details()}>
+          <div class={styles.section}>
+            <FlyoutTitle
+              title="Joined"
+              icon="calendar_month"
+              primaryColor={colors()?.primary || undefined}
+            />
             <Text
+              class={styles.joinedText}
               size={12}
               color="rgba(255,255,255,0.7)"
-              class={
-                colors()?.primary
-                  ? css`
-                      a {
-                        color: ${colors()?.primary};
-                      }
-                      .markup blockquote {
-                        border-left-color: ${colors()?.primary!};
-                      }
-                    `
-                  : ""
-              }
             >
-              <Markup text={bio()!} />
+              <div class={styles.joinedContainer} title="Nerimity">
+                <Avatar url="https://nerimity.com/assets/logo.png" size={16} />
+                {userJoinedAt()}
+              </div>
+              <Show when={member()}>
+                <div class={styles.joinedContainer} title="Server">
+                  <Avatar
+                    server={{ ...member()?.server()!, verified: false }}
+                    size={16}
+                  />
+                  {memberJoinedAt()}
+                </div>
+              </Show>
             </Text>
           </div>
-        </div>
-      </Show>
-    </>
-  );
-};
+        </Show>
+        <Show when={bio()?.length}>
+          <div class={styles.section}>
+            <FlyoutTitle
+              icon="info"
+              title="Bio"
+              primaryColor={colors()?.primary || undefined}
+            />
+            <div class={styles.bioContainer}>
+              <Text
+                size={12}
+                color="rgba(255,255,255,0.7)"
+                class={
+                  colors()?.primary
+                    ? css`
+                        a {
+                          color: ${colors()?.primary};
+                        }
+                        .markup blockquote {
+                          border-left-color: ${colors()?.primary!};
+                        }
+                      `
+                    : ""
+                }
+              >
+                <Markup text={bio()!} />
+              </Text>
+            </div>
+          </div>
+        </Show>
+      </>
+    );
+  };
 
   const PostArea = (props: { primaryColor?: string }) => (
     <div class={styles.section}>
@@ -834,9 +841,12 @@ function PresenceDropDown() {
     return {
       circleColor: item.color,
       id: item.id,
-      label: item.name === "Offline" ? "Appear As Offline" : item.name,
+      label:
+        item.name() === t("status.offline")
+          ? t("status.appearAsOffline")
+          : item.name(),
       index: i,
-      onClick: (item: { index: number }) => {
+      onClick: (item) => {
         updatePresence({
           status: item.index,
         });
