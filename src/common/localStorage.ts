@@ -33,6 +33,7 @@ export const StorageKeys = {
   HIDDEN_ANNOUNCEMENT_IDS: "hiddenAnnouncementIds",
   CHAT_BAR_OPTIONS: "chatBarOptions",
   MENTION_REPLIES: "mentionReplies",
+  TIME_FORMAT: "timeFormat", 
 } as const;
 
 export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];
