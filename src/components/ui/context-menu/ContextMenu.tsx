@@ -17,6 +17,8 @@ import { Portal } from "solid-js/web";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import { createStore, reconcile } from "solid-js/store";
+import { t } from "@nerimity/i18lite";
+import { Delay } from "@/common/Delay";
 
 export interface ContextMenuItem {
   id?: any;
@@ -66,7 +68,7 @@ export default function ContextMenu(props: ContextMenuProps) {
     if (url || imageSrc) {
       if (!tempItems[0]?.separator) tempItems.unshift({ separator: true });
       tempItems.unshift({
-        label: "Copy Link",
+        label: t("servers.settings.invites.copyLinkButton"),
         icon: "content_copy",
         onClick: () => {
           navigator.clipboard.writeText(imageSrc || url || "");
@@ -245,10 +247,16 @@ function Item(props: {
   onLeave?(): void;
   hovered?: boolean;
 }) {
+  const {isMobileWidth} = useWindowProperties();
+  const [showSubMenu, setShowSubMenu] = createSignal(false);
   let itemElement: HTMLDivElement | undefined;
   const { width } = useResizeObserver(() => itemElement);
   const onClick = (e: MouseEvent) => {
     if (props.item.disabled) return;
+    if (props.item.sub && isMobileWidth()) {
+      setShowSubMenu(!showSubMenu());
+      return;
+    }
     props.onClick?.(e);
     props.item.onClick?.();
   };
@@ -291,12 +299,12 @@ function Item(props: {
           <Icon class={styles.arrow} name="keyboard_arrow_right" size={16} />
         </Show>
       </div>
-      <Show when={props.item.sub && props.hovered}>
-        <ContextMenu
-          onClose={() => props.close?.()}
-          items={props.item.sub!}
-          position={getSubContextMenuPos()}
-        />
+      <Show when={props.item.sub && (isMobileWidth() ? showSubMenu() : props.hovered)}>
+          <ContextMenu
+            onClose={() => props.close?.()}
+            items={props.item.sub!}
+            position={getSubContextMenuPos()}
+          />
       </Show>
     </>
   );

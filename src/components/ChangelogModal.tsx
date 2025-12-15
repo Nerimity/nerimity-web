@@ -32,7 +32,7 @@ export function ChangelogModal(props: { close: () => void }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Button label="View more in GitHub" iconName="open_in_new" />
+      <Button label={t("homePage.viewGitHubButton")} iconName="open_in_new" />
     </A>
   );
 
@@ -53,7 +53,7 @@ export function ChangelogModal(props: { close: () => void }) {
         >
           <Show when={isRelease}>
             <Text size={24}>{latestRelease()?.name || ""}</Text>
-            <Text opacity={0.7}>Released at {date() || ""}</Text>
+            <Text opacity={0.7}>{t("updateModal.releasedAt")} {date() || ""}</Text>
             <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
             <Marked value={latestRelease()?.body!} />
           </Show>

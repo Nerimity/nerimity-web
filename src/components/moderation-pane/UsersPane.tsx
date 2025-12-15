@@ -8,6 +8,7 @@ import Button from "../ui/Button";
 import { FlexRow } from "../ui/Flexbox";
 import Text from "../ui/Text";
 import { styled } from "solid-styled-components";
+import { A } from "solid-navigator";
 
 const ListContainer = styled("div")`
   display: flex;
@@ -122,7 +123,9 @@ export function UsersPane(props: {
           padding={4}
           onClick={() => setShowAll(!showAll())}
         />
-        <Text>{props.title || "Registered Users"}</Text>
+        <A href="/app/moderation/users">
+          <Text>{props.title || "Registered Users"}</Text>
+        </A>
       </FlexRow>
       <ListContainer class="list">
         <For each={!showAll() ? firstFive() : users()}>

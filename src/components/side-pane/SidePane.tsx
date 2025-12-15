@@ -33,6 +33,7 @@ import { useReminders } from "../useReminders";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { useDrawer } from "../ui/drawer/Drawer";
 import { InboxList } from "./InboxList";
+import { t } from "@nerimity/i18lite";
 
 export default function SidePane(props: { class?: string }) {
   let containerEl: HTMLDivElement | undefined;
@@ -72,7 +73,7 @@ export default function SidePane(props: { class?: string }) {
         </Show>
         <InboxList size={resizeBar.width()} />
         <ServerList size={resizeBar.width()} />
-        <Tooltip tooltip="Add Server">
+        <Tooltip tooltip={t("sidePane.addServer")}>
           <SidebarItemContainer onClick={showAddServerModal}>
             <Icon
               name="add_box"
@@ -120,7 +121,7 @@ function HomeItem(props: { size: number }) {
   });
 
   return (
-    <Tooltip tooltip="Home">
+    <Tooltip tooltip={t("sidePane.home")}>
       <A href="/app" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={isSelected()} alert={count()}>
           <NotificationCountBadge count={count()} top={10} right={10} />
@@ -154,7 +155,7 @@ function UpdateItem(props: { size: number }) {
 
   return (
     <Show when={updateAvailable()}>
-      <Tooltip tooltip="Update Available">
+      <Tooltip tooltip={t("updateModal.title")}>
         <SidebarItemContainer onclick={showUpdateModal}>
           <Icon
             name="download"
@@ -168,15 +169,13 @@ function UpdateItem(props: { size: number }) {
 }
 function ModerationItem(props: { size: number }) {
   const { account, tickets } = useStore();
-  const hasModeratorPerm = () =>
-    hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
-    hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
+  const hasModeratorPerm = () => account.hasModeratorPerm(true);
 
   const selected = useMatch(() => "/app/moderation/*");
 
   return (
     <Show when={hasModeratorPerm()}>
-      <Tooltip tooltip="Moderation Pane">
+      <Tooltip tooltip={t("sidePane.moderation")}>
         <A href="/app/moderation" style={{ "text-decoration": "none" }}>
           <SidebarItemContainer selected={selected()}>
             <Show when={tickets.hasModerationTicketNotification()}>
@@ -196,7 +195,7 @@ function SettingsItem(props: { size: number }) {
   const selected = useMatch(() => "/app/settings/*");
 
   return (
-    <Tooltip tooltip="Settings">
+    <Tooltip tooltip={t("settings.drawer.title")}>
       <A href="/app/settings/account" style={{ "text-decoration": "none" }}>
         <SidebarItemContainer selected={selected()}>
           <Show when={tickets.hasTicketNotification()}>
@@ -267,7 +266,7 @@ const UserItem = (props: { size: number }) => {
         disable={modalOpened()}
         tooltip={
           <div>
-            Profile{" "}
+            {t("settings.account.profile")}{" "}
             <Show when={user()}>
               <div style={{ "line-height": "1" }}>
                 {user()!.username}:{user()!.tag}
@@ -348,12 +347,12 @@ function UpdateModal(props: { close: () => void }) {
       <Button
         iconName="close"
         onClick={props.close}
-        label="Later"
+        label={t("updateModal.laterButton")}
         color="var(--alert-color)"
       />
       <Button
         iconName="download"
-        label="Update Now"
+        label={t("updateModal.updateButton")}
         onClick={onUpdateClick}
         primary
       />
@@ -361,7 +360,7 @@ function UpdateModal(props: { close: () => void }) {
   );
   return (
     <LegacyModal
-      title="Update Available"
+      title={t("updateModal.title")}
       actionButtons={ActionButtons}
       close={props.close}
     >
@@ -376,7 +375,7 @@ function UpdateModal(props: { close: () => void }) {
         >
           <Show when={isRelease}>
             <Text size={24}>{latestRelease()?.name || ""}</Text>
-            <Text opacity={0.7}>Released at {date() || ""}</Text>
+            <Text opacity={0.7}>{t("updateModal.releasedAt")} {date() || ""}</Text>
             <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
             <Marked value={latestRelease()?.body!} />
           </Show>

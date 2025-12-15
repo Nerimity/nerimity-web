@@ -8,6 +8,8 @@ import Icon from "../ui/icon/Icon";
 import { getActivityIconName } from "@/components/activity/Activity";
 import { Tooltip } from "../ui/Tooltip";
 import { formatTimestamp } from "@/common/date";
+import { t } from "@nerimity/i18lite";
+import { getActivityType } from "@/common/activityType";
 
 // show full will disable overflow eclipses
 const UserPresence = (props: {
@@ -52,13 +54,15 @@ const UserPresence = (props: {
     return activity()?.action;
   };
 
+  const activityType = () => getActivityType(activity());
+
   const activityName = () => {
     const title = activity()?.title;
     if (props.useTitle && title) {
       const action = activity()?.action;
       const subtitle = activity()?.subtitle;
 
-      if (action?.startsWith("Listening") || action?.startsWith("Watching")) {
+      if (activityType().isMusic || activityType().isVideo) {
         return title + (subtitle ? ` - ${subtitle}` : "");
       }
     }
@@ -67,7 +71,7 @@ const UserPresence = (props: {
 
   const name = () => {
     return (
-      <Switch fallback={statusDetails()?.name}>
+      <Switch fallback={statusDetails()?.name()}>
         <Match when={lastOnlineAt() && !user()?.presence()?.status}>
           <div class={styles.lastOnline}>
             Last online {formatTimestamp(lastOnlineAt()!)}
@@ -116,7 +120,7 @@ const UserPresence = (props: {
             when={activity()}
             fallback={
               <div
-                title={statusDetails().name}
+                title={statusDetails().name()}
                 class={classNames(styles.dot, styles[statusDetails()?.id])}
               />
             }

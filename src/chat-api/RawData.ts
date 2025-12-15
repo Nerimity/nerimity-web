@@ -138,6 +138,7 @@ export interface RawAttachment {
   fileId?: string;
   mime?: string;
   messageId?: string;
+  duration?: number;
   path?: string;
   width?: number;
   height?: number;
@@ -425,6 +426,8 @@ export interface RawApplication {
   };
   creatorAccountId: string;
   createdAt: number;
+  redirectUris: string[];
+  clientSecret?: string;
 }
 
 export interface RawServerWelcomeQuestion {

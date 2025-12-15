@@ -18,7 +18,7 @@ import { Notice } from "../ui/Notice/Notice";
 import Text from "../ui/Text";
 import { Banner } from "../ui/Banner";
 import { getDaysAgo, timeSince } from "@/common/date";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
 import env from "@/common/env";
@@ -38,6 +38,7 @@ import {
 import { ServerBumpModal } from "./ExploreServers";
 import { InviteBotPopup } from "@/pages/InviteServerBot";
 import { Modal } from "../ui/modal";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;
@@ -139,7 +140,7 @@ export default function ExploreBots() {
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label="Back" iconName="arrow_back" />
+        <Button margin={0} href="/app" label={t("explore.backButton")} iconName="arrow_back" />
       </div>
       <FlexRow
         gap={10}
@@ -151,7 +152,7 @@ export default function ExploreBots() {
         `}
       >
         <Input
-          label="Search"
+          label={t("explore.search")}
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
@@ -163,7 +164,7 @@ export default function ExploreBots() {
           `}
         />
         <DropDown
-          title="Sort"
+          title={t("explore.sort")}
           items={sortOpts}
           selectedId={query().sort}
           onChange={(i) =>
@@ -192,7 +193,7 @@ export default function ExploreBots() {
           margin-bottom: 10px;
         `}
         type="warn"
-        description="Bots are not moderated by Nerimity. Please report bots that are malicious or break the TOS."
+        description={t("explore.bots.moderationNotice")}
       />
 
       <GridLayout class="servers-list-grid">
@@ -351,8 +352,7 @@ function PublicItem(props: {
   };
 
   const bumpClick = () => {
-    // 3 hours to milliseconds
-    const bumpAfter = 3 * 60 * 60 * 1000;
+    const bumpAfter = 3 * 60 * 60 * 1000; // 3 hours in ms
 
     const millisecondsSinceLastBump =
       new Date().getTime() - props.item.bumpedAt;
@@ -360,11 +360,17 @@ function PublicItem(props: {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
+      toast(
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
       );
-      return;
     }
+
     return createPortal((close) => (
       <ServerBumpModal
         update={props.update}
@@ -423,7 +429,7 @@ function PublicItem(props: {
           </CustomLink>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
-          By{": "}
+          {t("explore.by")}{": "}
           <CustomLink
             href={RouterEndpoints.PROFILE(app.creatorAccount.user.id)}
           >
@@ -445,14 +451,14 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            In {bot._count.servers.toLocaleString()} servers
+            {t("explore.bots.serverCount", { count: bot._count.servers.toLocaleString() })}
           </Text>
         </FlexRow>
 
         <FlexRow gap={5}>
           <Icon name="schedule" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            Bumped{" "}
+            {t("explore.bumped")}{" "}
             {(bumpedUnder24Hours() ? timeSince : getDaysAgo)(
               props.item.bumpedAt
             )}
@@ -471,7 +477,7 @@ function PublicItem(props: {
           onClick={addBotClick}
           iconName="add"
           primary
-          label={"Invite"}
+          label={t("explore.bots.inviteButton")}
         />
         <Button
           padding={8}

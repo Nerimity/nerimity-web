@@ -2,21 +2,66 @@ import Icon from "../icon/Icon";
 import styles from "./styles.module.scss";
 
 import "@melloware/coloris/dist/coloris.css";
-import Coloris, { coloris, init, updatePosition } from "@melloware/coloris";
-import {
-  Accessor,
-  createEffect,
-  createSignal,
-  on,
-  onMount,
-  Show,
-} from "solid-js";
+import { coloris, init, updatePosition } from "@melloware/coloris";
+import { createEffect, on, onMount, Show } from "solid-js";
 import LegacyModal from "../legacy-modal/LegacyModal";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { classNames, conditionalClass } from "@/common/classNames";
+import { t } from "@nerimity/i18lite";
 
 init();
+
+function toHex(color: string): string {
+  const ctx = document.createElement("canvas").getContext("2d");
+  if (!ctx) return color;
+
+  ctx.fillStyle = color;
+  const computed = ctx.fillStyle;
+
+  if (computed.startsWith("#")) {
+    return computed.length === 4
+      ? "#" +
+          computed[1] +
+          computed[1] +
+          computed[2] +
+          computed[2] +
+          computed[3] +
+          computed[3]
+      : computed;
+  }
+
+  const rgbaMatch = computed.match(
+    /^rgba?\(\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d*\.?\d+))?\)$/
+  );
+  if (rgbaMatch) {
+    const r = parseInt(rgbaMatch[1], 10);
+    const g = parseInt(rgbaMatch[2], 10);
+    const b = parseInt(rgbaMatch[3], 10);
+    const a =
+      rgbaMatch[4] !== undefined
+        ? Math.round(parseFloat(rgbaMatch[4]) * 255)
+        : 255;
+
+    return (
+      "#" +
+      r.toString(16).padStart(2, "0") +
+      g.toString(16).padStart(2, "0") +
+      b.toString(16).padStart(2, "0") +
+      (a < 255 ? a.toString(16).padStart(2, "0") : "")
+    );
+  }
+  return computed;
+}
+
+function normalizeColor(input: string): string {
+  const val = input.trim();
+  if (!val) return "#000000";
+
+  if (/^[0-9a-fA-F]{3,8}$/.test(val)) return "#" + val;
+
+  return toHex(val) || "#000000";
+}
 
 export interface ColorPickerRef {
   openModal: () => void;
@@ -37,7 +82,7 @@ export function ColorPicker(props: {
   const onChange = (color: string) => {
     clearTimeout(timeout || 0);
     timeout = window.setTimeout(() => {
-      props.onChange?.(color);
+      props.onChange?.(normalizeColor(color));
     }, 10);
   };
 
@@ -78,10 +123,12 @@ export const ColorPickerModal = (props: {
   alpha?: boolean;
 }) => {
   const { isMobileWidth, width } = useWindowProperties();
-  let color = props.color || "#000000";
+  let color = normalizeColor(props.color || "#000000");
+
   const onChange = (newVal: string) => {
-    props.onChange(newVal);
-    color = newVal;
+    const normalized = normalizeColor(newVal);
+    props.onChange(normalized);
+    color = normalized;
   };
 
   const initColoris = () =>
@@ -89,20 +136,17 @@ export const ColorPickerModal = (props: {
       themeMode: "dark",
       alpha: props.alpha,
       parent: "#coloris",
-      defaultColor: props.color || "black",
+      defaultColor: color,
       inline: true,
       onChange,
     });
 
   onMount(() => {
     initColoris();
-    setTimeout(() => {
-      updatePosition();
-    }, 100);
+    setTimeout(() => updatePosition(), 250);
   });
 
   let timeout: null | number = null;
-
   createEffect(
     on(width, () => {
       clearTimeout(timeout || 0);
@@ -117,11 +161,16 @@ export const ColorPickerModal = (props: {
 
   return (
     <LegacyModal
-      title="Color Picker"
+      title={t("colorPickerModal.title")}
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
-        { label: "Done", onClick: done, iconName: "check", primary: true },
+        {
+          label: t("colorPickerModal.done"),
+          onClick: done,
+          iconName: "check",
+          primary: true,
+        },
       ]}
     >
       <div

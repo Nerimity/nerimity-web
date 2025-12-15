@@ -9,9 +9,9 @@ import Text from "../ui/Text";
 import { ServerFolderItem } from "./ServerList";
 import Icon from "../ui/icon/Icon";
 import {
-  updateServerFolder,
   updateServerFolderExtra,
 } from "@/chat-api/services/ServerService";
+import { t } from "@nerimity/i18lite";
 
 export const EditFolderModal = (props: {
   close: () => void;
@@ -44,7 +44,7 @@ export const EditFolderModal = (props: {
     const folderNameValue = folderName().trim();
 
     if (!folderNameValue) {
-      setError("Please enter a folder name.");
+      setError(t("editFolderModal.errors.emptyName"));
       return;
     }
     setRequestSent(true);
@@ -64,7 +64,7 @@ export const EditFolderModal = (props: {
 
   return (
     <Modal.Root close={props.close}>
-      <Modal.Header title="Edit Folder" icon="edit" />
+      <Modal.Header title={t("editFolderModal.title")} icon="edit" />
       <Modal.Body class={style.modalBody}>
         <div class={style.colorAndName}>
           <ColorPicker
@@ -103,7 +103,7 @@ export const EditFolderModal = (props: {
           </div>
           <Input
             class={style.input}
-            placeholder="Folder Name"
+            placeholder={t("editFolderModal.placeholder")}
             value={folderName()}
             onText={setFolderName}
           />
@@ -116,13 +116,13 @@ export const EditFolderModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label="Don't Save"
+          label={t("editFolderModal.cancelButton")}
           alert
           iconName="close"
           onClick={props.close}
         />
         <Modal.Button
-          label={requestSent() ? "Saving..." : "Save"}
+          label={requestSent() ? t("editFolderModal.saving") : t("editFolderModal.save")}
           primary
           iconName="save"
           onClick={handleSaveClick}

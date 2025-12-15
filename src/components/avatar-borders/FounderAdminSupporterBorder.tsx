@@ -23,7 +23,7 @@ export function FounderAdminSupporterBorder(props: {
     <div
       class={classNames(
         styles.container,
-        props.hovered ? styles.hover : undefined
+        props.hovered && props.type !== "palestine" ? styles.hover : undefined
       )}
     >
       <Show when={props.type !== "palestine"}>

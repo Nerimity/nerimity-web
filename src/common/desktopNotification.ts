@@ -83,7 +83,7 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
   }
   const systemMessage = getSystemMessage(message.type);
   if (systemMessage) {
-    body = `${username} ${systemMessage}`;
+    body = `${username} ${systemMessage.message}`;
     title = `${server?.name} #${channel.name}`;
   }
 

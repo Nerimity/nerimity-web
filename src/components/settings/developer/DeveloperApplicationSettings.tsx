@@ -10,21 +10,31 @@ import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import {
   createAppBotUser,
-  createApplication,
   deleteApp,
   getApplication,
-  getApplications,
+  refreshAppClientSecret,
   updateApp,
 } from "@/chat-api/services/ApplicationService";
 import { RawApplication } from "@/chat-api/RawData";
-import { createStore, reconcile } from "solid-js/store";
-import { useNavigate, useParams } from "solid-navigator";
+import { useMatch, useNavigate, useParams } from "solid-navigator";
 import Input from "@/components/ui/input/Input";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
-import { CustomLink } from "@/components/ui/CustomLink";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Text from "@/components/ui/Text";
+import {
+  addBit,
+  APPLICATION_SCOPES,
+  Bitwise,
+  hasBit,
+  removeBit,
+} from "@/chat-api/Bitwise";
+import env from "@/common/env";
+import { FlexRow } from "@/components/ui/Flexbox";
+import { CustomLink } from "@/components/ui/CustomLink";
+import Checkbox from "@/components/ui/Checkbox";
+import DropDown from "@/components/ui/drop-down/DropDown";
+import { useExperiment } from "@/common/experiments";
 
 const Container = styled("div")`
   display: flex;
@@ -36,9 +46,10 @@ const Container = styled("div")`
 export default function DeveloperApplicationSetting() {
   const { header } = useStore();
   const params = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [error, setError] = createSignal<string | null>(null);
-  const [requestSent, setRequestSent] = createSignal(false);
+
+  const route = useMatch(
+    () => "/app/settings/developer/applications/:id/:tab?"
+  );
 
   createEffect(() => {
     header.updateHeader({
@@ -56,33 +67,7 @@ export default function DeveloperApplicationSetting() {
     setApplication(app);
   });
 
-  const defaultInput = () => ({
-    name: application()?.name || "",
-  });
-
-  const [inputValues, updatedInputValues, setInputValue] =
-    createUpdatedSignal(defaultInput);
-  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
-
-  const createBot = async () => {
-    await createAppBotUser(params.id);
-    navigate("./bot");
-  };
-
-  const onSaveClicked = async () => {
-    if (requestSent()) return;
-    setRequestSent(true);
-    setError(null);
-
-    await updateApp(params.id, updatedInputValues())
-      .then((newApp) => {
-        setApplication({ ...application()!, ...newApp });
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => setRequestSent(false));
-  };
+  const tab = () => route()?.params.tab;
 
   return (
     <Container>
@@ -97,62 +82,371 @@ export default function DeveloperApplicationSetting() {
           title={t("settings.drawer.applications")}
         />
         <BreadcrumbItem
+          href={`/app/settings/developer/applications/${params.id}`}
           title={application() ? application()!.name : "loading..."}
         />
+        <Show when={tab() === "oauth2"}>
+          <BreadcrumbItem title={t("settings.developer.oauth2.title")} />
+        </Show>
       </Breadcrumb>
 
       <Show when={application()}>
-        <SettingsBlock icon="edit" label="Name">
-          <Input
-            value={inputValues().name}
-            onText={(v) => setInputValue("name", v)}
-          />
-        </SettingsBlock>
-        <SettingsBlock icon="id_card" label="App/Client ID">
-          <Input value={application()!.id} disabled />
-        </SettingsBlock>
-
-        <SettingsBlock
-          href={application()?.botUserId ? "./bot" : undefined}
-          icon="smart_toy"
-          label="Bot User"
-          description={
-            application()?.botUserId ? "Edit bot" : "Create a new bot user."
-          }
-        >
-          <Show when={!application()?.botUserId}>
-            <Button label="Create" iconName="add" onClick={createBot} />
-          </Show>
-          <Show when={application()?.botUserId}>
-            <Icon name="keyboard_arrow_right" />
-          </Show>
-        </SettingsBlock>
-
-        <Show when={error()}>
-          <Text
-            size={12}
-            color="var(--alert-color)"
-            style={{ "margin-top": "5px" }}
-          >
-            {error()}
-          </Text>
-        </Show>
-        <Show when={Object.keys(updatedInputValues()).length}>
-          <Button
-            iconName="save"
-            label={requestStatus()}
-            class={css`
-              align-self: flex-end;
-            `}
-            onClick={onSaveClicked}
+        <Show when={!tab()}>
+          <EditDeveloperApplication
+            application={application()!}
+            setApplication={setApplication}
           />
         </Show>
-
-        <DeleteApplicationBlock id={params.id} name={application()!.name} />
+        <Show when={tab() === "oauth2"}>
+          <EditApplicationOauth2
+            application={application()!}
+            setApplication={setApplication}
+          />
+        </Show>
       </Show>
     </Container>
   );
 }
+
+const EditDeveloperApplication = (props: {
+  application: RawApplication;
+  setApplication: (app: RawApplication) => void;
+}) => {
+  const application = () => props.application;
+
+  // const { experiment } = useExperiment(() => "DEVELOPER_OAUTH2_SETTINGS");
+
+  const params = useParams<{ id: string }>();
+  const [requestSent, setRequestSent] = createSignal(false);
+
+  const defaultInput = () => ({
+    name: application()?.name || "",
+  });
+
+  const [inputValues, updatedInputValues, setInputValue] =
+    createUpdatedSignal(defaultInput);
+
+  const navigate = useNavigate();
+  const [error, setError] = createSignal<string | null>(null);
+
+  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
+
+  const createBot = async () => {
+    await createAppBotUser(params.id);
+    navigate("./bot");
+  };
+
+  const onSaveClicked = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+    setError(null);
+
+    await updateApp(params.id, updatedInputValues())
+      .then((newApp) => {
+        props.setApplication({ ...application()!, ...newApp });
+      })
+      .catch((err) => {
+        setError(err.message);
+      })
+      .finally(() => setRequestSent(false));
+  };
+
+  return (
+    <>
+      <SettingsBlock icon="edit" label="Name">
+        <Input
+          value={inputValues().name}
+          onText={(v) => setInputValue("name", v)}
+        />
+      </SettingsBlock>
+      <SettingsBlock icon="id_card" label="App/Client ID">
+        <Input value={application()!.id} disabled />
+      </SettingsBlock>
+
+      <SettingsBlock
+        href={application()?.botUserId ? "./bot" : undefined}
+        icon="smart_toy"
+        label="Bot User"
+        description={
+          application()?.botUserId ? "Edit bot" : "Create a new bot user."
+        }
+      >
+        <Show when={!application()?.botUserId}>
+          <Button label="Create" iconName="add" onClick={createBot} />
+        </Show>
+        <Show when={application()?.botUserId}>
+          <Icon name="keyboard_arrow_right" />
+        </Show>
+      </SettingsBlock>
+
+      {/* <Show when={experiment()}> */}
+      <SettingsBlock
+        href="./oauth2"
+        icon="lock"
+        label={t("settings.developer.oauth2.title")}
+        description={t("settings.developer.oauth2.description")}
+      />
+      {/* </Show> */}
+
+      <Show when={error()}>
+        <Text
+          size={12}
+          color="var(--alert-color)"
+          style={{ "margin-top": "5px" }}
+        >
+          {error()}
+        </Text>
+      </Show>
+      <Show when={Object.keys(updatedInputValues()).length}>
+        <Button
+          iconName="save"
+          label={requestStatus()}
+          class={css`
+            align-self: flex-end;
+          `}
+          onClick={onSaveClicked}
+        />
+      </Show>
+
+      <DeleteApplicationBlock id={params.id} name={application()!.name} />
+    </>
+  );
+};
+
+const EditApplicationOauth2 = (props: {
+  application: RawApplication;
+  setApplication: (app: RawApplication) => void;
+}) => {
+  const [requestSent, setRequestSent] = createSignal(false);
+
+  let refreshClicked = false;
+  const onRefreshClick = async () => {
+    if (refreshClicked) return;
+    refreshAppClientSecret(props.application.id)
+      .then((res) => {
+        props.setApplication(res);
+        toast("Client secret refreshed.");
+      })
+      .catch((err) => toast(err.message))
+      .finally(() => (refreshClicked = false));
+  };
+
+  const copyToken = async () => {
+    navigator.clipboard.writeText(props.application.clientSecret!);
+    toast("Copied client secret to clipboard.");
+  };
+
+  const defaultInput = () => ({
+    redirectUris: [...props.application.redirectUris, ""],
+  });
+
+  const [inputValues, updatedInputValues, setInputValue] =
+    createUpdatedSignal(defaultInput);
+
+  const urisLength = () => inputValues().redirectUris.length;
+
+  const requestStatus = () => (requestSent() ? "Saving..." : "Save Changes");
+
+  const onSaveClicked = async () => {
+    if (requestSent()) return;
+    setRequestSent(true);
+
+    const redirectUris = inputValues().redirectUris.filter((uri) => !!uri);
+
+    await updateApp(props.application.id, {
+      ...updatedInputValues(),
+      redirectUris,
+    })
+      .then((newApp) => {
+        props.setApplication({ ...props.application, ...newApp });
+      })
+      .catch((err) => toast(err.message))
+      .finally(() => setRequestSent(false));
+  };
+
+  return (
+    <>
+      <SettingsBlock
+        icon="menu_book"
+        href="https://docs.nerimity.com/endpoints/oauth2/ExchangeCode"
+        label="OAuth2 Documentation"
+        hrefBlank
+      />
+      <SettingsBlock icon="id_card" label="Client ID">
+        <Input value={props.application.id} disabled />
+      </SettingsBlock>
+
+      <SettingsBlock
+        icon="key"
+        label="Client Secret"
+        class={css`
+          margin-bottom: 20px;
+        `}
+      >
+        <Button label="Refresh" onClick={onRefreshClick} iconName="refresh" />
+        <Button onClick={copyToken} label="Copy" iconName="content_copy" />
+      </SettingsBlock>
+
+      <div>
+        <SettingsBlock icon="link" label="Redirect URIs" header />
+        <For each={new Array(urisLength()).fill(0)}>
+          {(_, i) => (
+            <SettingsBlock
+              icon="link"
+              label={"URI " + (i() + 1)}
+              borderTopRadius={false}
+              borderBottomRadius={i() === urisLength() - 1}
+            >
+              <Input
+                value={inputValues().redirectUris[i()]}
+                class={css`
+                  flex: 1;
+                `}
+                placeholder="https://example.com/redirect"
+                onText={(v) => {
+                  const newUris = [...inputValues().redirectUris];
+                  newUris[i()] = v;
+                  if (newUris[newUris.length - 1]) newUris.push("");
+                  if (!newUris[newUris.length - 2]) newUris.pop();
+                  setInputValue("redirectUris", newUris);
+                }}
+              />
+            </SettingsBlock>
+          )}
+        </For>
+      </div>
+
+      <Show when={Object.keys(updatedInputValues()).length}>
+        <Button
+          iconName="save"
+          label={requestStatus()}
+          class={css`
+            align-self: flex-end;
+          `}
+          onClick={onSaveClicked}
+        />
+      </Show>
+
+      <GenerateOuth2Link application={props.application} />
+    </>
+  );
+};
+
+const GenerateOuth2Link = (props: { application: RawApplication }) => {
+  const [permissions, setPermissions] = createSignal(
+    APPLICATION_SCOPES.USER_INFO.bit
+  );
+  const [redirectUri, setRedirectUri] = createSignal(
+    props.application.redirectUris[0] || ""
+  );
+
+  const permissionsList = Object.values(APPLICATION_SCOPES) as Bitwise[];
+
+  const link = () => {
+    const enabledScopes = [];
+
+    for (const permission of Object.entries(APPLICATION_SCOPES)) {
+      if (hasBit(permissions(), permission[1].bit)) {
+        enabledScopes.push(permission[0]);
+      }
+    }
+
+    const url = new URL(`${env.APP_URL}/authorize`);
+
+    url.searchParams.set("clientId", props.application.id);
+    if (enabledScopes.length)
+      url.searchParams.set("scopes", enabledScopes.join(" "));
+
+    if (redirectUri()) url.searchParams.set("redirectUri", redirectUri());
+
+    return url.href;
+  };
+
+  const onPermissionChanged = (checked: boolean, bit: number) => {
+    if (checked) {
+      setPermissions(addBit(permissions(), bit));
+    } else {
+      setPermissions(removeBit(permissions(), bit));
+    }
+  };
+  return (
+    <div>
+      <SettingsBlock
+        icon="security"
+        label={t("settings.developer.oauth2.generateLink")}
+        header={true}
+        class={css`
+          gap: 8px;
+        `}
+      >
+        <FlexRow
+          itemsCenter
+          gap={4}
+          style={{
+            background: "rgba(0,0,0,0.4)",
+            "padding-left": "8px",
+            "line-break": "normal",
+            "text-wrap": "nowrap",
+            "border-radius": "8px",
+          }}
+        >
+          <CustomLink
+            style={{
+              "font-size": "12px",
+              overflow: "auto",
+              "scrollbar-width": "none",
+              "max-width": "500px",
+            }}
+            target="_blank"
+            rel="noopener noreferrer"
+            decoration
+            href={link()}
+          >
+            {link()}
+          </CustomLink>
+          <Button
+            iconName="content_copy"
+            iconSize={18}
+            onClick={() => navigator.clipboard.writeText(link())}
+          />
+        </FlexRow>
+      </SettingsBlock>
+      <SettingsBlock
+        borderTopRadius={false}
+        borderBottomRadius={false}
+        icon="link"
+        label="Redirect URI"
+      >
+        <DropDown
+          items={props.application.redirectUris.map((uri) => ({
+            label: uri,
+            id: uri,
+          }))}
+          selectedId={redirectUri()}
+          onChange={(item) => setRedirectUri(item.id)}
+        />
+      </SettingsBlock>
+      <For each={permissionsList}>
+        {(permission, i) => (
+          <SettingsBlock
+            borderTopRadius={false}
+            borderBottomRadius={i() === permissionsList.length - 1}
+            icon={permission.icon}
+            label={permission.name()}
+            description={permission.description?.()}
+          >
+            <Checkbox
+              checked={hasBit(permissions(), permission.bit)}
+              onChange={(checked) =>
+                onPermissionChanged(checked, permission.bit)
+              }
+            />
+          </SettingsBlock>
+        )}
+      </For>
+    </div>
+  );
+};
 
 const deleteBlockStyles = css`
   margin-top: 50px;

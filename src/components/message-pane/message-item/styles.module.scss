@@ -284,10 +284,10 @@
     background-color: rgba(255, 149, 149, 0.1);
     &:before {
       position: absolute;
-      top: 5px;
-      bottom: 5px;
+      top: 2px;
+      bottom: 2px;
       left: 0;
-      width: 5px;
+      width: 2px;
       border-radius: 8px;
       background-color: var(--alert-color);
       content: "";

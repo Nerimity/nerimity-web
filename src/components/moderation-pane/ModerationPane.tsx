@@ -182,7 +182,7 @@ export default function ModerationPane() {
   const { isMobileWidth } = useWindowProperties();
 
   createEffect(() => {
-    if (!account.hasModeratorPerm()) return;
+    if (!account.hasModeratorPerm(true)) return;
     header.updateHeader({
       title: "Moderation",
       iconName: "security",
@@ -726,7 +726,7 @@ export function User(props: { user: any; class?: string }) {
 }
 
 export function Server(props: {
-  server: RawServer & { messageCount?: number };
+  server: RawServer & { messageCount?: number; userMessageCount?: number };
 }) {
   const created = formatTimestamp(props.server.createdAt);
   const createdBy = props.server.createdBy;
@@ -800,6 +800,12 @@ export function Server(props: {
               Messages:
             </Text>
             <Text size={12}>{props.server.messageCount?.toLocaleString()}</Text>
+            <Text size={12} opacity={0.6}>
+              User Messages:
+            </Text>
+            <Text size={12}>
+              {props.server.userMessageCount?.toLocaleString()}
+            </Text>
           </FlexRow>
         </Show>
         <FlexRow gap={2} wrap>

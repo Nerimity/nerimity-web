@@ -8,7 +8,10 @@ import useStore from "@/chat-api/store/useStore";
 import { ServerBumpModal } from "@/components/explore/ExploreServers";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
@@ -22,6 +25,7 @@ import {
 } from "@/chat-api/services/ExploreService";
 import { ApplicationBotCreateLinkBlock } from "./ApplicationBotCreateLinkBlock";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;
@@ -88,8 +92,7 @@ export default function PublishBotAppSettings() {
   };
 
   const bumpClick = () => {
-    // 3 hours to milliseconds
-    const bumpAfter = 3 * 60 * 60 * 1000;
+    const bumpAfter = 3 * 60 * 60 * 1000; // 3 hours in ms
 
     const millisecondsSinceLastBump =
       new Date().getTime() - publicItem()!.bumpedAt;
@@ -97,10 +100,15 @@ export default function PublishBotAppSettings() {
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
+      toast(
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
       );
-      return;
     }
 
     return createPortal((close) => (

@@ -1,5 +1,6 @@
 import useStore from "@/chat-api/store/useStore";
 import { createSignal } from "solid-js";
+import { t } from "@nerimity/i18lite";
 
 export function useAddFriendModalController() {
   const { friends } = useStore();
@@ -17,15 +18,16 @@ export function useAddFriendModalController() {
 
     const split = userTag().split(":");
     if (split.length <= 1) {
-      setError({ message: "Please enter a username:tag.", path: "" });
+      setError({ message: t("addFriendModal.errors.missingTag"), path: "" });
       setRequestSent(false);
       return;
     }
     if (split.length >= 3) {
-      setError({ message: "Username must not contain a colon.", path: "" });
+      setError({ message: t("addFriendModal.errors.colonInUsername"), path: "" });
       setRequestSent(false);
       return;
     }
+
     const username = split[0];
     const tag = split[1];
 
@@ -37,8 +39,10 @@ export function useAddFriendModalController() {
       .catch((err) => {
         setError({ message: err.message, path: err.path });
       });
+
     setRequestSent(false);
   };
+
   return {
     userTag,
     setUserTag,

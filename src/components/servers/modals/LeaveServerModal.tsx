@@ -2,6 +2,8 @@ import { onCleanup, onMount } from "solid-js";
 import Text from "@/components/ui/Text";
 import { css } from "solid-styled-components";
 import { Modal } from "@/components/ui/modal";
+import { UnescapedTrans } from "../../UnescapedTrans";
+import { t } from "@nerimity/i18lite";
 
 const bodyContainerStyles = css`
   overflow: auto;
@@ -32,31 +34,34 @@ export default function LeaveServerModal(props: {
   });
 
   return (
-    <Modal.Root
-      desktopMaxWidth={600}
-      desktopMinWidth={400}
-      close={props.close}
-    >
-      <Modal.Header title="Leave Server?" icon="home" />
+    <Modal.Root desktopMaxWidth={600} desktopMinWidth={400} close={props.close}>
+      <Modal.Header title={t("servers.leaveModal.title")} icon="home" />
 
       <Modal.Body class={bodyContainerStyles}>
         <Text size={14}>
-          Are you sure you want to leave <b>{props.server.name}</b>?
+          <UnescapedTrans
+            key="servers.leaveModal.body.part1"
+            options={{ serverName: props.server.name }}
+          >
+            Are you sure you want to leave <b>{props.server.name}</b>?
+          </UnescapedTrans>
           <br />
-          You can join back anytime! 
+          <UnescapedTrans key="servers.leaveModal.body.part2">
+            You can join back anytime!
+          </UnescapedTrans>
         </Text>
       </Modal.Body>
 
       <Modal.Footer>
         <Modal.Button
-          label="Don't Leave"
+          label={t("servers.leaveModal.cancelButton")}
           onClick={props.close}
           iconName="close"
         />
 
         <Modal.Button
           primary
-          label="Leave"
+          label={t("servers.leaveModal.confirmButton")}
           onClick={onLeaveClick}
           iconName="logout"
           color="var(--alert-color)"

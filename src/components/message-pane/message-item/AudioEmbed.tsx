@@ -12,6 +12,7 @@ import env from "@/common/env";
 import { prettyBytes } from "@/common/prettyBytes";
 import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
 import Button from "@/components/ui/Button";
+import { toast } from "@/components/ui/custom-portal/CustomPortal";
 import Icon from "@/components/ui/icon/Icon";
 import { Skeleton } from "@/components/ui/skeleton/Skeleton";
 import {
@@ -27,11 +28,17 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
   const isExpired = () => {
     return props.attachment.expireAt && Date.now() > props.attachment.expireAt;
   };
+
+  const fileName = props.attachment.path
+    ? decodeURIComponent(props.attachment.path.split("/").reverse()[0]!)
+    : "Unknown";
+
   return (
     <AudioEmbed
       error={isExpired() ? "File expired." : undefined}
       file={{
-        name: props.attachment.path?.split("/").reverse()[0]!,
+        duration: props.attachment.duration,
+        name: fileName,
         size: props.attachment.filesize!,
         url: env.NERIMITY_CDN + props.attachment.path!,
         expireAt: props.attachment.expireAt,
@@ -40,6 +47,7 @@ export const LocalAudioEmbed = (props: { attachment: RawAttachment }) => {
     />
   );
 };
+
 
 export const GoogleDriveAudioEmbed = (props: { attachment: RawAttachment }) => {
   const [file, setFile] = createSignal<gapi.client.drive.File | null>(null);
@@ -89,12 +97,13 @@ export const AudioEmbed = (props: {
     url: string;
     name: string;
     size: number;
+    duration?: number;
     expireAt?: number;
     provider: AttachmentProviders;
   };
   error?: string;
 }) => {
-  const audio = useAudio();
+  const audio = useAudio({durationOverride: (props.file?.duration ? props.file.duration / 1000 : undefined) });
 
   let progressBarRef: HTMLDivElement | undefined;
 
@@ -124,7 +133,7 @@ export const AudioEmbed = (props: {
         !electronWindowAPI()?.isElectron &&
         !reactNativeAPI()?.isReactNative
       ) {
-        alert(
+        toast(
           "Due to new Google Drive policy, you can only play audio from the Nerimity Desktop App."
         );
       }
@@ -157,7 +166,7 @@ export const AudioEmbed = (props: {
             iconName="info"
             iconSize={16}
             onClick={() =>
-              alert(
+              toast(
                 props.file?.expireAt
                   ? "File expired."
                   : "This file was modified/deleted by the creator in their Google Drive. "
@@ -211,7 +220,7 @@ export const AudioEmbed = (props: {
 };
 
 type State = "LOADING" | "PLAYING" | "PAUSED" | "STOPPED";
-function useAudio() {
+function useAudio(opts: { durationOverride?: number } = {}) {
   const [url, setUrl] = createSignal<null | string>(null);
   const [state, setState] = createSignal<State>("STOPPED");
   const [duration, setDuration] = createSignal(0);
@@ -226,7 +235,7 @@ function useAudio() {
   audio.onloadedmetadata = () => {
     setLoaded(true);
     setState("PLAYING");
-    setDuration(audio.duration);
+    setDuration(opts.durationOverride ?? audio.duration);
     setCurrentTime(0);
   };
   audio.ontimeupdate = () => {
@@ -272,7 +281,7 @@ function useAudio() {
     if (e.type === "audioLoaded" && e.url === url()) {
       setLoaded(true);
       setState("PLAYING");
-      setDuration(e.duration);
+      setDuration(opts.durationOverride ?? e.duration);
       setCurrentTime(e.position);
     }
   });

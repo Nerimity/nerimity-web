@@ -7,10 +7,10 @@ import {
 import { createEffect, createSignal, on, onCleanup } from "solid-js";
 import Text from "../ui/Text";
 
+import { getActivityType } from "@/common/activityType";
+
 export const getActivityIconName = (activity: ActivityStatus) => {
-  if (activity.action.startsWith("Listening")) return "music_note";
-  if (activity.action.startsWith("Watching")) return "movie";
-  return "gamepad";
+  return getActivityType(activity).icon;
 };
 
 export const RichProgressBar = (props: {
@@ -65,7 +65,7 @@ export const RichProgressBar = (props: {
 
     let start = Date.now() - props.startedAt;
 
-    let speed = props.speed ? props.speed * 1 : 1;
+    const speed = props.speed ? props.speed * 1 : 1;
 
     if (props.updatedAt) {
       const seeked = props.updatedAt - props.startedAt;

@@ -31,6 +31,9 @@ export const StorageKeys = {
   COLLAPSED_SERVER_CATEGORIES: "collapsedServerCategories",
   ANNOUNCEMENTS_CACHE: "announcementsCache",
   HIDDEN_ANNOUNCEMENT_IDS: "hiddenAnnouncementIds",
+  CHAT_BAR_OPTIONS: "chatBarOptions",
+  MENTION_REPLIES: "mentionReplies",
+  TIME_FORMAT: "timeFormat", 
 } as const;
 
 export type StorageKeys = (typeof StorageKeys)[keyof typeof StorageKeys];
@@ -88,10 +91,16 @@ export function removeStorage(key: StorageKeys) {
   localStorage.removeItem(key);
 }
 
-export function useLocalStorage<T>(key: StorageKeys, defaultValue: T, stringMode = false) {
+export function useLocalStorage<T>(
+  key: StorageKeys,
+  defaultValue: T,
+  stringMode = false
+) {
   const [value, setValue] = createSignal<T>(defaultValue);
 
-  const storedValue = stringMode ? getStorageString(key, defaultValue) : getStorageObject<T>(key, defaultValue);
+  const storedValue = stringMode
+    ? getStorageString(key, defaultValue)
+    : getStorageObject<T>(key, defaultValue);
   setValue(() => storedValue as T);
 
   const setCustomValue = (value: T) => {
@@ -117,3 +126,12 @@ const collapsedServerCategories = useLocalStorage<string[]>(
 export const useCollapsedServerCategories = () => collapsedServerCategories;
 
 export const useVoiceInputMode = () => voiceInputMode;
+
+export const useChatBarOptions = () => {
+  return useLocalStorage(StorageKeys.CHAT_BAR_OPTIONS, [
+    "vm",
+    "gif",
+    "emoji",
+    "send",
+  ] as const);
+};

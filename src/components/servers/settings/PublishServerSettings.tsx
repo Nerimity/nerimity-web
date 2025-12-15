@@ -10,7 +10,10 @@ import { ServerBumpModal } from "@/components/explore/ExploreServers";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Text from "@/components/ui/Text";
@@ -18,6 +21,7 @@ import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import { A, useParams } from "solid-navigator";
 import { createEffect, createSignal, Show } from "solid-js";
 import { css, styled } from "solid-styled-components";
+import { ToastModal } from "@/components/ui/toasts/ToastModal";
 
 const Container = styled("div")`
   display: flex;
@@ -43,9 +47,10 @@ export default function PublishServerSettings() {
   const { createPortal } = useCustomPortal();
 
   const MAX_DESCRIPTION_LENGTH = 150;
+
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Publish Server",
+      title: t("serverContextMenu.settings") + " - " + t("servers.settings.drawer.publishServer"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -86,19 +91,22 @@ export default function PublishServerSettings() {
   };
 
   const bumpClick = () => {
-    // 3 hours to milliseconds
-    const bumpAfter = 3 * 60 * 60 * 1000;
-
+    const bumpAfter = 3 * 60 * 60 * 1000; // 3 hours in ms
     const millisecondsSinceLastBump =
       new Date().getTime() - publicServer()!.bumpedAt;
     const timeLeftMilliseconds = bumpAfter - millisecondsSinceLastBump;
     const timeLeft = new Date(timeLeftMilliseconds);
 
     if (timeLeftMilliseconds > 0) {
-      alert(
-        `You must wait ${timeLeft.getUTCHours()} hours, ${timeLeft.getUTCMinutes()} minutes and ${timeLeft.getUTCSeconds()} seconds to bump this server.`
+      toast(
+        t("servers.settings.publishServer.bumpCooldown", {
+          hours: timeLeft.getUTCHours(),
+          minutes: timeLeft.getUTCMinutes(),
+          seconds: timeLeft.getUTCSeconds(),
+        }),
+        t("servers.settings.publishServer.bumpServer"),
+        "arrow_upward"
       );
-      return;
     }
 
     return createPortal((close) => (
@@ -123,14 +131,16 @@ export default function PublishServerSettings() {
           icon="home"
           title={server()?.name}
         />
-        <BreadcrumbItem title={t("servers.settings.drawer.invites")} />
+        <BreadcrumbItem title={t("servers.settings.drawer.publishServer")} />
       </Breadcrumb>
+
       <Text color="rgba(255,255,255,0.6)" style={{ "margin-bottom": "10px" }}>
         <Trans key="servers.settings.publishServer.publishNotice">
           Publishing your server will make it be available in the
           <A href="/app/explore/servers">explore</A> page.
         </Trans>
       </Text>
+
       <SettingsBlock
         icon="public"
         label={t("servers.settings.publishServer.public")}
@@ -152,7 +162,9 @@ export default function PublishServerSettings() {
             class={css`
               margin-right: 0px;
             `}
-            label={`Bump (${publicServer()?.bumpCount})`}
+            label={t("servers.settings.publishServer.bumpButton", {
+              count: publicServer()?.bumpCount,
+            })}
           />
         </SettingsBlock>
       </Show>
@@ -163,14 +175,17 @@ export default function PublishServerSettings() {
           onText={(t) => setDescription(t)}
           type="textarea"
           height={200}
-          label={`Server Description (${
-            description().length
-          }/${MAX_DESCRIPTION_LENGTH})`}
+          label={t("servers.settings.publishServer.descriptionLabel", {
+            current: description().length,
+            max: MAX_DESCRIPTION_LENGTH,
+          })}
         />
       </Show>
+
       <Show when={error()}>
         <Text color="var(--alert-color)">{error()}</Text>
       </Show>
+
       <Show when={showPublishButton()}>
         <Button
           class={buttonStyle}
@@ -179,6 +194,7 @@ export default function PublishServerSettings() {
           onClick={publish}
         />
       </Show>
+
       <Show when={!isPublic() && publicServer()}>
         <Button
           class={buttonStyle}

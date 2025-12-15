@@ -10,8 +10,12 @@
 }
 
 .modalContent {
-  max-height: 50vh;
+  display: flex;
   overflow: auto;
-  padding-left: 8px;
+  flex-direction: column;
+
+  max-height: 50vh;
   padding-right: 8px;
+  padding-left: 8px;
+  gap: 6px;
 }

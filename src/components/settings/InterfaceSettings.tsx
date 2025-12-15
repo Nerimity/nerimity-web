@@ -1,7 +1,11 @@
 import { createEffect, For, Show } from "solid-js";
 
 import useStore from "@/chat-api/store/useStore";
-import { StorageKeys, useLocalStorage } from "@/common/localStorage";
+import {
+  StorageKeys,
+  useChatBarOptions,
+  useLocalStorage,
+} from "@/common/localStorage";
 import Checkbox from "../ui/Checkbox";
 import Breadcrumb, { BreadcrumbItem } from "../ui/Breadcrumb";
 import { t } from "@nerimity/i18lite";
@@ -19,6 +23,9 @@ import { ColorPicker } from "../ui/color-picker/ColorPicker";
 import Button from "../ui/Button";
 import env from "@/common/env";
 import style from "./InterfaceSettings.module.css";
+import { useNavigate } from "solid-navigator";
+import { FlexColumn } from "../ui/Flexbox";
+import { timeFormat, setTimeFormat } from "@/common/date";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
@@ -38,8 +45,10 @@ export default function InterfaceSettings() {
         <BreadcrumbItem title={t("settings.drawer.interface")} />
       </Breadcrumb>
       <ThemesBlock />
+      <TimeFormatSetting />
       <BlurEffect />
       <AdvancedMarkup />
+      <ChatBar />
       <CustomizeColors />
       <SettingsBlock
         icon="code"
@@ -51,8 +60,9 @@ export default function InterfaceSettings() {
   );
 }
 
-// TODO: Make this look better on mobile before pushing to live
 export function ThemesBlock() {
+  const navigate = useNavigate();
+
   return (
     <SettingsBlock
       icon="style"
@@ -67,7 +77,6 @@ export function ThemesBlock() {
               Object.keys(colors).length === 0
                 ? currentTheme()
                 : { ...DefaultTheme, ...colors };
-
             return (
               <div
                 class={style.themeCard}
@@ -77,7 +86,7 @@ export function ThemesBlock() {
                 }}
               >
                 <div class={style.themeName}>{name}</div>
-                <Show when={maintainers.length > 0}>
+                <Show when={maintainers.length}>
                   <div class={style.maintainers}>
                     {t("settings.interface.maintainers")}:{" "}
                     {maintainers.join(", ")}
@@ -101,8 +110,157 @@ export function ThemesBlock() {
             );
           }}
         </For>
+
+        <div
+          class={style.themeCard}
+          style={{
+            "background-color": "rgba(255,255,255,0.05)",
+            "backdrop-filter": "blur(6px)",
+            color: "#fff",
+            display: "flex",
+            "flex-direction": "column",
+            "justify-content": "center",
+            "align-items": "center",
+            position: "relative",
+            transition: "transform 0.2s, opacity 0.2s",
+            border: "1px dashed rgba(255, 255, 255, 0.3)",
+          }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLDivElement).style.transform =
+              "translateY(-3px)")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLDivElement).style.transform =
+              "translateY(0)")
+          }
+        >
+          <div
+            style={{
+              "font-weight": "bold",
+              "font-size": "1rem",
+              "text-align": "center",
+            }}
+          >
+            {t("settings.account.browse")}
+          </div>
+          <div
+            style={{
+              "text-align": "center",
+              "margin-top": "4px",
+              "font-size": "0.75rem",
+            }}
+          >
+            {t("explore.themes.unlockDescription")}
+          </div>
+
+          <Button
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              opacity: 0,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/app/explore/themes")}
+            iconName="explore"
+          />
+        </div>
       </div>
     </SettingsBlock>
+  );
+}
+
+function TimeFormatSetting() {
+  const toggleTimeFormat = () => {
+    setTimeFormat(timeFormat() === "12hr" ? "24hr" : "12hr");
+  };
+
+  return (
+    <SettingsBlock
+      icon="schedule"
+      label={t("settings.interface.timeTitle")} 
+      description={t(
+        timeFormat() === "24hr"
+      ? t("settings.interface.24HourFormatDescription")
+      : t("settings.interface.12HourFormatDescription")
+      )}
+    >
+      <Checkbox checked={timeFormat() === "12hr"} onChange={toggleTimeFormat} />
+    </SettingsBlock>
+  );
+}
+
+function ChatBar() {
+  const { isMobileAgent } = useWindowProperties();
+  const [chatBarOptions, setChatBarOptions] = useChatBarOptions();
+  const options = [
+    {
+      id: "vm",
+      icon: "mic",
+      label: "Voice Message",
+    },
+    {
+      id: "gif",
+      icon: "gif",
+      label: "GIF Picker",
+    },
+    {
+      id: "emoji",
+      icon: "face",
+      label: "Emoji Picker",
+    },
+    ...(!isMobileAgent()
+      ? [
+          {
+            id: "send",
+            icon: "send",
+            label: "Send",
+          } as const,
+        ]
+      : []),
+  ] as const;
+
+  type OptionIds = ["vm", "gif", "emoji", "send"];
+
+  return (
+    <FlexColumn>
+      <SettingsBlock
+        icon="chat"
+        label={t("settings.interface.chatBarOptions")}
+        header
+      />
+      <For each={options}>
+        {({ icon, label, id }) => (
+          <SettingsBlock
+            icon={icon}
+            label={label}
+            borderTopRadius={false}
+            borderBottomRadius={false}
+            onClick={() => {
+              const options = chatBarOptions() as unknown as OptionIds[];
+              if (chatBarOptions().includes(id)) {
+                setChatBarOptions(
+                  options.filter(
+                    (i) => i !== (id as unknown as OptionIds)
+                  ) as unknown as OptionIds
+                );
+              } else {
+                setChatBarOptions([
+                  ...chatBarOptions(),
+                  id,
+                ] as unknown as OptionIds);
+              }
+            }}
+          >
+            <Checkbox checked={chatBarOptions().includes(id)} />
+          </SettingsBlock>
+        )}
+      </For>
+    </FlexColumn>
   );
 }
 

@@ -98,9 +98,10 @@ const lastAuthenticatedAt = () => account.lastAuthenticatedAt;
 const avatarUrl = () =>
   user()?.avatar ? env.NERIMITY_CDN + user()?.avatar : null;
 
-const hasModeratorPerm = () =>
+const hasModeratorPerm = (includeModBadges = false) =>
   hasBit(user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
-  hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit);
+  hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit) ||
+  (includeModBadges && hasBit(user()?.badges || 0, USER_BADGES.MOD.bit));
 
 const updateUserNotificationSettings = (opts: {
   serverId?: string;

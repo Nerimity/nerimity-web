@@ -280,8 +280,23 @@ function CategoryItem(props: {
       .getSortedChannelsByServerId(params.serverId, true)
       .filter((channel) => channel?.categoryId === props.channel.id)
   );
-  const isPrivateCategory = () =>
-    !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true);
+
+  const isPrivateCategory = () => {
+    const user = member();
+    if (user?.hasPermission(ROLE_PERMISSIONS.MANAGE_CHANNELS)) {
+      return false;
+    }
+
+    const noViewableChannels = sortedServerChannels().every(
+      (channel) =>
+        !channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true)
+    );
+
+    return (
+      !props.channel.hasPermission(CHANNEL_PERMISSIONS.PUBLIC_CHANNEL, true) ||
+      noViewableChannels
+    );
+  };
 
   const expanded = () => {
     return !collapsedServerCategories().includes(props.channel.id);

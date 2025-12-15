@@ -1,7 +1,10 @@
-:global body.disableBlur {
+:global html body.disableBlur {
   :local {
+    .advancedMarkupOptions {
+      background-color: var(--chat-markup-bar-background-color-blur-disabled);
+    }
     .textAreaContainer {
-      background-color: black;
+      background-color: var(--chat-input-background-color-blur-disabled);
       backdrop-filter: none;
     }
     .backToBottom {
@@ -353,6 +356,10 @@ body .floating.floatingSlowModeIndicator {
   }
 }
 
+body .advancedMarkupOptions {
+  background-color: var(--chat-markup-bar-background-color);
+}
+
 .textAreaContainer {
   position: relative;
   z-index: 1111111;
@@ -362,7 +369,7 @@ body .floating.floatingSlowModeIndicator {
 
   border-bottom: solid 1px rgba(255, 255, 255, 0.3);
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.86);
+  background-color: var(--chat-input-background-color);
   cursor: text;
   transition: 0.2s;
   backdrop-filter: blur(34px);
@@ -399,6 +406,12 @@ body .floating.floatingSlowModeIndicator {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.inputRightButtons {
+  display: flex;
+  margin: 3px;
+  gap: 3px;
 }
 
 .inputButtons {

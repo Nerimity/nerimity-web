@@ -30,7 +30,7 @@ export default function ServerSettingsBans() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Verify",
+      title: t("serverContextMenu.settings") + " - " + t("servers.settings.drawer.verify"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -64,23 +64,24 @@ export default function ServerSettingsBans() {
       {/* Notices depending on how many members the server has and if it's verified.  */}
       <Switch>
         <Match when={isVerified()}>
-          <Notice type="info" description="Your server is already verified." />
+          <Notice type="info" description={t("servers.settings.verify.alreadyVerified")} />
         </Match>
         <Match when={membersNeeded() > 0}>
           <Notice
             type="warn"
-            description={`You need ${membersNeeded()} more member(s) to apply for a verification.`}
+            description={t("servers.settings.verify.insufficientMembers", { count: `${membersNeeded()}` })}
+            // description={`You need ${membersNeeded()} more member(s) to apply for a verification.`}
           />
         </Match>
         <Match when={membersNeeded() <= 0}>
           <Notice
             type="success"
-            title="Ready To Verify"
-            description={"You have enough members to verify your server!"}
+            title={t("servers.settings.verify.verifiable")}
+            description={t("servers.settings.verify.verifiableDescription")}
             children={
               <Button
                 onClick={verifyClick}
-                label="Verify"
+                label={t("servers.settings.verify.verifyButton")}
                 styles={{ "margin-left": "auto" }}
                 margin={0}
                 color="var(--success-color)"
@@ -91,67 +92,67 @@ export default function ServerSettingsBans() {
       </Switch>
       <ListContainer>
         <Text size={24} style={{ "margin-bottom": "10px" }}>
-          Requirements
+          {t("servers.settings.verify.requirements.title")}
         </Text>
         <SettingsBlock
           icon="translate"
-          label="English Only"
-          description="Servers that are not English are harder to moderate."
+          label={t("servers.settings.verify.requirements.englishOnly")}
+          description={t("servers.settings.verify.requirements.englishOnlyDescription")}
         />
         <SettingsBlock
           icon="calendar_month"
-          label="At least 1 month OR supporter badge"
-          description="Your server must be at least 1 month old OR the owner of the server must have the supporter badge"
+          label={t("servers.settings.verify.requirements.oneMonthOrSupporter")}
+          description={t("servers.settings.verify.requirements.oneMonthOrSupporterDescription")}
         />
         <SettingsBlock
           icon="group"
-          label={`${TARGET_MEMBERS} or more members`}
-          description={`Your server must have at least ${TARGET_MEMBERS} members.`}
+          label={t("servers.settings.verify.requirements.members", { count: `${TARGET_MEMBERS}` })}
+          description={t("servers.settings.verify.requirements.membersDescription", { count: `${TARGET_MEMBERS}` })}
         />
         <SettingsBlock
           icon="cleaning_services"
-          label="Profanity free"
-          description="Server name, avatar and banner should be profanity free."
+          label={t("servers.settings.verify.requirements.profanityFree")}
+          description={t("servers.settings.verify.requirements.profanityFreeDescription")}
         />
         <SettingsBlock
           icon="landscape"
-          label="Avatar & Banner"
-          description="Server should have an avatar and a banner."
+          label={t("servers.settings.verify.requirements.avatarAndBanner")}
+          description={t("servers.settings.verify.requirements.avatarAndBannerDescription")}
         />
         <SettingsBlock
           icon="gavel"
-          label="Server rules"
-          description="Server should have a rules channel."
+          label={t("servers.settings.verify.requirements.rules")}
+          description={t("servers.settings.verify.requirements.rulesDescription")}
         />
       </ListContainer>
       <ListContainer>
         <Text size={24} style={{ "margin-bottom": "10px" }}>
-          Perks
+          {t("servers.settings.verify.perks.title")}
         </Text>
         <SettingsBlock
           icon="verified"
-          label="Verified badge"
-          description="A badge to show that your server is special."
+          label={t("servers.settings.verify.perks.badge")}
+          description={t("servers.settings.verify.perks.badgeDescription")}
         />
         <SettingsBlock
           icon="explore"
-          label="Explore"
-          description="Your server can be displayed in the explore page."
+          label={t("servers.settings.verify.perks.explore")}
+          description={t("servers.settings.verify.perks.exploreDescription")}
         />
         <SettingsBlock
           icon="link"
-          label="Custom invite link"
-          description="Create your own invite link from the invites page."
+          label={t("servers.settings.verify.perks.customInvite")}
+          description={t("servers.settings.verify.perks.customInviteDescription")}
         />
         <SettingsBlock
           icon="face"
-          label="More emoji slots"
-          description="200 emoji slots for your server."
+          label={t("servers.settings.verify.perks.emojiSlots")}
+          description={t("servers.settings.verify.perks.emojiSlotsDescription")}
         />
         <SettingsBlock
           icon="video_camera_front"
-          label="1080p@60fps screenshare"
-          description="Screenshare in 1080p at 60fps."
+          label={t("servers.settings.verify.perks.hdScreenshare")}
+          description={t("servers.settings.verify.perks.hdScreenshareDescription")}
         />
       </ListContainer>
     </Container>

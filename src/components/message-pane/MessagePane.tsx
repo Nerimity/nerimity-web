@@ -69,7 +69,11 @@ import { setLastSelectedServerChannelId } from "@/common/useLastSelectedServerCh
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { FlexRow } from "../ui/Flexbox";
 import { Markup } from "../Markup";
-import { getStorageBoolean, StorageKeys } from "@/common/localStorage";
+import {
+  getStorageBoolean,
+  StorageKeys,
+  useChatBarOptions,
+} from "@/common/localStorage";
 import { randomKaomoji } from "@/common/kaomoji";
 import { MessageLogArea } from "./message-log-area/MessageLogArea";
 import { TenorImage } from "@/chat-api/services/TenorService";
@@ -93,7 +97,7 @@ import { Portal } from "solid-js/web";
 import { Trans } from "@nerimity/solid-i18lite";
 import { Rerun } from "@solid-primitives/keyed";
 import { UnescapedTrans } from "../UnescapedTrans";
-
+import { useLocalStorage } from "@/common/localStorage";
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
@@ -267,9 +271,9 @@ function MessagePane() {
 const EmailUnconfirmedNotice = () => {
   return (
     <div class={styles.emailUnconfirmedNotice}>
-      <div class={styles.text}>Confirm your email to send messages.</div>
+      <div class={styles.text}>{t("messageArea.emailNotice")}</div>
       <A href="/app/settings/account">
-        <Button label="Confirm" primary />
+        <Button label={t("settings.account.confirmButton")} primary />
       </A>
     </div>
   );
@@ -286,6 +290,7 @@ function MessageArea(props: {
   >(undefined);
   const { isMobileAgent, paneWidth } = useWindowProperties();
   const [showEmojiPicker, setShowEmojiPicker] = createSignal(false);
+  const [showGifPicker, setShowGifPicker] = createSignal(false);
   const { createPortal } = useCustomPortal();
 
   const { height } = useResizeObserver(textAreaEl);
@@ -497,6 +502,7 @@ function MessageArea(props: {
       <Show when={showEmojiPicker()}>
         <FloatingMessageEmojiPicker
           gifPicked={onGifPicked}
+          tab={showGifPicker() ? "GIF" : "EMOJI"}
           close={() => setShowEmojiPicker(false)}
           onClick={onEmojiPicked}
         />
@@ -526,6 +532,7 @@ function MessageArea(props: {
           showHtml
           toggleHtml={toggleHtml}
           htmlEnabled={htmlEnabled()}
+          class={styles.advancedMarkupOptions}
         />
       </Show>
       <CustomTextArea
@@ -549,7 +556,24 @@ function MessageArea(props: {
         isEditing={!!editMessageId()}
         onSendClick={sendMessage}
         onCancelEditClick={cancelEdit}
-        onEmojiPickerClick={() => setShowEmojiPicker(!showEmojiPicker())}
+        onEmojiPickerClick={() => {
+          if (showGifPicker()) {
+            setShowGifPicker(false);
+            setShowEmojiPicker(true);
+            return;
+          }
+          setShowGifPicker(false);
+          setShowEmojiPicker(!showEmojiPicker());
+        }}
+        onGifPickerClick={() => {
+          if (showEmojiPicker() && !showGifPicker()) {
+            setShowGifPicker(true);
+            setShowEmojiPicker(true);
+            return;
+          }
+          setShowGifPicker(!showGifPicker());
+          setShowEmojiPicker(!showEmojiPicker());
+        }}
       />
       <BackToBottomButton scrollElement={props.mainPaneEl} />
     </div>
@@ -560,10 +584,13 @@ interface CustomTextAreaProps
   isEditing: boolean;
   onSendClick: () => void;
   onEmojiPickerClick: () => void;
+  onGifPickerClick: () => void;
   onCancelEditClick: () => void;
 }
 
 function CustomTextArea(props: CustomTextAreaProps) {
+  const [chatBarOptions] = useChatBarOptions();
+
   const store = useStore();
   let textAreaRef: HTMLTextAreaElement | undefined;
   const params = useParams<{ channelId: string; serverId?: string }>();
@@ -680,64 +707,85 @@ function CustomTextArea(props: CustomTextAreaProps) {
         maxLength={2000}
         class={styles.textArea}
       />
-      <Show when={reminders().length}>
-        <Button
-          class={classNames(styles.inputButtons, styles.reminderButton)}
-          iconName="calendar_month"
-          title={`Reminders (${reminders().length})`}
-          padding={[8, 8, 8, 8]}
-          onClick={showRemindersModal}
-          margin={[3, 0, 3, 3]}
-          iconSize={18}
-          customChildren={<div class={styles.reminderDot} />}
-        />
-      </Show>
+      <div class={styles.inputRightButtons}>
+        <Show when={reminders().length}>
+          <Button
+            class={classNames(styles.inputButtons, styles.reminderButton)}
+            iconName="calendar_month"
+            title={`Reminders (${reminders().length})`}
+            padding={[8, 8, 8, 8]}
+            onClick={showRemindersModal}
+            margin={0}
+            iconSize={18}
+            customChildren={<div class={styles.reminderDot} />}
+          />
+        </Show>
 
-      <Show when={!value().trim() && !pickedFile() && !props.isEditing}>
-        <MicButton
-          onBlob={(blob) => {
-            const file = new File([blob], "voice.ogg", { type: "audio/ogg" });
-            channelProperties.setAttachment(params.channelId, file);
-          }}
-        />
-      </Show>
-      <Button
-        class={classNames(styles.inputButtons, "emojiPickerButton")}
-        onClick={props.onEmojiPickerClick}
-        iconName="face"
-        padding={[8, 8, 8, 8]}
-        margin={[
-          3,
-          props.isEditing ? 0 : pickedFile() || value().trim() ? 0 : 3,
-          3,
-          3,
-        ]}
-        iconSize={18}
-      />
-      <Show when={pickedFile() || value().trim()}>
-        <Button
-          class={styles.inputButtons}
-          ref={setSendButtonRef}
-          onClick={props.onSendClick}
-          iconName={props.isEditing ? "edit" : "send"}
-          padding={[8, 15, 8, 15]}
-          margin={[3, 3, 3, 3]}
-          iconSize={18}
-        />
-      </Show>
-      <Show when={!value().trim() && props.isEditing}>
-        <Button
-          class={styles.inputButtons}
-          ref={setSendButtonRef}
-          onClick={props.onSendClick}
-          color="var(--alert-color)"
-          iconName="delete"
-          primary
-          padding={[8, 15, 8, 15]}
-          margin={[3, 3, 3, 3]}
-          iconSize={18}
-        />
-      </Show>
+        <Show
+          when={
+            !value().trim() &&
+            !pickedFile() &&
+            !props.isEditing &&
+            chatBarOptions().includes("vm")
+          }
+        >
+          <MicButton
+            onBlob={(blob) => {
+              const file = new File([blob], "voice.ogg", { type: "audio/ogg" });
+              channelProperties.setAttachment(params.channelId, file);
+            }}
+          />
+        </Show>
+        <Show when={chatBarOptions().includes("gif")}>
+          <Button
+            class={classNames(styles.inputButtons, "emojiPickerButton")}
+            onClick={props.onGifPickerClick}
+            iconName="gif"
+            padding={[5, 5, 5, 5]}
+            margin={0}
+            iconSize={24}
+          />
+        </Show>
+        <Show when={chatBarOptions().includes("emoji")}>
+          <Button
+            class={classNames(styles.inputButtons, "emojiPickerButton")}
+            onClick={props.onEmojiPickerClick}
+            iconName="face"
+            padding={[8, 8, 8, 8]}
+            margin={0}
+            iconSize={18}
+          />
+        </Show>
+        <Show
+          when={
+            chatBarOptions().includes("send") &&
+            (pickedFile() || value().trim())
+          }
+        >
+          <Button
+            class={styles.inputButtons}
+            ref={setSendButtonRef}
+            onClick={props.onSendClick}
+            iconName={props.isEditing ? "edit" : "send"}
+            padding={[8, 15, 8, 15]}
+            margin={0}
+            iconSize={18}
+          />
+        </Show>
+        <Show when={!value().trim() && props.isEditing}>
+          <Button
+            class={styles.inputButtons}
+            ref={setSendButtonRef}
+            onClick={props.onSendClick}
+            color="var(--alert-color)"
+            iconName="delete"
+            primary
+            padding={[8, 15, 8, 15]}
+            margin={0}
+            iconSize={18}
+          />
+        </Show>
+      </div>
     </div>
   );
 }
@@ -838,7 +886,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
         onPointerLeave={() => !isMobileAgent() && setCancelRecording(true)}
         iconName={cancelRecording() && isRecording() ? "delete" : "mic"}
         padding={[8, 8, 8, 8]}
-        margin={[3, 0, 3, 3]}
+        margin={0}
         iconSize={18}
         primary={isRecording()}
         color={
@@ -920,9 +968,11 @@ function TypingIndicator() {
     });
   });
 
-const typingUsers = createMemo(() =>
-  Object.keys(typingUserIds).filter((id) =>!friends.hasBeenBlockedByMe(id)).map((userId) => users.get(userId)!)
-);
+  const typingUsers = createMemo(() =>
+    Object.keys(typingUserIds)
+      .filter((id) => !friends.hasBeenBlockedByMe(id))
+      .map((userId) => users.get(userId)!)
+  );
 
   const typingUserDisplayNames = createMemo(() => {
     return typingUsers().map((user) => {
@@ -1062,7 +1112,7 @@ function SlowModeIndicator() {
         }
       />
       <Text opacity={0.8} size={10} title={toReadable()}>
-        Slow Mode
+        {t("messageView.slowMode")}
         {` ${currentSlowModeMs() ? `(${readableRemainingMs() || "0s"})` : ""}`}
       </Text>
     </Floating>
@@ -1073,38 +1123,60 @@ function FloatingMessageEmojiPicker(props: {
   close: () => void;
   onClick: (shortcode: string) => void;
   gifPicked: (gif: TenorImage) => void;
+  tab?: "EMOJI" | "GIF";
 }) {
+  const [chatBarOptions] = useChatBarOptions();
+
+  const showTabs = () => {
+    const opts = chatBarOptions();
+    if (opts.includes("gif") && opts.includes("emoji")) return false;
+    return true;
+  };
+
   return (
     <Floating class={styles.floatingMessageEmojiPicker}>
       <EmojiPicker
-        showGifPicker
+        showGifPicker={showTabs()}
         onClick={props.onClick}
         gifPicked={props.gifPicked}
         close={props.close}
         heightOffset={-60}
+        tab={props.tab}
       />
     </Floating>
   );
 }
+
+const [globalMention, setGlobalMention] = useLocalStorage<boolean>(
+  StorageKeys.MENTION_REPLIES,
+  true
+);
 
 function FloatingReply() {
   const params = useParams<{ channelId: string }>();
   const { channelProperties } = useStore();
 
   const property = () => channelProperties.get(params.channelId);
-
   const messages = () => property()?.replyToMessages || [];
-  const mention = () => property()?.mentionReplies;
-  const setMention = (value: boolean) => {
-    channelProperties.toggleMentionReplies(params.channelId);
+
+  createEffect(() => {
+    const value = globalMention();
+    if (property() && property()!.mentionReplies !== value) {
+      channelProperties.toggleMentionReplies(params.channelId);
+    }
+  });
+
+  const toggleMention = (value: boolean) => {
+    setGlobalMention(value);
   };
 
   return (
     <Show when={messages().length}>
       <Floating class={styles.replyIndicator}>
         <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
-          Replying to {messages().length} message(s)
+          {t("messageArea.replying", { count: messages().length })}
         </Text>
+
         <For each={messages()}>
           {(message, i) => (
             <div
@@ -1137,9 +1209,10 @@ function FloatingReply() {
             </div>
           )}
         </For>
+
         <Checkbox
-          checked={mention()!}
-          onChange={setMention}
+          checked={globalMention()}
+          onChange={toggleMention}
           style={{
             gap: "4px",
             "padding-top": "4px",
@@ -1147,7 +1220,7 @@ function FloatingReply() {
             "justify-content": "end",
           }}
           boxStyles={{ "font-size": "8px", "border-radius": "4px" }}
-          label="Mention"
+          label={t("messageArea.mention")}
           labelSize={12}
         />
       </Floating>
@@ -1259,7 +1332,7 @@ function FloatingAttachment(props: {}) {
 
           <DropDown
             class={styles.attachmentUploadToDropDown}
-            title="Upload To"
+            title={t("messageArea.uploadTo")}
             onChange={(item) =>
               channelProperties.setAttachment(
                 params.channelId,
@@ -1456,7 +1529,7 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
       <div class={styles.backToBottom} onClick={onClick}>
         <Show when={newMessages()}>
           <Text class={styles.text} size={14}>
-            New messages
+            {t("messageView.newMessages")}
           </Text>
         </Show>
         <Icon
@@ -1468,6 +1541,8 @@ function BackToBottomButton(props: { scrollElement: HTMLDivElement }) {
     </Show>
   );
 }
+
+const normalizeText = (str?: string) => str?.normalize("NFKC") || "";
 
 function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
   const { channelProperties } = useStore();
@@ -1493,7 +1568,7 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
       return setIsFocus(false);
     setIsFocus(true);
     const textBefore = getTextBeforeCursor(props.textArea);
-    setTextBefore(textBefore);
+    setTextBefore(normalizeText(textBefore));
   };
 
   const onSelectionChange = () => {
@@ -1528,19 +1603,19 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
         <Switch>
           <Match when={suggestChannels()}>
             <FloatingChannelSuggestions
-              search={textBefore().substring(1)}
+              search={normalizeText(textBefore().substring(1))}
               textArea={props.textArea}
             />
           </Match>
           <Match when={suggestUsers()}>
             <FloatingUserSuggestions
-              search={textBefore().substring(1)}
+              search={normalizeText(textBefore().substring(1))}
               textArea={props.textArea}
             />
           </Match>
           <Match when={suggestEmojis()}>
             <FloatingEmojiSuggestions
-              search={textBefore().substring(1)}
+              search={normalizeText(textBefore().substring(1))}
               textArea={props.textArea}
             />
           </Match>
@@ -1549,9 +1624,9 @@ function FloatingSuggestions(props: { textArea?: HTMLTextAreaElement }) {
       <Show when={suggestCommands() && !properties()?.editMessageId}>
         <FloatingCommandSuggestions
           focused={isFocus()}
-          search={content().substring(1).split(" ")[0] || ""}
+          search={normalizeText(content().substring(1).split(" ")[0] || "")}
           textArea={props.textArea}
-          content={content()}
+          content={normalizeText(content())}
         />
       </Show>
     </>
@@ -1571,17 +1646,13 @@ function FloatingChannelSuggestions(props: {
         .getChannelsByServerId(params.serverId!, true)
         .filter((c) => c?.type !== ChannelType.CATEGORY) as Channel[]
   );
-  const searchedChannels = () =>
-    matchSorter(serverChannels(), props.search, { keys: ["name"] }).slice(
-      0,
-      10
-    );
 
-  createEffect(
-    on(searchedChannels, () => {
-      setCurrent(0);
-    })
-  );
+  const searchedChannels = () =>
+    matchSorter(serverChannels(), normalizeText(props.search), {
+      keys: [(c) => normalizeText(c.name)],
+    }).slice(0, 10);
+
+  createEffect(on(searchedChannels, () => setCurrent(0)));
 
   const onChannelClick = (channel: Channel) => {
     if (!props.textArea) return;
@@ -1589,13 +1660,11 @@ function FloatingChannelSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      channel.name + "# "
+      normalizeText(channel.name) + "# "
     );
   };
 
-  const onEnterClick = (i: number) => {
-    onChannelClick(searchedChannels()[i]);
-  };
+  const onEnterClick = (i: number) => onChannelClick(searchedChannels()[i]);
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedChannels().length,
@@ -1712,9 +1781,13 @@ function FloatingUserSuggestions(props: {
           }),
         },
       ] as any[],
-      props.search,
+      normalizeText(props.search),
       {
-        keys: [(e) => e.user?.().username, (e) => e.nickname, (e) => e.name],
+        keys: [
+          (e) => normalizeText(e.user?.().username),
+          (e) => normalizeText(e.nickname),
+          (e) => normalizeText(e.name),
+        ],
       }
     )
       .slice(0, 10)
@@ -1729,19 +1802,12 @@ function FloatingUserSuggestions(props: {
   const DMUsers = () =>
     !channel() ? [] : ([channel()?.recipient(), account.user()] as User[]);
   const searchedDMUsers = () =>
-    matchSorter(DMUsers(), props.search, { keys: ["username"] }).slice(0, 10);
+    matchSorter(DMUsers(), normalizeText(props.search), {
+      keys: [(u) => normalizeText(u.username)],
+    }).slice(0, 10);
 
   const searched = () =>
     !params.serverId ? searchedDMUsers() : searchedServerUsers();
-
-  createEffect(
-    on(
-      () => props.search,
-      () => {
-        setCurrent(0);
-      }
-    )
-  );
 
   const onUserClick = (user: User & { name?: string }) => {
     if (!props.textArea) return;
@@ -1750,7 +1816,7 @@ function FloatingUserSuggestions(props: {
         params.channelId,
         props.textArea,
         props.search,
-        `${user.username || user.name}${user.name ? "@" : ""} `
+        `${normalizeText(user.username || user.name)}${user.name ? "@" : ""} `
       );
       return;
     }
@@ -1758,7 +1824,7 @@ function FloatingUserSuggestions(props: {
       params.channelId,
       props.textArea,
       props.search,
-      `${user.username}:${user.tag} `
+      `${normalizeText(user.username)}:${normalizeText(user.tag)} `
     );
   };
 
@@ -1781,7 +1847,7 @@ function FloatingUserSuggestions(props: {
             <UserSuggestionItem
               onHover={() => setCurrent(i())}
               selected={current() === i()}
-              nickname={member?.nickname}
+              nickname={normalizeText(member?.nickname)}
               user={(member as ServerMember)?.user?.() || member}
               onclick={onUserClick}
             />
@@ -1820,13 +1886,19 @@ function UserSuggestionItem(props: {
         <div class={styles.suggestionInfo}>{props.user.username}</div>
       </Show>
       <Show when={props.user?.special && props.user.id === "e"}>
-        <div class={styles.suggestionInfo}>Mention everyone.</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.everyone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "s"}>
-        <div class={styles.suggestionInfo}>Mentions someone.</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.someone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "si"}>
-        <div class={styles.suggestionInfo}>Silent message.</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.silent")}
+        </div>
       </Show>
       <Show when={!props.user?.special && props.selected}>
         <Icon class={styles.suggestIcon} name="keyboard_return" />
@@ -1850,35 +1922,26 @@ function FloatingEmojiSuggestions(props: {
   const searchedEmojis = () =>
     matchSorter(
       [...emojis(), ...servers.emojisUpdatedDupName()],
-      props.search,
+      normalizeText(props.search),
       {
         keys: ["short_names.*", "name"],
       }
     ).slice(0, 10);
 
-  createEffect(
-    on(searchedEmojis, () => {
-      setCurrent(0);
-    })
-  );
-
   const onItemClick = (emoji: Emoji | RawCustomEmoji) => {
     if (!props.textArea) return;
-    addToHistory(
-      (emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0],
-      20
-    );
+    const name =
+      (emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0];
+    addToHistory(name, 20);
     appendText(
       params.channelId,
       props.textArea,
       props.search,
-      `${(emoji as RawCustomEmoji).name || (emoji as Emoji).short_names[0]}: `
+      normalizeText(name) + ": "
     );
   };
 
-  const onEnterClick = (i: number) => {
-    onItemClick(searchedEmojis()[i]);
-  };
+  const onEnterClick = (i: number) => onItemClick(searchedEmojis()[i]);
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedEmojis().length,
@@ -1904,6 +1967,7 @@ function FloatingEmojiSuggestions(props: {
     </Show>
   );
 }
+
 function FloatingCommandSuggestions(props: {
   search: string;
   textArea?: HTMLTextAreaElement;
@@ -2163,13 +2227,13 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
       <Button
         styles={{ flex: 1 }}
         iconName="close"
-        label="Don't link"
+        label={t("messageArea.linkToGoogleDrive.cancelButton")}
         color="var(--alert-color)"
         onClick={props.close}
       />
       <Button
         styles={{ flex: 1 }}
-        label="Link now"
+        label={t("messageArea.linkToGoogleDrive.linkButton")}
         iconName="link"
         primary
         onClick={() => {
@@ -2189,8 +2253,7 @@ const GoogleDriveLinkModal = (props: { close: () => void }) => {
       maxWidth={300}
     >
       <Text size={14} style={{ padding: "10px", "padding-top": 0 }}>
-        You must link your account to Google Drive to upload large images,
-        videos or files.
+        {t("messageArea.linkToGoogleDrive.body")}
       </Text>
     </LegacyModal>
   );
@@ -2273,14 +2336,14 @@ function BeforeYouChatNotice(props: {
         >
           <div class={styles.title}>
             <Icon name="info" color="var(--primary-color)" size={18} />
-            Before you chat...
+            {t("messageArea.channelNotice.title")}
           </div>
           <div class={styles.info}>
             <Markup inline text={notice()!.content} />
           </div>
           <Button
             styles={{ opacity: buttonClickable() ? 1 : 0.5 }}
-            label="Understood"
+            label={t("settings.account.understoodButton")}
             iconName="check"
             onClick={understoodClick}
             class={styles.noticeButton}
@@ -2311,15 +2374,20 @@ function ScheduledDelete() {
 
   return (
     <div class={styles.scheduledDeleteContainer}>
-      <div class={styles.scheduledDeleteTitle}>Schedule Delete</div>
+      <div class={styles.scheduledDeleteTitle}>
+        {t("messageView.flaggedServer.title")}
+      </div>
       <div class={styles.scheduledDeleteDesc}>
-        This server did not comply with our Terms of Service, and will be
-        deleted soon.
+        {t("messageView.flaggedServer.description")}
       </div>
       <Button
         onclick={onLeaveClick}
         iconName={isCreator() ? "delete" : "logout"}
-        label={isCreator() ? "Delete Now" : "Leave Server"}
+        label={
+          isCreator()
+            ? t("messageView.flaggedServer.deleteButton")
+            : t("messageView.flaggedServer.leaveButton")
+        }
         color="var(--alert-color)"
         primary
       />
@@ -2332,7 +2400,7 @@ function DropOverlay() {
     <div class={styles.dropOverlayContainer}>
       <div class={styles.dropOverlayInnerContainer}>
         <Icon name="place_item" color="var(--primary-color)" size={40} />
-        <div>Drop File</div>
+        <div>{t("messageArea.dropFile")}</div>
       </div>
     </div>
   );

@@ -392,7 +392,7 @@ function ModBorder(props: {
       size={props.size}
       children={props.children}
       overlay={
-        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
       }
       color={props.color}
       url={props.avatarUrl}
@@ -417,7 +417,7 @@ function EmoSupporterBorder(props: {
       children={props.children}
       color={props.color}
       overlay={
-        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
       }
       url={props.avatarUrl}
       hovered={props.hovered}
@@ -440,7 +440,7 @@ function SupporterBorder(props: {
       type="supporter"
       children={props.children}
       overlay={
-        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
       }
       color={props.color}
       url={props.avatarUrl}
@@ -466,7 +466,7 @@ function AdminBorder(props: {
       children={props.children}
       color={props.color}
       overlay={
-        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
       }
       url={props.avatarUrl}
       hovered={props.hovered}
@@ -491,7 +491,7 @@ function FounderBorder(props: {
       children={props.children}
       color={props.color}
       overlay={
-        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
       }
       url={props.avatarUrl}
       hovered={props.hovered}
@@ -514,7 +514,7 @@ function PalestineBorder(props: {
       type="palestine"
       children={props.children}
       overlay={
-        <Overlays size={props.size} offset={-0.68} badges={props.badges} />
+        <Overlays size={props.size} offset={-0.78} badges={props.badges} />
       }
       color={props.color}
       url={props.avatarUrl}

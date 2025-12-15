@@ -133,7 +133,7 @@ const MemberItem = (props: { member: ServerMember }) => {
         </div>
         <Show when={isAdmin() || isCreator()}>
           <Tooltip
-            tooltip={isCreator() ? "Creator" : "Admin"}
+            tooltip={isCreator() ? t("informationDrawer.creator") : t("informationDrawer.admin")}
             class={styles.adminOrCreatorBadge}
             anchor="left"
           >
@@ -462,7 +462,7 @@ const ServerDrawer = () => {
               members={offlineMembers().sort((a, b) =>
                 a?.user().username.localeCompare(b?.user().username)
               )}
-              roleName="Offline"
+              roleName={t("status.offline")}
               roleIcon={defaultRole()?.icon}
             />
           </div>

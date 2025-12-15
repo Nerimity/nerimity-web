@@ -53,7 +53,7 @@ import {
   UserBadge,
 } from "@/chat-api/Bitwise";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { getLastSelectedChannelId } from "@/common/useLastSelectedServerChannel";
 import ItemContainer from "../ui/LegacyItem";
 import ContextMenu, {
@@ -74,6 +74,7 @@ import { useCustomScrollbar } from "../custom-scrollbar/CustomScrollbar";
 import { emojiToUrl } from "@/common/emojiToUrl";
 import { currentTheme } from "@/common/themes";
 import DeleteConfirmModal from "../ui/delete-confirm-modal/DeleteConfirmModal";
+import { getActivityType } from "@/common/activityType";
 
 const ActionButtonsContainer = styled(FlexRow)`
   align-self: center;
@@ -478,7 +479,7 @@ const ActionButtons = (props: {
       username: props.user.username,
       tag: props.user.tag,
     }).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
   };
 
@@ -826,17 +827,14 @@ const UserActivity = (props: {
   const activity = () => user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
-  const isMusic = () =>
-    !!activity()?.action.startsWith("Listening") &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
-  const isVideo = () =>
-    !!activity()?.action.startsWith("Watching") &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
+  const activityType = () => getActivityType(activity());
 
-  const isLiveStream = () =>
-    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+  const isMusic = () =>
+    !!activityType().isMusic && !!activity()?.startedAt && !!activity()?.endsAt;
+  const isVideo = () =>
+    !!activityType().isVideo && !!activity()?.startedAt && !!activity()?.endsAt;
+
+  const isLiveStream = () => !!activityType().isVideo && !activity()?.endsAt;
 
   const imgSrc = createMemo(() => {
     if (activity()?.emoji) {

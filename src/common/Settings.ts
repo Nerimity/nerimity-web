@@ -18,6 +18,10 @@ const DeveloperApplicationBotSettings = lazy(
     import("@/components/settings/developer/DeveloperApplicationBotSettings")
 );
 
+const DeveloperApplicationSettings = lazy(
+  () => import("@/components/settings/developer/DeveloperApplicationSettings")
+);
+
 const settings: Setting[] = [
   {
     path: "account",
@@ -133,10 +137,16 @@ const settings: Setting[] = [
     hideHeader: true,
     icon: "code",
     hide: true,
-    element: lazy(
-      () =>
-        import("@/components/settings/developer/DeveloperApplicationSettings")
-    ),
+    element: DeveloperApplicationSettings,
+  },
+  {
+    path: "developer/applications",
+    routePath: "/developer/applications/:id/oauth2",
+    name: () => t("settings.drawer.developer"),
+    hideHeader: true,
+    icon: "code",
+    hide: true,
+    element: DeveloperApplicationSettings,
   },
   {
     path: "developer/applications",

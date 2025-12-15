@@ -17,8 +17,10 @@ import {
 import { getActivityIconName, RichProgressBar } from "../activity/Activity";
 import Icon from "../ui/icon/Icon";
 import Text from "../ui/Text";
+import { t } from "@nerimity/i18lite";
 
 import style from "./UserActivity.module.css";
+import { getActivityType } from "@/common/activityType";
 
 export const UserActivity = (props: {
   primaryColor?: string;
@@ -30,17 +32,14 @@ export const UserActivity = (props: {
   const activity = () => props.exampleActivity || user()?.presence()?.activity;
   const [playedFor, setPlayedFor] = createSignal("");
 
-  const isMusic = () =>
-    !!activity()?.action.startsWith("Listening") &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
-  const isVideo = () =>
-    !!activity()?.action.startsWith("Watching") &&
-    !!activity()?.startedAt &&
-    !!activity()?.endsAt;
+  const activityType = () => getActivityType(activity());
 
-  const isLiveStream = () =>
-    !!activity()?.action.startsWith("Watching") && !activity()?.endsAt;
+  const isMusic = () =>
+    !!activityType().isMusic && !!activity()?.startedAt && !!activity()?.endsAt;
+  const isVideo = () =>
+    !!activityType().isVideo && !!activity()?.startedAt && !!activity()?.endsAt;
+
+  const isLiveStream = () => !!activityType().isVideo && !activity()?.endsAt;
 
   createEffect(
     on(activity, () => {

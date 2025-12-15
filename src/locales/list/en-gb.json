@@ -5,6 +5,33 @@
     "loginButton": "Login",
     "joinNowButton": "Join Now"
   },
+  "systemMessages": {
+    "joinServer": {
+      "bot": "was added to the server.",
+      "user": "has joined the server."
+    },
+    "leaveServer": "has left the server.",
+    "kickUser": "has been kicked.",
+    "banUser": "has been banned.",
+    "callStarted": "started a call.",
+    "bumpServer": "bumped the server.",
+    "pinnedMessage": "pinned a message.",
+    "unsupported": "Unsupported message."
+  },
+  "statusHeader": {
+    "authenticationError": "Authentication error",
+    "connecting": "Connecting...",
+    "reconnecting": "Reconnecting...",
+    "inQueue": "In Queue: {{count}} User(s) Ahead Of You",
+    "authenticating": "Authenticating...",
+    "connected": "Connected!"
+  },
+  "dangerousLinkModal": {
+    "title": "Custom Link",
+    "message": "This link will take you to",
+    "cancelButton": "Don't Visit",
+    "visitButton": "Visit"
+  },
   "connectionErrorModal": {
     "title": "Connection Error",
     "ok": "OK",
@@ -24,7 +51,7 @@
   "homePage": {
     "slogan": "A modern and sleek chat app.",
     "subslogan": "Nerimity offers an elegant and feature-rich experience that sets it apart.",
-    "viewGitHubButton": "View GitHub",
+    "viewGitHubButton": "View on GitHub",
     "getStarted": "Get Started",
     "availableOn": "Available on",
     "browser": "Browser",
@@ -88,9 +115,65 @@
     "discover": "Discover",
     "notifications": "Notifications"
   },
+  "status": {
+    "online": "Online",
+    "ltp": "Looking To Play",
+    "afk": "Away From Keyboard",
+    "dnd": "Do Not Disturb",
+    "offline": "Offline",
+    "appearAsOffline": "Appear As Offline"
+  },
+  "sidePane": {
+    "home": "Home",
+    "moderation": "Moderation Pane",
+    "addServer": "Add Server"
+  },
+  "updateModal": {
+    "title": "Update Available",
+    "updateButton": "Update Now",
+    "laterButton": "Later",
+    "releasedAt": "Released at"
+  },
   "messageArea": {
     "messageBoxPlaceholder": "Message {{username}}",
-    "messageBoxChannelPlaceholder": "Message in {{channelName}}"
+    "messageBoxChannelPlaceholder": "Message in {{channelName}}",
+    "replying": "Replying to {{count}} message(s)",
+    "mention": "Mention",
+    "dropFile": "Drop File",
+    "uploadTo": "Upload To",
+    "channelNotice": {
+      "title": "Before you chat...",
+      "understoodButton": "Understood"
+    },
+    "specialMentions": {
+      "everyone": "Mentions everyone",
+      "someone": "Mentions a random user",
+      "silent": "Silent message"
+    },
+    "linkToGoogleDrive": {
+      "body": "You must link your account to Google Drive to upload large images, videos, or files",
+      "linkButton": "Link now",
+      "cancelButton": "Don't link"
+    },
+    "emailNotice": "Confirm your email to send messages."
+  },
+  "markup": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "strikethrough": "Strikethrough",
+    "header": "Header",
+    "namedLink": "Named Link",
+    "spoiler": "Spoiler",
+    "timestamp": "Timestamp",
+    "color": "Color",
+    "html": "HTML Mode",
+    "emojiPicker": "Emoji Picker",
+    "timestampModal": {
+      "title": "Time Markup",
+      "relative": "Relative",
+      "offset": "Offset",
+      "doneButton": "Done"
+    }
   },
   "inbox": {
     "blockedUsersModal": {
@@ -106,35 +189,66 @@
       "blockedUsersButton": "Blocked",
       "inboxTitle": "Inbox",
       "friendsButton": "Friends",
-      "viewAll": "View All",
-      "inboxButton": "Inbox",
-      "offline": "Offline"
+      "viewAll": "View All"
     }
   },
   "explore": {
     "drawer": {
       "title": "Explore",
       "servers": "Servers",
-      "bots": "Bots"
+      "bots": "Bots",
+      "themes": "Themes"
     },
     "bots": {
       "title": "Explore - Bots",
-      "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}."
+      "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
+      "moderationNotice": "Bots are not moderated by Nerimity. Please report bots that are malicious or break the TOS.",
+      "inviteButton": "Invite",
+      "serverCount": "In {{count}} servers"
+    },
+    "themes": {
+      "title": "Explore - Themes",
+      "themesHeaderDescription": "Personalize Nerimity with a custom theme.",
+      "officialThemes": "Official Themes",
+      "communityThemes": "Community Themes",
+      "noCommunityThemes": "No community themes found.",
+      "fetchThemesError": "Failed to fetch themes. Please try again later.",
+      "unlockDescription": "Click to explore all community themes"
     },
     "servers": {
       "title": "Explore - Servers",
       "noticeMessage": "A server can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
-      "sortMostBumps": "Most bumps",
+      "moderationNotice": "Servers are not moderated by Nerimity. Please report servers that break the TOS.",
+      "sortMostBumps": "Most Bumps",
       "sortMostMembers": "Most Members",
-      "sortRecentlyAdded": "Recently added",
-      "sortRecentlyBumped": "Recently bumped",
+      "sortRecentlyAdded": "Recently Added",
+      "sortRecentlyBumped": "Recently Bumped",
+      "sortMostActive": "Most Active (Beta)",
       "filterAll": "All",
       "filterVerified": "Verified",
+      "pinnedServers": "Pinned Servers",
+      "recentlyBumped": "Recently Bumped Servers",
       "memberCount": "{{count}} members",
       "lifetimeBumpCount": "{{count}} lifetime bumps",
       "visitServerButton": "Visit",
       "joinServerButton": "Join",
       "bumpButton": "Bump ({{count}})"
+    },
+    "search": "Search",
+    "sort": "Sort",
+    "filter": "Filter",
+    "backButton": "Back",
+    "by": "By",
+    "bumped": "Bumped"
+  },
+  "editFolderModal": {
+    "title": "Edit Folder",
+    "placeholder": "Folder Name",
+    "cancelButton": "Don't Save",
+    "save": "Save",
+    "saving": "Saving...",
+    "errors": {
+      "emptyName": "Please enter a folder name."
     }
   },
   "servers": {
@@ -155,6 +269,26 @@
         "notifications": "Notifications",
         "external-embed": "External Embed"
       },
+      "bans": {
+        "sort": {
+          "title": "Sort",
+          "unsorted": "Unsorted"
+        },
+        "noResults": "No results found.",
+        "reason": "Reason",
+        "noReason": "No reason provided",
+        "bannedAt": "Banned at",
+        "unknown": "Unknown",
+        "unban": "Unban",
+        "unbanning": "Unbanning"
+      },
+      "webhook": {
+        "title": "Webhook Settings",
+        "name": "Name",
+        "link": "Webhook URL",
+        "linkDescription": "Execute actions using this link",
+        "delete": "Delete Webhook"
+      },
       "general": {
         "serverRenameNotice": "You will lose all of the perks of having your server verified if you rename it.",
         "serverName": "Server Name",
@@ -162,11 +296,17 @@
         "defaultChannelDescription": "New members will be directed to this channel.",
         "systemMessages": "System Messages",
         "systemMessagesDescription": "Where system messages should appear.",
+        "avatar": "Avatar",
+        "avatarDescription": "Supported: JPG, PNG, GIF, WEBP, Max 12 MB",
+        "banner": "Banner",
+        "bannerDescription": "Supported: JPG, PNG, GIF, WEBP, Max 12 MB",
+        "browseButton": "Browse",
         "deleteThisServer": "Delete this server",
         "deleteThisServerDescription": "This cannot be undone!",
         "deleteServerButton": "Delete Server",
         "saveChangesButton": "Save Changes",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "none": "None"
       },
       "roles": {
         "addNewRole": "Add a new role",
@@ -219,8 +359,46 @@
         "publicDescription": "Make this server public.",
         "bumpServer": "Bump Server",
         "bumpServerDescription": "Bump this server to get to the top.",
+        "bumpButton": "Bump ({{count}})",
+        "descriptionLabel": "Server Description ({{current}}/{{max}})",
         "publishServerButton": "Publish server",
-        "unpublishServerButton": "Unpublish server"
+        "unpublishServerButton": "Unpublish server",
+        "bumpCooldown": "You must wait {{hours}} hours, {{minutes}} minutes, and {{seconds}} seconds to bump this server."
+      },
+      "verify": {
+        "alreadyVerified": "Your server is already verified!",
+        "insufficientMembers": "You need {{count}} more member(s) to apply for verification.",
+        "verifiable": "Ready to verify",
+        "verifiableDescription": "You have enough members to verify your server!",
+        "verifyButton": "Verify",
+        "requirements": {
+          "title": "Requirements",
+          "englishOnly": "English only",
+          "englishOnlyDescription": "Servers that are not English are harder to moderate.",
+          "oneMonthOrSupporter": "At least 1 month OR supporter badge",
+          "oneMonthOrSupporterDescription": "Your server must be at least 1 month old OR the owner of the server must have the supporter badge.",
+          "members": "{{count}} or more members",
+          "membersDescription": "Your server must have at least {{count}} members.",
+          "profanityFree": "Profanity free",
+          "profanityFreeDescription": "Server name, avatar and banner must be profanity free.",
+          "avatarAndBanner": "Avatar & Banner",
+          "avatarAndBannerDescription": "Server must have an avatar and a banner.",
+          "rules": "Server rules",
+          "rulesDescription": "Server must have a rules channel."
+        },
+        "perks": {
+          "title": "Perks",
+          "badge": "Verified badge",
+          "badgeDescription": "A badge to show that your server is special.",
+          "explore": "Highlight in Explore",
+          "exploreDescription": "Your server will be displayed in a separate section on the explore page.",
+          "customInvite": "Custom invite link",
+          "customInviteDescription": "Create your own invite link from the invites page.",
+          "emojiSlots": "More emoji slots",
+          "emojiSlotsDescription": "200 emoji slots for your server.",
+          "hdScreenshare": "1080p@60fps screenshare",
+          "hdScreenshareDescription": "Screenshare in 1080p at 60fps."
+        }
       }
     },
     "rolePermissions": {
@@ -240,6 +418,15 @@
       "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone.",
       "nicknameMember": "Nickname Member",
       "nicknameMemberDescription": "Allow users to change their nickname in the server."
+    },
+    "leaveModal": {
+      "title": "Leave Server?",
+      "body": {
+        "part1": "Are you sure you want to leave <1>{{serverName}}</1>?",
+        "part2": "You can join back anytime!"
+      },
+      "cancelButton": "Don't Leave",
+      "confirmButton": "Leave"
     },
     "channelPermissions": {
       "publicChannel": "Public Channel",
@@ -271,6 +458,15 @@
       "privacy": "Privacy",
       "connections": "Connections",
       "profile": "Profile"
+    },
+    "language": {
+      "reloadNotice": "You must reload the app to fully apply the new language.",
+      "searchNotice": "Translations are maintained by the community. Please report any translations that are incorrect or inappropriate to Nerimity.",
+      "reloadButton": "Reload",
+      "contributors": "Contributors",
+      "translateModal": {
+        "title": "Translate"
+      }
     },
     "header": {
       "servers": "servers",
@@ -414,7 +610,11 @@
       "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
       "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
       "customizeColors": "Customize Colors",
-      "customizeColorsDescription": "Edit colors for the current theme."
+      "customizeColorsDescription": "Edit colors for the current theme.",
+      "chatBarOptions": "Chat bar Options",
+      "timeTitle": "Toggle Time Format",
+      "12HourFormatDescription": "Display times in 12-hour format with AM/PM.",
+      "24HourFormatDescription": "Display times in 24-hour format."
     },
     "window": {
       "title": "Settings - Window Settings",
@@ -426,7 +626,45 @@
       "disableHardwareAcceleration": "Disable Hardware Acceleration",
       "disableCustomTitlebar": "Disable Custom Titlebar",
       "reopenAppNotice": "You must reopen the app for the change to take effect."
+    },
+    "activity": {
+      "extension": "Browser Extension",
+      "extensionDescription": "Our RPC extension allows you to share your activity from Spotify and YouTube with users on Nerimity!",
+      "visitButton": "Visit {{store}}",
+      "activityStatus": "Activity Status",
+      "activityStatusDescription": "Share what you're up to with everyone",
+      "deleteButton": "Delete",
+      "editButton": "Edit",
+      "activityStatusModal": {
+        "title": "Edit Activity Status",
+        "executable": "Executable",
+        "action": "Action",
+        "name": "Name",
+        "emoji": "Emoji",
+        "backButton": "Back",
+        "saveButton": "Save"
+      },
+      "discordActivity": "Discord Activity",
+      "discordActivityDescription": "Share your Discord activity with users on Nerimity",
+      "idPlaceholder": "Discord User ID",
+      "serverModal": {
+        "text": "Please join the Discord server to enable Activity Sharing.",
+        "cancelButton": "Cancel",
+        "doneButton": "I have joined"
+      }
+    },
+    "developer": {
+      "oauth2": {
+        "description": "Manage OAuth2",
+        "title": "OAuth2",
+        "generateLink": "Generate Link"
+      }
     }
+  },
+  "activityNames": {
+    "playing": "Playing",
+    "watching": "Watching",
+    "listening": "Listening to"
   },
   "supportBlock": {
     "support": "Support Me",
@@ -436,10 +674,20 @@
     "title": "Create Server",
     "notice": "NSFW content is not allowed.",
     "serverName": "Server Name",
-    "placeholder": "My Amazing Server",
-    "creating": "Creating...",
+    "placeholder": "My Awesome Server",
+    "closeButton": "Close",
     "createServerButton": "Create Server",
-    "closeButton": "Close"
+    "creating": "Creating...",
+    "tabLabel": "Create"
+  },
+  "joinServerModal": {
+    "title": "Join Server",
+    "notice": "If you would like to explore servers, please go to the explore tab instead.",
+    "exploreButton": "Explore Servers",
+    "inviteCode": "Invite Code",
+    "continueButton": "Continue",
+    "missingInvite": "Please enter a server invite code.",
+    "tabLabel": "Join"
   },
   "serverContextMenu": {
     "markAsRead": "Mark as Read",
@@ -452,6 +700,18 @@
       "everything": "Everything",
       "mentionsOnly": "Mentions Only",
       "mute": "Mute"
+    }
+  },
+  "messageView": {
+    "noMessages": "No messages",
+    "noMessagesDescription": "There are no messages in this channel.",
+    "newMessages": "New messages",
+    "slowMode": "Slow Mode",
+    "flaggedServer": {
+      "title": "Schedule Delete",
+      "description": "This server did not comply with our Terms of Service and will be deleted soon.",
+      "deleteButton": "Delete Now",
+      "leaveButton": "Leave Server"
     }
   },
   "typing": {
@@ -486,7 +746,9 @@
     "message": "Are you sure you want to ban <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
     "banButton": "Ban",
-    "banning": "Banning..."
+    "banning": "Banning...",
+    "reasonLabel": "Reason (optional)",
+    "reasonPlaceholder": "Enter a reason…"
   },
   "messageContextMenu": {
     "editMessage": "Edit Message",
@@ -541,7 +803,9 @@
     "channelNotice": "Channel Notice",
     "attachments": "Attachments",
     "attachmentsBack": "Back",
-    "members": "Members"
+    "members": "Members",
+    "creator": "Creator",
+    "admin": "Admin"
   },
   "botInvite": {
     "serverSelect": "Please select a server!",
@@ -579,6 +843,25 @@
     "expires": "Expires",
     "expired": "Expired"
   },
+  "addFriendModal": {
+    "title": "Add Friend",
+    "description": "Enter your friend's username and tag to add them.",
+    "placeholder": "Username:ABC1",
+    "requestSent": "Request sent!",
+    "closeButton": "Close",
+    "sendRequest": "Send Request",
+    "sending": "Sending...",
+    "errors": {
+      "missingTag": "Please enter a username:tag.",
+      "colonInUsername": "Username must not contain a colon."
+    }
+  },
+  "deleteMessageModal": {
+    "title": "Delete Message?",
+    "body": "Would you like to delete this message?",
+    "cancelButton": "Don't Delete",
+    "confirmButton": "Delete"
+  },
   "message": {
     "badge": {
       "bot": "Bot",
@@ -604,6 +887,77 @@
     "translationError": "Could not translate this message.",
     "translation": {
       "title": "Translation"
+    }
+  },
+  "colorPickerModal": {
+    "title": "Color Picker",
+    "done": "Done"
+  },
+  "photoEditor": {
+    "title": "Photo Editor",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "undo": "Undo (Ctrl + Z)",
+    "brush": "Brush",
+    "erase": "Erase",
+    "strokeWidth": "Stroke width: {{width}}",
+    "mobileNotice": "Pinch to drag/zoom",
+    "desktopMove": "Space + Drag to Move",
+    "desktopZoom": "Scroll to Zoom"
+  },
+  "imageCropModal": {
+    "title": "Crop Image",
+    "done": "Done"
+  },
+  "oauth2": {
+    "AuthorizeButton": "Authorize",
+    "permissions": "Permissions"
+  },
+  "badges": {
+    "kitty": {
+      "name": "Kitty",
+      "blueDescription": "Blue Ears Kitty",
+      "whiteDescription": "White Ears Kitty"
+    },
+    "foxy": {
+      "name": "Foxy",
+      "foxyGoldDescription": "Gold Ears Fox",
+      "foxyBrownDescription": "Brown Ears Fox"
+    },
+    "founder": {
+      "name": "Founder",
+      "description": "Creator of Nerimity"
+    },
+    "admin": {
+      "name": "Admin",
+      "description": "Admin of Nerimity"
+    },
+    "mod": {
+      "name": "Moderator",
+      "description": "Moderator of Nerimity"
+    },
+    "supporter": {
+      "name": "Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "emoSupporter": {
+      "name": "Emo Supporter",
+      "description": "Supported this project by donating money"
+    },
+    "contributor": {
+      "name": "Contributor",
+      "description": "Helped with this project in some way"
+    },
+    "palestine": {
+      "name": "Palestine"
+    },
+    "bot": {
+      "name": "Bot User",
+      "description": "Bot User"
+    },
+    "credit": {
+      "avatarBorder": "Avatar Border by {{author}} on {{platform}}",
+      "avatarBorderEdited": "Avatar Border by {{author}} on {{platform}}, edited by {{editor}}"
     }
   }
 }

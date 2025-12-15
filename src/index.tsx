@@ -1,7 +1,11 @@
+import {
+  CustomPortalProvider,
+  toast,
+} from "@/components/ui/custom-portal/CustomPortal";
 /* @refresh reload */
 const search = new URLSearchParams(location.search);
 if (search.get("eruda") === "true" && location.pathname === "/app") {
-  alert(
+  toast(
     "Eruda enabled, Do not share any details with others. Reload to disable Eruda."
   );
   await import("eruda").then((eruda) => {
@@ -17,7 +21,6 @@ import "./init";
 import { render } from "solid-js/web";
 import "./index.css";
 import App from "./App";
-import { CustomPortalProvider } from "@/components/ui/custom-portal/CustomPortal";
 import { A, Outlet, Route, Router, useParams, Navigate } from "solid-navigator";
 import en from "@/locales/list/en-gb.json?raw";
 import { TransProvider } from "@nerimity/solid-i18lite";
@@ -109,6 +112,7 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const InviteServerBotPage = lazy(() => import("./pages/InviteServerBot"));
+const OAuthAuthorizePage = lazy(() => import("./pages/OAuthAuthorizePage"));
 const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const TermsAndConditionsPage = lazy(
   () => import("./pages/TermsAndConditionsPage")
@@ -306,7 +310,7 @@ render(() => {
             <Route path="/*" components={{ settingsPane: undefined }} />
           </Route>
 
-          <Show when={account.hasModeratorPerm()}>
+          <Show when={account.hasModeratorPerm(true)}>
             <Route
               path="/moderation"
               components={{ mainPane: ModerationPane, leftDrawer: HomeDrawer }}
@@ -358,6 +362,7 @@ render(() => {
         <Route path="/i/:inviteId" component={InviteRedirect} />
         <Route path="/p/:postId" component={PostRedirect} />
         <Route path="/bot/:appId" component={InviteServerBotPage} />
+        <Route path="/authorize" component={OAuthAuthorizePage} />
         <Route path="/reset-password" component={ResetPasswordPage} />
 
         <Route path="/404" component={NotFound} />

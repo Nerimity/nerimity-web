@@ -1,7 +1,6 @@
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
-import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
 import { useNavigate, useParams } from "solid-navigator";
 import { t } from "@nerimity/i18lite";
 import { createEffect, createSignal, onMount, Show } from "solid-js";
@@ -18,7 +17,7 @@ import {
 } from "@/chat-api/services/WebhookService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { copyToClipboard } from "@/common/clipboard";
-import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfirmModal";
 
 const Container = styled("div")`
@@ -62,7 +61,10 @@ export default function ServerSettingsWebhook() {
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Webhook",
+      title:
+        t("settings.drawer.title") +
+        " - " +
+        t("servers.settings.webhook.title"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -82,7 +84,7 @@ export default function ServerSettingsWebhook() {
       params.channelId,
       params.webhookId
     ).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
 
     if (res) {
@@ -94,7 +96,7 @@ export default function ServerSettingsWebhook() {
     if (!webhook()) return;
     createPortal((c) => (
       <DeleteConfirmModal
-        title={"Delete Webhook"}
+        title={t("servers.settings.webhook.delete")}
         close={c}
         confirmText={webhook()?.name!}
         onDeleteClick={handleDeleteConfirmed}
@@ -113,7 +115,7 @@ export default function ServerSettingsWebhook() {
       params.channelId,
       params.webhookId
     ).catch((err) => {
-      alert(err.message);
+      toast(err.message);
     });
 
     if (!res) return;
@@ -131,7 +133,7 @@ export default function ServerSettingsWebhook() {
       name: inputValues().name,
     })
       .then((res) => setWebhook(res))
-      .catch((err) => alert(err.message))
+      .catch((err) => toast(err.message))
       .finally(() => {
         setRequestSent(false);
       });
@@ -149,23 +151,23 @@ export default function ServerSettingsWebhook() {
           title={server()?.name}
         />
         <BreadcrumbItem title={channel()?.name} href="../../" />
-        <BreadcrumbItem title={"Webhook"} />
+        <BreadcrumbItem title={t("servers.settings.webhook.title")} />
       </Breadcrumb>
 
-      <SettingsBlock label="Name" icon="label">
+      <SettingsBlock label={t("servers.settings.webhook.name")} icon="label">
         <Input
-          placeholder="Name"
+          placeholder={t("servers.settings.webhook.name")}
           value={inputValues().name}
           onText={(t) => setInputValue("name", t)}
         />
       </SettingsBlock>
       <SettingsBlock
-        label="Webhook Link"
-        description="Execute actions using this link"
+        label={t("servers.settings.webhook.link")}
+        description={t("servers.settings.webhook.linkDescription")}
         icon="link"
       >
         <Button
-          label="Copy Link"
+          label={t("servers.settings.invites.copyLinkButton")}
           iconName="content_copy"
           onClick={handleCopyUrl}
         />
@@ -178,19 +180,23 @@ export default function ServerSettingsWebhook() {
             margin-bottom: 20px;
           `}
           onClick={handleSaveClick}
-          label={requestSent() ? "Saving..." : "Save Changes"}
+          label={
+            requestSent()
+              ? t("servers.settings.general.saving")
+              : t("servers.settings.general.saveChangesButton")
+          }
           iconName="save"
           primary
         />
       </Show>
 
       <SettingsBlock
-        label="Delete Webhook"
+        label={t("servers.settings.webhook.delete")}
         icon="delete"
-        description="This action cannot be undone."
+        description={t("servers.settings.general.deleteThisServerDescription")}
       >
         <Button
-          label="Delete"
+          label={t("servers.settings.invites.deleteButton")}
           onClick={handleDelete}
           primary
           alert

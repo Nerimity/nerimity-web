@@ -12,7 +12,7 @@ import Input from "../ui/input/Input";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import useStore from "@/chat-api/store/useStore";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import Checkbox from "../ui/Checkbox";
 import { emitModerationServerDeleted } from "@/common/GlobalEvents";
 
@@ -44,7 +44,6 @@ export default function DeleteServersModal(props: Props) {
 
   const [templates, setTemplates] = createSignal({
     "NSFW Server": false,
-    "Non-English Server": false,
     Other: false,
   } as Record<string, boolean>);
 
@@ -106,7 +105,7 @@ export default function DeleteServersModal(props: Props) {
     if (invalidPassword) return;
 
     if (hasErrors) {
-      alert(
+      toast(
         "Some servers could not be deleted due to an error. Please try again."
       );
     }
