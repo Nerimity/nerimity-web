@@ -474,7 +474,10 @@
             "enableOnce": "Włącz raz",
             "customCSSWarning": "Nie wklejaj kodu od osób, których nie znasz.",
             "saveAndApply": "Zapisz i Zastosuj",
-            "chatBarOptions": "Opcje paska wiadomości"
+            "chatBarOptions": "Opcje paska wiadomości",
+            "timeTitle": "Przełącz Formatowanie Czasu",
+            "12HourFormatDescription": "Wyświetl czas w formacie 12-godzinnym ze wskaźnikami AM/PM.",
+            "24HourFormatDescription": "Wyświetl czas w formacie 24-godzinnym."
         },
         "window": {
             "title": "Ustawienia - Okno",
