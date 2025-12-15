@@ -927,5 +927,23 @@
         "dnd": "Не турбаваць",
         "offline": "Ня ў сетцы",
         "appearAsOffline": "Адлюстроўвацца як ня ў сетцы"
+    },
+    "markup": {
+        "bold": "Тоўсты",
+        "italic": "Курсіў",
+        "strikethrough": "Закрэслены",
+        "header": "Загаловак",
+        "namedLink": "Убудаваная спасылка",
+        "spoiler": "Спойлер",
+        "timestamp": "Пазнака часу",
+        "color": "Колер",
+        "html": "Рэжым HTML",
+        "emojiPicker": "Выбар эмодзі",
+        "timestampModal": {
+            "title": "Наладка часу",
+            "relative": "Адносны",
+            "offset": "Зрух",
+            "doneButton": "Гатова"
+        }
     }
 }
