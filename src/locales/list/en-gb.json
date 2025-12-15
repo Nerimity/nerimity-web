@@ -99,6 +99,13 @@
     "discover": "Discover",
     "notifications": "Notifications"
   },
+  "status": {
+    "online": "Online",
+    "ltp": "Looking To Play",
+    "afk": "Away From Keyboard",
+    "dnd": "Do Not Disturb",
+    "offline": "Offline"
+  },
   "sidePane": {
     "home": "Home",
     "moderation": "Moderation Pane",
@@ -147,9 +154,7 @@
       "blockedUsersButton": "Blocked",
       "inboxTitle": "Inbox",
       "friendsButton": "Friends",
-      "viewAll": "View All",
-      "inboxButton": "Inbox",
-      "offline": "Offline"
+      "viewAll": "View All"
     }
   },
   "explore": {
@@ -763,7 +768,9 @@
     "channelNotice": "Channel Notice",
     "attachments": "Attachments",
     "attachmentsBack": "Back",
-    "members": "Members"
+    "members": "Members",
+    "creator": "Creator",
+    "admin": "Admin"
   },
   "botInvite": {
     "serverSelect": "Please select a server!",
