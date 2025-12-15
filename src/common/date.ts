@@ -1,11 +1,19 @@
+import { useLocalStorage, StorageKeys } from "@/common/localStorage";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
+
+export const [timeFormat, setTimeFormat] = useLocalStorage<"12hr" | "24hr">(
+   StorageKeys.TIME_FORMAT,
+  "24hr", 
+  true    
+);
 
 // Weeks are not working as intended. update package when this gets merged.
 // https://github.com/iamkun/dayjs/pull/2811
 
 // make a function where if the number is less than 10, it will add a 0 in front of it
+
 function pad(num: number) {
   return num < 10 ? `0${num}` : num;
 }
@@ -14,28 +22,42 @@ function pad(num: number) {
 export function formatTimestamp(timestamp: number, seconds = false) {
   const date = new Date(timestamp);
   const today = new Date();
-
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
 
   const sameYear = today.getFullYear() === date.getFullYear();
+  const format = timeFormat(); 
+
+  const hours = date.getHours();
+  const minutes = pad(date.getMinutes());
+  const secondsText = seconds ? `:${pad(date.getSeconds())}` : "";
+
+  let formattedHours: string | number = hours;
+  let ampm = "";
+
+  if (format === "12hr") {
+    ampm = hours >= 12 ? " PM" : " AM";
+    formattedHours = hours % 12 || 12;
+  }
+
+  if (format === "24hr") {
+    formattedHours = pad(hours);
+  }
 
   if (
     sameYear &&
     date.getDate() === today.getDate() &&
     date.getMonth() === today.getMonth()
   ) {
-    return `${pad(date.getHours())}:${pad(date.getMinutes())}${
-      seconds ? `:${pad(date.getSeconds())}` : ""
-    }`;
+    return `${formattedHours}:${minutes}${secondsText}${ampm}`;
   } else if (sameYear && yesterday.toDateString() === date.toDateString()) {
-    return `Yesterday at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    return `Yesterday at ${formattedHours}:${minutes}${ampm}`;
   } else {
     return `${Intl.DateTimeFormat("en-GB", {
       day: "2-digit",
       month: "short",
       year: "numeric",
-    }).format(date)} at ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }).format(date)} at ${formattedHours}:${minutes}${ampm}`;
   }
 }
 
@@ -59,7 +81,6 @@ export const fullDateTime = (timestamp: number) => {
   )}`;
 };
 
-// get days ago from timestamp
 export function getDaysAgo(timestamp: number) {
   const rtf = new Intl.RelativeTimeFormat("en", {
     numeric: "auto",
@@ -287,3 +308,4 @@ function pluralize(
     count + " " + (count > 1 ? `${word}s` : word + (suffix ? ` ${suffix}` : ""))
   );
 }
+
