@@ -34,13 +34,17 @@ export function formatTimestamp(timestamp: number, seconds = false) {
   const minutes = pad(date.getMinutes());
   const secondsText = seconds ? `:${pad(date.getSeconds())}` : "";
 
-  let formattedHours = hours;
+  let formattedHours: string | number = hours;
   let ampm = "";
+
   if (format === "12hr") {
     ampm = hours >= 12 ? " PM" : " AM";
     formattedHours = hours % 12 || 12;
   }
-  formattedHours = pad(formattedHours);
+
+  if (format === "24hr") {
+    formattedHours = pad(hours);
+  }
 
   if (
     sameYear &&
@@ -207,7 +211,7 @@ export function calculateTimeElapsedForActivityStatus(
   if (music) {
     return timeElapsed(startTime, true, speed, updatedAt);
   }
-  
+
   // Return the time elapsed in seconds.
   return convertSecondsForActivityStatus(timeElapsedInSeconds);
 }
