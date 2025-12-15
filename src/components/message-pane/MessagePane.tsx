@@ -97,7 +97,7 @@ import { Portal } from "solid-js/web";
 import { Trans } from "@nerimity/solid-i18lite";
 import { Rerun } from "@solid-primitives/keyed";
 import { UnescapedTrans } from "../UnescapedTrans";
-
+import { useLocalStorage } from "@/common/localStorage";
 const [sendButtonRef, setSendButtonRef] = createSignal<HTMLButtonElement>();
 
 const RemindersModal = lazy(() => import("../reminders-modal/RemindersModal"));
@@ -532,6 +532,7 @@ function MessageArea(props: {
           showHtml
           toggleHtml={toggleHtml}
           htmlEnabled={htmlEnabled()}
+          class={styles.advancedMarkupOptions}
         />
       </Show>
       <CustomTextArea
@@ -1146,16 +1147,27 @@ function FloatingMessageEmojiPicker(props: {
   );
 }
 
+const [globalMention, setGlobalMention] = useLocalStorage<boolean>(
+  StorageKeys.MENTION_REPLIES,
+  true
+);
+
 function FloatingReply() {
   const params = useParams<{ channelId: string }>();
   const { channelProperties } = useStore();
 
   const property = () => channelProperties.get(params.channelId);
-
   const messages = () => property()?.replyToMessages || [];
-  const mention = () => property()?.mentionReplies;
-  const setMention = (value: boolean) => {
-    channelProperties.toggleMentionReplies(params.channelId);
+
+  createEffect(() => {
+    const value = globalMention();
+    if (property() && property()!.mentionReplies !== value) {
+      channelProperties.toggleMentionReplies(params.channelId);
+    }
+  });
+
+  const toggleMention = (value: boolean) => {
+    setGlobalMention(value);
   };
 
   return (
@@ -1164,6 +1176,7 @@ function FloatingReply() {
         <Text class={styles.replyIndicatorTitle} size={12} opacity={0.6}>
           {t("messageArea.replying", { count: messages().length })}
         </Text>
+
         <For each={messages()}>
           {(message, i) => (
             <div
@@ -1196,9 +1209,10 @@ function FloatingReply() {
             </div>
           )}
         </For>
+
         <Checkbox
-          checked={mention()!}
-          onChange={setMention}
+          checked={globalMention()}
+          onChange={toggleMention}
           style={{
             gap: "4px",
             "padding-top": "4px",
@@ -1872,13 +1886,19 @@ function UserSuggestionItem(props: {
         <div class={styles.suggestionInfo}>{props.user.username}</div>
       </Show>
       <Show when={props.user?.special && props.user.id === "e"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.everyone")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.everyone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "s"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.someone")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.someone")}
+        </div>
       </Show>
       <Show when={props.user?.special && props.user.id === "si"}>
-        <div class={styles.suggestionInfo}>{t("messageArea.specialMentions.silent")}</div>
+        <div class={styles.suggestionInfo}>
+          {t("messageArea.specialMentions.silent")}
+        </div>
       </Show>
       <Show when={!props.user?.special && props.selected}>
         <Icon class={styles.suggestIcon} name="keyboard_return" />
@@ -2354,14 +2374,20 @@ function ScheduledDelete() {
 
   return (
     <div class={styles.scheduledDeleteContainer}>
-      <div class={styles.scheduledDeleteTitle}>{t("messageView.flaggedServer.title")}</div>
+      <div class={styles.scheduledDeleteTitle}>
+        {t("messageView.flaggedServer.title")}
+      </div>
       <div class={styles.scheduledDeleteDesc}>
         {t("messageView.flaggedServer.description")}
       </div>
       <Button
         onclick={onLeaveClick}
         iconName={isCreator() ? "delete" : "logout"}
-        label={isCreator() ? t("messageView.flaggedServer.deleteButton") : t("messageView.flaggedServer.leaveButton")}
+        label={
+          isCreator()
+            ? t("messageView.flaggedServer.deleteButton")
+            : t("messageView.flaggedServer.leaveButton")
+        }
         color="var(--alert-color)"
         primary
       />

@@ -44,8 +44,8 @@ importers:
         specifier: ^0.4.9
         version: 0.4.9(solid-js@1.9.10)
       '@nerimity/solid-i18lite':
-        specifier: ^1.6.1
-        version: 1.6.1(@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.10))(html-parse-string@0.0.9)(solid-js@1.9.10)
+        specifier: ^1.7.2
+        version: 1.7.2(@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.10))(html-parse-string@0.0.9)(solid-js@1.9.10)
       '@nerimity/solid-opus-media-recorder':
         specifier: ^1.0.1
         version: 1.0.1(solid-js@1.9.10)
@@ -660,8 +660,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.0
 
-  '@nerimity/solid-i18lite@1.6.1':
-    resolution: {integrity: sha512-FuyZS2KGjp5i0OlPj7UP1fVCjcItlTpcS/jhGhaKzw02MUZgHloky/D/Dg08fgBITZj/aoKeqA+1LUU+nh3qDg==}
+  '@nerimity/solid-i18lite@1.7.2':
+    resolution: {integrity: sha512-Bp5liN4/VNMsxkCz6gPt+UapopZ0IH2MApcZ4yhcgOSlcSsdGq6rTHzhWrTY/dYDHbX5y2GlHQGAGvgK/uH/HQ==}
     peerDependencies:
       '@nerimity/i18lite': <=1.x
       html-parse-string: <=1.x
@@ -2674,7 +2674,7 @@ snapshots:
       solid-js: 1.9.10
       solid-styled-components: 0.28.5(solid-js@1.9.10)
 
-  '@nerimity/solid-i18lite@1.6.1(@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.10))(html-parse-string@0.0.9)(solid-js@1.9.10)':
+  '@nerimity/solid-i18lite@1.7.2(@nerimity/i18lite@1.1.2(html-parse-string@0.0.9)(solid-js@1.9.10))(html-parse-string@0.0.9)(solid-js@1.9.10)':
     dependencies:
       '@nerimity/i18lite': 1.1.2(html-parse-string@0.0.9)(solid-js@1.9.10)
       solid-js: 1.9.10

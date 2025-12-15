@@ -65,7 +65,7 @@
         "notices": {
             "title": "Заўвагі",
             "toxic": "Не будзьце таксічнымі.",
-            "nsfw": "18+ кантэнт забаронены",
+            "nsfw": "18+ кантэнт забаронены.",
             "age": "Вам мусіць быць больш за 14 гадоў."
         },
         "title": "Вітаем у {{appName}}",
@@ -371,7 +371,7 @@
             "manageChannels": "Кіраваць каналамі",
             "manageChannelsDescription": "Дазвол на рэдагаваньне й выдаленьне каналаў.",
             "kick": "Выганяць",
-            "kickDescription": "Дазвол выганяць удзельнікаў",
+            "kickDescription": "Дазвол выганяць удзельнікаў.",
             "ban": "Блякаваць",
             "banDescription": "Дазвол на блякіроўку ўдзельнікаў.",
             "mentionEveryone": "Згадваць усіх",
@@ -406,7 +406,7 @@
             "notifications": "Абвесткі",
             "logout": "Выйсьці",
             "developer": "Для распрацоўшчыкаў",
-            "applications": "Боты",
+            "applications": "Аплікацыйі",
             "experiments": "Экспэрымэнты",
             "badges": "Значкі",
             "viewSource": "Глядзець код",
@@ -425,7 +425,8 @@
             "contributors": "Удзельнікі",
             "translateModal": {
                 "title": "Пераклад"
-            }
+            },
+            "searchNotice": "Пераклады кіруюцца супольнасьцю. Калі якія-небудзь пераклады няправільныя ці непрыстойныя, паведаміце аб іх Nerimity."
         },
         "header": {
             "servers": "сэрвэры",
@@ -628,7 +629,7 @@
     },
     "createServerModal": {
         "title": "Стварыць сэрвэр",
-        "notice": "18+ кантэнт забаронены.",
+        "notice": "18+ кантэнт не дазволены.",
         "serverName": "Назва сэрвэра",
         "placeholder": "Мой цудоўны сэрвэр",
         "creating": "Ствараем...",
@@ -866,5 +867,52 @@
     "oauth2": {
         "AuthorizeButton": "Аўтарызаваць",
         "permissions": "Дазволы"
+    },
+    "badges": {
+        "kitty": {
+            "name": "Кіса",
+            "blueDescription": "Кіса з блякітнымі вушкамі",
+            "whiteDescription": "Кіса з белымі вушкамі"
+        },
+        "foxy": {
+            "name": "Ліса",
+            "foxyGoldDescription": "Лісічка з залатымі вушкамі",
+            "foxyBrownDescription": "Лісічка з карычневымі вушкамі"
+        },
+        "founder": {
+            "name": "Заснавальнік",
+            "description": "Стваральнік Nerimity"
+        },
+        "admin": {
+            "name": "Адмін",
+            "description": "Адміністратар Nerimity"
+        },
+        "mod": {
+            "name": "Мадэратар",
+            "description": "Мадэратар Nerimity"
+        },
+        "supporter": {
+            "name": "Прыхільнік",
+            "description": "Падтрымаў праект грашыма"
+        },
+        "emoSupporter": {
+            "name": "Эма-прыхільнік",
+            "description": "Падтрымаў праект грашыма"
+        },
+        "contributor": {
+            "name": "Удзельнік",
+            "description": "Як-небудзь дапамог з праектам"
+        },
+        "palestine": {
+            "name": "Палестына"
+        },
+        "bot": {
+            "name": "Карыстач-бот",
+            "description": "Карыстач-бот"
+        },
+        "credit": {
+            "avatarBorder": "Аблямоўка аватара ад {{author}} на {{platform}}",
+            "avatarBorderEdited": "Аблямоўка аватара ад {{author}} на {{platform}}, адрэдагавана {{editor}}"
+        }
     }
 }

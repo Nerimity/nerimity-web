@@ -25,6 +25,7 @@ import env from "@/common/env";
 import style from "./InterfaceSettings.module.css";
 import { useNavigate } from "solid-navigator";
 import { FlexColumn } from "../ui/Flexbox";
+import { timeFormat, setTimeFormat } from "@/common/date";
 
 export default function InterfaceSettings() {
   const { header } = useStore();
@@ -43,6 +44,7 @@ export default function InterfaceSettings() {
         <BreadcrumbItem title={t("settings.drawer.interface")} />
       </Breadcrumb>
       <ThemesBlock />
+      <TimeFormatSetting />
       <BlurEffect />
       <AdvancedMarkup />
       <ChatBar />
@@ -167,6 +169,26 @@ export function ThemesBlock() {
           />
         </div>
       </div>
+    </SettingsBlock>
+  );
+}
+
+function TimeFormatSetting() {
+  const toggleTimeFormat = () => {
+    setTimeFormat(timeFormat() === "12hr" ? "24hr" : "12hr");
+  };
+
+  return (
+    <SettingsBlock
+      icon="schedule"
+      label={t("settings.interface.timeTitle")} 
+      description={t(
+        timeFormat() === "24hr"
+      ? t("settings.interface.24HourFormatDescription")
+      : t("settings.interface.12HourFormatDescription")
+      )}
+    >
+      <Checkbox checked={timeFormat() === "12hr"} onChange={toggleTimeFormat} />
     </SettingsBlock>
   );
 }

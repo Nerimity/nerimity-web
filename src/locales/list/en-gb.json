@@ -594,7 +594,10 @@
       "voiceMessage": "Voice Message",
       "gifPicker": "GIF Picker",
       "emojiPicker": "Emoji Picker",
-      "sendButton": "Send Button"
+      "sendButton": "Send Button",
+      "timeTitle": "Toggle Time Format",
+      "12HourFormatDescription": "Display times in 12-hour format with AM/PM.",
+      "24HourFormatDescription": "Display times in 24-hour format."
     },
     "window": {
       "title": "Settings - Window Settings",
