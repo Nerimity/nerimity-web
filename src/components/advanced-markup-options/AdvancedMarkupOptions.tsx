@@ -24,6 +24,7 @@ import { TimestampType } from "../markup/TimestampMention";
 import DropDown from "../ui/drop-down/DropDown";
 import { WorldTimezones } from "@/common/WorldTimezones";
 import { DateTimePicker } from "../ui/DateTimePicker";
+import { t } from "@nerimity/i18lite";
 
 const formats = {
   named_link: (url: string) => ({
@@ -230,7 +231,7 @@ export const AdvancedMarkupOptions = (props: {
       )}
     >
       <Button
-        hoverText="Bold"
+        hoverText={t("markup.bold")}
         onClick={() => applyFormat("bold")}
         iconSize={18}
         margin={0}
@@ -239,7 +240,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Italic"
+        hoverText={t("markup.italic")}
         onClick={() => applyFormat("italic")}
         iconSize={18}
         margin={0}
@@ -248,7 +249,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Strikethrough"
+        hoverText={t("markup.strikethrough")}
         onClick={() => applyFormat("strikethrough")}
         iconSize={18}
         margin={0}
@@ -257,7 +258,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Header"
+        hoverText={t("markup.header")}
         onClick={() => applyFormat("header")}
         iconSize={18}
         margin={0}
@@ -266,7 +267,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Named Link"
+        hoverText={t("markup.namedLink")}
         onClick={() => applyFormat("named_link")}
         iconSize={18}
         margin={0}
@@ -275,7 +276,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Spoiler"
+        hoverText={t("markup.spoiler")}
         onClick={() => applyFormat("spoiler")}
         iconSize={18}
         margin={0}
@@ -284,7 +285,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Timestamp"
+        hoverText={t("markup.timestamp")}
         onClick={() => applyFormat("timestamp")}
         iconSize={18}
         margin={0}
@@ -293,7 +294,7 @@ export const AdvancedMarkupOptions = (props: {
         class={styles.button}
       />
       <Button
-        hoverText="Color"
+        hoverText={t("markup.color")}
         onClick={() => applyFormat("color")}
         iconSize={18}
         margin={0}
@@ -303,7 +304,7 @@ export const AdvancedMarkupOptions = (props: {
       />
       <Show when={props.showHtml}>
         <Button
-          hoverText="HTML Mode"
+          hoverText={t("markup.html")}
           onClick={props.toggleHtml}
           iconSize={18}
           margin={0}
@@ -316,7 +317,7 @@ export const AdvancedMarkupOptions = (props: {
 
       <Show when={!props.hideEmojiPicker}>
         <Button
-          hoverText="Emoji Picker"
+          hoverText={t("markup.emojiPicker")}
           onClick={showEmojiPicker}
           iconSize={18}
           margin={0}
@@ -371,7 +372,7 @@ const DateTimePickerModal = (props: {
       close={props.close}
       desktopMaxWidth={270}
     >
-      <Modal.Header title="Time Markup" />
+      <Modal.Header title={t("markup.timestampModal.title")} />
       <Modal.Body class={styles.datePickerModal}>
         <div class={styles.tabs}>
           <Item.Root
@@ -380,7 +381,7 @@ const DateTimePickerModal = (props: {
             handlePosition="bottom"
           >
             <Item.Icon>schedule</Item.Icon>
-            <Item.Label>Relative</Item.Label>
+            <Item.Label>{t("markup.timestampModal.relative")}</Item.Label>
           </Item.Root>
           <Item.Root
             selected={tab() === "OFF"}
@@ -388,7 +389,7 @@ const DateTimePickerModal = (props: {
             handlePosition="bottom"
           >
             <Item.Icon>globe_uk</Item.Icon>
-            <Item.Label>Offset</Item.Label>
+            <Item.Label>{t("markup.timestampModal.offset")}</Item.Label>
           </Item.Root>
         </div>
         <Show when={tab() === "REL"}>
@@ -403,7 +404,7 @@ const DateTimePickerModal = (props: {
         </Show>
       </Modal.Body>
       <Modal.Footer>
-        <Modal.Button label="Done" iconName="check" primary onClick={onDone} />
+        <Modal.Button label={t("markup.timestampModal.doneButton")} iconName="check" primary onClick={onDone} />
       </Modal.Footer>
     </Modal.Root>
   );
