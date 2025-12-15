@@ -571,7 +571,10 @@
       "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
       "customizeColors": "Customize Colors",
       "customizeColorsDescription": "Edit colors for the current theme.",
-      "chatBarOptions": "Chat bar Options"
+      "chatBarOptions": "Chat bar Options",
+      "timeTitle": "Toggle Time Format",
+      "12HourFormatDescription": "Display times in 12-hour format with AM/PM.",
+      "24HourFormatDescription": "Display times in 24-hour format."
     },
     "window": {
       "title": "Settings - Window Settings",
