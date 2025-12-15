@@ -104,7 +104,8 @@
     "ltp": "Looking To Play",
     "afk": "Away From Keyboard",
     "dnd": "Do Not Disturb",
-    "offline": "Offline"
+    "offline": "Offline",
+    "appearAsOffline": "Appear As Offline"
   },
   "sidePane": {
     "home": "Home",

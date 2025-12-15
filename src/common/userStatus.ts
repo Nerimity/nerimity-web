@@ -1,7 +1,7 @@
-import { t } from "@nerimity/i18lite"
+import { t } from "@nerimity/i18lite";
 
 interface Status {
-  name: string;
+  name: () => string;
   id: string;
   color: string;
 }
@@ -13,19 +13,31 @@ interface Status {
 // DND = 4, // Do not disturb
 
 export const UserStatuses: Status[] = [
-  { name: t("status.offline"), id: "offline", color: "var(--status-offline)" },
-  { name: t("status.online"), id: "online", color: "var(--status-online)" },
   {
-    name: t("status.ltp"),
+    name: () => t("status.offline"),
+    id: "offline",
+    color: "var(--status-offline)",
+  },
+  {
+    name: () => t("status.online"),
+    id: "online",
+    color: "var(--status-online)",
+  },
+  {
+    name: () => t("status.ltp"),
     id: "ltp",
     color: "var(--status-looking-to-play)",
   },
   {
-    name: t("status.afk"),
+    name: () => t("status.afk"),
     id: "afk",
     color: "var(--status-away-from-keyboard)",
   },
-  { name: t("status.dnd"), id: "dnd", color: "var(--status-do-not-disturb)" },
+  {
+    name: () => t("status.dnd"),
+    id: "dnd",
+    color: "var(--status-do-not-disturb)",
+  },
 ];
 
 export function userStatusDetail(status: number) {

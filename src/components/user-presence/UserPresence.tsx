@@ -71,7 +71,7 @@ const UserPresence = (props: {
 
   const name = () => {
     return (
-      <Switch fallback={statusDetails()?.name}>
+      <Switch fallback={statusDetails()?.name()}>
         <Match when={lastOnlineAt() && !user()?.presence()?.status}>
           <div class={styles.lastOnline}>
             Last online {formatTimestamp(lastOnlineAt()!)}
@@ -120,7 +120,7 @@ const UserPresence = (props: {
             when={activity()}
             fallback={
               <div
-                title={statusDetails().name}
+                title={statusDetails().name()}
                 class={classNames(styles.dot, styles[statusDetails()?.id])}
               />
             }
