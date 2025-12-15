@@ -141,6 +141,24 @@
     },
     "emailNotice": "Confirm your email to send messages."
   },
+  "markup": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "strikethrough": "Strikethrough",
+    "header": "Header",
+    "namedLink": "Named Link",
+    "spoiler": "Spoiler",
+    "timestamp": "Timestamp",
+    "color": "Color",
+    "html": "HTML Mode",
+    "emojiPicker": "Emoji Picker",
+    "timestampModal": {
+      "title": "Time Markup",
+      "relative": "Relative",
+      "offset": "Offset",
+      "doneButton": "Done"
+    }
+  },
   "inbox": {
     "blockedUsersModal": {
       "title": "Blocked Users"
