@@ -188,7 +188,7 @@
             "lifetimeBumpCount": "{{count}} destacados totales",
             "visitServerButton": "Visitar",
             "joinServerButton": "Unirse",
-            "bumpButton": "Veces destacado ( {{count}} )",
+            "bumpButton": "Veces destacado ({{count}})",
             "moderationNotice": "Los servidores no son moderados por Nerimity. Por favor, reporta los servidores que sean maliciosos o que incumplan los TOS.",
             "sortMostActive": "Más activo (Beta)",
             "pinnedServers": "Servidores fijados",
@@ -571,7 +571,10 @@
             "disableAdvancedMarkupBarDescription": "Evita que aparezca la barra de formato avanzado.",
             "customizeColors": "Personalizar colores",
             "customizeColorsDescription": "Editar los colores del tema actual.",
-            "chatBarOptions": "Opciones de la barra de chat"
+            "chatBarOptions": "Opciones de la barra de chat",
+            "timeTitle": "Cambiar formato de tiempo",
+            "12HourFormatDescription": "Muestra el tiempo en formato de 12 horas con AM/PM.",
+            "24HourFormatDescription": "Muestra el tiempo en el formato de 24 horas."
         },
         "window": {
             "title": "Configuración - Ajustes de ventana",
@@ -760,7 +763,9 @@
         "channelNotice": "Aviso",
         "attachments": "Archivos adjuntos",
         "attachmentsBack": "Atrás",
-        "members": "Miembros"
+        "members": "Miembros",
+        "creator": "Creador",
+        "admin": "Administrador"
     },
     "botInvite": {
         "serverSelect": "Por favor, selecciona un servidor!",
@@ -914,5 +919,13 @@
             "avatarBorder": "Borde de avatar hecho por {{author}} en {{platform}}",
             "avatarBorderEdited": "Borde de avatar hecho por {{author}} en {{platform}}, editado por {{editor}}"
         }
+    },
+    "status": {
+        "online": "En línea",
+        "ltp": "Buscando jugar a algo",
+        "afk": "Inactivo",
+        "dnd": "Sin distracciones",
+        "offline": "Fuera de línea",
+        "appearAsOffline": "Aparecer como fuera de línea"
     }
 }

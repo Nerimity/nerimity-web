@@ -571,7 +571,10 @@
             "disableAdvancedMarkupBarDescription": "Не адлюстроўваць панэль пашыранае разьметкі.",
             "customizeColors": "Дапасаваньне колераў",
             "customizeColorsDescription": "Адрэдагуйце колеры бягучае тэмы.",
-            "chatBarOptions": "Парамэтры панэлі паведамленьняў"
+            "chatBarOptions": "Парамэтры панэлі паведамленьняў",
+            "timeTitle": "Пераключыць фармат часу",
+            "12HourFormatDescription": "Адлюстроўваць час у 12-гадзінным фармаце, зь AM/PM.",
+            "24HourFormatDescription": "Адлюстроўваць час у 24-гадзінным фармаце."
         },
         "window": {
             "title": "Налады - Налады акна",
@@ -760,7 +763,9 @@
         "channelNotice": "Папярэджаньне каналу",
         "attachments": "Далучаныя файлы",
         "attachmentsBack": "Назад",
-        "members": "Удзельнікі"
+        "members": "Удзельнікі",
+        "creator": "Стваральнік",
+        "admin": "Адміністратар"
     },
     "botInvite": {
         "serverSelect": "Калі ласка, абярыце сэрвэр!",
@@ -914,5 +919,13 @@
             "avatarBorder": "Аблямоўка аватара ад {{author}} на {{platform}}",
             "avatarBorderEdited": "Аблямоўка аватара ад {{author}} на {{platform}}, адрэдагавана {{editor}}"
         }
+    },
+    "status": {
+        "online": "У сетцы",
+        "ltp": "Чакаю гульні",
+        "afk": "Не на месцы",
+        "dnd": "Не турбаваць",
+        "offline": "Ня ў сетцы",
+        "appearAsOffline": "Адлюстроўвацца як ня ў сетцы"
     }
 }
