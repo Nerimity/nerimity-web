@@ -86,7 +86,8 @@
         "drawer": {
             "title": "Explorar",
             "servers": "Servidores",
-            "bots": "Robôs"
+            "bots": "Robôs",
+            "themes": "Temas"
         },
         "servers": {
             "title": "Explorar - Servidores",
@@ -101,11 +102,16 @@
             "lifetimeBumpCount": "{{count}} impulsos totais",
             "visitServerButton": "Visitar",
             "joinServerButton": "Juntar-se",
-            "bumpButton": "Impulsionar ({{count}})"
+            "bumpButton": "Impulsionar ({{count}})",
+            "pinnedServers": "Servidores fixados"
         },
         "bots": {
             "title": "Explorar - Robôs",
             "noticeMessage": "Um robô pode ser impulsionado uma vez a cada {{hours}} horas. Todos impulsos são redefinidos a cada {{date}}."
+        },
+        "themes": {
+            "officialThemes": "Temas oficiais",
+            "communityThemes": "Temas da comunidade"
         }
     },
     "servers": {
@@ -200,7 +206,7 @@
                 "unpublishServerButton": "Despublicar servidor",
                 "headerTitle": "Configurações - Publicar servidor",
                 "bumpButton": "Impulsionar ({{count}})",
-                "descriptionLabel": "Descrição do servidor ({{atual}}/{{max}})",
+                "descriptionLabel": "Descrição do servidor ({{current}}/{{max}})",
                 "bumpCooldown": "Você deve esperar {{hours}} horas, {{minutes}} minutos, e {{seconds}} segundos para impulsionar este servidor."
             },
             "webhook": {
@@ -209,6 +215,14 @@
                 "link": "URL do gancho web",
                 "linkDescription": "Executar ações usando este link",
                 "delete": "Excluir gancho web"
+            },
+            "bans": {
+                "reason": "Motivo"
+            },
+            "verify": {
+                "requirements": {
+                    "title": "Requisitos"
+                }
             }
         },
         "rolePermissions": {
@@ -550,7 +564,9 @@
         "channelNotice": "Aviso de Canal",
         "attachments": "Anexos",
         "attachmentsBack": "Voltar",
-        "members": "Membros"
+        "members": "Membros",
+        "creator": "Criador(a)",
+        "admin": "Administrador(a)"
     },
     "resetPassword": {
         "title": "Redefinir senha",
@@ -564,7 +580,10 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "Enviar mensagem para {{username}}",
-        "messageBoxChannelPlaceholder": "Enviar mensagem em {{channelName}}"
+        "messageBoxChannelPlaceholder": "Enviar mensagem em {{channelName}}",
+        "specialMentions": {
+            "silent": "Mensagem silenciosa"
+        }
     },
     "message": {
         "translation": {
@@ -611,7 +630,7 @@
     },
     "invite": {
         "members": "membros",
-        "member": "membro(a)",
+        "member": "membro",
         "joiningButton": "Entrando...",
         "loading": "Carregando convite...",
         "invalid": "Código de convite inválido",
@@ -751,5 +770,46 @@
     "oauth2": {
         "AuthorizeButton": "Autorizar",
         "permissions": "Permissões"
+    },
+    "status": {
+        "online": "Ativo(a)",
+        "afk": "Longe do teclado",
+        "dnd": "Não perturbe",
+        "offline": "Inativo(a)",
+        "appearAsOffline": "Aparecer como inativo(a)"
+    },
+    "sidePane": {
+        "home": "Início",
+        "moderation": "Painel de moderação",
+        "addServer": "Adicionar servidor"
+    },
+    "updateModal": {
+        "title": "Atualização disponível",
+        "updateButton": "Atualizar agora",
+        "laterButton": "Depois",
+        "releasedAt": "Lançado em"
+    },
+    "badges": {
+        "kitty": {
+            "name": "Gatinho"
+        },
+        "admin": {
+            "name": "Administrador(a)"
+        },
+        "founder": {
+            "name": "Fundador(a)"
+        },
+        "mod": {
+            "name": "Moderador(a)"
+        },
+        "palestine": {
+            "name": "Palestina"
+        },
+        "supporter": {
+            "name": "Apoiador(a)"
+        },
+        "contributor": {
+            "name": "Contribuidor(a)"
+        }
     }
 }
