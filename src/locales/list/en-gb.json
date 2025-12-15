@@ -32,6 +32,22 @@
     "cancelButton": "Don't Visit",
     "visitButton": "Visit"
   },
+  "connectionErrorModal": {
+    "title": "Connection Error",
+    "ok": "OK",
+    "logout": "Logout",
+    "login": "Login",
+    "noToken": "No token provided.",
+    "suspended": "You are suspended.",
+    "reason": "Reason",
+    "defaultReason": "Violating the TOS",
+    "until": "Until",
+    "never": "never",
+    "by": "By",
+    "deletionNotice": "Your account and data will be deleted in 15 days",
+    "ipBanned": "Your IP is banned.",
+    "ipBanNotice": "Someone with the same IP has been suspended from Nerimity. Your account is not affected."
+  },
   "homePage": {
     "slogan": "A modern and sleek chat app.",
     "subslogan": "Nerimity offers an elegant and feature-rich experience that sets it apart.",
