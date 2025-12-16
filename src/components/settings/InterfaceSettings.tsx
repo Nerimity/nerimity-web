@@ -1,4 +1,4 @@
-import { createEffect, For, Show } from "solid-js";
+import { createEffect, createSignal, onCleanup, For, Show } from "solid-js";
 
 import useStore from "@/chat-api/store/useStore";
 import {
@@ -45,6 +45,7 @@ export default function InterfaceSettings() {
       </Breadcrumb>
       <ThemesBlock />
       <TimeFormatSetting />
+      <ZoomSetting />
       <BlurEffect />
       <AdvancedMarkup />
       <ChatBar />
@@ -169,6 +170,88 @@ export function ThemesBlock() {
           />
         </div>
       </div>
+    </SettingsBlock>
+  );
+}
+
+function ZoomSetting() {
+  const MIN_ZOOM = 0.5;
+  const MAX_ZOOM = 2.0;
+  const STEP = 0.05;
+  const DEFAULT_ZOOM = 1;
+
+  const [zoom, setZoom] = useLocalStorage<string>(
+    StorageKeys.APP_ZOOM,
+    "1",
+    true
+  );
+
+  const [displayZoom, setDisplayZoom] = createSignal(
+    Number(document.documentElement.style.zoom || zoom() || 1)
+  );
+
+  const applyZoom = (value: number) => {
+    const clamped = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
+    document.documentElement.style.zoom = String(clamped);
+    setZoom(String(clamped));
+    setDisplayZoom(clamped);
+  };
+  createEffect(() => {
+    const tick = () => {
+      const current = Number(document.documentElement.style.zoom || 1);
+      if (Number.isFinite(current) && current !== displayZoom()) {
+        setDisplayZoom(current);
+      }
+    };
+
+    const id = requestAnimationFrame(function loop() {
+      tick();
+      requestAnimationFrame(loop);
+    });
+
+    onCleanup(() => cancelAnimationFrame(id));
+  });
+
+  return (
+    <SettingsBlock
+      icon="zoom_in"
+      label={t("settings.interface.zoom")}
+      description={`${Math.round(displayZoom() * 100)}%`}
+    >
+      <div style={{
+        display: "flex",
+        "align-items": "center",
+        gap: "8px",
+        width: "100%",
+        "flex-wrap": "wrap"
+      }}>
+        <input
+          type="range"
+          min={MIN_ZOOM}
+          max={MAX_ZOOM}
+          step={STEP}
+          value={displayZoom()}
+          onInput={(e) =>
+            applyZoom(Number((e.currentTarget as HTMLInputElement).value))
+          }
+          style={{
+            flex: 1,
+            height: "12px",
+            "border-radius": "6px",
+            cursor: "pointer",
+            "accent-color": "var(--primary-color)",
+            margin: "0 8px",
+          }}
+        />
+      </div>
+
+      <Button
+        label={t("settings.interface.reset")}
+        iconName="restart_alt"
+        padding={2}
+        onClick={() => applyZoom(DEFAULT_ZOOM)}
+        style={{ "margin-top": "8px" }}
+      />
     </SettingsBlock>
   );
 }
@@ -348,3 +431,4 @@ function CustomizeColors() {
     </div>
   );
 }
+
