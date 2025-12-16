@@ -41,9 +41,9 @@ export default function LeaveServerModal(props: {
         <Text size={14}>
           <UnescapedTrans
             key="servers.leaveModal.body.part1"
-            options={{ serverName: props.server.name }}
+            options={{ serverName: props.server?.name }}
           >
-            Are you sure you want to leave <b>{props.server.name}</b>?
+            Are you sure you want to leave <b>{props.server?.name}</b>?
           </UnescapedTrans>
           <br />
           <UnescapedTrans key="servers.leaveModal.body.part2">
