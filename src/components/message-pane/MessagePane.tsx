@@ -833,9 +833,10 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
       console.error(e);
       toast("Unable to record audio.");
     });
+    if (!blob) return;
 
     const durationMs = recordEndAt - recordStartAt;
-    if (durationMs < 800) return;
+    if (durationMs < 400) return;
     if (cancelRecording()) return;
 
     props.onBlob?.(blob);
