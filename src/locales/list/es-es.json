@@ -7,16 +7,16 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "ha sido invitado al servidor.",
-            "user": "se ha unido al servidor."
+            "bot": "<User/><2> ha sido invitado al servidor.</2>",
+            "user": "<User/><2> se ha unido al servidor.</2>"
         },
-        "leaveServer": "ha abandonado el servidor.",
-        "kickUser": "ha sido expulsado.",
-        "banUser": "ha sido expulsado permanentemente.",
-        "callStarted": "ha iniciado una llamada.",
-        "bumpServer": "ha destacado el servidor.",
-        "pinnedMessage": "ha fijado un mensaje.",
-        "unsupported": "Mensaje no compatible."
+        "leaveServer": "<User/><2> ha abandonado el servidor.</2>",
+        "kickUser": "<User/><2> ha sido expulsado.</2>",
+        "banUser": "<User/><2> ha sido expulsado permanentemente.</2>",
+        "callStarted": "<User/><2> ha iniciado una llamada.</2>",
+        "bumpServer": "<User/><2> ha destacado el servidor.</2>",
+        "pinnedMessage": "<User/><2> ha fijado un mensaje.</2>",
+        "unsupported": "<User/><2> Mensaje no compatible.</2>"
     },
     "statusHeader": {
         "authenticationError": "Error de autenticación",

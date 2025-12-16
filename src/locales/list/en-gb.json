@@ -7,16 +7,16 @@
   },
   "systemMessages": {
     "joinServer": {
-      "bot": "was added to the server.",
-      "user": "has joined the server."
+      "bot": "<User/><2> was added to the server.</2>",
+      "user": "<User/><2> has joined the server.</2>"
     },
-    "leaveServer": "has left the server.",
-    "kickUser": "has been kicked.",
-    "banUser": "has been banned.",
-    "callStarted": "started a call.",
-    "bumpServer": "bumped the server.",
-    "pinnedMessage": "pinned a message.",
-    "unsupported": "Unsupported message."
+    "leaveServer": "<User/><2> has left the server.</2>",
+    "kickUser": "<User/><2> has been kicked.</2>",
+    "banUser": "<User/><2> has been banned.</2>",
+    "callStarted": "<User/><2> started a call.</2>",
+    "bumpServer": "<User/><2> bumped the server.</2>",
+    "pinnedMessage": "<User/><2> pinned a message.</2>",
+    "unsupported": "<User/><2> Unsupported message.</2>"
   },
   "statusHeader": {
     "authenticationError": "Authentication error",

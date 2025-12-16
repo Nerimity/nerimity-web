@@ -59,8 +59,11 @@ export const minifyi18nPlugin = (localeDir: string): Plugin => {
     return result;
   }
   const translationKeyRegex = /\b(t\(\s*["'])([^"']*?)(["']\s*[^)]*\))/g;
+  const minifyKeyFunctionRegex = /\b(tn\(\s*["'])([^"']*?)(["']\s*[^)]*\))/g;
+
   const transComponentKeyRegex =
     /(<Trans\s+[^>]*key=["'])([^"']*)(["'][^>]*>)/g;
+
   const unescapedTransComponentKeyRegex =
     /(<UnescapedTrans\s+[^>]*key=["'])([^"']*)(["'][^>]*>)/g;
 
@@ -113,6 +116,7 @@ export const minifyi18nPlugin = (localeDir: string): Plugin => {
       replaceInCode(translationKeyRegex);
       replaceInCode(transComponentKeyRegex);
       replaceInCode(unescapedTransComponentKeyRegex);
+      replaceInCode(minifyKeyFunctionRegex);
 
       if (!s.hasChanged()) return null;
 

@@ -735,16 +735,16 @@
     },
     "systemMessages": {
         "joinServer": {
-            "user": "entrou no servidor.",
-            "bot": "foi adicionado ao servidor."
+            "user": "<User/><2> entrou no servidor.</2>",
+            "bot": "<User/><2> foi adicionado ao servidor.</2>"
         },
-        "leaveServer": "saiu do servidor.",
-        "kickUser": "foi expulso(a).",
-        "banUser": "foi banido(a).",
-        "callStarted": "iniciou uma chamada.",
-        "bumpServer": "impulsionou o servidor.",
-        "pinnedMessage": "fixou uma mensagem.",
-        "unsupported": "Mensagem não suportada."
+        "leaveServer": "<User/><2> saiu do servidor.</2>",
+        "kickUser": "<User/><2> foi expulso(a).</2>",
+        "banUser": "<User/><2> foi banido(a).</2>",
+        "callStarted": "<User/><2> iniciou uma chamada.</2>",
+        "bumpServer": "<User/><2> impulsionou o servidor.</2>",
+        "pinnedMessage": "<User/><2> fixou uma mensagem.</2>",
+        "unsupported": "<User/><2> Mensagem não suportada.</2>"
     },
     "activityNames": {
         "playing": "Tocando",

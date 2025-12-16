@@ -7,16 +7,16 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "wurde dem Server hinzugefügt.",
-            "user": "ist dem Server beigetreten."
+            "bot": "<User/><2> wurde dem Server hinzugefügt.</2>",
+            "user": "<User/><2> ist dem Server beigetreten.</2>"
         },
-        "leaveServer": "hat den Server verlassen.",
-        "kickUser": "wurde gekickt.",
-        "banUser": "wurde gebannt.",
-        "callStarted": "hat einen Anruf gestartet.",
-        "bumpServer": "hat den Server gebumpt.",
-        "pinnedMessage": "hat eine Nachricht angepinnt.",
-        "unsupported": "Nicht unterstützte Nachricht."
+        "leaveServer": "<User/><2> hat den Server verlassen.</2>",
+        "kickUser": "<User/><2> wurde gekickt.</2>",
+        "banUser": "<User/><2> wurde gebannt.</2>",
+        "callStarted": "<User/><2> hat einen Anruf gestartet.</2>",
+        "bumpServer": "<User/><2> hat den Server gebumpt.</2>",
+        "pinnedMessage": "<User/><2> hat eine Nachricht angepinnt.</2>",
+        "unsupported": "<User/><2> Nicht unterstützte Nachricht.</2>"
     },
     "statusHeader": {
         "authenticationError": "Authentifizierungsfehler",

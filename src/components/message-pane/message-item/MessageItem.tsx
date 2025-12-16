@@ -47,7 +47,10 @@ import {
   Switch,
 } from "solid-js";
 import { Markup } from "@/components/Markup";
-import { toast, useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
+import {
+  toast,
+  useCustomPortal,
+} from "@/components/ui/custom-portal/CustomPortal";
 import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { ImageEmbed, clamp, clampImageSize } from "@/components/ui/ImageEmbed";
@@ -105,7 +108,8 @@ import {
 import { RawYoutubeEmbed } from "./RawYoutubeEmbed";
 import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { userDetailsPreloader } from "@/common/createPreloader";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { Trans, useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 
 const ImagePreviewModal = lazy(
   () => import("@/components/ui/ImagePreviewModal")
@@ -763,8 +767,15 @@ const SystemMessage = (props: {
           </A>
           <div class={styles.content}>
             <span class="markup">
-              <MentionUser user={props.message.createdBy} />
-              <span> {systemMessage()?.message}</span>
+              <Trans
+                key={systemMessage()?.message!}
+                components={{
+                  User: <MentionUser user={props.message.createdBy} />,
+                  "2": (props: { children: string }) => (
+                    <span>{props.children}</span>
+                  ),
+                }}
+              />
             </span>
             <span class={styles.date}>
               {formatTimestamp(props.message.createdAt)}

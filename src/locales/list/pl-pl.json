@@ -836,16 +836,16 @@
     },
     "systemMessages": {
         "joinServer": {
-            "bot": "został dodany do serwera.",
-            "user": "dołączył do serwera."
+            "bot": "<User/><2> został dodany do serwera.</2>",
+            "user": "<User/><2> dołączył do serwera.</2>"
         },
-        "leaveServer": "wyszedł z serwera.",
-        "kickUser": "został wyrzucony.",
-        "banUser": "został zbanowany.",
-        "callStarted": "rozpoczął połączenie.",
-        "bumpServer": "podbił serwer.",
-        "pinnedMessage": "przypiął wiadomość.",
-        "unsupported": "Niewspierana wiadomość."
+        "leaveServer": "<User/><2> wyszedł z serwera.</2>",
+        "kickUser": "<User/><2> został wyrzucony.</2>",
+        "banUser": "<User/><2> został zbanowany.</2>",
+        "callStarted": "<User/><2> rozpoczął połączenie.</2>",
+        "bumpServer": "<User/><2> podbił serwer.</2>",
+        "pinnedMessage": "<User/><2> przypiął wiadomość.</2>",
+        "unsupported": "<User/><2> Niewspierana wiadomość.</2>"
     },
     "activityNames": {
         "playing": "W grze",
