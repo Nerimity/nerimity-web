@@ -39,6 +39,15 @@ export default function BadgeSettings() {
     USER_BADGES.FOX_EARS_BROWN,
   ];
 
+  const palestineDescription = () => {
+    const account = t("settings.drawer.account");
+    const profile = t("settings.drawer.profile");
+    return t("settings.badges.palestineDescription", {
+      account,
+      profile,
+    });
+  };
+
   return (
     <Container>
       <Breadcrumb>
@@ -59,10 +68,7 @@ export default function BadgeSettings() {
         badges={[
           {
             ...USER_BADGES.PALESTINE,
-            description: t("settings.badges.palestineDescription", {
-              account: t("settings.drawer.account"),
-              profile: t("settings.drawer.profile")
-            }),
+            description: palestineDescription,
           },
         ]}
         price={0}
@@ -127,7 +133,11 @@ const BadgeItem = (props: {
 const SupportMethodBlock = () => {
   return (
     <div>
-      <SettingsBlock label={t("settings.badges.supportMethods")} icon="info" header />
+      <SettingsBlock
+        label={t("settings.badges.supportMethods")}
+        icon="info"
+        header
+      />
       <SettingsBlock
         label="Ko-Fi"
         borderBottomRadius={false}

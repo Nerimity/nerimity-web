@@ -33,7 +33,7 @@ export interface UserBadge {
   overlay?: boolean;
   description: () => string;
   textColor?: string;
-  credit?: string;
+  credit?: () => string;
 }
 
 export const USER_BADGES = {

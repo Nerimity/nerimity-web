@@ -1446,7 +1446,7 @@ function BadgeDetailModal(props: {
         </FlexColumn>
         <FlexColumn itemsCenter gap={16}>
           <Text size={14} opacity={0.6}>
-            {props.badge.credit}
+            {props.badge.credit?.()}
           </Text>
         </FlexColumn>
       </BadgeDetailsModalContainer>
