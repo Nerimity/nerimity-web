@@ -125,7 +125,9 @@
   },
   "sidePane": {
     "home": "Home",
+    "homeShort": "Home",
     "moderation": "Moderation Pane",
+    "moderationShort": "Mod",
     "addServer": "Add Server"
   },
   "updateModal": {

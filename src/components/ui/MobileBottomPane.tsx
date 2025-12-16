@@ -16,6 +16,7 @@ import { userStatusDetail } from "@/common/userStatus";
 import { ConnectionErrorModal } from "../connection-error-modal/ConnectionErrorModal";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { useReminders } from "../useReminders";
+import { t } from "@nerimity/i18lite";
 
 export default function MobileBottomPane() {
   const drawer = useDrawer();
@@ -69,7 +70,7 @@ function HomeItem() {
   return (
     <AnchorItem
       selected={isSelected()}
-      title="Home"
+      title={t("sidePane.homeShort")}
       icon="home"
       href="/app"
       notify={count() ? { count: count(), top: 3, right: 16 } : undefined}
@@ -80,7 +81,7 @@ function SettingsItem() {
   const { tickets } = useStore();
   return (
     <AnchorItem
-      title="Settings"
+      title={t("settings.drawer.title")}
       icon="settings"
       href="/app/settings/account"
       notify={
@@ -99,7 +100,7 @@ function ModerationItem() {
   return (
     <Show when={hasModeratorPerm()}>
       <AnchorItem
-        title="Mod"
+        title={t("sidePane.moderationShort")}
         icon="security"
         href="/app/moderation/"
         selected={!!selected()}
@@ -228,7 +229,7 @@ function UserItem() {
           <Icon name="error" class={style.errorIcon} size={24} />
         </Show>
       </div>
-      Me
+      {t("settings.drawer.profile")}
     </ItemContainer>
   );
 }
