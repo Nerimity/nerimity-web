@@ -455,7 +455,8 @@
             "pushToTalk": "Naciśnij, aby mówić",
             "bindButton": "Powiąż przycisk",
             "stopButton": "Stop",
-            "downloadAppNotice": "Pobierz aplikację komputerową Nerimity, aby korzystać z tej funkcji bez konieczności przełączania się między kartami okien."
+            "downloadAppNotice": "Pobierz aplikację komputerową Nerimity, aby korzystać z tej funkcji bez konieczności przełączania się między kartami okien.",
+            "leaveCall": "Musisz najpierw zakończyć połączenie"
         },
         "interface": {
             "blurEffect": "Efekt rozmycia",
@@ -477,7 +478,11 @@
             "chatBarOptions": "Opcje paska wiadomości",
             "timeTitle": "Przełącz Formatowanie Czasu",
             "12HourFormatDescription": "Wyświetl czas w formacie 12-godzinnym ze wskaźnikami AM/PM.",
-            "24HourFormatDescription": "Wyświetl czas w formacie 24-godzinnym."
+            "24HourFormatDescription": "Wyświetl czas w formacie 24-godzinnym.",
+            "voiceMessage": "Wiadomość Głosowa",
+            "gifPicker": "Selektor GIFów",
+            "emojiPicker": "Selektor Emoji",
+            "sendButton": "Przycisk Wysyłania"
         },
         "window": {
             "title": "Ustawienia - Okno",
@@ -531,6 +536,24 @@
                 "cancelButton": "Anuluj",
                 "doneButton": "Dołączyłem"
             }
+        },
+        "badges": {
+            "noticeTitle": "Darowizny",
+            "notice": "Wesprzyj projekt przekazując darowiznę pieniężną.",
+            "palestineDescription": "Możliwa do zdobycia w sekcji {{account}} -> {{profile}}",
+            "price": "Odznaki za {{price}}",
+            "supportMethods": "Metody Wsparcia"
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Połączenia Stron Trzecich",
+                "connectionCount": "Połączenia: {{count}}",
+                "unauthorizeButton": "Usuń autoryzację",
+                "unauthorizing": "Usuwanie autoryzacji..."
+            },
+            "googleDescription": "Łączenie Twojego konta Google pozwoli Ci na przesyłanie plików na Nerimity. Pliki będą przechowywane na twoim dysku Google Drive.",
+            "linkButton": "Połącz",
+            "unlinkButton": "Odłącz"
         }
     },
     "supportBlock": {
@@ -687,7 +710,9 @@
         "channelNotice": "Notka kanału",
         "attachments": "Załączniki",
         "attachmentsBack": "Wstecz",
-        "members": "Członkowie"
+        "members": "Członkowie",
+        "creator": "Twórca",
+        "admin": "Administrator"
     },
     "botInvite": {
         "serverSelect": "Wybierz serwer!",
@@ -920,6 +945,48 @@
         "credit": {
             "avatarBorder": "Obramowanie awatara od {{author}} na {{platform}}",
             "avatarBorderEdited": "Obramwoanie awatara od {{author}} na {{platform}}, zmodyfikowane przez {{editor}}"
+        }
+    },
+    "connectionErrorModal": {
+        "title": "Błąd Połączenia",
+        "ok": "OK",
+        "logout": "Wyloguj się",
+        "login": "Zaloguj się",
+        "noToken": "Nie podano tokenu.",
+        "suspended": "Twoje konto zostało zawieszone.",
+        "reason": "Powód",
+        "defaultReason": "Łamanie Warunków Użytkowania",
+        "until": "Wygasa",
+        "never": "nigdy",
+        "by": "Administrator",
+        "deletionNotice": "Twoje konto i powiązane z nim dane zostaną usunięte za 15 dni",
+        "ipBanned": "Twój adres IP został zablokowany.",
+        "ipBanNotice": "Ktoś z tym samym adresem IP został zawieszony na Nerimity. Nie ma to wpływu na Twoje konto."
+    },
+    "status": {
+        "online": "Dostępny",
+        "ltp": "Szukam Osób Do Gry",
+        "afk": "Zaraz Wracam",
+        "dnd": "Nie Przeszkadzać",
+        "offline": "Nieaktywny",
+        "appearAsOffline": "Wyświetlaj Jako Nieaktywny"
+    },
+    "markup": {
+        "bold": "Pogrubienie",
+        "italic": "Kursywa",
+        "strikethrough": "Przekreślenie",
+        "header": "Nagłówek",
+        "namedLink": "Nazwane Łącze",
+        "spoiler": "Spojler",
+        "timestamp": "Znacznik Czasowy",
+        "color": "Kolor",
+        "html": "Tryb HTML",
+        "emojiPicker": "Selektor Emoji",
+        "timestampModal": {
+            "title": "Znacznik Czasu",
+            "relative": "Relatywny",
+            "offset": "Strefa Czasowa",
+            "doneButton": "Gotowe"
         }
     }
 }
