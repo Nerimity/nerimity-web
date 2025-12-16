@@ -574,8 +574,8 @@
             "customizeColorsDescription": "Editar los colores del tema actual.",
             "chatBarOptions": "Opciones de la barra de chat",
             "timeTitle": "Cambiar formato de tiempo",
-            "12HourFormatDescription": "Muestra el tiempo en formato de 12 horas con AM/PM.",
-            "24HourFormatDescription": "Muestra el tiempo en el formato de 24 horas.",
+            "12HourFormatDescription": "Muestra la hora en formato de 12 horas con AM/PM.",
+            "24HourFormatDescription": "Muestra la hora en formato de 24 horas.",
             "voiceMessage": "Mensaje de voz",
             "gifPicker": "Selector de GIF",
             "emojiPicker": "Selector de emoji",
@@ -947,9 +947,9 @@
         "online": "En línea",
         "ltp": "Disponible para jugar",
         "afk": "Ausente",
-        "dnd": "Sin distracciones",
-        "offline": "Fuera de línea",
-        "appearAsOffline": "Aparecer como fuera de línea"
+        "dnd": "No molestar",
+        "offline": "Aparecer fuera de línea",
+        "appearAsOffline": "Fuera de línea"
     },
     "connectionErrorModal": {
         "title": "Error de conexión",
