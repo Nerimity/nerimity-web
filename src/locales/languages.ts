@@ -128,6 +128,7 @@ export const languages = {
     nativeName: "Türkçe",
     emoji: "🇹🇷",
     contributors: [
+      "MonsterKitty",
       "https://github.com/lexerotk",
       "https://github.com/slideglide",
     ],
