@@ -552,7 +552,8 @@
             "pushToTalk": "Па націсканьні",
             "bindButton": "Прывязаць",
             "stopButton": "Спыніць",
-            "downloadAppNotice": "Спампуйце аплікацыю Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы."
+            "downloadAppNotice": "Спампуйце аплікацыю Nerimity для ПК, каб карыстацца гэтае функцыяй без факусаваньня на ўкладцы.",
+            "leaveCall": "Спачатку выйдзіце з выкліку"
         },
         "interface": {
             "customCSS": "Уласны CSS",
@@ -574,7 +575,11 @@
             "chatBarOptions": "Парамэтры панэлі паведамленьняў",
             "timeTitle": "Пераключыць фармат часу",
             "12HourFormatDescription": "Адлюстроўваць час у 12-гадзінным фармаце, зь AM/PM.",
-            "24HourFormatDescription": "Адлюстроўваць час у 24-гадзінным фармаце."
+            "24HourFormatDescription": "Адлюстроўваць час у 24-гадзінным фармаце.",
+            "voiceMessage": "Галасавое паведамленьне",
+            "gifPicker": "Выбар GIF",
+            "emojiPicker": "Выбар эмодзі",
+            "sendButton": "Кнопка дасыланьня"
         },
         "window": {
             "title": "Налады - Налады акна",
@@ -619,6 +624,24 @@
                 "title": "OAuth2",
                 "generateLink": "Згенерыраваць спасылку"
             }
+        },
+        "badges": {
+            "noticeTitle": "Ахвяраваньні",
+            "notice": "Падтрымайце гэты праект грашыма.",
+            "palestineDescription": "Можна атрымаць на старонцы {{account}} -> {{profile}}",
+            "price": "Аблямоўкі за {{price}}",
+            "supportMethods": "Мэтады падтрымкі"
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Староньнія злучэньні",
+                "connectionCount": "{{count}} злучэньня(ў)",
+                "unauthorizeButton": "Дэаўтарызаваць",
+                "unauthorizing": "Дэаўтарызуем..."
+            },
+            "googleDescription": "Калі далучыце свой уліковы запіс Google, вы зможаце запампоўваць файлы ў Nerimity. Файлы будуць захоўвацца на вашым Google Drive.",
+            "linkButton": "Далучыць",
+            "unlinkButton": "Адлучыць"
         }
     },
     "activityNames": {
@@ -945,5 +968,21 @@
             "offset": "Зрух",
             "doneButton": "Гатова"
         }
+    },
+    "connectionErrorModal": {
+        "title": "Памылка пры падлучэньні",
+        "ok": "Ок",
+        "logout": "Выйсьці",
+        "login": "Увайсьці",
+        "noToken": "Токэну не пазначана.",
+        "suspended": "Вы заблякаваныя.",
+        "reason": "Прычына",
+        "defaultReason": "Парушэньне ўмоваў",
+        "until": "Сканчваецца",
+        "never": "ніколі",
+        "by": "Хто",
+        "deletionNotice": "Ваш уліковы запіс і дадзеныя будуць выдаленыя праз 15 дзён",
+        "ipBanned": "Ваш IP заблякаваны.",
+        "ipBanNotice": "Хтосьці з такім жа IP быў заблякаваны на Nerimity. Ваш запіс не зьмяніўся."
     }
 }

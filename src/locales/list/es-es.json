@@ -552,7 +552,8 @@
             "pushToTalk": "Pulsar para hablar",
             "bindButton": "Asignar",
             "stopButton": "Detener",
-            "downloadAppNotice": "Descarga la aplicación de escritorio de Nerimity para usar esta función sin necesidad de que la ventana esté activa."
+            "downloadAppNotice": "Descarga la aplicación de escritorio de Nerimity para usar esta función sin necesidad de que la ventana esté activa.",
+            "leaveCall": "Tienes que salirte de la llamada primero"
         },
         "interface": {
             "customCSS": "CSS personalizado",
@@ -574,7 +575,11 @@
             "chatBarOptions": "Opciones de la barra de chat",
             "timeTitle": "Cambiar formato de tiempo",
             "12HourFormatDescription": "Muestra el tiempo en formato de 12 horas con AM/PM.",
-            "24HourFormatDescription": "Muestra el tiempo en el formato de 24 horas."
+            "24HourFormatDescription": "Muestra el tiempo en el formato de 24 horas.",
+            "voiceMessage": "Mensaje de voz",
+            "gifPicker": "Selector de GIF",
+            "emojiPicker": "Selector de emoji",
+            "sendButton": "Botón de enviar"
         },
         "window": {
             "title": "Configuración - Ajustes de ventana",
@@ -619,6 +624,24 @@
                 "title": "OAuth2",
                 "generateLink": "Generar link"
             }
+        },
+        "badges": {
+            "noticeTitle": "Donaciones",
+            "notice": "Apoya a este proyecto donando dinero.",
+            "palestineDescription": "Se obtiene yendo a {{account}} -> {{profile}}",
+            "price": "{{price}} Insignias",
+            "supportMethods": "Métodos de donación"
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Conexiones de terceros",
+                "connectionCount": "{{count}} conexión(es)",
+                "unauthorizeButton": "Unautorizar",
+                "unauthorizing": "Desautorizando..."
+            },
+            "googleDescription": "Vincular tu cuenta de Google te permitirá subir archivos a Nerimity. Los archivos se almacenarán en tu Google Drive.",
+            "linkButton": "Vincular",
+            "unlinkButton": "Desvincular"
         }
     },
     "activityNames": {
@@ -906,7 +929,7 @@
         },
         "contributor": {
             "name": "Contribuyente",
-            "description": "Ha ayudado en este proyecto de cualquier manera"
+            "description": "Colaboró en este proyecto de alguna manera"
         },
         "palestine": {
             "name": "Palestina"
@@ -922,10 +945,44 @@
     },
     "status": {
         "online": "En línea",
-        "ltp": "Buscando jugar a algo",
-        "afk": "Inactivo",
+        "ltp": "Disponible para jugar",
+        "afk": "Ausente",
         "dnd": "Sin distracciones",
         "offline": "Fuera de línea",
         "appearAsOffline": "Aparecer como fuera de línea"
+    },
+    "connectionErrorModal": {
+        "title": "Error de conexión",
+        "ok": "VALE",
+        "logout": "Cerrar sesión",
+        "login": "Iniciar sesión",
+        "noToken": "No se ha proveído un token.",
+        "suspended": "Has sido suspendido.",
+        "reason": "Razón",
+        "defaultReason": "Violar las TOS",
+        "until": "Hasta",
+        "never": "nunca",
+        "by": "Por",
+        "deletionNotice": "Tu cuenta y los datos serán eliminados en 15 días",
+        "ipBanned": "Tu IP ha sido baneada.",
+        "ipBanNotice": "Alguien con la misma IP ha sido suspendido de Nerimity. Tu cuenta no se verá afectada."
+    },
+    "markup": {
+        "bold": "Negrita",
+        "italic": "Cursiva",
+        "strikethrough": "Tachar",
+        "header": "Encabezado",
+        "namedLink": "Enlace con nombre personalizado",
+        "spoiler": "Spoiler",
+        "timestamp": "Fecha y hora",
+        "color": "Color",
+        "html": "Modo HTML",
+        "emojiPicker": "Selector de emoji",
+        "timestampModal": {
+            "title": "Marcar fecha",
+            "relative": "Relativo",
+            "offset": "Diferencia horaria",
+            "doneButton": "Hecho"
+        }
     }
 }

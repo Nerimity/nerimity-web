@@ -103,16 +103,30 @@
             "visitServerButton": "Visitar",
             "joinServerButton": "Juntar-se",
             "bumpButton": "Impulsionar ({{count}})",
-            "pinnedServers": "Servidores fixados"
+            "pinnedServers": "Servidores fixados",
+            "moderationNotice": "Servidores não são moderados pelo Nerimity. Por favor denuncie servidores que quebrem os termos de serviço.",
+            "recentlyBumped": "Servidores recentemente impulsionados",
+            "sortMostActive": "Mais ativo (beta)"
         },
         "bots": {
             "title": "Explorar - Robôs",
-            "noticeMessage": "Um robô pode ser impulsionado uma vez a cada {{hours}} horas. Todos impulsos são redefinidos a cada {{date}}."
+            "noticeMessage": "Um robô pode ser impulsionado uma vez a cada {{hours}} horas. Todos impulsos são redefinidos a cada {{date}}.",
+            "moderationNotice": "Robôs não são moderados pelo Nerimity. Por favor denuncie robôs que são maliciosos ou quebram os termos de serviço.",
+            "serverCount": "Em {{count}} servidores",
+            "inviteButton": "Convidar"
         },
         "themes": {
             "officialThemes": "Temas oficiais",
-            "communityThemes": "Temas da comunidade"
-        }
+            "communityThemes": "Temas da comunidade",
+            "noCommunityThemes": "Nenhum tema da comunidade encontrado.",
+            "title": "Explorar - Temas"
+        },
+        "search": "Pesquisar",
+        "sort": "Classificar",
+        "filter": "Filtrar",
+        "backButton": "Voltar",
+        "by": "Por",
+        "bumped": "Impulsionado"
     },
     "servers": {
         "settings": {
@@ -217,12 +231,40 @@
                 "delete": "Excluir gancho web"
             },
             "bans": {
-                "reason": "Motivo"
+                "reason": "Motivo",
+                "noResults": "Nenhum resultado encontrado.",
+                "noReason": "Nenhum motivo fornecido"
             },
             "verify": {
                 "requirements": {
-                    "title": "Requisitos"
-                }
+                    "title": "Requisitos",
+                    "avatarAndBannerDescription": "Servidor deve ter um avatar e um banner.",
+                    "oneMonthOrSupporterDescription": "Seu servidor deve ter pelo menos 1 mês OU o(a) dono(a) do servidor deve ter o emblema de apoiador.",
+                    "englishOnlyDescription": "Servidores que não são em inglês são mais difíceis de moderar.",
+                    "rules": "Regras do servidor",
+                    "profanityFree": "Livre de profanidade",
+                    "englishOnly": "Somente inglês",
+                    "profanityFreeDescription": "Nome, avatar e banner do servidor devem ser livres de profanidade.",
+                    "avatarAndBanner": "Avatar e banner",
+                    "members": "{{count}} ou mais membros",
+                    "membersDescription": "Seu servidor deve ter pelo menos {{count}} membros."
+                },
+                "perks": {
+                    "exploreDescription": "Seu servidor será exibido em uma seção separada na página de exploração.",
+                    "hdScreenshare": "Compartilhamento de tela em 1080p@60fps",
+                    "badgeDescription": "Um emblema para mostrar que seu servidor é especial.",
+                    "hdScreenshareDescription": "Compartilhe sua tela em 1080p a 60fps.",
+                    "title": "Vantagens",
+                    "explore": "Destaque em Explorar",
+                    "emojiSlots": "Mais espaços para emoji",
+                    "emojiSlotsDescription": "200 espaços de emoji para seu servidor.",
+                    "badge": "Emblema Verificado"
+                },
+                "insufficientMembers": "Você precisa de mais {{count}} membro(s) para se candidatar para verificação.",
+                "verifiable": "Preparado para verificar",
+                "alreadyVerified": "Seu servidor já está verificado!",
+                "verifyButton": "Verificar",
+                "verifiableDescription": "Você tem membros suficientes para verificar seu servidor!"
             }
         },
         "rolePermissions": {
@@ -331,7 +373,7 @@
             "primaryColor": "Cor primária",
             "changePassword": "Mudar senha",
             "newPassword": "Nova senha",
-            "newPasswordDescription": "Mudar sua senha irá lhe desconectar de suas outras sessões",
+            "newPasswordDescription": "Mudar sua senha irá lhe desconectar de suas outras sessões.",
             "enterCode": "Inserir o código de 5 dígitos enviados ao seu email:",
             "sendCodeButton": "Enviar código",
             "resendIn": "Reenviar",
@@ -358,7 +400,7 @@
             "profileDescription": "Editar sua biografia ou cores",
             "palestineBorder": "Adicionar borda palestina ao seu avatar.",
             "bioDescription": "Suporte a multilinha e marcação",
-            "supported": "Suportados:",
+            "supported": "Suportados",
             "browse": "Navegar",
             "forgotPassword": "Esqueci minha senha",
             "confirmNewPassword": "Confirmar nova senha",
@@ -392,14 +434,21 @@
             "saveAndApply": "Salvar e aplicar",
             "themesDescription": "Escolha um tema predefinido ou redefina para o padrão.",
             "customCSS": "CSS personalizada",
-            "customCSSWarning": "Não cole códigos de pessoas que você não confie",
+            "customCSSWarning": "Não cole códigos de pessoas que você não confie.",
             "enableEruda": "Ativar Eruda",
             "enableErudaDescription": "Ativar Eruda para depuração. Não compartilhe nenhum detalhe com outros.",
             "enableOnce": "Ativar uma vez",
             "blurEffectDescription": "Alterar entre efeito de desfoque em elementos da interface. (Pode reduzir performance)",
             "disableAdvancedMarkupBar": "Desativar barra de marcação avançada",
             "disableAdvancedMarkupBarDescription": "Prevenir a barra de marcação avançada de aparecer.",
-            "customizeColorsDescription": "Editar cores para o tema atual."
+            "customizeColorsDescription": "Editar cores para o tema atual.",
+            "voiceMessage": "Mensagem de voz",
+            "gifPicker": "Seletor de GIF",
+            "emojiPicker": "Seletor de emoji",
+            "chatBarOptions": "Opções da barra de conversa",
+            "24HourFormatDescription": "Exibir horários em formato 24 horas.",
+            "12HourFormatDescription": "Mostrar horários no formato 12 horas AM/PM.",
+            "timeTitle": "Alternar formato de tempo"
         },
         "call": {
             "stopButton": "Parar",
@@ -443,7 +492,8 @@
             "contributors": "Contribuidores",
             "translateModal": {
                 "title": "Traduzir"
-            }
+            },
+            "searchNotice": "Traduções são mantidas pela comunidade. Por favor denuncie quaisquer traduções que estão incorretas ou inapropriadas para o Nerimity."
         },
         "activity": {
             "extension": "Extensão de navegador",
@@ -477,6 +527,24 @@
                 "title": "OAuth2",
                 "generateLink": "Gerar link"
             }
+        },
+        "connections": {
+            "googleDescription": "Conectar a sua conta Google irá lhe permitir que envie arquivos no Nerimity. Arquivos serão armazenados em seu Google Drive.",
+            "thirdParty": {
+                "unauthorizeButton": "Desautorizar",
+                "unauthorizing": "Desautorizando...",
+                "connectionCount": "{{count}} conexão(ões)",
+                "title": "Conexões de terceiros"
+            },
+            "linkButton": "Conectar",
+            "unlinkButton": "Desconenctar"
+        },
+        "badges": {
+            "noticeTitle": "Doações",
+            "price": "Emblemas por {{price}}",
+            "supportMethods": "Métodos de apoio",
+            "palestineDescription": "Pode ser obtida indo para {[account}} -> {{profile}}",
+            "notice": "Apoiar este projeto doando dinheiro."
         }
     },
     "supportBlock": {
@@ -509,7 +577,9 @@
         "message": "Tem certeza de que quer banir <1>{{username}}</1> do servidor?",
         "deletePastMessagesCheckbox": "Excluir mensagens enviadas nas últimas 7 horas.",
         "banButton": "Banir",
-        "banning": "Banindo..."
+        "banning": "Banindo...",
+        "reasonLabel": "Motivo (opcional)",
+        "reasonPlaceholder": "Insira um motivo…"
     },
     "messageContextMenu": {
         "editMessage": "Editar Mensagem",
@@ -582,8 +652,18 @@
         "messageBoxPlaceholder": "Enviar mensagem para {{username}}",
         "messageBoxChannelPlaceholder": "Enviar mensagem em {{channelName}}",
         "specialMentions": {
-            "silent": "Mensagem silenciosa"
-        }
+            "silent": "Mensagem silenciosa",
+            "someone": "Menciona um usuário aleatório",
+            "everyone": "Menciona todos"
+        },
+        "linkToGoogleDrive": {
+            "body": "Você deve conectar sua conta ao Google Drive para enviar imagens, vídeos ou arquivos grandes"
+        },
+        "channelNotice": {
+            "title": "Antes de você conversar...",
+            "understoodButton": "Entendido"
+        },
+        "uploadTo": "Enviar para"
     },
     "message": {
         "translation": {
@@ -645,14 +725,14 @@
         "permissions": "Permissões do robô",
         "addButton": "Adicionar robô",
         "selectButton": "Selecionar servidor",
-        "creator": "Criado por",
+        "creator": "Criado por ",
         "serverSelect": "Por favor selecione um servidor!"
     },
     "typing": {
-        "andOthers": "<1>{{count}}</1> usuários estão digitando...",
+        "andOthers": "<1>{{count}}</1> usuários estão digitando…",
         "multiple": "<1>{{username}}</1> e <2>{{username2}}</2> estão digitando…",
-        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> e <3>{{username3}}</3> estão digitando...",
-        "single": "<1>{{username}}</1> está digitando..."
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> e <3>{{username3}}</3> estão digitando…",
+        "single": "<1>{{username}}</1> está digitando…"
     },
     "serverContextMenu": {
         "notificationOptions": {
@@ -687,7 +767,7 @@
     },
     "dangerousLinkModal": {
         "title": "Link customizado",
-        "message": "Este link lhe levará à:",
+        "message": "Este link lhe levará à",
         "cancelButton": "Não visitar",
         "visitButton": "Visitar"
     },
@@ -776,7 +856,8 @@
         "afk": "Longe do teclado",
         "dnd": "Não perturbe",
         "offline": "Inativo(a)",
-        "appearAsOffline": "Aparecer como inativo(a)"
+        "appearAsOffline": "Aparecer como inativo(a)",
+        "ltp": "Querendo jogar"
     },
     "sidePane": {
         "home": "Início",
@@ -791,25 +872,82 @@
     },
     "badges": {
         "kitty": {
-            "name": "Gatinho"
+            "name": "Gatinho",
+            "blueDescription": "Gatinho de orelhas azuis",
+            "whiteDescription": "Gatinho de orelhas brancas"
         },
         "admin": {
-            "name": "Administrador(a)"
+            "name": "Administrador(a)",
+            "description": "Administrador(a) do Nerimity"
         },
         "founder": {
-            "name": "Fundador(a)"
+            "name": "Fundador(a)",
+            "description": "Criador(a) do Nerimity"
         },
         "mod": {
-            "name": "Moderador(a)"
+            "name": "Moderador(a)",
+            "description": "Moderador(a) do Nerimity"
         },
         "palestine": {
             "name": "Palestina"
         },
         "supporter": {
-            "name": "Apoiador(a)"
+            "name": "Apoiador(a)",
+            "description": "Apoiou este projeto ao doar dinheiro"
         },
         "contributor": {
-            "name": "Contribuidor(a)"
+            "name": "Contribuidor(a)",
+            "description": "Ajudou com este projeto de alguma maneira"
+        },
+        "bot": {
+            "name": "Usuário robô",
+            "description": "Usuário robô"
+        },
+        "emoSupporter": {
+            "name": "Apoiador emo",
+            "description": "Apoiou este projeto ao doar dinheiro"
+        },
+        "foxy": {
+            "foxyGoldDescription": "Gatinho de orelhas douradas",
+            "foxyBrownDescription": "Gatinho de orelhas marrãs"
+        },
+        "credit": {
+            "avatarBorderEdited": "Borda de avatar por {{author}} em {{platform}}, editada por {{editor}}",
+            "avatarBorder": "Borda de avatar por {{author}} em {{platform}}"
+        }
+    },
+    "connectionErrorModal": {
+        "deletionNotice": "Sua conta e dados serão excluídos em 15 dias",
+        "ipBanNotice": "Alguém com o mesmo IP foi suspendido do Nerimity. Sua conta não é afetada.",
+        "ok": "OK",
+        "reason": "Motivo",
+        "until": "Até",
+        "never": "nunca",
+        "title": "Erro de conexão",
+        "suspended": "Você está suspenso(a).",
+        "ipBanned": "Seu IP está banido."
+    },
+    "messageView": {
+        "flaggedServer": {
+            "description": "Este servidor não compre com nossos Termos de Serviço e será excluído em breve.",
+            "deleteButton": "Excluir agora",
+            "leaveButton": "Sair do servidor"
+        },
+        "noMessages": "Nenhuma mensagem",
+        "newMessages": "Novas mensagens",
+        "slowMode": "Modo lento",
+        "noMessagesDescription": "Não há mensagens neste canal."
+    },
+    "markup": {
+        "html": "Modo HTML",
+        "bold": "Negrito",
+        "italic": "Itálico",
+        "strikethrough": "Tachado",
+        "header": "Cabeçalho",
+        "emojiPicker": "Seletor de emoji",
+        "timestampModal": {
+            "title": "Marcação de tempo",
+            "doneButton": "Feito"
         }
     }
 }
