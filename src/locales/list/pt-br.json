@@ -460,7 +460,8 @@
             "pushToTalk": "Apertar para falar",
             "inputDevices": "Dispositivos de entrada",
             "nextCallNotice": "Mudanças serão aplicadas em suas próximas chamadas.",
-            "bindButton": "Configurar"
+            "bindButton": "Configurar",
+            "leaveCall": "Você deve sair da chamada primeiro"
         },
         "notifications": {
             "inAppPreviewModes": {
@@ -657,13 +658,16 @@
             "everyone": "Menciona todos"
         },
         "linkToGoogleDrive": {
-            "body": "Você deve conectar sua conta ao Google Drive para enviar imagens, vídeos ou arquivos grandes"
+            "body": "Você deve conectar sua conta ao Google Drive para enviar imagens, vídeos ou arquivos grandes",
+            "linkButton": "Conectar agora",
+            "cancelButton": "Não conectar"
         },
         "channelNotice": {
             "title": "Antes de você conversar...",
             "understoodButton": "Entendido"
         },
-        "uploadTo": "Enviar para"
+        "uploadTo": "Enviar para",
+        "replying": "Respondendo a {{count}} mensagem(s)"
     },
     "message": {
         "translation": {
@@ -908,8 +912,9 @@
             "description": "Apoiou este projeto ao doar dinheiro"
         },
         "foxy": {
-            "foxyGoldDescription": "Gatinho de orelhas douradas",
-            "foxyBrownDescription": "Gatinho de orelhas marrãs"
+            "foxyGoldDescription": "Raposinha de orelhas douradas",
+            "foxyBrownDescription": "Raposinha de orelhas marrãs",
+            "name": "Raposinha"
         },
         "credit": {
             "avatarBorderEdited": "Borda de avatar por {{author}} em {{platform}}, editada por {{editor}}",
