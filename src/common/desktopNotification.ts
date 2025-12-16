@@ -11,6 +11,8 @@ import env from "./env";
 import { avatarUrl } from "@/chat-api/store/useUsers";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { getSystemMessage } from "./SystemMessage";
+import { Trans } from "@nerimity/solid-i18lite";
+import { getResource, t } from "@nerimity/i18lite";
 
 export function createDesktopNotification(message: Message) {
   const enabled = getStorageBoolean(
@@ -57,7 +59,6 @@ export function createDesktopNotification(message: Message) {
     showNotification = true;
   }
 
-
   if (!showNotification) return;
 
   if (channel?.serverId)
@@ -82,8 +83,14 @@ function createServerDesktopNotification(message: Message, channel: Channel) {
     body = "Image Message";
   }
   const systemMessage = getSystemMessage(message.type);
+
   if (systemMessage) {
-    body = `${username} ${systemMessage.message}`;
+    const message = t(systemMessage.message)
+      .replace("<User/>", username)
+      .replace("<2>", "")
+      .replace("</2>", "");
+
+    body = message;
     title = `${server?.name} #${channel.name}`;
   }
 
