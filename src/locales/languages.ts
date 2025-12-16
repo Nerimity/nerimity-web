@@ -1,14 +1,11 @@
-import {
-  StorageKeys,
-  useLocalStorage,
-} from "@/common/localStorage";
+import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 
 export interface Language {
-  name: string;          // Display name
-  nativeName?: string;   // (Optional) Native name
-  emoji: string;         // Some unicode flag emoji, idk
+  name: string; // Display name
+  nativeName?: string; // (Optional) Native name
+  emoji: string; // Some unicode flag emoji, idk
   contributors: string[]; // array of names
-  rtl?: boolean;         // (Optional) Right-to-left support (Placeholder) 
+  rtl?: boolean; // (Optional) Right-to-left support (Placeholder)
 }
 
 export const languages = {
@@ -30,7 +27,7 @@ export const languages = {
     nativeName: "العربية",
     emoji: "🇵🇸",
     contributors: ["https://github.com/TrueLuna"],
-    rtl: true,  // not really used since I manually implemented it in the code. But might be useful in the future.
+    rtl: true, // not really used since I manually implemented it in the code. But might be useful in the future.
   },
   "be-xo": {
     name: "Belarusian (Traditional)",
@@ -128,7 +125,7 @@ export const languages = {
     nativeName: "Türkçe",
     emoji: "🇹🇷",
     contributors: [
-      "MonsterKitty",
+      "https://github.com/M0nsterKitty",
       "https://github.com/lexerotk",
       "https://github.com/slideglide",
     ],
