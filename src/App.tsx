@@ -19,6 +19,11 @@ import ContextMenu, {
   ContextMenuItem,
 } from "./components/ui/context-menu/ContextMenu";
 import { Delay } from "./common/Delay";
+import { StorageKeys, useLocalStorage } from "@/common/localStorage";
+
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 2.0;
+const ZOOM_STEP = 0.1;
 
 const ConnectingStatusHeader = lazy(
   () => import("@/components/connecting-status-header/ConnectingStatusHeader")
@@ -33,6 +38,47 @@ export default function App() {
   const isAppPage = useMatch(() => "/app/*");
   const [customTitlebarDisabled, setCustomTitlebarDisabled] =
     createSignal(false);
+
+  const [zoom, setZoom] = useLocalStorage<string>(
+    StorageKeys.APP_ZOOM,
+    "1",
+    true
+  );
+
+  const applyZoom = (value: number) => {
+    if (!Number.isFinite(value)) return;
+
+    const clamped = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
+    document.documentElement.style.zoom = String(clamped);
+    setZoom(String(clamped));
+  };
+
+  onMount(() => {
+    applyZoom(Number(zoom()));
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      const isModifier = e.ctrlKey || e.metaKey;
+      if (!isModifier) return;
+
+      if (e.key === "+" || e.key === "=") {
+        e.preventDefault();
+        applyZoom(Number(zoom()) + ZOOM_STEP);
+      }
+
+      if (e.key === "-") {
+        e.preventDefault();
+        applyZoom(Number(zoom()) - ZOOM_STEP);
+      }
+
+      if (e.key === "0") {
+        e.preventDefault();
+        applyZoom(1);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    onCleanup(() => window.removeEventListener("keydown", onKeyDown));
+  });
 
   onMount(() => {
     if (electronWindowAPI()?.isElectron) {
@@ -55,11 +101,11 @@ export default function App() {
   const setLanguage = async () => {
     const key = getCurrentLanguage();
     if (!key) return;
-    
+
     // Set language attribute without changing layout direction
     const langKey = key.replace("_", "-");
     document.documentElement.setAttribute("lang", langKey || "en");
-    
+
     if (key === "en_gb") return;
     const language = await getLanguage(key);
     if (!language) return;
@@ -173,3 +219,4 @@ const InputContextMenu = (props: {
     </Delay>
   );
 };
+
