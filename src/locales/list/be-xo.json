@@ -102,7 +102,9 @@
     "sidePane": {
         "home": "Дамашняя старонка",
         "moderation": "Панэль мадэрацыйі",
-        "addServer": "Дадаць сэрвэр"
+        "addServer": "Дадаць сэрвэр",
+        "homeShort": "Дом",
+        "moderationShort": "Мад"
     },
     "updateModal": {
         "title": "Даступна абнаўленьне",
