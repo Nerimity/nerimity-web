@@ -64,7 +64,7 @@ import {
 import useAccount from "@/chat-api/store/useAccount";
 import useServers from "@/chat-api/store/useServers";
 import { EmojiPicker } from "../ui/emoji-picker/EmojiPicker";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import { setLastSelectedServerChannelId } from "@/common/useLastSelectedServerChannel";
 import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import { FlexRow } from "../ui/Flexbox";
@@ -669,6 +669,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
           onChange={onFilePicked}
         />
         <Button
+          type="hover_border"
           onClick={() => attachmentFileBrowserRef()?.open()}
           class={styles.inputButtons}
           iconName="attach_file"
@@ -679,6 +680,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       </Show>
       <Show when={props.isEditing}>
         <Button
+          type="hover_border"
           onClick={props.onCancelEditClick}
           class={styles.inputButtons}
           iconName="close"
@@ -690,6 +692,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       </Show>
       <Show when={pickedFile() && !props.isEditing}>
         <Button
+          type="hover_border"
           onClick={onCancelAttachmentClick}
           class={styles.inputButtons}
           iconName="close"
@@ -710,6 +713,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
       <div class={styles.inputRightButtons}>
         <Show when={reminders().length}>
           <Button
+            type="hover_border"
             class={classNames(styles.inputButtons, styles.reminderButton)}
             iconName="calendar_month"
             title={`Reminders (${reminders().length})`}
@@ -738,6 +742,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
         </Show>
         <Show when={chatBarOptions().includes("gif")}>
           <Button
+            type="hover_border"
             class={classNames(styles.inputButtons, "emojiPickerButton")}
             onClick={props.onGifPickerClick}
             iconName="gif"
@@ -748,6 +753,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
         </Show>
         <Show when={chatBarOptions().includes("emoji")}>
           <Button
+            type="hover_border"
             class={classNames(styles.inputButtons, "emojiPickerButton")}
             onClick={props.onEmojiPickerClick}
             iconName="face"
@@ -765,6 +771,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
           <Button
             class={styles.inputButtons}
             ref={setSendButtonRef}
+            type="hover_border"
             onClick={props.onSendClick}
             iconName={props.isEditing ? "edit" : "send"}
             padding={[8, 15, 8, 15]}
@@ -775,6 +782,7 @@ function CustomTextArea(props: CustomTextAreaProps) {
         <Show when={!value().trim() && props.isEditing}>
           <Button
             class={styles.inputButtons}
+            type="hover_border"
             ref={setSendButtonRef}
             onClick={props.onSendClick}
             color="var(--alert-color)"
@@ -816,7 +824,15 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
     recordStartAt = Date.now();
 
     setRecording(true);
-    const blob = await record();
+    const micPerms = await navigator.permissions.query({ name: "microphone" });
+    if (micPerms.state === "denied") {
+      toast("Unable to record audio.");
+      return;
+    }
+    const blob = await record().catch((e) => {
+      console.error(e);
+      toast("Unable to record audio.");
+    });
 
     const durationMs = recordEndAt - recordStartAt;
     if (durationMs < 800) return;
@@ -877,6 +893,7 @@ const MicButton = (props: { onBlob?: (blob: Blob) => void }) => {
         <div style={{ "font-size": "12px" }}>{currentDuration()}</div>
       </Show>
       <Button
+        type="hover_border"
         styles={{ "touch-action": "none", "user-select": "none" }}
         class={classNames(styles.inputButtons, "voice-recorder-button")}
         onPointerDown={onMicHold}

@@ -154,6 +154,7 @@ export default function MainPaneHeader() {
             iconSize={24}
             iconName="menu"
             margin={[0, 8, 0, 8]}
+            type="hover_border"
             onClick={toggleLeftDrawer}
           />
         </div>
@@ -187,6 +188,7 @@ export default function MainPaneHeader() {
         <div class={styles.rightIcons}>
           <Show when={canCall()}>
             <Button
+              type="hover_border"
               iconSize={24}
               margin={3}
               iconName="call"
@@ -198,6 +200,7 @@ export default function MainPaneHeader() {
               margin={3}
               iconSize={24}
               iconName="keep"
+              type="hover_border"
               onClick={togglePinPopup}
               class="mentionListIcon"
             />
@@ -205,6 +208,7 @@ export default function MainPaneHeader() {
           <Button
             margin={3}
             iconSize={24}
+            type="hover_border"
             iconName="alternate_email"
             onClick={onMentionButtonClick}
             class="mentionListIcon"
@@ -213,6 +217,7 @@ export default function MainPaneHeader() {
             <Button
               iconSize={24}
               margin={3}
+              type="hover_border"
               iconName="group"
               onClick={toggleRightDrawer}
             />

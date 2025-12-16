@@ -8,7 +8,7 @@ import { A } from "solid-navigator";
 
 export type ButtonProps = Omit<
   JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-  "color"
+  "color" | "type"
 > & {
   color?: string | null;
   label?: string;
@@ -26,6 +26,7 @@ export type ButtonProps = Omit<
   hoverText?: string;
   iconClass?: string;
   alert?: boolean;
+  type?: "hover_border";
 };
 
 export default function Button(props: ButtonProps) {
@@ -46,6 +47,7 @@ export default function Button(props: ButtonProps) {
     "hoverText",
     "iconClass",
     "alert",
+    "type",
   ]);
   const color = () =>
     customProps.alert
@@ -74,6 +76,7 @@ export default function Button(props: ButtonProps) {
       component={customProps.href ? A : "button"}
       href={customProps.href}
       {...ogProps}
+      data-type={customProps.type}
       title={customProps.hoverText}
       tabindex={customProps.tabIndex}
       style={btnStyle()}
