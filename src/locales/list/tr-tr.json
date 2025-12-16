@@ -3,7 +3,7 @@
         "logoutButton": "Çıkış Yap",
         "openAppButton": "Uygulamayı Aç",
         "loginButton": "Giriş Yap",
-        "joinNowButton": "Katıl"
+        "joinNowButton": "Şimdi Katıl"
     },
     "homePage": {
         "slogan": "Modern ve şık bir sohbet uygulaması.",
@@ -18,9 +18,11 @@
             "feature6": "Yeni topluluklar bul",
             "feature8": "Bütün kaynak kodu Github'da",
             "feature3": "Etiketini ücretsiz olarak değiştir",
-            "feature7": "Bağışlardan elde edilen gelirle çalışır"
+            "feature7": "Bağışlardan elde edilen gelirle çalışır",
+            "feature9": "Çerçevelerle kendinizi ifade edin"
         },
-        "availableOn": "Şu platformlarda mevcut"
+        "availableOn": "Şu platformlarda mevcut",
+        "subslogan": "Nerimity, onu diğerlerinden ayıran zarif ve özellik açısından zengin bir deneyim sunar."
     },
     "loginPage": {
         "title": "Devam etmek için giriş yapın",
@@ -61,7 +63,26 @@
     },
     "messageArea": {
         "messageBoxPlaceholder": "{{username}} kullanıcısına mesaj yaz",
-        "messageBoxChannelPlaceholder": "{{channelName}} kanalında mesaj yaz"
+        "messageBoxChannelPlaceholder": "{{channelName}} kanalında mesaj yaz",
+        "replying": "{{count}} mesaj(lar)a yanıt veriliyor",
+        "mention": "Bahsetme",
+        "dropFile": "Dosya Bırak",
+        "uploadTo": "Şuraya Yükle",
+        "channelNotice": {
+            "title": "Sohbete başlamadan önce...",
+            "understoodButton": "Anlaşıldı"
+        },
+        "specialMentions": {
+            "everyone": "Herkesi etiketler",
+            "someone": "Rastgele bir kullanıcıyı etiketler",
+            "silent": "Sessiz mesaj"
+        },
+        "linkToGoogleDrive": {
+            "body": "Büyük resimleri, videoları veya dosyaları yüklemek için hesabınızı Google Drive ile bağlamalısınız.",
+            "linkButton": "Şimdi Bağla",
+            "cancelButton": "Bağlama"
+        },
+        "emailNotice": "Mesaj gönderebilmek için e-postanızı doğrulayın."
     },
     "inbox": {
         "blockedUsersModal": {
@@ -86,7 +107,8 @@
         "drawer": {
             "title": "Keşfet",
             "servers": "Sunucular",
-            "bots": "Botlar"
+            "bots": "Botlar",
+            "themes": "Temalar"
         },
         "servers": {
             "title": "Keşfet - Sunucular",
@@ -101,12 +123,34 @@
             "lifetimeBumpCount": "{{count}} öne çıkarma",
             "visitServerButton": "Ziyaret Et",
             "joinServerButton": "Katıl",
-            "bumpButton": "Öne Çıkar ({{count}})"
+            "bumpButton": "Öne Çıkar ({{count}})",
+            "moderationNotice": "Sunucular Nerimity tarafından denetlenmez. Hizmet Şartlarını ihlal eden sunucuları lütfen bildirin.",
+            "sortMostActive": "En Aktif (Beta)",
+            "pinnedServers": "Sabitlenmiş Sunucular",
+            "recentlyBumped": "Son Zamanlarda Öne Çıkarılan Sunucular"
         },
         "bots": {
             "title": "Keşfet - Botlar",
-            "noticeMessage": "Botlar her {{hours}} saatte bir öne çıkarılabilir! Öne çıkarmalar her {{date}} tarihinde sıfırlanır."
-        }
+            "noticeMessage": "Botlar her {{hours}} saatte bir öne çıkarılabilir! Öne çıkarmalar her {{date}} tarihinde sıfırlanır.",
+            "moderationNotice": "Botlar Nerimity tarafından denetlenmez. Zararlı veya Hizmet Şartlarını ihlal eden botları lütfen bildirin.",
+            "inviteButton": "Davet Et",
+            "serverCount": "{{count}} sunucuda"
+        },
+        "themes": {
+            "title": "Keşfet - Temalar",
+            "themesHeaderDescription": "Nerimity’i özel bir tema ile kişiselleştirin.",
+            "officialThemes": "Resmi Temalar",
+            "communityThemes": "Topluluk Temaları",
+            "noCommunityThemes": "Topluluk teması bulunamadı.",
+            "fetchThemesError": "Temalar alınamadı. Lütfen daha sonra tekrar deneyin.",
+            "unlockDescription": "Tüm topluluk temalarını keşfetmek için tıklayın."
+        },
+        "search": "Ara",
+        "sort": "Sırala",
+        "filter": "Filtrele",
+        "backButton": "Geri",
+        "by": "Tarafından",
+        "bumped": "Öne Çıkarıldı"
     },
     "servers": {
         "settings": {
@@ -123,7 +167,8 @@
                 "welcome-screen": "Karşılama Ekranı",
                 "channel": "Kanal",
                 "emojis": "Emojiler",
-                "notifications": "Bildirimler"
+                "notifications": "Bildirimler",
+                "external-embed": "Harici Gömme"
             },
             "general": {
                 "serverRenameNotice": "Sunucunuzu yeniden adlandırmanız doğrulama avantajlarını kaybetmenize neden olur.",
@@ -136,7 +181,13 @@
                 "deleteThisServerDescription": "Bu işlem geri alınamaz!",
                 "deleteServerButton": "Sunucuyu Sil",
                 "saveChangesButton": "Değişiklikleri Kaydet",
-                "saving": "Kaydediliyor..."
+                "saving": "Kaydediliyor...",
+                "avatar": "Avatar",
+                "avatarDescription": "Desteklenenler: JPG, PNG, GIF, WEBP, Maksimum 12 MB",
+                "banner": "Banner",
+                "bannerDescription": "Desteklenenler: JPG, PNG, GIF, WEBP, Maksimum 12 MB",
+                "browseButton": "Göz At",
+                "none": "Hiçbiri"
             },
             "roles": {
                 "addNewRole": "Yeni Bir Rol Ekle",
@@ -190,7 +241,65 @@
                 "bumpServer": "Sunucuyu Öne Çıkar",
                 "bumpServerDescription": "Sunucuyu üste çıkartmak için sunucuyu öne çıkar",
                 "publishServerButton": "Sunucuyu yayınla",
-                "unpublishServerButton": "Sunucuyu yayından kaldır"
+                "unpublishServerButton": "Sunucuyu yayından kaldır",
+                "bumpButton": "Öne Çıkar ({{count}})",
+                "descriptionLabel": "Sunucu Açıklaması ({{current}}/{{max}})",
+                "bumpCooldown": "Bu sunucuyu Öne Çıkartmak için {{hours}} saat, {{minutes}} dakika ve {{seconds}} saniye beklemeniz gerekiyor."
+            },
+            "bans": {
+                "sort": {
+                    "title": "Sırala",
+                    "unsorted": "Sıralanmamış"
+                },
+                "noResults": "Sonuç bulunamadı.",
+                "reason": "Sebep",
+                "noReason": "Sebep belirtilmemiş",
+                "bannedAt": "Yasaklanma Tarihi",
+                "unknown": "Bilinmiyor",
+                "unban": "Yasağı Kaldırmak",
+                "unbanning": "Yasak Kaldırma"
+            },
+            "webhook": {
+                "title": "Webhook Ayarları",
+                "name": "İsim",
+                "link": "Webhook URL'si",
+                "linkDescription": "Bu bağlantıyı kullanarak eylemleri gerçekleştir",
+                "delete": "Webhook'u Sil"
+            },
+            "verify": {
+                "alreadyVerified": "Sunucunuz zaten doğrulandı!",
+                "insufficientMembers": "Doğrulama için başvurmak üzere {{count}} kadar daha fazla üyeye ihtiyacınız var.",
+                "verifiable": "Doğrulamaya Hazır",
+                "verifiableDescription": "Sunucunuzu doğrulamak için yeterli üyeniz var!",
+                "verifyButton": "Doğrula",
+                "requirements": {
+                    "title": "Gereksinimler",
+                    "englishOnly": "Yalnızca İngilizce",
+                    "englishOnlyDescription": "İngilizce olmayan sunucuların denetimi daha zordur.",
+                    "oneMonthOrSupporter": "En az 1 ay veya destekçi rozeti",
+                    "oneMonthOrSupporterDescription": "Sunucunuz en az 1 aylık olmalıdır VEYA sunucunun sahibinde destekçi rozeti bulunmalıdır.",
+                    "members": "{{count}} veya daha fazla üye",
+                    "membersDescription": "Sunucunuzun en az {{count}} üyesi olmalıdır.",
+                    "profanityFree": "Küfür içermez",
+                    "profanityFreeDescription": "Sunucu adı, avatarı ve afişi küfür içermemelidir.",
+                    "avatarAndBanner": "Avatar & Afiş",
+                    "avatarAndBannerDescription": "Sunucunun bir avatarı ve bir afişi olmalıdır.",
+                    "rules": "Sunucu kuralları",
+                    "rulesDescription": "Sunucunun bir kurallar kanalı olmalıdır."
+                },
+                "perks": {
+                    "title": "Avantajlar",
+                    "badge": "Doğrulanmış rozet",
+                    "badgeDescription": "Sunucunuzun özel olduğunu gösteren bir rozet.",
+                    "explore": "Keşfet'te Öne Çıkar",
+                    "exploreDescription": "Sunucunuz keşfet sayfasında ayrı bir bölümde gösterilecektir.",
+                    "customInvite": "Özel davet bağlantısı",
+                    "customInviteDescription": "Davetler sayfasından kendi davet bağlantınızı oluşturun.",
+                    "emojiSlots": "Daha fazla emoji yuvası",
+                    "emojiSlotsDescription": "Sunucunuz için 200 emoji yuvası.",
+                    "hdScreenshare": "1080p@60fps ekran paylaşımı",
+                    "hdScreenshareDescription": "1080p çözünürlükte, 60 kare/saniye hızında ekran paylaşımı."
+                }
             }
         },
         "rolePermissions": {
@@ -218,6 +327,15 @@
             "sendMessageDescription": "Kanalda mesaj göndermeyi etkinleştirir. Yine de sunucu yöneticileri mesaj gönderebilir.",
             "joinVoice": "Ses Kanalına Katıl",
             "joinVoiceDescription": "Kanal için sesli sohbete katılmayı etkinleştirir. Sunucu yöneticileri her zaman sesli sohbete katılabilir."
+        },
+        "leaveModal": {
+            "title": "Sunucudan Ayrıl?",
+            "body": {
+                "part1": "**<1>{{serverName}}</1>** sunucusundan gerçekten ayrılmak istiyor musunuz?",
+                "part2": "İstediğiniz zaman geri katılabilirsiniz!"
+            },
+            "cancelButton": "Ayrılma",
+            "confirmButton": "Ayrıl"
         }
     },
     "settings": {
@@ -298,7 +416,9 @@
             "gradientColor2": "Gradyan Renk 2",
             "primaryColor": "Birincil Renk",
             "channelNoticeTooLong": "Kanal başlığı 300 karakterden uzun olamaz.",
-            "enterCode": "E-postanıza gönderilen 5 haneli kodu yazın:"
+            "enterCode": "E-postanıza gönderilen 5 haneli kodu yazın:",
+            "resendIn": "{{time}} içinde tekrar gönder",
+            "bioDescription": "Çok satırlı ve biçimlendirme desteği"
         },
         "privacy": {
             "lastOnline": {
@@ -365,7 +485,8 @@
             "pushToTalk": "Bas-Konuş",
             "bindButton": "Tuş Ata",
             "stopButton": "Dur",
-            "downloadAppNotice": "Bu özelliği tarayıcı sekmesine odaklanmak zorunda kalmadan kullanmak için Nerimity masaüstü uygulamasını indirin."
+            "downloadAppNotice": "Bu özelliği tarayıcı sekmesine odaklanmak zorunda kalmadan kullanmak için Nerimity masaüstü uygulamasını indirin.",
+            "leaveCall": "Önce aramadan ayrılmalısın"
         },
         "interface": {
             "blurEffect": "Bulanıklık Efekti",
@@ -381,7 +502,17 @@
             "maintainers": "Katkıda bulunanlar",
             "enableEruda": "Eruda'yı Etkinleştir",
             "enableErudaDescription": "Eruda'yı hata ayıklamak için etkinleştirin. Ayrıntıları başkalarıyla paylaşmayın.",
-            "enableOnce": "Bir Kereliğine Etkinleştir"
+            "enableOnce": "Bir Kereliğine Etkinleştir",
+            "customCSS": "Özel CSS",
+            "themesDescription": "Önceden ayarlanmış bir tema seçin veya varsayılana sıfırlayın.",
+            "chatBarOptions": "Sohbet Çubuğu Seçenekleri",
+            "voiceMessage": "Sesli Mesaj",
+            "gifPicker": "GIF Seçici",
+            "emojiPicker": "Emoji Seçici",
+            "sendButton": "Gönder Butonu",
+            "timeTitle": "Saat Biçimini Değiştir",
+            "12HourFormatDescription": "Zamanları AM/PM ile 12 saat biçiminde görüntüle.",
+            "24HourFormatDescription": "Zamanları 24 saat biçiminde görüntüle."
         },
         "window": {
             "openOnStartup": "Başlangıçta Nerimity'i aç",
@@ -391,7 +522,68 @@
             "reopenAppNotice": "Bu ayarların geçerli olması için uygulamayı yeniden başlatmanız gerekmektedir.",
             "startMinimizedDescription": "Nerimity'i sistem tepsisine otomatik olarak küçült.",
             "disableHardwareAcceleration": "Donanım İvmesi'ni kapat",
-            "title": "Ayarlar - Pencere Ayarları"
+            "title": "Ayarlar - Pencere Ayarları",
+            "disableCustomTitlebar": "Özel Başlık Çubuğunu Devre Dışı Bırak"
+        },
+        "language": {
+            "reloadNotice": "Yeni dili tamamen uygulamak için uygulamayı yeniden başlatmalısınız.",
+            "searchNotice": "Çeviriler topluluk tarafından sağlanır. Hatalı veya uygunsuz herhangi bir çeviriyi lütfen Nerimity'ye bildirin.",
+            "reloadButton": "Yeniden yükle",
+            "contributors": "Katkıda Bulunanlar",
+            "translateModal": {
+                "title": "Çeviri"
+            }
+        },
+        "badges": {
+            "noticeTitle": "Bağışlar",
+            "notice": "Bu projeyi para bağışlayarak destekleyin.",
+            "palestineDescription": "{{account}} -> {{profile}} yolunu izleyerek elde edilebilir",
+            "price": "{{price}} Rozet",
+            "supportMethods": "Destek Yöntemleri"
+        },
+        "connections": {
+            "thirdParty": {
+                "title": "Üçüncü Taraf Bağlantıları",
+                "connectionCount": "{{count}} bağlantı",
+                "unauthorizeButton": "Yetkiyi Kaldır",
+                "unauthorizing": "Yetki Kaldırılıyor..."
+            },
+            "googleDescription": "Google hesabınızı bağlamak, Nerimity'ye dosya yüklemenize olanak tanır. Dosyalar Google Drive'ınızda saklanacaktır.",
+            "linkButton": "Link",
+            "unlinkButton": "Bağlantıyı Kaldır"
+        },
+        "activity": {
+            "extension": "Tarayıcı Eklentisi",
+            "extensionDescription": "RPC uzantımız, Spotify ve YouTube'daki etkinliğinizi Nerimity'deki kullanıcılarla paylaşmanıza olanak tanır!",
+            "visitButton": "{{store}}'u Ziyaret Et",
+            "activityStatus": "Etkinlik Durumu",
+            "activityStatusDescription": "Ne yaptığını herkesle paylaş",
+            "deleteButton": "Sil",
+            "editButton": "Düzenle",
+            "activityStatusModal": {
+                "title": "Etkinlik Durumunu Düzenle",
+                "executable": "Çalıştırılabilir",
+                "action": "Eylem",
+                "name": "İsim",
+                "emoji": "Emoji",
+                "backButton": "Geri",
+                "saveButton": "Kaydet"
+            },
+            "discordActivity": "Discord Aktiviteleri",
+            "discordActivityDescription": "Discord etkinliğini Nerimity'deki kullanıcılarla paylaş",
+            "idPlaceholder": "Discord Kulanıcı ID'si",
+            "serverModal": {
+                "text": "Etkinlik Paylaşımını etkinleştirmek için lütfen Discord sunucusuna katılın.",
+                "cancelButton": "İptal",
+                "doneButton": "Katıldım"
+            }
+        },
+        "developer": {
+            "oauth2": {
+                "description": "OAuth2'yi Yönet",
+                "title": "OAuth2",
+                "generateLink": "Bağlantı Oluştur"
+            }
         }
     },
     "supportBlock": {
@@ -405,7 +597,8 @@
         "placeholder": "Benim Harika Sunucum",
         "creating": "Oluşturuluyor...",
         "createServerButton": "Sunucu Oluştur",
-        "closeButton": "Kapat"
+        "closeButton": "Kapat",
+        "tabLabel": "Oluştur"
     },
     "serverContextMenu": {
         "markAsRead": "Okunmuş Olarak İşaretle",
@@ -446,7 +639,9 @@
         "message": "<1>{{username}}</1> kullanıcısını sunucudan yasaklamak istediğinden emin misin?",
         "deletePastMessagesCheckbox": "Son 7 saat içinde gönderilen mesajları sil.",
         "banButton": "Yasakla",
-        "banning": "Yasaklanıyor..."
+        "banning": "Yasaklanıyor...",
+        "reasonLabel": "Sebep (isteğe bağlı)",
+        "reasonPlaceholder": "Bir sebep girin…"
     },
     "messageContextMenu": {
         "editMessage": "Mesajı Düzenle",
@@ -501,7 +696,9 @@
         "channelNotice": "Kanal Hatırlatması",
         "attachments": "Ekler",
         "attachmentsBack": "Geri",
-        "members": "Üyeler"
+        "members": "Üyeler",
+        "creator": "Oluşturan",
+        "admin": "Yönetici"
     },
     "resetPassword": {
         "title": "Şifreyı Sıfırla",
@@ -524,7 +721,8 @@
         "serverSelect": "Lütfen bir sunucu seç!",
         "selectButton": "Sunucu Seç",
         "addButton": "Botu ekle",
-        "permissions": "Bot Yetkileri"
+        "permissions": "Bot Yetkileri",
+        "creator": "Oluşturan: "
     },
     "googleAccountLink": {
         "success": "Hesabın Google ile bağlandı! Bu pencereyi artık kapatabilirsin.",
@@ -556,13 +754,22 @@
         "twitterEmbed": {
             "doNotShowAgain": "Bunu tekrar gösterme.",
             "showButton": "Göster",
-            "closeButton": "Bunu gösterme"
+            "closeButton": "Bunu gösterme",
+            "modalTitle": "Ayrıntılı Twitter Gömülü Öğesi",
+            "modalDescription": "Resmi Twitter gömülü öğesini kullanırken, verileriniz Elmo Musk tarafından toplanacaktır.",
+            "basicEmbed": "Temel Gömülü Öğe",
+            "detailedEmbed": "Ayrıntılı Gömülü Öğe"
         },
         "blocked": "Bu kullanıcıyı engelledin. Görmek için tıkla.",
         "translationError": "Bu mesaj çevrilemiyor.",
         "translation": {
             "title": "Çeviri"
-        }
+        },
+        "reactions": {
+            "more": "{{count}} Daha Fazla"
+        },
+        "dismissButton": "Kaldır",
+        "editedAt": "Şu saatte düzenlendi: {{time}}"
     },
     "videoEmbed": {
         "expired": "Süresi dolmuş",
@@ -572,5 +779,211 @@
         "googleDrivePolicy": "Yeni Google Drive politikaları yüzünden, videoları sadece Nerimity'nin masaüstü uygulamasından oynatabilirsiniz.",
         "couldNotGetVideo": "Video alınamıyor.",
         "modifiedOrDeleted": "Bu video Google Drive'da yaratıcısı tarafından değiştirildi/silindi."
+    },
+    "statusHeader": {
+        "connected": "Bağlandı!",
+        "authenticationError": "Kimlik doğrulama hatası",
+        "connecting": "Bağlanılıyor...",
+        "reconnecting": "Yeniden bağlanılıyor...",
+        "inQueue": "Sırada: {{count}} Kullanıcı(lar) Önünüzde",
+        "authenticating": "Doğrulama..."
+    },
+    "dangerousLinkModal": {
+        "title": "Özel Bağlantı",
+        "message": "Bu bağlantı sizi şuraya yönlendirecek",
+        "cancelButton": "Ziyaret Etmeyin",
+        "visitButton": "Ziyaret Et"
+    },
+    "connectionErrorModal": {
+        "title": "Bağlantı Hatası",
+        "ok": "Tamam",
+        "logout": "Çıkış Yap",
+        "login": "Giriş Yap",
+        "noToken": "Token sağlanmadı.",
+        "suspended": "Hesabınız askıya alındı.",
+        "reason": "Sebep",
+        "defaultReason": "Hizmet Şartlarını ihlal etme",
+        "until": "Kadar",
+        "never": "Asla",
+        "by": "Tarafından",
+        "deletionNotice": "Hesabınız ve verileriniz 15 gün içinde silinecektir",
+        "ipBanned": "IP adresiniz yasaklandı.",
+        "ipBanNotice": "Aynı IP adresini kullanan bir kişi Nerimity’den askıya alındı. Hesabınız etkilenmemiştir."
+    },
+    "status": {
+        "online": "Çevrimiçi",
+        "ltp": "Oynamak istiyor",
+        "afk": "Klavye başında değil",
+        "dnd": "Rahatsız Etmeyin",
+        "offline": "Çevrimdışı",
+        "appearAsOffline": "Çevrimdışı Görün"
+    },
+    "sidePane": {
+        "home": "Ev",
+        "moderation": "Moderasyon Paneli",
+        "addServer": "Sunucu Ekle"
+    },
+    "updateModal": {
+        "title": "Güncelleme Mevcut",
+        "updateButton": "Şimdi Güncelle",
+        "laterButton": "Daha Sonra",
+        "releasedAt": "Yayınlanma tarihi"
+    },
+    "markup": {
+        "bold": "Kalın",
+        "italic": "İtalik",
+        "strikethrough": "Üstü Çizili",
+        "header": "Başlık",
+        "namedLink": "Adlandırılmış Bağlantı",
+        "spoiler": "Spoiler",
+        "timestamp": "Zaman Damgası",
+        "color": "Renk",
+        "html": "HTML Modu",
+        "emojiPicker": "Emoji Seçici",
+        "timestampModal": {
+            "title": "Zaman İşaretlemesi",
+            "relative": "Göreceli",
+            "offset": "Offset",
+            "doneButton": "Tamamlandı"
+        }
+    },
+    "editFolderModal": {
+        "title": "Klasörü Düzenle",
+        "placeholder": "Klasör Adı",
+        "cancelButton": "Kaydetme",
+        "save": "Kaydet",
+        "saving": "Kaydediliyor...",
+        "errors": {
+            "emptyName": "Lütfen bir klasör adı girin."
+        }
+    },
+    "activityNames": {
+        "playing": "Oynuyor",
+        "watching": "İzliyor",
+        "listening": "Dinliyor"
+    },
+    "joinServerModal": {
+        "title": "Sunucuya Katıl",
+        "notice": "Sunucuları keşfetmek isterseniz, lütfen bunun yerine keşfet sekmesine gidin.",
+        "exploreButton": "Sunucuları Keşfet",
+        "inviteCode": "Davet Kodu",
+        "continueButton": "Devam Et",
+        "missingInvite": "Lütfen bir sunucu davet kodu girin.",
+        "tabLabel": "Katıl"
+    },
+    "messageView": {
+        "noMessages": "Mesaj Yok",
+        "noMessagesDescription": "Bu kanalda **hiç mesaj yok**.",
+        "newMessages": "Yeni mesajlar",
+        "slowMode": "Yavaş Mod",
+        "flaggedServer": {
+            "title": "Silmeyi Zamanla",
+            "description": "Bu sunucu, Hizmet Şartlarımıza uymadığı için yakında silinecektir.",
+            "deleteButton": "Şimdi Sil",
+            "leaveButton": "Sunucudan Ayrıl"
+        }
+    },
+    "addFriendModal": {
+        "title": "Arkadaş Ekle",
+        "description": "Arkadaşını eklemek için **kullanıcı adını ve etiketini** gir.",
+        "placeholder": "Kulanıcı Adı:ABC1",
+        "requestSent": "İstek gönderildi!",
+        "closeButton": "Kapat",
+        "sendRequest": "İstek Gönder",
+        "sending": "Gönderiliyor...",
+        "errors": {
+            "missingTag": "Lütfen bir kullanıcı adı:etiket girin.",
+            "colonInUsername": "Kullanıcı adı iki nokta üst üste (:) içermemelidir."
+        }
+    },
+    "deleteMessageModal": {
+        "title": "Mesajı Silecekmisin?",
+        "body": "Bu mesajı silmek ister misiniz?",
+        "cancelButton": "Silme",
+        "confirmButton": "Sil"
+    },
+    "colorPickerModal": {
+        "title": "Renk Seçici",
+        "done": "Tamam"
+    },
+    "photoEditor": {
+        "title": "Fotoğraf Düzenleyici",
+        "cancel": "İptal",
+        "edit": "Düzenle",
+        "undo": "Geri Al (Ctrl + Z)",
+        "brush": "Fırça",
+        "erase": "Silgi",
+        "strokeWidth": "Çizgi genişliği: {{width}}",
+        "mobileNotice": "Sürüklemek/yakınlaştırmak için sıkıştırın",
+        "desktopMove": "Boşluk + Sürükleyerek Taşıma",
+        "desktopZoom": "Kaydırarak Yakınlaştır"
+    },
+    "imageCropModal": {
+        "title": "Görüntüyü Kırp",
+        "done": "Tamam"
+    },
+    "oauth2": {
+        "AuthorizeButton": "Yetkilendirme",
+        "permissions": "İzinler"
+    },
+    "badges": {
+        "kitty": {
+            "name": "Kedi",
+            "blueDescription": "Mavi Kulaklı Kedi",
+            "whiteDescription": "Beyaz Kulaklı Kedi"
+        },
+        "foxy": {
+            "name": "Tilki",
+            "foxyGoldDescription": "Altın Kulaklı Tilki",
+            "foxyBrownDescription": "Kahverengi Kulaklı Tilki"
+        },
+        "founder": {
+            "name": "Kurucu",
+            "description": "Nerimity'nin yaratıcısı"
+        },
+        "admin": {
+            "name": "Yönetici",
+            "description": "Nerimity'nin yöneticisi"
+        },
+        "mod": {
+            "name": "Moderatör",
+            "description": "Nerimity Moderatörü"
+        },
+        "supporter": {
+            "name": "Destekçi",
+            "description": "Bu projeyi para bağışlayarak destekledi"
+        },
+        "emoSupporter": {
+            "name": "Emo Destekçisi",
+            "description": "Bu projeyi para bağışlayarak destekledi"
+        },
+        "contributor": {
+            "name": "Katkıda Bulunan",
+            "description": "Bu projeye bir şekilde yardımcı oldu"
+        },
+        "palestine": {
+            "name": "Filistin"
+        },
+        "bot": {
+            "name": "Bot Kullanıcı",
+            "description": "Bot Kullanıcı"
+        },
+        "credit": {
+            "avatarBorder": "{{platform}}'da {{author}} tarafından Avatar Çerçevesi",
+            "avatarBorderEdited": "{{platform}}'da {{author}} tarafından Avatar Çerçevesi, düzenleyen: {{editor}}"
+        }
+    },
+    "systemMessages": {
+        "joinServer": {
+            "user": "<User/><2> Sunucuya Katıldı.</2>",
+            "bot": "<User/><2> Sunucuya Eklendi.</2>"
+        },
+        "leaveServer": "<User/><2> Sunucudan Ayrıldı</2>",
+        "kickUser": "<User/><2> Sunucudan Atıldı.</2>",
+        "banUser": "<User/><2> Sunucudan Banlandı.</2>",
+        "callStarted": "<User/><2> Arama başlattı.</2>",
+        "bumpServer": "<User/><2> Sunucuyu Öne Çıkartı</2>",
+        "pinnedMessage": "<User/><2> Bir mesaj sabitledi.</2>",
+        "unsupported": "<User/><2> Desteklenmeyen mesaj.</2>"
     }
 }
