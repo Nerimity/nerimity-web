@@ -119,7 +119,9 @@
             "officialThemes": "Temas oficiais",
             "communityThemes": "Temas da comunidade",
             "noCommunityThemes": "Nenhum tema da comunidade encontrado.",
-            "title": "Explorar - Temas"
+            "title": "Explorar - Temas",
+            "fetchThemesError": "Falha ao buscar temas. Por favor tente novamente mais tarde.",
+            "unlockDescription": "Clique para explorar todos os temas da comunidade"
         },
         "search": "Pesquisar",
         "sort": "Classificar",
@@ -233,7 +235,10 @@
             "bans": {
                 "reason": "Motivo",
                 "noResults": "Nenhum resultado encontrado.",
-                "noReason": "Nenhum motivo fornecido"
+                "noReason": "Nenhum motivo fornecido",
+                "sort": {
+                    "title": "Classificar"
+                }
             },
             "verify": {
                 "requirements": {
@@ -247,7 +252,9 @@
                     "profanityFreeDescription": "Nome, avatar e banner do servidor devem ser livres de profanidade.",
                     "avatarAndBanner": "Avatar e banner",
                     "members": "{{count}} ou mais membros",
-                    "membersDescription": "Seu servidor deve ter pelo menos {{count}} membros."
+                    "membersDescription": "Seu servidor deve ter pelo menos {{count}} membros.",
+                    "oneMonthOrSupporter": "Pelo menos 1 mês OU emblema de apoiador",
+                    "rulesDescription": "Servidor deve ter um canal de regras."
                 },
                 "perks": {
                     "exploreDescription": "Seu servidor será exibido em uma seção separada na página de exploração.",
@@ -667,7 +674,9 @@
             "understoodButton": "Entendido"
         },
         "uploadTo": "Enviar para",
-        "replying": "Respondendo a {{count}} mensagem(s)"
+        "replying": "Respondendo a {{count}} mensagem(s)",
+        "mention": "Mencionar",
+        "dropFile": "Soltar arquivo"
     },
     "message": {
         "translation": {
@@ -866,7 +875,8 @@
     "sidePane": {
         "home": "Início",
         "moderation": "Painel de moderação",
-        "addServer": "Adicionar servidor"
+        "addServer": "Adicionar servidor",
+        "homeShort": "Início"
     },
     "updateModal": {
         "title": "Atualização disponível",
@@ -952,7 +962,11 @@
         "emojiPicker": "Seletor de emoji",
         "timestampModal": {
             "title": "Marcação de tempo",
-            "doneButton": "Feito"
-        }
+            "doneButton": "Feito",
+            "relative": "Relativo",
+            "offset": "Ajuste"
+        },
+        "timestamp": "Horário",
+        "color": "Cor"
     }
 }
