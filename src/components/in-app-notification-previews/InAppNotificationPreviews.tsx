@@ -22,6 +22,7 @@ import Button from "../ui/Button";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import useStore from "@/chat-api/store/useStore";
 import { getSystemMessage } from "@/common/SystemMessage";
+import { t } from "@nerimity/i18lite";
 
 export default function InAppNotificationPreviews() {
   const { notifications, removeNotification, pushNotification } =
@@ -33,11 +34,19 @@ export default function InAppNotificationPreviews() {
 
   const notification = () => notifications()[0];
 
-  const systemMessage = createMemo(
-    () =>
-      notification()?.message?.type &&
-      getSystemMessage(notification?.()?.message?.type!)
-  );
+  const systemMessage = createMemo(() => {
+    const type = notification()?.message?.type;
+    if (!type) return;
+    const systemMessage = getSystemMessage(type);
+    if (!systemMessage) return;
+    return {
+      ...systemMessage,
+      message: t(systemMessage.message)
+      .replace("<User/>", `[@:${notification()?.message?.createdBy?.id}]`)
+      .replace("<2>", "")
+      .replace("</2>", "");
+    }
+  });
 
   let anim: Animation | undefined;
 
@@ -173,9 +182,7 @@ export default function InAppNotificationPreviews() {
                     class={style.markup}
                     text={
                       systemMessage()?.message
-                        ? `[@:${notification()?.message?.createdBy?.id}] ${
-                            systemMessage()?.message
-                          }`
+                        ? `${systemMessage()?.message}`
                         : notification()?.body || ""
                     }
                     inline
