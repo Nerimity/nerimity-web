@@ -179,6 +179,7 @@ export default function InAppNotificationPreviews() {
                         />
                       </Show>
                     }
+                    message={notification()?.message}
                     class={style.markup}
                     text={
                       systemMessage()?.message
