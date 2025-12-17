@@ -102,7 +102,9 @@
     "sidePane": {
         "home": "Inicio",
         "moderation": "Panel de moderación",
-        "addServer": "Añadir servidor"
+        "addServer": "Añadir servidor",
+        "homeShort": "Inicio",
+        "moderationShort": "Moderación"
     },
     "updateModal": {
         "title": "Actualización disponible",
@@ -948,7 +950,7 @@
         "ltp": "Disponible para jugar",
         "afk": "Ausente",
         "dnd": "No molestar",
-        "offline": "Aparecer fuera de línea",
+        "offline": "Fuera de línea",
         "appearAsOffline": "Fuera de línea"
     },
     "connectionErrorModal": {
