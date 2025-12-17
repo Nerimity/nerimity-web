@@ -71,6 +71,8 @@ We use **Weblate** for managing all translations.
 
 If you would like to help translate this project, please visit our Weblate page: https://hosted.weblate.org/projects/nerimity/
 
+[![Translation status](https://hosted.weblate.org/widget/nerimity/nerimity-web/multi-auto.svg)](https://hosted.weblate.org/engage/nerimity/)
+
 ## 🤝 Contributions
 
 - **Focus:** Each PR must contain small, easy to understand changes.
