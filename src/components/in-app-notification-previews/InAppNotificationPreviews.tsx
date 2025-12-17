@@ -42,10 +42,10 @@ export default function InAppNotificationPreviews() {
     return {
       ...systemMessage,
       message: t(systemMessage.message)
-      .replace("<User/>", `[@:${notification()?.message?.createdBy?.id}]`)
-      .replace("<2>", "")
-      .replace("</2>", "");
-    }
+        .replace("<User/>", `[@:${notification()?.message?.createdBy?.id}]`)
+        .replace("<2>", "")
+        .replace("</2>", ""),
+    };
   });
 
   let anim: Animation | undefined;
