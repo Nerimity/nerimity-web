@@ -880,7 +880,9 @@
     "sidePane": {
         "home": "Strona Główna",
         "moderation": "Panel Moderacji",
-        "addServer": "Dodaj Serwer"
+        "addServer": "Dodaj Serwer",
+        "homeShort": "Główna",
+        "moderationShort": "Moderacja"
     },
     "updateModal": {
         "title": "Dostępna Aktualizacja",
