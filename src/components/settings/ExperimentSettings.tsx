@@ -27,7 +27,8 @@ export default function ExperimentsSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.drawer.experiments"),
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.experiments"),
       iconName: "settings",
     });
   });
@@ -40,11 +41,7 @@ export default function ExperimentsSettings() {
       </Breadcrumb>
 
       <Show when={!Experiments.length}>
-        <div>
-          <Trans key="settings.experiments.noExperiments">
-            There are currently no experiments available.
-          </Trans>
-          </div>
+        <div>{t("settings.experiments.noExperiments")}</div>
       </Show>
 
       <For each={Experiments}>
@@ -100,8 +97,15 @@ const ReloadRequiredModal = (props: { close: () => void }) => {
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
-        { label: t("settings.experiments.reloadRequired.restartLater"), onClick: props.close },
-        { label: t("settings.experiments.reloadRequired.restartNow"), primary: true, onClick: restart },
+        {
+          label: t("settings.experiments.reloadRequired.restartLater"),
+          onClick: props.close,
+        },
+        {
+          label: t("settings.experiments.reloadRequired.restartNow"),
+          primary: true,
+          onClick: restart,
+        },
       ]}
     >
       <div
@@ -111,7 +115,7 @@ const ReloadRequiredModal = (props: { close: () => void }) => {
           text-align: center;
         `}
       >
-        <Trans key="settings.experiments.reloadRequired.body">Nerimity needs to be restarted to take effect.</Trans>
+        {t("settings.experiments.reloadRequired.body")}
       </div>
     </LegacyModal>
   );
