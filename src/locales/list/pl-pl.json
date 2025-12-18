@@ -442,7 +442,11 @@
             },
             "reminder": "Przypomnienia",
             "reminderDescription": "Powiadomienia dla przypomnień.",
-            "mute": "Wyciszone"
+            "mute": "Wyciszone",
+            "testNotification": {
+                "title": "To działa!",
+                "body": "Włączono powiadomienia na pulpicie."
+            }
         },
         "call": {
             "nextCallNotice": "Zmiany zostaną zastosowane przy Twoich następnych połączeniach.",
@@ -554,6 +558,15 @@
             "googleDescription": "Łączenie Twojego konta Google pozwoli Ci na przesyłanie plików na Nerimity. Pliki będą przechowywane na twoim dysku Google Drive.",
             "linkButton": "Połącz",
             "unlinkButton": "Odłącz"
+        },
+        "experiments": {
+            "noExperiments": "W tej chwili nie ma żadnych eksperymentów.",
+            "reloadRequired": {
+                "title": "Wymagane przeładowanie aplikacji",
+                "body": "Aby zmiany zaczęły obowiązywać, należy ponownie uruchomić Nerimity.",
+                "restartNow": "Uruchom ponownie teraz",
+                "restartLater": "Uruchom ponownie później"
+            }
         }
     },
     "supportBlock": {
