@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 import Avatar from "@/components/ui/Avatar";
 import UserPresence from "@/components/user-presence/UserPresence";
-import { useParams } from "solid-navigator";
+import { useNavigate, useParams } from "solid-navigator";
 import useStore from "@/chat-api/store/useStore";
 import {
   createEffect,
@@ -26,8 +26,11 @@ import Text from "@/components/ui/Text";
 import Icon from "@/components/ui/icon/Icon";
 import Button from "@/components/ui/Button";
 import { Banner } from "@/components/ui/Banner";
-import { fetchChannelAttachments } from "@/chat-api/services/MessageService";
-import { RawAttachment, RawMessage } from "@/chat-api/RawData";
+import {
+  fetchChannelAttachments,
+  searchMessages,
+} from "@/chat-api/services/MessageService";
+import { ChannelType, RawAttachment, RawMessage } from "@/chat-api/RawData";
 import env from "@/common/env";
 import { classNames, conditionalClass } from "@/common/classNames";
 import socketClient from "@/chat-api/socketClient";
@@ -44,6 +47,9 @@ import { t } from "@nerimity/i18lite";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { Tooltip } from "../ui/Tooltip";
 import { userDetailsPreloader } from "@/common/createPreloader";
+import Input from "../ui/input/Input";
+import MessageItem from "../message-pane/message-item/MessageItem";
+import RouterEndpoints from "@/common/RouterEndpoints";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -154,55 +160,124 @@ const MemberItem = (props: { member: ServerMember }) => {
   );
 };
 
-const Header = () => {
-  return <DrawerHeader text={t("informationDrawer.title")} />;
+type Page = "info" | "attachments" | "search";
+
+const selectedHeaderButtonStyle = css`
+  position: relative;
+  pointer-events: none;
+
+  &:focus {
+    && {
+      background-color: transparent;
+    }
+  }
+
+  border-color: transparent;
+  &:before {
+    position: absolute;
+    content: "";
+    inset: 0;
+    opacity: 0.2;
+    background-color: var(--primary-color);
+    border-radius: 8px;
+  }
+`;
+
+const Header = (props: {
+  onChange: (Page: Page) => void;
+  selectedPage: Page;
+}) => {
+  return (
+    <DrawerHeader
+      class={css`
+        justify-content: center;
+        gap: 4px;
+      `}
+    >
+      <Button
+        class={classNames(
+          props.selectedPage === "info" && selectedHeaderButtonStyle
+        )}
+        iconName="info"
+        label="Info"
+        type="hover_border"
+        onClick={() => props.onChange("info")}
+        margin={0}
+        iconSize={16}
+      />
+      <Button
+        class={classNames(
+          props.selectedPage === "attachments" && selectedHeaderButtonStyle
+        )}
+        iconName="attach_file"
+        type="hover_border"
+        label="Files"
+        onClick={() => props.onChange("attachments")}
+        margin={0}
+        iconSize={16}
+      />
+      <Button
+        class={classNames(
+          props.selectedPage === "search" && selectedHeaderButtonStyle
+        )}
+        iconName="search"
+        label="Search"
+        type="hover_border"
+        onClick={() => props.onChange("search")}
+        margin={0}
+        iconSize={16}
+      />
+    </DrawerHeader>
+  );
 };
 
 const RightDrawer = () => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
-  const [showAttachments, setShowAttachments] = createSignal(false);
+  const [pages, setPage] = createSignal<Page>("info");
   const [hovered, setHovered] = createSignal(false);
 
   createEffect(
     on(
       () => params.channelId,
       () => {
-        setShowAttachments(false);
+        setPage("info");
       }
     )
   );
 
   return (
     <>
-      <Header />
+      <Header onChange={setPage} selectedPage={pages()} />
       <div
         class={styles.drawerContainer}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <Show when={!showAttachments()}>
+        <Show when={pages() === "info"}>
           <MainDrawer
             hovered={hovered()}
-            onShowAttachmentClick={() => setShowAttachments(true)}
+            onShowAttachmentClick={() => setPage("attachments")}
           />
         </Show>
-        <Show when={showAttachments()}>
-          <AttachmentDrawer
-            onHideAttachmentClick={() => setShowAttachments(false)}
-          />
+        <Show when={pages() === "attachments"}>
+          <AttachmentDrawer />
+        </Show>
+        <Show when={pages() === "search"}>
+          <SearchDrawer />
         </Show>
       </div>
     </>
   );
 };
 
-const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
+const AttachmentDrawer = () => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const { channels } = useStore();
 
   const [attachments, setAttachments] = createSignal<RawAttachment[] | null>(
     null
   );
+  const channel = () => channels.get(params.channelId);
 
   const incrAttachments = (channelId: string) => {
     const channel = channels.get(channelId);
@@ -249,17 +324,18 @@ const AttachmentDrawer = (props: { onHideAttachmentClick(): void }) => {
 
   return (
     <>
-      <Button
-        label={t("informationDrawer.attachmentsBack")}
-        iconName="keyboard_arrow_left"
-        iconSize={16}
-        onClick={props.onHideAttachmentClick}
-        class={css`
-          justify-content: start;
-        `}
-        padding={5}
-      />
-
+      <div
+        style={{
+          "margin-left": "8px",
+          "margin-top": "8px",
+          display: "flex",
+        }}
+      >
+        <Text size={14}>{t("informationDrawer.attachments")}</Text>
+        <div class={styles.memberCount}>
+          {channel()?._count?.attachments?.toLocaleString?.() ?? "..."}
+        </div>
+      </div>
       <div class={styles.attachmentList}>
         <Show when={!attachments()}>
           <For each={Array(50).fill(undefined)}>
@@ -347,7 +423,7 @@ const MainDrawer = (props: {
           userId={channel()?.recipientId!}
         />
       </Show>
-      <Show when={channel()}>
+      {/* <Show when={channel()}>
         <Button
           label={t("informationDrawer.attachments")}
           customChildren={
@@ -370,7 +446,7 @@ const MainDrawer = (props: {
           `}
           padding={5}
         />
-      </Show>
+      </Show> */}
       <Show when={params.serverId}>
         <ServerDrawer />
       </Show>
@@ -439,7 +515,13 @@ const ServerDrawer = () => {
     <Show when={params.channelId} keyed={true}>
       <Delay ms={10}>
         <>
-          <div style={{ "margin-left": "8px", display: "flex" }}>
+          <div
+            style={{
+              "margin-left": "8px",
+              "margin-top": "8px",
+              display: "flex",
+            }}
+          >
             <Text size={14}>{t("informationDrawer.members")}</Text>
             <div class={styles.memberCount}>
               {members().length.toLocaleString()}
@@ -540,6 +622,91 @@ const ServerChannelNotice = () => {
         </div>
       </div>
     </Show>
+  );
+};
+
+const SearchDrawer = () => {
+  const store = useStore();
+  const params = useParams<{ serverId?: string; channelId?: string }>();
+
+  const [query, setQuery] = createSignal("");
+  const [results, setResults] = createSignal<RawMessage[] | null>(null);
+  const [containerEl, setContainerEl] = createSignal<HTMLDivElement>();
+
+  const channel = () => store.channels.get(params.channelId!);
+
+  const isDMChannel = () =>
+    !channel() ? true : channel()?.type === ChannelType.DM_TEXT;
+
+  const name = () =>
+    isDMChannel() ? channel()?.recipient()?.username : channel()?.name;
+
+  let interval = 0;
+  createEffect(
+    on(query, () => {
+      setResults(null);
+      window.clearTimeout(interval);
+      if (!query().trim()) {
+        return;
+      }
+      interval = window.setTimeout(() => {
+        searchMessages(query(), params.channelId!).then((res) => {
+          setResults(res.reverse());
+        });
+      }, 1000);
+    })
+  );
+  onCleanup(() => window.clearTimeout(interval));
+
+  return (
+    <div class={styles.searchDrawer} ref={setContainerEl}>
+      <Input
+        placeholder={`Search ${!isDMChannel() ? "in " : ""}${name() || ""}`}
+        onText={setQuery}
+        value={query()}
+      />
+      <div class={styles.searchResults}>
+        <Show when={query().trim() && results() === null}>
+          <Skeleton.List count={50}>
+            <Skeleton.Item height={"80px"} width={"100%"} />
+          </Skeleton.List>
+        </Show>
+        <Show when={results()?.length}>
+          <For each={results()}>
+            {(message) => <SearchMessageItem message={message} />}
+          </For>
+        </Show>
+      </div>
+    </div>
+  );
+};
+
+const SearchMessageItem = (props: { message: RawMessage }) => {
+  const params = useParams<{ serverId?: string; channelId?: string }>();
+  const navigate = useNavigate();
+  const onJump = () => {
+    const channelId = props.message.channelId;
+    if (params.serverId) {
+      navigate(
+        RouterEndpoints.SERVER_MESSAGES(params.serverId, channelId) +
+          "?messageId=" +
+          props.message.id
+      );
+    } else {
+      navigate(
+        RouterEndpoints.INBOX_MESSAGES(channelId) +
+          "?messageId=" +
+          props.message.id
+      );
+    }
+  };
+  return (
+    <div class={styles.searchMessageItem}>
+      <div onClick={onJump} class={styles.jumpToMessage}>
+        Jump
+      </div>
+      <MessageItem message={props.message} hideFloating />
+    </div>
   );
 };
 

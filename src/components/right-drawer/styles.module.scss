@@ -261,3 +261,26 @@
     height: 20px;
   }
 }
+
+.searchMessageItem {
+  position: relative;
+
+  &:hover {
+    .jumpToMessage {
+      opacity: 1;
+    }
+  }
+
+  .jumpToMessage {
+    position: absolute;
+    z-index: 111111111;
+    top: 4px;
+    right: 4px;
+    padding: 4px;
+    border-radius: 6px;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    font-size: 14px;
+  }
+}

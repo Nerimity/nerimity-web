@@ -28,6 +28,30 @@ export const fetchMessages = async (
   });
   return data;
 };
+interface SearchMessageOpts {
+  limit?: number;
+  beforeMessageId?: string;
+  afterMessageId?: string;
+}
+
+export const searchMessages = async (
+  query: string,
+  channelId: string,
+  opts?: SearchMessageOpts
+) => {
+  const data = await request<RawMessage[]>({
+    method: "GET",
+    url: env.SERVER_URL + "/api" + Endpoints.messages(channelId) + "/search",
+    params: {
+      limit: opts?.limit || env.MESSAGE_LIMIT,
+      ...(opts?.afterMessageId ? { after: opts.afterMessageId } : undefined),
+      ...(opts?.beforeMessageId ? { before: opts.beforeMessageId } : undefined),
+      query,
+    },
+    useToken: true,
+  });
+  return data;
+};
 
 export const pinMessage = async (channelId: string, messageId: string) => {
   const data = await request<{ status: boolean }>({
