@@ -12,6 +12,7 @@ import LegacyModal from "../ui/legacy-modal/LegacyModal";
 import Text from "../ui/Text";
 import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import env from "@/common/env";
+import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 
 const Container = styled("div")`
   display: flex;
@@ -22,10 +23,12 @@ const Container = styled("div")`
 
 export default function ExperimentsSettings() {
   const { header } = useStore();
+  const [t] = useTransContext();
 
   createEffect(() => {
     header.updateHeader({
-      title: "Settings - Experiments",
+      title:
+        t("settings.drawer.title") + " - " + t("settings.drawer.experiments"),
       iconName: "settings",
     });
   });
@@ -38,7 +41,7 @@ export default function ExperimentsSettings() {
       </Breadcrumb>
 
       <Show when={!Experiments.length}>
-        <div>There are currently no experiments available.</div>
+        <div>{t("settings.experiments.noExperiments")}</div>
       </Show>
 
       <For each={Experiments}>
@@ -87,14 +90,22 @@ const ExperimentItem = (props: { experiment: Experiment }) => {
 
 const ReloadRequiredModal = (props: { close: () => void }) => {
   const restart = () => electronWindowAPI()?.relaunchApp();
+  const [t] = useTransContext();
   return (
     <LegacyModal
-      title="Reload Required"
+      title={t("settings.experiments.reloadRequired.title")}
       close={props.close}
       ignoreBackgroundClick
       actionButtonsArr={[
-        { label: "Restart Later", onClick: props.close },
-        { label: "Restart Now", primary: true, onClick: restart },
+        {
+          label: t("settings.experiments.reloadRequired.restartLater"),
+          onClick: props.close,
+        },
+        {
+          label: t("settings.experiments.reloadRequired.restartNow"),
+          primary: true,
+          onClick: restart,
+        },
       ]}
     >
       <div
@@ -104,7 +115,7 @@ const ReloadRequiredModal = (props: { close: () => void }) => {
           text-align: center;
         `}
       >
-        <Text>Nerimity needs to be restarted to take effect.</Text>
+        {t("settings.experiments.reloadRequired.body")}
       </div>
     </LegacyModal>
   );

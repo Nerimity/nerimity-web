@@ -568,6 +568,10 @@
     },
     "notifications": {
       "desktopNotifications": "Desktop Notifications",
+      "testNotification": {
+        "title": "It worked!",
+        "body": "Desktop notifications enabled."
+      },
       "desktopNotificationsDescription": "Show desktop notifications even when the app is minimized.",
       "sounds": "Sounds",
       "soundsDescription": "If the notification sounds are too annoying, you can disable them.",
@@ -683,6 +687,15 @@
         "description": "Manage OAuth2",
         "title": "OAuth2",
         "generateLink": "Generate Link"
+      }
+    },
+    "experiments": {
+      "noExperiments": "There are currently no experiments available.",
+      "reloadRequired": {
+      "title": "Reload Required",
+      "body": "Nerimity needs to be restarted for changes to take effect.",
+      "restartNow": "Restart Now",
+      "restartLater": "Restart Later"
       }
     }
   },
