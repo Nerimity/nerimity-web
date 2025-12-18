@@ -14,7 +14,7 @@ import {
 import { ChannelType, RawChannel } from "../RawData";
 import useMessages from "./useMessages";
 import useUsers from "./useUsers";
-import useServerMembers from "./useServerMembers";
+import useServerMembers, { ServerMember } from "./useServerMembers";
 import useAccount from "./useAccount";
 import useMention from "./useMention";
 import socketClient from "../socketClient";
@@ -37,6 +37,7 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   update: (this: Channel, update: Partial<RawChannel>) => void;
 
   permissionList: typeof permissionList;
+  membersWithChannelAccess: typeof membersWithChannelAccess;
   recipient: typeof recipient;
   recipientId?: string;
   lastSeen?: number;
@@ -49,7 +50,8 @@ export type Channel = Omit<RawChannel, "recipient"> & {
   hasPermission: (
     this: Channel,
     bitwise: Bitwise,
-    defaultRoleOnly?: boolean
+    defaultRoleOnly?: boolean,
+    userId?: string
   ) => boolean;
 };
 
@@ -62,6 +64,7 @@ const set = (channel: RawChannel & { lastSeen?: number }) => {
     ...channel,
     recipient,
     hasNotifications,
+    membersWithChannelAccess,
     permissionList,
     mentionCount,
     updateLastSeen,
@@ -87,13 +90,18 @@ function permissionList(this: Channel) {
 function hasPermission(
   this: Channel,
   bitwise: Bitwise,
-  defaultRoleOnly = false
+  defaultRoleOnly = false,
+  userId?: string
 ) {
   if (!this.serverId) return false;
 
   const account = useAccount();
   const serverMembers = useServerMembers();
-  const member = serverMembers.get(this.serverId, account.user()?.id as string);
+  const member = serverMembers.get(
+    this.serverId,
+    userId || (account.user()?.id as string)
+  );
+
   const defaultRoleId = member?.server().defaultRoleId;
 
   if (defaultRoleOnly) {
@@ -312,6 +320,17 @@ const getSortedChannelsByServerId = (
     }
   });
 };
+
+// members that can view this channel
+function membersWithChannelAccess(this: Channel) {
+  if (!this.serverId) return [];
+  const members = useServerMembers();
+
+  const serverMembers = members.array(this.serverId);
+  return serverMembers.filter((member) =>
+    member?.canViewChannel(this.id)
+  ) as ServerMember[];
+}
 
 const removeAllServerChannels = (serverId: string) => {
   const channelsArr = array();

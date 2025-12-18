@@ -1,5 +1,11 @@
 import { createStore, reconcile } from "solid-js/store";
-import { addBit, Bitwise, hasBit, ROLE_PERMISSIONS } from "../Bitwise";
+import {
+  addBit,
+  Bitwise,
+  CHANNEL_PERMISSIONS,
+  hasBit,
+  ROLE_PERMISSIONS,
+} from "../Bitwise";
 import { RawServerMember } from "../RawData";
 import useServerRoles, { ServerRole } from "./useServerRoles";
 import useServers, { Server } from "./useServers";
@@ -26,6 +32,7 @@ export type ServerMember = Omit<RawServerMember, "user"> & {
   roleColor: () => string;
   unhiddenRole: () => ServerRole | undefined;
   isServerCreator: () => boolean | undefined;
+  canViewChannel: (this: ServerMember, channelId: string) => boolean;
 };
 
 const [serverMembers, setMember] = createStore<
@@ -44,6 +51,7 @@ const set = (member: RawServerMember) => {
     ...member,
     userId: member.user.id,
     server,
+    canViewChannel,
     user,
     update,
     roles,
@@ -150,6 +158,18 @@ function hasPermission(
     if (hasBit(this.permissions(), ROLE_PERMISSIONS.ADMIN.bit)) return true;
   }
   return hasBit(this.permissions(), bitwise.bit);
+}
+
+function canViewChannel(this: ServerMember, channelId: string) {
+  const channel = useChannels().get(channelId);
+  if (!channel) return false;
+  if (this.hasPermission(ROLE_PERMISSIONS.ADMIN)) return true;
+
+  return channel.hasPermission(
+    CHANNEL_PERMISSIONS.PUBLIC_CHANNEL,
+    false,
+    this.userId
+  );
 }
 
 function roles(this: ServerMember, sorted = false) {

@@ -133,7 +133,11 @@ const MemberItem = (props: { member: ServerMember }) => {
         </div>
         <Show when={isAdmin() || isCreator()}>
           <Tooltip
-            tooltip={isCreator() ? t("informationDrawer.creator") : t("informationDrawer.admin")}
+            tooltip={
+              isCreator()
+                ? t("informationDrawer.creator")
+                : t("informationDrawer.admin")
+            }
             class={styles.adminOrCreatorBadge}
             anchor="left"
           >
@@ -404,13 +408,14 @@ const BannerItem = (props: { hovered: boolean }) => {
 };
 
 const ServerDrawer = () => {
-  const params = useParams();
-  const { servers, serverMembers, serverRoles } = useStore();
+  const params = useParams<{ serverId?: string; channelId?: string }>();
+  const { servers, serverRoles, channels } = useStore();
   const server = () => servers.get(params.serverId!);
+  const channel = () => channels.get(params.channelId!);
 
-  const roles = () => serverRoles.getAllByServerId(params.serverId);
+  const roles = () => serverRoles.getAllByServerId(params.serverId!);
 
-  const members = () => serverMembers.array(params.serverId);
+  const members = createMemo(() => channel()?.membersWithChannelAccess() || []);
 
   const roleMembers = mapArray(roles, (role) => {
     const membersInThisRole = () =>
@@ -431,7 +436,7 @@ const ServerDrawer = () => {
   const defaultRole = () =>
     serverRoles.get(server()?.id!, server()?.defaultRoleId!);
   return (
-    <Show when={server()?.id} keyed={true}>
+    <Show when={params.channelId} keyed={true}>
       <Delay ms={10}>
         <>
           <div style={{ "margin-left": "8px", display: "flex" }}>
@@ -479,6 +484,7 @@ function RoleItem(props: {
 }) {
   const [expanded, setExpanded] = createSignal(props.members.length <= 20);
   const [hovered, setHovered] = createSignal(false);
+
   return (
     <div
       class={styles.roleItem}
