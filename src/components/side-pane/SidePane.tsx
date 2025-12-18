@@ -334,8 +334,12 @@ function UpdateModal(props: { close: () => void }) {
 
   const date = () => {
     const release = latestRelease();
-    if (!release) return undefined;
-    return formatTimestamp(new Date(release.published_at).getTime());
+    if (!release?.published_at) return undefined;
+
+    const timestamp = new Date(release.published_at).getTime();
+    if (isNaN(timestamp)) return undefined;
+
+    return formatTimestamp(timestamp);
   };
 
   const onUpdateClick = async () => {
