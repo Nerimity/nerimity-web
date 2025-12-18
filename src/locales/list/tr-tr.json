@@ -349,7 +349,7 @@
             "developer": "Geliştirici",
             "applications": "Uygulamalar",
             "experiments": "Deneysel Özellikler",
-            "viewSource": "Kaynak Kodu",
+            "viewSource": "Kaynak Görüntüle",
             "changelog": "Değişiklikler",
             "window-settings": "İstemci Ayarları",
             "call-settings": "Arama Ayarları",
@@ -472,7 +472,11 @@
             },
             "mute": "Sustur",
             "reminder": "Hatırlatıcı",
-            "reminderDescription": "Hatırlatıcılar için bildirimler."
+            "reminderDescription": "Hatırlatıcılar için bildirimler.",
+            "testNotification": {
+                "title": "Çalıştı!",
+                "body": "Masaüstü bildirimleri etkinleştirildi."
+            }
         },
         "call": {
             "nextCallNotice": "Değişiklikler sonraki aramalarınızda geçerli olacak.",
@@ -583,6 +587,15 @@
                 "description": "OAuth2'yi Yönet",
                 "title": "OAuth2",
                 "generateLink": "Bağlantı Oluştur"
+            }
+        },
+        "experiments": {
+            "noExperiments": "Şu anda mevcut deney yoktur.",
+            "reloadRequired": {
+                "title": "Yeniden Yükleme Gerekli",
+                "body": "Değişikliklerin etkili olması için Nerimity'nin yeniden başlatılması gerekir.",
+                "restartNow": "Şimdi Yeniden Başlat",
+                "restartLater": "Daha Sonra Yeniden Başlat"
             }
         }
     },
@@ -768,7 +781,7 @@
         "reactions": {
             "more": "{{count}} Daha Fazla"
         },
-        "dismissButton": "Kaldır",
+        "dismissButton": "Reddet",
         "editedAt": "Şu saatte düzenlendi: {{time}}"
     },
     "videoEmbed": {
@@ -821,7 +834,9 @@
     "sidePane": {
         "home": "Ev",
         "moderation": "Moderasyon Paneli",
-        "addServer": "Sunucu Ekle"
+        "addServer": "Sunucu Ekle",
+        "homeShort": "Ev",
+        "moderationShort": "Mod"
     },
     "updateModal": {
         "title": "Güncelleme Mevcut",
