@@ -5,7 +5,7 @@ import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useTransContext } from "@nerimity/solid-i18lite";
 import { A, useNavigate } from "solid-navigator";
-import { batch, createSignal, For, on, Show } from "solid-js";
+import { batch, createSignal, For, on, Show, createMemo } from "solid-js";
 import { createEffect } from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
@@ -56,7 +56,7 @@ const GridLayout = styled("div")`
 
 const defaultQuery = {
   sort: "recently_bumped",
-  filter: "all",
+  filter: "online",
   search: "",
 } as const;
 
@@ -70,12 +70,21 @@ export default function ExploreBots() {
 
   const [query, setQuery] = createSignal<{
     sort: PublicServerSort;
-    filter: PublicServerFilter;
+    filter: any; 
     search: string;
   }>(defaultQuery);
 
   const [afterId, setAfterId] = createSignal<string | null>(null);
   const [showSkeleton, setShowSkeleton] = createSignal(true);
+
+  const filteredItems = createMemo(() => {
+    const items = publicItems();
+    if (!items) return null;
+    if (query().filter === "online") {
+      return items.filter(item => item.botApplication?.botUser?.online);
+    }
+    return items;
+  });
 
   createEffect(
     on(query, () => {
@@ -96,9 +105,11 @@ export default function ExploreBots() {
     clearTimeout(timerId);
     const _afterId = afterId();
     const search = query().search.trim();
+    const botsFilter = query().filter === "online" ? "all" : query().filter;
+
     const opts = {
       sort: query().sort,
-      filter: query().filter,
+      filter: botsFilter as PublicServerFilter,
       limit: MAX_LIMIT,
       ...(_afterId ? { afterId: _afterId } : {}),
       ...(search ? { search } : {}),
@@ -116,14 +127,14 @@ export default function ExploreBots() {
 
   const sortOpts: DropDownItem[] = [
     { id: "most_bumps", label: t("explore.servers.sortMostBumps") },
-    { id: "most_members", label: t("explore.servers.sortMostMembers") },
+    { id: "most_members", label: t("explore.bots.sortMostServers") },
     { id: "recently_added", label: t("explore.servers.sortRecentlyAdded") },
     { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") },
   ];
 
   const filterOpts: DropDownItem[] = [
+    { id: "online", label: t("explore.bots.onlineOnly") },
     { id: "all", label: t("explore.servers.filterAll") },
-    { id: "verified", label: t("explore.servers.filterVerified") },
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
@@ -134,7 +145,7 @@ export default function ExploreBots() {
 
   return (
     <Container>
-      <MetaTitle>Explore Bots</MetaTitle>
+      <MetaTitle>{t("explore.bots.title")}</MetaTitle>
       <div
         class={css`
           display: flex;
@@ -171,14 +182,14 @@ export default function ExploreBots() {
             setQuery({ ...query(), sort: i.id as PublicServerSort })
           }
         />
-        {/* <DropDown
+        <DropDown
           title="Filter"
           items={filterOpts}
           selectedId={query().filter}
           onChange={(i) =>
-            setQuery({ ...query(), filter: i.id as PublicServerFilter })
+            setQuery({ ...query(), filter: i.id as any })
           }
-        /> */}
+        />
       </FlexRow>
 
       <Notice
@@ -197,7 +208,7 @@ export default function ExploreBots() {
       />
 
       <GridLayout class="servers-list-grid">
-        <For each={publicItems()}>
+        <For each={filteredItems()}>
           {(item, i) => (
             <PublicItem
               update={(newItem) => update(newItem, i())}
@@ -232,6 +243,14 @@ const ServerItemContainer = styled(FlexColumn)`
   user-select: none;
   position: relative;
   overflow: hidden;
+  &.offline {
+    opacity: 0.55;
+    filter: grayscale(0.2);
+    transition: opacity 0.2s ease;
+  }
+  &.offline:hover {
+    opacity: 0.8;
+  }
   &.display {
     max-height: initial;
     margin-bottom: 10px;
@@ -391,7 +410,8 @@ function PublicItem(props: {
       class={classNames(
         "serverItemContainer",
         props.class,
-        props.display && "display"
+        props.display && "display",
+        !bot.online && "offline"
       )}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
