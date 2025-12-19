@@ -274,6 +274,19 @@ export function EditAccountPage(props: {
     ));
   };
 
+  const [showEmail, setShowEmail] = createSignal(false);
+  const [emailInputRef, setEmailInputRef] = createSignal<HTMLInputElement>();
+  const hiddenEmail = () => {
+    if (!account.user()?.email) return "";
+    const emailSplit = account.user()?.email.split("@");
+
+    const astricts = emailSplit?.[0]
+      ?.split("")
+      .map(() => "*")
+      .join("");
+    return `${astricts}@${emailSplit?.[1]}`;
+  };
+
   return (
     <>
       <Show
@@ -290,10 +303,36 @@ export function EditAccountPage(props: {
           icon="mail"
           label={t("settings.account.email")}
         >
-          <Input
-            value={inputValues().email}
-            onText={(v) => setInputValue("email", v)}
-          />
+          <div
+            class={css`
+              position: relative;
+            `}
+          >
+            <Show when={!showEmail()}>
+              <div
+                onClick={() => {
+                  setShowEmail(true);
+                  emailInputRef()?.focus();
+                }}
+                class={css`
+                  position: absolute;
+                  inset: 0;
+                  z-index: 11111;
+                `}
+              />
+            </Show>
+            <Input
+              disabled={!showEmail()}
+              ref={setEmailInputRef}
+              value={!showEmail() ? hiddenEmail() : inputValues().email}
+              onText={(v) => setInputValue("email", v)}
+              suffix={
+                <Show when={!showEmail()}>
+                  <Button label="Edit" />
+                </Show>
+              }
+            />
+          </div>
         </SettingsBlock>
       </Show>
 
