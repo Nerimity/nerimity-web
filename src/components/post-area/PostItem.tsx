@@ -57,6 +57,17 @@ viewsEnabledAt.setUTCHours(9);
 viewsEnabledAt.setUTCMinutes(54);
 const timestampViewsEnabledAt = viewsEnabledAt.getTime();
 
+const isImageEmbedOnly = (post?: Post) => {
+  const content = post?.content?.trim();
+  if (!content || post?.embed?.type !== "image") return false;
+  try {
+    new URL(content);
+    return !content.includes(" ");
+  } catch {
+    return false;
+  }
+};
+
 export function PostItem(props: {
   primaryColor?: string;
   bgColor?: string;
@@ -274,7 +285,9 @@ const Content = (props: {
 }) => {
   return (
     <div class={style.postContentContainer}>
-      <Markup text={props.post.content || ""} post={props.post} />
+      <Show when={!isImageEmbedOnly(props.post)}>
+        <Markup text={props.post.content || ""} post={props.post} />
+      </Show>
 
       <Show when={props.post.editedAt}>
         <Icon
