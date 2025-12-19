@@ -206,6 +206,8 @@
       "noticeMessage": "A bot can be bumped once every {{hours}} hours. All bumps reset every {{date}}.",
       "moderationNotice": "Bots are not moderated by Nerimity. Please report bots that are malicious or break the TOS.",
       "inviteButton": "Invite",
+      "sortMostServers": "Most Servers",
+      "onlineOnly": "Online",
       "serverCount": "In {{count}} servers"
     },
     "themes": {
