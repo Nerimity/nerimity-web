@@ -541,6 +541,10 @@
                 "mentionsOnly": "Толькі згадваньні",
                 "inheritFromPingSettings": "Узяць з наладаў згадваньня",
                 "all": "Усе"
+            },
+            "testNotification": {
+                "title": "Яно працуе!",
+                "body": "Абвесткі на працоўным стале ўключаныя."
             }
         },
         "call": {
@@ -644,6 +648,15 @@
             "googleDescription": "Калі далучыце свой уліковы запіс Google, вы зможаце запампоўваць файлы ў Nerimity. Файлы будуць захоўвацца на вашым Google Drive.",
             "linkButton": "Далучыць",
             "unlinkButton": "Адлучыць"
+        },
+        "experiments": {
+            "noExperiments": "Зараз няма экспэрымэнтаў.",
+            "reloadRequired": {
+                "title": "Патрэбная перазагрузка",
+                "body": "Каб ужыць зьмены, трэба перазагрузіць Nerimity.",
+                "restartNow": "Перазагрузіць зараз",
+                "restartLater": "Перазагрузіць пазней"
+            }
         }
     },
     "activityNames": {

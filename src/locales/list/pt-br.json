@@ -121,7 +121,8 @@
             "noCommunityThemes": "Nenhum tema da comunidade encontrado.",
             "title": "Explorar - Temas",
             "fetchThemesError": "Falha ao buscar temas. Por favor tente novamente mais tarde.",
-            "unlockDescription": "Clique para explorar todos os temas da comunidade"
+            "unlockDescription": "Clique para explorar todos os temas da comunidade",
+            "themesHeaderDescription": "Personalize o Nerimity com um tema customizado."
         },
         "search": "Pesquisar",
         "sort": "Classificar",
@@ -238,7 +239,9 @@
                 "noReason": "Nenhum motivo fornecido",
                 "sort": {
                     "title": "Classificar"
-                }
+                },
+                "unban": "Desbanir",
+                "unbanning": "Desbanindo"
             },
             "verify": {
                 "requirements": {
@@ -455,7 +458,8 @@
             "chatBarOptions": "Opções da barra de conversa",
             "24HourFormatDescription": "Exibir horários em formato 24 horas.",
             "12HourFormatDescription": "Mostrar horários no formato 12 horas AM/PM.",
-            "timeTitle": "Alternar formato de tempo"
+            "timeTitle": "Alternar formato de tempo",
+            "sendButton": "Enviar mensagem"
         },
         "call": {
             "stopButton": "Parar",
@@ -492,7 +496,11 @@
             "mention": "Menção",
             "inAppPreview": "Pré-visualização no aplicativo",
             "inAppPreviewDescription": "Mostrar caixas de notificação no aplicativo.",
-            "mute": "Silenciada"
+            "mute": "Silenciada",
+            "testNotification": {
+                "title": "Funcionou!",
+                "body": "Notificações externas ativadas."
+            }
         },
         "language": {
             "reloadNotice": "Você deve recarregar o aplicativo para aplicar o novo idioma completamente.",
@@ -553,6 +561,15 @@
             "supportMethods": "Métodos de apoio",
             "palestineDescription": "Pode ser obtida indo para {[account}} -> {{profile}}",
             "notice": "Apoiar este projeto doando dinheiro."
+        },
+        "experiments": {
+            "noExperiments": "Atualmente não há experimentos disponíveis.",
+            "reloadRequired": {
+                "title": "Recarregamento necessário",
+                "restartNow": "Reiniciar agora",
+                "restartLater": "Reiniciar depois",
+                "body": "Nerimity precisa ser reiniciado para mudanças terem efeito."
+            }
         }
     },
     "supportBlock": {
@@ -676,7 +693,8 @@
         "uploadTo": "Enviar para",
         "replying": "Respondendo a {{count}} mensagem(s)",
         "mention": "Mencionar",
-        "dropFile": "Soltar arquivo"
+        "dropFile": "Soltar arquivo",
+        "emailNotice": "Confirme seu email para enviar mensagens."
     },
     "message": {
         "translation": {
@@ -876,7 +894,8 @@
         "home": "Início",
         "moderation": "Painel de moderação",
         "addServer": "Adicionar servidor",
-        "homeShort": "Início"
+        "homeShort": "Início",
+        "moderationShort": "Moderação"
     },
     "updateModal": {
         "title": "Atualização disponível",
@@ -940,7 +959,10 @@
         "never": "nunca",
         "title": "Erro de conexão",
         "suspended": "Você está suspenso(a).",
-        "ipBanned": "Seu IP está banido."
+        "ipBanned": "Seu IP está banido.",
+        "logout": "Sair",
+        "login": "Entrar",
+        "defaultReason": "Violar os Termos de Serviço"
     },
     "messageView": {
         "flaggedServer": {
@@ -967,6 +989,7 @@
             "offset": "Ajuste"
         },
         "timestamp": "Horário",
-        "color": "Cor"
+        "color": "Cor",
+        "spoiler": "Spoiler"
     }
 }

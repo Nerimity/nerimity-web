@@ -541,6 +541,10 @@
                 "all": "Todo",
                 "off": "Apagadas",
                 "inheritFromPingSettings": "Heredar de la configuración de notificaciones mencionadas"
+            },
+            "testNotification": {
+                "title": "Ha funcionado!",
+                "body": "Notificaciones de escritorio activadas."
             }
         },
         "call": {
@@ -644,6 +648,15 @@
             "googleDescription": "Vincular tu cuenta de Google te permitirá subir archivos a Nerimity. Los archivos se almacenarán en tu Google Drive.",
             "linkButton": "Vincular",
             "unlinkButton": "Desvincular"
+        },
+        "experiments": {
+            "noExperiments": "No hay experimentos disponibles actualmente.",
+            "reloadRequired": {
+                "title": "Recarga necesaria",
+                "body": "Nerimity tiene que recargarse para que los cambios tengan efectos.",
+                "restartNow": "Recargar ahora",
+                "restartLater": "Recargar más tarde"
+            }
         }
     },
     "activityNames": {
@@ -951,7 +964,7 @@
         "afk": "Ausente",
         "dnd": "No molestar",
         "offline": "Fuera de línea",
-        "appearAsOffline": "Fuera de línea"
+        "appearAsOffline": "Aparecer Fuera de línea"
     },
     "connectionErrorModal": {
         "title": "Error de conexión",

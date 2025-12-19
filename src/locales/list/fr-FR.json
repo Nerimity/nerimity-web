@@ -2,7 +2,8 @@
     "header": {
         "openAppButton": "Ouvrir l'appli",
         "loginButton": "Se connecter",
-        "joinNowButton": "S'inscrire"
+        "joinNowButton": "S'inscrire",
+        "logoutButton": "Déconnexion"
     },
     "homePage": {
         "slogan": "Une application de chat moderne et épuré.",
@@ -236,5 +237,43 @@
         "replyInputPlaceholder": "Répondre...",
         "replyButton": "Répondre",
         "createButton": "Créer"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> a été ajouté au serveur.</2>",
+            "user": "<User/><2> a rejoint le serveur.</2>"
+        },
+        "leaveServer": "<User/><2> a quitté le serveur.</2>",
+        "kickUser": "<User/><2> a été expulsé.</2>",
+        "banUser": "<User/><2> a été banni.</2>",
+        "callStarted": "<User/><2> a démarré un appel.</2>",
+        "bumpServer": "<User/><2> a bump le serveur.</2>",
+        "pinnedMessage": "<User/><2> a épinglé un message.</2>",
+        "unsupported": "<User/><2> Message non pris en charge.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Erreur d’authentification",
+        "connecting": "Connexion en cours…",
+        "reconnecting": "Reconnexion en cours…",
+        "inQueue": "En file d’attente : {{count}} utilisateur(s) devant vous",
+        "authenticating": "Authentification en cours…",
+        "connected": "Connecté !"
+    },
+    "dangerousLinkModal": {
+        "title": "Lien personnalisé",
+        "message": "Ce lien vous redirigera vers",
+        "cancelButton": "Ne pas visiter",
+        "visitButton": "Visiter"
+    },
+    "connectionErrorModal": {
+        "title": "Erreur de connexion",
+        "ok": "OK",
+        "logout": "Déconnexion",
+        "login": "Connexion",
+        "noToken": "Aucun jeton fourni.",
+        "suspended": "Vous êtes suspendu.",
+        "reason": "Raison",
+        "defaultReason": "Violation des conditions d’utilisation",
+        "until": "Jusqu’à"
     }
 }
