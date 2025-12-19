@@ -875,16 +875,19 @@ const StatsAreaContainer = styled(FlexRow)`
 `;
 
 function StatsArea() {
+  const store = useStore();
   return (
     <StatsAreaContainer gap={5} wrap>
       <StatCard
         title="Registered Users"
         description={stats()?.totalRegisteredUsers?.toLocaleString()}
       />
-      <StatCard
-        title="Online Users"
-        description={onlineUsersCount()?.toLocaleString()}
-      />
+      <Show when={!store.account.hasOnlyModBadge()}>
+        <StatCard
+          title="Online Users"
+          description={onlineUsersCount()?.toLocaleString()}
+        />
+      </Show>
       <StatCard
         title="Messages"
         description={stats()?.totalCreatedMessages?.toLocaleString()}
