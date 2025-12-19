@@ -262,6 +262,11 @@
   }
 }
 
+.searchResults {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 .searchMessageItem {
   position: relative;
 
