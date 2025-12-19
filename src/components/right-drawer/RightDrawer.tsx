@@ -50,6 +50,7 @@ import { userDetailsPreloader } from "@/common/createPreloader";
 import Input from "../ui/input/Input";
 import MessageItem from "../message-pane/message-item/MessageItem";
 import RouterEndpoints from "@/common/RouterEndpoints";
+import { useResizeObserver } from "@/common/useResizeObserver";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -633,13 +634,9 @@ const SearchDrawer = () => {
   const [results, setResults] = createSignal<RawMessage[] | null>(null);
   const [containerEl, setContainerEl] = createSignal<HTMLDivElement>();
 
+  const { width: containerWidth } = useResizeObserver(containerEl);
+
   const channel = () => store.channels.get(params.channelId!);
-
-  const isDMChannel = () =>
-    !channel() ? true : channel()?.type === ChannelType.DM_TEXT;
-
-  const name = () =>
-    isDMChannel() ? channel()?.recipient()?.username : channel()?.name;
 
   let interval = 0;
   createEffect(
@@ -686,7 +683,12 @@ const SearchDrawer = () => {
         </Show>
         <Show when={results()?.length}>
           <For each={results()}>
-            {(message) => <SearchMessageItem message={message} />}
+            {(message) => (
+              <SearchMessageItem
+                message={message}
+                containerWidth={containerWidth()}
+              />
+            )}
           </For>
         </Show>
       </div>
@@ -694,7 +696,10 @@ const SearchDrawer = () => {
   );
 };
 
-const SearchMessageItem = (props: { message: RawMessage }) => {
+const SearchMessageItem = (props: {
+  message: RawMessage;
+  containerWidth?: number;
+}) => {
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const navigate = useNavigate();
   const onJump = () => {
@@ -718,7 +723,11 @@ const SearchMessageItem = (props: { message: RawMessage }) => {
       <div onClick={onJump} class={styles.jumpToMessage}>
         Jump
       </div>
-      <MessageItem message={props.message} hideFloating />
+      <MessageItem
+        message={props.message}
+        hideFloating
+        containerWidth={props.containerWidth}
+      />
     </div>
   );
 };

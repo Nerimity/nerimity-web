@@ -305,7 +305,11 @@ const MentionListPopup = (props: { close: () => void }) => {
                   <div class={styles.jumpToMessage}>Jump</div>
                 </div>
 
-                <MessageItem message={notification.message} hideFloating />
+                <MessageItem
+                  message={notification.message}
+                  hideFloating
+                  containerWidth={width()}
+                />
               </div>
             </div>
           )}
@@ -384,7 +388,11 @@ const PinsListPopup = (props: { close: () => void }) => {
                   <div class={styles.jumpToMessage}>Jump</div>
                 </div>
 
-                <MessageItem message={message} hideFloating />
+                <MessageItem
+                  message={message}
+                  hideFloating
+                  containerWidth={width()}
+                />
               </div>
             </div>
           )}

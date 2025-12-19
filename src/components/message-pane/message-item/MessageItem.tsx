@@ -216,6 +216,7 @@ interface MessageItemProps {
   quoteClick?: () => void;
   translateMessage?: boolean;
   showNewDayMarker?: boolean;
+  containerWidth?: number;
 }
 
 interface DetailsProps {
@@ -565,7 +566,11 @@ const MessageItem = (props: MessageItemProps) => {
                       userContextMenu={props.userContextMenu}
                     />
                   </Show>
-                  <Content message={props.message} hovered={hovered()} />
+                  <Content
+                    containerWidth={props.containerWidth}
+                    message={props.message}
+                    hovered={hovered()}
+                  />
                   <Show when={translatedContent()}>
                     <div class={styles.translationArea}>
                       <span class={styles.title}>
@@ -601,7 +606,11 @@ const MessageItem = (props: MessageItemProps) => {
   );
 };
 
-const Content = (props: { message: Message; hovered: boolean }) => {
+const Content = (props: {
+  message: Message;
+  hovered: boolean;
+  containerWidth?: number;
+}) => {
   const params = useParams<{ serverId?: string }>();
   const store = useStore();
   const [t] = useTransContext();
@@ -794,6 +803,7 @@ export function Embeds(props: {
   hovered: boolean;
   maxWidth?: number;
   maxHeight?: number;
+  containerWidth?: number;
 }) {
   const inviteEmbedCode = () =>
     props.message.content?.match(inviteLinkRegex)?.[1];
@@ -808,6 +818,7 @@ export function Embeds(props: {
           attachment={props.message.attachments?.[0]!}
           maxWidth={props.maxWidth}
           maxHeight={props.maxHeight}
+          containerWidth={props.containerWidth}
         />
       </Show>
       <Switch>
@@ -821,9 +832,10 @@ export function Embeds(props: {
         <Match when={youtubeEmbed()}>
           {(youtubeEmbed) => (
             <YoutubeEmbed
-              code={youtubeEmbed()[3]}
+              containerWidth={props.containerWidth}
+              code={youtubeEmbed()[3]!}
               embed={props.message.embed!}
-              shorts={youtubeEmbed()[1].endsWith("shorts")}
+              shorts={youtubeEmbed()[1]?.endsWith("shorts")!}
             />
           )}
         </Match>
@@ -833,7 +845,7 @@ export function Embeds(props: {
           <GoogleDriveEmbeds attachment={props.message.attachments?.[0]!} />
         </Match>
         <Match when={props.message.embed}>
-          <OGEmbed message={props.message} />
+          <OGEmbed message={props.message} customWidth={props.containerWidth} />
         </Match>
       </Switch>
       <Show when={props.message.buttons}>
@@ -847,6 +859,7 @@ const LocalCdnEmbeds = (props: {
   attachment: RawAttachment;
   maxWidth?: number;
   maxHeight?: number;
+  containerWidth?: number;
 }) => {
   const isImageCompressed = () => {
     return props.attachment.width;
@@ -868,6 +881,7 @@ const LocalCdnEmbeds = (props: {
           widthOffset={-90}
           maxWidth={props.maxWidth}
           maxHeight={props.maxHeight}
+          customWidth={props.containerWidth}
         />
       </Match>
       <Match when={isVideo()}>
@@ -951,28 +965,31 @@ export const YoutubeEmbed = (props: {
   code: string;
   embed: RawEmbed;
   shorts: boolean;
+  containerWidth?: number;
 }) => {
-  const { paneWidth, height, width: windowWidth } = useWindowProperties();
+  const { paneWidth, height } = useWindowProperties();
 
   const widthOffset = -90;
   const customHeight = 0;
   const customWidth = 0;
 
+  const containerWidth = () => props.containerWidth ?? paneWidth()!;
+
   const style = () => {
     if (props.shorts) {
       const maxWidth = clamp(
-        (customWidth || paneWidth()!) + (widthOffset || 0),
+        (customWidth || containerWidth()) + (widthOffset || 0),
         600
       );
       const maxHeight =
-        windowWidth() <= 600
+        containerWidth() <= 600
           ? (customHeight || height()) / 1.4
           : (customHeight || height()) / 2;
       return clampImageSize(1080, 1920, maxWidth, maxHeight);
     }
 
     const maxWidth = clamp(
-      (customWidth || paneWidth()!) + (widthOffset || 0),
+      (customWidth || containerWidth()) + (widthOffset || 0),
       600
     );
     return clampImageSize(1920, 1080, maxWidth, 999999);
@@ -1529,7 +1546,10 @@ export function OGEmbed(props: {
           />
         </Match>
         <Match when={embed().type !== "image"}>
-          <NormalEmbed message={props.message} />
+          <NormalEmbed
+            message={props.message}
+            containerWidth={props.customWidth}
+          />
         </Match>
       </Switch>
       <Show when={twitterStatusEmbed()}>
@@ -1547,7 +1567,10 @@ export function OGEmbed(props: {
   );
 }
 
-const NormalEmbed = (props: { message: RawMessage }) => {
+const NormalEmbed = (props: {
+  message: RawMessage;
+  containerWidth?: number;
+}) => {
   const { hasFocus } = useWindowProperties();
   const { createPortal } = useCustomPortal();
 
@@ -1613,6 +1636,7 @@ const NormalEmbed = (props: { message: RawMessage }) => {
           </Show>
           <Show when={largeImage()}>
             <ImageEmbed
+              customWidth={props.containerWidth}
               ignoreClick
               attachment={{
                 id: "",
