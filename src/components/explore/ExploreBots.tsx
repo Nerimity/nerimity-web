@@ -122,6 +122,7 @@ export default function ExploreBots() {
   ];
 
   const filterOpts: DropDownItem[] = [
+    { id: "all", label: "All" },
     { id: "online_bots", label: "Online" },
     { id: "offline_bots", label: "Offline" },
   ];
