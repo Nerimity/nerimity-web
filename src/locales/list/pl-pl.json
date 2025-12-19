@@ -486,7 +486,7 @@
             "voiceMessage": "Wiadomość Głosowa",
             "gifPicker": "Selektor GIFów",
             "emojiPicker": "Selektor Emoji",
-            "sendButton": "Przycisk Wysyłania"
+            "sendButton": "Wyślij Wiadomość"
         },
         "window": {
             "title": "Ustawienia - Okno",
@@ -725,7 +725,11 @@
         "attachmentsBack": "Wstecz",
         "members": "Członkowie",
         "creator": "Twórca",
-        "admin": "Administrator"
+        "admin": "Administrator",
+        "info": "Informacje",
+        "files": "Pliki",
+        "searchBarPlaceholder": "Wyszukaj {{username}}",
+        "searchBarChannelPlaceholder": "Wyszukaj w {{channelName}}"
     },
     "botInvite": {
         "serverSelect": "Wybierz serwer!",
