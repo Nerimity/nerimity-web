@@ -107,7 +107,16 @@ export default function ExploreBots() {
     timerId = window.setTimeout(() => {
       getExploreItems(opts).then((servers) => {
         batch(() => {
-          setPublicItems([...(publicItems() || []), ...servers]);
+          const combined = [...(publicItems() || []), ...servers];
+
+          // Prioritize Online Bots :D
+          const sorted = combined.sort((a, b) => {
+            const aOnline = a.botApplication?.botUser?.online ? 1 : 0;
+            const bOnline = b.botApplication?.botUser?.online ? 1 : 0;
+            return bOnline - aOnline;
+          });
+
+          setPublicItems(sorted);
           setShowSkeleton(servers.length >= MAX_LIMIT);
         });
       });
@@ -121,10 +130,11 @@ export default function ExploreBots() {
     { id: "recently_bumped", label: t("explore.servers.sortRecentlyBumped") },
   ];
 
-  const filterOpts: DropDownItem[] = [
+  // It was yelling at me if I didn't comment this out
+  /* const filterOpts: DropDownItem[] = [
     { id: "all", label: t("explore.servers.filterAll") },
     { id: "verified", label: t("explore.servers.filterVerified") },
-  ];
+  ]; */
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
     const current = [...publicItems()!];
@@ -140,7 +150,12 @@ export default function ExploreBots() {
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label={t("explore.backButton")} iconName="arrow_back" />
+        <Button
+          margin={0}
+          href="/app"
+          label={t("explore.backButton")}
+          iconName="arrow_back"
+        />
       </div>
       <FlexRow
         gap={10}
@@ -232,6 +247,15 @@ const ServerItemContainer = styled(FlexColumn)`
   user-select: none;
   position: relative;
   overflow: hidden;
+  &.offline {
+    opacity: 0.55;
+    filter: grayscale(0.2);
+    transition: opacity 0.2s ease;
+  }
+  &.offline:hover {
+    opacity: 0.8;
+  }
+
   &.display {
     max-height: initial;
     margin-bottom: 10px;
@@ -391,7 +415,8 @@ function PublicItem(props: {
       class={classNames(
         "serverItemContainer",
         props.class,
-        props.display && "display"
+        props.display && "display",
+        !bot.online && "offline"
       )}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -429,7 +454,8 @@ function PublicItem(props: {
           </CustomLink>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
-          {t("explore.by")}{": "}
+          {t("explore.by")}
+          {": "}
           <CustomLink
             href={RouterEndpoints.PROFILE(app.creatorAccount.user.id)}
           >
@@ -451,7 +477,9 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            {t("explore.bots.serverCount", { count: bot._count.servers.toLocaleString() })}
+            {t("explore.bots.serverCount", {
+              count: bot._count.servers.toLocaleString(),
+            })}
           </Text>
         </FlexRow>
 
