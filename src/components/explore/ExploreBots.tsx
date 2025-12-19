@@ -56,7 +56,7 @@ const GridLayout = styled("div")`
 
 const defaultQuery = {
   sort: "recently_bumped",
-  filter: "all",
+  filter: "online_bots",
   search: "",
 } as const;
 
@@ -122,8 +122,8 @@ export default function ExploreBots() {
   ];
 
   const filterOpts: DropDownItem[] = [
-    { id: "all", label: t("explore.servers.filterAll") },
-    { id: "verified", label: t("explore.servers.filterVerified") },
+    { id: "online_bots", label: "Online" },
+    { id: "offline_bots", label: "Offline" },
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
@@ -140,7 +140,12 @@ export default function ExploreBots() {
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label={t("explore.backButton")} iconName="arrow_back" />
+        <Button
+          margin={0}
+          href="/app"
+          label={t("explore.backButton")}
+          iconName="arrow_back"
+        />
       </div>
       <FlexRow
         gap={10}
@@ -171,14 +176,14 @@ export default function ExploreBots() {
             setQuery({ ...query(), sort: i.id as PublicServerSort })
           }
         />
-        {/* <DropDown
+        <DropDown
           title="Filter"
           items={filterOpts}
           selectedId={query().filter}
           onChange={(i) =>
             setQuery({ ...query(), filter: i.id as PublicServerFilter })
           }
-        /> */}
+        />
       </FlexRow>
 
       <Notice
@@ -429,7 +434,8 @@ function PublicItem(props: {
           </CustomLink>
         </FlexRow>
         <Text size={14} color="rgba(255,255,255,0.6)">
-          {t("explore.by")}{": "}
+          {t("explore.by")}
+          {": "}
           <CustomLink
             href={RouterEndpoints.PROFILE(app.creatorAccount.user.id)}
           >
@@ -451,7 +457,9 @@ function PublicItem(props: {
         <FlexRow gap={5}>
           <Icon name="group" size={17} color="var(--primary-color)" />
           <Text size={14}>
-            {t("explore.bots.serverCount", { count: bot._count.servers.toLocaleString() })}
+            {t("explore.bots.serverCount", {
+              count: bot._count.servers.toLocaleString(),
+            })}
           </Text>
         </FlexRow>
 
