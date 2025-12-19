@@ -47,9 +47,7 @@ export default function ContextMenuServer(props: Props) {
   const isServerPublic = () => !!exploreItem();
   const isServerCreator = () => account.user()?.id === server()?.createdById;
 
-  const isNerimityAdmin = () =>
-    hasBit(account.user()?.badges || 0, USER_BADGES.FOUNDER.bit) ||
-    hasBit(account.user()?.badges || 0, USER_BADGES.ADMIN.bit);
+  const isNerimityAdmin = () => account.hasModeratorPerm(true);
 
   const onLeaveClicked = () => {
     createPortal?.((close) => (

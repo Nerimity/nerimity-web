@@ -103,6 +103,13 @@ const hasModeratorPerm = (includeModBadges = false) =>
   hasBit(user()?.badges || 0, USER_BADGES.ADMIN.bit) ||
   (includeModBadges && hasBit(user()?.badges || 0, USER_BADGES.MOD.bit));
 
+const hasOnlyModBadge = () => {
+  const isAdmin = hasModeratorPerm();
+  const isMod = hasBit(user()?.badges || 0, USER_BADGES.MOD.bit);
+
+  return isMod && !isAdmin;
+};
+
 const updateUserNotificationSettings = (opts: {
   serverId?: string;
   channelId?: string;
@@ -195,6 +202,7 @@ export default function useAccount() {
     updateUserNotificationSettings,
     removeNotificationSettings,
     hasModeratorPerm,
+    hasOnlyModBadge,
     lastAuthenticatedAt,
     isMe,
   };

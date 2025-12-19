@@ -62,6 +62,7 @@ import DeleteAnnouncePostsModal from "./DeleteAnnouncePostsModal";
 import DeleteServersModal from "./DeleteServersModal";
 import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
+import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -316,19 +317,26 @@ const SelectedActionsContainer = styled.div`
 `;
 
 function ModerationPage() {
+  const store = useStore();
+  const modOnlyBadge = store.account?.hasOnlyModBadge();
+
   return (
     <>
       <ModerationPaneContainer class="moderation-pane-container">
         <StatsArea />
-        <AuditLogPane />
-        <TicketsPane />
-        <UserColumn class="user-columns" gap={5}>
-          <UsersPane />
-          <OnlineUsersPane />
-        </UserColumn>
+        <Show when={!modOnlyBadge}>
+          <AuditLogPane />
+          <TicketsPane />
+          <UserColumn class="user-columns" gap={5}>
+            <UsersPane />
+            <OnlineUsersPane />
+          </UserColumn>
+        </Show>
         <ServersPane />
         <ActiveServersPane />
-        <PostsPane />
+        <Show when={!modOnlyBadge}>
+          <PostsPane />
+        </Show>
         <UsersAuditLogsPane />
       </ModerationPaneContainer>
       <Show when={selectedServers().length || selectedUsers().length}>
