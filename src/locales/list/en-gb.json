@@ -837,7 +837,10 @@
     "optionNumberPlaceholder": "Option {{number}}"
   },
   "informationDrawer": {
-    "title": "Information",
+    "info": "Info",
+    "files": "Files",
+    "searchBarPlaceholder": "Search {{username}}",
+    "searchBarChannelPlaceholder": "Search in {{channelName}}",
     "channelNotice": "Channel Notice",
     "attachments": "Attachments",
     "attachmentsBack": "Back",

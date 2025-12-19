@@ -199,7 +199,7 @@ const Header = (props: {
           props.selectedPage === "info" && selectedHeaderButtonStyle
         )}
         iconName="info"
-        label="Info"
+        label={t("informationDrawer.info")}
         type="hover_border"
         onClick={() => props.onChange("info")}
         margin={0}
@@ -211,7 +211,7 @@ const Header = (props: {
         )}
         iconName="attach_file"
         type="hover_border"
-        label="Files"
+        label={t("informationDrawer.files")}
         onClick={() => props.onChange("attachments")}
         margin={0}
         iconSize={16}
@@ -221,7 +221,7 @@ const Header = (props: {
           props.selectedPage === "search" && selectedHeaderButtonStyle
         )}
         iconName="search"
-        label="Search"
+        label={t("explore.search")}
         type="hover_border"
         onClick={() => props.onChange("search")}
         margin={0}
@@ -661,7 +661,20 @@ const SearchDrawer = () => {
   return (
     <div class={styles.searchDrawer} ref={setContainerEl}>
       <Input
-        placeholder={`Search ${!isDMChannel() ? "in " : ""}${name() || ""}`}
+        // placeholder={`Search ${!isDMChannel() ? "in " : ""}${name() || ""}`}
+        placeholder={
+          channel()?.name
+            ? t("informationDrawer.searchBarChannelPlaceholder", {
+                channelName: channel()!.name,
+                interpolation: { escapeValue: false },
+              })
+            : channel()?.recipient()?.username
+            ? t("informationDrawer.searchBarPlaceholder", {
+                username: channel()?.recipient()?.username,
+                interpolation: { escapeValue: false },
+              })
+            : ""
+        }
         onText={setQuery}
         value={query()}
       />
