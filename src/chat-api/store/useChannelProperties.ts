@@ -64,7 +64,7 @@ const addReply = (channelId: string, message: RawMessage) => {
   if (property.replyToMessages.length >= 5) return;
   if (property.replyToMessages.find((m) => m.id === message.id)) return;
   setChannelProperties(channelId, {
-    replyToMessages: [message, ...property.replyToMessages],
+    replyToMessages: [...property.replyToMessages, message],
     ...(!property.replyToMessages.length ? { mentionReplies: true } : {}),
   });
 };
