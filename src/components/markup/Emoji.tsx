@@ -147,7 +147,7 @@ function EmojiDetailsModal(props: {
           <PublicServer
             close={props.close}
             publicServer={publicServer()!}
-            name={props.name}
+            emojiId={props.id!}
           />
         </Show>
       </EmojiDetailsContainer>
@@ -180,7 +180,7 @@ const PublicServerNameContainer = styled.span`
 
 function PublicServer(props: {
   publicServer?: RawExploreItem;
-  name: string;
+  emojiId?: string;
   close: () => void;
 }) {
   const [hovered, setHovered] = createSignal(false);
@@ -190,7 +190,9 @@ function PublicServer(props: {
 
   const serverId = () => {
     if (props.publicServer) return props.publicServer.server?.id;
-    const emoji = servers.customEmojiNamesToEmoji()?.[props.name];
+    const emoji = servers
+      .emojisUpdatedDupName()
+      .find((e) => e.id === props.emojiId);
     return emoji?.serverId;
   };
 
