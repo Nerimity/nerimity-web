@@ -582,3 +582,47 @@ export const getUsersAuditLogs = async (opts: {
   });
   return data;
 };
+
+interface GetSuggestActionsOpts {
+  limit: number;
+  afterId?: string;
+}
+
+export const getSuggestionActions = async (opts: GetSuggestActionsOpts) => {
+  const data = await request<{ data: any[] }>({
+    method: "GET",
+    params: {
+      ...(opts.afterId ? { after: opts.afterId } : undefined),
+      limit: opts.limit,
+    },
+    url: env.SERVER_URL + "/api/moderation/suggest_action",
+    useToken: true,
+  });
+  return data;
+};
+
+interface UpsertSuggestActionsOpts {
+  actionType: number;
+  serverId: string;
+  reason: string;
+}
+
+export const upsertSuggestActions = async (opts: UpsertSuggestActionsOpts) => {
+  const data = await request<any>({
+    method: "POST",
+
+    url: env.SERVER_URL + "/api/moderation/suggest_action",
+    useToken: true,
+    body: opts,
+  });
+  return data;
+};
+export const deleteSuggestActions = async (id: string) => {
+  const data = await request<any>({
+    method: "DELETE",
+
+    url: env.SERVER_URL + "/api/moderation/suggest_action/" + id,
+    useToken: true,
+  });
+  return data;
+};

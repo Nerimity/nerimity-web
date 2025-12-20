@@ -29,6 +29,8 @@ import {
   searchPosts,
   deletePosts,
   activeServers,
+  getSuggestionActions,
+  deleteSuggestActions,
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
@@ -324,6 +326,7 @@ function ModerationPage() {
     <>
       <ModerationPaneContainer class="moderation-pane-container">
         <StatsArea />
+        <SuggestedActionsPane />
         <Show when={!modOnlyBadge}>
           <AuditLogPane />
           <TicketsPane />
@@ -641,7 +644,156 @@ function ActiveServersPane() {
     </PaneContainer>
   );
 }
+function SuggestedActionsPane() {
+  const LIMIT = 30;
+  const [suggestions, setSuggestions] = createSignal<any[]>([]);
+  const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
+  const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
 
+  const [showAll, setShowAll] = createSignal(false);
+
+  createEffect(
+    on(afterId, async () => {
+      fetchUsers();
+    })
+  );
+
+  const onLoadMoreClick = () => {
+    const suggestion = suggestions()[suggestions().length - 1];
+    setAfterId(suggestion?.id);
+  };
+
+  const firstFive = () => suggestions().slice(0, 5);
+
+  const fetchUsers = () => {
+    setLoadMoreClicked(true);
+
+    getSuggestionActions({
+      limit: LIMIT,
+      afterId: afterId(),
+    })
+      .then((result) => {
+        if (result.data.length >= LIMIT) setLoadMoreClicked(false);
+        setSuggestions([...suggestions(), ...result.data]);
+      })
+      .catch(() => setLoadMoreClicked(false));
+  };
+
+  const suggested = (suggested: any) => {
+    switch (suggested.actionType) {
+      case AuditLogType.serverDelete:
+        return "Delete Server";
+    }
+  };
+
+  return (
+    <UserPaneContainer
+      class="pane users"
+      expanded={showAll()}
+      style={{
+        ...(!showAll() ? { height: "initial" } : undefined),
+      }}
+    >
+      <div style={{ height: "10px" }} />
+      <FlexRow
+        gap={5}
+        itemsCenter
+        style={{
+          "padding-left": "10px",
+          "padding-top": "0px",
+          "flex-shrink": "0",
+        }}
+      >
+        <Button
+          iconName="add"
+          iconSize={14}
+          padding={4}
+          onClick={() => setShowAll(!showAll())}
+        />
+        <Text>Suggestions</Text>
+      </FlexRow>
+      <ListContainer class="list">
+        <For each={!showAll() ? firstFive() : suggestions()}>
+          {(suggest) => (
+            <FlexRow
+              itemsCenter
+              gap={8}
+              class={css`
+                padding: 4px;
+                padding-left: 18px;
+              `}
+            >
+              <Avatar user={suggest.suggestBy} size={28} />
+              <div
+                class={css`
+                  flex: 1;
+                `}
+              >
+                <Text size={14}>
+                  <A
+                    class={linkStyle}
+                    href={`/app/moderation/users/${suggest.suggestBy.id}`}
+                  >
+                    {suggest.suggestBy.username}:{suggest.suggestBy.tag}{" "}
+                  </A>
+                </Text>
+                <Text size={14}>
+                  Suggested to <strong>{suggested(suggest)}</strong>{" "}
+                </Text>
+                <Text size={14}>
+                  <A
+                    class={linkStyle}
+                    href={`/app/moderation/servers/${suggest.server.id}`}
+                  >
+                    {suggest.server.name}{" "}
+                  </A>
+                </Text>
+                <div>
+                  <span>
+                    <Text size={12}>Reason: </Text>
+                    <Text size={12} opacity={0.6}>
+                      <strong>{suggest.reason}</strong>{" "}
+                    </Text>
+                  </span>
+                </div>
+              </div>
+              <FlexRow gap={4}>
+                <Button
+                  label="Delete Server"
+                  textSize={12}
+                  alert
+                  onClick={() => {}}
+                  margin={0}
+                />
+                <Button
+                  iconName="close"
+                  margin={0}
+                  iconSize={18}
+                  textSize={12}
+                  alert
+                  onClick={() => {
+                    deleteSuggestActions(suggest.id).then(() => {
+                      setSuggestions(
+                        suggestions().filter((s) => s.id !== suggest.id)
+                      );
+                    });
+                  }}
+                />
+              </FlexRow>
+            </FlexRow>
+          )}
+        </For>
+        <Show when={showAll() && !loadMoreClicked()}>
+          <Button
+            iconName="refresh"
+            label="Load More"
+            onClick={onLoadMoreClick}
+          />
+        </Show>
+      </ListContainer>
+    </UserPaneContainer>
+  );
+}
 export function User(props: { user: any; class?: string }) {
   const joined = formatTimestamp(props.user.joinedAt);
   const [hovered, setHovered] = createSignal(false);

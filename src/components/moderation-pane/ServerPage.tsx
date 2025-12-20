@@ -1,9 +1,11 @@
 import { RawExploreItem, RawServer, RawUser } from "@/chat-api/RawData";
 import {
+  AuditLogType,
   getServer,
   pinServer,
   unpinServer,
   updateServer,
+  upsertSuggestActions,
 } from "@/chat-api/services/ModerationService";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import { useWindowProperties } from "@/common/useWindowProperties";
@@ -32,8 +34,11 @@ import { useModerationServerDeletedListener } from "@/common/GlobalEvents";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useJoinServer } from "@/chat-api/useJoinServer";
+import { Modal } from "../ui/modal";
+import { RadioBox } from "../ui/RadioBox";
 
 export default function ServerPage() {
+  const store = useStore();
   const params = useParams<{ serverId: string }>();
   const { width } = useWindowProperties();
   const [requestSent, setRequestSent] = createSignal(false);
@@ -144,11 +149,24 @@ export default function ServerPage() {
           <Show when={server()?.publicServer}>
             <PublicServerBlock server={server()} />
           </Show>
-          <Show when={!server()?.scheduledForDeletion}>
+          {/* <Show when={!server()?.scheduledForDeletion}> */}
+          <Show
+            when={
+              !store.account.hasOnlyModBadge() &&
+              !server()?.scheduledForDeletion
+            }
+          >
             <DeleteServerBlock serverId={server()?.id!} />
           </Show>
+          <Show when={!server()?.scheduledForDeletion}>
+            <SuggestBlock serverId={server()?.id!} />
+          </Show>
 
-          <Show when={server()?.scheduledForDeletion}>
+          <Show
+            when={
+              !store.account.hasOnlyModBadge() && server()?.scheduledForDeletion
+            }
+          >
             <UndoDeleteServerBlock
               server={server()!}
               done={() => {
@@ -335,6 +353,74 @@ const DeleteServerBlock = (props: { serverId: string }) => {
       <Button
         onClick={showSuspendModal}
         label="Delete Server"
+        color="var(--alert-color)"
+        primary
+      />
+    </SettingsBlock>
+  );
+};
+const SuggestBlock = (props: { serverId: string }) => {
+  const { createPortal } = useCustomPortal();
+
+  const [selectedOption, setSelectedOption] = createSignal("NSFW Server");
+  const [reason, setReason] = createSignal("");
+
+  const onSuggestClick = async () => {
+    await upsertSuggestActions({
+      actionType: AuditLogType.serverDelete,
+      serverId: props.serverId,
+      reason: selectedOption() === "Other" ? reason() : selectedOption(),
+    });
+  };
+
+  const showSuspendModal = () => {
+    createPortal((close) => (
+      <Modal.Root close={close} doNotCloseOnBackgroundClick>
+        <Modal.Header title="Suggest" />
+        <Modal.Body>
+          <FlexColumn gap={4}>
+            <RadioBox
+              items={[
+                { id: "NSFW Server", label: "NSFW Server" },
+                { id: "Other", label: "Other" },
+              ]}
+              initialId={selectedOption()}
+              onChange={(item) => setSelectedOption(item.id)}
+            />
+            <Show when={selectedOption() === "Other"}>
+              <Input
+                placeholder="Reason"
+                onInput={setReason}
+                value={reason()}
+              />
+            </Show>
+          </FlexColumn>
+        </Modal.Body>
+        <Modal.Footer>
+          <Modal.Button
+            label="Suggest"
+            iconName="check"
+            onClick={onSuggestClick}
+            primary
+          />
+        </Modal.Footer>
+      </Modal.Root>
+    ));
+  };
+
+  return (
+    <SettingsBlock
+      class={css`
+        && {
+          margin-bottom: 20px;
+        }
+      `}
+      icon="info"
+      label="Suggest Action"
+    >
+      <Button
+        onClick={showSuspendModal}
+        label="Suggest Action"
         color="var(--alert-color)"
         primary
       />
