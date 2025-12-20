@@ -45,7 +45,7 @@
         "notices": {
             "toxic": "Não seja tóxico.",
             "nsfw": "Sem conteúdo NSFW (não seguro para o trabalho).",
-            "age": "Você deve ter mais de 14 anos.",
+            "age": "Você deve ter 14 anos de idade ou mais.",
             "title": "Notas"
         },
         "agreement": "Ao criar uma conta, você aceita os Termos e Condições e a Política de Privacidade.",
@@ -241,7 +241,8 @@
                     "title": "Classificar"
                 },
                 "unban": "Desbanir",
-                "unbanning": "Desbanindo"
+                "unbanning": "Desbanindo",
+                "bannedAt": "Banido(a) em"
             },
             "verify": {
                 "requirements": {
@@ -656,12 +657,16 @@
     },
     "informationDrawer": {
         "title": "Informação",
-        "channelNotice": "Aviso de Canal",
+        "channelNotice": "Aviso de canal",
         "attachments": "Anexos",
         "attachmentsBack": "Voltar",
         "members": "Membros",
         "creator": "Criador(a)",
-        "admin": "Administrador(a)"
+        "admin": "Administrador(a)",
+        "info": "Informações",
+        "files": "Arquivos",
+        "searchBarPlaceholder": "Pesquisar {{username}}",
+        "searchBarChannelPlaceholder": "Pesquisar em {{channelName}}"
     },
     "resetPassword": {
         "title": "Redefinir senha",
