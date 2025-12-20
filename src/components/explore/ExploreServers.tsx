@@ -547,7 +547,7 @@ function PublicServerItem(props: {
           })}
         />
 
-        <Show when={store.account.hasModeratorPerm()}>
+        <Show when={store.account.hasModeratorPerm(true)}>
           <Button
             margin={0}
             padding={8}
