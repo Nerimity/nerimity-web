@@ -2,19 +2,18 @@ import { createEffect, createSignal, onCleanup } from "solid-js";
 
 export function useSelectedSuggestion(
   length: () => number,
-  textArea: HTMLTextAreaElement,
+  textArea: () => HTMLTextAreaElement,
   onEnterClick: (i: number) => void,
   sendButtonRef?: () => HTMLButtonElement | undefined
 ) {
   const [current, setCurrent] = createSignal(0);
 
   createEffect(() => {
-
     sendButtonRef?.()?.addEventListener("click", onSendClick);
-    textArea.addEventListener("keydown", onKey);
+    textArea()?.addEventListener("keydown", onKey);
     onCleanup(() => {
       sendButtonRef?.()?.removeEventListener("click", onSendClick);
-      textArea.removeEventListener("keydown", onKey);
+      textArea()?.removeEventListener("keydown", onKey);
     });
   });
 
@@ -51,7 +50,6 @@ export function useSelectedSuggestion(
       event.preventDefault();
       previous();
     }
-
 
     if (event.key === "Enter" || event.key === "Tab") {
       event.stopPropagation();

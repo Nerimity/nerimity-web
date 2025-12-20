@@ -1686,7 +1686,7 @@ function FloatingChannelSuggestions(props: {
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedChannels().length,
-    props.textArea!,
+    () => props.textArea!,
     onEnterClick,
     sendButtonRef
   );
@@ -1852,7 +1852,7 @@ function FloatingUserSuggestions(props: {
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searched().length,
-    props.textArea!,
+    () => props.textArea!,
     onEnterClick,
     sendButtonRef
   );
@@ -1963,7 +1963,7 @@ function FloatingEmojiSuggestions(props: {
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searchedEmojis().length,
-    props.textArea!,
+    () => props.textArea!,
     onEnterClick,
     sendButtonRef
   );
@@ -2068,7 +2068,7 @@ function FloatingCommandSuggestions(props: {
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => searched().length,
-    props.textArea!,
+    () => props.textArea!,
     onEnterClick,
     sendButtonRef
   );

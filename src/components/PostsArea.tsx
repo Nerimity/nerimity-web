@@ -504,7 +504,7 @@ function SuggestUsers(props: {
 
   const [current, , , setCurrent] = useSelectedSuggestion(
     () => users().length,
-    props.textAreaEl!,
+    () => props.textAreaEl!,
     (i) => onUserClick(users()[i])
   );
 
