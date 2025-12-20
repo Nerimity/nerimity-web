@@ -57,7 +57,8 @@ export function WebcamModal(props: { close: () => void }) {
           height: 720,
         },
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err)
         toast("Failed to share camera");
       });
     if (!stream) return;
