@@ -505,7 +505,7 @@ const ActionButtons = (props: {
 
   return (
     <ActionButtonsContainer class={props.class} gap={3}>
-      <Show when={account.hasModeratorPerm()}>
+      <Show when={account.hasModeratorPerm(true)}>
         <CustomLink href={"/app/moderation/users/" + params.userId}>
           <ActionButton
             icon="security"
