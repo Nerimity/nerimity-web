@@ -66,7 +66,7 @@
             "title": "Заўвагі",
             "toxic": "Не будзьце таксічнымі.",
             "nsfw": "18+ кантэнт забаронены.",
-            "age": "Вам мусіць быць больш за 14 гадоў."
+            "age": "Вам мусіць быць 14 гадоў альбо больш."
         },
         "title": "Вітаем у {{appName}}",
         "email": "Электроная пошта",
@@ -585,7 +585,7 @@
             "voiceMessage": "Галасавое паведамленьне",
             "gifPicker": "Выбар GIF",
             "emojiPicker": "Выбар эмодзі",
-            "sendButton": "Кнопка дасыланьня"
+            "sendButton": "Дасыланьне паведамленьня"
         },
         "window": {
             "title": "Налады - Налады акна",
@@ -803,7 +803,11 @@
         "attachmentsBack": "Назад",
         "members": "Удзельнікі",
         "creator": "Стваральнік",
-        "admin": "Адміністратар"
+        "admin": "Адміністратар",
+        "info": "Зьвесткі",
+        "files": "Файлы",
+        "searchBarPlaceholder": "Шукаць {{username}}",
+        "searchBarChannelPlaceholder": "Шукаць у {{channelName}}"
     },
     "botInvite": {
         "serverSelect": "Калі ласка, абярыце сэрвэр!",
