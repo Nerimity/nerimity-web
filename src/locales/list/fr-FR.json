@@ -274,6 +274,7 @@
         "suspended": "Vous êtes suspendu.",
         "reason": "Raison",
         "defaultReason": "Violation des conditions d’utilisation",
-        "until": "Jusqu’à"
+        "until": "Jusqu’à",
+        "never": "jamais"
     }
 }

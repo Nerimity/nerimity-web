@@ -66,7 +66,7 @@
             "title": "Avisos",
             "toxic": "No seas tóxico.",
             "nsfw": "No contenido NSFW.",
-            "age": "Debes tener más de 14 años."
+            "age": "Debes tener 14 años o más."
         },
         "title": "Bienvenido a {{appName}}",
         "email": "Correo",
@@ -467,7 +467,7 @@
             "confirmButton": "Confirmar",
             "cancelButton": "Cancelar",
             "channelNotice": "Nota antes de chatear",
-            "channelNoticeDescription": "Se muestra cuando el usuario está a punto de chatear por primera vez. Los cambios se aplican después de recargar.",
+            "channelNoticeDescription": "Se muestra cuando un usuario está a punto de chatear contigo por primera vez. Los cambios se aplican después de recargar.",
             "channelNoticeTooLong": "Los avisos no pueden tener más de 300 caracteres.",
             "saving": "Guardando...",
             "saveButton": "Guardar",
@@ -585,7 +585,7 @@
             "voiceMessage": "Mensaje de voz",
             "gifPicker": "Selector de GIF",
             "emojiPicker": "Selector de emoji",
-            "sendButton": "Botón de enviar"
+            "sendButton": "Enviar mensaje"
         },
         "window": {
             "title": "Configuración - Ajustes de ventana",
@@ -803,7 +803,11 @@
         "attachmentsBack": "Atrás",
         "members": "Miembros",
         "creator": "Creador",
-        "admin": "Administrador"
+        "admin": "Administrador",
+        "info": "Información",
+        "files": "Archivos",
+        "searchBarPlaceholder": "Buscar {{username}}",
+        "searchBarChannelPlaceholder": "Buscar en {{channelName}}"
     },
     "botInvite": {
         "serverSelect": "Por favor, selecciona un servidor!",

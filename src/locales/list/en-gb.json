@@ -82,7 +82,7 @@
             "title": "Notices",
             "toxic": "Don't be toxic.",
             "nsfw": "No NSFW content.",
-            "age": "You must be over the age of 14."
+            "age": "You must be 14 or older."
         },
         "title": "Welcome to {{appName}}",
         "email": "Email",
@@ -838,9 +838,9 @@
     },
     "informationDrawer": {
         "info": "Info",
-    "files": "Files",
-    "searchBarPlaceholder": "Search {{username}}",
-    "searchBarChannelPlaceholder": "Search in {{channelName}}",
+        "files": "Files",
+        "searchBarPlaceholder": "Search {{username}}",
+        "searchBarChannelPlaceholder": "Search in {{channelName}}",
         "channelNotice": "Channel Notice",
         "attachments": "Attachments",
         "attachmentsBack": "Back",
