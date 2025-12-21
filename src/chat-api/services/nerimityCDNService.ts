@@ -10,15 +10,19 @@ interface NerimityCDNRequestOpts {
 
 export async function uploadBanner(
   groupId: string,
-  opts: Omit<NerimityCDNRequestOpts, "url">
+  opts: Omit<NerimityCDNRequestOpts, "url"> & { points?: number[] }
 ) {
   return nerimityCDNUploadRequest({ ...opts, image: true }).then((res) => {
     return nerimityCDNRequest({
       ...opts,
+        query: {
+        points: opts.points ? JSON.stringify(opts.points) : undefined,
+      },
       url: `${env.NERIMITY_CDN}banners/${groupId}/${res.fileId}`,
     });
   });
 }
+
 export async function uploadAvatar(
   groupId: string,
   opts: Omit<NerimityCDNRequestOpts, "url"> & { points?: number[] }
