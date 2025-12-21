@@ -770,6 +770,7 @@ const SystemMessage = (props: {
           >
             <Avatar
               animate={props.hovered}
+              class="trigger-profile-flyout"
               user={props.message.createdBy}
               size={30}
             />
