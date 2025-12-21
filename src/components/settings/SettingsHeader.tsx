@@ -155,6 +155,7 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
       >
         <Show when={settingsHeaderPreview.bannerPoints && settingsHeaderPreview.banner}>
           <CustomBanner
+            ref={setBannerEl}
             cropPosition={bannerCropPosition()}
             style={{ background: `url("${settingsHeaderPreview.banner}")` }}
           />

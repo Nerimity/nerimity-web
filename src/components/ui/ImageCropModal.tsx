@@ -1,6 +1,6 @@
 import { onMount } from "solid-js";
 import LegacyModal from "./legacy-modal/LegacyModal";
-import Croppie from "croppie";
+import Croppie, { CropData } from "croppie";
 import "croppie/croppie.css";
 import Button from "./Button";
 import { t } from "@nerimity/i18lite";
@@ -35,9 +35,12 @@ export default function ImageCropModal(props: {
     });
 
     imageEl.addEventListener("update", (ev) => {
-      const result = ev.detail;
+      if (!("detail" in ev)) return;
+      const result = ev.detail as CropData;
       if (!result || !result.points) return;
-      const pointsToInt = result.points.map((v: string) => parseInt(v));
+      const pointsToInt = result.points.map((v) =>
+        parseInt(v as unknown as string)
+      );
 
       props.onCropped(pointsToInt);
     });
@@ -47,7 +50,9 @@ export default function ImageCropModal(props: {
     const result = croppie?.get();
     if (!result || !result.points) return;
 
-    const pointsToInt = result.points.map((v: string) => parseInt(v));
+    const pointsToInt = result.points.map((v) =>
+      parseInt(v as unknown as string)
+    );
     props.onCropped(pointsToInt);
     props.close();
   };
