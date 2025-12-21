@@ -649,8 +649,10 @@ function SuggestedActionsPane() {
   const [suggestions, setSuggestions] = createSignal<any[]>([]);
   const [afterId, setAfterId] = createSignal<string | undefined>(undefined);
   const [loadMoreClicked, setLoadMoreClicked] = createSignal(false);
+  const { createPortal } = useCustomPortal();
 
   const [showAll, setShowAll] = createSignal(false);
+  const store = useStore();
 
   createEffect(
     on(afterId, async () => {
@@ -758,13 +760,29 @@ function SuggestedActionsPane() {
                 </div>
               </div>
               <FlexRow gap={4}>
-                <Button
-                  label="Delete Server"
-                  textSize={12}
-                  alert
-                  onClick={() => {}}
-                  margin={0}
-                />
+                <Show when={store.account.hasModeratorPerm()}>
+                  <Button
+                    label="Delete Server"
+                    textSize={12}
+                    alert
+                    onClick={() => {
+                      createPortal((close) => (
+                        <DeleteServersModal
+                          close={close}
+                          servers={[{ id: suggest.server.id }]}
+                          done={() => {
+                            deleteSuggestActions(suggest.id).then(() => {
+                              setSuggestions(
+                                suggestions().filter((s) => s.id !== suggest.id)
+                              );
+                            });
+                          }}
+                        />
+                      ));
+                    }}
+                    margin={0}
+                  />
+                </Show>
                 <Button
                   iconName="close"
                   margin={0}
