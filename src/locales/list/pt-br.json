@@ -238,7 +238,8 @@
                 "noResults": "Nenhum resultado encontrado.",
                 "noReason": "Nenhum motivo fornecido",
                 "sort": {
-                    "title": "Classificar"
+                    "title": "Classificar",
+                    "unsorted": "Não classificado"
                 },
                 "unban": "Desbanir",
                 "unbanning": "Desbanindo",
