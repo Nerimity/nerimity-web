@@ -7,7 +7,11 @@
     },
     "homePage": {
         "slogan": "Une application de chat moderne et épuré.",
-        "viewGitHubButton": "Voir sûr GitHub"
+        "viewGitHubButton": "Voir sûr GitHub",
+        "subslogan": "Nerimity offre une expérience élégant et riche en fonctionalités qui le distingue des autres.",
+        "getStarted": "Commencer",
+        "availableOn": "Disponible sur",
+        "browser": "Navigateur"
     },
     "loginPage": {
         "title": "Se connecter",
@@ -275,6 +279,9 @@
         "reason": "Raison",
         "defaultReason": "Violation des conditions d’utilisation",
         "until": "Jusqu’à",
-        "never": "jamais"
+        "never": "jamais",
+        "deletionNotice": "Votre compte et vos données seront supprimés dans 15 jours",
+        "ipBanned": "Votre IP est bannie.",
+        "ipBanNotice": "Une personne utilisant la même addresse IP a été suspendue de Nerimity. Votre compte n'est pas impacté."
     }
 }
