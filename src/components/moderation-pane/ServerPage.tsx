@@ -364,45 +364,58 @@ const SuggestBlock = (props: { serverId: string }) => {
 
   const [selectedOption, setSelectedOption] = createSignal("NSFW Server");
   const [reason, setReason] = createSignal("");
-
-  const onSuggestClick = async () => {
-    await upsertSuggestActions({
-      actionType: AuditLogType.serverDelete,
-      serverId: props.serverId,
-      reason: selectedOption() === "Other" ? reason() : selectedOption(),
-    });
-  };
+  const [requestSent, setRequestSent] = createSignal(false);
 
   const showSuspendModal = () => {
-    createPortal((close) => (
-      <Modal.Root close={close} doNotCloseOnBackgroundClick>
-        <Modal.Header title="Suggest" />
-        <Modal.Body>
-          <FlexColumn gap={4}>
-            <RadioBox
-              items={[
-                { id: "NSFW Server", label: "NSFW Server" },
-                { id: "Racist Server", label: "Racist Server" },
-                { id: "Other", label: "Other" },
-              ]}
-              initialId={selectedOption()}
-              onChange={(item) => setSelectedOption(item.id)}
+    createPortal((close) => {
+      const onSuggestClick = async () => {
+        if (requestSent()) return;
+        setRequestSent(true);
+        await upsertSuggestActions({
+          actionType: AuditLogType.serverDelete,
+          serverId: props.serverId,
+          reason: selectedOption() === "Other" ? reason() : selectedOption(),
+        })
+          .then(() => {
+            close();
+          })
+          .catch((err) => toast(err.message || err.error))
+          .finally(() => setRequestSent(false));
+      };
+      return (
+        <Modal.Root close={close} doNotCloseOnBackgroundClick>
+          <Modal.Header title="Suggest" />
+          <Modal.Body>
+            <FlexColumn gap={4}>
+              <RadioBox
+                items={[
+                  { id: "NSFW Server", label: "NSFW Server" },
+                  { id: "Racist Server", label: "Racist Server" },
+                  { id: "Other", label: "Other" },
+                ]}
+                initialId={selectedOption()}
+                onChange={(item) => setSelectedOption(item.id)}
+              />
+              <Show when={selectedOption() === "Other"}>
+                <Input
+                  placeholder="Reason"
+                  onText={setReason}
+                  value={reason()}
+                />
+              </Show>
+            </FlexColumn>
+          </Modal.Body>
+          <Modal.Footer>
+            <Modal.Button
+              label="Suggest"
+              iconName="check"
+              onClick={onSuggestClick}
+              primary
             />
-            <Show when={selectedOption() === "Other"}>
-              <Input placeholder="Reason" onText={setReason} value={reason()} />
-            </Show>
-          </FlexColumn>
-        </Modal.Body>
-        <Modal.Footer>
-          <Modal.Button
-            label="Suggest"
-            iconName="check"
-            onClick={onSuggestClick}
-            primary
-          />
-        </Modal.Footer>
-      </Modal.Root>
-    ));
+          </Modal.Footer>
+        </Modal.Root>
+      );
+    });
   };
 
   return (
