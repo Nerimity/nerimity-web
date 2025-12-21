@@ -23,19 +23,30 @@ export default function ImageCropModal(props: {
       viewport: {
         type: isBanner ? "square" : "circle",
         width: isBanner ? 400 : 300,
-        height: isBanner ? 150 : 300, 
+        height: isBanner ? 150 : 300,
       },
       boundary: {
         width: "100%",
         height: 400,
-      }
+      },
+    });
+    croppie.bind({
+      url: props.image,
+    });
+
+    imageEl.addEventListener("update", (ev) => {
+      const result = ev.detail;
+      if (!result || !result.points) return;
+      const pointsToInt = result.points.map((v: string) => parseInt(v));
+
+      props.onCropped(pointsToInt);
     });
   });
 
   const onClick = () => {
     const result = croppie?.get();
     if (!result || !result.points) return;
-    
+
     const pointsToInt = result.points.map((v: string) => parseInt(v));
     props.onCropped(pointsToInt);
     props.close();
@@ -44,7 +55,7 @@ export default function ImageCropModal(props: {
   const ActionButtons = (
     <Button
       iconName="check"
-      label={t("imageCropModal.done")} 
+      label={t("imageCropModal.done")}
       onClick={onClick}
       styles={{ flex: 1 }}
       primary
@@ -54,7 +65,7 @@ export default function ImageCropModal(props: {
 
   return (
     <LegacyModal
-      title={t("imageCropModal.title")} 
+      title={t("imageCropModal.title")}
       close={props.close}
       maxWidth={500}
       actionButtons={ActionButtons}
@@ -67,7 +78,7 @@ export default function ImageCropModal(props: {
           "margin-bottom": "50px",
         }}
       >
-        <img ref={imageEl!} src={props.image} />
+        <div ref={imageEl!} />
       </div>
     </LegacyModal>
   );
