@@ -389,11 +389,7 @@ const SuggestBlock = (props: { serverId: string }) => {
               onChange={(item) => setSelectedOption(item.id)}
             />
             <Show when={selectedOption() === "Other"}>
-              <Input
-                placeholder="Reason"
-                onInput={setReason}
-                value={reason()}
-              />
+              <Input placeholder="Reason" onText={setReason} value={reason()} />
             </Show>
           </FlexColumn>
         </Modal.Body>
