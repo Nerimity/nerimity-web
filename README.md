@@ -31,11 +31,10 @@ Chat App made using SolidJS.
 
 ### Planned Features:
 
-- [ ] Explore Themes
-
 ### Completed Features:
 
 - [x] Explore Servers
+- [x] Explore Themes
 - [x] Notification Sounds
 - [x] Re-organize Servers
 - [x] Emojis
