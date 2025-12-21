@@ -92,7 +92,7 @@ function ThemeCard(props: { name: string; themeObj: ThemeObject }) {
       </ColorPreview>
       <Button
         label={t("settings.interface.apply")}
-        onClick={() => applyTheme(props.name, { [props.name]: props.themeObj })}
+        onClick={() => applyTheme(props.name, props.themeObj)}
       />
     </ThemeCardContainer>
   );

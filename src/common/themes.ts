@@ -110,18 +110,20 @@ export const themePresets: Record<string, ThemePreset> = {
 };
 
 // Apply a preset
-export const applyTheme = (name: string) => {
-  const preset = themePresets[name];
-  if (!preset) return;
+export const applyTheme = (name: string, themeObj?: ThemePreset) => {
+  const preset = themeObj || themePresets[name];
+  if (!preset || !preset.colors) return;
 
   // Clear previous
   Object.keys(customColors()).forEach((key) =>
     setThemeColor(key as ThemeKey, undefined)
   );
-  // Apply preset
+
+  // Apply
   Object.entries(preset.colors).forEach(([key, value]) =>
     setThemeColor(key as ThemeKey, value)
   );
+
   // Persist
   setStorageString(StorageKeys.CUSTOM_COLORS, JSON.stringify(preset.colors));
 };
