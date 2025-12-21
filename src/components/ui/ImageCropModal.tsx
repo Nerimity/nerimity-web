@@ -8,27 +8,36 @@ import { t } from "@nerimity/i18lite";
 export default function ImageCropModal(props: {
   close(): void;
   image: string;
-  onCropped(points: [number, number, number]): void;
+  onCropped(points: number[]): void;
+  type?: "avatar" | "banner";
 }) {
   let imageEl: undefined | HTMLImageElement;
   let croppie: Croppie | undefined;
 
   onMount(() => {
     if (!imageEl) return;
+
+    const isBanner = props.type === "banner";
+
     croppie = new Croppie(imageEl, {
       viewport: {
-        type: "circle",
-        width: 300,
-        height: 300,
+        type: isBanner ? "square" : "circle",
+        width: isBanner ? 400 : 300,
+        height: isBanner ? 150 : 300, 
       },
+      boundary: {
+        width: "100%",
+        height: 400,
+      }
     });
   });
 
   const onClick = () => {
-    const points = croppie?.get().points as unknown as string[];
-    if (!points) return;
-    const pointsToInt = points.map((v: string) => parseInt(v));
-    props.onCropped(pointsToInt as any);
+    const result = croppie?.get();
+    if (!result || !result.points) return;
+    
+    const pointsToInt = result.points.map((v: string) => parseInt(v));
+    props.onCropped(pointsToInt);
     props.close();
   };
 
@@ -58,7 +67,7 @@ export default function ImageCropModal(props: {
           "margin-bottom": "50px",
         }}
       >
-        <img ref={imageEl} src={props.image} />
+        <img ref={imageEl!} src={props.image} />
       </div>
     </LegacyModal>
   );
