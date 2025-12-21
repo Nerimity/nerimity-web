@@ -382,6 +382,7 @@ const SuggestBlock = (props: { serverId: string }) => {
             <RadioBox
               items={[
                 { id: "NSFW Server", label: "NSFW Server" },
+                { id: "Racist Server", label: "Racist Server" },
                 { id: "Other", label: "Other" },
               ]}
               initialId={selectedOption()}
