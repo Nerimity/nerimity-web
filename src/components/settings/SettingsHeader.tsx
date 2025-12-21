@@ -2,17 +2,13 @@ import { A } from "solid-navigator";
 import { Show, createEffect, createSignal, on } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import Avatar from "@/components/ui/Avatar";
-import RouterEndpoints from "@/common/RouterEndpoints";
 import { css, styled } from "solid-styled-components";
 import Text from "@/components/ui/Text";
 import { FlexColumn, FlexRow } from "@/components/ui/Flexbox";
-import env from "@/common/env";
-import { avatarUrl } from "@/chat-api/store/useServers";
 import { bannerUrl } from "@/chat-api/store/useUsers";
 import { Banner } from "../ui/Banner";
 import { useWindowProperties } from "@/common/useWindowProperties";
 import { FriendStatus, RawUser } from "@/chat-api/RawData";
-import { useResizeObserver } from "@/common/useResizeObserver";
 import { settingsHeaderPreview } from "./SettingsPane";
 import { t } from "@nerimity/i18lite";
 
@@ -63,8 +59,15 @@ const CustomAvatar = styled("div")<{ cropPosition: string }>`
   ${(props) => props.cropPosition}
 `;
 
+const CustomBanner = styled("div")<{ cropPosition: string }>`
+  position: absolute;
+  inset: 0;
+  ${(props) => props.cropPosition}
+`;
+
 const SettingsHeader = (props: { bot?: RawUser }) => {
   const [avatarEl, setAvatarEl] = createSignal<HTMLDivElement | undefined>();
+  const [bannerEl, setBannerEl] = createSignal<HTMLDivElement | undefined>();
   const { account, servers, friends } = useStore();
   const user = () => account.user();
   const serverCount = () => servers.array().length || "0";
@@ -73,10 +76,8 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
       .length || "0";
   const { width } = useWindowProperties();
 
-  const [imageDimensions, setImageDimensions] = createSignal({
-    height: 0,
-    width: 0,
-  });
+  const [imageDimensions, setImageDimensions] = createSignal({ height: 0, width: 0 });
+  const [bannerDimensions, setBannerDimensions] = createSignal({ height: 0, width: 0 });
 
   createEffect(
     on(
@@ -88,28 +89,50 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
     )
   );
 
+  createEffect(
+    on(
+      () => settingsHeaderPreview.banner,
+      (val) => {
+        if (!val) return;
+        getImageDimensions(val).then(setBannerDimensions);
+      }
+    )
+  );
+
   const avatarSize = () => (width() <= 500 ? 70 : 100);
 
   const cropPosition = () => {
     const coordinates = settingsHeaderPreview.avatarPoints;
     if (!coordinates) return "";
-
     const viewWidth = (avatarSize() && avatarEl()?.clientWidth) || 0;
     const viewHeight = (avatarSize() && avatarEl()?.clientHeight) || 0;
     const imageWidth = imageDimensions().width;
     const imageHeight = imageDimensions().height;
-
     const offsetX = coordinates[0];
     const offsetY = coordinates[1];
     const scaleX = viewWidth / (coordinates[2] - coordinates[0]);
     const scaleY = viewHeight / (coordinates[3] - coordinates[1]);
     return `
-      background-position: -${offsetX * scaleX}px -${
-      offsetY * scaleY
-    }px !important;
-      background-size: ${imageWidth * scaleX}px ${
-      imageHeight * scaleY
-    }px !important;
+      background-position: -${offsetX * scaleX}px -${offsetY * scaleY}px !important;
+      background-size: ${imageWidth * scaleX}px ${imageHeight * scaleY}px !important;
+    `;
+  };
+
+  const bannerCropPosition = () => {
+    const coordinates = settingsHeaderPreview.bannerPoints;
+    if (!coordinates) return "";
+    const viewWidth = bannerEl()?.clientWidth || 0;
+    const viewHeight = bannerEl()?.clientHeight || 0;
+    const imageWidth = bannerDimensions().width;
+    const imageHeight = bannerDimensions().height;
+    const offsetX = coordinates[0];
+    const offsetY = coordinates[1];
+    const scaleX = viewWidth / (coordinates[2] - coordinates[0]);
+    const scaleY = viewHeight / (coordinates[3] - coordinates[1]);
+    return `
+      background-position: -${offsetX * scaleX}px -${offsetY * scaleY}px !important;
+      background-size: ${imageWidth * scaleX}px ${imageHeight * scaleY}px !important;
+      background-repeat: no-repeat !important;
     `;
   };
 
@@ -123,12 +146,19 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
   return (
     <Show when={user()}>
       <Banner
+        ref={setBannerEl}
         maxHeight={250}
         margin={props.bot ? 0 : undefined}
         animate
         hexColor={props.bot?.hexColor || user()?.hexColor}
-        url={settingsHeaderPreview.banner || bannerUrl(props.bot || user()!)}
+        url={settingsHeaderPreview.bannerPoints ? undefined : (settingsHeaderPreview.banner || bannerUrl(props.bot || user()!))}
       >
+        <Show when={settingsHeaderPreview.bannerPoints && settingsHeaderPreview.banner}>
+          <CustomBanner
+            cropPosition={bannerCropPosition()}
+            style={{ background: `url("${settingsHeaderPreview.banner}")` }}
+          />
+        </Show>
         <HeaderContainer>
           <Avatar
             animate
@@ -151,9 +181,11 @@ const SettingsHeader = (props: { bot?: RawUser }) => {
                   props.bot?.username ||
                   user()!.username}
               </Text>
-              <Text opacity={0.7}>
-                :{settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}
-              </Text>
+              <Show when={settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}>
+                <Text opacity={0.7}>
+                  :{settingsHeaderPreview.tag || props.bot?.tag || user()!.tag}
+                </Text>
+              </Show>
             </UsernameTagContainer>
             <Show when={!props.bot}>
               <FlexRow gap={5}>
