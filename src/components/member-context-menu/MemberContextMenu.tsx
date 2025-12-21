@@ -195,7 +195,7 @@ export default function MemberContextMenu(props: Props) {
           },
           ...adminItems(),
           { separator: true },
-          ...(account.hasModeratorPerm()
+          ...(account.hasModeratorPerm(true)
             ? [
                 {
                   label: "Moderation Pane",
