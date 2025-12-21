@@ -20,6 +20,7 @@ interface SettingsHeaderPreview {
   username?: string;
   tag?: string;
   banner?: string;
+  bannerPoints?: number[];
   avatar?: any;
   avatarPoints?: number[];
 }
