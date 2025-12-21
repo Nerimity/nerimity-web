@@ -89,7 +89,7 @@ export const themePresets: Record<string, ThemePreset> = {
     colors: DefaultTheme,
     maintainers: ["Superkitten", "Asraye"],
   },
-  Umbra: {
+  AMOLED: {
     colors: {
       "background-color": "#000000",
       "pane-color": "#000000",
