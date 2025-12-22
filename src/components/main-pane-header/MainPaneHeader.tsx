@@ -742,7 +742,7 @@ function VoiceActions(props: { channelId: string }) {
         <Show when={!currentVoiceUser()?.videoStream && !isMobileAgent()}>
           <Button iconName="monitor" onClick={onScreenShareClick} />
         </Show>
-        <Show when={!currentVoiceUser()?.videoStream && !isMobileAgent()}>
+        <Show when={!currentVoiceUser()?.videoStream}>
           <Button iconName="videocam" onClick={onWebCamClick} />
         </Show>
         <Show when={currentVoiceUser()?.videoStream}>
