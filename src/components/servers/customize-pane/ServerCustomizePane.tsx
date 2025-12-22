@@ -30,6 +30,7 @@ import { CustomLink } from "@/components/ui/CustomLink";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { RadioBoxItem } from "@/components/ui/RadioBox";
 import { SetStoreFunction, createStore, reconcile } from "solid-js/store";
+import { t } from "@nerimity/i18lite";;
 
 export default function Pane() {
   const params = useParams<{ serverId: string }>();
@@ -49,7 +50,7 @@ export default function Pane() {
 
   onMount(() => {
     header.updateHeader({
-      title: "Customize",
+      title: t("channelDrawer.customize.title"),
       serverId: params.serverId!,
       iconName: "tune",
     });
@@ -77,7 +78,7 @@ const WelcomeMessage = () => {
         {server()?.name}
       </Text>
       <Text size={16} opacity={0.6}>
-        Complete these questions:
+        {t("channelDrawer.customize.subtitle")}
       </Text>
     </div>
   );
@@ -292,7 +293,7 @@ const ContinueFooter = () => {
       <Button
         margin={0}
         class={styles.button}
-        label={`Continue To #${defaultChannel()?.name}`}
+        label={t("channelDrawer.customize.continueButton", { channel: `#${defaultChannel()?.name}` })}
         color="white"
         customChildren={<Icon name="keyboard_arrow_right" size={24} />}
       />
