@@ -30,7 +30,7 @@ import { CustomLink } from "@/components/ui/CustomLink";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { RadioBoxItem } from "@/components/ui/RadioBox";
 import { SetStoreFunction, createStore, reconcile } from "solid-js/store";
-import { t } from "@nerimity/i18lite";;
+import { t } from "@nerimity/i18lite";
 
 export default function Pane() {
   const params = useParams<{ serverId: string }>();
