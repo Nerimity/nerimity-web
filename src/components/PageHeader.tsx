@@ -1,4 +1,12 @@
-import { createSignal, Match, onMount, Show, Switch } from "solid-js";
+import {
+  createSignal,
+  Match,
+  onMount,
+  Show,
+  Switch,
+  For,
+  onCleanup,
+} from "solid-js";
 import { css, styled } from "solid-styled-components";
 import { A } from "solid-navigator";
 import env from "@/common/env";
@@ -11,9 +19,16 @@ import { useTransContext } from "@nerimity/solid-i18lite";
 import { logout } from "@/common/logout";
 import { Skeleton } from "./ui/skeleton/Skeleton";
 import Avatar from "./ui/Avatar";
+import {
+  languages,
+  getLanguage,
+  getCurrentLanguage,
+  setCurrentLanguage,
+} from "@/locales/languages";
 
 const HeaderContainer = styled("header")`
   display: flex;
+  align-items: center;
   height: 58px;
   flex-shrink: 0;
   &:after {
@@ -160,23 +175,141 @@ export default function PageHeader(props: { hideAccountInfo?: boolean }) {
         <Logo src={appLogoUrl()} alt="logo" />
         <Title>Nerimity</Title>
       </A>
-      <Show when={!props.hideAccountInfo}>
-        <Switch fallback={<LogInLogOutSkeleton />}>
-          <Match when={user() === false}>
-            <LoggedOutLinks />
-          </Match>
-          <Match when={user()}>
-            <LoggedInLinks user={user() as RawUser} />
-          </Match>
-        </Switch>
-      </Show>
+      {/* Use navigation container here, saves repeating code.. AHEM....*/}
+      <NavigationContainer> 
+        <Show when={!props.hideAccountInfo}>
+          <Switch fallback={<LogInLogOutSkeleton />}>
+            <Match when={user() === false}>
+              <LoggedOutLinks />
+            </Match>
+            <Match when={user()}>
+              <LoggedInLinks user={user() as RawUser} />
+            </Match>
+          </Switch>
+        </Show>
+      </NavigationContainer>
+      <LanguageDropdown />
     </HeaderContainer>
+  );
+}
+
+function LanguageDropdown() {
+  const [isOpen, setIsOpen] = createSignal(false);
+  const [context, actions] = useTransContext();
+  let containerRef: HTMLDivElement | undefined;
+
+  // Closes the menu if the user clicks literally anywhere else on their screen
+  const handleClickOutside = (e: MouseEvent) => {
+    if (containerRef && !containerRef.contains(e.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
+  onMount(() => {
+    window.addEventListener("click", handleClickOutside);
+    onCleanup(() => window.removeEventListener("click", handleClickOutside));
+  });
+
+  const changeLang = async (key: string) => {
+    const formattedKey = key.replace("-", "_");
+        if (formattedKey !== "en_gb") {
+      const language = await getLanguage(formattedKey);
+      if (language) actions.addResources(formattedKey, "translation", language);
+    }
+    
+    actions.changeLanguage(formattedKey);
+    setCurrentLanguage(formattedKey);
+    setIsOpen(false);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        position: "relative",
+        display: "flex",
+        "align-items": "center",
+        height: "38px",
+        "margin-right": "10px",
+      }}
+    >
+      {/* The main button. It's an icon. It triggers things. You know the drill.*/}
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen());
+        }}
+        class={css`
+          cursor: pointer; 
+          padding: 0 10px; 
+          display: flex; 
+          align-items: center;
+          height: 100%;
+          border-radius: 6px;
+          transition: 0.2s;
+          opacity: 0.6;
+          &:hover { 
+            background-color: rgba(255, 255, 255, 0.08); 
+            opacity: 1;
+          }
+        `}
+      >
+        <Icon name="translate" size={20} />
+      </div>
+      <Show when={isOpen()}>
+        <div
+          class={css`
+          position: absolute; 
+          top: 45px; 
+          right: 0; 
+          background: var(--background-color);
+          border: 1px solid rgba(255,255,255,0.1); 
+          border-radius: 8px; 
+          z-index: 1000; 
+          padding: 5px; 
+          min-width: 200px; 
+          max-height: 300px; 
+          overflow-y: auto;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        `}
+        >
+          <For each={Object.keys(languages)}>
+            {(key) => {
+              const lang = (languages as any)[key];
+                const isActive = () => {
+                const current = context.locale || getCurrentLanguage() || "en-gb";
+                return current.replace("_", "-") === key;
+              };
+
+              return (
+                <div
+                  onClick={() => changeLang(key)}
+                  class={css`
+                    display: flex; align-items: center; gap: 8px; padding: 8px; 
+                    border-radius: 4px; cursor: pointer; color: white; font-size: 14px;
+                    background: ${
+                      isActive() ? "rgba(255,255,255,0.05)" : "transparent"
+                    };
+                    &:hover { background: rgba(255,255,255,0.1); }
+                  `}
+                >
+                  <span style={{ flex: 1 }}>{lang.name}</span>
+                  <Show when={isActive()}>
+                    <Icon name="check" size={16} color="var(--primary-color)" />
+                  </Show>
+                </div>
+              );
+            }}
+          </For>
+        </div>
+      </Show>
+    </div>
   );
 }
 
 function LogInLogOutSkeleton() {
   return (
-    <NavigationContainer class="navigation-container">
+    <>
       <Skeleton.Item width="92px" height="34px" />
       <Skeleton.Item width="112px" height="34px" />
       <Skeleton.Item
@@ -188,7 +321,7 @@ function LogInLogOutSkeleton() {
           "margin-right": "6px",
         }}
       />
-    </NavigationContainer>
+    </>
   );
 }
 
@@ -199,7 +332,7 @@ function LoggedInLinks(props: { user: RawUser }) {
   };
 
   return (
-    <NavigationContainer class="navigation-container">
+    <>
       <HeaderLink
         href="#"
         color="var(--alert-color)"
@@ -221,14 +354,14 @@ function LoggedInLinks(props: { user: RawUser }) {
           margin-right: 6px;
         `}
       />
-    </NavigationContainer>
+    </>
   );
 }
 
 function LoggedOutLinks() {
   const [t] = useTransContext();
   return (
-    <NavigationContainer class="navigation-container">
+    <>
       <HeaderLink href="/login" label={t("header.loginButton")} icon="login" />
       <HeaderLink
         href="/register"
@@ -236,7 +369,7 @@ function LoggedOutLinks() {
         class="register-button"
         icon="add"
       />
-    </NavigationContainer>
+    </>
   );
 }
 
