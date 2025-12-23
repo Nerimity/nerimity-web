@@ -4,11 +4,9 @@ import { bannerUrl } from "@/chat-api/store/useServers";
 import useStore from "@/chat-api/store/useStore";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useTransContext } from "@nerimity/solid-i18lite";
-import { A, useNavigate } from "solid-navigator";
 import { batch, createSignal, For, on, Show } from "solid-js";
 import { createEffect } from "solid-js";
 import { css, styled } from "solid-styled-components";
-import { ServerVerifiedIcon } from "../servers/ServerVerifiedIcon";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
 import DropDown, { DropDownItem } from "../ui/drop-down/DropDown";
@@ -19,26 +17,19 @@ import Text from "../ui/Text";
 import { Banner } from "../ui/Banner";
 import { getDaysAgo, timeSince } from "@/common/date";
 import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
-import LegacyModal from "../ui/legacy-modal/LegacyModal";
-import { Turnstile, TurnstileRef } from "@nerimity/solid-turnstile";
-import env from "@/common/env";
 import { Skeleton } from "../ui/skeleton/Skeleton";
 import { classNames, cn } from "@/common/classNames";
 import { MetaTitle } from "@/common/MetaTitle";
 import Input from "../ui/input/Input";
-import { useJoinServer } from "@/chat-api/useJoinServer";
 import { CustomLink } from "../ui/CustomLink";
-import { deepMerge } from "@/common/deepMerge";
 import {
-  BumpExploreItem,
   getExploreItems,
   PublicServerFilter,
   PublicServerSort,
 } from "@/chat-api/services/ExploreService";
 import { ServerBumpModal } from "./ExploreServers";
-import { InviteBotPopup } from "@/pages/InviteServerBot";
-import { Modal } from "../ui/modal";
-import { ToastModal } from "@/components/ui/toasts/ToastModal";
+import { openInviteBotModal } from "../ui/openInviteBotModal";
+
 
 const Container = styled("div")`
   display: flex;
@@ -332,31 +323,6 @@ function PublicItem(props: {
   const store = useStore();
 
   const { createPortal } = useCustomPortal();
-
-  const addBotClick = async () => {
-    createPortal((c) => (
-      <Modal.Root
-        close={c}
-        desktopMaxWidth={400}
-        desktopClass={css`
-          width: 100%;
-        `}
-      >
-        <Modal.Header title="Invite Bot" />
-        <Modal.Body
-          class={css`
-            overflow: auto;
-          `}
-        >
-          <InviteBotPopup
-            appId={props.item.botApplication?.id!}
-            permissions={props.item.botPermissions}
-          />
-        </Modal.Body>
-      </Modal.Root>
-    ));
-  };
-
   const bumpClick = () => {
     const bumpAfter = 3 * 60 * 60 * 1000; // 3 hours in ms
 
@@ -483,7 +449,13 @@ function PublicItem(props: {
           class={css`
             flex: 1;
           `}
-          onClick={addBotClick}
+          onClick={() =>
+            openInviteBotModal(
+              createPortal,
+              props.item.botApplication?.id!,
+              props.item.botPermissions
+            )
+          }
           iconName="add"
           primary
           label={t("explore.bots.inviteButton")}
