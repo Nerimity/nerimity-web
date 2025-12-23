@@ -19,7 +19,9 @@
             "feature2": "Design élégant",
             "feature3": "Changez gratuitement votre discriminateur",
             "feature4": "Créer des publications sur votre profil",
-            "feature5": "Trouvez votre propre communauté"
+            "feature5": "Trouvez votre propre communauté",
+            "feature7": "fonctionne grâce aux dons",
+            "feature8": "code source complet sur GItHub"
         }
     },
     "loginPage": {
@@ -45,7 +47,8 @@
         "notices": {
             "nsfw": "Pas de contenu NSFW.",
             "toxic": "Ne soyez pas toxique.",
-            "age": "Vous devez avoir au moins 14 ans."
+            "age": "Vous devez avoir au moins 14 ans.",
+            "title": "avis"
         }
     },
     "inbox": {
@@ -81,6 +84,13 @@
         },
         "bots": {
             "inviteButton": "Inviter"
+        },
+        "themes": {
+            "title": "Explorer - Thèmes",
+            "themesHeaderDescription": "Personnalisez Nerimity avec un thème personnalisé.",
+            "officialThemes": "Thèmes officiels",
+            "communityThemes": "thèmes communautaires",
+            "noCommunityThemes": "Aucun thème communautaire trouvé."
         }
     },
     "servers": {
@@ -331,21 +341,43 @@
     },
     "dashboard": {
         "posts": "Publications",
-        "notifications": "Notifications"
+        "notifications": "Notifications",
+        "title": "tableau de bord",
+        "activeUsers": "utilisateurs actifs",
+        "noActiveUsers": "aucun utilisateur actif",
+        "servers": "serveurs",
+        "feed": "nourrir",
+        "discover": "découvrir"
     },
     "status": {
         "online": "En ligne",
         "ltp": "Cherche À Jouer",
         "dnd": "Ne Pas Déranger",
         "offline": "Hors Ligne",
-        "appearAsOffline": "Apparaître Hors Ligne"
+        "appearAsOffline": "Apparaître Hors Ligne",
+        "afk": "loin du clavier"
     },
     "sidePane": {
-        "addServer": "Ajouter Un Serveur"
+        "addServer": "Ajouter Un Serveur",
+        "home": "acceuil/maison",
+        "homeShort": "acceuil/maison",
+        "moderation": "volet de modération",
+        "moderationShort": "moderateur"
     },
     "messageArea": {
         "channelNotice": {
-            "title": "Avant d'envoyer un message..."
+            "title": "Avant d'envoyer un message...",
+            "understoodButton": "compris"
+        },
+        "messageBoxPlaceholder": "Message {{nom d'utilisateur}}",
+        "messageBoxChannelPlaceholder": "Message dans {{nom de chaine}}",
+        "replying": "Répondre a {{nombre}} message(s)",
+        "mention": "mentionner",
+        "dropFile": "déposer le fichier",
+        "uploadTo": "télécharger vers",
+        "specialMentions": {
+            "everyone": "mentionner tout le monde",
+            "someone": "Mentionner un utilisateur au hasard"
         }
     },
     "markup": {
@@ -357,5 +389,22 @@
     "typing": {
         "single": "<1>{{username}}</1> est en train d'écrire…",
         "multiple": "<1>{{username}}</1> et <2>{{username2}}</2> sont en train d'écrire…"
+    },
+    "resetPassword": {
+        "title": "réinitialiser le mot de passe",
+        "resetSuccessful": "réinitialisation du mot de passe réussie.",
+        "passwordsDoNotMatch": "la confirmation du mot de passe ne correspond pas.",
+        "passwordTooLong": "le mot de passe doit comporter moins de 72 caractères.",
+        "resetPasswordButton": "réinitialiser mot de passe",
+        "resetting": "réinitialisation...",
+        "email": "e-mail",
+        "sendEmailButton": "envoyer e-mail",
+        "sending": "envoi de l'e-mail..."
+    },
+    "updateModal": {
+        "title": "mise a jour disponible",
+        "updateButton": "mettre a jour maintenant",
+        "laterButton": "plus tard",
+        "releasedAt": "publiée a"
     }
 }
