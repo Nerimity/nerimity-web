@@ -1007,5 +1007,49 @@
             "offset": "Strefa Czasowa",
             "doneButton": "Gotowe"
         }
+    },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "Brak Wzmianek"
+        },
+        "pins": {
+            "noPins": "Brak Przypiętych Wiadomości"
+        },
+        "jump": "Skocz",
+        "voice": {
+            "join": "Dołącz",
+            "leave": "Opuść",
+            "muted": "Wyciszono",
+            "deafened": "Wyłączono Dźwięk",
+            "fullscreen": "Pełny ekran"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Dostosuj",
+            "subtitle": "Wypełnij poniższe pytania:",
+            "continueButton": "Przejdź do {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "Filtruj",
+                "24hours": "Ostatnie 24h"
+            },
+            "sort": {
+                "header": "Sortuj",
+                "member": "Członek",
+                "joined": "Dołączono",
+                "joinedNerimity": "Dołączono do Nerimity"
+            },
+            "order": {
+                "header": "Sortuj wg",
+                "ascending": "Rosnąco",
+                "descending": "Malejąco"
+            }
+        },
+        "inVoice": "Rozmowa Głosowa"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Czas połączenia"
     }
 }
