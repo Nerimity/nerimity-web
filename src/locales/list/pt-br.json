@@ -997,5 +997,25 @@
         "timestamp": "Horário",
         "color": "Cor",
         "spoiler": "Spoiler"
+    },
+    "mainPaneHeader": {
+        "jump": "Pular",
+        "voice": {
+            "join": "Entrar",
+            "leave": "Sair",
+            "muted": "Silenciado(a)",
+            "fullscreen": "Tela cheia"
+        }
+    },
+    "channelDrawer": {
+        "members": {
+            "sort": {
+                "member": "Membro",
+                "header": "Classificar por"
+            },
+            "filter": {
+                "24hours": "24 horas"
+            }
+        }
     }
 }
