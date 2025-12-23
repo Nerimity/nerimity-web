@@ -1003,5 +1003,49 @@
         "deletionNotice": "Ваш уліковы запіс і дадзеныя будуць выдаленыя праз 15 дзён",
         "ipBanned": "Ваш IP заблякаваны.",
         "ipBanNotice": "Хтосьці з такім жа IP быў заблякаваны на Nerimity. Ваш запіс не зьмяніўся."
+    },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "Няма згадваньняў"
+        },
+        "pins": {
+            "noPins": "Няма замацаваных"
+        },
+        "jump": "Перайсьці",
+        "voice": {
+            "join": "Далучыцца",
+            "leave": "Выйсьці",
+            "muted": "Мікрафон",
+            "deafened": "Навушнікі",
+            "fullscreen": "На ўвесь экран"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Дапасаваньне",
+            "subtitle": "Адкажыце на наступныя пытаньні:",
+            "continueButton": "Перайсьці ў {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "Фільтраваць",
+                "24hours": "24 гадзіны"
+            },
+            "sort": {
+                "header": "Сартаваць",
+                "member": "Удзельнік",
+                "joined": "Далучыўся",
+                "joinedNerimity": "Далучыўся да Nerimity"
+            },
+            "order": {
+                "header": "Упарадкаваць",
+                "ascending": "Па ўзрастаньні",
+                "descending": "Па ўбываньні"
+            }
+        },
+        "inVoice": "У выкліку"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Выклік ідзе"
     }
 }
