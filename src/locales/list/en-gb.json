@@ -893,6 +893,7 @@
         "admin": "Admin"
     },
     "botInvite": {
+        "title": "Invite Bot",
         "serverSelect": "Please select a server!",
         "creator": "Created by ",
         "selectButton": "Select Server",
