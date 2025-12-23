@@ -603,8 +603,9 @@ export const getSuggestionActions = async (opts: GetSuggestActionsOpts) => {
 
 interface UpsertSuggestActionsOpts {
   actionType: number;
-  serverId: string;
+  serverId?: string;
   reason: string;
+  postId?: string;
 }
 
 export const upsertSuggestActions = async (opts: UpsertSuggestActionsOpts) => {

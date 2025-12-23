@@ -362,13 +362,15 @@ const DeleteServerBlock = (props: { serverId: string }) => {
 const SuggestBlock = (props: { serverId: string }) => {
   const { createPortal } = useCustomPortal();
 
-  const [selectedOption, setSelectedOption] = createSignal("NSFW Server");
-  const [reason, setReason] = createSignal("");
-  const [requestSent, setRequestSent] = createSignal(false);
-
   const showSuspendModal = () => {
+    const [selectedOption, setSelectedOption] = createSignal("");
+    const [reason, setReason] = createSignal("");
+    const [requestSent, setRequestSent] = createSignal(false);
     createPortal((close) => {
       const onSuggestClick = async () => {
+        if (!selectedOption()) {
+          return toast("Please select a reason");
+        }
         if (requestSent()) return;
         setRequestSent(true);
         await upsertSuggestActions({
@@ -389,8 +391,9 @@ const SuggestBlock = (props: { serverId: string }) => {
             <FlexColumn gap={4}>
               <RadioBox
                 items={[
-                  { id: "NSFW Server", label: "NSFW Server" },
-                  { id: "Racist Server", label: "Racist Server" },
+                  { id: "NSFW", label: "NSFW" },
+                  { id: "Racist", label: "Racist" },
+                  { id: "Inappropriate Name", label: "Inappropriate Name" },
                   { id: "Other", label: "Other" },
                 ]}
                 initialId={selectedOption()}

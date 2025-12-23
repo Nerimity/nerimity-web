@@ -31,6 +31,7 @@ import {
   activeServers,
   getSuggestionActions,
   deleteSuggestActions,
+  upsertSuggestActions,
 } from "@/chat-api/services/ModerationService";
 import Avatar from "../ui/Avatar";
 import { formatTimestamp } from "@/common/date";
@@ -41,7 +42,7 @@ import { css, styled } from "solid-styled-components";
 import Text from "../ui/Text";
 import { FlexColumn, FlexRow } from "../ui/Flexbox";
 import Checkbox from "../ui/Checkbox";
-import { useCustomPortal } from "../ui/custom-portal/CustomPortal";
+import { toast, useCustomPortal } from "../ui/custom-portal/CustomPortal";
 import SuspendUsersModal from "./SuspendUsersModal";
 import { CustomLink } from "../ui/CustomLink";
 import RouterEndpoints from "@/common/RouterEndpoints";
@@ -65,6 +66,8 @@ import DeleteServersModal from "./DeleteServersModal";
 import { UsersPane } from "./UsersPane";
 import { UsersAuditLogsPane } from "./UsersAuditLogsPane";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
+import { Modal } from "../ui/modal";
+import { RadioBox } from "../ui/RadioBox";
 
 const UserPage = lazy(() => import("./UserPage"));
 const TicketsPage = lazy(() => import("@/components/tickets/TicketsPage"));
@@ -337,9 +340,7 @@ function ModerationPage() {
         </Show>
         <ServersPane />
         <ActiveServersPane />
-        <Show when={!modOnlyBadge}>
-          <PostsPane />
-        </Show>
+        <PostsPane />
         <UsersAuditLogsPane />
       </ModerationPaneContainer>
       <Show when={selectedServers().length || selectedUsers().length}>
@@ -685,6 +686,8 @@ function SuggestedActionsPane() {
     switch (suggested.actionType) {
       case AuditLogType.serverDelete:
         return "Delete Server";
+      case AuditLogType.postDelete:
+        return "Delete Post";
     }
   };
 
@@ -745,11 +748,23 @@ function SuggestedActionsPane() {
                 <Text size={14}>
                   <A
                     class={linkStyle}
-                    href={`/app/moderation/servers/${suggest.server.id}`}
+                    href={`/app/moderation/servers/${suggest.server?.id}`}
                   >
-                    {suggest.server.name}{" "}
+                    {suggest.server?.name}{" "}
                   </A>
                 </Text>
+                <Show when={suggest.actionType === AuditLogType.postDelete}>
+                  <Text size={14}>
+                    Made By
+                    <A
+                      class={linkStyle}
+                      href={`/app/moderation/users/${suggest.post.createdBy.id}`}
+                    >
+                      {" "}
+                      {suggest.post.createdBy.username}
+                    </A>
+                  </Text>
+                </Show>
                 <div>
                   <span>
                     <Text size={12}>Reason: </Text>
@@ -760,7 +775,12 @@ function SuggestedActionsPane() {
                 </div>
               </div>
               <FlexRow gap={4}>
-                <Show when={store.account.hasModeratorPerm()}>
+                <Show
+                  when={
+                    store.account.hasModeratorPerm() &&
+                    suggest.actionType === AuditLogType.serverDelete
+                  }
+                >
                   <Button
                     label="Delete Server"
                     textSize={12}
@@ -783,11 +803,46 @@ function SuggestedActionsPane() {
                     margin={0}
                   />
                 </Show>
+                <Show
+                  when={
+                    store.account.hasModeratorPerm() &&
+                    suggest.actionType === AuditLogType.postDelete
+                  }
+                >
+                  <Button
+                    label="Delete Post"
+                    textSize={12}
+                    alert
+                    onClick={() => {
+                      createPortal((close) => (
+                        <DeletePostsModal
+                          close={close}
+                          postIds={[suggest.post.id]}
+                          done={() => {
+                            deleteSuggestActions(suggest.id).then(() => {
+                              setSuggestions(
+                                suggestions().filter((s) => s.id !== suggest.id)
+                              );
+                            });
+                          }}
+                        />
+                      ));
+                    }}
+                    margin={0}
+                  />
+                </Show>
+                <Show when={suggest.actionType === AuditLogType.postDelete}>
+                  <Button
+                    iconName="visibility"
+                    iconSize={18}
+                    href={"?postId=" + suggest.post.id}
+                    margin={0}
+                  />
+                </Show>
                 <Button
                   iconName="close"
                   margin={0}
                   iconSize={18}
-                  textSize={12}
                   alert
                   onClick={() => {
                     deleteSuggestActions(suggest.id).then(() => {
@@ -1569,6 +1624,7 @@ export function Post(props: {
   onAnnouncementAdd?: (postId: string) => void;
   onAnnouncementRemove?: (postId: string) => void;
 }) {
+  const store = useStore();
   const created = formatTimestamp(props.post.createdAt);
   const createdBy = props.post.createdBy;
   const [hovered, setHovered] = createSignal(false);
@@ -1606,6 +1662,68 @@ export function Post(props: {
         done={() => props.onAnnouncementRemove?.(props.post.id)}
       />
     ));
+  };
+
+  const showSuggestModal = (e: MouseEvent) => {
+    e.stopPropagation();
+
+    const [selectedOption, setSelectedOption] = createSignal("");
+    const [reason, setReason] = createSignal("");
+    const [requestSent, setRequestSent] = createSignal(false);
+    createPortal((close) => {
+      const onSuggestClick = async () => {
+        if (!selectedOption()) {
+          return toast("Please select a reason");
+        }
+        if (requestSent()) return;
+        setRequestSent(true);
+        await upsertSuggestActions({
+          actionType: AuditLogType.postDelete,
+          postId: props.post.id,
+
+          reason: selectedOption() === "Other" ? reason() : selectedOption(),
+        })
+          .then(() => {
+            close();
+          })
+          .catch((err) => toast(err.message || err.error))
+          .finally(() => setRequestSent(false));
+      };
+      return (
+        <Modal.Root close={close} doNotCloseOnBackgroundClick>
+          <Modal.Header title="Suggest" />
+          <Modal.Body>
+            <FlexColumn gap={4}>
+              <RadioBox
+                items={[
+                  { id: "NSFW", label: "NSFW" },
+                  { id: "Racist", label: "Racist" },
+                  { id: "Hateful", label: "Hateful" },
+                  { id: "Other", label: "Other" },
+                ]}
+                initialId={selectedOption()}
+                onChange={(item) => setSelectedOption(item.id)}
+              />
+              <Show when={selectedOption() === "Other"}>
+                <Input
+                  placeholder="Reason"
+                  onText={setReason}
+                  value={reason()}
+                />
+              </Show>
+            </FlexColumn>
+          </Modal.Body>
+          <Modal.Footer>
+            <Modal.Button
+              label="Suggest"
+              iconName="check"
+              onClick={onSuggestClick}
+              primary
+            />
+          </Modal.Footer>
+        </Modal.Root>
+      );
+    });
   };
 
   return (
@@ -1670,33 +1788,45 @@ export function Post(props: {
       </ItemDetailContainer>
 
       <FlexColumn style={{ "margin-left": "auto" }} gap={4}>
-        <Show when={props.post.announcement}>
+        <Show when={!store.account.hasOnlyModBadge()}>
+          <Show when={props.post.announcement}>
+            <Button
+              onClick={onRemoveAnnounceClick}
+              iconName="horizontal_rule"
+              label="Remove Announce"
+              textSize={12}
+              iconSize={16}
+              margin={0}
+              padding={4}
+              color="var(--alert-color)"
+            />
+          </Show>
+          <Show when={!props.post.announcement}>
+            <Button
+              onClick={onPostAnnounceClick}
+              iconName="add"
+              label="Announce"
+              textSize={12}
+              iconSize={16}
+              margin={0}
+              padding={4}
+            />
+          </Show>
           <Button
-            onClick={onRemoveAnnounceClick}
-            iconName="horizontal_rule"
-            label="Remove Announce"
+            onClick={onPostDeleteClick}
+            iconName="delete"
+            label="Delete"
             textSize={12}
             iconSize={16}
-            margin={0}
-            padding={4}
             color="var(--alert-color)"
-          />
-        </Show>
-        <Show when={!props.post.announcement}>
-          <Button
-            onClick={onPostAnnounceClick}
-            iconName="add"
-            label="Announce"
-            textSize={12}
-            iconSize={16}
             margin={0}
             padding={4}
           />
         </Show>
         <Button
-          onClick={onPostDeleteClick}
+          onClick={showSuggestModal}
           iconName="delete"
-          label="Delete"
+          label="Suggest Delete"
           textSize={12}
           iconSize={16}
           color="var(--alert-color)"
