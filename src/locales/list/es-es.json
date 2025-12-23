@@ -1003,5 +1003,49 @@
             "offset": "Diferencia horaria",
             "doneButton": "Hecho"
         }
+    },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "Sin menciones"
+        },
+        "pins": {
+            "noPins": "Sin mensajes fijados"
+        },
+        "jump": "Ver",
+        "voice": {
+            "join": "Unirse",
+            "leave": "Salirse",
+            "muted": "Silenciado",
+            "deafened": "Ensordecido",
+            "fullscreen": "Pantalla completa"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Personalizar",
+            "subtitle": "Responde a estas preguntas:",
+            "continueButton": "Continuar a {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "Filtrar por",
+                "24hours": "24 horas"
+            },
+            "sort": {
+                "header": "Ordenar por",
+                "member": "Miembro",
+                "joined": "Se unió",
+                "joinedNerimity": "Se unió a Nerimity"
+            },
+            "order": {
+                "header": "Clasificar por",
+                "ascending": "Ascendiente",
+                "descending": "Descendiente"
+            }
+        },
+        "inVoice": "En voz"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Conectado por"
     }
 }
