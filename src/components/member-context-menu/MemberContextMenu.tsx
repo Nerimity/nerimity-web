@@ -121,14 +121,15 @@ export default function MemberContextMenu(props: Props) {
     if (clickedOnMyself) return items;
 
     if (isCurrentUserCreator) {
+      const isBot = member()?.user().bot;
       return [
         ...(hasNicknamePermission ? [nickname] : []),
         ...(member() ? [editRoles] : []),
         separator,
         ...(member() ? [kick] : []),
         ban,
-        ...(member() ? [separator] : []),
-        ...(member() ? [transferOwnership] : []),
+        ...(member() && !isBot ? [separator] : []),
+       ...(member() && !isBot ? [transferOwnership] : []),
       ];
     }
 
