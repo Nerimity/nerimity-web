@@ -136,9 +136,8 @@ const linkIconStyle = css`
   margin-right: 5px;
 `;
 
+const [user, setUser] = createSignal<null | false | RawUser>(null);
 export default function PageHeader(props: { hideAccountInfo?: boolean }) {
-  const [user, setUser] = createSignal<null | false | RawUser>(null);
-
   onMount(async () => {
     if (props.hideAccountInfo) {
       return;
@@ -176,7 +175,7 @@ export default function PageHeader(props: { hideAccountInfo?: boolean }) {
         <Title>Nerimity</Title>
       </A>
       {/* Use navigation container here, saves repeating code.. AHEM....*/}
-      <NavigationContainer> 
+      <NavigationContainer>
         <Show when={!props.hideAccountInfo}>
           <Switch fallback={<LogInLogOutSkeleton />}>
             <Match when={user() === false}>
@@ -212,11 +211,11 @@ function LanguageDropdown() {
 
   const changeLang = async (key: string) => {
     const formattedKey = key.replace("-", "_");
-        if (formattedKey !== "en_gb") {
+    if (formattedKey !== "en_gb") {
       const language = await getLanguage(formattedKey);
       if (language) actions.addResources(formattedKey, "translation", language);
     }
-    
+
     actions.changeLanguage(formattedKey);
     setCurrentLanguage(formattedKey);
     setIsOpen(false);
@@ -240,16 +239,16 @@ function LanguageDropdown() {
           setIsOpen(!isOpen());
         }}
         class={css`
-          cursor: pointer; 
-          padding: 0 10px; 
-          display: flex; 
+          cursor: pointer;
+          padding: 0 10px;
+          display: flex;
           align-items: center;
           height: 100%;
           border-radius: 6px;
           transition: 0.2s;
           opacity: 0.6;
-          &:hover { 
-            background-color: rgba(255, 255, 255, 0.08); 
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.08);
             opacity: 1;
           }
         `}
@@ -259,25 +258,26 @@ function LanguageDropdown() {
       <Show when={isOpen()}>
         <div
           class={css`
-          position: absolute; 
-          top: 45px; 
-          right: 0; 
-          background: var(--background-color);
-          border: 1px solid rgba(255,255,255,0.1); 
-          border-radius: 8px; 
-          z-index: 1000; 
-          padding: 5px; 
-          min-width: 200px; 
-          max-height: 300px; 
-          overflow-y: auto;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-        `}
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: var(--background-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            z-index: 1000;
+            padding: 5px;
+            min-width: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+          `}
         >
           <For each={Object.keys(languages)}>
             {(key) => {
               const lang = (languages as any)[key];
-                const isActive = () => {
-                const current = context.locale || getCurrentLanguage() || "en-gb";
+              const isActive = () => {
+                const current =
+                  context.locale || getCurrentLanguage() || "en-gb";
                 return current.replace("_", "-") === key;
               };
 
@@ -285,12 +285,20 @@ function LanguageDropdown() {
                 <div
                   onClick={() => changeLang(key)}
                   class={css`
-                    display: flex; align-items: center; gap: 8px; padding: 8px; 
-                    border-radius: 4px; cursor: pointer; color: white; font-size: 14px;
-                    background: ${
-                      isActive() ? "rgba(255,255,255,0.05)" : "transparent"
-                    };
-                    &:hover { background: rgba(255,255,255,0.1); }
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    color: white;
+                    font-size: 14px;
+                    background: ${isActive()
+                      ? "rgba(255,255,255,0.05)"
+                      : "transparent"};
+                    &:hover {
+                      background: rgba(255, 255, 255, 0.1);
+                    }
                   `}
                 >
                   <span style={{ flex: 1 }}>{lang.name}</span>
