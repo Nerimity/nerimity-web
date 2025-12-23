@@ -16,7 +16,6 @@ export const openInviteBotModal = (
         width: 100%;
       `}
     >
-      <Modal.Header title="Invite Bot" />
       <Modal.Body
         class={css`
           overflow: auto;
