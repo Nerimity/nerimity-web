@@ -128,11 +128,12 @@ const InputContextMenu = (props: {
 
     const selection = getSelection();
     const highlighted = selection?.toString();
+    const [t] = useTransContext();
 
     if (highlighted) {
       items.push({
         id: "copy",
-        label: "Copy",
+        label: t("inputFieldActions.copy"),
         icon: "content_copy",
         onClick: () => {
           props.input.focus();
@@ -141,7 +142,7 @@ const InputContextMenu = (props: {
       });
       items.push({
         id: "cut",
-        label: "Cut",
+        label: t("inputFieldActions.cut"),
         icon: "content_cut",
         onClick: () => {
           props.input.focus();
@@ -152,7 +153,7 @@ const InputContextMenu = (props: {
 
     items.push({
       id: "paste",
-      label: "Paste",
+      label: t("inputFieldActions.paste"),
       icon: "content_paste",
       onClick: () => {
         props.input.focus();
