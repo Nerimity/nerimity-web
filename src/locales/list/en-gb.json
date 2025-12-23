@@ -836,6 +836,50 @@
         "pollOptions": "Poll Options",
         "optionNumberPlaceholder": "Option {{number}}"
     },
+    "mainPaneHeader": {
+        "mentions": {
+            "noMentions": "No Mentions"
+        },
+        "pins": {
+            "noPins": "No Pins"
+        },
+        "jump": "Jump",
+        "voice": {
+            "join": "Join",
+            "leave": "Leave",
+            "muted": "Muted",
+            "deafened": "Deafened",
+            "fullscreen": "Fullscreen"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Customize",
+            "subtitle": "Complete these questions:",
+            "continueButton": "Continue to {{channel}}"
+        },
+        "members": {
+            "filter": {
+                "header": "Filter by",
+                "24hours": "24 Hours"
+            },
+            "sort": {
+                "header": "Sort by",
+                "member": "Member",
+                "joined": "Joined",
+                "joinedNerimity": "Joined Nerimity"
+            },
+            "order": {
+                "header": "Order by",
+                "ascending": "Ascending",
+                "descending": "Descending"
+            }
+        },
+        "inVoice": "In voice"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Connected for"
+    },
     "informationDrawer": {
         "info": "Info",
         "files": "Files",

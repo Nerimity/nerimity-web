@@ -8,6 +8,7 @@ import RouterEndpoints from "@/common/RouterEndpoints";
 import { CustomLink } from "./ui/CustomLink";
 import { timeElapsed } from "@/common/date";
 import Button from "./ui/Button";
+import { useTransContext } from "@nerimity/solid-i18lite";
 
 const InVoiceActionsContainer = styled(FlexColumn)`
   background-color: rgb(15, 15, 15);
@@ -45,6 +46,8 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
     return RouterEndpoints.SERVER_MESSAGES(server()?.id!, channel()?.id!);
   };
 
+  const [t] = useTransContext();
+
   return (
     <Show when={channelId()}>
       <InVoiceActionsContainer style={props?.style}>
@@ -57,7 +60,7 @@ export default function InVoiceActions(props: { style?: JSX.CSSProperties }) {
           />
           <DetailsContainer>
             <Text size={12}>
-              Connected for <CallTime channelId={channelId()!} />
+              {t("inVoiceActions.connectedFor")} <CallTime channelId={channelId()!} />
             </Text>
             <CustomLink
               href={href()}

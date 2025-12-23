@@ -11,6 +11,7 @@ import MemberContextMenu from "@/components/member-context-menu/MemberContextMen
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import { Item } from "@/components/ui/Item";
+import { t } from "@nerimity/i18lite";
 
 export default function Pane() {
   const params = useParams<{ serverId: string }>();
@@ -72,7 +73,7 @@ export default function Pane() {
   onMount(() => {
     document.querySelector(".main-pane-container")?.scrollTo(0, 0);
     header.updateHeader({
-      title: "Members",
+      title: t("informationDrawer.members"),
       serverId: params.serverId!,
       iconName: "group",
     });
@@ -114,12 +115,12 @@ export default function Pane() {
       </Show>
       <div class={style.pane}>
         <Input
-          placeholder="Search"
+          placeholder={t("explore.search")}
           class={style.search}
           onText={setSearch}
           value={search()}
         />
-        <div>Filter By</div>
+        <div>{t("channelDrawer.members.filter.header")}</div>
         <div class={style.filter}>
           <Item.Root
             handlePosition="bottom"
@@ -127,7 +128,7 @@ export default function Pane() {
             onClick={() => setFilter("ALL")}
           >
             <Item.Icon>group</Item.Icon>
-            <Item.Label>All</Item.Label>
+            <Item.Label>{t("explore.servers.filterAll")}</Item.Label>
           </Item.Root>
           <Item.Root
             handlePosition="bottom"
@@ -135,15 +136,15 @@ export default function Pane() {
             onClick={() => setFilter("24H")}
           >
             <Item.Icon>schedule</Item.Icon>
-            <Item.Label>24 hours</Item.Label>
+            <Item.Label>{t("channelDrawer.members.filter.24hours")}</Item.Label>
           </Item.Root>
         </div>
         <Table.Root
           // "Member", "Joined", "Joined Nerimity"
           headers={[
-            { title: "Member", id: "member" },
-            { title: "Joined", id: "joined" },
-            { title: "Joined Nerimity", id: "joinedNerimity" },
+            { title: t("channelDrawer.members.sort.member"), id: "member" },
+            { title: t("channelDrawer.members.sort.joined"), id: "joined" },
+            { title: t("channelDrawer.members.sort.joinedNerimity"), id: "joinedNerimity" },
           ]}
           sortableHeaderIds={["member", "joined", "joinedNerimity"]}
           onHeaderClick={onHeaderClick}
@@ -164,10 +165,10 @@ export default function Pane() {
                 }}
               >
                 <MemberField member={member!} />
-                <Table.Field mobileTitle="Joined">
+                <Table.Field mobileTitle={t("channelDrawer.members.sort.joined")}>
                   {formatTimestamp(member?.joinedAt!)}
                 </Table.Field>
-                <Table.Field mobileTitle="Joined Nerimity">
+                <Table.Field mobileTitle={t("channelDrawer.members.sort.joinedNerimity")}>
                   {formatTimestamp(member?.user().joinedAt!)}
                 </Table.Field>
               </Table.Item>

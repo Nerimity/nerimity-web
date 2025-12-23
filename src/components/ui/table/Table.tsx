@@ -7,6 +7,7 @@ import { Fragment } from "@/common/Fragment";
 import Icon from "../icon/Icon";
 import { cn } from "@/common/classNames";
 import { Item } from "../Item";
+import { t } from "@nerimity/i18lite";
 
 export type TableSortMode = "asc" | "desc";
 
@@ -230,7 +231,7 @@ const MobileSortOptions = (props: TableProps) => {
   return (
     <Show when={props.sort}>
       <div class={style.mobileSortOptions}>
-        <div>Sort By</div>
+        <div>{t("channelDrawer.members.sort.header")}</div>
         <div class={style.sortOptions}>
           <For each={props.sortableHeaderIds}>
             {(headerId) => (
@@ -249,7 +250,7 @@ const MobileSortOptions = (props: TableProps) => {
           </For>
         </div>
 
-        <div>Order By</div>
+        <div>{t("channelDrawer.members.order.header")}</div>
         <div class={style.sortOptions}>
           <Item.Root
             selected={props.sort?.mode === "asc"}
@@ -257,7 +258,7 @@ const MobileSortOptions = (props: TableProps) => {
             onClick={() => changeSortMode("asc")}
           >
             <Item.Icon>unfold_less</Item.Icon>
-            <Item.Label>Ascending</Item.Label>
+            <Item.Label>{t("channelDrawer.members.order.ascending")}</Item.Label>
           </Item.Root>
           <Item.Root
             selected={props.sort?.mode === "desc"}
@@ -265,7 +266,7 @@ const MobileSortOptions = (props: TableProps) => {
             onClick={() => changeSortMode("desc")}
           >
             <Item.Icon>unfold_more</Item.Icon>
-            <Item.Label>Descending</Item.Label>
+            <Item.Label>{t("channelDrawer.members.order.descending")}</Item.Label>
           </Item.Root>
         </div>
       </div>

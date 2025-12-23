@@ -35,6 +35,7 @@ import { CHANNEL_PERMISSIONS, ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 import { WebcamModal } from "./WebcamModal";
 import MemberContextMenu from "../member-context-menu/MemberContextMenu";
 import { fetchPinnedMessages } from "@/chat-api/services/MessageService";
+import { t } from "@nerimity/i18lite";
 
 export default function MainPaneHeader() {
   const {
@@ -286,7 +287,7 @@ const MentionListPopup = (props: { close: () => void }) => {
       <Show when={notifications() && !notifications()?.length}>
         <div class={styles.noMentions}>
           <Icon name="alternate_email" size={40} />
-          <Text>No Mentions</Text>
+          <Text>{t("mainPaneHeader.mentions.noMentions")}</Text>
         </div>
       </Show>
       <Show when={notifications()}>
@@ -302,7 +303,7 @@ const MentionListPopup = (props: { close: () => void }) => {
                   onClick={() => onJump(notification)}
                   class={styles.messageOverlay}
                 >
-                  <div class={styles.jumpToMessage}>Jump</div>
+                  <div class={styles.jumpToMessage}>{t("mainPaneHeader.jump")}</div>
                 </div>
 
                 <MessageItem
@@ -373,7 +374,7 @@ const PinsListPopup = (props: { close: () => void }) => {
       <Show when={messages() && !messages()?.length}>
         <div class={styles.noMentions}>
           <Icon name="keep" size={40} />
-          <Text>No Pins</Text>
+          <Text>{t("mainPaneHeader.pins.noPins")}</Text>
         </div>
       </Show>
       <Show when={messages()}>
@@ -385,7 +386,7 @@ const PinsListPopup = (props: { close: () => void }) => {
                   onClick={() => onJump(message)}
                   class={styles.messageOverlay}
                 >
-                  <div class={styles.jumpToMessage}>Jump</div>
+                  <div class={styles.jumpToMessage}>{t("mainPaneHeader.jump")}</div>
                 </div>
 
                 <MessageItem
@@ -529,7 +530,7 @@ function VideoStream(props: { mediaStream: MediaStream; mute?: boolean }) {
         <Button
           iconName="fullscreen"
           iconSize={18}
-          title="Fullscreen"
+          title={t("mainPaneHeader.voice.fullscreen")}
           padding={6}
           margin={0}
           onClick={() => videoEl?.requestFullscreen({ navigationUI: "hide" })}
@@ -735,7 +736,7 @@ function VoiceActions(props: { channelId: string }) {
           iconName="call"
           color="var(--success-color)"
           onClick={onCallClick}
-          label="Join"
+          label={t("mainPaneHeader.voice.join")}
         />
       </Show>
       <Show when={isInCall()}>
@@ -758,7 +759,7 @@ function VoiceActions(props: { channelId: string }) {
           iconName="call_end"
           color="var(--alert-color)"
           onClick={onCallEndClick}
-          label="Leave"
+          label={t("mainPaneHeader.voice.leave")}
         />
       </Show>
     </div>
@@ -776,7 +777,7 @@ function VoiceMicActions(props: { channelId: string }) {
         <Button
           iconName="mic_off"
           color="var(--alert-color)"
-          label="Muted"
+          label={t("mainPaneHeader.voice.muted")}
           onClick={toggleMic}
         />
       </Show>
@@ -801,7 +802,7 @@ function VoiceDeafenActions(props: { channelId: string }) {
         <Button
           iconName="headset_off"
           color="var(--alert-color)"
-          label="Deafened"
+          label={t("mainPaneHeader.voice.deafened")}
           onClick={voiceUsers.toggleDeafen}
         />
       </Show>

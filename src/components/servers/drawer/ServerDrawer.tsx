@@ -46,6 +46,7 @@ import { cn } from "@/common/classNames";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useCollapsedServerCategories } from "@/common/localStorage";
 import { messagesPreloader } from "@/common/createPreloader";
+import { t } from "@nerimity/i18lite";
 
 const ServerDrawer = () => {
   const params = useParams<{ serverId: string }>();
@@ -83,7 +84,7 @@ const CustomizeItem = () => {
       >
         <ChannelContainer selected={match()}>
           <Icon name="tune" color="rgba(255,255,255,0.6)" size={16} />
-          <div class="label">Customize</div>
+          <div class="label">{t("channelDrawer.customize.title")}</div>
         </ChannelContainer>
       </A>
     </div>
@@ -102,7 +103,7 @@ const MembersItem = () => {
       >
         <ChannelContainer selected={match()}>
           <Icon name="group" color="rgba(255,255,255,0.6)" size={16} />
-          <div class="label">Members</div>
+          <div class="label">{t("informationDrawer.members")}</div>
         </ChannelContainer>
       </A>
     </div>
@@ -494,7 +495,7 @@ function ChannelItemVoiceUsers(props: { channelId: string }) {
       <ChannelVoiceUsersContainer>
         <ChannelVoiceUsersTitle size={12}>
           <Icon name="call" size={16} color="rgba(255,255,255,0.4)" />
-          In Voice
+          {t("channelDrawer.inVoice")}
           <CallTime channelId={props.channelId} />
         </ChannelVoiceUsersTitle>
         <ChannelVoiceUsersListContainer>

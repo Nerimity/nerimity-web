@@ -721,7 +721,7 @@ const SearchMessageItem = (props: {
   return (
     <div class={styles.searchMessageItem}>
       <div onClick={onJump} class={styles.jumpToMessage}>
-        Jump
+        {t("mainPaneHeader.jump")}
       </div>
       <MessageItem
         message={props.message}
