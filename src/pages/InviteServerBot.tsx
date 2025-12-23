@@ -119,8 +119,9 @@ export const InviteBotPopup = (props: {
         style={{
           overflow: "auto",
           margin: "auto",
+          padding: "2px",
         }}
-        gap={12}
+        gap={24}
       >
         <FlexRow itemsCenter gap={12}>
           <FlexColumn gap={12}>
