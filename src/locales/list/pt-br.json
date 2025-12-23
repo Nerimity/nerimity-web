@@ -763,7 +763,8 @@
         "addButton": "Adicionar robô",
         "selectButton": "Selecionar servidor",
         "creator": "Criado por ",
-        "serverSelect": "Por favor selecione um servidor!"
+        "serverSelect": "Por favor selecione um servidor!",
+        "title": "Convidar robô"
     },
     "typing": {
         "andOthers": "<1>{{count}}</1> usuários estão digitando…",
@@ -968,7 +969,8 @@
         "ipBanned": "Seu IP está banido.",
         "logout": "Sair",
         "login": "Entrar",
-        "defaultReason": "Violar os Termos de Serviço"
+        "defaultReason": "Violar os Termos de Serviço",
+        "noToken": "Token não fornecido."
     },
     "messageView": {
         "flaggedServer": {
@@ -1026,7 +1028,7 @@
                 "header": "Filtrar por"
             },
             "order": {
-                "header": "Classificar por",
+                "header": "Ordenar por",
                 "ascending": "Crescente",
                 "descending": "Decrescente"
             }
