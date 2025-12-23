@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { Link, useNavigate, useParams } from "solid-navigator";
-import { createEffect, createSignal, For, JSX, onMount } from "solid-js";
+import { createEffect, createSignal, For, JSX, onMount, Show } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
 import Button from "@/components/ui/Button";
@@ -15,14 +15,36 @@ import { useTransContext } from "@nerimity/solid-i18lite";
 import { Draggable } from "@/components/ui/Draggable";
 import { CustomLink } from "@/components/ui/CustomLink";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
+import ContextMenu, {
+  ContextMenuProps,
+} from "@/components/ui/context-menu/ContextMenu";
 
 function RoleItem(props: { role: ServerRole }) {
-  const { serverId } = useParams();
+  const { serverId } = useParams<{ serverId: string }>();
+  const [contextMenu, setContextMenu] =
+    createSignal<RoleContextMenuProps | null>(null);
 
   const link = RouterEndpoints.SERVER_SETTINGS_ROLE(serverId, props.role.id);
 
   return (
-    <CustomLink noContextMenu href={link} class={styles.roleItem}>
+    <CustomLink
+      onContextMenu={(e) => {
+        e.preventDefault();
+        setContextMenu({
+          position: { x: e.clientX, y: e.clientY },
+          role: props.role,
+        });
+      }}
+      noContextMenu
+      href={link}
+      class={styles.roleItem}
+    >
+      <Show when={contextMenu()}>
+        <RoleContextMenu
+          {...contextMenu()!}
+          onClose={() => setContextMenu(null)}
+        />
+      </Show>
       <div class={styles.roleDot} style={{ background: props.role.hexColor }} />
       <div class={styles.name}>{props.role.name}</div>
       <Icon name="keyboard_arrow_right" />
@@ -100,3 +122,35 @@ export default function ServerSettingsRole() {
     </div>
   );
 }
+
+type RoleContextMenuProps = Omit<ContextMenuProps, "items"> & {
+  role: ServerRole;
+};
+
+const RoleContextMenu = (props: RoleContextMenuProps) => {
+  const navigate = useNavigate();
+  return (
+    <ContextMenu
+      {...props}
+      items={[
+        {
+          label: "Edit Role",
+          icon: "edit",
+          onClick: () => {
+            navigate(
+              RouterEndpoints.SERVER_SETTINGS_ROLE(
+                props.role.serverId,
+                props.role.id
+              )
+            );
+          },
+        },
+        {
+          label: "Copy ID",
+          onClick: () => navigator.clipboard.writeText(props.role.id),
+          icon: "content_copy",
+        },
+      ]}
+    />
+  );
+};
