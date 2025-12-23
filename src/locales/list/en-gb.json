@@ -159,6 +159,11 @@
         },
         "emailNotice": "Confirm your email to send messages."
     },
+    "inputFieldActions": {
+        "copy": "Copy",
+        "cut": "Cut",
+        "paste": "Paste"
+    },
     "markup": {
         "bold": "Bold",
         "italic": "Italic",
