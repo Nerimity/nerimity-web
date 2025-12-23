@@ -1005,17 +1005,45 @@
             "leave": "Sair",
             "muted": "Silenciado(a)",
             "fullscreen": "Tela cheia"
+        },
+        "pins": {
+            "noPins": "Nada fixado"
+        },
+        "mentions": {
+            "noMentions": "Nenhuma menção"
         }
     },
     "channelDrawer": {
         "members": {
             "sort": {
                 "member": "Membro",
-                "header": "Classificar por"
+                "header": "Classificar por",
+                "joinedNerimity": "Entrou no Nerimity em",
+                "joined": "Entrou em"
             },
             "filter": {
-                "24hours": "24 horas"
+                "24hours": "24 horas",
+                "header": "Filtrar por"
+            },
+            "order": {
+                "header": "Classificar por",
+                "ascending": "Crescente",
+                "descending": "Decrescente"
             }
-        }
+        },
+        "customize": {
+            "continueButton": "Continuar para {{channel}}",
+            "subtitle": "Complete estas perguntas:",
+            "title": "Customizar"
+        },
+        "inVoice": "Em chamada"
+    },
+    "inVoiceActions": {
+        "connectedFor": "Conectado(a) por"
+    },
+    "inputFieldActions": {
+        "copy": "Copiar",
+        "cut": "Recortar",
+        "paste": "Colar"
     }
 }
