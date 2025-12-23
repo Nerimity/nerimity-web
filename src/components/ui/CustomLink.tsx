@@ -1,5 +1,5 @@
 import { classNames, conditionalClass } from "@/common/classNames";
-import { A, useSearchParams } from "solid-navigator";
+import { A, useNavigate, useSearchParams } from "solid-navigator";
 import { css } from "solid-styled-components";
 import { useCustomPortal } from "./custom-portal/CustomPortal";
 import { DangerousLinkModal } from "./DangerousLinkModal";
@@ -26,9 +26,11 @@ const decoration = css`
 `;
 
 const POST_LINK_REGEX = /^https?:\/\/nerimity\.com\/p\/(\d+)$/i;
+const PROFILE_LINK_REGEX = /^https?:\/\/nerimity\.com\/app\/profile\/(\d+)$/i;
 
 export function CustomLink(props: CustomLinkProps) {
   const { createPortal } = useCustomPortal();
+  const navigate = useNavigate();
   const [, setSearchParams] = useSearchParams();
 
   const onContextMenu = (event: MouseEvent) => {
@@ -38,8 +40,10 @@ export function CustomLink(props: CustomLinkProps) {
   };
 
   const onLinkClick = (e: MouseEvent) => {
-    const href = props.href;
-    if (props.isDangerous) {
+    const href = props.href || "";
+    const isNerimity = href.includes("nerimity.com");
+
+    if (props.isDangerous && !isNerimity) {
       e.preventDefault();
       createPortal((close) => (
         <DangerousLinkModal unsafeUrl={href || "#"} close={close} />
@@ -47,14 +51,19 @@ export function CustomLink(props: CustomLinkProps) {
       return;
     }
 
-    const match = href?.match(POST_LINK_REGEX);
-    const postId = match ? match[1] : undefined;
-
-    if (postId) {
+    // Post Redirects
+    const postMatch = href.match(POST_LINK_REGEX);
+    if (postMatch) {
       e.preventDefault();
-      // Open post
-      setSearchParams({ postId });
+      setSearchParams({ postId: postMatch[1] });
+      return;
+    }
 
+    // Profile Redirects
+    const profileMatch = href.match(PROFILE_LINK_REGEX);
+    if (profileMatch) {
+      e.preventDefault();
+      navigate(`/app/profile/${profileMatch[1]}`);
       return;
     }
 
@@ -74,3 +83,4 @@ export function CustomLink(props: CustomLinkProps) {
     />
   );
 }
+
