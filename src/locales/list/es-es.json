@@ -499,7 +499,7 @@
             },
             "directMessage": {
                 "title": "Mensajes directos",
-                "description": "Configura quién puede ver tus mensajes directos.",
+                "description": "Configura quién puede enviarte mensajes directos.",
                 "anyone": "Todos",
                 "friendsAndServersOnly": "Solo amigos y servidores",
                 "friendsOnly": "Solo amigos"
@@ -514,7 +514,7 @@
             "profileOptions": {
                 "title": "Configuración del perfil",
                 "hideFollowers": "Ocultar seguidores",
-                "hideFollowersDescription": "Oculta a tus seguidores de tu perfil.",
+                "hideFollowersDescription": "Oculta a la gente que te sigue de tu perfil.",
                 "hideFollowing": "Ocultar seguidos",
                 "hideFollowingDescription": "Oculta a los usuarios que sigues de tu perfil."
             }
@@ -633,7 +633,7 @@
         },
         "badges": {
             "noticeTitle": "Donaciones",
-            "notice": "Apoya a este proyecto donando dinero.",
+            "notice": "Apoya este proyecto donando dinero.",
             "palestineDescription": "Se obtiene yendo a {{account}} -> {{profile}}",
             "price": "{{price}} Insignias",
             "supportMethods": "Métodos de donación"

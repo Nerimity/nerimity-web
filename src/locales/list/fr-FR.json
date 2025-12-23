@@ -11,7 +11,16 @@
         "subslogan": "Nerimity offre une expérience élégant et riche en fonctionalités qui le distingue des autres.",
         "getStarted": "Commencer",
         "availableOn": "Disponible sur",
-        "browser": "Navigateur"
+        "browser": "Navigateur",
+        "featureList": {
+            "feature9": "Exprimez-vous avec des bordures",
+            "feature1": "Avatars animés et emojis gratuits",
+            "feature6": "Trouvez de nouvelles communautés",
+            "feature2": "Design élégant",
+            "feature3": "Changez gratuitement votre discriminateur",
+            "feature4": "Créer des publications sur votre profil",
+            "feature5": "Trouvez votre propre communauté"
+        }
     },
     "loginPage": {
         "title": "Se connecter",
@@ -30,7 +39,14 @@
         "confirmPassword": "Confirmer le mot de passe",
         "registerButton": "S'inscrire",
         "registering": "Inscription en cours...",
-        "loginInstead": "Se connecter"
+        "loginInstead": "Se connecter",
+        "header": "Enregistrer",
+        "agreement": "En créant votre compte, vous acceptez les Conditions et la Politique de Confientialité.",
+        "notices": {
+            "nsfw": "Pas de contenu NSFW.",
+            "toxic": "Ne soyez pas toxique.",
+            "age": "Vous devez avoir au moins 14 ans."
+        }
     },
     "inbox": {
         "drawer": {
@@ -39,7 +55,8 @@
             "offline": "Hors ligne",
             "addFriendButton": "Ajouter un ami",
             "inboxButton": "Messages",
-            "friendsButton": "Amis"
+            "friendsButton": "Amis",
+            "searchBarPlaceholder": "Cherche"
         }
     },
     "explore": {
@@ -61,6 +78,9 @@
             "visitServerButton": "Visiter",
             "joinServerButton": "Rejoindre",
             "bumpButton": "Bump ({{count}})"
+        },
+        "bots": {
+            "inviteButton": "Inviter"
         }
     },
     "servers": {
@@ -143,6 +163,12 @@
                 "bumpServerDescription": "Bump this server to get to the top.",
                 "publishServerButton": "Publier le serveur",
                 "unpublishServerButton": "Annuler la publication du serveur"
+            },
+            "bans": {
+                "reason": "Raison"
+            },
+            "webhook": {
+                "name": "Nom"
             }
         },
         "rolePermissions": {
@@ -175,6 +201,24 @@
             "changelog": "Journal des Mise à Jour",
             "window-settings": "Paramètres Windows",
             "privacy": "Confidentialité"
+        },
+        "header": {
+            "servers": "serveurs",
+            "friends": "amis"
+        },
+        "language": {
+            "translateModal": {
+                "title": "Traduire"
+            }
+        },
+        "account": {
+            "banner": "Bannière",
+            "primaryColor": "Couleur Primaire",
+            "confirmButton": "Confirmer",
+            "deleteAccount": "Supprimer Mon Compte"
+        },
+        "notifications": {
+            "sounds": "Sons"
         }
     },
     "supportBlock": {
@@ -282,6 +326,36 @@
         "never": "jamais",
         "deletionNotice": "Votre compte et vos données seront supprimés dans 15 jours",
         "ipBanned": "Votre IP est bannie.",
-        "ipBanNotice": "Une personne utilisant la même addresse IP a été suspendue de Nerimity. Votre compte n'est pas impacté."
+        "ipBanNotice": "Une personne utilisant la même addresse IP a été suspendue de Nerimity. Votre compte n'est pas impacté.",
+        "by": "Par"
+    },
+    "dashboard": {
+        "posts": "Publications",
+        "notifications": "Notifications"
+    },
+    "status": {
+        "online": "En ligne",
+        "ltp": "Cherche À Jouer",
+        "dnd": "Ne Pas Déranger",
+        "offline": "Hors Ligne",
+        "appearAsOffline": "Apparaître Hors Ligne"
+    },
+    "sidePane": {
+        "addServer": "Ajouter Un Serveur"
+    },
+    "messageArea": {
+        "channelNotice": {
+            "title": "Avant d'envoyer un message..."
+        }
+    },
+    "markup": {
+        "color": "Couleur",
+        "timestampModal": {
+            "doneButton": "Terminé"
+        }
+    },
+    "typing": {
+        "single": "<1>{{username}}</1> est en train d'écrire…",
+        "multiple": "<1>{{username}}</1> et <2>{{username2}}</2> sont en train d'écrire…"
     }
 }
