@@ -1,11 +1,8 @@
-import serverSettings from "@/common/ServerSettings";
 import { Outlet, useParams } from "solid-navigator";
-import { createSignal, For, Show } from "solid-js";
+import { Show } from "solid-js";
 import ServerSettingsHeader from "./ServerSettingsHeader";
 import useStore from "@/chat-api/store/useStore";
 import { styled } from "solid-styled-components";
-import Text from "@/components/ui/Text";
-import { useTransContext } from "@nerimity/solid-i18lite";
 import { createStore } from "solid-js/store";
 
 const SettingsPaneContainer = styled("div")`
@@ -19,16 +16,17 @@ const SettingsPaneContainer = styled("div")`
 
 interface ServerSettingsHeaderPreview {
   name?: string;
-  avatar?: any;
+  avatar?: string;
+  avatarPoints?: number[];
   banner?: string;
+  bannerPoints?: number[];
 }
 
 export const [serverSettingsHeaderPreview, setServerSettingsHeaderPreview] =
   createStore<ServerSettingsHeaderPreview>({});
 
 export default function ServerSettingsPane() {
-  const [t] = useTransContext();
-  const params = useParams();
+  const params = useParams<{ serverId: string }>();
   const { servers } = useStore();
 
   const server = () => servers.get(params.serverId);
@@ -37,9 +35,7 @@ export default function ServerSettingsPane() {
     <Show when={server()}>
       <SettingsPaneContainer>
         <ServerSettingsHeader />
-        <>
-          <Outlet name="settingsPane" />
-        </>
+        <Outlet name="settingsPane" />
       </SettingsPaneContainer>
     </Show>
   );
