@@ -59,7 +59,9 @@
             "addFriendButton": "Ajouter un ami",
             "inboxButton": "Messages",
             "friendsButton": "Amis",
-            "searchBarPlaceholder": "Cherche"
+            "searchBarPlaceholder": "Cherche",
+            "onlineFriends": "{{count}} Amis En Ligne",
+            "viewAll": "Tous Afficher"
         }
     },
     "explore": {
@@ -91,7 +93,8 @@
             "officialThemes": "Thèmes officiels",
             "communityThemes": "thèmes communautaires",
             "noCommunityThemes": "Aucun thème communautaire trouvé."
-        }
+        },
+        "search": "Chercher"
     },
     "servers": {
         "settings": {
@@ -228,7 +231,10 @@
             "deleteAccount": "Supprimer Mon Compte"
         },
         "notifications": {
-            "sounds": "Sons"
+            "sounds": "Sons",
+            "inAppPreviewModes": {
+                "all": "Tout"
+            }
         }
     },
     "supportBlock": {
@@ -262,8 +268,10 @@
     "messageContextMenu": {
         "editMessage": "Modifier",
         "deleteMessage": "Supprimer",
-        "copyMessage": "Copier le message",
-        "copyId": "Copier l'ID"
+        "copyMessage": "Copier le Message",
+        "copyId": "Copier l'ID",
+        "translateMessage": "Traduire",
+        "reply": "Répondre"
     },
     "profile": {
         "followButton": "Suivre",
@@ -342,12 +350,12 @@
     "dashboard": {
         "posts": "Publications",
         "notifications": "Notifications",
-        "title": "tableau de bord",
+        "title": "Tableau De Bord",
         "activeUsers": "utilisateurs actifs",
         "noActiveUsers": "aucun utilisateur actif",
         "servers": "serveurs",
         "feed": "nourrir",
-        "discover": "découvrir"
+        "discover": "Découvrir"
     },
     "status": {
         "online": "En ligne",
@@ -359,7 +367,7 @@
     },
     "sidePane": {
         "addServer": "Ajouter Un Serveur",
-        "home": "acceuil/maison",
+        "home": "Accueil",
         "homeShort": "acceuil/maison",
         "moderation": "volet de modération",
         "moderationShort": "moderateur"
@@ -388,7 +396,9 @@
     },
     "typing": {
         "single": "<1>{{username}}</1> est en train d'écrire…",
-        "multiple": "<1>{{username}}</1> et <2>{{username2}}</2> sont en train d'écrire…"
+        "multiple": "<1>{{username}}</1> et <2>{{username2}}</2> sont en train d'écrire…",
+        "andOthers": "<1>{{count}}</1> utilisateurs sont en train d'écrire…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> et <3>{{username3}}</3> sont en train d'écrire…"
     },
     "resetPassword": {
         "title": "réinitialiser le mot de passe",
@@ -406,5 +416,71 @@
         "updateButton": "mettre a jour maintenant",
         "laterButton": "plus tard",
         "releasedAt": "publiée a"
+    },
+    "badges": {
+        "supporter": {
+            "description": "Soutenez ce projet par des dons financiers"
+        },
+        "kitty": {
+            "name": "Chaton"
+        },
+        "founder": {
+            "name": "Fondateur",
+            "description": "Créateur de Nerimity"
+        },
+        "contributor": {
+            "name": "Contributeur"
+        }
+    },
+    "botInvite": {
+        "creator": "Créé par "
+    },
+    "addFriendModal": {
+        "title": "Ajouter Un Ami",
+        "sendRequest": "Envoyer Une Demande",
+        "sending": "En Cours...",
+        "closeButton": "Fermer",
+        "requestSent": "Demande envoyée!"
+    },
+    "activityNames": {
+        "playing": "Joue à",
+        "listening": "Écoute",
+        "watching": "Régarde à"
+    },
+    "channelDrawer": {
+        "customize": {
+            "continueButton": "Continue à {{channel}}"
+        }
+    },
+    "message": {
+        "twitterEmbed": {
+            "showButton": "Montre"
+        },
+        "reactions": {
+            "more": "{{count}} plus"
+        },
+        "deletedMessage": "Message a été supprimer."
+    },
+    "messageView": {
+        "flaggedServer": {
+            "leaveButton": "Quitter Le Serveur"
+        }
+    },
+    "createServerModal": {
+        "createServerButton": "Créer Un Serveur",
+        "creating": "Création en cours...",
+        "tabLabel": "Créer"
+    },
+    "joinServerModal": {
+        "title": "Rejoindre Un Serveur"
+    },
+    "invite": {
+        "member": "membre",
+        "members": "membres"
+    },
+    "fileEmbed": {
+        "expired": "Éxpiré",
+        "viewImage": "Voir l'Image",
+        "download": "Télécharger"
     }
 }
