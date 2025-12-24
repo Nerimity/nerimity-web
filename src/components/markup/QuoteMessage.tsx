@@ -23,11 +23,24 @@ export function QuoteMessage(props: {
 }) {
   const [hovered, setHovered] = createSignal(false);
   const params = useParams<{ serverId?: string; channelId?: string }>();
-  const { serverMembers, messages } = useStore();
-  const serverMember = () =>
-    params.serverId
-      ? serverMembers.get(params.serverId, props.quote.createdBy!.id)
+  const { serverMembers, messages, channels } = useStore();
+
+  const getOrigin = () => {
+    const channel = channels.get(props.quote.channelId || "");
+    return {
+      channel,
+      serverId: channel?.serverId || params.serverId,
+      channelId: props.quote.channelId,
+    };
+  };
+
+  const serverMember = () => {
+    const { serverId } = getOrigin();
+    return serverId
+      ? serverMembers.get(serverId, props.quote.createdBy!.id)
       : undefined;
+  };
+
   socketClient.useSocketOn(ServerEvents.MESSAGE_DELETED, onDelete);
   socketClient.useSocketOn(ServerEvents.MESSAGE_UPDATED, onUpdate);
 
@@ -69,6 +82,18 @@ export function QuoteMessage(props: {
     return "Edited at " + formatTimestamp(props.quote.editedAt);
   };
 
+  const jumpToLink = () => {
+    const { serverId, channelId } = getOrigin();
+    const mId = props.quote.id;
+
+    if (!channelId || !mId) return "#";
+    if (!serverId) {
+      return `/app/inbox/${channelId}?messageId=${mId}`;
+    }
+
+    return `/app/servers/${serverId}/${channelId}?messageId=${mId}`;
+  };
+
   return (
     <div
       class="quoteContainer"
@@ -102,15 +127,32 @@ export function QuoteMessage(props: {
         >
           {serverMember()?.nickname || props.quote.createdBy!.username}
         </CustomLink>
-        <Show when={props.quote.channelId === params.channelId}>
-          <Button
-            class="goToMessageButton"
-            iconName="keyboard_arrow_up"
-            margin={0}
-            padding={4}
-            iconSize={14}
-            onClick={() => emitScrollToMessage({ messageId: props.quote.id! })}
-          />
+        <Show when={getOrigin().channel}>
+          <Show
+            when={props.quote.channelId === params.channelId}
+            fallback={
+              <CustomLink href={jumpToLink()}>
+                <Button
+                  class="goToMessageButton"
+                  iconName="keyboard_arrow_up"
+                  margin={0}
+                  padding={4}
+                  iconSize={14}
+                />
+              </CustomLink>
+            }
+          >
+            <Button
+              class="goToMessageButton"
+              iconName="keyboard_arrow_up"
+              margin={0}
+              padding={4}
+              iconSize={14}
+              onClick={() => {
+                emitScrollToMessage({ messageId: props.quote.id! });
+              }}
+            />
+          </Show>
         </Show>
         <Button
           class="goToMessageButton modShowMessagesButton"
@@ -156,6 +198,7 @@ export function QuoteMessage(props: {
 export function QuoteMessageInvalid() {
   return <div class="quoteContainer">Deleted Or Invalid Quote.</div>;
 }
+
 export function QuoteMessageHidden() {
   return <span class="hiddenQuote">Nested Quote</span>;
 }
