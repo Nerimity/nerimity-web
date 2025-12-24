@@ -198,7 +198,7 @@ export default function ProfilePane() {
 
       if (!user()) return;
       header.updateHeader({
-        subName: "Profile",
+        subName: t("settings.account.profile"),
         title: user()!.username,
         iconName: "person",
       });
@@ -272,7 +272,7 @@ export default function ProfilePane() {
                         <span class={styles.tag}>{`:${user()!.tag}`}</span>
                       </div>
                       <Show when={userDetails()?.followsYou}>
-                        <div class={styles.followsYou}>Follows You</div>
+                        <div class={styles.followsYou}>{t("profile.followsYou")}</div>
                       </Show>
                     </div>
                     <UserPresence
@@ -383,7 +383,7 @@ const BotCommands = (props: {
         background: props.paneBgColor,
       }}
     >
-      <div class={styles.botCommandsTitle}>Available Commands</div>
+      <div class={styles.botCommandsTitle}>{t("profile.availableCommands")}</div>
       <div class={styles.botCommands}>
         <For each={props.commands}>
           {(command) => <BotCommandItem command={command} />}
@@ -454,14 +454,14 @@ const ActionButtons = (props: {
     createPortal((c) => (
       <DeleteConfirmModal
         buttonText={{
-          loading: "Removing...",
-          main: "Remove Friend",
+          loading: t("removeFriendModal.removing"),
+          main: t("profile.removeFriendButton"),
         }}
         onDeleteClick={removeFriend}
-        title={"Unfriend " + recipient?.username}
+        title={t("removeFriendModal.title", { username: recipient?.username })}
         custom={
           <div class={styles.unfriendConfirmContainer}>
-            <div>Are you sure you want to unfriend {recipient?.username}?</div>
+            <div>{t("removeFriendModal.body")}</div>
             <div class={styles.unfriendConfirmPreviewContainer}>
               <Avatar user={recipient} size={40} />
               <div>{recipient?.username}</div>
@@ -472,6 +472,7 @@ const ActionButtons = (props: {
       />
     ));
   };
+  // ^ refactor this a little in a future PR
 
   const addClicked = () => {
     if (!props.user) return;
@@ -509,7 +510,7 @@ const ActionButtons = (props: {
         <CustomLink href={"/app/moderation/users/" + params.userId}>
           <ActionButton
             icon="security"
-            label="Admin Panel"
+            label={t("profile.adminPanelButton")}
             color={props.primaryColor || "var(--primary-color)"}
           />
         </CustomLink>
@@ -567,7 +568,7 @@ const ActionButtons = (props: {
       <Show when={isBlocked()}>
         <ActionButton
           icon="block"
-          label="Unblock"
+          label={t("profile.unblockButton")}
           color="var(--alert-color)"
           onClick={unblockClicked}
         />
@@ -618,7 +619,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
       items.push(
         { separator: true },
         {
-          label: "Unblock",
+          label: t("profile.unblockButton"),
           icon: "block",
           alert: true,
           onClick: unblockClicked,
@@ -627,7 +628,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     } else {
       if (!isMe()) {
         items.push({
-          label: "Block",
+          label: t("profile.blockButton"),
           icon: "block",
           alert: true,
           onClick: blockClicked,
@@ -638,7 +639,7 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     if (!isMe()) {
       items.push({
         id: "report",
-        label: "Report",
+        label: t("profile.reportButton"),
         icon: "flag",
         alert: true,
         onClick: reportClicked,
@@ -647,11 +648,11 @@ function ProfileContextMenu(props: Omit<ContextMenuProps, "items">) {
     items.push(
       { separator: true },
       {
-        label: "Copy Profile URL",
+        label: t("profile.copyLinkButton"),
         icon: "content_copy",
         onClick: copyProfileClick,
       },
-      { label: "Copy ID", icon: "content_copy", onClick: copyIdClick }
+      { label: t("userContextMenu.copyId"), icon: "content_copy", onClick: copyIdClick }
     );
     return items;
   };
@@ -743,22 +744,22 @@ function SideBar(props: {
         <SidePaneItem
           paneBgColor={props.paneBgColor}
           icon="block"
-          label="This user is suspended"
+          label={t("profile.suspended")}
           color="var(--alert-color)"
-          value={`Expires ${
+          value={
             !props.user.suspensionExpiresAt
-              ? "never"
-              : getDaysAgo(props.user.suspensionExpiresAt!)
-          }`}
+              ? t("profile.expiresNever")
+              : t("profile.expires", { time: getDaysAgo(props.user.suspensionExpiresAt!) })
+          }
         />
       </Show>
       <Show when={props.user?.block}>
         <SidePaneItem
           paneBgColor={props.paneBgColor}
           icon="block"
-          label="You've been blocked"
+          label={t("profile.blocked")}
           color="var(--alert-color)"
-          value="This user has blocked you."
+          value={t("profile.blockedDescription")}
         />
       </Show>
       <UserActivity
@@ -770,7 +771,7 @@ function SideBar(props: {
         <SidePaneItem
           paneBgColor={props.paneBgColor}
           icon="event"
-          label="Joined"
+          label={t("channelDrawer.members.sort.joinedNerimity")}
           color={props.user?.profile?.primaryColor}
           value={joinedAt()}
           onClick={() => setToggleJoinedDateType(!toggleJoinedDateType())}
@@ -780,7 +781,7 @@ function SideBar(props: {
         <SidePaneItem
           paneBgColor={props.paneBgColor}
           icon="person"
-          label="Bot Creator"
+          label={t("profile.botCreator")}
           color={props.user?.profile?.primaryColor}
         >
           <A
@@ -1301,7 +1302,7 @@ function FollowersArea(props: { userId: string; usuallyHidden?: boolean }) {
       <Show when={props.usuallyHidden}>
         <Notice
           type="info"
-          description="Only you can see your followers list."
+          description={t("profile.privateList")} // Followers
         />
       </Show>
       <UsersList users={followers()} />
@@ -1321,7 +1322,7 @@ function FollowingArea(props: { userId: string; usuallyHidden?: boolean }) {
       <Show when={props.usuallyHidden}>
         <Notice
           type="info"
-          description="Only you can see your following list."
+          description={t("profile.privateList")} // Following
         />
       </Show>
       <UsersList users={following()} />
@@ -1436,7 +1437,7 @@ function BadgeDetailModal(props: {
   });
 
   return (
-    <LegacyModal title={`${props.badge.name()} Badge`} close={props.close}>
+    <LegacyModal title={t("profile.badge", { badgeName: `${props.badge.name()}` })} close={props.close}>
       <BadgeDetailsModalContainer gap={30}>
         <FlexColumn itemsCenter gap={18}>
           <Avatar user={user()} size={80} animate={animate()} />
