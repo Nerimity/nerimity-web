@@ -39,7 +39,7 @@ const avatarStyles = css`
   z-index: 111;
 `;
 
-const CustomeAvatar = styled("div")<{ cropPosition: string }>`
+const CustomAvatar = styled("div")<{ cropPosition: string }>`
   width: 100%;
   height: 100%;
   background-repeat: no-repeat !important;
@@ -77,13 +77,23 @@ const ServerSettingsHeader = () => {
     return { width: img.width, height: img.height };
   }
 
-  createEffect(on(() => serverSettingsHeaderPreview.avatar, (val) => {
-    if (val) getImageDimensions(val).then(setImgDim);
-  }));
+  createEffect(
+    on(
+      () => serverSettingsHeaderPreview.avatar,
+      (val) => {
+        if (val) getImageDimensions(val).then(setImgDim);
+      }
+    )
+  );
 
-  createEffect(on(() => serverSettingsHeaderPreview.banner, (val) => {
-    if (val) getImageDimensions(val).then(setBannerDim);
-  }));
+  createEffect(
+    on(
+      () => serverSettingsHeaderPreview.banner,
+      (val) => {
+        if (val) getImageDimensions(val).then(setBannerDim);
+      }
+    )
+  );
 
   const avatarCropStyle = createMemo(() => {
     const coords = serverSettingsHeaderPreview.avatarPoints;
@@ -93,8 +103,12 @@ const ServerSettingsHeader = () => {
     const scaleX = el.clientWidth / (coords[2] - coords[0]);
     const scaleY = el.clientHeight / (coords[3] - coords[1]);
     return `
-      background-position: -${coords[0] * scaleX}px -${coords[1] * scaleY}px !important;
-      background-size: ${dims.width * scaleX}px ${dims.height * scaleY}px !important;
+      background-position: -${coords[0] * scaleX}px -${
+      coords[1] * scaleY
+    }px !important;
+      background-size: ${dims.width * scaleX}px ${
+      dims.height * scaleY
+    }px !important;
     `;
   });
 
@@ -106,8 +120,12 @@ const ServerSettingsHeader = () => {
     const scaleX = el.clientWidth / (coords[2] - coords[0]);
     const scaleY = el.clientHeight / (coords[3] - coords[1]);
     return `
-      background-position: -${coords[0] * scaleX}px -${coords[1] * scaleY}px !important;
-      background-size: ${dims.width * scaleX}px ${dims.height * scaleY}px !important;
+      background-position: -${coords[0] * scaleX}px -${
+      coords[1] * scaleY
+    }px !important;
+      background-size: ${dims.width * scaleX}px ${
+      dims.height * scaleY
+    }px !important;
       background-repeat: no-repeat !important;
     `;
   });
@@ -115,31 +133,41 @@ const ServerSettingsHeader = () => {
   return (
     <Show when={server()}>
       <Banner
-        ref={setBannerEl}
         maxHeight={250}
         animate
-        url={serverSettingsHeaderPreview.avatar ? undefined : (serverSettingsHeaderPreview.banner || bannerUrl(server()!))}
+        url={
+          serverSettingsHeaderPreview.banner ? undefined : bannerUrl(server()!)
+        }
         hexColor={server()?.hexColor}
       >
         {serverSettingsHeaderPreview.banner ? (
           <CustomBanner
+            ref={setBannerEl}
             cropPosition={bannerCropStyle()}
-            style={{ background: `url("${serverSettingsHeaderPreview.banner}")` }}
+            style={{
+              background: `url("${serverSettingsHeaderPreview.banner}")`,
+            }}
           />
         ) : null}
         <HeaderContainer>
           <Avatar
             animate
-            url={serverSettingsHeaderPreview.avatar ? undefined : avatarUrl(server()!)}
+            url={
+              serverSettingsHeaderPreview.avatar
+                ? undefined
+                : avatarUrl(server()!)
+            }
             server={server()}
             size={width() <= 1100 ? 70 : 100}
             class={avatarStyles}
           >
             {serverSettingsHeaderPreview.avatar ? (
-              <CustomeAvatar
+              <CustomAvatar
                 ref={setAvatarEl}
                 cropPosition={avatarCropStyle()}
-                style={{ background: `url("${serverSettingsHeaderPreview.avatar}")` }}
+                style={{
+                  background: `url("${serverSettingsHeaderPreview.avatar}")`,
+                }}
               />
             ) : null}
           </Avatar>
