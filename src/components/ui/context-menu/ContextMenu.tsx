@@ -76,7 +76,32 @@ export default function ContextMenu(props: ContextMenuProps) {
       });
     }
 
-    return tempItems;
+    const filterDuplicateSeparators = tempItems.filter((item, index, array) => {
+      // 1. If it's not a separator, always keep it
+      if (!item.separator) {
+        return true;
+      }
+
+      // 2. Remove if it's the first item
+      if (index === 0) {
+        return false;
+      }
+
+      // 3. Remove if it's the last item
+      if (index === array.length - 1) {
+        return false;
+      }
+
+      // 4. Remove if the previous item was also a separator
+      const previousItem = array[index - 1];
+      if (previousItem && previousItem.separator) {
+        return false;
+      }
+
+      return true;
+    });
+
+    return filterDuplicateSeparators;
   };
 
   createEffect(() => {
@@ -247,7 +272,7 @@ function Item(props: {
   onLeave?(): void;
   hovered?: boolean;
 }) {
-  const {isMobileWidth} = useWindowProperties();
+  const { isMobileWidth } = useWindowProperties();
   const [showSubMenu, setShowSubMenu] = createSignal(false);
   let itemElement: HTMLDivElement | undefined;
   const { width } = useResizeObserver(() => itemElement);
@@ -299,12 +324,16 @@ function Item(props: {
           <Icon class={styles.arrow} name="keyboard_arrow_right" size={16} />
         </Show>
       </div>
-      <Show when={props.item.sub && (isMobileWidth() ? showSubMenu() : props.hovered)}>
-          <ContextMenu
-            onClose={() => props.close?.()}
-            items={props.item.sub!}
-            position={getSubContextMenuPos()}
-          />
+      <Show
+        when={
+          props.item.sub && (isMobileWidth() ? showSubMenu() : props.hovered)
+        }
+      >
+        <ContextMenu
+          onClose={() => props.close?.()}
+          items={props.item.sub!}
+          position={getSubContextMenuPos()}
+        />
       </Show>
     </>
   );

@@ -644,7 +644,9 @@ export const MessageLogArea = (props: {
         <div class={styles.noMessages}>
           <Icon name="comment" size={40} color="var(--primary-color)" />
           <div>
-            <div class={styles.noMessagesTitle}>{t("messageView.noMessages")}</div>
+            <div class={styles.noMessagesTitle}>
+              {t("messageView.noMessages")}
+            </div>
             <div class={styles.noMessagesText}>
               {t("messageView.noMessagesDescription")}
             </div>
@@ -824,7 +826,7 @@ type MessageContextMenuProps = Omit<ContextMenuProps, "items"> & {
 function MessageContextMenu(props: MessageContextMenuProps) {
   const params = useParams<{ serverId?: string }>();
   const { createPortal } = useCustomPortal();
-  const { account, serverMembers } = useStore();
+  const { account, serverMembers, channels } = useStore();
   const onDeleteClick = () => {
     createPortal?.((close) => (
       <DeleteMessageModal close={close} message={props.message} />
@@ -898,7 +900,7 @@ function MessageContextMenu(props: MessageContextMenuProps) {
       <PinConfirmModal close={close} message={props.message} />
     ));
   };
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function renderHtml(nodeOrNodes: any) {
     // --- Internal helper function to render a single node (Recursive core logic) ---
@@ -1026,9 +1028,22 @@ function MessageContextMenu(props: MessageContextMenuProps) {
             ]
           : []),
 
-        ...(showEdit() || showDelete() || showQuote() || showReportMessage()
-          ? [{ separator: true }]
-          : []),
+        { separator: true },
+        {
+          icon: "link",
+          label: t("messageContextMenu.copyLink")!,
+          onClick: () => {
+            const channel = channels.get(props.message.channelId!);
+            if (channel?.serverId) {
+              return copyToClipboard(
+                `${env.APP_URL}/app/servers/${channel.serverId}/${channel.id}?messageId=${props.message.id}`
+              );
+            }
+            return copyToClipboard(
+              `${env.APP_URL}/app/inbox/${channel?.id}?messageId=${props.message.id}`
+            );
+          },
+        },
 
         ...(hasContent()
           ? [
