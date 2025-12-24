@@ -19,7 +19,9 @@
             "feature2": "Design élégant",
             "feature3": "Changez gratuitement votre discriminateur",
             "feature4": "Créer des publications sur votre profil",
-            "feature5": "Trouvez votre propre communauté"
+            "feature5": "Trouvez votre propre communauté",
+            "feature7": "fonctionne grâce aux dons",
+            "feature8": "code source complet sur GItHub"
         }
     },
     "loginPage": {
@@ -45,7 +47,8 @@
         "notices": {
             "nsfw": "Pas de contenu NSFW.",
             "toxic": "Ne soyez pas toxique.",
-            "age": "Vous devez avoir au moins 14 ans."
+            "age": "Vous devez avoir au moins 14 ans.",
+            "title": "avis"
         }
     },
     "inbox": {
@@ -56,7 +59,9 @@
             "addFriendButton": "Ajouter un ami",
             "inboxButton": "Messages",
             "friendsButton": "Amis",
-            "searchBarPlaceholder": "Cherche"
+            "searchBarPlaceholder": "Cherche",
+            "onlineFriends": "{{count}} Amis En Ligne",
+            "viewAll": "Tous Afficher"
         }
     },
     "explore": {
@@ -81,7 +86,17 @@
         },
         "bots": {
             "inviteButton": "Inviter"
-        }
+        },
+        "themes": {
+            "title": "Explorer - Thèmes",
+            "themesHeaderDescription": "Personnalisez Nerimity avec un thème personnalisé.",
+            "officialThemes": "Thèmes officiels",
+            "communityThemes": "thèmes communautaires",
+            "noCommunityThemes": "Aucun thème communautaire trouvé."
+        },
+        "search": "Chercher",
+        "by": "Par",
+        "bumped": "Heurter"
     },
     "servers": {
         "settings": {
@@ -96,7 +111,10 @@
                 "role": "Rôle",
                 "channel": "Salon",
                 "emojis": "Émojis",
-                "notifications": "Notifications"
+                "notifications": "Notifications",
+                "audit-logs": "Journaux d'audit",
+                "welcome-screen": "Écran de bienvenue",
+                "external-embed": "Intégration externe"
             },
             "general": {
                 "serverRenameNotice": "Vous perdrez tous les avantages de faire vérifier votre serveur si vous le renommez.",
@@ -165,7 +183,15 @@
                 "unpublishServerButton": "Annuler la publication du serveur"
             },
             "bans": {
-                "reason": "Raison"
+                "reason": "Raison",
+                "sort": {
+                    "title": "Trier",
+                    "unsorted": "Non trié"
+                },
+                "noResults": "Aucun résultat trouvé.",
+                "noReason": "Aucune raison fournie",
+                "bannedAt": "Banni à",
+                "unknown": "Inconnue"
             },
             "webhook": {
                 "name": "Nom"
@@ -218,7 +244,10 @@
             "deleteAccount": "Supprimer Mon Compte"
         },
         "notifications": {
-            "sounds": "Sons"
+            "sounds": "Sons",
+            "inAppPreviewModes": {
+                "all": "Tout"
+            }
         }
     },
     "supportBlock": {
@@ -252,8 +281,10 @@
     "messageContextMenu": {
         "editMessage": "Modifier",
         "deleteMessage": "Supprimer",
-        "copyMessage": "Copier le message",
-        "copyId": "Copier l'ID"
+        "copyMessage": "Copier le Message",
+        "copyId": "Copier l'ID",
+        "translateMessage": "Traduire",
+        "reply": "Répondre"
     },
     "profile": {
         "followButton": "Suivre",
@@ -331,21 +362,43 @@
     },
     "dashboard": {
         "posts": "Publications",
-        "notifications": "Notifications"
+        "notifications": "Notifications",
+        "title": "Tableau De Bord",
+        "activeUsers": "utilisateurs actifs",
+        "noActiveUsers": "aucun utilisateur actif",
+        "servers": "serveurs",
+        "feed": "nourrir",
+        "discover": "Découvrir"
     },
     "status": {
         "online": "En ligne",
         "ltp": "Cherche À Jouer",
         "dnd": "Ne Pas Déranger",
         "offline": "Hors Ligne",
-        "appearAsOffline": "Apparaître Hors Ligne"
+        "appearAsOffline": "Apparaître Hors Ligne",
+        "afk": "loin du clavier"
     },
     "sidePane": {
-        "addServer": "Ajouter Un Serveur"
+        "addServer": "Ajouter Un Serveur",
+        "home": "Accueil",
+        "homeShort": "acceuil/maison",
+        "moderation": "volet de modération",
+        "moderationShort": "moderateur"
     },
     "messageArea": {
         "channelNotice": {
-            "title": "Avant d'envoyer un message..."
+            "title": "Avant d'envoyer un message...",
+            "understoodButton": "compris"
+        },
+        "messageBoxPlaceholder": "Message {{nom d'utilisateur}}",
+        "messageBoxChannelPlaceholder": "Message dans {{nom de chaine}}",
+        "replying": "Répondre a {{nombre}} message(s)",
+        "mention": "mentionner",
+        "dropFile": "déposer le fichier",
+        "uploadTo": "télécharger vers",
+        "specialMentions": {
+            "everyone": "mentionner tout le monde",
+            "someone": "Mentionner un utilisateur au hasard"
         }
     },
     "markup": {
@@ -356,6 +409,101 @@
     },
     "typing": {
         "single": "<1>{{username}}</1> est en train d'écrire…",
-        "multiple": "<1>{{username}}</1> et <2>{{username2}}</2> sont en train d'écrire…"
+        "multiple": "<1>{{username}}</1> et <2>{{username2}}</2> sont en train d'écrire…",
+        "andOthers": "<1>{{count}}</1> utilisateurs sont en train d'écrire…",
+        "tripple": "<1>{{username}}</1>, <2>{{username2}}</2> et <3>{{username3}}</3> sont en train d'écrire…"
+    },
+    "resetPassword": {
+        "title": "réinitialiser le mot de passe",
+        "resetSuccessful": "réinitialisation du mot de passe réussie.",
+        "passwordsDoNotMatch": "la confirmation du mot de passe ne correspond pas.",
+        "passwordTooLong": "le mot de passe doit comporter moins de 72 caractères.",
+        "resetPasswordButton": "réinitialiser mot de passe",
+        "resetting": "réinitialisation...",
+        "email": "e-mail",
+        "sendEmailButton": "envoyer e-mail",
+        "sending": "envoi de l'e-mail..."
+    },
+    "updateModal": {
+        "title": "mise a jour disponible",
+        "updateButton": "mettre a jour maintenant",
+        "laterButton": "plus tard",
+        "releasedAt": "publiée a"
+    },
+    "badges": {
+        "supporter": {
+            "description": "Soutenez ce projet par des dons financiers"
+        },
+        "kitty": {
+            "name": "Chaton"
+        },
+        "founder": {
+            "name": "Fondateur",
+            "description": "Créateur de Nerimity"
+        },
+        "contributor": {
+            "name": "Contributeur"
+        }
+    },
+    "botInvite": {
+        "creator": "Créé par "
+    },
+    "addFriendModal": {
+        "title": "Ajouter Un Ami",
+        "sendRequest": "Envoyer Une Demande",
+        "sending": "En Cours...",
+        "closeButton": "Fermer",
+        "requestSent": "Demande envoyée!"
+    },
+    "activityNames": {
+        "playing": "Joue à",
+        "listening": "Écoute",
+        "watching": "Régarde à"
+    },
+    "channelDrawer": {
+        "customize": {
+            "continueButton": "Continue à {{channel}}"
+        }
+    },
+    "message": {
+        "twitterEmbed": {
+            "showButton": "Montre"
+        },
+        "reactions": {
+            "more": "{{count}} plus"
+        },
+        "deletedMessage": "Message a été supprimer."
+    },
+    "messageView": {
+        "flaggedServer": {
+            "leaveButton": "Quitter Le Serveur"
+        }
+    },
+    "createServerModal": {
+        "createServerButton": "Créer Un Serveur",
+        "creating": "Création en cours...",
+        "tabLabel": "Créer"
+    },
+    "joinServerModal": {
+        "title": "Rejoindre Un Serveur"
+    },
+    "invite": {
+        "member": "membre",
+        "members": "membres"
+    },
+    "fileEmbed": {
+        "expired": "Éxpiré",
+        "viewImage": "Voir l'Image",
+        "download": "Télécharger"
+    },
+    "editFolderModal": {
+        "title": "Modifier le Dossier",
+        "placeholder": "Nom du dossier",
+        "cancelButton": "Ne sauvegardez pas",
+        "save": "sauvegarder",
+        "saving": "Sauvegarde...",
+        "errors": {
+            "emptyName": "Veuillez entrer un nom de dossier."
+        }
     }
 }
