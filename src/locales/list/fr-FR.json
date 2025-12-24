@@ -94,7 +94,9 @@
             "communityThemes": "thèmes communautaires",
             "noCommunityThemes": "Aucun thème communautaire trouvé."
         },
-        "search": "Chercher"
+        "search": "Chercher",
+        "by": "Par",
+        "bumped": "Heurter"
     },
     "servers": {
         "settings": {
@@ -109,7 +111,10 @@
                 "role": "Rôle",
                 "channel": "Salon",
                 "emojis": "Émojis",
-                "notifications": "Notifications"
+                "notifications": "Notifications",
+                "audit-logs": "Journaux d'audit",
+                "welcome-screen": "Écran de bienvenue",
+                "external-embed": "Intégration externe"
             },
             "general": {
                 "serverRenameNotice": "Vous perdrez tous les avantages de faire vérifier votre serveur si vous le renommez.",
@@ -178,7 +183,15 @@
                 "unpublishServerButton": "Annuler la publication du serveur"
             },
             "bans": {
-                "reason": "Raison"
+                "reason": "Raison",
+                "sort": {
+                    "title": "Trier",
+                    "unsorted": "Non trié"
+                },
+                "noResults": "Aucun résultat trouvé.",
+                "noReason": "Aucune raison fournie",
+                "bannedAt": "Banni à",
+                "unknown": "Inconnue"
             },
             "webhook": {
                 "name": "Nom"
@@ -482,5 +495,15 @@
         "expired": "Éxpiré",
         "viewImage": "Voir l'Image",
         "download": "Télécharger"
+    },
+    "editFolderModal": {
+        "title": "Modifier le Dossier",
+        "placeholder": "Nom du dossier",
+        "cancelButton": "Ne sauvegardez pas",
+        "save": "sauvegarder",
+        "saving": "Sauvegarde...",
+        "errors": {
+            "emptyName": "Veuillez entrer un nom de dossier."
+        }
     }
 }
