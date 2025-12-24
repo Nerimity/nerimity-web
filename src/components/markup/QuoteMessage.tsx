@@ -163,7 +163,7 @@ export function QuoteMessage(props: {
           onClick={() =>
             emitModerationShowMessages({
               messageId: props.quote.id!,
-              channelId: props.quote.id!,
+              channelId: props.quote.channelId!,
             })
           }
         />
