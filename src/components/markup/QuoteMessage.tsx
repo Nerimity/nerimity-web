@@ -24,13 +24,13 @@ export function QuoteMessage(props: {
   const [hovered, setHovered] = createSignal(false);
   const params = useParams<{ serverId?: string; channelId?: string }>();
   const { serverMembers, messages, channels } = useStore();
-  
+
   const getOrigin = () => {
     const channel = channels.get(props.quote.channelId || "");
     return {
       channel,
       serverId: channel?.serverId || params.serverId,
-      channelId: props.quote.channelId
+      channelId: props.quote.channelId,
     };
   };
 
@@ -88,7 +88,7 @@ export function QuoteMessage(props: {
 
     if (!channelId || !mId) return "#";
     if (!serverId) {
-      return `/app/direct-messages/${channelId}?messageId=${mId}`;
+      return `/app/inbox/${channelId}?messageId=${mId}`;
     }
 
     return `/app/servers/${serverId}/${channelId}?messageId=${mId}`;
