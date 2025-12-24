@@ -196,6 +196,10 @@ const AuditLogItem = (props: {
     };
   };
 
+  const rawData = () => {
+    return Object.entries(props.item.data || {});
+  };
+
   const timestamp = () => {
     return formatTimestamp(props.item.createdAt);
   };
@@ -227,6 +231,20 @@ const AuditLogItem = (props: {
       <Text size={14} opacity={0.6}>
         At {timestamp()}
       </Text>
+      <Show when={!actionTo()}>
+        <div>
+          <For each={rawData()}>
+            {([key, value]) => (
+              <Text size={14}>
+                <Text size={14} opacity={0.6}>
+                  {key}:
+                </Text>{" "}
+                {typeof value === "string" ? value : JSON.stringify(value)}{" "}
+              </Text>
+            )}
+          </For>
+        </div>
+      </Show>
     </AuditLogItemContainer>
   );
 };
