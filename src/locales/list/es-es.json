@@ -814,7 +814,8 @@
         "creator": "Creado por ",
         "selectButton": "Seleccionar servidor",
         "addButton": "Añadir bot",
-        "permissions": "Permisos del bot"
+        "permissions": "Permisos del bot",
+        "title": "Invitar bot"
     },
     "googleAccountLink": {
         "linking": "Vinculando tu cuenta con Google…",
@@ -1047,5 +1048,10 @@
     },
     "inVoiceActions": {
         "connectedFor": "Conectado por"
+    },
+    "inputFieldActions": {
+        "copy": "Copiar",
+        "cut": "Cortar",
+        "paste": "Pegar"
     }
 }
