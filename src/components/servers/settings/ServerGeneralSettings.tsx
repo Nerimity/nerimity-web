@@ -1,5 +1,5 @@
 import { useParams } from "solid-navigator";
-import { createEffect, createSignal, onCleanup, Show } from "solid-js";
+import { createEffect, createSignal, onCleanup, Show, lazy } from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import Input from "@/components/ui/input/Input";
 import DropDown from "@/components/ui/drop-down/DropDown";
@@ -31,6 +31,8 @@ const Container = styled("div")`
   padding: 10px;
 `;
 
+const ImageCropModal = lazy(() => import("@/components/ui/ImageCropModal"));
+
 export default function ServerGeneralSettings() {
   const params = useParams<{ serverId: string }>();
   const { header, servers, channels, account } = useStore();
@@ -52,6 +54,8 @@ export default function ServerGeneralSettings() {
     systemChannelId: server()?.systemChannelId || null,
     avatar: undefined as File | undefined,
     banner: undefined as File | undefined,
+    avatarPoints: null as null | number[],
+    bannerPoints: null as null | number[],
   });
 
   const [inputValues, updatedInputValues, setInputValue] =
@@ -95,7 +99,10 @@ export default function ServerGeneralSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("serverContextMenu.settings") + " - " + t("servers.settings.drawer.general"),
+      title:
+        t("serverContextMenu.settings") +
+        " - " +
+        t("servers.settings.drawer.general"),
       serverId: params.serverId!,
       iconName: "settings",
     });
@@ -108,7 +115,8 @@ export default function ServerGeneralSettings() {
     if (requestSent()) return;
     setRequestSent(true);
     setError(null);
-    const { avatar, banner, ...rest } = updatedInputValues();
+    const { avatar, banner, avatarPoints, bannerPoints, ...rest } =
+      updatedInputValues();
 
     let avatarId;
     let bannerId;
@@ -116,6 +124,7 @@ export default function ServerGeneralSettings() {
     if (avatar) {
       const res = await uploadAvatar(server()?.id!, {
         file: avatar,
+        points: avatarPoints!,
       });
       avatarId = res.fileId;
     }
@@ -123,6 +132,7 @@ export default function ServerGeneralSettings() {
     if (banner) {
       const res = await uploadBanner(server()?.id!, {
         file: banner,
+        points: bannerPoints!,
       });
       bannerId = res.fileId;
     }
@@ -130,7 +140,9 @@ export default function ServerGeneralSettings() {
     await updateServer(params.serverId!, { ...rest, bannerId, avatarId })
       .then(() => {
         setInputValue("avatar", undefined);
+        setInputValue("avatarPoints", null);
         setInputValue("banner", undefined);
+        setInputValue("bannerPoints", null);
         setServerSettingsHeaderPreview(reconcile({}));
       })
       .catch((err) => setError(err.message))
@@ -148,8 +160,24 @@ export default function ServerGeneralSettings() {
     ));
   };
 
+  const onCropped = (
+    points: number[],
+    type: "avatar" | "banner" = "avatar"
+  ) => {
+    const pointsKey = type === "banner" ? "bannerPoints" : "avatarPoints";
+    setInputValue(pointsKey, points);
+    setServerSettingsHeaderPreview({ [pointsKey]: points });
+  };
+
   const onAvatarPick = (files: string[], rawFiles: FileList) => {
     if (files[0]) {
+      createPortal((close) => (
+        <ImageCropModal
+          close={close}
+          image={files[0]}
+          onCropped={(p) => onCropped(p, "avatar")}
+        />
+      ));
       setInputValue("avatar", rawFiles[0]);
       setServerSettingsHeaderPreview({ avatar: files[0] });
     }
@@ -157,6 +185,15 @@ export default function ServerGeneralSettings() {
 
   const onBannerPick = (files: string[], rawFiles: FileList) => {
     if (files[0]) {
+      createPortal((close) => (
+        <ImageCropModal
+          type="banner"
+          aspect={900 / 250}
+          close={close}
+          image={files[0]}
+          onCropped={(p) => onCropped(p, "banner")}
+        />
+      ));
       setInputValue("banner", rawFiles[0]);
       setServerSettingsHeaderPreview({ banner: files[0] });
     }
@@ -193,7 +230,10 @@ export default function ServerGeneralSettings() {
       >
         <Input
           value={inputValues().name}
-          onText={(v) => setInputValue("name", v)}
+          onText={(v) => {
+            setInputValue("name", v);
+            setServerSettingsHeaderPreview({ name: v });
+          }}
         />
       </SettingsBlock>
       <SettingsBlock
@@ -237,7 +277,11 @@ export default function ServerGeneralSettings() {
             iconName="close"
             onClick={() => {
               setInputValue("avatar", undefined);
-              setServerSettingsHeaderPreview({ avatar: undefined });
+              setInputValue("avatarPoints", null);
+              setServerSettingsHeaderPreview({
+                avatar: undefined,
+                avatarPoints: undefined,
+              });
             }}
           />
         </Show>
@@ -268,7 +312,11 @@ export default function ServerGeneralSettings() {
             iconName="close"
             onClick={() => {
               setInputValue("banner", undefined);
-              setServerSettingsHeaderPreview({ banner: undefined });
+              setInputValue("bannerPoints", null);
+              setServerSettingsHeaderPreview({
+                banner: undefined,
+                bannerPoints: undefined,
+              });
             }}
           />
         </Show>
@@ -344,7 +392,9 @@ export function ServerDeleteConfirmModal(props: {
 
   return (
     <DeleteConfirmModal
-      title={`${t("servers.settings.general.deleteThisServer")} ${props.server?.name}`}
+      title={`${t("servers.settings.general.deleteThisServer")} ${
+        props.server?.name
+      }`}
       close={props.close}
       errorMessage={error()}
       confirmText={props.server?.name}
