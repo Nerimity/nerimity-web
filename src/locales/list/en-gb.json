@@ -809,6 +809,8 @@
     "copyLink": "Copy Link"
   },
   "profile": {
+    "followsYou": "Follows You",
+    "badge": "{{badgeName}} Badge",
     "followButton": "Follow",
     "unfollowButton": "Unfollow",
     "removeFriendButton": "Remove Friend",
@@ -816,13 +818,25 @@
     "pendingRequest": "Pending Request",
     "acceptRequestButton": "Accept Request",
     "messageButton": "Message",
+    "blockButton": "Block",
+    "unblockButton": "Unblock",
+    "reportButton": "Report",
+    "copyLinkButton": "Copy Profile URL",
     "mutualFriends": "Mutual Friends ({{count}})",
     "mutualServers": "Mutual Servers ({{count}})",
     "postsTab": "Posts",
+    "postsAndRepliesTab": "Posts and replies ({{count}})",
+    "likedPostsTab": "Liked Posts ({{count}})",
     "followersTab": "Followers",
     "followingTab": "Following",
-    "postsAndRepliesTab": "Posts and replies ({{count}})",
-    "likedPostsTab": "Liked Posts ({{count}})"
+    "availableCommands": "Available Commands",
+    "botCreator": "Bot Creator",
+    "suspended": "This user is suspended",
+    "expires": "Expires {{time}}.",
+    "expiresNever": "Expires never.",
+    "blocked": "You've been blocked",
+    "blockedDescription": "This user has blocked you.",
+    "privateList": "Only you can see this list."
   },
   "posts": {
     "deletePostModal": {
@@ -947,6 +961,11 @@
       "missingTag": "Please enter a username:tag.",
       "colonInUsername": "Username must not contain a colon."
     }
+  },
+  "removeFriendModal": {
+    "title": "Unfriend {{username}}",
+    "body": "Are you sure you want to unfriend this user?",
+    "removing": "Removing..."
   },
   "deleteMessageModal": {
     "title": "Delete Message?",
