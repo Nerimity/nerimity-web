@@ -8,7 +8,7 @@ export interface Language {
   rtl?: boolean; // (Optional) Right-to-left support (Placeholder)
 }
 
-export const languages = {
+export const languages: Record<string, Language> = {
   "en-gb": {
     name: "English",
     emoji: "🇬🇧",
@@ -126,6 +126,7 @@ export const languages = {
     emoji: "🇹🇷",
     contributors: [
       "https://github.com/M0nsterKitty",
+      "https://github.com/balitorius",
       "https://github.com/lexerotk",
       "https://github.com/slideglide",
     ],
@@ -140,15 +141,45 @@ export const languages = {
   },
 };
 
+const detectDefaultLanguage = (): string => {
+  if (typeof navigator === "undefined") return "en-gb";
+
+  const browserLocales =
+    navigator.languages && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language];
+
+  const supportedKeys = Object.keys(languages);
+
+  for (const locale of browserLocales) {
+    const lang = locale.toLowerCase();
+
+    if (lang === "zh-tw" || lang === "zh-hk" || lang.startsWith("zh-hant")) {
+      return "zn-hant";
+    }
+
+    if (languages[lang]) {
+      return lang;
+    }
+
+    const base = lang.split("-")[0];
+    const partialMatch = supportedKeys.find((key) => key.startsWith(base!));
+    if (partialMatch) return partialMatch;
+  }
+
+  return "en-gb";
+};
+
 const [_getCurrentLanguage, setCurrentLanguage] = useLocalStorage(
   StorageKeys.APP_LANGUAGE,
-  "en-gb",
+  detectDefaultLanguage(),
   true
 );
 
 export function getCurrentLanguage() {
   return _getCurrentLanguage()?.replace("-", "_");
 }
+
 export { setCurrentLanguage };
 
 export function getLanguage(key: string) {
