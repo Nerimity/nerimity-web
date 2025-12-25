@@ -821,7 +821,6 @@
     "blockButton": "Block",
     "unblockButton": "Unblock",
     "reportButton": "Report",
-    "adminPanelButton": "Admin Panel",
     "copyLinkButton": "Copy Profile URL",
     "mutualFriends": "Mutual Friends ({{count}})",
     "mutualServers": "Mutual Servers ({{count}})",

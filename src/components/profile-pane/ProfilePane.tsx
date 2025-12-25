@@ -510,7 +510,7 @@ const ActionButtons = (props: {
         <CustomLink href={"/app/moderation/users/" + params.userId}>
           <ActionButton
             icon="security"
-            label={t("profile.adminPanelButton")}
+            label="Admin Panel"
             color={props.primaryColor || "var(--primary-color)"}
           />
         </CustomLink>
