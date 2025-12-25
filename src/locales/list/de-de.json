@@ -66,7 +66,7 @@
             "title": "Hinweise",
             "toxic": "Sei nicht toxisch.",
             "nsfw": "Keine NSFW-Inhalte.",
-            "age": "Du musst älter als 14 Jahre sein."
+            "age": "Du musst mindestens 14 Jahre alt sein."
         },
         "title": "Willkommen bei {{appName}}",
         "email": "E-Mail",
@@ -866,5 +866,21 @@
     "oauth2": {
         "AuthorizeButton": "Autorisieren",
         "permissions": "Berechtigungen"
+    },
+    "connectionErrorModal": {
+        "title": "Verbindungsfehler",
+        "ok": "Ok",
+        "logout": "Abmelden",
+        "login": "Anmelden",
+        "noToken": "Kein Token angegeben.",
+        "suspended": "Ihr Konto wurde gesperrt.",
+        "reason": "Grund",
+        "defaultReason": "Verstoß gegen die AGB",
+        "until": "Bis",
+        "never": "niemals",
+        "by": "Von",
+        "deletionNotice": "Ihr Konto und Ihre Daten werden in 15 Tagen gelöscht",
+        "ipBanned": "Ihre IP-Adresse wurde gesperrt.",
+        "ipBanNotice": "Jemand mit der gleichen IP-Adresse wurde bei Nerimity gesperrt. Ihr Konto ist davon nicht betroffen."
     }
 }

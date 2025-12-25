@@ -513,7 +513,7 @@
             "voiceMessage": "Sesli Mesaj",
             "gifPicker": "GIF Seçici",
             "emojiPicker": "Emoji Seçici",
-            "sendButton": "Gönder Butonu",
+            "sendButton": "Mesaj Gönder",
             "timeTitle": "Saat Biçimini Değiştir",
             "12HourFormatDescription": "Zamanları AM/PM ile 12 saat biçiminde görüntüle.",
             "24HourFormatDescription": "Zamanları 24 saat biçiminde görüntüle."
@@ -668,7 +668,8 @@
         "translateMessage": "Çevir",
         "markUnread": "Okunmamış Olarak İşaretle",
         "pinMessage": "Sabitle",
-        "unpinMessage": "Sabitlemeyi Kaldır"
+        "unpinMessage": "Sabitlemeyi Kaldır",
+        "copyLink": "Bağlantıyı Kopyala"
     },
     "profile": {
         "followButton": "Takip Et",
@@ -711,7 +712,10 @@
         "attachmentsBack": "Geri",
         "members": "Üyeler",
         "creator": "Oluşturan",
-        "admin": "Yönetici"
+        "admin": "Yönetici",
+        "info": "Bilgi",
+        "files": "Dosyalar",
+        "searchBarChannelPlaceholder": "{{channelName}} kanalında ara"
     },
     "resetPassword": {
         "title": "Şifreyı Sıfırla",
@@ -735,7 +739,8 @@
         "selectButton": "Sunucu Seç",
         "addButton": "Botu ekle",
         "permissions": "Bot Yetkileri",
-        "creator": "Oluşturan: "
+        "creator": "Oluşturan: ",
+        "title": "Botu Davet Et"
     },
     "googleAccountLink": {
         "success": "Hesabın Google ile bağlandı! Bu pencereyi artık kapatabilirsin.",
@@ -1000,5 +1005,33 @@
         "bumpServer": "<User/><2> Sunucuyu Öne Çıkartı</2>",
         "pinnedMessage": "<User/><2> Bir mesaj sabitledi.</2>",
         "unsupported": "<User/><2> Desteklenmeyen mesaj.</2>"
+    },
+    "inputFieldActions": {
+        "copy": "Kopyala",
+        "cut": "Kes",
+        "paste": "Yapıştır"
+    },
+    "mainPaneHeader": {
+        "voice": {
+            "join": "Katıl",
+            "leave": "Bağlantıyı Kes",
+            "muted": "Susturulmuş",
+            "deafened": "Sağırlaştırılmış",
+            "fullscreen": "Tam Ekran"
+        }
+    },
+    "channelDrawer": {
+        "customize": {
+            "title": "Kişiselleştir"
+        },
+        "members": {
+            "filter": {
+                "24hours": "24 Saat"
+            },
+            "sort": {
+                "member": "Üye"
+            }
+        },
+        "inVoice": "Sesli aramada"
     }
 }
