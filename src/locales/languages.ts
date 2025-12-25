@@ -158,12 +158,12 @@ const detectDefaultLanguage = (): string => {
       return "zn-hant";
     }
 
-    if (languages.hasOwnProperty(lang)) {
+    if (languages[lang]) {
       return lang;
     }
 
     const base = lang.split("-")[0];
-    const partialMatch = supportedKeys.find((key) => key.startsWith(base));
+    const partialMatch = supportedKeys.find((key) => key.startsWith(base!));
     if (partialMatch) return partialMatch;
   }
 
