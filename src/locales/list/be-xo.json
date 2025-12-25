@@ -760,7 +760,8 @@
         "reply": "Адказаць",
         "markUnread": "Пазначыць непрачытаным",
         "pinMessage": "Замацаваць",
-        "unpinMessage": "Адмацаваць"
+        "unpinMessage": "Адмацаваць",
+        "copyLink": "Скапіяваць спасылку"
     },
     "profile": {
         "followButton": "Падпісацца",
@@ -814,7 +815,8 @@
         "creator": "Створана ",
         "selectButton": "Абраць сэрвэр",
         "addButton": "Дадаць бота",
-        "permissions": "Дазволы бота"
+        "permissions": "Дазволы бота",
+        "title": "Запрашэньне бота"
     },
     "googleAccountLink": {
         "linking": "Злучаем ваш уліковы запіс зь Google...",
@@ -1047,5 +1049,10 @@
     },
     "inVoiceActions": {
         "connectedFor": "Выклік ідзе"
+    },
+    "inputFieldActions": {
+        "copy": "Скапіяваць",
+        "cut": "Выразаць",
+        "paste": "Уставіць"
     }
 }
