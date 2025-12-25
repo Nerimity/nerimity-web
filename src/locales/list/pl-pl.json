@@ -632,7 +632,21 @@
         "followersTab": "Obserwujący",
         "followingTab": "Obserwowani",
         "postsAndRepliesTab": "Posty i odpowiedzi ({{count}})",
-        "likedPostsTab": "Polubione posty ({{count}})"
+        "likedPostsTab": "Polubione posty ({{count}})",
+        "followsYou": "Obserwuje Cię",
+        "badge": "Odznaka {{badgeName}}",
+        "blockButton": "Zablokuj",
+        "unblockButton": "Odblokuj",
+        "reportButton": "Zgłoś",
+        "copyLinkButton": "Kopiuj URL do profilu",
+        "availableCommands": "Dostępne Polecenia",
+        "botCreator": "Twórca Bota",
+        "suspended": "Ten użytkownik został zawieszony",
+        "expires": "Wygasa {{time}}.",
+        "expiresNever": "Wygasa nigdy.",
+        "blocked": "Zostałeś zablokowany",
+        "blockedDescription": "Ten użytkownik Cię zablokował.",
+        "privateList": "Tylko ty możesz zobaczyć tę listę."
     },
     "posts": {
         "deletePostModal": {
@@ -1058,5 +1072,10 @@
         "copy": "Kopiuj",
         "cut": "Wytnij",
         "paste": "Wklej"
+    },
+    "removeFriendModal": {
+        "title": "Usuń znajomego {{username}}",
+        "body": "Czy jesteś pewien, że chcesz usunąć tego użytkownika ze znajomych?",
+        "removing": "Usuwanie..."
     }
 }
