@@ -615,7 +615,8 @@
         "reply": "Odpowiedz",
         "markUnread": "Oznacz jako nieprzeczytane",
         "pinMessage": "Przypnij",
-        "unpinMessage": "Odepnij"
+        "unpinMessage": "Odepnij",
+        "copyLink": "Kopiuj Link"
     },
     "profile": {
         "followButton": "Obserwuj",
@@ -736,7 +737,8 @@
         "creator": "Stworzono przez ",
         "selectButton": "Wybierz serwer",
         "addButton": "Dodaj bota",
-        "permissions": "Uprawnienia bota"
+        "permissions": "Uprawnienia bota",
+        "title": "Zaproś Bota"
     },
     "googleAccountLink": {
         "linking": "Trwa łączenie Twojego konta z usługą Google...",
@@ -1051,5 +1053,10 @@
     },
     "inVoiceActions": {
         "connectedFor": "Czas połączenia"
+    },
+    "inputFieldActions": {
+        "copy": "Kopiuj",
+        "cut": "Wytnij",
+        "paste": "Wklej"
     }
 }
