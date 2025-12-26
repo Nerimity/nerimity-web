@@ -39,17 +39,23 @@ const update = (
   if (!serverRoles[serverId]?.[roleId]) {
     return;
   }
-  setServerRoles(serverId, roleId, update);
 
-  if (update?.hexColor?.startsWith("lg")) {
-    const [converted] = convertShorthandToLinearGradient(update.hexColor);
-    if (converted) {
-      setServerRoles(serverId, roleId, {
-        hexColor: converted.colors[0]!,
-        gradient: converted.gradient,
-      });
+  batch(() => {
+    setServerRoles(serverId, roleId, update);
+
+    if (update?.hexColor) {
+      setServerRoles(serverId, roleId, "gradient", undefined);
+      if (update?.hexColor?.startsWith("lg")) {
+        const [converted] = convertShorthandToLinearGradient(update.hexColor);
+        if (converted) {
+          setServerRoles(serverId, roleId, {
+            hexColor: converted.colors[0]!,
+            gradient: converted.gradient,
+          });
+        }
+      }
     }
-  }
+  });
 };
 
 const addNewRole = (serverId: string, role: RawServerRole) => {
