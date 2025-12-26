@@ -185,7 +185,7 @@
                 "deleteRoleButtonDescription": "Esta ação não podeser desfeita!"
             },
             "header": {
-                "editServer": "Editar Servidor",
+                "editServer": "Editar servidor",
                 "serverMemberCount": "{{count}} membros"
             },
             "channels": {
@@ -582,7 +582,7 @@
         "viewProfile": "Ver Perfil",
         "sendMessage": "Enviar Mensagem",
         "copyId": "Copiar ID",
-        "editRoles": "Editar Cargos",
+        "editRoles": "Editar cargos",
         "kick": "Expulsar",
         "ban": "Banir",
         "changeNickname": "Alterar Apelido",
@@ -597,7 +597,7 @@
         "message": "Tem certeza de que quer expulsar <1>{{username}}</1> do servidor?"
     },
     "editServerRolesModal": {
-        "title": "Editar Cargos"
+        "title": "Editar cargos"
     },
     "banModal": {
         "title": "Banir {{username}}?",
@@ -609,7 +609,7 @@
         "reasonPlaceholder": "Insira um motivo…"
     },
     "messageContextMenu": {
-        "editMessage": "Editar Mensagem",
+        "editMessage": "Editar mensagem",
         "deleteMessage": "Excluir Mensagem",
         "copyMessage": "Copiar mensagem",
         "copyId": "Copiar ID",
@@ -636,7 +636,21 @@
         "followersTab": "Seguidores",
         "followingTab": "Seguindo",
         "postsAndRepliesTab": "Postagens e respostas ({{count}})",
-        "likedPostsTab": "Postagens Curtidas ({{count}})"
+        "likedPostsTab": "Postagens Curtidas ({{count}})",
+        "blockButton": "Bloquear",
+        "unblockButton": "Desbloquear",
+        "reportButton": "Denunciar",
+        "followsYou": "Segue você",
+        "badge": "Emblema {{badgeName}}",
+        "availableCommands": "Comandos disponíveis",
+        "botCreator": "Criador do robô",
+        "expires": "Expira {{time}}.",
+        "expiresNever": "Expira nunca.",
+        "copyLinkButton": "Copiar URL do perfil",
+        "blocked": "Você foi bloqueado",
+        "suspended": "Este usuário está suspenso",
+        "blockedDescription": "Este usuário bloqueou você.",
+        "privateList": "Só você pode ver esta lista."
     },
     "posts": {
         "deletePostModal": {
@@ -1047,5 +1061,10 @@
         "copy": "Copiar",
         "cut": "Recortar",
         "paste": "Colar"
+    },
+    "removeFriendModal": {
+        "removing": "Removendo...",
+        "title": "Desfazer amizade com {{username}}",
+        "body": "Tem certeza de que deseja desfazer amizade com este usuário?"
     }
 }

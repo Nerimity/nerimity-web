@@ -220,7 +220,7 @@
                 "audit-logs": "Журнал падзеяў",
                 "roles": "Ролі",
                 "channels": "Каналы",
-                "bans": "Блякаваньні",
+                "bans": "Баны",
                 "invites": "Запрашэньні",
                 "publishServer": "Публікацыя",
                 "verify": "Вэрыфікацыя",
@@ -239,9 +239,9 @@
                 "noResults": "Рэзультатаў ня знойдзена.",
                 "reason": "Прычына",
                 "noReason": "Прычыны не пазначана",
-                "bannedAt": "Заблякавалі а",
+                "bannedAt": "Забанены а",
                 "unknown": "Невядома",
-                "unban": "Разблякаваць",
+                "unban": "Разбаніць",
                 "unbanning": "Разблякоўваем"
             },
             "webhook": {
@@ -724,7 +724,7 @@
         "copyId": "Скапіяваць ID",
         "editRoles": "Рэдагаваць ролі",
         "kick": "Выгнаць",
-        "ban": "Заблякаваць",
+        "ban": "Забаніць",
         "changeNickname": "Зьмяніць нікнэйм",
         "transferOwnership": "Перадаць уладу",
         "callVolume": "Гучнасьць у выкліку"
@@ -743,7 +743,7 @@
         "title": "Заблякаваць {{username}}?",
         "message": "Вы ўпэўненыя, што хочаце заблякаваць <1>{{username}}</1>?",
         "deletePastMessagesCheckbox": "Выдаліць паведамленьні, адпраўленыя за апошнія 7 гадзін.",
-        "banButton": "Заблякаваць",
+        "banButton": "Забаніць",
         "banning": "Блякуем...",
         "reasonLabel": "Прычына (неабавязкова)",
         "reasonPlaceholder": "Увядзіце прычыну…"
@@ -756,7 +756,7 @@
         "copyId": "Скапіяваць ID",
         "viewReactions": "Праглядзець рэакцыйі",
         "quoteMessage": "Цытаваць паведамленьне",
-        "reportMessage": "Паскардзіцца",
+        "reportMessage": "Паскардзіцца на паведамленьне",
         "reply": "Адказаць",
         "markUnread": "Пазначыць непрачытаным",
         "pinMessage": "Замацаваць",
@@ -777,7 +777,21 @@
         "followersTab": "Падпісанты",
         "followingTab": "Падпіскі",
         "postsAndRepliesTab": "Публікацыйі й адказы ({{count}})",
-        "likedPostsTab": "Упадабаныя публікацыйі ({{count}})"
+        "likedPostsTab": "Упадабаныя публікацыйі ({{count}})",
+        "followsYou": "Падпісант",
+        "badge": "Аблямоўка «{{badgeName}}»",
+        "blockButton": "Заблякаваць",
+        "unblockButton": "Разблякаваць",
+        "reportButton": "Паскардзіцца",
+        "copyLinkButton": "Скапіяваць URL профілю",
+        "availableCommands": "Даступныя каманды",
+        "botCreator": "Стваральнік бота",
+        "suspended": "Гэты карыстач забанены",
+        "expires": "Канчаецца {{time}}.",
+        "expiresNever": "Канчаецца ніколі.",
+        "blocked": "Вас заблякавалі",
+        "blockedDescription": "Гэты карыстач вас заблякаваў.",
+        "privateList": "Гэты сьпіс можаце бачыць толькі вы."
     },
     "posts": {
         "deletePostModal": {
@@ -1054,5 +1068,10 @@
         "copy": "Скапіяваць",
         "cut": "Выразаць",
         "paste": "Уставіць"
+    },
+    "removeFriendModal": {
+        "title": "Выдаліць {{username}} зь сяброў",
+        "body": "Вы ўпэўненыя, што хочаце выдаліць гэтага карыстача зь сяброў?",
+        "removing": "Выдаляем..."
     }
 }
