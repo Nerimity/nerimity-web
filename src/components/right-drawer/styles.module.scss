@@ -219,6 +219,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     gap: 4px;
+    & > div {
+      min-width: 0;
+      max-width: 100%;
+    }
   }
   .username {
     overflow: hidden;
