@@ -134,7 +134,7 @@ export const ColorPickerModal = (props: {
     parseGradient(
       props.color?.startsWith("linear-gradient")
         ? props.color!
-        : "linear-gradient(90deg, #000000 0%, #ffffff 100%)"
+        : `linear-gradient(90deg, ${props.color || "#000000"} 0%, #ffffff 100%)`
     );
 
   const [stops, setStops] = createSignal<ColorStop[]>(gradient.stops);
