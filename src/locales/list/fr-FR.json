@@ -713,7 +713,7 @@
         "title": "Tableau De Bord",
         "activeUsers": "utilisateurs actifs",
         "noActiveUsers": "aucun utilisateur actif",
-        "servers": "serveurs",
+        "servers": "Serveurs",
         "feed": "nourrir",
         "discover": "Découvrir"
     },
@@ -791,8 +791,8 @@
         "sending": "envoi de l'e-mail..."
     },
     "updateModal": {
-        "title": "mise a jour disponible",
-        "updateButton": "mettre a jour maintenant",
+        "title": "Mise à Jour Disponible",
+        "updateButton": "Mettre à Jour Maintenant",
         "laterButton": "plus tard",
         "releasedAt": "publiée a"
     },
