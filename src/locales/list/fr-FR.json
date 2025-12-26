@@ -2,7 +2,7 @@
     "header": {
         "openAppButton": "Ouvrir l'appli",
         "loginButton": "Se connecter",
-        "joinNowButton": "S'inscrire",
+        "joinNowButton": "Rejoindre maintenant",
         "logoutButton": "Déconnexion"
     },
     "homePage": {
