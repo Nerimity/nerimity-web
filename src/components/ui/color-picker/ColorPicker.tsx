@@ -129,15 +129,20 @@ export const ColorPickerModal = (props: {
   const { isMobileWidth, width } = useWindowProperties();
   let color = normalizeColor(props.color || "#000000");
 
-  const gradient =
-    props.gradientMode &&
-    parseGradient(
-      props.color?.startsWith("linear-gradient")
-        ? props.color!
-        : `linear-gradient(90deg, ${props.color || "#000000"} 0%, #ffffff 100%)`
-    );
+  const parsedGradient = () =>
+    !props.gradientMode
+      ? null
+      : parseGradient(
+          props.color?.startsWith("linear-gradient")
+            ? props.color!
+            : `linear-gradient(90deg, ${
+                props.color || "#000000"
+              } 0%, #ffffff 100%)`
+        );
 
-  const [stops, setStops] = createSignal<ColorStop[]>(gradient.stops);
+  const [stops, setStops] = createSignal<ColorStop[]>(
+    parsedGradient()?.stops || []
+  );
 
   const [selectedGradientIndex, setSelectedGradientIndex] = createSignal(0);
 
