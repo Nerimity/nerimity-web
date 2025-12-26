@@ -124,6 +124,7 @@ export const ColorPickerModal = (props: {
   onChange: (value: string) => void;
   alpha?: boolean;
   gradientMode?: boolean;
+  stopLimit?: number;
 }) => {
   let inputRef: HTMLInputElement | undefined;
   const { isMobileWidth, width } = useWindowProperties();
@@ -229,6 +230,7 @@ export const ColorPickerModal = (props: {
           <Show when={props.gradientMode}>
             <GradientSlider
               stops={stops()}
+              stopLimit={props.stopLimit}
               selectedIndex={selectedGradientIndex()}
               onChange={(stops, index) => {
                 if (index !== undefined) {
@@ -247,6 +249,7 @@ export const ColorPickerModal = (props: {
           label={t("colorPickerModal.done")}
           onClick={done}
           iconName="check"
+          primary
         />
       </Modal.Footer>
     </Modal.Root>
@@ -257,6 +260,7 @@ const GradientSlider = (props: {
   stops: ColorStop[];
   onChange: (stops: ColorStop[], selectedIndex?: number) => void;
   selectedIndex?: number;
+  stopLimit?: number;
 }) => {
   let sliderRef: HTMLDivElement | undefined;
   let draggingIndex = -1;
@@ -287,8 +291,8 @@ const GradientSlider = (props: {
   };
 
   const onMouseUp = () => {
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
+    document.removeEventListener("pointermove", onMouseMove);
+    document.removeEventListener("pointerup", onMouseUp);
     draggingIndex = -1;
   };
 
@@ -298,13 +302,16 @@ const GradientSlider = (props: {
     draggingIndex = index;
     props.onChange(props.stops, index);
 
-    document.addEventListener("mouseup", onMouseUp);
-    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("pointerup", onMouseUp);
+    document.addEventListener("pointermove", onMouseMove);
   };
 
   const onContainerClick = (e: MouseEvent) => {
     if (e.currentTarget !== e.target) return;
     if (!sliderRef) return;
+    if (props.stopLimit) {
+      if (props.stops.length >= props.stopLimit) return;
+    }
 
     const rect = sliderRef.getBoundingClientRect();
     const relativeX = e.clientX - rect.left;
@@ -324,6 +331,12 @@ const GradientSlider = (props: {
     }
 
     props.onChange(updatedStops, insertIndex);
+  };
+  const removeStop = (index: number) => {
+    if (props.stops.length <= 2) return;
+    const newStops = [...props.stops];
+    newStops.splice(index, 1);
+    props.onChange(newStops);
   };
 
   return (
@@ -346,8 +359,14 @@ const GradientSlider = (props: {
               position: "absolute",
               transform: "translateX(-50%)",
             }}
-            onMouseDown={(e) => handleClick(e, i())}
-          />
+            onPointerDown={(e) => handleClick(e, i())}
+          >
+            <Show when={props.selectedIndex === i()}>
+              <div class={styles.removeButton} onClick={() => removeStop(i())}>
+                <Icon name="close" size={12} />
+              </div>
+            </Show>
+          </div>
         )}
       </For>
     </div>

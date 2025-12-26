@@ -67,12 +67,27 @@
     position: absolute;
     top: -6px;
     bottom: -6px;
-    width: 8px;
+    display: flex;
+    justify-content: center;
+    width: 12px;
     border: solid 1px white;
     border-radius: 2px;
     &.active,
     &:hover {
       border-width: 2px;
     }
+  }
+
+  .removeButton {
+    position: absolute;
+    top: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: solid 1px white;
+    border-radius: 50%;
+    background: rgb(0, 0, 0);
   }
 }
