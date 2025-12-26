@@ -5,7 +5,7 @@ import useStore from "@/chat-api/store/useStore";
 import { useParams } from "solid-navigator";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { CustomLink } from "../ui/CustomLink";
-import { Show, createSignal } from "solid-js";
+import { Show, createMemo, createSignal } from "solid-js";
 import Icon from "../ui/icon/Icon";
 import Button from "../ui/Button";
 import socketClient from "@/chat-api/socketClient";
@@ -94,6 +94,8 @@ export function QuoteMessage(props: {
     return `/app/servers/${serverId}/${channelId}?messageId=${mId}`;
   };
 
+  const topRole = createMemo(() => serverMember()?.topRole());
+
   return (
     <div
       class="quoteContainer"
@@ -108,21 +110,20 @@ export function QuoteMessage(props: {
               ? "#"
               : RouterEndpoints.PROFILE(props.quote.createdBy!.id)
           }
-          style={{ color: serverMember()?.roleColor() }}
         >
           <Avatar animate={hovered()} user={props.quote.createdBy!} size={18} />
         </CustomLink>
         <CustomLink
           decoration
+          class="quoteUsername"
           href={
             props.quote.webhookId
               ? "#"
               : RouterEndpoints.PROFILE(props.quote.createdBy!.id)
           }
           style={{
-            "font-size": "16px",
-            color: serverMember()?.roleColor(),
-            "line-height": "1",
+            "--gradient": topRole()?.gradient || topRole()?.hexColor,
+            "--color": topRole()?.hexColor!,
           }}
         >
           {serverMember()?.nickname || props.quote.createdBy!.username}

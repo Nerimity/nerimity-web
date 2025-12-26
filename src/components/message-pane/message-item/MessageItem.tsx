@@ -232,6 +232,8 @@ interface DetailsProps {
 const Details = (props: DetailsProps) => {
   const [t] = useTransContext();
 
+  const topRole = createMemo(() => props.serverMember?.topRole());
+
   return (
     <div class={classNames(styles.details, "details")}>
       <CustomLink
@@ -247,7 +249,10 @@ const Details = (props: DetailsProps) => {
             ? "#"
             : RouterEndpoints.PROFILE(props.message.createdBy.id)
         }
-        style={{ color: props.serverMember?.roleColor() }}
+        style={{
+          "--gradient": topRole()?.gradient || topRole()?.hexColor,
+          "--color": topRole()?.hexColor!,
+        }}
       >
         {props.serverMember?.nickname || props.message.createdBy.username}
       </CustomLink>
@@ -2127,13 +2132,10 @@ const MessageReplyItem = (props: {
   const member = () =>
     store.serverMembers.get(
       params.serverId!,
-      props.replyToMessage!.createdBy?.id
+      props.replyToMessage?.createdBy?.id!
     );
 
-  const topRoleColor = () => {
-    if (!params.serverId) return "white";
-    return member()?.roleColor() || "white";
-  };
+  const topRole = createMemo(() => member()?.topRole());
 
   return (
     <div
@@ -2154,7 +2156,8 @@ const MessageReplyItem = (props: {
           <div
             class={styles.replyUsername}
             style={{
-              color: topRoleColor(),
+              "--gradient": topRole()?.gradient || topRole()?.hexColor,
+              "--color": topRole()?.hexColor!,
             }}
           >
             {member()?.nickname || props.replyToMessage!.createdBy?.username}

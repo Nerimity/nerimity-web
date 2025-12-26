@@ -95,6 +95,8 @@ const MemberItem = (props: { member: ServerMember }) => {
     );
   };
 
+  const topRole = createMemo(() => props.member.topRole());
+
   return (
     <div
       class="trigger-profile-flyout"
@@ -125,7 +127,10 @@ const MemberItem = (props: { member: ServerMember }) => {
         <div class={styles.memberInfo}>
           <div
             class={styles.username}
-            style={{ color: props.member.roleColor() }}
+            style={{
+              "--gradient": topRole()?.gradient || topRole()?.hexColor,
+              "--color": topRole()?.hexColor!,
+            }}
           >
             {props.member.nickname || user().username}
           </div>

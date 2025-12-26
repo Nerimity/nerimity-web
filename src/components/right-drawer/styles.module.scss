@@ -222,8 +222,14 @@
   .username {
     overflow: hidden;
     line-height: 1;
+
+    background: var(--gradient, var(--color, var(--primary-color)));
+    -webkit-background-clip: text;
+    background-clip: text;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-weight: 400;
+    -webkit-text-fill-color: transparent;
   }
 }
 

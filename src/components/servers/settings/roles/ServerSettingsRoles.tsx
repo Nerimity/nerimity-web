@@ -45,7 +45,10 @@ function RoleItem(props: { role: ServerRole }) {
           onClose={() => setContextMenu(null)}
         />
       </Show>
-      <div class={styles.roleDot} style={{ background: props.role.hexColor }} />
+      <div
+        class={styles.roleDot}
+        style={{ background: props.role.gradient || props.role.hexColor }}
+      />
       <div class={styles.name}>{props.role.name}</div>
       <Icon name="keyboard_arrow_right" />
     </CustomLink>

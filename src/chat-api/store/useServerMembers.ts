@@ -29,7 +29,6 @@ export type ServerMember = Omit<RawServerMember, "user"> & {
   ) => boolean | void;
   topRole: () => ServerRole;
   topRoleWithIcon: () => ServerRole | undefined;
-  roleColor: () => string;
   unhiddenRole: () => ServerRole | undefined;
   isServerCreator: () => boolean | undefined;
   canViewChannel: (this: ServerMember, channelId: string) => boolean;
@@ -59,7 +58,6 @@ const set = (member: RawServerMember) => {
     isServerCreator,
     topRole,
     topRoleWithIcon,
-    roleColor,
     unhiddenRole,
     permissions,
     hasPermission,
@@ -121,9 +119,6 @@ function topRoleWithIcon(this: ServerMember) {
   return dRole?.icon ? dRole : undefined;
 }
 
-function roleColor(this: ServerMember) {
-  return this.topRole().hexColor || "white";
-}
 function unhiddenRole(this: ServerMember) {
   const sortedRoles = this.roles().sort((a, b) => b?.order! - a?.order!);
   return sortedRoles.find((role) => !role?.hideRole);

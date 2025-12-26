@@ -2,28 +2,57 @@ import { batch } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
 import { RawServerRole } from "../RawData";
 import useServers from "./useServers";
+import { convertShorthandToLinearGradient } from "@/common/color";
 
-export type ServerRole = RawServerRole;
+export type ServerRole = RawServerRole & {
+  gradient?: string;
+};
 
 // serverRoles[serverId][roleId] = Role
-const [serverRoles, setServerRoles] = createStore<Record<string, Record<string, ServerRole | undefined> | undefined>>({});
+const [serverRoles, setServerRoles] = createStore<
+  Record<string, Record<string, ServerRole | undefined> | undefined>
+>({});
 
+const set = (serverId: string, _role: RawServerRole) => {
+  const role: ServerRole = { ..._role };
 
-const set = (serverId: string, role: RawServerRole) =>  {
+  if (role.hexColor.startsWith("lg")) {
+    const [converted] = convertShorthandToLinearGradient(role.hexColor);
+    if (converted) {
+      role.hexColor = converted.colors[0]!;
+      role.gradient = converted.gradient;
+      console.log(role.hexColor, role.gradient);
+    }
+  }
+
   if (!serverRoles[serverId]) {
     setServerRoles(serverId, {});
   }
   setServerRoles(serverId, role.id, reconcile(role));
 };
 
-const update = (serverId: string, roleId: string, update: Partial<RawServerRole>) => {
+const update = (
+  serverId: string,
+  roleId: string,
+  update: Partial<RawServerRole>
+) => {
   if (!serverRoles[serverId]?.[roleId]) {
     return;
   }
   setServerRoles(serverId, roleId, update);
-}; 
 
-const addNewRole = (serverId: string, role: RawServerRole) =>  {
+  if (update?.hexColor?.startsWith("lg")) {
+    const [converted] = convertShorthandToLinearGradient(update.hexColor);
+    if (converted) {
+      setServerRoles(serverId, roleId, {
+        hexColor: converted.colors[0]!,
+        gradient: converted.gradient,
+      });
+    }
+  }
+};
+
+const addNewRole = (serverId: string, role: RawServerRole) => {
   const servers = useServers();
   const server = servers.get(serverId);
 
@@ -35,21 +64,19 @@ const addNewRole = (serverId: string, role: RawServerRole) =>  {
       const newOrder = roles.length - i;
       if (server?.defaultRoleId === role?.id) continue;
       setServerRoles(serverId, role?.id!, "order", newOrder + 1);
-      
     }
     set(serverId, role);
   });
-
-
 };
-
-
 
 const getAllByServerId = (serverId: string) => {
-  return Object.values(serverRoles[serverId] || {}).sort((a, b) =>  b!.order - a!.order);
+  return Object.values(serverRoles[serverId] || {}).sort(
+    (a, b) => b!.order - a!.order
+  );
 };
 
-const get = (serverId: string, roleId: string) => serverRoles[serverId]?.[roleId];
+const get = (serverId: string, roleId: string) =>
+  serverRoles[serverId]?.[roleId];
 
 const deleteAllByServerId = (serverId: string) => {
   setServerRoles(serverId, undefined);
@@ -65,10 +92,7 @@ const deleteRole = (serverId: string, roleId: string) => {
       setServerRoles(serverId, role?.id!, "order", newOrder);
     }
   });
-
-  
 };
-
 
 export default function useServerRoles() {
   return {
@@ -78,6 +102,6 @@ export default function useServerRoles() {
     getAllByServerId,
     get,
     deleteRole,
-    deleteAllByServerId
+    deleteAllByServerId,
   };
 }
