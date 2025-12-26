@@ -58,7 +58,7 @@ export default function ServerSettingsRole() {
 
   const defaultInput = () => ({
     name: role()?.name || "",
-    hexColor: role()?.hexColor || "#fff",
+    hexColor: role()?.gradient || role()?.hexColor || "#fff",
     permissions: role()?.permissions || 0,
     hideRole: role()?.hideRole || false,
     icon: role()?.icon || null,
@@ -137,6 +137,7 @@ export default function ServerSettingsRole() {
   const openColorPicker = () => {
     createPortal?.((close) => (
       <ColorPickerModal
+        gradientMode
         close={close}
         color={inputValues().hexColor}
         onChange={(v) => setInputValue("hexColor", v)}

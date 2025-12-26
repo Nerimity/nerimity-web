@@ -3,12 +3,14 @@ import styles from "./styles.module.scss";
 
 import "@melloware/coloris/dist/coloris.css";
 import { coloris, init, updatePosition } from "@melloware/coloris";
-import { createEffect, on, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, on, onMount, Show } from "solid-js";
 import LegacyModal from "../legacy-modal/LegacyModal";
 import { useCustomPortal } from "../custom-portal/CustomPortal";
 import { useWindowProperties } from "@/common/useWindowProperties";
-import { classNames, conditionalClass } from "@/common/classNames";
+import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { t } from "@nerimity/i18lite";
+import { Modal } from "../modal";
+import { ColorStop, parseGradient } from "@/common/color";
 
 init();
 
@@ -121,21 +123,58 @@ export const ColorPickerModal = (props: {
   close: () => void;
   onChange: (value: string) => void;
   alpha?: boolean;
+  gradientMode?: boolean;
 }) => {
+  let inputRef: HTMLInputElement | undefined;
   const { isMobileWidth, width } = useWindowProperties();
   let color = normalizeColor(props.color || "#000000");
 
+  const gradient =
+    props.gradientMode &&
+    parseGradient(
+      props.color?.startsWith("linear-gradient")
+        ? props.color!
+        : "linear-gradient(90deg, #000000 0%, #ffffff 100%)"
+    );
+
+  const [stops, setStops] = createSignal<ColorStop[]>(gradient.stops);
+
+  const [selectedGradientIndex, setSelectedGradientIndex] = createSignal(0);
+
   const onChange = (newVal: string) => {
+    if (props.gradientMode) {
+      setStops(
+        stops().map((s, i) =>
+          i === selectedGradientIndex() ? { ...s, color: newVal } : s
+        )
+      );
+      const newGradient = `linear-gradient(90deg, ${stops()
+        .map((s) => `${s.color} ${s.percent}%`)
+        .join(", ")})`;
+
+      props.onChange(newGradient);
+      return;
+    }
     const normalized = normalizeColor(newVal);
     props.onChange(normalized);
     color = normalized;
   };
+
+  createEffect(
+    on(selectedGradientIndex, () => {
+      if (!props.gradientMode) return;
+      color = stops()[selectedGradientIndex()]?.color!;
+      initColoris();
+    })
+  );
 
   const initColoris = () =>
     coloris({
       themeMode: "dark",
       alpha: props.alpha,
       parent: "#coloris",
+      el: inputRef!,
+
       defaultColor: color,
       inline: true,
       onChange,
@@ -156,31 +195,156 @@ export const ColorPickerModal = (props: {
 
   const done = () => {
     props.close();
+    if (props.gradientMode) {
+      const newGradient = `linear-gradient(90deg, ${stops()
+        .map((s) => `${s.color} ${s.percent}%`)
+        .join(", ")})`;
+
+      props.done?.(newGradient);
+      return;
+    }
     props.done?.(color!);
   };
 
   return (
-    <LegacyModal
-      title={t("colorPickerModal.title")}
+    <Modal.Root
       close={props.close}
-      ignoreBackgroundClick
-      actionButtonsArr={[
-        {
-          label: t("colorPickerModal.done"),
-          onClick: done,
-          iconName: "check",
-          primary: true,
-        },
-      ]}
+      doNotCloseOnBackgroundClick
+      desktopClass={styles.desktopModalStyle}
+      desktopMaxWidth={500}
     >
+      <Modal.Header title={t("colorPickerModal.title")} icon="colorize" />
+      <Modal.Body>
+        <div
+          class={classNames(
+            styles.colorPickerContainer,
+            conditionalClass(isMobileWidth(), styles.mobile)
+          )}
+        >
+          <Show when={props.gradientMode}>
+            <GradientSlider
+              stops={stops()}
+              selectedIndex={selectedGradientIndex()}
+              onChange={(stops, index) => {
+                if (index !== undefined) {
+                  setSelectedGradientIndex(index);
+                }
+                setStops(stops);
+              }}
+            />
+          </Show>
+          <div id="coloris" />
+          <input type="text" ref={inputRef} style={{ display: "none" }} />
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Modal.Button
+          label={t("colorPickerModal.done")}
+          onClick={done}
+          iconName="check"
+        />
+      </Modal.Footer>
+    </Modal.Root>
+  );
+};
+
+const GradientSlider = (props: {
+  stops: ColorStop[];
+  onChange: (stops: ColorStop[], selectedIndex?: number) => void;
+  selectedIndex?: number;
+}) => {
+  let sliderRef: HTMLDivElement | undefined;
+  let draggingIndex = -1;
+
+  const gradient = () => {
+    return `linear-gradient(90deg, ${props.stops
+      .map((s) => `${s.color} ${s.percent}%`)
+      .join(", ")})`;
+  };
+
+  const onMouseMove = (e: MouseEvent) => {
+    if (draggingIndex === -1 || !sliderRef) return;
+
+    const rect = sliderRef.getBoundingClientRect();
+
+    const relativeX = e.clientX - rect.left;
+
+    let percent = Math.round((relativeX / rect.width) * 100);
+    percent = Math.max(0, Math.min(100, percent));
+
+    const newStops = [...props.stops];
+    newStops[draggingIndex] = {
+      ...newStops[draggingIndex]!,
+      percent: percent,
+    };
+
+    props.onChange(newStops);
+  };
+
+  const onMouseUp = () => {
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+    draggingIndex = -1;
+  };
+
+  const handleClick = (e: MouseEvent, index: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    draggingIndex = index;
+    props.onChange(props.stops, index);
+
+    document.addEventListener("mouseup", onMouseUp);
+    document.addEventListener("mousemove", onMouseMove);
+  };
+
+  const onContainerClick = (e: MouseEvent) => {
+    if (e.currentTarget !== e.target) return;
+    if (!sliderRef) return;
+
+    const rect = sliderRef.getBoundingClientRect();
+    const relativeX = e.clientX - rect.left;
+    let percent = Math.round((relativeX / rect.width) * 100);
+    percent = Math.max(0, Math.min(100, percent));
+
+    const newStop = { color: "#000000", percent: percent };
+
+    const insertIndex = props.stops.findIndex((stop) => stop.percent > percent);
+
+    const updatedStops = [...props.stops];
+
+    if (insertIndex === -1) {
+      updatedStops.push(newStop);
+    } else {
+      updatedStops.splice(insertIndex, 0, newStop);
+    }
+
+    props.onChange(updatedStops, insertIndex);
+  };
+
+  return (
+    <div class={styles.gradientSlider} ref={sliderRef!}>
       <div
-        class={classNames(
-          styles.colorPickerContainer,
-          conditionalClass(isMobileWidth(), styles.mobile)
+        class={styles.gradientSliderInner}
+        style={{ background: gradient() }}
+        onClick={onContainerClick}
+      />
+      <For each={props.stops}>
+        {(stop, i) => (
+          <div
+            class={cn(
+              styles.colorStop,
+              props.selectedIndex === i() && styles.active
+            )}
+            style={{
+              left: `${stop.percent}%`,
+              background: stop.color,
+              position: "absolute",
+              transform: "translateX(-50%)",
+            }}
+            onMouseDown={(e) => handleClick(e, i())}
+          />
         )}
-      >
-        <div id="coloris" />
-      </div>
-    </LegacyModal>
+      </For>
+    </div>
   );
 };
