@@ -137,7 +137,7 @@ export default function ServerSettingsRole() {
   const openColorPicker = () => {
     createPortal?.((close) => (
       <ColorPickerModal
-        gradientMode
+        tabs={["solid", "gradient"]}
         stopLimit={4}
         close={close}
         color={inputValues().hexColor}

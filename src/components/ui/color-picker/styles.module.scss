@@ -17,6 +17,12 @@
   width: 100%;
 }
 
+.tabs {
+  display: flex;
+  align-self: flex-start;
+  gap: 8px;
+}
+
 .colorPicker {
   position: relative;
   display: flex;

@@ -11,6 +11,7 @@ import { classNames, cn, conditionalClass } from "@/common/classNames";
 import { t } from "@nerimity/i18lite";
 import { Modal } from "../modal";
 import { ColorStop, parseGradient } from "@/common/color";
+import { Item } from "../Item";
 
 init();
 
@@ -123,23 +124,22 @@ export const ColorPickerModal = (props: {
   close: () => void;
   onChange: (value: string) => void;
   alpha?: boolean;
-  gradientMode?: boolean;
   stopLimit?: number;
+  tabs?: ("gradient" | "solid")[];
 }) => {
   let inputRef: HTMLInputElement | undefined;
   const { isMobileWidth, width } = useWindowProperties();
   let color = normalizeColor(props.color || "#000000");
+  const [currentTab, setCurrentTab] = createSignal<"gradient" | "solid">(
+    props.color?.startsWith("linear-gradient") ? "gradient" : "solid"
+  );
 
   const parsedGradient = () =>
-    !props.gradientMode
-      ? null
-      : parseGradient(
-          props.color?.startsWith("linear-gradient")
-            ? props.color!
-            : `linear-gradient(90deg, ${
-                props.color || "#000000"
-              } 0%, #ffffff 100%)`
-        );
+    parseGradient(
+      props.color?.startsWith("linear-gradient")
+        ? props.color!
+        : `linear-gradient(90deg, ${props.color || "#ff0000"} 0%, #000000 100%)`
+    );
 
   const [stops, setStops] = createSignal<ColorStop[]>(
     parsedGradient()?.stops || []
@@ -148,7 +148,7 @@ export const ColorPickerModal = (props: {
   const [selectedGradientIndex, setSelectedGradientIndex] = createSignal(0);
 
   const onChange = (newVal: string) => {
-    if (props.gradientMode) {
+    if (currentTab() === "gradient") {
       setStops(
         stops().map((s, i) =>
           i === selectedGradientIndex() ? { ...s, color: newVal } : s
@@ -168,9 +168,23 @@ export const ColorPickerModal = (props: {
 
   createEffect(
     on(selectedGradientIndex, () => {
-      if (!props.gradientMode) return;
       color = stops()[selectedGradientIndex()]?.color!;
       initColoris();
+    })
+  );
+  createEffect(
+    on(currentTab, () => {
+      if (currentTab() === "gradient") {
+        color = stops()[selectedGradientIndex()]?.color!;
+        initColoris();
+        onChange(color);
+      } else {
+        color =
+          parsedGradient().stops[0]?.color ||
+          normalizeColor(props.color || "#000000");
+        initColoris();
+        onChange(color);
+      }
     })
   );
 
@@ -201,7 +215,7 @@ export const ColorPickerModal = (props: {
 
   const done = () => {
     props.close();
-    if (props.gradientMode) {
+    if (currentTab() === "gradient") {
       const newGradient = `linear-gradient(90deg, ${stops()
         .map((s) => `${s.color} ${s.percent}%`)
         .join(", ")})`;
@@ -227,7 +241,25 @@ export const ColorPickerModal = (props: {
             conditionalClass(isMobileWidth(), styles.mobile)
           )}
         >
-          <Show when={props.gradientMode}>
+          <Show when={props.tabs?.length}>
+            <div class={styles.tabs}>
+              <Item.Root
+                handlePosition="bottom"
+                selected={currentTab() === "solid"}
+                onClick={() => setCurrentTab("solid")}
+              >
+                <Item.Label>Solid</Item.Label>
+              </Item.Root>
+              <Item.Root
+                handlePosition="bottom"
+                selected={currentTab() === "gradient"}
+                onClick={() => setCurrentTab("gradient")}
+              >
+                <Item.Label>Gradient</Item.Label>
+              </Item.Root>
+            </div>
+          </Show>
+          <Show when={props.tabs?.length && currentTab() === "gradient"}>
             <GradientSlider
               stops={stops()}
               stopLimit={props.stopLimit}
@@ -361,7 +393,7 @@ const GradientSlider = (props: {
             }}
             onPointerDown={(e) => handleClick(e, i())}
           >
-            <Show when={props.selectedIndex === i()}>
+            <Show when={props.selectedIndex === i() && props.stops.length > 2}>
               <div class={styles.removeButton} onClick={() => removeStop(i())}>
                 <Icon name="close" size={12} />
               </div>

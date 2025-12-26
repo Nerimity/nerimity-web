@@ -158,6 +158,13 @@
   flex-wrap: wrap;
   margin-bottom: 5px;
   gap: 2px;
+  .roleName {
+    background: var(--gradient, var(--color, var(--primary-color)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-weight: 600;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 body .postItemContainer {

@@ -496,7 +496,14 @@ const DesktopProfileFlyout = (props: {
                     <Show when={role?.icon}>
                       <Emoji size={16} resize={16} icon={role?.icon} hovered />
                     </Show>
-                    <Text color={role?.hexColor} size={12}>
+                    <Text
+                      class={styles.roleName}
+                      style={{
+                        "--gradient": role.gradient || role.hexColor,
+                        "--color": role.hexColor!,
+                      }}
+                      size={12}
+                    >
                       {role?.name}
                     </Text>
                   </div>
