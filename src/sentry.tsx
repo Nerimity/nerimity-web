@@ -52,7 +52,7 @@ const showCrashPopup = (message: string) => {
 };
 
 Sentry.init({
-  dsn: "http://0@0.ingest.sentry.io/0",
+  dsn: "https://0@nerimity.com/0",
   async beforeSend(event) {
     const exception = event.exception?.values?.[0];
     const msg = exception?.value || "Unknown Error";
