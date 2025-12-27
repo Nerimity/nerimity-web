@@ -117,7 +117,8 @@ export default function AppPage() {
 
   const isTextChannel = () => {
     const channel = channels.get(params.channelId!);
-    return channel?.type === ChannelType.SERVER_TEXT;
+    return channel?.type === ChannelType.SERVER_TEXT || 
+    channel?.type === ChannelType.DM_TEXT;
   };
   useGoogleApi();
 
