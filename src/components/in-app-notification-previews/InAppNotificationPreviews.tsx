@@ -51,7 +51,7 @@ export default function InAppNotificationPreviews() {
   let anim: Animation | undefined;
 
   createEffect(
-    on([notification, progressEl, expanded], () => {
+    on([notification, progressEl], () => {
       anim?.cancel();
       const progressElement = progressEl();
       if (!notification()) {
@@ -59,6 +59,10 @@ export default function InAppNotificationPreviews() {
         return;
       }
       if (!progressElement) return;
+
+      if (anim) {
+        return;
+      }
 
       anim = progressElement.animate(
         [
@@ -68,9 +72,9 @@ export default function InAppNotificationPreviews() {
         { duration: 5000, fill: "forwards", endDelay: 300, delay: 300 }
       );
 
-      if (expanded()) anim.pause();
       anim.onfinish = () => {
         anim?.cancel();
+        anim = undefined;
         removeNotification(notification()!);
         setExpanded(false);
       };
