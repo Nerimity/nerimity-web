@@ -72,13 +72,13 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
 
   const { width, isMobileWidth, isSafari } = useWindowProperties();
   const LeftDrawer = children(() => props.LeftDrawer());
-  const RightDrawer = children(() => props.RightDrawer());
+  const RightDrawer = children(() => props.RightDrawer ? props.RightDrawer() : null);
 
   const LeftDrawerComponent = matchComponent(() => "leftDrawer");
   const RightDrawerComponent = matchComponent(() => "rightDrawer");
 
   const hasLeftDrawer = createMemo(() => !!LeftDrawerComponent());
-  const hasRightDrawer = createMemo(() => !!RightDrawerComponent());
+  const hasRightDrawer = createMemo(() => !!RightDrawerComponent() && !!props.RightDrawer);
 
   let transformString: string;
   let animationFrame: number;
