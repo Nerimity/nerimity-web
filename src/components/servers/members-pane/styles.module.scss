@@ -2,33 +2,116 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 10px;
+  padding: 16px; 
+
+  .actionBar {
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-end; 
+    margin-top: 10px;
+    margin-bottom: 24px;
+    gap: 20px;
+
+    .searchWrapper {
+      flex: 1;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
 }
 
-.filter {
+.filterSection {
   display: flex;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterContainer {
+  display: flex;
   gap: 4px;
 }
 
-.search {
-  align-self: flex-start;
-  margin-bottom: 12px;
-
+.filterLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.5;
+  letter-spacing: 0.5px;
 }
-
 
 .memberField {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+
+  .nameStack {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+
+    .nickname {
+      font-weight: bold;
+      font-size: 14px;
+      width: fit-content; 
+    }
+
+    .usernameAndTag {
+      opacity: 0.6;
+      font-size: 12px;
+    }
+  }
 }
 
-.nickname {
-  font-weight: bold;
+.rolesList {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  max-width: 400px;
 }
-.usernameAndTag {
-  opacity: 0.6;
-  font-size: 12px;
+
+.nerimityRoleBadge {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+
+  .roleCircle {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+}
+
+.roleAddButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.15s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: var(--primary-color);
+  }
+}
+
+.dimmed {
+  opacity: 0.4;
 }
