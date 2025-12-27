@@ -59,7 +59,6 @@ interface GradientData {
 }
 
 export const parseGradient = (str: string): GradientData => {
-  // Use optional chaining and provide a fallback string to prevent match error
   const match = str.match(/linear-gradient\((.*)\)/i)?.[1] ?? "";
 
   if (!match) {
@@ -68,9 +67,8 @@ export const parseGradient = (str: string): GradientData => {
 
   const parts = match.split(",").map((p) => p.trim());
 
-  // Check for angle safely
   let angle = 180;
-  const firstPart = parts[0] ?? ""; // Fallback for empty array
+  const firstPart = parts[0] ?? "";
 
   if (firstPart.toLowerCase().includes("deg")) {
     const degMatch = firstPart.match(/^(\d+)deg$/i);
@@ -81,10 +79,8 @@ export const parseGradient = (str: string): GradientData => {
   }
 
   const stops = parts.reduce((acc: ColorStop[], part) => {
-    // Regex matches: #hex (group 1) and number (group 2)
     const stopMatch = part.match(/^(#[a-f0-9]{3,6})\s*(\d+)%$/i);
 
-    // Check if match exists and both capture groups are present
     if (stopMatch?.[1] && stopMatch?.[2]) {
       acc.push({
         color: stopMatch[1],
