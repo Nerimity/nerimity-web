@@ -235,7 +235,7 @@ render(() => {
 
           <Route
             path="/servers/:serverId/"
-            components={{ leftDrawer: ServerDrawer, rightDrawer: RightDrawer }}
+            components={{ leftDrawer: ServerDrawer }}
           >
             <Route
               path="/welcome"
@@ -245,7 +245,10 @@ render(() => {
               path="/members"
               components={{ mainPane: ServerMembersPane }}
             />
-            <Route path="/:channelId" components={{ mainPane: ChannelPane }} />
+            <Route
+              path="/:channelId"
+              components={{ mainPane: ChannelPane, rightDrawer: RightDrawer }}
+            />
 
             {/* Server Settings */}
             <Route
@@ -263,8 +266,8 @@ render(() => {
                   />
                 )}
               </For>
+              <Route path="/*" />
             </Route>
-            <Route path="/*" components={{ settingsPane: undefined }} />
           </Route>
 
           <Route
@@ -345,7 +348,7 @@ render(() => {
             path="/*"
             components={{
               mainPane: DashboardPane,
-              RightDrawer: undefined,
+              rightDrawer: undefined,
               leftDrawer: HomeDrawer,
             }}
           />
