@@ -16,7 +16,7 @@ const [serverRoles, setServerRoles] = createStore<
 const set = (serverId: string, _role: RawServerRole) => {
   const role: ServerRole = { ..._role };
 
-  if (role.hexColor?.startsWith("lg")) {
+  if (role.hexColor.startsWith("lg")) {
     const [converted] = convertShorthandToLinearGradient(role.hexColor);
     if (converted) {
       role.hexColor = converted.colors[0]!;

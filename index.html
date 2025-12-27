@@ -1,6 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      const showCrashPopup = (message, stack) => {
+        const div = document.createElement("div");
+        div.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4d4d;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    z-index: 999999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    font-family: sans-serif;
+    max-width: 90%;
+    word-break: break-word;
+  `;
+
+        div.innerHTML = `
+    <div style="font-weight: bold; margin-bottom: 8px;">⚠️ Application Crash</div>
+    <div style="font-size: 14px; opacity: 0.9;">${message}</div>
+    <button id="close-crash-popup" style="margin-top: 12px; background: rgba(255,255,255,0.2); border: 1px solid white; color: white; cursor: pointer; padding: 4px 8px; border-radius: 4px;">Dismiss</button>
+  `;
+
+        document.body.appendChild(div);
+
+        document.getElementById("close-crash-popup").onclick = () =>
+          div.remove();
+      };
+
+      window.addEventListener("error", (event) => {
+        const msg = event.error ? event.error.message : event.message;
+        showCrashPopup(msg);
+      });
+
+      window.addEventListener("unhandledrejection", (event) => {
+        const msg =
+          event.reason?.message || event.reason || "Unknown Promise Rejection";
+        showCrashPopup(`Promise Error: ${msg}`);
+      });
+    </script>
     <meta charset="utf-8" />
     <meta
       id="viewport"
@@ -30,8 +72,6 @@
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <link rel="icon" type="image/png" href="/favicon.ico" />
-
-
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -39,17 +79,4 @@
 
     <script src="/src/index.tsx" type="module"></script>
   </body>
-  <script>
-    // Remove PWA worker. Caused issues with updating Nerimity (I think?)
-    navigator.serviceWorker?.getRegistrations().then((workers) => {
-      workers.forEach((worker) => {
-        if (worker.active?.scriptURL === "https://nerimity.com/sw.js") {
-          worker.unregister().then(() => {
-            console.log("Removed worker sw.js");
-            location.reload();
-          });
-        }
-      });
-    });
-  </script>
 </html>
