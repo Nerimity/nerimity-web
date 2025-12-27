@@ -2142,6 +2142,8 @@ const MessageReplyItem = (props: {
 
   const topRoleWithColor = createMemo(() => member()?.topRoleWithColor());
 
+  const hasAttachments = () => props.replyToMessage?.attachments?.length;
+
   return (
     <div
       class={styles.replyItem}
@@ -2168,7 +2170,7 @@ const MessageReplyItem = (props: {
           >
             {member()?.nickname || props.replyToMessage!.createdBy?.username}
           </div>
-          <Show when={props.replyToMessage!.attachments?.length}>
+          <Show when={hasAttachments()}>
             <Icon name="image" color="rgba(255,255,255,0.6)" size={16} />
           </Show>
           <div class={styles.replyContent}>
@@ -2176,7 +2178,10 @@ const MessageReplyItem = (props: {
               replaceCommandBotId
               inline
               message={props.replyToMessage!}
-              text={props.replyToMessage!.content || ""}
+              text={
+                props.replyToMessage!.content ||
+                (hasAttachments() ? "Image message" : "")
+              }
             />
           </div>
         </Show>
