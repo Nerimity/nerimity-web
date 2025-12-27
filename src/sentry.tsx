@@ -58,6 +58,8 @@ Sentry.init({
     const msg = exception?.value || "Unknown Error";
     const frame = exception?.stacktrace?.frames?.slice().reverse()[0];
 
+    if (msg.startsWith("NotAllowedError")) return null;
+
     if (frame) {
       try {
         const { TraceMap, originalPositionFor } = await import(
