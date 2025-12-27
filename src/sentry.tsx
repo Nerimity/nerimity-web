@@ -61,6 +61,7 @@ Sentry.init({
     if (msg.startsWith("NotAllowedError")) return null;
     if (msg.startsWith("AbortError")) return null;
     if (msg.startsWith("Object captured as promise rejection")) return null;
+    if (msg.startsWith("ResizeObserver loop limit exceeded")) return null;
 
     if (frame) {
       try {
