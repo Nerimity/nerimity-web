@@ -51,6 +51,8 @@ import {
   useCustomScrollbar,
 } from "@/components/custom-scrollbar/CustomScrollbar";
 import { lazyLoadEmojis } from "@/emoji";
+import { useParams } from "solid-navigator";
+import { ChannelType } from "@/chat-api/RawData";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -110,6 +112,13 @@ export default function AppPage() {
   const [searchParams] = useSearchParams<{ postId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const { channels } = useStore();
+  const params = useParams<{ channelId?: string }>();
+
+  const isTextChannel = () => {
+    const channel = channels.get(params.channelId!);
+    return channel?.type === ChannelType.SERVER_TEXT;
+  };
   useGoogleApi();
 
   useQuickTravel();
@@ -214,11 +223,11 @@ export default function AppPage() {
           <LeftDrawer />
         </CustomScrollbarProvider>
       )}
-      RightDrawer={() => (
+     RightDrawer={isTextChannel() ? () => (
         <CustomScrollbarProvider>
           <RightDrawer />
         </CustomScrollbarProvider>
-      )}
+      ) : undefined}
     >
       <MobileBottomPane />
     </DrawerLayout>
