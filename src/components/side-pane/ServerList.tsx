@@ -495,20 +495,20 @@ export const ServerList = (props: { size: number }) => {
 
               serverIds!.splice(newIndex!, 0, draggingId()!);
 
-              updateServerFolder(folder.id, serverIds);
+              updateServerFolder(folder.id, serverIds).catch(() => {});
             }
             if (draggedOverItem()) {
               // when dragging a server over a server (create new folder)
               if (draggedOverItem()?.type === "server") {
                 const serverIds = [draggedOverId()!, draggingId()!];
-                createServerFolder(serverIds);
+                createServerFolder(serverIds).catch(() => {});
               }
               // when dragging a server over a folder
               if (draggedOverItem()?.type === "folder") {
                 const folder = draggedOverItem() as RawServerFolder;
                 const folderServerIds = [...folder.serverIds];
                 folderServerIds.push(draggingId()!);
-                updateServerFolder(folder.id, folderServerIds);
+                updateServerFolder(folder.id, folderServerIds).catch(() => {});
               }
             }
 
