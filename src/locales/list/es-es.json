@@ -413,7 +413,7 @@
             "badges": "Insignias",
             "viewSource": "Ver código fuente",
             "changelog": "Registro de cambios",
-            "window-settings": "Configuración de ventana",
+            "window-settings": "Configuración de aplicación",
             "call-settings": "Configuración de llamadas",
             "activity-status": "Estatus de actividad",
             "tickets": "Tickets",
@@ -588,7 +588,7 @@
             "sendButton": "Enviar mensaje"
         },
         "window": {
-            "title": "Configuración - Ajustes de ventana",
+            "title": "Configuración - Ajustes de aplicación",
             "downloadAppNotice": "Para modificar estos ajustes, tienes que descargarte la aplicación de escritorio de Nerimity.",
             "startupOptions": "Opciones al arrancar",
             "openOnStartup": "Abrir Nerimity al iniciar",
