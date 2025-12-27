@@ -500,7 +500,7 @@ const DesktopProfileFlyout = (props: {
                       class={styles.roleName}
                       style={{
                         "--gradient": role.gradient || role.hexColor,
-                        "--color": role.hexColor!,
+                        "--color": role.hexColor || "#fff",
                       }}
                       size={12}
                     >

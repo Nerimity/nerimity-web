@@ -95,7 +95,7 @@ const MemberItem = (props: { member: ServerMember }) => {
     );
   };
 
-  const topRole = createMemo(() => props.member.topRole());
+  const topRoleWithColor = createMemo(() => props.member.topRoleWithColor());
 
   return (
     <div
@@ -128,8 +128,9 @@ const MemberItem = (props: { member: ServerMember }) => {
           <div
             class={styles.username}
             style={{
-              "--gradient": topRole()?.gradient || topRole()?.hexColor,
-              "--color": topRole()?.hexColor!,
+              "--gradient":
+                topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
+              "--color": topRoleWithColor()?.hexColor!,
             }}
           >
             {props.member.nickname || user().username}

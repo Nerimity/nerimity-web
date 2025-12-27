@@ -232,7 +232,9 @@ interface DetailsProps {
 const Details = (props: DetailsProps) => {
   const [t] = useTransContext();
 
-  const topRole = createMemo(() => props.serverMember?.topRole());
+  const topRoleWithColor = createMemo(() =>
+    props.serverMember?.topRoleWithColor()
+  );
 
   return (
     <div class={classNames(styles.details, "details")}>
@@ -250,8 +252,9 @@ const Details = (props: DetailsProps) => {
             : RouterEndpoints.PROFILE(props.message.createdBy.id)
         }
         style={{
-          "--gradient": topRole()?.gradient || topRole()?.hexColor,
-          "--color": topRole()?.hexColor!,
+          "--gradient":
+            topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
+          "--color": topRoleWithColor()?.hexColor!,
         }}
       >
         {props.serverMember?.nickname || props.message.createdBy.username}
@@ -2135,7 +2138,7 @@ const MessageReplyItem = (props: {
       props.replyToMessage?.createdBy?.id!
     );
 
-  const topRole = createMemo(() => member()?.topRole());
+  const topRoleWithColor = createMemo(() => member()?.topRoleWithColor());
 
   return (
     <div
@@ -2156,8 +2159,9 @@ const MessageReplyItem = (props: {
           <div
             class={styles.replyUsername}
             style={{
-              "--gradient": topRole()?.gradient || topRole()?.hexColor,
-              "--color": topRole()?.hexColor!,
+              "--gradient":
+                topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
+              "--color": topRoleWithColor()?.hexColor!,
             }}
           >
             {member()?.nickname || props.replyToMessage!.createdBy?.username}

@@ -32,6 +32,7 @@ export type ServerMember = Omit<RawServerMember, "user"> & {
   unhiddenRole: () => ServerRole | undefined;
   isServerCreator: () => boolean | undefined;
   canViewChannel: (this: ServerMember, channelId: string) => boolean;
+  topRoleWithColor: () => Color;
 };
 
 const [serverMembers, setMember] = createStore<
@@ -51,6 +52,7 @@ const set = (member: RawServerMember) => {
     userId: member.user.id,
     server,
     canViewChannel,
+    topRoleWithColor,
     user,
     update,
     roles,
@@ -117,6 +119,43 @@ function topRoleWithIcon(this: ServerMember) {
   }
   const dRole = defaultRole();
   return dRole?.icon ? dRole : undefined;
+}
+
+interface Color {
+  hexColor: string;
+  gradient?: string;
+}
+function topRoleWithColor(this: ServerMember): {
+  hexColor: string;
+  gradient?: string;
+} {
+  const highestRole = this.roles().reduce((best, current) => {
+    if (!current?.hexColor) return best;
+
+    if (!best || (current.order ?? 0) > (best.order ?? 0)) {
+      return current;
+    }
+
+    return best;
+  }, null as ServerRole | null);
+
+  if (highestRole?.hexColor) {
+    return highestRole as Color;
+  }
+
+  const servers = useServers();
+  const roles = useServerRoles();
+
+  const defaultRoleId = servers.get(this.serverId)?.defaultRoleId;
+
+  if (defaultRoleId) {
+    const defaultRole = roles.get(this.serverId, defaultRoleId);
+    if (defaultRole?.hexColor) {
+      return defaultRole as Color;
+    }
+  }
+
+  return { hexColor: "#fff" };
 }
 
 function unhiddenRole(this: ServerMember) {

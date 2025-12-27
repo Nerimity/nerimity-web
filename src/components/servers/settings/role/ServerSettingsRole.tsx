@@ -1,7 +1,15 @@
 import styles from "./styles.module.scss";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useNavigate, useParams } from "solid-navigator";
-import { createEffect, createSignal, For, on, Show } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  For,
+  Match,
+  on,
+  Show,
+  Switch,
+} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { createUpdatedSignal } from "@/common/createUpdatedSignal";
 import SettingsBlock from "@/components/ui/settings-block/SettingsBlock";
@@ -58,7 +66,7 @@ export default function ServerSettingsRole() {
 
   const defaultInput = () => ({
     name: role()?.name || "",
-    hexColor: role()?.gradient || role()?.hexColor || "#fff",
+    hexColor: role()?.gradient || role()?.hexColor,
     permissions: role()?.permissions || 0,
     hideRole: role()?.hideRole || false,
     icon: role()?.icon || null,
@@ -140,7 +148,7 @@ export default function ServerSettingsRole() {
         tabs={["solid", "gradient"]}
         stopLimit={4}
         close={close}
-        color={inputValues().hexColor}
+        color={inputValues().hexColor || "#fff"}
         onChange={(v) => setInputValue("hexColor", v)}
         done={(v) => {
           setInputValue("hexColor", v);
@@ -189,6 +197,30 @@ export default function ServerSettingsRole() {
         icon="colorize"
         label={t("servers.settings.role.roleColor")}
       >
+        <Switch>
+          <Match when={updatedInputValues().hexColor}>
+            <Button
+              title="undo"
+              iconName="undo"
+              label="Undo"
+              textSize={12}
+              padding={2}
+              alert
+              onClick={() => setInputValue("hexColor", role()?.hexColor)}
+            />
+          </Match>
+          <Match when={inputValues().hexColor}>
+            <Button
+              title="clear"
+              iconName="close"
+              alert
+              label="Default"
+              textSize={12}
+              padding={[2, 4]}
+              onClick={() => setInputValue("hexColor", null)}
+            />
+          </Match>
+        </Switch>
         <div
           style={{
             display: "flex",
@@ -200,7 +232,7 @@ export default function ServerSettingsRole() {
             onClick={openColorPicker}
             class={styles.colorPicker}
             style={{
-              background: inputValues().hexColor,
+              background: inputValues().hexColor || "#fff",
             }}
           >
             <Icon

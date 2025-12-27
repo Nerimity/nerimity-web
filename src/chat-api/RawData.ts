@@ -258,7 +258,7 @@ export interface RawServerRole {
   name: string;
   icon?: string;
   order: number;
-  hexColor: string;
+  hexColor?: string;
   createdById: string;
   permissions: number;
   serverId: string;

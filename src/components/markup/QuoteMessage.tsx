@@ -94,7 +94,7 @@ export function QuoteMessage(props: {
     return `/app/servers/${serverId}/${channelId}?messageId=${mId}`;
   };
 
-  const topRole = createMemo(() => serverMember()?.topRole());
+  const topRoleWithColor = createMemo(() => serverMember()?.topRoleWithColor());
 
   return (
     <div
@@ -122,8 +122,9 @@ export function QuoteMessage(props: {
               : RouterEndpoints.PROFILE(props.quote.createdBy!.id)
           }
           style={{
-            "--gradient": topRole()?.gradient || topRole()?.hexColor,
-            "--color": topRole()?.hexColor!,
+            "--gradient":
+              topRoleWithColor()?.gradient || topRoleWithColor()?.hexColor,
+            "--color": topRoleWithColor()?.hexColor!,
           }}
         >
           {serverMember()?.nickname || props.quote.createdBy!.username}
