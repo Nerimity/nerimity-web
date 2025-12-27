@@ -59,6 +59,7 @@ Sentry.init({
     const frame = exception?.stacktrace?.frames?.slice().reverse()[0];
 
     if (msg.startsWith("NotAllowedError")) return null;
+    if (msg.startsWith("AbortError")) return null;
     if (msg.startsWith("Object captured as promise rejection")) return null;
 
     if (frame) {
