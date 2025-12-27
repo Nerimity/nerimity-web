@@ -42,6 +42,13 @@ const update = (
   batch(() => {
     setServerRoles(serverId, roleId, update);
 
+    if (update.hexColor === null) {
+      setServerRoles(serverId, roleId, {
+        gradient: undefined,
+        hexColor: undefined,
+      });
+    }
+
     if (update?.hexColor) {
       setServerRoles(serverId, roleId, "gradient", undefined);
       if (update?.hexColor?.startsWith("lg")) {
