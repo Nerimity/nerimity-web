@@ -110,7 +110,9 @@ import { fetchTranslation, TranslateRes } from "@/common/GoogleTranslate";
 import { userDetailsPreloader } from "@/common/createPreloader";
 import { Trans, useTransContext } from "@nerimity/solid-i18lite";
 import { t } from "@nerimity/i18lite";
-
+import markupStyle from "@/components/Markup.scss?inline";
+import avatarStyle from "@/components/ui/Avatar.module.css?inline";
+import avatarBorderStyle from "@/components/avatar-borders/FounderAdminSupporterBorder.module.css?inline";
 const ImagePreviewModal = lazy(
   () => import("@/components/ui/ImagePreviewModal")
 );
@@ -2186,6 +2188,13 @@ const MessageReplyItem = (props: {
   );
 };
 
+const markupStyleSheet = new CSSStyleSheet();
+markupStyleSheet.replaceSync(markupStyle);
+const avatarStyleSheet = new CSSStyleSheet();
+avatarStyleSheet.replaceSync(avatarStyle);
+const avatarBorderStyleSheet = new CSSStyleSheet();
+avatarBorderStyleSheet.replaceSync(avatarBorderStyle);
+
 /**
  * A declarative shadow root component
  *
@@ -2193,12 +2202,26 @@ const MessageReplyItem = (props: {
  * to handle shadow DOM and the component lifecycle
  */
 const ShadowRoot: ParentComponent = (props) => {
-  let div: HTMLDivElement;
+  let containerRef: HTMLDivElement | undefined;
+
+  const applyStyles = (el: HTMLDivElement) => {
+    const shadow = el.shadowRoot;
+    if (shadow) {
+      shadow.adoptedStyleSheets = [
+        markupStyleSheet,
+        avatarStyleSheet,
+        avatarBorderStyleSheet,
+      ];
+    }
+  };
+
   return (
-    <div ref={div!} style={{ width: "100%" }}>
-      <Portal mount={div!} useShadow={true}>
-        {props.children}
-      </Portal>
+    <div ref={containerRef} style={{ width: "100%" }}>
+      <Show when={containerRef}>
+        <Portal mount={containerRef} useShadow={true} ref={applyStyles}>
+          {props.children}
+        </Portal>
+      </Show>
     </div>
   );
 };
