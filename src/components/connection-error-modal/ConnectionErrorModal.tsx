@@ -41,12 +41,12 @@ export const ConnectionErrorModal = (props: {
       <Show when={hasToken()}>
         <Button
           onClick={logoutClick}
-          label={t("connectionErrorModal.logout")}
+          label={t("header.logoutButton")}
           color="var(--alert-color)"
         />
       </Show>
       <Show when={!hasToken()}>
-        <Button onClick={() => loginPage()} label={t("connectionErrorModal.login")} />
+        <Button onClick={() => loginPage()} label={t("header.loginButton")} />
       </Show>
     </FlexRow>
   );
