@@ -6,27 +6,50 @@
         "joinNowButton": "Присоединиться сейчас"
     },
     "homePage": {
-        "slogan": "Современное и стильное чат-приложение.",
-        "viewGitHubButton": "Посмотреть на GitHub"
+        "slogan": "Современное и стильное приложение для общения.",
+        "viewGitHubButton": "Посмотреть на GitHub",
+        "subslogan": "Nerimity предлагает изящный и богатый функциями опыт, что делает его особенным.",
+        "getStarted": "Начнём",
+        "availableOn": "Доступно для",
+        "browser": "Браузера",
+        "featureList": {
+            "feature1": "Бесплатные анимированые аватары и эмодзи",
+            "feature2": "Стильный дезайн",
+            "feature3": "Бесплатная смена тега",
+            "feature4": "Создание публикаций в профиле",
+            "feature5": "Создайте собственное сообщество",
+            "feature6": "Найдите новые сообщества",
+            "feature7": "Работает на пожертвованиях",
+            "feature8": "Полный исходный код на GitHub",
+            "feature9": "Выражайте себя с помощью рамок"
+        }
     },
     "loginPage": {
         "title": "Войдите, чтобы продолжить",
-        "emailOrUsernameAndTag": "Email / имя пользователя:тег",
+        "emailOrUsernameAndTag": "Почта / имя пользователя:тег",
         "password": "Пароль",
         "login": "Войти",
-        "createAccountInstead": "Создать новый аккаунт",
+        "createAccountInstead": "Вместо этого создать аккаунт",
         "loggingIn": "Вход...",
         "loginButton": "Войти"
     },
     "registerPage": {
         "title": "Добро пожаловать в {{appName}}",
-        "email": "Email",
+        "email": "Электронная почта",
         "username": "Имя пользователя",
         "password": "Пароль",
         "confirmPassword": "Подтвердите пароль",
         "registerButton": "Зарегистрироваться",
         "registering": "Регистрация...",
-        "loginInstead": "Войти в существующий аккаунт"
+        "loginInstead": "Войти в существующий аккаунт",
+        "header": "Регистрация",
+        "notices": {
+            "title": "Примечания",
+            "toxic": "Не будьте токсичными.",
+            "nsfw": "18+ контент запрещён.",
+            "age": "Вам должно быть 14 или больше."
+        },
+        "agreement": "Создавая аккаунт, вы соглашайтесь с Правилами использования и Политикой конфиденциальности."
     },
     "dashboard": {
         "title": "Главная страница",
@@ -41,25 +64,30 @@
     "inbox": {
         "drawer": {
             "searchBarPlaceholder": "Поиск",
-            "friendRequests": "{{count}} Запросов в друзья",
-            "onlineFriends": "{{count}} Друзей онлайн",
-            "offlineFriends": "{{count}} Друзей оффлайн",
+            "friendRequests": "{{count}} запросов в друзья",
+            "onlineFriends": "{{count}} друзей в сети",
+            "offlineFriends": "{{count}} друзей не в сети",
             "notes": "Заметки",
             "addFriendButton": "Добавить друга",
             "blockedUsersButton": "Черный список",
             "inboxTitle": "Личные сообщения",
             "friendsButton": "Друзья",
-            "viewAll": "Посмотреть все"
+            "viewAll": "Посмотреть всех"
+        },
+        "blockedUsersModal": {
+            "title": "Заблокированные"
         }
     },
     "explore": {
         "drawer": {
             "title": "Исследовать",
-            "servers": "Серверы"
+            "servers": "Серверы",
+            "bots": "Боты",
+            "themes": "Темы"
         },
         "servers": {
             "title": "Исследовать - Серверы",
-            "noticeMessage": "Сервер может быть продвинут раз в {{hours}} часов. Все продвижения сбрасываются каждый {{date}}.",
+            "noticeMessage": "Сервер может быть продвинут раз в {{hours}} часа. Все продвижения сбрасываются каждый {{date}}.",
             "sortMostBumps": "Больше всего продвижений",
             "sortMostMembers": "Больше всего участников",
             "sortRecentlyAdded": "Недавно добавленные",
@@ -70,8 +98,34 @@
             "lifetimeBumpCount": "{{count}} продвижений за всё время",
             "visitServerButton": "Посетить",
             "joinServerButton": "Присоединиться",
-            "bumpButton": "Продвинуть ({{count}})"
-        }
+            "bumpButton": "Продвинуть ({{count}})",
+            "moderationNotice": "Серверы не модерируются Nerimity. Если какой-то сервер нарушает правила, подайте на него жалобу.",
+            "sortMostActive": "Наиболее активные (Бета)",
+            "pinnedServers": "Закреплённые серверы",
+            "recentlyBumped": "Недавно продвинуте серверы"
+        },
+        "bots": {
+            "title": "Исследовать - Боты",
+            "noticeMessage": "Бота можно продвинуть раз в {{hours}} часа. Все продвижения сбрасываются каждый {{date}}.",
+            "moderationNotice": "Боты не модерируются Nerimity. Если какой-то бот вредоносен или нарушает правила, подайте на него жалобу.",
+            "inviteButton": "Пригласить",
+            "serverCount": "На {{count}} серверах"
+        },
+        "themes": {
+            "title": "Исследовать - Темы",
+            "themesHeaderDescription": "Персонализируйте Nerimity с пользовательской темой.",
+            "officialThemes": "Официальные темы",
+            "communityThemes": "Темы от сообщества",
+            "noCommunityThemes": "Тем от сообщества не найдено.",
+            "fetchThemesError": "Не удалось загрузить темы. Попробуйте ещё раз.",
+            "unlockDescription": "Нажмите, чтобы увидеть все темы сообщества"
+        },
+        "search": "Поиск",
+        "sort": "Сортировка",
+        "filter": "Фильтр",
+        "backButton": "Назад",
+        "by": "От",
+        "bumped": "Продвинут"
     },
     "servers": {
         "settings": {
@@ -87,11 +141,13 @@
                 "welcome-screen": "Экран приветствия",
                 "channel": "Канал",
                 "emojis": "Эмодзи",
-                "notifications": "Уведомления"
+                "notifications": "Уведомления",
+                "audit-logs": "Журнал аудита",
+                "external-embed": "Внешний эмбед"
             },
             "general": {
                 "serverRenameNotice": "Вы потеряете все преимущества верификации сервера, если переименуете его.",
-                "serverName": "Имя сервера",
+                "serverName": "Название сервера",
                 "defaultChannel": "Канал по умолчанию",
                 "defaultChannelDescription": "Новые участники будут направлены в этот канал.",
                 "systemMessages": "Системные сообщения",
@@ -100,7 +156,13 @@
                 "deleteThisServerDescription": "Это действие не может быть отменено!",
                 "deleteServerButton": "Удалить сервер",
                 "saveChangesButton": "Сохранить изменения",
-                "saving": "Сохранение..."
+                "saving": "Сохранение...",
+                "avatar": "Аватар",
+                "avatarDescription": "Поддерживаются: JPG, PNG, GIF, WEBP, макс. 12 MB",
+                "banner": "Баннер",
+                "bannerDescription": "Поддерживаются: JPG, PNG, GIF, WEBP, макс. 12 MB",
+                "browseButton": "Выбрать",
+                "none": "Нет"
             },
             "roles": {
                 "addNewRole": "Добавить новую роль",
@@ -113,7 +175,7 @@
                 "roleColor": "Цвет роли",
                 "hideRole": "Скрыть роль",
                 "hideRoleDescription": "Отображать участников с этой ролью вместе со всеми участниками",
-                "permissions": "Разрешения",
+                "permissions": "Права",
                 "permissionsDescription": "Управление правами доступа для этой роли.",
                 "deleteRoleButton": "Удалить эту роль",
                 "deleteRoleButtonDescription": "Это действие не может быть отменено!"
@@ -130,11 +192,12 @@
                 "saving": "Сохранение...",
                 "saveChangesButton": "Сохранить изменения",
                 "channelName": "Название канала",
-                "permissions": "Разрешения",
+                "permissions": "Права",
                 "permissionsDescription": "Управление разрешениями для этого канала.",
                 "deleteThisChannel": "Удалить этот канал",
                 "deleteThisChannelDescription": "Это действие не может быть отменено!",
-                "deleteChannelButton": "Удалить канал"
+                "deleteChannelButton": "Удалить канал",
+                "removeNoticeButton": "Удалить примечание"
             },
             "invites": {
                 "createInviteButton": "Создать приглашение",
@@ -147,13 +210,35 @@
                 "copyLinkButton": "Скопировать ссылку"
             },
             "publishServer": {
-                "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>исследовать</1>.",
+                "publishNotice": "Публикация вашего сервера сделает его доступным на странице <1>«Исследовать»</1>.",
                 "public": "Публичный",
                 "publicDescription": "Сделать этот сервер публичным.",
                 "bumpServer": "Продвинуть сервер",
                 "bumpServerDescription": "Продвинет сервер вверх списка.",
                 "publishServerButton": "Опубликовать сервер",
-                "unpublishServerButton": "Снять сервер с публикации"
+                "unpublishServerButton": "Снять сервер с публикации",
+                "bumpButton": "Продвинуть ({{count}})",
+                "descriptionLabel": "Описание сервера ({{current}}/{{max}})"
+            },
+            "bans": {
+                "sort": {
+                    "title": "Сортировка",
+                    "unsorted": "Без сортировки"
+                },
+                "noResults": "Нет результатов.",
+                "reason": "Причина",
+                "noReason": "Причина не указана",
+                "bannedAt": "Забанен",
+                "unknown": "Неизвестно",
+                "unban": "Разбанить",
+                "unbanning": "Разбан"
+            },
+            "webhook": {
+                "title": "Настройки вебхука",
+                "name": "Название",
+                "link": "URL вэбхука",
+                "linkDescription": "Выполнять действия через эту ссылку",
+                "delete": "Удалить вебхук"
             }
         },
         "rolePermissions": {
@@ -364,5 +449,134 @@
         "attachments": "Вложения",
         "attachmentsBack": "Назад",
         "members": "Участники"
+    },
+    "systemMessages": {
+        "joinServer": {
+            "bot": "<User/><2> был добавлен на сервер.</2>",
+            "user": "<User/><2> присоединился к серверу.</2>"
+        },
+        "leaveServer": "<User/><2> вышел с сервера.</2>",
+        "kickUser": "<User/><2> был выгнан.</2>",
+        "banUser": "<User/><2> был забанен.</2>",
+        "callStarted": "<User/><2> начал звонок.</2>",
+        "bumpServer": "<User/><2> продвинул сервер.</2>",
+        "pinnedMessage": "<User/><2> закрепил сообщение.</2>",
+        "unsupported": "<User/><2> Сообщение не поддерживается.</2>"
+    },
+    "statusHeader": {
+        "authenticationError": "Ошибка аутентификации",
+        "connecting": "Подключение…",
+        "reconnecting": "Переподключение…",
+        "inQueue": "В очереди: перед вами {{count}} пользователь(ей)",
+        "authenticating": "Аутентификация…",
+        "connected": "Подключено!"
+    },
+    "dangerousLinkModal": {
+        "title": "Пользовательская ссылка",
+        "message": "Эта ссылка приведёт вас на",
+        "cancelButton": "Не посещать",
+        "visitButton": "Посетить"
+    },
+    "connectionErrorModal": {
+        "title": "Ошибка подключения",
+        "ok": "Ок",
+        "noToken": "Токен не дан.",
+        "suspended": "Вы отстронены.",
+        "reason": "Причина",
+        "defaultReason": "Нарушения условий",
+        "until": "До",
+        "never": "никогда",
+        "by": "От",
+        "deletionNotice": "Ваш аккаунт и данные будут удалены через 15 дней",
+        "ipBanned": "Ваш IP-адрес заблокирован.",
+        "ipBanNotice": "Кто-то с таким же IP-адресом был отстранён от использования Nerimity. Ваш аккаунт это не затрагивает."
+    },
+    "resetPassword": {
+        "title": "Сброс пароля",
+        "resetSuccessful": "Пароль успешно сброшен.",
+        "passwordsDoNotMatch": "Пароли не совпадают.",
+        "passwordTooLong": "Пароль должен содержать до 72 символов.",
+        "resetPasswordButton": "Сбросить пароль",
+        "resetting": "Сброс...",
+        "email": "Электронная почта",
+        "sendEmailButton": "Отправить письмо",
+        "sending": "Отправка письма..."
+    },
+    "status": {
+        "online": "В сети",
+        "ltp": "Ищу игру",
+        "afk": "Не на месте",
+        "dnd": "Не беспокоить",
+        "offline": "Не в сети",
+        "appearAsOffline": "Отображаться как не в сети"
+    },
+    "sidePane": {
+        "home": "Домашняя страница",
+        "homeShort": "Дом",
+        "moderation": "Панель модерации",
+        "moderationShort": "Мод",
+        "addServer": "Добавить сервер"
+    },
+    "updateModal": {
+        "title": "Доступно обновление",
+        "updateButton": "Обновить сейчас",
+        "laterButton": "Потом",
+        "releasedAt": "Выпущено"
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "Написать {{username}}",
+        "messageBoxChannelPlaceholder": "Написать в {{channelName}}",
+        "replying": "В ответ на {{count}} сообщений",
+        "mention": "Упомянуть",
+        "dropFile": "Отпустите файл",
+        "uploadTo": "Загрузить на",
+        "channelNotice": {
+            "title": "Перед тем, как начать...",
+            "understoodButton": "Понятно"
+        },
+        "specialMentions": {
+            "everyone": "Упоминает всех",
+            "someone": "Упоминает случайного пользователя",
+            "silent": "Тихое сообщение"
+        },
+        "linkToGoogleDrive": {
+            "body": "Вы должны привязать Google Drive к вашему аккаунту, чтобы загружать большие изображения, видео и файлы",
+            "linkButton": "Привязать сейчас",
+            "cancelButton": "Не привязывать"
+        },
+        "emailNotice": "Подтвердите ваш электронный адрес, чтобы отправлять сообщения."
+    },
+    "inputFieldActions": {
+        "copy": "Копировать",
+        "cut": "Вырезать",
+        "paste": "Вставить"
+    },
+    "markup": {
+        "bold": "Жирный",
+        "italic": "Курсив",
+        "strikethrough": "Зачёркнутый",
+        "header": "Заголовок",
+        "namedLink": "Названная ссылка",
+        "spoiler": "Спойлер",
+        "timestamp": "Временная отметка",
+        "color": "Цвет",
+        "html": "Режим HTML",
+        "emojiPicker": "Выбор эмодзи",
+        "timestampModal": {
+            "title": "Настройка времени",
+            "relative": "Относительное",
+            "offset": "Смещение",
+            "doneButton": "Готово"
+        }
+    },
+    "editFolderModal": {
+        "title": "Изменение папки",
+        "placeholder": "Название папки",
+        "cancelButton": "Не сохранять",
+        "save": "Сохранить",
+        "saving": "Сохранение...",
+        "errors": {
+            "emptyName": "Введите имя папки."
+        }
     }
 }
