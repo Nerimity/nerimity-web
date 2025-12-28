@@ -35,8 +35,6 @@
   "connectionErrorModal": {
     "title": "Connection Error",
     "ok": "OK",
-    "logout": "Logout",
-    "login": "Login",
     "noToken": "No token provided.",
     "suspended": "You are suspended.",
     "reason": "Reason",
@@ -451,7 +449,6 @@
       "interface": "Interface",
       "language": "Language",
       "notifications": "Notifications",
-      "logout": "Logout",
       "developer": "Developer",
       "applications": "Applications",
       "experiments": "Experiments",

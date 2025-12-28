@@ -104,7 +104,7 @@ function Footer() {
       <FooterItem
         color="var(--alert-color)"
         icon="logout"
-        label={t("settings.drawer.logout")}
+        label={t("header.logoutButton")}
         onClick={onLogoutClick}
       />
       <InVoiceActions />
