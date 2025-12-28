@@ -99,10 +99,11 @@ export default function MemberContextMenu(props: Props) {
     const clickedOnMyself = props.userId === account.user()?.id;
     const items: any = [];
 
-    const hasNicknamePermission =
-      member() &&
-      (selfMember()?.hasPermission(ROLE_PERMISSIONS.NICKNAME_MEMBER) ||
-        clickedOnMyself);
+    const hasNicknamePermission = (() => {
+      const isAdmin = selfMember()?.hasPermission(ROLE_PERMISSIONS.ADMIN);
+      const result = (clickedOnMyself || isAdmin);
+      return result;
+    })();
 
     if (hasNicknamePermission) {
       items.push(nickname);
@@ -129,7 +130,7 @@ export default function MemberContextMenu(props: Props) {
         ...(member() ? [kick] : []),
         ban,
         ...(member() && !isBot ? [separator] : []),
-       ...(member() && !isBot ? [transferOwnership] : []),
+        ...(member() && !isBot ? [transferOwnership] : []),
       ];
     }
 
@@ -216,7 +217,6 @@ export default function MemberContextMenu(props: Props) {
     </>
   );
 }
-
 
 function Header(props: { userId: string }) {
   const setVoiceVolume = (volume: number) => {
@@ -561,7 +561,6 @@ function BanModal(props: {
     </LegacyModal>
   );
 }
-
 
 export function ServerMemberRoleModal(props: Props & { close: () => void }) {
   const { serverRoles, serverMembers, servers, account } = useStore();
