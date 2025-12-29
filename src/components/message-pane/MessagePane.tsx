@@ -1936,15 +1936,43 @@ function FloatingEmojiSuggestions(props: {
   onMount(() => {
     lazyLoadEmojis();
   });
-
+  const allEmojis = createMemo(() => {
+    const combined = [...emojis(), ...servers.emojisUpdatedDupName()];
+    return combined;
+  });
   const searchedEmojis = () =>
-    matchSorter(
-      [...emojis(), ...servers.emojisUpdatedDupName()],
-      normalizeText(props.search),
-      {
-        keys: ["short_names.*", "name"],
-      }
-    ).slice(0, 10);
+    matchSorter(allEmojis(), normalizeText(props.search), {
+      keys: ["short_names.*", "name"],
+      baseSort: (a, b) => {
+        const recentlyUsed: string[] = JSON.parse(
+          localStorage["nerimity-solid-emoji-pane"] || "[]"
+        );
+
+        const getName = (e: any): string => {
+          if (e.item.name) return e.item.name;
+          if (
+            Array.isArray(e.item.short_names) &&
+            e.item.short_names.length > 0
+          ) {
+            return e.item.short_names[0];
+          }
+          return "";
+        };
+
+        const nameA = getName(a);
+        const nameB = getName(b);
+
+        const recencyA = recentlyUsed.indexOf(nameA);
+        const recencyB = recentlyUsed.indexOf(nameB);
+
+        if (recencyA !== -1 || recencyB !== -1) {
+          if (recencyA !== -1 && recencyB !== -1) return recencyA - recencyB;
+          return recencyA !== -1 ? -1 : 1;
+        }
+
+        return nameA.localeCompare(nameB);
+      },
+    }).slice(0, 10);
 
   const onItemClick = (emoji: Emoji | RawCustomEmoji) => {
     if (!props.textArea) return;
