@@ -51,6 +51,8 @@ import Input from "../ui/input/Input";
 import MessageItem from "../message-pane/message-item/MessageItem";
 import RouterEndpoints from "@/common/RouterEndpoints";
 import { useResizeObserver } from "@/common/useResizeObserver";
+import { FlexRow } from "../ui/Flexbox";
+import { Item } from "../ui/Item";
 
 const MemberItem = (props: { member: ServerMember }) => {
   const params = useParams<{ serverId: string }>();
@@ -639,6 +641,7 @@ const SearchDrawer = () => {
   const [query, setQuery] = createSignal("");
   const [results, setResults] = createSignal<RawMessage[] | null>(null);
   const [containerEl, setContainerEl] = createSignal<HTMLDivElement>();
+  const [order, setOrder] = createSignal<"asc" | "desc">("desc");
 
   const { width: containerWidth } = useResizeObserver(containerEl);
 
@@ -646,16 +649,17 @@ const SearchDrawer = () => {
 
   let interval = 0;
   createEffect(
-    on(query, () => {
+    on([query, order], () => {
       setResults(null);
       window.clearTimeout(interval);
-      if (!query().trim()) {
-        return;
-      }
+
       interval = window.setTimeout(() => {
-        searchMessages(query(), params.channelId!).then((res) => {
-          setResults(res.reverse());
-        });
+        searchMessages(query(), params.channelId!, { order: order() }).then(
+          (res) => {
+            if (order() === "desc") res.reverse();
+            setResults(res);
+          }
+        );
       }, 1000);
     })
   );
@@ -681,8 +685,24 @@ const SearchDrawer = () => {
         onText={setQuery}
         value={query()}
       />
+      <FlexRow gap={4} class={styles.searchOrder}>
+        <Item.Root
+          onClick={() => setOrder("desc")}
+          selected={order() === "desc"}
+          handlePosition="bottom"
+        >
+          <Item.Label>Latest</Item.Label>
+        </Item.Root>
+        <Item.Root
+          onClick={() => setOrder("asc")}
+          selected={order() === "asc"}
+          handlePosition="bottom"
+        >
+          <Item.Label>Oldest</Item.Label>
+        </Item.Root>
+      </FlexRow>
       <div class={styles.searchResults}>
-        <Show when={query().trim() && results() === null}>
+        <Show when={results() === null}>
           <Skeleton.List count={50}>
             <Skeleton.Item height={"80px"} width={"100%"} />
           </Skeleton.List>

@@ -23,6 +23,7 @@ interface RequestOpts {
   useToken?: boolean;
   notJSON?: boolean;
   params?: Record<any, any>;
+  paramsArrayMode?: "keys" | "spaces";
   token?: string | null;
   abortSignal?: AbortSignal;
 }
@@ -33,7 +34,21 @@ export async function request<T>(opts: RequestOpts): Promise<T> {
   return queue.add(async () => {
     const token = getStorageString(StorageKeys.USER_TOKEN, "");
     const url = new URL(opts.url);
-    url.search = new URLSearchParams(opts.params || {}).toString();
+
+    let params: string[][] | undefined = undefined;
+    if (opts.paramsArrayMode === "keys") {
+      params = [];
+      for (const [key, value] of Object.entries(opts.params || {})) {
+        if (Array.isArray(value)) {
+          for (const v of value) {
+            params.push([key, v]);
+          }
+          continue;
+        }
+        params.push([key, value]);
+      }
+    }
+    url.search = new URLSearchParams(params || opts.params || {}).toString();
 
     const response = await fetch(url, {
       signal: opts.abortSignal,

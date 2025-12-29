@@ -30,8 +30,10 @@ export const fetchMessages = async (
 };
 interface SearchMessageOpts {
   limit?: number;
+  order?: "asc" | "desc";
   beforeMessageId?: string;
   afterMessageId?: string;
+  userIds?: string[];
 }
 
 export const searchMessages = async (
@@ -42,11 +44,15 @@ export const searchMessages = async (
   const data = await request<RawMessage[]>({
     method: "GET",
     url: env.SERVER_URL + "/api" + Endpoints.messages(channelId) + "/search",
+    paramsArrayMode: "keys",
     params: {
       limit: opts?.limit || env.MESSAGE_LIMIT,
       ...(opts?.afterMessageId ? { after: opts.afterMessageId } : undefined),
       ...(opts?.beforeMessageId ? { before: opts.beforeMessageId } : undefined),
-      query,
+      ...(opts?.order ? { order: opts.order } : undefined),
+      ...(query.trim() ? { query } : undefined),
+      ...(opts?.userIds?.length ? { user_id: opts.userIds } : undefined),
+      ...(opts?.order ? { order: opts.order } : undefined),
     },
     useToken: true,
   });
