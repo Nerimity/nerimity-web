@@ -20,10 +20,10 @@
   },
   "statusHeader": {
     "authenticationError": "Authentication error",
-    "connecting": "Connecting...",
-    "reconnecting": "Reconnecting...",
+    "connecting": "Connecting…",
+    "reconnecting": "Reconnecting…",
     "inQueue": "In Queue: {{count}} User(s) Ahead Of You",
-    "authenticating": "Authenticating...",
+    "authenticating": "Authenticating…",
     "connected": "Connected!"
   },
   "dangerousLinkModal": {
@@ -71,8 +71,7 @@
     "password": "Password",
     "login": "Login",
     "createAccountInstead": "Create an account instead",
-    "loggingIn": "Logging in...",
-    "loginButton": "Login"
+    "loggingIn": "Logging in…"
   },
   "registerPage": {
     "header": "Register",
@@ -89,7 +88,7 @@
     "confirmPassword": "Confirm Password",
     "agreement": "By creating an account, you agree to the Terms And Conditions and the Privacy Policy.",
     "registerButton": "Register",
-    "registering": "Registering...",
+    "registering": "Registering…",
     "loginInstead": "Login Instead"
   },
   "resetPassword": {
@@ -98,10 +97,10 @@
     "passwordsDoNotMatch": "Confirm password does not match.",
     "passwordTooLong": "Password must be less than 72 characters.",
     "resetPasswordButton": "Reset Password",
-    "resetting": "Resetting...",
+    "resetting": "Resetting…",
     "email": "Email",
     "sendEmailButton": "Send Email",
-    "sending": "Sending Email..."
+    "sending": "Sending Email…"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -142,7 +141,7 @@
     "dropFile": "Drop File",
     "uploadTo": "Upload To",
     "channelNotice": {
-      "title": "Before you chat...",
+      "title": "Before you chat…",
       "understoodButton": "Understood"
     },
     "specialMentions": {
@@ -170,7 +169,7 @@
     "namedLink": "Named Link",
     "spoiler": "Spoiler",
     "timestamp": "Timestamp",
-    "color": "Color",
+    "color": "Colour",
     "html": "HTML Mode",
     "emojiPicker": "Emoji Picker",
     "timestampModal": {
@@ -213,7 +212,7 @@
     },
     "themes": {
       "title": "Explore - Themes",
-      "themesHeaderDescription": "Personalize Nerimity with a custom theme.",
+      "themesHeaderDescription": "Personalise Nerimity with a custom theme.",
       "officialThemes": "Official Themes",
       "communityThemes": "Community Themes",
       "noCommunityThemes": "No community themes found.",
@@ -251,7 +250,7 @@
     "placeholder": "Folder Name",
     "cancelButton": "Don't Save",
     "save": "Save",
-    "saving": "Saving...",
+    "saving": "Saving…",
     "errors": {
       "emptyName": "Please enter a folder name."
     }
@@ -270,7 +269,7 @@
         "role": "Role",
         "welcome-screen": "Welcome Screen",
         "channel": "Channel",
-        "emojis": "Emojis",
+        "emojis": "Emoji",
         "notifications": "Notifications",
         "external-embed": "External Embed"
       },
@@ -310,7 +309,7 @@
         "deleteThisServerDescription": "This cannot be undone!",
         "deleteServerButton": "Delete Server",
         "saveChangesButton": "Save Changes",
-        "saving": "Saving...",
+        "saving": "Saving…",
         "none": "None"
       },
       "roles": {
@@ -319,9 +318,9 @@
       },
       "role": {
         "saveChangesButton": "Save Changes",
-        "saving": "Saving...",
+        "saving": "Saving…",
         "roleName": "Role Name",
-        "roleColor": "Role Color",
+        "roleColor": "Role Colour",
         "hideRole": "Hide Role",
         "hideRoleDescription": "Display members with this role along with all the default members",
         "permissions": "Permissions",
@@ -338,7 +337,7 @@
         "createNewDescription": "Create a new channel or category"
       },
       "channel": {
-        "saving": "Saving...",
+        "saving": "Saving…",
         "saveChangesButton": "Save Changes",
         "channelName": "Channel Name",
         "permissions": "Permissions",
@@ -487,13 +486,13 @@
       "supported": "Supported",
       "browse": "Browse",
       "profile": "Profile",
-      "profileDescription": "Edit your bio or colors",
+      "profileDescription": "Edit your bio or colours",
       "palestineBorder": "Add Palestine border to your avatar.",
       "bio": "Bio",
       "bioDescription": "Multiline and markup support",
-      "gradientColor1": "Gradient Color 1",
-      "gradientColor2": "Gradient Color 2",
-      "primaryColor": "Primary Color",
+      "gradientColor1": "Gradient Colour 1",
+      "gradientColor2": "Gradient Colour 2",
+      "primaryColor": "Primary Colour",
       "preview": "Preview",
       "changePassword": "Change Password",
       "forgotPassword": "Forgot Password",
@@ -511,7 +510,7 @@
       "channelNotice": "Channel Notice",
       "channelNoticeDescription": "Shows when the user is about to chat for the first time. Changes apply after reload.",
       "channelNoticeTooLong": "Channel notice cannot be longer than 300 characters.",
-      "saving": "Saving...",
+      "saving": "Saving…",
       "saveButton": "Save",
       "saveChangesButton": "Save Changes",
       "deleteAccount": "Delete My Account",
@@ -548,7 +547,7 @@
       },
       "directMessage": {
         "title": "Direct Message",
-        "description": "Set Who can send you direct messages.",
+        "description": "Set who can send you direct messages.",
         "anyone": "Anyone",
         "friendsAndServersOnly": "Friends & Servers only",
         "friendsOnly": "Friends only"
@@ -574,20 +573,20 @@
         "title": "It worked!",
         "body": "Desktop notifications enabled."
       },
-      "desktopNotificationsDescription": "Show desktop notifications even when the app is minimized.",
+      "desktopNotificationsDescription": "Show desktop notifications even when the app is minimised.",
       "sounds": "Sounds",
       "soundsDescription": "If the notification sounds are too annoying, you can disable them.",
       "volume": "Volume",
       "volumeDescription": "Change the volume of the notification sounds.",
-      "changeSoundsDescription": "Change the sound of notifications with these royalty free sounds.",
+      "changeSoundsDescription": "Change the sound of notifications with these royalty-free sounds.",
       "message": "Message",
       "messageDescription": "Sound when receiving a message.",
       "mention": "Mention",
       "mentionDescription": "Sound when receiving a mention.",
       "reminder": "Reminder",
       "reminderDescription": "Notifications for reminders.",
-      "inAppPreview": "In App Preview",
-      "inAppPreviewDescription": "Display In App Notification popups.",
+      "inAppPreview": "In-App Preview",
+      "inAppPreviewDescription": "Display In-App Notification popups.",
       "mute": "Mute",
       "inAppPreviewModes": {
         "off": "Off",
@@ -615,7 +614,7 @@
         "title": "Third Party Connections",
         "connectionCount": "{{count}} connection(s)",
         "unauthorizeButton": "Unauthorize",
-        "unauthorizing": "Un-authorizing..."
+        "unauthorizing": "Un-authorizing…"
       },
       "googleDescription": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
       "linkButton": "Link",
@@ -636,8 +635,8 @@
       "blurEffectDescription": "Toggle blur effect on interface elements. (May Reduce Performance)",
       "disableAdvancedMarkupBar": "Disable Advanced Markup Bar",
       "disableAdvancedMarkupBarDescription": "Prevent the advanced markup bar from appearing.",
-      "customizeColors": "Customize Colors",
-      "customizeColorsDescription": "Edit colors for the current theme.",
+      "customizeColors": "Customise Colours",
+      "customizeColorsDescription": "Edit colours for the current theme.",
       "chatBarOptions": "Chat bar Options",
       "voiceMessage": "Voice Message",
       "gifPicker": "GIF Picker",
@@ -652,8 +651,8 @@
       "downloadAppNotice": "To modify these settings, you must download the Nerimity desktop app.",
       "startupOptions": "Startup Options",
       "openOnStartup": "Open Nerimity on startup",
-      "startMinimized": "Start Minimized",
-      "startMinimizedDescription": "Minimize Nerimity to the tray automatically.",
+      "startMinimized": "Start Minimised",
+      "startMinimizedDescription": "Minimise Nerimity to the tray automatically.",
       "disableHardwareAcceleration": "Disable Hardware Acceleration",
       "disableCustomTitlebar": "Disable Custom Titlebar",
       "reopenAppNotice": "You must reopen the app for the change to take effect."
@@ -717,7 +716,7 @@
     "placeholder": "My Awesome Server",
     "closeButton": "Close",
     "createServerButton": "Create Server",
-    "creating": "Creating...",
+    "creating": "Creating…",
     "tabLabel": "Create"
   },
   "joinServerModal": {
@@ -774,7 +773,7 @@
   "kickServerMemberModal": {
     "title": "Kick {{username}}",
     "kickButton": "Kick",
-    "kicking": "Kicking...",
+    "kicking": "Kicking…",
     "backButton": "Back",
     "message": "Are you sure you want to kick <1>{{username}}</1>?"
   },
@@ -786,7 +785,7 @@
     "message": "Are you sure you want to ban <1>{{username}}</1>?",
     "deletePastMessagesCheckbox": "Delete messages sent in the past 7 hours.",
     "banButton": "Ban",
-    "banning": "Banning...",
+    "banning": "Banning…",
     "reasonLabel": "Reason (optional)",
     "reasonPlaceholder": "Enter a reason…"
   },
@@ -839,15 +838,15 @@
     "deletePostModal": {
       "message": "Are you sure you would like to delete this post?",
       "cancelButton": "Cancel",
-      "deleteButton": "delete"
+      "deleteButton": "Delete"
     },
     "postWasDeleted": "This post was deleted!",
     "someoneLikedYourPost": "<1>{{username}}</1> liked your post!",
     "someoneRepostedYourPost": "<1>{{username}}</1> reposted your post!",
     "someoneFollowedYou": "<1>{{username}}</1> followed you!",
     "someoneRepliedToPost": "<1>{{username}}</1> replied to your post!",
-    "createAPostInputPlaceholder": "Create a post...",
-    "replyInputPlaceholder": "Reply...",
+    "createAPostInputPlaceholder": "Create a post…",
+    "replyInputPlaceholder": "Reply…",
     "replyButton": "Reply",
     "createButton": "Create",
     "pollOptions": "Poll Options",
@@ -871,7 +870,7 @@
   },
   "channelDrawer": {
     "customize": {
-      "title": "Customize",
+      "title": "Customise",
       "subtitle": "Complete these questions:",
       "continueButton": "Continue to {{channel}}"
     },
@@ -918,14 +917,14 @@
     "permissions": "Bot Permissions"
   },
   "googleAccountLink": {
-    "linking": "Linking your account with Google...",
+    "linking": "Linking your account with Google…",
     "success": "Account linked! You may now close this window."
   },
   "invite": {
-    "loading": "Loading Invite...",
+    "loading": "Loading Invite…",
     "invalid": "Invalid Invite Code",
     "joinButton": "Join",
-    "joiningButton": "Joining...",
+    "joiningButton": "Joining…",
     "visitButton": "Visit",
     "member": "member",
     "members": "members"
@@ -953,7 +952,7 @@
     "requestSent": "Request sent!",
     "closeButton": "Close",
     "sendRequest": "Send Request",
-    "sending": "Sending...",
+    "sending": "Sending…",
     "errors": {
       "missingTag": "Please enter a username:tag.",
       "colonInUsername": "Username must not contain a colon."
@@ -962,7 +961,7 @@
   "removeFriendModal": {
     "title": "Unfriend {{username}}",
     "body": "Are you sure you want to unfriend this user?",
-    "removing": "Removing..."
+    "removing": "Removing…"
   },
   "deleteMessageModal": {
     "title": "Delete Message?",
@@ -998,7 +997,7 @@
     }
   },
   "colorPickerModal": {
-    "title": "Color Picker",
+    "title": "Colour Picker",
     "done": "Done"
   },
   "photoEditor": {
@@ -1018,7 +1017,7 @@
     "done": "Done"
   },
   "oauth2": {
-    "AuthorizeButton": "Authorize",
+    "AuthorizeButton": "Authorise",
     "permissions": "Permissions"
   },
   "badges": {
