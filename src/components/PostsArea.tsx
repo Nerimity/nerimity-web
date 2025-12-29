@@ -71,6 +71,7 @@ import { createFilter } from "vite";
 import { TenorImage } from "@/chat-api/services/TenorService";
 import { Modal } from "./ui/modal";
 import { UnescapedTrans } from "./UnescapedTrans";
+import { StorageKeys, useLocalStorage } from "@/common/localStorage";
 
 const PhotoEditor = lazy(() => import("./ui/photo-editor/PhotoEditor"));
 
@@ -864,9 +865,11 @@ export function PostsArea(props: {
   bgColor?: string;
 }) {
   const [loading, setLoading] = createSignal(false);
-  const [sort, setSort] = createSignal<DiscoverSort | undefined>(
-    "mostLiked7Days"
-  );
+
+  const [sort, setSort] = useLocalStorage<
+    (DiscoverSort | "latest") | undefined
+  >(StorageKeys.DASHBOARD_POST_SORT, "mostLiked7Days");
+
   const { posts } = useStore();
   const [lastFetchCount, setLastFetchCount] = createSignal(0);
   let postsContainerRef: HTMLDivElement | undefined;
@@ -939,7 +942,7 @@ export function PostsArea(props: {
     if (!props.showDiscover) return;
     setLoading(true);
     const newPosts = await posts.fetchDiscover(
-      sortValue,
+      sortValue === "latest" ? undefined : sortValue,
       abortController.signal
     );
     setLastFetchCount(newPosts?.length || 0);
@@ -993,7 +996,10 @@ export function PostsArea(props: {
   const loadMoreDiscover = async () => {
     if (loading()) return;
     setLoading(true);
-    const newPosts = await posts.fetchMoreDiscover(sort());
+    const sortValue = sort();
+    const newPosts = await posts.fetchMoreDiscover(
+      sortValue === "latest" ? undefined : sortValue
+    );
     setLastFetchCount(newPosts?.length || 0);
     setLoading(false);
   };
@@ -1041,12 +1047,10 @@ export function PostsArea(props: {
             margin-left: 2px;
             margin-bottom: 6px;
           `}
-          onChange={(v) =>
-            setSort(v.id === "0" ? undefined : (v.id as DiscoverSort))
-          }
+          onChange={(v) => setSort(v.id)}
           selectedId={sort() || "0"}
           items={[
-            { id: "0", label: "Latest" },
+            { id: "latest", label: "Latest" },
             { id: "mostLiked7Days", label: "Most Liked (7 days)" },
             { id: "mostLiked30days", label: "Most Liked (30 days)" },
             { id: "mostLikedAllTime", label: "Most Liked (All time)" },
