@@ -613,8 +613,8 @@
       "thirdParty": {
         "title": "Third Party Connections",
         "connectionCount": "{{count}} connection(s)",
-        "unauthorizeButton": "Unauthorize",
-        "unauthorizing": "Un-authorizing…"
+        "unauthorizeButton": "Unauthorise",
+        "unauthorizing": "Un-authorising…"
       },
       "googleDescription": "Linking your Google account will allow you to upload files in Nerimity. Files will be stored in your Google Drive.",
       "linkButton": "Link",
