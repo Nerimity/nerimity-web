@@ -503,7 +503,10 @@ function MessageArea(props: {
         <FloatingMessageEmojiPicker
           gifPicked={onGifPicked}
           tab={showGifPicker() ? "GIF" : "EMOJI"}
-          close={() => setShowEmojiPicker(false)}
+          close={() => {
+            setShowEmojiPicker(false);
+            setShowGifPicker(false);
+          }}
           onClick={onEmojiPicked}
         />
       </Show>
