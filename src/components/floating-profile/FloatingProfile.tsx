@@ -410,7 +410,7 @@ const DesktopProfileFlyout = (props: {
                   <CustomLink
                     href={RouterEndpoints.PROFILE(user()!.id + "/following")}
                   >
-                    {followingCount()} {t("profile.followingTab")}
+                    {t("profile.followingCount", { count: followingCount() })}
                   </CustomLink>
                 </Show>
                 <Show
@@ -425,7 +425,7 @@ const DesktopProfileFlyout = (props: {
                   <CustomLink
                     href={RouterEndpoints.PROFILE(user()!.id + "/followers")}
                   >
-                    {followersCount()} {t("profile.followersTab")}
+                    {t("profile.followerCount", { count: followersCount() })}
                   </CustomLink>
                 </Show>
               </Text>

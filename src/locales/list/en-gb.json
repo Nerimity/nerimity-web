@@ -806,6 +806,8 @@
     "copyLink": "Copy Link"
   },
   "profile": {
+    "followerCount": "{{count}} Followers",
+    "followingCount": "{{count}} Following",
     "fullProfile": "Full Profile",
     "followsYou": "Follows You",
     "badge": "{{badgeName}} Badge",
