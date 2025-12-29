@@ -195,10 +195,10 @@ export default function Pane() {
                   }}
                 >
                   <MemberField member={member!} />
-                  <Table.Field>
+                  <Table.Field mobileTitle={t("channelDrawer.members.sort.joined")}>
                     {formatTimestamp(member?.joinedAt!)}
                   </Table.Field>
-                  <Table.Field>
+                 <Table.Field mobileTitle={t("channelDrawer.members.sort.joinedNerimity")}>
                     {formatTimestamp(member?.user().joinedAt!)}
                   </Table.Field>
 
