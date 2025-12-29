@@ -53,7 +53,7 @@ const fetchAndStoreMessages = async (channelId: string, force = false) => {
 const loadMoreTopAndStoreMessages = async (
   channelId: string,
   beforeSet: () => void,
-  afterSet: (data: { hasMore: boolean }) => void
+  afterSet: (data: { hasMore: boolean; data: RawMessage[] }) => void
 ) => {
   const channelMessages = messages[channelId]!;
   const newMessages = await fetchMessages(channelId, {
@@ -63,10 +63,12 @@ const loadMoreTopAndStoreMessages = async (
   const hasMore = newMessages.length === env.MESSAGE_LIMIT;
 
   beforeSet();
-  setMessages({
-    [channelId]: clamp,
-  });
-  afterSet({ hasMore });
+  if (newMessages.length) {
+    setMessages({
+      [channelId]: clamp,
+    });
+  }
+  afterSet({ hasMore, data: newMessages });
 };
 
 const loadMoreBottomAndStoreMessages = async (

@@ -483,7 +483,22 @@ export const MessageLogArea = (props: {
           scrollPositionRetainer.save("first");
         };
 
-        const afterSet = ({ hasMore }: { hasMore: boolean }) => {
+        const afterSet = ({
+          hasMore,
+          data,
+        }: {
+          hasMore: boolean;
+          data: RawMessage[];
+        }) => {
+          if (!data.length) {
+            batch(() => {
+              scrollPositionRetainer.load();
+              channelProperties.setMoreTopToLoad(params.channelId, false);
+              scrollTracker.forceUpdate();
+              setAreMessagesLoading(false);
+            });
+            return;
+          }
           scrollPositionRetainer.load();
           channelProperties.setMoreBottomToLoad(
             params.channelId,
@@ -764,7 +779,6 @@ function createScrollTracker(
   const [scrolledBottom, setScrolledBottom] = createSignal(true);
   const [scrollTop, setScrollTop] = createSignal(scrollElement.scrollTop);
 
-  const LOAD_MORE_LENGTH = () => topSkeletonHeight();
   const SCROLLED_BOTTOM_LENGTH = () => bottomSkeletonHeight() || 20;
 
   const onScroll = () => {
@@ -772,8 +786,8 @@ function createScrollTracker(
       scrollElement.scrollHeight -
       (scrollElement.scrollTop + scrollElement.clientHeight);
 
-    const isLoadMoreTop = scrollElement.scrollTop <= LOAD_MORE_LENGTH();
-    const isLoadMoreBottom = scrollBottom <= LOAD_MORE_LENGTH();
+    const isLoadMoreTop = scrollElement.scrollTop <= topSkeletonHeight();
+    const isLoadMoreBottom = scrollBottom <= bottomSkeletonHeight();
     const isScrolledBottom = scrollBottom <= SCROLLED_BOTTOM_LENGTH();
 
     if (loadMoreTop() !== isLoadMoreTop) setLoadMoreTop(isLoadMoreTop);
