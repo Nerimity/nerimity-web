@@ -128,12 +128,10 @@
 
 .gifPickerCategories {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
+  column-count: 2;
+  column-gap: 6px;
   max-width: 420px;
   width: 100%;
-  height: 100%;
-  gap: 6px;
   margin-left: 2px;
 
   .gap {
@@ -144,10 +142,12 @@
 
 .gifCategoryItem {
   display: flex;
+  break-inside: avoid;
   position: relative;
+  margin-bottom: 6px;
   border-radius: 6px;
   height: 120px;
-  width: calc(50% - 6px);
+  width: calc(100% - 8px);
   flex-shrink: 0;
   overflow: hidden;
   user-select: none;
