@@ -31,7 +31,7 @@ export default function CustomCssSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.drawer.title") + " - " + t("settings.interface.customCSS"),
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.interface"),
       iconName: "settings",
     });
   });
