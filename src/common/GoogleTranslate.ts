@@ -12,7 +12,7 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "en-gb": "en",
   "af-za": "af",
   "ar-ps": "ar",
-  "be-xo": "be",
+  "be-tarask": "be",
   "pt-br": "pt",
   "zh-hans": "zh-CN",
   "zh-hant": "zh-TW",

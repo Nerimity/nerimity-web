@@ -29,7 +29,7 @@ export const languages: Record<string, Language> = {
     contributors: ["https://github.com/TrueLuna"],
     rtl: true, // not really used since I manually implemented it in the code. But might be useful in the future.
   },
-  "be-xo": {
+  "be-tarask": {
     name: "Belarusian (Traditional)",
     nativeName: "Беларуская (традыцыйная)",
     emoji: "🇧🇾",
