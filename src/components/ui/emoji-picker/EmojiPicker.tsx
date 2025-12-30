@@ -35,6 +35,8 @@ import { useParams } from "solid-navigator";
 import { cn } from "@/common/classNames";
 import { useDocumentListener } from "@/common/useDocumentListener";
 import { emojis, lazyLoadEmojis } from "@/emoji";
+import { Delay } from "@/common/Delay";
+import { Rerun } from "@solid-primitives/keyed";
 
 const [gifPickerSearch, setGifPickerSearch] = createSignal("");
 
@@ -196,7 +198,9 @@ export function EmojiPicker(props: {
 }
 
 const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
-  let scrollElementRef: HTMLDivElement | undefined;
+  const [scrollElement, setScrollElement] = createSignal<HTMLElement | null>(
+    null
+  );
 
   onCleanup(() => {
     setGifPickerSearch("");
@@ -204,15 +208,16 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
 
   createEffect(
     on(gifPickerSearch, () => {
-      scrollElementRef?.scrollTo(0, 0);
+      scrollElement()?.scrollTo(0, 0);
     })
   );
 
   return (
-    <div class={styles.gifPickerContainer} ref={scrollElementRef}>
+    <div class={styles.gifPickerContainer} ref={setScrollElement}>
       <GifPickerSearchBar />
       <Show when={gifPickerSearch().trim()}>
         <GifPickerImages
+          scrollElement={scrollElement}
           gifPicked={props.gifPicked}
           query={gifPickerSearch().trim()}
         />
@@ -261,28 +266,70 @@ const GifPickerSearchBar = () => {
 const GifPickerImages = (props: {
   query: string;
   gifPicked?: (gif: TenorImage) => void;
+  scrollElement?: HTMLElement | null;
 }) => {
+  let searchesContainer: HTMLDivElement | undefined;
+  const [loading, setLoading] = createSignal(false);
   const [tenorResponse, setTenorResponse] =
     createSignal<GetTenorImageResponse | null>(null);
+
+  const results = () => tenorResponse()?.results || [];
+
+  const loadImages = async (loadMore = false) => {
+    if (!props.scrollElement) return;
+    if (loading()) return;
+
+    if (!loadMore) setTenorResponse(null);
+    setLoading(true);
+
+    const previousHeight = props.scrollElement.scrollHeight;
+    const previousScrollTop = props.scrollElement.scrollTop;
+
+    const res = await getTenorImages(
+      props.query,
+      loadMore ? tenorResponse()?.next : undefined
+    );
+
+    if (!res) {
+      setLoading(false);
+      return;
+    }
+
+    if (!loadMore) {
+      setTenorResponse(res);
+    } else {
+      setTenorResponse((prev) => ({
+        ...res,
+        results: [...prev!.results, ...res.results],
+      }));
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (!props.scrollElement) return;
+          const newHeight = props.scrollElement.scrollHeight;
+          props.scrollElement.scrollTop =
+            previousScrollTop + (newHeight - previousHeight);
+        });
+      });
+    }
+    setLoading(false);
+  };
+
   createEffect(
     on(
       () => props.query,
       () => {
-        setTenorResponse(null);
-        getTenorImages(props.query).then((gifs) => {
-          // reorder logic
-
-          setTenorResponse(gifs);
-        });
+        loadImages();
       }
     )
   );
 
   return (
-    <div class={styles.gifPickerSearches}>
-      <For each={tenorResponse()?.results}>
-        {(gif) => (
+    <div class={styles.gifPickerSearches} ref={searchesContainer}>
+      <For each={results()}>
+        {(gif, index) => (
           <GifPickerImageItem
+            index={index()}
             url={gif.previewUrl}
             onClick={() => props.gifPicked?.(gif)}
             dimensions={
@@ -293,15 +340,25 @@ const GifPickerImages = (props: {
           />
         )}
       </For>
-      <div class={styles.gap} />
+      <Rerun on={tenorResponse}>
+        <For each={Array(10).fill(undefined)}>
+          {(_, index) => (
+            <GifPickerImageSkeleton
+              index={index() + results().length}
+              onLoadMore={() => loadImages(true)}
+            />
+          )}
+        </For>
+      </Rerun>
     </div>
   );
 };
-
 const GifPickerImageItem = (props: {
   url: string;
   onClick?: () => void;
   dimensions?: { width: number; height: number };
+  index?: number;
+  style?: JSX.CSSProperties;
 }) => {
   const containerStyle = () =>
     props.dimensions
@@ -321,8 +378,25 @@ const GifPickerImageItem = (props: {
         } as JSX.CSSProperties)
       : {};
 
+  onMount(() => {
+    const elements = [...document.querySelectorAll(`.${styles.gifSearchItem}`)];
+    const currentElement = elements[props.index!] as HTMLDivElement;
+    const aboveElement = elements[props.index! - 2] as HTMLDivElement;
+    if (!aboveElement) return;
+    const currentBottomPos = currentElement?.offsetTop;
+    const aboveBottomPos = aboveElement?.offsetTop + aboveElement?.clientHeight;
+
+    currentElement.style.marginTop = `${
+      aboveBottomPos - currentBottomPos + 8
+    }px`;
+  });
+
   return (
-    <div class={styles.gifSearchItem} tabIndex={0} style={containerStyle()}>
+    <div
+      class={styles.gifSearchItem}
+      tabIndex={0}
+      style={{ ...containerStyle(), ...props.style }}
+    >
       <img
         class={styles.image}
         style={imageStyle()}
@@ -330,6 +404,54 @@ const GifPickerImageItem = (props: {
         loading="lazy"
         onClick={props.onClick}
       />
+    </div>
+  );
+};
+const GifPickerImageSkeleton = (props: {
+  index?: number;
+  onLoadMore?: () => void;
+}) => {
+  let element: HTMLDivElement | undefined;
+  createEffect(() => {
+    const elements = [...document.querySelectorAll(`.${styles.gifSearchItem}`)];
+    const currentElement = elements[props.index!] as HTMLDivElement;
+    const aboveElement = elements[props.index! - 2] as HTMLDivElement;
+    if (!aboveElement) return;
+    const currentBottomPos = currentElement?.offsetTop;
+    const aboveBottomPos = aboveElement?.offsetTop + aboveElement?.clientHeight;
+
+    currentElement.style.marginTop = `${
+      aboveBottomPos - currentBottomPos + 8
+    }px`;
+  });
+
+  const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+    if (entries[0]?.isIntersecting) {
+      props.onLoadMore?.();
+    }
+  };
+
+  createEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection);
+
+    observer.observe(element!);
+
+    onCleanup(() => {
+      observer.disconnect();
+    });
+  });
+
+  return (
+    <div
+      class={styles.gifSearchItem}
+      ref={element}
+      style={{
+        "aspect-ratio": "1/1",
+        height: "initial",
+        "align-self": "flex-start",
+      }}
+    >
+      <Skeleton.Item height="100%" width="100%" />
     </div>
   );
 };

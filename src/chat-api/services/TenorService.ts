@@ -28,13 +28,13 @@ export interface GetTenorImageResponse {
   results: TenorImage[];
   next: string;
 }
-export const getTenorImages = async (query: string, pos?: number) => {
+export const getTenorImages = async (query: string, pos?: string) => {
   const data = await request<GetTenorImageResponse>({
     method: "GET",
     url: env.SERVER_URL + "/api/v2/tenor/search",
     params: {
       query,
-      pos,
+      ...(pos ? { pos } : {}),
     },
     useToken: true,
   });

@@ -9,13 +9,13 @@
       background-color: rgb(37, 37, 37);
     }
   }
+  // emoji picker search barr
   .go1741493984 {
-    // emoji picker search bar
     backdrop-filter: none;
     background-color: rgb(37, 37, 37);
   }
+  // emoji picker footer details
   .go2985996624 {
-    // emoji picker footer details
     backdrop-filter: none;
     background-color: rgb(37, 37, 37);
   }
@@ -25,8 +25,8 @@
   .go1741493984 {
     border-bottom: solid 1px var(--primary-color);
   }
+  // emoji picker footer details
   .go2985996624 {
-    // emoji picker footer details
     background-color: rgba(37, 37, 37, 0.86);
   }
 
@@ -140,18 +140,14 @@
   }
 }
 .gifPickerSearches {
+  display: flex;
+  flex-wrap: wrap;
   position: relative;
-  column-count: 2;
-  column-gap: 6px;
   max-width: 420px;
   width: 100%;
   margin-left: 2px;
   margin-right: 8px;
-
-  .gap {
-    height: 2px;
-    width: 2px;
-  }
+  gap: 6px;
 }
 
 .gifSearchItem {
@@ -160,8 +156,8 @@
   position: relative;
   margin-bottom: 6px;
   border-radius: 6px;
-  height: 120px;
   flex-shrink: 0;
+  width: calc(50% - 4px);
   overflow: hidden;
   user-select: none;
   cursor: pointer;
