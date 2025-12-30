@@ -6,7 +6,7 @@ let count = 0;
 export const updateTitleAlert = (newAlert: boolean, newCount?: number) => {
   if (newAlert === alert && newCount === count) return;
   alert = newAlert;
-  if (newCount) count = newCount;
+  if (newCount !== undefined) count = newCount;
   update();
 };
 
