@@ -1,6 +1,14 @@
 import style from "./styles.module.scss";
 import { useParams } from "solid-navigator";
-import { createSignal, For, onMount, Show } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  on,
+  onMount,
+  Show,
+} from "solid-js";
 import useStore from "@/chat-api/store/useStore";
 import { Table, TableSort } from "@/components/ui/table/Table";
 import { formatTimestamp } from "@/common/date";
@@ -16,6 +24,7 @@ import { t } from "@nerimity/i18lite";
 import { Emoji } from "@/components/ui/Emoji";
 import Icon from "@/components/ui/icon/Icon";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
+import Button from "@/components/ui/Button";
 
 export default function Pane() {
   const params = useParams<{ serverId: string }>();
@@ -27,6 +36,8 @@ export default function Pane() {
     createPortal,
   } = useCustomPortal();
   const [filter, setFilter] = createSignal<"ALL" | "24H">("ALL");
+  const [itemsPerPage, setItemsPerPage] = createSignal(25);
+  const [currentPage, setCurrentPage] = createSignal(1);
   const [contextMenu, setContextMenu] = createSignal<{
     position: { x: number; y: number };
     serverId: string;
@@ -40,12 +51,14 @@ export default function Pane() {
     mode: "desc",
   });
 
+  createEffect(on([filter, search, sort], () => setCurrentPage(1)));
+
   const accountMember = () =>
     params.serverId
       ? serverMembers.get(params.serverId, account.user()?.id!)
       : undefined;
 
-  const members = () =>
+  const members = createMemo(() =>
     (serverMembers.array(params.serverId!) as ServerMember[])
       .sort((a, b) => {
         if (sort().headerId === "member") {
@@ -81,7 +94,15 @@ export default function Pane() {
           return true;
         }
         return false;
-      });
+      })
+  );
+
+  const limitedMembers = () =>
+    members().slice(
+      itemsPerPage() * currentPage() - itemsPerPage(),
+      itemsPerPage() * currentPage()
+    );
+  const totalPages = () => Math.ceil(members().length / itemsPerPage());
 
   onMount(() => {
     document.querySelector(".main-pane-container")?.scrollTo(0, 0);
@@ -187,7 +208,7 @@ export default function Pane() {
           onHeaderClick={(s) => setSort(s)}
           sort={sort()}
         >
-          <For each={members()}>
+          <For each={limitedMembers()}>
             {(member) => {
               const roles = () => member?.roles(true) || [];
 
@@ -269,6 +290,25 @@ export default function Pane() {
             }}
           </For>
         </Table.Root>
+        <div class={style.paginationInfo}>
+          {currentPage()} of {totalPages() || 1}
+        </div>
+        <div class={style.pagination}>
+          <Button
+            label="Previous"
+            iconName="arrow_back"
+            disabled={currentPage() === 1}
+            onClick={() => setCurrentPage(currentPage() - 1)}
+            primary={currentPage() !== 1}
+          />
+          <Button
+            label="Next"
+            iconName="arrow_forward"
+            disabled={!totalPages() || currentPage() === totalPages()}
+            primary={totalPages() && currentPage() !== totalPages()}
+            onClick={() => setCurrentPage(currentPage() + 1)}
+          />
+        </div>
       </div>
     </>
   );
