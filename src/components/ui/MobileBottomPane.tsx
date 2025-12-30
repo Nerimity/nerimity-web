@@ -41,7 +41,7 @@ export default function MobileBottomPane() {
 }
 
 function HomeItem() {
-  const { inbox, friends, servers } = useStore();
+  const { inbox, friends, servers, mentions } = useStore();
   const { hasActiveReminder } = useReminders();
 
   const location = useLocation();
@@ -63,7 +63,8 @@ function HomeItem() {
     updateTitleAlert(
       hasActiveReminder() || count() || servers.hasNotifications()
         ? true
-        : false
+        : false,
+      count() + mentions.count()
     );
   });
 
