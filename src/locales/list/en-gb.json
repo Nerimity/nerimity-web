@@ -647,7 +647,6 @@
       "24HourFormatDescription": "Display times in 24-hour format."
     },
     "window": {
-      "title": "Settings - Window Settings",
       "downloadAppNotice": "To modify these settings, you must download the Nerimity desktop app.",
       "startupOptions": "Startup Options",
       "openOnStartup": "Open Nerimity on startup",

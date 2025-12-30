@@ -39,7 +39,7 @@ export default function WindowSettings() {
 
   createEffect(() => {
     header.updateHeader({
-      title: t("settings.window.title"),
+      title: t("settings.drawer.title") + " - " + t("settings.drawer.window-settings"),
       iconName: "settings",
     });
   });
