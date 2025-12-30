@@ -30,7 +30,7 @@
         "password": "Пароль",
         "login": "Войти",
         "createAccountInstead": "Вместо этого создать аккаунт",
-        "loggingIn": "Вход...",
+        "loggingIn": "Вход…",
         "loginButton": "Войти"
     },
     "registerPage": {
@@ -40,7 +40,7 @@
         "password": "Пароль",
         "confirmPassword": "Подтвердите пароль",
         "registerButton": "Зарегистрироваться",
-        "registering": "Регистрация...",
+        "registering": "Регистрация…",
         "loginInstead": "Войти в существующий аккаунт",
         "header": "Регистрация",
         "notices": {
@@ -156,7 +156,7 @@
                 "deleteThisServerDescription": "Это действие не может быть отменено!",
                 "deleteServerButton": "Удалить сервер",
                 "saveChangesButton": "Сохранить изменения",
-                "saving": "Сохранение...",
+                "saving": "Сохранение…",
                 "avatar": "Аватар",
                 "avatarDescription": "Поддерживаются: JPG, PNG, GIF, WEBP, макс. 12 MB",
                 "banner": "Баннер",
@@ -170,7 +170,7 @@
             },
             "role": {
                 "saveChangesButton": "Сохранить изменения",
-                "saving": "Сохранение...",
+                "saving": "Сохранение…",
                 "roleName": "Название роли",
                 "roleColor": "Цвет роли",
                 "hideRole": "Скрыть роль",
@@ -189,7 +189,7 @@
                 "createNewDescription": "Создать новый канал или категорию"
             },
             "channel": {
-                "saving": "Сохранение...",
+                "saving": "Сохранение…",
                 "saveChangesButton": "Сохранить изменения",
                 "channelName": "Название канала",
                 "permissions": "Права",
@@ -360,7 +360,7 @@
             "confirmCurrentPassword": "Введите текущий пароль",
             "channelNotice": "Примечание в ЛС",
             "channelNoticeDescription": "Отображается, когда пользователь собирается написать вам в первый раз. Изменения вступят в силу после перезагрузки.",
-            "saving": "Сохранение...",
+            "saving": "Сохранение…",
             "saveButton": "Сохранить",
             "saveChangesButton": "Сохранить изменения",
             "deleteAccount": "Удалить мой аккаунт",
@@ -466,7 +466,7 @@
                 "off": "Выключено",
                 "mentionsOnly": "Только упоминания",
                 "inheritFromPingSettings": "Взять с настроек уведомлений",
-                "all": "Всё"
+                "all": "Все"
             }
         },
         "call": {
@@ -488,7 +488,7 @@
                 "title": "Сторонние подключения",
                 "connectionCount": "{{count}} подключений",
                 "unauthorizeButton": "Деавторизировать",
-                "unauthorizing": "Деавторизация..."
+                "unauthorizing": "Деавторизация…"
             },
             "googleDescription": "Приязка аккаунта Google позволит вам загружать файлы на Nerimity. Файлы будут храниться на вашим Google Drive.",
             "linkButton": "Связать",
@@ -527,7 +527,8 @@
             "startMinimized": "Открывать свёрнутой",
             "startMinimizedDescription": "Автоматически сворачивать Nerimity в трей.",
             "disableHardwareAcceleration": "Отключить аппаратное ускорение",
-            "reopenAppNotice": "Вы должгы перезапустить приложение, чтобы изменения вступили в силу."
+            "reopenAppNotice": "Вы должгы перезапустить приложение, чтобы изменения вступили в силу.",
+            "disableCustomTitlebar": "Использовать системный заголовок окна"
         },
         "activity": {
             "extension": "Расширение для браузера",
@@ -581,7 +582,7 @@
         "notice": "18+ контент запрещён в любом виде.",
         "serverName": "Название сервера",
         "placeholder": "Мой замечательный сервер",
-        "creating": "Создание...",
+        "creating": "Создание…",
         "createServerButton": "Создать",
         "closeButton": "Закрыть",
         "tabLabel": "Создание"
@@ -594,7 +595,7 @@
         "copyId": "Скопировать ID сервера",
         "leave": "Выйти",
         "notificationOptions": {
-            "everything": "Все",
+            "everything": "Всё",
             "mentionsOnly": "Только упоминания",
             "mute": "Ничего"
         }
@@ -613,7 +614,7 @@
     "kickServerMemberModal": {
         "title": "Выгнать {{username}}",
         "kickButton": "Выгнать",
-        "kicking": "Выгоняем...",
+        "kicking": "Выгоняем…",
         "backButton": "Назад",
         "message": "Вы уверены, что хотите выгнать <1>{{username}}</1>?"
     },
@@ -625,7 +626,7 @@
         "message": "Вы уверены, что хотите забанить <1>{{username}}</1>?",
         "deletePastMessagesCheckbox": "Удалить сообщения, отправленные за последние 7 часов.",
         "banButton": "Забанить",
-        "banning": "Баним...",
+        "banning": "Баним…",
         "reasonLabel": "Причина (необязательно)",
         "reasonPlaceholder": "Укажите причину…"
     },
@@ -672,7 +673,11 @@
         "expiresNever": "Истекает никогда.",
         "blocked": "Вас заблокировали",
         "blockedDescription": "Этот пользователь вас заблокировал.",
-        "privateList": "Этот список виден только вам."
+        "privateList": "Этот список виден только вам.",
+        "followerCount": "{{count}} подписчиков",
+        "followingCount": "{{count}} подписок",
+        "fullProfile": "Полный профиль",
+        "latestPost": "Последний пост"
     },
     "posts": {
         "deletePostModal": {
@@ -684,8 +689,8 @@
         "someoneLikedYourPost": "<1>{{username}}</1> понравился ваш пост!",
         "someoneFollowedYou": "<1>{{username}}</1> подписался на вас!",
         "someoneRepliedToPost": "<1>{{username}}</1> ответил на ваш пост!",
-        "createAPostInputPlaceholder": "Написать пост...",
-        "replyInputPlaceholder": "Написать ответ...",
+        "createAPostInputPlaceholder": "Написать пост…",
+        "replyInputPlaceholder": "Написать ответ…",
         "replyButton": "Ответить",
         "createButton": "Опубликовать",
         "pollOptions": "Варианты голосования",
@@ -752,10 +757,10 @@
         "passwordsDoNotMatch": "Пароли не совпадают.",
         "passwordTooLong": "Пароль должен содержать до 72 символов.",
         "resetPasswordButton": "Сбросить пароль",
-        "resetting": "Сброс...",
+        "resetting": "Сброс…",
         "email": "Электронная почта",
         "sendEmailButton": "Отправить письмо",
-        "sending": "Отправка письма..."
+        "sending": "Отправка письма…"
     },
     "status": {
         "online": "В сети",
@@ -786,7 +791,7 @@
         "dropFile": "Отпустите файл",
         "uploadTo": "Загрузить на",
         "channelNotice": {
-            "title": "Перед тем, как начать...",
+            "title": "Перед тем, как начать…",
             "understoodButton": "Понятно"
         },
         "specialMentions": {
@@ -829,7 +834,7 @@
         "placeholder": "Название папки",
         "cancelButton": "Не сохранять",
         "save": "Сохранить",
-        "saving": "Сохранение...",
+        "saving": "Сохранение…",
         "errors": {
             "emptyName": "Введите имя папки."
         }
