@@ -15,7 +15,7 @@ const GOOGLE_LANGUAGE_MAP: Record<string, string> = {
   "be-xo": "be",
   "pt-br": "pt",
   "zh-hans": "zh-CN",
-  "zn-hant": "zh-TW",
+  "zh-hant": "zh-TW",
   "nl-nl": "nl",
   "fr-fr": "fr",
   "de-de": "de",

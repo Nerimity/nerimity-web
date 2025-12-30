@@ -47,7 +47,7 @@ export const languages: Record<string, Language> = {
     emoji: "🇨🇳",
     contributors: ["https://github.com/Coolsigh"],
   },
-  "zn-hant": {
+  "zh-hant": {
     name: "Chinese (Traditional)",
     nativeName: "繁體中文",
     emoji: "🇹🇼",
@@ -155,7 +155,7 @@ const detectDefaultLanguage = (): string => {
     const lang = locale.toLowerCase();
 
     if (lang === "zh-tw" || lang === "zh-hk" || lang.startsWith("zh-hant")) {
-      return "zn-hant";
+      return "zh-hant";
     }
 
     if (languages[lang]) {
