@@ -384,7 +384,7 @@ const DesktopProfileFlyout = (props: {
                 <Text color="rgba(255,255,255,0.6)">:{user()!.tag}</Text>
               </CustomLink>
               <Show when={details()?.followsYou}>
-                <div class={styles.followsYou}>Follows You</div>
+                <div class={styles.followsYou}>{t("profile.followsYou")}</div>
               </Show>
             </div>
 
@@ -410,7 +410,7 @@ const DesktopProfileFlyout = (props: {
                   <CustomLink
                     href={RouterEndpoints.PROFILE(user()!.id + "/following")}
                   >
-                    {followingCount()} Following
+                    {t("profile.followingCount", { count: followingCount() })}
                   </CustomLink>
                 </Show>
                 <Show
@@ -425,7 +425,7 @@ const DesktopProfileFlyout = (props: {
                   <CustomLink
                     href={RouterEndpoints.PROFILE(user()!.id + "/followers")}
                   >
-                    {followersCount()} Followers
+                    {t("profile.followerCount", { count: followersCount() })}
                   </CustomLink>
                 </Show>
               </Text>
@@ -438,7 +438,7 @@ const DesktopProfileFlyout = (props: {
                     href={RouterEndpoints.PROFILE(user()!.id)}
                     color={colors().primary}
                     class={styles.button}
-                    label="Full Profile"
+                    label={t("profile.fullProfile")}
                     iconName="person"
                     margin={0}
                   />
@@ -448,7 +448,7 @@ const DesktopProfileFlyout = (props: {
                     iconSize={16}
                     color={colors().primary}
                     class={styles.button}
-                    label={isMe() ? "Notes" : "Message"}
+                    label={isMe() ? t("inbox.drawer.notes") : t("profile.messageButton")}
                     onClick={onMessageClicked}
                     iconName={isMe() ? "note_alt" : "mail"}
                     margin={0}
@@ -487,7 +487,7 @@ const DesktopProfileFlyout = (props: {
               primaryColor={colors()?.primary || undefined}
               style={{ "margin-bottom": "5px" }}
               icon="leaderboard"
-              title="Roles"
+              title={t("servers.settings.drawer.roles")}
             />
             <div class={styles.rolesContainer}>
               <For each={member()?.roles(true)!}>
@@ -566,7 +566,7 @@ const DesktopProfileFlyout = (props: {
         <Show when={details()}>
           <div class={styles.section}>
             <FlyoutTitle
-              title="Joined"
+              title={t("channelDrawer.members.sort.joined")}
               icon="calendar_month"
               primaryColor={colors()?.primary || undefined}
             />
@@ -595,7 +595,7 @@ const DesktopProfileFlyout = (props: {
           <div class={styles.section}>
             <FlyoutTitle
               icon="info"
-              title="Bio"
+              title={t("settings.account.bio")}
               primaryColor={colors()?.primary || undefined}
             />
             <div class={styles.bioContainer}>
@@ -629,7 +629,7 @@ const DesktopProfileFlyout = (props: {
       <FlyoutTitle
         style={{ "margin-bottom": "5px" }}
         icon="chat"
-        title="Latest Post"
+        title={t("profile.latestPost")}
         primaryColor={props.primaryColor || undefined}
       />
       <PostItem
@@ -800,16 +800,16 @@ function SelfArea(props: { bg: string }) {
       <div class={styles.selfArea} style={{ background: props.bg }}>
         <SelfAreaButton
           onClick={navigateToProfile}
-          label="Profile"
+          label={t("settings.account.profile")}
           icon="person"
         />
-        <SelfAreaButton label="Notes" icon="note_alt" onClick={goToNotes} />
+        <SelfAreaButton label={t("inbox.drawer.notes")} icon="note_alt" onClick={goToNotes} />
         <SelfAreaButton
-          label="Edit Profile"
+          label={t("profile.personal.editProfile")}
           icon="settings"
           onClick={navigateToEditProfile}
         />
-        <SelfAreaButton label="Logout" icon="logout" alert onClick={logout} />
+        <SelfAreaButton label={t("header.logoutButton")} icon="logout" alert onClick={logout} />
       </div>
     </>
   );
@@ -865,7 +865,7 @@ function PresenceDropDown() {
 
   return (
     <DropDown
-      title="Presence"
+      title={t("profile.personal.presence")}
       class={styles.presenceDropdown}
       items={DropDownItems}
       selectedId={presenceStatus().id}
@@ -902,7 +902,7 @@ function CustomStatus() {
   return (
     <div class={styles.customStatusContainer}>
       <Text opacity={0.8} size={14}>
-        Custom Status
+        {t("profile.personal.customStatus")}
       </Text>
       <FlexColumn>
         <AdvancedMarkupOptions
@@ -922,7 +922,7 @@ function CustomStatus() {
         />
         <Show when={changes()}>
           <Button
-            label="Save"
+            label={t("settings.account.saveButton")}
             onClick={save}
             iconName="save"
             iconSize={16}

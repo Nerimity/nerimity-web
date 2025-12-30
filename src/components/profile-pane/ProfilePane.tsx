@@ -294,7 +294,7 @@ export default function ProfilePane() {
                         >
                           {userDetails()?.user._count.following.toLocaleString()}{" "}
                           <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                            Following
+                            {t("profile.followingTab")}
                           </span>
                         </CustomLink>
                       </Show>
@@ -306,7 +306,7 @@ export default function ProfilePane() {
                         >
                           {userDetails()?.user._count.followers.toLocaleString()}{" "}
                           <span style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-                            Followers
+                            {t("profile.followersTab")}
                           </span>
                         </CustomLink>
                       </Show>
