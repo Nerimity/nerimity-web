@@ -75,7 +75,7 @@
         "confirmPassword": "Confirma tu contraseña",
         "agreement": "Al crear una cuenta, aceptas los Términos y Condiciones y la Política de Privacidad.",
         "registerButton": "Registrarse",
-        "registering": "Registrándote...",
+        "registering": "Registrándote…",
         "loginInstead": "Inicia sesión en su lugar"
     },
     "resetPassword": {
@@ -84,10 +84,10 @@
         "passwordsDoNotMatch": "Las contraseñas no coinciden.",
         "passwordTooLong": "La contraseña debe tener menos de 72 caracteres.",
         "resetPasswordButton": "Restablecer contraseña",
-        "resetting": "Restableciendo...",
+        "resetting": "Restableciendo…",
         "email": "Correo",
         "sendEmailButton": "Enviar correo",
-        "sending": "Enviando correo..."
+        "sending": "Enviando correo…"
     },
     "dashboard": {
         "title": "Panel de control",
@@ -208,7 +208,7 @@
         "placeholder": "Nombre de carpeta",
         "cancelButton": "No guardar",
         "save": "Guardar",
-        "saving": "Guardando...",
+        "saving": "Guardando…",
         "errors": {
             "emptyName": "Por favor, introduce un nombre de carpeta."
         }
@@ -227,7 +227,7 @@
                 "role": "Rol",
                 "welcome-screen": "Pantalla de bienvenida",
                 "channel": "Canal",
-                "emojis": "Emojis",
+                "emojis": "Emoji",
                 "notifications": "Notificaciones",
                 "external-embed": "Incrustación externa"
             },
@@ -267,7 +267,7 @@
                 "deleteThisServerDescription": "¡Esta acción no se puede deshacer!",
                 "deleteServerButton": "Eliminar servidor",
                 "saveChangesButton": "Guardar cambios",
-                "saving": "Guardando...",
+                "saving": "Guardando…",
                 "none": "Ninguno"
             },
             "roles": {
@@ -276,7 +276,7 @@
             },
             "role": {
                 "saveChangesButton": "Guardar cambios",
-                "saving": "Guardando...",
+                "saving": "Guardando…",
                 "roleName": "Nombre del rol",
                 "roleColor": "Color del rol",
                 "hideRole": "Ocultar rol",
@@ -295,7 +295,7 @@
                 "createNewDescription": "Crear un nuevo servidor o categoria"
             },
             "channel": {
-                "saving": "Guardando...",
+                "saving": "Guardando…",
                 "saveChangesButton": "Guardar cambios",
                 "channelName": "Nombre del canal",
                 "permissions": "Permisos",
@@ -449,8 +449,8 @@
             "palestineBorder": "Añadir un borde de Palestina a tu avatar.",
             "bio": "Biografía",
             "bioDescription": "Compatible con markup y multiline",
-            "gradientColor1": "Color con degradado 1",
-            "gradientColor2": "Color con degradado 2",
+            "gradientColor1": "Gradiente de color 1",
+            "gradientColor2": "Gradiente de color 2",
             "primaryColor": "Color principal",
             "preview": "Previsualizar",
             "changePassword": "Cambiar contraseña",
@@ -469,7 +469,7 @@
             "channelNotice": "Nota antes de chatear",
             "channelNoticeDescription": "Se muestra cuando un usuario está a punto de chatear contigo por primera vez. Los cambios se aplican después de recargar.",
             "channelNoticeTooLong": "Los avisos no pueden tener más de 300 caracteres.",
-            "saving": "Guardando...",
+            "saving": "Guardando…",
             "saveButton": "Guardar",
             "saveChangesButton": "Guardar cambios",
             "deleteAccount": "Eliminar mi cuenta",
@@ -643,7 +643,7 @@
                 "title": "Conexiones de terceros",
                 "connectionCount": "{{count}} conexión(es)",
                 "unauthorizeButton": "Unautorizar",
-                "unauthorizing": "Desautorizando..."
+                "unauthorizing": "Desautorizando…"
             },
             "googleDescription": "Vincular tu cuenta de Google te permitirá subir archivos a Nerimity. Los archivos se almacenarán en tu Google Drive.",
             "linkButton": "Vincular",
@@ -675,7 +675,7 @@
         "placeholder": "Mi asombroso servidor",
         "closeButton": "Cerrar",
         "createServerButton": "Crear servidor",
-        "creating": "Creando..",
+        "creating": "Creando…",
         "tabLabel": "Crear"
     },
     "joinServerModal": {
@@ -732,7 +732,7 @@
     "kickServerMemberModal": {
         "title": "Expulsar {{username}}",
         "kickButton": "Expulsar",
-        "kicking": "Expulsando...",
+        "kicking": "Expulsando…",
         "backButton": "Atrás",
         "message": "¿Estás seguro de que quieres expulsar a <1>{{username}}</1>?"
     },
@@ -744,7 +744,7 @@
         "message": "¿Estás seguro que quieres banear a <1>{{username}}</1>?",
         "deletePastMessagesCheckbox": "Eliminar mensajes enviados en las últimas 7 horas.",
         "banButton": "Banear",
-        "banning": "Baneando..",
+        "banning": "Baneando…",
         "reasonLabel": "Razón (opcional)",
         "reasonPlaceholder": "Introduce una razón…"
     },
@@ -791,21 +791,30 @@
         "expiresNever": "Nunca expira.",
         "blocked": "Has sido bloqueado",
         "blockedDescription": "Este usuario te ha bloqueado.",
-        "privateList": "Solo tú puedes ver esta lista."
+        "privateList": "Solo tú puedes ver esta lista.",
+        "followerCount": "{{count}} Seguidores",
+        "followingCount": "{{Count}} siguiendo",
+        "fullProfile": "Ver perfil completo",
+        "latestPost": "Última publicación",
+        "personal": {
+            "editProfile": "Editar perfil",
+            "presence": "Presencia",
+            "customStatus": "Establecer estado"
+        }
     },
     "posts": {
         "deletePostModal": {
             "message": "¿Seguro que quieres eliminar esta publicación?",
             "cancelButton": "Cancelar",
-            "deleteButton": "eliminar"
+            "deleteButton": "Eliminar"
         },
         "postWasDeleted": "¡Esta publicación ha sido eliminada!",
         "someoneLikedYourPost": "¡A <1>{{username}}</1> le ha gustado tu publicación!",
-        "createAPostInputPlaceholder": "Crear una publicación...",
+        "createAPostInputPlaceholder": "Crea una publicación…",
         "someoneRepostedYourPost": "¡<1>{{username}}</1> ha republicado tu publicación!",
         "someoneFollowedYou": "¡<1>{{username}}</1> te ha seguido!",
         "someoneRepliedToPost": "¡<1>{{username}}</1> ha respondido a tu publicación!",
-        "replyInputPlaceholder": "Responder...",
+        "replyInputPlaceholder": "Escribe una respuesta…",
         "replyButton": "Responder",
         "createButton": "Crear",
         "pollOptions": "Opciones de encuesta",
@@ -837,10 +846,10 @@
         "success": "¡Cuenta vinculada! Ahora puedes cerrar esta ventana."
     },
     "invite": {
-        "loading": "Cargando invitación...",
+        "loading": "Generando invitación…",
         "invalid": "Código de invitación inválido",
         "joinButton": "Unirte",
-        "joiningButton": "Uniéndose...",
+        "joiningButton": "Uniéndose…",
         "visitButton": "Visitar",
         "member": "miembro",
         "members": "miembros"
@@ -868,7 +877,7 @@
         "sendRequest": "Enviar solicitud",
         "description": "Introduce el nombre y la etiqueta de tu amigo para añadirlo.",
         "requestSent": "¡Solicitud enviada!",
-        "sending": "Enviando...",
+        "sending": "Enviando…",
         "errors": {
             "missingTag": "Por favor, inserte un usuario:tag.",
             "colonInUsername": "El usuario no puede contener los dos puntos ( : )."
@@ -1072,6 +1081,6 @@
     "removeFriendModal": {
         "title": "Eliminar a {{username}} de tu lista de amigos",
         "body": "¿Estás seguro de que quieres desagregar a este usuario?",
-        "removing": "Desagregando..."
+        "removing": "Desagregando…"
     }
 }
