@@ -12,11 +12,10 @@ export const getTenorCategories = async () => {
   const data = await request<TenorCategory>({
     method: "GET",
     url: env.SERVER_URL + "/api/tenor/categories",
-    useToken: true
+    useToken: true,
   });
   return data;
 };
-
 
 export interface TenorImage {
   url: string;
@@ -25,14 +24,19 @@ export interface TenorImage {
   previewWidth: number;
 }
 
-export const getTenorImages = async (query: string) => {
-  const data = await request<TenorImage[]>({
+export interface GetTenorImageResponse {
+  results: TenorImage[];
+  next: string;
+}
+export const getTenorImages = async (query: string, pos?: number) => {
+  const data = await request<GetTenorImageResponse>({
     method: "GET",
-    url: env.SERVER_URL + "/api/tenor/search",
+    url: env.SERVER_URL + "/api/v2/tenor/search",
     params: {
-      query
+      query,
+      pos,
     },
-    useToken: true
+    useToken: true,
   });
   return data;
 };

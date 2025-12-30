@@ -24,6 +24,7 @@ import { useWindowProperties } from "@/common/useWindowProperties";
 import { useResizeObserver } from "@/common/useResizeObserver";
 import Button from "../Button";
 import {
+  GetTenorImageResponse,
   TenorCategory,
   TenorImage,
   getTenorCategories,
@@ -208,18 +209,7 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
   );
 
   return (
-    <div
-      class={cn(
-        styles.gifPickerContainer,
-        !gifPickerSearch().trim() &&
-          css`
-            && {
-              height: unset;
-            }
-          `
-      )}
-      ref={scrollElementRef}
-    >
+    <div class={styles.gifPickerContainer} ref={scrollElementRef}>
       <GifPickerSearchBar />
       <Show when={gifPickerSearch().trim()}>
         <GifPickerImages
@@ -272,36 +262,25 @@ const GifPickerImages = (props: {
   query: string;
   gifPicked?: (gif: TenorImage) => void;
 }) => {
-  const [gifs, setGifs] = createSignal<TenorImage[] | null>(null);
+  const [tenorResponse, setTenorResponse] =
+    createSignal<GetTenorImageResponse | null>(null);
   createEffect(
     on(
       () => props.query,
       () => {
-        setGifs(null);
+        setTenorResponse(null);
         getTenorImages(props.query).then((gifs) => {
           // reorder logic
 
-          setGifs(gifs);
+          setTenorResponse(gifs);
         });
       }
     )
   );
 
   return (
-    <div
-      class={cn(
-        styles.gifPickerCategories,
-        css`
-          && {
-            margin-right: 8px;
-          }
-        `
-      )}
-    >
-      <Show when={!gifs()}>
-        <GifItemSkeleton />
-      </Show>
-      <For each={gifs()}>
+    <div class={styles.gifPickerSearches}>
+      <For each={tenorResponse()?.results}>
         {(gif) => (
           <GifPickerImageItem
             url={gif.previewUrl}
@@ -343,7 +322,7 @@ const GifPickerImageItem = (props: {
       : {};
 
   return (
-    <div class={styles.gifCategoryItem} tabIndex={0} style={containerStyle()}>
+    <div class={styles.gifSearchItem} tabIndex={0} style={containerStyle()}>
       <img
         class={styles.image}
         style={imageStyle()}
@@ -381,12 +360,6 @@ const GifPickerCategories = (props: {
       <For each={categories()}>
         {(category) => (
           <GifCategoryItem
-            class={css`
-              && {
-                width: calc(50% - 6px);
-                margin-bottom: 0;
-              }
-            `}
             category={category}
             onClick={() => props.onPick(category)}
           />
