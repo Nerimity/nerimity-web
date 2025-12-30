@@ -21,6 +21,8 @@ export const getTenorCategories = async () => {
 export interface TenorImage {
   url: string;
   previewUrl: string;
+  previewHeight: number;
+  previewWidth: number;
 }
 
 export const getTenorImages = async (query: string) => {

@@ -208,7 +208,7 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
   );
 
   return (
-    <div class={styles.gifPickerContainer} ref={scrollElementRef}>
+    <div class={cn(styles.gifPickerContainer, !gifPickerSearch().trim() && css`&& {height: unset;}`)} ref={scrollElementRef}>
       <GifPickerSearchBar />
       <Show when={gifPickerSearch().trim()}>
         <GifPickerImages
@@ -267,7 +267,12 @@ const GifPickerImages = (props: {
       () => props.query,
       () => {
         setGifs(null);
-        getTenorImages(props.query).then(setGifs);
+        getTenorImages(props.query).then((gifs) => {
+   
+          // reorder logic
+
+          setGifs(gifs);
+        });
       }
     )
   );
@@ -282,6 +287,11 @@ const GifPickerImages = (props: {
           <GifPickerImageItem
             url={gif.previewUrl}
             onClick={() => props.gifPicked?.(gif)}
+            dimensions={
+              gif.previewHeight
+                ? { width: gif.previewWidth, height: gif.previewHeight }
+                : undefined
+            }
           />
         )}
       </For>
@@ -290,11 +300,34 @@ const GifPickerImages = (props: {
   );
 };
 
-const GifPickerImageItem = (props: { url: string; onClick?: () => void }) => {
+const GifPickerImageItem = (props: {
+  url: string;
+  onClick?: () => void;
+  dimensions?: { width: number; height: number };
+}) => {
+  const containerStyle = () =>
+    props.dimensions
+      ? ({
+          "aspect-ratio": `${props.dimensions.width} / ${props.dimensions.height}`,
+          height: "initial",
+          "align-self": "flex-start",
+        } as JSX.CSSProperties)
+      : {};
+
+  const imageStyle = () =>
+    props.dimensions
+      ? ({
+          width: "100%",
+          height: "initial",
+          "object-fit": "contain",
+        } as JSX.CSSProperties)
+      : {};
+
   return (
-    <div class={styles.gifCategoryItem} tabIndex={0}>
+    <div class={styles.gifCategoryItem} tabIndex={0} style={containerStyle()}>
       <img
         class={styles.image}
+        style={imageStyle()}
         src={props.url}
         loading="lazy"
         onClick={props.onClick}
@@ -314,7 +347,7 @@ const GifPickerCategories = (props: {
 
   return (
     <div
-      class={styles.gifPickerCategories}
+      class={cn(styles.gifPickerCategories, css`flex-wrap: wrap; gap: 6px;`)}
       style={{ display: props.hide ? "none" : "flex" }}
     >
       <Show when={!categories().length}>
@@ -323,6 +356,7 @@ const GifPickerCategories = (props: {
       <For each={categories()}>
         {(category) => (
           <GifCategoryItem
+          class={css`&& {width: calc(50% - 6px);margin-bottom: 0;}`}
             category={category}
             onClick={() => props.onPick(category)}
           />
@@ -347,9 +381,10 @@ function GifItemSkeleton() {
 const GifCategoryItem = (props: {
   category: TenorCategory;
   onClick?: () => void;
+  class?: string;
 }) => {
   return (
-    <div class={styles.gifCategoryItem} tabIndex={0} onClick={props.onClick}>
+    <div class={cn(styles.gifCategoryItem, props.class)} tabIndex={0} onClick={props.onClick}>
       <img
         class={styles.image}
         src={props.category.image}
