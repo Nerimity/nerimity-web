@@ -17,5 +17,5 @@ const update = () => {
   } else {
     link.href = "/favicon.ico";
   }
-  electronWindowAPI()?.setNotification(alert || false);
+  electronWindowAPI()?.setNotification(alert || false, count);
 };
