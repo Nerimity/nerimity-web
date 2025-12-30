@@ -650,7 +650,16 @@
         "blocked": "Você foi bloqueado",
         "suspended": "Este usuário está suspenso",
         "blockedDescription": "Este usuário bloqueou você.",
-        "privateList": "Só você pode ver esta lista."
+        "privateList": "Só você pode ver esta lista.",
+        "personal": {
+            "presence": "Presença",
+            "editProfile": "Editar perfil",
+            "customStatus": "Status customizado"
+        },
+        "followerCount": "{{count}} seguidores",
+        "followingCount": "{{count}} seguindo",
+        "fullProfile": "Perfil completo",
+        "latestPost": "Postagem mais recente"
     },
     "posts": {
         "deletePostModal": {
@@ -1020,7 +1029,8 @@
             "join": "Entrar",
             "leave": "Sair",
             "muted": "Silenciado(a)",
-            "fullscreen": "Tela cheia"
+            "fullscreen": "Tela cheia",
+            "deafened": "Ensurdecido(a)"
         },
         "pins": {
             "noPins": "Nada fixado"
