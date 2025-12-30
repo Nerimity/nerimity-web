@@ -6,7 +6,9 @@ import { Table, TableSort } from "@/components/ui/table/Table";
 import { formatTimestamp } from "@/common/date";
 import { ServerMember } from "@/chat-api/store/useServerMembers";
 import Avatar from "@/components/ui/Avatar";
-import MemberContextMenu, { ServerMemberRoleModal } from "@/components/member-context-menu/MemberContextMenu";
+import MemberContextMenu, {
+  ServerMemberRoleModal,
+} from "@/components/member-context-menu/MemberContextMenu";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Input from "@/components/ui/input/Input";
 import { Item } from "@/components/ui/Item";
@@ -18,8 +20,12 @@ import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
 export default function Pane() {
   const params = useParams<{ serverId: string }>();
   const { header, serverMembers, account } = useStore();
-  const { createRegisteredPortal, openedPortals, closePortalById, createPortal, } = 
-    useCustomPortal();
+  const {
+    createRegisteredPortal,
+    openedPortals,
+    closePortalById,
+    createPortal,
+  } = useCustomPortal();
   const [filter, setFilter] = createSignal<"ALL" | "24H">("ALL");
   const [contextMenu, setContextMenu] = createSignal<{
     position: { x: number; y: number };
@@ -171,7 +177,10 @@ export default function Pane() {
           headers={[
             { title: t("channelDrawer.members.sort.member"), id: "member" },
             { title: t("channelDrawer.members.sort.joined"), id: "joined" },
-            { title: t("channelDrawer.members.sort.joinedNerimity"), id: "joinedNerimity" },
+            {
+              title: t("channelDrawer.members.sort.joinedNerimity"),
+              id: "joinedNerimity",
+            },
             { title: t("servers.settings.drawer.roles"), id: "roles" },
           ]}
           sortableHeaderIds={["member", "joined", "joinedNerimity"]}
@@ -185,6 +194,7 @@ export default function Pane() {
               return (
                 <Table.Item
                   onClick={(e) => onMemberClick(e, member!)}
+                  class="trigger-profile-flyout"
                   onContextMenu={(e) => {
                     e.preventDefault();
                     setContextMenu({
@@ -195,10 +205,14 @@ export default function Pane() {
                   }}
                 >
                   <MemberField member={member!} />
-                  <Table.Field mobileTitle={t("channelDrawer.members.sort.joined")}>
+                  <Table.Field
+                    mobileTitle={t("channelDrawer.members.sort.joined")}
+                  >
                     {formatTimestamp(member?.joinedAt!)}
                   </Table.Field>
-                 <Table.Field mobileTitle={t("channelDrawer.members.sort.joinedNerimity")}>
+                  <Table.Field
+                    mobileTitle={t("channelDrawer.members.sort.joinedNerimity")}
+                  >
                     {formatTimestamp(member?.user().joinedAt!)}
                   </Table.Field>
 
