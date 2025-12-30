@@ -23,7 +23,7 @@
 
 :global {
   .go1741493984 {
-    border-bottom: solid 1px var(--primary-color)
+    border-bottom: solid 1px var(--primary-color);
   }
   .go2985996624 {
     // emoji picker footer details
@@ -133,6 +133,7 @@
   max-width: 420px;
   width: 100%;
   margin-left: 2px;
+  margin-right: 2px;
 
   .gap {
     height: 2px;
@@ -147,7 +148,6 @@
   margin-bottom: 6px;
   border-radius: 6px;
   height: 120px;
-  width: calc(100% - 8px);
   flex-shrink: 0;
   overflow: hidden;
   user-select: none;

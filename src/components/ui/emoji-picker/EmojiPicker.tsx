@@ -208,7 +208,18 @@ const GifPicker = (props: { gifPicked?: (gif: TenorImage) => void }) => {
   );
 
   return (
-    <div class={cn(styles.gifPickerContainer, !gifPickerSearch().trim() && css`&& {height: unset;}`)} ref={scrollElementRef}>
+    <div
+      class={cn(
+        styles.gifPickerContainer,
+        !gifPickerSearch().trim() &&
+          css`
+            && {
+              height: unset;
+            }
+          `
+      )}
+      ref={scrollElementRef}
+    >
       <GifPickerSearchBar />
       <Show when={gifPickerSearch().trim()}>
         <GifPickerImages
@@ -268,7 +279,6 @@ const GifPickerImages = (props: {
       () => {
         setGifs(null);
         getTenorImages(props.query).then((gifs) => {
-   
           // reorder logic
 
           setGifs(gifs);
@@ -278,7 +288,16 @@ const GifPickerImages = (props: {
   );
 
   return (
-    <div class={styles.gifPickerCategories}>
+    <div
+      class={cn(
+        styles.gifPickerCategories,
+        css`
+          && {
+            margin-right: 8px;
+          }
+        `
+      )}
+    >
       <Show when={!gifs()}>
         <GifItemSkeleton />
       </Show>
@@ -347,7 +366,13 @@ const GifPickerCategories = (props: {
 
   return (
     <div
-      class={cn(styles.gifPickerCategories, css`flex-wrap: wrap; gap: 6px;`)}
+      class={cn(
+        styles.gifPickerCategories,
+        css`
+          flex-wrap: wrap;
+          gap: 6px;
+        `
+      )}
       style={{ display: props.hide ? "none" : "flex" }}
     >
       <Show when={!categories().length}>
@@ -356,7 +381,12 @@ const GifPickerCategories = (props: {
       <For each={categories()}>
         {(category) => (
           <GifCategoryItem
-          class={css`&& {width: calc(50% - 6px);margin-bottom: 0;}`}
+            class={css`
+              && {
+                width: calc(50% - 6px);
+                margin-bottom: 0;
+              }
+            `}
             category={category}
             onClick={() => props.onPick(category)}
           />
@@ -384,7 +414,11 @@ const GifCategoryItem = (props: {
   class?: string;
 }) => {
   return (
-    <div class={cn(styles.gifCategoryItem, props.class)} tabIndex={0} onClick={props.onClick}>
+    <div
+      class={cn(styles.gifCategoryItem, props.class)}
+      tabIndex={0}
+      onClick={props.onClick}
+    >
       <img
         class={styles.image}
         src={props.category.image}
