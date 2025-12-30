@@ -2,33 +2,130 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 10px;
+  padding: 16px;
+
+  .actionBar {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 24px;
+    gap: 20px;
+
+    .searchWrapper {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      max-width: 400px;
+      gap: 8px;
+    }
+  }
 }
 
-.filter {
+.filterSection {
   display: flex;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterContainer {
+  display: flex;
   gap: 4px;
 }
 
-.search {
-  align-self: flex-start;
-  margin-bottom: 12px;
-
+.filterLabel {
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 11px;
+  font-weight: 700;
 }
-
 
 .memberField {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+
+  .nameStack {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+
+    .nickname {
+      width: fit-content;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .usernameAndTag {
+      opacity: 0.6;
+      font-size: 12px;
+    }
+  }
 }
 
-.nickname {
-  font-weight: bold;
+.rolesList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 400px;
+  gap: 6px;
 }
-.usernameAndTag {
+
+.paginationInfo {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
   opacity: 0.6;
   font-size: 12px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.nerimityRoleBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.05);
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  gap: 6px;
+
+  .roleCircle {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+}
+
+.roleAddButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: var(--primary-color);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.dimmed {
+  opacity: 0.4;
 }
