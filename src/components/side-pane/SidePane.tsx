@@ -96,7 +96,7 @@ export default function SidePane(props: { class?: string }) {
 }
 
 function HomeItem(props: { size: number }) {
-  const { inbox, friends, servers } = useStore();
+  const { inbox, friends, servers, mentions } = useStore();
   const location = useLocation();
   const { hasActiveReminder } = useReminders();
   const isSelected = () => {
@@ -116,7 +116,8 @@ function HomeItem(props: { size: number }) {
     updateTitleAlert(
       hasActiveReminder() || count() || servers.hasNotifications()
         ? true
-        : false
+        : false,
+      count() + mentions.count()
     );
   });
 
@@ -379,7 +380,9 @@ function UpdateModal(props: { close: () => void }) {
         >
           <Show when={isRelease}>
             <Text size={24}>{latestRelease()?.name || ""}</Text>
-            <Text opacity={0.7}>{t("updateModal.releasedAt")} {date() || ""}</Text>
+            <Text opacity={0.7}>
+              {t("updateModal.releasedAt")} {date() || ""}
+            </Text>
             <Text opacity={0.7}>{latestRelease()?.tag_name}</Text>
             <Marked value={latestRelease()?.body!} />
           </Show>

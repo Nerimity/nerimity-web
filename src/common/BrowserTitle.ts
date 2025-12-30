@@ -1,10 +1,12 @@
 import { electronWindowAPI } from "./Electron";
 
 let alert: boolean | null = null;
+let count = 0;
 
-export const updateTitleAlert = (newAlert: boolean) => {
+export const updateTitleAlert = (newAlert: boolean, newCount?: number) => {
   if (newAlert === alert) return;
   alert = newAlert;
+  if (newCount) count = newCount;
   update();
 };
 
