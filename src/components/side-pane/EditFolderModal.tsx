@@ -116,13 +116,13 @@ export const EditFolderModal = (props: {
       </Modal.Body>
       <Modal.Footer>
         <Modal.Button
-          label={t("editFolderModal.cancelButton")}
+          label={t("general.cancelButton")}
           alert
           iconName="close"
           onClick={props.close}
         />
         <Modal.Button
-          label={requestSent() ? t("editFolderModal.saving") : t("editFolderModal.save")}
+          label={requestSent() ? t("general.saving") : t("general.saveButton")}
           primary
           iconName="save"
           onClick={handleSaveClick}
