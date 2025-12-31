@@ -30,7 +30,7 @@
         "password": "Hasło",
         "login": "Zaloguj się",
         "createAccountInstead": "Chcę założyć konto",
-        "loggingIn": "Trwa logowanie...",
+        "loggingIn": "Trwa logowanie…",
         "loginButton": "Zaloguj się"
     },
     "registerPage": {
@@ -40,7 +40,7 @@
         "password": "Hasło",
         "confirmPassword": "Potwierdź hasło",
         "registerButton": "Zarejestruj się",
-        "registering": "Trwa rejestrowanie...",
+        "registering": "Trwa rejestrowanie…",
         "loginInstead": "Chcę się zalogować",
         "header": "Zarejestruj się",
         "notices": {
@@ -150,7 +150,7 @@
                 "deleteThisServerDescription": "Ta akcja jest nieodwracalna!",
                 "deleteServerButton": "Usuń Serwer",
                 "saveChangesButton": "Zapisz zmiany",
-                "saving": "Trwa zapisywanie...",
+                "saving": "Trwa zapisywanie…",
                 "avatar": "Awatar",
                 "avatarDescription": "Wspierane: JPG, PNG, GIF, WEBP, Maks. 12 MB",
                 "banner": "Baner",
@@ -164,7 +164,7 @@
             },
             "role": {
                 "saveChangesButton": "Zapisz zmiany",
-                "saving": "Trwa zapisywanie...",
+                "saving": "Trwa zapisywanie…",
                 "roleName": "Nazwa Roli",
                 "roleColor": "Kolor Roli",
                 "hideRole": "Ukryj Rolę",
@@ -183,7 +183,7 @@
                 "createNewDescription": "Stwórz kanał lub kategorię"
             },
             "channel": {
-                "saving": "Trwa zapisywanie...",
+                "saving": "Trwa zapisywanie…",
                 "saveChangesButton": "Zapisz zmiany",
                 "channelName": "Nazwa Kanału",
                 "permissions": "Uprawnienia",
@@ -355,7 +355,7 @@
             "confirmCurrentPassword": "Potwierdź aktualne hasło",
             "channelNotice": "Notka kanału",
             "channelNoticeDescription": "Wyświetla się, kiedy użytkownik zamierza rozpocząć czat po raz pierwszy. Zmiany obowiązują po ponownym załadowaniu strony.",
-            "saving": "Trwa zapisywanie...",
+            "saving": "Trwa zapisywanie…",
             "saveButton": "Zapisz",
             "saveChangesButton": "Zapisz zmiany",
             "deleteAccount": "Usuń moje konto",
@@ -553,7 +553,7 @@
                 "title": "Połączenia Stron Trzecich",
                 "connectionCount": "Połączenia: {{count}}",
                 "unauthorizeButton": "Usuń autoryzację",
-                "unauthorizing": "Usuwanie autoryzacji..."
+                "unauthorizing": "Usuwanie autoryzacji…"
             },
             "googleDescription": "Łączenie Twojego konta Google pozwoli Ci na przesyłanie plików na Nerimity. Pliki będą przechowywane na twoim dysku Google Drive.",
             "linkButton": "Połącz",
@@ -587,7 +587,7 @@
     "kickServerMemberModal": {
         "title": "Wyrzuć {{username}}",
         "kickButton": "Wyrzuć",
-        "kicking": "Trwa wyrzucanie...",
+        "kicking": "Trwa wyrzucanie…",
         "backButton": "Wstecz",
         "message": "Czy jesteś pewien, że chcesz wyrzucić <1>{{username}}</1>?"
     },
@@ -599,7 +599,7 @@
         "message": "Czy jesteś pewien, że chcesz zbanować <1>{{username}}</1>?",
         "deletePastMessagesCheckbox": "Usuń wiadomości z poprzednich 7 godzin.",
         "banButton": "Zbanuj",
-        "banning": "Trwa banowanie...",
+        "banning": "Trwa banowanie…",
         "reasonLabel": "Powód (opcjonalny)",
         "reasonPlaceholder": "Wprowadź powód…"
     },
@@ -646,7 +646,16 @@
         "expiresNever": "Wygasa nigdy.",
         "blocked": "Zostałeś zablokowany",
         "blockedDescription": "Ten użytkownik Cię zablokował.",
-        "privateList": "Tylko ty możesz zobaczyć tę listę."
+        "privateList": "Tylko ty możesz zobaczyć tę listę.",
+        "followerCount": "{{count}} Obserwujących",
+        "followingCount": "{{count}} Obserwuje",
+        "fullProfile": "Pełny Profil",
+        "latestPost": "Najnowszy Post",
+        "personal": {
+            "editProfile": "Edytuj Profil",
+            "presence": "Aktywność",
+            "customStatus": "Własny Status"
+        }
     },
     "posts": {
         "deletePostModal": {
@@ -658,8 +667,8 @@
         "someoneLikedYourPost": "<1>{{username}}</1> polubił(-a) Twój post!",
         "someoneFollowedYou": "<1>{{username}}</1> zaczął(-ęła) Cię obserwować!",
         "someoneRepliedToPost": "<1>{{username}}</1> odpowiedział(-a) na Twój post!",
-        "createAPostInputPlaceholder": "Stwórz posta...",
-        "replyInputPlaceholder": "Odpowiedz...",
+        "createAPostInputPlaceholder": "Stwórz posta…",
+        "replyInputPlaceholder": "Odpowiedz…",
         "replyButton": "Odpowiedz",
         "createButton": "Opublikuj",
         "someoneRepostedYourPost": "<1>{{username}}</1> podał(-a) dalej Twój post!",
@@ -671,10 +680,10 @@
         "resetSuccessful": "Resetowanie hasła przebiegło pomyślnie.",
         "passwordsDoNotMatch": "Pole \"Potwierdź hasło\" nie jest zgodne z hasłem.",
         "resetPasswordButton": "Zresetuj hasło",
-        "resetting": "Trwa resetowanie...",
+        "resetting": "Trwa resetowanie…",
         "email": "Adres email",
         "sendEmailButton": "Wyślij wiadomość email",
-        "sending": "Trwa wysyłanie wiadomości email...",
+        "sending": "Trwa wysyłanie wiadomości email…",
         "passwordTooLong": "Hasło musi mieć mniej niż 72 znaki długości."
     },
     "dashboard": {
@@ -695,7 +704,7 @@
         "dropFile": "Upuść Plik",
         "uploadTo": "Prześlij do",
         "channelNotice": {
-            "title": "Zanim napiszesz wiadomość...",
+            "title": "Zanim napiszesz wiadomość…",
             "understoodButton": "Zrozumiano"
         },
         "specialMentions": {
@@ -715,7 +724,7 @@
         "notice": "Treści NSFW są zabronione.",
         "serverName": "Nazwa serwera",
         "placeholder": "Mój Fajny Serwer",
-        "creating": "Trwa towrzenie...",
+        "creating": "Trwa tworzenie…",
         "createServerButton": "Stwórz serwer",
         "closeButton": "Zamknij",
         "tabLabel": "Stwórz"
@@ -755,14 +764,14 @@
         "title": "Zaproś Bota"
     },
     "googleAccountLink": {
-        "linking": "Trwa łączenie Twojego konta z usługą Google...",
+        "linking": "Trwa łączenie Twojego konta z usługą Google…",
         "success": "Konto zostało połączone! Możesz teraz zamknąć to okno."
     },
     "invite": {
-        "loading": "Trwa ładowanie zaproszenia...",
+        "loading": "Trwa ładowanie zaproszenia…",
         "invalid": "Niepoprawny kod zaproszeniowy",
         "joinButton": "Dołącz",
-        "joiningButton": "Trwa dołączanie...",
+        "joiningButton": "Trwa dołączanie…",
         "visitButton": "Odwiedź",
         "member": "członek",
         "members": "członkowie"
@@ -818,10 +827,10 @@
     },
     "statusHeader": {
         "authenticationError": "Błąd uwierzytelniania",
-        "connecting": "Trwa łączenie...",
-        "reconnecting": "Trwa ponowne łączenie...",
+        "connecting": "Trwa łączenie…",
+        "reconnecting": "Trwa ponowne łączenie…",
         "inQueue": "W kolejce: {{count}} użytkownik(-ów) przed Tobą",
-        "authenticating": "Trwa uwierzytelnianie...",
+        "authenticating": "Trwa uwierzytelnianie…",
         "connected": "Połączono!"
     },
     "dangerousLinkModal": {
@@ -835,7 +844,7 @@
         "placeholder": "Nazwa Folderu",
         "cancelButton": "Nie zapisuj",
         "save": "Zapisz",
-        "saving": "Trwa zapisywanie...",
+        "saving": "Trwa zapisywanie…",
         "errors": {
             "emptyName": "Wprowadź nazwę folderu."
         }
@@ -856,7 +865,7 @@
         "requestSent": "Wysłano prośbę!",
         "closeButton": "Zamknij",
         "sendRequest": "Wyślij Prośbę",
-        "sending": "Trwa wysyłanie...",
+        "sending": "Trwa wysyłanie…",
         "errors": {
             "missingTag": "Wprowadź tekst w formacie nazwa:tag.",
             "colonInUsername": "Nazwa użytkownika nie może zawierać dwukropka."
@@ -1076,6 +1085,6 @@
     "removeFriendModal": {
         "title": "Usuń znajomego {{username}}",
         "body": "Czy jesteś pewien, że chcesz usunąć tego użytkownika ze znajomych?",
-        "removing": "Usuwanie..."
+        "removing": "Usuwanie…"
     }
 }

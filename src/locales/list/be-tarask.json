@@ -20,10 +20,10 @@
     },
     "statusHeader": {
         "authenticationError": "Памылка аўтэнтыфікацыйі",
-        "connecting": "Злучэньне...",
-        "reconnecting": "Перападлучэньне...",
+        "connecting": "Злучэньне…",
+        "reconnecting": "Перападлучэньне…",
         "inQueue": "У чарзе: перад вамі {{count}} карыстач(оў)",
-        "authenticating": "Аўтэнтыфікацыя...",
+        "authenticating": "Аўтэнтыфікацыя…",
         "connected": "Злучана!"
     },
     "dangerousLinkModal": {
@@ -57,7 +57,7 @@
         "password": "Пароль",
         "login": "Увайсьці",
         "createAccountInstead": "Замест гэтага стварыць уліковы запіс",
-        "loggingIn": "Уваходзім...",
+        "loggingIn": "Уваходзім…",
         "loginButton": "Увайсьці"
     },
     "registerPage": {
@@ -75,7 +75,7 @@
         "confirmPassword": "Сьцьвердзіце пароль",
         "agreement": "Ствараючы ўліковы запіс, вы згаджайцеся з умовамі й палітыкай прыватнасьці.",
         "registerButton": "Зарэгістравацца",
-        "registering": "Рэгіструем...",
+        "registering": "Рэгіструем…",
         "loginInstead": "Замест гэтага ўвайсьці"
     },
     "resetPassword": {
@@ -84,10 +84,10 @@
         "passwordsDoNotMatch": "Паролі не супадаюць.",
         "passwordTooLong": "Пароль мусіць быць меньш за 72 сымбалы.",
         "resetPasswordButton": "Скінуць пароль",
-        "resetting": "Скідваем...",
+        "resetting": "Скідваем…",
         "email": "Эл. пошта",
         "sendEmailButton": "Адаслаць ліст",
-        "sending": "Адсылаем..."
+        "sending": "Адсылаем…"
     },
     "dashboard": {
         "title": "Панэль кіраваньня",
@@ -120,7 +120,7 @@
         "dropFile": "Адпусціце файл",
         "uploadTo": "Запампаваць на",
         "channelNotice": {
-            "title": "Перад тым, як пачаць...",
+            "title": "Перад тым, як пачаць…",
             "understoodButton": "Зразумела"
         },
         "specialMentions": {
@@ -208,7 +208,7 @@
         "placeholder": "Назва тэчкі",
         "cancelButton": "Не захоўваць",
         "save": "Захаваць",
-        "saving": "Захоўваем...",
+        "saving": "Захоўваем…",
         "errors": {
             "emptyName": "Увядзіце назву тэчкі."
         }
@@ -267,7 +267,7 @@
                 "deleteThisServerDescription": "Гэтае дзеяньне нельга адрабіць!",
                 "deleteServerButton": "Выдаліць сэрвэр",
                 "saveChangesButton": "Захаваць зьмены",
-                "saving": "Захоўваем...",
+                "saving": "Захоўваем…",
                 "none": "Няма"
             },
             "roles": {
@@ -276,7 +276,7 @@
             },
             "role": {
                 "saveChangesButton": "Захаваць зьмены",
-                "saving": "Захоўваем...",
+                "saving": "Захоўваем…",
                 "roleName": "Назва ролі",
                 "roleColor": "Колер ролі",
                 "hideRole": "Схаваць ролю",
@@ -295,7 +295,7 @@
                 "createNewDescription": "Стварыць новы канал ці катэгорыю"
             },
             "channel": {
-                "saving": "Захоўваем...",
+                "saving": "Захоўваем…",
                 "saveChangesButton": "Захаваць",
                 "channelName": "Назва каналу",
                 "permissions": "Дазволы",
@@ -469,7 +469,7 @@
             "channelNotice": "Папярэджаньне карыстача",
             "channelNoticeDescription": "Паказваецца, калі карыстач піша вам упершыню. Зьмены ўжываюцца пасьля перазагрузкі.",
             "channelNoticeTooLong": "Папярэджаньне канала не можа быць больш за 300 сымбаляў.",
-            "saving": "Захоўваем...",
+            "saving": "Захоўваем…",
             "saveButton": "Захаваць",
             "saveChangesButton": "Захаваць зьмены",
             "deleteAccount": "Выдаліць мой уліковы запіс",
@@ -526,7 +526,7 @@
             "soundsDescription": "Калі гукі абвестак надта вам дакучаюць, вы можаце йх адключыць.",
             "volume": "Гучнасьць",
             "volumeDescription": "Зьмяніць гучнасьць паведамленьняў.",
-            "changeSoundsDescription": "Зьмяніце гук паведамленьняў зь гэтымі гукамі без аўтарскіх правоў.",
+            "changeSoundsDescription": "Зьмяніце гук паведамленьняў з гэтымі гукамі без аўтарскіх правоў.",
             "message": "Абвестка",
             "messageDescription": "Гук, калі вы атрымлівайце абвестку.",
             "mention": "Згадваньне",
@@ -535,7 +535,7 @@
             "reminderDescription": "Абвесткі для нагадаў.",
             "mute": "Без гуку",
             "inAppPreview": "Перадпрагляд у аплікацыйі",
-            "inAppPreviewDescription": "Паказваць усплываючыя паведамленьні ў аплікацыйі.",
+            "inAppPreviewDescription": "Паказваць усплываючыя апавяшчэньні ў аплікацыйі.",
             "inAppPreviewModes": {
                 "off": "Выключана",
                 "mentionsOnly": "Толькі згадваньні",
@@ -592,8 +592,8 @@
             "downloadAppNotice": "Каб змяніць гэтыя налады, вы мусіце спампаваць аплікацыю Nerimity для ПК.",
             "startupOptions": "Налады запуску",
             "openOnStartup": "Адкрываць Nerimity пры ўключэньні",
-            "startMinimized": "Запускаць згарнутай",
-            "startMinimizedDescription": "Аўтаматычна згартваць Nerimity.",
+            "startMinimized": "Запускаць згорнутай",
+            "startMinimizedDescription": "Аўтаматычна згортваць Nerimity.",
             "disableHardwareAcceleration": "Адключыць апаратнае паскарэньне",
             "disableCustomTitlebar": "Адключыць уласную аблямоўку аплікацыйі",
             "reopenAppNotice": "Вы мусіце перазагрузіць аплікацыю, каб зьмены набылі сілу."
@@ -643,7 +643,7 @@
                 "title": "Староньнія злучэньні",
                 "connectionCount": "{{count}} злучэньня(ў)",
                 "unauthorizeButton": "Дэаўтарызаваць",
-                "unauthorizing": "Дэаўтарызуем..."
+                "unauthorizing": "Дэаўтарызуем…"
             },
             "googleDescription": "Калі далучыце свой уліковы запіс Google, вы зможаце запампоўваць файлы ў Nerimity. Файлы будуць захоўвацца на вашым Google Drive.",
             "linkButton": "Далучыць",
@@ -673,7 +673,7 @@
         "notice": "18+ кантэнт не дазволены.",
         "serverName": "Назва сэрвэра",
         "placeholder": "Мой цудоўны сэрвэр",
-        "creating": "Ствараем...",
+        "creating": "Ствараем…",
         "createServerButton": "Стварыць сэрвэр",
         "closeButton": "Закрыць",
         "tabLabel": "Стварыць"
@@ -732,7 +732,7 @@
     "kickServerMemberModal": {
         "title": "Выгнаць {{username}}",
         "kickButton": "Выгнаць",
-        "kicking": "Выганяем...",
+        "kicking": "Выганяем…",
         "backButton": "Назад",
         "message": "Вы ўпэўненыя, што хочаце выгнаць <1>{{username}}</1>?"
     },
@@ -744,7 +744,7 @@
         "message": "Вы ўпэўненыя, што хочаце заблякаваць <1>{{username}}</1>?",
         "deletePastMessagesCheckbox": "Выдаліць паведамленьні, адпраўленыя за апошнія 7 гадзін.",
         "banButton": "Забаніць",
-        "banning": "Блякуем...",
+        "banning": "Банім…",
         "reasonLabel": "Прычына (неабавязкова)",
         "reasonPlaceholder": "Увядзіце прычыну…"
     },
@@ -791,7 +791,16 @@
         "expiresNever": "Канчаецца ніколі.",
         "blocked": "Вас заблякавалі",
         "blockedDescription": "Гэты карыстач вас заблякаваў.",
-        "privateList": "Гэты сьпіс можаце бачыць толькі вы."
+        "privateList": "Гэты сьпіс можаце бачыць толькі вы.",
+        "followerCount": "{{count}} падпісантаў",
+        "followingCount": "{{count}} падпісак",
+        "fullProfile": "Поўны профіль",
+        "latestPost": "Апошні допіс",
+        "personal": {
+            "editProfile": "Рэдагаваць профіль",
+            "presence": "Прысутнасьць",
+            "customStatus": "Карыстальніцкі статус"
+        }
     },
     "posts": {
         "deletePostModal": {
@@ -804,8 +813,8 @@
         "someoneRepostedYourPost": "<1>{{username}}</1> пашырыў вашую публікацыю!",
         "someoneFollowedYou": "<1>{{username}}</1> падпісаўся на вас!",
         "someoneRepliedToPost": "<1>{{username}}</1> пакінуў адказ на вашую публікацыю!",
-        "createAPostInputPlaceholder": "Дадаць публікацыю...",
-        "replyInputPlaceholder": "Напішыце адказ...",
+        "createAPostInputPlaceholder": "Дадаць публікацыю…",
+        "replyInputPlaceholder": "Напішыце адказ…",
         "replyButton": "Адказаць",
         "createButton": "Дадаць",
         "pollOptions": "Варыянты апытаньня",
@@ -833,14 +842,14 @@
         "title": "Запрашэньне бота"
     },
     "googleAccountLink": {
-        "linking": "Злучаем ваш уліковы запіс зь Google...",
+        "linking": "Злучаем ваш уліковы запіс з Google…",
         "success": "Уліковы запіс далучаны! Цяпер вы можаце закрыць гэтае акно."
     },
     "invite": {
-        "loading": "Загрузка запрашэньня...",
+        "loading": "Загрузка запрашэньня…",
         "invalid": "Няправільны код запрашэньня",
         "joinButton": "Далучыцца",
-        "joiningButton": "Далучаемся...",
+        "joiningButton": "Далучаемся…",
         "visitButton": "Наведаць",
         "member": "удзельнік",
         "members": "удзельніка(ў)"
@@ -868,7 +877,7 @@
         "requestSent": "Запыт дасланы!",
         "closeButton": "Закрыць",
         "sendRequest": "Даслаць запыт",
-        "sending": "Дасылаем...",
+        "sending": "Дасылаем…",
         "errors": {
             "missingTag": "Увядзіце ймя карыстача:тэґ.",
             "colonInUsername": "У ймі карыстача не павінна быць двукропья."
@@ -1072,6 +1081,6 @@
     "removeFriendModal": {
         "title": "Выдаліць {{username}} зь сяброў",
         "body": "Вы ўпэўненыя, што хочаце выдаліць гэтага карыстача зь сяброў?",
-        "removing": "Выдаляем..."
+        "removing": "Выдаляем…"
     }
 }

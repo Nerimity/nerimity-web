@@ -820,7 +820,7 @@
     },
     "statusHeader": {
         "connected": "Conectado!",
-        "connecting": "Conectando...",
+        "connecting": "Conectando…",
         "reconnecting": "Reconectando...",
         "authenticationError": "Erro de autenticação",
         "authenticating": "Autenticando...",
