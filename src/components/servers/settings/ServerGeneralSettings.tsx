@@ -151,8 +151,8 @@ export default function ServerGeneralSettings() {
 
   const requestStatus = () =>
     requestSent()
-      ? t("servers.settings.general.saving")
-      : t("servers.settings.general.saveChangesButton");
+      ? t("general.saving")
+      : t("general.saveChangesButton");
 
   const showDeleteConfirm = () => {
     createPortal?.((close) => (
@@ -260,8 +260,8 @@ export default function ServerGeneralSettings() {
 
       <SettingsBlock
         icon="wallpaper"
-        label={t("servers.settings.general.avatar")}
-        description={t("servers.settings.general.avatarDescription")}
+        label={t("general.avatarAndBanner.avatar")}
+        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
       >
         <FileBrowser
           accept="images"
@@ -288,15 +288,15 @@ export default function ServerGeneralSettings() {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label={t("servers.settings.general.browseButton")}
+          label={t("general.avatarAndBanner.browse")}
           onClick={avatarFileBrowserRef()?.open}
         />
       </SettingsBlock>
 
       <SettingsBlock
         icon="panorama"
-        label={t("servers.settings.general.banner")}
-        description={t("servers.settings.general.bannerDescription")}
+        label={t("general.avatarAndBanner.banner")}
+        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
       >
         <FileBrowser
           accept="images"
@@ -323,7 +323,7 @@ export default function ServerGeneralSettings() {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label={t("servers.settings.general.browseButton")}
+          label={t("general.avatarAndBanner.browse")}
           onClick={bannerFileBrowserRef()?.open}
         />
       </SettingsBlock>
@@ -332,9 +332,7 @@ export default function ServerGeneralSettings() {
         <SettingsBlock
           icon="delete"
           label={t("servers.settings.general.deleteThisServer")}
-          description={t(
-            "servers.settings.general.deleteThisServerDescription"
-          )}
+          description={t("general.cannotBeUndone")}
         >
           <Button
             label={t("servers.settings.general.deleteServerButton")}

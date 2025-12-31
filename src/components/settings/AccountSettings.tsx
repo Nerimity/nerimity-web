@@ -222,8 +222,8 @@ export function EditAccountPage(props: {
 
   const requestStatus = () =>
     requestSent()
-      ? t("settings.account.saving")
-      : t("settings.account.saveChangesButton");
+      ? t("general.saving")
+      : t("general.saveChangesButton");
 
   const { createPortal } = useCustomPortal();
 
@@ -309,7 +309,7 @@ export function EditAccountPage(props: {
             z-index: 111;
           `}
           icon="mail"
-          label={t("settings.account.email")}
+          label={t("general.accountData.email")}
         >
           <div
             class={css`
@@ -344,7 +344,7 @@ export function EditAccountPage(props: {
         </SettingsBlock>
       </Show>
 
-      <SettingsBlock icon="face" label={t("settings.account.username")}>
+      <SettingsBlock icon="face" label={t("general.accountData.username")}>
         <Input
           value={inputValues().username}
           onText={(v) => setInputValue("username", v)}
@@ -368,10 +368,8 @@ export function EditAccountPage(props: {
 
       <SettingsBlock
         icon="wallpaper"
-        label={t("settings.account.avatar")}
-        description={
-          t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"
-        }
+        label={t("general.avatarAndBanner.avatar")}
+        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
       >
         <FileBrowser
           accept="images"
@@ -398,17 +396,15 @@ export function EditAccountPage(props: {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label={t("settings.account.browse")}
+          label={t("general.avatarAndBanner.browse")}
           onClick={avatarFileBrowserRef()?.open}
         />
       </SettingsBlock>
 
       <SettingsBlock
         icon="panorama"
-        label={t("settings.account.banner")}
-        description={
-          t("settings.account.supported") + ": JPG, PNG, GIF, WEBP, Max 12 MB"
-        }
+        label={t("general.avatarAndBanner.banner")}
+        description={t("general.avatarAndBanner.supportedFileTypes", {extensions: "JPG, PNG, GIF, WEBP", size: "12MB"})}
       >
         <FileBrowser
           accept="images"
@@ -435,7 +431,7 @@ export function EditAccountPage(props: {
         <Button
           iconSize={18}
           iconName="attach_file"
-          label={t("settings.account.browse")}
+          label={t("general.avatarAndBanner.browse")}
           onClick={bannerFileBrowserRef()?.open}
         />
       </SettingsBlock>
@@ -603,7 +599,7 @@ function DeleteAccountBlock() {
       class={deleteAccountBlockStyles}
       icon="delete"
       label={t("settings.account.deleteAccount")}
-      description={t("settings.account.deleteAccountDescription")}
+      description={t("general.cannotBeUndone")}
     >
       <Button
         onClick={onClick}
@@ -620,7 +616,7 @@ function DeleteAccountBlock() {
 function DeleteAccountNoticeModal(props: { close(): void }) {
   return (
     <LegacyModal
-      title="Delete Account"
+      title={t("settings.account.deleteAccount")}
       icon="delete"
       actionButtons={
         <Button
@@ -757,7 +753,7 @@ function ChannelNoticeBlock(props: { botToken?: string | null }) {
           </Show>
           <Show when={updatedInputValues().content}>
             <Button
-              label={t("settings.account.saveButton")}
+              label={t("general.saveButton")}
               iconName="save"
               onClick={save}
             />
@@ -859,13 +855,13 @@ const ConfirmEmailModal = (props: { close(): void; message: string }) => {
         onClick={props.close}
         styles={{ flex: 1 }}
         iconName="close"
-        label={t("settings.account.cancelButton")}
+        label={t("general.cancelButton")}
         color="var(--alert-color)"
       />
       <Button
         styles={{ flex: 1 }}
         iconName="check"
-        label={t("settings.account.confirmButton")}
+        label={t("general.confirmButton")}
         onClick={confirmClicked}
         primary
       />
