@@ -589,5 +589,28 @@
         "translation": {
             "title": "الترجمة"
         }
+    },
+    "general": {
+        "searchPlaceholder": "بحث",
+        "backButton": "رجوع",
+        "cancelButton": "إلغاء",
+        "deleteButton": "حذف",
+        "confirmButton": "تأكيد",
+        "doneButton": "انتهي",
+        "saveChangesButton": "حفظ التغييرات",
+        "saveButton": "حفظ",
+        "saving": "جارٍ الحفظ…",
+        "copyLink": "نسخ الرابط",
+        "copyID": "نسخ المعرّف",
+        "accountData": {
+            "email": "البريد الإلكتروني",
+            "username": "اسم المستخدم",
+            "password": "كلمة المرور"
+        },
+        "avatarAndBanner": {
+            "avatar": "الصورة الرمزية",
+            "banner": "الغلاف",
+            "browse": "تصفح"
+        }
     }
 }
