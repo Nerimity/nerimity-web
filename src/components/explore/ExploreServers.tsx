@@ -153,7 +153,7 @@ export default function ExploreServers() {
           display: flex;
         `}
       >
-        <Button margin={0} href="/app" label={t("explore.backButton")} iconName="arrow_back" />
+        <Button margin={0} href="/app" label={t("general.backButton")} iconName="arrow_back" />
       </div>
       <FlexRow
         gap={10}
@@ -165,7 +165,7 @@ export default function ExploreServers() {
         `}
       >
         <Input
-          label={t("explore.search")}
+          label={t("general.searchPlaceholder")}
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
@@ -572,6 +572,7 @@ export function ServerBumpModal(props: {
   publicServer: RawExploreItem;
   close(): void;
 }) {
+  const [t] = useTransContext();
   const [verifyToken, setVerifyKey] = createSignal<string | undefined>(
     undefined
   );
@@ -596,7 +597,7 @@ export function ServerBumpModal(props: {
         iconName="close"
         onClick={props.close}
         color="var(--alert-color)"
-        label="Back"
+        label={t("general.backButton")}
       />
       <Show when={verifyToken()}>
         <Button iconName="arrow_upward" label="Bump" onClick={bumpServer} />

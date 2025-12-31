@@ -265,10 +265,8 @@
       "joinServerButton": "Join",
       "bumpButton": "Bump ({{count}})"
     },
-    "search": "Search",
     "sort": "Sort",
     "filter": "Filter",
-    "backButton": "Back",
     "by": "By",
     "bumped": "Bumped"
   },
