@@ -1002,7 +1002,7 @@
         "defaultReason": "Łamanie Warunków Użytkowania",
         "until": "Wygasa",
         "never": "nigdy",
-        "by": "Administrator",
+        "by": "Przez",
         "deletionNotice": "Twoje konto i powiązane z nim dane zostaną usunięte za 15 dni",
         "ipBanned": "Twój adres IP został zablokowany.",
         "ipBanNotice": "Ktoś z tym samym adresem IP został zawieszony na Nerimity. Nie ma to wpływu na Twoje konto."
@@ -1061,13 +1061,13 @@
                 "24hours": "Ostatnie 24h"
             },
             "sort": {
-                "header": "Sortuj",
+                "header": "Sortuj wg",
                 "member": "Członek",
                 "joined": "Dołączono",
                 "joinedNerimity": "Dołączono do Nerimity"
             },
             "order": {
-                "header": "Sortuj wg",
+                "header": "Uporządkuj wg",
                 "ascending": "Rosnąco",
                 "descending": "Malejąco"
             }
@@ -1086,5 +1086,31 @@
         "title": "Usuń znajomego {{username}}",
         "body": "Czy jesteś pewien, że chcesz usunąć tego użytkownika ze znajomych?",
         "removing": "Usuwanie…"
+    },
+    "general": {
+        "nothingSelected": "Nic nie wybrano",
+        "selectItem": "Wybierz Przedmiot",
+        "searchPlaceholder": "Wyszukaj",
+        "backButton": "Wstecz",
+        "cancelButton": "Anuluj",
+        "deleteButton": "Usuń",
+        "confirmButton": "Potwierdź",
+        "doneButton": "Gotowe",
+        "saveButton": "Zapisz",
+        "saveChangesButton": "Zapisz Zmiany",
+        "saving": "Trwa zapisywanie…",
+        "copyLink": "Kopiuj Link",
+        "copyID": "Kopiuj ID",
+        "accountData": {
+            "email": "Adres Email",
+            "username": "Nazwa Użytkownika",
+            "password": "Hasło"
+        },
+        "avatarAndBanner": {
+            "avatar": "Awatar",
+            "banner": "Baner",
+            "supportedFileTypes": "Wspierane: {{extensions}}, maks. {{size}}",
+            "browse": "Przeglądaj"
+        }
     }
 }

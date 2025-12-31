@@ -40,7 +40,7 @@
         "password": "Senha",
         "confirmPassword": "Confirmar Senha",
         "registerButton": "Registrar-se",
-        "registering": "Registrando...",
+        "registering": "Registrando…",
         "loginInstead": "Em vez disso, entrar",
         "notices": {
             "toxic": "Não seja tóxico.",
@@ -144,7 +144,7 @@
                 "role": "Cargo",
                 "welcome-screen": "Tela de Boas-vindas",
                 "channel": "Canal",
-                "emojis": "Emojis",
+                "emojis": "Emoji",
                 "notifications": "Notificações",
                 "external-embed": "Integração externa",
                 "audit-logs": "Registros de Auditoria"
@@ -160,7 +160,7 @@
                 "deleteThisServerDescription": "Isso não pode ser desfeito!",
                 "deleteServerButton": "Excluir Servidor",
                 "saveChangesButton": "Salvar Alterações",
-                "saving": "Salvando...",
+                "saving": "Salvando…",
                 "avatar": "Avatar",
                 "avatarDescription": "Suportado: JPG, PNG, GIF, WebP, máximo 12 MB",
                 "bannerDescription": "Suportado: JPG, PNG, GIF, WebP, máximo 12 MB",
@@ -174,7 +174,7 @@
             },
             "role": {
                 "saveChangesButton": "Salvar Alterações",
-                "saving": "Salvando...",
+                "saving": "Salvando…",
                 "roleName": "Nome do Cargo",
                 "roleColor": "Cor do Cargo",
                 "hideRole": "Ocultar Cargo",
@@ -193,7 +193,7 @@
                 "createNewDescription": "Crie um novo canal ou categoria"
             },
             "channel": {
-                "saving": "Salvando...",
+                "saving": "Salvando…",
                 "saveChangesButton": "Salvar Alterações",
                 "channelName": "Nome do Canal",
                 "permissions": "Permissões",
@@ -389,7 +389,7 @@
             "enterCode": "Inserir o código de 5 dígitos enviados ao seu email:",
             "sendCodeButton": "Enviar código",
             "resendIn": "Reenviar",
-            "saving": "Salvando...",
+            "saving": "Salvando…",
             "deleteAccount": "Excluir minha conta",
             "deleteAccountDescription": "Isso não pode ser desfeito!",
             "understoodButton": "Entendido",
@@ -592,7 +592,7 @@
     "kickServerMemberModal": {
         "title": "Expulsar {{username}}",
         "kickButton": "Expulsar",
-        "kicking": "Expulsando...",
+        "kicking": "Expulsando…",
         "backButton": "Voltar",
         "message": "Tem certeza de que quer expulsar <1>{{username}}</1> do servidor?"
     },
@@ -604,7 +604,7 @@
         "message": "Tem certeza de que quer banir <1>{{username}}</1> do servidor?",
         "deletePastMessagesCheckbox": "Excluir mensagens enviadas nas últimas 7 horas.",
         "banButton": "Banir",
-        "banning": "Banindo...",
+        "banning": "Banindo…",
         "reasonLabel": "Motivo (opcional)",
         "reasonPlaceholder": "Insira um motivo…"
     },
@@ -665,14 +665,14 @@
         "deletePostModal": {
             "message": "Tem certeza de que gostaria de excluir esta postagem?",
             "cancelButton": "Cancelar",
-            "deleteButton": "excluir"
+            "deleteButton": "Excluir"
         },
         "postWasDeleted": "Esta postagem foi excluída!",
         "someoneLikedYourPost": "<1>{{username}}</1> curtiu sua postagem!",
         "someoneFollowedYou": "<1>{{username}}</1> seguiu você!",
         "someoneRepliedToPost": "<1>{{username}}</1> respondeu a sua postagem!",
         "createAPostInputPlaceholder": "Criar uma postagem...",
-        "replyInputPlaceholder": "Responder...",
+        "replyInputPlaceholder": "Responder…",
         "replyButton": "Responder",
         "createButton": "Criar",
         "pollOptions": "Opções de Enquete",
@@ -697,7 +697,7 @@
         "resetSuccessful": "Redefinição de senha sucedida.",
         "resetPasswordButton": "Redefinir senha",
         "passwordTooLong": "Senha deve conter menos de 72 caracteres.",
-        "resetting": "Redefinindo...",
+        "resetting": "Redefinindo…",
         "email": "Email",
         "sendEmailButton": "Enviar email",
         "sending": "Enviando email..."
@@ -771,7 +771,7 @@
     "invite": {
         "members": "membros",
         "member": "membro",
-        "joiningButton": "Entrando...",
+        "joiningButton": "Entrando…",
         "loading": "Carregando convite...",
         "invalid": "Código de convite inválido",
         "joinButton": "Entrar",
@@ -1076,5 +1076,17 @@
         "removing": "Removendo...",
         "title": "Desfazer amizade com {{username}}",
         "body": "Tem certeza de que deseja desfazer amizade com este usuário?"
+    },
+    "general": {
+        "nothingSelected": "Nada selecionado",
+        "searchPlaceholder": "Pesquisar",
+        "backButton": "Voltar",
+        "cancelButton": "Cancelar",
+        "deleteButton": "Excluir",
+        "confirmButton": "Confirmar",
+        "doneButton": "Feito",
+        "saveButton": "Salvar",
+        "saveChangesButton": "Salvar mudanças",
+        "saving": "Salvando…"
     }
 }

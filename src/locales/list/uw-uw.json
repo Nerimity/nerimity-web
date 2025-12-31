@@ -728,5 +728,29 @@
     "sidePane": {
         "home": "Homy",
         "moderation": "Secwet Stuffs"
+    },
+    "general": {
+        "searchPlaceholder": "Seawchies",
+        "backButton": "Backies",
+        "cancelButton": "RUN AWAYYY",
+        "deleteButton": "Dewete",
+        "confirmButton": "Confywm",
+        "doneButton": "YEP",
+        "saveButton": "WETS DO DIS",
+        "saveChangesButton": "Save Changies",
+        "saving": "Casting Spawells…",
+        "copyLink": "Copy Wink",
+        "copyID": "Copy Magik Numbews",
+        "accountData": {
+            "email": "Emaiw",
+            "username": "Usewnyame",
+            "password": "Secwet Code"
+        },
+        "avatarAndBanner": {
+            "avatar": "Ava-taw",
+            "banner": "Big Piccy",
+            "supportedFileTypes": "Suppowted: {{extensions}}~ Max {{size}}",
+            "browse": "Snoop"
+        }
     }
 }

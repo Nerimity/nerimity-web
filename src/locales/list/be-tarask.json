@@ -296,7 +296,7 @@
             },
             "channel": {
                 "saving": "Захоўваем…",
-                "saveChangesButton": "Захаваць",
+                "saveChangesButton": "Захаваць зьмены",
                 "channelName": "Назва каналу",
                 "permissions": "Дазволы",
                 "permissionsDescription": "Кіраваньне дазволамі гэтага канала.",
@@ -1082,5 +1082,31 @@
         "title": "Выдаліць {{username}} зь сяброў",
         "body": "Вы ўпэўненыя, што хочаце выдаліць гэтага карыстача зь сяброў?",
         "removing": "Выдаляем…"
+    },
+    "general": {
+        "nothingSelected": "Нічога ня выбрана",
+        "selectItem": "Абраць элемент",
+        "searchPlaceholder": "Пошук",
+        "backButton": "Назад",
+        "cancelButton": "Скасаваць",
+        "deleteButton": "Выдаліць",
+        "confirmButton": "Сьцьвердзіць",
+        "doneButton": "Гатова",
+        "saveButton": "Захаваць",
+        "saveChangesButton": "Захаваць зьмены",
+        "saving": "Захоўваем…",
+        "copyLink": "Скапіяваць спасылку",
+        "copyID": "Скапіяваць ID",
+        "accountData": {
+            "email": "Электроная пошта",
+            "username": "Імя карыстача",
+            "password": "Пароль"
+        },
+        "avatarAndBanner": {
+            "avatar": "Аватар",
+            "banner": "Банар",
+            "supportedFileTypes": "Падтрымліваюцца: {{extensions}}, макс. {{size}}",
+            "browse": "Абраць"
+        }
     }
 }
