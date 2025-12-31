@@ -125,9 +125,9 @@ export default function LoginPage() {
               label={
                 requestSent()
                   ? t("loginPage.loggingIn")
-                  : t("loginPage.loginButton")
+                  : t("header.loginButton")
               }
-              onClick={loginClicked}
+              onClick={loginClicked} 
             />
           </form>
           <A class={linkStyle} href="/reset-password">
