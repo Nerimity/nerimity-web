@@ -150,7 +150,7 @@ export default function ExploreThemes() {
   return (
     <Container>
       <FlexRow style={{ "margin-bottom": "10px" }}>
-        <Button margin={0} href="/app" label="Back" iconName="arrow_back" />
+        <Button margin={0} href="/app" label={t("general.backButton")} iconName="arrow_back" />
       </FlexRow>
 
       <Notice type="info">{t("explore.themes.themesHeaderDescription")}</Notice>
@@ -160,7 +160,7 @@ export default function ExploreThemes() {
         wrap
       >
         <Input
-          label={t("explore.search")}
+          label={t("general.searchPlaceholder")}
           onText={setSearch}
           value={search()}
           class={css`

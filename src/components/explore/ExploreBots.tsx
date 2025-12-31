@@ -113,9 +113,9 @@ export default function ExploreBots() {
   ];
 
   const filterOpts: DropDownItem[] = [
-    { id: "all", label: "All" },
-    { id: "online_bots", label: "Online" },
-    { id: "offline_bots", label: "Offline" },
+    { id: "all", label: t("explore.servers.filterAll") },
+    { id: "online_bots", label: t("status.online") },
+    { id: "offline_bots", label: t("status.offline") },
   ];
 
   const update = (newPublicServer: RawExploreItem, index: number) => {
@@ -135,7 +135,7 @@ export default function ExploreBots() {
         <Button
           margin={0}
           href="/app"
-          label={t("explore.backButton")}
+          label={t("general.backButton")}
           iconName="arrow_back"
         />
       </div>
@@ -149,7 +149,7 @@ export default function ExploreBots() {
         `}
       >
         <Input
-          label={t("explore.search")}
+          label={t("general.searchPlaceholder")}
           value={query().search}
           onText={(text) => setQuery({ ...query(), search: text })}
           class={css`
@@ -169,7 +169,7 @@ export default function ExploreBots() {
           }
         />
         <DropDown
-          title="Filter"
+          title={t("explore.filter")}
           items={filterOpts}
           selectedId={query().filter}
           onChange={(i) =>
