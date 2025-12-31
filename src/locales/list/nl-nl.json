@@ -234,5 +234,28 @@
         "replyInputPlaceholder": "Antwoord...",
         "replyButton": "Antwoord",
         "createButton": "Maak"
+    },
+    "general": {
+        "searchPlaceholder": "Zoeken",
+        "backButton": "Terug",
+        "cancelButton": "Opzeggen",
+        "deleteButton": "Verwijderen",
+        "confirmButton": "Bevestigen",
+        "doneButton": "Gedaan",
+        "saveButton": "Opslaan",
+        "saveChangesButton": "Veranderingen opslaan",
+        "saving": "Opslaan…",
+        "copyLink": "Link kopiëren",
+        "copyID": "ID kopiëren",
+        "accountData": {
+            "email": "E-mail",
+            "username": "Gebruikersnaam",
+            "password": "Wachtwoord"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "browse": "Bekijken"
+        }
     }
 }
