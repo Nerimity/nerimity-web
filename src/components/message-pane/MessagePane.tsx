@@ -1407,9 +1407,9 @@ function Floating(props: {
 }
 
 const emojiRegex = /:[\w+-]+:/g;
-const channelMentionRegex = /#([^#]+)#/g;
-const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/g;
-const roleMentionRegex = /@([^#]+)@/g;
+const channelMentionRegex = /#([^#]+)#/gu;
+const userMentionRegex = /@([^@:]+):([a-zA-Z0-9]+)/gu;
+const roleMentionRegex = /@([^#]+)@/gu;
 
 function randomIndex(arrLength: number) {
   return Math.floor(Math.random() * arrLength);
