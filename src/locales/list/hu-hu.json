@@ -165,5 +165,28 @@
     },
     "supportBlock": {
         "support": "Támogass!"
+    },
+    "general": {
+        "searchPlaceholder": "Keresés",
+        "backButton": "Vissza",
+        "cancelButton": "Mégsem",
+        "deleteButton": "Törlés",
+        "confirmButton": "Megerősít",
+        "doneButton": "Kész",
+        "saveButton": "Mentés",
+        "saveChangesButton": "Változtatások mentése",
+        "saving": "Megtakarítás…",
+        "copyLink": "Másolat",
+        "copyID": "Másolat azonosítója",
+        "accountData": {
+            "email": "Email",
+            "username": "Felhasználónév",
+            "password": "Jelszó"
+        },
+        "avatarAndBanner": {
+            "avatar": "Profil kép",
+            "banner": "Szalaghirdetés",
+            "browse": "Böngészés"
+        }
     }
 }
