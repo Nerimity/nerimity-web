@@ -30,13 +30,13 @@
         "password": "Senha",
         "login": "Entrar",
         "createAccountInstead": "Em vez disso, criar uma conta",
-        "loggingIn": "Entrando...",
+        "loggingIn": "Entrando…",
         "loginButton": "Entrar"
     },
     "registerPage": {
         "title": "Bem-vindo ao {{appName}}",
         "email": "Email",
-        "username": "Nome de Usuário",
+        "username": "Nome de usuário",
         "password": "Senha",
         "confirmPassword": "Confirmar Senha",
         "registerButton": "Registrar-se",
@@ -53,7 +53,7 @@
     },
     "dashboard": {
         "title": "Painel",
-        "activeUsers": "Usuários Ativos",
+        "activeUsers": "Usuários ativos",
         "noActiveUsers": "Sem usuários ativos",
         "servers": "Servidores",
         "posts": "Postagens",
@@ -66,7 +66,7 @@
             "requests": "Pedidos",
             "online": "Ativo",
             "offline": "Inativo",
-            "addFriendButton": "Adicionar Amigo",
+            "addFriendButton": "Adicionar amigo",
             "inboxButton": "Caixa de Entrada",
             "friendsButton": "Amigos",
             "friendRequests": "{{count}} solicitações de amizade",
@@ -93,7 +93,7 @@
             "title": "Explorar - Servidores",
             "noticeMessage": "Um servidor pode ser impulsionado uma vez a cada {{hours}} horas. Todos impulsos são redefinidos a cada {{date}}.",
             "sortMostBumps": "Mais impulsos",
-            "sortMostMembers": "Mais Membros",
+            "sortMostMembers": "Mais membros",
             "sortRecentlyAdded": "Adicionado recentemente",
             "sortRecentlyBumped": "Recentemente impulsionado",
             "filterAll": "Todos",
@@ -151,14 +151,14 @@
             },
             "general": {
                 "serverRenameNotice": "Se você renomear seu servidor, você perderá todos os benefícios de verificação.",
-                "serverName": "Nome do Servidor",
-                "defaultChannel": "Canal Padrão",
+                "serverName": "Nome do servidor",
+                "defaultChannel": "Canal padrão",
                 "defaultChannelDescription": "Membros novos serão direcionados a esse canal.",
-                "systemMessages": "Mensagens do Sistema",
+                "systemMessages": "Mensagens do sistema",
                 "systemMessagesDescription": "Onde mensagens do sistema deverão aparecer.",
-                "deleteThisServer": "Excluir servidor",
+                "deleteThisServer": "Excluir este servidor",
                 "deleteThisServerDescription": "Isso não pode ser desfeito!",
-                "deleteServerButton": "Excluir Servidor",
+                "deleteServerButton": "Excluir servidor",
                 "saveChangesButton": "Salvar Alterações",
                 "saving": "Salvando…",
                 "avatar": "Avatar",
@@ -170,14 +170,14 @@
             },
             "roles": {
                 "addNewRole": "Adicionar um novo cargo",
-                "addRoleButton": "Criar Cargo"
+                "addRoleButton": "Criar cargo"
             },
             "role": {
-                "saveChangesButton": "Salvar Alterações",
+                "saveChangesButton": "Salvar alterações",
                 "saving": "Salvando…",
-                "roleName": "Nome do Cargo",
-                "roleColor": "Cor do Cargo",
-                "hideRole": "Ocultar Cargo",
+                "roleName": "Nome do cargo",
+                "roleColor": "Cor do cargo",
+                "hideRole": "Ocultar cargo",
                 "hideRoleDescription": "Mostrar membros com este cargo junto dos membros padrão",
                 "permissions": "Permissões",
                 "permissionsDescription": "Gerencie as permissões desse cargo.",
@@ -194,13 +194,13 @@
             },
             "channel": {
                 "saving": "Salvando…",
-                "saveChangesButton": "Salvar Alterações",
-                "channelName": "Nome do Canal",
+                "saveChangesButton": "Salvar alterações",
+                "channelName": "Nome do canal",
                 "permissions": "Permissões",
                 "permissionsDescription": "Gerencie as permissões desse canal.",
-                "deleteThisChannel": "Excluir canal",
+                "deleteThisChannel": "Excluir este canal",
                 "deleteThisChannelDescription": "Isso não pode ser desfeito!",
-                "deleteChannelButton": "Excluir Canal",
+                "deleteChannelButton": "Excluir canal",
                 "removeNoticeButton": "Remover nota"
             },
             "invites": {
@@ -208,16 +208,16 @@
                 "serverInvites": "Convites do Servidor",
                 "serverInvitesDescription": "Convide seus amigos a este servidor.",
                 "customInviteVerifiedOnlyNotice": "Links de convite personalizados só estão disponíveis para servidores verificados.",
-                "customLink": "Link Personalizado",
+                "customLink": "Link personalizado",
                 "saveButton": "Salvar",
                 "deleteButton": "Excluir",
-                "copyLinkButton": "Copiar Link"
+                "copyLinkButton": "Copiar link"
             },
             "publishServer": {
                 "publishNotice": "Publicar seu servidor o tornará disponível na página de <1>exploração</1>.",
                 "public": "Público",
                 "publicDescription": "Tornar este servidor público.",
-                "bumpServer": "Impulsionar Servidor",
+                "bumpServer": "Impulsionar servidor",
                 "bumpServerDescription": "Impulsione este servidor para ir ao topo da lista.",
                 "publishServerButton": "Publicar servidor",
                 "unpublishServerButton": "Despublicar servidor",
@@ -270,7 +270,9 @@
                     "explore": "Destaque em Explorar",
                     "emojiSlots": "Mais espaços para emoji",
                     "emojiSlotsDescription": "200 espaços de emoji para seu servidor.",
-                    "badge": "Emblema Verificado"
+                    "badge": "Emblema verificado",
+                    "customInvite": "Link de convite customizado",
+                    "customInviteDescription": "Crie seu próprio link de convite pela página de convites."
                 },
                 "insufficientMembers": "Você precisa de mais {{count}} membro(s) para se candidatar para verificação.",
                 "verifiable": "Preparado para verificar",
@@ -282,25 +284,25 @@
         "rolePermissions": {
             "admin": "Administrador",
             "adminDescription": "Ativa todas permissões.",
-            "sendMessage": "Enviar Mensagens",
+            "sendMessage": "Enviar mensagens",
             "sendMessageDescription": "Permitir enviar mensagens neste servidor. Administradores do servidor ainda poderão enviar mensagens.",
-            "manageRoles": "Gerenciar Cargos",
+            "manageRoles": "Gerenciar cargos",
             "manageRolesDescription": "Permissão para alterar ou excluir cargos.",
-            "manageChannels": "Gerenciar Canais",
+            "manageChannels": "Gerenciar canais",
             "manageChannelsDescription": "Permitssão para alterar ou excluir canais.",
             "kick": "Expulsar",
             "kickDescription": "Permissão para expulsar usuários.",
             "ban": "Banir",
             "banDescription": "Permissão para banir usuários.",
-            "mentionEveryone": "Mencionar Todos",
+            "mentionEveryone": "Mencionar todos",
             "mentionEveryoneDescription": "Habilita mencionar @everyone. Administradores do servidor ainda podem mencionar todos.",
-            "nicknameMember": "Apelidar Membro",
+            "nicknameMember": "Apelidar membro",
             "nicknameMemberDescription": "Permite que usuários alterem seus apelidos no servidor."
         },
         "channelPermissions": {
-            "sendMessage": "Enviar Mensagens",
+            "sendMessage": "Enviar mensagens",
             "sendMessageDescription": "Habilita o envio de mensagens neste canal. Administradores do servidor ainda poderão enviar mensagens.",
-            "joinVoice": "Entrar em Canal de Voz",
+            "joinVoice": "Entrar em canal de voz",
             "joinVoiceDescription": "Habilita entrar em canais de voz no canal. Administradores do servidor ainda podem entrar em canais de voz.",
             "publicChannel": "Canal público",
             "publicChannelDescription": "Ativar acesso a este canal. Administradores do servidor podem acessar qualquer canal."
@@ -326,7 +328,7 @@
             "developer": "Desenvolvedor",
             "applications": "Aplicativos",
             "experiments": "Experimentos",
-            "viewSource": "Ver Código Fonte",
+            "viewSource": "Ver código fonte",
             "changelog": "Novidades",
             "window-settings": "Configurações de Janela",
             "call-settings": "Configurações de Chamada",
@@ -339,29 +341,29 @@
         },
         "privacy": {
             "directMessage": {
-                "title": "Mensagem Direta",
+                "title": "Mensagem direta",
                 "description": "Define quem pode lhe enviar mensagens diretas.",
                 "anyone": "Todos",
                 "friendsAndServersOnly": "Somente Amigos e Servidores",
-                "friendsOnly": "Somente Amigos"
+                "friendsOnly": "Somente amigos"
             },
             "profileOptions": {
-                "title": "Opções de Perfil",
-                "hideFollowers": "Esconder Seguidores",
+                "title": "Opções de perfil",
+                "hideFollowers": "Esconder seguidores",
                 "hideFollowersDescription": "Esconda seus seguidores de seu perfil.",
-                "hideFollowing": "Esconder Seguindo",
+                "hideFollowing": "Esconder seguindo",
                 "hideFollowingDescription": "Esconder usuários que você segue de seu perfil."
             },
             "friendRequest": {
-                "title": "Solicitação de Amizade",
+                "title": "Solicitação de amizade",
                 "description": "Define quem pode lhe enviar solicitações de amizade.",
                 "anyone": "Todos",
-                "serversOnly": "Somente Servidores",
+                "serversOnly": "Somente servidores",
                 "nobody": "Ninguém"
             },
             "lastOnline": {
                 "description": "Define quem pode ver seu último horário ativo.",
-                "title": "Último Horário Ativo",
+                "title": "Último horário ativo",
                 "hidden": "Excluído",
                 "friendsOnly": "Somente amigos",
                 "friendsAndServers": "Amigos e servidores"
@@ -550,7 +552,7 @@
             "googleDescription": "Conectar a sua conta Google irá lhe permitir que envie arquivos no Nerimity. Arquivos serão armazenados em seu Google Drive.",
             "thirdParty": {
                 "unauthorizeButton": "Desautorizar",
-                "unauthorizing": "Desautorizando...",
+                "unauthorizing": "Desautorizando…",
                 "connectionCount": "{{count}} conexão(ões)",
                 "title": "Conexões de terceiros"
             },
@@ -579,13 +581,13 @@
         "supportDescription": "Doe para ganhar um emblema de apoiador!"
     },
     "userContextMenu": {
-        "viewProfile": "Ver Perfil",
-        "sendMessage": "Enviar Mensagem",
+        "viewProfile": "Ver perfil",
+        "sendMessage": "Enviar mensagem",
         "copyId": "Copiar ID",
         "editRoles": "Editar cargos",
         "kick": "Expulsar",
         "ban": "Banir",
-        "changeNickname": "Alterar Apelido",
+        "changeNickname": "Alterar apelido",
         "callVolume": "Volume da chamada",
         "transferOwnership": "Transferir propriedade"
     },
@@ -610,7 +612,7 @@
     },
     "messageContextMenu": {
         "editMessage": "Editar mensagem",
-        "deleteMessage": "Excluir Mensagem",
+        "deleteMessage": "Excluir mensagem",
         "copyMessage": "Copiar mensagem",
         "copyId": "Copiar ID",
         "pinMessage": "Fixar",
@@ -620,23 +622,24 @@
         "reportMessage": "Denunciar mensagem",
         "quoteMessage": "Citar mensagem",
         "viewReactions": "Ver reações",
-        "translateMessage": "Traduzir"
+        "translateMessage": "Traduzir",
+        "copyLink": "Copiar link"
     },
     "profile": {
         "followButton": "Seguir",
         "unfollowButton": "Parar de seguir",
-        "removeFriendButton": "Remover Amigo",
-        "addFriendButton": "Adicionar Amigo",
-        "pendingRequest": "Pedido Pendente",
-        "acceptRequestButton": "Aceitar Pedido",
-        "messageButton": "Enviar Mensagem",
-        "mutualFriends": "Amigos em Comum ({{count}})",
-        "mutualServers": "Servidores em Comum ({{count}})",
+        "removeFriendButton": "Remover amigo",
+        "addFriendButton": "Adicionar amigo",
+        "pendingRequest": "Pedido pendente",
+        "acceptRequestButton": "Aceitar pedido",
+        "messageButton": "Enviar mensagem",
+        "mutualFriends": "Amigos em comum ({{count}})",
+        "mutualServers": "Servidores em comum ({{count}})",
         "postsTab": "Posts",
         "followersTab": "Seguidores",
         "followingTab": "Seguindo",
         "postsAndRepliesTab": "Postagens e respostas ({{count}})",
-        "likedPostsTab": "Postagens Curtidas ({{count}})",
+        "likedPostsTab": "Postagens curtidas ({{count}})",
         "blockButton": "Bloquear",
         "unblockButton": "Desbloquear",
         "reportButton": "Denunciar",
@@ -671,11 +674,11 @@
         "someoneLikedYourPost": "<1>{{username}}</1> curtiu sua postagem!",
         "someoneFollowedYou": "<1>{{username}}</1> seguiu você!",
         "someoneRepliedToPost": "<1>{{username}}</1> respondeu a sua postagem!",
-        "createAPostInputPlaceholder": "Criar uma postagem...",
+        "createAPostInputPlaceholder": "Criar uma postagem…",
         "replyInputPlaceholder": "Responder…",
         "replyButton": "Responder",
         "createButton": "Criar",
-        "pollOptions": "Opções de Enquete",
+        "pollOptions": "Opções de enquete",
         "optionNumberPlaceholder": "Opção {{number}}",
         "someoneRepostedYourPost": "<1>{{username}}</1> repostou sua postagem!"
     },
@@ -700,7 +703,7 @@
         "resetting": "Redefinindo…",
         "email": "Email",
         "sendEmailButton": "Enviar email",
-        "sending": "Enviando email..."
+        "sending": "Enviando email…"
     },
     "messageArea": {
         "messageBoxPlaceholder": "Enviar mensagem para {{username}}",
@@ -716,7 +719,7 @@
             "cancelButton": "Não conectar"
         },
         "channelNotice": {
-            "title": "Antes de você conversar...",
+            "title": "Antes de você conversar…",
             "understoodButton": "Entendido"
         },
         "uploadTo": "Enviar para",
@@ -772,14 +775,14 @@
         "members": "membros",
         "member": "membro",
         "joiningButton": "Entrando…",
-        "loading": "Carregando convite...",
+        "loading": "Carregando convite…",
         "invalid": "Código de convite inválido",
         "joinButton": "Entrar",
         "visitButton": "Visitar"
     },
     "googleAccountLink": {
         "success": "Conta vinculada! Agora você pode fechar esta janela.",
-        "linking": "Vinculando sua conta com a Google..."
+        "linking": "Vinculando sua conta com a Google…"
     },
     "botInvite": {
         "permissions": "Permissões do robô",
@@ -811,7 +814,7 @@
     "createServerModal": {
         "closeButton": "Fechar",
         "createServerButton": "Criar servidor",
-        "creating": "Criando...",
+        "creating": "Criando…",
         "placeholder": "Meu Servidor Incrível",
         "serverName": "Nome do servidor",
         "notice": "Conteúdo NSFW (não seguro para o trabalho) não é permitido.",
@@ -821,9 +824,9 @@
     "statusHeader": {
         "connected": "Conectado!",
         "connecting": "Conectando…",
-        "reconnecting": "Reconectando...",
+        "reconnecting": "Reconectando…",
         "authenticationError": "Erro de autenticação",
-        "authenticating": "Autenticando...",
+        "authenticating": "Autenticando…",
         "inQueue": "Em fila: {{count}} usuário(s) em sua frente"
     },
     "dangerousLinkModal": {
@@ -837,7 +840,7 @@
         "placeholder": "Nome de pasta",
         "cancelButton": "Não salvar",
         "save": "Salvar",
-        "saving": "Salvando...",
+        "saving": "Salvando…",
         "errors": {
             "emptyName": "Por favor insira um nome de pasta."
         }
@@ -858,7 +861,7 @@
         "requestSent": "Pedido enviado!",
         "closeButton": "Fechar",
         "sendRequest": "Enviar pedido",
-        "sending": "Enviando...",
+        "sending": "Enviando…",
         "errors": {
             "missingTag": "Por favor insira um nome de usuário:tag.",
             "colonInUsername": "Nome de usuário não deve conter dois-pontos."
@@ -1021,7 +1024,8 @@
         },
         "timestamp": "Horário",
         "color": "Cor",
-        "spoiler": "Spoiler"
+        "spoiler": "Spoiler",
+        "namedLink": "Link nomeado"
     },
     "mainPaneHeader": {
         "jump": "Pular",
@@ -1073,7 +1077,7 @@
         "paste": "Colar"
     },
     "removeFriendModal": {
-        "removing": "Removendo...",
+        "removing": "Removendo…",
         "title": "Desfazer amizade com {{username}}",
         "body": "Tem certeza de que deseja desfazer amizade com este usuário?"
     },
@@ -1087,6 +1091,21 @@
         "doneButton": "Feito",
         "saveButton": "Salvar",
         "saveChangesButton": "Salvar mudanças",
-        "saving": "Salvando…"
+        "saving": "Salvando…",
+        "accountData": {
+            "email": "Email",
+            "username": "Nome de usuário",
+            "password": "Senha"
+        },
+        "avatarAndBanner": {
+            "avatar": "Avatar",
+            "banner": "Banner",
+            "browse": "Procurar",
+            "supportedFileTypes": "Suportado: {{extensions}}, máximo {{size}}"
+        },
+        "cannotBeUndone": "Isto não pode ser desfeito!",
+        "copyID": "Copiar ID",
+        "copyLink": "Copiar link",
+        "selectItem": "Selecionar item"
     }
 }
