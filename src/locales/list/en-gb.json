@@ -1,4 +1,30 @@
 {
+  "general": {
+    "nothingSelected": "Nothing Selected",
+    "selectItem": "Select Item",
+    "searchPlaceholder": "Search",
+    "backButton": "Back",
+    "cancelButton": "Cancel",
+    "deleteButton": "Delete",
+    "confirmButton": "Confirm",
+    "doneButon": "Done",
+    "saveButton": "Save",
+    "saveChangesButton": "Save Changes",
+    "saving": "Saving…",
+    "copyLink": "Copy Link",
+    "copyID": "Copy ID",
+    "accountData": {
+      "email": "Email",
+      "username": "Username",
+      "password": "Password"
+    },
+    "avatarAndBanner": {
+      "avatar": "Avatar",
+      "banner": "Banner",
+      "supportedFileTypes": "Supported: {{extensions}}, Max {{size}}",
+      "browse": "Browse"
+    }
+  },
   "header": {
     "logoutButton": "Logout",
     "openAppButton": "Open App",
