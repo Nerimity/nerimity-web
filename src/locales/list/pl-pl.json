@@ -1089,7 +1089,7 @@
     },
     "general": {
         "nothingSelected": "Nic nie wybrano",
-        "selectItem": "Wybierz Przedmiot",
+        "selectItem": "Wybierz Element",
         "searchPlaceholder": "Wyszukaj",
         "backButton": "Wstecz",
         "cancelButton": "Anuluj",
@@ -1111,6 +1111,7 @@
             "banner": "Baner",
             "supportedFileTypes": "Wspierane: {{extensions}}, maks. {{size}}",
             "browse": "Przeglądaj"
-        }
+        },
+        "cannotBeUndone": "Tego działania nie można cofnąć!"
     }
 }
