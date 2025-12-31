@@ -12,8 +12,8 @@ import { Notice } from "../ui/Notice/Notice";
 const Container = styled("div")`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 16px;
+  gap: 5px;
+  padding: 10px;
 `;
 
 const GridLayout = styled("div")`
