@@ -6,6 +6,7 @@
     "backButton": "Back",
     "cancelButton": "Cancel",
     "deleteButton": "Delete",
+    "cannotBeUndone": "This cannot be undone!",
     "confirmButton": "Confirm",
     "doneButton": "Done",
     "saveButton": "Save",
