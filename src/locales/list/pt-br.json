@@ -182,7 +182,13 @@
                 "permissions": "Permissões",
                 "permissionsDescription": "Gerencie as permissões desse cargo.",
                 "deleteRoleButton": "Excluir cargo",
-                "deleteRoleButtonDescription": "Esta ação não podeser desfeita!"
+                "deleteRoleButtonDescription": "Esta ação não podeser desfeita!",
+                "clear": "Limpar",
+                "roleIcon": "Ícone do cargo",
+                "deleteRoleTitle": "Excluir {{roleName}}",
+                "applyOnJoin": "Aplicar ao entrar",
+                "applyOnJoinDescription": "Aplicar este cargo a membros quando entrarem no servidor.",
+                "managedByBot": "Este cargo é gerenciado por {{botName}}. Você não pode excluir ou adicionar membros a este cargo. Expulse este robô para remover este cargo."
             },
             "header": {
                 "editServer": "Editar servidor",
@@ -1106,6 +1112,7 @@
         "cannotBeUndone": "Isto não pode ser desfeito!",
         "copyID": "Copiar ID",
         "copyLink": "Copiar link",
-        "selectItem": "Selecionar item"
+        "selectItem": "Selecionar item",
+        "undoButton": "Desfazer"
     }
 }
