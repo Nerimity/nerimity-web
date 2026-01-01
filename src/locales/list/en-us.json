@@ -1,0 +1,56 @@
+{
+  "markup": {
+    "color": "Color"
+  },
+  "explore": {
+    "themes": {
+      "themesHeaderDescription": "Personalize Nerimity with a custom theme."
+    }
+  },
+  "servers": {
+    "settings": {
+      "role": {
+        "roleColor": "Role Color"
+      }
+    }
+  },
+  "settings": {
+    "account": {
+      "profileDescription": "Edit your bio or colors",
+      "gradientColor1": "Gradient Color 1",
+      "gradientColor2": "Gradient Color 2",
+      "primaryColor": "Primary Color"
+    },
+    "notifications": {
+      "desktopNotificationsDescription": "Show desktop notifications even when the app is minimized.",
+      "changeSoundsDescription": "Change the sound of notifications with these royalty free sounds.",
+      "inAppPreview": "In App Preview",
+      "inAppPreviewDescription": "Display In App Notification popups."
+    },
+    "connections": {
+      "thirdParty": {
+        "unauthorizeButton": "Unauthorize",
+        "unauthorizing": "Unauthorizing…"
+      }
+    },
+    "interface": {
+      "customizeColors": "Customize Colors",
+      "customizeColorsDescription": "Edit colors for the current theme."
+    },
+    "window": {
+      "startMinimized": "Start Minimized",
+      "startMinimizedDescription": "Minimize Nerimity to the tray automatically."
+    }
+  },
+  "channelDrawer": {
+    "customize": {
+      "title": "Customize"
+    }
+  },
+  "colorPickerModal": {
+    "title": "Color Picker"
+  },
+  "oauth2": {
+    "AuthorizeButton": "Authorize"
+  }
+}

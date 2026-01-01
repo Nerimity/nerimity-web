@@ -10,11 +10,20 @@ export interface Language {
 
 export const languages: Record<string, Language> = {
   "en-gb": {
-    name: "English",
+    name: "English (British)",
     emoji: "🇬🇧",
     contributors: [
       "https://github.com/SupertigerDev",
       "https://github.com/Asraye",
+      "https://github.com/1enify"
+    ],
+  },
+  "en-us": {
+    name: "English (American)",
+    emoji: "🇺🇸",
+    contributors: [
+      "https://github.com/SupertigerDev",
+      "https://github.com/1enify",
     ],
   },
   "af-za": {
