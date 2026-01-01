@@ -284,7 +284,13 @@
                 "permissions": "Permisos",
                 "permissionsDescription": "Gestiona los permisos de este rol.",
                 "deleteRoleButton": "Eliminar este rol",
-                "deleteRoleButtonDescription": "¡Esta acción no se puede deshacer!"
+                "deleteRoleButtonDescription": "¡Esta acción no se puede deshacer!",
+                "clear": "Limpiar",
+                "roleIcon": "Icono del rol",
+                "managedByBot": "Este rol esta controlado por {{botName}}. No puedes eliminar o añadir miembros a este rol. Expulsa a este bot para quitar este rol.",
+                "applyOnJoin": "Aplicar al unirse",
+                "applyOnJoinDescription": "Aplica este rol a cualquier miembro cuando se una al servidor.",
+                "deleteRoleTitle": "Eliminar {{roleName}}"
             },
             "header": {
                 "editServer": "Editar servidor",
@@ -1108,6 +1114,7 @@
             "banner": "Banner",
             "supportedFileTypes": "Compatible: {{extensions}}, Max {{size}}",
             "browse": "Navegar"
-        }
+        },
+        "undoButton": "Deshacer"
     }
 }
