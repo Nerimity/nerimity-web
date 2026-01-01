@@ -5,6 +5,7 @@
     "searchPlaceholder": "Search",
     "backButton": "Back",
     "cancelButton": "Cancel",
+    "undoButton": "Undo",
     "deleteButton": "Delete",
     "cannotBeUndone": "This cannot be undone!",
     "confirmButton": "Confirm",
@@ -273,9 +274,6 @@
   "editFolderModal": {
     "title": "Edit Folder",
     "placeholder": "Folder Name",
-    "cancelButton": "Don't Save",
-    "save": "Save",
-    "saving": "Saving…",
     "errors": {
       "emptyName": "Please enter a folder name."
     }
@@ -334,16 +332,19 @@
         "addRoleButton": "Add Role"
       },
       "role": {
-        "saveChangesButton": "Save Changes",
-        "saving": "Saving…",
         "roleName": "Role Name",
         "roleColor": "Role Colour",
+        "clear": "Clear",
+        "roleIcon": "Role Icon",
+        "managedByBot": "This role is managed by {{botName}}. You cannot delete or add members to this role. Kick this bot to remove this role.",
         "hideRole": "Hide Role",
         "hideRoleDescription": "Display members with this role along with all the default members",
+        "applyOnJoin": "Apply on Join",
+        "applyOnJoinDescription": "Apply this role to members when they join the server.",
         "permissions": "Permissions",
         "permissionsDescription": "Manage permissions for this role.",
-        "deleteRoleButton": "Delete this role",
-        "deleteRoleButtonDescription": "This cannot be undone!"
+        "deleteRoleTitle": "Delete {{roleName}}",
+        "deleteRoleButton": "Delete this role"
       },
       "header": {
         "editServer": "Edit Server",

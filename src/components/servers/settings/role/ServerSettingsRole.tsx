@@ -31,7 +31,7 @@ import DeleteConfirmModal from "@/components/ui/delete-confirm-modal/DeleteConfi
 import { ServerRole } from "@/chat-api/store/useServerRoles";
 import Icon from "@/components/ui/icon/Icon";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
-import { useTransContext } from "@nerimity/solid-i18lite";
+import { t } from "@nerimity/i18lite";
 import Breadcrumb, { BreadcrumbItem } from "@/components/ui/Breadcrumb";
 import { Notice } from "@/components/ui/Notice/Notice";
 import { css } from "solid-styled-components";
@@ -46,7 +46,6 @@ type RoleParams = {
 };
 
 export default function ServerSettingsRole() {
-  const [t] = useTransContext();
   const params = useParams<RoleParams>();
   const { header, serverRoles, servers, users } = useStore();
 
@@ -81,7 +80,7 @@ export default function ServerSettingsRole() {
   createEffect(
     on(role, () => {
       header.updateHeader({
-        title: "Settings - " + role()?.name,
+        title: t("settings.drawer.title") + " - " + role()?.name,
         serverId: params.serverId!,
         iconName: "settings",
       });
@@ -100,8 +99,8 @@ export default function ServerSettingsRole() {
 
   const saveRequestStatus = () =>
     saveRequestSent()
-      ? t("servers.settings.role.saving")
-      : t("servers.settings.role.saveChangesButton");
+      ? t("general.saving")
+      : t("general.saveChangesButton");
 
   const onPermissionChanged = (checked: boolean, bit: number) => {
     let newPermission = inputValues().permissions;
@@ -180,9 +179,7 @@ export default function ServerSettingsRole() {
             margin-bottom: 8px;
           `}
           type="warn"
-          description={`This role is managed by ${
-            bot()?.username
-          }. You cannot delete or add members to this role. Kick this bot to remove this role.`}
+          description={t("servers.settings.role.managedByBot", { botName: `${bot()?.username}`})}
         />
       </Show>
       {/* Role Name */}
@@ -200,9 +197,8 @@ export default function ServerSettingsRole() {
         <Switch>
           <Match when={updatedInputValues().hexColor}>
             <Button
-              title="undo"
               iconName="undo"
-              label="Undo"
+              label={t("general.undoButton")}
               textSize={12}
               padding={2}
               alert
@@ -211,10 +207,9 @@ export default function ServerSettingsRole() {
           </Match>
           <Match when={inputValues().hexColor}>
             <Button
-              title="clear"
               iconName="close"
               alert
-              label="Default"
+              label={t("servers.settings.role.clear")}
               textSize={12}
               padding={[2, 4]}
               onClick={() => setInputValue("hexColor", null)}
@@ -249,7 +244,7 @@ export default function ServerSettingsRole() {
       </SettingsBlock>
 
       {/* Icon */}
-      <SettingsBlock icon="face" label="Icon">
+      <SettingsBlock icon="face" label={t("servers.settings.role.roleIcon")}>
         <Show when={inputValues().icon}>
           <Button
             iconName="delete"
@@ -299,8 +294,8 @@ export default function ServerSettingsRole() {
             : undefined
         }
         icon="adjust"
-        label={"Apply on Join"}
-        description={"Apply this role to members when they join the server."}
+        label={t("servers.settings.role.applyOnJoin")}
+        description={t("servers.settings.role.applyOnJoinDescription")}
       >
         <Checkbox
           checked={isDefaultRole() ? true : inputValues().applyOnJoin}
@@ -338,10 +333,10 @@ export default function ServerSettingsRole() {
       <SettingsBlock
         icon="delete"
         label={t("servers.settings.role.deleteRoleButton")}
-        description={t("servers.settings.role.deleteRoleButtonDescription")}
+        description={t("general.cannotBeUndone")}
       >
         <Button
-          label="Delete Role"
+          label={t("general.deleteButton")}
           color="var(--alert-color)"
           onClick={showDeleteConfirm}
         />
@@ -395,7 +390,7 @@ function RoleDeleteConfirmModal(props: {
   return (
     <DeleteConfirmModal
       close={props.close}
-      title={`Delete ${props.role?.name}`}
+      title={t("servers.settings.role.deleteRoleTitle", { roleName: `${props.role?.name}`})}
       errorMessage={error()}
       confirmText={props.role?.name}
       onDeleteClick={onDeleteClick}
