@@ -58,13 +58,26 @@
             "offline": "Offline",
             "addFriendButton": "Magdagdag ng kaibigan",
             "inboxButton": "Inbox",
-            "friendsButton": "Mga Kaibigan"
+            "friendsButton": "Mga Kaibigan",
+            "searchBarPlaceholder": "Maghanap",
+            "friendRequests": "{{count}} Mga Kahilingan sa Kaibigan",
+            "onlineFriends": "{{count}} Mga Kaibigang Online",
+            "offlineFriends": "{{count}} Mga Kaibigang Offline",
+            "notes": "Mga Tala",
+            "blockedUsersButton": "Na-block",
+            "inboxTitle": "Papasok na Mensahe",
+            "viewAll": "Tingnan Lahat"
+        },
+        "blockedUsersModal": {
+            "title": "Mga Na-block na User"
         }
     },
     "explore": {
         "drawer": {
             "title": "Mag-explore",
-            "servers": "Mga Server"
+            "servers": "Mga Server",
+            "bots": "Bots",
+            "themes": "Mga Tema"
         },
         "servers": {
             "title": "Mag-explore - Mga servers",
@@ -79,8 +92,30 @@
             "lifetimeBumpCount": "{{count}} lifetime na bumps",
             "visitServerButton": "Bisitahin",
             "joinServerButton": "Sumali",
-            "bumpButton": "Bump ({{count}})"
-        }
+            "bumpButton": "Bump ({{count}})",
+            "moderationNotice": "Ang mga server ay hindi minomoderate ng Nerimity. Mangyaring i-report ang mga server na lumalabag sa TOS.",
+            "sortMostActive": "Pinaka-active (Beta)",
+            "pinnedServers": "Mga Na-pin na Server",
+            "recentlyBumped": "Kamakailang Na-bump na Mga Server"
+        },
+        "bots": {
+            "title": "Tuklasin - Mga Bot",
+            "noticeMessage": "Maaaring i-bump ang isang bot isang beses kada {{hours}} na oras. Lahat ng bump ay magre-reset sa {{date}}.",
+            "moderationNotice": "Ang mga bot ay hindi minomoderate ng Nerimity. Mangyaring i-report ang mga bot na mapanganib o lumalabag sa TOS.",
+            "inviteButton": "Imbitahin",
+            "serverCount": "Sa {{count}} na server"
+        },
+        "themes": {
+            "title": "Tuklasin - Mga Tema",
+            "themesHeaderDescription": "I-personalize ang Nerimity gamit ang sariling tema.",
+            "officialThemes": "Opisyal na Mga Tema",
+            "communityThemes": "Mga Tema ng Komunidad",
+            "noCommunityThemes": "Walang natagpuang tema ng komunidad.",
+            "fetchThemesError": "Nabigong kunin ang mga tema. Pakisubukang muli mamaya.",
+            "unlockDescription": "I-click upang tuklasin ang lahat ng tema ng komunidad"
+        },
+        "sort": "I-sort",
+        "filter": "Salain"
     },
     "servers": {
         "settings": {
@@ -298,7 +333,8 @@
             "banner": "Bandera",
             "supportedFileTypes": "Sinusuportahan: {{extensions}}, Pinakamalaki: {{size}}",
             "browse": "Mag-browse"
-        }
+        },
+        "undoButton": "I-undo"
     },
     "systemMessages": {
         "joinServer": {
@@ -376,5 +412,57 @@
         "moderation": "Panel ng Moderasyon",
         "moderationShort": "Mod",
         "addServer": "Magdagdag ng Server"
+    },
+    "updateModal": {
+        "title": "May Available na Update",
+        "updateButton": "I-update Ngayon",
+        "laterButton": "Mamaya",
+        "releasedAt": "Inilabas noong"
+    },
+    "messageArea": {
+        "messageBoxPlaceholder": "I-message si {{username}}",
+        "messageBoxChannelPlaceholder": "Magpadala ng mensahe sa {{channelName}}",
+        "replying": "Sinasagot ang {{count}} na mensahe(s)",
+        "mention": "Banggitin",
+        "dropFile": "I-drop ang File",
+        "uploadTo": "I-upload sa",
+        "channelNotice": {
+            "title": "Bago ka makipag-chat…",
+            "understoodButton": "Naiintindihan"
+        },
+        "specialMentions": {
+            "everyone": "Binabanggit ang lahat",
+            "someone": "Binabanggit ang isang random na user",
+            "silent": "Tahimik na mensahe"
+        },
+        "linkToGoogleDrive": {
+            "body": "Kailangan mong i-link ang iyong account sa Google Drive upang makapag-upload ng malalaking larawan, video, o file",
+            "linkButton": "I-link Ngayon",
+            "cancelButton": "Huwag I-link"
+        },
+        "emailNotice": "Kumpirmahin ang iyong email upang makapagpadala ng mga mensahe."
+    },
+    "inputFieldActions": {
+        "copy": "Kopyahin",
+        "cut": "Gupitin",
+        "paste": "I-paste"
+    },
+    "markup": {
+        "bold": "Bold",
+        "italic": "Pa-italic",
+        "strikethrough": "I-strikethrough",
+        "header": "Ulo ng Teksto",
+        "namedLink": "Pinangalanang Link",
+        "spoiler": "Tago ng Lihim",
+        "timestamp": "Oras ng Mensahe",
+        "color": "Kulay",
+        "html": "HTML Mode",
+        "emojiPicker": "Pumili ng Emoji",
+        "timestampModal": {
+            "title": "Marka ng Oras",
+            "relative": "Relatibo",
+            "offset": "Offset",
+            "doneButton": "Tapos na"
+        }
     }
 }
